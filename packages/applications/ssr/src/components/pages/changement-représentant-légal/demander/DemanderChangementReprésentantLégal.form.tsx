@@ -1,15 +1,15 @@
 'use client';
 
 import { FC, useState } from 'react';
-import { match } from 'ts-pattern';
-import Input from '@codegouvfr/react-dsfr/Input';
-import SelectNext from '@codegouvfr/react-dsfr/SelectNext';
+import { Stepper } from '@codegouvfr/react-dsfr/Stepper';
 
 import { Form } from '@/components/atoms/form/Form';
-import { SubmitButton } from '@/components/atoms/form/SubmitButton';
-import { UploadDocument } from '@/components/atoms/form/UploadDocument';
 import { ValidationErrors } from '@/utils/formAction';
+import { Step, Steps } from '@/components/molecules/step/Steps';
 
+import { DescriptionDémarcheChangementReprésentantLégal } from './DescriptionDémarcheChangementReprésentantLégal';
+import { SaisieChangementReprésentantLégal } from './SaisieChangementReprésentantLégal';
+import { ValidationChangementReprésentantLégal } from './ValidationChangementReprésentantLégal';
 import {
   demanderChangementReprésentantLégalAction,
   DemanderChangementReprésentantLégalFormKeys,
@@ -22,90 +22,78 @@ export type DemanderChangementReprésentantLégalFormProps = {
 export const DemanderChangementReprésentantLégalForm: FC<
   DemanderChangementReprésentantLégalFormProps
 > = ({ identifiantProjet }) => {
-  type TypeDePersonne = 'Personne physique' | 'Personne morale' | 'Collectivité' | 'Autre';
-
-  const [typeDePersonne, selectTypeDePersonne] = useState<TypeDePersonne>();
-
-  const getNomReprésentantLégalHintText = () =>
-    match(typeDePersonne)
-      .with('Personne physique', () => 'les nom et prénom')
-      .with('Personne morale', () => 'le nom de la société')
-      .with('Collectivité', () => 'le nom de la collectivité')
-      .with('Autre', () => `le nom de l'organisme`)
-      .otherwise(() => 'le nom');
-
-  const getPièceJustificativeHintText = () =>
-    match(typeDePersonne)
-      .with(
-        'Personne physique',
-        () => `Une copie de titre d'identité (carte d'identité ou passeport) en cours de validité`,
-      )
-      .with(
-        'Personne morale',
-        () =>
-          'Un extrait Kbis, pour les sociétés en cours de constitutionv une copie des statuts de la société en cours de constitution, une attestation de récépissé de dépôt de fonds pour constitution de capital social et une copie de l’acte désignant le représentant légal de la société',
-      )
-      .with(
-        'Collectivité',
-        () => `Un extrait de délibération portant sur le projet objet de l'offre`,
-      )
-      .otherwise(
-        () =>
-          `Tout document officiel permettant d'attester de l'existence juridique de la personne`,
-      );
-
   const [validationErrors, setValidationErrors] = useState<
     ValidationErrors<DemanderChangementReprésentantLégalFormKeys>
   >({});
 
+  const [currentStep, setCurrentStep] = useState(1);
+  const [saisie, setSaisie] = useState<SaisieChangementReprésentantLégal>({
+    typePersonne: undefined,
+    nomReprésentantLégal: '',
+    piècesJustificatives: [],
+  });
+
+  const steps: Array<Step> = [
+    {
+      index: 1,
+      name: `Description de la démarche`,
+      children: <DescriptionDémarcheChangementReprésentantLégal />,
+      nextStep: { type: 'link', name: 'Commencer' },
+    },
+    {
+      index: 2,
+      name: `Renseigner les informations concernant le changement`,
+      children: (
+        <SaisieChangementReprésentantLégal
+          validationErrors={validationErrors}
+          onChange={(changes) => setSaisie(changes)}
+        />
+      ),
+      previousStep: { name: 'Précédent' },
+      nextStep: { type: 'link', name: 'Vérifier' },
+    },
+    {
+      index: 3,
+      name: `Confirmer la demande de changement`,
+      children: (
+        <ValidationChangementReprésentantLégal
+          typePersonne={saisie.typePersonne}
+          nomReprésentantLégal={saisie.nomReprésentantLégal}
+          piècesJustificatives={saisie.piècesJustificatives}
+        />
+      ),
+      previousStep: { name: 'Corriger' },
+      nextStep: { type: 'submit', name: 'Confirmer la demande' },
+    },
+  ];
+
   return (
-    <Form
-      action={demanderChangementReprésentantLégalAction}
-      method="POST"
-      encType="multipart/form-data"
-      onValidationError={(validationErrors) => setValidationErrors(validationErrors)}
-      actions={<SubmitButton>Demander</SubmitButton>}
-    >
-      <input type={'hidden'} value={identifiantProjet} name="identifiantProjet" />
+    <>
+      <Stepper
+        className="my-10"
+        currentStep={currentStep}
+        nextTitle={currentStep < steps.length && steps[currentStep].name}
+        stepCount={steps.length}
+        title={steps[currentStep - 1].name}
+      />
 
-      <SelectNext
-        label="Choisir le type de personne pour le représentant légal"
-        placeholder={`Sélectionner le type de personne pour le représentant légal`}
-        state={validationErrors['typeDePersonne'] ? 'error' : 'default'}
-        stateRelatedMessage="Le type de personne pour le représentant légal est obligatoire"
-        nativeSelectProps={{
-          onChange: ({ currentTarget: { value } }) => {
-            selectTypeDePersonne(value as TypeDePersonne);
-          },
+      <Form
+        action={demanderChangementReprésentantLégalAction}
+        onInvalid={() => setCurrentStep(2)}
+        method="POST"
+        encType="multipart/form-data"
+        onValidationError={(validationErrors) => {
+          setValidationErrors(validationErrors);
+          setCurrentStep(2);
         }}
-        options={['Personne physique', 'Personne morale', 'Collectivité', 'Autre'].map((type) => ({
-          label: type,
-          value: type,
-        }))}
-      />
+        onError={() => setCurrentStep(2)}
+        actions={null}
+        omitMandatoryFieldsLegend={currentStep !== 2 ? true : undefined}
+      >
+        <input type={'hidden'} value={identifiantProjet} name="identifiantProjet" />
 
-      <Input
-        label="Nom du représentant légal"
-        id="nomRepresentantLegal"
-        hintText={`Veuillez préciser ${getNomReprésentantLégalHintText()} pour le nouveau représentant légal de votre projet`}
-        nativeInputProps={{
-          name: 'nomRepresentantLegal',
-          required: true,
-          'aria-required': true,
-        }}
-        state={validationErrors['nomRepresentantLegal'] ? 'error' : 'default'}
-        stateRelatedMessage={validationErrors['nomRepresentantLegal']}
-      />
-
-      <UploadDocument
-        label={'Pièce justificative'}
-        id="pieceJustificative"
-        name="pieceJustificative"
-        hintText={getPièceJustificativeHintText()}
-        required
-        state={validationErrors['pieceJustificative'] ? 'error' : 'default'}
-        stateRelatedMessage={validationErrors['pieceJustificative']}
-      />
-    </Form>
+        <Steps onStepSelected={(stepIndex) => setCurrentStep(stepIndex)} steps={steps} />
+      </Form>
+    </>
   );
 };

@@ -1,36 +1,37 @@
 'use client';
-
 import { FC, useState } from 'react';
-import { match } from 'ts-pattern';
 import Input from '@codegouvfr/react-dsfr/Input';
 import SelectNext from '@codegouvfr/react-dsfr/SelectNext';
+import { match } from 'ts-pattern';
 
-import { Form } from '@/components/atoms/form/Form';
-import { SubmitButton } from '@/components/atoms/form/SubmitButton';
-import { UploadDocument } from '@/components/atoms/form/UploadDocument';
 import { ValidationErrors } from '@/utils/formAction';
+import { UploadDocument } from '@/components/atoms/form/UploadDocument';
 
-import {
-  modifierChangementReprésentantLégalAction,
-  ModifierChangementReprésentantLégalFormKeys,
-} from './modifierChangementReprésentantLégal.action';
+import { DemanderChangementReprésentantLégalFormKeys } from './demanderChangementReprésentantLégal.action';
+
+export type SaisieChangementReprésentantLégal = {
+  typePersonne: string | undefined;
+  nomReprésentantLégal: string;
+  piècesJustificatives: ReadonlyArray<string>;
+};
+
+export type SaisieChangementReprésentantLégalProps = {
+  onChange?: (changes: SaisieChangementReprésentantLégal) => void;
+  validationErrors: ValidationErrors<DemanderChangementReprésentantLégalFormKeys>;
+};
 
 type TypeDePersonne = 'Personne physique' | 'Personne morale' | 'Collectivité' | 'Autre';
 
-export type ModifierChangementReprésentantLégalFormProps = {
-  identifiantProjet: string;
-  typePersonne: TypeDePersonne;
-  nomRepresentantLegal: string;
-  pièceJustificative: string;
-};
-
-export const ModifierChangementReprésentantLégalForm: FC<
-  ModifierChangementReprésentantLégalFormProps
-> = ({ identifiantProjet, typePersonne, nomRepresentantLegal, pièceJustificative }) => {
-  const [typeDePersonne, selectTypeDePersonne] = useState<TypeDePersonne>();
+export const SaisieChangementReprésentantLégal: FC<SaisieChangementReprésentantLégalProps> = ({
+  validationErrors,
+  onChange,
+}) => {
+  const [typePersonne, selectTypePersonne] = useState<TypeDePersonne>();
+  const [nomReprésentantLégal, setNomReprésentantLégal] = useState('');
+  const [piècesJustificatives, setPiècesJustificatives] = useState<ReadonlyArray<string>>([]);
 
   const getNomReprésentantLégalHintText = () =>
-    match(typeDePersonne)
+    match(typePersonne)
       .with('Personne physique', () => 'les nom et prénom')
       .with('Personne morale', () => 'le nom de la société')
       .with('Collectivité', () => 'le nom de la collectivité')
@@ -38,7 +39,7 @@ export const ModifierChangementReprésentantLégalForm: FC<
       .otherwise(() => 'le nom');
 
   const getPièceJustificativeHintText = () =>
-    match(typeDePersonne)
+    match(typePersonne)
       .with(
         'Personne physique',
         () => `Une copie de titre d'identité (carte d'identité ou passeport) en cours de validité`,
@@ -57,20 +58,8 @@ export const ModifierChangementReprésentantLégalForm: FC<
           `Tout document officiel permettant d'attester de l'existence juridique de la personne`,
       );
 
-  const [validationErrors, setValidationErrors] = useState<
-    ValidationErrors<ModifierChangementReprésentantLégalFormKeys>
-  >({});
-
   return (
-    <Form
-      action={modifierChangementReprésentantLégalAction}
-      method="POST"
-      encType="multipart/form-data"
-      onValidationError={(validationErrors) => setValidationErrors(validationErrors)}
-      actions={<SubmitButton>Modifier</SubmitButton>}
-    >
-      <input type={'hidden'} value={identifiantProjet} name="identifiantProjet" />
-
+    <>
       <SelectNext
         label="Choisir le type de personne pour le représentant légal"
         placeholder={`Sélectionner le type de personne pour le représentant légal`}
@@ -78,9 +67,10 @@ export const ModifierChangementReprésentantLégalForm: FC<
         stateRelatedMessage="Le type de personne pour le représentant légal est obligatoire"
         nativeSelectProps={{
           onChange: ({ currentTarget: { value } }) => {
-            selectTypeDePersonne(value as TypeDePersonne);
+            selectTypePersonne(value as TypeDePersonne);
+            onChange &&
+              onChange({ typePersonne: value, nomReprésentantLégal, piècesJustificatives });
           },
-          defaultValue: typePersonne,
         }}
         options={['Personne physique', 'Personne morale', 'Collectivité', 'Autre'].map((type) => ({
           label: type,
@@ -96,7 +86,15 @@ export const ModifierChangementReprésentantLégalForm: FC<
           name: 'nomRepresentantLegal',
           required: true,
           'aria-required': true,
-          defaultValue: nomRepresentantLegal,
+          onChange: (e) => {
+            setNomReprésentantLégal(e.target.value);
+            onChange &&
+              onChange({
+                typePersonne,
+                nomReprésentantLégal: e.target.value,
+                piècesJustificatives,
+              });
+          },
         }}
         state={validationErrors['nomRepresentantLegal'] ? 'error' : 'default'}
         stateRelatedMessage={validationErrors['nomRepresentantLegal']}
@@ -110,8 +108,16 @@ export const ModifierChangementReprésentantLégalForm: FC<
         required
         state={validationErrors['pieceJustificative'] ? 'error' : 'default'}
         stateRelatedMessage={validationErrors['pieceJustificative']}
-        documentKey={pièceJustificative}
+        onChange={(fileNames) => {
+          setPiècesJustificatives(fileNames);
+          onChange &&
+            onChange({
+              typePersonne,
+              nomReprésentantLégal,
+              piècesJustificatives: fileNames,
+            });
+        }}
       />
-    </Form>
+    </>
   );
 };
