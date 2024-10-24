@@ -21,7 +21,12 @@ export const metadata: Metadata = {
   description: 'Formulaire de transmission de dossier de raccordement',
 };
 
-export default async function Page({ params: { identifiant } }: IdentifiantParameter) {
+type PageProps = IdentifiantParameter & { searchParams: { successMessage?: string } };
+
+export default async function Page({
+  params: { identifiant },
+  searchParams: { successMessage },
+}: PageProps) {
   return PageWithErrorHandling(async () => {
     const identifiantProjet = decodeParameter(identifiant);
 
@@ -68,6 +73,7 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
       gestionnaireRéseau: gestionnaire,
       identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
       aDéjàTransmisUneDemandeComplèteDeRaccordement,
+      successMessage,
     });
 
     return <TransmettreDemandeComplèteRaccordementPage {...props} />;
@@ -80,6 +86,7 @@ type MapToProps = (args: {
   gestionnaireRéseau: Option.Type<Raccordement.ConsulterGestionnaireRéseauRaccordementReadModel>;
   identifiantProjet: IdentifiantProjet.ValueType;
   aDéjàTransmisUneDemandeComplèteDeRaccordement: boolean;
+  successMessage?: string;
 }) => TransmettreDemandeComplèteRaccordementPageProps;
 
 const mapToProps: MapToProps = ({
@@ -88,6 +95,7 @@ const mapToProps: MapToProps = ({
   gestionnaireRéseau,
   identifiantProjet,
   aDéjàTransmisUneDemandeComplèteDeRaccordement,
+  successMessage,
 }) => {
   return {
     delaiDemandeDeRaccordementEnMois: appelOffre.periodes.find(
@@ -109,5 +117,6 @@ const mapToProps: MapToProps = ({
     })),
     identifiantProjet: identifiantProjet.formatter(),
     aDéjàTransmisUneDemandeComplèteDeRaccordement,
+    successMessage,
   };
 };
