@@ -77,15 +77,11 @@ const action: FormAction<FormState, typeof schema> = async (
       Option.isSome(raccordement) && raccordement.dossiers.length > 0;
 
     if (aDéjàTransmisUnDossierDeRaccordement) {
-      const searchParams = new URLSearchParams({
-        success: `Votre attestation de conformité a bien été transmise`,
-        redirectUrl: Routes.Projet.details(identifiantProjet),
-        redirectTitle: 'Retourner à la page projet',
-      });
-      const redirectUrl = `/confirmation.html?${searchParams}`;
       return {
         status: 'success',
-        redirectUrl,
+        redirectUrl: Routes.Projet.details(identifiantProjet, {
+          success: `Votre attestation de conformité a bien été transmise`,
+        }),
       };
     }
 

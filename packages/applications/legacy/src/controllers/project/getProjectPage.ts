@@ -27,6 +27,8 @@ import { User } from '../../entities';
 import { logger } from '../../core/utils';
 import { Recours } from '@potentiel-domain/elimine';
 import { getLogger } from '@potentiel-libraries/monitoring';
+import { addQueryParams } from '../../helpers/addQueryParams';
+
 const schema = yup.object({
   params: yup.object({ projectId: yup.string().required() }),
 });
@@ -73,7 +75,7 @@ v1Router.get(
       },
     },
     async (request, response) => {
-      const { user } = request;
+      const { user, query } = request;
 
       const projectId = request.params.projectId;
 
@@ -88,7 +90,7 @@ v1Router.get(
           return notFoundResponse({ request, response, ressourceTitle: 'Projet' });
         }
 
-        return response.redirect(routes.PROJECT_DETAILS(legacyId));
+        return response.redirect(addQueryParams(routes.PROJECT_DETAILS(legacyId), query));
       }
 
       const userHasRightsToProject = await shouldUserAccessProject.check({
