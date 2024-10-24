@@ -1,9 +1,10 @@
 'use client';
 import Button from '@codegouvfr/react-dsfr/Button';
+import clsx from 'clsx';
 import { FC } from 'react';
 import { useFormStatus } from 'react-dom';
 
-type SubmitButtonProps = {
+export type SubmitButtonProps = {
   disabledCondition?: () => boolean;
   children: React.ReactNode;
   classname?: string;
@@ -17,7 +18,7 @@ export const SubmitButton: FC<SubmitButtonProps> = ({ disabledCondition, childre
       type="submit"
       priority="primary"
       disabled={isDisabled}
-      className={`text-theme-white bg-theme-blueFrance${classname ?? ''}`}
+      className={clsx(`text-theme-white bg-theme-blueFrance`, classname)}
       nativeButtonProps={{
         'aria-disabled': isDisabled,
       }}
