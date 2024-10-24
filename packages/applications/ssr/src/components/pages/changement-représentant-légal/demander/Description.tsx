@@ -2,8 +2,7 @@
 
 import { FC } from 'react';
 import Alert from '@codegouvfr/react-dsfr/Alert';
-
-import { Tile } from '@/components/organisms/Tile';
+import Accordion from '@codegouvfr/react-dsfr/Accordion';
 
 export const Description: FC<{}> = () => (
   <div className="flex flex-col gap-4">
@@ -17,48 +16,28 @@ export const Description: FC<{}> = () => (
       Pour ce faire vous allez devoir remplir une demande en ligne avec des éléments selon la
       situation du nouveau représentant légal du projet.
     </p>
-    <div className="flex flex-col md:flex-row gap-3">
-      <Tile className="flex flex-col gap-4">
-        <p>Une personne physique</p>
 
-        <ul className="text-sm">
-          <li>Les nom et prénom de la personne</li>
-          <li>
-            Une copie de titre d'identité (carte d'identité ou passeport) en cours de validité
-          </li>
-        </ul>
-      </Tile>
-      <Tile className="flex flex-col gap-4">
-        <p>Une personne morale</p>
-
-        <ul className="text-sm">
-          <li>Le nom de la société</li>
-          <li>
-            Un extrait Kbis, pour les sociétés en cours de constitutionv une copie des statuts de la
-            société en cours de constitution, une attestation de récépissé de dépôt de fonds pour
-            constitution de capital social et une copie de l’acte désignant le représentant légal de
-            la société
-          </li>
-        </ul>
-      </Tile>
-      <Tile className="flex flex-col gap-4">
-        <p>Une collectivité</p>
-
-        <ul className="text-sm">
-          <li>Le nom de la collectivité</li>
-          <li>Un extrait de délibération portant sur le projet objet de l'offre</li>
-        </ul>
-      </Tile>
-      <Tile className="flex flex-col gap-4">
-        <p>Un organisme ou autre</p>
-
-        <ul className="text-sm">
-          <li>Le nom de l'organisme</li>
-          <li>
-            Tout document officiel permettant d'attester de l'existence juridique de la personne
-          </li>
-        </ul>
-      </Tile>
+    <div>
+      <Situation
+        nom="Une personne physique"
+        informationÀRemplir="les nom et prénom de la personne"
+        pièceJustificativesÀJoindre="une copie de titre d'identité (carte d'identité ou passeport) en cours de validité"
+      />
+      <Situation
+        nom="Une personne morale"
+        informationÀRemplir="le nom de la société"
+        pièceJustificativesÀJoindre="un extrait Kbis, pour les sociétés en cours de constitutionv une copie des statuts de la société en cours de constitution, une attestation de récépissé de dépôt de fonds pour constitution de capital social et une copie de l’acte désignant le représentant légal de la société"
+      />
+      <Situation
+        nom="Une collectivité"
+        informationÀRemplir="le nom de la collectivité"
+        pièceJustificativesÀJoindre="unn extrait de délibération portant sur le projet objet de l'offre"
+      />
+      <Situation
+        nom="Un organisme ou autre"
+        informationÀRemplir="le nom de l'organisme"
+        pièceJustificativesÀJoindre="tout document officiel permettant d'attester de l'existence juridique de la personne"
+      />
     </div>
 
     <Alert
@@ -80,4 +59,17 @@ export const Description: FC<{}> = () => (
     </p>
     <p>Pour démarrer la démarche veuillez cliquer sur le bouton "Commencer"</p>
   </div>
+);
+
+const Situation: FC<{
+  nom: string;
+  informationÀRemplir: string;
+  pièceJustificativesÀJoindre: string;
+}> = ({ nom, informationÀRemplir, pièceJustificativesÀJoindre }) => (
+  <Accordion defaultExpanded label={nom}>
+    <ul className="ml-2 list-disc text-sm">
+      <li>Information du changement : {informationÀRemplir}</li>
+      <li>Pièce justificative : {pièceJustificativesÀJoindre}</li>
+    </ul>
+  </Accordion>
 );
