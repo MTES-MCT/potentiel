@@ -21,6 +21,7 @@
     "@emotion/server": "*",
     "@emotion/styled": "*",
     "@json2csv/plainjs": "^7.0.6",
+    "@mui/lab": "*",
     "@potentiel-applications/bootstrap": "*",
     "@potentiel-applications/document-builder": "*",
     "@potentiel-applications/routes": "*",
