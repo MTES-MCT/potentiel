@@ -5,13 +5,10 @@ import { List, Where } from '@potentiel-domain/entity';
 
 import * as RéférenceDossierRaccordement from '../référenceDossierRaccordement.valueType';
 import { DossierRaccordementEntity } from '../raccordement.entity';
-
-export type RéférenceRaccordementIdentifiantProjet = {
-  identifiantProjet: string;
-  référence: string;
-};
+import { IdentifiantGestionnaireRéseau } from '../../gestionnaire';
 
 export type RechercherDossierRaccordementReadModel = ReadonlyArray<{
+  identifiantGestionnaireRéseau: IdentifiantGestionnaireRéseau.ValueType;
   référenceDossierRaccordement: RéférenceDossierRaccordement.ValueType;
   identifiantProjet: IdentifiantProjet.ValueType;
 }>;
@@ -43,19 +40,17 @@ export const registerRechercherDossierRaccordementQuery = ({
       },
     });
 
-    return mapToReadModel(
-      results.items.map(({ identifiantProjet, référence }) => ({
-        identifiantProjet,
-        référence,
-      })),
-    );
+    return mapToReadModel(results.items);
   };
 
   mediator.register('Réseau.Raccordement.Query.RechercherDossierRaccordement', handler);
 };
 
-const mapToReadModel = (result: ReadonlyArray<RéférenceRaccordementIdentifiantProjet>) => {
-  return result.map(({ identifiantProjet, référence }) => ({
+const mapToReadModel = (result: ReadonlyArray<DossierRaccordementEntity>) => {
+  return result.map(({ identifiantGestionnaireRéseau, identifiantProjet, référence }) => ({
+    identifiantGestionnaireRéseau: IdentifiantGestionnaireRéseau.convertirEnValueType(
+      identifiantGestionnaireRéseau,
+    ),
     identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
     référenceDossierRaccordement: RéférenceDossierRaccordement.convertirEnValueType(référence),
   }));

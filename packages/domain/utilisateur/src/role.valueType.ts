@@ -301,6 +301,8 @@ const référencielPermissions = {
         consulterNombre: 'Réseau.Raccordement.Query.ConsulterNombreDeRaccordement',
         rechercher: 'Réseau.Raccordement.Query.RechercherDossierRaccordement',
         lister: 'Réseau.Raccordement.Query.ListerRaccordement',
+        listerRaccordementEnAttenteMiseEnService:
+          'Réseau.Raccordement.Query.ListerDossierRaccordementEnAttenteMiseEnServiceQuery',
       },
       usecase: {
         modifierDemandeComplète: 'Réseau.Raccordement.UseCase.ModifierDemandeComplèteRaccordement',
@@ -355,6 +357,9 @@ const référencielPermissions = {
 const policies = {
   réseau: {
     raccordement: {
+      listerRaccordementEnAttenteMiseEnService: [
+        référencielPermissions.réseau.raccordement.query.listerRaccordementEnAttenteMiseEnService,
+      ],
       consulter: [
         référencielPermissions.candidature.query.consulterProjet,
         référencielPermissions.réseau.raccordement.query.consulter,
@@ -848,6 +853,7 @@ const permissionAdmin: Policy[] = [
   'réseau.raccordement.date-mise-en-service.importer',
   'réseau.raccordement.référence-dossier.modifier',
   'réseau.raccordement.dossier.supprimer',
+  'réseau.raccordement.listerRaccordementEnAttenteMiseEnService',
 
   // Garanties financières
   'garantiesFinancières.actuelles.consulter',

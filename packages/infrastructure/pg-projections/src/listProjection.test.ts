@@ -26,6 +26,7 @@ describe('listProjection', () => {
       data: {
         value: string;
         name: string;
+        testNull?: string;
       };
     }
   >;
@@ -47,8 +48,9 @@ describe('listProjection', () => {
     for (let time = 0; time <= Math.random() * 100 + 10; time++) {
       fakeData.push({
         data: {
-          value: `a random value ${time}`,
-          name: `${time}`,
+          value: `value${time}`,
+          name: `name${time}`,
+          testNull: `notNull${time}`,
         },
       });
     }
@@ -217,12 +219,12 @@ describe('listProjection', () => {
     const actual = await listProjection<FakeProjection>(category, {
       where: {
         data: {
-          name: Where.equal('1'),
+          name: Where.equal('name1'),
         },
       },
     });
 
-    const expected = mapToListResultItems(fakeData.filter((item) => item.data.name === '1'));
+    const expected = mapToListResultItems(fakeData.filter((item) => item.data.name === 'name1'));
 
     actual.should.have.all.keys(Object.keys(expected));
 
@@ -233,12 +235,12 @@ describe('listProjection', () => {
     const actual = await listProjection<FakeProjection>(category, {
       where: {
         data: {
-          name: Where.notEqual('1'),
+          name: Where.notEqual('name1'),
         },
       },
     });
 
-    const expected = mapToListResultItems(fakeData.filter((g) => g.data.name !== '1'));
+    const expected = mapToListResultItems(fakeData.filter((g) => g.data.name !== 'name1'));
 
     actual.should.have.all.keys(Object.keys(expected));
 
@@ -266,13 +268,13 @@ describe('listProjection', () => {
     const actual = await listProjection<FakeProjection>(category, {
       where: {
         data: {
-          name: Where.startWith('1'),
+          name: Where.endWith('1'),
         },
       },
     });
 
     const expected = mapToListResultItems(
-      fakeData.filter((g) => g.data.name.toLowerCase().startsWith('a')),
+      fakeData.filter((g) => g.data.name.toLowerCase().endsWith('1')),
     );
 
     actual.should.have.all.keys(Object.keys(expected));
@@ -301,13 +303,13 @@ describe('listProjection', () => {
     const actual = await listProjection<FakeProjection>(category, {
       where: {
         data: {
-          name: Where.notStartWith('1'),
+          name: Where.notEndWith('1'),
         },
       },
     });
 
     const expected = mapToListResultItems(
-      fakeData.filter((g) => !g.data.name.toLowerCase().startsWith('a')),
+      fakeData.filter((g) => !g.data.name.toLowerCase().endsWith('1')),
     );
 
     actual.should.have.all.keys(Object.keys(expected));
@@ -349,6 +351,72 @@ describe('listProjection', () => {
     const expected = mapToListResultItems(
       fakeData.filter(({ data }) => !valuesArray.includes(data.name)),
     );
+
+    actual.should.have.all.keys(Object.keys(expected));
+
+    actual.items.should.have.deep.members(expected.items);
+  });
+
+  it('should find projections by their key and filter them according to a is null condition option', async () => {
+    const nullCaseFakeData = {
+      data: {
+        value: 'null case',
+        name: 'null case',
+      },
+    };
+
+    fakeData.push(nullCaseFakeData);
+
+    await executeQuery(
+      `insert
+        into domain_views.projection
+        values ($1, $2)`,
+      `${category}|${nullCaseFakeData.data.value}`,
+      flatten(nullCaseFakeData),
+    );
+
+    const actual = await listProjection<FakeProjection>(category, {
+      where: {
+        data: {
+          testNull: Where.equalNull(),
+        },
+      },
+    });
+
+    const expected = mapToListResultItems(fakeData.filter(({ data }) => !data.testNull));
+
+    actual.should.have.all.keys(Object.keys(expected));
+
+    actual.items.should.have.deep.members(expected.items);
+  });
+
+  it('should find projections by their key and filter them according to a is not null condition option', async () => {
+    const nullCaseFakeData = {
+      data: {
+        value: 'null case',
+        name: 'null case',
+      },
+    };
+
+    fakeData.push(nullCaseFakeData);
+
+    await executeQuery(
+      `insert
+        into domain_views.projection
+        values ($1, $2)`,
+      `${category}|${nullCaseFakeData.data.value}`,
+      flatten(nullCaseFakeData),
+    );
+
+    const actual = await listProjection<FakeProjection>(category, {
+      where: {
+        data: {
+          testNull: Where.notEqualNull(),
+        },
+      },
+    });
+
+    const expected = mapToListResultItems(fakeData.filter(({ data }) => !!data.testNull));
 
     actual.should.have.all.keys(Object.keys(expected));
 

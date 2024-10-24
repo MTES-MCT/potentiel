@@ -57,7 +57,7 @@ export const Form: FC<FormProps> = ({
         </div>
       )}
 
-      <div className={`flex flex-col gap-5  ${className || ''}`}>
+      <div className={`flex flex-col gap-5 ${className || ''}`}>
         {children}
         <div className="flex flex-col md:flex-row gap-2">{actions}</div>
       </div>

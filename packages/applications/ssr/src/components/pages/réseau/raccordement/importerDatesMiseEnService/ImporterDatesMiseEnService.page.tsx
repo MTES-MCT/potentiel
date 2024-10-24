@@ -1,16 +1,32 @@
 import Alert from '@codegouvfr/react-dsfr/Alert';
 import { Table } from '@codegouvfr/react-dsfr/Table';
+import { FC } from 'react';
 
 import { Heading1 } from '@/components/atoms/headings';
 import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
 
+import { GestionnaireRéseauSelectProps } from '../GestionnaireRéseauSelect';
+
 import { ImporterDatesMiseEnServiceForm } from './importerDatesMiseEnService.form';
 
-export const ImporterDatesMiseEnServicePage = () => (
+export type ImporterDatesMiseEnServicePageProps = {
+  identifiantGestionnaireRéseauActuel: string;
+  listeGestionnairesRéseau: GestionnaireRéseauSelectProps['listeGestionnairesRéseau'];
+};
+
+export const ImporterDatesMiseEnServicePage: FC<ImporterDatesMiseEnServicePageProps> = ({
+  identifiantGestionnaireRéseauActuel,
+  listeGestionnairesRéseau,
+}) => (
   <ColumnPageTemplate
     banner={<Heading1 className="text-theme-white">Importer des dates de mise en service</Heading1>}
     leftColumn={{
-      children: <ImporterDatesMiseEnServiceForm />,
+      children: (
+        <ImporterDatesMiseEnServiceForm
+          identifiantGestionnaireRéseauActuel={identifiantGestionnaireRéseauActuel}
+          listeGestionnairesRéseau={listeGestionnairesRéseau}
+        />
+      ),
     }}
     rightColumn={{
       children: (
@@ -24,7 +40,7 @@ export const ImporterDatesMiseEnServicePage = () => (
                 caption="Résumé du tableau attendu pour l'import des dates de mise en service"
                 headers={['Colonne', 'Format', 'Optionnel']}
                 data={[
-                  ['numeroCRE', 'chaîne de caractères', 'oui'],
+                  ['identifiantProjet', 'chaîne de caractères', 'oui'],
                   ['referenceDossier', 'chaîne de caractères', 'non'],
                   ['dateMiseEnService', 'date au format JJ/MM/AAAA', 'non'],
                 ]}

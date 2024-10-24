@@ -2,25 +2,25 @@
 
 import * as zod from 'zod';
 import { mediator } from 'mediateur';
-import { notFound } from 'next/navigation';
 
-import { Raccordement } from '@potentiel-domain/reseau';
-import { Candidature } from '@potentiel-domain/candidature';
+import { GestionnaireRéseau, Raccordement } from '@potentiel-domain/reseau';
 import { DomainError } from '@potentiel-domain/core';
 import { parseCsv } from '@potentiel-libraries/csv';
 import { Option } from '@potentiel-libraries/monads';
+import { Lauréat } from '@potentiel-domain/laureat';
 
 import { ActionResult, FormAction, FormState, formAction } from '@/utils/formAction';
 import { document } from '@/utils/zod/documentTypes';
 
 const schema = zod.object({
+  identifiantGestionnaireReseau: zod.string(),
   fichierDatesMiseEnService: document,
 });
 
 export type ImporterDatesMiseEnServiceFormKeys = keyof zod.infer<typeof schema>;
 
 const csvSchema = zod.object({
-  numeroCRE: zod.string().optional(),
+  identifiantProjet: zod.string().optional(),
   referenceDossier: zod.string().min(1, {
     message: 'La référence du dossier ne peut pas être vide',
   }),
@@ -34,7 +34,14 @@ const convertDateToCommonFormat = (date: string) => {
   return `${year}-${month}-${day}`;
 };
 
-const action: FormAction<FormState, typeof schema> = async (_, { fichierDatesMiseEnService }) => {
+const action: FormAction<FormState, typeof schema> = async (
+  _,
+  { identifiantGestionnaireReseau, fichierDatesMiseEnService },
+) => {
+  const identifiantGestionnaireRéseauSélectionné =
+    GestionnaireRéseau.IdentifiantGestionnaireRéseau.convertirEnValueType(
+      identifiantGestionnaireReseau,
+    );
   const { parsedData: lines } = await parseCsv(fichierDatesMiseEnService.stream(), csvSchema);
 
   if (lines.length === 0) {
@@ -44,65 +51,77 @@ const action: FormAction<FormState, typeof schema> = async (_, { fichierDatesMis
     };
   }
 
-  let success: number = 0;
+  const success: number = 0;
   const errors: ActionResult['errors'] = [];
 
-  for (const { numeroCRE, referenceDossier, dateMiseEnService } of lines) {
-    const dossiers = await mediator.send<Raccordement.RechercherDossierRaccordementQuery>({
-      type: 'Réseau.Raccordement.Query.RechercherDossierRaccordement',
-      data: {
-        numéroCRE: numeroCRE,
-        référenceDossierRaccordement: referenceDossier,
-      },
-    });
-
-    if (dossiers.length === 0) {
-      errors.push({
-        key: referenceDossier,
-        reason: 'Aucun dossier correspondant',
+  for (const { identifiantProjet, referenceDossier, dateMiseEnService } of lines) {
+    if (identifiantProjet) {
+      const dossier = await mediator.send<Raccordement.ConsulterDossierRaccordementQuery>({
+        type: 'Réseau.Raccordement.Query.ConsulterDossierRaccordement',
+        data: {
+          identifiantProjetValue: identifiantProjet,
+          référenceDossierRaccordementValue: referenceDossier,
+        },
       });
 
-      continue;
-    }
-
-    for (const { identifiantProjet, référenceDossierRaccordement } of dossiers) {
-      try {
-        const candidature = await mediator.send<Candidature.ConsulterProjetQuery>({
-          type: 'Candidature.Query.ConsulterProjet',
-          data: {
-            identifiantProjet: identifiantProjet.formatter(),
-          },
-        });
-
-        if (Option.isNone(candidature)) {
-          return notFound();
-        }
-
-        await mediator.send<Raccordement.TransmettreDateMiseEnServiceUseCase>({
-          type: 'Réseau.Raccordement.UseCase.TransmettreDateMiseEnService',
-          data: {
-            identifiantProjetValue: identifiantProjet.formatter(),
-            dateDésignationValue: candidature.dateDésignation,
-            référenceDossierValue: référenceDossierRaccordement.formatter(),
-            dateMiseEnServiceValue: new Date(
-              convertDateToCommonFormat(dateMiseEnService),
-            ).toISOString(),
-          },
-        });
-
-        success++;
-      } catch (error) {
-        if (error instanceof DomainError) {
-          errors.push({
-            key: référenceDossierRaccordement.formatter(),
-            reason: error.message,
-          });
-          continue;
-        }
+      if (Option.isNone(dossier)) {
         errors.push({
-          key: référenceDossierRaccordement.formatter(),
-          reason: 'Une erreur inconnue empêche la transmission de la date de mise en service',
+          key: referenceDossier,
+          reason: 'Aucun dossier de raccordement',
         });
+        continue;
+      }
+
+      const errorAttribution = await vérifierAttributionGestionnaireRéseau(
+        dossier.identifiantGestionnaireRéseau,
+        identifiantGestionnaireRéseauSélectionné,
+        referenceDossier,
+      );
+
+      if (!errorAttribution) {
+        const errorTransmission = await transmettreDateDeMiseEnService(
+          identifiantProjet,
+          referenceDossier,
+          dateMiseEnService,
+        );
+        errorTransmission && errors.push(errorTransmission);
+      } else {
+        errors.push(errorAttribution);
+      }
+    } else {
+      const dossiers = await mediator.send<Raccordement.RechercherDossierRaccordementQuery>({
+        type: 'Réseau.Raccordement.Query.RechercherDossierRaccordement',
+        data: {
+          référenceDossierRaccordement: referenceDossier,
+        },
+      });
+
+      if (dossiers.length === 0) {
+        errors.push({
+          key: referenceDossier,
+          reason: 'Aucun dossier correspondant',
+        });
+
+        continue;
+      }
+
+      for (const dossier of dossiers) {
+        const errorAttribution = await vérifierAttributionGestionnaireRéseau(
+          dossier.identifiantGestionnaireRéseau,
+          identifiantGestionnaireRéseauSélectionné,
+          referenceDossier,
+        );
+
+        if (!errorAttribution) {
+          const errorTransmission = await transmettreDateDeMiseEnService(
+            dossier.identifiantProjet.formatter(),
+            referenceDossier,
+            dateMiseEnService,
+          );
+          errorTransmission && errors.push(errorTransmission);
+        } else {
+          errors.push(errorAttribution);
+        }
       }
     }
   }
@@ -116,4 +135,73 @@ const action: FormAction<FormState, typeof schema> = async (_, { fichierDatesMis
   };
 };
 
+const transmettreDateDeMiseEnService = async (
+  identifiantProjet: string,
+  référenceDossierRaccordement: string,
+  dateMiseEnService: string,
+): Promise<ActionResult['errors'][number] | undefined> => {
+  try {
+    const lauréat = await mediator.send<Lauréat.ConsulterLauréatQuery>({
+      type: 'Lauréat.Query.ConsulterLauréat',
+      data: {
+        identifiantProjet: identifiantProjet,
+      },
+    });
+
+    if (Option.isNone(lauréat)) {
+      return {
+        key: référenceDossierRaccordement,
+        reason: 'Aucune candidature correspondante',
+      };
+    }
+
+    await mediator.send<Raccordement.TransmettreDateMiseEnServiceUseCase>({
+      type: 'Réseau.Raccordement.UseCase.TransmettreDateMiseEnService',
+      data: {
+        identifiantProjetValue: identifiantProjet,
+        dateDésignationValue: lauréat.notifiéLe.formatter(),
+        référenceDossierValue: référenceDossierRaccordement,
+        dateMiseEnServiceValue: new Date(
+          convertDateToCommonFormat(dateMiseEnService),
+        ).toISOString(),
+      },
+    });
+  } catch (error) {
+    if (error instanceof DomainError) {
+      return {
+        key: référenceDossierRaccordement,
+        reason: error.message,
+      };
+    }
+    return {
+      key: référenceDossierRaccordement,
+      reason: 'Une erreur inconnue empêche la transmission de la date de mise en service',
+    };
+  }
+};
+
 export const importerDatesMiseEnServiceAction = formAction(action, schema);
+async function vérifierAttributionGestionnaireRéseau(
+  identifiantGestionnaireRéseau: GestionnaireRéseau.IdentifiantGestionnaireRéseau.ValueType,
+  identifiantGestionnaireRéseauSélectionné: GestionnaireRéseau.IdentifiantGestionnaireRéseau.ValueType,
+  referenceDossier: string,
+): Promise<ActionResult['errors'][number] | undefined> {
+  if (!identifiantGestionnaireRéseau.estÉgaleÀ(identifiantGestionnaireRéseauSélectionné)) {
+    const gestionnaireRéseau =
+      await mediator.send<GestionnaireRéseau.ConsulterGestionnaireRéseauQuery>({
+        type: 'Réseau.Gestionnaire.Query.ConsulterGestionnaireRéseau',
+        data: {
+          identifiantGestionnaireRéseau: identifiantGestionnaireRéseau.formatter(),
+        },
+      });
+
+    return {
+      key: referenceDossier,
+      reason: `Le dossier est actuellement attribué au gestionnaire de réseau - ${Option.match(
+        gestionnaireRéseau,
+      )
+        .some(({ raisonSociale }) => raisonSociale)
+        .none(() => 'Inconnu')}`,
+    };
+  }
+}

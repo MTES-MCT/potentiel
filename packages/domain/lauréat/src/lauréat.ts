@@ -13,5 +13,8 @@ export { LauréatNotifiéEvent };
 export type LauréatUseCases = NotifierLauréatUseCase;
 export { NotifierLauréatUseCase };
 
+// ValueType
+export * as StatutLauréat from './statutLauréat.valueType';
+
 // Saga
 export * as LauréatSaga from './lauréat.saga';

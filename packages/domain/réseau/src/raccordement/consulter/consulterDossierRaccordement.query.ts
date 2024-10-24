@@ -8,8 +8,11 @@ import { DocumentProjet } from '@potentiel-domain/document';
 import * as RéférenceDossierRaccordement from '../référenceDossierRaccordement.valueType';
 import * as TypeDocumentRaccordement from '../typeDocumentRaccordement.valueType';
 import { DossierRaccordementEntity } from '../raccordement.entity';
+import { IdentifiantGestionnaireRéseau } from '../../gestionnaire';
 
 export type ConsulterDossierRaccordementReadModel = {
+  identifiantGestionnaireRéseau: IdentifiantGestionnaireRéseau.ValueType;
+  identifiantProjet: IdentifiantProjet.ValueType;
   référence: RéférenceDossierRaccordement.ValueType;
   demandeComplèteRaccordement: {
     dateQualification?: DateTime.ValueType;
@@ -67,12 +70,17 @@ const mapToResult = (
   identifiantProjet: IdentifiantProjet.ValueType,
   référence: RéférenceDossierRaccordement.ValueType,
   {
+    identifiantGestionnaireRéseau,
     demandeComplèteRaccordement,
     propositionTechniqueEtFinancière,
     miseEnService,
   }: DossierRaccordementEntity,
 ): ConsulterDossierRaccordementReadModel => {
   return {
+    identifiantProjet,
+    identifiantGestionnaireRéseau: IdentifiantGestionnaireRéseau.convertirEnValueType(
+      identifiantGestionnaireRéseau,
+    ),
     référence,
     demandeComplèteRaccordement: {
       dateQualification: demandeComplèteRaccordement?.dateQualification
