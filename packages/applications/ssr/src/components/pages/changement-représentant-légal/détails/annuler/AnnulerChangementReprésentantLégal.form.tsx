@@ -35,7 +35,6 @@ export const AnnulerChangementReprésentantLégal = ({
         onClose={() => setIsOpen(false)}
         form={{
           action: annulerChangementReprésentantLégalAction,
-          method: 'POST',
           id: 'annuler-changementReprésentantLégal-form',
           omitMandatoryFieldsLegend: true,
           children: (

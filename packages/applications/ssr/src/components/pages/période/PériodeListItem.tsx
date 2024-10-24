@@ -170,8 +170,6 @@ const NotifyButton: FC<NotifyButtonProps> = ({
         form={{
           id: 'notifier-periode-form',
           action: notifierPériodeAction,
-          method: 'POST',
-          encType: 'multipart/form-data',
           omitMandatoryFieldsLegend: true,
           children: (
             <>

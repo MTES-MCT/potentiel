@@ -29,8 +29,6 @@ export const DemanderAbandonForm: FC<DemanderAbandonFormProps> = ({
   return (
     <Form
       action={demanderAbandonAction}
-      method="POST"
-      encType="multipart/form-data"
       onValidationError={(validationErrors) => setValidationErrors(validationErrors)}
       actions={<SubmitButton>Demander l'abandon</SubmitButton>}
     >

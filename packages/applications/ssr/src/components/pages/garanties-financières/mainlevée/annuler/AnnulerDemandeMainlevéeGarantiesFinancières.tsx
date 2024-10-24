@@ -31,8 +31,6 @@ export const AnnulerDemandeMainlevéeGarantiesFinancières = ({
         onClose={() => setIsOpen(false)}
         form={{
           action: annulerDemandeMainlevéeGarantiesFinancièresAction,
-          method: 'POST',
-          encType: 'multipart/form-data',
           omitMandatoryFieldsLegend: true,
           children: (
             <>

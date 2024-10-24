@@ -19,8 +19,6 @@ export const ImporterCandidaturesForm: FC = () => {
 
   return (
     <Form
-      method="POST"
-      encType="multipart/form-data"
       action={importerCandidaturesAction}
       heading="Importer les candidats de la période d'un appel d'offres"
       pendingModal={{

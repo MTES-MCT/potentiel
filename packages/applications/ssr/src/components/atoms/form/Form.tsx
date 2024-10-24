@@ -11,8 +11,10 @@ import { FormFeedback } from './FormFeedback';
 import { FormPendingModal, FormPendingModalProps } from './FormPendingModal';
 import { FormFeedbackCsvErrors } from './FormFeedbackCsvErrors';
 
-export type FormProps = Omit<FormHTMLAttributes<HTMLFormElement>, 'action' | 'method'> & {
-  method?: 'POST';
+export type FormProps = Omit<
+  FormHTMLAttributes<HTMLFormElement>,
+  'action' | 'method' | 'encType'
+> & {
   action: ReturnType<typeof formAction>;
   children: ReactNode;
   heading?: ReactNode;

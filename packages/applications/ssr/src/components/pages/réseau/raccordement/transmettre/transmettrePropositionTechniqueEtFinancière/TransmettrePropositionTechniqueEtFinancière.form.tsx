@@ -30,8 +30,6 @@ export const TransmettrePropositionTechniqueEtFinancièreForm: FC<
 
   return (
     <Form
-      method="POST"
-      encType="multipart/form-data"
       heading="Transmettre la proposition technique et financière"
       action={transmettrePropositionTechniqueEtFinancièreAction}
       onValidationError={(validationErrors) => setValidationErrors(validationErrors)}

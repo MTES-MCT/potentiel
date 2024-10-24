@@ -64,8 +64,6 @@ export const GarantiesFinancièresForm: FC<GarantiesFinancièresFormProps> = ({
 
   return (
     <Form
-      method="POST"
-      encType="multipart/form-data"
       action={action}
       onValidationError={(validationErrors) => setValidationErrors(validationErrors)}
       actions={

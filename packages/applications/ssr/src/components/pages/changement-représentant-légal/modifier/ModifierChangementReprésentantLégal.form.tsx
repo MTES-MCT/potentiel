@@ -64,8 +64,6 @@ export const ModifierChangementReprésentantLégalForm: FC<
   return (
     <Form
       action={modifierChangementReprésentantLégalAction}
-      method="POST"
-      encType="multipart/form-data"
       onValidationError={(validationErrors) => setValidationErrors(validationErrors)}
       actions={<SubmitButton>Modifier</SubmitButton>}
     >

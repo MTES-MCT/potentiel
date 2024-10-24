@@ -118,7 +118,6 @@ const SupprimerDossierDuRaccordement: FC<SupprimerDossierDuRaccordementProps> = 
         onClose={() => setIsOpen(false)}
         form={{
           action: supprimerDossierDuRaccordementAction,
-          method: 'POST',
           id: `supprimer-dossier-${référenceDossier}-abandon-form`,
           omitMandatoryFieldsLegend: true,
           children: (

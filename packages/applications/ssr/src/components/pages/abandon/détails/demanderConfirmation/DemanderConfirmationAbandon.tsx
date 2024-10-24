@@ -47,8 +47,6 @@ export const DemanderConfirmationAbandon = ({
         form={{
           id: 'demande-confirmation-abandon-form',
           action: demanderConfirmationAbandonAction,
-          method: 'POST',
-          encType: 'multipart/form-data',
           onValidationError: (validationErrors) => setValidationErrors(validationErrors),
           children: (
             <>

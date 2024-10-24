@@ -54,8 +54,6 @@ export const AttestationConformitéForm: FC<AttestationConformitéFormProps> = (
 
   return (
     <Form
-      method="POST"
-      encType="multipart/form-data"
       action={action}
       onValidationError={(validationErrors) => setValidationErrors(validationErrors)}
       actions={
