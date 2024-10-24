@@ -1,11 +1,12 @@
 import { FC } from 'react';
+import Button from '@codegouvfr/react-dsfr/Button';
 
 import { PlainType } from '@potentiel-domain/core';
 import { Candidature } from '@potentiel-domain/candidature';
 import { IdentifiantProjet } from '@potentiel-domain/common';
+import { Routes } from '@potentiel-applications/routes';
 
 import { StatutProjetBadge } from './StatutProjetBadge';
-import { ProjetLinks } from './TempProjetLinks';
 
 type ProjetListItemProps = PlainType<Candidature.ListerProjetsListItemReadModel>;
 
@@ -29,36 +30,34 @@ export const ProjetListItem: FC<ProjetListItemProps> = (projet) => {
         </div>
       </div>
 
-      <div className="flex flex-row gap-2 justify-between mt-4 md:mt-2">
-        <ProjetLinks
-          identifiantProjet={identifiantProjetValue.formatter()}
-          title="Abandon"
-          links={['demander', 'détail', 'téléchargerModèleRéponse']}
-        />
-        <ProjetLinks
-          identifiantProjet={identifiantProjetValue.formatter()}
-          title="Recours"
-          links={['demander', 'détail']}
-        />
-        <ProjetLinks
-          identifiantProjet={identifiantProjetValue.formatter()}
-          title="GarantiesFinancières"
-          links={['détail', 'téléchargerModèleMiseEnDemeure']}
-        />
-        <ProjetLinks
-          identifiantProjet={identifiantProjetValue.formatter()}
-          title="Achèvement"
-          links={['transmettreAttestationConformité', 'modifierAttestationConformité']}
-        />
-        <ProjetLinks
-          identifiantProjet={identifiantProjetValue.formatter()}
-          title="Raccordement"
-          links={[
-            'transmettreDemandeComplèteRaccordement',
-            'détail',
-            'modifierGestionnaireDeRéseau',
-          ]}
-        />
+      <div className="grid grid-cols-3 gap-2 mt-4 md:mt-2">
+        <Button linkProps={{ href: Routes.Abandon.détail(identifiantProjetValue.formatter()) }}>
+          Abandon
+        </Button>
+        <Button linkProps={{ href: Routes.Recours.détail(identifiantProjetValue.formatter()) }}>
+          Recours
+        </Button>
+        <Button
+          linkProps={{
+            href: Routes.GarantiesFinancières.détail(identifiantProjetValue.formatter()),
+          }}
+        >
+          GarantiesFinancières
+        </Button>
+        <Button
+          linkProps={{
+            href: Routes.Achèvement.transmettreAttestationConformité(
+              identifiantProjetValue.formatter(),
+            ),
+          }}
+        >
+          Achèvement
+        </Button>
+        <Button
+          linkProps={{ href: Routes.Raccordement.détail(identifiantProjetValue.formatter()) }}
+        >
+          Raccordement
+        </Button>
       </div>
     </>
   );
