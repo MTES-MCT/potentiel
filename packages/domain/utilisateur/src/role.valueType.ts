@@ -10,7 +10,8 @@ export type RawType =
   | 'ademe'
   | 'dgec-validateur'
   | 'caisse-des-dépôts'
-  | 'cre';
+  | 'cre'
+  | 'grd';
 
 const roles: Array<RawType> = [
   'admin',
@@ -21,6 +22,7 @@ const roles: Array<RawType> = [
   'dgec-validateur',
   'caisse-des-dépôts',
   'cre',
+  'grd',
 ];
 
 export type ValueType = ReadonlyValueType<{
@@ -77,6 +79,7 @@ export const dreal = convertirEnValueType('dreal');
 export const cre = convertirEnValueType('cre');
 export const acheteurObligé = convertirEnValueType('acheteur-obligé');
 export const caisseDesDépôts = convertirEnValueType('caisse-des-dépôts');
+export const grd = convertirEnValueType('grd');
 
 // MATRICE en mémoire en attendant de pouvoir gérer les permissions depuis une interface d'administration
 /**
@@ -1053,6 +1056,8 @@ const permissionCaisseDesDépôts: Policy[] = [
   'achèvement.consulter',
 ];
 
+const permissionGRD: Policy[] = [];
+
 const policyParRole: Record<RawType, Policy[]> = {
   admin: permissionAdmin,
   'acheteur-obligé': permissionAcheteurObligé,
@@ -1062,6 +1067,7 @@ const policyParRole: Record<RawType, Policy[]> = {
   dreal: permissionDreal,
   'dgec-validateur': permissionDgecValidateur,
   'porteur-projet': permissionPorteurProjet,
+  grd: permissionGRD,
 };
 
 /** La liste par projet des permissions techniques (message Mediator) */

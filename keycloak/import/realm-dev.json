@@ -119,6 +119,14 @@
         "attributes": {}
       },
       {
+        "id": "31b655ea-4f90-4460-9126-9f7015652a54",
+        "name": "grd",
+        "composite": false,
+        "clientRole": false,
+        "containerId": "Potentiel",
+        "attributes": {}
+      },
+      {
         "id": "03f2771f-e457-46dd-a633-80bddc473a95",
         "name": "uma_authorization",
         "description": "${role_uma_authorization}",
@@ -451,7 +459,28 @@
       ]
     }
   },
-  "groups": [],
+  "groups": [
+    {
+      "id": "fea7d1bf-cd99-49af-9c82-2dc661ac63a3",
+      "name": "GRDs",
+      "path": "/GRDs",
+      "subGroups": [
+        {
+          "id": "cc3ba23c-ffca-459e-bf5c-414500428f6b",
+          "name": "17X100A100A0001A",
+          "path": "/GRDs/17X100A100A0001A",
+          "parentId": "fea7d1bf-cd99-49af-9c82-2dc661ac63a3",
+          "subGroups": [],
+          "attributes": {},
+          "realmRoles": [],
+          "clientRoles": {}
+        }
+      ],
+      "attributes": {},
+      "realmRoles": ["grd"],
+      "clientRoles": {}
+    }
+  ],
   "defaultRole": {
     "id": "1b1e81e5-8dd4-41d4-b0e4-7495e7afe04b",
     "name": "default-roles-potentiel",
@@ -673,6 +702,29 @@
       "realmRoles": ["default-roles-potentiel", "caisse-des-dépôts"],
       "notBefore": 0,
       "groups": []
+    },
+    {
+      "id": "dc21fdc6-f917-4412-8d68-2755763d2f75",
+      "createdTimestamp": 1684921663742,
+      "username": "grd@test.test",
+      "enabled": true,
+      "totp": false,
+      "emailVerified": true,
+      "firstName": "GRD",
+      "lastName": "Test",
+      "email": "grd@test.test",
+      "credentials": [
+        {
+          "temporary": false,
+          "type": "password",
+          "value": "test"
+        }
+      ],
+      "disableableCredentialTypes": [],
+      "requiredActions": [],
+      "realmRoles": ["default-roles-potentiel"],
+      "notBefore": 0,
+      "groups": ["/GRDs/17X100A100A0001A"]
     }
   ],
   "scopeMappings": [
@@ -982,6 +1034,22 @@
             "access.token.claim": "true",
             "claim.name": "clientAddress",
             "jsonType.label": "String"
+          }
+        },
+        {
+          "id": "7679bd7d-70fb-4959-9eb2-50e5e3c8c078",
+          "name": "user-roles",
+          "protocol": "openid-connect",
+          "protocolMapper": "oidc-group-membership-mapper",
+          "consentRequired": false,
+          "config": {
+            "full.path": "true",
+            "id.token.claim": "true",
+            "lightweight.claim": "false",
+            "introspection.token.claim": "true",
+            "access.token.claim": "true",
+            "userinfo.token.claim": "true",
+            "claim.name": "groups"
           }
         },
         {

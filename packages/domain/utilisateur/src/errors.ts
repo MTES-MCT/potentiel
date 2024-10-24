@@ -16,3 +16,10 @@ export class AccèsFonctionnalitéRefuséError extends OperationRejectedError {
     });
   }
 }
+export class GroupeRefuséError extends OperationRejectedError {
+  constructor(value: string) {
+    super(`Le groupe ne correspond à aucun format connu`, {
+      value,
+    });
+  }
+}

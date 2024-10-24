@@ -12,19 +12,23 @@ import {
   SecondaryLinkButton,
 } from '../../../components';
 
-type InscriptionConnexionProps = {
-  user: User;
-};
+type InscriptionConnexionProps =
+  | ({ connected: true } & BienvenueProps)
+  | ({ connected: false } & Partial<BienvenueProps>);
 
-export const InscriptionConnexion = ({ user }: InscriptionConnexionProps) => (
+export const InscriptionConnexion = ({
+  connected,
+  fullName,
+  redirectText,
+}: InscriptionConnexionProps) => (
   <section
     className="bg-blue-france-sun-base"
     style={{ background: 'linear-gradient(180deg, #000091 50%, white 50%)' }}
   >
     <h2 className="sr-only">Acccéder à Potentiel</h2>
     <Container className="flex p-0 lg:p-8">
-      {user ? (
-        <Bienvenue {...{ user }} />
+      {connected ? (
+        <Bienvenue fullName={fullName} redirectText={redirectText} />
       ) : (
         <div className="flex mx-auto flex-col lg:flex-row">
           <SignupBox />
@@ -36,12 +40,13 @@ export const InscriptionConnexion = ({ user }: InscriptionConnexionProps) => (
 );
 
 type BienvenueProps = {
-  user: User;
+  fullName: string;
+  redirectText: string;
 };
-const Bienvenue = ({ user }: BienvenueProps) => (
+const Bienvenue = ({ fullName, redirectText }: BienvenueProps) => (
   <div className="flex flex-col items-center md:mx-auto shadow-md bg-blue-france-975-base p-10">
     <p className="mt-0 text-2xl lg:text-3xl font-semibold text-blue-france-sun-base">
-      Bonjour {user.fullName}, nous sommes ravis de vous revoir.
+      Bonjour {fullName}, nous sommes ravis de vous revoir.
     </p>
     <div className="flex flex-col md:flex-row w-full md:w-fit gap-3">
       <LinkButton
@@ -49,7 +54,7 @@ const Bienvenue = ({ user }: BienvenueProps) => (
         href={routes.REDIRECT_BASED_ON_ROLE}
       >
         <DashboardIcon className="mr-4" aria-hidden />
-        Voir {user.role === 'porteur-projet' ? 'mes' : 'les'} projets
+        {redirectText}
       </LinkButton>
       <SecondaryLinkButton
         className="inline-flex items-center lg:text-lg"
