@@ -131,5 +131,38 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       ],
       abandonAvecRecandidature: true,
     },
+    {
+      id: '2',
+      title: 'deuxième',
+      certificateTemplate: 'ppe2.v1',
+      validateurParDéfaut: validateurParDéfaut.ghislain,
+      noteThreshold: 0.68,
+      cahierDesCharges: {
+        référence: '2024/test-9999999.2',
+      },
+      delaiDcrEnMois: { valeur: 3, texte: 'trois' },
+      familles: [],
+      dossierSuiviPar: 'violaine.tarizzo@developpement-durable.gouv.fr',
+      cahiersDesChargesModifiésDisponibles: [
+        {
+          ...CDCModifié30082022,
+          délaiApplicable: {
+            délaiEnMois: 18,
+            intervaleDateMiseEnService: {
+              min: new Date('2022-06-01').toISOString(),
+              max: new Date('2024-09-30').toISOString(),
+            },
+          },
+          seuilSupplémentaireChangementPuissance: {
+            ratios: {
+              min: 0.8,
+              max: 1.4,
+            },
+            paragrapheAlerte: `Pour les projets dont soit l'achèvement, soit la mise en service est antérieur au 31 décembre 2024, cette augmentation de puissance peut être portée à 140% de la Puissance formulée dans l’offre, à condition qu’elle soit permise par l’autorisation environnementale de l’Installation, y compris si celle-ci a été modifiée.`,
+          },
+        },
+      ],
+      abandonAvecRecandidature: true,
+    },
   ],
 };
