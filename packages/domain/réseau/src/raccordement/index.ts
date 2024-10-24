@@ -17,6 +17,10 @@ import {
 } from './consulter/consulterRaccordement.query';
 import { SupprimerDossierDuRaccordementUseCase } from './dossier/supprimer/supprimerDossierDuRaccordement.usecase';
 import {
+  ListerDossierRaccordementEnAttenteMiseEnServiceQuery,
+  ListerDossierRaccordementEnAttenteMiseEnServiceReadModel,
+} from './lister/listerDossierRaccordementEnAttenteMiseEnService.query';
+import {
   ListerRaccordementQuery,
   ListerRaccordementReadModel,
 } from './lister/listerRaccordement.query';
@@ -39,7 +43,8 @@ export type RaccordementQuery =
   | ConsulterGestionnaireRéseauRaccordementQuery
   | ConsulterNombreDeRaccordementQuery
   | RechercherDossierRaccordementQuery
-  | ListerRaccordementQuery;
+  | ListerRaccordementQuery
+  | ListerDossierRaccordementEnAttenteMiseEnServiceQuery;
 
 export type {
   ConsulterDossierRaccordementQuery,
@@ -48,6 +53,7 @@ export type {
   ConsulterNombreDeRaccordementQuery,
   ConsulterRaccordementQuery,
   ListerRaccordementQuery,
+  ListerDossierRaccordementEnAttenteMiseEnServiceQuery,
 };
 
 // ReadModel
@@ -58,6 +64,7 @@ export type {
   ConsulterNombreDeRaccordementReadModel,
   RechercherDossierRaccordementReadModel,
   ListerRaccordementReadModel,
+  ListerDossierRaccordementEnAttenteMiseEnServiceReadModel,
 };
 
 // UseCases

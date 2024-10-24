@@ -50,5 +50,9 @@ const mapOperatorToSqlCondition = (value: WhereOperator, index: number) => {
       return `${baseCondition} = ANY($${index + 2})`;
     case 'notInclude':
       return `${baseCondition} <> ALL($${index + 2})`;
+    case 'equalNull':
+      return `${baseCondition} IS NULL`;
+    case 'notEqualNull':
+      return `${baseCondition} IS NOT NULL`;
   }
 };

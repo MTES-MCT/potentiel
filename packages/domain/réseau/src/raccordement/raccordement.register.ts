@@ -43,6 +43,7 @@ import {
 import { registerSupprimerDossierDuRaccordementUseCase } from './dossier/supprimer/supprimerDossierDuRaccordement.usecase';
 import { registerSupprimerDossierDuRaccordementCommand } from './dossier/supprimer/supprimerDossierDuRaccordement.command';
 import { registerSupprimerRaccordementCommand } from './supprimer/supprimerRaccordement.command';
+import { registerListerDossierRaccordementEnAttenteMiseEnServiceQuery } from './lister/listerDossierRaccordementEnAttenteMiseEnService.query';
 
 export type RaccordementQueryDependencies = ConsulterDossierRaccordementDependencies &
   ConsulterGestionnaireRéseauRaccordementDependencies &
@@ -62,6 +63,7 @@ export const registerRaccordementQueries = (dependencies: RaccordementQueryDepen
   registerConsulterRaccordementQuery(dependencies);
   registerRechercherDossierRaccordementQuery(dependencies);
   registerListerRaccordementQuery(dependencies);
+  registerListerDossierRaccordementEnAttenteMiseEnServiceQuery(dependencies);
 };
 
 export const registerRaccordementUseCases = ({

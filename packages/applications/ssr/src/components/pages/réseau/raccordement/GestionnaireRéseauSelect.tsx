@@ -66,7 +66,7 @@ export const GestionnaireRéseauSelect = ({
           }
         },
       }}
-      placeholder="Sélectionnez votre gestionnaire de réseau"
+      placeholder="Sélectionnez un gestionnaire de réseau"
       options={gestionnaireRéseauOptions}
       state={state}
       stateRelatedMessage={stateRelatedMessage}

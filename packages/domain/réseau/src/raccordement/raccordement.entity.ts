@@ -1,8 +1,8 @@
 import { Entity } from '@potentiel-domain/entity';
 
 type DossierRaccordement = {
+  identifiantGestionnaireRéseau: string;
   identifiantProjet: string;
-  numéroCRE: string;
   référence: string;
   demandeComplèteRaccordement?: {
     dateQualification?: string;

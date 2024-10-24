@@ -51,6 +51,7 @@ export const register = () => {
             case 'DemandeComplèteDeRaccordementTransmise-V1':
               return {
                 identifiantProjet,
+                identifiantGestionnaireRéseau: event.payload.identifiantGestionnaireRéseau,
                 numéroCRE,
                 référence,
                 demandeComplèteRaccordement: {
@@ -61,6 +62,7 @@ export const register = () => {
             case 'DemandeComplèteDeRaccordementTransmise-V2':
               return {
                 identifiantProjet,
+                identifiantGestionnaireRéseau: event.payload.identifiantGestionnaireRéseau,
                 numéroCRE,
                 référence,
                 demandeComplèteRaccordement: {
