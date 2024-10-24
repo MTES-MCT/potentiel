@@ -1,5 +1,4 @@
 import type { Meta, StoryObj } from '@storybook/react';
-import { Link } from '@mui/material';
 import Badge from '@codegouvfr/react-dsfr/Badge';
 
 import { ListItem, ListItemProps } from './ListItem';
@@ -35,9 +34,9 @@ export const Default: Story = {
     ),
     actions: (
       <div>
-        <Link href="/" aria-label={`voir le détail`}>
+        <a href="/" aria-label={`voir le détail`}>
           voir le détail
-        </Link>
+        </a>
       </div>
     ),
   },
