@@ -43,11 +43,7 @@ export default async function Page({ params: { identifiant } }: PageProps) {
         },
       });
 
-      if (Option.isNone(raccordement)) {
-        redirect(Routes.Raccordement.attribuerGestionnaireDeRéseau(identifiantProjet));
-      }
-
-      if (raccordement.dossiers.length === 0) {
+      if (Option.isNone(raccordement) || raccordement.dossiers.length === 0) {
         redirect(Routes.Raccordement.transmettreDemandeComplèteRaccordement(identifiantProjet));
       }
 

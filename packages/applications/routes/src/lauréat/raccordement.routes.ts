@@ -9,9 +9,6 @@ export const corrigerRéférencesDossier = `/reseaux/raccordements/references:co
 export const modifierGestionnaireDeRéseau = (identifiantProjet: string) =>
   `/laureats/${encodeParameter(identifiantProjet)}/raccordements/gestionnaire:modifier`;
 
-export const attribuerGestionnaireDeRéseau = (identifiantProjet: string) =>
-  `/laureats/${encodeParameter(identifiantProjet)}/raccordements/gestionnaire:attribuer`;
-
 export const transmettreDemandeComplèteRaccordement = (identifiantProjet: string) =>
   `/laureats/${encodeParameter(
     identifiantProjet,
