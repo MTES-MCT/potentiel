@@ -21,8 +21,11 @@ export const Steps: FC<StepsProps> = ({ onStepSelected, steps }) => {
 
   return (
     <ul className="flex flex-col">
-      {steps.map((step) => (
-        <li className={selectedStep !== step.index ? 'hidden' : 'flex flex-col gap-5'}>
+      {steps.map((step, index) => (
+        <li
+          className={selectedStep !== step.index ? 'hidden' : 'flex flex-col gap-5'}
+          key={`step-${index}`}
+        >
           <div>{step.children}</div>
           <StepNavigation
             onStepSelected={(stepIndex) => {

@@ -33,9 +33,9 @@ export const ValidationChangementReprésentantLégal: FC<
         <div className="flex flex-row gap-2">
           <div>Pièces justificatives :</div>
           <div className="pl-2">
-            {piècesJustificatives.map((pièceJustificative) => (
+            {piècesJustificatives.map((pièceJustificative, index) => (
               <ul className="list-disc">
-                <li>{pièceJustificative}</li>
+                <li key={`pièce-justificative-${index}`}>{pièceJustificative}</li>
               </ul>
             ))}
           </div>
