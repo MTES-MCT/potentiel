@@ -2,6 +2,8 @@ import React, { FC, useState } from 'react';
 import { RadioButtonsProps } from '@codegouvfr/react-dsfr/RadioButtons';
 import Button from '@codegouvfr/react-dsfr/Button';
 import clsx from 'clsx';
+import Link from 'next/link';
+import { createModal } from '@codegouvfr/react-dsfr/Modal';
 
 import { DEFAULT_FILE_SIZE_LIMIT_IN_MB } from '@/utils/zod/documentTypes';
 
@@ -11,10 +13,6 @@ export type UploadMultipleDocumentProps = {
   className?: string;
   label: React.ReactNode;
   name: string;
-  /**
-  Si utilisé dans un formulaire
-  l'id ne doit pas comprendre d'accent
-  */
   id?: string;
   required?: boolean;
   disabled?: boolean;
@@ -46,7 +44,7 @@ export const UploadMultipleDocument: FC<UploadMultipleDocumentProps> = ({
     const { files } = e.currentTarget;
 
     if (!files || Object.keys(files).length === 0) {
-      setMultipleDocument([]);
+      setDocumentFilenames([]);
       return;
     }
 
@@ -54,7 +52,7 @@ export const UploadMultipleDocument: FC<UploadMultipleDocumentProps> = ({
       .map((file) => {
         const fileName = extractFileName(file.name);
 
-        if (multipleDocument.includes(fileName)) {
+        if (documentFilenames.includes(fileName)) {
           return undefined;
         }
 
@@ -62,7 +60,7 @@ export const UploadMultipleDocument: FC<UploadMultipleDocumentProps> = ({
       })
       .filter((f) => f !== undefined);
 
-    setMultipleDocument([...multipleDocument, ...fileNames]);
+    setDocumentFilenames([...documentFilenames, ...fileNames]);
   };
 
   const handleFileRemove = (index: number) => {
@@ -79,7 +77,7 @@ export const UploadMultipleDocument: FC<UploadMultipleDocumentProps> = ({
     });
 
     hiddenFileInput.current.files = dataTransfer.files;
-    setMultipleDocument(multipleDocument.filter((_, i) => i !== index));
+    setDocumentFilenames(documentFilenames.filter((_, i) => i !== index));
   };
 
   const handleRemoveAllFiles = () => {
@@ -88,10 +86,17 @@ export const UploadMultipleDocument: FC<UploadMultipleDocumentProps> = ({
     }
 
     hiddenFileInput.current.files = null;
-    setMultipleDocument([]);
+    setDocumentFilenames([]);
   };
 
-  const [multipleDocument, setMultipleDocument] = useState<Array<string>>([]);
+  const [documentFilenames, setDocumentFilenames] = useState<Array<string>>([]);
+
+  const [modal] = useState(
+    createModal({
+      id: `form-modal-files-${name}`,
+      isOpenedByDefault: false,
+    }),
+  );
 
   return (
     <div className={clsx('fr-input-group', className && `${className}`)}>
@@ -103,9 +108,7 @@ export const UploadMultipleDocument: FC<UploadMultipleDocumentProps> = ({
       </div>
       {hintText && <div className="fr-hint-text">{hintText}</div>}
 
-      <div
-        className={`flex ${multipleDocument.length === 0 ? 'items-center' : 'items-start'} justify-start relative mt-3 gap-3`}
-      >
+      <div className="flex flex-row mt-3 gap-3 items-center">
         <input
           name={name}
           required={required}
@@ -122,43 +125,57 @@ export const UploadMultipleDocument: FC<UploadMultipleDocumentProps> = ({
           <span className="hidden md:inline-block text-sm">Parcourir</span>
         </Button>
 
-        {multipleDocument.length === 0 ? (
-          <p className="text-sm truncate m-0 p-0">Aucun document sélectionné</p>
-        ) : (
-          <Button
-            className="ml-2 text-dsfr-text-actionHigh-redMarianne-default"
-            type="button"
-            priority="tertiary no outline"
-            onClick={() => handleRemoveAllFiles()}
-          >
-            <Icon id="fr-icon-delete-line" size="sm" className="md:mr-1" />
-            <span className="hidden md:inline-block text-sm">Supprimer tout les documents</span>
-          </Button>
-        )}
-      </div>
-      {multipleDocument.length > 0 && (
-        <div className="mt-8">
-          <span className="font-semibold">{multipleDocument.length}</span> document
-          {multipleDocument.length > 1 ? 's' : ''} sélectionné
-          {multipleDocument.length > 1 ? 's' : ''}
-          <ul className="flex flex-col mt-3 gap-0 w-full">
-            {multipleDocument.map((doc, index) => (
-              <li key={index} className="flex gap-2 items-center text-sm text-ellipsis">
-                <div className="min-w-40 truncate">{doc}</div>
-                <Button
-                  className="ml-2 text-dsfr-text-actionHigh-redMarianne-default"
-                  type="button"
-                  priority="tertiary no outline"
-                  size="small"
-                  onClick={() => handleFileRemove(index)}
-                >
-                  <Icon id="fr-icon-delete-line" size="sm" className="md:mr-1" />
-                </Button>
-              </li>
-            ))}
-          </ul>
+        <div className={clsx('text-sm truncate m-0 p-0', state === 'error' && 'text-theme-error')}>
+          {documentFilenames.length === 0 && 'Aucun document sélectionné'}
+          {documentFilenames.length === 1 && documentFilenames[0]}
+          {documentFilenames.length > 1 && (
+            <>
+              <div>{documentFilenames.length} documents séléctionnés</div>
+              <Link href="#" onClick={() => modal.open()}>
+                Voir les fichiers sélectionnées
+              </Link>
+
+              <modal.Component title="Fichiers sélectionnés">
+                <ul className="flex flex-col mt-4 w-full">
+                  {documentFilenames.map((doc, index) => (
+                    <li
+                      key={doc}
+                      className="flex flex-row text-sm items-center px-3 border-b-[1px] border-b-dsfr-border-default-grey-default"
+                    >
+                      <div className="truncate">{doc}</div>
+
+                      <Button
+                        type="button"
+                        size="small"
+                        priority="tertiary no outline"
+                        iconId="fr-icon-delete-bin-line"
+                        onClick={() => handleFileRemove(index)}
+                      >
+                        supprimer
+                      </Button>
+                    </li>
+                  ))}
+                </ul>
+
+                <div className="flex flex-row-reverse mt-5">
+                  <Button
+                    type="button"
+                    size="small"
+                    priority="tertiary no outline"
+                    iconId="fr-icon-delete-bin-line"
+                    onClick={() => {
+                      handleRemoveAllFiles();
+                      modal.close();
+                    }}
+                  >
+                    Supprimer tous les documents
+                  </Button>
+                </div>
+              </modal.Component>
+            </>
+          )}
         </div>
-      )}
+      </div>
     </div>
   );
 };
