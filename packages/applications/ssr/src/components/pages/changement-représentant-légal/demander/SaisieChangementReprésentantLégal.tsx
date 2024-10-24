@@ -9,20 +9,23 @@ import { UploadDocument } from '@/components/atoms/form/UploadDocument';
 
 import { DemanderChangementReprésentantLégalFormKeys } from './demanderChangementReprésentantLégal.action';
 
-export type Saisie = {
+export type SaisieChangementReprésentantLégal = {
   typePersonne: string | undefined;
   nomReprésentantLégal: string;
   piècesJustificatives: ReadonlyArray<string>;
 };
 
-export type SaisieProps = {
-  onChange?: (changes: Saisie) => void;
+export type SaisieChangementReprésentantLégalProps = {
+  onChange?: (changes: SaisieChangementReprésentantLégal) => void;
   validationErrors: ValidationErrors<DemanderChangementReprésentantLégalFormKeys>;
 };
 
 type TypeDePersonne = 'Personne physique' | 'Personne morale' | 'Collectivité' | 'Autre';
 
-export const Saisie: FC<SaisieProps> = ({ validationErrors, onChange }) => {
+export const SaisieChangementReprésentantLégal: FC<SaisieChangementReprésentantLégalProps> = ({
+  validationErrors,
+  onChange,
+}) => {
   const [typePersonne, selectTypePersonne] = useState<TypeDePersonne>();
   const [nomReprésentantLégal, setNomReprésentantLégal] = useState('');
   const [piècesJustificatives, setPiècesJustificatives] = useState<ReadonlyArray<string>>([]);

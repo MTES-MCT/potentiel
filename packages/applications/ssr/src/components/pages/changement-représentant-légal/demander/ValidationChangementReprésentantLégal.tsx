@@ -2,14 +2,12 @@
 import { FC } from 'react';
 import { Alert } from '@codegouvfr/react-dsfr/Alert';
 
-import { Saisie } from './Saisie';
+import { SaisieChangementReprésentantLégal } from './SaisieChangementReprésentantLégal';
 
-type ValidationProps = Saisie;
-export const Validation: FC<ValidationProps> = ({
-  typePersonne,
-  nomReprésentantLégal,
-  piècesJustificatives,
-}) => (
+type ValidationChangementReprésentantLégalProps = SaisieChangementReprésentantLégal;
+export const ValidationChangementReprésentantLégal: FC<
+  ValidationChangementReprésentantLégalProps
+> = ({ typePersonne, nomReprésentantLégal, piècesJustificatives }) => (
   <div className="flex flex-col gap-4">
     <Alert
       severity="info"

@@ -4,7 +4,7 @@ import { FC } from 'react';
 import Alert from '@codegouvfr/react-dsfr/Alert';
 import Accordion from '@codegouvfr/react-dsfr/Accordion';
 
-export const Description: FC<{}> = () => (
+export const DescriptionDémarcheChangementReprésentantLégal: FC = () => (
   <div className="flex flex-col gap-4">
     <p>
       Conformément au cahier des charges en vigueur sur votre projet et afin de faciliter
@@ -26,12 +26,12 @@ export const Description: FC<{}> = () => (
       <Situation
         nom="Une personne morale"
         informationÀRemplir="le nom de la société"
-        pièceJustificativesÀJoindre="un extrait Kbis, pour les sociétés en cours de constitutionv une copie des statuts de la société en cours de constitution, une attestation de récépissé de dépôt de fonds pour constitution de capital social et une copie de l’acte désignant le représentant légal de la société"
+        pièceJustificativesÀJoindre="un extrait Kbis, pour les sociétés en cours de constitution une copie des statuts de la société en cours de constitution, une attestation de récépissé de dépôt de fonds pour constitution de capital social et une copie de l’acte désignant le représentant légal de la société"
       />
       <Situation
         nom="Une collectivité"
         informationÀRemplir="le nom de la collectivité"
-        pièceJustificativesÀJoindre="unn extrait de délibération portant sur le projet objet de l'offre"
+        pièceJustificativesÀJoindre="un extrait de délibération portant sur le projet objet de l'offre"
       />
       <Situation
         nom="Un organisme ou autre"
@@ -46,16 +46,16 @@ export const Description: FC<{}> = () => (
       description=<ul className="p-4 list-disc">
         <li>
           Un filigrane sera automatiquement appliqué sur l'ensemble des pièces justificatives
-          transmise
+          transmises
         </li>
         <li>Les pièces seront automatiquement supprimées après traitement de votre demande</li>
       </ul>
     />
 
     <p>
-      Ensuite votre demande sera instruite par la direction départementale de la région de votre
-      projet. À défaut de réponse, votre demande sera réputée accordée ou rejetée conformément aux
-      règles du cahier des charges en vigueur sur votre projet.
+      Ensuite votre demande sera instruite par le service de l'état en région de votre projet. À
+      défaut de réponse, votre demande sera réputée accordée ou rejetée conformément aux règles du
+      cahier des charges en vigueur sur votre projet.
     </p>
     <p>Pour démarrer la démarche veuillez cliquer sur le bouton "Commencer"</p>
   </div>

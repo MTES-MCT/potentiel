@@ -5,11 +5,11 @@ import { Stepper } from '@codegouvfr/react-dsfr/Stepper';
 
 import { Form } from '@/components/atoms/form/Form';
 import { ValidationErrors } from '@/utils/formAction';
+import { Step, Steps } from '@/components/molecules/step/Steps';
 
-import { Step, Steps } from './Steps';
-import { Description } from './Description';
-import { Saisie } from './Saisie';
-import { Validation } from './Validation';
+import { DescriptionDémarcheChangementReprésentantLégal } from './DescriptionDémarcheChangementReprésentantLégal';
+import { SaisieChangementReprésentantLégal } from './SaisieChangementReprésentantLégal';
+import { ValidationChangementReprésentantLégal } from './ValidationChangementReprésentantLégal';
 import {
   demanderChangementReprésentantLégalAction,
   DemanderChangementReprésentantLégalFormKeys,
@@ -27,7 +27,7 @@ export const DemanderChangementReprésentantLégalForm: FC<
   >({});
 
   const [currentStep, setCurrentStep] = useState(1);
-  const [saisie, setSaisie] = useState<Saisie>({
+  const [saisie, setSaisie] = useState<SaisieChangementReprésentantLégal>({
     typePersonne: undefined,
     nomReprésentantLégal: '',
     piècesJustificatives: [],
@@ -37,14 +37,17 @@ export const DemanderChangementReprésentantLégalForm: FC<
     {
       index: 1,
       name: `Description de la démarche`,
-      children: <Description />,
+      children: <DescriptionDémarcheChangementReprésentantLégal />,
       nextStep: { type: 'link', name: 'Commencer' },
     },
     {
       index: 2,
       name: `Renseigner les informations concernant le changement`,
       children: (
-        <Saisie validationErrors={validationErrors} onChange={(changes) => setSaisie(changes)} />
+        <SaisieChangementReprésentantLégal
+          validationErrors={validationErrors}
+          onChange={(changes) => setSaisie(changes)}
+        />
       ),
       previousStep: { name: 'Précédent' },
       nextStep: { type: 'link', name: 'Vérifier' },
@@ -53,7 +56,7 @@ export const DemanderChangementReprésentantLégalForm: FC<
       index: 3,
       name: `Confirmer la demande de changement`,
       children: (
-        <Validation
+        <ValidationChangementReprésentantLégal
           typePersonne={saisie.typePersonne}
           nomReprésentantLégal={saisie.nomReprésentantLégal}
           piècesJustificatives={saisie.piècesJustificatives}
