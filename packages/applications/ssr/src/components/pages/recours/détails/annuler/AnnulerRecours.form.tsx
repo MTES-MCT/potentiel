@@ -33,7 +33,6 @@ export const AnnulerRecours = ({ identifiantProjet }: AnnulerRecoursFormProps) =
         onClose={() => setIsOpen(false)}
         form={{
           action: annulerRecoursAction,
-          method: 'POST',
           id: 'annuler-recours-form',
           omitMandatoryFieldsLegend: true,
           children: (

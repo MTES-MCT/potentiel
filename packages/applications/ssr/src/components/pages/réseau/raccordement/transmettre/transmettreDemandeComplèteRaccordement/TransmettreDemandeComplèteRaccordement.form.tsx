@@ -59,8 +59,6 @@ export const TransmettreDemandeComplèteRaccordementForm = ({
 
   return (
     <Form
-      method="POST"
-      encType="multipart/form-data"
       action={transmettreDemandeComplèteRaccordementAction}
       heading="Transmettre une demande complète de raccordement"
       onValidationError={(validationErrors) => setValidationErrors(validationErrors)}

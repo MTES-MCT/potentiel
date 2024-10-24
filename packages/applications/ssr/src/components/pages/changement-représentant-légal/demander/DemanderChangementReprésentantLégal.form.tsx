@@ -80,8 +80,6 @@ export const DemanderChangementReprésentantLégalForm: FC<
       <Form
         action={demanderChangementReprésentantLégalAction}
         onInvalid={() => setCurrentStep(2)}
-        method="POST"
-        encType="multipart/form-data"
         onValidationError={(validationErrors) => {
           setValidationErrors(validationErrors);
           setCurrentStep(2);

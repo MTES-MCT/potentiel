@@ -41,8 +41,6 @@ export const RejeterRecours = ({ identifiantProjet }: RejeterRecoursFormProps) =
         onClose={() => setIsOpen(false)}
         form={{
           action: rejeterRecoursAction,
-          method: 'POST',
-          encType: 'multipart/form-data',
           id: 'rejeter-recours-form',
           onValidationError: (validationErrors) => setValidationErrors(validationErrors),
           children: (

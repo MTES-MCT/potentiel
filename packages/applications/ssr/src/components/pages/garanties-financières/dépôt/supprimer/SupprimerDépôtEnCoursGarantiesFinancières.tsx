@@ -31,8 +31,6 @@ export const SupprimerDépôtEnCoursGarantiesFinancières = ({
         onClose={() => setIsOpen(false)}
         form={{
           id: 'supprimer-garanties-financieres-a-traiter-form',
-          method: 'POST',
-          encType: 'multipart/form-data',
           omitMandatoryFieldsLegend: true,
           action: supprimerDépôtEnCoursGarantiesFinancièresAction,
           children: (
