@@ -56,13 +56,13 @@ const action: FormAction<FormState, typeof schema> = async (_, { fichierImportCa
       } catch (error) {
         if (error instanceof DomainError) {
           errors.push({
-            key: line.nomProjet,
+            key: `${line.numéroCRE} - ${line.nomProjet}`,
             reason: error.message,
           });
           continue;
         }
         errors.push({
-          key: line.nomProjet,
+          key: `${line.numéroCRE} - ${line.nomProjet}`,
           reason: `Une erreur inconnue empêche l'import des candidatures`,
         });
       }
@@ -92,8 +92,8 @@ const mapLineToUseCaseData = (
   line: CandidatureShape,
   rawLine: Record<string, string>,
 ): Omit<Candidature.ImporterCandidatureUseCase['data'], 'importéLe' | 'importéPar'> => ({
-  typeGarantiesFinancièresValue: line.type_gf,
-  historiqueAbandonValue: line.historique_abandon,
+  typeGarantiesFinancièresValue: line.typeGf,
+  historiqueAbandonValue: line.historiqueAbandon,
   appelOffreValue: line.appelOffre,
   périodeValue: line.période,
   familleValue: line.famille,

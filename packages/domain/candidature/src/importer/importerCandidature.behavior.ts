@@ -129,6 +129,7 @@ export async function importer(
   }
 
   if (
+    candidature.statut.estClassé() &&
     candidature.typeGarantiesFinancières &&
     candidature.typeGarantiesFinancières.estAvecDateÉchéance() &&
     !candidature.dateÉchéanceGf

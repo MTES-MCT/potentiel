@@ -80,8 +80,8 @@ const mapLineToUseCaseData = (
   line: CandidatureShape,
   rawLine: Record<string, string>,
 ): Omit<Candidature.ImporterCandidatureUseCase['data'], 'importéLe' | 'importéPar'> => ({
-  typeGarantiesFinancièresValue: line.type_gf,
-  historiqueAbandonValue: line.historique_abandon,
+  typeGarantiesFinancièresValue: line.typeGf,
+  historiqueAbandonValue: line.historiqueAbandon,
   appelOffreValue: line.appelOffre,
   périodeValue: line.période,
   familleValue: line.famille,

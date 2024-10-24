@@ -68,6 +68,7 @@ export async function corriger(
   }
 
   if (
+    candidature.statut.estClassé() &&
     candidature.typeGarantiesFinancières &&
     candidature.typeGarantiesFinancières.estAvecDateÉchéance() &&
     !candidature.dateÉchéanceGf
