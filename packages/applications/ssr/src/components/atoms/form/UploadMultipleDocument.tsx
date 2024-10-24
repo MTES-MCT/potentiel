@@ -36,6 +36,8 @@ export const UploadMultipleDocument: FC<UploadMultipleDocumentProps> = ({
   const hiddenFileInput = React.useRef<HTMLInputElement>(null);
   const acceptedFormats = formats.map((format) => `.${format}`).join(',');
 
+  const extractFileName = (path: string) => path.replace(/^.*[\\/]/, '');
+
   const browseForFile = () => {
     hiddenFileInput?.current?.click();
   };
@@ -80,6 +82,15 @@ export const UploadMultipleDocument: FC<UploadMultipleDocumentProps> = ({
     setMultipleDocument(multipleDocument.filter((_, i) => i !== index));
   };
 
+  const handleRemoveAllFiles = () => {
+    if (!hiddenFileInput.current || !hiddenFileInput.current.files) {
+      return;
+    }
+
+    hiddenFileInput.current.files = null;
+    setMultipleDocument([]);
+  };
+
   const [multipleDocument, setMultipleDocument] = useState<Array<string>>([]);
 
   return (
@@ -92,7 +103,9 @@ export const UploadMultipleDocument: FC<UploadMultipleDocumentProps> = ({
       </div>
       {hintText && <div className="fr-hint-text">{hintText}</div>}
 
-      <div className="flex items-start justify-start relative mt-3 gap-3">
+      <div
+        className={`flex ${multipleDocument.length === 0 ? 'items-center' : 'items-start'} justify-start relative mt-3 gap-3`}
+      >
         <input
           name={name}
           required={required}
@@ -113,11 +126,19 @@ export const UploadMultipleDocument: FC<UploadMultipleDocumentProps> = ({
           <p className="text-sm truncate m-0 p-0">Aucun document sélectionné</p>
         ) : (
           <div>
-            <div>Documents sélectionnés :</div>
+            <Button
+              className="ml-2 text-dsfr-text-actionHigh-redMarianne-default"
+              type="button"
+              priority="tertiary no outline"
+              onClick={() => handleRemoveAllFiles()}
+            >
+              <Icon id="fr-icon-delete-line" size="sm" className="md:mr-1" />
+              <span className="hidden md:inline-block text-sm">Supprimer tout les documents</span>
+            </Button>
             <ul className="flex flex-col mt-3 gap-0 w-full">
               {multipleDocument.map((doc, index) => (
-                <li key={index} className="text-sm text-ellipsis">
-                  <div className="">{doc}</div>
+                <li key={index} className="flex gap-2 items-center text-sm text-ellipsis">
+                  <div className="min-w-40 truncate">{doc}</div>
                   <Button
                     className="ml-2 text-dsfr-text-actionHigh-redMarianne-default"
                     type="button"
@@ -126,7 +147,6 @@ export const UploadMultipleDocument: FC<UploadMultipleDocumentProps> = ({
                     onClick={() => handleFileRemove(index)}
                   >
                     <Icon id="fr-icon-delete-line" size="sm" className="md:mr-1" />
-                    <span className="hidden md:inline-block text-sm">Supprimer</span>
                   </Button>
                 </li>
               ))}
@@ -137,5 +157,3 @@ export const UploadMultipleDocument: FC<UploadMultipleDocumentProps> = ({
     </div>
   );
 };
-
-const extractFileName = (path: string) => path.replace(/^.*[\\/]/, '');
