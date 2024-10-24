@@ -88,39 +88,40 @@ const action: FormAction<FormState, typeof schema> = async (
       } else {
         errors.push(errorAttribution);
       }
-    }
-    const dossiers = await mediator.send<Raccordement.RechercherDossierRaccordementQuery>({
-      type: 'Réseau.Raccordement.Query.RechercherDossierRaccordement',
-      data: {
-        référenceDossierRaccordement: referenceDossier,
-      },
-    });
-
-    if (dossiers.length === 0) {
-      errors.push({
-        key: referenceDossier,
-        reason: 'Aucun dossier correspondant',
+    } else {
+      const dossiers = await mediator.send<Raccordement.RechercherDossierRaccordementQuery>({
+        type: 'Réseau.Raccordement.Query.RechercherDossierRaccordement',
+        data: {
+          référenceDossierRaccordement: referenceDossier,
+        },
       });
 
-      continue;
-    }
+      if (dossiers.length === 0) {
+        errors.push({
+          key: referenceDossier,
+          reason: 'Aucun dossier correspondant',
+        });
 
-    for (const dossier of dossiers) {
-      const errorAttribution = await vérifierAttributionGestionnaireRéseau(
-        dossier.identifiantGestionnaireRéseau,
-        identifiantGestionnaireRéseauSélectionné,
-        referenceDossier,
-      );
+        continue;
+      }
 
-      if (!errorAttribution) {
-        const errorTransmission = await transmettreDateDeMiseEnService(
-          dossier.identifiantProjet.formatter(),
+      for (const dossier of dossiers) {
+        const errorAttribution = await vérifierAttributionGestionnaireRéseau(
+          dossier.identifiantGestionnaireRéseau,
+          identifiantGestionnaireRéseauSélectionné,
           referenceDossier,
-          dateMiseEnService,
         );
-        errorTransmission && errors.push(errorTransmission);
-      } else {
-        errors.push(errorAttribution);
+
+        if (!errorAttribution) {
+          const errorTransmission = await transmettreDateDeMiseEnService(
+            dossier.identifiantProjet.formatter(),
+            referenceDossier,
+            dateMiseEnService,
+          );
+          errorTransmission && errors.push(errorTransmission);
+        } else {
+          errors.push(errorAttribution);
+        }
       }
     }
   }
