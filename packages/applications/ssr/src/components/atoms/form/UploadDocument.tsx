@@ -26,6 +26,7 @@ export type UploadDocumentProps = {
   stateRelatedMessage?: React.ReactNode;
   format?: 'pdf' | 'csv';
   hintText?: string;
+  onChange?: (fileNames: Array<string>) => void;
 };
 
 export const UploadDocument: FC<UploadDocumentProps> = (props) => {
@@ -42,6 +43,7 @@ const UploadNewDocument: FC<Omit<UploadDocumentProps, 'documentKey'>> = ({
   label,
   format = 'pdf',
   className = '',
+  onChange,
   ...props
 }) => {
   const hiddenFileInput = React.useRef<HTMLInputElement>(null);
@@ -71,6 +73,7 @@ const UploadNewDocument: FC<Omit<UploadDocumentProps, 'documentKey'>> = ({
           onChange={(e) => {
             const fileName = extractFileName(e.currentTarget.value);
             setUploadFileName(fileName);
+            onChange && onChange([fileName]);
           }}
         />
         <Button className="!mt-0" type="button" priority="secondary" onClick={browseForFile}>
@@ -119,6 +122,7 @@ const KeepOrEditDocument: FC<UploadDocumentProps & { documentKey: string }> = ({
   state,
   documentKey,
   format = 'pdf',
+  onChange,
   ...props
 }) => {
   const hiddenFileInput = React.useRef<HTMLInputElement>(null);
@@ -177,6 +181,7 @@ const KeepOrEditDocument: FC<UploadDocumentProps & { documentKey: string }> = ({
                   onChange={(e) => {
                     const fileName = extractFileName(e.currentTarget.value);
                     setUploadFileName(fileName);
+                    onChange && onChange([fileName]);
                   }}
                 />
               )}
