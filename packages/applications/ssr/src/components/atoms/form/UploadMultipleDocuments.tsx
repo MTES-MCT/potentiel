@@ -9,7 +9,7 @@ import { DEFAULT_FILE_SIZE_LIMIT_IN_MB } from '@/utils/zod/documentTypes';
 
 import { Icon } from '../Icon';
 
-export type UploadMultipleDocumentProps = {
+export type UploadMultipleDocumentsProps = {
   className?: string;
   label: React.ReactNode;
   name: string;
@@ -22,7 +22,7 @@ export type UploadMultipleDocumentProps = {
   hintText?: string;
 };
 
-export const UploadMultipleDocument: FC<UploadMultipleDocumentProps> = ({
+export const UploadMultipleDocuments: FC<UploadMultipleDocumentsProps> = ({
   className,
   state,
   label,

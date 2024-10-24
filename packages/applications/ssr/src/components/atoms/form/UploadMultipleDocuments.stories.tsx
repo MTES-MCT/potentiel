@@ -1,15 +1,15 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
-import { UploadMultipleDocument, UploadMultipleDocumentProps } from './UploadMultipleDocument';
+import { UploadMultipleDocuments, UploadMultipleDocumentsProps } from './UploadMultipleDocuments';
 
 // More on how to set up stories at: https://storybook.js.org/docs/writing-stories#default-export
 const meta = {
-  title: 'Atoms/Form/UploadMultipleDocument',
-  component: UploadMultipleDocument,
+  title: 'Atoms/Form/UploadMultipleDocuments',
+  component: UploadMultipleDocuments,
   parameters: {},
   tags: ['autodocs'],
   argTypes: {},
-} satisfies Meta<UploadMultipleDocumentProps>;
+} satisfies Meta<UploadMultipleDocumentsProps>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
