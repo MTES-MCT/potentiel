@@ -5,7 +5,7 @@ import { FC, useState } from 'react';
 
 import { Form } from '@/components/atoms/form/Form';
 import { SubmitButton } from '@/components/atoms/form/SubmitButton';
-import { UploadDocument } from '@/components/atoms/form/UploadDocument';
+import { InputDocument } from '@/components/atoms/form/InputDocument';
 import { ValidationErrors } from '@/utils/formAction';
 
 import { demanderRecoursAction, DemanderRecoursFormKeys } from './demanderRecours.action';
@@ -38,7 +38,7 @@ export const DemanderRecoursForm: FC<DemanderRecoursFormProps> = ({ identifiantP
         stateRelatedMessage={validationErrors['raison']}
       />
 
-      <UploadDocument
+      <InputDocument
         label={'Pièce justificative'}
         id="pieceJustificative"
         name="pieceJustificative"

@@ -6,7 +6,7 @@ import { useState } from 'react';
 import { Routes } from '@potentiel-applications/routes';
 
 import { ModalWithForm } from '@/components/molecules/ModalWithForm';
-import { UploadDocument } from '@/components/atoms/form/UploadDocument';
+import { InputDocument } from '@/components/atoms/form/InputDocument';
 import { DownloadDocument } from '@/components/atoms/form/DownloadDocument';
 import { ValidationErrors } from '@/utils/formAction';
 
@@ -48,7 +48,7 @@ export const AccorderDemandeMainlevéeGarantiesFinancières = ({
             <>
               <p className="mt-3">Êtes-vous sûr de vouloir accorder la demande de mainlevée ?</p>
 
-              <UploadDocument
+              <InputDocument
                 label="Réponse signée"
                 state={validationErrors['reponseSignee'] ? 'error' : 'default'}
                 stateRelatedMessage={validationErrors['reponseSignee']}

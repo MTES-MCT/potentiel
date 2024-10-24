@@ -1,15 +1,15 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
-import { UploadDocument, UploadDocumentProps } from './UploadDocument';
+import { InputDocument, InputDocumentProps } from './InputDocument';
 
 // More on how to set up stories at: https://storybook.js.org/docs/writing-stories#default-export
 const meta = {
   title: 'Atoms/Form/UploadDocument',
-  component: UploadDocument,
+  component: InputDocument,
   parameters: {},
   tags: ['autodocs'],
   argTypes: {},
-} satisfies Meta<UploadDocumentProps>;
+} satisfies Meta<InputDocumentProps>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;

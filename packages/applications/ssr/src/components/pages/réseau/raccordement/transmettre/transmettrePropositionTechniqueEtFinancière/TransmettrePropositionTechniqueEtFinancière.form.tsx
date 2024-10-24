@@ -7,7 +7,7 @@ import Button from '@codegouvfr/react-dsfr/Button';
 import { Routes } from '@potentiel-applications/routes';
 
 import { Form } from '@/components/atoms/form/Form';
-import { UploadDocument } from '@/components/atoms/form/UploadDocument';
+import { InputDocument } from '@/components/atoms/form/InputDocument';
 import { SubmitButton } from '@/components/atoms/form/SubmitButton';
 import { ValidationErrors } from '@/utils/formAction';
 
@@ -65,7 +65,7 @@ export const TransmettrePropositionTechniqueEtFinancièreForm: FC<
         }}
       />
 
-      <UploadDocument
+      <InputDocument
         label="Proposition technique et financière signée"
         name="propositionTechniqueEtFinanciereSignee"
         id="propositionTechniqueEtFinanciereSignee"

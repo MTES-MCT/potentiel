@@ -7,7 +7,7 @@ import SelectNext from '@codegouvfr/react-dsfr/SelectNext';
 
 import { Form } from '@/components/atoms/form/Form';
 import { SubmitButton } from '@/components/atoms/form/SubmitButton';
-import { UploadDocument } from '@/components/atoms/form/UploadDocument';
+import { InputDocument } from '@/components/atoms/form/InputDocument';
 import { ValidationErrors } from '@/utils/formAction';
 
 import {
@@ -100,7 +100,7 @@ export const ModifierChangementReprésentantLégalForm: FC<
         stateRelatedMessage={validationErrors['nomRepresentantLegal']}
       />
 
-      <UploadDocument
+      <InputDocument
         label={'Pièce justificative'}
         id="pieceJustificative"
         name="pieceJustificative"

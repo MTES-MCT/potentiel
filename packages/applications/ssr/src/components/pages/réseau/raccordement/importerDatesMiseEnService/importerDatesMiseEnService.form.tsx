@@ -5,7 +5,7 @@ import { FC, useState } from 'react';
 import { Routes } from '@potentiel-applications/routes';
 
 import { Form } from '@/components/atoms/form/Form';
-import { UploadDocument } from '@/components/atoms/form/UploadDocument';
+import { InputDocument } from '@/components/atoms/form/InputDocument';
 import { SubmitButton } from '@/components/atoms/form/SubmitButton';
 import { ValidationErrors } from '@/utils/formAction';
 import { DownloadDocument } from '@/components/atoms/form/DownloadDocument';
@@ -67,7 +67,7 @@ export const ImporterDatesMiseEnServiceForm: FC<
         format="csv"
         label="Télécharger la liste des raccordements en attente de mise en service"
       />
-      <UploadDocument
+      <InputDocument
         label="Fichier des dates de mise en service"
         format="csv"
         name="fichierDatesMiseEnService"

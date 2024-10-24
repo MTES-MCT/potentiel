@@ -7,7 +7,7 @@ import { FC, useState } from 'react';
 
 import { Form } from '@/components/atoms/form/Form';
 import { SubmitButton } from '@/components/atoms/form/SubmitButton';
-import { UploadDocument } from '@/components/atoms/form/UploadDocument';
+import { InputDocument } from '@/components/atoms/form/InputDocument';
 import { ValidationErrors } from '@/utils/formAction';
 
 import { demanderAbandonAction, DemanderAbandonFormKeys } from './demanderAbandon.action';
@@ -45,7 +45,7 @@ export const DemanderAbandonForm: FC<DemanderAbandonFormProps> = ({
         stateRelatedMessage={validationErrors['raison']}
       />
 
-      <UploadDocument
+      <InputDocument
         label={`Pièce justificative${recandidature ? ' (optionnel)' : ''}`}
         id="pieceJustificative"
         name="pieceJustificative"

@@ -26,6 +26,7 @@ export type UploadMultipleDocumentsProps = {
 export const UploadMultipleDocuments: FC<UploadMultipleDocumentsProps> = ({
   className,
   state,
+  stateRelatedMessage,
   label,
   name,
   formats = ['pdf', 'jpeg', 'jpg', 'png'],
@@ -178,6 +179,14 @@ export const UploadMultipleDocuments: FC<UploadMultipleDocumentsProps> = ({
           )}
         </div>
       </div>
+      {state === 'error' ? (
+        <div className="flex flex-row gap-2 items-center mt-2">
+          <Icon id="fr-icon-error-fill" className="text-theme-error" size="sm" />
+          <p className="truncate p-0 text-theme-error text-xs">{stateRelatedMessage}</p>
+        </div>
+      ) : (
+        <p className="text-sm truncate p-0 fr-hint-text">{stateRelatedMessage}</p>
+      )}
     </div>
   );
 };

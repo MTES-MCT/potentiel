@@ -4,7 +4,7 @@ import { FC, useState } from 'react';
 
 import { Form } from '@/components/atoms/form/Form';
 import { SubmitButton } from '@/components/atoms/form/SubmitButton';
-import { UploadDocument } from '@/components/atoms/form/UploadDocument';
+import { InputDocument } from '@/components/atoms/form/InputDocument';
 import { ValidationErrors } from '@/utils/formAction';
 
 import {
@@ -30,7 +30,7 @@ export const CorrigerCandidaturesForm: FC = () => {
       successMessage={'candidats corrigés'}
       actions={<SubmitButton>Corriger</SubmitButton>}
     >
-      <UploadDocument
+      <InputDocument
         label="Fichier CSV"
         id="fichierCorrectionCandidatures"
         name="fichierCorrectionCandidatures"

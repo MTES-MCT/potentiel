@@ -4,7 +4,7 @@ import { useState } from 'react';
 import Button from '@codegouvfr/react-dsfr/Button';
 
 import { ModalWithForm } from '@/components/molecules/ModalWithForm';
-import { UploadDocument } from '@/components/atoms/form/UploadDocument';
+import { InputDocument } from '@/components/atoms/form/InputDocument';
 import { ValidationErrors } from '@/utils/formAction';
 
 import {
@@ -47,7 +47,7 @@ export const CorrigerRéponseSignée = ({
           children: (
             <>
               <p className="mt-3">Êtes-vous sûr de vouloir corriger le document ?</p>
-              <UploadDocument
+              <InputDocument
                 name="documentCorrige"
                 id="documentCorrige"
                 required
