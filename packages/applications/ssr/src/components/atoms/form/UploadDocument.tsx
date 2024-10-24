@@ -9,7 +9,7 @@ import { DEFAULT_FILE_SIZE_LIMIT_IN_MB } from '@/utils/zod/documentTypes';
 
 import { Icon } from '../Icon';
 
-export type UploadMultipleDocumentsProps = {
+export type UploadDocumentProps = {
   className?: string;
   label: React.ReactNode;
   name: string;
@@ -18,18 +18,18 @@ export type UploadMultipleDocumentsProps = {
   disabled?: boolean;
   state?: RadioButtonsProps['state'];
   stateRelatedMessage?: React.ReactNode;
-  formats?: Array<'pdf' | 'jpg' | 'jpeg' | 'png'>;
+  formats?: Array<'pdf' | 'jpg' | 'jpeg' | 'png' | 'csv'>;
   hintText?: string;
   multiple?: true;
 };
 
-export const UploadMultipleDocuments: FC<UploadMultipleDocumentsProps> = ({
+export const UploadDocument: FC<UploadDocumentProps> = ({
   className,
   state,
   stateRelatedMessage,
   label,
   name,
-  formats = ['pdf', 'jpeg', 'jpg', 'png'],
+  formats = ['pdf'],
   hintText,
   required,
   multiple,
@@ -63,7 +63,7 @@ export const UploadMultipleDocuments: FC<UploadMultipleDocumentsProps> = ({
       })
       .filter((f) => f !== undefined);
 
-    setDocumentFilenames([...documentFilenames, ...fileNames]);
+    setDocumentFilenames(multiple ? [...documentFilenames, ...fileNames] : fileNames);
   };
 
   const handleFileRemove = (index: number) => {
@@ -103,7 +103,9 @@ export const UploadMultipleDocuments: FC<UploadMultipleDocumentsProps> = ({
 
   return (
     <div className={clsx('fr-input-group', className && `${className}`)}>
-      <label className={clsx('fr-label', state === 'error' && 'text-theme-error')}>{label}</label>
+      {label && (
+        <label className={clsx('fr-label', state === 'error' && 'text-theme-error')}>{label}</label>
+      )}
       <div className="fr-hint-text">
         Formats accepté : <span className="font-semibold">{formats.join(', ')}</span>, taille
         maximale acceptée :{' '}
@@ -128,7 +130,7 @@ export const UploadMultipleDocuments: FC<UploadMultipleDocumentsProps> = ({
           <span className="hidden md:inline-block text-sm">Parcourir</span>
         </Button>
 
-        <div className={clsx('text-sm truncate m-0 p-0', state === 'error' && 'text-theme-error')}>
+        <div className="text-sm truncate m-0 p-0 text-dsfr-text-actionHigh-grey-default">
           {documentFilenames.length === 0 && 'Aucun document sélectionné'}
           {documentFilenames.length === 1 && documentFilenames[0]}
           {documentFilenames.length > 1 && (
@@ -148,6 +150,7 @@ export const UploadMultipleDocuments: FC<UploadMultipleDocumentsProps> = ({
                       <div className="truncate">{doc}</div>
 
                       <Button
+                        className="ml-auto"
                         type="button"
                         size="small"
                         priority="tertiary no outline"

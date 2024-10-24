@@ -4,7 +4,7 @@ import { InputDocument, InputDocumentProps } from './InputDocument';
 
 // More on how to set up stories at: https://storybook.js.org/docs/writing-stories#default-export
 const meta = {
-  title: 'Atoms/Form/UploadDocument',
+  title: 'Atoms/Form/InputDocument',
   component: InputDocument,
   parameters: {},
   tags: ['autodocs'],
