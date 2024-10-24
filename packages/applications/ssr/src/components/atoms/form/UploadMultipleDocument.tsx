@@ -125,35 +125,40 @@ export const UploadMultipleDocument: FC<UploadMultipleDocumentProps> = ({
         {multipleDocument.length === 0 ? (
           <p className="text-sm truncate m-0 p-0">Aucun document sélectionné</p>
         ) : (
-          <div>
-            <Button
-              className="ml-2 text-dsfr-text-actionHigh-redMarianne-default"
-              type="button"
-              priority="tertiary no outline"
-              onClick={() => handleRemoveAllFiles()}
-            >
-              <Icon id="fr-icon-delete-line" size="sm" className="md:mr-1" />
-              <span className="hidden md:inline-block text-sm">Supprimer tout les documents</span>
-            </Button>
-            <ul className="flex flex-col mt-3 gap-0 w-full">
-              {multipleDocument.map((doc, index) => (
-                <li key={index} className="flex gap-2 items-center text-sm text-ellipsis">
-                  <div className="min-w-40 truncate">{doc}</div>
-                  <Button
-                    className="ml-2 text-dsfr-text-actionHigh-redMarianne-default"
-                    type="button"
-                    priority="tertiary no outline"
-                    size="small"
-                    onClick={() => handleFileRemove(index)}
-                  >
-                    <Icon id="fr-icon-delete-line" size="sm" className="md:mr-1" />
-                  </Button>
-                </li>
-              ))}
-            </ul>
-          </div>
+          <Button
+            className="ml-2 text-dsfr-text-actionHigh-redMarianne-default"
+            type="button"
+            priority="tertiary no outline"
+            onClick={() => handleRemoveAllFiles()}
+          >
+            <Icon id="fr-icon-delete-line" size="sm" className="md:mr-1" />
+            <span className="hidden md:inline-block text-sm">Supprimer tout les documents</span>
+          </Button>
         )}
       </div>
+      {multipleDocument.length > 0 && (
+        <div className="mt-8">
+          <span className="font-semibold">{multipleDocument.length}</span> document
+          {multipleDocument.length > 1 ? 's' : ''} sélectionné
+          {multipleDocument.length > 1 ? 's' : ''}
+          <ul className="flex flex-col mt-3 gap-0 w-full">
+            {multipleDocument.map((doc, index) => (
+              <li key={index} className="flex gap-2 items-center text-sm text-ellipsis">
+                <div className="min-w-40 truncate">{doc}</div>
+                <Button
+                  className="ml-2 text-dsfr-text-actionHigh-redMarianne-default"
+                  type="button"
+                  priority="tertiary no outline"
+                  size="small"
+                  onClick={() => handleFileRemove(index)}
+                >
+                  <Icon id="fr-icon-delete-line" size="sm" className="md:mr-1" />
+                </Button>
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
     </div>
   );
 };
