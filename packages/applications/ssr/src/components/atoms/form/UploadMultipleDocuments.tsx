@@ -20,6 +20,7 @@ export type UploadMultipleDocumentsProps = {
   stateRelatedMessage?: React.ReactNode;
   formats?: Array<'pdf' | 'jpg' | 'jpeg' | 'png'>;
   hintText?: string;
+  multiple?: true;
 };
 
 export const UploadMultipleDocuments: FC<UploadMultipleDocumentsProps> = ({
@@ -30,6 +31,7 @@ export const UploadMultipleDocuments: FC<UploadMultipleDocumentsProps> = ({
   formats = ['pdf', 'jpeg', 'jpg', 'png'],
   hintText,
   required,
+  multiple,
 }) => {
   const hiddenFileInput = React.useRef<HTMLInputElement>(null);
   const acceptedFormats = formats.map((format) => `.${format}`).join(',');
@@ -115,7 +117,7 @@ export const UploadMultipleDocuments: FC<UploadMultipleDocumentsProps> = ({
           aria-required={required}
           ref={hiddenFileInput}
           type="file"
-          multiple
+          multiple={multiple}
           accept={acceptedFormats}
           className="-z-50 opacity-0 h-full absolute top-0 left-0 disabled:opacity-0"
           onChange={handleFileChange}
