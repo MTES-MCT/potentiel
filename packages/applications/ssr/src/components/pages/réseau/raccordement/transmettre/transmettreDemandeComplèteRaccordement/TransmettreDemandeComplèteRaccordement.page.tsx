@@ -1,6 +1,7 @@
 import Alert from '@codegouvfr/react-dsfr/Alert';
 import { FC } from 'react';
 
+import ScrollToTop from '@/components/molecules/ScrollToTip';
 import { ProjetBanner } from '@/components/molecules/projet/ProjetBanner';
 import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
 
@@ -39,6 +40,7 @@ export const TransmettreDemandeComplèteRaccordementPage: FC<
     banner={<ProjetBanner identifiantProjet={identifiantProjet} />}
     heading={
       <>
+        <ScrollToTop />
         <TitrePageRaccordement />
         {successMessage && <Alert severity="success" title={successMessage} />}
         {!aDéjàTransmisUneDemandeComplèteDeRaccordement && (
