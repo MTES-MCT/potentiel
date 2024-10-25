@@ -80,7 +80,6 @@ export const TransmettrePreuveRecandidature = ({
         <Form
           key={id}
           action={transmettrePreuveRecandidatureAction}
-          method="POST"
           onValidationError={(validationErrors) => setValidationErrors(validationErrors)}
           actions={
             <>

@@ -48,8 +48,6 @@ export const ModifierGestionnaireRéseauForm: FC<ModifierGestionnaireRéseauForm
   return (
     <Form
       action={modifierGestionnaireRéseauAction}
-      method="POST"
-      encType="multipart/form-data"
       onValidationError={(validationErrors) => setValidationErrors(validationErrors)}
       actions={<SubmitButton>Modifier</SubmitButton>}
     >

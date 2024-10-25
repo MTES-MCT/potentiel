@@ -33,7 +33,6 @@ export const ConfirmerAbandon = ({ identifiantProjet }: ConfirmerAbandonFormProp
         onClose={() => setIsOpen(false)}
         form={{
           action: confirmerAbandonAction,
-          method: 'POST',
           id: 'confirmer-abandon-form',
           omitMandatoryFieldsLegend: true,
           children: (

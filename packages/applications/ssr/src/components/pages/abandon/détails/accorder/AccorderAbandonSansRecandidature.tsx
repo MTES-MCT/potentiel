@@ -46,8 +46,6 @@ export const AccorderAbandonSansRecandidature = ({
         onClose={() => setIsOpen(false)}
         form={{
           action: accorderAbandonSansRecandidatureAction,
-          method: 'POST',
-          encType: 'multipart/form-data',
           id: 'accorder-abandon-form',
           onValidationError: (validationErrors) => setValidationErrors(validationErrors),
           children: (

@@ -35,8 +35,6 @@ export const DémarrerInstructionDemandeMainlevéeGarantiesFinancières = ({
         onClose={() => setIsOpen(false)}
         form={{
           action: démarrerInstructionDemandeMainlevéeGarantiesFinancièresAction,
-          method: 'POST',
-          encType: 'multipart/form-data',
           omitMandatoryFieldsLegend: true,
           children: (
             <>
