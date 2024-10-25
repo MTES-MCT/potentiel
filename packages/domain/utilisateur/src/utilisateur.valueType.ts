@@ -2,7 +2,7 @@ import { OperationRejectedError, ReadonlyValueType } from '@potentiel-domain/cor
 import { Option } from '@potentiel-libraries/monads';
 
 import * as Role from './role.valueType';
-import * as Groupe from './group.valueType';
+import * as Groupe from './groupe.valueType';
 import * as IdentifiantUtilisateur from './identifiantUtilisateur.valueType';
 
 export type ValueType = ReadonlyValueType<{
