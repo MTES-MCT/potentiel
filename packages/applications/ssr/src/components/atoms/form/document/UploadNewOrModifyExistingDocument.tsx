@@ -8,7 +8,9 @@ export type UploadNewOrModifyExistingDocumentProps = UploadDocumentProps | KeepO
 export const UploadNewOrModifyExistingDocument: FC<UploadNewOrModifyExistingDocumentProps> = (
   props,
 ) => {
-  return isKeepOrEditDocumentProps(props) ? (
+  return isKeepOrEditDocumentProps(props) && props.multiple ? (
+    <KeepOrEditDocument {...props} documentKeys={props.documentKeys} />
+  ) : isKeepOrEditDocumentProps(props) && !props.multiple ? (
     <KeepOrEditDocument {...props} documentKey={props.documentKey} />
   ) : (
     <UploadDocument {...props} />
@@ -18,5 +20,7 @@ export const UploadNewOrModifyExistingDocument: FC<UploadNewOrModifyExistingDocu
 const isKeepOrEditDocumentProps = (
   props: UploadDocumentProps | KeepOrEditDocumentProps,
 ): props is KeepOrEditDocumentProps =>
-  Object.hasOwn(props, 'documentKey') &&
-  (props as { documentKey?: string }).documentKey !== undefined;
+  (Object.hasOwn(props, 'documentKey') &&
+    (props as { documentKey?: string }).documentKey !== undefined) ||
+  (Object.hasOwn(props, 'documentKeys') &&
+    (props as { documentKeys?: Array<string> }).documentKeys !== undefined);

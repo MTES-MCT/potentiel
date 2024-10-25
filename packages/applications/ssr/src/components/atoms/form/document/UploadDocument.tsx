@@ -106,7 +106,7 @@ export const UploadDocument: FC<UploadDocumentProps> = ({
 
   const [modal] = useState(
     createModal({
-      id: `form-modal-files-${name}`,
+      id: `form-modal-files-to-upload-${name}`,
       isOpenedByDefault: false,
     }),
   );
