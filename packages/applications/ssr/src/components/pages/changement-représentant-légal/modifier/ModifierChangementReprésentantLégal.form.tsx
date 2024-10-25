@@ -104,6 +104,7 @@ export const ModifierChangementReprésentantLégalForm: FC<
         label={'Pièce justificative'}
         id="pieceJustificative"
         name="pieceJustificative"
+        formats={['pdf']}
         hintText={getPièceJustificativeHintText()}
         required
         state={validationErrors['pieceJustificative'] ? 'error' : 'default'}

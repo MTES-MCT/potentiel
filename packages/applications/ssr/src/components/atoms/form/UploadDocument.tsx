@@ -13,12 +13,12 @@ export type UploadDocumentProps = {
   className?: string;
   label: React.ReactNode;
   name: string;
+  formats: Array<'pdf' | 'jpg' | 'jpeg' | 'png' | 'csv'>;
   id?: string;
   required?: boolean;
   disabled?: boolean;
   state?: RadioButtonsProps['state'];
   stateRelatedMessage?: React.ReactNode;
-  formats?: Array<'pdf' | 'jpg' | 'jpeg' | 'png' | 'csv'>;
   hintText?: string;
   multiple?: true;
 };
@@ -29,7 +29,7 @@ export const UploadDocument: FC<UploadDocumentProps> = ({
   stateRelatedMessage,
   label,
   name,
-  formats = ['pdf'],
+  formats,
   hintText,
   required,
   multiple,

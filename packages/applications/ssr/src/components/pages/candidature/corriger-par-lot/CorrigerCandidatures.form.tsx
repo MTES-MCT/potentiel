@@ -35,7 +35,7 @@ export const CorrigerCandidaturesForm: FC = () => {
         id="fichierCorrectionCandidatures"
         name="fichierCorrectionCandidatures"
         required
-        format="csv"
+        formats={['csv']}
         state={validationErrors['fichierCorrectionCandidatures'] ? 'error' : 'default'}
         stateRelatedMessage={validationErrors['fichierCorrectionCandidatures']}
       />

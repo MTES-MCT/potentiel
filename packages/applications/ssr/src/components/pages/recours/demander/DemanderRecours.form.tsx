@@ -43,6 +43,7 @@ export const DemanderRecoursForm: FC<DemanderRecoursFormProps> = ({ identifiantP
         id="pieceJustificative"
         name="pieceJustificative"
         required
+        formats={['pdf']}
         state={validationErrors['pieceJustificative'] ? 'error' : 'default'}
         stateRelatedMessage={validationErrors['pieceJustificative']}
       />

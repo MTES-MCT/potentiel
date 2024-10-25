@@ -69,7 +69,7 @@ export const ImporterDatesMiseEnServiceForm: FC<
       />
       <InputDocument
         label="Fichier des dates de mise en service"
-        format="csv"
+        formats={['csv']}
         name="fichierDatesMiseEnService"
         id="fichierDatesMiseEnService"
         required

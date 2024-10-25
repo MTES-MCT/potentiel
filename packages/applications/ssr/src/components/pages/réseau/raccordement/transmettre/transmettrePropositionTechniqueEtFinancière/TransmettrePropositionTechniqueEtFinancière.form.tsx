@@ -70,6 +70,7 @@ export const TransmettrePropositionTechniqueEtFinancièreForm: FC<
         name="propositionTechniqueEtFinanciereSignee"
         id="propositionTechniqueEtFinanciereSignee"
         required
+        formats={['pdf']}
         state={validationErrors['propositionTechniqueEtFinanciereSignee'] ? 'error' : 'default'}
         stateRelatedMessage={validationErrors['propositionTechniqueEtFinanciereSignee']}
       />

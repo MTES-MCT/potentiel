@@ -54,6 +54,7 @@ export const AccorderRecours = ({ identifiantProjet }: AccorderRecoursFormProps)
                 name="reponseSignee"
                 required
                 className="mb-4"
+                formats={['pdf']}
               />
 
               <DownloadDocument

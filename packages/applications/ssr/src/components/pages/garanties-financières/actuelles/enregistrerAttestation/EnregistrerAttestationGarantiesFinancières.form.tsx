@@ -66,6 +66,7 @@ export const EnregistrerAttestationGarantiesFinancièresForm: FC<
         label="Attestation de constitution"
         name="attestation"
         required
+        formats={['pdf']}
         state={validationErrors['attestation'] ? 'error' : 'default'}
         stateRelatedMessage={validationErrors['attestation']}
       />

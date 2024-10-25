@@ -51,6 +51,7 @@ export const CorrigerRéponseSignée = ({
                 name="documentCorrige"
                 id="documentCorrige"
                 required
+                formats={['pdf']}
                 label="Nouvelle réponse signée"
                 state={validationErrors['documentCorrige'] ? 'error' : 'default'}
                 stateRelatedMessage={validationErrors['documentCorrige']}

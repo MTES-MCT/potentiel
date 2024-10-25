@@ -18,5 +18,6 @@ export const Default: Story = {
   args: {
     name: 'test_1',
     label: 'Téléverser des documents',
+    formats: ['pdf'],
   },
 };

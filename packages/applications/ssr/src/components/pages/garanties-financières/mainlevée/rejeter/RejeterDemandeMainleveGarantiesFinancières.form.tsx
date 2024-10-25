@@ -55,6 +55,7 @@ export const RejeterDemandeMainlevéeGarantiesFinancières = ({
                 name="reponseSignee"
                 required
                 className="mb-4"
+                formats={['pdf']}
               />
 
               <DownloadDocument

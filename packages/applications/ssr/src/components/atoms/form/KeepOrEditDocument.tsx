@@ -15,7 +15,7 @@ export const KeepOrEditDocument: FC<KeepOrEditDocumentProps> = ({
   state,
   stateRelatedMessage,
   documentKey,
-  formats = ['pdf'],
+  formats,
   ...props
 }) => {
   const [documentSelection, setDocumentSelection] = useState<
@@ -59,7 +59,7 @@ export const KeepOrEditDocument: FC<KeepOrEditDocumentProps> = ({
             <div>
               <div>Modifier le document existant</div>
               {documentSelection === 'edit_document' && (
-                <UploadDocument {...props} label="" formats={[formats]} />
+                <UploadDocument {...props} label="" formats={formats} />
               )}
             </div>
           ),

@@ -54,6 +54,7 @@ export const RejeterRecours = ({ identifiantProjet }: RejeterRecoursFormProps) =
                 name="reponseSignee"
                 required
                 className="mb-4"
+                formats={['pdf']}
               />
 
               <DownloadDocument

@@ -88,6 +88,7 @@ export const ModifierGarantiesFinancièresActuellesForm: FC<
         name="attestation"
         id="attestation"
         required
+        formats={['pdf']}
         state={validationErrors['attestation'] ? 'error' : 'default'}
         stateRelatedMessage={validationErrors['attestation']}
         documentKey={actuelles.attestation}

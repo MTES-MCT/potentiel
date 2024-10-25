@@ -87,6 +87,7 @@ export const ModifierPropositionTechniqueEtFinancièreForm: FC<
         label="Proposition technique et financière signée"
         name="propositionTechniqueEtFinanciereSignee"
         required
+        formats={['pdf']}
         state={validationErrors['propositionTechniqueEtFinanciereSignee'] ? 'error' : 'default'}
         stateRelatedMessage={validationErrors['propositionTechniqueEtFinanciereSignee']}
         documentKey={propositionTechniqueEtFinancièreSignée}

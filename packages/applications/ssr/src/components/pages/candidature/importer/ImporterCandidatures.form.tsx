@@ -35,7 +35,7 @@ export const ImporterCandidaturesForm: FC = () => {
         id="fichierImportCandidature"
         name="fichierImportCandidature"
         required
-        format="csv"
+        formats={['csv']}
         state={validationErrors['fichierImportCandidature'] ? 'error' : 'default'}
         stateRelatedMessage={validationErrors['fichierImportCandidature']}
       />

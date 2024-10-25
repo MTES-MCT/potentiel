@@ -142,6 +142,7 @@ export const ModifierDemandeComplèteRaccordementForm: FC<
         label="Accusé de réception de la demande complète de raccordement **"
         name="accuseReception"
         required
+        formats={['pdf']}
         state={validationErrors['accuseReception'] ? 'error' : 'default'}
         stateRelatedMessage={validationErrors['accuseReception']}
         documentKey={accuséRéception}

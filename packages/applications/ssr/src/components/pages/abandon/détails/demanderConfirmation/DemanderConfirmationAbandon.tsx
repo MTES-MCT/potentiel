@@ -59,6 +59,7 @@ export const DemanderConfirmationAbandon = ({
                 name="reponseSignee"
                 required
                 className="mb-8"
+                formats={['pdf']}
               />
 
               <DownloadDocument

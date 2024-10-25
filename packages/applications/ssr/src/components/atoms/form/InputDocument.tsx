@@ -1,5 +1,4 @@
 import React, { FC } from 'react';
-import { RadioButtonsProps } from '@codegouvfr/react-dsfr/RadioButtons';
 
 import { UploadDocument, UploadDocumentProps } from './UploadDocument';
 import { KeepOrEditDocument, KeepOrEditDocumentProps } from './KeepOrEditDocument';
@@ -7,9 +6,13 @@ import { KeepOrEditDocument, KeepOrEditDocumentProps } from './KeepOrEditDocumen
 export type InputDocumentProps = UploadDocumentProps | KeepOrEditDocumentProps;
 
 export const InputDocument: FC<InputDocumentProps> = (props) => {
-  return !props.documentKey ? (
-    <UploadDocument {...props} />
-  ) : (
+  return isKeepOrEditDocumentProps(props) ? (
     <KeepOrEditDocument {...props} documentKey={props.documentKey} />
+  ) : (
+    <UploadDocument {...props} />
   );
 };
+
+const isKeepOrEditDocumentProps = (
+  props: UploadDocumentProps | KeepOrEditDocumentProps,
+): props is KeepOrEditDocumentProps => Object.hasOwn(props, 'documentKey');

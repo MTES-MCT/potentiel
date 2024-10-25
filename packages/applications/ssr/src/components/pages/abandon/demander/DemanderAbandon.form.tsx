@@ -49,6 +49,7 @@ export const DemanderAbandonForm: FC<DemanderAbandonFormProps> = ({
         label={`Pièce justificative${recandidature ? ' (optionnel)' : ''}`}
         id="pieceJustificative"
         name="pieceJustificative"
+        formats={['pdf']}
         required={!recandidature}
         state={validationErrors['pieceJustificative'] ? 'error' : 'default'}
         stateRelatedMessage={validationErrors['pieceJustificative']}
