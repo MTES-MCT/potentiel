@@ -1,15 +1,17 @@
 import { randomUUID } from 'crypto';
 
 import { DataTable, Given as EtantDonné } from '@cucumber/cucumber';
-import { faker } from '@faker-js/faker';
 import { mediator } from 'mediateur';
 
 import { executeQuery } from '@potentiel-libraries/pg-helpers';
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
-import { publish } from '@potentiel-infrastructure/pg-event-sourcing';
 import { Éliminé } from '@potentiel-domain/elimine';
 
 import { PotentielWorld } from '../../../potentiel.world';
+
+// un projet éliminé
+// est une candidature importée
+// qui a été notifiée
 
 EtantDonné('le projet éliminé {string}', async function (this: PotentielWorld, nomProjet: string) {
   await executeQuery(
@@ -93,7 +95,7 @@ EtantDonné('le projet éliminé {string}', async function (this: PotentielWorld
 
   // TODO : Hack en attendant de revoir ces steps
   const data = {
-    identifiantProjetValue: IdentifiantProjet.convertirEnValueType('PPE2 - Eolien#1##23'),
+    identifiantProjetValue: 'PPE2 - Eolien#1##23',
     notifiéLeValue: notifiéLe.formatter(),
     notifiéParValue: this.utilisateurWorld.validateurFixture.email,
     attestationValue: {
@@ -109,20 +111,6 @@ EtantDonné('le projet éliminé {string}', async function (this: PotentielWorld
     type: 'Éliminé.UseCase.NotifierÉliminé',
     data,
   });
-  // TODO : Hack en attendant de revoir ces steps
-  const éliminéNotifié: Éliminé.ÉliminéNotifiéEvent = {
-    type: 'ÉliminéNotifié-V1',
-    payload: {
-      attestation: {
-        format: 'application/pdf',
-      },
-      identifiantProjet: 'PPE2 - Eolien#1##23',
-      notifiéLe: notifiéLe.formatter(),
-      notifiéPar: faker.internet.email(),
-    },
-  };
-
-  await publish('éliminé|PPE2 - Eolien#1##23', éliminéNotifié);
 });
 
 EtantDonné(
@@ -199,6 +187,9 @@ EtantDonné(
       false,
       false,
     );
+
+    // violette
+    // ajouter le hack
 
     this.eliminéWorld.éliminéFixtures.set(nomProjet, {
       nom: nomProjet,
@@ -292,5 +283,8 @@ EtantDonné(
       identifiantProjet: IdentifiantProjet.convertirEnValueType('PPE2 - Eolien#1##23'),
       dateDésignation,
     });
+
+    // violette
+    // ajouter le hack
   },
 );

@@ -8,6 +8,7 @@ import { Role } from '@potentiel-domain/utilisateur';
 import { convertStringToReadableStream } from '../../helpers/convertStringToReadable';
 import { PotentielWorld } from '../../potentiel.world';
 
+// violette
 Quand(
   `le porteur transmet une demande complète de raccordement pour le projet {lauréat-éliminé} {string} auprès du gestionnaire de réseau {string} avec :`,
   async function (
