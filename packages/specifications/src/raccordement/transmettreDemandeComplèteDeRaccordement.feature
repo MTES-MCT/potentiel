@@ -3,9 +3,11 @@ Fonctionnalité: Transmettre une demande complète de raccordement
 
     Contexte:
         Etant donné le gestionnaire de réseau "Enedis"
+        Et le projet lauréat "Du boulodrome de Marseille"
         Et le DGEC validateur "Robert Robichet"
-        Et le projet lauréat "Du boulodrome de Marseille" V2
+        Et la candidature lauréate notifiée "Du boulodrome de Marseille"
         Et le porteur "Marcel Patoulatchi" ayant accés au projet lauréat "Du boulodrome de Marseille"
+        Et le DGEC validateur "Robert Robichet"
 
     @select
     Scénario: Un porteur de projet transmet une demande complète de raccordement pour son projet
@@ -99,7 +101,8 @@ Fonctionnalité: Transmettre une demande complète de raccordement
 
     @select
     Scénario: Impossible de transmettre une demande complète de raccordement si le projet est éliminé
-        Etant donné le projet éliminé "Du boulodrome de Marseille"
+        Etant donné le projet éliminé "Du boulodrome de Toulon"
+        Et la candidature éliminée notifiée "Du boulodrome de Toulon"
         Quand le porteur transmet une demande complète de raccordement pour le projet éliminé "Du boulodrome de Marseille" auprès du gestionnaire de réseau "Enedis" avec :
             | La date de qualification                | 2022-10-28                                                                                            |
             | La référence du dossier de raccordement | OUE-RP-2022-000033                                                                                    |

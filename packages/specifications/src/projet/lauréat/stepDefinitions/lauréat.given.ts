@@ -6,19 +6,6 @@ import { executeQuery } from '@potentiel-libraries/pg-helpers';
 import { IdentifiantProjet } from '@potentiel-domain/common';
 
 import { PotentielWorld } from '../../../potentiel.world';
-import {
-  importerCandidature,
-  notifierCandidature,
-} from '../../../candidature/stepDefinitions/candidature.given';
-
-// violette
-EtantDonné(
-  'le projet lauréat {string} V2',
-  async function (this: PotentielWorld, nomProjet: string) {
-    await importerCandidature.call(this, nomProjet, 'classé');
-    await notifierCandidature.call(this);
-  },
-);
 
 EtantDonné('le projet lauréat {string}', async function (this: PotentielWorld, nomProjet: string) {
   const dateDésignation = new Date('2022-10-27').toISOString();
@@ -29,6 +16,7 @@ EtantDonné('le projet lauréat {string}', async function (this: PotentielWorld,
     `${appelOffre}#${période}##${numéroCRE}`,
   );
 
+  // il faut que ça soit les mêmes default que sur candidature
   await executeQuery(
     `
       insert into "projects" (

@@ -5,7 +5,6 @@ import { Candidature } from '@potentiel-domain/candidature';
 import { Lauréat } from '@potentiel-domain/laureat';
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 import { Éliminé } from '@potentiel-domain/elimine';
-import { executeQuery } from '@potentiel-libraries/pg-helpers';
 
 import { PotentielWorld } from '../../potentiel.world';
 import { DeepPartial } from '../../fixture';
@@ -79,80 +78,6 @@ export async function importerCandidature(
   // TODO:
   // this should mock insert projects too
   // on est obligés de faire ça car CandidatureSaga n'est pas registered
-  await executeQuery(
-    `
-      insert into "projects" (
-        "id",
-        "appelOffreId",
-        "periodeId",
-        "numeroCRE",
-        "familleId",
-        "notifiedOn",
-        "nomCandidat",
-        "nomProjet",
-        "puissance",
-        "prixReference",
-        "evaluationCarbone",
-        "note",
-        "nomRepresentantLegal",
-        "email",
-        "codePostalProjet",
-        "communeProjet",
-        "departementProjet",
-        "regionProjet",
-        "classe",
-        "isFinancementParticipatif",
-        "isInvestissementParticipatif",
-        "engagementFournitureDePuissanceAlaPointe"
-      )
-      values (
-        $1,
-        $2,
-        $3,
-        $4,
-        $5,
-        $6,
-        $7,
-        $8,
-        $9,
-        $10,
-        $11,
-        $12,
-        $13,
-        $14,
-        $15,
-        $16,
-        $17,
-        $18,
-        $19,
-        $20,
-        $21,
-        $22
-      )
-    `,
-    randomUUID(),
-    this.candidatureWorld.importerCandidature.values.appelOffreValue,
-    this.candidatureWorld.importerCandidature.values.périodeValue,
-    this.candidatureWorld.importerCandidature.values.numéroCREValue,
-    this.candidatureWorld.importerCandidature.values.familleValue,
-    new Date().getTime(),
-    this.candidatureWorld.importerCandidature.values.nomCandidatValue,
-    this.candidatureWorld.importerCandidature.values.nomProjetValue,
-    0,
-    0,
-    0,
-    0,
-    'nomRepresentantLegal',
-    'email',
-    'codePostalProjet',
-    'communeProjet',
-    'departementProjet',
-    'regionProjet',
-    'Classé',
-    false,
-    false,
-    false,
-  );
 }
 
 export async function notifierCandidature(this: PotentielWorld) {
