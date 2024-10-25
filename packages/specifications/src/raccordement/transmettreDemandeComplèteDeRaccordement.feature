@@ -3,9 +3,9 @@ Fonctionnalité: Transmettre une demande complète de raccordement
 
     Contexte:
         Etant donné le gestionnaire de réseau "Enedis"
+        Et le DGEC validateur "Robert Robichet"
         Et le projet lauréat "Du boulodrome de Marseille" V2
         Et le porteur "Marcel Patoulatchi" ayant accés au projet lauréat "Du boulodrome de Marseille"
-        Et le DGEC validateur "Robert Robichet"
 
     @select
     Scénario: Un porteur de projet transmet une demande complète de raccordement pour son projet
