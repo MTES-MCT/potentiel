@@ -9,10 +9,7 @@ import { Option } from '@potentiel-libraries/monads';
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { decodeParameter } from '@/utils/decodeParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
-import {
-  TransmettrePropositionTechniqueEtFinancièrePage,
-  TransmettrePropositionTechniqueEtFinancièrePageProps,
-} from '@/components/pages/réseau/raccordement/transmettre/transmettrePropositionTechniqueEtFinancière/TransmettrePropositionTechniqueEtFinancière.page';
+import { TransmettrePropositionTechniqueEtFinancièrePage } from '@/components/pages/réseau/raccordement/transmettre/transmettrePropositionTechniqueEtFinancière/TransmettrePropositionTechniqueEtFinancière.page';
 import { récupérerProjet, vérifierQueLeProjetEstClassé } from '@/app/_helpers';
 
 type PageProps = {
@@ -29,9 +26,11 @@ export const metadata: Metadata = {
 
 export default async function Page({ params: { identifiant, reference } }: PageProps) {
   return PageWithErrorHandling(async () => {
-    const identifiantProjet = IdentifiantProjet.convertirEnValueType(decodeParameter(identifiant));
+    const identifiantProjet = IdentifiantProjet.convertirEnValueType(
+      decodeParameter(identifiant),
+    ).formatter();
 
-    const projet = await récupérerProjet(identifiantProjet.formatter());
+    const projet = await récupérerProjet(identifiantProjet);
     await vérifierQueLeProjetEstClassé({
       statut: projet.statut,
       message:
@@ -44,7 +43,7 @@ export default async function Page({ params: { identifiant, reference } }: PageP
       {
         type: 'Réseau.Raccordement.Query.ConsulterDossierRaccordement',
         data: {
-          identifiantProjetValue: identifiantProjet.formatter(),
+          identifiantProjetValue: identifiantProjet,
           référenceDossierRaccordementValue: referenceDossierRaccordement,
         },
       },
@@ -54,11 +53,11 @@ export default async function Page({ params: { identifiant, reference } }: PageP
       return notFound();
     }
 
-    const props: TransmettrePropositionTechniqueEtFinancièrePageProps = {
-      identifiantProjet: identifiantProjet.formatter(),
-      referenceDossierRaccordement,
-    };
-
-    return <TransmettrePropositionTechniqueEtFinancièrePage {...props} />;
+    return (
+      <TransmettrePropositionTechniqueEtFinancièrePage
+        identifiantProjet={identifiantProjet}
+        referenceDossierRaccordement={referenceDossierRaccordement}
+      />
+    );
   });
 }

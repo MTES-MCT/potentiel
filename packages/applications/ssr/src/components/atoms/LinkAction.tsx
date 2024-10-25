@@ -16,7 +16,7 @@ export const LinkAction: FC<LinkActionProps> = ({
 }) => (
   <Link
     href={href}
-    {...(key && { key })}
+    key={key ?? undefined}
     className={`w-fit fr-link fr-icon-arrow-right-line fr-link--icon-right ${className}`}
   >
     {label}

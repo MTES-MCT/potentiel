@@ -64,19 +64,26 @@ export default async function Page({
       data: { identifiantProjetValue: identifiantProjet },
     });
 
-    const aDéjàTransmisUneDemandeComplèteDeRaccordement =
-      Option.isSome(raccordements) && raccordements.dossiers.length > 0;
-
     const props: TransmettreDemandeComplèteRaccordementPageProps = mapToProps({
+      identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
       gestionnairesRéseau,
       appelOffre,
       gestionnaireRéseau: gestionnaire,
-      identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
-      aDéjàTransmisUneDemandeComplèteDeRaccordement,
       successMessage,
+      raccordements,
     });
 
-    return <TransmettreDemandeComplèteRaccordementPage {...props} />;
+    return (
+      <TransmettreDemandeComplèteRaccordementPage
+        identifiantProjet={props.identifiantProjet}
+        identifiantGestionnaireRéseauActuel={props.identifiantGestionnaireRéseauActuel}
+        listeGestionnairesRéseau={props.listeGestionnairesRéseau}
+        delaiDemandeDeRaccordementEnMois={props.delaiDemandeDeRaccordementEnMois}
+        aDéjàTransmisUneDemandeComplèteDeRaccordement={
+          props.aDéjàTransmisUneDemandeComplèteDeRaccordement
+        }
+      />
+    );
   });
 }
 
@@ -85,8 +92,8 @@ type MapToProps = (args: {
   appelOffre: AppelOffre.ConsulterAppelOffreReadModel;
   gestionnaireRéseau: Option.Type<Raccordement.ConsulterGestionnaireRéseauRaccordementReadModel>;
   identifiantProjet: IdentifiantProjet.ValueType;
-  aDéjàTransmisUneDemandeComplèteDeRaccordement: boolean;
   successMessage?: string;
+  raccordements: Option.Type<Raccordement.ConsulterRaccordementReadModel>;
 }) => TransmettreDemandeComplèteRaccordementPageProps;
 
 const mapToProps: MapToProps = ({
@@ -94,9 +101,12 @@ const mapToProps: MapToProps = ({
   appelOffre,
   gestionnaireRéseau,
   identifiantProjet,
-  aDéjàTransmisUneDemandeComplèteDeRaccordement,
   successMessage,
+  raccordements,
 }) => {
+  const aDéjàTransmisUneDemandeComplèteDeRaccordement =
+    Option.isSome(raccordements) && raccordements.dossiers.length > 0;
+
   return {
     delaiDemandeDeRaccordementEnMois: appelOffre.periodes.find(
       (periode) => (periode.id = identifiantProjet.période),

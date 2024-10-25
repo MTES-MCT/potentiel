@@ -15,11 +15,13 @@ export type ModifierGarantiesFinancièresActuellesPageProps =
 
 export const ModifierGarantiesFinancièresActuellesPage: FC<
   ModifierGarantiesFinancièresActuellesPageProps
-> = (props) => {
-  return (
-    <PageTemplate banner={<ProjetBanner identifiantProjet={props.identifiantProjet} />}>
-      <TitrePageGarantiesFinancières title="Modifier les garanties financières actuelles" />
-      <ModifierGarantiesFinancièresActuellesForm {...props} />
-    </PageTemplate>
-  );
-};
+> = (props) => (
+  <PageTemplate banner={<ProjetBanner identifiantProjet={props.identifiantProjet} />}>
+    <TitrePageGarantiesFinancières title="Modifier les garanties financières actuelles" />
+    <ModifierGarantiesFinancièresActuellesForm
+      identifiantProjet={props.identifiantProjet}
+      typesGarantiesFinancières={props.typesGarantiesFinancières}
+      actuelles={props.actuelles}
+    />
+  </PageTemplate>
+);

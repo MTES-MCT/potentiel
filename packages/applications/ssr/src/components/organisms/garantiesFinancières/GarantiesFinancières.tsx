@@ -118,6 +118,7 @@ export const GarantiesFinancières: FC<GarantiesFinancièresProps> = ({
           <GarantiesFinancièresActions
             identifiantProjet={identifiantProjet}
             contactPorteurs={contactPorteurs}
+            // eslint-disable-next-line react/jsx-props-no-spreading
             {...garantiesFinancières}
           />
         </div>

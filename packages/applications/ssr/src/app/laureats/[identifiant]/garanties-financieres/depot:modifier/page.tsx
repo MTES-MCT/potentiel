@@ -48,41 +48,43 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
         return <ProjetNonSoumisAuxGarantiesFinancièresPage identifiantProjet={identifiantProjet} />;
       }
 
-      const dépôtGarantiesFinancières =
+      const dépôt =
         await mediator.send<GarantiesFinancières.ConsulterDépôtEnCoursGarantiesFinancièresQuery>({
           type: 'Lauréat.GarantiesFinancières.Query.ConsulterDépôtEnCoursGarantiesFinancières',
           data: { identifiantProjetValue: identifiantProjet },
         });
 
-      if (Option.isNone(dépôtGarantiesFinancières)) {
+      if (Option.isNone(dépôt)) {
         return notFound();
       }
 
-      const props = mapToProps({ ...dépôtGarantiesFinancières, identifiantProjet, utilisateur });
+      const props = mapToProps({ dépôt, utilisateur });
 
-      return <ModifierDépôtEnCoursGarantiesFinancièresPage {...props} />;
+      return (
+        <ModifierDépôtEnCoursGarantiesFinancièresPage
+          identifiantProjet={identifiantProjet}
+          typesGarantiesFinancières={props.typesGarantiesFinancières}
+          dépôtEnCours={props.dépôtEnCours}
+          showWarning={props.showWarning}
+        />
+      );
     }),
   );
 }
 
-const mapToProps = ({
-  identifiantProjet,
-  dépôt: { type, dateÉchéance, dateConstitution, attestation },
-  utilisateur,
-}: Omit<
-  GarantiesFinancières.ConsulterDépôtEnCoursGarantiesFinancièresReadModel,
-  'identifiantProjet'
-> & {
-  identifiantProjet: string;
+type MapToProps = (params: {
   utilisateur: Utilisateur.ValueType;
-}): ModifierDépôtEnCoursGarantiesFinancièresPageProps => ({
-  identifiantProjet,
+  dépôt: GarantiesFinancières.ConsulterDépôtEnCoursGarantiesFinancièresReadModel;
+}) => ModifierDépôtEnCoursGarantiesFinancièresPageProps;
+
+const mapToProps: MapToProps = ({ utilisateur, dépôt }) => ({
+  identifiantProjet: dépôt.identifiantProjet.formatter(),
   typesGarantiesFinancières: typesGarantiesFinancièresSansInconnuPourFormulaire,
   dépôtEnCours: {
-    typeGarantiesFinancières: type.type,
-    dateÉchéance: dateÉchéance?.formatter(),
-    dateConstitution: dateConstitution.formatter(),
-    attestation: attestation.formatter(),
+    typeGarantiesFinancières: dépôt.dépôt.type.type,
+    dateÉchéance: dépôt.dépôt.dateÉchéance?.formatter(),
+    dateConstitution: dépôt.dépôt.dateConstitution.formatter(),
+    attestation: dépôt.dépôt.attestation.formatter(),
   },
   showWarning: utilisateur.role.estÉgaleÀ(Role.porteur) ? true : undefined,
 });

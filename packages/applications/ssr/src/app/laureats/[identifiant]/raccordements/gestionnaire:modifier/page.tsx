@@ -30,7 +30,7 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
         "Vous ne pouvez pas modifier le gestionnaire de réseau du raccordement d'un projet éliminé ou abandonné",
     });
 
-    const gestionnairesRéseau =
+    const listeGestionnaireRéseau =
       await mediator.send<GestionnaireRéseau.ListerGestionnaireRéseauQuery>({
         type: 'Réseau.Gestionnaire.Query.ListerGestionnaireRéseau',
         data: {},
@@ -43,36 +43,44 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
       });
 
     const props = mapToProps({
-      gestionnairesRéseau,
+      listeGestionnaireRéseau,
       gestionnaireRéseau,
       identifiantProjet,
     });
 
-    return <ModifierGestionnaireRéseauRaccordementPage {...props} />;
+    return (
+      <ModifierGestionnaireRéseauRaccordementPage
+        identifiantProjet={props.identifiantProjet}
+        identifiantGestionnaireRéseauActuel={props.identifiantGestionnaireRéseauActuel}
+        listeGestionnairesRéseau={props.listeGestionnairesRéseau}
+      />
+    );
   });
 }
 
 type MapToProps = (args: {
-  gestionnairesRéseau: GestionnaireRéseau.ListerGestionnaireRéseauReadModel;
+  listeGestionnaireRéseau: GestionnaireRéseau.ListerGestionnaireRéseauReadModel;
   gestionnaireRéseau: Option.Type<Raccordement.ConsulterGestionnaireRéseauRaccordementReadModel>;
   identifiantProjet: string;
 }) => ModifierGestionnaireRéseauRaccordementPageProps;
 
-const mapToProps: MapToProps = ({ gestionnairesRéseau, gestionnaireRéseau, identifiantProjet }) => {
-  return {
-    identifiantGestionnaireRéseauActuel: Option.match(gestionnaireRéseau)
-      .some((gestionnaireRéseau) => gestionnaireRéseau.identifiantGestionnaireRéseau.formatter())
-      .none(() => ''),
-    listeGestionnairesRéseau: gestionnairesRéseau.items.map((gestionnaire) => ({
-      identifiantGestionnaireRéseau: gestionnaire.identifiantGestionnaireRéseau.formatter(),
-      raisonSociale: gestionnaire.raisonSociale,
-      aideSaisieRéférenceDossierRaccordement: {
-        format: gestionnaire.aideSaisieRéférenceDossierRaccordement.format,
-        légende: gestionnaire.aideSaisieRéférenceDossierRaccordement.légende,
-        expressionReguliere:
-          gestionnaire.aideSaisieRéférenceDossierRaccordement.expressionReguliere.expression,
-      },
-    })),
-    identifiantProjet,
-  };
-};
+const mapToProps: MapToProps = ({
+  listeGestionnaireRéseau,
+  gestionnaireRéseau,
+  identifiantProjet,
+}) => ({
+  identifiantGestionnaireRéseauActuel: Option.match(gestionnaireRéseau)
+    .some((gestionnaireRéseau) => gestionnaireRéseau.identifiantGestionnaireRéseau.formatter())
+    .none(() => ''),
+  listeGestionnairesRéseau: listeGestionnaireRéseau.items.map((gestionnaire) => ({
+    identifiantGestionnaireRéseau: gestionnaire.identifiantGestionnaireRéseau.formatter(),
+    raisonSociale: gestionnaire.raisonSociale,
+    aideSaisieRéférenceDossierRaccordement: {
+      format: gestionnaire.aideSaisieRéférenceDossierRaccordement.format,
+      légende: gestionnaire.aideSaisieRéférenceDossierRaccordement.légende,
+      expressionReguliere:
+        gestionnaire.aideSaisieRéférenceDossierRaccordement.expressionReguliere.expression,
+    },
+  })),
+  identifiantProjet,
+});

@@ -46,10 +46,6 @@ export const CorrigerCandidatureForm: React.FC<CorrigerCandidatureFormProps> = (
     candidature.typeGarantiesFinancieres === 'avec-date-échéance',
   );
 
-  const getStateProps = (field: keyof z.infer<typeof candidatureSchema>) => ({
-    state: validationErrors[field] ? ('error' as const) : ('default' as const),
-    stateRelatedMessage: validationErrors[field],
-  });
   const getFieldProps = (field: keyof z.infer<typeof candidatureSchema>, required = true) => ({
     name: encodeURIComponent(field),
     defaultValue: candidature[field] !== undefined ? String(candidature[field]) : undefined,
@@ -86,7 +82,8 @@ export const CorrigerCandidatureForm: React.FC<CorrigerCandidatureFormProps> = (
     >
       <input name="identifiantProjet" type="hidden" value={candidature.identifiantProjet} />
       <Select
-        {...getStateProps('statut')}
+        state={validationErrors['statut'] ? 'error' : 'default'}
+        stateRelatedMessage={validationErrors['statut']}
         label="Statut"
         options={[
           { label: 'Classé', value: Candidature.StatutCandidature.classé.statut },
@@ -102,33 +99,39 @@ export const CorrigerCandidatureForm: React.FC<CorrigerCandidatureFormProps> = (
       {estÉliminé && (
         <Input
           textArea
-          {...getStateProps('motifElimination')}
+          state={validationErrors['motifElimination'] ? 'error' : 'default'}
+          stateRelatedMessage={validationErrors['motifElimination']}
           label="Motif élimination"
           nativeTextAreaProps={getFieldProps('motifElimination')}
         />
       )}
       <Input
-        {...getStateProps('nomProjet')}
+        state={validationErrors['nomProjet'] ? 'error' : 'default'}
+        stateRelatedMessage={validationErrors['nomProjet']}
         label="Nom du projet"
         nativeInputProps={getFieldProps('nomProjet')}
       />
       <Input
-        {...getStateProps('nomCandidat')}
+        state={validationErrors['nomCandidat'] ? 'error' : 'default'}
+        stateRelatedMessage={validationErrors['nomCandidat']}
         label="Nom du candidat"
         nativeInputProps={getFieldProps('nomCandidat')}
       />
       <Input
-        {...getStateProps('emailContact')}
+        state={validationErrors['emailContact'] ? 'error' : 'default'}
+        stateRelatedMessage={validationErrors['emailContact']}
         label="Email"
         nativeInputProps={getFieldProps('emailContact')}
       />
       <Input
-        {...getStateProps('nomRepresentantLegal')}
+        state={validationErrors['nomRepresentantLegal'] ? 'error' : 'default'}
+        stateRelatedMessage={validationErrors['nomRepresentantLegal']}
         label="Nom complet du représentant légal"
         nativeInputProps={getFieldProps('nomRepresentantLegal')}
       />
       <Select
-        {...getStateProps('actionnariat')}
+        state={validationErrors['actionnariat'] ? 'error' : 'default'}
+        stateRelatedMessage={validationErrors['actionnariat']}
         label="Actionnariat (optionnel)"
         options={[
           { label: '', value: '' },
@@ -144,32 +147,38 @@ export const CorrigerCandidatureForm: React.FC<CorrigerCandidatureFormProps> = (
         nativeSelectProps={getFieldProps('actionnariat', false)}
       />
       <Input
-        {...getStateProps('societeMere')}
+        state={validationErrors['societeMere'] ? 'error' : 'default'}
+        stateRelatedMessage={validationErrors['societeMere']}
         label="Société Mère (optionnel)"
         nativeInputProps={getFieldProps('societeMere', false)}
       />
       <Input
-        {...getStateProps('adresse1')}
+        state={validationErrors['adresse1'] ? 'error' : 'default'}
+        stateRelatedMessage={validationErrors['adresse1']}
         label="Adresse 1"
         nativeInputProps={getFieldProps('adresse1')}
       />
       <Input
-        {...getStateProps('adresse2')}
+        state={validationErrors['adresse2'] ? 'error' : 'default'}
+        stateRelatedMessage={validationErrors['adresse2']}
         label="Adresse 2 (optionnel)"
         nativeInputProps={getFieldProps('adresse2', false)}
       />
       <Input
-        {...getStateProps('codePostal')}
+        state={validationErrors['codePostal'] ? 'error' : 'default'}
+        stateRelatedMessage={validationErrors['codePostal']}
         label="Code Postal"
         nativeInputProps={getFieldProps('codePostal')}
       />
       <Input
-        {...getStateProps('commune')}
+        state={validationErrors['commune'] ? 'error' : 'default'}
+        stateRelatedMessage={validationErrors['commune']}
         label="Commune"
         nativeInputProps={getFieldProps('commune')}
       />
       <Select
-        {...getStateProps('technologie')}
+        state={validationErrors['technologie'] ? 'error' : 'default'}
+        stateRelatedMessage={validationErrors['technologie']}
         label="Technologie"
         nativeSelectProps={getFieldProps('technologie')}
         options={Candidature.TypeTechnologie.types.map((type) => ({
@@ -178,17 +187,20 @@ export const CorrigerCandidatureForm: React.FC<CorrigerCandidatureFormProps> = (
         }))}
       />
       <Input
-        {...getStateProps('prixReference')}
+        state={validationErrors['prixReference'] ? 'error' : 'default'}
+        stateRelatedMessage={validationErrors['prixReference']}
         label="Prix de référence"
         nativeInputProps={getFieldProps('prixReference')}
       />
       <Input
-        {...getStateProps('puissanceProductionAnnuelle')}
+        state={validationErrors['puissanceProductionAnnuelle'] ? 'error' : 'default'}
+        stateRelatedMessage={validationErrors['puissanceProductionAnnuelle']}
         label="Puissance (en MWc)"
         nativeInputProps={getFieldProps('puissanceProductionAnnuelle')}
       />
       <Checkbox
-        {...getStateProps('puissanceALaPointe')}
+        state={validationErrors['puissanceALaPointe'] ? 'error' : 'default'}
+        stateRelatedMessage={validationErrors['puissanceALaPointe']}
         id="puissanceALaPointe"
         options={[
           {
@@ -202,19 +214,22 @@ export const CorrigerCandidatureForm: React.FC<CorrigerCandidatureFormProps> = (
         ]}
       />
       <Input
-        {...getStateProps('evaluationCarboneSimplifiee')}
+        state={validationErrors['evaluationCarboneSimplifiee'] ? 'error' : 'default'}
+        stateRelatedMessage={validationErrors['evaluationCarboneSimplifiee']}
         label="Évaluation Carbone Simplifiée"
         nativeInputProps={getFieldProps('evaluationCarboneSimplifiee')}
       />
       <Input
-        {...getStateProps('noteTotale')}
+        state={validationErrors['noteTotale'] ? 'error' : 'default'}
+        stateRelatedMessage={validationErrors['noteTotale']}
         label="Note"
         nativeInputProps={getFieldProps('noteTotale')}
       />
       {!estNotifiée && !estÉliminé ? (
         <>
           <Select
-            {...getStateProps('typeGarantiesFinancieres')}
+            state={validationErrors['typeGarantiesFinancieres'] ? 'error' : 'default'}
+            stateRelatedMessage={validationErrors['typeGarantiesFinancieres']}
             label="Type de Garanties Financières"
             options={[
               Candidature.TypeGarantiesFinancières.consignation,
@@ -231,7 +246,8 @@ export const CorrigerCandidatureForm: React.FC<CorrigerCandidatureFormProps> = (
           />
           {showDateGf && (
             <InputDate
-              {...getStateProps('dateEcheanceGf')}
+              state={validationErrors['dateEcheanceGf'] ? 'error' : 'default'}
+              stateRelatedMessage={validationErrors['dateEcheanceGf']}
               label="Date d'échéance des Garanties Financières"
               nativeInputProps={{
                 ...getFieldProps('dateEcheanceGf'),
@@ -257,8 +273,8 @@ export const CorrigerCandidatureForm: React.FC<CorrigerCandidatureFormProps> = (
       )}
 
       <RadioButtons
-        {...getStateProps('doitRegenererAttestation')}
         state={validationErrors['doitRegenererAttestation'] ? 'error' : 'default'}
+        stateRelatedMessage={validationErrors['doitRegenererAttestation']}
         legend={'Attestation de désignation'}
         disabled={!aUneAttestation}
         options={[

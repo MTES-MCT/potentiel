@@ -46,12 +46,17 @@ export const Form: FC<FormProps> = ({
   }
 
   return (
+    // eslint-disable-next-line react/jsx-props-no-spreading
     <form action={formAction} {...props}>
       {heading && <Heading2 className="mb-4">{heading}</Heading2>}
 
       <FormFeedback formState={state} successMessage={successMessage} />
 
-      {pendingModal && <FormPendingModal {...pendingModal} />}
+      {pendingModal && (
+        <FormPendingModal id={pendingModal.id} title={pendingModal.title}>
+          {children ?? null}
+        </FormPendingModal>
+      )}
 
       {!omitMandatoryFieldsLegend && (
         <div className="text-sm italic my-4">

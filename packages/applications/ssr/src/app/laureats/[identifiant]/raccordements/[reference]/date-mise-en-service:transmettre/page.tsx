@@ -7,6 +7,8 @@ import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { DateTime } from '@potentiel-domain/common';
 import { Option } from '@potentiel-libraries/monads';
 import { Routes } from '@potentiel-applications/routes';
+import { Candidature } from '@potentiel-domain/candidature';
+import { Utilisateur } from '@potentiel-domain/utilisateur';
 
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { decodeParameter } from '@/utils/decodeParameter';
@@ -69,35 +71,68 @@ export default async function Page({ params: { identifiant, reference } }: PageP
         return notFound();
       }
 
-      const intervalleDatesMeSDélaiCDC2022 = appelOffre.periodes
-        .find((p) => p.id === projet.période)
-        ?.cahiersDesChargesModifiésDisponibles.find(
-          (cdc) => cdc.type === 'modifié' && cdc.paruLe === '30/08/2022',
-        )?.délaiApplicable?.intervaleDateMiseEnService;
+      const props = mapToProps({
+        identifiantProjet,
+        utilisateur,
+        referenceDossierRaccordement,
+        projet,
+        appelOffre,
+        dossierRaccordement,
+      });
 
-      const props: TransmettreDateMiseEnServicePageProps = {
-        projet: {
-          identifiantProjet,
-          ...projet,
-        },
-        dossierRaccordement: {
-          référence: referenceDossierRaccordement,
-          miseEnService:
-            dossierRaccordement.miseEnService?.dateMiseEnService?.formatter() ?? undefined,
-        },
-
-        intervalleDatesMeSDélaiCDC2022: intervalleDatesMeSDélaiCDC2022
-          ? {
-              min: DateTime.convertirEnValueType(intervalleDatesMeSDélaiCDC2022.min).formatter(),
-              max: DateTime.convertirEnValueType(intervalleDatesMeSDélaiCDC2022.max).formatter(),
-            }
-          : undefined,
-        lienRetour: utilisateur.role.aLaPermission('réseau.raccordement.consulter')
-          ? Routes.Raccordement.détail(identifiantProjet)
-          : Routes.Raccordement.lister,
-      };
-
-      return <TransmettreDateMiseEnServicePage {...props} />;
+      return (
+        <TransmettreDateMiseEnServicePage
+          projet={props.projet}
+          dossierRaccordement={props.dossierRaccordement}
+          intervalleDatesMeSDélaiCDC2022={props.intervalleDatesMeSDélaiCDC2022}
+          lienRetour={props.lienRetour}
+        />
+      );
     }),
   );
 }
+
+type MapToProps = (params: {
+  identifiantProjet: string;
+  utilisateur: Utilisateur.ValueType;
+  referenceDossierRaccordement: string;
+  projet: Candidature.ConsulterProjetReadModel;
+  appelOffre: AppelOffre.ConsulterAppelOffreReadModel;
+  dossierRaccordement: Raccordement.ConsulterDossierRaccordementReadModel;
+}) => TransmettreDateMiseEnServicePageProps;
+
+const mapToProps: MapToProps = ({
+  identifiantProjet,
+  utilisateur,
+  referenceDossierRaccordement,
+  projet,
+  appelOffre,
+  dossierRaccordement,
+}) => {
+  const intervalleDatesMeSDélaiCDC2022 = appelOffre.periodes
+    .find((p) => p.id === projet.période)
+    ?.cahiersDesChargesModifiésDisponibles.find(
+      (cdc) => cdc.type === 'modifié' && cdc.paruLe === '30/08/2022',
+    )?.délaiApplicable?.intervaleDateMiseEnService;
+
+  return {
+    projet: {
+      identifiantProjet,
+      ...projet,
+    },
+    dossierRaccordement: {
+      référence: referenceDossierRaccordement,
+      miseEnService: dossierRaccordement.miseEnService?.dateMiseEnService?.formatter() ?? undefined,
+    },
+
+    intervalleDatesMeSDélaiCDC2022: intervalleDatesMeSDélaiCDC2022
+      ? {
+          min: DateTime.convertirEnValueType(intervalleDatesMeSDélaiCDC2022.min).formatter(),
+          max: DateTime.convertirEnValueType(intervalleDatesMeSDélaiCDC2022.max).formatter(),
+        }
+      : undefined,
+    lienRetour: utilisateur.role.aLaPermission('réseau.raccordement.consulter')
+      ? Routes.Raccordement.détail(identifiantProjet)
+      : Routes.Raccordement.lister,
+  };
+};

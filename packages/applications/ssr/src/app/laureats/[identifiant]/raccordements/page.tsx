@@ -63,7 +63,13 @@ export default async function Page({ params: { identifiant } }: PageProps) {
         raccordement,
       });
 
-      return <DétailsRaccordementPage {...props} />;
+      return (
+        <DétailsRaccordementPage
+          identifiantProjet={props.identifiantProjet}
+          gestionnaireRéseau={props.gestionnaireRéseau}
+          dossiers={props.dossiers}
+        />
+      );
     }),
   );
 }

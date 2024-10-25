@@ -16,6 +16,7 @@ type InputDateProps = InputProps.RegularInput & {
 export const InputDate: FC<InputDateProps> = (props) => {
   return (
     <Input
+      // eslint-disable-next-line react/jsx-props-no-spreading
       {...props}
       nativeInputProps={{
         ...props.nativeInputProps,

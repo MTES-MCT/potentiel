@@ -32,7 +32,13 @@ export const Timeline: FC<TimelineProps> = ({ items, className }) => (
     className={className ?? ''}
   >
     {items.map((item, index) => (
-      <TimelineItem key={index} {...item} />
+      <TimelineItem
+        key={index}
+        content={item.content}
+        date={item.date}
+        status={item.status}
+        title={item.title}
+      />
     ))}
   </MuiTimeline>
 );
