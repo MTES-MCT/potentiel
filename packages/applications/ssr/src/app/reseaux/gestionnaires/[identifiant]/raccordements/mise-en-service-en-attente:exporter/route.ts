@@ -1,6 +1,6 @@
 import { Parser } from '@json2csv/plainjs';
 import { mediator } from 'mediateur';
-import { notFound } from 'next/navigation';
+import { NextResponse } from 'next/server';
 
 import { Option } from '@potentiel-libraries/monads';
 import { GestionnaireRéseau, Raccordement } from '@potentiel-domain/reseau';
@@ -19,16 +19,11 @@ export const GET = async (_: Request, { params: { identifiant } }: ExporterRacco
   withUtilisateur(async (utilisateur) => {
     const identifiantGestionnaireRéseau = decodeParameter(identifiant);
     if (utilisateur.role.estÉgaleÀ(Role.grd)) {
-      if (Option.isNone(utilisateur.groupe) || utilisateur.groupe.type !== 'GestionnairesRéseau') {
-        // TODO unauthorized
-        return notFound();
-      }
       const groupeAttendu = Groupe.convertirEnValueType(
         `/GestionnairesRéseau/${identifiantGestionnaireRéseau}`,
       );
-      if (!utilisateur.groupe.estÉgaleÀ(groupeAttendu)) {
-        // TODO unauthorized
-        return notFound();
+      if (Option.isNone(utilisateur.groupe) || !utilisateur.groupe.estÉgaleÀ(groupeAttendu)) {
+        return NextResponse.json({ message: 'Accès refusé' }, { status: 401 });
       }
     }
 
