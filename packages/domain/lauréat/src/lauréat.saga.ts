@@ -4,6 +4,8 @@ import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
 import { Recours } from '@potentiel-domain/elimine';
 
 import { NotifierLauréatCommand } from './notifier/notifierLauréat.command';
+import { DemanderGarantiesFinancièresCommand } from './garantiesFinancières/demander/demanderGarantiesFinancières.command';
+import { MotifDemandeGarantiesFinancières } from './garantiesFinancières';
 
 export type SubscriptionEvent = Recours.RecoursAccordéEvent;
 
@@ -28,6 +30,15 @@ export const register = () => {
             notifiéLe: DateTime.convertirEnValueType(accordéLe),
             notifiéPar: Email.convertirEnValueType(accordéPar),
             attestation: { format },
+          },
+        });
+        await mediator.send<DemanderGarantiesFinancièresCommand>({
+          type: 'Lauréat.GarantiesFinancières.Command.DemanderGarantiesFinancières',
+          data: {
+            demandéLe: DateTime.convertirEnValueType(accordéLe),
+            identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
+            dateLimiteSoumission: DateTime.convertirEnValueType(accordéLe).ajouterNombreDeMois(2),
+            motif: MotifDemandeGarantiesFinancières.recoursAccordé,
           },
         });
         break;
