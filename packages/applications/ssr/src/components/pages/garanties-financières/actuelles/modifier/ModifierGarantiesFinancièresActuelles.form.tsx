@@ -91,7 +91,7 @@ export const ModifierGarantiesFinancièresActuellesForm: FC<
         formats={['pdf']}
         state={validationErrors['attestation'] ? 'error' : 'default'}
         stateRelatedMessage={validationErrors['attestation']}
-        documentKey={actuelles.attestation}
+        documentKeys={actuelles.attestation ? [actuelles.attestation] : undefined}
       />
     </Form>
   );

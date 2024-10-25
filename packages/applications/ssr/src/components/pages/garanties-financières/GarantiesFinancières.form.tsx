@@ -114,7 +114,7 @@ export const GarantiesFinancièresForm: FC<GarantiesFinancièresFormProps> = ({
         formats={['pdf']}
         state={validationErrors['attestation'] ? 'error' : 'default'}
         stateRelatedMessage={validationErrors['attestation']}
-        documentKey={defaultValues?.attestation}
+        documentKeys={defaultValues?.attestation ? [defaultValues.attestation] : undefined}
       />
     </Form>
   );

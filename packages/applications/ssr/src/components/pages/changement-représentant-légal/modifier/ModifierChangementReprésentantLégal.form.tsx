@@ -109,7 +109,7 @@ export const ModifierChangementReprésentantLégalForm: FC<
         required
         state={validationErrors['pieceJustificative'] ? 'error' : 'default'}
         stateRelatedMessage={validationErrors['pieceJustificative']}
-        documentKey={pièceJustificative}
+        documentKeys={[pièceJustificative]}
       />
     </Form>
   );

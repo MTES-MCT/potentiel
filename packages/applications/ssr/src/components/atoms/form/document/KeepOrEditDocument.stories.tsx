@@ -19,7 +19,7 @@ export const Single: Story = {
     name: 'test_1',
     label: 'Téléverser un document',
     formats: ['pdf'],
-    documentKey: 'document_key_1',
+    documentKeys: ['document_key_1'],
   },
 };
 
@@ -28,7 +28,7 @@ export const SingleWithoutADocument: Story = {
     name: 'test_1',
     label: 'Téléverser un document',
     formats: ['pdf'],
-    documentKey: '',
+    documentKeys: [],
   },
 };
 

@@ -90,7 +90,7 @@ export const ModifierPropositionTechniqueEtFinancièreForm: FC<
         formats={['pdf']}
         state={validationErrors['propositionTechniqueEtFinanciereSignee'] ? 'error' : 'default'}
         stateRelatedMessage={validationErrors['propositionTechniqueEtFinanciereSignee']}
-        documentKey={propositionTechniqueEtFinancièreSignée}
+        documentKeys={[propositionTechniqueEtFinancièreSignée]}
       />
     </Form>
   );

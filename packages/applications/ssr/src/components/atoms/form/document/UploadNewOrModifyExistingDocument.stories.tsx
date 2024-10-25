@@ -24,7 +24,7 @@ export const WithoutExistingDocument: Story = {
     formats: ['pdf'],
     stateRelatedMessage: 'This is a state related message',
     hintText: "I'm giving some hint",
-    documentKey: undefined,
+    documentKeys: [],
   },
 };
 
@@ -43,7 +43,7 @@ export const WithExistingDocument: Story = {
     name: 'test_2',
     label: 'With an existing document',
     formats: ['pdf'],
-    documentKey: 'test',
+    documentKeys: ['test'],
     stateRelatedMessage: 'This is a wonderful state related message',
   },
 };
@@ -53,7 +53,7 @@ export const WithAnError: Story = {
     name: 'test_error',
     label: 'UploadDocument disabled',
     formats: ['pdf'],
-    documentKey: 'test',
+    documentKeys: ['test'],
     state: 'error',
     stateRelatedMessage: 'This is a wonderful state related message',
   },
@@ -64,7 +64,7 @@ export const Disabled: Story = {
     name: 'test_disabled',
     label: 'UploadDocument disabled',
     formats: ['pdf'],
-    documentKey: 'test',
+    documentKeys: ['test'],
     stateRelatedMessage: 'This is a wonderful state related message',
     disabled: true,
   },

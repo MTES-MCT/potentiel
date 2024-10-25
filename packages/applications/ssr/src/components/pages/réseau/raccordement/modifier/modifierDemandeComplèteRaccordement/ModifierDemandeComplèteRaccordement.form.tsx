@@ -145,7 +145,7 @@ export const ModifierDemandeComplèteRaccordementForm: FC<
         formats={['pdf']}
         state={validationErrors['accuseReception'] ? 'error' : 'default'}
         stateRelatedMessage={validationErrors['accuseReception']}
-        documentKey={accuséRéception}
+        documentKeys={accuséRéception ? [accuséRéception] : undefined}
       />
 
       <InputDate

@@ -7,8 +7,7 @@ import { Routes } from '@potentiel-applications/routes';
 
 import { UploadDocument, UploadDocumentProps } from './UploadDocument';
 
-export type KeepOrEditDocumentProps = UploadDocumentProps &
-  ({ multiple: true; documentKeys: Array<string> } | { multiple?: undefined; documentKey: string });
+export type KeepOrEditDocumentProps = UploadDocumentProps & { documentKeys: Array<string> };
 
 export const KeepOrEditDocument: FC<KeepOrEditDocumentProps> = ({
   className = '',
@@ -20,17 +19,13 @@ export const KeepOrEditDocument: FC<KeepOrEditDocumentProps> = ({
   onChange,
   ...props
 }) => {
-  const hasManyDocuments = props.multiple && props.documentKeys.length > 1;
-  const hasOnlyOneDocument =
-    (!props.multiple && props.documentKey !== '') ||
-    (props.multiple && props.documentKeys.length) === 1;
-  const noExistingDocument = !hasManyDocuments && !hasOnlyOneDocument;
+  const hasManyDocuments = props.documentKeys.length > 1;
+  const hasOnlyOneDocument = props.documentKeys.length === 1;
+  const noExistingDocument = props.documentKeys.length === 0;
 
   const [documentSelection, setDocumentSelection] = useState<
     'keep_existing_document' | 'edit_document'
   >(noExistingDocument ? 'edit_document' : 'keep_existing_document');
-
-  const documentKeysToKeep = props.multiple ? props.documentKeys.join(',') : props.documentKey;
 
   return (
     <RadioButtons
@@ -49,9 +44,7 @@ export const KeepOrEditDocument: FC<KeepOrEditDocumentProps> = ({
                   documentKeys={props.documentKeys}
                 />
               ) : hasOnlyOneDocument ? (
-                <KeepSingleDocument
-                  documentKey={props.multiple ? props.documentKeys[0] : props.documentKey}
-                />
+                <KeepSingleDocument documentKey={props.documentKeys[0]} />
               ) : (
                 <>Aucun document à conserver</>
               )}
@@ -62,7 +55,7 @@ export const KeepOrEditDocument: FC<KeepOrEditDocumentProps> = ({
                   aria-required={props.required}
                   type="text"
                   hidden
-                  value={documentKeysToKeep}
+                  value={JSON.stringify(props.documentKeys)}
                 />
               )}
             </div>
