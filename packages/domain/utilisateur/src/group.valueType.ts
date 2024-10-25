@@ -2,7 +2,7 @@ import { PlainType, ReadonlyValueType } from '@potentiel-domain/core';
 
 import { GroupeRefuséError } from './errors';
 
-export type GroupType = 'GRDs';
+export type GroupType = 'GestionnairesRéseau';
 export type RawType = `/${GroupType}/${string}`;
 
 export type ValueType = ReadonlyValueType<{
@@ -11,7 +11,8 @@ export type ValueType = ReadonlyValueType<{
   formatter(): RawType;
 }>;
 
-const groupRegex = /\/(?<type>GRDs)\/(?<nom>[a-zA-Z0-9]+)/;
+// the regex accepts any letter character (not only A-Z) and whitespaces due to names like "EDF Réunion"
+const groupRegex = /\/(?<type>GestionnairesRéseau)\/(?<nom>[\p{L}0-9\-\s]+$)$/u;
 
 export const convertirEnValueType = (value: string): ValueType => {
   estValide(value);

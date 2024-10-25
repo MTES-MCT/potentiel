@@ -462,13 +462,13 @@
   "groups": [
     {
       "id": "fea7d1bf-cd99-49af-9c82-2dc661ac63a3",
-      "name": "GRDs",
-      "path": "/GRDs",
+      "name": "GestionnairesRéseau",
+      "path": "/GestionnairesRéseau",
       "subGroups": [
         {
           "id": "cc3ba23c-ffca-459e-bf5c-414500428f6b",
           "name": "17X100A100A0001A",
-          "path": "/GRDs/17X100A100A0001A",
+          "path": "/GestionnairesRéseau/17X100A100A0001A",
           "parentId": "fea7d1bf-cd99-49af-9c82-2dc661ac63a3",
           "subGroups": [],
           "attributes": {},
@@ -724,7 +724,7 @@
       "requiredActions": [],
       "realmRoles": ["default-roles-potentiel"],
       "notBefore": 0,
-      "groups": ["/GRDs/17X100A100A0001A"]
+      "groups": ["/GestionnairesRéseau/17X100A100A0001A"]
     }
   ],
   "scopeMappings": [
