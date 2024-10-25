@@ -301,8 +301,9 @@ const référencielPermissions = {
         consulterNombre: 'Réseau.Raccordement.Query.ConsulterNombreDeRaccordement',
         rechercher: 'Réseau.Raccordement.Query.RechercherDossierRaccordement',
         lister: 'Réseau.Raccordement.Query.ListerRaccordement',
-        listerRaccordementEnAttenteMiseEnService:
+        listerDossierRaccordementEnAttenteMiseEnService:
           'Réseau.Raccordement.Query.ListerDossierRaccordementEnAttenteMiseEnServiceQuery',
+        listerDossierRaccordement: 'Réseau.Raccordement.Query.ListerDossierRaccordementQuery',
       },
       usecase: {
         modifierDemandeComplète: 'Réseau.Raccordement.UseCase.ModifierDemandeComplèteRaccordement',
@@ -357,8 +358,10 @@ const référencielPermissions = {
 const policies = {
   réseau: {
     raccordement: {
-      listerRaccordementEnAttenteMiseEnService: [
-        référencielPermissions.réseau.raccordement.query.listerRaccordementEnAttenteMiseEnService,
+      listerDossierRaccordement: [
+        référencielPermissions.réseau.raccordement.query
+          .listerDossierRaccordementEnAttenteMiseEnService,
+        référencielPermissions.réseau.raccordement.query.listerDossierRaccordement,
       ],
       consulter: [
         référencielPermissions.candidature.query.consulterProjet,
@@ -853,7 +856,7 @@ const permissionAdmin: Policy[] = [
   'réseau.raccordement.date-mise-en-service.importer',
   'réseau.raccordement.référence-dossier.modifier',
   'réseau.raccordement.dossier.supprimer',
-  'réseau.raccordement.listerRaccordementEnAttenteMiseEnService',
+  'réseau.raccordement.listerDossierRaccordement',
 
   // Garanties financières
   'garantiesFinancières.actuelles.consulter',
