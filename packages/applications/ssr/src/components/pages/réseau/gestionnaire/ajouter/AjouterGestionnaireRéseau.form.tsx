@@ -19,8 +19,6 @@ export const AjouterGestionnaireRéseauForm = () => {
   return (
     <Form
       action={ajouterGestionnaireRéseauAction}
-      method="POST"
-      encType="multipart/form-data"
       onValidationError={(validationErrors) => setValidationErrors(validationErrors)}
       actions={<SubmitButton>Ajouter</SubmitButton>}
     >

@@ -61,8 +61,6 @@ export const ModifierDemandeComplèteRaccordementForm: FC<
 
   return (
     <Form
-      method="POST"
-      encType="multipart/form-data"
       action={modifierDemandeComplèteRaccordementAction}
       heading="Modifier une demande complète de raccordement"
       onValidationError={(validationErrors) => setValidationErrors(validationErrors)}

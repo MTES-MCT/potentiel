@@ -45,8 +45,6 @@ export const RejeterChangementReprésentantLégal = ({
         onClose={() => setIsOpen(false)}
         form={{
           action: rejeterChangementReprésentantLégalAction,
-          method: 'POST',
-          encType: 'multipart/form-data',
           id: 'rejeter-changementReprésentantLégal-form',
           omitMandatoryFieldsLegend: true,
           onValidationError: (validationErrors) => setValidationErrors(validationErrors),

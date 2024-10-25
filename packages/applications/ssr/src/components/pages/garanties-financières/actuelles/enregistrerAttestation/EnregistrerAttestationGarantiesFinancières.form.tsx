@@ -29,8 +29,6 @@ export const EnregistrerAttestationGarantiesFinancièresForm: FC<
 
   return (
     <Form
-      method="POST"
-      encType="multipart/form-data"
       action={enregistrerAttestationGarantiesFinancièresAction}
       onValidationError={(validationErrors) => setValidationErrors(validationErrors)}
       actions={

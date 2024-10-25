@@ -59,8 +59,6 @@ export const CorrigerCandidatureForm: React.FC<CorrigerCandidatureFormProps> = (
 
   return (
     <Form
-      method="POST"
-      encType="multipart/form-data"
       action={corrigerCandidatureAction}
       heading="Corriger la candidature"
       pendingModal={{

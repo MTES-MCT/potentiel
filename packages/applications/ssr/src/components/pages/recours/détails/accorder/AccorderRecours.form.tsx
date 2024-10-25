@@ -41,8 +41,6 @@ export const AccorderRecours = ({ identifiantProjet }: AccorderRecoursFormProps)
         onClose={() => setIsOpen(false)}
         form={{
           action: accorderRecoursAction,
-          method: 'POST',
-          encType: 'multipart/form-data',
           id: 'accorder-recours-form',
           onValidationError: (validationErrors) => setValidationErrors(validationErrors),
           children: (

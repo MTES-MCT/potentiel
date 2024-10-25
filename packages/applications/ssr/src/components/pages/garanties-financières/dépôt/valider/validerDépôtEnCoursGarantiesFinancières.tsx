@@ -32,8 +32,6 @@ export const ValiderDépôtEnCoursGarantiesFinancières = ({
         form={{
           id: 'valider-garanties-financieres-a-traiter-form',
           action: validerDépôtEnCoursGarantiesFinancièresAction,
-          method: 'POST',
-          encType: 'multipart/form-data',
           omitMandatoryFieldsLegend: true,
           children: (
             <>
