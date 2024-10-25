@@ -95,8 +95,8 @@ export const EtapesChangementReprésentantLégal: FC<EtapesChangementReprésenta
       <>
         <div>Type de personne : {typePersonne}</div>
         <div>Nom du représentant légal : {nomReprésentantLégal}</div>
-        {piècesJustificatives.map((pièceJustificative) => (
-          <blockquote className="font-semibold italic">
+        {piècesJustificatives.map((pièceJustificative, index) => (
+          <blockquote className="font-semibold italic" key={`piece-justificative-${index}`}>
             <DownloadDocument
               className="mb-0"
               label="Télécharger la pièce justificative"
