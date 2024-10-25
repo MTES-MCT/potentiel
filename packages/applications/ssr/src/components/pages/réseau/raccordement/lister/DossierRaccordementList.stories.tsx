@@ -73,6 +73,7 @@ export const Default: Story = {
           référence: `référence${i}`,
         },
         statutDGEC: i % 2 === 0 ? 'classé' : 'abandonné',
+        dateMiseEnService: i % 2 === 0 ? new Date().toISOString() : undefined,
       })),
       range: {
         startPosition: 0,
