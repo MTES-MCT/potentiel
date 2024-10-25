@@ -34,8 +34,8 @@ export const ValidationChangementReprésentantLégal: FC<
           <div>Pièces justificatives :</div>
           <div className="pl-2">
             <ul className="list-disc">
-              {piècesJustificatives.map((pièceJustificative, index) => (
-                <li key={`pièce-justificative-${index}`}>{pièceJustificative}</li>
+              {piècesJustificatives.map((pièceJustificative) => (
+                <li key={pièceJustificative}>{pièceJustificative}</li>
               ))}
             </ul>
           </div>

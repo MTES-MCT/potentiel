@@ -31,9 +31,9 @@ export const Timeline: FC<TimelineProps> = ({ items, className }) => (
     }}
     className={className ?? ''}
   >
-    {items.map((item, index) => (
+    {items.map((item) => (
       <TimelineItem
-        key={index}
+        key={`${item.title}-${item.date}`}
         content={item.content}
         date={item.date}
         status={item.status}

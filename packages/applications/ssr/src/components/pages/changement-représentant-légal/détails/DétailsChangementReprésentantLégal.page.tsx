@@ -95,10 +95,10 @@ export const DétailsChangementReprésentantLégalPage: FC<
                 <div className="flex gap-2">
                   <div className="whitespace-nowrap">Pièce justificative :</div>
                   {changementReprésentantLégal.demande.piècesJustificatives.map(
-                    (pièceJustificative, index) => (
+                    (pièceJustificative) => (
                       <blockquote
                         className="font-semibold italic"
-                        key={`piece-justificative-${index}`}
+                        key={pièceJustificative.dateCréation}
                       >
                         <DownloadDocument
                           className="mb-0"

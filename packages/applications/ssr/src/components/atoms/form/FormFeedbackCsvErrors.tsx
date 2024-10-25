@@ -38,11 +38,11 @@ export const FormFeedbackCsvErrors: FC<FormFeedbackCsvErrorsProps> = ({ formStat
       className="mt-6"
       description={
         <div className={`list-disc pl-3 my-6 ${fr.cx('fr-accordions-group')}`}>
-          {Object.entries(regroupedErrors).map(([ligne, erreurs], index) => (
-            <Accordion label={`Ligne ${Number(ligne) + 1}`} defaultExpanded key={`ligne-${index}`}>
+          {Object.entries(regroupedErrors).map(([ligne, erreurs]) => (
+            <Accordion label={`Ligne ${Number(ligne) + 1}`} defaultExpanded key={ligne}>
               <ul className="list-disc pl-3">
                 {erreurs.map((erreur) => (
-                  <li key={`${ligne}-${erreur.field}`}>
+                  <li key={`${erreur.field}-${erreur.line}`}>
                     Champ : <span className="font-semibold">{erreur.field}</span>
                     <br />
                     Erreur : <span className="font-semibold">{erreur.message}</span>
