@@ -15,7 +15,8 @@ export default async function Page() {
     const listeGestionnaireRéseau = await récupérerLesGestionnairesParUtilisateur(utilisateur);
     const listeGestionnairesRéseau = mapToProps(listeGestionnaireRéseau);
 
-    // En attendant la mise en place du rôle GRD, celui par défaut est Enedis pour simplifier le travail de la DGEC
+    // En attendant l'intégration automatique pour Enedis, les admins feront l'update manuel,
+    // c'est pourquoi on on met l'identifiant Enedis par défaut
     const identifiantGestionnaireRéseauActuel: ImporterDatesMiseEnServicePageProps['identifiantGestionnaireRéseauActuel'] =
       listeGestionnairesRéseau.length === 1
         ? listeGestionnaireRéseau[0].identifiantGestionnaireRéseau.codeEIC
