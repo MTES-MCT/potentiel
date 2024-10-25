@@ -7,11 +7,11 @@ import { DomainError } from '@potentiel-domain/core';
 
 export const logMiddleware: Middleware = async (message, next) => {
   const correlationId = randomUUID();
-  getLogger().debug('Executing message', { message: JSON.stringify(message), correlationId });
+  getLogger().info('Executing message', { message: JSON.stringify(message), correlationId });
   try {
     const result = await next();
     const resultJson = getResultJsonBody(message.type, result);
-    getLogger().debug('Message executed', {
+    getLogger().info('Message executed', {
       messageType: message.type,
       result: JSON.stringify(resultJson),
       correlationId,
@@ -31,6 +31,7 @@ export const logMiddleware: Middleware = async (message, next) => {
 const messagesToTruncate = [
   'AppelOffre.Query.ListerAppelOffre',
   'AppelOffre.Query.ConsulterAppelOffre',
+  'Réseau.Gestionnaire.Query.ListerGestionnaireRéseau',
 ];
 // This is to avoid extremely long results from ConsulterAppelOffre, which makes the logs unreadable.
 const getResultJsonBody = (messageType: string, result: unknown) => {

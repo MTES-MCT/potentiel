@@ -10,7 +10,7 @@ import { ListPageTemplate, ListPageTemplateProps } from '@/components/templates/
 import { DossierRaccordementListItem } from './DossierRaccordementListItem';
 
 export type DossierRaccordementListPageProps = PlainType<{
-  list: Raccordement.ListerDossierRaccordementEnAttenteMiseEnServiceReadModel;
+  list: Raccordement.ListerDossierRaccordementReadModel;
   filters: ListPageTemplateProps<typeof DossierRaccordementListItem>['filters'];
 }>;
 
@@ -25,14 +25,14 @@ export const DossierRaccordementListPage: FC<DossierRaccordementListPageProps> =
       actions={[]}
       items={items.map((item) => ({
         ...item,
-        key: IdentifiantProjet.bind(item.identifiantProjet).formatter(),
+        key: `${IdentifiantProjet.bind(item.identifiantProjet).formatter()}#${item.référenceDossier.référence}`,
       }))}
       currentPage={currentPage}
       totalItems={total}
       itemsPerPage={itemsPerPage}
       ItemComponent={DossierRaccordementListItem}
       filters={filters}
-      search={{ label: 'Rechercher par nom de projet', params: 'nomProjet' }}
+      search={{ label: 'Rechercher par référence de dossier', params: 'referenceDossier' }}
     />
   );
 };

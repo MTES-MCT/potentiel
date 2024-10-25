@@ -57,6 +57,8 @@ export const Default: Story = {
         appelOffre: `appelOffre${i}`,
         codePostal: `codePostal${i}`,
         commune: `commune${i}`,
+        département: `département${i}`,
+        région: `région${i}`,
         famille: `famille${i}`,
         identifiantProjet: {
           appelOffre: `appelOffre${i}`,

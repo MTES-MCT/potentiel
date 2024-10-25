@@ -2,7 +2,7 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 import { match } from 'ts-pattern';
 
 import { List, RangeOptions, Where } from '@potentiel-domain/entity';
-import { IdentifiantProjet } from '@potentiel-domain/common';
+import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 import { Lauréat } from '@potentiel-domain/laureat';
 import { Candidature } from '@potentiel-domain/candidature';
 import { Abandon } from '@potentiel-domain/laureat';
@@ -10,7 +10,7 @@ import { Abandon } from '@potentiel-domain/laureat';
 import { RéférenceDossierRaccordement } from '..';
 import { DossierRaccordementEntity } from '../raccordement.entity';
 
-type DossierRaccordementEnAttenteMiseEnService = {
+type DossierRaccordement = {
   nomProjet: string;
   identifiantProjet: IdentifiantProjet.ValueType;
   appelOffre: string;
@@ -18,35 +18,45 @@ type DossierRaccordementEnAttenteMiseEnService = {
   famille: string;
   numéroCRE: string;
   commune: string;
+  département: string;
+  région: string;
   codePostal: string;
   référenceDossier: RéférenceDossierRaccordement.ValueType;
   statutDGEC: Lauréat.StatutLauréat.RawType;
+  dateMiseEnService?: DateTime.ValueType;
 };
 
-export type ListerDossierRaccordementEnAttenteMiseEnServiceReadModel = {
-  items: Array<DossierRaccordementEnAttenteMiseEnService>;
+export type ListerDossierRaccordementReadModel = {
+  items: Array<DossierRaccordement>;
   range: RangeOptions;
   total: number;
 };
 
-export type ListerDossierRaccordementEnAttenteMiseEnServiceQuery = Message<
-  'Réseau.Raccordement.Query.ListerDossierRaccordementEnAttenteMiseEnServiceQuery',
+export type ListerDossierRaccordementQuery = Message<
+  'Réseau.Raccordement.Query.ListerDossierRaccordementQuery',
   {
-    identifiantGestionnaireRéseau: string;
+    identifiantGestionnaireRéseau?: string;
+    appelOffre?: string;
+    avecDateMiseEnService?: boolean;
     range?: RangeOptions;
+    référenceDossier?: string;
   },
-  ListerDossierRaccordementEnAttenteMiseEnServiceReadModel
+  ListerDossierRaccordementReadModel
 >;
 
-export type ConsulterDossierRaccordementDependencies = {
+export type ListerDossierRaccordementQueryDependencies = {
   list: List;
 };
 
-export const registerListerDossierRaccordementEnAttenteMiseEnServiceQuery = ({
+export const registerListerDossierRaccordementQuery = ({
   list,
-}: ConsulterDossierRaccordementDependencies) => {
-  const handler: MessageHandler<ListerDossierRaccordementEnAttenteMiseEnServiceQuery> = async ({
+}: ListerDossierRaccordementQueryDependencies) => {
+  const handler: MessageHandler<ListerDossierRaccordementQuery> = async ({
     identifiantGestionnaireRéseau,
+    appelOffre,
+    avecDateMiseEnService,
+    référenceDossier,
+    range,
   }) => {
     const {
       items,
@@ -54,14 +64,22 @@ export const registerListerDossierRaccordementEnAttenteMiseEnServiceQuery = ({
       total,
     } = await list<DossierRaccordementEntity>('dossier-raccordement', {
       where: {
+        référence: Where.contains(référenceDossier),
         identifiantGestionnaireRéseau: Where.equal(identifiantGestionnaireRéseau),
+        appelOffre: Where.equal(appelOffre),
         miseEnService: {
-          dateMiseEnService: Where.equalNull(),
+          dateMiseEnService:
+            avecDateMiseEnService === undefined
+              ? undefined
+              : avecDateMiseEnService
+                ? Where.notEqualNull()
+                : Where.equalNull(),
         },
       },
       orderBy: {
         référence: 'ascending',
       },
+      range,
     });
 
     const identifiants = items.map(
@@ -90,17 +108,14 @@ export const registerListerDossierRaccordementEnAttenteMiseEnServiceQuery = ({
     };
   };
 
-  mediator.register(
-    'Réseau.Raccordement.Query.ListerDossierRaccordementEnAttenteMiseEnServiceQuery',
-    handler,
-  );
+  mediator.register('Réseau.Raccordement.Query.ListerDossierRaccordementQuery', handler);
 };
 
 export const toReadModel = (
-  { identifiantProjet, référence }: DossierRaccordementEntity,
+  { identifiantProjet, référence, miseEnService }: DossierRaccordementEntity,
   candidatures: ReadonlyArray<Candidature.CandidatureEntity>,
   abandons: ReadonlyArray<Abandon.AbandonEntity>,
-): DossierRaccordementEnAttenteMiseEnService => {
+): DossierRaccordement => {
   const { appelOffre, famille, numéroCRE, période } =
     IdentifiantProjet.convertirEnValueType(identifiantProjet);
   const candidature = candidatures.find(
@@ -108,22 +123,28 @@ export const toReadModel = (
   );
   const abandon = abandons.find((abandons) => abandons.identifiantProjet === identifiantProjet);
 
-  const { nomProjet, codePostal, commune } = match(candidature)
+  const { nomProjet, codePostal, commune, département, région } = match(candidature)
     .with(undefined, () => ({
       codePostal: 'Code postal inconnu',
       commune: 'Commune inconnue',
       nomProjet: 'Nom projet inconnu',
+      département: 'Département inconnu',
+      région: 'Région inconnue',
     }))
     .otherwise((value) => ({
       codePostal: value.localité.codePostal,
       commune: value.localité.commune,
       nomProjet: value.nomProjet,
+      département: value.localité.département,
+      région: value.localité.région,
     }));
 
   return {
     appelOffre,
     codePostal,
     commune,
+    département,
+    région,
     famille,
     identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
     nomProjet,
@@ -133,5 +154,8 @@ export const toReadModel = (
     statutDGEC: match(abandon)
       .with(undefined, () => Lauréat.StatutLauréat.classé.formatter())
       .otherwise(() => Lauréat.StatutLauréat.abandonné.formatter()),
+    dateMiseEnService: miseEnService
+      ? DateTime.convertirEnValueType(miseEnService.dateMiseEnService)
+      : undefined,
   };
 };
