@@ -177,6 +177,7 @@ v1Router.post(
                 type: 'AppelOffre.Query.ConsulterAppelOffre',
                 data: { identifiantAppelOffre: projet.appelOffreId },
               });
+
               if (Option.isNone(appelOffres)) {
                 return notFoundResponse({ request, response });
               }
@@ -211,23 +212,21 @@ v1Router.post(
                         },
                       );
                     }
+                    await mediator.send<GarantiesFinancières.DemanderGarantiesFinancièresUseCase>({
+                      type: 'Lauréat.GarantiesFinancières.UseCase.DemanderGarantiesFinancières',
+                      data: {
+                        demandéLeValue: dateActuelle.toISOString(),
+                        identifiantProjetValue,
+                        dateLimiteSoumissionValue: new Date(
+                          dateActuelle.setMonth(dateActuelle.getMonth() + 2),
+                        ).toISOString(),
+                        motifValue:
+                          GarantiesFinancières.MotifDemandeGarantiesFinancières.changementProducteur
+                            .motif,
+                      },
+                    });
                   } catch (error) {}
                 }
-                await mediator.send<GarantiesFinancières.DemanderGarantiesFinancièresUseCase>({
-                  type: 'Lauréat.GarantiesFinancières.UseCase.DemanderGarantiesFinancières',
-                  data: {
-                    demandéLeValue: dateActuelle.toISOString(),
-                    identifiantProjetValue,
-                    dateLimiteSoumissionValue: new Date(
-                      dateActuelle.setMonth(dateActuelle.getMonth() + 2),
-                    ).toISOString(),
-                    motifValue:
-                      type === 'recours'
-                        ? GarantiesFinancières.MotifDemandeGarantiesFinancières.recoursAccordé.motif
-                        : GarantiesFinancières.MotifDemandeGarantiesFinancières.changementProducteur
-                            .motif,
-                  },
-                });
               }
             } catch (e) {
               logger.error(e);

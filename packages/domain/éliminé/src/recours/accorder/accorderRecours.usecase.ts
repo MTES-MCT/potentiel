@@ -4,6 +4,7 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 // Workspaces
 import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
 import { DocumentProjet, EnregistrerDocumentProjetCommand } from '@potentiel-domain/document';
+import { GarantiesFinancières } from '@potentiel-domain/laureat';
 
 // Package
 import * as TypeDocumentRecours from '../typeDocumentRecours.valueType';
@@ -41,6 +42,16 @@ export const registerAccorderRecoursUseCase = () => {
       dateAccord.formatter(),
       format,
     );
+
+    await mediator.send<GarantiesFinancières.DemanderGarantiesFinancièresUseCase>({
+      type: 'Lauréat.GarantiesFinancières.UseCase.DemanderGarantiesFinancières',
+      data: {
+        demandéLeValue: dateAccord.formatter(),
+        identifiantProjetValue,
+        dateLimiteSoumissionValue: dateAccord.ajouterNombreDeMois(2).formatter(),
+        motifValue: GarantiesFinancières.MotifDemandeGarantiesFinancières.recoursAccordé.motif,
+      },
+    });
 
     await mediator.send<EnregistrerDocumentProjetCommand>({
       type: 'Document.Command.EnregistrerDocumentProjet',

@@ -20,6 +20,7 @@ Alors(
 
     await waitForExpect(async () => {
       const actualReadModel = await getProjetAvecGarantiesFinancièresEnAttente(identifiantProjet);
+      console.log(actualReadModel);
 
       expect(actualReadModel.nomProjet).to.deep.equal(nomProjet);
       expect(actualReadModel.motif.motif).to.deep.equal(motif);
