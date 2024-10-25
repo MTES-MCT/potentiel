@@ -25,7 +25,7 @@ export const register = () => {
       await removeRaccordementProjections(event.payload.id);
     } else {
       const identifiantProjet = payload.identifiantProjet;
-      const { appelOffre, numéroCRE } = IdentifiantProjet.convertirEnValueType(identifiantProjet);
+      const { appelOffre } = IdentifiantProjet.convertirEnValueType(identifiantProjet);
 
       const raccordement = await getRaccordementToUpsert(identifiantProjet);
 
@@ -64,7 +64,6 @@ export const register = () => {
                 identifiantProjet,
                 identifiantGestionnaireRéseau: event.payload.identifiantGestionnaireRéseau,
                 appelOffre,
-                numéroCRE,
                 référence,
                 demandeComplèteRaccordement: {
                   dateQualification: event.payload.dateQualification,
