@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import Input from '@codegouvfr/react-dsfr/Input';
 import Button from '@codegouvfr/react-dsfr/Button';
+import Link from 'next/link';
 
 import { Routes } from '@potentiel-applications/routes';
 
@@ -10,6 +11,7 @@ import { Form } from '@/components/atoms/form/Form';
 import { UploadDocument } from '@/components/atoms/form/UploadDocument';
 import { SubmitButton } from '@/components/atoms/form/SubmitButton';
 import { ValidationErrors } from '@/utils/formAction';
+import { Icon } from '@/components/atoms/Icon';
 
 import {
   GestionnaireRéseauSelect,
@@ -25,12 +27,14 @@ export type TransmettreDemandeComplèteRaccordementFormProps = {
   identifiantProjet: string;
   identifiantGestionnaireRéseauActuel?: string;
   listeGestionnairesRéseau: GestionnaireRéseauSelectProps['listeGestionnairesRéseau'];
+  aDéjàTransmisUneDemandeComplèteDeRaccordement: boolean;
 };
 
 export const TransmettreDemandeComplèteRaccordementForm = ({
   identifiantProjet,
   identifiantGestionnaireRéseauActuel,
   listeGestionnairesRéseau,
+  aDéjàTransmisUneDemandeComplèteDeRaccordement,
 }: TransmettreDemandeComplèteRaccordementFormProps) => {
   const [validationErrors, setValidationErrors] = useState<
     ValidationErrors<TransmettreDemandeComplèteRaccordementFormKeys>
@@ -62,16 +66,29 @@ export const TransmettreDemandeComplèteRaccordementForm = ({
       onValidationError={(validationErrors) => setValidationErrors(validationErrors)}
       actions={
         <>
-          <Button
-            priority="secondary"
-            linkProps={{
-              href: Routes.Raccordement.détail(identifiantProjet),
-              prefetch: false,
-            }}
-            iconId="fr-icon-arrow-left-line"
-          >
-            Retour aux dossiers de raccordement
-          </Button>
+          {aDéjàTransmisUneDemandeComplèteDeRaccordement ? (
+            <Button
+              priority="secondary"
+              linkProps={{
+                href: Routes.Raccordement.détail(identifiantProjet),
+                prefetch: false,
+              }}
+              iconId="fr-icon-arrow-left-line"
+            >
+              Retour aux dossiers de raccordement
+            </Button>
+          ) : (
+            <Button
+              priority="secondary"
+              linkProps={{
+                href: Routes.Projet.details(identifiantProjet),
+                prefetch: false,
+              }}
+              iconId="fr-icon-arrow-left-line"
+            >
+              Retour au projet
+            </Button>
+          )}
           <SubmitButton>Transmettre</SubmitButton>
         </>
       }
@@ -79,17 +96,32 @@ export const TransmettreDemandeComplèteRaccordementForm = ({
       <input name="identifiantProjet" type="hidden" value={identifiantProjet} />
 
       {alreadyHasAGestionnaireRéseau ? (
-        <input
-          type="hidden"
-          name="identifiantGestionnaireReseau"
-          value={identifiantGestionnaireRéseauActuel}
-        />
+        <div className="flex flex-col">
+          <input
+            type="hidden"
+            name="identifiantGestionnaireReseau"
+            value={identifiantGestionnaireRéseauActuel}
+          />
+          <div className="flex gap-3">
+            <legend className="font-bold">Gestionnaire réseau actuel</legend>
+            {aDéjàTransmisUneDemandeComplèteDeRaccordement ? null : (
+              <Link href={Routes.Raccordement.modifierGestionnaireDeRéseau(identifiantProjet)}>
+                <Icon id="fr-icon-edit-box-line" size="sm" /> Modifier
+              </Link>
+            )}
+          </div>
+          <div className="flex flex-col">
+            {gestionnaireActuel?.raisonSociale} ({gestionnaireActuel?.identifiantGestionnaireRéseau}
+            )
+          </div>
+        </div>
       ) : (
         <GestionnaireRéseauSelect
           id="identifiantGestionnaireReseau"
           name="identifiantGestionnaireReseau"
           label="Gestionnaire de réseau"
           listeGestionnairesRéseau={listeGestionnairesRéseau}
+          identifiantGestionnaireRéseauActuel={identifiantGestionnaireRéseauActuel}
           state={validationErrors['identifiantGestionnaireReseau'] ? 'error' : 'default'}
           stateRelatedMessage={validationErrors['identifiantGestionnaireReseau']}
           onGestionnaireRéseauSelected={({ identifiantGestionnaireRéseau }) =>
