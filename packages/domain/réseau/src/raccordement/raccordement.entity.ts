@@ -3,6 +3,8 @@ import { Entity } from '@potentiel-domain/entity';
 type DossierRaccordement = {
   identifiantGestionnaireRéseau: string;
   identifiantProjet: string;
+  appelOffre: string;
+
   référence: string;
   demandeComplèteRaccordement?: {
     dateQualification?: string;
