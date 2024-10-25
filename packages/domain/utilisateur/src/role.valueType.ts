@@ -467,6 +467,7 @@ const policies = {
         référencielPermissions.réseau.gestionnaire.usecase.modifier,
         référencielPermissions.réseau.gestionnaire.command.modifier,
       ],
+      consulter: [référencielPermissions.réseau.gestionnaire.query.consulter],
     },
   },
   abandon: {
@@ -1060,7 +1061,10 @@ const permissionCaisseDesDépôts: Policy[] = [
   'achèvement.consulter',
 ];
 
-const permissionGRD: Policy[] = [];
+const permissionGRD: Policy[] = [
+  'réseau.gestionnaire.consulter',
+  'réseau.raccordement.listerRaccordementEnAttenteMiseEnService',
+];
 
 const policyParRole: Record<RawType, Policy[]> = {
   admin: permissionAdmin,
