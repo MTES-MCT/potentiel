@@ -3,9 +3,11 @@ import React, { FC } from 'react';
 import { UploadDocument, UploadDocumentProps } from './UploadDocument';
 import { KeepOrEditDocument, KeepOrEditDocumentProps } from './KeepOrEditDocument';
 
-export type InputDocumentProps = UploadDocumentProps | KeepOrEditDocumentProps;
+export type UploadNewOrModifyExistingDocumentProps = UploadDocumentProps | KeepOrEditDocumentProps;
 
-export const InputDocument: FC<InputDocumentProps> = (props) => {
+export const UploadNewOrModifyExistingDocument: FC<UploadNewOrModifyExistingDocumentProps> = (
+  props,
+) => {
   return isKeepOrEditDocumentProps(props) ? (
     <KeepOrEditDocument {...props} documentKey={props.documentKey} />
   ) : (
@@ -15,4 +17,6 @@ export const InputDocument: FC<InputDocumentProps> = (props) => {
 
 const isKeepOrEditDocumentProps = (
   props: UploadDocumentProps | KeepOrEditDocumentProps,
-): props is KeepOrEditDocumentProps => Object.hasOwn(props, 'documentKey');
+): props is KeepOrEditDocumentProps =>
+  Object.hasOwn(props, 'documentKey') &&
+  (props as { documentKey?: string }).documentKey !== undefined;

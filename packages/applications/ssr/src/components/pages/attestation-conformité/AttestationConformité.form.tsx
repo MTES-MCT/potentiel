@@ -11,7 +11,7 @@ import { Iso8601DateTime, now } from '@potentiel-libraries/iso8601-datetime';
 import { Form } from '@/components/atoms/form/Form';
 import { SubmitButton } from '@/components/atoms/form/SubmitButton';
 import { InputDate } from '@/components/atoms/form/InputDate';
-import { InputDocument } from '@/components/atoms/form/InputDocument';
+import { UploadNewOrModifyExistingDocument } from '@/components/atoms/form/document/UploadNewOrModifyExistingDocument';
 import { ValidationErrors } from '@/utils/formAction';
 
 import {
@@ -75,7 +75,7 @@ export const AttestationConformitéForm: FC<AttestationConformitéFormProps> = (
       <input name="identifiantProjet" type="hidden" value={identifiantProjet} />
 
       <div className="flex flex-col gap-6">
-        <InputDocument
+        <UploadNewOrModifyExistingDocument
           name="attestation"
           required
           documentKey={donnéesActuelles?.attestation}
@@ -85,7 +85,7 @@ export const AttestationConformitéForm: FC<AttestationConformitéFormProps> = (
           formats={['pdf']}
         />
 
-        <InputDocument
+        <UploadNewOrModifyExistingDocument
           name="preuveTransmissionAuCocontractant"
           required
           documentKey={donnéesActuelles?.preuveTransmissionAuCocontractant}

@@ -4,7 +4,7 @@ import { KeepOrEditDocument, KeepOrEditDocumentProps } from './KeepOrEditDocumen
 
 // More on how to set up stories at: https://storybook.js.org/docs/writing-stories#default-export
 const meta = {
-  title: 'Atoms/Form/KeepOrEditDocument',
+  title: 'Atoms/Form/Document/KeepOrEditDocument',
   component: KeepOrEditDocument,
   parameters: {},
   tags: ['autodocs'],

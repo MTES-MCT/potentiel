@@ -8,7 +8,7 @@ import { now } from '@potentiel-libraries/iso8601-datetime';
 import { Form } from '@/components/atoms/form/Form';
 import { SubmitButton } from '@/components/atoms/form/SubmitButton';
 import { InputDate } from '@/components/atoms/form/InputDate';
-import { InputDocument } from '@/components/atoms/form/InputDocument';
+import { UploadNewOrModifyExistingDocument } from '@/components/atoms/form/document/UploadNewOrModifyExistingDocument';
 import { ValidationErrors } from '@/utils/formAction';
 
 import {
@@ -62,7 +62,7 @@ export const EnregistrerAttestationGarantiesFinancièresForm: FC<
         stateRelatedMessage={validationErrors['dateConstitution']}
       />
 
-      <InputDocument
+      <UploadNewOrModifyExistingDocument
         label="Attestation de constitution"
         name="attestation"
         required

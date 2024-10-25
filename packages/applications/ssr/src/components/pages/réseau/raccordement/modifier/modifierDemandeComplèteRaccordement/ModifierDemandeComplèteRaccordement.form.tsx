@@ -8,7 +8,7 @@ import { Routes } from '@potentiel-applications/routes';
 import { Iso8601DateTime, now } from '@potentiel-libraries/iso8601-datetime';
 
 import { Form } from '@/components/atoms/form/Form';
-import { InputDocument } from '@/components/atoms/form/InputDocument';
+import { UploadNewOrModifyExistingDocument } from '@/components/atoms/form/document/UploadNewOrModifyExistingDocument';
 import { InputDate } from '@/components/atoms/form/InputDate';
 import { SubmitButton } from '@/components/atoms/form/SubmitButton';
 import { ValidationErrors } from '@/utils/formAction';
@@ -138,7 +138,7 @@ export const ModifierDemandeComplèteRaccordementForm: FC<
         </>
       )}
 
-      <InputDocument
+      <UploadNewOrModifyExistingDocument
         label="Accusé de réception de la demande complète de raccordement **"
         name="accuseReception"
         required

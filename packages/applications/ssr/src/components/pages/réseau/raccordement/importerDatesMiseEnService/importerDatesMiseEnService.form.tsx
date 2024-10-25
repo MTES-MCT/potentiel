@@ -5,10 +5,10 @@ import { FC, useState } from 'react';
 import { Routes } from '@potentiel-applications/routes';
 
 import { Form } from '@/components/atoms/form/Form';
-import { InputDocument } from '@/components/atoms/form/InputDocument';
+import { UploadNewOrModifyExistingDocument } from '@/components/atoms/form/document/UploadNewOrModifyExistingDocument';
 import { SubmitButton } from '@/components/atoms/form/SubmitButton';
 import { ValidationErrors } from '@/utils/formAction';
-import { DownloadDocument } from '@/components/atoms/form/DownloadDocument';
+import { DownloadDocument } from '@/components/atoms/form/document/DownloadDocument';
 
 import {
   GestionnaireRéseauSelect,
@@ -67,7 +67,7 @@ export const ImporterDatesMiseEnServiceForm: FC<
         format="csv"
         label="Télécharger la liste des raccordements en attente de mise en service"
       />
-      <InputDocument
+      <UploadNewOrModifyExistingDocument
         label="Fichier des dates de mise en service"
         formats={['csv']}
         name="fichierDatesMiseEnService"

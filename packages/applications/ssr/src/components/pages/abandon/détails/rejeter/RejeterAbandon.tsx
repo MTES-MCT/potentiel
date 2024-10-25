@@ -6,8 +6,8 @@ import { useState } from 'react';
 import { Routes } from '@potentiel-applications/routes';
 
 import { ModalWithForm } from '@/components/molecules/ModalWithForm';
-import { DownloadDocument } from '@/components/atoms/form/DownloadDocument';
-import { InputDocument } from '@/components/atoms/form/InputDocument';
+import { DownloadDocument } from '@/components/atoms/form/document/DownloadDocument';
+import { UploadNewOrModifyExistingDocument } from '@/components/atoms/form/document/UploadNewOrModifyExistingDocument';
 import { ValidationErrors } from '@/utils/formAction';
 
 import { rejeterAbandonAction, RejeterAbandonFormKeys } from './rejeterAbandon.action';
@@ -46,7 +46,7 @@ export const RejeterAbandon = ({ identifiantProjet }: RejeterAbandonFormProps) =
             <>
               <input type={'hidden'} value={identifiantProjet} name="identifiantProjet" />
 
-              <InputDocument
+              <UploadNewOrModifyExistingDocument
                 label="Réponse signée"
                 state={validationErrors['reponseSignee'] ? 'error' : 'default'}
                 stateRelatedMessage={validationErrors['reponseSignee']}

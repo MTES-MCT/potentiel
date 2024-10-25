@@ -1,15 +1,18 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
-import { InputDocument, InputDocumentProps } from './InputDocument';
+import {
+  UploadNewOrModifyExistingDocument,
+  UploadNewOrModifyExistingDocumentProps,
+} from './UploadNewOrModifyExistingDocument';
 
 // More on how to set up stories at: https://storybook.js.org/docs/writing-stories#default-export
 const meta = {
-  title: 'Atoms/Form/InputDocument',
-  component: InputDocument,
+  title: 'Atoms/Form/Document/UploadNewOrModifyExistingDocument',
+  component: UploadNewOrModifyExistingDocument,
   parameters: {},
   tags: ['autodocs'],
   argTypes: {},
-} satisfies Meta<InputDocumentProps>;
+} satisfies Meta<UploadNewOrModifyExistingDocumentProps>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
@@ -21,6 +24,7 @@ export const WithoutExistingDocument: Story = {
     formats: ['pdf'],
     stateRelatedMessage: 'This is a state related message',
     hintText: "I'm giving some hint",
+    documentKey: undefined,
   },
 };
 

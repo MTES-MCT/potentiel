@@ -5,7 +5,7 @@ import { Routes } from '@potentiel-applications/routes';
 import { CallOut } from '@/components/atoms/CallOut';
 import { Heading2 } from '@/components/atoms/headings';
 import { FormattedDate } from '@/components/atoms/FormattedDate';
-import { DownloadDocument } from '@/components/atoms/form/DownloadDocument';
+import { DownloadDocument } from '@/components/atoms/form/document/DownloadDocument';
 
 import { StatutGarantiesFinancièresBadge } from '../../molecules/garantiesFinancières/StatutGarantiesFinancièresBadge';
 

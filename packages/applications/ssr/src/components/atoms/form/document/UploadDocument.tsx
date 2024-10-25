@@ -7,7 +7,7 @@ import { createModal } from '@codegouvfr/react-dsfr/Modal';
 
 import { DEFAULT_FILE_SIZE_LIMIT_IN_MB } from '@/utils/zod/documentTypes';
 
-import { Icon } from '../Icon';
+import { Icon } from '../../Icon';
 
 export type UploadDocumentProps = {
   className?: string;
@@ -21,6 +21,7 @@ export type UploadDocumentProps = {
   stateRelatedMessage?: React.ReactNode;
   hintText?: string;
   multiple?: true;
+  onChange?: (filenames: Array<string>) => void;
 };
 
 export const UploadDocument: FC<UploadDocumentProps> = ({
@@ -33,6 +34,7 @@ export const UploadDocument: FC<UploadDocumentProps> = ({
   hintText,
   required,
   multiple,
+  onChange,
 }) => {
   const hiddenFileInput = React.useRef<HTMLInputElement>(null);
   const acceptedFormats = formats.map((format) => `.${format}`).join(',');
@@ -63,7 +65,10 @@ export const UploadDocument: FC<UploadDocumentProps> = ({
       })
       .filter((f) => f !== undefined);
 
-    setDocumentFilenames(multiple ? [...documentFilenames, ...fileNames] : fileNames);
+    const updatedFilenames = multiple ? [...documentFilenames, ...fileNames] : fileNames;
+
+    setDocumentFilenames(updatedFilenames);
+    onChange && onChange(updatedFilenames);
   };
 
   const handleFileRemove = (index: number) => {
@@ -80,7 +85,10 @@ export const UploadDocument: FC<UploadDocumentProps> = ({
     });
 
     hiddenFileInput.current.files = dataTransfer.files;
-    setDocumentFilenames(documentFilenames.filter((_, i) => i !== index));
+    const updatedFilenames = documentFilenames.filter((_, i) => i !== index);
+
+    setDocumentFilenames(updatedFilenames);
+    onChange && onChange(updatedFilenames);
   };
 
   const handleRemoveAllFiles = () => {
@@ -89,7 +97,9 @@ export const UploadDocument: FC<UploadDocumentProps> = ({
     }
 
     hiddenFileInput.current.files = null;
+
     setDocumentFilenames([]);
+    onChange && onChange([]);
   };
 
   const [documentFilenames, setDocumentFilenames] = useState<Array<string>>([]);
