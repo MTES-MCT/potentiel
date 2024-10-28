@@ -84,10 +84,11 @@ Quand(
 );
 
 Quand(
-  `le DGEC validateur accorde le recours pour le projet éliminé {string}`,
-  async function (this: PotentielWorld, nomProjet: string) {
+  `le DGEC validateur accorde le recours pour le projet éliminé`,
+  async function (this: PotentielWorld) {
     try {
       const identifiantProjet = this.eliminéWorld.identifiantProjet;
+      const nomProjet = this.eliminéWorld.nomProjet;
 
       const {
         accordéLe: accordéeLe,
