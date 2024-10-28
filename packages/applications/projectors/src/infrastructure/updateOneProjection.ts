@@ -11,27 +11,30 @@ export const updateOneProjection = async <TProjection extends Entity>(
   id: `${TProjection['type']}|${string}`,
   readModel: AtLeastOne<Omit<TProjection, 'type'>>,
 ): Promise<void> => {
-  const [updateQuery, values] = prepareUpdateProjectionQuery(readModel);
-  await executeQuery(updateQuery, id, ...values);
+  const [updateQuery, values] = getUpdateClause(readModel, 1);
+  await executeQuery(`${updateQuery} where key = $1`, id, ...values);
 };
 
-export const prepareUpdateProjectionQuery = <TProjection extends Entity>(
+/**
+ * Generates a recursive update similar to this:
+ * select jsonb_set(jsonb_set(data,'{field1}','"new_value1"'), '{field2}', '"new_value2"')
+ * from (select '{"field1": "a", "field2":"b"}'::jsonb as data ) a
+ *
+ * startIndex allows to shift the variable ($1,...)
+ */
+export const getUpdateClause = <TProjection extends Entity>(
   readModel: AtLeastOne<Omit<TProjection, 'type'>>,
+  startIndex: number,
 ): [string, Array<unknown>] => {
   const flatReadModel = flatten(readModel) as Record<string, unknown>;
-  /*
-    The following generates a recursive update similar to this:
-    select jsonb_set(jsonb_set(data,'{field1}','"new_value1"'), '{field2}', '"new_value2"')
-    from (select '{"field1": "a", "field2":"b"}'::jsonb as data ) a
 
-    the `i+2` operation is due to `i` starting at 0, and $1 being the key
-   */
+  // add 1 to startIndex since arrays start at 0 but sql variables start at $1
   const jsonb_set = Object.keys(flatReadModel).reduce(
-    (acc, curr, i) => `jsonb_set(${acc},'{${format('%I', curr)}}',$${i + 2})`,
+    (acc, curr, i) => `jsonb_set(${acc},'{${format('%I', curr)}}',$${i + 1 + startIndex})`,
     'value',
   );
   const values = Object.values(flatReadModel).map((value) =>
     typeof value === 'string' ? `"${value}"` : value,
   );
-  return [`update domain_views.projection set value=${jsonb_set} where key = $1`, values];
+  return [`update domain_views.projection set value=${jsonb_set}`, values];
 };

@@ -1,9 +1,8 @@
-import format from 'pg-format';
-
-import { Entity, WhereOptions } from '@potentiel-domain/entity';
-import { flatten } from '@potentiel-libraries/flat';
-import { executeQuery } from '@potentiel-libraries/pg-helpers';
 import { getWhereClause } from '@potentiel-infrastructure/pg-projections';
+import { Entity, WhereOptions } from '@potentiel-domain/entity';
+import { executeQuery } from '@potentiel-libraries/pg-helpers';
+
+import { getUpdateClause } from './updateOneProjection';
 
 type AtLeastOne<T, U = { [K in keyof T]: Pick<T, K> }> = Partial<T> & U[keyof U];
 
@@ -23,27 +22,12 @@ export const getUpdateProjectionQuery = <TEntity extends Entity>(
   where: WhereOptions<Omit<TEntity, 'type'>>,
   update: AtLeastOne<Omit<TEntity, 'type'>>,
 ): [string, Array<unknown>] => {
-  const flatReadModel = flatten(update) as Record<string, unknown>;
-
   const [whereClause, whereValues] = where ? getWhereClause(where) : ['', []];
-
-  /*
-    The following generates a recursive update similar to this:
-    select jsonb_set(jsonb_set(data,'{field1}','"new_value1"'), '{field2}', '"new_value2"')
-    from (select '{"field1": "a", "field2":"b"}'::jsonb as data ) a
-
-    the `i+2` operation is due to `i` starting at 0, and $1 being the key
-   */
-  const jsonb_set = Object.keys(flatReadModel).reduce(
-    (acc, curr, i) => `jsonb_set(${acc},'{${format('%I', curr)}}',$${i + 2 + whereValues.length})`,
-    'value',
-  );
-  const values = Object.values(flatReadModel).map((value) =>
-    typeof value === 'string' ? `"${value}"` : value,
-  );
+  // shift variable index by the number of where Values, and add 1 for the key filter (category)
+  const [updateClause, updateValues] = getUpdateClause<TEntity>(update, whereValues.length + 1);
 
   return [
-    `update domain_views.projection set value=${jsonb_set} where key like $1 ${whereClause}`,
-    [`${category}|%`, ...whereValues, ...values],
+    `${updateClause} where key like $1 ${whereClause}`,
+    [`${category}|%`, ...whereValues, ...updateValues],
   ];
 };
