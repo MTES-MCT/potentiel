@@ -99,8 +99,6 @@ export async function transmettreDemande(
     throw new DateDansLeFuturError();
   }
 
-  // ImpossibleTransmettreDCRProjetÉliminéError
-
   const event: DemandeComplèteRaccordementTransmiseEvent = {
     type: 'DemandeComplèteDeRaccordementTransmise-V2',
     payload: {
