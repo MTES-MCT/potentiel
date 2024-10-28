@@ -16,6 +16,7 @@ export class LauréatWorld {
   get lauréatFixtures() {
     return this.#lauréatFixtures;
   }
+
   rechercherLauréatFixture(nom: string): LauréatFixture {
     const lauréat = this.#lauréatFixtures.get(nom);
 

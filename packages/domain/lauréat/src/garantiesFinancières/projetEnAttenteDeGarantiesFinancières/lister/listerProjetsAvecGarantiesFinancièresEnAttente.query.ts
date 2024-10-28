@@ -8,7 +8,7 @@ import {
   MotifDemandeGarantiesFinancières,
   ProjetAvecGarantiesFinancièresEnAttenteEntity,
 } from '../..';
-import { getRoleBasedWhereCondition, Utilisateur } from '../../getRoleBasedWhereCondition';
+import { getRoleBasedWhereCondition, Utilisateur } from '../../utils/getRoleBasedWhereCondition';
 
 type ProjetAvecGarantiesFinancièresEnAttenteListItemReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;

@@ -23,7 +23,7 @@ Fonctionnalité: Supprimer un dépôt de garanties financières
             | soumis par           | porteur@test.test      |
         Quand le porteur supprime un dépôt de garanties financières pour le projet "Du boulodrome de Marseille"
         Alors il ne devrait pas y avoir de dépôt de garanties financières pour le projet "Du boulodrome de Marseille"
-        Et des garanties financières devraient être attendues pour le projet "Du boulodrome de Marseille" avec :
+        Et des garanties financières devraient être attendues pour le projet lauréat "Du boulodrome de Marseille" avec :
             | date limite de soumission | 2023-11-01 |
             | motif                     | <motif>    |
 
