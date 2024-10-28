@@ -329,7 +329,15 @@ const getNavigationItemsBasedOnRole = (
           },
         },
       ];
-
+    case 'grd':
+      return [
+        {
+          text: 'Dates de mise en service',
+          linkProps: {
+            href: Routes.Raccordement.importer,
+          },
+        },
+      ];
     default:
       return [];
   }

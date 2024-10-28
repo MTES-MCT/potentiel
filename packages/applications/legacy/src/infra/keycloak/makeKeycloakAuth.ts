@@ -10,6 +10,7 @@ import { makeAttachUserToRequestMiddleware } from './attachUserToRequestMiddlewa
 import { miseAJourStatistiquesUtilisation } from '../../controllers/helpers';
 import { isLocalEnv } from '../../config';
 import { getLogger } from '@potentiel-libraries/monitoring';
+import { Routes } from '@potentiel-applications/routes';
 
 export interface KeycloakAuthDeps {
   sequelizeInstance: any;
@@ -161,11 +162,15 @@ export const makeKeycloakAuth = (deps: KeycloakAuthDeps) => {
        * - Sinon je m'authentifie déjà sur next, puis je suis redirigé sur la liste des projets
        *
        */
+      const redirectTo =
+        req.user.role === 'grd'
+          ? Routes.Raccordement.importer
+          : `${routes.LISTE_PROJETS}?${queryString}`;
       if (req.cookies[NEXT_AUTH_SESSION_TOKEN_COOKIE_NAME]) {
-        return res.redirect(`${routes.LISTE_PROJETS}?${queryString}`);
+        return res.redirect(redirectTo);
       }
 
-      return res.redirect(`auth/signIn?callbackUrl=${routes.LISTE_PROJETS}?${queryString}`);
+      return res.redirect(`auth/signIn?callbackUrl=${redirectTo}`);
     });
   };
 
