@@ -164,7 +164,7 @@ export const makeKeycloakAuth = (deps: KeycloakAuthDeps) => {
        */
       const redirectTo =
         req.user.role === 'grd'
-          ? Routes.Raccordement.importer
+          ? Routes.Raccordement.lister
           : `${routes.LISTE_PROJETS}?${queryString}`;
       if (req.cookies[NEXT_AUTH_SESSION_TOKEN_COOKIE_NAME]) {
         return res.redirect(redirectTo);
