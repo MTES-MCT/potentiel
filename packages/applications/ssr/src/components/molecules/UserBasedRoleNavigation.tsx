@@ -113,7 +113,7 @@ const getNavigationItemsBasedOnRole = (
               },
             },
             {
-              text: 'Importer dates mise en service',
+              text: 'Importer des dates de mise en service',
               linkProps: {
                 href: Routes.Raccordement.importer,
               },
@@ -353,7 +353,7 @@ const getNavigationItemsBasedOnRole = (
               },
             },
             {
-              text: 'Importer dates mise en service',
+              text: 'Importer des dates de mise en service',
               linkProps: {
                 href: Routes.Raccordement.importer,
               },
