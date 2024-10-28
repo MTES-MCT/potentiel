@@ -4,11 +4,9 @@ Fonctionnalité: Transmettre une attestation de conformité
     Contexte:
         Etant donné le projet lauréat "Du boulodrome de Marseille"
         Et le porteur "Marcel Patoulatchi" ayant accés au projet lauréat "Du boulodrome de Marseille"
-        Et la dreal associée au projet lauréat "Du boulodrome de Marseille"
-            | email | dreal@test.test |
-            | nom   | Dreal Test      |
+        Et la dreal "Dreal du sud" associée au projet
+        Et le DGEC validateur "Robert Robichet"
 
-    @select
     Scénario: le porteur transmet une attestation de conformité pour le projet lauréat
         Quand le porteur transmet une attestation de conformité pour le projet lauréat "Du boulodrome de Marseille" avec :
             | format attestation                            | application/pdf             |
@@ -26,14 +24,14 @@ Fonctionnalité: Transmettre une attestation de conformité
             | date                                          | 2024-01-05                  |
             | utilisateur                                   | porteur                     |
         Et un email a été envoyé avec :
-            | destinateur        | dreal                                                                                                                                     |
+            | destinataire       | dreal                                                                                                                                     |
             | sujet              | Potentiel - Une attestation de conformité a été transmise pour le projet Du boulodrome de Marseille dans le département departementProjet |
             | nom_projet         | Du boulodrome de Marseille                                                                                                                |
             | departement_projet | departementProjet                                                                                                                         |
             | url                | https://potentiel.beta.gouv.fr/projet/PPE2%20-%20Eolien%231%23%2323/details.html                                                          |
 
         Et un email a été envoyé avec :
-            | destinateur        | porteur                                                                                                                    |
+            | destinataire       | porteur                                                                                                                    |
             | sujet              | Potentiel - Mise à jour de la date d'achèvement du projet Du boulodrome de Marseille dans le département departementProjet |
             | nom_projet         | Du boulodrome de Marseille                                                                                                 |
             | departement_projet | departementProjet                                                                                                          |
@@ -94,7 +92,6 @@ Fonctionnalité: Transmettre une attestation de conformité
             | date                                          | 2024-01-05                  |
         Alors le porteur devrait être informé que "Il est impossible de transmettre une attestation de conformité pour un projet éliminé"
 
-    @select
     Scénario: Impossible de transmettre une attestation de conformité si le projet est abandonné
         Etant donné un abandon accordé pour le projet lauréat
         Quand le porteur transmet une attestation de conformité pour le projet lauréat "Du boulodrome de Marseille" avec :
