@@ -64,9 +64,28 @@ export const formAction =
   ) =>
   async (previousState: TState, formData: FormData) => {
     try {
-      const data = schema
-        ? await schema.parseAsync(Object.fromEntries(formData))
-        : Object.fromEntries(formData);
+      const allKeys = Array.from(formData.keys());
+
+      const dataReduced = allKeys.reduce((acc, formKey) => {
+        if (Object.hasOwn(acc, formKey)) {
+          return acc;
+        }
+
+        if (allKeys.filter((key) => key === formKey)?.length > 1) {
+          return {
+            ...acc,
+            [formKey]: formData.getAll(formKey),
+          };
+        }
+
+        return {
+          ...acc,
+          [formKey]: formData.get(formKey),
+        };
+      }, {});
+      console.info(dataReduced);
+
+      const data = schema ? await schema.parseAsync(dataReduced) : dataReduced;
 
       const result = await action(previousState, data);
 
