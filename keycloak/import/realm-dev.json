@@ -1038,7 +1038,7 @@
         },
         {
           "id": "7679bd7d-70fb-4959-9eb2-50e5e3c8c078",
-          "name": "user-roles",
+          "name": "user-groups",
           "protocol": "openid-connect",
           "protocolMapper": "oidc-group-membership-mapper",
           "consentRequired": false,
