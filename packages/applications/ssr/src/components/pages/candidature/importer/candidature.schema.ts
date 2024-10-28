@@ -239,7 +239,7 @@ const candidatureCsvRowSchema = z
   })
   // on doit avoir au minimum adresse1 ou adresse2
   .refine((val) => !!val[colonnes.adresse1] || !!val[colonnes.adresse2], {
-    message: `Au moins l'une des deux colonnes "${colonnes.adresse1}" et "${colonnes.adresse2}" doit être précisée`,
+    message: `Au moins l'une des deux colonnes "${colonnes.adresse1}" et "${colonnes.adresse2}" doit être renseignée`,
     path: [colonnes.adresse1, colonnes.adresse2],
   });
 

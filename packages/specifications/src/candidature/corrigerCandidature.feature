@@ -76,7 +76,7 @@ Fonctionnalité: Corriger une candidature
             | type GF |  |
         Alors l'administrateur devrait être informé que "Les garanties financières sont requises pour cet appel d'offre ou famille"
 
-    Scénario: Impossible de corriger une candidature classée avec des GF "avec date d'échéance" si la date d'échéance est maquante
+    Scénario: Impossible de corriger une candidature classée avec des GF "avec date d'échéance" si la date d'échéance est manquante
         Quand un administrateur corrige la candidature avec :
             | type GF | avec-date-échéance |
         Alors l'administrateur devrait être informé que "La date d'échéance des garanties financières est requise"
