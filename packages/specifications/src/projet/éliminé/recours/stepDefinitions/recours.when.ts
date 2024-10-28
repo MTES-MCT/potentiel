@@ -84,10 +84,10 @@ Quand(
 );
 
 Quand(
-  `le DGEC validateur accorde le recours pour le projet éliminé`,
-  async function (this: PotentielWorld) {
+  `le DGEC validateur accorde le recours pour le projet éliminé {string}`,
+  async function (this: PotentielWorld, nomProjet: string) {
     try {
-      const identifiantProjet = this.eliminéWorld.identifiantProjet.formatter();
+      const identifiantProjet = this.eliminéWorld.identifiantProjet;
 
       const {
         accordéLe: accordéeLe,
@@ -97,10 +97,18 @@ Quand(
         accordéPar: this.utilisateurWorld.validateurFixture.email,
       });
 
+      this.lauréatWorld.lauréatFixtures.set(nomProjet, {
+        nom: nomProjet,
+        identifiantProjet,
+        dateDésignation: accordéeLe,
+        appelOffre: identifiantProjet.appelOffre,
+        période: identifiantProjet.période,
+      });
+
       await mediator.send<Recours.RecoursUseCase>({
         type: 'Éliminé.Recours.UseCase.AccorderRecours',
         data: {
-          identifiantProjetValue: identifiantProjet,
+          identifiantProjetValue: identifiantProjet.formatter(),
           dateAccordValue: accordéeLe,
           réponseSignéeValue: réponseSignée,
           identifiantUtilisateurValue: accordéePar,

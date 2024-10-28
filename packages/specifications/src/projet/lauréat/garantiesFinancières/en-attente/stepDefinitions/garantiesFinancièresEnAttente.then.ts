@@ -10,17 +10,9 @@ import { IdentifiantProjet } from '@potentiel-domain/common';
 import { PotentielWorld } from '../../../../../potentiel.world';
 
 Alors(
-  `des garanties financières devraient être attendues pour le projet {lauréat-éliminé} {string} avec :`,
-  async function (
-    this: PotentielWorld,
-    statutProjet: 'lauréat' | 'éliminé',
-    nomProjet: string,
-    dataTable: DataTable,
-  ) {
-    const { identifiantProjet } =
-      statutProjet === 'lauréat'
-        ? this.lauréatWorld.rechercherLauréatFixture(nomProjet)
-        : this.eliminéWorld.rechercherÉliminéFixture(nomProjet);
+  `des garanties financières devraient être attendues pour le projet lauréat {string} avec :`,
+  async function (this: PotentielWorld, nomProjet: string, dataTable: DataTable) {
+    const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
 
     const exemple = dataTable.rowsHash();
     const dateLimiteSoumission = exemple['date limite de soumission'];
