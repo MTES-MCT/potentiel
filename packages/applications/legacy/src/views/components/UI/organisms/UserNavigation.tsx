@@ -271,7 +271,12 @@ const MenuDreal = (currentPage?: string) => (
 );
 
 const MenuGRD = () => (
-  <Header.MenuItem href={Routes.Raccordement.importer}>
-    Importer Dates de Mise en Service
-  </Header.MenuItem>
+  <DropdownMenu buttonChildren={'Raccordements'}>
+    <DropdownMenu.DropdownItem href={Routes.Raccordement.lister}>
+      Tous les dossiers de raccordement
+    </DropdownMenu.DropdownItem>
+    <DropdownMenu.DropdownItem href={Routes.Raccordement.importer}>
+      Importer dates mise en service
+    </DropdownMenu.DropdownItem>
+  </DropdownMenu>
 );

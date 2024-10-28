@@ -344,10 +344,21 @@ const getNavigationItemsBasedOnRole = (
     case 'grd':
       return [
         {
-          text: 'Dates de mise en service',
-          linkProps: {
-            href: Routes.Raccordement.importer,
-          },
+          text: 'Raccordements',
+          menuLinks: [
+            {
+              text: 'Tous les dossiers de raccordement',
+              linkProps: {
+                href: Routes.Raccordement.lister,
+              },
+            },
+            {
+              text: 'Importer dates mise en service',
+              linkProps: {
+                href: Routes.Raccordement.importer,
+              },
+            },
+          ],
         },
       ];
     default:
