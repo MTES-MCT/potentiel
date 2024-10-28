@@ -13,7 +13,6 @@ export const updateManyProjections = async <TEntity extends Entity>(
   update: AtLeastOne<Omit<TEntity, 'type'>>,
 ): Promise<void> => {
   const [updateQuery, values] = getUpdateProjectionQuery(category, where, update);
-  console.log({ updateQuery, values });
   await executeQuery(updateQuery, ...values);
 };
 
