@@ -34,7 +34,12 @@ Alors(
       ? new Date(exemple['date transmission au co-contractant']).toISOString()
       : new Date().toISOString();
 
-    const expectedUtilisateur = exemple['utilisateur'] || 'utilisateur@test.test';
+    const expectedUtilisateur =
+      exemple['utilisateur'] === 'porteur'
+        ? this.utilisateurWorld.porteurFixture.email
+        : exemple['utilisateur'] === 'admin'
+          ? this.utilisateurWorld.adminFixture.email
+          : '';
 
     await waitForExpect(async () => {
       const actualReadModel = await mediator.send<Achèvement.ConsulterAttestationConformitéQuery>({

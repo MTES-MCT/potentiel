@@ -1,6 +1,7 @@
 import { PorteurFixture } from './fixtures/porteur.fixture';
 import { ValidateurFixture } from './fixtures/validateur.fixture';
 import { DREALFixture } from './fixtures/dreal.fixture';
+import { AdminFixture } from './fixtures/admin.fixture';
 
 export class UtilisateurWorld {
   #porteurFixture: PorteurFixture;
@@ -21,9 +22,16 @@ export class UtilisateurWorld {
     return this.#drealFixture;
   }
 
+  #adminFixture: AdminFixture;
+
+  get adminFixture() {
+    return this.#adminFixture;
+  }
+
   constructor() {
     this.#porteurFixture = new PorteurFixture();
     this.#validateurFixture = new ValidateurFixture();
     this.#drealFixture = new DREALFixture();
+    this.#adminFixture = new AdminFixture();
   }
 }

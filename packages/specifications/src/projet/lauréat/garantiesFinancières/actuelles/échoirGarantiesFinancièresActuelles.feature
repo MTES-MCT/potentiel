@@ -3,10 +3,7 @@ Fonctionnalité: Échoir les garanties financières actuelles d'un projet
 
     Contexte:
         Etant donné le projet lauréat "Du boulodrome de Marseille"
-        Et le porteur pour le projet lauréat "Du boulodrome de Marseille"
-            | email | porteur@test.test   |
-            | nom   | Porteur Projet Test |
-            | role  | porteur-projet      |
+        Et le porteur "Marcel Patoulatchi" ayant accés au projet lauréat "Du boulodrome de Marseille"
         Et la dreal associée au projet lauréat "Du boulodrome de Marseille"
             | email | dreal@test.test |
             | nom   | Dreal Test      |
@@ -18,7 +15,8 @@ Fonctionnalité: Échoir les garanties financières actuelles d'un projet
         Quand un admin échoie les garanties financières actuelles pour le projet "Du boulodrome de Marseille" avec :
             | à échoir le | 2024-07-18 |
         Alors les garanties financières actuelles du projet "Du boulodrome de Marseille" sont échues
-        Et un email a été envoyé à "porteur@test.test" avec :
+        Et un email a été envoyé avec :
+            | destinateur        | porteur                                                                                                                                        |
             | sujet              | Potentiel - Date d'échéance dépassée pour les garanties financières du projet Du boulodrome de Marseille dans le département departementProjet |
             | nom_projet         | Du boulodrome de Marseille                                                                                                                     |
             | departement_projet | departementProjet                                                                                                                              |

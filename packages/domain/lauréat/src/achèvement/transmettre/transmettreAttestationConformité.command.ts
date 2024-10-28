@@ -7,6 +7,7 @@ import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
 import { Éliminé } from '@potentiel-domain/elimine';
 
 import { loadAchèvementFactory } from '../achèvement.aggregate';
+import { Abandon } from '../..';
 
 export type TransmettreAttestationConformitéCommand = Message<
   'Lauréat.Achèvement.AttestationConformité.Command.TransmettreAttestationConformité',
@@ -23,6 +24,7 @@ export type TransmettreAttestationConformitéCommand = Message<
 export const registerTransmettreAttestationConformitéCommand = (loadAggregate: LoadAggregate) => {
   const loadAttestationConformitéAggregate = loadAchèvementFactory(loadAggregate);
   const loadÉliminé = Éliminé.loadÉliminéFactory(loadAggregate);
+  const loadAbandon = Abandon.loadAbandonFactory(loadAggregate);
 
   const handler: MessageHandler<TransmettreAttestationConformitéCommand> = async ({
     identifiantProjet,
@@ -37,6 +39,7 @@ export const registerTransmettreAttestationConformitéCommand = (loadAggregate: 
       false,
     );
     const éliminé = await loadÉliminé(identifiantProjet, false);
+    const abandon = await loadAbandon(identifiantProjet, false);
 
     await attestationConformité.transmettre({
       identifiantProjet,
@@ -46,6 +49,7 @@ export const registerTransmettreAttestationConformitéCommand = (loadAggregate: 
       date,
       utilisateur,
       estUnProjetÉliminé: éliminé.identifiantProjet.estÉgaleÀ(identifiantProjet),
+      aUnAbandonAccordé: abandon.estAccordé(),
     });
   };
 

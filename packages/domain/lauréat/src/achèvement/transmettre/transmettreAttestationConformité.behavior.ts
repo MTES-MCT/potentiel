@@ -26,6 +26,7 @@ export type Options = {
   date: DateTime.ValueType;
   utilisateur: IdentifiantUtilisateur.ValueType;
   estUnProjetÉliminé: boolean;
+  aUnAbandonAccordé: boolean;
 };
 
 export async function transmettre(
@@ -38,10 +39,15 @@ export async function transmettre(
     date,
     utilisateur,
     estUnProjetÉliminé,
+    aUnAbandonAccordé,
   }: Options,
 ) {
   if (estUnProjetÉliminé) {
     throw new ImpossibleTransmettreAttestationDeConformitéProjetÉliminéError();
+  }
+
+  if (aUnAbandonAccordé) {
+    throw new ImpossibleTransmettreAttestationDeConformitéProjetAbandonnéError();
   }
 
   if (dateTransmissionAuCocontractant.estDansLeFutur()) {
@@ -98,5 +104,13 @@ class AttestationDeConformitéDéjàTransmiseError extends InvalidOperationError
 class ImpossibleTransmettreAttestationDeConformitéProjetÉliminéError extends InvalidOperationError {
   constructor() {
     super('Il est impossible de transmettre une attestation de conformité pour un projet éliminé');
+  }
+}
+
+class ImpossibleTransmettreAttestationDeConformitéProjetAbandonnéError extends InvalidOperationError {
+  constructor() {
+    super(
+      'Il est impossible de transmettre une attestation de conformité pour un projet abandonné',
+    );
   }
 }
