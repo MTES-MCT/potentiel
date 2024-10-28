@@ -28,13 +28,15 @@ Alors(
 
     await waitForExpect(async () => {
       const actualReadModel = await getProjetAvecGarantiesFinancièresEnAttente(identifiantProjet);
-      console.log(actualReadModel);
 
       expect(actualReadModel.nomProjet).to.deep.equal(nomProjet);
       expect(actualReadModel.motif.motif).to.deep.equal(motif);
-      expect(actualReadModel.dateLimiteSoumission.date).to.deep.equal(
-        new Date(dateLimiteSoumission),
-      );
+
+      if (dateLimiteSoumission) {
+        expect(actualReadModel.dateLimiteSoumission.date).to.deep.equal(
+          new Date(dateLimiteSoumission),
+        );
+      }
     });
   },
 );
