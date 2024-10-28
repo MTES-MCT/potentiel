@@ -782,6 +782,7 @@ const policies = {
         référencielPermissions.candidature.query.consulterProjet,
         référencielPermissions.candidature.query.consulterCandidature,
         référencielPermissions.éliminé.recours.query.consulterLegacy,
+        référencielPermissions.éliminé.recours.query.consulter,
       ],
     },
   },
