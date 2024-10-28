@@ -5,7 +5,6 @@ Fonctionnalité: Modifier une attestation de conformité
         Etant donné le projet lauréat "Centrale PV"
         Et l'admin "Hubert Valéry"
 
-    @test
     Scénario: Un porteur modifie une attestation de conformité
         Et une attestation de conformité transmise pour le projet "Centrale PV"
         Quand l'admin modifie l'attestation de conformité pour le projet "Centrale PV" avec :

@@ -1,5 +1,5 @@
 import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
-import { DomainEvent } from '@potentiel-domain/core';
+import { DomainEvent, InvalidOperationError } from '@potentiel-domain/core';
 import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
 import { DocumentProjet } from '@potentiel-domain/document';
 
@@ -26,6 +26,7 @@ export type DemanderOptions = {
   identifiantProjet: IdentifiantProjet.ValueType;
   pièceJustificative: DocumentProjet.ValueType;
   raison: string;
+  estUnProjetLauréat: boolean;
 };
 
 export async function demander(
@@ -36,9 +37,14 @@ export async function demander(
     identifiantProjet,
     pièceJustificative,
     raison,
+    estUnProjetLauréat,
   }: DemanderOptions,
 ) {
   this.statut.vérifierQueLeChangementDeStatutEstPossibleEn(StatutRecours.demandé);
+
+  if (estUnProjetLauréat) {
+    throw new RecoursPourProjetLauréatError();
+  }
 
   const event: RecoursDemandéEvent = {
     type: 'RecoursDemandé-V1',
@@ -80,4 +86,10 @@ export function applyRecoursDemandé(
   this.rejet = undefined;
   this.accord = undefined;
   this.annuléLe = undefined;
+}
+
+class RecoursPourProjetLauréatError extends InvalidOperationError {
+  constructor() {
+    super('Il est impossible de demander un recours pour un projet lauréat');
+  }
 }

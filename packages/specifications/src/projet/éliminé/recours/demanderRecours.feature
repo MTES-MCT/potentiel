@@ -6,6 +6,7 @@ Fonctionnalité: Demander le recours d'un projet éliminé
         Et le porteur "Marcel Patoulatchi" ayant accés au projet éliminé "Du boulodrome de Marseille"
         Et le DGEC validateur "Robert Robichet"
 
+    @select
     Scénario: Un porteur demande le recours d'un projet éliminé
         Quand le porteur demande le recours pour le projet éliminé
         Alors le recours du projet éliminé devrait être demandé
@@ -15,11 +16,12 @@ Fonctionnalité: Demander le recours d'un projet éliminé
         Quand le porteur demande le recours pour le projet éliminé
         Alors le recours du projet éliminé devrait être de nouveau demandé
 
-    @NotImplemented
+    @select
     Scénario: Impossible de demander un recours pour un projet lauréat
         Etant donné le projet lauréat "MIOS"
-        Quand le porteur demande le recours pour le projet éliminé
-        Alors le porteur devrait être informé que "Impossible de demander un recours pour un projet lauréat"
+        Et le porteur "Marcel Patoulatchi" ayant accés au projet lauréat "MIOS"
+        Quand le porteur demande le recours pour le projet lauréat
+        Alors le porteur devrait être informé que "Il est impossible de demander un recours pour un projet lauréat"
 
     Scénario: Impossible de demander un recours pour un projet si le recours est déjà en cours
         Etant donné un recours en cours pour le projet éliminé

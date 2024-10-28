@@ -58,7 +58,7 @@ EtantDonné(
   },
 );
 
-EtantDonné("l'admin' {string}", async function (this: PotentielWorld, nomAdmin: string) {
+EtantDonné("l'admin {string}", async function (this: PotentielWorld, nomAdmin: string) {
   const { email, id, nom, role } = this.utilisateurWorld.adminFixture.créer({
     nom: nomAdmin,
   });

@@ -98,6 +98,8 @@ EtantDonné('le projet lauréat {string}', async function (this: PotentielWorld,
     appelOffre,
     période,
   });
+
+  // violette : should hack here
 });
 
 EtantDonné(
