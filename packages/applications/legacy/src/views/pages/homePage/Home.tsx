@@ -16,7 +16,7 @@ const getMenuText = ({ role }: User) => {
     case 'porteur-projet':
       return 'Voir mes projets';
     case 'grd':
-      return 'Importer des dates de mise en service';
+      return 'Voir les raccordements';
     default:
       return 'Voir les projets';
   }
