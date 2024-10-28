@@ -87,7 +87,7 @@ export const AttestationConformitéForm: FC<AttestationConformitéFormProps> = (
         <UploadDocument
           name="preuveTransmissionAuCocontractant"
           required
-          documentKey={donnéesActuelles?.attestation}
+          documentKey={donnéesActuelles?.preuveTransmissionAuCocontractant}
           label="Preuve de transmission au co-contractant"
           hintText="Il peut s'agir d'une copie de l'email que vous lui avez envoyé, ou de la copie du courrier si envoyé par voie postale."
           state={validationErrors['preuveTransmissionAuCocontractant'] ? 'error' : 'default'}
