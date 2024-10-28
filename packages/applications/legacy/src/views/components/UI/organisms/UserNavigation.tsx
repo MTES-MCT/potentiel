@@ -113,15 +113,20 @@ const MenuAdmin = (currentPage?: string) => (
         Tous les candidats
       </DropdownMenu.DropdownItem>
     </DropdownMenu>
+    <DropdownMenu buttonChildren={'Raccordements'}>
+      <DropdownMenu.DropdownItem href={Routes.Raccordement.lister}>
+        Tous les dossiers de raccordement
+      </DropdownMenu.DropdownItem>
+      <DropdownMenu.DropdownItem href={Routes.Raccordement.importer}>
+        Importer dates mise en service
+      </DropdownMenu.DropdownItem>
+    </DropdownMenu>
     <DropdownMenu buttonChildren={'Imports'}>
       <DropdownMenu.DropdownItem
         href={routes.UPLOAD_LEGACY_MODIFICATION_FILES}
         {...(currentPage === 'admin-upload-legacy-modification-files' && { isCurrent: true })}
       >
         Courriers historiques
-      </DropdownMenu.DropdownItem>
-      <DropdownMenu.DropdownItem href={Routes.Raccordement.importer}>
-        Dates de mise en service
       </DropdownMenu.DropdownItem>
       <DropdownMenu.DropdownItem href={Routes.Raccordement.corrigerRéférencesDossier}>
         Corrections de références dossier
