@@ -365,6 +365,7 @@ const policies = {
         référencielPermissions.réseau.raccordement.query
           .listerDossierRaccordementEnAttenteMiseEnService,
         référencielPermissions.réseau.raccordement.query.listerDossierRaccordement,
+        référencielPermissions.appelOffre.query.lister,
       ],
       consulter: [
         référencielPermissions.candidature.query.consulterProjet,
@@ -1063,7 +1064,7 @@ const permissionCaisseDesDépôts: Policy[] = [
 
 const permissionGRD: Policy[] = [
   'réseau.gestionnaire.consulter',
-  'réseau.raccordement.listerRaccordementEnAttenteMiseEnService',
+  'réseau.raccordement.listerDossierRaccordement',
 ];
 
 const policyParRole: Record<RawType, Policy[]> = {
