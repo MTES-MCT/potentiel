@@ -96,7 +96,8 @@ export const UploadDocument: FC<UploadDocumentProps> = ({
       return;
     }
 
-    hiddenFileInput.current.files = null;
+    hiddenFileInput.current.files = new DataTransfer().files;
+    console.info(hiddenFileInput.current.files);
 
     setDocumentFilenames([]);
     onChange && onChange([]);
@@ -142,7 +143,22 @@ export const UploadDocument: FC<UploadDocumentProps> = ({
 
         <div className="text-sm truncate m-0 p-0 text-dsfr-text-actionHigh-grey-default">
           {documentFilenames.length === 0 && 'Aucun document sélectionné'}
-          {documentFilenames.length === 1 && documentFilenames[0]}
+          {documentFilenames.length === 1 && (
+            <div className="flex flex-row items-center">
+              {documentFilenames[0]} (
+              <Button
+                className="ml-auto"
+                type="button"
+                size="small"
+                priority="tertiary no outline"
+                iconId="fr-icon-delete-bin-line"
+                onClick={() => handleFileRemove(0)}
+              >
+                supprimer
+              </Button>
+              )
+            </div>
+          )}
           {documentFilenames.length > 1 && (
             <>
               <div>{documentFilenames.length} documents séléctionnés</div>
