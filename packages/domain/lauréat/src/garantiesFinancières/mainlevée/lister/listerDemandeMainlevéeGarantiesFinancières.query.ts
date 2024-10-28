@@ -12,7 +12,7 @@ import {
   ConsulterDemandeMainlevéeGarantiesFinancièresReadModel,
   consulterDemandeMainlevéeGarantiesFinancièresMapToReadModel,
 } from '../consulter/consulterDemandeMainlevéeGarantiesFinancières.query';
-import { getRoleBasedWhereCondition, Utilisateur } from '../../getRoleBasedWhereCondition';
+import { getRoleBasedWhereCondition, Utilisateur } from '../../utils/getRoleBasedWhereCondition';
 
 export type ListerDemandeMainlevéeItemReadModel =
   ConsulterDemandeMainlevéeGarantiesFinancièresReadModel;

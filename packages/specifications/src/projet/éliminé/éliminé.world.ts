@@ -11,10 +11,12 @@ type ÉliminéFixture = {
 
 export class ÉliminéWorld {
   #éliminéFixtures: Map<string, ÉliminéFixture> = new Map();
+
   /** @deprecated use notifierEliminéFixture */
   get éliminéFixtures() {
     return this.#éliminéFixtures;
   }
+
   /** @deprecated use notifierEliminéFixture */
   rechercherÉliminéFixture(nom: string): ÉliminéFixture {
     const éliminé = this.#éliminéFixtures.get(nom);
@@ -43,9 +45,16 @@ export class ÉliminéWorld {
     return this.#identifiantProjet;
   }
 
+  #nomProjet: string;
+
+  get nomProjet() {
+    return this.#nomProjet;
+  }
+
   constructor() {
     this.#recoursWorld = new RecoursWord();
     this.#notifierEliminéFixture = new NotifierÉliminéFixture();
+    this.#nomProjet = 'Du boulodrome de Marseille';
 
     this.#identifiantProjet = IdentifiantProjet.convertirEnValueType(`PPE2 - Eolien#1##23`);
   }
