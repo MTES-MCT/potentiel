@@ -2,11 +2,12 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { Event, RebuildTriggered } from '@potentiel-infrastructure/pg-event-sourcing';
 import { Raccordement, GestionnaireRéseau } from '@potentiel-domain/reseau';
-import { findProjection } from '@potentiel-infrastructure/pg-projections';
+import { findProjection, listProjection } from '@potentiel-infrastructure/pg-projections';
 import { Option } from '@potentiel-libraries/monads';
 import { IdentifiantProjet } from '@potentiel-domain/common';
 import { getLogger } from '@potentiel-libraries/monitoring';
 import { CandidatureAdapter } from '@potentiel-infrastructure/domain-adapters';
+import { Where } from '@potentiel-domain/entity';
 
 import { removeProjection } from '../../infrastructure/removeProjection';
 import { upsertProjection } from '../../infrastructure/upsertProjection';
@@ -25,6 +26,7 @@ export const register = () => {
       await removeRaccordementProjections(event.payload.id);
     } else {
       const identifiantProjet = payload.identifiantProjet;
+
       const { appelOffre } = IdentifiantProjet.convertirEnValueType(identifiantProjet);
 
       const raccordement = await getRaccordementToUpsert(identifiantProjet);
@@ -34,12 +36,22 @@ export const register = () => {
           ...raccordement,
           identifiantGestionnaireRéseau: event.payload.identifiantGestionnaireRéseau,
         });
+
+        await updateDossierRaccordementGRD(
+          identifiantProjet,
+          event.payload.identifiantGestionnaireRéseau,
+        );
       } else if (event.type === 'GestionnaireRéseauInconnuAttribué-V1') {
         await upsertProjection(`raccordement|${event.payload.identifiantProjet}`, {
           ...raccordement,
           identifiantGestionnaireRéseau:
             GestionnaireRéseau.IdentifiantGestionnaireRéseau.inconnu.formatter(),
         });
+
+        await updateDossierRaccordementGRD(
+          identifiantProjet,
+          GestionnaireRéseau.IdentifiantGestionnaireRéseau.inconnu.formatter(),
+        );
       } else if (
         event.type === 'DemandeComplèteDeRaccordementTransmise-V1' ||
         event.type === 'DemandeComplèteDeRaccordementTransmise-V2'
@@ -345,3 +357,28 @@ const getRaccordementToUpsert = async (
 
   return Option.isSome(raccordement) ? raccordement : raccordementDefaultValue;
 };
+async function updateDossierRaccordementGRD(
+  identifiantProjet: string,
+  identifiantGestionnaireRéseau: string,
+) {
+  const dossiers = await listProjection<Raccordement.DossierRaccordementEntity>(
+    'dossier-raccordement',
+    {
+      where: {
+        identifiantProjet: Where.equal(identifiantProjet),
+      },
+    },
+  );
+
+  await Promise.all(
+    dossiers.items.map((dossier) =>
+      upsertProjection<Raccordement.DossierRaccordementEntity>(
+        `dossier-raccordement|${identifiantProjet}#${dossier.référence}`,
+        {
+          ...dossier,
+          identifiantGestionnaireRéseau,
+        },
+      ),
+    ),
+  );
+}
