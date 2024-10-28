@@ -9,9 +9,10 @@ import { convertStringToReadableStream } from '../../helpers/convertStringToRead
 import { PotentielWorld } from '../../potentiel.world';
 
 Quand(
-  `le porteur transmet une demande complète de raccordement pour le projet lauréat {string} auprès du gestionnaire de réseau {string} avec :`,
+  `le porteur transmet une demande complète de raccordement pour le projet {lauréat-éliminé} {string} auprès du gestionnaire de réseau {string} avec :`,
   async function (
     this: PotentielWorld,
+    statutProjet: 'lauréat' | 'éliminé',
     nomProjet: string,
     raisonSocialeGestionnaire: string,
     table: DataTable,
@@ -27,9 +28,10 @@ Quand(
       content: convertStringToReadableStream(content),
     };
 
-    const identifiantProjet = this.lauréatWorld
-      .rechercherLauréatFixture(nomProjet)
-      .identifiantProjet.formatter();
+    const identifiantProjet =
+      statutProjet === 'lauréat'
+        ? this.lauréatWorld.rechercherLauréatFixture(nomProjet).identifiantProjet.formatter()
+        : this.eliminéWorld.rechercherÉliminéFixture(nomProjet).identifiantProjet.formatter();
 
     const identifiantGestionnaireRéseau =
       raisonSocialeGestionnaire === 'Inconnu'

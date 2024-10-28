@@ -15,3 +15,6 @@ export { ÉliminéEntity } from './éliminé.entity';
 
 export type ÉliminéQuery = ConsulterÉliminéQuery;
 export { ConsulterÉliminéQuery, ConsulterÉliminéReadModel };
+
+// Aggregate
+export { loadÉliminéFactory } from './éliminé.aggregate';

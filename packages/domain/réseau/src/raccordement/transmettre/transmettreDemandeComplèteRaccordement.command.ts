@@ -3,6 +3,7 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 import { LoadAggregate } from '@potentiel-domain/core';
 import { Abandon } from '@potentiel-domain/laureat';
+import { Éliminé } from '@potentiel-domain/elimine';
 
 import { IdentifiantGestionnaireRéseau } from '../../gestionnaire';
 import * as RéférenceDossierRaccordement from '../référenceDossierRaccordement.valueType';
@@ -26,6 +27,7 @@ export const registerTransmettreDemandeComplèteRaccordementCommand = (
   const loadAbandon = Abandon.loadAbandonFactory(loadAggregate);
   const loadRaccordement = loadRaccordementAggregateFactory(loadAggregate);
   const loadGestionnaireRéseau = loadGestionnaireRéseauFactory(loadAggregate);
+  const loadÉliminé = Éliminé.loadÉliminéFactory(loadAggregate);
 
   const handler: MessageHandler<TransmettreDemandeComplèteRaccordementCommand> = async ({
     identifiantProjet,
@@ -37,6 +39,9 @@ export const registerTransmettreDemandeComplèteRaccordementCommand = (
     const abandon = await loadAbandon(identifiantProjet, false);
     const gestionnaireRéseau = await loadGestionnaireRéseau(identifiantGestionnaireRéseau, true);
     const raccordement = await loadRaccordement(identifiantProjet, false);
+    const éliminé = await loadÉliminé(identifiantProjet, true);
+
+    console.log('violette', éliminé);
 
     await raccordement.transmettreDemande({
       dateQualification,
@@ -44,6 +49,7 @@ export const registerTransmettreDemandeComplèteRaccordementCommand = (
       identifiantProjet,
       référenceDossier,
       aUnAbandonAccordé: abandon.estAccordé(),
+      estUnProjetÉliminé: éliminé.identifiantProjet.estÉgaleÀ(identifiantProjet),
       référenceDossierExpressionRegulière:
         gestionnaireRéseau.référenceDossierRaccordementExpressionRegulière,
       formatAccuséRéception,
