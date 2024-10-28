@@ -4,6 +4,7 @@ import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 import { DocumentProjet } from '@potentiel-domain/document';
 import { LoadAggregate } from '@potentiel-domain/core';
 import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
+import { Éliminé } from '@potentiel-domain/elimine';
 
 import { loadAchèvementFactory } from '../achèvement.aggregate';
 
@@ -21,6 +22,8 @@ export type TransmettreAttestationConformitéCommand = Message<
 
 export const registerTransmettreAttestationConformitéCommand = (loadAggregate: LoadAggregate) => {
   const loadAttestationConformitéAggregate = loadAchèvementFactory(loadAggregate);
+  const loadÉliminé = Éliminé.loadÉliminéFactory(loadAggregate);
+
   const handler: MessageHandler<TransmettreAttestationConformitéCommand> = async ({
     identifiantProjet,
     attestation,
@@ -33,6 +36,7 @@ export const registerTransmettreAttestationConformitéCommand = (loadAggregate: 
       identifiantProjet,
       false,
     );
+    const éliminé = await loadÉliminé(identifiantProjet, false);
 
     await attestationConformité.transmettre({
       identifiantProjet,
@@ -41,8 +45,10 @@ export const registerTransmettreAttestationConformitéCommand = (loadAggregate: 
       preuveTransmissionAuCocontractant,
       date,
       utilisateur,
+      estUnProjetÉliminé: éliminé.identifiantProjet.estÉgaleÀ(identifiantProjet),
     });
   };
+
   mediator.register(
     'Lauréat.Achèvement.AttestationConformité.Command.TransmettreAttestationConformité',
     handler,

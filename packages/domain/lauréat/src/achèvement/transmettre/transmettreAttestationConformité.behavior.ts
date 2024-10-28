@@ -25,6 +25,7 @@ export type Options = {
   preuveTransmissionAuCocontractant: DocumentProjet.ValueType;
   date: DateTime.ValueType;
   utilisateur: IdentifiantUtilisateur.ValueType;
+  estUnProjetÉliminé: boolean;
 };
 
 export async function transmettre(
@@ -36,11 +37,17 @@ export async function transmettre(
     preuveTransmissionAuCocontractant,
     date,
     utilisateur,
+    estUnProjetÉliminé,
   }: Options,
 ) {
+  if (estUnProjetÉliminé) {
+    throw new ImpossibleTransmettreAttestationDeConformitéProjetÉliminéError();
+  }
+
   if (dateTransmissionAuCocontractant.estDansLeFutur()) {
     throw new DateDeTransmissionAuCoContractantFuturError();
   }
+
   if (this.attestationConformité.format && this.preuveTransmissionAuCocontractant.format) {
     throw new AttestationDeConformitéDéjàTransmiseError();
   }
@@ -85,5 +92,11 @@ export function applyAttestationConformitéTransmise(
 class AttestationDeConformitéDéjàTransmiseError extends InvalidOperationError {
   constructor() {
     super('le projet a déjà une attestation de conformité');
+  }
+}
+
+class ImpossibleTransmettreAttestationDeConformitéProjetÉliminéError extends InvalidOperationError {
+  constructor() {
+    super('Il est impossible de transmettre une attestation de conformité pour un projet éliminé');
   }
 }

@@ -12,7 +12,7 @@ Fonctionnalité: Transmettre une attestation de conformité
             | nom   | Dreal Test      |
 
     Scénario: Un porteur transmet une attestation de conformité
-        Quand un porteur transmet une attestation de conformité pour le projet "Du boulodrome de Marseille" avec :
+        Quand un porteur transmet une attestation de conformité pour le projet lauréat "Du boulodrome de Marseille" avec :
             | format attestation                            | application/pdf             |
             | contenu attestation                           | le contenu de l'attestation |
             | date transmission au co-contractant           | 2024-01-01                  |
@@ -45,7 +45,7 @@ Fonctionnalité: Transmettre une attestation de conformité
             | type               | avec-date-échéance |
             | date d'échéance    | 2024-12-01         |
             | date de validation | 2024-11-24         |
-        Quand un porteur transmet une attestation de conformité pour le projet "Du boulodrome de Marseille" avec :
+        Quand un porteur transmet une attestation de conformité pour le projet lauréat "Du boulodrome de Marseille" avec :
             | date transmission au co-contractant | 2024-01-01 |
         Alors une tâche "échoir les garanties financières" n'est plus planifiée pour le projet "Du boulodrome de Marseille"
 
@@ -54,7 +54,7 @@ Fonctionnalité: Transmettre une attestation de conformité
             | type               | avec-date-échéance |
             | date d'échéance    | 2024-12-01         |
             | date de validation | 2024-11-24         |
-        Quand un porteur transmet une attestation de conformité pour le projet "Du boulodrome de Marseille" avec :
+        Quand un porteur transmet une attestation de conformité pour le projet lauréat "Du boulodrome de Marseille" avec :
             | date transmission au co-contractant | 2024-01-01 |
         Alors une tâche "rappel échéance garanties financières à un mois" n'est plus planifiée pour le projet "Du boulodrome de Marseille"
 
@@ -63,18 +63,18 @@ Fonctionnalité: Transmettre une attestation de conformité
             | type               | avec-date-échéance |
             | date d'échéance    | 2024-12-01         |
             | date de validation | 2024-11-24         |
-        Quand un porteur transmet une attestation de conformité pour le projet "Du boulodrome de Marseille" avec :
+        Quand un porteur transmet une attestation de conformité pour le projet lauréat "Du boulodrome de Marseille" avec :
             | date transmission au co-contractant | 2024-01-01 |
         Alors une tâche "rappel échéance garanties financières à deux mois" n'est plus planifiée pour le projet "Du boulodrome de Marseille"
 
     Scénario: Impossible de transmettre une attestation de conformité si la date de transmission au co-contractant est dans le futur
-        Quand un porteur transmet une attestation de conformité pour le projet "Du boulodrome de Marseille" avec :
+        Quand un porteur transmet une attestation de conformité pour le projet lauréat "Du boulodrome de Marseille" avec :
             | date transmission au co-contractant | 2040-01-01 |
         Alors le porteur devrait être informé que "la date de transmission au co-contractant ne peut pas être une date future"
 
     Scénario: Impossible de transmettre une attestation de conformité si le projet a déjà une attestation de conformité
         Et une attestation de conformité transmise pour le projet "Du boulodrome de Marseille"
-        Quand un porteur transmet une attestation de conformité pour le projet "Du boulodrome de Marseille" avec :
+        Quand un porteur transmet une attestation de conformité pour le projet lauréat "Du boulodrome de Marseille" avec :
             | format attestation                            | application/pdf             |
             | contenu attestation                           | le contenu de l'attestation |
             | date transmission au co-contractant           | 2024-01-01                  |
@@ -84,10 +84,21 @@ Fonctionnalité: Transmettre une attestation de conformité
             | utilisateur                                   | porteur@test.test           |
         Alors le porteur devrait être informé que "le projet a déjà une attestation de conformité"
 
-    # Ce cas ne peut pas être implémenté à date car nous n'avons pas accès à l'aggréagat candidature (projet)
-    @NotImplemented
     Scénario: Impossible de transmettre une attestation de conformité si le projet est éliminé
-
+        Etant donné le projet éliminé "MIOS"
+        Et le porteur pour le projet éliminé "MIOS"
+            | email | porteur_éliminé@test.test |
+            | nom   | Porteur Éliminé           |
+            | role  | porteur-projet            |
+        Quand un porteur transmet une attestation de conformité pour le projet éliminé "MIOS" avec :
+            | format attestation                            | application/pdf             |
+            | contenu attestation                           | le contenu de l'attestation |
+            | date transmission au co-contractant           | 2024-01-01                  |
+            | format preuve transmission au co-contractant  | application/pdf             |
+            | contenu preuve transmission au co-contractant | le contenu de la preuve     |
+            | date                                          | 2024-01-05                  |
+            | utilisateur                                   | porteur_éliminé@test.test   |
+        Alors le porteur devrait être informé que "Il est impossible de transmettre une attestation de conformité pour un projet éliminé"
 
     # Ce cas ne peut pas être implémenté à date car nous n'avons pas accès à l'aggréagat candidature (projet)
     @NotImplemented

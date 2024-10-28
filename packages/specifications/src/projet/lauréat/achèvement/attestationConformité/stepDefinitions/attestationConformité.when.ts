@@ -7,11 +7,19 @@ import { PotentielWorld } from '../../../../../potentiel.world';
 import { convertStringToReadableStream } from '../../../../../helpers/convertStringToReadable';
 
 Quand(
-  'un porteur transmet une attestation de conformité pour le projet {string} avec :',
-  async function (this: PotentielWorld, nomProjet: string, dataTable: DataTable) {
+  'un porteur transmet une attestation de conformité pour le projet {lauréat-éliminé} {string} avec :',
+  async function (
+    this: PotentielWorld,
+    statutProjet: 'lauréat' | 'éliminé',
+    nomProjet: string,
+    dataTable: DataTable,
+  ) {
     const exemple = dataTable.rowsHash();
     try {
-      const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
+      const { identifiantProjet } =
+        statutProjet === 'lauréat'
+          ? this.lauréatWorld.rechercherLauréatFixture(nomProjet)
+          : this.eliminéWorld.rechercherÉliminéFixture(nomProjet);
 
       const attestationValue = {
         content: exemple['contenu attestation']
