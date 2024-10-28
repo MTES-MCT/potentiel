@@ -39,9 +39,7 @@ export const registerTransmettreDemandeComplèteRaccordementCommand = (
     const abandon = await loadAbandon(identifiantProjet, false);
     const gestionnaireRéseau = await loadGestionnaireRéseau(identifiantGestionnaireRéseau, true);
     const raccordement = await loadRaccordement(identifiantProjet, false);
-    const éliminé = await loadÉliminé(identifiantProjet, true);
-
-    console.log('violette', éliminé);
+    const éliminé = await loadÉliminé(identifiantProjet, false);
 
     await raccordement.transmettreDemande({
       dateQualification,
