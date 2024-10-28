@@ -1,3 +1,5 @@
+import { match } from 'ts-pattern';
+
 import { InvalidOperationError, ReadonlyValueType } from '@potentiel-domain/core';
 
 export const statuts = [
@@ -61,72 +63,80 @@ export const convertirEnValueType = (value: string): ValueType => {
       return this.statut === valueType.statut;
     },
     vérifierQueLeChangementDeStatutEstPossibleEn(nouveauStatut: ValueType) {
-      if (nouveauStatut.estAccordé()) {
-        if (this.estAccordé()) {
-          throw new AbandonDéjàAccordéError();
-        }
+      match(nouveauStatut.statut)
+        .with('demandé', () => {
+          if (this.estAccordé()) {
+            throw new AbandonDéjàAccordéError();
+          }
 
-        if (this.estRejeté()) {
-          throw new AbandonDéjàRejetéError();
-        }
-      } else if (nouveauStatut.estAnnulé()) {
-        if (this.estAccordé()) {
-          throw new AbandonDéjàAccordéError();
-        }
-        if (this.estRejeté()) {
-          throw new AbandonDéjàRejetéError();
-        }
-        if (this.estConfirmé()) {
-          throw new AbandonDéjàConfirméError();
-        }
-      } else if (nouveauStatut.estConfirmé()) {
-        if (this.estAccordé()) {
-          throw new AbandonDéjàAccordéError();
-        }
+          if (this.estEnCours()) {
+            throw new AbandonEnCoursErreur();
+          }
+        })
+        .with('annulé', () => {
+          if (this.estAccordé()) {
+            throw new AbandonDéjàAccordéError();
+          }
 
-        if (this.estRejeté()) {
-          throw new AbandonDéjàRejetéError();
-        }
+          if (this.estRejeté()) {
+            throw new AbandonDéjàRejetéError();
+          }
 
-        if (this.estConfirmé()) {
-          throw new AbandonDéjàConfirméError();
-        }
-        if (!this.estEnAttenteConfirmation()) {
-          throw new AucuneDemandeConfirmationAbandonError();
-        }
-      } else if (nouveauStatut.estDemandé()) {
-        if (this.estAccordé()) {
-          throw new AbandonDéjàAccordéError();
-        }
+          if (this.estConfirmé()) {
+            throw new AbandonDéjàConfirméError();
+          }
+        })
+        .with('confirmé', () => {
+          if (this.estAccordé()) {
+            throw new AbandonDéjàAccordéError();
+          }
 
-        if (this.estEnCours()) {
-          throw new AbandonEnCoursErreur();
-        }
-      } else if (nouveauStatut.estConfirmationDemandée()) {
-        if (this.estAccordé()) {
-          throw new AbandonDéjàAccordéError();
-        }
+          if (this.estRejeté()) {
+            throw new AbandonDéjàRejetéError();
+          }
 
-        if (this.estRejeté()) {
-          throw new AbandonDéjàRejetéError();
-        }
+          if (this.estConfirmé()) {
+            throw new AbandonDéjàConfirméError();
+          }
+          if (!this.estEnAttenteConfirmation()) {
+            throw new AucuneDemandeConfirmationAbandonError();
+          }
+        })
+        .with('confirmation-demandée', () => {
+          if (this.estAccordé()) {
+            throw new AbandonDéjàAccordéError();
+          }
 
-        if (this.estEnAttenteConfirmation()) {
-          throw new ConfirmationAbandonDéjàDemandéError();
-        }
+          if (this.estRejeté()) {
+            throw new AbandonDéjàRejetéError();
+          }
 
-        if (this.estConfirmé()) {
-          throw new AbandonDéjàConfirméError();
-        }
-      } else if (nouveauStatut.estRejeté()) {
-        if (this.estAccordé()) {
-          throw new AbandonDéjàAccordéError();
-        }
+          if (this.estEnAttenteConfirmation()) {
+            throw new ConfirmationAbandonDéjàDemandéError();
+          }
 
-        if (this.estRejeté()) {
-          throw new AbandonDéjàRejetéError();
-        }
-      }
+          if (this.estConfirmé()) {
+            throw new AbandonDéjàConfirméError();
+          }
+        })
+        .with('accordé', () => {
+          if (this.estAccordé()) {
+            throw new AbandonDéjàAccordéError();
+          }
+
+          if (this.estRejeté()) {
+            throw new AbandonDéjàRejetéError();
+          }
+        })
+        .with('rejeté', () => {
+          if (this.estAccordé()) {
+            throw new AbandonDéjàAccordéError();
+          }
+
+          if (this.estRejeté()) {
+            throw new AbandonDéjàRejetéError();
+          }
+        });
     },
   };
 };
