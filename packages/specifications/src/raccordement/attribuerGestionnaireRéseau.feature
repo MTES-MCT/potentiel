@@ -23,7 +23,6 @@ Fonctionnalité: Attribuer un gestionnaire de réseau au raccordement d'un proje
         Quand le gestionnaire de réseau "EDF Corse" est attribué au raccordement du projet lauréat "Du boulodrome de Marseille"
         Alors on devrait être informé que "Un raccordement existe déjà pour ce projet"
 
-    # violette
     # Ce cas ne peut pas être implémenté à date car nous n'avons pas accès à l'aggréagat candidature (projet)
     @NotImplemented
     Scénario: Impossible d'attribuer un gestionnaire de réseau au raccordement d'un projet éliminé

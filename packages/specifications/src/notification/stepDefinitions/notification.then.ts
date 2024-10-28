@@ -6,8 +6,7 @@ import { PotentielWorld } from '../../potentiel.world';
 Alors('un email a été envoyé avec :', function (this: PotentielWorld, data: DataTable) {
   const exemple = data.rowsHash();
 
-  // TODO:
-  // Utiliser un map
+  // TODO: utiliser un mapper
   const email =
     exemple.destinataire === 'porteur'
       ? this.utilisateurWorld.porteurFixture.email

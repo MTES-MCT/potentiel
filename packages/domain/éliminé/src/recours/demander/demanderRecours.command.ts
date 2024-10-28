@@ -3,7 +3,6 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
 import { DocumentProjet } from '@potentiel-domain/document';
 import { LoadAggregate } from '@potentiel-domain/core';
-import { Candidature } from '@potentiel-domain/candidature';
 
 import { loadRecoursFactory } from '../recours.aggregate';
 
@@ -20,7 +19,6 @@ export type DemanderRecoursCommand = Message<
 
 export const registerDemanderRecoursCommand = (loadAggregate: LoadAggregate) => {
   const loadRecours = loadRecoursFactory(loadAggregate);
-  const loadCandidature = Candidature.Aggregate.loadCandidatureFactory(loadAggregate);
 
   const handler: MessageHandler<DemanderRecoursCommand> = async ({
     identifiantProjet,
@@ -30,7 +28,6 @@ export const registerDemanderRecoursCommand = (loadAggregate: LoadAggregate) => 
     dateDemande,
   }) => {
     const recours = await loadRecours(identifiantProjet, false);
-    const candidature = await loadCandidature(identifiantProjet, false);
 
     await recours.demander({
       identifiantProjet,
@@ -38,7 +35,6 @@ export const registerDemanderRecoursCommand = (loadAggregate: LoadAggregate) => 
       raison,
       identifiantUtilisateur,
       dateDemande,
-      estUnProjetLauréat: !!(candidature.estNotifiée && candidature.statut?.estClassé()),
     });
   };
   mediator.register('Éliminé.Recours.Command.DemanderRecours', handler);
