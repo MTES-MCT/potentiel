@@ -7,10 +7,15 @@ import { IdentifiantProjet } from '@potentiel-domain/common';
 import { mapToPagination } from '@/utils/pagination';
 import { ListPageTemplate, ListPageTemplateProps } from '@/components/templates/ListPage.template';
 
-import { DossierRaccordementListItem } from './DossierRaccordementListItem';
+import {
+  DossierRaccordementListItem,
+  DossierRaccordementListItemProps,
+} from './DossierRaccordementListItem';
 
 export type DossierRaccordementListPageProps = PlainType<{
-  list: Raccordement.ListerDossierRaccordementReadModel;
+  list: Omit<Raccordement.ListerDossierRaccordementReadModel, 'items'> & {
+    items: DossierRaccordementListItemProps[];
+  };
   filters: ListPageTemplateProps<typeof DossierRaccordementListItem>['filters'];
 }>;
 

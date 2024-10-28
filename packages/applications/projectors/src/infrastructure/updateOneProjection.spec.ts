@@ -4,7 +4,7 @@ import { expect } from 'chai';
 
 import { Entity } from '@potentiel-domain/entity';
 
-import { prepareUpdateProjectionQuery } from './updateProjection';
+import { prepareUpdateProjectionQuery } from './updateOneProjection';
 
 type TestEntity = Entity<
   'test',
@@ -15,7 +15,7 @@ type TestEntity = Entity<
   }
 >;
 
-describe('updateProjection', () => {
+describe('updateOneProjection', () => {
   test(`single string key`, () => {
     const [query, values] = prepareUpdateProjectionQuery<TestEntity>({ foo: 'hello' });
     expect(query).to.eq(

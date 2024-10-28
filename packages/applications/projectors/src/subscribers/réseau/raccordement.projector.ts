@@ -7,9 +7,11 @@ import { Option } from '@potentiel-libraries/monads';
 import { IdentifiantProjet } from '@potentiel-domain/common';
 import { getLogger } from '@potentiel-libraries/monitoring';
 import { CandidatureAdapter } from '@potentiel-infrastructure/domain-adapters';
+import { Where } from '@potentiel-domain/entity';
 
 import { removeProjection } from '../../infrastructure/removeProjection';
 import { upsertProjection } from '../../infrastructure/upsertProjection';
+import { updateManyProjections } from '../../infrastructure/updateManyProjections';
 
 export type SubscriptionEvent = (Raccordement.RaccordementEvent & Event) | RebuildTriggered;
 
@@ -34,12 +36,27 @@ export const register = () => {
           ...raccordement,
           identifiantGestionnaireRéseau: event.payload.identifiantGestionnaireRéseau,
         });
+
+        await updateManyProjections<Raccordement.DossierRaccordementEntity>(
+          'dossier-raccordement',
+          { identifiantProjet: Where.equal(identifiantProjet) },
+          { identifiantGestionnaireRéseau: event.payload.identifiantGestionnaireRéseau },
+        );
       } else if (event.type === 'GestionnaireRéseauInconnuAttribué-V1') {
         await upsertProjection(`raccordement|${event.payload.identifiantProjet}`, {
           ...raccordement,
           identifiantGestionnaireRéseau:
             GestionnaireRéseau.IdentifiantGestionnaireRéseau.inconnu.formatter(),
         });
+
+        await updateManyProjections<Raccordement.DossierRaccordementEntity>(
+          'dossier-raccordement',
+          { identifiantProjet: Where.equal(identifiantProjet) },
+          {
+            identifiantGestionnaireRéseau:
+              GestionnaireRéseau.IdentifiantGestionnaireRéseau.inconnu.formatter(),
+          },
+        );
       } else if (
         event.type === 'DemandeComplèteDeRaccordementTransmise-V1' ||
         event.type === 'DemandeComplèteDeRaccordementTransmise-V2'

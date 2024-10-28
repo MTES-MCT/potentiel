@@ -7,7 +7,7 @@ import { executeQuery } from '@potentiel-libraries/pg-helpers';
 type AtLeastOne<T, U = { [K in keyof T]: Pick<T, K> }> = Partial<T> & U[keyof U];
 
 /** */
-export const updateProjection = async <TProjection extends Entity>(
+export const updateOneProjection = async <TProjection extends Entity>(
   id: `${TProjection['type']}|${string}`,
   readModel: AtLeastOne<Omit<TProjection, 'type'>>,
 ): Promise<void> => {
