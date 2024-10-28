@@ -1,9 +1,11 @@
 import { encodeParameter } from '../encodeParameter';
 
+export const lister = `/reseaux/raccordements`;
+export const importer = `/reseaux/raccordements/importer`;
+
 export const détail = (identifiantProjet: string) =>
   `/laureats/${encodeParameter(identifiantProjet)}/raccordements`;
 
-export const importer = `/reseaux/raccordements/importer`;
 export const corrigerRéférencesDossier = `/reseaux/raccordements/references:corriger`;
 
 export const modifierGestionnaireDeRéseau = (identifiantProjet: string) =>
