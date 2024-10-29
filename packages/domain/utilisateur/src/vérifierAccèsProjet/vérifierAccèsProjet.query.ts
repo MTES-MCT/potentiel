@@ -1,11 +1,8 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { OperationRejectedError } from '@potentiel-domain/core';
-import { Find } from '@potentiel-domain/entity';
-import { Option } from '@potentiel-libraries/monads';
 
 import * as Role from '../role.valueType';
-import * as Groupe from '../groupe.valueType';
 import * as Utilisateur from '../utilisateur.valueType';
 
 export type VérifierAccèsProjetQuery = Message<
@@ -24,7 +21,6 @@ export type VérifierAccèsProjetPort = (args: {
 
 export type VérifierAccèsProjetDependencies = {
   vérifierAccèsProjet: VérifierAccèsProjetPort;
-  find: Find;
 };
 
 class ProjetInaccessibleError extends OperationRejectedError {
@@ -35,7 +31,6 @@ class ProjetInaccessibleError extends OperationRejectedError {
 
 export const registerVérifierAccèsProjetQuery = ({
   vérifierAccèsProjet,
-  find,
 }: VérifierAccèsProjetDependencies) => {
   const handler: MessageHandler<VérifierAccèsProjetQuery> = async ({
     utilisateur,
