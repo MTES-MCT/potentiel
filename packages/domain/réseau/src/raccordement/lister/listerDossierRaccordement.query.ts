@@ -9,6 +9,7 @@ import { Abandon } from '@potentiel-domain/laureat';
 
 import { RéférenceDossierRaccordement } from '..';
 import { DossierRaccordementEntity } from '../raccordement.entity';
+import { IdentifiantGestionnaireRéseau } from '../../gestionnaire';
 
 type DossierRaccordement = {
   nomProjet: string;
@@ -24,6 +25,7 @@ type DossierRaccordement = {
   référenceDossier: RéférenceDossierRaccordement.ValueType;
   statutDGEC: Lauréat.StatutLauréat.RawType;
   dateMiseEnService?: DateTime.ValueType;
+  identifiantGestionnaireRéseau: IdentifiantGestionnaireRéseau.ValueType;
 };
 
 export type ListerDossierRaccordementReadModel = {
@@ -112,7 +114,12 @@ export const registerListerDossierRaccordementQuery = ({
 };
 
 export const toReadModel = (
-  { identifiantProjet, référence, miseEnService }: DossierRaccordementEntity,
+  {
+    identifiantProjet,
+    référence,
+    miseEnService,
+    identifiantGestionnaireRéseau,
+  }: DossierRaccordementEntity,
   candidatures: ReadonlyArray<Candidature.CandidatureEntity>,
   abandons: ReadonlyArray<Abandon.AbandonEntity>,
 ): DossierRaccordement => {
@@ -157,5 +164,8 @@ export const toReadModel = (
     dateMiseEnService: miseEnService
       ? DateTime.convertirEnValueType(miseEnService.dateMiseEnService)
       : undefined,
+    identifiantGestionnaireRéseau: IdentifiantGestionnaireRéseau.convertirEnValueType(
+      identifiantGestionnaireRéseau,
+    ),
   };
 };

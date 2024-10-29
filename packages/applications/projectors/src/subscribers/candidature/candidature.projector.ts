@@ -8,7 +8,7 @@ import { Option } from '@potentiel-libraries/monads';
 
 import { removeProjection } from '../../infrastructure/removeProjection';
 import { upsertProjection } from '../../infrastructure/upsertProjection';
-import { updateProjection } from '../../infrastructure/updateProjection';
+import { updateOneProjection } from '../../infrastructure/updateOneProjection';
 
 export type SubscriptionEvent = (Candidature.CandidatureEvent & Event) | RebuildTriggered;
 
@@ -100,7 +100,7 @@ export const register = () => {
           );
           break;
         case 'CandidatureNotifiée-V1':
-          await updateProjection<Candidature.CandidatureEntity>(
+          await updateOneProjection<Candidature.CandidatureEntity>(
             `candidature|${payload.identifiantProjet}`,
             {
               estNotifiée: true,
@@ -113,7 +113,7 @@ export const register = () => {
           );
           break;
         case 'CandidatureNotifiée-V2':
-          await updateProjection<Candidature.CandidatureEntity>(
+          await updateOneProjection<Candidature.CandidatureEntity>(
             `candidature|${payload.identifiantProjet}`,
             {
               estNotifiée: true,

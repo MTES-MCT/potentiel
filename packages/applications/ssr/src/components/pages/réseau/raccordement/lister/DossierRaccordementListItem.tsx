@@ -12,7 +12,9 @@ import { FormattedDate } from '@/components/atoms/FormattedDate';
 
 export type DossierRaccordementListItemProps = PlainType<
   Raccordement.ListerDossierRaccordementReadModel['items'][number]
->;
+> & {
+  gestionnaireRéseau: string;
+};
 
 export const DossierRaccordementListItem: FC<DossierRaccordementListItemProps> = ({
   identifiantProjet,
@@ -24,6 +26,7 @@ export const DossierRaccordementListItem: FC<DossierRaccordementListItemProps> =
   référenceDossier,
   statutDGEC,
   dateMiseEnService,
+  gestionnaireRéseau,
 }) => (
   <ListItem
     heading={
@@ -37,14 +40,22 @@ export const DossierRaccordementListItem: FC<DossierRaccordementListItemProps> =
     actions={<></>}
   >
     <div className="mt-4">
-      <Icon id="fr-icon-map-pin-2-line" title="Date de mise en service" size="sm" />{' '}
+      <Icon id="fr-icon-map-pin-2-line" title="Commune du site de production" size="sm" />{' '}
       <span className="italic">
         {codePostal} {commune}, {département}, {région}
       </span>
     </div>
     <div className="mt-4">
-      <Icon id="ri-price-tag-3-line" title="Date de mise en service" size="sm" /> Référence du
-      dossier : <span className="font-bold">{référenceDossier.référence}</span>
+      {gestionnaireRéseau && (
+        <div>
+          <Icon id="fr-icon-building-line" title="Gestionnaire Réseau" size="sm" /> Gestionnaire
+          Réseau : <span className="font-bold">{gestionnaireRéseau}</span>
+        </div>
+      )}
+      <div>
+        <Icon id="ri-price-tag-3-line" title="Date de mise en service" size="sm" /> Référence du
+        dossier : <span className="font-bold">{référenceDossier.référence}</span>
+      </div>
       <div>
         <Icon id="fr-icon-calendar-line" title="Date de mise en service" size="sm" /> Date de mise
         en service :{' '}

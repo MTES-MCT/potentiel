@@ -69,7 +69,7 @@ export default async function Page({ searchParams }: PageProps) {
       });
 
       const listeGestionnaireRéseau = identifiantGestionnaireRéseauUtilisateur
-        ? undefined
+        ? []
         : (
             await mediator.send<GestionnaireRéseau.ListerGestionnaireRéseauQuery>({
               type: 'Réseau.Gestionnaire.Query.ListerGestionnaireRéseau',
@@ -89,11 +89,12 @@ export default async function Page({ searchParams }: PageProps) {
         {
           label: 'Gestionnaires réseaux',
           searchParamKey: 'identifiantGestionnaireReseau',
-          options:
-            listeGestionnaireRéseau?.map(({ raisonSociale, identifiantGestionnaireRéseau }) => ({
+          options: listeGestionnaireRéseau.map(
+            ({ raisonSociale, identifiantGestionnaireRéseau }) => ({
               label: raisonSociale,
               value: identifiantGestionnaireRéseau.formatter(),
-            })) ?? [],
+            }),
+          ),
         },
         {
           label: 'Mise en service',
@@ -111,7 +112,12 @@ export default async function Page({ searchParams }: PageProps) {
         },
       ].filter((filter) => filter.options.length > 0);
 
-      return <DossierRaccordementListPage list={mapToPlainObject(dossiers)} filters={filters} />;
+      return (
+        <DossierRaccordementListPage
+          list={mapToPlainObject(mapToProps(dossiers, listeGestionnaireRéseau))}
+          filters={filters}
+        />
+      );
     }),
   );
 }
@@ -128,3 +134,19 @@ function récupérerIdentifiantGestionnaireUtilisateur(utilisateur: Utilisateur.
   }
   return utilisateur.groupe.nom;
 }
+
+const mapToProps = (
+  dossiers: Raccordement.ListerDossierRaccordementReadModel,
+  listeGestionnaireRéseau: ReadonlyArray<GestionnaireRéseau.ConsulterGestionnaireRéseauReadModel>,
+) => {
+  return {
+    ...dossiers,
+    items: dossiers.items.map((dossier) => ({
+      ...dossier,
+      gestionnaireRéseau:
+        listeGestionnaireRéseau?.find((x) =>
+          x.identifiantGestionnaireRéseau.estÉgaleÀ(dossier.identifiantGestionnaireRéseau),
+        )?.raisonSociale ?? '',
+    })),
+  };
+};
