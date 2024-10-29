@@ -1,0 +1,15 @@
+{
+  "name": "@potentiel-infrastructure/filigrane-facile-client",
+  "version": "0.0.0",
+  "description": "Add filigrane on document",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "private": true,
+  "scripts": {
+    "build": "tsc"
+  },
+  "devDependencies": {
+    "@potentiel-config/tsconfig": "*",
+    "@potentiel-libraries/http-client": "*"
+  }
+}
