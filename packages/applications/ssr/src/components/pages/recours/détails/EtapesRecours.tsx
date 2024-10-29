@@ -4,7 +4,6 @@ import { FC } from 'react';
 
 import { Routes } from '@potentiel-applications/routes';
 import { PlainType } from '@potentiel-domain/core';
-import { Role } from '@potentiel-domain/utilisateur';
 import { DateTime, Email } from '@potentiel-domain/common';
 import { DocumentProjet } from '@potentiel-domain/document';
 import { Recours } from '@potentiel-domain/elimine';
@@ -14,7 +13,6 @@ import { Timeline, TimelineProps } from '@/components/organisms/Timeline';
 
 export type EtapesRecoursProps = {
   recours: PlainType<Recours.ConsulterRecoursReadModel>;
-  role: PlainType<Role.ValueType>;
 };
 
 export const EtapesRecours: FC<EtapesRecoursProps> = ({
