@@ -49,15 +49,16 @@ export const KeepOrEditDocument: FC<KeepOrEditDocumentProps> = ({
                 <>Aucun document à conserver</>
               )}
 
-              {documentSelection === 'keep_existing_document' && (
-                <input
-                  {...props}
-                  aria-required={props.required}
-                  type="text"
-                  hidden
-                  value={JSON.stringify(props.documentKeys)}
-                />
-              )}
+              {documentSelection === 'keep_existing_document' &&
+                props.documentKeys.map((documentKey) => (
+                  <input
+                    {...props}
+                    aria-required={props.required}
+                    type="text"
+                    hidden
+                    value={documentKey}
+                  />
+                ))}
             </div>
           ),
           nativeInputProps: {

@@ -1,7 +1,10 @@
 import { mediator } from 'mediateur';
 import * as zod from 'zod';
 
-import { ConsulterDocumentProjetQuery } from '@potentiel-domain/document';
+import {
+  ConsulterDocumentProjetReadModel,
+  ConsulterDocumentProjetQuery,
+} from '@potentiel-domain/document';
 
 export const defaultFileSizeLimitInMegaBytes = 5;
 
@@ -14,19 +17,30 @@ export const documentZodSchema = (options?: { optional?: true }) => {
     .refine(
       ({ size }) => size <= toBytes(defaultFileSizeLimitInMegaBytes),
       `Le fichier dépasse la taille maximale autorisée (${defaultFileSizeLimitInMegaBytes}Mo)`,
-    );
+    )
+    .transform<ConsulterDocumentProjetReadModel>((blob) => ({
+      content: blob.stream(),
+      format: blob.type,
+    }));
 };
 
-export const documentKeyZodSchema = zod.string().transform(async (documentKey) => {
+const documentKeyZodSchema = zod.string().transform(async (documentKey) => {
   const document = await mediator.send<ConsulterDocumentProjetQuery>({
     type: 'Document.Query.ConsulterDocumentProjet',
     data: {
       documentKey,
     },
   });
+
   return document;
 });
 
+export const keepOrUpdateDocument = documentKeyZodSchema.or(documentZodSchema());
+export const keepOrUpdateManyDocuments = keepOrUpdateDocument
+  .or(documentKeyZodSchema.array().min(1))
+  .or(documentZodSchema().array().min(1));
+
+/** @deprecated use documentZodSchema instead */
 export const document = zod
   .instanceof(Blob)
   .refine(({ size }) => size > 0, `Le ficher est vide`)
@@ -35,27 +49,5 @@ export const document = zod
     `Le fichier dépasse la taille maximale autorisée (${defaultFileSizeLimitInMegaBytes}Mo)`,
   );
 
+/** @deprecated use documentZodSchema with optional instead */
 export const optionalDocument = zod.instanceof(Blob);
-
-/**
- * This type is used for form validation schema when a document can be updated.
- **/
-export const keepOrUpdateDocument = zod
-  .string()
-  .or(document)
-  .transform(async (documentKeyOrBlob) => {
-    if (typeof documentKeyOrBlob === 'string') {
-      const document = await mediator.send<ConsulterDocumentProjetQuery>({
-        type: 'Document.Query.ConsulterDocumentProjet',
-        data: {
-          documentKey: documentKeyOrBlob,
-        },
-      });
-      return document;
-    }
-
-    return {
-      content: documentKeyOrBlob.stream(),
-      format: documentKeyOrBlob.type,
-    };
-  });
