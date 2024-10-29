@@ -25,10 +25,8 @@ Fonctionnalité: Demander le recours d'un projet éliminé
         Quand le porteur demande le recours pour le projet éliminé
         Alors le porteur devrait être informé que "Le recours a déjà été accordé"
 
-    # il faut utiliser l'aggréagat candidature
-    # mais aujourd'hui la définition d'un projet au niveau des specs est mauvaise
     @NotImplemented
-    Scénario: Impossible de demander un recours pour un projet lauréat
+    Scénario: Impossible de demander un recours pour un projet éliminé archivé
         Etant donné le projet lauréat "MIOS"
         Et le porteur "Marcel Patoulatchi" ayant accés au projet lauréat "MIOS"
         Quand le porteur demande le recours pour le projet lauréat

@@ -46,7 +46,7 @@ EtantDonné(
 );
 
 EtantDonné(
-  'la dreal {string} associée au projet',
+  'la dreal {string} associée à la région du projet',
   async function (this: PotentielWorld, drealNom: string) {
     const { email, id, nom, role } = this.utilisateurWorld.drealFixture.créer({
       nom: drealNom,
