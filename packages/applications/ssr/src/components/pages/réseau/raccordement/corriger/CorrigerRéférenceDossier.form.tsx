@@ -2,6 +2,7 @@
 
 import { FC, useState } from 'react';
 import Input from '@codegouvfr/react-dsfr/Input';
+import Button from '@codegouvfr/react-dsfr/Button';
 
 import { Raccordement } from '@potentiel-domain/reseau';
 import { PlainType } from '@potentiel-domain/core';
@@ -20,11 +21,13 @@ export type CorrigerRéférenceDossierFormProps = {
   identifiantProjet: string;
   dossierRaccordement: PlainType<Raccordement.ConsulterDossierRaccordementReadModel>;
   gestionnaireRéseau: PlainType<Raccordement.ConsulterGestionnaireRéseauRaccordementReadModel>;
+  lienRetour: string;
 };
 export const CorrigerRéférenceDossierForm: FC<CorrigerRéférenceDossierFormProps> = ({
   identifiantProjet,
   dossierRaccordement: { référence },
   gestionnaireRéseau,
+  lienRetour,
 }) => {
   const [validationErrors, setValidationErrors] = useState<
     ValidationErrors<CorrigerRéférenceDossierFormKeys>
@@ -42,7 +45,18 @@ export const CorrigerRéférenceDossierForm: FC<CorrigerRéférenceDossierFormPr
         children: 'Correction de la référence de dossier de raccordement en cours',
       }}
       onValidationError={(validationErrors) => setValidationErrors(validationErrors)}
-      actions={<SubmitButton>Corriger</SubmitButton>}
+      actions={
+        <>
+          <Button
+            priority="secondary"
+            linkProps={{ href: lienRetour }}
+            iconId="fr-icon-arrow-left-line"
+          >
+            Retour aux dossiers de raccordement
+          </Button>
+          <SubmitButton>Corriger</SubmitButton>
+        </>
+      }
     >
       <input type="hidden" name="identifiantProjet" value={identifiantProjet} />
       <input type="hidden" name="referenceDossier" value={référence.référence} />

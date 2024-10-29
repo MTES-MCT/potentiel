@@ -6,6 +6,7 @@ import { Raccordement } from '@potentiel-domain/reseau';
 import { Option } from '@potentiel-libraries/monads';
 import { IdentifiantProjet } from '@potentiel-domain/common';
 import { mapToPlainObject } from '@potentiel-domain/core';
+import { Routes } from '@potentiel-applications/routes';
 
 import { CorrigerRéférenceDossierPage } from '@/components/pages/réseau/raccordement/corriger/CorrigerRéférenceDossier.page';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
@@ -27,7 +28,7 @@ type PageProps = IdentifiantParameter & {
 
 export default async function Page({ params: { identifiant, reference } }: PageProps) {
   return PageWithErrorHandling(async () =>
-    withUtilisateur(async () => {
+    withUtilisateur(async ({ role }) => {
       const identifiantProjet = IdentifiantProjet.convertirEnValueType(
         decodeParameter(identifiant),
       );
@@ -69,6 +70,11 @@ export default async function Page({ params: { identifiant, reference } }: PageP
           identifiantProjet={identifiantProjet.formatter()}
           gestionnaireRéseau={mapToPlainObject(gestionnaireRéseau)}
           dossierRaccordement={mapToPlainObject(dossierRaccordement)}
+          lienRetour={
+            role.aLaPermission('réseau.raccordement.consulter')
+              ? Routes.Raccordement.détail(identifiantProjet.formatter())
+              : Routes.Raccordement.lister
+          }
         />
       );
     }),
