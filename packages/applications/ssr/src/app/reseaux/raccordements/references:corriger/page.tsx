@@ -1,5 +1,5 @@
-import { CorrigerRéférenceDossierPage } from '@/components/pages/réseau/raccordement/corriger/CorrigerRéférenceDossier.page';
+import { CorrigerRéférencesDossierPage } from '@/components/pages/réseau/raccordement/corriger-par-lot/CorrigerRéférencesDossier.page';
 
 export default async function Page() {
-  return <CorrigerRéférenceDossierPage />;
+  return <CorrigerRéférencesDossierPage />;
 }
