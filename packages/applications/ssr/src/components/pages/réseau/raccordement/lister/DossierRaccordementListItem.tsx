@@ -46,11 +46,16 @@ export const DossierRaccordementListItem: FC<DossierRaccordementListItemProps> =
       </span>
     </div>
     <div className="mt-4">
-      <Icon id="fr-icon-building-line" title="Gestionnaire Réseau" size="sm" /> Gestionnaire Réseau
-      : <span className="font-bold">{gestionnaireRéseau}</span>
-      <div></div>
-      <Icon id="ri-price-tag-3-line" title="Date de mise en service" size="sm" /> Référence du
-      dossier : <span className="font-bold">{référenceDossier.référence}</span>
+      {gestionnaireRéseau && (
+        <div>
+          <Icon id="fr-icon-building-line" title="Gestionnaire Réseau" size="sm" /> Gestionnaire
+          Réseau : <span className="font-bold">{gestionnaireRéseau}</span>
+        </div>
+      )}
+      <div>
+        <Icon id="ri-price-tag-3-line" title="Date de mise en service" size="sm" /> Référence du
+        dossier : <span className="font-bold">{référenceDossier.référence}</span>
+      </div>
       <div>
         <Icon id="fr-icon-calendar-line" title="Date de mise en service" size="sm" /> Date de mise
         en service :{' '}
