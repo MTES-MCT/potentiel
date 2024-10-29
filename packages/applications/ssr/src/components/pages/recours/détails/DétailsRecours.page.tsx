@@ -2,7 +2,6 @@ import { FC } from 'react';
 
 import { PlainType } from '@potentiel-domain/core';
 import { Recours } from '@potentiel-domain/elimine';
-import { Role } from '@potentiel-domain/utilisateur';
 import { DateTime, Email } from '@potentiel-domain/common';
 
 import { ProjetBanner } from '@/components/molecules/projet/ProjetBanner';
@@ -22,13 +21,11 @@ export type AvailableRecoursAction = 'accorder' | 'rejeter' | 'annuler';
 export type DétailsRecoursPageProps = {
   identifiantProjet: string;
   recours: PlainType<Recours.ConsulterRecoursReadModel>;
-  role: PlainType<Role.ValueType>;
   actions: ReadonlyArray<AvailableRecoursAction>;
 };
 
 export const DétailsRecoursPage: FC<DétailsRecoursPageProps> = ({
   identifiantProjet,
-  role,
   recours,
   actions,
 }) => {
@@ -61,7 +58,7 @@ export const DétailsRecoursPage: FC<DétailsRecoursPageProps> = ({
             </div>
             <div className="mb-4">
               <Heading2>Historique</Heading2>
-              <EtapesRecours recours={recours} role={role} />
+              <EtapesRecours recours={recours} />
             </div>
           </div>
         ),
