@@ -11,13 +11,13 @@ import { Raccordement } from '@potentiel-domain/reseau';
 
 import { FormAction, FormState, formAction } from '@/utils/formAction';
 import { withUtilisateur } from '@/utils/withUtilisateur';
-import { document } from '@/utils/zod/documentTypes';
 import { applySearchParams } from '@/app/_helpers';
+import { singleDocument } from '@/utils/zod/document';
 
 const schema = zod.object({
   identifiantProjet: zod.string().min(1),
-  attestation: document,
-  preuveTransmissionAuCocontractant: document,
+  attestation: singleDocument(),
+  preuveTransmissionAuCocontractant: singleDocument(),
   dateTransmissionAuCocontractant: zod.string().min(1, { message: 'Champ obligatoire' }),
   demanderMainlevee: zod.string().optional(),
 });
@@ -39,14 +39,8 @@ const action: FormAction<FormState, typeof schema> = async (
       type: 'Lauréat.Achèvement.AttestationConformité.UseCase.TransmettreAttestationConformité',
       data: {
         identifiantProjetValue: identifiantProjet,
-        attestationValue: {
-          content: attestation.stream(),
-          format: attestation.type,
-        },
-        preuveTransmissionAuCocontractantValue: {
-          content: preuveTransmissionAuCocontractant.stream(),
-          format: preuveTransmissionAuCocontractant.type,
-        },
+        attestationValue: attestation,
+        preuveTransmissionAuCocontractantValue: preuveTransmissionAuCocontractant,
         dateTransmissionAuCocontractantValue: new Date(
           dateTransmissionAuCocontractant,
         ).toISOString(),

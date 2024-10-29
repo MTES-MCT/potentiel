@@ -5,7 +5,7 @@ import clsx from 'clsx';
 import Link from 'next/link';
 import { createModal } from '@codegouvfr/react-dsfr/Modal';
 
-import { defaultFileSizeLimitInMegaBytes } from '@/utils/zod/documentTypes';
+import { defaultFileSizeLimitInMegaBytes } from '@/utils/zod/document';
 
 import { Icon } from '../../Icon';
 

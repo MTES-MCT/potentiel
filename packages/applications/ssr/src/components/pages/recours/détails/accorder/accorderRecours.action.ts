@@ -8,11 +8,11 @@ import { Routes } from '@potentiel-applications/routes';
 
 import { FormAction, formAction, FormState } from '@/utils/formAction';
 import { withUtilisateur } from '@/utils/withUtilisateur';
-import { document } from '@/utils/zod/documentTypes';
+import { singleDocument } from '@/utils/zod/document';
 
 const schema = zod.object({
   identifiantProjet: zod.string().min(1),
-  reponseSignee: document,
+  reponseSignee: singleDocument(),
 });
 
 export type AccorderRecoursFormKeys = keyof zod.infer<typeof schema>;
@@ -22,18 +22,13 @@ const action: FormAction<FormState, typeof schema> = async (
   { identifiantProjet, reponseSignee },
 ) => {
   return withUtilisateur(async (utilisateur) => {
-    const réponseSignéeValue = {
-      content: reponseSignee.stream(),
-      format: reponseSignee.type,
-    };
-
     await mediator.send<Recours.AccorderRecoursUseCase>({
       type: 'Éliminé.Recours.UseCase.AccorderRecours',
       data: {
         identifiantProjetValue: identifiantProjet,
         identifiantUtilisateurValue: utilisateur.identifiantUtilisateur.formatter(),
         dateAccordValue: new Date().toISOString(),
-        réponseSignéeValue,
+        réponseSignéeValue: reponseSignee,
       },
     });
 

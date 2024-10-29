@@ -10,11 +10,11 @@ import { Option } from '@potentiel-libraries/monads';
 import { Lauréat } from '@potentiel-domain/laureat';
 
 import { ActionResult, FormAction, FormState, formAction } from '@/utils/formAction';
-import { document } from '@/utils/zod/documentTypes';
+import { singleDocument } from '@/utils/zod/document';
 
 const schema = zod.object({
   identifiantGestionnaireReseau: zod.string(),
-  fichierDatesMiseEnService: document,
+  fichierDatesMiseEnService: singleDocument(),
 });
 
 export type ImporterDatesMiseEnServiceFormKeys = keyof zod.infer<typeof schema>;
@@ -42,7 +42,7 @@ const action: FormAction<FormState, typeof schema> = async (
     GestionnaireRéseau.IdentifiantGestionnaireRéseau.convertirEnValueType(
       identifiantGestionnaireReseau,
     );
-  const { parsedData: lines } = await parseCsv(fichierDatesMiseEnService.stream(), csvSchema);
+  const { parsedData: lines } = await parseCsv(fichierDatesMiseEnService.content, csvSchema);
 
   if (lines.length === 0) {
     return {

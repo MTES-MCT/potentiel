@@ -8,7 +8,7 @@ import * as zod from 'zod';
 
 import { FormAction, formAction, FormState } from '@/utils/formAction';
 import { withUtilisateur } from '@/utils/withUtilisateur';
-import { document } from '@/utils/zod/documentTypes';
+import { singleDocument } from '@/utils/zod/document';
 
 const schema = zod.object({
   identifiantProjet: zod.string().min(1),
@@ -17,7 +17,7 @@ const schema = zod.object({
     required_error: 'Champ obligatoire',
   }),
   nomRepresentantLegal: zod.string().min(1, { message: 'Champ obligatoire' }),
-  pieceJustificative: document,
+  pieceJustificative: singleDocument(),
 });
 
 export type DemanderChangementReprésentantLégalFormKeys = keyof zod.infer<typeof schema>;
@@ -35,10 +35,7 @@ const action: FormAction<FormState, typeof schema> = async () =>
       //     identifiantUtilisateurValue: utilisateur.identifiantUtilisateur.formatter(),
       //     dateDemandeValue: new Date().toISOString(),
       //     nomReprésentantLégalValue: nomReprésentantLégal,
-      //     pièceJustificativeValue: {
-      //       content: pieceJustificative.stream(),
-      //       format: pieceJustificative.type,
-      //     },
+      //     pièceJustificativeValue: pieceJustificative,
       //   },
       // });
 

@@ -10,13 +10,13 @@ import { DateTime } from '@potentiel-domain/common';
 
 import { ActionResult, FormAction, formAction, FormState } from '@/utils/formAction';
 import { withUtilisateur } from '@/utils/withUtilisateur';
-import { document } from '@/utils/zod/documentTypes';
+import { singleDocument } from '@/utils/zod/document';
 
 import { candidatureCsvSchema, CandidatureShape } from '../importer/candidature.schema';
 import { getLocalité } from '../helpers';
 
 const schema = zod.object({
-  fichierCorrectionCandidatures: document,
+  fichierCorrectionCandidatures: singleDocument(),
 });
 
 export type CorrigerCandidaturesFormKeys = keyof zod.infer<typeof schema>;
@@ -24,7 +24,7 @@ export type CorrigerCandidaturesFormKeys = keyof zod.infer<typeof schema>;
 const action: FormAction<FormState, typeof schema> = async (_, { fichierCorrectionCandidatures }) =>
   withUtilisateur(async (utilisateur) => {
     const { parsedData, rawData } = await parseCsv(
-      fichierCorrectionCandidatures.stream(),
+      fichierCorrectionCandidatures.content,
       candidatureCsvSchema,
     );
 

@@ -7,14 +7,14 @@ import { Raccordement } from '@potentiel-domain/reseau';
 import { Routes } from '@potentiel-applications/routes';
 
 import { FormAction, FormState, formAction } from '@/utils/formAction';
-import { document } from '@/utils/zod/documentTypes';
+import { singleDocument } from '@/utils/zod/document';
 
 const schema = zod.object({
   identifiantProjet: zod.string().min(1),
   dateQualification: zod.string().min(1, { message: 'Champ obligatoire' }),
   identifiantGestionnaireReseau: zod.string().min(1),
   referenceDossier: zod.string().min(1, { message: 'Champ obligatoire' }),
-  accuseReception: document,
+  accuseReception: singleDocument(),
 });
 
 export type TransmettreDemandeComplèteRaccordementFormKeys = keyof zod.infer<typeof schema>;
@@ -36,10 +36,7 @@ const action: FormAction<FormState, typeof schema> = async (
       dateQualificationValue: new Date(dateQualification).toISOString(),
       identifiantGestionnaireRéseauValue: identifiantGestionnaireReseau,
       référenceDossierValue: referenceDossier,
-      accuséRéceptionValue: {
-        content: accuseReception.stream(),
-        format: accuseReception.type,
-      },
+      accuséRéceptionValue: accuseReception,
     },
   });
 

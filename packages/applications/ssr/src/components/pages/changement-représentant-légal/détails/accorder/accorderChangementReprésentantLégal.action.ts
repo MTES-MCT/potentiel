@@ -22,18 +22,13 @@ export type AccorderChangementReprésentantLégalFormKeys = keyof zod.infer<type
 
 const action: FormAction<FormState, typeof schema> = async (_) =>
   withUtilisateur(async (_) => {
-    // const réponseSignéeValue = {
-    //   content: reponseSignee.stream(),
-    //   format: reponseSignee.type,
-    // };
-
     // await mediator.send<ChangementReprésentantLégal.AccorderChangementReprésentantLégalUseCase>({
     //   type: 'Éliminé.ChangementReprésentantLégal.UseCase.AccorderChangementReprésentantLégal',
     //   data: {
     //     identifiantProjetValue: identifiantProjet,
     //     identifiantUtilisateurValue: utilisateur.identifiantUtilisateur.formatter(),
     //     dateAccordValue: new Date().toISOString(),
-    //     réponseSignéeValue,
+    //     réponseSignéeValue: réponseSignée,
     //   },
     // });
 

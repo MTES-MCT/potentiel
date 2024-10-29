@@ -11,14 +11,14 @@ import { Routes } from '@potentiel-applications/routes';
 
 import { ActionResult, FormAction, formAction, FormState } from '@/utils/formAction';
 import { withUtilisateur } from '@/utils/withUtilisateur';
-import { document } from '@/utils/zod/documentTypes';
+import { singleDocument } from '@/utils/zod/document';
 
 import { getLocalité } from '../helpers';
 
 import { candidatureCsvSchema, CandidatureShape } from './candidature.schema';
 
 const schema = zod.object({
-  fichierImportCandidature: document,
+  fichierImportCandidature: singleDocument(),
 });
 
 export type ImporterCandidaturesFormKeys = keyof zod.infer<typeof schema>;
@@ -26,7 +26,7 @@ export type ImporterCandidaturesFormKeys = keyof zod.infer<typeof schema>;
 const action: FormAction<FormState, typeof schema> = async (_, { fichierImportCandidature }) => {
   return withUtilisateur(async (utilisateur) => {
     const { parsedData, rawData } = await parseCsv(
-      fichierImportCandidature.stream(),
+      fichierImportCandidature.content,
       candidatureCsvSchema,
     );
 

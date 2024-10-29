@@ -8,11 +8,11 @@ import { Routes } from '@potentiel-applications/routes';
 
 import { FormAction, formAction, FormState } from '@/utils/formAction';
 import { withUtilisateur } from '@/utils/withUtilisateur';
-import { document } from '@/utils/zod/documentTypes';
+import { singleDocument } from '@/utils/zod/document';
 
 const schema = zod.object({
   identifiantProjet: zod.string().min(1),
-  reponseSignee: document,
+  reponseSignee: singleDocument(),
 });
 
 export type RejeterDemandeMainlevéeGarantiesFinancièresFormKeys = keyof zod.infer<typeof schema>;
@@ -28,10 +28,7 @@ const action: FormAction<FormState, typeof schema> = async (
         identifiantProjetValue: identifiantProjet,
         rejetéLeValue: new Date().toISOString(),
         rejetéParValue: utilisateur.identifiantUtilisateur.formatter(),
-        réponseSignéeValue: {
-          content: reponseSignee.stream(),
-          format: reponseSignee.type,
-        },
+        réponseSignéeValue: reponseSignee,
       },
     });
 

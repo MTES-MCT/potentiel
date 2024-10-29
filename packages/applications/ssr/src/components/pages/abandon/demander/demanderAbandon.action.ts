@@ -8,20 +8,20 @@ import { Routes } from '@potentiel-applications/routes';
 
 import { FormAction, formAction, FormState } from '@/utils/formAction';
 import { withUtilisateur } from '@/utils/withUtilisateur';
-import { document, optionalDocument } from '@/utils/zod/documentTypes';
+import { singleDocument } from '@/utils/zod/document';
 
 const abandonWithRecandidatureSchema = zod.object({
   identifiantProjet: zod.string().min(1),
   recandidature: zod.literal('true'),
   raison: zod.string().min(1, { message: 'Champ obligatoire' }),
-  pieceJustificative: optionalDocument,
+  pieceJustificative: singleDocument({ optional: true }),
 });
 
 const abandonWithoutRecandidatureSchema = zod.object({
   identifiantProjet: zod.string().min(1),
   recandidature: zod.literal('false').optional(),
   raison: zod.string().min(1, { message: 'Champ obligatoire' }),
-  pieceJustificative: document,
+  pieceJustificative: singleDocument(),
 });
 
 const schema = zod.union([abandonWithRecandidatureSchema, abandonWithoutRecandidatureSchema]);
@@ -41,11 +41,8 @@ const action: FormAction<FormState, typeof schema> = async (
         dateDemandeValue: new Date().toISOString(),
         raisonValue: raison,
         recandidatureValue: recandidature === 'true',
-        ...(pieceJustificative.size > 0 && {
-          pièceJustificativeValue: {
-            content: pieceJustificative.stream(),
-            format: pieceJustificative.type,
-          },
+        ...(pieceJustificative !== undefined && {
+          pièceJustificativeValue: pieceJustificative,
         }),
       },
     });
