@@ -13,9 +13,10 @@ Fonctionnalité: Transmettre une preuve de recandidature
         Alors la preuve de recandidature devrait être transmise pour le projet lauréat
         Et une tâche indiquant de "transmettre la preuve de recandidature" n'est plus consultable dans la liste des tâches du porteur pour le projet
 
+    @select
     Scénario: Le porteur du projet transmet comme preuve de recandidature un projet éliminé
         Etant donné un abandon accordé avec recandidature pour le projet lauréat
-        Et le projet éliminé "MIOS" ayant été notifié le "2024-01-01"
+        Et le projet éliminé "MIOS"
         Quand le porteur transmet le projet éliminé "MIOS" comme preuve de recandidature suite à l'abandon du projet
         Alors la preuve de recandidature devrait être transmise pour le projet lauréat
         Et une tâche indiquant de "transmettre la preuve de recandidature" n'est plus consultable dans la liste des tâches du porteur pour le projet

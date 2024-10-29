@@ -38,6 +38,7 @@ export const registerTransmettreAttestationConformitéCommand = (loadAggregate: 
       identifiantProjet,
       false,
     );
+
     await loadLauréat(identifiantProjet);
 
     const abandon = await loadAbandon(identifiantProjet, false);
