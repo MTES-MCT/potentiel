@@ -56,7 +56,6 @@ type TransmettreDemandeOptions = {
   référenceDossierExpressionRegulière: ExpressionRegulière.ValueType;
   formatAccuséRéception: string;
   aUnAbandonAccordé: boolean;
-  estUnProjetÉliminé: boolean;
 };
 
 export async function transmettreDemande(
@@ -69,15 +68,10 @@ export async function transmettreDemande(
     référenceDossierExpressionRegulière,
     formatAccuséRéception,
     aUnAbandonAccordé,
-    estUnProjetÉliminé,
   }: TransmettreDemandeOptions,
 ) {
   if (aUnAbandonAccordé) {
     throw new ImpossibleTransmettreDCRProjetAbandonnéError();
-  }
-
-  if (estUnProjetÉliminé) {
-    throw new ImpossibleTransmettreDCRProjetÉliminéError();
   }
 
   if (
@@ -210,14 +204,6 @@ class ImpossibleTransmettreDCRProjetAbandonnéError extends OperationRejectedErr
   constructor() {
     super(
       `Il est impossible de transmettre une demande complète de raccordement pour un projet abandonné`,
-    );
-  }
-}
-
-class ImpossibleTransmettreDCRProjetÉliminéError extends OperationRejectedError {
-  constructor() {
-    super(
-      `Il est impossible de transmettre une demande complète de raccordement pour un projet éliminé`,
     );
   }
 }

@@ -90,7 +90,7 @@ Fonctionnalité: Transmettre une attestation de conformité
             | format preuve transmission au co-contractant  | application/pdf             |
             | contenu preuve transmission au co-contractant | le contenu de la preuve     |
             | date                                          | 2024-01-05                  |
-        Alors le porteur devrait être informé que "Il est impossible de transmettre une attestation de conformité pour un projet éliminé"
+        Alors le porteur devrait être informé que "Le projet lauréat n'existe pas"
 
     Scénario: Impossible de transmettre une attestation de conformité si le projet est abandonné
         Etant donné un abandon accordé pour le projet lauréat
