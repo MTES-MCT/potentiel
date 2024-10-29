@@ -48,27 +48,18 @@ export const UploadDocument: FC<UploadDocumentProps> = ({
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { files } = e.currentTarget;
 
+    console.info(files);
+
     if (!files || Object.keys(files).length === 0) {
       setDocumentFilenames([]);
       return;
     }
 
-    const fileNames = Object.values(files)
-      .map((file) => {
-        const fileName = extractFileName(file.name);
+    const fileNames = Object.values(files).map((file) => extractFileName(file.name));
+    console.info(fileNames);
 
-        if (documentFilenames.includes(fileName)) {
-          return undefined;
-        }
-
-        return fileName;
-      })
-      .filter((f) => f !== undefined);
-
-    const updatedFilenames = multiple ? [...documentFilenames, ...fileNames] : fileNames;
-
-    setDocumentFilenames(updatedFilenames);
-    onChange && onChange(updatedFilenames);
+    setDocumentFilenames(fileNames);
+    onChange && onChange(fileNames);
   };
 
   const handleFileRemove = (index: number) => {
