@@ -38,3 +38,14 @@ export function singleDocument(options?: {
       } as ConsulterDocumentProjetReadModel;
     });
 }
+
+export function manyDocuments(options?: { optional?: true }) {
+  if (options?.optional) {
+    singleDocument({ optional: true })
+      .transform((document) => [document])
+      .or(singleDocument({ optional: true }).array());
+  }
+  return singleDocument()
+    .transform((document) => [document])
+    .or(singleDocument().array());
+}
