@@ -5,7 +5,6 @@ import * as zod from 'zod';
 
 import { Raccordement } from '@potentiel-domain/reseau';
 import { Routes } from '@potentiel-applications/routes';
-import { Role } from '@potentiel-domain/utilisateur';
 
 import { FormAction, FormState, formAction } from '@/utils/formAction';
 import { withUtilisateur } from '@/utils/withUtilisateur';
@@ -36,9 +35,9 @@ const action: FormAction<FormState, typeof schema> = async (
 
     return {
       status: 'success',
-      redirectUrl: utilisateur.role.estÉgaleÀ(Role.grd)
-        ? Routes.Raccordement.lister
-        : Routes.Raccordement.détail(identifiantProjet),
+      redirectUrl: utilisateur.role.aLaPermission('réseau.raccordement.consulter')
+        ? Routes.Raccordement.détail(identifiantProjet)
+        : Routes.Raccordement.lister,
     };
   });
 };

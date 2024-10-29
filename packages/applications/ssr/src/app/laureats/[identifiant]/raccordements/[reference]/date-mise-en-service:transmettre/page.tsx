@@ -105,9 +105,9 @@ export default async function Page({ params: { identifiant, reference } }: PageP
               max: DateTime.convertirEnValueType(intervalleDatesMeSDélaiCDC2022.max).formatter(),
             }
           : undefined,
-        lienRetour: utilisateur.role.estÉgaleÀ(Role.grd)
-          ? Routes.Raccordement.lister
-          : Routes.Raccordement.détail(identifiantProjet),
+        lienRetour: utilisateur.role.aLaPermission('réseau.raccordement.consulter')
+          ? Routes.Raccordement.détail(identifiantProjet)
+          : Routes.Raccordement.lister,
       };
 
       return <TransmettreDateMiseEnServicePage {...props} />;
