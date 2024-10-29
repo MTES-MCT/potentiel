@@ -22,7 +22,7 @@ Fonctionnalité: Transmettre une attestation de conformité
             | format preuve transmission au co-contractant  | application/pdf             |
             | contenu preuve transmission au co-contractant | le contenu de la preuve     |
             | date                                          | 2024-01-05                  |
-            | utilisateur                                   | porteur                     |
+            | email                                         | porteur                     |
         Et un email a été envoyé à la dreal avec :
             | sujet              | Potentiel - Une attestation de conformité a été transmise pour le projet Du boulodrome de Marseille dans le département departementProjet |
             | nom_projet         | Du boulodrome de Marseille                                                                                                                |

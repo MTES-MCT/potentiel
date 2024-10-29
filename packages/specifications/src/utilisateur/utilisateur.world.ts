@@ -34,4 +34,19 @@ export class UtilisateurWorld {
     this.#drealFixture = new DREALFixture();
     this.#adminFixture = new AdminFixture();
   }
+
+  récupérerEmailSelonRôle(role: string): string {
+    switch (role) {
+      case 'porteur':
+        return this.porteurFixture.email;
+      case 'dreal':
+        return this.drealFixture.email;
+      case 'admin':
+        return this.adminFixture.email;
+      case 'validateur':
+        return this.validateurFixture.email;
+      default:
+        throw new Error(`La fixture ${role} n'a pas été créée`);
+    }
+  }
 }

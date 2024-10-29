@@ -2,8 +2,7 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 import { LoadAggregate } from '@potentiel-domain/core';
-import { Abandon } from '@potentiel-domain/laureat';
-import { loadLauréatFactory } from '@potentiel-domain/laureat/dist/lauréat.aggregate';
+import { Abandon, Lauréat } from '@potentiel-domain/laureat';
 
 import { IdentifiantGestionnaireRéseau } from '../../gestionnaire';
 import * as RéférenceDossierRaccordement from '../référenceDossierRaccordement.valueType';
@@ -27,7 +26,7 @@ export const registerTransmettreDemandeComplèteRaccordementCommand = (
   const loadAbandon = Abandon.loadAbandonFactory(loadAggregate);
   const loadRaccordement = loadRaccordementAggregateFactory(loadAggregate);
   const loadGestionnaireRéseau = loadGestionnaireRéseauFactory(loadAggregate);
-  const loadLauréat = loadLauréatFactory(loadAggregate);
+  const loadLauréat = Lauréat.loadLauréatFactory(loadAggregate);
 
   const handler: MessageHandler<TransmettreDemandeComplèteRaccordementCommand> = async ({
     identifiantProjet,

@@ -21,7 +21,7 @@ Fonctionnalité: Modifier une attestation de conformité
             | format preuve transmission au co-contractant  | application/pdf                     |
             | contenu preuve transmission au co-contractant | le nouveau contenu de la preuve     |
             | date                                          | 2024-01-07                          |
-            | utilisateur                                   | admin                               |
+            | email                                         | admin                               |
 
     Scénario: Impossible de modifier une attestation de conformité si la date de transmission au co-contractant est dans le futur
         Et une attestation de conformité transmise pour le projet "Centrale PV"
