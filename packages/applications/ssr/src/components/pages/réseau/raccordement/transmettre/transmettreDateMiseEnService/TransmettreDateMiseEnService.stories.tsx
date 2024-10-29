@@ -32,5 +32,6 @@ export const Default: Story = {
       identifiantProjet: 'PPE2 - Bâtiment#4#1#id-cre-738',
       dateDésignation: new Date('2022-09-01').toISOString() as Iso8601DateTime,
     },
+    lienRetour: '',
   },
 };

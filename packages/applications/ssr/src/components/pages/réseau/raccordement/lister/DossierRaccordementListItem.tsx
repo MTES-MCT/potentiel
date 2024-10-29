@@ -10,10 +10,16 @@ import { ListItem } from '@/components/molecules/ListItem';
 import { Icon } from '@/components/atoms/Icon';
 import { FormattedDate } from '@/components/atoms/FormattedDate';
 
+import {
+  DossierRaccordementListItemActions,
+  DossierRaccordementListItemActionsProps,
+} from './DossierRaccordementListItemActions';
+
 export type DossierRaccordementListItemProps = PlainType<
   Raccordement.ListerDossierRaccordementReadModel['items'][number]
 > & {
   gestionnaireRéseau: string;
+  actions: DossierRaccordementListItemActionsProps['actions'];
 };
 
 export const DossierRaccordementListItem: FC<DossierRaccordementListItemProps> = ({
@@ -27,6 +33,7 @@ export const DossierRaccordementListItem: FC<DossierRaccordementListItemProps> =
   statutDGEC,
   dateMiseEnService,
   gestionnaireRéseau,
+  actions,
 }) => (
   <ListItem
     heading={
@@ -37,7 +44,13 @@ export const DossierRaccordementListItem: FC<DossierRaccordementListItemProps> =
         statut={statutDGEC}
       />
     }
-    actions={<></>}
+    actions={
+      <DossierRaccordementListItemActions
+        identifiantProjet={identifiantProjet}
+        référence={référenceDossier}
+        actions={actions}
+      />
+    }
   >
     <div className="mt-4">
       <Icon id="fr-icon-map-pin-2-line" title="Commune du site de production" size="sm" />{' '}

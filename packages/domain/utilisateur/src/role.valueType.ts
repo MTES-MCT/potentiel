@@ -1065,6 +1065,7 @@ const permissionCaisseDesDépôts: Policy[] = [
 const permissionGRD: Policy[] = [
   'réseau.gestionnaire.consulter',
   'réseau.raccordement.listerDossierRaccordement',
+  'réseau.raccordement.date-mise-en-service.transmettre',
 ];
 
 const policyParRole: Record<RawType, Policy[]> = {
