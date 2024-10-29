@@ -1,9 +1,12 @@
 import { randomUUID } from 'crypto';
 
 import { DataTable, Given as EtantDonné } from '@cucumber/cucumber';
+import { faker } from '@faker-js/faker';
 
 import { executeQuery } from '@potentiel-libraries/pg-helpers';
-import { IdentifiantProjet } from '@potentiel-domain/common';
+import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
+import { Lauréat } from '@potentiel-domain/laureat';
+import { publish } from '@potentiel-infrastructure/pg-event-sourcing';
 
 import { PotentielWorld } from '../../../potentiel.world';
 
@@ -98,6 +101,23 @@ EtantDonné('le projet lauréat {string}', async function (this: PotentielWorld,
     appelOffre,
     période,
   });
+
+  // TODO : Hack en attendant de revoir ces steps
+  const notifiéLe = DateTime.convertirEnValueType(dateDésignation).formatter();
+
+  const lauréatNotifié: Lauréat.LauréatNotifiéEvent = {
+    type: 'LauréatNotifié-V1',
+    payload: {
+      attestation: {
+        format: 'application/pdf',
+      },
+      identifiantProjet: identifiantProjet.formatter(),
+      notifiéLe: notifiéLe,
+      notifiéPar: faker.internet.email(),
+    },
+  };
+
+  await publish(`lauréat|${identifiantProjet.formatter}`, lauréatNotifié);
 });
 
 EtantDonné(
@@ -193,6 +213,23 @@ EtantDonné(
       appelOffre,
       période,
     });
+
+    // TODO : Hack en attendant de revoir ces steps
+    const notifiéLe = DateTime.convertirEnValueType(dateDésignation).formatter();
+
+    const lauréatNotifié: Lauréat.LauréatNotifiéEvent = {
+      type: 'LauréatNotifié-V1',
+      payload: {
+        attestation: {
+          format: 'application/pdf',
+        },
+        identifiantProjet: identifiantProjet.formatter(),
+        notifiéLe: notifiéLe,
+        notifiéPar: faker.internet.email(),
+      },
+    };
+
+    await publish(`lauréat|${identifiantProjet.formatter}`, lauréatNotifié);
   },
 );
 
@@ -290,5 +327,22 @@ EtantDonné(
       appelOffre,
       période,
     });
+
+    // TODO : Hack en attendant de revoir ces steps
+    const notifiéLe = DateTime.convertirEnValueType(dateDésignation).formatter();
+
+    const lauréatNotifié: Lauréat.LauréatNotifiéEvent = {
+      type: 'LauréatNotifié-V1',
+      payload: {
+        attestation: {
+          format: 'application/pdf',
+        },
+        identifiantProjet: identifiantProjet.formatter(),
+        notifiéLe: notifiéLe,
+        notifiéPar: faker.internet.email(),
+      },
+    };
+
+    await publish(`lauréat|${identifiantProjet.formatter}`, lauréatNotifié);
   },
 );
