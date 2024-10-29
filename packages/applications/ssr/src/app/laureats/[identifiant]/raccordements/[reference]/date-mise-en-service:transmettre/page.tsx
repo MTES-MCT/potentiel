@@ -8,6 +8,7 @@ import { DateTime } from '@potentiel-domain/common';
 import { Option } from '@potentiel-libraries/monads';
 import { Groupe, Role } from '@potentiel-domain/utilisateur';
 import { OperationRejectedError } from '@potentiel-domain/core';
+import { Routes } from '@potentiel-applications/routes';
 
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { decodeParameter } from '@/utils/decodeParameter';
@@ -61,7 +62,7 @@ export default async function Page({ params: { identifiant, reference } }: PageP
 
       if (utilisateur.role.estÉgaleÀ(Role.grd)) {
         const groupeAttendu = Groupe.convertirEnValueType(
-          `/GestionnairesRéseau/${dossierRaccordement.identifiantGestionnaireRéseau}`,
+          `/GestionnairesRéseau/${dossierRaccordement.identifiantGestionnaireRéseau.formatter()}`,
         );
         if (Option.isNone(utilisateur.groupe) || !utilisateur.groupe.estÉgaleÀ(groupeAttendu)) {
           throw new OperationRejectedError(
@@ -104,6 +105,9 @@ export default async function Page({ params: { identifiant, reference } }: PageP
               max: DateTime.convertirEnValueType(intervalleDatesMeSDélaiCDC2022.max).formatter(),
             }
           : undefined,
+        lienRetour: utilisateur.role.estÉgaleÀ(Role.grd)
+          ? Routes.Raccordement.lister
+          : Routes.Raccordement.détail(identifiantProjet),
       };
 
       return <TransmettreDateMiseEnServicePage {...props} />;
