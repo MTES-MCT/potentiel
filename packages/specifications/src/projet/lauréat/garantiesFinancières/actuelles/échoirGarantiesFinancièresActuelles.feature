@@ -12,8 +12,7 @@ Fonctionnalité: Échoir les garanties financières actuelles d'un projet
         Quand un admin échoie les garanties financières actuelles pour le projet "Du boulodrome de Marseille" avec :
             | à échoir le | 2024-07-18 |
         Alors les garanties financières actuelles du projet "Du boulodrome de Marseille" sont échues
-        Et un email a été envoyé avec :
-            | destinataire       | porteur                                                                                                                                        |
+        Et un email a été envoyé au porteur avec :
             | sujet              | Potentiel - Date d'échéance dépassée pour les garanties financières du projet Du boulodrome de Marseille dans le département departementProjet |
             | nom_projet         | Du boulodrome de Marseille                                                                                                                     |
             | departement_projet | departementProjet                                                                                                                              |

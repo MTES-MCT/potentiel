@@ -3,18 +3,8 @@ import { expect } from 'chai';
 
 import { PotentielWorld } from '../../potentiel.world';
 
-Alors('un email a été envoyé avec :', function (this: PotentielWorld, data: DataTable) {
+function vérifierEmailEnvoyé(this: PotentielWorld, email: string, data: DataTable) {
   const exemple = data.rowsHash();
-
-  // TODO: utiliser un mapper
-  const email =
-    exemple.destinataire === 'porteur'
-      ? this.utilisateurWorld.porteurFixture.email
-      : exemple.destinataire === 'dreal'
-        ? this.utilisateurWorld.drealFixture.email
-        : '';
-  delete exemple.destinataire;
-
   const notif = this.notificationWorld.récupérerNotification(email, exemple.sujet);
 
   for (const [key, value] of Object.entries(exemple)) {
@@ -24,4 +14,12 @@ Alors('un email a été envoyé avec :', function (this: PotentielWorld, data: D
       expect(notif.variables[key]).to.equal(value);
     }
   }
+}
+
+Alors('un email a été envoyé au porteur avec :', function (this: PotentielWorld, data: DataTable) {
+  vérifierEmailEnvoyé.call(this, this.utilisateurWorld.porteurFixture.email, data);
+});
+
+Alors('un email a été envoyé à la dreal avec :', function (this: PotentielWorld, data: DataTable) {
+  vérifierEmailEnvoyé.call(this, this.utilisateurWorld.drealFixture.email, data);
 });

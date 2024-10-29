@@ -23,15 +23,13 @@ Fonctionnalité: Transmettre une attestation de conformité
             | contenu preuve transmission au co-contractant | le contenu de la preuve     |
             | date                                          | 2024-01-05                  |
             | utilisateur                                   | porteur                     |
-        Et un email a été envoyé avec :
-            | destinataire       | dreal                                                                                                                                     |
+        Et un email a été envoyé à la dreal avec :
             | sujet              | Potentiel - Une attestation de conformité a été transmise pour le projet Du boulodrome de Marseille dans le département departementProjet |
             | nom_projet         | Du boulodrome de Marseille                                                                                                                |
             | departement_projet | departementProjet                                                                                                                         |
             | url                | https://potentiel.beta.gouv.fr/projet/PPE2%20-%20Eolien%231%23%2323/details.html                                                          |
 
-        Et un email a été envoyé avec :
-            | destinataire       | porteur                                                                                                                    |
+        Et un email a été envoyé au porteur avec :
             | sujet              | Potentiel - Mise à jour de la date d'achèvement du projet Du boulodrome de Marseille dans le département departementProjet |
             | nom_projet         | Du boulodrome de Marseille                                                                                                 |
             | departement_projet | departementProjet                                                                                                          |
