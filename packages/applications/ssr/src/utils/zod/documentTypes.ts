@@ -3,18 +3,37 @@ import * as zod from 'zod';
 
 import { ConsulterDocumentProjetQuery } from '@potentiel-domain/document';
 
-export const DEFAULT_FILE_SIZE_LIMIT_IN_MB = 5;
+export const defaultFileSizeLimitInMegaBytes = 5;
 
-export const DEFAULT_FILE_SIZE_LIMIT_FOR_ZOD = DEFAULT_FILE_SIZE_LIMIT_IN_MB * 1024 * 1024;
+const toBytes = (sizeInMegaBytes: number): number => sizeInMegaBytes * 1024 * 1024;
+
+export const documentZodSchema = (options?: { optional?: true }) => {
+  return zod
+    .instanceof(Blob)
+    .refine(({ size }) => (options?.optional ? size >= 0 : size > 0), `Champ obligatoire`)
+    .refine(
+      ({ size }) => size <= toBytes(defaultFileSizeLimitInMegaBytes),
+      `Le fichier dépasse la taille maximale autorisée (${defaultFileSizeLimitInMegaBytes}Mo)`,
+    );
+};
+
+export const documentKeyZodSchema = zod.string().transform(async (documentKey) => {
+  const document = await mediator.send<ConsulterDocumentProjetQuery>({
+    type: 'Document.Query.ConsulterDocumentProjet',
+    data: {
+      documentKey,
+    },
+  });
+  return document;
+});
 
 export const document = zod
   .instanceof(Blob)
-  .refine(({ size }) => size > 0, {
-    message: `Le ficher est vide`,
-  })
-  .refine(({ size }) => size <= DEFAULT_FILE_SIZE_LIMIT_FOR_ZOD, {
-    message: `Le fichier dépasse la taille maximale autorisée (${DEFAULT_FILE_SIZE_LIMIT_IN_MB}Mo)`,
-  });
+  .refine(({ size }) => size > 0, `Le ficher est vide`)
+  .refine(
+    ({ size }) => size <= toBytes(defaultFileSizeLimitInMegaBytes),
+    `Le fichier dépasse la taille maximale autorisée (${defaultFileSizeLimitInMegaBytes}Mo)`,
+  );
 
 export const optionalDocument = zod.instanceof(Blob);
 
