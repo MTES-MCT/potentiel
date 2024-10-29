@@ -10,7 +10,15 @@ export const defaultFileSizeLimitInMegaBytes = 5;
 
 const toBytes = (sizeInMegaBytes: number): number => sizeInMegaBytes * 1024 * 1024;
 
-export const documentZodSchema = (options?: { optional?: true }) => {
+export function documentZodSchema(options: {
+  optional: true;
+}): zod.ZodEffects<zod.ZodType<Blob>, ConsulterDocumentProjetReadModel | undefined>;
+export function documentZodSchema(options?: {
+  optional?: undefined;
+}): zod.ZodEffects<zod.ZodType<Blob>, ConsulterDocumentProjetReadModel>;
+export function documentZodSchema(options?: {
+  optional?: true;
+}): zod.ZodEffects<zod.ZodType<Blob>, ConsulterDocumentProjetReadModel | undefined> {
   return zod
     .instanceof(Blob)
     .refine(({ size }) => (options?.optional ? size >= 0 : size > 0), `Champ obligatoire`)
@@ -18,11 +26,17 @@ export const documentZodSchema = (options?: { optional?: true }) => {
       ({ size }) => size <= toBytes(defaultFileSizeLimitInMegaBytes),
       `Le fichier dépasse la taille maximale autorisée (${defaultFileSizeLimitInMegaBytes}Mo)`,
     )
-    .transform<ConsulterDocumentProjetReadModel>((blob) => ({
-      content: blob.stream(),
-      format: blob.type,
-    }));
-};
+    .transform((blob) => {
+      if (blob.size === 0) {
+        return undefined;
+      }
+
+      return {
+        content: blob.stream(),
+        format: blob.type,
+      } as ConsulterDocumentProjetReadModel;
+    });
+}
 
 const documentKeyZodSchema = zod.string().transform(async (documentKey) => {
   const document = await mediator.send<ConsulterDocumentProjetQuery>({
