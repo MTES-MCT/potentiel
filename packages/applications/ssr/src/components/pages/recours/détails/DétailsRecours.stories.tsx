@@ -2,7 +2,6 @@ import type { Meta, StoryObj } from '@storybook/react';
 
 import { Iso8601DateTime } from '@potentiel-libraries/iso8601-datetime';
 import { IdentifiantProjet } from '@potentiel-domain/common';
-import { Role } from '@potentiel-domain/utilisateur';
 import { Abandon } from '@potentiel-domain/laureat';
 import { Recours } from '@potentiel-domain/elimine';
 
@@ -25,7 +24,6 @@ const identifiantProjet = 'PPE2 - Bâtiment#4#1#id-cre-738';
 export const Demandé: Story = {
   args: {
     identifiantProjet,
-    role: Role.porteur,
     recours: {
       identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
       statut: {
@@ -54,7 +52,6 @@ export const Demandé: Story = {
 export const Rejeté: Story = {
   args: {
     identifiantProjet,
-    role: Role.porteur,
     recours: {
       identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
       statut: {
@@ -97,7 +94,6 @@ export const Rejeté: Story = {
 export const Accordé: Story = {
   args: {
     identifiantProjet,
-    role: Role.porteur,
     recours: {
       identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
       statut: {

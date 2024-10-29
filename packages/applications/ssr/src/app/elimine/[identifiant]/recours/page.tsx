@@ -48,7 +48,6 @@ export default async function Page({ params: { identifiant } }: PageProps) {
         <DétailsRecoursPage
           recours={mapToPlainObject(recours)}
           identifiantProjet={identifiantProjet}
-          role={mapToPlainObject(utilisateur.role)}
           actions={mapToActions({
             role: utilisateur.role.nom,
             statut: recours.statut.value,
