@@ -117,7 +117,7 @@ EtantDonné('le projet lauréat {string}', async function (this: PotentielWorld,
     },
   };
 
-  await publish(`lauréat|${identifiantProjet.formatter}`, lauréatNotifié);
+  await publish(`lauréat|${identifiantProjet.formatter()}`, lauréatNotifié);
 });
 
 EtantDonné(
@@ -229,7 +229,7 @@ EtantDonné(
       },
     };
 
-    await publish(`lauréat|${identifiantProjet.formatter}`, lauréatNotifié);
+    await publish(`lauréat|${identifiantProjet.formatter()}`, lauréatNotifié);
   },
 );
 
@@ -343,6 +343,6 @@ EtantDonné(
       },
     };
 
-    await publish(`lauréat|${identifiantProjet.formatter}`, lauréatNotifié);
+    await publish(`lauréat|${identifiantProjet.formatter()}`, lauréatNotifié);
   },
 );
