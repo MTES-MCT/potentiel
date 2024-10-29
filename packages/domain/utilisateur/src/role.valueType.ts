@@ -1066,7 +1066,7 @@ const permissionGRD: Policy[] = [
   'réseau.gestionnaire.consulter',
   'réseau.raccordement.listerDossierRaccordement',
   'réseau.raccordement.date-mise-en-service.transmettre',
-  'réseau.raccordement.consulter',
+  'réseau.raccordement.référence-dossier.modifier',
 ];
 
 const policyParRole: Record<RawType, Policy[]> = {

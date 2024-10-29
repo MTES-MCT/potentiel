@@ -7,7 +7,7 @@ import {
 
 // More on how to set up stories at: https://storybook.js.org/docs/writing-stories#default-export
 const meta = {
-  title: 'Pages/Reseaux/Lister/DossierRaccordementListPage',
+  title: 'Pages/Réseau/Raccordement/Lister/DossierRaccordementListPage',
   component: DossierRaccordementListPage,
   parameters: {},
   tags: ['autodocs'],
@@ -81,9 +81,15 @@ export const Default: Story = {
                 date: new Date().toISOString(),
               }
             : undefined,
-        actions: {
-          voirLeDossier: true as const,
-        },
+        actions:
+          i % 2 === 1
+            ? {
+                voirLeDossier: true as const,
+              }
+            : {
+                voirLeDossier: false as const,
+                transmettreMiseEnService: true,
+              },
       })),
       range: {
         startPosition: 0,

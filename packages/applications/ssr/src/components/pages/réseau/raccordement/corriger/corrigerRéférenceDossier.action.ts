@@ -43,7 +43,9 @@ const action: FormAction<FormState, typeof schema> = (
 
     return {
       status: 'success',
-      redirectUrl: Routes.Raccordement.détail(identifiantProjet),
+      redirectUrl: role.aLaPermission('réseau.raccordement.consulter')
+        ? Routes.Raccordement.détail(identifiantProjet)
+        : Routes.Raccordement.lister,
     };
   });
 
