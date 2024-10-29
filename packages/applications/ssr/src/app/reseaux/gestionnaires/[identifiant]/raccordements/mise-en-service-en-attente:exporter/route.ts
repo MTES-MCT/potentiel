@@ -1,10 +1,13 @@
 import { Parser } from '@json2csv/plainjs';
 import { mediator } from 'mediateur';
+import { NextResponse } from 'next/server';
 
 import { Option } from '@potentiel-libraries/monads';
 import { GestionnaireRéseau, Raccordement } from '@potentiel-domain/reseau';
+import { Groupe, Role } from '@potentiel-domain/utilisateur';
 
 import { withUtilisateur } from '@/utils/withUtilisateur';
+import { decodeParameter } from '@/utils/decodeParameter';
 
 type ExporterRaccordementParameter = {
   params: {
@@ -13,12 +16,22 @@ type ExporterRaccordementParameter = {
 };
 
 export const GET = async (_: Request, { params: { identifiant } }: ExporterRaccordementParameter) =>
-  withUtilisateur(async () => {
+  withUtilisateur(async (utilisateur) => {
+    const identifiantGestionnaireRéseau = decodeParameter(identifiant);
+    if (utilisateur.role.estÉgaleÀ(Role.grd)) {
+      const groupeAttendu = Groupe.convertirEnValueType(
+        `/GestionnairesRéseau/${identifiantGestionnaireRéseau}`,
+      );
+      if (Option.isNone(utilisateur.groupe) || !utilisateur.groupe.estÉgaleÀ(groupeAttendu)) {
+        return NextResponse.json({ message: 'Accès refusé' }, { status: 401 });
+      }
+    }
+
     const dossiers =
       await mediator.send<Raccordement.ListerDossierRaccordementEnAttenteMiseEnServiceQuery>({
         type: 'Réseau.Raccordement.Query.ListerDossierRaccordementEnAttenteMiseEnServiceQuery',
         data: {
-          identifiantGestionnaireRéseau: identifiant,
+          identifiantGestionnaireRéseau,
         },
       });
 

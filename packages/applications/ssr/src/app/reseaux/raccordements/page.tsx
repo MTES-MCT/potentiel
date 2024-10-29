@@ -2,9 +2,11 @@ import { mediator } from 'mediateur';
 import type { Metadata } from 'next';
 import { z } from 'zod';
 
+import { Option } from '@potentiel-libraries/monads';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { GestionnaireRéseau, Raccordement } from '@potentiel-domain/reseau';
 import { mapToPlainObject } from '@potentiel-domain/core';
+import { Role, Utilisateur } from '@potentiel-domain/utilisateur';
 
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
@@ -16,7 +18,7 @@ type PageProps = {
 };
 
 export const metadata: Metadata = {
-  title: 'Dossers de raccordement - Potentiel',
+  title: 'Dossiers de raccordement - Potentiel',
   description: 'Liste des dossiers de raccordement',
 };
 
@@ -36,7 +38,7 @@ const paramsSchema = z.object({
 
 export default async function Page({ searchParams }: PageProps) {
   return PageWithErrorHandling(async () =>
-    withUtilisateur(async (_) => {
+    withUtilisateur(async (utilisateur) => {
       const {
         identifiantGestionnaireReseau,
         appelOffre,
@@ -45,10 +47,13 @@ export default async function Page({ searchParams }: PageProps) {
         referenceDossier,
       } = paramsSchema.parse(searchParams);
 
+      const identifiantGestionnaireRéseauUtilisateur =
+        récupérerIdentifiantGestionnaireUtilisateur(utilisateur);
       const dossiers = await mediator.send<Raccordement.ListerDossierRaccordementQuery>({
         type: 'Réseau.Raccordement.Query.ListerDossierRaccordementQuery',
         data: {
-          identifiantGestionnaireRéseau: identifiantGestionnaireReseau,
+          identifiantGestionnaireRéseau:
+            identifiantGestionnaireRéseauUtilisateur ?? identifiantGestionnaireReseau,
           appelOffre,
           avecDateMiseEnService,
           range: mapToRangeOptions({
@@ -63,11 +68,14 @@ export default async function Page({ searchParams }: PageProps) {
         data: {},
       });
 
-      const listeGestionnaireRéseau =
-        await mediator.send<GestionnaireRéseau.ListerGestionnaireRéseauQuery>({
-          type: 'Réseau.Gestionnaire.Query.ListerGestionnaireRéseau',
-          data: {},
-        });
+      const listeGestionnaireRéseau = identifiantGestionnaireRéseauUtilisateur
+        ? undefined
+        : (
+            await mediator.send<GestionnaireRéseau.ListerGestionnaireRéseauQuery>({
+              type: 'Réseau.Gestionnaire.Query.ListerGestionnaireRéseau',
+              data: {},
+            })
+          ).items;
 
       const filters = [
         {
@@ -81,12 +89,11 @@ export default async function Page({ searchParams }: PageProps) {
         {
           label: 'Gestionnaires réseaux',
           searchParamKey: 'identifiantGestionnaireReseau',
-          options: listeGestionnaireRéseau.items.map(
-            ({ raisonSociale, identifiantGestionnaireRéseau }) => ({
+          options:
+            listeGestionnaireRéseau?.map(({ raisonSociale, identifiantGestionnaireRéseau }) => ({
               label: raisonSociale,
               value: identifiantGestionnaireRéseau.formatter(),
-            }),
-          ),
+            })) ?? [],
         },
         {
           label: 'Mise en service',
@@ -102,9 +109,22 @@ export default async function Page({ searchParams }: PageProps) {
             },
           ],
         },
-      ];
+      ].filter((filter) => filter.options.length > 0);
 
       return <DossierRaccordementListPage list={mapToPlainObject(dossiers)} filters={filters} />;
     }),
   );
+}
+
+function récupérerIdentifiantGestionnaireUtilisateur(utilisateur: Utilisateur.ValueType) {
+  if (!utilisateur.role.estÉgaleÀ(Role.grd)) {
+    return;
+  }
+  if (Option.isNone(utilisateur.groupe)) {
+    return 'inconnu';
+  }
+  if (utilisateur.groupe.type !== 'GestionnairesRéseau') {
+    return 'inconnu';
+  }
+  return utilisateur.groupe.nom;
 }
