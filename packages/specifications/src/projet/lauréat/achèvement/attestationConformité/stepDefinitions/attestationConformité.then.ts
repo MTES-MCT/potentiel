@@ -34,7 +34,7 @@ Alors(
       ? new Date(exemple['date transmission au co-contractant']).toISOString()
       : new Date().toISOString();
 
-    const expectedEmail = this.utilisateurWorld.récupérerEmailSelonRôle(exemple['email']);
+    const expectedEmail = this.utilisateurWorld.récupérerEmailSelonRôle(exemple['mis à jour par']);
 
     await waitForExpect(async () => {
       const actualReadModel = await mediator.send<Achèvement.ConsulterAttestationConformitéQuery>({

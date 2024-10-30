@@ -26,7 +26,7 @@ Fonctionnalité: Demander le recours d'un projet éliminé
         Alors le porteur devrait être informé que "Le recours a déjà été accordé"
 
     @NotImplemented
-    Scénario: Impossible de demander un recours pour un projet éliminé archivé
+    Scénario: Impossible de demander un recours pour un projet éliminé inexistant
         Etant donné le projet lauréat "MIOS"
         Et le porteur "Marcel Patoulatchi" ayant accés au projet lauréat "MIOS"
         Quand le porteur demande le recours pour le projet lauréat

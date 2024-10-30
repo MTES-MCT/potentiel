@@ -4,7 +4,7 @@ import { Given as EtantDonné } from '@cucumber/cucumber';
 import { faker } from '@faker-js/faker';
 
 import { executeQuery } from '@potentiel-libraries/pg-helpers';
-import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
+import { DateTime } from '@potentiel-domain/common';
 import { Lauréat } from '@potentiel-domain/laureat';
 import { publish } from '@potentiel-infrastructure/pg-event-sourcing';
 
@@ -12,7 +12,6 @@ import { PotentielWorld } from '../../../potentiel.world';
 
 EtantDonné('le projet lauréat {string}', async function (this: PotentielWorld, nomProjet: string) {
   const dateDésignation = new Date('2022-10-27').toISOString();
-
   const identifiantProjet = this.lauréatWorld.identifiantProjet;
 
   await executeQuery(
@@ -120,12 +119,7 @@ EtantDonné(
   'le projet lauréat {string} ayant été notifié le {string}',
   async function (this: PotentielWorld, nomProjet: string, dateNotification: string) {
     const dateDésignation = new Date(dateNotification).toISOString();
-    const appelOffre = 'PPE2 - Eolien';
-    const période = '1';
-    const numéroCRE = '23';
-    const identifiantProjet = IdentifiantProjet.convertirEnValueType(
-      `${appelOffre}#${période}##${numéroCRE}`,
-    );
+    const identifiantProjet = this.lauréatWorld.identifiantProjet;
 
     await executeQuery(
       `
@@ -179,10 +173,10 @@ EtantDonné(
       )
     `,
       randomUUID(),
-      appelOffre,
-      période,
-      numéroCRE,
-      '',
+      identifiantProjet.appelOffre,
+      identifiantProjet.période,
+      identifiantProjet.numéroCRE,
+      identifiantProjet.famille,
       new Date(dateDésignation).getTime(),
       'nomCandidat',
       nomProjet,
@@ -206,8 +200,8 @@ EtantDonné(
       nom: nomProjet,
       identifiantProjet,
       dateDésignation,
-      appelOffre,
-      période,
+      appelOffre: identifiantProjet.appelOffre,
+      période: identifiantProjet.période,
     });
 
     // TODO : Hack en attendant de revoir ces steps
