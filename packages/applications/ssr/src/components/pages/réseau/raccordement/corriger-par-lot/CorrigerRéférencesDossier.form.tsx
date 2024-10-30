@@ -3,7 +3,7 @@
 import { FC, useState } from 'react';
 
 import { Form } from '@/components/atoms/form/Form';
-import { UploadDocument } from '@/components/atoms/form/UploadDocument';
+import { UploadDocument } from '@/components/atoms/form/document/UploadDocument';
 import { SubmitButton } from '@/components/atoms/form/SubmitButton';
 import { ValidationErrors } from '@/utils/formAction';
 
@@ -32,7 +32,7 @@ export const CorrigerRéférencesDossierForm: FC = () => {
     >
       <UploadDocument
         label="Fichier des corrections"
-        format="csv"
+        formats={['csv']}
         name="fichierCorrections"
         id="fichierCorrections"
         required
