@@ -5,7 +5,7 @@ const ApiUrl = 'https://api.filigrane.beta.gouv.fr/api/document';
 
 const sleep = async (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
-const envoyerDocument = async (textFiligrane: string, document: Blob): Promise<string> => {
+const envoyerDocument = async (textFiligrane: string, document: Blob) => {
   try {
     const form = new FormData();
 
@@ -17,47 +17,41 @@ const envoyerDocument = async (textFiligrane: string, document: Blob): Promise<s
     const response = await post<{ token: string }>(url, form);
     return response.token;
   } catch (error) {
-    getLogger().warn(
-      '@potentiel-infrastructure/filigrane-facile-client | Error while envoyerDocument',
+    getLogger().error(
+      new Error('@potentiel-infrastructure/filigrane-facile-client | Error while envoyerDocument'),
       { error: (error as Error).message },
     );
-    throw new Error(`❌ Error while post document : ${(error as Error).message}`);
+    return undefined;
   }
 };
 
-const vérifierDocument = async (token: string) => {
+const récupérerDocumentAvecFiligrane = async (token: string) => {
   try {
-    const checkUrl = new URL(`${ApiUrl}/url/${token}`);
-    await get<{ url: string }>(checkUrl);
-  } catch (error) {
-    getLogger().warn(
-      '@potentiel-infrastructure/filigrane-facile-client | Error while vérifierDocument',
-      { error: (error as Error).message },
-    );
-    throw new Error(`❌ Error while getting document exists : ${(error as Error).message}`);
-  }
-};
+    const vérificationUrl = new URL(`${ApiUrl}/url/${token}`);
+    await get<{ url: string }>(vérificationUrl);
 
-const récupérerDocument = async (token: string) => {
-  try {
-    const documentUrl = new URL(`${ApiUrl}/${token}`);
-    return getReadableStream(documentUrl);
+    const récupérerDocumentAvecFiligraneUrl = new URL(`${ApiUrl}/${token}`);
+    return getReadableStream(récupérerDocumentAvecFiligraneUrl);
   } catch (error) {
-    getLogger().warn(
-      '@potentiel-infrastructure/filigrane-facile-client | Error while récupérerDocument',
+    getLogger().error(
+      new Error(
+        '@potentiel-infrastructure/filigrane-facile-client | Error while récupérerDocumentAvecFiligrane',
+      ),
       { error: (error as Error).message },
     );
-    throw new Error(`❌ Error while getting document : ${(error as Error).message}`);
+    return undefined;
   }
 };
 
 export const ajouterFiligrane = async (document: Blob, textFiligrane: string) => {
   const token = await envoyerDocument(textFiligrane, document);
 
+  if (!token) {
+    return undefined;
+  }
+
   // Wait 10 seconds for the document to be processed
   await sleep(10000);
 
-  await vérifierDocument(token);
-
-  return récupérerDocument(token);
+  return récupérerDocumentAvecFiligrane(token);
 };
