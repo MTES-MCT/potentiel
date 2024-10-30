@@ -19,7 +19,7 @@ export const DossierRaccordementListItemActions: FC<DossierRaccordementListItemA
 }) => {
   return (
     <div className="flex md:flex-col items-end gap-2">
-      {actions.voirLeDossier && (
+      {actions.voirLeDossier ? (
         <Button
           className="md:flex ml-auto"
           linkProps={{
@@ -30,17 +30,18 @@ export const DossierRaccordementListItemActions: FC<DossierRaccordementListItemA
         >
           Consulter
         </Button>
+      ) : (
+        <Button
+          linkProps={{
+            href: Routes.Raccordement.corrigerRéférenceDossier(
+              IdentifiantProjet.bind(identifiantProjet).formatter(),
+              référence,
+            ),
+          }}
+        >
+          Corriger la référence
+        </Button>
       )}
-      <Button
-        linkProps={{
-          href: Routes.Raccordement.corrigerRéférenceDossier(
-            IdentifiantProjet.bind(identifiantProjet).formatter(),
-            référence,
-          ),
-        }}
-      >
-        Corriger la référence
-      </Button>
       {!actions.voirLeDossier && actions.transmettreMiseEnService && (
         <Button
           className="md:flex ml-auto"
