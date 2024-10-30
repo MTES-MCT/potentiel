@@ -76,7 +76,7 @@ export const WithManyDocumentKeys: Story = {
     name: 'test_2',
     label: 'With many document keys',
     formats: ['pdf'],
-    documentKeys: ['test'],
+    documentKeys: ['test', 'test_2', 'test_3'],
     stateRelatedMessage: 'This is a wonderful state related message',
   },
 };
@@ -86,7 +86,7 @@ export const WithManyDocumentKeysAndAnError: Story = {
     name: 'test_2',
     label: 'With many document key and an error',
     formats: ['pdf'],
-    documentKeys: ['test'],
+    documentKeys: ['test', 'test_2', 'test_3'],
     state: 'error',
     stateRelatedMessage: 'This is a wonderful state related message',
   },
