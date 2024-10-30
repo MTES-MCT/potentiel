@@ -25,7 +25,6 @@ export default eslintTs.config(
       '**/.next',
       '**/potentiel-keycloak',
       '**/*.config.js',
-      '**/node_modules',
     ],
   },
   {

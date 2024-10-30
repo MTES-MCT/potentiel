@@ -14,7 +14,14 @@ export const CorrigerRéférenceDossierPage: FC<CorrigerRéférenceDossierPagePr
   <ColumnPageTemplate
     banner={<ProjetBanner identifiantProjet={props.identifiantProjet} />}
     leftColumn={{
-      children: <CorrigerRéférenceDossierForm {...props} />,
+      children: (
+        <CorrigerRéférenceDossierForm
+          dossierRaccordement={props.dossierRaccordement}
+          gestionnaireRéseau={props.gestionnaireRéseau}
+          identifiantProjet={props.identifiantProjet}
+          lienRetour={props.lienRetour}
+        />
+      ),
     }}
     rightColumn={{
       children: <></>,
