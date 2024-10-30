@@ -36,5 +36,6 @@ export const Default: Story = {
       identifiantProjet: IdentifiantProjet.inconnu,
       demandeComplèteRaccordement: {},
     },
+    lienRetour: '',
   },
 };
