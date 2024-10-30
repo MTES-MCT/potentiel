@@ -57,6 +57,7 @@ export const ImporterDatesMiseEnServiceForm: FC<
         }}
         listeGestionnairesRéseau={listeGestionnairesRéseau}
         identifiantGestionnaireRéseauActuel={identifiantGestionnaireRéseauActuel}
+        disabled={listeGestionnairesRéseau.length === 1}
       />
       <DownloadDocument
         className="mb-4"

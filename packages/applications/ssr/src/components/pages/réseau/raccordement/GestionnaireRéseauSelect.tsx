@@ -14,7 +14,7 @@ export type GestionnaireRéseauSelectProps = {
   id: string;
   name: string;
   label?: string;
-  disabled?: true;
+  disabled?: boolean;
   state?: SelectProps.State | 'default';
   stateRelatedMessage?: string;
   listeGestionnairesRéseau: ReadonlyArray<GestionnaireRéseau>;
