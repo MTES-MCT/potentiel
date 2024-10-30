@@ -17,10 +17,10 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const WithoutExistingDocument: Story = {
+export const WithDocumentKeysEmpty: Story = {
   args: {
     name: 'test_1',
-    label: 'Without an existing document',
+    label: 'With documents keys empty',
     formats: ['pdf'],
     stateRelatedMessage: 'This is a state related message',
     hintText: "I'm giving some hint",
@@ -28,30 +28,63 @@ export const WithoutExistingDocument: Story = {
   },
 };
 
-export const WithoutExistingDocumentWithAnError: Story = {
+export const WithDocumentKeysEmptyAndAnError: Story = {
   args: {
     name: 'test_1',
-    label: 'Without an existing document with an error',
+    label: 'With documents keys empty and an error',
     formats: ['pdf'],
     state: 'error',
     stateRelatedMessage: 'This details the error',
+    documentKeys: [],
   },
 };
 
-export const WithExistingDocument: Story = {
+export const WithDocumentKeysUndefined: Story = {
+  args: {
+    name: 'test_1',
+    label: 'With documents keys undefined',
+    formats: ['pdf'],
+    stateRelatedMessage: 'This is a state related message',
+    hintText: "I'm giving some hint",
+    documentKeys: [],
+  },
+};
+
+export const WithOneDocumentKey: Story = {
   args: {
     name: 'test_2',
-    label: 'With an existing document',
+    label: 'With one document key',
     formats: ['pdf'],
     documentKeys: ['test'],
     stateRelatedMessage: 'This is a wonderful state related message',
   },
 };
 
-export const WithAnError: Story = {
+export const WithOneDocumentKeyAndAnError: Story = {
   args: {
-    name: 'test_error',
-    label: 'UploadDocument disabled',
+    name: 'test_2',
+    label: 'With one document key and an error',
+    formats: ['pdf'],
+    documentKeys: ['test'],
+    state: 'error',
+    stateRelatedMessage: 'This is a wonderful state related message',
+  },
+};
+
+export const WithManyDocumentKeys: Story = {
+  args: {
+    name: 'test_2',
+    label: 'With many document keys',
+    formats: ['pdf'],
+    documentKeys: ['test'],
+    stateRelatedMessage: 'This is a wonderful state related message',
+  },
+};
+
+export const WithManyDocumentKeysAndAnError: Story = {
+  args: {
+    name: 'test_2',
+    label: 'With many document key and an error',
     formats: ['pdf'],
     documentKeys: ['test'],
     state: 'error',

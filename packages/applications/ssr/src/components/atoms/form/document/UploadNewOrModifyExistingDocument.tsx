@@ -18,5 +18,4 @@ export const UploadNewOrModifyExistingDocument: FC<UploadNewOrModifyExistingDocu
 const isKeepOrEditDocumentProps = (
   props: UploadDocumentProps | KeepOrEditDocumentProps,
 ): props is KeepOrEditDocumentProps =>
-  Object.hasOwn(props, 'documentKeys') &&
-  (props as { documentKeys?: Array<string> }).documentKeys !== undefined;
+  'documentKeys' in props && Array.isArray(props.documentKeys) && props.documentKeys.length > 0;
