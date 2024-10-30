@@ -7,6 +7,13 @@ export const détail = (identifiantProjet: string) =>
   `/laureats/${encodeParameter(identifiantProjet)}/raccordements`;
 
 export const corrigerRéférencesDossier = `/reseaux/raccordements/references:corriger`;
+export const corrigerRéférenceDossier = (
+  identifiantProjet: string,
+  référenceDossierRaccordement: string,
+) =>
+  `/laureats/${encodeParameter(identifiantProjet)}/raccordements/${encodeParameter(
+    référenceDossierRaccordement,
+  )}/reference:corriger`;
 
 export const modifierGestionnaireDeRéseau = (identifiantProjet: string) =>
   `/laureats/${encodeParameter(identifiantProjet)}/raccordements/gestionnaire:modifier`;

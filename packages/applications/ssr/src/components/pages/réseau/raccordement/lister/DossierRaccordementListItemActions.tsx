@@ -18,7 +18,30 @@ export const DossierRaccordementListItemActions: FC<DossierRaccordementListItemA
   actions,
 }) => {
   return (
-    <div className="flex md:max-lg:flex-col gap-2">
+    <div className="flex md:flex-col items-end gap-2">
+      {actions.voirLeDossier ? (
+        <Button
+          className="md:flex ml-auto"
+          linkProps={{
+            href: Routes.Raccordement.détail(IdentifiantProjet.bind(identifiantProjet).formatter()),
+            prefetch: false,
+          }}
+          aria-label={`Consulter le dossier de raccordement ${référence}`}
+        >
+          Consulter
+        </Button>
+      ) : (
+        <Button
+          linkProps={{
+            href: Routes.Raccordement.corrigerRéférenceDossier(
+              IdentifiantProjet.bind(identifiantProjet).formatter(),
+              référence,
+            ),
+          }}
+        >
+          Corriger la référence
+        </Button>
+      )}
       {!actions.voirLeDossier && actions.transmettreMiseEnService && (
         <Button
           className="md:flex ml-auto"
@@ -32,18 +55,6 @@ export const DossierRaccordementListItemActions: FC<DossierRaccordementListItemA
           aria-label={`Transmettre la date de mise en service pour le dossier de raccordement ${référence}`}
         >
           Transmettre date mise en service
-        </Button>
-      )}
-      {actions.voirLeDossier && (
-        <Button
-          className="md:flex ml-auto"
-          linkProps={{
-            href: Routes.Raccordement.détail(IdentifiantProjet.bind(identifiantProjet).formatter()),
-            prefetch: false,
-          }}
-          aria-label={`Consulter le dossier de raccordement ${référence}`}
-        >
-          Consulter
         </Button>
       )}
     </div>
