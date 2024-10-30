@@ -45,7 +45,8 @@ export function manyDocuments(options?: { optional?: true }) {
       .transform((document) => [document])
       .or(singleDocument({ optional: true }).array());
   }
+
   return singleDocument()
     .transform((document) => [document])
-    .or(singleDocument().array());
+    .or(singleDocument().array().min(1, 'Champ obligatoire'));
 }
