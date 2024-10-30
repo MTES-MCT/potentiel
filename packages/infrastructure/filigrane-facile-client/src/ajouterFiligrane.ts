@@ -43,7 +43,7 @@ const récupérerDocumentAvecFiligrane = async (token: string) => {
   }
 };
 
-export const ajouterFiligrane = async (document: Blob, textFiligrane: string) => {
+export const ajouterFiligraneAuDocument = async (document: Blob, textFiligrane: string) => {
   const token = await envoyerDocument(textFiligrane, document);
 
   if (!token) {
