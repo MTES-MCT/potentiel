@@ -24,6 +24,10 @@ export type UploadDocumentProps = {
   onChange?: (filenames: Array<string>) => void;
 };
 
+/**
+ *
+ * @description Merci de ne pas utiliser ce composant directement dans un formulaire, mais de passer par le composant <UploadNewOrModifyExistingDocument />.
+ */
 export const UploadDocument: FC<UploadDocumentProps> = ({
   className,
   state,
