@@ -18,7 +18,6 @@ import {
 export type DossierRaccordementListItemProps = PlainType<
   Raccordement.ListerDossierRaccordementReadModel['items'][number]
 > & {
-  gestionnaireRéseau: string;
   actions: DossierRaccordementListItemActionsProps['actions'];
 };
 
@@ -32,7 +31,7 @@ export const DossierRaccordementListItem: FC<DossierRaccordementListItemProps> =
   référenceDossier,
   statutDGEC,
   dateMiseEnService,
-  gestionnaireRéseau,
+  raisonSocialeGestionnaireRéseau,
   actions,
 }) => (
   <ListItem
@@ -59,12 +58,10 @@ export const DossierRaccordementListItem: FC<DossierRaccordementListItemProps> =
       </span>
     </div>
     <div className="mt-4">
-      {gestionnaireRéseau && (
-        <div>
-          <Icon id="fr-icon-building-line" title="Gestionnaire Réseau" size="sm" /> Gestionnaire
-          Réseau : <span className="font-bold">{gestionnaireRéseau}</span>
-        </div>
-      )}
+      <div>
+        <Icon id="fr-icon-building-line" title="Gestionnaire Réseau" size="sm" /> Gestionnaire
+        Réseau : <span className="font-bold">{raisonSocialeGestionnaireRéseau}</span>
+      </div>
       <div>
         <Icon id="ri-price-tag-3-line" title="Date de mise en service" size="sm" /> Référence du
         dossier : <span className="font-bold">{référenceDossier.référence}</span>

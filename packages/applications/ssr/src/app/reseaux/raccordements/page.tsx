@@ -114,9 +114,7 @@ export default async function Page({ searchParams }: PageProps) {
 
       return (
         <DossierRaccordementListPage
-          list={mapToPlainObject(
-            mapToProps(dossiers, listeGestionnaireRéseau, identifiantGestionnaireRéseauUtilisateur),
-          )}
+          list={mapToPlainObject(mapToProps(dossiers, identifiantGestionnaireRéseauUtilisateur))}
           filters={filters}
         />
       );
@@ -139,7 +137,6 @@ function récupérerIdentifiantGestionnaireUtilisateur(utilisateur: Utilisateur.
 
 const mapToProps = (
   dossiers: Raccordement.ListerDossierRaccordementReadModel,
-  listeGestionnaireRéseau: ReadonlyArray<GestionnaireRéseau.ConsulterGestionnaireRéseauReadModel>,
   identifiantGestionnaireRéseauUtilisateur: string | undefined,
 ) => {
   return {
@@ -150,10 +147,7 @@ const mapToProps = (
         voirLeDossier: !identifiantGestionnaireRéseauUtilisateur,
         transmettreMiseEnService: !dossier.dateMiseEnService,
       } as const,
-      gestionnaireRéseau:
-        listeGestionnaireRéseau?.find((x) =>
-          x.identifiantGestionnaireRéseau.estÉgaleÀ(dossier.identifiantGestionnaireRéseau),
-        )?.raisonSociale ?? '',
+      raisonSocialeGestionnaireRéseau: dossier.raisonSocialeGestionnaireRéseau,
     })),
   };
 };
