@@ -45,10 +45,36 @@ EtantDonné(
   },
 );
 
+EtantDonné(
+  'la dreal {string} associée à la région du projet',
+  async function (this: PotentielWorld, drealNom: string) {
+    const { email, id, nom, role } = this.utilisateurWorld.drealFixture.créer({
+      nom: drealNom,
+    });
+
+    await insérerUtilisateur(id, nom, email, role);
+
+    await associerUtilisateurÀSaDreal(id);
+  },
+);
+
+EtantDonné("l'admin {string}", async function (this: PotentielWorld, nomAdmin: string) {
+  const { email, id, nom, role } = this.utilisateurWorld.adminFixture.créer({
+    nom: nomAdmin,
+  });
+
+  await insérerUtilisateur(id, nom, email, role);
+});
+
 // TODO : deprecated
 EtantDonné(
-  'le porteur pour le projet lauréat {string}',
-  async function (this: PotentielWorld, nomProjet: string, table: DataTable) {
+  'le porteur pour le projet {lauréat-éliminé} {string}',
+  async function (
+    this: PotentielWorld,
+    statutProjet: 'lauréat' | 'éliminé',
+    nomProjet: string,
+    table: DataTable,
+  ) {
     const exemple = table.rowsHash();
     const email = exemple['email'] ?? 'email';
     const fullName = exemple['nom'] ?? 'nom';
@@ -61,36 +87,16 @@ EtantDonné(
       nom: fullName,
     });
 
-    const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
+    const { identifiantProjet } =
+      statutProjet === 'lauréat'
+        ? this.lauréatWorld.rechercherLauréatFixture(nomProjet)
+        : this.eliminéWorld.rechercherÉliminéFixture(nomProjet);
 
     const projets = await récupérerProjets(identifiantProjet);
 
     await insérerUtilisateur(userId, fullName, email, role);
 
     await associerProjetAuPorteur(userId, projets);
-  },
-);
-
-// TODO : deprecated
-EtantDonné(
-  'la dreal associée au projet lauréat {string}',
-  async function (this: PotentielWorld, nomProjet: string, table: DataTable) {
-    const exemple = table.rowsHash();
-    const email = exemple['email'] ?? 'email';
-    const fullName = exemple['nom'] ?? 'nom';
-    const role = 'dreal';
-
-    const userId = randomUUID();
-
-    this.utilisateurWorld.drealFixture.créer({
-      email,
-      id: userId,
-      nom: fullName,
-    });
-
-    await insérerUtilisateur(userId, fullName, email, role);
-
-    await associerUtilisateurÀSaDreal(userId);
   },
 );
 

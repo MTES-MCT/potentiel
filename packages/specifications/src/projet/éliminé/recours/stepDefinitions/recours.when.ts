@@ -6,10 +6,13 @@ import { Recours } from '@potentiel-domain/elimine';
 import { PotentielWorld } from '../../../../potentiel.world';
 
 Quand(
-  `le porteur demande le recours pour le projet éliminé`,
-  async function (this: PotentielWorld) {
+  `le porteur demande le recours pour le projet {lauréat-éliminé}`,
+  async function (this: PotentielWorld, statutProjet: 'lauréat' | 'éliminé') {
     try {
-      const identifiantProjet = this.eliminéWorld.identifiantProjet.formatter();
+      const identifiantProjet =
+        statutProjet === 'éliminé'
+          ? this.eliminéWorld.identifiantProjet.formatter()
+          : this.lauréatWorld.identifiantProjet.formatter();
 
       const { demandéLe, demandéPar, pièceJustificative, raison } =
         this.eliminéWorld.recoursWorld.demanderRecoursFixture.créer({

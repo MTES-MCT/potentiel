@@ -43,4 +43,9 @@ export async function notifier(
   await this.publish(event);
 }
 
-export function applyÉliminéNotifié(this: ÉliminéAggregate, _event: ÉliminéNotifiéEvent) {}
+export function applyÉliminéNotifié(
+  this: ÉliminéAggregate,
+  { payload: { identifiantProjet } }: ÉliminéNotifiéEvent,
+) {
+  this.identifiantProjet = IdentifiantProjet.convertirEnValueType(identifiantProjet);
+}

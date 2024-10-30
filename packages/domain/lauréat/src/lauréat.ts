@@ -18,3 +18,6 @@ export * as StatutLauréat from './statutLauréat.valueType';
 
 // Saga
 export * as LauréatSaga from './lauréat.saga';
+
+// Aggregate
+export { loadLauréatFactory } from './lauréat.aggregate';

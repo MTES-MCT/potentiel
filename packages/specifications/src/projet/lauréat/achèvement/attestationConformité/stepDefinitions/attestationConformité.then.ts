@@ -34,7 +34,7 @@ Alors(
       ? new Date(exemple['date transmission au co-contractant']).toISOString()
       : new Date().toISOString();
 
-    const expectedUtilisateur = exemple['utilisateur'] || 'utilisateur@test.test';
+    const expectedEmail = this.utilisateurWorld.récupérerEmailSelonRôle(exemple['mis à jour par']);
 
     await waitForExpect(async () => {
       const actualReadModel = await mediator.send<Achèvement.ConsulterAttestationConformitéQuery>({
@@ -55,7 +55,7 @@ Alors(
           new Date(expectedDateTransmissionAuCocontractant),
         );
         expect(actualReadModel.misÀJourLe.date).to.deep.equal(new Date(expectedDate));
-        expect(actualReadModel.misÀJourPar.formatter()).to.deep.equal(expectedUtilisateur);
+        expect(actualReadModel.misÀJourPar.formatter()).to.deep.equal(expectedEmail);
 
         if (actualReadModel.attestation) {
           const actualAttestation = await mediator.send<ConsulterDocumentProjetQuery>({

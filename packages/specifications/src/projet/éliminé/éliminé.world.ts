@@ -56,6 +56,6 @@ export class ÉliminéWorld {
     this.#notifierEliminéFixture = new NotifierÉliminéFixture();
     this.#nomProjet = 'Du boulodrome de Marseille';
 
-    this.#identifiantProjet = IdentifiantProjet.convertirEnValueType(`PPE2 - Eolien#1##23`);
+    this.#identifiantProjet = IdentifiantProjet.convertirEnValueType(`PPE2 - Eolien#2##23`);
   }
 }
