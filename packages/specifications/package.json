@@ -27,7 +27,7 @@
     "mediateur": "^0.1.0"
   },
   "devDependencies": {
-    "@cucumber/cucumber": "^9.6.0",
+    "@cucumber/cucumber": "^11.0.1",
     "@cucumber/pretty-formatter": "^1.0.1",
     "@potentiel-config/tsconfig": "*"
   }
