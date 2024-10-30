@@ -6,8 +6,6 @@ import { Raccordement } from '@potentiel-domain/reseau';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { DateTime } from '@potentiel-domain/common';
 import { Option } from '@potentiel-libraries/monads';
-import { Groupe, Role } from '@potentiel-domain/utilisateur';
-import { OperationRejectedError } from '@potentiel-domain/core';
 import { Routes } from '@potentiel-applications/routes';
 
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
@@ -58,17 +56,6 @@ export default async function Page({ params: { identifiant, reference } }: PageP
 
       if (Option.isNone(dossierRaccordement)) {
         return notFound();
-      }
-
-      if (utilisateur.role.estÉgaleÀ(Role.grd)) {
-        const groupeAttendu = Groupe.convertirEnValueType(
-          `/GestionnairesRéseau/${dossierRaccordement.identifiantGestionnaireRéseau.formatter()}`,
-        );
-        if (Option.isNone(utilisateur.groupe) || !utilisateur.groupe.estÉgaleÀ(groupeAttendu)) {
-          throw new OperationRejectedError(
-            `Le gestionnaire de réseau n'est pas attribué à ce dossier de raccordement`,
-          );
-        }
       }
 
       const appelOffre = await mediator.send<AppelOffre.ConsulterAppelOffreQuery>({
