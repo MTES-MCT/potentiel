@@ -8,7 +8,7 @@ import Link from 'next/link';
 import { Routes } from '@potentiel-applications/routes';
 
 import { Form } from '@/components/atoms/form/Form';
-import { UploadDocument } from '@/components/atoms/form/UploadDocument';
+import { UploadNewOrModifyExistingDocument } from '@/components/atoms/form/document/UploadNewOrModifyExistingDocument';
 import { SubmitButton } from '@/components/atoms/form/SubmitButton';
 import { ValidationErrors } from '@/utils/formAction';
 import { Icon } from '@/components/atoms/Icon';
@@ -161,10 +161,11 @@ export const TransmettreDemandeComplèteRaccordementForm = ({
         }}
       />
 
-      <UploadDocument
+      <UploadNewOrModifyExistingDocument
         label="Accusé de réception de la demande complète de raccordement **"
         name="accuseReception"
         required
+        formats={['pdf']}
         state={validationErrors['accuseReception'] ? 'error' : 'default'}
         stateRelatedMessage={validationErrors['accuseReception']}
       />

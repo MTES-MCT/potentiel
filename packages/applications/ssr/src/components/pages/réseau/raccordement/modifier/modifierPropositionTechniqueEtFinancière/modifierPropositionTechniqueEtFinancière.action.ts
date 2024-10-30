@@ -7,13 +7,13 @@ import { Raccordement } from '@potentiel-domain/reseau';
 import { Routes } from '@potentiel-applications/routes';
 
 import { FormAction, FormState, formAction } from '@/utils/formAction';
-import { keepOrUpdateDocument } from '@/utils/zod/documentTypes';
+import { keepOrUpdateSingleDocument } from '@/utils/zod/keepOrUpdateDocument';
 
 const schema = zod.object({
   identifiantProjet: zod.string().min(1),
   referenceDossierRaccordement: zod.string().min(1),
   dateSignature: zod.string().min(1, { message: 'Champ obligatoire' }),
-  propositionTechniqueEtFinanciereSignee: keepOrUpdateDocument,
+  propositionTechniqueEtFinanciereSignee: keepOrUpdateSingleDocument,
 });
 
 export type ModifierPropositionTechniqueEtFinancièreFormKeys = keyof zod.infer<typeof schema>;

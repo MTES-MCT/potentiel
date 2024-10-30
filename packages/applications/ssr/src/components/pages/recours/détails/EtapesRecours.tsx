@@ -8,7 +8,7 @@ import { DateTime, Email } from '@potentiel-domain/common';
 import { DocumentProjet } from '@potentiel-domain/document';
 import { Recours } from '@potentiel-domain/elimine';
 
-import { DownloadDocument } from '@/components/atoms/form/DownloadDocument';
+import { DownloadDocument } from '@/components/atoms/form/document/DownloadDocument';
 import { Timeline, TimelineProps } from '@/components/organisms/Timeline';
 
 export type EtapesRecoursProps = {

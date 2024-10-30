@@ -6,8 +6,8 @@ import { useState } from 'react';
 import { Routes } from '@potentiel-applications/routes';
 
 import { ModalWithForm } from '@/components/molecules/ModalWithForm';
-import { DownloadDocument } from '@/components/atoms/form/DownloadDocument';
-import { UploadDocument } from '@/components/atoms/form/UploadDocument';
+import { DownloadDocument } from '@/components/atoms/form/document/DownloadDocument';
+import { UploadNewOrModifyExistingDocument } from '@/components/atoms/form/document/UploadNewOrModifyExistingDocument';
 import { ValidationErrors } from '@/utils/formAction';
 
 import { accorderRecoursAction, AccorderRecoursFormKeys } from './accorderRecours.action';
@@ -47,13 +47,14 @@ export const AccorderRecours = ({ identifiantProjet }: AccorderRecoursFormProps)
             <>
               <input type={'hidden'} value={identifiantProjet} name="identifiantProjet" />
 
-              <UploadDocument
+              <UploadNewOrModifyExistingDocument
                 label="Réponse signée"
                 state={validationErrors['reponseSignee'] ? 'error' : 'default'}
                 stateRelatedMessage={validationErrors['reponseSignee']}
                 name="reponseSignee"
                 required
                 className="mb-4"
+                formats={['pdf']}
               />
 
               <DownloadDocument

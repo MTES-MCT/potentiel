@@ -27,10 +27,7 @@ const action: FormAction<FormState, typeof schema> = async (
     //     identifiantProjetValue: identifiantProjet,
     //     identifiantUtilisateurValue: utilisateur.identifiantUtilisateur.formatter(),
     //     dateRejetValue: new Date().toISOString(),
-    //     réponseSignéeValue: {
-    //       content: reponseSignee.stream(),
-    //       format: reponseSignee.type,
-    //     },
+    //     réponseSignéeValue: reponseSignee,
     //   },
     // });
 

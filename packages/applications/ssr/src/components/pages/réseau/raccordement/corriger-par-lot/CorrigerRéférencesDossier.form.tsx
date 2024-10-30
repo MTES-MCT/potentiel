@@ -3,9 +3,9 @@
 import { FC, useState } from 'react';
 
 import { Form } from '@/components/atoms/form/Form';
-import { UploadDocument } from '@/components/atoms/form/UploadDocument';
 import { SubmitButton } from '@/components/atoms/form/SubmitButton';
 import { ValidationErrors } from '@/utils/formAction';
+import { UploadNewOrModifyExistingDocument } from '@/components/atoms/form/document/UploadNewOrModifyExistingDocument';
 
 import {
   corrigerRéférencesDossierAction,
@@ -30,9 +30,9 @@ export const CorrigerRéférencesDossierForm: FC = () => {
       successMessage={'références dossier modifiées'}
       actions={<SubmitButton>Corriger</SubmitButton>}
     >
-      <UploadDocument
+      <UploadNewOrModifyExistingDocument
         label="Fichier des corrections"
-        format="csv"
+        formats={['csv']}
         name="fichierCorrections"
         id="fichierCorrections"
         required

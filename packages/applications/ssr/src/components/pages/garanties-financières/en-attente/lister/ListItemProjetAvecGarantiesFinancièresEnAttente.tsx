@@ -6,7 +6,7 @@ import { Iso8601DateTime } from '@potentiel-libraries/iso8601-datetime';
 import { IdentifiantProjet } from '@potentiel-domain/common';
 
 import { FormattedDate } from '@/components/atoms/FormattedDate';
-import { DownloadDocument } from '@/components/atoms/form/DownloadDocument';
+import { DownloadDocument } from '@/components/atoms/form/document/DownloadDocument';
 import { ProjectListItemHeading } from '@/components/molecules/projet/ProjectListItemHeading';
 import { ListItem } from '@/components/molecules/ListItem';
 

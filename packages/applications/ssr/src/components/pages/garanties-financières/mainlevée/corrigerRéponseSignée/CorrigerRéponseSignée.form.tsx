@@ -4,7 +4,7 @@ import { useState } from 'react';
 import Button from '@codegouvfr/react-dsfr/Button';
 
 import { ModalWithForm } from '@/components/molecules/ModalWithForm';
-import { UploadDocument } from '@/components/atoms/form/UploadDocument';
+import { UploadNewOrModifyExistingDocument } from '@/components/atoms/form/document/UploadNewOrModifyExistingDocument';
 import { ValidationErrors } from '@/utils/formAction';
 
 import {
@@ -47,10 +47,11 @@ export const CorrigerRéponseSignée = ({
           children: (
             <>
               <p className="mt-3">Êtes-vous sûr de vouloir corriger le document ?</p>
-              <UploadDocument
+              <UploadNewOrModifyExistingDocument
                 name="documentCorrige"
                 id="documentCorrige"
                 required
+                formats={['pdf']}
                 label="Nouvelle réponse signée"
                 state={validationErrors['documentCorrige'] ? 'error' : 'default'}
                 stateRelatedMessage={validationErrors['documentCorrige']}

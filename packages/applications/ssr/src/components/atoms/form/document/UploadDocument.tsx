@@ -5,31 +5,40 @@ import clsx from 'clsx';
 import Link from 'next/link';
 import { createModal } from '@codegouvfr/react-dsfr/Modal';
 
-import { DEFAULT_FILE_SIZE_LIMIT_IN_MB } from '@/utils/zod/documentTypes';
+import { defaultFileSizeLimitInMegaBytes } from '@/utils/zod/document';
 
-import { Icon } from '../Icon';
+import { Icon } from '../../Icon';
 
-export type UploadMultipleDocumentsProps = {
+export type UploadDocumentProps = {
   className?: string;
   label: React.ReactNode;
   name: string;
+  formats: Array<'pdf' | 'jpg' | 'jpeg' | 'png' | 'csv'>;
   id?: string;
   required?: boolean;
   disabled?: boolean;
   state?: RadioButtonsProps['state'];
   stateRelatedMessage?: React.ReactNode;
-  formats?: Array<'pdf' | 'jpg' | 'jpeg' | 'png'>;
   hintText?: string;
+  multiple?: true;
+  onChange?: (filenames: Array<string>) => void;
 };
 
-export const UploadMultipleDocuments: FC<UploadMultipleDocumentsProps> = ({
+/**
+ *
+ * @description Merci de ne pas utiliser ce composant directement dans un formulaire, mais de passer par le composant <UploadNewOrModifyExistingDocument />.
+ */
+export const UploadDocument: FC<UploadDocumentProps> = ({
   className,
   state,
+  stateRelatedMessage,
   label,
   name,
-  formats = ['pdf', 'jpeg', 'jpg', 'png'],
+  formats,
   hintText,
   required,
+  multiple,
+  onChange,
 }) => {
   const hiddenFileInput = React.useRef<HTMLInputElement>(null);
   const acceptedFormats = formats.map((format) => `.${format}`).join(',');
@@ -48,19 +57,10 @@ export const UploadMultipleDocuments: FC<UploadMultipleDocumentsProps> = ({
       return;
     }
 
-    const fileNames = Object.values(files)
-      .map((file) => {
-        const fileName = extractFileName(file.name);
+    const fileNames = Object.values(files).map((file) => extractFileName(file.name));
 
-        if (documentFilenames.includes(fileName)) {
-          return undefined;
-        }
-
-        return fileName;
-      })
-      .filter((f) => f !== undefined);
-
-    setDocumentFilenames([...documentFilenames, ...fileNames]);
+    setDocumentFilenames(fileNames);
+    onChange && onChange(fileNames);
   };
 
   const handleFileRemove = (index: number) => {
@@ -77,7 +77,10 @@ export const UploadMultipleDocuments: FC<UploadMultipleDocumentsProps> = ({
     });
 
     hiddenFileInput.current.files = dataTransfer.files;
-    setDocumentFilenames(documentFilenames.filter((_, i) => i !== index));
+    const updatedFilenames = documentFilenames.filter((_, i) => i !== index);
+
+    setDocumentFilenames(updatedFilenames);
+    onChange && onChange(updatedFilenames);
   };
 
   const handleRemoveAllFiles = () => {
@@ -85,26 +88,30 @@ export const UploadMultipleDocuments: FC<UploadMultipleDocumentsProps> = ({
       return;
     }
 
-    hiddenFileInput.current.files = null;
+    hiddenFileInput.current.files = new DataTransfer().files;
+
     setDocumentFilenames([]);
+    onChange && onChange([]);
   };
 
   const [documentFilenames, setDocumentFilenames] = useState<Array<string>>([]);
 
   const [modal] = useState(
     createModal({
-      id: `form-modal-files-${name}`,
+      id: `form-modal-files-to-upload-${name}`,
       isOpenedByDefault: false,
     }),
   );
 
   return (
     <div className={clsx('fr-input-group', className && `${className}`)}>
-      <label className={clsx('fr-label', state === 'error' && 'text-theme-error')}>{label}</label>
+      {label && (
+        <label className={clsx('fr-label', state === 'error' && 'text-theme-error')}>{label}</label>
+      )}
       <div className="fr-hint-text">
         Formats accepté : <span className="font-semibold">{formats.join(', ')}</span>, taille
         maximale acceptée :{' '}
-        <span className="font-semibold">{DEFAULT_FILE_SIZE_LIMIT_IN_MB} Mo</span>
+        <span className="font-semibold">{defaultFileSizeLimitInMegaBytes} Mo</span>
       </div>
       {hintText && <div className="fr-hint-text">{hintText}</div>}
 
@@ -115,7 +122,7 @@ export const UploadMultipleDocuments: FC<UploadMultipleDocumentsProps> = ({
           aria-required={required}
           ref={hiddenFileInput}
           type="file"
-          multiple
+          multiple={multiple}
           accept={acceptedFormats}
           className="-z-50 opacity-0 h-full absolute top-0 left-0 disabled:opacity-0"
           onChange={handleFileChange}
@@ -125,9 +132,24 @@ export const UploadMultipleDocuments: FC<UploadMultipleDocumentsProps> = ({
           <span className="hidden md:inline-block text-sm">Parcourir</span>
         </Button>
 
-        <div className={clsx('text-sm truncate m-0 p-0', state === 'error' && 'text-theme-error')}>
+        <div className="text-sm truncate m-0 p-0 text-dsfr-text-actionHigh-grey-default">
           {documentFilenames.length === 0 && 'Aucun document sélectionné'}
-          {documentFilenames.length === 1 && documentFilenames[0]}
+          {documentFilenames.length === 1 && (
+            <div className="flex flex-row items-center">
+              {documentFilenames[0]} (
+              <Button
+                className="ml-auto"
+                type="button"
+                size="small"
+                priority="tertiary no outline"
+                iconId="fr-icon-delete-bin-line"
+                onClick={() => handleFileRemove(0)}
+              >
+                supprimer
+              </Button>
+              )
+            </div>
+          )}
           {documentFilenames.length > 1 && (
             <>
               <div>{documentFilenames.length} documents séléctionnés</div>
@@ -145,6 +167,7 @@ export const UploadMultipleDocuments: FC<UploadMultipleDocumentsProps> = ({
                       <div className="truncate">{doc}</div>
 
                       <Button
+                        className="ml-auto"
                         type="button"
                         size="small"
                         priority="tertiary no outline"
@@ -176,6 +199,14 @@ export const UploadMultipleDocuments: FC<UploadMultipleDocumentsProps> = ({
           )}
         </div>
       </div>
+      {state === 'error' ? (
+        <div className="flex flex-row gap-2 items-center mt-2">
+          <Icon id="fr-icon-error-fill" className="text-theme-error" size="sm" />
+          <p className="truncate p-0 text-theme-error text-xs">{stateRelatedMessage}</p>
+        </div>
+      ) : (
+        <p className="text-sm truncate p-0 fr-hint-text">{stateRelatedMessage}</p>
+      )}
     </div>
   );
 };

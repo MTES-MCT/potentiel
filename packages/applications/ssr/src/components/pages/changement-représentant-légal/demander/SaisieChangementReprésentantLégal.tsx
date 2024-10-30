@@ -5,7 +5,7 @@ import SelectNext from '@codegouvfr/react-dsfr/SelectNext';
 import { match } from 'ts-pattern';
 
 import { ValidationErrors } from '@/utils/formAction';
-import { UploadDocument } from '@/components/atoms/form/UploadDocument';
+import { UploadNewOrModifyExistingDocument } from '@/components/atoms/form/document/UploadNewOrModifyExistingDocument';
 
 import { DemanderChangementReprésentantLégalFormKeys } from './demanderChangementReprésentantLégal.action';
 
@@ -100,12 +100,13 @@ export const SaisieChangementReprésentantLégal: FC<SaisieChangementReprésenta
         stateRelatedMessage={validationErrors['nomRepresentantLegal']}
       />
 
-      <UploadDocument
+      <UploadNewOrModifyExistingDocument
         label={'Pièce justificative'}
         id="pieceJustificative"
         name="pieceJustificative"
         hintText={getPièceJustificativeHintText()}
         required
+        formats={['pdf']}
         state={validationErrors['pieceJustificative'] ? 'error' : 'default'}
         stateRelatedMessage={validationErrors['pieceJustificative']}
         onChange={(fileNames) => {

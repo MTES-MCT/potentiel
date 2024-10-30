@@ -8,12 +8,12 @@ import { Routes } from '@potentiel-applications/routes';
 
 import { FormAction, FormState, formAction } from '@/utils/formAction';
 import { withUtilisateur } from '@/utils/withUtilisateur';
-import { keepOrUpdateDocument } from '@/utils/zod/documentTypes';
+import { keepOrUpdateSingleDocument } from '@/utils/zod/keepOrUpdateDocument';
 
 const schema = zod.object({
   identifiantProjet: zod.string().min(1),
-  attestation: keepOrUpdateDocument,
-  preuveTransmissionAuCocontractant: keepOrUpdateDocument,
+  attestation: keepOrUpdateSingleDocument,
+  preuveTransmissionAuCocontractant: keepOrUpdateSingleDocument,
   dateTransmissionAuCocontractant: zod.string().min(1, { message: 'Champ obligatoire' }),
 });
 
