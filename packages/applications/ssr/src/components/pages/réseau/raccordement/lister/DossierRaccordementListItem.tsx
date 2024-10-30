@@ -63,7 +63,7 @@ export const DossierRaccordementListItem: FC<DossierRaccordementListItemProps> =
         Réseau : <span className="font-bold">{raisonSocialeGestionnaireRéseau}</span>
       </div>
       <div>
-        <Icon id="ri-price-tag-3-line" title="Date de mise en service" size="sm" /> Référence du
+        <Icon id="ri-price-tag-3-line" title="Référence du dossier" size="sm" /> Référence du
         dossier : <span className="font-bold">{référenceDossier.référence}</span>
       </div>
       <div>

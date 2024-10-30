@@ -1,43 +1,94 @@
 'use client';
 
 import { FC, useState } from 'react';
+import Input from '@codegouvfr/react-dsfr/Input';
+import Button from '@codegouvfr/react-dsfr/Button';
+
+import { Raccordement } from '@potentiel-domain/reseau';
+import { PlainType } from '@potentiel-domain/core';
+import { Option } from '@potentiel-libraries/monads';
 
 import { Form } from '@/components/atoms/form/Form';
-import { UploadDocument } from '@/components/atoms/form/UploadDocument';
 import { SubmitButton } from '@/components/atoms/form/SubmitButton';
 import { ValidationErrors } from '@/utils/formAction';
 
 import {
-  corrigerRéférencesDossierAction,
-  CorrigerRéférencesDossierFormKeys,
-} from './CorrigerRéférenceDossier.action';
+  corrigerRéférenceDossierAction,
+  CorrigerRéférenceDossierFormKeys,
+} from './corrigerRéférenceDossier.action';
 
-export const CorrigerRéférenceDossierForm: FC = () => {
+export type CorrigerRéférenceDossierFormProps = {
+  identifiantProjet: string;
+  dossierRaccordement: PlainType<Raccordement.ConsulterDossierRaccordementReadModel>;
+  gestionnaireRéseau: PlainType<Raccordement.ConsulterGestionnaireRéseauRaccordementReadModel>;
+  lienRetour: string;
+};
+export const CorrigerRéférenceDossierForm: FC<CorrigerRéférenceDossierFormProps> = ({
+  identifiantProjet,
+  dossierRaccordement: { référence },
+  gestionnaireRéseau,
+  lienRetour,
+}) => {
   const [validationErrors, setValidationErrors] = useState<
-    ValidationErrors<CorrigerRéférencesDossierFormKeys>
+    ValidationErrors<CorrigerRéférenceDossierFormKeys>
   >({});
+
+  const { aideSaisieRéférenceDossierRaccordement } = gestionnaireRéseau;
 
   return (
     <Form
-      action={corrigerRéférencesDossierAction}
-      heading="Corriger des références de dossier de raccordement"
+      action={corrigerRéférenceDossierAction}
+      heading="Corriger une référence de dossier de raccordement"
       pendingModal={{
-        id: 'form-corriger-references-dossier',
+        id: 'form-corriger-reference-dossier',
         title: 'Correction en cours',
-        children: 'Correction des références de dossier de raccordement en cours',
+        children: 'Correction de la référence de dossier de raccordement en cours',
       }}
       onValidationError={(validationErrors) => setValidationErrors(validationErrors)}
-      successMessage={'références dossier modifiées'}
-      actions={<SubmitButton>Corriger</SubmitButton>}
+      actions={
+        <>
+          <Button
+            priority="secondary"
+            linkProps={{ href: lienRetour }}
+            iconId="fr-icon-arrow-left-line"
+          >
+            Retour aux dossiers de raccordement
+          </Button>
+          <SubmitButton>Corriger</SubmitButton>
+        </>
+      }
     >
-      <UploadDocument
-        label="Fichier des corrections"
-        format="csv"
-        name="fichierCorrections"
-        id="fichierCorrections"
-        required
-        state={validationErrors['fichierCorrections'] ? 'error' : 'default'}
-        stateRelatedMessage={validationErrors['fichierCorrections']}
+      <input type="hidden" name="identifiantProjet" value={identifiantProjet} />
+      <input type="hidden" name="referenceDossier" value={référence.référence} />
+      <Input
+        label="Référence du dossier de raccordement du projet *"
+        hintText={
+          <>
+            {Option.match(aideSaisieRéférenceDossierRaccordement.format)
+              .some((format) => <div className="m-0">Format attendu : {format}</div>)
+              .none(() => (
+                <></>
+              ))}
+            {Option.match(aideSaisieRéférenceDossierRaccordement.légende)
+              .some((légende) => <div className="m-0 italic">Exemple : {légende}</div>)
+              .none(() => (
+                <></>
+              ))}
+          </>
+        }
+        state={validationErrors['referenceDossierCorrigee'] ? 'error' : 'default'}
+        stateRelatedMessage={validationErrors['referenceDossierCorrigee']}
+        nativeInputProps={{
+          type: 'text',
+          name: 'referenceDossierCorrigee',
+          placeholder: Option.match(aideSaisieRéférenceDossierRaccordement.format)
+            .some((format) => `Exemple: ${format}`)
+            .none(() => `Renseigner l'identifiant`),
+          required: true,
+          defaultValue: référence.référence,
+          pattern:
+            aideSaisieRéférenceDossierRaccordement?.expressionReguliere?.expression || undefined,
+        }}
       />
     </Form>
   );

@@ -1,13 +1,13 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
+import { match } from 'ts-pattern';
 
-import { ExpressionRegulière, IdentifiantProjet } from '@potentiel-domain/common';
+import { Email, ExpressionRegulière, IdentifiantProjet } from '@potentiel-domain/common';
 import { Find } from '@potentiel-domain/entity';
 import { Option } from '@potentiel-libraries/monads';
 import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
 
 import { GestionnaireRéseauEntity, IdentifiantGestionnaireRéseau } from '../../gestionnaire';
 import { RaccordementEntity } from '../raccordement.entity';
-import { mapToReadModel } from '../../gestionnaire/consulter/consulterGestionnaireRéseau.query';
 
 export type ConsulterGestionnaireRéseauRaccordementReadModel = {
   identifiantGestionnaireRéseau: IdentifiantGestionnaireRéseau.ValueType;
@@ -58,4 +58,31 @@ export const registerConsulterGestionnaireRéseauRaccordementQuery = ({
   };
 
   mediator.register('Réseau.Raccordement.Query.ConsulterGestionnaireRéseauRaccordement', handler);
+};
+
+export const mapToReadModel = ({
+  codeEIC,
+  raisonSociale,
+  aideSaisieRéférenceDossierRaccordement: { format, légende, expressionReguliere },
+  contactEmail,
+}: GestionnaireRéseauEntity): ConsulterGestionnaireRéseauRaccordementReadModel => {
+  return {
+    identifiantGestionnaireRéseau: IdentifiantGestionnaireRéseau.convertirEnValueType(codeEIC),
+    raisonSociale,
+    aideSaisieRéférenceDossierRaccordement: {
+      format: match(format)
+        .returnType<Option.Type<string>>()
+        .with('', () => Option.none)
+        .otherwise((format) => format),
+      légende: match(légende)
+        .returnType<Option.Type<string>>()
+        .with('', () => Option.none)
+        .otherwise((légende) => légende),
+      expressionReguliere: ExpressionRegulière.convertirEnValueType(expressionReguliere),
+    },
+    contactEmail: match(contactEmail)
+      .returnType<Option.Type<Email.ValueType>>()
+      .with('', () => Option.none)
+      .otherwise((email) => Email.convertirEnValueType(email)),
+  };
 };
