@@ -13,12 +13,12 @@ import { Utilisateur } from '@potentiel-domain/utilisateur';
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { decodeParameter } from '@/utils/decodeParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
+import { withUtilisateur } from '@/utils/withUtilisateur';
 import {
   TransmettreDateMiseEnServicePage,
   TransmettreDateMiseEnServicePageProps,
 } from '@/components/pages/réseau/raccordement/transmettre/transmettreDateMiseEnService/TransmettreDateMiseEnService.page';
 import { récupérerProjet, vérifierQueLeProjetEstClassé } from '@/app/_helpers';
-import { withUtilisateur } from '@/utils/withUtilisateur';
 
 type PageProps = {
   params: {
