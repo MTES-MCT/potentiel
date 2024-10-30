@@ -41,7 +41,7 @@ const action: FormAction<FormState, typeof schema> = async (
         dateDemandeValue: new Date().toISOString(),
         raisonValue: raison,
         recandidatureValue: recandidature === 'true',
-        ...(pieceJustificative !== undefined && {
+        ...(pieceJustificative && {
           pièceJustificativeValue: pieceJustificative,
         }),
       },
