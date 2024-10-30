@@ -83,7 +83,6 @@ export const formAction =
           [formKey]: formData.get(formKey),
         };
       }, {});
-      console.info(dataReduced);
 
       const data = schema ? await schema.parseAsync(dataReduced) : dataReduced;
 

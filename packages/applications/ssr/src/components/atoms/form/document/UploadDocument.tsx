@@ -48,15 +48,12 @@ export const UploadDocument: FC<UploadDocumentProps> = ({
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { files } = e.currentTarget;
 
-    console.info(files);
-
     if (!files || Object.keys(files).length === 0) {
       setDocumentFilenames([]);
       return;
     }
 
     const fileNames = Object.values(files).map((file) => extractFileName(file.name));
-    console.info(fileNames);
 
     setDocumentFilenames(fileNames);
     onChange && onChange(fileNames);
@@ -88,7 +85,6 @@ export const UploadDocument: FC<UploadDocumentProps> = ({
     }
 
     hiddenFileInput.current.files = new DataTransfer().files;
-    console.info(hiddenFileInput.current.files);
 
     setDocumentFilenames([]);
     onChange && onChange([]);
