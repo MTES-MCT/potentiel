@@ -7,11 +7,19 @@ import { PotentielWorld } from '../../../../../potentiel.world';
 import { convertStringToReadableStream } from '../../../../../helpers/convertStringToReadable';
 
 Quand(
-  'un porteur transmet une attestation de conformité pour le projet {string} avec :',
-  async function (this: PotentielWorld, nomProjet: string, dataTable: DataTable) {
+  'le porteur transmet une attestation de conformité pour le projet {lauréat-éliminé} {string} avec :',
+  async function (
+    this: PotentielWorld,
+    statutProjet: 'lauréat' | 'éliminé',
+    nomProjet: string,
+    dataTable: DataTable,
+  ) {
     const exemple = dataTable.rowsHash();
     try {
-      const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
+      const { identifiantProjet } =
+        statutProjet === 'lauréat'
+          ? this.lauréatWorld.rechercherLauréatFixture(nomProjet)
+          : this.eliminéWorld.rechercherÉliminéFixture(nomProjet);
 
       const attestationValue = {
         content: exemple['contenu attestation']
@@ -35,7 +43,7 @@ Quand(
         ? new Date(exemple['date']).toISOString()
         : new Date().toISOString();
 
-      const utilisateurValue = exemple['utilisateur'] || 'utilisateur@test.test';
+      const utilisateurValue = this.utilisateurWorld.porteurFixture.email;
 
       await mediator.send<Achèvement.TransmettreAttestationConformitéUseCase>({
         type: 'Lauréat.Achèvement.AttestationConformité.UseCase.TransmettreAttestationConformité',
@@ -55,7 +63,7 @@ Quand(
 );
 
 Quand(
-  "un admin modifie l'attestation de conformité pour le projet {string} avec :",
+  "l'admin modifie l'attestation de conformité pour le projet {string} avec :",
   async function (this: PotentielWorld, nomProjet: string, dataTable: DataTable) {
     const exemple = dataTable.rowsHash();
     try {
@@ -83,7 +91,7 @@ Quand(
         ? new Date(exemple['date']).toISOString()
         : new Date().toISOString();
 
-      const utilisateurValue = exemple['utilisateur'] || 'utilisateur@test.test';
+      const utilisateurValue = this.utilisateurWorld.adminFixture.email;
 
       await mediator.send<Achèvement.ModifierAttestationConformitéUseCase>({
         type: 'Lauréat.Achèvement.AttestationConformité.UseCase.ModifierAttestationConformité',

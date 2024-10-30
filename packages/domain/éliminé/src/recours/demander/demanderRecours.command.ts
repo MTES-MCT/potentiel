@@ -19,6 +19,7 @@ export type DemanderRecoursCommand = Message<
 
 export const registerDemanderRecoursCommand = (loadAggregate: LoadAggregate) => {
   const loadRecours = loadRecoursFactory(loadAggregate);
+
   const handler: MessageHandler<DemanderRecoursCommand> = async ({
     identifiantProjet,
     pièceJustificative,

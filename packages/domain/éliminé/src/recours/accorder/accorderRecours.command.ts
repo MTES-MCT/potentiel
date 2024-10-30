@@ -20,14 +20,14 @@ export type AccorderRecoursCommand = Message<
 >;
 
 export const registerAccorderRecoursCommand = (loadAggregate: LoadAggregate) => {
-  const load = loadRecoursFactory(loadAggregate);
+  const loadRecours = loadRecoursFactory(loadAggregate);
   const handler: MessageHandler<AccorderRecoursCommand> = async ({
     dateAccord,
     identifiantUtilisateur,
     identifiantProjet,
     réponseSignée,
   }) => {
-    const recours = await load(identifiantProjet);
+    const recours = await loadRecours(identifiantProjet);
 
     await recours.accorder({
       dateAccord,

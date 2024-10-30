@@ -25,6 +25,7 @@ export type Options = {
   preuveTransmissionAuCocontractant: DocumentProjet.ValueType;
   date: DateTime.ValueType;
   utilisateur: IdentifiantUtilisateur.ValueType;
+  aUnAbandonAccordé: boolean;
 };
 
 export async function transmettre(
@@ -36,11 +37,17 @@ export async function transmettre(
     preuveTransmissionAuCocontractant,
     date,
     utilisateur,
+    aUnAbandonAccordé,
   }: Options,
 ) {
+  if (aUnAbandonAccordé) {
+    throw new ImpossibleTransmettreAttestationDeConformitéProjetAbandonnéError();
+  }
+
   if (dateTransmissionAuCocontractant.estDansLeFutur()) {
     throw new DateDeTransmissionAuCoContractantFuturError();
   }
+
   if (this.attestationConformité.format && this.preuveTransmissionAuCocontractant.format) {
     throw new AttestationDeConformitéDéjàTransmiseError();
   }
@@ -85,5 +92,13 @@ export function applyAttestationConformitéTransmise(
 class AttestationDeConformitéDéjàTransmiseError extends InvalidOperationError {
   constructor() {
     super('le projet a déjà une attestation de conformité');
+  }
+}
+
+class ImpossibleTransmettreAttestationDeConformitéProjetAbandonnéError extends InvalidOperationError {
+  constructor() {
+    super(
+      'Il est impossible de transmettre une attestation de conformité pour un projet abandonné',
+    );
   }
 }

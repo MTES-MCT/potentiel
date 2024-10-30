@@ -96,7 +96,11 @@ Fonctionnalité: Transmettre une demande complète de raccordement
             | Le contenu de l'accusé de réception     | Accusé de réception ayant pour référence OUE-RP-2022-000033 et la date de qualification au 2022-10-28 |
         Alors le porteur devrait être informé que "Il est impossible de transmettre une demande complète de raccordement pour un projet abandonné"
 
-    # Ce cas ne peut pas être implémenté à date car nous n'avons pas accès à l'aggréagat candidature (projet)
-    @NotImplemented
-    Scénario: Impossible de transmettre une demande complète de raccordement  si le projet est éliminé
-
+    Scénario: Impossible de transmettre une demande complète de raccordement si le projet est éliminé
+        Etant donné le projet éliminé "MIOS"
+        Quand le porteur transmet une demande complète de raccordement pour le projet éliminé "MIOS" auprès du gestionnaire de réseau "Enedis" avec :
+            | La date de qualification                | 2022-10-28                                                                                            |
+            | La référence du dossier de raccordement | OUE-RP-2022-000033                                                                                    |
+            | Le format de l'accusé de réception      | application/pdf                                                                                       |
+            | Le contenu de l'accusé de réception     | Accusé de réception ayant pour référence OUE-RP-2022-000033 et la date de qualification au 2022-10-28 |
+        Alors le porteur devrait être informé que "Le projet lauréat n'existe pas"

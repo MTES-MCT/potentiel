@@ -20,12 +20,12 @@ export class DREALFixture extends AbstractUtilisateur implements DREAL, Fixture<
   créer(partialFixture?: Partial<Readonly<Omit<DREAL, 'role>'>>>): Readonly<DREAL> {
     const utilisateur = super.créer(partialFixture);
 
-    const porteur: DREAL = {
+    const dreal: DREAL = {
       role: 'dreal',
       ...utilisateur,
     };
 
     this.#aÉtéCréé = true;
-    return porteur;
+    return dreal;
   }
 }
