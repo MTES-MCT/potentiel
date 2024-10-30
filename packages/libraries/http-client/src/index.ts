@@ -6,26 +6,31 @@ const retryPolicy = retry(handleAll, {
 });
 
 export const get = async <T>(url: URL, signal?: AbortSignal): Promise<T> => {
-  return await retryPolicy.execute(async () => {
+  return retryPolicy.execute(async () => {
     const response = await fetch(url, { signal });
 
     if (!response.ok) {
       throw new Error(`Request failed with status ${response.status} ${response.statusText}`);
     }
 
-    return await response.json();
+    return response.json();
   });
 };
 
-export const getBlob = async (url: URL, signal?: AbortSignal): Promise<Blob> => {
-  return await retryPolicy.execute(async () => {
+export const getReadableStream = async (
+  url: URL,
+  signal?: AbortSignal,
+): Promise<ReadableStream> => {
+  return retryPolicy.execute(async () => {
     const response = await fetch(url, { signal });
 
     if (!response.ok) {
       throw new Error(`Request failed with status ${response.status} ${response.statusText}`);
     }
 
-    return await response.blob();
+    const blob = await response.blob();
+
+    return blob.stream();
   });
 };
 
@@ -41,5 +46,5 @@ export const post = async <T>(
       throw new Error(`Request failed with status ${response.status} ${response.statusText}`);
     }
 
-    return await response.json();
+    return response.json();
   });
