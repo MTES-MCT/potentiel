@@ -7,7 +7,7 @@ import SelectNext from '@codegouvfr/react-dsfr/SelectNext';
 
 import { Form } from '@/components/atoms/form/Form';
 import { SubmitButton } from '@/components/atoms/form/SubmitButton';
-import { UploadDocument } from '@/components/atoms/form/UploadDocument';
+import { UploadNewOrModifyExistingDocument } from '@/components/atoms/form/document/UploadNewOrModifyExistingDocument';
 import { ValidationErrors } from '@/utils/formAction';
 
 import {
@@ -100,15 +100,16 @@ export const ModifierChangementReprésentantLégalForm: FC<
         stateRelatedMessage={validationErrors['nomRepresentantLegal']}
       />
 
-      <UploadDocument
+      <UploadNewOrModifyExistingDocument
         label={'Pièce justificative'}
         id="pieceJustificative"
         name="pieceJustificative"
+        formats={['pdf']}
         hintText={getPièceJustificativeHintText()}
         required
         state={validationErrors['pieceJustificative'] ? 'error' : 'default'}
         stateRelatedMessage={validationErrors['pieceJustificative']}
-        documentKey={pièceJustificative}
+        documentKeys={[pièceJustificative]}
       />
     </Form>
   );

@@ -1,4 +1,5 @@
 import {
+  ConsulterDocumentProjetReadModel,
   ConsulterDocumentProjetQuery,
   RécupérerDocumentProjetPort,
 } from './consulter/consulterDocumentProjet.query';
@@ -17,8 +18,10 @@ import {
 
 // Query
 export type DocumentProjetQuery = ConsulterDocumentProjetQuery;
-
 export { ConsulterDocumentProjetQuery };
+
+// Read model
+export { ConsulterDocumentProjetReadModel };
 
 // Command
 export type DocumentProjetCommand =

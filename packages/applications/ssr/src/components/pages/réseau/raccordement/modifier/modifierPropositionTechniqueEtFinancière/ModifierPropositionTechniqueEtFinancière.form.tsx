@@ -8,7 +8,7 @@ import { Iso8601DateTime, now } from '@potentiel-libraries/iso8601-datetime';
 
 import { Form } from '@/components/atoms/form/Form';
 import { InputDate } from '@/components/atoms/form/InputDate';
-import { UploadDocument } from '@/components/atoms/form/UploadDocument';
+import { UploadNewOrModifyExistingDocument } from '@/components/atoms/form/document/UploadNewOrModifyExistingDocument';
 import { SubmitButton } from '@/components/atoms/form/SubmitButton';
 import { ValidationErrors } from '@/utils/formAction';
 
@@ -83,13 +83,14 @@ export const ModifierPropositionTechniqueEtFinancièreForm: FC<
         stateRelatedMessage={validationErrors['dateSignature']}
       />
 
-      <UploadDocument
+      <UploadNewOrModifyExistingDocument
         label="Proposition technique et financière signée"
         name="propositionTechniqueEtFinanciereSignee"
         required
+        formats={['pdf']}
         state={validationErrors['propositionTechniqueEtFinanciereSignee'] ? 'error' : 'default'}
         stateRelatedMessage={validationErrors['propositionTechniqueEtFinanciereSignee']}
-        documentKey={propositionTechniqueEtFinancièreSignée}
+        documentKeys={[propositionTechniqueEtFinancièreSignée]}
       />
     </Form>
   );

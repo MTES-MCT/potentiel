@@ -10,7 +10,7 @@ import { Abandon } from '@potentiel-domain/laureat';
 import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
 import { DocumentProjet } from '@potentiel-domain/document';
 
-import { DownloadDocument } from '@/components/atoms/form/DownloadDocument';
+import { DownloadDocument } from '@/components/atoms/form/document/DownloadDocument';
 import { Timeline, TimelineProps } from '@/components/organisms/Timeline';
 
 export type EtapesAbandonProps = {

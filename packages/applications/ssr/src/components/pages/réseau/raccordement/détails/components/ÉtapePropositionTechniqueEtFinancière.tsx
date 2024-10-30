@@ -6,7 +6,7 @@ import { Iso8601DateTime } from '@potentiel-libraries/iso8601-datetime';
 
 import { FormattedDate } from '@/components/atoms/FormattedDate';
 import { Icon } from '@/components/atoms/Icon';
-import { DownloadDocument } from '@/components/atoms/form/DownloadDocument';
+import { DownloadDocument } from '@/components/atoms/form/document/DownloadDocument';
 
 import { FormatFichierInvalide } from './FormatFichierInvalide';
 import { Etape } from './Étape';

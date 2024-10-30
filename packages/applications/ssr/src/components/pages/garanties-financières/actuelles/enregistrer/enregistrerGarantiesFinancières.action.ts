@@ -8,12 +8,12 @@ import { Routes } from '@potentiel-applications/routes';
 
 import { FormAction, FormState, formAction } from '@/utils/formAction';
 import { withUtilisateur } from '@/utils/withUtilisateur';
-import { document } from '@/utils/zod/documentTypes';
+import { singleDocument } from '@/utils/zod/document';
 
 const commonSchema = {
   identifiantProjet: zod.string().min(1),
   dateConstitution: zod.string().min(1, { message: 'Champ obligatoire' }),
-  attestation: document,
+  attestation: singleDocument(),
 };
 const schema = zod.discriminatedUnion('type', [
   zod.object({
@@ -41,10 +41,7 @@ const action: FormAction<FormState, typeof schema> = async (_, props) =>
             ? new Date(props.dateEcheance).toISOString()
             : undefined,
         dateConstitutionValue: new Date(props.dateConstitution).toISOString(),
-        attestationValue: {
-          content: props.attestation.stream(),
-          format: props.attestation.type,
-        },
+        attestationValue: props.attestation,
         enregistréLeValue: new Date().toISOString(),
         enregistréParValue: utilisateur.identifiantUtilisateur.formatter(),
       },

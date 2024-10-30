@@ -9,7 +9,7 @@ import { now } from '@potentiel-libraries/iso8601-datetime';
 import { Form } from '@/components/atoms/form/Form';
 import { SubmitButton } from '@/components/atoms/form/SubmitButton';
 import { InputDate } from '@/components/atoms/form/InputDate';
-import { UploadDocument } from '@/components/atoms/form/UploadDocument';
+import { UploadNewOrModifyExistingDocument } from '@/components/atoms/form/document/UploadNewOrModifyExistingDocument';
 import { GarantiesFinancièresActuelles } from '@/components/organisms/garantiesFinancières/types';
 import { ValidationErrors } from '@/utils/formAction';
 
@@ -83,14 +83,15 @@ export const ModifierGarantiesFinancièresActuellesForm: FC<
         stateRelatedMessage={validationErrors['dateConstitution']}
       />
 
-      <UploadDocument
+      <UploadNewOrModifyExistingDocument
         label="Attestation de constitution"
         name="attestation"
         id="attestation"
         required
+        formats={['pdf']}
         state={validationErrors['attestation'] ? 'error' : 'default'}
         stateRelatedMessage={validationErrors['attestation']}
-        documentKey={actuelles.attestation}
+        documentKeys={actuelles.attestation ? [actuelles.attestation] : undefined}
       />
     </Form>
   );

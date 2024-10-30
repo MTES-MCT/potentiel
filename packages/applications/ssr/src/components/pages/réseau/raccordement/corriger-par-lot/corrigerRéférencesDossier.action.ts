@@ -9,10 +9,10 @@ import { parseCsv } from '@potentiel-libraries/csv';
 
 import { ActionResult, FormAction, FormState, formAction } from '@/utils/formAction';
 import { withUtilisateur } from '@/utils/withUtilisateur';
-import { document } from '@/utils/zod/documentTypes';
+import { singleDocument } from '@/utils/zod/document';
 
 const schema = zod.object({
-  fichierCorrections: document,
+  fichierCorrections: singleDocument(),
 });
 
 export type CorrigerRéférencesDossierFormKeys = keyof zod.infer<typeof schema>;
@@ -34,7 +34,7 @@ const csvSchema = zod
 
 const action: FormAction<FormState, typeof schema> = (_, { fichierCorrections }) =>
   withUtilisateur(async ({ role }) => {
-    const { parsedData: lines } = await parseCsv(fichierCorrections.stream(), csvSchema, {
+    const { parsedData: lines } = await parseCsv(fichierCorrections.content, csvSchema, {
       // on conserve les espaces, car c'est potentiellement l'erreur à corriger
       ltrim: false,
       rtrim: false,

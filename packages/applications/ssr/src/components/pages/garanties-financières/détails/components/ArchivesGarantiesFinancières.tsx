@@ -2,7 +2,7 @@ import { Routes } from '@potentiel-applications/routes';
 
 import { Heading3, Heading4 } from '@/components/atoms/headings';
 import { GarantiesFinancièresArchivées } from '@/components/organisms/garantiesFinancières/types';
-import { DownloadDocument } from '@/components/atoms/form/DownloadDocument';
+import { DownloadDocument } from '@/components/atoms/form/document/DownloadDocument';
 import { Timeline, TimelineProps } from '@/components/organisms/Timeline';
 import { StatutGarantiesFinancièresBadge } from '@/components/molecules/garantiesFinancières/StatutGarantiesFinancièresBadge';
 import { FormattedDate } from '@/components/atoms/FormattedDate';

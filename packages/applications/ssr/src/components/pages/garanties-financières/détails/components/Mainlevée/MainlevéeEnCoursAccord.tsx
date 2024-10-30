@@ -5,8 +5,8 @@ import { Iso8601DateTime } from '@potentiel-libraries/iso8601-datetime';
 import { Email } from '@potentiel-domain/common';
 
 import { FormattedDate } from '@/components/atoms/FormattedDate';
+import { DownloadDocument } from '@/components/atoms/form/document/DownloadDocument';
 
-import { DownloadDocument } from '../../../../../atoms/form/DownloadDocument';
 import { CorrigerRéponseSignée } from '../../../mainlevée/corrigerRéponseSignée/CorrigerRéponseSignée.form';
 
 import { MainlevéeEnCoursProps } from './MainlevéeEnCours';

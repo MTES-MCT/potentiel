@@ -4,7 +4,7 @@ import { FC, useState } from 'react';
 
 import { Form } from '@/components/atoms/form/Form';
 import { SubmitButton } from '@/components/atoms/form/SubmitButton';
-import { UploadDocument } from '@/components/atoms/form/UploadDocument';
+import { UploadNewOrModifyExistingDocument } from '@/components/atoms/form/document/UploadNewOrModifyExistingDocument';
 import { ValidationErrors } from '@/utils/formAction';
 
 import {
@@ -30,12 +30,12 @@ export const CorrigerCandidaturesForm: FC = () => {
       successMessage={'candidats corrigés'}
       actions={<SubmitButton>Corriger</SubmitButton>}
     >
-      <UploadDocument
+      <UploadNewOrModifyExistingDocument
         label="Fichier CSV"
         id="fichierCorrectionCandidatures"
         name="fichierCorrectionCandidatures"
         required
-        format="csv"
+        formats={['csv']}
         state={validationErrors['fichierCorrectionCandidatures'] ? 'error' : 'default'}
         stateRelatedMessage={validationErrors['fichierCorrectionCandidatures']}
       />
