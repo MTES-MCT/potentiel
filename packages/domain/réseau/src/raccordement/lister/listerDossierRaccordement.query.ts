@@ -10,6 +10,7 @@ import { Abandon } from '@potentiel-domain/laureat';
 import { RéférenceDossierRaccordement } from '..';
 import { DossierRaccordementEntity } from '../raccordement.entity';
 import { IdentifiantGestionnaireRéseau } from '../../gestionnaire';
+import { GestionnaireRéseau } from '../..';
 
 type DossierRaccordement = {
   nomProjet: string;
@@ -26,6 +27,7 @@ type DossierRaccordement = {
   statutDGEC: Lauréat.StatutLauréat.RawType;
   dateMiseEnService?: DateTime.ValueType;
   identifiantGestionnaireRéseau: IdentifiantGestionnaireRéseau.ValueType;
+  raisonSocialeGestionnaireRéseau: string;
 };
 
 export type ListerDossierRaccordementReadModel = {
@@ -84,24 +86,39 @@ export const registerListerDossierRaccordementQuery = ({
       range,
     });
 
-    const identifiants = items.map(
+    const identifiantsProjet = items.map(
       (dossier) => dossier.identifiantProjet as IdentifiantProjet.RawType,
+    );
+
+    const identifiantsGestionnaireRéseau = items.map(
+      (dossier) => dossier.identifiantGestionnaireRéseau as IdentifiantGestionnaireRéseau.RawType,
     );
 
     const candidatures = await list<Candidature.CandidatureEntity>('candidature', {
       where: {
-        identifiantProjet: Where.include(identifiants),
+        identifiantProjet: Where.include(identifiantsProjet),
       },
     });
 
     const abandons = await list<Abandon.AbandonEntity>('abandon', {
       where: {
-        identifiantProjet: Where.include(identifiants),
+        identifiantProjet: Where.include(identifiantsProjet),
       },
     });
 
+    const gestionnairesRéseau = await list<GestionnaireRéseau.GestionnaireRéseauEntity>(
+      'gestionnaire-réseau',
+      {
+        where: {
+          codeEIC: Where.include(identifiantsGestionnaireRéseau),
+        },
+      },
+    );
+
     return {
-      items: items.map((item) => toReadModel(item, candidatures.items, abandons.items)),
+      items: items.map((item) =>
+        toReadModel(item, candidatures.items, abandons.items, gestionnairesRéseau.items),
+      ),
       range: {
         endPosition,
         startPosition,
@@ -122,6 +139,7 @@ export const toReadModel = (
   }: DossierRaccordementEntity,
   candidatures: ReadonlyArray<Candidature.CandidatureEntity>,
   abandons: ReadonlyArray<Abandon.AbandonEntity>,
+  gestionnairesRéseau: ReadonlyArray<GestionnaireRéseau.GestionnaireRéseauEntity>,
 ): DossierRaccordement => {
   const { appelOffre, famille, numéroCRE, période } =
     IdentifiantProjet.convertirEnValueType(identifiantProjet);
@@ -129,6 +147,9 @@ export const toReadModel = (
     (candidature) => candidature.identifiantProjet === identifiantProjet,
   );
   const abandon = abandons.find((abandons) => abandons.identifiantProjet === identifiantProjet);
+  const gestionnaire = gestionnairesRéseau.find(
+    (gestionnaireRéseau) => gestionnaireRéseau.codeEIC === identifiantGestionnaireRéseau,
+  );
 
   const { nomProjet, codePostal, commune, département, région } = match(candidature)
     .with(undefined, () => ({
@@ -167,5 +188,8 @@ export const toReadModel = (
     identifiantGestionnaireRéseau: IdentifiantGestionnaireRéseau.convertirEnValueType(
       identifiantGestionnaireRéseau,
     ),
+    raisonSocialeGestionnaireRéseau: match(gestionnaire)
+      .with(undefined, () => 'Gestionnaire réseau inconnu')
+      .otherwise((value) => value.raisonSociale),
   };
 };
