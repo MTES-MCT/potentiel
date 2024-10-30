@@ -73,7 +73,7 @@ export const Default: Story = {
           référence: `référence${i}`,
         },
         identifiantGestionnaireRéseau: { codeEIC: 'codeEIC' },
-        gestionnaireRéseau: 'gestionnaireRéseau',
+        raisonSocialeGestionnaireRéseau: 'gestionnaireRéseau',
         statutDGEC: i % 2 === 0 ? 'classé' : 'abandonné',
         dateMiseEnService:
           i % 2 === 0
