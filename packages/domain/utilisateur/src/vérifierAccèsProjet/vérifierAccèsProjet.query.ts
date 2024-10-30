@@ -15,7 +15,7 @@ export type VérifierAccèsProjetQuery = Message<
 >;
 
 export type VérifierAccèsProjetPort = (args: {
-  identifiantUtilisateurValue: string;
+  utilisateur: Utilisateur.ValueType;
   identifiantProjetValue: string;
 }) => Promise<boolean>;
 
@@ -39,7 +39,6 @@ export const registerVérifierAccèsProjetQuery = ({
     if (
       utilisateur.role.estÉgaleÀ(Role.admin) ||
       utilisateur.role.estÉgaleÀ(Role.dgecValidateur) ||
-      utilisateur.role.estÉgaleÀ(Role.dreal) ||
       utilisateur.role.estÉgaleÀ(Role.cre) ||
       utilisateur.role.estÉgaleÀ(Role.caisseDesDépôts) ||
       utilisateur.role.estÉgaleÀ(Role.acheteurObligé)
@@ -47,9 +46,8 @@ export const registerVérifierAccèsProjetQuery = ({
       return;
     }
 
-    const identifiantUtilisateurValue = utilisateur.identifiantUtilisateur.formatter();
     const estAccessible = await vérifierAccèsProjet({
-      identifiantUtilisateurValue,
+      utilisateur,
       identifiantProjetValue,
     });
 
