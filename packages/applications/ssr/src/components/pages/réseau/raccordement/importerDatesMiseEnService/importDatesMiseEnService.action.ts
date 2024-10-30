@@ -38,6 +38,8 @@ const action: FormAction<FormState, typeof schema> = async (
   _,
   { identifiantGestionnaireReseau, fichierDatesMiseEnService },
 ) => {
+  // TODO vérifier que GRD a accès à cet identifiant
+  // vérifierAccèsAuGestionnaireRéseau(utilisateur, identifiantGestionnaireReseau);
   const identifiantGestionnaireRéseauSélectionné =
     GestionnaireRéseau.IdentifiantGestionnaireRéseau.convertirEnValueType(
       identifiantGestionnaireReseau,

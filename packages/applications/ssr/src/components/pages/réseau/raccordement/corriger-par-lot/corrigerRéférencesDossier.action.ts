@@ -3,9 +3,12 @@
 import * as zod from 'zod';
 import { mediator } from 'mediateur';
 
-import type { Raccordement } from '@potentiel-domain/reseau';
+import { type Raccordement } from '@potentiel-domain/reseau';
 import { DomainError } from '@potentiel-domain/core';
 import { parseCsv } from '@potentiel-libraries/csv';
+import { Option } from '@potentiel-libraries/monads';
+import { Groupe, Role, Utilisateur } from '@potentiel-domain/utilisateur';
+import { Routes } from '@potentiel-applications/routes';
 
 import { ActionResult, FormAction, FormState, formAction } from '@/utils/formAction';
 import { withUtilisateur } from '@/utils/withUtilisateur';
@@ -17,23 +20,14 @@ const schema = zod.object({
 
 export type CorrigerRéférencesDossierFormKeys = keyof zod.infer<typeof schema>;
 
-const csvSchema = zod
-  .object({
-    identifiantProjet: zod.string().min(1),
-    referenceDossier: zod.string().min(1),
-    referenceDossierCorrigee: zod.string().min(1),
-  })
-  .refine(
-    ({ referenceDossier, referenceDossierCorrigee }) =>
-      referenceDossier !== referenceDossierCorrigee,
-    {
-      path: ['referenceDossierCorrigee'],
-      message: "La nouvelle référence de dossier doit être différente de l'ancienne",
-    },
-  );
+const csvSchema = zod.object({
+  identifiantProjet: zod.string().min(1),
+  referenceDossier: zod.string().min(1),
+  referenceDossierCorrigee: zod.string().min(1),
+});
 
 const action: FormAction<FormState, typeof schema> = (_, { fichierCorrections }) =>
-  withUtilisateur(async ({ role }) => {
+  withUtilisateur(async (utilisateur) => {
     const { parsedData: lines } = await parseCsv(fichierCorrections.content, csvSchema, {
       // on conserve les espaces, car c'est potentiellement l'erreur à corriger
       ltrim: false,
@@ -58,20 +52,33 @@ const action: FormAction<FormState, typeof schema> = (_, { fichierCorrections })
 
     for (const { identifiantProjet, referenceDossier, referenceDossierCorrigee } of lines) {
       try {
+        const error = await vérifierAccèsGestionnaireRéseau(
+          utilisateur,
+          identifiantProjet,
+          referenceDossier,
+        );
+        if (error) {
+          errors.push({
+            key: referenceDossier,
+            reason: error,
+          });
+          continue;
+        }
+
         await mediator.send<Raccordement.ModifierRéférenceDossierRaccordementUseCase>({
           type: 'Réseau.Raccordement.UseCase.ModifierRéférenceDossierRaccordement',
           data: {
             identifiantProjetValue: parseIdentifiantProjet(identifiantProjet),
             nouvelleRéférenceDossierRaccordementValue: referenceDossierCorrigee,
             référenceDossierRaccordementActuelleValue: referenceDossier,
-            rôleValue: role.nom,
+            rôleValue: utilisateur.role.nom,
           },
         });
         success++;
       } catch (error) {
         if (error instanceof DomainError) {
           errors.push({
-            key: identifiantProjet,
+            key: referenceDossier,
             reason: error.message,
           });
           continue;
@@ -84,6 +91,13 @@ const action: FormAction<FormState, typeof schema> = (_, { fichierCorrections })
       }
     }
 
+    if (errors.length === 0 && success > 0) {
+      return {
+        status: 'success',
+        redirectUrl: Routes.Raccordement.lister,
+      };
+    }
+
     return {
       status: 'success',
       result: {
@@ -94,3 +108,32 @@ const action: FormAction<FormState, typeof schema> = (_, { fichierCorrections })
   });
 
 export const corrigerRéférencesDossierAction = formAction(action, schema);
+
+async function vérifierAccèsGestionnaireRéseau(
+  utilisateur: Utilisateur.ValueType,
+  identifiantProjet: string,
+  referenceDossier: string,
+) {
+  const dossier = await mediator.send<Raccordement.ConsulterDossierRaccordementQuery>({
+    type: 'Réseau.Raccordement.Query.ConsulterDossierRaccordement',
+    data: {
+      identifiantProjetValue: identifiantProjet,
+      référenceDossierRaccordementValue: referenceDossier,
+    },
+  });
+  if (Option.isNone(dossier)) {
+    return 'Aucun dossier de raccordement';
+  }
+  if (!utilisateur.role.estÉgaleÀ(Role.grd)) return;
+  if (
+    Option.isSome(utilisateur.groupe) &&
+    utilisateur.groupe.estÉgaleÀ(
+      Groupe.convertirEnValueType(
+        `/GestionnairesRéseau/${dossier.identifiantGestionnaireRéseau.formatter()}`,
+      ),
+    )
+  ) {
+    return;
+  }
+  return `Le gestionnaire de réseau n'est pas attribué à ce dossier de raccordement`;
+}
