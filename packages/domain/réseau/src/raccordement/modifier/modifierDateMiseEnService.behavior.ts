@@ -6,8 +6,8 @@ import * as RéférenceDossierRaccordement from '../référenceDossierRaccordeme
 import { RaccordementAggregate } from '../raccordement.aggregate';
 import { DateDansLeFuturError } from '../dateDansLeFutur.error';
 
-export type DateMiseEnServiceTransmiseEvent = DomainEvent<
-  'DateMiseEnServiceTransmise-V1',
+export type DateMiseEnServiceModifiéeEvent = DomainEvent<
+  'DateMiseEnServiceModifiée-V1',
   {
     dateMiseEnService: DateTime.RawType;
     référenceDossierRaccordement: RéférenceDossierRaccordement.RawType;
@@ -15,21 +15,21 @@ export type DateMiseEnServiceTransmiseEvent = DomainEvent<
   }
 >;
 
-type TransmettreDateMiseEnServiceOptions = {
+type ModifierDateMiseEnServiceOptions = {
   dateMiseEnService: DateTime.ValueType;
   dateDésignation: DateTime.ValueType;
   identifiantProjet: IdentifiantProjet.ValueType;
   référenceDossier: RéférenceDossierRaccordement.ValueType;
 };
 
-export async function transmettreDateMiseEnService(
+export async function modifierDateMiseEnService(
   this: RaccordementAggregate,
   {
     dateMiseEnService,
     dateDésignation,
     identifiantProjet,
     référenceDossier,
-  }: TransmettreDateMiseEnServiceOptions,
+  }: ModifierDateMiseEnServiceOptions,
 ) {
   if (dateMiseEnService.estDansLeFutur()) {
     throw new DateDansLeFuturError();
@@ -38,14 +38,18 @@ export async function transmettreDateMiseEnService(
   if (dateMiseEnService.estAntérieurÀ(dateDésignation)) {
     throw new DateMiseEnServiceAntérieureDateDésignationProjetError();
   }
-  const dossier = this.récupérerDossier(référenceDossier.référence);
 
-  if (Option.isSome(dossier.miseEnService.dateMiseEnService)) {
-    throw new DateMiseEnServiceDéjàTransmiseError();
+  const dossier = this.récupérerDossier(référenceDossier.formatter());
+  if (Option.isNone(dossier.miseEnService.dateMiseEnService)) {
+    throw new AucuneDateDeMiseEnServiceTransmiseError();
   }
 
-  const dateMiseEnServiceTransmise: DateMiseEnServiceTransmiseEvent = {
-    type: 'DateMiseEnServiceTransmise-V1',
+  if (!this.dateModifiée(référenceDossier, dateMiseEnService)) {
+    throw new DateDeMiseEnServiceInchangéeError();
+  }
+
+  const dateMiseEnServiceModifiée: DateMiseEnServiceModifiéeEvent = {
+    type: 'DateMiseEnServiceModifiée-V1',
     payload: {
       dateMiseEnService: dateMiseEnService.formatter(),
       identifiantProjet: identifiantProjet.formatter(),
@@ -53,12 +57,12 @@ export async function transmettreDateMiseEnService(
     },
   };
 
-  await this.publish(dateMiseEnServiceTransmise);
+  await this.publish(dateMiseEnServiceModifiée);
 }
 
-export function applyDateMiseEnServiceTransmiseEventV1(
+export function applyDateMiseEnServiceModifiéeEventV1(
   this: RaccordementAggregate,
-  { payload: { dateMiseEnService, référenceDossierRaccordement } }: DateMiseEnServiceTransmiseEvent,
+  { payload: { dateMiseEnService, référenceDossierRaccordement } }: DateMiseEnServiceModifiéeEvent,
 ) {
   const dossier = this.récupérerDossier(référenceDossierRaccordement);
   dossier.miseEnService.dateMiseEnService = DateTime.convertirEnValueType(dateMiseEnService);
@@ -72,8 +76,14 @@ export class DateMiseEnServiceAntérieureDateDésignationProjetError extends Inv
   }
 }
 
-class DateMiseEnServiceDéjàTransmiseError extends InvalidOperationError {
+class AucuneDateDeMiseEnServiceTransmiseError extends InvalidOperationError {
   constructor() {
-    super(`La date de mise en service est déjà transmise pour ce dossier de raccordement`);
+    super(`Aucune date de mise en service n'a encore été transmise`);
+  }
+}
+
+class DateDeMiseEnServiceInchangéeError extends InvalidOperationError {
+  constructor() {
+    super(`La date de mise en service est inchangée`);
   }
 }

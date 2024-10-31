@@ -77,6 +77,11 @@ import {
   RaccordementSuppriméEvent,
   supprimerRaccordement,
 } from './supprimer/supprimerRaccordement.behavior';
+import {
+  applyDateMiseEnServiceModifiéeEventV1,
+  DateMiseEnServiceModifiéeEvent,
+  modifierDateMiseEnService,
+} from './modifier/modifierDateMiseEnService.behavior';
 
 export type DeprecateEvent =
   | DemandeComplèteRaccordementTransmiseEventV1
@@ -92,6 +97,7 @@ export type RaccordementEvent =
   | DemandeComplèteRaccordementTransmiseEvent
   | PropositionTechniqueEtFinancièreTransmiseEvent
   | DateMiseEnServiceTransmiseEvent
+  | DateMiseEnServiceModifiéeEvent
   | DemandeComplèteRaccordementModifiéeEvent
   | RéférenceDossierRacordementModifiéeEvent
   | PropositionTechniqueEtFinancièreModifiéeEvent
@@ -123,13 +129,14 @@ export type RaccordementAggregate = Aggregate<RaccordementEvent> & {
   readonly transmettreDemande: typeof transmettreDemande;
   readonly transmettreDateMiseEnService: typeof transmettreDateMiseEnService;
   readonly transmettrePropositionTechniqueEtFinancière: typeof transmettrePropositionTechniqueEtFinancière;
+  readonly modifierDateMiseEnService: typeof modifierDateMiseEnService;
   readonly modifierDemandeComplèteRaccordement: typeof modifierDemandeComplèteRaccordement;
   readonly modifierRéférenceDossierRacordement: typeof modifierRéférenceDossierRacordement;
   readonly modifierPropositionTechniqueEtFinancière: typeof modifierPropositionTechniqueEtFinancière;
   readonly modifierGestionnaireRéseau: typeof modifierGestionnaireRéseau;
   readonly contientLeDossier: (référence: RéférenceDossierRaccordement.ValueType) => boolean;
   readonly récupérerDossier: (référence: string) => DossierRaccordement;
-  readonly aUneDateDeMiseEnService: () => boolean;
+  readonly aUneDateDeMiseEnService: (référence?: RéférenceDossierRaccordement.ValueType) => boolean;
   readonly attribuerGestionnaireRéseau: typeof attribuerGestionnaireRéseau;
   readonly supprimerDossier: typeof supprimerDossier;
   readonly supprimerRaccordement: typeof supprimerRaccordement;
@@ -150,6 +157,7 @@ export const getDefaultRaccordementAggregate: GetDefaultAggregateState<
   transmettreDemande,
   transmettreDateMiseEnService,
   transmettrePropositionTechniqueEtFinancière,
+  modifierDateMiseEnService,
   modifierDemandeComplèteRaccordement,
   modifierRéférenceDossierRacordement,
   modifierPropositionTechniqueEtFinancière,
@@ -229,6 +237,9 @@ function apply(this: RaccordementAggregate, event: RaccordementEvent) {
       break;
     case 'DateMiseEnServiceTransmise-V1':
       applyDateMiseEnServiceTransmiseEventV1.bind(this)(event);
+      break;
+    case 'DateMiseEnServiceModifiée-V1':
+      applyDateMiseEnServiceModifiéeEventV1.bind(this)(event);
       break;
     case 'GestionnaireRéseauRaccordementModifié-V1':
       applyGestionnaireRéseauRaccordementModifiéEventV1.bind(this)(event);

@@ -45,6 +45,8 @@ import { registerSupprimerDossierDuRaccordementCommand } from './dossier/supprim
 import { registerSupprimerRaccordementCommand } from './supprimer/supprimerRaccordement.command';
 import { registerListerDossierRaccordementEnAttenteMiseEnServiceQuery } from './lister/listerDossierRaccordementEnAttenteMiseEnService.query';
 import { registerListerDossierRaccordementQuery } from './lister/listerDossierRaccordement.query';
+import { registerModifierDateMiseEnServiceCommand } from './modifier/modifierDateMiseEnService.command';
+import { registerModifierDateMiseEnServiceUseCase } from './modifier/modifierDateMiseEnService.usecase';
 
 export type RaccordementQueryDependencies = ConsulterDossierRaccordementDependencies &
   ConsulterGestionnaireRéseauRaccordementDependencies &
@@ -71,6 +73,7 @@ export const registerRaccordementQueries = (dependencies: RaccordementQueryDepen
 export const registerRaccordementUseCases = ({
   loadAggregate,
 }: RaccordementCommandDependencies) => {
+  registerModifierDateMiseEnServiceCommand(loadAggregate);
   registerModifierDemandeComplèteRaccordementCommand(loadAggregate);
   registerModifierGestionnaireRéseauProjetCommand(loadAggregate);
   registerModifierPropositionTechniqueEtFinancièreCommand(loadAggregate);
@@ -82,6 +85,7 @@ export const registerRaccordementUseCases = ({
   registerSupprimerDossierDuRaccordementCommand(loadAggregate);
   registerSupprimerRaccordementCommand(loadAggregate);
 
+  registerModifierDateMiseEnServiceUseCase();
   registerModifierDemandeComplèteRaccordementUseCase();
   registerModifierGestionnaireRéseauRaccordementUseCase();
   registerModifierPropositiontechniqueEtFinancièreUseCase();

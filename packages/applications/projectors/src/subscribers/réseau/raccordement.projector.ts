@@ -178,6 +178,7 @@ export const register = () => {
                   misÀJourLe: event.created_at,
                 };
               case 'DateMiseEnServiceTransmise-V1':
+              case 'DateMiseEnServiceModifiée-V1':
                 return {
                   ...dossier,
                   miseEnService: {

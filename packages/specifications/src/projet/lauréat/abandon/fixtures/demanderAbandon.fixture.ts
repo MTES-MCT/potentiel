@@ -11,6 +11,7 @@ interface DemanderAbandon {
   readonly demandéPar: string;
   readonly raison: string;
   readonly recandidature: boolean;
+  readonly identifiantProjet: string;
 }
 
 export class DemanderAbandonFixture

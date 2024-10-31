@@ -98,6 +98,37 @@ Quand(
 );
 
 Quand(
+  `l'admin modifie la date de mise en service {string} pour le dossier de raccordement du le projet lauréat {string} ayant pour référence {string}`,
+  async function (
+    this: PotentielWorld,
+    dateMiseEnService: string,
+    nomProjet: string,
+    référenceDossierRaccordement: string,
+  ) {
+    const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
+
+    this.raccordementWorld.dateMiseEnService = DateTime.convertirEnValueType(
+      new Date(dateMiseEnService).toISOString(),
+    );
+    this.raccordementWorld.référenceDossierRaccordement =
+      Raccordement.RéférenceDossierRaccordement.convertirEnValueType(référenceDossierRaccordement);
+
+    try {
+      await mediator.send<Raccordement.RaccordementUseCase>({
+        type: 'Réseau.Raccordement.UseCase.ModifierDateMiseEnService',
+        data: {
+          identifiantProjetValue: identifiantProjet.formatter(),
+          référenceDossierValue: référenceDossierRaccordement,
+          dateMiseEnServiceValue: new Date(dateMiseEnService).toISOString(),
+        },
+      });
+    } catch (e) {
+      this.error = e as Error;
+    }
+  },
+);
+
+Quand(
   `le porteur transmet une proposition technique et financière pour le dossier de raccordement du projet lauréat {string} ayant pour référence {string} avec :`,
   async function (
     this: PotentielWorld,

@@ -32,6 +32,7 @@ import { ModifierDemandeComplèteRaccordementUseCase } from './modifier/modifier
 import { ModifierGestionnaireRéseauRaccordementUseCase } from './modifier/modifierGestionnaireRéseauRaccordement.usecase';
 import { ModifierPropositiontechniqueEtFinancièreUseCase } from './modifier/modifierPropositiontechniqueEtFinancière.usecase';
 import { ModifierRéférenceDossierRaccordementUseCase } from './modifier/modifierRéférenceDossierRaccordement.usecase';
+import { ModifierDateMiseEnServiceUseCase } from './modifier/modifierDateMiseEnService.usecase';
 import {
   RechercherDossierRaccordementQuery,
   RechercherDossierRaccordementReadModel,
@@ -80,6 +81,7 @@ export type RaccordementUseCase =
   | ModifierGestionnaireRéseauRaccordementUseCase
   | ModifierPropositiontechniqueEtFinancièreUseCase
   | ModifierRéférenceDossierRaccordementUseCase
+  | ModifierDateMiseEnServiceUseCase
   | TransmettreDateMiseEnServiceUseCase
   | TransmettreDemandeComplèteRaccordementUseCase
   | TransmettrePropositionTechniqueEtFinancièreUseCase
@@ -88,6 +90,7 @@ export type RaccordementUseCase =
 
 export type {
   ModifierDemandeComplèteRaccordementUseCase,
+  ModifierDateMiseEnServiceUseCase,
   ModifierGestionnaireRéseauRaccordementUseCase,
   ModifierPropositiontechniqueEtFinancièreUseCase,
   ModifierRéférenceDossierRaccordementUseCase,
