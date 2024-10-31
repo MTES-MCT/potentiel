@@ -1,7 +1,7 @@
 import { getLogger } from '@potentiel-libraries/monitoring';
 import { get, getReadableStream, post } from '@potentiel-libraries/http-client';
 
-const ApiUrl = 'https://api.filigrane.beta.gouv.fr/api/document';
+export const apiUrl = process.env.FILIGRANE_FACILE_ENDPOINT;
 
 const sleep = async (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
@@ -12,7 +12,7 @@ const envoyerDocument = async (textFiligrane: string, document: Blob) => {
     form.append('watermark', textFiligrane);
     form.append('files', document);
 
-    const url = new URL(`${ApiUrl}/files`);
+    const url = new URL(`${apiUrl}/files`);
 
     const response = await post<{ token: string }>(url, form);
     return response.token;
@@ -27,10 +27,10 @@ const envoyerDocument = async (textFiligrane: string, document: Blob) => {
 
 const récupérerDocumentAvecFiligrane = async (token: string) => {
   try {
-    const vérificationUrl = new URL(`${ApiUrl}/url/${token}`);
+    const vérificationUrl = new URL(`${apiUrl}/url/${token}`);
     await get<{ url: string }>(vérificationUrl);
 
-    const récupérerDocumentAvecFiligraneUrl = new URL(`${ApiUrl}/${token}`);
+    const récupérerDocumentAvecFiligraneUrl = new URL(`${apiUrl}/${token}`);
     return getReadableStream(récupérerDocumentAvecFiligraneUrl);
   } catch (error) {
     getLogger().error(
@@ -44,6 +44,16 @@ const récupérerDocumentAvecFiligrane = async (token: string) => {
 };
 
 export const ajouterFiligraneAuDocument = async (document: Blob, textFiligrane: string) => {
+  if (!apiUrl) {
+    getLogger().error(
+      new Error(
+        '@potentiel-infrastructure/filigrane-facile-client | Error while ajouterFiligraneAuDocument',
+      ),
+      { error: 'Missing FILIGRANE_FACILE_ENDPOINT env variable' },
+    );
+    return;
+  }
+
   const token = await envoyerDocument(textFiligrane, document);
 
   if (!token) {
