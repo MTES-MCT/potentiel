@@ -118,6 +118,12 @@ const getNavigationItemsBasedOnRole = (
                 href: Routes.Raccordement.importer,
               },
             },
+            {
+              text: 'Correction de références dossier',
+              linkProps: {
+                href: Routes.Raccordement.corrigerRéférencesDossier,
+              },
+            },
           ],
         },
         {
@@ -127,13 +133,6 @@ const getNavigationItemsBasedOnRole = (
               text: 'Courriers historiques',
               linkProps: {
                 href: '/admin/importer-documents-historiques',
-              },
-            },
-
-            {
-              text: 'Correction de références dossier',
-              linkProps: {
-                href: Routes.Raccordement.corrigerRéférencesDossier,
               },
             },
           ],
@@ -356,6 +355,12 @@ const getNavigationItemsBasedOnRole = (
               text: 'Importer des dates de mise en service',
               linkProps: {
                 href: Routes.Raccordement.importer,
+              },
+            },
+            {
+              text: 'Correction de références dossier',
+              linkProps: {
+                href: Routes.Raccordement.corrigerRéférencesDossier,
               },
             },
           ],

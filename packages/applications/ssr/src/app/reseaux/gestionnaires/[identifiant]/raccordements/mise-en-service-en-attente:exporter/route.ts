@@ -1,10 +1,10 @@
 import { Parser } from '@json2csv/plainjs';
 import { mediator } from 'mediateur';
-import { NextResponse } from 'next/server';
 
 import { Option } from '@potentiel-libraries/monads';
 import { GestionnaireRéseau, Raccordement } from '@potentiel-domain/reseau';
-import { Groupe, Role } from '@potentiel-domain/utilisateur';
+import { Groupe, Role, Utilisateur } from '@potentiel-domain/utilisateur';
+import { OperationRejectedError } from '@potentiel-domain/core';
 
 import { withUtilisateur } from '@/utils/withUtilisateur';
 import { decodeParameter } from '@/utils/decodeParameter';
@@ -18,14 +18,7 @@ type ExporterRaccordementParameter = {
 export const GET = async (_: Request, { params: { identifiant } }: ExporterRaccordementParameter) =>
   withUtilisateur(async (utilisateur) => {
     const identifiantGestionnaireRéseau = decodeParameter(identifiant);
-    if (utilisateur.role.estÉgaleÀ(Role.grd)) {
-      const groupeAttendu = Groupe.convertirEnValueType(
-        `/GestionnairesRéseau/${identifiantGestionnaireRéseau}`,
-      );
-      if (Option.isNone(utilisateur.groupe) || !utilisateur.groupe.estÉgaleÀ(groupeAttendu)) {
-        return NextResponse.json({ message: 'Accès refusé' }, { status: 401 });
-      }
-    }
+    vérifierAccèsAuGestionnaireRéseau(utilisateur, identifiantGestionnaireRéseau);
 
     const dossiers =
       await mediator.send<Raccordement.ListerDossierRaccordementEnAttenteMiseEnServiceQuery>({
@@ -97,3 +90,19 @@ export const GET = async (_: Request, { params: { identifiant } }: ExporterRacco
       },
     });
   });
+
+function vérifierAccèsAuGestionnaireRéseau(
+  utilisateur: Utilisateur.ValueType,
+  identifiantGestionnaireRéseau: string,
+) {
+  if (!utilisateur.role.estÉgaleÀ(Role.grd)) return;
+  if (
+    Option.isSome(utilisateur.groupe) &&
+    utilisateur.groupe.estÉgaleÀ(
+      Groupe.convertirEnValueType(`/GestionnairesRéseau/${identifiantGestionnaireRéseau}`),
+    )
+  ) {
+    return;
+  }
+  throw new OperationRejectedError(`Accès refusé`);
+}
