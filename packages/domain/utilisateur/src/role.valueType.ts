@@ -429,6 +429,14 @@ const policies = {
           référencielPermissions.réseau.raccordement.usecase.transmettreDateMiseEnService,
           référencielPermissions.réseau.raccordement.command.transmettreDateMiseEnService,
         ],
+        modifier: [
+          référencielPermissions.candidature.query.consulterProjet,
+          référencielPermissions.appelOffre.query.consulter,
+          référencielPermissions.réseau.raccordement.query.consulterDossier,
+          // TODO ca devrait être modifierDateMiseEnService, mais pour le moment, la modification se fait va le même usecase
+          référencielPermissions.réseau.raccordement.usecase.transmettreDateMiseEnService,
+          référencielPermissions.réseau.raccordement.command.transmettreDateMiseEnService,
+        ],
       },
       'référence-dossier': {
         modifier: [
@@ -858,6 +866,7 @@ const permissionAdmin: Policy[] = [
   'réseau.raccordement.proposition-technique-et-financière.transmettre',
   'réseau.raccordement.proposition-technique-et-financière.modifier',
   'réseau.raccordement.date-mise-en-service.transmettre',
+  'réseau.raccordement.date-mise-en-service.modifier',
   'réseau.raccordement.date-mise-en-service.importer',
   'réseau.raccordement.référence-dossier.modifier',
   'réseau.raccordement.dossier.supprimer',

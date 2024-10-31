@@ -3,91 +3,77 @@
 import { FC, useState } from 'react';
 import Button from '@codegouvfr/react-dsfr/Button';
 
-import { Iso8601DateTime } from '@potentiel-libraries/iso8601-datetime';
-import { GestionnaireRéseau } from '@potentiel-domain/reseau';
+import { Raccordement } from '@potentiel-domain/reseau';
+import { PlainType } from '@potentiel-domain/core';
 
 import { ModalWithForm } from '@/components/molecules/ModalWithForm';
 
-import { GestionnaireRéseau as GestionnaireRéseauProps } from '../type';
 import { supprimerDossierDuRaccordementAction } from '../supprimerDossierDuRaccordement.action';
 
 import { Separateur } from './Separateur';
-import { ÉtapeDemandeComplèteRaccordement } from './ÉtapeDemandeComplèteRaccordement';
-import { ÉtapeMiseEnService } from './ÉtapeMiseEnService';
-import { ÉtapePropositionTechniqueEtFinancière } from './ÉtapePropositionTechniqueEtFinancière';
+import {
+  ÉtapeDemandeComplèteRaccordement,
+  ÉtapeDemandeComplèteRaccordementProps,
+} from './ÉtapeDemandeComplèteRaccordement';
+import { ÉtapeMiseEnService, ÉtapeMiseEnServiceProps } from './ÉtapeMiseEnService';
+import {
+  ÉtapePropositionTechniqueEtFinancière,
+  ÉtapePropositionTechniqueEtFinancièreProps,
+} from './ÉtapePropositionTechniqueEtFinancière';
 
 export type DossierRaccordementProps = {
   identifiantProjet: string;
-  référence: string;
-  demandeComplèteRaccordement: {
-    dateQualification?: Iso8601DateTime;
-    accuséRéception?: string;
-    canEdit: boolean;
+  dossier: PlainType<Raccordement.ConsulterRaccordementReadModel['dossiers'][number]>;
+  actions: {
+    miseEnService: ÉtapeMiseEnServiceProps['actions'];
+    propositionTechniqueEtFinancière: ÉtapePropositionTechniqueEtFinancièreProps['actions'];
+    demandeComplèteRaccordement: ÉtapeDemandeComplèteRaccordementProps['actions'];
+    supprimer: boolean;
   };
-  propositionTechniqueEtFinancière: {
-    dateSignature?: Iso8601DateTime;
-    propositionTechniqueEtFinancièreSignée?: string;
-    canEdit: boolean;
-  };
-  miseEnService: {
-    dateMiseEnService?: Iso8601DateTime;
-    canEdit: boolean;
-  };
-  gestionnaireRéseau?: GestionnaireRéseauProps;
-  canDeleteDossier: boolean;
 };
 
 export const DossierRaccordement: FC<DossierRaccordementProps> = ({
   identifiantProjet,
-  référence,
-  demandeComplèteRaccordement,
-  propositionTechniqueEtFinancière,
-  miseEnService,
-  gestionnaireRéseau,
-  canDeleteDossier,
+  dossier: {
+    référence,
+    demandeComplèteRaccordement,
+    propositionTechniqueEtFinancière,
+    miseEnService,
+  },
+  actions,
 }) => {
-  const isGestionnaireInconnu = gestionnaireRéseau
-    ? GestionnaireRéseau.IdentifiantGestionnaireRéseau.convertirEnValueType(
-        gestionnaireRéseau.identifiantGestionnaireRéseau,
-      ).estÉgaleÀ(GestionnaireRéseau.IdentifiantGestionnaireRéseau.inconnu)
-    : false;
-
   return (
     <>
       <div className="flex flex-col md:flex-row justify-items-stretch">
         <ÉtapeDemandeComplèteRaccordement
           identifiantProjet={identifiantProjet}
-          référence={référence}
-          dateQualification={demandeComplèteRaccordement.dateQualification}
-          accuséRéception={demandeComplèteRaccordement.accuséRéception}
-          canEdit={demandeComplèteRaccordement.canEdit && !isGestionnaireInconnu}
+          référence={référence.référence}
+          demandeComplèteRaccordement={demandeComplèteRaccordement}
+          actions={actions.demandeComplèteRaccordement}
         />
 
         <Separateur />
 
         <ÉtapePropositionTechniqueEtFinancière
           identifiantProjet={identifiantProjet}
-          référence={référence}
-          dateSignature={propositionTechniqueEtFinancière.dateSignature}
-          propositionTechniqueEtFinancièreSignée={
-            propositionTechniqueEtFinancière.propositionTechniqueEtFinancièreSignée
-          }
-          canEdit={propositionTechniqueEtFinancière.canEdit && !isGestionnaireInconnu}
+          référence={référence.référence}
+          propositionTechniqueEtFinancière={propositionTechniqueEtFinancière}
+          actions={actions.propositionTechniqueEtFinancière}
         />
 
         <Separateur />
 
         <ÉtapeMiseEnService
           identifiantProjet={identifiantProjet}
-          référence={référence}
-          dateMiseEnService={miseEnService.dateMiseEnService}
-          canEdit={miseEnService.canEdit && !isGestionnaireInconnu}
+          référence={référence.référence}
+          miseEnService={miseEnService}
+          actions={actions.miseEnService}
         />
       </div>
-      {canDeleteDossier && (
+      {actions.supprimer && !miseEnService && (
         <SupprimerDossierDuRaccordement
           identifiantProjet={identifiantProjet}
-          référenceDossier={référence}
+          référenceDossier={référence.référence}
         />
       )}
     </>

@@ -2,6 +2,10 @@ import { FC } from 'react';
 
 import { Icon } from '@/components/atoms/Icon';
 
+/**
+ * @deprecated lié au problème de fichiers invalides uploadés dans raccordement,
+ * cf query metabase "Liste dossiers avec fichier(s) invalide(s)"
+ **/
 export const FormatFichierInvalide: FC = () => (
   <div className="flex items-center gap-1">
     <Icon
