@@ -51,10 +51,20 @@ export function applyTypeGarantiesFinancièresImporté(
   this: GarantiesFinancièresAggregate,
   { payload: { type, dateÉchéance, importéLe } }: TypeGarantiesFinancièresImportéEvent,
 ) {
-  this.actuelles = {
+  if (!this.actuelles) {
+    this.actuelles = {
+      statut: StatutGarantiesFinancières.validé,
+      type: Candidature.TypeGarantiesFinancières.convertirEnValueType(type),
+      dateÉchéance: dateÉchéance && DateTime.convertirEnValueType(dateÉchéance),
+      importéLe: DateTime.convertirEnValueType(importéLe),
+    };
+    return;
+  }
+
+  Object.assign(this.actuelles, {
     statut: StatutGarantiesFinancières.validé,
     type: Candidature.TypeGarantiesFinancières.convertirEnValueType(type),
     dateÉchéance: dateÉchéance && DateTime.convertirEnValueType(dateÉchéance),
     importéLe: DateTime.convertirEnValueType(importéLe),
-  };
+  });
 }
