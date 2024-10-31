@@ -72,13 +72,10 @@ export const ModifierPropositionTechniqueEtFinancièreForm: FC<
       <InputDate
         id="dateSignature"
         label="Date de signature"
-        nativeInputProps={{
-          type: 'date',
-          name: 'dateSignature',
-          max: now(),
-          defaultValue: dateSignature,
-          required: true,
-        }}
+        name="dateSignature"
+        max={now()}
+        defaultValue={dateSignature}
+        required
         state={validationErrors['dateSignature'] ? 'error' : 'default'}
         stateRelatedMessage={validationErrors['dateSignature']}
       />

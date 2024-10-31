@@ -98,14 +98,10 @@ export const AttestationConformitéForm: FC<AttestationConformitéFormProps> = (
 
         <InputDate
           label="Date de transmission au co-contractant"
-          nativeInputProps={{
-            type: 'date',
-            name: 'dateTransmissionAuCocontractant',
-            max: now(),
-            required: true,
-            'aria-required': true,
-            defaultValue: donnéesActuelles?.dateTransmissionAuCocontractant,
-          }}
+          name="dateTransmissionAuCocontractant"
+          max={now()}
+          required
+          defaultValue={donnéesActuelles?.dateTransmissionAuCocontractant}
           state={validationErrors['dateTransmissionAuCocontractant'] ? 'error' : 'default'}
           stateRelatedMessage={validationErrors['dateTransmissionAuCocontractant']}
         />

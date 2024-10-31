@@ -8,9 +8,9 @@ import Input from '@codegouvfr/react-dsfr/Input';
 import Select from '@codegouvfr/react-dsfr/SelectNext';
 import RadioButtons from '@codegouvfr/react-dsfr/RadioButtons';
 
+import { DateTime } from '@potentiel-domain/common';
 import { Routes } from '@potentiel-applications/routes';
 import { Candidature } from '@potentiel-domain/candidature';
-import { Iso8601DateTime } from '@potentiel-libraries/iso8601-datetime';
 
 import { Form } from '@/components/atoms/form/Form';
 import { SubmitButton } from '@/components/atoms/form/SubmitButton';
@@ -246,14 +246,15 @@ export const CorrigerCandidatureForm: React.FC<CorrigerCandidatureFormProps> = (
           />
           {showDateGf && (
             <InputDate
+              name="dateEcheanceGf"
+              label="Date d'échéance des Garanties Financières"
+              required
+              defaultValue={
+                candidature.dateEcheanceGf &&
+                DateTime.convertirEnValueType(candidature.dateEcheanceGf).formatter()
+              }
               state={validationErrors['dateEcheanceGf'] ? 'error' : 'default'}
               stateRelatedMessage={validationErrors['dateEcheanceGf']}
-              label="Date d'échéance des Garanties Financières"
-              nativeInputProps={{
-                ...getFieldProps('dateEcheanceGf'),
-                type: 'date',
-                defaultValue: candidature.dateEcheanceGf?.toISOString() as Iso8601DateTime,
-              }}
             />
           )}
         </>

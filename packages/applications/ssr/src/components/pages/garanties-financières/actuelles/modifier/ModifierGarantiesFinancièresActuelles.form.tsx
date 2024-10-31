@@ -71,14 +71,10 @@ export const ModifierGarantiesFinancièresActuellesForm: FC<
 
       <InputDate
         label="Date de constitution"
-        nativeInputProps={{
-          type: 'date',
-          name: 'dateConstitution',
-          max: now(),
-          defaultValue: actuelles.dateConstitution,
-          required: true,
-          'aria-required': true,
-        }}
+        name="dateConstitution"
+        max={now()}
+        defaultValue={actuelles.dateConstitution}
+        required
         state={validationErrors['dateConstitution'] ? 'error' : 'default'}
         stateRelatedMessage={validationErrors['dateConstitution']}
       />

@@ -1,30 +1,49 @@
-import { FC } from 'react';
+import { FC, ReactNode } from 'react';
 import Input, { InputProps } from '@codegouvfr/react-dsfr/Input';
 
 import { Iso8601DateTime } from '@potentiel-libraries/iso8601-datetime';
 
-type InputDateProps = InputProps.RegularInput & {
-  nativeInputProps: {
-    type: 'date';
-    min?: Iso8601DateTime;
-    max?: Iso8601DateTime;
-    defaultValue?: Iso8601DateTime;
-    value?: Iso8601DateTime;
-  };
+type InputDateProps = {
+  label: ReactNode;
+  name: string;
+  id?: string;
+  required?: true;
+  min?: Iso8601DateTime;
+  max?: Iso8601DateTime;
+  defaultValue?: Iso8601DateTime;
+  value?: Iso8601DateTime;
+  state: InputProps['state'];
+  stateRelatedMessage: InputProps['stateRelatedMessage'];
 };
 
-export const InputDate: FC<InputDateProps> = (props) => {
+export const InputDate: FC<InputDateProps> = ({
+  label,
+  name,
+  id,
+  required,
+  min,
+  max,
+  defaultValue,
+  value,
+  state,
+  stateRelatedMessage,
+}) => {
   return (
     <Input
-      // eslint-disable-next-line react/jsx-props-no-spreading
-      {...props}
+      label={label}
       nativeInputProps={{
-        ...props.nativeInputProps,
-        min: formatDateForInput(props.nativeInputProps.min),
-        max: formatDateForInput(props.nativeInputProps.max),
-        defaultValue: formatDateForInput(props.nativeInputProps.defaultValue),
-        value: formatDateForInput(props.nativeInputProps.value),
+        type: 'date',
+        name,
+        id,
+        required,
+        'aria-required': required,
+        min: formatDateForInput(min),
+        max: formatDateForInput(max),
+        defaultValue: formatDateForInput(defaultValue),
+        value: formatDateForInput(value),
       }}
+      state={state}
+      stateRelatedMessage={stateRelatedMessage}
     />
   );
 };
