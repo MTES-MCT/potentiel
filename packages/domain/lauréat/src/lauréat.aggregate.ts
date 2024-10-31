@@ -1,4 +1,4 @@
-import { IdentifiantProjet } from '@potentiel-domain/common';
+import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 import {
   Aggregate,
   AggregateNotFoundError,
@@ -16,6 +16,7 @@ export type LauréatEvent = LauréatNotifiéEvent;
 
 export type LauréatAggregate = Aggregate<LauréatEvent> & {
   identifiantProjet: IdentifiantProjet.ValueType;
+  notifiéLe: DateTime.ValueType;
   notifier: typeof notifier;
 };
 
@@ -24,6 +25,7 @@ export const getDefaultLauréatAggregate: GetDefaultAggregateState<
   LauréatEvent
 > = () => ({
   identifiantProjet: IdentifiantProjet.inconnu,
+  notifiéLe: DateTime.now(),
   apply,
   notifier,
 });
