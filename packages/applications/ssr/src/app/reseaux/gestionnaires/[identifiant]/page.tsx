@@ -24,6 +24,15 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
       return notFound();
     }
 
-    return <ModifierGestionnaireRéseauPage {...mapToPlainObject(gestionnaireRéseau)} />;
+    const props = mapToPlainObject(gestionnaireRéseau);
+
+    return (
+      <ModifierGestionnaireRéseauPage
+        identifiantGestionnaireRéseau={props.identifiantGestionnaireRéseau}
+        contactEmail={props.contactEmail}
+        raisonSociale={props.raisonSociale}
+        aideSaisieRéférenceDossierRaccordement={props.aideSaisieRéférenceDossierRaccordement}
+      />
+    );
   });
 }

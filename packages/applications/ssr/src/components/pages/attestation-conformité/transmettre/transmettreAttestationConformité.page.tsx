@@ -18,7 +18,7 @@ export type TransmettreAttestationConformitéPageProps = {
 export const TransmettreAttestationConformitéPage: FC<
   TransmettreAttestationConformitéPageProps
 > = ({ projet, peutDemanderMainlevée, peutVoirMainlevée }) => (
-  <PageTemplate banner={<ProjetBanner {...projet} />}>
+  <PageTemplate banner={<ProjetBanner identifiantProjet={projet.identifiantProjet} />}>
     <TitrePageAttestationConformité title="Transmettre l'attestation de conformité du projet" />
     <InfoBoxAttestationConformité />
     <AttestationConformitéForm

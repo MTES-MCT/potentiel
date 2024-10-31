@@ -62,15 +62,11 @@ export const TransmettreDateMiseEnServiceForm: FC<TransmettreDateMiseEnServiceFo
 
       <InputDate
         label="Date de mise en service"
-        nativeInputProps={{
-          type: 'date',
-          name: 'dateMiseEnService',
-          defaultValue: miseEnService,
-          min: dateDésignation,
-          max: now(),
-          required: true,
-          'aria-required': true,
-        }}
+        name="dateMiseEnService"
+        defaultValue={miseEnService}
+        min={dateDésignation}
+        max={now()}
+        required
         state={validationErrors['dateMiseEnService'] ? 'error' : 'default'}
         stateRelatedMessage={validationErrors['dateMiseEnService']}
       />

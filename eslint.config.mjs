@@ -1,11 +1,12 @@
-import eslintJs from '@eslint/js';
 import globals from 'globals';
 import eslintTs from 'typescript-eslint';
 import importPlugin from 'eslint-plugin-import';
 import prettierConfig from 'eslint-config-prettier';
 import prettierPlugin from 'eslint-plugin-prettier/recommended';
-import next from '@next/eslint-plugin-next';
 import monorepoPlugin from 'eslint-plugin-monorepo-cop';
+import react from 'eslint-plugin-react';
+import eslintJs from '@eslint/js';
+import next from '@next/eslint-plugin-next';
 
 /**
  * @type {import("eslint").Linter.FlatConfig}
@@ -74,13 +75,26 @@ export default eslintTs.config(
     },
   },
   {
-    files: ['**/applications/ssr/src/**/*.ts'],
+    files: ['**/applications/ssr/src/**/*.{ts,tsx}'],
+    extends: eslintTs.configs.recommended,
     plugins: {
+      ...react.configs.flat.recommended.plugins,
       '@next/next': next,
+    },
+    settings: {
+      react: {
+        version: 'detect',
+      },
     },
     rules: {
       ...next.configs.recommended.rules,
+      ...react.configs.flat.recommended.rules,
       '@next/next/no-html-link-for-pages': 'off',
+      '@typescript-eslint/ban-types': 'off',
+      'react/react-in-jsx-scope': 'off',
+      'react/no-unescaped-entities': 'off',
+      'react/prop-types': 'off',
+      'react/jsx-props-no-spreading': 2,
     },
   },
   // support for chai

@@ -71,14 +71,10 @@ export const ModifierGarantiesFinancièresActuellesForm: FC<
 
       <InputDate
         label="Date de constitution"
-        nativeInputProps={{
-          type: 'date',
-          name: 'dateConstitution',
-          max: now(),
-          defaultValue: actuelles.dateConstitution,
-          required: true,
-          'aria-required': true,
-        }}
+        name="dateConstitution"
+        max={now()}
+        defaultValue={actuelles.dateConstitution}
+        required
         state={validationErrors['dateConstitution'] ? 'error' : 'default'}
         stateRelatedMessage={validationErrors['dateConstitution']}
       />
@@ -86,12 +82,11 @@ export const ModifierGarantiesFinancièresActuellesForm: FC<
       <UploadNewOrModifyExistingDocument
         label="Attestation de constitution"
         name="attestation"
-        id="attestation"
         required
         formats={['pdf']}
         state={validationErrors['attestation'] ? 'error' : 'default'}
         stateRelatedMessage={validationErrors['attestation']}
-        documentKeys={actuelles.attestation ? [actuelles.attestation] : undefined}
+        documentKeys={actuelles.attestation ? [actuelles.attestation] : []}
       />
     </Form>
   );

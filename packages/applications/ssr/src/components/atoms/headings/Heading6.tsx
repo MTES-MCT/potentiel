@@ -1,7 +1,10 @@
-import React, { ComponentProps } from 'react';
+import clsx from 'clsx';
+import React, { ReactNode } from 'react';
 
-export const Heading6 = ({ children, className = '', ...props }: ComponentProps<'h6'>) => (
-  <h6 {...props} className={`text-base font-bold ${className}`}>
-    {children}
-  </h6>
+type Heading6Props = {
+  children: ReactNode;
+  className?: string;
+};
+export const Heading6 = ({ children, className }: Heading6Props) => (
+  <h6 className={clsx(`text-base font-bold`, className)}>{children}</h6>
 );

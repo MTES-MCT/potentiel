@@ -8,10 +8,7 @@ import { Option } from '@potentiel-libraries/monads';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { decodeParameter } from '@/utils/decodeParameter';
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
-import {
-  EnregistrerAttestationGarantiesFinancièresPage,
-  EnregistrerAttestationGarantiesFinancièresPageProps,
-} from '@/components/pages/garanties-financières/actuelles/enregistrerAttestation/EnregistrerAttestationGarantiesFinancières.page';
+import { EnregistrerAttestationGarantiesFinancièresPage } from '@/components/pages/garanties-financières/actuelles/enregistrerAttestation/EnregistrerAttestationGarantiesFinancières.page';
 import { projetSoumisAuxGarantiesFinancières } from '@/utils/garanties-financières/vérifierAppelOffreSoumisAuxGarantiesFinancières';
 import { ProjetNonSoumisAuxGarantiesFinancièresPage } from '@/components/pages/garanties-financières/ProjetNonSoumisAuxGarantiesFinancières.page';
 
@@ -43,10 +40,6 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
       return <ProjetNonSoumisAuxGarantiesFinancièresPage identifiantProjet={identifiantProjet} />;
     }
 
-    const props: EnregistrerAttestationGarantiesFinancièresPageProps = {
-      identifiantProjet,
-    };
-
-    return <EnregistrerAttestationGarantiesFinancièresPage {...props} />;
+    return <EnregistrerAttestationGarantiesFinancièresPage identifiantProjet={identifiantProjet} />;
   });
 }

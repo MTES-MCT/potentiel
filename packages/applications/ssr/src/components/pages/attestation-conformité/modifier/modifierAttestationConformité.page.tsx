@@ -21,7 +21,7 @@ export const ModifierAttestationConformitéPage: FC<ModifierAttestationConformit
   projet,
   attestationConformitéActuelle,
 }) => (
-  <PageTemplate banner={<ProjetBanner {...projet} />}>
+  <PageTemplate banner={<ProjetBanner identifiantProjet={projet.identifiantProjet} />}>
     <TitrePageAttestationConformité title="Modifier l'attestation de conformité du projet" />
     <InfoBoxAttestationConformité />
     <AttestationConformitéForm

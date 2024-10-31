@@ -68,7 +68,6 @@ export const TransmettrePropositionTechniqueEtFinancièreForm: FC<
       <UploadNewOrModifyExistingDocument
         label="Proposition technique et financière signée"
         name="propositionTechniqueEtFinanciereSignee"
-        id="propositionTechniqueEtFinanciereSignee"
         required
         formats={['pdf']}
         state={validationErrors['propositionTechniqueEtFinanciereSignee'] ? 'error' : 'default'}

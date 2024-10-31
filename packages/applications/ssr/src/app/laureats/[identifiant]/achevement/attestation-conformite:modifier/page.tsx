@@ -4,6 +4,7 @@ import { notFound } from 'next/navigation';
 
 import { Achèvement } from '@potentiel-domain/laureat';
 import { Option } from '@potentiel-libraries/monads';
+import { Candidature } from '@potentiel-domain/candidature';
 
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { decodeParameter } from '@/utils/decodeParameter';
@@ -40,20 +41,32 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
       return notFound();
     }
 
-    const props: ModifierAttestationConformitéPageProps = {
-      projet: {
-        ...projet,
-        identifiantProjet,
-      },
-      attestationConformitéActuelle: {
-        attestation: attestationConformitéActuelle.attestation.formatter(),
-        preuveTransmissionAuCocontractant:
-          attestationConformitéActuelle.preuveTransmissionAuCocontractant.formatter(),
-        dateTransmissionAuCocontractant:
-          attestationConformitéActuelle.dateTransmissionAuCocontractant.formatter(),
-      },
-    };
+    const props = mapToProps(identifiantProjet, projet, attestationConformitéActuelle);
 
-    return <ModifierAttestationConformitéPage {...props} />;
+    return (
+      <ModifierAttestationConformitéPage
+        projet={props.projet}
+        attestationConformitéActuelle={props.attestationConformitéActuelle}
+      />
+    );
   });
 }
+
+type MapToProps = (
+  identifiantProjet: string,
+  projet: Candidature.ConsulterProjetReadModel,
+  attestationConformitéActuelle: Achèvement.ConsulterAttestationConformitéReadModel,
+) => ModifierAttestationConformitéPageProps;
+const mapToProps: MapToProps = (identifiantProjet, projet, attestationConformitéActuelle) => ({
+  projet: {
+    ...projet,
+    identifiantProjet,
+  },
+  attestationConformitéActuelle: {
+    attestation: attestationConformitéActuelle.attestation.formatter(),
+    preuveTransmissionAuCocontractant:
+      attestationConformitéActuelle.preuveTransmissionAuCocontractant.formatter(),
+    dateTransmissionAuCocontractant:
+      attestationConformitéActuelle.dateTransmissionAuCocontractant.formatter(),
+  },
+});

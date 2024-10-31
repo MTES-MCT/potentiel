@@ -40,7 +40,6 @@ export const DemanderRecoursForm: FC<DemanderRecoursFormProps> = ({ identifiantP
 
       <UploadNewOrModifyExistingDocument
         label={'Pièce justificative'}
-        id="pieceJustificative"
         name="pieceJustificative"
         required
         formats={['pdf']}

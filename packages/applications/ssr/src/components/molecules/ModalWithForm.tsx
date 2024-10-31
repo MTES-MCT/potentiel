@@ -56,7 +56,12 @@ export const ModalWithForm: FC<ModalWithFormProps> = ({
   return (
     <modal.Component title={title}>
       <Form
-        {...form}
+        action={form.action}
+        heading={form.heading}
+        omitMandatoryFieldsLegend={form.omitMandatoryFieldsLegend}
+        pendingModal={form.pendingModal}
+        onValidationError={form.onValidationError}
+        successMessage={form.successMessage}
         key={`form-${id}`}
         actions={
           <>

@@ -78,34 +78,36 @@ export default async function Page({ params: { identifiant, reference } }: PageP
         return notFound();
       }
 
-      const canEdit =
-        utilisateur.role.estÉgaleÀ(Role.admin) ||
-        utilisateur.role.estÉgaleÀ(Role.dgecValidateur) ||
-        ((utilisateur.role.estÉgaleÀ(Role.porteur) || utilisateur.role.estÉgaleÀ(Role.dreal)) &&
-          !dossierRaccordement.miseEnService);
-
       const props = mapToProps({
+        role: utilisateur.role,
         appelOffre,
         gestionnaireRéseau,
         identifiantProjet,
         dossierRaccordement,
-        canEdit,
       });
 
-      return <ModifierDemandeComplèteRaccordementPage {...props} />;
+      return (
+        <ModifierDemandeComplèteRaccordementPage
+          identifiantProjet={identifiantProjet.formatter()}
+          raccordement={props.raccordement}
+          gestionnaireRéseauActuel={props.gestionnaireRéseauActuel}
+          delaiDemandeDeRaccordementEnMois={props.delaiDemandeDeRaccordementEnMois}
+        />
+      );
     }),
   );
 }
 
 type MapToProps = (args: {
   appelOffre: AppelOffre.ConsulterAppelOffreReadModel;
+  role: Role.ValueType;
   gestionnaireRéseau: Raccordement.ConsulterGestionnaireRéseauRaccordementReadModel;
   dossierRaccordement: Raccordement.ConsulterDossierRaccordementReadModel;
   identifiantProjet: IdentifiantProjet.ValueType;
-  canEdit: boolean;
 }) => ModifierDemandeComplèteRaccordementPageProps;
 
 const mapToProps: MapToProps = ({
+  role,
   appelOffre,
   gestionnaireRéseau: {
     aideSaisieRéférenceDossierRaccordement: { expressionReguliere, format, légende },
@@ -114,8 +116,13 @@ const mapToProps: MapToProps = ({
   },
   dossierRaccordement,
   identifiantProjet,
-  canEdit,
 }) => {
+  const canEdit =
+    role.estÉgaleÀ(Role.admin) ||
+    role.estÉgaleÀ(Role.dgecValidateur) ||
+    ((role.estÉgaleÀ(Role.porteur) || role.estÉgaleÀ(Role.dreal)) &&
+      !dossierRaccordement.miseEnService);
+
   return {
     identifiantProjet: identifiantProjet.formatter(),
     raccordement: {

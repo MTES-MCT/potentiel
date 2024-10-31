@@ -36,7 +36,9 @@ export default async function Page({ searchParams }: PageProps) {
         },
       });
 
-      return <ProjetsListPage {...mapToPlainObject(data)} />;
+      const props = mapToPlainObject(data);
+
+      return <ProjetsListPage items={props.items} total={props.total} range={props.range} />;
     }),
   );
 }
