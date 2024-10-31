@@ -7,10 +7,13 @@ import { Find } from '@potentiel-domain/entity';
 
 import {
   HistoriqueMainlevéeRejetéeGarantiesFinancièresEntity,
+  MainlevéeGarantiesFinancièresEntity,
   MotifDemandeMainlevéeGarantiesFinancières,
   TypeDocumentRéponseDemandeMainlevée,
 } from '../..';
 
+// garder la query consulter historique
+// query c'est les mainlevée avec un statut rejetée
 export type ConsulterHistoriqueDemandeMainlevéeRejetéeGarantiesFinancièresReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
   nomProjet: string;
@@ -50,8 +53,8 @@ export const registerConsulterHistoriqueDemandeMainlevéeRejetéeGarantiesFinanc
     const identifiantProjetValueType =
       IdentifiantProjet.convertirEnValueType(identifiantProjetValue);
 
-    const result = await find<HistoriqueMainlevéeRejetéeGarantiesFinancièresEntity>(
-      `historique-mainlevee-rejetee-garanties-financieres|${identifiantProjetValueType.formatter()}`,
+    const result = await find<MainlevéeGarantiesFinancièresEntity>(
+      `mainlevee-garanties-financieres|${identifiantProjetValueType.formatter()}`,
     );
 
     if (Option.isNone(result)) {
@@ -66,6 +69,8 @@ export const registerConsulterHistoriqueDemandeMainlevéeRejetéeGarantiesFinanc
   );
 };
 
+// modifier ça
+// ne pas bouger la consultations
 export const mapToReadModel = ({
   identifiantProjet,
   nomProjet,
@@ -73,7 +78,7 @@ export const mapToReadModel = ({
   famille,
   période,
   régionProjet,
-  historique,
+  mainlevées,
 }: HistoriqueMainlevéeRejetéeGarantiesFinancièresEntity): ConsulterHistoriqueDemandeMainlevéeRejetéeGarantiesFinancièresReadModel => ({
   identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
   nomProjet,
@@ -81,7 +86,7 @@ export const mapToReadModel = ({
   famille,
   période,
   régionProjet,
-  historique: historique.map((demandeRejetée) => ({
+  historique: mainlevées.filter((mainlevée)=> mainlevée.statut.)map((mainlevée) => ({
     demande: {
       demandéeLe: DateTime.convertirEnValueType(demandeRejetée.demande.demandéeLe),
       demandéePar: Email.convertirEnValueType(demandeRejetée.demande.demandéePar),

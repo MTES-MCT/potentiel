@@ -33,9 +33,6 @@ export const register = () => {
       await removeProjection<GarantiesFinancières.MainlevéeGarantiesFinancièresEntity>(
         `mainlevee-garanties-financieres|${payload.id}`,
       );
-      await removeProjection<GarantiesFinancières.HistoriqueMainlevéeRejetéeGarantiesFinancièresEntity>(
-        `historique-mainlevee-rejetee-garanties-financieres|${payload.id}`,
-      );
       await removeProjection<GarantiesFinancières.ArchivesGarantiesFinancièresEntity>(
         `archives-garanties-financieres|${payload.id}`,
       );
@@ -65,11 +62,6 @@ export const register = () => {
       const mainlevéeGarantiesFinancières =
         await findProjection<GarantiesFinancières.MainlevéeGarantiesFinancièresEntity>(
           `mainlevee-garanties-financieres|${identifiantProjet}`,
-        );
-
-      const historiqueMainlevéeRejetéeGarantiesFinancières =
-        await findProjection<GarantiesFinancières.HistoriqueMainlevéeRejetéeGarantiesFinancièresEntity>(
-          `historique-mainlevee-rejetee-garanties-financieres|${identifiantProjet}`,
         );
 
       const garantiesFinancièresDefaultValue: Omit<
@@ -211,7 +203,7 @@ export const register = () => {
       const historiqueMainlevéeRejetéeGarantiesFinancièresToUpsert: Omit<
         GarantiesFinancières.HistoriqueMainlevéeRejetéeGarantiesFinancièresEntity,
         'type'
-      > = Option.isSome(historiqueMainlevéeRejetéeGarantiesFinancières)
+      > = Option.isSome(mainlevéeGarantiesFinancièresToUpsert)
         ? historiqueMainlevéeRejetéeGarantiesFinancières
         : historiqueMainlevéeRejetéeGarantiesFinancièresDefaultValue;
 
