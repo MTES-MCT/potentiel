@@ -74,8 +74,7 @@ Quand(
     nomProjet: string,
     référenceDossierRaccordement: string,
   ) {
-    const { identifiantProjet, dateDésignation } =
-      this.lauréatWorld.rechercherLauréatFixture(nomProjet);
+    const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
 
     this.raccordementWorld.dateMiseEnService = DateTime.convertirEnValueType(
       new Date(dateMiseEnService).toISOString(),
@@ -90,7 +89,6 @@ Quand(
           identifiantProjetValue: identifiantProjet.formatter(),
           référenceDossierValue: référenceDossierRaccordement,
           dateMiseEnServiceValue: new Date(dateMiseEnService).toISOString(),
-          dateDésignationValue: new Date(dateDésignation).toISOString(),
         },
       });
     } catch (e) {

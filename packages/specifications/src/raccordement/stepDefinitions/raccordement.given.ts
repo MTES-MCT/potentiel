@@ -119,7 +119,6 @@ EtantDonné(
           identifiantProjetValue: identifiantProjet.formatter(),
           référenceDossierValue: référenceDossier,
           dateMiseEnServiceValue: dateMiseEnServiceValueType,
-          dateDésignationValue: new Date('2020-01-01').toISOString(),
         },
       });
     } catch (e) {
