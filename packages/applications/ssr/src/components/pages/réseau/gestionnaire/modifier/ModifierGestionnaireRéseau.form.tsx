@@ -90,7 +90,9 @@ export const ModifierGestionnaireRéseauForm: FC<ModifierGestionnaireRéseauForm
         id="format"
         nativeInputProps={{
           name: 'format',
-          defaultValue: format,
+          defaultValue: Option.match(format)
+            .some((format) => format)
+            .none(() => ''),
         }}
         state={validationErrors['format'] ? 'error' : 'default'}
         stateRelatedMessage={validationErrors['format']}
@@ -102,7 +104,9 @@ export const ModifierGestionnaireRéseauForm: FC<ModifierGestionnaireRéseauForm
         id="legende"
         nativeInputProps={{
           name: 'legende',
-          defaultValue: légende,
+          defaultValue: Option.match(légende)
+            .some((légende) => légende)
+            .none(() => ''),
         }}
         state={validationErrors['legende'] ? 'error' : 'default'}
         stateRelatedMessage={validationErrors['legende']}
