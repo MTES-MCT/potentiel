@@ -1,5 +1,9 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
+import { ExpressionRegulière, IdentifiantProjet } from '@potentiel-domain/common';
+import { GestionnaireRéseau } from '@potentiel-domain/reseau';
+import { Option } from '@potentiel-libraries/monads';
+
 import {
   ModifierGestionnaireRéseauRaccordementPage,
   ModifierGestionnaireRéseauRaccordementPageProps,
@@ -17,38 +21,24 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
+const listeGestionnairesRéseau = Array.from({ length: 3 }, (_, i) => ({
+  identifiantGestionnaireRéseau:
+    GestionnaireRéseau.IdentifiantGestionnaireRéseau.convertirEnValueType(
+      `identifiantGestionnaireRéseau#${i}`,
+    ),
+  aideSaisieRéférenceDossierRaccordement: {
+    expressionReguliere: ExpressionRegulière.accepteTout,
+    format: 'Format',
+    légende: 'Légende',
+  },
+  raisonSociale: `Raison sociale ${i}`,
+  contactEmail: Option.none,
+}));
+
 export const Default: Story = {
   args: {
-    identifiantProjet: 'PPE2 - Bâtiment#4#1#id-cre-738',
-    listeGestionnairesRéseau: [
-      {
-        identifiantGestionnaireRéseau: 'identifiantGestionnaireRéseau#1',
-        aideSaisieRéférenceDossierRaccordement: {
-          expressionReguliere: 'expresion-régulière',
-          format: 'Format',
-          légende: 'Légende',
-        },
-        raisonSociale: 'Raison sociale',
-      },
-      {
-        identifiantGestionnaireRéseau: 'identifiantGestionnaireRéseau#2',
-        aideSaisieRéférenceDossierRaccordement: {
-          expressionReguliere: 'expresion-régulière',
-          format: 'Format',
-          légende: 'Légende',
-        },
-        raisonSociale: 'Raison sociale',
-      },
-      {
-        identifiantGestionnaireRéseau: 'identifiantGestionnaireRéseau#3',
-        aideSaisieRéférenceDossierRaccordement: {
-          expressionReguliere: 'expresion-régulière',
-          format: 'Format',
-          légende: 'Légende',
-        },
-        raisonSociale: 'Raison sociale',
-      },
-    ],
-    identifiantGestionnaireRéseauActuel: 'identifiantGestionnaireRéseau#2',
+    identifiantProjet: IdentifiantProjet.convertirEnValueType('PPE2 - Bâtiment#4#1#id-cre-738'),
+    listeGestionnairesRéseau,
+    gestionnaireRéseauActuel: listeGestionnairesRéseau[1],
   },
 };

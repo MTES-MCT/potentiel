@@ -1,14 +1,9 @@
 import Select, { SelectProps } from '@codegouvfr/react-dsfr/SelectNext';
 
-type GestionnaireRéseau = {
-  identifiantGestionnaireRéseau: string;
-  raisonSociale: string;
-  aideSaisieRéférenceDossierRaccordement?: {
-    format: string;
-    légende: string;
-    expressionReguliere: string;
-  };
-};
+import { GestionnaireRéseau } from '@potentiel-domain/reseau';
+import { PlainType } from '@potentiel-domain/core';
+import { Option } from '@potentiel-libraries/monads';
+import { Raccordement } from '@potentiel-domain/reseau/';
 
 export type GestionnaireRéseauSelectProps = {
   id: string;
@@ -17,17 +12,15 @@ export type GestionnaireRéseauSelectProps = {
   disabled?: boolean;
   state?: SelectProps.State | 'default';
   stateRelatedMessage?: string;
-  listeGestionnairesRéseau: ReadonlyArray<GestionnaireRéseau>;
-  identifiantGestionnaireRéseauActuel?: string;
-  onGestionnaireRéseauSelected?: (gestionnaireRéseau: {
-    identifiantGestionnaireRéseau: string;
-    raisonSociale: string;
-    aideSaisieRéférenceDossierRaccordement?: {
-      format: string;
-      légende: string;
-      expressionReguliere: string;
-    };
-  }) => void;
+  listeGestionnairesRéseau: PlainType<
+    ReadonlyArray<Raccordement.ConsulterGestionnaireRéseauRaccordementReadModel>
+  >;
+  gestionnaireRéseauActuel: PlainType<
+    Option.Type<Raccordement.ConsulterGestionnaireRéseauRaccordementReadModel>
+  >;
+  onGestionnaireRéseauSelected?: (
+    identifiantGestionnaireRéseau: GestionnaireRéseau.IdentifiantGestionnaireRéseau.RawType,
+  ) => void;
 };
 
 export const GestionnaireRéseauSelect = ({
@@ -38,14 +31,14 @@ export const GestionnaireRéseauSelect = ({
   state = 'default',
   stateRelatedMessage,
   listeGestionnairesRéseau,
-  identifiantGestionnaireRéseauActuel,
+  gestionnaireRéseauActuel,
   onGestionnaireRéseauSelected,
 }: GestionnaireRéseauSelectProps) => {
   const gestionnaireRéseauOptions = listeGestionnairesRéseau.map(
     ({ identifiantGestionnaireRéseau, raisonSociale }) => ({
-      label: `${raisonSociale} (code EIC ou gestionnaire : ${identifiantGestionnaireRéseau})`,
-      value: identifiantGestionnaireRéseau,
-      key: identifiantGestionnaireRéseau,
+      label: `${raisonSociale} (code EIC ou gestionnaire : ${identifiantGestionnaireRéseau.codeEIC})`,
+      value: identifiantGestionnaireRéseau.codeEIC,
+      key: identifiantGestionnaireRéseau.codeEIC,
     }),
   );
 
@@ -55,14 +48,21 @@ export const GestionnaireRéseauSelect = ({
       label={label}
       nativeSelectProps={{
         name,
-        defaultValue: identifiantGestionnaireRéseauActuel,
+        defaultValue: Option.match(gestionnaireRéseauActuel)
+          .some<string | undefined>(
+            (gestionnaire) => gestionnaire.identifiantGestionnaireRéseau.codeEIC,
+          )
+          .none(() => undefined),
         onChange: (e) => {
           const gestionnaireSélectionné = listeGestionnairesRéseau.find(
-            (gestionnaire) => gestionnaire.identifiantGestionnaireRéseau === e.currentTarget.value,
+            (gestionnaire) =>
+              gestionnaire.identifiantGestionnaireRéseau.codeEIC === e.currentTarget.value,
           );
 
           if (gestionnaireSélectionné && onGestionnaireRéseauSelected) {
-            onGestionnaireRéseauSelected(gestionnaireSélectionné);
+            onGestionnaireRéseauSelected(
+              gestionnaireSélectionné.identifiantGestionnaireRéseau.codeEIC,
+            );
           }
         },
       }}

@@ -6,11 +6,9 @@ import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { GestionnaireRéseau, Raccordement } from '@potentiel-domain/reseau';
 import { Option } from '@potentiel-libraries/monads';
 import { IdentifiantProjet } from '@potentiel-domain/common';
+import { mapToPlainObject } from '@potentiel-domain/core';
 
-import {
-  TransmettreDemandeComplèteRaccordementPage,
-  TransmettreDemandeComplèteRaccordementPageProps,
-} from '@/components/pages/réseau/raccordement/transmettre/transmettreDemandeComplèteRaccordement/TransmettreDemandeComplèteRaccordement.page';
+import { TransmettreDemandeComplèteRaccordementPage } from '@/components/pages/réseau/raccordement/transmettre/transmettreDemandeComplèteRaccordement/TransmettreDemandeComplèteRaccordement.page';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { decodeParameter } from '@/utils/decodeParameter';
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
@@ -28,9 +26,9 @@ export default async function Page({
   searchParams: { successMessage },
 }: PageProps) {
   return PageWithErrorHandling(async () => {
-    const identifiantProjet = decodeParameter(identifiant);
+    const identifiantProjet = IdentifiantProjet.convertirEnValueType(decodeParameter(identifiant));
 
-    const projet = await récupérerProjet(identifiantProjet);
+    const projet = await récupérerProjet(identifiantProjet.formatter());
 
     await vérifierQueLeProjetEstClassé({
       statut: projet.statut,
@@ -46,6 +44,12 @@ export default async function Page({
     if (Option.isNone(appelOffre)) {
       return notFound();
     }
+    const période = appelOffre.periodes.find(
+      (appelOffre) => appelOffre.id === identifiantProjet.période,
+    );
+    if (!période) {
+      return notFound();
+    }
 
     const gestionnairesRéseau =
       await mediator.send<GestionnaireRéseau.ListerGestionnaireRéseauQuery>({
@@ -53,80 +57,31 @@ export default async function Page({
         data: {},
       });
 
-    const gestionnaire =
+    const gestionnaireRéseauActuel =
       await mediator.send<Raccordement.ConsulterGestionnaireRéseauRaccordementQuery>({
         type: 'Réseau.Raccordement.Query.ConsulterGestionnaireRéseauRaccordement',
-        data: { identifiantProjetValue: identifiantProjet },
+        data: { identifiantProjetValue: identifiantProjet.formatter() },
       });
 
     const raccordements = await mediator.send<Raccordement.ConsulterRaccordementQuery>({
       type: 'Réseau.Raccordement.Query.ConsulterRaccordement',
-      data: { identifiantProjetValue: identifiantProjet },
+      data: { identifiantProjetValue: identifiantProjet.formatter() },
     });
 
-    const props: TransmettreDemandeComplèteRaccordementPageProps = mapToProps({
-      identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
-      gestionnairesRéseau,
-      appelOffre,
-      gestionnaireRéseau: gestionnaire,
-      successMessage,
-      raccordements,
-    });
+    const aDéjàTransmisUneDemandeComplèteDeRaccordement =
+      Option.isSome(raccordements) && raccordements.dossiers.length > 0;
 
     return (
       <TransmettreDemandeComplèteRaccordementPage
-        identifiantProjet={props.identifiantProjet}
-        identifiantGestionnaireRéseauActuel={props.identifiantGestionnaireRéseauActuel}
-        listeGestionnairesRéseau={props.listeGestionnairesRéseau}
-        delaiDemandeDeRaccordementEnMois={props.delaiDemandeDeRaccordementEnMois}
         aDéjàTransmisUneDemandeComplèteDeRaccordement={
-          props.aDéjàTransmisUneDemandeComplèteDeRaccordement
+          aDéjàTransmisUneDemandeComplèteDeRaccordement
         }
+        identifiantProjet={mapToPlainObject(identifiantProjet)}
+        listeGestionnairesRéseau={mapToPlainObject(gestionnairesRéseau.items)}
+        gestionnaireRéseauActuel={mapToPlainObject(gestionnaireRéseauActuel)}
+        delaiDemandeDeRaccordementEnMois={période.delaiDcrEnMois}
+        successMessage={successMessage}
       />
     );
   });
 }
-
-type MapToProps = (args: {
-  gestionnairesRéseau: GestionnaireRéseau.ListerGestionnaireRéseauReadModel;
-  appelOffre: AppelOffre.ConsulterAppelOffreReadModel;
-  gestionnaireRéseau: Option.Type<Raccordement.ConsulterGestionnaireRéseauRaccordementReadModel>;
-  identifiantProjet: IdentifiantProjet.ValueType;
-  successMessage?: string;
-  raccordements: Option.Type<Raccordement.ConsulterRaccordementReadModel>;
-}) => TransmettreDemandeComplèteRaccordementPageProps;
-
-const mapToProps: MapToProps = ({
-  gestionnairesRéseau,
-  appelOffre,
-  gestionnaireRéseau,
-  identifiantProjet,
-  successMessage,
-  raccordements,
-}) => {
-  const aDéjàTransmisUneDemandeComplèteDeRaccordement =
-    Option.isSome(raccordements) && raccordements.dossiers.length > 0;
-
-  return {
-    delaiDemandeDeRaccordementEnMois: appelOffre.periodes.find(
-      (periode) => (periode.id = identifiantProjet.période),
-    )!.delaiDcrEnMois,
-    ...(Option.isSome(gestionnaireRéseau) && {
-      identifiantGestionnaireRéseauActuel:
-        gestionnaireRéseau.identifiantGestionnaireRéseau.formatter(),
-    }),
-    listeGestionnairesRéseau: gestionnairesRéseau.items.map((gestionnaire) => ({
-      identifiantGestionnaireRéseau: gestionnaire.identifiantGestionnaireRéseau.formatter(),
-      raisonSociale: gestionnaire.raisonSociale,
-      aideSaisieRéférenceDossierRaccordement: {
-        format: gestionnaire.aideSaisieRéférenceDossierRaccordement.format,
-        légende: gestionnaire.aideSaisieRéférenceDossierRaccordement.légende,
-        expressionReguliere:
-          gestionnaire.aideSaisieRéférenceDossierRaccordement.expressionReguliere.expression,
-      },
-    })),
-    identifiantProjet: identifiantProjet.formatter(),
-    aDéjàTransmisUneDemandeComplèteDeRaccordement,
-    successMessage,
-  };
-};

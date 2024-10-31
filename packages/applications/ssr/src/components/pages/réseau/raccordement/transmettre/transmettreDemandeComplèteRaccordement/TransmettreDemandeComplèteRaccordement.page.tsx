@@ -1,6 +1,8 @@
 import Alert from '@codegouvfr/react-dsfr/Alert';
 import { FC } from 'react';
 
+import { IdentifiantProjet } from '@potentiel-domain/common';
+
 import ScrollToTop from '@/components/molecules/ScrollToTop';
 import { ProjetBanner } from '@/components/molecules/projet/ProjetBanner';
 import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
@@ -19,7 +21,7 @@ import {
 
 export type TransmettreDemandeComplèteRaccordementPageProps = {
   listeGestionnairesRéseau: TransmettreDemandeComplèteRaccordementFormProps['listeGestionnairesRéseau'];
-  identifiantGestionnaireRéseauActuel?: TransmettreDemandeComplèteRaccordementFormProps['identifiantGestionnaireRéseauActuel'];
+  gestionnaireRéseauActuel: TransmettreDemandeComplèteRaccordementFormProps['gestionnaireRéseauActuel'];
   identifiantProjet: TransmettreDemandeComplèteRaccordementFormProps['identifiantProjet'];
   delaiDemandeDeRaccordementEnMois: InformationDemandeComplèteRaccordementProps['delaiDemandeDeRaccordementEnMois'];
   aDéjàTransmisUneDemandeComplèteDeRaccordement: boolean;
@@ -30,21 +32,26 @@ export const TransmettreDemandeComplèteRaccordementPage: FC<
   TransmettreDemandeComplèteRaccordementPageProps
 > = ({
   listeGestionnairesRéseau,
-  identifiantGestionnaireRéseauActuel,
+  gestionnaireRéseauActuel,
   identifiantProjet,
   delaiDemandeDeRaccordementEnMois,
   aDéjàTransmisUneDemandeComplèteDeRaccordement,
   successMessage,
 }) => (
   <ColumnPageTemplate
-    banner={<ProjetBanner identifiantProjet={identifiantProjet} />}
+    banner={
+      <ProjetBanner identifiantProjet={IdentifiantProjet.bind(identifiantProjet).formatter()} />
+    }
     heading={
       <>
         <ScrollToTop />
         <TitrePageRaccordement />
         {successMessage && <Alert severity="success" title={successMessage} />}
         {!aDéjàTransmisUneDemandeComplèteDeRaccordement && (
-          <AucunDossierDeRaccordementAlert identifiantProjet={identifiantProjet} showLink={false} />
+          <AucunDossierDeRaccordementAlert
+            identifiantProjet={IdentifiantProjet.bind(identifiantProjet).formatter()}
+            showLink={false}
+          />
         )}
       </>
     }
@@ -53,7 +60,7 @@ export const TransmettreDemandeComplèteRaccordementPage: FC<
         <TransmettreDemandeComplèteRaccordementForm
           identifiantProjet={identifiantProjet}
           listeGestionnairesRéseau={listeGestionnairesRéseau}
-          identifiantGestionnaireRéseauActuel={identifiantGestionnaireRéseauActuel}
+          gestionnaireRéseauActuel={gestionnaireRéseauActuel}
           aDéjàTransmisUneDemandeComplèteDeRaccordement={
             aDéjàTransmisUneDemandeComplèteDeRaccordement
           }

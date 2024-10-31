@@ -7,15 +7,15 @@ import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
 
 import { GestionnaireRéseauSelectProps } from '../GestionnaireRéseauSelect';
 
-import { ImporterDatesMiseEnServiceForm } from './importerDatesMiseEnService.form';
+import { ImporterDatesMiseEnServiceForm } from './ImporterDatesMiseEnService.form';
 
 export type ImporterDatesMiseEnServicePageProps = {
-  identifiantGestionnaireRéseauActuel: string;
+  gestionnaireRéseauActuel: GestionnaireRéseauSelectProps['gestionnaireRéseauActuel'];
   listeGestionnairesRéseau: GestionnaireRéseauSelectProps['listeGestionnairesRéseau'];
 };
 
 export const ImporterDatesMiseEnServicePage: FC<ImporterDatesMiseEnServicePageProps> = ({
-  identifiantGestionnaireRéseauActuel,
+  gestionnaireRéseauActuel,
   listeGestionnairesRéseau,
 }) => (
   <ColumnPageTemplate
@@ -23,7 +23,7 @@ export const ImporterDatesMiseEnServicePage: FC<ImporterDatesMiseEnServicePagePr
     leftColumn={{
       children: (
         <ImporterDatesMiseEnServiceForm
-          identifiantGestionnaireRéseauActuel={identifiantGestionnaireRéseauActuel}
+          gestionnaireRéseauActuel={gestionnaireRéseauActuel}
           listeGestionnairesRéseau={listeGestionnairesRéseau}
         />
       ),
