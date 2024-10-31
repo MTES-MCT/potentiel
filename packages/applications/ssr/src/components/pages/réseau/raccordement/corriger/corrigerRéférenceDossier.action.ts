@@ -11,20 +11,11 @@ import { withUtilisateur } from '@/utils/withUtilisateur';
 
 export type CorrigerRéférenceDossierFormKeys = keyof zod.infer<typeof schema>;
 
-const schema = zod
-  .object({
-    identifiantProjet: zod.string().min(1),
-    referenceDossier: zod.string().min(1),
-    referenceDossierCorrigee: zod.string().min(1),
-  })
-  .refine(
-    ({ referenceDossier, referenceDossierCorrigee }) =>
-      referenceDossier !== referenceDossierCorrigee,
-    {
-      path: ['referenceDossierCorrigee'],
-      message: "La nouvelle référence de dossier doit être différente de l'ancienne",
-    },
-  );
+const schema = zod.object({
+  identifiantProjet: zod.string().min(1),
+  referenceDossier: zod.string().min(1),
+  referenceDossierCorrigee: zod.string().min(1),
+});
 
 const action: FormAction<FormState, typeof schema> = (
   _,

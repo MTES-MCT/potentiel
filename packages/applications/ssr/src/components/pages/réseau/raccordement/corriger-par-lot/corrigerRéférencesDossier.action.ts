@@ -3,9 +3,10 @@
 import * as zod from 'zod';
 import { mediator } from 'mediateur';
 
-import type { Raccordement } from '@potentiel-domain/reseau';
+import { type Raccordement } from '@potentiel-domain/reseau';
 import { DomainError } from '@potentiel-domain/core';
 import { parseCsv } from '@potentiel-libraries/csv';
+import { Routes } from '@potentiel-applications/routes';
 
 import { ActionResult, FormAction, FormState, formAction } from '@/utils/formAction';
 import { withUtilisateur } from '@/utils/withUtilisateur';
@@ -17,23 +18,14 @@ const schema = zod.object({
 
 export type CorrigerRéférencesDossierFormKeys = keyof zod.infer<typeof schema>;
 
-const csvSchema = zod
-  .object({
-    identifiantProjet: zod.string().min(1),
-    referenceDossier: zod.string().min(1),
-    referenceDossierCorrigee: zod.string().min(1),
-  })
-  .refine(
-    ({ referenceDossier, referenceDossierCorrigee }) =>
-      referenceDossier !== referenceDossierCorrigee,
-    {
-      path: ['referenceDossierCorrigee'],
-      message: "La nouvelle référence de dossier doit être différente de l'ancienne",
-    },
-  );
+const csvSchema = zod.object({
+  identifiantProjet: zod.string().min(1),
+  referenceDossier: zod.string().min(1),
+  referenceDossierCorrigee: zod.string().min(1),
+});
 
 const action: FormAction<FormState, typeof schema> = (_, { fichierCorrections }) =>
-  withUtilisateur(async ({ role }) => {
+  withUtilisateur(async (utilisateur) => {
     const { parsedData: lines } = await parseCsv(fichierCorrections.content, csvSchema, {
       // on conserve les espaces, car c'est potentiellement l'erreur à corriger
       ltrim: false,
@@ -53,8 +45,9 @@ const action: FormAction<FormState, typeof schema> = (_, { fichierCorrections })
     // l'identifiant dans le fichier est au format "lisible" et pas au format technique
     // on remplace les séparateurs de segments de "-" en "#"
     // Ex: CRE4 - Bâtiment-1-2-3 => CRE4 - Bâtiment#1#2#3
+    // Ex: CRE4 - Bâtiment-P1-F2-3 => CRE4 - Bâtiment#1#2#3
     const parseIdentifiantProjet = (identifiant: string) =>
-      identifiant.replace(/(.*)-(\d*)-(.{0,3})-(.*)/, '$1#$2#$3#$4');
+      identifiant.replace(/(.*)-P?(\d*)-F?(.{0,3})-(.*)/, '$1#$2#$3#$4');
 
     for (const { identifiantProjet, referenceDossier, referenceDossierCorrigee } of lines) {
       try {
@@ -64,14 +57,14 @@ const action: FormAction<FormState, typeof schema> = (_, { fichierCorrections })
             identifiantProjetValue: parseIdentifiantProjet(identifiantProjet),
             nouvelleRéférenceDossierRaccordementValue: referenceDossierCorrigee,
             référenceDossierRaccordementActuelleValue: referenceDossier,
-            rôleValue: role.nom,
+            rôleValue: utilisateur.role.nom,
           },
         });
         success++;
       } catch (error) {
         if (error instanceof DomainError) {
           errors.push({
-            key: identifiantProjet,
+            key: referenceDossier,
             reason: error.message,
           });
           continue;
@@ -82,6 +75,13 @@ const action: FormAction<FormState, typeof schema> = (_, { fichierCorrections })
             'Une erreur inconnue empêche la correction de la référence de dossier de raccordement',
         });
       }
+    }
+
+    if (errors.length === 0 && success > 0) {
+      return {
+        status: 'success',
+        redirectUrl: Routes.Raccordement.lister,
+      };
     }
 
     return {
