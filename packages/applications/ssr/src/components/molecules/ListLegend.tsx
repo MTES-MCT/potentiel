@@ -12,7 +12,11 @@ export const ListLegend: FC<ListLegendProps> = ({ symbols }) => (
     <ul className="flex flex-col gap-2 mt-0">
       {symbols.map((symbol) => (
         <li key={symbol.iconId} className="text-sm">
-          <Symbol {...symbol} />
+          <Symbol
+            iconId={symbol.iconId}
+            description={symbol.description}
+            iconColor={symbol.iconColor}
+          />
         </li>
       ))}
     </ul>

@@ -9,10 +9,7 @@ import { GarantiesFinancières } from '@potentiel-domain/laureat';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { decodeParameter } from '@/utils/decodeParameter';
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
-import {
-  SoumettreGarantiesFinancièresPage,
-  SoumettreGarantiesFinancièresProps,
-} from '@/components/pages/garanties-financières/dépôt/soumettre/SoumettreGarantiesFinancières.page';
+import { SoumettreGarantiesFinancièresPage } from '@/components/pages/garanties-financières/dépôt/soumettre/SoumettreGarantiesFinancières.page';
 import { projetSoumisAuxGarantiesFinancières } from '@/utils/garanties-financières/vérifierAppelOffreSoumisAuxGarantiesFinancières';
 import { ProjetNonSoumisAuxGarantiesFinancièresPage } from '@/components/pages/garanties-financières/ProjetNonSoumisAuxGarantiesFinancières.page';
 import { ProjetADéjàUnDépôtEnCoursPage } from '@/components/pages/garanties-financières/dépôt/soumettre/ProjetADéjàUnDépôtEnCours.page';
@@ -46,21 +43,19 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
       return <ProjetNonSoumisAuxGarantiesFinancièresPage identifiantProjet={identifiantProjet} />;
     }
 
-    const props: SoumettreGarantiesFinancièresProps = {
-      identifiantProjet,
-      typesGarantiesFinancières: typesGarantiesFinancièresSansInconnuPourFormulaire,
-    };
-
     const dépôtGarantiesFinancières =
       await mediator.send<GarantiesFinancières.ConsulterDépôtEnCoursGarantiesFinancièresQuery>({
         type: 'Lauréat.GarantiesFinancières.Query.ConsulterDépôtEnCoursGarantiesFinancières',
         data: { identifiantProjetValue: identifiantProjet },
       });
 
-    return Option.isSome(dépôtGarantiesFinancières) ? (
-      <ProjetADéjàUnDépôtEnCoursPage identifiantProjet={identifiantProjet} />
-    ) : (
-      <SoumettreGarantiesFinancièresPage {...props} />
-    );
+    return Option.match(dépôtGarantiesFinancières)
+      .some(() => <ProjetADéjàUnDépôtEnCoursPage identifiantProjet={identifiantProjet} />)
+      .none(() => (
+        <SoumettreGarantiesFinancièresPage
+          identifiantProjet={identifiantProjet}
+          typesGarantiesFinancières={typesGarantiesFinancièresSansInconnuPourFormulaire}
+        />
+      ));
   });
 }

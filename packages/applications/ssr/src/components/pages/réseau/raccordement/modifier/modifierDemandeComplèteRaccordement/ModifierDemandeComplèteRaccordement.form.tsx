@@ -153,13 +153,10 @@ export const ModifierDemandeComplèteRaccordementForm: FC<
         state={validationErrors['dateQualification'] ? 'error' : 'default'}
         stateRelatedMessage={validationErrors['dateQualification']}
         label="Date de l'accusé de réception"
-        nativeInputProps={{
-          type: 'date',
-          name: 'dateQualification',
-          max: now(),
-          defaultValue: dateQualification,
-          required: true,
-        }}
+        name="dateQualification"
+        max={now()}
+        defaultValue={dateQualification}
+        required
       />
     </Form>
   );

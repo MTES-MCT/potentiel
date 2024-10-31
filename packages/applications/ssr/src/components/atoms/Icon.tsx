@@ -1,4 +1,5 @@
 import { FrIconClassName, RiIconClassName, fr } from '@codegouvfr/react-dsfr';
+import clsx from 'clsx';
 import { FC } from 'react';
 
 export type IconProps = {
@@ -10,7 +11,8 @@ export type IconProps = {
 
 export const Icon: FC<IconProps> = ({ id, size = 'md', className, title }) => (
   <i
-    className={`${fr.cx(id, `fr-icon--${size}`)} ${className ?? ''}`}
-    {...(title ? { title } : { 'aria-hidden': true })}
+    className={clsx(`${fr.cx(id, `fr-icon--${size}`)}`, className)}
+    title={title ?? undefined}
+    aria-hidden={title ? undefined : true}
   />
 );

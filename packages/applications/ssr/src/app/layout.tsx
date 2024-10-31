@@ -29,6 +29,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
   //NOTE: The lang parameter is optional and defaults to "fr"
 
   return (
+    // eslint-disable-next-line react/jsx-props-no-spreading
     <html {...getHtmlAttributes({ defaultColorScheme })} lang="fr">
       <BootstrapApp />
 

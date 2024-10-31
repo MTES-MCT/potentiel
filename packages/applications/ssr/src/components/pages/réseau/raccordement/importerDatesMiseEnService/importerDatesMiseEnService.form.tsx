@@ -71,7 +71,6 @@ export const ImporterDatesMiseEnServiceForm: FC<
         label="Fichier des dates de mise en service"
         formats={['csv']}
         name="fichierDatesMiseEnService"
-        id="fichierDatesMiseEnService"
         required
         state={validationErrors['fichierDatesMiseEnService'] ? 'error' : 'default'}
         stateRelatedMessage={validationErrors['fichierDatesMiseEnService']}

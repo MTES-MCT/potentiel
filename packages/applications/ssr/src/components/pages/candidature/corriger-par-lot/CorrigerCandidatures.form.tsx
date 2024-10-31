@@ -32,7 +32,6 @@ export const CorrigerCandidaturesForm: FC = () => {
     >
       <UploadNewOrModifyExistingDocument
         label="Fichier CSV"
-        id="fichierCorrectionCandidatures"
         name="fichierCorrectionCandidatures"
         required
         formats={['csv']}

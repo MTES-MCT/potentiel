@@ -63,13 +63,13 @@ export default async function Page({ searchParams }: PageProps) {
           0,
       }));
 
+    const props = mapToPlainObject({
+      ...gestionnairesRéseau,
+      items: gestionnairesRéseauWithRaccordements,
+    });
+
     return (
-      <GestionnaireRéseauListPage
-        {...mapToPlainObject({
-          ...gestionnairesRéseau,
-          items: gestionnairesRéseauWithRaccordements,
-        })}
-      />
+      <GestionnaireRéseauListPage items={props.items} range={props.range} total={props.total} />
     );
   });
 }

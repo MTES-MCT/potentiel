@@ -55,13 +55,22 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
       return notFound();
     }
 
-    const props = mapToProps({ ...garantiesFinancières, identifiantProjet });
+    const props = mapToProps(garantiesFinancières);
 
-    return <ModifierGarantiesFinancièresActuellesPage {...props} />;
+    return (
+      <ModifierGarantiesFinancièresActuellesPage
+        identifiantProjet={identifiantProjet}
+        typesGarantiesFinancières={props.typesGarantiesFinancières}
+        actuelles={props.actuelles}
+      />
+    );
   });
 }
 
-const mapToProps = ({
+type MapToProps = (
+  garantiesFinancières: GarantiesFinancières.ConsulterGarantiesFinancièresReadModel,
+) => ModifierGarantiesFinancièresActuellesPageProps;
+const mapToProps: MapToProps = ({
   identifiantProjet,
   garantiesFinancières: {
     type,
@@ -72,10 +81,8 @@ const mapToProps = ({
     attestation,
     statut,
   },
-}: Omit<GarantiesFinancières.ConsulterGarantiesFinancièresReadModel, 'identifiantProjet'> & {
-  identifiantProjet: string;
-}): ModifierGarantiesFinancièresActuellesPageProps => ({
-  identifiantProjet,
+}) => ({
+  identifiantProjet: identifiantProjet.formatter(),
   typesGarantiesFinancières: typesGarantiesFinancièresSansInconnuPourFormulaire,
   actuelles: {
     type: type.type,

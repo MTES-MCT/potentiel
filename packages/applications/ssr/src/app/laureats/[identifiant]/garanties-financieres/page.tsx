@@ -132,12 +132,26 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
         archivesGarantiesFinancières,
       });
 
-      return <DétailsGarantiesFinancièresPage {...props} />;
+      return (
+        <DétailsGarantiesFinancièresPage
+          identifiantProjet={identifiantProjet}
+          contactPorteurs={props.contactPorteurs}
+          actuelles={props.actuelles}
+          dépôtEnCours={props.dépôtEnCours}
+          archivesGarantiesFinancières={props.archivesGarantiesFinancières}
+          dateLimiteSoummission={props.dateLimiteSoummission}
+          mainlevée={props.mainlevée}
+          historiqueMainlevée={props.historiqueMainlevée}
+          infoBoxMainlevée={props.infoBoxMainlevée}
+          infoBoxGarantiesFinancières={props.infoBoxGarantiesFinancières}
+          action={props.action}
+        />
+      );
     }),
   );
 }
 
-type MapToProps = (args: {
+type MapToProps = (params: {
   identifiantProjet: string;
   contactPorteurs: string[];
   utilisateur: Utilisateur.ValueType;

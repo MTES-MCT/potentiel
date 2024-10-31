@@ -96,7 +96,10 @@ export const DétailsChangementReprésentantLégalPage: FC<
                   <div className="whitespace-nowrap">Pièce justificative :</div>
                   {changementReprésentantLégal.demande.piècesJustificatives.map(
                     (pièceJustificative) => (
-                      <blockquote className="font-semibold italic">
+                      <blockquote
+                        className="font-semibold italic"
+                        key={pièceJustificative.dateCréation}
+                      >
                         <DownloadDocument
                           className="mb-0"
                           label="Télécharger la pièce justificative"

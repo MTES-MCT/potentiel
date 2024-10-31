@@ -3,6 +3,7 @@ import { mediator } from 'mediateur';
 
 import { GarantiesFinancières } from '@potentiel-domain/laureat';
 import { Option } from '@potentiel-libraries/monads';
+import { Candidature } from '@potentiel-domain/candidature';
 
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { decodeParameter } from '@/utils/decodeParameter';
@@ -23,6 +24,7 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
     const identifiantProjet = decodeParameter(identifiant);
 
     const projet = await récupérerProjet(identifiantProjet);
+
     await vérifierQueLeProjetEstClassé({
       statut: projet.statut,
       message:
@@ -37,20 +39,39 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
         },
       });
 
-    const peutVoirMainlevée = Option.isSome(garantiesFinancières);
+    const props = mapToProps({
+      identifiantProjet,
+      projet,
+      garantiesFinancières,
+    });
 
-    const peutDemanderMainlevée =
-      peutVoirMainlevée && garantiesFinancières.garantiesFinancières.attestation !== undefined;
-
-    const props: TransmettreAttestationConformitéPageProps = {
-      projet: {
-        ...projet,
-        identifiantProjet,
-      },
-      peutDemanderMainlevée,
-      peutVoirMainlevée,
-    };
-
-    return <TransmettreAttestationConformitéPage {...props} />;
+    return (
+      <TransmettreAttestationConformitéPage
+        projet={props.projet}
+        peutDemanderMainlevée={props.peutDemanderMainlevée}
+        peutVoirMainlevée={props.peutVoirMainlevée}
+      />
+    );
   });
 }
+
+type MapToProps = (params: {
+  identifiantProjet: string;
+  projet: Candidature.ConsulterProjetReadModel;
+  garantiesFinancières: Option.Type<GarantiesFinancières.ConsulterGarantiesFinancièresReadModel>;
+}) => TransmettreAttestationConformitéPageProps;
+
+const mapToProps: MapToProps = ({ identifiantProjet, projet, garantiesFinancières }) => {
+  const peutVoirMainlevée = Option.isSome(garantiesFinancières);
+  const peutDemanderMainlevée =
+    peutVoirMainlevée && garantiesFinancières.garantiesFinancières.attestation !== undefined;
+
+  return {
+    projet: {
+      ...projet,
+      identifiantProjet,
+    },
+    peutDemanderMainlevée,
+    peutVoirMainlevée,
+  };
+};

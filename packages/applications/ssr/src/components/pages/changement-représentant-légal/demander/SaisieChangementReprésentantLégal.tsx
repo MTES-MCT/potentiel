@@ -102,7 +102,6 @@ export const SaisieChangementReprésentantLégal: FC<SaisieChangementReprésenta
 
       <UploadNewOrModifyExistingDocument
         label={'Pièce justificative'}
-        id="pieceJustificative"
         name="pieceJustificative"
         hintText={getPièceJustificativeHintText()}
         required

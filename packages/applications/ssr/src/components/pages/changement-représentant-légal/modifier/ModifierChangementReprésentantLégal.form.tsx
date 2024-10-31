@@ -102,7 +102,6 @@ export const ModifierChangementReprésentantLégalForm: FC<
 
       <UploadNewOrModifyExistingDocument
         label={'Pièce justificative'}
-        id="pieceJustificative"
         name="pieceJustificative"
         formats={['pdf']}
         hintText={getPièceJustificativeHintText()}

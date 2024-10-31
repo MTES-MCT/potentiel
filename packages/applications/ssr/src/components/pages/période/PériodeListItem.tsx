@@ -209,7 +209,12 @@ const Stat: FC<StatProps> = ({
   return (
     <div className="flex md:flex-1 lg:flex flex-col lg:flex-row lg:gap-4 text-sm">
       <div className="flex lg:flex-1 lg:flex-col items-center gap-2">
-        <Icon {...iconProps} />
+        <Icon
+          id={iconProps.id}
+          className={iconProps.className}
+          size={iconProps.size}
+          title={iconProps.title}
+        />
 
         <div className="flex gap-2 lg:flex-col items-center">
           <Link

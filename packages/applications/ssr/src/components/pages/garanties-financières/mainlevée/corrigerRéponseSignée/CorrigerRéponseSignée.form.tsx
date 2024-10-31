@@ -49,7 +49,6 @@ export const CorrigerRéponseSignée = ({
               <p className="mt-3">Êtes-vous sûr de vouloir corriger le document ?</p>
               <UploadNewOrModifyExistingDocument
                 name="documentCorrige"
-                id="documentCorrige"
                 required
                 formats={['pdf']}
                 label="Nouvelle réponse signée"
