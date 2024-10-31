@@ -5,7 +5,6 @@ import { z } from 'zod';
 import { bootstrap } from '@potentiel-applications/bootstrap';
 import { Raccordement } from '@potentiel-domain/reseau';
 import { Option } from '@potentiel-libraries/monads';
-import { Candidature } from '@potentiel-domain/candidature';
 import { DateTime } from '@potentiel-domain/common';
 
 import { parseCsvFile } from '../../helpers/parse-file';
@@ -106,16 +105,6 @@ export default class ImporterDateMiseEnService extends Command {
       }
 
       try {
-        const candidature = await mediator.send<Candidature.ConsulterProjetQuery>({
-          type: 'Candidature.Query.ConsulterProjet',
-          data: {
-            identifiantProjet: identifiantProjet,
-          },
-        });
-
-        if (Option.isNone(candidature)) {
-          throw new Error(`candidature inexistante: ${identifiantProjet}`);
-        }
         if (flags.dryRun) {
           console.log(
             `[DRY-RUN] Mise à jour du raccordement du projet ${identifiantProjet}, dossier ${row.référenceDossierRaccordement}: ${row.dateMiseEnService})`,
@@ -125,7 +114,6 @@ export default class ImporterDateMiseEnService extends Command {
             type: 'Réseau.Raccordement.UseCase.TransmettreDateMiseEnService',
             data: {
               identifiantProjetValue: identifiantProjet,
-              dateDésignationValue: candidature.dateDésignation,
               référenceDossierValue: row.référenceDossierRaccordement,
               dateMiseEnServiceValue: row.dateMiseEnService.toISOString(),
             },
