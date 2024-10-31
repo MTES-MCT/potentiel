@@ -6,11 +6,7 @@ import { mediator } from 'mediateur';
 import { type Raccordement } from '@potentiel-domain/reseau';
 import { DomainError } from '@potentiel-domain/core';
 import { parseCsv } from '@potentiel-libraries/csv';
-<<<<<<< HEAD
-=======
-import { Option } from '@potentiel-libraries/monads';
-import { Groupe, Role, Utilisateur } from '@potentiel-domain/utilisateur';
->>>>>>> be067661e (✨ Corriger des références de raccordement par import CSV)
+
 import { Routes } from '@potentiel-applications/routes';
 
 import { ActionResult, FormAction, FormState, formAction } from '@/utils/formAction';
@@ -56,19 +52,6 @@ const action: FormAction<FormState, typeof schema> = (_, { fichierCorrections })
 
     for (const { identifiantProjet, referenceDossier, referenceDossierCorrigee } of lines) {
       try {
-        const error = await vérifierAccèsGestionnaireRéseau(
-          utilisateur,
-          identifiantProjet,
-          referenceDossier,
-        );
-        if (error) {
-          errors.push({
-            key: referenceDossier,
-            reason: error,
-          });
-          continue;
-        }
-
         await mediator.send<Raccordement.ModifierRéférenceDossierRaccordementUseCase>({
           type: 'Réseau.Raccordement.UseCase.ModifierRéférenceDossierRaccordement',
           data: {
@@ -112,32 +95,3 @@ const action: FormAction<FormState, typeof schema> = (_, { fichierCorrections })
   });
 
 export const corrigerRéférencesDossierAction = formAction(action, schema);
-
-async function vérifierAccèsGestionnaireRéseau(
-  utilisateur: Utilisateur.ValueType,
-  identifiantProjet: string,
-  referenceDossier: string,
-) {
-  const dossier = await mediator.send<Raccordement.ConsulterDossierRaccordementQuery>({
-    type: 'Réseau.Raccordement.Query.ConsulterDossierRaccordement',
-    data: {
-      identifiantProjetValue: identifiantProjet,
-      référenceDossierRaccordementValue: referenceDossier,
-    },
-  });
-  if (Option.isNone(dossier)) {
-    return 'Aucun dossier de raccordement';
-  }
-  if (!utilisateur.role.estÉgaleÀ(Role.grd)) return;
-  if (
-    Option.isSome(utilisateur.groupe) &&
-    utilisateur.groupe.estÉgaleÀ(
-      Groupe.convertirEnValueType(
-        `/GestionnairesRéseau/${dossier.identifiantGestionnaireRéseau.formatter()}`,
-      ),
-    )
-  ) {
-    return;
-  }
-  return `Le gestionnaire de réseau n'est pas attribué à ce dossier de raccordement`;
-}
