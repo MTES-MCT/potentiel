@@ -13,7 +13,7 @@ import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { decodeParameter } from '@/utils/decodeParameter';
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { withUtilisateur } from '@/utils/withUtilisateur';
-import { récupérerProjet, vérifierQueLeProjetEstClassé } from '@/app/_helpers';
+import { vérifierQueLeProjetEstClassé } from '@/app/_helpers';
 
 export const metadata: Metadata = {
   title: 'Corriger une référence de dossier de raccordement - Potentiel',
@@ -33,9 +33,8 @@ export default async function Page({ params: { identifiant, reference } }: PageP
         decodeParameter(identifiant),
       );
 
-      const projet = await récupérerProjet(identifiantProjet.formatter());
       await vérifierQueLeProjetEstClassé({
-        statut: projet.statut,
+        identifiantProjet: identifiantProjet.formatter(),
         message:
           "Vous ne pouvez pas modifier la demande complète de raccordement d'un dossier de raccordement pour un projet éliminé ou abandonné",
       });

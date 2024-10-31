@@ -3,11 +3,10 @@ import { mediator } from 'mediateur';
 import { notFound } from 'next/navigation';
 
 import { Option } from '@potentiel-libraries/monads';
-import { Candidature } from '@potentiel-domain/candidature';
-import { Achèvement, GarantiesFinancières } from '@potentiel-domain/laureat';
+import { Abandon, Achèvement, GarantiesFinancières } from '@potentiel-domain/laureat';
 import { Role, Utilisateur } from '@potentiel-domain/utilisateur';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
-import { IdentifiantProjet, StatutProjet } from '@potentiel-domain/common';
+import { IdentifiantProjet } from '@potentiel-domain/common';
 import { récupérerPorteursParIdentifiantProjetAdapter } from '@potentiel-infrastructure/domain-adapters';
 
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
@@ -36,19 +35,12 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
   return PageWithErrorHandling(async () =>
     withUtilisateur(async (utilisateur) => {
       const identifiantProjet = decodeParameter(identifiant);
-
-      const candidature = await mediator.send<Candidature.ConsulterProjetQuery>({
-        type: 'Candidature.Query.ConsulterProjet',
-        data: { identifiantProjet },
-      });
-
-      if (Option.isNone(candidature)) {
-        return notFound();
-      }
+      const { appelOffre, période, famille } =
+        IdentifiantProjet.convertirEnValueType(identifiantProjet);
 
       const appelOffreDetails = await mediator.send<AppelOffre.ConsulterAppelOffreQuery>({
         type: 'AppelOffre.Query.ConsulterAppelOffre',
-        data: { identifiantAppelOffre: candidature.appelOffre },
+        data: { identifiantAppelOffre: appelOffre },
       });
 
       if (Option.isNone(appelOffreDetails)) {
@@ -56,9 +48,16 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
       }
 
       const soumisAuxGarantiesFinancières = await projetSoumisAuxGarantiesFinancières({
-        appelOffre: candidature.appelOffre,
-        famille: candidature.famille,
-        periode: candidature.période,
+        appelOffre,
+        période,
+        famille,
+      });
+
+      const abandon = await mediator.send<Abandon.ConsulterAbandonQuery>({
+        type: 'Lauréat.Abandon.Query.ConsulterAbandon',
+        data: {
+          identifiantProjetValue: identifiantProjet,
+        },
       });
 
       if (!soumisAuxGarantiesFinancières) {
@@ -127,7 +126,7 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
         mainlevée,
         appelOffreDetails,
         historiqueMainlevée,
-        statut: candidature.statut,
+        estAbandonné: Option.isSome(abandon) && abandon.statut.estAccordé(),
         contactPorteurs: porteurs.map((porteur) => porteur.email),
         archivesGarantiesFinancières,
       });
@@ -161,7 +160,7 @@ type MapToProps = (params: {
   mainlevée: Option.Type<GarantiesFinancières.ConsulterDemandeMainlevéeGarantiesFinancièresReadModel>;
   appelOffreDetails: AppelOffre.AppelOffreReadModel;
   historiqueMainlevée: Option.Type<GarantiesFinancières.ConsulterHistoriqueDemandeMainlevéeRejetéeGarantiesFinancièresReadModel>;
-  statut: StatutProjet.RawType;
+  estAbandonné: boolean;
   archivesGarantiesFinancières: Option.Type<GarantiesFinancières.ConsulterArchivesGarantiesFinancièresReadModel>;
 }) => DétailsGarantiesFinancièresPageProps;
 
@@ -175,7 +174,7 @@ const mapToProps: MapToProps = ({
   mainlevée,
   appelOffreDetails,
   historiqueMainlevée,
-  statut,
+  estAbandonné,
   archivesGarantiesFinancières,
 }) => {
   const archives = Option.isSome(archivesGarantiesFinancières)
@@ -232,7 +231,7 @@ const mapToProps: MapToProps = ({
           dépôt: dépôtEnCoursGarantiesFinancières,
           achèvement,
           mainlevée,
-          statutProjet: statut,
+          estAbandonné,
         })
       : [],
     mainlevée: getMainlevéeActions({ role: utilisateur.role, mainlevée }),
@@ -333,7 +332,7 @@ const mapToProps: MapToProps = ({
           !gfActuellesExistante?.garantiesFinancières.statut.estÉchu(),
       ),
       actions:
-        statut !== 'abandonné' && !achèvementExistant?.attestation
+        !estAbandonné && !achèvementExistant?.attestation
           ? 'transmettre-attestation-conformité'
           : undefined,
     },

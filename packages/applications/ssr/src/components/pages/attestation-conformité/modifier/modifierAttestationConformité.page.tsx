@@ -1,7 +1,7 @@
 import { FC } from 'react';
 
 import { PageTemplate } from '@/components/templates/Page.template';
-import { ProjetBanner, ProjetBannerProps } from '@/components/molecules/projet/ProjetBanner';
+import { ProjetBanner } from '@/components/molecules/projet/ProjetBanner';
 
 import { TitrePageAttestationConformité } from '../TitrePageAttestationConformité';
 import {
@@ -13,19 +13,19 @@ import { InfoBoxAttestationConformité } from '../InfoAttestationConformité';
 import { modifierAttestationConformitéAction } from './modifierAttestationConformité.action';
 
 export type ModifierAttestationConformitéPageProps = {
-  projet: ProjetBannerProps;
+  identifiantProjet: string;
   attestationConformitéActuelle: AttestationConformitéFormProps['donnéesActuelles'];
 };
 
 export const ModifierAttestationConformitéPage: FC<ModifierAttestationConformitéPageProps> = ({
-  projet,
+  identifiantProjet,
   attestationConformitéActuelle,
 }) => (
-  <PageTemplate banner={<ProjetBanner identifiantProjet={projet.identifiantProjet} />}>
+  <PageTemplate banner={<ProjetBanner identifiantProjet={identifiantProjet} />}>
     <TitrePageAttestationConformité title="Modifier l'attestation de conformité du projet" />
     <InfoBoxAttestationConformité />
     <AttestationConformitéForm
-      identifiantProjet={projet.identifiantProjet}
+      identifiantProjet={identifiantProjet}
       action={modifierAttestationConformitéAction}
       submitButtonLabel="Modifier"
       donnéesActuelles={attestationConformitéActuelle}

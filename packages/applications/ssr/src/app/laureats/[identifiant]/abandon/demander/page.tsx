@@ -6,12 +6,13 @@ import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { CahierDesCharges } from '@potentiel-domain/laureat';
 import { Routes } from '@potentiel-applications/routes';
 import { Option } from '@potentiel-libraries/monads';
+import { IdentifiantProjet } from '@potentiel-domain/common';
 
 import { DemanderAbandonPage } from '@/components/pages/abandon/demander/DemanderAbandon.page';
 import { decodeParameter } from '@/utils/decodeParameter';
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
-import { récupérerProjet, vérifierQueLeProjetEstClassé } from '@/app/_helpers';
+import { vérifierQueLeProjetEstClassé } from '@/app/_helpers';
 
 export const metadata: Metadata = {
   title: "Demander l'abandon du projet - Potentiel",
@@ -22,10 +23,10 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
   return PageWithErrorHandling(async () => {
     const identifiantProjet = decodeParameter(identifiant);
 
-    const { statut, appelOffre, période } = await récupérerProjet(identifiantProjet);
+    const { appelOffre, période } = IdentifiantProjet.convertirEnValueType(identifiant);
 
     await vérifierQueLeProjetEstClassé({
-      statut,
+      identifiantProjet,
       message: "Vous ne pouvez pas demander l'abandon d'un projet non lauréat",
     });
 

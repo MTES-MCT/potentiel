@@ -18,13 +18,9 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-const projet: ModifierAttestationConformitéPageProps['projet'] = {
-  identifiantProjet: 'PPE2 - Bâtiment#4#1#id-cre-738',
-};
-
 export const Default: Story = {
   args: {
-    projet,
+    identifiantProjet: 'PPE2 - Bâtiment#4#1#id-cre-738',
     attestationConformitéActuelle: {
       attestation: 'xxx',
       dateTransmissionAuCocontractant: new Date().toISOString() as Iso8601DateTime,

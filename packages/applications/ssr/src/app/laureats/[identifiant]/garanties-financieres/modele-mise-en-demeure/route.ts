@@ -6,7 +6,7 @@ import { GarantiesFinancières } from '@potentiel-domain/laureat';
 import { Option } from '@potentiel-libraries/monads';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { Candidature } from '@potentiel-domain/candidature';
-import { DateTime } from '@potentiel-domain/common';
+import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 import { ModèleRéponseSignée } from '@potentiel-applications/document-builder';
 
 import { decodeParameter } from '@/utils/decodeParameter';
@@ -21,6 +21,7 @@ export const GET = async (
 ) =>
   withUtilisateur(async (utilisateur) => {
     const identifiantProjetValue = decodeParameter(identifiant);
+    const identifiantProjet = IdentifiantProjet.convertirEnValueType(identifiantProjetValue);
 
     const candidature = await mediator.send<Candidature.ConsulterProjetQuery>({
       type: 'Candidature.Query.ConsulterProjet',
@@ -35,7 +36,7 @@ export const GET = async (
 
     const appelOffres = await mediator.send<AppelOffre.ConsulterAppelOffreQuery>({
       type: 'AppelOffre.Query.ConsulterAppelOffre',
-      data: { identifiantAppelOffre: candidature.appelOffre },
+      data: { identifiantAppelOffre: identifiantProjet.appelOffre },
     });
 
     if (Option.isNone(appelOffres)) {
@@ -43,10 +44,10 @@ export const GET = async (
     }
 
     const détailPériode = appelOffres.periodes.find(
-      (période) => période.id === candidature.période,
+      (période) => période.id === identifiantProjet.période,
     );
 
-    const détailFamille = détailPériode?.familles.find((f) => f.id === candidature.famille);
+    const détailFamille = détailPériode?.familles.find((f) => f.id === identifiantProjet.famille);
 
     const projetAvecGarantiesFinancièresEnAttente =
       await mediator.send<GarantiesFinancières.ConsulterProjetAvecGarantiesFinancièresEnAttenteQuery>(

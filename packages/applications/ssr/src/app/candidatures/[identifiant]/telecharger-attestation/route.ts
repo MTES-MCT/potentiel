@@ -11,14 +11,22 @@ import { Candidature } from '@potentiel-domain/candidature';
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { decodeParameter } from '@/utils/decodeParameter';
 
-import { récupérerProjet } from '../../../_helpers';
-
 // TODO: à supprimer pour utiliser directement Routes.Document.télécharger dans le front
 // une fois qu'on aura migré la page Projet
 const logger = getLogger();
 
 export const GET = async (_: Request, { params: { identifiant } }: IdentifiantParameter) => {
   const identifiantProjet = decodeParameter(identifiant);
+
+  const candidature = await mediator.send<Candidature.ConsulterCandidatureQuery>({
+    type: 'Candidature.Query.ConsulterCandidature',
+    data: { identifiantProjet },
+  });
+
+  if (Option.isNone(candidature)) {
+    logger.error(new Error(`La candidature n'existe pas`), { identifiantProjet });
+    return notFound();
+  }
 
   const documentProjet = await getDocumentKey(identifiantProjet);
 
@@ -37,12 +45,10 @@ export const GET = async (_: Request, { params: { identifiant } }: IdentifiantPa
     },
   });
 
-  const { nom: nomProjet } = await récupérerProjet(identifiantProjet);
-
   return new Response(result.content, {
     headers: {
       'content-type': result.format,
-      'content-disposition': `attachment; filename="attestation-${encodeURIComponent(nomProjet)}.${extension(result.format)}"`,
+      'content-disposition': `attachment; filename="attestation-${encodeURIComponent(candidature.nomProjet)}.${extension(result.format)}"`,
     },
   });
 };

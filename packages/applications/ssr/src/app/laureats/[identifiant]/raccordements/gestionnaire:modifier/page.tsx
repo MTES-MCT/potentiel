@@ -11,7 +11,7 @@ import {
   ModifierGestionnaireRéseauRaccordementPage,
   ModifierGestionnaireRéseauRaccordementPageProps,
 } from '@/components/pages/réseau/raccordement/modifier/modifierGestionnaireRéseauRaccordement/ModifierGestionnaireRéseauRaccordement.page';
-import { récupérerProjet, vérifierQueLeProjetEstClassé } from '@/app/_helpers';
+import { vérifierQueLeProjetEstClassé } from '@/app/_helpers';
 
 export const metadata: Metadata = {
   title: 'Modifier gestionnaire réseau - Potentiel',
@@ -22,10 +22,8 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
   return PageWithErrorHandling(async () => {
     const identifiantProjet = decodeParameter(identifiant);
 
-    const projet = await récupérerProjet(identifiantProjet);
-
     await vérifierQueLeProjetEstClassé({
-      statut: projet.statut,
+      identifiantProjet,
       message:
         "Vous ne pouvez pas modifier le gestionnaire de réseau du raccordement d'un projet éliminé ou abandonné",
     });

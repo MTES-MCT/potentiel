@@ -6,11 +6,11 @@ import { Option } from '@potentiel-libraries/monads';
 
 export const projetSoumisAuxGarantiesFinancières = async ({
   appelOffre,
-  periode,
+  période,
   famille,
 }: {
   appelOffre: string;
-  periode: string;
+  période: string;
   famille?: string;
 }) => {
   const détailsAppelOffre = await mediator.send<AppelOffre.ConsulterAppelOffreQuery>({
@@ -23,7 +23,7 @@ export const projetSoumisAuxGarantiesFinancières = async ({
   }
 
   const familleDétails = détailsAppelOffre.periodes
-    .find((p) => p.id === periode)
+    .find((p) => p.id === période)
     ?.familles.find((f) => f.id === famille);
 
   return famille

@@ -10,7 +10,7 @@ import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { decodeParameter } from '@/utils/decodeParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { TransmettrePropositionTechniqueEtFinancièrePage } from '@/components/pages/réseau/raccordement/transmettre/transmettrePropositionTechniqueEtFinancière/TransmettrePropositionTechniqueEtFinancière.page';
-import { récupérerProjet, vérifierQueLeProjetEstClassé } from '@/app/_helpers';
+import { vérifierQueLeProjetEstClassé } from '@/app/_helpers';
 
 type PageProps = {
   params: {
@@ -30,9 +30,8 @@ export default async function Page({ params: { identifiant, reference } }: PageP
       decodeParameter(identifiant),
     ).formatter();
 
-    const projet = await récupérerProjet(identifiantProjet);
     await vérifierQueLeProjetEstClassé({
-      statut: projet.statut,
+      identifiantProjet,
       message:
         "Vous ne pouvez pas transmettre la proposition technique et financière d'un dossier de raccordement pour un projet éliminé ou abandonné",
     });
