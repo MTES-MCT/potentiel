@@ -1,8 +1,10 @@
-import React, { ComponentProps } from 'react';
+import clsx from 'clsx';
+import React, { ReactNode } from 'react';
 
-export const Heading4 = ({ children, className = '', ...props }: ComponentProps<'h4'>) => (
-  // eslint-disable-next-line react/jsx-props-no-spreading
-  <h4 {...props} className={`text-xl font-bold ${className}`}>
-    {children}
-  </h4>
+type Heading4Props = {
+  children: ReactNode;
+  className?: string;
+};
+export const Heading4 = ({ children, className }: Heading4Props) => (
+  <h4 className={clsx(`text-xl font-bold`, className)}>{children}</h4>
 );
