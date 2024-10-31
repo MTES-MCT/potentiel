@@ -72,51 +72,86 @@ export const registerConsulterDemandeMainlevéeGarantiesFinancièresQuery = ({
 };
 
 export const consulterDemandeMainlevéeGarantiesFinancièresMapToReadModel = ({
-  motif,
-  demande,
-  dernièreMiseÀJour,
-  statut,
+  mainlevées,
   identifiantProjet,
   nomProjet,
   appelOffre,
   famille,
   période,
   régionProjet,
-  instruction,
-  accord,
-}: MainlevéeGarantiesFinancièresEntity): ConsulterDemandeMainlevéeGarantiesFinancièresReadModel => ({
-  identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
-  nomProjet,
-  appelOffre,
-  famille,
-  période,
-  régionProjet,
-  demande: {
-    demandéeLe: DateTime.convertirEnValueType(demande.demandéeLe),
-    demandéePar: Email.convertirEnValueType(demande.demandéePar),
-  },
-  instruction: instruction
-    ? {
-        démarréePar: Email.convertirEnValueType(instruction?.démarréePar),
-        démarréeLe: DateTime.convertirEnValueType(instruction.démarréeLe),
-      }
-    : undefined,
-  accord: accord
-    ? {
-        accordéeLe: DateTime.convertirEnValueType(accord.accordéeLe),
-        accordéePar: Email.convertirEnValueType(accord.accordéePar),
-        courrierAccord: DocumentProjet.convertirEnValueType(
-          IdentifiantProjet.convertirEnValueType(identifiantProjet).formatter(),
-          TypeDocumentRéponseDemandeMainlevée.courrierRéponseDemandeMainlevéeAccordéeValueType.formatter(),
-          accord.accordéeLe,
-          accord.courrierAccord.format,
-        ),
-      }
-    : undefined,
-  motif: MotifDemandeMainlevéeGarantiesFinancières.convertirEnValueType(motif),
-  statut: StatutMainlevéeGarantiesFinancières.convertirEnValueType(statut),
-  dernièreMiseÀJour: {
-    date: DateTime.convertirEnValueType(dernièreMiseÀJour.date),
-    par: Email.convertirEnValueType(dernièreMiseÀJour.par),
-  },
-});
+}: MainlevéeGarantiesFinancièresEntity): ConsulterDemandeMainlevéeGarantiesFinancièresReadModel => {
+  const mainlevéeEnCours = mainlevées
+    .map((mainlevéeEnCours) => {
+      // tricks because predicate does not work
+      return ['accordé', 'en-instruction', 'demandé'].includes(mainlevéeEnCours.statut)
+        ? {
+            demande: {
+              demandéeLe: DateTime.convertirEnValueType(mainlevéeEnCours.demande.demandéeLe),
+              demandéePar: Email.convertirEnValueType(mainlevéeEnCours.demande.demandéePar),
+            },
+            instruction: mainlevéeEnCours.instruction
+              ? {
+                  démarréePar: Email.convertirEnValueType(instruction?.démarréePar),
+                  démarréeLe: DateTime.convertirEnValueType(instruction.démarréeLe),
+                }
+              : undefined,
+            accord: accord
+              ? {
+                  accordéeLe: DateTime.convertirEnValueType(accord.accordéeLe),
+                  accordéePar: Email.convertirEnValueType(accord.accordéePar),
+                  courrierAccord: DocumentProjet.convertirEnValueType(
+                    IdentifiantProjet.convertirEnValueType(identifiantProjet).formatter(),
+                    TypeDocumentRéponseDemandeMainlevée.courrierRéponseDemandeMainlevéeAccordéeValueType.formatter(),
+                    accord.accordéeLe,
+                    accord.courrierAccord.format,
+                  ),
+                }
+              : undefined,
+            motif: MotifDemandeMainlevéeGarantiesFinancières.convertirEnValueType(motif),
+            statut: StatutMainlevéeGarantiesFinancières.convertirEnValueType(statut),
+            dernièreMiseÀJour: {
+              date: DateTime.convertirEnValueType(dernièreMiseÀJour.date),
+              par: Email.convertirEnValueType(dernièreMiseÀJour.par),
+            },
+          }
+        : undefined;
+    })
+    .filter((item) => item !== undefined);
+
+  return {
+    identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
+    nomProjet,
+    appelOffre,
+    famille,
+    période,
+    régionProjet,
+    demande: {
+      demandéeLe: DateTime.convertirEnValueType(mainlevéeEnCours.demande.demandéeLe),
+      demandéePar: Email.convertirEnValueType(mainlevéeEnCours.demande.demandéePar),
+    },
+    instruction: mainlevéeEnCours.instruction
+      ? {
+          démarréePar: Email.convertirEnValueType(instruction?.démarréePar),
+          démarréeLe: DateTime.convertirEnValueType(instruction.démarréeLe),
+        }
+      : undefined,
+    accord: accord
+      ? {
+          accordéeLe: DateTime.convertirEnValueType(accord.accordéeLe),
+          accordéePar: Email.convertirEnValueType(accord.accordéePar),
+          courrierAccord: DocumentProjet.convertirEnValueType(
+            IdentifiantProjet.convertirEnValueType(identifiantProjet).formatter(),
+            TypeDocumentRéponseDemandeMainlevée.courrierRéponseDemandeMainlevéeAccordéeValueType.formatter(),
+            accord.accordéeLe,
+            accord.courrierAccord.format,
+          ),
+        }
+      : undefined,
+    motif: MotifDemandeMainlevéeGarantiesFinancières.convertirEnValueType(motif),
+    statut: StatutMainlevéeGarantiesFinancières.convertirEnValueType(statut),
+    dernièreMiseÀJour: {
+      date: DateTime.convertirEnValueType(dernièreMiseÀJour.date),
+      par: Email.convertirEnValueType(dernièreMiseÀJour.par),
+    },
+  };
+};

@@ -23,10 +23,7 @@ export type MainlevéeRejetée = {
   };
 };
 
-export type Mainlevées =
-  | []
-  | Array<MainlevéeRejetée>
-  | [MainlevéeEnCours, ...Array<MainlevéeRejetée>];
+export type MainlevéesArray = Array<MainlevéeRejetée> | [MainlevéeEnCours, ...MainlevéeRejetée[]];
 
 export type MainlevéeGarantiesFinancièresEntity = Entity<
   'mainlevee-garanties-financieres',
@@ -38,6 +35,6 @@ export type MainlevéeGarantiesFinancièresEntity = Entity<
     période: string;
     famille?: string;
 
-    mainlevées: Mainlevées;
+    mainlevées: MainlevéesArray;
   }
 >;

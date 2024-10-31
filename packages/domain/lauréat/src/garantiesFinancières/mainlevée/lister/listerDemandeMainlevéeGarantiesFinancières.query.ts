@@ -57,6 +57,9 @@ export const registerListerDemandeMainlevéeQuery = ({
       total,
     } = await list<MainlevéeGarantiesFinancièresEntity>('mainlevee-garanties-financieres', {
       orderBy: {
+        mainlevées: {
+          
+        }
         demande: {
           demandéeLe: 'ascending',
         },
@@ -64,7 +67,7 @@ export const registerListerDemandeMainlevéeQuery = ({
       range,
       where: {
         appelOffre: Where.equal(appelOffre),
-        motif: Where.equal(motif),
+        motif: { mainlevées: Where.equal(motif) },
         statut: statut
           ? Where.equal(statut)
           : Where.include(['en-instruction', 'demandé', 'accepté']),
