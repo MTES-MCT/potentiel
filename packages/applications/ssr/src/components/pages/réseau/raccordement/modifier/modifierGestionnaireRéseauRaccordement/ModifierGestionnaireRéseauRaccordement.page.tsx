@@ -1,6 +1,8 @@
 import Alert from '@codegouvfr/react-dsfr/Alert';
 import { FC } from 'react';
 
+import { IdentifiantProjet } from '@potentiel-domain/common';
+
 import { ProjetBanner } from '@/components/molecules/projet/ProjetBanner';
 import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
 
@@ -13,21 +15,23 @@ import {
 
 export type ModifierGestionnaireRéseauRaccordementPageProps = {
   identifiantProjet: ModifierGestionnaireRéseauRaccordementFormProps['identifiantProjet'];
-  identifiantGestionnaireRéseauActuel: ModifierGestionnaireRéseauRaccordementFormProps['identifiantGestionnaireRéseauActuel'];
+  gestionnaireRéseauActuel: ModifierGestionnaireRéseauRaccordementFormProps['gestionnaireRéseauActuel'];
   listeGestionnairesRéseau: ModifierGestionnaireRéseauRaccordementFormProps['listeGestionnairesRéseau'];
 };
 
 export const ModifierGestionnaireRéseauRaccordementPage: FC<
   ModifierGestionnaireRéseauRaccordementPageProps
-> = ({ identifiantProjet, identifiantGestionnaireRéseauActuel, listeGestionnairesRéseau }) => (
+> = ({ identifiantProjet, gestionnaireRéseauActuel, listeGestionnairesRéseau }) => (
   <ColumnPageTemplate
-    banner={<ProjetBanner identifiantProjet={identifiantProjet} />}
+    banner={
+      <ProjetBanner identifiantProjet={IdentifiantProjet.bind(identifiantProjet).formatter()} />
+    }
     heading={<TitrePageRaccordement />}
     leftColumn={{
       children: (
         <ModifierGestionnaireRéseauRaccordementForm
           identifiantProjet={identifiantProjet}
-          identifiantGestionnaireRéseauActuel={identifiantGestionnaireRéseauActuel}
+          gestionnaireRéseauActuel={gestionnaireRéseauActuel}
           listeGestionnairesRéseau={listeGestionnairesRéseau}
         />
       ),

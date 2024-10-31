@@ -6,6 +6,9 @@ import Button from '@codegouvfr/react-dsfr/Button';
 import Link from 'next/link';
 
 import { Routes } from '@potentiel-applications/routes';
+import { ExpressionRegulière, IdentifiantProjet } from '@potentiel-domain/common';
+import { PlainType } from '@potentiel-domain/core';
+import { Option } from '@potentiel-libraries/monads';
 
 import { Form } from '@/components/atoms/form/Form';
 import { UploadNewOrModifyExistingDocument } from '@/components/atoms/form/document/UploadNewOrModifyExistingDocument';
@@ -24,21 +27,26 @@ import {
 } from './transmettreDemandeComplèteRaccordement.action';
 
 export type TransmettreDemandeComplèteRaccordementFormProps = {
-  identifiantProjet: string;
-  identifiantGestionnaireRéseauActuel?: string;
+  identifiantProjet: PlainType<IdentifiantProjet.ValueType>;
+  gestionnaireRéseauActuel: GestionnaireRéseauSelectProps['gestionnaireRéseauActuel'];
   listeGestionnairesRéseau: GestionnaireRéseauSelectProps['listeGestionnairesRéseau'];
   aDéjàTransmisUneDemandeComplèteDeRaccordement: boolean;
 };
 
 export const TransmettreDemandeComplèteRaccordementForm = ({
   identifiantProjet,
-  identifiantGestionnaireRéseauActuel,
+  gestionnaireRéseauActuel,
   listeGestionnairesRéseau,
   aDéjàTransmisUneDemandeComplèteDeRaccordement,
 }: TransmettreDemandeComplèteRaccordementFormProps) => {
+  const identifiantProjetString = IdentifiantProjet.bind(identifiantProjet).formatter();
   const [validationErrors, setValidationErrors] = useState<
     ValidationErrors<TransmettreDemandeComplèteRaccordementFormKeys>
   >({});
+
+  const identifiantGestionnaireRéseauActuel = Option.match(gestionnaireRéseauActuel)
+    .some<string | undefined>((grd) => grd.identifiantGestionnaireRéseau.codeEIC)
+    .none(() => undefined);
 
   const [selectedIdentifiantGestionnaireRéseau, setSelectedIdentifiantGestionnaireRéseau] =
     useState<string | undefined>(identifiantGestionnaireRéseauActuel);
@@ -49,13 +57,15 @@ export const TransmettreDemandeComplèteRaccordementForm = ({
   const gestionnaireActuel = selectedIdentifiantGestionnaireRéseau
     ? listeGestionnairesRéseau.find(
         (gestionnaire) =>
-          gestionnaire.identifiantGestionnaireRéseau === selectedIdentifiantGestionnaireRéseau,
+          gestionnaire.identifiantGestionnaireRéseau.codeEIC ===
+          selectedIdentifiantGestionnaireRéseau,
       )
     : undefined;
-  const format = gestionnaireActuel?.aideSaisieRéférenceDossierRaccordement?.format ?? '';
-  const légende = gestionnaireActuel?.aideSaisieRéférenceDossierRaccordement?.légende ?? '';
+  const format = gestionnaireActuel?.aideSaisieRéférenceDossierRaccordement?.format ?? Option.none;
+  const légende = gestionnaireActuel?.aideSaisieRéférenceDossierRaccordement.légende ?? Option.none;
   const expressionReguliere =
-    gestionnaireActuel?.aideSaisieRéférenceDossierRaccordement?.expressionReguliere;
+    gestionnaireActuel?.aideSaisieRéférenceDossierRaccordement?.expressionReguliere?.expression ??
+    ExpressionRegulière.accepteTout.expression;
 
   return (
     <Form
@@ -68,7 +78,7 @@ export const TransmettreDemandeComplèteRaccordementForm = ({
             <Button
               priority="secondary"
               linkProps={{
-                href: Routes.Raccordement.détail(identifiantProjet),
+                href: Routes.Raccordement.détail(identifiantProjetString),
                 prefetch: false,
               }}
               iconId="fr-icon-arrow-left-line"
@@ -79,7 +89,7 @@ export const TransmettreDemandeComplèteRaccordementForm = ({
             <Button
               priority="secondary"
               linkProps={{
-                href: Routes.Projet.details(identifiantProjet),
+                href: Routes.Projet.details(identifiantProjetString),
                 prefetch: false,
               }}
               iconId="fr-icon-arrow-left-line"
@@ -91,7 +101,7 @@ export const TransmettreDemandeComplèteRaccordementForm = ({
         </>
       }
     >
-      <input name="identifiantProjet" type="hidden" value={identifiantProjet} />
+      <input name="identifiantProjet" type="hidden" value={identifiantProjetString} />
 
       {alreadyHasAGestionnaireRéseau ? (
         <div className="flex flex-col">
@@ -103,14 +113,16 @@ export const TransmettreDemandeComplèteRaccordementForm = ({
           <div className="flex gap-3">
             <legend className="font-bold">Gestionnaire réseau actuel</legend>
             {aDéjàTransmisUneDemandeComplèteDeRaccordement ? null : (
-              <Link href={Routes.Raccordement.modifierGestionnaireDeRéseau(identifiantProjet)}>
+              <Link
+                href={Routes.Raccordement.modifierGestionnaireDeRéseau(identifiantProjetString)}
+              >
                 <Icon id="fr-icon-edit-box-line" size="sm" /> Modifier
               </Link>
             )}
           </div>
           <div className="flex flex-col">
-            {gestionnaireActuel?.raisonSociale} ({gestionnaireActuel?.identifiantGestionnaireRéseau}
-            )
+            {gestionnaireActuel?.raisonSociale} (
+            {gestionnaireActuel?.identifiantGestionnaireRéseau?.codeEIC})
           </div>
         </div>
       ) : (
@@ -119,10 +131,10 @@ export const TransmettreDemandeComplèteRaccordementForm = ({
           name="identifiantGestionnaireReseau"
           label="Gestionnaire de réseau"
           listeGestionnairesRéseau={listeGestionnairesRéseau}
-          identifiantGestionnaireRéseauActuel={identifiantGestionnaireRéseauActuel}
+          gestionnaireRéseauActuel={gestionnaireRéseauActuel}
           state={validationErrors['identifiantGestionnaireReseau'] ? 'error' : 'default'}
           stateRelatedMessage={validationErrors['identifiantGestionnaireReseau']}
-          onGestionnaireRéseauSelected={({ identifiantGestionnaireRéseau }) =>
+          onGestionnaireRéseauSelected={(identifiantGestionnaireRéseau) =>
             setSelectedIdentifiantGestionnaireRéseau(identifiantGestionnaireRéseau)
           }
         />
@@ -132,8 +144,16 @@ export const TransmettreDemandeComplèteRaccordementForm = ({
         label="Référence du dossier de raccordement du projet *"
         hintText={
           <div>
-            {légende && <div>Format attendu : {légende}</div>}
-            {format && <div className="italic">Exemple : {format}</div>}
+            {Option.match(légende)
+              .some((légende) => <div>Format attendu : {légende}</div>)
+              .none(() => (
+                <></>
+              ))}
+            {Option.match(format)
+              .some((format) => <div className="italic">Exemple : {format}</div>)
+              .none(() => (
+                <></>
+              ))}
           </div>
         }
         state={validationErrors['referenceDossier'] ? 'error' : 'default'}
@@ -142,7 +162,9 @@ export const TransmettreDemandeComplèteRaccordementForm = ({
           name: 'referenceDossier',
           required: true,
           'aria-required': true,
-          placeholder: format ? `Exemple: ${format}` : `Renseigner l'identifiant`,
+          placeholder: Option.match(format)
+            .some((format) => `Exemple: ${format}`)
+            .none(() => `Renseigner la référence`),
           pattern: expressionReguliere || undefined,
           className: 'uppercase placeholder:capitalize',
         }}

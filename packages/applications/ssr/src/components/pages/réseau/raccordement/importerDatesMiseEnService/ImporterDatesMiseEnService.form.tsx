@@ -3,6 +3,7 @@
 import { FC, useState } from 'react';
 
 import { Routes } from '@potentiel-applications/routes';
+import { Option } from '@potentiel-libraries/monads';
 
 import { Form } from '@/components/atoms/form/Form';
 import { UploadNewOrModifyExistingDocument } from '@/components/atoms/form/document/UploadNewOrModifyExistingDocument';
@@ -21,19 +22,21 @@ import {
 } from './importDatesMiseEnService.action';
 
 export type ModifierGestionnaireRéseauRaccordementFormProps = {
-  identifiantGestionnaireRéseauActuel: string;
+  gestionnaireRéseauActuel: GestionnaireRéseauSelectProps['gestionnaireRéseauActuel'];
   listeGestionnairesRéseau: GestionnaireRéseauSelectProps['listeGestionnairesRéseau'];
 };
 
 export const ImporterDatesMiseEnServiceForm: FC<
   ModifierGestionnaireRéseauRaccordementFormProps
-> = ({ identifiantGestionnaireRéseauActuel, listeGestionnairesRéseau }) => {
+> = ({ gestionnaireRéseauActuel, listeGestionnairesRéseau }) => {
   const [validationErrors, setValidationErrors] = useState<
     ValidationErrors<ImporterDatesMiseEnServiceFormKeys>
   >({});
 
   const [identifiantGestionnaireReseau, setIdentifiantGestionnaireReseau] = useState(
-    identifiantGestionnaireRéseauActuel,
+    Option.match(gestionnaireRéseauActuel)
+      .some<string>((grd) => grd.identifiantGestionnaireRéseau.codeEIC)
+      .none(() => 'inconnu'),
   );
 
   return (
@@ -52,11 +55,11 @@ export const ImporterDatesMiseEnServiceForm: FC<
       <GestionnaireRéseauSelect
         id="identifiantGestionnaireReseau"
         name="identifiantGestionnaireReseau"
-        onGestionnaireRéseauSelected={({ identifiantGestionnaireRéseau }) => {
+        onGestionnaireRéseauSelected={(identifiantGestionnaireRéseau) => {
           setIdentifiantGestionnaireReseau(identifiantGestionnaireRéseau);
         }}
         listeGestionnairesRéseau={listeGestionnairesRéseau}
-        identifiantGestionnaireRéseauActuel={identifiantGestionnaireRéseauActuel}
+        gestionnaireRéseauActuel={gestionnaireRéseauActuel}
         disabled={listeGestionnairesRéseau.length === 1}
       />
       <DownloadDocument
