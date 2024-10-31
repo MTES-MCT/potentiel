@@ -2,6 +2,7 @@ import { mediator } from 'mediateur';
 
 import { GestionnaireRéseau } from '@potentiel-domain/reseau';
 import { getLogger } from '@potentiel-libraries/monitoring';
+import { Option } from '@potentiel-libraries/monads';
 
 import { RéférencielGRD } from './référencielGRD';
 
@@ -24,10 +25,16 @@ export const updateGRDs = async (gestionnaires: RéférencielGRD['àModifier']) 
               expressionReguliereValue:
                 gestionnaire.potentielGestionnaire.aideSaisieRéférenceDossierRaccordement
                   .expressionReguliere.expression,
-              légendeValue:
+              légendeValue: Option.match(
                 gestionnaire.potentielGestionnaire.aideSaisieRéférenceDossierRaccordement.légende,
-              formatValue:
+              )
+                .some<string | undefined>((légende) => légende)
+                .none(() => undefined),
+              formatValue: Option.match(
                 gestionnaire.potentielGestionnaire.aideSaisieRéférenceDossierRaccordement.format,
+              )
+                .some<string | undefined>((format) => format)
+                .none(() => undefined),
             },
             raisonSocialeValue: gestionnaire.oreGestionnaire.grd,
             contactEmailValue: gestionnaire.oreGestionnaire.contact ?? undefined,
