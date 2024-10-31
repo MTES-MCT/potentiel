@@ -114,7 +114,7 @@ export default async function Page({ searchParams }: PageProps) {
 
       return (
         <DossierRaccordementListPage
-          list={mapToPlainObject(mapToProps(dossiers, identifiantGestionnaireRéseauUtilisateur))}
+          list={mapToPlainObject(mapToProps(dossiers))}
           filters={filters}
         />
       );
@@ -135,18 +135,11 @@ function récupérerIdentifiantGestionnaireUtilisateur(utilisateur: Utilisateur.
   return utilisateur.groupe.nom;
 }
 
-const mapToProps = (
-  dossiers: Raccordement.ListerDossierRaccordementReadModel,
-  identifiantGestionnaireRéseauUtilisateur: string | undefined,
-) => {
+const mapToProps = (dossiers: Raccordement.ListerDossierRaccordementReadModel) => {
   return {
     ...dossiers,
     items: dossiers.items.map((dossier) => ({
       ...dossier,
-      actions: {
-        voirLeDossier: !identifiantGestionnaireRéseauUtilisateur,
-        transmettreMiseEnService: !dossier.dateMiseEnService,
-      } as const,
       raisonSocialeGestionnaireRéseau: dossier.raisonSocialeGestionnaireRéseau,
     })),
   };

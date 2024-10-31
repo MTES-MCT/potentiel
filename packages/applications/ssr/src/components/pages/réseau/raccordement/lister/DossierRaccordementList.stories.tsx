@@ -81,15 +81,6 @@ export const Default: Story = {
                 date: new Date().toISOString(),
               }
             : undefined,
-        actions:
-          i % 2 === 1
-            ? {
-                voirLeDossier: true as const,
-              }
-            : {
-                voirLeDossier: false as const,
-                transmettreMiseEnService: true,
-              },
       })),
       range: {
         startPosition: 0,
