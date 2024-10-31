@@ -39,7 +39,7 @@ export const TransmettreDemandeComplèteRaccordementForm = ({
   listeGestionnairesRéseau,
   aDéjàTransmisUneDemandeComplèteDeRaccordement,
 }: TransmettreDemandeComplèteRaccordementFormProps) => {
-  const identifiantProjetString = IdentifiantProjet.bind(identifiantProjet).formatter();
+  const identifiantProjetValue = IdentifiantProjet.bind(identifiantProjet).formatter();
   const [validationErrors, setValidationErrors] = useState<
     ValidationErrors<TransmettreDemandeComplèteRaccordementFormKeys>
   >({});
@@ -78,7 +78,7 @@ export const TransmettreDemandeComplèteRaccordementForm = ({
             <Button
               priority="secondary"
               linkProps={{
-                href: Routes.Raccordement.détail(identifiantProjetString),
+                href: Routes.Raccordement.détail(identifiantProjetValue),
                 prefetch: false,
               }}
               iconId="fr-icon-arrow-left-line"
@@ -89,7 +89,7 @@ export const TransmettreDemandeComplèteRaccordementForm = ({
             <Button
               priority="secondary"
               linkProps={{
-                href: Routes.Projet.details(identifiantProjetString),
+                href: Routes.Projet.details(identifiantProjetValue),
                 prefetch: false,
               }}
               iconId="fr-icon-arrow-left-line"
@@ -101,7 +101,7 @@ export const TransmettreDemandeComplèteRaccordementForm = ({
         </>
       }
     >
-      <input name="identifiantProjet" type="hidden" value={identifiantProjetString} />
+      <input name="identifiantProjet" type="hidden" value={identifiantProjetValue} />
 
       {alreadyHasAGestionnaireRéseau ? (
         <div className="flex flex-col">
@@ -113,9 +113,7 @@ export const TransmettreDemandeComplèteRaccordementForm = ({
           <div className="flex gap-3">
             <legend className="font-bold">Gestionnaire réseau actuel</legend>
             {aDéjàTransmisUneDemandeComplèteDeRaccordement ? null : (
-              <Link
-                href={Routes.Raccordement.modifierGestionnaireDeRéseau(identifiantProjetString)}
-              >
+              <Link href={Routes.Raccordement.modifierGestionnaireDeRéseau(identifiantProjetValue)}>
                 <Icon id="fr-icon-edit-box-line" size="sm" /> Modifier
               </Link>
             )}
