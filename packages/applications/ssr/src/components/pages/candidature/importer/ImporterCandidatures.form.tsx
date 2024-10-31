@@ -32,7 +32,6 @@ export const ImporterCandidaturesForm: FC = () => {
     >
       <UploadNewOrModifyExistingDocument
         label="Fichier CSV"
-        id="fichierImportCandidature"
         name="fichierImportCandidature"
         required
         formats={['csv']}

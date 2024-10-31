@@ -14,7 +14,6 @@ export type UploadDocumentProps = {
   label: React.ReactNode;
   name: string;
   formats: Array<'pdf' | 'jpg' | 'jpeg' | 'png' | 'csv'>;
-  id?: string;
   required?: boolean;
   disabled?: boolean;
   state?: RadioButtonsProps['state'];

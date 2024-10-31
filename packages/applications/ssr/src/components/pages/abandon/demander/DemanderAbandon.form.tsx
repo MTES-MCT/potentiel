@@ -47,7 +47,6 @@ export const DemanderAbandonForm: FC<DemanderAbandonFormProps> = ({
 
       <UploadNewOrModifyExistingDocument
         label={`Pièce justificative${recandidature ? ' (optionnel)' : ''}`}
-        id="pieceJustificative"
         name="pieceJustificative"
         formats={['pdf']}
         required={!recandidature}

@@ -10,7 +10,6 @@ export const UploadNewOrModifyExistingDocument: FC<UploadNewOrModifyExistingDocu
 ) =>
   isKeepOrEditDocumentProps(props) ? (
     <KeepOrEditDocument
-      id={props.id}
       name={props.name}
       label={props.label}
       className={props.className}
@@ -26,7 +25,6 @@ export const UploadNewOrModifyExistingDocument: FC<UploadNewOrModifyExistingDocu
     />
   ) : (
     <UploadDocument
-      id={props.id}
       name={props.name}
       label={props.label}
       className={props.className}

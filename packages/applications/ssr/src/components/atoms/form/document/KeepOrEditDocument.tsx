@@ -52,7 +52,6 @@ export const KeepOrEditDocument: FC<KeepOrEditDocumentProps> = ({
               {documentSelection === 'keep_existing_document' &&
                 props.documentKeys.map((documentKey) => (
                   <input
-                    id={props.id}
                     key={documentKey}
                     required={props.required}
                     aria-required={props.required}
@@ -78,7 +77,6 @@ export const KeepOrEditDocument: FC<KeepOrEditDocumentProps> = ({
               </div>
               {documentSelection === 'edit_document' && (
                 <UploadDocument
-                  id={props.id}
                   name={props.name}
                   required={props.required}
                   hintText={props.hintText}

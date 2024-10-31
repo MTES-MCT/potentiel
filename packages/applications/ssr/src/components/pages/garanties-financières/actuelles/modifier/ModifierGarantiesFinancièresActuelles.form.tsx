@@ -82,12 +82,11 @@ export const ModifierGarantiesFinancièresActuellesForm: FC<
       <UploadNewOrModifyExistingDocument
         label="Attestation de constitution"
         name="attestation"
-        id="attestation"
         required
         formats={['pdf']}
         state={validationErrors['attestation'] ? 'error' : 'default'}
         stateRelatedMessage={validationErrors['attestation']}
-        documentKeys={actuelles.attestation ? [actuelles.attestation] : undefined}
+        documentKeys={actuelles.attestation ? [actuelles.attestation] : []}
       />
     </Form>
   );
