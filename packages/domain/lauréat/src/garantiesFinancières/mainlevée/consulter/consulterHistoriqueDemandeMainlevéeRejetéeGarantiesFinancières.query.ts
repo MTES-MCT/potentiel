@@ -6,14 +6,13 @@ import { DocumentProjet } from '@potentiel-domain/document';
 import { Find } from '@potentiel-domain/entity';
 
 import {
-  HistoriqueMainlevéeRejetéeGarantiesFinancièresEntity,
   MainlevéeGarantiesFinancièresEntity,
   MotifDemandeMainlevéeGarantiesFinancières,
   TypeDocumentRéponseDemandeMainlevée,
 } from '../..';
 
 // garder la query consulter historique
-// query c'est les mainlevée avec un statut rejetée
+// query c'est les mainlevéeRejetée avec un statut rejetée
 export type ConsulterHistoriqueDemandeMainlevéeRejetéeGarantiesFinancièresReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
   nomProjet: string;
@@ -79,28 +78,30 @@ export const mapToReadModel = ({
   période,
   régionProjet,
   mainlevées,
-}: HistoriqueMainlevéeRejetéeGarantiesFinancièresEntity): ConsulterHistoriqueDemandeMainlevéeRejetéeGarantiesFinancièresReadModel => ({
+}: MainlevéeGarantiesFinancièresEntity): ConsulterHistoriqueDemandeMainlevéeRejetéeGarantiesFinancièresReadModel => ({
   identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
   nomProjet,
   appelOffre,
   famille,
   période,
   régionProjet,
-  historique: mainlevées.filter((mainlevée)=> mainlevée.statut.)map((mainlevée) => ({
-    demande: {
-      demandéeLe: DateTime.convertirEnValueType(demandeRejetée.demande.demandéeLe),
-      demandéePar: Email.convertirEnValueType(demandeRejetée.demande.demandéePar),
-    },
-    motif: MotifDemandeMainlevéeGarantiesFinancières.convertirEnValueType(demandeRejetée.motif),
-    rejet: {
-      rejetéLe: DateTime.convertirEnValueType(demandeRejetée.rejet.rejetéLe),
-      rejetéPar: Email.convertirEnValueType(demandeRejetée.rejet.rejetéPar),
-      courrierRejet: DocumentProjet.convertirEnValueType(
-        identifiantProjet,
-        TypeDocumentRéponseDemandeMainlevée.courrierRéponseDemandeMainlevéeRejetéeValueType.formatter(),
-        demandeRejetée.rejet.rejetéLe,
-        demandeRejetée.rejet.courrierRejet.format,
-      ),
-    },
-  })),
+  historique: mainlevées
+    .filter((mainlevée) => mainlevée.statut === 'rejeté')
+    .map((mainlevéeRejetée) => ({
+      demande: {
+        demandéeLe: DateTime.convertirEnValueType(mainlevéeRejetée.demande.demandéeLe),
+        demandéePar: Email.convertirEnValueType(mainlevéeRejetée.demande.demandéePar),
+      },
+      motif: MotifDemandeMainlevéeGarantiesFinancières.convertirEnValueType(mainlevéeRejetée.motif),
+      rejet: {
+        rejetéLe: DateTime.convertirEnValueType(mainlevéeRejetée.rejet.rejetéLe),
+        rejetéPar: Email.convertirEnValueType(mainlevéeRejetée.rejet.rejetéPar),
+        courrierRejet: DocumentProjet.convertirEnValueType(
+          identifiantProjet,
+          TypeDocumentRéponseDemandeMainlevée.courrierRéponseDemandeMainlevéeRejetéeValueType.formatter(),
+          mainlevéeRejetée.rejet!.rejetéLe,
+          mainlevéeRejetée.rejet!.courrierRejet.format,
+        ),
+      },
+    })),
 });

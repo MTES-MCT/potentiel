@@ -1,5 +1,33 @@
 import { Entity } from '@potentiel-domain/entity';
 
+export type MainlevéeEnCours = {
+  statut: 'demandé' | 'en-instruction' | 'accordé';
+  motif: string;
+  demande: { demandéeLe: string; demandéePar: string };
+  instruction?: { démarréeLe: string; démarréePar: string };
+  accord?: { accordéeLe: string; accordéePar: string; courrierAccord: { format: string } };
+  dernièreMiseÀJour: {
+    date: string;
+    par: string;
+  };
+};
+
+export type MainlevéeRejetée = {
+  statut: 'rejeté';
+  motif: string;
+  demande: { demandéeLe: string; demandéePar: string };
+  rejet: { rejetéLe: string; rejetéPar: string; courrierRejet: { format: string } };
+  dernièreMiseÀJour: {
+    date: string;
+    par: string;
+  };
+};
+
+export type Mainlevées =
+  | []
+  | Array<MainlevéeRejetée>
+  | [MainlevéeEnCours, ...Array<MainlevéeRejetée>];
+
 export type MainlevéeGarantiesFinancièresEntity = Entity<
   'mainlevee-garanties-financieres',
   {
@@ -10,17 +38,6 @@ export type MainlevéeGarantiesFinancièresEntity = Entity<
     période: string;
     famille?: string;
 
-    mainlevées: Array<{
-      statut: string;
-      motif: string;
-      demande: { demandéeLe: string; demandéePar: string };
-      instruction?: { démarréeLe: string; démarréePar: string };
-      accord?: { accordéeLe: string; accordéePar: string; courrierAccord: { format: string } };
-      rejet?: { rejetéLe: string; rejetéPar: string; courrierRejet: { format: string } };
-      dernièreMiseÀJour: {
-        date: string;
-        par: string;
-      };
-    }>;
+    mainlevées: Mainlevées;
   }
 >;
