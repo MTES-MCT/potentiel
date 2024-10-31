@@ -79,24 +79,14 @@ export function applyEnregistrerGarantiesFinancières(
     payload: { type, dateÉchéance, dateConstitution, attestation },
   }: GarantiesFinancièresEnregistréesEvent,
 ) {
-  if (!this.actuelles) {
-    this.actuelles = {
-      statut: StatutGarantiesFinancières.validé,
-      type: Candidature.TypeGarantiesFinancières.convertirEnValueType(type),
-      dateÉchéance: dateÉchéance && DateTime.convertirEnValueType(dateÉchéance),
-      dateConstitution: DateTime.convertirEnValueType(dateConstitution),
-      attestation,
-    };
-    return;
-  }
-
-  Object.assign(this.actuelles, {
+  this.actuelles = {
+    ...this.actuelles,
     statut: StatutGarantiesFinancières.validé,
     type: Candidature.TypeGarantiesFinancières.convertirEnValueType(type),
     dateÉchéance: dateÉchéance && DateTime.convertirEnValueType(dateÉchéance),
     dateConstitution: DateTime.convertirEnValueType(dateConstitution),
     attestation,
-  });
+  };
 }
 
 class GarantiesFinancièresDéjàEnregistréesError extends InvalidOperationError {
