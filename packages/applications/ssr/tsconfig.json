@@ -68,9 +68,6 @@
       "path": "../../libraries/monitoring"
     },
     {
-      "path": "../../infrastructure/filigrane-facile-client"
-    },
-    {
       "path": "../bootstrap"
     }
   ]

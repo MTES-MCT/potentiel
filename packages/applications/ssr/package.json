@@ -36,7 +36,6 @@
     "@potentiel-libraries/csv": "*",
     "@potentiel-libraries/iso8601-datetime": "*",
     "@potentiel-libraries/monitoring": "*",
-    "@potentiel-infrastructure/filigrane-facile-client": "*",
     "clsx": "^2.1.1",
     "i18next": "^23.16.0",
     "mediateur": "^0.1.0",
