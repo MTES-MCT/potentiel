@@ -86,22 +86,29 @@ export const mapToReadModel = ({
   période,
   régionProjet,
   historique: mainlevées
-    .filter((mainlevée) => mainlevée.statut === 'rejeté')
-    .map((mainlevéeRejetée) => ({
-      demande: {
-        demandéeLe: DateTime.convertirEnValueType(mainlevéeRejetée.demande.demandéeLe),
-        demandéePar: Email.convertirEnValueType(mainlevéeRejetée.demande.demandéePar),
-      },
-      motif: MotifDemandeMainlevéeGarantiesFinancières.convertirEnValueType(mainlevéeRejetée.motif),
-      rejet: {
-        rejetéLe: DateTime.convertirEnValueType(mainlevéeRejetée.rejet.rejetéLe),
-        rejetéPar: Email.convertirEnValueType(mainlevéeRejetée.rejet.rejetéPar),
-        courrierRejet: DocumentProjet.convertirEnValueType(
-          identifiantProjet,
-          TypeDocumentRéponseDemandeMainlevée.courrierRéponseDemandeMainlevéeRejetéeValueType.formatter(),
-          mainlevéeRejetée.rejet!.rejetéLe,
-          mainlevéeRejetée.rejet!.courrierRejet.format,
-        ),
-      },
-    })),
+    .map((mainlevéeRejetée) => {
+      // tricks because predicate does not work
+      return mainlevéeRejetée.statut === 'rejeté'
+        ? {
+            demande: {
+              demandéeLe: DateTime.convertirEnValueType(mainlevéeRejetée.demande.demandéeLe),
+              demandéePar: Email.convertirEnValueType(mainlevéeRejetée.demande.demandéePar),
+            },
+            motif: MotifDemandeMainlevéeGarantiesFinancières.convertirEnValueType(
+              mainlevéeRejetée.motif,
+            ),
+            rejet: {
+              rejetéLe: DateTime.convertirEnValueType(mainlevéeRejetée.rejet.rejetéLe),
+              rejetéPar: Email.convertirEnValueType(mainlevéeRejetée.rejet.rejetéPar),
+              courrierRejet: DocumentProjet.convertirEnValueType(
+                identifiantProjet,
+                TypeDocumentRéponseDemandeMainlevée.courrierRéponseDemandeMainlevéeRejetéeValueType.formatter(),
+                mainlevéeRejetée.rejet!.rejetéLe,
+                mainlevéeRejetée.rejet!.courrierRejet.format,
+              ),
+            },
+          }
+        : undefined;
+    })
+    .filter((item) => item !== undefined),
 });
