@@ -23,8 +23,7 @@ export const List = <TItem,>({
       {items.map(({ key, ...item }) => (
         <li className="mb-6" key={key}>
           <Tile className="flex flex-col md:flex-row md:justify-between">
-            {/* eslint-disable-next-line react/jsx-props-no-spreading */}
-            <ItemComponent {...item} />
+            {ItemComponent(item)}
           </Tile>
         </li>
       ))}

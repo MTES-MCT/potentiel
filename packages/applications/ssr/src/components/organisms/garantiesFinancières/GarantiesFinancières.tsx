@@ -9,8 +9,9 @@ import { DownloadDocument } from '@/components/atoms/form/document/DownloadDocum
 
 import { StatutGarantiesFinancièresBadge } from '../../molecules/garantiesFinancières/StatutGarantiesFinancièresBadge';
 
-import { GarantiesFinancièresActions } from './GarantiesFinancièresActions';
+import { DépôtGarantiesFinancièresActions } from './DépôtGarantiesFinancièresActions';
 import { GarantiesFinancièresActuelles, DépôtGarantiesFinancières } from './types';
+import { GarantiesFinancièresActuellesActions } from './GarantiesFinancièresActuellesActions';
 
 export type GarantiesFinancièresProps = {
   identifiantProjet: string;
@@ -115,12 +116,18 @@ export const GarantiesFinancières: FC<GarantiesFinancièresProps> = ({
               )}
             </div>
           </div>
-          <GarantiesFinancièresActions
-            identifiantProjet={identifiantProjet}
-            contactPorteurs={contactPorteurs}
-            // eslint-disable-next-line react/jsx-props-no-spreading
-            {...garantiesFinancières}
-          />
+          {garantiesFinancières.isActuelle ? (
+            <GarantiesFinancièresActuellesActions
+              identifiantProjet={identifiantProjet}
+              contactPorteurs={contactPorteurs}
+              actions={garantiesFinancières.actions}
+            />
+          ) : (
+            <DépôtGarantiesFinancièresActions
+              identifiantProjet={identifiantProjet}
+              actions={garantiesFinancières.actions}
+            />
+          )}
         </div>
       </>
     }
