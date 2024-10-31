@@ -107,6 +107,7 @@ export const SaisieChangementReprésentantLégal: FC<SaisieChangementReprésenta
         hintText={getPièceJustificativeHintText()}
         required
         formats={['pdf']}
+        multiple
         state={validationErrors['pieceJustificative'] ? 'error' : 'default'}
         stateRelatedMessage={validationErrors['pieceJustificative']}
         onChange={(fileNames) => {
