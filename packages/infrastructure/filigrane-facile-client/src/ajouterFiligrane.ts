@@ -1,21 +1,22 @@
 import { Option } from '@potentiel-libraries/monads';
 
-import { postFile } from './postFile';
-import { getFile as getWatermarkedFile } from './getFile';
-import { checkFileExists } from './checkFileExists';
+import { startApplyingWatermarkOnFile } from './startApplyingWatermarkOnFile';
+import { getWatermarkedFile } from './getWatermarkedFile';
+import { isWatermarkedFileAvailable } from './isWatermarkedFileAvailable';
 
 export const ajouterFiligrane = async (
   document: Blob,
   filigrane: string,
 ): Promise<Option.Type<ReadableStream>> => {
-  const token = await postFile(filigrane, document);
+  const token = await startApplyingWatermarkOnFile(filigrane, document);
 
-  const fileExists = await checkFileExists(token);
+  const fileExists = await isWatermarkedFileAvailable(token);
 
   if (!fileExists) {
     return Option.none;
   }
 
   const documentAvecFiligrane = await getWatermarkedFile(token);
-  return documentAvecFiligrane;
+
+  return documentAvecFiligrane.stream();
 };
