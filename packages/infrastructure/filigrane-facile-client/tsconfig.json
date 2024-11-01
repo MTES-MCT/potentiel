@@ -9,6 +9,9 @@
       "path": "../../libraries/http-client"
     },
     {
+      "path": "../../libraries/monads"
+    },
+    {
       "path": "../../libraries/monitoring"
     }
   ]

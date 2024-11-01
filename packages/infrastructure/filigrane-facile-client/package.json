@@ -9,8 +9,12 @@
     "build": "tsc"
   },
   "devDependencies": {
-    "@potentiel-config/tsconfig": "*",
+    "@potentiel-config/tsconfig": "*"
+  },
+  "dependencies": {
     "@potentiel-libraries/http-client": "*",
-    "@potentiel-libraries/monitoring": "*"
+    "@potentiel-libraries/monitoring": "*",
+    "@potentiel-libraries/monads": "*",
+    "zod": "^3.23.8"
   }
 }
