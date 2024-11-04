@@ -1,6 +1,9 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
 import { Iso8601DateTime } from '@potentiel-libraries/iso8601-datetime';
+import { ExpressionRegulière, IdentifiantProjet } from '@potentiel-domain/common';
+import { GestionnaireRéseau, Raccordement } from '@potentiel-domain/reseau';
+import { PlainType } from '@potentiel-domain/core';
 
 import { DétailsRaccordementPage, DétailsRaccordementPageProps } from './DétailsRaccordement.page';
 
@@ -16,66 +19,90 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
+const identifiantProjet = IdentifiantProjet.convertirEnValueType('PPE2 - Bâtiment#4#1#id-cre-738');
+
 const gestionnaireRéseau: DétailsRaccordementPageProps['gestionnaireRéseau'] = {
   aideSaisieRéférenceDossierRaccordement: {
-    expressionReguliere: 'expresion-régulière',
+    expressionReguliere: { expression: ExpressionRegulière.accepteTout.expression },
     format: 'Format',
     légende: 'Légende',
   },
-  contactEmail: 'email@gmail.com',
+  contactEmail: { email: 'email@gmail.com' },
   raisonSociale: 'Raison sociale',
-  identifiantGestionnaireRéseau: 'identifiantGestionnaireRéseau#1',
-  canEdit: true,
+  identifiantGestionnaireRéseau: { codeEIC: 'identifiantGestionnaireRéseau#1' },
 };
 
-const dossier: DétailsRaccordementPageProps['dossiers'][number] = {
-  identifiantProjet: 'PPE2 - Bâtiment#4#1#id-cre-738',
-  référence: 'référence-dossier#',
+const dossier: PlainType<DétailsRaccordementPageProps['raccordement']['dossiers'][number]> = {
+  référence: Raccordement.RéférenceDossierRaccordement.convertirEnValueType('référence-dossier#'),
   demandeComplèteRaccordement: {
-    canEdit: true,
-    accuséRéception: 'accusé-reception#1',
-    dateQualification: new Date('2022-05-10').toISOString() as Iso8601DateTime,
+    accuséRéception: {
+      dateCréation: new Date().toISOString(),
+      format: 'application/pdf',
+      identifiantProjet: identifiantProjet.formatter(),
+      typeDocument: 'accusé-reception#1',
+    },
+    dateQualification: { date: new Date('2022-05-10').toISOString() as Iso8601DateTime },
   },
   propositionTechniqueEtFinancière: {
-    canEdit: true,
-    dateSignature: new Date('2022-09-30').toISOString() as Iso8601DateTime,
-    propositionTechniqueEtFinancièreSignée: 'propositionTechniqueEtFinancièreSignée#1',
+    dateSignature: { date: new Date('2022-09-30').toISOString() as Iso8601DateTime },
+    propositionTechniqueEtFinancièreSignée: {
+      dateCréation: new Date().toISOString(),
+      format: 'application/pdf',
+      identifiantProjet: identifiantProjet.formatter(),
+      typeDocument: 'propositionTechniqueEtFinancièreSignée',
+    },
   },
   miseEnService: {
-    canEdit: true,
-    dateMiseEnService: new Date('2023-12-25').toISOString() as Iso8601DateTime,
+    dateMiseEnService: { date: new Date('2023-12-25').toISOString() as Iso8601DateTime },
   },
-  canDeleteDossier: false,
+  misÀJourLe: { date: new Date().toISOString() },
+};
+
+const actions = {
+  demandeComplèteRaccordement: { modifier: true, transmettre: true },
+  miseEnService: { modifier: true, transmettre: true },
+  propositionTechniqueEtFinancière: { modifier: true, transmettre: true },
+  gestionnaireRéseau: { modifier: true },
+  supprimer: true,
 };
 
 export const Complet: Story = {
   args: {
-    identifiantProjet: 'PPE2 - Bâtiment#4#1#id-cre-738',
+    identifiantProjet,
     gestionnaireRéseau,
-    dossiers: [dossier, dossier],
+    raccordement: {
+      identifiantProjet,
+      identifiantGestionnaireRéseau: gestionnaireRéseau.identifiantGestionnaireRéseau,
+      dossiers: [dossier, dossier],
+    },
+    actions,
   },
 };
 
 export const Incomplet: Story = {
   args: {
-    identifiantProjet: 'PPE2 - Bâtiment#4#1#id-cre-738',
+    identifiantProjet,
     gestionnaireRéseau,
-    dossiers: [
-      {
-        ...dossier,
-        canDeleteDossier: true,
-      },
-    ],
+    raccordement: {
+      identifiantProjet,
+      identifiantGestionnaireRéseau: gestionnaireRéseau.identifiantGestionnaireRéseau,
+      dossiers: [dossier],
+    },
+    actions: {
+      ...actions,
+      supprimer: false,
+    },
   },
 };
 
 export const GestionnaireInconnu: Story = {
   args: {
-    identifiantProjet: 'PPE2 - Bâtiment#4#1#id-cre-738',
+    identifiantProjet,
     gestionnaireRéseau: {
       ...gestionnaireRéseau,
-      identifiantGestionnaireRéseau: 'inconnu',
+      identifiantGestionnaireRéseau: GestionnaireRéseau.IdentifiantGestionnaireRéseau.inconnu,
     },
-    dossiers: Complet.args.dossiers,
+    raccordement: Complet.args.raccordement,
+    actions,
   },
 };

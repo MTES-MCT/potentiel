@@ -37,7 +37,7 @@ export const inconnu = convertirEnValueType('inconnu');
 
 class IdentifiantGestionnaireRéseauInvalideError extends InvalidOperationError {
   constructor(value: string) {
-    super(`L'identifiant gestionnaire réseau invalide`, {
+    super(`L'identifiant gestionnaire réseau est invalide`, {
       value,
     });
   }
