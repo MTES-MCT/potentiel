@@ -5,8 +5,8 @@ type GetOptions = {
   url: URL;
   retryPolicyOptions?: RetryPolicyOptions;
 };
-const getResponse = async ({ url, retryPolicyOptions }: GetOptions): Promise<Response> => {
-  return retryPolicy(retryPolicyOptions).execute(async () => {
+const getResponse = async ({ url, retryPolicyOptions }: GetOptions): Promise<Response> =>
+  retryPolicy(retryPolicyOptions).execute(async () => {
     const response = await fetch(url);
 
     if (!response.ok) {
@@ -16,7 +16,6 @@ const getResponse = async ({ url, retryPolicyOptions }: GetOptions): Promise<Res
 
     return response;
   });
-};
 
 export const get = async <T>({ url, retryPolicyOptions }: GetOptions): Promise<T> =>
   (await getResponse({ url, retryPolicyOptions })).json();
