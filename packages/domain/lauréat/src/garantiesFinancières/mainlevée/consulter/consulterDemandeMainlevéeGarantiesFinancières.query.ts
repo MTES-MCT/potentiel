@@ -62,7 +62,11 @@ export const registerConsulterDemandeMainlevéeGarantiesFinancièresQuery = ({
       `mainlevee-garanties-financieres|${identifiantProjetValueType.formatter()}`,
     );
 
-    if (Option.isNone(result)) {
+    const hasNoMainlevéeEnCours =
+      Option.isNone(result) ||
+      result.mainlevées.filter((mainlevée) => mainlevée.statut !== 'rejeté').length < 1;
+
+    if (hasNoMainlevéeEnCours) {
       return Option.none;
     }
 
@@ -81,37 +85,37 @@ export const consulterDemandeMainlevéeGarantiesFinancièresMapToReadModel = ({
   régionProjet,
 }: MainlevéeGarantiesFinancièresEntity): ConsulterDemandeMainlevéeGarantiesFinancièresReadModel => {
   const mainlevéeEnCours = mainlevées
-    .map((mainlevéeEnCours) => {
+    .map((mainlevée) => {
       // tricks because predicate does not work
-      return ['accordé', 'en-instruction', 'demandé'].includes(mainlevéeEnCours.statut)
+      return mainlevée.statut !== 'rejeté'
         ? {
             demande: {
-              demandéeLe: DateTime.convertirEnValueType(mainlevéeEnCours.demande.demandéeLe),
-              demandéePar: Email.convertirEnValueType(mainlevéeEnCours.demande.demandéePar),
+              demandéeLe: DateTime.convertirEnValueType(mainlevée.demande.demandéeLe),
+              demandéePar: Email.convertirEnValueType(mainlevée.demande.demandéePar),
             },
-            instruction: mainlevéeEnCours.instruction
+            instruction: mainlevée.instruction
               ? {
-                  démarréePar: Email.convertirEnValueType(instruction?.démarréePar),
-                  démarréeLe: DateTime.convertirEnValueType(instruction.démarréeLe),
+                  démarréePar: Email.convertirEnValueType(mainlevée.instruction.démarréePar),
+                  démarréeLe: DateTime.convertirEnValueType(mainlevée.instruction.démarréeLe),
                 }
               : undefined,
-            accord: accord
+            accord: mainlevée.accord
               ? {
-                  accordéeLe: DateTime.convertirEnValueType(accord.accordéeLe),
-                  accordéePar: Email.convertirEnValueType(accord.accordéePar),
+                  accordéeLe: DateTime.convertirEnValueType(mainlevée.accord.accordéeLe),
+                  accordéePar: Email.convertirEnValueType(mainlevée.accord.accordéePar),
                   courrierAccord: DocumentProjet.convertirEnValueType(
                     IdentifiantProjet.convertirEnValueType(identifiantProjet).formatter(),
                     TypeDocumentRéponseDemandeMainlevée.courrierRéponseDemandeMainlevéeAccordéeValueType.formatter(),
-                    accord.accordéeLe,
-                    accord.courrierAccord.format,
+                    mainlevée.accord.accordéeLe,
+                    mainlevée.accord.courrierAccord.format,
                   ),
                 }
               : undefined,
-            motif: MotifDemandeMainlevéeGarantiesFinancières.convertirEnValueType(motif),
-            statut: StatutMainlevéeGarantiesFinancières.convertirEnValueType(statut),
+            motif: MotifDemandeMainlevéeGarantiesFinancières.convertirEnValueType(mainlevée.motif),
+            statut: StatutMainlevéeGarantiesFinancières.convertirEnValueType(mainlevée.statut),
             dernièreMiseÀJour: {
-              date: DateTime.convertirEnValueType(dernièreMiseÀJour.date),
-              par: Email.convertirEnValueType(dernièreMiseÀJour.par),
+              date: DateTime.convertirEnValueType(mainlevée.dernièreMiseÀJour.date),
+              par: Email.convertirEnValueType(mainlevée.dernièreMiseÀJour.par),
             },
           }
         : undefined;
@@ -125,33 +129,6 @@ export const consulterDemandeMainlevéeGarantiesFinancièresMapToReadModel = ({
     famille,
     période,
     régionProjet,
-    demande: {
-      demandéeLe: DateTime.convertirEnValueType(mainlevéeEnCours.demande.demandéeLe),
-      demandéePar: Email.convertirEnValueType(mainlevéeEnCours.demande.demandéePar),
-    },
-    instruction: mainlevéeEnCours.instruction
-      ? {
-          démarréePar: Email.convertirEnValueType(instruction?.démarréePar),
-          démarréeLe: DateTime.convertirEnValueType(instruction.démarréeLe),
-        }
-      : undefined,
-    accord: accord
-      ? {
-          accordéeLe: DateTime.convertirEnValueType(accord.accordéeLe),
-          accordéePar: Email.convertirEnValueType(accord.accordéePar),
-          courrierAccord: DocumentProjet.convertirEnValueType(
-            IdentifiantProjet.convertirEnValueType(identifiantProjet).formatter(),
-            TypeDocumentRéponseDemandeMainlevée.courrierRéponseDemandeMainlevéeAccordéeValueType.formatter(),
-            accord.accordéeLe,
-            accord.courrierAccord.format,
-          ),
-        }
-      : undefined,
-    motif: MotifDemandeMainlevéeGarantiesFinancières.convertirEnValueType(motif),
-    statut: StatutMainlevéeGarantiesFinancières.convertirEnValueType(statut),
-    dernièreMiseÀJour: {
-      date: DateTime.convertirEnValueType(dernièreMiseÀJour.date),
-      par: Email.convertirEnValueType(dernièreMiseÀJour.par),
-    },
+    ...mainlevéeEnCours[0],
   };
 };

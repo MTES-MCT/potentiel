@@ -11,8 +11,7 @@ import {
   TypeDocumentRéponseDemandeMainlevée,
 } from '../..';
 
-// garder la query consulter historique
-// query c'est les mainlevéeRejetée avec un statut rejetée
+// l'historique sont les mainlevéeRejetée avec un statut rejetée
 export type ConsulterHistoriqueDemandeMainlevéeRejetéeGarantiesFinancièresReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
   nomProjet: string;
@@ -68,8 +67,6 @@ export const registerConsulterHistoriqueDemandeMainlevéeRejetéeGarantiesFinanc
   );
 };
 
-// modifier ça
-// ne pas bouger la consultations
 export const mapToReadModel = ({
   identifiantProjet,
   nomProjet,
