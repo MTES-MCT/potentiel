@@ -8,7 +8,7 @@ export const ajouterFiligrane = async (
   document: Blob,
   filigrane: string,
 ): Promise<Option.Type<ReadableStream>> => {
-  const token = await startApplyingWatermarkOnFile(filigrane, document);
+  const token = await startApplyingWatermarkOnFile(document, filigrane);
 
   const fileExists = await isWatermarkedFileAvailable(token);
 

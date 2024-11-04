@@ -9,8 +9,8 @@ const schema = zod.object({
 });
 
 export const startApplyingWatermarkOnFile = async (
-  watermark: string,
   file: Blob,
+  watermark: string,
 ): Promise<string> => {
   const url = new URL(`/api/document/files`, getApiUrl());
   const response = await post(url, { watermark, files: file });
