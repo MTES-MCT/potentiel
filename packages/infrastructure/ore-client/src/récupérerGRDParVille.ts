@@ -50,7 +50,7 @@ export const récupérerGRDParVille = async ({
       return matchOutreMerAndCorseCodePostalToGRD(codePostal);
     }
 
-    const result = await get(url);
+    const result = await get({ url });
 
     const parsedResult = schema.parse(result);
 

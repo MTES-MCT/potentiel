@@ -20,7 +20,7 @@ const récupérerGRDParTranche = async (offset: string): Promise<OreGestionnaire
   url.searchParams.append('limit', OREApiLimitInString);
   url.searchParams.append('offset', offset);
 
-  const result = await get(url);
+  const result = await get({ url });
 
   const parsedResult = OREresultSchema.parse(result);
 
