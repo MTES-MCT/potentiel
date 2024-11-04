@@ -71,27 +71,23 @@ export default async function Page({ searchParams }: PageProps) {
         data: {},
       });
 
-      const statutsMainlevéeEnCours =
-        GarantiesFinancières.StatutMainlevéeGarantiesFinancières.statuts.filter(
-          (s) => s !== 'rejeté',
-        );
-
-      const motifMainlevéeEnCours =
-        GarantiesFinancières.MotifDemandeMainlevéeGarantiesFinancières.motifs;
+      const motifMainlevée = GarantiesFinancières.MotifDemandeMainlevéeGarantiesFinancières.motifs;
 
       const filters = [
         {
           label: `Statut de mainlevée`,
           searchParamKey: 'statut',
-          options: statutsMainlevéeEnCours.map((statut) => ({
-            label: convertStatutMainlevéeForView(statut),
-            value: statut,
-          })),
+          options: GarantiesFinancières.StatutMainlevéeGarantiesFinancières.statuts.map(
+            (statut) => ({
+              label: convertStatutMainlevéeForView(statut),
+              value: statut,
+            }),
+          ),
         },
         {
           label: 'Motif de mainlevée',
           searchParamKey: 'motif',
-          options: motifMainlevéeEnCours.map((motif) => ({
+          options: motifMainlevée.map((motif) => ({
             label: convertMotifMainlevéeForView(motif),
             value: motif,
           })),
@@ -128,18 +124,7 @@ const mapToListProps = ({
   showInstruction: boolean;
 }): ListeDemandeMainlevéeProps['list'] => {
   const mappedItems = items.map(
-    ({
-      appelOffre,
-      demande,
-      dernièreMiseÀJour,
-      famille,
-      identifiantProjet,
-      motif,
-      nomProjet,
-      période,
-      régionProjet,
-      statut,
-    }) => ({
+    ({ appelOffre, demande, dernièreMiseÀJour, identifiantProjet, motif, nomProjet, statut }) => ({
       identifiantProjet: identifiantProjet.formatter(),
       motif: motif.motif,
       statut: statut.statut,
@@ -147,9 +132,6 @@ const mapToListProps = ({
       nomProjet,
       misÀJourLe: dernièreMiseÀJour.date.formatter(),
       appelOffre,
-      famille,
-      période,
-      régionProjet,
       showInstruction,
     }),
   );

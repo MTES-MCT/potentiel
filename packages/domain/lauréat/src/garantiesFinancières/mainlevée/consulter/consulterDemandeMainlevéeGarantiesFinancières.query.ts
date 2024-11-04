@@ -64,7 +64,7 @@ export const registerConsulterDemandeMainlevéeGarantiesFinancièresQuery = ({
 
     if (
       Option.isNone(result) ||
-      !result.mainlevées.filter(
+      !result.détailsMainlevées.filter(
         (mainlevée) =>
           !StatutMainlevéeGarantiesFinancières.convertirEnValueType(mainlevée.statut).estRejeté(),
       ).length
@@ -78,15 +78,11 @@ export const registerConsulterDemandeMainlevéeGarantiesFinancièresQuery = ({
 };
 
 export const consulterDemandeMainlevéeGarantiesFinancièresMapToReadModel = ({
-  mainlevées,
+  détailsMainlevées,
   identifiantProjet,
-  nomProjet,
-  appelOffre,
-  famille,
-  période,
-  régionProjet,
+  projet: { nomProjet, appelOffre, famille, période, régionProjet },
 }: MainlevéeGarantiesFinancièresEntity): ConsulterDemandeMainlevéeGarantiesFinancièresReadModel => {
-  const mainlevéeEnCours = mainlevées
+  const mainlevéeEnCours = détailsMainlevées
     .filter(
       (mainlevée) =>
         !StatutMainlevéeGarantiesFinancières.convertirEnValueType(mainlevée.statut).estRejeté(),

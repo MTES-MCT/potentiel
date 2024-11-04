@@ -57,7 +57,7 @@ export const registerConsulterHistoriqueDemandeMainlevéeRejetéeGarantiesFinanc
 
     const hasNoHistoriqueMainlevée =
       Option.isNone(result) ||
-      result.mainlevées.filter((mainlevée) => mainlevée.statut === 'rejeté').length < 1;
+      result.détailsMainlevées.filter((mainlevée) => mainlevée.statut === 'rejeté').length < 1;
 
     if (hasNoHistoriqueMainlevée) {
       return Option.none;
@@ -73,12 +73,8 @@ export const registerConsulterHistoriqueDemandeMainlevéeRejetéeGarantiesFinanc
 
 export const mapToReadModel = ({
   identifiantProjet,
-  nomProjet,
-  appelOffre,
-  famille,
-  période,
-  régionProjet,
-  mainlevées,
+  projet: { nomProjet, appelOffre, famille, période, régionProjet },
+  détailsMainlevées,
 }: MainlevéeGarantiesFinancièresEntity): ConsulterHistoriqueDemandeMainlevéeRejetéeGarantiesFinancièresReadModel => ({
   identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
   nomProjet,
@@ -86,7 +82,7 @@ export const mapToReadModel = ({
   famille,
   période,
   régionProjet,
-  historique: mainlevées
+  historique: détailsMainlevées
     .map((mainlevéeRejetée) => {
       // tricks to force type
       return mainlevéeRejetée.statut === 'rejeté'
