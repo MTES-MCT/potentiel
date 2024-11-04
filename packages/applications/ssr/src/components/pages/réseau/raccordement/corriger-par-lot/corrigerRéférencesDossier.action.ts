@@ -6,7 +6,6 @@ import { mediator } from 'mediateur';
 import { type Raccordement } from '@potentiel-domain/reseau';
 import { DomainError } from '@potentiel-domain/core';
 import { parseCsv } from '@potentiel-libraries/csv';
-
 import { Routes } from '@potentiel-applications/routes';
 
 import { ActionResult, FormAction, FormState, formAction } from '@/utils/formAction';
