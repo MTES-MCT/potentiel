@@ -35,9 +35,9 @@ import { DémarrerInstructionDemandeMainlevéeGarantiesFinancièresUseCase } fro
 import { RejeterDemandeMainlevéeGarantiesFinancièresUseCase } from './mainlevée/rejeter/rejeterDemandeMainlevéeGarantiesFinancières.usecase';
 import { AccorderDemandeMainlevéeGarantiesFinancièresUseCase } from './mainlevée/accorder/accorderDemandeMainlevéeGarantiesFinancières.usecase';
 import {
-  ListerDemandeMainlevéeQuery,
-  ListerDemandeMainlevéeReadModel,
-} from './mainlevée/lister/listerDemandeMainlevéeGarantiesFinancières.query';
+  ListerMainlevéesQuery,
+  ListerMainlevéesReadModel,
+} from './mainlevée/lister/listerMainlevéesGarantiesFinancières.query';
 import {
   ConsulterDemandeMainlevéeGarantiesFinancièresQuery,
   ConsulterDemandeMainlevéeGarantiesFinancièresReadModel,
@@ -61,7 +61,7 @@ export type GarantiesFinancièresQuery =
   | ListerProjetsAvecGarantiesFinancièresEnAttenteQuery
   | ListerDépôtsEnCoursGarantiesFinancièresQuery
   | ConsulterDemandeMainlevéeGarantiesFinancièresQuery
-  | ListerDemandeMainlevéeQuery
+  | ListerMainlevéesQuery
   | ConsulterHistoriqueDemandeMainlevéeRejetéeGarantiesFinancièresQuery;
 
 export type {
@@ -72,7 +72,7 @@ export type {
   ListerDépôtsEnCoursGarantiesFinancièresQuery,
   ListerProjetsAvecGarantiesFinancièresEnAttenteQuery,
   ConsulterDemandeMainlevéeGarantiesFinancièresQuery,
-  ListerDemandeMainlevéeQuery,
+  ListerMainlevéesQuery,
   ConsulterHistoriqueDemandeMainlevéeRejetéeGarantiesFinancièresQuery,
 };
 
@@ -86,7 +86,7 @@ export type {
   ListerDépôtsEnCoursGarantiesFinancièresReadModel,
   ListerProjetsAvecGarantiesFinancièresEnAttenteReadModel,
   ConsulterDemandeMainlevéeGarantiesFinancièresReadModel,
-  ListerDemandeMainlevéeReadModel,
+  ListerMainlevéesReadModel,
   ConsulterHistoriqueDemandeMainlevéeRejetéeGarantiesFinancièresReadModel,
 };
 
@@ -168,7 +168,6 @@ export * from './garantiesFinancièresActuelles/archivesGarantiesFinancières.en
 export * from './dépôtEnCours/dépôtEnCoursGarantiesFinancières.entity';
 export * from './projetEnAttenteDeGarantiesFinancières/projetAvecGarantiesFinancièresEnAttente.entity';
 export * from './mainlevée/mainlevéeGarantiesFinancières.entity';
-export * from './mainlevée/historiqueMainlevéeRejetéeGarantiesFinancières.entity';
 
 // Saga
 export * as GarantiesFinancièresSaga from './garantiesFinancières.saga';

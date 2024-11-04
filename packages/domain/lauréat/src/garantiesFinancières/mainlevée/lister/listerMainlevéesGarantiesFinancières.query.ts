@@ -14,16 +14,15 @@ import {
 } from '../consulter/consulterDemandeMainlevéeGarantiesFinancières.query';
 import { getRoleBasedWhereCondition, Utilisateur } from '../../utils/getRoleBasedWhereCondition';
 
-export type ListerDemandeMainlevéeItemReadModel =
-  ConsulterDemandeMainlevéeGarantiesFinancièresReadModel;
+export type ListerMainlevéeItemReadModel = ConsulterDemandeMainlevéeGarantiesFinancièresReadModel;
 
-export type ListerDemandeMainlevéeReadModel = Readonly<{
-  items: ReadonlyArray<ListerDemandeMainlevéeItemReadModel>;
+export type ListerMainlevéesReadModel = Readonly<{
+  items: ReadonlyArray<ListerMainlevéeItemReadModel>;
   range: RangeOptions;
   total: number;
 }>;
 
-export type ListerDemandeMainlevéeQuery = Message<
+export type ListerMainlevéesQuery = Message<
   'Lauréat.GarantiesFinancières.Mainlevée.Query.Lister',
   {
     range?: RangeOptions;
@@ -32,19 +31,19 @@ export type ListerDemandeMainlevéeQuery = Message<
     statut?: StatutMainlevéeGarantiesFinancières.RawType;
     utilisateur: Utilisateur;
   },
-  ListerDemandeMainlevéeReadModel
+  ListerMainlevéesReadModel
 >;
 
-type ListerDemandeMainlevéeQueryDependencies = {
+type ListerMainlevéesQueryDependencies = {
   list: List;
   récupérerIdentifiantsProjetParEmailPorteur: RécupérerIdentifiantsProjetParEmailPorteur;
 };
 
-export const registerListerDemandeMainlevéeQuery = ({
+export const registerListerMainlevéesQuery = ({
   list,
   récupérerIdentifiantsProjetParEmailPorteur,
-}: ListerDemandeMainlevéeQueryDependencies) => {
-  const handler: MessageHandler<ListerDemandeMainlevéeQuery> = async ({
+}: ListerMainlevéesQueryDependencies) => {
+  const handler: MessageHandler<ListerMainlevéesQuery> = async ({
     range,
     appelOffre,
     motif,
@@ -56,6 +55,7 @@ export const registerListerDemandeMainlevéeQuery = ({
       range: { endPosition, startPosition },
       total,
     } = await list<MainlevéeGarantiesFinancièresEntity>('mainlevee-garanties-financieres', {
+      // violette
       // à voir pour le orderBy
       // orderBy: {
       //   demande: {

@@ -18,7 +18,7 @@ import {
   ConsulterDemandeMainlevéeGarantiesFinancièresDependencies,
   registerConsulterDemandeMainlevéeGarantiesFinancièresQuery,
 } from './mainlevée/consulter/consulterDemandeMainlevéeGarantiesFinancières.query';
-import { registerListerDemandeMainlevéeQuery } from './mainlevée/lister/listerDemandeMainlevéeGarantiesFinancières.query';
+import { registerListerMainlevéesQuery } from './mainlevée/lister/listerMainlevéesGarantiesFinancières.query';
 import {
   ConsulterHistoriqueDemandeMainlevéeRejetéeGarantiesFinancièresDependencies,
   registerConsulterHistoriqueDemandeMainlevéeRejetéeGarantiesFinancièresQuery,
@@ -56,6 +56,6 @@ export const registerGarantiesFinancièresQueries = (
   registerListerProjetsAvecGarantiesFinancièresEnAttenteQuery(dependencies);
   registerConsulterDépôtEnCoursGarantiesFinancièresQuery(dependencies);
   registerConsulterDemandeMainlevéeGarantiesFinancièresQuery(dependencies);
-  registerListerDemandeMainlevéeQuery(dependencies);
+  registerListerMainlevéesQuery(dependencies);
   registerConsulterHistoriqueDemandeMainlevéeRejetéeGarantiesFinancièresQuery(dependencies);
 };

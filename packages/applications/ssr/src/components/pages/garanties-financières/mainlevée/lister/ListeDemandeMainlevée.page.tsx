@@ -23,7 +23,7 @@ export const ListeDemandeMainlevéePage: FC<ListeDemandeMainlevéeProps> = ({
 }) => {
   return (
     <ListPageTemplate
-      heading="Demandes de mainlevée en cours"
+      heading="Demandes de mainlevée"
       actions={[]}
       items={mainslevées.map((mainlevée) => ({
         ...mainlevée,

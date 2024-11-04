@@ -62,7 +62,13 @@ export const registerConsulterDemandeMainlevéeGarantiesFinancièresQuery = ({
       `mainlevee-garanties-financieres|${identifiantProjetValueType.formatter()}`,
     );
 
-    if (Option.isNone(result)) {
+    if (
+      Option.isNone(result) ||
+      !result.mainlevées.filter(
+        (mainlevée) =>
+          !StatutMainlevéeGarantiesFinancières.convertirEnValueType(mainlevée.statut).estRejeté(),
+      ).length
+    ) {
       return Option.none;
     }
 
@@ -80,38 +86,43 @@ export const consulterDemandeMainlevéeGarantiesFinancièresMapToReadModel = ({
   période,
   régionProjet,
 }: MainlevéeGarantiesFinancièresEntity): ConsulterDemandeMainlevéeGarantiesFinancièresReadModel => {
-  const mainlevéeEnCours = mainlevées.map((mainlevée) => {
-    return {
-      demande: {
-        demandéeLe: DateTime.convertirEnValueType(mainlevée.demande.demandéeLe),
-        demandéePar: Email.convertirEnValueType(mainlevée.demande.demandéePar),
-      },
-      instruction: mainlevée.instruction
-        ? {
-            démarréePar: Email.convertirEnValueType(mainlevée.instruction.démarréePar),
-            démarréeLe: DateTime.convertirEnValueType(mainlevée.instruction.démarréeLe),
-          }
-        : undefined,
-      accord: mainlevée.accord
-        ? {
-            accordéeLe: DateTime.convertirEnValueType(mainlevée.accord.accordéeLe),
-            accordéePar: Email.convertirEnValueType(mainlevée.accord.accordéePar),
-            courrierAccord: DocumentProjet.convertirEnValueType(
-              IdentifiantProjet.convertirEnValueType(identifiantProjet).formatter(),
-              TypeDocumentRéponseDemandeMainlevée.courrierRéponseDemandeMainlevéeAccordéeValueType.formatter(),
-              mainlevée.accord.accordéeLe,
-              mainlevée.accord.courrierAccord.format,
-            ),
-          }
-        : undefined,
-      motif: MotifDemandeMainlevéeGarantiesFinancières.convertirEnValueType(mainlevée.motif),
-      statut: StatutMainlevéeGarantiesFinancières.convertirEnValueType(mainlevée.statut),
-      dernièreMiseÀJour: {
-        date: DateTime.convertirEnValueType(mainlevée.dernièreMiseÀJour.date),
-        par: Email.convertirEnValueType(mainlevée.dernièreMiseÀJour.par),
-      },
-    };
-  });
+  const mainlevéeEnCours = mainlevées
+    .filter(
+      (mainlevée) =>
+        !StatutMainlevéeGarantiesFinancières.convertirEnValueType(mainlevée.statut).estRejeté(),
+    )
+    .map((mainlevée) => {
+      return {
+        demande: {
+          demandéeLe: DateTime.convertirEnValueType(mainlevée.demande.demandéeLe),
+          demandéePar: Email.convertirEnValueType(mainlevée.demande.demandéePar),
+        },
+        instruction: mainlevée.instruction
+          ? {
+              démarréePar: Email.convertirEnValueType(mainlevée.instruction.démarréePar),
+              démarréeLe: DateTime.convertirEnValueType(mainlevée.instruction.démarréeLe),
+            }
+          : undefined,
+        accord: mainlevée.accord
+          ? {
+              accordéeLe: DateTime.convertirEnValueType(mainlevée.accord.accordéeLe),
+              accordéePar: Email.convertirEnValueType(mainlevée.accord.accordéePar),
+              courrierAccord: DocumentProjet.convertirEnValueType(
+                IdentifiantProjet.convertirEnValueType(identifiantProjet).formatter(),
+                TypeDocumentRéponseDemandeMainlevée.courrierRéponseDemandeMainlevéeAccordéeValueType.formatter(),
+                mainlevée.accord.accordéeLe,
+                mainlevée.accord.courrierAccord.format,
+              ),
+            }
+          : undefined,
+        motif: MotifDemandeMainlevéeGarantiesFinancières.convertirEnValueType(mainlevée.motif),
+        statut: StatutMainlevéeGarantiesFinancières.convertirEnValueType(mainlevée.statut),
+        dernièreMiseÀJour: {
+          date: DateTime.convertirEnValueType(mainlevée.dernièreMiseÀJour.date),
+          par: Email.convertirEnValueType(mainlevée.dernièreMiseÀJour.par),
+        },
+      };
+    });
 
   return {
     identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
