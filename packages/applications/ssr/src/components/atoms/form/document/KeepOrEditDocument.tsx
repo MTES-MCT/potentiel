@@ -11,17 +11,21 @@ export type KeepOrEditDocumentProps = UploadDocumentProps & { documentKeys: Arra
 
 export const KeepOrEditDocument: FC<KeepOrEditDocumentProps> = ({
   className = '',
+  name,
   label,
+  formats,
+  documentKeys,
+  required,
+  multiple,
+  hintText,
   disabled,
   state,
   stateRelatedMessage,
-  formats,
   onChange,
-  ...props
 }) => {
-  const hasManyDocuments = props.documentKeys.length > 1;
-  const hasOnlyOneDocument = props.documentKeys.length === 1;
-  const noExistingDocument = props.documentKeys.length === 0;
+  const hasManyDocuments = documentKeys.length > 1;
+  const hasOnlyOneDocument = documentKeys.length === 1;
+  const noExistingDocument = documentKeys.length === 0;
 
   const [documentSelection, setDocumentSelection] = useState<
     'keep_existing_document' | 'edit_document'
@@ -31,7 +35,7 @@ export const KeepOrEditDocument: FC<KeepOrEditDocumentProps> = ({
     <RadioButtons
       className={className}
       legend={label}
-      name={`${props.name}_document_selector`}
+      name={`${name}_document_selector`}
       disabled={disabled}
       options={[
         {
@@ -40,21 +44,22 @@ export const KeepOrEditDocument: FC<KeepOrEditDocumentProps> = ({
               {hasManyDocuments ? (
                 <KeepManyDocuments
                   showLink={documentSelection === 'keep_existing_document'}
-                  name={props.name}
-                  documentKeys={props.documentKeys}
+                  name={name}
+                  documentKeys={documentKeys}
                 />
               ) : hasOnlyOneDocument ? (
-                <KeepSingleDocument documentKey={props.documentKeys[0]} />
+                <KeepSingleDocument documentKey={documentKeys[0]} />
               ) : (
                 <>Aucun document à conserver</>
               )}
 
               {documentSelection === 'keep_existing_document' &&
-                props.documentKeys.map((documentKey) => (
+                documentKeys.map((documentKey) => (
                   <input
                     key={documentKey}
-                    required={props.required}
-                    aria-required={props.required}
+                    name={name}
+                    required={required}
+                    aria-required={required}
                     type="text"
                     hidden
                     value={documentKey}
@@ -77,10 +82,10 @@ export const KeepOrEditDocument: FC<KeepOrEditDocumentProps> = ({
               </div>
               {documentSelection === 'edit_document' && (
                 <UploadDocument
-                  name={props.name}
-                  required={props.required}
-                  hintText={props.hintText}
-                  multiple={props.multiple}
+                  name={name}
+                  required={required}
+                  hintText={hintText}
+                  multiple={multiple}
                   label=""
                   formats={formats}
                   onChange={onChange}
