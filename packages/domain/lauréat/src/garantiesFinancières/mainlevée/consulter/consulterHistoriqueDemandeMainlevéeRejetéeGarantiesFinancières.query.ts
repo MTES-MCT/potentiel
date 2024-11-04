@@ -55,7 +55,11 @@ export const registerConsulterHistoriqueDemandeMainlevéeRejetéeGarantiesFinanc
       `mainlevee-garanties-financieres|${identifiantProjetValueType.formatter()}`,
     );
 
-    if (Option.isNone(result)) {
+    const hasNoHistoriqueMainlevée =
+      Option.isNone(result) ||
+      result.mainlevées.filter((mainlevée) => mainlevée.statut === 'rejeté').length < 1;
+
+    if (hasNoHistoriqueMainlevée) {
       return Option.none;
     }
 
@@ -84,7 +88,7 @@ export const mapToReadModel = ({
   régionProjet,
   historique: mainlevées
     .map((mainlevéeRejetée) => {
-      // tricks because predicate does not work
+      // tricks to force type
       return mainlevéeRejetée.statut === 'rejeté'
         ? {
             demande: {
@@ -95,8 +99,8 @@ export const mapToReadModel = ({
               mainlevéeRejetée.motif,
             ),
             rejet: {
-              rejetéLe: DateTime.convertirEnValueType(mainlevéeRejetée.rejet.rejetéLe),
-              rejetéPar: Email.convertirEnValueType(mainlevéeRejetée.rejet.rejetéPar),
+              rejetéLe: DateTime.convertirEnValueType(mainlevéeRejetée.rejet!.rejetéLe),
+              rejetéPar: Email.convertirEnValueType(mainlevéeRejetée.rejet!.rejetéPar),
               courrierRejet: DocumentProjet.convertirEnValueType(
                 identifiantProjet,
                 TypeDocumentRéponseDemandeMainlevée.courrierRéponseDemandeMainlevéeRejetéeValueType.formatter(),

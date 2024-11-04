@@ -4,10 +4,10 @@ import { Where, List, RangeOptions } from '@potentiel-domain/entity';
 import { RécupérerIdentifiantsProjetParEmailPorteur } from '@potentiel-domain/utilisateur';
 
 import {
+  MainlevéeGarantiesFinancièresEntity,
   MotifDemandeMainlevéeGarantiesFinancières,
   StatutMainlevéeGarantiesFinancières,
 } from '../..';
-import { MainlevéeGarantiesFinancièresEntity } from '../mainlevéeGarantiesFinancières.entity';
 import {
   ConsulterDemandeMainlevéeGarantiesFinancièresReadModel,
   consulterDemandeMainlevéeGarantiesFinancièresMapToReadModel,
@@ -56,21 +56,17 @@ export const registerListerDemandeMainlevéeQuery = ({
       range: { endPosition, startPosition },
       total,
     } = await list<MainlevéeGarantiesFinancièresEntity>('mainlevee-garanties-financieres', {
-      orderBy: {
-        mainlevées: {
-          
-        }
-        demande: {
-          demandéeLe: 'ascending',
-        },
-      },
+      // à voir pour le orderBy
+      // orderBy: {
+      //   demande: {
+      //     demandéeLe: 'ascending',
+      //   },
+      // },
       range,
       where: {
-        appelOffre: Where.equal(appelOffre),
-        motif: { mainlevées: Where.equal(motif) },
-        statut: statut
-          ? Where.equal(statut)
-          : Where.include(['en-instruction', 'demandé', 'accepté']),
+        ...(appelOffre && { appelOffre: Where.include([appelOffre]) }),
+        ...(motif && { motif: Where.include([motif]) }),
+        ...(statut && { statut: Where.include([statut]) }),
         ...(await getRoleBasedWhereCondition(
           utilisateur,
           récupérerIdentifiantsProjetParEmailPorteur,
