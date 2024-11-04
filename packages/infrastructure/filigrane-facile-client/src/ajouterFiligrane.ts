@@ -7,7 +7,7 @@ import { isWatermarkedFileAvailable } from './isWatermarkedFileAvailable';
 export const ajouterFiligrane = async (
   document: Blob,
   filigrane: string,
-): Promise<Option.Type<ReadableStream>> => {
+): Promise<Option.Type<Blob>> => {
   const token = await startApplyingWatermarkOnFile(document, filigrane);
 
   const fileExists = await isWatermarkedFileAvailable(token);
@@ -18,5 +18,5 @@ export const ajouterFiligrane = async (
 
   const documentAvecFiligrane = await getWatermarkedFile(token);
 
-  return documentAvecFiligrane.stream();
+  return documentAvecFiligrane;
 };
