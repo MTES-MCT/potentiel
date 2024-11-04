@@ -4,23 +4,29 @@ import Link from 'next/link';
 
 import { Routes } from '@potentiel-applications/routes';
 import { GestionnaireRéseau } from '@potentiel-domain/reseau';
+import { PlainType } from '@potentiel-domain/core';
+import { Option } from '@potentiel-libraries/monads';
 
 import { Icon } from '@/components/atoms/Icon';
 import { CopyButton } from '@/components/molecules/CopyButton';
 
 import { ProjetBannerProps } from '../../../../../molecules/projet/ProjetBanner';
-import { GestionnaireRéseau as GestionnaireRéseauProps } from '../type';
 
 type ModifierGestionnaireRéseauDuRaccordementProps = {
-  gestionnaireRéseau: GestionnaireRéseauProps;
+  gestionnaireRéseau: PlainType<GestionnaireRéseau.ConsulterGestionnaireRéseauReadModel>;
   identifiantProjet: ProjetBannerProps['identifiantProjet'];
+  actions: { modifier: boolean };
 };
 
 export const ModifierGestionnaireRéseauDuRaccordement: FC<
   ModifierGestionnaireRéseauDuRaccordementProps
-> = ({ gestionnaireRéseau, identifiantProjet }: ModifierGestionnaireRéseauDuRaccordementProps) => {
+> = ({
+  gestionnaireRéseau,
+  identifiantProjet,
+  actions,
+}: ModifierGestionnaireRéseauDuRaccordementProps) => {
   const isGestionnaireInconnu = gestionnaireRéseau
-    ? GestionnaireRéseau.IdentifiantGestionnaireRéseau.convertirEnValueType(
+    ? GestionnaireRéseau.IdentifiantGestionnaireRéseau.bind(
         gestionnaireRéseau.identifiantGestionnaireRéseau,
       ).estÉgaleÀ(GestionnaireRéseau.IdentifiantGestionnaireRéseau.inconnu)
     : false;
@@ -43,7 +49,7 @@ export const ModifierGestionnaireRéseauDuRaccordement: FC<
         title="Gestionnaire de réseau inconnu"
         className="mb-6"
         description={
-          gestionnaireRéseau.canEdit && (
+          actions.modifier && (
             <div className="flex flex-row">
               <div>{lienAjout}</div>
             </div>
@@ -68,11 +74,11 @@ export const ModifierGestionnaireRéseauDuRaccordement: FC<
     <div className="mt-2 mb-4 p-0">
       <div>
         Gestionnaire de réseau : {gestionnaireRéseau.raisonSociale}{' '}
-        {gestionnaireRéseau.canEdit && <>({lienModifier})</>}
+        {actions.modifier && <>({lienModifier})</>}
       </div>
-      {gestionnaireRéseau.contactEmail && (
+      {Option.isSome(gestionnaireRéseau.contactEmail) && (
         <div className="flex items-center gap-2 mt-2">
-          Contact : <CopyButton textToCopy={gestionnaireRéseau.contactEmail} />
+          Contact : <CopyButton textToCopy={gestionnaireRéseau.contactEmail.email} />
         </div>
       )}
     </div>

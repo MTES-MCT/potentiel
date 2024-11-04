@@ -3,9 +3,11 @@ import type { Metadata } from 'next';
 import { redirect } from 'next/navigation';
 
 import { GestionnaireRéseau, Raccordement } from '@potentiel-domain/reseau';
-import { Role } from '@potentiel-domain/utilisateur';
+import { Utilisateur } from '@potentiel-domain/utilisateur';
 import { Option } from '@potentiel-libraries/monads';
 import { Routes } from '@potentiel-applications/routes';
+import { mapToPlainObject } from '@potentiel-domain/core';
+import { IdentifiantProjet } from '@potentiel-domain/common';
 
 import {
   DétailsRaccordementPage,
@@ -27,9 +29,11 @@ export const metadata: Metadata = {
 export default async function Page({ params: { identifiant } }: PageProps) {
   return PageWithErrorHandling(async () =>
     withUtilisateur(async (utilisateur) => {
-      const identifiantProjet = decodeParameter(identifiant);
+      const identifiantProjet = IdentifiantProjet.convertirEnValueType(
+        decodeParameter(identifiant),
+      );
 
-      const projet = await récupérerProjet(identifiantProjet);
+      const projet = await récupérerProjet(identifiantProjet.formatter());
 
       await vérifierQueLeProjetEstClassé({
         statut: projet.statut,
@@ -39,12 +43,14 @@ export default async function Page({ params: { identifiant } }: PageProps) {
       const raccordement = await mediator.send<Raccordement.ConsulterRaccordementQuery>({
         type: 'Réseau.Raccordement.Query.ConsulterRaccordement',
         data: {
-          identifiantProjetValue: identifiantProjet,
+          identifiantProjetValue: identifiantProjet.formatter(),
         },
       });
 
       if (Option.isNone(raccordement) || raccordement.dossiers.length === 0) {
-        redirect(Routes.Raccordement.transmettreDemandeComplèteRaccordement(identifiantProjet));
+        return redirect(
+          Routes.Raccordement.transmettreDemandeComplèteRaccordement(identifiantProjet.formatter()),
+        );
       }
 
       const gestionnaireRéseau =
@@ -56,114 +62,69 @@ export default async function Page({ params: { identifiant } }: PageProps) {
           },
         });
 
-      const props = mapToProps({
-        rôleUtilisateur: utilisateur.role,
-        identifiantProjet,
-        gestionnaireRéseau,
-        raccordement,
-      });
-
       return (
         <DétailsRaccordementPage
-          identifiantProjet={props.identifiantProjet}
-          gestionnaireRéseau={props.gestionnaireRéseau}
-          dossiers={props.dossiers}
+          identifiantProjet={mapToPlainObject(identifiantProjet)}
+          gestionnaireRéseau={mapToPlainObject(gestionnaireRéseau)}
+          raccordement={mapToPlainObject(raccordement)}
+          actions={mapToActions(utilisateur, raccordement)}
         />
       );
     }),
   );
 }
 
-type MapToProps = (args: {
-  rôleUtilisateur: Role.ValueType;
-  identifiantProjet: string;
-  gestionnaireRéseau: Option.Type<GestionnaireRéseau.ConsulterGestionnaireRéseauReadModel>;
-  raccordement: Raccordement.ConsulterRaccordementReadModel;
-}) => DétailsRaccordementPageProps;
-
-const mapToProps: MapToProps = ({
-  rôleUtilisateur,
-  identifiantProjet,
-  gestionnaireRéseau,
-  raccordement,
-}) => {
-  const aUneDateDeMiseEnService = raccordement.dossiers.some((dossier) => dossier.miseEnService);
-  const canEditGestionnaireRéseau =
-    rôleUtilisateur.estÉgaleÀ(Role.admin) ||
-    rôleUtilisateur.estÉgaleÀ(Role.dgecValidateur) ||
-    (!aUneDateDeMiseEnService &&
-      (rôleUtilisateur.estÉgaleÀ(Role.porteur) || rôleUtilisateur.estÉgaleÀ(Role.dreal)));
-
-  return {
-    identifiantProjet,
-    gestionnaireRéseau: Option.isNone(gestionnaireRéseau)
-      ? undefined
-      : {
-          ...gestionnaireRéseau,
-          identifiantGestionnaireRéseau:
-            gestionnaireRéseau.identifiantGestionnaireRéseau.formatter(),
-          aideSaisieRéférenceDossierRaccordement: {
-            ...gestionnaireRéseau.aideSaisieRéférenceDossierRaccordement,
-            expressionReguliere:
-              gestionnaireRéseau.aideSaisieRéférenceDossierRaccordement.expressionReguliere.formatter(),
-          },
-          contactEmail: Option.isNone(gestionnaireRéseau.contactEmail)
-            ? undefined
-            : gestionnaireRéseau.contactEmail.email,
-          canEdit: canEditGestionnaireRéseau,
-        },
-    dossiers: mapToPropsDossiers({ raccordement, rôleUtilisateur, identifiantProjet }),
-  };
-};
-
-type MapToPropsDossiers = {
-  raccordement: Raccordement.ConsulterRaccordementReadModel;
-  rôleUtilisateur: Role.ValueType;
-  identifiantProjet: string;
-};
-const mapToPropsDossiers = ({
-  raccordement,
-  identifiantProjet,
-  rôleUtilisateur,
-}: MapToPropsDossiers) =>
-  raccordement.dossiers.map((dossier) => {
-    const canEditDemandeComplèteRaccordement =
-      rôleUtilisateur.estÉgaleÀ(Role.admin) ||
-      rôleUtilisateur.estÉgaleÀ(Role.dgecValidateur) ||
-      ((rôleUtilisateur.estÉgaleÀ(Role.porteur) || rôleUtilisateur.estÉgaleÀ(Role.dreal)) &&
-        !dossier.miseEnService?.dateMiseEnService);
-
-    const canEditPropositionTechniqueEtFinancière =
-      rôleUtilisateur.estÉgaleÀ(Role.admin) ||
-      rôleUtilisateur.estÉgaleÀ(Role.dgecValidateur) ||
-      rôleUtilisateur.estÉgaleÀ(Role.dreal) ||
-      rôleUtilisateur.estÉgaleÀ(Role.porteur);
-
-    const canTransmettreDateMiseEnService =
-      rôleUtilisateur.estÉgaleÀ(Role.admin) || rôleUtilisateur.estÉgaleÀ(Role.dgecValidateur);
-
-    const canDeleteDossier =
-      rôleUtilisateur.aLaPermission('réseau.raccordement.dossier.supprimer') &&
-      !dossier.miseEnService;
-
+const mapToActions = (
+  { role }: Utilisateur.ValueType,
+  raccordement: Raccordement.ConsulterRaccordementReadModel,
+): DétailsRaccordementPageProps['actions'] => {
+  const isGestionnaireInconnu =
+    raccordement.identifiantGestionnaireRéseau &&
+    raccordement.identifiantGestionnaireRéseau.estÉgaleÀ(
+      GestionnaireRéseau.IdentifiantGestionnaireRéseau.inconnu,
+    );
+  if (isGestionnaireInconnu) {
     return {
-      identifiantProjet,
-      référence: dossier.référence.formatter(),
-      demandeComplèteRaccordement: {
-        canEdit: canEditDemandeComplèteRaccordement,
-        accuséRéception: dossier.demandeComplèteRaccordement.accuséRéception?.formatter(),
-        dateQualification: dossier.demandeComplèteRaccordement.dateQualification?.formatter(),
+      supprimer: true,
+      gestionnaireRéseau: {
+        modifier: true,
       },
-      propositionTechniqueEtFinancière: {
-        canEdit: canEditPropositionTechniqueEtFinancière,
-        dateSignature: dossier.propositionTechniqueEtFinancière?.dateSignature.formatter(),
-        propositionTechniqueEtFinancièreSignée:
-          dossier.propositionTechniqueEtFinancière?.propositionTechniqueEtFinancièreSignée.formatter(),
+      demandeComplèteRaccordement: {
+        transmettre: false,
+        modifier: false,
       },
       miseEnService: {
-        canEdit: canTransmettreDateMiseEnService,
-        dateMiseEnService: dossier.miseEnService?.dateMiseEnService?.formatter(),
+        transmettre: false,
+        modifier: false,
       },
-      canDeleteDossier,
+      propositionTechniqueEtFinancière: {
+        transmettre: false,
+        modifier: false,
+      },
     };
-  });
+  }
+  return {
+    supprimer: role.aLaPermission('réseau.raccordement.dossier.supprimer'),
+    demandeComplèteRaccordement: {
+      transmettre: role.aLaPermission(
+        'réseau.raccordement.demande-complète-raccordement.transmettre',
+      ),
+      modifier: role.aLaPermission('réseau.raccordement.demande-complète-raccordement.modifier'),
+    },
+    propositionTechniqueEtFinancière: {
+      transmettre: role.aLaPermission(
+        'réseau.raccordement.proposition-technique-et-financière.transmettre',
+      ),
+      modifier: role.aLaPermission(
+        'réseau.raccordement.proposition-technique-et-financière.modifier',
+      ),
+    },
+    miseEnService: {
+      transmettre: role.aLaPermission('réseau.raccordement.date-mise-en-service.transmettre'),
+      modifier: role.aLaPermission('réseau.raccordement.date-mise-en-service.modifier'),
+    },
+    gestionnaireRéseau: {
+      modifier: role.aLaPermission('réseau.raccordement.gestionnaire.modifier'),
+    },
+  };
+};

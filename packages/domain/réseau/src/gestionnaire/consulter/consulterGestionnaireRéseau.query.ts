@@ -12,8 +12,8 @@ export type ConsulterGestionnaireRéseauReadModel = Readonly<{
   identifiantGestionnaireRéseau: IdentifiantGestionnaireRéseau.ValueType;
   raisonSociale: string;
   aideSaisieRéférenceDossierRaccordement: {
-    format: string;
-    légende: string;
+    format: Option.Type<string>;
+    légende: Option.Type<string>;
     expressionReguliere: ExpressionRegulière.ValueType;
   };
   contactEmail: Option.Type<Email.ValueType>;
@@ -74,8 +74,14 @@ export const mapToReadModel = ({
     identifiantGestionnaireRéseau: IdentifiantGestionnaireRéseau.convertirEnValueType(codeEIC),
     raisonSociale,
     aideSaisieRéférenceDossierRaccordement: {
-      format,
-      légende,
+      format: match(format)
+        .returnType<Option.Type<string>>()
+        .with('', () => Option.none)
+        .otherwise((format) => format),
+      légende: match(légende)
+        .returnType<Option.Type<string>>()
+        .with('', () => Option.none)
+        .otherwise((légende) => légende),
       expressionReguliere: ExpressionRegulière.convertirEnValueType(expressionReguliere),
     },
     contactEmail: match(contactEmail)
