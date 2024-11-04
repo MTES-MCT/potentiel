@@ -9,9 +9,9 @@ const schema = zod.object({
 });
 
 export async function isWatermarkedFileAvailable(token: string): Promise<boolean> {
-  const checkFileUrl = new URL(`/api/document/url/${token}`, getApiUrl());
+  const url = new URL(`/api/document/url/${token}`, getApiUrl());
 
-  const response = await get(checkFileUrl);
+  const response = await get({ url });
 
   return schema.safeParse(response).success;
 }

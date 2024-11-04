@@ -1,8 +1,12 @@
-import { retryPolicy } from './retryPolicy';
+import { retryPolicy, RetryPolicyOptions } from './retryPolicy';
 import { RequestError } from './requestError';
 
-const getResponse = async (url: URL): Promise<Response> => {
-  return retryPolicy().execute(async () => {
+type GetOptions = {
+  url: URL;
+  retryPolicyOptions?: RetryPolicyOptions;
+};
+const getResponse = async ({ url, retryPolicyOptions }: GetOptions): Promise<Response> => {
+  return retryPolicy(retryPolicyOptions).execute(async () => {
     const response = await fetch(url);
 
     if (!response.ok) {
@@ -14,6 +18,8 @@ const getResponse = async (url: URL): Promise<Response> => {
   });
 };
 
-export const get = async <T>(url: URL): Promise<T> => (await getResponse(url)).json();
+export const get = async <T>({ url, retryPolicyOptions }: GetOptions): Promise<T> =>
+  (await getResponse({ url, retryPolicyOptions })).json();
 
-export const getBlob = async (url: URL): Promise<Blob> => (await getResponse(url)).blob();
+export const getBlob = async ({ url, retryPolicyOptions }: GetOptions): Promise<Blob> =>
+  (await getResponse({ url, retryPolicyOptions })).blob();

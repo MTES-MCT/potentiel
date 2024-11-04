@@ -1,16 +1,21 @@
-import { retryPolicy } from './retryPolicy';
+import { retryPolicy, RetryPolicyOptions } from './retryPolicy';
 import { RequestError } from './requestError';
 
 export type Body = Record<string, string | Blob>;
 
-export const post = async (url: URL, body: Body): Promise<JSON> => {
+type Post = {
+  url: URL;
+  body: Body;
+  retryPolicyOptions?: RetryPolicyOptions;
+};
+export const post = async ({ body, url, retryPolicyOptions }: Post): Promise<JSON> => {
   const formData = new FormData();
 
   for (const key in body) {
     formData.append(key, body[key]);
   }
 
-  return retryPolicy().execute(async () => {
+  return retryPolicy(retryPolicyOptions).execute(async () => {
     const response = await fetch(url, { method: 'post', body: formData });
 
     if (!response.ok) {

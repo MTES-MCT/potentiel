@@ -13,7 +13,7 @@ export const startApplyingWatermarkOnFile = async (
   watermark: string,
 ): Promise<string> => {
   const url = new URL(`/api/document/files`, getApiUrl());
-  const response = await post(url, { watermark, files: file });
+  const response = await post({ url, body: { watermark, files: file } });
 
   const result = schema.parse(response);
 
