@@ -1,11 +1,13 @@
 import { retryPolicy } from './retryPolicy';
+import { RequestError } from './requestError';
 
 const getResponse = async (url: URL): Promise<Response> => {
-  return retryPolicy.execute(async () => {
+  return retryPolicy().execute(async () => {
     const response = await fetch(url);
 
     if (!response.ok) {
-      throw new Error(`Request failed with status ${response.status} ${response.statusText}`);
+      const { status, statusText } = response;
+      throw new RequestError({ status, statusText, url, method: 'GET' });
     }
 
     return response;
