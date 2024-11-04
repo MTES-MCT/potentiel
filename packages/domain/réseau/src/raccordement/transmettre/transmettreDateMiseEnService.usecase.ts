@@ -12,7 +12,6 @@ export type TransmettreDateMiseEnServiceUseCase = Message<
     dateMiseEnServiceValue: string;
     référenceDossierValue: string;
     identifiantProjetValue: string;
-    dateDésignationValue: string;
   }
 >;
 
@@ -21,10 +20,8 @@ export const registerTransmettreDateMiseEnServiceUseCase = () => {
     dateMiseEnServiceValue,
     référenceDossierValue,
     identifiantProjetValue,
-    dateDésignationValue,
   }) => {
     const dateMiseEnService = DateTime.convertirEnValueType(dateMiseEnServiceValue);
-    const dateDésignation = DateTime.convertirEnValueType(dateDésignationValue);
     const identifiantProjet = IdentifiantProjet.convertirEnValueType(identifiantProjetValue);
     const référenceDossier =
       RéférenceDossierRaccordement.convertirEnValueType(référenceDossierValue);
@@ -35,7 +32,6 @@ export const registerTransmettreDateMiseEnServiceUseCase = () => {
         dateMiseEnService,
         identifiantProjet,
         référenceDossier,
-        dateDésignation,
       },
     });
   };

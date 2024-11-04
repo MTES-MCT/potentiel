@@ -12,7 +12,6 @@ import { withUtilisateur } from '@/utils/withUtilisateur';
 const schema = zod.object({
   identifiantProjet: zod.string().min(1),
   referenceDossier: zod.string().min(1),
-  dateDesignation: zod.string().min(1),
   dateMiseEnService: zod.string().min(1, { message: 'Champ obligatoire' }),
 });
 
@@ -20,7 +19,7 @@ export type TransmettreDateMiseEnServiceStateFormKeys = keyof zod.infer<typeof s
 
 const action: FormAction<FormState, typeof schema> = async (
   _,
-  { identifiantProjet, referenceDossier, dateMiseEnService, dateDesignation },
+  { identifiantProjet, referenceDossier, dateMiseEnService },
 ) => {
   return withUtilisateur(async (utilisateur) => {
     await mediator.send<Raccordement.RaccordementUseCase>({
@@ -29,7 +28,6 @@ const action: FormAction<FormState, typeof schema> = async (
         identifiantProjetValue: identifiantProjet,
         référenceDossierValue: referenceDossier,
         dateMiseEnServiceValue: new Date(dateMiseEnService).toISOString(),
-        dateDésignationValue: dateDesignation,
       },
     });
 
