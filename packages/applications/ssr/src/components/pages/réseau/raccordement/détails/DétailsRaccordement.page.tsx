@@ -25,6 +25,10 @@ export type DétailsRaccordementPageProps = {
   >;
   raccordement: PlainType<Raccordement.ConsulterRaccordementReadModel>;
   actions: DossierRaccordementProps['actions'] & { gestionnaireRéseau: { modifier: boolean } };
+  lienRetour: {
+    label: string;
+    href: string;
+  };
 };
 
 export const DétailsRaccordementPage: FC<DétailsRaccordementPageProps> = ({
@@ -32,6 +36,7 @@ export const DétailsRaccordementPage: FC<DétailsRaccordementPageProps> = ({
   gestionnaireRéseau,
   raccordement,
   actions,
+  lienRetour: { label, href },
 }) => {
   const identifiantProjetValue = IdentifiantProjet.bind(identifiantProjet).formatter();
   return (
@@ -46,29 +51,33 @@ export const DétailsRaccordementPage: FC<DétailsRaccordementPageProps> = ({
               actions={actions.gestionnaireRéseau}
             />
           )}
-          <Button
-            priority="secondary"
-            iconId="fr-icon-add-circle-line"
-            linkProps={{
-              href: Routes.Raccordement.transmettreDemandeComplèteRaccordement(
-                identifiantProjetValue,
-              ),
-            }}
-          >
-            Ajouter un dossier de raccordement
-          </Button>
+          {actions.demandeComplèteRaccordement.transmettre && (
+            <Button
+              priority="secondary"
+              iconId="fr-icon-add-circle-line"
+              linkProps={{
+                href: Routes.Raccordement.transmettreDemandeComplèteRaccordement(
+                  identifiantProjetValue,
+                ),
+              }}
+            >
+              Ajouter un dossier de raccordement
+            </Button>
+          )}
         </div>
 
-        <Alert
-          severity="info"
-          small
-          description={
-            <div className="p-3">
-              Si le raccordement comporte plusieurs points d'injection, vous devez ajouter un
-              nouveau dossier de raccordement.
-            </div>
-          }
-        />
+        {actions.demandeComplèteRaccordement.transmettre && (
+          <Alert
+            severity="info"
+            small
+            description={
+              <div className="p-3">
+                Si le raccordement comporte plusieurs points d'injection, vous devez ajouter un
+                nouveau dossier de raccordement.
+              </div>
+            }
+          />
+        )}
 
         <div className={`my-8 flex flex-col gap-8 md:gap-3 ${fr.cx('fr-accordions-group')}`}>
           {raccordement.dossiers.length === 1 ? (
@@ -97,13 +106,13 @@ export const DétailsRaccordementPage: FC<DétailsRaccordementPageProps> = ({
       <Button
         priority="secondary"
         linkProps={{
-          href: Routes.Projet.details(IdentifiantProjet.bind(identifiantProjet).formatter()),
+          href,
           prefetch: false,
         }}
         className="mt-4"
         iconId="fr-icon-arrow-left-line"
       >
-        Retour vers le projet
+        {label}
       </Button>
     </PageTemplate>
   );

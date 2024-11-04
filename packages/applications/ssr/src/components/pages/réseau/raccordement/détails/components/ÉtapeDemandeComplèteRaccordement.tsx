@@ -20,7 +20,7 @@ export type ÉtapeDemandeComplèteRaccordementProps = {
   demandeComplèteRaccordement: PlainType<
     Raccordement.ConsulterDossierRaccordementReadModel['demandeComplèteRaccordement']
   >;
-  actions: { modifier: boolean; transmettre: boolean };
+  actions: { modifierRéférence: boolean; modifier: boolean; transmettre: boolean };
 };
 
 export const ÉtapeDemandeComplèteRaccordement: FC<ÉtapeDemandeComplèteRaccordementProps> = ({
@@ -44,7 +44,16 @@ export const ÉtapeDemandeComplèteRaccordement: FC<ÉtapeDemandeComplèteRaccor
       <div className="flex flex-col text-sm gap-2">
         <div className="flex items-center">
           <Icon id="fr-icon-information-line" size="sm" className="mr-1" />
-          <span className="font-bold">{référence}</span>
+          <span className="font-bold mr-2">{référence}</span>{' '}
+          {actions.modifierRéférence && (
+            <Link
+              href={Routes.Raccordement.corrigerRéférenceDossier(identifiantProjet, référence)}
+              aria-label={`Corriger la référence ${référence} de la demande de raccordement`}
+            >
+              <Icon id="fr-icon-pencil-fill" size="xs" className="mr-1" />
+              Corriger
+            </Link>
+          )}
         </div>
 
         <div className="flex items-center">
