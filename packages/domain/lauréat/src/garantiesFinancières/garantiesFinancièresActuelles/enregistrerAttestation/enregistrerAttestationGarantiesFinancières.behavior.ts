@@ -57,10 +57,11 @@ export function applyEnregistrerAttestationGarantiesFinancières(
   this: GarantiesFinancièresAggregate,
   { payload: { dateConstitution, attestation } }: AttestationGarantiesFinancièresEnregistréeEvent,
 ) {
-  if (this.actuelles) {
-    this.actuelles.dateConstitution = DateTime.convertirEnValueType(dateConstitution);
-    this.actuelles.attestation = attestation;
-  }
+  this.actuelles = {
+    ...this.actuelles!,
+    dateConstitution: DateTime.convertirEnValueType(dateConstitution),
+    attestation,
+  };
 }
 
 class AucunesGarantiesFinancièresActuelles extends InvalidOperationError {
