@@ -119,7 +119,7 @@ const getNavigationItemsBasedOnRole = (
               },
             },
             {
-              text: 'Correction de références dossier',
+              text: 'Corriger des références dossier',
               linkProps: {
                 href: Routes.Raccordement.corrigerRéférencesDossier,
               },
@@ -358,7 +358,7 @@ const getNavigationItemsBasedOnRole = (
               },
             },
             {
-              text: 'Correction de références dossier',
+              text: 'Corriger des références dossier',
               linkProps: {
                 href: Routes.Raccordement.corrigerRéférencesDossier,
               },

@@ -118,7 +118,7 @@ const MenuAdmin = (currentPage?: string) => (
         Tous les dossiers de raccordement
       </DropdownMenu.DropdownItem>
       <DropdownMenu.DropdownItem href={Routes.Raccordement.importer}>
-        Importer dates mise en service
+        Importer des dates de mise en service
       </DropdownMenu.DropdownItem>
     </DropdownMenu>
     <DropdownMenu buttonChildren={'Imports'}>
@@ -276,7 +276,10 @@ const MenuGRD = () => (
       Tous les dossiers de raccordement
     </DropdownMenu.DropdownItem>
     <DropdownMenu.DropdownItem href={Routes.Raccordement.importer}>
-      Importer dates mise en service
+      Importer des dates de mise en service
+    </DropdownMenu.DropdownItem>
+    <DropdownMenu.DropdownItem href={Routes.Raccordement.corrigerRéférencesDossier}>
+      Corriger des références dossier
     </DropdownMenu.DropdownItem>
   </DropdownMenu>
 );
