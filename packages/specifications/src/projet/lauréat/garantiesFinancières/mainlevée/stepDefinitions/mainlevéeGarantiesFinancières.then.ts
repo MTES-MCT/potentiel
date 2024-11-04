@@ -220,17 +220,15 @@ Alors(
     const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
 
     await waitForExpect(async () => {
-      const actualReadModel = await mediator.send<GarantiesFinancières.ListerDemandeMainlevéeQuery>(
-        {
-          type: 'Lauréat.GarantiesFinancières.Mainlevée.Query.Lister',
-          data: {
-            utilisateur: {
-              rôle: 'admin',
-              identifiantUtilisateur: 'admin@test.test',
-            },
+      const actualReadModel = await mediator.send<GarantiesFinancières.ListerMainlevéesQuery>({
+        type: 'Lauréat.GarantiesFinancières.Mainlevée.Query.Lister',
+        data: {
+          utilisateur: {
+            rôle: 'admin',
+            identifiantUtilisateur: 'admin@test.test',
           },
         },
-      );
+      });
 
       expect(actualReadModel.items[0].identifiantProjet.estÉgaleÀ(identifiantProjet)).to.be.true;
     });
