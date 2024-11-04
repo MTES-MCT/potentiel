@@ -58,7 +58,6 @@ export const TransmettreDateMiseEnServiceForm: FC<TransmettreDateMiseEnServiceFo
     >
       <input type="hidden" name="identifiantProjet" value={identifiantProjet} />
       <input type="hidden" name="referenceDossier" value={référence} />
-      <input type="hidden" name="dateDesignation" value={dateDésignation} />
 
       <InputDate
         label="Date de mise en service"

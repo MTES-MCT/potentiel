@@ -7,7 +7,6 @@ import { GestionnaireRéseau, Raccordement } from '@potentiel-domain/reseau';
 import { DomainError } from '@potentiel-domain/core';
 import { parseCsv } from '@potentiel-libraries/csv';
 import { Option } from '@potentiel-libraries/monads';
-import { Lauréat } from '@potentiel-domain/laureat';
 
 import { ActionResult, FormAction, FormState, formAction } from '@/utils/formAction';
 import { singleDocument } from '@/utils/zod/document';
@@ -141,25 +140,10 @@ const transmettreDateDeMiseEnService = async (
   dateMiseEnService: string,
 ): Promise<ActionResult['errors'][number] | undefined> => {
   try {
-    const lauréat = await mediator.send<Lauréat.ConsulterLauréatQuery>({
-      type: 'Lauréat.Query.ConsulterLauréat',
-      data: {
-        identifiantProjet: identifiantProjet,
-      },
-    });
-
-    if (Option.isNone(lauréat)) {
-      return {
-        key: référenceDossierRaccordement,
-        reason: 'Aucune candidature correspondante',
-      };
-    }
-
     await mediator.send<Raccordement.TransmettreDateMiseEnServiceUseCase>({
       type: 'Réseau.Raccordement.UseCase.TransmettreDateMiseEnService',
       data: {
         identifiantProjetValue: identifiantProjet,
-        dateDésignationValue: lauréat.notifiéLe.formatter(),
         référenceDossierValue: référenceDossierRaccordement,
         dateMiseEnServiceValue: new Date(
           convertDateToCommonFormat(dateMiseEnService),

@@ -46,7 +46,8 @@ export async function notifier(
 
 export function applyLauréatNotifié(
   this: LauréatAggregate,
-  { payload: { identifiantProjet } }: LauréatNotifiéEvent,
+  { payload: { identifiantProjet, notifiéLe } }: LauréatNotifiéEvent,
 ) {
   this.identifiantProjet = IdentifiantProjet.convertirEnValueType(identifiantProjet);
+  this.notifiéLe = DateTime.convertirEnValueType(notifiéLe);
 }
