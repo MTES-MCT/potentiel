@@ -10,9 +10,6 @@
     },
     {
       "path": "../../libraries/monads"
-    },
-    {
-      "path": "../../libraries/monitoring"
     }
   ]
 }
