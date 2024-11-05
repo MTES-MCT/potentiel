@@ -6,7 +6,7 @@ import { HistoriqueMainlevéeRejetéeProps } from '@/components/pages/garanties-
 
 type GetHistoriqueMainlevéeRéjetéesActions = {
   role: Role.ValueType;
-  mainlevée: Option.Type<GarantiesFinancières.ConsulterDemandeMainlevéeGarantiesFinancièresReadModel>;
+  mainlevée: Option.Type<GarantiesFinancières.ConsulterDemandeEnCoursMainlevéeGarantiesFinancièresReadModel>;
   historiqueMainlevéeRejetée: Option.Type<GarantiesFinancières.ConsulterHistoriqueDemandeMainlevéeRejetéeGarantiesFinancièresReadModel>;
 };
 export const getHistoriqueMainlevéeRejetéesActions = ({

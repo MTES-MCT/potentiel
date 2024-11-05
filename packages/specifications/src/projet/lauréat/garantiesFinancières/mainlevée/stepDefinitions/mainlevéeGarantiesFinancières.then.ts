@@ -26,7 +26,7 @@ Alors(
 
     await waitForExpect(async () => {
       const actualReadModel =
-        await mediator.send<GarantiesFinancières.ConsulterDemandeMainlevéeGarantiesFinancièresQuery>(
+        await mediator.send<GarantiesFinancières.ConsulterDemandeEnCoursMainlevéeGarantiesFinancièresQuery>(
           {
             type: 'Lauréat.GarantiesFinancières.Mainlevée.Query.Consulter',
             data: {
@@ -65,7 +65,7 @@ Alors(
 
     await waitForExpect(async () => {
       const actualReadModel =
-        await mediator.send<GarantiesFinancières.ConsulterDemandeMainlevéeGarantiesFinancièresQuery>(
+        await mediator.send<GarantiesFinancières.ConsulterDemandeEnCoursMainlevéeGarantiesFinancièresQuery>(
           {
             type: 'Lauréat.GarantiesFinancières.Mainlevée.Query.Consulter',
             data: {
@@ -96,7 +96,7 @@ Alors(
 
     await waitForExpect(async () => {
       const actualReadModel =
-        await mediator.send<GarantiesFinancières.ConsulterDemandeMainlevéeGarantiesFinancièresQuery>(
+        await mediator.send<GarantiesFinancières.ConsulterDemandeEnCoursMainlevéeGarantiesFinancièresQuery>(
           {
             type: 'Lauréat.GarantiesFinancières.Mainlevée.Query.Consulter',
             data: {
@@ -150,7 +150,7 @@ Alors(
 
     await waitForExpect(async () => {
       const actualReadModel =
-        await mediator.send<GarantiesFinancières.ConsulterDemandeMainlevéeGarantiesFinancièresQuery>(
+        await mediator.send<GarantiesFinancières.ConsulterDemandeEnCoursMainlevéeGarantiesFinancièresQuery>(
           {
             type: 'Lauréat.GarantiesFinancières.Mainlevée.Query.Consulter',
             data: {

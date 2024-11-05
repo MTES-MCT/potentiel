@@ -6,7 +6,7 @@ import { MainlevéeEnCoursProps } from '@/components/pages/garanties-financière
 
 type GetMainlevéeActions = {
   role: Role.ValueType;
-  mainlevée: Option.Type<GarantiesFinancières.ConsulterDemandeMainlevéeGarantiesFinancièresReadModel>;
+  mainlevée: Option.Type<GarantiesFinancières.ConsulterDemandeEnCoursMainlevéeGarantiesFinancièresReadModel>;
 };
 export const getMainlevéeActions = ({ role, mainlevée }: GetMainlevéeActions) => {
   const actions: MainlevéeEnCoursProps['mainlevéeEnCours']['actions'] = [];

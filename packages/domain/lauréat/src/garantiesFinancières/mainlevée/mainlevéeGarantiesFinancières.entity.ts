@@ -1,6 +1,6 @@
 import { Entity } from '@potentiel-domain/entity';
 
-// discriminated union
+// discriminated union à tester
 
 type DétailsMainlevée = {
   identifiantProjet: string;

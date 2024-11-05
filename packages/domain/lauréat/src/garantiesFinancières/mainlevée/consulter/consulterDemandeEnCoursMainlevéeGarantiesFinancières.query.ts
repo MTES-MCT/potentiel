@@ -12,7 +12,8 @@ import {
   TypeDocumentRéponseDemandeMainlevée,
 } from '../..';
 
-export type ConsulterDemandeMainlevéeGarantiesFinancièresReadModel = {
+// une demande de mainlevée en cours est une mainlevée qui n'a pas été rejetée
+export type ConsulterDemandeEnCoursMainlevéeGarantiesFinancièresReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
   statut: StatutMainlevéeGarantiesFinancières.ValueType;
   motif: MotifDemandeMainlevéeGarantiesFinancières.ValueType;
@@ -37,24 +38,24 @@ export type ConsulterDemandeMainlevéeGarantiesFinancièresReadModel = {
   };
 };
 
-export type ConsulterDemandeMainlevéeGarantiesFinancièresQuery = Message<
+export type ConsulterDemandeEnCoursMainlevéeGarantiesFinancièresQuery = Message<
   'Lauréat.GarantiesFinancières.Mainlevée.Query.Consulter',
   {
     identifiantProjetValue: string;
   },
-  Option.Type<ConsulterDemandeMainlevéeGarantiesFinancièresReadModel>
+  Option.Type<ConsulterDemandeEnCoursMainlevéeGarantiesFinancièresReadModel>
 >;
 
-export type ConsulterDemandeMainlevéeGarantiesFinancièresDependencies = {
+export type ConsulterDemandeEnCoursMainlevéeGarantiesFinancièresDependencies = {
   find: Find;
 };
 
-export const registerConsulterDemandeMainlevéeGarantiesFinancièresQuery = ({
+export const registerConsulterDemandeEnCoursMainlevéeGarantiesFinancièresQuery = ({
   find,
-}: ConsulterDemandeMainlevéeGarantiesFinancièresDependencies) => {
-  const handler: MessageHandler<ConsulterDemandeMainlevéeGarantiesFinancièresQuery> = async ({
-    identifiantProjetValue,
-  }) => {
+}: ConsulterDemandeEnCoursMainlevéeGarantiesFinancièresDependencies) => {
+  const handler: MessageHandler<
+    ConsulterDemandeEnCoursMainlevéeGarantiesFinancièresQuery
+  > = async ({ identifiantProjetValue }) => {
     const identifiantProjetValueType =
       IdentifiantProjet.convertirEnValueType(identifiantProjetValue);
 
@@ -72,16 +73,16 @@ export const registerConsulterDemandeMainlevéeGarantiesFinancièresQuery = ({
       return Option.none;
     }
 
-    return consulterDemandeMainlevéeGarantiesFinancièresMapToReadModel(result);
+    return ConsulterDemandeEnCoursMainlevéeGarantiesFinancièresMapToReadModel(result);
   };
   mediator.register('Lauréat.GarantiesFinancières.Mainlevée.Query.Consulter', handler);
 };
 
-export const consulterDemandeMainlevéeGarantiesFinancièresMapToReadModel = ({
+export const ConsulterDemandeEnCoursMainlevéeGarantiesFinancièresMapToReadModel = ({
   détailsMainlevées,
   identifiantProjet,
   projet: { nomProjet, appelOffre, famille, période, régionProjet },
-}: MainlevéeGarantiesFinancièresEntity): ConsulterDemandeMainlevéeGarantiesFinancièresReadModel => {
+}: MainlevéeGarantiesFinancièresEntity): ConsulterDemandeEnCoursMainlevéeGarantiesFinancièresReadModel => {
   const mainlevéeEnCours = détailsMainlevées
     .filter(
       (mainlevée) =>

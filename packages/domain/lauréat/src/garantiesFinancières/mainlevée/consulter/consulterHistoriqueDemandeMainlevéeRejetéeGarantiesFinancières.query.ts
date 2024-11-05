@@ -11,7 +11,7 @@ import {
   TypeDocumentRéponseDemandeMainlevée,
 } from '../..';
 
-// l'historique sont les mainlevéeRejetée avec un statut rejetée
+// l'historique des mainlevée est le tableau des mainlevée ayant un statut rejetée
 export type ConsulterHistoriqueDemandeMainlevéeRejetéeGarantiesFinancièresReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
   nomProjet: string;

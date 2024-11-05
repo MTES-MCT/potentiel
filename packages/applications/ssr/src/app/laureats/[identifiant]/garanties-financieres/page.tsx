@@ -97,7 +97,7 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
       });
 
       const mainlevée =
-        await mediator.send<GarantiesFinancières.ConsulterDemandeMainlevéeGarantiesFinancièresQuery>(
+        await mediator.send<GarantiesFinancières.ConsulterDemandeEnCoursMainlevéeGarantiesFinancièresQuery>(
           {
             type: 'Lauréat.GarantiesFinancières.Mainlevée.Query.Consulter',
             data: { identifiantProjetValue: identifiantProjet },
@@ -158,7 +158,7 @@ type MapToProps = (params: {
   garantiesFinancièresActuelles: Option.Type<GarantiesFinancières.ConsulterGarantiesFinancièresReadModel>;
   dépôtEnCoursGarantiesFinancières: Option.Type<GarantiesFinancières.ConsulterDépôtEnCoursGarantiesFinancièresReadModel>;
   achèvement: Option.Type<Achèvement.ConsulterAttestationConformitéReadModel>;
-  mainlevée: Option.Type<GarantiesFinancières.ConsulterDemandeMainlevéeGarantiesFinancièresReadModel>;
+  mainlevée: Option.Type<GarantiesFinancières.ConsulterDemandeEnCoursMainlevéeGarantiesFinancièresReadModel>;
   appelOffreDetails: AppelOffre.AppelOffreReadModel;
   historiqueMainlevée: Option.Type<GarantiesFinancières.ConsulterHistoriqueDemandeMainlevéeRejetéeGarantiesFinancièresReadModel>;
   statut: StatutProjet.RawType;

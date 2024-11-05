@@ -39,10 +39,6 @@ import {
   ListerMainlevéesReadModel,
 } from './mainlevée/lister/listerMainlevéesGarantiesFinancières.query';
 import {
-  ConsulterDemandeMainlevéeGarantiesFinancièresQuery,
-  ConsulterDemandeMainlevéeGarantiesFinancièresReadModel,
-} from './mainlevée/consulter/consulterDemandeMainlevéeGarantiesFinancières.query';
-import {
   ConsulterHistoriqueDemandeMainlevéeRejetéeGarantiesFinancièresQuery,
   ConsulterHistoriqueDemandeMainlevéeRejetéeGarantiesFinancièresReadModel,
 } from './mainlevée/consulter/consulterHistoriqueDemandeMainlevéeRejetéeGarantiesFinancières.query';
@@ -50,6 +46,10 @@ import {
   ConsulterArchivesGarantiesFinancièresQuery,
   ConsulterArchivesGarantiesFinancièresReadModel,
 } from './garantiesFinancièresActuelles/consulterArchives/consulterArchivesGarantiesFinancières.query';
+import {
+  ConsulterDemandeEnCoursMainlevéeGarantiesFinancièresQuery,
+  ConsulterDemandeEnCoursMainlevéeGarantiesFinancièresReadModel,
+} from './mainlevée/consulter/consulterDemandeEnCoursMainlevéeGarantiesFinancières.query';
 
 // Query
 export type GarantiesFinancièresQuery =
@@ -60,7 +60,7 @@ export type GarantiesFinancièresQuery =
   | ListerDépôtsEnCoursGarantiesFinancièresQuery
   | ListerProjetsAvecGarantiesFinancièresEnAttenteQuery
   | ListerDépôtsEnCoursGarantiesFinancièresQuery
-  | ConsulterDemandeMainlevéeGarantiesFinancièresQuery
+  | ConsulterDemandeEnCoursMainlevéeGarantiesFinancièresQuery
   | ListerMainlevéesQuery
   | ConsulterHistoriqueDemandeMainlevéeRejetéeGarantiesFinancièresQuery;
 
@@ -71,7 +71,7 @@ export type {
   ConsulterProjetAvecGarantiesFinancièresEnAttenteQuery,
   ListerDépôtsEnCoursGarantiesFinancièresQuery,
   ListerProjetsAvecGarantiesFinancièresEnAttenteQuery,
-  ConsulterDemandeMainlevéeGarantiesFinancièresQuery,
+  ConsulterDemandeEnCoursMainlevéeGarantiesFinancièresQuery,
   ListerMainlevéesQuery,
   ConsulterHistoriqueDemandeMainlevéeRejetéeGarantiesFinancièresQuery,
 };
@@ -85,7 +85,7 @@ export type {
   ConsulterProjetAvecGarantiesFinancièresEnAttenteReadModel,
   ListerDépôtsEnCoursGarantiesFinancièresReadModel,
   ListerProjetsAvecGarantiesFinancièresEnAttenteReadModel,
-  ConsulterDemandeMainlevéeGarantiesFinancièresReadModel,
+  ConsulterDemandeEnCoursMainlevéeGarantiesFinancièresReadModel,
   ListerMainlevéesReadModel,
   ConsulterHistoriqueDemandeMainlevéeRejetéeGarantiesFinancièresReadModel,
 };

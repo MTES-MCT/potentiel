@@ -129,7 +129,7 @@ const référencielPermissions = {
           'Lauréat.GarantiesFinancières.Query.ListerProjetsAvecGarantiesFinancièresEnAttente',
         consulterProjetAvecGarantiesFinancièresEnAttente:
           'Lauréat.GarantiesFinancières.Query.ConsulterProjetAvecGarantiesFinancièresEnAttente',
-        consulterDemandeMainlevée: 'Lauréat.GarantiesFinancières.Mainlevée.Query.Consulter',
+        ConsulterDemandeEnCoursMainlevée: 'Lauréat.GarantiesFinancières.Mainlevée.Query.Consulter',
         listerMainlevée: 'Lauréat.GarantiesFinancières.Mainlevée.Query.Lister',
         consulterHistoriqueMainlevée:
           'Lauréat.GarantiesFinancières.Mainlevée.Query.ConsulterHistoriqueDemandeMainlevéeRejetée',
@@ -710,7 +710,7 @@ const policies = {
         référencielPermissions.lauréat.garantiesFinancières.command.demanderMainlevée,
       ],
       consulter: [
-        référencielPermissions.lauréat.garantiesFinancières.query.consulterDemandeMainlevée,
+        référencielPermissions.lauréat.garantiesFinancières.query.ConsulterDemandeEnCoursMainlevée,
       ],
       lister: [référencielPermissions.lauréat.garantiesFinancières.query.listerMainlevée],
       annuler: [

@@ -57,12 +57,14 @@ export const GET = async (
     });
 
     const mainlevée =
-      await mediator.send<GarantiesFinancières.ConsulterDemandeMainlevéeGarantiesFinancièresQuery>({
-        type: 'Lauréat.GarantiesFinancières.Mainlevée.Query.Consulter',
-        data: {
-          identifiantProjetValue,
+      await mediator.send<GarantiesFinancières.ConsulterDemandeEnCoursMainlevéeGarantiesFinancièresQuery>(
+        {
+          type: 'Lauréat.GarantiesFinancières.Mainlevée.Query.Consulter',
+          data: {
+            identifiantProjetValue,
+          },
         },
-      });
+      );
 
     const achèvement = await mediator.send<Achèvement.ConsulterAttestationConformitéQuery>({
       type: 'Lauréat.Achèvement.AttestationConformité.Query.ConsulterAttestationConformité',
