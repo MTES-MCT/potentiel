@@ -1,7 +1,5 @@
 import { Entity } from '@potentiel-domain/entity';
 
-// discriminated union à tester
-
 type DétailsMainlevée = {
   identifiantProjet: string;
   appelOffre: string;

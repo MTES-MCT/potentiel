@@ -8,6 +8,7 @@ import { Find } from '@potentiel-domain/entity';
 import {
   MainlevéeGarantiesFinancièresEntity,
   MotifDemandeMainlevéeGarantiesFinancières,
+  StatutMainlevéeGarantiesFinancières,
   TypeDocumentRéponseDemandeMainlevée,
 } from '../..';
 
@@ -83,29 +84,24 @@ export const mapToReadModel = ({
   période,
   régionProjet,
   historique: détailsMainlevées
-    .map((mainlevéeRejetée) => {
-      // tricks to force type
-      return mainlevéeRejetée.statut === 'rejeté'
-        ? {
-            demande: {
-              demandéeLe: DateTime.convertirEnValueType(mainlevéeRejetée.demande.demandéeLe),
-              demandéePar: Email.convertirEnValueType(mainlevéeRejetée.demande.demandéePar),
-            },
-            motif: MotifDemandeMainlevéeGarantiesFinancières.convertirEnValueType(
-              mainlevéeRejetée.motif,
-            ),
-            rejet: {
-              rejetéLe: DateTime.convertirEnValueType(mainlevéeRejetée.rejet!.rejetéLe),
-              rejetéPar: Email.convertirEnValueType(mainlevéeRejetée.rejet!.rejetéPar),
-              courrierRejet: DocumentProjet.convertirEnValueType(
-                identifiantProjet,
-                TypeDocumentRéponseDemandeMainlevée.courrierRéponseDemandeMainlevéeRejetéeValueType.formatter(),
-                mainlevéeRejetée.rejet!.rejetéLe,
-                mainlevéeRejetée.rejet!.courrierRejet.format,
-              ),
-            },
-          }
-        : undefined;
-    })
-    .filter((item) => item !== undefined),
+    .filter((mainlevée) =>
+      StatutMainlevéeGarantiesFinancières.convertirEnValueType(mainlevée.statut).estRejeté(),
+    )
+    .map((mainlevéeRejetée) => ({
+      demande: {
+        demandéeLe: DateTime.convertirEnValueType(mainlevéeRejetée.demande.demandéeLe),
+        demandéePar: Email.convertirEnValueType(mainlevéeRejetée.demande.demandéePar),
+      },
+      motif: MotifDemandeMainlevéeGarantiesFinancières.convertirEnValueType(mainlevéeRejetée.motif),
+      rejet: {
+        rejetéLe: DateTime.convertirEnValueType(mainlevéeRejetée.rejet!.rejetéLe),
+        rejetéPar: Email.convertirEnValueType(mainlevéeRejetée.rejet!.rejetéPar),
+        courrierRejet: DocumentProjet.convertirEnValueType(
+          identifiantProjet,
+          TypeDocumentRéponseDemandeMainlevée.courrierRéponseDemandeMainlevéeRejetéeValueType.formatter(),
+          mainlevéeRejetée.rejet!.rejetéLe,
+          mainlevéeRejetée.rejet!.courrierRejet.format,
+        ),
+      },
+    })),
 });
