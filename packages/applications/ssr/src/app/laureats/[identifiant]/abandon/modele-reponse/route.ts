@@ -87,11 +87,11 @@ export const GET = async (_: Request, { params: { identifiant } }: IdentifiantPa
         communeProjet: candidature.localité.commune,
         contenuParagrapheAbandon: dispositionCDC.dispositions,
         dateConfirmation:
-          abandon.demande.confirmation?.confirméLe?.date.toLocaleDateString('fr-FR') ??
+          abandon.demande.confirmation?.confirméLe?.date.toLocaleDateString('fr-FR') ||
           'JJ/MM/AAAA',
         dateDemande: abandon.demande.demandéLe.date.toLocaleDateString('fr-FR'),
         dateDemandeConfirmation:
-          abandon.demande.confirmation?.demandéeLe.date.toLocaleDateString('fr-FR') ?? 'JJ/MM/AAAA',
+          abandon.demande.confirmation?.demandéeLe.date.toLocaleDateString('fr-FR') || 'JJ/MM/AAAA',
         dateNotification: DateTime.convertirEnValueType(
           candidature.dateDésignation,
         ).date.toLocaleDateString('fr-FR'),
