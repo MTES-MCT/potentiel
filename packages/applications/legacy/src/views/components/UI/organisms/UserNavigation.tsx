@@ -103,7 +103,7 @@ const MenuAdmin = (currentPage?: string) => (
           statut: Routes.Période.defaultStatutValueForPériodeList,
         })}
       >
-        Notifier des candidats
+        Candidats à notifier
       </DropdownMenu.DropdownItem>
       <DropdownMenu.DropdownItem
         href={Routes.Candidature.lister({
