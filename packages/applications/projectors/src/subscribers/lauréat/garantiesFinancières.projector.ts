@@ -30,9 +30,7 @@ export const register = () => {
       await removeProjection<GarantiesFinancières.ProjetAvecGarantiesFinancièresEnAttenteEntity>(
         `projet-avec-garanties-financieres-en-attente|${payload.id}`,
       );
-      await removeProjection<GarantiesFinancières.MainlevéeGarantiesFinancièresEntity>(
-        `mainlevee-garanties-financieres|${payload.id}`,
-      );
+      await removeMainlevéeProjections(payload.id);
       await removeProjection<GarantiesFinancières.ArchivesGarantiesFinancièresEntity>(
         `archives-garanties-financieres|${payload.id}`,
       );
@@ -531,7 +529,7 @@ export const register = () => {
           };
 
           await upsertProjection<GarantiesFinancières.DétailsMainlevéeGarantiesFinancièresEntity>(
-            `détails-mainlevee-garanties-financieres|${identifiantProjet}#${payload.demandéPar}`,
+            `details-mainlevee-garanties-financieres|${identifiantProjet}#${payload.demandéPar}`,
             mainlevéeDemandée,
           );
 
@@ -548,7 +546,7 @@ export const register = () => {
 
         case 'DemandeMainlevéeGarantiesFinancièresAnnulée-V1':
           await removeProjection<GarantiesFinancières.DétailsMainlevéeGarantiesFinancièresEntity>(
-            `détails-mainlevee-garanties-financieres|${identifiantProjet}#${mainlevéeEnCours.demande.demandéePar}`,
+            `details-mainlevee-garanties-financieres|${identifiantProjet}#${mainlevéeEnCours.demande.demandéePar}`,
           );
 
           await upsertProjection<GarantiesFinancières.MainlevéeGarantiesFinancièresEntity>(
@@ -573,7 +571,7 @@ export const register = () => {
           };
 
           await upsertProjection<GarantiesFinancières.DétailsMainlevéeGarantiesFinancièresEntity>(
-            `détails-mainlevee-garanties-financieres|${identifiantProjet}#${mainlevéeEnCours.demande.demandéePar}`,
+            `details-mainlevee-garanties-financieres|${identifiantProjet}#${mainlevéeEnCours.demande.demandéePar}`,
             mainlevéeEnCours,
           );
 
@@ -604,7 +602,7 @@ export const register = () => {
           };
 
           await upsertProjection<GarantiesFinancières.DétailsMainlevéeGarantiesFinancièresEntity>(
-            `détails-mainlevee-garanties-financieres|${identifiantProjet}#${mainlevéeEnCours.demande.demandéePar}`,
+            `details-mainlevee-garanties-financieres|${identifiantProjet}#${mainlevéeEnCours.demande.demandéePar}`,
             mainlevéeEnCours,
           );
 
@@ -651,7 +649,7 @@ export const register = () => {
           };
 
           await upsertProjection<GarantiesFinancières.DétailsMainlevéeGarantiesFinancièresEntity>(
-            `détails-mainlevee-garanties-financieres|${identifiantProjet}#${mainlevéeEnCours.demande.demandéePar}`,
+            `details-mainlevee-garanties-financieres|${identifiantProjet}#${mainlevéeEnCours.demande.demandéePar}`,
             mainlevéeEnCours,
           );
 
@@ -686,4 +684,21 @@ export const register = () => {
   };
 
   mediator.register('System.Projector.Lauréat.GarantiesFinancières', handler);
+};
+
+const removeMainlevéeProjections = async (identifiantProjet: string) => {
+  const mainlevée = await findProjection<GarantiesFinancières.MainlevéeGarantiesFinancièresEntity>(
+    `mainlevee-garanties-financieres|${identifiantProjet}`,
+  );
+
+  if (!Option.isNone(mainlevée)) {
+    for (const détailsMainlevée of mainlevée.détailsMainlevées) {
+      await removeProjection<GarantiesFinancières.DétailsMainlevéeGarantiesFinancièresEntity>(
+        `details-mainlevee-garanties-financieres|${identifiantProjet}#${détailsMainlevée.demande.demandéeLe}`,
+      );
+    }
+    await removeProjection<GarantiesFinancières.MainlevéeGarantiesFinancièresEntity>(
+      `mainlevee-garanties-financieres|${identifiantProjet}`,
+    );
+  }
 };

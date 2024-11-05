@@ -36,6 +36,6 @@ export type MainlevéeGarantiesFinancièresEntity = Entity<
 >;
 
 export type DétailsMainlevéeGarantiesFinancièresEntity = Entity<
-  'détails-mainlevee-garanties-financieres',
+  'details-mainlevee-garanties-financieres',
   DétailsMainlevée
 >;

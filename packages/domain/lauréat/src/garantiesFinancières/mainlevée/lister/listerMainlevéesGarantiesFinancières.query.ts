@@ -74,7 +74,7 @@ export const registerListerMainlevéesQuery = ({
       range: { endPosition, startPosition },
       total,
     } = await list<DétailsMainlevéeGarantiesFinancièresEntity>(
-      'détails-mainlevee-garanties-financieres',
+      'details-mainlevee-garanties-financieres',
       {
         range,
         where: {
