@@ -8,7 +8,7 @@ Fonctionnalité: Demander le changement de représentant légal d'un projet laur
     @NotImplemented
     Scénario: Un porteur demande le changement de réprésentant légal d'un projet lauréat
         Quand le porteur demande le changement de réprésentant pour le projet lauréat
-        Alors le changement de représentant légal du projet lauréat devrait être demandé
+        Alors une demande de changement de représentant légal du projet lauréat devrait être consultable
 
     @NotImplemented
     Scénario: Impossible de demander le changement de représentant légal d'un projet lauréat si le changement est déjà en cours

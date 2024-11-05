@@ -4,7 +4,7 @@ Fonctionnalité: Corriger le représentant légal d'un projet lauréat
     @NotImplemented
     Scénario: Corriger le représentant légal d'un projet lauréat
         Etant donné le projet lauréat "Du boulodrome de Marseille"
-        Et le représentant légal "Marcel Patoulatchi" associé au projet lauréat
+        Et le représentant légal "Marcel Patoulatchi" du projet lauréat
         Quand le représentant légal est corrigé pour le projet lauréat
         Alors le représentant légal du projet lauréat devrait être mis à jour
 
@@ -19,7 +19,7 @@ Fonctionnalité: Corriger le représentant légal d'un projet lauréat
     @NotImplemented
     Scénario: Impossible de corriger le représentant légal si le projet lauréat n'existe pas
         Quand le représentant légal est corrigé pour le projet lauréat
-        Alors l'utilisateur devrait être informé que "Le représentant légal n'a pas pu être importé car le projet n'existe pas"
+        Alors l'utilisateur devrait être informé que "Le représentant légal n'a pas pu être corrigé car le projet n'existe pas"
 
     # À discuter si nécessaire
     @NotImplemented
