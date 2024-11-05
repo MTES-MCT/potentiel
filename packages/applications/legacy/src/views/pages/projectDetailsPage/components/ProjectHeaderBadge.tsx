@@ -12,7 +12,7 @@ export const ProjectHeaderBadge = ({ project }: ProjectHeaderBadgeProps) => (
       <Badge type="warning">Abandonné</Badge>
     ) : (
       <>
-        {!project.notifiedOn && <Badge type="info">Non-notifié</Badge>}
+        {!project.notifiedOn && <Badge type="new">à-notifier</Badge>}
         {project.isClasse ? (
           <Badge type="success">Classé</Badge>
         ) : (

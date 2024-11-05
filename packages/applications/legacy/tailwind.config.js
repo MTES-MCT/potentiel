@@ -101,6 +101,16 @@ module.exports = {
         'warning-975': {
           base: '#fff4f3',
         },
+        'new-425': {
+          base: '#695240',
+          hover: '#9b7b61',
+          active: '#b58f72',
+        },
+        'new-950': {
+          base: '#feebd0',
+          hover: '#fdcd6d',
+          active: '#f4be30',
+        },
         'info-425': {
           base: '#0063cb',
           hover: '#3b87ff',

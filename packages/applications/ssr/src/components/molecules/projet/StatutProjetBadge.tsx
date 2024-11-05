@@ -11,8 +11,13 @@ const convertStatutProjetToBadgeSeverity: Record<StatutProjet, AlertProps.Severi
   éliminé: 'error',
 };
 
+const getStatutProjetBadgeLabel = (statut: StatutProjet): string => {
+  if (statut === 'non-notifié') return 'à-notifier';
+  return statut;
+};
+
 export const StatutProjetBadge: FC<{ statut: StatutProjet }> = ({ statut }) => (
   <Badge small noIcon severity={convertStatutProjetToBadgeSeverity[statut]}>
-    {statut}
+    {getStatutProjetBadgeLabel(statut)}
   </Badge>
 );
