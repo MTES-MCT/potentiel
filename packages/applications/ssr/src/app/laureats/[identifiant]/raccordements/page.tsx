@@ -3,7 +3,7 @@ import type { Metadata } from 'next';
 import { redirect } from 'next/navigation';
 
 import { GestionnaireRéseau, Raccordement } from '@potentiel-domain/reseau';
-import { Utilisateur } from '@potentiel-domain/utilisateur';
+import { Role, Utilisateur } from '@potentiel-domain/utilisateur';
 import { Option } from '@potentiel-libraries/monads';
 import { Routes } from '@potentiel-applications/routes';
 import { mapToPlainObject } from '@potentiel-domain/core';
@@ -62,12 +62,23 @@ export default async function Page({ params: { identifiant } }: PageProps) {
           },
         });
 
+      const lienRetour = utilisateur.role.estÉgaleÀ(Role.grd)
+        ? {
+            label: 'Retour vers les raccordements',
+            href: Routes.Raccordement.lister,
+          }
+        : {
+            label: 'Retour vers le projet',
+            href: Routes.Projet.details(identifiantProjet.formatter()),
+          };
+
       return (
         <DétailsRaccordementPage
           identifiantProjet={mapToPlainObject(identifiantProjet)}
           gestionnaireRéseau={mapToPlainObject(gestionnaireRéseau)}
           raccordement={mapToPlainObject(raccordement)}
           actions={mapToActions(utilisateur, raccordement)}
+          lienRetour={lienRetour}
         />
       );
     }),
@@ -90,6 +101,7 @@ const mapToActions = (
         modifier: true,
       },
       demandeComplèteRaccordement: {
+        modifierRéférence: false,
         transmettre: false,
         modifier: false,
       },
@@ -106,6 +118,7 @@ const mapToActions = (
   return {
     supprimer: role.aLaPermission('réseau.raccordement.dossier.supprimer'),
     demandeComplèteRaccordement: {
+      modifierRéférence: role.aLaPermission('réseau.raccordement.référence-dossier.modifier'),
       transmettre: role.aLaPermission(
         'réseau.raccordement.demande-complète-raccordement.transmettre',
       ),

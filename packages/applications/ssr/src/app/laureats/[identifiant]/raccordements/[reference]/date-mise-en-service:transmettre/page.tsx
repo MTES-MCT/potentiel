@@ -85,7 +85,6 @@ export default async function Page({ params: { identifiant, reference } }: PageP
           projet={props.projet}
           dossierRaccordement={props.dossierRaccordement}
           intervalleDatesMeSDélaiCDC2022={props.intervalleDatesMeSDélaiCDC2022}
-          lienRetour={props.lienRetour}
         />
       );
     }),
