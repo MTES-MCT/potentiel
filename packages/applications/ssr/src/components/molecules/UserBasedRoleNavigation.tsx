@@ -88,7 +88,7 @@ const getNavigationItemsBasedOnRole = (
               },
             },
             {
-              text: 'Notifier des candidats',
+              text: 'Candidats à notifier',
               linkProps: {
                 href: Routes.Période.lister({
                   statut: Routes.Période.defaultStatutValueForPériodeList,
