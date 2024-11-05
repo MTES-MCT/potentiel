@@ -183,7 +183,7 @@ export const register = () => {
         ? mainlevéeGarantiesFinancières
         : mainlevéeGarantiesFinancièresDefaultValue;
 
-      let mainlevéeEnCours = mainlevéeGarantiesFinancièresToUpsert.détailsMainlevées.filter(
+      const mainlevéeEnCours = mainlevéeGarantiesFinancièresToUpsert.détailsMainlevées.filter(
         (mainlevée) =>
           !GarantiesFinancières.StatutMainlevéeGarantiesFinancières.convertirEnValueType(
             mainlevée.statut,
@@ -512,6 +512,7 @@ export const register = () => {
 
         case 'MainlevéeGarantiesFinancièresDemandée-V1':
           détailProjet = await getProjectData(identifiantProjet);
+
           const mainlevéeDemandée = {
             demande: {
               demandéeLe: payload.demandéLe,
@@ -536,8 +537,7 @@ export const register = () => {
           await upsertProjection<GarantiesFinancières.MainlevéeGarantiesFinancièresEntity>(
             `mainlevee-garanties-financieres|${identifiantProjet}`,
             {
-              ...mainlevéeGarantiesFinancièresToUpsert,
-              ...détailProjet,
+              projet: détailProjet,
               identifiantProjet: payload.identifiantProjet,
               détailsMainlevées: [...historiqueMainlevée, mainlevéeDemandée],
             },
@@ -560,7 +560,7 @@ export const register = () => {
           break;
 
         case 'InstructionDemandeMainlevéeGarantiesFinancièresDémarrée-V1':
-          mainlevéeEnCours = {
+          const nouvelleMainlevéeAprèsInstruction = {
             ...mainlevéeEnCours,
             statut: GarantiesFinancières.StatutMainlevéeGarantiesFinancières.enInstruction.statut,
             instruction: { démarréeLe: payload.démarréLe, démarréePar: payload.démarréPar },
@@ -572,7 +572,7 @@ export const register = () => {
 
           await upsertProjection<GarantiesFinancières.DétailsMainlevéeGarantiesFinancièresEntity>(
             `details-mainlevee-garanties-financieres|${identifiantProjet}#${mainlevéeEnCours.demande.demandéePar}`,
-            mainlevéeEnCours,
+            nouvelleMainlevéeAprèsInstruction,
           );
 
           await upsertProjection<GarantiesFinancières.MainlevéeGarantiesFinancièresEntity>(
@@ -580,14 +580,14 @@ export const register = () => {
             {
               ...mainlevéeGarantiesFinancièresToUpsert,
               identifiantProjet: payload.identifiantProjet,
-              détailsMainlevées: [...historiqueMainlevée, mainlevéeEnCours],
+              détailsMainlevées: [...historiqueMainlevée, nouvelleMainlevéeAprèsInstruction],
             },
           );
 
           break;
 
         case 'DemandeMainlevéeGarantiesFinancièresAccordée-V1':
-          mainlevéeEnCours = {
+          const nouvelleMainlevéeAprèsAccord = {
             ...mainlevéeEnCours,
             statut: GarantiesFinancières.StatutMainlevéeGarantiesFinancières.accordé.statut,
             accord: {
@@ -603,7 +603,7 @@ export const register = () => {
 
           await upsertProjection<GarantiesFinancières.DétailsMainlevéeGarantiesFinancièresEntity>(
             `details-mainlevee-garanties-financieres|${identifiantProjet}#${mainlevéeEnCours.demande.demandéePar}`,
-            mainlevéeEnCours,
+            nouvelleMainlevéeAprèsAccord,
           );
 
           await upsertProjection<GarantiesFinancières.MainlevéeGarantiesFinancièresEntity>(
@@ -611,7 +611,7 @@ export const register = () => {
             {
               ...mainlevéeGarantiesFinancièresToUpsert,
               identifiantProjet: payload.identifiantProjet,
-              détailsMainlevées: [...historiqueMainlevée, mainlevéeEnCours],
+              détailsMainlevées: [...historiqueMainlevée, nouvelleMainlevéeAprèsAccord],
             },
           );
 
@@ -632,9 +632,7 @@ export const register = () => {
           break;
 
         case 'DemandeMainlevéeGarantiesFinancièresRejetée-V1':
-          détailProjet = await getProjectData(identifiantProjet);
-
-          mainlevéeEnCours = {
+          const nouvelleMainlevéeAprèsRejet = {
             ...mainlevéeEnCours,
             statut: GarantiesFinancières.StatutMainlevéeGarantiesFinancières.rejeté.statut,
             rejet: {
@@ -650,7 +648,7 @@ export const register = () => {
 
           await upsertProjection<GarantiesFinancières.DétailsMainlevéeGarantiesFinancièresEntity>(
             `details-mainlevee-garanties-financieres|${identifiantProjet}#${mainlevéeEnCours.demande.demandéePar}`,
-            mainlevéeEnCours,
+            nouvelleMainlevéeAprèsRejet,
           );
 
           await upsertProjection<GarantiesFinancières.MainlevéeGarantiesFinancièresEntity>(
@@ -658,8 +656,7 @@ export const register = () => {
             {
               ...mainlevéeGarantiesFinancièresToUpsert,
               identifiantProjet: payload.identifiantProjet,
-              ...détailProjet,
-              détailsMainlevées: [...historiqueMainlevée, mainlevéeEnCours],
+              détailsMainlevées: [...historiqueMainlevée, nouvelleMainlevéeAprèsRejet],
             },
           );
           break;
