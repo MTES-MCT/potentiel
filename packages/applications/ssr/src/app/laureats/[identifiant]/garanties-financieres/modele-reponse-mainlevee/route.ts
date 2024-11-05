@@ -103,7 +103,7 @@ export const GET = async (
         dateConstitutionGarantiesFinancières: Option.match(gf)
           .some((gf) =>
             gf.garantiesFinancières.dateConstitution
-              ? gf.garantiesFinancières.dateConstitution.date.toLocaleDateString()
+              ? gf.garantiesFinancières.dateConstitution.date.toLocaleDateString('fr-FR')
               : 'JJ/MM/AAAA',
           )
           .none(() => 'JJ/MM/AAAA'),

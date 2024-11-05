@@ -93,13 +93,12 @@ export const GET = async (
               ? DateTime.convertirEnValueType(candidature.dateDésignation)
                   .ajouterNombreDeMois(appelOffres.garantieFinanciereEnMois)
                   .date.toLocaleDateString('fr-FR')
-              : '!!! dateFinGarantieFinanciere non disponible !!!',
-        dateLimiteDepotGF:
-          (Option.isSome(projetAvecGarantiesFinancièresEnAttente) &&
-            projetAvecGarantiesFinancièresEnAttente.dateLimiteSoumission.date.toLocaleDateString(
+              : 'JJ/MM/AAAA',
+        dateLimiteDepotGF: Option.isSome(projetAvecGarantiesFinancièresEnAttente)
+          ? projetAvecGarantiesFinancièresEnAttente.dateLimiteSoumission.date.toLocaleDateString(
               'fr-FR',
-            )) ||
-          '',
+            )
+          : 'JJ/MM/AAAA',
         nomRepresentantLegal: candidature.candidat.nom,
         adresseProjet: candidature.candidat.adressePostale,
         codePostalProjet: candidature.localité.codePostal,
