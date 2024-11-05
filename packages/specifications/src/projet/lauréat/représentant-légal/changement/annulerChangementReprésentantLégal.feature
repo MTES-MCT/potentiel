@@ -4,7 +4,6 @@ Fonctionnalité: Annuler le changement de représentant légal d'un projet laur�
     Contexte:
         Etant donné le projet lauréat "Du boulodrome de Marseille"
         Et le porteur "Marcel Patoulatchi" ayant accés au projet lauréat "Du boulodrome de Marseille"
-        Et le DGEC validateur "Robert Robichet"
 
     @NotImplemented
     Scénario: Un porteur annule la demande de changement de représentant légal d'un projet lauréat

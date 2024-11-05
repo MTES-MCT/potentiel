@@ -8,16 +8,17 @@ Fonctionnalité: Rejeter le changement de représentant légal d'un projet laur�
         Et la DREAL associée au projet lauréat
 
     @NotImplemented
-    Scénario: Un DGEC validateur rejete le changement de représentant légal d'un projet lauréat
+    Plan du scénario: Rejeter le changement de représentant légal d'un projet lauréat
         Etant donné une demande de changement de représentant légal en cours pour le projet lauréat
-        Quand le DGEC validateur rejete le changement de représentant légal pour le projet lauréat
+        Quand <l'utilisateur autorisé> rejete le changement de représentant légal pour le projet lauréat
         Alors le changement de représentant légal du projet lauréat devrait être rejeté
+        Et l'historique des changements de représentant légal du projet lauréat devrait être mis à jour
+        Mais le représentant légal du projet lauréat ne devrait pas avoir été modifié
 
-    @NotImplemented
-    Scénario: Une DREAL rejete le changement de représentant légal d'un projet lauréat
-        Etant donné une demande de changement de représentant légal en cours pour le projet lauréat
-        Quand la DREAL rejete le changement de représentant légal pour le projet lauréat
-        Alors le changement de représentant légal du projet lauréat devrait être rejeté
+        Exemples:
+            | l'utilisateur autorisé      |
+            | le DGEC validateur          |
+            | la DREAL associée au projet |
 
     @NotImplemented
     Scénario: Impossible de rejeter le changement de représentant légal d'un projet lauréat si le changement a déjà été accordé

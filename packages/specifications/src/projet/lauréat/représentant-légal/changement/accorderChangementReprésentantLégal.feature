@@ -8,16 +8,17 @@ Fonctionnalité: Accorder le changement de représentant légal d'un projet laur
         Et la DREAL associée au projet lauréat
 
     @NotImplemented
-    Scénario: Un DGEC validateur accorde le changement de représentant légal d'un projet lauréat
+    Plan du scénario: Accorder le changement de représentant légal d'un projet lauréat
         Etant donné une demande de changement de représentant légal en cours pour le projet lauréat
-        Quand le DGEC validateur accorde le changement de représentant légal pour le projet lauréat
+        Quand <l'utilisateur autorisé> accorde le changement de représentant légal pour le projet lauréat
         Alors le changement de représentant légal du projet lauréat devrait être accordé
+        Et le représentant légal du projet lauréat devrait être mis à jour
+        Et l'historique des changements de représentant légal du projet lauréat devrait être mis à jour
 
-    @NotImplemented
-    Scénario: Une DREAL accorde le changement de représentant légal d'un projet lauréat
-        Etant donné une demande de changement de représentant légal en cours pour le projet lauréat
-        Quand la DREAL accorde le changement de représentant légal pour le projet lauréat
-        Alors le changement de représentant légal du projet lauréat devrait être accordé
+        Exemples:
+            | l'utilisateur autorisé      |
+            | le DGEC validateur          |
+            | la DREAL associée au projet |
 
     @NotImplemented
     Scénario: Impossible d'accorder le changement de représentant légal d'un projet lauréat si le changement a déjà été accordé
