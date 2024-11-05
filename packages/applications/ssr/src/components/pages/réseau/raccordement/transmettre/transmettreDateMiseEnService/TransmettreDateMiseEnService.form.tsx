@@ -3,6 +3,7 @@
 import { FC, useState } from 'react';
 import { Button } from '@codegouvfr/react-dsfr/Button';
 
+import { Routes } from '@potentiel-applications/routes';
 import { Iso8601DateTime, now } from '@potentiel-libraries/iso8601-datetime';
 
 import { Form } from '@/components/atoms/form/Form';
@@ -24,13 +25,11 @@ export type TransmettreDateMiseEnServiceFormProps = {
     référence: string;
     miseEnService?: Iso8601DateTime;
   };
-  lienRetour: string;
 };
 
 export const TransmettreDateMiseEnServiceForm: FC<TransmettreDateMiseEnServiceFormProps> = ({
   projet: { identifiantProjet, dateDésignation },
   dossierRaccordement: { référence, miseEnService },
-  lienRetour,
 }) => {
   const [validationErrors, setValidationErrors] = useState<
     ValidationErrors<TransmettreDateMiseEnServiceStateFormKeys>
@@ -45,7 +44,7 @@ export const TransmettreDateMiseEnServiceForm: FC<TransmettreDateMiseEnServiceFo
           <Button
             priority="secondary"
             linkProps={{
-              href: lienRetour,
+              href: Routes.Raccordement.détail(identifiantProjet),
               prefetch: false,
             }}
             iconId="fr-icon-arrow-left-line"

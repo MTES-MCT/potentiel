@@ -17,14 +17,12 @@ export type TransmettreDateMiseEnServicePageProps = {
   projet: TransmettreDateMiseEnServiceFormProps['projet'];
   dossierRaccordement: TransmettreDateMiseEnServiceFormProps['dossierRaccordement'];
   intervalleDatesMeSDélaiCDC2022?: { min: Iso8601DateTime; max: Iso8601DateTime };
-  lienRetour: TransmettreDateMiseEnServiceFormProps['lienRetour'];
 };
 
 export const TransmettreDateMiseEnServicePage = ({
   projet,
   dossierRaccordement,
   intervalleDatesMeSDélaiCDC2022,
-  lienRetour,
 }: TransmettreDateMiseEnServicePageProps) => (
   <ColumnPageTemplate
     banner={<ProjetBanner identifiantProjet={projet.identifiantProjet} />}
@@ -34,7 +32,6 @@ export const TransmettreDateMiseEnServicePage = ({
         <TransmettreDateMiseEnServiceForm
           projet={projet}
           dossierRaccordement={dossierRaccordement}
-          lienRetour={lienRetour}
         />
       ),
     }}

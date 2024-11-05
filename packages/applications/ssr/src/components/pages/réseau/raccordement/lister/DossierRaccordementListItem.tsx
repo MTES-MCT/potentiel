@@ -1,25 +1,20 @@
 import { FC } from 'react';
 import Badge from '@codegouvfr/react-dsfr/Badge';
+import Button from '@codegouvfr/react-dsfr/Button';
 
 import { Raccordement } from '@potentiel-domain/reseau';
 import { PlainType } from '@potentiel-domain/core';
-import { DateTime } from '@potentiel-domain/common';
+import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
+import { Routes } from '@potentiel-applications/routes';
 
 import { ProjectListItemHeading } from '@/components/molecules/projet/ProjectListItemHeading';
 import { ListItem } from '@/components/molecules/ListItem';
 import { Icon } from '@/components/atoms/Icon';
 import { FormattedDate } from '@/components/atoms/FormattedDate';
 
-import {
-  DossierRaccordementListItemActions,
-  DossierRaccordementListItemActionsProps,
-} from './DossierRaccordementListItemActions';
-
 export type DossierRaccordementListItemProps = PlainType<
   Raccordement.ListerDossierRaccordementReadModel['items'][number]
-> & {
-  actions: DossierRaccordementListItemActionsProps['actions'];
-};
+>;
 
 export const DossierRaccordementListItem: FC<DossierRaccordementListItemProps> = ({
   identifiantProjet,
@@ -32,7 +27,6 @@ export const DossierRaccordementListItem: FC<DossierRaccordementListItemProps> =
   statutDGEC,
   dateMiseEnService,
   raisonSocialeGestionnaireRéseau,
-  actions,
 }) => (
   <ListItem
     heading={
@@ -44,11 +38,18 @@ export const DossierRaccordementListItem: FC<DossierRaccordementListItemProps> =
       />
     }
     actions={
-      <DossierRaccordementListItemActions
-        identifiantProjet={identifiantProjet}
-        référence={référenceDossier}
-        actions={actions}
-      />
+      <div className="flex md:flex-col items-end gap-2">
+        <Button
+          className="md:flex ml-auto"
+          linkProps={{
+            href: Routes.Raccordement.détail(IdentifiantProjet.bind(identifiantProjet).formatter()),
+            prefetch: false,
+          }}
+          aria-label={`Consulter le dossier de raccordement ${référenceDossier}`}
+        >
+          Consulter
+        </Button>
+      </div>
     }
   >
     <div className="mt-4">

@@ -59,7 +59,7 @@ const dossier: PlainType<DétailsRaccordementPageProps['raccordement']['dossiers
 };
 
 const actions = {
-  demandeComplèteRaccordement: { modifier: true, transmettre: true },
+  demandeComplèteRaccordement: { modifierRéférence: true, modifier: true, transmettre: true },
   miseEnService: { modifier: true, transmettre: true },
   propositionTechniqueEtFinancière: { modifier: true, transmettre: true },
   gestionnaireRéseau: { modifier: true },
@@ -76,6 +76,10 @@ export const Complet: Story = {
       dossiers: [dossier, dossier],
     },
     actions,
+    lienRetour: {
+      label: 'Retour',
+      href: '',
+    },
   },
 };
 
@@ -92,6 +96,10 @@ export const Incomplet: Story = {
       ...actions,
       supprimer: false,
     },
+    lienRetour: {
+      label: 'Retour',
+      href: '',
+    },
   },
 };
 
@@ -104,5 +112,9 @@ export const GestionnaireInconnu: Story = {
     },
     raccordement: Complet.args.raccordement,
     actions,
+    lienRetour: {
+      label: 'Retour',
+      href: '',
+    },
   },
 };
