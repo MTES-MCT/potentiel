@@ -1,5 +1,5 @@
 import { Option } from '@potentiel-libraries/monads';
-import { getLogger } from '@potentiel-libraries/monitoring';
+// import { getLogger } from '@potentiel-libraries/monitoring';
 
 import { startApplyingWatermarkOnFile } from './startApplyingWatermarkOnFile';
 import { getWatermarkedFile } from './getWatermarkedFile';
@@ -22,13 +22,16 @@ export const ajouterFiligrane = async (
 
     return documentAvecFiligrane;
   } catch (error) {
-    getLogger().warn(
-      `Erreur lors de l'ajout du filigrane | Le document a été transmis sans filigrane`,
-      {
-        error,
-        filigrane,
-      },
-    );
+    /**
+     * @todo À investiguer parce qu'aujourd'hui ça casse le build SSR
+     */
+    // getLogger().warn(
+    //   `Erreur lors de l'ajout du filigrane | Le document a été transmis sans filigrane`,
+    //   {
+    //     error,
+    //     filigrane,
+    //   },
+    // );
     return Option.none;
   }
 };
