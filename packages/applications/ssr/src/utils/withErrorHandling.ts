@@ -4,6 +4,8 @@ import { redirect } from 'next/navigation';
 
 import { getLogger } from '@potentiel-libraries/monitoring';
 import { DomainError } from '@potentiel-domain/core';
+import { bootstrap } from '@potentiel-applications/bootstrap';
+import { permissionMiddleware } from '@potentiel-domain/utilisateur';
 
 import { NoAuthenticatedUserError } from './getAuthenticatedUser.handler';
 
@@ -13,6 +15,7 @@ export async function withErrorHandling<TResult>(
   onUnknowmError: (error: Error) => TResult,
 ): Promise<TResult> {
   try {
+    await bootstrap({ middlewares: [permissionMiddleware] });
     return await action();
   } catch (e) {
     if (isRedirectError(e) || isNotFoundError(e)) {
