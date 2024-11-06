@@ -11,7 +11,7 @@ Fonctionnalité: Rejeter la demande de changement de représentant légal d'un p
     Plan du scénario: Rejeter le changement de représentant légal d'un projet lauréat
         Etant donné une demande de changement de représentant légal en cours pour le projet lauréat
         Quand <l'utilisateur autorisé> rejette le changement de représentant légal pour le projet lauréat
-        Alors la demande de changement de représentant légal du projet lauréat devrait être rejeté
+        Alors la demande de changement de représentant légal du projet lauréat devrait être rejetée
         Et l'historique des changements de représentant légal du projet lauréat devrait être mis à jour
         Mais le représentant légal du projet lauréat ne devrait pas avoir été modifié
 
