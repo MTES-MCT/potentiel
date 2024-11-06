@@ -3,7 +3,6 @@ import { NextRequest, NextResponse } from 'next/server';
 import * as zod from 'zod';
 
 import { Raccordement } from '@potentiel-domain/reseau';
-import { InvalidOperationError } from '@potentiel-domain/core';
 
 import { apiAction } from '@/utils/apiAction';
 import { withUtilisateur } from '@/utils/withUtilisateur';
@@ -44,7 +43,13 @@ export const POST = (request: NextRequest, routeParams: RouteParams) =>
         return new NextResponse(null, { status: 200 });
       }
 
-      // TODO manage validation error for API.
-      throw new InvalidOperationError(result.error.message);
+      return NextResponse.json(
+        {
+          error: result.error.format(),
+        },
+        {
+          status: 400,
+        },
+      );
     });
   });
