@@ -36,6 +36,7 @@ type DossierRaccordementApiResponse = {
   referenceDossier: string;
   statutDGEC: string;
 };
+
 type ApiResponse = {
   items: DossierRaccordementApiResponse[];
   range: RangeOptions;
