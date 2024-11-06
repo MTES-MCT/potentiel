@@ -9,7 +9,7 @@ Fonctionnalité: Corriger la demande de changement de représentant légal d'un 
     Scénario: Un porteur corrige son changement de représentant légal
         Etant donné une demande de changement de représentant légal en cours pour le projet lauréat
         Quand le porteur corrige la demande de changement de représentant légal pour le projet lauréat
-        Alors la demande de changement de représentant légal du projet lauréat devrait être corrigé
+        Alors la demande de changement de représentant légal du projet lauréat devrait être corrigée
 
     @NotImplemented
     Scénario: Impossible d'accorder le changement de représentant légal d'un projet lauréat si aucun changement n'a été demandé
