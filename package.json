@@ -26,6 +26,7 @@
     "./packages/applications/legacy",
     "./packages/applications/cli",
     "./packages/applications/scheduler",
+    "./packages/applications/grd-s3-adapter",
     "./packages/specifications"
   ],
   "scripts": {
