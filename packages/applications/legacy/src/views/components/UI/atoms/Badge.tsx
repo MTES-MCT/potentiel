@@ -46,7 +46,7 @@ export const Badge: FC<BadgeProps & { children: React.ReactNode }> = ({
   const { backgroundColor, textColor, borderColor } = badgeColorsByType[type];
   return (
     <span
-      className={`inline-bloc text-nowrap self-start px-2 py-0.5 rounded-md text-sm font-bold uppercase ${backgroundColor} ${textColor} print:border-solid print:border-2 print:${borderColor} ${className}`}
+      className={`inline-block text-nowrap self-start px-2 py-0.5 rounded-md text-sm font-bold uppercase ${backgroundColor} ${textColor} print:border-solid print:border-2 print:${borderColor} ${className}`}
     >
       {children}
     </span>

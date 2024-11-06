@@ -73,7 +73,7 @@ const getBadgeType = (statut: Candidature.ConsulterProjetReadModel['statut']): B
 };
 
 const getBadgeLabel = (statut: Candidature.ConsulterProjetReadModel['statut']): string => {
-  if (statut === 'non-notifié') return 'à-notifier';
+  if (statut === 'non-notifié') return 'à notifier';
   return statut;
 };
 

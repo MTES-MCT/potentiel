@@ -12,7 +12,7 @@ const convertStatutProjetToBadgeSeverity: Record<StatutProjet, AlertProps.Severi
 };
 
 const getStatutProjetBadgeLabel = (statut: StatutProjet): string => {
-  if (statut === 'non-notifié') return 'à-notifier';
+  if (statut === 'non-notifié') return 'à notifier';
   return statut;
 };
 
