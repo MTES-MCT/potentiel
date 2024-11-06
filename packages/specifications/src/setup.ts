@@ -100,6 +100,8 @@ Before<PotentielWorld>(async function (this: PotentielWorld) {
   await executeQuery(`delete from "UserProjects"`);
   await executeQuery(`delete from "users"`);
 
+  this.utilisateurWorld.systemFixture.créer();
+
   await getClient().send(
     new CreateBucketCommand({
       Bucket: bucketName,
