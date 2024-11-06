@@ -6,7 +6,7 @@ import { DocumentProjet } from '@potentiel-domain/document';
 
 import * as StatutCandidature from '../statutCandidature.valueType';
 import { CandidatureEntity } from '../candidature.entity';
-import { ConsulterCandidatureReadModel } from '../candidature';
+import { ConsulterCandidatureReadModel, TypeGarantiesFinancières } from '../candidature';
 
 export type CandidaturesListItemReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
@@ -18,6 +18,7 @@ export type CandidaturesListItemReadModel = {
   puissanceProductionAnnuelle: number;
   prixReference: ConsulterCandidatureReadModel['prixReference'];
   evaluationCarboneSimplifiée: ConsulterCandidatureReadModel['evaluationCarboneSimplifiée'];
+  typeGarantiesFinancières?: TypeGarantiesFinancières.ValueType;
   localité: {
     commune: ConsulterCandidatureReadModel['localité']['commune'];
     département: ConsulterCandidatureReadModel['localité']['département'];
@@ -104,6 +105,7 @@ export const mapToReadModel = ({
   détailsMisÀJourLe,
   estNotifiée,
   notification,
+  typeGarantiesFinancières,
 }: CandidatureEntity): CandidaturesListItemReadModel => ({
   identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
   statut: StatutCandidature.convertirEnValueType(statut),
@@ -114,6 +116,9 @@ export const mapToReadModel = ({
   puissanceProductionAnnuelle,
   prixReference,
   evaluationCarboneSimplifiée,
+  typeGarantiesFinancières: typeGarantiesFinancières
+    ? TypeGarantiesFinancières.convertirEnValueType(typeGarantiesFinancières)
+    : undefined,
   localité: {
     commune,
     département,

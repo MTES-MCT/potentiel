@@ -159,3 +159,4 @@ export * from './mainlevée/mainlevéeGarantiesFinancières.entity';
 
 // Saga
 export * as GarantiesFinancièresSaga from './garantiesFinancières.saga';
+export * as TypeGarantiesFinancièresSaga from './typeGarantiesFinancières.saga';

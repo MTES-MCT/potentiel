@@ -56,6 +56,7 @@ Fonctionnalité: Demander la mainlevée des garanties financières d'un projet
             | motif | projet-achevé |
         Alors le porteur devrait être informé que "Il n'y a pas de garanties financières à lever pour ce projet"
 
+    @select
     Scénario: Impossible de demander la mainlevée des garanties financières d'un projet si l'attestation de constitution de garanties financières manque pour un projet abandonné
         Etant donné un abandon accordé pour le projet lauréat "Du boulodrome de Marseille"
         Et le type des garanties financières actuelles importé pour le projet "Du boulodrome de Marseille"

@@ -6,7 +6,7 @@ import { mediator } from 'mediateur';
 import { Option } from '@potentiel-libraries/monads';
 import { mapToPlainObject } from '@potentiel-domain/core';
 import { Période } from '@potentiel-domain/periode';
-import { Lauréat } from '@potentiel-domain/laureat';
+import { GarantiesFinancières, Lauréat } from '@potentiel-domain/laureat';
 import { Éliminé } from '@potentiel-domain/elimine';
 import { Candidature } from '@potentiel-domain/candidature';
 import { ConsulterDocumentProjetQuery } from '@potentiel-domain/document';
@@ -116,6 +116,7 @@ async function vérifierLauréats(
 
   assert(Option.isSome(période));
   assert(période.estNotifiée);
+
   const candidats = await mediator.send<Candidature.ListerCandidaturesQuery>({
     type: 'Candidature.Query.ListerCandidatures',
     data: {
@@ -125,7 +126,7 @@ async function vérifierLauréats(
     },
   });
 
-  for (const { identifiantProjet } of candidats.items) {
+  for (const { identifiantProjet, typeGarantiesFinancières } of candidats.items) {
     const lauréat = await mediator.send<Lauréat.ConsulterLauréatQuery>({
       type: 'Lauréat.Query.ConsulterLauréat',
       data: {
@@ -137,6 +138,22 @@ async function vérifierLauréats(
       Option.isSome(lauréat),
       `Aucun lauréat consultable pour ${identifiantProjet.formatter()}`,
     );
+
+    if (typeGarantiesFinancières) {
+      const garantiesFinancières =
+        await mediator.send<GarantiesFinancières.ConsulterGarantiesFinancièresQuery>({
+          type: 'Lauréat.GarantiesFinancières.Query.ConsulterGarantiesFinancières',
+          data: {
+            identifiantProjetValue: identifiantProjet.formatter(),
+          },
+        });
+
+      assert(
+        Option.isSome(garantiesFinancières),
+        `Aucune garanties financières pour ${identifiantProjet.formatter()}`,
+      );
+      assert(garantiesFinancières.garantiesFinancières.type.estÉgaleÀ(typeGarantiesFinancières));
+    }
   }
 }
 

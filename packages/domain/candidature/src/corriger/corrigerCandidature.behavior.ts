@@ -80,12 +80,16 @@ export async function corriger(
     if (!candidature.statut.estÉgaleÀ(this.statut)) {
       throw new StatutNonModifiableAprèsNotificationError();
     }
+
     if (candidature.typeGarantiesFinancières) {
-      if (!this.typeGf || !this.typeGf.estÉgaleÀ(candidature.typeGarantiesFinancières)) {
-        throw new TypeGarantiesFinancièresNonModifableAprèsNotificationError();
+      if (
+        !this.garantiesFinancières.type ||
+        !this.garantiesFinancières.type.estÉgaleÀ(candidature.typeGarantiesFinancières)
+      ) {
+        throw new TypeGarantiesFinancièresNonModifiableAprèsNotificationError();
       }
-    } else if (this.typeGf) {
-      throw new TypeGarantiesFinancièresNonModifableAprèsNotificationError();
+    } else if (this.garantiesFinancières.type) {
+      throw new TypeGarantiesFinancièresNonModifiableAprèsNotificationError();
     }
   }
   if (!this.estNotifiée && candidature.doitRégénérerAttestation) {
@@ -116,9 +120,11 @@ export function applyCandidatureCorrigée(
 ) {
   this.importé = true;
   this.statut = StatutCandidature.convertirEnValueType(payload.statut);
-  this.typeGf =
+  this.garantiesFinancières.type =
     payload.typeGarantiesFinancières &&
     TypeGarantiesFinancières.convertirEnValueType(payload.typeGarantiesFinancières);
+  this.garantiesFinancières.dateEchéance =
+    payload.dateÉchéanceGf && DateTime.convertirEnValueType(payload.dateÉchéanceGf);
   this.payloadHash = this.calculerHash(payload);
 }
 
@@ -128,7 +134,7 @@ class StatutNonModifiableAprèsNotificationError extends InvalidOperationError {
   }
 }
 
-class TypeGarantiesFinancièresNonModifableAprèsNotificationError extends InvalidOperationError {
+class TypeGarantiesFinancièresNonModifiableAprèsNotificationError extends InvalidOperationError {
   constructor() {
     super(
       `Le type de garanties financières d'une candidature ne peut être modifié après la notification`,
