@@ -49,6 +49,7 @@ const parseToken = (token: string) => {
     if (!token) {
       throw new EmptyTokenError();
     }
+    console.log(token);
     const {
       name,
       email,
