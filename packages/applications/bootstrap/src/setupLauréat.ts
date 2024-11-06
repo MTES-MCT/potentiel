@@ -18,6 +18,7 @@ import {
   AchèvementProjector,
   GarantiesFinancièreProjector,
   LauréatProjector,
+  ReprésentantLégalProjector,
 } from '@potentiel-applications/projectors';
 import {
   consulterCahierDesChargesChoisiAdapter,
@@ -45,11 +46,12 @@ export const setupLauréat = async ({ sendEmail }: SetupLauréatDependencies) =>
   AbandonProjector.register();
   GarantiesFinancièreProjector.register();
   AchèvementProjector.register();
-  AchèvementNotification.register({ sendEmail });
+  ReprésentantLégalProjector.register();
 
   // Notifications
   AbandonNotification.register({ sendEmail });
   GarantiesFinancièresNotification.register({ sendEmail });
+  AchèvementNotification.register({ sendEmail });
 
   // Sagas
   GarantiesFinancières.GarantiesFinancièresSaga.register();
@@ -222,14 +224,31 @@ export const setupLauréat = async ({ sendEmail }: SetupLauréatDependencies) =>
     },
   });
 
+  const unsubscribeReprésentantLégalProjector =
+    await subscribe<ReprésentantLégalProjector.SubscriptionEvent>({
+      name: 'projector',
+      streamCategory: 'représentant-légal',
+      eventType: ['ReprésentantLégalImporté-V1', 'RebuildTriggered'],
+      eventHandler: async (event) => {
+        await mediator.send<ReprésentantLégalProjector.Execute>({
+          type: 'System.Projector.Lauréat.ReprésentantLégal',
+          data: event,
+        });
+      },
+    });
+
   return async () => {
+    // projectors
     await unsubscribeLauréatProjector();
-    await unsubscribeAbandonNotification();
     await unsubscribeAbandonProjector();
     await unsubscribeGarantiesFinancièresProjector();
-    await unsubscribeGarantiesFinancièresNotification();
     await unsubscribeAchèvementProjector();
+    await unsubscribeReprésentantLégalProjector();
+    // notifications
+    await unsubscribeAbandonNotification();
+    await unsubscribeGarantiesFinancièresNotification();
     await unsubscribeAchèvementNotification();
+    // sagas
     await unsubscribeGarantiesFinancièresSaga();
     await unsubscribeLauréatSaga();
   };

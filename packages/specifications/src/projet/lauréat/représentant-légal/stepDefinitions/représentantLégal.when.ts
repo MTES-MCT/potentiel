@@ -1,33 +1,25 @@
 import { When as Quand } from '@cucumber/cucumber';
 import { mediator } from 'mediateur';
 
-import { Abandon } from '@potentiel-domain/laureat';
+import { ReprésentantLégal } from '@potentiel-domain/laureat';
 
 import { PotentielWorld } from '../../../../potentiel.world';
 
 Quand(
-  /le porteur demande l'abandon(.*)pour le projet lauréat/,
-  async function (this: PotentielWorld, etat: string) {
+  /le représentant légal est importé pour le projet lauréat/,
+  async function (this: PotentielWorld) {
     try {
-      const identifiantProjet = this.lauréatWorld.identifiantProjet.formatter();
+      const identifiantProjetValue = this.lauréatWorld.identifiantProjet.formatter();
 
-      const { demandéLe, demandéPar, pièceJustificative, raison, recandidature } =
-        this.lauréatWorld.abandonWorld.demanderAbandonFixture.créer({
-          recandidature: etat.includes('avec recandidature'),
-          demandéPar: this.utilisateurWorld.porteurFixture.email,
-        });
+      const { nomReprésentantLégal, importéLe } =
+        this.lauréatWorld.représentantLégalWorld.importerReprésentantLégalFixture.créer();
 
-      await mediator.send<Abandon.AbandonUseCase>({
-        type: 'Lauréat.Abandon.UseCase.DemanderAbandon',
+      await mediator.send<ReprésentantLégal.ReprésentantLégalUseCase>({
+        type: 'Lauréat.ReprésentantLégal.UseCase.ImporterReprésentantLégal',
         data: {
-          identifiantProjetValue: identifiantProjet,
-          raisonValue: raison,
-          pièceJustificativeValue: etat.includes('sans transmettre de pièce justificative')
-            ? undefined
-            : pièceJustificative,
-          recandidatureValue: recandidature,
-          dateDemandeValue: demandéLe,
-          identifiantUtilisateurValue: demandéPar,
+          identifiantProjetValue,
+          nomReprésentantLégal,
+          importéLe,
         },
       });
     } catch (error) {

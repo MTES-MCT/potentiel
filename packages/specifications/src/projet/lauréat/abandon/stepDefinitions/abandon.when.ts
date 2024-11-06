@@ -6,7 +6,7 @@ import { Abandon } from '@potentiel-domain/laureat';
 import { PotentielWorld } from '../../../../potentiel.world';
 
 Quand(
-  /le représentant légal est importé pour le projet lauréat/,
+  /le porteur demande l'abandon(.*)pour le projet lauréat/,
   async function (this: PotentielWorld, etat: string) {
     try {
       const identifiantProjet = this.lauréatWorld.identifiantProjet.formatter();

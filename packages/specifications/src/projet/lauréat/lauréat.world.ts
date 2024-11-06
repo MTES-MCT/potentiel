@@ -53,6 +53,8 @@ export class LauréatWorld {
 
   constructor() {
     this.#abandonWorld = new AbandonWord();
+    this.#représentantLégalWorld = new ReprésentantLégalWorld();
+
     this.#notifierLauréatFixture = new NotifierLauréatFixture();
 
     this.#identifiantProjet = IdentifiantProjet.convertirEnValueType(`PPE2 - Eolien#1##23`);

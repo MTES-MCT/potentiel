@@ -3,19 +3,18 @@ import { faker } from '@faker-js/faker';
 import { AbstractFixture } from '../../../../fixture';
 
 interface ImporterReprésentantLégal {
-  readonly nom: string;
+  readonly nomReprésentantLégal: string;
   readonly importéLe: string;
-  readonly importéPar: string;
 }
 
 export class ImporterReprésentantLégalFixture
   extends AbstractFixture<ImporterReprésentantLégal>
   implements ImporterReprésentantLégal
 {
-  #nom!: string;
+  #nomReprésentantLégal!: string;
 
-  get nom(): string {
-    return this.#nom;
+  get nomReprésentantLégal(): string {
+    return this.#nomReprésentantLégal;
   }
 
   #importéLe!: string;
@@ -24,26 +23,20 @@ export class ImporterReprésentantLégalFixture
     return this.#importéLe;
   }
 
-  #importéPar!: string;
-
-  get importéPar(): string {
-    return this.#importéPar;
-  }
-
   créer(
     partialFixture?: Partial<Readonly<ImporterReprésentantLégal>>,
   ): Readonly<ImporterReprésentantLégal> {
     const fixture = {
-      nom: faker.name.fullName(),
+      nomReprésentantLégal: faker.person.fullName(),
       importéLe: faker.date.recent().toISOString(),
-      importéPar: faker.internet.email(),
       ...partialFixture,
     };
 
-    this.#nom = fixture.nom;
+    this.#nomReprésentantLégal = fixture.nomReprésentantLégal;
     this.#importéLe = fixture.importéLe;
-    this.#importéPar = fixture.importéPar;
+
     this.aÉtéCréé = true;
+
     return fixture;
   }
 }
