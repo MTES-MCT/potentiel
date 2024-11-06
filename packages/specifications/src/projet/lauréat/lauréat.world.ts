@@ -2,6 +2,7 @@ import { IdentifiantProjet } from '@potentiel-domain/common';
 
 import { AbandonWord } from './abandon/abandon.world';
 import { NotifierLauréatFixture } from './fixtures/notifierLauréat.fixture';
+import { ReprésentantLégalWorld } from './représentant-légal/représentantLégal.world';
 
 type LauréatFixture = {
   nom: string;
@@ -37,6 +38,12 @@ export class LauréatWorld {
 
   get abandonWorld() {
     return this.#abandonWorld;
+  }
+
+  #représentantLégalWorld!: ReprésentantLégalWorld;
+
+  get représentantLégalWorld() {
+    return this.#représentantLégalWorld;
   }
 
   #notifierLauréatFixture: NotifierLauréatFixture;

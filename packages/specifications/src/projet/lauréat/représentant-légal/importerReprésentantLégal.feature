@@ -1,7 +1,7 @@
 # language: fr
 Fonctionnalité: Importer le représentant légal d'un projet lauréat
 
-    @NotImplemented
+    @select
     Scénario: Importer le représentant légal lors de la désignation d'un projet lauréat
         Etant donné le projet lauréat "Du boulodrome de Marseille"
         Quand le représentant légal est importé pour le projet lauréat
