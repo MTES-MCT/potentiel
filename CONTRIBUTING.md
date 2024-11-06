@@ -31,6 +31,7 @@
 
 ## <a id="architecture"></a> Architecture
 - [Patterns d'architecture](./docs/contributing/ARCHITECTURE.md#patterns-darchitecture)
+- [API](./docs/contributing/API.md)
 
 ## <a id="flow-développement"></a> Flow de développement
 - [Organisation du code source](./docs/contributing/DEVELOPMENT_FLOW.md#organisation-du-code-source)
