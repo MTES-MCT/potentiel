@@ -58,7 +58,9 @@ export const registerConsulterHistoriqueDemandeMainlevéeRejetéeGarantiesFinanc
 
     const hasNoHistoriqueMainlevée =
       Option.isNone(result) ||
-      result.détailsMainlevées.filter((mainlevée) => mainlevée.statut === 'rejeté').length < 1;
+      result.détailsMainlevées.filter((mainlevée) =>
+        StatutMainlevéeGarantiesFinancières.convertirEnValueType(mainlevée.statut).estRejeté(),
+      ).length < 1;
 
     if (hasNoHistoriqueMainlevée) {
       return Option.none;

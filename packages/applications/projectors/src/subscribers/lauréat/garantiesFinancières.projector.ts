@@ -688,7 +688,7 @@ const removeMainlevéeProjections = async (identifiantProjet: string) => {
     `mainlevee-garanties-financieres|${identifiantProjet}`,
   );
 
-  if (!Option.isNone(mainlevée)) {
+  if (Option.isSome(mainlevée)) {
     for (const détailsMainlevée of mainlevée.détailsMainlevées) {
       await removeProjection<GarantiesFinancières.DétailsMainlevéeGarantiesFinancièresEntity>(
         `details-mainlevee-garanties-financieres|${identifiantProjet}#${détailsMainlevée.demande.demandéeLe}`,
