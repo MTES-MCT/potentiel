@@ -6,7 +6,10 @@ import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { Candidature } from '@potentiel-domain/candidature';
 import { DateTime } from '@potentiel-domain/common';
 import { ConsulterUtilisateurQuery } from '@potentiel-domain/utilisateur';
-import { ModèleRéponseSignée } from '@potentiel-applications/document-builder';
+import {
+  formatDateForDocument,
+  ModèleRéponseSignée,
+} from '@potentiel-applications/document-builder';
 import { Option } from '@potentiel-libraries/monads';
 
 import { decodeParameter } from '@/utils/decodeParameter';
@@ -86,14 +89,14 @@ export const GET = async (_: Request, { params: { identifiant } }: IdentifiantPa
         codePostalProjet: candidature.localité.codePostal,
         communeProjet: candidature.localité.commune,
         contenuParagrapheAbandon: dispositionCDC.dispositions,
-        dateConfirmation:
-          abandon.demande.confirmation?.confirméLe?.date.toLocaleDateString('fr-FR') || '',
-        dateDemande: abandon.demande.demandéLe.date.toLocaleDateString('fr-FR'),
-        dateDemandeConfirmation:
-          abandon.demande.confirmation?.demandéeLe.date.toLocaleDateString('fr-FR') || '',
-        dateNotification: DateTime.convertirEnValueType(
-          candidature.dateDésignation,
-        ).date.toLocaleDateString('fr-FR'),
+        dateConfirmation: formatDateForDocument(abandon.demande.confirmation?.confirméLe?.date),
+        dateDemande: formatDateForDocument(abandon.demande.demandéLe.date),
+        dateDemandeConfirmation: formatDateForDocument(
+          abandon.demande.confirmation?.demandéeLe.date,
+        ),
+        dateNotification: formatDateForDocument(
+          DateTime.convertirEnValueType(candidature.dateDésignation).date,
+        ),
         dreal: candidature.localité.région,
         email: '',
         familles: candidature.famille ? 'yes' : '',

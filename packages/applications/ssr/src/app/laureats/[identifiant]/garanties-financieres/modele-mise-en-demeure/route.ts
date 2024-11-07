@@ -7,7 +7,10 @@ import { Option } from '@potentiel-libraries/monads';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { Candidature } from '@potentiel-domain/candidature';
 import { DateTime } from '@potentiel-domain/common';
-import { ModèleRéponseSignée } from '@potentiel-applications/document-builder';
+import {
+  ModèleRéponseSignée,
+  formatDateForDocument,
+} from '@potentiel-applications/document-builder';
 
 import { decodeParameter } from '@/utils/decodeParameter';
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
@@ -58,48 +61,48 @@ export const GET = async (
 
     const régionDreal = await getRégionUtilisateur(utilisateur);
 
+    const garantieFinanciereEnMoisNumber =
+      détailFamille && détailFamille?.soumisAuxGarantiesFinancieres === 'après candidature'
+        ? détailFamille.garantieFinanciereEnMois
+        : appelOffres.soumisAuxGarantiesFinancieres === 'après candidature'
+          ? appelOffres.garantieFinanciereEnMois
+          : undefined;
+
     const content = await ModèleRéponseSignée.générerModèleRéponseAdapter({
       type: 'mise-en-demeure',
       logo: régionDreal ?? 'none',
       data: {
         dreal: régionDreal ?? '!!! Région non disponible !!!',
-        dateMiseEnDemeure: DateTime.now().date.toLocaleDateString('fr-FR'),
+        dateMiseEnDemeure: formatDateForDocument(DateTime.now().date),
         contactDreal: utilisateur.identifiantUtilisateur.email,
         referenceProjet: formatIdentifiantProjetForDocument(identifiantProjetValue),
         titreAppelOffre: `${détailPériode?.cahierDesCharges.référence ?? '!!! Cahier des charges non disponible !!!'} ${appelOffres.title}`,
         // Attention, launchDate est au format "Avril 2017"
-        dateLancementAppelOffre: new Date(appelOffres.launchDate).toLocaleDateString('fr-FR'),
+        dateLancementAppelOffre: formatDateForDocument(new Date(appelOffres.launchDate)),
         nomProjet: candidature.nom,
         adresseCompleteProjet: `${candidature.localité.adresse} ${candidature.localité.codePostal} ${candidature.localité.commune}`,
         puissanceProjet: candidature.puissance.toString(),
         unitePuissance: appelOffres.unitePuissance,
         titrePeriode: détailPériode?.title ?? '!!! Titre de période non disponible !!!',
-        dateNotification: DateTime.convertirEnValueType(
-          candidature.dateDésignation,
-        ).date.toLocaleDateString('fr-FR'),
+        dateNotification: formatDateForDocument(
+          DateTime.convertirEnValueType(candidature.dateDésignation).date,
+        ),
         paragrapheGF: appelOffres.renvoiRetraitDesignationGarantieFinancieres,
-        garantieFinanciereEnMois:
-          détailFamille && détailFamille?.soumisAuxGarantiesFinancieres === 'après candidature'
-            ? détailFamille.garantieFinanciereEnMois.toString()
-            : appelOffres.soumisAuxGarantiesFinancieres === 'après candidature'
-              ? appelOffres.garantieFinanciereEnMois.toString()
-              : '!!! garantieFinanciereEnMois non disponible !!!',
-        dateFinGarantieFinanciere:
-          détailFamille && détailFamille?.soumisAuxGarantiesFinancieres === 'après candidature'
-            ? DateTime.convertirEnValueType(candidature.dateDésignation)
-                .ajouterNombreDeMois(détailFamille.garantieFinanciereEnMois)
-                .date.toLocaleDateString('fr-FR')
-            : appelOffres.soumisAuxGarantiesFinancieres === 'après candidature'
-              ? DateTime.convertirEnValueType(candidature.dateDésignation)
-                  .ajouterNombreDeMois(appelOffres.garantieFinanciereEnMois)
-                  .date.toLocaleDateString('fr-FR')
-              : '!!! dateFinGarantieFinanciere non disponible !!!',
-        dateLimiteDepotGF:
-          (Option.isSome(projetAvecGarantiesFinancièresEnAttente) &&
-            projetAvecGarantiesFinancièresEnAttente.dateLimiteSoumission.date.toLocaleDateString(
-              'fr-FR',
-            )) ||
-          '',
+        garantieFinanciereEnMois: garantieFinanciereEnMoisNumber
+          ? garantieFinanciereEnMoisNumber.toString()
+          : '!!! garantieFinanciereEnMois non disponible !!!',
+        dateFinGarantieFinanciere: garantieFinanciereEnMoisNumber
+          ? formatDateForDocument(
+              DateTime.convertirEnValueType(candidature.dateDésignation).ajouterNombreDeMois(
+                garantieFinanciereEnMoisNumber,
+              ).date,
+            )
+          : '!!! dateFinGarantieFinanciere non disponible !!!',
+        dateLimiteDepotGF: formatDateForDocument(
+          Option.isSome(projetAvecGarantiesFinancièresEnAttente)
+            ? projetAvecGarantiesFinancièresEnAttente.dateLimiteSoumission.date
+            : undefined,
+        ),
         nomRepresentantLegal: candidature.candidat.nom,
         adresseProjet: candidature.candidat.adressePostale,
         codePostalProjet: candidature.localité.codePostal,

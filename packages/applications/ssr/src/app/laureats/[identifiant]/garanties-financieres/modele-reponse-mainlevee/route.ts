@@ -7,7 +7,10 @@ import { Option } from '@potentiel-libraries/monads';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { Candidature } from '@potentiel-domain/candidature';
 import { DateTime } from '@potentiel-domain/common';
-import { ModèleRéponseSignée } from '@potentiel-applications/document-builder';
+import {
+  formatDateForDocument,
+  ModèleRéponseSignée,
+} from '@potentiel-applications/document-builder';
 
 import { decodeParameter } from '@/utils/decodeParameter';
 import { withUtilisateur } from '@/utils/withUtilisateur';
@@ -87,7 +90,7 @@ export const GET = async (
         dreal: régionDreal ?? '!!! Région non disponible !!!',
         contactDreal: utilisateur.identifiantUtilisateur.email,
 
-        dateCourrier: DateTime.now().date.toLocaleDateString('fr-FR'),
+        dateCourrier: formatDateForDocument(DateTime.now().date),
         referenceProjet: formatIdentifiantProjetForDocument(identifiantProjetValue),
 
         titreAppelOffre: `${détailPériode?.cahierDesCharges.référence ?? '!!! Cahier des charges non disponible !!!'} ${appelOffres.title}`,
@@ -100,36 +103,25 @@ export const GET = async (
         communeProjet: candidature.localité.commune,
         emailProjet: candidature.candidat.contact,
 
-        dateConstitutionGarantiesFinancières: Option.match(gf)
-          .some((gf) =>
-            gf.garantiesFinancières.dateConstitution
-              ? gf.garantiesFinancières.dateConstitution.date.toLocaleDateString()
-              : 'JJ/MM/AAAA',
-          )
-          .none(() => 'JJ/MM/AAAA'),
-
+        dateConstitutionGarantiesFinancières: formatDateForDocument(
+          Option.isSome(gf) ? gf.garantiesFinancières.dateConstitution?.date : undefined,
+        ),
         estMotifAchèvement: Option.match(mainlevée)
           .some(({ motif }) => motif.estProjetAchevé())
           .none(() => false),
-        dateTransmissionAuCocontractant: Option.match(achèvement)
-          .some(({ dateTransmissionAuCocontractant }) =>
-            dateTransmissionAuCocontractant.date.toLocaleDateString('fr-FR'),
-          )
-          .none(() => 'JJ/MM/AAAA'),
-
+        dateTransmissionAuCocontractant: formatDateForDocument(
+          Option.isSome(achèvement) ? achèvement.dateTransmissionAuCocontractant.date : undefined,
+        ),
         estMotifAbandon: Option.match(mainlevée)
           .some(({ motif }) => motif.estProjetAbandonné())
           .none(() => false),
-        dateAbandonAccordé: Option.match(abandon)
-          .some(({ demande: { accord } }) =>
-            accord ? accord.accordéLe.date.toLocaleDateString('fr-FR') : 'JJ/MM/AAAA',
-          )
-          .none(() => 'JJ/MM/AAAA'),
-
+        dateAbandonAccordé: formatDateForDocument(
+          Option.isSome(abandon) ? abandon.demande.accord?.accordéLe.date : undefined,
+        ),
         estAccordée,
-        dateMainlevée: Option.match(mainlevée)
-          .some(({ demande: { demandéeLe } }) => demandéeLe.date.toLocaleDateString('fr-FR'))
-          .none(() => '!!! Pas de statut pour la mainlevée !!!'),
+        dateMainlevée: formatDateForDocument(
+          Option.isSome(mainlevée) ? mainlevée.demande.demandéeLe.date : undefined,
+        ),
       },
     });
 
