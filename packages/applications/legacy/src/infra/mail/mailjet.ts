@@ -18,7 +18,7 @@ const TEMPLATE_ID_BY_TYPE: Record<NotificationProps['type'], number> = {
   'pp-délai-accordé-corrigé': 4554290,
   'user-invitation': 2814281,
   'modification-request-confirmed': 2807220,
-  'modification-request-cancelled': 2060611,
+  'modification-request-cancelled': 6450441,
   'dreal-modification-received': 2857027,
   'pp-modification-received': 4183039,
   'admin-modification-requested': 2047347,
