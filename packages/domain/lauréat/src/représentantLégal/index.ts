@@ -32,3 +32,6 @@ export * from './représentantLégal.entity';
 
 // Aggregate
 export { loadReprésentantLégalFactory } from './représentantLégal.aggregate';
+
+// Saga
+export * as ReprésentantLégalSaga from './représentantLégal.saga';

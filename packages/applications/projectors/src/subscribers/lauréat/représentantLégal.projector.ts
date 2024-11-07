@@ -22,21 +22,24 @@ export const register = () => {
       return;
     }
 
-    const { identifiantProjet } = payload;
-
     switch (type) {
       case 'ReprésentantLégalImporté-V1':
-        await createProjection<ReprésentantLégal.ReprésentantLégalEntity>(
-          `représentant-légal|${identifiantProjet}`,
-          {
-            identifiantProjet,
-            nomReprésentantLégal: payload.nomReprésentantLégal,
-            import: {
-              importéLe: payload.importéLe,
-              importéPar: payload.importéPar,
+        const { identifiantProjet, nomReprésentantLégal, importéLe, importéPar } = payload;
+        try {
+          await createProjection<ReprésentantLégal.ReprésentantLégalEntity>(
+            `représentant-légal|${identifiantProjet}`,
+            {
+              identifiantProjet,
+              nomReprésentantLégal,
+              import: {
+                importéLe,
+                importéPar,
+              },
             },
-          },
-        );
+          );
+        } catch (e) {
+          console.error(e);
+        }
         break;
     }
   };

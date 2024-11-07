@@ -11,14 +11,13 @@ Quand(
     try {
       const identifiantProjetValue = this.lauréatWorld.identifiantProjet.formatter();
 
-      const { nomReprésentantLégal, importéLe } =
+      const { importéLe } =
         this.lauréatWorld.représentantLégalWorld.importerReprésentantLégalFixture.créer();
 
       await mediator.send<ReprésentantLégal.ReprésentantLégalUseCase>({
         type: 'Lauréat.ReprésentantLégal.UseCase.ImporterReprésentantLégal',
         data: {
           identifiantProjetValue,
-          nomReprésentantLégal,
           importéLe,
         },
       });

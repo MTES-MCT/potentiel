@@ -50,6 +50,7 @@ export type CandidatureAggregate = Aggregate<CandidatureEvent> &
     estNotifiée: boolean;
     payloadHash: string;
     typeGf?: TypeGarantiesFinancières.ValueType;
+    nomReprésentantLégal: string;
     importer: typeof importer;
     corriger: typeof corriger;
     notifier: typeof notifier;
@@ -83,6 +84,7 @@ export const getDefaultCandidatureAggregate: GetDefaultAggregateState<
 > = () => ({
   identifiantProjet: IdentifiantProjet.inconnu,
   payloadHash: '',
+  nomReprésentantLégal: '',
   estNotifiée: false,
   apply,
   importer,

@@ -70,6 +70,7 @@ export async function importerCandidature(
       importéPar: this.utilisateurWorld.validateurFixture.email,
     },
   });
+
   await mediator.send<Candidature.ImporterCandidatureUseCase>({
     type: 'Candidature.UseCase.ImporterCandidature',
     data: values,
@@ -101,6 +102,11 @@ async function notifierCandidature(this: PotentielWorld) {
     await mediator.send<Lauréat.NotifierLauréatUseCase>({
       type: 'Lauréat.UseCase.NotifierLauréat',
       data,
+    });
+    this.lauréatWorld.représentantLégalWorld.importerReprésentantLégalFixture.créer({
+      nomReprésentantLégal:
+        this.candidatureWorld.importerCandidature.values.nomReprésentantLégalValue,
+      importéLe: data.notifiéLeValue,
     });
   } else {
     await mediator.send<Éliminé.NotifierÉliminéUseCase>({

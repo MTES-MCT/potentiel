@@ -158,6 +158,7 @@ export function applyCandidatureImportée(
     payload.typeGarantiesFinancières &&
     TypeGarantiesFinancières.convertirEnValueType(payload.typeGarantiesFinancières);
   this.payloadHash = this.calculerHash(payload);
+  this.nomReprésentantLégal = payload.nomReprésentantLégal;
 }
 
 export const mapToEventPayload = (candidature: ImporterCandidatureBehaviorCommonOptions) => ({

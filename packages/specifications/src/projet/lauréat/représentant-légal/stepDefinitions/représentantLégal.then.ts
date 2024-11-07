@@ -9,10 +9,15 @@ import { IdentifiantProjet } from '@potentiel-domain/common';
 import { PotentielWorld } from '../../../../potentiel.world';
 
 Alors(
-  /le représentant légal du projet lauréat devrait être mis à jour/,
+  /le représentant légal du projet lauréat devrait être consultable/,
   async function (this: PotentielWorld) {
     return waitForExpect(async () =>
-      vérifierReprésentantLégal.call(this, this.lauréatWorld.identifiantProjet),
+      vérifierReprésentantLégal.call(
+        this,
+        IdentifiantProjet.convertirEnValueType(
+          this.candidatureWorld.importerCandidature.identifiantProjet,
+        ),
+      ),
     );
   },
 );
@@ -24,7 +29,7 @@ async function vérifierReprésentantLégal(
   const représentantLégal = await mediator.send<ReprésentantLégal.ReprésentantLégalQuery>({
     type: 'Lauréat.ReprésentantLégal.Query.ConsulterReprésentantLégal',
     data: {
-      identifiantProjetValue: this.lauréatWorld.identifiantProjet.formatter(),
+      identifiantProjetValue: identifiantProjet.formatter(),
     },
   });
 

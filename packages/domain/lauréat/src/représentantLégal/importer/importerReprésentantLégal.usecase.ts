@@ -10,7 +10,6 @@ export type ImporterReprésentantLégalUseCase = Message<
   'Lauréat.ReprésentantLégal.UseCase.ImporterReprésentantLégal',
   {
     identifiantProjetValue: string;
-    nomReprésentantLégal: string;
     importéLe: string;
   }
 >;
@@ -18,14 +17,12 @@ export type ImporterReprésentantLégalUseCase = Message<
 export const registerImporterReprésentantLégalUseCase = () => {
   const runner: MessageHandler<ImporterReprésentantLégalUseCase> = async ({
     identifiantProjetValue,
-    nomReprésentantLégal,
     importéLe,
   }) =>
     mediator.send<ImporterReprésentantLégalCommand>({
       type: 'Lauréat.ReprésentantLégal.Command.ImporterReprésentantLégal',
       data: {
         identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjetValue),
-        nomReprésentantLégal,
         importéLe: DateTime.convertirEnValueType(importéLe),
         importéPar: Email.system(),
       },
