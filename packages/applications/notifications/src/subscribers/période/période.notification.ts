@@ -97,11 +97,12 @@ async function getEmailPayloads(
               fullName: nomComplet,
             },
           ],
+          // peut être un soucis avec la date
           messageSubject: `Potentiel - Notification de la période ${période.id} de l'appel d'offres ${appelOffre.id}`,
           variables: {
             appel_offre: appelOffre.id,
             periode: période.id,
-            date_notification: new Date(event.payload.notifiéeLe).toLocaleDateString(),
+            date_notification: new Date(event.payload.notifiéeLe).toLocaleDateString('fr-FR'),
             modification_request_url: `${BASE_URL}/projets.html`,
           },
         })),
