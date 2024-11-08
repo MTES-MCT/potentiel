@@ -530,7 +530,7 @@ export const register = () => {
           };
 
           await upsertProjection<GarantiesFinancières.DétailsMainlevéeGarantiesFinancièresEntity>(
-            `details-mainlevee-garanties-financieres|${identifiantProjet}#${payload.demandéPar}`,
+            `details-mainlevee-garanties-financieres|${identifiantProjet}#${payload.demandéLe}`,
             mainlevéeDemandée,
           );
 
@@ -546,7 +546,7 @@ export const register = () => {
 
         case 'DemandeMainlevéeGarantiesFinancièresAnnulée-V1':
           await removeProjection<GarantiesFinancières.DétailsMainlevéeGarantiesFinancièresEntity>(
-            `details-mainlevee-garanties-financieres|${identifiantProjet}#${mainlevéeEnCours.demande.demandéePar}`,
+            `details-mainlevee-garanties-financieres|${identifiantProjet}#${mainlevéeEnCours.demande.demandéeLe}`,
           );
 
           await upsertProjection<GarantiesFinancières.MainlevéeGarantiesFinancièresEntity>(
@@ -571,7 +571,7 @@ export const register = () => {
           };
 
           await upsertProjection<GarantiesFinancières.DétailsMainlevéeGarantiesFinancièresEntity>(
-            `details-mainlevee-garanties-financieres|${identifiantProjet}#${mainlevéeEnCours.demande.demandéePar}`,
+            `details-mainlevee-garanties-financieres|${identifiantProjet}#${mainlevéeEnCours.demande.demandéeLe}`,
             nouvelleMainlevéeAprèsInstruction,
           );
 
@@ -602,7 +602,7 @@ export const register = () => {
           };
 
           await upsertProjection<GarantiesFinancières.DétailsMainlevéeGarantiesFinancièresEntity>(
-            `details-mainlevee-garanties-financieres|${identifiantProjet}#${mainlevéeEnCours.demande.demandéePar}`,
+            `details-mainlevee-garanties-financieres|${identifiantProjet}#${mainlevéeEnCours.demande.demandéeLe}`,
             nouvelleMainlevéeAprèsAccord,
           );
 
@@ -647,7 +647,7 @@ export const register = () => {
           };
 
           await upsertProjection<GarantiesFinancières.DétailsMainlevéeGarantiesFinancièresEntity>(
-            `details-mainlevee-garanties-financieres|${identifiantProjet}#${mainlevéeEnCours.demande.demandéePar}`,
+            `details-mainlevee-garanties-financieres|${identifiantProjet}#${mainlevéeEnCours.demande.demandéeLe}`,
             nouvelleMainlevéeAprèsRejet,
           );
 
@@ -688,7 +688,7 @@ const removeMainlevéeProjections = async (identifiantProjet: string) => {
     `mainlevee-garanties-financieres|${identifiantProjet}`,
   );
 
-  if (Option.isSome(mainlevée)) {
+  if (Option.isSome(mainlevée) && mainlevée.détailsMainlevées) {
     for (const détailsMainlevée of mainlevée.détailsMainlevées) {
       await removeProjection<GarantiesFinancières.DétailsMainlevéeGarantiesFinancièresEntity>(
         `details-mainlevee-garanties-financieres|${identifiantProjet}#${détailsMainlevée.demande.demandéeLe}`,
