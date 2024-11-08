@@ -215,14 +215,18 @@ Alors(
 );
 
 Alors(
-  `une demande de mainlevée pour le projet {string} devrait être consultable dans la liste des demandes de mainlevée`,
-  async function (this: PotentielWorld, nomProjet: string) {
+  `le détail de la mainlevée pour le projet {string} devrait être consultable avec le statut {string}`,
+  async function (this: PotentielWorld, nomProjet: string, statutMainlevée: string) {
     const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
 
     await waitForExpect(async () => {
       const actualReadModel = await mediator.send<GarantiesFinancières.ListerMainlevéesQuery>({
         type: 'Lauréat.GarantiesFinancières.Mainlevée.Query.Lister',
         data: {
+          statut:
+            GarantiesFinancières.StatutMainlevéeGarantiesFinancières.convertirEnValueType(
+              statutMainlevée,
+            ).statut,
           utilisateur: {
             rôle: 'admin',
             identifiantUtilisateur: 'admin@test.test',

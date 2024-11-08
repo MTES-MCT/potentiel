@@ -694,8 +694,9 @@ const removeMainlevéeProjections = async (identifiantProjet: string) => {
         `details-mainlevee-garanties-financieres|${identifiantProjet}#${détailsMainlevée.demande.demandéeLe}`,
       );
     }
-    await removeProjection<GarantiesFinancières.MainlevéeGarantiesFinancièresEntity>(
-      `mainlevee-garanties-financieres|${identifiantProjet}`,
-    );
   }
+
+  await removeProjection<GarantiesFinancières.MainlevéeGarantiesFinancièresEntity>(
+    `mainlevee-garanties-financieres|${identifiantProjet}`,
+  );
 };

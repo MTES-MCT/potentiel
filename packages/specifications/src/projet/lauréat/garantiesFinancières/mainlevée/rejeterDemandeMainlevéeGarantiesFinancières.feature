@@ -27,6 +27,7 @@ Fonctionnalité: Rejeter une demande de mainlevée des garanties financières
             | demandé le              | 2024-06-12         |
             | demandé par             | porteur@test.test  |
             | motif                   | projet-abandonné   |
+        Et le détail de la mainlevée pour le projet "Du boulodrome de Marseille" devrait être consultable avec le statut "rejeté"
 
     Scénario: Un utilisateur Dreal rejette une demande de mainlevée pour un projet achevé
         Etant donné une attestation de conformité transmise pour le projet "Du boulodrome de Marseille"
@@ -49,6 +50,7 @@ Fonctionnalité: Rejeter une demande de mainlevée des garanties financières
             | demandé le              | 2024-04-14         |
             | demandé par             | porteur@test.test  |
             | motif                   | projet-achevé      |
+        Et le détail de la mainlevée pour le projet "Du boulodrome de Marseille" devrait être consultable avec le statut "rejeté"
 
     Scénario: Impossible de rejeter une demande de mainlevée si le projet n'a pas de demande de mainlevée
         Etant donné une attestation de conformité transmise pour le projet "Du boulodrome de Marseille"
