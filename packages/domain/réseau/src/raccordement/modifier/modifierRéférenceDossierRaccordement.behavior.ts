@@ -6,6 +6,7 @@ import { Option } from '@potentiel-libraries/monads';
 import * as RéférenceDossierRaccordement from '../référenceDossierRaccordement.valueType';
 import { RaccordementAggregate } from '../raccordement.aggregate';
 import { FormatRéférenceDossierRaccordementInvalideError } from '../formatRéférenceDossierRaccordementInvalide.error';
+import { RéférenceDossierRaccordementDéjàExistantePourLeProjetError } from '../référenceDossierRaccordementDéjàExistante.error';
 
 export type RéférenceDossierRacordementModifiéeEvent = DomainEvent<
   'RéférenceDossierRacordementModifiée-V1',
@@ -42,6 +43,10 @@ export async function modifierRéférenceDossierRacordement(
     !référenceDossierExpressionRegulière.valider(nouvelleRéférenceDossierRaccordement.référence)
   ) {
     throw new FormatRéférenceDossierRaccordementInvalideError();
+  }
+
+  if (this.contientLeDossier(nouvelleRéférenceDossierRaccordement)) {
+    throw new RéférenceDossierRaccordementDéjàExistantePourLeProjetError();
   }
 
   const dossier = this.récupérerDossier(référenceDossierRaccordementActuelle.formatter());

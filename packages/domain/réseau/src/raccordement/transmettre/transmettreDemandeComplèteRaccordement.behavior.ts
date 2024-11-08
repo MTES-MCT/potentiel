@@ -7,6 +7,7 @@ import { RaccordementAggregate } from '../raccordement.aggregate';
 import { IdentifiantGestionnaireRéseau } from '../../gestionnaire';
 import { DateDansLeFuturError } from '../dateDansLeFutur.error';
 import { FormatRéférenceDossierRaccordementInvalideError } from '../formatRéférenceDossierRaccordementInvalide.error';
+import { RéférenceDossierRaccordementDéjàExistantePourLeProjetError } from '../référenceDossierRaccordementDéjàExistante.error';
 
 /**
  * @deprecated Utilisez DemandeComplèteRaccordementTransmiseEvent à la place.
@@ -190,14 +191,6 @@ export function applyDemandeComplèteDeRaccordementTransmiseEventV2(
       référenceDossierRaccordement,
     },
   });
-}
-
-class RéférenceDossierRaccordementDéjàExistantePourLeProjetError extends OperationRejectedError {
-  constructor() {
-    super(
-      `Il est impossible d'avoir plusieurs dossiers de raccordement avec la même référence pour un projet`,
-    );
-  }
 }
 
 class ImpossibleTransmettreDCRProjetAbandonnéError extends OperationRejectedError {
