@@ -7,6 +7,7 @@ import { Candidature } from '@potentiel-domain/candidature';
 import { LoadAggregate } from '@potentiel-domain/core';
 
 import { loadReprésentantLégalFactory } from '../représentantLégal.aggregate';
+import { Lauréat } from '../..';
 
 export type ImporterReprésentantLégalCommand = Message<
   'Lauréat.ReprésentantLégal.Command.ImporterReprésentantLégal',
@@ -19,6 +20,7 @@ export type ImporterReprésentantLégalCommand = Message<
 
 export const registerImporterReprésentantLégalCommand = (loadAggregate: LoadAggregate) => {
   const loadReprésentantLégal = loadReprésentantLégalFactory(loadAggregate);
+  const loadLauréat = Lauréat.loadLauréatFactory(loadAggregate);
   const loadCandidature = Candidature.Aggregate.loadCandidatureFactory(loadAggregate);
   const handler: MessageHandler<ImporterReprésentantLégalCommand> = async ({
     identifiantProjet,
@@ -26,6 +28,7 @@ export const registerImporterReprésentantLégalCommand = (loadAggregate: LoadAg
     importéPar,
   }) => {
     const { nomReprésentantLégal } = await loadCandidature(identifiantProjet);
+    await loadLauréat(identifiantProjet);
     const représentantLégal = await loadReprésentantLégal(identifiantProjet, false);
 
     await représentantLégal.importer({
