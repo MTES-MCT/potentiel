@@ -18,7 +18,12 @@ import {
 import safeAsyncHandler from '../helpers/safeAsyncHandler';
 import { v1Router } from '../v1Router';
 
-import { Abandon, Achèvement, GarantiesFinancières } from '@potentiel-domain/laureat';
+import {
+  Abandon,
+  Achèvement,
+  GarantiesFinancières,
+  ReprésentantLégal,
+} from '@potentiel-domain/laureat';
 import { IdentifiantProjet } from '@potentiel-domain/common';
 import { Raccordement } from '@potentiel-domain/reseau';
 import { AchèvementRéelDTO } from '../../modules/frise';
@@ -180,6 +185,11 @@ v1Router.get(
         user,
       );
 
+      const nomReprésentantLégal = await getNomReprésentantLégal(
+        identifiantProjetValueType,
+        projet.nomRepresentantLegal,
+      );
+
       return response.send(
         ProjectDetailsPage({
           request,
@@ -195,6 +205,7 @@ v1Router.get(
           },
           alertesRaccordement,
           abandon,
+          nomReprésentantLégal,
           demandeRecours: await getRecours(identifiantProjetValueType),
           hasAttestationConformité: !!attestationConformité,
         }),
@@ -371,4 +382,25 @@ const getRecours = async (
   });
 
   return Option.isSome(recours) ? { statut: recours.statut.value } : undefined;
+};
+
+const getNomReprésentantLégal = async (
+  identifiantProjet: IdentifiantProjet.ValueType,
+  legacyDefaultNomReprésentantLégal: string,
+): Promise<string> => {
+  try {
+    const représentantLégal =
+      await mediator.send<ReprésentantLégal.ConsulterReprésentantLégalQuery>({
+        type: 'Lauréat.ReprésentantLégal.Query.ConsulterReprésentantLégal',
+        data: { identifiantProjetValue: identifiantProjet.formatter() },
+      });
+
+    if (Option.isNone(représentantLégal)) {
+      return legacyDefaultNomReprésentantLégal;
+    }
+
+    return représentantLégal.nomReprésentantLégal;
+  } catch (error) {
+    return legacyDefaultNomReprésentantLégal;
+  }
 };

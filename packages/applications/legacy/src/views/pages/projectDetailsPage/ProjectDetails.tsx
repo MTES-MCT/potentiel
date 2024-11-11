@@ -41,6 +41,7 @@ type ProjectDetailsProps = {
   };
   demandeRecours: ProjectDataForProjectPage['demandeRecours'];
   hasAttestationConformité: boolean;
+  nomReprésentantLégal: string;
 };
 
 export const ProjectDetails = ({
@@ -51,6 +52,7 @@ export const ProjectDetails = ({
   abandon,
   demandeRecours,
   hasAttestationConformité,
+  nomReprésentantLégal,
 }: ProjectDetailsProps) => {
   const { user } = request;
   const { error, success } = (request.query as any) || {};
@@ -119,8 +121,11 @@ export const ProjectDetails = ({
           )}
           <div className={`flex flex-col flex-grow gap-3 break-before-page`}>
             <InfoGenerales project={project} role={user.role} demandeRecours={demandeRecours} />
-            <Contact {...{ user, project }} />
-            <MaterielsEtTechnologies {...{ project }} />
+            <Contact project={project} user={user} nomReprésentantLégal={nomReprésentantLégal} />
+            <MaterielsEtTechnologies
+              fournisseur={project.fournisseur}
+              evaluationCarbone={project.evaluationCarbone}
+            />
 
             {project.notesInnovation && (
               <ResultatsAppelOffreInnovation

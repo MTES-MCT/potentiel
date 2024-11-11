@@ -21,25 +21,26 @@ import { userIs } from '../../../../modules/users';
 type ContactProps = {
   project: ProjectDataForProjectPage;
   user: Request['user'];
+  nomReprésentantLégal: string;
 };
 
-export const Contact = ({ project, user }: ContactProps) => (
+export const Contact = ({ project, user, nomReprésentantLégal }: ContactProps) => (
   <Section title="Contact" icon={<UserIcon />}>
     <div className="mb-3">{project.nomCandidat}</div>
     <div>
       <Heading3 className="mb-1">Représentant légal</Heading3>
-      <div>{project.nomRepresentantLegal}</div>
+      <div>{nomReprésentantLégal}</div>
       <Heading3 className="mb-1">Adresse email de candidature</Heading3>
       <div>{project.email}</div>
     </div>
 
     {project.notifiedOn &&
       userIs(['admin', 'dgec-validateur', 'porteur-projet', 'dreal'])(user) && (
-        <ListComptesAvecAcces {...{ user, project }} />
+        <ListComptesAvecAcces user={user} project={project} />
       )}
 
     {userIs(['admin', 'dgec-validateur', 'porteur-projet', 'dreal'])(user) && (
-      <InvitationForm {...{ project }} />
+      <InvitationForm project={project} />
     )}
   </Section>
 );
