@@ -21,15 +21,19 @@ import { userIs } from '../../../../modules/users';
 type ContactProps = {
   project: ProjectDataForProjectPage;
   user: Request['user'];
-  nomReprésentantLégal: string;
+  nomReprésentantLégal?: string;
 };
 
 export const Contact = ({ project, user, nomReprésentantLégal }: ContactProps) => (
   <Section title="Contact" icon={<UserIcon />}>
     <div className="mb-3">{project.nomCandidat}</div>
     <div>
-      <Heading3 className="mb-1">Représentant légal</Heading3>
-      <div>{nomReprésentantLégal}</div>
+      {nomReprésentantLégal && (
+        <>
+          <Heading3 className="mb-1">Représentant légal</Heading3>
+          <div>{nomReprésentantLégal}</div>
+        </>
+      )}
       <Heading3 className="mb-1">Adresse email de candidature</Heading3>
       <div>{project.email}</div>
     </div>

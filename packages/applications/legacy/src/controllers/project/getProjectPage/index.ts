@@ -183,10 +183,7 @@ v1Router.get(
         user,
       );
 
-      const nomReprésentantLégal = await getNomReprésentantLégal(
-        identifiantProjetValueType,
-        projet.nomRepresentantLegal,
-      );
+      const nomReprésentantLégal = await getNomReprésentantLégal(identifiantProjetValueType);
 
       return response.send(
         ProjectDetailsPage({

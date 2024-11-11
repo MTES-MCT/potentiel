@@ -3,24 +3,35 @@ import { IdentifiantProjet } from '@potentiel-domain/common';
 import { ReprésentantLégal } from '@potentiel-domain/laureat';
 
 import { Option } from '@potentiel-libraries/monads';
+import { Candidature } from '@potentiel-domain/candidature';
 
 export const getNomReprésentantLégal = async (
   identifiantProjet: IdentifiantProjet.ValueType,
-  legacyDefaultNomReprésentantLégal: string,
-): Promise<string> => {
+): Promise<string | undefined> => {
   try {
     const représentantLégal =
       await mediator.send<ReprésentantLégal.ConsulterReprésentantLégalQuery>({
         type: 'Lauréat.ReprésentantLégal.Query.ConsulterReprésentantLégal',
-        data: { identifiantProjetValue: identifiantProjet.formatter() },
+        data: { identifiantProjet: identifiantProjet.formatter() },
       });
 
-    if (Option.isNone(représentantLégal)) {
-      return legacyDefaultNomReprésentantLégal;
+    if (Option.isSome(représentantLégal)) {
+      return représentantLégal.nomReprésentantLégal;
     }
 
-    return représentantLégal.nomReprésentantLégal;
+    const candidature = await mediator.send<Candidature.ConsulterCandidatureQuery>({
+      type: 'Candidature.Query.ConsulterCandidature',
+      data: {
+        identifiantProjet: identifiantProjet.formatter(),
+      },
+    });
+
+    if (Option.isSome(candidature)) {
+      return candidature.nomReprésentantLégal;
+    }
+
+    return undefined;
   } catch (error) {
-    return legacyDefaultNomReprésentantLégal;
+    return undefined;
   }
 };

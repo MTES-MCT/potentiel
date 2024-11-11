@@ -41,7 +41,7 @@ type ProjectDetailsProps = {
   };
   demandeRecours: ProjectDataForProjectPage['demandeRecours'];
   hasAttestationConformité: boolean;
-  nomReprésentantLégal: string;
+  nomReprésentantLégal?: string;
 };
 
 export const ProjectDetails = ({

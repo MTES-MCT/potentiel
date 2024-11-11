@@ -18,7 +18,7 @@ export type ConsulterReprésentantLégalReadModel = {
 export type ConsulterReprésentantLégalQuery = Message<
   'Lauréat.ReprésentantLégal.Query.ConsulterReprésentantLégal',
   {
-    identifiantProjetValue: string;
+    identifiantProjet: string;
   },
   Option.Type<ConsulterReprésentantLégalReadModel>
 >;
@@ -31,11 +31,11 @@ export const registerConsulterRepresentantLegalQuery = ({
   find,
 }: ConsulterReprésentantLégalDependencies) => {
   const handler: MessageHandler<ConsulterReprésentantLégalQuery> = async ({
-    identifiantProjetValue,
+    identifiantProjet,
   }) => {
-    const identifiantProjet = IdentifiantProjet.convertirEnValueType(identifiantProjetValue);
+    const identifiantProjetValueType = IdentifiantProjet.convertirEnValueType(identifiantProjet);
     const result = await find<ReprésentantLégalEntity>(
-      `représentant-légal|${identifiantProjet.formatter()}`,
+      `représentant-légal|${identifiantProjetValueType.formatter()}`,
     );
 
     return Option.match(result).some(mapToReadModel).none();

@@ -18,7 +18,7 @@ Alors(
       const représentantLégal = await mediator.send<ReprésentantLégal.ReprésentantLégalQuery>({
         type: 'Lauréat.ReprésentantLégal.Query.ConsulterReprésentantLégal',
         data: {
-          identifiantProjetValue: identifiantProjet.formatter(),
+          identifiantProjet: identifiantProjet.formatter(),
         },
       });
 
