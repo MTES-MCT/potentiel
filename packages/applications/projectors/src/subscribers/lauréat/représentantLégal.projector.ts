@@ -2,8 +2,9 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { RebuildTriggered, Event } from '@potentiel-infrastructure/pg-event-sourcing';
 import { ReprésentantLégal } from '@potentiel-domain/laureat';
+import { getLogger } from '@potentiel-libraries/monitoring';
 
-import { removeProjection, createProjection } from '../../infrastructure/';
+import { removeProjection, upsertProjection } from '../../infrastructure/';
 
 export type SubscriptionEvent =
   | (ReprésentantLégal.ReprésentantLégalEvent & Event)
@@ -26,7 +27,7 @@ export const register = () => {
       case 'ReprésentantLégalImporté-V1':
         const { identifiantProjet, nomReprésentantLégal, importéLe, importéPar } = payload;
         try {
-          await createProjection<ReprésentantLégal.ReprésentantLégalEntity>(
+          await upsertProjection<ReprésentantLégal.ReprésentantLégalEntity>(
             `représentant-légal|${identifiantProjet}`,
             {
               identifiantProjet,
@@ -38,7 +39,9 @@ export const register = () => {
             },
           );
         } catch (e) {
-          console.error(e);
+          getLogger().warn('Import du représentant légal impossible', {
+            event: payload,
+          });
         }
         break;
     }
