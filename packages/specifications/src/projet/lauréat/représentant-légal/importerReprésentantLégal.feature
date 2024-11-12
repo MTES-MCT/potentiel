@@ -8,6 +8,11 @@ Fonctionnalité: Importer le représentant légal lors de la désignation d'une 
         Etant donné la candidature lauréate notifiée "Du boulodrome de Marseille"
         Alors le représentant légal du projet lauréat devrait être consultable
 
+    Scénario: Impossible d'importer le représentant légal pour un projet éliminé
+        Etant donné la candidature éliminée notifiée "Du boulodrome de Marseille"
+        Quand le représentant légal est importé pour le projet lauréat
+        Alors l'utilisateur devrait être informé que "Le projet lauréat n'existe pas"
+
     Scénario: Impossible d'importer le représentant légal pour une candidature lauréate non désignée
         Etant donné la candidature lauréate "Du boulodrome de Marseille"
         Quand le représentant légal est importé pour le projet lauréat

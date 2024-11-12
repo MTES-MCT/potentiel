@@ -1,4 +1,3 @@
-import { mediator } from 'mediateur';
 import * as yup from 'yup';
 import { getProjectEvents } from '../../../config';
 import { getProjectDataForProjectPage } from '../../../config/queries.config';
