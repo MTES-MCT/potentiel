@@ -267,41 +267,30 @@ Alors(
 
       expect(Option.isSome(actualReadModel)).to.be.true;
       if (Option.isSome(actualReadModel)) {
-        expect(actualReadModel.identifiantProjet.estÉgaleÀ(identifiantProjet)).to.be.true;
+        expect(actualReadModel.length).to.equal(1);
 
-        expect(actualReadModel.historique[0].motif.motif).to.deep.equal(motif);
-
-        expect(
-          actualReadModel.historique[0].demande.demandéePar.estÉgaleÀ(
-            Email.convertirEnValueType(demandéPar),
-          ),
-        ).to.be.true;
-
-        expect(actualReadModel.historique[0].demande.demandéeLe.date).to.deep.equal(
-          new Date(demandéLe),
-        );
-
-        expect(actualReadModel.historique[0].rejet.rejetéLe.date).to.deep.equal(new Date(rejetéLe));
+        expect(actualReadModel[0].motif.motif).to.deep.equal(motif);
 
         expect(
-          actualReadModel.historique[0].demande.demandéePar.estÉgaleÀ(
-            Email.convertirEnValueType(demandéPar),
-          ),
+          actualReadModel[0].demande.demandéePar.estÉgaleÀ(Email.convertirEnValueType(demandéPar)),
         ).to.be.true;
+
+        expect(actualReadModel[0].demande.demandéeLe.date).to.deep.equal(new Date(demandéLe));
+
+        expect(actualReadModel[0].rejet.rejetéLe.date).to.deep.equal(new Date(rejetéLe));
 
         expect(
-          actualReadModel.historique[0].rejet.rejetéPar.estÉgaleÀ(
-            Email.convertirEnValueType(rejetéPar),
-          ),
+          actualReadModel[0].demande.demandéePar.estÉgaleÀ(Email.convertirEnValueType(demandéPar)),
         ).to.be.true;
 
-        expect(actualReadModel.historique[0].rejet.courrierRejet.format).to.deep.equal(
-          formatFichierRéponse,
-        );
+        expect(actualReadModel[0].rejet.rejetéPar.estÉgaleÀ(Email.convertirEnValueType(rejetéPar)))
+          .to.be.true;
+
+        expect(actualReadModel[0].rejet.courrierRejet.format).to.deep.equal(formatFichierRéponse);
 
         const actualFile = await mediator.send<ConsulterDocumentProjetQuery>({
           type: 'Document.Query.ConsulterDocumentProjet',
-          data: { documentKey: actualReadModel.historique[0].rejet.courrierRejet.formatter() },
+          data: { documentKey: actualReadModel[0].rejet.courrierRejet.formatter() },
         });
         const actualContent = await convertReadableStreamToString(actualFile.content);
         actualContent.should.be.equal(contenuFichierRéponse);

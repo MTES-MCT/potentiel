@@ -311,7 +311,7 @@ const mapToProps: MapToProps = ({
       : undefined,
     historiqueMainlevée: historiqueMainlevéeExistant
       ? {
-          historique: historiqueMainlevéeExistant.historique.map((mainlevée) => ({
+          historique: historiqueMainlevéeExistant.map((mainlevée) => ({
             motif: mainlevée.motif.motif,
             demande: {
               date: mainlevée.demande.demandéeLe.formatter(),

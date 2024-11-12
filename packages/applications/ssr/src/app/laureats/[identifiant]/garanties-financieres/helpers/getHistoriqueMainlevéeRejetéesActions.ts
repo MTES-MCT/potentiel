@@ -18,7 +18,7 @@ export const getHistoriqueMainlevéeRejetéesActions = ({
   const estDreal = role.estÉgaleÀ(Role.dreal);
   const mainlevéeExistante = Option.isSome(mainlevée) ? mainlevée : undefined;
   const historique =
-    Option.isSome(historiqueMainlevéeRejetée) && historiqueMainlevéeRejetée.historique.length > 0
+    Option.isSome(historiqueMainlevéeRejetée) && historiqueMainlevéeRejetée.length > 0
       ? historiqueMainlevéeRejetée
       : undefined;
 

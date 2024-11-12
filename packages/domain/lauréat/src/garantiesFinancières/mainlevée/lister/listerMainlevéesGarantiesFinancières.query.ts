@@ -5,7 +5,7 @@ import { RécupérerIdentifiantsProjetParEmailPorteur } from '@potentiel-domain/
 import { IdentifiantProjet, DateTime, Email } from '@potentiel-domain/common';
 
 import {
-  DétailsMainlevéeGarantiesFinancièresEntity,
+  MainlevéeGarantiesFinancièresEntity,
   MotifDemandeMainlevéeGarantiesFinancières,
   StatutMainlevéeGarantiesFinancières,
 } from '../..';
@@ -62,21 +62,18 @@ export const registerListerMainlevéesQuery = ({
       items,
       range: { endPosition, startPosition },
       total,
-    } = await list<DétailsMainlevéeGarantiesFinancièresEntity>(
-      'details-mainlevee-garanties-financieres',
-      {
-        range,
-        where: {
-          motif: Where.equal(motif),
-          statut: Where.equal(statut),
-          appelOffre: Where.equal(appelOffre),
-          ...(await getRoleBasedWhereCondition(
-            utilisateur,
-            récupérerIdentifiantsProjetParEmailPorteur,
-          )),
-        },
+    } = await list<MainlevéeGarantiesFinancièresEntity>('mainlevee-garanties-financieres', {
+      range,
+      where: {
+        motif: Where.equal(motif),
+        statut: Where.equal(statut),
+        projet: { appelOffre: Where.equal(appelOffre) },
+        ...(await getRoleBasedWhereCondition(
+          utilisateur,
+          récupérerIdentifiantsProjetParEmailPorteur,
+        )),
       },
-    );
+    });
 
     return {
       items: items.map(listerMainlevéeGarantiesFinancièresMapToReadModel),
@@ -91,11 +88,11 @@ export const registerListerMainlevéesQuery = ({
 };
 
 const listerMainlevéeGarantiesFinancièresMapToReadModel = (
-  détailsMainlevée: DétailsMainlevéeGarantiesFinancièresEntity,
+  détailsMainlevée: MainlevéeGarantiesFinancièresEntity,
 ): ListerMainlevéeItemReadModel => ({
   identifiantProjet: IdentifiantProjet.convertirEnValueType(détailsMainlevée.identifiantProjet),
-  appelOffre: détailsMainlevée.appelOffre,
-  nomProjet: détailsMainlevée.nomProjet,
+  appelOffre: détailsMainlevée.projet.appelOffre,
+  nomProjet: détailsMainlevée.projet.nomProjet,
   statut: StatutMainlevéeGarantiesFinancières.convertirEnValueType(détailsMainlevée.statut),
   motif: MotifDemandeMainlevéeGarantiesFinancières.convertirEnValueType(détailsMainlevée.motif),
   demande: {
