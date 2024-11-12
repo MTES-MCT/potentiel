@@ -79,7 +79,7 @@ export const AttestationConformitéForm: FC<AttestationConformitéFormProps> = (
           name="attestation"
           required
           documentKeys={donnéesActuelles && [donnéesActuelles.attestation]}
-          label="Attestation de conformité"
+          label="Attestation de conformité (dossier complet)"
           state={validationErrors['attestation'] ? 'error' : 'default'}
           stateRelatedMessage={validationErrors['attestation']}
           formats={['pdf']}
