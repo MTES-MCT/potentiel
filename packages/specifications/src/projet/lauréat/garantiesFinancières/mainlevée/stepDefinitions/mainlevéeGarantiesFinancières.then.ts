@@ -25,34 +25,33 @@ Alors(
     const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
 
     await waitForExpect(async () => {
-      const actualReadModel =
-        await mediator.send<GarantiesFinancières.ConsulterDemandeEnCoursMainlevéeGarantiesFinancièresQuery>(
-          {
-            type: 'Lauréat.GarantiesFinancières.Mainlevée.Query.Consulter',
-            data: {
-              identifiantProjetValue: identifiantProjet.formatter(),
-            },
-          },
-        );
+      const actualReadModel = await mediator.send<GarantiesFinancières.ListerMainlevéesQuery>({
+        type: 'Lauréat.GarantiesFinancières.Mainlevée.Query.Lister',
+        data: {
+          identifiantProjet: identifiantProjet.formatter(),
+          statut: GarantiesFinancières.StatutMainlevéeGarantiesFinancières.demandé.statut,
+        },
+      });
 
-      expect(Option.isSome(actualReadModel)).to.be.true;
+      expect(actualReadModel.items).to.be.length(1);
 
-      if (Option.isSome(actualReadModel)) {
+      if (actualReadModel.items.length) {
+        const mainlevée = actualReadModel.items[0];
+
         expect(
-          actualReadModel.motif.estÉgaleÀ(
+          mainlevée.motif.estÉgaleÀ(
             GarantiesFinancières.MotifDemandeMainlevéeGarantiesFinancières.convertirEnValueType(
               motif,
             ),
           ),
         ).to.be.true;
 
-        expect(
-          actualReadModel.demande.demandéePar.estÉgaleÀ(Email.convertirEnValueType(utilisateur)),
-        ).to.be.true;
+        expect(mainlevée.demande.demandéePar.estÉgaleÀ(Email.convertirEnValueType(utilisateur))).to
+          .be.true;
 
-        expect(actualReadModel.demande.demandéeLe.date).to.deep.equal(new Date(dateDemande));
+        expect(mainlevée.demande.demandéeLe.date).to.deep.equal(new Date(dateDemande));
 
-        expect(actualReadModel.statut.estDemandé()).to.be.true;
+        expect(mainlevée.statut.estDemandé()).to.be.true;
       }
     });
   },
@@ -64,17 +63,15 @@ Alors(
     const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
 
     await waitForExpect(async () => {
-      const actualReadModel =
-        await mediator.send<GarantiesFinancières.ConsulterDemandeEnCoursMainlevéeGarantiesFinancièresQuery>(
-          {
-            type: 'Lauréat.GarantiesFinancières.Mainlevée.Query.Consulter',
-            data: {
-              identifiantProjetValue: identifiantProjet.formatter(),
-            },
-          },
-        );
+      const actualReadModel = await mediator.send<GarantiesFinancières.ListerMainlevéesQuery>({
+        type: 'Lauréat.GarantiesFinancières.Mainlevée.Query.Lister',
+        data: {
+          identifiantProjet: identifiantProjet.formatter(),
+          estEnCours: true,
+        },
+      });
 
-      expect(Option.isNone(actualReadModel)).to.be.true;
+      expect(actualReadModel.items.length).to.be.length(1);
     });
   },
 );
@@ -95,40 +92,36 @@ Alors(
     const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
 
     await waitForExpect(async () => {
-      const actualReadModel =
-        await mediator.send<GarantiesFinancières.ConsulterDemandeEnCoursMainlevéeGarantiesFinancièresQuery>(
-          {
-            type: 'Lauréat.GarantiesFinancières.Mainlevée.Query.Consulter',
-            data: {
-              identifiantProjetValue: identifiantProjet.formatter(),
-            },
-          },
-        );
+      const actualReadModel = await mediator.send<GarantiesFinancières.ListerMainlevéesQuery>({
+        type: 'Lauréat.GarantiesFinancières.Mainlevée.Query.Lister',
+        data: {
+          identifiantProjet: identifiantProjet.formatter(),
+          statut: GarantiesFinancières.StatutMainlevéeGarantiesFinancières.enInstruction.statut,
+        },
+      });
 
-      expect(Option.isSome(actualReadModel)).to.be.true;
+      expect(actualReadModel.items).to.be.length(1);
 
-      if (Option.isSome(actualReadModel)) {
-        expect(actualReadModel.statut.estEnInstruction()).to.be.true;
+      if (actualReadModel.items.length) {
+        const mainlevée = actualReadModel.items[0];
 
         expect(
-          actualReadModel.instruction?.démarréePar.estÉgaleÀ(
+          mainlevée.instruction?.démarréePar.estÉgaleÀ(
             Email.convertirEnValueType(instructionDémarréePar),
           ),
         ).to.be.true;
 
         expect(
-          actualReadModel.dernièreMiseÀJour.par.estÉgaleÀ(
+          mainlevée.dernièreMiseÀJour.par.estÉgaleÀ(
             Email.convertirEnValueType(dernièreMiseÀJourPar),
           ),
         ).to.be.true;
 
-        expect(actualReadModel.instruction?.démarréeLe.date).to.deep.equal(
+        expect(mainlevée.instruction?.démarréeLe.date).to.deep.equal(
           new Date(instructionDémarréeLe),
         );
 
-        expect(actualReadModel.dernièreMiseÀJour.date.date).to.deep.equal(
-          new Date(dernièreMiseÀJourLe),
-        );
+        expect(mainlevée.dernièreMiseÀJour.date.date).to.deep.equal(new Date(dernièreMiseÀJourLe));
       }
     });
   },
@@ -149,48 +142,44 @@ Alors(
     const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
 
     await waitForExpect(async () => {
-      const actualReadModel =
-        await mediator.send<GarantiesFinancières.ConsulterDemandeEnCoursMainlevéeGarantiesFinancièresQuery>(
-          {
-            type: 'Lauréat.GarantiesFinancières.Mainlevée.Query.Consulter',
-            data: {
-              identifiantProjetValue: identifiantProjet.formatter(),
-            },
-          },
-        );
+      const actualReadModel = await mediator.send<GarantiesFinancières.ListerMainlevéesQuery>({
+        type: 'Lauréat.GarantiesFinancières.Mainlevée.Query.Lister',
+        data: {
+          identifiantProjet: identifiantProjet.formatter(),
+          statut: GarantiesFinancières.StatutMainlevéeGarantiesFinancières.accordé.statut,
+        },
+      });
 
-      expect(Option.isSome(actualReadModel)).to.be.true;
+      expect(actualReadModel.items).to.be.length(1);
 
-      if (Option.isSome(actualReadModel)) {
-        expect(actualReadModel.statut.estAccordé()).to.be.true;
+      if (actualReadModel.items.length) {
+        const mainlevée = actualReadModel.items[0];
 
+        expect(mainlevée.statut.estAccordé()).to.be.true;
+
+        expect(mainlevée.accord?.accordéePar.estÉgaleÀ(Email.convertirEnValueType(accordéPar))).to
+          .be.true;
+
+        expect(mainlevée.accord?.accordéeLe.date).to.deep.equal(new Date(accordéLe));
+
+        expect(mainlevée.accord?.accordéePar.estÉgaleÀ(Email.convertirEnValueType(accordéPar))).to
+          .be.true;
+
+        mainlevée.accord?.accordéePar;
+
+        expect(mainlevée.accord?.accordéeLe.date).to.deep.equal(new Date(accordéLe));
+        expect(mainlevée.dernièreMiseÀJour.date.date).to.deep.equal(new Date(dernièreMiseÀJourLe));
         expect(
-          actualReadModel.accord?.accordéePar.estÉgaleÀ(Email.convertirEnValueType(accordéPar)),
-        ).to.be.true;
-
-        expect(actualReadModel.accord?.accordéeLe.date).to.deep.equal(new Date(accordéLe));
-
-        expect(
-          actualReadModel.accord?.accordéePar.estÉgaleÀ(Email.convertirEnValueType(accordéPar)),
-        ).to.be.true;
-
-        actualReadModel.accord?.accordéePar;
-
-        expect(actualReadModel.accord?.accordéeLe.date).to.deep.equal(new Date(accordéLe));
-        expect(actualReadModel.dernièreMiseÀJour.date.date).to.deep.equal(
-          new Date(dernièreMiseÀJourLe),
-        );
-        expect(
-          actualReadModel.dernièreMiseÀJour.par.estÉgaleÀ(
+          mainlevée.dernièreMiseÀJour.par.estÉgaleÀ(
             Email.convertirEnValueType(dernièreMiseÀJourPar),
           ),
         ).to.be.true;
-        expect(actualReadModel.accord?.courrierAccord.format).to.deep.equal(format);
+        expect(mainlevée.accord?.courrierAccord.format).to.deep.equal(format);
 
-        if (actualReadModel.accord) {
+        if (mainlevée.accord) {
           const actualFile = await mediator.send<ConsulterDocumentProjetQuery>({
             type: 'Document.Query.ConsulterDocumentProjet',
-            data: { documentKey: actualReadModel.accord?.courrierAccord.formatter() },
+            data: { documentKey: mainlevée.accord?.courrierAccord.formatter() },
           });
           const actualContent = await convertReadableStreamToString(actualFile.content);
           actualContent.should.be.equal(content);
@@ -230,45 +219,45 @@ Alors(
     const motif = exemple['motif'];
 
     await waitForExpect(async () => {
-      const actualReadModel =
-        await mediator.send<GarantiesFinancières.ConsulterHistoriqueDemandeMainlevéeRejetéeGarantiesFinancièresQuery>(
-          {
-            type: 'Lauréat.GarantiesFinancières.Mainlevée.Query.ConsulterHistoriqueDemandeMainlevéeRejetée',
-            data: {
-              identifiantProjetValue: identifiantProjet.formatter(),
-            },
-          },
-        );
+      const actualReadModel = await mediator.send<GarantiesFinancières.ListerMainlevéesQuery>({
+        type: 'Lauréat.GarantiesFinancières.Mainlevée.Query.Lister',
+        data: {
+          identifiantProjet: identifiantProjet.formatter(),
+          statut: GarantiesFinancières.StatutMainlevéeGarantiesFinancières.rejeté.statut,
+        },
+      });
 
-      expect(Option.isSome(actualReadModel)).to.be.true;
-      if (Option.isSome(actualReadModel)) {
-        expect(actualReadModel.length).to.equal(1);
+      expect(actualReadModel.items).to.be.length(1);
 
-        expect(actualReadModel[0].motif.motif).to.deep.equal(motif);
+      if (actualReadModel.items.length) {
+        const mainlevée = actualReadModel.items[0];
 
-        expect(
-          actualReadModel[0].demande.demandéePar.estÉgaleÀ(Email.convertirEnValueType(demandéPar)),
-        ).to.be.true;
+        expect(mainlevée.motif.motif).to.deep.equal(motif);
 
-        expect(actualReadModel[0].demande.demandéeLe.date).to.deep.equal(new Date(demandéLe));
+        expect(mainlevée.demande.demandéePar.estÉgaleÀ(Email.convertirEnValueType(demandéPar))).to
+          .be.true;
 
-        expect(actualReadModel[0].rejet.rejetéLe.date).to.deep.equal(new Date(rejetéLe));
+        expect(mainlevée.demande.demandéeLe.date).to.deep.equal(new Date(demandéLe));
 
-        expect(
-          actualReadModel[0].demande.demandéePar.estÉgaleÀ(Email.convertirEnValueType(demandéPar)),
-        ).to.be.true;
+        expect(mainlevée.rejet?.rejetéLe.date).to.deep.equal(new Date(rejetéLe));
 
-        expect(actualReadModel[0].rejet.rejetéPar.estÉgaleÀ(Email.convertirEnValueType(rejetéPar)))
-          .to.be.true;
+        expect(mainlevée.demande.demandéePar.estÉgaleÀ(Email.convertirEnValueType(demandéPar))).to
+          .be.true;
 
-        expect(actualReadModel[0].rejet.courrierRejet.format).to.deep.equal(formatFichierRéponse);
+        expect(mainlevée.rejet?.rejetéPar.estÉgaleÀ(Email.convertirEnValueType(rejetéPar))).to.be
+          .true;
 
-        const actualFile = await mediator.send<ConsulterDocumentProjetQuery>({
-          type: 'Document.Query.ConsulterDocumentProjet',
-          data: { documentKey: actualReadModel[0].rejet.courrierRejet.formatter() },
-        });
-        const actualContent = await convertReadableStreamToString(actualFile.content);
-        actualContent.should.be.equal(contenuFichierRéponse);
+        expect(mainlevée.rejet?.courrierRejet.format).to.deep.equal(formatFichierRéponse);
+
+        if (mainlevée.rejet) {
+          const actualFile = await mediator.send<ConsulterDocumentProjetQuery>({
+            type: 'Document.Query.ConsulterDocumentProjet',
+            data: { documentKey: mainlevée.rejet.courrierRejet.formatter() },
+          });
+
+          const actualContent = await convertReadableStreamToString(actualFile.content);
+          actualContent.should.be.equal(contenuFichierRéponse);
+        }
       }
     });
   },

@@ -6,7 +6,6 @@ Fonctionnalité: Accorder une demande de mainlevée des garanties financières
         Et le porteur "Marcel Patoulatchi" ayant accés au projet lauréat "Du boulodrome de Marseille"
         Et le DGEC validateur "Robert Robichet"
 
-    @select
     Scénario: Un utilisateur Dreal accorde une demande de mainlevée pour un projet abandonné
         Etant donné un abandon accordé pour le projet lauréat "Du boulodrome de Marseille"
         Et des garanties financières actuelles pour le projet "Du boulodrome de Marseille"

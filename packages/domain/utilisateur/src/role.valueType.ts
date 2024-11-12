@@ -129,10 +129,10 @@ const référencielPermissions = {
           'Lauréat.GarantiesFinancières.Query.ListerProjetsAvecGarantiesFinancièresEnAttente',
         consulterProjetAvecGarantiesFinancièresEnAttente:
           'Lauréat.GarantiesFinancières.Query.ConsulterProjetAvecGarantiesFinancièresEnAttente',
-        ConsulterDemandeEnCoursMainlevée: 'Lauréat.GarantiesFinancières.Mainlevée.Query.Consulter',
+        ConsulterDemandeEnCoursMainlevée: 'Lauréat.GarantiesFinancières.Mainlevée.Query.Lister',
         listerMainlevée: 'Lauréat.GarantiesFinancières.Mainlevée.Query.Lister',
         consulterHistoriqueMainlevée:
-          'Lauréat.GarantiesFinancières.Mainlevée.Query.ConsulterHistoriqueDemandeMainlevéeRejetée',
+          'Lauréat.GarantiesFinancières.Mainlevée.Query.ListerHistoriqueDemandeMainlevéeRejetée',
       },
       usecase: {
         demander: 'Lauréat.GarantiesFinancières.UseCase.DemanderGarantiesFinancières',
