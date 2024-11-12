@@ -30,7 +30,6 @@ const projectInfo = {
   engagementFournitureDePuissanceAlaPointe: false,
   isFinancementParticipatif: false,
   isInvestissementParticipatif: true,
-  nomRepresentantLegal: 'representantLegal',
   email: 'test@test.test',
   fournisseur: 'fournisseur',
   evaluationCarbone: 132,
@@ -84,7 +83,6 @@ describe('Sequelize getProjectDataForProjectPage', () => {
 
       nomProjet: 'nomProjet',
       nomCandidat: 'nomCandidat',
-      nomRepresentantLegal: 'representantLegal',
       email: 'test@test.test',
       fournisseur: 'fournisseur',
       evaluationCarbone: 132,
