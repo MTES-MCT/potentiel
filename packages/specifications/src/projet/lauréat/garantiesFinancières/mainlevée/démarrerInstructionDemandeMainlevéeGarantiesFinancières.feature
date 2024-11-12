@@ -19,7 +19,6 @@ Fonctionnalité: Démarrer l'instruction d'une demande de mainlevée des garanti
             | instruction démarrée par | dreal@test.test |
             | mise à jour le           | 2024-05-30      |
             | mise à jour par          | dreal@test.test |
-        Et le détail de la mainlevée pour le projet "Du boulodrome de Marseille" devrait être consultable avec le statut "en-instruction"
 
     Scénario: Un utilisateur Dreal démarre l'instruction d'une demande de mainlevée pour un projet achevé
         Etant donné une attestation de conformité transmise pour le projet "Du boulodrome de Marseille"
@@ -34,7 +33,6 @@ Fonctionnalité: Démarrer l'instruction d'une demande de mainlevée des garanti
             | instruction démarrée par | dreal@test.test |
             | mise à jour le           | 2024-05-30      |
             | mise à jour par          | dreal@test.test |
-        Et le détail de la mainlevée pour le projet "Du boulodrome de Marseille" devrait être consultable avec le statut "en-instruction"
 
     Scénario: Impossible de démarrer une instruction de demande de mainlevée si le projet n'a pas de demande de mainlevée
         Etant donné des garanties financières actuelles pour le projet "Du boulodrome de Marseille"

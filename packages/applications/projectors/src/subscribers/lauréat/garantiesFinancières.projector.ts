@@ -130,7 +130,6 @@ export const register = () => {
         dateLimiteSoumission: '',
       };
 
-      // violette vérifier l'utilité
       const mainlevéeGarantiesFinancièresDefaultValue: Omit<
         GarantiesFinancières.MainlevéeGarantiesFinancièresEntity,
         'type'

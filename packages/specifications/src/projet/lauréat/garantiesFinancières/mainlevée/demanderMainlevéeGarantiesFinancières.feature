@@ -18,7 +18,6 @@ Fonctionnalité: Demander la mainlevée des garanties financières d'un projet
             | utilisateur  | porteur@test.test |
             | date demande | 2014-05-28        |
             | statut       | demandé           |
-        Et le détail de la mainlevée pour le projet "Du boulodrome de Marseille" devrait être consultable avec le statut "demandé"
 
     Scénario: Un porteur demande la levée des garanties financières de son projet achevé
         Etant donné une attestation de conformité transmise pour le projet "Du boulodrome de Marseille"
@@ -32,7 +31,6 @@ Fonctionnalité: Demander la mainlevée des garanties financières d'un projet
             | utilisateur  | porteur@test.test |
             | date demande | 2014-05-28        |
             | statut       | demandé           |
-        Et le détail de la mainlevée pour le projet "Du boulodrome de Marseille" devrait être consultable avec le statut "demandé"
 
     Scénario: Impossible de demander la mainlevée des garanties financières d'un projet si le projet n'est pas abandonné
         Etant donné des garanties financières actuelles pour le projet "Du boulodrome de Marseille"

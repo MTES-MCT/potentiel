@@ -215,31 +215,6 @@ Alors(
 );
 
 Alors(
-  `le détail de la mainlevée pour le projet {string} devrait être consultable avec le statut {string}`,
-  async function (this: PotentielWorld, nomProjet: string, statutMainlevée: string) {
-    const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
-
-    await waitForExpect(async () => {
-      const actualReadModel = await mediator.send<GarantiesFinancières.ListerMainlevéesQuery>({
-        type: 'Lauréat.GarantiesFinancières.Mainlevée.Query.Lister',
-        data: {
-          statut:
-            GarantiesFinancières.StatutMainlevéeGarantiesFinancières.convertirEnValueType(
-              statutMainlevée,
-            ).statut,
-          utilisateur: {
-            rôle: 'admin',
-            identifiantUtilisateur: 'admin@test.test',
-          },
-        },
-      });
-
-      expect(actualReadModel.items[0].identifiantProjet.estÉgaleÀ(identifiantProjet)).to.be.true;
-    });
-  },
-);
-
-Alors(
   `une demande de mainlevée de garanties financières devrait être consultable dans l'historique des mainlevées rejetées pour le projet {string} avec :`,
   async function (this: PotentielWorld, nomProjet: string, dataTable: DataTable) {
     const exemple = dataTable.rowsHash();

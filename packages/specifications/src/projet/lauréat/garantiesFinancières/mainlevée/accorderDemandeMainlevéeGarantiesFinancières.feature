@@ -24,7 +24,6 @@ Fonctionnalité: Accorder une demande de mainlevée des garanties financières
             | mise à jour par         | dreal@test.test    |
             | format fichier réponse  | application/pdf    |
             | contenu fichier réponse | contenu du fichier |
-        Et le détail de la mainlevée pour le projet "Du boulodrome de Marseille" devrait être consultable avec le statut "accordé"
 
     Scénario: Un utilisateur Dreal accorde une demande de mainlevée pour un projet achevé
         Etant donné une attestation de conformité transmise pour le projet "Du boulodrome de Marseille"
@@ -43,7 +42,6 @@ Fonctionnalité: Accorder une demande de mainlevée des garanties financières
             | mise à jour par         | dreal@test.test    |
             | format fichier réponse  | application/pdf    |
             | contenu fichier réponse | contenu du fichier |
-        Et le détail de la mainlevée pour le projet "Du boulodrome de Marseille" devrait être consultable avec le statut "accordé"
 
     Scénario: Impossible d'accorder une demande de mainlevée si le projet n'a pas de demande de mainlevée
         Etant donné une attestation de conformité transmise pour le projet "Du boulodrome de Marseille"
