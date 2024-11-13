@@ -4,6 +4,7 @@ import { mediator } from 'mediateur';
 
 import { listProjection } from '@potentiel-infrastructure/pg-projections';
 import { Lauréat, ReprésentantLégal } from '@potentiel-domain/laureat';
+import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
 import { loadAggregate } from '@potentiel-infrastructure/pg-event-sourcing';
 
 import { verifyEnvVariables } from '../_utils/verifyEnvVariables';
@@ -38,11 +39,12 @@ ReprésentantLégal.registerReprésentantLégalUseCases({
   for (const { identifiantProjet, notifiéLe } of lauréats.items) {
     try {
       console.info(`🔍 Processing ${statistics.current++}/${statistics.total}`);
-      await mediator.send<ReprésentantLégal.ReprésentantLégalUseCase>({
-        type: 'Lauréat.ReprésentantLégal.UseCase.ImporterReprésentantLégal',
+      await mediator.send<ReprésentantLégal.ReprésentantLégalCommand>({
+        type: 'Lauréat.ReprésentantLégal.Command.ImporterReprésentantLégal',
         data: {
-          identifiantProjetValue: identifiantProjet,
-          importéLe: notifiéLe,
+          identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
+          importéLe: DateTime.convertirEnValueType(notifiéLe),
+          importéPar: Email.system(),
         },
       });
       statistics.imported.push(identifiantProjet);

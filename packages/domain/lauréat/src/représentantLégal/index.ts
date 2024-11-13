@@ -2,7 +2,7 @@ import type {
   ConsulterReprésentantLégalQuery,
   ConsulterReprésentantLégalReadModel,
 } from './consulter/consulterReprésentantLégal.query';
-import { ImporterReprésentantLégalUseCase } from './importer/importerReprésentantLégal.usecase';
+import { ImporterReprésentantLégalCommand } from './importer/importerReprésentantLégal.command';
 
 // Query
 export type ReprésentantLégalQuery = ConsulterReprésentantLégalQuery;
@@ -11,10 +11,8 @@ export type { ConsulterReprésentantLégalQuery };
 // ReadModel
 export type { ConsulterReprésentantLégalReadModel };
 
-// UseCases
-export type ReprésentantLégalUseCase = ImporterReprésentantLégalUseCase;
-
-export type { ImporterReprésentantLégalUseCase };
+// Command
+export type ReprésentantLégalCommand = ImporterReprésentantLégalCommand;
 
 // Event
 export type { ReprésentantLégalEvent } from './représentantLégal.aggregate';
@@ -24,8 +22,6 @@ export {
   registerReprésentantLégalQueries,
   registerReprésentantLégalUseCases,
 } from './représentantLégal.register';
-
-// ValueTypes
 
 // Entities
 export * from './représentantLégal.entity';
