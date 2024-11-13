@@ -1,7 +1,6 @@
 import { LoadAggregate } from '@potentiel-domain/core';
 
 import { registerImporterReprésentantLégalCommand } from './importer/importerReprésentantLégal.command';
-import { registerImporterReprésentantLégalUseCase } from './importer/importerReprésentantLégal.usecase';
 import {
   ConsulterReprésentantLégalDependencies,
   registerConsulterRepresentantLegalQuery,
@@ -20,7 +19,6 @@ export const registerReprésentantLégalUseCases = ({
   registerImporterReprésentantLégalCommand(loadAggregate);
 
   // UseCases
-  registerImporterReprésentantLégalUseCase();
 };
 
 export const registerReprésentantLégalQueries = (
