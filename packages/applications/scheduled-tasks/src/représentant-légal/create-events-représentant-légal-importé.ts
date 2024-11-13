@@ -56,10 +56,7 @@ ReprésentantLégal.registerReprésentantLégalUseCases({
 
   if (statistics.failed.length > 0) {
     const failedJson = JSON.stringify(statistics.failed, null, 2);
-    await writeFile(
-      `./src/représentant-légal/logs/import-représentant-légal-failed.json`,
-      failedJson,
-    );
+    await writeFile(`import-représentant-légal-failed.json`, failedJson);
     console.info('🚨 Some failed, see ./logs/import-représentant-légal-failed.json');
   }
 

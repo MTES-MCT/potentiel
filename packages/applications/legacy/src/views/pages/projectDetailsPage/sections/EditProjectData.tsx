@@ -179,16 +179,6 @@ export const EditProjectData = ({ project, request }: EditProjectDataProps) => {
             defaultValue={query.nomCandidat || project.nomCandidat}
           />
         </div>
-        {/* <div>
-          <Label htmlFor="nomRepresentantLegal">Nom représentant légal</Label>
-          <Input
-            type="text"
-            name="nomRepresentantLegal"
-            id="nomRepresentantLegal"
-            placeholder="Renseigner un nom de représentant légal"
-            defaultValue={query.nomRepresentantLegal || project.nomRepresentantLegal}
-          />
-        </div> */}
         <div>
           <Label htmlFor="email">Email</Label>
           <Input
