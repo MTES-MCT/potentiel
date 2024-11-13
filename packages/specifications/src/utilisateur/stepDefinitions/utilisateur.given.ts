@@ -30,6 +30,7 @@ EtantDonné(
     await insérerUtilisateur(id, nom, email, role);
 
     const projets = await récupérerProjets(identifiantProjet);
+
     await associerProjetAuPorteur(id, projets);
   },
 );
