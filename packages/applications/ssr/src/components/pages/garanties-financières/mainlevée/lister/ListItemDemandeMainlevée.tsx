@@ -20,7 +20,7 @@ export type ListItemDemandeMainlevéeProps = {
   misÀJourLe: Iso8601DateTime;
   motif: string;
   nomProjet: string;
-  showInstruction: boolean;
+  peutInstruireMainlevée: boolean;
 };
 
 export const ListItemDemandeMainlevée: FC<ListItemDemandeMainlevéeProps> = ({
@@ -30,7 +30,7 @@ export const ListItemDemandeMainlevée: FC<ListItemDemandeMainlevéeProps> = ({
   motif,
   nomProjet,
   statut,
-  showInstruction,
+  peutInstruireMainlevée,
 }) => (
   <ListItem
     heading={
@@ -42,13 +42,8 @@ export const ListItemDemandeMainlevée: FC<ListItemDemandeMainlevéeProps> = ({
       />
     }
     actions={
-      <Link href={Routes.GarantiesFinancières.détail(identifiantProjet)} aria-label={`instruire`}>
-        {showInstruction &&
-        !GarantiesFinancières.StatutMainlevéeGarantiesFinancières.convertirEnValueType(
-          statut,
-        ).estRejeté()
-          ? 'Instruire'
-          : 'Voir'}
+      <Link href={Routes.GarantiesFinancières.détail(identifiantProjet)} aria-label={`voir`}>
+        {peutInstruireMainlevée ? 'Instruire' : 'Voir'}
       </Link>
     }
   >

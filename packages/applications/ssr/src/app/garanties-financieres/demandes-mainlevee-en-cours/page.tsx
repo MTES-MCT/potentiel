@@ -106,7 +106,7 @@ export default async function Page({ searchParams }: PageProps) {
         <ListeDemandeMainlevéePage
           list={mapToListProps({
             ...demandeMainlevéeDesGarantiesFinancières,
-            showInstruction: utilisateur.role.estÉgaleÀ(Role.dreal),
+            isDreal: utilisateur.role.estÉgaleÀ(Role.dreal),
           })}
           filters={filters}
         />
@@ -119,9 +119,9 @@ const mapToListProps = ({
   items,
   range,
   total,
-  showInstruction,
+  isDreal,
 }: GarantiesFinancières.ListerMainlevéesReadModel & {
-  showInstruction: boolean;
+  isDreal: boolean;
 }): ListeDemandeMainlevéeProps['list'] => {
   const mappedItems = items.map(
     ({ appelOffre, demande, dernièreMiseÀJour, identifiantProjet, motif, nomProjet, statut }) => ({
@@ -132,7 +132,11 @@ const mapToListProps = ({
       nomProjet,
       misÀJourLe: dernièreMiseÀJour.date.formatter(),
       appelOffre,
-      showInstruction,
+      peutInstruireMainlevée:
+        isDreal &&
+        !GarantiesFinancières.StatutMainlevéeGarantiesFinancières.convertirEnValueType(
+          statut.statut,
+        ).estRejeté(),
     }),
   );
 

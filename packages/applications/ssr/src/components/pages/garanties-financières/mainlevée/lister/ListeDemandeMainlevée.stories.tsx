@@ -70,7 +70,7 @@ export const Default: Story = {
           nomProjet: 'Projet 1',
           misÀJourLe: new Date('2023-02-12').toISOString() as Iso8601DateTime,
           demandéLe: new Date('2023-02-12').toISOString() as Iso8601DateTime,
-          showInstruction: true,
+          peutInstruireMainlevée: true,
           statut: 'en-instruction',
         },
         {
@@ -79,7 +79,7 @@ export const Default: Story = {
           nomProjet: 'Projet 2',
           misÀJourLe: new Date('2024-02-12').toISOString() as Iso8601DateTime,
           demandéLe: new Date('2024-02-12').toISOString() as Iso8601DateTime,
-          showInstruction: false,
+          peutInstruireMainlevée: false,
           statut: 'demandé',
         },
       ],
