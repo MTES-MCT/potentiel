@@ -4,7 +4,7 @@ import {
   GetDefaultAggregateState,
   LoadAggregate,
 } from '@potentiel-domain/core';
-import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
+import { IdentifiantProjet } from '@potentiel-domain/common';
 
 import {
   applyReprésentantLégalImporté,
@@ -16,10 +16,6 @@ export type ReprésentantLégalEvent = ReprésentantLégalImportéEvent;
 
 export type ReprésentantLégalAggregate = Aggregate<ReprésentantLégalEvent> & {
   nomReprésentantLégal: string;
-  import: {
-    importéLe: DateTime.ValueType;
-    importéPar: Email.ValueType;
-  };
   readonly importer: typeof importer;
 };
 
@@ -30,10 +26,6 @@ export const getDefaultReprésentantLégalAggregate: GetDefaultAggregateState<
   apply,
   nomReprésentantLégal: '',
   importer,
-  import: {
-    importéLe: DateTime.now(),
-    importéPar: Email.inconnu(),
-  },
 });
 
 function apply(this: ReprésentantLégalAggregate, event: ReprésentantLégalEvent) {

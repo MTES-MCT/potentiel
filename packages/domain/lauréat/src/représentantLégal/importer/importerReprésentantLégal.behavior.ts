@@ -1,10 +1,6 @@
-// Third party
-
-// Workspaces
 import { DomainError, DomainEvent } from '@potentiel-domain/core';
 import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
 
-// Package
 import { ReprésentantLégalAggregate } from '../représentantLégal.aggregate';
 
 export type ReprésentantLégalImportéEvent = DomainEvent<
@@ -29,7 +25,7 @@ export async function importer(
   { identifiantProjet, nomReprésentantLégal, importéLe, importéPar }: ImporterOptions,
 ) {
   if (this.nomReprésentantLégal) {
-    throw new ReprésenantLégalDéjàImportéError();
+    throw new ReprésentantLégalDéjàImportéError();
   }
 
   const event: ReprésentantLégalImportéEvent = {
@@ -47,16 +43,12 @@ export async function importer(
 
 export function applyReprésentantLégalImporté(
   this: ReprésentantLégalAggregate,
-  { payload: { nomReprésentantLégal, importéLe, importéPar } }: ReprésentantLégalImportéEvent,
+  { payload: { nomReprésentantLégal } }: ReprésentantLégalImportéEvent,
 ) {
   this.nomReprésentantLégal = nomReprésentantLégal;
-  this.import = {
-    importéLe: DateTime.convertirEnValueType(importéLe),
-    importéPar: Email.convertirEnValueType(importéPar),
-  };
 }
 
-class ReprésenantLégalDéjàImportéError extends DomainError {
+class ReprésentantLégalDéjàImportéError extends DomainError {
   constructor() {
     super('Le représentant légal a déjà été importé');
   }
