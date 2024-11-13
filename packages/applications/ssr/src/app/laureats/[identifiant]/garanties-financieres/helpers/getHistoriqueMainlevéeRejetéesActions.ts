@@ -1,4 +1,3 @@
-import { Option } from '@potentiel-libraries/monads';
 import { GarantiesFinancières } from '@potentiel-domain/laureat';
 import { Role } from '@potentiel-domain/utilisateur';
 
@@ -6,8 +5,8 @@ import { HistoriqueMainlevéeRejetéeProps } from '@/components/pages/garanties-
 
 type GetHistoriqueMainlevéeRéjetéesActions = {
   role: Role.ValueType;
-  mainlevée: Option.Type<GarantiesFinancières.ConsulterDemandeMainlevéeGarantiesFinancièresReadModel>;
-  historiqueMainlevéeRejetée: Option.Type<GarantiesFinancières.ConsulterHistoriqueDemandeMainlevéeRejetéeGarantiesFinancièresReadModel>;
+  mainlevée?: GarantiesFinancières.ListerMainlevéeItemReadModel;
+  historiqueMainlevéeRejetée?: GarantiesFinancières.ListerMainlevéesReadModel['items'];
 };
 export const getHistoriqueMainlevéeRejetéesActions = ({
   role,
@@ -16,17 +15,13 @@ export const getHistoriqueMainlevéeRejetéesActions = ({
 }: GetHistoriqueMainlevéeRéjetéesActions) => {
   const actions: HistoriqueMainlevéeRejetéeProps['historiqueMainlevée']['actions'] = [];
   const estDreal = role.estÉgaleÀ(Role.dreal);
-  const mainlevéeExistante = Option.isSome(mainlevée) ? mainlevée : undefined;
-  const historique =
-    Option.isSome(historiqueMainlevéeRejetée) && historiqueMainlevéeRejetée.historique.length > 0
-      ? historiqueMainlevéeRejetée
-      : undefined;
+  const hasHistorique = historiqueMainlevéeRejetée && historiqueMainlevéeRejetée.length > 0;
 
-  if (!mainlevéeExistante) {
+  if (!mainlevée) {
     return actions;
   }
 
-  if (estDreal && (mainlevéeExistante.statut.estAccordé() || historique)) {
+  if (estDreal && (mainlevée.statut.estAccordé() || hasHistorique)) {
     actions.push('modifier-courrier-réponse-mainlevée-gf');
   }
 

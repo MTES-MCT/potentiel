@@ -36,6 +36,8 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
   return PageWithErrorHandling(async () =>
     withUtilisateur(async (utilisateur) => {
       const identifiantProjet = decodeParameter(identifiant);
+      const identifiantProjetValue =
+        IdentifiantProjet.convertirEnValueType(identifiantProjet).formatter();
 
       const candidature = await mediator.send<Candidature.ConsulterProjetQuery>({
         type: 'Candidature.Query.ConsulterProjet',
@@ -62,13 +64,15 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
       });
 
       if (!soumisAuxGarantiesFinancières) {
-        return <ProjetNonSoumisAuxGarantiesFinancièresPage identifiantProjet={identifiantProjet} />;
+        return (
+          <ProjetNonSoumisAuxGarantiesFinancièresPage identifiantProjet={identifiantProjetValue} />
+        );
       }
 
       const garantiesFinancièresActuelles =
         await mediator.send<GarantiesFinancières.ConsulterGarantiesFinancièresQuery>({
           type: 'Lauréat.GarantiesFinancières.Query.ConsulterGarantiesFinancières',
-          data: { identifiantProjetValue: identifiantProjet },
+          data: { identifiantProjetValue },
         });
 
       const peutAccéderAuxArchivesDesGfs =
@@ -81,38 +85,27 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
       const archivesGarantiesFinancières = peutAccéderAuxArchivesDesGfs
         ? await mediator.send<GarantiesFinancières.ConsulterArchivesGarantiesFinancièresQuery>({
             type: 'Lauréat.GarantiesFinancières.Query.ConsulterArchivesGarantiesFinancières',
-            data: { identifiantProjetValue: identifiantProjet },
+            data: { identifiantProjetValue },
           })
         : Option.none;
 
       const dépôtEnCoursGarantiesFinancières =
         await mediator.send<GarantiesFinancières.ConsulterDépôtEnCoursGarantiesFinancièresQuery>({
           type: 'Lauréat.GarantiesFinancières.Query.ConsulterDépôtEnCoursGarantiesFinancières',
-          data: { identifiantProjetValue: identifiantProjet },
+          data: { identifiantProjetValue },
         });
 
       const achèvement = await mediator.send<Achèvement.ConsulterAttestationConformitéQuery>({
         type: 'Lauréat.Achèvement.AttestationConformité.Query.ConsulterAttestationConformité',
-        data: { identifiantProjetValue: identifiantProjet },
+        data: { identifiantProjetValue },
       });
 
-      const mainlevée =
-        await mediator.send<GarantiesFinancières.ConsulterDemandeMainlevéeGarantiesFinancièresQuery>(
-          {
-            type: 'Lauréat.GarantiesFinancières.Mainlevée.Query.Consulter',
-            data: { identifiantProjetValue: identifiantProjet },
-          },
-        );
-
-      const historiqueMainlevée =
-        await mediator.send<GarantiesFinancières.ConsulterHistoriqueDemandeMainlevéeRejetéeGarantiesFinancièresQuery>(
-          {
-            type: 'Lauréat.GarantiesFinancières.Mainlevée.Query.ConsulterHistoriqueDemandeMainlevéeRejetée',
-            data: {
-              identifiantProjetValue: identifiantProjet,
-            },
-          },
-        );
+      const mainlevéesList = await mediator.send<GarantiesFinancières.ListerMainlevéesQuery>({
+        type: 'Lauréat.GarantiesFinancières.Mainlevée.Query.Lister',
+        data: {
+          identifiantProjet: identifiantProjetValue,
+        },
+      });
 
       const porteurs = await récupérerPorteursParIdentifiantProjetAdapter(
         IdentifiantProjet.convertirEnValueType(identifiantProjet),
@@ -124,9 +117,14 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
         garantiesFinancièresActuelles,
         dépôtEnCoursGarantiesFinancières,
         achèvement,
-        mainlevée,
         appelOffreDetails,
-        historiqueMainlevée,
+        mainlevée: mainlevéesList.items.filter(
+          (item) =>
+            !item.statut.estÉgaleÀ(GarantiesFinancières.StatutMainlevéeGarantiesFinancières.rejeté),
+        ),
+        historiqueMainlevée: mainlevéesList.items.filter((item) =>
+          item.statut.estÉgaleÀ(GarantiesFinancières.StatutMainlevéeGarantiesFinancières.rejeté),
+        ),
         statut: candidature.statut,
         contactPorteurs: porteurs.map((porteur) => porteur.email),
         archivesGarantiesFinancières,
@@ -158,9 +156,9 @@ type MapToProps = (params: {
   garantiesFinancièresActuelles: Option.Type<GarantiesFinancières.ConsulterGarantiesFinancièresReadModel>;
   dépôtEnCoursGarantiesFinancières: Option.Type<GarantiesFinancières.ConsulterDépôtEnCoursGarantiesFinancièresReadModel>;
   achèvement: Option.Type<Achèvement.ConsulterAttestationConformitéReadModel>;
-  mainlevée: Option.Type<GarantiesFinancières.ConsulterDemandeMainlevéeGarantiesFinancièresReadModel>;
+  mainlevée: GarantiesFinancières.ListerMainlevéesReadModel['items'];
   appelOffreDetails: AppelOffre.AppelOffreReadModel;
-  historiqueMainlevée: Option.Type<GarantiesFinancières.ConsulterHistoriqueDemandeMainlevéeRejetéeGarantiesFinancièresReadModel>;
+  historiqueMainlevée: GarantiesFinancières.ListerMainlevéesReadModel['items'];
   statut: StatutProjet.RawType;
   archivesGarantiesFinancières: Option.Type<GarantiesFinancières.ConsulterArchivesGarantiesFinancièresReadModel>;
 }) => DétailsGarantiesFinancièresPageProps;
@@ -195,13 +193,11 @@ const mapToProps: MapToProps = ({
     ? dépôtEnCoursGarantiesFinancières
     : undefined;
 
-  const mainlevéeExistante = Option.isSome(mainlevée) ? mainlevée : undefined;
+  const mainlevéeEnCours = mainlevée.length ? mainlevée[0] : undefined;
+
+  const historiqueMainlevéeExistant = historiqueMainlevée.length ? historiqueMainlevée : undefined;
 
   const achèvementExistant = Option.isSome(achèvement) ? achèvement : undefined;
-
-  const historiqueMainlevéeExistant = Option.isSome(historiqueMainlevée)
-    ? historiqueMainlevée
-    : undefined;
 
   if (!gfActuellesExistante && !dépôtExistant) {
     return {
@@ -231,15 +227,15 @@ const mapToProps: MapToProps = ({
           garantiesFinancières: gfActuellesExistante.garantiesFinancières,
           dépôt: dépôtEnCoursGarantiesFinancières,
           achèvement,
-          mainlevée,
+          mainlevée: mainlevéeEnCours,
           statutProjet: statut,
         })
       : [],
-    mainlevée: getMainlevéeActions({ role: utilisateur.role, mainlevée }),
+    mainlevée: getMainlevéeActions({ role: utilisateur.role, mainlevée: mainlevéeEnCours }),
     historiqueMainlevée: getHistoriqueMainlevéeRejetéesActions({
       role: utilisateur.role,
-      mainlevée,
-      historiqueMainlevéeRejetée: historiqueMainlevée,
+      mainlevée: mainlevéeEnCours,
+      historiqueMainlevéeRejetée: historiqueMainlevéeExistant,
     }),
   };
 
@@ -272,38 +268,38 @@ const mapToProps: MapToProps = ({
         }
       : undefined,
     action:
-      !dépôtExistant && !mainlevéeExistante && utilisateur.role.estÉgaleÀ(Role.porteur)
+      !dépôtExistant && !mainlevéeEnCours && utilisateur.role.estÉgaleÀ(Role.porteur)
         ? 'soumettre'
         : undefined,
     infoBoxGarantiesFinancières: {
       afficher: Boolean(
-        !mainlevéeExistante && utilisateur.role.estÉgaleÀ(Role.porteur) && gfActuellesExistante,
+        !mainlevéeEnCours && utilisateur.role.estÉgaleÀ(Role.porteur) && gfActuellesExistante,
       ),
     },
-    mainlevée: mainlevéeExistante
+    mainlevée: mainlevéeEnCours
       ? {
-          motif: mainlevéeExistante.motif.motif,
-          statut: mainlevéeExistante.statut.statut,
+          motif: mainlevéeEnCours.motif.motif,
+          statut: mainlevéeEnCours.statut.statut,
           demande: {
-            date: mainlevéeExistante.demande.demandéeLe.formatter(),
-            par: mainlevéeExistante.demande.demandéePar.formatter(),
+            date: mainlevéeEnCours.demande.demandéeLe.formatter(),
+            par: mainlevéeEnCours.demande.demandéePar.formatter(),
           },
-          ...(mainlevéeExistante.instruction && {
+          ...(mainlevéeEnCours.instruction && {
             instruction: {
-              date: mainlevéeExistante.instruction?.démarréeLe.formatter(),
-              par: mainlevéeExistante.instruction?.démarréePar.formatter(),
+              date: mainlevéeEnCours.instruction?.démarréeLe.formatter(),
+              par: mainlevéeEnCours.instruction?.démarréePar.formatter(),
             },
           }),
-          ...(mainlevéeExistante.accord && {
+          ...(mainlevéeEnCours.accord && {
             accord: {
-              date: mainlevéeExistante.accord?.accordéeLe.formatter(),
-              par: mainlevéeExistante.accord?.accordéePar.formatter(),
-              courrierAccord: mainlevéeExistante.accord?.courrierAccord.formatter(),
+              date: mainlevéeEnCours.accord?.accordéeLe.formatter(),
+              par: mainlevéeEnCours.accord?.accordéePar.formatter(),
+              courrierAccord: mainlevéeEnCours.accord?.courrierAccord.formatter(),
             },
           }),
           dernièreMiseÀJour: {
-            date: mainlevéeExistante.dernièreMiseÀJour.date.formatter(),
-            par: mainlevéeExistante.dernièreMiseÀJour.par.formatter(),
+            date: mainlevéeEnCours.dernièreMiseÀJour.date.formatter(),
+            par: mainlevéeEnCours.dernièreMiseÀJour.par.formatter(),
           },
           actions: actions.mainlevée,
           urlAppelOffre: appelOffreDetails.cahiersDesChargesUrl,
@@ -311,16 +307,16 @@ const mapToProps: MapToProps = ({
       : undefined,
     historiqueMainlevée: historiqueMainlevéeExistant
       ? {
-          historique: historiqueMainlevéeExistant.historique.map((mainlevée) => ({
+          historique: historiqueMainlevéeExistant.map((mainlevée) => ({
             motif: mainlevée.motif.motif,
             demande: {
               date: mainlevée.demande.demandéeLe.formatter(),
               par: mainlevée.demande.demandéePar.formatter(),
             },
             rejet: {
-              date: mainlevée.rejet.rejetéLe.formatter(),
-              par: mainlevée.rejet.rejetéPar.formatter(),
-              courrierRejet: mainlevée.rejet.courrierRejet.formatter(),
+              date: mainlevée.rejet!.rejetéLe.formatter(),
+              par: mainlevée.rejet!.rejetéPar.formatter(),
+              courrierRejet: mainlevée.rejet!.courrierRejet.formatter(),
             },
           })),
           actions: actions.historiqueMainlevée,
@@ -329,7 +325,7 @@ const mapToProps: MapToProps = ({
     infoBoxMainlevée: {
       afficher: Boolean(
         utilisateur.role.estÉgaleÀ(Role.porteur) &&
-          !mainlevéeExistante &&
+          !mainlevéeEnCours &&
           !gfActuellesExistante?.garantiesFinancières.statut.estÉchu(),
       ),
       actions:

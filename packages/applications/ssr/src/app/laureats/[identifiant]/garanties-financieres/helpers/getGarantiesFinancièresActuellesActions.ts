@@ -9,7 +9,7 @@ type GetGarantiesFinancièresActuellesActions = {
   role: Role.ValueType;
   garantiesFinancières: GarantiesFinancières.ConsulterGarantiesFinancièresReadModel['garantiesFinancières'];
   dépôt: Option.Type<GarantiesFinancières.ConsulterDépôtEnCoursGarantiesFinancièresReadModel>;
-  mainlevée: Option.Type<GarantiesFinancières.ConsulterDemandeMainlevéeGarantiesFinancièresReadModel>;
+  mainlevée?: GarantiesFinancières.ListerMainlevéeItemReadModel;
   achèvement: Option.Type<Achèvement.ConsulterAttestationConformitéReadModel>;
   statutProjet: StatutProjet.RawType;
 };
@@ -29,13 +29,12 @@ export const getGarantiesFinancièresActuellesActions = ({
   const garantiesFinancièresLevées = garantiesFinancières.statut.estLevé();
   const garantiesFinancièresÉchues = garantiesFinancières.statut.estÉchu();
   const dépôtEnCours = Option.isSome(dépôt) ? dépôt : undefined;
-  const mainlevéeExistante = Option.isSome(mainlevée) ? mainlevée : undefined;
 
   const projetAbandonné = statutProjet === 'abandonné';
   const projetAchevé = Option.isSome(achèvement) ? achèvement : undefined;
 
   const aGarantiesFinancièresAvecAttestationSansDepotNiMainlevée =
-    garantiesFinancièresAvecAttestation && !dépôtEnCours && !mainlevéeExistante;
+    garantiesFinancièresAvecAttestation && !dépôtEnCours && !mainlevée;
 
   const actions: GarantiesFinancièresActuelles['actions'] = [];
 

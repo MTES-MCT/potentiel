@@ -129,10 +129,7 @@ const référencielPermissions = {
           'Lauréat.GarantiesFinancières.Query.ListerProjetsAvecGarantiesFinancièresEnAttente',
         consulterProjetAvecGarantiesFinancièresEnAttente:
           'Lauréat.GarantiesFinancières.Query.ConsulterProjetAvecGarantiesFinancièresEnAttente',
-        consulterDemandeMainlevée: 'Lauréat.GarantiesFinancières.Mainlevée.Query.Consulter',
         listerMainlevée: 'Lauréat.GarantiesFinancières.Mainlevée.Query.Lister',
-        consulterHistoriqueMainlevée:
-          'Lauréat.GarantiesFinancières.Mainlevée.Query.ConsulterHistoriqueDemandeMainlevéeRejetée',
       },
       usecase: {
         demander: 'Lauréat.GarantiesFinancières.UseCase.DemanderGarantiesFinancières',
@@ -709,9 +706,6 @@ const policies = {
         référencielPermissions.lauréat.garantiesFinancières.usecase.demanderMainlevée,
         référencielPermissions.lauréat.garantiesFinancières.command.demanderMainlevée,
       ],
-      consulter: [
-        référencielPermissions.lauréat.garantiesFinancières.query.consulterDemandeMainlevée,
-      ],
       lister: [référencielPermissions.lauréat.garantiesFinancières.query.listerMainlevée],
       annuler: [
         référencielPermissions.lauréat.garantiesFinancières.usecase.annulerDemandeMainlevée,
@@ -731,9 +725,6 @@ const policies = {
         référencielPermissions.lauréat.garantiesFinancières.usecase.rejeterDemandeMainlevée,
         référencielPermissions.lauréat.garantiesFinancières.command.rejeterDemandeMainlevée,
         référencielPermissions.document.command.enregister,
-      ],
-      consulterHistorique: [
-        référencielPermissions.lauréat.garantiesFinancières.query.consulterHistoriqueMainlevée,
       ],
     },
     enAttente: {
@@ -887,9 +878,7 @@ const permissionAdmin: Policy[] = [
   'garantiesFinancières.effacerHistorique',
   'garantiesFinancières.enAttente.lister',
   'garantiesFinancières.enAttente.générerModèleMiseEnDemeure',
-  'garantiesFinancières.mainlevée.consulter',
   'garantiesFinancières.mainlevée.lister',
-  'garantiesFinancières.mainlevée.consulterHistorique',
 
   // Achèvement
   'achèvement.consulter',
@@ -936,8 +925,7 @@ const permissionCRE: Policy[] = [
   // Garanties financières
   'garantiesFinancières.actuelles.consulter',
   'garantiesFinancières.dépôt.consulter',
-  'garantiesFinancières.mainlevée.consulter',
-  'garantiesFinancières.mainlevée.consulterHistorique',
+  'garantiesFinancières.mainlevée.lister',
 
   // Candidature
   'candidature.attestation.télécharger',
@@ -974,11 +962,9 @@ const permissionDreal: Policy[] = [
   'garantiesFinancières.effacerHistorique',
   'garantiesFinancières.enAttente.lister',
   'garantiesFinancières.enAttente.générerModèleMiseEnDemeure',
-  'garantiesFinancières.mainlevée.consulter',
   'garantiesFinancières.mainlevée.démarrerInstruction',
   'garantiesFinancières.mainlevée.accorder',
   'garantiesFinancières.mainlevée.lister',
-  'garantiesFinancières.mainlevée.consulterHistorique',
   'garantiesFinancières.mainlevée.rejeter',
 
   // Achèvement
@@ -1029,10 +1015,8 @@ const permissionPorteurProjet: Policy[] = [
   'garantiesFinancières.dépôt.lister',
   'garantiesFinancières.actuelles.enregistrerAttestation',
   'garantiesFinancières.effacerHistorique',
-  'garantiesFinancières.mainlevée.consulter',
   'garantiesFinancières.mainlevée.demander',
   'garantiesFinancières.mainlevée.annuler',
-  'garantiesFinancières.mainlevée.consulterHistorique',
   'garantiesFinancières.mainlevée.lister',
   'garantiesFinancières.enAttente.lister',
   'garantiesFinancières.enAttente.consulter',
@@ -1051,7 +1035,7 @@ const permissionAcheteurObligé: Policy[] = [
   // Garanties financières
   'garantiesFinancières.actuelles.consulter',
   'garantiesFinancières.dépôt.consulter',
-  'garantiesFinancières.mainlevée.consulter',
+  'garantiesFinancières.mainlevée.lister',
 
   // Achèvement
   'achèvement.transmettre',
@@ -1064,8 +1048,7 @@ const permissionCaisseDesDépôts: Policy[] = [
   // Garanties financières
   'garantiesFinancières.actuelles.consulter',
   'garantiesFinancières.dépôt.consulter',
-  'garantiesFinancières.mainlevée.consulter',
-  'garantiesFinancières.mainlevée.consulterHistorique',
+  'garantiesFinancières.mainlevée.lister',
 
   // Achèvement
   'achèvement.consulter',

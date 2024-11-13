@@ -35,17 +35,10 @@ import { DémarrerInstructionDemandeMainlevéeGarantiesFinancièresUseCase } fro
 import { RejeterDemandeMainlevéeGarantiesFinancièresUseCase } from './mainlevée/rejeter/rejeterDemandeMainlevéeGarantiesFinancières.usecase';
 import { AccorderDemandeMainlevéeGarantiesFinancièresUseCase } from './mainlevée/accorder/accorderDemandeMainlevéeGarantiesFinancières.usecase';
 import {
-  ListerDemandeMainlevéeQuery,
-  ListerDemandeMainlevéeReadModel,
-} from './mainlevée/lister/listerDemandeMainlevéeGarantiesFinancières.query';
-import {
-  ConsulterDemandeMainlevéeGarantiesFinancièresQuery,
-  ConsulterDemandeMainlevéeGarantiesFinancièresReadModel,
-} from './mainlevée/consulter/consulterDemandeMainlevéeGarantiesFinancières.query';
-import {
-  ConsulterHistoriqueDemandeMainlevéeRejetéeGarantiesFinancièresQuery,
-  ConsulterHistoriqueDemandeMainlevéeRejetéeGarantiesFinancièresReadModel,
-} from './mainlevée/consulter/consulterHistoriqueDemandeMainlevéeRejetéeGarantiesFinancières.query';
+  ListerMainlevéeItemReadModel,
+  ListerMainlevéesQuery,
+  ListerMainlevéesReadModel,
+} from './mainlevée/lister/listerMainlevéesGarantiesFinancières.query';
 import {
   ConsulterArchivesGarantiesFinancièresQuery,
   ConsulterArchivesGarantiesFinancièresReadModel,
@@ -60,9 +53,7 @@ export type GarantiesFinancièresQuery =
   | ListerDépôtsEnCoursGarantiesFinancièresQuery
   | ListerProjetsAvecGarantiesFinancièresEnAttenteQuery
   | ListerDépôtsEnCoursGarantiesFinancièresQuery
-  | ConsulterDemandeMainlevéeGarantiesFinancièresQuery
-  | ListerDemandeMainlevéeQuery
-  | ConsulterHistoriqueDemandeMainlevéeRejetéeGarantiesFinancièresQuery;
+  | ListerMainlevéesQuery;
 
 export type {
   ConsulterGarantiesFinancièresQuery,
@@ -71,9 +62,7 @@ export type {
   ConsulterProjetAvecGarantiesFinancièresEnAttenteQuery,
   ListerDépôtsEnCoursGarantiesFinancièresQuery,
   ListerProjetsAvecGarantiesFinancièresEnAttenteQuery,
-  ConsulterDemandeMainlevéeGarantiesFinancièresQuery,
-  ListerDemandeMainlevéeQuery,
-  ConsulterHistoriqueDemandeMainlevéeRejetéeGarantiesFinancièresQuery,
+  ListerMainlevéesQuery,
 };
 
 // ReadModel
@@ -85,9 +74,8 @@ export type {
   ConsulterProjetAvecGarantiesFinancièresEnAttenteReadModel,
   ListerDépôtsEnCoursGarantiesFinancièresReadModel,
   ListerProjetsAvecGarantiesFinancièresEnAttenteReadModel,
-  ConsulterDemandeMainlevéeGarantiesFinancièresReadModel,
-  ListerDemandeMainlevéeReadModel,
-  ConsulterHistoriqueDemandeMainlevéeRejetéeGarantiesFinancièresReadModel,
+  ListerMainlevéesReadModel,
+  ListerMainlevéeItemReadModel,
 };
 
 // UseCases
@@ -168,7 +156,6 @@ export * from './garantiesFinancièresActuelles/archivesGarantiesFinancières.en
 export * from './dépôtEnCours/dépôtEnCoursGarantiesFinancières.entity';
 export * from './projetEnAttenteDeGarantiesFinancières/projetAvecGarantiesFinancièresEnAttente.entity';
 export * from './mainlevée/mainlevéeGarantiesFinancières.entity';
-export * from './mainlevée/historiqueMainlevéeRejetéeGarantiesFinancières.entity';
 
 // Saga
 export * as GarantiesFinancièresSaga from './garantiesFinancières.saga';

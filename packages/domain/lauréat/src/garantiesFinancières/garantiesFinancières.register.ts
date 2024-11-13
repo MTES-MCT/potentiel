@@ -14,15 +14,7 @@ import {
   ConsulterDépôtEnCoursGarantiesFinancièresDependencies,
   registerConsulterDépôtEnCoursGarantiesFinancièresQuery,
 } from './dépôtEnCours/consulter/consulterDépôtEnCoursGarantiesFinancières.query';
-import {
-  ConsulterDemandeMainlevéeGarantiesFinancièresDependencies,
-  registerConsulterDemandeMainlevéeGarantiesFinancièresQuery,
-} from './mainlevée/consulter/consulterDemandeMainlevéeGarantiesFinancières.query';
-import { registerListerDemandeMainlevéeQuery } from './mainlevée/lister/listerDemandeMainlevéeGarantiesFinancières.query';
-import {
-  ConsulterHistoriqueDemandeMainlevéeRejetéeGarantiesFinancièresDependencies,
-  registerConsulterHistoriqueDemandeMainlevéeRejetéeGarantiesFinancièresQuery,
-} from './mainlevée/consulter/consulterHistoriqueDemandeMainlevéeRejetéeGarantiesFinancières.query';
+import { registerListerMainlevéesQuery } from './mainlevée/lister/listerMainlevéesGarantiesFinancières.query';
 import { registerMainlevée } from './mainlevée/mainlevée.register';
 import { registerDépôt } from './dépôtEnCours/dépôt.register';
 import { registerGarantiesFinancières } from './garantiesFinancièresActuelles/garantiesFinancières.register';
@@ -30,9 +22,7 @@ import { registerConsulterArchivesGarantiesFinancièresQuery } from './garanties
 
 export type GarantiesFinancièresQueryDependencies = ConsulterGarantiesFinancièresDependencies &
   ListerDépôtsEnCoursGarantiesFinancièresDependencies &
-  ConsulterDépôtEnCoursGarantiesFinancièresDependencies &
-  ConsulterDemandeMainlevéeGarantiesFinancièresDependencies &
-  ConsulterHistoriqueDemandeMainlevéeRejetéeGarantiesFinancièresDependencies;
+  ConsulterDépôtEnCoursGarantiesFinancièresDependencies;
 
 export type GarantiesFinancièresCommandDependencies = {
   loadAggregate: LoadAggregate;
@@ -55,7 +45,5 @@ export const registerGarantiesFinancièresQueries = (
   registerListerDépôtsEnCoursGarantiesFinancièresQuery(dependencies);
   registerListerProjetsAvecGarantiesFinancièresEnAttenteQuery(dependencies);
   registerConsulterDépôtEnCoursGarantiesFinancièresQuery(dependencies);
-  registerConsulterDemandeMainlevéeGarantiesFinancièresQuery(dependencies);
-  registerListerDemandeMainlevéeQuery(dependencies);
-  registerConsulterHistoriqueDemandeMainlevéeRejetéeGarantiesFinancièresQuery(dependencies);
+  registerListerMainlevéesQuery(dependencies);
 };

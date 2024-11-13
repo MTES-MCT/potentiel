@@ -38,7 +38,7 @@ export default async function Page({ searchParams }: PageProps) {
       const régionDreal = await getRégionUtilisateur(utilisateur);
 
       const demandeMainlevéeDesGarantiesFinancières =
-        await mediator.send<GarantiesFinancières.ListerDemandeMainlevéeQuery>({
+        await mediator.send<GarantiesFinancières.ListerMainlevéesQuery>({
           type: 'Lauréat.GarantiesFinancières.Mainlevée.Query.Lister',
           data: {
             utilisateur: {
@@ -71,27 +71,23 @@ export default async function Page({ searchParams }: PageProps) {
         data: {},
       });
 
-      const statutsMainlevéeEnCours =
-        GarantiesFinancières.StatutMainlevéeGarantiesFinancières.statuts.filter(
-          (s) => s !== 'rejeté',
-        );
-
-      const motifMainlevéeEnCours =
-        GarantiesFinancières.MotifDemandeMainlevéeGarantiesFinancières.motifs;
+      const motifMainlevée = GarantiesFinancières.MotifDemandeMainlevéeGarantiesFinancières.motifs;
 
       const filters = [
         {
           label: `Statut de mainlevée`,
           searchParamKey: 'statut',
-          options: statutsMainlevéeEnCours.map((statut) => ({
-            label: convertStatutMainlevéeForView(statut),
-            value: statut,
-          })),
+          options: GarantiesFinancières.StatutMainlevéeGarantiesFinancières.statuts.map(
+            (statut) => ({
+              label: convertStatutMainlevéeForView(statut),
+              value: statut,
+            }),
+          ),
         },
         {
           label: 'Motif de mainlevée',
           searchParamKey: 'motif',
-          options: motifMainlevéeEnCours.map((motif) => ({
+          options: motifMainlevée.map((motif) => ({
             label: convertMotifMainlevéeForView(motif),
             value: motif,
           })),
@@ -110,7 +106,7 @@ export default async function Page({ searchParams }: PageProps) {
         <ListeDemandeMainlevéePage
           list={mapToListProps({
             ...demandeMainlevéeDesGarantiesFinancières,
-            showInstruction: utilisateur.role.estÉgaleÀ(Role.dreal),
+            isDreal: utilisateur.role.estÉgaleÀ(Role.dreal),
           })}
           filters={filters}
         />
@@ -123,23 +119,12 @@ const mapToListProps = ({
   items,
   range,
   total,
-  showInstruction,
-}: GarantiesFinancières.ListerDemandeMainlevéeReadModel & {
-  showInstruction: boolean;
+  isDreal,
+}: GarantiesFinancières.ListerMainlevéesReadModel & {
+  isDreal: boolean;
 }): ListeDemandeMainlevéeProps['list'] => {
   const mappedItems = items.map(
-    ({
-      appelOffre,
-      demande,
-      dernièreMiseÀJour,
-      famille,
-      identifiantProjet,
-      motif,
-      nomProjet,
-      période,
-      régionProjet,
-      statut,
-    }) => ({
+    ({ appelOffre, demande, dernièreMiseÀJour, identifiantProjet, motif, nomProjet, statut }) => ({
       identifiantProjet: identifiantProjet.formatter(),
       motif: motif.motif,
       statut: statut.statut,
@@ -147,10 +132,11 @@ const mapToListProps = ({
       nomProjet,
       misÀJourLe: dernièreMiseÀJour.date.formatter(),
       appelOffre,
-      famille,
-      période,
-      régionProjet,
-      showInstruction,
+      peutInstruireMainlevée:
+        isDreal &&
+        !GarantiesFinancières.StatutMainlevéeGarantiesFinancières.convertirEnValueType(
+          statut.statut,
+        ).estRejeté(),
     }),
   );
 

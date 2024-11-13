@@ -6,7 +6,7 @@ import { Abandon, Achèvement, GarantiesFinancières } from '@potentiel-domain/l
 import { Option } from '@potentiel-libraries/monads';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { Candidature } from '@potentiel-domain/candidature';
-import { DateTime } from '@potentiel-domain/common';
+import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 import {
   formatDateForDocument,
   ModèleRéponseSignée,
@@ -56,13 +56,16 @@ export const GET = async (
       },
     });
 
-    const mainlevée =
-      await mediator.send<GarantiesFinancières.ConsulterDemandeMainlevéeGarantiesFinancièresQuery>({
-        type: 'Lauréat.GarantiesFinancières.Mainlevée.Query.Consulter',
+    const mainlevéeEnCours = (
+      await mediator.send<GarantiesFinancières.ListerMainlevéesQuery>({
+        type: 'Lauréat.GarantiesFinancières.Mainlevée.Query.Lister',
         data: {
-          identifiantProjetValue,
+          identifiantProjet:
+            IdentifiantProjet.convertirEnValueType(identifiantProjetValue).formatter(),
+          estEnCours: true,
         },
-      });
+      })
+    ).items[0];
 
     const achèvement = await mediator.send<Achèvement.ConsulterAttestationConformitéQuery>({
       type: 'Lauréat.Achèvement.AttestationConformité.Query.ConsulterAttestationConformité',
@@ -72,6 +75,7 @@ export const GET = async (
     });
 
     let abandon: Option.Type<Abandon.ConsulterAbandonReadModel> = Option.none;
+
     try {
       abandon = await mediator.send<Abandon.ConsulterAbandonQuery>({
         type: 'Lauréat.Abandon.Query.ConsulterAbandon',
@@ -106,21 +110,17 @@ export const GET = async (
         dateConstitutionGarantiesFinancières: formatDateForDocument(
           Option.isSome(gf) ? gf.garantiesFinancières.dateConstitution?.date : undefined,
         ),
-        estMotifAchèvement: Option.match(mainlevée)
-          .some(({ motif }) => motif.estProjetAchevé())
-          .none(() => false),
+        estMotifAchèvement: mainlevéeEnCours ? mainlevéeEnCours.motif.estProjetAchevé() : false,
         dateTransmissionAuCocontractant: formatDateForDocument(
           Option.isSome(achèvement) ? achèvement.dateTransmissionAuCocontractant.date : undefined,
         ),
-        estMotifAbandon: Option.match(mainlevée)
-          .some(({ motif }) => motif.estProjetAbandonné())
-          .none(() => false),
+        estMotifAbandon: mainlevéeEnCours ? mainlevéeEnCours.motif.estProjetAbandonné() : false,
         dateAbandonAccordé: formatDateForDocument(
           Option.isSome(abandon) ? abandon.demande.accord?.accordéLe.date : undefined,
         ),
         estAccordée,
         dateMainlevée: formatDateForDocument(
-          Option.isSome(mainlevée) ? mainlevée.demande.demandéeLe.date : undefined,
+          mainlevéeEnCours ? mainlevéeEnCours.demande.demandéeLe.date : undefined,
         ),
       },
     });
