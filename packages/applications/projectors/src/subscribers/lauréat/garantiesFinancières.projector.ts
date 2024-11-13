@@ -130,40 +130,29 @@ export const register = () => {
         dateLimiteSoumission: '',
       };
 
-      const mainlevéeGarantiesFinancièresDefaultValue: Omit<
-        GarantiesFinancières.MainlevéeGarantiesFinancièresEntity,
-        'type'
-      > = {
-        identifiantProjet,
-        projet: {
-          nomProjet: '',
-          appelOffre: '',
-          période: '',
-          régionProjet: '',
-        },
-        statut: GarantiesFinancières.StatutMainlevéeGarantiesFinancières.demandé.statut,
-        motif: '',
-        demande: { demandéeLe: '', demandéePar: '' },
-        dernièreMiseÀJour: {
-          date: '',
-          par: '',
-        },
-      };
-
-      const mainlevéeEnCours =
-        (
-          await listProjection<GarantiesFinancières.MainlevéeGarantiesFinancièresEntity>(
-            `mainlevee-garanties-financieres`,
-            {
-              where: {
-                identifiantProjet: Where.equal(identifiantProjet),
-                statut: Where.notEqual(
-                  GarantiesFinancières.StatutMainlevéeGarantiesFinancières.rejeté.statut,
-                ),
-              },
+      const mainlevéeEnCoursArray = (
+        await listProjection<GarantiesFinancières.MainlevéeGarantiesFinancièresEntity>(
+          `mainlevee-garanties-financieres`,
+          {
+            where: {
+              identifiantProjet: Where.equal(identifiantProjet),
+              statut: Where.notEqual(
+                GarantiesFinancières.StatutMainlevéeGarantiesFinancières.rejeté.statut,
+              ),
             },
-          )
-        ).items[0] ?? mainlevéeGarantiesFinancièresDefaultValue;
+          },
+        )
+      ).items;
+
+      if (mainlevéeEnCoursArray.length > 1) {
+        getLogger().error(new Error(`Il existe plus d'une main levée en cours pour ce projet`), {
+          identifiantProjet,
+          message: event,
+        });
+        return;
+      }
+
+      const mainlevéeEnCours = mainlevéeEnCoursArray[0];
 
       const garantiesFinancièresToUpsert: Omit<
         GarantiesFinancières.GarantiesFinancièresEntity,

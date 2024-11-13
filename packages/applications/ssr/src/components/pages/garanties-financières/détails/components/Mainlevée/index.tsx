@@ -20,7 +20,7 @@ export const Mainlevée: React.FC<Props> = ({
 }: Props) => (
   <CallOut
     className="flex-1"
-    colorVariant={mainlevéeEnCours?.statut === 'accordé' ? 'success' : 'warning'}
+    colorVariant={mainlevéeEnCours?.statut === 'accordé' ? 'success' : 'info'}
     content={
       <div className="flex flex-col">
         <Heading2>Mainlevée des garanties financières</Heading2>
