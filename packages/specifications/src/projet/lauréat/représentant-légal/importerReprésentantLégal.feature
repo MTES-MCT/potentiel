@@ -1,14 +1,29 @@
 # language: fr
-Fonctionnalité: Importer le représentant légal d'un projet lauréat
+Fonctionnalité: Importer le représentant légal lors de la désignation d'une candidature lauréate
 
-    @NotImplemented
-    Scénario: Importer le représentant légal lors de la désignation d'un projet lauréat
-        Etant donné le projet lauréat "Du boulodrome de Marseille"
-        Quand le représentant légal est importé pour le projet lauréat
-        Alors le représentant légal du projet lauréat devrait être mis à jour
+    Contexte:
+        Etant donné le DGEC validateur "Robert Robichet"
 
-    # À discuter si nécessaire
-    @NotImplemented
-    Scénario: Impossible d'importer le représentant légal d'un projet lauréat existant
+    Scénario: Importer le représentant légal lors de la désignation d'une candidature lauréate
+        Etant donné la candidature lauréate notifiée "Du boulodrome de Marseille"
+        Alors le représentant légal du projet lauréat devrait être consultable
+
+    Scénario: Impossible d'importer le représentant légal pour un projet éliminé
+        Etant donné la candidature éliminée notifiée "Du boulodrome de Marseille"
         Quand le représentant légal est importé pour le projet lauréat
-        Alors l'utilisateur devrait être informé que "Le représentant légal n'a pas pu être importé car le projet n'existe pas"
+        Alors l'utilisateur devrait être informé que "Le projet lauréat n'existe pas"
+
+    Scénario: Impossible d'importer le représentant légal pour une candidature lauréate non désignée
+        Etant donné la candidature lauréate "Du boulodrome de Marseille"
+        Quand le représentant légal est importé pour le projet lauréat
+        Alors l'utilisateur devrait être informé que "Le projet lauréat n'existe pas"
+
+    Scénario: Impossible d'importer le représentant légal pour une candidature éliminée non désignée
+        Etant donné la candidature éliminée "Du boulodrome de Marseille"
+        Quand le représentant légal est importé pour le projet lauréat
+        Alors l'utilisateur devrait être informé que "Le projet lauréat n'existe pas"
+
+    Scénario: Impossible d'importer le représentant légal si celui-ci a déjà été importé
+        Etant donné la candidature lauréate notifiée "Du boulodrome de Marseille"
+        Quand le représentant légal est importé pour le projet lauréat
+        Alors l'utilisateur devrait être informé que "Le représentant légal a déjà été importé"

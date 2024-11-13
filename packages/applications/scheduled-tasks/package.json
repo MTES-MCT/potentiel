@@ -12,7 +12,8 @@
     "start:mettre-à-jour-gestionnaire-réseau": "node ./dist/gestionnaireRéseau",
     "start:migrate-project-import-events": "node ./dist/candidature/migrate-project-import-events",
     "start:create-events-candidature-notifiée": "node ./dist/candidature/create-events-candidature-notifiée",
-    "start:récupérer-fichier-gf-candidature-référentiel-dgec": "node ./dist/garanties-financières/récupérer-fichier-gf-candidature-référentiel-dgec"
+    "start:récupérer-fichier-gf-candidature-référentiel-dgec": "node ./dist/garanties-financières/récupérer-fichier-gf-candidature-référentiel-dgec",
+    "start:create-events-représentant-légal-importé": "node ./dist/représentant-légal/create-events-représentant-légal-importé"
   },
   "dependencies": {
     "@potentiel-applications/routes": "*",

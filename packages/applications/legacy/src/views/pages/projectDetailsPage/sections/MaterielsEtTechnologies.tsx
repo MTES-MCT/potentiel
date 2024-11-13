@@ -3,18 +3,22 @@ import { ProjectDataForProjectPage } from '../../../../modules/project';
 import { CogIcon, Section } from '../../../components';
 
 type MaterielsEtTechnologiesProps = {
-  project: ProjectDataForProjectPage;
+  fournisseur: ProjectDataForProjectPage['fournisseur'];
+  evaluationCarbone: ProjectDataForProjectPage['evaluationCarbone'];
 };
 
-export const MaterielsEtTechnologies = ({ project }: MaterielsEtTechnologiesProps) => {
-  if (!project.fournisseur && !project.evaluationCarbone) {
+export const MaterielsEtTechnologies = ({
+  fournisseur,
+  evaluationCarbone,
+}: MaterielsEtTechnologiesProps) => {
+  if (!fournisseur && !evaluationCarbone) {
     return null;
   }
   return (
     <Section title="Matériels et technologies" icon={<CogIcon />}>
-      {project.fournisseur && <div>Fournisseur: {project.fournisseur}</div>}
-      {project.evaluationCarbone && (
-        <div>Evaluation carbone simplifiée: {project.evaluationCarbone} kg eq CO2/kWc</div>
+      {fournisseur && <div>Fournisseur: {fournisseur}</div>}
+      {evaluationCarbone && (
+        <div>Evaluation carbone simplifiée: {evaluationCarbone} kg eq CO2/kWc</div>
       )}
     </Section>
   );

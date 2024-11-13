@@ -5,6 +5,7 @@ import {
   registerLauréatUseCases,
   GarantiesFinancières,
   Lauréat,
+  ReprésentantLégal,
 } from '@potentiel-domain/laureat';
 import { Event, loadAggregate, subscribe } from '@potentiel-infrastructure/pg-event-sourcing';
 import { findProjection, listProjection } from '@potentiel-infrastructure/pg-projections';
@@ -18,6 +19,7 @@ import {
   AchèvementProjector,
   GarantiesFinancièreProjector,
   LauréatProjector,
+  ReprésentantLégalProjector,
 } from '@potentiel-applications/projectors';
 import {
   consulterCahierDesChargesChoisiAdapter,
@@ -45,15 +47,17 @@ export const setupLauréat = async ({ sendEmail }: SetupLauréatDependencies) =>
   AbandonProjector.register();
   GarantiesFinancièreProjector.register();
   AchèvementProjector.register();
-  AchèvementNotification.register({ sendEmail });
+  ReprésentantLégalProjector.register();
 
   // Notifications
   AbandonNotification.register({ sendEmail });
   GarantiesFinancièresNotification.register({ sendEmail });
+  AchèvementNotification.register({ sendEmail });
 
   // Sagas
   GarantiesFinancières.GarantiesFinancièresSaga.register();
   Lauréat.LauréatSaga.register();
+  ReprésentantLégal.ReprésentantLégalSaga.register();
 
   const unsubscribeLauréatProjector = await subscribe<LauréatProjector.SubscriptionEvent>({
     name: 'projector',
@@ -222,15 +226,46 @@ export const setupLauréat = async ({ sendEmail }: SetupLauréatDependencies) =>
     },
   });
 
+  const unsubscribeReprésentantLégalProjector =
+    await subscribe<ReprésentantLégalProjector.SubscriptionEvent>({
+      name: 'projector',
+      streamCategory: 'représentant-légal',
+      eventType: ['ReprésentantLégalImporté-V1', 'RebuildTriggered'],
+      eventHandler: async (event) => {
+        await mediator.send<ReprésentantLégalProjector.Execute>({
+          type: 'System.Projector.Lauréat.ReprésentantLégal',
+          data: event,
+        });
+      },
+    });
+
+  const unsubscribeReprésentantLégalSaga = await subscribe<
+    ReprésentantLégal.ReprésentantLégalSaga.SubscriptionEvent & Event
+  >({
+    name: 'representant-legal-saga',
+    streamCategory: 'lauréat',
+    eventType: ['LauréatNotifié-V1'],
+    eventHandler: async (event) =>
+      mediator.publish<ReprésentantLégal.ReprésentantLégalSaga.Execute>({
+        type: 'System.Lauréat.ReprésentantLégal.Saga.Execute',
+        data: event,
+      }),
+  });
+
   return async () => {
+    // projectors
     await unsubscribeLauréatProjector();
-    await unsubscribeAbandonNotification();
     await unsubscribeAbandonProjector();
     await unsubscribeGarantiesFinancièresProjector();
-    await unsubscribeGarantiesFinancièresNotification();
     await unsubscribeAchèvementProjector();
+    await unsubscribeReprésentantLégalProjector();
+    // notifications
+    await unsubscribeAbandonNotification();
+    await unsubscribeGarantiesFinancièresNotification();
     await unsubscribeAchèvementNotification();
+    // sagas
     await unsubscribeGarantiesFinancièresSaga();
     await unsubscribeLauréatSaga();
+    await unsubscribeReprésentantLégalSaga();
   };
 };
