@@ -5,6 +5,7 @@ import {
   ConsulterReprésentantLégalDependencies,
   registerConsulterRepresentantLegalQuery,
 } from './consulter/consulterReprésentantLégal.query';
+import { registerCorrigerReprésentantLégalUseCase } from './corriger/corrigerReprésentantLégal.usecase';
 
 export type ReprésentantLégalQueryDependencies = ConsulterReprésentantLégalDependencies;
 
@@ -19,6 +20,7 @@ export const registerReprésentantLégalUseCases = ({
   registerImporterReprésentantLégalCommand(loadAggregate);
 
   // UseCases
+  registerCorrigerReprésentantLégalUseCase();
 };
 
 export const registerReprésentantLégalQueries = (

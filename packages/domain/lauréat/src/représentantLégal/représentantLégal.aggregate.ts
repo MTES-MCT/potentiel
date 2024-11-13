@@ -11,12 +11,18 @@ import {
   importer,
   ReprésentantLégalImportéEvent,
 } from './importer/importerReprésentantLégal.behavior';
+import {
+  applyReprésentantLégalCorrigé,
+  corriger,
+  ReprésentantLégalCorrigéEvent,
+} from './corriger/corrigerReprésentantLégal.behavior';
 
-export type ReprésentantLégalEvent = ReprésentantLégalImportéEvent;
+export type ReprésentantLégalEvent = ReprésentantLégalImportéEvent | ReprésentantLégalCorrigéEvent;
 
 export type ReprésentantLégalAggregate = Aggregate<ReprésentantLégalEvent> & {
   nomReprésentantLégal: string;
   readonly importer: typeof importer;
+  readonly corriger: typeof corriger;
 };
 
 export const getDefaultReprésentantLégalAggregate: GetDefaultAggregateState<
@@ -26,12 +32,16 @@ export const getDefaultReprésentantLégalAggregate: GetDefaultAggregateState<
   apply,
   nomReprésentantLégal: '',
   importer,
+  corriger,
 });
 
 function apply(this: ReprésentantLégalAggregate, event: ReprésentantLégalEvent) {
   switch (event.type) {
     case 'ReprésentantLégalImporté-V1':
       applyReprésentantLégalImporté.bind(this)(event);
+      break;
+    case 'ReprésentantLégalCorrigé-V1':
+      applyReprésentantLégalCorrigé.bind(this)(event);
       break;
   }
 }
