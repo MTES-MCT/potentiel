@@ -7,9 +7,3 @@ declare module 'express-serve-static-core' {
     token: JWT;
   }
 }
-
-declare module 'express-session' {
-  interface SessionData {
-    apiResults?: Record<string, unknown>;
-  }
-}
