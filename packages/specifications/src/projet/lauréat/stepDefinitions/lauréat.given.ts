@@ -1,18 +1,25 @@
 import { randomUUID } from 'crypto';
 
 import { Given as EtantDonné } from '@cucumber/cucumber';
-import { faker } from '@faker-js/faker';
+import { mediator } from 'mediateur';
 
 import { executeQuery } from '@potentiel-libraries/pg-helpers';
-import { DateTime } from '@potentiel-domain/common';
+import { IdentifiantProjet } from '@potentiel-domain/common';
 import { Lauréat } from '@potentiel-domain/laureat';
-import { publish } from '@potentiel-infrastructure/pg-event-sourcing';
 
 import { PotentielWorld } from '../../../potentiel.world';
+import { importerCandidature } from '../../../candidature/stepDefinitions/candidature.given';
+import { vérifierAttestationDeDésignation } from '../../../candidature/stepDefinitions/candidature.then';
 
 EtantDonné('le projet lauréat {string}', async function (this: PotentielWorld, nomProjet: string) {
   const dateDésignation = new Date('2022-10-27').toISOString();
-  const identifiantProjet = this.lauréatWorld.identifiantProjet;
+
+  await importerCandidature.call(this, nomProjet, 'classé');
+  const { identifiantProjet, values: candidature } = this.candidatureWorld.importerCandidature;
+
+  const identifiantProjetValue = IdentifiantProjet.convertirEnValueType(identifiantProjet);
+
+  await notifierLauréat.call(this, dateDésignation);
 
   await executeQuery(
     `
@@ -66,60 +73,41 @@ EtantDonné('le projet lauréat {string}', async function (this: PotentielWorld,
       )
     `,
     randomUUID(),
-    identifiantProjet.appelOffre,
-    identifiantProjet.période,
-    identifiantProjet.numéroCRE,
-    identifiantProjet.famille,
+    identifiantProjetValue.appelOffre,
+    identifiantProjetValue.période,
+    identifiantProjetValue.numéroCRE,
+    identifiantProjetValue.famille,
     new Date(dateDésignation).getTime(),
-    'nomCandidat',
+    candidature.nomCandidatValue,
     nomProjet,
-    0,
-    0,
-    0,
-    0,
-    'nomRepresentantLegal',
-    'email',
-    'codePostalProjet',
-    'communeProjet',
-    'departementProjet',
-    'regionProjet',
+    candidature.puissanceProductionAnnuelleValue,
+    candidature.prixReferenceValue,
+    candidature.evaluationCarboneSimplifiéeValue,
+    candidature.noteTotaleValue,
+    candidature.nomReprésentantLégalValue,
+    candidature.emailContactValue,
+    candidature.localitéValue.codePostal,
+    candidature.localitéValue.commune,
+    candidature.localitéValue.département,
+    candidature.localitéValue.région,
     'Classé',
-    false,
-    false,
-    false,
+    candidature.actionnariatValue === 'financement-participatif',
+    candidature.actionnariatValue === 'investissement-participatif',
+    candidature.puissanceALaPointeValue,
   );
-
-  this.lauréatWorld.lauréatFixtures.set(nomProjet, {
-    nom: nomProjet,
-    identifiantProjet,
-    dateDésignation,
-    appelOffre: identifiantProjet.appelOffre,
-    période: identifiantProjet.période,
-  });
-
-  // TODO : Hack en attendant de revoir ces steps
-  const notifiéLe = DateTime.convertirEnValueType(dateDésignation).formatter();
-
-  const lauréatNotifié: Lauréat.LauréatNotifiéEvent = {
-    type: 'LauréatNotifié-V1',
-    payload: {
-      attestation: {
-        format: 'application/pdf',
-      },
-      identifiantProjet: identifiantProjet.formatter(),
-      notifiéLe: notifiéLe,
-      notifiéPar: faker.internet.email(),
-    },
-  };
-
-  await publish(`lauréat|${identifiantProjet.formatter()}`, lauréatNotifié);
 });
 
 EtantDonné(
   'le projet lauréat {string} ayant été notifié le {string}',
   async function (this: PotentielWorld, nomProjet: string, dateNotification: string) {
     const dateDésignation = new Date(dateNotification).toISOString();
-    const identifiantProjet = this.lauréatWorld.identifiantProjet;
+
+    await importerCandidature.call(this, nomProjet, 'classé');
+    const { identifiantProjet, values: candidature } = this.candidatureWorld.importerCandidature;
+
+    const identifiantProjetValue = IdentifiantProjet.convertirEnValueType(identifiantProjet);
+
+    await notifierLauréat.call(this, dateDésignation);
 
     await executeQuery(
       `
@@ -173,52 +161,68 @@ EtantDonné(
       )
     `,
       randomUUID(),
-      identifiantProjet.appelOffre,
-      identifiantProjet.période,
-      identifiantProjet.numéroCRE,
-      identifiantProjet.famille,
+      identifiantProjetValue.appelOffre,
+      identifiantProjetValue.période,
+      identifiantProjetValue.numéroCRE,
+      identifiantProjetValue.famille,
       new Date(dateDésignation).getTime(),
-      'nomCandidat',
+      candidature.nomCandidatValue,
       nomProjet,
-      0,
-      0,
-      0,
-      0,
-      'nomRepresentantLegal',
-      'email',
-      'codePostalProjet',
-      'communeProjet',
-      'departementProjet',
-      'regionProjet',
+      candidature.puissanceProductionAnnuelleValue,
+      candidature.prixReferenceValue,
+      candidature.evaluationCarboneSimplifiéeValue,
+      candidature.noteTotaleValue,
+      candidature.nomReprésentantLégalValue,
+      candidature.emailContactValue,
+      candidature.localitéValue.codePostal,
+      candidature.localitéValue.commune,
+      candidature.localitéValue.département,
+      candidature.localitéValue.région,
       'Classé',
-      false,
-      false,
-      false,
+      candidature.actionnariatValue === 'financement-participatif',
+      candidature.actionnariatValue === 'investissement-participatif',
+      candidature.puissanceALaPointeValue,
     );
-
-    this.lauréatWorld.lauréatFixtures.set(nomProjet, {
-      nom: nomProjet,
-      identifiantProjet,
-      dateDésignation,
-      appelOffre: identifiantProjet.appelOffre,
-      période: identifiantProjet.période,
-    });
-
-    // TODO : Hack en attendant de revoir ces steps
-    const notifiéLe = DateTime.convertirEnValueType(dateDésignation).formatter();
-
-    const lauréatNotifié: Lauréat.LauréatNotifiéEvent = {
-      type: 'LauréatNotifié-V1',
-      payload: {
-        attestation: {
-          format: 'application/pdf',
-        },
-        identifiantProjet: identifiantProjet.formatter(),
-        notifiéLe: notifiéLe,
-        notifiéPar: faker.internet.email(),
-      },
-    };
-
-    await publish(`lauréat|${identifiantProjet.formatter()}`, lauréatNotifié);
   },
 );
+
+async function notifierLauréat(this: PotentielWorld, dateDésignation: string) {
+  const candidature = this.candidatureWorld.importerCandidature;
+  const identifiantProjetValue = IdentifiantProjet.convertirEnValueType(
+    candidature.identifiantProjet,
+  );
+
+  this.utilisateurWorld.porteurFixture.créer({
+    email: this.candidatureWorld.importerCandidature.values.emailContactValue,
+  });
+
+  this.lauréatWorld.lauréatFixtures.set(candidature.values.nomProjetValue, {
+    nom: candidature.values.nomProjetValue,
+    identifiantProjet: identifiantProjetValue,
+    dateDésignation,
+    appelOffre: identifiantProjetValue.appelOffre,
+    période: identifiantProjetValue.période,
+  });
+
+  const data = {
+    identifiantProjetValue: identifiantProjetValue.formatter(),
+    notifiéLeValue: dateDésignation,
+    notifiéParValue: this.utilisateurWorld.validateurFixture.email,
+    attestationValue: {
+      format: `application/pdf`,
+    },
+    validateurValue: {
+      fonction: this.utilisateurWorld.validateurFixture.fonction,
+      nomComplet: this.utilisateurWorld.validateurFixture.nom,
+    },
+  };
+
+  await mediator.send<Lauréat.NotifierLauréatUseCase>({
+    type: 'Lauréat.UseCase.NotifierLauréat',
+    data,
+  });
+
+  // on vérifie l'attestation de désignation dès le "given"
+  // afin de s'assurer que la saga est bien exécutée
+  await vérifierAttestationDeDésignation(identifiantProjetValue.formatter());
+}
