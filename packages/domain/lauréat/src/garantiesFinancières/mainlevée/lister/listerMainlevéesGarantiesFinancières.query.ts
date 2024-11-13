@@ -50,13 +50,20 @@ export type ListerMainlevéesQuery = Message<
   'Lauréat.GarantiesFinancières.Mainlevée.Query.Lister',
   {
     range?: RangeOptions;
-    identifiantProjet?: IdentifiantProjet.RawType;
     appelOffre?: string;
     motif?: MotifDemandeMainlevéeGarantiesFinancières.RawType;
     statut?: StatutMainlevéeGarantiesFinancières.RawType;
     estEnCours?: boolean;
-    utilisateur?: Utilisateur;
-  },
+  } & (
+    | {
+        utilisateur?: Utilisateur;
+        identifiantProjet: IdentifiantProjet.RawType;
+      }
+    | {
+        utilisateur: Utilisateur;
+        identifiantProjet?: IdentifiantProjet.RawType;
+      }
+  ),
   ListerMainlevéesReadModel
 >;
 
@@ -78,6 +85,9 @@ export const registerListerMainlevéesQuery = ({
     estEnCours,
     utilisateur,
   }) => {
+    const roleBasedCondition = utilisateur
+      ? await getRoleBasedWhereCondition(utilisateur, récupérerIdentifiantsProjetParEmailPorteur)
+      : {};
     const {
       items,
       range: { endPosition, startPosition },
@@ -85,17 +95,17 @@ export const registerListerMainlevéesQuery = ({
     } = await list<MainlevéeGarantiesFinancièresEntity>('mainlevee-garanties-financieres', {
       range,
       where: {
-        identifiantProjet: Where.equal(identifiantProjet),
+        identifiantProjet: identifiantProjet
+          ? Where.equal(identifiantProjet)
+          : roleBasedCondition.identifiantProjet,
         motif: Where.equal(motif),
         statut: estEnCours
           ? Where.notEqual(StatutMainlevéeGarantiesFinancières.rejeté.statut)
           : Where.equal(statut),
-        projet: { appelOffre: Where.equal(appelOffre) },
-        ...(utilisateur &&
-          (await getRoleBasedWhereCondition(
-            utilisateur,
-            récupérerIdentifiantsProjetParEmailPorteur,
-          ))),
+        projet: {
+          appelOffre: Where.equal(appelOffre),
+          régionProjet: roleBasedCondition.régionProjet,
+        },
       },
     });
 
