@@ -71,7 +71,7 @@ Alors(
         },
       });
 
-      expect(actualReadModel.items.length).to.be.length(1);
+      expect(actualReadModel.items).to.be.length(0);
     });
   },
 );
