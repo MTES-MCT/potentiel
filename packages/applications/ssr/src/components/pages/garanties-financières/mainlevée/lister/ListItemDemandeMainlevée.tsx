@@ -43,7 +43,12 @@ export const ListItemDemandeMainlevée: FC<ListItemDemandeMainlevéeProps> = ({
     }
     actions={
       <Link href={Routes.GarantiesFinancières.détail(identifiantProjet)} aria-label={`instruire`}>
-        {showInstruction ? 'Instruire' : 'Voir'}
+        {showInstruction &&
+        !GarantiesFinancières.StatutMainlevéeGarantiesFinancières.convertirEnValueType(
+          statut,
+        ).estRejeté()
+          ? 'Instruire'
+          : 'Voir'}
       </Link>
     }
   >
