@@ -5,6 +5,7 @@ Fonctionnalité: Échoir les garanties financières actuelles d'un projet
         Etant donné le projet lauréat "Du boulodrome de Marseille"
         Et le porteur "Marcel Patoulatchi" ayant accés au projet lauréat "Du boulodrome de Marseille"
 
+    @select
     Scénario: Échoir les garanties financières actuelles d'un projet à J+1 après la date d'échéance
         Etant donné des garanties financières actuelles pour le projet "Du boulodrome de Marseille" avec :
             | type            | avec-date-échéance |

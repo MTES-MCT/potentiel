@@ -34,6 +34,10 @@ export class LauréatWorld {
     return this.#identifiantProjet;
   }
 
+  set identifiantProjet(value: IdentifiantProjet.ValueType) {
+    this.#identifiantProjet = value;
+  }
+
   #abandonWorld!: AbandonWord;
 
   get abandonWorld() {
@@ -57,6 +61,7 @@ export class LauréatWorld {
 
     this.#notifierLauréatFixture = new NotifierLauréatFixture();
 
+    // this is a problem
     this.#identifiantProjet = IdentifiantProjet.convertirEnValueType(`PPE2 - Eolien#1##23`);
   }
 }

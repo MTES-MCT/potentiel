@@ -196,6 +196,8 @@ async function notifierLauréat(this: PotentielWorld, dateDésignation: string) 
     email: this.candidatureWorld.importerCandidature.values.emailContactValue,
   });
 
+  this.lauréatWorld.identifiantProjet = identifiantProjetValue;
+
   this.lauréatWorld.lauréatFixtures.set(candidature.values.nomProjetValue, {
     nom: candidature.values.nomProjetValue,
     identifiantProjet: identifiantProjetValue,
