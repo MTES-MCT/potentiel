@@ -2,6 +2,7 @@ import { randomUUID } from 'crypto';
 
 import { Given as EtantDonné } from '@cucumber/cucumber';
 import { faker } from '@faker-js/faker';
+import { mediator } from 'mediateur';
 
 import { executeQuery } from '@potentiel-libraries/pg-helpers';
 import { DateTime } from '@potentiel-domain/common';
@@ -9,6 +10,8 @@ import { publish } from '@potentiel-infrastructure/pg-event-sourcing';
 import { Éliminé } from '@potentiel-domain/elimine';
 
 import { PotentielWorld } from '../../../potentiel.world';
+import { importerCandidature } from '../../../candidature/stepDefinitions/candidature.given';
+import { vérifierAttestationDeDésignation } from '../../../candidature/stepDefinitions/candidature.then';
 
 EtantDonné('le projet éliminé {string}', async function (this: PotentielWorld, nomProjet: string) {
   const identifiantProjet = this.eliminéWorld.identifiantProjet;
@@ -210,3 +213,38 @@ EtantDonné(
     await publish(`éliminé|${identifiantProjet.formatter()}`, éliminéNotifié);
   },
 );
+
+EtantDonné(
+  'la candidature éliminée notifiée {string}',
+  async function (this: PotentielWorld, nomProjet: string) {
+    await importerCandidature.call(this, nomProjet, 'éliminé');
+    await notifierÉliminé.call(this);
+  },
+);
+
+async function notifierÉliminé(this: PotentielWorld) {
+  const { identifiantProjet } = this.candidatureWorld.importerCandidature;
+  this.utilisateurWorld.porteurFixture.créer({
+    email: this.candidatureWorld.importerCandidature.values.emailContactValue,
+  });
+
+  const data = {
+    identifiantProjetValue: identifiantProjet,
+    notifiéLeValue: DateTime.now().formatter(),
+    notifiéParValue: this.utilisateurWorld.validateurFixture.email,
+    attestationValue: {
+      format: `application/pdf`,
+    },
+    validateurValue: {
+      fonction: this.utilisateurWorld.validateurFixture.fonction,
+      nomComplet: this.utilisateurWorld.validateurFixture.nom,
+    },
+  };
+  await mediator.send<Éliminé.NotifierÉliminéUseCase>({
+    type: 'Éliminé.UseCase.NotifierÉliminé',
+    data,
+  });
+  // on vérifie l'attestation de désignation dès le "given"
+  // afin de s'assurer que la saga est bien exécutée
+  await vérifierAttestationDeDésignation(identifiantProjet);
+}

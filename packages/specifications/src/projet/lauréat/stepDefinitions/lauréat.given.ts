@@ -2,6 +2,7 @@ import { randomUUID } from 'crypto';
 
 import { Given as EtantDonné } from '@cucumber/cucumber';
 import { faker } from '@faker-js/faker';
+import { mediator } from 'mediateur';
 
 import { executeQuery } from '@potentiel-libraries/pg-helpers';
 import { DateTime } from '@potentiel-domain/common';
@@ -9,6 +10,8 @@ import { Lauréat } from '@potentiel-domain/laureat';
 import { publish } from '@potentiel-infrastructure/pg-event-sourcing';
 
 import { PotentielWorld } from '../../../potentiel.world';
+import { importerCandidature } from '../../../candidature/stepDefinitions/candidature.given';
+import { vérifierAttestationDeDésignation } from '../../../candidature/stepDefinitions/candidature.then';
 
 EtantDonné('le projet lauréat {string}', async function (this: PotentielWorld, nomProjet: string) {
   const dateDésignation = new Date('2022-10-27').toISOString();
@@ -222,3 +225,44 @@ EtantDonné(
     await publish(`lauréat|${identifiantProjet.formatter()}`, lauréatNotifié);
   },
 );
+
+EtantDonné(
+  'la candidature lauréate notifiée {string}',
+  async function (this: PotentielWorld, nomProjet: string) {
+    await importerCandidature.call(this, nomProjet, 'classé');
+    await notifierLauréat.call(this);
+  },
+);
+
+async function notifierLauréat(this: PotentielWorld) {
+  const { identifiantProjet } = this.candidatureWorld.importerCandidature;
+  this.utilisateurWorld.porteurFixture.créer({
+    email: this.candidatureWorld.importerCandidature.values.emailContactValue,
+  });
+
+  const data = {
+    identifiantProjetValue: identifiantProjet,
+    notifiéLeValue: DateTime.now().formatter(),
+    notifiéParValue: this.utilisateurWorld.validateurFixture.email,
+    attestationValue: {
+      format: `application/pdf`,
+    },
+    validateurValue: {
+      fonction: this.utilisateurWorld.validateurFixture.fonction,
+      nomComplet: this.utilisateurWorld.validateurFixture.nom,
+    },
+  };
+  await mediator.send<Lauréat.NotifierLauréatUseCase>({
+    type: 'Lauréat.UseCase.NotifierLauréat',
+    data,
+  });
+
+  this.lauréatWorld.représentantLégalWorld.importerReprésentantLégalFixture.créer({
+    nomReprésentantLégal:
+      this.candidatureWorld.importerCandidature.values.nomReprésentantLégalValue,
+    importéLe: data.notifiéLeValue,
+  });
+  // on vérifie l'attestation de désignation dès le "given"
+  // afin de s'assurer que la saga est bien exécutée
+  await vérifierAttestationDeDésignation(identifiantProjet);
+}
