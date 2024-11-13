@@ -7,14 +7,9 @@ import {
   vérifierPermissionUtilisateur,
 } from '../../helpers';
 import { inviterUtilisateur } from '../../../config';
-import {
-  InvitationUniqueParUtilisateurError,
-  InvitationUtilisateurExistantError,
-  PermissionInviterDgecValidateur,
-} from '../../../modules/utilisateur';
+import { PermissionInviterDgecValidateur } from '../../../modules/utilisateur';
 import { logger } from '../../../core/utils';
 import asyncHandler from '../../helpers/asyncHandler';
-import { setApiResult } from '../../helpers/apiResult';
 
 const schema = yup.object({
   role: yup
@@ -41,46 +36,23 @@ v1Router.post(
       )
       .match(
         () => {
-          setApiResult(request, {
-            route: routes.ADMIN_INVITATION_DGEC_VALIDATEUR_ACTION,
-            status: 'OK',
-          });
           return response.redirect(routes.ADMIN_INVITATION_DGEC_VALIDATEUR);
         },
         (error: Error) => {
           if (error instanceof RequestValidationError) {
-            setApiResult(request, {
-              route: routes.ADMIN_INVITATION_DGEC_VALIDATEUR_ACTION,
-              status: 'BAD_REQUEST',
-              message: 'Le formulaire contient des erreurs',
-              formErrors: Object.entries(error.errors).reduce((prev, [key, value]) => {
-                return {
-                  ...prev,
-                  [key.replace('error-', '')]: value,
-                };
-              }, {}),
-            });
-            return response.redirect(routes.ADMIN_INVITATION_DGEC_VALIDATEUR);
-          }
-          if (
-            error instanceof InvitationUniqueParUtilisateurError ||
-            error instanceof InvitationUtilisateurExistantError
-          ) {
-            setApiResult(request, {
-              route: routes.ADMIN_INVITATION_DGEC_VALIDATEUR_ACTION,
-              status: 'BAD_REQUEST',
-              message: error.message,
-            });
-            return response.redirect(routes.ADMIN_INVITATION_DGEC_VALIDATEUR);
+            return response.redirect(
+              routes.ADMIN_INVITATION_DGEC_VALIDATEUR +
+                '?' +
+                new URLSearchParams({ error: 'Le formulaire contient des erreurs' }).toString(),
+            );
           }
           logger.error(error);
-          setApiResult(request, {
-            route: routes.ADMIN_INVITATION_DGEC_VALIDATEUR_ACTION,
-            status: 'BAD_REQUEST',
-            message:
-              'Il y a eu une erreur lors de la soumission de votre demande. Merci de recommencer.',
-          });
-          return response.redirect(routes.ADMIN_INVITATION_DGEC_VALIDATEUR);
+
+          return response.redirect(
+            routes.ADMIN_INVITATION_DGEC_VALIDATEUR +
+              `?` +
+              new URLSearchParams({ error: "Impossible d'inviter l'utilisateur" }).toString(),
+          );
         },
       );
   }),
