@@ -1,9 +1,8 @@
 import { withAuth } from 'next-auth/middleware';
 
-import { Routes } from '@potentiel-applications/routes';
-
 export default withAuth({
-  pages: { signIn: Routes.Auth.signIn() },
+  // NB: importing Routes is not working in the middleware
+  pages: { signIn: '/auth/signIn' },
 });
 
 export const config = {
