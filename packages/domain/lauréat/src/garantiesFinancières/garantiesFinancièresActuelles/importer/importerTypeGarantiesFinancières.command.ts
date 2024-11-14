@@ -29,8 +29,8 @@ export const registerImporterTypeGarantiesFinancièresCommand = (loadAggregate: 
     await garantiesFinancières.importerType({
       identifiantProjet,
       importéLe: lauréat.notifiéLe,
-      type: candidature.garantiesFinancières.type,
-      dateÉchéance: candidature.garantiesFinancières.dateEchéance,
+      type: candidature.garantiesFinancières?.type,
+      dateÉchéance: candidature.garantiesFinancières?.dateEchéance,
     });
   };
   mediator.register(

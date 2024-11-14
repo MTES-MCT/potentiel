@@ -154,12 +154,14 @@ export function applyCandidatureImportée(
 ) {
   this.importé = true;
   this.statut = StatutCandidature.convertirEnValueType(payload.statut);
-  this.garantiesFinancières.type =
-    payload.typeGarantiesFinancières &&
-    TypeGarantiesFinancières.convertirEnValueType(payload.typeGarantiesFinancières);
-  this.garantiesFinancières.dateEchéance =
-    payload.dateÉchéanceGf && DateTime.convertirEnValueType(payload.dateÉchéanceGf);
-  this.payloadHash = this.calculerHash(payload);
+  (this.garantiesFinancières = payload.typeGarantiesFinancières
+    ? {
+        type: TypeGarantiesFinancières.convertirEnValueType(payload.typeGarantiesFinancières),
+        dateEchéance:
+          payload.dateÉchéanceGf && DateTime.convertirEnValueType(payload.dateÉchéanceGf),
+      }
+    : undefined),
+    (this.payloadHash = this.calculerHash(payload));
   this.nomReprésentantLégal = payload.nomReprésentantLégal;
 }
 

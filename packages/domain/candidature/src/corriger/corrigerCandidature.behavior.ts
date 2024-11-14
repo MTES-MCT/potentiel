@@ -83,12 +83,12 @@ export async function corriger(
 
     if (candidature.typeGarantiesFinancières) {
       if (
-        !this.garantiesFinancières.type ||
-        !this.garantiesFinancières.type.estÉgaleÀ(candidature.typeGarantiesFinancières)
+        !this.garantiesFinancières?.type ||
+        !this.garantiesFinancières?.type.estÉgaleÀ(candidature.typeGarantiesFinancières)
       ) {
         throw new TypeGarantiesFinancièresNonModifiableAprèsNotificationError();
       }
-    } else if (this.garantiesFinancières.type) {
+    } else if (this.garantiesFinancières?.type) {
       throw new TypeGarantiesFinancièresNonModifiableAprèsNotificationError();
     }
   }
@@ -120,12 +120,14 @@ export function applyCandidatureCorrigée(
 ) {
   this.importé = true;
   this.statut = StatutCandidature.convertirEnValueType(payload.statut);
-  this.garantiesFinancières.type =
-    payload.typeGarantiesFinancières &&
-    TypeGarantiesFinancières.convertirEnValueType(payload.typeGarantiesFinancières);
-  this.garantiesFinancières.dateEchéance =
-    payload.dateÉchéanceGf && DateTime.convertirEnValueType(payload.dateÉchéanceGf);
-  this.payloadHash = this.calculerHash(payload);
+  (this.garantiesFinancières = payload.typeGarantiesFinancières
+    ? {
+        type: TypeGarantiesFinancières.convertirEnValueType(payload.typeGarantiesFinancières),
+        dateEchéance:
+          payload.dateÉchéanceGf && DateTime.convertirEnValueType(payload.dateÉchéanceGf),
+      }
+    : undefined),
+    (this.payloadHash = this.calculerHash(payload));
 }
 
 class StatutNonModifiableAprèsNotificationError extends InvalidOperationError {
