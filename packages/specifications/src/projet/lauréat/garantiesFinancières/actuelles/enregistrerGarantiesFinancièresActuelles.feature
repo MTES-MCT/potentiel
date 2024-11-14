@@ -2,7 +2,7 @@
 Fonctionnalité: Enregistrer des garanties financières actuelles
 
     Contexte:
-        Etant donné le projet lauréat "Du boulodrome de Marseille"
+        Etant donné le projet lauréat sans garanties financières importées "Du boulodrome de Marseille"
         Et le porteur "Marcel Patoulatchi" ayant accés au projet lauréat "Du boulodrome de Marseille"
 
     Plan du Scénario: Un admin enregistre des garanties financières actuelles pour un projet ayant des garanties financières en attente
@@ -105,7 +105,6 @@ Fonctionnalité: Enregistrer des garanties financières actuelles
             | consignation              | 2027-12-01      |
             | six-mois-après-achèvement | 2027-12-01      |
 
-    @select
     Scénario: Impossible d'enregister des garanties financières actuelles si la date d'échéance est manquante
         Quand un admin enregistre les garanties financières actuelles pour le projet "Du boulodrome de Marseille" avec :
             | type            | avec-date-échéance |

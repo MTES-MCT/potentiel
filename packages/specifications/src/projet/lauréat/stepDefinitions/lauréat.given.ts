@@ -17,8 +17,31 @@ EtantDonné('le projet lauréat {string}', async function (this: PotentielWorld,
 
   await notifierLauréat.call(this, dateDésignation);
 
-  await insertProjectBasedOnCandidature.call(this, dateDésignation, nomProjet, 'lauréat');
+  await insertProjectBasedOnCandidature.call(this, dateDésignation, 'lauréat');
 });
+
+EtantDonné(
+  'le projet lauréat sans garanties financières importées {string}',
+  async function (this: PotentielWorld, nomProjet: string) {
+    const identifiantProjetSansGf =
+      IdentifiantProjet.convertirEnValueType(`PPE2 - Innovation#1#1#66`).formatter();
+    const dateDésignation = new Date('2022-10-27').toISOString();
+
+    await importerCandidature.call(
+      this,
+      nomProjet,
+      'classé',
+      {
+        typeGarantiesFinancièresValue: undefined,
+      },
+      identifiantProjetSansGf,
+    );
+
+    await notifierLauréat.call(this, dateDésignation);
+
+    await insertProjectBasedOnCandidature.call(this, dateDésignation, 'lauréat');
+  },
+);
 
 EtantDonné(
   'le projet lauréat {string} ayant été notifié le {string}',
@@ -29,7 +52,7 @@ EtantDonné(
 
     await notifierLauréat.call(this, dateDésignation);
 
-    await insertProjectBasedOnCandidature.call(this, dateDésignation, nomProjet, 'lauréat');
+    await insertProjectBasedOnCandidature.call(this, dateDésignation, 'lauréat');
   },
 );
 
@@ -75,14 +98,11 @@ async function notifierLauréat(this: PotentielWorld, dateDésignation: string) 
 async function insertProjectBasedOnCandidature(
   this: PotentielWorld,
   dateDésignation: string,
-  nomProjet: string,
   statutProjet: 'lauréat' | 'éliminé',
 ) {
   const { identifiantProjet, values: candidature } = this.candidatureWorld.importerCandidature;
 
   const identifiantProjetValue = IdentifiantProjet.convertirEnValueType(identifiantProjet);
-
-  await notifierLauréat.call(this, dateDésignation);
 
   await executeQuery(
     `
@@ -142,7 +162,7 @@ async function insertProjectBasedOnCandidature(
     identifiantProjetValue.famille,
     new Date(dateDésignation).getTime(),
     candidature.nomCandidatValue,
-    nomProjet,
+    candidature.nomProjetValue,
     candidature.puissanceProductionAnnuelleValue,
     candidature.prixReferenceValue,
     candidature.evaluationCarboneSimplifiéeValue,

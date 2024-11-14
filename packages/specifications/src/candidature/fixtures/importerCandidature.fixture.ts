@@ -100,12 +100,15 @@ export class ImporterCandidatureFixture
 function getValidFakeIdentifiantProjet(): string {
   const identifiantProjet = faker.potentiel.identifiantProjet();
   const { appelOffre, période } = IdentifiantProjet.convertirEnValueType(identifiantProjet);
+
   const périodeData = appelsOffreData
     .find((x) => x.id === appelOffre)
     ?.periodes.find((x) => x.id === période);
+
   if (!périodeData) {
     return getValidFakeIdentifiantProjet();
   }
+
   if (périodeData.type === 'legacy') {
     return getValidFakeIdentifiantProjet();
   }

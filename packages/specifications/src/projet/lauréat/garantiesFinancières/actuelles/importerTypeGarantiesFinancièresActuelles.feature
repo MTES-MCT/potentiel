@@ -2,7 +2,7 @@
 Fonctionnalité: Importer le type (et la date d'échéance selon le cas) des garanties financières actuelles d'un projet
 
     Contexte:
-        Etant donné le projet lauréat "Du boulodrome de Marseille"
+        Etant donné le projet lauréat sans garanties financières importées "Du boulodrome de Marseille"
         Et le porteur "Marcel Patoulatchi" ayant accés au projet lauréat "Du boulodrome de Marseille"
 
     Plan du Scénario: Un admin importe le type des garanties financières actuelles d'un projet

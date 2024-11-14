@@ -2,7 +2,7 @@
 Fonctionnalité: Supprimer un dépôt de garanties financières
 
     Contexte:
-        Etant donné le projet lauréat "Du boulodrome de Marseille"
+        Etant donné le projet lauréat sans garanties financières importées "Du boulodrome de Marseille"
         Et le porteur "Marcel Patoulatchi" ayant accés au projet lauréat "Du boulodrome de Marseille"
 
     Plan du Scénario: Un porteur supprime un dépôt de garanties financières avec une date limite de soumission

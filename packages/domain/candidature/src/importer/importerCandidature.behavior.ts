@@ -104,6 +104,7 @@ export async function importer(
   if (Option.isNone(appelOffre)) {
     throw new AppelOffreInexistantError(candidature.identifiantProjet.appelOffre);
   }
+
   const période = this.récupererPériodeAO(appelOffre, candidature.identifiantProjet.période);
   const famille = this.récupererFamilleAO(
     appelOffre,

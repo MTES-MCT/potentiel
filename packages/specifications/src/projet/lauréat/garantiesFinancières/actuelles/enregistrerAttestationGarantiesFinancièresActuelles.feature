@@ -2,7 +2,7 @@
 Fonctionnalité: Enregistrer l'attestation des garanties financières actuelles
 
     Contexte:
-        Etant donné le projet lauréat "Du boulodrome de Marseille"
+        Etant donné le projet lauréat sans garanties financières importées "Du boulodrome de Marseille"
 
     Scénario: Un porteur enregistre l'attestation des garanties financières actuelles
         Etant donné des garanties financières actuelles importées avec l'attestation manquante pour le projet "Du boulodrome de Marseille" avec :
