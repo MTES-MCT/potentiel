@@ -2,6 +2,7 @@ import { NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth';
 
 import { Routes } from '@potentiel-applications/routes';
+import { getLogger } from '@potentiel-libraries/monitoring';
 
 import { issuerUrl } from '@/auth';
 
@@ -34,7 +35,9 @@ export async function GET() {
     // without this, Keycloak prompts the user for confirmation
     ssoLogoutUrl.searchParams.set('post_logout_redirect_uri', redirectUrl.toString());
     ssoLogoutUrl.searchParams.set('id_token_hint', session.idToken);
+    return NextResponse.redirect(ssoLogoutUrl.toString());
   }
 
-  return NextResponse.redirect(ssoLogoutUrl.toString());
+  getLogger().warn('A user logged out without an id token, the keycloak session is still active');
+  return NextResponse.redirect(redirectUrl, { status: 302 });
 }
