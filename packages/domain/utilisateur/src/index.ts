@@ -33,7 +33,5 @@ export * from './utilisateur.port';
 // Entity
 export * from './utilisateur.entity';
 
-export * from './permission.middleware';
-
 // readmodel
 export { ConsulterUtilisateurReadModel };

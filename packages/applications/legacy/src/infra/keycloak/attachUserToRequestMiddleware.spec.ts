@@ -1,13 +1,20 @@
 import { describe, expect, it, jest } from '@jest/globals';
-import express from 'express';
+import express, { RequestHandler } from 'express';
 import { okAsync } from '../../core/utils';
 import { User } from '../../entities';
 import { GetUserByEmail, UserRole } from '../../modules/users';
 import { makeFakeCreateUser } from '../../__tests__/fakes';
-import { makeAttachUserToRequestMiddleware } from './attachUserToRequestMiddleware';
+import { makeAttachUserToRequestMiddleware as _makeAttachUserToRequestMiddleware } from './attachUserToRequestMiddleware';
 import { IdentifiantUtilisateur, Role, Utilisateur } from '@potentiel-domain/utilisateur';
 import { Option } from '@potentiel-libraries/monads';
+import { requestContextStorage } from '@potentiel-applications/request-context';
 
+const makeAttachUserToRequestMiddleware = (
+  ...props: Parameters<typeof _makeAttachUserToRequestMiddleware>
+): RequestHandler => {
+  const mw = _makeAttachUserToRequestMiddleware(...props);
+  return (...props) => requestContextStorage.run({ correlationId: '' }, () => mw(...props));
+};
 describe(`attachUserToRequestMiddleware`, () => {
   const staticPaths = ['/fonts', '/css', '/images', '/scripts', '/main'];
   staticPaths.forEach((path) => {

@@ -110,7 +110,7 @@ Before<PotentielWorld>(async function (this: PotentielWorld) {
 
   clear();
 
-  unsetup = await bootstrap({ middlewares: [], sendEmail: testEmailAdapter.bind(this) });
+  unsetup = await bootstrap({ sendEmail: testEmailAdapter.bind(this) });
 });
 
 After(async () => {

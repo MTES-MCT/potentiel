@@ -25,6 +25,7 @@
     "@keycloak/keycloak-admin-client": "^23.0.7",
     "@potentiel-applications/bootstrap": "*",
     "@potentiel-applications/routes": "*",
+    "@potentiel-applications/request-context": "*",
     "@potentiel-domain/appel-offre": "*",
     "@potentiel-domain/common": "*",
     "@potentiel-domain/inmemory-referential": "*",

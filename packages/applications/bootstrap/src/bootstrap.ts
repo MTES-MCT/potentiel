@@ -1,4 +1,4 @@
-import { Middleware, mediator } from 'mediateur';
+import { mediator } from 'mediateur';
 
 import { getLogger } from '@potentiel-libraries/monitoring';
 import { SendEmail } from '@potentiel-applications/notifications';
@@ -15,15 +15,14 @@ import { logMiddleware } from './middlewares/log.middleware';
 import { setupEliminé } from './setupEliminé';
 import { setupTâchePlanifiée } from './setupTâchePlanifiée';
 import { setupPériode } from './setupPériode';
+import { permissionMiddleware } from './middlewares/permission.middleware';
 
 let unsubscribe: (() => Promise<void>) | undefined;
 let mutex: Promise<void> | undefined;
 
 export const bootstrap = async ({
-  middlewares,
   sendEmail,
 }: {
-  middlewares: Array<Middleware>;
   sendEmail?: SendEmail;
 }): Promise<() => Promise<void>> => {
   // if there's already a bootstrap operation in progress, wait for it to finish
@@ -35,7 +34,7 @@ export const bootstrap = async ({
 
   if (!unsubscribe) {
     mediator.use({
-      middlewares: [logMiddleware, ...middlewares],
+      middlewares: [logMiddleware, permissionMiddleware],
     });
 
     if (!sendEmail) {

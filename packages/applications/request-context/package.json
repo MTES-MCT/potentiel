@@ -1,0 +1,19 @@
+{
+  "name": "@potentiel-applications/request-context",
+  "version": "0.0.0",
+  "description": "Potentiel HTTP request context, using asynclocalstorage",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "private": true,
+  "scripts": {
+    "build": "tsc"
+  },
+  "dependencies": {
+    "@potentiel-libraries/monads": "*",
+    "@potentiel-domain/common": "*",
+    "@potentiel-domain/utilisateur": "*"
+  },
+  "devDependencies": {
+    "@potentiel-config/tsconfig": "*"
+  }
+}

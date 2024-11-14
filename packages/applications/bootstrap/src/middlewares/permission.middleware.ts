@@ -1,41 +1,21 @@
 import { Message, Middleware, mediator } from 'mediateur';
 
 import { IdentifiantProjet } from '@potentiel-domain/common';
-
-import * as Utilisateur from './utilisateur.valueType';
-import { VérifierAccèsProjetQuery } from './vérifierAccèsProjet/vérifierAccèsProjet.query';
-
-type GetAuthenticatedUserMessage = Message<
-  'System.Authorization.RécupérerUtilisateur',
-  {},
-  Utilisateur.ValueType
->;
+import { requestContextStorage } from '@potentiel-applications/request-context';
+import { VérifierAccèsProjetQuery } from '@potentiel-domain/utilisateur';
 
 export const permissionMiddleware: Middleware = async (message, next) => {
   if (isSystemProcess(message)) {
     return await next();
   }
 
-  let utilisateur: Utilisateur.ValueType | undefined;
-
-  try {
-    utilisateur = await mediator.send<GetAuthenticatedUserMessage>({
-      type: 'System.Authorization.RécupérerUtilisateur',
-      data: {},
-    });
-  } catch (error) {
-    if (mustSkipMessage(message)) {
-      /**
-       * @todo Trouver un moyen de ne pas avoir une dépendance direct au logger (et donc sentry) car ça fait crasher le storybook
-       */
-      // getLogger().warn(
-      //   `[permission.middleware] Fail to get access token probably because a system process trigger the message`,
-      //   { type: message.type, data: message.data },
-      // );
-      return await next();
-    }
-
-    throw new AuthenticationError(error as Error);
+  const context = requestContextStorage.getStore();
+  if (!context) {
+    throw new Error('No request context');
+  }
+  const utilisateur = context.utilisateur;
+  if (!utilisateur) {
+    throw new AuthenticationError();
   }
 
   utilisateur.role.peutExécuterMessage(message.type);
@@ -63,15 +43,6 @@ class AuthenticationError extends Error {
 
 const isSystemProcess = (message: Message<string, Record<string, unknown>, void>) =>
   message.type.startsWith('System.');
-
-const mustSkipMessage = (message: Message<string, Record<string, unknown>, void>) => {
-  return (
-    message.type.endsWith('System.Authorization.RécupérerUtilisateur') ||
-    message.type.includes('.Command.') || // Message to skip because executed by a saga or legacy app
-    message.type.includes('.UseCase.') || // Message executed by the legacy app
-    message.type.includes('.Query.') // Message executed by the legacy app
-  );
-};
 
 const mustCheckProjetAccess = (message: Message<string, Record<string, unknown>, void>) => {
   return message.data['identifiantProjet'] || message.data['identifiantProjetValue'];

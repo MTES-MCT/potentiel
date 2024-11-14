@@ -3,7 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "tsx src/server.ts",
     "build": "next build",
     "lint": "next lint",
     "lint:fix": "next lint --fix",
@@ -25,6 +25,7 @@
     "@potentiel-applications/bootstrap": "*",
     "@potentiel-applications/document-builder": "*",
     "@potentiel-applications/routes": "*",
+    "@potentiel-applications/request-context": "*",
     "@potentiel-domain/appel-offre": "*",
     "@potentiel-domain/candidature": "*",
     "@potentiel-domain/document": "*",

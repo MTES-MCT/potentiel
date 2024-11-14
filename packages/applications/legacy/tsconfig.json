@@ -36,6 +36,9 @@
       "path": "../bootstrap"
     },
     {
+      "path": "../request-context"
+    },
+    {
       "path": "../../domain/common"
     },
     {
