@@ -1,14 +1,15 @@
 import { RequestHandler } from 'express';
 import { Permission } from '../../modules/authN';
-import routes from '../../routes';
 import { AccèsNonAutoriséPage } from '../../views';
+import { Routes } from '@potentiel-applications/routes';
 
+// TODO
 export const vérifierPermissionUtilisateur =
   (permission: Permission): RequestHandler =>
   (request, response, next) => {
     const { user } = request;
     if (!user) {
-      response.redirect(routes.LOGIN);
+      response.redirect(Routes.Auth.signIn());
       return;
     }
 

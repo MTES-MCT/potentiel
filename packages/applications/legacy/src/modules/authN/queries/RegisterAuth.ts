@@ -1,5 +1,5 @@
-import type { Application, Router } from 'express';
+import type { Application } from 'express';
 
 export interface RegisterAuth {
-  (args: { app: Application; router: Router }): void;
+  (args: { app: Application }): void;
 }

@@ -3,7 +3,7 @@ import { ArrowDownIcon } from '../../atoms/icons';
 
 type DropdownMenuProps = ComponentProps<'li'> & {
   buttonChildren: React.ReactNode;
-  children?: (ReactElement | false)[];
+  children?: ReactElement | (ReactElement | false)[];
 };
 
 export const DropdownMenu: React.FC<DropdownMenuProps> & { DropdownItem: typeof DropdownItem } = ({
@@ -14,7 +14,9 @@ export const DropdownMenu: React.FC<DropdownMenuProps> & { DropdownItem: typeof 
 }: DropdownMenuProps) => {
   const [visible, setVisible] = useState(false);
   const isCurrent = children
-    ? children.some((subMenu) => subMenu && subMenu.props.isCurrent)
+    ? Array.isArray(children)
+      ? children.some((subMenu) => subMenu && subMenu.props.isCurrent)
+      : children.props.isCurrent
     : undefined;
   const ref = useRef<HTMLLIElement>(null);
 

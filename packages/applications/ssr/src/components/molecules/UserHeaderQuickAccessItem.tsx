@@ -42,6 +42,7 @@ export async function UserHeaderQuickAccessItem() {
             iconId: 'ri-logout-box-line',
             linkProps: {
               href: '/api/auth/federated-logout',
+              prefetch: false,
             },
             text: 'Me déconnecter',
           }}

@@ -2,6 +2,7 @@ import asyncHandler from '../helpers/asyncHandler';
 import routes from '../../routes';
 import { v1Router } from '../v1Router';
 import { SignupPage } from '../../views';
+import { Routes } from '@potentiel-applications/routes';
 
 v1Router.get(
   routes.SIGNUP,
@@ -9,7 +10,7 @@ v1Router.get(
     const { user, query } = request;
 
     if (user) {
-      return response.redirect(routes.REDIRECT_BASED_ON_ROLE);
+      return response.redirect(Routes.Auth.redirectToDashboard());
     }
 
     const validationErrors: Array<{ [fieldName: string]: string }> = Object.entries(query).reduce(

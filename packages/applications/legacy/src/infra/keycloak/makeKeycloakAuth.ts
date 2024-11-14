@@ -1,43 +1,17 @@
-import QueryString from 'querystring';
 import { EnsureRole, RegisterAuth } from '../../modules/authN';
 import { CreateUser, GetUserByEmail } from '../../modules/users';
-import routes from '../../routes';
+
 import { makeAttachUserToRequestMiddleware } from './attachUserToRequestMiddleware';
-import { miseAJourStatistiquesUtilisation } from '../../controllers/helpers';
 import { getLogger } from '@potentiel-libraries/monitoring';
-import { Routes } from '@potentiel-applications/routes';
 import { RequestHandler } from 'express';
-import { decode } from 'next-auth/jwt';
 
 export interface KeycloakAuthDeps {
-  NEXT_AUTH_SESSION_TOKEN_COOKIE_NAME: string | undefined;
   getUserByEmail: GetUserByEmail;
   createUser: CreateUser;
 }
 
 export const makeKeycloakAuth = (deps: KeycloakAuthDeps) => {
-  const { NEXT_AUTH_SESSION_TOKEN_COOKIE_NAME, getUserByEmail, createUser } = deps;
-
-  if (!NEXT_AUTH_SESSION_TOKEN_COOKIE_NAME) {
-    console.error('Missing NEXT_AUTH_SESSION_TOKEN_COOKIE_NAME env var');
-    process.exit(1);
-  }
-
-  const loadToken: RequestHandler = async (req, _, next) => {
-    const cookie = req.cookies[NEXT_AUTH_SESSION_TOKEN_COOKIE_NAME];
-    if (cookie) {
-      const token = await decode({
-        token: cookie,
-        secret: process.env.NEXTAUTH_SECRET ?? '',
-      });
-      if (token) {
-        req.token = token;
-      } else {
-        console.log('could not decode token from cookie');
-      }
-    }
-    next();
-  };
+  const { getUserByEmail, createUser } = deps;
 
   const protectRoute: RequestHandler = async (req, res, next) => {
     if (req.user) {
@@ -67,34 +41,13 @@ export const makeKeycloakAuth = (deps: KeycloakAuthDeps) => {
       });
   };
 
-  const registerAuth: RegisterAuth = ({ app, router }) => {
-    app.use(loadToken);
-
+  const registerAuth: RegisterAuth = ({ app }) => {
     app.use(
       makeAttachUserToRequestMiddleware({
         getUserByEmail,
         createUser,
       }),
     );
-
-    router.get(routes.REDIRECT_BASED_ON_ROLE, protectRoute, async (req, res) => {
-      miseAJourStatistiquesUtilisation({
-        type: 'connexionUtilisateur',
-        données: {
-          utilisateur: {
-            role: req.user.role,
-          },
-        },
-      });
-
-      // @ts-ignore
-      const queryString = new QueryString.stringify(req.query);
-      const redirectTo =
-        req.user.role === 'grd'
-          ? Routes.Raccordement.lister
-          : `${routes.LISTE_PROJETS}?${queryString}`;
-      return res.redirect(redirectTo);
-    });
   };
 
   return {

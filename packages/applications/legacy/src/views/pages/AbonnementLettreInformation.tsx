@@ -30,7 +30,7 @@ export const AbonnementLettreInformation = ({
   success,
 }: AbonnementLettreInformationProps) => (
   <App>
-    <Header {...{ user }} />
+    <Header user={user} />
 
     <main id="contenu">
       <section className="bg-blue-france-sun-base pb-0.5">

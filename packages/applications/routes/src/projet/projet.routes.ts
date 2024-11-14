@@ -4,3 +4,5 @@ export const details = (identifiantProjet: string) => {
   const url = `/projet/${encodeParameter(identifiantProjet)}/details.html`;
   return url;
 };
+
+export const lister = () => `/projets.html`;

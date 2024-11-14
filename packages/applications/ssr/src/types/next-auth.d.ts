@@ -10,5 +10,6 @@ declare module 'next-auth/jwt' {
 declare module 'next-auth' {
   interface Session {
     idToken?: string;
+    accessToken?: string;
   }
 }

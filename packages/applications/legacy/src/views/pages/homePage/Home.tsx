@@ -1,11 +1,11 @@
 import type { Request } from 'express';
 import React from 'react';
-import routes from '../../../routes';
 import { Header, Footer, ArrowRightWithCircle } from '../../components';
 import { hydrateOnClient } from '../../helpers/hydrateOnClient';
 import { InscriptionConnexion, Benefices, PropositionDeValeur } from './components';
 import { App } from '../..';
 import { User } from '../../../entities';
+import { Routes } from '@potentiel-applications/routes';
 
 type HomeProps = {
   request: Request;
@@ -29,9 +29,9 @@ export const Home = (props: HomeProps) => {
 
   return (
     <App>
-      <Header {...{ user }}>
+      <Header user={user}>
         {user && (
-          <Header.MenuItem href={routes.REDIRECT_BASED_ON_ROLE}>
+          <Header.MenuItem href={Routes.Auth.redirectToDashboard()}>
             <div className="flex flex-row items-center">
               {getMenuText(user)}
               <ArrowRightWithCircle className="w-5 h-5 ml-2" aria-hidden />

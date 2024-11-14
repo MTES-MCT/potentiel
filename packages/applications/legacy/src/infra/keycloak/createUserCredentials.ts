@@ -3,8 +3,8 @@ import { authorizedTestEmails, isProdEnv } from '../../config';
 import { logger, ResultAsync } from '../../core/utils';
 import { CreateUserCredentials } from '../../modules/authN';
 import { OtherError, UnauthorizedError } from '../../modules/shared';
-import routes from '../../routes';
 import { makeKeycloakClient } from './keycloakClient';
+import { Routes } from '@potentiel-applications/routes';
 
 const ONE_MONTH = 3600 * 24 * 30;
 
@@ -61,7 +61,7 @@ export const createUserCredentials: CreateUserCredentials = (args) => {
           clientId: KEYCLOAK_USER_CLIENT_ID,
           actions,
           realm: KEYCLOAK_REALM,
-          redirectUri: BASE_URL + routes.REDIRECT_BASED_ON_ROLE,
+          redirectUri: BASE_URL + Routes.Auth.redirectToDashboard(),
           lifespan: ONE_MONTH,
         });
       } else {

@@ -5,7 +5,7 @@ import { useEffect } from 'react';
 
 import { PageTemplate } from '@/components/templates/Page.template';
 
-export default function SignIn() {
+export default function SignOut() {
   useEffect(() => {
     signOut({ callbackUrl: '/' });
   }, []);

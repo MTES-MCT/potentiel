@@ -1,6 +1,6 @@
 import { Message, MessageHandler } from 'mediateur';
 import { cookies, headers } from 'next/headers';
-import { decode } from 'next-auth/jwt';
+import { getToken, GetTokenParams } from 'next-auth/jwt';
 // import * as Sentry from '@sentry/nextjs';
 
 import { Utilisateur } from '@potentiel-domain/utilisateur';
@@ -11,23 +11,22 @@ export type GetAuthenticatedUserMessage = Message<
   Utilisateur.ValueType
 >;
 
-const { NEXT_AUTH_SESSION_TOKEN_COOKIE_NAME = 'next-auth.session-token' } = process.env;
-
 /**
  * Check for an access token
  *  - in the session (encrypted)
- *  - in Authorization header
+ *  - in Authorization header (clear)
  **/
 const getAccessToken = async () => {
-  const cookiesContent = cookies();
-  const sessionToken = cookiesContent.get(NEXT_AUTH_SESSION_TOKEN_COOKIE_NAME)?.value || '';
-  if (sessionToken) {
-    const decoded = await decode({
-      token: sessionToken,
-      secret: process.env.NEXTAUTH_SECRET ?? '',
-    });
-
-    return decoded?.accessToken;
+  const token = await getToken({
+    req: {
+      cookies: cookies(),
+      // NB: getToken peut également récupérer le token dans le header Authorization
+      // mais elle attend un token chiffré, ce qui n'est pas le cas dans le cadre de l'authentification API
+      // headers: headers()
+    } as unknown as GetTokenParams['req'],
+  });
+  if (token) {
+    return token.accessToken;
   }
   const authorizationHeader = headers().get('authorization');
   return authorizationHeader?.replace(/Bearer /, '');

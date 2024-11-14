@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-import { User } from '../../../../entities';
 import routes from '../../../../routes';
 import {
   AccountIcon,
@@ -11,6 +10,7 @@ import {
   LogoutBoxIcon,
   SecondaryLinkButton,
 } from '../../../components';
+import { Routes } from '@potentiel-applications/routes';
 
 type InscriptionConnexionProps =
   | ({ connected: true } & BienvenueProps)
@@ -51,14 +51,14 @@ const Bienvenue = ({ fullName, redirectText }: BienvenueProps) => (
     <div className="flex flex-col md:flex-row w-full md:w-fit gap-3">
       <LinkButton
         className="inline-flex items-center lg:text-lg"
-        href={routes.REDIRECT_BASED_ON_ROLE}
+        href={Routes.Auth.redirectToDashboard()}
       >
         <DashboardIcon className="mr-4" aria-hidden />
         {redirectText}
       </LinkButton>
       <SecondaryLinkButton
         className="inline-flex items-center lg:text-lg"
-        href={routes.LOGOUT_ACTION}
+        href={Routes.Auth.federatedLogout()}
       >
         <LogoutBoxIcon className="mr-4" aria-hidden />
         Me déconnecter
@@ -103,7 +103,7 @@ const SignupBox = () => {
         )}
       </div>
       <p className="m-0">
-        <Link href={routes.LOGIN}>Vous avez déjà un compte ?</Link>
+        <Link href={Routes.Auth.signIn()}>Vous avez déjà un compte ?</Link>
       </p>
     </div>
   );
@@ -144,7 +144,7 @@ const LoginBox = () => (
       </p>
       <p className="m-0 p-0">Connectez-vous pour accéder aux projets.</p>
     </div>
-    <LinkButton href={routes.LOGIN} className="inline-flex items-center mx-auto">
+    <LinkButton href={Routes.Auth.signIn()} className="inline-flex items-center mx-auto">
       <LoginIcon className="mr-4" aria-hidden />
       M'identifier
     </LinkButton>

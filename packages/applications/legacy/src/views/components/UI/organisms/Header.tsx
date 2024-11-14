@@ -93,7 +93,7 @@ const Header: React.FC<HeaderProps> & { MenuItem: typeof MenuItem } = ({
         <div className="flex flex-row pb-1 lg:py-4 items-center">
           <LogoAndTitle />
           <div className={`flex flex-row ml-auto ${children && 'mr-6'}`}>
-            <QuickAccess {...{ user }} />
+            <QuickAccess user={user} />
           </div>
         </div>
       </Container>
@@ -156,7 +156,7 @@ const QuickAccess = ({ user }: QuickAccessProps) => (
         <li className="flex items-center">
           <Link
             className="no-underline hover:no-underline flex flex-row items-center px-2 md:px-3 lg:border-0 lg:border-r lg:border-slate-200 lg:border-solid"
-            href={routes.LOGOUT_ACTION}
+            href={Routes.Auth.federatedLogout()}
           >
             <LogoutBoxIcon className="text-blue-france-sun-base" aria-hidden />
             <span className="hidden lg:block pt-0.5 mx-1 text-blue-france-sun-base">
@@ -179,7 +179,7 @@ const QuickAccess = ({ user }: QuickAccessProps) => (
         <li>
           <Link
             className="no-underline hover:no-underline flex flex-row items-center px-2 md:px-3 lg:border-0 lg:border-r lg:border-slate-200 lg:border-solid text-blue-france-sun-base"
-            href={routes.LOGIN}
+            href={Routes.Auth.signIn()}
           >
             <LoginIcon className="text-blue-france-sun-base" aria-hidden />
             <span className="hidden lg:block mx-1 text-blue-france-sun-base">M'identifier</span>
