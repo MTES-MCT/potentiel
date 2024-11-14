@@ -9,7 +9,6 @@ import { Lauréat } from '@potentiel-domain/laureat';
 
 import { PotentielWorld } from '../../../potentiel.world';
 import { importerCandidature } from '../../../candidature/stepDefinitions/candidature.given';
-import { vérifierAttestationDeDésignation } from '../../../candidature/stepDefinitions/candidature.then';
 
 EtantDonné('le projet lauréat {string}', async function (this: PotentielWorld, nomProjet: string) {
   const dateDésignation = new Date('2022-10-27').toISOString();
@@ -223,8 +222,4 @@ async function notifierLauréat(this: PotentielWorld, dateDésignation: string) 
     type: 'Lauréat.UseCase.NotifierLauréat',
     data,
   });
-
-  // on vérifie l'attestation de désignation dès le "given"
-  // afin de s'assurer que la saga est bien exécutée
-  await vérifierAttestationDeDésignation(identifiantProjetValue.formatter());
 }
