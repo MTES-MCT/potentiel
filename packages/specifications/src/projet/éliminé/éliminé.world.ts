@@ -40,6 +40,9 @@ export class ÉliminéWorld {
   }
 
   #identifiantProjet: IdentifiantProjet.ValueType;
+  set identifiantProjet(value: IdentifiantProjet.ValueType) {
+    this.#identifiantProjet = value;
+  }
 
   get identifiantProjet() {
     return this.#identifiantProjet;
