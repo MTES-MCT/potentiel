@@ -48,8 +48,8 @@ type Importé = {
 export type CandidatureAggregate = Aggregate<CandidatureEvent> &
   (Importé | NonImporté) & {
     estNotifiée: boolean;
-    garantiesFinancières: {
-      type?: TypeGarantiesFinancières.ValueType;
+    garantiesFinancières?: {
+      type: TypeGarantiesFinancières.ValueType;
       dateEchéance?: DateTime.ValueType;
     };
     payloadHash: string;
@@ -89,7 +89,6 @@ export const getDefaultCandidatureAggregate: GetDefaultAggregateState<
   payloadHash: '',
   nomReprésentantLégal: '',
   estNotifiée: false,
-  garantiesFinancières: {},
   apply,
   importer,
   corriger,

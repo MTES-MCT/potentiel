@@ -18,7 +18,6 @@ Fonctionnalité: Importer le type (et la date d'échéance selon le cas) des gar
             | consignation              |                 | 2024-01-01  |
             | six-mois-après-achèvement |                 | 2024-01-01  |
 
-    @select
     Scénario: Un admin importe le type des garanties financières actuelles d'un projet en attente de garanties financières
         Etant donné des garanties financières en attente pour le projet "Du boulodrome de Marseille" avec :
             | date limite de soumission | 2024-02-01      |
