@@ -3,10 +3,7 @@ Fonctionnalité: Exécuter une tâche planifiée
 
     Contexte:
         Etant donné le projet lauréat "Du boulodrome de Marseille"
-        Et le porteur pour le projet lauréat "Du boulodrome de Marseille"
-            | email | porteur@test.test   |
-            | nom   | Porteur Projet Test |
-            | role  | porteur-projet      |
+        Et le porteur "Marcel Patoulatchi" ayant accés au projet lauréat "Du boulodrome de Marseille"
 
     Scénario: Une tâche planifiée est executée
         Etant donné une tâche "planifiée" pour le projet "Du boulodrome de Marseille" avec :
