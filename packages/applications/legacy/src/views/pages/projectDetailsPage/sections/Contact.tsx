@@ -17,21 +17,31 @@ import {
 
 import { ProjectDataForProjectPage } from '../../../../modules/project';
 import { userIs } from '../../../../modules/users';
+import { GetReprésentantLégalForProjectPage } from '../../../../controllers/project/getProjectPage/_utils';
 
-type ContactProps = {
+export type ContactProps = {
   project: ProjectDataForProjectPage;
   user: Request['user'];
-  nomReprésentantLégal?: string;
+  représentantLégal: GetReprésentantLégalForProjectPage;
 };
 
-export const Contact = ({ project, user, nomReprésentantLégal }: ContactProps) => (
+export const Contact = ({ project, user, représentantLégal }: ContactProps) => (
   <Section title="Contact" icon={<UserIcon />}>
     <div className="mb-3">{project.nomCandidat}</div>
     <div>
-      {nomReprésentantLégal && (
+      {représentantLégal && (
         <>
           <Heading3 className="mb-1">Représentant légal</Heading3>
-          <div>{nomReprésentantLégal}</div>
+          <div>{représentantLégal.nom}</div>
+
+          {représentantLégal.correction && (
+            <Link href={représentantLégal.correction.url} aria-label="Corriger" className="mt-1">
+              Corriger{' '}
+              {représentantLégal.correction.type === 'lauréat'
+                ? 'le représentant légal'
+                : 'la candidature'}
+            </Link>
+          )}
         </>
       )}
       <Heading3 className="mb-1">Adresse email de candidature</Heading3>

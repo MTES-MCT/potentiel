@@ -1,4 +1,4 @@
-import { Abandon, Raccordement, Achèvement } from './lauréat';
+import { Abandon, Raccordement, Achèvement, ReprésentantLégal } from './lauréat';
 import { Candidature } from './candidature';
 import { Document } from './document';
 import { GarantiesFinancières } from './garanties-financières';
@@ -22,4 +22,5 @@ export const Routes = {
   Tache,
   Période,
   Auth,
+  ReprésentantLégal,
 };
