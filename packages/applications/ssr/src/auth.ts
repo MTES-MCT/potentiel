@@ -29,6 +29,9 @@ export const authOptions: AuthOptions = {
     updateAge: FIFTEEN_MINUTES,
   },
   callbacks: {
+    // Stores accessToken and idToken to the auth cookie
+    // accessToken is used to get user information
+    // idToken is necessary to logout of keycloak
     jwt({ token, account }) {
       if (account?.access_token) {
         token.accessToken = account.access_token;
