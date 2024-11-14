@@ -8,11 +8,9 @@ function vérifierEmailEnvoyé(this: PotentielWorld, email: string, data: DataTa
   const notif = this.notificationWorld.récupérerNotification(email, exemple.sujet);
 
   for (const [key, value] of Object.entries(exemple)) {
-    if (key === 'sujet') {
-      expect(notif.messageSubject).to.equal(value);
-    } else {
-      expect(notif.variables[key]).to.match(new RegExp(value));
-    }
+    expect(key === 'sujet' ? notif.messageSubject : notif.variables[key]).to.match(
+      new RegExp(value),
+    );
   }
 }
 

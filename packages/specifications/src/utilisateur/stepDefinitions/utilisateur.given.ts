@@ -55,7 +55,9 @@ EtantDonné(
 
     await insérerUtilisateur(id, nom, email, role);
 
-    await associerUtilisateurÀSaDreal(id);
+    const { région } = this.candidatureWorld.importerCandidature.values.localitéValue;
+
+    await associerUtilisateurÀSaDreal(id, région);
   },
 );
 
@@ -142,7 +144,7 @@ async function associerProjetAuPorteur(userId: string, projets: { id: string }[]
   );
 }
 
-async function associerUtilisateurÀSaDreal(userId: string) {
+async function associerUtilisateurÀSaDreal(userId: string, régionProjet: string) {
   await executeQuery(
     `
       insert into "userDreals" (
@@ -158,7 +160,7 @@ async function associerUtilisateurÀSaDreal(userId: string) {
         $4
       )
     `,
-    'regionProjet',
+    régionProjet,
     userId,
     new Date().toISOString(),
     new Date().toISOString(),

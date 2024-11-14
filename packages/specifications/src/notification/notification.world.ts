@@ -13,7 +13,7 @@ export class NotificationWorld {
     const notif = this.#notifications.find(
       (notif) =>
         notif.recipients.find((r) => r.email === email) &&
-        (!sujet || notif.messageSubject === sujet),
+        (!sujet || notif.messageSubject.match(new RegExp(sujet))),
     );
     assert(notif, 'Pas de notification');
     return notif;

@@ -61,7 +61,6 @@ export class LauréatWorld {
 
     this.#notifierLauréatFixture = new NotifierLauréatFixture();
 
-    // this is a problem
     this.#identifiantProjet = IdentifiantProjet.convertirEnValueType(`PPE2 - Eolien#1##23`);
   }
 }
