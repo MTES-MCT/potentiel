@@ -193,6 +193,17 @@ const référencielPermissions = {
         modifier: 'Lauréat.Achèvement.AttestationConformité.UseCase.ModifierAttestationConformité',
       },
     },
+    représentantLégal: {
+      query: {
+        consulter: 'Lauréat.ReprésentantLégal.Query.ConsulterReprésentantLégal',
+      },
+      usecase: {
+        corriger: 'Lauréat.ReprésentantLégal.UseCase.CorrigerReprésentantLégal',
+      },
+      command: {
+        corriger: 'Lauréat.ReprésentantLégal.Command.CorrigerReprésentantLégal',
+      },
+    },
     usecase: { notifier: 'Lauréat.UseCase.NotifierLauréat' },
     command: { notifier: 'Lauréat.Command.NotifierLauréat' },
     query: { consulter: 'Lauréat.Query.ConsulterLauréat' },
@@ -812,6 +823,17 @@ const policies = {
       référencielPermissions.candidature.command.notifier,
     ],
   },
+  représentantLégal: {
+    consulter: [
+      référencielPermissions.candidature.query.consulterProjet,
+      référencielPermissions.lauréat.représentantLégal.query.consulter,
+    ],
+    corriger: [
+      référencielPermissions.candidature.query.consulterProjet,
+      référencielPermissions.lauréat.représentantLégal.usecase.corriger,
+      référencielPermissions.lauréat.représentantLégal.command.corriger,
+    ],
+  },
 } as const;
 
 /**
@@ -895,6 +917,10 @@ const permissionAdmin: Policy[] = [
   // Période
   'période.lister',
   'période.consulter',
+
+  // Représentant légal
+  'représentantLégal.consulter',
+  'représentantLégal.corriger',
 ];
 
 const permissionDgecValidateur: Policy[] = [
@@ -933,6 +959,9 @@ const permissionCRE: Policy[] = [
 
   // Candidature
   'candidature.attestation.télécharger',
+
+  // Représentant légal
+  'représentantLégal.consulter',
 ];
 
 const permissionDreal: Policy[] = [
@@ -978,6 +1007,10 @@ const permissionDreal: Policy[] = [
 
   // Candidature
   'candidature.attestation.télécharger',
+
+  // Représentant légal
+  'représentantLégal.consulter',
+  'représentantLégal.corriger',
 ];
 
 const permissionPorteurProjet: Policy[] = [
@@ -1031,6 +1064,9 @@ const permissionPorteurProjet: Policy[] = [
 
   // Candidature
   'candidature.attestation.télécharger',
+
+  // Représentant légal
+  'représentantLégal.consulter',
 ];
 
 const permissionAcheteurObligé: Policy[] = [
@@ -1056,6 +1092,9 @@ const permissionCaisseDesDépôts: Policy[] = [
 
   // Achèvement
   'achèvement.consulter',
+
+  // Représentant légal
+  'représentantLégal.consulter',
 ];
 
 const permissionGRD: Policy[] = [
