@@ -6,6 +6,7 @@ import { getLogger } from '@potentiel-libraries/monitoring';
 import { DomainError } from '@potentiel-domain/core';
 import { bootstrap } from '@potentiel-applications/bootstrap';
 import { permissionMiddleware } from '@potentiel-domain/utilisateur';
+import { Routes } from '@potentiel-applications/routes';
 
 import { NoAuthenticatedUserError } from './getAuthenticatedUser.handler';
 
@@ -23,7 +24,7 @@ export async function withErrorHandling<TResult>(
     }
 
     if (e instanceof NoAuthenticatedUserError) {
-      redirect('/auth/signIn');
+      redirect(Routes.Auth.signIn());
     }
 
     if (e instanceof DomainError) {

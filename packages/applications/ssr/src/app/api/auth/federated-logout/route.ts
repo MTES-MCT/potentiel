@@ -1,6 +1,8 @@
 import { NextResponse } from 'next/server';
 import { getServerSession } from 'next-auth';
 
+import { Routes } from '@potentiel-applications/routes';
+
 import { issuerUrl } from '@/auth';
 
 /**
@@ -25,7 +27,7 @@ export async function GET() {
   }
 
   // after keycloak logout, redirect the user to this route to remove the session
-  const redirectUrl = new URL('/auth/signOut', NEXTAUTH_URL);
+  const redirectUrl = new URL(Routes.Auth.signOut(), NEXTAUTH_URL);
   const ssoLogoutUrl = new URL(`${issuerUrl}/protocol/openid-connect/logout`);
 
   if (session.idToken) {

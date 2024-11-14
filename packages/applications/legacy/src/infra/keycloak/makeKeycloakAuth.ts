@@ -1,3 +1,4 @@
+import { Routes } from '@potentiel-applications/routes';
 import { EnsureRole, RegisterAuth } from '../../modules/authN';
 import { CreateUser, GetUserByEmail } from '../../modules/users';
 
@@ -17,8 +18,7 @@ export const makeKeycloakAuth = (deps: KeycloakAuthDeps) => {
     if (req.user) {
       return next();
     }
-    const params = new URLSearchParams({ callbackUrl: req.path });
-    return res.redirect(`auth/signIn?${params}`);
+    return res.redirect(Routes.Auth.signIn(req.path));
   };
 
   const ensureRole: EnsureRole = (roles) => {
