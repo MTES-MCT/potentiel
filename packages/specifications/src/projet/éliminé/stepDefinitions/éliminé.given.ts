@@ -29,6 +29,7 @@ EtantDonné('le projet éliminé {string}', async function (this: PotentielWorld
         "periodeId",
         "numeroCRE",
         "familleId",
+        "notifiedOn",
         "nomCandidat",
         "nomProjet",
         "puissance",
@@ -67,7 +68,8 @@ EtantDonné('le projet éliminé {string}', async function (this: PotentielWorld
         $18,
         $19,
         $20,
-        $21
+        $21,
+        $22
       )
     `,
     randomUUID(),
@@ -116,6 +118,7 @@ EtantDonné(
         "periodeId",
         "numeroCRE",
         "familleId",
+        "notifiedOn",
         "nomCandidat",
         "nomProjet",
         "puissance",
@@ -154,7 +157,8 @@ EtantDonné(
         $18,
         $19,
         $20,
-        $21
+        $21,
+        $22
       )
     `,
       randomUUID(),
