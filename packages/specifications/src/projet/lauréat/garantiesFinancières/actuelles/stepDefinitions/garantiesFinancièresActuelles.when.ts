@@ -17,8 +17,6 @@ Quand(
   async function (this: PotentielWorld, nomProjet: string, dataTable: DataTable) {
     const exemple = dataTable.rowsHash();
 
-    // ce n'est pas exemple ce sont les données de candidature
-
     try {
       const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
 

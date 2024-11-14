@@ -105,6 +105,7 @@ Fonctionnalité: Enregistrer des garanties financières actuelles
             | consignation              | 2027-12-01      |
             | six-mois-après-achèvement | 2027-12-01      |
 
+    @select
     Scénario: Impossible d'enregister des garanties financières actuelles si la date d'échéance est manquante
         Quand un admin enregistre les garanties financières actuelles pour le projet "Du boulodrome de Marseille" avec :
             | type            | avec-date-échéance |
