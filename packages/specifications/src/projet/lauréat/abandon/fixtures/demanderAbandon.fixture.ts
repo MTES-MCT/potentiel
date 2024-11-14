@@ -53,7 +53,15 @@ export class DemanderAbandonFixture
     return this.#recandidature;
   }
 
-  créer(partialFixture?: Partial<Readonly<DemanderAbandon>>): Readonly<DemanderAbandon> {
+  #identifiantProjet!: string;
+
+  get identifiantProjet(): string {
+    return this.#identifiantProjet;
+  }
+
+  créer(
+    partialFixture: Partial<Readonly<DemanderAbandon>> & { identifiantProjet: string },
+  ): Readonly<DemanderAbandon> {
     const recandidature = faker.datatype.boolean();
 
     const fixture = {
@@ -68,6 +76,7 @@ export class DemanderAbandonFixture
     this.#demandéPar = fixture.demandéPar;
     this.#raison = fixture.raison;
     this.#recandidature = fixture.recandidature;
+    this.#identifiantProjet = fixture.identifiantProjet;
 
     if (!fixture.recandidature) {
       const content = faker.word.words();

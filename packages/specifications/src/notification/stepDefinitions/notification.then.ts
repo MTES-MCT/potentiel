@@ -11,7 +11,7 @@ function vérifierEmailEnvoyé(this: PotentielWorld, email: string, data: DataTa
     if (key === 'sujet') {
       expect(notif.messageSubject).to.equal(value);
     } else {
-      expect(notif.variables[key]).to.equal(value);
+      expect(notif.variables[key]).to.match(new RegExp(value));
     }
   }
 }

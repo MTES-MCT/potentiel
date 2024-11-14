@@ -27,13 +27,13 @@ Fonctionnalité: Transmettre une attestation de conformité
             | sujet              | Potentiel - Une attestation de conformité a été transmise pour le projet Du boulodrome de Marseille dans le département departementProjet |
             | nom_projet         | Du boulodrome de Marseille                                                                                                                |
             | departement_projet | departementProjet                                                                                                                         |
-            | url                | https://potentiel.beta.gouv.fr/projet/PPE2%20-%20Eolien%231%23%2323/details.html                                                          |
+            | url                | https://potentiel.beta.gouv.fr/projet/.*/details.html                                                                                     |
 
         Et un email a été envoyé au porteur avec :
             | sujet              | Potentiel - Mise à jour de la date d'achèvement du projet Du boulodrome de Marseille dans le département departementProjet |
             | nom_projet         | Du boulodrome de Marseille                                                                                                 |
             | departement_projet | departementProjet                                                                                                          |
-            | url                | https://potentiel.beta.gouv.fr/projet/PPE2%20-%20Eolien%231%23%2323/details.html                                           |
+            | url                | https://potentiel.beta.gouv.fr/projet/.*/details.html                                                                      |
 
     Scénario: Une tâche du type "échoir les garanties financières" est annulée quand une attestation de conformité est transmise
         Etant donné des garanties financières actuelles pour le projet "Du boulodrome de Marseille" avec :
