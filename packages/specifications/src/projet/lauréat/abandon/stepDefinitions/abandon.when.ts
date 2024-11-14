@@ -13,6 +13,7 @@ Quand(
 
       const { demandéLe, demandéPar, pièceJustificative, raison, recandidature } =
         this.lauréatWorld.abandonWorld.demanderAbandonFixture.créer({
+          identifiantProjet,
           recandidature: etat.includes('avec recandidature'),
           demandéPar: this.utilisateurWorld.porteurFixture.email,
         });
@@ -193,7 +194,7 @@ Quand(
     nomPreuveRecandidature: string,
   ) {
     try {
-      const identifiantProjet = this.lauréatWorld.identifiantProjet.formatter();
+      const { identifiantProjet } = this.lauréatWorld.abandonWorld.demanderAbandonFixture;
 
       const {
         dateDésignation: dateDésignationPreuveRecandidature,

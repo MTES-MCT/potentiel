@@ -63,6 +63,7 @@ async function créerDemandeAbandon(this: PotentielWorld, etat: string) {
 
   const { raison, demandéLe, demandéPar, pièceJustificative, recandidature } =
     this.lauréatWorld.abandonWorld.demanderAbandonFixture.créer({
+      identifiantProjet,
       recandidature: etat.includes('avec recandidature'),
       demandéPar: this.utilisateurWorld.porteurFixture.email,
     });

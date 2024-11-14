@@ -90,7 +90,7 @@ Fonctionnalité: Transmettre une demande complète de raccordement
     Scénario: Impossible de transmettre une demande complète de raccordement  si le projet est abandonné
         Etant donné un abandon accordé pour le projet lauréat
         Quand le porteur transmet une demande complète de raccordement pour le projet lauréat "Du boulodrome de Marseille" auprès du gestionnaire de réseau "Enedis" avec :
-            | La date de qualification                | 2999-12-31                                                                                            |
+            | La date de qualification                | 2022-12-31                                                                                            |
             | La référence du dossier de raccordement | OUE-RP-2022-000033                                                                                    |
             | Le format de l'accusé de réception      | application/pdf                                                                                       |
             | Le contenu de l'accusé de réception     | Accusé de réception ayant pour référence OUE-RP-2022-000033 et la date de qualification au 2022-10-28 |

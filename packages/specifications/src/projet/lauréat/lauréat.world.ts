@@ -34,6 +34,10 @@ export class LauréatWorld {
     return this.#identifiantProjet;
   }
 
+  set identifiantProjet(value: IdentifiantProjet.ValueType) {
+    this.#identifiantProjet = value;
+  }
+
   #abandonWorld!: AbandonWord;
 
   get abandonWorld() {

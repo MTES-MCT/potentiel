@@ -1,6 +1,4 @@
-import { randomUUID } from 'crypto';
-
-import { Given as EtantDonné, DataTable } from '@cucumber/cucumber';
+import { Given as EtantDonné } from '@cucumber/cucumber';
 import { match } from 'ts-pattern';
 
 import { executeQuery, executeSelect } from '@potentiel-libraries/pg-helpers';
@@ -30,6 +28,7 @@ EtantDonné(
     await insérerUtilisateur(id, nom, email, role);
 
     const projets = await récupérerProjets(identifiantProjet);
+
     await associerProjetAuPorteur(id, projets);
   },
 );
@@ -54,7 +53,9 @@ EtantDonné(
 
     await insérerUtilisateur(id, nom, email, role);
 
-    await associerUtilisateurÀSaDreal(id);
+    const { région } = this.candidatureWorld.importerCandidature.values.localitéValue;
+
+    await associerUtilisateurÀSaDreal(id, région);
   },
 );
 
@@ -65,40 +66,6 @@ EtantDonné("l'admin {string}", async function (this: PotentielWorld, nomAdmin: 
 
   await insérerUtilisateur(id, nom, email, role);
 });
-
-// TODO : deprecated
-EtantDonné(
-  'le porteur pour le projet {lauréat-éliminé} {string}',
-  async function (
-    this: PotentielWorld,
-    statutProjet: 'lauréat' | 'éliminé',
-    nomProjet: string,
-    table: DataTable,
-  ) {
-    const exemple = table.rowsHash();
-    const email = exemple['email'] ?? 'email';
-    const fullName = exemple['nom'] ?? 'nom';
-    const userId = randomUUID();
-    const role = 'porteur-projet';
-
-    this.utilisateurWorld.porteurFixture.créer({
-      email,
-      id: userId,
-      nom: fullName,
-    });
-
-    const { identifiantProjet } =
-      statutProjet === 'lauréat'
-        ? this.lauréatWorld.rechercherLauréatFixture(nomProjet)
-        : this.eliminéWorld.rechercherÉliminéFixture(nomProjet);
-
-    const projets = await récupérerProjets(identifiantProjet);
-
-    await insérerUtilisateur(userId, fullName, email, role);
-
-    await associerProjetAuPorteur(userId, projets);
-  },
-);
 
 async function récupérerProjets(identifiantProjet: IdentifiantProjet.ValueType) {
   return executeSelect<{
@@ -141,7 +108,7 @@ async function associerProjetAuPorteur(userId: string, projets: { id: string }[]
   );
 }
 
-async function associerUtilisateurÀSaDreal(userId: string) {
+async function associerUtilisateurÀSaDreal(userId: string, régionProjet: string) {
   await executeQuery(
     `
       insert into "userDreals" (
@@ -157,7 +124,7 @@ async function associerUtilisateurÀSaDreal(userId: string) {
         $4
       )
     `,
-    'regionProjet',
+    régionProjet,
     userId,
     new Date().toISOString(),
     new Date().toISOString(),
