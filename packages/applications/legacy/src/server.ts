@@ -21,7 +21,7 @@ import { MulterError } from 'multer';
 setDefaultOptions({ locale: LOCALE.fr });
 dotenv.config();
 
-export async function makeServer(port: number, sessionSecret: string) {
+export async function makeServer(port: number) {
   try {
     await registerSagas();
 
