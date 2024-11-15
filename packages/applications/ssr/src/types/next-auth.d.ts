@@ -1,9 +1,8 @@
-import NextAuthJwt from 'next-auth/jwt';
-
 import { Utilisateur } from '@potentiel-domain/utilisateur';
+import { PlainType } from '@potentiel-domain/core';
 
 declare module 'next-auth/jwt' {
-  interface JWT extends NextAuthJwt.JWT {
+  interface JWT {
     idToken?: string;
     utilisateur?: PlainType<Utilisateur.ValueType>;
   }
