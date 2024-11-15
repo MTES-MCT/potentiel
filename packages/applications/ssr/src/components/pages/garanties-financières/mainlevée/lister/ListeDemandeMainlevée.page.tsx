@@ -27,7 +27,7 @@ export const ListeDemandeMainlevéePage: FC<ListeDemandeMainlevéeProps> = ({
       actions={[]}
       items={mainslevées.map((mainlevée) => ({
         ...mainlevée,
-        key: mainlevée.identifiantProjet,
+        key: `${mainlevée.identifiantProjet}#${mainlevée.demandéLe}`,
       }))}
       currentPage={currentPage}
       totalItems={totalItems}
