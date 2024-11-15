@@ -10,18 +10,24 @@ import { PageTemplate } from '@/components/templates/Page.template';
 
 export default function SignIn() {
   const params = useSearchParams();
-  const { status } = useSession();
+  const { status, data } = useSession();
   const callbackUrl = params.get('callbackUrl') ?? Routes.Auth.redirectToDashboard();
 
   useEffect(() => {
-    if (status === 'loading') return;
-    if (status === 'authenticated') {
-      redirect(callbackUrl);
+    switch (status) {
+      case 'authenticated':
+        // This checks that the session is up to date with the necessary requirements
+        // it's useful when changing what's inside the cookie for instance
+        if (!data.accessToken) {
+          redirect(Routes.Auth.signOut(callbackUrl));
+          break;
+        }
+        redirect(callbackUrl);
+        break;
+      case 'unauthenticated':
+        signIn('keycloak', { callbackUrl });
     }
-    if (status === 'unauthenticated') {
-      signIn('keycloak', { callbackUrl });
-    }
-  }, [status, callbackUrl]);
+  }, [status, callbackUrl, data]);
 
   return (
     <PageTemplate>
