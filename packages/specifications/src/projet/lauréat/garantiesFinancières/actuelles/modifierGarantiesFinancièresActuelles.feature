@@ -86,7 +86,8 @@ Fonctionnalité: Modifier des garanties financières actuelles
         Alors l'utilisateur devrait être informé que "La date de constitution des garanties financières ne peut pas être une date future"
 
     Scénario: Impossible de modifier des garanties financières actuelles si aucunes garanties financières actuelles ne sont trouvées
-        Quand un admin modifie les garanties financières actuelles pour le projet "Du boulodrome de Marseille" avec :
+        Etant donné le projet lauréat sans garanties financières importées "Du boulodrome de Lyon"
+        Quand un admin modifie les garanties financières actuelles pour le projet "Du boulodrome de Lyon" avec :
             | date de constitution | 2020-01-01 |
         Alors l'utilisateur devrait être informé que "Il n'y a aucunes garanties financières actuelles pour ce projet"
 

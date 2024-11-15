@@ -60,37 +60,6 @@ EtantDonné(
 );
 
 EtantDonné(
-  `des garanties financières actuelles importées avec l'attestation manquante pour le projet {string} avec :`,
-  async function (this: PotentielWorld, nomProjet: string, dataTable: DataTable) {
-    const exemple = dataTable.rowsHash();
-
-    const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
-
-    await mediator.send<GarantiesFinancières.ImporterTypeGarantiesFinancièresUseCase>({
-      type: 'Lauréat.GarantiesFinancières.UseCase.ImporterTypeGarantiesFinancières',
-      data: setGarantiesFinancièresData({
-        identifiantProjet,
-        exemple,
-      }),
-    });
-  },
-);
-
-EtantDonné(
-  `le type des garanties financières actuelles importé pour le projet {string}`,
-  async function (this: PotentielWorld, nomProjet: string) {
-    const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
-
-    await mediator.send<GarantiesFinancières.ImporterTypeGarantiesFinancièresUseCase>({
-      type: 'Lauréat.GarantiesFinancières.UseCase.ImporterTypeGarantiesFinancières',
-      data: setGarantiesFinancièresData({
-        identifiantProjet,
-      }),
-    });
-  },
-);
-
-EtantDonné(
   'des garanties financières actuelles échues pour le projet {string} avec :',
   async function (this: PotentielWorld, nomProjet: string, dataTable: DataTable) {
     const exemple = dataTable.rowsHash();

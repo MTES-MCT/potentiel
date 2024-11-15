@@ -5,6 +5,7 @@ Fonctionnalité: Importer le type (et la date d'échéance selon le cas) des gar
         Etant donné le projet lauréat sans garanties financières importées "Du boulodrome de Marseille"
         Et le porteur "Marcel Patoulatchi" ayant accés au projet lauréat "Du boulodrome de Marseille"
 
+    @NotImplemented
     Plan du Scénario: Un admin importe le type des garanties financières actuelles d'un projet
         Quand un admin importe le type des garanties financières actuelles pour le projet "Du boulodrome de Marseille"
         Alors les garanties financières actuelles devraient être consultables pour le projet "Du boulodrome de Marseille" avec :
@@ -18,6 +19,7 @@ Fonctionnalité: Importer le type (et la date d'échéance selon le cas) des gar
             | consignation              |                 | 2024-01-01  |
             | six-mois-après-achèvement |                 | 2024-01-01  |
 
+    @NotImplemented
     Scénario: Un admin importe le type des garanties financières actuelles d'un projet en attente de garanties financières
         Etant donné des garanties financières en attente pour le projet "Du boulodrome de Marseille" avec :
             | date limite de soumission | 2024-02-01      |
@@ -29,19 +31,23 @@ Fonctionnalité: Importer le type (et la date d'échéance selon le cas) des gar
             | date dernière mise à jour | 2024-01-01   |
         Et les garanties financières en attente du projet "Du boulodrome de Marseille" ne devraient plus être consultables
 
+    @NotImplemented
     Scénario: Une tâche du type "échoir les garanties financières" est planifiée quand l'administration importe le type d'une garanties financières pour un projet
         Quand un admin importe le type des garanties financières actuelles pour le projet "Du boulodrome de Marseille"
         Alors une tâche "échoir les garanties financières" est planifiée à la date du "2024-12-03" pour le projet "Du boulodrome de Marseille"
 
+    @NotImplemented
     Scénario: Des tâches de la catégorie "rappel échéance garanties financières" sont planifiées à M-1 et M-2 de la date d'échéance en cas de type de garanties financières importé
         Quand un admin importe le type des garanties financières actuelles pour le projet "Du boulodrome de Marseille"
         Alors une tâche "rappel échéance garanties financières à un mois" est planifiée à la date du "2024-09-01" pour le projet "Du boulodrome de Marseille"
         Et une tâche "rappel échéance garanties financières à deux mois" est planifiée à la date du "2024-08-01" pour le projet "Du boulodrome de Marseille"
 
+    @NotImplemented
     Scénario: Impossible d'importer le type (et la date d'échéance selon le cas) des garanties financières actuelles d'un projet si date d'échéance manquante
         Quand un admin importe le type des garanties financières actuelles pour le projet "Du boulodrome de Marseille"
         Alors l'utilisateur devrait être informé que "Vous devez renseigner la date d'échéance pour ce type de garanties financières"
 
+    @NotImplemented
     Plan du Scénario: Impossible d'importer le type (et la date d'échéance selon le cas) des garanties financières actuelles d'un projet si la date d'échéance est non compatible avec le type
         Quand un admin importe le type des garanties financières actuelles pour le projet "Du boulodrome de Marseille" avec :
             | type            | <type>     |
