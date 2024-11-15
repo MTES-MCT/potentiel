@@ -1,17 +1,25 @@
 import { randomUUID } from 'crypto';
 
 import { Given as EtantDonné } from '@cucumber/cucumber';
-import { faker } from '@faker-js/faker';
+import { mediator } from 'mediateur';
 
 import { executeQuery } from '@potentiel-libraries/pg-helpers';
-import { DateTime } from '@potentiel-domain/common';
-import { publish } from '@potentiel-infrastructure/pg-event-sourcing';
+import { IdentifiantProjet } from '@potentiel-domain/common';
 import { Éliminé } from '@potentiel-domain/elimine';
 
 import { PotentielWorld } from '../../../potentiel.world';
+import { importerCandidature } from '../../../candidature/stepDefinitions/candidature.given';
 
 EtantDonné('le projet éliminé {string}', async function (this: PotentielWorld, nomProjet: string) {
-  const identifiantProjet = this.eliminéWorld.identifiantProjet;
+  const dateDésignation = new Date('2022-10-27').toISOString();
+
+  await importerCandidature.call(this, nomProjet, 'éliminé');
+
+  const { identifiantProjet, values: candidature } = this.candidatureWorld.importerCandidature;
+
+  const identifiantProjetValue = IdentifiantProjet.convertirEnValueType(identifiantProjet);
+
+  await notifierÉliminé.call(this, dateDésignation);
 
   await executeQuery(
     `
@@ -21,6 +29,7 @@ EtantDonné('le projet éliminé {string}', async function (this: PotentielWorld
         "periodeId",
         "numeroCRE",
         "familleId",
+        "notifiedOn",
         "nomCandidat",
         "nomProjet",
         "puissance",
@@ -59,60 +68,47 @@ EtantDonné('le projet éliminé {string}', async function (this: PotentielWorld
         $18,
         $19,
         $20,
-        $21
+        $21,
+        $22
       )
     `,
     randomUUID(),
-    identifiantProjet.appelOffre,
-    identifiantProjet.période,
-    identifiantProjet.numéroCRE,
-    identifiantProjet.famille,
-    'nomCandidat',
+    identifiantProjetValue.appelOffre,
+    identifiantProjetValue.période,
+    identifiantProjetValue.numéroCRE,
+    identifiantProjetValue.famille,
+    new Date(dateDésignation).getTime(),
+    candidature.nomCandidatValue,
     nomProjet,
-    0,
-    0,
-    0,
-    0,
-    'nomRepresentantLegal',
-    'email',
-    'codePostalProjet',
-    'communeProjet',
-    'departementProjet',
-    'regionProjet',
+    candidature.puissanceProductionAnnuelleValue,
+    candidature.prixReferenceValue,
+    candidature.evaluationCarboneSimplifiéeValue,
+    candidature.noteTotaleValue,
+    candidature.nomReprésentantLégalValue,
+    candidature.emailContactValue,
+    candidature.localitéValue.codePostal,
+    candidature.localitéValue.commune,
+    candidature.localitéValue.département,
+    candidature.localitéValue.région,
     'Eliminé',
-    false,
-    false,
-    false,
+    candidature.actionnariatValue === 'financement-participatif',
+    candidature.actionnariatValue === 'investissement-participatif',
+    candidature.puissanceALaPointeValue,
   );
-
-  const notifiéLe = DateTime.convertirEnValueType(new Date('2022-10-27')).formatter();
-
-  this.eliminéWorld.éliminéFixtures.set(nomProjet, {
-    nom: nomProjet,
-    identifiantProjet,
-    dateDésignation: notifiéLe,
-  });
-
-  // TODO : Hack en attendant de revoir ces steps
-  const éliminéNotifié: Éliminé.ÉliminéNotifiéEvent = {
-    type: 'ÉliminéNotifié-V1',
-    payload: {
-      attestation: {
-        format: 'application/pdf',
-      },
-      identifiantProjet: identifiantProjet.formatter(),
-      notifiéLe: notifiéLe,
-      notifiéPar: faker.internet.email(),
-    },
-  };
-
-  await publish(`éliminé|${identifiantProjet.formatter()}`, éliminéNotifié);
 });
 
 EtantDonné(
   'le projet éliminé {string} ayant été notifié le {string}',
   async function (this: PotentielWorld, nomProjet: string, dateNotification: string) {
-    const identifiantProjet = this.eliminéWorld.identifiantProjet;
+    const dateDésignation = new Date(dateNotification).toISOString();
+
+    await importerCandidature.call(this, nomProjet, 'éliminé');
+
+    const { identifiantProjet, values: candidature } = this.candidatureWorld.importerCandidature;
+
+    const identifiantProjetValue = IdentifiantProjet.convertirEnValueType(identifiantProjet);
+
+    await notifierÉliminé.call(this, dateDésignation);
 
     await executeQuery(
       `
@@ -122,6 +118,7 @@ EtantDonné(
         "periodeId",
         "numeroCRE",
         "familleId",
+        "notifiedOn",
         "nomCandidat",
         "nomProjet",
         "puissance",
@@ -160,53 +157,69 @@ EtantDonné(
         $18,
         $19,
         $20,
-        $21
+        $21,
+        $22
       )
     `,
       randomUUID(),
-      identifiantProjet.appelOffre,
-      identifiantProjet.période,
-      identifiantProjet.numéroCRE,
-      identifiantProjet.famille,
-      'nomCandidat',
+      identifiantProjetValue.appelOffre,
+      identifiantProjetValue.période,
+      identifiantProjetValue.numéroCRE,
+      identifiantProjetValue.famille,
+      new Date(dateDésignation).getTime(),
+      candidature.nomCandidatValue,
       nomProjet,
-      0,
-      0,
-      0,
-      0,
-      'nomRepresentantLegal',
-      'email',
-      'codePostalProjet',
-      'communeProjet',
-      'departementProjet',
-      'regionProjet',
+      candidature.puissanceProductionAnnuelleValue,
+      candidature.prixReferenceValue,
+      candidature.evaluationCarboneSimplifiéeValue,
+      candidature.noteTotaleValue,
+      candidature.nomReprésentantLégalValue,
+      candidature.emailContactValue,
+      candidature.localitéValue.codePostal,
+      candidature.localitéValue.commune,
+      candidature.localitéValue.département,
+      candidature.localitéValue.région,
       'Eliminé',
-      false,
-      false,
-      false,
+      candidature.actionnariatValue === 'financement-participatif',
+      candidature.actionnariatValue === 'investissement-participatif',
+      candidature.puissanceALaPointeValue,
     );
-
-    const notifiéLe = DateTime.convertirEnValueType(new Date(dateNotification)).formatter();
-
-    this.eliminéWorld.éliminéFixtures.set(nomProjet, {
-      nom: nomProjet,
-      identifiantProjet,
-      dateDésignation: notifiéLe,
-    });
-
-    // TODO : Hack en attendant de revoir ces steps
-    const éliminéNotifié: Éliminé.ÉliminéNotifiéEvent = {
-      type: 'ÉliminéNotifié-V1',
-      payload: {
-        attestation: {
-          format: 'application/pdf',
-        },
-        identifiantProjet: identifiantProjet.formatter(),
-        notifiéLe: notifiéLe,
-        notifiéPar: faker.internet.email(),
-      },
-    };
-
-    await publish(`éliminé|${identifiantProjet.formatter()}`, éliminéNotifié);
   },
 );
+
+async function notifierÉliminé(this: PotentielWorld, dateDésignation: string) {
+  const candidature = this.candidatureWorld.importerCandidature;
+  const identifiantProjetValue = IdentifiantProjet.convertirEnValueType(
+    candidature.identifiantProjet,
+  );
+
+  this.utilisateurWorld.porteurFixture.créer({
+    email: this.candidatureWorld.importerCandidature.values.emailContactValue,
+  });
+
+  this.eliminéWorld.identifiantProjet = identifiantProjetValue;
+
+  this.eliminéWorld.éliminéFixtures.set(candidature.values.nomProjetValue, {
+    nom: candidature.values.nomProjetValue,
+    identifiantProjet: identifiantProjetValue,
+    dateDésignation,
+  });
+
+  const data = {
+    identifiantProjetValue: identifiantProjetValue.formatter(),
+    notifiéLeValue: dateDésignation,
+    notifiéParValue: this.utilisateurWorld.validateurFixture.email,
+    attestationValue: {
+      format: `application/pdf`,
+    },
+    validateurValue: {
+      fonction: this.utilisateurWorld.validateurFixture.fonction,
+      nomComplet: this.utilisateurWorld.validateurFixture.nom,
+    },
+  };
+
+  await mediator.send<Éliminé.NotifierÉliminéUseCase>({
+    type: 'Éliminé.UseCase.NotifierÉliminé',
+    data,
+  });
+}
