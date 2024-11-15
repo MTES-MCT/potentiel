@@ -2,16 +2,23 @@ import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
 import { ReprésentantLégal } from '@potentiel-domain/laureat';
 
 import { ImporterReprésentantLégalFixture } from './fixtures/importerReprésentantLégal.fixture';
+import { CorrigerReprésentantLégalFixture } from './fixtures/corrigerReprésentantLégal.fixture';
 
 export class ReprésentantLégalWorld {
   #importerReprésentantLégalFixture: ImporterReprésentantLégalFixture;
+  #corrigerReprésentantLégalFixture: CorrigerReprésentantLégalFixture;
 
   get importerReprésentantLégalFixture() {
     return this.#importerReprésentantLégalFixture;
   }
 
+  get corrigerReprésentantLégalFixture() {
+    return this.#corrigerReprésentantLégalFixture;
+  }
+
   constructor() {
     this.#importerReprésentantLégalFixture = new ImporterReprésentantLégalFixture();
+    this.#corrigerReprésentantLégalFixture = new CorrigerReprésentantLégalFixture();
   }
 
   mapToExpected(
@@ -25,6 +32,10 @@ export class ReprésentantLégalWorld {
         importéPar: Email.system(),
       },
     };
+
+    if (this.#corrigerReprésentantLégalFixture.aÉtéCréé) {
+      expected.nomReprésentantLégal = this.#corrigerReprésentantLégalFixture.nomReprésentantLégal;
+    }
 
     return expected;
   }
