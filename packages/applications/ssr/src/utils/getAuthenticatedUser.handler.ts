@@ -1,9 +1,11 @@
 import { Message, MessageHandler } from 'mediateur';
-import { cookies, headers } from 'next/headers';
-import { getToken, GetTokenParams } from 'next-auth/jwt';
+import { getServerSession } from 'next-auth';
+import { headers } from 'next/headers';
 // import * as Sentry from '@sentry/nextjs';
 
 import { Utilisateur } from '@potentiel-domain/utilisateur';
+
+import { authOptions, convertToken } from '@/auth';
 
 export type GetAuthenticatedUserMessage = Message<
   'System.Authorization.RécupérerUtilisateur',
@@ -11,33 +13,17 @@ export type GetAuthenticatedUserMessage = Message<
   Utilisateur.ValueType
 >;
 
-/**
- * Check for an access token
- *  - in the session (encrypted)
- *  - in Authorization header (clear)
- **/
-const getAccessToken = async () => {
-  const token = await getToken({
-    req: {
-      cookies: cookies(),
-      // NB: getToken peut également récupérer le token dans le header Authorization
-      // mais elle attend un token chiffré, ce qui n'est pas le cas dans le cadre de l'authentification API
-      // headers: headers()
-    } as unknown as GetTokenParams['req'],
-  });
-  if (token) {
-    return token.accessToken;
-  }
-  const authorizationHeader = headers().get('authorization');
-  return authorizationHeader?.replace(/Bearer /, '');
-};
-
 export const getOptionalAuthenticatedUser = async (): Promise<
   Utilisateur.ValueType | undefined
 > => {
-  const accessToken = await getAccessToken();
-  if (accessToken) {
-    return Utilisateur.convertirEnValueType(accessToken);
+  const session = await getServerSession(authOptions);
+  if (session?.utilisateur) {
+    return Utilisateur.bind(session.utilisateur);
+  }
+  const authorizationHeader = headers().get('Authorization');
+  if (authorizationHeader && authorizationHeader.toLowerCase().startsWith('bearer ')) {
+    const utilisateur = convertToken(authorizationHeader.slice(7));
+    return utilisateur && Utilisateur.bind(utilisateur);
   }
 };
 

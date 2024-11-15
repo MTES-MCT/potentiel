@@ -30,7 +30,7 @@ export const convertirEnValueType = (value: string): ValueType => {
 };
 
 export const bind = ({ nom, type }: PlainType<ValueType>) => {
-  return convertirEnValueType(`${type}/${nom}`);
+  return convertirEnValueType(`/${type}/${nom}`);
 };
 
 export const estUnGroupeValide = (value: string) => {
