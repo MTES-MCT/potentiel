@@ -4,8 +4,9 @@ Fonctionnalité: Importer le représentant légal lors de la désignation d'une 
     Contexte:
         Etant donné le DGEC validateur "Robert Robichet"
 
+    @select
     Scénario: Importer le représentant légal lors de la désignation d'une candidature lauréate
-        Etant donné la candidature lauréate notifiée "Du boulodrome de Marseille"
+        Etant donné le projet lauréat "Du boulodrome de Marseille"
         Alors le représentant légal du projet lauréat devrait être consultable
 
     Scénario: Impossible d'importer le représentant légal pour un projet éliminé

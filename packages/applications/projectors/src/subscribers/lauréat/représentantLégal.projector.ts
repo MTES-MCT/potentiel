@@ -3,6 +3,8 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 import { RebuildTriggered, Event } from '@potentiel-infrastructure/pg-event-sourcing';
 import { ReprésentantLégal } from '@potentiel-domain/laureat';
 import { getLogger } from '@potentiel-libraries/monitoring';
+import { Option } from '@potentiel-libraries/monads';
+import { findProjection } from '@potentiel-infrastructure/pg-projections';
 
 import { removeProjection, upsertProjection } from '../../infrastructure/';
 
@@ -22,6 +24,24 @@ export const register = () => {
       );
       return;
     }
+
+    const { identifiantProjet } = payload;
+
+    const représentantLégal = await findProjection<ReprésentantLégal.ReprésentantLégalEntity>(
+      `représentant-légal|${identifiantProjet}`,
+    );
+
+    const représentantLégalDefaultValue: Omit<ReprésentantLégal.ReprésentantLégalEntity, 'type'> = {
+      identifiantProjet,
+      nomReprésentantLégal: '',
+      import: {
+        importéLe: '',
+        importéPar: '',
+      },
+    };
+
+    const représentantLégalToUpsert: Omit<ReprésentantLégal.ReprésentantLégalEntity, 'type'> =
+      Option.isSome(représentantLégal) ? représentantLégal : représentantLégalDefaultValue;
 
     switch (type) {
       case 'ReprésentantLégalImporté-V1':
@@ -44,6 +64,14 @@ export const register = () => {
           });
         }
         break;
+      case 'ReprésentantLégalCorrigé-V1':
+        await upsertProjection<ReprésentantLégal.ReprésentantLégalEntity>(
+          `représentant-légal|${payload.identifiantProjet}`,
+          {
+            ...représentantLégalToUpsert,
+            nomReprésentantLégal: payload.nomReprésentantLégal,
+          },
+        );
     }
   };
 

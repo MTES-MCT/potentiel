@@ -1,12 +1,11 @@
 # language: fr
 Fonctionnalité: Corriger le représentant légal d'un projet lauréat
 
-    @NotImplemented
+    @select
     Scénario: Corriger le représentant légal d'un projet lauréat
         Etant donné le projet lauréat "Du boulodrome de Marseille"
-        Et le représentant légal "Marcel Patoulatchi" du projet lauréat
-        Quand le représentant légal est corrigé pour le projet lauréat
-        Alors le représentant légal du projet lauréat devrait être mis à jour
+        Quand le nom du représentant légal du projet lauréat est corrigé
+        Alors le nom du représentant légal du projet lauréat devrait être mis à jour
 
     @NotImplemented
     Scénario: Corriger le représentant légal d'un projet lauréat alors qu'un changement de représentant légal est en cours
