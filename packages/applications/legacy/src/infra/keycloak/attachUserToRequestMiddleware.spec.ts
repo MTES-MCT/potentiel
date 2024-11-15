@@ -5,6 +5,8 @@ import { User } from '../../entities';
 import { GetUserByEmail, UserRole } from '../../modules/users';
 import { makeFakeCreateUser } from '../../__tests__/fakes';
 import { makeAttachUserToRequestMiddleware } from './attachUserToRequestMiddleware';
+import { IdentifiantUtilisateur, Role, Utilisateur } from '@potentiel-domain/utilisateur';
+import { Option } from '@potentiel-libraries/monads';
 
 describe(`attachUserToRequestMiddleware`, () => {
   const staticPaths = ['/fonts', '/css', '/images', '/scripts', '/main'];
@@ -14,18 +16,18 @@ describe(`attachUserToRequestMiddleware`, () => {
         path,
       } as express.Request;
       const nextFunction = jest.fn();
-      const getAccessToken = jest.fn(() => Promise.resolve(undefined));
+      const getUtilisateur = jest.fn(() => Promise.resolve(undefined));
 
       const middleware = makeAttachUserToRequestMiddleware({
         getUserByEmail: jest.fn<GetUserByEmail>(),
         createUser: makeFakeCreateUser(),
-        getAccessToken,
+        getUtilisateur,
       });
       middleware(request, {} as express.Response, nextFunction);
 
       it('should not attach the user to the request and execute the next function', () => {
         expect(request.user).toBeUndefined();
-        expect(getAccessToken).not.toHaveBeenCalled();
+        expect(getUtilisateur).not.toHaveBeenCalled();
         expect(nextFunction).toHaveBeenCalled();
       });
     });
@@ -33,38 +35,19 @@ describe(`attachUserToRequestMiddleware`, () => {
 
   describe(`when the path is not a static one`, () => {
     const request = { path: '/a-protected-path' } as express.Request;
-    const makeFakeGetAccessToken = (role: string, username: string) => async () => {
-      const iat = Math.floor(Date.now() / 1000);
-      const claims = {
-        exp: iat,
-        iat: iat + 300,
-        auth_time: iat,
-        jti: 'jti',
-        iss: 'http://localhost:8080/realms/Potentiel',
-        aud: ['realm-management', 'account'],
-        sub: 'sub',
-        typ: 'Bearer',
-        azp: 'potentiel-web',
-        sid: 'sid',
-        acr: '0',
-        realm_access: {
-          roles: [role],
-        },
-        scope: 'openid email profile',
-        email_verified: true,
-        name: 'Admin Test',
-        preferred_username: username,
-        given_name: 'Admin',
-        family_name: 'Test',
-        email: username,
-      };
-      return `xx.${btoa(JSON.stringify(claims))}.xx`;
+    const makeFakeGetUtilisateur = (role: string, username: string) => async () => {
+      return Utilisateur.bind({
+        groupe: Option.none,
+        identifiantUtilisateur: IdentifiantUtilisateur.convertirEnValueType(username),
+        nom: '',
+        role: Role.convertirEnValueType(role),
+      });
     };
     describe(`when there is no user email in the keycloak access token`, () => {
       const middleware = makeAttachUserToRequestMiddleware({
         getUserByEmail: jest.fn<GetUserByEmail>(),
         createUser: makeFakeCreateUser(),
-        getAccessToken: makeFakeGetAccessToken('admin', ''),
+        getUtilisateur: makeFakeGetUtilisateur('admin', ''),
       });
 
       it('should not attach the user to the request and execute the next function', async () => {
@@ -95,10 +78,10 @@ describe(`attachUserToRequestMiddleware`, () => {
           const middleware = makeAttachUserToRequestMiddleware({
             getUserByEmail,
             createUser: makeFakeCreateUser(),
-            getAccessToken: makeFakeGetAccessToken('', userEmail),
+            getUtilisateur: makeFakeGetUtilisateur('', userEmail),
           });
 
-          it('should not attach the user to the request', async () => {
+          it('should not attach the user to the request and execute the next function', async () => {
             await middleware(request, {} as express.Response, nextFunction);
             expect(request.user).toBeUndefined();
             expect(nextFunction).toHaveBeenCalled();
@@ -125,7 +108,7 @@ describe(`attachUserToRequestMiddleware`, () => {
           const middleware = makeAttachUserToRequestMiddleware({
             getUserByEmail,
             createUser: makeFakeCreateUser(),
-            getAccessToken: makeFakeGetAccessToken(tokenUserRole, userEmail),
+            getUtilisateur: makeFakeGetUtilisateur(tokenUserRole, userEmail),
           });
 
           it('should attach the user to the request with role from token', async () => {
@@ -156,7 +139,7 @@ describe(`attachUserToRequestMiddleware`, () => {
           const middleware = makeAttachUserToRequestMiddleware({
             getUserByEmail,
             createUser,
-            getAccessToken: makeFakeGetAccessToken('porteur-projet', userEmail),
+            getUtilisateur: makeFakeGetUtilisateur('porteur-projet', userEmail),
           });
 
           it('should attach a new user to the request', async () => {
@@ -188,7 +171,7 @@ describe(`attachUserToRequestMiddleware`, () => {
           const middleware = makeAttachUserToRequestMiddleware({
             getUserByEmail,
             createUser,
-            getAccessToken: makeFakeGetAccessToken(userRole, userEmail),
+            getUtilisateur: makeFakeGetUtilisateur(userRole, userEmail),
           });
 
           it('should attach a new user to the request with the same role of the token', async () => {

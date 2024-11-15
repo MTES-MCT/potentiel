@@ -3,7 +3,6 @@ import { Permission } from '../../modules/authN';
 import { AccèsNonAutoriséPage } from '../../views';
 import { Routes } from '@potentiel-applications/routes';
 
-// TODO
 export const vérifierPermissionUtilisateur =
   (permission: Permission): RequestHandler =>
   (request, response, next) => {

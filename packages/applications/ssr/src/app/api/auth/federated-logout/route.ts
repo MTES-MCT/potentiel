@@ -46,3 +46,6 @@ export const GET = async () => {
     return NextResponse.redirect(redirectUrl);
   }
 };
+
+// forces the route handler to be dynamic
+export const dynamic = 'force-dynamic';
