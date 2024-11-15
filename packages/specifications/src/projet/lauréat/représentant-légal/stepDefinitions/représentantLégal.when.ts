@@ -27,7 +27,7 @@ Quand(
       const { nomReprésentantLégal, dateCorrection } =
         this.lauréatWorld.représentantLégalWorld.corrigerReprésentantLégalFixture.créer();
 
-      await mediator.send<ReprésentantLégal.CorrigerReprésentantLégalUseCase>({
+      await mediator.send<ReprésentantLégal.ReprésentantLégalUseCase>({
         type: 'Lauréat.ReprésentantLégal.UseCase.CorrigerReprésentantLégal',
         data: {
           identifiantProjetValue: identifiantProjet,
