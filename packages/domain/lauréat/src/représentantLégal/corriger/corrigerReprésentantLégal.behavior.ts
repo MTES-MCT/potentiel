@@ -29,9 +29,9 @@ export async function corriger(
     identifiantUtilisateur,
   }: CorrigerOptions,
 ) {
-  if (this.nomReprésentantLégal === nomReprésentantLégal) {
-    // throw new ReprésentantLégalIdentifiqueError();
-  }
+  // if (this.nomReprésentantLégal === nomReprésentantLégal) {
+  //   // throw new ReprésentantLégalIdentifiqueError();
+  // }
 
   const event: ReprésentantLégalCorrigéEvent = {
     type: 'ReprésentantLégalCorrigé-V1',
@@ -51,6 +51,7 @@ export function applyReprésentantLégalCorrigé(
   { payload: { nomReprésentantLégal } }: ReprésentantLégalCorrigéEvent,
 ) {
   this.nomReprésentantLégal = nomReprésentantLégal;
+  console.log('🥁 Le nom du représentant légal a été corrigé', this.nomReprésentantLégal);
 }
 
 // class ReprésentantLégalIdentifiqueError extends DomainError {

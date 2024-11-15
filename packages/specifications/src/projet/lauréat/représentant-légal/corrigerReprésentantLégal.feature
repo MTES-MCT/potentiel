@@ -1,9 +1,9 @@
 # language: fr
 Fonctionnalité: Corriger le représentant légal d'un projet lauréat
 
-    @select
     Scénario: Corriger le représentant légal d'un projet lauréat
         Etant donné le projet lauréat "Du boulodrome de Marseille"
+        Et l'admin "Robert Robichet"
         Quand le nom du représentant légal du projet lauréat est corrigé
         Alors le nom du représentant légal du projet lauréat devrait être mis à jour
 
