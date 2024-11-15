@@ -23,7 +23,7 @@ export const registerCorrigerReprésentantLégalCommand = (loadAggregate: LoadAg
     nomReprésentantLégal,
     dateCorrection,
   }) => {
-    const représentantLégal = await loadReprésentantLégal(identifiantProjet, false);
+    const représentantLégal = await loadReprésentantLégal(identifiantProjet);
 
     await représentantLégal.corriger({
       identifiantProjet,

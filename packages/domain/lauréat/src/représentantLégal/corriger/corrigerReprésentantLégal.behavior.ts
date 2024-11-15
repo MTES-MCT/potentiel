@@ -51,7 +51,6 @@ export function applyReprésentantLégalCorrigé(
   { payload: { nomReprésentantLégal } }: ReprésentantLégalCorrigéEvent,
 ) {
   this.nomReprésentantLégal = nomReprésentantLégal;
-  console.log('🥁 Le nom du représentant légal a été corrigé', this.nomReprésentantLégal);
 }
 
 // class ReprésentantLégalIdentifiqueError extends DomainError {
