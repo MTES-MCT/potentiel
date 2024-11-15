@@ -1,11 +1,14 @@
 'use server';
 
+import { redirect } from 'next/navigation';
+
 import {
   AggregateNotFoundError,
   DomainError,
   InvalidOperationError,
   OperationRejectedError,
 } from '@potentiel-domain/core';
+import { Routes } from '@potentiel-applications/routes';
 
 import { CustomErrorPage } from '@/components/pages/custom-error/CustomError.page';
 
@@ -13,7 +16,8 @@ import { withErrorHandling } from './withErrorHandling';
 
 export const PageWithErrorHandling = async (
   render: () => Promise<JSX.Element>,
-): Promise<JSX.Element> => withErrorHandling(render, renderDomainError, renderUnknownError);
+): Promise<JSX.Element> =>
+  withErrorHandling(render, renderDomainError, redirectOnAuthenticationError, renderUnknownError);
 
 const renderDomainError = (e: DomainError) => {
   if (e instanceof AggregateNotFoundError) {
@@ -29,6 +33,10 @@ const renderDomainError = (e: DomainError) => {
   return <></>;
 };
 
-const renderUnknownError = () => {
+const renderUnknownError = (_: Error) => {
   return <CustomErrorPage statusCode="500" type="ServerError" />;
+};
+
+const redirectOnAuthenticationError = () => {
+  redirect(Routes.Auth.signIn());
 };
