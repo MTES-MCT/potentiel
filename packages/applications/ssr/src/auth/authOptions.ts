@@ -1,6 +1,5 @@
 import { AuthOptions } from 'next-auth';
 import KeycloakProvider from 'next-auth/providers/keycloak';
-import { z } from 'zod';
 
 import { getLogger } from '@potentiel-libraries/monitoring';
 
@@ -8,23 +7,13 @@ import { convertToken } from './convertToken';
 
 const ONE_HOUR = 60 * 60;
 
-const config = z
-  .object({
-    KEYCLOAK_SERVER: z.string().url(),
-    KEYCLOAK_REALM: z.string(),
-    KEYCLOAK_USER_CLIENT_ID: z.string(),
-    KEYCLOAK_USER_CLIENT_SECRET: z.string(),
-    SESSION_MAX_AGE: z.coerce.number().default(ONE_HOUR),
-  })
-  .parse(process.env);
-
-export const issuerUrl = `${config.KEYCLOAK_SERVER}/realms/${config.KEYCLOAK_REALM}`;
+export const issuerUrl = `${process.env.KEYCLOAK_SERVER}/realms/${process.env.KEYCLOAK_REALM}`;
 
 export const authOptions: AuthOptions = {
   providers: [
     KeycloakProvider({
-      clientId: config.KEYCLOAK_USER_CLIENT_ID,
-      clientSecret: config.KEYCLOAK_USER_CLIENT_SECRET,
+      clientId: process.env.KEYCLOAK_USER_CLIENT_ID ?? '',
+      clientSecret: process.env.KEYCLOAK_USER_CLIENT_SECRET ?? '',
       issuer: issuerUrl,
     }),
   ],
@@ -34,7 +23,7 @@ export const authOptions: AuthOptions = {
     // It is renewed on each page refresh, so this represents inactivity time.
     // Moreover, the user will not be disconnected after expiration (if their Keycloak session still exists),
     // but there will be a redirection to keycloak.
-    maxAge: config.SESSION_MAX_AGE,
+    maxAge: parseInt(process.env.SESSION_MAX_AGE ?? String(ONE_HOUR), 10),
   },
   callbacks: {
     // Stores user data and idToken to the next-auth cookie
