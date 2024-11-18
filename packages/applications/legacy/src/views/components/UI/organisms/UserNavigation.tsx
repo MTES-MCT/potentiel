@@ -145,30 +145,11 @@ const MenuAdmin = (currentPage?: string) => (
       >
         Emails en erreur
       </DropdownMenu.DropdownItem>
-
-      <DropdownMenu.DropdownItem
-        href={routes.ADMIN_DREAL_LIST}
-        {...(currentPage === 'list-dreal' && { isCurrent: true })}
-      >
-        Dreals
-      </DropdownMenu.DropdownItem>
       <DropdownMenu.DropdownItem
         href={routes.ADMIN_PARTNER_USERS}
         {...(currentPage === 'admin-users' && { isCurrent: true })}
       >
         Partenaires
-      </DropdownMenu.DropdownItem>
-      <DropdownMenu.DropdownItem
-        href={routes.ADMIN_INVITATION_DGEC_VALIDATEUR}
-        {...(currentPage === 'inviter-dgec-validateur' && { isCurrent: true })}
-      >
-        Dgec validateurs
-      </DropdownMenu.DropdownItem>
-      <DropdownMenu.DropdownItem
-        href={routes.GET_INVITER_UTILISATEUR_ADMINISTRATEUR_PAGE}
-        {...(currentPage === 'inviter-administrateur' && { isCurrent: true })}
-      >
-        Administrateurs
       </DropdownMenu.DropdownItem>
     </DropdownMenu>
 

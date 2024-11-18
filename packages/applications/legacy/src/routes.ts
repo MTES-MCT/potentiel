@@ -34,32 +34,32 @@ class routes {
 
   static ADMIN_GARANTIES_FINANCIERES = '/admin/garanties-financieres.html';
 
-  static ADMIN_AO_PERIODE = '/admin/appels-offres.html';
-  static IMPORT_AO_ACTION = '/admin/importAppelsOffres';
-  static IMPORT_PERIODE_ACTION = '/admin/importPeriodes';
-  static EXPORT_AO_CSV = '/admin/appelsOffres.csv';
-  static EXPORT_PERIODE_CSV = '/admin/periodes.csv';
+  // static ADMIN_AO_PERIODE = '/admin/appels-offres.html';
+  // static IMPORT_AO_ACTION = '/admin/importAppelsOffres';
+  // static IMPORT_PERIODE_ACTION = '/admin/importPeriodes';
+  // static EXPORT_AO_CSV = '/admin/appelsOffres.csv';
+  // static EXPORT_PERIODE_CSV = '/admin/periodes.csv';
 
-  static GET_DETAIL_GESTIONNAIRE_RESEAU = (codeEIC?: string) =>
-    codeEIC ? `/admin/gestionnaires-reseau/${codeEIC}` : `/admin/gestionnaires-reseau/:codeEIC`;
+  // static GET_DETAIL_GESTIONNAIRE_RESEAU = (codeEIC?: string) =>
+  //   codeEIC ? `/admin/gestionnaires-reseau/${codeEIC}` : `/admin/gestionnaires-reseau/:codeEIC`;
 
-  static POST_AJOUTER_GESTIONNAIRE_RESEAU = `/admin/gestionnaires-reseau`;
-  static POST_MODIFIER_GESTIONNAIRE_RESEAU = (codeEIC?: string) =>
-    codeEIC ? `/admin/gestionnaires-reseau/${codeEIC}` : `/admin/gestionnaires-reseau/:codeEIC`;
-  static GET_AJOUTER_GESTIONNAIRE_RESEAU = `/admin/gestionnaires-reseau/ajouter`;
+  // static POST_AJOUTER_GESTIONNAIRE_RESEAU = `/admin/gestionnaires-reseau`;
+  // static POST_MODIFIER_GESTIONNAIRE_RESEAU = (codeEIC?: string) =>
+  //   codeEIC ? `/admin/gestionnaires-reseau/${codeEIC}` : `/admin/gestionnaires-reseau/:codeEIC`;
+  // static GET_AJOUTER_GESTIONNAIRE_RESEAU = `/admin/gestionnaires-reseau/ajouter`;
 
   static UPLOAD_LEGACY_MODIFICATION_FILES = '/admin/importer-documents-historiques';
 
   static ADMIN_PARTNER_USERS = '/admin/utilisateurs-partenaires.html';
 
-  static ADMIN_USERS = '/admin/utilisateurs.html';
+  // static ADMIN_USERS = '/admin/utilisateurs.html';
   static ADMIN_INVITE_USER_ACTION = '/admin/inviterUtilisateur';
-  static ADMIN_INVITE_DREAL_USER_ACTION = '/admin/inviterUtilisateurDreal';
+  // static ADMIN_INVITE_DREAL_USER_ACTION = '/admin/inviterUtilisateurDreal';
 
-  static USER_INVITATION = '/enregistrement.html';
+  // static USER_INVITATION = '/enregistrement.html';
 
-  static LEGACY_IMPORT_PROJECTS_ACTION = '/admin/importer-candidats-legacy.html';
-  static LEGACY_IMPORT_PROJECTS = '/admin/importer-candidats-legacy.html';
+  // static LEGACY_IMPORT_PROJECTS_ACTION = '/admin/importer-candidats-legacy.html';
+  // static LEGACY_IMPORT_PROJECTS = '/admin/importer-candidats-legacy.html';
 
   static ADMIN_STATISTIQUES = '/admin/statistiques.html';
   static ADEME_STATISTIQUES = '/ademe/statistiques.html';
@@ -84,7 +84,7 @@ class routes {
   static ADMIN_DOWNLOAD_PROJECTS_LAUREATS_CSV = '/export-projets-laureats.csv';
   static ADMIN_LIST_REQUESTS = '/admin/demandes.html';
 
-  static POST_NOTIFIER_CANDIDATS = '/admin/envoyer-les-notifications-aux-candidats';
+  // static POST_NOTIFIER_CANDIDATS = '/admin/envoyer-les-notifications-aux-candidats';
   static ADMIN_CORRECT_PROJECT_DATA_ACTION = '/admin/correctProjectData';
   static ADMIN_REPLY_TO_MODIFICATION_REQUEST = '/admin/replyToModificationRequest';
   static ADMIN_REPONDRE_DEMANDE_DELAI = '/admin/repondre-demande-delai';
@@ -106,16 +106,10 @@ class routes {
   static ADMIN_ANNULER_CHANGEMENT_DE_PUISSANCE_REJETE =
     '/admin/demande/annuler-rejet-demande-changement-de-puissance';
 
-  static ADMIN_DREAL_LIST = '/admin/dreals.html';
   static ADMIN_INVITATION_LIST = '/admin/invitations.html';
   static ADMIN_INVITATION_RELANCE_ACTION = '/admin/relanceInvitations';
   static ADMIN_NOTIFICATION_LIST = '/admin/notifications.html';
   static ADMIN_NOTIFICATION_RETRY_ACTION = '/admin/retryNotifications';
-
-  static ADMIN_INVITATION_DGEC_VALIDATEUR = '/admin/inviter-dgec-validateur.html';
-  static ADMIN_INVITATION_DGEC_VALIDATEUR_ACTION = '/admin/inviter-dgec-validateur';
-  static GET_INVITER_UTILISATEUR_ADMINISTRATEUR_PAGE = '/admin/inviter-administrateur.html';
-  static POST_INVITER_UTILISATEUR_ADMINISTRATEUR = '/admin/inviter-administrateur';
 
   static ADMIN_SIGNALER_DEMANDE_DELAI_PAGE = (projectId?: Project['id']) => {
     const route = '/admin/projet/:projectId/signalerDemandeDelai.html';
@@ -145,7 +139,7 @@ class routes {
   static USER_CLAIM_PROJECTS = '/reclamer-propriete-projets.html';
   static USER_LIST_REQUESTS = '/mes-demandes.html';
   static DEMANDE_GENERIQUE = '/demande-modification.html';
-  static DEPOSER_RECOURS = withProjectId('/demande-modification.html?action=recours');
+  static DEPOSER_RECOURS = withProjectId('/demande-modification.html?action=recours'); //?????
 
   static DEMANDER_DELAI = (projectId?: Project['id']) => {
     const route = '/projet/:projectId/demander-delai.html';
@@ -175,7 +169,7 @@ class routes {
 
   static CHANGER_ACTIONNAIRE = withProjectId('/demande-modification.html?action=actionnaire');
 
-  static CHANGER_PUISSANCE = withProjectId('/demande-modification.html?action=puissance');
+  // static CHANGER_PUISSANCE = withProjectId('/demande-modification.html?action=puissance');
 
   static CHANGER_CDC = '/changer-CDC';
 
@@ -184,7 +178,7 @@ class routes {
   static DEMANDE_DELAI_ACTION = '/soumettre-demande-delai';
 
   static ANNULER_DEMANDE_ACTION = '/annuler-demande';
-  static POST_ANNULER_DEMANDE_DELAI = '/annuler-demande-delai';
+  // static POST_ANNULER_DEMANDE_DELAI = '/annuler-demande-delai';
   static ANNULER_DEMANDE_DELAI = '/annuler-demande-delai';
 
   static POST_CHANGER_PRODUCTEUR = '/soumettre-changement-producteur';

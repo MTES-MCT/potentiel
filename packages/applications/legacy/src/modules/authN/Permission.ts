@@ -4,7 +4,6 @@ import {
   PermissionListerProjets,
   PermissionExporterProjets,
 } from '../project';
-import { PermissionInviterDgecValidateur, PermissionInviterAdministrateur } from '../utilisateur';
 import { PermissionListerDemandesAdmin } from '../modificationRequest';
 import { PermissionListerProjetsÀNotifier } from '../notificationCandidats';
 
@@ -31,8 +30,6 @@ export const getPermissions = ({ role }: { role: UserRole }): Array<Permission> 
         PermissionListerProjets,
         PermissionListerDemandesAdmin,
         PermissionConsulterProjet,
-        PermissionInviterDgecValidateur,
-        PermissionInviterAdministrateur,
         PermissionExporterProjets,
         PermissionListerProjetsÀNotifier,
       ];
@@ -43,7 +40,6 @@ export const getPermissions = ({ role }: { role: UserRole }): Array<Permission> 
         PermissionConsulterProjet,
         PermissionExporterProjets,
         PermissionListerProjetsÀNotifier,
-        PermissionInviterAdministrateur,
       ];
     case 'acheteur-obligé':
       return [PermissionListerProjets, PermissionConsulterProjet, PermissionExporterProjets];

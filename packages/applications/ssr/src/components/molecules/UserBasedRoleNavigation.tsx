@@ -164,18 +164,6 @@ const getNavigationItemsBasedOnRole = (
                 href: '/admin/utilisateurs-partenaires.html',
               },
             },
-            {
-              text: 'Dgec validateurs',
-              linkProps: {
-                href: '/admin/inviter-dgec-validateur.html',
-              },
-            },
-            {
-              text: 'Administrateurs',
-              linkProps: {
-                href: '/admin/inviter-administrateur.html',
-              },
-            },
           ],
         },
         {

@@ -1,7 +1,7 @@
 import { describe, expect, it, jest } from '@jest/globals';
 import { Utilisateur } from '../Utilisateur';
 import { fakeTransactionalRepo } from '../../../__tests__/fixtures/aggregates';
-import { makeInviterUtilisateur, PermissionInviterDgecValidateur } from './inviterUtilisateur';
+import { makeInviterUtilisateur } from './inviterUtilisateur';
 import { InvitationUniqueParUtilisateurError } from './InvitationUniqueParUtilisateurError';
 import { InvitationUtilisateurExistantError } from './InvitationUtilisateurExistantError';
 import { InvitationUtilisateurNonAutoriséeError } from './InvitationUtilisateurNonAutoriséeError';
@@ -29,35 +29,6 @@ describe(`Inviter un utilisateur`, () => {
           payload: {
             email: 'utilisateur@email.com',
             role: 'cre',
-          },
-        }),
-      );
-    });
-  });
-
-  describe(`Inviter un validateur du bureau de la DGEC`, () => {
-    it(`Lorsqu'on invite un utilisateur avec un role 'dgec-validateur
-        Alors l'utilisateur devrait être invité avec une fonction`, async () => {
-      const utilisateurRepo = fakeTransactionalRepo({ statut: undefined } as Utilisateur);
-      const publishToEventStore = jest.fn<EventStore['publish']>();
-
-      const inviterUtilisateur = makeInviterUtilisateur({ utilisateurRepo, publishToEventStore });
-
-      await inviterUtilisateur({
-        email: 'utilisateur@email.com',
-        role: 'dgec-validateur',
-        fonction: 'La fonction du validateur',
-        invitéPar: { permissions: [PermissionInviterDgecValidateur] },
-      });
-
-      expect(publishToEventStore).toHaveBeenCalledWith(
-        expect.objectContaining({
-          aggregateId: 'utilisateur@email.com',
-          type: 'UtilisateurInvité',
-          payload: {
-            email: 'utilisateur@email.com',
-            role: 'dgec-validateur',
-            fonction: 'La fonction du validateur',
           },
         }),
       );
