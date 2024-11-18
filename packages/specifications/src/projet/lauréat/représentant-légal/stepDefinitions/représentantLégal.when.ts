@@ -19,25 +19,37 @@ Quand(
 );
 
 Quand(
-  /le nom du représentant légal du projet lauréat est corrigé/,
-  async function (this: PotentielWorld) {
+  /le nom du représentant légal du projet lauréat est corrigé(.*)/,
+  async function (this: PotentielWorld, avecLamêmeValeur: string) {
     try {
-      const identifiantProjet = this.lauréatWorld.identifiantProjet.formatter();
-
-      const { nomReprésentantLégal, dateCorrection } =
-        this.lauréatWorld.représentantLégalWorld.corrigerReprésentantLégalFixture.créer();
-
-      await mediator.send<ReprésentantLégal.ReprésentantLégalUseCase>({
-        type: 'Lauréat.ReprésentantLégal.UseCase.CorrigerReprésentantLégal',
-        data: {
-          identifiantProjetValue: identifiantProjet,
-          identifiantUtilisateurValue: this.utilisateurWorld.adminFixture.email,
-          nomReprésentantLégalValue: nomReprésentantLégal,
-          dateCorrectionValue: dateCorrection,
-        },
-      });
+      await corrigerReprésentantLégal.call(
+        this,
+        avecLamêmeValeur.includes('avec la même valeur')
+          ? this.lauréatWorld.représentantLégalWorld.importerReprésentantLégalFixture
+              .nomReprésentantLégal
+          : undefined,
+      );
     } catch (error) {
       this.error = error as Error;
     }
   },
 );
+
+async function corrigerReprésentantLégal(this: PotentielWorld, nom?: string) {
+  const identifiantProjet = this.lauréatWorld.identifiantProjet.formatter();
+
+  const { nomReprésentantLégal, dateCorrection } =
+    this.lauréatWorld.représentantLégalWorld.corrigerReprésentantLégalFixture.créer(
+      nom ? { nomReprésentantLégal: nom } : {},
+    );
+
+  await mediator.send<ReprésentantLégal.ReprésentantLégalUseCase>({
+    type: 'Lauréat.ReprésentantLégal.UseCase.CorrigerReprésentantLégal',
+    data: {
+      identifiantProjetValue: identifiantProjet,
+      identifiantUtilisateurValue: this.utilisateurWorld.adminFixture.email,
+      nomReprésentantLégalValue: nomReprésentantLégal,
+      dateCorrectionValue: dateCorrection,
+    },
+  });
+}

@@ -9,6 +9,15 @@ Fonctionnalité: Corriger le représentant légal d'un projet lauréat
         Quand le nom du représentant légal du projet lauréat est corrigé
         Alors le nom du représentant légal du projet lauréat devrait être mis à jour
 
+    Scénario: Impossible de corriger le représentant légal d'un projet lauréat inexistant
+        Quand le nom du représentant légal du projet lauréat est corrigé
+        Alors l'utilisateur devrait être informé que "Aucun représentant légal n'est associé à ce projet"
+
+    Scénario: Impossible de corriger le représentant légal avec une valeur identique
+        Etant donné le projet lauréat "Du boulodrome de Marseille"
+        Quand le nom du représentant légal du projet lauréat est corrigé avec la même valeur
+        Alors l'utilisateur devrait être informé que "Le représentant légal est déjà associé à ce projet"
+
     @NotImplemented
     Scénario: Corriger le représentant légal d'un projet lauréat alors qu'un changement de représentant légal est en cours
         Etant donné le projet lauréat "Du boulodrome de Marseille"
@@ -16,10 +25,6 @@ Fonctionnalité: Corriger le représentant légal d'un projet lauréat
         Et une demande de changement de représentant légal en cours pour le projet lauréat
         Quand le représentant légal est corrigé pour le projet lauréat
         Alors le représentant légal du projet lauréat devrait être mis à jour
-
-    Scénario: Impossible de corriger le représentant légal si le représentant légal n'existe pas pour ce projet
-        Quand le nom du représentant légal du projet lauréat est corrigé
-        Alors l'utilisateur devrait être informé que "Aucun représentant légal n'est associé à ce projet"
 
     # À discuter si nécessaire
     @NotImplemented

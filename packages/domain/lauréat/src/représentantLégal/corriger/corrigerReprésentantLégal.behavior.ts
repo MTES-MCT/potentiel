@@ -1,4 +1,4 @@
-import { DomainEvent } from '@potentiel-domain/core';
+import { DomainError, DomainEvent } from '@potentiel-domain/core';
 import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
 
 import { ReprésentantLégalAggregate } from '../représentantLégal.aggregate';
@@ -29,9 +29,9 @@ export async function corriger(
     identifiantUtilisateur,
   }: CorrigerOptions,
 ) {
-  // if (this.nomReprésentantLégal === nomReprésentantLégal) {
-  //   // throw new ReprésentantLégalIdentifiqueError();
-  // }
+  if (this.nomReprésentantLégal === nomReprésentantLégal) {
+    throw new ReprésentantLégalIdentifiqueError();
+  }
 
   const event: ReprésentantLégalCorrigéEvent = {
     type: 'ReprésentantLégalCorrigé-V1',
@@ -53,8 +53,8 @@ export function applyReprésentantLégalCorrigé(
   this.nomReprésentantLégal = nomReprésentantLégal;
 }
 
-// class ReprésentantLégalIdentifiqueError extends DomainError {
-//   constructor() {
-//     super('Le représentant légal a déjà été importé');
-//   }
-// }
+class ReprésentantLégalIdentifiqueError extends DomainError {
+  constructor() {
+    super('Le représentant légal est déjà associé à ce projet');
+  }
+}
