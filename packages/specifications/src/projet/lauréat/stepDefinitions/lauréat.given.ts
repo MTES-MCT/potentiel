@@ -95,7 +95,7 @@ export async function notifierLauréat(this: PotentielWorld, dateDésignation: s
   });
 }
 
-async function insertProjectBasedOnCandidature(
+export async function insertProjectBasedOnCandidature(
   this: PotentielWorld,
   dateDésignation: string,
   statutProjet: 'lauréat' | 'éliminé',

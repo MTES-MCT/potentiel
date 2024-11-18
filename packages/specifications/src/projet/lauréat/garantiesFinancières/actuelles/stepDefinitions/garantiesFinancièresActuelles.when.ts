@@ -10,7 +10,10 @@ import { DateTime } from '@potentiel-domain/common';
 
 import { PotentielWorld } from '../../../../../potentiel.world';
 import { corrigerCandidature } from '../../../../../candidature/stepDefinitions/candidature.when';
-import { notifierLauréat } from '../../../stepDefinitions/lauréat.given';
+import {
+  insertProjectBasedOnCandidature,
+  notifierLauréat,
+} from '../../../stepDefinitions/lauréat.given';
 
 import { setGarantiesFinancièresData } from './helper';
 
@@ -29,6 +32,7 @@ Quand(
 
       // cela déclenchera l'import des GFs iso prod
       await notifierLauréat.call(this, dateDésignation);
+      await insertProjectBasedOnCandidature.call(this, dateDésignation, 'lauréat');
     } catch (error) {
       this.error = error as Error;
     }

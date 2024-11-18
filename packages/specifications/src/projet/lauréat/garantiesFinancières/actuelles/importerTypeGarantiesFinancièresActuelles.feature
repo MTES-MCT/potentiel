@@ -4,7 +4,6 @@ Fonctionnalité: Importer le type (et la date d'échéance selon le cas) des gar
     Contexte:
         Etant donné la candidature lauréate "Du boulodrome de Marseille"
 
-    @select
     Plan du Scénario: Un admin importe le type des garanties financières actuelles d'un projet
         Quand un admin importe le type des garanties financières actuelles pour le projet avec :
             | type GF         | <type GF>         |
@@ -19,14 +18,12 @@ Fonctionnalité: Importer le type (et la date d'échéance selon le cas) des gar
             | consignation              |                 |
             | six-mois-après-achèvement |                 |
 
-    @select
     Scénario: Une tâche du type "échoir les garanties financières" est planifiée quand l'administration importe le type d'une garanties financières pour un projet
         Quand un admin importe le type des garanties financières actuelles pour le projet avec :
             | type GF         | avec-date-échéance |
             | date d'échéance | 2024-12-02         |
         Alors une tâche "échoir les garanties financières" est planifiée à la date du "2024-12-03" pour le projet "Du boulodrome de Marseille"
 
-    @select
     Scénario: Des tâches de la catégorie "rappel échéance garanties financières" sont planifiées à M-1 et M-2 de la date d'échéance en cas de type de garanties financières importé
         Quand un admin importe le type des garanties financières actuelles pour le projet avec :
             | type GF         | avec-date-échéance |
