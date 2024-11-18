@@ -8,7 +8,7 @@ export const vérifierPermissionUtilisateur =
   (request, response, next) => {
     const { user } = request;
     if (!user) {
-      response.redirect(Routes.Auth.signIn());
+      response.redirect(Routes.Auth.signIn(request.url));
       return;
     }
 
