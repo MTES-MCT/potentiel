@@ -11,7 +11,7 @@ Fonctionnalité: Supprimer un dépôt de garanties financières
             | date de notification      | 2023-09-01 |
             | motif                     | <motif>    |
         Et un dépôt de garanties financières pour le projet "Du boulodrome de Marseille" avec :
-            | type                 | <type>                 |
+            | type GF              | <type GF>              |
             | date d'échéance      | <date d'échéance>      |
             | format               | <format du fichier>    |
             | contenu fichier      | <contenu du fichier>   |
@@ -25,7 +25,7 @@ Fonctionnalité: Supprimer un dépôt de garanties financières
             | motif                     | <motif>    |
 
         Exemples:
-            | type                      | date d'échéance | format du fichier | contenu du fichier    | date de constitution | motif                                    |
+            | type GF                   | date d'échéance | format du fichier | contenu du fichier    | date de constitution | motif                                    |
             | avec-date-échéance        | 2027-12-01      | application/pdf   | le contenu du fichier | 2023-06-01           | motif-inconnu                            |
             | consignation              |                 | application/pdf   | le contenu du fichier | 2023-06-01           | recours-accordé                          |
             | six-mois-après-achèvement |                 | application/pdf   | le contenu du fichier | 2023-06-01           | changement-producteur                    |
@@ -33,7 +33,7 @@ Fonctionnalité: Supprimer un dépôt de garanties financières
 
     Plan du Scénario: Un porteur supprime des garanties financières sans une date limite de soumission après les avoir soumises
         Etant donné un dépôt de garanties financières pour le projet "Du boulodrome de Marseille" avec :
-            | type                 | <type>                 |
+            | type GF              | <type GF>              |
             | date d'échéance      | <date d'échéance>      |
             | format               | <format du fichier>    |
             | contenu fichier      | <contenu du fichier>   |
@@ -44,14 +44,14 @@ Fonctionnalité: Supprimer un dépôt de garanties financières
         Alors il ne devrait pas y avoir de dépôt de garanties financières pour le projet "Du boulodrome de Marseille"
 
         Exemples:
-            | type                      | date d'échéance | format du fichier | contenu du fichier    | date de constitution |
+            | type GF                   | date d'échéance | format du fichier | contenu du fichier    | date de constitution |
             | avec-date-échéance        | 2027-12-01      | application/pdf   | le contenu du fichier | 2023-06-01           |
             | consignation              |                 | application/pdf   | le contenu du fichier | 2023-06-01           |
             | six-mois-après-achèvement |                 | application/pdf   | le contenu du fichier | 2023-06-01           |
 
     Scénario: Une tâche du type "échoir les garanties financières" est planifiée quand le porteur supprime un dépôt et que le projet dispose de garanties financières actuelles avec date d'échéance
         Etant donné des garanties financières actuelles pour le projet "Du boulodrome de Marseille" avec :
-            | type               | avec-date-échéance |
+            | type GF            | avec-date-échéance |
             | date d'échéance    | 2024-12-01         |
             | date de validation | 2024-11-24         |
         Et un dépôt de garanties financières pour le projet "Du boulodrome de Marseille"
@@ -61,7 +61,7 @@ Fonctionnalité: Supprimer un dépôt de garanties financières
 
     Scénario: Des tâches de la catégorie "rappel échéance garanties financières" sont planifiées à M-1 et M-2 de la date d'échéance quand le porteur supprime un dépôt et que le projet dispose de garanties financières actuelles avec date d'échéance
         Etant donné des garanties financières actuelles pour le projet "Du boulodrome de Marseille" avec :
-            | type               | avec-date-échéance |
+            | type GF            | avec-date-échéance |
             | date d'échéance    | 2024-10-01         |
             | date de validation | 2024-11-24         |
         Et un dépôt de garanties financières pour le projet "Du boulodrome de Marseille"

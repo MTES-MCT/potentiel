@@ -11,7 +11,7 @@ Fonctionnalité: Achever une tâche
             | date de notification      | 2023-09-01    |
             | motif                     | motif-inconnu |
         Quand un porteur soumet un dépôt de garanties financières pour le projet "Du boulodrome de Marseille" avec :
-            | type                 | consignation          |
+            | type GF              | consignation          |
             | format               | application/pdf       |
             | contenu fichier      | le contenu du fichier |
             | date de constitution | 2023-06-01            |
@@ -25,7 +25,7 @@ Fonctionnalité: Achever une tâche
             | date de notification      | 2023-09-01    |
             | motif                     | motif-inconnu |
         Quand un admin enregistre les garanties financières actuelles pour le projet "Du boulodrome de Marseille" avec :
-            | type                 | consignation    |
+            | type GF              | consignation    |
             | format               | application/pdf |
             | contenu fichier      | contenu fichier |
             | date de constitution | 2023-06-12      |

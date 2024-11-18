@@ -11,3 +11,9 @@ export class DateÉchéanceGarantiesFinancièresRequiseError extends InvalidOper
     super(`La date d'échéance des garanties financières est requise`);
   }
 }
+
+export class DateÉchéanceNonAttendueError extends InvalidOperationError {
+  constructor() {
+    super(`La date d'échéance pour ce type de garanties financières ne peut être renseignée`);
+  }
+}

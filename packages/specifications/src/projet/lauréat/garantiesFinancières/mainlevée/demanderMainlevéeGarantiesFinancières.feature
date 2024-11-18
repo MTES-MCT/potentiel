@@ -92,7 +92,7 @@ Fonctionnalité: Demander la mainlevée des garanties financières d'un projet
     Scénario: Impossible de demander la mainlevée des garanties financières si le projet dispose de garanties financières échues
         Etant donné des garanties financières actuelles échues pour le projet "Du boulodrome de Marseille" avec :
             | date d'échéance | 2024-07-17         |
-            | type            | avec-date-échéance |
+            | type GF         | avec-date-échéance |
         Et une attestation de conformité transmise pour le projet "Du boulodrome de Marseille"
         Quand le porteur demande la mainlevée des garanties financières pour le projet "Du boulodrome de Marseille" avec :
             | motif        | projet-achevé     |

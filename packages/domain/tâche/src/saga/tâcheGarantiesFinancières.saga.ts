@@ -46,6 +46,8 @@ export const register = () => {
           payload: { dateÉchéance },
         } = event;
 
+        console.log('dateÉchéance', dateÉchéance);
+
         if (dateÉchéance) {
           await mediator.send<AjouterTâchePlanifiéeCommand>({
             type: 'System.TâchePlanifiée.Command.AjouterTâchePlanifiée',

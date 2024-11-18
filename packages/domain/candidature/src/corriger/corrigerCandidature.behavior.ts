@@ -7,8 +7,9 @@ import { CandidatureAggregate } from '../candidature.aggregate';
 import * as StatutCandidature from '../statutCandidature.valueType';
 import {
   DateÉchéanceGarantiesFinancièresRequiseError,
+  DateÉchéanceNonAttendueError,
   GarantiesFinancièresRequisesPourAppelOffreError,
-} from '../garantiesFinancièresRequises.error';
+} from '../garantiesFinancières.error';
 import { AppelOffreInexistantError } from '../appelOffreInexistant.error';
 import { CandidatureNonModifiéeError } from '../candidatureNonModifiée.error';
 import {
@@ -74,6 +75,15 @@ export async function corriger(
     !candidature.dateÉchéanceGf
   ) {
     throw new DateÉchéanceGarantiesFinancièresRequiseError();
+  }
+
+  if (
+    candidature.statut.estClassé() &&
+    candidature.typeGarantiesFinancières &&
+    !candidature.typeGarantiesFinancières.estAvecDateÉchéance() &&
+    candidature.dateÉchéanceGf
+  ) {
+    throw new DateÉchéanceNonAttendueError();
   }
 
   if (this.estNotifiée) {

@@ -48,7 +48,7 @@ Quand(
   },
 );
 
-async function corrigerCandidature(this: PotentielWorld, exemple?: Record<string, string>) {
+export async function corrigerCandidature(this: PotentielWorld, exemple?: Record<string, string>) {
   const unchangedValues = this.candidatureWorld.importerCandidature.values;
   const changedValues = {
     ...this.candidatureWorld.mapExempleToFixtureValues(exemple ?? {}),

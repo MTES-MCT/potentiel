@@ -64,7 +64,9 @@ export class ImporterCandidatureFixture
       puissanceALaPointeValue: true,
       sociétéMèreValue: faker.company.name(),
       territoireProjetValue: '',
-      dateÉchéanceGfValue: '',
+      dateÉchéanceGfValue: values?.dateÉchéanceGfValue
+        ? new Date(values.dateÉchéanceGfValue).toISOString()
+        : '',
       historiqueAbandonValue: faker.helpers.arrayElement(Candidature.HistoriqueAbandon.types),
       puissanceProductionAnnuelleValue: faker.number.float({ min: 0.1, max: 3 }),
       prixReferenceValue: faker.number.float({ min: 0.1, max: 3 }),

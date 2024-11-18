@@ -12,7 +12,7 @@ Fonctionnalité: Enregistrer l'attestation des garanties financières actuelles
             | date mise à jour     | 2024-03-01        |
             | enregistré par       | porteur@test.test |
         Alors les garanties financières actuelles devraient être consultables pour le projet "Du boulodrome de Lyon" avec :
-            | type                 | consignation      |
+            | type GF              | consignation      |
             | date d'échéance      |                   |
             | format               | application/pdf   |
             | contenu fichier      | contenu fichier   |
@@ -32,7 +32,7 @@ Fonctionnalité: Enregistrer l'attestation des garanties financières actuelles
             | date mise à jour     | 2024-03-01        |
             | enregistré par       | porteur@test.test |
         Alors les garanties financières actuelles devraient être consultables pour le projet "Du boulodrome de Lyon" avec :
-            | type                 | consignation      |
+            | type GF              | consignation      |
             | date d'échéance      |                   |
             | format               | application/pdf   |
             | contenu fichier      | contenu fichier   |

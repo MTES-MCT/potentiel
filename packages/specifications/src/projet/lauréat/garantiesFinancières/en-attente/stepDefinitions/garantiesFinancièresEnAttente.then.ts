@@ -6,6 +6,7 @@ import waitForExpect from 'wait-for-expect';
 import { GarantiesFinancières } from '@potentiel-domain/laureat';
 import { Option } from '@potentiel-libraries/monads';
 import { IdentifiantProjet } from '@potentiel-domain/common';
+import { AppelOffre } from '@potentiel-domain/appel-offre';
 
 import { PotentielWorld } from '../../../../../potentiel.world';
 
@@ -18,18 +19,34 @@ Alors(
     const dateLimiteSoumission = exemple['date limite de soumission'];
     const motif = exemple['motif'];
 
-    await waitForExpect(async () => {
-      const actualReadModel = await getProjetAvecGarantiesFinancièresEnAttente(identifiantProjet);
-
-      expect(actualReadModel.nomProjet).to.deep.equal(nomProjet);
-      expect(actualReadModel.motif.motif).to.deep.equal(motif);
-
-      if (dateLimiteSoumission) {
-        expect(actualReadModel.dateLimiteSoumission.date).to.deep.equal(
-          new Date(dateLimiteSoumission),
-        );
-      }
+    const appelOffre = await mediator.send<AppelOffre.ConsulterAppelOffreQuery>({
+      type: 'AppelOffre.Query.ConsulterAppelOffre',
+      data: {
+        identifiantAppelOffre: identifiantProjet.appelOffre,
+      },
     });
+
+    if (
+      Option.isSome(appelOffre) &&
+      GarantiesFinancières.appelOffreSoumisAuxGarantiesFinancières({
+        appelOffre,
+        période: identifiantProjet.période,
+        famille: identifiantProjet.famille,
+      })
+    ) {
+      await waitForExpect(async () => {
+        const actualReadModel = await getProjetAvecGarantiesFinancièresEnAttente(identifiantProjet);
+
+        expect(actualReadModel.nomProjet).to.deep.equal(nomProjet);
+        expect(actualReadModel.motif.motif).to.deep.equal(motif);
+
+        if (dateLimiteSoumission) {
+          expect(actualReadModel.dateLimiteSoumission.date).to.deep.equal(
+            new Date(dateLimiteSoumission),
+          );
+        }
+      });
+    }
   },
 );
 

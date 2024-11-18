@@ -56,7 +56,7 @@ EtantDonné(
   },
 );
 
-async function notifierLauréat(this: PotentielWorld, dateDésignation: string) {
+export async function notifierLauréat(this: PotentielWorld, dateDésignation: string) {
   const candidature = this.candidatureWorld.importerCandidature;
   const identifiantProjetValue = IdentifiantProjet.convertirEnValueType(
     candidature.identifiantProjet,

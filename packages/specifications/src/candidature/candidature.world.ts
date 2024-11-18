@@ -30,6 +30,8 @@ export class CandidatureWorld {
       ) as Partial<T>;
     const mapBoolean = (val: string) => (val ? val === 'oui' : undefined);
     const mapNumber = (val: string) => (val ? Number(val) : undefined);
+    const mapDate = (val: string) => (val ? new Date(val).toISOString() : undefined);
+
     const localitéValue = removeEmptyValues({
       adresse1: exemple['adresse 1'],
       adresse2: exemple['adresse 2'],
@@ -51,7 +53,7 @@ export class CandidatureWorld {
       puissanceALaPointeValue: mapBoolean(exemple['puissance à la pointe']),
       sociétéMèreValue: exemple['société mère'],
       territoireProjetValue: exemple['territoire projet'],
-      dateÉchéanceGfValue: exemple['date échéance GF'],
+      dateÉchéanceGfValue: mapDate(exemple["date d'échéance"]),
       historiqueAbandonValue: exemple['historique abandon'],
       puissanceProductionAnnuelleValue: mapNumber(exemple['puissance production annuelle']),
       prixReferenceValue: mapNumber(exemple['prix reference']),

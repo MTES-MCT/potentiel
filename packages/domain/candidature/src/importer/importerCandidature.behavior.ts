@@ -13,8 +13,9 @@ import { CandidatureDéjàImportéeError } from '../candidatureDéjàImportée.e
 import { AppelOffreInexistantError } from '../appelOffreInexistant.error';
 import {
   DateÉchéanceGarantiesFinancièresRequiseError,
+  DateÉchéanceNonAttendueError,
   GarantiesFinancièresRequisesPourAppelOffreError,
-} from '../garantiesFinancièresRequises.error';
+} from '../garantiesFinancières.error';
 import * as TypeGarantiesFinancières from '../typeGarantiesFinancières.valueType';
 
 export type CandidatureImportéeEventCommonPayload = {
@@ -136,6 +137,15 @@ export async function importer(
     !candidature.dateÉchéanceGf
   ) {
     throw new DateÉchéanceGarantiesFinancièresRequiseError();
+  }
+
+  if (
+    candidature.statut.estClassé() &&
+    candidature.typeGarantiesFinancières &&
+    !candidature.typeGarantiesFinancières.estAvecDateÉchéance() &&
+    candidature.dateÉchéanceGf
+  ) {
+    throw new DateÉchéanceNonAttendueError();
   }
 
   const event: CandidatureImportéeEvent = {
