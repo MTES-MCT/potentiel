@@ -25,17 +25,13 @@ export { withParams };
 
 class routes {
   static HOME = '/';
-  static LOGIN = '/login.html';
-  static LOGIN_ACTION = '/login.html';
   static STATS = '/stats.html';
   static ABONNEMENT_LETTRE_INFORMATION = '/abonnement-lettre-information.html';
   static POST_SINSCRIRE_LETTRE_INFORMATION = '/s-inscrire-a-la-lettre-d-information';
   static DECLARATION_ACCESSIBILITE = '/accessibilite.html';
-  static LOGOUT_ACTION = '/signout';
   static SIGNUP = '/signup.html';
   static POST_SIGNUP = '/signup';
 
-  static REDIRECT_BASED_ON_ROLE = '/go-to-user-dashboard';
   static ADMIN_GARANTIES_FINANCIERES = '/admin/garanties-financieres.html';
 
   static ADMIN_AO_PERIODE = '/admin/appels-offres.html';

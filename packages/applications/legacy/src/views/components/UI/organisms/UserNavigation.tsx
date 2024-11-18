@@ -120,6 +120,9 @@ const MenuAdmin = (currentPage?: string) => (
       <DropdownMenu.DropdownItem href={Routes.Raccordement.importer}>
         Importer des dates de mise en service
       </DropdownMenu.DropdownItem>
+      <DropdownMenu.DropdownItem href={Routes.Raccordement.corrigerRéférencesDossier}>
+        Corriger des références dossier
+      </DropdownMenu.DropdownItem>
     </DropdownMenu>
     <DropdownMenu buttonChildren={'Imports'}>
       <DropdownMenu.DropdownItem
@@ -127,9 +130,6 @@ const MenuAdmin = (currentPage?: string) => (
         {...(currentPage === 'admin-upload-legacy-modification-files' && { isCurrent: true })}
       >
         Courriers historiques
-      </DropdownMenu.DropdownItem>
-      <DropdownMenu.DropdownItem href={Routes.Raccordement.corrigerRéférencesDossier}>
-        Corrections de références dossier
       </DropdownMenu.DropdownItem>
     </DropdownMenu>
     <DropdownMenu buttonChildren={'Gestion des accès'}>

@@ -2,8 +2,8 @@ import { requiredAction } from '@potentiel-libraries/keycloak-cjs';
 import { authorizedTestEmails, isProdEnv } from '../../config';
 import { logger, ResultAsync } from '../../core/utils';
 import { OtherError } from '../../modules/shared';
-import routes from '../../routes';
 import { makeKeycloakClient } from './keycloakClient';
+import { Routes } from '@potentiel-applications/routes';
 
 const {
   KEYCLOAK_ADMIN_CLIENT_ID,
@@ -46,7 +46,7 @@ export const resendInvitationEmail = (email: string) => {
         clientId: KEYCLOAK_USER_CLIENT_ID,
         actions,
         realm: KEYCLOAK_REALM,
-        redirectUri: BASE_URL + routes.REDIRECT_BASED_ON_ROLE,
+        redirectUri: BASE_URL + Routes.Auth.redirectToDashboard(),
         lifespan: ONE_MONTH,
       });
     } else {

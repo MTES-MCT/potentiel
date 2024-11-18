@@ -16,6 +16,7 @@ import {
 } from '../components';
 import { hydrateOnClient } from '../helpers';
 import { App } from '../App';
+import { Routes } from '@potentiel-applications/routes';
 
 type SignupProps = {
   request: Request;
@@ -155,7 +156,7 @@ const SignupFailed = ({ error }: SignupFailedProps) => (
     <div className="my-8 text-lg text-center">{error}</div>
 
     <div className="flex gap-5 mt-10 flex-col mx-auto">
-      <LinkButton className="text-center" href={routes.LOGIN}>
+      <LinkButton className="text-center" href={Routes.Auth.signIn()}>
         M'identifier
       </LinkButton>
       <LinkButton className="text-center" href={routes.SIGNUP}>

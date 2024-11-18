@@ -5,6 +5,8 @@ import { User } from '../../entities';
 import { GetUserByEmail, UserRole } from '../../modules/users';
 import { makeFakeCreateUser } from '../../__tests__/fakes';
 import { makeAttachUserToRequestMiddleware } from './attachUserToRequestMiddleware';
+import { IdentifiantUtilisateur, Role, Utilisateur } from '@potentiel-domain/utilisateur';
+import { Option } from '@potentiel-libraries/monads';
 
 describe(`attachUserToRequestMiddleware`, () => {
   const staticPaths = ['/fonts', '/css', '/images', '/scripts', '/main'];
@@ -14,43 +16,43 @@ describe(`attachUserToRequestMiddleware`, () => {
         path,
       } as express.Request;
       const nextFunction = jest.fn();
+      const getUtilisateur = jest.fn(() => Promise.resolve(undefined));
 
       const middleware = makeAttachUserToRequestMiddleware({
         getUserByEmail: jest.fn<GetUserByEmail>(),
         createUser: makeFakeCreateUser(),
+        getUtilisateur,
       });
       middleware(request, {} as express.Response, nextFunction);
 
       it('should not attach the user to the request and execute the next function', () => {
         expect(request.user).toBeUndefined();
+        expect(getUtilisateur).not.toHaveBeenCalled();
         expect(nextFunction).toHaveBeenCalled();
       });
     });
   });
 
   describe(`when the path is not a static one`, () => {
+    const request = { path: '/a-protected-path' } as express.Request;
+    const makeFakeGetUtilisateur = (role: string, username: string) => async () => {
+      return Utilisateur.bind({
+        groupe: Option.none,
+        identifiantUtilisateur: IdentifiantUtilisateur.convertirEnValueType(username),
+        nom: '',
+        role: Role.convertirEnValueType(role),
+      });
+    };
     describe(`when there is no user email in the keycloak access token`, () => {
-      const hasRealmRole = jest.fn();
-
-      const request = {
-        path: '/a-protected-path',
-      } as express.Request;
-      const token = {
-        content: {},
-        hasRealmRole,
-      };
-      request['kauth'] = { grant: { access_token: token } };
-
-      token.content['email'] = undefined;
-      const nextFunction = jest.fn();
-
       const middleware = makeAttachUserToRequestMiddleware({
         getUserByEmail: jest.fn<GetUserByEmail>(),
         createUser: makeFakeCreateUser(),
+        getUtilisateur: makeFakeGetUtilisateur('admin', ''),
       });
-      middleware(request, {} as express.Response, nextFunction);
 
-      it('should not attach the user to the request and execute the next function', () => {
+      it('should not attach the user to the request and execute the next function', async () => {
+        const nextFunction = jest.fn();
+        await middleware(request, {} as express.Response, nextFunction);
         expect(request.user).toBeUndefined();
         expect(nextFunction).toHaveBeenCalled();
       });
@@ -59,25 +61,10 @@ describe(`attachUserToRequestMiddleware`, () => {
     describe(`when there is a user email in the keycloak access token`, () => {
       describe(`when the user exists in Potentiel`, () => {
         describe(`when no role in the keycloak access token`, () => {
-          const hasRealmRole = jest.fn((role) => false);
-
-          const request = {
-            path: '/a-protected-path',
-          } as express.Request;
-
-          const token = {
-            content: {},
-            hasRealmRole,
-          };
-          request['kauth'] = { grant: { access_token: token } };
-
           const userEmail = 'user@email.com';
-
-          token.content['email'] = userEmail;
 
           const user: User = {
             email: userEmail,
-            fullName: 'User',
             id: 'user-id',
             role: undefined as unknown as UserRole,
           };
@@ -91,39 +78,23 @@ describe(`attachUserToRequestMiddleware`, () => {
           const middleware = makeAttachUserToRequestMiddleware({
             getUserByEmail,
             createUser: makeFakeCreateUser(),
+            getUtilisateur: makeFakeGetUtilisateur('', userEmail),
           });
-          middleware(request, {} as express.Response, nextFunction);
 
-          it('should attach the user to the request with no role and execute the next function', () => {
-            expect(request.user).toMatchObject({
-              ...user,
-              accountUrl: expect.any(String),
-            });
+          it('should not attach the user to the request and execute the next function', async () => {
+            await middleware(request, {} as express.Response, nextFunction);
+            expect(request.user).toBeUndefined();
             expect(nextFunction).toHaveBeenCalled();
           });
         });
 
         describe(`when there is a role in the keycloak access token`, () => {
           const tokenUserRole = 'admin';
-          const hasRealmRole = jest.fn((role) => (role === tokenUserRole ? true : false));
-
-          const request = {
-            path: '/a-protected-path',
-          } as express.Request;
-
-          const token = {
-            content: {},
-            hasRealmRole,
-          };
-          request['kauth'] = { grant: { access_token: token } };
 
           const userEmail = 'user@email.com';
 
-          token.content['email'] = userEmail;
-
           const user: User = {
             email: userEmail,
-            fullName: 'User',
             id: 'user-id',
             role: 'porteur-projet',
           };
@@ -137,19 +108,18 @@ describe(`attachUserToRequestMiddleware`, () => {
           const middleware = makeAttachUserToRequestMiddleware({
             getUserByEmail,
             createUser: makeFakeCreateUser(),
+            getUtilisateur: makeFakeGetUtilisateur(tokenUserRole, userEmail),
           });
-          middleware(request, {} as express.Response, nextFunction);
 
-          it('should attach the user to the request with role from token', () => {
+          it('should attach the user to the request with role from token', async () => {
             const expectedUser = {
               ...user,
               role: tokenUserRole,
               accountUrl: expect.any(String),
             };
+            await middleware(request, {} as express.Response, nextFunction);
             expect(request.user).toMatchObject(expectedUser);
-          });
 
-          it('should execute the next function', () => {
             expect(nextFunction).toHaveBeenCalled();
           });
         });
@@ -157,26 +127,8 @@ describe(`attachUserToRequestMiddleware`, () => {
 
       describe(`when the user does not exist in Potentiel`, () => {
         describe(`when no role in the keycloak access token`, () => {
-          const hasRealmRole = jest.fn(() => false);
-
-          const request = {
-            path: '/a-protected-path',
-            session: {},
-          } as express.Request;
-          //@ts-ignore
-          request.session.destroy = jest.fn();
-
-          const token = {
-            content: {},
-            hasRealmRole,
-          };
-          request['kauth'] = { grant: { access_token: token } };
-
           const userEmail = 'user@email.com';
-          const userName = 'User';
 
-          token.content['email'] = userEmail;
-          token.content['name'] = userName;
           const getUserByEmail: GetUserByEmail = jest.fn(() => okAsync(null));
 
           const userId = 'user-id';
@@ -187,48 +139,28 @@ describe(`attachUserToRequestMiddleware`, () => {
           const middleware = makeAttachUserToRequestMiddleware({
             getUserByEmail,
             createUser,
+            getUtilisateur: makeFakeGetUtilisateur('porteur-projet', userEmail),
           });
-          middleware(request, {} as express.Response, nextFunction);
 
-          it('should attach a new user to the request', () => {
+          it('should attach a new user to the request', async () => {
+            await middleware(request, {} as express.Response, nextFunction);
             expect(request.user).toMatchObject({
               email: userEmail,
-              fullName: userName,
               id: userId,
               role: 'porteur-projet',
               accountUrl: expect.any(String),
               permissions: expect.anything(),
             });
-          });
 
-          it('should destroy the request session', () => {
-            expect(request.session.destroy).toHaveBeenCalled();
-          });
-
-          it('should execute the next function', () => {
             expect(nextFunction).toHaveBeenCalled();
           });
         });
 
         describe(`when there is a role in the keycloak access token`, () => {
           const userRole = 'admin';
-          const hasRealmRole = jest.fn((role) => (role === userRole ? true : false));
-
-          const request = {
-            path: '/a-protected-path',
-          } as express.Request;
-
-          const token = {
-            content: {},
-            hasRealmRole,
-          };
-          request['kauth'] = { grant: { access_token: token } };
 
           const userEmail = 'user@email.com';
-          const userName = 'User';
 
-          token.content['email'] = userEmail;
-          token.content['name'] = userName;
           const getUserByEmail: GetUserByEmail = jest.fn(() => okAsync(null));
 
           const userId = 'user-id';
@@ -239,21 +171,19 @@ describe(`attachUserToRequestMiddleware`, () => {
           const middleware = makeAttachUserToRequestMiddleware({
             getUserByEmail,
             createUser,
+            getUtilisateur: makeFakeGetUtilisateur(userRole, userEmail),
           });
-          middleware(request, {} as express.Response, nextFunction);
 
-          it('should attach a new user to the request with the same role of the token', () => {
+          it('should attach a new user to the request with the same role of the token', async () => {
+            await middleware(request, {} as express.Response, nextFunction);
             expect(request.user).toMatchObject({
               email: userEmail,
-              fullName: userName,
               id: userId,
               role: userRole,
               accountUrl: expect.any(String),
               permissions: expect.anything(),
             });
-          });
 
-          it('should execute the next function', () => {
             expect(nextFunction).toHaveBeenCalled();
           });
         });

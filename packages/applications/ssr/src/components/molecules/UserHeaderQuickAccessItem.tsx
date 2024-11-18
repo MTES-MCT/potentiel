@@ -31,6 +31,7 @@ export async function UserHeaderQuickAccessItem() {
               iconId: 'ri-user-line',
               linkProps: {
                 href: accountUrl,
+                prefetch: false,
               },
               text: utilisateur.nom,
             }}
@@ -41,7 +42,8 @@ export async function UserHeaderQuickAccessItem() {
           quickAccessItem={{
             iconId: 'ri-logout-box-line',
             linkProps: {
-              href: '/auth/signOut',
+              href: Routes.Auth.federatedLogout(),
+              prefetch: false,
             },
             text: 'Me déconnecter',
           }}
@@ -57,6 +59,7 @@ export async function UserHeaderQuickAccessItem() {
           iconId: 'ri-account-circle-line',
           linkProps: {
             href: '/signup.html',
+            prefetch: false,
           },
           text: "M'inscrire",
         }}
@@ -65,7 +68,8 @@ export async function UserHeaderQuickAccessItem() {
         quickAccessItem={{
           iconId: 'ri-lock-line',
           linkProps: {
-            href: '/auth/signIn',
+            href: Routes.Auth.signIn(),
+            prefetch: false,
           },
           text: "M'identifier",
         }}
@@ -104,6 +108,7 @@ async function getTâcheHeaderQuickAccessItem(utilisateur: Utilisateur.ValueType
           iconId: nombreTâches > 0 ? 'ri-mail-unread-line' : 'ri-mail-check-line',
           linkProps: {
             href: Routes.Tache.lister,
+            prefetch: false,
           },
           text: `Tâches (${nombreTâches})`,
         }}

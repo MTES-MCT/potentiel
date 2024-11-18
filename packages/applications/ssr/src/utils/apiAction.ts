@@ -1,3 +1,5 @@
+import { STATUS_CODES } from 'node:http';
+
 import {
   AggregateNotFoundError,
   DomainError,
@@ -8,14 +10,14 @@ import {
 import { withErrorHandling } from './withErrorHandling';
 
 export const apiAction = async (action: () => Promise<Response>) =>
-  withErrorHandling(action, mapDomainError, mapTo500);
+  withErrorHandling(action, mapDomainError, mapTo401, mapTo500);
 
 const mapDomainError = (e: DomainError) => {
   if (e instanceof InvalidOperationError) {
     return mapTo400(e);
   }
   if (e instanceof OperationRejectedError) {
-    return mapTo401();
+    return mapTo403();
   }
   if (e instanceof AggregateNotFoundError) {
     return mapTo404(e);
@@ -24,59 +26,20 @@ const mapDomainError = (e: DomainError) => {
   return mapTo500();
 };
 
-const mapTo404 = (e: Error) => {
-  return Response.json(
+const mapToHttpError = (status: number, message: string) =>
+  Response.json(
+    { message },
     {
-      message: e.message,
-    },
-    {
-      status: 404,
-      statusText: 'Not Found',
+      status,
+      statusText: STATUS_CODES[status],
       headers: {
         'content-type': 'text/plain',
       },
     },
   );
-};
 
-const mapTo400 = (e: Error) => {
-  return Response.json(
-    {
-      message: e.message,
-    },
-    {
-      status: 400,
-      statusText: 'Bad Request',
-    },
-  );
-};
-
-const mapTo401 = () => {
-  return Response.json(
-    {
-      message: 'Opération rejetée',
-    },
-    {
-      status: 401,
-      statusText: 'Unauthorized',
-      headers: {
-        'content-type': 'text/plain',
-      },
-    },
-  );
-};
-
-const mapTo500 = () => {
-  return Response.json(
-    {
-      message: 'Une erreur est survenue',
-    },
-    {
-      status: 500,
-      statusText: 'Internal Server Error',
-      headers: {
-        'content-type': 'text/plain',
-      },
-    },
-  );
-};
+const mapTo400 = (e: Error) => mapToHttpError(400, e.message);
+const mapTo401 = () => mapToHttpError(401, "L'authentification a échoué");
+const mapTo403 = () => mapToHttpError(403, 'Opération rejetée');
+const mapTo404 = (e: Error) => mapToHttpError(404, e.message);
+const mapTo500 = () => mapToHttpError(500, 'Une erreur est survenue');

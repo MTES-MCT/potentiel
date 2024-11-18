@@ -1,9 +1,11 @@
 import { Message, MessageHandler } from 'mediateur';
-import { cookies, headers } from 'next/headers';
-import { decode } from 'next-auth/jwt';
+import { getServerSession } from 'next-auth';
+import { headers } from 'next/headers';
 // import * as Sentry from '@sentry/nextjs';
 
 import { Utilisateur } from '@potentiel-domain/utilisateur';
+
+import { authOptions, convertToken } from '@/auth';
 
 export type GetAuthenticatedUserMessage = Message<
   'System.Authorization.RécupérerUtilisateur',
@@ -11,34 +13,17 @@ export type GetAuthenticatedUserMessage = Message<
   Utilisateur.ValueType
 >;
 
-const { NEXT_AUTH_SESSION_TOKEN_COOKIE_NAME = 'next-auth.session-token' } = process.env;
-
-/**
- * Check for an access token
- *  - in the session (encrypted)
- *  - in Authorization header
- **/
-const getAccessToken = async () => {
-  const cookiesContent = cookies();
-  const sessionToken = cookiesContent.get(NEXT_AUTH_SESSION_TOKEN_COOKIE_NAME)?.value || '';
-  if (sessionToken) {
-    const decoded = await decode({
-      token: sessionToken,
-      secret: process.env.NEXTAUTH_SECRET ?? '',
-    });
-
-    return decoded?.accessToken;
-  }
-  const authorizationHeader = headers().get('authorization');
-  return authorizationHeader?.replace(/Bearer /, '');
-};
-
 export const getOptionalAuthenticatedUser = async (): Promise<
   Utilisateur.ValueType | undefined
 > => {
-  const accessToken = await getAccessToken();
-  if (accessToken) {
-    return Utilisateur.convertirEnValueType(accessToken);
+  const session = await getServerSession(authOptions);
+  if (session?.utilisateur) {
+    return Utilisateur.bind(session.utilisateur);
+  }
+  const authorizationHeader = headers().get('Authorization');
+  if (authorizationHeader && authorizationHeader.toLowerCase().startsWith('bearer ')) {
+    const utilisateur = convertToken(authorizationHeader.slice(7));
+    return utilisateur && Utilisateur.bind(utilisateur);
   }
 };
 

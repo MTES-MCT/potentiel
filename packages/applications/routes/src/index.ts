@@ -7,6 +7,7 @@ import { Projet } from './projet';
 import { Recours } from './éliminé';
 import { Tache } from './tâche';
 import { Période } from './période';
+import { Auth } from './auth';
 
 export const Routes = {
   Abandon,
@@ -20,4 +21,5 @@ export const Routes = {
   Recours,
   Tache,
   Période,
+  Auth,
 };
