@@ -27,11 +27,17 @@ Quand(
       : new Date().toISOString();
 
     try {
-      // cela mettra à jour l'aggrégat candidature avec les bonnes données avant notification
-      await corrigerCandidature.call(this, exemple);
+      // cela mettra à jour l'aggrégat candidature avec les bonnes données avant notification si nécessaire
+      if (
+        exemple['type GF'] !==
+        this.candidatureWorld.importerCandidature.values.typeGarantiesFinancièresValue
+      ) {
+        await corrigerCandidature.call(this, exemple);
+      }
 
       // cela déclenchera l'import des GFs iso prod
       await notifierLauréat.call(this, dateDésignation);
+
       await insertProjectBasedOnCandidature.call(this, dateDésignation, 'lauréat');
     } catch (error) {
       this.error = error as Error;

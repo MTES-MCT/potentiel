@@ -43,16 +43,19 @@ Alors(
           new Date(dateÉchéance),
         );
       }
+
       if (dateConstitution) {
         expect(actualReadModel.garantiesFinancières.dateConstitution?.date).to.deep.equal(
           new Date(dateConstitution),
         );
       }
+
       if (dateMiseÀJour) {
         expect(actualReadModel.garantiesFinancières.dernièreMiseÀJour.date.date).to.deep.equal(
           new Date(dateMiseÀJour),
         );
       }
+
       if (dateValidation) {
         expect(actualReadModel.garantiesFinancières.validéLe?.date).to.deep.equal(
           new Date(dateValidation),

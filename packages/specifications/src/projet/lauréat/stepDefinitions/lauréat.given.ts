@@ -25,6 +25,7 @@ EtantDonné(
   async function (this: PotentielWorld, nomProjet: string) {
     const identifiantProjetSansGf =
       IdentifiantProjet.convertirEnValueType(`PPE2 - Innovation#1#1#66`).formatter();
+
     const dateDésignation = new Date('2022-10-27').toISOString();
 
     await importerCandidature.call(
@@ -33,6 +34,7 @@ EtantDonné(
       'classé',
       {
         typeGarantiesFinancièresValue: undefined,
+        dateÉchéanceGfValue: undefined,
       },
       identifiantProjetSansGf,
     );
