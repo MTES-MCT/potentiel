@@ -56,20 +56,6 @@ Fonctionnalité: Demander la mainlevée des garanties financières d'un projet
             | motif | projet-achevé |
         Alors le porteur devrait être informé que "Il n'y a pas de garanties financières à lever pour ce projet"
 
-    Scénario: Impossible de demander la mainlevée des garanties financières d'un projet si l'attestation de constitution de garanties financières manque pour un projet abandonné
-        Etant donné le projet lauréat "Du boulodrome de Lyon"
-        Et un abandon accordé pour le projet lauréat "Du boulodrome de Lyon"
-        Quand le porteur demande la mainlevée des garanties financières pour le projet "Du boulodrome de Lyon" avec :
-            | motif | projet-abandonné |
-        Alors le porteur devrait être informé que "Votre demande n'a pas pu être enregistrée car l'attestation de constitution de vos garanties financières reste à transmettre dans Potentiel"
-
-    Scénario: Impossible de demander la mainlevée des garanties financières d'un projet si l'attestation de constitution de garanties financières manque pour un projet achevé
-        Etant donné le projet lauréat "Du boulodrome de Lyon"
-        Et une attestation de conformité transmise pour le projet "Du boulodrome de Lyon"
-        Quand le porteur demande la mainlevée des garanties financières pour le projet "Du boulodrome de Lyon" avec :
-            | motif | projet-achevé |
-        Alors le porteur devrait être informé que "Votre demande n'a pas pu être enregistrée car l'attestation de constitution de vos garanties financières reste à transmettre dans Potentiel"
-
     Scénario: Impossible de demander la mainlevée des garanties financières d'un projet s'il y a un dépôt de garanties financières pour le projet
         Etant donné une attestation de conformité transmise pour le projet "Du boulodrome de Marseille"
         Etant donné des garanties financières actuelles pour le projet "Du boulodrome de Marseille"
@@ -113,3 +99,17 @@ Fonctionnalité: Demander la mainlevée des garanties financières d'un projet
             | utilisateur  | porteur@test.test |
             | date demande | 2014-05-28        |
         Alors le porteur devrait être informé que "Votre demande de mainlevée de garanties financières est invalide car les garanties financières du projet sont échues"
+
+    Scénario: Impossible de demander la mainlevée des garanties financières d'un projet si l'attestation de constitution de garanties financières manque pour un projet abandonné
+        Etant donné le projet lauréat "Du boulodrome de Lyon"
+        Et un abandon accordé pour le projet lauréat "Du boulodrome de Lyon"
+        Quand le porteur demande la mainlevée des garanties financières pour le projet "Du boulodrome de Lyon" avec :
+            | motif | projet-abandonné |
+        Alors le porteur devrait être informé que "Votre demande n'a pas pu être enregistrée car l'attestation de constitution de vos garanties financières reste à transmettre dans Potentiel"
+
+    Scénario: Impossible de demander la mainlevée des garanties financières d'un projet si l'attestation de constitution de garanties financières manque pour un projet achevé
+        Etant donné le projet lauréat "Du boulodrome de Lyon"
+        Et une attestation de conformité transmise pour le projet "Du boulodrome de Lyon"
+        Quand le porteur demande la mainlevée des garanties financières pour le projet "Du boulodrome de Lyon" avec :
+            | motif | projet-achevé |
+        Alors le porteur devrait être informé que "Votre demande n'a pas pu être enregistrée car l'attestation de constitution de vos garanties financières reste à transmettre dans Potentiel"
