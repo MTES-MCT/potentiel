@@ -12,8 +12,8 @@ import { issuerUrl } from '@/auth';
  * @see https://github.com/nextauthjs/next-auth/discussions/3938
  */
 export const GET = async () => {
-  const { NEXTAUTH_URL = '' } = process.env;
-  const redirectUrl = new URL(Routes.Auth.signOut(), NEXTAUTH_URL);
+  const { BASE_URL = '' } = process.env;
+  const redirectUrl = new URL(Routes.Auth.signOut(), BASE_URL);
 
   try {
     // Gets the session, with idToken
@@ -26,7 +26,7 @@ export const GET = async () => {
       },
     });
     if (!session) {
-      return NextResponse.redirect(NEXTAUTH_URL);
+      return NextResponse.redirect(BASE_URL);
     }
 
     // after keycloak logout, redirect the user to this route to remove the session
