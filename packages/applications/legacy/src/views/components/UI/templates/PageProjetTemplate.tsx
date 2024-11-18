@@ -68,14 +68,19 @@ const getBadgeType = (statut: Candidature.ConsulterProjetReadModel['statut']): B
     case 'éliminé':
       return 'error';
     case 'non-notifié':
-      return 'info';
+      return 'new';
   }
+};
+
+const getBadgeLabel = (statut: Candidature.ConsulterProjetReadModel['statut']): string => {
+  if (statut === 'non-notifié') return 'à notifier';
+  return statut;
 };
 
 const StatutProjet: FC<{
   statut: Candidature.ConsulterProjetReadModel['statut'];
 }> = ({ statut }) => (
   <Badge type={getBadgeType(statut)} className="ml-2 self-center">
-    {statut}
+    {getBadgeLabel(statut)}
   </Badge>
 );

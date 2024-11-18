@@ -8,7 +8,7 @@ type NotificationBadgeProps = {
 export const NotificationBadge: React.FC<NotificationBadgeProps> = ({ estNotifié }) => {
   return (
     <Badge small noIcon severity={estNotifié ? 'info' : 'new'}>
-      {estNotifié ? 'Notifié' : 'À Notifier'}
+      {estNotifié ? 'notifié' : 'à notifier'}
     </Badge>
   );
 };
