@@ -24,21 +24,8 @@ import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { GarantiesFinancières } from '@potentiel-domain/laureat';
 import { Option } from '@potentiel-libraries/monads';
 
-const routeRedirection = (type, projectId) => {
-  let returnRoute: string;
-  switch (type) {
-    case 'actionnaire':
-      returnRoute = routes.CHANGER_ACTIONNAIRE(projectId);
-      break;
-    case 'recours':
-      returnRoute = routes.DEPOSER_RECOURS(projectId);
-      break;
-    default:
-      returnRoute = routes.LISTE_PROJETS;
-      break;
-  }
-  return returnRoute;
-};
+const routeRedirection = (type, projectId) =>
+  type === 'actionnaire' ? routes.CHANGER_ACTIONNAIRE(projectId) : routes.LISTE_PROJETS;
 
 v1Router.post(
   routes.DEMANDE_ACTION,

@@ -4,7 +4,6 @@ import {
   AdemeStatistiques,
   AdminStatistiques,
   DemanderDelai,
-  DrealList,
   Error,
   Home,
   ModificationRequest,
@@ -28,8 +27,6 @@ import {
   LienInvitationPérimé,
   AccèsNonAutorisé,
   DéclarationAccessibilité,
-  InviterDgecValidateur,
-  InviterAdministrateur,
   AcheteurObligeStatistiques,
   CreStatistiques,
   DetailsDemandeDelai,
@@ -191,13 +188,6 @@ export const SignupPage = (props: Parameters<typeof Signup>[0]) =>
     title: 'Inscription',
   });
 
-export const DrealListPage = (props: Parameters<typeof DrealList>[0]) =>
-  makeHtml({
-    Component: DrealList,
-    props,
-    title: 'DREALs',
-  });
-
 export const PartnersListPage = (props: Parameters<typeof PartnersList>[0]) =>
   makeHtml({
     Component: PartnersList,
@@ -261,20 +251,6 @@ export const AccèsNonAutoriséPage = (props: Parameters<typeof AccèsNonAutoris
   makeHtml({
     Component: AccèsNonAutorisé,
     props,
-  });
-
-export const InviterDgecValidateurPage = (props: Parameters<typeof InviterDgecValidateur>[0]) =>
-  makeHtml({
-    Component: InviterDgecValidateur,
-    props,
-    title: 'Inviter un utilisateur DGEC validateur',
-  });
-
-export const InviterAdministrateurPage = (props: Parameters<typeof InviterAdministrateur>[0]) =>
-  makeHtml({
-    Component: InviterAdministrateur,
-    props,
-    title: 'Inviter un utilisateur administrateur',
   });
 
 export const CorrigerDelaiAccordePage = (props: Parameters<typeof CorrigerDelaiAccorde>[0]) =>

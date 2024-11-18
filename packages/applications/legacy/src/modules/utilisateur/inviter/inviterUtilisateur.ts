@@ -8,16 +8,6 @@ import { UtilisateurInvité } from '../events/UtilisateurInvité';
 import { Permission } from '../../authN';
 import { InvitationUtilisateurNonAutoriséeError } from './InvitationUtilisateurNonAutoriséeError';
 
-export const PermissionInviterDgecValidateur: Permission = {
-  nom: 'inviter-dgec-validateur-action',
-  description: 'Inviter un utilisateur dgec-validateur',
-};
-
-export const PermissionInviterAdministrateur: Permission = {
-  nom: 'inviter-administrateur-action',
-  description: 'Inviter un utilisateur administrateur',
-};
-
 type Dépendances = {
   utilisateurRepo: TransactionalRepository<Utilisateur>;
   publishToEventStore: EventStore['publish'];
@@ -43,14 +33,6 @@ export const makeInviterUtilisateur =
       new UniqueEntityID(commande.email),
       (utilisateur) => {
         const { email, role, invitéPar } = commande;
-
-        if (
-          (role === 'dgec-validateur' &&
-            !invitéPar.permissions.includes(PermissionInviterDgecValidateur)) ||
-          (role === 'admin' && !invitéPar.permissions.includes(PermissionInviterAdministrateur))
-        ) {
-          return errAsync(new InvitationUtilisateurNonAutoriséeError({ email, role }));
-        }
 
         if (utilisateur.statut === 'invité') {
           return errAsync(new InvitationUniqueParUtilisateurError({ email, role }));
