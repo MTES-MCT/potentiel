@@ -36,17 +36,6 @@ export const NewModificationRequest = ({
     appelOffre.periode.choisirNouveauCahierDesCharges &&
     project.cahierDesChargesActuel === 'initial';
 
-  const redirectionRoute = (action) => {
-    switch (action) {
-      case 'actionnaire':
-        return routes.CHANGER_ACTIONNAIRE(project.id);
-      case 'recours':
-        return routes.DEPOSER_RECOURS(project.id);
-      default:
-        return routes.LISTE_PROJETS;
-    }
-  };
-
   return (
     <LegacyPageTemplate user={request.user} currentPage="list-requests">
       <Heading1 className="mb-10">
@@ -60,7 +49,9 @@ export const NewModificationRequest = ({
             cahierDesChargesActuel: 'initial',
             identifiantGestionnaireRéseau: project.identifiantGestionnaire,
           }}
-          redirectUrl={redirectionRoute(action)}
+          redirectUrl={
+            action === 'actionnaire' ? routes.CHANGER_ACTIONNAIRE(project.id) : routes.LISTE_PROJETS
+          }
           type={action}
           cahiersDesChargesUrl={project.cahiersDesChargesUrl}
           formulaireModificationProjet={true}
