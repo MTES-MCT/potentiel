@@ -153,7 +153,6 @@ class routes {
   static DEMANDE_DELAI_ACTION = '/soumettre-demande-delai';
 
   static ANNULER_DEMANDE_ACTION = '/annuler-demande';
-  // static POST_ANNULER_DEMANDE_DELAI = '/annuler-demande-delai';
   static ANNULER_DEMANDE_DELAI = '/annuler-demande-delai';
 
   static POST_CHANGER_PRODUCTEUR = '/soumettre-changement-producteur';
