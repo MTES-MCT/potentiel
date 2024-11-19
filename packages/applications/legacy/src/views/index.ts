@@ -9,7 +9,6 @@ import {
   ModificationRequest,
   ModificationRequestList,
   NewModificationRequest,
-  PartnersList,
   ProjectDetails,
   SignalerDemandeDelai,
   Signup,
@@ -186,13 +185,6 @@ export const SignupPage = (props: Parameters<typeof Signup>[0]) =>
     Component: Signup,
     props,
     title: 'Inscription',
-  });
-
-export const PartnersListPage = (props: Parameters<typeof PartnersList>[0]) =>
-  makeHtml({
-    Component: PartnersList,
-    props,
-    title: 'Partenaires',
   });
 
 export const AbonnementLettreInformationPage = (
