@@ -10,7 +10,6 @@ import { IdentifiantProjet } from '@potentiel-domain/common';
 
 import { convertReadableStreamToString } from '../../../../../helpers/convertReadableToString';
 import { PotentielWorld } from '../../../../../potentiel.world';
-import { sleep } from '../../../../../helpers/sleep';
 
 import { setGarantiesFinancièresData } from './helper';
 
@@ -30,8 +29,6 @@ Alors(
     const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
 
     await waitForExpect(async () => {
-      await sleep(400);
-
       const actualReadModel = await getGarantiesFinancières(identifiantProjet);
 
       expect(actualReadModel.garantiesFinancières).not.to.be.undefined;
@@ -93,8 +90,6 @@ Alors(
     const { values } = this.candidatureWorld.importerCandidature;
 
     await waitForExpect(async () => {
-      await sleep(400);
-
       if (values.typeGarantiesFinancièresValue) {
         const actualReadModel = await getGarantiesFinancières(identifiantProjet);
         assert(actualReadModel.garantiesFinancières);

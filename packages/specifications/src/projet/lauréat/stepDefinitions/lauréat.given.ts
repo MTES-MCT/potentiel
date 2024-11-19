@@ -17,7 +17,7 @@ EtantDonné('le projet lauréat {string}', async function (this: PotentielWorld,
 
   await notifierLauréat.call(this, dateDésignation);
 
-  await insertProjectBasedOnCandidature.call(this, dateDésignation, 'lauréat');
+  await insérerProjetAvecDonnéesCandidature.call(this, dateDésignation, 'lauréat');
 });
 
 EtantDonné(
@@ -41,7 +41,7 @@ EtantDonné(
 
     await notifierLauréat.call(this, dateDésignation);
 
-    await insertProjectBasedOnCandidature.call(this, dateDésignation, 'lauréat');
+    await insérerProjetAvecDonnéesCandidature.call(this, dateDésignation, 'lauréat');
   },
 );
 
@@ -54,7 +54,7 @@ EtantDonné(
 
     await notifierLauréat.call(this, dateDésignation);
 
-    await insertProjectBasedOnCandidature.call(this, dateDésignation, 'lauréat');
+    await insérerProjetAvecDonnéesCandidature.call(this, dateDésignation, 'lauréat');
   },
 );
 
@@ -97,7 +97,8 @@ export async function notifierLauréat(this: PotentielWorld, dateDésignation: s
   });
 }
 
-export async function insertProjectBasedOnCandidature(
+// cette fonction serait supprimée après la migration de projet
+export async function insérerProjetAvecDonnéesCandidature(
   this: PotentielWorld,
   dateDésignation: string,
   statutProjet: 'lauréat' | 'éliminé',

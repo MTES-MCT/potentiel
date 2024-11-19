@@ -23,7 +23,11 @@ export const register = () => {
         const {
           payload: { typeTâchePlanifiée },
         } = event;
-        if (TypeTâchePlanifiéeGarantiesFinancières.échoir.type === typeTâchePlanifiée) {
+        if (
+          TypeTâchePlanifiéeGarantiesFinancières.convertirEnValueType(
+            typeTâchePlanifiée,
+          ).estÉchoir()
+        ) {
           await mediator.send<ÉchoirGarantiesFinancièresCommand>({
             type: 'Lauréat.GarantiesFinancières.Command.ÉchoirGarantiesFinancières',
             data: {

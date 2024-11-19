@@ -11,10 +11,9 @@ import { DateTime } from '@potentiel-domain/common';
 import { PotentielWorld } from '../../../../../potentiel.world';
 import { corrigerCandidature } from '../../../../../candidature/stepDefinitions/candidature.when';
 import {
-  insertProjectBasedOnCandidature,
+  insérerProjetAvecDonnéesCandidature,
   notifierLauréat,
 } from '../../../stepDefinitions/lauréat.given';
-import { sleep } from '../../../../../helpers/sleep';
 
 import { setGarantiesFinancièresData } from './helper';
 
@@ -39,7 +38,7 @@ Quand(
       // cela déclenchera l'import des GFs iso prod
       await notifierLauréat.call(this, dateDésignation);
 
-      await insertProjectBasedOnCandidature.call(this, dateDésignation, 'lauréat');
+      await insérerProjetAvecDonnéesCandidature.call(this, dateDésignation, 'lauréat');
     } catch (error) {
       this.error = error as Error;
     }
@@ -71,8 +70,6 @@ Quand(
 
     try {
       const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
-
-      await sleep(400);
 
       await mediator.send<GarantiesFinancières.EnregistrerAttestationGarantiesFinancièresUseCase>({
         type: 'Lauréat.GarantiesFinancières.UseCase.EnregistrerAttestation',

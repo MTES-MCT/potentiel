@@ -8,7 +8,7 @@ import { Option } from '@potentiel-libraries/monads';
 import { NotifierLauréatCommand } from './notifier/notifierLauréat.command';
 import { DemanderGarantiesFinancièresCommand } from './garantiesFinancières/demander/demanderGarantiesFinancières.command';
 import { MotifDemandeGarantiesFinancières } from './garantiesFinancières';
-import { appelOffreSoumisAuxGarantiesFinancières } from './garantiesFinancières/utils/appelOffreSoumisAuxGarantiesFinancières';
+import { appelOffreSoumisAuxGarantiesFinancières } from './garantiesFinancières/_utils/appelOffreSoumisAuxGarantiesFinancières';
 
 export type SubscriptionEvent = Recours.RecoursAccordéEvent;
 

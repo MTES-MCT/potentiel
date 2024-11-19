@@ -130,13 +130,14 @@ export function applyCandidatureCorrigée(
 ) {
   this.importé = true;
   this.statut = StatutCandidature.convertirEnValueType(payload.statut);
-  this.garantiesFinancières = payload.typeGarantiesFinancières
-    ? {
-        type: TypeGarantiesFinancières.convertirEnValueType(payload.typeGarantiesFinancières),
-        dateEchéance:
-          payload.dateÉchéanceGf && DateTime.convertirEnValueType(payload.dateÉchéanceGf),
-      }
-    : this.garantiesFinancières;
+  if (payload.typeGarantiesFinancières) {
+    this.garantiesFinancières = {
+      type: TypeGarantiesFinancières.convertirEnValueType(payload.typeGarantiesFinancières),
+      dateEchéance: payload.dateÉchéanceGf
+        ? DateTime.convertirEnValueType(payload.dateÉchéanceGf)
+        : undefined,
+    };
+  }
   this.payloadHash = this.calculerHash(payload);
 }
 

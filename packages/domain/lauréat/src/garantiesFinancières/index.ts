@@ -162,4 +162,4 @@ export * as GarantiesFinancièresSaga from './garantiesFinancières.saga';
 export * as TypeGarantiesFinancièresSaga from './typeGarantiesFinancières.saga';
 
 // utils
-export * from './utils/appelOffreSoumisAuxGarantiesFinancières';
+export * from './_utils/appelOffreSoumisAuxGarantiesFinancières';
