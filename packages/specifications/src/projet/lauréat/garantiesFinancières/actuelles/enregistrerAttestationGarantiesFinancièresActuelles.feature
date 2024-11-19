@@ -49,7 +49,7 @@ Fonctionnalité: Enregistrer l'attestation des garanties financières actuelles
 
     Scénario: Impossible d'enregistrer l'attestation des garanties financières si l'attestation est déjà présente
         Etant donné le projet lauréat sans garanties financières importées "Du boulodrome de Marseille"
-        Etant donné des garanties financières actuelles pour le projet "Du boulodrome de Marseille" avec :
+        Et des garanties financières actuelles pour le projet "Du boulodrome de Marseille" avec :
             | format               | application/pdf |
             | contenu fichier      | contenu fichier |
             | date de constitution | 2023-06-12      |
