@@ -145,12 +145,6 @@ const MenuAdmin = (currentPage?: string) => (
       >
         Emails en erreur
       </DropdownMenu.DropdownItem>
-      <DropdownMenu.DropdownItem
-        href={routes.ADMIN_PARTNER_USERS}
-        {...(currentPage === 'admin-users' && { isCurrent: true })}
-      >
-        Partenaires
-      </DropdownMenu.DropdownItem>
     </DropdownMenu>
 
     <DropdownMenu buttonChildren={'Outils'}>

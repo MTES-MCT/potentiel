@@ -8,7 +8,6 @@ export * from './homePage';
 export * from './modificationRequestListPage';
 export * from './modificationRequestPage';
 export * from './newModificationRequestPage';
-export * from './partnersListPage';
 export * from './projectDetailsPage';
 export * from './signalerDemandeDelaiPage';
 export * from './AbonnementLettreInformation';

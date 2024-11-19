@@ -1,4 +1,3 @@
-export * from './partnerUsers';
 export * from './getEmailsEnErreurPage';
 export * from './getInvitationsCandidatsEnAttentePage';
 export * from './getSignalerDemandeDelaiPage';

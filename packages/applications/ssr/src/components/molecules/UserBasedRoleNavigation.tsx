@@ -152,18 +152,6 @@ const getNavigationItemsBasedOnRole = (
                 href: '/admin/notifications.html',
               },
             },
-            {
-              text: 'Dreals',
-              linkProps: {
-                href: '/admin/dreals.html',
-              },
-            },
-            {
-              text: 'Partenaires',
-              linkProps: {
-                href: '/admin/utilisateurs-partenaires.html',
-              },
-            },
           ],
         },
         {

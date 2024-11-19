@@ -36,10 +36,6 @@ class routes {
 
   static UPLOAD_LEGACY_MODIFICATION_FILES = '/admin/importer-documents-historiques';
 
-  static ADMIN_PARTNER_USERS = '/admin/utilisateurs-partenaires.html';
-
-  static ADMIN_INVITE_USER_ACTION = '/admin/inviterUtilisateur';
-
   static ADMIN_STATISTIQUES = '/admin/statistiques.html';
   static ADEME_STATISTIQUES = '/ademe/statistiques.html';
   static ACHETEUR_OBLIGE_STATISTIQUES = '/acheteur-oblige/statistiques.html';

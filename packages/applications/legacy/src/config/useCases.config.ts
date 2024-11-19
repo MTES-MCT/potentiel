@@ -65,7 +65,7 @@ import {
   makeNotifierPorteurRévocationAccèsProjet,
 } from '../modules/notification';
 
-import { makeCréerProfilUtilisateur, makeInviterUtilisateur } from '../modules/utilisateur';
+import { makeCréerProfilUtilisateur } from '../modules/utilisateur';
 import { getProjectAppelOffre } from './queryProjectAO.config';
 
 const publishToEventStore = eventStore.publish.bind(eventStore);
@@ -263,11 +263,6 @@ export const notifierPorteurChangementStatutDemande = makeNotifierPorteurChangem
 
 export const notifierPorteurRévocationAccèsProjet = makeNotifierPorteurRévocationAccèsProjet({
   sendNotification,
-});
-
-export const inviterUtilisateur = makeInviterUtilisateur({
-  utilisateurRepo,
-  publishToEventStore,
 });
 
 export const créerProfilUtilisateur = makeCréerProfilUtilisateur({
