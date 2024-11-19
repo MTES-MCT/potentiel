@@ -14,6 +14,7 @@ import {
   insertProjectBasedOnCandidature,
   notifierLauréat,
 } from '../../../stepDefinitions/lauréat.given';
+import { sleep } from '../../../../../helpers/sleep';
 
 import { setGarantiesFinancièresData } from './helper';
 
@@ -70,6 +71,8 @@ Quand(
 
     try {
       const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
+
+      await sleep(400);
 
       await mediator.send<GarantiesFinancières.EnregistrerAttestationGarantiesFinancièresUseCase>({
         type: 'Lauréat.GarantiesFinancières.UseCase.EnregistrerAttestation',

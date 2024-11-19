@@ -4,7 +4,6 @@ Fonctionnalité: Importer le type (et la date d'échéance selon le cas) des gar
     Contexte:
         Etant donné la candidature lauréate "Du boulodrome de Marseille"
 
-    @select
     Plan du Scénario: Un admin importe le type des garanties financières actuelles d'un projet
         Quand un admin importe le type des garanties financières actuelles pour le projet avec :
             | type GF         | <type GF>         |
