@@ -56,6 +56,16 @@ Fonctionnalité: Importer une candidature
             | type GF       | avec-date-échéance |
         Alors l'administrateur devrait être informé que "La date d'échéance des garanties financières est requise"
 
+    Scénario: Impossible d'importer une candidature classée avec des GF sans date d'échéance si la date d'échéance est indiquée
+        Quand un administrateur importe la candidature "Du boulodrome de Marseille" avec :
+            | statut          | classé                    |
+            | appel d'offre   | PPE2 - Bâtiment           |
+            | période         | 1                         |
+            | famille         |                           |
+            | type GF         | six-mois-après-achèvement |
+            | date d'échéance | 2024-01-01                |
+        Alors l'administrateur devrait être informé que "La date d'échéance pour ce type de garanties financières ne peut être renseignée"
+
     Scénario: Impossible d'importer une candidature d'une période d'AO "legacy"
         Quand un administrateur importe la candidature "Du boulodrome de Marseille" avec :
             | statut        | classé                      |

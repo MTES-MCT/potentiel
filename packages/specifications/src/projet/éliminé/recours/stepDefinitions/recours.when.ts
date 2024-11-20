@@ -109,6 +109,8 @@ Quand(
         période: identifiantProjet.période,
       });
 
+      this.lauréatWorld.identifiantProjet = identifiantProjet;
+
       await mediator.send<Recours.RecoursUseCase>({
         type: 'Éliminé.Recours.UseCase.AccorderRecours',
         data: {

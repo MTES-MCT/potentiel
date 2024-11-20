@@ -70,6 +70,7 @@ const registerTâcheGarantiesFinancières = async () => {
       'GarantiesFinancièresDemandées-V1',
       'DépôtGarantiesFinancièresSoumis-V1',
       'GarantiesFinancièresEnregistrées-V1',
+      'TypeGarantiesFinancièresImporté-V1',
     ],
     eventHandler: async (event) => {
       await mediator.publish<TâcheGarantiesFinancièresSaga.Execute>({

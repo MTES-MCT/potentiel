@@ -3,11 +3,9 @@ import { DélaiAccordé, DélaiAccordéCorrigé } from '../../modules/demandeMod
 import { LegacyModificationImported } from '../../modules/modificationRequest';
 import {
   handleLegacyModificationImported,
-  handleProjectRawDataImported,
   handleProjectRawDataCorrected,
   makeOnDélaiAccordé,
   makeOnDélaiAccordéCorrigé,
-  ProjectRawDataImported,
   DateMiseEnServiceTransmise,
   makeOnCahierDesChargesChoisi,
   CahierDesChargesChoisi,
@@ -15,6 +13,8 @@ import {
   makeOnDemandeComplèteRaccordementTransmise,
   DemandeComplèteRaccordementTransmise,
   ProjectRawDataCorrected,
+  ProjectRawDataImported,
+  handleProjectRawDataImported,
 } from '../../modules/project';
 import { subscribeToRedis } from '../eventBus.config';
 import { eventStore } from '../eventStore.config';

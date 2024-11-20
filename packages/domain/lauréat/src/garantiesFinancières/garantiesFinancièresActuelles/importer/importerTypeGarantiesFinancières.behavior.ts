@@ -3,8 +3,6 @@ import { DomainEvent } from '@potentiel-domain/core';
 import { Candidature } from '@potentiel-domain/candidature';
 
 import { StatutGarantiesFinancières } from '../..';
-import { DateÉchéanceManquanteError } from '../../dateÉchéanceManquante.error';
-import { DateÉchéanceNonAttendueError } from '../../dateÉchéanceNonAttendue.error';
 import { GarantiesFinancièresAggregate } from '../../garantiesFinancières.aggregate';
 
 export type TypeGarantiesFinancièresImportéEvent = DomainEvent<
@@ -19,7 +17,7 @@ export type TypeGarantiesFinancièresImportéEvent = DomainEvent<
 
 export type Options = {
   identifiantProjet: IdentifiantProjet.ValueType;
-  type: Candidature.TypeGarantiesFinancières.ValueType;
+  type?: Candidature.TypeGarantiesFinancières.ValueType;
   dateÉchéance?: DateTime.ValueType;
   importéLe: DateTime.ValueType;
 };
@@ -28,12 +26,10 @@ export async function importerType(
   this: GarantiesFinancièresAggregate,
   { identifiantProjet, type, dateÉchéance, importéLe }: Options,
 ) {
-  if (type.estAvecDateÉchéance() && !dateÉchéance) {
-    throw new DateÉchéanceManquanteError();
+  if (!type) {
+    return;
   }
-  if (!type.estAvecDateÉchéance() && dateÉchéance) {
-    throw new DateÉchéanceNonAttendueError();
-  }
+
   const event: TypeGarantiesFinancièresImportéEvent = {
     type: 'TypeGarantiesFinancièresImporté-V1',
     payload: {

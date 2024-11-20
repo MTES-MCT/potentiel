@@ -13,7 +13,7 @@ Fonctionnalité: Accorder l'abandon d'un projet lauréat
 
     Scénario: Un DGEC validateur accorde l'abandon d'un projet lauréat avec garanties financières à échoir
         Etant donné des garanties financières actuelles pour le projet "Du boulodrome de Marseille" avec :
-            | type            | avec-date-échéance |
+            | type GF         | avec-date-échéance |
             | date d'échéance | 2024-07-17         |
         Et une demande d'abandon en cours pour le projet lauréat
         Quand le DGEC validateur accorde l'abandon pour le projet lauréat

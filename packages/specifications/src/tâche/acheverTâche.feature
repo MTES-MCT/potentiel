@@ -2,7 +2,7 @@
 Fonctionnalité: Achever une tâche
 
     Contexte:
-        Etant donné le projet lauréat "Du boulodrome de Marseille"
+        Etant donné le projet lauréat sans garanties financières importées "Du boulodrome de Marseille"
         Et le porteur "Marcel Patoulatchi" ayant accés au projet lauréat "Du boulodrome de Marseille"
 
     Scénario: Une tâche est achevée lorsqu'un dépot de garanties financières est soumis pour un projet en attente de garanties financières
@@ -11,7 +11,7 @@ Fonctionnalité: Achever une tâche
             | date de notification      | 2023-09-01    |
             | motif                     | motif-inconnu |
         Quand un porteur soumet un dépôt de garanties financières pour le projet "Du boulodrome de Marseille" avec :
-            | type                 | consignation          |
+            | type GF              | consignation          |
             | format               | application/pdf       |
             | contenu fichier      | le contenu du fichier |
             | date de constitution | 2023-06-01            |
@@ -25,7 +25,7 @@ Fonctionnalité: Achever une tâche
             | date de notification      | 2023-09-01    |
             | motif                     | motif-inconnu |
         Quand un admin enregistre les garanties financières actuelles pour le projet "Du boulodrome de Marseille" avec :
-            | type                 | consignation    |
+            | type GF              | consignation    |
             | format               | application/pdf |
             | contenu fichier      | contenu fichier |
             | date de constitution | 2023-06-12      |

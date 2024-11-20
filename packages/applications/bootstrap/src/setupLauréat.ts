@@ -30,6 +30,7 @@ import { SendEmail } from '@potentiel-applications/notifications';
 type SetupLauréatDependencies = {
   sendEmail: SendEmail;
 };
+
 export const setupLauréat = async ({ sendEmail }: SetupLauréatDependencies) => {
   registerLauréatUseCases({
     loadAggregate,
@@ -56,6 +57,7 @@ export const setupLauréat = async ({ sendEmail }: SetupLauréatDependencies) =>
 
   // Sagas
   GarantiesFinancières.GarantiesFinancièresSaga.register();
+  GarantiesFinancières.TypeGarantiesFinancièresSaga.register();
   Lauréat.LauréatSaga.register();
   ReprésentantLégal.ReprésentantLégalSaga.register();
 
@@ -252,6 +254,20 @@ export const setupLauréat = async ({ sendEmail }: SetupLauréatDependencies) =>
       }),
   });
 
+  const unsubscribeTypeGarantiesFinancièresSaga = await subscribe<
+    GarantiesFinancières.TypeGarantiesFinancièresSaga.SubscriptionEvent & Event
+  >({
+    name: 'type-garanties-financieres-saga',
+    streamCategory: 'lauréat',
+    eventType: ['LauréatNotifié-V1'],
+    eventHandler: async (event) => {
+      await mediator.publish<GarantiesFinancières.TypeGarantiesFinancièresSaga.Execute>({
+        type: 'System.Lauréat.TypeGarantiesFinancières.Saga.Execute',
+        data: event,
+      });
+    },
+  });
+
   return async () => {
     // projectors
     await unsubscribeLauréatProjector();
@@ -265,6 +281,7 @@ export const setupLauréat = async ({ sendEmail }: SetupLauréatDependencies) =>
     await unsubscribeAchèvementNotification();
     // sagas
     await unsubscribeGarantiesFinancièresSaga();
+    await unsubscribeTypeGarantiesFinancièresSaga();
     await unsubscribeLauréatSaga();
     await unsubscribeReprésentantLégalSaga();
   };

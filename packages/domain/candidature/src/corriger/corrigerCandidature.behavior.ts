@@ -7,8 +7,9 @@ import { CandidatureAggregate } from '../candidature.aggregate';
 import * as StatutCandidature from '../statutCandidature.valueType';
 import {
   DateÉchéanceGarantiesFinancièresRequiseError,
+  DateÉchéanceNonAttendueError,
   GarantiesFinancièresRequisesPourAppelOffreError,
-} from '../garantiesFinancièresRequises.error';
+} from '../garantiesFinancières.error';
 import { AppelOffreInexistantError } from '../appelOffreInexistant.error';
 import { CandidatureNonModifiéeError } from '../candidatureNonModifiée.error';
 import {
@@ -76,16 +77,29 @@ export async function corriger(
     throw new DateÉchéanceGarantiesFinancièresRequiseError();
   }
 
+  if (
+    candidature.statut.estClassé() &&
+    candidature.typeGarantiesFinancières &&
+    !candidature.typeGarantiesFinancières.estAvecDateÉchéance() &&
+    candidature.dateÉchéanceGf
+  ) {
+    throw new DateÉchéanceNonAttendueError();
+  }
+
   if (this.estNotifiée) {
     if (!candidature.statut.estÉgaleÀ(this.statut)) {
       throw new StatutNonModifiableAprèsNotificationError();
     }
+
     if (candidature.typeGarantiesFinancières) {
-      if (!this.typeGf || !this.typeGf.estÉgaleÀ(candidature.typeGarantiesFinancières)) {
-        throw new TypeGarantiesFinancièresNonModifableAprèsNotificationError();
+      if (
+        !this.garantiesFinancières?.type ||
+        !this.garantiesFinancières?.type.estÉgaleÀ(candidature.typeGarantiesFinancières)
+      ) {
+        throw new TypeGarantiesFinancièresNonModifiableAprèsNotificationError();
       }
-    } else if (this.typeGf) {
-      throw new TypeGarantiesFinancièresNonModifableAprèsNotificationError();
+    } else if (this.garantiesFinancières?.type) {
+      throw new TypeGarantiesFinancièresNonModifiableAprèsNotificationError();
     }
   }
   if (!this.estNotifiée && candidature.doitRégénérerAttestation) {
@@ -116,9 +130,14 @@ export function applyCandidatureCorrigée(
 ) {
   this.importé = true;
   this.statut = StatutCandidature.convertirEnValueType(payload.statut);
-  this.typeGf =
-    payload.typeGarantiesFinancières &&
-    TypeGarantiesFinancières.convertirEnValueType(payload.typeGarantiesFinancières);
+  if (payload.typeGarantiesFinancières) {
+    this.garantiesFinancières = {
+      type: TypeGarantiesFinancières.convertirEnValueType(payload.typeGarantiesFinancières),
+      dateEchéance: payload.dateÉchéanceGf
+        ? DateTime.convertirEnValueType(payload.dateÉchéanceGf)
+        : undefined,
+    };
+  }
   this.payloadHash = this.calculerHash(payload);
 }
 
@@ -128,7 +147,7 @@ class StatutNonModifiableAprèsNotificationError extends InvalidOperationError {
   }
 }
 
-class TypeGarantiesFinancièresNonModifableAprèsNotificationError extends InvalidOperationError {
+class TypeGarantiesFinancièresNonModifiableAprèsNotificationError extends InvalidOperationError {
   constructor() {
     super(
       `Le type de garanties financières d'une candidature ne peut être modifié après la notification`,

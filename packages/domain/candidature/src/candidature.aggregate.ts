@@ -1,7 +1,7 @@
 // FIXME the import should be node:crypto but this breaks NextJS
 import { createHash } from 'crypto';
 
-import { IdentifiantProjet } from '@potentiel-domain/common';
+import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 import { Aggregate, GetDefaultAggregateState, LoadAggregate } from '@potentiel-domain/core';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 
@@ -48,8 +48,11 @@ type Importé = {
 export type CandidatureAggregate = Aggregate<CandidatureEvent> &
   (Importé | NonImporté) & {
     estNotifiée: boolean;
+    garantiesFinancières?: {
+      type: TypeGarantiesFinancières.ValueType;
+      dateEchéance?: DateTime.ValueType;
+    };
     payloadHash: string;
-    typeGf?: TypeGarantiesFinancières.ValueType;
     nomReprésentantLégal: string;
     importer: typeof importer;
     corriger: typeof corriger;

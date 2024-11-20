@@ -64,7 +64,9 @@ export class ImporterCandidatureFixture
       puissanceALaPointeValue: true,
       sociétéMèreValue: faker.company.name(),
       territoireProjetValue: '',
-      dateÉchéanceGfValue: '',
+      dateÉchéanceGfValue: values?.dateÉchéanceGfValue
+        ? new Date(values.dateÉchéanceGfValue).toISOString()
+        : '',
       historiqueAbandonValue: faker.helpers.arrayElement(Candidature.HistoriqueAbandon.types),
       puissanceProductionAnnuelleValue: faker.number.float({ min: 0.1, max: 3 }),
       prixReferenceValue: faker.number.float({ min: 0.1, max: 3 }),
@@ -100,12 +102,15 @@ export class ImporterCandidatureFixture
 function getValidFakeIdentifiantProjet(): string {
   const identifiantProjet = faker.potentiel.identifiantProjet();
   const { appelOffre, période } = IdentifiantProjet.convertirEnValueType(identifiantProjet);
+
   const périodeData = appelsOffreData
     .find((x) => x.id === appelOffre)
     ?.periodes.find((x) => x.id === période);
+
   if (!périodeData) {
     return getValidFakeIdentifiantProjet();
   }
+
   if (périodeData.type === 'legacy') {
     return getValidFakeIdentifiantProjet();
   }

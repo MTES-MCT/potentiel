@@ -16,11 +16,18 @@ export type Execute = Message<
 export const register = () => {
   const handler: MessageHandler<Execute> = async (event) => {
     const {
-      payload: { identifiantProjet, typeTâchePlanifiée },
+      payload: { identifiantProjet },
     } = event;
     switch (event.type) {
       case 'TâchePlanifiéeExecutée-V1':
-        if (TypeTâchePlanifiéeGarantiesFinancières.échoir.type === typeTâchePlanifiée) {
+        const {
+          payload: { typeTâchePlanifiée },
+        } = event;
+        if (
+          TypeTâchePlanifiéeGarantiesFinancières.convertirEnValueType(
+            typeTâchePlanifiée,
+          ).estÉchoir()
+        ) {
           await mediator.send<ÉchoirGarantiesFinancièresCommand>({
             type: 'Lauréat.GarantiesFinancières.Command.ÉchoirGarantiesFinancières',
             data: {

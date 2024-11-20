@@ -1,13 +1,9 @@
 import { TransactionalRepository, UniqueEntityID } from '../../../core/domain';
 import { GetProjectAppelOffre } from '../../projectAppelOffre';
-import { err, logger } from '../../../core/utils';
+import { err } from '../../../core/utils';
 import { FindProjectByIdentifiers } from '..';
 import { ProjectRawDataImported } from '../events';
 import { Project } from '../Project';
-import { IdentifiantProjet } from '@potentiel-domain/common';
-import { mediator } from 'mediateur';
-import { GarantiesFinancières } from '@potentiel-domain/laureat';
-import { Candidature } from '@potentiel-domain/candidature';
 
 export const handleProjectRawDataImported =
   (deps: {
@@ -50,48 +46,4 @@ export const handleProjectRawDataImported =
     if (res.isErr()) {
       console.error('handleProjectRawDataImported error', res.error);
     }
-
-    if (classe === 'Classé') {
-      const typeGarantiesFinancières =
-        data.garantiesFinancièresType &&
-        convertirGarantiesFinancièresType(data.garantiesFinancièresType);
-
-      if (typeGarantiesFinancières) {
-        const identifiantProjetValue = IdentifiantProjet.convertirEnValueType(
-          `${appelOffreId}#${periodeId}#${familleId}#${numeroCRE}`,
-        ).formatter();
-
-        try {
-          await mediator.send<GarantiesFinancières.ImporterTypeGarantiesFinancièresUseCase>({
-            type: 'Lauréat.GarantiesFinancières.UseCase.ImporterTypeGarantiesFinancières',
-            data: {
-              identifiantProjetValue,
-              importéLeValue: new Date(event.occurredAt).toISOString(),
-              typeValue: typeGarantiesFinancières,
-              ...(data.garantiesFinancièresDateEchéance &&
-                Candidature.TypeGarantiesFinancières.convertirEnValueType(
-                  typeGarantiesFinancières,
-                ).estAvecDateÉchéance() && {
-                  dateÉchéanceValue: new Date(data.garantiesFinancièresDateEchéance).toISOString(),
-                }),
-            },
-          });
-        } catch (error) {
-          logger.error(
-            `handleProjectRawDataImported : enregistrer le type de garantie financière (projet ${identifiantProjetValue}) : ${error.message}`,
-          );
-        }
-      }
-    }
   };
-
-const convertirGarantiesFinancièresType = (typeImporté: string) => {
-  switch (typeImporté) {
-    case "Garantie financière jusqu'à 6 mois après la date d'achèvement":
-      return Candidature.TypeGarantiesFinancières.sixMoisAprèsAchèvement.type;
-    case "Garantie financière avec date d'échéance et à renouveler":
-      return Candidature.TypeGarantiesFinancières.avecDateÉchéance.type;
-    case 'Consignation':
-      return Candidature.TypeGarantiesFinancières.consignation.type;
-  }
-};

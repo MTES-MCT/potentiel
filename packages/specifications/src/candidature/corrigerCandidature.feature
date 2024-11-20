@@ -81,6 +81,12 @@ Fonctionnalité: Corriger une candidature
             | type GF | avec-date-échéance |
         Alors l'administrateur devrait être informé que "La date d'échéance des garanties financières est requise"
 
+    Scénario: Impossible de corriger une candidature classée avec des GF sans date d'échéance si la date d'échéance est indiquée
+        Quand un administrateur corrige la candidature avec :
+            | type GF         | six-mois-après-achèvement |
+            | date d'échéance | 2024-01-01                |
+        Alors l'administrateur devrait être informé que "La date d'échéance pour ce type de garanties financières ne peut être renseignée"
+
     Scénario: Impossible de corriger une candidature sans modifications
         Quand un administrateur corrige la candidature sans modification
         Alors l'administrateur devrait être informé que "La candidature ne contient aucune modification"

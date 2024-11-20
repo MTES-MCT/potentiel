@@ -18,7 +18,7 @@ Alors(
   async function (this: PotentielWorld, nomProjet: string, dataTable: DataTable) {
     const exemple = dataTable.rowsHash();
 
-    const typeGarantiesFinancières = exemple['type'];
+    const typeGarantiesFinancières = exemple['type GF'];
     const dateÉchéance = exemple[`date d'échéance`];
     const format = exemple['format'];
     const dateConstitution = exemple[`date de constitution`];
@@ -28,7 +28,6 @@ Alors(
 
     const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
 
-    // ASSERT ON READ MODEL
     await waitForExpect(async () => {
       const actualReadModel = await getGarantiesFinancières(identifiantProjet);
 
@@ -44,16 +43,19 @@ Alors(
           new Date(dateÉchéance),
         );
       }
+
       if (dateConstitution) {
         expect(actualReadModel.garantiesFinancières.dateConstitution?.date).to.deep.equal(
           new Date(dateConstitution),
         );
       }
+
       if (dateMiseÀJour) {
         expect(actualReadModel.garantiesFinancières.dernièreMiseÀJour.date.date).to.deep.equal(
           new Date(dateMiseÀJour),
         );
       }
+
       if (dateValidation) {
         expect(actualReadModel.garantiesFinancières.validéLe?.date).to.deep.equal(
           new Date(dateValidation),
@@ -61,8 +63,6 @@ Alors(
       }
 
       expect(actualReadModel.garantiesFinancières.statut.estValidé()).to.be.true;
-
-      // ASSERT ON FILE
 
       if (format && contenu) {
         expect(actualReadModel.garantiesFinancières.attestation).not.to.be.undefined;
@@ -78,6 +78,30 @@ Alors(
         expect(actualReadModel.garantiesFinancières.attestation.format).to.be.equal(format);
         const actualContent = await convertReadableStreamToString(file.content);
         actualContent.should.be.equal(contenu);
+      }
+    });
+  },
+);
+
+Alors(
+  'les garanties financières actuelles devraient être consultables pour le projet {string}',
+  async function (this: PotentielWorld, nomProjet: string) {
+    const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
+    const { values } = this.candidatureWorld.importerCandidature;
+
+    await waitForExpect(async () => {
+      if (values.typeGarantiesFinancièresValue) {
+        const actualReadModel = await getGarantiesFinancières(identifiantProjet);
+        assert(actualReadModel.garantiesFinancières);
+        expect(actualReadModel.garantiesFinancières.type.type).to.deep.equal(
+          values.typeGarantiesFinancièresValue,
+        );
+
+        if (values.dateÉchéanceGfValue) {
+          expect(actualReadModel.garantiesFinancières.dateÉchéance?.date).to.deep.equal(
+            new Date(values.dateÉchéanceGfValue),
+          );
+        }
       }
     });
   },

@@ -13,8 +13,9 @@ import { CandidatureDéjàImportéeError } from '../candidatureDéjàImportée.e
 import { AppelOffreInexistantError } from '../appelOffreInexistant.error';
 import {
   DateÉchéanceGarantiesFinancièresRequiseError,
+  DateÉchéanceNonAttendueError,
   GarantiesFinancièresRequisesPourAppelOffreError,
-} from '../garantiesFinancièresRequises.error';
+} from '../garantiesFinancières.error';
 import * as TypeGarantiesFinancières from '../typeGarantiesFinancières.valueType';
 
 export type CandidatureImportéeEventCommonPayload = {
@@ -104,6 +105,7 @@ export async function importer(
   if (Option.isNone(appelOffre)) {
     throw new AppelOffreInexistantError(candidature.identifiantProjet.appelOffre);
   }
+
   const période = this.récupererPériodeAO(appelOffre, candidature.identifiantProjet.période);
   const famille = this.récupererFamilleAO(
     appelOffre,
@@ -137,6 +139,15 @@ export async function importer(
     throw new DateÉchéanceGarantiesFinancièresRequiseError();
   }
 
+  if (
+    candidature.statut.estClassé() &&
+    candidature.typeGarantiesFinancières &&
+    !candidature.typeGarantiesFinancières.estAvecDateÉchéance() &&
+    candidature.dateÉchéanceGf
+  ) {
+    throw new DateÉchéanceNonAttendueError();
+  }
+
   const event: CandidatureImportéeEvent = {
     type: 'CandidatureImportée-V1',
     payload: {
@@ -154,9 +165,13 @@ export function applyCandidatureImportée(
 ) {
   this.importé = true;
   this.statut = StatutCandidature.convertirEnValueType(payload.statut);
-  this.typeGf =
-    payload.typeGarantiesFinancières &&
-    TypeGarantiesFinancières.convertirEnValueType(payload.typeGarantiesFinancières);
+  this.garantiesFinancières = payload.typeGarantiesFinancières
+    ? {
+        type: TypeGarantiesFinancières.convertirEnValueType(payload.typeGarantiesFinancières),
+        dateEchéance:
+          payload.dateÉchéanceGf && DateTime.convertirEnValueType(payload.dateÉchéanceGf),
+      }
+    : undefined;
   this.payloadHash = this.calculerHash(payload);
   this.nomReprésentantLégal = payload.nomReprésentantLégal;
 }
