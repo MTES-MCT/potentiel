@@ -47,7 +47,7 @@ export default class ModifierGRD extends Command {
   public async run(): Promise<void> {
     console.info('Lancement du script...');
     const { args, flags } = await this.parse(ModifierGRD);
-    await bootstrap({});
+    await bootstrap({ middlewares: [] });
 
     const { parsedData: data } = await parseCsvFile(args.path, schema, {
       delimiter: flags.delimiter,

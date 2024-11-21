@@ -74,7 +74,7 @@ export default class ImporterDateMiseEnService extends Command {
   public async run(): Promise<void> {
     console.info('Lancement du script...');
     const { args, flags } = await this.parse(ImporterDateMiseEnService);
-    await bootstrap({});
+    await bootstrap({ middlewares: [] });
 
     const { parsedData: data } = await parseCsvFile(args.path, schema, {
       delimiter: flags.delimiter,

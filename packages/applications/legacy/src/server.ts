@@ -13,7 +13,7 @@ import { logger } from './core/utils';
 import next from 'next';
 import { registerSagas } from './sagas/registerSagas';
 import { readFile } from 'node:fs/promises';
-import { bootstrap } from '@potentiel-applications/bootstrap';
+import { bootstrap, permissionMiddleware } from '@potentiel-applications/bootstrap';
 import crypto from 'node:crypto';
 import { MulterError } from 'multer';
 import { requestContextStorage } from '@potentiel-applications/request-context';
@@ -152,7 +152,7 @@ export async function makeServer(port: number) {
 
     await nextApp.prepare();
 
-    await bootstrap({});
+    await bootstrap({ middlewares: [permissionMiddleware] });
 
     if (!process.env.MAINTENANCE_MODE) {
       app.listen(port, () => {

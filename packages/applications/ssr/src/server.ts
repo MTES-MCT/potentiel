@@ -6,7 +6,7 @@ import next from 'next';
 import { getToken } from 'next-auth/jwt';
 import { NextRequest } from 'next/server';
 
-import { bootstrap } from '@potentiel-applications/bootstrap';
+import { bootstrap, permissionMiddleware } from '@potentiel-applications/bootstrap';
 import { requestContextStorage } from '@potentiel-applications/request-context';
 import { Utilisateur } from '@potentiel-domain/utilisateur';
 
@@ -19,7 +19,7 @@ async function main() {
   const handle = app.getRequestHandler();
   await app.prepare();
 
-  await bootstrap({});
+  await bootstrap({ middlewares: [permissionMiddleware] });
   const server = createServer(async (req, res) => {
     const correlationId = crypto.randomUUID();
     const parsedUrl = parse(req.url!, true);
