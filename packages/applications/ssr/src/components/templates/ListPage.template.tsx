@@ -1,4 +1,5 @@
 import { FC } from 'react';
+import Alert from '@codegouvfr/react-dsfr/Alert';
 
 import { LinkAction } from '../atoms/LinkAction';
 import { Heading1 } from '../atoms/headings';
@@ -24,6 +25,7 @@ export type ListPageTemplateProps<TItem> = {
   ItemComponent: FC<Omit<TItem, 'key'>>;
   search?: SearchProps;
   legend?: ListLegendProps;
+  successMessage?: string;
 };
 
 export const ListPageTemplate = <TItem,>({
@@ -37,8 +39,14 @@ export const ListPageTemplate = <TItem,>({
   totalItems,
   search,
   legend = { symbols: [] },
+  successMessage,
 }: ListPageTemplateProps<TItem>) => (
   <PageTemplate banner={<Heading1 className="text-theme-white">{heading}</Heading1>}>
+    {successMessage && (
+      <div className="mb-4">
+        <Alert title={successMessage} severity="success" small closable />
+      </div>
+    )}
     <div className="flex flex-col md:flex-row gap-5 md:gap-10">
       <div className="flex flex-col gap-3 pb-2 md:w-1/4">
         {actions.length ? (

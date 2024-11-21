@@ -14,7 +14,14 @@ import { ListFilterItem } from '@/components/molecules/ListFilters';
 
 import { getCandidatureActions } from './_helpers/getCandidatureActions';
 
-type SearchParams = 'page' | 'appelOffre' | 'periode' | 'statut' | 'nomProjet' | 'notifie';
+type SearchParams =
+  | 'page'
+  | 'appelOffre'
+  | 'periode'
+  | 'statut'
+  | 'nomProjet'
+  | 'notifie'
+  | 'successMessage';
 
 type PageProps = {
   searchParams?: Record<SearchParams, string>;
@@ -32,6 +39,7 @@ export default async function Page({ searchParams }: PageProps) {
     const nomProjet = searchParams?.nomProjet;
     const statut = searchParams?.statut;
     const estNotifiée = searchParams?.notifie ? searchParams?.notifie === 'notifie' : undefined;
+    const successMessage = searchParams?.successMessage;
     const page = searchParams?.page ? parseInt(searchParams.page) : 1;
 
     const candidaturesData = await mediator.send<Candidature.ListerCandidaturesQuery>({
@@ -110,6 +118,7 @@ export default async function Page({ searchParams }: PageProps) {
           range={candidaturesData.range}
           total={candidaturesData.total}
           filters={filters}
+          successMessage={successMessage}
         />
       );
     }
@@ -148,6 +157,7 @@ export default async function Page({ searchParams }: PageProps) {
         total={candidaturesData.total}
         items={items}
         filters={filters}
+        successMessage={successMessage}
       />
     );
   });
