@@ -9,7 +9,11 @@ import { authOptions, convertToken } from '@/auth';
 export const getOptionalAuthenticatedUser = async (): Promise<
   Utilisateur.ValueType | undefined
 > => {
-  const session = await getServerSession(authOptions);
+  const session = await getServerSession({
+    callbacks: {
+      session: authOptions.callbacks?.session,
+    },
+  });
   if (session?.utilisateur) {
     return Utilisateur.bind(session.utilisateur);
   }
