@@ -14,7 +14,6 @@ export type CandidatureListPageProps = PlainType<
   Omit<Candidature.ListerCandidaturesReadModel, 'items'> & {
     items: ReadonlyArray<CandidatureListItemProps>;
     filters: ListPageTemplateProps<CandidatureListItemProps>['filters'];
-    successMessage?: string;
   }
 >;
 
@@ -23,7 +22,6 @@ export const CandidatureListPage: FC<CandidatureListPageProps> = ({
   range,
   total,
   filters,
-  successMessage,
 }) => {
   const { currentPage, itemsPerPage } = mapToPagination(range);
 
@@ -44,7 +42,6 @@ export const CandidatureListPage: FC<CandidatureListPageProps> = ({
       }}
       filters={filters}
       search={{ label: 'Rechercher par nom de projet', params: 'nomProjet' }}
-      successMessage={successMessage}
     />
   );
 };

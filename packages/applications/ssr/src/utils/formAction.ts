@@ -93,15 +93,12 @@ export const formAction =
 
       await waitFor(TWO_SECONDS);
 
-      // on peut ajouter ça ici
-      // violette
-      // on fait le redirect ici
       if (result.status === 'success' && result.redirectUrl) {
         revalidatePath(result.redirectUrl);
         redirect(
           applySearchParams(
             result.redirectUrl,
-            result.successMessage ? { successMessage: result.successMessage } : {},
+            result.successMessage ? { success: result.successMessage } : {},
           ),
         );
       }

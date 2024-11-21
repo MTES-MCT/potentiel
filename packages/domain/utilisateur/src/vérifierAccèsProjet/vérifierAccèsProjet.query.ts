@@ -46,8 +46,6 @@ export const registerVérifierAccèsProjetQuery = ({
       return;
     }
 
-    console.log('viovio identifiantProjetValue', identifiantProjetValue);
-
     const estAccessible = await vérifierAccèsProjet({
       utilisateur,
       identifiantProjetValue,

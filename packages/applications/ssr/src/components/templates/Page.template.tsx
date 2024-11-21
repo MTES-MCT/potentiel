@@ -1,4 +1,9 @@
+'use client';
+
+import { useSearchParams } from 'next/navigation';
 import { FC } from 'react';
+
+import { FormSuccessAlert } from '../atoms/form/FormSuccessAlert';
 
 type PageTemplateProps = {
   banner?: React.ReactNode;
@@ -6,6 +11,9 @@ type PageTemplateProps = {
 };
 
 export const PageTemplate: FC<PageTemplateProps> = ({ banner, children }) => {
+  const searchParams = useSearchParams();
+  const successMessage = searchParams.get('success');
+
   return (
     <>
       {banner && (
@@ -13,7 +21,10 @@ export const PageTemplate: FC<PageTemplateProps> = ({ banner, children }) => {
           <div className="fr-container">{banner}</div>
         </div>
       )}
-      <div className="fr-container my-10">{children}</div>
+      <div className="fr-container my-10">
+        {successMessage && <FormSuccessAlert message={successMessage} />}
+        {children}
+      </div>
     </>
   );
 };
