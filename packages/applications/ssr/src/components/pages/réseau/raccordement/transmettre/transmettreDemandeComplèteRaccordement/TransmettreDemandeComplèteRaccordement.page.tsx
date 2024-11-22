@@ -3,7 +3,6 @@ import { FC } from 'react';
 
 import { IdentifiantProjet } from '@potentiel-domain/common';
 
-import ScrollToTop from '@/components/molecules/ScrollToTop';
 import { ProjetBanner } from '@/components/molecules/projet/ProjetBanner';
 import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
 
@@ -42,7 +41,6 @@ export const TransmettreDemandeComplèteRaccordementPage: FC<
     }
     heading={
       <>
-        <ScrollToTop />
         <TitrePageRaccordement />
         {!aDéjàTransmisUneDemandeComplèteDeRaccordement && (
           <AucunDossierDeRaccordementAlert

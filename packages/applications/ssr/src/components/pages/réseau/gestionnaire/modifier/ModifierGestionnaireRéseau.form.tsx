@@ -61,8 +61,6 @@ export const ModifierGestionnaireRéseauForm: FC<ModifierGestionnaireRéseauForm
         name="identifiantGestionnaireReseau"
       />
 
-      <input type={'hidden'} value={contactEmailValue} name="contactEmail" />
-
       <Input
         label="Raison sociale"
         id="raisonSociale"

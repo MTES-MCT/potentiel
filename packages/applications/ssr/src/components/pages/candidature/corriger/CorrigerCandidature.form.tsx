@@ -54,7 +54,6 @@ export const CorrigerCandidatureForm: React.FC<CorrigerCandidatureFormProps> = (
         children: 'Correction de la candidature en cours...',
       }}
       onValidationError={setValidationErrors}
-      successMessage={'candidature corrigée'}
       actions={
         <>
           <Button

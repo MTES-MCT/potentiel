@@ -3,7 +3,8 @@
 import { useSearchParams } from 'next/navigation';
 import { FC } from 'react';
 
-import { FormSuccessAlert } from '../atoms/form/FormSuccessAlert';
+import ScrollToTop from '@/components/molecules/ScrollToTop';
+import { FormSuccessAlert } from '@/components/atoms/form/FormSuccessAlert';
 
 type PageTemplateProps = {
   banner?: React.ReactNode;
@@ -22,7 +23,12 @@ export const PageTemplate: FC<PageTemplateProps> = ({ banner, children }) => {
         </div>
       )}
       <div className="fr-container my-10">
-        {successMessage && <FormSuccessAlert message={successMessage} />}
+        {successMessage && (
+          <>
+            <ScrollToTop />
+            <FormSuccessAlert message={successMessage} />
+          </>
+        )}
         {children}
       </div>
     </>

@@ -35,6 +35,7 @@ const action: FormAction<FormState, typeof schema> = async (_, body) =>
     return {
       status: 'success',
       redirectUrl: Routes.Candidature.détails(body.identifiantProjet),
+      successMessage: 'La candidature a bien été corrigée',
     };
   });
 
