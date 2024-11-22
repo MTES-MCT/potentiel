@@ -15,7 +15,7 @@
     "@potentiel-domain/entity": "*",
     "@potentiel-domain/utilisateur": "*",
     "@potentiel-domain/appel-offre": "*",
-    "mediateur": "^0.1.0"
+    "mediateur": "^0.3.0"
   },
   "devDependencies": {
     "@potentiel-config/tsconfig": "*"
