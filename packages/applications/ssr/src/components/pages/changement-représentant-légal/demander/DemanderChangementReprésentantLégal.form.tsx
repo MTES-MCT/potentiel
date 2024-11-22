@@ -33,12 +33,15 @@ export const DemanderChangementReprésentantLégalForm: FC<
     piècesJustificatives: [],
   });
 
+  const disabledCondition =
+    !saisie.typePersonne || !saisie.nomReprésentantLégal || !saisie.piècesJustificatives.length;
+
   const steps: Array<Step> = [
     {
       index: 1,
       name: `Description de la démarche`,
       children: <DescriptionDémarcheChangementReprésentantLégal />,
-      nextStep: { type: 'link', name: 'Commencer' },
+      nextStep: { type: 'link', name: 'Commencer', disabled: false },
     },
     {
       index: 2,
@@ -50,7 +53,11 @@ export const DemanderChangementReprésentantLégalForm: FC<
         />
       ),
       previousStep: { name: 'Précédent' },
-      nextStep: { type: 'link', name: 'Vérifier' },
+      nextStep: {
+        type: 'link',
+        name: 'Vérifier',
+        disabled: disabledCondition,
+      },
     },
     {
       index: 3,
@@ -63,7 +70,7 @@ export const DemanderChangementReprésentantLégalForm: FC<
         />
       ),
       previousStep: { name: 'Corriger' },
-      nextStep: { type: 'submit', name: 'Confirmer la demande' },
+      nextStep: { type: 'submit', name: 'Confirmer la demande', disabled: disabledCondition },
     },
   ];
 
@@ -90,7 +97,11 @@ export const DemanderChangementReprésentantLégalForm: FC<
       >
         <input type={'hidden'} value={identifiantProjet} name="identifiantProjet" />
 
-        <Steps onStepSelected={(stepIndex) => setCurrentStep(stepIndex)} steps={steps} />
+        <Steps
+          steps={steps}
+          currentStep={currentStep}
+          onStepSelected={(stepIndex) => setCurrentStep(stepIndex)}
+        />
       </Form>
     </>
   );
