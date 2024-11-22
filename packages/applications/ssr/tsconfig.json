@@ -56,9 +56,6 @@
       "path": "../../domain/utilisateur"
     },
     {
-      "path": "../../applications/document-builder"
-    },
-    {
       "path": "../../libraries/csv"
     },
     {
@@ -72,6 +69,12 @@
     },
     {
       "path": "../bootstrap"
+    },
+    {
+      "path": "../document-builder"
+    },
+    {
+      "path": "../request-context"
     }
   ]
 }

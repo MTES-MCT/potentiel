@@ -13,10 +13,10 @@ import { logger } from './core/utils';
 import next from 'next';
 import { registerSagas } from './sagas/registerSagas';
 import { readFile } from 'node:fs/promises';
-import { permissionMiddleware } from '@potentiel-domain/utilisateur';
-import { bootstrap } from '@potentiel-applications/bootstrap';
+import { bootstrap, permissionMiddleware } from '@potentiel-applications/bootstrap';
 import crypto from 'node:crypto';
 import { MulterError } from 'multer';
+import { requestContextStorage } from '@potentiel-applications/request-context';
 
 setDefaultOptions({ locale: LOCALE.fr });
 dotenv.config();
@@ -29,6 +29,11 @@ export async function makeServer(port: number) {
 
     // Always first middleware
     app.use(Sentry.Handlers.requestHandler());
+
+    app.use((_req, _res, next) => {
+      const correlationId = crypto.randomUUID();
+      requestContextStorage.run({ correlationId }, next);
+    });
 
     if (!isLocalEnv) {
       // generate a unique nonce per request, to use in the CSP header and in every <script> in the markup

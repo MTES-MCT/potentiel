@@ -5,6 +5,7 @@ import { getPermissions, Permission } from '../../modules/authN';
 import { Role, Utilisateur } from '@potentiel-domain/utilisateur';
 import { getToken, GetTokenParams } from 'next-auth/jwt';
 import { PlainType } from '@potentiel-domain/core';
+import { requestContextStorage } from '@potentiel-applications/request-context';
 
 type AttachUserToRequestMiddlewareDependencies = {
   getUserByEmail: GetUserByEmail;
@@ -74,7 +75,11 @@ const makeAttachUserToRequestMiddleware =
         next();
         return;
       }
-
+      const context = requestContextStorage.getStore();
+      if (!context) {
+        throw new Error('No context');
+      }
+      context.utilisateur = utilisateur;
       const {
         identifiantUtilisateur: { email },
         role: { nom: role },

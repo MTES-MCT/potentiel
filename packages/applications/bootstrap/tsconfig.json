@@ -45,6 +45,9 @@
       "path": "../notifications"
     },
     {
+      "path": "../request-context"
+    },
+    {
       "path": "../../libraries/pg-helpers"
     }
   ]

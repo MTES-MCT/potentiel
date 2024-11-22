@@ -1,17 +1,10 @@
-import { Message, MessageHandler } from 'mediateur';
 import { getServerSession } from 'next-auth';
 import { headers } from 'next/headers';
-// import * as Sentry from '@sentry/nextjs';
 
 import { Utilisateur } from '@potentiel-domain/utilisateur';
 
 import { authOptions, convertToken } from '@/auth';
-
-export type GetAuthenticatedUserMessage = Message<
-  'System.Authorization.RécupérerUtilisateur',
-  {},
-  Utilisateur.ValueType
->;
+// import * as Sentry from '@sentry/nextjs';
 
 export const getOptionalAuthenticatedUser = async (): Promise<
   Utilisateur.ValueType | undefined
@@ -27,7 +20,7 @@ export const getOptionalAuthenticatedUser = async (): Promise<
   }
 };
 
-export const getAuthenticatedUser: MessageHandler<GetAuthenticatedUserMessage> = async () => {
+export const getAuthenticatedUser = async () => {
   const user = await getOptionalAuthenticatedUser();
 
   if (!user) {

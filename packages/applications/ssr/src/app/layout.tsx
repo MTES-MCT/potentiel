@@ -9,7 +9,6 @@ import Link from 'next/link';
 import { Footer } from '@/components/organisms/Footer';
 import { Header } from '@/components/organisms/Header';
 
-import { BootstrapApp } from './BootstrapApp';
 import { defaultColorScheme } from './defaultColorScheme';
 import Providers from './Providers';
 import { StartDsfr } from './StartDsfr';
@@ -31,8 +30,6 @@ export default function RootLayout({ children }: RootLayoutProps) {
   return (
     // eslint-disable-next-line react/jsx-props-no-spreading
     <html {...getHtmlAttributes({ defaultColorScheme })} lang="fr">
-      <BootstrapApp />
-
       <head>
         <StartDsfr />
         <DsfrHead Link={Link} />

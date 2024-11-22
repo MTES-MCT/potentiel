@@ -1,13 +1,18 @@
-import { randomUUID } from 'crypto';
-
 import { Middleware } from 'mediateur';
 
 import { getLogger } from '@potentiel-libraries/monitoring';
 import { DomainError } from '@potentiel-domain/core';
+import { requestContextStorage } from '@potentiel-applications/request-context';
 
 export const logMiddleware: Middleware = async (message, next) => {
-  const correlationId = randomUUID();
-  getLogger().info('Executing message', { message: JSON.stringify(message), correlationId });
+  const context = requestContextStorage.getStore();
+  const correlationId = context?.correlationId ?? '';
+  const utilisateur = context?.utilisateur?.identifiantUtilisateur?.email;
+  getLogger().info('Executing message', {
+    message: JSON.stringify(message),
+    utilisateur,
+    correlationId,
+  });
   try {
     const result = await next();
     const resultJson = getResultJsonBody(message.type, result);
