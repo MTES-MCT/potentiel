@@ -64,7 +64,7 @@ export const register = () => {
           });
         }
         break;
-      case 'ReprésentantLégalCorrigé-V1':
+      case 'ReprésentantLégalModifié-V1':
         await upsertProjection<ReprésentantLégal.ReprésentantLégalEntity>(
           `représentant-légal|${payload.identifiantProjet}`,
           {

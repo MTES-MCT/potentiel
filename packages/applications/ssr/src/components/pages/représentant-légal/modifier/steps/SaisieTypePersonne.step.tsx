@@ -7,13 +7,13 @@ import { match } from 'ts-pattern';
 import { Heading3 } from '@/components/atoms/headings';
 import { ValidationErrors } from '@/utils/formAction';
 
-import { ReprésentantLégal } from '../CorrigerReprésentantLégal.form';
-import { CorrigerReprésentantLégalFormKeys } from '../corrigerReprésentantLégal.action';
+import { ReprésentantLégal } from '../ModifierReprésentantLégal.form';
+import { ModifierReprésentantLégalFormKeys } from '../modifierReprésentantLégal.action';
 
 export type SaisieTypePersonneStepProps = {
   représentantLégalExistant: ReprésentantLégal;
   onChange?: (typePersonne: ReprésentantLégal) => void;
-  validationErrors: ValidationErrors<CorrigerReprésentantLégalFormKeys>;
+  validationErrors: ValidationErrors<ModifierReprésentantLégalFormKeys>;
 };
 
 export const SaisieTypePersonneStep: FC<SaisieTypePersonneStepProps> = ({

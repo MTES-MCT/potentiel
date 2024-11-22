@@ -19,7 +19,7 @@ Quand(
 );
 
 Quand(
-  /le nom du représentant légal du projet lauréat est corrigé(.*)/,
+  /le nom du représentant légal du projet lauréat est modifié(.*)/,
   async function (this: PotentielWorld, avecLamêmeValeur: string) {
     try {
       await corrigerReprésentantLégal.call(
@@ -44,12 +44,12 @@ async function corrigerReprésentantLégal(this: PotentielWorld, nom?: string) {
     );
 
   await mediator.send<ReprésentantLégal.ReprésentantLégalUseCase>({
-    type: 'Lauréat.ReprésentantLégal.UseCase.CorrigerReprésentantLégal',
+    type: 'Lauréat.ReprésentantLégal.UseCase.ModifierReprésentantLégal',
     data: {
       identifiantProjetValue: identifiantProjet,
       identifiantUtilisateurValue: this.utilisateurWorld.adminFixture.email,
       nomReprésentantLégalValue: nomReprésentantLégal,
-      dateCorrectionValue: dateCorrection,
+      dateModificationValue: dateCorrection,
     },
   });
 }

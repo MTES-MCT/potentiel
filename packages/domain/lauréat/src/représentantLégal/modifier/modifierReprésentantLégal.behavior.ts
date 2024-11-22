@@ -3,52 +3,52 @@ import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
 
 import { ReprésentantLégalAggregate } from '../représentantLégal.aggregate';
 
-export type ReprésentantLégalCorrigéEvent = DomainEvent<
-  'ReprésentantLégalCorrigé-V1',
+export type ReprésentantLégalModifiéEvent = DomainEvent<
+  'ReprésentantLégalModifié-V1',
   {
     identifiantProjet: IdentifiantProjet.RawType;
     nomReprésentantLégal: string;
-    corrigéLe: DateTime.RawType;
-    corrigéPar: Email.RawType;
+    modifiéLe: DateTime.RawType;
+    modifiéPar: Email.RawType;
   }
 >;
 
-export type CorrigerOptions = {
+export type ModifierOptions = {
   identifiantProjet: IdentifiantProjet.ValueType;
   identifiantUtilisateur: Email.ValueType;
   nomReprésentantLégal: string;
-  dateCorrection: DateTime.ValueType;
+  dateModification: DateTime.ValueType;
 };
 
-export async function corriger(
+export async function modifier(
   this: ReprésentantLégalAggregate,
   {
     identifiantProjet,
     nomReprésentantLégal,
-    dateCorrection,
+    dateModification,
     identifiantUtilisateur,
-  }: CorrigerOptions,
+  }: ModifierOptions,
 ) {
   if (this.nomReprésentantLégal === nomReprésentantLégal) {
     throw new ReprésentantLégalIdentifiqueError();
   }
 
-  const event: ReprésentantLégalCorrigéEvent = {
-    type: 'ReprésentantLégalCorrigé-V1',
+  const event: ReprésentantLégalModifiéEvent = {
+    type: 'ReprésentantLégalModifié-V1',
     payload: {
       identifiantProjet: identifiantProjet.formatter(),
       nomReprésentantLégal,
-      corrigéLe: dateCorrection.formatter(),
-      corrigéPar: identifiantUtilisateur.formatter(),
+      modifiéLe: dateModification.formatter(),
+      modifiéPar: identifiantUtilisateur.formatter(),
     },
   };
 
   await this.publish(event);
 }
 
-export function applyReprésentantLégalCorrigé(
+export function applyReprésentantLégalModifié(
   this: ReprésentantLégalAggregate,
-  { payload: { nomReprésentantLégal } }: ReprésentantLégalCorrigéEvent,
+  { payload: { nomReprésentantLégal } }: ReprésentantLégalModifiéEvent,
 ) {
   this.nomReprésentantLégal = nomReprésentantLégal;
 }

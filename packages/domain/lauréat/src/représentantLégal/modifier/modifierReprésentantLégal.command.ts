@@ -5,32 +5,32 @@ import { LoadAggregate } from '@potentiel-domain/core';
 
 import { loadReprésentantLégalFactory } from '../représentantLégal.aggregate';
 
-export type CorrigerReprésentantLégalCommand = Message<
-  'Lauréat.ReprésentantLégal.Command.CorrigerReprésentantLégal',
+export type ModifierReprésentantLégalCommand = Message<
+  'Lauréat.ReprésentantLégal.Command.ModifierReprésentantLégal',
   {
     identifiantProjet: IdentifiantProjet.ValueType;
     identifiantUtilisateur: Email.ValueType;
     nomReprésentantLégal: string;
-    dateCorrection: DateTime.ValueType;
+    dateModification: DateTime.ValueType;
   }
 >;
 
-export const registerCorrigerReprésentantLégalCommand = (loadAggregate: LoadAggregate) => {
+export const registerModifierReprésentantLégalCommand = (loadAggregate: LoadAggregate) => {
   const loadReprésentantLégal = loadReprésentantLégalFactory(loadAggregate);
-  const handler: MessageHandler<CorrigerReprésentantLégalCommand> = async ({
+  const handler: MessageHandler<ModifierReprésentantLégalCommand> = async ({
     identifiantProjet,
     identifiantUtilisateur,
     nomReprésentantLégal,
-    dateCorrection,
+    dateModification,
   }) => {
     const représentantLégal = await loadReprésentantLégal(identifiantProjet);
 
-    await représentantLégal.corriger({
+    await représentantLégal.modifier({
       identifiantProjet,
       identifiantUtilisateur,
       nomReprésentantLégal,
-      dateCorrection,
+      dateModification,
     });
   };
-  mediator.register('Lauréat.ReprésentantLégal.Command.CorrigerReprésentantLégal', handler);
+  mediator.register('Lauréat.ReprésentantLégal.Command.ModifierReprésentantLégal', handler);
 };

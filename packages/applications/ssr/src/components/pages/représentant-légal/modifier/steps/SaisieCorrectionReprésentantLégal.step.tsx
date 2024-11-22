@@ -5,13 +5,13 @@ import { match } from 'ts-pattern';
 
 import { ValidationErrors } from '@/utils/formAction';
 
-import { ReprésentantLégal } from '../CorrigerReprésentantLégal.form';
-import { CorrigerReprésentantLégalFormKeys } from '../corrigerReprésentantLégal.action';
+import { ReprésentantLégal } from '../ModifierReprésentantLégal.form';
+import { ModifierReprésentantLégalFormKeys } from '../modifierReprésentantLégal.action';
 
 export type SaisieCorrectionReprésentantLégalStepProps = {
   représentantLégalExistant: ReprésentantLégal;
   onChange?: (nouveauReprésentantLégal: ReprésentantLégal) => void;
-  validationErrors: ValidationErrors<CorrigerReprésentantLégalFormKeys>;
+  validationErrors: ValidationErrors<ModifierReprésentantLégalFormKeys>;
 };
 
 export const SaisieCorrectionReprésentantLégalStep: FC<

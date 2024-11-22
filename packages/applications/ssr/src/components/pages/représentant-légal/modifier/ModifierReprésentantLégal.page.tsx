@@ -5,11 +5,11 @@ import { Heading1 } from '@/components/atoms/headings';
 import { PageTemplate } from '@/components/templates/Page.template';
 
 import {
-  CorrigerReprésentantLégalForm,
-  CorrigerReprésentantLégalFormProps,
-} from './CorrigerReprésentantLégal.form';
+  ModifierReprésentantLégalForm,
+  ModifierReprésentantLégalFormProps,
+} from './ModifierReprésentantLégal.form';
 
-export type CorrigerReprésentantLégalPageProps = CorrigerReprésentantLégalFormProps;
+export type CorrigerReprésentantLégalPageProps = ModifierReprésentantLégalFormProps;
 
 export const CorrigerReprésentantLégalPage: FC<CorrigerReprésentantLégalPageProps> = ({
   identifiantProjet,
@@ -17,7 +17,7 @@ export const CorrigerReprésentantLégalPage: FC<CorrigerReprésentantLégalPage
 }) => (
   <PageTemplate banner={<ProjetBanner identifiantProjet={identifiantProjet} />}>
     <Heading1>Corriger le représentant légal</Heading1>
-    <CorrigerReprésentantLégalForm
+    <ModifierReprésentantLégalForm
       identifiantProjet={identifiantProjet}
       représentantLégalExistant={représentantLégalExistant}
     />

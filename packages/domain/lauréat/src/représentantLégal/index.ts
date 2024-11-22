@@ -2,8 +2,8 @@ import type {
   ConsulterReprésentantLégalQuery,
   ConsulterReprésentantLégalReadModel,
 } from './consulter/consulterReprésentantLégal.query';
-import { CorrigerReprésentantLégalCommand } from './corriger/corrigerReprésentantLégal.command';
-import { CorrigerReprésentantLégalUseCase } from './corriger/corrigerReprésentantLégal.usecase';
+import { ModifierReprésentantLégalCommand } from './modifier/modifierReprésentantLégal.command';
+import { ModifierReprésentantLégalUseCase } from './modifier/modifierReprésentantLégal.usecase';
 import { ImporterReprésentantLégalCommand } from './importer/importerReprésentantLégal.command';
 
 // Query
@@ -16,14 +16,14 @@ export type { ConsulterReprésentantLégalReadModel };
 // Command
 export type ReprésentantLégalCommand =
   | ImporterReprésentantLégalCommand
-  | CorrigerReprésentantLégalCommand;
+  | ModifierReprésentantLégalCommand;
 
-export type { ImporterReprésentantLégalCommand, CorrigerReprésentantLégalCommand };
+export type { ImporterReprésentantLégalCommand, ModifierReprésentantLégalCommand };
 
 // UseCase
-export type ReprésentantLégalUseCase = CorrigerReprésentantLégalUseCase;
+export type ReprésentantLégalUseCase = ModifierReprésentantLégalUseCase;
 
-export type { CorrigerReprésentantLégalUseCase };
+export type { ModifierReprésentantLégalUseCase };
 
 // Event
 export type { ReprésentantLégalEvent } from './représentantLégal.aggregate';

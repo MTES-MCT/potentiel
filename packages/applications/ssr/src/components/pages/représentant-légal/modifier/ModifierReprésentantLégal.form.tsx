@@ -8,9 +8,9 @@ import { ValidationErrors } from '@/utils/formAction';
 import { Step, Steps } from '@/components/molecules/step/Steps';
 
 import {
-  corrigerReprésentantLégalAction,
-  CorrigerReprésentantLégalFormKeys,
-} from './corrigerReprésentantLégal.action';
+  modifierReprésentantLégalAction,
+  ModifierReprésentantLégalFormKeys,
+} from './modifierReprésentantLégal.action';
 import {
   SaisieCorrectionReprésentantLégalStep,
   SaisieTypePersonneStep,
@@ -24,17 +24,17 @@ export type ReprésentantLégal = {
   nomReprésentantLégal: string;
 };
 
-export type CorrigerReprésentantLégalFormProps = {
+export type ModifierReprésentantLégalFormProps = {
   identifiantProjet: string;
   représentantLégalExistant: ReprésentantLégal;
 };
 
-export const CorrigerReprésentantLégalForm: FC<CorrigerReprésentantLégalFormProps> = ({
+export const ModifierReprésentantLégalForm: FC<ModifierReprésentantLégalFormProps> = ({
   identifiantProjet,
   représentantLégalExistant,
 }) => {
   const [validationErrors, setValidationErrors] = useState<
-    ValidationErrors<CorrigerReprésentantLégalFormKeys>
+    ValidationErrors<ModifierReprésentantLégalFormKeys>
   >({});
 
   const [currentStep, setCurrentStep] = useState(1);
@@ -90,7 +90,7 @@ export const CorrigerReprésentantLégalForm: FC<CorrigerReprésentantLégalForm
   ];
 
   const handleOnValidationError = (
-    vErrors: ValidationErrors<CorrigerReprésentantLégalFormKeys>,
+    vErrors: ValidationErrors<ModifierReprésentantLégalFormKeys>,
   ) => {
     if (Object.keys(validationErrors).length) {
       return;
@@ -113,7 +113,7 @@ export const CorrigerReprésentantLégalForm: FC<CorrigerReprésentantLégalForm
       />
 
       <Form
-        action={corrigerReprésentantLégalAction}
+        action={modifierReprésentantLégalAction}
         onInvalid={() => setCurrentStep(2)}
         onError={() => setCurrentStep(2)}
         onValidationError={(vErrors) => handleOnValidationError(vErrors)}

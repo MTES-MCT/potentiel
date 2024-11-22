@@ -9,7 +9,7 @@ import { decodeParameter } from '@/utils/decodeParameter';
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { récupérerProjet, vérifierQueLeProjetEstClassé } from '@/app/_helpers';
-import { CorrigerReprésentantLégalPage } from '@/components/pages/changement-représentant-légal/corriger/CorrigerReprésentantLégal.page';
+import { CorrigerReprésentantLégalPage } from '@/components/pages/représentant-légal/modifier/ModifierReprésentantLégal.page';
 
 export const metadata: Metadata = {
   title: 'Corriger le représentant légal du projet - Potentiel',

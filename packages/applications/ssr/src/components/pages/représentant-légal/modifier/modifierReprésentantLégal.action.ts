@@ -18,7 +18,7 @@ const schema = zod.object({
   nomRepresentantLegal: zod.string().min(1, { message: 'Champ obligatoire' }),
 });
 
-export type CorrigerReprésentantLégalFormKeys = keyof zod.infer<typeof schema>;
+export type ModifierReprésentantLégalFormKeys = keyof zod.infer<typeof schema>;
 
 const action: FormAction<FormState, typeof schema> = async (
   _,
@@ -27,11 +27,11 @@ const action: FormAction<FormState, typeof schema> = async (
   withUtilisateur(async (utilisateur) => {
     console.log('typeDePersonne: ', typeDePersonne);
     await mediator.send<ReprésentantLégal.ReprésentantLégalUseCase>({
-      type: 'Lauréat.ReprésentantLégal.UseCase.CorrigerReprésentantLégal',
+      type: 'Lauréat.ReprésentantLégal.UseCase.ModifierReprésentantLégal',
       data: {
         identifiantProjetValue: identifiantProjet,
         identifiantUtilisateurValue: utilisateur.identifiantUtilisateur.formatter(),
-        dateCorrectionValue: new Date().toISOString(),
+        dateModificationValue: new Date().toISOString(),
         nomReprésentantLégalValue: nomRepresentantLegal,
       },
     });
@@ -42,4 +42,4 @@ const action: FormAction<FormState, typeof schema> = async (
     };
   });
 
-export const corrigerReprésentantLégalAction = formAction(action, schema);
+export const modifierReprésentantLégalAction = formAction(action, schema);

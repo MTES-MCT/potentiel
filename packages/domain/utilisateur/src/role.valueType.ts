@@ -198,10 +198,10 @@ const référencielPermissions = {
         consulter: 'Lauréat.ReprésentantLégal.Query.ConsulterReprésentantLégal',
       },
       usecase: {
-        corriger: 'Lauréat.ReprésentantLégal.UseCase.CorrigerReprésentantLégal',
+        corriger: 'Lauréat.ReprésentantLégal.UseCase.ModifierReprésentantLégal',
       },
       command: {
-        corriger: 'Lauréat.ReprésentantLégal.Command.CorrigerReprésentantLégal',
+        corriger: 'Lauréat.ReprésentantLégal.Command.ModifierReprésentantLégal',
       },
     },
     usecase: { notifier: 'Lauréat.UseCase.NotifierLauréat' },

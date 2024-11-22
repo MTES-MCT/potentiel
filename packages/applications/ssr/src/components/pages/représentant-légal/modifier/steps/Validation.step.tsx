@@ -2,7 +2,7 @@
 import { FC } from 'react';
 import { Alert } from '@codegouvfr/react-dsfr/Alert';
 
-import { ReprésentantLégal } from '../CorrigerReprésentantLégal.form';
+import { ReprésentantLégal } from '../ModifierReprésentantLégal.form';
 
 type ValidationStepProps = {
   représentantLégal: ReprésentantLégal;
