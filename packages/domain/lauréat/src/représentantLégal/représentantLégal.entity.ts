@@ -5,9 +5,6 @@ export type ReprésentantLégalEntity = Entity<
   {
     identifiantProjet: string;
     nomReprésentantLégal: string;
-    import: {
-      importéLe: string;
-      importéPar: string;
-    };
+    typeReprésentantLégal: string;
   }
 >;

@@ -24,7 +24,7 @@ export async function importer(
   this: ReprésentantLégalAggregate,
   { identifiantProjet, nomReprésentantLégal, importéLe, importéPar }: ImporterOptions,
 ) {
-  if (this.nomReprésentantLégal) {
+  if (this.représentantLégal.nom) {
     throw new ReprésentantLégalDéjàImportéError();
   }
 
@@ -45,7 +45,7 @@ export function applyReprésentantLégalImporté(
   this: ReprésentantLégalAggregate,
   { payload: { nomReprésentantLégal } }: ReprésentantLégalImportéEvent,
 ) {
-  this.nomReprésentantLégal = nomReprésentantLégal;
+  this.représentantLégal.nom = nomReprésentantLégal;
 }
 
 class ReprésentantLégalDéjàImportéError extends DomainError {

@@ -2,6 +2,8 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
 
+import { TypeReprésentantLégal } from '..';
+
 import { ModifierReprésentantLégalCommand } from './modifierReprésentantLégal.command';
 
 export type ModifierReprésentantLégalUseCase = Message<
@@ -10,6 +12,7 @@ export type ModifierReprésentantLégalUseCase = Message<
     identifiantProjetValue: string;
     identifiantUtilisateurValue: string;
     nomReprésentantLégalValue: string;
+    typeReprésentantLégalValue: string;
     dateModificationValue: string;
   }
 >;
@@ -19,6 +22,7 @@ export const registerModifierReprésentantLégalUseCase = () => {
     identifiantProjetValue,
     identifiantUtilisateurValue,
     nomReprésentantLégalValue,
+    typeReprésentantLégalValue,
     dateModificationValue,
   }) =>
     mediator.send<ModifierReprésentantLégalCommand>({
@@ -27,6 +31,9 @@ export const registerModifierReprésentantLégalUseCase = () => {
         identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjetValue),
         identifiantUtilisateur: Email.convertirEnValueType(identifiantUtilisateurValue),
         nomReprésentantLégal: nomReprésentantLégalValue,
+        typeReprésentantLégal: TypeReprésentantLégal.convertirEnValueType(
+          typeReprésentantLégalValue,
+        ),
         dateModification: DateTime.convertirEnValueType(dateModificationValue),
       },
     });

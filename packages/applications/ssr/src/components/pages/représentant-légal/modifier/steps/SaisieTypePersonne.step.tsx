@@ -4,50 +4,49 @@ import { FC, useState } from 'react';
 import SelectNext from '@codegouvfr/react-dsfr/SelectNext';
 import { match } from 'ts-pattern';
 
+import { ReprésentantLégal } from '@potentiel-domain/laureat';
+
 import { Heading3 } from '@/components/atoms/headings';
 import { ValidationErrors } from '@/utils/formAction';
 
-import { ReprésentantLégal } from '../ModifierReprésentantLégal.form';
 import { ModifierReprésentantLégalFormKeys } from '../modifierReprésentantLégal.action';
 
 export type SaisieTypePersonneStepProps = {
-  représentantLégalExistant: ReprésentantLégal;
-  onChange?: (typePersonne: ReprésentantLégal) => void;
+  typeReprésentantLégal: ReprésentantLégal.TypeReprésentantLégal.RawType;
+  onChange?: (nouveauType: ReprésentantLégal.TypeReprésentantLégal.RawType) => void;
   validationErrors: ValidationErrors<ModifierReprésentantLégalFormKeys>;
 };
 
 export const SaisieTypePersonneStep: FC<SaisieTypePersonneStepProps> = ({
-  représentantLégalExistant,
+  typeReprésentantLégal,
   onChange,
   validationErrors,
 }) => {
-  const [selectedTypePersonne, setSelectedTypePersonne] = useState<
-    ReprésentantLégal['typePersonne'] | undefined
-  >(représentantLégalExistant.typePersonne);
+  const [selectedTypePersonne, setSelectedTypePersonne] = useState(typeReprésentantLégal);
 
   const getSituation = match(selectedTypePersonne)
-    .with('Personne physique', () => (
+    .with('personne physique', () => (
       <Situation
         nom="Une personne physique"
         informationÀRemplir="les nom et prénom de la personne"
         pièceJustificativesÀAvoirEnPossession="une copie de titre d'identité (carte d'identité ou passeport) en cours de validité"
       />
     ))
-    .with('Personne morale', () => (
+    .with('personne morale', () => (
       <Situation
         nom="Une personne morale"
         informationÀRemplir="le nom de la société"
         pièceJustificativesÀAvoirEnPossession="un extrait Kbis, pour les sociétés en cours de constitution une copie des statuts de la société en cours de constitution, une attestation de récépissé de dépôt de fonds pour constitution de capital social et une copie de l’acte désignant le représentant légal de la société"
       />
     ))
-    .with('Collectivité', () => (
+    .with('collectivité', () => (
       <Situation
         nom="Une collectivité"
         informationÀRemplir="le nom de la collectivité"
         pièceJustificativesÀAvoirEnPossession="un extrait de délibération portant sur le projet objet de l'offre"
       />
     ))
-    .with('Autre', () => (
+    .with('autre', () => (
       <Situation
         nom="Un organisme ou autre"
         informationÀRemplir="le nom de l'organisme"
@@ -64,22 +63,21 @@ export const SaisieTypePersonneStep: FC<SaisieTypePersonneStepProps> = ({
         à la correction.
       </p>
 
+      {/*
+          @todo Transformer ce select next en composant dédié (cf GestionnaireRéseauSelect) 
+       */}
       <SelectNext
         label="Choisir le type de personne pour le représentant légal"
         placeholder={`Sélectionner le type de personne pour le représentant légal`}
-        state={validationErrors.typeDePersonne ? 'error' : 'default'}
+        state={validationErrors.typeRepresentantLegal ? 'error' : 'default'}
         stateRelatedMessage="Le type de personne pour le représentant légal est obligatoire"
         nativeSelectProps={{
-          name: 'typeDePersonne',
+          name: 'typeReprésentantLégal',
           defaultValue: selectedTypePersonne,
           onChange: ({ currentTarget: { value } }) => {
-            delete validationErrors.typeDePersonne;
-            setSelectedTypePersonne(value as ReprésentantLégal['typePersonne']);
-            onChange &&
-              onChange({
-                typePersonne: value as ReprésentantLégal['typePersonne'],
-                nomReprésentantLégal: représentantLégalExistant.nomReprésentantLégal,
-              });
+            delete validationErrors.typeRepresentantLegal;
+            setSelectedTypePersonne(value as ReprésentantLégal.TypeReprésentantLégal.RawType);
+            onChange && onChange(value as ReprésentantLégal.TypeReprésentantLégal.RawType);
           },
         }}
         options={['Personne physique', 'Personne morale', 'Collectivité', 'Autre'].map((type) => ({

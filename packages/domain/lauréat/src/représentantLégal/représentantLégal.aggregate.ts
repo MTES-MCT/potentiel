@@ -20,7 +20,10 @@ import {
 export type ReprésentantLégalEvent = ReprésentantLégalImportéEvent | ReprésentantLégalModifiéEvent;
 
 export type ReprésentantLégalAggregate = Aggregate<ReprésentantLégalEvent> & {
-  nomReprésentantLégal: string;
+  représentantLégal: {
+    nom: string;
+    type: string;
+  };
   readonly importer: typeof importer;
   readonly modifier: typeof modifier;
 };
@@ -30,7 +33,10 @@ export const getDefaultReprésentantLégalAggregate: GetDefaultAggregateState<
   ReprésentantLégalEvent
 > = () => ({
   apply,
-  nomReprésentantLégal: '',
+  représentantLégal: {
+    nom: '',
+    type: '',
+  },
   importer,
   modifier,
 });

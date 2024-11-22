@@ -33,11 +33,8 @@ export const register = () => {
 
     const représentantLégalDefaultValue: Omit<ReprésentantLégal.ReprésentantLégalEntity, 'type'> = {
       identifiantProjet,
+      typeReprésentantLégal: ReprésentantLégal.TypeReprésentantLégal.inconnu.formatter(),
       nomReprésentantLégal: '',
-      import: {
-        importéLe: '',
-        importéPar: '',
-      },
     };
 
     const représentantLégalToUpsert: Omit<ReprésentantLégal.ReprésentantLégalEntity, 'type'> =
@@ -45,17 +42,13 @@ export const register = () => {
 
     switch (type) {
       case 'ReprésentantLégalImporté-V1':
-        const { identifiantProjet, nomReprésentantLégal, importéLe, importéPar } = payload;
         try {
           await upsertProjection<ReprésentantLégal.ReprésentantLégalEntity>(
             `représentant-légal|${identifiantProjet}`,
             {
               identifiantProjet,
-              nomReprésentantLégal,
-              import: {
-                importéLe,
-                importéPar,
-              },
+              typeReprésentantLégal: ReprésentantLégal.TypeReprésentantLégal.inconnu.formatter(),
+              nomReprésentantLégal: payload.nomReprésentantLégal,
             },
           );
         } catch (e) {
@@ -70,6 +63,7 @@ export const register = () => {
           {
             ...représentantLégalToUpsert,
             nomReprésentantLégal: payload.nomReprésentantLégal,
+            typeReprésentantLégal: payload.typeReprésentantLégal,
           },
         );
     }

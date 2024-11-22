@@ -42,3 +42,6 @@ export { loadReprésentantLégalFactory } from './représentantLégal.aggregate'
 
 // Saga
 export * as ReprésentantLégalSaga from './représentantLégal.saga';
+
+// ValueType
+export * as TypeReprésentantLégal from './typeReprésentantLégal.valueType';

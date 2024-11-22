@@ -3,41 +3,47 @@ import { FC } from 'react';
 import Input from '@codegouvfr/react-dsfr/Input';
 import { match } from 'ts-pattern';
 
+import { ReprésentantLégal } from '@potentiel-domain/laureat';
+
 import { ValidationErrors } from '@/utils/formAction';
 
-import { ReprésentantLégal } from '../ModifierReprésentantLégal.form';
 import { ModifierReprésentantLégalFormKeys } from '../modifierReprésentantLégal.action';
 
-export type SaisieCorrectionReprésentantLégalStepProps = {
-  représentantLégalExistant: ReprésentantLégal;
-  onChange?: (nouveauReprésentantLégal: ReprésentantLégal) => void;
+export type SaisieNomReprésentantLégalStepProps = {
+  nomReprésentantLégal: string;
+  typeReprésentantLégal: ReprésentantLégal.TypeReprésentantLégal.RawType;
+  onChange?: (nouveauNom: string) => void;
   validationErrors: ValidationErrors<ModifierReprésentantLégalFormKeys>;
 };
 
-export const SaisieCorrectionReprésentantLégalStep: FC<
-  SaisieCorrectionReprésentantLégalStepProps
-> = ({ représentantLégalExistant, validationErrors, onChange }) => {
-  const getWordingBasedOnTypePersonne = match(représentantLégalExistant.typePersonne)
-    .with('Personne physique', () => ({
+export const SaisieNomReprésentantLégalStep: FC<SaisieNomReprésentantLégalStepProps> = ({
+  nomReprésentantLégal,
+  typeReprésentantLégal,
+  validationErrors,
+  onChange,
+}) => {
+  const getWordingBasedOnTypePersonne = match(typeReprésentantLégal)
+    .with('personne physique', () => ({
       label: 'Les noms et prénoms de la personne physique',
       hintText: 'les nom et prénom',
     }))
-    .with('Personne morale', () => ({
+    .with('personne morale', () => ({
       label: 'Le nom de la société',
       hintText: 'le nom de la société',
     }))
-    .with('Collectivité', () => ({
+    .with('collectivité', () => ({
       label: 'Le nom de la collectivité',
       hintText: 'le nom de la collectivité',
     }))
-    .with('Autre', () => ({
+    .with('autre', () => ({
       label: `Le nom de l'organisme`,
       hintText: `le nom de l'organisme`,
     }))
-    .otherwise(() => ({
+    .with('inconnu', () => ({
       label: 'Le nom',
       hintText: 'le nom',
-    }));
+    }))
+    .exhaustive();
 
   return (
     <>
@@ -47,14 +53,10 @@ export const SaisieCorrectionReprésentantLégalStep: FC<
         hintText={`Veuillez préciser ${getWordingBasedOnTypePersonne.hintText} pour le nouveau représentant légal du projet`}
         nativeInputProps={{
           name: 'nomRepresentantLegal',
-          defaultValue: représentantLégalExistant.nomReprésentantLégal,
-          onChange: (e) => {
+          defaultValue: nomReprésentantLégal,
+          onChange: ({ target: { value } }) => {
             delete validationErrors.nomRepresentantLegal;
-            onChange &&
-              onChange({
-                typePersonne: représentantLégalExistant.typePersonne,
-                nomReprésentantLégal: e.target.value,
-              });
+            onChange && onChange(value);
           },
         }}
         state={validationErrors['nomRepresentantLegal'] ? 'error' : 'default'}

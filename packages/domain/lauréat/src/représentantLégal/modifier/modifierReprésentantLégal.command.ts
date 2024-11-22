@@ -4,6 +4,7 @@ import { IdentifiantProjet, DateTime, Email } from '@potentiel-domain/common';
 import { LoadAggregate } from '@potentiel-domain/core';
 
 import { loadReprésentantLégalFactory } from '../représentantLégal.aggregate';
+import { TypeReprésentantLégal } from '..';
 
 export type ModifierReprésentantLégalCommand = Message<
   'Lauréat.ReprésentantLégal.Command.ModifierReprésentantLégal',
@@ -11,6 +12,7 @@ export type ModifierReprésentantLégalCommand = Message<
     identifiantProjet: IdentifiantProjet.ValueType;
     identifiantUtilisateur: Email.ValueType;
     nomReprésentantLégal: string;
+    typeReprésentantLégal: TypeReprésentantLégal.ValueType;
     dateModification: DateTime.ValueType;
   }
 >;
@@ -21,6 +23,7 @@ export const registerModifierReprésentantLégalCommand = (loadAggregate: LoadAg
     identifiantProjet,
     identifiantUtilisateur,
     nomReprésentantLégal,
+    typeReprésentantLégal,
     dateModification,
   }) => {
     const représentantLégal = await loadReprésentantLégal(identifiantProjet);
@@ -29,6 +32,7 @@ export const registerModifierReprésentantLégalCommand = (loadAggregate: LoadAg
       identifiantProjet,
       identifiantUtilisateur,
       nomReprésentantLégal,
+      typeReprésentantLégal,
       dateModification,
     });
   };

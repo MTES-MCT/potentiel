@@ -38,7 +38,7 @@ Quand(
 async function corrigerReprésentantLégal(this: PotentielWorld, nom?: string) {
   const identifiantProjet = this.lauréatWorld.identifiantProjet.formatter();
 
-  const { nomReprésentantLégal, dateCorrection } =
+  const { nomReprésentantLégal, typeReprésentantLégal, dateCorrection } =
     this.lauréatWorld.représentantLégalWorld.corrigerReprésentantLégalFixture.créer(
       nom ? { nomReprésentantLégal: nom } : {},
     );
@@ -49,6 +49,7 @@ async function corrigerReprésentantLégal(this: PotentielWorld, nom?: string) {
       identifiantProjetValue: identifiantProjet,
       identifiantUtilisateurValue: this.utilisateurWorld.adminFixture.email,
       nomReprésentantLégalValue: nomReprésentantLégal,
+      typeReprésentantLégalValue: typeReprésentantLégal.formatter(),
       dateModificationValue: dateCorrection,
     },
   });

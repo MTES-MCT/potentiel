@@ -1,4 +1,4 @@
-import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
+import { IdentifiantProjet } from '@potentiel-domain/common';
 import { ReprésentantLégal } from '@potentiel-domain/laureat';
 
 import { ImporterReprésentantLégalFixture } from './fixtures/importerReprésentantLégal.fixture';
@@ -27,10 +27,7 @@ export class ReprésentantLégalWorld {
     const expected: ReprésentantLégal.ConsulterReprésentantLégalReadModel = {
       identifiantProjet,
       nomReprésentantLégal: this.#importerReprésentantLégalFixture.nomReprésentantLégal,
-      import: {
-        importéLe: DateTime.convertirEnValueType(this.#importerReprésentantLégalFixture.importéLe),
-        importéPar: Email.system(),
-      },
+      typeReprésentantLégal: this.#importerReprésentantLégalFixture.typeReprésentantLégal,
     };
 
     if (this.#corrigerReprésentantLégalFixture.aÉtéCréé) {
