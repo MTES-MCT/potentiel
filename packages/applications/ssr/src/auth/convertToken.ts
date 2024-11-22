@@ -20,7 +20,7 @@ export const convertToken = (token: string): PlainType<Utilisateur.ValueType> =>
 };
 
 const jwtSchema = z.object({
-  name: z.string(),
+  name: z.string().default(''),
   email: z.string(),
   realm_access: z.object({
     roles: z.array(z.string()),
