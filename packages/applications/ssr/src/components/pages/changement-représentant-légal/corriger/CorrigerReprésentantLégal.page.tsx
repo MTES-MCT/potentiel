@@ -1,8 +1,8 @@
 import { FC } from 'react';
 
 import { ProjetBanner } from '@/components/molecules/projet/ProjetBanner';
-import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
 import { Heading1 } from '@/components/atoms/headings';
+import { PageTemplate } from '@/components/templates/Page.template';
 
 import {
   CorrigerReprésentantLégalForm,
@@ -13,23 +13,13 @@ export type CorrigerReprésentantLégalPageProps = CorrigerReprésentantLégalFo
 
 export const CorrigerReprésentantLégalPage: FC<CorrigerReprésentantLégalPageProps> = ({
   identifiantProjet,
-  nomRepresentantLegal,
-}) => {
-  return (
-    <ColumnPageTemplate
-      banner={<ProjetBanner identifiantProjet={identifiantProjet} />}
-      heading={<Heading1>Corriger le représentant légal</Heading1>}
-      leftColumn={{
-        children: (
-          <CorrigerReprésentantLégalForm
-            identifiantProjet={identifiantProjet}
-            nomRepresentantLegal={nomRepresentantLegal}
-          />
-        ),
-      }}
-      rightColumn={{
-        children: <></>,
-      }}
+  représentantLégalExistant,
+}) => (
+  <PageTemplate banner={<ProjetBanner identifiantProjet={identifiantProjet} />}>
+    <Heading1>Corriger le représentant légal</Heading1>
+    <CorrigerReprésentantLégalForm
+      identifiantProjet={identifiantProjet}
+      représentantLégalExistant={représentantLégalExistant}
     />
-  );
-};
+  </PageTemplate>
+);

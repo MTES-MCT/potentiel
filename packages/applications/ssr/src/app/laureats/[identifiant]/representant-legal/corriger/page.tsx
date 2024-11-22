@@ -42,7 +42,10 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
     return (
       <CorrigerReprésentantLégalPage
         identifiantProjet={identifiantProjet}
-        nomRepresentantLegal={représentantLégalActuel.nomReprésentantLégal}
+        représentantLégalExistant={{
+          typePersonne: undefined,
+          nomReprésentantLégal: représentantLégalActuel.nomReprésentantLégal,
+        }}
       />
     );
   });
