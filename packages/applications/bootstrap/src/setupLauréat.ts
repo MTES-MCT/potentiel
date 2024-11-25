@@ -13,6 +13,7 @@ import {
   AbandonNotification,
   AchèvementNotification,
   GarantiesFinancièresNotification,
+  ReprésentantLégalNotification,
 } from '@potentiel-applications/notifications';
 import {
   AbandonProjector,
@@ -54,6 +55,7 @@ export const setupLauréat = async ({ sendEmail }: SetupLauréatDependencies) =>
   AbandonNotification.register({ sendEmail });
   GarantiesFinancièresNotification.register({ sendEmail });
   AchèvementNotification.register({ sendEmail });
+  ReprésentantLégalNotification.register({ sendEmail });
 
   // Sagas
   GarantiesFinancières.GarantiesFinancièresSaga.register();
@@ -268,6 +270,19 @@ export const setupLauréat = async ({ sendEmail }: SetupLauréatDependencies) =>
     },
   });
 
+  const unsubscribeReprésentantLégalNotification =
+    await subscribe<ReprésentantLégalNotification.SubscriptionEvent>({
+      name: 'notifications',
+      streamCategory: 'représentant-légal',
+      eventType: ['ReprésentantLégalModifié-V1'],
+      eventHandler: async (event) => {
+        await mediator.publish<ReprésentantLégalNotification.Execute>({
+          type: 'System.Notification.Lauréat.ReprésentantLégal',
+          data: event,
+        });
+      },
+    });
+
   return async () => {
     // projectors
     await unsubscribeLauréatProjector();
@@ -279,6 +294,7 @@ export const setupLauréat = async ({ sendEmail }: SetupLauréatDependencies) =>
     await unsubscribeAbandonNotification();
     await unsubscribeGarantiesFinancièresNotification();
     await unsubscribeAchèvementNotification();
+    await unsubscribeReprésentantLégalNotification();
     // sagas
     await unsubscribeGarantiesFinancièresSaga();
     await unsubscribeTypeGarantiesFinancièresSaga();

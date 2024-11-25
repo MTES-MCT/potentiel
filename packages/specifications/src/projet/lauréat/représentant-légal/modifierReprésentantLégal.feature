@@ -6,8 +6,14 @@ Fonctionnalité: Modifier le représentant légal d'un projet lauréat
 
     Scénario: Modifier le représentant légal d'un projet lauréat
         Etant donné le projet lauréat "Du boulodrome de Marseille"
+        Et la dreal "Dreal du sud" associée à la région du projet
+        Et le porteur "Marcel Patoulatchi" ayant accés au projet lauréat "Du boulodrome de Marseille"
         Quand le nom et le type du représentant légal du projet lauréat sont modifiés
         Alors le nom du représentant légal du projet lauréat devrait être mis à jour
+        Et un email a été envoyé au porteur avec :
+            | sujet      | Potentiel - Modification du représentant légal pour le projet Du boulodrome de Marseille dans le département(.*) |
+            | nom_projet | Du boulodrome de Marseille                                                                                       |
+            | url        | https://potentiel.beta.gouv.fr/projet/.*/details.html                                                            |
 
     Scénario: Impossible de modifier le représentant légal d'un projet lauréat inexistant
         Quand le nom et le type du représentant légal du projet lauréat sont modifiés
