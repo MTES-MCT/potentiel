@@ -280,6 +280,12 @@ const getNavigationItemsBasedOnRole = (
           },
         },
         {
+          text: 'Raccordements',
+          linkProps: {
+            href: Routes.Raccordement.lister,
+          },
+        },
+        {
           text: 'Tableau de bord',
           linkProps: {
             href: '/cre/statistiques.html',
