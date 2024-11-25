@@ -18,7 +18,7 @@ import {
   CreateBucketCommand,
   DeleteBucketCommand,
   DeleteObjectsCommand,
-  ListObjectsCommand,
+  ListObjectsV2Command,
 } from '@aws-sdk/client-s3';
 
 import { executeQuery, killPool } from '@potentiel-libraries/pg-helpers';
@@ -114,13 +114,13 @@ Before<PotentielWorld>(async function (this: PotentielWorld) {
 });
 
 After(async () => {
-  const objectsToDelete = await getClient().send(new ListObjectsCommand({ Bucket: bucketName }));
+  const objectsToDelete = await getClient().send(new ListObjectsV2Command({ Bucket: bucketName }));
 
   if (objectsToDelete.Contents?.length) {
     await getClient().send(
       new DeleteObjectsCommand({
         Bucket: bucketName,
-        Delete: { Objects: objectsToDelete.Contents.map((o) => ({ Key: o.Key! })) },
+        Delete: { Objects: objectsToDelete.Contents.map((o) => ({ Key: o.Key })) },
       }),
     );
   }
