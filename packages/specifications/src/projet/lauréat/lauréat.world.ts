@@ -49,10 +49,10 @@ export class LauréatWorld {
     return this.#représentantLégalWorld;
   }
 
-  #dateDeDésignation: string;
+  #dateDésignation: string;
 
-  get dateDeDésignation() {
-    return this.#dateDeDésignation;
+  get dateDésignation() {
+    return this.#dateDésignation;
   }
 
   constructor() {
@@ -61,6 +61,6 @@ export class LauréatWorld {
 
     this.#identifiantProjet = IdentifiantProjet.convertirEnValueType(`PPE2 - Eolien#1##23`);
 
-    this.#dateDeDésignation = new Date('2022-10-27').toISOString();
+    this.#dateDésignation = new Date('2022-10-27').toISOString();
   }
 }

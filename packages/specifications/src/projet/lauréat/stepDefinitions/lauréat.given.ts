@@ -13,7 +13,7 @@ import { importerCandidature } from '../../../candidature/stepDefinitions/candid
 EtantDonné('le projet lauréat {string}', async function (this: PotentielWorld, nomProjet: string) {
   await importerCandidature.call(this, nomProjet, 'classé');
 
-  const dateDésignation = this.lauréatWorld.dateDeDésignation;
+  const dateDésignation = this.lauréatWorld.dateDésignation;
 
   await notifierLauréat.call(this, dateDésignation);
 
@@ -27,7 +27,7 @@ EtantDonné(
       const identifiantProjetSansGf =
         this.candidatureWorld.identifiantProjetSansGarantiesFinancières.formatter();
 
-      const dateDésignation = this.lauréatWorld.dateDeDésignation;
+      const dateDésignation = this.lauréatWorld.dateDésignation;
 
       await importerCandidature.call(
         this,

@@ -21,9 +21,9 @@ EtantDonné('le projet éliminé {string}', async function (this: PotentielWorld
 
   const identifiantProjetValue = IdentifiantProjet.convertirEnValueType(identifiantProjet);
 
-  const dateDeDésignation = this.eliminéWorld.dateDeDésignation;
+  const dateDésignation = this.eliminéWorld.dateDésignation;
 
-  await notifierÉliminé.call(this, dateDeDésignation);
+  await notifierÉliminé.call(this, dateDésignation);
 
   await executeQuery(
     `
@@ -81,7 +81,7 @@ EtantDonné('le projet éliminé {string}', async function (this: PotentielWorld
     identifiantProjetValue.période,
     identifiantProjetValue.numéroCRE,
     identifiantProjetValue.famille,
-    new Date(dateDeDésignation).getTime(),
+    new Date(dateDésignation).getTime(),
     candidature.nomCandidatValue,
     nomProjet,
     candidature.puissanceProductionAnnuelleValue,

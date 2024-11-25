@@ -40,9 +40,9 @@ EtantDonné(
   async function (this: PotentielWorld, nomProjet: string) {
     await importerCandidature.call(this, nomProjet, 'classé');
 
-    const dateDeDésignation = this.lauréatWorld.dateDeDésignation;
+    const dateDésignation = this.lauréatWorld.dateDésignation;
 
-    await notifierLauréat.call(this, dateDeDésignation);
+    await notifierLauréat.call(this, dateDésignation);
   },
 );
 
@@ -51,9 +51,9 @@ EtantDonné(
   async function (this: PotentielWorld, nomProjet: string) {
     await importerCandidature.call(this, nomProjet, 'éliminé');
 
-    const dateDeDésignation = this.eliminéWorld.dateDeDésignation;
+    const dateDésignation = this.eliminéWorld.dateDésignation;
 
-    await notifierÉliminé.call(this, dateDeDésignation);
+    await notifierÉliminé.call(this, dateDésignation);
   },
 );
 
