@@ -11,13 +11,10 @@ import { withUtilisateur } from '@/utils/withUtilisateur';
 
 const schema = zod.object({
   identifiantProjet: zod.string().min(1),
-  typeRepresentantLegal: zod.enum(
-    ['personne physique', 'personne morale', 'collectivité', 'autre'],
-    {
-      invalid_type_error: 'Ce type de personne est invalide',
-      required_error: 'Champ obligatoire',
-    },
-  ),
+  typeRepresentantLegal: zod.enum(ReprésentantLégal.TypeReprésentantLégal.types, {
+    invalid_type_error: 'Ce type de personne est invalide',
+    required_error: 'Champ obligatoire',
+  }),
   nomRepresentantLegal: zod.string().min(1, { message: 'Champ obligatoire' }),
 });
 

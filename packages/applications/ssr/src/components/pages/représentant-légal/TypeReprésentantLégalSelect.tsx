@@ -7,8 +7,8 @@ const typesReprésentantLégalOptions = ReprésentantLégal.TypeReprésentantLé
   .filter((type) => type !== 'inconnu')
   .map((type) => ({
     label: match(type)
-      .with('personne physique', () => 'Personne physique')
-      .with('personne morale', () => 'Personne morale')
+      .with('personne-physique', () => 'Personne physique')
+      .with('personne-morale', () => 'Personne morale')
       .with('collectivité', () => 'Collectivité')
       .with('autre', () => 'Autre')
       .exhaustive(),

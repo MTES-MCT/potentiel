@@ -1,8 +1,8 @@
 import { InvalidOperationError, PlainType, ReadonlyValueType } from '@potentiel-domain/core';
 
 export const types = [
-  'personne physique',
-  'personne morale',
+  'personne-physique',
+  'personne-morale',
   'collectivité',
   'autre',
   'inconnu',
@@ -45,8 +45,8 @@ function estValide(type: string): asserts type is RawType {
   }
 }
 
-export const personnePhysique = convertirEnValueType('personne physique');
-export const personneMorale = convertirEnValueType('personne morale');
+export const personnePhysique = convertirEnValueType('personne-physique');
+export const personneMorale = convertirEnValueType('personne-morale');
 export const collectivité = convertirEnValueType('collectivité');
 export const autre = convertirEnValueType('autre');
 export const inconnu = convertirEnValueType('inconnu');

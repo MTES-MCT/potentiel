@@ -25,14 +25,14 @@ export const SaisieTypePersonneStep: FC<SaisieTypePersonneStepProps> = ({
   const [selectedTypePersonne, setSelectedTypePersonne] = useState(typeReprésentantLégal);
 
   const getSituation = match(selectedTypePersonne)
-    .with('personne physique', () => (
+    .with('personne-physique', () => (
       <Situation
         nom="Une personne physique"
         informationÀRemplir="les nom et prénom de la personne"
         pièceJustificativesÀAvoirEnPossession="une copie de titre d'identité (carte d'identité ou passeport) en cours de validité"
       />
     ))
-    .with('personne morale', () => (
+    .with('personne-morale', () => (
       <Situation
         nom="Une personne morale"
         informationÀRemplir="le nom de la société"

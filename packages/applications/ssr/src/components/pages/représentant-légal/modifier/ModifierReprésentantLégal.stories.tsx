@@ -24,7 +24,7 @@ export const Default: Story = {
     identifiantProjet: IdentifiantProjet.convertirEnValueType('PPE2 - Bâtiment#4#1#id-cre-738'),
     nomReprésentantLégal: 'Jean Dupont',
     typeReprésentantLégal: {
-      type: 'personne physique',
+      type: 'personne-physique',
     },
   },
 };
