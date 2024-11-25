@@ -11,8 +11,6 @@ import { PotentielWorld } from '../../../potentiel.world';
 import { importerCandidature } from '../../../candidature/stepDefinitions/candidature.given';
 
 EtantDonné('le projet éliminé {string}', async function (this: PotentielWorld, nomProjet: string) {
-  const dateDésignation = new Date('2022-10-27').toISOString();
-
   // un projet éliminé a rarement ces informations lors d'un import de candidature
   await importerCandidature.call(this, nomProjet, 'éliminé', {
     typeGarantiesFinancièresValue: undefined,
@@ -23,7 +21,9 @@ EtantDonné('le projet éliminé {string}', async function (this: PotentielWorld
 
   const identifiantProjetValue = IdentifiantProjet.convertirEnValueType(identifiantProjet);
 
-  await notifierÉliminé.call(this, dateDésignation);
+  const dateDeDésignation = this.eliminéWorld.dateDeDésignation;
+
+  await notifierÉliminé.call(this, dateDeDésignation);
 
   await executeQuery(
     `
@@ -81,7 +81,7 @@ EtantDonné('le projet éliminé {string}', async function (this: PotentielWorld
     identifiantProjetValue.période,
     identifiantProjetValue.numéroCRE,
     identifiantProjetValue.famille,
-    new Date(dateDésignation).getTime(),
+    new Date(dateDeDésignation).getTime(),
     candidature.nomCandidatValue,
     nomProjet,
     candidature.puissanceProductionAnnuelleValue,
@@ -191,7 +191,7 @@ EtantDonné(
   },
 );
 
-async function notifierÉliminé(this: PotentielWorld, dateDésignation: string) {
+export async function notifierÉliminé(this: PotentielWorld, dateDésignation: string) {
   const candidature = this.candidatureWorld.importerCandidature;
   const identifiantProjetValue = IdentifiantProjet.convertirEnValueType(
     candidature.identifiantProjet,

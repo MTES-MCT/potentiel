@@ -11,9 +11,9 @@ import { PotentielWorld } from '../../../potentiel.world';
 import { importerCandidature } from '../../../candidature/stepDefinitions/candidature.given';
 
 EtantDonné('le projet lauréat {string}', async function (this: PotentielWorld, nomProjet: string) {
-  const dateDésignation = new Date('2022-10-27').toISOString();
-
   await importerCandidature.call(this, nomProjet, 'classé');
+
+  const dateDésignation = this.lauréatWorld.dateDeDésignation;
 
   await notifierLauréat.call(this, dateDésignation);
 
@@ -23,25 +23,29 @@ EtantDonné('le projet lauréat {string}', async function (this: PotentielWorld,
 EtantDonné(
   'le projet lauréat sans garanties financières importées {string}',
   async function (this: PotentielWorld, nomProjet: string) {
-    const identifiantProjetSansGf =
-      IdentifiantProjet.convertirEnValueType(`PPE2 - Innovation#1#1#66`).formatter();
+    try {
+      const identifiantProjetSansGf =
+        this.candidatureWorld.identifiantProjetSansGarantiesFinancières.formatter();
 
-    const dateDésignation = new Date('2022-10-27').toISOString();
+      const dateDésignation = this.lauréatWorld.dateDeDésignation;
 
-    await importerCandidature.call(
-      this,
-      nomProjet,
-      'classé',
-      {
-        typeGarantiesFinancièresValue: undefined,
-        dateÉchéanceGfValue: undefined,
-      },
-      identifiantProjetSansGf,
-    );
+      await importerCandidature.call(
+        this,
+        nomProjet,
+        'classé',
+        {
+          typeGarantiesFinancièresValue: undefined,
+          dateÉchéanceGfValue: undefined,
+        },
+        identifiantProjetSansGf,
+      );
 
-    await notifierLauréat.call(this, dateDésignation);
+      await notifierLauréat.call(this, dateDésignation);
 
-    await insérerProjetAvecDonnéesCandidature.call(this, dateDésignation, 'lauréat');
+      await insérerProjetAvecDonnéesCandidature.call(this, dateDésignation, 'lauréat');
+    } catch (error) {
+      this.error = error as Error;
+    }
   },
 );
 
@@ -63,12 +67,11 @@ export async function notifierLauréat(this: PotentielWorld, dateDésignation: s
   const identifiantProjetValue = IdentifiantProjet.convertirEnValueType(
     candidature.identifiantProjet,
   );
+  this.lauréatWorld.identifiantProjet = identifiantProjetValue;
 
   this.utilisateurWorld.porteurFixture.créer({
     email: this.candidatureWorld.importerCandidature.values.emailContactValue,
   });
-
-  this.lauréatWorld.identifiantProjet = identifiantProjetValue;
 
   this.lauréatWorld.lauréatFixtures.set(candidature.values.nomProjetValue, {
     nom: candidature.values.nomProjetValue,
@@ -94,6 +97,13 @@ export async function notifierLauréat(this: PotentielWorld, dateDésignation: s
   await mediator.send<Lauréat.NotifierLauréatUseCase>({
     type: 'Lauréat.UseCase.NotifierLauréat',
     data,
+  });
+
+  // check this
+  this.lauréatWorld.représentantLégalWorld.importerReprésentantLégalFixture.créer({
+    nomReprésentantLégal:
+      this.candidatureWorld.importerCandidature.values.nomReprésentantLégalValue,
+    importéLe: data.notifiéLeValue,
   });
 }
 
