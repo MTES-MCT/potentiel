@@ -61,7 +61,7 @@ const getDocumentKey = async (
     return undefined;
   }
 
-  if (candidature.statut.estClassé()) {
+  if (candidature.statut.estÉliminé()) {
     const recours = await mediator.send<Recours.ConsulterRecoursQuery>({
       type: 'Éliminé.Recours.Query.ConsulterRecours',
       data: {
