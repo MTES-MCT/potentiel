@@ -198,10 +198,10 @@ const référencielPermissions = {
         consulter: 'Lauréat.ReprésentantLégal.Query.ConsulterReprésentantLégal',
       },
       usecase: {
-        corriger: 'Lauréat.ReprésentantLégal.UseCase.ModifierReprésentantLégal',
+        modifier: 'Lauréat.ReprésentantLégal.UseCase.ModifierReprésentantLégal',
       },
       command: {
-        corriger: 'Lauréat.ReprésentantLégal.Command.ModifierReprésentantLégal',
+        modifier: 'Lauréat.ReprésentantLégal.Command.ModifierReprésentantLégal',
       },
     },
     usecase: { notifier: 'Lauréat.UseCase.NotifierLauréat' },
@@ -828,10 +828,10 @@ const policies = {
       référencielPermissions.candidature.query.consulterProjet,
       référencielPermissions.lauréat.représentantLégal.query.consulter,
     ],
-    corriger: [
+    modifier: [
       référencielPermissions.candidature.query.consulterProjet,
-      référencielPermissions.lauréat.représentantLégal.usecase.corriger,
-      référencielPermissions.lauréat.représentantLégal.command.corriger,
+      référencielPermissions.lauréat.représentantLégal.usecase.modifier,
+      référencielPermissions.lauréat.représentantLégal.command.modifier,
     ],
   },
 } as const;
@@ -920,7 +920,7 @@ const permissionAdmin: Policy[] = [
 
   // Représentant légal
   'représentantLégal.consulter',
-  'représentantLégal.corriger',
+  'représentantLégal.modifier',
 ];
 
 const permissionDgecValidateur: Policy[] = [
@@ -1010,7 +1010,7 @@ const permissionDreal: Policy[] = [
 
   // Représentant légal
   'représentantLégal.consulter',
-  'représentantLégal.corriger',
+  'représentantLégal.modifier',
 ];
 
 const permissionPorteurProjet: Policy[] = [

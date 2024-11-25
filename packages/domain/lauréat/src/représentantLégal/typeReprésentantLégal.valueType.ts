@@ -13,6 +13,7 @@ export type RawType = (typeof types)[number];
 export type ValueType = ReadonlyValueType<{
   type: RawType;
   formatter(): RawType;
+  estInconnu(): boolean;
 }>;
 
 export const bind = ({ type }: PlainType<ValueType>): ValueType => {
@@ -24,6 +25,9 @@ export const bind = ({ type }: PlainType<ValueType>): ValueType => {
     },
     formatter() {
       return this.type;
+    },
+    estInconnu() {
+      return this.estÉgaleÀ(inconnu);
     },
   };
 };

@@ -2,23 +2,23 @@ import { IdentifiantProjet } from '@potentiel-domain/common';
 import { ReprésentantLégal } from '@potentiel-domain/laureat';
 
 import { ImporterReprésentantLégalFixture } from './fixtures/importerReprésentantLégal.fixture';
-import { CorrigerReprésentantLégalFixture } from './fixtures/corrigerReprésentantLégal.fixture';
+import { ModifierReprésentantLégalFixture } from './fixtures/modifierReprésentantLégal.fixture';
 
 export class ReprésentantLégalWorld {
   #importerReprésentantLégalFixture: ImporterReprésentantLégalFixture;
-  #corrigerReprésentantLégalFixture: CorrigerReprésentantLégalFixture;
+  #modifierReprésentantLégalFixture: ModifierReprésentantLégalFixture;
 
   get importerReprésentantLégalFixture() {
     return this.#importerReprésentantLégalFixture;
   }
 
-  get corrigerReprésentantLégalFixture() {
-    return this.#corrigerReprésentantLégalFixture;
+  get modifierReprésentantLégalFixture() {
+    return this.#modifierReprésentantLégalFixture;
   }
 
   constructor() {
     this.#importerReprésentantLégalFixture = new ImporterReprésentantLégalFixture();
-    this.#corrigerReprésentantLégalFixture = new CorrigerReprésentantLégalFixture();
+    this.#modifierReprésentantLégalFixture = new ModifierReprésentantLégalFixture();
   }
 
   mapToExpected(
@@ -28,10 +28,11 @@ export class ReprésentantLégalWorld {
       identifiantProjet,
       nomReprésentantLégal: this.#importerReprésentantLégalFixture.nomReprésentantLégal,
       typeReprésentantLégal: this.#importerReprésentantLégalFixture.typeReprésentantLégal,
+      // types: ReprésentantLégal.TypeReprésentantLégal.types.filter((t) => t !== 'inconnu'),
     };
 
-    if (this.#corrigerReprésentantLégalFixture.aÉtéCréé) {
-      expected.nomReprésentantLégal = this.#corrigerReprésentantLégalFixture.nomReprésentantLégal;
+    if (this.#modifierReprésentantLégalFixture.aÉtéCréé) {
+      expected.nomReprésentantLégal = this.#modifierReprésentantLégalFixture.nomReprésentantLégal;
     }
 
     return expected;

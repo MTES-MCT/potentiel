@@ -6,16 +6,16 @@ Fonctionnalité: Modifier le représentant légal d'un projet lauréat
 
     Scénario: Modifier le représentant légal d'un projet lauréat
         Etant donné le projet lauréat "Du boulodrome de Marseille"
-        Quand le nom du représentant légal du projet lauréat est modifié
+        Quand le nom et le type du représentant légal du projet lauréat sont modifiés
         Alors le nom du représentant légal du projet lauréat devrait être mis à jour
 
     Scénario: Impossible de modifier le représentant légal d'un projet lauréat inexistant
-        Quand le nom du représentant légal du projet lauréat est modifié
+        Quand le nom et le type du représentant légal du projet lauréat sont modifiés
         Alors l'utilisateur devrait être informé que "Aucun représentant légal n'est associé à ce projet"
 
     Scénario: Impossible de modifier le représentant légal avec une valeur identique
         Etant donné le projet lauréat "Du boulodrome de Marseille"
-        Quand le nom du représentant légal du projet lauréat est modifié avec la même valeur
+        Quand le nom et le type du représentant légal du projet lauréat sont modifiés avec les même valeur
         Alors l'utilisateur devrait être informé que "Le représentant légal modifié est identique à celui associé au projet"
 
     @NotImplemented

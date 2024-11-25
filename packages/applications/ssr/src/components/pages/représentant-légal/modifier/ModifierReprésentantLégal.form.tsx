@@ -4,6 +4,7 @@ import { FC, useState } from 'react';
 import Stepper from '@codegouvfr/react-dsfr/Stepper';
 
 import { IdentifiantProjet } from '@potentiel-domain/common';
+import { ReprésentantLégal } from '@potentiel-domain/laureat';
 
 import { Form } from '@/components/atoms/form/Form';
 import { ValidationErrors } from '@/utils/formAction';
@@ -13,11 +14,7 @@ import {
   modifierReprésentantLégalAction,
   ModifierReprésentantLégalFormKeys,
 } from './modifierReprésentantLégal.action';
-import {
-  SaisieCorrectionReprésentantLégalStep as SaisieNomReprésentantLégalStep,
-  SaisieTypePersonneStep,
-  ValidationStep,
-} from './steps';
+import { SaisieNomReprésentantLégalStep, SaisieTypePersonneStep, ValidationStep } from './steps';
 import { ModifierReprésentantLégalPageProps } from './ModifierReprésentantLégal.page';
 
 export type ModifierReprésentantLégalFormProps = ModifierReprésentantLégalPageProps;
@@ -47,7 +44,11 @@ export const ModifierReprésentantLégalForm: FC<ModifierReprésentantLégalForm
           validationErrors={validationErrors}
         />
       ),
-      nextStep: { type: 'link', name: 'Commencer', disabled: !typeReprésentantLégal },
+      nextStep: {
+        type: 'link',
+        name: 'Commencer',
+        disabled: !type || ReprésentantLégal.TypeReprésentantLégal.bind({ type }).estInconnu(),
+      },
     },
     {
       index: 2,
@@ -64,7 +65,7 @@ export const ModifierReprésentantLégalForm: FC<ModifierReprésentantLégalForm
       nextStep: {
         type: 'link',
         name: 'Vérifier',
-        disabled: !nomReprésentantLégal || nom === nomReprésentantLégal,
+        disabled: false,
       },
     },
     {

@@ -4,15 +4,15 @@ import { ReprésentantLégal } from '@potentiel-domain/laureat';
 
 import { AbstractFixture } from '../../../../fixture';
 
-interface CorrigerReprésentantLégal {
+export interface ModifierReprésentantLégal {
   readonly nomReprésentantLégal: string;
   readonly typeReprésentantLégal: ReprésentantLégal.TypeReprésentantLégal.ValueType;
   readonly dateCorrection: string;
 }
 
-export class CorrigerReprésentantLégalFixture
-  extends AbstractFixture<CorrigerReprésentantLégal>
-  implements CorrigerReprésentantLégal
+export class ModifierReprésentantLégalFixture
+  extends AbstractFixture<ModifierReprésentantLégal>
+  implements ModifierReprésentantLégal
 {
   #nomReprésentantLégal!: string;
 
@@ -26,15 +26,15 @@ export class CorrigerReprésentantLégalFixture
     return this.#typeReprésentantLégal;
   }
 
-  #dateCorrection!: string;
+  #dateModification!: string;
 
   get dateCorrection(): string {
-    return this.#dateCorrection;
+    return this.#dateModification;
   }
 
   créer(
-    partialFixture?: Partial<Readonly<CorrigerReprésentantLégal>>,
-  ): Readonly<CorrigerReprésentantLégal> {
+    partialFixture?: Partial<Readonly<ModifierReprésentantLégal>>,
+  ): Readonly<ModifierReprésentantLégal> {
     const fixture = {
       nomReprésentantLégal: faker.person.fullName(),
       typeReprésentantLégal: ReprésentantLégal.TypeReprésentantLégal.inconnu,
@@ -44,7 +44,7 @@ export class CorrigerReprésentantLégalFixture
 
     this.#nomReprésentantLégal = fixture.nomReprésentantLégal;
     this.#typeReprésentantLégal = fixture.typeReprésentantLégal;
-    this.#dateCorrection = fixture.dateCorrection;
+    this.#dateModification = fixture.dateCorrection;
 
     this.aÉtéCréé = true;
 

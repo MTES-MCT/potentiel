@@ -19,15 +19,25 @@ Quand(
 );
 
 Quand(
-  /le nom du représentant légal du projet lauréat est modifié(.*)/,
-  async function (this: PotentielWorld, avecLamêmeValeur: string) {
+  `le nom et le type du représentant légal du projet lauréat sont modifiés`,
+  async function (this: PotentielWorld) {
     try {
-      await corrigerReprésentantLégal.call(
+      await modifierReprésentantLégal.call(this);
+    } catch (error) {
+      this.error = error as Error;
+    }
+  },
+);
+Quand(
+  `le nom et le type du représentant légal du projet lauréat sont modifiés avec les même valeur`,
+  async function (this: PotentielWorld) {
+    try {
+      await modifierReprésentantLégal.call(
         this,
-        avecLamêmeValeur.includes('avec la même valeur')
-          ? this.lauréatWorld.représentantLégalWorld.importerReprésentantLégalFixture
-              .nomReprésentantLégal
-          : undefined,
+        this.lauréatWorld.représentantLégalWorld.importerReprésentantLégalFixture
+          .nomReprésentantLégal,
+        this.lauréatWorld.représentantLégalWorld.importerReprésentantLégalFixture
+          .typeReprésentantLégal,
       );
     } catch (error) {
       this.error = error as Error;
@@ -35,12 +45,21 @@ Quand(
   },
 );
 
-async function corrigerReprésentantLégal(this: PotentielWorld, nom?: string) {
+async function modifierReprésentantLégal(
+  this: PotentielWorld,
+  nom?: string,
+  type?: ReprésentantLégal.TypeReprésentantLégal.ValueType,
+) {
   const identifiantProjet = this.lauréatWorld.identifiantProjet.formatter();
 
   const { nomReprésentantLégal, typeReprésentantLégal, dateCorrection } =
-    this.lauréatWorld.représentantLégalWorld.corrigerReprésentantLégalFixture.créer(
-      nom ? { nomReprésentantLégal: nom } : {},
+    this.lauréatWorld.représentantLégalWorld.modifierReprésentantLégalFixture.créer(
+      nom && type
+        ? {
+            nomReprésentantLégal: nom,
+            typeReprésentantLégal: type,
+          }
+        : {},
     );
 
   await mediator.send<ReprésentantLégal.ReprésentantLégalUseCase>({

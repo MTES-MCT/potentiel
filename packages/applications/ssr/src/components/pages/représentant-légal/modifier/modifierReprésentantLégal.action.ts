@@ -12,7 +12,7 @@ import { withUtilisateur } from '@/utils/withUtilisateur';
 const schema = zod.object({
   identifiantProjet: zod.string().min(1),
   typeRepresentantLegal: zod.enum(
-    ['Personne physique', 'Personne morale', 'Collectivité', 'Autre'],
+    ['personne physique', 'personne morale', 'collectivité', 'autre'],
     {
       invalid_type_error: 'Ce type de personne est invalide',
       required_error: 'Champ obligatoire',

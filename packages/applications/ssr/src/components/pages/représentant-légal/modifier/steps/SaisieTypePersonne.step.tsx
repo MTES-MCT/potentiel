@@ -1,7 +1,6 @@
 'use client';
 
 import { FC, useState } from 'react';
-import SelectNext from '@codegouvfr/react-dsfr/SelectNext';
 import { match } from 'ts-pattern';
 
 import { ReprésentantLégal } from '@potentiel-domain/laureat';
@@ -10,6 +9,7 @@ import { Heading3 } from '@/components/atoms/headings';
 import { ValidationErrors } from '@/utils/formAction';
 
 import { ModifierReprésentantLégalFormKeys } from '../modifierReprésentantLégal.action';
+import { TypeReprésentantLégalSelect } from '../../TypeReprésentantLégalSelect';
 
 export type SaisieTypePersonneStepProps = {
   typeReprésentantLégal: ReprésentantLégal.TypeReprésentantLégal.RawType;
@@ -62,32 +62,20 @@ export const SaisieTypePersonneStep: FC<SaisieTypePersonneStepProps> = ({
         le type de personne du nouveau représentant légal pour obtenir les informations nécessaires
         à la correction.
       </p>
-
-      {/*
-          @todo Transformer ce select next en composant dédié (cf GestionnaireRéseauSelect) 
-       */}
-      <SelectNext
-        label="Choisir le type de personne pour le représentant légal"
-        placeholder={`Sélectionner le type de personne pour le représentant légal`}
+      <TypeReprésentantLégalSelect
+        id="typeReprésentantLégal"
+        name="typeRepresentantLegal"
+        label="Choisir le type de représentant légal"
         state={validationErrors.typeRepresentantLegal ? 'error' : 'default'}
         stateRelatedMessage="Le type de personne pour le représentant légal est obligatoire"
-        nativeSelectProps={{
-          name: 'typeReprésentantLégal',
-          defaultValue: selectedTypePersonne,
-          onChange: ({ currentTarget: { value } }) => {
-            delete validationErrors.typeRepresentantLegal;
-            setSelectedTypePersonne(value as ReprésentantLégal.TypeReprésentantLégal.RawType);
-            onChange && onChange(value as ReprésentantLégal.TypeReprésentantLégal.RawType);
-          },
+        typeReprésentantLégalActuel={selectedTypePersonne}
+        onTypeReprésentantLégalSelected={(type) => {
+          delete validationErrors.typeRepresentantLegal;
+          setSelectedTypePersonne(type);
+          onChange && onChange(type);
         }}
-        options={['Personne physique', 'Personne morale', 'Collectivité', 'Autre'].map((type) => ({
-          label: type,
-          value: type,
-        }))}
       />
-
       {getSituation}
-
       <p>Pour démarrer la correction veuillez cliquer sur le bouton "Commencer"</p>
     </div>
   );

@@ -45,5 +45,7 @@ export const registerConsulterRepresentantLegalQuery = ({
 const mapToReadModel = (result: ReprésentantLégalEntity) => ({
   identifiantProjet: IdentifiantProjet.convertirEnValueType(result.identifiantProjet),
   nomReprésentantLégal: result.nomReprésentantLégal,
-  typeReprésentantLégal: TypeReprésentantLégal.convertirEnValueType(result.typeReprésentantLégal),
+  typeReprésentantLégal: result.typeReprésentantLégal
+    ? TypeReprésentantLégal.convertirEnValueType(result.typeReprésentantLégal)
+    : TypeReprésentantLégal.inconnu,
 });
