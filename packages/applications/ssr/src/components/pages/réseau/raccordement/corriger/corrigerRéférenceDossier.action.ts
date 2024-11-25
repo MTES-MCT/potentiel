@@ -34,10 +34,12 @@ const action: FormAction<FormState, typeof schema> = (
 
     return {
       status: 'success',
-      redirectUrl: role.aLaPermission('réseau.raccordement.consulter')
-        ? Routes.Raccordement.détail(identifiantProjet)
-        : Routes.Raccordement.lister,
-      successMessage: 'Référence du dossier de raccordement modifiée',
+      redirection: {
+        url: role.aLaPermission('réseau.raccordement.consulter')
+          ? Routes.Raccordement.détail(identifiantProjet)
+          : Routes.Raccordement.lister,
+        successMessage: 'Référence du dossier de raccordement modifiée',
+      },
     };
   });
 

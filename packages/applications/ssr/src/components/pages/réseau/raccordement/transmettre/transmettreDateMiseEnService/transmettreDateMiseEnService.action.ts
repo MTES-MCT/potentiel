@@ -31,7 +31,7 @@ const action: FormAction<FormState, typeof schema> = async (
 
   return {
     status: 'success',
-    redirectUrl: Routes.Raccordement.détail(identifiantProjet),
+    redirect: { url: Routes.Raccordement.détail(identifiantProjet) },
   };
 };
 

@@ -72,10 +72,12 @@ const action: FormAction<FormState, typeof schema> = async (
 
     return {
       status: 'success',
-      redirectUrl: aDéjàTransmisUnDossierDeRaccordement
-        ? Routes.Projet.details(identifiantProjet)
-        : Routes.Raccordement.transmettreDemandeComplèteRaccordement(identifiantProjet),
-      successMessage: 'Votre attestation de conformité a bien été transmise',
+      redirection: {
+        url: aDéjàTransmisUnDossierDeRaccordement
+          ? Routes.Projet.details(identifiantProjet)
+          : Routes.Raccordement.transmettreDemandeComplèteRaccordement(identifiantProjet),
+        successMessage: 'Votre attestation de conformité a bien été transmise',
+      },
     };
   });
 

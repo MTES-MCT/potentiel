@@ -53,7 +53,9 @@ const action: FormAction<FormState, typeof schema> = async (
 
     return {
       status: 'success',
-      redirectUrl: Routes.Abandon.détail(identifiantProjet),
+      redirection: {
+        url: Routes.Abandon.détail(identifiantProjet),
+      },
     };
   });
 };

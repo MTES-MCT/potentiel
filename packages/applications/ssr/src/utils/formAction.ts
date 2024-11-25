@@ -34,8 +34,10 @@ export type FormState =
   | {
       status: 'success' | undefined;
       result?: ActionResult;
-      redirectUrl?: string;
-      successMessage?: string;
+      redirection?: {
+        url: string;
+        message?: string;
+      };
     }
   | {
       status: 'validation-error';
@@ -93,12 +95,12 @@ export const formAction =
 
       await waitFor(TWO_SECONDS);
 
-      if (result.status === 'success' && result.redirectUrl) {
-        revalidatePath(result.redirectUrl);
+      if (result.status === 'success' && result.redirection) {
+        revalidatePath(result.redirection.url);
         redirect(
           applySearchParams(
-            result.redirectUrl,
-            result.successMessage ? { success: result.successMessage } : {},
+            result.redirection.url,
+            result.redirection.message ? { success: result.redirection.message } : {},
           ),
         );
       }
