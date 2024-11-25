@@ -35,10 +35,10 @@ export const getReprésentantLégal: GetReprésentantLégal = async (identifiant
     if (Option.isSome(représentantLégal)) {
       return {
         nom: représentantLégal.nomReprésentantLégal,
-        correction: utilisateur.aLaPermission('représentantLégal.corriger')
+        correction: utilisateur.aLaPermission('représentantLégal.modifier')
           ? {
               type: 'lauréat',
-              url: Routes.ReprésentantLégal.corriger(identifiantProjet.formatter()),
+              url: Routes.ReprésentantLégal.modifier(identifiantProjet.formatter()),
             }
           : undefined,
       };
@@ -54,14 +54,12 @@ export const getReprésentantLégal: GetReprésentantLégal = async (identifiant
     if (Option.isSome(candidature)) {
       return {
         nom: candidature.nomReprésentantLégal,
-        correction:
-          utilisateur.aLaPermission('représentantLégal.corriger') &&
-          utilisateur.aLaPermission('candidature.corriger')
-            ? {
-                type: 'candidature',
-                url: Routes.Candidature.corriger(identifiantProjet.formatter()),
-              }
-            : undefined,
+        correction: utilisateur.aLaPermission('candidature.corriger')
+          ? {
+              type: 'candidature',
+              url: Routes.Candidature.corriger(identifiantProjet.formatter()),
+            }
+          : undefined,
       };
     }
 

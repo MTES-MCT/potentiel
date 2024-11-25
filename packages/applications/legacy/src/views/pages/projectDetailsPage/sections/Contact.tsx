@@ -35,8 +35,8 @@ export const Contact = ({ project, user, représentantLégal }: ContactProps) =>
           <div>{représentantLégal.nom}</div>
 
           {représentantLégal.correction && (
-            <Link href={représentantLégal.correction.url} aria-label="Corriger" className="mt-1">
-              Corriger{' '}
+            <Link href={représentantLégal.correction.url} aria-label="Modifier" className="mt-1">
+              Modifier{' '}
               {représentantLégal.correction.type === 'lauréat'
                 ? 'le représentant légal'
                 : 'la candidature'}
