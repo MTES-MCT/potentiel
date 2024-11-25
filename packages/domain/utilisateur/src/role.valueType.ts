@@ -919,8 +919,12 @@ const permissionCRE: Policy[] = [
   // Achèvement
   'achèvement.consulter',
 
+  // Gestionnaire réseau
+  'réseau.gestionnaire.lister',
+
   // Raccordement
   'réseau.raccordement.consulter',
+  'réseau.raccordement.listerDossierRaccordement',
 
   // Garanties financières
   'garantiesFinancières.actuelles.consulter',
