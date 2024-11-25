@@ -76,7 +76,7 @@ const action: FormAction<FormState, typeof schema> = async (
         url: aDéjàTransmisUnDossierDeRaccordement
           ? Routes.Projet.details(identifiantProjet)
           : Routes.Raccordement.transmettreDemandeComplèteRaccordement(identifiantProjet),
-        successMessage: 'Votre attestation de conformité a bien été transmise',
+        message: 'Votre attestation de conformité a bien été transmise',
       },
     };
   });

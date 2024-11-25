@@ -49,7 +49,7 @@ const action: FormAction<FormState, typeof schema> = async (
     status: 'success',
     redirection: {
       url: Routes.Gestionnaire.lister,
-      successMessage: `Le gestionnaire de réseau ${raisonSociale} a été modifié avec succès`,
+      message: `Le gestionnaire de réseau ${raisonSociale} a été modifié avec succès`,
     },
   };
 };

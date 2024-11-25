@@ -3,7 +3,6 @@
 import { useSearchParams } from 'next/navigation';
 import { FC } from 'react';
 
-import ScrollToTop from '@/components/molecules/ScrollToTop';
 import { FormSuccessAlert } from '@/components/atoms/form/FormSuccessAlert';
 
 type PageTemplateProps = {
@@ -23,12 +22,7 @@ export const PageTemplate: FC<PageTemplateProps> = ({ banner, children }) => {
         </div>
       )}
       <div className="fr-container my-10">
-        {successMessage && (
-          <>
-            <ScrollToTop />
-            <FormSuccessAlert message={successMessage} />
-          </>
-        )}
+        {successMessage && <FormSuccessAlert message={successMessage} />}
         {children}
       </div>
     </>
