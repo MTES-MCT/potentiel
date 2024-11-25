@@ -19,12 +19,9 @@ export const metadata: Metadata = {
   description: 'Formulaire de transmission de dossier de raccordement',
 };
 
-type PageProps = IdentifiantParameter & { searchParams: { successMessage?: string } };
+type PageProps = IdentifiantParameter;
 
-export default async function Page({
-  params: { identifiant },
-  searchParams: { successMessage },
-}: PageProps) {
+export default async function Page({ params: { identifiant } }: PageProps) {
   return PageWithErrorHandling(async () => {
     const identifiantProjet = IdentifiantProjet.convertirEnValueType(decodeParameter(identifiant));
 
@@ -80,7 +77,6 @@ export default async function Page({
         listeGestionnairesRéseau={mapToPlainObject(gestionnairesRéseau.items)}
         gestionnaireRéseauActuel={mapToPlainObject(gestionnaireRéseauActuel)}
         delaiDemandeDeRaccordementEnMois={période.delaiDcrEnMois}
-        successMessage={successMessage}
       />
     );
   });

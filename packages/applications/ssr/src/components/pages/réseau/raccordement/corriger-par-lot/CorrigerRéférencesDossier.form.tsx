@@ -27,7 +27,7 @@ export const CorrigerRéférencesDossierForm: FC = () => {
         children: 'Correction des références de dossier de raccordement en cours',
       }}
       onValidationError={(validationErrors) => setValidationErrors(validationErrors)}
-      successMessage={'références dossier modifiées'}
+      successMessage={'référence(s) dossier modifiée(s)'}
       actions={<SubmitButton>Corriger</SubmitButton>}
     >
       <UploadNewOrModifyExistingDocument

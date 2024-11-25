@@ -40,7 +40,10 @@ const action: FormAction<FormState, typeof schema> = async (
 
   return {
     status: 'success',
-    redirectUrl: Routes.Gestionnaire.lister,
+    redirection: {
+      url: Routes.Gestionnaire.lister,
+      message: `Gestionnaire réseau ${raisonSociale} ajouté`,
+    },
   };
 };
 

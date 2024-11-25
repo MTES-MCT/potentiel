@@ -3,7 +3,6 @@ import { FC } from 'react';
 
 import { IdentifiantProjet } from '@potentiel-domain/common';
 
-import ScrollToTop from '@/components/molecules/ScrollToTop';
 import { ProjetBanner } from '@/components/molecules/projet/ProjetBanner';
 import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
 
@@ -25,7 +24,6 @@ export type TransmettreDemandeComplèteRaccordementPageProps = {
   identifiantProjet: TransmettreDemandeComplèteRaccordementFormProps['identifiantProjet'];
   delaiDemandeDeRaccordementEnMois: InformationDemandeComplèteRaccordementProps['delaiDemandeDeRaccordementEnMois'];
   aDéjàTransmisUneDemandeComplèteDeRaccordement: boolean;
-  successMessage?: string;
 };
 
 export const TransmettreDemandeComplèteRaccordementPage: FC<
@@ -36,7 +34,6 @@ export const TransmettreDemandeComplèteRaccordementPage: FC<
   identifiantProjet,
   delaiDemandeDeRaccordementEnMois,
   aDéjàTransmisUneDemandeComplèteDeRaccordement,
-  successMessage,
 }) => (
   <ColumnPageTemplate
     banner={
@@ -44,9 +41,7 @@ export const TransmettreDemandeComplèteRaccordementPage: FC<
     }
     heading={
       <>
-        <ScrollToTop />
         <TitrePageRaccordement />
-        {successMessage && <Alert severity="success" title={successMessage} />}
         {!aDéjàTransmisUneDemandeComplèteDeRaccordement && (
           <AucunDossierDeRaccordementAlert
             identifiantProjet={IdentifiantProjet.bind(identifiantProjet).formatter()}

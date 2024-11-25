@@ -80,7 +80,10 @@ const action: FormAction<FormState, typeof schema> = (_, { fichierCorrections })
     if (errors.length === 0 && success > 0) {
       return {
         status: 'success',
-        redirectUrl: Routes.Raccordement.lister,
+        redirection: {
+          url: Routes.Raccordement.lister,
+          message: `${success} références de dossier de raccordement mises à jour`,
+        },
       };
     }
 

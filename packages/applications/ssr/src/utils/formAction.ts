@@ -10,6 +10,8 @@ import { isNotFoundError } from 'next/dist/client/components/not-found';
 import { DomainError } from '@potentiel-domain/core';
 import { CsvError, CsvValidationError } from '@potentiel-libraries/csv';
 
+import { applySearchParams } from '../app/_helpers';
+
 i18next.init({
   lng: 'fr',
   resources: {
@@ -32,7 +34,10 @@ export type FormState =
   | {
       status: 'success' | undefined;
       result?: ActionResult;
-      redirectUrl?: string;
+      redirection?: {
+        url: string;
+        message?: string;
+      };
     }
   | {
       status: 'validation-error';
@@ -90,9 +95,14 @@ export const formAction =
 
       await waitFor(TWO_SECONDS);
 
-      if (result.status === 'success' && result.redirectUrl) {
-        revalidatePath(result.redirectUrl);
-        redirect(result.redirectUrl);
+      if (result.status === 'success' && result.redirection) {
+        revalidatePath(result.redirection.url);
+        redirect(
+          applySearchParams(
+            result.redirection.url,
+            result.redirection.message ? { success: result.redirection.message } : {},
+          ),
+        );
       }
 
       return result;
