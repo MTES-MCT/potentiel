@@ -13,8 +13,8 @@ import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { ModifierReprésentantLégalPage } from '@/components/pages/représentant-légal/modifier/ModifierReprésentantLégal.page';
 
 export const metadata: Metadata = {
-  title: 'Corriger le représentant légal du projet - Potentiel',
-  description: "Formulaire de correction du représentant légal d'un projet",
+  title: 'Modifier le représentant légal du projet - Potentiel',
+  description: "Formulaire de modification du représentant légal d'un projet",
 };
 
 export default async function Page({ params: { identifiant } }: IdentifiantParameter) {
