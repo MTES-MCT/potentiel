@@ -3,24 +3,25 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { Iso8601DateTime } from '@potentiel-libraries/iso8601-datetime';
 
 import {
-  ModifierDateMiseEnServicePage,
-  ModifierDateMiseEnServicePageProps,
-} from './ModifierDateMiseEnService.page';
+  EnregistrerDateMiseEnServicePage,
+  EnregistrerDateMiseEnServicePageProps,
+} from '../../../../../organisms/raccordement/EnregistrerDateMiseEnService.page';
 
 // More on how to set up stories at: https://storybook.js.org/docs/writing-stories#default-export
 const meta = {
   title: 'Pages/Réseau/Raccordement/Modifier/ModifierDateMiseEnServicePage',
-  component: ModifierDateMiseEnServicePage,
+  component: EnregistrerDateMiseEnServicePage,
   parameters: {},
   tags: ['autodocs'],
   argTypes: {},
-} satisfies Meta<ModifierDateMiseEnServicePageProps>;
+} satisfies Meta<EnregistrerDateMiseEnServicePageProps>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Default: Story = {
   args: {
+    usecase: 'modifier',
     dossierRaccordement: {
       référence: 'Référence',
     },

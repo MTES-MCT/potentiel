@@ -14,11 +14,11 @@ import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { decodeParameter } from '@/utils/decodeParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
-import {
-  TransmettreDateMiseEnServicePage,
-  TransmettreDateMiseEnServicePageProps,
-} from '@/components/pages/réseau/raccordement/transmettre/transmettreDateMiseEnService/TransmettreDateMiseEnService.page';
 import { récupérerProjet, vérifierQueLeProjetEstClassé } from '@/app/_helpers';
+import {
+  EnregistrerDateMiseEnServicePage,
+  EnregistrerDateMiseEnServicePageProps,
+} from '@/components/organisms/raccordement/EnregistrerDateMiseEnService.page';
 
 type PageProps = {
   params: {
@@ -81,7 +81,8 @@ export default async function Page({ params: { identifiant, reference } }: PageP
       });
 
       return (
-        <TransmettreDateMiseEnServicePage
+        <EnregistrerDateMiseEnServicePage
+          usecase={props.usecase}
           projet={props.projet}
           dossierRaccordement={props.dossierRaccordement}
           intervalleDatesMeSDélaiCDC2022={props.intervalleDatesMeSDélaiCDC2022}
@@ -98,7 +99,7 @@ type MapToProps = (params: {
   projet: Candidature.ConsulterProjetReadModel;
   appelOffre: AppelOffre.ConsulterAppelOffreReadModel;
   dossierRaccordement: Raccordement.ConsulterDossierRaccordementReadModel;
-}) => TransmettreDateMiseEnServicePageProps;
+}) => EnregistrerDateMiseEnServicePageProps;
 
 const mapToProps: MapToProps = ({
   identifiantProjet,
@@ -115,6 +116,7 @@ const mapToProps: MapToProps = ({
     )?.délaiApplicable?.intervaleDateMiseEnService;
 
   return {
+    usecase: 'transmettre',
     projet: {
       identifiantProjet,
       ...projet,

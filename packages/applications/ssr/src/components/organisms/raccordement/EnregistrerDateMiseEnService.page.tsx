@@ -6,30 +6,36 @@ import { FormattedDate } from '@/components/atoms/FormattedDate';
 import { ProjetBanner } from '@/components/molecules/projet/ProjetBanner';
 import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
 
-import { TitrePageRaccordement } from '../../TitrePageRaccordement';
+import { TitrePageRaccordement } from '../../pages/réseau/raccordement/TitrePageRaccordement';
 
 import {
-  ModifierDateMiseEnServiceForm,
-  ModifierDateMiseEnServiceFormProps,
-} from './ModifierDateMiseEnService.form';
+  EnregistrerDateMiseEnServiceForm,
+  EnregistrerDateMiseEnServiceFormProps,
+} from './EnregistrerDateMiseEnService.form';
 
-export type ModifierDateMiseEnServicePageProps = {
-  projet: ModifierDateMiseEnServiceFormProps['projet'];
-  dossierRaccordement: ModifierDateMiseEnServiceFormProps['dossierRaccordement'];
+export type EnregistrerDateMiseEnServicePageProps = {
+  usecase: EnregistrerDateMiseEnServiceFormProps['usecase'];
+  projet: EnregistrerDateMiseEnServiceFormProps['projet'];
+  dossierRaccordement: EnregistrerDateMiseEnServiceFormProps['dossierRaccordement'];
   intervalleDatesMeSDélaiCDC2022?: { min: Iso8601DateTime; max: Iso8601DateTime };
 };
 
-export const ModifierDateMiseEnServicePage = ({
+export const EnregistrerDateMiseEnServicePage = ({
+  usecase,
   projet,
   dossierRaccordement,
   intervalleDatesMeSDélaiCDC2022,
-}: ModifierDateMiseEnServicePageProps) => (
+}: EnregistrerDateMiseEnServicePageProps) => (
   <ColumnPageTemplate
     banner={<ProjetBanner identifiantProjet={projet.identifiantProjet} />}
     heading={<TitrePageRaccordement />}
     leftColumn={{
       children: (
-        <ModifierDateMiseEnServiceForm projet={projet} dossierRaccordement={dossierRaccordement} />
+        <EnregistrerDateMiseEnServiceForm
+          projet={projet}
+          dossierRaccordement={dossierRaccordement}
+          usecase={usecase}
+        />
       ),
     }}
     rightColumn={{

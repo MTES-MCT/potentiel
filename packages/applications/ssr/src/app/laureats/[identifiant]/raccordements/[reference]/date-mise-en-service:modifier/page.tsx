@@ -14,11 +14,11 @@ import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { decodeParameter } from '@/utils/decodeParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
-import {
-  ModifierDateMiseEnServicePage,
-  ModifierDateMiseEnServicePageProps,
-} from '@/components/pages/réseau/raccordement/modifier/modifierDateMiseEnService/ModifierDateMiseEnService.page';
 import { récupérerProjet, vérifierQueLeProjetEstClassé } from '@/app/_helpers';
+import {
+  EnregistrerDateMiseEnServicePage,
+  EnregistrerDateMiseEnServicePageProps,
+} from '@/components/organisms/raccordement/EnregistrerDateMiseEnService.page';
 
 type PageProps = {
   params: {
@@ -28,8 +28,8 @@ type PageProps = {
 };
 
 export const metadata: Metadata = {
-  title: 'Modifier la date de mise en service - Potentiel',
-  description: 'Modifier la date de mise en service',
+  title: 'Transmettre la date de mise en service - Potentiel',
+  description: 'Transmettre la date de mise en service',
 };
 
 export default async function Page({ params: { identifiant, reference } }: PageProps) {
@@ -42,7 +42,7 @@ export default async function Page({ params: { identifiant, reference } }: PageP
       await vérifierQueLeProjetEstClassé({
         statut: projet.statut,
         message:
-          "Vous ne pouvez pas modifier la date de mise en service d'un raccordement pour un projet éliminé ou abandonné",
+          "Vous ne pouvez pas transmettre la date de mise en service d'un raccordement pour un projet éliminé ou abandonné",
       });
 
       const referenceDossierRaccordement = decodeParameter(reference);
@@ -81,7 +81,8 @@ export default async function Page({ params: { identifiant, reference } }: PageP
       });
 
       return (
-        <ModifierDateMiseEnServicePage
+        <EnregistrerDateMiseEnServicePage
+          usecase={props.usecase}
           projet={props.projet}
           dossierRaccordement={props.dossierRaccordement}
           intervalleDatesMeSDélaiCDC2022={props.intervalleDatesMeSDélaiCDC2022}
@@ -98,7 +99,7 @@ type MapToProps = (params: {
   projet: Candidature.ConsulterProjetReadModel;
   appelOffre: AppelOffre.ConsulterAppelOffreReadModel;
   dossierRaccordement: Raccordement.ConsulterDossierRaccordementReadModel;
-}) => ModifierDateMiseEnServicePageProps;
+}) => EnregistrerDateMiseEnServicePageProps;
 
 const mapToProps: MapToProps = ({
   identifiantProjet,
@@ -115,6 +116,7 @@ const mapToProps: MapToProps = ({
     )?.délaiApplicable?.intervaleDateMiseEnService;
 
   return {
+    usecase: 'modifier',
     projet: {
       identifiantProjet,
       ...projet,

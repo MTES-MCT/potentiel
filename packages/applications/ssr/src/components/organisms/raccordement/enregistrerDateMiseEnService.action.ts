@@ -12,16 +12,20 @@ const schema = zod.object({
   identifiantProjet: zod.string().min(1),
   referenceDossier: zod.string().min(1),
   dateMiseEnService: zod.string().min(1, { message: 'Champ obligatoire' }),
+  usecase: zod.enum(['transmettre', 'modifier']),
 });
 
-export type ModifierDateMiseEnServiceStateFormKeys = keyof zod.infer<typeof schema>;
+export type EnregistrerDateMiseEnServiceStateFormKeys = keyof zod.infer<typeof schema>;
 
 const action: FormAction<FormState, typeof schema> = async (
   _,
-  { identifiantProjet, referenceDossier, dateMiseEnService },
+  { identifiantProjet, referenceDossier, dateMiseEnService, usecase },
 ) => {
   await mediator.send<Raccordement.RaccordementUseCase>({
-    type: 'Réseau.Raccordement.UseCase.ModifierDateMiseEnService',
+    type:
+      usecase === 'modifier'
+        ? 'Réseau.Raccordement.UseCase.ModifierDateMiseEnService'
+        : 'Réseau.Raccordement.UseCase.TransmettreDateMiseEnService',
     data: {
       identifiantProjetValue: identifiantProjet,
       référenceDossierValue: referenceDossier,
@@ -35,4 +39,4 @@ const action: FormAction<FormState, typeof schema> = async (
   };
 };
 
-export const modifierDateMiseEnServiceAction = formAction(action, schema);
+export const enregistrerDateMiseEnServiceAction = formAction(action, schema);

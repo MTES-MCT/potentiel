@@ -12,11 +12,12 @@ import { SubmitButton } from '@/components/atoms/form/SubmitButton';
 import { ValidationErrors } from '@/utils/formAction';
 
 import {
-  transmettreDateMiseEnServiceAction,
-  TransmettreDateMiseEnServiceStateFormKeys,
-} from './transmettreDateMiseEnService.action';
+  enregistrerDateMiseEnServiceAction,
+  EnregistrerDateMiseEnServiceStateFormKeys,
+} from './enregistrerDateMiseEnService.action';
 
-export type TransmettreDateMiseEnServiceFormProps = {
+export type EnregistrerDateMiseEnServiceFormProps = {
+  usecase: 'modifier' | 'transmettre';
   projet: {
     identifiantProjet: string;
     dateDésignation: Iso8601DateTime;
@@ -27,17 +28,18 @@ export type TransmettreDateMiseEnServiceFormProps = {
   };
 };
 
-export const TransmettreDateMiseEnServiceForm: FC<TransmettreDateMiseEnServiceFormProps> = ({
+export const EnregistrerDateMiseEnServiceForm: FC<EnregistrerDateMiseEnServiceFormProps> = ({
+  usecase,
   projet: { identifiantProjet, dateDésignation },
   dossierRaccordement: { référence, miseEnService },
 }) => {
   const [validationErrors, setValidationErrors] = useState<
-    ValidationErrors<TransmettreDateMiseEnServiceStateFormKeys>
+    ValidationErrors<EnregistrerDateMiseEnServiceStateFormKeys>
   >({});
 
   return (
     <Form
-      action={transmettreDateMiseEnServiceAction}
+      action={enregistrerDateMiseEnServiceAction}
       onValidationError={(validationErrors) => setValidationErrors(validationErrors)}
       actions={
         <>
@@ -51,12 +53,13 @@ export const TransmettreDateMiseEnServiceForm: FC<TransmettreDateMiseEnServiceFo
           >
             Retour aux dossiers de raccordement
           </Button>
-          <SubmitButton>Transmettre</SubmitButton>
+          <SubmitButton classname="capitalize">{usecase}</SubmitButton>
         </>
       }
     >
       <input type="hidden" name="identifiantProjet" value={identifiantProjet} />
       <input type="hidden" name="referenceDossier" value={référence} />
+      <input type="hidden" name="usecase" value={usecase} />
 
       <InputDate
         label="Date de mise en service"
