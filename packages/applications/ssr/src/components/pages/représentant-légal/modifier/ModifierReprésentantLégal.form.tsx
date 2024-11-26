@@ -64,7 +64,7 @@ export const ModifierReprésentantLégalForm: FC<ModifierReprésentantLégalForm
       previousStep: { name: 'Précédent' },
       nextStep: {
         type: 'link',
-        name: 'Vérifier',
+        name: 'Suivant',
         disabled: type === typeReprésentantLégal.type && nom === nomReprésentantLégal,
       },
     },
@@ -72,10 +72,10 @@ export const ModifierReprésentantLégalForm: FC<ModifierReprésentantLégalForm
       index: 3,
       name: `Confirmer la correction`,
       children: <ValidationStep typeReprésentantLégal={type} nomReprésentantLégal={nom} />,
-      previousStep: { name: 'Corriger' },
+      previousStep: { name: 'Précédent' },
       nextStep: {
         type: 'submit',
-        name: 'Corriger le représentant légal',
+        name: 'Modifier le représentant légal',
         disabled: !type || !nom,
       },
     },
