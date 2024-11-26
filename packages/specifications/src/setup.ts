@@ -31,6 +31,7 @@ import { sleep } from './helpers/sleep';
 import { getFakeFormat } from './helpers/getFakeFormat';
 import { getFakeIdentifiantProjet } from './helpers/getFakeIdentifiantProjet';
 import { getFakeContent } from './helpers/getFakeContent';
+import { initialiserUtilisateursTests } from './utilisateur/stepDefinitions/utilisateur.given';
 
 should();
 setWorldConstructor(PotentielWorld);
@@ -100,7 +101,7 @@ Before<PotentielWorld>(async function (this: PotentielWorld) {
   await executeQuery(`delete from "UserProjects"`);
   await executeQuery(`delete from "users"`);
 
-  this.utilisateurWorld.systemFixture.créer();
+  await initialiserUtilisateursTests.call(this);
 
   await getClient().send(
     new CreateBucketCommand({

@@ -4,7 +4,6 @@ Fonctionnalité: Supprimer le raccordement d'un projet
     Contexte:
         Etant donné le projet lauréat "Du boulodrome de Marseille"
         Et le porteur "Barbara Gordon" ayant accés au projet lauréat "Du boulodrome de Marseille"
-        Et le DGEC validateur "Bruce Wayne"
 
     Scénario: Le système supprime le raccordement d'un projet si celui-ci a un abandon accordé
         Etant donné un gestionnaire de réseau

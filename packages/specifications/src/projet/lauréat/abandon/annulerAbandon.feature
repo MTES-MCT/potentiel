@@ -4,7 +4,6 @@ Fonctionnalité: Annuler l'abandon d'un projet lauréat
     Contexte:
         Etant donné le projet lauréat "Du boulodrome de Marseille"
         Et le porteur "Marcel Patoulatchi" ayant accés au projet lauréat "Du boulodrome de Marseille"
-        Et le DGEC validateur "Robert Robichet"
 
     Scénario: Un porteur annule l'abandon d'un projet lauréat
         Etant donné une demande d'abandon en cours pour le projet lauréat

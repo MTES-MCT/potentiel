@@ -26,7 +26,7 @@ Fonctionnalité: Valider une référence de dossier de raccordement
         Etant donné un gestionnaire de réseau
             | Raison sociale       | Enedis |
             | Expression régulière | (.*)   |
-        Quand un administrateur modifie les données d'un gestionnaire de réseau
+        Quand le DGEC validateur modifie les données d'un gestionnaire de réseau
             | Raison sociale       | Enedis                 |
             | Expression régulière | <Expression régulière> |
         Et on valide la référence de dossier <Référence à valider> pour le gestionnaire de réseau "Enedis"

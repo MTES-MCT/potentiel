@@ -7,7 +7,7 @@ import { DateTime } from '@potentiel-domain/common';
 import { PotentielWorld } from '../../potentiel.world';
 
 Quand(
-  `un administrateur importe la candidature {string} avec :`,
+  `le DGEC validateur importe la candidature {string} avec :`,
   async function (this: PotentielWorld, nomProjet: string, table: DataTable) {
     const exemple = table.rowsHash();
     if (!this.candidatureWorld.importerCandidature.aÉtéCréé) {
@@ -34,7 +34,7 @@ Quand(
 );
 
 Quand(
-  'un administrateur corrige la candidature avec :',
+  'le DGEC validateur corrige la candidature avec :',
   async function (this: PotentielWorld, table: DataTable) {
     const exemple = table.rowsHash();
     await corrigerCandidature.call(this, exemple);
@@ -42,7 +42,7 @@ Quand(
 );
 
 Quand(
-  'un administrateur corrige la candidature sans modification',
+  'le DGEC validateur corrige la candidature sans modification',
   async function (this: PotentielWorld) {
     await corrigerCandidature.call(this);
   },

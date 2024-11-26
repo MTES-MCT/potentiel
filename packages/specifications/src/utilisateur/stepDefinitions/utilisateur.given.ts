@@ -34,17 +34,6 @@ EtantDonné(
 );
 
 EtantDonné(
-  'le DGEC validateur {string}',
-  async function (this: PotentielWorld, nomValidateur: string) {
-    const { email, id, nom, role } = this.utilisateurWorld.validateurFixture.créer({
-      nom: nomValidateur,
-    });
-
-    await insérerUtilisateur(id, nom, email, role);
-  },
-);
-
-EtantDonné(
   'la dreal {string} associée à la région du projet',
   async function (this: PotentielWorld, drealNom: string) {
     const { email, id, nom, role } = this.utilisateurWorld.drealFixture.créer({
@@ -158,4 +147,12 @@ async function insérerUtilisateur(userId: string, fullName: string, email: stri
     new Date().toISOString(),
     new Date().toISOString(),
   );
+}
+
+export async function initialiserUtilisateursTests(this: PotentielWorld) {
+  const validateur = this.utilisateurWorld.validateurFixture.créer();
+  const system = this.utilisateurWorld.systemFixture.créer();
+
+  await insérerUtilisateur(validateur.id, validateur.nom, validateur.email, validateur.role);
+  await insérerUtilisateur(system.id, system.nom, system.email, system.role);
 }
