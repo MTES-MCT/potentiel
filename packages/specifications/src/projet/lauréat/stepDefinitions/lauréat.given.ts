@@ -99,7 +99,6 @@ export async function notifierLauréat(this: PotentielWorld, dateDésignation: s
     data,
   });
 
-  // check this
   this.lauréatWorld.représentantLégalWorld.importerReprésentantLégalFixture.créer({
     nomReprésentantLégal:
       this.candidatureWorld.importerCandidature.values.nomReprésentantLégalValue,

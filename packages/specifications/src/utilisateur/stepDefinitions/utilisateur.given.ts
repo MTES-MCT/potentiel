@@ -48,14 +48,6 @@ EtantDonné(
   },
 );
 
-EtantDonné("l'admin {string}", async function (this: PotentielWorld, nomAdmin: string) {
-  const { email, id, nom, role } = this.utilisateurWorld.adminFixture.créer({
-    nom: nomAdmin,
-  });
-
-  await insérerUtilisateur(id, nom, email, role);
-});
-
 async function récupérerProjets(identifiantProjet: IdentifiantProjet.ValueType) {
   return executeSelect<{
     id: string;
@@ -152,7 +144,9 @@ async function insérerUtilisateur(userId: string, fullName: string, email: stri
 export async function initialiserUtilisateursTests(this: PotentielWorld) {
   const validateur = this.utilisateurWorld.validateurFixture.créer();
   const system = this.utilisateurWorld.systemFixture.créer();
+  const admin = this.utilisateurWorld.adminFixture.créer();
 
   await insérerUtilisateur(validateur.id, validateur.nom, validateur.email, validateur.role);
   await insérerUtilisateur(system.id, system.nom, system.email, system.role);
+  await insérerUtilisateur(admin.id, admin.nom, admin.email, admin.role);
 }

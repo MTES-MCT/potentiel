@@ -3,7 +3,6 @@ Fonctionnalité: Modifier une attestation de conformité
 
     Contexte:
         Etant donné le projet lauréat "Centrale PV"
-        Et l'admin "Hubert Valéry"
 
     Scénario: Un porteur modifie une attestation de conformité
         Et une attestation de conformité transmise pour le projet "Centrale PV"
