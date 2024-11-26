@@ -65,7 +65,7 @@ export const ModifierReprésentantLégalForm: FC<ModifierReprésentantLégalForm
       nextStep: {
         type: 'link',
         name: 'Vérifier',
-        disabled: false,
+        disabled: type === typeReprésentantLégal.type && nom === nomReprésentantLégal,
       },
     },
     {

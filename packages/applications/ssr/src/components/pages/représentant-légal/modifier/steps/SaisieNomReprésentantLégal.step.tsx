@@ -22,7 +22,7 @@ export const SaisieNomReprésentantLégalStep: FC<SaisieNomReprésentantLégalSt
   validationErrors,
   onChange,
 }) => {
-  const getWordingBasedOnTypePersonne = match(typeReprésentantLégal)
+  const { label, hintText } = match(typeReprésentantLégal)
     .with('personne-physique', () => ({
       label: 'Les noms et prénoms de la personne physique',
       hintText: 'les nom et prénoms',
@@ -47,9 +47,9 @@ export const SaisieNomReprésentantLégalStep: FC<SaisieNomReprésentantLégalSt
   return (
     <>
       <Input
-        label={getWordingBasedOnTypePersonne.label}
+        label={label}
         id="nomRepresentantLegal"
-        hintText={`Veuillez préciser ${getWordingBasedOnTypePersonne.hintText} pour le nouveau représentant légal du projet`}
+        hintText={`Veuillez préciser ${hintText} pour le nouveau représentant légal du projet`}
         nativeInputProps={{
           name: 'nomRepresentantLegal',
           defaultValue: nomReprésentantLégal,
