@@ -314,6 +314,7 @@ const référencielPermissions = {
         modifierRéférenceDossier:
           'Réseau.Raccordement.UseCase.ModifierRéférenceDossierRaccordement',
         transmettreDateMiseEnService: 'Réseau.Raccordement.UseCase.TransmettreDateMiseEnService',
+        modifierDateMiseEnService: 'Réseau.Raccordement.UseCase.ModifierDateMiseEnService',
         transmettreDemandeComplète:
           'Réseau.Raccordement.UseCase.TransmettreDemandeComplèteRaccordement',
         transmettrePropositionTechniqueEtFinancière:
@@ -330,6 +331,7 @@ const référencielPermissions = {
         modifierRéférenceDossier:
           'Réseau.Raccordement.Command.ModifierRéférenceDossierRaccordement',
         transmettreDateMiseEnService: 'Réseau.Raccordement.Command.TransmettreDateMiseEnService',
+        modifierDateMiseEnService: 'Réseau.Raccordement.Command.ModifierDateMiseEnService',
         transmettreDemandeComplète:
           'Réseau.Raccordement.Command.TransmettreDemandeComplèteRaccordement',
         transmettrePropositionTechniqueEtFinancière:
@@ -430,9 +432,8 @@ const policies = {
           référencielPermissions.candidature.query.consulterProjet,
           référencielPermissions.appelOffre.query.consulter,
           référencielPermissions.réseau.raccordement.query.consulterDossier,
-          // TODO ca devrait être modifierDateMiseEnService, mais pour le moment, la modification se fait va le même usecase
-          référencielPermissions.réseau.raccordement.usecase.transmettreDateMiseEnService,
-          référencielPermissions.réseau.raccordement.command.transmettreDateMiseEnService,
+          référencielPermissions.réseau.raccordement.usecase.modifierDateMiseEnService,
+          référencielPermissions.réseau.raccordement.command.modifierDateMiseEnService,
         ],
       },
       'référence-dossier': {
@@ -1004,6 +1005,7 @@ const permissionPorteurProjet: Policy[] = [
   'réseau.raccordement.proposition-technique-et-financière.modifier',
   'réseau.raccordement.référence-dossier.modifier',
   'réseau.raccordement.dossier.supprimer',
+  'réseau.raccordement.date-mise-en-service.transmettre',
 
   // Tâche
   'tâche.consulter',
