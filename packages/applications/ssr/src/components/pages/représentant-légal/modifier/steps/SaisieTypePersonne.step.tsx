@@ -1,15 +1,15 @@
 'use client';
 
-import { FC, ReactNode, useState } from 'react';
-import { match } from 'ts-pattern';
+import { FC, useState } from 'react';
 
 import { ReprésentantLégal } from '@potentiel-domain/laureat';
 
-import { Heading3 } from '@/components/atoms/headings';
 import { ValidationErrors } from '@/utils/formAction';
 
 import { ModifierReprésentantLégalFormKeys } from '../modifierReprésentantLégal.action';
 import { TypeReprésentantLégalSelect } from '../../TypeReprésentantLégalSelect';
+
+import { getInfosBasedOnTypeReprésentant } from './_utils/getInfosBasedOnTypeReprésentant';
 
 export type SaisieTypePersonneStepProps = {
   typeReprésentantLégal: ReprésentantLégal.TypeReprésentantLégal.RawType;
@@ -24,57 +24,7 @@ export const SaisieTypePersonneStep: FC<SaisieTypePersonneStepProps> = ({
 }) => {
   const [selectedTypePersonne, setSelectedTypePersonne] = useState(typeReprésentantLégal);
 
-  const getSituation = match(selectedTypePersonne)
-    .with('personne-physique', () => (
-      <Situation
-        nom="Une personne physique"
-        informationÀRemplir="les noms et prénoms de la personne"
-        pièceJustificativesÀAvoirEnPossession={
-          <li>
-            une copie de titre d'identité (carte d'identité ou passeport) en cours de validité
-          </li>
-        }
-      />
-    ))
-    .with('personne-morale', () => (
-      <Situation
-        nom="Une personne morale"
-        informationÀRemplir="le nom de la société"
-        pièceJustificativesÀAvoirEnPossession={
-          <>
-            <li>un extrait Kbis</li>
-            <li>pour les sociétés en cours de constitution: une copie des statuts de la société</li>
-            <li>
-              une attestation de récépissé de dépôt de fonds pour constitution de capital social
-            </li>
-            <li>une copie de l’acte désignant le représentant légal de la société</li>
-          </>
-        }
-      />
-    ))
-    .with('collectivité', () => (
-      <Situation
-        nom="Une collectivité"
-        informationÀRemplir="le nom de la collectivité"
-        pièceJustificativesÀAvoirEnPossession={
-          <li>un extrait de délibération portant sur le projet objet de l'offre</li>
-        }
-      />
-    ))
-    .with('autre', () => (
-      <Situation
-        nom="Un organisme ou autre"
-        informationÀRemplir="le nom de l'organisme"
-        pièceJustificativesÀAvoirEnPossession={
-          <>
-            <li>
-              tout document officiel permettant d'attester de l'existence juridique de la personne
-            </li>
-          </>
-        }
-      />
-    ))
-    .otherwise(() => null);
+  const { component } = getInfosBasedOnTypeReprésentant(selectedTypePersonne);
 
   return (
     <div className="flex flex-col gap-4">
@@ -96,26 +46,7 @@ export const SaisieTypePersonneStep: FC<SaisieTypePersonneStepProps> = ({
           onChange && onChange(type);
         }}
       />
-      {getSituation}
+      {component}
     </div>
   );
 };
-
-const Situation: FC<{
-  nom: string;
-  informationÀRemplir: string;
-  pièceJustificativesÀAvoirEnPossession: ReactNode;
-}> = ({ nom, informationÀRemplir, pièceJustificativesÀAvoirEnPossession }) => (
-  <div>
-    <Heading3>{nom}</Heading3>
-    <div className="mt-4 flex flex-col gap-2">
-      <div>
-        <span className="font-semibold">Information du changement :</span> {informationÀRemplir}
-      </div>
-      <div>
-        <span className="font-semibold">Pièces à fournir :</span>
-        <ul className="mt-2 ml-4 list-disc">{pièceJustificativesÀAvoirEnPossession}</ul>
-      </div>
-    </div>
-  </div>
-);
