@@ -6,14 +6,11 @@ import { Raccordement } from '@potentiel-domain/reseau';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { DateTime } from '@potentiel-domain/common';
 import { Option } from '@potentiel-libraries/monads';
-import { Routes } from '@potentiel-applications/routes';
 import { Candidature } from '@potentiel-domain/candidature';
-import { Utilisateur } from '@potentiel-domain/utilisateur';
 
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { decodeParameter } from '@/utils/decodeParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
-import { withUtilisateur } from '@/utils/withUtilisateur';
 import { récupérerProjet, vérifierQueLeProjetEstClassé } from '@/app/_helpers';
 import {
   EnregistrerDateMiseEnServicePage,
@@ -33,68 +30,65 @@ export const metadata: Metadata = {
 };
 
 export default async function Page({ params: { identifiant, reference } }: PageProps) {
-  return PageWithErrorHandling(async () =>
-    withUtilisateur(async (utilisateur) => {
-      const identifiantProjet = decodeParameter(identifiant);
+  return PageWithErrorHandling(async () => {
+    const identifiantProjet = decodeParameter(identifiant);
 
-      const projet = await récupérerProjet(identifiantProjet);
+    const projet = await récupérerProjet(identifiantProjet);
 
-      await vérifierQueLeProjetEstClassé({
-        statut: projet.statut,
-        message:
-          "Vous ne pouvez pas transmettre la date de mise en service d'un raccordement pour un projet éliminé ou abandonné",
-      });
+    await vérifierQueLeProjetEstClassé({
+      statut: projet.statut,
+      message:
+        "Vous ne pouvez pas transmettre la date de mise en service d'un raccordement pour un projet éliminé ou abandonné",
+    });
 
-      const referenceDossierRaccordement = decodeParameter(reference);
+    const referenceDossierRaccordement = decodeParameter(reference);
 
-      const dossierRaccordement =
-        await mediator.send<Raccordement.ConsulterDossierRaccordementQuery>({
-          type: 'Réseau.Raccordement.Query.ConsulterDossierRaccordement',
-          data: {
-            identifiantProjetValue: identifiantProjet,
-            référenceDossierRaccordementValue: referenceDossierRaccordement,
-          },
-        });
-
-      if (Option.isNone(dossierRaccordement)) {
-        return notFound();
-      }
-
-      const appelOffre = await mediator.send<AppelOffre.ConsulterAppelOffreQuery>({
-        type: 'AppelOffre.Query.ConsulterAppelOffre',
+    const dossierRaccordement = await mediator.send<Raccordement.ConsulterDossierRaccordementQuery>(
+      {
+        type: 'Réseau.Raccordement.Query.ConsulterDossierRaccordement',
         data: {
-          identifiantAppelOffre: projet.appelOffre,
+          identifiantProjetValue: identifiantProjet,
+          référenceDossierRaccordementValue: referenceDossierRaccordement,
         },
-      });
+      },
+    );
 
-      if (Option.isNone(appelOffre)) {
-        return notFound();
-      }
+    if (Option.isNone(dossierRaccordement)) {
+      return notFound();
+    }
 
-      const props = mapToProps({
-        identifiantProjet,
-        utilisateur,
-        referenceDossierRaccordement,
-        projet,
-        appelOffre,
-        dossierRaccordement,
-      });
+    const appelOffre = await mediator.send<AppelOffre.ConsulterAppelOffreQuery>({
+      type: 'AppelOffre.Query.ConsulterAppelOffre',
+      data: {
+        identifiantAppelOffre: projet.appelOffre,
+      },
+    });
 
-      return (
-        <EnregistrerDateMiseEnServicePage
-          usecase={props.usecase}
-          projet={props.projet}
-          dossierRaccordement={props.dossierRaccordement}
-          intervalleDatesMeSDélaiCDC2022={props.intervalleDatesMeSDélaiCDC2022}
-        />
-      );
-    }),
-  );
+    if (Option.isNone(appelOffre)) {
+      return notFound();
+    }
+
+    const props = mapToProps({
+      identifiantProjet,
+      referenceDossierRaccordement,
+      projet,
+      appelOffre,
+      dossierRaccordement,
+    });
+
+    return (
+      <EnregistrerDateMiseEnServicePage
+        usecase={props.usecase}
+        projet={props.projet}
+        dossierRaccordement={props.dossierRaccordement}
+        intervalleDatesMeSDélaiCDC2022={props.intervalleDatesMeSDélaiCDC2022}
+      />
+    );
+  });
 }
 
 type MapToProps = (params: {
   identifiantProjet: string;
-  utilisateur: Utilisateur.ValueType;
   referenceDossierRaccordement: string;
   projet: Candidature.ConsulterProjetReadModel;
   appelOffre: AppelOffre.ConsulterAppelOffreReadModel;
@@ -103,7 +97,6 @@ type MapToProps = (params: {
 
 const mapToProps: MapToProps = ({
   identifiantProjet,
-  utilisateur,
   referenceDossierRaccordement,
   projet,
   appelOffre,
@@ -132,8 +125,5 @@ const mapToProps: MapToProps = ({
           max: DateTime.convertirEnValueType(intervalleDatesMeSDélaiCDC2022.max).formatter(),
         }
       : undefined,
-    lienRetour: utilisateur.role.aLaPermission('réseau.raccordement.consulter')
-      ? Routes.Raccordement.détail(identifiantProjet)
-      : Routes.Raccordement.lister,
   };
 };
