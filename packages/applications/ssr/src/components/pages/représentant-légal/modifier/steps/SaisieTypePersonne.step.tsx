@@ -30,11 +30,9 @@ export const SaisieTypePersonneStep: FC<SaisieTypePersonneStepProps> = ({
         nom="Une personne physique"
         informationÀRemplir="les noms et prénoms de la personne"
         pièceJustificativesÀAvoirEnPossession={
-          <ul>
-            <li>
-              une copie de titre d'identité (carte d'identité ou passeport) en cours de validité
-            </li>
-          </ul>
+          <li>
+            une copie de titre d'identité (carte d'identité ou passeport) en cours de validité
+          </li>
         }
       />
     ))
@@ -43,14 +41,14 @@ export const SaisieTypePersonneStep: FC<SaisieTypePersonneStepProps> = ({
         nom="Une personne morale"
         informationÀRemplir="le nom de la société"
         pièceJustificativesÀAvoirEnPossession={
-          <ul>
+          <>
             <li>un extrait Kbis</li>
             <li>pour les sociétés en cours de constitution: une copie des statuts de la société</li>
             <li>
               une attestation de récépissé de dépôt de fonds pour constitution de capital social
             </li>
             <li>une copie de l’acte désignant le représentant légal de la société</li>
-          </ul>
+          </>
         }
       />
     ))
@@ -59,9 +57,7 @@ export const SaisieTypePersonneStep: FC<SaisieTypePersonneStepProps> = ({
         nom="Une collectivité"
         informationÀRemplir="le nom de la collectivité"
         pièceJustificativesÀAvoirEnPossession={
-          <ul>
-            <li>un extrait de délibération portant sur le projet objet de l'offre</li>
-          </ul>
+          <li>un extrait de délibération portant sur le projet objet de l'offre</li>
         }
       />
     ))
@@ -70,11 +66,11 @@ export const SaisieTypePersonneStep: FC<SaisieTypePersonneStepProps> = ({
         nom="Un organisme ou autre"
         informationÀRemplir="le nom de l'organisme"
         pièceJustificativesÀAvoirEnPossession={
-          <ul>
+          <>
             <li>
               tout document officiel permettant d'attester de l'existence juridique de la personne
             </li>
-          </ul>
+          </>
         }
       />
     ))
@@ -112,12 +108,14 @@ const Situation: FC<{
 }> = ({ nom, informationÀRemplir, pièceJustificativesÀAvoirEnPossession }) => (
   <div>
     <Heading3>{nom}</Heading3>
-    <div className="mt-4">
-      <span className="font-semibold">Information du changement</span> : {informationÀRemplir}
-    </div>
-    <div>
-      <span className="font-semibold">Pièces à avoir en sa possession</span> :{' '}
-      {pièceJustificativesÀAvoirEnPossession}
+    <div className="mt-4 flex flex-col gap-2">
+      <div>
+        <span className="font-semibold">Information du changement :</span> {informationÀRemplir}
+      </div>
+      <div>
+        <span className="font-semibold">Pièces à fournir :</span>
+        <ul className="mt-2 ml-4 list-disc">{pièceJustificativesÀAvoirEnPossession}</ul>
+      </div>
     </div>
   </div>
 );
