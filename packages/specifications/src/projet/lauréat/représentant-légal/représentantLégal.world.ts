@@ -28,7 +28,6 @@ export class ReprésentantLégalWorld {
       identifiantProjet,
       nomReprésentantLégal: this.#importerReprésentantLégalFixture.nomReprésentantLégal,
       typeReprésentantLégal: this.#importerReprésentantLégalFixture.typeReprésentantLégal,
-      // types: ReprésentantLégal.TypeReprésentantLégal.types.filter((t) => t !== 'inconnu'),
     };
 
     if (this.#modifierReprésentantLégalFixture.aÉtéCréé) {

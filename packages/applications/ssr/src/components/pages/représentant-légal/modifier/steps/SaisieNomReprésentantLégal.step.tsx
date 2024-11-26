@@ -25,7 +25,7 @@ export const SaisieNomReprésentantLégalStep: FC<SaisieNomReprésentantLégalSt
   const getWordingBasedOnTypePersonne = match(typeReprésentantLégal)
     .with('personne-physique', () => ({
       label: 'Les noms et prénoms de la personne physique',
-      hintText: 'les nom et prénom',
+      hintText: 'les nom et prénoms',
     }))
     .with('personne-morale', () => ({
       label: 'Le nom de la société',
@@ -39,11 +39,10 @@ export const SaisieNomReprésentantLégalStep: FC<SaisieNomReprésentantLégalSt
       label: `Le nom de l'organisme`,
       hintText: `le nom de l'organisme`,
     }))
-    .with('inconnu', () => ({
+    .otherwise(() => ({
       label: 'Le nom',
       hintText: 'le nom',
-    }))
-    .exhaustive();
+    }));
 
   return (
     <>

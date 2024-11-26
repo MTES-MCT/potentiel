@@ -15,7 +15,7 @@ const schema = zod.object({
   typeRepresentantLegal: zod.enum(
     ['personne physique', 'personne morale', 'collectivité', 'autre'],
     {
-      invalid_type_error: 'Ce type de personne est invalide',
+      invalid_type_error: 'Ce type de représentant légal est invalide',
       required_error: 'Champ obligatoire',
     },
   ),

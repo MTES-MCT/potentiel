@@ -6,11 +6,12 @@ import { Option } from '@potentiel-libraries/monads';
 import { Candidature } from '@potentiel-domain/candidature';
 import { Routes } from '@potentiel-applications/routes';
 import { Role } from '@potentiel-domain/utilisateur';
+import { getLogger } from '@potentiel-libraries/monitoring';
 
 export type GetReprésentantLégalForProjectPage =
   | {
       nom: string;
-      correction?: {
+      modification?: {
         type: 'lauréat' | 'candidature';
         url: string;
       };
@@ -35,7 +36,7 @@ export const getReprésentantLégal: GetReprésentantLégal = async (identifiant
     if (Option.isSome(représentantLégal)) {
       return {
         nom: représentantLégal.nomReprésentantLégal,
-        correction: utilisateur.aLaPermission('représentantLégal.modifier')
+        modification: utilisateur.aLaPermission('représentantLégal.modifier')
           ? {
               type: 'lauréat',
               url: Routes.ReprésentantLégal.modifier(identifiantProjet.formatter()),
@@ -54,7 +55,7 @@ export const getReprésentantLégal: GetReprésentantLégal = async (identifiant
     if (Option.isSome(candidature)) {
       return {
         nom: candidature.nomReprésentantLégal,
-        correction: utilisateur.aLaPermission('candidature.corriger')
+        modification: utilisateur.aLaPermission('candidature.corriger')
           ? {
               type: 'candidature',
               url: Routes.Candidature.corriger(identifiantProjet.formatter()),
@@ -65,6 +66,10 @@ export const getReprésentantLégal: GetReprésentantLégal = async (identifiant
 
     return undefined;
   } catch (error) {
+    getLogger().error(new Error('Erreur lors de la récupération du représentant légal'), {
+      error,
+      identifiantProjet: identifiantProjet.formatter(),
+    });
     return undefined;
   }
 };

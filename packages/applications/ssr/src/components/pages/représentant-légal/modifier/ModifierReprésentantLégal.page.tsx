@@ -23,7 +23,7 @@ export const ModifierReprésentantLégalPage: FC<ModifierReprésentantLégalPage
       <ProjetBanner identifiantProjet={IdentifiantProjet.bind(identifiantProjet).formatter()} />
     }
   >
-    <Heading1>Corriger le représentant légal</Heading1>
+    <Heading1>Modifier le représentant légal</Heading1>
     <ModifierReprésentantLégalForm
       identifiantProjet={identifiantProjet}
       nomReprésentantLégal={nomReprésentantLégal}

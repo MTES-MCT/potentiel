@@ -9,6 +9,7 @@ import {
 } from '@potentiel-infrastructure/domain-adapters';
 import { ReprésentantLégal } from '@potentiel-domain/laureat';
 import { Routes } from '@potentiel-applications/routes';
+import { getLogger } from '@potentiel-libraries/monitoring';
 
 import { EmailPayload, SendEmail } from '../../sendEmail';
 
@@ -17,7 +18,7 @@ export type SubscriptionEvent = ReprésentantLégal.ReprésentantLégalEvent & E
 export type Execute = Message<'System.Notification.Lauréat.ReprésentantLégal', SubscriptionEvent>;
 
 const templateId = {
-  modifier: 6502927,
+  modifierReprésentantLégal: 6502927,
 };
 
 async function getEmailPayload(event: SubscriptionEvent): Promise<EmailPayload | undefined> {
@@ -25,7 +26,17 @@ async function getEmailPayload(event: SubscriptionEvent): Promise<EmailPayload |
   const projet = await CandidatureAdapter.récupérerProjetAdapter(identifiantProjet.formatter());
   const porteurs = await récupérerPorteursParIdentifiantProjetAdapter(identifiantProjet);
 
-  if (Option.isNone(projet) || porteurs.length === 0) {
+  if (Option.isNone(projet)) {
+    getLogger().error(new Error('Représentant légal notification | projet non trouvé'), {
+      identifiantProjet: identifiantProjet.formatter(),
+    });
+    return;
+  }
+
+  if (porteurs.length === 0) {
+    getLogger().info('Représentant légal notification | aucun porteur trouvé', {
+      identifiantProjet: identifiantProjet.formatter(),
+    });
     return;
   }
 
@@ -36,7 +47,7 @@ async function getEmailPayload(event: SubscriptionEvent): Promise<EmailPayload |
   switch (event.type) {
     case 'ReprésentantLégalModifié-V1':
       return {
-        templateId: templateId.modifier,
+        templateId: templateId.modifierReprésentantLégal,
         messageSubject: `Potentiel - Modification du représentant légal pour le projet ${nomProjet} dans le département ${départementProjet}`,
         recipients: porteurs,
         variables: {

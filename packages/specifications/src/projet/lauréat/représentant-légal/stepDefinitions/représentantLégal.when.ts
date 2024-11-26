@@ -29,7 +29,7 @@ Quand(
   },
 );
 Quand(
-  `le nom et le type du représentant légal du projet lauréat sont modifiés avec les même valeur`,
+  `le nom et le type du représentant légal du projet lauréat sont modifiés avec les mêmes valeurs`,
   async function (this: PotentielWorld) {
     try {
       await modifierReprésentantLégal.call(

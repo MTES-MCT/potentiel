@@ -34,10 +34,10 @@ export const Contact = ({ project, user, représentantLégal }: ContactProps) =>
           <Heading3 className="mb-1">Représentant légal</Heading3>
           <div>{représentantLégal.nom}</div>
 
-          {représentantLégal.correction && (
-            <Link href={représentantLégal.correction.url} aria-label="Modifier" className="mt-1">
+          {représentantLégal.modification && (
+            <Link href={représentantLégal.modification.url} aria-label="Modifier" className="mt-1">
               Modifier{' '}
-              {représentantLégal.correction.type === 'lauréat'
+              {représentantLégal.modification.type === 'lauréat'
                 ? 'le représentant légal'
                 : 'la candidature'}
             </Link>
