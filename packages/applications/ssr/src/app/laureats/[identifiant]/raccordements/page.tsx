@@ -94,6 +94,7 @@ const mapToActions = (
     raccordement.identifiantGestionnaireRéseau.estÉgaleÀ(
       GestionnaireRéseau.IdentifiantGestionnaireRéseau.inconnu,
     );
+
   if (isGestionnaireInconnu) {
     return {
       supprimer: true,

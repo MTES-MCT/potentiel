@@ -47,7 +47,7 @@ export const ÉtapeMiseEnService: FC<ÉtapeMiseEnServiceProps> = ({
 
           {actions.modifier && (
             <Link
-              href={Routes.Raccordement.transmettreDateMiseEnService(identifiantProjet, référence)}
+              href={Routes.Raccordement.modifierDateMiseEnService(identifiantProjet, référence)}
               className="absolute top-2 right-2"
               aria-label={`Modifier la date de mise en service pour le dossier ${référence}`}
             >
