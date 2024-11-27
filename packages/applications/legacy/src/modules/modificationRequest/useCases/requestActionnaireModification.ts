@@ -32,10 +32,16 @@ type RequestActionnaireModificationArgs = {
 } & (
   | {
       soumisAuxGarantiesFinancières: 'non soumis' | 'à la candidature';
+      nécessiteInstruction: true;
     }
   | {
       soumisAuxGarantiesFinancières: 'après candidature';
       garantiesFinancièresConstituées: boolean;
+      nécessiteInstruction: true;
+    }
+  | {
+      soumisAuxGarantiesFinancières: undefined;
+      nécessiteInstruction: false;
     }
 );
 
@@ -57,6 +63,7 @@ export const makeRequestActionnaireModification =
       justification,
       file,
       soumisAuxGarantiesFinancières,
+      nécessiteInstruction,
     } = args;
     const { eventBus, shouldUserAccessProject, projectRepo, fileRepo } = deps;
 
@@ -83,7 +90,7 @@ export const makeRequestActionnaireModification =
       })
       .andThen((fileId) =>
         projectRepo.transaction(projectId, (project: Project) => {
-          if (soumisAuxGarantiesFinancières === 'après candidature') {
+          if (nécessiteInstruction && soumisAuxGarantiesFinancières === 'après candidature') {
             if (
               project.data?.isFinancementParticipatif ||
               project.data?.isInvestissementParticipatif ||

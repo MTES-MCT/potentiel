@@ -139,6 +139,20 @@ v1Router.post(
           return notFoundResponse({ request, response });
         }
 
+        const nécessiteInstruction = appelOffreId === 'Eolien';
+
+        if (!nécessiteInstruction) {
+          return await requestActionnaireModification({
+            projectId: data.projectId,
+            requestedBy: request.user,
+            newActionnaire: data.actionnaire,
+            justification: data.justification,
+            file,
+            soumisAuxGarantiesFinancières: undefined,
+            nécessiteInstruction,
+          }).match(handleSuccess, handleError);
+        }
+        
         const détailPériode = appelOffre.periodes.find((p) => p.id === project.periodeId);
 
         const soumisAuxGarantiesFinancières = familleId
@@ -177,6 +191,7 @@ v1Router.post(
               file,
               soumisAuxGarantiesFinancières: 'après candidature',
               garantiesFinancièresConstituées: hasGarantiesFinancières,
+              nécessiteInstruction,
             });
           } catch (error) {
             if (error instanceof AggregateHasBeenUpdatedSinceError) {
@@ -196,6 +211,7 @@ v1Router.post(
               file,
               soumisAuxGarantiesFinancières: 'après candidature',
               garantiesFinancièresConstituées: false,
+              nécessiteInstruction,
             }).match(handleSuccess, handleError);
           }
 
@@ -215,6 +231,7 @@ v1Router.post(
           justification: data.justification,
           file,
           soumisAuxGarantiesFinancières: soumisAuxGarantiesFinancières ?? 'non soumis',
+          nécessiteInstruction,
         }).match(handleSuccess, handleError);
 
         break;
