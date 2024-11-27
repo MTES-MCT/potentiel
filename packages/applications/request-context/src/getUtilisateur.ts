@@ -4,6 +4,7 @@ import { parse } from 'node:url';
 import { getServerSession } from 'next-auth';
 
 import { Utilisateur } from '@potentiel-domain/utilisateur';
+import { getLogger } from '@potentiel-libraries/monitoring';
 
 import { authOptions } from './authOptions';
 import { convertToken } from './convertToken';
@@ -30,5 +31,8 @@ export async function getUtilisateur(req: IncomingMessage, res: ServerResponse) 
       const utilisateur = convertToken(authHeader.slice('bearer '.length));
       return Utilisateur.bind(utilisateur);
     }
-  } catch {}
+  } catch (e) {
+    const error = e as Error;
+    getLogger('getUtilisateur').warn(`Auth failed: ${error}`);
+  }
 }

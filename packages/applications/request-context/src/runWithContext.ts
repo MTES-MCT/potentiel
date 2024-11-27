@@ -16,7 +16,6 @@ export function runWithContext({ req, res, callback }: RunWithAuthContextProps) 
   if (ignorePath(req.url ?? '')) {
     return callback();
   }
-  console.log(req.url);
 
   return requestContextStorage.run({ correlationId }, async () => {
     const utilisateur = await getUtilisateur(req, res);
