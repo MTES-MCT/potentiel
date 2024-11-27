@@ -3,8 +3,7 @@ import { isRedirectError } from 'next/dist/client/components/redirect';
 
 import { getLogger } from '@potentiel-libraries/monitoring';
 import { DomainError } from '@potentiel-domain/core';
-
-import { NoAuthenticatedUserError } from './getAuthenticatedUser.handler';
+import { NoAuthenticatedUserError } from '@potentiel-applications/request-context';
 
 export async function withErrorHandling<TResult>(
   action: () => Promise<TResult>,

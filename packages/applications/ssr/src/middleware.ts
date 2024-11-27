@@ -3,6 +3,9 @@ import { withAuth } from 'next-auth/middleware';
 export default withAuth({
   // NB: importing Routes is not working in the middleware
   pages: { signIn: '/auth/signIn' },
+  callbacks: {
+    authorized: ({ token }) => !!token?.utilisateur,
+  },
 });
 
 export const config = {

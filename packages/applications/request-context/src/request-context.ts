@@ -8,3 +8,4 @@ export type RequestContext = {
 };
 
 export const requestContextStorage = new AsyncLocalStorage<RequestContext>();
+export const getContext = () => requestContextStorage.getStore();

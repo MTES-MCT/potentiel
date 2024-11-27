@@ -16,7 +16,7 @@ import { readFile } from 'node:fs/promises';
 import { bootstrap, permissionMiddleware } from '@potentiel-applications/bootstrap';
 import crypto from 'node:crypto';
 import { MulterError } from 'multer';
-import { requestContextStorage } from '@potentiel-applications/request-context';
+import { runWithContext } from '@potentiel-applications/request-context';
 
 setDefaultOptions({ locale: LOCALE.fr });
 dotenv.config();
@@ -30,10 +30,8 @@ export async function makeServer(port: number) {
     // Always first middleware
     app.use(Sentry.Handlers.requestHandler());
 
-    app.use((_req, _res, next) => {
-      const correlationId = crypto.randomUUID();
-      requestContextStorage.run({ correlationId }, next);
-    });
+    // This handles the authentication
+    app.use((req, res, next) => runWithContext({ req, res, callback: next }));
 
     if (!isLocalEnv) {
       // generate a unique nonce per request, to use in the CSP header and in every <script> in the markup

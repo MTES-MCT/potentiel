@@ -3,49 +3,11 @@ import KeycloakProvider from 'next-auth/providers/keycloak';
 
 import { getLogger } from '@potentiel-libraries/monitoring';
 
+import { issuerUrl, clientId, clientSecret } from './constants';
 import { convertToken } from './convertToken';
+import { refreshAccessToken } from './refreshToken';
 
 const ONE_HOUR = 60 * 60;
-
-export const issuerUrl = `${process.env.KEYCLOAK_SERVER}/realms/${process.env.KEYCLOAK_REALM}`;
-
-const clientId = process.env.KEYCLOAK_USER_CLIENT_ID ?? '';
-const clientSecret = process.env.KEYCLOAK_USER_CLIENT_SECRET ?? '';
-
-/**
- * Takes a token, and returns a new token with updated
- * `accessToken` and `accessTokenExpires`. If an error occurs,
- * returns the old token and an error property
- */
-async function refreshAccessToken(refreshToken: string) {
-  const url = new URL(`${issuerUrl}/protocol/openid-connect/token`);
-  const body = new URLSearchParams({
-    client_id: clientId,
-    client_secret: clientSecret,
-    grant_type: 'refresh_token',
-    refresh_token: refreshToken,
-  });
-  const response = await fetch(url.toString(), {
-    body: body.toString(),
-    headers: {
-      'Content-Type': 'application/x-www-form-urlencoded',
-    },
-    method: 'POST',
-  });
-
-  const refreshedTokens = await response.json();
-  // console.log(refreshedTokens);
-
-  if (!response.ok) {
-    throw refreshedTokens;
-  }
-
-  return {
-    accessToken: refreshedTokens.access_token,
-    expiresAt: Date.now() + refreshedTokens.expires_in * 1000,
-    refreshToken: refreshedTokens.refresh_token ?? refreshToken, // Fall back to old refresh token
-  };
-}
 
 export const authOptions: AuthOptions = {
   providers: [
@@ -67,8 +29,10 @@ export const authOptions: AuthOptions = {
   callbacks: {
     // Stores user data and idToken to the next-auth cookie
     async jwt({ token, account }) {
+      if (!account && !token.utilisateur) {
+        return {};
+      }
       const logger = getLogger('Auth');
-      logger.debug('JWT callback', { expiresAt: token.expiresAt && new Date(token.expiresAt) });
 
       // Stores the id token as it is required to logout of Keycloak
       if (account?.id_token) {
@@ -76,9 +40,9 @@ export const authOptions: AuthOptions = {
       }
       // NB `account` is defined only at login
       if (account?.access_token) {
-        logger.debug(`User log in`, { sub: token.sub });
         token.expiresAt = (account.expires_at ?? 0) * 1000;
         token.refreshToken = account.refresh_token;
+        logger.debug(`User logged in`, { sub: token.sub, expiresAt: new Date(token.expiresAt) });
         try {
           const utilisateur = convertToken(account.access_token);
           token.utilisateur = utilisateur;
@@ -90,10 +54,8 @@ export const authOptions: AuthOptions = {
         return token;
       }
 
-      // return {};
-
+      // nominal case, the token is up to date
       if (token.expiresAt && Date.now() < token.expiresAt) {
-        logger.debug('not expired');
         return token;
       }
       logger.debug(`Token expired`, { sub: token.sub });
@@ -112,7 +74,12 @@ export const authOptions: AuthOptions = {
         token.utilisateur = utilisateur;
         return token;
       } catch (e) {
-        logger.error(new Error('Failed to refresh token', { cause: e }));
+        const err = e as { error?: string; error_description?: string };
+        if (err?.error === 'invalid_grant') {
+          logger.warn(`Failed to refresh token (invalid_grant): ${err.error_description}`);
+        } else {
+          logger.error(new Error('Failed to refresh token', { cause: (e as Error).message }));
+        }
         return {};
       }
     },

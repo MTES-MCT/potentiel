@@ -1,17 +1,18 @@
 import { createServer } from 'http';
 import { parse } from 'url';
 
-import { config } from 'dotenv';
 import next from 'next';
-import { getToken } from 'next-auth/jwt';
-import { NextRequest } from 'next/server';
 
 import { bootstrap, permissionMiddleware } from '@potentiel-applications/bootstrap';
-import { requestContextStorage } from '@potentiel-applications/request-context';
-import { Utilisateur } from '@potentiel-domain/utilisateur';
+import { runWithContext } from '@potentiel-applications/request-context';
 
+const ignorePath = (path: string) => ['/_next', '/illustrations'].some((p) => path.startsWith(p));
+
+/**
+ * This is the entrypoint to the DEV mode of the SSR app.
+ * For the entrypoint of the production mode, see the `legacy` application
+ */
 async function main() {
-  config();
   const port = parseInt(process.env.PORT || '3000', 10);
   const dev = process.env.NODE_ENV !== 'production';
   const app = next({ dev });
@@ -21,16 +22,15 @@ async function main() {
 
   await bootstrap({ middlewares: [permissionMiddleware] });
   const server = createServer(async (req, res) => {
-    const correlationId = crypto.randomUUID();
     const parsedUrl = parse(req.url!, true);
-    // at this stage we don't have access to next's cookies() so we have to parse cookies manually
-    const cookieHeader = req.headers.cookie ?? '';
-    const cookies = Object.fromEntries(cookieHeader.split(';').map((v) => v.trim().split('=')));
-    const token = await getToken({ req: { cookies } as unknown as NextRequest });
-    const utilisateur = token?.utilisateur && Utilisateur.bind(token.utilisateur);
+    if (ignorePath(parsedUrl.path ?? '')) {
+      return handle(req, res, parsedUrl);
+    }
 
-    requestContextStorage.run({ correlationId, utilisateur }, async () => {
-      handle(req, res, parsedUrl);
+    await runWithContext({
+      req,
+      res,
+      callback: () => handle(req, res, parsedUrl),
     });
   });
 

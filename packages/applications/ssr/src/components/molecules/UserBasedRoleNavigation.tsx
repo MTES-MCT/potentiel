@@ -2,13 +2,12 @@ import { MainNavigationProps } from '@codegouvfr/react-dsfr/MainNavigation';
 
 import { Routes } from '@potentiel-applications/routes';
 import { Utilisateur } from '@potentiel-domain/utilisateur';
-
-import { getOptionalAuthenticatedUser } from '@/utils/getAuthenticatedUser.handler';
+import { getContext } from '@potentiel-applications/request-context';
 
 import { NavLinks } from './NavLinks';
 
-export async function UserBasedRoleNavigation() {
-  const utilisateur = await getOptionalAuthenticatedUser();
+export function UserBasedRoleNavigation() {
+  const utilisateur = getContext()?.utilisateur;
 
   const navigationItems = utilisateur ? getNavigationItemsBasedOnRole(utilisateur) : [];
 
