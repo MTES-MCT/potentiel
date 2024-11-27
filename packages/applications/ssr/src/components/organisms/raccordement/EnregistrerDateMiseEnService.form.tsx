@@ -6,18 +6,13 @@ import { Button } from '@codegouvfr/react-dsfr/Button';
 import { Routes } from '@potentiel-applications/routes';
 import { Iso8601DateTime, now } from '@potentiel-libraries/iso8601-datetime';
 
-import { Form } from '@/components/atoms/form/Form';
+import { Form, FormProps } from '@/components/atoms/form/Form';
 import { InputDate } from '@/components/atoms/form/InputDate';
 import { SubmitButton } from '@/components/atoms/form/SubmitButton';
 import { ValidationErrors } from '@/utils/formAction';
 
-import {
-  enregistrerDateMiseEnServiceAction,
-  EnregistrerDateMiseEnServiceStateFormKeys,
-} from './enregistrerDateMiseEnService.action';
-
 export type EnregistrerDateMiseEnServiceFormProps = {
-  usecase: 'modifier' | 'transmettre';
+  action: FormProps['action'];
   projet: {
     identifiantProjet: string;
     dateDésignation: Iso8601DateTime;
@@ -29,17 +24,17 @@ export type EnregistrerDateMiseEnServiceFormProps = {
 };
 
 export const EnregistrerDateMiseEnServiceForm: FC<EnregistrerDateMiseEnServiceFormProps> = ({
-  usecase,
+  action,
   projet: { identifiantProjet, dateDésignation },
   dossierRaccordement: { référence, miseEnService },
 }) => {
-  const [validationErrors, setValidationErrors] = useState<
-    ValidationErrors<EnregistrerDateMiseEnServiceStateFormKeys>
-  >({});
+  const [validationErrors, setValidationErrors] = useState<ValidationErrors<'dateMiseEnService'>>(
+    {},
+  );
 
   return (
     <Form
-      action={enregistrerDateMiseEnServiceAction}
+      action={action}
       onValidationError={(validationErrors) => setValidationErrors(validationErrors)}
       actions={
         <>
@@ -53,13 +48,12 @@ export const EnregistrerDateMiseEnServiceForm: FC<EnregistrerDateMiseEnServiceFo
           >
             Retour aux dossiers de raccordement
           </Button>
-          <SubmitButton classname="capitalize">{usecase}</SubmitButton>
+          <SubmitButton classname="capitalize">Soumettre</SubmitButton>
         </>
       }
     >
       <input type="hidden" name="identifiantProjet" value={identifiantProjet} />
       <input type="hidden" name="referenceDossier" value={référence} />
-      <input type="hidden" name="usecase" value={usecase} />
 
       <InputDate
         label="Date de mise en service"

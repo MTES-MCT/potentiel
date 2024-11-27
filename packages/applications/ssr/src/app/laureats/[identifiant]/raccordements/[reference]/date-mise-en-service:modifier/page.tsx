@@ -8,14 +8,14 @@ import { DateTime } from '@potentiel-domain/common';
 import { Option } from '@potentiel-libraries/monads';
 import { Candidature } from '@potentiel-domain/candidature';
 
+import {
+  ModifierDateMiseEnServicePage,
+  ModifierDateMiseEnServicePageProps,
+} from '@/components/pages/réseau/raccordement/modifier/modifierDateMiseEnService/ModifierDateMiseEnService.page';
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { decodeParameter } from '@/utils/decodeParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { récupérerProjet, vérifierQueLeProjetEstClassé } from '@/app/_helpers';
-import {
-  EnregistrerDateMiseEnServicePage,
-  EnregistrerDateMiseEnServicePageProps,
-} from '@/components/organisms/raccordement/EnregistrerDateMiseEnService.page';
 
 type PageProps = {
   params: {
@@ -77,8 +77,7 @@ export default async function Page({ params: { identifiant, reference } }: PageP
     });
 
     return (
-      <EnregistrerDateMiseEnServicePage
-        usecase={props.usecase}
+      <ModifierDateMiseEnServicePage
         projet={props.projet}
         dossierRaccordement={props.dossierRaccordement}
         intervalleDatesMeSDélaiCDC2022={props.intervalleDatesMeSDélaiCDC2022}
@@ -93,7 +92,7 @@ type MapToProps = (params: {
   projet: Candidature.ConsulterProjetReadModel;
   appelOffre: AppelOffre.ConsulterAppelOffreReadModel;
   dossierRaccordement: Raccordement.ConsulterDossierRaccordementReadModel;
-}) => EnregistrerDateMiseEnServicePageProps;
+}) => ModifierDateMiseEnServicePageProps;
 
 const mapToProps: MapToProps = ({
   identifiantProjet,
@@ -109,7 +108,6 @@ const mapToProps: MapToProps = ({
     )?.délaiApplicable?.intervaleDateMiseEnService;
 
   return {
-    usecase: 'modifier',
     projet: {
       identifiantProjet,
       ...projet,

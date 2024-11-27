@@ -7,9 +7,9 @@ import { Email } from '@potentiel-domain/common';
 import { Heading3 } from '@/components/atoms/headings';
 import { DownloadDocument } from '@/components/atoms/form/document/DownloadDocument';
 import { Timeline, TimelineProps } from '@/components/organisms/Timeline';
+import { FormattedDate } from '@/components/atoms/FormattedDate';
 
 import { CorrigerRéponseSignée } from '../../../mainlevée/corrigerRéponseSignée/CorrigerRéponseSignée.form';
-import { FormattedDate } from '../../../../../atoms/FormattedDate';
 
 export type HistoriqueMainlevéeRejetéeProps = {
   identifiantProjet: string;
