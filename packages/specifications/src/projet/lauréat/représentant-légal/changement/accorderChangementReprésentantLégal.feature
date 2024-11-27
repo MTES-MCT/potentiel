@@ -4,7 +4,6 @@ Fonctionnalité: Accorder la demande de changement de représentant légal d'un 
     Contexte:
         Etant donné le projet lauréat "Du boulodrome de Marseille"
         Et le porteur "Marcel Patoulatchi" ayant accés au projet lauréat "Du boulodrome de Marseille"
-        Et le DGEC validateur "Robert Robichet"
         Et la DREAL associée au projet lauréat
 
     @NotImplemented

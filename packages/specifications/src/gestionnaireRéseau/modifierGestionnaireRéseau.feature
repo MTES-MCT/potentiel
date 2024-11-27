@@ -5,7 +5,7 @@ Fonctionnalité: Modifier un gestionnaire de réseau
         Etant donné un gestionnaire de réseau
             | Code EIC       | 17X0000009352859       |
             | Raison sociale | Arc Energies Maurienne |
-        Quand un administrateur modifie les données d'un gestionnaire de réseau
+        Quand le DGEC validateur modifie les données d'un gestionnaire de réseau
             | Code EIC             | 17X0000009352859 |
             | Raison sociale       | RTE              |
             | Légende              | Trois lettres    |
@@ -16,7 +16,7 @@ Fonctionnalité: Modifier un gestionnaire de réseau
         Et les détails à jour du gestionnaire de réseau "RTE" devraient être consultables
 
     Scénario: Impossible de modifier un gestionnaire de réseau inconnu
-        Quand un administrateur modifie les données d'un gestionnaire de réseau inconnu
+        Quand le DGEC validateur modifie les données d'un gestionnaire de réseau inconnu
             | Code EIC       | Code EIC inconnu |
             | Raison sociale | RTE              |
         Alors l'administrateur devrait être informé que "Le gestionnaire de réseau n'est pas référencé"

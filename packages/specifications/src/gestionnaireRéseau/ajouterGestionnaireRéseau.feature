@@ -2,7 +2,7 @@
 Fonctionnalité: Ajouter un gestionnaire de réseau
 
     Scénario: Ajouter un gestionnaire de réseau
-        Quand un administrateur ajoute un gestionnaire de réseau
+        Quand le DGEC validateur ajoute un gestionnaire de réseau
             | Code EIC             | 17X0000009352859       |
             | Raison sociale       | Arc Energies Maurienne |
             | Format               | XXX                    |
@@ -17,7 +17,7 @@ Fonctionnalité: Ajouter un gestionnaire de réseau
         Etant donné un gestionnaire de réseau
             | Code EIC       | 17X100A100A0001B       |
             | Raison sociale | Arc Energies Maurienne |
-        Quand un administrateur ajoute un gestionnaire de réseau avec le même code EIC
+        Quand le DGEC validateur ajoute un gestionnaire de réseau avec le même code EIC
             | Code EIC       | 17X100A100A0001B        |
             | Raison sociale | Un nouveau gestionnaire |
         Alors l'administrateur devrait être informé que "Le gestionnaire de réseau existe déjà"

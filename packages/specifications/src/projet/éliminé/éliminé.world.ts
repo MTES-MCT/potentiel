@@ -54,10 +54,17 @@ export class ÉliminéWorld {
     return this.#nomProjet;
   }
 
+  #dateDésignation: string;
+
+  get dateDésignation() {
+    return this.#dateDésignation;
+  }
+
   constructor() {
     this.#recoursWorld = new RecoursWord();
     this.#notifierEliminéFixture = new NotifierÉliminéFixture();
     this.#nomProjet = 'Du boulodrome de Marseille';
+    this.#dateDésignation = new Date('2022-10-27').toISOString();
 
     this.#identifiantProjet = IdentifiantProjet.convertirEnValueType(`PPE2 - Eolien#2##23`);
   }

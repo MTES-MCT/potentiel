@@ -18,7 +18,7 @@ import {
   CreateBucketCommand,
   DeleteBucketCommand,
   DeleteObjectsCommand,
-  ListObjectsCommand,
+  ListObjectsV2Command,
 } from '@aws-sdk/client-s3';
 
 import { executeQuery, killPool } from '@potentiel-libraries/pg-helpers';
@@ -31,6 +31,7 @@ import { sleep } from './helpers/sleep';
 import { getFakeFormat } from './helpers/getFakeFormat';
 import { getFakeIdentifiantProjet } from './helpers/getFakeIdentifiantProjet';
 import { getFakeContent } from './helpers/getFakeContent';
+import { initialiserUtilisateursTests } from './utilisateur/stepDefinitions/utilisateur.given';
 
 should();
 setWorldConstructor(PotentielWorld);
@@ -100,7 +101,7 @@ Before<PotentielWorld>(async function (this: PotentielWorld) {
   await executeQuery(`delete from "UserProjects"`);
   await executeQuery(`delete from "users"`);
 
-  this.utilisateurWorld.systemFixture.créer();
+  await initialiserUtilisateursTests.call(this);
 
   await getClient().send(
     new CreateBucketCommand({
@@ -114,13 +115,13 @@ Before<PotentielWorld>(async function (this: PotentielWorld) {
 });
 
 After(async () => {
-  const objectsToDelete = await getClient().send(new ListObjectsCommand({ Bucket: bucketName }));
+  const objectsToDelete = await getClient().send(new ListObjectsV2Command({ Bucket: bucketName }));
 
   if (objectsToDelete.Contents?.length) {
     await getClient().send(
       new DeleteObjectsCommand({
         Bucket: bucketName,
-        Delete: { Objects: objectsToDelete.Contents.map((o) => ({ Key: o.Key! })) },
+        Delete: { Objects: objectsToDelete.Contents.map((o) => ({ Key: o.Key })) },
       }),
     );
   }

@@ -4,7 +4,6 @@ Fonctionnalité: Demander le recours d'un projet éliminé
     Contexte:
         Etant donné le projet éliminé "Du boulodrome de Marseille"
         Et le porteur "Marcel Patoulatchi" ayant accés au projet éliminé "Du boulodrome de Marseille"
-        Et le DGEC validateur "Robert Robichet"
 
     Scénario: Un porteur demande le recours d'un projet éliminé
         Quand le porteur demande le recours pour le projet éliminé

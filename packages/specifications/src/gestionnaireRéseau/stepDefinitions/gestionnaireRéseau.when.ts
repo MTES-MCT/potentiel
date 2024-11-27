@@ -7,7 +7,7 @@ import { Option } from '@potentiel-libraries/monads';
 import { PotentielWorld } from '../../potentiel.world';
 
 Quand(
-  'un administrateur ajoute un gestionnaire de réseau( avec le même code EIC)',
+  'le DGEC validateur ajoute un gestionnaire de réseau( avec le même code EIC)',
   async function (this: PotentielWorld, table: DataTable) {
     const exemple = table.rowsHash();
 
@@ -48,7 +48,7 @@ Quand(
 );
 
 Quand(
-  `un administrateur modifie les données d'un gestionnaire de réseau( inconnu)`,
+  `le DGEC validateur modifie les données d'un gestionnaire de réseau( inconnu)`,
   async function (this: PotentielWorld, table: DataTable) {
     const exemple = table.rowsHash();
     const raisonSociale = exemple['Raison sociale'];

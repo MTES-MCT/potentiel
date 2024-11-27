@@ -4,7 +4,6 @@ Fonctionnalité: Annuler le recours d'un projet éliminé
     Contexte:
         Etant donné le projet éliminé "Du boulodrome de Marseille"
         Et le porteur "Marcel Patoulatchi" ayant accés au projet éliminé "Du boulodrome de Marseille"
-        Et le DGEC validateur "Robert Robichet"
 
     Scénario: Un porteur annule le recours d'un projet éliminé
         Etant donné un recours en cours pour le projet éliminé

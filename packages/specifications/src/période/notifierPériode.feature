@@ -1,9 +1,6 @@
 # language: fr
 Fonctionnalité: Notifier une période d'un appel d'offres
 
-    Contexte:
-        Etant donné le DGEC validateur "Robert Robichet"
-
     Scénario: Notifier les candidats d'une période d'un appel d'offres
         Etant donné une période avec des candidats importés
         Quand un DGEC validateur notifie la période d'un appel d'offres

@@ -4,7 +4,6 @@ Fonctionnalité: Accorder le recours d'un projet éliminé
     Contexte:
         Etant donné le projet éliminé "Du boulodrome de Marseille"
         Et le porteur "Marcel Patoulatchi" ayant accés au projet éliminé "Du boulodrome de Marseille"
-        Et le DGEC validateur "Robert Robichet"
 
     @NotImplemented
     Scénario: Un DGEC validateur accorde le recours d'un projet éliminé
