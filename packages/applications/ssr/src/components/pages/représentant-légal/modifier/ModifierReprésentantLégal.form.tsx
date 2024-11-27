@@ -106,11 +106,11 @@ export const ModifierReprésentantLégalForm: FC<ModifierReprésentantLégalForm
 
       <Form
         action={modifierReprésentantLégalAction}
-        onInvalid={() => setCurrentStep(2)}
-        onError={() => setCurrentStep(2)}
+        onInvalid={() => setCurrentStep(1)}
+        onError={() => setCurrentStep(1)}
         onValidationError={(vErrors) => handleOnValidationError(vErrors)}
         actions={null}
-        omitMandatoryFieldsLegend={currentStep !== 2 ? true : undefined}
+        omitMandatoryFieldsLegend={currentStep === 3 ? undefined : true}
       >
         <input
           type={'hidden'}

@@ -6,6 +6,8 @@ import {
 } from '@potentiel-domain/core';
 import { IdentifiantProjet } from '@potentiel-domain/common';
 
+import { TypeReprésentantLégal } from '.';
+
 import {
   applyReprésentantLégalImporté,
   importer,
@@ -35,7 +37,7 @@ export const getDefaultReprésentantLégalAggregate: GetDefaultAggregateState<
   apply,
   représentantLégal: {
     nom: '',
-    type: '',
+    type: TypeReprésentantLégal.inconnu.formatter(),
   },
   importer,
   modifier,

@@ -2,7 +2,6 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { RebuildTriggered, Event } from '@potentiel-infrastructure/pg-event-sourcing';
 import { ReprésentantLégal } from '@potentiel-domain/laureat';
-import { getLogger } from '@potentiel-libraries/monitoring';
 import { Option } from '@potentiel-libraries/monads';
 import { findProjection } from '@potentiel-infrastructure/pg-projections';
 
@@ -42,20 +41,14 @@ export const register = () => {
 
     switch (type) {
       case 'ReprésentantLégalImporté-V1':
-        try {
-          await upsertProjection<ReprésentantLégal.ReprésentantLégalEntity>(
-            `représentant-légal|${identifiantProjet}`,
-            {
-              identifiantProjet,
-              typeReprésentantLégal: ReprésentantLégal.TypeReprésentantLégal.inconnu.formatter(),
-              nomReprésentantLégal: payload.nomReprésentantLégal,
-            },
-          );
-        } catch (e) {
-          getLogger().warn('Import du représentant légal impossible', {
-            event: payload,
-          });
-        }
+        await upsertProjection<ReprésentantLégal.ReprésentantLégalEntity>(
+          `représentant-légal|${identifiantProjet}`,
+          {
+            identifiantProjet,
+            typeReprésentantLégal: ReprésentantLégal.TypeReprésentantLégal.inconnu.formatter(),
+            nomReprésentantLégal: payload.nomReprésentantLégal,
+          },
+        );
         break;
       case 'ReprésentantLégalModifié-V1':
         await upsertProjection<ReprésentantLégal.ReprésentantLégalEntity>(
@@ -66,6 +59,7 @@ export const register = () => {
             typeReprésentantLégal: payload.typeReprésentantLégal,
           },
         );
+        break;
     }
   };
 

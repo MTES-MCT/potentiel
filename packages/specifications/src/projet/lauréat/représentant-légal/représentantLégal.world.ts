@@ -32,6 +32,7 @@ export class ReprésentantLégalWorld {
 
     if (this.#modifierReprésentantLégalFixture.aÉtéCréé) {
       expected.nomReprésentantLégal = this.#modifierReprésentantLégalFixture.nomReprésentantLégal;
+      expected.typeReprésentantLégal = this.#modifierReprésentantLégalFixture.typeReprésentantLégal;
     }
 
     return expected;

@@ -34,7 +34,7 @@ async function getEmailPayload(event: SubscriptionEvent): Promise<EmailPayload |
   }
 
   if (porteurs.length === 0) {
-    getLogger().info('Représentant légal notification | aucun porteur trouvé', {
+    getLogger().warn('Représentant légal notification | aucun porteur trouvé', {
       identifiantProjet: identifiantProjet.formatter(),
     });
     return;

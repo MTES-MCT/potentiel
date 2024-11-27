@@ -19,36 +19,36 @@ Quand(
 );
 
 Quand(
-  `le nom et le type du représentant légal du projet lauréat sont modifiés`,
-  async function (this: PotentielWorld) {
+  /le DGEC validateur modifie le nom et le type du représentant légal(.*) pour le projet lauréat/,
+  async function (this: PotentielWorld, avecLesMêmesValeurs?: string) {
     try {
-      await modifierReprésentantLégal.call(this);
-    } catch (error) {
-      this.error = error as Error;
-    }
-  },
-);
-Quand(
-  `le nom et le type du représentant légal du projet lauréat sont modifiés avec les mêmes valeurs`,
-  async function (this: PotentielWorld) {
-    try {
-      await modifierReprésentantLégal.call(
-        this,
-        this.lauréatWorld.représentantLégalWorld.importerReprésentantLégalFixture
-          .nomReprésentantLégal,
-        this.lauréatWorld.représentantLégalWorld.importerReprésentantLégalFixture
-          .typeReprésentantLégal,
-      );
+      const options = avecLesMêmesValeurs?.includes('avec les mêmes valeurs')
+        ? {
+            nom: this.lauréatWorld.représentantLégalWorld.importerReprésentantLégalFixture
+              .nomReprésentantLégal,
+            type: this.lauréatWorld.représentantLégalWorld.importerReprésentantLégalFixture
+              .typeReprésentantLégal,
+          }
+        : {
+            nom: this.lauréatWorld.représentantLégalWorld.importerReprésentantLégalFixture
+              .nomReprésentantLégal,
+            type: ReprésentantLégal.TypeReprésentantLégal.personnePhysique,
+          };
+
+      await modifierReprésentantLégal.call(this, options);
     } catch (error) {
       this.error = error as Error;
     }
   },
 );
 
+type ModifierReprésentantLégalOptions = {
+  nom?: string;
+  type?: ReprésentantLégal.TypeReprésentantLégal.ValueType;
+};
 async function modifierReprésentantLégal(
   this: PotentielWorld,
-  nom?: string,
-  type?: ReprésentantLégal.TypeReprésentantLégal.ValueType,
+  { nom, type }: ModifierReprésentantLégalOptions,
 ) {
   const identifiantProjet = this.lauréatWorld.identifiantProjet.formatter();
 
