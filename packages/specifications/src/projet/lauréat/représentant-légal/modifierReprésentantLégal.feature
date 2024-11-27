@@ -1,9 +1,6 @@
 # language: fr
 Fonctionnalité: Modifier le représentant légal d'un projet lauréat
 
-    Contexte:
-        Etant donné l'admin "Robert Robichet"
-
     Scénario: Modifier le représentant légal d'un projet lauréat
         Etant donné le projet lauréat "Du boulodrome de Marseille"
         Et la dreal "Dreal du sud" associée à la région du projet

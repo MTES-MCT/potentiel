@@ -24,13 +24,13 @@ export const getInfosBasedOnTypeReprésentant: GetInfosBasedOnTypeReprésentant 
     .with('personne-physique', () => ({
       nom: 'Personne physique',
       input: {
-        label: 'Les noms et prénoms de la personne physique',
+        label: 'Les nom et prénom(s) de la personne physique',
         hintText: 'les nom et prénoms',
       },
       component: (
         <Situation
           nom="Une personne physique"
-          informationÀRemplir="les noms et prénoms de la personne"
+          informationÀRemplir="les nom et prénom(s) de la personne"
           pièceJustificativesÀAvoirEnPossession={
             <li>
               une copie de titre d'identité (carte d'identité ou passeport) en cours de validité
