@@ -6,8 +6,6 @@ import next from 'next';
 import { bootstrap, permissionMiddleware } from '@potentiel-applications/bootstrap';
 import { runWithContext } from '@potentiel-applications/request-context';
 
-const ignorePath = (path: string) => ['/_next', '/illustrations'].some((p) => path.startsWith(p));
-
 /**
  * This is the entrypoint to the DEV mode of the SSR app.
  * For the entrypoint of the production mode, see the `legacy` application
@@ -23,9 +21,6 @@ async function main() {
   await bootstrap({ middlewares: [permissionMiddleware] });
   const server = createServer(async (req, res) => {
     const parsedUrl = parse(req.url!, true);
-    if (ignorePath(parsedUrl.path ?? '')) {
-      return handle(req, res, parsedUrl);
-    }
 
     await runWithContext({
       req,

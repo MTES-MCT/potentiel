@@ -6,6 +6,7 @@ import { getServerSession } from 'next-auth';
 import { Utilisateur } from '@potentiel-domain/utilisateur';
 
 import { authOptions } from './authOptions';
+import { convertToken } from './convertToken';
 
 const parseRequest = (req: IncomingMessage) => {
   const { query } = parse(req.url!, true);
@@ -19,9 +20,15 @@ const parseRequest = (req: IncomingMessage) => {
 };
 
 export async function getUtilisateur(req: IncomingMessage, res: ServerResponse) {
-  const session = await getServerSession(parseRequest(req), res, authOptions);
-  if (session?.utilisateur) {
-    return Utilisateur.bind(session?.utilisateur);
-  }
-  // TODO handle auth header
+  try {
+    const session = await getServerSession(parseRequest(req), res, authOptions);
+    if (session?.utilisateur) {
+      return Utilisateur.bind(session?.utilisateur);
+    }
+    const authHeader = req.headers.authorization ?? '';
+    if (authHeader.toLowerCase().startsWith('bearer ')) {
+      const utilisateur = convertToken(authHeader.slice('bearer '.length));
+      return Utilisateur.bind(utilisateur);
+    }
+  } catch {}
 }

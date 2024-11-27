@@ -24,7 +24,6 @@ export const authOptions: AuthOptions = {
     // Moreover, the user will not be disconnected after expiration (if their Keycloak session still exists),
     // but there will be a redirection to keycloak.
     maxAge: parseInt(process.env.SESSION_MAX_AGE ?? String(ONE_HOUR), 10),
-    // maxAge: 10,
   },
   callbacks: {
     // Stores user data and idToken to the next-auth cookie
