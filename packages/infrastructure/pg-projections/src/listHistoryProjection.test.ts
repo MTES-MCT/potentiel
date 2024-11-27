@@ -7,11 +7,11 @@ import { faker } from '@faker-js/faker';
 import { HistoryRecord, ListHistoryResult } from '@potentiel-domain/entity';
 import { executeQuery, killPool } from '@potentiel-libraries/pg-helpers';
 
-import { listHistory } from './listHistory';
+import { listHistoryProjection } from './listHistoryProjection';
 
 should();
 
-describe('listHistory', () => {
+describe('listHistoryProjection', () => {
   let category = '';
   let id = '';
 
@@ -122,7 +122,7 @@ describe('listHistory', () => {
   };
 
   it('should find history records ordered by created_at', async () => {
-    const actual = await listHistory({});
+    const actual = await listHistoryProjection({});
 
     const expected = mapToListResultItems(fakeData);
 
@@ -130,7 +130,7 @@ describe('listHistory', () => {
   });
 
   it('should find history records by category ordered by created_at', async () => {
-    const actual = await listHistory({
+    const actual = await listHistoryProjection({
       category,
     });
 
@@ -143,7 +143,7 @@ describe('listHistory', () => {
   });
 
   it('should find history records by id', async () => {
-    const actual = await listHistory({
+    const actual = await listHistoryProjection({
       id,
     });
 
@@ -156,7 +156,7 @@ describe('listHistory', () => {
   });
 
   it('should find history records by id and category', async () => {
-    const actual = await listHistory({
+    const actual = await listHistoryProjection({
       category,
       id,
     });

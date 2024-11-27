@@ -24,6 +24,9 @@
       "path": "../../domain/document"
     },
     {
+      "path": "../../domain/historique"
+    },
+    {
       "path": "../../infrastructure/domain-adapters"
     },
     {
