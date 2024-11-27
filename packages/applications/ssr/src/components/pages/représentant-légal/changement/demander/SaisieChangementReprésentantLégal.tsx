@@ -20,13 +20,13 @@ export type SaisieChangementReprésentantLégalProps = {
   validationErrors: ValidationErrors<DemanderChangementReprésentantLégalFormKeys>;
 };
 
-type TypeDePersonne = 'Personne physique' | 'Personne morale' | 'Collectivité' | 'Autre';
+type TypeReprésentantLégal = 'Personne physique' | 'Personne morale' | 'Collectivité' | 'Autre';
 
 export const SaisieChangementReprésentantLégal: FC<SaisieChangementReprésentantLégalProps> = ({
   validationErrors,
   onChange,
 }) => {
-  const [typePersonne, selectTypePersonne] = useState<TypeDePersonne>();
+  const [typePersonne, selectTypePersonne] = useState<TypeReprésentantLégal>();
   const [nomReprésentantLégal, setNomReprésentantLégal] = useState('');
   const [piècesJustificatives, setPiècesJustificatives] = useState<ReadonlyArray<string>>([]);
 
@@ -63,11 +63,11 @@ export const SaisieChangementReprésentantLégal: FC<SaisieChangementReprésenta
       <SelectNext
         label="Choisir le type de personne pour le représentant légal"
         placeholder={`Sélectionner le type de personne pour le représentant légal`}
-        state={validationErrors['typeDePersonne'] ? 'error' : 'default'}
+        state={validationErrors['typeRepresentantLegal'] ? 'error' : 'default'}
         stateRelatedMessage="Le type de personne pour le représentant légal est obligatoire"
         nativeSelectProps={{
           onChange: ({ currentTarget: { value } }) => {
-            selectTypePersonne(value as TypeDePersonne);
+            selectTypePersonne(value as TypeReprésentantLégal);
             onChange &&
               onChange({ typePersonne: value, nomReprésentantLégal, piècesJustificatives });
           },

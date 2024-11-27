@@ -6,17 +6,28 @@ import {
 } from '@potentiel-domain/core';
 import { IdentifiantProjet } from '@potentiel-domain/common';
 
+import { TypeReprésentantLégal } from '.';
+
 import {
   applyReprésentantLégalImporté,
   importer,
   ReprésentantLégalImportéEvent,
 } from './importer/importerReprésentantLégal.behavior';
+import {
+  applyReprésentantLégalModifié,
+  modifier,
+  ReprésentantLégalModifiéEvent,
+} from './modifier/modifierReprésentantLégal.behavior';
 
-export type ReprésentantLégalEvent = ReprésentantLégalImportéEvent;
+export type ReprésentantLégalEvent = ReprésentantLégalImportéEvent | ReprésentantLégalModifiéEvent;
 
 export type ReprésentantLégalAggregate = Aggregate<ReprésentantLégalEvent> & {
-  nomReprésentantLégal: string;
+  représentantLégal: {
+    nom: string;
+    type: string;
+  };
   readonly importer: typeof importer;
+  readonly modifier: typeof modifier;
 };
 
 export const getDefaultReprésentantLégalAggregate: GetDefaultAggregateState<
@@ -24,14 +35,21 @@ export const getDefaultReprésentantLégalAggregate: GetDefaultAggregateState<
   ReprésentantLégalEvent
 > = () => ({
   apply,
-  nomReprésentantLégal: '',
+  représentantLégal: {
+    nom: '',
+    type: TypeReprésentantLégal.inconnu.formatter(),
+  },
   importer,
+  modifier,
 });
 
 function apply(this: ReprésentantLégalAggregate, event: ReprésentantLégalEvent) {
   switch (event.type) {
     case 'ReprésentantLégalImporté-V1':
       applyReprésentantLégalImporté.bind(this)(event);
+      break;
+    case 'ReprésentantLégalModifié-V1':
+      applyReprésentantLégalModifié.bind(this)(event);
       break;
   }
 }

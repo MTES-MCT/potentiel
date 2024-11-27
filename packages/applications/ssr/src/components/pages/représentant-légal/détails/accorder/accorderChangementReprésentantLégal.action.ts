@@ -6,13 +6,15 @@ import * as zod from 'zod';
 // import { ChangementReprésentantLégal } from '@potentiel-domain/elimine';
 // import { Routes } from '@potentiel-applications/routes';
 
+import { ReprésentantLégal } from '@potentiel-domain/laureat';
+
 import { FormAction, formAction, FormState } from '@/utils/formAction';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 
 const schema = zod.object({
   identifiantProjet: zod.string().min(1),
-  typeDePersonne: zod.enum(['Personne physique', 'Personne morale', 'Collectivité', 'Autre'], {
-    invalid_type_error: 'Ce type de personne est invalide',
+  typeRepresentantLegal: zod.enum(ReprésentantLégal.TypeReprésentantLégal.types, {
+    invalid_type_error: 'Ce type de réprésentant légal est invalide',
     required_error: 'Champ obligatoire',
   }),
   nomRepresentantLegal: zod.string().min(1, { message: 'Champ obligatoire' }),

@@ -4,15 +4,15 @@ import { ReprésentantLégal } from '@potentiel-domain/laureat';
 
 import { AbstractFixture } from '../../../../fixture';
 
-interface ImporterReprésentantLégal {
+export interface ModifierReprésentantLégal {
   readonly nomReprésentantLégal: string;
   readonly typeReprésentantLégal: ReprésentantLégal.TypeReprésentantLégal.ValueType;
-  readonly importéLe: string;
+  readonly dateCorrection: string;
 }
 
-export class ImporterReprésentantLégalFixture
-  extends AbstractFixture<ImporterReprésentantLégal>
-  implements ImporterReprésentantLégal
+export class ModifierReprésentantLégalFixture
+  extends AbstractFixture<ModifierReprésentantLégal>
+  implements ModifierReprésentantLégal
 {
   #nomReprésentantLégal!: string;
 
@@ -26,25 +26,25 @@ export class ImporterReprésentantLégalFixture
     return this.#typeReprésentantLégal;
   }
 
-  #importéLe!: string;
+  #dateModification!: string;
 
-  get importéLe(): string {
-    return this.#importéLe;
+  get dateCorrection(): string {
+    return this.#dateModification;
   }
 
   créer(
-    partialFixture?: Partial<Readonly<ImporterReprésentantLégal>>,
-  ): Readonly<ImporterReprésentantLégal> {
+    partialFixture?: Partial<Readonly<ModifierReprésentantLégal>>,
+  ): Readonly<ModifierReprésentantLégal> {
     const fixture = {
       nomReprésentantLégal: faker.person.fullName(),
       typeReprésentantLégal: ReprésentantLégal.TypeReprésentantLégal.inconnu,
-      importéLe: faker.date.recent().toISOString(),
+      dateCorrection: faker.date.recent().toISOString(),
       ...partialFixture,
     };
 
     this.#nomReprésentantLégal = fixture.nomReprésentantLégal;
     this.#typeReprésentantLégal = fixture.typeReprésentantLégal;
-    this.#importéLe = fixture.importéLe;
+    this.#dateModification = fixture.dateCorrection;
 
     this.aÉtéCréé = true;
 

@@ -26,7 +26,7 @@ import {
   getAlertesRaccordement,
   getAttestationDeConformité,
   getGarantiesFinancières,
-  getNomReprésentantLégal,
+  getReprésentantLégal,
   getRecours,
 } from './_utils';
 
@@ -123,6 +123,18 @@ v1Router.get(
       const identifiantProjetValueType = IdentifiantProjet.convertirEnValueType(
         `${projet.appelOffreId}#${projet.periodeId}#${projet.familleId}#${projet.numeroCRE}`,
       );
+
+      const rawProjectEventList = await getProjectEvents({ projectId: projet.id, user });
+
+      if (rawProjectEventList.isErr()) {
+        logger.warning(`Error fetching project events`, {
+          errorName: rawProjectEventList.error?.name,
+          errorMessage: rawProjectEventList.error?.message,
+          errorStackTrace: rawProjectEventList.error?.stack,
+        });
+        return notFoundResponse({ request, response, ressourceTitle: 'Projet' });
+      }
+
       const abandon = await getAbandonStatut(identifiantProjetValueType);
 
       let alertesRaccordement: AlerteRaccordement[] | undefined = undefined;
@@ -148,21 +160,15 @@ v1Router.get(
         });
       }
 
-      const rawProjectEventList = await getProjectEvents({ projectId: projet.id, user });
-
-      if (rawProjectEventList.isErr()) {
-        logger.warning(`Error fetching project events`, {
-          errorName: rawProjectEventList.error?.name,
-          errorMessage: rawProjectEventList.error?.message,
-          errorStackTrace: rawProjectEventList.error?.stack,
-        });
-        return notFoundResponse({ request, response, ressourceTitle: 'Projet' });
-      }
+      const attestationConformité = await getAttestationDeConformité(
+        identifiantProjetValueType,
+        user,
+      );
 
       miseAJourStatistiquesUtilisation({
         type: 'projetConsulté',
         données: {
-          utilisateur: { role: request.user.role },
+          utilisateur: { role: user.role },
           projet: {
             appelOffreId: projet.appelOffreId,
             periodeId: projet.periodeId,
@@ -172,24 +178,15 @@ v1Router.get(
         },
       });
 
-      const garantiesFinancières = await getGarantiesFinancières(
-        identifiantProjetValueType,
-        projet.appelOffre.isSoumisAuxGF,
-      );
-
-      const attestationConformité = await getAttestationDeConformité(
-        identifiantProjetValueType,
-        user,
-      );
-
-      const nomReprésentantLégal = await getNomReprésentantLégal(identifiantProjetValueType);
-
       return response.send(
         ProjectDetailsPage({
           request,
           project: {
             ...projet,
-            garantiesFinancières,
+            garantiesFinancières: await getGarantiesFinancières(
+              identifiantProjetValueType,
+              projet.appelOffre.isSoumisAuxGF,
+            ),
           },
           projectEventList: {
             ...rawProjectEventList.value,
@@ -199,7 +196,7 @@ v1Router.get(
           },
           alertesRaccordement,
           abandon,
-          nomReprésentantLégal,
+          représentantLégal: await getReprésentantLégal(identifiantProjetValueType, user.role),
           demandeRecours: await getRecours(identifiantProjetValueType),
           hasAttestationConformité: !!attestationConformité,
         }),

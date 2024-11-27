@@ -59,7 +59,7 @@ export const AccorderChangementReprésentantLégal = ({
               <SelectNext
                 label="Type de personne pour le représentant légal"
                 placeholder={`Sélectionner le type de personne pour le représentant légal`}
-                state={validationErrors['typeDePersonne'] ? 'error' : 'default'}
+                state={validationErrors.typeRepresentantLegal ? 'error' : 'default'}
                 stateRelatedMessage="Le type de personne pour le représentant légal est obligatoire"
                 options={['Personne physique', 'Personne morale', 'Collectivité', 'Autre'].map(
                   (type) => ({

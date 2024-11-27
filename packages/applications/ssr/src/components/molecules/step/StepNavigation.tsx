@@ -12,6 +12,7 @@ type StepNavigationProps = {
   };
   nextStep: {
     name: string;
+    disabled: boolean;
   } & (
     | {
         index: number;
@@ -40,11 +41,14 @@ export const StepNavigation: FC<StepNavigationProps> = ({
         className="flex ml-auto"
         priority="secondary"
         onClick={() => onStepSelected(nextStep.index)}
+        disabled={nextStep.disabled}
       >
         {nextStep.name}
       </Button>
     ) : (
-      <SubmitButton classname="flex ml-auto">{nextStep.name}</SubmitButton>
+      <SubmitButton classname="flex ml-auto" disabledCondition={() => nextStep.disabled}>
+        {nextStep.name}
+      </SubmitButton>
     )}
   </div>
 );

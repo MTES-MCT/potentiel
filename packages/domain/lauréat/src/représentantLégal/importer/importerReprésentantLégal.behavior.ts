@@ -2,6 +2,7 @@ import { DomainError, DomainEvent } from '@potentiel-domain/core';
 import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
 
 import { ReprésentantLégalAggregate } from '../représentantLégal.aggregate';
+import { TypeReprésentantLégal } from '..';
 
 export type ReprésentantLégalImportéEvent = DomainEvent<
   'ReprésentantLégalImporté-V1',
@@ -24,7 +25,7 @@ export async function importer(
   this: ReprésentantLégalAggregate,
   { identifiantProjet, nomReprésentantLégal, importéLe, importéPar }: ImporterOptions,
 ) {
-  if (this.nomReprésentantLégal) {
+  if (this.représentantLégal.nom) {
     throw new ReprésentantLégalDéjàImportéError();
   }
 
@@ -45,7 +46,8 @@ export function applyReprésentantLégalImporté(
   this: ReprésentantLégalAggregate,
   { payload: { nomReprésentantLégal } }: ReprésentantLégalImportéEvent,
 ) {
-  this.nomReprésentantLégal = nomReprésentantLégal;
+  this.représentantLégal.nom = nomReprésentantLégal;
+  this.représentantLégal.type = TypeReprésentantLégal.inconnu.formatter();
 }
 
 class ReprésentantLégalDéjàImportéError extends DomainError {
