@@ -63,6 +63,7 @@ describe('requestActionnaireModification use-case', () => {
         newActionnaire: 'new actionnaire',
         file: { contents: fakeFileContents, filename: fakeFileName },
         soumisAuxGarantiesFinancières: 'à la candidature',
+        nécessiteInstruction: true,
       });
 
       expect(res._unsafeUnwrapErr()).toBeInstanceOf(UnauthorizedError);
@@ -96,6 +97,7 @@ describe('requestActionnaireModification use-case', () => {
           file: { contents: fakeFileContents, filename: fakeFileName },
           soumisAuxGarantiesFinancières: 'après candidature',
           garantiesFinancièresConstituées: false,
+          nécessiteInstruction: true,
         });
 
         expect(res.isOk()).toBe(true);
@@ -146,6 +148,7 @@ describe('requestActionnaireModification use-case', () => {
           file: { contents: fakeFileContents, filename: fakeFileName },
           soumisAuxGarantiesFinancières: 'après candidature',
           garantiesFinancièresConstituées: true,
+          nécessiteInstruction: true,
         });
 
         expect(res.isOk()).toBe(true);
@@ -197,6 +200,7 @@ describe('requestActionnaireModification use-case', () => {
           file: { contents: fakeFileContents, filename: fakeFileName },
           soumisAuxGarantiesFinancières: 'après candidature',
           garantiesFinancièresConstituées: true,
+          nécessiteInstruction: true,
         });
 
         expect(res.isOk()).toBe(true);
@@ -242,6 +246,7 @@ describe('requestActionnaireModification use-case', () => {
           newActionnaire,
           file: { contents: fakeFileContents, filename: fakeFileName },
           soumisAuxGarantiesFinancières: 'à la candidature',
+          nécessiteInstruction: true,
         });
 
         expect(res.isOk()).toBe(true);
@@ -287,6 +292,7 @@ describe('requestActionnaireModification use-case', () => {
         newActionnaire,
         file: { contents: fakeFileContents, filename: fakeFileName },
         soumisAuxGarantiesFinancières: 'non soumis',
+        nécessiteInstruction: true,
       });
 
       expect(res.isOk()).toBe(true);
