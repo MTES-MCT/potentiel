@@ -10,6 +10,8 @@ export const setupHistorique = async () => {
     listHistory: listHistoryProjection,
   });
 
+  HistoriqueProjector.register();
+
   const unsubscribeAbandonHistoriqueProjector =
     await subscribe<HistoriqueProjector.SubscriptionEvent>({
       name: 'projector',
