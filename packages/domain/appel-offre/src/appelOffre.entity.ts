@@ -141,7 +141,6 @@ export type Validateur = {
 
 export type NotifiedPeriode = {
   type?: 'notified';
-  validateurParDéfaut: Validateur;
 } & (
   | {
       noteThresholdBy: 'family';
@@ -160,7 +159,6 @@ export type NotifiedPeriode = {
 
 type NotYetNotifiedPeriode = {
   type: 'not-yet-notified';
-  validateurParDéfaut: Validateur;
   noteThresholdBy?: undefined;
   noteThreshold?: undefined;
 } & CertificateTemplateProps;

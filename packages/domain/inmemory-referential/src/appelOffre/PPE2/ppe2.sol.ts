@@ -1,7 +1,5 @@
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 
-import { validateurParDéfaut } from '../../validateurParDéfaut';
-
 const CDCModifié30082022: AppelOffre.CahierDesChargesModifié = {
   type: 'modifié',
   paruLe: '30/08/2022',
@@ -103,7 +101,6 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       id: '1',
       title: 'première',
       certificateTemplate: 'ppe2.v1',
-      validateurParDéfaut: validateurParDéfaut.ghislain,
       cahierDesCharges: {
         référence: '2021 S 211-553136',
       },
@@ -147,7 +144,6 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       id: '2',
       title: 'deuxième',
       certificateTemplate: 'ppe2.v1',
-      validateurParDéfaut: validateurParDéfaut.ghislain,
       cahierDesCharges: {
         référence: '2022/S 061-160516',
       },
@@ -185,7 +181,6 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       title: 'troisième',
       certificateTemplate: 'ppe2.v2',
       ministère: 'MEFSIN',
-      validateurParDéfaut: validateurParDéfaut.nicolas,
       cahierDesCharges: {
         référence: '2022 S 214-614411',
       },
@@ -208,7 +203,6 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       title: 'quatrième',
       certificateTemplate: 'ppe2.v2',
       ministère: 'MEFSIN',
-      validateurParDéfaut: validateurParDéfaut.hermine,
       cahierDesCharges: {
         référence: '2023 S 063-187860',
       },
@@ -242,7 +236,6 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
       title: 'cinquième',
       certificateTemplate: 'ppe2.v2',
       ministère: 'MEFSIN',
-      validateurParDéfaut: validateurParDéfaut.hermine,
       cahierDesCharges: {
         référence: '2023/S 217-681379',
       },
@@ -276,7 +269,6 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
       title: 'sixième',
       certificateTemplate: 'ppe2.v2',
       ministère: 'MCE',
-      validateurParDéfaut: validateurParDéfaut.hermine,
       cahierDesCharges: {
         référence: '2024/S 422369-2024',
       },

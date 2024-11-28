@@ -1,7 +1,5 @@
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 
-import { validateurParDéfaut } from '../../validateurParDéfaut';
-
 const CDCModifié30082022: AppelOffre.CahierDesChargesModifié = {
   type: 'modifié',
   paruLe: '30/08/2022',
@@ -102,7 +100,6 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       id: '1',
       title: 'première',
       certificateTemplate: 'ppe2.v1',
-      validateurParDéfaut: validateurParDéfaut.ghislain,
       noteThreshold: 0.68,
       cahierDesCharges: {
         référence: '2021/S 146-386083',
@@ -136,7 +133,6 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       title: 'deuxième',
       certificateTemplate: 'ppe2.v2',
       ministère: 'MEFSIN',
-      validateurParDéfaut: validateurParDéfaut.nicolas,
       noteThreshold: 0.692142857142864,
       cahierDesCharges: {
         référence: '2022/S 035-088651',
@@ -174,7 +170,6 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
       title: 'troisième',
       certificateTemplate: 'ppe2.v2',
       ministère: 'MEFSIN',
-      validateurParDéfaut: validateurParDéfaut.nicolas,
       noteThreshold: 1.2,
       cahierDesCharges: {
         référence: '2022/S 214-614410',
@@ -200,7 +195,6 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
       title: 'quatrième',
       certificateTemplate: 'ppe2.v2',
       ministère: 'MEFSIN',
-      validateurParDéfaut: validateurParDéfaut.nicolas,
       noteThreshold: 13.8,
       cahierDesCharges: {
         référence: '2023/S 063-187148',
@@ -225,7 +219,6 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
       title: 'cinquième',
       certificateTemplate: 'ppe2.v2',
       ministère: 'MEFSIN',
-      validateurParDéfaut: validateurParDéfaut.hermine,
       noteThreshold: 14.22,
       cahierDesCharges: {
         référence: '2023/S 183-570186',
@@ -239,7 +232,6 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
       title: 'sixième',
       certificateTemplate: 'ppe2.v2',
       ministère: 'MEFSIN',
-      validateurParDéfaut: validateurParDéfaut.hermine,
       noteThreshold: 16.85,
       cahierDesCharges: {
         référence: '2023/S 215-677967',
@@ -253,7 +245,6 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
       title: 'septième',
       certificateTemplate: 'ppe2.v2',
       ministère: 'MEFSIN',
-      validateurParDéfaut: validateurParDéfaut.hermine,
       noteThreshold: 16.7,
       cahierDesCharges: {
         référence: '2024/S 64-189193',
@@ -267,9 +258,6 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
       title: 'huitième',
       certificateTemplate: 'ppe2.v2',
       ministère: 'MCE',
-      // TODO à retirer, cette valeur n'est plus actuelle,
-      // et le champs validateurParDéfaut n'est plus utilisé
-      validateurParDéfaut: validateurParDéfaut.hermine,
       noteThreshold: 12.24,
       cahierDesCharges: {
         référence: '2024/S 419522-2024',

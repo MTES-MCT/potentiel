@@ -1,7 +1,5 @@
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 
-import { validateurParDéfaut } from '../../validateurParDéfaut';
-
 const garantieFinanciereEnMois = 36;
 
 const CDCModifié30072021: AppelOffre.CahierDesChargesModifié = {
@@ -594,7 +592,6 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
         { familleId: '2', noteThreshold: 25.62 },
       ],
       certificateTemplate: 'cre4.v0',
-      validateurParDéfaut: validateurParDéfaut.ghislain,
       cahierDesCharges: {
         référence: '2016/S 174-312851',
       },
@@ -652,7 +649,6 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
         { familleId: '2', noteThreshold: 29.85 },
       ],
       certificateTemplate: 'cre4.v1',
-      validateurParDéfaut: validateurParDéfaut.ghislain,
       cahierDesCharges: {
         référence: '2016/S 174-312851',
       },
@@ -710,7 +706,6 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
         { familleId: '2', noteThreshold: 32.8 },
       ],
       certificateTemplate: 'cre4.v1',
-      validateurParDéfaut: validateurParDéfaut.ghislain,
       cahierDesCharges: {
         référence: '2016/S 174-312851',
       },
@@ -768,7 +763,6 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
         { familleId: '2', noteThreshold: 26.91 },
       ],
       certificateTemplate: 'cre4.v1',
-      validateurParDéfaut: validateurParDéfaut.ghislain,
       cahierDesCharges: {
         référence: '2016/S 174-312851',
       },

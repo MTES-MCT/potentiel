@@ -1,6 +1,5 @@
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 
-import { validateurParDéfaut } from '../../validateurParDéfaut';
 const CDCModifié30082022: AppelOffre.CahierDesChargesModifié = {
   type: 'modifié',
   paruLe: '30/08/2022',
@@ -101,7 +100,6 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       id: '1',
       title: 'première',
       certificateTemplate: 'ppe2.v1',
-      validateurParDéfaut: validateurParDéfaut.ghislain,
       cahierDesCharges: {
         référence: '2021 S 176-457518',
       },
@@ -142,7 +140,6 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       id: '2',
       title: 'deuxième',
       certificateTemplate: 'ppe2.v1',
-      validateurParDéfaut: validateurParDéfaut.ghislain,
       cahierDesCharges: {
         référence: '2022 S 020-047803',
       },
@@ -184,7 +181,6 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       title: 'troisième',
       certificateTemplate: 'ppe2.v2',
       ministère: 'MEFSIN',
-      validateurParDéfaut: validateurParDéfaut.nicolas,
       cahierDesCharges: {
         référence: '2022 S 093-254888',
       },
@@ -219,7 +215,6 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       title: 'quatrième',
       certificateTemplate: 'ppe2.v2',
       ministère: 'MEFSIN',
-      validateurParDéfaut: validateurParDéfaut.nicolas,
       cahierDesCharges: {
         référence: '2022 S 216-620968',
       },
@@ -242,7 +237,6 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       title: 'cinquième',
       certificateTemplate: 'ppe2.v2',
       ministère: 'MEFSIN',
-      validateurParDéfaut: validateurParDéfaut.nicolas,
       cahierDesCharges: {
         référence: '2023 S 071-217458',
       },
@@ -276,7 +270,6 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       title: 'sixième',
       certificateTemplate: 'ppe2.v2',
       ministère: 'MEFSIN',
-      validateurParDéfaut: validateurParDéfaut.hermine,
       cahierDesCharges: {
         référence: '2023/S 217-683937',
       },
@@ -310,7 +303,6 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       title: 'septième',
       certificateTemplate: 'ppe2.v2',
       ministère: 'MEFSIN',
-      validateurParDéfaut: validateurParDéfaut.hermine,
       cahierDesCharges: {
         référence: '2024 S 061-179441',
       },
@@ -344,7 +336,6 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       title: 'huitième',
       certificateTemplate: 'ppe2.v2',
       ministère: 'MCE',
-      validateurParDéfaut: validateurParDéfaut.hermine,
       cahierDesCharges: {
         référence: '2024 S 420503-2024',
       },

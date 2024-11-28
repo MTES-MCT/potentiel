@@ -1,7 +1,5 @@
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 
-import { validateurParDéfaut } from '../../validateurParDéfaut';
-
 const CDCModifié30082022: AppelOffre.CahierDesChargesModifié = {
   type: 'modifié',
   paruLe: '30/08/2022',
@@ -157,7 +155,6 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       id: '1',
       title: 'première',
       certificateTemplate: 'ppe2.v1',
-      validateurParDéfaut: validateurParDéfaut.ghislain,
       noteThreshold: 62.5,
       cahierDesCharges: {
         référence: '2021 S 176-457526',
@@ -171,7 +168,6 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       id: '2',
       title: 'deuxième',
       certificateTemplate: 'ppe2.v1',
-      validateurParDéfaut: validateurParDéfaut.ghislain,
       noteThreshold: 66.95,
       cahierDesCharges: {
         référence: '2022 S 038 098159',
@@ -186,7 +182,6 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       title: 'troisième',
       certificateTemplate: 'ppe2.v2',
       ministère: 'MEFSIN',
-      validateurParDéfaut: validateurParDéfaut.nicolas,
       noteThreshold: 72.13,
       cahierDesCharges: {
         référence: '2022 S 150-427955',
@@ -199,7 +194,6 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
     {
       id: '4',
       title: 'quatrième',
-      validateurParDéfaut: validateurParDéfaut.hermine,
       certificateTemplate: 'ppe2.v2',
       ministère: 'MEFSIN',
       noteThreshold: 76.25,
