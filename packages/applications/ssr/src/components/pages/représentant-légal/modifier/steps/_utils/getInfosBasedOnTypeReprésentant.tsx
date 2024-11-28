@@ -33,7 +33,7 @@ export const getInfosBasedOnTypeReprésentant: GetInfosBasedOnTypeReprésentant 
           informationÀRemplir="les nom et prénom(s) de la personne"
           pièceJustificativesÀAvoirEnPossession={
             <li>
-              une copie de titre d'identité (carte d'identité ou passeport) en cours de validité
+              Une copie de titre d'identité (carte d'identité ou passeport) en cours de validité
             </li>
           }
         />
@@ -51,14 +51,23 @@ export const getInfosBasedOnTypeReprésentant: GetInfosBasedOnTypeReprésentant 
           informationÀRemplir="le nom de la société"
           pièceJustificativesÀAvoirEnPossession={
             <>
-              <li>un extrait Kbis</li>
               <li>
-                pour les sociétés en cours de constitution: une copie des statuts de la société
+                Pour les sociétés constituées :
+                <ul className="mt-2 ml-4 list-disc">
+                  <li>un extrait Kbis</li>
+                </ul>
               </li>
               <li>
-                une attestation de récépissé de dépôt de fonds pour constitution de capital social
+                Pour les sociétés en cours de constitution :
+                <ul className="mt-2 ml-4 list-disc">
+                  <li>une copie des statuts de la société</li>
+                  <li>
+                    une attestation de récépissé de dépôt de fonds pour constitution de capital
+                    social
+                  </li>
+                  <li>une copie de l’acte désignant le représentant légal de la société</li>
+                </ul>
               </li>
-              <li>une copie de l’acte désignant le représentant légal de la société</li>
             </>
           }
         />
@@ -75,7 +84,7 @@ export const getInfosBasedOnTypeReprésentant: GetInfosBasedOnTypeReprésentant 
           nom="Une collectivité"
           informationÀRemplir="le nom de la collectivité"
           pièceJustificativesÀAvoirEnPossession={
-            <li>un extrait de délibération portant sur le projet objet de l'offre</li>
+            <li>Un extrait de délibération portant sur le projet</li>
           }
         />
       ),
@@ -93,7 +102,7 @@ export const getInfosBasedOnTypeReprésentant: GetInfosBasedOnTypeReprésentant 
           pièceJustificativesÀAvoirEnPossession={
             <>
               <li>
-                tout document officiel permettant d'attester de l'existence juridique de la personne
+                Tout document officiel permettant d'attester de l'existence juridique de l'organisme
               </li>
             </>
           }
@@ -122,7 +131,9 @@ const Situation: FC<{
         <span className="font-semibold">Information du changement :</span> {informationÀRemplir}
       </div>
       <div>
-        <span className="font-semibold">Pièces à fournir :</span>
+        <span className="font-semibold">
+          Pièces à avoir en votre possession (vous n'aurez pas à les téléverser sur Potentiel) :
+        </span>
         <ul className="mt-2 ml-4 list-disc">{pièceJustificativesÀAvoirEnPossession}</ul>
       </div>
     </div>

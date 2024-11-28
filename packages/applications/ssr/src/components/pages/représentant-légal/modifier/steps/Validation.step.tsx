@@ -23,7 +23,7 @@ export const ValidationStep: FC<ValidationStepProps> = ({
         small
         description={
           <p>
-            Vous êtes sur le point de corriger le représentant légal du projet. Veuillez vérifier
+            Vous êtes sur le point de modifier le représentant légal du projet. Veuillez vérifier
             l'ensemble des informations saisies et confirmer si tout est correct.
           </p>
         }
