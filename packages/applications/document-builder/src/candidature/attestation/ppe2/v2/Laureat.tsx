@@ -12,6 +12,9 @@ export const buildLauréat = ({ project }: LaureatProps) => {
   const { soumisAuxGarantiesFinancieres } = appelOffre || {};
   const { delaiDcrEnMois } = période;
 
+  const casParticulierPPE2BatimentPériode8 =
+    appelOffre.id === 'PPE2 - Bâtiment' && période.id === '8';
+
   return {
     objet: `Désignation des lauréats de la ${période.title} période de l'appel d'offres ${période.cahierDesCharges.référence} ${appelOffre.title}`,
     content: (
@@ -48,6 +51,9 @@ export const buildLauréat = ({ project }: LaureatProps) => {
               formatNumber(project.evaluationCarbone) +
               ' kg eq CO2/kWc. '
             : ' '}
+          {casParticulierPPE2BatimentPériode8 &&
+            `Pour rappel, la méthodologie d'évaluation carbone repose désormais uniquement sur les valeurs d'émissions de gaz à effet de serre par pays données aux tableaux 3 et, le cas échéant, 3 bis de l'annexe 2 du cahier des charges.
+              `}
           {project.actionnariat === 'gouvernance-partagée' && (
             <Text>
               Vous vous êtes engagés à la gouvernance partagée jusqu’à dix ans minimum après la Date
@@ -222,6 +228,15 @@ export const buildLauréat = ({ project }: LaureatProps) => {
                     ? ' Les changements conduisant à une remise en cause de l’autorisation mentionnée au 3.3.3 ne seront pas acceptés'
                     : ' Les changements conduisant à une diminution de la notation d’un ou plusieurs critères d’évaluations de l’offre, notamment par un bilan carbone moins performant, ne seront pas acceptés'}
                 </Text>
+
+                {casParticulierPPE2BatimentPériode8 && (
+                  <Text>
+                    `Pour rappel, le respect du bilan carbone déclaré dans l’offre, arrondi au
+                    multiple de 10 le plus procheconformément au cahier des charges, fait l’objet
+                    d’une vérification pour la délivrance de l’attestation de conformité qui est
+                    obligatoire pour la prise d'effet du contrat
+                  </Text>
+                )}
               </>
             )}
             {appelOffre.typeAppelOffre === 'innovation' && (
