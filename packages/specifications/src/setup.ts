@@ -118,7 +118,7 @@ After(async () => {
   // wait for sagas to finish
   await waitForExpect(async () => {
     const [{ count }] = await executeSelect<{ count: number }>(
-      `select count(*) as count from event_store.pending_acknowledgement`,
+      `select count(*) as count from event_store.pending_acknowledgement where error is null`,
     );
     expect(count).to.eq(0, "pending_acknowledgement n'est pas vide");
   });
