@@ -35,7 +35,7 @@ export async function modifier(
 ) {
   if (
     this.représentantLégal.nom === nomReprésentantLégal &&
-    this.représentantLégal.type === typeReprésentantLégal.formatter()
+    this.représentantLégal.type.estÉgaleÀ(typeReprésentantLégal)
   ) {
     throw new ReprésentantLégalIdentifiqueError();
   }
@@ -60,7 +60,7 @@ export function applyReprésentantLégalModifié(
 ) {
   this.représentantLégal = {
     nom: nomReprésentantLégal,
-    type: typeReprésentantLégal,
+    type: TypeReprésentantLégal.convertirEnValueType(typeReprésentantLégal),
   };
 }
 
