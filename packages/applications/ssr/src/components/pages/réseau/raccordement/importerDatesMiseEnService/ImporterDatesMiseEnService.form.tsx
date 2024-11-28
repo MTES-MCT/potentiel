@@ -62,6 +62,13 @@ export const ImporterDatesMiseEnServiceForm: FC<
         gestionnaireRéseauActuel={gestionnaireRéseauActuel}
         disabled={listeGestionnairesRéseau.length === 1}
       />
+      {listeGestionnairesRéseau.length === 1 && Option.isSome(gestionnaireRéseauActuel) && (
+        <input
+          type="hidden"
+          name="identifiantGestionnaireReseau"
+          value={gestionnaireRéseauActuel.identifiantGestionnaireRéseau.codeEIC}
+        />
+      )}
       <DownloadDocument
         className="mb-4"
         url={Routes.Gestionnaire.téléchargerRaccordementEnAttenteMiseEnService(

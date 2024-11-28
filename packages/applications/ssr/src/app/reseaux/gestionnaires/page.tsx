@@ -11,13 +11,16 @@ import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { mapToRangeOptions } from '@/utils/pagination';
 
 type PageProps = {
-  searchParams?: Record<string, string>;
+  searchParams?: {
+    raisonSociale?: string;
+    page?: string;
+  };
 };
 
 export default async function Page({ searchParams }: PageProps) {
   return PageWithErrorHandling(async () => {
     const page = searchParams?.page ? parseInt(searchParams.page) : 1;
-    const raisonSocialeSearch = searchParams ? searchParams['raisonSociale'] : '';
+    const raisonSocialeSearch = searchParams?.raisonSociale;
 
     const gestionnairesRéseau =
       await mediator.send<GestionnaireRéseau.ListerGestionnaireRéseauQuery>({
@@ -26,14 +29,7 @@ export default async function Page({ searchParams }: PageProps) {
           range: mapToRangeOptions({
             currentPage: page,
           }),
-          ...(raisonSocialeSearch && {
-            where: {
-              raisonSociale: {
-                operator: 'like',
-                value: `%${raisonSocialeSearch}%`,
-              },
-            },
-          }),
+          raisonSociale: raisonSocialeSearch,
         },
       });
 
