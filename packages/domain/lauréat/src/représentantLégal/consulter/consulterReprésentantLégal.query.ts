@@ -4,13 +4,18 @@ import { Option } from '@potentiel-libraries/monads';
 import { IdentifiantProjet } from '@potentiel-domain/common';
 import { Find } from '@potentiel-domain/entity';
 
-import { TypeReprésentantLégal } from '..';
 import { Lauréat } from '../..';
+import { StatutDemandeChangementReprésentantLégal, TypeReprésentantLégal } from '..';
 
 export type ConsulterReprésentantLégalReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
   nomReprésentantLégal: string;
   typeReprésentantLégal: TypeReprésentantLégal.ValueType;
+  demande?: {
+    nomReprésentantLégal: string;
+    typeReprésentantLégal: TypeReprésentantLégal.ValueType;
+    statut: StatutDemandeChangementReprésentantLégal.ValueType;
+  };
 };
 
 export type ConsulterReprésentantLégalQuery = Message<

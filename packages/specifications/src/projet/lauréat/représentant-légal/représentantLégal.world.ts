@@ -3,10 +3,12 @@ import { ReprésentantLégal } from '@potentiel-domain/laureat';
 
 import { ImporterReprésentantLégalFixture } from './fixtures/importerReprésentantLégal.fixture';
 import { ModifierReprésentantLégalFixture } from './fixtures/modifierReprésentantLégal.fixture';
+import { DemanderChangementReprésentantLégalFixture } from './demandeChangement/fixtures/demanderChangementReprésentantLégal.fixture';
 
 export class ReprésentantLégalWorld {
   #importerReprésentantLégalFixture: ImporterReprésentantLégalFixture;
   #modifierReprésentantLégalFixture: ModifierReprésentantLégalFixture;
+  #demanderChangementReprésentantLégalFixture: DemanderChangementReprésentantLégalFixture;
 
   get importerReprésentantLégalFixture() {
     return this.#importerReprésentantLégalFixture;
@@ -16,9 +18,15 @@ export class ReprésentantLégalWorld {
     return this.#modifierReprésentantLégalFixture;
   }
 
+  get demanderChangementReprésentantLégalFixture() {
+    return this.#demanderChangementReprésentantLégalFixture;
+  }
+
   constructor() {
     this.#importerReprésentantLégalFixture = new ImporterReprésentantLégalFixture();
     this.#modifierReprésentantLégalFixture = new ModifierReprésentantLégalFixture();
+    this.#demanderChangementReprésentantLégalFixture =
+      new DemanderChangementReprésentantLégalFixture();
   }
 
   mapToExpected(
@@ -33,6 +41,15 @@ export class ReprésentantLégalWorld {
     if (this.#modifierReprésentantLégalFixture.aÉtéCréé) {
       expected.nomReprésentantLégal = this.#modifierReprésentantLégalFixture.nomReprésentantLégal;
       expected.typeReprésentantLégal = this.#modifierReprésentantLégalFixture.typeReprésentantLégal;
+    }
+
+    if (this.#demanderChangementReprésentantLégalFixture.aÉtéCréé) {
+      expected.demande = {
+        statut: this.#demanderChangementReprésentantLégalFixture.statut,
+        nomReprésentantLégal: this.#demanderChangementReprésentantLégalFixture.nomReprésentantLégal,
+        typeReprésentantLégal:
+          this.#demanderChangementReprésentantLégalFixture.typeReprésentantLégal,
+      };
     }
 
     return expected;
