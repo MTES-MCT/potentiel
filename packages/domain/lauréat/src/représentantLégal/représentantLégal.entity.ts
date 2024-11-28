@@ -6,5 +6,10 @@ export type ReprésentantLégalEntity = Entity<
     identifiantProjet: string;
     nomReprésentantLégal: string;
     typeReprésentantLégal?: string;
+    demande?: {
+      statut: string;
+      nomReprésentantLégal: string;
+      typeReprésentantLégal: string;
+    };
   }
 >;
