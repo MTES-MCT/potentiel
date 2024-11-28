@@ -7,7 +7,7 @@ import { issuerUrl, clientId, clientSecret } from './constants';
 import { convertToken } from './convertToken';
 import { refreshAccessToken } from './refreshToken';
 
-const ONE_HOUR = 60 * 60;
+const ONE_HOUR_IN_SECONDS = 60 * 60;
 
 export const authOptions: AuthOptions = {
   providers: [
@@ -23,7 +23,7 @@ export const authOptions: AuthOptions = {
     // It is renewed on each page refresh, so this represents inactivity time.
     // Moreover, the user will not be disconnected after expiration (if their Keycloak session still exists),
     // but there will be a redirection to keycloak.
-    maxAge: parseInt(process.env.SESSION_MAX_AGE ?? String(ONE_HOUR), 10),
+    maxAge: parseInt(process.env.SESSION_MAX_AGE ?? String(ONE_HOUR_IN_SECONDS), 10),
   },
   callbacks: {
     // Stores user data and idToken to the next-auth cookie
