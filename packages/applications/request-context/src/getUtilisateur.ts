@@ -20,17 +20,27 @@ const parseRequest = (req: IncomingMessage) => {
   return reqWithCookies;
 };
 
+// users are authenticated by cookie
+async function getUserSession(req: IncomingMessage, res: ServerResponse) {
+  const session = await getServerSession(parseRequest(req), res, authOptions);
+  if (session?.utilisateur) {
+    return Utilisateur.bind(session?.utilisateur);
+  }
+}
+
+// API clients are authenticated by Authorization header
+function getApiUser(req: IncomingMessage) {
+  const authHeader = req.headers.authorization ?? '';
+  if (authHeader.toLowerCase().startsWith('bearer ')) {
+    const utilisateur = convertToken(authHeader.slice('bearer '.length));
+    return Utilisateur.bind(utilisateur);
+  }
+}
+
+/** Returns the logged-in user, if any */
 export async function getUtilisateur(req: IncomingMessage, res: ServerResponse) {
   try {
-    const session = await getServerSession(parseRequest(req), res, authOptions);
-    if (session?.utilisateur) {
-      return Utilisateur.bind(session?.utilisateur);
-    }
-    const authHeader = req.headers.authorization ?? '';
-    if (authHeader.toLowerCase().startsWith('bearer ')) {
-      const utilisateur = convertToken(authHeader.slice('bearer '.length));
-      return Utilisateur.bind(utilisateur);
-    }
+    return (await getUserSession(req, res)) ?? getApiUser(req);
   } catch (e) {
     const error = e as Error;
     getLogger('getUtilisateur').warn(`Auth failed: ${error}`);
