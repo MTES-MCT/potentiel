@@ -4,6 +4,7 @@ import { mediator } from 'mediateur';
 import { GarantiesFinancières } from '@potentiel-domain/laureat';
 
 import { PotentielWorld } from '../../../../../potentiel.world';
+import { waitForEvents } from '../../../../../helpers/waitForEvents';
 
 EtantDonné(
   `des garanties financières en attente pour le projet {string} avec :`,
@@ -24,5 +25,6 @@ EtantDonné(
         motifValue: motif,
       },
     });
+    await waitForEvents();
   },
 );
