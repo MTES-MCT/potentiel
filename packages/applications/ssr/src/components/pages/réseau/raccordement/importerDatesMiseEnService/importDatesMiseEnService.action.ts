@@ -50,7 +50,7 @@ const action: FormAction<FormState, typeof schema> = async (
     };
   }
 
-  const success: number = 0;
+  let success: number = 0;
   const errors: ActionResult['errors'] = [];
 
   for (const { identifiantProjet, referenceDossier, dateMiseEnService } of lines) {
@@ -123,6 +123,7 @@ const action: FormAction<FormState, typeof schema> = async (
         }
       }
     }
+    success++;
   }
 
   return {
