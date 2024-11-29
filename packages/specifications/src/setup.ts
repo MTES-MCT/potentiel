@@ -61,6 +61,7 @@ let unsetup: (() => Promise<void>) | undefined;
 const disableNodeMaxListenerWarning = () => (EventEmitter.defaultMaxListeners = Infinity);
 
 BeforeStep(async ({ pickleStep }) => {
+  await waitForEvents();
   // As read data are inconsistant, we wait 100ms before each step.
   if (pickleStep.type !== 'Context') {
     // As read data are inconsistant, we wait 100ms before each step.
@@ -115,14 +116,7 @@ Before<PotentielWorld>(async function (this: PotentielWorld) {
 });
 
 After(async () => {
-  // wait for sagas to finish
-  await waitForExpect(async () => {
-    const [{ count }] = await executeSelect<{ count: number }>(
-      `select count(*) as count from event_store.pending_acknowledgement where error is null`,
-    );
-    expect(count).to.eq(0, "pending_acknowledgement n'est pas vide");
-  });
-
+  // executeQuery('delete from event_store.pending_acknowledgement');
   const objectsToDelete = await getClient().send(new ListObjectsV2Command({ Bucket: bucketName }));
 
   if (objectsToDelete.Contents?.length) {
@@ -155,4 +149,16 @@ async function testEmailAdapter(
   emailPayload: EmailPayload,
 ): Promise<MessageResult<Message>> {
   this.notificationWorld.ajouterNotification(emailPayload);
+}
+
+async function waitForEvents() {
+  await new Promise((r) => setTimeout(r, 50));
+  // wait for sagas, notifications and projections to finish
+  await waitForExpect(async () => {
+    const [{ count }] = await executeSelect<{ count: number }>(
+      `select count(*) as count from event_store.pending_acknowledgement where error is null`,
+    );
+    console.log({ count });
+    expect(count).to.eq(0, "pending_acknowledgement n'est pas vide");
+  });
 }
