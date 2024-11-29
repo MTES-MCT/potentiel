@@ -3,7 +3,6 @@ export * from './getExportProjets';
 export * from './getListeProjetsPage';
 export * from './getProjectFile';
 export * from './getProjectPage';
-export * from './getProjectsLaureatsCsv';
 export * from './getProjetsÀRéclamerPage';
 export * from './postAttacherFichier';
 export * from './postChoisirCahierDesCharges';

@@ -5,7 +5,6 @@ import {
   PermissionExporterProjets,
 } from '../project';
 import { PermissionListerDemandesAdmin } from '../modificationRequest';
-import { PermissionListerProjetsÀNotifier } from '../notificationCandidats';
 
 export type Permission = {
   nom: string;
@@ -31,7 +30,6 @@ export const getPermissions = ({ role }: { role: UserRole }): Array<Permission> 
         PermissionListerDemandesAdmin,
         PermissionConsulterProjet,
         PermissionExporterProjets,
-        PermissionListerProjetsÀNotifier,
       ];
     case 'dgec-validateur':
       return [
@@ -39,7 +37,6 @@ export const getPermissions = ({ role }: { role: UserRole }): Array<Permission> 
         PermissionListerDemandesAdmin,
         PermissionConsulterProjet,
         PermissionExporterProjets,
-        PermissionListerProjetsÀNotifier,
       ];
     case 'acheteur-obligé':
       return [PermissionListerProjets, PermissionConsulterProjet, PermissionExporterProjets];
