@@ -56,7 +56,6 @@ class routes {
   };
 
   static EXPORTER_LISTE_PROJETS_CSV = '/export-liste-projets.csv';
-  static ADMIN_DOWNLOAD_PROJECTS_LAUREATS_CSV = '/export-projets-laureats.csv';
   static ADMIN_LIST_REQUESTS = '/admin/demandes.html';
 
   static ADMIN_CORRECT_PROJECT_DATA_ACTION = '/admin/correctProjectData';
