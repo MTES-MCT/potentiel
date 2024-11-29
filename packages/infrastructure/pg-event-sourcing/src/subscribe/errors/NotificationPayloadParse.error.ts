@@ -1,5 +1,5 @@
 export class NotificationPayloadParseError extends Error {
-  constructor() {
-    super('Notification payload parse error');
+  constructor(cause: unknown) {
+    super('Notification payload parse error', { cause });
   }
 }

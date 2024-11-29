@@ -61,9 +61,7 @@ export class EventStreamEmitter extends EventEmitter {
           this.emit(this.#getChannelName(event.type), event);
         }
       } catch (error) {
-        getLogger().error(new NotificationPayloadParseError(), {
-          error,
-        });
+        getLogger().error(new NotificationPayloadParseError(error));
       }
     });
 
@@ -107,8 +105,7 @@ export class EventStreamEmitter extends EventEmitter {
           subscriber: this.#subscriber,
         });
       } catch (error) {
-        getLogger().error(new RebuildFailedError(), {
-          error,
+        getLogger().error(new RebuildFailedError(error), {
           event,
           subscriber: this.#subscriber,
         });
@@ -169,8 +166,7 @@ export class EventStreamEmitter extends EventEmitter {
           version: event.version,
         });
       } catch (error) {
-        getLogger().error(new UnknownEventHandlingFailedError(), {
-          error,
+        getLogger().error(new UnknownEventHandlingFailedError(error), {
           event,
           subscriber: this.#subscriber,
         });

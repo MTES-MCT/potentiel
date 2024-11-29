@@ -1,5 +1,5 @@
 export class RebuildFailedError extends Error {
-  constructor() {
-    super('Rebuild failed');
+  constructor(cause: unknown) {
+    super('Rebuild failed', { cause });
   }
 }
