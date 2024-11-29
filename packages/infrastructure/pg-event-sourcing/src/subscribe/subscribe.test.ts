@@ -123,7 +123,7 @@ describe(`subscribe`, () => {
     });
   });
 
-  it(`as TEvent
+  it(`
     Étant donné un event handler en attente du traitement d'un type d'événement
     Lorsqu'on émet un événement correspondant au type
     Et que l'event handler levé une exception
