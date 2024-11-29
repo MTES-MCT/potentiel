@@ -1,7 +1,5 @@
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 
-import { validateurParDéfaut } from '../../validateurParDéfaut';
-
 const garantieFinanciereEnMois = 42;
 
 const CDCModifié30072021: AppelOffre.CahierDesChargesModifié = {
@@ -185,7 +183,6 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
         { familleId: '3', noteThreshold: 1.52 },
       ],
       certificateTemplate: 'cre4.v0',
-      validateurParDéfaut: validateurParDéfaut.ghislain,
       cahierDesCharges: {
         référence: '2019/S 019-040037',
       },
@@ -232,7 +229,6 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
         { familleId: '3', noteThreshold: 18.43 },
       ],
       certificateTemplate: 'cre4.v0',
-      validateurParDéfaut: validateurParDéfaut.ghislain,
       cahierDesCharges: {
         référence: '2019/S 019-040037',
       },

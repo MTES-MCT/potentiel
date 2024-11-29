@@ -10,10 +10,7 @@
     "start:déplacer-fichiers-vers-bucket-secnum": "node ./dist/déplacer-fichiers-vers-bucket-secnum",
     "start:créer-backup": "node ./dist/backup/créer-backup",
     "start:mettre-à-jour-gestionnaire-réseau": "node ./dist/gestionnaireRéseau",
-    "start:migrate-project-import-events": "node ./dist/candidature/migrate-project-import-events",
-    "start:create-events-candidature-notifiée": "node ./dist/candidature/create-events-candidature-notifiée",
-    "start:récupérer-fichier-gf-candidature-référentiel-dgec": "node ./dist/garanties-financières/récupérer-fichier-gf-candidature-référentiel-dgec",
-    "start:create-events-représentant-légal-importé": "node ./dist/représentant-légal/create-events-représentant-légal-importé"
+    "start:récupérer-fichier-gf-candidature-référentiel-dgec": "node ./dist/garanties-financières/récupérer-fichier-gf-candidature-référentiel-dgec"
   },
   "dependencies": {
     "@potentiel-applications/routes": "*",

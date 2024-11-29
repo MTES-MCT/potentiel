@@ -1,7 +1,5 @@
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 
-import { validateurParDéfaut } from '../../validateurParDéfaut';
-
 const CDCModifié30082022: AppelOffre.CahierDesChargesModifié = {
   type: 'modifié',
   paruLe: '30/08/2022',
@@ -121,7 +119,6 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       type: 'notified',
       certificateTemplate: 'ppe2.v2',
       ministère: 'MEFSIN',
-      validateurParDéfaut: validateurParDéfaut.nicolas,
       cahierDesCharges: {
         référence: '2021 S 203-530267',
       },

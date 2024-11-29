@@ -1,7 +1,5 @@
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 
-import { validateurParDéfaut } from '../../validateurParDéfaut';
-
 const CDCModifié30072021: AppelOffre.CahierDesChargesModifié = {
   paruLe: '30/07/2021',
   type: 'modifié',
@@ -130,7 +128,6 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
     {
       id: '2',
       title: 'deuxième',
-      validateurParDéfaut: validateurParDéfaut.ghislain,
       certificateTemplate: 'cre4.v1',
       noteThreshold: 32.9,
       cahierDesCharges: {
