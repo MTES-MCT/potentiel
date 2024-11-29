@@ -5,7 +5,7 @@ import { ListHistory, ListHistoryResult, RangeOptions } from '@potentiel-domain/
 export type ListerHistoriqueProjetReadModel = ListHistoryResult;
 
 export type ListerHistoriqueProjetQuery = Message<
-  'Document.Query.ConsulterDocumentProjet',
+  'Historique.Query.ListerHistoriqueProjet',
   {
     identifiantProjet: string;
     category?: 'abandon';
@@ -22,5 +22,5 @@ export const registerListerHistoriqueProjetQuery = ({
   listHistory,
 }: ListerHistoriqueProjetDependencies) => {
   const handler: MessageHandler<ListerHistoriqueProjetQuery> = listHistory;
-  mediator.register('Document.Query.ConsulterDocumentProjet', handler);
+  mediator.register('Historique.Query.ListerHistoriqueProjet', handler);
 };
