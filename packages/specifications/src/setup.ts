@@ -32,6 +32,7 @@ import { getFakeFormat } from './helpers/getFakeFormat';
 import { getFakeIdentifiantProjet } from './helpers/getFakeIdentifiantProjet';
 import { getFakeContent } from './helpers/getFakeContent';
 import { initialiserUtilisateursTests } from './utilisateur/stepDefinitions/utilisateur.given';
+import { waitForEvents } from './helpers/waitForEvents';
 
 should();
 setWorldConstructor(PotentielWorld);
@@ -115,6 +116,7 @@ Before<PotentielWorld>(async function (this: PotentielWorld) {
 });
 
 After(async () => {
+  await waitForEvents();
   const objectsToDelete = await getClient().send(new ListObjectsV2Command({ Bucket: bucketName }));
 
   if (objectsToDelete.Contents?.length) {
