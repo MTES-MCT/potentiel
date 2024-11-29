@@ -15,6 +15,7 @@ import { logMiddleware } from './middlewares/log.middleware';
 import { setupEliminé } from './setupEliminé';
 import { setupTâchePlanifiée } from './setupTâchePlanifiée';
 import { setupPériode } from './setupPériode';
+import { setupHistorique } from './setupHistorique';
 
 let unsubscribe: (() => Promise<void>) | undefined;
 let mutex: Promise<void> | undefined;
@@ -42,6 +43,8 @@ export const bootstrap = async ({
       sendEmail = sendEmailMailjet;
     }
 
+    const unsetupHistorique = await setupHistorique();
+
     setupUtilisateur();
     await setupAppelOffre();
     const unsetupPériode = await setupPériode({ sendEmail });
@@ -58,6 +61,7 @@ export const bootstrap = async ({
     getLogger().info('Application bootstrapped');
 
     unsubscribe = async () => {
+      await unsetupHistorique();
       await unsetupEliminé();
       await unsetupLauréat();
       await unsetupGestionnaireRéseau();

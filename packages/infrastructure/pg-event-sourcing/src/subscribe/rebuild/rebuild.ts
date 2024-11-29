@@ -16,15 +16,9 @@ export const rebuild = async <TEvent extends Event = Event>(
       eventType === 'all' ? undefined : Array.isArray(eventType) ? eventType : [eventType],
   });
 
-  await eventHandler({
-    type: rebuildTriggered.type,
-    payload: rebuildTriggered.payload,
-  } as unknown as TEvent);
+  await eventHandler(rebuildTriggered as unknown as TEvent);
 
   for (const event of events) {
-    await eventHandler({
-      type: event.type,
-      payload: event.payload,
-    } as TEvent);
+    await eventHandler(event as TEvent);
   }
 };

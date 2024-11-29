@@ -17,6 +17,7 @@
     "@potentiel-domain/periode": "*",
     "@potentiel-domain/candidature": "*",
     "@potentiel-domain/document": "*",
+    "@potentiel-domain/historique": "*",
     "@potentiel-domain/laureat": "*",
     "@potentiel-domain/reseau": "*",
     "@potentiel-domain/tache": "*",
