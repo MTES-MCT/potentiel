@@ -1,5 +1,5 @@
 export class DomainEventHandlingFailedError extends Error {
-  constructor() {
-    super('Handling domain event failed');
+  constructor(cause: unknown) {
+    super('Handling domain event failed', { cause });
   }
 }

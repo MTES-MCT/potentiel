@@ -136,8 +136,7 @@ export class EventStreamEmitter extends EventEmitter {
           version: event.version,
         });
       } catch (error) {
-        getLogger().error(new DomainEventHandlingFailedError(), {
-          error,
+        getLogger().error(new DomainEventHandlingFailedError(error), {
           event,
           subscriber: this.#subscriber,
         });
