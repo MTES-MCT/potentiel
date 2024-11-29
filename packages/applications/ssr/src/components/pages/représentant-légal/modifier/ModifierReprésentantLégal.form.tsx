@@ -31,7 +31,7 @@ export const ModifierReprésentantLégalForm: FC<ModifierReprésentantLégalForm
   const [currentStep, setCurrentStep] = useState(1);
 
   const [type, setType] = useState(typeReprésentantLégal.type);
-  const [nom, setNom] = useState(nomReprésentantLégal);
+  const [nom, setNom] = useState('');
 
   const steps: Array<Step> = [
     {
@@ -65,12 +65,12 @@ export const ModifierReprésentantLégalForm: FC<ModifierReprésentantLégalForm
       nextStep: {
         type: 'link',
         name: 'Suivant',
-        disabled: type === typeReprésentantLégal.type && nom === nomReprésentantLégal,
+        disabled: !nom || nom === nomReprésentantLégal,
       },
     },
     {
       index: 3,
-      name: `Confirmer la correction`,
+      name: `Confirmer la modification`,
       children: <ValidationStep typeReprésentantLégal={type} nomReprésentantLégal={nom} />,
       previousStep: { name: 'Précédent' },
       nextStep: {

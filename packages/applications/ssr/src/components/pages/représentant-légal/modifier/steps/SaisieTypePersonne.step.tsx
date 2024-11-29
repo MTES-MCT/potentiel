@@ -30,8 +30,8 @@ export const SaisieTypePersonneStep: FC<SaisieTypePersonneStepProps> = ({
     <div className="flex flex-col gap-4">
       <p>
         Pour effectuer une modification du représentant légal vous devez tout d'abord sélectionner
-        le type de personne du nouveau représentant légal pour connaître les documents obligatoire
-        pour la modification à la correction.
+        le type du nouveau représentant légal pour connaître les documents obligatoires nécessaires
+        à la modification.
       </p>
       <TypeReprésentantLégalSelect
         id="typeReprésentantLégal"

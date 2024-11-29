@@ -47,21 +47,19 @@ export const CorrigerCandidaturePage: React.FC<CorrigerCandidaturePageProps> = (
       rightColumn={{
         children: (
           <Alert
-            severity="info"
+            severity="warning"
             small
             description={
               <div className="flex flex-col gap-2">
                 <div>
-                  Ce formulaire sert à corriger des erreurs importées ou transmises à la
-                  candidature.
+                  Ce formulaire sert à{' '}
+                  <span className="font-semibold">
+                    corriger des erreurs importées ou transmises à la candidature.
+                  </span>
                 </div>
-                <div>
-                  Pour un changement au cours de la vie du projet, veuillez utiliser le formulaire
-                  dans la{' '}
-                  <Link href={Routes.Projet.details(identifiantProjet.formatter())}>
-                    page projet
-                  </Link>
-                  .
+                <div className="font-semibold">
+                  Pour un changement sur les données du projet, veuillez utiliser le formulaire{' '}
+                  <Link href={Routes.Projet.details(identifiantProjet.formatter())}>dédié</Link>.
                 </div>
                 <div>
                   Pour un changement par lot (fichier CSV), veuillez utiliser la{' '}
