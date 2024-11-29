@@ -97,6 +97,7 @@ Before<PotentielWorld>(async function (this: PotentielWorld) {
   await executeQuery(`delete from "projects"`);
   await executeQuery(`delete from event_store.event_stream`);
   await executeQuery(`delete from event_store.subscriber`);
+  await executeQuery('delete from event_store.pending_acknowledgement');
   await executeQuery(`delete from domain_views.projection`);
   await executeQuery(`delete from "userDreals"`);
   await executeQuery(`delete from "UserProjects"`);
@@ -116,7 +117,6 @@ Before<PotentielWorld>(async function (this: PotentielWorld) {
 });
 
 After(async () => {
-  // executeQuery('delete from event_store.pending_acknowledgement');
   const objectsToDelete = await getClient().send(new ListObjectsV2Command({ Bucket: bucketName }));
 
   if (objectsToDelete.Contents?.length) {
@@ -158,7 +158,6 @@ async function waitForEvents() {
     const [{ count }] = await executeSelect<{ count: number }>(
       `select count(*) as count from event_store.pending_acknowledgement where error is null`,
     );
-    console.log({ count });
     expect(count).to.eq(0, "pending_acknowledgement n'est pas vide");
   });
 }
