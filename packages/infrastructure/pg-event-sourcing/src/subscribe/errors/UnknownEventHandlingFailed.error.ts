@@ -1,5 +1,5 @@
 export class UnknownEventHandlingFailedError extends Error {
-  constructor() {
-    super('Handling unknow event failed');
+  constructor(cause: unknown) {
+    super('Handling unknow event failed', { cause });
   }
 }
