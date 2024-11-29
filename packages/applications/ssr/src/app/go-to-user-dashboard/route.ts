@@ -2,11 +2,10 @@ import { redirect } from 'next/navigation';
 
 import { Routes } from '@potentiel-applications/routes';
 import { Role } from '@potentiel-domain/utilisateur';
-
-import { getOptionalAuthenticatedUser } from '@/utils/getAuthenticatedUser.handler';
+import { getContext } from '@potentiel-applications/request-context';
 
 export const GET = async () => {
-  const utilisateur = await getOptionalAuthenticatedUser();
+  const utilisateur = getContext()?.utilisateur;
   if (utilisateur) {
     const redirectTo = utilisateur.role.estÉgaleÀ(Role.grd)
       ? Routes.Raccordement.lister
@@ -15,3 +14,5 @@ export const GET = async () => {
   }
   redirect(Routes.Auth.signIn());
 };
+
+export const dynamic = 'force-dynamic';

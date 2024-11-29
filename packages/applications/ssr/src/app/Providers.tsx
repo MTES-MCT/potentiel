@@ -2,7 +2,6 @@
 
 import { createMuiDsfrThemeProvider } from '@codegouvfr/react-dsfr/mui';
 import { DsfrProvider } from '@codegouvfr/react-dsfr/next-appdir/DsfrProvider';
-import { SessionProvider } from 'next-auth/react';
 import React from 'react';
 
 type ProvidersProps = {
@@ -13,9 +12,7 @@ const Providers = ({ children }: ProvidersProps) => {
   const { MuiDsfrThemeProvider } = createMuiDsfrThemeProvider({});
   return (
     <DsfrProvider>
-      <MuiDsfrThemeProvider>
-        <SessionProvider>{children}</SessionProvider>
-      </MuiDsfrThemeProvider>
+      <MuiDsfrThemeProvider>{children}</MuiDsfrThemeProvider>
     </DsfrProvider>
   );
 };

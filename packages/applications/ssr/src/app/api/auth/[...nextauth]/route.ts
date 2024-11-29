@@ -1,6 +1,6 @@
 import NextAuth from 'next-auth';
 
-import { authOptions } from '@/auth';
+import { authOptions } from '@potentiel-applications/request-context';
 
 const handler = NextAuth(authOptions);
 

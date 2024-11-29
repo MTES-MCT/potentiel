@@ -3,8 +3,7 @@ import { getServerSession } from 'next-auth';
 
 import { Routes } from '@potentiel-applications/routes';
 import { getLogger } from '@potentiel-libraries/monitoring';
-
-import { issuerUrl } from '@/auth';
+import { issuerUrl } from '@potentiel-applications/request-context';
 
 /**
  * This route manages logout from the SSO (keycloak).

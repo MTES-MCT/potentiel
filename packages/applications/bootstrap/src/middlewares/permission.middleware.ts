@@ -1,7 +1,7 @@
 import { Message, Middleware, mediator } from 'mediateur';
 
 import { IdentifiantProjet } from '@potentiel-domain/common';
-import { requestContextStorage } from '@potentiel-applications/request-context';
+import { getContext } from '@potentiel-applications/request-context';
 import { VérifierAccèsProjetQuery } from '@potentiel-domain/utilisateur';
 
 export const permissionMiddleware: Middleware = async (message, next) => {
@@ -9,7 +9,7 @@ export const permissionMiddleware: Middleware = async (message, next) => {
     return await next();
   }
 
-  const context = requestContextStorage.getStore();
+  const context = getContext();
   if (!context) {
     throw new Error('No request context');
   }

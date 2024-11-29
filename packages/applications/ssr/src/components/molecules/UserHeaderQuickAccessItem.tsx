@@ -4,11 +4,11 @@ import { mediator } from 'mediateur';
 import { ConsulterNombreTâchesQuery } from '@potentiel-domain/tache';
 import { Role, Utilisateur } from '@potentiel-domain/utilisateur';
 import { Routes } from '@potentiel-applications/routes';
-
-import { getOptionalAuthenticatedUser } from '@/utils/getAuthenticatedUser.handler';
+import { getContext } from '@potentiel-applications/request-context';
 
 export async function UserHeaderQuickAccessItem() {
-  const utilisateur = await getOptionalAuthenticatedUser();
+  const utilisateur = getContext()?.utilisateur;
+
   const accountUrl = `${process.env.KEYCLOAK_SERVER}/realms/${process.env.KEYCLOAK_REALM}/account`;
 
   if (utilisateur) {

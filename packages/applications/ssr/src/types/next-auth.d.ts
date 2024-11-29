@@ -1,16 +1,9 @@
-import { Utilisateur } from '@potentiel-domain/utilisateur';
-import { PlainType } from '@potentiel-domain/core';
+import { PotentielJWT, PotentielSession } from '@potentiel-applications/request-context';
 
 declare module 'next-auth/jwt' {
-  interface JWT {
-    idToken?: string;
-    utilisateur?: PlainType<Utilisateur.ValueType>;
-  }
+  interface JWT extends PotentielJWT {}
 }
 
 declare module 'next-auth' {
-  interface Session {
-    idToken?: string;
-    utilisateur?: PlainType<Utilisateur.ValueType>;
-  }
+  interface Session extends PotentielSession {}
 }

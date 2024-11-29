@@ -2,10 +2,10 @@ import { Middleware } from 'mediateur';
 
 import { getLogger } from '@potentiel-libraries/monitoring';
 import { DomainError } from '@potentiel-domain/core';
-import { requestContextStorage } from '@potentiel-applications/request-context';
+import { getContext } from '@potentiel-applications/request-context';
 
 export const logMiddleware: Middleware = async (message, next) => {
-  const context = requestContextStorage.getStore();
+  const context = getContext();
   const correlationId = context?.correlationId ?? '';
   const utilisateur = context?.utilisateur?.identifiantUtilisateur?.email;
   getLogger().info('Executing message', {
