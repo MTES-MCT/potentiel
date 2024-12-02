@@ -37,29 +37,8 @@ export const bind = ({ statut }: PlainType<ValueType>): ValueType => {
       return this.estÉgaleÀ(inconnu);
     },
     vérifierQueLeChangementDeStatutEstPossibleEn(nouveauStatut: ValueType) {
-      if (nouveauStatut.estDemandé()) {
-        if (this.estAccordé()) {
-          throw new DemandeChangementDéjàAccordéeError();
-        }
-        if (this.estDemandé()) {
-          throw new DemandeChangementDéjàDemandéeError();
-        }
-      } else if (nouveauStatut.estAccordé()) {
-        if (this.estAccordé()) {
-          throw new DemandeChangementDéjàAccordéeError();
-        }
-
-        if (this.estRejeté()) {
-          throw new DemandeChangementDéjàRejetéeError();
-        }
-      } else if (nouveauStatut.estRejeté()) {
-        if (this.estAccordé()) {
-          throw new DemandeChangementDéjàAccordéeError();
-        }
-
-        if (this.estRejeté()) {
-          throw new DemandeChangementDéjàRejetéeError();
-        }
+      if (nouveauStatut.estDemandé() && this.estDemandé()) {
+        throw new DemandeChangementDéjàDemandéeError();
       }
     },
   };
@@ -94,16 +73,5 @@ class StatutDemandeChangementReprésentantLégalInvalideError extends InvalidOpe
 class DemandeChangementDéjàDemandéeError extends InvalidOperationError {
   constructor() {
     super(`Une demande de changement de représentant légal est déjà en cours`);
-  }
-}
-
-class DemandeChangementDéjàAccordéeError extends InvalidOperationError {
-  constructor() {
-    super(`La demande de changement de représentant légal a déjà été accordée`);
-  }
-}
-class DemandeChangementDéjàRejetéeError extends InvalidOperationError {
-  constructor() {
-    super(`La demande de changement de représentant légal a déjà été accordée`);
   }
 }
