@@ -14,9 +14,6 @@ Fonctionnalité: Demander le changement de représentant légal d'un projet laur
         Quand le porteur demande le changement de réprésentant pour le projet lauréat
         Alors le porteur devrait être informé que "Une demande de changement de représentant légal est déjà en cours"
 
-    # À valider
-    @NotImplemented
-    Scénario: Impossible de demander le changement de représentant légal d'un projet lauréat si il est le même que l'actuel
-        Etant donné une demande de changement de représentant légal en cours pour le projet lauréat
-        Quand le porteur demande le changement de représentant légal pour le projet lauréat avec le même représentant légal
-        Alors le porteur devrait être informé que "Ce représentant légal est déjà associé au projet"
+    Scénario: Impossible de demander le changement de représentant légal d'un projet lauréat s'il est le même que l'actuel
+        Quand le porteur demande le changement de réprésentant pour le projet lauréat avec les mêmes valeurs
+        Alors le porteur devrait être informé que "Le représentant légal est identique à celui déjà associé au projet"
