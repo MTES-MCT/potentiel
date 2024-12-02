@@ -42,6 +42,7 @@ export async function demander(
   }: DemanderOptions,
 ) {
   this.statut.vérifierQueLeChangementDeStatutEstPossibleEn(StatutAbandon.demandé);
+
   if (!recandidature && !pièceJustificative) {
     throw new PièceJustificativeObligatoireError();
   }
