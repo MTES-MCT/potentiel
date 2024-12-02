@@ -5,8 +5,11 @@ import { ReprésentantLégal } from '@potentiel-domain/laureat';
 
 import { Heading3 } from '@/components/atoms/headings';
 
+type Contexte = 'demander' | 'modifier';
+
 type GetInfosBasedOnTypeReprésentant = (
   typeReprésentant: ReprésentantLégal.TypeReprésentantLégal.RawType,
+  contexte: Contexte,
 ) => {
   nom: string;
   input: { label: string; hintText: string };
@@ -14,6 +17,7 @@ type GetInfosBasedOnTypeReprésentant = (
 };
 export const getInfosBasedOnTypeReprésentant: GetInfosBasedOnTypeReprésentant = (
   typeReprésentant,
+  contexte,
 ) =>
   match(typeReprésentant)
     .returnType<{
@@ -29,9 +33,10 @@ export const getInfosBasedOnTypeReprésentant: GetInfosBasedOnTypeReprésentant 
       },
       component: (
         <Situation
+          contexte={contexte}
           nom="Une personne physique"
           informationÀRemplir="les nom et prénom(s) de la personne"
-          pièceJustificativesÀAvoirEnPossession={
+          piècesJustificative={
             <li>
               Une copie de titre d'identité (carte d'identité ou passeport) en cours de validité
             </li>
@@ -47,9 +52,10 @@ export const getInfosBasedOnTypeReprésentant: GetInfosBasedOnTypeReprésentant 
       },
       component: (
         <Situation
+          contexte={contexte}
           nom="Une personne morale"
           informationÀRemplir="le nom de la société"
-          pièceJustificativesÀAvoirEnPossession={
+          piècesJustificative={
             <>
               <li>
                 Pour les sociétés constituées :
@@ -81,11 +87,10 @@ export const getInfosBasedOnTypeReprésentant: GetInfosBasedOnTypeReprésentant 
       },
       component: (
         <Situation
+          contexte={contexte}
           nom="Une collectivité"
           informationÀRemplir="le nom de la collectivité"
-          pièceJustificativesÀAvoirEnPossession={
-            <li>Un extrait de délibération portant sur le projet</li>
-          }
+          piècesJustificative={<li>Un extrait de délibération portant sur le projet</li>}
         />
       ),
     }))
@@ -97,9 +102,10 @@ export const getInfosBasedOnTypeReprésentant: GetInfosBasedOnTypeReprésentant 
       },
       component: (
         <Situation
+          contexte={contexte}
           nom="Un organisme ou autre"
           informationÀRemplir="le nom de l'organisme"
-          pièceJustificativesÀAvoirEnPossession={
+          piècesJustificative={
             <>
               <li>
                 Tout document officiel permettant d'attester de l'existence juridique de l'organisme
@@ -121,21 +127,31 @@ export const getInfosBasedOnTypeReprésentant: GetInfosBasedOnTypeReprésentant 
 
 const Situation: FC<{
   nom: string;
+  contexte: Contexte;
   informationÀRemplir: string;
-  pièceJustificativesÀAvoirEnPossession: ReactNode;
-}> = ({ nom, informationÀRemplir, pièceJustificativesÀAvoirEnPossession }) => (
-  <div>
-    <Heading3>{nom}</Heading3>
-    <div className="mt-4 flex flex-col gap-2">
-      <div>
-        <span className="font-semibold">Information du changement :</span> {informationÀRemplir}
-      </div>
-      <div>
-        <span className="font-semibold">
-          Pièces à avoir en votre possession (vous n'aurez pas à les téléverser sur Potentiel) :
-        </span>
-        <ul className="mt-2 ml-4 list-disc">{pièceJustificativesÀAvoirEnPossession}</ul>
+  piècesJustificative: ReactNode;
+}> = ({ contexte, nom, informationÀRemplir, piècesJustificative }) => {
+  const wordingPiècesJustificatives = match(contexte)
+    .with('demander', () => `Pièces à joindre :`)
+    .with(
+      'modifier',
+      () =>
+        `Pièces à avoir en votre possession (vous n'aurez pas à les téléverser sur Potentiel) :`,
+    )
+    .exhaustive();
+
+  return (
+    <div>
+      <Heading3>{nom}</Heading3>
+      <div className="mt-4 flex flex-col gap-2">
+        <div>
+          <span className="font-semibold">Information du changement :</span> {informationÀRemplir}
+        </div>
+        <div>
+          <span className="font-semibold">{wordingPiècesJustificatives}</span>
+          <ul className="mt-2 ml-4 list-disc">{piècesJustificative}</ul>
+        </div>
       </div>
     </div>
-  </div>
-);
+  );
+};
