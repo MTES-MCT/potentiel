@@ -27,7 +27,7 @@
     "storybook": "npm run storybook build -w @potentiel-applications/ssr",
     "storybook:documents": "npm run storybook build -w @potentiel-applications/document-builder",
     "up:test": "docker compose --profile test up -d && until docker exec potentiel_db_tests_integration pg_isready -U testuser -d potentiel_test; do sleep 1; done",
-    "down:test": "export COMPOSE_PROJECT_NAME=potentiel_tests && docker compose --profile test down --remove-orphans",
+    "down:test": "docker compose --profile test down --remove-orphans",
     "pretest": "npm run down:test && npm run up:test",
     "pretest:legacy": "turbo run build --filter=@potentiel-applications/legacy^... && npm run pretest",
     "test:legacy": "turbo run test --filter=@potentiel-applications/legacy",

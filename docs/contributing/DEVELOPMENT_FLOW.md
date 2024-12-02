@@ -6,33 +6,33 @@
   - [Table des matières](#table-des-matières)
   - [ Organisation du code source](#-organisation-du-code-source)
   - [ Scripts NPM](#-scripts-npm)
-      - [`prepare`](#prepare)
-      - [`start`](#start)
-      - [`up`](#up)
-      - [`down`](#down)
-      - [`prestart:legacy`](#prestartlegacy)
-      - [`start:legacy`](#startlegacy)
-      - [`build`](#build)
-      - [`build:dev`](#builddev)
-      - [`build:test`](#buildtest)
-      - [`predev`](#predev)
-      - [`dev`](#dev)
-      - [`lint`](#lint)
-      - [`lint:fix`](#lintfix)
-      - [`format`](#format)
-      - [`storybook`](#storybook)
-      - [`up:test`](#uptest)
-      - [`down:test`](#downtest)
-      - [`pretest`](#pretest)
-      - [`pretest:legacy`](#pretestlegacy)
-      - [`test:legacy`](#testlegacy)
-      - [`pretest:libraries`](#pretestlibraries)
-      - [`test:libraries`](#testlibraries)
-      - [`prespecs`](#prespecs)
-      - [`specs`](#specs)
-      - [`prespecs:select`](#prespecsselect)
-      - [`specs:select`](#specsselect)
-      - [`version`](#version)
+    - [`prepare`](#prepare)
+    - [`start`](#start)
+    - [`up`](#up)
+    - [`down`](#down)
+    - [`prestart:legacy`](#prestartlegacy)
+    - [`start:legacy`](#startlegacy)
+    - [`build`](#build)
+    - [`build:dev`](#builddev)
+    - [`build:test`](#buildtest)
+    - [`predev`](#predev)
+    - [`dev`](#dev)
+    - [`lint`](#lint)
+    - [`lint:fix`](#lintfix)
+    - [`format`](#format)
+    - [`storybook`](#storybook)
+    - [`up:test`](#uptest)
+    - [`down:test`](#downtest)
+    - [`pretest`](#pretest)
+    - [`pretest:legacy`](#pretestlegacy)
+    - [`test:legacy`](#testlegacy)
+    - [`pretest:libraries`](#pretestlibraries)
+    - [`test:libraries`](#testlibraries)
+    - [`prespecs`](#prespecs)
+    - [`specs`](#specs)
+    - [`prespecs:select`](#prespecsselect)
+    - [`specs:select`](#specsselect)
+    - [`version`](#version)
   - [ Environnements](#-environnements)
   - [ Déploiement](#-déploiement)
   - [ Apporter des changements](#-apporter-des-changements)
@@ -75,114 +75,141 @@ Nous avons donc :
 Vous trouverez ci-dessous une description du fonctionnement de l'ensemble des scripts NPM du projet :
 
 #### `prepare`
+
 - **Description**: Exécute Husky, un outil pour gérer les hooks Git avec lint-staged. Cela permet de configurer automatiquement les hooks Git après l'installation des dépendances.
 - **Commande**: `husky`
 
 #### `start`
+
 - **Description**: Lance l'application en exécutant le script `start` pour tous les workspaces qui le définissent, si présent.
 - **Commande**: `npm run start --workspaces --if-present`
 
 #### `up`
+
 - **Description**: Démarre les services définis dans le fichier `docker-compose` avec le profil `app`, et attend que la base de données soit prête avant de continuer.
 - **Commande**: `docker compose --profile app up -d && until docker exec potentiel_db pg_isready -U potadmindb -d potentiel; do sleep 1; done`
 
 #### `down`
+
 - **Description**: Arrête et supprime les conteneurs Docker qui ont été lancés avec le profil `app`, en supprimant également les orphelins.
 - **Commande**: `docker compose  --profile app down --remove-orphans`
 
 #### `prestart:legacy`
+
 - **Description**: Script exécuté avant `start:legacy`, qui build le projet et démarre les services docker.
 - **Commande**: `npm run build & npm run up`
 
 #### `start:legacy`
+
 - **Description**: Lance les services locaux nécessaire au fonctionnement de l'app (Postgres, S3, Keycloack), éxecute les migrations de base de données, compile l'ensemble du projet et le lance en mode watch (partie legacy)
 - **Commande**: `npm run start:dev --workspaces --if-present`
 
 #### `build`
+
 - **Description**: Build le projet en utilisant Turbo, qui permet d'exécuter des commandes en parallèle et de gérer les dépendances entre les packages.
 - **Commande**: `turbo run build`
 
 #### `build:dev`
+
 - **Description**: Build le projet pour le développement, en excluant l'application legacy, SSR et les spécifications.
 - **Commande**: `turbo run build --filter=!@potentiel-applications/legacy --filter=!@potentiel-applications/ssr --filter=!@potentiel/specifications`
 
 #### `build:test`
+
 - **Description**: Build le projet pour les tests, en excluant l'application legacy et SSR.
 - **Commande**: `turbo run build --filter=!@potentiel-applications/legacy --filter=!@potentiel-applications/ssr`
 
 #### `predev`
+
 - **Description**: Script exécuté avant `dev`, qui démarre les services docker et construit le projet pour le développement.
 - **Commande**: `npm run up && npm run build:dev`
 
 #### `dev`
+
 - **Description**: Lance l'application ssr en mode développement
 - **Commande**: `npm run dev --workspaces --if-present`
 
 #### `lint`
+
 - **Description**: Exécute ESLint pour identifier et signaler les patterns trouvés dans le code.
 - **Commande**: `eslint .`
 
 #### `lint:fix`
+
 - **Description**: Exécute ESLint avec l'option `--fix` pour corriger automatiquement les problèmes de code détectables.
 - **Commande**: `eslint . --fix`
 
 #### `format`
+
 - **Description**: Formate le code dans tous les workspaces qui définissent le script `format`, si présent.
 - **Commande**: `npm run format --workspaces --if-present`
 
 #### `storybook`
+
 - **Description**: Build le Storybook pour tous les workspaces qui le définissent, si présent.
 - **Commande**: `npm run storybook build --workspaces --if-present`
 
 #### `up:test`
+
 - **Description**: Lance les services Docker nécessaires pour les tests avec le profil `test` et attend que la base de données soit prête.
 - **Commande**: `docker compose --profile test up -d && until docker exec potentiel_db_tests_integration pg_isready -U testuser -d potentiel_test; do sleep 1; done`
 
 #### `down:test`
+
 - **Description**: Arrête et supprime les conteneurs Docker lancés pour les tests, en supprimant également les orphelins.
-- **Commande**: `export COMPOSE_PROJECT_NAME=potentiel_tests && docker compose --profile test down --remove-orphans`
+- **Commande**: `docker compose --profile test down --remove-orphans`
 
 #### `pretest`
+
 - **Description**: Build le projet pour les tests, arrête les services Docker de test s'ils sont lancés, puis les relance.
 - **Commande**: `npm run build:test && npm run down:test && npm run up:test`
 
 #### `pretest:legacy`
+
 - **Description**: Exécute les étapes de préparation des tests pour l'application legacy.
 - **Commande**: `npm run pretest`
 
 #### `test:legacy`
+
 - **Description**: Exécute les tests pour l'application legacy.
 - **Commande**: `turbo run test --filter=@potentiel-applications/legacy`
 
 #### `pretest:libraries`
+
 - **Description**: Exécute les étapes de préparation des tests pour les bibliothèques.
 - **Commande**: `npm run pretest`
 
 #### `test:libraries`
+
 - **Description**: Exécute les tests pour les bibliothèques, excluant l'application legacy.
 - **Commande**: `turbo run test --filter=!@potentiel-applications/legacy --filter=!@potentiel-applications/legacy`
 
 #### `prespecs`
+
 - **Description**: Prépare l'environnement pour exécuter les spécifications.
 - **Commande**: `npm run pretest`
 
 #### `specs`
+
 - **Description**: Exécute les spécifications.
 - **Commande**: `npm run test -w @potentiel/specifications`
 
 #### `prespecs:select`
+
 - **Description**: Prépare l'environnement pour exécuter une sélection de spécifications.
 - **Commande**: `npm run pretest`
 
 #### `specs:select`
+
 - **Description**: Exécute une sélection de spécifications.
 - **Commande**: `npm run test:select -w @potentiel/specifications`
 
 #### `version`
+
 > ⚠️ Attention, ce script n'est utilisé que par la CI
+
 - **Description**: Calcule le numéro de version de l'application.
 - **Commande**: `tsx .github/getPatchVersion.ts`
-
 
 ## <a id="environnements"></a> Environnements
 
