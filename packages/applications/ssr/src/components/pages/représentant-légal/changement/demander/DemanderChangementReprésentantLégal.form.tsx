@@ -7,13 +7,15 @@ import { Form } from '@/components/atoms/form/Form';
 import { ValidationErrors } from '@/utils/formAction';
 import { Step, Steps } from '@/components/molecules/step/Steps';
 
-import { DescriptionDémarcheChangementReprésentantLégal } from './DescriptionDémarcheChangementReprésentantLégal';
-import { SaisieChangementReprésentantLégal } from './SaisieChangementReprésentantLégal';
-import { ValidationChangementReprésentantLégal } from './ValidationChangementReprésentantLégal';
 import {
   demanderChangementReprésentantLégalAction,
   DemanderChangementReprésentantLégalFormKeys,
 } from './demanderChangementReprésentantLégal.action';
+import {
+  DescriptionDémarcheChangementReprésentantLégal,
+  SaisieChangementReprésentantLégal,
+  ValidationChangementReprésentantLégal,
+} from './steps';
 
 export type DemanderChangementReprésentantLégalFormProps = {
   identifiantProjet: string;

@@ -200,9 +200,11 @@ const référencielPermissions = {
       },
       usecase: {
         modifier: 'Lauréat.ReprésentantLégal.UseCase.ModifierReprésentantLégal',
+        demander: 'Lauréat.ReprésentantLégal.UseCase.DemanderChangementReprésentantLégal',
       },
       command: {
         modifier: 'Lauréat.ReprésentantLégal.Command.ModifierReprésentantLégal',
+        demander: 'Lauréat.ReprésentantLégal.Command.DemanderChangementReprésentantLégal',
       },
     },
     usecase: { notifier: 'Lauréat.UseCase.NotifierLauréat' },
@@ -841,6 +843,10 @@ const policies = {
       référencielPermissions.lauréat.représentantLégal.usecase.modifier,
       référencielPermissions.lauréat.représentantLégal.command.modifier,
     ],
+    demanderChangement: [
+      référencielPermissions.lauréat.représentantLégal.usecase.demander,
+      référencielPermissions.lauréat.représentantLégal.command.demander,
+    ],
   },
   historique: {
     lister: [référencielPermissions.historique.query.lister],
@@ -1082,6 +1088,7 @@ const porteurProjetPolicies: ReadonlyArray<Policy> = [
 
   // Représentant légal
   'représentantLégal.consulter',
+  'représentantLégal.demanderChangement',
 ];
 
 const acheteurObligéPolicies: ReadonlyArray<Policy> = [
