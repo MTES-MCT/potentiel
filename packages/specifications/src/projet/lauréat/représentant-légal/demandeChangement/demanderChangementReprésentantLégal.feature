@@ -17,3 +17,7 @@ Fonctionnalité: Demander le changement de représentant légal d'un projet laur
     Scénario: Impossible de demander le changement de représentant légal d'un projet lauréat s'il est le même que l'actuel
         Quand le porteur demande le changement de réprésentant pour le projet lauréat avec les mêmes valeurs
         Alors le porteur devrait être informé que "Le représentant légal est identique à celui déjà associé au projet"
+
+    Scénario: Impossible de demander le changement de représentant légal d'un projet lauréat si son type est inconnu
+        Quand le porteur demande le changement de réprésentant pour le projet lauréat avec un type inconnu
+        Alors le porteur devrait être informé que "Le représentant légal ne peut pas avoir de type inconnu"
