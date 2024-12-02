@@ -1,20 +1,28 @@
 'use client';
 import { FC } from 'react';
 import { Alert } from '@codegouvfr/react-dsfr/Alert';
+import { match } from 'ts-pattern';
 
 import { ReprésentantLégal } from '@potentiel-domain/laureat';
-
-import { getInfosBasedOnTypeReprésentant } from './_utils/getInfosBasedOnTypeReprésentant';
 
 type ValidationStepProps = {
   typeReprésentantLégal: ReprésentantLégal.TypeReprésentantLégal.RawType;
   nomReprésentantLégal: string;
+  piècesJustificatives: ReadonlyArray<string>;
 };
 export const ValidationStep: FC<ValidationStepProps> = ({
   typeReprésentantLégal,
   nomReprésentantLégal,
+  piècesJustificatives,
 }) => {
-  const { nom } = getInfosBasedOnTypeReprésentant(typeReprésentantLégal);
+  const nom = match(typeReprésentantLégal)
+    .returnType<string>()
+    .with('personne-physique', () => 'Personne physique')
+    .with('personne-morale', () => 'Personne morale')
+    .with('collectivité', () => 'Collectivité')
+    .with('autre', () => `Autre`)
+    .with('inconnu', () => 'Inconnu')
+    .exhaustive();
 
   return (
     <div className="flex flex-col gap-4">
@@ -38,6 +46,18 @@ export const ValidationStep: FC<ValidationStepProps> = ({
             <div>Nom représentant légal :</div>
             <blockquote className="font-semibold italic">{nomReprésentantLégal}</blockquote>
           </div>
+          {piècesJustificatives.length > 0 && (
+            <div className="flex flex-row gap-2">
+              <div>Pièces justificatives :</div>
+              <div className="pl-2">
+                <ul className="list-disc">
+                  {piècesJustificatives.map((pièceJustificative) => (
+                    <li key={pièceJustificative}>{pièceJustificative}</li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          )}
         </div>
       </div>
     </div>
