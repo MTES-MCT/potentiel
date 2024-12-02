@@ -1,4 +1,4 @@
-import { DomainEvent } from '@potentiel-domain/core';
+import { DomainError, DomainEvent } from '@potentiel-domain/core';
 import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
 
 import { ReprésentantLégalAggregate } from '../../représentantLégal.aggregate';
@@ -34,16 +34,20 @@ export async function demander(
     identifiantUtilisateur,
   }: DemanderChangementOptions,
 ) {
-  this.demande.statut.vérifierQueLeChangementDeStatutEstPossibleEn(
-    StatutDemandeChangementReprésentantLégal.demandé,
-  );
-
   if (
     this.représentantLégal.nom === nomReprésentantLégal &&
     this.représentantLégal.type.estÉgaleÀ(typeReprésentantLégal)
   ) {
     throw new ReprésentantLégalIdentifiqueError();
   }
+
+  if (typeReprésentantLégal.estInconnu()) {
+    throw new ReprésentantLégalTypeInconnuError();
+  }
+
+  this.demande.statut.vérifierQueLeChangementDeStatutEstPossibleEn(
+    StatutDemandeChangementReprésentantLégal.demandé,
+  );
 
   const event: ChangementReprésentantLégalDemandéEvent = {
     type: 'ChangementReprésentantLégalDemandé-V1',
@@ -70,4 +74,10 @@ export function applyChangementReprésentantLégalDemandé(
     nom: nomReprésentantLégal,
     type: TypeReprésentantLégal.convertirEnValueType(typeReprésentantLégal),
   };
+}
+
+class ReprésentantLégalTypeInconnuError extends DomainError {
+  constructor() {
+    super('Le représentant légal ne peut pas avoir de type inconnu');
+  }
 }
