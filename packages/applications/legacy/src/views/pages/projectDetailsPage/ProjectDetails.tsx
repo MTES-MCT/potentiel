@@ -131,7 +131,12 @@ export const ProjectDetails = ({
               demandeRecours={demandeRecours}
               garantiesFinancières={garantiesFinancières}
             />
-            <Contact project={project} user={user} représentantLégal={représentantLégal} />
+            <Contact
+              identifiantProjet={identifiantProjet}
+              project={project}
+              user={user}
+              représentantLégal={représentantLégal}
+            />
             <MaterielsEtTechnologies
               fournisseur={project.fournisseur}
               evaluationCarbone={project.evaluationCarbone}
