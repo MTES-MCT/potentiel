@@ -8,7 +8,13 @@ import { convertStringToReadableStream } from '../../../../../helpers/convertStr
 
 type PièceJustificative = { format: string; content: ReadableStream };
 
-interface DemanderChangementReprésentantLégal {
+export type CréerDemandeChangementReprésentantLégalFixture = Partial<
+  Readonly<DemanderChangementReprésentantLégal>
+> & {
+  identifiantProjet: string;
+};
+
+export interface DemanderChangementReprésentantLégal {
   readonly nomReprésentantLégal: string;
   readonly typeReprésentantLégal: ReprésentantLégal.TypeReprésentantLégal.ValueType;
   readonly piècesJustificative: Array<PièceJustificative>;
@@ -63,9 +69,7 @@ export class DemanderChangementReprésentantLégalFixture
   }
 
   créer(
-    partialFixture: Partial<Readonly<DemanderChangementReprésentantLégal>> & {
-      identifiantProjet: string;
-    },
+    partialFixture: CréerDemandeChangementReprésentantLégalFixture,
   ): Readonly<DemanderChangementReprésentantLégal> {
     const format = 'application/pdf';
     const fixture = {
