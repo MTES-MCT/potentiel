@@ -31,26 +31,38 @@ import {
   CandidatureNotifiéeEvent,
   CandidatureNotifiéeEventV1,
 } from './notifier/notifierCandidature.behavior';
+import {
+  ConsulterRésuméCandidatureQuery,
+  ConsulterRésuméCandidatureReadModel,
+} from './consulter/consulterRésuméCandidature.query';
 
 // Query
 export type CandidatureQuery =
   | ConsulterProjetQuery
   | ListerCandidaturesQuery
   | ListerProjetsEligiblesPreuveRecanditureQuery
-  | ListerProjetsQuery;
+  | ListerProjetsQuery
+  | ConsulterCandidatureQuery
+  | ConsulterRésuméCandidatureQuery;
 
 export {
   ConsulterProjetQuery,
   ListerProjetsEligiblesPreuveRecanditureQuery,
+  ListerProjetsQuery,
+  ListerCandidaturesQuery,
+  ConsulterCandidatureQuery,
+  ConsulterRésuméCandidatureQuery,
+};
+
+// ReadModel
+export {
   ConsulterProjetReadModel,
   ListerProjetsEligiblesPreuveRecanditureReadModel,
-  ListerProjetsQuery,
   ListerProjetsListItemReadModel,
   ListerProjetsReadModel,
-  ListerCandidaturesQuery,
   ListerCandidaturesReadModel,
-  ConsulterCandidatureQuery,
   ConsulterCandidatureReadModel,
+  ConsulterRésuméCandidatureReadModel,
 };
 
 // UseCases
