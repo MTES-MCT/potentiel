@@ -33,6 +33,10 @@ export async function demander(
     identifiantUtilisateur,
   }: DemanderChangementOptions,
 ) {
+  this.demande.statut.vérifierQueLeChangementDeStatutEstPossibleEn(
+    StatutDemandeChangementReprésentantLégal.demandé,
+  );
+
   const event: ChangementReprésentantLégalDemandéEvent = {
     type: 'ChangementReprésentantLégalDemandé-V1',
     payload: {
