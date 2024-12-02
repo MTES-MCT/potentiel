@@ -3,6 +3,7 @@ import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
 
 import { ReprésentantLégalAggregate } from '../../représentantLégal.aggregate';
 import { StatutDemandeChangementReprésentantLégal, TypeReprésentantLégal } from '../..';
+import { ReprésentantLégalIdentifiqueError } from '../../représentantLégalIdentique.error';
 
 export type ChangementReprésentantLégalDemandéEvent = DomainEvent<
   'ChangementReprésentantLégalDemandé-V1',
@@ -36,6 +37,13 @@ export async function demander(
   this.demande.statut.vérifierQueLeChangementDeStatutEstPossibleEn(
     StatutDemandeChangementReprésentantLégal.demandé,
   );
+
+  if (
+    this.représentantLégal.nom === nomReprésentantLégal &&
+    this.représentantLégal.type.estÉgaleÀ(typeReprésentantLégal)
+  ) {
+    throw new ReprésentantLégalIdentifiqueError();
+  }
 
   const event: ChangementReprésentantLégalDemandéEvent = {
     type: 'ChangementReprésentantLégalDemandé-V1',
