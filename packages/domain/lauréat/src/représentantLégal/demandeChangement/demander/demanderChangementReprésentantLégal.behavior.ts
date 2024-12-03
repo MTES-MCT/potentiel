@@ -1,5 +1,6 @@
 import { DomainError, DomainEvent } from '@potentiel-domain/core';
 import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
+import { DocumentProjet } from '@potentiel-domain/document';
 
 import { ReprésentantLégalAggregate } from '../../représentantLégal.aggregate';
 import { StatutDemandeChangementReprésentantLégal, TypeReprésentantLégal } from '../..';
@@ -13,14 +14,18 @@ export type ChangementReprésentantLégalDemandéEvent = DomainEvent<
     typeReprésentantLégal: TypeReprésentantLégal.RawType;
     demandéLe: DateTime.RawType;
     demandéPar: Email.RawType;
+    piècesJustificatives: Array<{
+      format: string;
+    }>;
   }
 >;
 
 export type DemanderChangementOptions = {
   identifiantProjet: IdentifiantProjet.ValueType;
-  identifiantUtilisateur: Email.ValueType;
   nomReprésentantLégal: string;
   typeReprésentantLégal: TypeReprésentantLégal.ValueType;
+  piècesJustificatives: Array<DocumentProjet.ValueType>;
+  identifiantUtilisateur: Email.ValueType;
   dateDemande: DateTime.ValueType;
 };
 
@@ -30,8 +35,9 @@ export async function demander(
     identifiantProjet,
     nomReprésentantLégal,
     typeReprésentantLégal,
-    dateDemande,
+    piècesJustificatives,
     identifiantUtilisateur,
+    dateDemande,
   }: DemanderChangementOptions,
 ) {
   if (
@@ -45,9 +51,15 @@ export async function demander(
     throw new ReprésentantLégalTypeInconnuError();
   }
 
-  this.demande.statut.vérifierQueLeChangementDeStatutEstPossibleEn(
-    StatutDemandeChangementReprésentantLégal.demandé,
-  );
+  if (!piècesJustificatives.length) {
+    throw new PiècesJustificativesObligatoireError();
+  }
+
+  if (this.demande) {
+    this.demande.statut.vérifierQueLeChangementDeStatutEstPossibleEn(
+      StatutDemandeChangementReprésentantLégal.demandé,
+    );
+  }
 
   const event: ChangementReprésentantLégalDemandéEvent = {
     type: 'ChangementReprésentantLégalDemandé-V1',
@@ -57,6 +69,9 @@ export async function demander(
       typeReprésentantLégal: typeReprésentantLégal.formatter(),
       demandéLe: dateDemande.formatter(),
       demandéPar: identifiantUtilisateur.formatter(),
+      piècesJustificatives: piècesJustificatives.map((pj) => ({
+        format: pj.format,
+      })),
     },
   };
 
@@ -79,5 +94,11 @@ export function applyChangementReprésentantLégalDemandé(
 class ReprésentantLégalTypeInconnuError extends DomainError {
   constructor() {
     super('Le représentant légal ne peut pas avoir de type inconnu');
+  }
+}
+
+class PiècesJustificativesObligatoireError extends DomainError {
+  constructor() {
+    super('Les pièces justificatives sont obligatoires');
   }
 }

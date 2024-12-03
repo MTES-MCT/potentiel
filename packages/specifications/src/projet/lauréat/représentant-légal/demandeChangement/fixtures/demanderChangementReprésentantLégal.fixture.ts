@@ -17,7 +17,7 @@ export type CréerDemandeChangementReprésentantLégalFixture = Partial<
 export interface DemanderChangementReprésentantLégal {
   readonly nomReprésentantLégal: string;
   readonly typeReprésentantLégal: ReprésentantLégal.TypeReprésentantLégal.ValueType;
-  readonly piècesJustificative: Array<PièceJustificative>;
+  readonly piècesJustificatives: Array<PièceJustificative>;
   readonly demandéLe: string;
   readonly demandéPar: string;
 }
@@ -44,10 +44,10 @@ export class DemanderChangementReprésentantLégalFixture
     return this.#typeReprésentantLégal;
   }
 
-  #piècesJustificative!: Array<PièceJustificative>;
+  #piècesJustificatives!: Array<PièceJustificative>;
 
-  get piècesJustificative(): Array<PièceJustificative> {
-    return this.#piècesJustificative;
+  get piècesJustificatives(): Array<PièceJustificative> {
+    return this.#piècesJustificatives;
   }
 
   #demandéLe!: string;
@@ -78,60 +78,62 @@ export class DemanderChangementReprésentantLégalFixture
       statut: ReprésentantLégal.StatutDemandeChangementReprésentantLégal.demandé,
       demandéLe: faker.date.recent().toISOString(),
       demandéPar: faker.internet.email(),
-      piècesJustificative: [],
+      piècesJustificatives: [],
       ...partialFixture,
     };
 
-    fixture.piècesJustificative = match(fixture.typeReprésentantLégal.type)
-      .returnType<DemanderChangementReprésentantLégal['piècesJustificative']>()
-      .with('personne-physique', () => [
-        {
-          format,
-          content: convertStringToReadableStream(
-            `une copie de titre d'identité (carte d'identité ou passeport) en cours de validité`,
-          ),
-        },
-      ])
-      .with('personne-morale', () => [
-        {
-          format,
-          content: convertStringToReadableStream(`un extrait Kbis`),
-        },
-        {
-          format,
-          content: convertStringToReadableStream(
-            `une copie des statuts de la société OU une attestation de récépissé de dépôt de fonds pour constitution de capital social`,
-          ),
-        },
-        {
-          format,
-          content: convertStringToReadableStream(
-            `une copie de l’acte désignant le représentant légal de la société`,
-          ),
-        },
-      ])
-      .with('collectivité', () => [
-        {
-          format,
-          content: convertStringToReadableStream(
-            `un extrait de délibération portant sur le projet objet de l'offre`,
-          ),
-        },
-      ])
-      .with('autre', () => [
-        {
-          format,
-          content: convertStringToReadableStream(
-            `tout document officiel permettant d'attester de l'existence juridique de la personne`,
-          ),
-        },
-      ])
-      .otherwise(() => []);
+    if (!partialFixture.piècesJustificatives) {
+      fixture.piècesJustificatives = match(fixture.typeReprésentantLégal.type)
+        .returnType<DemanderChangementReprésentantLégal['piècesJustificatives']>()
+        .with('personne-physique', () => [
+          {
+            format,
+            content: convertStringToReadableStream(
+              `une copie de titre d'identité (carte d'identité ou passeport) en cours de validité`,
+            ),
+          },
+        ])
+        .with('personne-morale', () => [
+          {
+            format,
+            content: convertStringToReadableStream(`un extrait Kbis`),
+          },
+          {
+            format,
+            content: convertStringToReadableStream(
+              `une copie des statuts de la société OU une attestation de récépissé de dépôt de fonds pour constitution de capital social`,
+            ),
+          },
+          {
+            format,
+            content: convertStringToReadableStream(
+              `une copie de l’acte désignant le représentant légal de la société`,
+            ),
+          },
+        ])
+        .with('collectivité', () => [
+          {
+            format,
+            content: convertStringToReadableStream(
+              `un extrait de délibération portant sur le projet objet de l'offre`,
+            ),
+          },
+        ])
+        .with('autre', () => [
+          {
+            format,
+            content: convertStringToReadableStream(
+              `tout document officiel permettant d'attester de l'existence juridique de la personne`,
+            ),
+          },
+        ])
+        .otherwise(() => []);
+    }
 
     this.#identifiantProjet = fixture.identifiantProjet;
     this.#nomReprésentantLégal = fixture.nomReprésentantLégal;
     this.#typeReprésentantLégal = fixture.typeReprésentantLégal;
-    this.#piècesJustificative = fixture.piècesJustificative;
+    this.#piècesJustificatives = fixture.piècesJustificatives;
     this.#demandéLe = fixture.demandéLe;
     this.#demandéPar = fixture.demandéPar;
     this.#statut = fixture.statut;

@@ -12,6 +12,9 @@ export type ReprésentantLégalEntity = Entity<
       typeReprésentantLégal: string;
       demandéLe: string;
       demandéPar: string;
+      piècesJustificatives: Array<{
+        format: string;
+      }>;
     };
   }
 >;
