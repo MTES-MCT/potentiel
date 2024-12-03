@@ -44,12 +44,22 @@ export const Contact = ({ identifiantProjet, project, user, représentantLégal 
                 : 'la candidature'}
             </Link>
           )}
-          {représentantLégal.demanderChangement && (
+          {représentantLégal.demandeDeModification?.url && (
+            <Link
+              href={Routes.ReprésentantLégal.détail(identifiantProjet)}
+              aria-label="Voir la demande de changement en cours"
+              className="block"
+            >
+              Voir la demande de changement en cours
+            </Link>
+          )}
+          {représentantLégal.demandeDeModification?.peutFaireUneDemande && (
             <Link
               href={Routes.ReprésentantLégal.demanderChangement(identifiantProjet)}
               aria-label="Demander un changement"
+              className="block"
             >
-              Demander un changement de représentant légal
+              Faire une demande de changement
             </Link>
           )}
         </>

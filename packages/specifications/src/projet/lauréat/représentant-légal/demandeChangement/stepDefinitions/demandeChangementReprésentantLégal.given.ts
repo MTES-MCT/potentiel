@@ -18,7 +18,7 @@ export async function créerDemandeChangementReprésentantLégal(this: Potentiel
   const {
     nomReprésentantLégal,
     typeReprésentantLégal,
-    piècesJustificative,
+    piècesJustificatives,
     demandéLe,
     demandéPar,
   } = this.lauréatWorld.représentantLégalWorld.demanderChangementReprésentantLégalFixture.créer({
@@ -31,7 +31,7 @@ export async function créerDemandeChangementReprésentantLégal(this: Potentiel
       identifiantProjetValue: identifiantProjet,
       nomReprésentantLégalValue: nomReprésentantLégal,
       typeReprésentantLégalValue: typeReprésentantLégal.formatter(),
-      piècesJustificativeValue: piècesJustificative,
+      piècesJustificativesValue: piècesJustificatives,
       identifiantUtilisateurValue: demandéPar,
       dateDemandeValue: demandéLe,
     },

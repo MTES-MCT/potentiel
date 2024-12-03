@@ -34,7 +34,7 @@ export type ReprésentantLégalAggregate = Aggregate<ReprésentantLégalEvent> &
     nom: string;
     type: TypeReprésentantLégal.ValueType;
   };
-  demande: {
+  demande?: {
     nom: string;
     type: TypeReprésentantLégal.ValueType;
     statut: StatutDemandeChangementReprésentantLégal.ValueType;

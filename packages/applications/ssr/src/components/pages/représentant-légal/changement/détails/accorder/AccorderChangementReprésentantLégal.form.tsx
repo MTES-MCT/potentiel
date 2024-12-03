@@ -17,13 +17,13 @@ import {
 
 type AccorderChangementReprésentantLégalFormProps = {
   identifiantProjet: string;
-  typePersonne: string;
+  typeReprésentantLégal: string;
   nomReprésentantLégal: string;
 };
 
 export const AccorderChangementReprésentantLégal = ({
   identifiantProjet,
-  typePersonne,
+  typeReprésentantLégal,
   nomReprésentantLégal,
 }: AccorderChangementReprésentantLégalFormProps) => {
   const [validationErrors, setValidationErrors] = useState<
@@ -68,7 +68,7 @@ export const AccorderChangementReprésentantLégal = ({
                   }),
                 )}
                 nativeSelectProps={{
-                  value: typePersonne,
+                  value: typeReprésentantLégal,
                 }}
               />
 

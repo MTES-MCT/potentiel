@@ -7,6 +7,7 @@ import { ReprésentantLégal } from '@potentiel-domain/laureat';
 import { mapToPlainObject } from '@potentiel-domain/core';
 import { IdentifiantProjet } from '@potentiel-domain/common';
 import { Utilisateur } from '@potentiel-domain/utilisateur';
+import { DocumentProjet } from '@potentiel-domain/document';
 
 import { decodeParameter } from '@/utils/decodeParameter';
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
@@ -25,15 +26,13 @@ export const metadata: Metadata = {
 export default async function Page({ params: { identifiant } }: IdentifiantParameter) {
   return PageWithErrorHandling(async () =>
     withUtilisateur(async (utilisateur) => {
-      const identifiantProjet = IdentifiantProjet.convertirEnValueType(
-        decodeParameter(identifiant),
-      );
+      const idProjet = IdentifiantProjet.convertirEnValueType(decodeParameter(identifiant));
 
       const représentantLégal =
         await mediator.send<ReprésentantLégal.ConsulterReprésentantLégalQuery>({
           type: 'Lauréat.ReprésentantLégal.Query.ConsulterReprésentantLégal',
           data: {
-            identifiantProjet: identifiantProjet.formatter(),
+            identifiantProjet: idProjet.formatter(),
           },
         });
 
@@ -41,42 +40,50 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
         return notFound();
       }
 
-      const {} = mapToProps({
-        identifiantProjet,
-        représentantLégal,
+      const props = mapToProps({
+        identifiantProjet: idProjet,
+        demande: représentantLégal.demande!,
         utilisateur,
       });
 
       return (
         <DétailsDemandeChangementReprésentantLégalPage
-          identifiantProjet={mapToPlainObject(identifiantProjet)}
-          nomReprésentantLégal={représentantLégal.nomReprésentantLégal}
-          typeReprésentantLégal={mapToPlainObject(représentantLégal.typeReprésentantLégal)}
-          demande={représentantLégal.demande}
-          role={utilisateur.role}
+          identifiantProjet={props.identifiantProjet}
+          statut={props.statut}
+          nomReprésentantLégal={props.nomReprésentantLégal}
+          typeReprésentantLégal={props.typeReprésentantLégal}
+          piècesJustificatives={props.piècesJustificatives}
+          demandéLe={props.demandéLe}
+          demandéPar={props.demandéPar}
+          actions={props.actions}
+          role={props.role}
         />
       );
     }),
   );
 }
+
 type MapToProps = (args: {
   identifiantProjet: IdentifiantProjet.ValueType;
-  représentantLégal: ReprésentantLégal.ConsulterReprésentantLégalReadModel;
+  demande: ReprésentantLégal.ConsulterReprésentantLégalReadModel['demande'];
   utilisateur: Utilisateur.ValueType;
 }) => DétailsDemandeChangementReprésentantLégalPageProps;
-const mapToProps: MapToProps = ({ identifiantProjet, représentantLégal, utilisateur }) => ({
+
+const mapToProps: MapToProps = ({ identifiantProjet, demande, utilisateur }) => ({
   identifiantProjet: mapToPlainObject(identifiantProjet),
-  nomReprésentantLégal: représentantLégal.nomReprésentantLégal,
-  typeReprésentantLégal: mapToPlainObject(représentantLégal.typeReprésentantLégal),
+  statut: mapToPlainObject(demande!.statut),
+  nomReprésentantLégal: demande!.nomReprésentantLégal,
+  typeReprésentantLégal: mapToPlainObject(demande!.typeReprésentantLégal),
+  piècesJustificatives: demande!.piècesJustificatives.map((pj) =>
+    DocumentProjet.convertirEnValueType(
+      identifiantProjet.formatter(),
+      ReprésentantLégal.TypeDocumentChangementReprésentantLégal.pièceJustificative.formatter(),
+      demande!.demandéLe.formatter(),
+      pj.format,
+    ),
+  ),
+  demandéLe: mapToPlainObject(demande!.demandéLe),
+  demandéPar: mapToPlainObject(demande!.demandéPar),
   role: mapToPlainObject(utilisateur.role),
-  demande: représentantLégal.demande
-    ? {
-        statut: mapToPlainObject(représentantLégal.demande.statut),
-        nomReprésentantLégal: représentantLégal.demande.nomReprésentantLégal,
-        typeReprésentantLégal: mapToPlainObject(représentantLégal.demande.typeReprésentantLégal),
-        demandéLe: mapToPlainObject(représentantLégal.demande.demandéLe),
-        demandéPar: mapToPlainObject(représentantLégal.demande.demandéPar),
-      }
-    : undefined,
   actions: [],
 });
