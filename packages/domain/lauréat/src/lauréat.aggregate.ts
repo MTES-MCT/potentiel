@@ -14,10 +14,10 @@ import {
 import {
   applyActionnaireImporté,
   importerActionnaire,
-  LauréatActionnaireImportéEvent,
+  ActionnaireLauréatImportéEvent,
 } from './importerActionnaire/importerActionnaire.behavior';
 
-export type LauréatEvent = LauréatNotifiéEvent | LauréatActionnaireImportéEvent;
+export type LauréatEvent = LauréatNotifiéEvent | ActionnaireLauréatImportéEvent;
 
 export type LauréatAggregate = Aggregate<LauréatEvent> & {
   identifiantProjet: IdentifiantProjet.ValueType;
@@ -44,7 +44,7 @@ function apply(this: LauréatAggregate, event: LauréatEvent) {
     case 'LauréatNotifié-V1':
       applyLauréatNotifié.bind(this)(event);
       break;
-    case 'LauréatActionnaireImporté-V1':
+    case 'ActionnaireLauréatImporté-V1':
       applyActionnaireImporté.bind(this)(event);
       break;
   }

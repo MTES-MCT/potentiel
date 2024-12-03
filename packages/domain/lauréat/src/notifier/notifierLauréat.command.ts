@@ -26,9 +26,8 @@ export const registerNotifierLauréatCommand = (loadAggregate: LoadAggregate) =>
     const { sociétéMère } = await loadCandidatureAggregate(payload.identifiantProjet, false);
     await Lauréat.notifier(payload);
 
-    console.log('sociétéMère', sociétéMère);
-    await mediator.send<Lauréat.ImporterActionnaireCommand>({
-      type: 'Lauréat.Command.ImporterActionnaire',
+    await mediator.send<Lauréat.ImporterActionnaireLauréatCommand>({
+      type: 'Lauréat.Command.ImporterActionnaireLauréat',
       data: {
         identifiantProjet: payload.identifiantProjet,
         importéLe: payload.notifiéLe,

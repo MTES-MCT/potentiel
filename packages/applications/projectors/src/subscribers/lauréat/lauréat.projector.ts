@@ -48,7 +48,7 @@ export const register = () => {
           });
           break;
 
-        case 'LauréatActionnaireImporté-V1':
+        case 'ActionnaireLauréatImporté-V1':
           await upsertProjection<Lauréat.LauréatEntity>(`lauréat|${identifiantProjet}`, {
             ...lauréatToUpsert,
             identifiantProjet,

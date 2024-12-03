@@ -1,4 +1,4 @@
-import { LauréatActionnaireImportéEvent } from './importerActionnaire/importerActionnaire.behavior';
+import { ActionnaireLauréatImportéEvent } from './importerActionnaire/importerActionnaire.behavior';
 import { LauréatNotifiéEvent } from './notifier/notifierLauréat.behavior';
 import { NotifierLauréatUseCase } from './notifier/notifierLauréat.usecase';
 export { LauréatEntity } from './lauréat.entity';
@@ -9,15 +9,15 @@ export {
 } from './consulter/consulterLauréat.query';
 
 // Event
-export type LauréatEvent = LauréatNotifiéEvent | LauréatActionnaireImportéEvent;
-export { LauréatNotifiéEvent, LauréatActionnaireImportéEvent };
+export type LauréatEvent = LauréatNotifiéEvent | ActionnaireLauréatImportéEvent;
+export { LauréatNotifiéEvent, ActionnaireLauréatImportéEvent };
 
 // UseCases
 export type LauréatUseCases = NotifierLauréatUseCase;
 export { NotifierLauréatUseCase };
 
 // Command
-export { ImporterActionnaireCommand } from './importerActionnaire/importerActionnaire.command';
+export { ImporterActionnaireLauréatCommand } from './importerActionnaire/importerActionnaire.command';
 
 // ValueType
 export * as StatutLauréat from './statutLauréat.valueType';

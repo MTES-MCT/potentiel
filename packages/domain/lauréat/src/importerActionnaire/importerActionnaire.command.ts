@@ -8,8 +8,8 @@ import { LoadAggregate } from '@potentiel-domain/core';
 
 import { Lauréat } from '..';
 
-export type ImporterActionnaireCommand = Message<
-  'Lauréat.Command.ImporterActionnaire',
+export type ImporterActionnaireLauréatCommand = Message<
+  'Lauréat.Command.ImporterActionnaireLauréat',
   {
     identifiantProjet: IdentifiantProjet.ValueType;
     actionnaire: String;
@@ -23,7 +23,7 @@ export const registerImporterActionnaireCommand = (loadAggregate: LoadAggregate)
   const loadLauréat = Lauréat.loadLauréatFactory(loadAggregate);
   const loadCandidature = Candidature.Aggregate.loadCandidatureFactory(loadAggregate);
 
-  const handler: MessageHandler<ImporterActionnaireCommand> = async ({
+  const handler: MessageHandler<ImporterActionnaireLauréatCommand> = async ({
     identifiantProjet,
     importéLe,
   }) => {
@@ -38,5 +38,5 @@ export const registerImporterActionnaireCommand = (loadAggregate: LoadAggregate)
     });
   };
 
-  mediator.register('Lauréat.Command.ImporterActionnaire', handler);
+  mediator.register('Lauréat.Command.ImporterActionnaireLauréat', handler);
 };
