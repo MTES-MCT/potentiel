@@ -6,7 +6,6 @@ import { getLogger } from '@potentiel-libraries/monitoring';
 import { issuerUrl, clientId, clientSecret } from './constants';
 import { convertToken } from './convertToken';
 import { refreshAccessToken } from './refreshToken';
-
 const ONE_HOUR_IN_SECONDS = 60 * 60;
 
 export const authOptions: AuthOptions = {
@@ -43,7 +42,7 @@ export const authOptions: AuthOptions = {
         token.refreshToken = account.refresh_token;
         logger.debug(`User logged in`, { sub: token.sub, expiresAt: new Date(token.expiresAt) });
         try {
-          const utilisateur = convertToken(account.access_token);
+          const utilisateur = await convertToken(account.access_token);
           token.utilisateur = utilisateur;
         } catch (e) {
           logger.error(
@@ -69,7 +68,7 @@ export const authOptions: AuthOptions = {
         logger.debug(`Token refreshed`, { sub: token.sub, expiresAt: new Date(expiresAt) });
         token.expiresAt = expiresAt;
         token.refreshToken = refreshToken;
-        const utilisateur = convertToken(accessToken);
+        const utilisateur = await convertToken(accessToken);
         token.utilisateur = utilisateur;
         return token;
       } catch (e) {

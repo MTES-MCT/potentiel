@@ -1,23 +1,11 @@
-import { decodeJwt } from 'jose';
 import { z } from 'zod';
+import { jwtVerify } from 'jose';
 
-import { OperationRejectedError, PlainType } from '@potentiel-domain/core';
+import { PlainType } from '@potentiel-domain/core';
 import { Role, Groupe, IdentifiantUtilisateur, Utilisateur } from '@potentiel-domain/utilisateur';
 import { Option } from '@potentiel-libraries/monads';
 
-export const convertToken = (token: string): PlainType<Utilisateur.ValueType> => {
-  const { email, nom, roles, groupes } = parseToken(token);
-
-  const role = roles.find((r) => Role.estUnRoleValide(r));
-  const groupe = groupes.find((g) => Groupe.estUnGroupeValide(g));
-
-  return {
-    role: Role.convertirEnValueType(role ?? ''),
-    groupe: groupe ? Groupe.convertirEnValueType(groupe) : Option.none,
-    nom,
-    identifiantUtilisateur: IdentifiantUtilisateur.convertirEnValueType(email),
-  };
-};
+import { getJwks } from './openid';
 
 const jwtSchema = z.object({
   name: z.string().default(''),
@@ -28,40 +16,26 @@ const jwtSchema = z.object({
   groups: z.array(z.string()).optional(),
 });
 
-const parseToken = (token: string) => {
-  try {
-    if (!token) {
-      throw new EmptyTokenError();
-    }
+export const convertToken = async (
+  accessToken: string,
+): Promise<PlainType<Utilisateur.ValueType>> => {
+  const jwks = await getJwks();
+  const { payload } = await jwtVerify(accessToken, jwks);
 
-    const decodedJwt = decodeJwt(token);
-    const {
-      name,
-      email,
-      realm_access: { roles },
-      groups,
-    } = jwtSchema.parse(decodedJwt);
+  const {
+    email,
+    name: nom,
+    realm_access: { roles },
+    groups: groupes,
+  } = jwtSchema.parse(payload);
 
-    return {
-      nom: name,
-      email,
-      roles,
-      groupes: groups ?? [],
-    };
-  } catch (e) {
-    throw new TokenInvalideError(e as Error);
-  }
+  const role = roles.find((r) => Role.estUnRoleValide(r));
+  const groupe = groupes?.find((g) => Groupe.estUnGroupeValide(g));
+
+  return {
+    role: Role.convertirEnValueType(role ?? ''),
+    groupe: groupe ? Groupe.convertirEnValueType(groupe) : Option.none,
+    nom,
+    identifiantUtilisateur: IdentifiantUtilisateur.convertirEnValueType(email),
+  };
 };
-
-class TokenInvalideError extends OperationRejectedError {
-  constructor(cause: Error) {
-    super(`Le format du token utilisateur n'est pas valide.`);
-    this.cause = cause;
-  }
-}
-
-class EmptyTokenError extends Error {
-  constructor() {
-    super(`Token vide`);
-  }
-}
