@@ -1,7 +1,5 @@
-// Third party
 import { Message, MessageHandler, mediator } from 'mediateur';
 
-// Workspaces
 import { IdentifiantProjet, DateTime } from '@potentiel-domain/common';
 import { Candidature } from '@potentiel-domain/candidature';
 import { LoadAggregate } from '@potentiel-domain/core';
@@ -17,7 +15,7 @@ export type ImporterActionnaireLauréatCommand = Message<
   }
 >;
 
-// question : vérification sur actionnaire pour la demande ?
+// TODO: ajouter un check sur l'existence de demande de changement d'actionnaire quand ça sera implémenté
 
 export const registerImporterActionnaireCommand = (loadAggregate: LoadAggregate) => {
   const loadLauréat = Lauréat.loadLauréatFactory(loadAggregate);
