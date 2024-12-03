@@ -44,13 +44,13 @@ export const SaisiePièceJustificativeStep: FC<SaisiePièceJustificativeProps> =
   return (
     <UploadNewOrModifyExistingDocument
       label={'Pièce justificative'}
-      name="pieceJustificative"
+      name="piecesJustificatives"
       hintText={getPièceJustificativeHintText()}
       required
       formats={['pdf']}
       multiple
-      state={validationErrors['pieceJustificative'] ? 'error' : 'default'}
-      stateRelatedMessage={validationErrors['pieceJustificative']}
+      state={validationErrors['piecesJustificatives'] ? 'error' : 'default'}
+      stateRelatedMessage={validationErrors['piecesJustificatives']}
       onChange={(piècesJustificatives) => {
         onChange && onChange(piècesJustificatives);
       }}

@@ -17,25 +17,23 @@ const schema = zod.object({
     required_error: 'Champ obligatoire',
   }),
   nomRepresentantLegal: zod.string().min(1, { message: 'Champ obligatoire' }),
-  pieceJustificative: manyDocuments(),
+  piecesJustificatives: manyDocuments(),
 });
 
 export type DemanderChangementReprésentantLégalFormKeys = keyof zod.infer<typeof schema>;
 
 const action: FormAction<FormState, typeof schema> = async (
   _,
-  { identifiantProjet, pieceJustificative, nomRepresentantLegal, typeRepresentantLegal },
+  { identifiantProjet, piecesJustificatives, nomRepresentantLegal, typeRepresentantLegal },
 ) =>
   withUtilisateur(async (utilisateur) => {
-    console.log('😀', typeRepresentantLegal);
-
     await mediator.send<ReprésentantLégal.ReprésentantLégalUseCase>({
       type: 'Lauréat.ReprésentantLégal.UseCase.DemanderChangementReprésentantLégal',
       data: {
         identifiantProjetValue: identifiantProjet,
         nomReprésentantLégalValue: nomRepresentantLegal,
         typeReprésentantLégalValue: typeRepresentantLegal,
-        piècesJustificativeValue: pieceJustificative,
+        piècesJustificativesValue: piecesJustificatives,
         identifiantUtilisateurValue: utilisateur.identifiantUtilisateur.formatter(),
         dateDemandeValue: new Date().toISOString(),
       },

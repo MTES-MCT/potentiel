@@ -39,16 +39,16 @@ export const ValidationStep: FC<ValidationStepProps> = ({
       <div className="py-6">
         <div className="flex flex-col gap-2">
           <div className="flex gap-2">
-            <div>Type de personne :</div>
-            <blockquote className="font-semibold italic">{nom}</blockquote>
+            <div className="font-semibold">Type :</div>
+            <blockquote>{nom}</blockquote>
           </div>
           <div className="flex gap-2">
-            <div>Nom représentant légal :</div>
-            <blockquote className="font-semibold italic">{nomReprésentantLégal}</blockquote>
+            <div className="font-semibold">Nom représentant légal :</div>
+            <blockquote>{nomReprésentantLégal}</blockquote>
           </div>
           {piècesJustificatives.length > 0 && (
             <div className="flex flex-row gap-2">
-              <div>Pièces justificatives :</div>
+              <div className="font-semibold">Pièces justificatives :</div>
               <div className="pl-2">
                 <ul className="list-disc">
                   {piècesJustificatives.map((pièceJustificative) => (

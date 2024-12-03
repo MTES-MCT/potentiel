@@ -1,6 +1,6 @@
 import { InvalidOperationError, PlainType, ReadonlyValueType } from '@potentiel-domain/core';
 
-export const statuts = ['accordé', 'demandé', 'rejeté'] as const;
+export const statuts = ['accordé', 'demandé', 'rejeté', 'inconnu'] as const;
 
 export type RawType = (typeof statuts)[number];
 
@@ -34,7 +34,7 @@ export const bind = ({ statut }: PlainType<ValueType>): ValueType => {
       return this.statut === 'rejeté';
     },
     estInconnu() {
-      return this.estÉgaleÀ(inconnu);
+      return this.statut === 'inconnu';
     },
     vérifierQueLeChangementDeStatutEstPossibleEn(nouveauStatut: ValueType) {
       if (nouveauStatut.estDemandé() && this.estDemandé()) {

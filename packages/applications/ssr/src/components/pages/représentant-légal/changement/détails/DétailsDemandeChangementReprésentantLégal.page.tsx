@@ -1,8 +1,6 @@
 import { FC } from 'react';
-import Button from '@codegouvfr/react-dsfr/Button';
 
 import { PlainType } from '@potentiel-domain/core';
-// import { ReprésentantLégal } from '@potentiel-domain/laureat';
 import { Role } from '@potentiel-domain/utilisateur';
 import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
 import { DocumentProjet } from '@potentiel-domain/document';
@@ -17,41 +15,15 @@ import { DownloadDocument } from '@/components/atoms/form/document/DownloadDocum
 
 import { StatutChangementReprésentantLégalBadge } from '../../StatutChangementReprésentantLégalBadge';
 
-import { EtapesChangementReprésentantLégal } from './EtapesChangementReprésentantLégal';
+// import { EtapesChangementReprésentantLégal } from './EtapesChangementReprésentantLégal';
 import { AccorderChangementReprésentantLégal } from './accorder/AccorderChangementReprésentantLégal.form';
 import { RejeterChangementReprésentantLégal } from './rejeter/RejeterChangementReprésentantLégal.form';
-import { AnnulerChangementReprésentantLégal } from './annuler/AnnulerChangementReprésentantLégal.form';
 
-export type AvailableChangementReprésentantLégalAction =
-  | 'accorder'
-  | 'rejeter'
-  | 'modifier'
-  | 'annuler';
+export type AvailableChangementReprésentantLégalAction = 'accorder' | 'rejeter';
 
 export type DétailsDemandeChangementReprésentantLégalPageProps = PlainType<
   ReprésentantLégal.ConsulterReprésentantLégalReadModel['demande']
 > & {
-  // changementReprésentantLégal: PlainType<{
-  //   identifiantProjet: IdentifiantProjet.ValueType;
-  //   statut: 'accordé' | 'annulé' | 'demandé' | 'rejeté';
-  //   demande: {
-  //     typePersonne: string;
-  //     nomReprésentantLégal: string;
-  //     piècesJustificatives: Array<DocumentProjet.ValueType>;
-  //     demandéLe: DateTime.ValueType;
-  //     demandéPar: Email.ValueType;
-  //     accord?: {
-  //       typePersonne: string;
-  //       nomReprésentantLégal: string;
-  //       accordéLe: DateTime.ValueType;
-  //       accordéPar: Email.ValueType;
-  //     };
-  //     rejet?: {
-  //       rejetéLe: DateTime.ValueType;
-  //       rejetéPar: Email.ValueType;
-  //     };
-  //   };
-  // }>;
   identifiantProjet: PlainType<IdentifiantProjet.ValueType>;
   role: PlainType<Role.ValueType>;
   actions: ReadonlyArray<AvailableChangementReprésentantLégalAction>;
@@ -61,27 +33,22 @@ export const DétailsDemandeChangementReprésentantLégalPage: FC<
   DétailsDemandeChangementReprésentantLégalPageProps
 > = ({
   identifiantProjet,
-
   nomReprésentantLégal,
   typeReprésentantLégal,
+  piècesJustificatives,
   statut,
-  role,
+  // role,
   demandéLe,
   demandéPar,
   actions,
 }) => {
   const idProjet = IdentifiantProjet.bind(identifiantProjet).formatter();
-  const type = ReprésentantLégal.TypeReprésentantLégal.bind(
-    demande!.typeReprésentantLégal,
-  ).formatter();
-  const statut = ReprésentantLégal.StatutDemandeChangementReprésentantLégal.bind(
-    demande!.statut,
-  ).formatter();
+  const type = ReprésentantLégal.TypeReprésentantLégal.bind(typeReprésentantLégal).formatter();
 
   return (
     <ColumnPageTemplate
       banner={<ProjetBanner identifiantProjet={idProjet} />}
-      heading={<Heading1>Détail du changement de représentant légal</Heading1>}
+      heading={<Heading1>Détail de la demande de changement de représentant légal</Heading1>}
       leftColumn={{
         children: (
           <div className="flex flex-col gap-8">
@@ -132,13 +99,13 @@ export const DétailsDemandeChangementReprésentantLégalPage: FC<
                 </div>
               </div>
             </div>
-            <div className="mb-4">
+            {/* <div className="mb-4">
               <Heading2>Historique</Heading2>
               <EtapesChangementReprésentantLégal
                 changementReprésentantLégal={changementReprésentantLégal}
                 role={role}
               />
-            </div>
+            </div> */}
           </div>
         ),
       }}
@@ -148,9 +115,11 @@ export const DétailsDemandeChangementReprésentantLégalPage: FC<
           <>
             {mapToActionComponents({
               actions,
-              identifiantProjet,
-              typePersonne: changementReprésentantLégal.demande.typePersonne,
-              nomReprésentantLégal: changementReprésentantLégal.demande.nomReprésentantLégal,
+              identifiantProjet: IdentifiantProjet.bind(identifiantProjet).formatter(),
+              typeReprésentantLégal: ReprésentantLégal.TypeReprésentantLégal.bind({
+                type: typeReprésentantLégal.type,
+              }).formatter(),
+              nomReprésentantLégal,
             })}
           </>
         ),
@@ -162,14 +131,14 @@ export const DétailsDemandeChangementReprésentantLégalPage: FC<
 type MapToActionsComponentsProps = {
   actions: ReadonlyArray<AvailableChangementReprésentantLégalAction>;
   identifiantProjet: string;
-  typePersonne: string;
+  typeReprésentantLégal: string;
   nomReprésentantLégal: string;
 };
 
 const mapToActionComponents = ({
   actions,
   identifiantProjet,
-  typePersonne,
+  typeReprésentantLégal,
   nomReprésentantLégal,
 }: MapToActionsComponentsProps) =>
   actions.length ? (
@@ -179,20 +148,12 @@ const mapToActionComponents = ({
       {actions.includes('accorder') && (
         <AccorderChangementReprésentantLégal
           identifiantProjet={identifiantProjet}
-          typePersonne={typePersonne}
+          typeReprésentantLégal={typeReprésentantLégal}
           nomReprésentantLégal={nomReprésentantLégal}
         />
       )}
       {actions.includes('rejeter') && (
         <RejeterChangementReprésentantLégal identifiantProjet={identifiantProjet} />
-      )}
-      {actions.includes('modifier') && (
-        <Button priority="secondary" className="block w-1/2 text-center" linkProps={{ href: '#' }}>
-          Modifier
-        </Button>
-      )}
-      {actions.includes('annuler') && (
-        <AnnulerChangementReprésentantLégal identifiantProjet={identifiantProjet} />
       )}
     </div>
   ) : null;
