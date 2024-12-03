@@ -10,6 +10,7 @@ export type ConsulterLauréatReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
   notifiéLe: DateTime.ValueType;
   notifiéPar: Email.ValueType;
+  actionnaire: String;
 };
 
 export type ConsulterLauréatQuery = Message<
@@ -40,8 +41,10 @@ const mapToReadModel = ({
   identifiantProjet,
   notifiéLe,
   notifiéPar,
+  actionnaire,
 }: LauréatEntity): ConsulterLauréatReadModel => ({
   identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
   notifiéLe: DateTime.convertirEnValueType(notifiéLe),
   notifiéPar: Email.convertirEnValueType(notifiéPar),
+  actionnaire: actionnaire.nom,
 });

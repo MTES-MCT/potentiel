@@ -16,6 +16,7 @@ const candidats = [
     familleValue: '',
     numéroCREValue: 'lauréat-1',
     statutValue: 'classé',
+    sociétéMèreValue: 'BonneMère-1',
   },
   {
     nomProjetValue: 'lauréat-2',
@@ -24,6 +25,7 @@ const candidats = [
     familleValue: '',
     numéroCREValue: 'lauréat-2',
     statutValue: 'classé',
+    sociétéMèreValue: 'BonneMère-2',
   },
   {
     nomProjetValue: 'lauréat-3',
@@ -32,6 +34,7 @@ const candidats = [
     familleValue: '',
     numéroCREValue: 'lauréat-3',
     statutValue: 'classé',
+    sociétéMèreValue: 'BonneMère-3',
   },
   {
     nomProjetValue: 'lauréat-4',
@@ -40,6 +43,7 @@ const candidats = [
     familleValue: '',
     numéroCREValue: 'lauréat-4',
     statutValue: 'classé',
+    sociétéMèreValue: 'BonneMère-4',
   },
   {
     nomProjetValue: 'lauréat-5',
@@ -48,6 +52,7 @@ const candidats = [
     familleValue: '',
     numéroCREValue: 'lauréat-5',
     statutValue: 'classé',
+    sociétéMèreValue: 'BonneMère-5',
   },
   {
     nomProjetValue: 'éliminé-1',
@@ -56,6 +61,7 @@ const candidats = [
     familleValue: '',
     numéroCREValue: 'éliminé-1',
     statutValue: 'éliminé',
+    sociétéMèreValue: 'BonneMère-6',
   },
   {
     nomProjetValue: 'éliminé-2',
@@ -64,6 +70,7 @@ const candidats = [
     familleValue: '',
     numéroCREValue: 'éliminé-2',
     statutValue: 'éliminé',
+    sociétéMèreValue: 'BonneMère-7',
   },
   {
     nomProjetValue: 'éliminé-3',

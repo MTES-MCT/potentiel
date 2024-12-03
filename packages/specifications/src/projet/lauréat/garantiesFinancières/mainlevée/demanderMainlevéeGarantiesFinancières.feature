@@ -72,7 +72,6 @@ Fonctionnalité: Demander la mainlevée des garanties financières d'un projet
             | motif | projet-achevé |
         Alors le porteur devrait être informé que "Il y a déjà une demande de mainlevée en cours pour ce projet"
 
-    @select
     Scénario: Impossible de demander la mainlevée des garanties financières d'un projet si le projet a déjà une demande de mainlevée en cours d'instruction
         Etant donné des garanties financières actuelles pour le projet "Du boulodrome de Marseille"
         Et une attestation de conformité transmise pour le projet "Du boulodrome de Marseille"

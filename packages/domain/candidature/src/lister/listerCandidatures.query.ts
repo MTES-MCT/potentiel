@@ -27,6 +27,7 @@ export type CandidaturesListItemReadModel = {
   détailsImport: ConsulterCandidatureReadModel['détailsImport'];
   estNotifiée: boolean;
   attestation?: DocumentProjet.ValueType;
+  sociétéMère: String;
 };
 
 export type ListerCandidaturesReadModel = Readonly<{
@@ -106,6 +107,7 @@ export const mapToReadModel = ({
   estNotifiée,
   notification,
   typeGarantiesFinancières,
+  sociétéMère,
 }: CandidatureEntity): CandidaturesListItemReadModel => ({
   identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
   statut: StatutCandidature.convertirEnValueType(statut),
@@ -140,4 +142,5 @@ export const mapToReadModel = ({
         notification.attestation.format,
       ),
     }),
+  sociétéMère,
 });

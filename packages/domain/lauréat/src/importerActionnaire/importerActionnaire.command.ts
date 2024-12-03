@@ -37,5 +37,6 @@ export const registerImporterActionnaireCommand = (loadAggregate: LoadAggregate)
       importéLe,
     });
   };
+
   mediator.register('Lauréat.Command.ImporterActionnaire', handler);
 };
