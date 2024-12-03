@@ -118,7 +118,9 @@ const mapToActions = (
   return {
     supprimer: role.aLaPermission('réseau.raccordement.dossier.supprimer'),
     demandeComplèteRaccordement: {
-      modifierRéférence: role.aLaPermission('réseau.raccordement.référence-dossier.modifier'),
+      modifierRéférence:
+        role.aLaPermission('réseau.raccordement.référence-dossier.modifier') &&
+        !role.aLaPermission('réseau.raccordement.demande-complète-raccordement.modifier'),
       transmettre: role.aLaPermission(
         'réseau.raccordement.demande-complète-raccordement.transmettre',
       ),
