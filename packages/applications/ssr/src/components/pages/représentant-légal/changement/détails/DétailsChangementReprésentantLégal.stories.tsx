@@ -6,18 +6,18 @@ import { Role } from '@potentiel-domain/utilisateur';
 // import { ReprésentantLégal } from '@potentiel-domain/laureat';
 
 import {
-  DétailsChangementReprésentantLégalPage,
-  DétailsChangementReprésentantLégalPageProps,
-} from './DétailsChangementReprésentantLégal.page';
+  DétailsDemandeChangementReprésentantLégalPage,
+  DétailsDemandeChangementReprésentantLégalPageProps,
+} from './DétailsDemandeChangementReprésentantLégal.page';
 
 // More on how to set up stories at: https://storybook.js.org/docs/writing-stories#default-export
 const meta = {
   title: 'Pages/ChangementReprésentantLégal/Détails',
-  component: DétailsChangementReprésentantLégalPage,
+  component: DétailsDemandeChangementReprésentantLégalPage,
   parameters: {},
   tags: ['autodocs'],
   argTypes: {},
-} satisfies Meta<DétailsChangementReprésentantLégalPageProps>;
+} satisfies Meta<DétailsDemandeChangementReprésentantLégalPageProps>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;
@@ -26,7 +26,7 @@ const identifiantProjet = 'PPE2 - Bâtiment#4#1#id-cre-738';
 
 export const Demandé: Story = {
   args: {
-    identifiantProjet,
+    identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
     role: Role.porteur,
     changementReprésentantLégal: {
       identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
