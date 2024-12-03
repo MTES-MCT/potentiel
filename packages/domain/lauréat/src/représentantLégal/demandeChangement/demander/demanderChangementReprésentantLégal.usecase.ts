@@ -14,7 +14,7 @@ export type DemanderChangementReprésentantLégalUseCase = Message<
     identifiantProjetValue: string;
     nomReprésentantLégalValue: string;
     typeReprésentantLégalValue: string;
-    piècesJustificativeValue: Array<{
+    piècesJustificativesValue: Array<{
       content: ReadableStream;
       format: string;
     }>;
@@ -28,7 +28,7 @@ export const registerDemanderChangementReprésentantLégalUseCase = () => {
     identifiantProjetValue,
     nomReprésentantLégalValue,
     typeReprésentantLégalValue,
-    piècesJustificativeValue,
+    piècesJustificativesValue,
     identifiantUtilisateurValue,
     dateDemandeValue,
   }) => {
@@ -39,7 +39,9 @@ export const registerDemanderChangementReprésentantLégalUseCase = () => {
       typeReprésentantLégalValue,
     );
 
-    for (const pj of piècesJustificativeValue) {
+    const piècesJustificatives = [];
+
+    for (const pj of piècesJustificativesValue) {
       const pièceJustificative = pj
         ? DocumentProjet.convertirEnValueType(
             identifiantProjetValue,
@@ -50,6 +52,7 @@ export const registerDemanderChangementReprésentantLégalUseCase = () => {
         : undefined;
 
       if (pièceJustificative) {
+        piècesJustificatives.push(pièceJustificative);
         await mediator.send<EnregistrerDocumentProjetCommand>({
           type: 'Document.Command.EnregistrerDocumentProjet',
           data: {
@@ -68,6 +71,7 @@ export const registerDemanderChangementReprésentantLégalUseCase = () => {
         typeReprésentantLégal,
         identifiantUtilisateur,
         dateDemande,
+        piècesJustificatives: [],
       },
     });
   };

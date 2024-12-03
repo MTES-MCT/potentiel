@@ -22,4 +22,5 @@ const getSeverity = (statut: StatutChangementReprésentantLégalBadgeProps['stat
     .with('demandé', () => 'new')
     .with('accordé', () => 'success')
     .with('rejeté', () => 'warning')
+    .with('inconnu', () => undefined)
     .exhaustive();

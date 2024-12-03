@@ -15,7 +15,10 @@ export type GetReprésentantLégalForProjectPage =
         type: 'lauréat' | 'candidature';
         url: string;
       };
-      demanderChangement: boolean;
+      demandeDeModification?: {
+        url?: string;
+        peutFaireUneDemande: boolean;
+      };
     }
   | undefined;
 
@@ -27,7 +30,6 @@ type GetReprésentantLégal = (
 export const getReprésentantLégal: GetReprésentantLégal = async (identifiantProjet, rôle) => {
   try {
     const utilisateur = Role.convertirEnValueType(rôle);
-    const demanderChangement = utilisateur.aLaPermission('représentantLégal.demanderChangement');
 
     const représentantLégal = await mediator.send<ReprésentantLégal.ReprésentantLégalQuery>({
       type: 'Lauréat.ReprésentantLégal.Query.ConsulterReprésentantLégal',
@@ -35,6 +37,10 @@ export const getReprésentantLégal: GetReprésentantLégal = async (identifiant
     });
 
     if (Option.isSome(représentantLégal)) {
+      const peutFaireUneDemande =
+        !représentantLégal.demande &&
+        utilisateur.aLaPermission('représentantLégal.demanderChangement');
+
       return {
         nom: représentantLégal.nomReprésentantLégal,
         modification: utilisateur.aLaPermission('représentantLégal.modifier')
@@ -43,7 +49,12 @@ export const getReprésentantLégal: GetReprésentantLégal = async (identifiant
               url: Routes.ReprésentantLégal.modifier(identifiantProjet.formatter()),
             }
           : undefined,
-        demanderChangement,
+        demandeDeModification: {
+          peutConsulterLaDemandeExistante: !!représentantLégal.demande
+            ? Routes.ReprésentantLégal.détail(identifiantProjet.formatter())
+            : undefined,
+          peutFaireUneDemande,
+        },
       };
     }
 
@@ -63,7 +74,6 @@ export const getReprésentantLégal: GetReprésentantLégal = async (identifiant
               url: Routes.Candidature.corriger(identifiantProjet.formatter()),
             }
           : undefined,
-        demanderChangement,
       };
     }
 

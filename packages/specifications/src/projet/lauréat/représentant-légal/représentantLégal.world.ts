@@ -1,5 +1,6 @@
-import { IdentifiantProjet } from '@potentiel-domain/common';
+import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
 import { ReprésentantLégal } from '@potentiel-domain/laureat';
+import { DocumentProjet } from '@potentiel-domain/document';
 
 import { ImporterReprésentantLégalFixture } from './fixtures/importerReprésentantLégal.fixture';
 import { ModifierReprésentantLégalFixture } from './fixtures/modifierReprésentantLégal.fixture';
@@ -49,6 +50,21 @@ export class ReprésentantLégalWorld {
         nomReprésentantLégal: this.#demanderChangementReprésentantLégalFixture.nomReprésentantLégal,
         typeReprésentantLégal:
           this.#demanderChangementReprésentantLégalFixture.typeReprésentantLégal,
+        demandéLe: DateTime.convertirEnValueType(
+          this.#demanderChangementReprésentantLégalFixture.demandéLe,
+        ),
+        demandéPar: Email.convertirEnValueType(
+          this.#demanderChangementReprésentantLégalFixture.demandéPar,
+        ),
+        piècesJustificatives:
+          this.#demanderChangementReprésentantLégalFixture.piècesJustificatives.map((pj) =>
+            DocumentProjet.convertirEnValueType(
+              identifiantProjet.formatter(),
+              ReprésentantLégal.TypeDocumentChangementReprésentantLégal.pièceJustificative.formatter(),
+              this.#demanderChangementReprésentantLégalFixture.demandéLe,
+              pj.format,
+            ),
+          ),
       };
     }
 

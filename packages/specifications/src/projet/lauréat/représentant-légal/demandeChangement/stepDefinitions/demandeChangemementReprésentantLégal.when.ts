@@ -31,10 +31,16 @@ Quand(
               typeReprésentantLégal:
                 ReprésentantLégal.TypeReprésentantLégal.convertirEnValueType('inconnu'),
             }
-          : {
-              identifiantProjet,
-              demandéPar: this.utilisateurWorld.porteurFixture.email,
-            };
+          : extra?.includes('sans pièces justificatives')
+            ? {
+                identifiantProjet,
+                demandéPar: this.utilisateurWorld.porteurFixture.email,
+                piècesJustificatives: [],
+              }
+            : {
+                identifiantProjet,
+                demandéPar: this.utilisateurWorld.porteurFixture.email,
+              };
 
       await demanderChangementReprésentantLégal.call(this, options);
     } catch (error) {
@@ -50,7 +56,7 @@ async function demanderChangementReprésentantLégal(
   const {
     nomReprésentantLégal,
     typeReprésentantLégal,
-    piècesJustificative,
+    piècesJustificatives,
     demandéLe,
     demandéPar,
   } =
@@ -64,16 +70,9 @@ async function demanderChangementReprésentantLégal(
       identifiantProjetValue: options.identifiantProjet,
       nomReprésentantLégalValue: nomReprésentantLégal,
       typeReprésentantLégalValue: typeReprésentantLégal.formatter(),
-      piècesJustificativeValue: piècesJustificative,
+      piècesJustificativesValue: piècesJustificatives,
       dateDemandeValue: demandéLe,
       identifiantUtilisateurValue: demandéPar,
     },
-  });
-
-  this.lauréatWorld.représentantLégalWorld.demanderChangementReprésentantLégalFixture.créer({
-    identifiantProjet: options.identifiantProjet,
-    nomReprésentantLégal,
-    typeReprésentantLégal,
-    piècesJustificative,
   });
 }
