@@ -29,10 +29,10 @@ async function getUserSession(req: IncomingMessage, res: ServerResponse) {
 }
 
 // API clients are authenticated by Authorization header
-function getApiUser(req: IncomingMessage) {
+async function getApiUser(req: IncomingMessage) {
   const authHeader = req.headers.authorization ?? '';
   if (authHeader.toLowerCase().startsWith('bearer ')) {
-    const utilisateur = convertToken(authHeader.slice('bearer '.length));
+    const utilisateur = await convertToken(authHeader.slice('bearer '.length));
     return Utilisateur.bind(utilisateur);
   }
 }
@@ -40,7 +40,13 @@ function getApiUser(req: IncomingMessage) {
 /** Returns the logged-in user, if any */
 export async function getUtilisateur(req: IncomingMessage, res: ServerResponse) {
   try {
-    return (await getUserSession(req, res)) ?? getApiUser(req);
+    const user = await getUserSession(req, res);
+    if (user) {
+      return user;
+    }
+    if (req.url?.startsWith('/api')) {
+      return await getApiUser(req);
+    }
   } catch (e) {
     const error = e as Error;
     getLogger('getUtilisateur').warn(`Auth failed: ${error}`);
