@@ -1,30 +1,22 @@
-import { clientId, clientSecret, issuerUrl } from './constants';
+import { InvalidOperationError } from '@potentiel-domain/core';
+
+import { getOpenIdClient } from './openid';
 
 export async function refreshAccessToken(refreshToken: string) {
-  const url = new URL(`${issuerUrl}/protocol/openid-connect/token`);
-  const body = new URLSearchParams({
-    client_id: clientId,
-    client_secret: clientSecret,
-    grant_type: 'refresh_token',
-    refresh_token: refreshToken,
-  });
-  const response = await fetch(url.toString(), {
-    body: body.toString(),
-    headers: {
-      'Content-Type': 'application/x-www-form-urlencoded',
-    },
-    method: 'POST',
-  });
-
-  const refreshedTokens = await response.json();
-
-  if (!response.ok) {
-    throw refreshedTokens;
+  const client = await getOpenIdClient();
+  const refreshedTokens = await client.refresh(refreshToken);
+  if (!refreshedTokens.access_token || !refreshedTokens.expires_in) {
+    throw new RefreshTokenError();
   }
-
   return {
     accessToken: refreshedTokens.access_token,
     expiresAt: Date.now() + refreshedTokens.expires_in * 1000,
     refreshToken: refreshedTokens.refresh_token ?? refreshToken,
   };
+}
+
+class RefreshTokenError extends InvalidOperationError {
+  constructor() {
+    super('Refreshing the token failed');
+  }
 }

@@ -3,7 +3,7 @@ import { getServerSession } from 'next-auth';
 
 import { Routes } from '@potentiel-applications/routes';
 import { getLogger } from '@potentiel-libraries/monitoring';
-import { issuerUrl } from '@potentiel-applications/request-context';
+import { getLogoutUrl } from '@potentiel-applications/request-context';
 
 /**
  * This route manages logout from the SSO (keycloak).
@@ -29,12 +29,11 @@ export const GET = async () => {
     }
 
     // after keycloak logout, redirect the user to this route to remove the session
-    const ssoLogoutUrl = new URL(`${issuerUrl}/protocol/openid-connect/logout`);
-
     if (session.idToken) {
-      // without this, Keycloak prompts the user for confirmation
-      ssoLogoutUrl.searchParams.set('post_logout_redirect_uri', redirectUrl.toString());
-      ssoLogoutUrl.searchParams.set('id_token_hint', session.idToken);
+      const ssoLogoutUrl = await getLogoutUrl({
+        id_token_hint: session.idToken,
+        post_logout_redirect_uri: redirectUrl.toString(),
+      });
       return NextResponse.redirect(ssoLogoutUrl.toString());
     }
 
