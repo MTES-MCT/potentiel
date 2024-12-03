@@ -1,7 +1,7 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { Option } from '@potentiel-libraries/monads';
-import { IdentifiantProjet } from '@potentiel-domain/common';
+import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
 import { Find } from '@potentiel-domain/entity';
 
 import { Lauréat } from '../..';
@@ -12,9 +12,11 @@ export type ConsulterReprésentantLégalReadModel = {
   nomReprésentantLégal: string;
   typeReprésentantLégal: TypeReprésentantLégal.ValueType;
   demande?: {
+    statut: StatutDemandeChangementReprésentantLégal.ValueType;
     nomReprésentantLégal: string;
     typeReprésentantLégal: TypeReprésentantLégal.ValueType;
-    statut: StatutDemandeChangementReprésentantLégal.ValueType;
+    demandéLe: DateTime.ValueType;
+    demandéPar: Email.ValueType;
   };
 };
 
