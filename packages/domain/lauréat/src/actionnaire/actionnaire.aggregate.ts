@@ -9,15 +9,21 @@ import {
 import {
   ActionnaireImportéEvent,
   applyActionnaireImporté,
-  importerActionnaire,
-} from './importerActionnaire/importerActionnaire.behavior';
+  importer,
+} from './importer/importerActionnaire.behavior';
+import {
+  ActionnaireModifiéEvent,
+  applyActionnaireModifié,
+  modifier,
+} from './modifier/modifierActionnaire.behavior';
 
-export type ActionnaireEvent = ActionnaireImportéEvent;
+export type ActionnaireEvent = ActionnaireImportéEvent | ActionnaireModifiéEvent;
 
 export type ActionnaireAggregate = Aggregate<ActionnaireEvent> & {
   identifiantProjet: IdentifiantProjet.ValueType;
   actionnaire: String;
-  importerActionnaire: typeof importerActionnaire;
+  importer: typeof importer;
+  modifier: typeof modifier;
 };
 
 export const getDefaultActionnaireAggregate: GetDefaultAggregateState<
@@ -27,13 +33,18 @@ export const getDefaultActionnaireAggregate: GetDefaultAggregateState<
   identifiantProjet: IdentifiantProjet.inconnu,
   actionnaire: '',
   apply,
-  importerActionnaire,
+  importer,
+  modifier,
 });
 
 function apply(this: ActionnaireAggregate, event: ActionnaireEvent) {
   switch (event.type) {
     case 'ActionnaireImporté-V1':
       applyActionnaireImporté.bind(this)(event);
+      break;
+
+    case 'ActionnaireModifié-V1':
+      applyActionnaireModifié.bind(this)(event);
       break;
   }
 }

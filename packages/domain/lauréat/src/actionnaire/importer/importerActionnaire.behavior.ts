@@ -18,7 +18,7 @@ export type ImporterOptions = {
   importéLe: DateTime.ValueType;
 };
 
-export async function importerActionnaire(
+export async function importer(
   this: ActionnaireAggregate,
   { identifiantProjet, actionnaire, importéLe }: ImporterOptions,
 ) {

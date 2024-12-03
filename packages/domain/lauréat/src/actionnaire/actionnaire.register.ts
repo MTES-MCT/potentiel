@@ -1,6 +1,6 @@
 import { LoadAggregate } from '@potentiel-domain/core';
 
-import { registerImporterActionnaireCommand } from './importerActionnaire/importerActionnaire.command';
+import { registerImporterActionnaireCommand } from './importer/importerActionnaire.command';
 
 export type ActionnaireCommandDependencies = {
   loadAggregate: LoadAggregate;

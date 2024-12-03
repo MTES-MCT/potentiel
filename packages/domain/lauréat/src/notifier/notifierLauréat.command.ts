@@ -20,6 +20,8 @@ export const registerNotifierLauréatCommand = (loadAggregate: LoadAggregate) =>
 
   const handler: MessageHandler<NotifierLauréatCommand> = async (payload) => {
     const Lauréat = await loadLauréatAggregate(payload.identifiantProjet, false);
+    const { sociétéMère } = await loadCandidatureAggregate(payload.identifiantProjet, false);
+
     await Lauréat.notifier(payload);
   };
   mediator.register('Lauréat.Command.NotifierLauréat', handler);

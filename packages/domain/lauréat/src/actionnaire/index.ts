@@ -1,8 +1,9 @@
-import { ImporterActionnaireCommand } from './importerActionnaire/importerActionnaire.command';
+import { ImporterActionnaireCommand } from './importer/importerActionnaire.command';
+import { ModifierActionnaireCommand } from './modifier/modifierActionnaire.command';
 
 // Command
-export type ActionnaireCommand = ImporterActionnaireCommand;
-export type { ImporterActionnaireCommand };
+export type ActionnaireCommand = ImporterActionnaireCommand | ModifierActionnaireCommand;
+export type { ImporterActionnaireCommand, ModifierActionnaireCommand };
 
 // Event
 export type { ActionnaireEvent } from './actionnaire.aggregate';
