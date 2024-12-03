@@ -108,7 +108,18 @@ export async function makeServer(port: number) {
       }
     });
 
-    app.use(express.json({ limit: FILE_SIZE_LIMIT_IN_MB + 'mb' }));
+    // TODO remove
+    // json parsing is unnecessary in the legacy app because we use only forms.
+    // let's just confirm it works well ;)
+    // app.use('*', (req, res, next) => {
+    //   // ignore API routes, because the express json middleware conflicts with next POST API routes
+    //   // error thrown is "Response body object should not be disturbed or locked"
+    //   if (req.originalUrl.startsWith('/api')) {
+    //     next();
+    //   } else {
+    //     express.json({ limit: FILE_SIZE_LIMIT_IN_MB + 'mb' })(req, res, next);
+    //   }
+    // });
 
     registerAuth({ app });
 
