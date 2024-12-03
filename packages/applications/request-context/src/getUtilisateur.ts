@@ -40,7 +40,13 @@ async function getApiUser(req: IncomingMessage) {
 /** Returns the logged-in user, if any */
 export async function getUtilisateur(req: IncomingMessage, res: ServerResponse) {
   try {
-    return (await getUserSession(req, res)) ?? (await getApiUser(req));
+    const user = await getUserSession(req, res);
+    if (user) {
+      return user;
+    }
+    if (req.url?.startsWith('/api')) {
+      return await getApiUser(req);
+    }
   } catch (e) {
     const error = e as Error;
     getLogger('getUtilisateur').warn(`Auth failed: ${error}`);
