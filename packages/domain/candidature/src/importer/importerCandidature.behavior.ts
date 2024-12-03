@@ -174,6 +174,7 @@ export function applyCandidatureImportée(
     : undefined;
   this.payloadHash = this.calculerHash(payload);
   this.nomReprésentantLégal = payload.nomReprésentantLégal;
+  this.sociétéMère = payload.sociétéMère;
 }
 
 export const mapToEventPayload = (candidature: ImporterCandidatureBehaviorCommonOptions) => ({

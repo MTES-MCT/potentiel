@@ -134,6 +134,8 @@ async function vérifierLauréats(
       },
     });
 
+    console.log(lauréat);
+
     assert(
       Option.isSome(lauréat),
       `Aucun lauréat consultable pour ${identifiantProjet.formatter()}`,
