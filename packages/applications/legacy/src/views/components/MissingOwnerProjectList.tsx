@@ -54,27 +54,6 @@ export const MissingOwnerProjectList = ({ projects, displayColumns, user, curren
         className="!max-w-full"
         method="post"
       >
-        <AlertBox className="my-4">
-          <>
-            <Checkbox
-              name="swornStatement"
-              id="swornStatement"
-              onChange={() => setSwornStatement(!swornStatement)}
-            >
-              J'atteste sur l'honneur que je suis bien la personne désignée pour suivre le/les
-              projet(s) sélectionné(s). En cas de fausse déclaration, je m'expose à un risque de
-              poursuites judiciaires.
-            </Checkbox>
-            {selectedProjectList.length > 0 && swornStatement && (
-              <PrimaryButton type="submit" name="submit" id="submit" className="my-4">
-                Réclamer la propriété{' '}
-                {selectedProjectList.length === 1
-                  ? 'du project séléctionné'
-                  : `des ${selectedProjectList.length} projets séléctionnés`}
-              </PrimaryButton>
-            )}
-          </>
-        </AlertBox>
         <Table>
           <thead>
             <tr>
@@ -171,6 +150,27 @@ export const MissingOwnerProjectList = ({ projects, displayColumns, user, curren
             ))}
           </tbody>
         </Table>
+        <AlertBox className="my-4">
+          <>
+            <Checkbox
+              name="swornStatement"
+              id="swornStatement"
+              onChange={() => setSwornStatement(!swornStatement)}
+            >
+              J'atteste sur l'honneur que je suis bien la personne désignée pour suivre le/les
+              projet(s) sélectionné(s). En cas de fausse déclaration, je m'expose à un risque de
+              poursuites judiciaires.
+            </Checkbox>
+            {selectedProjectList.length > 0 && swornStatement && (
+              <PrimaryButton type="submit" name="submit" id="submit" className="my-4">
+                Réclamer la propriété{' '}
+                {selectedProjectList.length === 1
+                  ? 'du project séléctionné'
+                  : `des ${selectedProjectList.length} projets séléctionnés`}
+              </PrimaryButton>
+            )}
+          </>
+        </AlertBox>
 
         <input type="hidden" name="projectIds" value={selectedProjectList} />
       </Form>
