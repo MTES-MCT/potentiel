@@ -10,6 +10,8 @@ export type ReprésentantLégalEntity = Entity<
       statut: string;
       nomReprésentantLégal: string;
       typeReprésentantLégal: string;
+      demandéLe: string;
+      demandéPar: string;
     };
   }
 >;
