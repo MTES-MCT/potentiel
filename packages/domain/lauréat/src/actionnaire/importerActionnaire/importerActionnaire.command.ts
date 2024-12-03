@@ -4,13 +4,12 @@ import { IdentifiantProjet, DateTime } from '@potentiel-domain/common';
 import { Candidature } from '@potentiel-domain/candidature';
 import { LoadAggregate } from '@potentiel-domain/core';
 
-import { Lauréat } from '..';
+import { loadActionnaireFactory } from '../actionnaire.aggregate';
 
-export type ImporterActionnaireLauréatCommand = Message<
-  'Lauréat.Command.ImporterActionnaireLauréat',
+export type ImporterActionnaireCommand = Message<
+  'Lauréat.Actionnaire.Command.ImporterActionnaire',
   {
     identifiantProjet: IdentifiantProjet.ValueType;
-    actionnaire: String;
     importéLe: DateTime.ValueType;
   }
 >;
@@ -18,23 +17,23 @@ export type ImporterActionnaireLauréatCommand = Message<
 // TODO: ajouter un check sur l'existence de demande de changement d'actionnaire quand ça sera implémenté
 
 export const registerImporterActionnaireCommand = (loadAggregate: LoadAggregate) => {
-  const loadLauréat = Lauréat.loadLauréatFactory(loadAggregate);
+  const loadActionnaire = loadActionnaireFactory(loadAggregate);
   const loadCandidature = Candidature.Aggregate.loadCandidatureFactory(loadAggregate);
 
-  const handler: MessageHandler<ImporterActionnaireLauréatCommand> = async ({
+  const handler: MessageHandler<ImporterActionnaireCommand> = async ({
     identifiantProjet,
     importéLe,
   }) => {
     const { sociétéMère } = await loadCandidature(identifiantProjet);
 
-    const lauréat = await loadLauréat(identifiantProjet);
+    const actionnaire = await loadActionnaire(identifiantProjet, false);
 
-    await lauréat.importerActionnaire({
+    await actionnaire.importerActionnaire({
       identifiantProjet,
       actionnaire: sociétéMère,
       importéLe,
     });
   };
 
-  mediator.register('Lauréat.Command.ImporterActionnaireLauréat', handler);
+  mediator.register('Lauréat.Actionnaire.Command.ImporterActionnaire', handler);
 };

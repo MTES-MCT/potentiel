@@ -1,6 +1,6 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
-import { Lauréat } from '@potentiel-domain/laureat';
+import { Actionnaire, Lauréat } from '@potentiel-domain/laureat';
 import { RebuildTriggered, Event } from '@potentiel-infrastructure/pg-event-sourcing';
 import { findProjection } from '@potentiel-infrastructure/pg-projections';
 import { DateTime } from '@potentiel-domain/common';
@@ -9,7 +9,10 @@ import { Option } from '@potentiel-libraries/monads';
 import { removeProjection } from '../../infrastructure/removeProjection';
 import { upsertProjection } from '../../infrastructure/upsertProjection';
 
-export type SubscriptionEvent = (Lauréat.LauréatEvent & Event) | RebuildTriggered;
+export type SubscriptionEvent =
+  | (Lauréat.LauréatEvent & Event)
+  | (Actionnaire.ActionnaireEvent & Event)
+  | RebuildTriggered;
 
 export type Execute = Message<'System.Projector.Lauréat', SubscriptionEvent>;
 
@@ -48,7 +51,7 @@ export const register = () => {
           });
           break;
 
-        case 'ActionnaireLauréatImporté-V1':
+        case 'ActionnaireImporté-V1':
           await upsertProjection<Lauréat.LauréatEntity>(`lauréat|${identifiantProjet}`, {
             ...lauréatToUpsert,
             identifiantProjet,

@@ -6,6 +6,7 @@ import {
   GarantiesFinancières,
   Lauréat,
   ReprésentantLégal,
+  Actionnaire,
 } from '@potentiel-domain/laureat';
 import { Event, loadAggregate, subscribe } from '@potentiel-infrastructure/pg-event-sourcing';
 import { findProjection, listProjection } from '@potentiel-infrastructure/pg-projections';
@@ -65,7 +66,7 @@ export const setupLauréat = async ({ sendEmail }: SetupLauréatDependencies) =>
 
   const unsubscribeLauréatProjector = await subscribe<LauréatProjector.SubscriptionEvent>({
     name: 'projector',
-    eventType: ['LauréatNotifié-V1', 'ActionnaireLauréatImporté-V1', 'RebuildTriggered'],
+    eventType: ['LauréatNotifié-V1', 'ActionnaireImporté-V1', 'RebuildTriggered'],
     eventHandler: async (event) => {
       await mediator.send<LauréatProjector.Execute>({
         type: 'System.Projector.Lauréat',
@@ -256,6 +257,19 @@ export const setupLauréat = async ({ sendEmail }: SetupLauréatDependencies) =>
       }),
   });
 
+  const unsubscribeActionnaireSaga = await subscribe<
+    ReprésentantLégal.ReprésentantLégalSaga.SubscriptionEvent & Event
+  >({
+    name: 'actionnaire-saga',
+    streamCategory: 'lauréat',
+    eventType: ['LauréatNotifié-V1'],
+    eventHandler: async (event) =>
+      mediator.publish<Actionnaire.ActionnaireSaga.Execute>({
+        type: 'System.Lauréat.Actionnaire.Saga.Execute',
+        data: event,
+      }),
+  });
+
   const unsubscribeTypeGarantiesFinancièresSaga = await subscribe<
     GarantiesFinancières.TypeGarantiesFinancièresSaga.SubscriptionEvent & Event
   >({
@@ -300,5 +314,6 @@ export const setupLauréat = async ({ sendEmail }: SetupLauréatDependencies) =>
     await unsubscribeTypeGarantiesFinancièresSaga();
     await unsubscribeLauréatSaga();
     await unsubscribeReprésentantLégalSaga();
+    await unsubscribeActionnaireSaga();
   };
 };

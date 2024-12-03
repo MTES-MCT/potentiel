@@ -21,7 +21,7 @@ import {
   registerGarantiesFinancièresQueries,
   registerGarantiesFinancièresUseCases,
 } from './garantiesFinancières/garantiesFinancières.register';
-import { registerImporterActionnaireCommand } from './importerActionnaire/importerActionnaire.command';
+import { registerImporterActionnaireCommand } from './actionnaire/importerActionnaire/importerActionnaire.command';
 import { registerNotifierLauréatCommand } from './notifier/notifierLauréat.command';
 import { registerNotifierLauréatUseCase } from './notifier/notifierLauréat.usecase';
 import { registerReprésentantLégalQueries } from './représentantLégal';

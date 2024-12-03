@@ -11,20 +11,13 @@ import {
   applyLauréatNotifié,
   notifier,
 } from './notifier/notifierLauréat.behavior';
-import {
-  applyActionnaireImporté,
-  importerActionnaire,
-  ActionnaireLauréatImportéEvent,
-} from './importerActionnaire/importerActionnaire.behavior';
 
-export type LauréatEvent = LauréatNotifiéEvent | ActionnaireLauréatImportéEvent;
+export type LauréatEvent = LauréatNotifiéEvent;
 
 export type LauréatAggregate = Aggregate<LauréatEvent> & {
   identifiantProjet: IdentifiantProjet.ValueType;
   notifiéLe: DateTime.ValueType;
-  actionnaire: String;
   notifier: typeof notifier;
-  importerActionnaire: typeof importerActionnaire;
 };
 
 export const getDefaultLauréatAggregate: GetDefaultAggregateState<
@@ -33,19 +26,14 @@ export const getDefaultLauréatAggregate: GetDefaultAggregateState<
 > = () => ({
   identifiantProjet: IdentifiantProjet.inconnu,
   notifiéLe: DateTime.now(),
-  actionnaire: '',
   apply,
   notifier,
-  importerActionnaire,
 });
 
 function apply(this: LauréatAggregate, event: LauréatEvent) {
   switch (event.type) {
     case 'LauréatNotifié-V1':
       applyLauréatNotifié.bind(this)(event);
-      break;
-    case 'ActionnaireLauréatImporté-V1':
-      applyActionnaireImporté.bind(this)(event);
       break;
   }
 }
