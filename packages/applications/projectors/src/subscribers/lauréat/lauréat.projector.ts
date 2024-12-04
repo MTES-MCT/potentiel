@@ -6,7 +6,6 @@ import { findProjection } from '@potentiel-infrastructure/pg-projections';
 import { DateTime } from '@potentiel-domain/common';
 import { Option } from '@potentiel-libraries/monads';
 
-import { removeProjection } from '../../infrastructure/removeProjection';
 import { upsertProjection } from '../../infrastructure/upsertProjection';
 
 export type SubscriptionEvent =
@@ -21,7 +20,19 @@ export const register = () => {
     const { type, payload } = event;
 
     if (type === 'RebuildTriggered') {
-      await removeProjection<Lauréat.LauréatEntity>(`lauréat|${payload.id}`);
+      if (type === 'RebuildTriggered') {
+        const lauréatProjection = await findProjection<Lauréat.LauréatEntity>(
+          `lauréat|${payload.id}`,
+        );
+
+        if (Option.isSome(lauréatProjection)) {
+          await upsertProjection<Lauréat.LauréatEntity>(`lauréat|${payload.id}`, {
+            ...lauréatProjection,
+            actionnaire: undefined,
+          });
+        }
+        return;
+      }
     } else {
       const { identifiantProjet } = payload;
 
