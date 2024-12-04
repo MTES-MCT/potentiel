@@ -23,8 +23,6 @@ dotenv.config();
 
 export async function makeServer(port: number) {
   try {
-    await registerSagas();
-
     const app = express();
 
     // Always first middleware
@@ -162,6 +160,7 @@ export async function makeServer(port: number) {
     await nextApp.prepare();
 
     await bootstrap({ middlewares: [permissionMiddleware] });
+    await registerSagas();
 
     if (!process.env.MAINTENANCE_MODE) {
       app.listen(port, () => {
