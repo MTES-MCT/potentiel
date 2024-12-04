@@ -74,6 +74,7 @@ function estValide(value: string): asserts value is RawType {
 
 export const porteur = convertirEnValueType('porteur-projet');
 export const admin = convertirEnValueType('admin');
+export const ademe = convertirEnValueType('ademe');
 export const dgecValidateur = convertirEnValueType('dgec-validateur');
 export const dreal = convertirEnValueType('dreal');
 export const cre = convertirEnValueType('cre');
@@ -851,10 +852,33 @@ type Leaves<O extends Record<string, unknown>> = {
 
 type Policy = Leaves<typeof policies>;
 
+// En attendant d'avoir des gateways qui groupent les query
+const permissionPageProjet: Policy[] = [
+  // Abandon
+  'abandon.consulter.détail',
+  // Recours
+  'recours.consulter.détail',
+
+  // Garanties Financières
+  'garantiesFinancières.actuelles.consulter',
+  'garantiesFinancières.dépôt.consulter',
+  'garantiesFinancières.enAttente.consulter',
+
+  // Achèvement
+  'achèvement.consulter',
+
+  // Candidature
+  'candidature.attestation.télécharger',
+
+  // Représentant légal
+  'représentantLégal.consulter',
+];
+
 const permissionAdmin: Policy[] = [
+  ...permissionPageProjet,
+
   // Abandon
   'abandon.consulter.liste',
-  'abandon.consulter.détail',
   'abandon.accorder',
   'abandon.rejeter',
   'abandon.demander-confirmation',
@@ -862,7 +886,6 @@ const permissionAdmin: Policy[] = [
 
   // Recours
   'recours.consulter.liste',
-  'recours.consulter.détail',
   'recours.accorder',
   'recours.rejeter',
 
@@ -903,7 +926,6 @@ const permissionAdmin: Policy[] = [
   'garantiesFinancières.mainlevée.lister',
 
   // Achèvement
-  'achèvement.consulter',
   'achèvement.transmettre',
   'achèvement.modifier',
 
@@ -912,14 +934,12 @@ const permissionAdmin: Policy[] = [
   'candidature.corriger',
   'candidature.lister',
   'candidature.attestation.prévisualiser',
-  'candidature.attestation.télécharger',
 
   // Période
   'période.lister',
   'période.consulter',
 
   // Représentant légal
-  'représentantLégal.consulter',
   'représentantLégal.modifier',
 ];
 
@@ -934,16 +954,12 @@ const permissionDgecValidateur: Policy[] = [
 ];
 
 const permissionCRE: Policy[] = [
+  ...permissionPageProjet,
   // Abandon
   'abandon.consulter.liste',
-  'abandon.consulter.détail',
 
   // Recours
   'recours.consulter.liste',
-  'recours.consulter.détail',
-
-  // Achèvement
-  'achèvement.consulter',
 
   // Gestionnaire réseau
   'réseau.gestionnaire.lister',
@@ -953,25 +969,16 @@ const permissionCRE: Policy[] = [
   'réseau.raccordement.listerDossierRaccordement',
 
   // Garanties financières
-  'garantiesFinancières.actuelles.consulter',
-  'garantiesFinancières.dépôt.consulter',
   'garantiesFinancières.mainlevée.lister',
-
-  // Candidature
-  'candidature.attestation.télécharger',
-
-  // Représentant légal
-  'représentantLégal.consulter',
 ];
 
 const permissionDreal: Policy[] = [
+  ...permissionPageProjet,
   // Abandon
   'abandon.consulter.liste',
-  'abandon.consulter.détail',
 
   // Recours
   'recours.consulter.liste',
-  'recours.consulter.détail',
 
   // Raccordement
   'réseau.raccordement.consulter',
@@ -982,9 +989,7 @@ const permissionDreal: Policy[] = [
   'réseau.raccordement.gestionnaire.modifier',
 
   // Garanties financières
-  'garantiesFinancières.actuelles.consulter',
   'garantiesFinancières.archives.consulter',
-  'garantiesFinancières.dépôt.consulter',
   'garantiesFinancières.dépôt.lister',
   'garantiesFinancières.dépôt.demander',
   'garantiesFinancières.dépôt.valider',
@@ -1014,9 +1019,9 @@ const permissionDreal: Policy[] = [
 ];
 
 const permissionPorteurProjet: Policy[] = [
+  ...permissionPageProjet,
   // Abandon
   'abandon.consulter.liste',
-  'abandon.consulter.détail',
   'abandon.demander',
   'abandon.annuler',
   'abandon.confirmer',
@@ -1024,7 +1029,6 @@ const permissionPorteurProjet: Policy[] = [
 
   // Recours
   'recours.consulter.liste',
-  'recours.consulter.détail',
   'recours.demander',
   'recours.annuler',
 
@@ -1042,8 +1046,6 @@ const permissionPorteurProjet: Policy[] = [
   'tâche.consulter',
 
   // Garanties financières
-  'garantiesFinancières.actuelles.consulter',
-  'garantiesFinancières.dépôt.consulter',
   'garantiesFinancières.dépôt.demander',
   'garantiesFinancières.dépôt.valider',
   'garantiesFinancières.dépôt.soumettre',
@@ -1056,7 +1058,6 @@ const permissionPorteurProjet: Policy[] = [
   'garantiesFinancières.mainlevée.annuler',
   'garantiesFinancières.mainlevée.lister',
   'garantiesFinancières.enAttente.lister',
-  'garantiesFinancières.enAttente.consulter',
 
   // Achèvement
   'achèvement.consulter',
@@ -1070,31 +1071,20 @@ const permissionPorteurProjet: Policy[] = [
 ];
 
 const permissionAcheteurObligé: Policy[] = [
+  ...permissionPageProjet,
   'réseau.raccordement.consulter',
 
   // Garanties financières
-  'garantiesFinancières.actuelles.consulter',
-  'garantiesFinancières.dépôt.consulter',
   'garantiesFinancières.mainlevée.lister',
 
   // Achèvement
-  'achèvement.transmettre',
-
-  // Candidature
-  'candidature.attestation.télécharger',
+  // 'achèvement.transmettre',
 ];
 
 const permissionCaisseDesDépôts: Policy[] = [
+  ...permissionPageProjet,
   // Garanties financières
-  'garantiesFinancières.actuelles.consulter',
-  'garantiesFinancières.dépôt.consulter',
   'garantiesFinancières.mainlevée.lister',
-
-  // Achèvement
-  'achèvement.consulter',
-
-  // Représentant légal
-  'représentantLégal.consulter',
 ];
 
 const permissionGRD: Policy[] = [
@@ -1106,10 +1096,12 @@ const permissionGRD: Policy[] = [
   'réseau.raccordement.référence-dossier.modifier',
 ];
 
+const permissionAdeme: Policy[] = [...permissionPageProjet];
+
 const policyParRole: Record<RawType, Policy[]> = {
   admin: permissionAdmin,
   'acheteur-obligé': permissionAcheteurObligé,
-  ademe: [],
+  ademe: permissionAdeme,
   'caisse-des-dépôts': permissionCaisseDesDépôts,
   cre: permissionCRE,
   dreal: permissionDreal,
