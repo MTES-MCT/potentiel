@@ -6,4 +6,5 @@ export * from './listHistory';
 export * from './orderByOptions';
 export * from './rangeOptions';
 export * from './whereOptions';
+export * from './selectOptions';
 export * as Where from './where';
