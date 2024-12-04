@@ -11,5 +11,5 @@ export * as CandidatureProjector from './subscribers/candidature/candidature.pro
 export * as LauréatProjector from './subscribers/lauréat/lauréat.projector';
 export * as ÉliminéProjector from './subscribers/éliminé/éliminé.projector';
 export * as PériodeProjector from './subscribers/période/période.projector';
-export * as ReprésentantLégalProjector from './subscribers/lauréat/représentantLégal.projector';
+export * as ReprésentantLégalProjector from './subscribers/lauréat/représentant-légal';
 export * as HistoriqueProjector from './subscribers/historique/historique.projector';
