@@ -73,6 +73,8 @@ v1Router.post(
         if (res.isErr()) {
           if (!(res.error instanceof EmailAlreadyUsedError)) {
             logger.error(res.error);
+          } else {
+            logger.info(res.error.message, email, res.error.userId);
           }
 
           return response.redirect(
