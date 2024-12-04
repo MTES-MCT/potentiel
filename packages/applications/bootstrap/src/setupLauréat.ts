@@ -63,10 +63,11 @@ export const setupLauréat = async ({ sendEmail }: SetupLauréatDependencies) =>
   GarantiesFinancières.TypeGarantiesFinancièresSaga.register();
   Lauréat.LauréatSaga.register();
   ReprésentantLégal.ReprésentantLégalSaga.register();
+  Actionnaire.ActionnaireSaga.register();
 
   const unsubscribeLauréatProjector = await subscribe<LauréatProjector.SubscriptionEvent>({
     name: 'projector',
-    eventType: ['LauréatNotifié-V1', 'ActionnaireImporté-V1', 'RebuildTriggered'],
+    eventType: ['LauréatNotifié-V1', 'RebuildTriggered'],
     eventHandler: async (event) => {
       await mediator.send<LauréatProjector.Execute>({
         type: 'System.Projector.Lauréat',
@@ -75,6 +76,19 @@ export const setupLauréat = async ({ sendEmail }: SetupLauréatDependencies) =>
     },
     streamCategory: 'lauréat',
   });
+
+  const unsubscribeActionnaireLauréatProjector =
+    await subscribe<LauréatProjector.SubscriptionEvent>({
+      name: 'projector',
+      eventType: ['ActionnaireImporté-V1'],
+      eventHandler: async (event) => {
+        await mediator.send<LauréatProjector.Execute>({
+          type: 'System.Projector.Lauréat',
+          data: event,
+        });
+      },
+      streamCategory: 'actionnaire',
+    });
 
   const unsubscribeLauréatSaga = await subscribe<Lauréat.LauréatSaga.SubscriptionEvent & Event>({
     name: 'laureat-saga',
@@ -304,6 +318,7 @@ export const setupLauréat = async ({ sendEmail }: SetupLauréatDependencies) =>
     await unsubscribeGarantiesFinancièresProjector();
     await unsubscribeAchèvementProjector();
     await unsubscribeReprésentantLégalProjector();
+    await unsubscribeActionnaireLauréatProjector();
     // notifications
     await unsubscribeAbandonNotification();
     await unsubscribeGarantiesFinancièresNotification();
