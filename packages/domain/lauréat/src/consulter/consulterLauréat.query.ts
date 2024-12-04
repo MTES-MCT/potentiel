@@ -46,5 +46,5 @@ const mapToReadModel = ({
   identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
   notifiéLe: DateTime.convertirEnValueType(notifiéLe),
   notifiéPar: Email.convertirEnValueType(notifiéPar),
-  actionnaire: actionnaire.nom,
+  actionnaire: actionnaire ? actionnaire.nom : '',
 });
