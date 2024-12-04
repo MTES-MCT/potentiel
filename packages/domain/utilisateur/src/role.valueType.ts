@@ -43,7 +43,7 @@ export const convertirEnValueType = (value: string): ValueType => {
       return this.nom.replace('-', ' ').toLocaleUpperCase();
     },
     aLaPermission(permission) {
-      const aLaPermission = policyParRole[this.nom].includes(permission);
+      const aLaPermission = policiesParRole[this.nom].includes(permission);
       return aLaPermission;
     },
     peutExécuterMessage(typeMessage) {
@@ -249,6 +249,7 @@ const référencielPermissions = {
   candidature: {
     query: {
       consulterCandidature: 'Candidature.Query.ConsulterCandidature',
+      consulterRésuméCandidature: 'Candidature.Query.ConsulterRésuméCandidature',
       consulterProjet: 'Candidature.Query.ConsulterProjet',
       listerProjetsPreuveRecandidature:
         'Candidature.Query.ListerProjetsEligiblesPreuveRecandidature',
@@ -777,6 +778,7 @@ const policies = {
     ],
   },
   candidature: {
+    consulterRésumé: [référencielPermissions.candidature.query.consulterRésuméCandidature],
     importer: [
       référencielPermissions.appelOffre.query.consulter,
       référencielPermissions.candidature.usecase.importer,
@@ -851,7 +853,11 @@ type Leaves<O extends Record<string, unknown>> = {
 
 type Policy = Leaves<typeof policies>;
 
-const permissionAdmin: Policy[] = [
+const commonPolicies: ReadonlyArray<Policy> = ['candidature.consulterRésumé'];
+
+const adminPolicies: ReadonlyArray<Policy> = [
+  ...commonPolicies,
+
   // Abandon
   'abandon.consulter.liste',
   'abandon.consulter.détail',
@@ -923,8 +929,8 @@ const permissionAdmin: Policy[] = [
   'représentantLégal.modifier',
 ];
 
-const permissionDgecValidateur: Policy[] = [
-  ...permissionAdmin,
+const dgecValidateurPolicies: ReadonlyArray<Policy> = [
+  ...adminPolicies,
 
   // Abandon
   'abandon.preuve-recandidature.accorder',
@@ -933,7 +939,9 @@ const permissionDgecValidateur: Policy[] = [
   'période.notifier',
 ];
 
-const permissionCRE: Policy[] = [
+const crePolicies: ReadonlyArray<Policy> = [
+  ...commonPolicies,
+
   // Abandon
   'abandon.consulter.liste',
   'abandon.consulter.détail',
@@ -964,7 +972,8 @@ const permissionCRE: Policy[] = [
   'représentantLégal.consulter',
 ];
 
-const permissionDreal: Policy[] = [
+const drealPolicies: ReadonlyArray<Policy> = [
+  ...commonPolicies,
   // Abandon
   'abandon.consulter.liste',
   'abandon.consulter.détail',
@@ -1013,7 +1022,8 @@ const permissionDreal: Policy[] = [
   'représentantLégal.modifier',
 ];
 
-const permissionPorteurProjet: Policy[] = [
+const porteurProjetPolicies: ReadonlyArray<Policy> = [
+  ...commonPolicies,
   // Abandon
   'abandon.consulter.liste',
   'abandon.consulter.détail',
@@ -1069,7 +1079,8 @@ const permissionPorteurProjet: Policy[] = [
   'représentantLégal.consulter',
 ];
 
-const permissionAcheteurObligé: Policy[] = [
+const acheteurObligéPolicies: ReadonlyArray<Policy> = [
+  ...commonPolicies,
   'réseau.raccordement.consulter',
 
   // Garanties financières
@@ -1084,7 +1095,8 @@ const permissionAcheteurObligé: Policy[] = [
   'candidature.attestation.télécharger',
 ];
 
-const permissionCaisseDesDépôts: Policy[] = [
+const caisseDesDépôtsPolicies: ReadonlyArray<Policy> = [
+  ...commonPolicies,
   // Garanties financières
   'garantiesFinancières.actuelles.consulter',
   'garantiesFinancières.dépôt.consulter',
@@ -1097,7 +1109,8 @@ const permissionCaisseDesDépôts: Policy[] = [
   'représentantLégal.consulter',
 ];
 
-const permissionGRD: Policy[] = [
+const grdPolicies: ReadonlyArray<Policy> = [
+  ...commonPolicies,
   'réseau.gestionnaire.consulter',
   'réseau.raccordement.consulter',
   'réseau.raccordement.listerDossierRaccordement',
@@ -1106,20 +1119,20 @@ const permissionGRD: Policy[] = [
   'réseau.raccordement.référence-dossier.modifier',
 ];
 
-const policyParRole: Record<RawType, Policy[]> = {
-  admin: permissionAdmin,
-  'acheteur-obligé': permissionAcheteurObligé,
+const policiesParRole: Record<RawType, ReadonlyArray<Policy>> = {
+  admin: adminPolicies,
+  'acheteur-obligé': acheteurObligéPolicies,
   ademe: [],
-  'caisse-des-dépôts': permissionCaisseDesDépôts,
-  cre: permissionCRE,
-  dreal: permissionDreal,
-  'dgec-validateur': permissionDgecValidateur,
-  'porteur-projet': permissionPorteurProjet,
-  grd: permissionGRD,
+  'caisse-des-dépôts': caisseDesDépôtsPolicies,
+  cre: crePolicies,
+  dreal: drealPolicies,
+  'dgec-validateur': dgecValidateurPolicies,
+  'porteur-projet': porteurProjetPolicies,
+  grd: grdPolicies,
 };
 
 /** La liste par projet des permissions techniques (message Mediator) */
-const droitsMessagesMediator: Record<RawType, Set<string>> = Object.entries(policyParRole).reduce(
+const droitsMessagesMediator: Record<RawType, Set<string>> = Object.entries(policiesParRole).reduce(
   (prev, [roleStr, policiesOfRole]) => {
     const role = roleStr as RawType;
     if (!prev[role]) {

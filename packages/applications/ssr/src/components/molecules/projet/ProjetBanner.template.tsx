@@ -4,6 +4,7 @@ import React, { FC } from 'react';
 
 import { IdentifiantProjet } from '@potentiel-domain/common';
 import { Iso8601DateTime } from '@potentiel-libraries/iso8601-datetime';
+import { Option } from '@potentiel-libraries/monads';
 
 import { FormattedDate } from '@/components/atoms/FormattedDate';
 
@@ -12,7 +13,7 @@ export type ProjetBannerProps = {
   nom: string;
   badge: React.ReactNode;
   localité?: { commune: string; département: string; région: string };
-  dateDésignation?: Iso8601DateTime;
+  dateDésignation: Option.Type<Iso8601DateTime>;
   identifiantProjet: IdentifiantProjet.ValueType;
 };
 
@@ -42,7 +43,7 @@ export const ProjetBannerTemplate: FC<ProjetBannerProps> = ({
         </p>
       )}
       <p className="text-sm font-medium p-0 m-0 mt-2">
-        {dateDésignation && (
+        {Option.isSome(dateDésignation) && (
           <span>
             Désigné le <FormattedDate date={dateDésignation} /> pour{' '}
           </span>

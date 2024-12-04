@@ -40,6 +40,9 @@ export type ConsulterProjetReadModel = {
   prixReference: number;
 };
 
+/**
+ * @deprecated
+ */
 export type ConsulterProjetQuery = Message<
   'Candidature.Query.ConsulterProjet',
   {

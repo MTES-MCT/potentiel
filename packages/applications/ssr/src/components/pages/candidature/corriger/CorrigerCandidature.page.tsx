@@ -3,6 +3,7 @@ import Link from 'next/link';
 
 import { IdentifiantProjet } from '@potentiel-domain/common';
 import { Routes } from '@potentiel-applications/routes';
+import { Option } from '@potentiel-libraries/monads';
 
 import { NotificationBadge } from '@/components/molecules/candidature/NotificationBadge';
 import { ProjetBannerTemplate } from '@/components/molecules/projet/ProjetBanner.template';
@@ -33,6 +34,7 @@ export const CorrigerCandidaturePage: React.FC<CorrigerCandidaturePageProps> = (
               <NotificationBadge estNotifié={estNotifiée} />
             </div>
           }
+          dateDésignation={Option.none}
         />
       }
       leftColumn={{
