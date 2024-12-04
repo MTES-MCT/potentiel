@@ -41,6 +41,9 @@ export const ProjetBanner: FC<ProjetBannerProps> = async ({ identifiantProjet })
         dateDésignation={Option.match(notifiéeLe)
           .some((date) => date.formatter())
           .none()}
+        /***
+         * @todo changer le check du rôle quand la page projet sera matérialisée dans le SSR (utiliser role.aLaPermissionDe)
+         */
         href={role.estÉgaleÀ(Role.grd) ? undefined : Routes.Projet.details(identifiantProjet)}
         identifiantProjet={IdentifiantProjet.convertirEnValueType(identifiantProjet)}
         nom={nomProjet}
