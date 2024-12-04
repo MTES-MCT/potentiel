@@ -18,13 +18,15 @@ export const findProjection = async <TEntity extends Entity>(
 
   const find = format(`${selectQuery} ${findQuery}`);
 
-  console.log('find query', find);
+  console.log(find);
 
   const result = await executeSelect<KeyValuePair<TEntity>>(find, id);
 
   if (result.length !== 1) {
     return Option.none;
   }
+
+  console.log(result);
 
   const [{ key, value }] = result;
 

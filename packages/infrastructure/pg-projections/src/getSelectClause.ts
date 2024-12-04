@@ -7,9 +7,13 @@ export const getSelectClause = <TEntity extends Entity>(
     return 'SELECT key, value';
   }
 
-  const selectValues = select
-    .map((field) => `value->>'${String(field)}' as ${String(field)}`)
-    .join(', ');
+  const selectValues = select.map(generateSelectClause);
 
-  return `SELECT key, ${selectValues}`;
+  return `SELECT key, jsonb_build_object(${selectValues}) as value`;
+};
+
+const generateSelectClause = <TEntity extends Entity>(
+  fiels: string | number | symbol,
+): string => {
+  
 };

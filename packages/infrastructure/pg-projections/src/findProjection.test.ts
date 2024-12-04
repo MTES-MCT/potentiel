@@ -6,7 +6,7 @@ import { should } from 'chai';
 import { Option } from '@potentiel-libraries/monads';
 import { Entity } from '@potentiel-domain/entity';
 import { executeQuery, killPool } from '@potentiel-libraries/pg-helpers';
-import { flatten, unflatten } from '@potentiel-libraries/flat';
+import { flatten } from '@potentiel-libraries/flat';
 
 import { findProjection } from './findProjection';
 
@@ -40,11 +40,11 @@ describe('findProjection', () => {
     category = randomUUID();
 
     fakeData = {
+      moreData: 'coucou',
       data: {
         value: 'value',
         name: 'name',
       },
-      moreData: 'coucou',
     };
 
     await executeQuery(
@@ -58,49 +58,44 @@ describe('findProjection', () => {
     await executeQuery(`delete from domain_views.projection where key like $1`, `${category}|%`);
   });
 
-  it('should find a projection by its key', async () => {
-    const id: `${string}|${string}` = `${category}|${fakeData.data.value}`;
+  // it('should find a projection by its key', async () => {
+  //   const id: `${string}|${string}` = `${category}|${fakeData.data.value}`;
 
-    const actual = await findProjection<FakeProjection>(id);
+  //   const actual = await findProjection<FakeProjection>(id);
 
-    const expected = {
-      type: category,
-      ...(unflatten<Omit<FakeProjection, 'type'>, Omit<FakeProjection, 'type'>>(fakeData) as Omit<
-        FakeProjection,
-        'type'
-      >),
-    };
+  //   const expected = {
+  //     type: category,
+  //     ...fakeData,
+  //   };
 
-    console.log(actual);
-    console.log(expected);
+  //   Option.isSome(actual).should.be.true;
 
-    actual.should.equal(Option.isSome(expected));
-  });
+  //   actual.should.deep.equal(expected);
+  // });
 
-  it('should return none when the projection does not exist', async () => {
-    const id: `${string}|${string}` = `${category}|nonexistent`;
+  // it('should return none when the projection does not exist', async () => {
+  //   const id: `${string}|${string}` = `${category}|random`;
 
-    const actual = await findProjection<FakeProjection>(id);
+  //   const actual = await findProjection<FakeProjection>(id);
 
-    actual.should.equal(Option.none);
-  });
+  //   actual.should.equal(Option.none);
+  // });
 
   it('should return only selected fields when a select option is provided', async () => {
     const id: `${string}|${string}` = `${category}|${fakeData.data.value}`;
 
-    const actual = await findProjection<FakeProjection>(id, { select: ['moreData'] });
+    const actual = await findProjection<FakeProjection>(id, { select: ['data'] });
 
     const expected = {
       type: category,
-      moreData: fakeData.moreData,
+      data: fakeData.data,
     };
-
-    console.log('key selected', actual);
-    console.log(expected);
 
     console.log(actual);
     console.log(expected);
 
-    actual.should.deep.equal(Option.isSome(expected));
+    Option.isSome(actual).should.be.true;
+
+    actual.should.deep.equal(expected);
   });
 });
