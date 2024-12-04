@@ -11,7 +11,7 @@ export const permissionMiddleware: Middleware = async (message, next) => {
 
   const context = getContext();
   if (!context) {
-    throw new Error('No request context');
+    return;
   }
   const utilisateur = context.utilisateur;
   if (!utilisateur) {
