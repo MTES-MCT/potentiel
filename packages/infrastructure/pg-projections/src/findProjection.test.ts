@@ -26,7 +26,13 @@ describe('findProjection', () => {
     }
   >;
 
-  let fakeData: Omit<FakeProjection, 'type'>;
+  const fakeData: Omit<FakeProjection, 'type'> = {
+    moreData: 'coucou',
+    data: {
+      value: 'value',
+      name: 'name',
+    },
+  };
 
   before(() => {
     process.env.EVENT_STORE_CONNECTION_STRING = 'postgres://testuser@localhost:5433/potentiel_test';
@@ -39,14 +45,6 @@ describe('findProjection', () => {
   beforeEach(async () => {
     category = randomUUID();
 
-    fakeData = {
-      moreData: 'coucou',
-      data: {
-        value: 'value',
-        name: 'name',
-      },
-    };
-
     await executeQuery(
       `insert into domain_views.projection values ($1, $2)`,
       `${category}|${fakeData.data.value}`,
@@ -58,41 +56,40 @@ describe('findProjection', () => {
     await executeQuery(`delete from domain_views.projection where key like $1`, `${category}|%`);
   });
 
-  // it('should find a projection by its key', async () => {
-  //   const id: `${string}|${string}` = `${category}|${fakeData.data.value}`;
+  it('should find a projection by its key', async () => {
+    const id: `${string}|${string}` = `${category}|${fakeData.data.value}`;
 
-  //   const actual = await findProjection<FakeProjection>(id);
+    const actual = await findProjection<FakeProjection>(id);
 
-  //   const expected = {
-  //     type: category,
-  //     ...fakeData,
-  //   };
+    const expected = {
+      type: category,
+      ...fakeData,
+    };
 
-  //   Option.isSome(actual).should.be.true;
+    Option.isSome(actual).should.be.true;
 
-  //   actual.should.deep.equal(expected);
-  // });
+    actual.should.deep.equal(expected);
+  });
 
-  // it('should return none when the projection does not exist', async () => {
-  //   const id: `${string}|${string}` = `${category}|random`;
+  it('should return none when the projection does not exist', async () => {
+    const id: `${string}|${string}` = `${category}|random`;
 
-  //   const actual = await findProjection<FakeProjection>(id);
+    const actual = await findProjection<FakeProjection>(id);
 
-  //   actual.should.equal(Option.none);
-  // });
+    actual.should.equal(Option.none);
+  });
 
   it('should return only selected fields when a select option is provided', async () => {
     const id: `${string}|${string}` = `${category}|${fakeData.data.value}`;
 
-    const actual = await findProjection<FakeProjection>(id, { select: ['data'] });
+    const actual = await findProjection<FakeProjection>(id, {
+      select: ['data.name', 'data.value'],
+    });
 
     const expected = {
       type: category,
       data: fakeData.data,
     };
-
-    console.log(actual);
-    console.log(expected);
 
     Option.isSome(actual).should.be.true;
 

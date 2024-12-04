@@ -1,1 +1,7 @@
-export type SelectOptions<T> = (keyof T)[] | undefined;
+type NestedKeys<T> = T extends object
+  ? {
+      [K in keyof T]: `${Exclude<K, symbol>}${NestedKeys<T[K]> extends never ? '' : `.${NestedKeys<T[K]>}`}`;
+    }[keyof T]
+  : never;
+
+export type SelectOptions<T> = NestedKeys<T>[];
