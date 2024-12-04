@@ -27,6 +27,8 @@ export type { ModifierReprésentantLégalUseCase };
 
 // Event
 export type { ReprésentantLégalEvent } from './représentantLégal.aggregate';
+export type { ReprésentantLégalImportéEvent } from './importer/importerReprésentantLégal.behavior';
+export type { ReprésentantLégalModifiéEvent } from './modifier/modifierReprésentantLégal.behavior';
 
 // Register
 export {
