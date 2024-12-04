@@ -25,6 +25,7 @@ export const register = () => {
             identifiantProjet,
             notifiéLe,
             notifiéPar,
+            représentantLégal: undefined,
           });
           break;
       }

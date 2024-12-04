@@ -1,11 +1,13 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
+import { match } from 'ts-pattern';
 
 import { RebuildTriggered, Event } from '@potentiel-infrastructure/pg-event-sourcing';
-import { ReprésentantLégal } from '@potentiel-domain/laureat';
+import { Lauréat, ReprésentantLégal } from '@potentiel-domain/laureat';
 import { Option } from '@potentiel-libraries/monads';
 import { findProjection } from '@potentiel-infrastructure/pg-projections';
+import { getLogger } from '@potentiel-libraries/monitoring';
 
-import { removeProjection, upsertProjection } from '../../infrastructure/';
+import { upsertProjection } from '../../infrastructure/';
 
 export type SubscriptionEvent =
   | (ReprésentantLégal.ReprésentantLégalEvent & Event)
@@ -14,54 +16,68 @@ export type SubscriptionEvent =
 export type Execute = Message<'System.Projector.Lauréat.ReprésentantLégal', SubscriptionEvent>;
 
 export const register = () => {
-  const handler: MessageHandler<Execute> = async (event) => {
-    const { type, payload } = event;
+  const handler: MessageHandler<Execute> = async (event) =>
+    match(event)
+      .with({ type: 'RebuildTriggered' }, async ({ payload: { id } }) => {
+        const lauréatProjection = await findProjection<Lauréat.LauréatEntity>(`lauréat|${id}`);
+        if (Option.isSome(lauréatProjection)) {
+          await upsertProjection<Lauréat.LauréatEntity>(`lauréat|${id}`, {
+            ...lauréatProjection,
+            représentantLégal: undefined,
+          });
+        }
+      })
+      .with(
+        { type: 'ReprésentantLégalImporté-V1' },
+        async ({ payload: { identifiantProjet, nomReprésentantLégal } }) => {
+          const lauréatProjection = await findProjection<Lauréat.LauréatEntity>(
+            `lauréat|${identifiantProjet}`,
+          );
 
-    if (type === 'RebuildTriggered') {
-      await removeProjection<ReprésentantLégal.ReprésentantLégalEntity>(
-        `représentant-légal|${payload.id}`,
-      );
-      return;
-    }
+          if (Option.isNone(lauréatProjection)) {
+            getLogger().error(
+              new Error(
+                `[${new Date().toISOString()}] [System.Projector.Lauréat.ReprésentantLégal] Projection lauréat non trouvée pour le projet ${identifiantProjet}`,
+              ),
+            );
+            return;
+          }
 
-    const { identifiantProjet } = payload;
+          await upsertProjection<Lauréat.LauréatEntity>(`lauréat|${identifiantProjet}`, {
+            ...lauréatProjection,
+            représentantLégal: {
+              nom: nomReprésentantLégal,
+              type: ReprésentantLégal.TypeReprésentantLégal.inconnu.formatter(),
+            },
+          });
+        },
+      )
+      .with(
+        { type: 'ReprésentantLégalModifié-V1' },
+        async ({ payload: { identifiantProjet, nomReprésentantLégal, typeReprésentantLégal } }) => {
+          const lauréatProjection = await findProjection<Lauréat.LauréatEntity>(
+            `lauréat|${identifiantProjet}`,
+          );
 
-    const représentantLégal = await findProjection<ReprésentantLégal.ReprésentantLégalEntity>(
-      `représentant-légal|${identifiantProjet}`,
-    );
+          if (Option.isNone(lauréatProjection)) {
+            getLogger().error(
+              new Error(
+                `[${new Date().toISOString()}] [System.Projector.Lauréat.ReprésentantLégal] Projection lauréat non trouvée pour le projet ${identifiantProjet}`,
+              ),
+            );
+            return;
+          }
 
-    const représentantLégalDefaultValue: Omit<ReprésentantLégal.ReprésentantLégalEntity, 'type'> = {
-      identifiantProjet,
-      typeReprésentantLégal: ReprésentantLégal.TypeReprésentantLégal.inconnu.formatter(),
-      nomReprésentantLégal: '',
-    };
-
-    const représentantLégalToUpsert: Omit<ReprésentantLégal.ReprésentantLégalEntity, 'type'> =
-      Option.isSome(représentantLégal) ? représentantLégal : représentantLégalDefaultValue;
-
-    switch (type) {
-      case 'ReprésentantLégalImporté-V1':
-        await upsertProjection<ReprésentantLégal.ReprésentantLégalEntity>(
-          `représentant-légal|${identifiantProjet}`,
-          {
-            identifiantProjet,
-            typeReprésentantLégal: ReprésentantLégal.TypeReprésentantLégal.inconnu.formatter(),
-            nomReprésentantLégal: payload.nomReprésentantLégal,
-          },
-        );
-        break;
-      case 'ReprésentantLégalModifié-V1':
-        await upsertProjection<ReprésentantLégal.ReprésentantLégalEntity>(
-          `représentant-légal|${payload.identifiantProjet}`,
-          {
-            ...représentantLégalToUpsert,
-            nomReprésentantLégal: payload.nomReprésentantLégal,
-            typeReprésentantLégal: payload.typeReprésentantLégal,
-          },
-        );
-        break;
-    }
-  };
+          await upsertProjection<Lauréat.LauréatEntity>(`lauréat|${identifiantProjet}`, {
+            ...lauréatProjection,
+            représentantLégal: {
+              nom: nomReprésentantLégal,
+              type: typeReprésentantLégal,
+            },
+          });
+        },
+      )
+      .exhaustive();
 
   mediator.register('System.Projector.Lauréat.ReprésentantLégal', handler);
 };
