@@ -27,11 +27,10 @@ export const getReprésentantLégal: GetReprésentantLégal = async (identifiant
   try {
     const utilisateur = Role.convertirEnValueType(rôle);
 
-    const représentantLégal =
-      await mediator.send<ReprésentantLégal.ConsulterReprésentantLégalQuery>({
-        type: 'Lauréat.ReprésentantLégal.Query.ConsulterReprésentantLégal',
-        data: { identifiantProjet: identifiantProjet.formatter() },
-      });
+    const représentantLégal = await mediator.send<ReprésentantLégal.ReprésentantLégalQuery>({
+      type: 'Lauréat.ReprésentantLégal.Query.ConsulterReprésentantLégal',
+      data: { identifiantProjet: identifiantProjet.formatter() },
+    });
 
     if (Option.isSome(représentantLégal)) {
       return {

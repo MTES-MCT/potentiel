@@ -12,7 +12,6 @@ import { ModifierReprésentantLégalForm } from './ModifierReprésentantLégal.f
 
 export type ModifierReprésentantLégalPageProps =
   PlainType<ReprésentantLégal.ConsulterReprésentantLégalReadModel>;
-
 export const ModifierReprésentantLégalPage: FC<ModifierReprésentantLégalPageProps> = ({
   identifiantProjet,
   nomReprésentantLégal,
