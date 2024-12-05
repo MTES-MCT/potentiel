@@ -85,12 +85,12 @@ export const getGarantiesFinancières = async (
       motifGfEnAttente,
     };
   } catch (error) {
-    getLogger().error(`Impossible de consulter les garanties financières`, {
-      identifiantProjet: identifiantProjet.formatter(),
-      context: 'legacy',
-      controller: 'getProjectPage',
-      method: 'getGarantiesFinancières',
-    });
+    getLogger('Legacy|getProjectPage|getGarantiesFinancières').error(
+      `Impossible de consulter les garanties financières`,
+      {
+        identifiantProjet: identifiantProjet.formatter(),
+      },
+    );
     return undefined;
   }
 };

@@ -36,11 +36,8 @@ export const getAbandonStatut: GetAbandonStatut = async (
         return undefined;
     }
   } catch (error) {
-    getLogger().error(`Impossible de consulter l'abandon`, {
+    getLogger('Legacy|getProjectPage|getAbandonStatut').error(`Impossible de consulter l'abandon`, {
       identifiantProjet: identifiantProjet.formatter(),
-      context: 'legacy',
-      controller: 'getProjectPage',
-      method: 'getAbandonStatut',
     });
     return undefined;
   }

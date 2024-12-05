@@ -65,12 +65,12 @@ export const getReprésentantLégal: GetReprésentantLégal = async (identifiant
 
     return undefined;
   } catch (error) {
-    getLogger().error(`Impossible de consulter le représentant légal`, {
-      identifiantProjet: identifiantProjet.formatter(),
-      context: 'legacy',
-      controller: 'getProjectPage',
-      method: 'getReprésentantLégal',
-    });
+    getLogger('Legacy|getProjectPage|getReprésentantLégal').error(
+      `Impossible de consulter le représentant légal`,
+      {
+        identifiantProjet: identifiantProjet.formatter(),
+      },
+    );
     return undefined;
   }
 };

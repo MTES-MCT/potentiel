@@ -30,12 +30,12 @@ export const getAttestationDeConformité = async (
         }
       : undefined;
   } catch (error) {
-    getLogger().error(`Impossible de consulter l'attestation de conformité`, {
-      identifiantProjet: identifiantProjet.formatter(),
-      context: 'legacy',
-      controller: 'getProjectPage',
-      method: 'getAttestationDeConformité',
-    });
+    getLogger('Legacy|getProjectPage|getAttestationDeConformité').error(
+      `Impossible de consulter l'attestation de conformité`,
+      {
+        identifiantProjet: identifiantProjet.formatter(),
+      },
+    );
     return undefined;
   }
 };

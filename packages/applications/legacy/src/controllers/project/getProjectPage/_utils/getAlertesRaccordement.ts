@@ -55,12 +55,12 @@ export const getAlertesRaccordement = async ({
 
     return alertes.length > 0 ? alertes : undefined;
   } catch (error) {
-    getLogger().error(`Impossible de consulter le raccordement`, {
-      identifiantProjet: identifiantProjet.formatter(),
-      context: 'legacy',
-      controller: 'getProjectPage',
-      method: 'getAlertesRaccordement',
-    });
+    getLogger('Legacy|getProjectPage|getAlertesRaccordement').error(
+      `Impossible de consulter le raccordement`,
+      {
+        identifiantProjet: identifiantProjet.formatter(),
+      },
+    );
     return undefined;
   }
 };

@@ -17,11 +17,8 @@ export const getRecours = async (
 
     return Option.isSome(recours) ? { statut: recours.statut.value } : undefined;
   } catch (error) {
-    getLogger().error(`Impossible de consulter le recours`, {
+    getLogger('Legacy|getProjectPage|getRecours').error(`Impossible de consulter le recours`, {
       identifiantProjet: identifiantProjet.formatter(),
-      context: 'legacy',
-      controller: 'getProjectPage',
-      method: 'getRecours',
     });
     return undefined;
   }
