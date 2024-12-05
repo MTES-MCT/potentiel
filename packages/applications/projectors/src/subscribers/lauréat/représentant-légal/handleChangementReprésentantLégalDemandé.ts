@@ -1,6 +1,6 @@
 import { ReprésentantLégal } from '@potentiel-domain/laureat';
 
-import { createProjection } from '../../../infrastructure';
+import { upsertProjection } from '../../../infrastructure';
 
 export const handleChangementReprésentantLégalDemandé = async ({
   payload: {
@@ -11,8 +11,8 @@ export const handleChangementReprésentantLégalDemandé = async ({
     demandéLe,
     demandéPar,
   },
-}: ReprésentantLégal.ChangementReprésentantLégalDemandéEvent) => {
-  await createProjection<ReprésentantLégal.DemandeChangementReprésentantLégalEntity>(
+}: ReprésentantLégal.ChangementReprésentantLégalDemandéEvent) =>
+  upsertProjection<ReprésentantLégal.DemandeChangementReprésentantLégalEntity>(
     `demande-changement-représentant-légal|${identifiantProjet}`,
     {
       identifiantProjet,
@@ -24,4 +24,3 @@ export const handleChangementReprésentantLégalDemandé = async ({
       demandéPar,
     },
   );
-};
