@@ -4,9 +4,9 @@ import { Actionnaire, Lauréat } from '@potentiel-domain/laureat';
 import { RebuildTriggered, Event } from '@potentiel-infrastructure/pg-event-sourcing';
 import { findProjection } from '@potentiel-infrastructure/pg-projections';
 import { Option } from '@potentiel-libraries/monads';
-import { getLogger } from '@potentiel-libraries/monitoring';
 
 import { upsertProjection } from '../../infrastructure/upsertProjection';
+import { updateOneProjection } from '../../infrastructure';
 
 export type SubscriptionEvent = (Actionnaire.ActionnaireEvent & Event) | RebuildTriggered;
 
@@ -24,28 +24,15 @@ export const register = () => {
       if (Option.isSome(lauréatProjection)) {
         await upsertProjection<Lauréat.LauréatEntity>(`lauréat|${id}`, {
           ...lauréatProjection,
-          représentantLégal: undefined,
+          actionnaire: undefined,
         });
       }
     } else {
       const { identifiantProjet } = payload;
 
-      const lauréat = await findProjection<Lauréat.LauréatEntity>(`lauréat|${identifiantProjet}`);
-
-      if (Option.isNone(lauréat)) {
-        getLogger().error(
-          new Error(
-            `[System.Projector.Lauréat.Actionnaire] Projection lauréat non trouvée pour le projet ${identifiantProjet}`,
-          ),
-        );
-        return;
-      }
-
       switch (type) {
         case 'ActionnaireImporté-V1':
-          await upsertProjection<Lauréat.LauréatEntity>(`lauréat|${identifiantProjet}`, {
-            ...lauréat,
-            identifiantProjet,
+          await updateOneProjection<Lauréat.LauréatEntity>(`lauréat|${identifiantProjet}`, {
             actionnaire: {
               nom: payload.actionnaire,
               dernièreMiseÀJourLe: payload.importéLe,
