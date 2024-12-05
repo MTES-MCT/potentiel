@@ -14,8 +14,6 @@ export type ImporterActionnaireCommand = Message<
   }
 >;
 
-// TODO: ajouter un check sur l'existence de demande de changement d'actionnaire quand ça sera implémenté
-
 export const registerImporterActionnaireCommand = (loadAggregate: LoadAggregate) => {
   const loadActionnaire = loadActionnaireFactory(loadAggregate);
   const loadCandidature = Candidature.Aggregate.loadCandidatureFactory(loadAggregate);

@@ -16,7 +16,8 @@ export const updateOneProjection = async <TProjection extends Entity>(
   const result = await executeQuery(`${updateQuery} where key = $1`, id, ...values);
   if (result.rowCount === 0) {
     getLogger('Projectors.infrastructure.updateOneProjection').warn(
-      "La projection mise à jour n'existe pas",
+      "La projection à mettre à jour n'existe pas",
+      { id },
     );
   }
 };
