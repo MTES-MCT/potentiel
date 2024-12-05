@@ -1,4 +1,0 @@
-[submodule "keycloak/potentiel-keycloak"]
-	path = keycloak/potentiel-keycloak
-	url = https://github.com/MTES-MCT/potentiel-keycloak.git
-	branch = main
