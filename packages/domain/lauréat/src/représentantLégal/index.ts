@@ -38,6 +38,7 @@ export type { ModifierReprésentantLégalUseCase, DemanderChangementReprésentan
 export type { ReprésentantLégalEvent } from './représentantLégal.aggregate';
 export type { ReprésentantLégalImportéEvent } from './importer/importerReprésentantLégal.behavior';
 export type { ReprésentantLégalModifiéEvent } from './modifier/modifierReprésentantLégal.behavior';
+export type { ChangementReprésentantLégalDemandéEvent } from './demandeChangement/demander/demanderChangementReprésentantLégal.behavior';
 
 // Register
 export {
@@ -47,6 +48,7 @@ export {
 
 // Entities
 export * from './représentantLégal.entity';
+export type { DemandeChangementReprésentantLégalEntity } from './demandeChangement/demandeChangementReprésentantLégal.entity';
 
 // Aggregate
 export { loadReprésentantLégalFactory } from './représentantLégal.aggregate';
