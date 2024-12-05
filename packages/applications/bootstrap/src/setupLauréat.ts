@@ -22,6 +22,7 @@ import {
   GarantiesFinancièreProjector,
   LauréatProjector,
   ReprésentantLégalProjector,
+  ActionnaireProjector,
 } from '@potentiel-applications/projectors';
 import {
   consulterCahierDesChargesChoisiAdapter,
@@ -51,6 +52,7 @@ export const setupLauréat = async ({ sendEmail }: SetupLauréatDependencies) =>
   GarantiesFinancièreProjector.register();
   AchèvementProjector.register();
   ReprésentantLégalProjector.register();
+  ActionnaireProjector.register();
 
   // Notifications
   AbandonNotification.register({ sendEmail });
@@ -67,6 +69,7 @@ export const setupLauréat = async ({ sendEmail }: SetupLauréatDependencies) =>
 
   const unsubscribeLauréatProjector = await subscribe<LauréatProjector.SubscriptionEvent>({
     name: 'projector',
+    streamCategory: 'lauréat',
     eventType: ['LauréatNotifié-V1', 'RebuildTriggered'],
     eventHandler: async (event) => {
       await mediator.send<LauréatProjector.Execute>({
@@ -74,21 +77,19 @@ export const setupLauréat = async ({ sendEmail }: SetupLauréatDependencies) =>
         data: event,
       });
     },
-    streamCategory: 'lauréat',
   });
 
-  const unsubscribeActionnaireLauréatProjector =
-    await subscribe<LauréatProjector.SubscriptionEvent>({
-      name: 'projector',
-      eventType: ['ActionnaireImporté-V1'],
-      eventHandler: async (event) => {
-        await mediator.send<LauréatProjector.Execute>({
-          type: 'System.Projector.Lauréat',
-          data: event,
-        });
-      },
-      streamCategory: 'actionnaire',
-    });
+  const unsubscribeActionnaireProjector = await subscribe<ActionnaireProjector.SubscriptionEvent>({
+    name: 'projector',
+    streamCategory: 'actionnaire',
+    eventType: ['ActionnaireImporté-V1', 'RebuildTriggered'],
+    eventHandler: async (event) => {
+      await mediator.send<ActionnaireProjector.Execute>({
+        type: 'System.Projector.Lauréat.Actionnaire',
+        data: event,
+      });
+    },
+  });
 
   const unsubscribeLauréatSaga = await subscribe<Lauréat.LauréatSaga.SubscriptionEvent & Event>({
     name: 'laureat-saga',
@@ -318,7 +319,7 @@ export const setupLauréat = async ({ sendEmail }: SetupLauréatDependencies) =>
     await unsubscribeGarantiesFinancièresProjector();
     await unsubscribeAchèvementProjector();
     await unsubscribeReprésentantLégalProjector();
-    await unsubscribeActionnaireLauréatProjector();
+    await unsubscribeActionnaireProjector();
     // notifications
     await unsubscribeAbandonNotification();
     await unsubscribeGarantiesFinancièresNotification();

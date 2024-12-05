@@ -28,6 +28,7 @@ export type ConsulterLauréatDependencies = {
 export const registerConsulterLauréatQuery = ({ find }: ConsulterLauréatDependencies) => {
   const handler: MessageHandler<ConsulterLauréatQuery> = async ({ identifiantProjet }) => {
     const lauréat = await find<LauréatEntity>(`lauréat|${identifiantProjet}`);
+
     if (Option.isNone(lauréat)) {
       return lauréat;
     }
