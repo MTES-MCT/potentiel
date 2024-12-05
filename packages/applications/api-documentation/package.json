@@ -1,0 +1,21 @@
+{
+  "name": "@potentiel-application/api-documentation",
+  "version": "0.1.0",
+  "type": "module",
+  "scripts": {
+    "build": "tsp compile ."
+  },
+  "peerDependencies": {
+    "@typespec/compiler": "latest",
+    "@typespec/http": "latest",
+    "@typespec/rest": "latest",
+    "@typespec/openapi3": "latest"
+  },
+  "devDependencies": {
+    "@typespec/compiler": "latest",
+    "@typespec/http": "latest",
+    "@typespec/rest": "latest",
+    "@typespec/openapi3": "latest"
+  },
+  "private": true
+}
