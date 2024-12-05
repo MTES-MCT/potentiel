@@ -22,8 +22,6 @@ export type RegisterCandidatureNotificationDependencies = {
 
 export const register = ({ sendEmail }: RegisterCandidatureNotificationDependencies) => {
   const handler: MessageHandler<Execute> = async (event) => {
-    const logger = getLogger();
-
     const {
       payload: { identifiantProjet },
     } = event;
@@ -38,7 +36,10 @@ export const register = ({ sendEmail }: RegisterCandidatureNotificationDependenc
         });
 
         if (Option.isNone(candidature)) {
-          logger.warn(`Candidature non trouvée`, { identifiantProjet });
+          getLogger('System.Notification.Candidature.CandidatureCorrigée-V1').warn(
+            `Candidature non trouvée`,
+            { identifiantProjet },
+          );
           return;
         }
 

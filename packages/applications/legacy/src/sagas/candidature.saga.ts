@@ -128,9 +128,12 @@ export const register = () => {
             DateTime.convertirEnValueType(new Date(projet.completionDueOn)),
           )
         ) {
-          getLogger().info('Due date mise à jour', {
-            identifiantProjet: identifiantProjet.formatter(),
-          });
+          getLogger('Legacy.sagas.candidatureSaga.CandidatureCorrigée-V1').info(
+            'Due date mise à jour',
+            {
+              identifiantProjet: identifiantProjet.formatter(),
+            },
+          );
           await eventStore.publish(
             new ProjectCompletionDueDateSet({
               payload: {

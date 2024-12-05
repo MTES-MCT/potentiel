@@ -12,7 +12,9 @@ export const permissionMiddleware: Middleware = async (message, next) => {
 
   const context = getContext();
   if (!context) {
-    getLogger().warn('no context', { messageType: message.type });
+    getLogger('Bootstrap.middlewares.permissionMiddleware').warn('no context', {
+      messageType: message.type,
+    });
     return await next();
   }
   const utilisateur = context.utilisateur;

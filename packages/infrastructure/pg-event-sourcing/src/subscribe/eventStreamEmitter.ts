@@ -44,11 +44,12 @@ export class EventStreamEmitter extends EventEmitter {
 
   async listen() {
     this.#client.on('notification', (notification) => {
+      const logger = getLogger('Infrastructure.pg-event-sourcing.eventStreamEmitter.listen');
       try {
         const event = JSON.parse(notification.payload || '{}');
 
         if (!isEvent(event)) {
-          getLogger().error(new NotificationPayloadNotAnEventError(), {
+          logger.error(new NotificationPayloadNotAnEventError(), {
             notification,
             subscriber: this.#subscriber,
           });
@@ -61,7 +62,7 @@ export class EventStreamEmitter extends EventEmitter {
           this.emit(this.#getChannelName(event.type), event);
         }
       } catch (error) {
-        getLogger().error(new NotificationPayloadParseError(error));
+        logger.error(new NotificationPayloadParseError(error));
       }
     });
 
@@ -94,18 +95,21 @@ export class EventStreamEmitter extends EventEmitter {
 
   #setupRebuildListener() {
     this.on('rebuild' satisfies ChannelName, async (event: Event & RebuildTriggered) => {
+      const logger = getLogger(
+        'Infrastructure.pg-event-sourcing.eventStreamEmitter.setupRebuildListener',
+      );
       try {
-        getLogger().info('Rebuilding', {
+        logger.info('Rebuilding', {
           event,
           subscriber: this.#subscriber,
         });
         await rebuild(event, this.#subscriber);
-        getLogger().info('Rebuilt', {
+        logger.info('Rebuilt', {
           event,
           subscriber: this.#subscriber,
         });
       } catch (error) {
-        getLogger().error(new RebuildFailedError(error), {
+        logger.error(new RebuildFailedError(error), {
           event,
           subscriber: this.#subscriber,
         });
@@ -133,7 +137,9 @@ export class EventStreamEmitter extends EventEmitter {
           version: event.version,
         });
       } catch (error) {
-        getLogger().error(new DomainEventHandlingFailedError(error), {
+        getLogger(
+          'Infrastructure.pg-event-sourcing.eventStreamEmitter.setupDomainEventListener',
+        ).error(new DomainEventHandlingFailedError(error), {
           event,
           subscriber: this.#subscriber,
         });
@@ -153,7 +159,10 @@ export class EventStreamEmitter extends EventEmitter {
 
   #setupUnknownEventListener() {
     this.on('unknown-event' satisfies ChannelName, async (event: Event) => {
-      getLogger().warn('Unknown event', {
+      const logger = getLogger(
+        'Infrastructure.pg-event-sourcing.eventStreamEmitter.setupUnknownEventListener',
+      );
+      logger.warn('Unknown event', {
         event,
         subscriber: this.#subscriber,
       });
@@ -166,7 +175,7 @@ export class EventStreamEmitter extends EventEmitter {
           version: event.version,
         });
       } catch (error) {
-        getLogger().error(new UnknownEventHandlingFailedError(error), {
+        logger.error(new UnknownEventHandlingFailedError(error), {
           event,
           subscriber: this.#subscriber,
         });

@@ -27,6 +27,6 @@ export async function retryPendingAcknowledgement<TEvent extends Event = Event>(
       });
     }
   } catch (e) {
-    getLogger().error(e as Error);
+    getLogger('Infrastructure.pg-event-sourcing.retryPendingAcknowledgement').error(e as Error);
   }
 }

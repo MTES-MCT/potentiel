@@ -31,7 +31,7 @@ export const register = () => {
       ]);
 
       if (!projet) {
-        getLogger().warn(`Projet inconnu !`, { identifiantProjet, event });
+        getLogger('System.Projector.Tâche').warn(`Projet inconnu !`, { identifiantProjet, event });
       }
 
       switch (type) {

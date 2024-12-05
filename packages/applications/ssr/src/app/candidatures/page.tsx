@@ -122,10 +122,13 @@ export default async function Page({ searchParams }: PageProps) {
       );
 
       if (!appelOffresItem) {
-        getLogger().warn(`Aucun appel d'offres existant trouvé pour la candidature`, {
-          identifiantProjet: candidature.identifiantProjet.formatter(),
-          appelOffre: candidature.identifiantProjet.appelOffre,
-        });
+        getLogger('Ssr.candidatures.page').warn(
+          `Aucun appel d'offres existant trouvé pour la candidature`,
+          {
+            identifiantProjet: candidature.identifiantProjet.formatter(),
+            appelOffre: candidature.identifiantProjet.appelOffre,
+          },
+        );
       }
 
       const actions = getCandidatureActions({

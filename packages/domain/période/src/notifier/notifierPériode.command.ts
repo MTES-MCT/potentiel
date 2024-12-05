@@ -76,7 +76,9 @@ export const registerNotifierPériodeCommand = (loadAggregate: LoadAggregate) =>
           identifiantÉliminés.push(identifiantCandidature);
         }
       } catch (error) {
-        getLogger().error(error as Error, { identifiantCandidature });
+        getLogger('Période.Command.NotifierPériode').error(error as Error, {
+          identifiantCandidature,
+        });
       }
     }
 

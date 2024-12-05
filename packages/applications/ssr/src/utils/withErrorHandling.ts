@@ -22,12 +22,14 @@ export async function withErrorHandling<TResult>(
       return onAuthenticationError();
     }
 
+    const logger = getLogger('Ssr.utils.withErrorHandling');
+
     if (e instanceof DomainError) {
-      getLogger().warn(e.message);
+      logger.warn(e.message);
       return onDomainError(e);
     }
 
-    getLogger().error(e as Error);
+    logger.error(e as Error);
     return onUnknownError(e as Error);
   }
 }

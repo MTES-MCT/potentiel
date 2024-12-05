@@ -163,155 +163,160 @@ export const register = () => {
 
         const dossier = raccordement.dossiers.find((d) => d.référence === référence);
 
-        if (dossier) {
-          const updatedDossier: DossierRaccordement = (() => {
-            switch (event.type) {
-              case 'AccuséRéceptionDemandeComplèteRaccordementTransmis-V1':
-                return {
-                  ...dossier,
-                  demandeComplèteRaccordement: {
-                    ...dossier.demandeComplèteRaccordement,
-                    accuséRéception: {
-                      format: event.payload.format,
-                    },
-                  },
-                  misÀJourLe: event.created_at,
-                };
-              case 'DateMiseEnServiceTransmise-V1':
-                return {
-                  ...dossier,
-                  miseEnService: {
-                    dateMiseEnService: event.payload.dateMiseEnService,
-                  },
-                  misÀJourLe: event.created_at,
-                };
-              case 'DemandeComplèteRaccordementModifiée-V1':
-                return {
-                  ...dossier,
-                  référence: event.payload.nouvelleReference,
-                  demandeComplèteRaccordement: {
-                    ...dossier.demandeComplèteRaccordement,
-                    dateQualification: event.payload.dateQualification,
-                  },
-                  misÀJourLe: event.created_at,
-                };
-              case 'DemandeComplèteRaccordementModifiée-V2':
-                return {
-                  ...dossier,
-                  demandeComplèteRaccordement: {
-                    ...dossier.demandeComplèteRaccordement,
-                    dateQualification: event.payload.dateQualification,
-                  },
-                  misÀJourLe: event.created_at,
-                };
-              case 'DemandeComplèteRaccordementModifiée-V3':
-                return {
-                  ...dossier,
-                  demandeComplèteRaccordement: {
-                    ...dossier.demandeComplèteRaccordement,
-                    dateQualification: event.payload.dateQualification,
-                    accuséRéception: {
-                      format: event.payload.accuséRéception.format,
-                    },
-                  },
-                  misÀJourLe: event.created_at,
-                };
-              case 'PropositionTechniqueEtFinancièreModifiée-V1':
-                return {
-                  ...dossier,
-                  propositionTechniqueEtFinancière: {
-                    dateSignature: event.payload.dateSignature,
-                    propositionTechniqueEtFinancièreSignée: {
-                      format:
-                        dossier.propositionTechniqueEtFinancière
-                          ?.propositionTechniqueEtFinancièreSignée?.format || '',
-                    },
-                  },
-                  misÀJourLe: event.created_at,
-                };
-              case 'PropositionTechniqueEtFinancièreModifiée-V2':
-                return {
-                  ...dossier,
-                  propositionTechniqueEtFinancière: {
-                    dateSignature: event.payload.dateSignature,
-                    propositionTechniqueEtFinancièreSignée: {
-                      format: event.payload.propositionTechniqueEtFinancièreSignée.format,
-                    },
-                  },
-                  misÀJourLe: event.created_at,
-                };
-              case 'PropositionTechniqueEtFinancièreSignéeTransmise-V1':
-                return {
-                  ...dossier,
-                  propositionTechniqueEtFinancière: {
-                    dateSignature: dossier.propositionTechniqueEtFinancière?.dateSignature || '',
-                    propositionTechniqueEtFinancièreSignée: {
-                      format: event.payload.format,
-                    },
-                  },
-                  misÀJourLe: event.created_at,
-                };
-              case 'PropositionTechniqueEtFinancièreTransmise-V1':
-                return {
-                  ...dossier,
-                  propositionTechniqueEtFinancière: {
-                    dateSignature: event.payload.dateSignature,
-                    propositionTechniqueEtFinancièreSignée: {
-                      format: '',
-                    },
-                  },
-                  misÀJourLe: event.created_at,
-                };
-              case 'PropositionTechniqueEtFinancièreTransmise-V2':
-                return {
-                  ...dossier,
-                  propositionTechniqueEtFinancière: {
-                    dateSignature: event.payload.dateSignature,
-                    propositionTechniqueEtFinancièreSignée: {
-                      format: event.payload.propositionTechniqueEtFinancièreSignée.format,
-                    },
-                  },
-                  misÀJourLe: event.created_at,
-                };
-              case 'RéférenceDossierRacordementModifiée-V1':
-                return {
-                  ...dossier,
-                  référence: event.payload.nouvelleRéférenceDossierRaccordement,
-                  misÀJourLe: event.created_at,
-                };
-            }
-          })();
-
-          await upsertProjection<Raccordement.RaccordementEntity>(
-            `raccordement|${event.payload.identifiantProjet}`,
+        if (!dossier) {
+          getLogger('System.Projector.Réseau.Raccordement').error(
+            `Dossier de raccordement non trouvé`,
             {
-              ...raccordement,
-              dossiers: [
-                updatedDossier,
-                ...raccordement.dossiers.filter((d) => d.référence !== référence),
-              ],
+              référenceDossier: référence,
+              event,
             },
           );
-
-          if (
-            event.type === 'DemandeComplèteRaccordementModifiée-V1' ||
-            event.type === 'RéférenceDossierRacordementModifiée-V1'
-          ) {
-            await removeProjection(
-              `dossier-raccordement|${event.payload.identifiantProjet}#${référence}`,
-            );
-            await removeProjection(`référence-raccordement-projet|${référence}`);
-          }
-
-          await upsertProjection<Raccordement.DossierRaccordementEntity>(
-            `dossier-raccordement|${event.payload.identifiantProjet}#${updatedDossier.référence}`,
-            updatedDossier,
-          );
-        } else {
-          getLogger().warn('[PROJECTOR] - Event skipped: Dossier inconnu', {
-            event,
-          });
+          return;
         }
+
+        const updatedDossier: DossierRaccordement = (() => {
+          switch (event.type) {
+            case 'AccuséRéceptionDemandeComplèteRaccordementTransmis-V1':
+              return {
+                ...dossier,
+                demandeComplèteRaccordement: {
+                  ...dossier.demandeComplèteRaccordement,
+                  accuséRéception: {
+                    format: event.payload.format,
+                  },
+                },
+                misÀJourLe: event.created_at,
+              };
+            case 'DateMiseEnServiceTransmise-V1':
+              return {
+                ...dossier,
+                miseEnService: {
+                  dateMiseEnService: event.payload.dateMiseEnService,
+                },
+                misÀJourLe: event.created_at,
+              };
+            case 'DemandeComplèteRaccordementModifiée-V1':
+              return {
+                ...dossier,
+                référence: event.payload.nouvelleReference,
+                demandeComplèteRaccordement: {
+                  ...dossier.demandeComplèteRaccordement,
+                  dateQualification: event.payload.dateQualification,
+                },
+                misÀJourLe: event.created_at,
+              };
+            case 'DemandeComplèteRaccordementModifiée-V2':
+              return {
+                ...dossier,
+                demandeComplèteRaccordement: {
+                  ...dossier.demandeComplèteRaccordement,
+                  dateQualification: event.payload.dateQualification,
+                },
+                misÀJourLe: event.created_at,
+              };
+            case 'DemandeComplèteRaccordementModifiée-V3':
+              return {
+                ...dossier,
+                demandeComplèteRaccordement: {
+                  ...dossier.demandeComplèteRaccordement,
+                  dateQualification: event.payload.dateQualification,
+                  accuséRéception: {
+                    format: event.payload.accuséRéception.format,
+                  },
+                },
+                misÀJourLe: event.created_at,
+              };
+            case 'PropositionTechniqueEtFinancièreModifiée-V1':
+              return {
+                ...dossier,
+                propositionTechniqueEtFinancière: {
+                  dateSignature: event.payload.dateSignature,
+                  propositionTechniqueEtFinancièreSignée: {
+                    format:
+                      dossier.propositionTechniqueEtFinancière
+                        ?.propositionTechniqueEtFinancièreSignée?.format || '',
+                  },
+                },
+                misÀJourLe: event.created_at,
+              };
+            case 'PropositionTechniqueEtFinancièreModifiée-V2':
+              return {
+                ...dossier,
+                propositionTechniqueEtFinancière: {
+                  dateSignature: event.payload.dateSignature,
+                  propositionTechniqueEtFinancièreSignée: {
+                    format: event.payload.propositionTechniqueEtFinancièreSignée.format,
+                  },
+                },
+                misÀJourLe: event.created_at,
+              };
+            case 'PropositionTechniqueEtFinancièreSignéeTransmise-V1':
+              return {
+                ...dossier,
+                propositionTechniqueEtFinancière: {
+                  dateSignature: dossier.propositionTechniqueEtFinancière?.dateSignature || '',
+                  propositionTechniqueEtFinancièreSignée: {
+                    format: event.payload.format,
+                  },
+                },
+                misÀJourLe: event.created_at,
+              };
+            case 'PropositionTechniqueEtFinancièreTransmise-V1':
+              return {
+                ...dossier,
+                propositionTechniqueEtFinancière: {
+                  dateSignature: event.payload.dateSignature,
+                  propositionTechniqueEtFinancièreSignée: {
+                    format: '',
+                  },
+                },
+                misÀJourLe: event.created_at,
+              };
+            case 'PropositionTechniqueEtFinancièreTransmise-V2':
+              return {
+                ...dossier,
+                propositionTechniqueEtFinancière: {
+                  dateSignature: event.payload.dateSignature,
+                  propositionTechniqueEtFinancièreSignée: {
+                    format: event.payload.propositionTechniqueEtFinancièreSignée.format,
+                  },
+                },
+                misÀJourLe: event.created_at,
+              };
+            case 'RéférenceDossierRacordementModifiée-V1':
+              return {
+                ...dossier,
+                référence: event.payload.nouvelleRéférenceDossierRaccordement,
+                misÀJourLe: event.created_at,
+              };
+          }
+        })();
+
+        await upsertProjection<Raccordement.RaccordementEntity>(
+          `raccordement|${event.payload.identifiantProjet}`,
+          {
+            ...raccordement,
+            dossiers: [
+              updatedDossier,
+              ...raccordement.dossiers.filter((d) => d.référence !== référence),
+            ],
+          },
+        );
+
+        if (
+          event.type === 'DemandeComplèteRaccordementModifiée-V1' ||
+          event.type === 'RéférenceDossierRacordementModifiée-V1'
+        ) {
+          await removeProjection(
+            `dossier-raccordement|${event.payload.identifiantProjet}#${référence}`,
+          );
+          await removeProjection(`référence-raccordement-projet|${référence}`);
+        }
+
+        await upsertProjection<Raccordement.DossierRaccordementEntity>(
+          `dossier-raccordement|${event.payload.identifiantProjet}#${updatedDossier.référence}`,
+          updatedDossier,
+        );
       }
     }
   };
@@ -345,7 +350,9 @@ const getRaccordementToUpsert = async (
   const projet = await CandidatureAdapter.récupérerProjetAdapter(identifiantProjet);
 
   if (Option.isNone(projet)) {
-    getLogger().warn(`Projet inconnu !`, { identifiantProjet });
+    getLogger('System.Projector.Réseau.Raccordement').warn(`Projet inconnu !`, {
+      identifiantProjet,
+    });
   }
 
   const raccordementDefaultValue: Omit<Raccordement.RaccordementEntity, 'type'> = {

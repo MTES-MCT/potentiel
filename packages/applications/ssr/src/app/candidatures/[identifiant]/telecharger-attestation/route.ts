@@ -15,7 +15,7 @@ import { récupérerProjet } from '../../../_helpers';
 
 // TODO: à supprimer pour utiliser directement Routes.Document.télécharger dans le front
 // une fois qu'on aura migré la page Projet
-const logger = getLogger();
+const logger = getLogger('Ssr.candidatures.[identifiant].telecharger-attestation.route.GET');
 
 export const GET = async (_: Request, { params: { identifiant } }: IdentifiantParameter) => {
   const identifiantProjet = decodeParameter(identifiant);

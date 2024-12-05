@@ -58,7 +58,7 @@ export const bootstrap = async ({
     const unsetupLauréat = await setupLauréat({ sendEmail });
     const unsetupGestionnaireRéseau = await setupRéseau();
 
-    getLogger().info('Application bootstrapped');
+    getLogger('Bootsrap').info('Application bootstrapped');
 
     unsubscribe = async () => {
       await unsetupHistorique();

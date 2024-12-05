@@ -31,7 +31,7 @@ export const copyFile = async (sourceKey: string, targetKey: string) => {
       throw new CopyFailedError(`Target file not found: ${targetKey}`);
     }
   } catch (e) {
-    getLogger().warn('Copy failed', { error: e, sourceKey, targetKey });
+    getLogger('File-storage.copyFile').warn('Copy failed', { error: e, sourceKey, targetKey });
     if (e instanceof CopyFailedError) {
       throw e;
     }
