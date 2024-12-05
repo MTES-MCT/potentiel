@@ -1,7 +1,6 @@
 import { Then as Alors } from '@cucumber/cucumber';
 import waitForExpect from 'wait-for-expect';
 import { mediator } from 'mediateur';
-import { expect } from 'chai';
 
 import { ReprésentantLégal } from '@potentiel-domain/laureat';
 import { mapToPlainObject } from '@potentiel-domain/core';
@@ -20,12 +19,11 @@ Alors(
           identifiantProjet: identifiantProjet.formatter(),
         },
       });
+
       const actual = mapToPlainObject(représentantLégal);
       const expected = mapToPlainObject(
         this.lauréatWorld.représentantLégalWorld.mapToExpected(identifiantProjet),
       );
-      console.log('ACTUAL ❤️‍🩹', actual);
-      console.log('FIXTURE ❤️‍🩹', expect);
       actual.should.be.deep.equal(expected);
 
       // if (

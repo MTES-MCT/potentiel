@@ -9,43 +9,39 @@ import { CréerDemandeChangementReprésentantLégalFixture } from '../fixtures/d
 Quand(
   /le porteur demande le changement de réprésentant pour le projet lauréat(.*)/,
   async function (this: PotentielWorld, extra?: string) {
-    try {
-      const identifiantProjet = this.lauréatWorld.identifiantProjet.formatter();
+    const identifiantProjet = this.lauréatWorld.identifiantProjet.formatter();
 
-      const options: CréerDemandeChangementReprésentantLégalFixture = extra?.includes(
-        'avec les mêmes valeurs',
-      )
+    const options: CréerDemandeChangementReprésentantLégalFixture = extra?.includes(
+      'avec les mêmes valeurs',
+    )
+      ? {
+          identifiantProjet,
+          nomReprésentantLégal:
+            this.lauréatWorld.représentantLégalWorld.importerReprésentantLégalFixture
+              .nomReprésentantLégal,
+          typeReprésentantLégal:
+            this.lauréatWorld.représentantLégalWorld.importerReprésentantLégalFixture
+              .typeReprésentantLégal,
+          demandéPar: this.utilisateurWorld.porteurFixture.email,
+        }
+      : extra?.includes('avec un type inconnu')
         ? {
             identifiantProjet,
-            nomReprésentantLégal:
-              this.lauréatWorld.représentantLégalWorld.importerReprésentantLégalFixture
-                .nomReprésentantLégal,
             typeReprésentantLégal:
-              this.lauréatWorld.représentantLégalWorld.importerReprésentantLégalFixture
-                .typeReprésentantLégal,
-            demandéPar: this.utilisateurWorld.porteurFixture.email,
+              ReprésentantLégal.TypeReprésentantLégal.convertirEnValueType('inconnu'),
           }
-        : extra?.includes('avec un type inconnu')
+        : extra?.includes('sans pièces justificatives')
           ? {
               identifiantProjet,
-              typeReprésentantLégal:
-                ReprésentantLégal.TypeReprésentantLégal.convertirEnValueType('inconnu'),
+              demandéPar: this.utilisateurWorld.porteurFixture.email,
+              piècesJustificatives: [],
             }
-          : extra?.includes('sans pièces justificatives')
-            ? {
-                identifiantProjet,
-                demandéPar: this.utilisateurWorld.porteurFixture.email,
-                piècesJustificatives: [],
-              }
-            : {
-                identifiantProjet,
-                demandéPar: this.utilisateurWorld.porteurFixture.email,
-              };
+          : {
+              identifiantProjet,
+              demandéPar: this.utilisateurWorld.porteurFixture.email,
+            };
 
-      await demanderChangementReprésentantLégal.call(this, options);
-    } catch (error) {
-      this.error = error as Error;
-    }
+    await demanderChangementReprésentantLégal.call(this, options);
   },
 );
 
@@ -64,15 +60,19 @@ async function demanderChangementReprésentantLégal(
       options,
     );
 
-  await mediator.send<ReprésentantLégal.ReprésentantLégalUseCase>({
-    type: 'Lauréat.ReprésentantLégal.UseCase.DemanderChangementReprésentantLégal',
-    data: {
-      identifiantProjetValue: options.identifiantProjet,
-      nomReprésentantLégalValue: nomReprésentantLégal,
-      typeReprésentantLégalValue: typeReprésentantLégal.formatter(),
-      piècesJustificativesValue: piècesJustificatives,
-      dateDemandeValue: demandéLe,
-      identifiantUtilisateurValue: demandéPar,
-    },
-  });
+  try {
+    await mediator.send<ReprésentantLégal.ReprésentantLégalUseCase>({
+      type: 'Lauréat.ReprésentantLégal.UseCase.DemanderChangementReprésentantLégal',
+      data: {
+        identifiantProjetValue: options.identifiantProjet,
+        nomReprésentantLégalValue: nomReprésentantLégal,
+        typeReprésentantLégalValue: typeReprésentantLégal.formatter(),
+        piècesJustificativesValue: piècesJustificatives,
+        dateDemandeValue: demandéLe,
+        identifiantUtilisateurValue: demandéPar,
+      },
+    });
+  } catch (error) {
+    this.error = error as Error;
+  }
 }
