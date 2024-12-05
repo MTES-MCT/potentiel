@@ -3,6 +3,7 @@ import { Message, Middleware, mediator } from 'mediateur';
 import { IdentifiantProjet } from '@potentiel-domain/common';
 import { getContext } from '@potentiel-applications/request-context';
 import { VérifierAccèsProjetQuery } from '@potentiel-domain/utilisateur';
+import { getLogger } from '@potentiel-libraries/monitoring';
 
 export const permissionMiddleware: Middleware = async (message, next) => {
   if (isSystemProcess(message)) {
@@ -11,7 +12,8 @@ export const permissionMiddleware: Middleware = async (message, next) => {
 
   const context = getContext();
   if (!context) {
-    throw new Error('No request context');
+    getLogger().warn('no context', { messageType: message.type });
+    return await next();
   }
   const utilisateur = context.utilisateur;
   if (!utilisateur) {

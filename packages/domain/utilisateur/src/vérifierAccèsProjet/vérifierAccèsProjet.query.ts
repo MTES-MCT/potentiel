@@ -40,6 +40,7 @@ export const registerVérifierAccèsProjetQuery = ({
       utilisateur.role.estÉgaleÀ(Role.admin) ||
       utilisateur.role.estÉgaleÀ(Role.dgecValidateur) ||
       utilisateur.role.estÉgaleÀ(Role.cre) ||
+      utilisateur.role.estÉgaleÀ(Role.ademe) ||
       utilisateur.role.estÉgaleÀ(Role.caisseDesDépôts) ||
       utilisateur.role.estÉgaleÀ(Role.acheteurObligé)
     ) {
