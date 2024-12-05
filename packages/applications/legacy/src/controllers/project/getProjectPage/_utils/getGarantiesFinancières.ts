@@ -3,13 +3,34 @@ import { IdentifiantProjet } from '@potentiel-domain/common';
 import { GarantiesFinancières } from '@potentiel-domain/laureat';
 
 import { Option } from '@potentiel-libraries/monads';
-import { ProjectDataForProjectPage } from '../../../../modules/project';
 import { getLogger } from '@potentiel-libraries/monitoring';
+import { Role } from '@potentiel-domain/utilisateur';
+import { GarantiesFinancièresProjetProps } from '../../../../views/pages/projectDetailsPage/sections';
+
+const getMotifGfEnAttente = async (
+  identifiantProjet: IdentifiantProjet.ValueType,
+  role: Role.ValueType,
+) => {
+  if (!role.aLaPermission('garantiesFinancières.enAttente.consulter')) {
+    return undefined;
+  }
+
+  const gfEnAttente =
+    await mediator.send<GarantiesFinancières.ConsulterProjetAvecGarantiesFinancièresEnAttenteQuery>(
+      {
+        type: 'Lauréat.GarantiesFinancières.Query.ConsulterProjetAvecGarantiesFinancièresEnAttente',
+        data: { identifiantProjetValue: identifiantProjet.formatter() },
+      },
+    );
+
+  return Option.isSome(gfEnAttente) ? gfEnAttente.motif.motif : undefined;
+};
 
 export const getGarantiesFinancières = async (
   identifiantProjet: IdentifiantProjet.ValueType,
+  role: Role.ValueType,
   isSoumisAuxGF: boolean,
-): Promise<ProjectDataForProjectPage['garantiesFinancières'] | undefined> => {
+): Promise<GarantiesFinancièresProjetProps['garantiesFinancières'] | undefined> => {
   try {
     if (!isSoumisAuxGF) {
       return undefined;
@@ -27,13 +48,14 @@ export const getGarantiesFinancières = async (
         data: { identifiantProjetValue: identifiantProjet.formatter() },
       });
 
-    const projetAvecGarantiesFinancièresEnAttente =
-      await mediator.send<GarantiesFinancières.ConsulterProjetAvecGarantiesFinancièresEnAttenteQuery>(
-        {
-          type: 'Lauréat.GarantiesFinancières.Query.ConsulterProjetAvecGarantiesFinancièresEnAttente',
-          data: { identifiantProjetValue: identifiantProjet.formatter() },
-        },
-      );
+    const motifGfEnAttente = await getMotifGfEnAttente(identifiantProjet, role);
+
+    await mediator.send<GarantiesFinancières.ConsulterProjetAvecGarantiesFinancièresEnAttenteQuery>(
+      {
+        type: 'Lauréat.GarantiesFinancières.Query.ConsulterProjetAvecGarantiesFinancièresEnAttente',
+        data: { identifiantProjetValue: identifiantProjet.formatter() },
+      },
+    );
 
     const actuelles = Option.isSome(garantiesFinancièresActuelles)
       ? {
@@ -57,14 +79,10 @@ export const getGarantiesFinancières = async (
         }
       : undefined;
 
-    const garantiesFinancièresEnAttente = Option.isSome(projetAvecGarantiesFinancièresEnAttente)
-      ? { motif: projetAvecGarantiesFinancièresEnAttente.motif.motif }
-      : undefined;
-
     return {
       actuelles,
       dépôtÀTraiter,
-      garantiesFinancièresEnAttente,
+      motifGfEnAttente,
     };
   } catch (error) {
     getLogger().error(`Impossible de consulter les garanties financières`, {

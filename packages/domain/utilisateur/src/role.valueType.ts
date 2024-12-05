@@ -867,7 +867,6 @@ const pageProjetPolicies: Policy[] = [
   // Garanties Financières
   'garantiesFinancières.actuelles.consulter',
   'garantiesFinancières.dépôt.consulter',
-  'garantiesFinancières.enAttente.consulter',
 
   // Achèvement
   'achèvement.consulter',
@@ -914,9 +913,7 @@ const adminPolicies: ReadonlyArray<Policy> = [
   'réseau.raccordement.listerDossierRaccordement',
 
   // Garanties financières
-  'garantiesFinancières.actuelles.consulter',
   'garantiesFinancières.archives.consulter',
-  'garantiesFinancières.dépôt.consulter',
   'garantiesFinancières.dépôt.lister',
   'garantiesFinancières.dépôt.demander',
   'garantiesFinancières.dépôt.valider',
@@ -926,6 +923,7 @@ const adminPolicies: ReadonlyArray<Policy> = [
   'garantiesFinancières.actuelles.enregistrerAttestation',
   'garantiesFinancières.actuelles.enregistrer',
   'garantiesFinancières.effacerHistorique',
+  'garantiesFinancières.enAttente.consulter',
   'garantiesFinancières.enAttente.lister',
   'garantiesFinancières.enAttente.générerModèleMiseEnDemeure',
   'garantiesFinancières.mainlevée.lister',
@@ -1064,6 +1062,7 @@ const porteurProjetPolicies: ReadonlyArray<Policy> = [
   'garantiesFinancières.mainlevée.annuler',
   'garantiesFinancières.mainlevée.lister',
   'garantiesFinancières.enAttente.lister',
+  'garantiesFinancières.enAttente.consulter',
 
   // Achèvement
   'achèvement.consulter',
@@ -1095,7 +1094,11 @@ const caisseDesDépôtsPolicies: ReadonlyArray<Policy> = [
 
 const grdPolicies: ReadonlyArray<Policy> = [
   ...commonPolicies,
+
+  // Gestionnaire réseau
   'réseau.gestionnaire.consulter',
+
+  // Raccordement
   'réseau.raccordement.consulter',
   'réseau.raccordement.listerDossierRaccordement',
   'réseau.raccordement.date-mise-en-service.transmettre',

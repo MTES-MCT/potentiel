@@ -23,6 +23,8 @@ import {
   MaterielsEtTechnologies,
   ResultatsAppelOffreInnovation,
   ContactProps,
+  InfoGeneralesProps,
+  GarantiesFinancièresProjetProps,
 } from './sections';
 import { ProjectHeader } from './components';
 import { Routes } from '@potentiel-applications/routes';
@@ -41,6 +43,7 @@ type ProjectDetailsProps = {
     statut: string;
   };
   demandeRecours: ProjectDataForProjectPage['demandeRecours'];
+  garantiesFinancières?: GarantiesFinancièresProjetProps['garantiesFinancières'];
   hasAttestationConformité: boolean;
   représentantLégal?: ContactProps['représentantLégal'];
 };
@@ -54,6 +57,7 @@ export const ProjectDetails = ({
   demandeRecours,
   hasAttestationConformité,
   représentantLégal,
+  garantiesFinancières,
 }: ProjectDetailsProps) => {
   const { user } = request;
   const { error, success } = (request.query as any) || {};
@@ -121,7 +125,12 @@ export const ProjectDetails = ({
             <EtapesProjet {...{ project, user, projectEventList }} />
           )}
           <div className={`flex flex-col flex-grow gap-3 break-before-page`}>
-            <InfoGenerales project={project} role={user.role} demandeRecours={demandeRecours} />
+            <InfoGenerales
+              project={project}
+              role={user.role}
+              demandeRecours={demandeRecours}
+              garantiesFinancières={garantiesFinancières}
+            />
             <Contact project={project} user={user} représentantLégal={représentantLégal} />
             <MaterielsEtTechnologies
               fournisseur={project.fournisseur}
