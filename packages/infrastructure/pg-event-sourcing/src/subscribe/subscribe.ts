@@ -6,26 +6,26 @@ import { Event } from '../event';
 
 import { registerSubscriber } from './subscriber/registerSubscriber';
 import { EventStreamEmitter } from './eventStreamEmitter';
-import { retryPendingAcknowledgement } from './acknowledgement/retryPendingAcknowledgement';
 import { Subscriber, Unsubscribe } from './subscriber/subscriber';
+import { retryPendingAcknowledgement } from './acknowledgement/retryPendingAcknowledgement';
 
 let client: Client | undefined;
-const subscribers = new Set<string>();
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const subscribers = new Map<string, Subscriber<any>>();
 
 export const subscribe = async <TEvent extends Event = Event>(
   subscriber: Subscriber<TEvent>,
 ): Promise<Unsubscribe> => {
   if (!client) {
-    await connect();
+    client = await connect();
   }
 
-  subscribers.add(`${subscriber.streamCategory}-${subscriber.name}`);
-  client?.setMaxListeners(subscribers.size);
+  subscribers.set(`${subscriber.streamCategory}-${subscriber.name}`, subscriber);
+  client.setMaxListeners(subscribers.size);
 
-  await retryPendingAcknowledgement<TEvent>(subscriber);
   await registerSubscriber(subscriber);
 
-  const eventStreamEmitter = new EventStreamEmitter(client!, {
+  const eventStreamEmitter = new EventStreamEmitter(client, {
     eventHandler: subscriber.eventHandler,
     eventType: subscriber.eventType,
     name: subscriber.name,
@@ -46,17 +46,16 @@ export const subscribe = async <TEvent extends Event = Event>(
   };
 };
 
+export const executeSubscribersRetry = async () => {
+  for (const subscriber of subscribers.values()) {
+    await retryPendingAcknowledgement(subscriber);
+  }
+};
+
 const connect = async () => {
-  return new Promise<void>((resolve, reject) => {
-    client = new Client(getConnectionString());
-    client.connect((err) => {
-      if (!err) {
-        resolve();
-      } else {
-        reject(err);
-      }
-    });
-  });
+  const client = new Client(getConnectionString());
+  await client.connect();
+  return client;
 };
 
 const disconnect = async () => {

@@ -3,6 +3,7 @@ import { Middleware, mediator } from 'mediateur';
 import { getLogger } from '@potentiel-libraries/monitoring';
 import { SendEmail } from '@potentiel-applications/notifications';
 import { sendEmail as sendEmailMailjet } from '@potentiel-infrastructure/email';
+import { executeSubscribersRetry } from '@potentiel-infrastructure/pg-event-sourcing';
 
 import { setupLauréat } from './setupLauréat';
 import { setupCandidature } from './setupCandidature';
@@ -71,6 +72,8 @@ export const bootstrap = async ({
       await unsetupPériode();
       unsubscribe = undefined;
     };
+
+    await executeSubscribersRetry();
   }
   if (resolveMutex) {
     resolveMutex();
