@@ -3,6 +3,7 @@ import { IdentifiantProjet } from '@potentiel-domain/common';
 import { Abandon } from '@potentiel-domain/laureat';
 
 import { Option } from '@potentiel-libraries/monads';
+import { getLogger } from '@potentiel-libraries/monitoring';
 
 export type GetAbandonStatut = (
   identifiantProjet: IdentifiantProjet.ValueType,
@@ -32,9 +33,15 @@ export const getAbandonStatut: GetAbandonStatut = async (
       case 'confirmation-demandée':
         return { statut: 'à confirmer' };
       default:
-        return;
+        return undefined;
     }
   } catch (error) {
-    return;
+    getLogger().error(`Impossible de consulter l'abandon`, {
+      identifiantProjet: identifiantProjet.formatter(),
+      context: 'legacy',
+      controller: 'getProjectPage',
+      method: 'getAbandonStatut',
+    });
+    return undefined;
   }
 };

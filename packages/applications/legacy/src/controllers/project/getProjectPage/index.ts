@@ -137,28 +137,20 @@ v1Router.get(
 
       const abandon = await getAbandonStatut(identifiantProjetValueType);
 
-      let alertesRaccordement: AlerteRaccordement[] | undefined = undefined;
-      try {
-        alertesRaccordement =
-          !abandon || abandon.statut === 'rejeté'
-            ? await getAlertesRaccordement({
-                userRole: user.role,
-                identifiantProjet: identifiantProjetValueType,
-                CDC2022Choisi:
-                  projet.cahierDesChargesActuel.type === 'modifié' &&
-                  projet.cahierDesChargesActuel.paruLe === '30/08/2022',
-                projet: {
-                  isClasse: projet.isClasse,
-                  isAbandonned: projet.isAbandoned,
-                },
-              })
-            : undefined;
-      } catch (error) {
-        getLogger().warn(`An error occurred when getting raccordements alerts`, {
-          error,
-          identifiantProjetValueType,
-        });
-      }
+      const alertesRaccordement: AlerteRaccordement[] | undefined =
+        !abandon || abandon.statut === 'rejeté'
+          ? await getAlertesRaccordement({
+              userRole: user.role,
+              identifiantProjet: identifiantProjetValueType,
+              CDC2022Choisi:
+                projet.cahierDesChargesActuel.type === 'modifié' &&
+                projet.cahierDesChargesActuel.paruLe === '30/08/2022',
+              projet: {
+                isClasse: projet.isClasse,
+                isAbandonned: projet.isAbandoned,
+              },
+            })
+          : undefined;
 
       const attestationConformité = await getAttestationDeConformité(
         identifiantProjetValueType,

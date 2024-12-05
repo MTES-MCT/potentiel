@@ -11,7 +11,7 @@ export type Logger = {
   debug(message: string, meta?: Record<string, unknown>): void;
   info(message: string, meta?: Record<string, unknown>): void;
   warn(message: string, meta?: Record<string, unknown>): void;
-  error(error: Error, meta?: Record<string, unknown>): void;
+  error(error: Error | string, meta?: Record<string, unknown>): void;
 };
 
 type GetLogger = (serviceName?: string) => Logger;
@@ -75,6 +75,13 @@ export const getLogger: GetLogger = (serviceName?: string): Logger => {
         getCapture()?.warn(message, meta);
       },
       error: (error, meta = {}) => {
+        if (typeof error === 'string') {
+          const e = new Error(error);
+          winstonLogger.error(e.message, { meta, error: e });
+          getCapture()?.error(e, meta);
+          return;
+        }
+
         winstonLogger.error(error.message, { meta, error });
         getCapture()?.error(error, meta);
       },
