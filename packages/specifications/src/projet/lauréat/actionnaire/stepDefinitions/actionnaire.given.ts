@@ -7,8 +7,7 @@ import { PotentielWorld } from '../../../../potentiel.world';
 
 export async function importerActionnaire(this: PotentielWorld) {
   const identifiantProjet = this.candidatureWorld.importerCandidature.identifiantProjet;
-  const { importéLe } =
-    this.lauréatWorld.représentantLégalWorld.importerReprésentantLégalFixture.créer();
+  const { importéLe } = this.lauréatWorld.actionnaireWorld.importerActionnaireFixture.créer();
 
   await mediator.send<Actionnaire.ActionnaireCommand>({
     type: 'Lauréat.Actionnaire.Command.ImporterActionnaire',

@@ -4,65 +4,58 @@ import { Option } from '@potentiel-libraries/monads';
 import { IdentifiantProjet } from '@potentiel-domain/common';
 import { Find } from '@potentiel-domain/entity';
 
-import { TypeReprésentantLégal } from '..';
 import { Lauréat } from '../..';
 
-export type ConsulterReprésentantLégalReadModel = {
+export type ConsulterActionnaireReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
-  nomReprésentantLégal: string;
-  typeReprésentantLégal: TypeReprésentantLégal.ValueType;
+  actionnaire: String;
 };
 
-export type ConsulterReprésentantLégalQuery = Message<
-  'Lauréat.ReprésentantLégal.Query.ConsulterReprésentantLégal',
+export type ConsulterActionnaireQuery = Message<
+  'Lauréat.Actionnaire.Query.ConsulterActionnaire',
   {
     identifiantProjet: string;
   },
-  Option.Type<ConsulterReprésentantLégalReadModel>
+  Option.Type<ConsulterActionnaireReadModel>
 >;
 
-export type ConsulterReprésentantLégalDependencies = {
+export type ConsulterActionnaireDependencies = {
   find: Find;
 };
 
-export const registerConsulterRepresentantLegalQuery = ({
-  find,
-}: ConsulterReprésentantLégalDependencies) => {
-  const handler: MessageHandler<ConsulterReprésentantLégalQuery> = async ({
-    identifiantProjet,
-  }) => {
+export const registerConsulterActionnaireQuery = ({ find }: ConsulterActionnaireDependencies) => {
+  const handler: MessageHandler<ConsulterActionnaireQuery> = async ({ identifiantProjet }) => {
     const identifiantProjetValueType = IdentifiantProjet.convertirEnValueType(identifiantProjet);
 
     const lauréat = await find<Lauréat.LauréatEntity>(
       `lauréat|${identifiantProjetValueType.formatter()}`,
-      { select: ['actionnaire'] },
+      { select: ['identifiantProjet', 'actionnaire.nom', 'actionnaire.dernièreMiseÀJourLe'] },
     );
 
     return Option.match(lauréat)
       .some((lauréat) =>
         mapToReadModel({
           identifiantProjet: identifiantProjetValueType,
-          représentantLégal: lauréat.représentantLégal,
+          actionnaire: lauréat.actionnaire,
         }),
       )
       .none();
   };
-  mediator.register('Lauréat.ReprésentantLégal.Query.ConsulterReprésentantLégal', handler);
+  mediator.register('Lauréat.Actionnaire.Query.ConsulterActionnaire', handler);
 };
 
 type MapToReadModel = (args: {
   identifiantProjet: IdentifiantProjet.ValueType;
-  représentantLégal: Lauréat.LauréatEntity['représentantLégal'];
-}) => Option.Type<ConsulterReprésentantLégalReadModel>;
+  actionnaire: Lauréat.LauréatEntity['actionnaire'];
+}) => Option.Type<ConsulterActionnaireReadModel>;
 
-const mapToReadModel: MapToReadModel = ({ identifiantProjet, représentantLégal }) => {
-  if (!représentantLégal) {
+const mapToReadModel: MapToReadModel = ({ identifiantProjet, actionnaire }) => {
+  if (!actionnaire) {
     return Option.none;
   }
 
   return {
     identifiantProjet,
-    nomReprésentantLégal: représentantLégal.nom,
-    typeReprésentantLégal: TypeReprésentantLégal.convertirEnValueType(représentantLégal.type),
+    actionnaire: actionnaire.nom,
   };
 };
