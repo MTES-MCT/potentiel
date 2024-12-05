@@ -76,8 +76,6 @@ export type ProjectDataForProjectPage = {
   demandeRecours?: {
     statut: Recours.StatutRecours.RawType;
   };
-
-  garantiesFinancières?: GarantiesFinancièresForProjectPage;
 } & (IsNotified | IsNotNotified) &
   (IsClasse | IsElimine | IsAbandoned);
 
@@ -122,20 +120,4 @@ type NotesInnovation = {
   qualitéTechnique: string;
   adéquationAmbitionsIndustrielles: string;
   aspectsEnvironnementauxEtSociaux: string;
-};
-
-export type GarantiesFinancièresForProjectPage = {
-  garantiesFinancièresEnAttente?: {
-    motif: GarantiesFinancières.MotifDemandeGarantiesFinancières.RawType;
-  };
-  actuelles?: {
-    type?: Candidature.TypeGarantiesFinancières.RawType;
-    dateConstitution?: string;
-    dateÉchéance?: string;
-  };
-  dépôtÀTraiter?: {
-    type?: Candidature.TypeGarantiesFinancières.RawType;
-    dateConstitution: string;
-    dateÉchéance?: string;
-  };
 };

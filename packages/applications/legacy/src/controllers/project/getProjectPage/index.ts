@@ -29,6 +29,7 @@ import {
   getReprésentantLégal,
   getRecours,
 } from './_utils';
+import { Role } from '@potentiel-domain/utilisateur';
 
 const schema = yup.object({
   params: yup.object({ projectId: yup.string().required() }),
@@ -118,13 +119,13 @@ v1Router.get(
         return notFoundResponse({ request, response, ressourceTitle: 'Projet' });
       }
 
-      const projet = rawProjet.value;
+      const project = rawProjet.value;
 
       const identifiantProjetValueType = IdentifiantProjet.convertirEnValueType(
-        `${projet.appelOffreId}#${projet.periodeId}#${projet.familleId}#${projet.numeroCRE}`,
+        `${project.appelOffreId}#${project.periodeId}#${project.familleId}#${project.numeroCRE}`,
       );
 
-      const rawProjectEventList = await getProjectEvents({ projectId: projet.id, user });
+      const rawProjectEventList = await getProjectEvents({ projectId: project.id, user });
 
       if (rawProjectEventList.isErr()) {
         logger.warning(`Error fetching project events`, {
@@ -137,28 +138,20 @@ v1Router.get(
 
       const abandon = await getAbandonStatut(identifiantProjetValueType);
 
-      let alertesRaccordement: AlerteRaccordement[] | undefined = undefined;
-      try {
-        alertesRaccordement =
-          !abandon || abandon.statut === 'rejeté'
-            ? await getAlertesRaccordement({
-                userRole: user.role,
-                identifiantProjet: identifiantProjetValueType,
-                CDC2022Choisi:
-                  projet.cahierDesChargesActuel.type === 'modifié' &&
-                  projet.cahierDesChargesActuel.paruLe === '30/08/2022',
-                projet: {
-                  isClasse: projet.isClasse,
-                  isAbandonned: projet.isAbandoned,
-                },
-              })
-            : undefined;
-      } catch (error) {
-        getLogger().warn(`An error occurred when getting raccordements alerts`, {
-          error,
-          identifiantProjetValueType,
-        });
-      }
+      const alertesRaccordement: AlerteRaccordement[] | undefined =
+        !abandon || abandon.statut === 'rejeté'
+          ? await getAlertesRaccordement({
+              userRole: user.role,
+              identifiantProjet: identifiantProjetValueType,
+              CDC2022Choisi:
+                project.cahierDesChargesActuel.type === 'modifié' &&
+                project.cahierDesChargesActuel.paruLe === '30/08/2022',
+              projet: {
+                isClasse: project.isClasse,
+                isAbandonned: project.isAbandoned,
+              },
+            })
+          : undefined;
 
       const attestationConformité = await getAttestationDeConformité(
         identifiantProjetValueType,
@@ -170,10 +163,10 @@ v1Router.get(
         données: {
           utilisateur: { role: user.role },
           projet: {
-            appelOffreId: projet.appelOffreId,
-            periodeId: projet.periodeId,
-            ...(projet.familleId && { familleId: projet.familleId }),
-            numéroCRE: projet.numeroCRE,
+            appelOffreId: project.appelOffreId,
+            periodeId: project.periodeId,
+            ...(project.familleId && { familleId: project.familleId }),
+            numéroCRE: project.numeroCRE,
           },
         },
       });
@@ -181,13 +174,7 @@ v1Router.get(
       return response.send(
         ProjectDetailsPage({
           request,
-          project: {
-            ...projet,
-            garantiesFinancières: await getGarantiesFinancières(
-              identifiantProjetValueType,
-              projet.appelOffre.isSoumisAuxGF,
-            ),
-          },
+          project,
           projectEventList: {
             ...rawProjectEventList.value,
             events: attestationConformité
@@ -196,6 +183,11 @@ v1Router.get(
           },
           alertesRaccordement,
           abandon,
+          garantiesFinancières: await getGarantiesFinancières(
+            identifiantProjetValueType,
+            Role.convertirEnValueType(user.role),
+            project.appelOffre.isSoumisAuxGF,
+          ),
           représentantLégal: await getReprésentantLégal(identifiantProjetValueType, user.role),
           demandeRecours: await getRecours(identifiantProjetValueType),
           hasAttestationConformité: !!attestationConformité,

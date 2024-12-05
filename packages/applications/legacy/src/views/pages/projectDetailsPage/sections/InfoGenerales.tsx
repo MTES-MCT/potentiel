@@ -1,8 +1,5 @@
 import React, { ComponentProps } from 'react';
-import {
-  ProjectDataForProjectPage,
-  GarantiesFinancièresForProjectPage,
-} from '../../../../modules/project';
+import { ProjectDataForProjectPage } from '../../../../modules/project';
 import { BuildingIcon, Heading3, Link, Section, WarningIcon } from '../../../components';
 import { UserRole } from '../../../../modules/users';
 import { formatProjectDataToIdentifiantProjetValueType } from '../../../../helpers/dataToValueTypes';
@@ -11,13 +8,13 @@ import { Routes } from '@potentiel-applications/routes';
 
 import { GarantiesFinancières } from '@potentiel-domain/laureat';
 import { Candidature } from '@potentiel-domain/candidature';
-import { Recours } from '@potentiel-domain/elimine';
 import { Role } from '@potentiel-domain/utilisateur';
 
-type InfoGeneralesProps = {
+export type InfoGeneralesProps = {
   project: ProjectDataForProjectPage;
   role: UserRole;
   demandeRecours: ProjectDataForProjectPage['demandeRecours'];
+  garantiesFinancières?: GarantiesFinancièresProjetProps['garantiesFinancières'];
 };
 
 export const InfoGenerales = ({
@@ -30,7 +27,6 @@ export const InfoGenerales = ({
     puissance,
     isClasse,
     isAbandoned,
-    garantiesFinancières,
     désignationCatégorie,
     codePostalProjet,
     communeProjet,
@@ -39,6 +35,7 @@ export const InfoGenerales = ({
     adresseProjet,
   },
   role,
+  garantiesFinancières,
   demandeRecours,
 }: InfoGeneralesProps) => {
   const puissanceInférieurePuissanceMaxVolRéservé =
@@ -142,8 +139,20 @@ export const InfoGenerales = ({
   );
 };
 
-type GarantiesFinancièresProjetProps = {
-  garantiesFinancières: GarantiesFinancièresForProjectPage;
+export type GarantiesFinancièresProjetProps = {
+  garantiesFinancières: {
+    motifGfEnAttente?: GarantiesFinancières.MotifDemandeGarantiesFinancières.RawType;
+    actuelles?: {
+      type?: Candidature.TypeGarantiesFinancières.RawType;
+      dateConstitution?: string;
+      dateÉchéance?: string;
+    };
+    dépôtÀTraiter?: {
+      type?: Candidature.TypeGarantiesFinancières.RawType;
+      dateConstitution: string;
+      dateÉchéance?: string;
+    };
+  };
   project: {
     appelOffreId: string;
     periodeId: string;
@@ -151,18 +160,19 @@ type GarantiesFinancièresProjetProps = {
     numeroCRE: string;
   };
 };
+
 const GarantiesFinancièresProjet = ({
   garantiesFinancières,
   project: { appelOffreId, periodeId, familleId, numeroCRE },
 }: GarantiesFinancièresProjetProps) => {
   const motifDemandeGarantiesFinancières =
-    garantiesFinancières.garantiesFinancièresEnAttente &&
-    getMotifGFEnAttente(garantiesFinancières.garantiesFinancièresEnAttente.motif);
+    garantiesFinancières.motifGfEnAttente &&
+    getMotifGFEnAttente(garantiesFinancières.motifGfEnAttente);
 
   return (
     <div>
       <Heading3 className="m-0">Garanties financières</Heading3>
-      {garantiesFinancières.garantiesFinancièresEnAttente && (
+      {garantiesFinancières.motifGfEnAttente && (
         <AlertMessage>
           Des garanties financières sont en attente pour ce projet
           {motifDemandeGarantiesFinancières ? <> ({motifDemandeGarantiesFinancières})</> : ''}.
