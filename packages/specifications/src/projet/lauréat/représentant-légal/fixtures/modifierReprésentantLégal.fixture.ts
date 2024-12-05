@@ -7,7 +7,7 @@ import { AbstractFixture } from '../../../../fixture';
 export interface ModifierReprésentantLégal {
   readonly nomReprésentantLégal: string;
   readonly typeReprésentantLégal: ReprésentantLégal.TypeReprésentantLégal.ValueType;
-  readonly dateCorrection: string;
+  readonly dateModification: string;
 }
 
 export class ModifierReprésentantLégalFixture
@@ -28,7 +28,7 @@ export class ModifierReprésentantLégalFixture
 
   #dateModification!: string;
 
-  get dateCorrection(): string {
+  get dateModification(): string {
     return this.#dateModification;
   }
 
@@ -38,13 +38,13 @@ export class ModifierReprésentantLégalFixture
     const fixture = {
       nomReprésentantLégal: faker.person.fullName(),
       typeReprésentantLégal: ReprésentantLégal.TypeReprésentantLégal.inconnu,
-      dateCorrection: faker.date.recent().toISOString(),
+      dateModification: faker.date.recent().toISOString(),
       ...partialFixture,
     };
 
     this.#nomReprésentantLégal = fixture.nomReprésentantLégal;
     this.#typeReprésentantLégal = fixture.typeReprésentantLégal;
-    this.#dateModification = fixture.dateCorrection;
+    this.#dateModification = fixture.dateModification;
 
     this.aÉtéCréé = true;
 
