@@ -52,7 +52,6 @@ export const registerDemanderChangementReprésentantLégalUseCase = () => {
         : undefined;
 
       if (pièceJustificative) {
-        piècesJustificatives.push(pièceJustificative);
         await mediator.send<EnregistrerDocumentProjetCommand>({
           type: 'Document.Command.EnregistrerDocumentProjet',
           data: {
@@ -60,6 +59,7 @@ export const registerDemanderChangementReprésentantLégalUseCase = () => {
             documentProjet: pièceJustificative,
           },
         });
+        piècesJustificatives.push(pièceJustificative);
       }
     }
 
@@ -71,7 +71,7 @@ export const registerDemanderChangementReprésentantLégalUseCase = () => {
         typeReprésentantLégal,
         identifiantUtilisateur,
         dateDemande,
-        piècesJustificatives: [],
+        piècesJustificatives,
       },
     });
   };
