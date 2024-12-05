@@ -126,7 +126,7 @@ async function vérifierLauréats(
     },
   });
 
-  for (const { identifiantProjet, typeGarantiesFinancières } of candidats.items) {
+  for (const { identifiantProjet, typeGarantiesFinancières, sociétéMère } of candidats.items) {
     const lauréat = await mediator.send<Lauréat.ConsulterLauréatQuery>({
       type: 'Lauréat.Query.ConsulterLauréat',
       data: {
@@ -138,6 +138,10 @@ async function vérifierLauréats(
       Option.isSome(lauréat),
       `Aucun lauréat consultable pour ${identifiantProjet.formatter()}`,
     );
+
+    if (sociétéMère) {
+      expect(lauréat.actionnaire).to.equal(sociétéMère);
+    }
 
     if (typeGarantiesFinancières) {
       const garantiesFinancières =

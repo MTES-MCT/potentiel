@@ -3,6 +3,7 @@ import format from 'pg-format';
 import { Entity } from '@potentiel-domain/entity';
 import { flatten } from '@potentiel-libraries/flat';
 import { executeQuery } from '@potentiel-libraries/pg-helpers';
+import { getLogger } from '@potentiel-libraries/monitoring';
 
 type AtLeastOne<T, U = { [K in keyof T]: Pick<T, K> }> = Partial<T> & U[keyof U];
 
@@ -12,7 +13,13 @@ export const updateOneProjection = async <TProjection extends Entity>(
   readModel: AtLeastOne<Omit<TProjection, 'type'>>,
 ): Promise<void> => {
   const [updateQuery, values] = getUpdateClause(readModel, 1);
-  await executeQuery(`${updateQuery} where key = $1`, id, ...values);
+  const result = await executeQuery(`${updateQuery} where key = $1`, id, ...values);
+  if (result.rowCount === 0) {
+    getLogger('Projectors.infrastructure.updateOneProjection').warn(
+      "La projection à mettre à jour n'existe pas",
+      { id },
+    );
+  }
 };
 
 /**

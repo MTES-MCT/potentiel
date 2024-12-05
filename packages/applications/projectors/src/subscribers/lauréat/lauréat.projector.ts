@@ -3,8 +3,8 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 import { Lauréat } from '@potentiel-domain/laureat';
 import { RebuildTriggered, Event } from '@potentiel-infrastructure/pg-event-sourcing';
 
-import { removeProjection } from '../../infrastructure/removeProjection';
 import { upsertProjection } from '../../infrastructure/upsertProjection';
+import { removeProjection } from '../../infrastructure';
 
 export type SubscriptionEvent = (Lauréat.LauréatEvent & Event) | RebuildTriggered;
 
@@ -17,15 +17,14 @@ export const register = () => {
     if (type === 'RebuildTriggered') {
       await removeProjection<Lauréat.LauréatEntity>(`lauréat|${payload.id}`);
     } else {
-      const { identifiantProjet, notifiéLe, notifiéPar } = payload;
-
       switch (type) {
         case 'LauréatNotifié-V1':
+          const { identifiantProjet, notifiéLe, notifiéPar } = payload;
+
           await upsertProjection<Lauréat.LauréatEntity>(`lauréat|${identifiantProjet}`, {
             identifiantProjet,
             notifiéLe,
             notifiéPar,
-            représentantLégal: undefined,
           });
           break;
       }

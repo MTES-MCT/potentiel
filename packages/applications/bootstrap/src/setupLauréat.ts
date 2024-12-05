@@ -6,6 +6,7 @@ import {
   GarantiesFinancières,
   Lauréat,
   ReprésentantLégal,
+  Actionnaire,
 } from '@potentiel-domain/laureat';
 import { Event, loadAggregate, subscribe } from '@potentiel-infrastructure/pg-event-sourcing';
 import { findProjection, listProjection } from '@potentiel-infrastructure/pg-projections';
@@ -21,6 +22,7 @@ import {
   GarantiesFinancièreProjector,
   LauréatProjector,
   ReprésentantLégalProjector,
+  ActionnaireProjector,
 } from '@potentiel-applications/projectors';
 import {
   consulterCahierDesChargesChoisiAdapter,
@@ -50,6 +52,7 @@ export const setupLauréat = async ({ sendEmail }: SetupLauréatDependencies) =>
   GarantiesFinancièreProjector.register();
   AchèvementProjector.register();
   ReprésentantLégalProjector.register();
+  ActionnaireProjector.register();
 
   // Notifications
   AbandonNotification.register({ sendEmail });
@@ -62,9 +65,11 @@ export const setupLauréat = async ({ sendEmail }: SetupLauréatDependencies) =>
   GarantiesFinancières.TypeGarantiesFinancièresSaga.register();
   Lauréat.LauréatSaga.register();
   ReprésentantLégal.ReprésentantLégalSaga.register();
+  Actionnaire.ActionnaireSaga.register();
 
   const unsubscribeLauréatProjector = await subscribe<LauréatProjector.SubscriptionEvent>({
     name: 'projector',
+    streamCategory: 'lauréat',
     eventType: ['LauréatNotifié-V1', 'RebuildTriggered'],
     eventHandler: async (event) => {
       await mediator.send<LauréatProjector.Execute>({
@@ -72,7 +77,18 @@ export const setupLauréat = async ({ sendEmail }: SetupLauréatDependencies) =>
         data: event,
       });
     },
-    streamCategory: 'lauréat',
+  });
+
+  const unsubscribeActionnaireProjector = await subscribe<ActionnaireProjector.SubscriptionEvent>({
+    name: 'projector',
+    streamCategory: 'actionnaire',
+    eventType: ['ActionnaireImporté-V1', 'RebuildTriggered'],
+    eventHandler: async (event) => {
+      await mediator.send<ActionnaireProjector.Execute>({
+        type: 'System.Projector.Lauréat.Actionnaire',
+        data: event,
+      });
+    },
   });
 
   const unsubscribeLauréatSaga = await subscribe<Lauréat.LauréatSaga.SubscriptionEvent & Event>({
@@ -256,6 +272,19 @@ export const setupLauréat = async ({ sendEmail }: SetupLauréatDependencies) =>
       }),
   });
 
+  const unsubscribeActionnaireSaga = await subscribe<
+    ReprésentantLégal.ReprésentantLégalSaga.SubscriptionEvent & Event
+  >({
+    name: 'actionnaire-saga',
+    streamCategory: 'lauréat',
+    eventType: ['LauréatNotifié-V1'],
+    eventHandler: async (event) =>
+      mediator.publish<Actionnaire.ActionnaireSaga.Execute>({
+        type: 'System.Lauréat.Actionnaire.Saga.Execute',
+        data: event,
+      }),
+  });
+
   const unsubscribeTypeGarantiesFinancièresSaga = await subscribe<
     GarantiesFinancières.TypeGarantiesFinancièresSaga.SubscriptionEvent & Event
   >({
@@ -290,6 +319,7 @@ export const setupLauréat = async ({ sendEmail }: SetupLauréatDependencies) =>
     await unsubscribeGarantiesFinancièresProjector();
     await unsubscribeAchèvementProjector();
     await unsubscribeReprésentantLégalProjector();
+    await unsubscribeActionnaireProjector();
     // notifications
     await unsubscribeAbandonNotification();
     await unsubscribeGarantiesFinancièresNotification();
@@ -300,5 +330,6 @@ export const setupLauréat = async ({ sendEmail }: SetupLauréatDependencies) =>
     await unsubscribeTypeGarantiesFinancièresSaga();
     await unsubscribeLauréatSaga();
     await unsubscribeReprésentantLégalSaga();
+    await unsubscribeActionnaireSaga();
   };
 };

@@ -7,9 +7,11 @@ export {
   ConsulterLauréatReadModel,
 } from './consulter/consulterLauréat.query';
 
+// Event
 export type LauréatEvent = LauréatNotifiéEvent;
 export { LauréatNotifiéEvent };
 
+// UseCases
 export type LauréatUseCases = NotifierLauréatUseCase;
 export { NotifierLauréatUseCase };
 
