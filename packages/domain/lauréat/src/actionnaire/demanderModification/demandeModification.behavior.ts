@@ -1,6 +1,5 @@
-import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
+import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
 import { DomainEvent } from '@potentiel-domain/core';
-import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
 import { DocumentProjet } from '@potentiel-domain/document';
 
 import { StatutModificationActionnaire } from '..';
@@ -10,7 +9,7 @@ export type ModificationActionnaireDemandéeEvent = DomainEvent<
   'ModificationActionnaireDemandée-V1',
   {
     demandéLe: DateTime.RawType;
-    demandéPar: IdentifiantUtilisateur.RawType;
+    demandéPar: Email.RawType;
     identifiantProjet: IdentifiantProjet.RawType;
     raison?: string;
     actionnaire: string;
@@ -22,7 +21,7 @@ export type ModificationActionnaireDemandéeEvent = DomainEvent<
 
 export type DemanderOptions = {
   dateDemande: DateTime.ValueType;
-  identifiantUtilisateur: IdentifiantUtilisateur.ValueType;
+  identifiantUtilisateur: Email.ValueType;
   identifiantProjet: IdentifiantProjet.ValueType;
   pièceJustificative: DocumentProjet.ValueType;
   actionnaire: string;

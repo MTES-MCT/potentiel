@@ -4,6 +4,8 @@ import { DocumentProjet, EnregistrerDocumentProjetCommand } from '@potentiel-dom
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
 
+import { TypeDocumentActionnaire } from '..';
+
 import { DemanderModificationActionnaireCommand } from './demandeModification.command';
 
 // TODO :
@@ -13,6 +15,7 @@ import { DemanderModificationActionnaireCommand } from './demandeModification.co
 export type DemanderModificationActionnaireUseCase = Message<
   'Lauréat.Actionnaire.UseCase.DemanderModification',
   {
+    actionnaireValue: string;
     dateDemandeValue: string;
     identifiantUtilisateurValue: string;
     identifiantProjetValue: string;
@@ -21,7 +24,6 @@ export type DemanderModificationActionnaireUseCase = Message<
       format: string;
     };
     raisonValue?: string;
-    actionnaireValue: boolean;
   }
 >;
 
@@ -40,28 +42,24 @@ export const registerDemanderModificationActionnaireUseCase = () => {
       identifiantUtilisateurValue,
     );
 
-    const pièceJustificative = pièceJustificativeValue
-      ? DocumentProjet.convertirEnValueType(
-          identifiantProjetValue,
-          // voir si besoin
-          TypeDocumentAbandon.pièceJustificative.formatter(),
-          dateDemandeValue,
-          pièceJustificativeValue.format,
-        )
-      : undefined;
+    const pièceJustificative = DocumentProjet.convertirEnValueType(
+      identifiantProjetValue,
+      // voir si besoin
+      TypeDocumentActionnaire.pièceJustificative.formatter(),
+      dateDemandeValue,
+      pièceJustificativeValue.format,
+    );
 
     // voir comment gérer le multi document ici
     // zip
     // contraindre le porteur sinon
-    if (pièceJustificative) {
-      await mediator.send<EnregistrerDocumentProjetCommand>({
-        type: 'Document.Command.EnregistrerDocumentProjet',
-        data: {
-          content: pièceJustificativeValue!.content,
-          documentProjet: pièceJustificative,
-        },
-      });
-    }
+    await mediator.send<EnregistrerDocumentProjetCommand>({
+      type: 'Document.Command.EnregistrerDocumentProjet',
+      data: {
+        content: pièceJustificativeValue!.content,
+        documentProjet: pièceJustificative,
+      },
+    });
 
     await mediator.send<DemanderModificationActionnaireCommand>({
       type: 'Lauréat.Actionnaire.Command.DemanderModification',
