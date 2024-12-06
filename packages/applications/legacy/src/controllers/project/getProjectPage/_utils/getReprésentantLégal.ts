@@ -15,6 +15,10 @@ export type GetReprésentantLégalForProjectPage =
         type: 'lauréat' | 'candidature';
         url: string;
       };
+      demandeDeModification?: {
+        url?: string;
+        peutFaireUneDemande: boolean;
+      };
     }
   | undefined;
 
@@ -33,6 +37,10 @@ export const getReprésentantLégal: GetReprésentantLégal = async (identifiant
     });
 
     if (Option.isSome(représentantLégal)) {
+      const peutFaireUneDemande =
+        !représentantLégal.demande &&
+        utilisateur.aLaPermission('représentantLégal.demanderChangement');
+
       return {
         nom: représentantLégal.nomReprésentantLégal,
         modification: utilisateur.aLaPermission('représentantLégal.modifier')
@@ -41,6 +49,12 @@ export const getReprésentantLégal: GetReprésentantLégal = async (identifiant
               url: Routes.ReprésentantLégal.modifier(identifiantProjet.formatter()),
             }
           : undefined,
+        demandeDeModification: {
+          peutConsulterLaDemandeExistante: !!représentantLégal.demande
+            ? Routes.ReprésentantLégal.détail(identifiantProjet.formatter())
+            : undefined,
+          peutFaireUneDemande,
+        },
       };
     }
 

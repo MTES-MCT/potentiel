@@ -33,6 +33,7 @@ import {
   registerActionnaireQueries,
   registerActionnaireUseCases,
 } from './actionnaire/actionnaire.register';
+import { registerImporterActionnaireCommand } from './actionnaire/importer/importerActionnaire.command';
 
 export type LauréatQueryDependencies = AbandonQueryDependencies &
   CahierDesChargesChoisiQueryDependencies &
@@ -49,10 +50,12 @@ export const registerLauréatUseCases = (dependencies: LauréatCommandDependenci
   registerAbandonUseCases(dependencies);
   registerGarantiesFinancièresUseCases(dependencies);
   registerAchèvementUseCases(dependencies);
-  registerNotifierLauréatCommand(dependencies.loadAggregate);
-  registerNotifierLauréatUseCase();
   registerReprésentantLégalUseCases(dependencies);
   registerActionnaireUseCases(dependencies);
+  registerNotifierLauréatUseCase();
+
+  registerNotifierLauréatCommand(dependencies.loadAggregate);
+  registerImporterActionnaireCommand(dependencies.loadAggregate);
 };
 
 export const registerLauréatQueries = (dependencies: LauréatQueryDependencies) => {

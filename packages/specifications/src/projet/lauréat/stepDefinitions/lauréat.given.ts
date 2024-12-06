@@ -108,12 +108,6 @@ export async function notifierLauréat(this: PotentielWorld, dateDésignation: s
     type: 'Lauréat.UseCase.NotifierLauréat',
     data,
   });
-
-  this.lauréatWorld.représentantLégalWorld.importerReprésentantLégalFixture.créer({
-    nomReprésentantLégal:
-      this.candidatureWorld.importerCandidature.values.nomReprésentantLégalValue,
-    importéLe: data.notifiéLeValue,
-  });
 }
 
 // cette fonction serait supprimée après la migration de projet
