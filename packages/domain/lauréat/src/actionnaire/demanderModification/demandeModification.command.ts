@@ -1,20 +1,19 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
-import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
-import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
+import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
 import { DocumentProjet } from '@potentiel-domain/document';
 import { LoadAggregate } from '@potentiel-domain/core';
 
 import { loadActionnaireFactory } from '../actionnaire.aggregate';
 
 export type DemanderModificationActionnaireCommand = Message<
-  'Lauréat.Actionnaire.Command.DemandeModification',
+  'Lauréat.Actionnaire.Command.DemanderModification',
   {
     identifiantProjet: IdentifiantProjet.ValueType;
     raison?: string;
     actionnaire: string;
     pièceJustificative: DocumentProjet.ValueType;
-    identifiantUtilisateur: IdentifiantUtilisateur.ValueType;
+    identifiantUtilisateur: Email.ValueType;
     dateDemande: DateTime.ValueType;
   }
 >;
