@@ -52,7 +52,7 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
           statut={props.statut}
           nomReprésentantLégal={props.nomReprésentantLégal}
           typeReprésentantLégal={props.typeReprésentantLégal}
-          piècesJustificatives={props.piècesJustificatives}
+          pièceJustificative={props.pièceJustificative}
           demandéLe={props.demandéLe}
           demandéPar={props.demandéPar}
           actions={props.actions}
@@ -74,13 +74,11 @@ const mapToProps: MapToProps = ({ identifiantProjet, demande, utilisateur }) => 
   statut: mapToPlainObject(demande!.statut),
   nomReprésentantLégal: demande!.nomReprésentantLégal,
   typeReprésentantLégal: mapToPlainObject(demande!.typeReprésentantLégal),
-  piècesJustificatives: demande!.piècesJustificatives.map((pj) =>
-    DocumentProjet.convertirEnValueType(
-      identifiantProjet.formatter(),
-      ReprésentantLégal.TypeDocumentChangementReprésentantLégal.pièceJustificative.formatter(),
-      demande!.demandéLe.formatter(),
-      pj.format,
-    ),
+  pièceJustificative: DocumentProjet.convertirEnValueType(
+    identifiantProjet.formatter(),
+    ReprésentantLégal.TypeDocumentChangementReprésentantLégal.pièceJustificative.formatter(),
+    demande!.demandéLe.formatter(),
+    demande!.pièceJustificative.format,
   ),
   demandéLe: mapToPlainObject(demande!.demandéLe),
   demandéPar: mapToPlainObject(demande!.demandéPar),

@@ -35,7 +35,7 @@ export const DétailsDemandeChangementReprésentantLégalPage: FC<
   identifiantProjet,
   nomReprésentantLégal,
   typeReprésentantLégal,
-  piècesJustificatives,
+  pièceJustificative,
   statut,
   // role,
   demandéLe,
@@ -81,21 +81,19 @@ export const DétailsDemandeChangementReprésentantLégalPage: FC<
                 </div>
                 <div className="flex gap-2">
                   <div className="whitespace-nowrap">Pièce justificative :</div>
-                  {piècesJustificatives.map((pièceJustificative) => (
-                    <blockquote
-                      className="font-semibold italic"
-                      key={pièceJustificative.dateCréation}
-                    >
-                      <DownloadDocument
-                        className="mb-0"
-                        label="Télécharger la pièce justificative"
-                        format={pièceJustificative.format}
-                        url={Routes.Document.télécharger(
-                          DocumentProjet.bind(pièceJustificative).formatter(),
-                        )}
-                      />
-                    </blockquote>
-                  ))}
+                  <blockquote
+                    className="font-semibold italic"
+                    key={pièceJustificative.dateCréation}
+                  >
+                    <DownloadDocument
+                      className="mb-0"
+                      label="Télécharger la pièce justificative"
+                      format={pièceJustificative.format}
+                      url={Routes.Document.télécharger(
+                        DocumentProjet.bind(pièceJustificative).formatter(),
+                      )}
+                    />
+                  </blockquote>
                 </div>
               </div>
             </div>

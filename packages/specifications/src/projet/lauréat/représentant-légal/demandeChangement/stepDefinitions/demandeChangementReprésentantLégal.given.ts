@@ -15,15 +15,10 @@ EtantDonné(
 export async function créerDemandeChangementReprésentantLégal(this: PotentielWorld) {
   const identifiantProjet = this.lauréatWorld.identifiantProjet.formatter();
 
-  const {
-    nomReprésentantLégal,
-    typeReprésentantLégal,
-    piècesJustificatives,
-    demandéLe,
-    demandéPar,
-  } = this.lauréatWorld.représentantLégalWorld.demanderChangementReprésentantLégalFixture.créer({
-    identifiantProjet,
-  });
+  const { nomReprésentantLégal, typeReprésentantLégal, pièceJustificative, demandéLe, demandéPar } =
+    this.lauréatWorld.représentantLégalWorld.demanderChangementReprésentantLégalFixture.créer({
+      identifiantProjet,
+    });
 
   await mediator.send<ReprésentantLégal.ReprésentantLégalUseCase>({
     type: 'Lauréat.ReprésentantLégal.UseCase.DemanderChangementReprésentantLégal',
@@ -31,7 +26,7 @@ export async function créerDemandeChangementReprésentantLégal(this: Potentiel
       identifiantProjetValue: identifiantProjet,
       nomReprésentantLégalValue: nomReprésentantLégal,
       typeReprésentantLégalValue: typeReprésentantLégal.formatter(),
-      piècesJustificativesValue: piècesJustificatives,
+      pièceJustificativeValue: pièceJustificative,
       identifiantUtilisateurValue: demandéPar,
       dateDemandeValue: demandéLe,
     },

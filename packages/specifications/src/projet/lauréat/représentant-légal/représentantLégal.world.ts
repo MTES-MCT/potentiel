@@ -56,15 +56,12 @@ export class ReprésentantLégalWorld {
         demandéPar: Email.convertirEnValueType(
           this.#demanderChangementReprésentantLégalFixture.demandéPar,
         ),
-        piècesJustificatives:
-          this.#demanderChangementReprésentantLégalFixture.piècesJustificatives.map((pj) =>
-            DocumentProjet.convertirEnValueType(
-              identifiantProjet.formatter(),
-              ReprésentantLégal.TypeDocumentChangementReprésentantLégal.pièceJustificative.formatter(),
-              this.#demanderChangementReprésentantLégalFixture.demandéLe,
-              pj.format,
-            ),
-          ),
+        pièceJustificative: DocumentProjet.convertirEnValueType(
+          identifiantProjet.formatter(),
+          ReprésentantLégal.TypeDocumentChangementReprésentantLégal.pièceJustificative.formatter(),
+          this.#demanderChangementReprésentantLégalFixture.demandéLe,
+          this.#demanderChangementReprésentantLégalFixture.pièceJustificative.format,
+        ),
       };
     }
 

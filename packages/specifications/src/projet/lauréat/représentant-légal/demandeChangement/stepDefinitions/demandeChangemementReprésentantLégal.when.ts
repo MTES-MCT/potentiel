@@ -34,45 +34,40 @@ Quand(
           ? {
               identifiantProjet,
               demandéPar: this.utilisateurWorld.porteurFixture.email,
-              piècesJustificatives: [],
+              pièceJustificative: undefined,
             }
           : {
               identifiantProjet,
               demandéPar: this.utilisateurWorld.porteurFixture.email,
             };
 
-    await demanderChangementReprésentantLégal.call(this, options);
+    const {
+      nomReprésentantLégal,
+      typeReprésentantLégal,
+      pièceJustificative,
+      demandéLe,
+      demandéPar,
+    } =
+      this.lauréatWorld.représentantLégalWorld.demanderChangementReprésentantLégalFixture.créer(
+        options,
+      );
+
+    try {
+      await mediator.send<ReprésentantLégal.ReprésentantLégalUseCase>({
+        type: 'Lauréat.ReprésentantLégal.UseCase.DemanderChangementReprésentantLégal',
+        data: {
+          identifiantProjetValue: options.identifiantProjet,
+          nomReprésentantLégalValue: nomReprésentantLégal,
+          typeReprésentantLégalValue: typeReprésentantLégal.formatter(),
+          pièceJustificativeValue: extra?.includes('sans pièces justificatives')
+            ? undefined
+            : pièceJustificative,
+          dateDemandeValue: demandéLe,
+          identifiantUtilisateurValue: demandéPar,
+        },
+      });
+    } catch (error) {
+      this.error = error as Error;
+    }
   },
 );
-
-async function demanderChangementReprésentantLégal(
-  this: PotentielWorld,
-  options: CréerDemandeChangementReprésentantLégalFixture,
-) {
-  const {
-    nomReprésentantLégal,
-    typeReprésentantLégal,
-    piècesJustificatives,
-    demandéLe,
-    demandéPar,
-  } =
-    this.lauréatWorld.représentantLégalWorld.demanderChangementReprésentantLégalFixture.créer(
-      options,
-    );
-
-  try {
-    await mediator.send<ReprésentantLégal.ReprésentantLégalUseCase>({
-      type: 'Lauréat.ReprésentantLégal.UseCase.DemanderChangementReprésentantLégal',
-      data: {
-        identifiantProjetValue: options.identifiantProjet,
-        nomReprésentantLégalValue: nomReprésentantLégal,
-        typeReprésentantLégalValue: typeReprésentantLégal.formatter(),
-        piècesJustificativesValue: piècesJustificatives,
-        dateDemandeValue: demandéLe,
-        identifiantUtilisateurValue: demandéPar,
-      },
-    });
-  } catch (error) {
-    this.error = error as Error;
-  }
-}
