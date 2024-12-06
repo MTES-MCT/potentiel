@@ -106,7 +106,7 @@ export const DemanderChangementReprésentantLégalForm: FC<
             typeReprésentantLégal={type}
             validationErrors={validationErrors}
             onChange={(nouvellesPiècesJustificatives) =>
-              setPiècesJustificatives(nouvellesPiècesJustificatives)
+              setPiècesJustificatives([...nouvellesPiècesJustificatives])
             }
           />
         </>

@@ -9,8 +9,8 @@ export type DemandeChangementReprésentantLégalEntity = Entity<
     typeReprésentantLégal: string;
     demandéLe: string;
     demandéPar: string;
-    piècesJustificatives: Array<{
+    pièceJustificative: {
       format: string;
-    }>;
+    };
   }
 >;

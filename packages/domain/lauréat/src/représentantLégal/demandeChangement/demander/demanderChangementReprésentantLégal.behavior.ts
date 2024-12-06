@@ -1,4 +1,4 @@
-import { DomainError, DomainEvent } from '@potentiel-domain/core';
+import { DomainError, DomainEvent, InvalidOperationError } from '@potentiel-domain/core';
 import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
 import { DocumentProjet } from '@potentiel-domain/document';
 
@@ -14,9 +14,9 @@ export type ChangementReprésentantLégalDemandéEvent = DomainEvent<
     typeReprésentantLégal: TypeReprésentantLégal.RawType;
     demandéLe: DateTime.RawType;
     demandéPar: Email.RawType;
-    piècesJustificatives: Array<{
+    pièceJustificative: {
       format: string;
-    }>;
+    };
   }
 >;
 
@@ -24,7 +24,7 @@ export type DemanderChangementOptions = {
   identifiantProjet: IdentifiantProjet.ValueType;
   nomReprésentantLégal: string;
   typeReprésentantLégal: TypeReprésentantLégal.ValueType;
-  piècesJustificatives: Array<DocumentProjet.ValueType>;
+  pièceJustificative?: DocumentProjet.ValueType;
   identifiantUtilisateur: Email.ValueType;
   dateDemande: DateTime.ValueType;
 };
@@ -35,11 +35,15 @@ export async function demander(
     identifiantProjet,
     nomReprésentantLégal,
     typeReprésentantLégal,
-    piècesJustificatives,
+    pièceJustificative,
     identifiantUtilisateur,
     dateDemande,
   }: DemanderChangementOptions,
 ) {
+  if (!pièceJustificative) {
+    throw new PièceJustificativeObligatoireError();
+  }
+
   if (
     this.représentantLégal.nom === nomReprésentantLégal &&
     this.représentantLégal.type.estÉgaleÀ(typeReprésentantLégal)
@@ -49,10 +53,6 @@ export async function demander(
 
   if (typeReprésentantLégal.estInconnu()) {
     throw new ReprésentantLégalTypeInconnuError();
-  }
-
-  if (!piècesJustificatives.length) {
-    throw new PiècesJustificativesObligatoireError();
   }
 
   if (this.demande) {
@@ -69,9 +69,7 @@ export async function demander(
       typeReprésentantLégal: typeReprésentantLégal.formatter(),
       demandéLe: dateDemande.formatter(),
       demandéPar: identifiantUtilisateur.formatter(),
-      piècesJustificatives: piècesJustificatives.map((pj) => ({
-        format: pj.format,
-      })),
+      pièceJustificative: { format: pièceJustificative.format },
     },
   };
 
@@ -97,7 +95,7 @@ class ReprésentantLégalTypeInconnuError extends DomainError {
   }
 }
 
-class PiècesJustificativesObligatoireError extends DomainError {
+class PièceJustificativeObligatoireError extends InvalidOperationError {
   constructor() {
     super('Les pièces justificatives sont obligatoires');
   }

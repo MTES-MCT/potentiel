@@ -10,6 +10,7 @@ const toBytes = (sizeInMegaBytes: number): number => sizeInMegaBytes * 1024 * 10
 
 type CommonOptions = {
   applyWatermark?: true;
+  pdfOnly?: true;
 };
 
 type OptionalSingleDocumentSchema = zod.ZodEffects<
@@ -43,6 +44,10 @@ export function singleDocument(
       ({ size }) => size <= toBytes(defaultFileSizeLimitInMegaBytes),
       `Le fichier dépasse la taille maximale autorisée (${defaultFileSizeLimitInMegaBytes}Mo)`,
     )
+    .refine(
+      ({ type }) => (options?.pdfOnly ? type === 'application/pdf' : false),
+      `Le format de fichier autorisé est : 'application/pdf'`,
+    )
     .transform(async (originalBlob) => {
       if (originalBlob.size === 0 || !options?.applyWatermark) {
         return originalBlob;
@@ -69,14 +74,35 @@ export function singleDocument(
     });
 }
 
-export function manyDocuments(options?: { optional?: true }) {
+type ManyDocumentsOptions = {
+  optional?: true;
+  applyWatermark?: true;
+};
+
+export function manyDocuments(options?: ManyDocumentsOptions) {
   if (options?.optional) {
-    singleDocument({ optional: true })
+    singleDocument({ optional: true, applyWatermark: options.applyWatermark, pdfOnly: true })
       .transform((document) => [document])
-      .or(singleDocument({ optional: true }).array());
+      .or(
+        singleDocument({
+          optional: true,
+          applyWatermark: options.applyWatermark,
+          pdfOnly: true,
+        }).array(),
+      );
   }
 
-  return singleDocument()
+  return singleDocument({
+    applyWatermark: options?.applyWatermark,
+    pdfOnly: true,
+  })
     .transform((document) => [document])
-    .or(singleDocument().array().min(1, 'Champ obligatoire'));
+    .or(
+      singleDocument({
+        applyWatermark: options?.applyWatermark,
+        pdfOnly: true,
+      })
+        .array()
+        .min(1, 'Champ obligatoire'),
+    );
 }
