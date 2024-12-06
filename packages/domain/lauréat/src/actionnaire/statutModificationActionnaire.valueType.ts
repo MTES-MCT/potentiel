@@ -42,36 +42,15 @@ export const convertirEnValueType = (value: string): ValueType => {
       return this.statut === valueType.statut;
     },
     vérifierQueLeChangementDeStatutEstPossibleEn(nouveauStatut: ValueType) {
-      if (nouveauStatut.estAccordé()) {
-        if (this.estAccordé()) {
-          throw new ModificationActionnaireDéjàAccordéeError();
-        }
-
-        if (this.estRejeté()) {
-          throw new ModificationActionnaireDéjàRejetéError();
-        }
-      } else if (nouveauStatut.estAnnulé()) {
-        if (this.estAccordé()) {
-          throw new ModificationActionnaireDéjàAccordéeError();
-        }
-        if (this.estRejeté()) {
-          throw new ModificationActionnaireDéjàRejetéError();
-        }
-      } else if (nouveauStatut.estDemandé()) {
-        if (this.estAccordé()) {
-          throw new ModificationActionnaireDéjàAccordéeError();
-        }
-
-        if (this.estEnCours()) {
-          throw new ModificationActionnaireEnCoursErreur();
-        }
-      } else if (nouveauStatut.estRejeté()) {
-        if (this.estAccordé()) {
-          throw new ModificationActionnaireDéjàAccordéeError();
-        }
-
-        if (this.estRejeté()) {
-          throw new ModificationActionnaireDéjàRejetéError();
+      if (nouveauStatut.estÉgaleÀ(convertirEnValueType(this.statut))) {
+        throw new ModificationActionnaireAvecLeMêmeStatutErreur();
+      }
+      if (nouveauStatut.estAnnulé() && !this.estEnCours) {
+        throw new ModificationActionnaireInexistanteErreur();
+      }
+      if (nouveauStatut.estAccordé() || nouveauStatut.estRejeté()) {
+        if (!this.estEnCours() || this.estAnnulé()) {
+          throw new ModificationActionnaireInexistanteErreur();
         }
       }
     },
@@ -99,20 +78,14 @@ class StatutModificationActionnaireInvalideError extends InvalidOperationError {
   }
 }
 
-class ModificationActionnaireDéjàAccordéeError extends InvalidOperationError {
+class ModificationActionnaireAvecLeMêmeStatutErreur extends InvalidOperationError {
   constructor() {
-    super(`L'abandon a déjà été accordé`);
+    super(`Le statut de la demande de modification est identique`);
   }
 }
 
-class ModificationActionnaireDéjàRejetéError extends InvalidOperationError {
+class ModificationActionnaireInexistanteErreur extends InvalidOperationError {
   constructor() {
-    super(`L'abandon a déjà été rejeté`);
-  }
-}
-
-class ModificationActionnaireEnCoursErreur extends InvalidOperationError {
-  constructor() {
-    super(`Une demande d'abandon est déjà en cours`);
+    super(`Aucune demande de modification n'est en cours`);
   }
 }
