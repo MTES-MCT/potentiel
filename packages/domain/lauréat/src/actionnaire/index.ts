@@ -30,3 +30,6 @@ export * as ActionnaireSaga from './actionnaire.saga';
 // ValueType
 export * as StatutModificationActionnaire from './statutModificationActionnaire.valueType';
 export * as TypeDocumentActionnaire from './typeDocumentActionnaire.valueType';
+
+// Entities
+export * from './demandeModificationActionnaire.entity';

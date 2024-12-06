@@ -34,9 +34,9 @@ function estValide(value: string): asserts value is TypeDocument {
   }
 }
 
-export const ActionnaireAccordé = convertirEnValueType('modification-accordée');
+export const modificationAccordée = convertirEnValueType('modification-accordée');
 export const pièceJustificative = convertirEnValueType('pièce-justificative');
-export const ActionnaireRejeté = convertirEnValueType('modification-rejetée');
+export const modificationRejetée = convertirEnValueType('modification-rejetée');
 
 class TypeDocumentActionnaireInvalideError extends InvalidOperationError {
   constructor(value: string) {

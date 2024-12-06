@@ -1,19 +1,12 @@
 import { Entity } from '@potentiel-domain/entity';
 
-export type AbandonEntity = Entity<
+export type DemandeModificationActionnaireEntity = Entity<
   'demande-modification-actionnaire',
   {
     identifiantProjet: string;
 
-    // peut être besoin de l'AO ?
-    // projet?: {
-    //   nom: string;
-    //   appelOffre: string;
-    //   période: string;
-    //   famille?: string;
-    //   numéroCRE: string;
-    //   région: string;
-    // };
+    statut: string;
+    misÀJourLe: string;
 
     demande: {
       demandéPar: string;
@@ -39,8 +32,5 @@ export type AbandonEntity = Entity<
         rejetéLe: string;
       };
     };
-
-    statut: string;
-    misÀJourLe: string;
   }
 >;

@@ -6,7 +6,7 @@ import { LoadAggregate } from '@potentiel-domain/core';
 
 import { loadActionnaireFactory } from '../actionnaire.aggregate';
 
-export type DemanderModificationActionnaireCommand = Message<
+export type DemanderModificationCommand = Message<
   'Lauréat.Actionnaire.Command.DemanderModification',
   {
     identifiantProjet: IdentifiantProjet.ValueType;
@@ -20,7 +20,7 @@ export type DemanderModificationActionnaireCommand = Message<
 
 export const registerDemandeModificationActionnaireCommand = (loadAggregate: LoadAggregate) => {
   const loadActionnaire = loadActionnaireFactory(loadAggregate);
-  const handler: MessageHandler<DemanderModificationActionnaireCommand> = async ({
+  const handler: MessageHandler<DemanderModificationCommand> = async ({
     identifiantProjet,
     pièceJustificative,
     raison,
@@ -39,5 +39,5 @@ export const registerDemandeModificationActionnaireCommand = (loadAggregate: Loa
       actionnaire,
     });
   };
-  mediator.register('Lauréat.Actionnaire.Command.DemandeModificationActionnaire', handler);
+  mediator.register('Lauréat.Actionnaire.Command.DemanderModification', handler);
 };

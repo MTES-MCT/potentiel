@@ -18,8 +18,15 @@ import {
   applyActionnaireModifié,
   modifier,
 } from './modifier/modifierActionnaire.behavior';
+import {
+  demanderModification,
+  ModificationActionnaireDemandéeEvent,
+} from './demanderModification/demandeModification.behavior';
 
-export type ActionnaireEvent = ActionnaireImportéEvent | ActionnaireModifiéEvent;
+export type ActionnaireEvent =
+  | ActionnaireImportéEvent
+  | ActionnaireModifiéEvent
+  | ModificationActionnaireDemandéeEvent;
 
 // export type ModificationActionnaireEvent
 
@@ -28,6 +35,7 @@ export type ActionnaireAggregate = Aggregate<ActionnaireEvent> & {
   actionnaire: String;
   importer: typeof importer;
   modifier: typeof modifier;
+  demanderModification: typeof demanderModification;
   statutDemande?: StatutModificationActionnaire.ValueType;
 };
 
@@ -40,6 +48,7 @@ export const getDefaultActionnaireAggregate: GetDefaultAggregateState<
   apply,
   importer,
   modifier,
+  demanderModification,
 });
 
 function apply(this: ActionnaireAggregate, event: ActionnaireEvent) {
