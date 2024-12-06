@@ -1,0 +1,22 @@
+{
+  "name": "@potentiel-applications/api-documentation",
+  "version": "0.1.0",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "build": "tsp compile ./src && tsc"
+  },
+  "peerDependencies": {
+    "@typespec/compiler": "latest",
+    "@typespec/http": "latest",
+    "@typespec/rest": "latest",
+    "@typespec/openapi3": "latest"
+  },
+  "devDependencies": {
+    "@typespec/compiler": "latest",
+    "@typespec/http": "latest",
+    "@typespec/rest": "latest",
+    "@typespec/openapi3": "latest"
+  },
+  "private": true
+}
