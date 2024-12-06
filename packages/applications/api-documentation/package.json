@@ -1,9 +1,10 @@
 {
-  "name": "@potentiel-application/api-documentation",
+  "name": "@potentiel-applications/api-documentation",
   "version": "0.1.0",
-  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "scripts": {
-    "build": "tsp compile ."
+    "build": "tsp compile ./src && tsc"
   },
   "peerDependencies": {
     "@typespec/compiler": "latest",

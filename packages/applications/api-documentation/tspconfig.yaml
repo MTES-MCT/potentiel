@@ -1,2 +1,7 @@
+output-dir: '{cwd}/dist'
+
 emit:
   - '@typespec/openapi3'
+options:
+  '@typespec/openapi3':
+    file-type: json
