@@ -10,8 +10,7 @@ import { Subscriber, Unsubscribe } from './subscriber/subscriber';
 import { retryPendingAcknowledgement } from './acknowledgement/retryPendingAcknowledgement';
 
 let client: Client | undefined;
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const subscribers = new Map<string, Subscriber<any>>();
+const subscribers = new Map<string, Subscriber>();
 
 export const subscribe = async <TEvent extends Event = Event>(
   subscriber: Subscriber<TEvent>,
@@ -20,7 +19,10 @@ export const subscribe = async <TEvent extends Event = Event>(
     client = await connect();
   }
 
-  subscribers.set(`${subscriber.streamCategory}-${subscriber.name}`, subscriber);
+  subscribers.set(
+    `${subscriber.streamCategory}-${subscriber.name}`,
+    subscriber as unknown as Subscriber<Event>,
+  );
   client.setMaxListeners(subscribers.size);
 
   await registerSubscriber(subscriber);

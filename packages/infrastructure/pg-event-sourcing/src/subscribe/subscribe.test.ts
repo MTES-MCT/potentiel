@@ -10,7 +10,7 @@ import { DomainEvent } from '@potentiel-domain/core';
 import { Event } from '../event';
 import { publish } from '../publish/publish';
 
-import { subscribe } from './subscribe';
+import { executeSubscribersRetry, subscribe } from './subscribe';
 import { registerSubscriber } from './subscriber/registerSubscriber';
 import { getPendingAcknowledgements } from './acknowledgement/getPendingAcknowledgements';
 import { getEventsWithPendingAcknowledgement } from './acknowledgement/getEventsWithPendingAcknowledgement';
@@ -175,7 +175,7 @@ describe(`subscribe`, () => {
   it(`
     Étant donné un event en attente d'acknowledgement
     Et un event handler en attente du traitement d'un type d'événement
-    Lorsque que l'event handler souscrit au type d'event
+    Lorsque que l'on traite les events en attente
     Alors l'event handler est exécuté
     Et il reçoit l'événement en paramétre
     Et il n'y a pas d'acknowledgement en attente pour cet événement après son traitement
@@ -205,7 +205,6 @@ describe(`subscribe`, () => {
 
     await publish(`${streamCategory}|${id}`, event);
 
-    // Act
     const unsubscribe = await subscribe({
       name: subscriberName,
       eventType,
@@ -213,6 +212,9 @@ describe(`subscribe`, () => {
       streamCategory,
     });
     unsubscribes.push(unsubscribe);
+
+    // Act
+    await executeSubscribersRetry();
 
     eventHandlerHasBeenCalled.should.be.true;
 
