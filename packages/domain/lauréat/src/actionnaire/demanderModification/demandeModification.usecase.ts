@@ -6,13 +6,13 @@ import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
 
 import { TypeDocumentActionnaire } from '..';
 
-import { DemanderModificationActionnaireCommand } from './demandeModification.command';
+import { DemanderModificationCommand } from './demandeModification.command';
 
 // TODO :
 // Pour tout type de demande, il faut vérifier que le CDC permet une demande via Potentiel
 // nous avons besoin du CDC actuel et de l'AO pour vérifier cela
 
-export type DemanderModificationActionnaireUseCase = Message<
+export type DemanderModificationUseCase = Message<
   'Lauréat.Actionnaire.UseCase.DemanderModification',
   {
     actionnaireValue: string;
@@ -27,8 +27,8 @@ export type DemanderModificationActionnaireUseCase = Message<
   }
 >;
 
-export const registerDemanderModificationActionnaireUseCase = () => {
-  const runner: MessageHandler<DemanderModificationActionnaireUseCase> = async ({
+export const registerDemanderModificationUseCase = () => {
+  const runner: MessageHandler<DemanderModificationUseCase> = async ({
     dateDemandeValue,
     identifiantProjetValue,
     pièceJustificativeValue,
@@ -61,7 +61,7 @@ export const registerDemanderModificationActionnaireUseCase = () => {
       },
     });
 
-    await mediator.send<DemanderModificationActionnaireCommand>({
+    await mediator.send<DemanderModificationCommand>({
       type: 'Lauréat.Actionnaire.Command.DemanderModification',
       data: {
         dateDemande,

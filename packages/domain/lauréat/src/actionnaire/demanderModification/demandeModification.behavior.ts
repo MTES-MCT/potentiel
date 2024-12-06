@@ -28,7 +28,7 @@ export type DemanderOptions = {
   raison?: string;
 };
 
-export async function demander(
+export async function demanderModification(
   this: ActionnaireAggregate,
   {
     identifiantUtilisateur,

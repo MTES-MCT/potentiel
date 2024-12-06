@@ -50,6 +50,6 @@ export function applyActionnaireModifié(
 
 class ActionnaireIdentifiqueError extends DomainError {
   constructor() {
-    super("L'actionnaire modifié est identique à celui associé au projet");
+    super('Le nouvel actionnaire est identique à celui associé au projet');
   }
 }

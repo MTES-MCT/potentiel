@@ -19,7 +19,7 @@ Fonctionnalité: Modifier l'actionnaire d'un projet lauréat
     Scénario: Impossible de modifier le représentant légal avec une valeur identique
         Etant donné le projet lauréat "Du boulodrome de Marseille"
         Quand le DGEC validateur modifie l'actionnaire avec la même valeur pour le projet lauréat
-        Alors l'utilisateur devrait être informé que "L'actionnaire modifié est identique à celui associé au projet"
+        Alors l'utilisateur devrait être informé que "Le nouvel actionnaire est identique à celui associé au projet"
 
     @NotImplemented
     Scénario: Modifier l'actionnaire d'un projet lauréat alors qu'une modification d'actionnaire est en cours
