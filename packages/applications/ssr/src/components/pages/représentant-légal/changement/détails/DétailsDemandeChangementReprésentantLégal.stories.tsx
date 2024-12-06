@@ -34,16 +34,14 @@ export const Demandé: Story = {
     typeReprésentantLégal: mapToPlainObject(
       ReprésentantLégal.TypeReprésentantLégal.personnePhysique,
     ),
-    piècesJustificatives: [
-      mapToPlainObject(
-        DocumentProjet.convertirEnValueType(
-          identifiantProjet.formatter(),
-          ReprésentantLégal.TypeDocumentChangementReprésentantLégal.pièceJustificative.formatter(),
-          DateTime.now().formatter(),
-          'application/pdf',
-        ),
+    pièceJustificative: mapToPlainObject(
+      DocumentProjet.convertirEnValueType(
+        identifiantProjet.formatter(),
+        ReprésentantLégal.TypeDocumentChangementReprésentantLégal.pièceJustificative.formatter(),
+        DateTime.now().formatter(),
+        'application/pdf',
       ),
-    ],
+    ),
     demandéLe: mapToPlainObject(DateTime.now()),
     demandéPar: mapToPlainObject(IdentifiantUtilisateur.unknownUser),
     actions: ['accorder', 'rejeter'],

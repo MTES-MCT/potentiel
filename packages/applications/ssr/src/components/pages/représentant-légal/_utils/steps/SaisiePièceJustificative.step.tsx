@@ -52,6 +52,7 @@ export const SaisiePièceJustificativeStep: FC<SaisiePièceJustificativeProps> =
       state={validationErrors['piecesJustificatives'] ? 'error' : 'default'}
       stateRelatedMessage={validationErrors['piecesJustificatives']}
       onChange={(piècesJustificatives) => {
+        delete validationErrors['piecesJustificatives'];
         onChange && onChange(piècesJustificatives);
       }}
     />

@@ -18,7 +18,7 @@ export type ConsulterReprésentantLégalReadModel = {
     typeReprésentantLégal: TypeReprésentantLégal.ValueType;
     demandéLe: DateTime.ValueType;
     demandéPar: Email.ValueType;
-    piècesJustificatives: Array<DocumentProjet.ValueType>;
+    pièceJustificative: DocumentProjet.ValueType;
   };
 };
 
@@ -92,13 +92,11 @@ const mapToReadModel: MapToReadModel = ({
           typeReprésentantLégal: TypeReprésentantLégal.convertirEnValueType(
             demandeChangement.typeReprésentantLégal,
           ),
-          piècesJustificatives: demandeChangement.piècesJustificatives.map((pj) =>
-            DocumentProjet.convertirEnValueType(
-              identifiantProjet.formatter(),
-              ReprésentantLégal.TypeDocumentChangementReprésentantLégal.pièceJustificative.formatter(),
-              demandeChangement.demandéLe,
-              pj.format,
-            ),
+          pièceJustificative: DocumentProjet.convertirEnValueType(
+            identifiantProjet.formatter(),
+            ReprésentantLégal.TypeDocumentChangementReprésentantLégal.pièceJustificative.formatter(),
+            demandeChangement.demandéLe,
+            demandeChangement.pièceJustificative.format,
           ),
           demandéLe: DateTime.convertirEnValueType(demandeChangement.demandéLe),
           demandéPar: Email.convertirEnValueType(demandeChangement.demandéPar),
