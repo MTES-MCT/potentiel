@@ -42,7 +42,7 @@ export const register = ({ sendEmail }: RegisterTâchePlanifiéeNotificationDepe
         });
 
         if (Option.isNone(candidature)) {
-          getLogger().error(
+          getLogger('System.Notification.TâchePlanifiée').error(
             new Error(`Pas de candidature lié au projet ${identifiantProjet.formatter()}`),
           );
           return;

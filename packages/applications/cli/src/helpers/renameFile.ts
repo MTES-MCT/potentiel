@@ -25,7 +25,7 @@ export const renameFile = async (fromName: string, toName: string) => {
   try {
     await getClient().send(new DeleteObjectCommand({ Bucket: getBucketName(), Key: fromName }));
   } catch (e) {
-    getLogger().warn('Delete failed', { error: e, fromName });
+    getLogger('Cli.helpers.renameFile').warn('Delete failed', { error: e, fromName });
     throw new DeleteFailedError();
   }
 };

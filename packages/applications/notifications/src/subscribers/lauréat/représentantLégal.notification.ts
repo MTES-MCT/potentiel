@@ -26,15 +26,17 @@ async function getEmailPayload(event: SubscriptionEvent): Promise<EmailPayload |
   const projet = await CandidatureAdapter.récupérerProjetAdapter(identifiantProjet.formatter());
   const porteurs = await récupérerPorteursParIdentifiantProjetAdapter(identifiantProjet);
 
+  const logger = getLogger('System.Notification.Lauréat.ReprésentantLégal.getEmailPayload');
+
   if (Option.isNone(projet)) {
-    getLogger().error(new Error('Représentant légal notification | projet non trouvé'), {
+    logger.error(new Error('Représentant légal notification | projet non trouvé'), {
       identifiantProjet: identifiantProjet.formatter(),
     });
     return;
   }
 
   if (porteurs.length === 0) {
-    getLogger().warn('Représentant légal notification | aucun porteur trouvé', {
+    logger.warn('Représentant légal notification | aucun porteur trouvé', {
       identifiantProjet: identifiantProjet.formatter(),
     });
     return;

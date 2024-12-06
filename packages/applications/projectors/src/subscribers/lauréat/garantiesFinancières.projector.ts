@@ -145,10 +145,13 @@ export const register = () => {
       ).items;
 
       if (mainlevéeEnCoursArray.length > 1) {
-        getLogger().error(new Error(`Il existe plus d'une main levée en cours pour ce projet`), {
-          identifiantProjet,
-          message: event,
-        });
+        getLogger('System.Projector.Lauréat.GarantiesFinancières.mainlevéeEnCoursArray').error(
+          `Il existe plus d'une main levée en cours pour ce projet`,
+          {
+            identifiantProjet,
+            message: event,
+          },
+        );
         return;
       }
 
@@ -185,7 +188,9 @@ export const register = () => {
       const getProjectData = async (identifiantProjet: IdentifiantProjet.RawType) => {
         const projet = await CandidatureAdapter.récupérerProjetAdapter(identifiantProjet);
         if (Option.isNone(projet)) {
-          getLogger().warn(`Projet inconnu !`),
+          getLogger('System.Projector.Lauréat.GarantiesFinancières.getProjectData').warn(
+            `Projet inconnu !`,
+          ),
             {
               identifiantProjet,
               message: event,
@@ -277,10 +282,10 @@ export const register = () => {
           const dépôtValidé = dépôtEnCoursGarantiesFinancièresToUpsert.dépôt;
 
           if (!dépôtValidé) {
-            getLogger().error(
-              new Error(
-                `dépôt garanties financières en cours absent, impossible d'enregistrer les données des garanties financières validées`,
-              ),
+            getLogger(
+              'System.Projector.Lauréat.GarantiesFinancières.DépôtGarantiesFinancièresEnCoursValidé',
+            ).error(
+              `dépôt garanties financières en cours absent, impossible d'enregistrer les données des garanties financières validées`,
               {
                 identifiantProjet,
                 message: event,

@@ -24,7 +24,7 @@ export const makeKeycloakAuth = (deps: KeycloakAuthDeps) => {
   const ensureRole: EnsureRole = (roles) => {
     const roleList = Array.isArray(roles) ? roles : [roles];
 
-    const logger = getLogger('KeycloakAuthLegacy');
+    const logger = getLogger('Legacy.infra.keycloak.makeKeycloakAuth.ensureRole');
     return (req, res, next) =>
       protectRoute(req, res, () => {
         if (!req.user) {

@@ -44,7 +44,7 @@ registerLauréatUseCases({
 
       process.exit(0);
     } catch (e) {
-      getLogger().error(e as Error);
+      getLogger('ScheduledTasks.abandon.relancerAbandonSansPreuve').error(e as Error);
     }
   }
 })();

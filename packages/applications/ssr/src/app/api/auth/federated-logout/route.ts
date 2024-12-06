@@ -13,6 +13,7 @@ import { getLogoutUrl } from '@potentiel-applications/request-context';
 export const GET = async () => {
   const { BASE_URL = '' } = process.env;
   const redirectUrl = new URL(Routes.Auth.signOut(), BASE_URL);
+  const logger = getLogger('Ssr.api.federatedLogout.route.get');
 
   try {
     // Gets the session, with idToken
@@ -37,10 +38,10 @@ export const GET = async () => {
       return NextResponse.redirect(ssoLogoutUrl.toString());
     }
 
-    getLogger().warn('A user logged out without an id token, the keycloak session is still active');
+    logger.warn('A user logged out without an id token, the keycloak session is still active');
     return NextResponse.redirect(redirectUrl);
   } catch (e) {
-    getLogger().error(new Error('Logout error', { cause: e }));
+    logger.error(new Error('Logout error', { cause: e }));
     return NextResponse.redirect(redirectUrl);
   }
 };

@@ -33,6 +33,8 @@ export const sendEmail: SendEmail = async (sendEmailArgs) => {
 
   const mode = mapToSendEmailMode(SEND_EMAIL_MODE);
 
+  const logger = getLogger('ifrastructure.email.sendEmail');
+
   if (mode !== 'logging-only' && !MAINTENANCE_MODE) {
     const { templateId, messageSubject, recipients, cc, bcc, variables } = sendEmailArgs;
 
@@ -59,9 +61,9 @@ export const sendEmail: SendEmail = async (sendEmailArgs) => {
         SandboxMode: mode === 'sandbox' ? true : false,
       });
 
-    getLogger().info('Email sent', sendEmailArgs);
+    logger.info('Email sent', sendEmailArgs);
   } else {
-    getLogger().info(
+    logger.info(
       '📨 Emailing mode set to logging-only so no email was sent, but here are the args: ',
       sendEmailArgs,
     );
