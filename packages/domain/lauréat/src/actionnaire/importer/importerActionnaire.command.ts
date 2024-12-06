@@ -5,6 +5,7 @@ import { Candidature } from '@potentiel-domain/candidature';
 import { LoadAggregate } from '@potentiel-domain/core';
 
 import { loadActionnaireFactory } from '../actionnaire.aggregate';
+import { Lauréat } from '../..';
 
 export type ImporterActionnaireCommand = Message<
   'Lauréat.Actionnaire.Command.ImporterActionnaire',
@@ -17,16 +18,19 @@ export type ImporterActionnaireCommand = Message<
 export const registerImporterActionnaireCommand = (loadAggregate: LoadAggregate) => {
   const loadActionnaire = loadActionnaireFactory(loadAggregate);
   const loadCandidature = Candidature.Aggregate.loadCandidatureFactory(loadAggregate);
+  const loadLauréat = Lauréat.loadLauréatFactory(loadAggregate);
 
   const handler: MessageHandler<ImporterActionnaireCommand> = async ({
     identifiantProjet,
     importéLe,
   }) => {
+    await loadLauréat(identifiantProjet);
+
     const { sociétéMère } = await loadCandidature(identifiantProjet);
 
     const actionnaire = await loadActionnaire(identifiantProjet, false);
 
-    await actionnaire.importerActionnaire({
+    await actionnaire.importer({
       identifiantProjet,
       actionnaire: sociétéMère,
       importéLe,

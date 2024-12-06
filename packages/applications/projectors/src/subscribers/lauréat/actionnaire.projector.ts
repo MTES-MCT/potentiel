@@ -39,6 +39,15 @@ export const register = () => {
             },
           });
           break;
+
+        case 'ActionnaireModifié-V1':
+          await updateOneProjection<Lauréat.LauréatEntity>(`lauréat|${identifiantProjet}`, {
+            actionnaire: {
+              nom: payload.actionnaire,
+              dernièreMiseÀJourLe: payload.modifiéLe,
+            },
+          });
+          break;
       }
     }
   };
