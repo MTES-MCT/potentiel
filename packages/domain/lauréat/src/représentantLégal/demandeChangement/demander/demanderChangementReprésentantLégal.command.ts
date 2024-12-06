@@ -13,7 +13,7 @@ export type DemanderChangementReprésentantLégalCommand = Message<
     identifiantProjet: IdentifiantProjet.ValueType;
     nomReprésentantLégal: string;
     typeReprésentantLégal: TypeReprésentantLégal.ValueType;
-    piècesJustificatives: Array<DocumentProjet.ValueType>;
+    pièceJustificative?: DocumentProjet.ValueType;
     identifiantUtilisateur: Email.ValueType;
     dateDemande: DateTime.ValueType;
   }
@@ -28,7 +28,7 @@ export const registerDemanderChangementReprésentantLégalCommand = (
     identifiantProjet,
     nomReprésentantLégal,
     typeReprésentantLégal,
-    piècesJustificatives,
+    pièceJustificative,
     identifiantUtilisateur,
     dateDemande,
   }) => {
@@ -40,7 +40,7 @@ export const registerDemanderChangementReprésentantLégalCommand = (
       nomReprésentantLégal,
       typeReprésentantLégal,
       dateDemande,
-      piècesJustificatives,
+      pièceJustificative,
     });
   };
   mediator.register(
