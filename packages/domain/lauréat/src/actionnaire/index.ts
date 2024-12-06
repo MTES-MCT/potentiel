@@ -26,3 +26,6 @@ export type { ActionnaireEvent } from './actionnaire.aggregate';
 
 // Saga
 export * as ActionnaireSaga from './actionnaire.saga';
+
+// ValueType
+export * as StatutModificationActionnaire from './statutModificationActionnaire.valueType';

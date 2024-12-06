@@ -6,6 +6,8 @@ import {
   LoadAggregate,
 } from '@potentiel-domain/core';
 
+import { StatutModificationActionnaire } from '.';
+
 import {
   ActionnaireImportéEvent,
   applyActionnaireImporté,
@@ -19,11 +21,14 @@ import {
 
 export type ActionnaireEvent = ActionnaireImportéEvent | ActionnaireModifiéEvent;
 
+// export type ModificationActionnaireEvent
+
 export type ActionnaireAggregate = Aggregate<ActionnaireEvent> & {
   identifiantProjet: IdentifiantProjet.ValueType;
   actionnaire: String;
   importer: typeof importer;
   modifier: typeof modifier;
+  statutDemande?: StatutModificationActionnaire.ValueType;
 };
 
 export const getDefaultActionnaireAggregate: GetDefaultAggregateState<
