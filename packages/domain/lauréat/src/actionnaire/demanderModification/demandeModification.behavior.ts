@@ -44,6 +44,7 @@ export async function demanderModification(
       StatutModificationActionnaire.demandé,
     );
   }
+
   const event: ModificationActionnaireDemandéeEvent = {
     type: 'ModificationActionnaireDemandée-V1',
     payload: {

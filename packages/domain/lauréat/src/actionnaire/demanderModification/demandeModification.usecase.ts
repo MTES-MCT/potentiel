@@ -8,10 +8,6 @@ import { TypeDocumentActionnaire } from '..';
 
 import { DemanderModificationCommand } from './demandeModification.command';
 
-// TODO :
-// Pour tout type de demande, il faut vérifier que le CDC permet une demande via Potentiel
-// nous avons besoin du CDC actuel et de l'AO pour vérifier cela
-
 export type DemanderModificationUseCase = Message<
   'Lauréat.Actionnaire.UseCase.DemanderModification',
   {
@@ -27,7 +23,9 @@ export type DemanderModificationUseCase = Message<
   }
 >;
 
-export const registerDemanderModificationUseCase = () => {
+// V2 : gestion multidocument
+
+export const registerDemanderModificationActionnaireUseCase = () => {
   const runner: MessageHandler<DemanderModificationUseCase> = async ({
     dateDemandeValue,
     identifiantProjetValue,
@@ -44,15 +42,11 @@ export const registerDemanderModificationUseCase = () => {
 
     const pièceJustificative = DocumentProjet.convertirEnValueType(
       identifiantProjetValue,
-      // voir si besoin
       TypeDocumentActionnaire.pièceJustificative.formatter(),
       dateDemandeValue,
       pièceJustificativeValue.format,
     );
 
-    // voir comment gérer le multi document ici
-    // zip
-    // contraindre le porteur sinon
     await mediator.send<EnregistrerDocumentProjetCommand>({
       type: 'Document.Command.EnregistrerDocumentProjet',
       data: {

@@ -63,6 +63,56 @@ Quand(
   },
 );
 
+Quand(
+  "le porteur demande la modification de l'actionnaire pour le projet {lauréat-éliminé}",
+  async function (this: PotentielWorld, statutProjet: 'lauréat' | 'éliminé') {
+    try {
+      await demanderModificationActionnaire.call(
+        this,
+        statutProjet,
+        this.utilisateurWorld.porteurFixture.email,
+      );
+    } catch (error) {
+      this.error = error as Error;
+    }
+  },
+);
+
+async function demanderModificationActionnaire(
+  this: PotentielWorld,
+  statutProjet: 'lauréat' | 'éliminé',
+  utilisateur?: string,
+) {
+  const identifiantProjet =
+    statutProjet === 'lauréat'
+      ? this.lauréatWorld.identifiantProjet.formatter()
+      : this.eliminéWorld.identifiantProjet.formatter();
+  const {
+    pièceJustificative: { format, content },
+    demandéLe,
+    demandéPar,
+    raison,
+    actionnaire,
+  } = this.lauréatWorld.actionnaireWorld.demanderModificationActionnaireFixture.créer({
+    demandéPar: utilisateur,
+  });
+
+  await mediator.send<Actionnaire.ActionnaireUseCase>({
+    type: 'Lauréat.Actionnaire.UseCase.DemanderModification',
+    data: {
+      raisonValue: raison,
+      actionnaireValue: actionnaire,
+      dateDemandeValue: demandéLe,
+      identifiantUtilisateurValue: demandéPar,
+      identifiantProjetValue: identifiantProjet,
+      pièceJustificativeValue: {
+        content,
+        format,
+      },
+    },
+  });
+}
+
 async function modifierActionnaire(this: PotentielWorld, modifiéPar: string) {
   const identifiantProjet = this.lauréatWorld.identifiantProjet.formatter();
 

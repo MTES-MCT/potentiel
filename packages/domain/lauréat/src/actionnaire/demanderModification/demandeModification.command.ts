@@ -18,7 +18,7 @@ export type DemanderModificationCommand = Message<
   }
 >;
 
-export const registerDemandeModificationActionnaireCommand = (loadAggregate: LoadAggregate) => {
+export const registerDemanderModificationActionnaireCommand = (loadAggregate: LoadAggregate) => {
   const loadActionnaire = loadActionnaireFactory(loadAggregate);
   const handler: MessageHandler<DemanderModificationCommand> = async ({
     identifiantProjet,

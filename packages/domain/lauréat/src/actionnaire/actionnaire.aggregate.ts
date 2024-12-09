@@ -19,6 +19,7 @@ import {
   modifier,
 } from './modifier/modifierActionnaire.behavior';
 import {
+  applyModificationActionnaireDemandée,
   demanderModification,
   ModificationActionnaireDemandéeEvent,
 } from './demanderModification/demandeModification.behavior';
@@ -27,8 +28,6 @@ export type ActionnaireEvent =
   | ActionnaireImportéEvent
   | ActionnaireModifiéEvent
   | ModificationActionnaireDemandéeEvent;
-
-// export type ModificationActionnaireEvent
 
 export type ActionnaireAggregate = Aggregate<ActionnaireEvent> & {
   identifiantProjet: IdentifiantProjet.ValueType;
@@ -59,6 +58,10 @@ function apply(this: ActionnaireAggregate, event: ActionnaireEvent) {
 
     case 'ActionnaireModifié-V1':
       applyActionnaireModifié.bind(this)(event);
+      break;
+
+    case 'ModificationActionnaireDemandée-V1':
+      applyModificationActionnaireDemandée.bind(this)();
       break;
   }
 }
