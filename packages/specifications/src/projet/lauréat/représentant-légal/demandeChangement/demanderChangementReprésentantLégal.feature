@@ -1,11 +1,11 @@
 # language: fr
+@select
 Fonctionnalité: Demander le changement de représentant légal d'un projet lauréat
 
     Contexte:
         Etant donné le projet lauréat "Du boulodrome de Marseille"
         Et le porteur "Marcel Patoulatchi" ayant accés au projet lauréat "Du boulodrome de Marseille"
 
-    @select
     Scénario: Un porteur demande le changement de réprésentant légal d'un projet lauréat
         Quand le porteur demande le changement de réprésentant pour le projet lauréat
         Alors une demande de changement de représentant légal du projet lauréat devrait être consultable
@@ -23,6 +23,6 @@ Fonctionnalité: Demander le changement de représentant légal d'un projet laur
         Quand le porteur demande le changement de réprésentant pour le projet lauréat avec un type inconnu
         Alors le porteur devrait être informé que "Le représentant légal ne peut pas avoir de type inconnu"
 
-    Scénario: Impossible de demander le changement de représentant légal sans pièces justificatives
-        Quand le porteur demande le changement de réprésentant pour le projet lauréat sans pièces justificatives
+    Scénario: Impossible de demander le changement de représentant légal sans pièce justificative
+        Quand le porteur demande le changement de réprésentant pour le projet lauréat sans pièce justificative
         Alors le porteur devrait être informé que "Les pièces justificatives sont obligatoires"
