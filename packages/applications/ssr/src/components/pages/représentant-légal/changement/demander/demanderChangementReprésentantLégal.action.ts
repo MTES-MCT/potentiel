@@ -11,6 +11,9 @@ import { Routes } from '@potentiel-applications/routes';
 import { FormAction, formAction, FormState } from '@/utils/formAction';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 import { manyDocuments } from '@/utils/zod/document';
+import { mapBlobToConsulterDocumentReadModel } from '@/utils/zod/mapBlobToConsulterDocumentReadModel';
+import { applyWatermark } from '@/utils/zod/applyWatermark';
+import { mergePdfDocuments } from '@/utils/zod/mergeDocuments';
 
 const schema = zod.object({
   identifiantProjet: zod.string().min(1),
@@ -20,8 +23,11 @@ const schema = zod.object({
   }),
   nomRepresentantLegal: zod.string().min(1, { message: 'Champ obligatoire' }),
   piecesJustificatives: manyDocuments({
-    applyWatermark: true,
-  }),
+    pdfOnly: true,
+  })
+    .transform(mergePdfDocuments)
+    .transform(applyWatermark)
+    .transform(mapBlobToConsulterDocumentReadModel),
 });
 
 export type DemanderChangementReprésentantLégalFormKeys = keyof zod.infer<typeof schema>;
