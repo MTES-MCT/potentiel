@@ -80,7 +80,7 @@ export default class InviteUser extends Command {
     }
 
     async function getOrCreateUser(email: string) {
-      const users = await keycloakAdmin.users.find({ email });
+      const users = await keycloakAdmin.users.find({ email, exact: true });
       if (users.length > 0) {
         console.log(`User already exists`);
         return users[0].id!;
