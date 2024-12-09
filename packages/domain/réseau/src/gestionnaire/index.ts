@@ -6,6 +6,7 @@ import type {
 import type {
   ListerGestionnaireRéseauQuery,
   ListerGestionnaireRéseauReadModel,
+  GestionnaireRéseauListItemReadModel,
 } from './lister/listerGestionnaireRéseau.query';
 import type { ModifierGestionnaireRéseauUseCase } from './modifier/modifierGestionnaireRéseau.usecase';
 import type { GestionnaireRéseauAjoutéEvent } from './ajouter/ajouterGestionnaireRéseau.behavior';
@@ -20,7 +21,11 @@ export type GestionnaireRéseauQuery =
 export { ListerGestionnaireRéseauQuery, ConsulterGestionnaireRéseauQuery };
 
 // ReadModel
-export { ListerGestionnaireRéseauReadModel, ConsulterGestionnaireRéseauReadModel };
+export {
+  ListerGestionnaireRéseauReadModel,
+  GestionnaireRéseauListItemReadModel,
+  ConsulterGestionnaireRéseauReadModel,
+};
 
 // UseCases
 export type GestionnaireRéseauUseCase =
