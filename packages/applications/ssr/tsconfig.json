@@ -68,6 +68,9 @@
       "path": "../../infrastructure/filigrane-facile-client"
     },
     {
+      "path": "../api-documentation"
+    },
+    {
       "path": "../bootstrap"
     },
     {
