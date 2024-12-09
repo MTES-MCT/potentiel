@@ -243,6 +243,7 @@ const MenuDreal = (currentPage?: string) => (
       <DropdownMenu.DropdownItem href={Routes.Recours.lister}>Recours</DropdownMenu.DropdownItem>
     </DropdownMenu>
     <MenuGarantiesFinancières currentPage={currentPage} />
+    <Header.MenuItem href={Routes.Raccordement.lister}>Raccordements</Header.MenuItem >
   </>
 );
 
