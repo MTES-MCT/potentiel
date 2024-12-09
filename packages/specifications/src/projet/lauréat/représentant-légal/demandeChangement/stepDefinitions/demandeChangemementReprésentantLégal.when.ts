@@ -41,13 +41,7 @@ Quand(
               demandéPar: this.utilisateurWorld.porteurFixture.email,
             };
 
-    const {
-      nomReprésentantLégal,
-      typeReprésentantLégal,
-      pièceJustificative,
-      demandéLe,
-      demandéPar,
-    } =
+    const fixture =
       this.lauréatWorld.représentantLégalWorld.demanderChangementReprésentantLégalFixture.créer(
         options,
       );
@@ -57,13 +51,13 @@ Quand(
         type: 'Lauréat.ReprésentantLégal.UseCase.DemanderChangementReprésentantLégal',
         data: {
           identifiantProjetValue: options.identifiantProjet,
-          nomReprésentantLégalValue: nomReprésentantLégal,
-          typeReprésentantLégalValue: typeReprésentantLégal.formatter(),
+          nomReprésentantLégalValue: fixture.nomReprésentantLégal,
+          typeReprésentantLégalValue: fixture.typeReprésentantLégal.formatter(),
           pièceJustificativeValue: extra?.includes('sans pièces justificatives')
             ? undefined
-            : pièceJustificative,
-          dateDemandeValue: demandéLe,
-          identifiantUtilisateurValue: demandéPar,
+            : fixture.pièceJustificative,
+          dateDemandeValue: fixture.demandéLe,
+          identifiantUtilisateurValue: fixture.demandéPar,
         },
       });
     } catch (error) {

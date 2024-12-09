@@ -47,11 +47,11 @@ export const registerDemanderChangementReprésentantLégalUseCase = () => {
         )
       : undefined;
 
-    if (pièceJustificative) {
+    if (pièceJustificativeValue && pièceJustificative) {
       await mediator.send<EnregistrerDocumentProjetCommand>({
         type: 'Document.Command.EnregistrerDocumentProjet',
         data: {
-          content: pièceJustificativeValue!.content,
+          content: pièceJustificativeValue.content,
           documentProjet: pièceJustificative,
         },
       });
