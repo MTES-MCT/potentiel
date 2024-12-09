@@ -11,8 +11,8 @@ export const handleChangementReprésentantLégalDemandé = async ({
     demandéLe,
     demandéPar,
   },
-}: ReprésentantLégal.ChangementReprésentantLégalDemandéEvent) =>
-  upsertProjection<ReprésentantLégal.DemandeChangementReprésentantLégalEntity>(
+}: ReprésentantLégal.ChangementReprésentantLégalDemandéEvent) => {
+  await upsertProjection<ReprésentantLégal.DemandeChangementReprésentantLégalEntity>(
     `demande-changement-représentant-légal|${identifiantProjet}`,
     {
       identifiantProjet,
@@ -24,3 +24,4 @@ export const handleChangementReprésentantLégalDemandé = async ({
       demandéPar,
     },
   );
+};

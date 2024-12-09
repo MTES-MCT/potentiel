@@ -43,10 +43,14 @@ export class DemanderChangementReprésentantLégalFixture
     return this.#typeReprésentantLégal;
   }
 
-  #pièceJustificative!: PièceJustificative;
+  #format!: string;
+  #content!: string;
 
-  get pièceJustificative(): PièceJustificative {
-    return this.#pièceJustificative;
+  get pièceJustificative(): DemanderChangementReprésentantLégal['pièceJustificative'] {
+    return {
+      format: this.#format,
+      content: convertStringToReadableStream(this.#content),
+    };
   }
 
   #demandéLe!: string;
@@ -70,13 +74,15 @@ export class DemanderChangementReprésentantLégalFixture
   créer(
     partialFixture: CréerDemandeChangementReprésentantLégalFixture,
   ): Readonly<DemanderChangementReprésentantLégal> {
+    const content = faker.word.words();
+
     const fixture = {
       statut: ReprésentantLégal.StatutDemandeChangementReprésentantLégal.demandé,
       nomReprésentantLégal: faker.person.fullName(),
       typeReprésentantLégal: ReprésentantLégal.TypeReprésentantLégal.personneMorale,
       pièceJustificative: {
         format: 'application/pdf',
-        content: convertStringToReadableStream(faker.word.words()),
+        content: convertStringToReadableStream(content),
       },
       demandéLe: faker.date.recent().toISOString(),
       demandéPar: faker.internet.email(),
@@ -86,7 +92,8 @@ export class DemanderChangementReprésentantLégalFixture
     this.#identifiantProjet = fixture.identifiantProjet;
     this.#nomReprésentantLégal = fixture.nomReprésentantLégal;
     this.#typeReprésentantLégal = fixture.typeReprésentantLégal;
-    this.#pièceJustificative = fixture.pièceJustificative;
+    this.#format = fixture.pièceJustificative.format;
+    this.#content = content;
     this.#demandéLe = fixture.demandéLe;
     this.#demandéPar = fixture.demandéPar;
     this.#statut = fixture.statut;
