@@ -1779,6 +1779,20 @@
     "xXSSProtection": "1; mode=block",
     "strictTransportSecurity": "max-age=31536000; includeSubDomains"
   },
+  "smtpServer": {
+    "replyToDisplayName": "",
+    "starttls": "false",
+    "auth": "false",
+    "port": "1025",
+    "replyTo": "",
+    "host": "potentiel_smtp",
+    "from": "keycloak@test.fr",
+    "fromDisplayName": "",
+    "envelopeFrom": "",
+    "ssl": "false",
+    "user": ""
+  },
+
   "loginTheme": "potentiel",
   "accountTheme": "potentiel",
   "adminTheme": "potentiel",

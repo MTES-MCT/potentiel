@@ -13,7 +13,7 @@ export type RawType =
   | 'cre'
   | 'grd';
 
-const roles: Array<RawType> = [
+export const roles: Array<RawType> = [
   'admin',
   'porteur-projet',
   'dreal',
