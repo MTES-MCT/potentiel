@@ -60,7 +60,7 @@ export class ReprésentantLégalWorld {
           identifiantProjet.formatter(),
           ReprésentantLégal.TypeDocumentChangementReprésentantLégal.pièceJustificative.formatter(),
           this.#demanderChangementReprésentantLégalFixture.demandéLe,
-          this.#demanderChangementReprésentantLégalFixture.pièceJustificative.format,
+          this.#demanderChangementReprésentantLégalFixture.pièceJustificative!.format,
         ),
       };
     }
