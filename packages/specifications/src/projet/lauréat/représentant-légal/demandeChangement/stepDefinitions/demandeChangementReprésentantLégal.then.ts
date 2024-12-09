@@ -37,7 +37,7 @@ Alors(
           data: {
             documentKey: Option.match(représentantLégal)
               .some((représentantLégal) => {
-                return représentantLégal.demande?.pièceJustificative.formatter() ?? '';
+                return représentantLégal.demande?.pièceJustificative?.formatter() ?? '';
               })
               .none(() => ''),
           },
@@ -47,7 +47,7 @@ Alors(
 
         const expectedContent = await convertReadableStreamToString(
           this.lauréatWorld.représentantLégalWorld.demanderChangementReprésentantLégalFixture
-            .pièceJustificative.content,
+            .pièceJustificative?.content ?? new ReadableStream(),
         );
 
         actualContent.should.be.equal(expectedContent);
