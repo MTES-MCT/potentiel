@@ -16,7 +16,7 @@ export type CréerDemandeChangementReprésentantLégalFixture = Partial<
 export interface DemanderChangementReprésentantLégal {
   readonly nomReprésentantLégal: string;
   readonly typeReprésentantLégal: ReprésentantLégal.TypeReprésentantLégal.ValueType;
-  readonly pièceJustificative: PièceJustificative;
+  readonly pièceJustificative?: PièceJustificative;
   readonly demandéLe: string;
   readonly demandéPar: string;
 }
@@ -74,26 +74,26 @@ export class DemanderChangementReprésentantLégalFixture
   créer(
     partialFixture: CréerDemandeChangementReprésentantLégalFixture,
   ): Readonly<DemanderChangementReprésentantLégal> {
-    const content = faker.word.words();
-
     const fixture = {
       statut: ReprésentantLégal.StatutDemandeChangementReprésentantLégal.demandé,
       nomReprésentantLégal: faker.person.fullName(),
       typeReprésentantLégal: ReprésentantLégal.TypeReprésentantLégal.personneMorale,
-      pièceJustificative: {
-        format: 'application/pdf',
-        content: convertStringToReadableStream(content),
-      },
       demandéLe: faker.date.recent().toISOString(),
       demandéPar: faker.internet.email(),
       ...partialFixture,
     };
 
+    const content = faker.word.words();
+    fixture.pièceJustificative = {
+      format: faker.potentiel.fileFormat(),
+      content: convertStringToReadableStream(content),
+    };
+    this.#format = fixture.pièceJustificative.format;
+    this.#content = content;
+
     this.#identifiantProjet = fixture.identifiantProjet;
     this.#nomReprésentantLégal = fixture.nomReprésentantLégal;
     this.#typeReprésentantLégal = fixture.typeReprésentantLégal;
-    this.#format = fixture.pièceJustificative.format;
-    this.#content = content;
     this.#demandéLe = fixture.demandéLe;
     this.#demandéPar = fixture.demandéPar;
     this.#statut = fixture.statut;

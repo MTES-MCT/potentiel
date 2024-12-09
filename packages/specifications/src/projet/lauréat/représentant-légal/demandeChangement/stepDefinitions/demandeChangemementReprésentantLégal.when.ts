@@ -2,6 +2,7 @@ import { When as Quand } from '@cucumber/cucumber';
 import { mediator } from 'mediateur';
 
 import { ReprésentantLégal } from '@potentiel-domain/laureat';
+import { IdentifiantProjet } from '@potentiel-domain/common';
 
 import { PotentielWorld } from '../../../../../potentiel.world';
 import { CréerDemandeChangementReprésentantLégalFixture } from '../fixtures/demanderChangementReprésentantLégal.fixture';
@@ -11,37 +12,19 @@ Quand(
   async function (this: PotentielWorld, extra?: string) {
     const identifiantProjet = this.lauréatWorld.identifiantProjet.formatter();
 
-    const options: CréerDemandeChangementReprésentantLégalFixture = extra?.includes(
-      'avec les mêmes valeurs',
-    )
-      ? {
-          identifiantProjet,
-          nomReprésentantLégal:
-            this.lauréatWorld.représentantLégalWorld.importerReprésentantLégalFixture
-              .nomReprésentantLégal,
-          typeReprésentantLégal:
-            this.lauréatWorld.représentantLégalWorld.importerReprésentantLégalFixture
-              .typeReprésentantLégal,
-          demandéPar: this.utilisateurWorld.porteurFixture.email,
-        }
-      : extra?.includes('avec un type inconnu')
-        ? {
-            identifiantProjet,
-            typeReprésentantLégal:
-              ReprésentantLégal.TypeReprésentantLégal.convertirEnValueType('inconnu'),
-          }
-        : extra?.includes('sans pièces justificatives')
-          ? {
-              identifiantProjet,
-              demandéPar: this.utilisateurWorld.porteurFixture.email,
-              pièceJustificative: undefined,
-            }
-          : {
-              identifiantProjet,
-              demandéPar: this.utilisateurWorld.porteurFixture.email,
-            };
+    const options = getOptions({
+      potentielWorld: this,
+      identifiantProjet,
+      extra,
+    });
 
-    const fixture =
+    const {
+      nomReprésentantLégal,
+      typeReprésentantLégal,
+      pièceJustificative,
+      demandéLe,
+      demandéPar,
+    } =
       this.lauréatWorld.représentantLégalWorld.demanderChangementReprésentantLégalFixture.créer(
         options,
       );
@@ -51,13 +34,13 @@ Quand(
         type: 'Lauréat.ReprésentantLégal.UseCase.DemanderChangementReprésentantLégal',
         data: {
           identifiantProjetValue: options.identifiantProjet,
-          nomReprésentantLégalValue: fixture.nomReprésentantLégal,
-          typeReprésentantLégalValue: fixture.typeReprésentantLégal.formatter(),
-          pièceJustificativeValue: extra?.includes('sans pièces justificatives')
+          nomReprésentantLégalValue: nomReprésentantLégal,
+          typeReprésentantLégalValue: typeReprésentantLégal.formatter(),
+          pièceJustificativeValue: extra?.includes('sans pièce justificative')
             ? undefined
-            : fixture.pièceJustificative,
-          dateDemandeValue: fixture.demandéLe,
-          identifiantUtilisateurValue: fixture.demandéPar,
+            : pièceJustificative,
+          dateDemandeValue: demandéLe,
+          identifiantUtilisateurValue: demandéPar,
         },
       });
     } catch (error) {
@@ -65,3 +48,36 @@ Quand(
     }
   },
 );
+
+type GetOptions = (args: {
+  potentielWorld: PotentielWorld;
+  identifiantProjet: IdentifiantProjet.RawType;
+  extra?: string;
+}) => CréerDemandeChangementReprésentantLégalFixture;
+const getOptions: GetOptions = ({ potentielWorld, identifiantProjet, extra }) => {
+  if (extra?.includes('avec un type inconnu')) {
+    return {
+      identifiantProjet,
+      typeReprésentantLégal:
+        ReprésentantLégal.TypeReprésentantLégal.convertirEnValueType('inconnu'),
+    };
+  }
+
+  if (extra?.includes('avec les mêmes valeurs')) {
+    return {
+      identifiantProjet,
+      nomReprésentantLégal:
+        potentielWorld.lauréatWorld.représentantLégalWorld.importerReprésentantLégalFixture
+          .nomReprésentantLégal,
+      typeReprésentantLégal:
+        potentielWorld.lauréatWorld.représentantLégalWorld.importerReprésentantLégalFixture
+          .typeReprésentantLégal,
+      demandéPar: potentielWorld.utilisateurWorld.porteurFixture.email,
+    };
+  }
+
+  return {
+    identifiantProjet,
+    demandéPar: potentielWorld.utilisateurWorld.porteurFixture.email,
+  };
+};
