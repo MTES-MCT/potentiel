@@ -8,7 +8,7 @@ import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 import { DossierProjet } from '.';
 
 type Extension = string;
-export type RawType = `${DossierProjet.RawType}/${DateTime.RawType}.${Extension}`;
+export type RawType = `${DossierProjet.RawType}/${DateTime.RawType}.${Extension}` | ``;
 
 export type ValueType = Readonly<{
   identifiantProjet: string;

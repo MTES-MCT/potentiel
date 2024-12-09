@@ -16,7 +16,7 @@ export type GetReprésentantLégalForProjectPage =
         url: string;
       };
       demandeDeModification?: {
-        url?: string;
+        peutConsulterLaDemandeExistante: boolean;
         peutFaireUneDemande: boolean;
       };
     }
@@ -37,9 +37,13 @@ export const getReprésentantLégal: GetReprésentantLégal = async (identifiant
     });
 
     if (Option.isSome(représentantLégal)) {
+      const demandeExistante = !!représentantLégal.demande;
+
+      const peutConsulterLaDemandeExistante =
+        demandeExistante && utilisateur.aLaPermission('représentantLégal.consulter');
+
       const peutFaireUneDemande =
-        !représentantLégal.demande &&
-        utilisateur.aLaPermission('représentantLégal.demanderChangement');
+        !demandeExistante && utilisateur.aLaPermission('représentantLégal.demanderChangement');
 
       return {
         nom: représentantLégal.nomReprésentantLégal,
@@ -50,9 +54,7 @@ export const getReprésentantLégal: GetReprésentantLégal = async (identifiant
             }
           : undefined,
         demandeDeModification: {
-          peutConsulterLaDemandeExistante: !!représentantLégal.demande
-            ? Routes.ReprésentantLégal.détail(identifiantProjet.formatter())
-            : undefined,
+          peutConsulterLaDemandeExistante,
           peutFaireUneDemande,
         },
       };

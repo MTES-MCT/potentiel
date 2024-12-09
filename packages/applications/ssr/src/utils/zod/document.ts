@@ -1,4 +1,5 @@
 import * as zod from 'zod';
+import { PDFDocument } from 'pdf-lib';
 
 import { Option } from '@potentiel-libraries/monads';
 import { ConsulterDocumentProjetReadModel } from '@potentiel-domain/document';
@@ -80,29 +81,105 @@ type ManyDocumentsOptions = {
 };
 
 export function manyDocuments(options?: ManyDocumentsOptions) {
-  if (options?.optional) {
-    singleDocument({ optional: true, applyWatermark: options.applyWatermark, pdfOnly: true })
-      .transform((document) => [document])
-      .or(
-        singleDocument({
-          optional: true,
-          applyWatermark: options.applyWatermark,
-          pdfOnly: true,
-        }).array(),
-      );
-  }
+  // here
+
+  // if (options?.optional) {
+  //   singleDocument({ optional: true, pdfOnly: true })
+  //     .transform((document) => [document])
+  //     .or(
+  //       singleDocument({
+  //         optional: true,
+  //         pdfOnly: true,
+  //       }).array(),
+  //     );
+  // }
 
   return singleDocument({
-    applyWatermark: options?.applyWatermark,
     pdfOnly: true,
   })
     .transform((document) => [document])
     .or(
       singleDocument({
-        applyWatermark: options?.applyWatermark,
         pdfOnly: true,
       })
         .array()
         .min(1, 'Champ obligatoire'),
-    );
+    )
+    .transform((documents) => combinePDFs(documents))
+    .transform(async (originalBlob) => {
+      if (originalBlob.size === 0 || !options?.applyWatermark) {
+        return originalBlob;
+      }
+
+      const watermarkedBlob = await FiligraneFacileClient.ajouterFiligrane(
+        originalBlob,
+        'potentiel.beta.gouv.fr',
+      );
+
+      return Option.match(watermarkedBlob)
+        .some((watermarkedBlob) => watermarkedBlob)
+        .none(() => originalBlob);
+    })
+    .transform((blob) => {
+      if (blob.size === 0) {
+        return undefined;
+      }
+
+      return {
+        content: blob.stream(),
+        format: blob.type,
+      } as ConsulterDocumentProjetReadModel;
+    });
+}
+
+async function combinePDFs(
+  piecesJustificatives: Array<ConsulterDocumentProjetReadModel>,
+): Promise<Blob> {
+  const pdfDoc = await PDFDocument.create();
+
+  for (const piece of piecesJustificatives) {
+    const pdfBytes = await streamToArrayBuffer(piece.content);
+    const pdf = await PDFDocument.load(pdfBytes);
+    const copiedPages = await pdfDoc.copyPages(pdf, pdf.getPageIndices());
+    copiedPages.forEach((page) => {
+      pdfDoc.addPage(page);
+    });
+  }
+
+  const combinedPdfBytes = await pdfDoc.save();
+
+  return new Blob([combinedPdfBytes], { type: 'application/pdf' });
+
+  // return {
+  //   content: new ReadableStream({
+  //     start(controller) {
+  //       controller.enqueue(combinedPdfBytes);
+  //       controller.close();
+  //     },
+  //   }),
+  //   format: 'application/pdf',
+  // } as ConsulterDocumentProjetReadModel;
+}
+
+async function streamToArrayBuffer(stream: ReadableStream): Promise<ArrayBuffer> {
+  const reader = stream.getReader();
+  const chunks: Uint8Array[] = [];
+  let done = false;
+
+  while (!done) {
+    const { value, done: doneReading } = await reader.read();
+    if (value) {
+      chunks.push(value);
+    }
+    done = doneReading;
+  }
+
+  const combined = new Uint8Array(chunks.reduce((acc, chunk) => acc + chunk.length, 0));
+  let offset = 0;
+  for (const chunk of chunks) {
+    combined.set(chunk, offset);
+    offset += chunk.length;
+  }
+
+  return combined.buffer;
 }
