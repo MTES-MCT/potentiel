@@ -2,20 +2,27 @@ import {
   ConsulterActionnaireQuery,
   ConsulterActionnaireReadModel,
 } from './consulter/consulterActionnaire.query';
+import {
+  ConsulterDemandeModificationActionnaireQuery,
+  ConsulterDemandeModificationActionnaireReadModel,
+} from './consulterDemande/consulterDemandeModificationActionnaire.query';
+import { DemanderModificationUseCase } from './demanderModification/demandeModification.usecase';
 import { ImporterActionnaireCommand } from './importer/importerActionnaire.command';
 import { ModifierActionnaireCommand } from './modifier/modifierActionnaire.command';
 import { ModifierActionnaireUseCase } from './modifier/modifierActionnaire.usecase';
 
 // Query
-export type ActionnaireQuery = ConsulterActionnaireQuery;
-export type { ConsulterActionnaireQuery };
+export type ActionnaireQuery =
+  | ConsulterActionnaireQuery
+  | ConsulterDemandeModificationActionnaireQuery;
+export type { ConsulterActionnaireQuery, ConsulterDemandeModificationActionnaireQuery };
 
 // ReadModel
-export type { ConsulterActionnaireReadModel };
+export type { ConsulterActionnaireReadModel, ConsulterDemandeModificationActionnaireReadModel };
 
 // UseCase
-export type ActionnaireUseCase = ModifierActionnaireUseCase;
-export type { ModifierActionnaireUseCase };
+export type ActionnaireUseCase = ModifierActionnaireUseCase | DemanderModificationUseCase;
+export type { ModifierActionnaireUseCase, DemanderModificationUseCase };
 
 // Command
 export type ActionnaireCommand = ImporterActionnaireCommand | ModifierActionnaireCommand;

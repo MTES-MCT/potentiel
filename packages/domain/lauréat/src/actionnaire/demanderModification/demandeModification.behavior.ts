@@ -8,11 +8,11 @@ import { ActionnaireAggregate } from '../actionnaire.aggregate';
 export type ModificationActionnaireDemandéeEvent = DomainEvent<
   'ModificationActionnaireDemandée-V1',
   {
+    identifiantProjet: IdentifiantProjet.RawType;
+    actionnaire: string;
+    raison?: string;
     demandéLe: DateTime.RawType;
     demandéPar: Email.RawType;
-    identifiantProjet: IdentifiantProjet.RawType;
-    raison?: string;
-    actionnaire: string;
     pièceJustificative: {
       format: string;
     };
@@ -20,12 +20,12 @@ export type ModificationActionnaireDemandéeEvent = DomainEvent<
 >;
 
 export type DemanderOptions = {
-  dateDemande: DateTime.ValueType;
-  identifiantUtilisateur: Email.ValueType;
   identifiantProjet: IdentifiantProjet.ValueType;
-  pièceJustificative: DocumentProjet.ValueType;
   actionnaire: string;
   raison?: string;
+  pièceJustificative: DocumentProjet.ValueType;
+  identifiantUtilisateur: Email.ValueType;
+  dateDemande: DateTime.ValueType;
 };
 
 export async function demanderModification(
@@ -44,12 +44,13 @@ export async function demanderModification(
       StatutModificationActionnaire.demandé,
     );
   }
+
   const event: ModificationActionnaireDemandéeEvent = {
     type: 'ModificationActionnaireDemandée-V1',
     payload: {
       identifiantProjet: identifiantProjet.formatter(),
       actionnaire,
-      pièceJustificative: pièceJustificative && {
+      pièceJustificative: {
         format: pièceJustificative.format,
       },
       raison,

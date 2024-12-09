@@ -17,8 +17,8 @@ export type ConsulterDemandeModificationActionnaireReadModel = {
   demande: {
     demandéPar: Email.ValueType;
     demandéLe: DateTime.ValueType;
-    raison: string;
-    pièceJustificative?: DocumentProjet.ValueType;
+    raison?: string;
+    pièceJustificative: DocumentProjet.ValueType;
   };
 
   accord?: {
@@ -46,7 +46,7 @@ export type ConsulterDemandeModificationActionnaireDependencies = {
   find: Find;
 };
 
-export const registerConsulterActionnaireQuery = ({
+export const registerDemanderModificationActionnaireQuery = ({
   find,
 }: ConsulterDemandeModificationActionnaireDependencies) => {
   const handler: MessageHandler<ConsulterDemandeModificationActionnaireQuery> = async ({
@@ -58,27 +58,23 @@ export const registerConsulterActionnaireQuery = ({
       `demande-modification-actionnaire|${identifiantProjetValueType.formatter()}`,
     );
 
-    return Option.match(demandeModificationActionnaire)
-      .some((demande) => mapToReadModel(demande))
-      .none();
+    return Option.match(demandeModificationActionnaire).some(mapToReadModel).none();
   };
   mediator.register('Lauréat.Actionnaire.Query.ConsulterDemandeModificationActionnaire', handler);
 };
 
-const mapToReadModel = (result: DemandeModificationActionnaireEntity) => {
+export const mapToReadModel = (result: DemandeModificationActionnaireEntity) => {
   return {
     demande: {
       demandéLe: DateTime.convertirEnValueType(result.demande.demandéLe),
       demandéPar: Email.convertirEnValueType(result.demande.demandéPar),
       raison: result.demande.raison,
-      pièceJustificative: result.demande.pièceJustificative
-        ? DocumentProjet.convertirEnValueType(
-            result.identifiantProjet,
-            TypeDocumentActionnaire.pièceJustificative.formatter(),
-            DateTime.convertirEnValueType(result.demande.demandéLe).formatter(),
-            result.demande.pièceJustificative?.format,
-          )
-        : undefined,
+      pièceJustificative: DocumentProjet.convertirEnValueType(
+        result.identifiantProjet,
+        TypeDocumentActionnaire.pièceJustificative.formatter(),
+        DateTime.convertirEnValueType(result.demande.demandéLe).formatter(),
+        result.demande.pièceJustificative?.format,
+      ),
     },
 
     accord: result.demande.accord

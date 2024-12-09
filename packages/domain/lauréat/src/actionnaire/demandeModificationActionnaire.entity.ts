@@ -11,8 +11,8 @@ export type DemandeModificationActionnaireEntity = Entity<
     demande: {
       demandéPar: string;
       demandéLe: string;
-      raison: string;
-      pièceJustificative?: {
+      raison?: string;
+      pièceJustificative: {
         format: string;
       };
 
