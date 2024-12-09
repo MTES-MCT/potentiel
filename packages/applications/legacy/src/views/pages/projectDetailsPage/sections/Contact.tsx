@@ -44,7 +44,7 @@ export const Contact = ({ identifiantProjet, project, user, représentantLégal 
                 : 'la candidature'}
             </Link>
           )}
-          {représentantLégal.demandeDeModification?.url && (
+          {représentantLégal.demandeDeModification?.peutConsulterLaDemandeExistante && (
             <Link
               href={Routes.ReprésentantLégal.détail(identifiantProjet)}
               aria-label="Voir la demande de changement en cours"
