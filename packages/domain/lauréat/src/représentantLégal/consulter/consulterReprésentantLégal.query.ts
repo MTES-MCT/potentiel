@@ -1,16 +1,25 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { Option } from '@potentiel-libraries/monads';
-import { IdentifiantProjet } from '@potentiel-domain/common';
+import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
 import { Find } from '@potentiel-domain/entity';
+import { DocumentProjet } from '@potentiel-domain/document';
 
-import { TypeReprésentantLégal } from '..';
-import { Lauréat } from '../..';
+import { Lauréat, ReprésentantLégal } from '../..';
+import { StatutDemandeChangementReprésentantLégal, TypeReprésentantLégal } from '..';
 
 export type ConsulterReprésentantLégalReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
   nomReprésentantLégal: string;
   typeReprésentantLégal: TypeReprésentantLégal.ValueType;
+  demande?: {
+    statut: StatutDemandeChangementReprésentantLégal.ValueType;
+    nomReprésentantLégal: string;
+    typeReprésentantLégal: TypeReprésentantLégal.ValueType;
+    demandéLe: DateTime.ValueType;
+    demandéPar: Email.ValueType;
+    pièceJustificative: DocumentProjet.ValueType;
+  };
 };
 
 export type ConsulterReprésentantLégalQuery = Message<
@@ -37,11 +46,17 @@ export const registerConsulterRepresentantLegalQuery = ({
       `lauréat|${identifiantProjetValueType.formatter()}`,
     );
 
+    const demandeChangement =
+      await find<ReprésentantLégal.DemandeChangementReprésentantLégalEntity>(
+        `demande-changement-représentant-légal|${identifiantProjetValueType.formatter()}`,
+      );
+
     return Option.match(lauréat)
       .some((lauréat) =>
         mapToReadModel({
           identifiantProjet: identifiantProjetValueType,
           représentantLégal: lauréat.représentantLégal,
+          demandeChangement: Option.isSome(demandeChangement) ? demandeChangement : undefined,
         }),
       )
       .none();
@@ -52,9 +67,14 @@ export const registerConsulterRepresentantLegalQuery = ({
 type MapToReadModel = (args: {
   identifiantProjet: IdentifiantProjet.ValueType;
   représentantLégal: Lauréat.LauréatEntity['représentantLégal'];
+  demandeChangement?: ReprésentantLégal.DemandeChangementReprésentantLégalEntity;
 }) => Option.Type<ConsulterReprésentantLégalReadModel>;
 
-const mapToReadModel: MapToReadModel = ({ identifiantProjet, représentantLégal }) => {
+const mapToReadModel: MapToReadModel = ({
+  identifiantProjet,
+  représentantLégal,
+  demandeChangement,
+}) => {
   if (!représentantLégal) {
     return Option.none;
   }
@@ -63,5 +83,24 @@ const mapToReadModel: MapToReadModel = ({ identifiantProjet, représentantLégal
     identifiantProjet,
     nomReprésentantLégal: représentantLégal.nom,
     typeReprésentantLégal: TypeReprésentantLégal.convertirEnValueType(représentantLégal.type),
+    demande: demandeChangement
+      ? {
+          statut: ReprésentantLégal.StatutDemandeChangementReprésentantLégal.convertirEnValueType(
+            demandeChangement.statut,
+          ),
+          nomReprésentantLégal: demandeChangement.nomReprésentantLégal,
+          typeReprésentantLégal: TypeReprésentantLégal.convertirEnValueType(
+            demandeChangement.typeReprésentantLégal,
+          ),
+          pièceJustificative: DocumentProjet.convertirEnValueType(
+            identifiantProjet.formatter(),
+            ReprésentantLégal.TypeDocumentChangementReprésentantLégal.pièceJustificative.formatter(),
+            demandeChangement.demandéLe,
+            demandeChangement.pièceJustificative.format,
+          ),
+          demandéLe: DateTime.convertirEnValueType(demandeChangement.demandéLe),
+          demandéPar: Email.convertirEnValueType(demandeChangement.demandéPar),
+        }
+      : undefined,
   };
 };

@@ -1,25 +1,15 @@
 import * as zod from 'zod';
 
-import { Option } from '@potentiel-libraries/monads';
-import { ConsulterDocumentProjetReadModel } from '@potentiel-domain/document';
-import { FiligraneFacileClient } from '@potentiel-infrastructure/filigrane-facile-client';
-
 export const defaultFileSizeLimitInMegaBytes = 5;
 
 const toBytes = (sizeInMegaBytes: number): number => sizeInMegaBytes * 1024 * 1024;
 
 type CommonOptions = {
-  applyWatermark?: true;
+  pdfOnly?: true;
 };
 
-type OptionalSingleDocumentSchema = zod.ZodEffects<
-  zod.ZodType<Blob>,
-  ConsulterDocumentProjetReadModel | undefined
->;
-type RequiredSingleDocumentSchema = zod.ZodEffects<
-  zod.ZodType<Blob>,
-  ConsulterDocumentProjetReadModel
->;
+type OptionalSingleDocumentSchema = zod.ZodEffects<zod.ZodType<Blob>, Blob | undefined>;
+type RequiredSingleDocumentSchema = zod.ZodEffects<zod.ZodType<Blob>, Blob>;
 
 export function singleDocument(
   options: CommonOptions & {
@@ -43,40 +33,63 @@ export function singleDocument(
       ({ size }) => size <= toBytes(defaultFileSizeLimitInMegaBytes),
       `Le fichier dépasse la taille maximale autorisée (${defaultFileSizeLimitInMegaBytes}Mo)`,
     )
-    .transform(async (originalBlob) => {
-      if (originalBlob.size === 0 || !options?.applyWatermark) {
-        return originalBlob;
-      }
+    .refine(
+      ({ type }) => (options?.pdfOnly ? type === 'application/pdf' : false),
+      `Le format de fichier autorisé est : 'application/pdf'`,
+    );
+  // .transform(async (originalBlob) => {
+  //   if (originalBlob.size === 0 || !options?.applyWatermark) {
+  //     return originalBlob;
+  //   }
 
-      const watermarkedBlob = await FiligraneFacileClient.ajouterFiligrane(
-        originalBlob,
-        'potentiel.beta.gouv.fr',
-      );
+  //   const watermarkedBlob = await FiligraneFacileClient.ajouterFiligrane(
+  //     originalBlob,
+  //     'potentiel.beta.gouv.fr',
+  //   );
 
-      return Option.match(watermarkedBlob)
-        .some((watermarkedBlob) => watermarkedBlob)
-        .none(() => originalBlob);
-    })
-    .transform((blob) => {
-      if (blob.size === 0) {
-        return undefined;
-      }
+  //   return Option.match(watermarkedBlob)
+  //     .some((watermarkedBlob) => watermarkedBlob)
+  //     .none(() => originalBlob);
+  // })
+  // .transform((blob) => {
+  //   if (blob.size === 0) {
+  //     return undefined;
+  //   }
 
-      return {
-        content: blob.stream(),
-        format: blob.type,
-      } as ConsulterDocumentProjetReadModel;
-    });
+  //   return {
+  //     content: blob.stream(),
+  //     format: blob.type,
+  //   } as ConsulterDocumentProjetReadModel;
+  // });
 }
 
-export function manyDocuments(options?: { optional?: true }) {
+type ManyDocumentsOptions = {
+  pdfOnly?: true;
+  optional?: true;
+};
+export function manyDocuments(options?: ManyDocumentsOptions) {
   if (options?.optional) {
-    singleDocument({ optional: true })
+    return singleDocument({ optional: true, pdfOnly: options.pdfOnly })
       .transform((document) => [document])
-      .or(singleDocument({ optional: true }).array());
+      .or(
+        singleDocument({
+          optional: true,
+          pdfOnly: options.pdfOnly,
+        }).array(),
+      );
+    // .transform((documents) => documents.filter((document) => document !== undefined));
   }
 
-  return singleDocument()
+  return singleDocument({
+    pdfOnly: options?.pdfOnly,
+  })
     .transform((document) => [document])
-    .or(singleDocument().array().min(1, 'Champ obligatoire'));
+    .or(
+      singleDocument({
+        pdfOnly: options?.pdfOnly,
+      })
+        .array()
+        .min(1, 'Champ obligatoire'),
+    );
+  // .transform((documents) => documents.filter((document) => document !== undefined));
 }

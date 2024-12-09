@@ -250,7 +250,12 @@ export const setupLauréat = async ({ sendEmail }: SetupLauréatDependencies) =>
     await subscribe<ReprésentantLégalProjector.SubscriptionEvent>({
       name: 'projector',
       streamCategory: 'représentant-légal',
-      eventType: ['ReprésentantLégalImporté-V1', 'ReprésentantLégalModifié-V1', 'RebuildTriggered'],
+      eventType: [
+        'ReprésentantLégalImporté-V1',
+        'ReprésentantLégalModifié-V1',
+        'ChangementReprésentantLégalDemandé-V1',
+        'RebuildTriggered',
+      ],
       eventHandler: async (event) => {
         await mediator.send<ReprésentantLégalProjector.Execute>({
           type: 'System.Projector.Lauréat.ReprésentantLégal',

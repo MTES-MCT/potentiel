@@ -1,8 +1,9 @@
-import { DomainError, DomainEvent } from '@potentiel-domain/core';
+import { DomainEvent } from '@potentiel-domain/core';
 import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
 
 import { ReprésentantLégalAggregate } from '../représentantLégal.aggregate';
 import { TypeReprésentantLégal } from '..';
+import { ReprésentantLégalIdentifiqueError } from '../représentantLégalIdentique.error';
 
 export type ReprésentantLégalModifiéEvent = DomainEvent<
   'ReprésentantLégalModifié-V1',
@@ -35,7 +36,7 @@ export async function modifier(
 ) {
   if (
     this.représentantLégal.nom === nomReprésentantLégal &&
-    this.représentantLégal.type === typeReprésentantLégal.formatter()
+    this.représentantLégal.type.estÉgaleÀ(typeReprésentantLégal)
   ) {
     throw new ReprésentantLégalIdentifiqueError();
   }
@@ -60,12 +61,6 @@ export function applyReprésentantLégalModifié(
 ) {
   this.représentantLégal = {
     nom: nomReprésentantLégal,
-    type: typeReprésentantLégal,
+    type: TypeReprésentantLégal.convertirEnValueType(typeReprésentantLégal),
   };
-}
-
-class ReprésentantLégalIdentifiqueError extends DomainError {
-  constructor() {
-    super('Le représentant légal modifié est identique à celui associé au projet');
-  }
 }
