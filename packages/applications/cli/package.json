@@ -2,13 +2,13 @@
   "name": "@potentiel/cli",
   "private": true,
   "bin": {
-    "cli": "./bin/run.js"
+    "potentiel-cli": "./bin/run.js"
   },
   "scripts": {
     "build": "tsc"
   },
   "oclif": {
-    "bin": "cli",
+    "bin": "potentiel-cli",
     "commands": "./dist/commands",
     "dirname": "cli",
     "topicSeparator": " ",
@@ -20,6 +20,7 @@
     "@oclif/core": "^4.0.28",
     "@potentiel-libraries/csv": "*",
     "@potentiel-libraries/file-storage": "*",
+    "@potentiel-libraries/keycloak-cjs": "*",
     "@potentiel-domain/reseau": "*",
     "@potentiel-applications/bootstrap": "*"
   },

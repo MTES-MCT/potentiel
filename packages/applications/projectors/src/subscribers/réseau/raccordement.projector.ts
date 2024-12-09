@@ -70,6 +70,11 @@ export const register = () => {
         const région = Option.match(candidature)
           .some(({ localité }) => localité.région)
           .none(() => 'N/A');
+        const projetNotifiéLe = Option.match(candidature)
+          .some((candidature) =>
+            candidature.estNotifiée ? candidature.notification.notifiéeLe : undefined,
+          )
+          .none(() => undefined);
         const dossier: DossierRaccordement = (() => {
           switch (event.type) {
             case 'DemandeComplèteDeRaccordementTransmise-V1':
@@ -81,6 +86,7 @@ export const register = () => {
                 demandeComplèteRaccordement: {
                   dateQualification: event.payload.dateQualification,
                 },
+                projetNotifiéLe,
                 misÀJourLe: event.created_at,
                 région,
               };
@@ -96,6 +102,7 @@ export const register = () => {
                     format: event.payload.accuséRéception.format,
                   },
                 },
+                projetNotifiéLe,
                 misÀJourLe: event.created_at,
                 région,
               };

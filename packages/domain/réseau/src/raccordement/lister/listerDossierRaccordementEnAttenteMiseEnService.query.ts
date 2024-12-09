@@ -2,7 +2,7 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 import { match } from 'ts-pattern';
 
 import { List, RangeOptions, Where } from '@potentiel-domain/entity';
-import { IdentifiantProjet } from '@potentiel-domain/common';
+import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 import { Lauréat } from '@potentiel-domain/laureat';
 import { Candidature } from '@potentiel-domain/candidature';
 import { Abandon } from '@potentiel-domain/laureat';
@@ -33,6 +33,7 @@ export type ListerDossierRaccordementEnAttenteMiseEnServiceQuery = Message<
   'Réseau.Raccordement.Query.ListerDossierRaccordementEnAttenteMiseEnServiceQuery',
   {
     identifiantGestionnaireRéseau: string;
+    projetNotifiéAvant?: DateTime.RawType;
     range?: RangeOptions;
   },
   ListerDossierRaccordementEnAttenteMiseEnServiceReadModel
@@ -47,6 +48,8 @@ export const registerListerDossierRaccordementEnAttenteMiseEnServiceQuery = ({
 }: ConsulterDossierRaccordementDependencies) => {
   const handler: MessageHandler<ListerDossierRaccordementEnAttenteMiseEnServiceQuery> = async ({
     identifiantGestionnaireRéseau,
+    projetNotifiéAvant,
+    range,
   }) => {
     const {
       items,
@@ -58,7 +61,9 @@ export const registerListerDossierRaccordementEnAttenteMiseEnServiceQuery = ({
         miseEnService: {
           dateMiseEnService: Where.equalNull(),
         },
+        projetNotifiéLe: Where.lessOrEqual(projetNotifiéAvant),
       },
+      range,
       orderBy: {
         référence: 'ascending',
       },

@@ -2,7 +2,7 @@ import { Command, Flags } from '@oclif/core';
 import { mediator } from 'mediateur';
 import { z } from 'zod';
 
-import { KeycloakAdmin } from '@potentiel-libraries/keycloak-cjs';
+import { getKeycloakAdminClient } from '@potentiel-libraries/keycloak-cjs';
 import { bootstrap } from '@potentiel-applications/bootstrap';
 import { GestionnaireRéseau } from '@potentiel-domain/reseau';
 
@@ -43,14 +43,11 @@ export default class SyncKeycloakGroups extends Command {
 
     console.log(`${gestionnaires.total} gestionnaires trouvés`);
 
-    const keycloakAdmin = new KeycloakAdmin({
-      baseUrl: config.KEYCLOAK_SERVER,
-      realmName: config.KEYCLOAK_REALM,
-    });
-    await keycloakAdmin.auth({
-      grantType: 'client_credentials',
+    const keycloakAdmin = await getKeycloakAdminClient({
       clientId: config.KEYCLOAK_ADMIN_CLIENT_ID,
       clientSecret: config.KEYCLOAK_ADMIN_CLIENT_SECRET,
+      realmName: config.KEYCLOAK_REALM,
+      serverUrl: config.KEYCLOAK_SERVER,
     });
 
     const parentGroup = (await keycloakAdmin.groups.find({ search: 'GestionnairesRéseau' }))[0];

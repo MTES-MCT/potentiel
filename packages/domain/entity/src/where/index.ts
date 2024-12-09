@@ -6,3 +6,5 @@ export * from './notInclude';
 export * from './notLike';
 export * from './equalNull';
 export * from './notEqualNull';
+export * from './lessOrEqual';
+export * from './greaterOrEqual';

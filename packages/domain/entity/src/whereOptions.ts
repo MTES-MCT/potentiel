@@ -17,6 +17,9 @@ export type NotLikeWhereCondition = {
 export type EqualNullWhereCondition = { operator: 'equalNull' };
 export type NotEqualNullWhereCondition = { operator: 'notEqualNull' };
 
+export type LessOrEqualCondition<T> = { operator: 'lessOrEqual'; value: T };
+export type GreaterOrEqualCondition<T> = { operator: 'greaterOrEqual'; value: T };
+
 export type WhereCondition<T = {}> =
   | EqualWhereCondition<T>
   | NotEqualWhereCondition<T>
@@ -25,7 +28,9 @@ export type WhereCondition<T = {}> =
   | IncludeWhereCondition<T>
   | NotIncludeWhereCondition<T>
   | EqualNullWhereCondition
-  | NotEqualNullWhereCondition;
+  | NotEqualNullWhereCondition
+  | LessOrEqualCondition<T>
+  | GreaterOrEqualCondition<T>;
 
 export type WhereOperator = WhereCondition['operator'];
 

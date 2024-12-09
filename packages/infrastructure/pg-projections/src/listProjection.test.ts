@@ -390,6 +390,92 @@ describe('listProjection', () => {
     actual.items.should.have.deep.members(expected.items);
   });
 
+  it('should find projections by their key and filter them according to a greaterThan condition option', async () => {
+    const greaterThanCaseFakeData = {
+      data: {
+        value: '2023-11-30T00:00:00.000Z',
+        name: 'greaterThanTest',
+      },
+    };
+
+    const greaterThanCaseFakeDataExcluded = {
+      data: {
+        value: '2023-11-28T00:00:00.000Z',
+        name: 'greaterThanTest',
+      },
+    };
+
+    fakeData.push(greaterThanCaseFakeData);
+    fakeData.push(greaterThanCaseFakeDataExcluded);
+
+    await executeQuery(
+      `insert
+        into domain_views.projection
+        values ($1, $2)`,
+      `${category}|${greaterThanCaseFakeData.data.value}`,
+      flatten(greaterThanCaseFakeData),
+    );
+
+    const actual = await listProjection<FakeProjection>(category, {
+      where: {
+        data: {
+          name: Where.equal(greaterThanCaseFakeData.data.name),
+          value: Where.greaterOrEqual('2023-11-29T00:00:00.000Z'),
+        },
+      },
+    });
+
+    const expected = mapToListResultItems([greaterThanCaseFakeData]);
+
+    actual.should.have.all.keys(Object.keys(expected));
+
+    actual.items.should.have.deep.members(expected.items);
+  });
+
+  it('should find projections by their key and filter them according to a greaterThan condition, combined with is null', async () => {
+    const greaterThanCaseFakeData = {
+      data: {
+        value: '2023-11-30T00:00:00.000Z',
+        name: 'greaterThanTest',
+      },
+    };
+
+    const greaterThanCaseFakeDataExcluded = {
+      data: {
+        value: '2023-11-28T00:00:00.000Z',
+        name: 'greaterThanTest',
+      },
+    };
+
+    fakeData.push(greaterThanCaseFakeData);
+    fakeData.push(greaterThanCaseFakeDataExcluded);
+
+    await executeQuery(
+      `insert
+        into domain_views.projection
+        values ($1, $2)`,
+      `${category}|${greaterThanCaseFakeData.data.value}`,
+      flatten(greaterThanCaseFakeData),
+    );
+
+    const actual = await listProjection<FakeProjection>(category, {
+      where: {
+        data: {
+          name: Where.equal(greaterThanCaseFakeData.data.name),
+          // important, the testNull check must not be last for this test to be valid
+          testNull: Where.equalNull(),
+          value: Where.greaterOrEqual('2023-11-29T00:00:00.000Z'),
+        },
+      },
+    });
+
+    const expected = mapToListResultItems([]);
+
+    actual.should.have.all.keys(Object.keys(expected));
+
+    actual.items.should.have.deep.members(expected.items);
+  });
+
   it('should find projections by their key and filter them according to a is not null condition option', async () => {
     const nullCaseFakeData = {
       data: {

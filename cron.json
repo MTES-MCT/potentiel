@@ -19,6 +19,10 @@
     {
       "command": "0 2 * * * ./packages/applications/scheduler/scheduler.sh",
       "size": "M"
+    },
+    {
+      "command": "0 10 1 * * potentiel-cli raccordement notifier-gestionnaires-réseau",
+      "size": "M"
     }
   ]
 }
