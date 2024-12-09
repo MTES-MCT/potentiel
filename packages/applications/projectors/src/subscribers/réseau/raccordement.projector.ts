@@ -8,6 +8,7 @@ import { IdentifiantProjet } from '@potentiel-domain/common';
 import { getLogger } from '@potentiel-libraries/monitoring';
 import { CandidatureAdapter } from '@potentiel-infrastructure/domain-adapters';
 import { Where } from '@potentiel-domain/entity';
+import { Candidature } from '@potentiel-domain/candidature';
 
 import { removeProjection } from '../../infrastructure/removeProjection';
 import { upsertProjection } from '../../infrastructure/upsertProjection';
@@ -63,6 +64,12 @@ export const register = () => {
       ) {
         const référence = event.payload.référenceDossierRaccordement;
 
+        const candidature = await findProjection<Candidature.CandidatureEntity>(
+          `candidature|${identifiantProjet}`,
+        );
+        const région = Option.match(candidature)
+          .some(({ localité }) => localité.région)
+          .none(() => 'N/A');
         const dossier: DossierRaccordement = (() => {
           switch (event.type) {
             case 'DemandeComplèteDeRaccordementTransmise-V1':
@@ -75,6 +82,7 @@ export const register = () => {
                   dateQualification: event.payload.dateQualification,
                 },
                 misÀJourLe: event.created_at,
+                région,
               };
             case 'DemandeComplèteDeRaccordementTransmise-V2':
               return {
@@ -89,6 +97,7 @@ export const register = () => {
                   },
                 },
                 misÀJourLe: event.created_at,
+                région,
               };
           }
         })();

@@ -206,6 +206,12 @@ const getNavigationItemsBasedOnRole = (
           text: 'Garanties Financières',
           menuLinks: [...menuLinks.listerGarantiesFinancières],
         },
+        {
+          text: 'Raccordements',
+          linkProps: {
+            href: Routes.Raccordement.lister,
+          },
+        },
       ];
     case 'porteur-projet':
       return [

@@ -44,6 +44,7 @@ export type ListerDossierRaccordementQuery = Message<
     avecDateMiseEnService?: boolean;
     range?: RangeOptions;
     référenceDossier?: string;
+    région?: string;
   },
   ListerDossierRaccordementReadModel
 >;
@@ -61,6 +62,7 @@ export const registerListerDossierRaccordementQuery = ({
     avecDateMiseEnService,
     référenceDossier,
     range,
+    région,
   }) => {
     const {
       items,
@@ -79,6 +81,7 @@ export const registerListerDossierRaccordementQuery = ({
                 ? Where.notEqualNull()
                 : Where.equalNull(),
         },
+        région: Where.equal(région),
       },
       orderBy: {
         référence: 'ascending',

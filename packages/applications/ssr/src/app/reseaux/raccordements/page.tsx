@@ -12,6 +12,7 @@ import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 import { DossierRaccordementListPage } from '@/components/pages/réseau/raccordement/lister/DossierRaccordementList.page';
 import { mapToRangeOptions } from '@/utils/pagination';
+import { getRégionUtilisateur } from '@/utils/getRégionUtilisateur';
 
 type PageProps = {
   searchParams?: Record<string, string>;
@@ -47,6 +48,8 @@ export default async function Page({ searchParams }: PageProps) {
         referenceDossier,
       } = paramsSchema.parse(searchParams);
 
+      const région = await getRégionUtilisateur(utilisateur);
+
       const identifiantGestionnaireRéseauUtilisateur =
         récupérerIdentifiantGestionnaireUtilisateur(utilisateur);
       const dossiers = await mediator.send<Raccordement.ListerDossierRaccordementQuery>({
@@ -60,6 +63,7 @@ export default async function Page({ searchParams }: PageProps) {
             currentPage: page,
           }),
           référenceDossier: referenceDossier,
+          région,
         },
       });
 

@@ -986,6 +986,7 @@ const drealPolicies: ReadonlyArray<Policy> = [
 
   // Raccordement
   'réseau.raccordement.consulter',
+  'réseau.raccordement.listerDossierRaccordement',
   'réseau.raccordement.demande-complète-raccordement.transmettre',
   'réseau.raccordement.demande-complète-raccordement.modifier',
   'réseau.raccordement.proposition-technique-et-financière.transmettre',

@@ -4,6 +4,7 @@ type DossierRaccordement = {
   identifiantGestionnaireRéseau: string;
   identifiantProjet: string;
   appelOffre: string;
+  région: string;
 
   référence: string;
   demandeComplèteRaccordement?: {
