@@ -211,6 +211,17 @@ const référencielPermissions = {
         accorderChangement: 'Lauréat.ReprésentantLégal.Command.AccorderChangementReprésentantLégal',
       },
     },
+    actionnaire: {
+      query: {
+        consulter: 'Lauréat.Actionnaire.Query.ConsulterActionnaire',
+      },
+      usecase: {
+        modifier: 'Lauréat.Actionnaire.UseCase.ModifierActionnaire',
+      },
+      command: {
+        modifier: 'Lauréat.Actionnaire.Command.ModifierActionnaire',
+      },
+    },
     usecase: { notifier: 'Lauréat.UseCase.NotifierLauréat' },
     command: { notifier: 'Lauréat.Command.NotifierLauréat' },
     query: { consulter: 'Lauréat.Query.ConsulterLauréat' },
@@ -863,6 +874,17 @@ const policies = {
   historique: {
     lister: [référencielPermissions.historique.query.lister],
   },
+  actionnaire: {
+    consulter: [
+      référencielPermissions.candidature.query.consulterProjet,
+      référencielPermissions.lauréat.actionnaire.query.consulter,
+    ],
+    modifier: [
+      référencielPermissions.candidature.query.consulterProjet,
+      référencielPermissions.lauréat.actionnaire.usecase.modifier,
+      référencielPermissions.lauréat.actionnaire.command.modifier,
+    ],
+  },
 } as const;
 
 /**
@@ -898,6 +920,9 @@ const pageProjetPolicies: Policy[] = [
 
   // Représentant légal
   'représentantLégal.consulter',
+
+  // Actionnaire
+  'actionnaire.consulter',
 ];
 
 const adminPolicies: ReadonlyArray<Policy> = [
@@ -971,6 +996,10 @@ const adminPolicies: ReadonlyArray<Policy> = [
   'représentantLégal.consulterChangement',
   'représentantLégal.listerChangement',
   'représentantLégal.accorderChangement',
+
+  // Actionnaire
+  'actionnaire.consulter',
+  'actionnaire.modifier',
 ];
 
 const dgecValidateurPolicies: ReadonlyArray<Policy> = [
@@ -1056,6 +1085,10 @@ const drealPolicies: ReadonlyArray<Policy> = [
   'représentantLégal.consulterChangement',
   'représentantLégal.listerChangement',
   'représentantLégal.accorderChangement',
+
+  // Actionnaire
+  'actionnaire.consulter',
+  'actionnaire.modifier',
 ];
 
 const porteurProjetPolicies: ReadonlyArray<Policy> = [
@@ -1113,6 +1146,11 @@ const porteurProjetPolicies: ReadonlyArray<Policy> = [
   'représentantLégal.demanderChangement',
   'représentantLégal.consulterChangement',
   'représentantLégal.listerChangement',
+  'représentantLégal.consulter',
+
+  // Actionnaire
+  'actionnaire.consulter',
+  'actionnaire.modifier',
 ];
 
 const acheteurObligéPolicies: ReadonlyArray<Policy> = [

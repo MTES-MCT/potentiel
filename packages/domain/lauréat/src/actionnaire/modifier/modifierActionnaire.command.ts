@@ -12,6 +12,7 @@ export type ModifierActionnaireCommand = Message<
     identifiantUtilisateur: Email.ValueType;
     actionnaire: string;
     dateModification: DateTime.ValueType;
+    pièceJustificative?: DocumentProjet.ValueType;
   }
 >;
 

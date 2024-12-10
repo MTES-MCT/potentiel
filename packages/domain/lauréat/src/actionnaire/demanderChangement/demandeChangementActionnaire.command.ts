@@ -10,7 +10,7 @@ export type DemanderChangementCommand = Message<
   'Lauréat.Actionnaire.Command.DemanderChangement',
   {
     identifiantProjet: IdentifiantProjet.ValueType;
-    raison: string;
+    raison?: string;
     actionnaire: string;
     pièceJustificative: DocumentProjet.ValueType;
     identifiantUtilisateur: Email.ValueType;

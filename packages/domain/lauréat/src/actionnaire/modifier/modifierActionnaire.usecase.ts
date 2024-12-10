@@ -10,6 +10,10 @@ export type ModifierActionnaireUseCase = Message<
     identifiantProjetValue: string;
     identifiantUtilisateurValue: string;
     actionnaireValue: string;
+    pièceJustificativeValue?: {
+      content: ReadableStream;
+      format: string;
+    };
     dateModificationValue: string;
   }
 >;
@@ -20,7 +24,25 @@ export const registerModifierActionnaireUseCase = () => {
     identifiantUtilisateurValue,
     actionnaireValue,
     dateModificationValue,
-  }) =>
+  }) => {
+    const pièceJustificative = pièceJustificativeValue
+      ? DocumentProjet.convertirEnValueType(
+          identifiantProjetValue,
+          TypeDocumentAbandon.pièceJustificative.formatter(),
+          dateDemandeValue,
+          pièceJustificativeValue.format,
+        )
+      : undefined;
+
+    if (pièceJustificative) {
+      await mediator.send<EnregistrerDocumentProjetCommand>({
+        type: 'Document.Command.EnregistrerDocumentProjet',
+        data: {
+          content: pièceJustificativeValue!.content,
+          documentProjet: pièceJustificative,
+        },
+      });
+    }
     mediator.send<ModifierActionnaireCommand>({
       type: 'Lauréat.Actionnaire.Command.ModifierActionnaire',
       data: {
@@ -30,6 +52,6 @@ export const registerModifierActionnaireUseCase = () => {
         dateModification: DateTime.convertirEnValueType(dateModificationValue),
       },
     });
-
+  };
   mediator.register('Lauréat.Actionnaire.UseCase.ModifierActionnaire', runner);
 };

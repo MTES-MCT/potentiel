@@ -11,6 +11,9 @@ export type ActionnaireModifiéEvent = DomainEvent<
     actionnaire: string;
     modifiéLe: DateTime.RawType;
     modifiéPar: Email.RawType;
+    pièceJustificative?: {
+      format: string;
+    };
   }
 >;
 
@@ -19,11 +22,18 @@ export type ModifierOptions = {
   identifiantUtilisateur: Email.ValueType;
   actionnaire: string;
   dateModification: DateTime.ValueType;
+  pièceJustificative?: DocumentProjet.ValueType;
 };
 
 export async function modifier(
   this: ActionnaireAggregate,
-  { identifiantProjet, actionnaire, dateModification, identifiantUtilisateur }: ModifierOptions,
+  {
+    identifiantProjet,
+    actionnaire,
+    dateModification,
+    identifiantUtilisateur,
+    pièceJustificative,
+  }: ModifierOptions,
 ) {
   if (this.actionnaire === actionnaire) {
     throw new ActionnaireIdentifiqueError();
@@ -40,6 +50,9 @@ export async function modifier(
       actionnaire,
       modifiéLe: dateModification.formatter(),
       modifiéPar: identifiantUtilisateur.formatter(),
+      pièceJustificative: pièceJustificative && {
+        format: pièceJustificative.format,
+      },
     },
   };
 

@@ -4,7 +4,6 @@ import { DocumentProjet } from '@potentiel-domain/document';
 
 import { StatutChangementActionnaire } from '..';
 import { ActionnaireAggregate } from '../actionnaire.aggregate';
-import { ActionnaireIdentifiqueError } from '../errors';
 
 export type ChangementActionnaireDemandéEvent = DomainEvent<
   'ChangementActionnaireDemandé-V1',
@@ -23,12 +22,14 @@ export type ChangementActionnaireDemandéEvent = DomainEvent<
 export type DemanderOptions = {
   identifiantProjet: IdentifiantProjet.ValueType;
   actionnaire: string;
+  raison?: string;
   pièceJustificative: DocumentProjet.ValueType;
-  raison: string;
   identifiantUtilisateur: Email.ValueType;
   dateDemande: DateTime.ValueType;
 };
 
+// l'actionnaire peut être le même
+// car une demande peut être une simple transmission de documents
 export async function demanderChangement(
   this: ActionnaireAggregate,
   {
@@ -40,10 +41,6 @@ export async function demanderChangement(
     actionnaire,
   }: DemanderOptions,
 ) {
-  if (this.actionnaire === actionnaire) {
-    throw new ActionnaireIdentifiqueError();
-  }
-
   if (this.demande) {
     this.demande.statut.vérifierQueLeChangementDeStatutEstPossibleEn(
       StatutChangementActionnaire.demandé,
