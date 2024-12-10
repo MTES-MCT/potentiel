@@ -21,13 +21,12 @@ import { RejeterChangementReprésentantLégal } from './rejeter/RejeterChangemen
 
 export type AvailableChangementReprésentantLégalAction = 'accorder' | 'rejeter';
 
-export type DétailsDemandeChangementReprésentantLégalPageProps = PlainType<
-  ReprésentantLégal.ConsulterReprésentantLégalReadModel['demande']
-> & {
-  identifiantProjet: PlainType<IdentifiantProjet.ValueType>;
-  role: PlainType<Role.ValueType>;
-  actions: ReadonlyArray<AvailableChangementReprésentantLégalAction>;
-};
+export type DétailsDemandeChangementReprésentantLégalPageProps =
+  PlainType<ReprésentantLégal.ConsulterDemandeChangementReprésentantLégalReadModel> & {
+    identifiantProjet: PlainType<IdentifiantProjet.ValueType>;
+    role: PlainType<Role.ValueType>;
+    actions: ReadonlyArray<AvailableChangementReprésentantLégalAction>;
+  };
 
 export const DétailsDemandeChangementReprésentantLégalPage: FC<
   DétailsDemandeChangementReprésentantLégalPageProps
