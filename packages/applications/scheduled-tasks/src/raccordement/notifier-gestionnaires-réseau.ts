@@ -62,6 +62,13 @@ registerRéseauQueries({
         continue;
       }
 
+      const codeEIC = gestionnaire.identifiantGestionnaireRéseau.codeEIC;
+      const groupId = grdGroupdIds[codeEIC];
+      if (!groupId) {
+        logger.warn(`Group ID not found for ${gestionnaire.raisonSociale} (${codeEIC})`);
+        return [];
+      }
+
       const dossiersRaccordement =
         await mediator.send<Raccordement.ListerDossierRaccordementEnAttenteMiseEnServiceQuery>({
           type: 'Réseau.Raccordement.Query.ListerDossierRaccordementEnAttenteMiseEnServiceQuery',
@@ -75,13 +82,6 @@ registerRéseauQueries({
 
       if (dossiersRaccordement.total === 0) {
         continue;
-      }
-
-      const codeEIC = gestionnaire.identifiantGestionnaireRéseau.codeEIC;
-      const groupId = grdGroupdIds[codeEIC];
-      if (!groupId) {
-        logger.warn(`Group ID not found for ${gestionnaire.raisonSociale} (${codeEIC})`);
-        return [];
       }
 
       const recipients = (await keycloakAdmin.groups.listMembers({ id: groupId }))

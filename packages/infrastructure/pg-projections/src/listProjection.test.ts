@@ -432,6 +432,48 @@ describe('listProjection', () => {
     actual.items.should.have.deep.members(expected.items);
   });
 
+  it('should find projections by their key and filter them according to a lessThan condition option', async () => {
+    const lessThanCaseFakeDataExcluded = {
+      data: {
+        value: '2023-11-30T00:00:00.000Z',
+        name: 'lessThanTest',
+      },
+    };
+
+    const lessThanCaseFakeData = {
+      data: {
+        value: '2023-11-28T00:00:00.000Z',
+        name: 'lessThanTest',
+      },
+    };
+
+    fakeData.push(lessThanCaseFakeData);
+    fakeData.push(lessThanCaseFakeDataExcluded);
+
+    await executeQuery(
+      `insert
+        into domain_views.projection
+        values ($1, $2)`,
+      `${category}|${lessThanCaseFakeData.data.value}`,
+      flatten(lessThanCaseFakeData),
+    );
+
+    const actual = await listProjection<FakeProjection>(category, {
+      where: {
+        data: {
+          name: Where.equal(lessThanCaseFakeData.data.name),
+          value: Where.lessOrEqual('2023-11-29T00:00:00.000Z'),
+        },
+      },
+    });
+
+    const expected = mapToListResultItems([lessThanCaseFakeData]);
+
+    actual.should.have.all.keys(Object.keys(expected));
+
+    actual.items.should.have.deep.members(expected.items);
+  });
+
   it('should find projections by their key and filter them according to a greaterThan condition, combined with is null', async () => {
     const greaterThanCaseFakeData = {
       data: {
