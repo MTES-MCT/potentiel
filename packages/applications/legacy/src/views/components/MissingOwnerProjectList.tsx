@@ -165,8 +165,8 @@ export const MissingOwnerProjectList = ({ projects, displayColumns, user, curren
               <PrimaryButton type="submit" name="submit" id="submit" className="my-4">
                 Réclamer la propriété{' '}
                 {selectedProjectList.length === 1
-                  ? 'du project séléctionné'
-                  : `des ${selectedProjectList.length} projets séléctionnés`}
+                  ? 'du project sélectionné'
+                  : `des ${selectedProjectList.length} projets sélectionnés`}
               </PrimaryButton>
             )}
           </>

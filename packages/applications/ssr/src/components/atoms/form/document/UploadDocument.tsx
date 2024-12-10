@@ -150,9 +150,9 @@ export const UploadDocument: FC<UploadDocumentProps> = ({
           )}
           {documentFilenames.length > 1 && (
             <>
-              <div>{documentFilenames.length} documents séléctionnés</div>
+              <div>{documentFilenames.length} documents sélectionnés</div>
               <Link href="#" onClick={() => modal.open()}>
-                Voir les fichiers sélectionnées
+                Voir les fichiers sélectionnés
               </Link>
 
               <modal.Component title="Fichiers sélectionnés">

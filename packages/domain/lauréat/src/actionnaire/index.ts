@@ -9,7 +9,7 @@ import {
   ConsulterChangementActionnaireQuery,
   ConsulterChangementActionnaireReadModel,
 } from './consulterDemandeChangement/consulterChangementActionnaire.query';
-import { DemanderChangementUseCase } from './demanderChangement/demandeChangement.usecase';
+import { DemanderChangementUseCase } from './demanderChangement/demandeChangementActionnaire.usecase';
 import { ImporterActionnaireCommand } from './importer/importerActionnaire.command';
 import { ModifierActionnaireCommand } from './modifier/modifierActionnaire.command';
 import { ModifierActionnaireUseCase } from './modifier/modifierActionnaire.usecase';
@@ -65,7 +65,7 @@ export type { ActionnaireEvent } from './actionnaire.aggregate';
 export type { ActionnaireImportéEvent } from './importer/importerActionnaire.behavior';
 export type { ActionnaireModifiéEvent } from './modifier/modifierActionnaire.behavior';
 export type { ActionnaireTransmisEvent } from './transmettre/transmettreActionnaire.behavior';
-export type { ChangementActionnaireDemandéEvent } from './demanderChangement/demandeChangement.behavior';
+export type { ChangementActionnaireDemandéEvent } from './demanderChangement/demandeChangementActionnaire.behavior';
 export type { DemandeChangementActionnaireAnnuléEvent } from './annulerDemandeChangement/annulerDemandeChangement.behavior';
 export type { DemandeChangementActionnaireAccordéeEvent } from './accorderDemandeChangement/accorderDemandeChangement.behavior.ts';
 export type { DemandeChangementActionnaireRejetéeEvent } from './rejeterDemandeChangement/rejeterDemandeChangement.behavior';
