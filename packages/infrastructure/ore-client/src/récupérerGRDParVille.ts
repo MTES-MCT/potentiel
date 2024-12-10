@@ -7,7 +7,7 @@ import { get } from '@potentiel-libraries/http-client';
 
 import { OreEndpoint, distributeurDEnergieParCommuneUrl } from './constant';
 import { normaliserCommune } from './helper/normaliserCommune';
-import { matchOutreMerAndCorseCodePostalToGRD } from './helper/matchOutreMerAndCorseCodePostalToGRD';
+import { isSEI } from './helper/isSEI';
 
 type GetGRDByCityProps = {
   codePostal: string;
@@ -46,8 +46,11 @@ export const récupérerGRDParVille = async ({
   url.searchParams.append('limit', '50');
 
   try {
-    if (Option.isSome(matchOutreMerAndCorseCodePostalToGRD(codePostal))) {
-      return matchOutreMerAndCorseCodePostalToGRD(codePostal);
+    if (Option.isSome(isSEI(codePostal))) {
+      return {
+        codeEIC: '23X160203-000021',
+        raisonSociale: 'SEI',
+      };
     }
 
     const result = await get({ url });
