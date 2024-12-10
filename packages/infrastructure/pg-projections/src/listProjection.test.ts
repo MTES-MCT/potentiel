@@ -458,6 +458,14 @@ describe('listProjection', () => {
       flatten(greaterThanCaseFakeData),
     );
 
+    await executeQuery(
+      `insert
+        into domain_views.projection
+        values ($1, $2)`,
+      `${category}|${greaterThanCaseFakeDataExcluded.data.value}`,
+      flatten(greaterThanCaseFakeDataExcluded),
+    );
+
     const actual = await listProjection<FakeProjection>(category, {
       where: {
         data: {
@@ -469,7 +477,7 @@ describe('listProjection', () => {
       },
     });
 
-    const expected = mapToListResultItems([]);
+    const expected = mapToListResultItems([greaterThanCaseFakeData]);
 
     actual.should.have.all.keys(Object.keys(expected));
 
