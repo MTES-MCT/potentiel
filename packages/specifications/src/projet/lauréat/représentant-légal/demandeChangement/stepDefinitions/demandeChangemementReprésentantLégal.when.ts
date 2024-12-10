@@ -25,7 +25,7 @@ Quand(
       demandéLe,
       demandéPar,
     } =
-      this.lauréatWorld.représentantLégalWorld.demanderChangementReprésentantLégalFixture.créer(
+      this.lauréatWorld.représentantLégalWorld.demandeChangementReprésentantLégalWorld.demanderChangementReprésentantLégalFixture.créer(
         options,
       );
 

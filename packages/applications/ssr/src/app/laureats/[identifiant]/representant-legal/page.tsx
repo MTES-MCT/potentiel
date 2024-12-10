@@ -26,15 +26,15 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
         decodeParameter(identifiant),
       );
 
-      const représentantLégal =
-        await mediator.send<ReprésentantLégal.ConsulterReprésentantLégalQuery>({
-          type: 'Lauréat.ReprésentantLégal.Query.ConsulterReprésentantLégal',
+      const demandeChangement =
+        await mediator.send<ReprésentantLégal.ConsulterDemandeChangementReprésentantLégalQuery>({
+          type: 'Lauréat.ReprésentantLégal.Query.ConsulterDemandeChangementReprésentantLégal',
           data: {
             identifiantProjet: identifiantProjet.formatter(),
           },
         });
 
-      if (Option.isNone(représentantLégal) || !représentantLégal.demande) {
+      if (Option.isNone(demandeChangement)) {
         return notFound();
       }
 
@@ -45,7 +45,7 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
         pièceJustificative,
         demandéLe,
         demandéPar,
-      } = représentantLégal.demande;
+      } = demandeChangement;
 
       return (
         <DétailsDemandeChangementReprésentantLégalPage

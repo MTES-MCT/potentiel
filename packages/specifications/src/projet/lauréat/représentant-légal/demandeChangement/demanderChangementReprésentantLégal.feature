@@ -1,5 +1,4 @@
 # language: fr
-@select
 Fonctionnalité: Demander le changement de représentant légal d'un projet lauréat
 
     Contexte:
@@ -26,3 +25,14 @@ Fonctionnalité: Demander le changement de représentant légal d'un projet laur
     Scénario: Impossible de demander le changement de représentant légal sans pièce justificative
         Quand le porteur demande le changement de réprésentant pour le projet lauréat sans pièce justificative
         Alors le porteur devrait être informé que "Les pièces justificatives sont obligatoires"
+
+    @NotImplemented
+    Scénario: Impossible de demander le changement de représentant légal d'un projet lauréat abandonné
+        Quand le porteur demande le changement de réprésentant pour le projet lauréat sans pièce justificative
+        Alors le porteur devrait être informé que "Impossible de demander le changement de réprésentant légal pour un projet abandonné"
+
+    @NotImplemented
+    Scénario: Impossible de demander le changement de représentant légal avec une demande d'abandon en cours
+        Etant donné une demande d'abandon en cours pour le projet lauréat
+        Quand le porteur demande le changement de réprésentant pour le projet lauréat sans pièce justificative
+        Alors le porteur devrait être informé que "Impossible de demander le changement de réprésentant légal car une demande d'abandon est en cours pour le projet"

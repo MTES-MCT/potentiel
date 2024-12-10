@@ -7,13 +7,22 @@ import { ModifierReprésentantLégalUseCase } from './modifier/modifierReprésen
 import { ImporterReprésentantLégalCommand } from './importer/importerReprésentantLégal.command';
 import { DemanderChangementReprésentantLégalUseCase } from './demandeChangement/demander/demanderChangementReprésentantLégal.usecase';
 import { DemanderChangementReprésentantLégalCommand } from './demandeChangement/demander/demanderChangementReprésentantLégal.command';
+import {
+  ConsulterDemandeChangementReprésentantLégalQuery,
+  ConsulterDemandeChangementReprésentantLégalReadModel,
+} from './demandeChangement/consulter/consulterDemandeChangementReprésentantLégal.query';
 
 // Query
-export type ReprésentantLégalQuery = ConsulterReprésentantLégalQuery;
-export type { ConsulterReprésentantLégalQuery };
+export type ReprésentantLégalQuery =
+  | ConsulterReprésentantLégalQuery
+  | ConsulterDemandeChangementReprésentantLégalQuery;
+export type { ConsulterReprésentantLégalQuery, ConsulterDemandeChangementReprésentantLégalQuery };
 
 // ReadModel
-export type { ConsulterReprésentantLégalReadModel };
+export type {
+  ConsulterReprésentantLégalReadModel,
+  ConsulterDemandeChangementReprésentantLégalReadModel,
+};
 
 // Command
 export type ReprésentantLégalCommand =

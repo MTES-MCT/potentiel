@@ -11,9 +11,11 @@ EtantDonné(
     const identifiantProjet = this.lauréatWorld.identifiantProjet.formatter();
 
     const fixture =
-      this.lauréatWorld.représentantLégalWorld.demanderChangementReprésentantLégalFixture.créer({
-        identifiantProjet,
-      });
+      this.lauréatWorld.représentantLégalWorld.demandeChangementReprésentantLégalWorld.demanderChangementReprésentantLégalFixture.créer(
+        {
+          identifiantProjet,
+        },
+      );
 
     await mediator.send<ReprésentantLégal.ReprésentantLégalUseCase>({
       type: 'Lauréat.ReprésentantLégal.UseCase.DemanderChangementReprésentantLégal',
