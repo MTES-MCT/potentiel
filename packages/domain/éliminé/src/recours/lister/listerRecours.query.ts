@@ -56,7 +56,7 @@ export const registerListerRecoursQuery = ({
     range,
   }) => {
     const régionProjet = Role.convertirEnValueType(rôle).estÉgaleÀ(Role.dreal)
-      ? région ?? 'non-trouvée'
+      ? (région ?? 'non-trouvée')
       : undefined;
 
     const canSeeAllProjects = ['admin', 'dgec-validateur', 'dreal'].includes(rôle);

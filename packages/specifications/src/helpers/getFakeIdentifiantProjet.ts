@@ -12,7 +12,7 @@ export const getFakeIdentifiantProjet = (): string => {
     famille:
       période.familles.length === 0
         ? ''
-        : faker.helpers.maybe(() => faker.helpers.arrayElement(période.familles).id) ?? '',
+        : (faker.helpers.maybe(() => faker.helpers.arrayElement(période.familles).id) ?? ''),
     numéroCRE: faker.number.int().toString(),
   }).formatter();
 };
