@@ -25,7 +25,9 @@ export default UserProjectsProjector.on(UserInvitedToProject, async (évènement
       }),
     );
   } catch (error) {
-    getLogger().error(error, {
+    getLogger(
+      'Legacy.infra.sequelize.projectionsNext.userProjects.updates.onUserInvitedToProject',
+    ).error(error, {
       évènement,
       nomProjection: 'UserProjects.UserInvitedToProject',
     });

@@ -28,7 +28,9 @@ registerRéseauQueries({
 });
 
 (async () => {
-  getLogger().info('Lancement du script...');
+  const logger = getLogger('ScheduledTasks.raccordement.attribuerGestionnaireRéseau');
+
+  logger.info('Lancement du script...');
 
   try {
     const projetsClassé = await listerProjetForOreAdapter({});
@@ -46,7 +48,7 @@ registerRéseauQueries({
       (projet) => !raccordementsProjetsIds.includes(projet.identifiantProjet),
     );
 
-    getLogger().info(`${projetsSansGestionnaire.length} projets sans raccordement`);
+    logger.info(`${projetsSansGestionnaire.length} projets sans raccordement`);
 
     let projetsSansGestionnaireTrouvés = 0;
     const codeEicInconnu = GestionnaireRéseau.IdentifiantGestionnaireRéseau.inconnu.codeEIC;
@@ -77,25 +79,25 @@ registerRéseauQueries({
         });
 
         const emoji = grdOuInconnu.codeEIC === codeEicInconnu ? '⚠️' : '✅';
-        getLogger().info(
+        logger.info(
           `${emoji} Gestionnaire ${grdOuInconnu.raisonSociale} attribué au projet ${projet.identifiantProjet}`,
         );
       } catch (error) {
-        getLogger().error(error as Error);
+        logger.error(error as Error);
         continue;
       }
     }
 
     if (projetsSansGestionnaire.length) {
-      getLogger().info(
+      logger.info(
         `Sur ${projetsSansGestionnaire.length} projets classés sans raccordement, nous n'avons pas pu attribuer de GRD à ${projetsSansGestionnaireTrouvés} d'entre eux`,
       );
     }
 
-    getLogger().info('Fin du script ✨');
+    logger.info('Fin du script ✨');
 
     process.exit(0);
   } catch (error) {
-    getLogger().error(error as Error);
+    logger.error(error as Error);
   }
 })();

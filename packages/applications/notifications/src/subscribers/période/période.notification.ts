@@ -26,6 +26,8 @@ async function getEmailPayloads(
     event.payload.identifiantPériode,
   );
 
+  const logger = getLogger('System.Notification.Période.getEmailPayloads');
+
   switch (event.type) {
     case 'PériodeNotifiée-V1':
       const appelOffre = await mediator.send<AppelOffre.ConsulterAppelOffreQuery>({
@@ -36,7 +38,7 @@ async function getEmailPayloads(
       });
 
       if (Option.isNone(appelOffre)) {
-        getLogger().error(
+        logger.error(
           new Error(
             `Pas d'appel d'offre trouvé pour l'identifiant période ${identifiantPériode.formatter()}`,
           ),
@@ -47,7 +49,7 @@ async function getEmailPayloads(
       const période = appelOffre.periodes.find((x) => x.id === identifiantPériode.période);
 
       if (!période) {
-        getLogger().error(
+        logger.error(
           new Error(
             `Pas de période trouvée pour l'identifiant période ${identifiantPériode.formatter()}`,
           ),

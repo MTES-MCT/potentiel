@@ -57,7 +57,10 @@ export const register = () => {
           const projet = await CandidatureAdapter.récupérerProjetAdapter(identifiantProjet);
 
           if (Option.isNone(projet)) {
-            getLogger().warn(`Projet inconnu !`, { identifiantProjet, message: event });
+            getLogger('System.Projector.Eliminé.Recours.RecoursDemandé').warn(`Projet inconnu !`, {
+              identifiantProjet,
+              message: event,
+            });
           }
 
           await upsertProjection<Recours.RecoursEntity>(`recours|${identifiantProjet}`, {

@@ -45,9 +45,13 @@ export const register = () => {
       switch (type) {
         case 'AbandonDemandé-V1':
           const projet = await CandidatureAdapter.récupérerProjetAdapter(identifiantProjet);
+          const logger = getLogger('System.Projector.Lauréat.Abandon.AbandonDemandé-V1');
 
           if (Option.isNone(projet)) {
-            getLogger().warn(`Projet inconnu !`, { identifiantProjet, message: event });
+            logger.warn(`Projet inconnu !`, {
+              identifiantProjet,
+              message: event,
+            });
           }
 
           await upsertProjection<Abandon.AbandonEntity>(`abandon|${identifiantProjet}`, {
@@ -171,7 +175,10 @@ export const register = () => {
               },
             });
           } else {
-            getLogger().warn('Pas de preuve de recandidature demandée', { event });
+            getLogger('System.Projector.Lauréat.Abandon.PreuveRecandidatureTransmise-V1').warn(
+              'Pas de preuve de recandidature demandée',
+              { event },
+            );
           }
 
           break;
@@ -191,7 +198,10 @@ export const register = () => {
               },
             });
           } else {
-            getLogger().warn(`Pas de recandidature dans la demande d'abandon`, { event });
+            getLogger('System.Projector.Lauréat.Abandon.PreuveRecandidatureDemandée-V1').warn(
+              `Pas de recandidature dans la demande d'abandon`,
+              { event },
+            );
           }
           break;
         case 'AbandonAnnulé-V1':

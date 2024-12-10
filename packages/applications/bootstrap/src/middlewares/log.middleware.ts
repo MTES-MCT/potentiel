@@ -8,7 +8,9 @@ export const logMiddleware: Middleware = async (message, next) => {
   const context = getContext();
   const correlationId = context?.correlationId ?? '';
   const utilisateur = context?.utilisateur?.identifiantUtilisateur?.email;
-  getLogger().info('Executing message', {
+  const logger = getLogger('Bootstrap.middlewares.logMiddleware');
+
+  logger.info('Executing message', {
     message: JSON.stringify(message),
     utilisateur,
     correlationId,
@@ -16,7 +18,7 @@ export const logMiddleware: Middleware = async (message, next) => {
   try {
     const result = await next();
     const resultJson = getResultJsonBody(message.type, result);
-    getLogger().info('Message executed', {
+    logger.info('Message executed', {
       messageType: message.type,
       result: JSON.stringify(resultJson),
       correlationId,
@@ -24,9 +26,16 @@ export const logMiddleware: Middleware = async (message, next) => {
     return result;
   } catch (e) {
     if (e instanceof DomainError) {
-      getLogger().warn(e.message, { meta: e.meta, messageType: message.type, correlationId });
+      logger.warn(e.message, {
+        meta: e.meta,
+        messageType: message.type,
+        correlationId,
+      });
     } else {
-      getLogger().error(e as Error, { correlationId, messageType: message.type });
+      logger.error(e as Error, {
+        correlationId,
+        messageType: message.type,
+      });
     }
 
     throw e;

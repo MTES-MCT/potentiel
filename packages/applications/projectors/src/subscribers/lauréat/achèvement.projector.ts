@@ -45,7 +45,7 @@ export const register = () => {
       const getProjectData = async (identifiantProjet: IdentifiantProjet.RawType) => {
         const projet = await CandidatureAdapter.récupérerProjetAdapter(identifiantProjet);
         if (Option.isNone(projet)) {
-          getLogger().warn(`Projet inconnu !`, {
+          getLogger('System.Projector.Lauréat.Achèvement.getProjectData').warn(`Projet inconnu !`, {
             identifiantProjet,
             message: event,
           });

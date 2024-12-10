@@ -7,8 +7,9 @@ const sourceBucketName = process.env.S3_BUCKET || 'potentiel';
 const destinationBucketName = process.env.S3_BACKUP_BUCKET || 'backup';
 
 const getAllFileKeys = async (source: S3, nextMarker?: string) => {
-  getLogger().info('ℹ Getting all files from production');
-  getLogger().info(`ℹ Next marker : ${nextMarker ? 'Yes' : 'No'}`);
+  const logger = getLogger('ScheduledTasks.créerBackup.getAllFileKeys');
+  logger.info('ℹ Getting all files from production');
+  logger.info(`ℹ Next marker : ${nextMarker ? 'Yes' : 'No'}`);
   const {
     Contents: fileKeys,
     IsTruncated,
@@ -23,7 +24,7 @@ const getAllFileKeys = async (source: S3, nextMarker?: string) => {
   let keys = fileKeys ? fileKeys.map((f) => f.Key).filter((f): f is string => f !== undefined) : [];
 
   if (IsTruncated) {
-    getLogger().info(`ℹ List objects is truntaced : ${IsTruncated}`);
+    logger.info(`ℹ List objects is truntaced : ${IsTruncated}`);
     const nextKeys = await getAllFileKeys(source, NextMarker);
     keys = [...keys, ...nextKeys];
   }
@@ -32,7 +33,9 @@ const getAllFileKeys = async (source: S3, nextMarker?: string) => {
 };
 
 (async () => {
-  getLogger().info('🏁 Creating production files backup');
+  const logger = getLogger('ScheduledTasks.créerBackup');
+
+  logger.info('🏁 Creating production files backup');
   const source = new S3({
     endpoint: process.env.S3_ENDPOINT || 'http://localhost:9000',
     credentials: {
@@ -55,10 +58,10 @@ const getAllFileKeys = async (source: S3, nextMarker?: string) => {
 
   if (keys) {
     for (const key of keys as string[]) {
-      getLogger().info('----------');
+      logger.info('----------');
       try {
-        getLogger().info(`ℹ Start backuping file: ${key}`);
-        getLogger().info(`ℹ Getting file content`);
+        logger.info(`ℹ Start backuping file: ${key}`);
+        logger.info(`ℹ Getting file content`);
         const { Body } = await source.send(
           new GetObjectCommand({
             Bucket: sourceBucketName,
@@ -76,16 +79,16 @@ const getAllFileKeys = async (source: S3, nextMarker?: string) => {
             },
           }).done();
 
-          getLogger().info('ℹ Backup done');
+          logger.info('ℹ Backup done');
         } else {
-          getLogger().warn('⚠️ No content found');
+          logger.warn('⚠️ No content found');
         }
       } catch (e) {
-        getLogger().error(e as Error);
+        logger.error(e as Error);
       }
-      getLogger().info('----------');
+      logger.info('----------');
     }
   } else {
-    getLogger().warn('⚠️ No file keys found');
+    logger.warn('⚠️ No file keys found');
   }
 })();

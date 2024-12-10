@@ -11,8 +11,12 @@ const sourceBucketName = process.env.S3_BUCKET;
 const destinationBucketName = process.env.S3_SECNUM_BUCKET;
 
 const récupérerToutesLesClésDesFichiers = async (source: S3, nextMarker?: string) => {
-  getLogger().info('ℹ Getting all files from production');
-  getLogger().info(`ℹ Next marker : ${nextMarker ? 'Yes' : 'No'}`);
+  getLogger(
+    'ScheduledTasks.DéplacerFichiersVersBucketSecnum.récupérerToutesLesClésDesFichiers',
+  ).info('ℹ Getting all files from production');
+  getLogger(
+    'ScheduledTasks.DéplacerFichiersVersBucketSecnum.récupérerToutesLesClésDesFichiers',
+  ).info(`ℹ Next marker : ${nextMarker ? 'Yes' : 'No'}`);
   const {
     Contents: fileKeys,
     IsTruncated,
@@ -27,7 +31,9 @@ const récupérerToutesLesClésDesFichiers = async (source: S3, nextMarker?: str
   let keys = fileKeys ? fileKeys.map((f) => f.Key).filter((f): f is string => f !== undefined) : [];
 
   if (IsTruncated) {
-    getLogger().info(`ℹ List objects is truntaced : ${IsTruncated}`);
+    getLogger(
+      'ScheduledTasks.DéplacerFichiersVersBucketSecnum.récupérerToutesLesClésDesFichiers',
+    ).info(`ℹ List objects is truntaced : ${IsTruncated}`);
     const nextKeys = await récupérerToutesLesClésDesFichiers(source, NextMarker);
     keys = [...keys, ...nextKeys];
   }
@@ -96,7 +102,9 @@ const vérifierLesVariablesDEnvironnement = () => {
 
   for (const variable of variables) {
     if (!process.env[variable]) {
-      getLogger().error(new Error(`❌ ${variable} is not defined`));
+      getLogger(
+        'ScheduledTasks.DéplacerFichiersVersBucketSecnum.vérifierLesVariablesDEnvironnement',
+      ).error(new Error(`❌ ${variable} is not defined`));
       process.exit(1);
     }
   }
@@ -104,8 +112,9 @@ const vérifierLesVariablesDEnvironnement = () => {
 
 (async () => {
   vérifierLesVariablesDEnvironnement();
+  const logger = getLogger('ScheduledTasks.DéplacerFichiersVersBucketSecnum');
 
-  getLogger().info('🏁 Moving production files to secnum S3 bucket');
+  logger.info('🏁 Moving production files to secnum S3 bucket');
 
   const source = new S3({
     endpoint: process.env.S3_ENDPOINT as string,
@@ -128,11 +137,11 @@ const vérifierLesVariablesDEnvironnement = () => {
   const keys = await récupérerToutesLesClésDesFichiers(source);
 
   if (keys.length === 0) {
-    getLogger().warn('⚠️ No file keys found in the source bucket');
+    logger.warn('⚠️ No file keys found in the source bucket');
     process.exit(1);
   }
 
-  getLogger().info(`✨ ${keys.length} fichiers à copier`);
+  logger.info(`✨ ${keys.length} fichiers à copier`);
 
   const fichiersDuBucketSourceSansContenu: string[] = [];
   const fichiersDuBucketDestinationSansContenu: string[] = [];
@@ -144,7 +153,7 @@ const vérifierLesVariablesDEnvironnement = () => {
 
   for (const key of keys) {
     try {
-      getLogger().info(`👉 ${count} / ${keys.length} - Déplacement du fichier ${key}`);
+      logger.info(`👉 ${count} / ${keys.length} - Déplacement du fichier ${key}`);
 
       const { Body } = await récupérerContenuFichier({
         s3: source,
@@ -210,7 +219,7 @@ const vérifierLesVariablesDEnvironnement = () => {
       fichiersSuccès.push(`✅ Fichier ${key} déplacé avec succès`);
       count += 1;
     } catch (e) {
-      getLogger().error(e as Error);
+      logger.error(e as Error);
       erreursDeTraitement.push(`❌ Erreur sur le fichier ${key} : ${(e as Error).message}`);
       count += 1;
     }
@@ -219,7 +228,7 @@ const vérifierLesVariablesDEnvironnement = () => {
   const now = DateTime.now().formatter();
 
   if (fichiersDuBucketSourceSansContenu.length) {
-    getLogger().info(
+    logger.info(
       `🖊️ ${fichiersDuBucketSourceSansContenu.length} fichiers sur le bucket source sans contenu => Voir fichiers-du-bucket-source-sans-contenu-${now}.log`,
     );
 
@@ -228,11 +237,11 @@ const vérifierLesVariablesDEnvironnement = () => {
       contenu: fichiersDuBucketSourceSansContenu,
     });
   } else {
-    getLogger().info('🖊️  Aucun fichier sans contenu sur le bucket source sans contenu');
+    logger.info('🖊️  Aucun fichier sans contenu sur le bucket source sans contenu');
   }
 
   if (fichiersDuBucketDestinationSansContenu.length > 0) {
-    getLogger().info(
+    logger.info(
       `🖊️ ${fichiersDuBucketDestinationSansContenu.length} fichiers sur le bucket de destination sans contenu => Voir fichiers-du-bucket-destination-sans-contenu-${now}.log`,
     );
 
@@ -241,11 +250,11 @@ const vérifierLesVariablesDEnvironnement = () => {
       contenu: fichiersDuBucketDestinationSansContenu,
     });
   } else {
-    getLogger().info('🖊️  Aucun fichier sans contenu sur le bucket de destination sans contenu');
+    logger.info('🖊️  Aucun fichier sans contenu sur le bucket de destination sans contenu');
   }
 
   if (fichiersAvecContenuDifférent.length > 0) {
-    getLogger().info(
+    logger.info(
       `🖊️  ${fichiersAvecContenuDifférent.length} fichiers avec contenu différent entre le bucket source et le bucket de destination => Voir fichiers-avec-contenu-différent-${now}.log`,
     );
     écrireFichierLog({
@@ -253,13 +262,13 @@ const vérifierLesVariablesDEnvironnement = () => {
       contenu: fichiersAvecContenuDifférent,
     });
   } else {
-    getLogger().info(
+    logger.info(
       '🖊️  Aucun fichier avec contenu différent entre le bucket source et le bucket de destination',
     );
   }
 
   if (erreursDeTraitement.length > 0) {
-    getLogger().info(
+    logger.info(
       `🖊️ ${erreursDeTraitement.length} fichiers sont en erreur de traitement avec contenu différent entre le bucket source et le bucket de destination => Voir erreurs-de-traitement-${now}.log`,
     );
 
@@ -268,7 +277,7 @@ const vérifierLesVariablesDEnvironnement = () => {
       contenu: erreursDeTraitement,
     });
   } else {
-    getLogger().info('🖊️ Aucun fichier en erreur de traitement');
+    logger.info('🖊️ Aucun fichier en erreur de traitement');
   }
 
   if (fichiersSuccès.length > 0) {
@@ -278,16 +287,16 @@ const vérifierLesVariablesDEnvironnement = () => {
     });
 
     if (fichiersSuccès.length === keys.length) {
-      getLogger().info(
+      logger.info(
         `🎉 Tous les fichiers ont été déplacés avec succès => Voir fichiers-succès-${now}.log`,
       );
     } else {
-      getLogger().info(
+      logger.info(
         `🖊️ ${fichiersSuccès.length} fichiers déplacés avec succès => Voir fichiers-succès-${now}.log`,
       );
     }
   } else {
-    getLogger().info(
+    logger.info(
       `🖊️ Aucun fichier n'a pu être déplacé, merci de consulter les fichiers de logs d'erreurs`,
     );
   }

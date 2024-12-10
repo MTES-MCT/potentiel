@@ -19,7 +19,7 @@ import { getCandidature } from '../../_helpers/getCandidature';
 
 export const GET = async (_: Request, { params: { identifiant } }: IdentifiantParameter) =>
   withUtilisateur(async (utilisateur) => {
-    const logger = getLogger();
+    const logger = getLogger('Ssr.candidatures.[identifiant].previsualiser-attestation.route.GET');
 
     const identifiantProjet = decodeParameter(identifiant);
 
