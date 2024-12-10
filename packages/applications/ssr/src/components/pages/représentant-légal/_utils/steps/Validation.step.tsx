@@ -47,15 +47,18 @@ export const ValidationStep: FC<ValidationStepProps> = ({
             <blockquote>{nomReprésentantLégal}</blockquote>
           </div>
           {piècesJustificatives.length > 0 && (
-            <div className="flex flex-row gap-2">
-              <div className="font-semibold">Pièces justificatives :</div>
-              <div className="pl-2">
-                <ul className="list-disc">
-                  {piècesJustificatives.map((pièceJustificative) => (
-                    <li key={pièceJustificative}>{pièceJustificative}</li>
-                  ))}
-                </ul>
-              </div>
+            <div>
+              <span className="font-semibold">
+                {piècesJustificatives.length === 1
+                  ? `Pièce justificative`
+                  : `Pièces justificatives`}{' '}
+                :
+              </span>
+              <ul className="mt-2 ml-4 list-disc">
+                {piècesJustificatives.map((pj) => (
+                  <li key={pj}>{pj}</li>
+                ))}
+              </ul>
             </div>
           )}
         </div>

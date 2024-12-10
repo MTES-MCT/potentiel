@@ -35,7 +35,7 @@ export const SaisieTypeStep: FC<SaisieTypeStepProps> = ({
         contexte={contexte}
         nom="Une personne physique"
         informationÀRemplir="les nom et prénom(s) de la personne"
-        piècesJustificative={
+        piècesJustificatives={
           <li>
             Une copie de titre d'identité (carte d'identité ou passeport) en cours de validité
           </li>
@@ -47,7 +47,7 @@ export const SaisieTypeStep: FC<SaisieTypeStepProps> = ({
         contexte={contexte}
         nom="Une personne morale"
         informationÀRemplir="le nom de la société"
-        piècesJustificative={
+        piècesJustificatives={
           <>
             <li>
               Pour les sociétés constituées :
@@ -74,7 +74,7 @@ export const SaisieTypeStep: FC<SaisieTypeStepProps> = ({
         contexte={contexte}
         nom="Une collectivité"
         informationÀRemplir="le nom de la collectivité"
-        piècesJustificative={<li>Un extrait de délibération portant sur le projet</li>}
+        piècesJustificatives={<li>Un extrait de délibération portant sur le projet</li>}
       />
     ))
     .with('autre', () => (
@@ -82,7 +82,7 @@ export const SaisieTypeStep: FC<SaisieTypeStepProps> = ({
         contexte={contexte}
         nom="Un organisme ou autre"
         informationÀRemplir="le nom de l'organisme"
-        piècesJustificative={
+        piècesJustificatives={
           <>
             <li>
               Tout document officiel permettant d'attester de l'existence juridique de l'organisme
@@ -118,8 +118,8 @@ const Situation: FC<{
   nom: string;
   contexte: Contexte;
   informationÀRemplir: string;
-  piècesJustificative: ReactNode;
-}> = ({ contexte, nom, informationÀRemplir, piècesJustificative }) => {
+  piècesJustificatives: ReactNode;
+}> = ({ contexte, nom, informationÀRemplir, piècesJustificatives }) => {
   const wordingPiècesJustificatives = match(contexte)
     .with('demander', () => `Pièces à joindre :`)
     .with(
@@ -138,7 +138,7 @@ const Situation: FC<{
         </div>
         <div>
           <span className="font-semibold">{wordingPiècesJustificatives}</span>
-          <ul className="mt-2 ml-4 list-disc">{piècesJustificative}</ul>
+          <ul className="mt-2 ml-4 list-disc">{piècesJustificatives}</ul>
         </div>
       </div>
     </div>
