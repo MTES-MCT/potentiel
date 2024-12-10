@@ -23,7 +23,7 @@ Pour installer et lancer le projet vous aurez besoin de :
 - <a href="https://github.com/nvm-sh/nvm#installing-and-updating" target="_blank">NVM</a>
 - <a href="https://docs.docker.com/get-docker/" target="_blank">Docker</a>
 
-## <a id="configurer-un-environnement-local">Configurer un environnement local</a> 
+## <a id="configurer-un-environnement-local">Configurer un environnement local</a>
 
 1. Cloner le repository
 
@@ -72,7 +72,7 @@ Pour installer et lancer le projet vous aurez besoin de :
    ```
 
 8. Synchroniser les submodules
-   
+
    Il faut retourner à la racine du repo et exécuter :
 
    ```bash
@@ -81,19 +81,20 @@ Pour installer et lancer le projet vous aurez besoin de :
    ```
 
 ## <a id="keycloak">Système d'authentification avec Keycloak
+
 </a> 
 Keycloak est un service open source d'identité et de gestion d'accès. Pour comprendre comment ce service est mis en oeuvre, vous pouvez trouver la documentation sur le [repo dédié au thème](https://github.com/MTES-MCT/potentiel-keycloak#mise-en-oeuvre).
 
-En local, lorsque la commande `npm run start:dev` (ou `docker compose up -d`) est lancée, un container `auth` va se monter avec l'[image officielle de Keycloak](https://quay.io/repository/keycloak/keycloak). Nous avons créé un thème custom visible dans [ce repo](https://github.com/MTES-MCT/potentiel-keycloak). 
+En local, lorsque la commande `npm run start:dev` (ou `docker compose up -d`) est lancée, un container `auth` va se monter avec l'[image officielle de Keycloak](https://quay.io/repository/keycloak/keycloak). Nous avons créé un thème custom visible dans [ce repo](https://github.com/MTES-MCT/potentiel-keycloak).
 
-> ⚠️ Si l'affichage ne prend pas en compte le thème `dsfr`, n'hésitez pas à suivre ces étapes: 
+> ⚠️ Si l'affichage ne prend pas en compte le thème `dsfr`, n'hésitez pas à suivre ces étapes:
+>
 > 1. Suppression du répertoire submodule si il existe : `rm -Rf keycloak/potentiel-keycloak`
-> 2. Mise à jour du submodule :  `git submodule update`
- 
+> 2. Mise à jour du submodule : `git submodule update`
+
 Lors du montage de l'image, le fichier [realm-dev.json](./keycloak/import/realm-dev.json) est importé et va configurer le royaume keycloak pour l'environnement de dev, et y ajouter des utilisateurs de tests.
 
 Pour les environnements de production et de staging, Keycloak est hébergé sur une application scalingo et utilise le [repo du thème custom](https://github.com/MTES-MCT/potentiel-keycloak).
-
 
 ## <a id="lancer-application-en-local">Lancer l'application en local</a>
 
@@ -119,25 +120,22 @@ npm run start:dev
 
 > ℹ️ Il est possible de couper les services utilisés localement pour lancer l'application via le script npm **`stop:dev`**
 
-## <a id="avoir-des-donnees-de-test-en-local">Avoir des données de test en local</a> 
-
+## <a id="avoir-des-donnees-de-test-en-local">Avoir des données de test en local</a>
 
 ### <a id="le-seed-automatique">Le seed automatique</a>
 
-Lorsque la comande `start:dev` est lancée, elle va automatiquement démarrer les containers docker. Le container dédié à la base de donnée va alors mapper le fichier [potentiel-dev.dump](../../.database/potentiel-dev.dump) dans le container, et va ajouter le script [restore-dev-db.sh](../../.database/restore-dev-db.sh) pour qu'il s'éxécute lors de l'initialisation de la base de donnée. Ce script restore le contenu du dump dans la base de donnée. 
+Lorsque la comande `start:dev` est lancée, elle va automatiquement démarrer les containers docker. Le container dédié à la base de donnée va alors mapper le fichier [potentiel-dev.dump](../../.database/potentiel-dev.dump) dans le container, et va ajouter le script [restore-dev-db.sh](../../.database/restore-dev-db.sh) pour qu'il s'éxécute lors de l'initialisation de la base de donnée. Ce script restore le contenu du dump dans la base de donnée.
 
-
-> ✨ Si vous avez besoin de compléter le dump qui est seed par défaut, vous pouvez effectuer les modifications sur la base de donnée avec votre éditeur de base de donnés.  
-> 
+> ✨ Si vous avez besoin de compléter le dump qui est seed par défaut, vous pouvez effectuer les modifications sur la base de donnée avec votre éditeur de base de donnés.
+>
 > Une fois les modifications effectives, vous n'avez plus qu'à faire un dump de votre base de donnée. Pour se faire il lancer le script npm 'update:dump'
-> 
+>
 > Il ne vous reste qu'à remplacer votre fichier à jour avec celui existant
-
 
 ### <a id="ajouter-a-la-main-projets-dans-potentiel">Ajouter "à la main des projets dans Potentiel"</a>
 
 Afin de pouvoir tester le fonctionnement de la partie désignation et notification des candidats d'une période d'appel d'offre, vous avez la possibilité d'ajouter "à la main" des projets dans Potentiel. Pour celà :
- 
+
 1. [Lancer l'application en local](#lancer-application-en-local)
 
 2. Récupérer les fichiers présents dans `.demo`
@@ -205,7 +203,7 @@ Utilisez ensuite le script npm **`specs:select`** :
 npm run specs:select
 ```
 
-## <a id="metabase">Metabase</a> 
+## <a id="metabase">Metabase</a>
 
 Nous utilisons metabase pour faire des analyses en mode no-code sur la base de données.
 
@@ -216,7 +214,7 @@ Metabase est connecté à la base de données de production via un utilisateur r
 Afin de déployer ou mettre à jour l'instance METABASE il suffit de suivre la procédure décrite dans la doc Scalingo ici :
 https://doc.scalingo.com/platform/getting-started/getting-started-with-metabase
 
-## <a id="restaurer-dump-db">Restaurer un dump de la base de donnée</a> 
+## <a id="restaurer-dump-db">Restaurer un dump de la base de donnée</a>
 
 - Pour cette partie il vaut mieux préférer la méthode "one-off-container" en téléchargeant le dump directement sur les serveurs Scalingo.
 
@@ -229,3 +227,14 @@ https://doc.scalingo.com/platform/getting-started/getting-started-with-metabase
 - Enfin restaurer le dump téléchargé sur le container dans le répertoire /tmp/upload.
 
 `pg_restore --clean --if-exists --no-owner --no-privileges --no-comments --dbname $DATABASE_URL /tmp/uploads/potentiel.dump`
+
+## Lancer des commandes CLI
+
+Des commandes d'administration du produit sont disponible via ligne de commande.
+L'utilisation de cette CLI peut se faire en executant `potentiel-cli` dans le repository ou depuis un conteneur en production.
+
+`potentiel-cli --help` permet d'obtenir la liste des commandes disponibles et les instructions d'utilisation.
+
+Le code correspondant à cette CLI se trouve dans [./packages/applications/cli](./packages/applications/cli), et peut également être exécuté via `./packages/applications/cli/bin/run.js` ou `./packages/applications/cli/bin/dev.js` si besoin.
+
+La CLI utilise le framework [oclif](https://oclif.io/); la structure des dossiers determine la structure des commandes (eg. `./src/commands/files/copy` correspond à la commande `potentiel-cli files copy` ).

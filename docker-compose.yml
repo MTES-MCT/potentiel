@@ -61,6 +61,14 @@ services:
       - ./keycloak/import:/opt/keycloak/data/import
       - ./keycloak/potentiel-keycloak/theme/potentiel:/opt/keycloak/themes/potentiel
     profiles: ['app']
+  smtp:
+    container_name: potentiel_smtp
+    image: mailhog/mailhog:latest
+    restart: always
+    ports:
+      - 1025:1025
+      - 8025:8025
+    profiles: ['app']
   db_test:
     container_name: potentiel_db_tests_integration
     image: postgres:13
