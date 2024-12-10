@@ -39,7 +39,8 @@ export const DemanderChangementReprésentantLégalForm: FC<
   const [nom, setNom] = useState('');
   const [piècesJustificatives, setPiècesJustificatives] = useState<Array<string>>([]);
 
-  const disabledCondition = !type || !nom || !piècesJustificatives.length;
+  const disableCondition =
+    !type || !nom || !piècesJustificatives.length || Object.keys(validationErrors).length > 0;
 
   const steps: Array<Step> = [
     {
@@ -115,7 +116,7 @@ export const DemanderChangementReprésentantLégalForm: FC<
       nextStep: {
         type: 'link',
         name: 'Vérifier',
-        disabled: disabledCondition,
+        disabled: disableCondition,
       },
     },
     {
@@ -129,7 +130,11 @@ export const DemanderChangementReprésentantLégalForm: FC<
         />
       ),
       previousStep: { name: 'Corriger' },
-      nextStep: { type: 'submit', name: 'Confirmer la demande', disabled: disabledCondition },
+      nextStep: {
+        type: 'submit',
+        name: 'Confirmer la demande',
+        disabled: disableCondition && !validationErrors,
+      },
     },
   ];
 
@@ -148,7 +153,12 @@ export const DemanderChangementReprésentantLégalForm: FC<
         onInvalid={() => setCurrentStep(2)}
         onValidationError={(validationErrors) => {
           setValidationErrors(validationErrors);
-          setCurrentStep(2);
+          if (validationErrors['typeRepresentantLegal']) {
+            setCurrentStep(1);
+          }
+          if (validationErrors['nom'] || validationErrors['piecesJustificatives']) {
+            setCurrentStep(2);
+          }
         }}
         onError={() => setCurrentStep(2)}
         actions={null}
