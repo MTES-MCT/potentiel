@@ -24,6 +24,7 @@
     "@json2csv/plainjs": "^6.1.3",
     "@keycloak/keycloak-admin-client": "^23.0.7",
     "@potentiel-applications/bootstrap": "*",
+    "@potentiel-applications/feature-flags": "*",
     "@potentiel-applications/routes": "*",
     "@potentiel-applications/request-context": "*",
     "@potentiel-domain/appel-offre": "*",

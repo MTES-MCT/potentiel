@@ -36,6 +36,9 @@
       "path": "../bootstrap"
     },
     {
+      "path": "../feature-flags"
+    },
+    {
       "path": "../request-context"
     },
     {
