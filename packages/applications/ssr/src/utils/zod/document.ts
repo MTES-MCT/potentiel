@@ -1,12 +1,13 @@
 import * as zod from 'zod';
 
-import { Option } from '@potentiel-libraries/monads';
 import { ConsulterDocumentProjetReadModel } from '@potentiel-domain/document';
-import { FiligraneFacileClient } from '@potentiel-infrastructure/filigrane-facile-client';
 
-export const defaultFileSizeLimitInMegaBytes = 5;
-
-const toBytes = (sizeInMegaBytes: number): number => sizeInMegaBytes * 1024 * 1024;
+import {
+  applyWatermark,
+  mapToConsulterDocumentProjetReadModel,
+  optionalBlob,
+  requiredBlob,
+} from './blob';
 
 type CommonOptions = {
   applyWatermark?: true;
@@ -36,47 +37,26 @@ export function singleDocument(
     optional?: true;
   },
 ): OptionalSingleDocumentSchema | RequiredSingleDocumentSchema {
-  return zod
-    .instanceof(Blob)
-    .refine(({ size }) => (options?.optional ? size >= 0 : size > 0), `Champ obligatoire`)
-    .refine(
-      ({ size }) => size <= toBytes(defaultFileSizeLimitInMegaBytes),
-      `Le fichier dépasse la taille maximale autorisée (${defaultFileSizeLimitInMegaBytes}Mo)`,
-    )
-    .transform(async (originalBlob) => {
-      if (originalBlob.size === 0 || !options?.applyWatermark) {
-        return originalBlob;
-      }
+  const blobSchema = options?.optional ? optionalBlob : requiredBlob;
 
-      const watermarkedBlob = await FiligraneFacileClient.ajouterFiligrane(
-        originalBlob,
-        'potentiel.beta.gouv.fr',
-      );
-
-      return Option.match(watermarkedBlob)
-        .some((watermarkedBlob) => watermarkedBlob)
-        .none(() => originalBlob);
-    })
-    .transform((blob) => {
-      if (blob.size === 0) {
-        return undefined;
-      }
-
-      return {
-        content: blob.stream(),
-        format: blob.type,
-      } as ConsulterDocumentProjetReadModel;
-    });
+  return blobSchema()
+    .transform((blob) => (options?.optional ? applyWatermark(blob) : blob))
+    .transform(mapToConsulterDocumentProjetReadModel);
 }
 
-export function manyDocuments(options?: { optional?: true }) {
-  if (options?.optional) {
-    singleDocument({ optional: true })
-      .transform((document) => [document])
-      .or(singleDocument({ optional: true }).array());
-  }
+const optionalBlobArray = optionalBlob()
+  .transform((blob) => [blob])
+  .or(optionalBlob().array());
 
-  return singleDocument()
-    .transform((document) => [document])
-    .or(singleDocument().array().min(1, 'Champ obligatoire'));
+const requiredBlobArray = requiredBlob()
+  .transform((blob) => [blob])
+  .or(requiredBlob().array().min(1, 'Champ obligatoire'));
+
+export function manyDocuments(options?: { optional?: true; applyWatermark?: true }) {
+  const blobArraySchema = options?.optional ? optionalBlobArray : requiredBlobArray;
+
+  return blobArraySchema
+    .transform(combinePdfs)
+    .transform((blob) => (options?.optional ? applyWatermark(blob) : blob))
+    .transform(mapToConsulterDocumentProjetReadModel);
 }
