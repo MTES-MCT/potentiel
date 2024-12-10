@@ -12,6 +12,7 @@ import { Role } from '@potentiel-domain/utilisateur';
 import { Raccordement } from '@potentiel-domain/reseau';
 import { Option } from '@potentiel-libraries/monads';
 import { IdentifiantProjet } from '@potentiel-domain/common';
+import { featureFlags } from '@potentiel-applications/feature-flags';
 
 export type InfoGeneralesProps = {
   project: ProjectDataForProjectPage;
@@ -36,6 +37,7 @@ export const InfoGenerales = ({
     regionProjet,
     departementProjet,
     adresseProjet,
+    actionnaire,
   },
   raccordement,
   role,
@@ -123,6 +125,24 @@ export const InfoGenerales = ({
           {departementProjet}, {regionProjet}
         </p>
       </div>
+      {featureFlags.isActionnaireEnabled && (
+        <div>
+          <Heading3 className="m-0">Actionnaire</Heading3>
+          <p className="m-0">{actionnaire ?? 'Non renseigné'}</p>
+          <Link
+            href={Routes.Actionnaire.modifier(
+              formatProjectDataToIdentifiantProjetValueType({
+                appelOffreId,
+                periodeId,
+                familleId,
+                numeroCRE,
+              }).formatter(),
+            )}
+          >
+            Mettre à jour l'actionnaire
+          </Link>
+        </div>
+      )}
     </Section>
   );
 };

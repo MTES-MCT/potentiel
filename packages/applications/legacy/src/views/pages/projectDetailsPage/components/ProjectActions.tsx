@@ -79,6 +79,13 @@ const PorteurProjetActions = ({
             <DropdownMenuSecondaryButton.DropdownItem href={routes.CHANGER_FOURNISSEUR(project.id)}>
               <span>Changer de fournisseur</span>
             </DropdownMenuSecondaryButton.DropdownItem>
+            {/* href={Routes.Actionnaire.modifier(
+            formatProjectDataToIdentifiantProjetValueType({
+              appelOffreId,
+              periodeId,
+              familleId,
+              numeroCRE,
+            }).formatter(), */}
             <DropdownMenuSecondaryButton.DropdownItem href={routes.CHANGER_ACTIONNAIRE(project.id)}>
               <span>Changer d'actionnaire</span>
             </DropdownMenuSecondaryButton.DropdownItem>
