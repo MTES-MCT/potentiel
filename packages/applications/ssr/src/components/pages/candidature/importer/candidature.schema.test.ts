@@ -23,7 +23,7 @@ const minimumValues: Partial<Record<keyof CandidatureCsvRowShape, string>> = {
   'Financement collectif (Oui/Non)': 'Non',
   'Evaluation carbone simplifiée indiquée au C. du formulaire de candidature et arrondie (kg eq CO2/kWc)':
     'N/A',
-  'Technologie\n(dispositif de production)': 'N/A',
+  'Technologie\n(dispositif de production)': '',
   "1. Lauréat d'aucun AO\n2. Abandon classique\n3. Abandon avec recandidature\n4. Lauréat d'un AO":
     '1',
 };
