@@ -5,16 +5,21 @@ import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
 import { Find } from '@potentiel-domain/entity';
 import { DocumentProjet } from '@potentiel-domain/document';
 
-import { ActionnaireEntity, StatutChangementActionnaire, TypeDocumentActionnaire } from '..';
+import { ActionnaireEntity, StatutChangementActionnaire, TypeDocumentActionnaire } from '../..';
 
-export type ConsulterChangementActionnaireReadModel = {
+export type ConsulterDemandeChangementActionnaireReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
+  actionnaire: {
+    actuel: string;
+    demandé: string;
+  };
+
   demande: {
     statut: StatutChangementActionnaire.ValueType;
 
     demandéePar: Email.ValueType;
     demandéeLe: DateTime.ValueType;
-    raison?: string;
+    raison: string;
     pièceJustificative: DocumentProjet.ValueType;
 
     accord?: {
@@ -31,22 +36,22 @@ export type ConsulterChangementActionnaireReadModel = {
   };
 };
 
-export type ConsulterChangementActionnaireQuery = Message<
-  'Lauréat.Actionnaire.Query.ConsulterChangementActionnaire',
+export type ConsulterDemandeChangementActionnaireQuery = Message<
+  'Lauréat.Actionnaire.Query.ConsulterDemandeChangementActionnaire',
   {
     identifiantProjet: string;
   },
-  Option.Type<ConsulterChangementActionnaireReadModel>
+  Option.Type<ConsulterDemandeChangementActionnaireReadModel>
 >;
 
-export type ConsulterChangementActionnaireDependencies = {
+export type ConsulterDemandeChangementActionnaireDependencies = {
   find: Find;
 };
 
-export const registerConsulterChangementActionnaireQuery = ({
+export const registerConsulterDemandeChangementActionnaireQuery = ({
   find,
-}: ConsulterChangementActionnaireDependencies) => {
-  const handler: MessageHandler<ConsulterChangementActionnaireQuery> = async ({
+}: ConsulterDemandeChangementActionnaireDependencies) => {
+  const handler: MessageHandler<ConsulterDemandeChangementActionnaireQuery> = async ({
     identifiantProjet,
   }) => {
     const identifiantProjetValueType = IdentifiantProjet.convertirEnValueType(identifiantProjet);
@@ -57,7 +62,7 @@ export const registerConsulterChangementActionnaireQuery = ({
 
     return Option.match(demandeChangementActionnaire).some(mapToReadModel).none();
   };
-  mediator.register('Lauréat.Actionnaire.Query.ConsulterChangementActionnaire', handler);
+  mediator.register('Lauréat.Actionnaire.Query.ConsulterDemandeChangementActionnaire', handler);
 };
 
 export const mapToReadModel = (result: ActionnaireEntity) => {
@@ -67,6 +72,11 @@ export const mapToReadModel = (result: ActionnaireEntity) => {
 
   return {
     identifiantProjet: IdentifiantProjet.convertirEnValueType(result.identifiantProjet),
+    actionnaire: {
+      actuel: result.actionnaire.nom,
+      demandé: result.demande.nouvelActionnaire,
+    },
+
     demande: {
       statut: StatutChangementActionnaire.convertirEnValueType(result.demande.statut),
 
@@ -105,5 +115,5 @@ export const mapToReadModel = (result: ActionnaireEntity) => {
           }
         : undefined,
     },
-  } satisfies ConsulterChangementActionnaireReadModel;
+  } satisfies ConsulterDemandeChangementActionnaireReadModel;
 };

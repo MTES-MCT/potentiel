@@ -62,7 +62,9 @@ EtantDonné(
 
 export async function importerActionnaire(this: PotentielWorld) {
   const identifiantProjet = this.candidatureWorld.importerCandidature.identifiantProjet;
-  const { importéLe } = this.lauréatWorld.actionnaireWorld.importerActionnaireFixture.créer();
+  const { importéLe, actionnaire } = this.lauréatWorld.actionnaireWorld.importerActionnaireFixture;
+
+  this.lauréatWorld.actionnaireWorld.actionnaire = actionnaire;
 
   await mediator.send<Actionnaire.ActionnaireCommand>({
     type: 'Lauréat.Actionnaire.Command.ImporterActionnaire',

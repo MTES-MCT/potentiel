@@ -216,16 +216,24 @@ const référencielPermissions = {
     actionnaire: {
       query: {
         consulter: 'Lauréat.Actionnaire.Query.ConsulterActionnaire',
+        consulterChangement: 'Lauréat.Actionnaire.Query.ConsulterDemandeChangementActionnaire',
+        listerChangement: 'Lauréat.Actionnaire.Query.ListerChangementActionnaire',
       },
       usecase: {
         transmettre: 'Lauréat.Actionnaire.UseCase.TransmettreActionnaire',
         modifier: 'Lauréat.Actionnaire.UseCase.ModifierActionnaire',
         demanderChangement: 'Lauréat.Actionnaire.UseCase.DemanderChangement',
+        accorderChangement: 'Lauréat.Actionnaire.UseCase.AccorderDemandeChangement',
+        rejeterChangement: 'Lauréat.Actionnaire.UseCase.RejeterDemandeChangement',
+        annulerChangement: 'Lauréat.Actionnaire.UseCase.AnnulerDemandeChangement',
       },
       command: {
         transmettre: 'Lauréat.Actionnaire.Command.TransmettreActionnaire',
         modifier: 'Lauréat.Actionnaire.Command.ModifierActionnaire',
         demanderChangement: 'Lauréat.Actionnaire.Command.DemanderChangement',
+        accorderChangement: 'Lauréat.Actionnaire.Command.AccorderDemandeChangement',
+        rejeterChangement: 'Lauréat.Actionnaire.Command.RejeterDemandeChangement',
+        annulerChangement: 'Lauréat.Actionnaire.Command.AnnulerDemandeChangement',
       },
     },
     usecase: { notifier: 'Lauréat.UseCase.NotifierLauréat' },
@@ -893,16 +901,29 @@ const policies = {
       référencielPermissions.lauréat.actionnaire.usecase.transmettre,
       référencielPermissions.lauréat.actionnaire.command.transmettre,
     ],
-
     modifier: [
       référencielPermissions.candidature.query.consulterProjet,
       référencielPermissions.lauréat.actionnaire.usecase.modifier,
       référencielPermissions.lauréat.actionnaire.command.modifier,
     ],
+    consulterChangement: [référencielPermissions.lauréat.actionnaire.query.consulterChangement],
     demanderChangement: [
       référencielPermissions.lauréat.actionnaire.usecase.demanderChangement,
       référencielPermissions.lauréat.actionnaire.command.demanderChangement,
     ],
+    accorderChangement: [
+      référencielPermissions.lauréat.actionnaire.usecase.accorderChangement,
+      référencielPermissions.lauréat.actionnaire.command.accorderChangement,
+    ],
+    rejeterChangement: [
+      référencielPermissions.lauréat.actionnaire.usecase.rejeterChangement,
+      référencielPermissions.lauréat.actionnaire.command.rejeterChangement,
+    ],
+    annulerChangement: [
+      référencielPermissions.lauréat.actionnaire.usecase.annulerChangement,
+      référencielPermissions.lauréat.actionnaire.command.annulerChangement,
+    ],
+    listerChangement: [référencielPermissions.lauréat.actionnaire.query.listerChangement],
   },
 } as const;
 
@@ -1018,9 +1039,13 @@ const adminPolicies: ReadonlyArray<Policy> = [
   'représentantLégal.rejeterChangement',
 
   // Actionnaire
-  'actionnaire.consulter',
   'actionnaire.transmettre',
   'actionnaire.modifier',
+  'actionnaire.consulter',
+  'actionnaire.consulterChangement',
+  'actionnaire.listerChangement',
+  'actionnaire.accorderChangement',
+  'actionnaire.rejeterChangement',
 ];
 
 const dgecValidateurPolicies: ReadonlyArray<Policy> = [
@@ -1112,6 +1137,10 @@ const drealPolicies: ReadonlyArray<Policy> = [
   'actionnaire.consulter',
   'actionnaire.transmettre',
   'actionnaire.modifier',
+  'actionnaire.consulterChangement',
+  'actionnaire.listerChangement',
+  'actionnaire.accorderChangement',
+  'actionnaire.rejeterChangement',
 ];
 
 const porteurProjetPolicies: ReadonlyArray<Policy> = [
@@ -1172,10 +1201,13 @@ const porteurProjetPolicies: ReadonlyArray<Policy> = [
   'représentantLégal.consulter',
 
   // Actionnaire
-  'actionnaire.consulter',
   'actionnaire.transmettre',
   'actionnaire.modifier',
+  'actionnaire.consulter',
+  'actionnaire.consulterChangement',
   'actionnaire.demanderChangement',
+  'actionnaire.annulerChangement',
+  'actionnaire.listerChangement',
 ];
 
 const acheteurObligéPolicies: ReadonlyArray<Policy> = [

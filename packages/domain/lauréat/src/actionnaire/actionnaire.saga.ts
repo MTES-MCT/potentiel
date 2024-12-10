@@ -1,12 +1,12 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
-import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
+import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 
 import { LauréatNotifiéEvent } from '../lauréat';
 
+import { DemandeChangementActionnaireAccordéeEvent } from '.';
+
 import { ImporterActionnaireCommand } from './importer/importerActionnaire.command';
-import { DemandeChangementActionnaireAccordéeEvent } from './accorderDemandeChangement/accorderDemandeChangement.behavior';
-import { ModifierActionnaireCommand } from './modifier/modifierActionnaire.command';
 
 export type SubscriptionEvent = LauréatNotifiéEvent | DemandeChangementActionnaireAccordéeEvent;
 
@@ -25,21 +25,6 @@ export const register = () => {
           data: {
             identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
             importéLe: DateTime.convertirEnValueType(notifiéLe),
-          },
-        });
-
-        break;
-
-      case 'DemandeChangementActionnaireAccordée-V1':
-        const { accordéePar, accordéeLe, nouvelActionnaire } = event.payload;
-
-        await mediator.send<ModifierActionnaireCommand>({
-          type: 'Lauréat.Actionnaire.Command.ModifierActionnaire',
-          data: {
-            identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
-            identifiantUtilisateur: Email.convertirEnValueType(accordéePar),
-            actionnaire: nouvelActionnaire,
-            dateModification: DateTime.convertirEnValueType(accordéeLe),
           },
         });
 

@@ -3,9 +3,9 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
 import { DocumentProjet, EnregistrerDocumentProjetCommand } from '@potentiel-domain/document';
 
-import { TypeDocumentActionnaire } from '..';
+import { TypeDocumentActionnaire } from '../..';
 
-import { RejeterDemandeChangementActionnaireCommand } from './rejeterDemandeChangement.command';
+import { RejeterDemandeChangementActionnaireCommand } from './rejeterChangementActionnaire.command';
 
 export type RejeterDemandeChangementActionnaireUseCase = Message<
   'Lauréat.Actionnaire.UseCase.RejeterDemandeChangement',

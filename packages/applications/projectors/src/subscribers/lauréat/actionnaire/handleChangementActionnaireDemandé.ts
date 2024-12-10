@@ -7,6 +7,7 @@ import { upsertProjection } from '../../../infrastructure';
 
 export const handleChangementActionnaireDemandé = async ({
   payload: {
+    actionnaire,
     identifiantProjet,
     demandéeLe,
     demandéePar,
@@ -27,6 +28,7 @@ export const handleChangementActionnaireDemandé = async ({
     ...projectionToUpsert,
     demande: {
       statut: Actionnaire.StatutChangementActionnaire.demandé.statut,
+      nouvelActionnaire: actionnaire,
       demandéePar,
       demandéeLe,
       raison,

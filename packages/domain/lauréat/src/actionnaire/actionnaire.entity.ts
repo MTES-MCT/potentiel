@@ -5,14 +5,23 @@ export type ActionnaireEntity = Entity<
   'actionnaire',
   {
     identifiantProjet: string;
+    projet: {
+      nom: string;
+      appelOffre: string;
+      période: string;
+      famille?: string;
+      numéroCRE: string;
+      région: string;
+    };
 
     actionnaire: { nom: string; misÀJourLe: DateTime.RawType };
 
     demande?: {
+      nouvelActionnaire: string;
       statut: string;
       demandéePar: string;
       demandéeLe: DateTime.RawType;
-      raison?: string;
+      raison: string;
       pièceJustificative: {
         format: string;
       };

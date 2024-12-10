@@ -6,7 +6,13 @@ import {
   LoadAggregate,
 } from '@potentiel-domain/core';
 
-import { StatutChangementActionnaire } from '.';
+import {
+  ChangementActionnaireDemandéEvent,
+  DemandeChangementActionnaireAccordéeEvent,
+  DemandeChangementActionnaireAnnuléEvent,
+  DemandeChangementActionnaireRejetéeEvent,
+  StatutChangementActionnaire,
+} from '.';
 
 import {
   ActionnaireImportéEvent,
@@ -19,30 +25,26 @@ import {
   modifier,
 } from './modifier/modifierActionnaire.behavior';
 import {
-  applyChangementActionnaireDemandé,
-  demanderChangement,
-  ChangementActionnaireDemandéEvent,
-} from './demanderChangement/demandeChangementActionnaire.behavior';
-import {
   accorderDemandeChangementActionnaire,
   applyDemandeChangementActionnaireAccordée,
-  DemandeChangementActionnaireAccordéeEvent,
-} from './accorderDemandeChangement/accorderDemandeChangement.behavior';
+} from './changement/accorder/accorderChangementActionnaire.behavior';
 import {
   annulerDemandeChangement,
   applyDemandeChangementActionnaireAnnulée,
-  DemandeChangementActionnaireAnnuléEvent,
-} from './annulerDemandeChangement/annulerDemandeChangement.behavior';
+} from './changement/annuler/annulerChangementActionnaire.behavior';
 import {
-  applyDemandeChangementActionnaireRejetée,
-  DemandeChangementActionnaireRejetéeEvent,
-  rejeterDemandeChangementActionnaire,
-} from './rejeterDemandeChangement/rejeterDemandeChangement.behavior';
+  demanderChangement,
+  applyChangementActionnaireDemandé,
+} from './changement/demander/demandeChangementActionnaire.behavior';
 import {
   ActionnaireTransmisEvent,
   applyActionnaireTransmis,
   transmettre,
 } from './transmettre/transmettreActionnaire.behavior';
+import {
+  applyDemandeChangementActionnaireRejetée,
+  rejeterDemandeChangementActionnaire,
+} from './changement/rejeter/rejeterChangementActionnaire.behavior';
 
 export type ActionnaireEvent =
   | ActionnaireImportéEvent

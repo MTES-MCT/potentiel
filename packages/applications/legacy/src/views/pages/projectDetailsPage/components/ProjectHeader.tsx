@@ -13,7 +13,10 @@ type ProjectHeaderProps = {
   modificationsNonPermisesParLeCDCActuel: boolean;
   hasAttestationConformité: boolean;
   peutFaireDemandeChangementReprésentantLégal: boolean;
-  peutModifierActionnaire: boolean;
+  actionnaireMenu?: {
+    label: string;
+    url: string;
+  };
 };
 
 export const ProjectHeader = ({
@@ -24,7 +27,7 @@ export const ProjectHeader = ({
   modificationsNonPermisesParLeCDCActuel,
   hasAttestationConformité,
   peutFaireDemandeChangementReprésentantLégal,
-  peutModifierActionnaire,
+  actionnaireMenu,
 }: ProjectHeaderProps) => (
   <div className="w-full pt-3 md:pt-0 print:pt-0 lg:flex justify-between gap-2">
     <div className="pl-3 print:pl-0 mb-3 text-sm">
@@ -57,7 +60,7 @@ export const ProjectHeader = ({
         modificationsNonPermisesParLeCDCActuel={modificationsNonPermisesParLeCDCActuel}
         hasAttestationConformité={hasAttestationConformité}
         peutFaireDemandeChangementReprésentantLégal={peutFaireDemandeChangementReprésentantLégal}
-        peutModifierActionnaire={peutModifierActionnaire}
+        actionnaireMenu={actionnaireMenu}
       />
     </div>
   </div>

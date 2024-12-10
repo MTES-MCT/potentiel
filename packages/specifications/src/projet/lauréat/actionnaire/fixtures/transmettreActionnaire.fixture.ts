@@ -31,7 +31,6 @@ export class TransmettreActionnaireFixture
       dateTransmission: faker.date.recent().toISOString(),
       ...partialFixture,
     };
-
     this.#actionnaire = fixture.actionnaire;
     this.#dateTransmission = fixture.dateTransmission;
 

@@ -4,13 +4,13 @@ import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
 import { DocumentProjet } from '@potentiel-domain/document';
 import { LoadAggregate } from '@potentiel-domain/core';
 
-import { loadActionnaireFactory } from '../actionnaire.aggregate';
+import { loadActionnaireFactory } from '../../actionnaire.aggregate';
 
 export type DemanderChangementCommand = Message<
   'Lauréat.Actionnaire.Command.DemanderChangement',
   {
     identifiantProjet: IdentifiantProjet.ValueType;
-    raison?: string;
+    raison: string;
     actionnaire: string;
     pièceJustificative: DocumentProjet.ValueType;
     identifiantUtilisateur: Email.ValueType;
@@ -20,7 +20,6 @@ export type DemanderChangementCommand = Message<
 
 export const registerDemanderChangementActionnaireCommand = (loadAggregate: LoadAggregate) => {
   const loadActionnaire = loadActionnaireFactory(loadAggregate);
-
   const handler: MessageHandler<DemanderChangementCommand> = async ({
     identifiantProjet,
     pièceJustificative,
