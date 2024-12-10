@@ -1,6 +1,9 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
+import { DocumentProjet, EnregistrerDocumentProjetCommand } from '@potentiel-domain/document';
+
+import { TypeDocumentActionnaire } from '..';
 
 import { ModifierActionnaireCommand } from './modifierActionnaire.command';
 
@@ -10,6 +13,10 @@ export type ModifierActionnaireUseCase = Message<
     identifiantProjetValue: string;
     identifiantUtilisateurValue: string;
     actionnaireValue: string;
+    pièceJustificativeValue?: {
+      content: ReadableStream;
+      format: string;
+    };
     dateModificationValue: string;
   }
 >;
@@ -20,16 +27,37 @@ export const registerModifierActionnaireUseCase = () => {
     identifiantUtilisateurValue,
     actionnaireValue,
     dateModificationValue,
-  }) =>
-    mediator.send<ModifierActionnaireCommand>({
+    pièceJustificativeValue,
+  }) => {
+    const pièceJustificative = pièceJustificativeValue
+      ? DocumentProjet.convertirEnValueType(
+          identifiantProjetValue,
+          TypeDocumentActionnaire.pièceJustificative.formatter(),
+          dateModificationValue,
+          pièceJustificativeValue.format,
+        )
+      : undefined;
+
+    if (pièceJustificative) {
+      await mediator.send<EnregistrerDocumentProjetCommand>({
+        type: 'Document.Command.EnregistrerDocumentProjet',
+        data: {
+          content: pièceJustificativeValue!.content,
+          documentProjet: pièceJustificative,
+        },
+      });
+    }
+
+    await mediator.send<ModifierActionnaireCommand>({
       type: 'Lauréat.Actionnaire.Command.ModifierActionnaire',
       data: {
         identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjetValue),
         identifiantUtilisateur: Email.convertirEnValueType(identifiantUtilisateurValue),
         actionnaire: actionnaireValue,
         dateModification: DateTime.convertirEnValueType(dateModificationValue),
+        pièceJustificative,
       },
     });
-
+  };
   mediator.register('Lauréat.Actionnaire.UseCase.ModifierActionnaire', runner);
 };

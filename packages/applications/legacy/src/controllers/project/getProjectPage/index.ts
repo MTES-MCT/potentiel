@@ -18,7 +18,6 @@ import { v1Router } from '../../v1Router';
 
 import { IdentifiantProjet } from '@potentiel-domain/common';
 import { logger } from '../../../core/utils';
-import { getLogger } from '@potentiel-libraries/monitoring';
 import { addQueryParams } from '../../../helpers/addQueryParams';
 
 import {
@@ -29,6 +28,7 @@ import {
   getReprésentantLégal,
   getRecours,
   getRaccordement,
+  getActionnaire,
 } from './_utils';
 import { Role } from '@potentiel-domain/utilisateur';
 
@@ -190,6 +190,7 @@ v1Router.get(
           ),
           représentantLégal: await getReprésentantLégal(identifiantProjetValueType, user.role),
           demandeRecours: await getRecours(identifiantProjetValueType),
+          actionnaire: await getActionnaire(identifiantProjetValueType, user.role),
           hasAttestationConformité: !!attestationConformité,
         }),
       );

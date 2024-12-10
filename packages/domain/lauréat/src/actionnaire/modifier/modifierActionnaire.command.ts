@@ -2,6 +2,7 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { IdentifiantProjet, DateTime, Email } from '@potentiel-domain/common';
 import { LoadAggregate } from '@potentiel-domain/core';
+import { DocumentProjet } from '@potentiel-domain/document';
 
 import { loadActionnaireFactory } from '../actionnaire.aggregate';
 
@@ -12,6 +13,7 @@ export type ModifierActionnaireCommand = Message<
     identifiantUtilisateur: Email.ValueType;
     actionnaire: string;
     dateModification: DateTime.ValueType;
+    pièceJustificative?: DocumentProjet.ValueType;
   }
 >;
 
@@ -22,6 +24,7 @@ export const registerModifierActionnaireCommand = (loadAggregate: LoadAggregate)
     identifiantUtilisateur,
     actionnaire,
     dateModification,
+    pièceJustificative,
   }) => {
     const actionnaireAggrégat = await loadActionnaire(identifiantProjet);
 
@@ -30,6 +33,7 @@ export const registerModifierActionnaireCommand = (loadAggregate: LoadAggregate)
       identifiantUtilisateur,
       actionnaire,
       dateModification,
+      pièceJustificative,
     });
   };
   mediator.register('Lauréat.Actionnaire.Command.ModifierActionnaire', handler);

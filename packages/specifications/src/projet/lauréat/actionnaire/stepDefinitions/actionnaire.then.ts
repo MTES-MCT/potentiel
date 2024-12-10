@@ -117,6 +117,7 @@ Alors(
       });
 
       const actual = mapToPlainObject(actionnaire);
+
       const expected = mapToPlainObject(
         this.lauréatWorld.actionnaireWorld.mapToExpected(identifiantProjet),
       );

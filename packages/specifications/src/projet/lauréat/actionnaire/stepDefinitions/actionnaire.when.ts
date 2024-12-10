@@ -5,6 +5,7 @@ import { Actionnaire } from '@potentiel-domain/laureat';
 import { DateTime } from '@potentiel-domain/common';
 
 import { PotentielWorld } from '../../../../potentiel.world';
+import { waitForEvents } from '../../../../helpers/waitForEvents';
 
 import { importerActionnaire } from './actionnaire.given';
 
@@ -153,6 +154,9 @@ export async function demanderChangementActionnaire(
   utilisateur?: string,
   actionnaireValue?: string,
 ) {
+  // initialisation d'actionnaire se fait via une saga
+  await waitForEvents();
+
   const identifiantProjet =
     statutProjet === 'lauréat'
       ? this.lauréatWorld.identifiantProjet.formatter()

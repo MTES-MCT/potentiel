@@ -4,7 +4,7 @@ import { Header } from './Header';
 import { DropdownMenu } from '../molecules/dropdowns/DropdownMenu';
 import { UtilisateurReadModel } from '../../../../modules/utilisateur/récupérer/UtilisateurReadModel';
 import { Routes } from '@potentiel-applications/routes';
-import { isDemandeChangementReprésentantLégalEnabled } from '@potentiel-applications/feature-flags';
+import { featureFlags } from '@potentiel-applications/feature-flags';
 
 const MenuGarantiesFinancières = ({ currentPage }: { currentPage?: string }) => (
   <DropdownMenu buttonChildren={'Garanties financières'}>
@@ -94,7 +94,7 @@ const MenuAdmin = (currentPage?: string) => (
       </DropdownMenu.DropdownItem>
       <DropdownMenu.DropdownItem href={Routes.Abandon.lister}>Abandons</DropdownMenu.DropdownItem>
       <DropdownMenu.DropdownItem href={Routes.Recours.lister}>Recours</DropdownMenu.DropdownItem>
-      {isDemandeChangementReprésentantLégalEnabled() && (
+      {featureFlags.isDemandeChangementReprésentantLégalEnabled && (
         <DropdownMenu.DropdownItem href={Routes.ReprésentantLégal.changement.lister}>
           Changements de représentant légal
         </DropdownMenu.DropdownItem>
@@ -185,7 +185,7 @@ const MenuPorteurProjet = (currentPage?: string) => (
       </DropdownMenu.DropdownItem>
       <DropdownMenu.DropdownItem href={Routes.Abandon.lister}>Abandons</DropdownMenu.DropdownItem>
       <DropdownMenu.DropdownItem href={Routes.Recours.lister}>Recours</DropdownMenu.DropdownItem>
-      {isDemandeChangementReprésentantLégalEnabled() && (
+      {featureFlags.isDemandeChangementReprésentantLégalEnabled && (
         <DropdownMenu.DropdownItem href={Routes.ReprésentantLégal.changement.lister}>
           Changements de représentant légal
         </DropdownMenu.DropdownItem>
@@ -252,7 +252,7 @@ const MenuDreal = (currentPage?: string) => (
       </DropdownMenu.DropdownItem>
       <DropdownMenu.DropdownItem href={Routes.Abandon.lister}>Abandons</DropdownMenu.DropdownItem>
       <DropdownMenu.DropdownItem href={Routes.Recours.lister}>Recours</DropdownMenu.DropdownItem>
-      {isDemandeChangementReprésentantLégalEnabled() && (
+      {featureFlags.isDemandeChangementReprésentantLégalEnabled && (
         <DropdownMenu.DropdownItem href={Routes.ReprésentantLégal.changement.lister}>
           Changements de représentant légal
         </DropdownMenu.DropdownItem>
