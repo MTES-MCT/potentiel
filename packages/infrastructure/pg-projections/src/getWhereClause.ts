@@ -21,7 +21,7 @@ const mapToConditions = (flattenWhere: Record<string, unknown>): Array<Condition
         if (key.endsWith('.operator')) {
           const name = key.replace('.operator', '');
           prev[name] ??= { name };
-          prev[name].operator = value as WhereOperator;
+          prev[name].operator = value as WhereOperator | undefined;
         } else {
           const name = key.replace('.value', '');
           prev[name] ??= { name };
@@ -29,8 +29,11 @@ const mapToConditions = (flattenWhere: Record<string, unknown>): Array<Condition
         }
         return prev;
       },
-      {} as Record<string, { name: string; value?: unknown; operator?: WhereOperator }>,
-    ) as Record<string, Condition>,
+      {} as Record<string, Partial<Condition>>,
+    ),
+  ).filter(
+    (condition): condition is Condition =>
+      condition.name !== undefined && condition.operator !== undefined,
   );
 
 const mapToWhereClauseAndValues = (
