@@ -7,3 +7,5 @@ export const requiredBlob = () =>
     .instanceof(Blob)
     .refine(({ size }) => size > 0, `Champ obligatoire`)
     .refine(cannotExceedSize.refine, cannotExceedSize.message);
+
+export const requiredBlobArray = requiredBlob().array().min(1, 'Champ obligatoire');

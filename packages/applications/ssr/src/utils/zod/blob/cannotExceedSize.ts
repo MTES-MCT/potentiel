@@ -1,4 +1,4 @@
-const fileSizeLimitInMegaBytes = 5;
+export const fileSizeLimitInMegaBytes = 5;
 const toBytes = (sizeInMegaBytes: number): number => sizeInMegaBytes * 1024 * 1024;
 
 const refine = ({ size }: Blob) => size <= toBytes(fileSizeLimitInMegaBytes);

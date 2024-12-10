@@ -3,7 +3,7 @@ import * as zod from 'zod';
 
 import { ConsulterDocumentProjetQuery } from '@potentiel-domain/document';
 
-import { singleDocument } from './document';
+import { singleDocument } from './singleDocument';
 
 const documentKey = zod
   .string()

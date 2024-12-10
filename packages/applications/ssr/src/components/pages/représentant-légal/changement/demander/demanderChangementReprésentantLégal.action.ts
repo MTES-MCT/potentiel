@@ -8,7 +8,7 @@ import * as zod from 'zod';
 
 import { FormAction, formAction, FormState } from '@/utils/formAction';
 import { withUtilisateur } from '@/utils/withUtilisateur';
-import { manyDocuments } from '@/utils/zod/document';
+import { manyDocuments } from '@/utils/zod/document/manyDocuments';
 
 const schema = zod.object({
   identifiantProjet: zod.string().min(1),

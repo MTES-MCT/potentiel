@@ -9,7 +9,7 @@ import { parseCsv } from '@potentiel-libraries/csv';
 import { Option } from '@potentiel-libraries/monads';
 
 import { ActionResult, FormAction, FormState, formAction } from '@/utils/formAction';
-import { singleDocument } from '@/utils/zod/document';
+import { singleDocument } from '@/utils/zod/document/singleDocument';
 
 const schema = zod.object({
   identifiantGestionnaireReseau: zod.string(),
