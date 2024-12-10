@@ -16,28 +16,33 @@ Alors(
     await waitForExpect(async () => {
       const { identifiantProjet } = this.lauréatWorld;
 
-      const représentantLégal = await mediator.send<ReprésentantLégal.ReprésentantLégalQuery>({
-        type: 'Lauréat.ReprésentantLégal.Query.ConsulterReprésentantLégal',
-        data: {
-          identifiantProjet: identifiantProjet.formatter(),
-        },
-      });
+      const demande =
+        await mediator.send<ReprésentantLégal.ConsulterDemandeChangementReprésentantLégalQuery>({
+          type: 'Lauréat.ReprésentantLégal.Query.ConsulterDemandeChangementReprésentantLégal',
+          data: {
+            identifiantProjet: identifiantProjet.formatter(),
+          },
+        });
 
-      const actual = mapToPlainObject(représentantLégal);
+      const actual = mapToPlainObject(demande);
       const expected = mapToPlainObject(
-        this.lauréatWorld.représentantLégalWorld.mapToExpected(identifiantProjet),
+        this.lauréatWorld.représentantLégalWorld.demandeChangementReprésentantLégalWorld.mapToExpected(
+          identifiantProjet,
+        ),
       );
+
       actual.should.be.deep.equal(expected);
 
       if (
-        this.lauréatWorld.représentantLégalWorld.demanderChangementReprésentantLégalFixture.aÉtéCréé
+        this.lauréatWorld.représentantLégalWorld.demandeChangementReprésentantLégalWorld
+          .demanderChangementReprésentantLégalFixture.aÉtéCréé
       ) {
         const result = await mediator.send<ConsulterDocumentProjetQuery>({
           type: 'Document.Query.ConsulterDocumentProjet',
           data: {
-            documentKey: Option.match(représentantLégal)
-              .some((représentantLégal) => {
-                return représentantLégal.demande?.pièceJustificative?.formatter() ?? '';
+            documentKey: Option.match(demande)
+              .some((demande) => {
+                return demande.pièceJustificative.formatter() ?? '';
               })
               .none(() => ''),
           },
@@ -46,8 +51,9 @@ Alors(
         const actualContent = await convertReadableStreamToString(result.content);
 
         const expectedContent = await convertReadableStreamToString(
-          this.lauréatWorld.représentantLégalWorld.demanderChangementReprésentantLégalFixture
-            .pièceJustificative?.content ?? new ReadableStream(),
+          this.lauréatWorld.représentantLégalWorld.demandeChangementReprésentantLégalWorld
+            .demanderChangementReprésentantLégalFixture.pièceJustificative?.content ??
+            new ReadableStream(),
         );
 
         actualContent.should.be.equal(expectedContent);

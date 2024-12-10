@@ -20,6 +20,3 @@ const documentKey = zod
   });
 
 export const keepOrUpdateSingleDocument = documentKey.or(singleDocument());
-export const keepOrUpdateManyDocuments = keepOrUpdateSingleDocument
-  .transform((document) => [document])
-  .or(zod.array(keepOrUpdateSingleDocument).min(1, 'Champ obligatoire'));

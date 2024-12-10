@@ -37,13 +37,15 @@ export const getReprésentantLégal: GetReprésentantLégal = async (identifiant
     });
 
     if (Option.isSome(représentantLégal)) {
-      const demandeExistante = !!représentantLégal.demande;
+      const demandeChangementExistante =
+        await getDemandeChangementReprésentantLégal(identifiantProjet);
 
       const peutConsulterLaDemandeExistante =
-        demandeExistante && utilisateur.aLaPermission('représentantLégal.consulter');
+        demandeChangementExistante && utilisateur.aLaPermission('représentantLégal.consulter');
 
       const peutFaireUneDemande =
-        !demandeExistante && utilisateur.aLaPermission('représentantLégal.demanderChangement');
+        !demandeChangementExistante &&
+        utilisateur.aLaPermission('représentantLégal.demanderChangement');
 
       return {
         nom: représentantLégal.nomReprésentantLégal,
@@ -89,4 +91,17 @@ export const getReprésentantLégal: GetReprésentantLégal = async (identifiant
     );
     return undefined;
   }
+};
+
+const getDemandeChangementReprésentantLégal = async (
+  identifiantProjet: IdentifiantProjet.ValueType,
+) => {
+  const demande = await mediator.send<ReprésentantLégal.ReprésentantLégalQuery>({
+    type: 'Lauréat.ReprésentantLégal.Query.ConsulterDemandeChangementReprésentantLégal',
+    data: { identifiantProjet: identifiantProjet.formatter() },
+  });
+
+  return Option.match(demande)
+    .some(() => true)
+    .none(() => false);
 };
