@@ -1,7 +1,7 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { IdentifiantProjet } from '@potentiel-domain/common';
-import { List } from '@potentiel-domain/entity';
+import { List, Where } from '@potentiel-domain/entity';
 
 import { RaccordementEntity } from '..';
 import { IdentifiantGestionnaireRéseau } from '../../gestionnaire';
@@ -18,7 +18,9 @@ export type ListerRaccordementReadModel = {
 
 export type ListerRaccordementQuery = Message<
   'Réseau.Raccordement.Query.ListerRaccordement',
-  {},
+  {
+    identifiantGestionnaireRéseauValue?: string;
+  },
   ListerRaccordementReadModel
 >;
 
@@ -27,10 +29,15 @@ export type ListerRaccordementQueryDependencies = {
 };
 
 export const registerListerRaccordementQuery = ({ list }: ListerRaccordementQueryDependencies) => {
-  const handler: MessageHandler<ListerRaccordementQuery> = async () => {
+  const handler: MessageHandler<ListerRaccordementQuery> = async ({
+    identifiantGestionnaireRéseauValue,
+  }) => {
     const { items, total } = await list<RaccordementEntity>('raccordement', {
       orderBy: {
         identifiantProjet: 'ascending',
+      },
+      where: {
+        identifiantGestionnaireRéseau: Where.equal(identifiantGestionnaireRéseauValue),
       },
     });
 
