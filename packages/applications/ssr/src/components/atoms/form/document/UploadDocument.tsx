@@ -5,7 +5,7 @@ import clsx from 'clsx';
 import Link from 'next/link';
 import { createModal } from '@codegouvfr/react-dsfr/Modal';
 
-import { defaultFileSizeLimitInMegaBytes } from '@/utils/zod/document';
+import { fileSizeLimitInMegaBytes } from '@/utils/zod/blob/cannotExceedSize';
 
 import { Icon } from '../../Icon';
 
@@ -109,8 +109,7 @@ export const UploadDocument: FC<UploadDocumentProps> = ({
       )}
       <div className="fr-hint-text">
         Formats accepté : <span className="font-semibold">{formats.join(', ')}</span>, taille
-        maximale acceptée :{' '}
-        <span className="font-semibold">{defaultFileSizeLimitInMegaBytes} Mo</span>
+        maximale acceptée : <span className="font-semibold">{fileSizeLimitInMegaBytes} Mo</span>
       </div>
       {hintText && <div className="fr-hint-text">{hintText}</div>}
 

@@ -10,7 +10,7 @@ import { Routes } from '@potentiel-applications/routes';
 
 import { ActionResult, FormAction, FormState, formAction } from '@/utils/formAction';
 import { withUtilisateur } from '@/utils/withUtilisateur';
-import { singleDocument } from '@/utils/zod/document';
+import { singleDocument } from '@/utils/zod/document/singleDocument';
 
 const schema = zod.object({
   fichierCorrections: singleDocument(),

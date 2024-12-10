@@ -11,7 +11,7 @@ import { Routes } from '@potentiel-applications/routes';
 
 import { ActionResult, FormAction, formAction, FormState } from '@/utils/formAction';
 import { withUtilisateur } from '@/utils/withUtilisateur';
-import { singleDocument } from '@/utils/zod/document';
+import { singleDocument } from '@/utils/zod/document/singleDocument';
 
 import { getLocalité } from '../helpers';
 

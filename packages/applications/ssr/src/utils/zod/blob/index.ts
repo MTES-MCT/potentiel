@@ -1,4 +1,5 @@
 export { applyWatermark } from './applyWatermark';
 export { mapToConsulterDocumentProjetReadModel } from './mapToConsulterDocumentProjetReadModel';
-export { optionalBlob } from './optionalBlob';
-export { requiredBlob } from './requiredBlob';
+export { mergePdfDocuments } from './mergePdfDocuments';
+export { optionalBlob, optionalBlobArray } from './optionalBlob';
+export { requiredBlob, requiredBlobArray } from './requiredBlob';

@@ -7,7 +7,7 @@ import {
   mapToConsulterDocumentProjetReadModel,
   optionalBlob,
   requiredBlob,
-} from './blob';
+} from '../blob';
 
 type CommonOptions = {
   applyWatermark?: true;
@@ -40,23 +40,6 @@ export function singleDocument(
   const blobSchema = options?.optional ? optionalBlob : requiredBlob;
 
   return blobSchema()
-    .transform((blob) => (options?.optional ? applyWatermark(blob) : blob))
-    .transform(mapToConsulterDocumentProjetReadModel);
-}
-
-const optionalBlobArray = optionalBlob()
-  .transform((blob) => [blob])
-  .or(optionalBlob().array());
-
-const requiredBlobArray = requiredBlob()
-  .transform((blob) => [blob])
-  .or(requiredBlob().array().min(1, 'Champ obligatoire'));
-
-export function manyDocuments(options?: { optional?: true; applyWatermark?: true }) {
-  const blobArraySchema = options?.optional ? optionalBlobArray : requiredBlobArray;
-
-  return blobArraySchema
-    .transform(combinePdfs)
-    .transform((blob) => (options?.optional ? applyWatermark(blob) : blob))
+    .transform((blob) => (options?.applyWatermark ? applyWatermark(blob) : blob))
     .transform(mapToConsulterDocumentProjetReadModel);
 }
