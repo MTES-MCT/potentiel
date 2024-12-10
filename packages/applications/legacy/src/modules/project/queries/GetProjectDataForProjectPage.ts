@@ -1,10 +1,8 @@
-import { GarantiesFinancières } from '@potentiel-domain/laureat';
 import { ResultAsync } from '../../../core/utils';
 import { ProjectAppelOffre, User } from '../../../entities';
 import { Permission } from '../../authN';
 import { InfraNotAvailableError, EntityNotFoundError } from '../../shared';
 import { Actionnariat, DésignationCatégorie } from '../types';
-import { Candidature } from '@potentiel-domain/candidature';
 import { Recours } from '@potentiel-domain/elimine';
 
 export const PermissionConsulterProjet: Permission = {
@@ -50,6 +48,7 @@ export type ProjectDataForProjectPage = {
   isFinancementParticipatif: boolean;
   isInvestissementParticipatif: boolean;
   actionnariat?: Actionnariat;
+  actionnaire?: string;
 
   adresseProjet: string;
   codePostalProjet: string;
