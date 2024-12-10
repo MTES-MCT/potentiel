@@ -33,6 +33,7 @@ export const InfoGenerales = ({
     regionProjet,
     departementProjet,
     adresseProjet,
+    actionnaire,
   },
   role,
   garantiesFinancières,
@@ -134,6 +135,11 @@ export const InfoGenerales = ({
         <p className="m-0">
           {departementProjet}, {regionProjet}
         </p>
+      </div>
+
+      <div>
+        <Heading3 className="m-0">Actionnaire</Heading3>
+        <p className="m-0">{actionnaire}</p>
       </div>
     </Section>
   );
