@@ -1,4 +1,5 @@
 import { FC } from 'react';
+import { match } from 'ts-pattern';
 
 import { PlainType } from '@potentiel-domain/core';
 import { Role } from '@potentiel-domain/utilisateur';
@@ -62,8 +63,8 @@ export const DétailsDemandeChangementReprésentantLégalPage: FC<
                   />{' '}
                   par <span className="font-semibold">{Email.bind(demandéPar).formatter()}</span>
                 </div>
-                <div>
-                  Statut :{' '}
+                <div className="flex gap-2">
+                  <div className="font-semibold">Statut :</div>{' '}
                   <StatutChangementReprésentantLégalBadge
                     statut={ReprésentantLégal.StatutDemandeChangementReprésentantLégal.bind(
                       statut,
@@ -71,28 +72,23 @@ export const DétailsDemandeChangementReprésentantLégalPage: FC<
                   />
                 </div>
                 <div className="flex gap-2">
-                  <div className="whitespace-nowrap">Type :</div>
-                  <blockquote className="font-semibold italic">"{type}"</blockquote>
+                  <div className="font-semibold whitespace-nowrap">Type :</div>
+                  <div>{getTypeLabel(type)}</div>
                 </div>
                 <div className="flex gap-2">
-                  <div className="whitespace-nowrap">Nom représentant légal :</div>
-                  <blockquote className="font-semibold italic">"{nomReprésentantLégal}"</blockquote>
+                  <div className="font-semibold whitespace-nowrap">Nom représentant légal :</div>
+                  <div>{nomReprésentantLégal}</div>
                 </div>
                 <div className="flex gap-2">
-                  <div className="whitespace-nowrap">Pièce justificative :</div>
-                  <blockquote
-                    className="font-semibold italic"
-                    key={pièceJustificative.dateCréation}
-                  >
-                    <DownloadDocument
-                      className="mb-0"
-                      label="Télécharger la pièce justificative"
-                      format={pièceJustificative.format}
-                      url={Routes.Document.télécharger(
-                        DocumentProjet.bind(pièceJustificative).formatter(),
-                      )}
-                    />
-                  </blockquote>
+                  <div className="font-semibold whitespace-nowrap">Pièce justificative :</div>
+                  <DownloadDocument
+                    className="mb-0"
+                    label="Télécharger la pièce justificative"
+                    format={pièceJustificative.format}
+                    url={Routes.Document.télécharger(
+                      DocumentProjet.bind(pièceJustificative).formatter(),
+                    )}
+                  />
                 </div>
               </div>
             </div>
@@ -154,3 +150,13 @@ const mapToActionComponents = ({
       )}
     </div>
   ) : null;
+
+const getTypeLabel = (type: ReprésentantLégal.TypeReprésentantLégal.RawType) =>
+  match(type)
+    .returnType<string>()
+    .with('personne-physique', () => 'Personne physique')
+    .with('personne-morale', () => 'Personne morale')
+    .with('collectivité', () => 'Collectivité')
+    .with('autre', () => 'Organisme')
+    .with('inconnu', () => 'Inconnu')
+    .exhaustive();
