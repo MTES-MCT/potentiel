@@ -44,7 +44,8 @@ export const registerDemanderChangementReprésentantLégalCommand = (
       typeReprésentantLégal,
       dateDemande,
       pièceJustificative,
-      projetAbandonné: !!abandon.accord,
+      projetAbandonné: abandon.statut.estAccordé(),
+      projetAvecDemandeAbandonEnCours: abandon.statut.estEnCours(),
     });
   };
   mediator.register(

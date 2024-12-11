@@ -28,6 +28,7 @@ export type DemanderChangementOptions = {
   identifiantUtilisateur: Email.ValueType;
   dateDemande: DateTime.ValueType;
   projetAbandonné: boolean;
+  projetAvecDemandeAbandonEnCours: boolean;
 };
 
 export async function demander(
@@ -40,8 +41,13 @@ export async function demander(
     identifiantUtilisateur,
     dateDemande,
     projetAbandonné,
+    projetAvecDemandeAbandonEnCours,
   }: DemanderChangementOptions,
 ) {
+  if (projetAvecDemandeAbandonEnCours) {
+    throw new ProjetAvecDemandeAbandonEnCoursError();
+  }
+
   if (projetAbandonné) {
     throw new ProjetAbandonnéError();
   }
@@ -110,5 +116,13 @@ class PièceJustificativeObligatoireError extends InvalidOperationError {
 class ProjetAbandonnéError extends DomainError {
   constructor() {
     super('Impossible de demander le changement de réprésentant légal pour un projet abandonné');
+  }
+}
+
+class ProjetAvecDemandeAbandonEnCoursError extends DomainError {
+  constructor() {
+    super(
+      "Impossible de demander le changement de réprésentant légal car une demande d'abandon est en cours pour le projet",
+    );
   }
 }
