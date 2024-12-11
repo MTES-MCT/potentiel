@@ -47,9 +47,12 @@ export const getReprésentantLégal: GetReprésentantLégal = async (identifiant
         !demandeChangementExistante &&
         utilisateur.aLaPermission('représentantLégal.demanderChangement');
 
+      const peutFaireModification =
+        !demandeChangementExistante && utilisateur.aLaPermission('représentantLégal.modifier');
+
       return {
         nom: représentantLégal.nomReprésentantLégal,
-        modification: utilisateur.aLaPermission('représentantLégal.modifier')
+        modification: peutFaireModification
           ? {
               type: 'lauréat',
               url: Routes.ReprésentantLégal.modifier(identifiantProjet.formatter()),
