@@ -42,7 +42,7 @@ export async function UserHeaderQuickAccessItem() {
           quickAccessItem={{
             iconId: 'ri-logout-box-line',
             linkProps: {
-              href: Routes.Auth.federatedLogout(),
+              href: Routes.Auth.signOut(),
               prefetch: false,
             },
             text: 'Me déconnecter',

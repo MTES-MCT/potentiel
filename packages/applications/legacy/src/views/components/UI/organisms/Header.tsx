@@ -156,7 +156,7 @@ const QuickAccess = ({ user }: QuickAccessProps) => (
         <li className="flex items-center">
           <Link
             className="no-underline hover:no-underline flex flex-row items-center px-2 md:px-3 lg:border-0 lg:border-r lg:border-slate-200 lg:border-solid"
-            href={Routes.Auth.federatedLogout()}
+            href={Routes.Auth.signOut()}
           >
             <LogoutBoxIcon className="text-blue-france-sun-base" aria-hidden />
             <span className="hidden lg:block pt-0.5 mx-1 text-blue-france-sun-base">

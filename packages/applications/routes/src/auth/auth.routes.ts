@@ -13,7 +13,4 @@ export const signOut = (callbackUrl?: string) => {
   return `${route}?${params}`;
 };
 
-// The route to call to initiate user logout
-export const federatedLogout = () => `/api/auth/federated-logout`;
-
 export const redirectToDashboard = () => `/go-to-user-dashboard`;

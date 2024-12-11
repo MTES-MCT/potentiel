@@ -58,7 +58,7 @@ const Bienvenue = ({ fullName, redirectText }: BienvenueProps) => (
       </LinkButton>
       <SecondaryLinkButton
         className="inline-flex items-center lg:text-lg"
-        href={Routes.Auth.federatedLogout()}
+        href={Routes.Auth.signOut()}
       >
         <LogoutBoxIcon className="mr-4" aria-hidden />
         Me déconnecter
