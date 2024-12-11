@@ -273,7 +273,7 @@ export const setupLauréat = async ({ sendEmail }: SetupLauréatDependencies) =>
   });
 
   const unsubscribeActionnaireSaga = await subscribe<
-    ReprésentantLégal.ReprésentantLégalSaga.SubscriptionEvent & Event
+    Actionnaire.ActionnaireSaga.SubscriptionEvent & Event
   >({
     name: 'actionnaire-saga',
     streamCategory: 'lauréat',
