@@ -25,7 +25,7 @@ export const registerÉchoirGarantiesFinancièresCommand = (loadAggregate: LoadA
 
     await garantiesFinancières.échoir({
       identifiantProjet,
-      aUneAttestationDeConformité: !!achèvement.attestationConformité.format,
+      aUneAttestationDeConformité: !!achèvement.attestationConformité?.format,
     });
   };
   mediator.register('Lauréat.GarantiesFinancières.Command.ÉchoirGarantiesFinancières', handler);

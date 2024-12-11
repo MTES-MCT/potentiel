@@ -36,7 +36,7 @@ export async function demanderMainlevée(
     throw new ProjetNonAbandonnéError();
   }
 
-  if (motif.estProjetAchevé() && !achèvement?.preuveTransmissionAuCocontractant.format) {
+  if (motif.estProjetAchevé() && !achèvement?.preuveTransmissionAuCocontractant?.format) {
     throw new ProjetNonAchevéError();
   }
 
