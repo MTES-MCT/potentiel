@@ -4,6 +4,7 @@ import * as AbandonSaga from './abandon.saga';
 import * as CandidatureSaga from './candidature.saga';
 import * as LauréatSaga from './lauréat.saga';
 import * as ÉliminéSaga from './éliminé.saga';
+import * as ActionnaireSaga from './actionnaire.saga';
 import { mediator } from 'mediateur';
 
 /**
@@ -15,6 +16,7 @@ export const registerSagas = async () => {
   CandidatureSaga.register();
   LauréatSaga.register();
   ÉliminéSaga.register();
+  ActionnaireSaga.register();
 
   const unsubscribeRaccordement = await subscribe<RaccordementSaga.SubscriptionEvent>({
     name: 'legacy-saga',
@@ -76,11 +78,24 @@ export const registerSagas = async () => {
     streamCategory: 'éliminé',
   });
 
+  const unsubscribeActionnaire = await subscribe<ActionnaireSaga.SubscriptionEvent>({
+    name: 'legacy-saga',
+    eventType: ['ActionnaireImporté-V1', 'ActionnaireModifié-V1'],
+    eventHandler: async (event) => {
+      await mediator.send<ActionnaireSaga.Execute>({
+        type: 'System.Saga.Actionnaire',
+        data: event,
+      });
+    },
+    streamCategory: 'actionnaire',
+  });
+
   return async () => {
     await unsubscribeRaccordement();
     await unsubscribeAbandon();
     await unsubscribeCandidature();
     await unsubscribeLauréat();
     await unsubscribeÉliminé();
+    await unsubscribeActionnaire();
   };
 };
