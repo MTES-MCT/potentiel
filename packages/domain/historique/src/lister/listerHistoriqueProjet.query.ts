@@ -9,7 +9,7 @@ export type ListerHistoriqueProjetQuery = Message<
   {
     identifiantProjet: string;
     category?: 'abandon';
-    range: RangeOptions;
+    range?: RangeOptions;
   },
   ListerHistoriqueProjetReadModel
 >;

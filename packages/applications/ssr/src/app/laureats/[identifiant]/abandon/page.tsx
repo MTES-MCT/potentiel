@@ -7,6 +7,7 @@ import { Role, Utilisateur } from '@potentiel-domain/utilisateur';
 import { Option } from '@potentiel-libraries/monads';
 import { mapToPlainObject } from '@potentiel-domain/core';
 import { Candidature } from '@potentiel-domain/candidature';
+import { Historique } from '@potentiel-domain/historique';
 
 import {
   DétailsAbandonPage,
@@ -44,6 +45,14 @@ export default async function Page({ params: { identifiant } }: PageProps) {
         return notFound();
       }
 
+      const historique = await mediator.send<Historique.ListerHistoriqueProjetQuery>({
+        type: 'Historique.Query.ListerHistoriqueProjet',
+        data: {
+          identifiantProjet,
+          category: 'abandon',
+        },
+      });
+
       let projetsÀSélectionner: DétailsAbandonPageProps['projetsÀSélectionner'] = [];
       const transmissionPreuveRecandidaturePossible = !!(
         utilisateur.role.estÉgaleÀ(Role.porteur) &&
@@ -74,7 +83,6 @@ export default async function Page({ params: { identifiant } }: PageProps) {
         <DétailsAbandonPage
           abandon={mapToPlainObject(abandon)}
           identifiantProjet={identifiantProjet}
-          role={mapToPlainObject(utilisateur.role)}
           actions={mapToActions({
             utilisateur,
             recandidature: abandon.demande.estUneRecandidature,
@@ -87,6 +95,7 @@ export default async function Page({ params: { identifiant } }: PageProps) {
             statut: abandon.statut,
           })}
           projetsÀSélectionner={projetsÀSélectionner}
+          historique={mapToPlainObject(historique)}
         />
       );
     }),

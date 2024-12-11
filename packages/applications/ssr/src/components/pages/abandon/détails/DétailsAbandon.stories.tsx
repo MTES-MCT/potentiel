@@ -2,7 +2,6 @@ import type { Meta, StoryObj } from '@storybook/react';
 
 import { Iso8601DateTime } from '@potentiel-libraries/iso8601-datetime';
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
-import { Role } from '@potentiel-domain/utilisateur';
 import { Abandon } from '@potentiel-domain/laureat';
 
 import { DétailsAbandonPage, DétailsAbandonPageProps } from './DétailsAbandon.page';
@@ -40,7 +39,14 @@ const getProjetsÀSélectionner = () => {
 export const Demandé: Story = {
   args: {
     identifiantProjet,
-    role: Role.porteur,
+    historique: {
+      items: [],
+      range: {
+        endPosition: 0,
+        startPosition: 0,
+      },
+      total: 0,
+    },
     abandon: {
       identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
       statut: {
@@ -71,7 +77,14 @@ export const Demandé: Story = {
 export const Confirmé: Story = {
   args: {
     identifiantProjet,
-    role: Role.porteur,
+    historique: {
+      items: [],
+      range: {
+        endPosition: 0,
+        startPosition: 0,
+      },
+      total: 0,
+    },
     abandon: {
       identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
       statut: {
@@ -122,7 +135,14 @@ export const Confirmé: Story = {
 export const Rejeté: Story = {
   args: {
     identifiantProjet,
-    role: Role.porteur,
+    historique: {
+      items: [],
+      range: {
+        endPosition: 0,
+        startPosition: 0,
+      },
+      total: 0,
+    },
     abandon: {
       identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
       statut: {
@@ -167,7 +187,14 @@ export const Rejeté: Story = {
 export const Accordé: Story = {
   args: {
     identifiantProjet,
-    role: Role.porteur,
+    historique: {
+      items: [],
+      range: {
+        endPosition: 0,
+        startPosition: 0,
+      },
+      total: 0,
+    },
     abandon: {
       identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
       statut: {
@@ -212,7 +239,14 @@ export const Accordé: Story = {
 export const AccordéAvecRecandidature: Story = {
   args: {
     identifiantProjet,
-    role: Role.porteur,
+    historique: {
+      items: [],
+      range: {
+        endPosition: 0,
+        startPosition: 0,
+      },
+      total: 0,
+    },
     abandon: {
       identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
       statut: {
@@ -257,7 +291,14 @@ export const AccordéAvecRecandidature: Story = {
 export const AccordéAvecRecandidatureAvecLienPourTransmettre: Story = {
   args: {
     identifiantProjet,
-    role: Role.porteur,
+    historique: {
+      items: [],
+      range: {
+        endPosition: 0,
+        startPosition: 0,
+      },
+      total: 0,
+    },
     abandon: {
       identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
       statut: {
