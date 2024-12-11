@@ -8,7 +8,7 @@ import { Lauréat } from '../..';
 
 export type ConsulterActionnaireReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
-  actionnaire: String;
+  actionnaire: string;
 };
 
 export type ConsulterActionnaireQuery = Message<
