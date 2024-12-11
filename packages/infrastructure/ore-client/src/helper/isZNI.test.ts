@@ -2,9 +2,7 @@ import { test, describe } from 'node:test';
 
 import { expect } from 'chai';
 
-import { Option } from '@potentiel-libraries/monads';
-
-import { matchOutreMerAndCorseCodePostalToGRD } from './matchOutreMerAndCorseCodePostalToGRD';
+import { isZNI } from './isZNI';
 
 const codePostauxAndExpected = [
   ['97100', 'EDF Archipel Guadeloupe'],
@@ -17,15 +15,11 @@ const codePostauxAndExpected = [
 
 const notMatchingCodePostaux = ['88100', '75000', '04008', '69007'];
 
-describe(matchOutreMerAndCorseCodePostalToGRD.name, () => {
+describe(isZNI.name, () => {
   describe('Matching code postaux', () => {
     for (const [input, expected] of codePostauxAndExpected) {
       test(`${input} should be matched to raison sociale ${expected}`, () => {
-        expect(
-          Option.match(matchOutreMerAndCorseCodePostalToGRD(input))
-            .some((gestionnaire) => gestionnaire.raisonSociale)
-            .none(() => ''),
-        ).to.eq(expected);
+        expect(isZNI(input)).to.eq(true);
       });
     }
   });
@@ -33,7 +27,7 @@ describe(matchOutreMerAndCorseCodePostalToGRD.name, () => {
   describe('Not matching code postaux', () => {
     for (const codePostal of notMatchingCodePostaux) {
       test(`${codePostal} should not be matched`, () => {
-        expect(Option.isNone(matchOutreMerAndCorseCodePostalToGRD(codePostal))).to.be.true;
+        expect(isZNI(codePostal)).to.eq(false);
       });
     }
   });
