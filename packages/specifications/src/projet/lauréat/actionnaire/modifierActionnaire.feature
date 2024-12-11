@@ -21,6 +21,9 @@ Fonctionnalité: Modifier l'actionnaire d'un projet lauréat
         Quand le DGEC validateur modifie l'actionnaire avec la même valeur pour le projet lauréat
         Alors l'utilisateur devrait être informé que "Le nouvel actionnaire est identique à celui associé au projet"
 
-    @NotImplemented
-    Scénario: Modifier l'actionnaire d'un projet lauréat alors qu'une modification d'actionnaire est en cours
-
+    # TODO: valider ce scénario avec le métier
+    Scénario: Impossible de modifier l'actionnaire d'un projet lauréat alors qu'une modification d'actionnaire est en cours
+        Etant donné le projet lauréat "Du boulodrome de Marseille"
+        Et une demande de modification de l'actionnaire en cours pour le projet lauréat
+        Quand le DGEC validateur modifie l'actionnaire pour le projet lauréat
+        Alors l'utilisateur devrait être informé que "Une demande de modification est déjà en cours"

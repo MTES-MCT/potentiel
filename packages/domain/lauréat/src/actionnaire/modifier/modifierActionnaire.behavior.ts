@@ -2,7 +2,7 @@ import { DomainEvent } from '@potentiel-domain/core';
 import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
 
 import { ActionnaireAggregate } from '../actionnaire.aggregate';
-import { ActionnaireIdentifiqueError } from '../errors';
+import { ActionnaireIdentifiqueError, DemandeDeModificationEnCoursError } from '../errors';
 
 export type ActionnaireModifiéEvent = DomainEvent<
   'ActionnaireModifié-V1',
@@ -27,6 +27,10 @@ export async function modifier(
 ) {
   if (this.actionnaire === actionnaire) {
     throw new ActionnaireIdentifiqueError();
+  }
+
+  if (this.statutDemande?.estEnCours()) {
+    throw new DemandeDeModificationEnCoursError();
   }
 
   const event: ActionnaireModifiéEvent = {

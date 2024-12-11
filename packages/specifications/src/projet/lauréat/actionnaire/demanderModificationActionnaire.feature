@@ -6,6 +6,7 @@ Fonctionnalité: Demander la modification de l'actionnaire d'un projet lauréat
         Et le porteur "Marcel Patoulatchi" ayant accés au projet lauréat "Du boulodrome de Marseille"
         Et la dreal "DREAL" associée à la région du projet
 
+    # TODO: ajouter la notification DREAL
     Scénario: Demander la modification de l'actionnaire d'un projet lauréat
         Quand le porteur demande la modification de l'actionnaire pour le projet lauréat
         Alors la demande de modification de l'actionnaire devrait être consultable
