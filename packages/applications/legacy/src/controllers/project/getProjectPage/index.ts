@@ -18,7 +18,6 @@ import { v1Router } from '../../v1Router';
 
 import { IdentifiantProjet } from '@potentiel-domain/common';
 import { logger } from '../../../core/utils';
-import { getLogger } from '@potentiel-libraries/monitoring';
 import { addQueryParams } from '../../../helpers/addQueryParams';
 
 import {

@@ -33,6 +33,7 @@ export const InfoGenerales = ({
     regionProjet,
     departementProjet,
     adresseProjet,
+    actionnaire,
   },
   role,
   garantiesFinancières,
@@ -134,6 +135,23 @@ export const InfoGenerales = ({
         <p className="m-0">
           {departementProjet}, {regionProjet}
         </p>
+      </div>
+      {/* Ajouter FF       */}
+      <div>
+        <Heading3 className="m-0">Actionnaire</Heading3>
+        <p className="m-0">{actionnaire ?? 'Non renseigné'}</p>
+        <Link
+          href={Routes.Actionnaire.modifier(
+            formatProjectDataToIdentifiantProjetValueType({
+              appelOffreId,
+              periodeId,
+              familleId,
+              numeroCRE,
+            }).formatter(),
+          )}
+        >
+          Mettre à jour l'actionnaire
+        </Link>
       </div>
     </Section>
   );

@@ -64,6 +64,9 @@ export const DétailsCandidaturePage: FC<DétailsCandidaturePageProps> = ({
                   {candidature.localité.département}, {candidature.localité.région}
                 </span>
               </Field>
+              <Field name="Actionnaire">
+                <span>{candidature.sociétéMère}</span>
+              </Field>
               <Field name="Performances">
                 <span>Puissance installée: {candidature.puissanceProductionAnnuelle} MW</span>
                 <span>

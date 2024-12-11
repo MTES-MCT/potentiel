@@ -205,6 +205,17 @@ const référencielPermissions = {
         modifier: 'Lauréat.ReprésentantLégal.Command.ModifierReprésentantLégal',
       },
     },
+    actionnaire: {
+      query: {
+        consulter: 'Lauréat.Actionnaire.Query.ConsulterActionnaire',
+      },
+      usecase: {
+        modifier: 'Lauréat.Actionnaire.UseCase.ModifierActionnaire',
+      },
+      command: {
+        modifier: 'Lauréat.Actionnaire.Command.ModifierActionnaire',
+      },
+    },
     usecase: { notifier: 'Lauréat.UseCase.NotifierLauréat' },
     command: { notifier: 'Lauréat.Command.NotifierLauréat' },
     query: { consulter: 'Lauréat.Query.ConsulterLauréat' },
@@ -837,6 +848,17 @@ const policies = {
       référencielPermissions.lauréat.représentantLégal.command.modifier,
     ],
   },
+  actionnaire: {
+    consulter: [
+      référencielPermissions.candidature.query.consulterProjet,
+      référencielPermissions.lauréat.actionnaire.query.consulter,
+    ],
+    modifier: [
+      référencielPermissions.candidature.query.consulterProjet,
+      référencielPermissions.lauréat.actionnaire.usecase.modifier,
+      référencielPermissions.lauréat.actionnaire.command.modifier,
+    ],
+  },
 } as const;
 
 /**
@@ -876,6 +898,9 @@ const pageProjetPolicies: Policy[] = [
 
   // Représentant légal
   'représentantLégal.consulter',
+
+  // Actionnaire
+  'actionnaire.consulter',
 ];
 
 const adminPolicies: ReadonlyArray<Policy> = [
@@ -943,7 +968,11 @@ const adminPolicies: ReadonlyArray<Policy> = [
   'période.consulter',
 
   // Représentant légal
+  'actionnaire.consulter',
   'représentantLégal.modifier',
+
+  // Actionnaire
+  'actionnaire.modifier',
 ];
 
 const dgecValidateurPolicies: ReadonlyArray<Policy> = [
@@ -1021,6 +1050,10 @@ const drealPolicies: ReadonlyArray<Policy> = [
   // Représentant légal
   'représentantLégal.consulter',
   'représentantLégal.modifier',
+
+  // Actionnaire
+  'actionnaire.consulter',
+  'actionnaire.modifier',
 ];
 
 const porteurProjetPolicies: ReadonlyArray<Policy> = [
@@ -1074,6 +1107,10 @@ const porteurProjetPolicies: ReadonlyArray<Policy> = [
 
   // Représentant légal
   'représentantLégal.consulter',
+
+  // Actionnaire
+  'actionnaire.consulter',
+  'actionnaire.modifier',
 ];
 
 const acheteurObligéPolicies: ReadonlyArray<Policy> = [
