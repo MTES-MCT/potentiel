@@ -7,7 +7,7 @@ import { get } from '@potentiel-libraries/http-client';
 
 import { OreEndpoint, distributeurDEnergieParCommuneUrl } from './constant';
 import { normaliserCommune } from './helper/normaliserCommune';
-import { isSEI } from './helper/isSEI';
+import { isZNI } from './helper/isZNI';
 
 type GetGRDByCityProps = {
   codePostal: string;
@@ -46,7 +46,7 @@ export const récupérerGRDParVille = async ({
   url.searchParams.append('limit', '50');
 
   try {
-    if (Option.isSome(isSEI(codePostal))) {
+    if (Option.isSome(isZNI(codePostal))) {
       return {
         codeEIC: '23X160203-000021',
         raisonSociale: 'SEI',
