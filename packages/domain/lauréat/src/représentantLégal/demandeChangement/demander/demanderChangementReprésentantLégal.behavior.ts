@@ -27,6 +27,7 @@ export type DemanderChangementOptions = {
   pièceJustificative?: DocumentProjet.ValueType;
   identifiantUtilisateur: Email.ValueType;
   dateDemande: DateTime.ValueType;
+  projetAbandonné: boolean;
 };
 
 export async function demander(
@@ -38,8 +39,13 @@ export async function demander(
     pièceJustificative,
     identifiantUtilisateur,
     dateDemande,
+    projetAbandonné,
   }: DemanderChangementOptions,
 ) {
+  if (projetAbandonné) {
+    throw new ProjetAbandonnéError();
+  }
+
   if (!pièceJustificative) {
     throw new PièceJustificativeObligatoireError();
   }
@@ -98,5 +104,11 @@ class ReprésentantLégalTypeInconnuError extends DomainError {
 class PièceJustificativeObligatoireError extends InvalidOperationError {
   constructor() {
     super('Les pièces justificatives sont obligatoires');
+  }
+}
+
+class ProjetAbandonnéError extends DomainError {
+  constructor() {
+    super('Impossible de demander le changement de réprésentant légal pour un projet abandonné');
   }
 }
