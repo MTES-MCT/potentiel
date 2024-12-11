@@ -2,6 +2,7 @@
 
 import { FC } from 'react';
 import { match } from 'ts-pattern';
+import Link from 'next/link';
 
 import { Routes } from '@potentiel-applications/routes';
 import { PlainType } from '@potentiel-domain/core';
@@ -28,42 +29,53 @@ const mapToTimelineProps = (
     .returnType<TimelineProps['items'][number]>()
     .with(
       {
+        type: 'AbandonDemandé-V1',
+      },
+      mapToAbandonDemandéTimelineProps,
+    )
+    .with(
+      {
+        type: 'AbandonAnnulé-V1',
+      },
+      mapToAbandonAnnuléTimelineProps,
+    )
+    .with(
+      {
+        type: 'ConfirmationAbandonDemandée-V1',
+      },
+      mapToConfirmationAbandonDemandéeTimelineProps,
+    )
+    .with(
+      {
+        type: 'AbandonConfirmé-V1',
+      },
+      mapToAbandonConfirméTimelineProps,
+    )
+    .with(
+      {
         type: 'AbandonAccordé-V1',
       },
-      (abandonAccordé) => {
-        const {
-          accordéLe,
-          accordéPar,
-          identifiantProjet,
-          réponseSignée: { format },
-        } = abandonAccordé.payload as Abandon.AbandonAccordéEvent['payload'];
-
-        const réponseSignée = DocumentProjet.convertirEnValueType(
-          identifiantProjet,
-          '',
-          accordéLe,
-          format,
-        ).formatter();
-
-        return {
-          status: 'success',
-          date: accordéLe,
-          title: (
-            <div>Abandon accordé par {<span className="font-semibold">{accordéPar}</span>}</div>
-          ),
-          content: (
-            <DownloadDocument
-              className="mb-0"
-              label="Télécharger la pièce justificative"
-              format="pdf"
-              url={Routes.Document.télécharger(réponseSignée)}
-            />
-          ),
-        } satisfies TimelineProps['items'][number];
+      mapToAbandonAccordéTimelineProps,
+    )
+    .with(
+      {
+        type: 'AbandonRejeté-V1',
       },
+      mapToAbandonRejetéTimelineProps,
+    )
+    .with(
+      {
+        type: 'PreuveRecandidatureDemandée-V1',
+      },
+      mapToPreuveRecandidatureDemandéeTimelineProps,
+    )
+    .with(
+      {
+        type: 'PreuveRecandidatureTransmise-V1',
+      },
+      mapToPreuveRecandidatureTransmiseTimelineProps,
     )
     .otherwise(() => ({
-      status: 'success',
       date: DateTime.now().formatter(),
       title: (
         <div>
@@ -73,143 +85,217 @@ const mapToTimelineProps = (
     }));
 };
 
-// if (
-//   recandidature?.preuve?.transmiseLe &&
-//   recandidature?.preuve?.transmisePar &&
-//   recandidature?.preuve?.identifiantProjet
-// ) {
-//   const identifiantProjetPreuve = IdentifiantProjet.bind(
-//     recandidature.preuve.identifiantProjet,
-//   ).formatter();
-//   const transmiseLe = DateTime.bind(recandidature.preuve.transmiseLe).formatter();
-//   const transmisePar = Email.bind(recandidature.preuve.transmisePar).formatter();
-//   items.push({
-//     status: 'success',
-//     date: transmiseLe,
-//     title: (
-//       <div>
-//         Le{' '}
-//         <Link
-//           href={Routes.Projet.details(identifiantProjetPreuve)}
-//           aria-label={`voir le projet faisant office de preuve de recandidature`}
-//         >
-//           projet faisant preuve de recandidature
-//         </Link>{' '}
-//         a été transmis par {<span className="font-semibold">{transmisePar}</span>}
-//       </div>
-//     ),
-//   });
-// }
+const mapToAbandonDemandéTimelineProps = (
+  abandonDemandé: Historique.ListerHistoriqueProjetReadModel['items'][number],
+) => {
+  const { demandéLe, demandéPar, identifiantProjet, recandidature, pièceJustificative } =
+    abandonDemandé.payload as Abandon.AbandonDemandéEvent['payload'];
 
-// if (accord) {
-//   const accordéLe = DateTime.bind(accord.accordéLe).formatter();
-//   const accordéPar = Email.bind(accord.accordéPar).formatter();
-//   const réponseSignée = DocumentProjet.bind(accord.réponseSignée).formatter();
+  return {
+    date: demandéLe,
+    title: <div>Demande déposée par {<span className="font-semibold">{demandéPar}</span>}</div>,
+    content: (
+      <>
+        {recandidature && (
+          <div className="mb-4">
+            Le projet s'inscrit dans un{' '}
+            <span className="font-semibold">contexte de recandidature</span>
+          </div>
+        )}
+        {pièceJustificative && (
+          <DownloadDocument
+            className="mb-0"
+            label="Télécharger la pièce justificative"
+            format="pdf"
+            url={Routes.Document.télécharger(
+              DocumentProjet.convertirEnValueType(
+                identifiantProjet,
+                Abandon.TypeDocumentAbandon.pièceJustificative.formatter(),
+                demandéLe,
+                pièceJustificative.format,
+              ).formatter(),
+            )}
+          />
+        )}
+      </>
+    ),
+  };
+};
 
-//   items.push({
-//     status: 'success',
-//     date: accordéLe,
-//     title: <div>Abandon accordé par {<span className="font-semibold">{accordéPar}</span>}</div>,
-//     content: (
-//       <>
-//         {accord.réponseSignée && (
-//           <DownloadDocument
-//             className="mb-0"
-//             label="Télécharger la pièce justificative"
-//             format="pdf"
-//             url={Routes.Document.télécharger(réponseSignée)}
-//           />
-//         )}
-//       </>
-//     ),
-//   });
-// }
+const mapToAbandonAnnuléTimelineProps = (
+  abandonAnnulé: Historique.ListerHistoriqueProjetReadModel['items'][number],
+) => {
+  const { annuléLe, annuléPar } = abandonAnnulé.payload as Abandon.AbandonAnnuléEvent['payload'];
 
-// if (rejet) {
-//   const rejetéLe = DateTime.bind(rejet.rejetéLe).formatter();
-//   const rejetéPar = Email.bind(rejet.rejetéPar).formatter();
-//   const réponseSignée = DocumentProjet.bind(rejet.réponseSignée).formatter();
+  return {
+    date: annuléLe,
+    title: <div>Abandon annulé par {<span className="font-semibold">{annuléPar}</span>}</div>,
+  };
+};
 
-//   items.push({
-//     status: 'error',
-//     date: rejetéLe,
-//     title: <div>Abandon rejeté par {<span className="font-semibold">{rejetéPar}</span>}</div>,
-//     content: (
-//       <>
-//         {rejet.réponseSignée && (
-//           <DownloadDocument
-//             className="mb-0"
-//             label="Télécharger la pièce justificative"
-//             format="pdf"
-//             url={Routes.Document.télécharger(réponseSignée)}
-//           />
-//         )}
-//       </>
-//     ),
-//   });
-// }
+const mapToConfirmationAbandonDemandéeTimelineProps = (
+  confirmationAbandonDemandée: Historique.ListerHistoriqueProjetReadModel['items'][number],
+) => {
+  const {
+    confirmationDemandéeLe,
+    confirmationDemandéePar,
+    identifiantProjet,
+    réponseSignée: { format },
+  } = confirmationAbandonDemandée.payload as Abandon.ConfirmationAbandonDemandéeEvent['payload'];
 
-// if (confirmation?.confirméLe && confirmation?.confirméPar) {
-//   const confirméLe = DateTime.bind(confirmation.confirméLe).formatter();
-//   const confirméPar = Email.bind(confirmation.confirméPar).formatter();
-//   items.push({
-//     date: confirméLe,
-//     title: (
-//       <div>Demande confirmée par {<span className="font-semibold">{confirméPar}</span>}</div>
-//     ),
-//   });
-// }
+  const réponseSignée = DocumentProjet.convertirEnValueType(
+    identifiantProjet,
+    Abandon.TypeDocumentAbandon.abandonÀConfirmer.formatter(),
+    confirmationDemandéeLe,
+    format,
+  ).formatter();
 
-// if (confirmation) {
-//   const demandéeLe = DateTime.bind(confirmation.demandéeLe).formatter();
-//   const demandéePar = Email.bind(confirmation.demandéePar).formatter();
-//   const réponseSignée = DocumentProjet.bind(confirmation.réponseSignée).formatter();
-//   items.push({
-//     date: demandéeLe,
-//     title: (
-//       <div>Confirmation demandée par {<span className="font-semibold">{demandéePar}</span>}</div>
-//     ),
-//     content: (
-//       <>
-//         {confirmation.réponseSignée && (
-//           <DownloadDocument
-//             className="mb-0"
-//             label="Télécharger la pièce justificative"
-//             format="pdf"
-//             url={Routes.Document.télécharger(réponseSignée)}
-//           />
-//         )}
-//       </>
-//     ),
-//   });
-// }
+  return {
+    date: confirmationDemandéeLe,
+    title: (
+      <div>
+        Confirmation demandée par {<span className="font-semibold">{confirmationDemandéePar}</span>}
+      </div>
+    ),
+    content: (
+      <>
+        <DownloadDocument
+          className="mb-0"
+          label="Télécharger la pièce justificative"
+          format="pdf"
+          url={Routes.Document.télécharger(réponseSignée)}
+        />
+      </>
+    ),
+  };
+  //   const demandéeLe = DateTime.bind(confirmation.demandéeLe).formatter();
+  //   const demandéePar = Email.bind(confirmation.demandéePar).formatter();
+  //   const réponseSignée = DocumentProjet.bind(confirmation.réponseSignée).formatter();
+  //   items.push({
+  //     date: demandéeLe,
+  //     title: (
+  //       <div>Confirmation demandée par {<span className="font-semibold">{demandéePar}</span>}</div>
+  //     ),
+  //     content: (
+  //       <>
+  //         {confirmation.réponseSignée && (
+  //           <DownloadDocument
+  //             className="mb-0"
+  //             label="Télécharger la pièce justificative"
+  //             format="pdf"
+  //             url={Routes.Document.télécharger(réponseSignée)}
+  //           />
+  //         )}
+  //       </>
+  //     ),
+  //   });
+};
 
-// const abandonDemandéLe = DateTime.bind(demandéLe).formatter();
-// const abandonDemandéPar = Email.bind(demandéPar).formatter();
-// const abandonPièceJustificative = pièceJustificative
-//   ? DocumentProjet.bind(pièceJustificative).formatter()
-//   : undefined;
-// items.push({
-//   date: abandonDemandéLe,
-//   title: (
-//     <div>Demande déposée par {<span className="font-semibold">{abandonDemandéPar}</span>}</div>
-//   ),
-//   content: (
-//     <>
-//       {recandidature && (
-//         <div className="mb-4">
-//           Le projet s'inscrit dans un{' '}
-//           <span className="font-semibold">contexte de recandidature</span>
-//         </div>
-//       )}
-//       {abandonPièceJustificative && (
-//         <DownloadDocument
-//           className="mb-0"
-//           label="Télécharger la pièce justificative"
-//           format="pdf"
-//           url={Routes.Document.télécharger(abandonPièceJustificative)}
-//         />
-//       )}
-//     </>
-//   ),
-// });
+const mapToAbandonConfirméTimelineProps = (
+  abandonConfirmé: Historique.ListerHistoriqueProjetReadModel['items'][number],
+) => {
+  const { confirméLe, confirméPar } =
+    abandonConfirmé.payload as Abandon.AbandonConfirméEvent['payload'];
+
+  return {
+    date: confirméLe,
+    title: <div>Abandon confirmé par {<span className="font-semibold">{confirméPar}</span>}</div>,
+  };
+};
+
+const mapToAbandonAccordéTimelineProps = (
+  abandonAccordé: Historique.ListerHistoriqueProjetReadModel['items'][number],
+) => {
+  const {
+    accordéLe,
+    accordéPar,
+    identifiantProjet,
+    réponseSignée: { format },
+  } = abandonAccordé.payload as Abandon.AbandonAccordéEvent['payload'];
+
+  const réponseSignée = DocumentProjet.convertirEnValueType(
+    identifiantProjet,
+    Abandon.TypeDocumentAbandon.abandonAccordé.formatter(),
+    accordéLe,
+    format,
+  ).formatter();
+
+  return {
+    date: accordéLe,
+    title: <div>Abandon accordé par {<span className="font-semibold">{accordéPar}</span>}</div>,
+    content: (
+      <DownloadDocument
+        className="mb-0"
+        label="Télécharger la réponse signée"
+        format="pdf"
+        url={Routes.Document.télécharger(réponseSignée)}
+      />
+    ),
+  } satisfies TimelineProps['items'][number];
+};
+
+const mapToAbandonRejetéTimelineProps = (
+  abandonAnnulé: Historique.ListerHistoriqueProjetReadModel['items'][number],
+) => {
+  const {
+    rejetéLe,
+    rejetéPar,
+    réponseSignée: { format },
+    identifiantProjet,
+  } = abandonAnnulé.payload as Abandon.AbandonRejetéEvent['payload'];
+
+  const réponseSignée = DocumentProjet.convertirEnValueType(
+    identifiantProjet,
+    Abandon.TypeDocumentAbandon.abandonRejeté.formatter(),
+    rejetéLe,
+    format,
+  ).formatter();
+
+  return {
+    date: rejetéLe,
+    title: <div>Abandon rejeté par {<span className="font-semibold">{rejetéPar}</span>}</div>,
+    content: (
+      <DownloadDocument
+        className="mb-0"
+        label="Télécharger la réponse signée"
+        format="pdf"
+        url={Routes.Document.télécharger(réponseSignée)}
+      />
+    ),
+  } satisfies TimelineProps['items'][number];
+};
+
+const mapToPreuveRecandidatureDemandéeTimelineProps = (
+  preuveRecandidatureDemandée: Historique.ListerHistoriqueProjetReadModel['items'][number],
+) => {
+  const { demandéeLe } =
+    preuveRecandidatureDemandée.payload as Abandon.PreuveRecandidatureDemandéeEvent['payload'];
+
+  return {
+    date: demandéeLe,
+    title: <div>Preuve de recandidature demandée</div>,
+  };
+};
+
+const mapToPreuveRecandidatureTransmiseTimelineProps = (
+  preuveRecandidatureTransmise: Historique.ListerHistoriqueProjetReadModel['items'][number],
+) => {
+  const { preuveRecandidature, transmiseLe, transmisePar } =
+    preuveRecandidatureTransmise.payload as Abandon.PreuveRecandidatureTransmiseEvent['payload'];
+
+  return {
+    date: transmiseLe,
+    title: (
+      <div>
+        Le{' '}
+        <Link
+          href={Routes.Projet.details(preuveRecandidature)}
+          aria-label={`voir le projet faisant office de preuve de recandidature`}
+        >
+          projet faisant preuve de recandidature
+        </Link>{' '}
+        a été transmis par {<span className="font-semibold">{transmisePar}</span>}
+      </div>
+    ),
+  };
+};
