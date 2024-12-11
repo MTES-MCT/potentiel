@@ -1,7 +1,8 @@
-import { DomainError, DomainEvent } from '@potentiel-domain/core';
+import { DomainEvent } from '@potentiel-domain/core';
 import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
 
 import { ActionnaireAggregate } from '../actionnaire.aggregate';
+import { ActionnaireIdentifiqueError } from '../errors';
 
 export type ActionnaireModifiéEvent = DomainEvent<
   'ActionnaireModifié-V1',
@@ -46,10 +47,4 @@ export function applyActionnaireModifié(
   { payload: { actionnaire } }: ActionnaireModifiéEvent,
 ) {
   this.actionnaire = actionnaire;
-}
-
-class ActionnaireIdentifiqueError extends DomainError {
-  constructor() {
-    super('Le nouvel actionnaire est identique à celui associé au projet');
-  }
 }

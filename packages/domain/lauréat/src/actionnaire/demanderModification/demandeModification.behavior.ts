@@ -4,6 +4,7 @@ import { DocumentProjet } from '@potentiel-domain/document';
 
 import { StatutModificationActionnaire } from '..';
 import { ActionnaireAggregate } from '../actionnaire.aggregate';
+import { ActionnaireIdentifiqueError } from '../errors';
 
 export type ModificationActionnaireDemandéeEvent = DomainEvent<
   'ModificationActionnaireDemandée-V1',
@@ -39,6 +40,10 @@ export async function demanderModification(
     actionnaire,
   }: DemanderOptions,
 ) {
+  if (this.actionnaire === actionnaire) {
+    throw new ActionnaireIdentifiqueError();
+  }
+
   if (this.statutDemande) {
     this.statutDemande.vérifierQueLeChangementDeStatutEstPossibleEn(
       StatutModificationActionnaire.demandé,

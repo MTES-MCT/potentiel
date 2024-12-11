@@ -5,7 +5,7 @@ import { RebuildTriggered, Event } from '@potentiel-infrastructure/pg-event-sour
 import { findProjection } from '@potentiel-infrastructure/pg-projections';
 import { Option } from '@potentiel-libraries/monads';
 
-import { updateOneProjection } from '../../infrastructure';
+import { removeProjection, updateOneProjection, upsertProjection } from '../../infrastructure';
 
 export type SubscriptionEvent = (Actionnaire.ActionnaireEvent & Event) | RebuildTriggered;
 
@@ -13,12 +13,12 @@ export type Execute = Message<'System.Projector.Lauréat.Actionnaire', Subscript
 
 export const register = () => {
   const handler: MessageHandler<Execute> = async (event) => {
-    console.log('viovio proj');
     const { type, payload } = event;
 
     if (type === 'RebuildTriggered') {
       const { id } = payload;
 
+      // Lauréat
       const lauréatProjection = await findProjection<Lauréat.LauréatEntity>(`lauréat|${id}`);
 
       if (Option.isSome(lauréatProjection)) {
@@ -27,25 +27,23 @@ export const register = () => {
         });
       }
 
-      // await removeProjection<Actionnaire.DemandeModificationActionnaireEntity>(
-      //   `demande-modification-actionnaire|${id}`,
-      // );
+      // Demande modification
+      await removeProjection<Actionnaire.DemandeModificationActionnaireEntity>(
+        `demande-modification-actionnaire|${id}`,
+      );
     } else {
       const { identifiantProjet } = payload;
 
       switch (type) {
+        // Impact sur Lauréat
         case 'ActionnaireImporté-V1':
-          console.log('viovio projector');
-          try {
-            await updateOneProjection<Lauréat.LauréatEntity>(`lauréat|${identifiantProjet}`, {
-              actionnaire: {
-                nom: payload.actionnaire,
-                dernièreMiseÀJourLe: payload.importéLe,
-              },
-            });
-          } catch (e) {
-            console.log(e);
-          }
+          await updateOneProjection<Lauréat.LauréatEntity>(`lauréat|${identifiantProjet}`, {
+            actionnaire: {
+              nom: payload.actionnaire,
+              dernièreMiseÀJourLe: payload.importéLe,
+            },
+          });
+
           break;
 
         case 'ActionnaireModifié-V1':
@@ -55,6 +53,34 @@ export const register = () => {
               dernièreMiseÀJourLe: payload.modifiéLe,
             },
           });
+          break;
+
+        // Impact sur DemandeActionnaire
+        case 'ModificationActionnaireDemandée-V1':
+          const {
+            demandéLe,
+            demandéPar,
+            raison,
+            pièceJustificative: { format },
+          } = event.payload;
+
+          await upsertProjection<Actionnaire.DemandeModificationActionnaireEntity>(
+            `demande-modification-actionnaire|${identifiantProjet}`,
+            {
+              identifiantProjet,
+              statut: Actionnaire.StatutModificationActionnaire.demandé.statut,
+              misÀJourLe: demandéLe,
+
+              demande: {
+                demandéPar,
+                demandéLe,
+                raison,
+                pièceJustificative: {
+                  format,
+                },
+              },
+            },
+          );
           break;
       }
     }

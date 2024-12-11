@@ -16,10 +16,10 @@ Fonctionnalité: Demander la modification de l'actionnaire d'un projet lauréat
         Alors l'utilisateur devrait être informé que "L'actionnaire n'existe pas"
 
     Scénario: Impossible de demander la modification de l'actionnaire avec une valeur identique
-        Quand le porteur demande la modification de l'actionnaire  avec la même valeur pour le projet lauréat
+        Quand le porteur demande la modification de l'actionnaire avec la même valeur pour le projet lauréat
         Alors l'utilisateur devrait être informé que "Le nouvel actionnaire est identique à celui associé au projet"
 
     Scénario: Impossible de demander la modification de l'actionnaire si une demande existe déjà
-        Etant donné une demande de modification de l'actionnaire pour le projet lauréat
+        Etant donné une demande de modification de l'actionnaire en cours pour le projet lauréat
         Quand le porteur demande la modification de l'actionnaire pour le projet lauréat
-        Alors l'utilisateur devrait être informé que "Le nouvel actionnaire est identique à celui associé au projet"
+        Alors l'utilisateur devrait être informé que "Le statut de la demande de modification est identique"

@@ -78,10 +78,27 @@ Quand(
   },
 );
 
-async function demanderModificationActionnaire(
+Quand(
+  "le porteur demande la modification de l'actionnaire avec la même valeur pour le projet lauréat",
+  async function (this: PotentielWorld) {
+    try {
+      await demanderModificationActionnaire.call(
+        this,
+        'lauréat',
+        this.utilisateurWorld.porteurFixture.email,
+        this.lauréatWorld.actionnaireWorld.importerActionnaireFixture.actionnaire,
+      );
+    } catch (error) {
+      this.error = error as Error;
+    }
+  },
+);
+
+export async function demanderModificationActionnaire(
   this: PotentielWorld,
   statutProjet: 'lauréat' | 'éliminé',
   utilisateur?: string,
+  actionnaireValue?: string,
 ) {
   const identifiantProjet =
     statutProjet === 'lauréat'
@@ -101,7 +118,7 @@ async function demanderModificationActionnaire(
     type: 'Lauréat.Actionnaire.UseCase.DemanderModification',
     data: {
       raisonValue: raison,
-      actionnaireValue: actionnaire,
+      actionnaireValue: actionnaireValue ?? actionnaire,
       dateDemandeValue: demandéLe,
       identifiantUtilisateurValue: demandéPar,
       identifiantProjetValue: identifiantProjet,
