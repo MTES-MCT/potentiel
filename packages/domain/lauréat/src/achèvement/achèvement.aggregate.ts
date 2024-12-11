@@ -25,8 +25,8 @@ export type AchèvementEvent =
 
 export type AchèvementAggregate = Aggregate<AchèvementEvent> & {
   utilisateur: IdentifiantUtilisateur.ValueType;
-  attestationConformité: { format: Option.Type<string>; date: DateTime.ValueType };
-  preuveTransmissionAuCocontractant: { format: Option.Type<string>; date: DateTime.ValueType };
+  attestationConformité?: { format: string; date: DateTime.ValueType };
+  preuveTransmissionAuCocontractant?: { format: Option.Type<string>; date: DateTime.ValueType };
   readonly transmettre: typeof transmettre;
   readonly modifier: typeof modifier;
   readonly estAchevé: () => boolean;
@@ -37,19 +37,11 @@ export const getDefaultAchèvementAggregate: GetDefaultAggregateState<
   AchèvementEvent
 > = () => ({
   utilisateur: IdentifiantUtilisateur.unknownUser,
-  attestationConformité: { format: '', date: DateTime.convertirEnValueType(new Date()) },
-  preuveTransmissionAuCocontractant: {
-    format: '',
-    date: DateTime.convertirEnValueType(new Date()),
-  },
   apply,
   transmettre,
   modifier,
   estAchevé() {
-    return (
-      Option.isSome(this.attestationConformité.format) &&
-      Option.isSome(this.preuveTransmissionAuCocontractant.format)
-    );
+    return !!(this.attestationConformité && this.preuveTransmissionAuCocontractant);
   },
 });
 

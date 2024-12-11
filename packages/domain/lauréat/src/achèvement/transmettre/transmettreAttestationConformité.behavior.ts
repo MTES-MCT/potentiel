@@ -48,7 +48,7 @@ export async function transmettre(
     throw new DateDeTransmissionAuCoContractantFuturError();
   }
 
-  if (this.attestationConformité.format && this.preuveTransmissionAuCocontractant.format) {
+  if (this.attestationConformité && this.preuveTransmissionAuCocontractant) {
     throw new AttestationDeConformitéDéjàTransmiseError();
   }
 
