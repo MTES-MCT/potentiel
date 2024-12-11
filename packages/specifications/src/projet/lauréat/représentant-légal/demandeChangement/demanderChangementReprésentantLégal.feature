@@ -26,8 +26,8 @@ Fonctionnalité: Demander le changement de représentant légal d'un projet laur
         Quand le porteur demande le changement de réprésentant pour le projet lauréat sans pièce justificative
         Alors le porteur devrait être informé que "Les pièces justificatives sont obligatoires"
 
-    @NotImplemented
     Scénario: Impossible de demander le changement de représentant légal d'un projet lauréat abandonné
+        Etant donné un abandon accordé pour le projet lauréat
         Quand le porteur demande le changement de réprésentant pour le projet lauréat sans pièce justificative
         Alors le porteur devrait être informé que "Impossible de demander le changement de réprésentant légal pour un projet abandonné"
 

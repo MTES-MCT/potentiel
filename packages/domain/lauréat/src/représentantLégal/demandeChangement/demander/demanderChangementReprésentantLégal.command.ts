@@ -6,6 +6,7 @@ import { DocumentProjet } from '@potentiel-domain/document';
 
 import { loadReprésentantLégalFactory } from '../../représentantLégal.aggregate';
 import { TypeReprésentantLégal } from '../..';
+import { loadAbandonFactory } from '../../../abandon';
 
 export type DemanderChangementReprésentantLégalCommand = Message<
   'Lauréat.ReprésentantLégal.Command.DemanderChangementReprésentantLégal',
@@ -23,6 +24,7 @@ export const registerDemanderChangementReprésentantLégalCommand = (
   loadAggregate: LoadAggregate,
 ) => {
   const loadReprésentantLégal = loadReprésentantLégalFactory(loadAggregate);
+  const loadAbandon = loadAbandonFactory(loadAggregate);
 
   const handler: MessageHandler<DemanderChangementReprésentantLégalCommand> = async ({
     identifiantProjet,
@@ -33,6 +35,7 @@ export const registerDemanderChangementReprésentantLégalCommand = (
     dateDemande,
   }) => {
     const représentantLégal = await loadReprésentantLégal(identifiantProjet, false);
+    const abandon = await loadAbandon(identifiantProjet, false);
 
     await représentantLégal.demander({
       identifiantProjet,
@@ -41,6 +44,7 @@ export const registerDemanderChangementReprésentantLégalCommand = (
       typeReprésentantLégal,
       dateDemande,
       pièceJustificative,
+      projetAbandonné: !!abandon.accord,
     });
   };
   mediator.register(
