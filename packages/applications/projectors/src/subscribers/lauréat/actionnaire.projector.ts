@@ -5,7 +5,6 @@ import { RebuildTriggered, Event } from '@potentiel-infrastructure/pg-event-sour
 import { findProjection } from '@potentiel-infrastructure/pg-projections';
 import { Option } from '@potentiel-libraries/monads';
 
-import { upsertProjection } from '../../infrastructure/upsertProjection';
 import { updateOneProjection } from '../../infrastructure';
 
 export type SubscriptionEvent = (Actionnaire.ActionnaireEvent & Event) | RebuildTriggered;
@@ -14,6 +13,7 @@ export type Execute = Message<'System.Projector.Lauréat.Actionnaire', Subscript
 
 export const register = () => {
   const handler: MessageHandler<Execute> = async (event) => {
+    console.log('viovio proj');
     const { type, payload } = event;
 
     if (type === 'RebuildTriggered') {
@@ -22,22 +22,30 @@ export const register = () => {
       const lauréatProjection = await findProjection<Lauréat.LauréatEntity>(`lauréat|${id}`);
 
       if (Option.isSome(lauréatProjection)) {
-        await upsertProjection<Lauréat.LauréatEntity>(`lauréat|${id}`, {
-          ...lauréatProjection,
+        await updateOneProjection<Lauréat.LauréatEntity>(`lauréat|${id}`, {
           actionnaire: undefined,
         });
       }
+
+      // await removeProjection<Actionnaire.DemandeModificationActionnaireEntity>(
+      //   `demande-modification-actionnaire|${id}`,
+      // );
     } else {
       const { identifiantProjet } = payload;
 
       switch (type) {
         case 'ActionnaireImporté-V1':
-          await updateOneProjection<Lauréat.LauréatEntity>(`lauréat|${identifiantProjet}`, {
-            actionnaire: {
-              nom: payload.actionnaire,
-              dernièreMiseÀJourLe: payload.importéLe,
-            },
-          });
+          console.log('viovio projector');
+          try {
+            await updateOneProjection<Lauréat.LauréatEntity>(`lauréat|${identifiantProjet}`, {
+              actionnaire: {
+                nom: payload.actionnaire,
+                dernièreMiseÀJourLe: payload.importéLe,
+              },
+            });
+          } catch (e) {
+            console.log(e);
+          }
           break;
 
         case 'ActionnaireModifié-V1':
