@@ -1,4 +1,4 @@
-import { ListHistoryOptions, ListHistoryResult } from '@potentiel-domain/entity';
+import { ListHistory, ListHistoryResult } from '@potentiel-domain/entity';
 import { executeSelect } from '@potentiel-libraries/pg-helpers';
 
 const countQuery =
@@ -6,9 +6,7 @@ const countQuery =
 const selectQuery =
   'SELECT category, id, created_at, type, payload FROM domain_views.history WHERE (category = $1 or $1 is null) and (id = $2 or $2 is null) order by created_at desc';
 
-export const listHistoryProjection = async (
-  options?: ListHistoryOptions,
-): Promise<ListHistoryResult> => {
+export const listHistoryProjection: ListHistory = async (options): Promise<ListHistoryResult> => {
   const [{ total }] = await executeSelect<{ total: number }>(
     countQuery,
     options?.category,

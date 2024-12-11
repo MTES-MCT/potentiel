@@ -21,6 +21,15 @@ export type ListerHistoriqueProjetDependencies = {
 export const registerListerHistoriqueProjetQuery = ({
   listHistory,
 }: ListerHistoriqueProjetDependencies) => {
-  const handler: MessageHandler<ListerHistoriqueProjetQuery> = listHistory;
+  const handler: MessageHandler<ListerHistoriqueProjetQuery> = ({
+    identifiantProjet,
+    category,
+    range,
+  }) =>
+    listHistory({
+      id: identifiantProjet,
+      category,
+      range,
+    });
   mediator.register('Historique.Query.ListerHistoriqueProjet', handler);
 };
