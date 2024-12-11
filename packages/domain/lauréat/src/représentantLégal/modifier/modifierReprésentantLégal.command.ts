@@ -34,6 +34,7 @@ export const registerModifierReprésentantLégalCommand = (loadAggregate: LoadAg
       nomReprésentantLégal,
       typeReprésentantLégal,
       dateModification,
+      demandeDeChangementEnCours: !!représentantLégal.demande,
     });
   };
   mediator.register('Lauréat.ReprésentantLégal.Command.ModifierReprésentantLégal', handler);

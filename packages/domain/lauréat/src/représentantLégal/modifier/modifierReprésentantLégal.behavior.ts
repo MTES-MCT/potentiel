@@ -1,4 +1,4 @@
-import { DomainEvent } from '@potentiel-domain/core';
+import { DomainError, DomainEvent } from '@potentiel-domain/core';
 import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
 
 import { ReprésentantLégalAggregate } from '../représentantLégal.aggregate';
@@ -22,6 +22,7 @@ export type ModifierOptions = {
   nomReprésentantLégal: string;
   typeReprésentantLégal: TypeReprésentantLégal.ValueType;
   dateModification: DateTime.ValueType;
+  demandeDeChangementEnCours: boolean;
 };
 
 export async function modifier(
@@ -32,8 +33,13 @@ export async function modifier(
     typeReprésentantLégal,
     dateModification,
     identifiantUtilisateur,
+    demandeDeChangementEnCours,
   }: ModifierOptions,
 ) {
+  if (demandeDeChangementEnCours) {
+    throw new DemandeDeChangementEnCoursError();
+  }
+
   if (
     this.représentantLégal.nom === nomReprésentantLégal &&
     this.représentantLégal.type.estÉgaleÀ(typeReprésentantLégal)
@@ -63,4 +69,12 @@ export function applyReprésentantLégalModifié(
     nom: nomReprésentantLégal,
     type: TypeReprésentantLégal.convertirEnValueType(typeReprésentantLégal),
   };
+}
+
+class DemandeDeChangementEnCoursError extends DomainError {
+  constructor() {
+    super(
+      'Impossible de modifier le représentant légal car une demande de changement est déjà en cours',
+    );
+  }
 }
