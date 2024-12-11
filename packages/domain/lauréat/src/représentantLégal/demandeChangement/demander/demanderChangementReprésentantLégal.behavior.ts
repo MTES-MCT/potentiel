@@ -1,10 +1,15 @@
-import { DomainError, DomainEvent, InvalidOperationError } from '@potentiel-domain/core';
+import { DomainEvent } from '@potentiel-domain/core';
 import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
 import { DocumentProjet } from '@potentiel-domain/document';
 
 import { ReprésentantLégalAggregate } from '../../représentantLégal.aggregate';
 import { StatutDemandeChangementReprésentantLégal, TypeReprésentantLégal } from '../..';
 import { ReprésentantLégalIdentifiqueError } from '../../représentantLégalIdentique.error';
+
+import {
+  PièceJustificativeObligatoireError,
+  ReprésentantLégalTypeInconnuError,
+} from './demanderChangementReprésentantLégal.errors';
 
 export type ChangementReprésentantLégalDemandéEvent = DomainEvent<
   'ChangementReprésentantLégalDemandé-V1',
@@ -27,8 +32,6 @@ export type DemanderChangementOptions = {
   pièceJustificative?: DocumentProjet.ValueType;
   identifiantUtilisateur: Email.ValueType;
   dateDemande: DateTime.ValueType;
-  projetAbandonné: boolean;
-  projetAvecDemandeAbandonEnCours: boolean;
 };
 
 export async function demander(
@@ -40,18 +43,8 @@ export async function demander(
     pièceJustificative,
     identifiantUtilisateur,
     dateDemande,
-    projetAbandonné,
-    projetAvecDemandeAbandonEnCours,
   }: DemanderChangementOptions,
 ) {
-  if (projetAvecDemandeAbandonEnCours) {
-    throw new ProjetAvecDemandeAbandonEnCoursError();
-  }
-
-  if (projetAbandonné) {
-    throw new ProjetAbandonnéError();
-  }
-
   if (!pièceJustificative) {
     throw new PièceJustificativeObligatoireError();
   }
@@ -99,30 +92,4 @@ export function applyChangementReprésentantLégalDemandé(
     nom: nomReprésentantLégal,
     type: TypeReprésentantLégal.convertirEnValueType(typeReprésentantLégal),
   };
-}
-
-class ReprésentantLégalTypeInconnuError extends DomainError {
-  constructor() {
-    super('Le représentant légal ne peut pas avoir de type inconnu');
-  }
-}
-
-class PièceJustificativeObligatoireError extends InvalidOperationError {
-  constructor() {
-    super('Les pièces justificatives sont obligatoires');
-  }
-}
-
-class ProjetAbandonnéError extends DomainError {
-  constructor() {
-    super('Impossible de demander le changement de réprésentant légal pour un projet abandonné');
-  }
-}
-
-class ProjetAvecDemandeAbandonEnCoursError extends DomainError {
-  constructor() {
-    super(
-      "Impossible de demander le changement de réprésentant légal car une demande d'abandon est en cours pour le projet",
-    );
-  }
 }

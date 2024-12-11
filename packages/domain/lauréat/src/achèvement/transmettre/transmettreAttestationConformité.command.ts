@@ -50,7 +50,7 @@ export const registerTransmettreAttestationConformitéCommand = (loadAggregate: 
       preuveTransmissionAuCocontractant,
       date,
       utilisateur,
-      aUnAbandonAccordé: abandon.estAccordé(),
+      aUnAbandonAccordé: abandon.statut.estAccordé(),
     });
   };
 
