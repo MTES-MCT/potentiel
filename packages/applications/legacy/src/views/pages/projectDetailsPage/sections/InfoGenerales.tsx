@@ -136,7 +136,7 @@ export const InfoGenerales = ({
           {departementProjet}, {regionProjet}
         </p>
       </div>
-      {/* //flag */}
+      {/* Ajouter FF       */}
       <div>
         <Heading3 className="m-0">Actionnaire</Heading3>
         <p className="m-0">{actionnaire ?? 'Non renseigné'}</p>
