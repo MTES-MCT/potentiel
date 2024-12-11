@@ -31,7 +31,6 @@ Fonctionnalité: Demander le changement de représentant légal d'un projet laur
         Quand le porteur demande le changement de réprésentant pour le projet lauréat sans pièce justificative
         Alors le porteur devrait être informé que "Impossible de demander le changement de réprésentant légal pour un projet abandonné"
 
-    @NotImplemented
     Scénario: Impossible de demander le changement de représentant légal avec une demande d'abandon en cours
         Etant donné une demande d'abandon en cours pour le projet lauréat
         Quand le porteur demande le changement de réprésentant pour le projet lauréat sans pièce justificative
