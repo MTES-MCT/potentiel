@@ -1,7 +1,3 @@
-import * as zod from 'zod';
-
-import { ConsulterDocumentProjetReadModel } from '@potentiel-domain/document';
-
 import {
   applyWatermark,
   FileTypes,
@@ -15,14 +11,8 @@ type CommonOptions = {
   acceptedFileTypes?: Array<FileTypes>;
 };
 
-type OptionalSingleDocumentSchema = zod.ZodEffects<
-  zod.ZodType<Blob>,
-  ConsulterDocumentProjetReadModel | undefined
->;
-type RequiredSingleDocumentSchema = zod.ZodEffects<
-  zod.ZodType<Blob>,
-  ConsulterDocumentProjetReadModel
->;
+type OptionalSingleDocumentSchema = ReturnType<typeof buildOptionBlob>;
+type RequiredSingleDocumentSchema = ReturnType<typeof buildRequiredBlob>;
 
 export function singleDocument(
   options: CommonOptions & {
@@ -39,9 +29,13 @@ export function singleDocument(
     optional?: true;
   },
 ): OptionalSingleDocumentSchema | RequiredSingleDocumentSchema {
-  const blobSchema = options?.optional ? optionalBlob : requiredBlob;
+  return options?.optional ? buildOptionBlob(options) : buildRequiredBlob(options);
+}
 
-  return blobSchema({ acceptedFileTypes: options?.acceptedFileTypes })
+const buildOptionBlob = (options?: CommonOptions) => buildSchema(optionalBlob, options);
+const buildRequiredBlob = (options?: CommonOptions) => buildSchema(requiredBlob, options);
+
+const buildSchema = (schema: typeof optionalBlob | typeof requiredBlob, options?: CommonOptions) =>
+  schema(options)
     .transform((blob) => (options?.applyWatermark ? applyWatermark(blob) : blob))
     .transform(mapToConsulterDocumentProjetReadModel);
-}
