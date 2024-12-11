@@ -4,6 +4,7 @@ import { ConsulterDocumentProjetReadModel } from '@potentiel-domain/document';
 
 import {
   applyWatermark,
+  FileTypes,
   mapToConsulterDocumentProjetReadModel,
   optionalBlob,
   requiredBlob,
@@ -11,6 +12,7 @@ import {
 
 type CommonOptions = {
   applyWatermark?: true;
+  acceptedFileTypes?: Array<FileTypes>;
 };
 
 type OptionalSingleDocumentSchema = zod.ZodEffects<
@@ -39,7 +41,7 @@ export function singleDocument(
 ): OptionalSingleDocumentSchema | RequiredSingleDocumentSchema {
   const blobSchema = options?.optional ? optionalBlob : requiredBlob;
 
-  return blobSchema()
+  return blobSchema({ acceptedFileTypes: options?.acceptedFileTypes })
     .transform((blob) => (options?.applyWatermark ? applyWatermark(blob) : blob))
     .transform(mapToConsulterDocumentProjetReadModel);
 }

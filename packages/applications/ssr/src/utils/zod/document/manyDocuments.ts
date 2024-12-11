@@ -4,6 +4,7 @@ import { ConsulterDocumentProjetReadModel } from '@potentiel-domain/document';
 
 import {
   applyWatermark,
+  FileTypes,
   mapToConsulterDocumentProjetReadModel,
   mergePdfDocuments,
   optionalBlobArray,
@@ -12,6 +13,7 @@ import {
 
 type CommonOptions = {
   applyWatermark?: true;
+  acceptedFileTypes?: Array<FileTypes>;
 };
 
 type OptionalManyDocumentSchema = zod.ZodEffects<
@@ -58,7 +60,7 @@ export function manyDocuments(
 ): OptionalManyDocumentSchema | RequiredManyDocumentSchema {
   const blobArraySchema = options?.optional ? optionalBlobArray : requiredBlobArray;
 
-  const newLocal = blobArraySchema
+  const newLocal = blobArraySchema({ acceptedFileTypes: options?.acceptedFileTypes })
     .transform(mergePdfDocuments)
     .transform((blob) => (options?.applyWatermark ? applyWatermark(blob) : blob))
     .transform(mapToConsulterDocumentProjetReadModel);
