@@ -124,9 +124,6 @@ v1Router.get(
         `${project.appelOffreId}#${project.periodeId}#${project.familleId}#${project.numeroCRE}`,
       );
 
-      console.log(project);
-      logger.debug(project);
-
       const rawProjectEventList = await getProjectEvents({ projectId: project.id, user });
 
       if (rawProjectEventList.isErr()) {
