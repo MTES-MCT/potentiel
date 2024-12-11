@@ -1,4 +1,4 @@
-export type FileTypes = 'application/pdf' | 'application/csv';
+export type FileTypes = 'application/pdf' | 'text/csv';
 
 const refine =
   (fileTypes: Array<FileTypes>) =>
@@ -6,7 +6,7 @@ const refine =
     fileTypes.includes(type as FileTypes);
 
 const message = (fileTypes: Array<FileTypes>) =>
-  `Seulement les fichiers ${fileTypes.map((fileType) => fileType.replace('application/', '')).join(',')} sont autorisés`;
+  `Seuls les fichiers ${fileTypes.map((fileType) => fileType.replace('application/', '')).join(',')} sont autorisés`;
 
 export const onlyFileType = (fileTypes: Array<FileTypes>) => ({
   refine: refine(fileTypes),

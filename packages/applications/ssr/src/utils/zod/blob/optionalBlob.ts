@@ -13,5 +13,8 @@ export const optionalBlob = (options?: { acceptedFileTypes?: Array<FileTypes> })
     )
     .refine(cannotExceedSize.refine, cannotExceedSize.message);
 
+export type OptionalBlobArray = typeof optionalBlobArray;
 export const optionalBlobArray = (options?: { acceptedFileTypes?: Array<FileTypes> }) =>
-  optionalBlob({ acceptedFileTypes: options?.acceptedFileTypes }).array();
+  optionalBlob(options)
+    .transform((blob) => [blob])
+    .or(optionalBlob(options).array());

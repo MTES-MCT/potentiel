@@ -14,7 +14,8 @@ export const requiredBlob = (options?: { acceptedFileTypes?: Array<FileTypes> })
     )
     .refine(cannotExceedSize.refine, cannotExceedSize.message);
 
+export type RequiredBlobArray = typeof requiredBlobArray;
 export const requiredBlobArray = (options?: { acceptedFileTypes?: Array<FileTypes> }) =>
-  requiredBlob({ acceptedFileTypes: options?.acceptedFileTypes })
-    .array()
-    .min(1, 'Champ obligatoire');
+  requiredBlob(options)
+    .transform((blob) => [blob])
+    .or(requiredBlob(options).array().min(1, 'Champ obligatoire'));
