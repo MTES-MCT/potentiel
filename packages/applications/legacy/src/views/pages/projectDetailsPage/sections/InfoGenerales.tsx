@@ -136,11 +136,25 @@ export const InfoGenerales = ({
           {departementProjet}, {regionProjet}
         </p>
       </div>
-
-      <div>
-        <Heading3 className="m-0">Actionnaire</Heading3>
-        <p className="m-0">{actionnaire}</p>
-      </div>
+{/* //flag */}
+      {actionnaire && (
+        <div>
+          <Heading3 className="m-0">Actionnaire</Heading3>
+          <p className="m-0">{actionnaire}</p>
+          <Link
+            href={Routes.Actionnaire.modifier(
+              formatProjectDataToIdentifiantProjetValueType({
+                appelOffreId,
+                periodeId,
+                familleId,
+                numeroCRE,
+              }).formatter(),
+            )}
+          >
+            Mettre à jour l'actionnaire
+          </Link>
+        </div>
+      )}
     </Section>
   );
 };
