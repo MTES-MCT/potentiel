@@ -6,6 +6,8 @@ import {
   LoadAggregate,
 } from '@potentiel-domain/core';
 
+import { StatutModificationActionnaire } from '.';
+
 import {
   ActionnaireImportéEvent,
   applyActionnaireImporté,
@@ -16,14 +18,24 @@ import {
   applyActionnaireModifié,
   modifier,
 } from './modifier/modifierActionnaire.behavior';
+import {
+  applyModificationActionnaireDemandée,
+  demanderModification,
+  ModificationActionnaireDemandéeEvent,
+} from './demanderModification/demandeModification.behavior';
 
-export type ActionnaireEvent = ActionnaireImportéEvent | ActionnaireModifiéEvent;
+export type ActionnaireEvent =
+  | ActionnaireImportéEvent
+  | ActionnaireModifiéEvent
+  | ModificationActionnaireDemandéeEvent;
 
 export type ActionnaireAggregate = Aggregate<ActionnaireEvent> & {
   identifiantProjet: IdentifiantProjet.ValueType;
   actionnaire: String;
+  statutDemande?: StatutModificationActionnaire.ValueType;
   importer: typeof importer;
   modifier: typeof modifier;
+  demanderModification: typeof demanderModification;
 };
 
 export const getDefaultActionnaireAggregate: GetDefaultAggregateState<
@@ -35,6 +47,7 @@ export const getDefaultActionnaireAggregate: GetDefaultAggregateState<
   apply,
   importer,
   modifier,
+  demanderModification,
 });
 
 function apply(this: ActionnaireAggregate, event: ActionnaireEvent) {
@@ -45,6 +58,10 @@ function apply(this: ActionnaireAggregate, event: ActionnaireEvent) {
 
     case 'ActionnaireModifié-V1':
       applyActionnaireModifié.bind(this)(event);
+      break;
+
+    case 'ModificationActionnaireDemandée-V1':
+      applyModificationActionnaireDemandée.bind(this)();
       break;
   }
 }

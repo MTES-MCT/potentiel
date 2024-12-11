@@ -82,7 +82,12 @@ export const setupLauréat = async ({ sendEmail }: SetupLauréatDependencies) =>
   const unsubscribeActionnaireProjector = await subscribe<ActionnaireProjector.SubscriptionEvent>({
     name: 'projector',
     streamCategory: 'actionnaire',
-    eventType: ['ActionnaireImporté-V1', 'ActionnaireModifié-V1', 'RebuildTriggered'],
+    eventType: [
+      'ModificationActionnaireDemandée-V1',
+      'ActionnaireImporté-V1',
+      'ActionnaireModifié-V1',
+      'RebuildTriggered',
+    ],
     eventHandler: async (event) => {
       await mediator.send<ActionnaireProjector.Execute>({
         type: 'System.Projector.Lauréat.Actionnaire',

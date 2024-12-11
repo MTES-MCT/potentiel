@@ -53,6 +53,7 @@ export const register = () => {
             typeTâche: payload.typeTâche,
             misÀJourLe: event.payload.relancéeLe,
           });
+          break;
       }
     }
   };

@@ -33,6 +33,33 @@ Alors(
 );
 
 Alors(
+  "la demande de modification de l'actionnaire devrait être consultable",
+  async function (this: PotentielWorld) {
+    return waitForExpect(async () => {
+      const identifiantProjet = IdentifiantProjet.convertirEnValueType(
+        this.candidatureWorld.importerCandidature.identifiantProjet,
+      );
+
+      const demande = await mediator.send<Actionnaire.ActionnaireQuery>({
+        type: 'Lauréat.Actionnaire.Query.ConsulterDemandeModificationActionnaire',
+        data: {
+          identifiantProjet: identifiantProjet.formatter(),
+        },
+      });
+
+      const actual = mapToPlainObject(demande);
+      const expected = mapToPlainObject(
+        this.lauréatWorld.actionnaireWorld.demanderModificationActionnaireFixture.mapToExpected(
+          identifiantProjet,
+        ),
+      );
+
+      actual.should.be.deep.equal(expected);
+    });
+  },
+);
+
+Alors(
   "l'actionnaire du projet lauréat devrait être mis à jour",
   async function (this: PotentielWorld) {
     return waitForExpect(async () => {
