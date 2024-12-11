@@ -18,7 +18,6 @@ import { v1Router } from '../../v1Router';
 
 import { IdentifiantProjet } from '@potentiel-domain/common';
 import { logger } from '../../../core/utils';
-import { getLogger } from '@potentiel-libraries/monitoring';
 import { addQueryParams } from '../../../helpers/addQueryParams';
 
 import {
@@ -124,6 +123,9 @@ v1Router.get(
       const identifiantProjetValueType = IdentifiantProjet.convertirEnValueType(
         `${project.appelOffreId}#${project.periodeId}#${project.familleId}#${project.numeroCRE}`,
       );
+
+      console.log(project);
+      logger.debug(project);
 
       const rawProjectEventList = await getProjectEvents({ projectId: project.id, user });
 
