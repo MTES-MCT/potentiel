@@ -30,6 +30,7 @@ export const FormFeedback: FC<FormFeedbackProps> = ({ formState, successMessage 
             {successCount > 0 && successMessage && (
               <Alert
                 small
+                closable
                 severity="success"
                 description={
                   <p>
@@ -41,6 +42,7 @@ export const FormFeedback: FC<FormFeedbackProps> = ({ formState, successMessage 
             {errors.length > 0 && (
               <Alert
                 small
+                closable
                 severity="warning"
                 description={
                   <>
@@ -60,7 +62,7 @@ export const FormFeedback: FC<FormFeedbackProps> = ({ formState, successMessage 
         );
       }
 
-      return <Alert small severity="success" description="L'opération est un succès" />;
+      return <Alert closable small severity="success" description="L'opération est un succès" />;
 
     case 'domain-error':
       return <AlertError description={formState.message} />;
@@ -79,5 +81,5 @@ export const FormFeedback: FC<FormFeedbackProps> = ({ formState, successMessage 
 type AlertErrorProps = Omit<AlertProps.Small, 'small'>;
 
 const AlertError: FC<AlertErrorProps> = ({ title, description }) => (
-  <Alert small severity="error" title={title} description={description} className="mb-4" />
+  <Alert small closable severity="error" title={title} description={description} className="mb-4" />
 );

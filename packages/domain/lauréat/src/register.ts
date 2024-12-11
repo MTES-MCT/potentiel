@@ -46,10 +46,13 @@ export type LauréatCommandDependencies = AbandonCommandDependencies &
   ReprésentantLégalCommandDependencies;
 
 export const registerLauréatUseCases = (dependencies: LauréatCommandDependencies) => {
+  // Commands
+  registerNotifierLauréatCommand(dependencies.loadAggregate);
+
+  // Use cases
   registerAbandonUseCases(dependencies);
   registerGarantiesFinancièresUseCases(dependencies);
   registerAchèvementUseCases(dependencies);
-  registerNotifierLauréatCommand(dependencies.loadAggregate);
   registerNotifierLauréatUseCase();
   registerReprésentantLégalUseCases(dependencies);
   registerActionnaireUseCases(dependencies);

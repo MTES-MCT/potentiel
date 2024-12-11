@@ -197,12 +197,16 @@ const référencielPermissions = {
     représentantLégal: {
       query: {
         consulter: 'Lauréat.ReprésentantLégal.Query.ConsulterReprésentantLégal',
+        consulterDemandeChangement:
+          'Lauréat.ReprésentantLégal.Query.ConsulterDemandeChangementReprésentantLégal',
       },
       usecase: {
         modifier: 'Lauréat.ReprésentantLégal.UseCase.ModifierReprésentantLégal',
+        demanderChangement: 'Lauréat.ReprésentantLégal.UseCase.DemanderChangementReprésentantLégal',
       },
       command: {
         modifier: 'Lauréat.ReprésentantLégal.Command.ModifierReprésentantLégal',
+        demanderChangement: 'Lauréat.ReprésentantLégal.Command.DemanderChangementReprésentantLégal',
       },
     },
     usecase: { notifier: 'Lauréat.UseCase.NotifierLauréat' },
@@ -836,6 +840,13 @@ const policies = {
       référencielPermissions.lauréat.représentantLégal.usecase.modifier,
       référencielPermissions.lauréat.représentantLégal.command.modifier,
     ],
+    demanderChangement: [
+      référencielPermissions.lauréat.représentantLégal.usecase.demanderChangement,
+      référencielPermissions.lauréat.représentantLégal.command.demanderChangement,
+    ],
+    consulterDemandeChangement: [
+      référencielPermissions.lauréat.représentantLégal.query.consulterDemandeChangement,
+    ],
   },
 } as const;
 
@@ -944,6 +955,7 @@ const adminPolicies: ReadonlyArray<Policy> = [
 
   // Représentant légal
   'représentantLégal.modifier',
+  'représentantLégal.consulterDemandeChangement',
 ];
 
 const dgecValidateurPolicies: ReadonlyArray<Policy> = [
@@ -1019,8 +1031,8 @@ const drealPolicies: ReadonlyArray<Policy> = [
   'candidature.attestation.télécharger',
 
   // Représentant légal
-  'représentantLégal.consulter',
   'représentantLégal.modifier',
+  'représentantLégal.consulterDemandeChangement',
 ];
 
 const porteurProjetPolicies: ReadonlyArray<Policy> = [
@@ -1073,7 +1085,8 @@ const porteurProjetPolicies: ReadonlyArray<Policy> = [
   'candidature.attestation.télécharger',
 
   // Représentant légal
-  'représentantLégal.consulter',
+  'représentantLégal.demanderChangement',
+  'représentantLégal.consulterDemandeChangement',
 ];
 
 const acheteurObligéPolicies: ReadonlyArray<Policy> = [

@@ -95,7 +95,6 @@ export type AbandonAggregate = Aggregate<AbandonEvent> & {
   readonly rejeter: typeof rejeter;
   readonly transmettrePreuveRecandidature: typeof transmettrePreuveRecandidature;
   readonly demanderPreuveRecandidature: typeof demanderPreuveRecandidature;
-  readonly estAccordé: () => boolean;
 };
 
 export const getDefaultAbandonAggregate: GetDefaultAggregateState<
@@ -119,9 +118,6 @@ export const getDefaultAbandonAggregate: GetDefaultAggregateState<
   rejeter,
   transmettrePreuveRecandidature,
   demanderPreuveRecandidature,
-  estAccordé() {
-    return this.statut.estAccordé();
-  },
 });
 
 function apply(this: AbandonAggregate, event: AbandonEvent) {

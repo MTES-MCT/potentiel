@@ -3,6 +3,7 @@ import Link from 'next/link';
 
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 import { PlainType } from '@potentiel-domain/core';
+import { ReprésentantLégal } from '@potentiel-domain/laureat';
 
 import { ProjectListItemHeading } from '@/components/molecules/projet/ProjectListItemHeading';
 import { ListItem } from '@/components/molecules/ListItem';
@@ -16,7 +17,7 @@ export type ReprésentantLégalListItemProps = PlainType<ReprésentantLégal.Lis
 export type ChangementReprésentantLégalListItemProps = PlainType<{
   identifiantProjet: IdentifiantProjet.ValueType;
   nomProjet: string;
-  statut: 'demandé' | 'accordé' | 'rejeté' | 'annulé';
+  statut: ReprésentantLégal.StatutDemandeChangementReprésentantLégal.RawType;
   misÀJourLe: {
     date: string;
   };

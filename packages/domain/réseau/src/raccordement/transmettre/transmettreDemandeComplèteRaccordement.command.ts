@@ -46,7 +46,7 @@ export const registerTransmettreDemandeComplèteRaccordementCommand = (
       identifiantGestionnaireRéseau,
       identifiantProjet,
       référenceDossier,
-      aUnAbandonAccordé: abandon.estAccordé(),
+      aUnAbandonAccordé: abandon.statut.estAccordé(),
       référenceDossierExpressionRegulière:
         gestionnaireRéseau.référenceDossierRaccordementExpressionRegulière,
       formatAccuséRéception,

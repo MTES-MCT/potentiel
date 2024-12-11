@@ -3,8 +3,19 @@ import { ReprésentantLégal } from '@potentiel-domain/laureat';
 
 import { ImporterReprésentantLégalFixture } from './fixtures/importerReprésentantLégal.fixture';
 import { ModifierReprésentantLégalFixture } from './fixtures/modifierReprésentantLégal.fixture';
+import { DemandeChangementReprésentantLégalWorld } from './demandeChangement/demandeChangementReprésentantLégal.world';
+
+type Expected = ReprésentantLégal.ConsulterReprésentantLégalReadModel & {
+  demande?: ReprésentantLégal.ConsulterDemandeChangementReprésentantLégalReadModel;
+};
 
 export class ReprésentantLégalWorld {
+  #demandeChangementReprésentantLégalWorld!: DemandeChangementReprésentantLégalWorld;
+
+  get demandeChangementReprésentantLégalWorld() {
+    return this.#demandeChangementReprésentantLégalWorld;
+  }
+
   #importerReprésentantLégalFixture: ImporterReprésentantLégalFixture;
   #modifierReprésentantLégalFixture: ModifierReprésentantLégalFixture;
 
@@ -17,6 +28,9 @@ export class ReprésentantLégalWorld {
   }
 
   constructor() {
+    // Subworld
+    this.#demandeChangementReprésentantLégalWorld = new DemandeChangementReprésentantLégalWorld();
+
     this.#importerReprésentantLégalFixture = new ImporterReprésentantLégalFixture();
     this.#modifierReprésentantLégalFixture = new ModifierReprésentantLégalFixture();
   }
@@ -24,7 +38,7 @@ export class ReprésentantLégalWorld {
   mapToExpected(
     identifiantProjet: IdentifiantProjet.ValueType,
   ): ReprésentantLégal.ConsulterReprésentantLégalReadModel {
-    const expected: ReprésentantLégal.ConsulterReprésentantLégalReadModel = {
+    const expected: Expected = {
       identifiantProjet,
       nomReprésentantLégal: this.#importerReprésentantLégalFixture.nomReprésentantLégal,
       typeReprésentantLégal: this.#importerReprésentantLégalFixture.typeReprésentantLégal,

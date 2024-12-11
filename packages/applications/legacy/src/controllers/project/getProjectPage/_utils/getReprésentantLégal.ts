@@ -15,6 +15,10 @@ export type GetReprésentantLégalForProjectPage =
         type: 'lauréat' | 'candidature';
         url: string;
       };
+      demandeDeModification?: {
+        peutConsulterLaDemandeExistante: boolean;
+        peutFaireUneDemande: boolean;
+      };
     }
   | undefined;
 
@@ -33,14 +37,31 @@ export const getReprésentantLégal: GetReprésentantLégal = async (identifiant
     });
 
     if (Option.isSome(représentantLégal)) {
+      const demandeChangementExistante =
+        await getDemandeChangementReprésentantLégal(identifiantProjet);
+
+      const peutConsulterLaDemandeExistante =
+        demandeChangementExistante && utilisateur.aLaPermission('représentantLégal.consulter');
+
+      const peutFaireUneDemande =
+        !demandeChangementExistante &&
+        utilisateur.aLaPermission('représentantLégal.demanderChangement');
+
+      const peutFaireModification =
+        !demandeChangementExistante && utilisateur.aLaPermission('représentantLégal.modifier');
+
       return {
         nom: représentantLégal.nomReprésentantLégal,
-        modification: utilisateur.aLaPermission('représentantLégal.modifier')
+        modification: peutFaireModification
           ? {
               type: 'lauréat',
               url: Routes.ReprésentantLégal.modifier(identifiantProjet.formatter()),
             }
           : undefined,
+        demandeDeModification: {
+          peutConsulterLaDemandeExistante,
+          peutFaireUneDemande,
+        },
       };
     }
 
@@ -73,4 +94,17 @@ export const getReprésentantLégal: GetReprésentantLégal = async (identifiant
     );
     return undefined;
   }
+};
+
+const getDemandeChangementReprésentantLégal = async (
+  identifiantProjet: IdentifiantProjet.ValueType,
+) => {
+  const demande = await mediator.send<ReprésentantLégal.ReprésentantLégalQuery>({
+    type: 'Lauréat.ReprésentantLégal.Query.ConsulterDemandeChangementReprésentantLégal',
+    data: { identifiantProjet: identifiantProjet.formatter() },
+  });
+
+  return Option.match(demande)
+    .some(() => true)
+    .none(() => false);
 };

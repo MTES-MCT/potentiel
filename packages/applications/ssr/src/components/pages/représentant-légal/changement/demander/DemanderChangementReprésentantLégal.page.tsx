@@ -16,11 +16,9 @@ export type DemanderChangementReprésentantLégalPageProps =
 
 export const DemanderChangementReprésentantLégalPage: FC<
   DemanderChangementReprésentantLégalPageProps
-> = ({ identifiantProjet }) => {
-  return (
-    <PageTemplate banner={<ProjetBanner identifiantProjet={identifiantProjet} />}>
-      <Heading1>Demander un changement de représentant légal</Heading1>
-      <DemanderChangementReprésentantLégalForm identifiantProjet={identifiantProjet} />
-    </PageTemplate>
-  );
-};
+> = ({ identifiantProjet }) => (
+  <PageTemplate banner={<ProjetBanner identifiantProjet={identifiantProjet} />}>
+    <Heading1>Demander un changement de représentant légal</Heading1>
+    <DemanderChangementReprésentantLégalForm identifiantProjet={identifiantProjet} />
+  </PageTemplate>
+);
