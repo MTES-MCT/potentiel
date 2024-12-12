@@ -4,7 +4,7 @@ export type DemandeChangementReprésentantLégalEntity = Entity<
   'demande-changement-représentant-légal',
   {
     identifiantProjet: string;
-    projet?: {
+    projet: {
       nom: string;
       appelOffre: string;
       période: string;

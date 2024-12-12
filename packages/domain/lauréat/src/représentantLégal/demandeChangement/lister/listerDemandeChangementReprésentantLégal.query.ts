@@ -66,9 +66,12 @@ export const registerListerDemandeChangementReprésentantLégalQuery = ({
       'demande-changement-représentant-légal',
       options,
     );
+
+    console.log(demandes.items.map((demande) => mapToReadModel(demande))[0]);
+
     return {
       ...demandes,
-      items: demandes.items.map((demande) => mapToReadModel(demande)),
+      items: demandes.items.map(mapToReadModel),
     };
   };
 
@@ -80,11 +83,9 @@ export const registerListerDemandeChangementReprésentantLégalQuery = ({
 
 const mapToReadModel = (
   entity: DemandeChangementReprésentantLégalEntity,
-): DemandeChangementReprésentantLégalItemReadModel => {
-  return {
-    nomProjet: entity.projet?.nom ?? 'Projet inconnu',
-    statut: StatutDemandeChangementReprésentantLégal.convertirEnValueType(entity.statut),
-    demandéLe: DateTime.convertirEnValueType(entity.demandéLe),
-    identifiantProjet: IdentifiantProjet.convertirEnValueType(entity.identifiantProjet),
-  };
-};
+): DemandeChangementReprésentantLégalItemReadModel => ({
+  nomProjet: entity.projet?.nom ?? 'Projet inconnu',
+  statut: StatutDemandeChangementReprésentantLégal.convertirEnValueType(entity.statut),
+  demandéLe: DateTime.convertirEnValueType(entity.demandéLe),
+  identifiantProjet: IdentifiantProjet.convertirEnValueType(entity.identifiantProjet),
+});

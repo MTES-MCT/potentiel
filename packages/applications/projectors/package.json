@@ -22,6 +22,7 @@
     "@potentiel-infrastructure/domain-adapters": "*",
     "@potentiel-libraries/pg-helpers": "*",
     "@potentiel-libraries/flat": "*",
+    "@potentiel-libraries/monads": "*",
     "flat": "^6.0.1",
     "mediateur": "^0.3.0"
   },
