@@ -12,6 +12,7 @@ type ProjectHeaderProps = {
   demandeRecours: ProjectDataForProjectPage['demandeRecours'];
   modificationsNonPermisesParLeCDCActuel: boolean;
   hasAttestationConformité: boolean;
+  peutFaireDemandeChangementReprésentantLégal: boolean;
 };
 
 export const ProjectHeader = ({
@@ -21,6 +22,7 @@ export const ProjectHeader = ({
   demandeRecours,
   modificationsNonPermisesParLeCDCActuel,
   hasAttestationConformité,
+  peutFaireDemandeChangementReprésentantLégal,
 }: ProjectHeaderProps) => (
   <div className="w-full pt-3 md:pt-0 print:pt-0 lg:flex justify-between gap-2">
     <div className="pl-3 print:pl-0 mb-3 text-sm">
@@ -52,6 +54,7 @@ export const ProjectHeader = ({
         demandeRecours={demandeRecours}
         modificationsNonPermisesParLeCDCActuel={modificationsNonPermisesParLeCDCActuel}
         hasAttestationConformité={hasAttestationConformité}
+        peutFaireDemandeChangementReprésentantLégal={peutFaireDemandeChangementReprésentantLégal}
       />
     </div>
   </div>
