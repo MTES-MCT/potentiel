@@ -7,14 +7,14 @@ export type OptionalBlob = typeof optionalBlob;
 export const optionalBlob = (options?: { acceptedFileTypes?: Array<FileTypes> }) =>
   zod
     .instanceof(Blob)
+    .refine(cannotExceedSize.refine, cannotExceedSize.message)
     .refine(
       (blob) =>
         options?.acceptedFileTypes
           ? acceptOnlyFileTypes(options.acceptedFileTypes).refine(blob)
           : true,
       options?.acceptedFileTypes ? acceptOnlyFileTypes(options?.acceptedFileTypes).message : '',
-    )
-    .refine(cannotExceedSize.refine, cannotExceedSize.message);
+    );
 
 export type OptionalBlobArray = typeof optionalBlobArray;
 export const optionalBlobArray = (options?: { acceptedFileTypes?: Array<FileTypes> }) =>
