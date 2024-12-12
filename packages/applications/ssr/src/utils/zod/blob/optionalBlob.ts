@@ -1,15 +1,17 @@
 import * as zod from 'zod';
 
 import { cannotExceedSize } from './cannotExceedSize';
-import { FileTypes, onlyFileType } from './onlyFileType';
+import { FileTypes, acceptOnlyFileTypes } from './acceptOnlyFileTypes';
 
 export const optionalBlob = (options?: { acceptedFileTypes?: Array<FileTypes> }) =>
   zod
     .instanceof(Blob)
     .refine(
       (blob) =>
-        options?.acceptedFileTypes ? onlyFileType(options.acceptedFileTypes).refine(blob) : true,
-      options?.acceptedFileTypes ? onlyFileType(options?.acceptedFileTypes).message : '',
+        options?.acceptedFileTypes
+          ? acceptOnlyFileTypes(options.acceptedFileTypes).refine(blob)
+          : true,
+      options?.acceptedFileTypes ? acceptOnlyFileTypes(options?.acceptedFileTypes).message : '',
     )
     .refine(cannotExceedSize.refine, cannotExceedSize.message);
 

@@ -1,7 +1,7 @@
 import * as zod from 'zod';
 
 import { cannotExceedSize } from './cannotExceedSize';
-import { FileTypes, onlyFileType } from './onlyFileType';
+import { FileTypes, acceptOnlyFileTypes } from './acceptOnlyFileTypes';
 
 export const requiredBlob = (options?: { acceptedFileTypes?: Array<FileTypes> }) =>
   zod
@@ -9,8 +9,10 @@ export const requiredBlob = (options?: { acceptedFileTypes?: Array<FileTypes> })
     .refine(({ size }) => size > 0, `Champ obligatoire`)
     .refine(
       (blob) =>
-        options?.acceptedFileTypes ? onlyFileType(options.acceptedFileTypes).refine(blob) : true,
-      options?.acceptedFileTypes ? onlyFileType(options?.acceptedFileTypes).message : '',
+        options?.acceptedFileTypes
+          ? acceptOnlyFileTypes(options.acceptedFileTypes).refine(blob)
+          : true,
+      options?.acceptedFileTypes ? acceptOnlyFileTypes(options?.acceptedFileTypes).message : '',
     )
     .refine(cannotExceedSize.refine, cannotExceedSize.message);
 
