@@ -1,3 +1,5 @@
+import { match } from 'ts-pattern';
+
 import {
   Aggregate,
   AggregateNotFoundError,
@@ -64,17 +66,17 @@ export const getDefaultReprésentantLégalAggregate: GetDefaultAggregateState<
 });
 
 function apply(this: ReprésentantLégalAggregate, event: ReprésentantLégalEvent) {
-  switch (event.type) {
-    case 'ReprésentantLégalImporté-V1':
-      applyReprésentantLégalImporté.bind(this)(event);
-      break;
-    case 'ReprésentantLégalModifié-V1':
-      applyReprésentantLégalModifié.bind(this)(event);
-      break;
-    case 'ChangementReprésentantLégalDemandé-V1':
-      applyChangementReprésentantLégalDemandé.bind(this)(event);
-      break;
-  }
+  return match(event)
+    .with({ type: 'ReprésentantLégalImporté-V1' }, (event) =>
+      applyReprésentantLégalImporté.bind(this)(event),
+    )
+    .with({ type: 'ReprésentantLégalModifié-V1' }, (event) =>
+      applyReprésentantLégalModifié.bind(this)(event),
+    )
+    .with({ type: 'ChangementReprésentantLégalDemandé-V1' }, (event) =>
+      applyChangementReprésentantLégalDemandé.bind(this)(event),
+    )
+    .exhaustive();
 }
 
 export const loadReprésentantLégalFactory =
