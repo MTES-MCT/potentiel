@@ -6,8 +6,6 @@ import {
   optionalBlobArray,
   requiredBlobArray,
 } from '../blob';
-import { OptionalBlobArray } from '../blob/optionalBlob';
-import { RequiredBlobArray } from '../blob/requiredBlob';
 
 type CommonOptions = {
   applyWatermark?: true;
@@ -33,13 +31,15 @@ export function manyDocuments(
 }
 
 type OptionalManyDocumentSchema = ReturnType<typeof buildOptionBlobArray>;
-const buildOptionBlobArray = (options?: CommonOptions) => buildSchema(optionalBlobArray, options);
+const buildOptionBlobArray = (options?: CommonOptions) =>
+  optionalBlobArray(options)
+    .transform((blobs) => blobs && mergePdfDocuments(blobs))
+    .transform((blob) => (blob && options?.applyWatermark ? applyWatermark(blob) : blob))
+    .transform((blob) => blob && mapToConsulterDocumentProjetReadModel(blob));
 
 type RequiredManyDocumentSchema = ReturnType<typeof buildRequiredBlobArray>;
-const buildRequiredBlobArray = (options?: CommonOptions) => buildSchema(requiredBlobArray, options);
-
-const buildSchema = (schema: OptionalBlobArray | RequiredBlobArray, options?: CommonOptions) =>
-  schema(options)
+const buildRequiredBlobArray = (options?: CommonOptions) =>
+  requiredBlobArray(options)
     .transform(mergePdfDocuments)
     .transform((blob) => (options?.applyWatermark ? applyWatermark(blob) : blob))
     .transform(mapToConsulterDocumentProjetReadModel);

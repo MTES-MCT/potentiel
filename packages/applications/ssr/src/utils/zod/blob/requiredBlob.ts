@@ -3,6 +3,7 @@ import * as zod from 'zod';
 import { cannotExceedSize } from './cannotExceedSize';
 import { FileTypes, acceptOnlyFileTypes } from './acceptOnlyFileTypes';
 
+export type RequiredBlob = typeof requiredBlob;
 export const requiredBlob = (options?: { acceptedFileTypes?: Array<FileTypes> }) =>
   zod
     .instanceof(Blob)

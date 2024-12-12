@@ -32,10 +32,13 @@ export function singleDocument(
   return options?.optional ? buildOptionBlob(options) : buildRequiredBlob(options);
 }
 
-const buildOptionBlob = (options?: CommonOptions) => buildSchema(optionalBlob, options);
-const buildRequiredBlob = (options?: CommonOptions) => buildSchema(requiredBlob, options);
+const buildOptionBlob = (options?: CommonOptions) =>
+  optionalBlob(options)
+    .transform((blob) => (blob.size === 0 ? undefined : blob))
+    .transform((blob) => (blob && options?.applyWatermark ? applyWatermark(blob) : blob))
+    .transform((blob) => blob && mapToConsulterDocumentProjetReadModel(blob));
 
-const buildSchema = (schema: typeof optionalBlob | typeof requiredBlob, options?: CommonOptions) =>
-  schema(options)
+const buildRequiredBlob = (options?: CommonOptions) =>
+  requiredBlob(options)
     .transform((blob) => (options?.applyWatermark ? applyWatermark(blob) : blob))
     .transform(mapToConsulterDocumentProjetReadModel);
