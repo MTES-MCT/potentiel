@@ -11,7 +11,7 @@ import { DocumentProjet } from '@potentiel-domain/document';
 import { decodeParameter } from '@/utils/decodeParameter';
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
-import { DétailsDemandeChangementReprésentantLégalPage } from '@/components/pages/représentant-légal/changement/détails/DétailsDemandeChangementReprésentantLégal.page';
+import { DétailsDemandeChangementReprésentantLégalPage } from '@/components/pages/représentant-légal/demande-changement/détails/DétailsDemandeChangementReprésentantLégal.page';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 
 export const metadata: Metadata = {

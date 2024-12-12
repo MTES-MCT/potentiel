@@ -8,4 +8,5 @@ export const demandeChangement = {
     `/laureats/${encodeParameter(identifiantProjet)}/demande-changement/representant-legal`,
   demander: (identifiantProjet: string) =>
     `/laureats/${encodeParameter(identifiantProjet)}/demande-changement/representant-legal/demander`,
+  lister: `/laureats/demandes-changement/representant-legal`,
 };

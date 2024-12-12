@@ -4,23 +4,22 @@ import { DateTime } from '@potentiel-domain/common';
 import { ReprésentantLégal } from '@potentiel-domain/laureat';
 
 import {
-  ChangementReprésentantLégalListPage,
-  ChangementReprésentantLégalListPageProps,
-} from './ChangementReprésentantLégalList.page';
+  DemandeChangementReprésentantLégalListPage,
+  DemandeChangementReprésentantLégalListPageProps,
+} from './DemandeChangementReprésentantLégalList.page';
 
 // More on how to set up stories at: https://storybook.js.org/docs/writing-stories#default-export
 const meta = {
   title: 'Pages/ChangementReprésentantLégal/Lister',
-  component: ChangementReprésentantLégalListPage,
+  component: DemandeChangementReprésentantLégalListPage,
   parameters: {},
   tags: ['autodocs'],
   argTypes: {},
-} satisfies Meta<ChangementReprésentantLégalListPageProps>;
-
+} satisfies Meta<DemandeChangementReprésentantLégalListPageProps>;
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-const items: ChangementReprésentantLégalListPageProps['items'] = [
+const items: DemandeChangementReprésentantLégalListPageProps['items'] = [
   {
     identifiantProjet: {
       appelOffre: `Appel d'offre 1`,
@@ -29,8 +28,8 @@ const items: ChangementReprésentantLégalListPageProps['items'] = [
       numéroCRE: `1`,
     },
     nomProjet: `Nom projet 1`,
-    statut: ReprésentantLégal.StatutDemandeChangementReprésentantLégal.accordé.formatter(),
-    misÀJourLe: {
+    statut: ReprésentantLégal.StatutDemandeChangementReprésentantLégal.accordé,
+    demandéLe: {
       date: DateTime.now().formatter(),
     },
   },
@@ -42,8 +41,8 @@ const items: ChangementReprésentantLégalListPageProps['items'] = [
       numéroCRE: `2`,
     },
     nomProjet: `Nom projet 2`,
-    statut: ReprésentantLégal.StatutDemandeChangementReprésentantLégal.demandé.formatter(),
-    misÀJourLe: {
+    statut: ReprésentantLégal.StatutDemandeChangementReprésentantLégal.demandé,
+    demandéLe: {
       date: DateTime.now().formatter(),
     },
   },
@@ -55,8 +54,8 @@ const items: ChangementReprésentantLégalListPageProps['items'] = [
       numéroCRE: `3`,
     },
     nomProjet: `Nom projet 3`,
-    statut: ReprésentantLégal.StatutDemandeChangementReprésentantLégal.rejeté.formatter(),
-    misÀJourLe: {
+    statut: ReprésentantLégal.StatutDemandeChangementReprésentantLégal.rejeté,
+    demandéLe: {
       date: DateTime.now().formatter(),
     },
   },
@@ -104,10 +103,8 @@ export const Default: Story = {
       },
     ],
     items,
-    pagination: {
-      currentPage: 1,
-      itemsPerPage: 10,
-    },
-    total: items.length,
+    currentPage: 1,
+    itemsPerPage: 10,
+    totalItems: items.length,
   },
 };

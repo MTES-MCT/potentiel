@@ -199,6 +199,8 @@ const référencielPermissions = {
         consulter: 'Lauréat.ReprésentantLégal.Query.ConsulterReprésentantLégal',
         consulterDemandeChangement:
           'Lauréat.ReprésentantLégal.Query.ConsulterDemandeChangementReprésentantLégal',
+        listerDemandeChangement:
+          'Lauréat.ReprésentantLégal.Query.ListerDemandeChangementReprésentantLégal',
       },
       usecase: {
         modifier: 'Lauréat.ReprésentantLégal.UseCase.ModifierReprésentantLégal',
@@ -847,6 +849,9 @@ const policies = {
     consulterDemandeChangement: [
       référencielPermissions.lauréat.représentantLégal.query.consulterDemandeChangement,
     ],
+    listerDemandeChangement: [
+      référencielPermissions.lauréat.représentantLégal.query.listerDemandeChangement,
+    ],
   },
 } as const;
 
@@ -956,6 +961,7 @@ const adminPolicies: ReadonlyArray<Policy> = [
   // Représentant légal
   'représentantLégal.modifier',
   'représentantLégal.consulterDemandeChangement',
+  'représentantLégal.listerDemandeChangement',
 ];
 
 const dgecValidateurPolicies: ReadonlyArray<Policy> = [
@@ -1033,6 +1039,7 @@ const drealPolicies: ReadonlyArray<Policy> = [
   // Représentant légal
   'représentantLégal.modifier',
   'représentantLégal.consulterDemandeChangement',
+  'représentantLégal.listerDemandeChangement',
 ];
 
 const porteurProjetPolicies: ReadonlyArray<Policy> = [

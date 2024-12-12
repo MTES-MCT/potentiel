@@ -7,7 +7,7 @@ import { ReprésentantLégal } from '@potentiel-domain/laureat';
 import { ValidationErrors } from '@/utils/formAction';
 import { UploadNewOrModifyExistingDocument } from '@/components/atoms/form/document/UploadNewOrModifyExistingDocument';
 
-import { DemanderChangementReprésentantLégalFormKeys } from '../../changement/demander/demanderChangementReprésentantLégal.action';
+import { DemanderChangementReprésentantLégalFormKeys } from '../../demande-changement/demander/demanderChangementReprésentantLégal.action';
 
 export type SaisiePièceJustificativeProps = {
   typeReprésentantLégal: ReprésentantLégal.TypeReprésentantLégal.RawType;

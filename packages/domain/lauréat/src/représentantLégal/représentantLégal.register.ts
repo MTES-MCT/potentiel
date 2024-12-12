@@ -10,8 +10,13 @@ import { registerModifierReprésentantLégalUseCase } from './modifier/modifierR
 import { registerDemanderChangementReprésentantLégalUseCase } from './demandeChangement/demander/demanderChangementReprésentantLégal.usecase';
 import { registerDemanderChangementReprésentantLégalCommand } from './demandeChangement/demander/demanderChangementReprésentantLégal.command';
 import { registerConsulterDemandeChangementReprésentantLegalQuery } from './demandeChangement/consulter/consulterDemandeChangementReprésentantLégal.query';
+import {
+  ListerDemandeChangementReprésentantLégalDependencies,
+  registerListerDemandeChangementReprésentantLégalQuery,
+} from './demandeChangement/lister/listerDemandeChangementReprésentantLégal.query';
 
-export type ReprésentantLégalQueryDependencies = ConsulterReprésentantLégalDependencies;
+export type ReprésentantLégalQueryDependencies = ConsulterReprésentantLégalDependencies &
+  ListerDemandeChangementReprésentantLégalDependencies;
 
 export type ReprésentantLégalCommandDependencies = {
   loadAggregate: LoadAggregate;
@@ -35,4 +40,5 @@ export const registerReprésentantLégalQueries = (
 ) => {
   registerConsulterRepresentantLegalQuery(dependencies);
   registerConsulterDemandeChangementReprésentantLegalQuery(dependencies);
+  registerListerDemandeChangementReprésentantLégalQuery(dependencies);
 };

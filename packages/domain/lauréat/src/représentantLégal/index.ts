@@ -11,17 +11,27 @@ import {
   ConsulterDemandeChangementReprésentantLégalQuery,
   ConsulterDemandeChangementReprésentantLégalReadModel,
 } from './demandeChangement/consulter/consulterDemandeChangementReprésentantLégal.query';
+import {
+  ListerDemandeChangementReprésentantLégalQuery,
+  ListerDemandeChangementReprésentantLégalReadModel,
+} from './demandeChangement/lister/listerDemandeChangementReprésentantLégal.query';
 
 // Query
 export type ReprésentantLégalQuery =
   | ConsulterReprésentantLégalQuery
-  | ConsulterDemandeChangementReprésentantLégalQuery;
-export type { ConsulterReprésentantLégalQuery, ConsulterDemandeChangementReprésentantLégalQuery };
+  | ConsulterDemandeChangementReprésentantLégalQuery
+  | ListerDemandeChangementReprésentantLégalQuery;
+export type {
+  ConsulterReprésentantLégalQuery,
+  ConsulterDemandeChangementReprésentantLégalQuery,
+  ListerDemandeChangementReprésentantLégalQuery,
+};
 
 // ReadModel
 export type {
   ConsulterReprésentantLégalReadModel,
   ConsulterDemandeChangementReprésentantLégalReadModel,
+  ListerDemandeChangementReprésentantLégalReadModel,
 };
 
 // Command
