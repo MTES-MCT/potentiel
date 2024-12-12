@@ -3,6 +3,8 @@ import * as zod from 'zod';
 
 import { ConsulterDocumentProjetQuery } from '@potentiel-domain/document';
 
+import { FileTypes } from '../blob';
+
 import { singleDocument } from './singleDocument';
 
 const documentKey = zod
@@ -19,7 +21,15 @@ const documentKey = zod
     return document;
   });
 
-export const keepOrUpdateSingleDocument = documentKey.or(singleDocument());
-export const keepOrUpdateManyDocuments = keepOrUpdateSingleDocument
-  .transform((document) => [document])
-  .or(zod.array(keepOrUpdateSingleDocument).min(1, 'Champ obligatoire'));
+type CommonOptions = {
+  applyWatermark?: true;
+  acceptedFileTypes?: Array<FileTypes>;
+};
+
+export const keepOrUpdateSingleDocument = (options?: CommonOptions) =>
+  documentKey.or(singleDocument(options));
+
+export const keepOrUpdateManyDocuments = (options?: CommonOptions) =>
+  keepOrUpdateSingleDocument(options)
+    .transform((document) => [document])
+    .or(zod.array(keepOrUpdateSingleDocument(options)).min(1, 'Champ obligatoire'));

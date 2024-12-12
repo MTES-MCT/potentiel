@@ -12,8 +12,10 @@ import { keepOrUpdateSingleDocument } from '@/utils/zod/document/keepOrUpdateDoc
 
 const schema = zod.object({
   identifiantProjet: zod.string().min(1),
-  attestation: keepOrUpdateSingleDocument,
-  preuveTransmissionAuCocontractant: keepOrUpdateSingleDocument,
+  attestation: keepOrUpdateSingleDocument({ acceptedFileTypes: ['application/pdf'] }),
+  preuveTransmissionAuCocontractant: keepOrUpdateSingleDocument({
+    acceptedFileTypes: ['application/pdf'],
+  }),
   dateTransmissionAuCocontractant: zod.string().min(1, { message: 'Champ obligatoire' }),
 });
 

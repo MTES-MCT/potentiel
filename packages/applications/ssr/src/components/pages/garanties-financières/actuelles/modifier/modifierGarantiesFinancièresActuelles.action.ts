@@ -13,7 +13,7 @@ import { keepOrUpdateSingleDocument } from '@/utils/zod/document/keepOrUpdateDoc
 const commonSchema = {
   identifiantProjet: zod.string().min(1),
   dateConstitution: zod.string().min(1, { message: 'Champ obligatoire' }),
-  attestation: keepOrUpdateSingleDocument,
+  attestation: keepOrUpdateSingleDocument({ acceptedFileTypes: ['application/pdf'] }),
 };
 
 const schema = zod.discriminatedUnion('type', [
