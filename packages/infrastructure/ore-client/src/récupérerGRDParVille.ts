@@ -46,7 +46,7 @@ export const récupérerGRDParVille = async ({
   url.searchParams.append('limit', '50');
 
   try {
-    if (Option.isSome(isZNI(codePostal))) {
+    if (isZNI(codePostal)) {
       return {
         codeEIC: '23X160203-000021',
         raisonSociale: 'SEI',
