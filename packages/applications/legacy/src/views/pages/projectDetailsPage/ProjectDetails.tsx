@@ -44,8 +44,8 @@ type ProjectDetailsProps = {
   };
   demandeRecours: ProjectDataForProjectPage['demandeRecours'];
   garantiesFinancières?: GarantiesFinancièresProjetProps['garantiesFinancières'];
-  hasAttestationConformité: boolean;
   représentantLégal?: ContactProps['représentantLégal'];
+  hasAttestationConformité: boolean;
 };
 
 export const ProjectDetails = ({
@@ -88,6 +88,9 @@ export const ProjectDetails = ({
         modificationsNonPermisesParLeCDCActuel={modificationsNonPermisesParLeCDCActuel}
         hasAttestationConformité={hasAttestationConformité}
         demandeRecours={demandeRecours}
+        peutFaireDemandeChangementReprésentantLégal={
+          !!représentantLégal?.demandeDeModification?.peutFaireUneDemande
+        }
       />
       <div className="print:hidden">
         {success && <SuccessBox title={success} />}
