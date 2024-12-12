@@ -13,7 +13,7 @@ import { singleDocument } from '@/utils/zod/document/singleDocument';
 const commonSchema = {
   identifiantProjet: zod.string().min(1),
   dateConstitution: zod.string().min(1, { message: 'Champ obligatoire' }),
-  attestation: singleDocument(),
+  attestation: singleDocument({ acceptedFileTypes: ['application/pdf'] }),
 };
 const schema = zod.discriminatedUnion('type', [
   zod.object({

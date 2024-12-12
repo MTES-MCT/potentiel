@@ -13,7 +13,7 @@ import { withUtilisateur } from '@/utils/withUtilisateur';
 import { singleDocument } from '@/utils/zod/document/singleDocument';
 
 const schema = zod.object({
-  fichierCorrections: singleDocument(),
+  fichierCorrections: singleDocument({ acceptedFileTypes: ['application/pdf'] }),
 });
 
 export type CorrigerRéférencesDossierFormKeys = keyof zod.infer<typeof schema>;

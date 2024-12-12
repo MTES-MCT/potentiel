@@ -17,7 +17,7 @@ const schema = zod.object({
     required_error: 'Champ obligatoire',
   }),
   nomRepresentantLegal: zod.string().min(1, { message: 'Champ obligatoire' }),
-  pieceJustificative: singleDocument(),
+  pieceJustificative: singleDocument({ acceptedFileTypes: ['application/pdf'] }),
 });
 
 export type ModifierChangementReprésentantLégalFormKeys = keyof zod.infer<typeof schema>;

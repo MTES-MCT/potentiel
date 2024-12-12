@@ -13,7 +13,9 @@ const schema = zod.object({
   identifiantProjet: zod.string().min(1),
   referenceDossier: zod.string().min(1, { message: 'Champ obligatoire' }),
   dateSignature: zod.string().min(1, { message: 'Champ obligatoire' }),
-  propositionTechniqueEtFinanciereSignee: singleDocument(),
+  propositionTechniqueEtFinanciereSignee: singleDocument({
+    acceptedFileTypes: ['application/pdf'],
+  }),
 });
 
 export type TransmettrePropositionTechniqueEtFinancièreFormKeys = keyof zod.infer<typeof schema>;

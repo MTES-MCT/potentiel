@@ -12,7 +12,7 @@ import { singleDocument } from '@/utils/zod/document/singleDocument';
 
 const schema = zod.object({
   identifiantProjet: zod.string().min(1),
-  reponseSignee: singleDocument(),
+  reponseSignee: singleDocument({ acceptedFileTypes: ['application/pdf'] }),
 });
 
 export type RejeterAbandonFormKeys = keyof zod.infer<typeof schema>;

@@ -14,7 +14,7 @@ const schema = zod.object({
   dateQualification: zod.string().min(1, { message: 'Champ obligatoire' }),
   identifiantGestionnaireReseau: zod.string().min(1),
   referenceDossier: zod.string().min(1, { message: 'Champ obligatoire' }),
-  accuseReception: singleDocument(),
+  accuseReception: singleDocument({ acceptedFileTypes: ['application/pdf'] }),
 });
 
 export type TransmettreDemandeComplèteRaccordementFormKeys = keyof zod.infer<typeof schema>;

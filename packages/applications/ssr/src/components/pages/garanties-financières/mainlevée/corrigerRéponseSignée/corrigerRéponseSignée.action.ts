@@ -10,7 +10,7 @@ import { singleDocument } from '@/utils/zod/document/singleDocument';
 import { FormAction, formAction, FormState } from '@/utils/formAction';
 
 const schema = zod.object({
-  documentCorrige: singleDocument(),
+  documentCorrige: singleDocument({ acceptedFileTypes: ['application/pdf'] }),
   courrierReponseACorriger: zod.string().min(1),
   identifiantProjet: zod.string().min(1),
 });

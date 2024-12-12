@@ -13,7 +13,7 @@ import { singleDocument } from '@/utils/zod/document/singleDocument';
 
 const schema = zod.object({
   identifiantGestionnaireReseau: zod.string(),
-  fichierDatesMiseEnService: singleDocument(),
+  fichierDatesMiseEnService: singleDocument({ acceptedFileTypes: ['text/csv'] }),
 });
 
 export type ImporterDatesMiseEnServiceFormKeys = keyof zod.infer<typeof schema>;
