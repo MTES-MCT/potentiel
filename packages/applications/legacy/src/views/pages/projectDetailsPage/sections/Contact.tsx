@@ -46,7 +46,7 @@ export const Contact = ({ identifiantProjet, project, user, représentantLégal 
           )}
           {représentantLégal.demandeDeModification?.peutConsulterLaDemandeExistante && (
             <Link
-              href={Routes.ReprésentantLégal.détail(identifiantProjet)}
+              href={Routes.ReprésentantLégal.demandeChangement.détail(identifiantProjet)}
               aria-label="Voir la demande de changement en cours"
               className="block"
             >
@@ -55,7 +55,7 @@ export const Contact = ({ identifiantProjet, project, user, représentantLégal 
           )}
           {représentantLégal.demandeDeModification?.peutFaireUneDemande && (
             <Link
-              href={Routes.ReprésentantLégal.demanderChangement(identifiantProjet)}
+              href={Routes.ReprésentantLégal.demandeChangement.demander(identifiantProjet)}
               aria-label="Demander un changement"
               className="block"
             >

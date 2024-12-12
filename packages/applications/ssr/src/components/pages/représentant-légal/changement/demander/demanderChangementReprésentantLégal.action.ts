@@ -1,11 +1,9 @@
 'use server';
 
-// import { PDFDocument } from 'pdf-lib';
 import * as zod from 'zod';
 import { mediator } from 'mediateur';
 
 import { ReprésentantLégal } from '@potentiel-domain/laureat';
-// import { ConsulterDocumentProjetReadModel } from '@potentiel-domain/document';
 import { Routes } from '@potentiel-applications/routes';
 
 import { FormAction, formAction, FormState } from '@/utils/formAction';
@@ -45,7 +43,7 @@ const action: FormAction<FormState, typeof schema> = async (
     return {
       status: 'success',
       redirection: {
-        url: Routes.ReprésentantLégal.détail(identifiantProjet),
+        url: Routes.ReprésentantLégal.demandeChangement.détail(identifiantProjet),
         message: 'La demande de changement de représentant légal a bien été transmise',
       },
     };
