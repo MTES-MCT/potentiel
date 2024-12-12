@@ -11,6 +11,7 @@ import { ProjetBanner } from '@/components/molecules/projet/ProjetBanner';
 import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
 import { Heading1, Heading2 } from '@/components/atoms/headings';
 import { FormattedDate } from '@/components/atoms/FormattedDate';
+import { HistoriqueTimeline } from '@/components/molecules/historique/HistoriqueTimeline';
 
 import { StatutPreuveRecandidatureBadge } from './PreuveRecandidatureStatutBadge';
 import { DemanderConfirmationAbandon } from './demanderConfirmation/DemanderConfirmationAbandon';
@@ -24,7 +25,6 @@ import {
   TransmettrePreuveRecandidature,
   TransmettrePreuveRecandidatureFormProps,
 } from './transmettrePreuveRecandidature/TransmettrePreuveRecandidature';
-import { HistoriqueList } from './HistoriqueList';
 
 type AvailableActions = Array<
   | 'demander-confirmation'
@@ -90,7 +90,7 @@ export const DétailsAbandonPage: FC<DétailsAbandonPageProps> = ({
             </div>
             <div className="mb-4">
               <Heading2>Historique</Heading2>
-              <HistoriqueList historique={historique} />
+              <HistoriqueTimeline historique={historique} />
             </div>
           </div>
         ),
