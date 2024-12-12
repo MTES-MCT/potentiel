@@ -1,4 +1,5 @@
 # language: fr
+@select
 Fonctionnalité: Demander la modification de l'actionnaire d'un projet lauréat
 
     Contexte:
