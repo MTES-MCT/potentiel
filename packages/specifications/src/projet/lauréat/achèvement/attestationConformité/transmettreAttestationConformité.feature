@@ -26,7 +26,6 @@ Fonctionnalité: Transmettre une attestation de conformité
             | sujet      | Potentiel - Une attestation de conformité a été transmise pour le projet Du boulodrome de Marseille dans le département(.*) |
             | nom_projet | Du boulodrome de Marseille                                                                                                  |
             | url        | https://potentiel.beta.gouv.fr/projet/.*/details.html                                                                       |
-
         Et un email a été envoyé au porteur avec :
             | sujet      | Potentiel - Mise à jour de la date d'achèvement du projet Du boulodrome de Marseille dans le département(.*) |
             | nom_projet | Du boulodrome de Marseille                                                                                   |

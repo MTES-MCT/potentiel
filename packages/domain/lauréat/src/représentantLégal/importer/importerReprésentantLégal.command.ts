@@ -27,8 +27,10 @@ export const registerImporterReprésentantLégalCommand = (loadAggregate: LoadAg
     importéLe,
     importéPar,
   }) => {
-    const { nomReprésentantLégal } = await loadCandidature(identifiantProjet);
     await loadLauréat(identifiantProjet);
+
+    const { nomReprésentantLégal } = await loadCandidature(identifiantProjet);
+
     const représentantLégal = await loadReprésentantLégal(identifiantProjet, false);
 
     await représentantLégal.importer({
