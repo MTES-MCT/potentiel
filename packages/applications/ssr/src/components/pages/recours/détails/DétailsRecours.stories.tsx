@@ -45,6 +45,14 @@ export const Demandé: Story = {
         },
       },
     },
+    historique: {
+      items: [],
+      range: {
+        endPosition: 0,
+        startPosition: 0,
+      },
+      total: 0,
+    },
     actions: [],
   },
 };
@@ -87,6 +95,14 @@ export const Rejeté: Story = {
         },
       },
     },
+    historique: {
+      items: [],
+      range: {
+        endPosition: 0,
+        startPosition: 0,
+      },
+      total: 0,
+    },
     actions: [],
   },
 };
@@ -128,6 +144,14 @@ export const Accordé: Story = {
           },
         },
       },
+    },
+    historique: {
+      items: [],
+      range: {
+        endPosition: 0,
+        startPosition: 0,
+      },
+      total: 0,
     },
     actions: [],
   },

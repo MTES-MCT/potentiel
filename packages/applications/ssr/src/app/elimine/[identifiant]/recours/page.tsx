@@ -7,6 +7,7 @@ import { Option } from '@potentiel-libraries/monads';
 import { mapToPlainObject } from '@potentiel-domain/core';
 import { Recours } from '@potentiel-domain/elimine';
 import { Role } from '@potentiel-domain/utilisateur';
+import { Historique } from '@potentiel-domain/historique';
 
 import { decodeParameter } from '@/utils/decodeParameter';
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
@@ -44,6 +45,14 @@ export default async function Page({ params: { identifiant } }: PageProps) {
         return notFound();
       }
 
+      const historique = await mediator.send<Historique.ListerHistoriqueProjetQuery>({
+        type: 'Historique.Query.ListerHistoriqueProjet',
+        data: {
+          identifiantProjet,
+          category: 'recours',
+        },
+      });
+
       return (
         <DétailsRecoursPage
           recours={mapToPlainObject(recours)}
@@ -52,6 +61,7 @@ export default async function Page({ params: { identifiant } }: PageProps) {
             role: utilisateur.role.nom,
             statut: recours.statut.value,
           })}
+          historique={mapToPlainObject(historique)}
         />
       );
     }),
