@@ -3,7 +3,7 @@ import { ReprésentantLégal } from '@potentiel-domain/laureat';
 
 import { ImporterReprésentantLégalFixture } from './fixtures/importerReprésentantLégal.fixture';
 import { ModifierReprésentantLégalFixture } from './fixtures/modifierReprésentantLégal.fixture';
-import { ChangementReprésentantLégalWorld } from './demandeChangement/changementReprésentantLégal.world';
+import { ChangementReprésentantLégalWorld } from './changement/changementReprésentantLégal.world';
 
 type Expected = ReprésentantLégal.ConsulterReprésentantLégalReadModel & {
   demande?: ReprésentantLégal.ConsulterChangementReprésentantLégalReadModel['demande'];

@@ -53,7 +53,7 @@ function estValide(value: string): asserts value is RawType {
   const isValid = statuts.includes(value as RawType);
 
   if (!isValid) {
-    throw new StatutDemandeChangementReprésentantLégalInvalideError(value);
+    throw new StatutChangementReprésentantLégalInvalideError(value);
   }
 }
 
@@ -62,7 +62,7 @@ export const accordé = convertirEnValueType('accordé');
 export const rejeté = convertirEnValueType('rejeté');
 export const inconnu = convertirEnValueType('inconnu');
 
-class StatutDemandeChangementReprésentantLégalInvalideError extends InvalidOperationError {
+class StatutChangementReprésentantLégalInvalideError extends InvalidOperationError {
   constructor(value: string) {
     super(`Le statut ne correspond à aucune valeur connue`, {
       value,
