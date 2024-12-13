@@ -9,7 +9,8 @@ type SignOutRedirectProps = {
 export const SignOutRedirect = ({ callbackUrl }: SignOutRedirectProps) => {
   const router = useRouter();
   useEffect(() => {
-    signOut({}).then(() => router.push(callbackUrl ?? '/'));
+    const timeout = setTimeout(() => signOut({}).then(() => router.push(callbackUrl ?? '/')), 500);
+    return () => clearTimeout(timeout);
   }, []);
 
   return null;
