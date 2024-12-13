@@ -5,7 +5,6 @@ import { RebuildTriggered, Event } from '@potentiel-infrastructure/pg-event-sour
 import { findProjection } from '@potentiel-infrastructure/pg-projections';
 import { Option } from '@potentiel-libraries/monads';
 
-import { upsertProjection } from '../../infrastructure/upsertProjection';
 import { updateOneProjection } from '../../infrastructure';
 
 export type SubscriptionEvent = (Actionnaire.ActionnaireEvent & Event) | RebuildTriggered;
@@ -22,8 +21,7 @@ export const register = () => {
       const lauréatProjection = await findProjection<Lauréat.LauréatEntity>(`lauréat|${id}`);
 
       if (Option.isSome(lauréatProjection)) {
-        await upsertProjection<Lauréat.LauréatEntity>(`lauréat|${id}`, {
-          ...lauréatProjection,
+        await updateOneProjection<Lauréat.LauréatEntity>(`lauréat|${id}`, {
           actionnaire: undefined,
         });
       }
@@ -38,6 +36,7 @@ export const register = () => {
               dernièreMiseÀJourLe: payload.importéLe,
             },
           });
+
           break;
 
         case 'ActionnaireModifié-V1':

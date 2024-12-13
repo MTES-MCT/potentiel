@@ -23,6 +23,7 @@ import {
   LauréatProjector,
   ReprésentantLégalProjector,
   ActionnaireProjector,
+  ChangementActionnaireProjector,
 } from '@potentiel-applications/projectors';
 import {
   consulterCahierDesChargesChoisiAdapter,
@@ -53,6 +54,7 @@ export const setupLauréat = async ({ sendEmail }: SetupLauréatDependencies) =>
   AchèvementProjector.register();
   ReprésentantLégalProjector.register();
   ActionnaireProjector.register();
+  ChangementActionnaireProjector.register();
 
   // Notifications
   AbandonNotification.register({ sendEmail });
@@ -82,10 +84,20 @@ export const setupLauréat = async ({ sendEmail }: SetupLauréatDependencies) =>
   const unsubscribeActionnaireProjector = await subscribe<ActionnaireProjector.SubscriptionEvent>({
     name: 'projector',
     streamCategory: 'actionnaire',
-    eventType: ['ActionnaireImporté-V1', 'ActionnaireModifié-V1', 'RebuildTriggered'],
+    eventType: [
+      'ActionnaireImporté-V1',
+      'ChangementActionnaireDemandé-V1',
+      'ActionnaireModifié-V1',
+      'RebuildTriggered',
+    ],
     eventHandler: async (event) => {
       await mediator.send<ActionnaireProjector.Execute>({
         type: 'System.Projector.Lauréat.Actionnaire',
+        data: event,
+      });
+
+      await mediator.send<ChangementActionnaireProjector.Execute>({
+        type: 'System.Projector.Lauréat.ChangementActionnaire',
         data: event,
       });
     },

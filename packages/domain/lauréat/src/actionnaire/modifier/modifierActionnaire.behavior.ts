@@ -1,7 +1,8 @@
-import { DomainError, DomainEvent } from '@potentiel-domain/core';
+import { DomainEvent } from '@potentiel-domain/core';
 import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
 
 import { ActionnaireAggregate } from '../actionnaire.aggregate';
+import { ActionnaireIdentifiqueError, DemandeDeChangementEnCoursError } from '../errors';
 
 export type ActionnaireModifiéEvent = DomainEvent<
   'ActionnaireModifié-V1',
@@ -28,6 +29,10 @@ export async function modifier(
     throw new ActionnaireIdentifiqueError();
   }
 
+  if (this.statutDemande?.estEnCours()) {
+    throw new DemandeDeChangementEnCoursError();
+  }
+
   const event: ActionnaireModifiéEvent = {
     type: 'ActionnaireModifié-V1',
     payload: {
@@ -46,10 +51,4 @@ export function applyActionnaireModifié(
   { payload: { actionnaire } }: ActionnaireModifiéEvent,
 ) {
   this.actionnaire = actionnaire;
-}
-
-class ActionnaireIdentifiqueError extends DomainError {
-  constructor() {
-    super("L'actionnaire modifié est identique à celui associé au projet");
-  }
 }

@@ -3,10 +3,12 @@ import { Actionnaire } from '@potentiel-domain/laureat';
 
 import { ImporterActionnaireFixture } from './fixtures/importerActionnaire.fixture';
 import { ModifierActionnaireFixture } from './fixtures/modifierActionnaire.fixture';
+import { demanderChangementActionnaireFixture } from './fixtures/demanderChangementActionnaire.fixture';
 
 export class ActionnaireWorld {
   #importerActionnaireFixture: ImporterActionnaireFixture;
   #modifierActionnaireFixture: ModifierActionnaireFixture;
+  #demanderChangementActionnaireFixture: demanderChangementActionnaireFixture;
 
   get importerActionnaireFixture() {
     return this.#importerActionnaireFixture;
@@ -16,9 +18,14 @@ export class ActionnaireWorld {
     return this.#modifierActionnaireFixture;
   }
 
+  get demanderChangementActionnaireFixture() {
+    return this.#demanderChangementActionnaireFixture;
+  }
+
   constructor() {
     this.#importerActionnaireFixture = new ImporterActionnaireFixture();
     this.#modifierActionnaireFixture = new ModifierActionnaireFixture();
+    this.#demanderChangementActionnaireFixture = new demanderChangementActionnaireFixture();
   }
 
   mapToExpected(
