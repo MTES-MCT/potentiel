@@ -7,7 +7,7 @@ import {
 } from './consulter/consulterActionnaire.query';
 import { registerModifierActionnaireUseCase } from './modifier/modifierActionnaire.usecase';
 import { registerModifierActionnaireCommand } from './modifier/modifierActionnaire.command';
-import { registerDemanderModificationActionnaireQuery } from './consulterDemande/consulterDemandeModificationActionnaire.query';
+import { registerDemanderModificationActionnaireQuery } from './consulterDemande/consulterModificationActionnaire.query';
 import { registerDemanderModificationActionnaireUseCase } from './demanderModification/demandeModification.usecase';
 import { registerDemanderModificationActionnaireCommand } from './demanderModification/demandeModification.command';
 

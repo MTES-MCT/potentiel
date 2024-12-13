@@ -83,7 +83,7 @@ export class DemanderModificationActionnaireFixture
 
   mapToExpected(
     identifiantProjet: IdentifiantProjet.ValueType,
-  ): Actionnaire.ConsulterDemandeModificationActionnaireReadModel {
+  ): Actionnaire.ConsulterModificationActionnaireReadModel {
     return {
       identifiantProjet,
       statut: Actionnaire.StatutModificationActionnaire.demandé,

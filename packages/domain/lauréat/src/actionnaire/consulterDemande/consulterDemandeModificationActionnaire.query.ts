@@ -6,12 +6,12 @@ import { Find } from '@potentiel-domain/entity';
 import { DocumentProjet } from '@potentiel-domain/document';
 
 import {
-  DemandeModificationActionnaireEntity,
+  ModificationActionnaireEntity,
   StatutModificationActionnaire,
   TypeDocumentActionnaire,
 } from '..';
 
-export type ConsulterDemandeModificationActionnaireReadModel = {
+export type ConsulterModificationActionnaireReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
   statut: StatutModificationActionnaire.ValueType;
   demande: {
@@ -34,36 +34,36 @@ export type ConsulterDemandeModificationActionnaireReadModel = {
   };
 };
 
-export type ConsulterDemandeModificationActionnaireQuery = Message<
-  'Lauréat.Actionnaire.Query.ConsulterDemandeModificationActionnaire',
+export type ConsulterModificationActionnaireQuery = Message<
+  'Lauréat.Actionnaire.Query.ConsulterModificationActionnaire',
   {
     identifiantProjet: string;
   },
-  Option.Type<ConsulterDemandeModificationActionnaireReadModel>
+  Option.Type<ConsulterModificationActionnaireReadModel>
 >;
 
-export type ConsulterDemandeModificationActionnaireDependencies = {
+export type ConsulterModificationActionnaireDependencies = {
   find: Find;
 };
 
 export const registerDemanderModificationActionnaireQuery = ({
   find,
-}: ConsulterDemandeModificationActionnaireDependencies) => {
-  const handler: MessageHandler<ConsulterDemandeModificationActionnaireQuery> = async ({
+}: ConsulterModificationActionnaireDependencies) => {
+  const handler: MessageHandler<ConsulterModificationActionnaireQuery> = async ({
     identifiantProjet,
   }) => {
     const identifiantProjetValueType = IdentifiantProjet.convertirEnValueType(identifiantProjet);
 
-    const demandeModificationActionnaire = await find<DemandeModificationActionnaireEntity>(
-      `demande-modification-actionnaire|${identifiantProjetValueType.formatter()}`,
+    const demandeModificationActionnaire = await find<ModificationActionnaireEntity>(
+      `modification-actionnaire|${identifiantProjetValueType.formatter()}`,
     );
 
     return Option.match(demandeModificationActionnaire).some(mapToReadModel).none();
   };
-  mediator.register('Lauréat.Actionnaire.Query.ConsulterDemandeModificationActionnaire', handler);
+  mediator.register('Lauréat.Actionnaire.Query.ConsulterModificationActionnaire', handler);
 };
 
-export const mapToReadModel = (result: DemandeModificationActionnaireEntity) => {
+export const mapToReadModel = (result: ModificationActionnaireEntity) => {
   return {
     demande: {
       demandéLe: DateTime.convertirEnValueType(result.demande.demandéLe),
@@ -103,5 +103,5 @@ export const mapToReadModel = (result: DemandeModificationActionnaireEntity) => 
       : undefined,
     identifiantProjet: IdentifiantProjet.convertirEnValueType(result.identifiantProjet),
     statut: StatutModificationActionnaire.convertirEnValueType(result.statut),
-  } satisfies ConsulterDemandeModificationActionnaireReadModel;
+  } satisfies ConsulterModificationActionnaireReadModel;
 };

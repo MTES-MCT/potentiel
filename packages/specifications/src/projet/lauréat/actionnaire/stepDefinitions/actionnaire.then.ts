@@ -41,7 +41,7 @@ Alors(
       );
 
       const demande = await mediator.send<Actionnaire.ActionnaireQuery>({
-        type: 'Lauréat.Actionnaire.Query.ConsulterDemandeModificationActionnaire',
+        type: 'Lauréat.Actionnaire.Query.ConsulterModificationActionnaire',
         data: {
           identifiantProjet: identifiantProjet.formatter(),
         },

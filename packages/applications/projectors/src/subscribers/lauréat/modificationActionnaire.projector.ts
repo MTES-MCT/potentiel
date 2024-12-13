@@ -8,7 +8,7 @@ import { removeProjection, upsertProjection } from '../../infrastructure';
 export type SubscriptionEvent = (Actionnaire.ActionnaireEvent & Event) | RebuildTriggered;
 
 export type Execute = Message<
-  'System.Projector.Lauréat.DemandeModificationActionnaire',
+  'System.Projector.Lauréat.ModificationActionnaire',
   SubscriptionEvent
 >;
 
@@ -19,8 +19,8 @@ export const register = () => {
     if (type === 'RebuildTriggered') {
       const { id } = payload;
 
-      await removeProjection<Actionnaire.DemandeModificationActionnaireEntity>(
-        `demande-modification-actionnaire|${id}`,
+      await removeProjection<Actionnaire.ModificationActionnaireEntity>(
+        `modification-actionnaire|${id}`,
       );
     } else {
       const { identifiantProjet } = payload;
@@ -34,8 +34,8 @@ export const register = () => {
             pièceJustificative: { format },
           } = event.payload;
 
-          await upsertProjection<Actionnaire.DemandeModificationActionnaireEntity>(
-            `demande-modification-actionnaire|${identifiantProjet}`,
+          await upsertProjection<Actionnaire.ModificationActionnaireEntity>(
+            `modification-actionnaire|${identifiantProjet}`,
             {
               identifiantProjet,
               statut: Actionnaire.StatutModificationActionnaire.demandé.statut,
@@ -56,5 +56,5 @@ export const register = () => {
     }
   };
 
-  mediator.register('System.Projector.Lauréat.DemandeModificationActionnaire', handler);
+  mediator.register('System.Projector.Lauréat.ModificationActionnaire', handler);
 };
