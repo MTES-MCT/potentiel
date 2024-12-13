@@ -14,6 +14,7 @@ const getMotifGfEnAttente = async (
   if (!role.aLaPermission('garantiesFinancières.enAttente.consulter')) {
     return undefined;
   }
+  console.log('getMotifGfEnAttente');
 
   const gfEnAttente =
     await mediator.send<GarantiesFinancières.ConsulterProjetAvecGarantiesFinancièresEnAttenteQuery>(
@@ -32,7 +33,7 @@ export const getGarantiesFinancières = async (
   isSoumisAuxGF: boolean,
 ): Promise<GarantiesFinancièresProjetProps['garantiesFinancières'] | undefined> => {
   try {
-    if (!isSoumisAuxGF) {
+    if (!isSoumisAuxGF || !role.aLaPermission('garantiesFinancières.dépôt.consulter')) {
       return undefined;
     }
 
@@ -49,13 +50,6 @@ export const getGarantiesFinancières = async (
       });
 
     const motifGfEnAttente = await getMotifGfEnAttente(identifiantProjet, role);
-
-    await mediator.send<GarantiesFinancières.ConsulterProjetAvecGarantiesFinancièresEnAttenteQuery>(
-      {
-        type: 'Lauréat.GarantiesFinancières.Query.ConsulterProjetAvecGarantiesFinancièresEnAttente',
-        data: { identifiantProjetValue: identifiantProjet.formatter() },
-      },
-    );
 
     const actuelles = Option.isSome(garantiesFinancièresActuelles)
       ? {

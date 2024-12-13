@@ -1,18 +1,21 @@
 import React, { ComponentProps } from 'react';
 import { ProjectDataForProjectPage } from '../../../../modules/project';
 import { BuildingIcon, Heading3, Link, Section, WarningIcon } from '../../../components';
-import { UserRole } from '../../../../modules/users';
 import { formatProjectDataToIdentifiantProjetValueType } from '../../../../helpers/dataToValueTypes';
 import { afficherDate } from '../../../helpers';
 import { Routes } from '@potentiel-applications/routes';
+import { match } from 'ts-pattern';
 
 import { GarantiesFinancières } from '@potentiel-domain/laureat';
 import { Candidature } from '@potentiel-domain/candidature';
 import { Role } from '@potentiel-domain/utilisateur';
+import { Raccordement } from '@potentiel-domain/reseau';
+import { Option } from '@potentiel-libraries/monads';
 
 export type InfoGeneralesProps = {
   project: ProjectDataForProjectPage;
-  role: UserRole;
+  role: Role.ValueType;
+  raccordement: Option.Type<Raccordement.ConsulterRaccordementReadModel>;
   demandeRecours: ProjectDataForProjectPage['demandeRecours'];
   garantiesFinancières?: GarantiesFinancièresProjetProps['garantiesFinancières'];
 };
@@ -26,7 +29,6 @@ export const InfoGenerales = ({
     appelOffre,
     puissance,
     isClasse,
-    isAbandoned,
     désignationCatégorie,
     codePostalProjet,
     communeProjet,
@@ -34,6 +36,7 @@ export const InfoGenerales = ({
     departementProjet,
     adresseProjet,
   },
+  raccordement,
   role,
   garantiesFinancières,
   demandeRecours,
@@ -41,18 +44,6 @@ export const InfoGenerales = ({
   const puissanceInférieurePuissanceMaxVolRéservé =
     appelOffre.periode.noteThresholdBy === 'category' &&
     puissance < appelOffre.periode.noteThreshold.volumeReserve.puissanceMax;
-
-  const shouldDisplayGf =
-    isClasse &&
-    [
-      'admin',
-      'dgec-validateur',
-      'porteur-projet',
-      'dreal',
-      'acheteur-obligé',
-      'cre',
-      'caisse-des-dépôts',
-    ].includes(role);
 
   const formattedIdentifiantProjet = formatProjectDataToIdentifiantProjetValueType({
     appelOffreId,
@@ -63,7 +54,7 @@ export const InfoGenerales = ({
 
   return (
     <Section title="Informations générales" icon={<BuildingIcon />} className="flex gap-5 flex-col">
-      {garantiesFinancières && shouldDisplayGf && (
+      {garantiesFinancières && isClasse && (
         <GarantiesFinancièresProjet
           garantiesFinancières={garantiesFinancières}
           project={{
@@ -72,23 +63,23 @@ export const InfoGenerales = ({
             familleId,
             numeroCRE,
           }}
+          peutModifier={
+            role.aLaPermission('garantiesFinancières.actuelles.modifier') ||
+            role.aLaPermission('garantiesFinancières.dépôt.modifier')
+          }
+          peutLever={role.aLaPermission('garantiesFinancières.mainlevée.demander')}
         />
       )}
-      {demandeRecours &&
-        Role.convertirEnValueType(role).aLaPermission('recours.consulter.détail') && (
-          <div className="print:hidden">
-            <Heading3 className="m-0">Recours</Heading3>
-            <Link href={Routes.Recours.détail(formattedIdentifiantProjet)}>
-              Recours {demandeRecours.statut}
-            </Link>
-          </div>
-        )}
-
-      {isClasse &&
-        !isAbandoned &&
-        ['admin', 'dgec-validateur', 'porteur-projet', 'dreal', 'acheteur-obligé', 'cre'].includes(
-          role,
-        ) &&
+      {demandeRecours && role.aLaPermission('recours.consulter.détail') && (
+        <div className="print:hidden">
+          <Heading3 className="m-0">Recours</Heading3>
+          <Link href={Routes.Recours.détail(formattedIdentifiantProjet)}>
+            Recours {demandeRecours.statut}
+          </Link>
+        </div>
+      )}
+      {Option.isSome(raccordement) &&
+        role.aLaPermission('réseau.raccordement.consulter') &&
         appelOffre.typeAppelOffre !== 'biométhane' && (
           <div className="print:hidden">
             <Heading3 className="m-0">Raccordement au réseau</Heading3>
@@ -102,7 +93,29 @@ export const InfoGenerales = ({
                 }).formatter(),
               )}
             >
-              Mettre à jour ou consulter les données de raccordement
+              Consulter{' '}
+              {role.aLaPermission('réseau.raccordement.gestionnaire.modifier')
+                ? 'ou modifier '
+                : ''}
+              les données de raccordement
+            </Link>
+          </div>
+        )}
+      {Option.isNone(raccordement) &&
+        role.aLaPermission('réseau.raccordement.gestionnaire.modifier') && (
+          <div className="print:hidden">
+            <Heading3 className="m-0">Raccordement au réseau</Heading3>
+            <Link
+              href={Routes.Raccordement.détail(
+                formatProjectDataToIdentifiantProjetValueType({
+                  appelOffreId,
+                  periodeId,
+                  familleId,
+                  numeroCRE,
+                }).formatter(),
+              )}
+            >
+              Renseigner les données de raccordement
             </Link>
           </div>
         )}
@@ -124,7 +137,6 @@ export const InfoGenerales = ({
             </p>
           )}
       </div>
-
       <div>
         <Heading3 className="m-0">Site de production</Heading3>
         <p className="m-0">{adresseProjet}</p>
@@ -159,11 +171,15 @@ export type GarantiesFinancièresProjetProps = {
     familleId: string;
     numeroCRE: string;
   };
+  peutModifier: boolean;
+  peutLever: boolean;
 };
 
 const GarantiesFinancièresProjet = ({
   garantiesFinancières,
   project: { appelOffreId, periodeId, familleId, numeroCRE },
+  peutModifier,
+  peutLever,
 }: GarantiesFinancièresProjetProps) => {
   const motifDemandeGarantiesFinancières =
     garantiesFinancières.motifGfEnAttente &&
@@ -253,7 +269,16 @@ const GarantiesFinancièresProjet = ({
           }).formatter(),
         )}
       >
-        Modifier, consulter ou lever les garanties financières du projet
+        {match({ peutModifier, peutLever })
+          .with(
+            { peutModifier: true, peutLever: true },
+            () => 'Consulter, modifier ou lever les garanties financières du projet',
+          )
+          .with(
+            { peutModifier: true, peutLever: false },
+            () => 'Consulter ou modifier les garanties financières du projet',
+          )
+          .otherwise(() => 'Consulter les garanties financières du projet')}
       </Link>
     </div>
   );

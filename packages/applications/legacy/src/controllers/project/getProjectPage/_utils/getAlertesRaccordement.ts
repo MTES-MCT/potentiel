@@ -1,59 +1,42 @@
-import { mediator } from 'mediateur';
-
 import { IdentifiantProjet } from '@potentiel-domain/common';
 import { Raccordement } from '@potentiel-domain/reseau';
 import { Option } from '@potentiel-libraries/monads';
 
-import { UtilisateurReadModel } from '../../../../modules/utilisateur/récupérer/UtilisateurReadModel';
 import { AlerteRaccordement } from '../../../../views/pages';
 import { getLogger } from '@potentiel-libraries/monitoring';
+import { Role } from '@potentiel-domain/utilisateur';
 
 export const getAlertesRaccordement = async ({
-  userRole,
+  role,
   identifiantProjet,
   CDC2022Choisi,
-  projet,
+  raccordement,
 }: {
-  userRole: UtilisateurReadModel['role'];
+  role: Role.ValueType;
   identifiantProjet: IdentifiantProjet.ValueType;
   CDC2022Choisi: boolean;
-  projet: {
-    isClasse: boolean;
-    isAbandonned: boolean;
-  };
+  raccordement: Option.Type<Raccordement.ConsulterRaccordementReadModel>;
 }) => {
   try {
-    if (userRole !== 'porteur-projet' || !projet.isClasse || projet.isAbandonned) {
-      return undefined;
+    if (!role.estÉgaleÀ(Role.porteur)) {
+      return [];
     }
 
     const alertes: Array<AlerteRaccordement> = [];
-    const dossiersRaccordement = await mediator.send<Raccordement.ConsulterRaccordementQuery>({
-      type: 'Réseau.Raccordement.Query.ConsulterRaccordement',
-      data: { identifiantProjetValue: identifiantProjet.formatter() },
-    });
-
-    if (Option.isSome(dossiersRaccordement) && !!dossiersRaccordement.dossiers[0]) {
-      if (
-        CDC2022Choisi &&
-        dossiersRaccordement.dossiers[0].référence.estÉgaleÀ(
-          Raccordement.RéférenceDossierRaccordement.référenceNonTransmise,
-        )
-      ) {
-        alertes.push('référenceDossierManquantePourDélaiCDC2022');
-      }
-
-      if (!dossiersRaccordement.dossiers[0].demandeComplèteRaccordement.accuséRéception) {
-        alertes.push('demandeComplèteRaccordementManquante');
-      }
-    } else {
+    if (Option.isNone(raccordement) || raccordement.dossiers.length === 0) {
       alertes.push('demandeComplèteRaccordementManquante');
       if (CDC2022Choisi) {
         alertes.push('référenceDossierManquantePourDélaiCDC2022');
       }
+      return alertes;
     }
 
-    return alertes.length > 0 ? alertes : undefined;
+    const dossier = raccordement.dossiers[0];
+
+    if (!dossier.demandeComplèteRaccordement.accuséRéception) {
+      alertes.push('demandeComplèteRaccordementManquante');
+    }
+    return alertes;
   } catch (error) {
     getLogger('Legacy|getProjectPage|getAlertesRaccordement').error(
       `Impossible de consulter le raccordement`,
@@ -61,6 +44,6 @@ export const getAlertesRaccordement = async ({
         identifiantProjet: identifiantProjet.formatter(),
       },
     );
-    return undefined;
+    return [];
   }
 };
