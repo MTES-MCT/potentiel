@@ -11,6 +11,7 @@ import { Candidature } from '@potentiel-domain/candidature';
 import { Role } from '@potentiel-domain/utilisateur';
 import { Raccordement } from '@potentiel-domain/reseau';
 import { Option } from '@potentiel-libraries/monads';
+import { IdentifiantProjet } from '@potentiel-domain/common';
 
 export type InfoGeneralesProps = {
   project: ProjectDataForProjectPage;
@@ -45,24 +46,20 @@ export const InfoGenerales = ({
     appelOffre.periode.noteThresholdBy === 'category' &&
     puissance < appelOffre.periode.noteThreshold.volumeReserve.puissanceMax;
 
-  const formattedIdentifiantProjet = formatProjectDataToIdentifiantProjetValueType({
+  const identifiantProjet = formatProjectDataToIdentifiantProjetValueType({
     appelOffreId,
     periodeId,
     familleId,
     numeroCRE,
-  }).formatter();
+  });
+  const formattedIdentifiantProjet = identifiantProjet.formatter();
 
   return (
     <Section title="Informations générales" icon={<BuildingIcon />} className="flex gap-5 flex-col">
       {garantiesFinancières && isClasse && (
         <GarantiesFinancièresProjet
           garantiesFinancières={garantiesFinancières}
-          project={{
-            appelOffreId,
-            periodeId,
-            familleId,
-            numeroCRE,
-          }}
+          identifiantProjet={identifiantProjet}
           peutModifier={
             role.aLaPermission('garantiesFinancières.actuelles.modifier') ||
             role.aLaPermission('garantiesFinancières.dépôt.modifier')
@@ -83,16 +80,7 @@ export const InfoGenerales = ({
         appelOffre.typeAppelOffre !== 'biométhane' && (
           <div className="print:hidden">
             <Heading3 className="m-0">Raccordement au réseau</Heading3>
-            <Link
-              href={Routes.Raccordement.détail(
-                formatProjectDataToIdentifiantProjetValueType({
-                  appelOffreId,
-                  periodeId,
-                  familleId,
-                  numeroCRE,
-                }).formatter(),
-              )}
-            >
+            <Link href={Routes.Raccordement.détail(formattedIdentifiantProjet)}>
               Consulter{' '}
               {role.aLaPermission('réseau.raccordement.gestionnaire.modifier')
                 ? 'ou modifier '
@@ -101,20 +89,12 @@ export const InfoGenerales = ({
             </Link>
           </div>
         )}
-      {Option.isNone(raccordement) &&
+      {isClasse &&
+        Option.isNone(raccordement) &&
         role.aLaPermission('réseau.raccordement.gestionnaire.modifier') && (
           <div className="print:hidden">
             <Heading3 className="m-0">Raccordement au réseau</Heading3>
-            <Link
-              href={Routes.Raccordement.détail(
-                formatProjectDataToIdentifiantProjetValueType({
-                  appelOffreId,
-                  periodeId,
-                  familleId,
-                  numeroCRE,
-                }).formatter(),
-              )}
-            >
+            <Link href={Routes.Raccordement.détail(formattedIdentifiantProjet)}>
               Renseigner les données de raccordement
             </Link>
           </div>
@@ -165,19 +145,14 @@ export type GarantiesFinancièresProjetProps = {
       dateÉchéance?: string;
     };
   };
-  project: {
-    appelOffreId: string;
-    periodeId: string;
-    familleId: string;
-    numeroCRE: string;
-  };
+  identifiantProjet: IdentifiantProjet.ValueType;
   peutModifier: boolean;
   peutLever: boolean;
 };
 
 const GarantiesFinancièresProjet = ({
   garantiesFinancières,
-  project: { appelOffreId, periodeId, familleId, numeroCRE },
+  identifiantProjet,
   peutModifier,
   peutLever,
 }: GarantiesFinancièresProjetProps) => {
@@ -188,7 +163,7 @@ const GarantiesFinancièresProjet = ({
   return (
     <div>
       <Heading3 className="m-0">Garanties financières</Heading3>
-      {garantiesFinancières.motifGfEnAttente && (
+      {motifDemandeGarantiesFinancières && (
         <AlertMessage>
           Des garanties financières sont en attente pour ce projet
           {motifDemandeGarantiesFinancières ? <> ({motifDemandeGarantiesFinancières})</> : ''}.
@@ -243,32 +218,14 @@ const GarantiesFinancièresProjet = ({
             </span>
           )}{' '}
           sont à traiter par l'autorité compétente (
-          <Link
-            href={Routes.GarantiesFinancières.détail(
-              formatProjectDataToIdentifiantProjetValueType({
-                appelOffreId,
-                periodeId,
-                familleId,
-                numeroCRE,
-              }).formatter(),
-            )}
-          >
+          <Link href={Routes.GarantiesFinancières.détail(identifiantProjet.formatter())}>
             voir le détail
           </Link>
           ).
         </AlertMessage>
       )}
 
-      <Link
-        href={Routes.GarantiesFinancières.détail(
-          formatProjectDataToIdentifiantProjetValueType({
-            appelOffreId,
-            periodeId,
-            familleId,
-            numeroCRE,
-          }).formatter(),
-        )}
-      >
+      <Link href={Routes.GarantiesFinancières.détail(identifiantProjet.formatter())}>
         {match({ peutModifier, peutLever })
           .with(
             { peutModifier: true, peutLever: true },

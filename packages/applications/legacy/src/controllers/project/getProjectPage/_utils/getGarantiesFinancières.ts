@@ -14,7 +14,6 @@ const getMotifGfEnAttente = async (
   if (!role.aLaPermission('garantiesFinancières.enAttente.consulter')) {
     return undefined;
   }
-  console.log('getMotifGfEnAttente');
 
   const gfEnAttente =
     await mediator.send<GarantiesFinancières.ConsulterProjetAvecGarantiesFinancièresEnAttenteQuery>(
