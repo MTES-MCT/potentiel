@@ -1,5 +1,5 @@
 'use client';
-import { signOut } from 'next-auth/react';
+import { signOut, useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 
@@ -8,10 +8,16 @@ type SignOutRedirectProps = {
 };
 export const SignOutRedirect = ({ callbackUrl }: SignOutRedirectProps) => {
   const router = useRouter();
+  const { status } = useSession();
+
   useEffect(() => {
-    const timeout = setTimeout(() => signOut({}).then(() => router.push(callbackUrl ?? '/')), 500);
-    return () => clearTimeout(timeout);
-  }, []);
+    if (status === 'unauthenticated') {
+      return router.push('/');
+    }
+    if (status === 'authenticated') {
+      signOut().then(() => router.push(callbackUrl ?? '/'));
+    }
+  }, [status]);
 
   return null;
 };
