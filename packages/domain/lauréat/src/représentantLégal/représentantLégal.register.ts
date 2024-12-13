@@ -7,9 +7,9 @@ import {
 } from './consulter/consulterReprésentantLégal.query';
 import { registerModifierReprésentantLégalCommand } from './modifier/modifierReprésentantLégal.command';
 import { registerModifierReprésentantLégalUseCase } from './modifier/modifierReprésentantLégal.usecase';
-import { registerDemanderChangementReprésentantLégalUseCase } from './demandeChangement/demander/demanderChangementReprésentantLégal.usecase';
-import { registerDemanderChangementReprésentantLégalCommand } from './demandeChangement/demander/demanderChangementReprésentantLégal.command';
-import { registerConsulterDemandeChangementReprésentantLegalQuery } from './demandeChangement/consulter/consulterDemandeChangementReprésentantLégal.query';
+import { registerDemanderChangementReprésentantLégalUseCase } from './changement/demander/demanderChangementReprésentantLégal.usecase';
+import { registerDemanderChangementReprésentantLégalCommand } from './changement/demander/demanderChangementReprésentantLégal.command';
+import { registerConsulterChangementReprésentantLegalQuery } from './changement/consulter/consulterChangementReprésentantLégal.query';
 
 export type ReprésentantLégalQueryDependencies = ConsulterReprésentantLégalDependencies;
 
@@ -34,5 +34,5 @@ export const registerReprésentantLégalQueries = (
   dependencies: ReprésentantLégalQueryDependencies,
 ) => {
   registerConsulterRepresentantLegalQuery(dependencies);
-  registerConsulterDemandeChangementReprésentantLegalQuery(dependencies);
+  registerConsulterChangementReprésentantLegalQuery(dependencies);
 };

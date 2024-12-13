@@ -29,7 +29,7 @@ const items: ChangementReprésentantLégalListPageProps['items'] = [
       numéroCRE: `1`,
     },
     nomProjet: `Nom projet 1`,
-    statut: ReprésentantLégal.StatutDemandeChangementReprésentantLégal.accordé.formatter(),
+    statut: ReprésentantLégal.StatutChangementReprésentantLégal.accordé.formatter(),
     misÀJourLe: {
       date: DateTime.now().formatter(),
     },
@@ -42,7 +42,7 @@ const items: ChangementReprésentantLégalListPageProps['items'] = [
       numéroCRE: `2`,
     },
     nomProjet: `Nom projet 2`,
-    statut: ReprésentantLégal.StatutDemandeChangementReprésentantLégal.demandé.formatter(),
+    statut: ReprésentantLégal.StatutChangementReprésentantLégal.demandé.formatter(),
     misÀJourLe: {
       date: DateTime.now().formatter(),
     },
@@ -55,7 +55,7 @@ const items: ChangementReprésentantLégalListPageProps['items'] = [
       numéroCRE: `3`,
     },
     nomProjet: `Nom projet 3`,
-    statut: ReprésentantLégal.StatutDemandeChangementReprésentantLégal.rejeté.formatter(),
+    statut: ReprésentantLégal.StatutChangementReprésentantLégal.rejeté.formatter(),
     misÀJourLe: {
       date: DateTime.now().formatter(),
     },

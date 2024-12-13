@@ -65,9 +65,9 @@ export class DemanderChangementReprésentantLégalFixture
     return this.#demandéPar;
   }
 
-  #statut!: ReprésentantLégal.StatutDemandeChangementReprésentantLégal.ValueType;
+  #statut!: ReprésentantLégal.StatutChangementReprésentantLégal.ValueType;
 
-  get statut(): ReprésentantLégal.StatutDemandeChangementReprésentantLégal.ValueType {
+  get statut(): ReprésentantLégal.StatutChangementReprésentantLégal.ValueType {
     return this.#statut;
   }
 
@@ -77,7 +77,7 @@ export class DemanderChangementReprésentantLégalFixture
     const content = faker.word.words();
 
     const fixture = {
-      statut: ReprésentantLégal.StatutDemandeChangementReprésentantLégal.demandé,
+      statut: ReprésentantLégal.StatutChangementReprésentantLégal.demandé,
       nomReprésentantLégal: faker.person.fullName(),
       typeReprésentantLégal: ReprésentantLégal.TypeReprésentantLégal.personneMorale,
       demandéLe: faker.date.recent().toISOString(),

@@ -6,13 +6,12 @@ import { Option } from '@potentiel-libraries/monads';
 import { ReprésentantLégal } from '@potentiel-domain/laureat';
 import { mapToPlainObject } from '@potentiel-domain/core';
 import { IdentifiantProjet } from '@potentiel-domain/common';
-import { DocumentProjet } from '@potentiel-domain/document';
 
 import { decodeParameter } from '@/utils/decodeParameter';
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
-import { DétailsDemandeChangementReprésentantLégalPage } from '@/components/pages/représentant-légal/changement/détails/DétailsDemandeChangementReprésentantLégal.page';
 import { withUtilisateur } from '@/utils/withUtilisateur';
+import { DétailsChangementReprésentantLégalPage } from '@/components/pages/représentant-légal/changement/détails/DétailsChangementReprésentantLégal.page';
 
 export const metadata: Metadata = {
   title: 'Détail du représentant légal du projet - Potentiel',
@@ -26,41 +25,23 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
         decodeParameter(identifiant),
       );
 
-      const demandeChangement =
-        await mediator.send<ReprésentantLégal.ConsulterDemandeChangementReprésentantLégalQuery>({
-          type: 'Lauréat.ReprésentantLégal.Query.ConsulterDemandeChangementReprésentantLégal',
+      const changement =
+        await mediator.send<ReprésentantLégal.ConsulterChangementReprésentantLégalQuery>({
+          type: 'Lauréat.ReprésentantLégal.Query.ConsulterChangementReprésentantLégal',
           data: {
             identifiantProjet: identifiantProjet.formatter(),
           },
         });
 
-      if (Option.isNone(demandeChangement)) {
+      if (Option.isNone(changement)) {
         return notFound();
       }
 
-      const {
-        statut,
-        nomReprésentantLégal,
-        typeReprésentantLégal,
-        pièceJustificative,
-        demandéLe,
-        demandéPar,
-      } = demandeChangement;
-
       return (
-        <DétailsDemandeChangementReprésentantLégalPage
+        <DétailsChangementReprésentantLégalPage
           identifiantProjet={mapToPlainObject(identifiantProjet)}
-          statut={mapToPlainObject(statut)}
-          nomReprésentantLégal={nomReprésentantLégal}
-          typeReprésentantLégal={mapToPlainObject(typeReprésentantLégal)}
-          pièceJustificative={DocumentProjet.convertirEnValueType(
-            identifiantProjet.formatter(),
-            ReprésentantLégal.TypeDocumentChangementReprésentantLégal.pièceJustificative.formatter(),
-            demandéLe.formatter(),
-            pièceJustificative.format,
-          )}
-          demandéLe={mapToPlainObject(demandéLe)}
-          demandéPar={mapToPlainObject(demandéPar)}
+          statut={mapToPlainObject(changement.statut)}
+          demande={mapToPlainObject(changement.demande)}
           role={mapToPlainObject(utilisateur.role)}
           actions={[]}
         />

@@ -17,7 +17,7 @@ export type ReprésentantLégalListItemProps = PlainType<ReprésentantLégal.Lis
 export type ChangementReprésentantLégalListItemProps = PlainType<{
   identifiantProjet: IdentifiantProjet.ValueType;
   nomProjet: string;
-  statut: ReprésentantLégal.StatutDemandeChangementReprésentantLégal.RawType;
+  statut: ReprésentantLégal.StatutChangementReprésentantLégal.RawType;
   misÀJourLe: {
     date: string;
   };

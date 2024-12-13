@@ -31,14 +31,14 @@ export const getReprésentantLégal: GetReprésentantLégal = async (identifiant
   try {
     const utilisateur = Role.convertirEnValueType(rôle);
 
-    const représentantLégal = await mediator.send<ReprésentantLégal.ReprésentantLégalQuery>({
-      type: 'Lauréat.ReprésentantLégal.Query.ConsulterReprésentantLégal',
-      data: { identifiantProjet: identifiantProjet.formatter() },
-    });
+    const représentantLégal =
+      await mediator.send<ReprésentantLégal.ConsulterReprésentantLégalQuery>({
+        type: 'Lauréat.ReprésentantLégal.Query.ConsulterReprésentantLégal',
+        data: { identifiantProjet: identifiantProjet.formatter() },
+      });
 
     if (Option.isSome(représentantLégal)) {
-      const demandeChangementExistante =
-        await getDemandeChangementReprésentantLégal(identifiantProjet);
+      const demandeChangementExistante = await getChangementReprésentantLégal(identifiantProjet);
 
       const peutConsulterLaDemandeExistante =
         demandeChangementExistante && utilisateur.aLaPermission('représentantLégal.consulter');
@@ -96,11 +96,9 @@ export const getReprésentantLégal: GetReprésentantLégal = async (identifiant
   }
 };
 
-const getDemandeChangementReprésentantLégal = async (
-  identifiantProjet: IdentifiantProjet.ValueType,
-) => {
-  const demande = await mediator.send<ReprésentantLégal.ReprésentantLégalQuery>({
-    type: 'Lauréat.ReprésentantLégal.Query.ConsulterDemandeChangementReprésentantLégal',
+const getChangementReprésentantLégal = async (identifiantProjet: IdentifiantProjet.ValueType) => {
+  const demande = await mediator.send<ReprésentantLégal.ConsulterChangementReprésentantLégalQuery>({
+    type: 'Lauréat.ReprésentantLégal.Query.ConsulterChangementReprésentantLégal',
     data: { identifiantProjet: identifiantProjet.formatter() },
   });
 

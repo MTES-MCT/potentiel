@@ -17,8 +17,8 @@ Alors(
       const { identifiantProjet } = this.lauréatWorld;
 
       const demande =
-        await mediator.send<ReprésentantLégal.ConsulterDemandeChangementReprésentantLégalQuery>({
-          type: 'Lauréat.ReprésentantLégal.Query.ConsulterDemandeChangementReprésentantLégal',
+        await mediator.send<ReprésentantLégal.ConsulterChangementReprésentantLégalQuery>({
+          type: 'Lauréat.ReprésentantLégal.Query.ConsulterChangementReprésentantLégal',
           data: {
             identifiantProjet: identifiantProjet.formatter(),
           },
@@ -26,7 +26,7 @@ Alors(
 
       const actual = mapToPlainObject(demande);
       const expected = mapToPlainObject(
-        this.lauréatWorld.représentantLégalWorld.demandeChangementReprésentantLégalWorld.mapToExpected(
+        this.lauréatWorld.représentantLégalWorld.changementReprésentantLégalWorld.mapToExpected(
           identifiantProjet,
         ),
       );
@@ -34,14 +34,14 @@ Alors(
       actual.should.be.deep.equal(expected);
 
       if (
-        this.lauréatWorld.représentantLégalWorld.demandeChangementReprésentantLégalWorld
+        this.lauréatWorld.représentantLégalWorld.changementReprésentantLégalWorld
           .demanderChangementReprésentantLégalFixture.aÉtéCréé
       ) {
         const result = await mediator.send<ConsulterDocumentProjetQuery>({
           type: 'Document.Query.ConsulterDocumentProjet',
           data: {
             documentKey: Option.match(demande)
-              .some((demande) => {
+              .some(({ demande }) => {
                 return demande.pièceJustificative.formatter() ?? '';
               })
               .none(() => ''),
@@ -51,7 +51,7 @@ Alors(
         const actualContent = await convertReadableStreamToString(result.content);
 
         const expectedContent = await convertReadableStreamToString(
-          this.lauréatWorld.représentantLégalWorld.demandeChangementReprésentantLégalWorld
+          this.lauréatWorld.représentantLégalWorld.changementReprésentantLégalWorld
             .demanderChangementReprésentantLégalFixture.pièceJustificative?.content ??
             new ReadableStream(),
         );

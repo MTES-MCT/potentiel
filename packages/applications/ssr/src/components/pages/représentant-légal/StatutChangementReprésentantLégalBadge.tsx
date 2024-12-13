@@ -5,7 +5,7 @@ import { match } from 'ts-pattern';
 import { ReprésentantLégal } from '@potentiel-domain/laureat';
 
 export type StatutChangementReprésentantLégalBadgeProps = {
-  statut: ReprésentantLégal.StatutDemandeChangementReprésentantLégal.RawType;
+  statut: ReprésentantLégal.StatutChangementReprésentantLégal.RawType;
   small?: true;
 };
 export const StatutChangementReprésentantLégalBadge: FC<

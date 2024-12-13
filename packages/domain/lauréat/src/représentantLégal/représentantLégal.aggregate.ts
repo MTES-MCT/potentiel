@@ -8,7 +8,7 @@ import {
 } from '@potentiel-domain/core';
 import { IdentifiantProjet } from '@potentiel-domain/common';
 
-import { StatutDemandeChangementReprésentantLégal, TypeReprésentantLégal } from '.';
+import { StatutChangementReprésentantLégal, TypeReprésentantLégal } from '.';
 
 import {
   applyReprésentantLégalImporté,
@@ -24,7 +24,7 @@ import {
   applyChangementReprésentantLégalDemandé,
   ChangementReprésentantLégalDemandéEvent,
   demander,
-} from './demandeChangement/demander/demanderChangementReprésentantLégal.behavior';
+} from './changement/demander/demanderChangementReprésentantLégal.behavior';
 
 export type ReprésentantLégalEvent =
   | ReprésentantLégalImportéEvent
@@ -39,7 +39,7 @@ export type ReprésentantLégalAggregate = Aggregate<ReprésentantLégalEvent> &
   demande?: {
     nom: string;
     type: TypeReprésentantLégal.ValueType;
-    statut: StatutDemandeChangementReprésentantLégal.ValueType;
+    statut: StatutChangementReprésentantLégal.ValueType;
   };
   readonly importer: typeof importer;
   readonly modifier: typeof modifier;
@@ -58,7 +58,7 @@ export const getDefaultReprésentantLégalAggregate: GetDefaultAggregateState<
   demande: {
     nom: '',
     type: TypeReprésentantLégal.inconnu,
-    statut: StatutDemandeChangementReprésentantLégal.inconnu,
+    statut: StatutChangementReprésentantLégal.inconnu,
   },
   importer,
   modifier,

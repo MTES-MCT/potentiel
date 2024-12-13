@@ -3,17 +3,17 @@ import { ReprésentantLégal } from '@potentiel-domain/laureat';
 
 import { ImporterReprésentantLégalFixture } from './fixtures/importerReprésentantLégal.fixture';
 import { ModifierReprésentantLégalFixture } from './fixtures/modifierReprésentantLégal.fixture';
-import { DemandeChangementReprésentantLégalWorld } from './demandeChangement/demandeChangementReprésentantLégal.world';
+import { ChangementReprésentantLégalWorld } from './demandeChangement/changementReprésentantLégal.world';
 
 type Expected = ReprésentantLégal.ConsulterReprésentantLégalReadModel & {
-  demande?: ReprésentantLégal.ConsulterDemandeChangementReprésentantLégalReadModel;
+  demande?: ReprésentantLégal.ConsulterChangementReprésentantLégalReadModel['demande'];
 };
 
 export class ReprésentantLégalWorld {
-  #demandeChangementReprésentantLégalWorld!: DemandeChangementReprésentantLégalWorld;
+  #changementReprésentantLégalWorld!: ChangementReprésentantLégalWorld;
 
-  get demandeChangementReprésentantLégalWorld() {
-    return this.#demandeChangementReprésentantLégalWorld;
+  get changementReprésentantLégalWorld() {
+    return this.#changementReprésentantLégalWorld;
   }
 
   #importerReprésentantLégalFixture: ImporterReprésentantLégalFixture;
@@ -29,7 +29,7 @@ export class ReprésentantLégalWorld {
 
   constructor() {
     // Subworld
-    this.#demandeChangementReprésentantLégalWorld = new DemandeChangementReprésentantLégalWorld();
+    this.#changementReprésentantLégalWorld = new ChangementReprésentantLégalWorld();
 
     this.#importerReprésentantLégalFixture = new ImporterReprésentantLégalFixture();
     this.#modifierReprésentantLégalFixture = new ModifierReprésentantLégalFixture();

@@ -3,7 +3,7 @@ import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
 import { DocumentProjet } from '@potentiel-domain/document';
 
 import { ReprésentantLégalAggregate } from '../../représentantLégal.aggregate';
-import { StatutDemandeChangementReprésentantLégal, TypeReprésentantLégal } from '../..';
+import { StatutChangementReprésentantLégal, TypeReprésentantLégal } from '../..';
 import { ReprésentantLégalIdentifiqueError } from '../../représentantLégalIdentique.error';
 
 import { ReprésentantLégalTypeInconnuError } from './demanderChangementReprésentantLégal.errors';
@@ -55,7 +55,7 @@ export async function demander(
 
   if (this.demande) {
     this.demande.statut.vérifierQueLeChangementDeStatutEstPossibleEn(
-      StatutDemandeChangementReprésentantLégal.demandé,
+      StatutChangementReprésentantLégal.demandé,
     );
   }
 
@@ -81,7 +81,7 @@ export function applyChangementReprésentantLégalDemandé(
   }: ChangementReprésentantLégalDemandéEvent,
 ) {
   this.demande = {
-    statut: StatutDemandeChangementReprésentantLégal.demandé,
+    statut: StatutChangementReprésentantLégal.demandé,
     nom: nomReprésentantLégal,
     type: TypeReprésentantLégal.convertirEnValueType(typeReprésentantLégal),
   };

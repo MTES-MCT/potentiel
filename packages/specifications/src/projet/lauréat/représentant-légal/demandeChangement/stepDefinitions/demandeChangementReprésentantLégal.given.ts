@@ -11,7 +11,7 @@ EtantDonné(
     const identifiantProjet = this.lauréatWorld.identifiantProjet.formatter();
 
     const fixture =
-      this.lauréatWorld.représentantLégalWorld.demandeChangementReprésentantLégalWorld.demanderChangementReprésentantLégalFixture.créer(
+      this.lauréatWorld.représentantLégalWorld.changementReprésentantLégalWorld.demanderChangementReprésentantLégalFixture.créer(
         {
           identifiantProjet,
         },

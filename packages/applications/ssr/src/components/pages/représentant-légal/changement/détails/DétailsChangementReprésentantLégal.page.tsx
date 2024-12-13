@@ -22,24 +22,26 @@ import { RejeterChangementReprésentantLégal } from './rejeter/RejeterChangemen
 
 export type AvailableChangementReprésentantLégalAction = 'accorder' | 'rejeter';
 
-export type DétailsDemandeChangementReprésentantLégalPageProps =
-  PlainType<ReprésentantLégal.ConsulterDemandeChangementReprésentantLégalReadModel> & {
+export type DétailsChangementReprésentantLégalPageProps =
+  PlainType<ReprésentantLégal.ConsulterChangementReprésentantLégalReadModel> & {
     identifiantProjet: PlainType<IdentifiantProjet.ValueType>;
     role: PlainType<Role.ValueType>;
     actions: ReadonlyArray<AvailableChangementReprésentantLégalAction>;
   };
 
-export const DétailsDemandeChangementReprésentantLégalPage: FC<
-  DétailsDemandeChangementReprésentantLégalPageProps
+export const DétailsChangementReprésentantLégalPage: FC<
+  DétailsChangementReprésentantLégalPageProps
 > = ({
   identifiantProjet,
-  nomReprésentantLégal,
-  typeReprésentantLégal,
-  pièceJustificative,
   statut,
+  demande: {
+    nomReprésentantLégal,
+    typeReprésentantLégal,
+    pièceJustificative,
+    demandéLe,
+    demandéPar,
+  },
   // role,
-  demandéLe,
-  demandéPar,
   actions,
 }) => {
   const idProjet = IdentifiantProjet.bind(identifiantProjet).formatter();
@@ -66,7 +68,7 @@ export const DétailsDemandeChangementReprésentantLégalPage: FC<
                 <div className="flex gap-2">
                   <div className="font-semibold">Statut :</div>{' '}
                   <StatutChangementReprésentantLégalBadge
-                    statut={ReprésentantLégal.StatutDemandeChangementReprésentantLégal.bind(
+                    statut={ReprésentantLégal.StatutChangementReprésentantLégal.bind(
                       statut,
                     ).formatter()}
                   />

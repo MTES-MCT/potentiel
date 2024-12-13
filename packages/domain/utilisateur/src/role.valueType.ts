@@ -198,7 +198,7 @@ const référencielPermissions = {
       query: {
         consulter: 'Lauréat.ReprésentantLégal.Query.ConsulterReprésentantLégal',
         consulterDemandeChangement:
-          'Lauréat.ReprésentantLégal.Query.ConsulterDemandeChangementReprésentantLégal',
+          'Lauréat.ReprésentantLégal.Query.ConsulterChangementReprésentantLégal',
       },
       usecase: {
         modifier: 'Lauréat.ReprésentantLégal.UseCase.ModifierReprésentantLégal',
