@@ -8,7 +8,7 @@ import * as zod from 'zod';
 
 import { FormAction, formAction, FormState } from '@/utils/formAction';
 import { withUtilisateur } from '@/utils/withUtilisateur';
-import { singleDocument } from '@/utils/zod/document';
+import { singleDocument } from '@/utils/zod/document/singleDocument';
 
 const schema = zod.object({
   identifiantProjet: zod.string().min(1),
@@ -17,7 +17,7 @@ const schema = zod.object({
     required_error: 'Champ obligatoire',
   }),
   nomRepresentantLegal: zod.string().min(1, { message: 'Champ obligatoire' }),
-  pieceJustificative: singleDocument(),
+  pieceJustificative: singleDocument({ acceptedFileTypes: ['application/pdf'] }),
 });
 
 export type ModifierChangementReprésentantLégalFormKeys = keyof zod.infer<typeof schema>;

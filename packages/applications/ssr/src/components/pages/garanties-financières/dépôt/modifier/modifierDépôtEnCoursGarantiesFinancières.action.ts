@@ -8,12 +8,12 @@ import { Routes } from '@potentiel-applications/routes';
 
 import { FormAction, FormState, formAction } from '@/utils/formAction';
 import { withUtilisateur } from '@/utils/withUtilisateur';
-import { keepOrUpdateSingleDocument } from '@/utils/zod/keepOrUpdateDocument';
+import { keepOrUpdateSingleDocument } from '@/utils/zod/document/keepOrUpdateDocument';
 
 const commonSchema = {
   identifiantProjet: zod.string().min(1),
   dateConstitution: zod.string().min(1, { message: 'Champ obligatoire' }),
-  attestation: keepOrUpdateSingleDocument,
+  attestation: keepOrUpdateSingleDocument({ acceptedFileTypes: ['application/pdf'] }),
 };
 
 const schema = zod.discriminatedUnion('type', [

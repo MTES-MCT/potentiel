@@ -8,7 +8,7 @@ import { Routes } from '@potentiel-applications/routes';
 
 import { FormAction, FormState, formAction } from '@/utils/formAction';
 import { withUtilisateur } from '@/utils/withUtilisateur';
-import { keepOrUpdateSingleDocument } from '@/utils/zod/keepOrUpdateDocument';
+import { keepOrUpdateSingleDocument } from '@/utils/zod/document/keepOrUpdateDocument';
 
 const schema = zod.object({
   identifiantProjet: zod.string().min(1),
@@ -16,7 +16,7 @@ const schema = zod.object({
   dateQualification: zod.string().min(1, { message: 'Champ obligatoire' }),
   referenceDossierRaccordement: zod.string().min(1),
   referenceDossierRaccordementActuelle: zod.string().min(1),
-  accuseReception: keepOrUpdateSingleDocument,
+  accuseReception: keepOrUpdateSingleDocument({ acceptedFileTypes: ['application/pdf'] }),
 });
 
 export type ModifierDemandeComplèteRaccordementFormKeys = keyof zod.infer<typeof schema>;

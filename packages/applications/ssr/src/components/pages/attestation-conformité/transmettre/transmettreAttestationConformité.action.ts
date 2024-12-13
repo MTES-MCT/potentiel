@@ -11,12 +11,12 @@ import { Raccordement } from '@potentiel-domain/reseau';
 
 import { FormAction, FormState, formAction } from '@/utils/formAction';
 import { withUtilisateur } from '@/utils/withUtilisateur';
-import { singleDocument } from '@/utils/zod/document';
+import { singleDocument } from '@/utils/zod/document/singleDocument';
 
 const schema = zod.object({
   identifiantProjet: zod.string().min(1),
-  attestation: singleDocument(),
-  preuveTransmissionAuCocontractant: singleDocument(),
+  attestation: singleDocument({ acceptedFileTypes: ['application/pdf'] }),
+  preuveTransmissionAuCocontractant: singleDocument({ acceptedFileTypes: ['application/pdf'] }),
   dateTransmissionAuCocontractant: zod.string().min(1, { message: 'Champ obligatoire' }),
   demanderMainlevee: zod.string().optional(),
 });

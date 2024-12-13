@@ -10,13 +10,13 @@ import { DateTime } from '@potentiel-domain/common';
 
 import { ActionResult, FormAction, formAction, FormState } from '@/utils/formAction';
 import { withUtilisateur } from '@/utils/withUtilisateur';
-import { singleDocument } from '@/utils/zod/document';
+import { singleDocument } from '@/utils/zod/document/singleDocument';
 
 import { candidatureCsvSchema, CandidatureShape } from '../importer/candidature.schema';
 import { getLocalité } from '../helpers';
 
 const schema = zod.object({
-  fichierCorrectionCandidatures: singleDocument(),
+  fichierCorrectionCandidatures: singleDocument({ acceptedFileTypes: ['text/csv'] }),
 });
 
 export type CorrigerCandidaturesFormKeys = keyof zod.infer<typeof schema>;

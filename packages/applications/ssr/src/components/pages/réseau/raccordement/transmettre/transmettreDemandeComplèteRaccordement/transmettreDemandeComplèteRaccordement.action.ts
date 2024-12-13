@@ -7,14 +7,14 @@ import { Raccordement } from '@potentiel-domain/reseau';
 import { Routes } from '@potentiel-applications/routes';
 
 import { FormAction, FormState, formAction } from '@/utils/formAction';
-import { singleDocument } from '@/utils/zod/document';
+import { singleDocument } from '@/utils/zod/document/singleDocument';
 
 const schema = zod.object({
   identifiantProjet: zod.string().min(1),
   dateQualification: zod.string().min(1, { message: 'Champ obligatoire' }),
   identifiantGestionnaireReseau: zod.string().min(1),
   referenceDossier: zod.string().min(1, { message: 'Champ obligatoire' }),
-  accuseReception: singleDocument(),
+  accuseReception: singleDocument({ acceptedFileTypes: ['application/pdf'] }),
 });
 
 export type TransmettreDemandeComplèteRaccordementFormKeys = keyof zod.infer<typeof schema>;
