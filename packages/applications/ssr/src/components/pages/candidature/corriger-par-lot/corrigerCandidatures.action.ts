@@ -16,7 +16,7 @@ import { candidatureCsvSchema, CandidatureShape } from '../importer/candidature.
 import { getLocalité } from '../helpers';
 
 const schema = zod.object({
-  fichierCorrectionCandidatures: singleDocument({ acceptedFileTypes: ['application/pdf'] }),
+  fichierCorrectionCandidatures: singleDocument({ acceptedFileTypes: ['text/csv'] }),
 });
 
 export type CorrigerCandidaturesFormKeys = keyof zod.infer<typeof schema>;
