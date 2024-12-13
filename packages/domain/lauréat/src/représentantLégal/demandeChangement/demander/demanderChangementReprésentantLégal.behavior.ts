@@ -6,10 +6,7 @@ import { ReprésentantLégalAggregate } from '../../représentantLégal.aggregat
 import { StatutDemandeChangementReprésentantLégal, TypeReprésentantLégal } from '../..';
 import { ReprésentantLégalIdentifiqueError } from '../../représentantLégalIdentique.error';
 
-import {
-  PièceJustificativeObligatoireError,
-  ReprésentantLégalTypeInconnuError,
-} from './demanderChangementReprésentantLégal.errors';
+import { ReprésentantLégalTypeInconnuError } from './demanderChangementReprésentantLégal.errors';
 
 export type ChangementReprésentantLégalDemandéEvent = DomainEvent<
   'ChangementReprésentantLégalDemandé-V1',
@@ -29,7 +26,7 @@ export type DemanderChangementOptions = {
   identifiantProjet: IdentifiantProjet.ValueType;
   nomReprésentantLégal: string;
   typeReprésentantLégal: TypeReprésentantLégal.ValueType;
-  pièceJustificative?: DocumentProjet.ValueType;
+  pièceJustificative: DocumentProjet.ValueType;
   identifiantUtilisateur: Email.ValueType;
   dateDemande: DateTime.ValueType;
 };
@@ -45,10 +42,6 @@ export async function demander(
     dateDemande,
   }: DemanderChangementOptions,
 ) {
-  if (!pièceJustificative) {
-    throw new PièceJustificativeObligatoireError();
-  }
-
   if (
     this.représentantLégal.nom === nomReprésentantLégal &&
     this.représentantLégal.type.estÉgaleÀ(typeReprésentantLégal)

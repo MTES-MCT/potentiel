@@ -36,9 +36,7 @@ Quand(
           identifiantProjetValue: options.identifiantProjet,
           nomReprésentantLégalValue: nomReprésentantLégal,
           typeReprésentantLégalValue: typeReprésentantLégal.formatter(),
-          pièceJustificativeValue: extra?.includes('sans pièce justificative')
-            ? undefined
-            : pièceJustificative,
+          pièceJustificativeValue: pièceJustificative,
           dateDemandeValue: demandéLe,
           identifiantUtilisateurValue: demandéPar,
         },

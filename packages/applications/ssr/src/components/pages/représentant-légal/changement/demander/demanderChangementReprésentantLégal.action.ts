@@ -18,6 +18,7 @@ const schema = zod.object({
   }),
   nomRepresentantLegal: zod.string().min(1, { message: 'Champ obligatoire' }),
   piecesJustificatives: manyDocuments({
+    acceptedFileTypes: ['application/pdf'],
     applyWatermark: true,
   }),
 });

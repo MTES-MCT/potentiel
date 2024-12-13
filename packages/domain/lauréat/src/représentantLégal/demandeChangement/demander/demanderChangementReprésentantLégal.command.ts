@@ -21,7 +21,7 @@ export type DemanderChangementReprésentantLégalCommand = Message<
     identifiantProjet: IdentifiantProjet.ValueType;
     nomReprésentantLégal: string;
     typeReprésentantLégal: TypeReprésentantLégal.ValueType;
-    pièceJustificative?: DocumentProjet.ValueType;
+    pièceJustificative: DocumentProjet.ValueType;
     identifiantUtilisateur: Email.ValueType;
     dateDemande: DateTime.ValueType;
   }

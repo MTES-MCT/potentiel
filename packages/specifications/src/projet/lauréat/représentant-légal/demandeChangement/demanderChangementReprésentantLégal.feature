@@ -28,10 +28,6 @@ Fonctionnalité: Demander le changement de représentant légal d'un projet laur
         Quand le porteur demande le changement de réprésentant pour le projet lauréat avec un type inconnu
         Alors le porteur devrait être informé que "Le représentant légal ne peut pas avoir de type inconnu"
 
-    Scénario: Impossible de demander le changement de représentant légal sans pièce justificative
-        Quand le porteur demande le changement de réprésentant pour le projet lauréat sans pièce justificative
-        Alors le porteur devrait être informé que "Les pièces justificatives sont obligatoires"
-
     Scénario: Impossible de demander le changement de représentant légal d'un projet lauréat abandonné
         Etant donné un abandon accordé pour le projet lauréat
         Quand le porteur demande le changement de réprésentant pour le projet lauréat sans pièce justificative

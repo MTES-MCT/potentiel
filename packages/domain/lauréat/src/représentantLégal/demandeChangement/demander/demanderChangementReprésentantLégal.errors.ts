@@ -20,12 +20,6 @@ export class ReprésentantLégalTypeInconnuError extends DomainError {
   }
 }
 
-export class PièceJustificativeObligatoireError extends DomainError {
-  constructor() {
-    super('Les pièces justificatives sont obligatoires');
-  }
-}
-
 export class ProjetAchevéError extends DomainError {
   constructor() {
     super('Impossible de demander le changement de représentant légal pour un projet achevé');
