@@ -127,6 +127,7 @@ export const DemanderChangementReprésentantLégalForm: FC<
           typeReprésentantLégal={type}
           nomReprésentantLégal={nom}
           piècesJustificatives={piècesJustificatives}
+          message={`Vous êtes sur le point de demander le changement du représentant légal du projet. Veuillez vérifier l'ensemble des informations saisies et confirmer si tout est correct`}
         />
       ),
       previousStep: { name: 'Corriger' },

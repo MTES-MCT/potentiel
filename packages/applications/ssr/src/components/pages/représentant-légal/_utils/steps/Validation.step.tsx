@@ -9,13 +9,15 @@ type ValidationStepProps = {
   typeReprésentantLégal: ReprésentantLégal.TypeReprésentantLégal.RawType;
   nomReprésentantLégal: string;
   piècesJustificatives: ReadonlyArray<string>;
+  message: string;
 };
 export const ValidationStep: FC<ValidationStepProps> = ({
   typeReprésentantLégal,
   nomReprésentantLégal,
   piècesJustificatives,
+  message,
 }) => {
-  const nom = match(typeReprésentantLégal)
+  const type = match(typeReprésentantLégal)
     .returnType<string>()
     .with('personne-physique', () => 'Personne physique')
     .with('personne-morale', () => 'Personne morale')
@@ -26,21 +28,12 @@ export const ValidationStep: FC<ValidationStepProps> = ({
 
   return (
     <div className="flex flex-col gap-4">
-      <Alert
-        severity="info"
-        small
-        description={
-          <p>
-            Vous êtes sur le point de modifier le représentant légal du projet. Veuillez vérifier
-            l'ensemble des informations saisies et confirmer si tout est correct.
-          </p>
-        }
-      />
+      <Alert severity="info" small description={<p>{message}</p>} />
       <div className="py-6">
         <div className="flex flex-col gap-2">
           <div className="flex gap-2">
             <div className="font-semibold">Type :</div>
-            <blockquote>{nom}</blockquote>
+            <blockquote>{type}</blockquote>
           </div>
           <div className="flex gap-2">
             <div className="font-semibold">Nom représentant légal :</div>

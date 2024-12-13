@@ -86,6 +86,7 @@ export const ModifierReprésentantLégalForm: FC<ModifierReprésentantLégalForm
           typeReprésentantLégal={type}
           nomReprésentantLégal={nom}
           piècesJustificatives={[]}
+          message={`Vous êtes sur le point de modifier le représentant légal du projet. Veuillez vérifier l'ensemble des informations saisies et confirmer si tout est correct`}
         />
       ),
       previousStep: { name: 'Précédent' },
