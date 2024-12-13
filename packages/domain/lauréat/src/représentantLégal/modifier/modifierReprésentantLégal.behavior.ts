@@ -3,6 +3,7 @@ import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
 
 import { ReprésentantLégalAggregate } from '../représentantLégal.aggregate';
 import { TypeReprésentantLégal } from '..';
+import { ReprésentantLégalIdentifiqueError } from '../représentantLégalIdentique.error';
 
 export type ReprésentantLégalModifiéEvent = DomainEvent<
   'ReprésentantLégalModifié-V1',
@@ -21,6 +22,7 @@ export type ModifierOptions = {
   nomReprésentantLégal: string;
   typeReprésentantLégal: TypeReprésentantLégal.ValueType;
   dateModification: DateTime.ValueType;
+  demandeDeChangementEnCours: boolean;
 };
 
 export async function modifier(
@@ -31,11 +33,16 @@ export async function modifier(
     typeReprésentantLégal,
     dateModification,
     identifiantUtilisateur,
+    demandeDeChangementEnCours,
   }: ModifierOptions,
 ) {
+  if (demandeDeChangementEnCours) {
+    throw new DemandeDeChangementEnCoursError();
+  }
+
   if (
     this.représentantLégal.nom === nomReprésentantLégal &&
-    this.représentantLégal.type === typeReprésentantLégal.formatter()
+    this.représentantLégal.type.estÉgaleÀ(typeReprésentantLégal)
   ) {
     throw new ReprésentantLégalIdentifiqueError();
   }
@@ -60,12 +67,14 @@ export function applyReprésentantLégalModifié(
 ) {
   this.représentantLégal = {
     nom: nomReprésentantLégal,
-    type: typeReprésentantLégal,
+    type: TypeReprésentantLégal.convertirEnValueType(typeReprésentantLégal),
   };
 }
 
-class ReprésentantLégalIdentifiqueError extends DomainError {
+class DemandeDeChangementEnCoursError extends DomainError {
   constructor() {
-    super('Le représentant légal modifié est identique à celui associé au projet');
+    super(
+      'Impossible de modifier le représentant légal car une demande de changement est déjà en cours',
+    );
   }
 }

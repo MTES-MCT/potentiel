@@ -10,11 +10,13 @@ import { Form } from '@/components/atoms/form/Form';
 import { ValidationErrors } from '@/utils/formAction';
 import { Step, Steps } from '@/components/molecules/step/Steps';
 
+import { SaisieNomStep, SaisieTypeStep } from '../_utils/steps';
+
 import {
   modifierReprésentantLégalAction,
   ModifierReprésentantLégalFormKeys,
 } from './modifierReprésentantLégal.action';
-import { SaisieNomReprésentantLégalStep, SaisieTypePersonneStep, ValidationStep } from './steps';
+import { ValidationStep } from './steps';
 import { ModifierReprésentantLégalPageProps } from './ModifierReprésentantLégal.page';
 
 export type ModifierReprésentantLégalFormProps = ModifierReprésentantLégalPageProps;
@@ -38,11 +40,19 @@ export const ModifierReprésentantLégalForm: FC<ModifierReprésentantLégalForm
       index: 1,
       name: `Description de la démarche`,
       children: (
-        <SaisieTypePersonneStep
-          typeReprésentantLégal={type}
-          onChange={(nouveauType) => setType(nouveauType)}
-          validationErrors={validationErrors}
-        />
+        <div className="flex flex-col gap-4">
+          <p>
+            Pour effectuer une modification du représentant légal vous devez tout d'abord
+            sélectionner le type du nouveau représentant légal pour connaître les documents
+            obligatoires nécessaires à la modification.
+          </p>
+          <SaisieTypeStep
+            contexte="modifier"
+            typeReprésentantLégal={type}
+            onChange={(nouveauType) => setType(nouveauType)}
+            validationErrors={validationErrors}
+          />
+        </div>
       ),
       nextStep: {
         type: 'link',
@@ -54,7 +64,7 @@ export const ModifierReprésentantLégalForm: FC<ModifierReprésentantLégalForm
       index: 2,
       name: `Renseigner les informations concernant le changement`,
       children: (
-        <SaisieNomReprésentantLégalStep
+        <SaisieNomStep
           nomReprésentantLégal={nom}
           typeReprésentantLégal={type}
           validationErrors={validationErrors}
@@ -71,7 +81,14 @@ export const ModifierReprésentantLégalForm: FC<ModifierReprésentantLégalForm
     {
       index: 3,
       name: `Confirmer la modification`,
-      children: <ValidationStep typeReprésentantLégal={type} nomReprésentantLégal={nom} />,
+      children: (
+        <ValidationStep
+          typeReprésentantLégal={type}
+          nomReprésentantLégal={nom}
+          piècesJustificatives={[]}
+          message={`Vous êtes sur le point de modifier le représentant légal du projet. Veuillez vérifier l'ensemble des informations saisies et confirmer si tout est correct`}
+        />
+      ),
       previousStep: { name: 'Précédent' },
       nextStep: {
         type: 'submit',

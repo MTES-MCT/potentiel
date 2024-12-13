@@ -52,7 +52,7 @@ async function modifierReprésentantLégal(
 ) {
   const identifiantProjet = this.lauréatWorld.identifiantProjet.formatter();
 
-  const { nomReprésentantLégal, typeReprésentantLégal, dateCorrection } =
+  const { nomReprésentantLégal, typeReprésentantLégal, dateModification } =
     this.lauréatWorld.représentantLégalWorld.modifierReprésentantLégalFixture.créer(
       nom && type
         ? {
@@ -69,7 +69,7 @@ async function modifierReprésentantLégal(
       identifiantUtilisateurValue: this.utilisateurWorld.adminFixture.email,
       nomReprésentantLégalValue: nomReprésentantLégal,
       typeReprésentantLégalValue: typeReprésentantLégal.formatter(),
-      dateModificationValue: dateCorrection,
+      dateModificationValue: dateModification,
     },
   });
 }

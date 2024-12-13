@@ -1,11 +1,11 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { Option } from '@potentiel-libraries/monads';
-import { IdentifiantProjet } from '@potentiel-domain/common';
 import { Find } from '@potentiel-domain/entity';
+import { IdentifiantProjet } from '@potentiel-domain/common';
 
-import { TypeReprésentantLégal } from '..';
 import { Lauréat } from '../..';
+import { TypeReprésentantLégal } from '..';
 
 export type ConsulterReprésentantLégalReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
@@ -62,6 +62,6 @@ const mapToReadModel: MapToReadModel = ({ identifiantProjet, représentantLégal
   return {
     identifiantProjet,
     nomReprésentantLégal: représentantLégal.nom,
-    typeReprésentantLégal: TypeReprésentantLégal.convertirEnValueType(représentantLégal.type),
+    typeReprésentantLégal: TypeReprésentantLégal.convertirEnValueType(représentantLégal!.type),
   };
 };

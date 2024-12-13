@@ -18,14 +18,16 @@ import {
 import { ProjectDataForProjectPage } from '../../../../modules/project';
 import { userIs } from '../../../../modules/users';
 import { GetReprésentantLégalForProjectPage } from '../../../../controllers/project/getProjectPage/_utils';
+import { Routes } from '@potentiel-applications/routes';
 
 export type ContactProps = {
+  identifiantProjet: string;
   project: ProjectDataForProjectPage;
   user: Request['user'];
   représentantLégal: GetReprésentantLégalForProjectPage;
 };
 
-export const Contact = ({ project, user, représentantLégal }: ContactProps) => (
+export const Contact = ({ identifiantProjet, project, user, représentantLégal }: ContactProps) => (
   <Section title="Contact" icon={<UserIcon />}>
     <div className="mb-3">{project.nomCandidat}</div>
     <div>
@@ -40,6 +42,24 @@ export const Contact = ({ project, user, représentantLégal }: ContactProps) =>
               {représentantLégal.modification.type === 'lauréat'
                 ? 'le représentant légal'
                 : 'la candidature'}
+            </Link>
+          )}
+          {représentantLégal.demandeDeModification?.peutConsulterLaDemandeExistante && (
+            <Link
+              href={Routes.ReprésentantLégal.demandeChangement.détail(identifiantProjet)}
+              aria-label="Voir la demande de changement en cours"
+              className="block"
+            >
+              Voir la demande de changement en cours
+            </Link>
+          )}
+          {représentantLégal.demandeDeModification?.peutFaireUneDemande && (
+            <Link
+              href={Routes.ReprésentantLégal.demandeChangement.demander(identifiantProjet)}
+              aria-label="Demander un changement"
+              className="block"
+            >
+              Faire une demande de changement
             </Link>
           )}
         </>

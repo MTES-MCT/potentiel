@@ -2,12 +2,10 @@ import Badge, { BadgeProps } from '@codegouvfr/react-dsfr/Badge';
 import { FC } from 'react';
 import { match } from 'ts-pattern';
 
+import { ReprésentantLégal } from '@potentiel-domain/laureat';
+
 export type StatutChangementReprésentantLégalBadgeProps = {
-  /**
-   * @todo À ajouter quand domain est prêt :
-  statut: ReprésentantLégal.StatutReprésentantLégal.RawType;
-  */
-  statut: 'demandé' | 'accordé' | 'rejeté' | 'annulé';
+  statut: ReprésentantLégal.StatutChangementReprésentantLégal.RawType;
   small?: true;
 };
 export const StatutChangementReprésentantLégalBadge: FC<
@@ -24,5 +22,5 @@ const getSeverity = (statut: StatutChangementReprésentantLégalBadgeProps['stat
     .with('demandé', () => 'new')
     .with('accordé', () => 'success')
     .with('rejeté', () => 'warning')
-    .with('annulé', () => 'warning')
+    .with('inconnu', () => undefined)
     .exhaustive();

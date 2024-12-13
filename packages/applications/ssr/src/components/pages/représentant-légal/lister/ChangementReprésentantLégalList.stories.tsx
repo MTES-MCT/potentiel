@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
 import { DateTime } from '@potentiel-domain/common';
+import { ReprésentantLégal } from '@potentiel-domain/laureat';
 
 import {
   ChangementReprésentantLégalListPage,
@@ -28,7 +29,7 @@ const items: ChangementReprésentantLégalListPageProps['items'] = [
       numéroCRE: `1`,
     },
     nomProjet: `Nom projet 1`,
-    statut: 'accordé',
+    statut: ReprésentantLégal.StatutChangementReprésentantLégal.accordé.formatter(),
     misÀJourLe: {
       date: DateTime.now().formatter(),
     },
@@ -41,7 +42,7 @@ const items: ChangementReprésentantLégalListPageProps['items'] = [
       numéroCRE: `2`,
     },
     nomProjet: `Nom projet 2`,
-    statut: 'demandé',
+    statut: ReprésentantLégal.StatutChangementReprésentantLégal.demandé.formatter(),
     misÀJourLe: {
       date: DateTime.now().formatter(),
     },
@@ -54,20 +55,7 @@ const items: ChangementReprésentantLégalListPageProps['items'] = [
       numéroCRE: `3`,
     },
     nomProjet: `Nom projet 3`,
-    statut: 'annulé',
-    misÀJourLe: {
-      date: DateTime.now().formatter(),
-    },
-  },
-  {
-    identifiantProjet: {
-      appelOffre: `Appel d'offre 4`,
-      période: `4`,
-      famille: ``,
-      numéroCRE: `4`,
-    },
-    nomProjet: `Nom projet 4`,
-    statut: 'rejeté',
+    statut: ReprésentantLégal.StatutChangementReprésentantLégal.rejeté.formatter(),
     misÀJourLe: {
       date: DateTime.now().formatter(),
     },

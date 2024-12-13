@@ -35,6 +35,7 @@ type PorteurProjetActionsProps = {
   demandeRecours: ProjectDataForProjectPage['demandeRecours'];
   modificationsNonPermisesParLeCDCActuel: boolean;
   hasAttestationConformité: boolean;
+  peutFaireDemandeChangementReprésentantLégal: boolean;
 };
 const PorteurProjetActions = ({
   project,
@@ -42,6 +43,7 @@ const PorteurProjetActions = ({
   demandeRecours,
   modificationsNonPermisesParLeCDCActuel,
   hasAttestationConformité,
+  peutFaireDemandeChangementReprésentantLégal,
 }: PorteurProjetActionsProps) => {
   const identifiantProjet = formatProjectDataToIdentifiantProjetValueType({
     appelOffreId: project.appelOffreId,
@@ -64,11 +66,9 @@ const PorteurProjetActions = ({
 
         {project.isClasse && (
           <DropdownMenuSecondaryButton buttonChildren="Actions" className="w-fit">
-            {project.appelOffre.typeAppelOffre !== 'biométhane' && (
-              <DropdownMenuSecondaryButton.DropdownItem href={routes.DEMANDER_DELAI(project.id)}>
-                <span>Demander un délai</span>
-              </DropdownMenuSecondaryButton.DropdownItem>
-            )}
+            <DropdownMenuSecondaryButton.DropdownItem href={routes.DEMANDER_DELAI(project.id)}>
+              <span>Demander un délai</span>
+            </DropdownMenuSecondaryButton.DropdownItem>
             {project.appelOffre.changementProducteurPossibleAvantAchèvement && (
               <DropdownMenuSecondaryButton.DropdownItem
                 href={routes.GET_CHANGER_PRODUCTEUR(project.id)}
@@ -108,6 +108,13 @@ const PorteurProjetActions = ({
                   </DropdownMenuSecondaryButton.DropdownItem>
                 )}
               </>
+            )}
+            {peutFaireDemandeChangementReprésentantLégal && (
+              <DropdownMenuSecondaryButton.DropdownItem
+                href={Routes.ReprésentantLégal.demandeChangement.demander(identifiantProjet)}
+              >
+                <span>Demander un changement de représentant légal</span>
+              </DropdownMenuSecondaryButton.DropdownItem>
             )}
           </DropdownMenuSecondaryButton>
         )}
@@ -188,6 +195,7 @@ type ProjectActionsProps = {
   demandeRecours: ProjectDataForProjectPage['demandeRecours'];
   modificationsNonPermisesParLeCDCActuel: boolean;
   hasAttestationConformité: boolean;
+  peutFaireDemandeChangementReprésentantLégal: boolean;
 };
 export const ProjectActions = ({
   project,
@@ -196,6 +204,7 @@ export const ProjectActions = ({
   demandeRecours,
   modificationsNonPermisesParLeCDCActuel,
   hasAttestationConformité,
+  peutFaireDemandeChangementReprésentantLégal,
 }: ProjectActionsProps) => (
   <div className="print:hidden whitespace-nowrap">
     {userIs(['admin', 'dgec-validateur'])(user) && <AdminActions {...{ project }} />}
@@ -206,6 +215,7 @@ export const ProjectActions = ({
         demandeRecours={demandeRecours}
         modificationsNonPermisesParLeCDCActuel={modificationsNonPermisesParLeCDCActuel}
         hasAttestationConformité={hasAttestationConformité}
+        peutFaireDemandeChangementReprésentantLégal={peutFaireDemandeChangementReprésentantLégal}
       />
     )}
     {userIs(['dreal'])(user) && <DrealActions project={project} />}

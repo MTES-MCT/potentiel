@@ -28,6 +28,7 @@ import {
 } from './sections';
 import { ProjectHeader } from './components';
 import { Routes } from '@potentiel-applications/routes';
+import { isDemandeChangementReprésentantLégalEnabled } from '@potentiel-applications/feature-flags';
 import { formatProjectDataToIdentifiantProjetValueType } from '../../../helpers/dataToValueTypes';
 
 export type AlerteRaccordement =
@@ -44,8 +45,8 @@ type ProjectDetailsProps = {
   };
   demandeRecours: ProjectDataForProjectPage['demandeRecours'];
   garantiesFinancières?: GarantiesFinancièresProjetProps['garantiesFinancières'];
-  hasAttestationConformité: boolean;
   représentantLégal?: ContactProps['représentantLégal'];
+  hasAttestationConformité: boolean;
 };
 
 export const ProjectDetails = ({
@@ -88,6 +89,10 @@ export const ProjectDetails = ({
         modificationsNonPermisesParLeCDCActuel={modificationsNonPermisesParLeCDCActuel}
         hasAttestationConformité={hasAttestationConformité}
         demandeRecours={demandeRecours}
+        peutFaireDemandeChangementReprésentantLégal={
+          isDemandeChangementReprésentantLégalEnabled() &&
+          !!représentantLégal?.demandeDeModification?.peutFaireUneDemande
+        }
       />
       <div className="print:hidden">
         {success && <SuccessBox title={success} />}
@@ -131,7 +136,12 @@ export const ProjectDetails = ({
               demandeRecours={demandeRecours}
               garantiesFinancières={garantiesFinancières}
             />
-            <Contact project={project} user={user} représentantLégal={représentantLégal} />
+            <Contact
+              identifiantProjet={identifiantProjet}
+              project={project}
+              user={user}
+              représentantLégal={représentantLégal}
+            />
             <MaterielsEtTechnologies
               fournisseur={project.fournisseur}
               evaluationCarbone={project.evaluationCarbone}

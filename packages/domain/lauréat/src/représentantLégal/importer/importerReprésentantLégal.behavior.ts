@@ -46,8 +46,10 @@ export function applyReprésentantLégalImporté(
   this: ReprésentantLégalAggregate,
   { payload: { nomReprésentantLégal } }: ReprésentantLégalImportéEvent,
 ) {
-  this.représentantLégal.nom = nomReprésentantLégal;
-  this.représentantLégal.type = TypeReprésentantLégal.inconnu.formatter();
+  this.représentantLégal = {
+    nom: nomReprésentantLégal,
+    type: TypeReprésentantLégal.inconnu,
+  };
 }
 
 class ReprésentantLégalDéjàImportéError extends DomainError {
