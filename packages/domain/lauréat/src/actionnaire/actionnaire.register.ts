@@ -7,9 +7,9 @@ import {
 } from './consulter/consulterActionnaire.query';
 import { registerModifierActionnaireUseCase } from './modifier/modifierActionnaire.usecase';
 import { registerModifierActionnaireCommand } from './modifier/modifierActionnaire.command';
-import { registerDemanderModificationActionnaireQuery } from './consulterDemande/consulterModificationActionnaire.query';
 import { registerDemanderModificationActionnaireUseCase } from './demanderModification/demandeModification.usecase';
 import { registerDemanderModificationActionnaireCommand } from './demanderModification/demandeModification.command';
+import { registerModificationActionnaireQuery } from './consulterModification/consulterModificationActionnaire.query';
 
 export type ActionnaireQueryDependencies = ConsulterActionnaireDependencies;
 
@@ -28,5 +28,5 @@ export const registerActionnaireUseCases = ({ loadAggregate }: ActionnaireComman
 
 export const registerActionnaireQueries = (dependencies: ActionnaireQueryDependencies) => {
   registerConsulterActionnaireQuery(dependencies);
-  registerDemanderModificationActionnaireQuery(dependencies);
+  registerModificationActionnaireQuery(dependencies);
 };

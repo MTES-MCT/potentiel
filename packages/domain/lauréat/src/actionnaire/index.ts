@@ -5,7 +5,7 @@ import {
 import {
   ConsulterModificationActionnaireQuery,
   ConsulterModificationActionnaireReadModel,
-} from './consulterDemande/consulterModificationActionnaire.query';
+} from './consulterModification/consulterModificationActionnaire.query';
 import { DemanderModificationUseCase } from './demanderModification/demandeModification.usecase';
 import { ImporterActionnaireCommand } from './importer/importerActionnaire.command';
 import { ModifierActionnaireCommand } from './modifier/modifierActionnaire.command';
@@ -28,6 +28,7 @@ export type { ImporterActionnaireCommand, ModifierActionnaireCommand };
 
 // Event
 export type { ActionnaireEvent } from './actionnaire.aggregate';
+export type { ModificationActionnaireDemandéeEvent } from './demanderModification/demandeModification.behavior';
 
 // Saga
 export * as ActionnaireSaga from './actionnaire.saga';

@@ -46,7 +46,7 @@ export type ConsulterModificationActionnaireDependencies = {
   find: Find;
 };
 
-export const registerDemanderModificationActionnaireQuery = ({
+export const registerModificationActionnaireQuery = ({
   find,
 }: ConsulterModificationActionnaireDependencies) => {
   const handler: MessageHandler<ConsulterModificationActionnaireQuery> = async ({
