@@ -6,10 +6,10 @@ import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
 
 import { TypeDocumentActionnaire } from '..';
 
-import { DemanderModificationCommand } from './demandeModification.command';
+import { DemanderChangementCommand } from './demandeChangement.command';
 
-export type DemanderModificationUseCase = Message<
-  'Lauréat.Actionnaire.UseCase.DemanderModification',
+export type DemanderChangementUseCase = Message<
+  'Lauréat.Actionnaire.UseCase.DemanderChangement',
   {
     actionnaireValue: string;
     dateDemandeValue: string;
@@ -24,8 +24,8 @@ export type DemanderModificationUseCase = Message<
 >;
 
 // TODO: après POC Julien et Hub, gestion multidocument
-export const registerDemanderModificationActionnaireUseCase = () => {
-  const runner: MessageHandler<DemanderModificationUseCase> = async ({
+export const registerDemanderChangementActionnaireUseCase = () => {
+  const runner: MessageHandler<DemanderChangementUseCase> = async ({
     dateDemandeValue,
     identifiantProjetValue,
     pièceJustificativeValue,
@@ -54,7 +54,7 @@ export const registerDemanderModificationActionnaireUseCase = () => {
       },
     });
 
-    await mediator.send<DemanderModificationCommand>({
+    await mediator.send<DemanderChangementCommand>({
       type: 'Lauréat.Actionnaire.Command.DemanderModification',
       data: {
         dateDemande,
@@ -66,5 +66,5 @@ export const registerDemanderModificationActionnaireUseCase = () => {
       },
     });
   };
-  mediator.register('Lauréat.Actionnaire.UseCase.DemanderModification', runner);
+  mediator.register('Lauréat.Actionnaire.UseCase.DemanderChangement', runner);
 };

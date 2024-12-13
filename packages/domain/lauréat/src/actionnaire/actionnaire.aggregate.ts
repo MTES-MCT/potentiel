@@ -6,7 +6,7 @@ import {
   LoadAggregate,
 } from '@potentiel-domain/core';
 
-import { StatutModificationActionnaire } from '.';
+import { StatutChangementActionnaire } from '.';
 
 import {
   ActionnaireImportéEvent,
@@ -19,23 +19,23 @@ import {
   modifier,
 } from './modifier/modifierActionnaire.behavior';
 import {
-  applyModificationActionnaireDemandée,
-  demanderModification,
-  ModificationActionnaireDemandéeEvent,
-} from './demanderModification/demandeModification.behavior';
+  applyChangementActionnaireDemandé,
+  demanderChangement,
+  ChangementActionnaireDemandéEvent,
+} from './demanderChangement/demandeChangement.behavior';
 
 export type ActionnaireEvent =
   | ActionnaireImportéEvent
   | ActionnaireModifiéEvent
-  | ModificationActionnaireDemandéeEvent;
+  | ChangementActionnaireDemandéEvent;
 
 export type ActionnaireAggregate = Aggregate<ActionnaireEvent> & {
   identifiantProjet: IdentifiantProjet.ValueType;
   actionnaire: String;
-  statutDemande?: StatutModificationActionnaire.ValueType;
+  statutDemande?: StatutChangementActionnaire.ValueType;
   importer: typeof importer;
   modifier: typeof modifier;
-  demanderModification: typeof demanderModification;
+  demanderChangement: typeof demanderChangement;
 };
 
 export const getDefaultActionnaireAggregate: GetDefaultAggregateState<
@@ -47,7 +47,7 @@ export const getDefaultActionnaireAggregate: GetDefaultAggregateState<
   apply,
   importer,
   modifier,
-  demanderModification,
+  demanderChangement,
 });
 
 function apply(this: ActionnaireAggregate, event: ActionnaireEvent) {
@@ -60,8 +60,8 @@ function apply(this: ActionnaireAggregate, event: ActionnaireEvent) {
       applyActionnaireModifié.bind(this)(event);
       break;
 
-    case 'ModificationActionnaireDemandée-V1':
-      applyModificationActionnaireDemandée.bind(this)();
+    case 'ChangementActionnaireDemandé-V1':
+      applyChangementActionnaireDemandé.bind(this)();
       break;
   }
 }

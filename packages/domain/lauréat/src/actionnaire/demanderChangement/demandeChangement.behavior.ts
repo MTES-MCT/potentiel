@@ -2,12 +2,12 @@ import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
 import { DomainEvent } from '@potentiel-domain/core';
 import { DocumentProjet } from '@potentiel-domain/document';
 
-import { StatutModificationActionnaire } from '..';
+import { StatutChangementActionnaire } from '..';
 import { ActionnaireAggregate } from '../actionnaire.aggregate';
 import { ActionnaireIdentifiqueError } from '../errors';
 
-export type ModificationActionnaireDemandéeEvent = DomainEvent<
-  'ModificationActionnaireDemandée-V1',
+export type ChangementActionnaireDemandéEvent = DomainEvent<
+  'ChangementActionnaireDemandé-V1',
   {
     identifiantProjet: IdentifiantProjet.RawType;
     actionnaire: string;
@@ -29,7 +29,7 @@ export type DemanderOptions = {
   dateDemande: DateTime.ValueType;
 };
 
-export async function demanderModification(
+export async function demanderChangement(
   this: ActionnaireAggregate,
   {
     identifiantUtilisateur,
@@ -46,12 +46,12 @@ export async function demanderModification(
 
   if (this.statutDemande) {
     this.statutDemande.vérifierQueLeChangementDeStatutEstPossibleEn(
-      StatutModificationActionnaire.demandé,
+      StatutChangementActionnaire.demandé,
     );
   }
 
-  const event: ModificationActionnaireDemandéeEvent = {
-    type: 'ModificationActionnaireDemandée-V1',
+  const event: ChangementActionnaireDemandéEvent = {
+    type: 'ChangementActionnaireDemandé-V1',
     payload: {
       identifiantProjet: identifiantProjet.formatter(),
       actionnaire,
@@ -67,6 +67,6 @@ export async function demanderModification(
   await this.publish(event);
 }
 
-export function applyModificationActionnaireDemandée(this: ActionnaireAggregate) {
-  this.statutDemande = StatutModificationActionnaire.demandé;
+export function applyChangementActionnaireDemandé(this: ActionnaireAggregate) {
+  this.statutDemande = StatutChangementActionnaire.demandé;
 }

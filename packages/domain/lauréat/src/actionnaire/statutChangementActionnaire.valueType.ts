@@ -43,14 +43,14 @@ export const convertirEnValueType = (value: string): ValueType => {
     },
     vérifierQueLeChangementDeStatutEstPossibleEn(nouveauStatut: ValueType) {
       if (nouveauStatut.estÉgaleÀ(convertirEnValueType(this.statut))) {
-        throw new ModificationActionnaireAvecLeMêmeStatutErreur();
+        throw new ChangementActionnaireAvecLeMêmeStatutErreur();
       }
       if (nouveauStatut.estAnnulé() && !this.estEnCours) {
-        throw new ModificationActionnaireInexistanteErreur();
+        throw new ChangementActionnaireInexistanteErreur();
       }
       if (nouveauStatut.estAccordé() || nouveauStatut.estRejeté()) {
         if (!this.estEnCours() || this.estAnnulé()) {
-          throw new ModificationActionnaireInexistanteErreur();
+          throw new ChangementActionnaireInexistanteErreur();
         }
       }
     },
@@ -61,7 +61,7 @@ function estValide(value: string): asserts value is RawType {
   const isValid = statuts.includes(value as RawType);
 
   if (!isValid) {
-    throw new StatutModificationActionnaireInvalideError(value);
+    throw new StatutChangementActionnaireInvalideError(value);
   }
 }
 
@@ -70,7 +70,7 @@ export const annulé = convertirEnValueType('annulé');
 export const demandé = convertirEnValueType('demandé');
 export const rejeté = convertirEnValueType('rejeté');
 
-class StatutModificationActionnaireInvalideError extends InvalidOperationError {
+class StatutChangementActionnaireInvalideError extends InvalidOperationError {
   constructor(value: string) {
     super(`Le statut ne correspond à aucune valeur connue`, {
       value,
@@ -78,13 +78,13 @@ class StatutModificationActionnaireInvalideError extends InvalidOperationError {
   }
 }
 
-class ModificationActionnaireAvecLeMêmeStatutErreur extends InvalidOperationError {
+class ChangementActionnaireAvecLeMêmeStatutErreur extends InvalidOperationError {
   constructor() {
     super(`Le statut de la demande de modification est identique`);
   }
 }
 
-class ModificationActionnaireInexistanteErreur extends InvalidOperationError {
+class ChangementActionnaireInexistanteErreur extends InvalidOperationError {
   constructor() {
     super(`Aucune demande de modification n'est en cours`);
   }

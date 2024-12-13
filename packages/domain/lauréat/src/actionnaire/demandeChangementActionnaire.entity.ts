@@ -1,7 +1,7 @@
 import { Entity } from '@potentiel-domain/entity';
 
-export type ModificationActionnaireEntity = Entity<
-  'modification-actionnaire',
+export type ChangementActionnaireEntity = Entity<
+  'changement-actionnaire',
   {
     identifiantProjet: string;
 

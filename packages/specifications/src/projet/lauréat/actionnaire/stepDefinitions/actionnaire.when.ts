@@ -64,10 +64,10 @@ Quand(
 );
 
 Quand(
-  "le porteur demande la modification de l'actionnaire pour le projet {lauréat-éliminé}",
+  "le porteur demande le changement de l'actionnaire pour le projet {lauréat-éliminé}",
   async function (this: PotentielWorld, statutProjet: 'lauréat' | 'éliminé') {
     try {
-      await demanderModificationActionnaire.call(
+      await DemanderChangementActionnaire.call(
         this,
         statutProjet,
         this.utilisateurWorld.porteurFixture.email,
@@ -79,10 +79,10 @@ Quand(
 );
 
 Quand(
-  "le porteur demande la modification de l'actionnaire avec la même valeur pour le projet lauréat",
+  "le porteur demande le changement de l'actionnaire avec la même valeur pour le projet lauréat",
   async function (this: PotentielWorld) {
     try {
-      await demanderModificationActionnaire.call(
+      await DemanderChangementActionnaire.call(
         this,
         'lauréat',
         this.utilisateurWorld.porteurFixture.email,
@@ -94,7 +94,7 @@ Quand(
   },
 );
 
-export async function demanderModificationActionnaire(
+export async function DemanderChangementActionnaire(
   this: PotentielWorld,
   statutProjet: 'lauréat' | 'éliminé',
   utilisateur?: string,
@@ -110,12 +110,12 @@ export async function demanderModificationActionnaire(
     demandéPar,
     raison,
     actionnaire,
-  } = this.lauréatWorld.actionnaireWorld.demanderModificationActionnaireFixture.créer({
+  } = this.lauréatWorld.actionnaireWorld.demanderChangementActionnaireFixture.créer({
     demandéPar: utilisateur,
   });
 
   await mediator.send<Actionnaire.ActionnaireUseCase>({
-    type: 'Lauréat.Actionnaire.UseCase.DemanderModification',
+    type: 'Lauréat.Actionnaire.UseCase.DemanderChangement',
     data: {
       raisonValue: raison,
       actionnaireValue: actionnaireValue ?? actionnaire,

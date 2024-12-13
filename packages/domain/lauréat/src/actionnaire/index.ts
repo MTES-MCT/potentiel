@@ -3,24 +3,24 @@ import {
   ConsulterActionnaireReadModel,
 } from './consulter/consulterActionnaire.query';
 import {
-  ConsulterModificationActionnaireQuery,
-  ConsulterModificationActionnaireReadModel,
-} from './consulterModification/consulterModificationActionnaire.query';
-import { DemanderModificationUseCase } from './demanderModification/demandeModification.usecase';
+  ConsulterChangementActionnaireQuery,
+  ConsulterChangementActionnaireReadModel,
+} from './consulterChangement/consulterChangementActionnaire.query';
+import { DemanderChangementUseCase } from './demanderChangement/demandeChangement.usecase';
 import { ImporterActionnaireCommand } from './importer/importerActionnaire.command';
 import { ModifierActionnaireCommand } from './modifier/modifierActionnaire.command';
 import { ModifierActionnaireUseCase } from './modifier/modifierActionnaire.usecase';
 
 // Query
-export type ActionnaireQuery = ConsulterActionnaireQuery | ConsulterModificationActionnaireQuery;
-export type { ConsulterActionnaireQuery, ConsulterModificationActionnaireQuery };
+export type ActionnaireQuery = ConsulterActionnaireQuery | ConsulterChangementActionnaireQuery;
+export type { ConsulterActionnaireQuery, ConsulterChangementActionnaireQuery };
 
 // ReadModel
-export type { ConsulterActionnaireReadModel, ConsulterModificationActionnaireReadModel };
+export type { ConsulterActionnaireReadModel, ConsulterChangementActionnaireReadModel };
 
 // UseCase
-export type ActionnaireUseCase = ModifierActionnaireUseCase | DemanderModificationUseCase;
-export type { ModifierActionnaireUseCase, DemanderModificationUseCase };
+export type ActionnaireUseCase = ModifierActionnaireUseCase | DemanderChangementUseCase;
+export type { ModifierActionnaireUseCase, DemanderChangementUseCase };
 
 // Command
 export type ActionnaireCommand = ImporterActionnaireCommand | ModifierActionnaireCommand;
@@ -28,14 +28,14 @@ export type { ImporterActionnaireCommand, ModifierActionnaireCommand };
 
 // Event
 export type { ActionnaireEvent } from './actionnaire.aggregate';
-export type { ModificationActionnaireDemandéeEvent } from './demanderModification/demandeModification.behavior';
+export type { ChangementActionnaireDemandéEvent } from './demanderChangement/demandeChangement.behavior';
 
 // Saga
 export * as ActionnaireSaga from './actionnaire.saga';
 
 // ValueType
-export * as StatutModificationActionnaire from './statutModificationActionnaire.valueType';
+export * as StatutChangementActionnaire from './statutChangementActionnaire.valueType';
 export * as TypeDocumentActionnaire from './typeDocumentActionnaire.valueType';
 
 // Entities
-export * from './demandeModificationActionnaire.entity';
+export * from './demandeChangementActionnaire.entity';

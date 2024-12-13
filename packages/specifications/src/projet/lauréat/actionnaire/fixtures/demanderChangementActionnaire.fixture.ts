@@ -7,7 +7,7 @@ import { DocumentProjet } from '@potentiel-domain/document';
 import { convertStringToReadableStream } from '../../../../helpers/convertStringToReadable';
 import { AbstractFixture } from '../../../../fixture';
 
-interface DemanderModificationActionnaire {
+interface DemanderChangementActionnaire {
   readonly pièceJustificative: { format: string; content: ReadableStream };
   readonly demandéLe: string;
   readonly demandéPar: string;
@@ -15,14 +15,14 @@ interface DemanderModificationActionnaire {
   readonly actionnaire: string;
 }
 
-export class DemanderModificationActionnaireFixture
-  extends AbstractFixture<DemanderModificationActionnaire>
-  implements DemanderModificationActionnaire
+export class demanderChangementActionnaireFixture
+  extends AbstractFixture<DemanderChangementActionnaire>
+  implements DemanderChangementActionnaire
 {
   #format!: string;
   #content!: string;
 
-  get pièceJustificative(): DemanderModificationActionnaire['pièceJustificative'] {
+  get pièceJustificative(): DemanderChangementActionnaire['pièceJustificative'] {
     return {
       format: this.#format,
       content: convertStringToReadableStream(this.#content),
@@ -54,8 +54,8 @@ export class DemanderModificationActionnaireFixture
   }
 
   créer(
-    partialData?: Partial<DemanderModificationActionnaire>,
-  ): Readonly<DemanderModificationActionnaire> {
+    partialData?: Partial<DemanderChangementActionnaire>,
+  ): Readonly<DemanderChangementActionnaire> {
     const content = faker.word.words();
 
     const fixture = {
@@ -83,10 +83,10 @@ export class DemanderModificationActionnaireFixture
 
   mapToExpected(
     identifiantProjet: IdentifiantProjet.ValueType,
-  ): Actionnaire.ConsulterModificationActionnaireReadModel {
+  ): Actionnaire.ConsulterChangementActionnaireReadModel {
     return {
       identifiantProjet,
-      statut: Actionnaire.StatutModificationActionnaire.demandé,
+      statut: Actionnaire.StatutChangementActionnaire.demandé,
       demande: {
         demandéLe: DateTime.convertirEnValueType(this.#demandéLe),
         demandéPar: Email.convertirEnValueType(this.#demandéPar),

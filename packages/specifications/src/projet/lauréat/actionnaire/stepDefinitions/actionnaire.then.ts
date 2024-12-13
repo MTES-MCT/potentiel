@@ -41,7 +41,7 @@ Alors(
       );
 
       const demande = await mediator.send<Actionnaire.ActionnaireQuery>({
-        type: 'Lauréat.Actionnaire.Query.ConsulterModificationActionnaire',
+        type: 'Lauréat.Actionnaire.Query.ConsulterChangementActionnaire',
         data: {
           identifiantProjet: identifiantProjet.formatter(),
         },
@@ -49,7 +49,7 @@ Alors(
 
       const actual = mapToPlainObject(demande);
       const expected = mapToPlainObject(
-        this.lauréatWorld.actionnaireWorld.demanderModificationActionnaireFixture.mapToExpected(
+        this.lauréatWorld.actionnaireWorld.demanderChangementActionnaireFixture.mapToExpected(
           identifiantProjet,
         ),
       );

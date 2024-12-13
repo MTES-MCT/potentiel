@@ -6,12 +6,12 @@ import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 
 import { PotentielWorld } from '../../../../potentiel.world';
 
-import { demanderModificationActionnaire } from './actionnaire.when';
+import { DemanderChangementActionnaire } from './actionnaire.when';
 
 EtantDonné(
   "une demande de modification de l'actionnaire en cours pour le projet lauréat",
   async function (this: PotentielWorld) {
-    await demanderModificationActionnaire.call(
+    await DemanderChangementActionnaire.call(
       this,
       'lauréat',
       this.utilisateurWorld.adminFixture.email,

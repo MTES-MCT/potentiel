@@ -6,14 +6,14 @@ import { Find } from '@potentiel-domain/entity';
 import { DocumentProjet } from '@potentiel-domain/document';
 
 import {
-  ModificationActionnaireEntity,
-  StatutModificationActionnaire,
+  ChangementActionnaireEntity,
+  StatutChangementActionnaire,
   TypeDocumentActionnaire,
 } from '..';
 
-export type ConsulterModificationActionnaireReadModel = {
+export type ConsulterChangementActionnaireReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
-  statut: StatutModificationActionnaire.ValueType;
+  statut: StatutChangementActionnaire.ValueType;
   demande: {
     demandéPar: Email.ValueType;
     demandéLe: DateTime.ValueType;
@@ -34,36 +34,36 @@ export type ConsulterModificationActionnaireReadModel = {
   };
 };
 
-export type ConsulterModificationActionnaireQuery = Message<
-  'Lauréat.Actionnaire.Query.ConsulterModificationActionnaire',
+export type ConsulterChangementActionnaireQuery = Message<
+  'Lauréat.Actionnaire.Query.ConsulterChangementActionnaire',
   {
     identifiantProjet: string;
   },
-  Option.Type<ConsulterModificationActionnaireReadModel>
+  Option.Type<ConsulterChangementActionnaireReadModel>
 >;
 
-export type ConsulterModificationActionnaireDependencies = {
+export type ConsulterChangementActionnaireDependencies = {
   find: Find;
 };
 
-export const registerModificationActionnaireQuery = ({
+export const registerChangementActionnaireQuery = ({
   find,
-}: ConsulterModificationActionnaireDependencies) => {
-  const handler: MessageHandler<ConsulterModificationActionnaireQuery> = async ({
+}: ConsulterChangementActionnaireDependencies) => {
+  const handler: MessageHandler<ConsulterChangementActionnaireQuery> = async ({
     identifiantProjet,
   }) => {
     const identifiantProjetValueType = IdentifiantProjet.convertirEnValueType(identifiantProjet);
 
-    const demandeModificationActionnaire = await find<ModificationActionnaireEntity>(
-      `modification-actionnaire|${identifiantProjetValueType.formatter()}`,
+    const demandeChangementActionnaire = await find<ChangementActionnaireEntity>(
+      `changement-actionnaire|${identifiantProjetValueType.formatter()}`,
     );
 
-    return Option.match(demandeModificationActionnaire).some(mapToReadModel).none();
+    return Option.match(demandeChangementActionnaire).some(mapToReadModel).none();
   };
-  mediator.register('Lauréat.Actionnaire.Query.ConsulterModificationActionnaire', handler);
+  mediator.register('Lauréat.Actionnaire.Query.ConsulterChangementActionnaire', handler);
 };
 
-export const mapToReadModel = (result: ModificationActionnaireEntity) => {
+export const mapToReadModel = (result: ChangementActionnaireEntity) => {
   return {
     demande: {
       demandéLe: DateTime.convertirEnValueType(result.demande.demandéLe),
@@ -102,6 +102,6 @@ export const mapToReadModel = (result: ModificationActionnaireEntity) => {
         }
       : undefined,
     identifiantProjet: IdentifiantProjet.convertirEnValueType(result.identifiantProjet),
-    statut: StatutModificationActionnaire.convertirEnValueType(result.statut),
-  } satisfies ConsulterModificationActionnaireReadModel;
+    statut: StatutChangementActionnaire.convertirEnValueType(result.statut),
+  } satisfies ConsulterChangementActionnaireReadModel;
 };

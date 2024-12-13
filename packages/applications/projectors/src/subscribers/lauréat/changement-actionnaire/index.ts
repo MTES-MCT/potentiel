@@ -5,21 +5,18 @@ import { RebuildTriggered, Event } from '@potentiel-infrastructure/pg-event-sour
 import { Actionnaire } from '@potentiel-domain/laureat';
 
 import { handleRebuilTriggered } from './handleRebuildTriggered';
-import { handleModificationActionnaireDemandée } from './handleModificationActionnaireDemandée';
+import { handleChangementActionnaireDemandé } from './handleChangementActionnaireDemandé';
 
 export type SubscriptionEvent = (Actionnaire.ActionnaireEvent & Event) | RebuildTriggered;
 
-export type Execute = Message<
-  'System.Projector.Lauréat.ModificationActionnaire',
-  SubscriptionEvent
->;
+export type Execute = Message<'System.Projector.Lauréat.ChangementActionnaire', SubscriptionEvent>;
 
 export const register = () => {
   const handler: MessageHandler<Execute> = async (event) =>
     match(event)
       .with({ type: 'RebuildTriggered' }, handleRebuilTriggered)
-      .with({ type: 'ModificationActionnaireDemandée-V1' }, handleModificationActionnaireDemandée)
+      .with({ type: 'ChangementActionnaireDemandé-V1' }, handleChangementActionnaireDemandé)
       .otherwise(() => undefined);
 
-  mediator.register('System.Projector.Lauréat.ModificationActionnaire', handler);
+  mediator.register('System.Projector.Lauréat.ChangementActionnaire', handler);
 };
