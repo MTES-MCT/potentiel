@@ -6,8 +6,8 @@ export class ActionnaireIdentifiqueError extends DomainError {
   }
 }
 
-export class DemandeDeModificationEnCoursError extends DomainError {
+export class DemandeDeChangementEnCoursError extends DomainError {
   constructor() {
-    super('Une demande de modification est déjà en cours');
+    super('Une demande de changement est déjà en cours');
   }
 }

@@ -80,12 +80,12 @@ class StatutChangementActionnaireInvalideError extends InvalidOperationError {
 
 class ChangementActionnaireAvecLeMêmeStatutErreur extends InvalidOperationError {
   constructor() {
-    super(`Le statut de la demande de modification est identique`);
+    super(`Le statut de la demande de changement est identique`);
   }
 }
 
 class ChangementActionnaireInexistanteErreur extends InvalidOperationError {
   constructor() {
-    super(`Aucune demande de modification n'est en cours`);
+    super(`Aucune demande de changement n'est en cours`);
   }
 }

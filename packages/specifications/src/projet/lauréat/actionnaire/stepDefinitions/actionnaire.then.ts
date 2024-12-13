@@ -33,7 +33,7 @@ Alors(
 );
 
 Alors(
-  "la demande de modification de l'actionnaire devrait être consultable",
+  "la demande de changement de l'actionnaire devrait être consultable",
   async function (this: PotentielWorld) {
     return waitForExpect(async () => {
       const identifiantProjet = IdentifiantProjet.convertirEnValueType(

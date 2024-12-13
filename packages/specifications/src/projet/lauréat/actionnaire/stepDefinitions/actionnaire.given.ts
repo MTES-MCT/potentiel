@@ -9,7 +9,7 @@ import { PotentielWorld } from '../../../../potentiel.world';
 import { DemanderChangementActionnaire } from './actionnaire.when';
 
 EtantDonné(
-  "une demande de modification de l'actionnaire en cours pour le projet lauréat",
+  "une demande de changement de l'actionnaire en cours pour le projet lauréat",
   async function (this: PotentielWorld) {
     await DemanderChangementActionnaire.call(
       this,

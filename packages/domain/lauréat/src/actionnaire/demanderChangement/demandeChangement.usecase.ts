@@ -55,7 +55,7 @@ export const registerDemanderChangementActionnaireUseCase = () => {
     });
 
     await mediator.send<DemanderChangementCommand>({
-      type: 'Lauréat.Actionnaire.Command.DemanderModification',
+      type: 'Lauréat.Actionnaire.Command.DemanderChangement',
       data: {
         dateDemande,
         raison: raisonValue,

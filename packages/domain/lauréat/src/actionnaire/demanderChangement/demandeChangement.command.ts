@@ -7,7 +7,7 @@ import { LoadAggregate } from '@potentiel-domain/core';
 import { loadActionnaireFactory } from '../actionnaire.aggregate';
 
 export type DemanderChangementCommand = Message<
-  'Lauréat.Actionnaire.Command.DemanderModification',
+  'Lauréat.Actionnaire.Command.DemanderChangement',
   {
     identifiantProjet: IdentifiantProjet.ValueType;
     raison?: string;
@@ -39,5 +39,5 @@ export const registerDemanderChangementActionnaireCommand = (loadAggregate: Load
       actionnaire,
     });
   };
-  mediator.register('Lauréat.Actionnaire.Command.DemanderModification', handler);
+  mediator.register('Lauréat.Actionnaire.Command.DemanderChangement', handler);
 };

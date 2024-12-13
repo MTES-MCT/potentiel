@@ -9,7 +9,7 @@ Fonctionnalité: Demander le changement de l'actionnaire d'un projet lauréat
     # TODO: ajouter la notification DREAL
     Scénario: Demander le changement de l'actionnaire d'un projet lauréat
         Quand le porteur demande le changement de l'actionnaire pour le projet lauréat
-        Alors la demande de modification de l'actionnaire devrait être consultable
+        Alors la demande de changement de l'actionnaire devrait être consultable
 
     Scénario: Impossible de demander le changement de l'actionnaire si l'actionnaire est inexistant
         Etant donné le projet éliminé "Du boulodrome de Lyon"
@@ -21,6 +21,6 @@ Fonctionnalité: Demander le changement de l'actionnaire d'un projet lauréat
         Alors l'utilisateur devrait être informé que "Le nouvel actionnaire est identique à celui associé au projet"
 
     Scénario: Impossible de demander le changement de l'actionnaire si une demande existe déjà
-        Etant donné une demande de modification de l'actionnaire en cours pour le projet lauréat
+        Etant donné une demande de changement de l'actionnaire en cours pour le projet lauréat
         Quand le porteur demande le changement de l'actionnaire pour le projet lauréat
-        Alors l'utilisateur devrait être informé que "Le statut de la demande de modification est identique"
+        Alors l'utilisateur devrait être informé que "Le statut de la demande de changement est identique"
