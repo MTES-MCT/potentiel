@@ -61,7 +61,7 @@ const mapToReadModel: MapToReadModel = ({ identifiantProjet, représentantLégal
 
   return {
     identifiantProjet,
-    nomReprésentantLégal: représentantLégal!.nom,
+    nomReprésentantLégal: représentantLégal.nom,
     typeReprésentantLégal: TypeReprésentantLégal.convertirEnValueType(représentantLégal!.type),
   };
 };
