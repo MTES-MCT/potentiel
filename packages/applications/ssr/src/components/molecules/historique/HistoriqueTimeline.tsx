@@ -9,6 +9,7 @@ import { HistoryRecord } from '@potentiel-domain/entity';
 import { Timeline, TimelineItemProps } from '@/components/organisms/Timeline';
 
 import { mapToAbandonTimelineItemProps } from './timeline/abandon/mapToAbandonTimelineItemProps';
+import { mapToRecoursTimelineItemProps } from './timeline/recours/mapToRecoursTimelineItemProps';
 
 export type HistoriqueTimelineProps = {
   historique: PlainType<Historique.ListerHistoriqueProjetReadModel>;
@@ -26,6 +27,12 @@ const mapToTimelineItemProps = (record: HistoryRecord) => {
         category: 'abandon',
       },
       mapToAbandonTimelineItemProps,
+    )
+    .with(
+      {
+        category: 'recours',
+      },
+      mapToRecoursTimelineItemProps,
     )
     .otherwise(() => ({
       date: record.createdAt as DateTime.RawType,

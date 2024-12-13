@@ -39,6 +39,7 @@ export { RecoursEvent } from './recours.aggregate';
 export { RecoursAnnuléEvent } from './annuler/annulerRecours.behavior';
 export { RecoursRejetéEvent } from './rejeter/rejeterRecours.behavior';
 export { RecoursAccordéEvent } from './accorder/accorderRecours.behavior';
+export { RecoursDemandéEvent } from './demander/demanderRecours.behavior';
 
 // Register
 export { registerRecoursQueries, registerRecoursUseCases } from './recours.register';

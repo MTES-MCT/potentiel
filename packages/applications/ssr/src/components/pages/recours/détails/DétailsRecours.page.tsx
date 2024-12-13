@@ -3,15 +3,16 @@ import { FC } from 'react';
 import { PlainType } from '@potentiel-domain/core';
 import { Recours } from '@potentiel-domain/elimine';
 import { DateTime, Email } from '@potentiel-domain/common';
+import { Historique } from '@potentiel-domain/historique';
 
 import { ProjetBanner } from '@/components/molecules/projet/ProjetBanner';
 import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
 import { Heading1, Heading2 } from '@/components/atoms/headings';
 import { FormattedDate } from '@/components/atoms/FormattedDate';
+import { HistoriqueTimeline } from '@/components/molecules/historique/HistoriqueTimeline';
 
 import { StatutRecoursBadge } from '../StatutRecoursBadge';
 
-import { EtapesRecours } from './EtapesRecours';
 import { AccorderRecours } from './accorder/AccorderRecours.form';
 import { RejeterRecours } from './rejeter/RejeterRecours.form';
 import { AnnulerRecours } from './annuler/AnnulerRecours.form';
@@ -21,12 +22,14 @@ export type AvailableRecoursAction = 'accorder' | 'rejeter' | 'annuler';
 export type DétailsRecoursPageProps = {
   identifiantProjet: string;
   recours: PlainType<Recours.ConsulterRecoursReadModel>;
+  historique: PlainType<Historique.ListerHistoriqueProjetReadModel>;
   actions: ReadonlyArray<AvailableRecoursAction>;
 };
 
 export const DétailsRecoursPage: FC<DétailsRecoursPageProps> = ({
   identifiantProjet,
   recours,
+  historique,
   actions,
 }) => {
   const demandéLe = DateTime.bind(recours.demande.demandéLe).formatter();
@@ -58,7 +61,7 @@ export const DétailsRecoursPage: FC<DétailsRecoursPageProps> = ({
             </div>
             <div className="mb-4">
               <Heading2>Historique</Heading2>
-              <EtapesRecours recours={recours} />
+              <HistoriqueTimeline historique={historique} />
             </div>
           </div>
         ),
