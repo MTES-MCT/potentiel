@@ -75,20 +75,16 @@ export const InfoGenerales = ({
           </Link>
         </div>
       )}
-      {Option.isSome(raccordement) &&
-        role.aLaPermission('réseau.raccordement.consulter') &&
-        appelOffre.typeAppelOffre !== 'biométhane' && (
-          <div className="print:hidden">
-            <Heading3 className="m-0">Raccordement au réseau</Heading3>
-            <Link href={Routes.Raccordement.détail(formattedIdentifiantProjet)}>
-              Consulter{' '}
-              {role.aLaPermission('réseau.raccordement.gestionnaire.modifier')
-                ? 'ou modifier '
-                : ''}
-              les données de raccordement
-            </Link>
-          </div>
-        )}
+      {Option.isSome(raccordement) && (
+        <div className="print:hidden">
+          <Heading3 className="m-0">Raccordement au réseau</Heading3>
+          <Link href={Routes.Raccordement.détail(formattedIdentifiantProjet)}>
+            Consulter{' '}
+            {role.aLaPermission('réseau.raccordement.gestionnaire.modifier') ? 'ou modifier ' : ''}
+            les données de raccordement
+          </Link>
+        </div>
+      )}
       {isClasse &&
         Option.isNone(raccordement) &&
         role.aLaPermission('réseau.raccordement.gestionnaire.modifier') && (
