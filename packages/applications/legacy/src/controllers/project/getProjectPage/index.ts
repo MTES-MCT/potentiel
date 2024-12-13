@@ -28,6 +28,7 @@ import {
   getGarantiesFinancières,
   getReprésentantLégal,
   getRecours,
+  getRaccordement,
 } from './_utils';
 import { Role } from '@potentiel-domain/utilisateur';
 
@@ -78,6 +79,7 @@ v1Router.get(
     },
     async (request, response) => {
       const { user, query } = request;
+      const role = Role.convertirEnValueType(user.role);
 
       const projectId = request.params.projectId;
 
@@ -137,22 +139,19 @@ v1Router.get(
       }
 
       const abandon = await getAbandonStatut(identifiantProjetValueType);
+      const raccordement = await getRaccordement({
+        role,
+        identifiantProjet: identifiantProjetValueType,
+      });
 
-      const alertesRaccordement: AlerteRaccordement[] | undefined =
-        !abandon || abandon.statut === 'rejeté'
-          ? await getAlertesRaccordement({
-              userRole: user.role,
-              identifiantProjet: identifiantProjetValueType,
-              CDC2022Choisi:
-                project.cahierDesChargesActuel.type === 'modifié' &&
-                project.cahierDesChargesActuel.paruLe === '30/08/2022',
-              projet: {
-                isClasse: project.isClasse,
-                isAbandonned: project.isAbandoned,
-              },
-            })
-          : undefined;
-
+      const alertesRaccordement: AlerteRaccordement[] | undefined = await getAlertesRaccordement({
+        raccordement,
+        role,
+        identifiantProjet: identifiantProjetValueType,
+        CDC2022Choisi:
+          project.cahierDesChargesActuel.type === 'modifié' &&
+          project.cahierDesChargesActuel.paruLe === '30/08/2022',
+      });
       const attestationConformité = await getAttestationDeConformité(
         identifiantProjetValueType,
         user,
@@ -181,11 +180,12 @@ v1Router.get(
               ? rawProjectEventList.value.events.concat(attestationConformité)
               : rawProjectEventList.value.events,
           },
+          raccordement,
           alertesRaccordement,
           abandon,
           garantiesFinancières: await getGarantiesFinancières(
             identifiantProjetValueType,
-            Role.convertirEnValueType(user.role),
+            role,
             project.appelOffre.isSoumisAuxGF,
           ),
           représentantLégal: await getReprésentantLégal(identifiantProjetValueType, user.role),

@@ -30,6 +30,9 @@ import { ProjectHeader } from './components';
 import { Routes } from '@potentiel-applications/routes';
 import { isDemandeChangementReprésentantLégalEnabled } from '@potentiel-applications/feature-flags';
 import { formatProjectDataToIdentifiantProjetValueType } from '../../../helpers/dataToValueTypes';
+import { Role } from '@potentiel-domain/utilisateur';
+import { Raccordement } from '@potentiel-domain/reseau';
+import { Option } from '@potentiel-libraries/monads';
 
 export type AlerteRaccordement =
   | 'référenceDossierManquantePourDélaiCDC2022'
@@ -38,8 +41,9 @@ export type AlerteRaccordement =
 type ProjectDetailsProps = {
   request: Request;
   project: ProjectDataForProjectPage;
+  raccordement: Option.Type<Raccordement.ConsulterRaccordementReadModel>;
   projectEventList?: ProjectEventListDTO;
-  alertesRaccordement?: AlerteRaccordement[];
+  alertesRaccordement: AlerteRaccordement[];
   abandon?: {
     statut: string;
   };
@@ -53,6 +57,7 @@ export const ProjectDetails = ({
   request,
   project,
   projectEventList,
+  raccordement,
   alertesRaccordement,
   abandon,
   demandeRecours,
@@ -114,7 +119,7 @@ export const ProjectDetails = ({
             </InfoBox>
           )}
 
-          {alertesRaccordement && project.appelOffre.typeAppelOffre !== 'biométhane' && (
+          {alertesRaccordement.length > 0 && project.appelOffre.typeAppelOffre !== 'biométhane' && (
             <AlerteBoxRaccordement
               dcrDueOn={project.dcrDueOn}
               alertes={alertesRaccordement}
@@ -132,7 +137,8 @@ export const ProjectDetails = ({
           <div className={`flex flex-col flex-grow gap-3 break-before-page`}>
             <InfoGenerales
               project={project}
-              role={user.role}
+              role={Role.convertirEnValueType(user.role)}
+              raccordement={raccordement}
               demandeRecours={demandeRecours}
               garantiesFinancières={garantiesFinancières}
             />

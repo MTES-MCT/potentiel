@@ -4,3 +4,4 @@ export * from './getAttestationDeConformité';
 export * from './getGarantiesFinancières';
 export * from './getReprésentantLégal';
 export * from './getRecours';
+export * from './getRaccordement';

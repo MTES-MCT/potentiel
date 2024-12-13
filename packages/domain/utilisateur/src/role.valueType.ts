@@ -883,10 +883,6 @@ const pageProjetPolicies: Policy[] = [
   // Recours
   'recours.consulter.détail',
 
-  // Garanties Financières
-  'garantiesFinancières.actuelles.consulter',
-  'garantiesFinancières.dépôt.consulter',
-
   // Achèvement
   'achèvement.consulter',
 
@@ -933,10 +929,12 @@ const adminPolicies: ReadonlyArray<Policy> = [
 
   // Garanties financières
   'garantiesFinancières.archives.consulter',
+  'garantiesFinancières.dépôt.consulter',
   'garantiesFinancières.dépôt.lister',
   'garantiesFinancières.dépôt.demander',
   'garantiesFinancières.dépôt.valider',
   'garantiesFinancières.dépôt.modifier',
+  'garantiesFinancières.actuelles.consulter',
   'garantiesFinancières.actuelles.importer',
   'garantiesFinancières.actuelles.modifier',
   'garantiesFinancières.actuelles.enregistrerAttestation',
@@ -993,7 +991,10 @@ const crePolicies: ReadonlyArray<Policy> = [
   'réseau.raccordement.listerDossierRaccordement',
 
   // Garanties financières
+  'garantiesFinancières.actuelles.consulter',
+  'garantiesFinancières.dépôt.consulter',
   'garantiesFinancières.mainlevée.lister',
+  'garantiesFinancières.enAttente.consulter',
 ];
 
 const drealPolicies: ReadonlyArray<Policy> = [
@@ -1019,10 +1020,13 @@ const drealPolicies: ReadonlyArray<Policy> = [
   'garantiesFinancières.dépôt.demander',
   'garantiesFinancières.dépôt.valider',
   'garantiesFinancières.dépôt.modifier',
+  'garantiesFinancières.dépôt.consulter',
+  'garantiesFinancières.actuelles.consulter',
   'garantiesFinancières.actuelles.modifier',
   'garantiesFinancières.actuelles.enregistrerAttestation',
   'garantiesFinancières.actuelles.enregistrer',
   'garantiesFinancières.effacerHistorique',
+  'garantiesFinancières.enAttente.consulter',
   'garantiesFinancières.enAttente.lister',
   'garantiesFinancières.enAttente.générerModèleMiseEnDemeure',
   'garantiesFinancières.mainlevée.démarrerInstruction',
@@ -1071,12 +1075,14 @@ const porteurProjetPolicies: ReadonlyArray<Policy> = [
   'tâche.consulter',
 
   // Garanties financières
+  'garantiesFinancières.dépôt.consulter',
   'garantiesFinancières.dépôt.demander',
   'garantiesFinancières.dépôt.valider',
   'garantiesFinancières.dépôt.soumettre',
   'garantiesFinancières.dépôt.supprimer',
   'garantiesFinancières.dépôt.modifier',
   'garantiesFinancières.dépôt.lister',
+  'garantiesFinancières.actuelles.consulter',
   'garantiesFinancières.actuelles.enregistrerAttestation',
   'garantiesFinancières.effacerHistorique',
   'garantiesFinancières.mainlevée.demander',
@@ -1102,7 +1108,10 @@ const acheteurObligéPolicies: ReadonlyArray<Policy> = [
   'réseau.raccordement.consulter',
 
   // Garanties financières
+  'garantiesFinancières.actuelles.consulter',
+  'garantiesFinancières.dépôt.consulter',
   'garantiesFinancières.mainlevée.lister',
+  'garantiesFinancières.enAttente.consulter',
 
   // Achèvement
   // 'achèvement.transmettre',
@@ -1111,7 +1120,10 @@ const acheteurObligéPolicies: ReadonlyArray<Policy> = [
 const caisseDesDépôtsPolicies: ReadonlyArray<Policy> = [
   ...pageProjetPolicies,
   // Garanties financières
+  'garantiesFinancières.actuelles.consulter',
+  'garantiesFinancières.dépôt.consulter',
   'garantiesFinancières.mainlevée.lister',
+  'garantiesFinancières.enAttente.consulter',
 ];
 
 const grdPolicies: ReadonlyArray<Policy> = [
