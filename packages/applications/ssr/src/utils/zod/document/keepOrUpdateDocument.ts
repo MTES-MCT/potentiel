@@ -7,7 +7,7 @@ import { FileTypes } from '../blob';
 
 import { singleDocument } from './singleDocument';
 
-const documentKey = zod
+const existingDocument = zod
   .string()
   .min(1, 'Champ obligatoire')
   .transform(async (documentKey) => {
@@ -27,7 +27,7 @@ type CommonOptions = {
 };
 
 export const keepOrUpdateSingleDocument = (options?: CommonOptions) =>
-  documentKey.or(singleDocument(options));
+  existingDocument.or(singleDocument(options));
 
 export const keepOrUpdateManyDocuments = (options?: CommonOptions) =>
   keepOrUpdateSingleDocument(options)
