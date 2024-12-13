@@ -19,8 +19,7 @@ export const optionalBlob = (options?: { acceptedFileTypes?: Array<FileTypes> })
 export type OptionalBlobArray = typeof optionalBlobArray;
 export const optionalBlobArray = (options?: { acceptedFileTypes?: Array<FileTypes> }) =>
   optionalBlob(options)
-    .transform((blob) => (blob.size === 0 ? undefined : blob))
-    .transform((blob) => blob && [blob])
+    .transform((blob) => (blob.size === 0 ? undefined : [blob]))
     .or(
       optionalBlob(options)
         .array()
