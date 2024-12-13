@@ -3,16 +3,16 @@ import Alert from '@codegouvfr/react-dsfr/Alert';
 
 import { PlainType } from '@potentiel-domain/core';
 import { Abandon } from '@potentiel-domain/laureat';
-import { Role } from '@potentiel-domain/utilisateur';
 import { DateTime, Email } from '@potentiel-domain/common';
+import { Historique } from '@potentiel-domain/historique';
 
 import { StatutAbandonBadge } from '@/components/pages/abandon/StatutAbandonBadge';
 import { ProjetBanner } from '@/components/molecules/projet/ProjetBanner';
 import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
 import { Heading1, Heading2 } from '@/components/atoms/headings';
 import { FormattedDate } from '@/components/atoms/FormattedDate';
+import { HistoriqueTimeline } from '@/components/molecules/historique/HistoriqueTimeline';
 
-import { EtapesAbandon } from './EtapesAbandon';
 import { StatutPreuveRecandidatureBadge } from './PreuveRecandidatureStatutBadge';
 import { DemanderConfirmationAbandon } from './demanderConfirmation/DemanderConfirmationAbandon';
 import { AccorderAbandonAvecRecandidature } from './accorder/AccorderAbandonAvecRecandidature';
@@ -42,18 +42,18 @@ export type DétailsAbandonPageProps = {
   identifiantProjet: string;
   abandon: PlainType<Abandon.ConsulterAbandonReadModel>;
   projetsÀSélectionner: TransmettrePreuveRecandidatureFormProps['projetsÀSélectionner'];
-  role: PlainType<Role.ValueType>;
-  actions: AvailableActions;
   informations: Array<AvailableInformation>;
+  historique: PlainType<Historique.ListerHistoriqueProjetReadModel>;
+  actions: AvailableActions;
 };
 
 export const DétailsAbandonPage: FC<DétailsAbandonPageProps> = ({
   identifiantProjet,
   abandon,
-  role,
   actions,
   informations,
   projetsÀSélectionner,
+  historique,
 }) => {
   const demandéLe = DateTime.bind(abandon.demande.demandéLe).formatter();
   const demandéPar = Email.bind(abandon.demande.demandéPar).formatter();
@@ -90,7 +90,7 @@ export const DétailsAbandonPage: FC<DétailsAbandonPageProps> = ({
             </div>
             <div className="mb-4">
               <Heading2>Historique</Heading2>
-              <EtapesAbandon abandon={abandon} role={role} />
+              <HistoriqueTimeline historique={historique} />
             </div>
           </div>
         ),

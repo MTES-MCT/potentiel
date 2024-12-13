@@ -363,6 +363,11 @@ const référencielPermissions = {
       lister: 'Tâche.Query.ListerTâches',
     },
   },
+  historique: {
+    query: {
+      lister: 'Historique.Query.ListerHistoriqueProjet',
+    },
+  },
 } as const;
 
 /**
@@ -837,6 +842,9 @@ const policies = {
       référencielPermissions.lauréat.représentantLégal.command.modifier,
     ],
   },
+  historique: {
+    lister: [référencielPermissions.historique.query.lister],
+  },
 } as const;
 
 /**
@@ -854,7 +862,7 @@ type Leaves<O extends Record<string, unknown>> = {
 
 type Policy = Leaves<typeof policies>;
 
-const commonPolicies: ReadonlyArray<Policy> = ['candidature.consulterRésumé'];
+const commonPolicies: ReadonlyArray<Policy> = ['candidature.consulterRésumé', 'historique.lister'];
 
 // En attendant d'avoir des gateways qui groupent les query
 const pageProjetPolicies: Policy[] = [

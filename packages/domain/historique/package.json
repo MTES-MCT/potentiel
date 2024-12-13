@@ -11,7 +11,8 @@
   "dependencies": {
     "@potentiel-domain/common": "*",
     "@potentiel-domain/core": "*",
-    "@potentiel-domain/entity": "*"
+    "@potentiel-domain/entity": "*",
+    "@potentiel-domain/laureat": "*"
   },
   "devDependencies": {
     "@potentiel-config/tsconfig": "*"
