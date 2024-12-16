@@ -103,6 +103,11 @@ export const TransmettreDemandeComplèteRaccordementForm = ({
     >
       <input name="identifiantProjet" type="hidden" value={identifiantProjetValue} />
 
+      <input
+        name="identifiantGestionnaireRéseauActuel"
+        type="hidden"
+        value={identifiantGestionnaireRéseauActuel}
+      />
       {alreadyHasAGestionnaireRéseau ? (
         <div className="flex flex-col">
           <input

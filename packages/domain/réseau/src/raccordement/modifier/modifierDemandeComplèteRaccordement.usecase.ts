@@ -6,7 +6,6 @@ import { Role } from '@potentiel-domain/utilisateur';
 
 import * as TypeDocumentRaccordement from '../typeDocumentRaccordement.valueType';
 import * as RéférenceDossierRaccordement from '../référenceDossierRaccordement.valueType';
-import { IdentifiantGestionnaireRéseau } from '../../gestionnaire';
 
 import { ModifierDemandeComplèteRaccordementCommand } from './modifierDemandeComplèteRaccordement.command';
 
@@ -15,7 +14,6 @@ export type ModifierDemandeComplèteRaccordementUseCase = Message<
   {
     identifiantProjetValue: string;
     dateQualificationValue: string;
-    identifiantGestionnaireRéseauValue: string;
     référenceDossierRaccordementValue: string;
     rôleValue: string;
     accuséRéceptionValue: {
@@ -29,7 +27,6 @@ export const registerModifierDemandeComplèteRaccordementUseCase = () => {
   const runner: MessageHandler<ModifierDemandeComplèteRaccordementUseCase> = async ({
     accuséRéceptionValue: { content, format },
     dateQualificationValue,
-    identifiantGestionnaireRéseauValue,
     identifiantProjetValue,
     référenceDossierRaccordementValue,
     rôleValue,
@@ -45,9 +42,6 @@ export const registerModifierDemandeComplèteRaccordementUseCase = () => {
 
     const identifiantProjet = IdentifiantProjet.convertirEnValueType(identifiantProjetValue);
     const dateQualification = DateTime.convertirEnValueType(dateQualificationValue);
-    const identifiantGestionnaireRéseau = IdentifiantGestionnaireRéseau.convertirEnValueType(
-      identifiantGestionnaireRéseauValue,
-    );
     const référenceDossierRaccordement = RéférenceDossierRaccordement.convertirEnValueType(
       référenceDossierRaccordementValue,
     );
@@ -66,7 +60,6 @@ export const registerModifierDemandeComplèteRaccordementUseCase = () => {
       data: {
         dateQualification,
         formatAccuséRéception: format,
-        identifiantGestionnaireRéseau,
         identifiantProjet,
         référenceDossierRaccordement,
         rôle,

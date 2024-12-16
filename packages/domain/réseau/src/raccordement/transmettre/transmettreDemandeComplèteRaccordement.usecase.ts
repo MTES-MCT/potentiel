@@ -5,7 +5,6 @@ import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 
 import * as TypeDocumentRaccordement from '../typeDocumentRaccordement.valueType';
 import * as RéférenceDossierRaccordement from '../référenceDossierRaccordement.valueType';
-import { IdentifiantGestionnaireRéseau } from '../../gestionnaire';
 
 import { TransmettreDemandeComplèteRaccordementCommand } from './transmettreDemandeComplèteRaccordement.command';
 
@@ -14,7 +13,6 @@ export type TransmettreDemandeComplèteRaccordementUseCase = Message<
   {
     identifiantProjetValue: string;
     dateQualificationValue: string;
-    identifiantGestionnaireRéseauValue: string;
     référenceDossierValue: string;
     accuséRéceptionValue: {
       content: ReadableStream;
@@ -26,7 +24,6 @@ export type TransmettreDemandeComplèteRaccordementUseCase = Message<
 export const registerTransmettreDemandeComplèteRaccordementUseCase = () => {
   const runner: MessageHandler<TransmettreDemandeComplèteRaccordementUseCase> = async ({
     dateQualificationValue,
-    identifiantGestionnaireRéseauValue,
     identifiantProjetValue,
     référenceDossierValue,
     accuséRéceptionValue: { format, content },
@@ -42,9 +39,7 @@ export const registerTransmettreDemandeComplèteRaccordementUseCase = () => {
 
     const identifiantProjet = IdentifiantProjet.convertirEnValueType(identifiantProjetValue);
     const dateQualification = DateTime.convertirEnValueType(dateQualificationValue);
-    const identifiantGestionnaireRéseau = IdentifiantGestionnaireRéseau.convertirEnValueType(
-      identifiantGestionnaireRéseauValue,
-    );
+
     /**
      * Merci de laisser la commande transmettre en première puisqu'elle fait des vérifications (notamment sur l'abandon du projet)
      */
@@ -52,7 +47,6 @@ export const registerTransmettreDemandeComplèteRaccordementUseCase = () => {
       type: 'Réseau.Raccordement.Command.TransmettreDemandeComplèteRaccordement',
       data: {
         identifiantProjet,
-        identifiantGestionnaireRéseau,
         dateQualification,
         référenceDossier: RéférenceDossierRaccordement.convertirEnValueType(référenceDossierValue),
         formatAccuséRéception: format,

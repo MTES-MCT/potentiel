@@ -25,6 +25,7 @@ import { executeQuery, killPool } from '@potentiel-libraries/pg-helpers';
 import { getClient } from '@potentiel-libraries/file-storage';
 import { bootstrap } from '@potentiel-applications/bootstrap';
 import { EmailPayload } from '@potentiel-applications/notifications';
+import { Option } from '@potentiel-libraries/monads';
 
 import { PotentielWorld } from './potentiel.world';
 import { sleep } from './helpers/sleep';
@@ -161,5 +162,5 @@ async function mockRécupérerGRDParVilleAdapter(
   this: PotentielWorld,
   search: { codePostal: string; commune: string },
 ) {
-  return this.gestionnaireRéseauWorld.rechercherOREParVille(search);
+  return this.gestionnaireRéseauWorld.rechercherOREParVille(search) ?? Option.none;
 }

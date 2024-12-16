@@ -1,5 +1,3 @@
-import { Option } from '@potentiel-libraries/monads';
-
 type GestionnaireRéseau = {
   codeEIC: string;
   raisonSociale: string;
@@ -56,6 +54,6 @@ export class GestionnaireRéseauWorld {
         raisonSociale: item.raisonSociale,
       };
     }
-    return Option.none;
+    return;
   }
 }
