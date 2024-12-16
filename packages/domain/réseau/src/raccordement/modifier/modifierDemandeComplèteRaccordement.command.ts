@@ -7,13 +7,11 @@ import { Role } from '@potentiel-domain/utilisateur';
 import * as RéférenceDossierRaccordement from '../référenceDossierRaccordement.valueType';
 import { loadRaccordementAggregateFactory } from '../raccordement.aggregate';
 import { loadGestionnaireRéseauFactory } from '../../gestionnaire/gestionnaireRéseau.aggregate';
-import { IdentifiantGestionnaireRéseau } from '../../gestionnaire';
 
 export type ModifierDemandeComplèteRaccordementCommand = Message<
   'Réseau.Raccordement.Command.ModifierDemandeComplèteRaccordement',
   {
     identifiantProjet: IdentifiantProjet.ValueType;
-    identifiantGestionnaireRéseau: IdentifiantGestionnaireRéseau.ValueType;
     dateQualification: DateTime.ValueType;
     référenceDossierRaccordement: RéférenceDossierRaccordement.ValueType;
     formatAccuséRéception: string;
@@ -29,14 +27,16 @@ export const registerModifierDemandeComplèteRaccordementCommand = (
 
   const handler: MessageHandler<ModifierDemandeComplèteRaccordementCommand> = async ({
     identifiantProjet,
-    identifiantGestionnaireRéseau,
     dateQualification,
     référenceDossierRaccordement,
     formatAccuséRéception,
     rôle,
   }) => {
     const raccordement = await loadRaccordement(identifiantProjet);
-    const gestionnaireRéseau = await loadGestionnaireRéseau(identifiantGestionnaireRéseau, true);
+    const gestionnaireRéseau = await loadGestionnaireRéseau(
+      raccordement.identifiantGestionnaireRéseau,
+      true,
+    );
 
     await raccordement.modifierDemandeComplèteRaccordement({
       identifiantProjet,

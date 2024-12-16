@@ -4,7 +4,6 @@ import { IdentifiantProjet } from '@potentiel-domain/common';
 import { Abandon, Lauréat } from '@potentiel-domain/laureat';
 import { Candidature } from '@potentiel-domain/candidature';
 import { Option } from '@potentiel-libraries/monads';
-import { getLogger } from '@potentiel-libraries/monitoring';
 
 import * as IdentifiantGestionnaireRéseau from '../gestionnaire/identifiantGestionnaireRéseau.valueType';
 
@@ -30,7 +29,6 @@ export const register = ({ récupérerGRDParVille }: RegisterRaccordementSagaDep
       payload: { identifiantProjet },
     } = event;
 
-    const logger = getLogger('RaccordementSaga');
     switch (event.type) {
       case 'LauréatNotifié-V1':
         const candidature = await mediator.send<Candidature.ConsulterCandidatureQuery>({
@@ -46,19 +44,15 @@ export const register = ({ récupérerGRDParVille }: RegisterRaccordementSagaDep
           codePostal: candidature.localité.codePostal,
           commune: candidature.localité.commune,
         });
-        if (Option.isNone(grd)) {
-          return;
-        }
-
-        logger.info('Attribution du gestionnaire réseau', { identifiantProjet, grd });
+        const identifiantGestionnaireRéseau = Option.match(grd)
+          .some((grd) => IdentifiantGestionnaireRéseau.convertirEnValueType(grd.codeEIC))
+          .none(() => IdentifiantGestionnaireRéseau.inconnu);
 
         await mediator.send<AttribuerGestionnaireRéseauCommand>({
           type: 'Réseau.Raccordement.Command.AttribuerGestionnaireRéseau',
           data: {
             identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
-            identifiantGestionnaireRéseau: IdentifiantGestionnaireRéseau.convertirEnValueType(
-              grd.codeEIC,
-            ),
+            identifiantGestionnaireRéseau,
           },
         });
         break;

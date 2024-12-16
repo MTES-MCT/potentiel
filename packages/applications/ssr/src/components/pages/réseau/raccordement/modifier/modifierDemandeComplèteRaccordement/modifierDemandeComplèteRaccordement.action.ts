@@ -12,7 +12,6 @@ import { keepOrUpdateSingleDocument } from '@/utils/zod/document/keepOrUpdateDoc
 
 const schema = zod.object({
   identifiantProjet: zod.string().min(1),
-  identifiantGestionnaireReseau: zod.string().min(1),
   dateQualification: zod.string().min(1, { message: 'Champ obligatoire' }),
   referenceDossierRaccordement: zod.string().min(1),
   referenceDossierRaccordementActuelle: zod.string().min(1),
@@ -25,7 +24,6 @@ const action: FormAction<FormState, typeof schema> = async (
   _,
   {
     identifiantProjet,
-    identifiantGestionnaireReseau,
     accuseReception,
     dateQualification,
     referenceDossierRaccordement,
@@ -49,7 +47,6 @@ const action: FormAction<FormState, typeof schema> = async (
       type: 'Réseau.Raccordement.UseCase.ModifierDemandeComplèteRaccordement',
       data: {
         identifiantProjetValue: identifiantProjet,
-        identifiantGestionnaireRéseauValue: identifiantGestionnaireReseau,
         accuséRéceptionValue: accuseReception,
         dateQualificationValue: new Date(dateQualification).toISOString(),
         référenceDossierRaccordementValue: referenceDossierRaccordement,
