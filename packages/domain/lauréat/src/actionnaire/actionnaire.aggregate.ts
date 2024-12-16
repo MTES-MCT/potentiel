@@ -23,11 +23,13 @@ import {
   demanderChangement,
   ChangementActionnaireDemandéEvent,
 } from './demanderChangement/demandeChangement.behavior';
+import { DemandeChangementActionnaireAnnuléEvent } from './annulerDemandeChangement/annulerDemandeChangement.behavior';
 
 export type ActionnaireEvent =
   | ActionnaireImportéEvent
   | ActionnaireModifiéEvent
-  | ChangementActionnaireDemandéEvent;
+  | ChangementActionnaireDemandéEvent
+  | DemandeChangementActionnaireAnnuléEvent;
 
 export type ActionnaireAggregate = Aggregate<ActionnaireEvent> & {
   identifiantProjet: IdentifiantProjet.ValueType;

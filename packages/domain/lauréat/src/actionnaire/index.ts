@@ -1,3 +1,5 @@
+import { AnnulerDemandeChangementActionnaireCommand } from './annulerDemandeChangement/annulerDemandeChangement.command';
+import { AnnulerDemandeChangementActionnaireUseCase } from './annulerDemandeChangement/annulerDemandeChangement.usecase';
 import {
   ConsulterActionnaireQuery,
   ConsulterActionnaireReadModel,
@@ -19,12 +21,26 @@ export type { ConsulterActionnaireQuery, ConsulterChangementActionnaireQuery };
 export type { ConsulterActionnaireReadModel, ConsulterChangementActionnaireReadModel };
 
 // UseCase
-export type ActionnaireUseCase = ModifierActionnaireUseCase | DemanderChangementUseCase;
-export type { ModifierActionnaireUseCase, DemanderChangementUseCase };
+export type ActionnaireUseCase =
+  | ModifierActionnaireUseCase
+  | DemanderChangementUseCase
+  | AnnulerDemandeChangementActionnaireUseCase;
+export type {
+  ModifierActionnaireUseCase,
+  DemanderChangementUseCase,
+  AnnulerDemandeChangementActionnaireUseCase,
+};
 
 // Command
-export type ActionnaireCommand = ImporterActionnaireCommand | ModifierActionnaireCommand;
-export type { ImporterActionnaireCommand, ModifierActionnaireCommand };
+export type ActionnaireCommand =
+  | ImporterActionnaireCommand
+  | ModifierActionnaireCommand
+  | AnnulerDemandeChangementActionnaireCommand;
+export type {
+  ImporterActionnaireCommand,
+  ModifierActionnaireCommand,
+  AnnulerDemandeChangementActionnaireCommand,
+};
 
 // Event
 export type { ActionnaireEvent } from './actionnaire.aggregate';

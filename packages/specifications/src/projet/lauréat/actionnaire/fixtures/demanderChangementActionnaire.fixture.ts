@@ -15,7 +15,7 @@ interface DemanderChangementActionnaire {
   readonly actionnaire: string;
 }
 
-export class demanderChangementActionnaireFixture
+export class DemanderChangementActionnaireFixture
   extends AbstractFixture<DemanderChangementActionnaire>
   implements DemanderChangementActionnaire
 {

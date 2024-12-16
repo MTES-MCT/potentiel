@@ -3,6 +3,7 @@ import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
 
 import { ActionnaireAggregate } from '../actionnaire.aggregate';
 import { StatutChangementActionnaire } from '..';
+import { DemandeDeChangementInexistanteError } from '../errors';
 
 export type DemandeChangementActionnaireAnnuléEvent = DomainEvent<
   'DemandeChangementActionnaireAnnulée-V1',
@@ -23,6 +24,10 @@ export async function annulerDemandeChangement(
   this: ActionnaireAggregate,
   { dateAnnulation, identifiantUtilisateur, identifiantProjet }: AnnulerOptions,
 ) {
+  if (!this.statutDemande) {
+    throw new DemandeDeChangementInexistanteError();
+  }
+
   this.statutDemande.vérifierQueLeChangementDeStatutEstPossibleEn(
     StatutChangementActionnaire.annulé,
   );
