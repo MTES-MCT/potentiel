@@ -119,6 +119,8 @@ EtantDonné(
           identifiantProjetValue: identifiantProjet.formatter(),
           référenceDossierValue: référenceDossier,
           dateMiseEnServiceValue: dateMiseEnServiceValueType,
+          transmiseLeValue: DateTime.now().formatter(),
+          transmiseParValue: this.utilisateurWorld.adminFixture.email,
         },
       });
     } catch (e) {

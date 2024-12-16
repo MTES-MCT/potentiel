@@ -23,6 +23,8 @@ import {
   DateMiseEnServiceTransmiseEvent,
   transmettreDateMiseEnService,
   applyDateMiseEnServiceTransmiseEventV1,
+  applyDateMiseEnServiceTransmiseEventV2,
+  DateMiseEnServiceTransmiseV1Event,
 } from './transmettre/transmettreDateMiseEnService.behavior';
 import { DossierNonRéférencéPourLeRaccordementDuProjetError } from './dossierNonRéférencéPourLeRaccordementDuProjet.error';
 import {
@@ -91,6 +93,7 @@ export type RaccordementEvent =
   | DeprecateEvent
   | DemandeComplèteRaccordementTransmiseEvent
   | PropositionTechniqueEtFinancièreTransmiseEvent
+  | DateMiseEnServiceTransmiseV1Event
   | DateMiseEnServiceTransmiseEvent
   | DemandeComplèteRaccordementModifiéeEvent
   | RéférenceDossierRacordementModifiéeEvent
@@ -229,6 +232,9 @@ function apply(this: RaccordementAggregate, event: RaccordementEvent) {
       break;
     case 'DateMiseEnServiceTransmise-V1':
       applyDateMiseEnServiceTransmiseEventV1.bind(this)(event);
+      break;
+    case 'DateMiseEnServiceTransmise-V2':
+      applyDateMiseEnServiceTransmiseEventV2.bind(this)(event);
       break;
     case 'GestionnaireRéseauRaccordementModifié-V1':
       applyGestionnaireRéseauRaccordementModifiéEventV1.bind(this)(event);

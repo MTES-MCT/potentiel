@@ -1,6 +1,6 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
-import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
+import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
 
 import * as RéférenceDossierRaccordement from '../référenceDossierRaccordement.valueType';
 
@@ -12,6 +12,8 @@ export type TransmettreDateMiseEnServiceUseCase = Message<
     dateMiseEnServiceValue: string;
     référenceDossierValue: string;
     identifiantProjetValue: string;
+    transmiseLeValue: string;
+    transmiseParValue: string;
   }
 >;
 
@@ -20,11 +22,15 @@ export const registerTransmettreDateMiseEnServiceUseCase = () => {
     dateMiseEnServiceValue,
     référenceDossierValue,
     identifiantProjetValue,
+    transmiseLeValue,
+    transmiseParValue,
   }) => {
     const dateMiseEnService = DateTime.convertirEnValueType(dateMiseEnServiceValue);
     const identifiantProjet = IdentifiantProjet.convertirEnValueType(identifiantProjetValue);
     const référenceDossier =
       RéférenceDossierRaccordement.convertirEnValueType(référenceDossierValue);
+    const transmiseLe = DateTime.convertirEnValueType(transmiseLeValue);
+    const transmisePar = Email.convertirEnValueType(transmiseParValue);
 
     await mediator.send<TransmettreDateMiseEnServiceCommand>({
       type: 'Réseau.Raccordement.Command.TransmettreDateMiseEnService',
@@ -32,6 +38,8 @@ export const registerTransmettreDateMiseEnServiceUseCase = () => {
         dateMiseEnService,
         identifiantProjet,
         référenceDossier,
+        transmiseLe,
+        transmisePar,
       },
     });
   };

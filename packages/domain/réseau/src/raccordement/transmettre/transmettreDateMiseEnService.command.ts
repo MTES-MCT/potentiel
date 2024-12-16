@@ -1,6 +1,6 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
-import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
+import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
 import { LoadAggregate } from '@potentiel-domain/core';
 import { Lauréat } from '@potentiel-domain/laureat';
 
@@ -13,6 +13,8 @@ export type TransmettreDateMiseEnServiceCommand = Message<
     dateMiseEnService: DateTime.ValueType;
     référenceDossier: RéférenceDossierRaccordement.ValueType;
     identifiantProjet: IdentifiantProjet.ValueType;
+    transmiseLe: DateTime.ValueType;
+    transmisePar: Email.ValueType;
   }
 >;
 
@@ -24,6 +26,8 @@ export const registerTransmettreDateMiseEnServiceCommand = (loadAggregate: LoadA
     dateMiseEnService,
     référenceDossier,
     identifiantProjet,
+    transmiseLe,
+    transmisePar,
   }) => {
     const raccordement = await loadRaccordementAggregate(identifiantProjet);
     const laureát = await loadLauréatAggregate(identifiantProjet);
@@ -33,6 +37,8 @@ export const registerTransmettreDateMiseEnServiceCommand = (loadAggregate: LoadA
       dateMiseEnService,
       identifiantProjet,
       référenceDossier,
+      transmiseLe,
+      transmisePar,
     });
   };
 

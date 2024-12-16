@@ -194,10 +194,12 @@ export const register = () => {
                   misÀJourLe: event.created_at,
                 };
               case 'DateMiseEnServiceTransmise-V1':
+              case 'DateMiseEnServiceTransmise-V2':
                 return {
                   ...dossier,
                   miseEnService: {
                     dateMiseEnService: event.payload.dateMiseEnService,
+                    transmisePar: 'DGEC',
                   },
                   misÀJourLe: event.created_at,
                 };
