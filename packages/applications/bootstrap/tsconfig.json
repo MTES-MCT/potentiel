@@ -33,6 +33,9 @@
       "path": "../../infrastructure/email"
     },
     {
+      "path": "../../infrastructure/ore-client"
+    },
+    {
       "path": "../../infrastructure/pg-event-sourcing"
     },
     {

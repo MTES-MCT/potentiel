@@ -25,6 +25,7 @@ import { executeQuery, killPool } from '@potentiel-libraries/pg-helpers';
 import { getClient } from '@potentiel-libraries/file-storage';
 import { bootstrap } from '@potentiel-applications/bootstrap';
 import { EmailPayload } from '@potentiel-applications/notifications';
+import { Option } from '@potentiel-libraries/monads';
 
 import { PotentielWorld } from './potentiel.world';
 import { sleep } from './helpers/sleep';
@@ -112,7 +113,13 @@ Before<PotentielWorld>(async function (this: PotentielWorld) {
 
   clear();
 
-  unsetup = await bootstrap({ middlewares: [], sendEmail: testEmailAdapter.bind(this) });
+  unsetup = await bootstrap({
+    middlewares: [],
+    dependencies: {
+      sendEmail: testEmailAdapter.bind(this),
+      récupérerGRDParVille: mockRécupérerGRDParVilleAdapter.bind(this),
+    },
+  });
 });
 
 After(async () => {
@@ -149,4 +156,11 @@ async function testEmailAdapter(
   emailPayload: EmailPayload,
 ): Promise<MessageResult<Message>> {
   this.notificationWorld.ajouterNotification(emailPayload);
+}
+
+async function mockRécupérerGRDParVilleAdapter(
+  this: PotentielWorld,
+  search: { codePostal: string; commune: string },
+) {
+  return this.gestionnaireRéseauWorld.rechercherOREParVille(search) ?? Option.none;
 }
