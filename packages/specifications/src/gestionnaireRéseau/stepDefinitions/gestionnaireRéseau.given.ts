@@ -3,6 +3,7 @@ import { mediator } from 'mediateur';
 
 import { GestionnaireRéseau } from '@potentiel-domain/reseau';
 
+import { cities, faker } from '../../faker';
 import { PotentielWorld } from '../../potentiel.world';
 
 EtantDonné('un gestionnaire de réseau', async function (this: PotentielWorld, table: DataTable) {
@@ -62,3 +63,17 @@ EtantDonné(
     });
   },
 );
+
+EtantDonné('le référentiel ORE', async function (this: PotentielWorld) {
+  for (const city of cities) {
+    const { codeEIC, raisonSociale } = faker.helpers.arrayElement([
+      ...this.gestionnaireRéseauWorld.gestionnairesRéseauFixtures.values(),
+    ]);
+    this.gestionnaireRéseauWorld.référentielOREFixtures.push({
+      codeEIC,
+      raisonSociale,
+      codePostal: city.codePostal,
+      commune: city.commune,
+    });
+  }
+});

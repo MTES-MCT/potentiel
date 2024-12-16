@@ -1,9 +1,9 @@
 import { Middleware, mediator } from 'mediateur';
 
 import { getLogger } from '@potentiel-libraries/monitoring';
-import { SendEmail } from '@potentiel-applications/notifications';
-import { sendEmail as sendEmailMailjet } from '@potentiel-infrastructure/email';
+import { sendEmail } from '@potentiel-infrastructure/email';
 import { executeSubscribersRetry } from '@potentiel-infrastructure/pg-event-sourcing';
+import { récupérerGRDParVille } from '@potentiel-infrastructure/ore-client';
 
 import { setupLauréat } from './setupLauréat';
 import { setupCandidature } from './setupCandidature';
@@ -22,13 +22,19 @@ import { setupStatistiques } from './setupStatistiques';
 let unsubscribe: (() => Promise<void>) | undefined;
 let mutex: Promise<void> | undefined;
 
+const defaultDependencies = {
+  sendEmail,
+  récupérerGRDParVille,
+};
+
+type BootstrapProps = {
+  middlewares: Array<Middleware>;
+  dependencies?: Partial<typeof defaultDependencies>;
+};
 export const bootstrap = async ({
   middlewares,
-  sendEmail,
-}: {
-  middlewares: Array<Middleware>;
-  sendEmail?: SendEmail;
-}): Promise<() => Promise<void>> => {
+  dependencies,
+}: BootstrapProps): Promise<() => Promise<void>> => {
   // if there's already a bootstrap operation in progress, wait for it to finish
   if (mutex) {
     await mutex;
@@ -40,10 +46,10 @@ export const bootstrap = async ({
     mediator.use({
       middlewares: [logMiddleware, ...middlewares],
     });
-
-    if (!sendEmail) {
-      sendEmail = sendEmailMailjet;
-    }
+    const allDependencies = {
+      ...defaultDependencies,
+      ...dependencies,
+    };
 
     const unsetupHistorique = await setupHistorique();
 
@@ -51,15 +57,15 @@ export const bootstrap = async ({
     setupUtilisateur();
     await setupAppelOffre();
     setupDocumentProjet();
-    const unsetupCandidature = await setupCandidature({ sendEmail });
-    const unsetupPériode = await setupPériode({ sendEmail });
+    const unsetupCandidature = await setupCandidature(allDependencies);
+    const unsetupPériode = await setupPériode(allDependencies);
 
     const unsetupTâche = await setupTâche();
-    const unsetupTâchePlanifiée = await setupTâchePlanifiée({ sendEmail });
+    const unsetupTâchePlanifiée = await setupTâchePlanifiée(allDependencies);
 
-    const unsetupEliminé = await setupEliminé({ sendEmail });
-    const unsetupLauréat = await setupLauréat({ sendEmail });
-    const unsetupGestionnaireRéseau = await setupRéseau();
+    const unsetupEliminé = await setupEliminé(allDependencies);
+    const unsetupLauréat = await setupLauréat(allDependencies);
+    const unsetupGestionnaireRéseau = await setupRéseau(allDependencies);
 
     getLogger().info('Application bootstrapped');
 

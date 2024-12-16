@@ -112,7 +112,13 @@ Before<PotentielWorld>(async function (this: PotentielWorld) {
 
   clear();
 
-  unsetup = await bootstrap({ middlewares: [], sendEmail: testEmailAdapter.bind(this) });
+  unsetup = await bootstrap({
+    middlewares: [],
+    dependencies: {
+      sendEmail: testEmailAdapter.bind(this),
+      récupérerGRDParVille: mockRécupérerGRDParVilleAdapter.bind(this),
+    },
+  });
 });
 
 After(async () => {
@@ -149,4 +155,11 @@ async function testEmailAdapter(
   emailPayload: EmailPayload,
 ): Promise<MessageResult<Message>> {
   this.notificationWorld.ajouterNotification(emailPayload);
+}
+
+async function mockRécupérerGRDParVilleAdapter(
+  this: PotentielWorld,
+  search: { codePostal: string; commune: string },
+) {
+  return this.gestionnaireRéseauWorld.rechercherOREParVille(search);
 }
