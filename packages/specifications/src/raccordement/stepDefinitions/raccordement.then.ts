@@ -6,7 +6,7 @@ import { expect } from 'chai';
 import { Raccordement, GestionnaireRéseau } from '@potentiel-domain/reseau';
 import { ConsulterDocumentProjetQuery } from '@potentiel-domain/document';
 import { Option } from '@potentiel-libraries/monads';
-import { DateTime } from '@potentiel-domain/common';
+import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 
 import { convertReadableStreamToString } from '../../helpers/convertReadableToString';
 import { PotentielWorld } from '../../potentiel.world';
@@ -92,23 +92,31 @@ Alors(
     const { codeEIC } =
       this.gestionnaireRéseauWorld.rechercherGestionnaireRéseauFixture(raisonSociale);
 
-    // Assert on read model
-    const résultat = await mediator.send<Raccordement.ConsulterRaccordementQuery>({
-      type: 'Réseau.Raccordement.Query.ConsulterRaccordement',
-      data: {
-        identifiantProjetValue: identifiantProjet.formatter(),
-      },
-    });
+    await vérifierGestionnaireAttribué.call(
+      this,
+      identifiantProjet,
+      GestionnaireRéseau.IdentifiantGestionnaireRéseau.convertirEnValueType(codeEIC),
+    );
+  },
+);
 
-    if (Option.isNone(résultat)) {
-      throw new Error('Raccordement inconnu');
-    }
+Alors(
+  `le projet lauréat devrait avoir un raccordement attribué au gestionnaire de réseau`,
+  async function (this: PotentielWorld) {
+    const identifiantProjet = this.lauréatWorld.identifiantProjet;
 
-    expect(
-      résultat.identifiantGestionnaireRéseau?.estÉgaleÀ(
-        GestionnaireRéseau.IdentifiantGestionnaireRéseau.convertirEnValueType(codeEIC),
-      ),
-    ).to.be.true;
+    const { commune, codePostal } = this.candidatureWorld.importerCandidature.values.localitéValue;
+    const codeEIC = Option.match(
+      this.gestionnaireRéseauWorld.rechercherOREParVille({ commune, codePostal }),
+    )
+      .some((c) => c.codeEIC)
+      .none(() => '');
+
+    await vérifierGestionnaireAttribué.call(
+      this,
+      identifiantProjet,
+      GestionnaireRéseau.IdentifiantGestionnaireRéseau.convertirEnValueType(codeEIC),
+    );
   },
 );
 
@@ -117,23 +125,11 @@ Alors(
   async function (this: PotentielWorld, nomProjet: string) {
     const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
 
-    // Assert on read model
-    const résultat = await mediator.send<Raccordement.ConsulterRaccordementQuery>({
-      type: 'Réseau.Raccordement.Query.ConsulterRaccordement',
-      data: {
-        identifiantProjetValue: identifiantProjet.formatter(),
-      },
-    });
-
-    if (Option.isNone(résultat)) {
-      throw new Error('Raccordement inconnu');
-    }
-
-    expect(
-      résultat.identifiantGestionnaireRéseau?.estÉgaleÀ(
-        GestionnaireRéseau.IdentifiantGestionnaireRéseau.inconnu,
-      ),
-    ).to.be.true;
+    await vérifierGestionnaireAttribué.call(
+      this,
+      identifiantProjet,
+      GestionnaireRéseau.IdentifiantGestionnaireRéseau.inconnu,
+    );
   },
 );
 
@@ -308,3 +304,27 @@ Alors(
     });
   },
 );
+
+async function vérifierGestionnaireAttribué(
+  this: PotentielWorld,
+  identifiantProjet: IdentifiantProjet.ValueType,
+  identifiantGestionnaireRéseau: GestionnaireRéseau.IdentifiantGestionnaireRéseau.ValueType,
+) {
+  await waitForExpect(async () => {
+    // Assert on read model
+    const résultat = await mediator.send<Raccordement.ConsulterRaccordementQuery>({
+      type: 'Réseau.Raccordement.Query.ConsulterRaccordement',
+      data: {
+        identifiantProjetValue: identifiantProjet.formatter(),
+      },
+    });
+
+    if (Option.isNone(résultat)) {
+      throw new Error('Raccordement inconnu');
+    }
+
+    expect(résultat.identifiantGestionnaireRéseau?.codeEIC).to.eq(
+      identifiantGestionnaireRéseau?.codeEIC,
+    );
+  });
+}

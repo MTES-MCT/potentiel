@@ -3,11 +3,13 @@ Fonctionnalité: Attribuer un gestionnaire de réseau au raccordement d'un proje
 
     Contexte:
         Etant donné le gestionnaire de réseau "EDF Corse"
+        Etant donné le gestionnaire de réseau "Arc Energies Maurienne"
+        Etant donné le gestionnaire de réseau "Enedis"
+        Etant donné le référentiel ORE
         Et le projet lauréat "Du boulodrome de Marseille"
 
-    Scénario: Un gestionnaire de réseau est attribué au raccordement d'un projet lauréat
-        Quand le gestionnaire de réseau "EDF Corse" est attribué au raccordement du projet lauréat "Du boulodrome de Marseille"
-        Alors le projet "Du boulodrome de Marseille" devrait avoir un raccordement attribué au gestionnaire de réseau "EDF Corse"
+    Scénario: Un gestionnaire de réseau est automatiquement attribué au raccordement d'un projet lauréat
+        Alors le projet lauréat devrait avoir un raccordement attribué au gestionnaire de réseau
 
     Scénario: Un gestionnaire de réseau inconnu est attribué au raccordement d'un projet lauréat
         Quand le gestionnaire de réseau inconnu est attribué au raccordement du projet lauréat "Du boulodrome de Marseille"

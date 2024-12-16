@@ -141,3 +141,4 @@ export * from './raccordement.entity';
 
 // Saga
 export * as RaccordementSaga from './raccordement.saga';
+export { RécupererGRDParVillePort } from './raccordement.saga';

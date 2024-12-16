@@ -1,10 +1,9 @@
-import { faker } from '@faker-js/faker';
-
 import { Candidature } from '@potentiel-domain/candidature';
 import { IdentifiantProjet } from '@potentiel-domain/common';
 import { appelsOffreData } from '@potentiel-domain/inmemory-referential';
 
 import { AbstractFixture, DeepPartial } from '../../fixture';
+import { cities, faker } from '../../faker';
 
 interface ImporterCandidature {
   identifiantProjet: string;
@@ -43,10 +42,7 @@ export class ImporterCandidatureFixture
     const localitéValue = {
       adresse1: faker.location.streetAddress(),
       adresse2: faker.location.secondaryAddress(),
-      codePostal: faker.location.zipCode(),
-      commune: faker.location.city(),
-      région: faker.location.state(),
-      département: faker.location.state(),
+      ...faker.helpers.arrayElement(cities),
       ...values.localitéValue,
     };
 
