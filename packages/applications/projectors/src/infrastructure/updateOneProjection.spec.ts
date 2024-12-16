@@ -22,6 +22,12 @@ describe('updateOneProjection', () => {
     expect(values).to.deep.eq(['"hello"']);
   });
 
+  test(`single null key`, () => {
+    const [query, values] = getUpdateClause<TestEntity>({ foo: undefined }, 1);
+    expect(query).to.eq("update domain_views.projection set value=jsonb_set(value,'{foo}',$2)");
+    expect(values).to.deep.eq(['null']);
+  });
+
   test(`single number key`, () => {
     const [query, values] = getUpdateClause<TestEntity>({ bar: 1 }, 1);
     expect(query).to.eq("update domain_views.projection set value=jsonb_set(value,'{bar}',$2)");

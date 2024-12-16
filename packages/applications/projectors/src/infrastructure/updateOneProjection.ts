@@ -30,7 +30,7 @@ export const updateOneProjection = async <TProjection extends Entity>(
  * startIndex allows to shift the variable ($1,...)
  */
 export const getUpdateClause = <TProjection extends Entity>(
-  readModel: AtLeastOne<Omit<TProjection, 'type'>>,
+  readModel: Partial<Omit<TProjection, 'type'>>,
   startIndex: number,
 ): [string, Array<unknown>] => {
   const flatReadModel = flatten(readModel) as Record<string, unknown>;
@@ -41,7 +41,7 @@ export const getUpdateClause = <TProjection extends Entity>(
     'value',
   );
   const values = Object.values(flatReadModel).map((value) =>
-    typeof value === 'string' ? `"${value}"` : value,
+    typeof value === 'undefined' ? 'null' : typeof value === 'string' ? `"${value}"` : value,
   );
   return [`update domain_views.projection set value=${jsonb_set}`, values];
 };
