@@ -23,10 +23,10 @@ export class UtilisateurWorld {
   get drealFixture() {
     return this.#drealFixture;
   }
-  #grdFicture: GRDFixture;
+  #grdFixture: GRDFixture;
 
-  get grdFicture() {
-    return this.#grdFicture;
+  get grdFixture() {
+    return this.#grdFixture;
   }
 
   #adminFixture: AdminFixture;
@@ -45,7 +45,7 @@ export class UtilisateurWorld {
     this.#porteurFixture = new PorteurFixture();
     this.#validateurFixture = new ValidateurFixture();
     this.#drealFixture = new DREALFixture();
-    this.#grdFicture = new GRDFixture();
+    this.#grdFixture = new GRDFixture();
     this.#adminFixture = new AdminFixture();
     this.#systemFixture = new SystemFixture();
   }
@@ -57,7 +57,7 @@ export class UtilisateurWorld {
       case 'dreal':
         return this.drealFixture.email;
       case 'grd':
-        return this.grdFicture.email;
+        return this.grdFixture.email;
       case 'admin':
         return this.adminFixture.email;
       case 'validateur':

@@ -90,7 +90,7 @@ Quand(
           référenceDossierValue: référenceDossierRaccordement,
           dateMiseEnServiceValue: new Date(dateMiseEnService).toISOString(),
           transmiseLeValue: DateTime.now().formatter(),
-          transmiseParValue: this.utilisateurWorld.grdFicture.email,
+          transmiseParValue: this.utilisateurWorld.grdFixture.email,
         },
       });
     } catch (e) {
