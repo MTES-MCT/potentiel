@@ -67,7 +67,7 @@ Quand(
 );
 
 Quand(
-  `le porteur transmet la date de mise en service {string} pour le dossier de raccordement du le projet lauréat {string} ayant pour référence {string}`,
+  `le gestionnaire de réseau transmet la date de mise en service {string} pour le dossier de raccordement du le projet lauréat {string} ayant pour référence {string}`,
   async function (
     this: PotentielWorld,
     dateMiseEnService: string,
@@ -89,6 +89,8 @@ Quand(
           identifiantProjetValue: identifiantProjet.formatter(),
           référenceDossierValue: référenceDossierRaccordement,
           dateMiseEnServiceValue: new Date(dateMiseEnService).toISOString(),
+          transmiseLeValue: DateTime.now().formatter(),
+          transmiseParValue: this.utilisateurWorld.grdFixture.email,
         },
       });
     } catch (e) {

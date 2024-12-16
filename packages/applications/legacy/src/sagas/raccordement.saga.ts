@@ -13,6 +13,7 @@ import { Raccordement } from '@potentiel-domain/reseau';
  */
 export type SubscriptionEvent = (
   | Raccordement.DateMiseEnServiceTransmiseEvent
+  | Raccordement.DateMiseEnServiceTransmiseV1Event
   | Raccordement.DemandeComplèteRaccordementTransmiseEvent
 ) &
   Event;
@@ -29,6 +30,7 @@ export const register = () => {
   const handler: MessageHandler<Execute> = async (event) => {
     switch (event.type) {
       case 'DateMiseEnServiceTransmise-V1':
+      case 'DateMiseEnServiceTransmise-V2':
         return new Promise<void>((resolve) => {
           publishToEventBus(
             new DateMiseEnServiceTransmise({

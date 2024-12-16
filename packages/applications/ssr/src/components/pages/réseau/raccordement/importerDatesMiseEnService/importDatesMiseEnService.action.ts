@@ -7,9 +7,11 @@ import { GestionnaireRéseau, Raccordement } from '@potentiel-domain/reseau';
 import { DomainError } from '@potentiel-domain/core';
 import { parseCsv } from '@potentiel-libraries/csv';
 import { Option } from '@potentiel-libraries/monads';
+import { DateTime } from '@potentiel-domain/common';
 
 import { ActionResult, FormAction, FormState, formAction } from '@/utils/formAction';
 import { singleDocument } from '@/utils/zod/document/singleDocument';
+import { withUtilisateur } from '@/utils/withUtilisateur';
 
 const schema = zod.object({
   identifiantGestionnaireReseau: zod.string(),
@@ -139,31 +141,34 @@ const transmettreDateDeMiseEnService = async (
   identifiantProjet: string,
   référenceDossierRaccordement: string,
   dateMiseEnService: string,
-): Promise<ActionResult['errors'][number] | undefined> => {
-  try {
-    await mediator.send<Raccordement.TransmettreDateMiseEnServiceUseCase>({
-      type: 'Réseau.Raccordement.UseCase.TransmettreDateMiseEnService',
-      data: {
-        identifiantProjetValue: identifiantProjet,
-        référenceDossierValue: référenceDossierRaccordement,
-        dateMiseEnServiceValue: new Date(
-          convertDateToCommonFormat(dateMiseEnService),
-        ).toISOString(),
-      },
-    });
-  } catch (error) {
-    if (error instanceof DomainError) {
+): Promise<ActionResult['errors'][number] | undefined> =>
+  withUtilisateur(async (utilisateur) => {
+    try {
+      await mediator.send<Raccordement.TransmettreDateMiseEnServiceUseCase>({
+        type: 'Réseau.Raccordement.UseCase.TransmettreDateMiseEnService',
+        data: {
+          identifiantProjetValue: identifiantProjet,
+          référenceDossierValue: référenceDossierRaccordement,
+          dateMiseEnServiceValue: new Date(
+            convertDateToCommonFormat(dateMiseEnService),
+          ).toISOString(),
+          transmiseLeValue: DateTime.now().formatter(),
+          transmiseParValue: utilisateur.identifiantUtilisateur.formatter(),
+        },
+      });
+    } catch (error) {
+      if (error instanceof DomainError) {
+        return {
+          key: référenceDossierRaccordement,
+          reason: error.message,
+        };
+      }
       return {
         key: référenceDossierRaccordement,
-        reason: error.message,
+        reason: 'Une erreur inconnue empêche la transmission de la date de mise en service',
       };
     }
-    return {
-      key: référenceDossierRaccordement,
-      reason: 'Une erreur inconnue empêche la transmission de la date de mise en service',
-    };
-  }
-};
+  });
 
 export const importerDatesMiseEnServiceAction = formAction(action, schema);
 async function vérifierAttributionGestionnaireRéseau(

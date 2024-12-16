@@ -3,8 +3,10 @@ import { NextRequest, NextResponse } from 'next/server';
 import * as zod from 'zod';
 
 import { Raccordement } from '@potentiel-domain/reseau';
+import { DateTime } from '@potentiel-domain/common';
 
 import { apiAction } from '@/utils/apiAction';
+import { withUtilisateur } from '@/utils/withUtilisateur';
 
 type RouteParams = {
   params: {
@@ -20,32 +22,36 @@ const schema = zod.object({
 });
 
 export const POST = (request: NextRequest, routeParams: RouteParams) =>
-  apiAction(async () => {
-    const result = schema.safeParse({
-      ...(await request.json()),
-      ...routeParams.params,
-    });
-
-    if (result.success) {
-      const { dateMiseEnService, identifiantProjet, reference } = result.data;
-      await mediator.send<Raccordement.RaccordementUseCase>({
-        type: 'Réseau.Raccordement.UseCase.TransmettreDateMiseEnService',
-        data: {
-          identifiantProjetValue: identifiantProjet,
-          référenceDossierValue: reference,
-          dateMiseEnServiceValue: new Date(dateMiseEnService).toISOString(),
-        },
+  apiAction(async () =>
+    withUtilisateur(async (utilisateur) => {
+      const result = schema.safeParse({
+        ...(await request.json()),
+        ...routeParams.params,
       });
 
-      return new NextResponse(null, { status: 200 });
-    }
+      if (result.success) {
+        const { dateMiseEnService, identifiantProjet, reference } = result.data;
+        await mediator.send<Raccordement.RaccordementUseCase>({
+          type: 'Réseau.Raccordement.UseCase.TransmettreDateMiseEnService',
+          data: {
+            identifiantProjetValue: identifiantProjet,
+            référenceDossierValue: reference,
+            dateMiseEnServiceValue: new Date(dateMiseEnService).toISOString(),
+            transmiseLeValue: DateTime.now().formatter(),
+            transmiseParValue: utilisateur.identifiantUtilisateur.formatter(),
+          },
+        });
 
-    return NextResponse.json(
-      {
-        error: result.error.format(),
-      },
-      {
-        status: 400,
-      },
-    );
-  });
+        return new NextResponse(null, { status: 200 });
+      }
+
+      return NextResponse.json(
+        {
+          error: result.error.format(),
+        },
+        {
+          status: 400,
+        },
+      );
+    }),
+  );

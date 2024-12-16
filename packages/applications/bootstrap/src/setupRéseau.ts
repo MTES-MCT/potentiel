@@ -60,6 +60,7 @@ export const setupRéseau = async () => {
         'RebuildTriggered',
         'AccuséRéceptionDemandeComplèteRaccordementTransmis-V1',
         'DateMiseEnServiceTransmise-V1',
+        'DateMiseEnServiceTransmise-V2',
         'DemandeComplèteDeRaccordementTransmise-V1',
         'DemandeComplèteDeRaccordementTransmise-V2',
         'DemandeComplèteRaccordementModifiée-V1',

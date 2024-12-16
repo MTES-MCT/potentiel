@@ -18,7 +18,11 @@ export const registerSagas = async () => {
 
   const unsubscribeRaccordement = await subscribe<RaccordementSaga.SubscriptionEvent>({
     name: 'legacy-saga',
-    eventType: ['DateMiseEnServiceTransmise-V1', 'DemandeComplèteDeRaccordementTransmise-V2'],
+    eventType: [
+      'DateMiseEnServiceTransmise-V1',
+      'DateMiseEnServiceTransmise-V2',
+      'DemandeComplèteDeRaccordementTransmise-V2',
+    ],
     eventHandler: async (event) => {
       await mediator.send<RaccordementSaga.Execute>({
         type: 'System.Saga.Raccordement',

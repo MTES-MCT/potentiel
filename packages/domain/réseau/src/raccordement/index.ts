@@ -114,7 +114,10 @@ export type {
   PropositionTechniqueEtFinancièreModifiéeEvent,
   PropositionTechniqueEtFinancièreModifiéeEventV1,
 } from './modifier/modifierPropositiontechniqueEtFinancière.behavior';
-export type { DateMiseEnServiceTransmiseEvent } from './transmettre/transmettreDateMiseEnService.behavior';
+export type {
+  DateMiseEnServiceTransmiseEvent,
+  DateMiseEnServiceTransmiseV1Event,
+} from './transmettre/transmettreDateMiseEnService.behavior';
 export type {
   DemandeComplèteRaccordementTransmiseEvent,
   AccuséRéceptionDemandeComplèteRaccordementTransmisEventV1,

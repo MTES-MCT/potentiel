@@ -5,8 +5,10 @@ import * as zod from 'zod';
 
 import { Raccordement } from '@potentiel-domain/reseau';
 import { Routes } from '@potentiel-applications/routes';
+import { DateTime } from '@potentiel-domain/common';
 
 import { FormAction, FormState, formAction } from '@/utils/formAction';
+import { withUtilisateur } from '@/utils/withUtilisateur';
 
 const schema = zod.object({
   identifiantProjet: zod.string().min(1),
@@ -19,20 +21,23 @@ export type TransmettreDateMiseEnServiceStateFormKeys = keyof zod.infer<typeof s
 const action: FormAction<FormState, typeof schema> = async (
   _,
   { identifiantProjet, referenceDossier, dateMiseEnService },
-) => {
-  await mediator.send<Raccordement.RaccordementUseCase>({
-    type: 'Réseau.Raccordement.UseCase.TransmettreDateMiseEnService',
-    data: {
-      identifiantProjetValue: identifiantProjet,
-      référenceDossierValue: referenceDossier,
-      dateMiseEnServiceValue: new Date(dateMiseEnService).toISOString(),
-    },
-  });
+) =>
+  withUtilisateur(async (utilisateur) => {
+    await mediator.send<Raccordement.RaccordementUseCase>({
+      type: 'Réseau.Raccordement.UseCase.TransmettreDateMiseEnService',
+      data: {
+        identifiantProjetValue: identifiantProjet,
+        référenceDossierValue: referenceDossier,
+        dateMiseEnServiceValue: new Date(dateMiseEnService).toISOString(),
+        transmiseLeValue: DateTime.now().formatter(),
+        transmiseParValue: utilisateur.identifiantUtilisateur.formatter(),
+      },
+    });
 
-  return {
-    status: 'success',
-    redirect: { url: Routes.Raccordement.détail(identifiantProjet) },
-  };
-};
+    return {
+      status: 'success',
+      redirection: { url: Routes.Raccordement.détail(identifiantProjet) },
+    };
+  });
 
 export const transmettreDateMiseEnServiceAction = formAction(action, schema);

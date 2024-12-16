@@ -53,6 +53,8 @@ EtantDonné(
       },
     });
 
+    this.utilisateurWorld.grdFixture.créer({ nom: raisonSociale });
+
     this.gestionnaireRéseauWorld.gestionnairesRéseauFixtures.set(raisonSociale, {
       codeEIC,
       raisonSociale,
