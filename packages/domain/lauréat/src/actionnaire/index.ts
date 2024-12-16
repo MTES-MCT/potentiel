@@ -45,6 +45,7 @@ export type {
 // Event
 export type { ActionnaireEvent } from './actionnaire.aggregate';
 export type { ChangementActionnaireDemandéEvent } from './demanderChangement/demandeChangement.behavior';
+export type { DemandeChangementActionnaireAnnuléEvent } from './annulerDemandeChangement/annulerDemandeChangement.behavior';
 
 // Saga
 export * as ActionnaireSaga from './actionnaire.saga';
