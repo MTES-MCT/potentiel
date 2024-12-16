@@ -42,15 +42,22 @@ export const convertirEnValueType = (value: string): ValueType => {
       return this.statut === valueType.statut;
     },
     vérifierQueLeChangementDeStatutEstPossibleEn(nouveauStatut: ValueType) {
-      if (nouveauStatut.estÉgaleÀ(convertirEnValueType(this.statut))) {
-        throw new ChangementActionnaireAvecLeMêmeStatutErreur();
-      }
-      if (nouveauStatut.estAnnulé() && !this.estEnCours) {
-        throw new ChangementActionnaireInexistanteErreur();
-      }
-      if (nouveauStatut.estAccordé() || nouveauStatut.estRejeté()) {
-        if (!this.estEnCours() || this.estAnnulé()) {
-          throw new ChangementActionnaireInexistanteErreur();
+      if (nouveauStatut.estEnCours() && this.estEnCours()) {
+        throw new DemandeChangementActionnaireDéjàEnCoursErreur();
+      } else {
+        const demandeDevraitÊtreEnCours =
+          nouveauStatut.estAccordé() || nouveauStatut.estAnnulé() || nouveauStatut.estRejeté();
+
+        if (demandeDevraitÊtreEnCours) {
+          if (this.estAccordé()) {
+            throw new DemandeChangementActionnaireDéjàAccordéeErreur();
+          }
+          if (this.estAnnulé()) {
+            throw new DemandeChangementActionnaireDéjàAnnuléeErreur();
+          }
+          if (this.estRejeté()) {
+            throw new DemandeChangementActionnaireDéjàRejetéeErreur();
+          }
         }
       }
     },
@@ -78,14 +85,26 @@ class StatutChangementActionnaireInvalideError extends InvalidOperationError {
   }
 }
 
-class ChangementActionnaireAvecLeMêmeStatutErreur extends InvalidOperationError {
+class DemandeChangementActionnaireDéjàAccordéeErreur extends InvalidOperationError {
   constructor() {
-    super(`Le statut de la demande de changement est identique`);
+    super(`La demande de changement d'actionnaire a déjà été accordée`);
   }
 }
 
-class ChangementActionnaireInexistanteErreur extends InvalidOperationError {
+class DemandeChangementActionnaireDéjàRejetéeErreur extends InvalidOperationError {
   constructor() {
-    super(`Aucune demande de changement n'est en cours`);
+    super(`La demande de changement d'actionnaire a déjà été rejetée`);
+  }
+}
+
+class DemandeChangementActionnaireDéjàAnnuléeErreur extends InvalidOperationError {
+  constructor() {
+    super(`La demande de changement d'actionnaire a déjà été annulée`);
+  }
+}
+
+class DemandeChangementActionnaireDéjàEnCoursErreur extends InvalidOperationError {
+  constructor() {
+    super(`Une demande de changement est déjà en cours`);
   }
 }

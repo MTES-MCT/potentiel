@@ -1,5 +1,7 @@
 import { AnnulerDemandeChangementActionnaireCommand } from './annulerDemandeChangement/annulerDemandeChangement.command';
 import { AnnulerDemandeChangementActionnaireUseCase } from './annulerDemandeChangement/annulerDemandeChangement.usecase';
+import { AccorderDemandeChangementActionnaireCommand } from './accorderDemandeChangement/accorderDemandeChangement.command';
+import { AccorderDemandeChangementActionnaireUseCase } from './accorderDemandeChangement/accorderDemandeChangement.usecase';
 import {
   ConsulterActionnaireQuery,
   ConsulterActionnaireReadModel,
@@ -7,7 +9,7 @@ import {
 import {
   ConsulterChangementActionnaireQuery,
   ConsulterChangementActionnaireReadModel,
-} from './consulterChangement/consulterChangementActionnaire.query';
+} from './consulterDemandeChangement/consulterChangementActionnaire.query';
 import { DemanderChangementUseCase } from './demanderChangement/demandeChangement.usecase';
 import { ImporterActionnaireCommand } from './importer/importerActionnaire.command';
 import { ModifierActionnaireCommand } from './modifier/modifierActionnaire.command';
@@ -24,22 +26,26 @@ export type { ConsulterActionnaireReadModel, ConsulterChangementActionnaireReadM
 export type ActionnaireUseCase =
   | ModifierActionnaireUseCase
   | DemanderChangementUseCase
-  | AnnulerDemandeChangementActionnaireUseCase;
+  | AnnulerDemandeChangementActionnaireUseCase
+  | AccorderDemandeChangementActionnaireUseCase;
 export type {
   ModifierActionnaireUseCase,
   DemanderChangementUseCase,
   AnnulerDemandeChangementActionnaireUseCase,
+  AccorderDemandeChangementActionnaireUseCase,
 };
 
 // Command
 export type ActionnaireCommand =
   | ImporterActionnaireCommand
   | ModifierActionnaireCommand
-  | AnnulerDemandeChangementActionnaireCommand;
+  | AnnulerDemandeChangementActionnaireCommand
+  | AccorderDemandeChangementActionnaireCommand;
 export type {
   ImporterActionnaireCommand,
   ModifierActionnaireCommand,
   AnnulerDemandeChangementActionnaireCommand,
+  AccorderDemandeChangementActionnaireCommand,
 };
 
 // Event
@@ -48,6 +54,7 @@ export type { ActionnaireImportéEvent } from './importer/importerActionnaire.be
 export type { ActionnaireModifiéEvent } from './modifier/modifierActionnaire.behavior';
 export type { ChangementActionnaireDemandéEvent } from './demanderChangement/demandeChangement.behavior';
 export type { DemandeChangementActionnaireAnnuléEvent } from './annulerDemandeChangement/annulerDemandeChangement.behavior';
+export type { DemandeChangementActionnaireAccordéeEvent } from './accorderDemandeChangement/accorderDemandeChangement.behavior.ts';
 
 // Saga
 export * as ActionnaireSaga from './actionnaire.saga';

@@ -6,16 +6,28 @@ import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 
 import { PotentielWorld } from '../../../../potentiel.world';
 
-import { demanderChangementActionnaire } from './actionnaire.when';
+import { accorderChangementActionnaire, demanderChangementActionnaire } from './actionnaire.when';
 
 EtantDonné(
-  "une demande de changement de l'actionnaire en cours pour le projet lauréat",
+  "une demande de changement d'actionnaire en cours pour le projet lauréat",
   async function (this: PotentielWorld) {
     await demanderChangementActionnaire.call(
       this,
       'lauréat',
       this.utilisateurWorld.adminFixture.email,
     );
+  },
+);
+
+EtantDonné(
+  "un changement d'actionnaire accordé pour le projet lauréat",
+  async function (this: PotentielWorld) {
+    await demanderChangementActionnaire.call(
+      this,
+      'lauréat',
+      this.utilisateurWorld.adminFixture.email,
+    );
+    await accorderChangementActionnaire.call(this, this.utilisateurWorld.drealFixture.email);
   },
 );
 

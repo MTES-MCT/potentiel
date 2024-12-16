@@ -44,8 +44,8 @@ export async function demanderChangement(
     throw new ActionnaireIdentifiqueError();
   }
 
-  if (this.statutDemande) {
-    this.statutDemande.vérifierQueLeChangementDeStatutEstPossibleEn(
+  if (this.demande) {
+    this.demande.statutDemande.vérifierQueLeChangementDeStatutEstPossibleEn(
       StatutChangementActionnaire.demandé,
     );
   }
@@ -67,6 +67,12 @@ export async function demanderChangement(
   await this.publish(event);
 }
 
-export function applyChangementActionnaireDemandé(this: ActionnaireAggregate) {
-  this.statutDemande = StatutChangementActionnaire.demandé;
+export function applyChangementActionnaireDemandé(
+  this: ActionnaireAggregate,
+  { payload: { actionnaire } }: ChangementActionnaireDemandéEvent,
+) {
+  this.demande = {
+    statutDemande: StatutChangementActionnaire.demandé,
+    nouvelActionnaire: actionnaire,
+  };
 }

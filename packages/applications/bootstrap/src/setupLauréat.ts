@@ -88,6 +88,7 @@ export const setupLauréat = async ({ sendEmail }: SetupLauréatDependencies) =>
       'ActionnaireModifié-V1',
       'ChangementActionnaireDemandé-V1',
       'DemandeChangementActionnaireAnnulée-V1',
+      'DemandeChangementActionnaireAccordée-V1',
     ],
     eventHandler: async (event) => {
       await mediator.send<ActionnaireProjector.Execute>({

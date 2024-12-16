@@ -1,4 +1,4 @@
-import { DomainError } from '@potentiel-domain/core';
+import { DomainError, InvalidOperationError } from '@potentiel-domain/core';
 
 export class ActionnaireIdentifiqueError extends DomainError {
   constructor() {
@@ -12,8 +12,8 @@ export class DemandeDeChangementEnCoursError extends DomainError {
   }
 }
 
-export class DemandeDeChangementInexistanteError extends DomainError {
+export class DemandeChangementActionnaireInexistanteErreur extends InvalidOperationError {
   constructor() {
-    super("La demande de changement d'actionnaire n'existe pas");
+    super(`Aucune demande de changement d'actionnaire n'est en cours`);
   }
 }

@@ -1,9 +1,5 @@
 import { faker } from '@faker-js/faker';
 
-import { Actionnaire } from '@potentiel-domain/laureat';
-import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
-import { DocumentProjet } from '@potentiel-domain/document';
-
 import { convertStringToReadableStream } from '../../../../helpers/convertStringToReadable';
 import { AbstractFixture } from '../../../../fixture';
 
@@ -79,26 +75,5 @@ export class DemanderChangementActionnaireFixture
 
     this.aÉtéCréé = true;
     return fixture;
-  }
-
-  mapToExpected(
-    identifiantProjet: IdentifiantProjet.ValueType,
-  ): Actionnaire.ConsulterChangementActionnaireReadModel {
-    return {
-      identifiantProjet,
-      demande: {
-        statut: Actionnaire.StatutChangementActionnaire.demandé,
-
-        demandéLe: DateTime.convertirEnValueType(this.#demandéLe),
-        demandéPar: Email.convertirEnValueType(this.#demandéPar),
-        raison: this.#raison,
-        pièceJustificative: DocumentProjet.convertirEnValueType(
-          identifiantProjet.formatter(),
-          Actionnaire.TypeDocumentActionnaire.pièceJustificative.formatter(),
-          DateTime.convertirEnValueType(this.#demandéLe).formatter(),
-          this.#format,
-        ),
-      },
-    };
   }
 }
