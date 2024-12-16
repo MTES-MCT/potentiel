@@ -199,7 +199,6 @@ export const register = () => {
                   ...dossier,
                   miseEnService: {
                     dateMiseEnService: event.payload.dateMiseEnService,
-                    transmisePar: 'DGEC',
                   },
                   misÀJourLe: event.created_at,
                 };
