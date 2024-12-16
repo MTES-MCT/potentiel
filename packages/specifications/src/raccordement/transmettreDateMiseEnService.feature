@@ -1,5 +1,4 @@
 # language: fr
-@select
 Fonctionnalité: Transmettre une date de mise en service pour une demande complète de raccordement
 
     Contexte:
