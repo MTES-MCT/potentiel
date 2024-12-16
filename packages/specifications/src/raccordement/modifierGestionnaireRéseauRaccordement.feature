@@ -1,4 +1,5 @@
 # language: fr
+@select
 Fonctionnalité: Modifier le gestionnaire de réseau d'un raccordement
 
     Contexte:
@@ -6,6 +7,7 @@ Fonctionnalité: Modifier le gestionnaire de réseau d'un raccordement
         Et le référentiel ORE
         Et le projet lauréat "Du boulodrome de Marseille"
         Et le gestionnaire de réseau "Arc Energies Maurienne"
+        Et le porteur "Marcel Patoulatchi" ayant accés au projet lauréat "Du boulodrome de Marseille"
 
     Scénario: Un porteur de projet modifie le gestionnaire de réseau d'un raccordement
         Etant donné une demande complète de raccordement pour le projet lauréat transmise auprès du gestionnaire de réseau avec :
@@ -70,7 +72,6 @@ Fonctionnalité: Modifier le gestionnaire de réseau d'un raccordement
         Alors la dreal devrait être informé que "Le gestionnaire de réseau ne peut être modifié car le raccordement a une date de mise en service"
 
     Scénario: Une tâche est ajoutée lorsqu'un raccordement est modifié avec un gestionnaire réseau inconnu
-        Etant donné le porteur "Marcel Patoulatchi" ayant accés au projet lauréat "Du boulodrome de Marseille"
         Et une demande complète de raccordement pour le projet lauréat transmise auprès du gestionnaire de réseau avec :
             | La date de qualification                | 2022-10-28                                                                                            |
             | La référence du dossier de raccordement | OUE-RP-2022-000033                                                                                    |
@@ -78,3 +79,8 @@ Fonctionnalité: Modifier le gestionnaire de réseau d'un raccordement
             | Le contenu de l'accusé de réception     | Accusé de réception ayant pour référence OUE-RP-2022-000033 et la date de qualification au 2022-10-28 |
         Quand le système modifie le gestionnaire de réseau du projet avec un gestionnaire inconnu
         Alors une tâche indiquant de "mettre à jour le gestionnaire de réseau" est consultable dans la liste des tâches du porteur pour le projet
+
+    Scénario: Une tâche est achevée lorsqu'un raccordement est modifié avec un gestionnaire réseau valide
+        Etant donné une tâche indiquant de "mettre à jour le gestionnaire de réseau" pour le projet lauréat
+        Quand un porteur modifie le gestionnaire de réseau du projet avec le gestionnaire "Enedis"
+        Alors une tâche indiquant de "mettre à jour le gestionnaire de réseau" n'est plus consultable dans la liste des tâches du porteur pour le projet

@@ -149,24 +149,21 @@ EtantDonné(
   },
 );
 
-// TODO
 EtantDonné(
-  'une tâche indiquant de {string} pour le projet lauréat {string} avec gestionnaire inconnu',
+  'une tâche indiquant de {string} pour le projet lauréat',
   async function (this: PotentielWorld, tâche: RechercherTypeTâche) {
     const actualTypeTâche = this.tâcheWorld.rechercherTypeTâche(tâche);
-    // const { identifiantProjet } = this.lauréatWorld;
+    const { identifiantProjet } = this.lauréatWorld;
 
-    // try {
-    //   await mediator.send<Raccordement.RaccordementUseCase>({
-    //     type: 'Réseau.Raccordement.UseCase.AttribuerGestionnaireRéseau',
-    //     data: {
-    //       identifiantGestionnaireRéseauValue: 'inconnu',
-    //       identifiantProjetValue: identifiantProjet.formatter(),
-    //     },
-    //   });
-    // } catch (e) {
-    //   this.error = e as Error;
-    // }
+    await waitForEvents();
+    await mediator.send<Raccordement.RaccordementUseCase>({
+      type: 'Réseau.Raccordement.UseCase.ModifierGestionnaireRéseauRaccordement',
+      data: {
+        identifiantGestionnaireRéseauValue: 'inconnu',
+        identifiantProjetValue: identifiantProjet.formatter(),
+        rôleValue: this.utilisateurWorld.porteurFixture.role,
+      },
+    });
 
     await waitForExpect(async () => {
       const tâches = await mediator.send<ListerTâchesQuery>({
