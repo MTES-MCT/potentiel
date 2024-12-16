@@ -1,12 +1,26 @@
 import { AuthOptions } from 'next-auth';
 import KeycloakProvider from 'next-auth/providers/keycloak';
+import { mediator, Message } from 'mediateur';
 
 import { getLogger } from '@potentiel-libraries/monitoring';
+import { Role } from '@potentiel-domain/utilisateur';
 
 import { issuerUrl, clientId, clientSecret } from './constants';
 import { convertToken } from './convertToken';
 import { refreshAccessToken } from './refreshToken';
 const ONE_HOUR_IN_SECONDS = 60 * 60;
+
+type AjouterStatistique = Message<
+  'System.Statistiques.AjouterStatistique',
+  {
+    type: 'connexionUtilisateur';
+    données: {
+      utilisateur: {
+        role: Role.RawType;
+      };
+    };
+  }
+>;
 
 export const authOptions: AuthOptions = {
   providers: [
@@ -48,6 +62,18 @@ export const authOptions: AuthOptions = {
           logger.error(
             new Error("Impossible de convertir l'accessToken en Utilisateur", { cause: e }),
           );
+        }
+        try {
+          await mediator.send<AjouterStatistique>({
+            type: 'System.Statistiques.AjouterStatistique',
+            data: {
+              type: 'connexionUtilisateur',
+              données: { utilisateur: { role: token.utilisateur!.role.nom } },
+            },
+          });
+        } catch (e) {
+          console.log(e);
+          logger.error("Impossible d'ajouter les statistiques de connexion", { cause: e });
         }
         return token;
       }

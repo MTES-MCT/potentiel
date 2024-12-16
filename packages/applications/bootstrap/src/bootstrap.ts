@@ -17,6 +17,7 @@ import { setupEliminé } from './setupEliminé';
 import { setupTâchePlanifiée } from './setupTâchePlanifiée';
 import { setupPériode } from './setupPériode';
 import { setupHistorique } from './setupHistorique';
+import { setupStatistiques } from './setupStatistiques';
 
 let unsubscribe: (() => Promise<void>) | undefined;
 let mutex: Promise<void> | undefined;
@@ -46,6 +47,7 @@ export const bootstrap = async ({
 
     const unsetupHistorique = await setupHistorique();
 
+    setupStatistiques();
     setupUtilisateur();
     await setupAppelOffre();
     setupDocumentProjet();
