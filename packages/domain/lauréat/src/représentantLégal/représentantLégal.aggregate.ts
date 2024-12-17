@@ -6,7 +6,7 @@ import {
   GetDefaultAggregateState,
   LoadAggregate,
 } from '@potentiel-domain/core';
-import { IdentifiantProjet } from '@potentiel-domain/common';
+import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 
 import { StatutChangementReprésentantLégal, TypeReprésentantLégal } from '.';
 
@@ -25,11 +25,17 @@ import {
   ChangementReprésentantLégalDemandéEvent,
   demander,
 } from './changement/demander/demanderChangementReprésentantLégal.behavior';
+import {
+  applyChangementReprésentantLégalAccordé,
+  ChangementReprésentantLégalAccordéEvent,
+  accorder,
+} from './changement/accorder/accorderChangementReprésentantLégal.behavior';
 
 export type ReprésentantLégalEvent =
   | ReprésentantLégalImportéEvent
   | ReprésentantLégalModifiéEvent
-  | ChangementReprésentantLégalDemandéEvent;
+  | ChangementReprésentantLégalDemandéEvent
+  | ChangementReprésentantLégalAccordéEvent;
 
 export type ReprésentantLégalAggregate = Aggregate<ReprésentantLégalEvent> & {
   représentantLégal: {
@@ -41,9 +47,18 @@ export type ReprésentantLégalAggregate = Aggregate<ReprésentantLégalEvent> &
     type: TypeReprésentantLégal.ValueType;
     statut: StatutChangementReprésentantLégal.ValueType;
   };
+  accord?: {
+    nom: string;
+    type: TypeReprésentantLégal.ValueType;
+    accordéLe: DateTime.ValueType;
+    réponseSignée: {
+      format: string;
+    };
+  };
   readonly importer: typeof importer;
   readonly modifier: typeof modifier;
   readonly demander: typeof demander;
+  readonly accorder: typeof accorder;
 };
 
 export const getDefaultReprésentantLégalAggregate: GetDefaultAggregateState<
@@ -58,6 +73,7 @@ export const getDefaultReprésentantLégalAggregate: GetDefaultAggregateState<
   importer,
   modifier,
   demander,
+  accorder,
 });
 
 function apply(this: ReprésentantLégalAggregate, event: ReprésentantLégalEvent) {
@@ -70,6 +86,9 @@ function apply(this: ReprésentantLégalAggregate, event: ReprésentantLégalEve
     )
     .with({ type: 'ChangementReprésentantLégalDemandé-V1' }, (event) =>
       applyChangementReprésentantLégalDemandé.bind(this)(event),
+    )
+    .with({ type: 'ChangementReprésentantLégalAccordé-V1' }, (event) =>
+      applyChangementReprésentantLégalAccordé.bind(this)(event),
     )
     .exhaustive();
 }

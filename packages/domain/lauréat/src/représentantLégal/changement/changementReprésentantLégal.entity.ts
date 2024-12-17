@@ -22,5 +22,14 @@ export type ChangementReprésentantLégalEntity = Entity<
         format: string;
       };
     };
+    accord?: {
+      nomReprésentantLégal: string;
+      typeReprésentantLégal: string;
+      accordéLe: string;
+      accordéPar: string;
+      réponseSignée: {
+        format: string;
+      };
+    };
   }
 >;

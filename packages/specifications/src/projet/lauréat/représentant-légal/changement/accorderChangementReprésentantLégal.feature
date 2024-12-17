@@ -4,9 +4,9 @@ Fonctionnalité: Accorder la demande de changement de représentant légal d'un 
     Contexte:
         Etant donné le projet lauréat "Du boulodrome de Marseille"
         Et le porteur "Marcel Patoulatchi" ayant accés au projet lauréat "Du boulodrome de Marseille"
-        Et la DREAL associée au projet lauréat
+        Et la dreal "Dreal du sud-ouest" associée à la région du projet
 
-    @NotImplemented
+    @select
     Plan du scénario: Accorder la demande de changement de représentant légal d'un projet lauréat
         Etant donné une demande de changement de représentant légal en cours pour le projet lauréat
         Quand <l'utilisateur autorisé> accorde la demande de changement de représentant légal pour le projet lauréat

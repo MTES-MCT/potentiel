@@ -79,3 +79,33 @@ const getOptions: GetOptions = ({ potentielWorld, identifiantProjet, extra }) =>
     demandéPar: potentielWorld.utilisateurWorld.porteurFixture.email,
   };
 };
+
+Quand(
+  /(le DGEC validateur|la DREAL associée au projet) accorde la demande de changement de représentant légal pour le projet lauréat/,
+  async function (this: PotentielWorld, _: string) {
+    const identifiantProjet = this.lauréatWorld.identifiantProjet.formatter();
+
+    const { accordéeLe, accordéePar, réponseSignée } =
+      this.lauréatWorld.représentantLégalWorld.changementReprésentantLégalWorld.accorderChangementReprésentantLégalFixture.créer();
+
+    const { nomReprésentantLégal, typeReprésentantLégal } =
+      this.lauréatWorld.représentantLégalWorld.changementReprésentantLégalWorld
+        .demanderChangementReprésentantLégalFixture;
+
+    try {
+      await mediator.send<ReprésentantLégal.ReprésentantLégalUseCase>({
+        type: 'Lauréat.ReprésentantLégal.UseCase.AccorderChangementReprésentantLégal',
+        data: {
+          identifiantProjetValue: identifiantProjet,
+          identifiantUtilisateurValue: accordéePar,
+          nomReprésentantLégalValue: nomReprésentantLégal,
+          typeReprésentantLégalValue: typeReprésentantLégal.formatter(),
+          réponseSignéeValue: réponseSignée,
+          dateAccordValue: accordéeLe,
+        },
+      });
+    } catch (error) {
+      this.error = error as Error;
+    }
+  },
+);
