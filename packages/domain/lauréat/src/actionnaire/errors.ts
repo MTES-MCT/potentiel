@@ -11,3 +11,9 @@ export class DemandeDeChangementEnCoursError extends DomainError {
     super('Une demande de changement est déjà en cours');
   }
 }
+
+export class DemandeDeChangementInexistanteError extends DomainError {
+  constructor() {
+    super("La demande de changement d'actionnaire n'existe pas");
+  }
+}

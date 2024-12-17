@@ -5,7 +5,6 @@ Fonctionnalité: Demander le changement de représentant légal d'un projet laur
         Etant donné le projet lauréat "Du boulodrome de Marseille"
         Et le porteur "Marcel Patoulatchi" ayant accés au projet lauréat "Du boulodrome de Marseille"
 
-    @select
     Scénario: Un porteur demande le changement de réprésentant légal d'un projet lauréat
         Etant donné la dreal "Dreal du sud-ouest" associée à la région du projet
         Quand le porteur demande le changement de réprésentant pour le projet lauréat

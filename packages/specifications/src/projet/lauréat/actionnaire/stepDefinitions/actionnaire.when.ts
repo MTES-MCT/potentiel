@@ -67,7 +67,7 @@ Quand(
   "le porteur demande le changement de l'actionnaire pour le projet {lauréat-éliminé}",
   async function (this: PotentielWorld, statutProjet: 'lauréat' | 'éliminé') {
     try {
-      await DemanderChangementActionnaire.call(
+      await demanderChangementActionnaire.call(
         this,
         statutProjet,
         this.utilisateurWorld.porteurFixture.email,
@@ -82,7 +82,7 @@ Quand(
   "le porteur demande le changement de l'actionnaire avec la même valeur pour le projet lauréat",
   async function (this: PotentielWorld) {
     try {
-      await DemanderChangementActionnaire.call(
+      await demanderChangementActionnaire.call(
         this,
         'lauréat',
         this.utilisateurWorld.porteurFixture.email,
@@ -94,7 +94,18 @@ Quand(
   },
 );
 
-export async function DemanderChangementActionnaire(
+Quand(
+  "le porteur annule la demande de changement de l'actionnaire pour le projet lauréat",
+  async function (this: PotentielWorld) {
+    try {
+      await annulerChangementActionnaire.call(this, this.utilisateurWorld.porteurFixture.email);
+    } catch (error) {
+      this.error = error as Error;
+    }
+  },
+);
+
+export async function demanderChangementActionnaire(
   this: PotentielWorld,
   statutProjet: 'lauréat' | 'éliminé',
   utilisateur?: string,
@@ -126,6 +137,24 @@ export async function DemanderChangementActionnaire(
         content,
         format,
       },
+    },
+  });
+}
+
+async function annulerChangementActionnaire(this: PotentielWorld, utilisateur?: string) {
+  const identifiantProjet = this.lauréatWorld.identifiantProjet.formatter();
+
+  const { annuléeLe, annuléePar } =
+    this.lauréatWorld.actionnaireWorld.annulerDemandeChangementActionnaireFixture.créer({
+      annuléePar: utilisateur,
+    });
+
+  await mediator.send<Actionnaire.ActionnaireUseCase>({
+    type: 'Lauréat.Actionnaire.UseCase.AnnulerDemandeChangement',
+    data: {
+      dateAnnulationValue: annuléeLe,
+      identifiantUtilisateurValue: annuléePar,
+      identifiantProjetValue: identifiantProjet,
     },
   });
 }

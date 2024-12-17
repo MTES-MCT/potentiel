@@ -10,6 +10,8 @@ import { registerModifierActionnaireCommand } from './modifier/modifierActionnai
 import { registerDemanderChangementActionnaireUseCase } from './demanderChangement/demandeChangement.usecase';
 import { registerDemanderChangementActionnaireCommand } from './demanderChangement/demandeChangement.command';
 import { registerChangementActionnaireQuery } from './consulterChangement/consulterChangementActionnaire.query';
+import { registerAnnulerDemandeChangementCommand } from './annulerDemandeChangement/annulerDemandeChangement.command';
+import { registerAnnulerDemandeChangementActionnaireUseCase } from './annulerDemandeChangement/annulerDemandeChangement.usecase';
 
 export type ActionnaireQueryDependencies = ConsulterActionnaireDependencies;
 
@@ -21,9 +23,11 @@ export const registerActionnaireUseCases = ({ loadAggregate }: ActionnaireComman
   registerImporterActionnaireCommand(loadAggregate);
   registerModifierActionnaireCommand(loadAggregate);
   registerDemanderChangementActionnaireCommand(loadAggregate);
+  registerAnnulerDemandeChangementCommand(loadAggregate);
 
   registerModifierActionnaireUseCase();
   registerDemanderChangementActionnaireUseCase();
+  registerAnnulerDemandeChangementActionnaireUseCase();
 };
 
 export const registerActionnaireQueries = (dependencies: ActionnaireQueryDependencies) => {

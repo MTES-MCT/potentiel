@@ -1,10 +1,12 @@
 import { Then as Alors } from '@cucumber/cucumber';
 import { mediator } from 'mediateur';
 import waitForExpect from 'wait-for-expect';
+import { expect } from 'chai';
 
 import { mapToPlainObject } from '@potentiel-domain/core';
 import { Actionnaire } from '@potentiel-domain/laureat';
 import { IdentifiantProjet } from '@potentiel-domain/common';
+import { Option } from '@potentiel-libraries/monads';
 
 import { PotentielWorld } from '../../../../potentiel.world';
 
@@ -55,6 +57,26 @@ Alors(
       );
 
       actual.should.be.deep.equal(expected);
+    });
+  },
+);
+
+Alors(
+  "la demande de changement de l'actionnaire ne devrait plus être consultable",
+  async function (this: PotentielWorld) {
+    return waitForExpect(async () => {
+      const identifiantProjet = IdentifiantProjet.convertirEnValueType(
+        this.candidatureWorld.importerCandidature.identifiantProjet,
+      );
+
+      const actual = await mediator.send<Actionnaire.ActionnaireQuery>({
+        type: 'Lauréat.Actionnaire.Query.ConsulterChangementActionnaire',
+        data: {
+          identifiantProjet: identifiantProjet.formatter(),
+        },
+      });
+
+      expect(Option.isNone(actual));
     });
   },
 );
