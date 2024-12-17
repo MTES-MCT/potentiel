@@ -18,6 +18,13 @@ export type ConsulterChangementReprésentantLégalReadModel = {
     demandéPar: Email.ValueType;
     pièceJustificative: DocumentProjet.ValueType;
   };
+  accord?: {
+    nomReprésentantLégal: string;
+    typeReprésentantLégal: TypeReprésentantLégal.ValueType;
+    réponseSignée: DocumentProjet.ValueType;
+    accordéPar: Email.ValueType;
+    accordéLe: DateTime.ValueType;
+  };
 };
 
 export type ConsulterChangementReprésentantLégalQuery = Message<

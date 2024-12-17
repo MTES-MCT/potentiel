@@ -21,13 +21,19 @@
       "path": "../domain/tâche-planifiée"
     },
     {
-      "path": "../infrastructure/pg-event-sourcing"
+      "path": "../domain/période"
+    },
+    {
+      "path": "../libraries/file-storage"
+    },
+    {
+      "path": "../libraries/monads"
     },
     {
       "path": "../libraries/pg-helpers"
     },
     {
-      "path": "../infrastructure/pg-projections"
+      "path": "../infrastructure/pg-event-sourcing"
     },
     {
       "path": "../infrastructure/domain-adapters"
