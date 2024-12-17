@@ -53,6 +53,8 @@ export async function demander(
     throw new ReprésentantLégalTypeInconnuError();
   }
 
+  console.log('😍', this.demande);
+
   if (this.demande) {
     this.demande.statut.vérifierQueLeChangementDeStatutEstPossibleEn(
       StatutChangementReprésentantLégal.demandé,

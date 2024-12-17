@@ -4,24 +4,16 @@ import Link from 'next/link';
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 import { PlainType } from '@potentiel-domain/core';
 import { ReprésentantLégal } from '@potentiel-domain/laureat';
+import { Routes } from '@potentiel-applications/routes';
 
 import { ProjectListItemHeading } from '@/components/molecules/projet/ProjectListItemHeading';
 import { ListItem } from '@/components/molecules/ListItem';
 
 import { StatutChangementReprésentantLégalBadge } from '../StatutChangementReprésentantLégalBadge';
 
-/**
- * @todo À ajouter quand domain est prêt :
-export type ReprésentantLégalListItemProps = PlainType<ReprésentantLégal.ListerReprésentantLégalReadModel['items'][number]>; 
- */
-export type ChangementReprésentantLégalListItemProps = PlainType<{
-  identifiantProjet: IdentifiantProjet.ValueType;
-  nomProjet: string;
-  statut: ReprésentantLégal.StatutChangementReprésentantLégal.RawType;
-  misÀJourLe: {
-    date: string;
-  };
-}>;
+export type ChangementReprésentantLégalListItemProps = PlainType<
+  ReprésentantLégal.ListerChangementReprésentantLégalReadModel['items'][number]
+>;
 
 export const ChangementReprésentantLégalListItem: FC<ChangementReprésentantLégalListItemProps> = ({
   identifiantProjet,
@@ -34,23 +26,24 @@ export const ChangementReprésentantLégalListItem: FC<ChangementReprésentantL�
       <ProjectListItemHeading
         nomProjet={nomProjet}
         identifiantProjet={identifiantProjet}
-        prefix="Changement représentant légal du projet"
+        prefix="Changement du représentant légal du projet"
         misÀJourLe={DateTime.bind(misÀJourLe).formatter()}
       />
     }
     actions={
       <Link
-        /**
-         * @todo À ajouter quand domain est prêt :
-         * Route vers la page de détail de la demande de modification du représentant légal
-         */
-        href={'#'}
-        aria-label={`voir le détail du recours en statut ${statut} pour le projet ${nomProjet}`}
+        href={Routes.ReprésentantLégal.changement.détail(
+          IdentifiantProjet.bind(identifiantProjet).formatter(),
+        )}
+        aria-label={`voir le détail du changement de représentant légal en statut ${statut} pour le projet ${nomProjet}`}
       >
         voir le détail
       </Link>
     }
   >
-    <StatutChangementReprésentantLégalBadge statut={statut} small />
+    <StatutChangementReprésentantLégalBadge
+      statut={ReprésentantLégal.StatutChangementReprésentantLégal.bind(statut).formatter()}
+      small
+    />
   </ListItem>
 );

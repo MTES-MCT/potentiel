@@ -44,7 +44,7 @@ const action: FormAction<FormState, typeof schema> = async (
     return {
       status: 'success',
       redirection: {
-        url: Routes.ReprésentantLégal.demandeChangement.détail(identifiantProjet),
+        url: Routes.ReprésentantLégal.changement.détail(identifiantProjet),
         message: 'La demande de changement de représentant légal a bien été transmise',
       },
     };

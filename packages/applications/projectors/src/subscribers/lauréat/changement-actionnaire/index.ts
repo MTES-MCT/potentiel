@@ -6,6 +6,7 @@ import { Actionnaire } from '@potentiel-domain/laureat';
 
 import { handleRebuilTriggered } from './handleRebuildTriggered';
 import { handleChangementActionnaireDemandé } from './handleChangementActionnaireDemandé';
+import { handleDemandeChangementActionnaireAnnulée } from './handleDemandeChangementActionnaireAnnulée';
 
 export type SubscriptionEvent = (Actionnaire.ActionnaireEvent & Event) | RebuildTriggered;
 
@@ -16,6 +17,10 @@ export const register = () => {
     match(event)
       .with({ type: 'RebuildTriggered' }, handleRebuilTriggered)
       .with({ type: 'ChangementActionnaireDemandé-V1' }, handleChangementActionnaireDemandé)
+      .with(
+        { type: 'DemandeChangementActionnaireAnnulée-V1' },
+        handleDemandeChangementActionnaireAnnulée,
+      )
       .otherwise(() => undefined);
 
   mediator.register('System.Projector.Lauréat.ChangementActionnaire', handler);

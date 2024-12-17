@@ -3,12 +3,14 @@ import { Actionnaire } from '@potentiel-domain/laureat';
 
 import { ImporterActionnaireFixture } from './fixtures/importerActionnaire.fixture';
 import { ModifierActionnaireFixture } from './fixtures/modifierActionnaire.fixture';
-import { demanderChangementActionnaireFixture } from './fixtures/demanderChangementActionnaire.fixture';
+import { DemanderChangementActionnaireFixture } from './fixtures/demanderChangementActionnaire.fixture';
+import { AnnulerDemandeChangementActionnaireFixture } from './fixtures/annulerDemandeChangementActionnaire.fixture';
 
 export class ActionnaireWorld {
   #importerActionnaireFixture: ImporterActionnaireFixture;
   #modifierActionnaireFixture: ModifierActionnaireFixture;
-  #demanderChangementActionnaireFixture: demanderChangementActionnaireFixture;
+  #demanderChangementActionnaireFixture: DemanderChangementActionnaireFixture;
+  #annulerDemandeChangementActionnaireFixture: AnnulerDemandeChangementActionnaireFixture;
 
   get importerActionnaireFixture() {
     return this.#importerActionnaireFixture;
@@ -22,10 +24,16 @@ export class ActionnaireWorld {
     return this.#demanderChangementActionnaireFixture;
   }
 
+  get annulerDemandeChangementActionnaireFixture() {
+    return this.#annulerDemandeChangementActionnaireFixture;
+  }
+
   constructor() {
     this.#importerActionnaireFixture = new ImporterActionnaireFixture();
     this.#modifierActionnaireFixture = new ModifierActionnaireFixture();
-    this.#demanderChangementActionnaireFixture = new demanderChangementActionnaireFixture();
+    this.#demanderChangementActionnaireFixture = new DemanderChangementActionnaireFixture();
+    this.#annulerDemandeChangementActionnaireFixture =
+      new AnnulerDemandeChangementActionnaireFixture();
   }
 
   mapToExpected(

@@ -30,7 +30,7 @@ Quand(
       );
 
     try {
-      await mediator.send<ReprésentantLégal.ReprésentantLégalUseCase>({
+      await mediator.send<ReprésentantLégal.DemanderChangementReprésentantLégalUseCase>({
         type: 'Lauréat.ReprésentantLégal.UseCase.DemanderChangementReprésentantLégal',
         data: {
           identifiantProjetValue: options.identifiantProjet,
