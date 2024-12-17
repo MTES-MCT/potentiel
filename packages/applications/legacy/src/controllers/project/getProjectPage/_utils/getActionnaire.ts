@@ -18,16 +18,12 @@ export type GetActionnaireForProjectPage =
     }
   | undefined;
 
-type GetReprésentantLégal = (
-  identifiantProjet: IdentifiantProjet.ValueType,
-  role: string,
-) => Promise<GetReprésentantLégalForProjectPage>;
 
-export const getReprésentantLégal: GetReprésentantLégal = async (identifiantProjet, rôle) => {
+export const getActionnaire: GetActionnaireForProjectPage = async (identifiantProjet, rôle) => {
   try {
     const utilisateur = Role.convertirEnValueType(rôle);
 
-    const actionnaire = await mediator.send<Actionnaire.ActionnaireQuery>({
+    const actionnaire = await mediator.send<Actionnaire.ConsulterActionnaireQuery>({
       type: 'Lauréat.Actionnaire.Query.ConsulterActionnaire',
       data: { identifiantProjet: identifiantProjet.formatter() },
     });
