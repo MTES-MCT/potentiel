@@ -5,16 +5,13 @@ import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
 import { Find } from '@potentiel-domain/entity';
 import { DocumentProjet } from '@potentiel-domain/document';
 
-import {
-  ChangementActionnaireEntity,
-  StatutChangementActionnaire,
-  TypeDocumentActionnaire,
-} from '..';
+import { ActionnaireEntity, StatutChangementActionnaire, TypeDocumentActionnaire } from '..';
 
 export type ConsulterChangementActionnaireReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
-  statut: StatutChangementActionnaire.ValueType;
   demande: {
+    statut: StatutChangementActionnaire.ValueType;
+
     demandéPar: Email.ValueType;
     demandéLe: DateTime.ValueType;
     raison?: string;
@@ -46,7 +43,7 @@ export type ConsulterChangementActionnaireDependencies = {
   find: Find;
 };
 
-export const registerChangementActionnaireQuery = ({
+export const registerConsulterChangementActionnaireQuery = ({
   find,
 }: ConsulterChangementActionnaireDependencies) => {
   const handler: MessageHandler<ConsulterChangementActionnaireQuery> = async ({
@@ -54,8 +51,8 @@ export const registerChangementActionnaireQuery = ({
   }) => {
     const identifiantProjetValueType = IdentifiantProjet.convertirEnValueType(identifiantProjet);
 
-    const demandeChangementActionnaire = await find<ChangementActionnaireEntity>(
-      `changement-actionnaire|${identifiantProjetValueType.formatter()}`,
+    const demandeChangementActionnaire = await find<ActionnaireEntity>(
+      `actionnaire|${identifiantProjetValueType.formatter()}`,
     );
 
     return Option.match(demandeChangementActionnaire).some(mapToReadModel).none();
@@ -63,9 +60,15 @@ export const registerChangementActionnaireQuery = ({
   mediator.register('Lauréat.Actionnaire.Query.ConsulterChangementActionnaire', handler);
 };
 
-export const mapToReadModel = (result: ChangementActionnaireEntity) => {
+export const mapToReadModel = (result: ActionnaireEntity) => {
+  if (!result.demande) {
+    return Option.none;
+  }
+
   return {
+    identifiantProjet: IdentifiantProjet.convertirEnValueType(result.identifiantProjet),
     demande: {
+      statut: StatutChangementActionnaire.convertirEnValueType(result.demande.statut),
       demandéLe: DateTime.convertirEnValueType(result.demande.demandéLe),
       demandéPar: Email.convertirEnValueType(result.demande.demandéPar),
       raison: result.demande.raison,
@@ -101,7 +104,5 @@ export const mapToReadModel = (result: ChangementActionnaireEntity) => {
           ),
         }
       : undefined,
-    identifiantProjet: IdentifiantProjet.convertirEnValueType(result.identifiantProjet),
-    statut: StatutChangementActionnaire.convertirEnValueType(result.statut),
   } satisfies ConsulterChangementActionnaireReadModel;
 };

@@ -9,7 +9,7 @@ import { registerModifierActionnaireUseCase } from './modifier/modifierActionnai
 import { registerModifierActionnaireCommand } from './modifier/modifierActionnaire.command';
 import { registerDemanderChangementActionnaireUseCase } from './demanderChangement/demandeChangement.usecase';
 import { registerDemanderChangementActionnaireCommand } from './demanderChangement/demandeChangement.command';
-import { registerChangementActionnaireQuery } from './consulterChangement/consulterChangementActionnaire.query';
+import { registerConsulterChangementActionnaireQuery } from './consulterChangement/consulterChangementActionnaire.query';
 import { registerAnnulerDemandeChangementCommand } from './annulerDemandeChangement/annulerDemandeChangement.command';
 import { registerAnnulerDemandeChangementActionnaireUseCase } from './annulerDemandeChangement/annulerDemandeChangement.usecase';
 
@@ -32,5 +32,5 @@ export const registerActionnaireUseCases = ({ loadAggregate }: ActionnaireComman
 
 export const registerActionnaireQueries = (dependencies: ActionnaireQueryDependencies) => {
   registerConsulterActionnaireQuery(dependencies);
-  registerChangementActionnaireQuery(dependencies);
+  registerConsulterChangementActionnaireQuery(dependencies);
 };
