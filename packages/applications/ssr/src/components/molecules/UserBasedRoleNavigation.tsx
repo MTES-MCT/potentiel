@@ -62,11 +62,6 @@ const getNavigationItemsBasedOnRole = (utilisateur: Utilisateur.ValueType) => {
     },
   ];
 
-  console.log(
-    '😂 isDemandeChangementReprésentantLégalEnabled',
-    isDemandeChangementReprésentantLégalEnabled(),
-  );
-
   if (isDemandeChangementReprésentantLégalEnabled()) {
     demandesMenuLinks.push({
       text: 'Changements de représentant légal',
