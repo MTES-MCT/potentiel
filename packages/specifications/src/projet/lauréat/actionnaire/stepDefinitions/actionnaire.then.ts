@@ -1,6 +1,7 @@
 import { Then as Alors } from '@cucumber/cucumber';
 import { mediator } from 'mediateur';
 import waitForExpect from 'wait-for-expect';
+import { expect } from 'chai';
 
 import { mapToPlainObject } from '@potentiel-domain/core';
 import { Actionnaire } from '@potentiel-domain/laureat';
@@ -75,7 +76,7 @@ Alors(
         },
       });
 
-      actual.should.be.deep.equal(Option.none);
+      expect(Option.isNone(actual));
     });
   },
 );
