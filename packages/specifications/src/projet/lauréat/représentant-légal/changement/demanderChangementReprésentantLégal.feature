@@ -63,4 +63,11 @@ Fonctionnalité: Demander le changement de représentant légal d'un projet laur
         Etant donné le projet lauréat "Du boulodrome de Bordeaux" avec l'appel d'offre "PPE2 - Sol", la période "1", la famille "" et le numéro CRE "test-1"
         Et le porteur "Marcel Patoulatchi" ayant accés au projet lauréat "Du boulodrome de Bordeaux"
         Quand le porteur demande le changement de réprésentant pour le projet lauréat
-        Alors une tâche "changement de représentant légal réputé accordé" est planifiée à la date du "2024-12-03" pour le projet "Du boulodrome de Marseille"
+        Alors une tâche "changement de représentant légal réputé accordé" est planifiée à la date du "XXXX-XX-XX" pour le projet "Du boulodrome de Marseille"
+
+    @select
+    Scénario: Une tâche du type "changement de représentant légal réputé rejeté" est planifiée quand un changement est demandé pour un projet lauréat avec une période d'un appel d'offre qui ne permet pas de valider le changement automatiquement
+        Etant donné le projet lauréat "Du boulodrome de Bordeaux" avec l'appel d'offre "Eolien", la période "7", la famille "" et le numéro CRE "test-2"
+        Et le porteur "Marcel Patoulatchi" ayant accés au projet lauréat "Du boulodrome de Bordeaux"
+        Quand le porteur demande le changement de réprésentant pour le projet lauréat
+        Alors une tâche "changement de représentant légal réputé rejeté" est planifiée à la date du "XXXX-XX-XX" pour le projet "Du boulodrome de Bordeaux"
