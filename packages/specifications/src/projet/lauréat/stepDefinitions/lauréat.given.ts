@@ -21,6 +21,37 @@ EtantDonné('le projet lauréat {string}', async function (this: PotentielWorld,
 });
 
 EtantDonné(
+  `le projet lauréat {string} avec l'appel d'offre {string}, la période {string}, la famille {string} et le numéro CRE {string}`,
+  async function (
+    this: PotentielWorld,
+    nomProjet: string,
+    appelOffre: string,
+    période: string,
+    famille: string,
+    numéroCRE: string,
+  ) {
+    await importerCandidature.call(
+      this,
+      nomProjet,
+      'classé',
+      {
+        appelOffreValue: appelOffre,
+        périodeValue: période,
+        familleValue: famille,
+        numéroCREValue: numéroCRE,
+      },
+      `${appelOffre}#${période}#${famille}#${numéroCRE}`,
+    );
+
+    const dateDésignation = this.lauréatWorld.dateDésignation;
+
+    await notifierLauréat.call(this, dateDésignation);
+
+    await insérerProjetAvecDonnéesCandidature.call(this, dateDésignation, 'lauréat');
+  },
+);
+
+EtantDonné(
   'le projet lauréat sans garanties financières importées {string}',
   async function (this: PotentielWorld, nomProjet: string) {
     try {
