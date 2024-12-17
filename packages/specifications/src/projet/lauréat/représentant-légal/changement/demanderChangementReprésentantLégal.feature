@@ -57,3 +57,10 @@ Fonctionnalité: Demander le changement de représentant légal d'un projet laur
         Et une date de mise en service "2024-01-01" pour le dossier ayant comme référence "OUE-RP-2022-000033" du raccordement pour le projet lauréat
         Quand le porteur demande le changement de réprésentant pour le projet lauréat
         Alors le porteur devrait être informé que "Impossible de demander le changement de représentant légal pour un projet déjà en service"
+
+    @select
+    Scénario: Une tâche du type "changement de représentant légal réputé accordé" est planifiée quand un changement est demandé pour un projet lauréat avec une période d'un appel d'offre qui permet de valider le changement automatiquement
+        Etant donné le projet lauréat "Du boulodrome de Bordeaux" avec l'appel d'offre "PPE2 - Sol", la période "1", la famille "" et le numéro CRE "test-1"
+        Et le porteur "Marcel Patoulatchi" ayant accés au projet lauréat "Du boulodrome de Bordeaux"
+        Quand le porteur demande le changement de réprésentant pour le projet lauréat
+        Alors une tâche "changement de représentant légal réputé accordé" est planifiée à la date du "2024-12-03" pour le projet "Du boulodrome de Marseille"
