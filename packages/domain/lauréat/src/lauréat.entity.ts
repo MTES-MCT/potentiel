@@ -13,6 +13,5 @@ export type LauréatEntity = Entity<
       nom: string;
       type: ReprésentantLégal.TypeReprésentantLégal.RawType;
     };
-    actionnaire?: { nom: string; dernièreMiseÀJourLe: DateTime.RawType };
   }
 >;

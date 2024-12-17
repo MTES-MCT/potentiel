@@ -1,16 +1,17 @@
+import { DateTime } from '@potentiel-domain/common';
 import { Entity } from '@potentiel-domain/entity';
 
 export type ChangementActionnaireEntity = Entity<
-  'changement-actionnaire',
+  'actionnaire',
   {
     identifiantProjet: string;
 
-    statut: string;
-    misÀJourLe: string;
+    actionnaire: { nom: string; misÀJourLe: DateTime.RawType };
 
     demande: {
+      statut: string;
       demandéPar: string;
-      demandéLe: string;
+      demandéLe: DateTime.RawType;
       raison?: string;
       pièceJustificative: {
         format: string;
@@ -21,7 +22,7 @@ export type ChangementActionnaireEntity = Entity<
           format: string;
         };
         accordéPar: string;
-        accordéLe: string;
+        accordéLe: DateTime.RawType;
       };
 
       rejet?: {
@@ -29,7 +30,7 @@ export type ChangementActionnaireEntity = Entity<
           format: string;
         };
         rejetéPar: string;
-        rejetéLe: string;
+        rejetéLe: DateTime.RawType;
       };
     };
   }
