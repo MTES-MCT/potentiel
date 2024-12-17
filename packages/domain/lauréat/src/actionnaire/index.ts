@@ -44,6 +44,8 @@ export type {
 
 // Event
 export type { ActionnaireEvent } from './actionnaire.aggregate';
+export type { ActionnaireImportéEvent } from './importer/importerActionnaire.behavior';
+export type { ActionnaireModifiéEvent } from './modifier/modifierActionnaire.behavior';
 export type { ChangementActionnaireDemandéEvent } from './demanderChangement/demandeChangement.behavior';
 export type { DemandeChangementActionnaireAnnuléEvent } from './annulerDemandeChangement/annulerDemandeChangement.behavior';
 
@@ -55,4 +57,4 @@ export * as StatutChangementActionnaire from './statutChangementActionnaire.valu
 export * as TypeDocumentActionnaire from './typeDocumentActionnaire.valueType';
 
 // Entities
-export * from './demandeChangementActionnaire.entity';
+export * from './actionnaire.entity';

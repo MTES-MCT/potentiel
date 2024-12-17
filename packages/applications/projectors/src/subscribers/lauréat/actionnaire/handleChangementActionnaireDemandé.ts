@@ -1,6 +1,6 @@
 import { Actionnaire } from '@potentiel-domain/laureat';
 
-import { upsertProjection } from '../../../infrastructure';
+import { updateOneProjection } from '../../../infrastructure';
 
 export const handleChangementActionnaireDemandé = async ({
   payload: {
@@ -11,21 +11,15 @@ export const handleChangementActionnaireDemandé = async ({
     pièceJustificative: { format },
   },
 }: Actionnaire.ChangementActionnaireDemandéEvent) => {
-  await upsertProjection<Actionnaire.ChangementActionnaireEntity>(
-    `changement-actionnaire|${identifiantProjet}`,
-    {
-      identifiantProjet,
+  await updateOneProjection<Actionnaire.ActionnaireEntity>(`actionnaire|${identifiantProjet}`, {
+    demande: {
       statut: Actionnaire.StatutChangementActionnaire.demandé.statut,
-      misÀJourLe: demandéLe,
-
-      demande: {
-        demandéPar,
-        demandéLe,
-        raison,
-        pièceJustificative: {
-          format,
-        },
+      demandéPar,
+      demandéLe,
+      raison,
+      pièceJustificative: {
+        format,
       },
     },
-  );
+  });
 };

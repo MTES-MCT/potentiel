@@ -4,5 +4,5 @@ import { Actionnaire } from '@potentiel-domain/laureat';
 import { removeProjection } from '../../../infrastructure';
 
 export const handleRebuilTriggered = async ({ payload: { id } }: RebuildTriggered) => {
-  await removeProjection<Actionnaire.ChangementActionnaireEntity>(`changement-actionnaire|${id}`);
+  await removeProjection<Actionnaire.ActionnaireEntity>(`actionnaire|${id}`);
 };

@@ -1,14 +1,14 @@
 import { DateTime } from '@potentiel-domain/common';
 import { Entity } from '@potentiel-domain/entity';
 
-export type ChangementActionnaireEntity = Entity<
+export type ActionnaireEntity = Entity<
   'actionnaire',
   {
     identifiantProjet: string;
 
     actionnaire: { nom: string; misÀJourLe: DateTime.RawType };
 
-    demande: {
+    demande?: {
       statut: string;
       demandéPar: string;
       demandéLe: DateTime.RawType;

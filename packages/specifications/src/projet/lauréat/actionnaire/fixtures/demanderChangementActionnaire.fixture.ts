@@ -86,8 +86,9 @@ export class DemanderChangementActionnaireFixture
   ): Actionnaire.ConsulterChangementActionnaireReadModel {
     return {
       identifiantProjet,
-      statut: Actionnaire.StatutChangementActionnaire.demandé,
       demande: {
+        statut: Actionnaire.StatutChangementActionnaire.demandé,
+
         demandéLe: DateTime.convertirEnValueType(this.#demandéLe),
         demandéPar: Email.convertirEnValueType(this.#demandéPar),
         raison: this.#raison,

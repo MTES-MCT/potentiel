@@ -1,14 +1,14 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { Option } from '@potentiel-libraries/monads';
-import { IdentifiantProjet } from '@potentiel-domain/common';
 import { Find } from '@potentiel-domain/entity';
+import { IdentifiantProjet } from '@potentiel-domain/common';
 
-import { Lauréat } from '../..';
+import { ActionnaireEntity } from '..';
 
 export type ConsulterActionnaireReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
-  actionnaire: String;
+  actionnaire: string;
 };
 
 export type ConsulterActionnaireQuery = Message<
@@ -27,35 +27,23 @@ export const registerConsulterActionnaireQuery = ({ find }: ConsulterActionnaire
   const handler: MessageHandler<ConsulterActionnaireQuery> = async ({ identifiantProjet }) => {
     const identifiantProjetValueType = IdentifiantProjet.convertirEnValueType(identifiantProjet);
 
-    const lauréat = await find<Lauréat.LauréatEntity>(
-      `lauréat|${identifiantProjetValueType.formatter()}`,
-      { select: ['identifiantProjet', 'actionnaire.nom', 'actionnaire.dernièreMiseÀJourLe'] },
+    const actionnaire = await find<ActionnaireEntity>(
+      `actionnaire|${identifiantProjetValueType.formatter()}`,
+      { select: ['identifiantProjet', 'actionnaire.nom'] },
     );
 
-    return Option.match(lauréat)
-      .some((lauréat) =>
-        mapToReadModel({
-          identifiantProjet: identifiantProjetValueType,
-          actionnaire: lauréat.actionnaire,
-        }),
-      )
-      .none();
+    return Option.match(actionnaire).some(mapToReadModel).none();
   };
   mediator.register('Lauréat.Actionnaire.Query.ConsulterActionnaire', handler);
 };
 
-type MapToReadModel = (args: {
-  identifiantProjet: IdentifiantProjet.ValueType;
-  actionnaire: Lauréat.LauréatEntity['actionnaire'];
-}) => Option.Type<ConsulterActionnaireReadModel>;
-
-const mapToReadModel: MapToReadModel = ({ identifiantProjet, actionnaire }) => {
+export const mapToReadModel = ({ identifiantProjet, actionnaire }: ActionnaireEntity) => {
   if (!actionnaire) {
     return Option.none;
   }
 
   return {
-    identifiantProjet,
+    identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
     actionnaire: actionnaire.nom,
   };
 };
