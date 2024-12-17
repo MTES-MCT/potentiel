@@ -96,5 +96,32 @@ du paragraphe 2.6.`,
       noteThreshold: 41.8253968253968,
       cahiersDesChargesModifiésDisponibles: [],
     },
+    {
+      id: '2',
+      title: 'seconde',
+      certificateTemplate: 'ppe2.v2',
+      ministère: 'MCE',
+      cahierDesCharges: {
+        référence: '2024/S 490218-2024',
+      },
+      delaiDcrEnMois: { valeur: 3, texte: 'trois' },
+      familles: [
+        {
+          id: '1',
+          title: `Installations sur bâtiments, ombrières, ombrières agrivoltaïques et serres agrivoltaïques au sens du paragraphe 1.4, de puissance strictement supérieure à 500 kWc.`,
+          soumisAuxGarantiesFinancieres: 'à la candidature',
+        },
+        {
+          id: '2',
+          title: `Installations au sol de puissance strictement supérieure à 500 kWc et inférieure
+ou égale à 12 MWc pour les projets sur terrains correspondant aux cas 1 et 2 du paragraphe
+2.6 et strictement supérieure à 500 kWc pour les projets sur terrains correspondant en totalité au cas 3
+du paragraphe 2.6.`,
+          soumisAuxGarantiesFinancieres: 'à la candidature',
+        },
+      ],
+      noteThreshold: 26.62,
+      cahiersDesChargesModifiésDisponibles: [],
+    },
   ],
 };
