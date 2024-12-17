@@ -41,7 +41,7 @@ export const handleChangementReprésentantLégalDemandé = async ({
     variables: {
       nom_projet: projet.nom,
       departement_projet: projet.département,
-      url: `${baseUrl}${Routes.ReprésentantLégal.demandeChangement.détail(identifiantProjet.formatter())}`,
+      url: `${baseUrl}${Routes.ReprésentantLégal.changement.détail(identifiantProjet.formatter())}`,
     },
   });
 };

@@ -111,7 +111,7 @@ const PorteurProjetActions = ({
             )}
             {peutFaireDemandeChangementReprésentantLégal && (
               <DropdownMenuSecondaryButton.DropdownItem
-                href={Routes.ReprésentantLégal.demandeChangement.demander(identifiantProjet)}
+                href={Routes.ReprésentantLégal.changement.demander(identifiantProjet)}
               >
                 <span>Demander un changement de représentant légal</span>
               </DropdownMenuSecondaryButton.DropdownItem>

@@ -2,6 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 
 import { DateTime } from '@potentiel-domain/common';
 import { ReprésentantLégal } from '@potentiel-domain/laureat';
+import { mapToPlainObject } from '@potentiel-domain/core';
 
 import {
   ChangementReprésentantLégalListPage,
@@ -20,45 +21,39 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-const items: ChangementReprésentantLégalListPageProps['items'] = [
+const items: ChangementReprésentantLégalListPageProps['list']['items'] = [
   {
-    identifiantProjet: {
+    identifiantProjet: mapToPlainObject({
       appelOffre: `Appel d'offre 1`,
       période: `1`,
       famille: ``,
       numéroCRE: `1`,
-    },
+    }),
     nomProjet: `Nom projet 1`,
-    statut: ReprésentantLégal.StatutChangementReprésentantLégal.accordé.formatter(),
-    misÀJourLe: {
-      date: DateTime.now().formatter(),
-    },
+    statut: mapToPlainObject(ReprésentantLégal.StatutChangementReprésentantLégal.accordé),
+    misÀJourLe: mapToPlainObject(DateTime.now()),
   },
   {
-    identifiantProjet: {
+    identifiantProjet: mapToPlainObject({
       appelOffre: `Appel d'offre 2`,
       période: `2`,
       famille: ``,
       numéroCRE: `2`,
-    },
+    }),
     nomProjet: `Nom projet 2`,
-    statut: ReprésentantLégal.StatutChangementReprésentantLégal.demandé.formatter(),
-    misÀJourLe: {
-      date: DateTime.now().formatter(),
-    },
+    statut: mapToPlainObject(ReprésentantLégal.StatutChangementReprésentantLégal.demandé),
+    misÀJourLe: mapToPlainObject(DateTime.now()),
   },
   {
-    identifiantProjet: {
+    identifiantProjet: mapToPlainObject({
       appelOffre: `Appel d'offre 3`,
       période: `3`,
       famille: ``,
       numéroCRE: `3`,
-    },
+    }),
     nomProjet: `Nom projet 3`,
-    statut: ReprésentantLégal.StatutChangementReprésentantLégal.rejeté.formatter(),
-    misÀJourLe: {
-      date: DateTime.now().formatter(),
-    },
+    statut: mapToPlainObject(ReprésentantLégal.StatutChangementReprésentantLégal.rejeté),
+    misÀJourLe: mapToPlainObject(DateTime.now()),
   },
 ];
 
@@ -103,11 +98,13 @@ export const Default: Story = {
         ],
       },
     ],
-    items,
-    pagination: {
-      currentPage: 1,
-      itemsPerPage: 10,
+    list: {
+      items,
+      pagination: {
+        currentPage: 1,
+        itemsPerPage: 10,
+      },
+      total: items.length,
     },
-    total: items.length,
   },
 };
