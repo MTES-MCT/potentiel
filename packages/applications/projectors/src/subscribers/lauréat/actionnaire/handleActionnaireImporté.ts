@@ -1,11 +1,12 @@
 import { Actionnaire } from '@potentiel-domain/laureat';
 
-import { updateOneProjection } from '../../../infrastructure';
+import { upsertProjection } from '../../../infrastructure';
 
 export const handleActionnaireImporté = async ({
   payload: { identifiantProjet, actionnaire, importéLe },
 }: Actionnaire.ActionnaireImportéEvent) => {
-  await updateOneProjection<Actionnaire.ActionnaireEntity>(`actionnaire|${identifiantProjet}`, {
+  await upsertProjection<Actionnaire.ActionnaireEntity>(`actionnaire|${identifiantProjet}`, {
+    identifiantProjet,
     actionnaire: {
       nom: actionnaire,
       misÀJourLe: importéLe,

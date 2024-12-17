@@ -2,7 +2,7 @@ import { InvalidOperationError } from '@potentiel-domain/core';
 
 export type TypeDocument = 'changement-accordé' | 'pièce-justificative' | 'changement-rejeté';
 
-export type RawType = `changement-actionnaire/${TypeDocument}`;
+export type RawType = `actionnaire/${TypeDocument}`;
 
 const typeDocument: Array<TypeDocument> = [
   'changement-accordé',
@@ -20,7 +20,7 @@ export const convertirEnValueType = (value: string): ValueType => {
   return {
     type: value,
     formatter() {
-      return `changement-actionnaire/${this.type}`;
+      return `actionnaire/${this.type}`;
     },
   };
 };
