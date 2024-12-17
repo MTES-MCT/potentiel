@@ -21,14 +21,13 @@ Fonctionnalité: Accorder le changement d'actionnaire d'un projet lauréat
         Quand la DREAL associée au projet accorde le changement d'actionnaire pour le projet lauréat
         Alors l'utilisateur devrait être informé que "La demande de changement d'actionnaire a déjà été accordée"
 
+    Scénario: Impossible d'accorder le changement d'actionnaire d'un projet lauréat si la demande a déjà été annulée
+        Etant donné un changement d'actionnaire annulé pour le projet lauréat
+        Quand la DREAL associée au projet accorde le changement d'actionnaire pour le projet lauréat
+        Alors la dreal devrait être informé que "Aucune demande de changement d'actionnaire n'est en cours"
+
     @NotImplemented
     Scénario: Impossible d'accorder le changement d'actionnaire d'un projet lauréat si la demande a déjà été rejetée
         Etant donné un changement d'actionnaire rejeté pour le projet lauréat
         Quand la DREAL associée au projet accorde le changement d'actionnaire pour le projet lauréat
         Alors la dreal devrait être informée que "La demande de changement d'actionnaire a déjà été rejetée"
-
-    @NotImplemented
-    Scénario: Impossible d'accorder le changement d'actionnaire d'un projet lauréat si la demande a déjà été annulée
-        Etant donné un changement d'actionnaire annulé pour le projet lauréat
-        Quand la DREAL associée au projet accorde le changement d'actionnaire pour le projet lauréat
-        Alors la dreal devrait être informé que "La demande de changement d'actionnaire a déjà été annulée"

@@ -126,6 +126,7 @@ export async function demanderChangementActionnaire(
     statutProjet === 'lauréat'
       ? this.lauréatWorld.identifiantProjet.formatter()
       : this.eliminéWorld.identifiantProjet.formatter();
+
   const {
     pièceJustificative: { format, content },
     demandéLe,
@@ -152,7 +153,7 @@ export async function demanderChangementActionnaire(
   });
 }
 
-async function annulerChangementActionnaire(this: PotentielWorld, utilisateur?: string) {
+export async function annulerChangementActionnaire(this: PotentielWorld, utilisateur?: string) {
   const identifiantProjet = this.lauréatWorld.identifiantProjet.formatter();
 
   const { annuléeLe, annuléePar } =
