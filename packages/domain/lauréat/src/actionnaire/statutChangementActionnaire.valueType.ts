@@ -1,16 +1,15 @@
 import { InvalidOperationError, ReadonlyValueType } from '@potentiel-domain/core';
 
+import { assertUnreachable } from '../utils/assertUnreachable';
+
 export const statuts = ['accordé', 'annulé', 'demandé', 'rejeté'] as const;
 
 export type RawType = (typeof statuts)[number];
-
-const statutsEnCours: Array<RawType> = ['demandé'];
 
 export type ValueType = ReadonlyValueType<{
   statut: RawType;
   estAccordé: () => boolean;
   estRejeté: () => boolean;
-  estEnCours: () => boolean;
   estAnnulé: () => boolean;
   estDemandé: () => boolean;
   vérifierQueLeChangementDeStatutEstPossibleEn: (nouveauStatut: ValueType) => void;
@@ -24,9 +23,6 @@ export const convertirEnValueType = (value: string): ValueType => {
     },
     estAccordé() {
       return this.statut === 'accordé';
-    },
-    estEnCours() {
-      return statutsEnCours.includes(value);
     },
     estRejeté() {
       return this.statut === 'rejeté';
@@ -42,23 +38,22 @@ export const convertirEnValueType = (value: string): ValueType => {
       return this.statut === valueType.statut;
     },
     vérifierQueLeChangementDeStatutEstPossibleEn(nouveauStatut: ValueType) {
-      if (nouveauStatut.estEnCours() && this.estEnCours()) {
-        throw new DemandeChangementActionnaireDéjàEnCoursErreur();
-      } else {
-        const demandeDevraitÊtreEnCours =
-          nouveauStatut.estAccordé() || nouveauStatut.estAnnulé() || nouveauStatut.estRejeté();
-
-        if (demandeDevraitÊtreEnCours) {
-          if (this.estAccordé()) {
-            throw new DemandeChangementActionnaireDéjàAccordéeErreur();
-          }
-          if (this.estAnnulé()) {
-            throw new DemandeChangementActionnaireDéjàAnnuléeErreur();
-          }
-          if (this.estRejeté()) {
-            throw new DemandeChangementActionnaireDéjàRejetéeErreur();
-          }
+      if (this.statut === 'demandé') {
+        if (nouveauStatut.statut === 'demandé') {
+          throw new DemandeChangementActionnaireDéjàEnCoursErreur();
         }
+        return;
+      }
+
+      switch (this.statut) {
+        case 'accordé':
+          throw new DemandeChangementActionnaireDéjàAccordéeErreur();
+        case 'annulé':
+          throw new DemandeChangementActionnaireDéjàAnnuléeErreur();
+        case 'rejeté':
+          throw new DemandeChangementActionnaireDéjàRejetéeErreur();
+        default:
+          assertUnreachable(this.statut);
       }
     },
   };

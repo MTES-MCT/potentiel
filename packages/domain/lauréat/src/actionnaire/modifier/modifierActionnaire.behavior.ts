@@ -29,7 +29,7 @@ export async function modifier(
     throw new ActionnaireIdentifiqueError();
   }
 
-  if (this.demande?.statut.estEnCours()) {
+  if (this.demande?.statut.estDemandé()) {
     throw new DemandeDeChangementEnCoursError();
   }
 

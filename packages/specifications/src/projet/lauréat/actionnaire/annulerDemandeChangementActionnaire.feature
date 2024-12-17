@@ -13,7 +13,7 @@ Fonctionnalité: Demander le changement de l'actionnaire d'un projet lauréat
 
     Scénario: Impossible d'annuler la demande de changement de l'actionnaire si la demande est inexistante
         Quand le porteur annule la demande de changement de l'actionnaire pour le projet lauréat
-        Alors l'utilisateur devrait être informé que "La demande de changement d'actionnaire n'existe pas"
+        Alors l'utilisateur devrait être informé que "Aucune demande de changement d'actionnaire n'est en cours"
 
     @NotImplemented
     Scénario: Impossible d'annuler la demande de changement de l'actionnaire si la demande est acceptée
