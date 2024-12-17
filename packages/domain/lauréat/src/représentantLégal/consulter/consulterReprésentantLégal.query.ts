@@ -4,8 +4,8 @@ import { Option } from '@potentiel-libraries/monads';
 import { Find } from '@potentiel-domain/entity';
 import { IdentifiantProjet } from '@potentiel-domain/common';
 
-import { Lauréat } from '../..';
-import { TypeReprésentantLégal } from '..';
+import { ReprésentantLégal } from '../..';
+import { ReprésentantLégalEntity, TypeReprésentantLégal } from '..';
 
 export type ConsulterReprésentantLégalReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
@@ -33,15 +33,15 @@ export const registerConsulterRepresentantLegalQuery = ({
   }) => {
     const identifiantProjetValueType = IdentifiantProjet.convertirEnValueType(identifiantProjet);
 
-    const lauréat = await find<Lauréat.LauréatEntity>(
-      `lauréat|${identifiantProjetValueType.formatter()}`,
+    const représentantLégal = await find<ReprésentantLégal.ReprésentantLégalEntity>(
+      `représentant-légal|${identifiantProjetValueType.formatter()}`,
     );
 
-    return Option.match(lauréat)
-      .some((lauréat) =>
+    return Option.match(représentantLégal)
+      .some((représentantLégal) =>
         mapToReadModel({
           identifiantProjet: identifiantProjetValueType,
-          représentantLégal: lauréat.représentantLégal,
+          représentantLégal,
         }),
       )
       .none();
@@ -51,17 +51,13 @@ export const registerConsulterRepresentantLegalQuery = ({
 
 type MapToReadModel = (args: {
   identifiantProjet: IdentifiantProjet.ValueType;
-  représentantLégal: Lauréat.LauréatEntity['représentantLégal'];
+  représentantLégal: ReprésentantLégalEntity;
 }) => Option.Type<ConsulterReprésentantLégalReadModel>;
 
-const mapToReadModel: MapToReadModel = ({ identifiantProjet, représentantLégal }) => {
-  if (!représentantLégal) {
-    return Option.none;
-  }
-
-  return {
-    identifiantProjet,
-    nomReprésentantLégal: représentantLégal.nom,
-    typeReprésentantLégal: TypeReprésentantLégal.convertirEnValueType(représentantLégal!.type),
-  };
-};
+const mapToReadModel: MapToReadModel = ({ identifiantProjet, représentantLégal }) => ({
+  identifiantProjet,
+  nomReprésentantLégal: représentantLégal.nomReprésentantLégal,
+  typeReprésentantLégal: TypeReprésentantLégal.convertirEnValueType(
+    représentantLégal.typeReprésentantLégal,
+  ),
+});

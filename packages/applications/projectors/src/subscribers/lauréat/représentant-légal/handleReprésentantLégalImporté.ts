@@ -1,14 +1,15 @@
-import { Lauréat, ReprésentantLégal } from '@potentiel-domain/laureat';
+import { ReprésentantLégal } from '@potentiel-domain/laureat';
 
-import { updateOneProjection } from '../../../infrastructure';
+import { createProjection } from '../../../infrastructure';
 
 export const handleReprésentantLégalImporté = async ({
   payload: { identifiantProjet, nomReprésentantLégal },
-}: ReprésentantLégal.ReprésentantLégalImportéEvent) => {
-  await updateOneProjection<Lauréat.LauréatEntity>(`lauréat|${identifiantProjet}`, {
-    représentantLégal: {
-      nom: nomReprésentantLégal,
-      type: ReprésentantLégal.TypeReprésentantLégal.inconnu.formatter(),
+}: ReprésentantLégal.ReprésentantLégalImportéEvent) =>
+  createProjection<ReprésentantLégal.ReprésentantLégalEntity>(
+    `représentant-légal|${identifiantProjet}`,
+    {
+      identifiantProjet,
+      nomReprésentantLégal,
+      typeReprésentantLégal: ReprésentantLégal.TypeReprésentantLégal.inconnu.formatter(),
     },
-  });
-};
+  );

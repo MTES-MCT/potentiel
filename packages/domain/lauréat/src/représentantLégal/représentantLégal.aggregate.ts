@@ -55,11 +55,6 @@ export const getDefaultReprésentantLégalAggregate: GetDefaultAggregateState<
     nom: '',
     type: TypeReprésentantLégal.inconnu,
   },
-  demande: {
-    nom: '',
-    type: TypeReprésentantLégal.inconnu,
-    statut: StatutChangementReprésentantLégal.inconnu,
-  },
   importer,
   modifier,
   demander,

@@ -62,7 +62,7 @@ async function modifierReprésentantLégal(
         : {},
     );
 
-  await mediator.send<ReprésentantLégal.ReprésentantLégalUseCase>({
+  await mediator.send<ReprésentantLégal.ModifierReprésentantLégalUseCase>({
     type: 'Lauréat.ReprésentantLégal.UseCase.ModifierReprésentantLégal',
     data: {
       identifiantProjetValue: identifiantProjet,

@@ -45,10 +45,9 @@ export const registerConsulterChangementReprésentantLegalQuery = ({
     );
 
     return Option.match(changement)
-      .some(({ demande, statut }) =>
+      .some(({ demande }) =>
         mapToReadModel({
           identifiantProjet: identifiantProjetValueType,
-          statut,
           demande,
         }),
       )
@@ -62,13 +61,12 @@ export const registerConsulterChangementReprésentantLegalQuery = ({
 
 type MapToReadModel = (args: {
   identifiantProjet: IdentifiantProjet.ValueType;
-  statut: ReprésentantLégal.ChangementReprésentantLégalEntity['statut'];
   demande: ReprésentantLégal.ChangementReprésentantLégalEntity['demande'];
 }) => Option.Type<ConsulterChangementReprésentantLégalReadModel>;
 
-const mapToReadModel: MapToReadModel = ({ identifiantProjet, statut, demande }) => ({
+const mapToReadModel: MapToReadModel = ({ identifiantProjet, demande }) => ({
   identifiantProjet,
-  statut: ReprésentantLégal.StatutChangementReprésentantLégal.convertirEnValueType(statut),
+  statut: ReprésentantLégal.StatutChangementReprésentantLégal.convertirEnValueType(demande.statut),
   demande: {
     nomReprésentantLégal: demande.nomReprésentantLégal,
     typeReprésentantLégal: TypeReprésentantLégal.convertirEnValueType(

@@ -5,16 +5,6 @@ export type ReprésentantLégalEntity = Entity<
   {
     identifiantProjet: string;
     nomReprésentantLégal: string;
-    typeReprésentantLégal?: string;
-    demande?: {
-      statut: string;
-      nomReprésentantLégal: string;
-      typeReprésentantLégal: string;
-      demandéLe: string;
-      demandéPar: string;
-      piècesJustificatives: Array<{
-        format: string;
-      }>;
-    };
+    typeReprésentantLégal: string;
   }
 >;
