@@ -1,9 +1,11 @@
 import { MainNavigationProps } from '@codegouvfr/react-dsfr/MainNavigation';
 import { match, P } from 'ts-pattern';
+import { MenuProps } from '@codegouvfr/react-dsfr/MainNavigation/Menu';
 
 import { Routes } from '@potentiel-applications/routes';
 import { Utilisateur } from '@potentiel-domain/utilisateur';
 import { getContext } from '@potentiel-applications/request-context';
+import { isDemandeChangementReprésentantLégalEnabled } from '@potentiel-applications/feature-flags';
 
 import { NavLinks } from './NavLinks';
 
@@ -38,8 +40,43 @@ const menuLinks = {
   ],
 };
 
-const getNavigationItemsBasedOnRole = (utilisateur: Utilisateur.ValueType) =>
-  match(utilisateur.role.nom)
+const getNavigationItemsBasedOnRole = (utilisateur: Utilisateur.ValueType) => {
+  const demandesMenuLinks: Array<MenuProps.Link> = [
+    {
+      text: 'Toutes les demandes',
+      linkProps: {
+        href: '/admin/demandes.html',
+      },
+    },
+    {
+      text: 'Abandons',
+      linkProps: {
+        href: Routes.Abandon.lister,
+      },
+    },
+    {
+      text: 'Recours',
+      linkProps: {
+        href: Routes.Recours.lister,
+      },
+    },
+  ];
+
+  console.log(
+    '😂 isDemandeChangementReprésentantLégalEnabled',
+    isDemandeChangementReprésentantLégalEnabled(),
+  );
+
+  if (isDemandeChangementReprésentantLégalEnabled()) {
+    demandesMenuLinks.push({
+      text: 'Changements de représentant légal',
+      linkProps: {
+        href: Routes.ReprésentantLégal.changement.lister,
+      },
+    });
+  }
+
+  return match(utilisateur.role.nom)
     .returnType<MainNavigationProps['items']>()
     .with(P.union('admin', 'dgec-validateur'), () => [
       {
@@ -50,32 +87,7 @@ const getNavigationItemsBasedOnRole = (utilisateur: Utilisateur.ValueType) =>
       },
       {
         text: 'Demandes',
-        menuLinks: [
-          {
-            text: 'Toutes les demandes',
-            linkProps: {
-              href: '/admin/demandes.html',
-            },
-          },
-          {
-            text: 'Abandons',
-            linkProps: {
-              href: Routes.Abandon.lister,
-            },
-          },
-          {
-            text: 'Recours',
-            linkProps: {
-              href: Routes.Recours.lister,
-            },
-          },
-          {
-            text: 'Changements de représentant légal',
-            linkProps: {
-              href: Routes.ReprésentantLégal.changement.lister,
-            },
-          },
-        ],
+        menuLinks: demandesMenuLinks,
       },
       {
         text: 'Garanties Financières',
@@ -184,32 +196,7 @@ const getNavigationItemsBasedOnRole = (utilisateur: Utilisateur.ValueType) =>
       },
       {
         text: 'Demandes',
-        menuLinks: [
-          {
-            text: 'Toutes les demandes',
-            linkProps: {
-              href: '/admin/demandes.html',
-            },
-          },
-          {
-            text: 'Abandons',
-            linkProps: {
-              href: Routes.Abandon.lister,
-            },
-          },
-          {
-            text: 'Recours',
-            linkProps: {
-              href: Routes.Recours.lister,
-            },
-          },
-          {
-            text: 'Changements de représentant légal',
-            linkProps: {
-              href: Routes.ReprésentantLégal.changement.lister,
-            },
-          },
-        ],
+        menuLinks: demandesMenuLinks,
       },
       {
         text: 'Garanties Financières',
@@ -231,32 +218,7 @@ const getNavigationItemsBasedOnRole = (utilisateur: Utilisateur.ValueType) =>
       },
       {
         text: 'Demandes',
-        menuLinks: [
-          {
-            text: 'Mes demandes',
-            linkProps: {
-              href: '/mes-demandes.html',
-            },
-          },
-          {
-            text: 'Abandons',
-            linkProps: {
-              href: Routes.Abandon.lister,
-            },
-          },
-          {
-            text: 'Recours',
-            linkProps: {
-              href: Routes.Recours.lister,
-            },
-          },
-          {
-            text: 'Changements de représentant légal',
-            linkProps: {
-              href: Routes.ReprésentantLégal.changement.lister,
-            },
-          },
-        ],
+        menuLinks: demandesMenuLinks,
       },
       {
         text: 'Garanties Financières',
@@ -363,3 +325,4 @@ const getNavigationItemsBasedOnRole = (utilisateur: Utilisateur.ValueType) =>
       },
     ])
     .exhaustive();
+};
