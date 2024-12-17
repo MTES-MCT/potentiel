@@ -74,7 +74,9 @@ export class ActionnaireWorld {
     return {
       identifiantProjet,
       demande: {
-        statut: Actionnaire.StatutChangementActionnaire.demandé,
+        statut: this.#accorderChangementActionnaireFixture.aÉtéCréé
+          ? Actionnaire.StatutChangementActionnaire.accordé
+          : Actionnaire.StatutChangementActionnaire.demandé,
 
         demandéLe: DateTime.convertirEnValueType(
           this.#demanderChangementActionnaireFixture.demandéLe,
@@ -102,7 +104,7 @@ export class ActionnaireWorld {
 
               réponseSignée: DocumentProjet.convertirEnValueType(
                 identifiantProjet.formatter(),
-                Actionnaire.TypeDocumentActionnaire.pièceJustificative.formatter(),
+                Actionnaire.TypeDocumentActionnaire.changementAccordé.formatter(),
                 DateTime.convertirEnValueType(
                   this.#accorderChangementActionnaireFixture.accordéLe,
                 ).formatter(),

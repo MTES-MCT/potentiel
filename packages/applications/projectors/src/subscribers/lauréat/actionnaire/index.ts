@@ -4,8 +4,7 @@ import { match } from 'ts-pattern';
 import { RebuildTriggered, Event } from '@potentiel-infrastructure/pg-event-sourcing';
 import { Actionnaire } from '@potentiel-domain/laureat';
 
-import { handleDemandeChangementActionnaireAccordée } from '../changement-actionnaire/handleDemandeChangementActionnaireAccordée';
-
+import { handleDemandeChangementActionnaireAccordée } from './handleDemandeChangementActionnaireAccordée';
 import { handleRebuilTriggered } from './handleRebuildTriggered';
 import { handleChangementActionnaireDemandé } from './handleChangementActionnaireDemandé';
 import { handleDemandeChangementActionnaireAnnulée } from './handleDemandeChangementActionnaireAnnulée';

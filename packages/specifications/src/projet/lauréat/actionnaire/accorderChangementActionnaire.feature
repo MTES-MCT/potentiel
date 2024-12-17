@@ -1,5 +1,4 @@
 # language: fr
-@select
 Fonctionnalité: Accorder le changement d'actionnaire d'un projet lauréat
 
     Contexte:

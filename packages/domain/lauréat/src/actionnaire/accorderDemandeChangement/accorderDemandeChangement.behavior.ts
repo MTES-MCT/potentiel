@@ -34,7 +34,7 @@ export async function accorderDemandeChangementActionnaire(
     throw new DemandeChangementActionnaireInexistanteErreur();
   }
 
-  this.demande.statutDemande.vérifierQueLeChangementDeStatutEstPossibleEn(
+  this.demande.statut.vérifierQueLeChangementDeStatutEstPossibleEn(
     StatutChangementActionnaire.accordé,
   );
 
@@ -61,6 +61,6 @@ export function applyDemandeChangementActionnaireAccordée(
   this.actionnaire = nouvelActionnaire;
   this.demande = {
     nouvelActionnaire,
-    statutDemande: StatutChangementActionnaire.accordé,
+    statut: StatutChangementActionnaire.accordé,
   };
 }

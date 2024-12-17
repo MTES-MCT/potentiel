@@ -45,7 +45,7 @@ export async function demanderChangement(
   }
 
   if (this.demande) {
-    this.demande.statutDemande.vérifierQueLeChangementDeStatutEstPossibleEn(
+    this.demande.statut.vérifierQueLeChangementDeStatutEstPossibleEn(
       StatutChangementActionnaire.demandé,
     );
   }
@@ -72,7 +72,7 @@ export function applyChangementActionnaireDemandé(
   { payload: { actionnaire } }: ChangementActionnaireDemandéEvent,
 ) {
   this.demande = {
-    statutDemande: StatutChangementActionnaire.demandé,
+    statut: StatutChangementActionnaire.demandé,
     nouvelActionnaire: actionnaire,
   };
 }

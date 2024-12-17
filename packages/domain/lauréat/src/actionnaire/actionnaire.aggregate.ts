@@ -45,7 +45,7 @@ export type ActionnaireAggregate = Aggregate<ActionnaireEvent> & {
   identifiantProjet: IdentifiantProjet.ValueType;
   actionnaire: string;
   demande?: {
-    statutDemande: StatutChangementActionnaire.ValueType;
+    statut: StatutChangementActionnaire.ValueType;
     nouvelActionnaire: string;
   };
   importer: typeof importer;
