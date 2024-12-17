@@ -1,7 +1,6 @@
 import { AnnulerDemandeChangementActionnaireCommand } from './annulerDemandeChangement/annulerDemandeChangement.command';
 import { AnnulerDemandeChangementActionnaireUseCase } from './annulerDemandeChangement/annulerDemandeChangement.usecase';
 import { AccorderDemandeChangementActionnaireCommand } from './accorderDemandeChangement/accorderDemandeChangement.command';
-import { AccorderDemandeChangementActionnaireUseCase } from './accorderDemandeChangement/accorderDemandeChangement.usecase';
 import {
   ConsulterActionnaireQuery,
   ConsulterActionnaireReadModel,
@@ -14,6 +13,7 @@ import { DemanderChangementUseCase } from './demanderChangement/demandeChangemen
 import { ImporterActionnaireCommand } from './importer/importerActionnaire.command';
 import { ModifierActionnaireCommand } from './modifier/modifierActionnaire.command';
 import { ModifierActionnaireUseCase } from './modifier/modifierActionnaire.usecase';
+import { AccorderDemandeChangementActionnaireUseCase } from './accorderDemandeChangement/accorderDemandeChangement.usecase';
 
 // Query
 export type ActionnaireQuery = ConsulterActionnaireQuery | ConsulterChangementActionnaireQuery;
