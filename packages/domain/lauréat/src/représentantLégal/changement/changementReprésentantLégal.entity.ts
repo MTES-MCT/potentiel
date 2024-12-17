@@ -4,7 +4,6 @@ export type ChangementReprésentantLégalEntity = Entity<
   'changement-représentant-légal',
   {
     identifiantProjet: string;
-    statut: string;
     projet: {
       nom: string;
       appelOffre: string;
@@ -14,6 +13,7 @@ export type ChangementReprésentantLégalEntity = Entity<
       région: string;
     };
     demande: {
+      statut: string;
       nomReprésentantLégal: string;
       typeReprésentantLégal: string;
       demandéLe: string;

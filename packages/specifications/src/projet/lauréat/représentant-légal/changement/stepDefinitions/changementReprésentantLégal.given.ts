@@ -17,7 +17,7 @@ EtantDonné(
         },
       );
 
-    await mediator.send<ReprésentantLégal.ReprésentantLégalUseCase>({
+    await mediator.send<ReprésentantLégal.DemanderChangementReprésentantLégalUseCase>({
       type: 'Lauréat.ReprésentantLégal.UseCase.DemanderChangementReprésentantLégal',
       data: {
         identifiantProjetValue: identifiantProjet,

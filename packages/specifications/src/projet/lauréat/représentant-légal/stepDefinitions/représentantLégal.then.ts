@@ -15,12 +15,13 @@ Alors(
       const identifiantProjet = IdentifiantProjet.convertirEnValueType(
         this.candidatureWorld.importerCandidature.identifiantProjet,
       );
-      const représentantLégal = await mediator.send<ReprésentantLégal.ReprésentantLégalQuery>({
-        type: 'Lauréat.ReprésentantLégal.Query.ConsulterReprésentantLégal',
-        data: {
-          identifiantProjet: identifiantProjet.formatter(),
-        },
-      });
+      const représentantLégal =
+        await mediator.send<ReprésentantLégal.ConsulterReprésentantLégalQuery>({
+          type: 'Lauréat.ReprésentantLégal.Query.ConsulterReprésentantLégal',
+          data: {
+            identifiantProjet: identifiantProjet.formatter(),
+          },
+        });
 
       const actual = mapToPlainObject(représentantLégal);
       const expected = mapToPlainObject(
@@ -38,12 +39,13 @@ Alors(
     return waitForExpect(async () => {
       const { identifiantProjet } = this.lauréatWorld;
 
-      const représentantLégal = await mediator.send<ReprésentantLégal.ReprésentantLégalQuery>({
-        type: 'Lauréat.ReprésentantLégal.Query.ConsulterReprésentantLégal',
-        data: {
-          identifiantProjet: identifiantProjet.formatter(),
-        },
-      });
+      const représentantLégal =
+        await mediator.send<ReprésentantLégal.ConsulterReprésentantLégalQuery>({
+          type: 'Lauréat.ReprésentantLégal.Query.ConsulterReprésentantLégal',
+          data: {
+            identifiantProjet: identifiantProjet.formatter(),
+          },
+        });
 
       const actual = mapToPlainObject(représentantLégal);
       const expected = mapToPlainObject(

@@ -75,7 +75,12 @@ export default async function Page({ searchParams }: PageProps) {
           label: 'Statut',
           searchParamKey: 'statut',
           options: ReprésentantLégal.StatutChangementReprésentantLégal.statuts
-            .filter((s) => s !== 'inconnu')
+            .filter(
+              (statut) =>
+                !ReprésentantLégal.StatutChangementReprésentantLégal.convertirEnValueType(
+                  statut,
+                ).estInconnu(),
+            )
             .map((statut) => ({
               label: statut.replace('-', ' ').toLocaleLowerCase(),
               value: statut,

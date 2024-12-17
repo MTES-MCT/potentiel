@@ -55,7 +55,9 @@ export const registerListerChangementReprésentantLégalQuery = ({
         },
       },
       where: {
-        statut: Where.equal(statut),
+        demande: {
+          statut: Where.equal(statut),
+        },
         projet: {
           appelOffre: Where.equal(appelOffre),
           nom: Where.contains(nomProjet),
@@ -81,7 +83,7 @@ const mapToReadModel = (
   entity: ChangementReprésentantLégalEntity,
 ): ChangementReprésentantLégalItemReadModel => ({
   nomProjet: entity.projet.nom,
-  statut: StatutChangementReprésentantLégal.convertirEnValueType(entity.statut),
+  statut: StatutChangementReprésentantLégal.convertirEnValueType(entity.demande.statut),
   misÀJourLe: DateTime.convertirEnValueType(entity.demande.demandéLe),
   identifiantProjet: IdentifiantProjet.convertirEnValueType(entity.identifiantProjet),
 });

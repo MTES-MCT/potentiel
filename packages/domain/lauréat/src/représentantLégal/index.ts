@@ -68,7 +68,7 @@ export {
 
 // Entities
 export * from './représentantLégal.entity';
-export type { ChangementReprésentantLégalEntity } from './changement/changementReprésentantLégal.entity';
+export * from './changement/changementReprésentantLégal.entity';
 
 // Aggregate
 export { loadReprésentantLégalFactory } from './représentantLégal.aggregate';

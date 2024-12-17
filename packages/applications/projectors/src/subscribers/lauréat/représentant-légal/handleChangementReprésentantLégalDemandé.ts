@@ -49,8 +49,8 @@ export const handleChangementReprésentantLégalDemandé = async ({
         numéroCRE,
         région: candidature.localité.région,
       },
-      statut: ReprésentantLégal.StatutChangementReprésentantLégal.demandé.formatter(),
       demande: {
+        statut: ReprésentantLégal.StatutChangementReprésentantLégal.demandé.formatter(),
         nomReprésentantLégal,
         typeReprésentantLégal,
         pièceJustificative,
