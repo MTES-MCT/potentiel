@@ -35,7 +35,7 @@ export async function rejeterDemandeChangementActionnaire(
   }
 
   this.demande.statut.vérifierQueLeChangementDeStatutEstPossibleEn(
-    StatutChangementActionnaire.rejetée,
+    StatutChangementActionnaire.rejeté,
   );
 
   const event: DemandeChangementActionnaireRejetéeEvent = {
@@ -54,13 +54,6 @@ export async function rejeterDemandeChangementActionnaire(
   await this.publish(event);
 }
 
-export function applyDemandeChangementActionnaireRejetée(
-  this: ActionnaireAggregate,
-  { payload: { nouvelActionnaire } }: DemandeChangementActionnaireRejetéeEvent,
-) {
-  this.actionnaire = nouvelActionnaire;
-  this.demande = {
-    nouvelActionnaire,
-    statut: StatutChangementActionnaire.rejetée,
-  };
+export function applyDemandeChangementActionnaireRejetée(this: ActionnaireAggregate) {
+  this.demande = undefined;
 }

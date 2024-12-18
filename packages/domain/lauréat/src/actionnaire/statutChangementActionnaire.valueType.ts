@@ -27,7 +27,6 @@ export const convertirEnValueType = (value: string): ValueType => {
     estRejeté() {
       return this.statut === 'rejeté';
     },
-
     estAnnulé() {
       return this.statut === 'annulé';
     },
