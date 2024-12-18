@@ -39,7 +39,7 @@ export const getReprésentantLégal: GetReprésentantLégal = async (identifiant
       });
 
     if (Option.isSome(représentantLégal)) {
-      const featureActivated = isDemandeChangementReprésentantLégalEnabled();
+      const featureDemandeChangementReprésentantLégalEnabled = isDemandeChangementReprésentantLégalEnabled();
 
       const demandeChangementExistante = await getChangementReprésentantLégal(identifiantProjet);
 
