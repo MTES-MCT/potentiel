@@ -33,8 +33,8 @@ export const DétailsChangementReprésentantLégalPage: FC<
   DétailsChangementReprésentantLégalPageProps
 > = ({
   identifiantProjet,
-  statut,
   demande: {
+    statut,
     nomReprésentantLégal,
     typeReprésentantLégal,
     pièceJustificative,

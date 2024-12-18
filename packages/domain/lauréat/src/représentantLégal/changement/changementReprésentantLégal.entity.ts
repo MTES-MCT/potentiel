@@ -21,14 +21,15 @@ export type ChangementReprésentantLégalEntity = Entity<
       pièceJustificative: {
         format: string;
       };
-    };
-    accord?: {
-      nomReprésentantLégal: string;
-      typeReprésentantLégal: string;
-      accordéLe: string;
-      accordéPar: string;
-      réponseSignée: {
-        format: string;
+
+      accord?: {
+        nomReprésentantLégal: string;
+        typeReprésentantLégal: string;
+        accordéLe: string;
+        accordéPar: string;
+        réponseSignée: {
+          format: string;
+        };
       };
     };
   }

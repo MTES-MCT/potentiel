@@ -31,8 +31,8 @@ export class ChangementReprésentantLégalWorld {
   ): ReprésentantLégal.ConsulterChangementReprésentantLégalReadModel {
     const expected: ReprésentantLégal.ConsulterChangementReprésentantLégalReadModel = {
       identifiantProjet,
-      statut: statut ?? this.#demanderChangementReprésentantLégalFixture.statut,
       demande: {
+        statut: statut ?? this.#demanderChangementReprésentantLégalFixture.statut,
         nomReprésentantLégal: this.#demanderChangementReprésentantLégalFixture.nomReprésentantLégal,
         typeReprésentantLégal:
           this.#demanderChangementReprésentantLégalFixture.typeReprésentantLégal,
@@ -52,7 +52,7 @@ export class ChangementReprésentantLégalWorld {
     };
 
     if (this.accorderChangementReprésentantLégalFixture.aÉtéCréé) {
-      expected.accord = {
+      expected.demande.accord = {
         nomReprésentantLégal: this.accorderChangementReprésentantLégalFixture.nomReprésentantLégal,
         typeReprésentantLégal:
           this.accorderChangementReprésentantLégalFixture.typeReprésentantLégal,

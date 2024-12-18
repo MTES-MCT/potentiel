@@ -29,8 +29,8 @@ export const Demandé: Story = {
   args: {
     identifiantProjet,
     role: mapToPlainObject(Role.porteur),
-    statut: mapToPlainObject(ReprésentantLégal.StatutChangementReprésentantLégal.demandé),
     demande: {
+      statut: mapToPlainObject(ReprésentantLégal.StatutChangementReprésentantLégal.demandé),
       nomReprésentantLégal: 'Nouveau représentant légal',
       typeReprésentantLégal: mapToPlainObject(
         ReprésentantLégal.TypeReprésentantLégal.personnePhysique,
