@@ -1,6 +1,6 @@
 import { randomUUID } from 'crypto';
 
-import { Given as EtantDonné } from '@cucumber/cucumber';
+import { DataTable, Given as EtantDonné } from '@cucumber/cucumber';
 import { mediator } from 'mediateur';
 
 import { executeQuery } from '@potentiel-libraries/pg-helpers';
@@ -77,6 +77,30 @@ EtantDonné(
     } catch (error) {
       this.error = error as Error;
     }
+  },
+);
+
+EtantDonné(
+  'le projet lauréat {string} avec :',
+  async function (this: PotentielWorld, nomProjet: string, table: DataTable) {
+    const exemple = table.rowsHash();
+
+    const data = this.candidatureWorld.mapExempleToFixtureValues(exemple);
+
+    const identifiantProjet =
+      data.appelOffreValue && data.périodeValue && data.numéroCREValue
+        ? IdentifiantProjet.convertirEnValueType(
+            `${data.appelOffreValue}#${data.périodeValue}#${data.familleValue ?? ''}#${data.numéroCREValue}`,
+          ).formatter()
+        : undefined;
+
+    await importerCandidature.call(this, nomProjet, 'classé', data, identifiantProjet);
+
+    const dateDésignation = this.lauréatWorld.dateDésignation;
+
+    await notifierLauréat.call(this, dateDésignation);
+
+    await insérerProjetAvecDonnéesCandidature.call(this, dateDésignation, 'lauréat');
   },
 );
 

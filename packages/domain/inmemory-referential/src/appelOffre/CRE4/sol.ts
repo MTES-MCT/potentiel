@@ -182,6 +182,11 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
       ],
       abandonAvecRecandidature: true,
       choisirNouveauCahierDesCharges: true,
+      changement: {
+        représentantLégal: {
+          typeTâchePlanifiée: 'représentant-légal.changement-réputé-accordé',
+        },
+      },
     },
     {
       id: '2',
@@ -243,6 +248,11 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
       ],
       abandonAvecRecandidature: true,
       choisirNouveauCahierDesCharges: true,
+      changement: {
+        représentantLégal: {
+          typeTâchePlanifiée: 'représentant-légal.changement-réputé-accordé',
+        },
+      },
     },
     {
       id: '3',
@@ -304,6 +314,11 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
       ],
       abandonAvecRecandidature: true,
       choisirNouveauCahierDesCharges: true,
+      changement: {
+        représentantLégal: {
+          typeTâchePlanifiée: 'représentant-légal.changement-réputé-accordé',
+        },
+      },
     },
     {
       id: '4',
@@ -365,6 +380,11 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
       ],
       abandonAvecRecandidature: true,
       choisirNouveauCahierDesCharges: true,
+      changement: {
+        représentantLégal: {
+          typeTâchePlanifiée: 'représentant-légal.changement-réputé-accordé',
+        },
+      },
     },
     {
       id: '5',
@@ -426,6 +446,11 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
       ],
       abandonAvecRecandidature: true,
       choisirNouveauCahierDesCharges: true,
+      changement: {
+        représentantLégal: {
+          typeTâchePlanifiée: 'représentant-légal.changement-réputé-accordé',
+        },
+      },
     },
     {
       id: '6',
@@ -486,6 +511,11 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
       ],
       abandonAvecRecandidature: true,
       choisirNouveauCahierDesCharges: true,
+      changement: {
+        représentantLégal: {
+          typeTâchePlanifiée: 'représentant-légal.changement-réputé-accordé',
+        },
+      },
     },
     {
       id: '7',
@@ -552,6 +582,11 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
       ],
       abandonAvecRecandidature: true,
       choisirNouveauCahierDesCharges: true,
+      changement: {
+        représentantLégal: {
+          typeTâchePlanifiée: 'représentant-légal.changement-réputé-accordé',
+        },
+      },
     },
     {
       id: '8',
@@ -618,6 +653,11 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
       ],
       abandonAvecRecandidature: true,
       choisirNouveauCahierDesCharges: true,
+      changement: {
+        représentantLégal: {
+          typeTâchePlanifiée: 'représentant-légal.changement-réputé-accordé',
+        },
+      },
     },
     {
       id: '9',
@@ -684,6 +724,11 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
       ],
       abandonAvecRecandidature: true,
       choisirNouveauCahierDesCharges: true,
+      changement: {
+        représentantLégal: {
+          typeTâchePlanifiée: 'représentant-légal.changement-réputé-accordé',
+        },
+      },
     },
     {
       id: '10',
@@ -750,6 +795,11 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
       ],
       abandonAvecRecandidature: true,
       choisirNouveauCahierDesCharges: true,
+      changement: {
+        représentantLégal: {
+          typeTâchePlanifiée: 'représentant-légal.changement-réputé-accordé',
+        },
+      },
     },
   ],
 };

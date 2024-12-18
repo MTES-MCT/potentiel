@@ -135,6 +135,11 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
         },
       ],
       abandonAvecRecandidature: true,
+      changement: {
+        représentantLégal: {
+          typeTâchePlanifiée: 'représentant-légal.changement-réputé-accordé',
+        },
+      },
     },
     {
       id: '2',
@@ -175,6 +180,11 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
         },
       ],
       abandonAvecRecandidature: true,
+      changement: {
+        représentantLégal: {
+          typeTâchePlanifiée: 'représentant-légal.changement-réputé-accordé',
+        },
+      },
     },
     {
       id: '3',
@@ -209,6 +219,11 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
         },
       ],
       abandonAvecRecandidature: true,
+      changement: {
+        représentantLégal: {
+          typeTâchePlanifiée: 'représentant-légal.changement-réputé-accordé',
+        },
+      },
     },
     {
       id: '4',
@@ -231,6 +246,11 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
         },
       },
       cahiersDesChargesModifiésDisponibles: [],
+      changement: {
+        représentantLégal: {
+          typeTâchePlanifiée: 'représentant-légal.changement-réputé-accordé',
+        },
+      },
     },
     {
       id: '5',
@@ -264,6 +284,11 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
         },
       },
       cahiersDesChargesModifiésDisponibles: [],
+      changement: {
+        représentantLégal: {
+          typeTâchePlanifiée: 'représentant-légal.changement-réputé-accordé',
+        },
+      },
     },
     {
       id: '6',
@@ -297,6 +322,11 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
         },
       },
       cahiersDesChargesModifiésDisponibles: [],
+      changement: {
+        représentantLégal: {
+          typeTâchePlanifiée: 'représentant-légal.changement-réputé-accordé',
+        },
+      },
     },
     {
       id: '7',
@@ -330,6 +360,11 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
         },
       },
       cahiersDesChargesModifiésDisponibles: [],
+      changement: {
+        représentantLégal: {
+          typeTâchePlanifiée: 'représentant-légal.changement-réputé-accordé',
+        },
+      },
     },
     {
       id: '8',
@@ -363,6 +398,11 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
         },
       },
       cahiersDesChargesModifiésDisponibles: [],
+      changement: {
+        représentantLégal: {
+          typeTâchePlanifiée: 'représentant-légal.changement-réputé-accordé',
+        },
+      },
     },
   ],
 };

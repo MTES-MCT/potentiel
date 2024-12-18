@@ -146,6 +146,11 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       ],
       cahiersDesChargesModifiésDisponibles: [CDCModifié30082022],
       abandonAvecRecandidature: true,
+      changement: {
+        représentantLégal: {
+          typeTâchePlanifiée: 'représentant-légal.changement-réputé-accordé',
+        },
+      },
     },
   ],
 };
