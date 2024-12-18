@@ -116,6 +116,17 @@ Quand(
   },
 );
 
+Quand(
+  "la DREAL associée au projet rejette le changement d'actionnaire pour le projet lauréat",
+  async function (this: PotentielWorld) {
+    try {
+      await rejeterChangementActionnaire.call(this, this.utilisateurWorld.drealFixture.email);
+    } catch (error) {
+      this.error = error as Error;
+    }
+  },
+);
+
 export async function demanderChangementActionnaire(
   this: PotentielWorld,
   statutProjet: 'lauréat' | 'éliminé',
@@ -191,6 +202,25 @@ export async function accorderChangementActionnaire(this: PotentielWorld, utilis
         content,
         format,
       },
+    },
+  });
+}
+
+async function rejeterChangementActionnaire(this: PotentielWorld, utilisateur?: string) {
+  const identifiantProjet = this.lauréatWorld.identifiantProjet.formatter();
+
+  const { rejetéeLe, rejetéePar, réponseSignée } =
+    this.lauréatWorld.actionnaireWorld.rejeterDemandeChangementActionnaireFixture.créer({
+      rejetéePar: utilisateur,
+    });
+
+  await mediator.send<Actionnaire.ActionnaireUseCase>({
+    type: 'Lauréat.Actionnaire.UseCase.RejeterDemandeChangement',
+    data: {
+      rejetéeLeValue: rejetéeLe,
+      rejetéeParValue: rejetéePar,
+      réponseSignéeValue: réponseSignée,
+      identifiantProjetValue: identifiantProjet,
     },
   });
 }

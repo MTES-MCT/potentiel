@@ -33,13 +33,18 @@ import {
   applyDemandeChangementActionnaireAnnulée,
   DemandeChangementActionnaireAnnuléEvent,
 } from './annulerDemandeChangement/annulerDemandeChangement.behavior';
+import {
+  applyDemandeChangementActionnaireRejetée,
+  DemandeChangementActionnaireRejetéeEvent,
+} from './rejeterDemandeChangement/rejeterDemandeChangement.behavior';
 
 export type ActionnaireEvent =
   | ActionnaireImportéEvent
   | ActionnaireModifiéEvent
   | ChangementActionnaireDemandéEvent
   | DemandeChangementActionnaireAnnuléEvent
-  | DemandeChangementActionnaireAccordéeEvent;
+  | DemandeChangementActionnaireAccordéeEvent
+  | DemandeChangementActionnaireRejetéeEvent;
 
 export type ActionnaireAggregate = Aggregate<ActionnaireEvent> & {
   identifiantProjet: IdentifiantProjet.ValueType;
@@ -89,6 +94,10 @@ function apply(this: ActionnaireAggregate, event: ActionnaireEvent) {
 
     case 'DemandeChangementActionnaireAnnulée-V1':
       applyDemandeChangementActionnaireAnnulée.bind(this)();
+      break;
+
+    case 'DemandeChangementActionnaireRejetée-V1':
+      applyDemandeChangementActionnaireRejetée.bind(this)(event);
       break;
   }
 }

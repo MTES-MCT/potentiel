@@ -1,4 +1,5 @@
 # language: fr
+@select
 Fonctionnalité: Rejeter le changement d'actionnaire d'un projet lauréat
 
     Contexte:
@@ -9,8 +10,7 @@ Fonctionnalité: Rejeter le changement d'actionnaire d'un projet lauréat
     Scénario: la DREAL associée au projet rejette le changement d'actionnaire d'un projet lauréat
         Etant donné une demande de changement d'actionnaire en cours pour le projet lauréat
         Quand la DREAL associée au projet rejette le changement d'actionnaire pour le projet lauréat
-        Alors l'actionnaire du projet lauréat ne devrait pas être mis à jour
-        Et le changement d'actionnaire du projet lauréat devrait être rejeté
+        Alors la demande de changement de l'actionnaire ne devrait plus être consultable
 
     Scénario: Impossible de rejeter le changement d'actionnaire d'un projet lauréat si aucune demande n'est en cours
         Quand la DREAL associée au projet rejette le changement d'actionnaire pour le projet lauréat
