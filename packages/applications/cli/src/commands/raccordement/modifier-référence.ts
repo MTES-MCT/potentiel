@@ -2,12 +2,31 @@ import { Args, Command, Flags } from '@oclif/core';
 import { mediator } from 'mediateur';
 import { z } from 'zod';
 
-import { bootstrap } from '@potentiel-applications/bootstrap';
-import { Raccordement } from '@potentiel-domain/reseau';
+import {
+  Raccordement,
+  registerRéseauQueries,
+  registerRéseauUseCases,
+} from '@potentiel-domain/reseau';
 import { Option } from '@potentiel-libraries/monads';
+import { loadAggregate } from '@potentiel-infrastructure/pg-event-sourcing';
+import {
+  countProjection,
+  findProjection,
+  listProjection,
+} from '@potentiel-infrastructure/pg-projections';
 
 import { parseCsvFile } from '../../helpers/parse-file';
 import { parseIdentifiantProjet } from '../../helpers/parse-identifiant-projet';
+
+registerRéseauQueries({
+  count: countProjection,
+  find: findProjection,
+  list: listProjection,
+});
+
+registerRéseauUseCases({
+  loadAggregate: loadAggregate,
+});
 
 const schema = z.object({
   identifiantProjet: z.string(),
@@ -61,7 +80,6 @@ export default class ModifierRéférence extends Command {
   public async run(): Promise<void> {
     console.info('Lancement du script...');
     const { args, flags } = await this.parse(ModifierRéférence);
-    await bootstrap({ middlewares: [] });
 
     const { parsedData: data } = await parseCsvFile(args.path, schema, {
       delimiter: flags.delimiter,

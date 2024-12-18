@@ -3,14 +3,24 @@ import { mediator } from 'mediateur';
 import { z } from 'zod';
 
 import { getKeycloakAdminClient } from '@potentiel-libraries/keycloak-cjs';
-import { bootstrap } from '@potentiel-applications/bootstrap';
-import { GestionnaireRéseau } from '@potentiel-domain/reseau';
+import { GestionnaireRéseau, registerRéseauQueries } from '@potentiel-domain/reseau';
+import {
+  countProjection,
+  findProjection,
+  listProjection,
+} from '@potentiel-infrastructure/pg-projections';
 
 const configSchema = z.object({
   KEYCLOAK_SERVER: z.string().url(),
   KEYCLOAK_REALM: z.string(),
   KEYCLOAK_ADMIN_CLIENT_ID: z.string(),
   KEYCLOAK_ADMIN_CLIENT_SECRET: z.string(),
+});
+
+registerRéseauQueries({
+  count: countProjection,
+  find: findProjection,
+  list: listProjection,
 });
 
 export default class SyncKeycloakGroups extends Command {
@@ -31,7 +41,6 @@ export default class SyncKeycloakGroups extends Command {
 
     const config = configSchema.parse(process.env);
 
-    await bootstrap({ middlewares: [] });
     let added = 0;
     const updated = 0;
     let upToDate = 0;
