@@ -39,7 +39,8 @@ export const getReprésentantLégal: GetReprésentantLégal = async (identifiant
       });
 
     if (Option.isSome(représentantLégal)) {
-      const featureDemandeChangementReprésentantLégalEnabled = isDemandeChangementReprésentantLégalEnabled();
+      const featureDemandeChangementReprésentantLégalEnabled =
+        isDemandeChangementReprésentantLégalEnabled();
 
       const demandeChangementExistante = await getChangementReprésentantLégal(identifiantProjet);
 
@@ -47,16 +48,16 @@ export const getReprésentantLégal: GetReprésentantLégal = async (identifiant
         utilisateur.aLaPermission('représentantLégal.consulter') && demandeChangementExistante;
 
       const peutFaireUneDemande =
-        featureActivated &&
+        featureDemandeChangementReprésentantLégalEnabled &&
         utilisateur.aLaPermission('représentantLégal.demanderChangement') &&
         !demandeChangementExistante;
 
-      const peutFaireModification =
+      const peutModifier =
         utilisateur.aLaPermission('représentantLégal.modifier') && !demandeChangementExistante;
 
       return {
         nom: représentantLégal.nomReprésentantLégal,
-        modification: peutFaireModification
+        modification: peutModifier
           ? {
               type: 'lauréat',
               url: Routes.ReprésentantLégal.modifier(identifiantProjet.formatter()),
