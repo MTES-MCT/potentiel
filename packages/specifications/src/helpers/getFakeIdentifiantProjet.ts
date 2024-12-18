@@ -3,7 +3,7 @@ import { faker } from '@faker-js/faker';
 import { IdentifiantProjet } from '@potentiel-domain/common';
 import { appelsOffreData } from '@potentiel-domain/inmemory-referential';
 
-export const getFakeIdentifiantProjet = (): string => {
+export const getFakeIdentifiantProjet = () => {
   const appelOffre = faker.helpers.arrayElement(appelsOffreData);
   const période = faker.helpers.arrayElement(appelOffre.periodes);
   return IdentifiantProjet.bind({
@@ -14,5 +14,5 @@ export const getFakeIdentifiantProjet = (): string => {
         ? ''
         : (faker.helpers.maybe(() => faker.helpers.arrayElement(période.familles).id) ?? ''),
     numéroCRE: faker.number.int().toString(),
-  }).formatter();
+  });
 };

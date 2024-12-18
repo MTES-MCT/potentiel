@@ -36,7 +36,7 @@ export class TransmettrePreuveRecandidatureAbandonFixture
     const fixture: TransmettrePreuveRecandidatureAbandon = {
       transmiseLe: faker.date.soon().toISOString(),
       transmisePar: faker.internet.email(),
-      preuveRecandidature: faker.potentiel.identifiantProjet(),
+      preuveRecandidature: faker.potentiel.identifiantProjet().formatter(),
       ...partialData,
     };
 

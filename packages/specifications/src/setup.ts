@@ -25,6 +25,7 @@ import { executeQuery, killPool } from '@potentiel-libraries/pg-helpers';
 import { getClient } from '@potentiel-libraries/file-storage';
 import { bootstrap } from '@potentiel-applications/bootstrap';
 import { EmailPayload } from '@potentiel-applications/notifications';
+import { IdentifiantProjet } from '@potentiel-domain/common';
 
 import { PotentielWorld } from './potentiel.world';
 import { sleep } from './helpers/sleep';
@@ -42,7 +43,7 @@ waitForExpect.defaults.timeout = 500;
 declare module '@faker-js/faker' {
   interface Faker {
     potentiel: {
-      identifiantProjet: () => string;
+      identifiantProjet: () => IdentifiantProjet.ValueType;
       fileFormat: () => string;
       fileContent: () => ReadableStream;
     };

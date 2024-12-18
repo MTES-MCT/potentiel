@@ -33,9 +33,10 @@ export class ImporterCandidatureFixture
       importéPar: string;
     };
   }): Readonly<ImporterCandidature> {
-    const { appelOffre, période, famille, numéroCRE } = IdentifiantProjet.convertirEnValueType(
-      getValidFakeIdentifiantProjet(),
-    );
+    const identifiantProjet = getValidFakeIdentifiantProjet(values);
+    this.#identifiantProjet = identifiantProjet.formatter();
+
+    const { appelOffre, période, famille, numéroCRE } = identifiantProjet;
 
     const localitéValue = {
       adresse1: faker.location.streetAddress(),
@@ -84,7 +85,6 @@ export class ImporterCandidatureFixture
       },
       localitéValue,
     };
-    this.#identifiantProjet = `${fixture.appelOffreValue}#${fixture.périodeValue}#${fixture.familleValue}#${fixture.numéroCREValue}`;
     this.#values = fixture;
 
     this.aÉtéCréé = true;
@@ -97,20 +97,28 @@ export class ImporterCandidatureFixture
 }
 
 // Pour l'import, il est impératif que le projet soit sur une période non legacy
-function getValidFakeIdentifiantProjet(): string {
+function getValidFakeIdentifiantProjet(
+  args: Pick<
+    Partial<ImporterCandidature['values']>,
+    'appelOffreValue' | 'périodeValue' | 'familleValue' | 'numéroCREValue'
+  >,
+): IdentifiantProjet.ValueType {
   const identifiantProjet = faker.potentiel.identifiantProjet();
-  const { appelOffre, période } = IdentifiantProjet.convertirEnValueType(identifiantProjet);
+  const appelOffre = args.appelOffreValue ?? identifiantProjet.appelOffre;
+  const période = args.périodeValue ?? identifiantProjet.période;
+  const famille = args.familleValue ?? identifiantProjet.famille;
+  const numéroCRE = args.numéroCREValue ?? identifiantProjet.numéroCRE;
 
   const périodeData = appelsOffreData
     .find((x) => x.id === appelOffre)
     ?.periodes.find((x) => x.id === période);
 
   if (!périodeData) {
-    return getValidFakeIdentifiantProjet();
+    return getValidFakeIdentifiantProjet(args);
   }
 
   if (périodeData.type === 'legacy') {
-    return getValidFakeIdentifiantProjet();
+    return getValidFakeIdentifiantProjet(args);
   }
-  return identifiantProjet;
+  return IdentifiantProjet.bind({ appelOffre, période, famille, numéroCRE });
 }

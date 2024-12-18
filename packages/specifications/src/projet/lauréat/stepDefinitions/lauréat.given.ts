@@ -31,6 +31,7 @@ EtantDonné(
         dateÉchéanceGfValue: undefined,
         appelOffreValue: 'PPE2 - Innovation',
         périodeValue: '1',
+        familleValue: '',
       });
 
       await notifierLauréat.call(this, dateDésignation);
