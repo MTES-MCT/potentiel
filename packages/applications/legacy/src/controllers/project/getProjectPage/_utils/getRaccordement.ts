@@ -20,7 +20,8 @@ export const getRaccordement = async ({ role, identifiantProjet }: GetRaccordeme
     data: { identifiantProjetValue: identifiantProjet.formatter() },
   });
   if (
-    Option.isSome(raccordement) &&
+    Option.isNone(raccordement) ||
+    raccordement.dossiers.length === 0 ||
     raccordement.dossiers[0].référence.estÉgaleÀ(
       Raccordement.RéférenceDossierRaccordement.référenceNonTransmise,
     )
