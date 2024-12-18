@@ -40,8 +40,9 @@ export async function importer(
 
 export function applyActionnaireImporté(
   this: ActionnaireAggregate,
-  { payload: { actionnaire } }: ActionnaireImportéEvent,
+  { payload: { actionnaire, identifiantProjet } }: ActionnaireImportéEvent,
 ) {
+  this.identifiantProjet = IdentifiantProjet.convertirEnValueType(identifiantProjet);
   this.actionnaire = actionnaire;
 }
 

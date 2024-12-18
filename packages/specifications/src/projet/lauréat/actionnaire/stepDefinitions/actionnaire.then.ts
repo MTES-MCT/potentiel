@@ -51,9 +51,7 @@ Alors(
 
       const actual = mapToPlainObject(demande);
       const expected = mapToPlainObject(
-        this.lauréatWorld.actionnaireWorld.demanderChangementActionnaireFixture.mapToExpected(
-          identifiantProjet,
-        ),
+        this.lauréatWorld.actionnaireWorld.mapDemandeToExpected(identifiantProjet),
       );
 
       actual.should.be.deep.equal(expected);
@@ -97,6 +95,29 @@ Alors(
       const actual = mapToPlainObject(actionnaire);
       const expected = mapToPlainObject(
         this.lauréatWorld.actionnaireWorld.mapToExpected(identifiantProjet),
+      );
+
+      actual.should.be.deep.equal(expected);
+    });
+  },
+);
+
+Alors(
+  "le changement d'actionnaire du projet lauréat devrait être accordé",
+  async function (this: PotentielWorld) {
+    return waitForExpect(async () => {
+      const { identifiantProjet } = this.lauréatWorld;
+
+      const demandeChangementActionnaire = await mediator.send<Actionnaire.ActionnaireQuery>({
+        type: 'Lauréat.Actionnaire.Query.ConsulterChangementActionnaire',
+        data: {
+          identifiantProjet: identifiantProjet.formatter(),
+        },
+      });
+
+      const actual = mapToPlainObject(demandeChangementActionnaire);
+      const expected = mapToPlainObject(
+        this.lauréatWorld.actionnaireWorld.mapDemandeToExpected(identifiantProjet),
       );
 
       actual.should.be.deep.equal(expected);

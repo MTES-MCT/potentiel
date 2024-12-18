@@ -24,6 +24,11 @@ import {
   ChangementActionnaireDemandéEvent,
 } from './demanderChangement/demandeChangement.behavior';
 import {
+  accorderDemandeChangementActionnaire,
+  applyDemandeChangementActionnaireAccordée,
+  DemandeChangementActionnaireAccordéeEvent,
+} from './accorderDemandeChangement/accorderDemandeChangement.behavior';
+import {
   annulerDemandeChangement,
   applyDemandeChangementActionnaireAnnulée,
   DemandeChangementActionnaireAnnuléEvent,
@@ -33,16 +38,21 @@ export type ActionnaireEvent =
   | ActionnaireImportéEvent
   | ActionnaireModifiéEvent
   | ChangementActionnaireDemandéEvent
-  | DemandeChangementActionnaireAnnuléEvent;
+  | DemandeChangementActionnaireAnnuléEvent
+  | DemandeChangementActionnaireAccordéeEvent;
 
 export type ActionnaireAggregate = Aggregate<ActionnaireEvent> & {
   identifiantProjet: IdentifiantProjet.ValueType;
-  actionnaire: String;
-  statutDemande?: StatutChangementActionnaire.ValueType;
+  actionnaire: string;
+  demande?: {
+    statut: StatutChangementActionnaire.ValueType;
+    nouvelActionnaire: string;
+  };
   importer: typeof importer;
   modifier: typeof modifier;
   demanderChangement: typeof demanderChangement;
   annulerDemandeChangement: typeof annulerDemandeChangement;
+  accorderDemandeChangementActionnaire: typeof accorderDemandeChangementActionnaire;
 };
 
 export const getDefaultActionnaireAggregate: GetDefaultAggregateState<
@@ -56,6 +66,7 @@ export const getDefaultActionnaireAggregate: GetDefaultAggregateState<
   modifier,
   demanderChangement,
   annulerDemandeChangement,
+  accorderDemandeChangementActionnaire,
 });
 
 function apply(this: ActionnaireAggregate, event: ActionnaireEvent) {
@@ -69,7 +80,11 @@ function apply(this: ActionnaireAggregate, event: ActionnaireEvent) {
       break;
 
     case 'ChangementActionnaireDemandé-V1':
-      applyChangementActionnaireDemandé.bind(this)();
+      applyChangementActionnaireDemandé.bind(this)(event);
+      break;
+
+    case 'DemandeChangementActionnaireAccordée-V1':
+      applyDemandeChangementActionnaireAccordée.bind(this)(event);
       break;
 
     case 'DemandeChangementActionnaireAnnulée-V1':

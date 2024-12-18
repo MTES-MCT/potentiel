@@ -21,6 +21,6 @@ Fonctionnalité: Annuler la demande de changement de l'actionnaire d'un projet l
         Alors l'utilisateur devrait être informé que "Le nouvel actionnaire est identique à celui associé au projet"
 
     Scénario: Impossible de demander le changement de l'actionnaire si une demande existe déjà
-        Etant donné une demande de changement de l'actionnaire en cours pour le projet lauréat
+        Etant donné une demande de changement d'actionnaire en cours pour le projet lauréat
         Quand le porteur demande le changement de l'actionnaire pour le projet lauréat
-        Alors l'utilisateur devrait être informé que "Le statut de la demande de changement est identique"
+        Alors l'utilisateur devrait être informé que "Une demande de changement est déjà en cours"

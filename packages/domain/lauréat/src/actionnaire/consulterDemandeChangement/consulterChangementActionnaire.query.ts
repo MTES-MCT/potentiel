@@ -16,18 +16,18 @@ export type ConsulterChangementActionnaireReadModel = {
     demandéLe: DateTime.ValueType;
     raison?: string;
     pièceJustificative: DocumentProjet.ValueType;
-  };
 
-  accord?: {
-    réponseSignée: DocumentProjet.ValueType;
-    accordéPar: Email.ValueType;
-    accordéLe: DateTime.ValueType;
-  };
+    accord?: {
+      réponseSignée: DocumentProjet.ValueType;
+      accordéPar: Email.ValueType;
+      accordéLe: DateTime.ValueType;
+    };
 
-  rejet?: {
-    réponseSignée: DocumentProjet.ValueType;
-    rejetéPar: Email.ValueType;
-    rejetéLe: DateTime.ValueType;
+    rejet?: {
+      réponseSignée: DocumentProjet.ValueType;
+      rejetéPar: Email.ValueType;
+      rejetéLe: DateTime.ValueType;
+    };
   };
 };
 
@@ -69,6 +69,7 @@ export const mapToReadModel = (result: ActionnaireEntity) => {
     identifiantProjet: IdentifiantProjet.convertirEnValueType(result.identifiantProjet),
     demande: {
       statut: StatutChangementActionnaire.convertirEnValueType(result.demande.statut),
+
       demandéLe: DateTime.convertirEnValueType(result.demande.demandéLe),
       demandéPar: Email.convertirEnValueType(result.demande.demandéPar),
       raison: result.demande.raison,
@@ -78,31 +79,31 @@ export const mapToReadModel = (result: ActionnaireEntity) => {
         DateTime.convertirEnValueType(result.demande.demandéLe).formatter(),
         result.demande.pièceJustificative?.format,
       ),
-    },
 
-    accord: result.demande.accord
-      ? {
-          accordéLe: DateTime.convertirEnValueType(result.demande.accord.accordéLe),
-          accordéPar: Email.convertirEnValueType(result.demande.accord.accordéPar),
-          réponseSignée: DocumentProjet.convertirEnValueType(
-            result.identifiantProjet,
-            TypeDocumentActionnaire.modificationAccordée.formatter(),
-            DateTime.convertirEnValueType(result.demande.accord.accordéLe).formatter(),
-            result.demande.accord.réponseSignée.format,
-          ),
-        }
-      : undefined,
-    rejet: result.demande.rejet
-      ? {
-          rejetéLe: DateTime.convertirEnValueType(result.demande.rejet.rejetéLe),
-          rejetéPar: Email.convertirEnValueType(result.demande.rejet.rejetéPar),
-          réponseSignée: DocumentProjet.convertirEnValueType(
-            result.identifiantProjet,
-            TypeDocumentActionnaire.modificationRejetée.formatter(),
-            DateTime.convertirEnValueType(result.demande.rejet.rejetéLe).formatter(),
-            result.demande.rejet.réponseSignée.format,
-          ),
-        }
-      : undefined,
+      accord: result.demande.accord
+        ? {
+            accordéLe: DateTime.convertirEnValueType(result.demande.accord.accordéLe),
+            accordéPar: Email.convertirEnValueType(result.demande.accord.accordéPar),
+            réponseSignée: DocumentProjet.convertirEnValueType(
+              result.identifiantProjet,
+              TypeDocumentActionnaire.changementAccordé.formatter(),
+              DateTime.convertirEnValueType(result.demande.accord.accordéLe).formatter(),
+              result.demande.accord.réponseSignée.format,
+            ),
+          }
+        : undefined,
+      rejet: result.demande.rejet
+        ? {
+            rejetéLe: DateTime.convertirEnValueType(result.demande.rejet.rejetéLe),
+            rejetéPar: Email.convertirEnValueType(result.demande.rejet.rejetéPar),
+            réponseSignée: DocumentProjet.convertirEnValueType(
+              result.identifiantProjet,
+              TypeDocumentActionnaire.changementRejeté.formatter(),
+              DateTime.convertirEnValueType(result.demande.rejet.rejetéLe).formatter(),
+              result.demande.rejet.réponseSignée.format,
+            ),
+          }
+        : undefined,
+    },
   } satisfies ConsulterChangementActionnaireReadModel;
 };

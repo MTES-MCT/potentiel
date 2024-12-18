@@ -88,6 +88,7 @@ export const setupLauréat = async ({ sendEmail }: SetupLauréatDependencies) =>
       'ActionnaireModifié-V1',
       'ChangementActionnaireDemandé-V1',
       'DemandeChangementActionnaireAnnulée-V1',
+      'DemandeChangementActionnaireAccordée-V1',
     ],
     eventHandler: async (event) => {
       await mediator.send<ActionnaireProjector.Execute>({
@@ -284,11 +285,11 @@ export const setupLauréat = async ({ sendEmail }: SetupLauréatDependencies) =>
   });
 
   const unsubscribeActionnaireSaga = await subscribe<
-    ReprésentantLégal.ReprésentantLégalSaga.SubscriptionEvent & Event
+    Actionnaire.ActionnaireSaga.SubscriptionEvent & Event
   >({
     name: 'actionnaire-saga',
     streamCategory: 'lauréat',
-    eventType: ['LauréatNotifié-V1'],
+    eventType: ['LauréatNotifié-V1', 'DemandeChangementActionnaireAccordée-V1'],
     eventHandler: async (event) =>
       mediator.publish<Actionnaire.ActionnaireSaga.Execute>({
         type: 'System.Lauréat.Actionnaire.Saga.Execute',

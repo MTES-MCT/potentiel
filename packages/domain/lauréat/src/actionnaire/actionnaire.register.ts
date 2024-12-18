@@ -9,9 +9,11 @@ import { registerModifierActionnaireUseCase } from './modifier/modifierActionnai
 import { registerModifierActionnaireCommand } from './modifier/modifierActionnaire.command';
 import { registerDemanderChangementActionnaireUseCase } from './demanderChangement/demandeChangement.usecase';
 import { registerDemanderChangementActionnaireCommand } from './demanderChangement/demandeChangement.command';
-import { registerConsulterChangementActionnaireQuery } from './consulterChangement/consulterChangementActionnaire.query';
 import { registerAnnulerDemandeChangementCommand } from './annulerDemandeChangement/annulerDemandeChangement.command';
 import { registerAnnulerDemandeChangementActionnaireUseCase } from './annulerDemandeChangement/annulerDemandeChangement.usecase';
+import { registerConsulterChangementActionnaireQuery } from './consulterDemandeChangement/consulterChangementActionnaire.query';
+import { registerAccorderDemandeChangementActionnaireCommand } from './accorderDemandeChangement/accorderDemandeChangement.command';
+import { registerAccorderDemandeChangementActionnaireUseCase } from './accorderDemandeChangement/accorderDemandeChangement.usecase';
 
 export type ActionnaireQueryDependencies = ConsulterActionnaireDependencies;
 
@@ -24,10 +26,12 @@ export const registerActionnaireUseCases = ({ loadAggregate }: ActionnaireComman
   registerModifierActionnaireCommand(loadAggregate);
   registerDemanderChangementActionnaireCommand(loadAggregate);
   registerAnnulerDemandeChangementCommand(loadAggregate);
+  registerAccorderDemandeChangementActionnaireCommand(loadAggregate);
 
   registerModifierActionnaireUseCase();
   registerDemanderChangementActionnaireUseCase();
   registerAnnulerDemandeChangementActionnaireUseCase();
+  registerAccorderDemandeChangementActionnaireUseCase();
 };
 
 export const registerActionnaireQueries = (dependencies: ActionnaireQueryDependencies) => {
