@@ -7,9 +7,10 @@ import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 import { PotentielWorld } from '../../../../potentiel.world';
 
 import {
-  accorderChangementActionnaire,
-  annulerChangementActionnaire,
+  accorderDemandeChangementActionnaire,
+  annulerDemandeChangementActionnaire,
   demanderChangementActionnaire,
+  rejeterDemandeChangementActionnaire,
 } from './actionnaire.when';
 
 EtantDonné(
@@ -31,19 +32,31 @@ EtantDonné(
       'lauréat',
       this.utilisateurWorld.adminFixture.email,
     );
-    await accorderChangementActionnaire.call(this, this.utilisateurWorld.drealFixture.email);
+    await accorderDemandeChangementActionnaire.call(this, this.utilisateurWorld.drealFixture.email);
   },
 );
 
 EtantDonné(
-  "un changement d'actionnaire annulé pour le projet lauréat",
+  "une demande de changement d'actionnaire annulée pour le projet lauréat",
   async function (this: PotentielWorld) {
     await demanderChangementActionnaire.call(
       this,
       'lauréat',
       this.utilisateurWorld.adminFixture.email,
     );
-    await annulerChangementActionnaire.call(this, this.utilisateurWorld.drealFixture.email);
+    await annulerDemandeChangementActionnaire.call(this, this.utilisateurWorld.drealFixture.email);
+  },
+);
+
+EtantDonné(
+  "une demande de changement d'actionnaire rejetée pour le projet lauréat",
+  async function (this: PotentielWorld) {
+    await demanderChangementActionnaire.call(
+      this,
+      'lauréat',
+      this.utilisateurWorld.adminFixture.email,
+    );
+    await rejeterDemandeChangementActionnaire.call(this, this.utilisateurWorld.drealFixture.email);
   },
 );
 

@@ -1,5 +1,5 @@
 # language: fr
-Fonctionnalité: Annuler la demande de changement de l'actionnaire d'un projet lauréat
+Fonctionnalité: Demander le changement de l'actionnaire d'un projet lauréat
 
     Contexte:
         Etant donné le projet lauréat "Du boulodrome de Marseille"

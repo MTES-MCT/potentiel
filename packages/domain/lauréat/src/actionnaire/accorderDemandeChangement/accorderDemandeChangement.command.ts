@@ -10,8 +10,8 @@ export type AccorderDemandeChangementActionnaireCommand = Message<
   'Lauréat.Actionnaire.Command.AccorderDemandeChangement',
   {
     identifiantProjet: IdentifiantProjet.ValueType;
-    accordéLe: DateTime.ValueType;
-    accordéPar: Email.ValueType;
+    accordéeLe: DateTime.ValueType;
+    accordéePar: Email.ValueType;
     réponseSignée: DocumentProjet.ValueType;
   }
 >;
@@ -23,16 +23,16 @@ export const registerAccorderDemandeChangementActionnaireCommand = (
 
   const handler: MessageHandler<AccorderDemandeChangementActionnaireCommand> = async ({
     identifiantProjet,
-    accordéLe,
-    accordéPar,
+    accordéeLe,
+    accordéePar,
     réponseSignée,
   }) => {
     const actionnaire = await loadActionnaire(identifiantProjet, false);
 
     await actionnaire.accorderDemandeChangementActionnaire({
       identifiantProjet,
-      accordéLe,
-      accordéPar,
+      accordéeLe,
+      accordéePar,
       réponseSignée,
     });
   };

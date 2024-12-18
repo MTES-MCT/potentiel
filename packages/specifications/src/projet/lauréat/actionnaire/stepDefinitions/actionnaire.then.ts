@@ -74,7 +74,7 @@ Alors(
         },
       });
 
-      expect(Option.isNone(actual));
+      expect(Option.isNone(actual)).to.be.true;
     });
   },
 );
@@ -103,21 +103,21 @@ Alors(
 );
 
 Alors(
-  "le changement d'actionnaire du projet lauréat devrait être accordé",
+  "l'actionnaire du projet lauréat ne devrait pas être mis à jour",
   async function (this: PotentielWorld) {
     return waitForExpect(async () => {
       const { identifiantProjet } = this.lauréatWorld;
 
-      const demandeChangementActionnaire = await mediator.send<Actionnaire.ActionnaireQuery>({
-        type: 'Lauréat.Actionnaire.Query.ConsulterChangementActionnaire',
+      const actionnaire = await mediator.send<Actionnaire.ActionnaireQuery>({
+        type: 'Lauréat.Actionnaire.Query.ConsulterActionnaire',
         data: {
           identifiantProjet: identifiantProjet.formatter(),
         },
       });
 
-      const actual = mapToPlainObject(demandeChangementActionnaire);
+      const actual = mapToPlainObject(actionnaire);
       const expected = mapToPlainObject(
-        this.lauréatWorld.actionnaireWorld.mapDemandeToExpected(identifiantProjet),
+        this.lauréatWorld.actionnaireWorld.mapToExpected(identifiantProjet),
       );
 
       actual.should.be.deep.equal(expected);

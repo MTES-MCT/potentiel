@@ -15,7 +15,7 @@ export class ActionnaireWorld {
   #modifierActionnaireFixture: ModifierActionnaireFixture;
   #demanderChangementActionnaireFixture: DemanderChangementActionnaireFixture;
   #annulerDemandeChangementActionnaireFixture: AnnulerDemandeChangementActionnaireFixture;
-  #accorderChangementActionnaireFixture: AccorderChangementActionnaireFixture;
+  #accorderDemandeChangementActionnaireFixture: AccorderChangementActionnaireFixture;
   #rejeterDemandeChangementActionnaireFixture: RejeterDemandeChangementActionnaireFixture;
 
   get importerActionnaireFixture() {
@@ -34,8 +34,8 @@ export class ActionnaireWorld {
     return this.#annulerDemandeChangementActionnaireFixture;
   }
 
-  get accorderChangementActionnaireFixture() {
-    return this.#accorderChangementActionnaireFixture;
+  get accorderDemandeChangementActionnaireFixture() {
+    return this.#accorderDemandeChangementActionnaireFixture;
   }
 
   get rejeterDemandeChangementActionnaireFixture() {
@@ -48,7 +48,7 @@ export class ActionnaireWorld {
     this.#demanderChangementActionnaireFixture = new DemanderChangementActionnaireFixture();
     this.#annulerDemandeChangementActionnaireFixture =
       new AnnulerDemandeChangementActionnaireFixture();
-    this.#accorderChangementActionnaireFixture = new AccorderChangementActionnaireFixture();
+    this.#accorderDemandeChangementActionnaireFixture = new AccorderChangementActionnaireFixture();
     this.#rejeterDemandeChangementActionnaireFixture =
       new RejeterDemandeChangementActionnaireFixture();
   }
@@ -69,6 +69,14 @@ export class ActionnaireWorld {
       expected.actionnaire = this.#modifierActionnaireFixture.actionnaire;
     }
 
+    if (this.#accorderDemandeChangementActionnaireFixture.aÉtéCréé) {
+      expected.actionnaire = this.#demanderChangementActionnaireFixture.actionnaire;
+    }
+
+    if (this.#rejeterDemandeChangementActionnaireFixture.aÉtéCréé) {
+      expected.actionnaire = this.#importerActionnaireFixture.actionnaire;
+    }
+
     return expected;
   }
 
@@ -82,14 +90,16 @@ export class ActionnaireWorld {
     return {
       identifiantProjet,
       demande: {
-        statut: this.#accorderChangementActionnaireFixture.aÉtéCréé
-          ? Actionnaire.StatutChangementActionnaire.accordé
-          : Actionnaire.StatutChangementActionnaire.demandé,
+        statut: this.#rejeterDemandeChangementActionnaireFixture.aÉtéCréé
+          ? Actionnaire.StatutChangementActionnaire.rejeté
+          : this.#accorderDemandeChangementActionnaireFixture.aÉtéCréé
+            ? Actionnaire.StatutChangementActionnaire.accordé
+            : Actionnaire.StatutChangementActionnaire.demandé,
 
-        demandéLe: DateTime.convertirEnValueType(
+        demandéeLe: DateTime.convertirEnValueType(
           this.#demanderChangementActionnaireFixture.demandéLe,
         ),
-        demandéPar: Email.convertirEnValueType(
+        demandéePar: Email.convertirEnValueType(
           this.#demanderChangementActionnaireFixture.demandéPar,
         ),
         raison: this.#demanderChangementActionnaireFixture.raison,
@@ -101,22 +111,41 @@ export class ActionnaireWorld {
           ).formatter(),
           this.#demanderChangementActionnaireFixture.pièceJustificative.format,
         ),
-        accord: this.#accorderChangementActionnaireFixture.aÉtéCréé
+        accord: this.#accorderDemandeChangementActionnaireFixture.aÉtéCréé
           ? {
-              accordéLe: DateTime.convertirEnValueType(
-                this.#accorderChangementActionnaireFixture.accordéLe,
+              accordéeLe: DateTime.convertirEnValueType(
+                this.#accorderDemandeChangementActionnaireFixture.accordéeLe,
               ),
-              accordéPar: Email.convertirEnValueType(
-                this.#accorderChangementActionnaireFixture.accordéPar,
+              accordéePar: Email.convertirEnValueType(
+                this.#accorderDemandeChangementActionnaireFixture.accordéePar,
               ),
 
               réponseSignée: DocumentProjet.convertirEnValueType(
                 identifiantProjet.formatter(),
                 Actionnaire.TypeDocumentActionnaire.changementAccordé.formatter(),
                 DateTime.convertirEnValueType(
-                  this.#accorderChangementActionnaireFixture.accordéLe,
+                  this.#accorderDemandeChangementActionnaireFixture.accordéeLe,
                 ).formatter(),
-                this.#accorderChangementActionnaireFixture.réponseSignée.format,
+                this.#accorderDemandeChangementActionnaireFixture.réponseSignée.format,
+              ),
+            }
+          : undefined,
+        rejet: this.#rejeterDemandeChangementActionnaireFixture.aÉtéCréé
+          ? {
+              rejetéeLe: DateTime.convertirEnValueType(
+                this.#rejeterDemandeChangementActionnaireFixture.rejetéeLe,
+              ),
+              rejetéePar: Email.convertirEnValueType(
+                this.#rejeterDemandeChangementActionnaireFixture.rejetéePar,
+              ),
+
+              réponseSignée: DocumentProjet.convertirEnValueType(
+                identifiantProjet.formatter(),
+                Actionnaire.TypeDocumentActionnaire.changementRejeté.formatter(),
+                DateTime.convertirEnValueType(
+                  this.#rejeterDemandeChangementActionnaireFixture.rejetéeLe,
+                ).formatter(),
+                this.#rejeterDemandeChangementActionnaireFixture.réponseSignée.format,
               ),
             }
           : undefined,

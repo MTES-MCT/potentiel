@@ -9,8 +9,8 @@ export const handleDemandeChangementActionnaireAccordée = async ({
   payload: {
     nouvelActionnaire,
     identifiantProjet,
-    accordéLe,
-    accordéPar,
+    accordéeLe,
+    accordéePar,
     réponseSignée: { format },
   },
 }: Actionnaire.DemandeChangementActionnaireAccordéeEvent) => {
@@ -31,15 +31,15 @@ export const handleDemandeChangementActionnaireAccordée = async ({
   await updateOneProjection<Actionnaire.ActionnaireEntity>(`actionnaire|${identifiantProjet}`, {
     actionnaire: {
       nom: nouvelActionnaire,
-      misÀJourLe: accordéLe,
+      misÀJourLe: accordéeLe,
     },
     demande: {
       ...projectionToUpsert.demande,
       statut: Actionnaire.StatutChangementActionnaire.accordé.statut,
 
       accord: {
-        accordéLe,
-        accordéPar,
+        accordéeLe,
+        accordéePar,
         réponseSignée: {
           format,
         },

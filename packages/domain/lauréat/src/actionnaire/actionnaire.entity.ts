@@ -10,8 +10,8 @@ export type ActionnaireEntity = Entity<
 
     demande?: {
       statut: string;
-      demandéPar: string;
-      demandéLe: DateTime.RawType;
+      demandéePar: string;
+      demandéeLe: DateTime.RawType;
       raison?: string;
       pièceJustificative: {
         format: string;
@@ -21,16 +21,16 @@ export type ActionnaireEntity = Entity<
         réponseSignée: {
           format: string;
         };
-        accordéPar: string;
-        accordéLe: DateTime.RawType;
+        accordéePar: string;
+        accordéeLe: DateTime.RawType;
       };
 
       rejet?: {
         réponseSignée: {
           format: string;
         };
-        rejetéPar: string;
-        rejetéLe: DateTime.RawType;
+        rejetéePar: string;
+        rejetéeLe: DateTime.RawType;
       };
     };
   }

@@ -5,8 +5,8 @@ import { updateOneProjection } from '../../../infrastructure';
 export const handleChangementActionnaireDemandé = async ({
   payload: {
     identifiantProjet,
-    demandéLe,
-    demandéPar,
+    demandéeLe,
+    demandéePar,
     raison,
     pièceJustificative: { format },
   },
@@ -14,8 +14,8 @@ export const handleChangementActionnaireDemandé = async ({
   await updateOneProjection<Actionnaire.ActionnaireEntity>(`actionnaire|${identifiantProjet}`, {
     demande: {
       statut: Actionnaire.StatutChangementActionnaire.demandé.statut,
-      demandéPar,
-      demandéLe,
+      demandéePar,
+      demandéeLe,
       raison,
       pièceJustificative: {
         format,

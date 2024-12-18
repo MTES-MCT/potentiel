@@ -5,8 +5,8 @@ import { AbstractFixture } from '../../../../fixture';
 
 interface AccorderChangementActionnaire {
   readonly réponseSignée: { format: string; content: ReadableStream };
-  readonly accordéLe: string;
-  readonly accordéPar: string;
+  readonly accordéeLe: string;
+  readonly accordéePar: string;
 }
 
 export class AccorderChangementActionnaireFixture
@@ -23,24 +23,24 @@ export class AccorderChangementActionnaireFixture
     };
   }
 
-  #accordéLe!: string;
+  #accordéeLe!: string;
 
-  get accordéLe(): string {
-    return this.#accordéLe;
+  get accordéeLe(): string {
+    return this.#accordéeLe;
   }
 
-  #accordéPar!: string;
+  #accordéePar!: string;
 
-  get accordéPar(): string {
-    return this.#accordéPar;
+  get accordéePar(): string {
+    return this.#accordéePar;
   }
 
   créer(partialFixture?: Partial<AccorderChangementActionnaire>): AccorderChangementActionnaire {
     const content = faker.word.words();
 
     const fixture: AccorderChangementActionnaire = {
-      accordéLe: faker.date.soon().toISOString(),
-      accordéPar: faker.internet.email(),
+      accordéeLe: faker.date.soon().toISOString(),
+      accordéePar: faker.internet.email(),
       réponseSignée: {
         format: faker.potentiel.fileFormat(),
         content: convertStringToReadableStream(content),
@@ -48,8 +48,8 @@ export class AccorderChangementActionnaireFixture
       ...partialFixture,
     };
 
-    this.#accordéLe = fixture.accordéLe;
-    this.#accordéPar = fixture.accordéPar;
+    this.#accordéeLe = fixture.accordéeLe;
+    this.#accordéePar = fixture.accordéePar;
     this.#format = fixture.réponseSignée.format;
     this.#content = content;
 

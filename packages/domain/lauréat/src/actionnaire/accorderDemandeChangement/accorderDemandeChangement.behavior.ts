@@ -10,8 +10,8 @@ export type DemandeChangementActionnaireAccordéeEvent = DomainEvent<
   'DemandeChangementActionnaireAccordée-V1',
   {
     identifiantProjet: IdentifiantProjet.RawType;
-    accordéLe: DateTime.RawType;
-    accordéPar: Email.RawType;
+    accordéeLe: DateTime.RawType;
+    accordéePar: Email.RawType;
     réponseSignée: {
       format: string;
     };
@@ -21,14 +21,14 @@ export type DemandeChangementActionnaireAccordéeEvent = DomainEvent<
 
 type Options = {
   identifiantProjet: IdentifiantProjet.ValueType;
-  accordéLe: DateTime.ValueType;
-  accordéPar: Email.ValueType;
+  accordéeLe: DateTime.ValueType;
+  accordéePar: Email.ValueType;
   réponseSignée: DocumentProjet.ValueType;
 };
 
 export async function accorderDemandeChangementActionnaire(
   this: ActionnaireAggregate,
-  { identifiantProjet, accordéLe, accordéPar, réponseSignée }: Options,
+  { identifiantProjet, accordéeLe, accordéePar, réponseSignée }: Options,
 ) {
   if (!this.demande) {
     throw new DemandeChangementActionnaireInexistanteErreur();
@@ -42,8 +42,8 @@ export async function accorderDemandeChangementActionnaire(
     type: 'DemandeChangementActionnaireAccordée-V1',
     payload: {
       identifiantProjet: identifiantProjet.formatter(),
-      accordéLe: accordéLe.formatter(),
-      accordéPar: accordéPar.formatter(),
+      accordéeLe: accordéeLe.formatter(),
+      accordéePar: accordéePar.formatter(),
       réponseSignée: {
         format: réponseSignée.format,
       },

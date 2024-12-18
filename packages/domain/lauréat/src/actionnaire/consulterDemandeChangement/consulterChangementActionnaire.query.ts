@@ -12,21 +12,21 @@ export type ConsulterChangementActionnaireReadModel = {
   demande: {
     statut: StatutChangementActionnaire.ValueType;
 
-    demandéPar: Email.ValueType;
-    demandéLe: DateTime.ValueType;
+    demandéePar: Email.ValueType;
+    demandéeLe: DateTime.ValueType;
     raison?: string;
     pièceJustificative: DocumentProjet.ValueType;
 
     accord?: {
       réponseSignée: DocumentProjet.ValueType;
-      accordéPar: Email.ValueType;
-      accordéLe: DateTime.ValueType;
+      accordéePar: Email.ValueType;
+      accordéeLe: DateTime.ValueType;
     };
 
     rejet?: {
       réponseSignée: DocumentProjet.ValueType;
-      rejetéPar: Email.ValueType;
-      rejetéLe: DateTime.ValueType;
+      rejetéePar: Email.ValueType;
+      rejetéeLe: DateTime.ValueType;
     };
   };
 };
@@ -70,36 +70,36 @@ export const mapToReadModel = (result: ActionnaireEntity) => {
     demande: {
       statut: StatutChangementActionnaire.convertirEnValueType(result.demande.statut),
 
-      demandéLe: DateTime.convertirEnValueType(result.demande.demandéLe),
-      demandéPar: Email.convertirEnValueType(result.demande.demandéPar),
+      demandéeLe: DateTime.convertirEnValueType(result.demande.demandéeLe),
+      demandéePar: Email.convertirEnValueType(result.demande.demandéePar),
       raison: result.demande.raison,
       pièceJustificative: DocumentProjet.convertirEnValueType(
         result.identifiantProjet,
         TypeDocumentActionnaire.pièceJustificative.formatter(),
-        DateTime.convertirEnValueType(result.demande.demandéLe).formatter(),
+        DateTime.convertirEnValueType(result.demande.demandéeLe).formatter(),
         result.demande.pièceJustificative?.format,
       ),
 
       accord: result.demande.accord
         ? {
-            accordéLe: DateTime.convertirEnValueType(result.demande.accord.accordéLe),
-            accordéPar: Email.convertirEnValueType(result.demande.accord.accordéPar),
+            accordéeLe: DateTime.convertirEnValueType(result.demande.accord.accordéeLe),
+            accordéePar: Email.convertirEnValueType(result.demande.accord.accordéePar),
             réponseSignée: DocumentProjet.convertirEnValueType(
               result.identifiantProjet,
               TypeDocumentActionnaire.changementAccordé.formatter(),
-              DateTime.convertirEnValueType(result.demande.accord.accordéLe).formatter(),
+              DateTime.convertirEnValueType(result.demande.accord.accordéeLe).formatter(),
               result.demande.accord.réponseSignée.format,
             ),
           }
         : undefined,
       rejet: result.demande.rejet
         ? {
-            rejetéLe: DateTime.convertirEnValueType(result.demande.rejet.rejetéLe),
-            rejetéPar: Email.convertirEnValueType(result.demande.rejet.rejetéPar),
+            rejetéeLe: DateTime.convertirEnValueType(result.demande.rejet.rejetéeLe),
+            rejetéePar: Email.convertirEnValueType(result.demande.rejet.rejetéePar),
             réponseSignée: DocumentProjet.convertirEnValueType(
               result.identifiantProjet,
               TypeDocumentActionnaire.changementRejeté.formatter(),
-              DateTime.convertirEnValueType(result.demande.rejet.rejetéLe).formatter(),
+              DateTime.convertirEnValueType(result.demande.rejet.rejetéeLe).formatter(),
               result.demande.rejet.réponseSignée.format,
             ),
           }

@@ -15,7 +15,6 @@ export type DemandeChangementActionnaireRejetéeEvent = DomainEvent<
     réponseSignée: {
       format: string;
     };
-    nouvelActionnaire: string;
   }
 >;
 
@@ -47,7 +46,6 @@ export async function rejeterDemandeChangementActionnaire(
       réponseSignée: {
         format: réponseSignée.format,
       },
-      nouvelActionnaire: this.demande.nouvelActionnaire,
     },
   };
 
