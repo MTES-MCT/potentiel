@@ -79,4 +79,5 @@ export * as ReprésentantLégalSaga from './représentantLégal.saga';
 // ValueType
 export * as TypeReprésentantLégal from './typeReprésentantLégal.valueType';
 export * as TypeDocumentChangementReprésentantLégal from './changement/typeDocumentChangementReprésentantLégal.valueType';
+export * as TypeTâchePlanifiéeChangementReprésentantLégal from './changement/typeTâchePlanifiéeChangementReprésentantLégal.valueType';
 export * as StatutChangementReprésentantLégal from './changement/statutChangementReprésentantLégal.valueType';
