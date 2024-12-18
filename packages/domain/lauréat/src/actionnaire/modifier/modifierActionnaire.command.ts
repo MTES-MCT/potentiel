@@ -5,7 +5,6 @@ import { LoadAggregate } from '@potentiel-domain/core';
 
 import { loadActionnaireFactory } from '../actionnaire.aggregate';
 
-// TODO: on peut ajouter ici un document non obligatoire
 export type ModifierActionnaireCommand = Message<
   'Lauréat.Actionnaire.Command.ModifierActionnaire',
   {

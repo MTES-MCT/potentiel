@@ -48,7 +48,6 @@ export type ProjectDataForProjectPage = {
   isFinancementParticipatif: boolean;
   isInvestissementParticipatif: boolean;
   actionnariat?: Actionnariat;
-  actionnaire?: string;
 
   adresseProjet: string;
   codePostalProjet: string;
