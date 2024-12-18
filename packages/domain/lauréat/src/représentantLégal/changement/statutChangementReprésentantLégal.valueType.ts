@@ -40,6 +40,9 @@ export const bind = ({ statut }: PlainType<ValueType>): ValueType => {
       if (nouveauStatut.estDemandé() && this.estDemandé()) {
         throw new DemandeChangementDéjàDemandéeError();
       }
+      if (nouveauStatut.estAccordé() && this.estAccordé()) {
+        throw new DemandeChangementInexistanteError();
+      }
     },
   };
 };
@@ -73,5 +76,11 @@ class StatutChangementReprésentantLégalInvalideError extends InvalidOperationE
 class DemandeChangementDéjàDemandéeError extends InvalidOperationError {
   constructor() {
     super(`Une demande de changement de représentant légal est déjà en cours`);
+  }
+}
+
+class DemandeChangementInexistanteError extends InvalidOperationError {
+  constructor() {
+    super(`Aucun changement de représentant légal n'est en cours`);
   }
 }

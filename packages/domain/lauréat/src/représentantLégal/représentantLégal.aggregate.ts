@@ -46,13 +46,14 @@ export type ReprésentantLégalAggregate = Aggregate<ReprésentantLégalEvent> &
     nom: string;
     type: TypeReprésentantLégal.ValueType;
     statut: StatutChangementReprésentantLégal.ValueType;
-  };
-  accord?: {
-    nom: string;
-    type: TypeReprésentantLégal.ValueType;
-    accordéLe: DateTime.ValueType;
-    réponseSignée: {
-      format: string;
+
+    accord?: {
+      nom: string;
+      type: TypeReprésentantLégal.ValueType;
+      accordéLe: DateTime.ValueType;
+      réponseSignée: {
+        format: string;
+      };
     };
   };
   readonly importer: typeof importer;

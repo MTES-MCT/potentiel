@@ -2,7 +2,7 @@ import { ReprésentantLégal } from '@potentiel-domain/laureat';
 import { findProjection } from '@potentiel-infrastructure/pg-projections';
 import { Option } from '@potentiel-libraries/monads';
 
-import { upsertProjection } from '../../../infrastructure';
+import { updateOneProjection, upsertProjection } from '../../../infrastructure';
 
 export const handleChangementReprésentantLégalAccordé = async ({
   payload: {
@@ -35,6 +35,14 @@ export const handleChangementReprésentantLégalAccordé = async ({
             réponseSignée,
           },
         },
+      },
+    );
+
+    updateOneProjection<ReprésentantLégal.ReprésentantLégalEntity>(
+      `représentant-légal|${identifiantProjet}`,
+      {
+        nomReprésentantLégal,
+        typeReprésentantLégal,
       },
     );
   }
