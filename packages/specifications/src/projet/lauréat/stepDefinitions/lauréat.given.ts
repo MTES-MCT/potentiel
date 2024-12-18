@@ -1,6 +1,6 @@
 import { randomUUID } from 'crypto';
 
-import { Given as EtantDonné } from '@cucumber/cucumber';
+import { DataTable, Given as EtantDonné } from '@cucumber/cucumber';
 import { mediator } from 'mediateur';
 
 import { executeQuery } from '@potentiel-libraries/pg-helpers';
@@ -24,21 +24,14 @@ EtantDonné(
   'le projet lauréat sans garanties financières importées {string}',
   async function (this: PotentielWorld, nomProjet: string) {
     try {
-      const identifiantProjetSansGf =
-        this.candidatureWorld.identifiantProjetSansGarantiesFinancières.formatter();
-
       const dateDésignation = this.lauréatWorld.dateDésignation;
 
-      await importerCandidature.call(
-        this,
-        nomProjet,
-        'classé',
-        {
-          typeGarantiesFinancièresValue: undefined,
-          dateÉchéanceGfValue: undefined,
-        },
-        identifiantProjetSansGf,
-      );
+      await importerCandidature.call(this, nomProjet, 'classé', {
+        typeGarantiesFinancièresValue: undefined,
+        dateÉchéanceGfValue: undefined,
+        appelOffreValue: 'PPE2 - Innovation',
+        périodeValue: '1',
+      });
 
       await notifierLauréat.call(this, dateDésignation);
 
@@ -46,6 +39,25 @@ EtantDonné(
     } catch (error) {
       this.error = error as Error;
     }
+  },
+);
+
+EtantDonné(
+  'le projet lauréat {string} avec :',
+  async function (this: PotentielWorld, nomProjet: string, table: DataTable) {
+    const exemple = table.rowsHash();
+    await importerCandidature.call(
+      this,
+      nomProjet,
+      'classé',
+      this.candidatureWorld.mapExempleToFixtureValues(exemple),
+    );
+
+    const dateDésignation = this.lauréatWorld.dateDésignation;
+
+    await notifierLauréat.call(this, dateDésignation);
+
+    await insérerProjetAvecDonnéesCandidature.call(this, dateDésignation, 'lauréat');
   },
 );
 

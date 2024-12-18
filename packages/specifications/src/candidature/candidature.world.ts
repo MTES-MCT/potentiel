@@ -17,17 +17,9 @@ export class CandidatureWorld {
     return this.#corrigerCandidature;
   }
 
-  #identifiantProjetSansGarantiesFinancières: IdentifiantProjet.ValueType;
-
-  get identifiantProjetSansGarantiesFinancières() {
-    return this.#identifiantProjetSansGarantiesFinancières;
-  }
-
   constructor() {
     this.#importerCandidature = new ImporterCandidatureFixture();
     this.#corrigerCandidature = new CorrigerCandidatureFixture();
-    this.#identifiantProjetSansGarantiesFinancières =
-      IdentifiantProjet.convertirEnValueType(`PPE2 - Innovation#1#1#66`);
   }
 
   mapExempleToFixtureValues(exemple: Record<string, string>) {

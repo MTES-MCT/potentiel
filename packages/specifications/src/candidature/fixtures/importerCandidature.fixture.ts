@@ -27,17 +27,14 @@ export class ImporterCandidatureFixture
 
   créer({
     values,
-    identifiantProjet,
   }: {
-    identifiantProjet?: string;
     values: DeepPartial<ImporterCandidature['values']> & {
       statutValue: string;
       importéPar: string;
     };
   }): Readonly<ImporterCandidature> {
-    this.#identifiantProjet = identifiantProjet ?? getValidFakeIdentifiantProjet();
     const { appelOffre, période, famille, numéroCRE } = IdentifiantProjet.convertirEnValueType(
-      this.#identifiantProjet,
+      getValidFakeIdentifiantProjet(),
     );
 
     const localitéValue = {
@@ -87,6 +84,7 @@ export class ImporterCandidatureFixture
       },
       localitéValue,
     };
+    this.#identifiantProjet = `${fixture.appelOffreValue}#${fixture.périodeValue}#${fixture.familleValue}#${fixture.numéroCREValue}`;
     this.#values = fixture;
 
     this.aÉtéCréé = true;
