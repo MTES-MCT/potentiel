@@ -13,6 +13,7 @@ import { Raccordement } from '@potentiel-domain/reseau';
 import { Option } from '@potentiel-libraries/monads';
 import { IdentifiantProjet } from '@potentiel-domain/common';
 import { featureFlags } from '@potentiel-applications/feature-flags';
+import { GetActionnaireForProjectPage } from '../../../../controllers/project/getProjectPage/_utils';
 
 export type InfoGeneralesProps = {
   project: ProjectDataForProjectPage;
@@ -20,6 +21,7 @@ export type InfoGeneralesProps = {
   raccordement: Option.Type<Raccordement.ConsulterRaccordementReadModel>;
   demandeRecours: ProjectDataForProjectPage['demandeRecours'];
   garantiesFinancières?: GarantiesFinancièresProjetProps['garantiesFinancières'];
+  actionnaire: GetActionnaireForProjectPage;
 };
 
 export const InfoGenerales = ({
@@ -37,12 +39,12 @@ export const InfoGenerales = ({
     regionProjet,
     departementProjet,
     adresseProjet,
-    actionnaire,
   },
   raccordement,
   role,
   garantiesFinancières,
   demandeRecours,
+  actionnaire,
 }: InfoGeneralesProps) => {
   const puissanceInférieurePuissanceMaxVolRéservé =
     appelOffre.periode.noteThresholdBy === 'category' &&
@@ -128,7 +130,7 @@ export const InfoGenerales = ({
       {featureFlags.isActionnaireEnabled && (
         <div>
           <Heading3 className="m-0">Actionnaire</Heading3>
-          <p className="m-0">{actionnaire ?? 'Non renseigné'}</p>
+          <p className="m-0">{actionnaire?.nom ?? 'Non renseigné'}</p>
           <Link
             href={Routes.Actionnaire.modifier(
               formatProjectDataToIdentifiantProjetValueType({

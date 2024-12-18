@@ -146,7 +146,6 @@ export const getProjectDataForProjectPage: GetProjectDataForProjectPage = ({ pro
           potentielIdentifier,
           dcrDueOn,
           désignationCatégorie,
-          actionnaire
         },
       }): ResultAsync<ProjectDataForProjectPage, never> =>
         okAsync({
@@ -173,7 +172,6 @@ export const getProjectDataForProjectPage: GetProjectDataForProjectPage = ({ pro
           email,
           note,
           details,
-          actionnaire,
           notifiedOn: notifiedOn ? new Date(notifiedOn) : undefined,
           completionDueOn: completionDueOn ? new Date(completionDueOn) : undefined,
           isClasse: classe === 'Classé',

@@ -28,6 +28,7 @@ import {
   getReprésentantLégal,
   getRecours,
   getRaccordement,
+  getActionnaire,
 } from './_utils';
 import { Role } from '@potentiel-domain/utilisateur';
 
@@ -189,6 +190,7 @@ v1Router.get(
           ),
           représentantLégal: await getReprésentantLégal(identifiantProjetValueType, user.role),
           demandeRecours: await getRecours(identifiantProjetValueType),
+          actionnaire: await getActionnaire(identifiantProjetValueType, user.role),
           hasAttestationConformité: !!attestationConformité,
         }),
       );
