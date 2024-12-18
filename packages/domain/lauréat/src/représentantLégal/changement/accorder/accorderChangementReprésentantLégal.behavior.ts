@@ -7,7 +7,7 @@ import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
 import { DocumentProjet } from '@potentiel-domain/document';
 
 import { ReprésentantLégalAggregate } from '../../représentantLégal.aggregate';
-import * as StatutChangementReprésentantLégal from '../statutChangementReprésentantLégal.valueType';
+// import * as StatutChangementReprésentantLégal from '../statutChangementReprésentantLégal.valueType';
 import { TypeReprésentantLégal } from '../..';
 
 export type ChangementReprésentantLégalAccordéEvent = DomainEvent<
@@ -44,9 +44,9 @@ export async function accorder(
     typeReprésentantLégal,
   }: AccorderOptions,
 ) {
-  this.demande?.statut.vérifierQueLeChangementDeStatutEstPossibleEn(
-    StatutChangementReprésentantLégal.accordé,
-  );
+  // this.demande?.statut.vérifierQueLeChangementDeStatutEstPossibleEn(
+  //   StatutChangementReprésentantLégal.accordé,
+  // );
 
   const event: ChangementReprésentantLégalAccordéEvent = {
     type: 'ChangementReprésentantLégalAccordé-V1',

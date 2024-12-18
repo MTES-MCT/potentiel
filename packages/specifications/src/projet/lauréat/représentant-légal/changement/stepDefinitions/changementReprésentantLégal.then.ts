@@ -80,6 +80,7 @@ Alors(
       const expected = mapToPlainObject(
         this.lauréatWorld.représentantLégalWorld.changementReprésentantLégalWorld.mapToExpected(
           identifiantProjet,
+          ReprésentantLégal.StatutChangementReprésentantLégal.accordé,
         ),
       );
 

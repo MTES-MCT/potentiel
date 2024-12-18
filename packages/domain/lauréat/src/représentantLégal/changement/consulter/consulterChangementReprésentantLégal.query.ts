@@ -52,10 +52,11 @@ export const registerConsulterChangementReprésentantLegalQuery = ({
     );
 
     return Option.match(changement)
-      .some(({ demande }) =>
+      .some(({ demande, accord }) =>
         mapToReadModel({
           identifiantProjet: identifiantProjetValueType,
           demande,
+          accord,
         }),
       )
       .none();
@@ -69,9 +70,10 @@ export const registerConsulterChangementReprésentantLegalQuery = ({
 type MapToReadModel = (args: {
   identifiantProjet: IdentifiantProjet.ValueType;
   demande: ReprésentantLégal.ChangementReprésentantLégalEntity['demande'];
+  accord: ReprésentantLégal.ChangementReprésentantLégalEntity['accord'];
 }) => Option.Type<ConsulterChangementReprésentantLégalReadModel>;
 
-const mapToReadModel: MapToReadModel = ({ identifiantProjet, demande }) => ({
+const mapToReadModel: MapToReadModel = ({ identifiantProjet, demande, accord }) => ({
   identifiantProjet,
   statut: ReprésentantLégal.StatutChangementReprésentantLégal.convertirEnValueType(demande.statut),
   demande: {
@@ -87,5 +89,19 @@ const mapToReadModel: MapToReadModel = ({ identifiantProjet, demande }) => ({
     ),
     demandéLe: DateTime.convertirEnValueType(demande.demandéLe),
     demandéPar: Email.convertirEnValueType(demande.demandéPar),
+  },
+  accord: accord && {
+    nomReprésentantLégal: accord.nomReprésentantLégal,
+    typeReprésentantLégal: ReprésentantLégal.TypeReprésentantLégal.convertirEnValueType(
+      accord.typeReprésentantLégal,
+    ),
+    réponseSignée: DocumentProjet.convertirEnValueType(
+      identifiantProjet.formatter(),
+      ReprésentantLégal.TypeDocumentChangementReprésentantLégal.changementAccordé.formatter(),
+      accord.accordéLe,
+      accord.réponseSignée.format,
+    ),
+    accordéPar: Email.convertirEnValueType(accord.accordéPar),
+    accordéLe: DateTime.convertirEnValueType(accord.accordéLe),
   },
 });

@@ -68,6 +68,8 @@ export class AccorderChangementReprésentantLégalFixture
       ...partialFixture,
     };
 
+    this.#nomReprésentantLégal = fixture.nomReprésentantLégal;
+    this.#typeReprésentantLégal = fixture.typeReprésentantLégal;
     this.#accordéLe = fixture.accordéeLe;
     this.#accordéPar = fixture.accordéePar;
     this.#format = fixture.réponseSignée.format;

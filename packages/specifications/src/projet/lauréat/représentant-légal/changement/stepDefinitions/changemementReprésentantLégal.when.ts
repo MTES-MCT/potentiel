@@ -85,12 +85,8 @@ Quand(
   async function (this: PotentielWorld, _: string) {
     const identifiantProjet = this.lauréatWorld.identifiantProjet.formatter();
 
-    const { accordéeLe, accordéePar, réponseSignée } =
+    const { accordéeLe, accordéePar, réponseSignée, nomReprésentantLégal, typeReprésentantLégal } =
       this.lauréatWorld.représentantLégalWorld.changementReprésentantLégalWorld.accorderChangementReprésentantLégalFixture.créer();
-
-    const { nomReprésentantLégal, typeReprésentantLégal } =
-      this.lauréatWorld.représentantLégalWorld.changementReprésentantLégalWorld
-        .demanderChangementReprésentantLégalFixture;
 
     try {
       await mediator.send<ReprésentantLégal.ReprésentantLégalUseCase>({
