@@ -13,24 +13,24 @@ import { SubmitButton } from '@/components/atoms/form/SubmitButton';
 import { ValidationErrors } from '../../../../utils/formAction';
 
 import {
-  modifierActionnaireAction,
-  ModifierActionnaireFormKeys,
-} from './modifierActionnaire.action';
-import { ModifierActionnairePageProps } from './ModifierActionnaire.page';
+  demanderChangementActionnaireAction,
+  DemanderChangementActionnaireFormKeys,
+} from './demanderChangementActionnaire.action';
+import { DemanderChangementActionnairePageProps } from './DemanderChangementActionnaire.page';
 
-export type ModifierActionnaireFormProps = ModifierActionnairePageProps;
+export type DemanderChangementActionnaireFormProps = DemanderChangementActionnairePageProps;
 
-export const ModifierActionnaireForm: FC<ModifierActionnaireFormProps> = ({
+export const DemanderChangementActionnaireForm: FC<DemanderChangementActionnaireFormProps> = ({
   identifiantProjet,
   actionnaire,
 }) => {
   const [validationErrors, setValidationErrors] = useState<
-    ValidationErrors<ModifierActionnaireFormKeys>
+    ValidationErrors<DemanderChangementActionnaireFormKeys>
   >({});
 
   return (
     <Form
-      action={modifierActionnaireAction}
+      action={demanderChangementActionnaireAction}
       onValidationError={(validationErrors) => setValidationErrors(validationErrors)}
       actions={
         <>
@@ -44,7 +44,7 @@ export const ModifierActionnaireForm: FC<ModifierActionnaireFormProps> = ({
           >
             Retour sur le projet
           </Button>
-          <SubmitButton>Modifier l'actionnaire</SubmitButton>
+          <SubmitButton>Demander le changement de l'actionnaire</SubmitButton>
         </>
       }
     >
