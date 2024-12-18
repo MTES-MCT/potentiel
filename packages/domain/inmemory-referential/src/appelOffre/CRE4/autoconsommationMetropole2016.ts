@@ -100,6 +100,11 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
       cahiersDesChargesModifiésDisponibles: [CDCModifié30072021],
       abandonAvecRecandidature: true,
       choisirNouveauCahierDesCharges: true,
+      changement: {
+        représentantLégal: {
+          typeTâchePlanifiée: 'représentant-légal.changement-réputé-accordé',
+        },
+      },
     },
     {
       id: '2',
@@ -113,6 +118,11 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
       cahiersDesChargesModifiésDisponibles: [CDCModifié30072021],
       abandonAvecRecandidature: true,
       choisirNouveauCahierDesCharges: true,
+      changement: {
+        représentantLégal: {
+          typeTâchePlanifiée: 'représentant-légal.changement-réputé-accordé',
+        },
+      },
     },
   ],
 };

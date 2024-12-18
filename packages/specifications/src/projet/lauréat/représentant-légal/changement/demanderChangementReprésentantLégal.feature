@@ -42,32 +42,37 @@ Fonctionnalité: Demander le changement de représentant légal d'un projet laur
         Quand le porteur demande le changement de réprésentant pour le projet lauréat
         Alors le porteur devrait être informé que "Impossible de demander le changement de représentant légal pour un projet achevé"
 
-    @NotImplemented
-    Scénario: Impossible de demander le changement de représentant légal si le projet est déjà en service
-        Etant donné le gestionnaire de réseau "Enedis"
-        Et une demande complète de raccordement pour le projet lauréat transmise auprès du gestionnaire de réseau avec :
-            | La date de qualification                | 2022-10-28                                                                                            |
-            | La référence du dossier de raccordement | OUE-RP-2022-000033                                                                                    |
-            | Le format de l'accusé de réception      | application/pdf                                                                                       |
-            | Le contenu de l'accusé de réception     | Accusé de réception ayant pour référence OUE-RP-2022-000033 et la date de qualification au 2022-10-28 |
-        Et une proposition technique et financière pour le dossier ayant comme référence "OUE-RP-2022-000033" du raccordement pour le projet lauréat avec :
-            | La date de signature                                | 2023-01-10                                                                                                        |
-            | Le format de la proposition technique et financière | application/pdf                                                                                                   |
-            | Le contenu de proposition technique et financière   | Proposition technique et financière pour la référence OUE-RP-2022-000033 avec une date de signature au 2023-01-10 |
-        Et une date de mise en service "2024-01-01" pour le dossier ayant comme référence "OUE-RP-2022-000033" du raccordement pour le projet lauréat
-        Quand le porteur demande le changement de réprésentant pour le projet lauréat
-        Alors le porteur devrait être informé que "Impossible de demander le changement de représentant légal pour un projet déjà en service"
-
     @select
     Scénario: Une tâche du type "changement de représentant légal réputé accordé" est planifiée quand un changement est demandé pour un projet lauréat avec une période d'un appel d'offre qui permet de valider le changement automatiquement
-        Etant donné le projet lauréat "Du boulodrome de Bordeaux" avec l'appel d'offre "PPE2 - Sol", la période "1", la famille "" et le numéro CRE "test-1"
+        Etant donné le projet lauréat "Du boulodrome de Bordeaux" avec :
+            | appel d'offre | PPE2 - Sol |
+            | période       | 1          |
+            | numéro CRE    | test-1     |
         Et le porteur "Marcel Patoulatchi" ayant accés au projet lauréat "Du boulodrome de Bordeaux"
+        Et la dreal "Dreal du sud-ouest" associée à la région du projet
         Quand le porteur demande le changement de réprésentant pour le projet lauréat
-        Alors une tâche "changement de représentant légal réputé accordé" est planifiée à la date du "XXXX-XX-XX" pour le projet "Du boulodrome de Marseille"
+        Alors une tâche "changement de représentant légal réputé accordé" est planifiée pour le projet "Du boulodrome de Marseille"
 
-    @select
     Scénario: Une tâche du type "changement de représentant légal réputé rejeté" est planifiée quand un changement est demandé pour un projet lauréat avec une période d'un appel d'offre qui ne permet pas de valider le changement automatiquement
         Etant donné le projet lauréat "Du boulodrome de Bordeaux" avec l'appel d'offre "Eolien", la période "7", la famille "" et le numéro CRE "test-2"
         Et le porteur "Marcel Patoulatchi" ayant accés au projet lauréat "Du boulodrome de Bordeaux"
         Quand le porteur demande le changement de réprésentant pour le projet lauréat
         Alors une tâche "changement de représentant légal réputé rejeté" est planifiée à la date du "XXXX-XX-XX" pour le projet "Du boulodrome de Bordeaux"
+
+
+# @NotImplemented
+# Scénario: Impossible de demander le changement de représentant légal si le projet est déjà en service
+#     Etant donné le gestionnaire de réseau "Enedis"
+#     Et le gestionnaire de réseau "Enedis" attribué au raccordement du projet lauréat "Du boulodrome de Marseille"
+#     Et une demande complète de raccordement pour le projet lauréat "Du boulodrome de Marseille" transmise auprès du gestionnaire de réseau "Enedis" avec :
+#         | La date de qualification                | 2022-10-28                                                                                            |
+#         | La référence du dossier de raccordement | OUE-RP-2022-000033                                                                                    |
+#         | Le format de l'accusé de réception      | application/pdf                                                                                       |
+#         | Le contenu de l'accusé de réception     | Accusé de réception ayant pour référence OUE-RP-2022-000033 et la date de qualification au 2022-10-28 |
+#     Et une proposition technique et financière pour le dossier ayant comme référence "OUE-RP-2022-000033" du raccordement pour le projet lauréat "Du boulodrome de Marseille" avec :
+#         | La date de signature                                | 2023-01-10                                                                                                        |
+#         | Le format de la proposition technique et financière | application/pdf                                                                                                   |
+#         | Le contenu de proposition technique et financière   | Proposition technique et financière pour la référence OUE-RP-2022-000033 avec une date de signature au 2023-01-10 |
+#     Et une date de mise en service "2024-01-01" pour le dossier ayant comme référence "OUE-RP-2022-000033" du raccordement pour le projet lauréat "Du boulodrome de Marseille"
+#     Quand le porteur demande le changement de réprésentant pour le projet lauréat
+#     Alors le porteur devrait être informé que "Impossible de demander le changement de représentant légal pour un projet déjà en service"

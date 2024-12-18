@@ -163,6 +163,11 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       familles: [],
       cahiersDesChargesModifiésDisponibles: [CDCModifié30082022],
       abandonAvecRecandidature: true,
+      changement: {
+        représentantLégal: {
+          typeTâchePlanifiée: 'représentant-légal.changement-réputé-rejeté',
+        },
+      },
     },
     {
       id: '2',
@@ -176,6 +181,11 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       familles: [],
       cahiersDesChargesModifiésDisponibles: [CDCModifié30082022],
       abandonAvecRecandidature: true,
+      changement: {
+        représentantLégal: {
+          typeTâchePlanifiée: 'représentant-légal.changement-réputé-rejeté',
+        },
+      },
     },
     {
       id: '3',
@@ -190,6 +200,11 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       familles: [],
       cahiersDesChargesModifiésDisponibles: [],
       abandonAvecRecandidature: true,
+      changement: {
+        représentantLégal: {
+          typeTâchePlanifiée: 'représentant-légal.changement-réputé-rejeté',
+        },
+      },
     },
     {
       id: '4',
@@ -203,6 +218,11 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       delaiDcrEnMois: { valeur: 3, texte: 'trois' },
       familles: [],
       cahiersDesChargesModifiésDisponibles: [],
+      changement: {
+        représentantLégal: {
+          typeTâchePlanifiée: 'représentant-légal.changement-réputé-rejeté',
+        },
+      },
     },
   ],
 };

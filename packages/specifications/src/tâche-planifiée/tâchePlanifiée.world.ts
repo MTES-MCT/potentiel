@@ -1,38 +1,43 @@
-import { GarantiesFinancières } from '@potentiel-domain/laureat';
+import { match } from 'ts-pattern';
+
+import { GarantiesFinancières, ReprésentantLégal } from '@potentiel-domain/laureat';
 import { StatutTâchePlanifiée } from '@potentiel-domain/tache-planifiee';
 
 export type RechercherTypeTâchePlanifiée =
   | 'échoir les garanties financières'
   | 'rappel échéance garanties financières à un mois'
-  | 'rappel échéance garanties financières à deux mois';
+  | 'rappel échéance garanties financières à deux mois'
+  | 'changement de représentant légal réputé accordé';
 
 export type RechercherStatutTâchePlanifiée = 'planifiée' | 'annulée' | 'executée';
 
 export class TâchePlanifiéeWorld {
-  rechercherTypeTâchePlanifiée(
-    value: RechercherTypeTâchePlanifiée,
-  ): GarantiesFinancières.TypeTâchePlanifiéeGarantiesFinancières.ValueType {
-    switch (value) {
-      case 'échoir les garanties financières':
-        return GarantiesFinancières.TypeTâchePlanifiéeGarantiesFinancières.échoir;
-      case 'rappel échéance garanties financières à un mois':
-        return GarantiesFinancières.TypeTâchePlanifiéeGarantiesFinancières.rappelÉchéanceUnMois;
-      case 'rappel échéance garanties financières à deux mois':
-        return GarantiesFinancières.TypeTâchePlanifiéeGarantiesFinancières.rappelÉchéanceDeuxMois;
-      default:
-        return GarantiesFinancières.TypeTâchePlanifiéeGarantiesFinancières.inconnue;
-    }
+  rechercherTypeTâchePlanifiée(value: RechercherTypeTâchePlanifiée) {
+    return match(value)
+      .with(
+        'échoir les garanties financières',
+        () => GarantiesFinancières.TypeTâchePlanifiéeGarantiesFinancières.échoir,
+      )
+      .with(
+        'rappel échéance garanties financières à un mois',
+        () => GarantiesFinancières.TypeTâchePlanifiéeGarantiesFinancières.rappelÉchéanceUnMois,
+      )
+      .with(
+        'rappel échéance garanties financières à deux mois',
+        () => GarantiesFinancières.TypeTâchePlanifiéeGarantiesFinancières.rappelÉchéanceDeuxMois,
+      )
+      .with(
+        'changement de représentant légal réputé accordé',
+        () =>
+          ReprésentantLégal.TypeTâchePlanifiéeChangementReprésentantLégal.changementRéputéAccordé,
+      )
+      .exhaustive();
   }
   rechercherStatutTâchePlanifiée(value: RechercherStatutTâchePlanifiée) {
-    switch (value) {
-      case 'planifiée':
-        return StatutTâchePlanifiée.enAttenteExécution;
-      case 'annulée':
-        return StatutTâchePlanifiée.annulée;
-      case 'executée':
-        return StatutTâchePlanifiée.exécutée;
-      default:
-        return StatutTâchePlanifiée.inconnu;
-    }
+    return match(value)
+      .with('planifiée', () => StatutTâchePlanifiée.enAttenteExécution)
+      .with('annulée', () => StatutTâchePlanifiée.annulée)
+      .with('executée', () => StatutTâchePlanifiée.exécutée)
+      .exhaustive();
   }
 }
