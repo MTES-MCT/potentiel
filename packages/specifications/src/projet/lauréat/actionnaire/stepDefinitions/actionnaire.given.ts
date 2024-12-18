@@ -24,7 +24,7 @@ EtantDonné(
 );
 
 EtantDonné(
-  "un changement d'actionnaire accordé pour le projet lauréat",
+  "une demande de changement d'actionnaire accordée pour le projet lauréat",
   async function (this: PotentielWorld) {
     await demanderChangementActionnaire.call(
       this,

@@ -17,7 +17,7 @@ Fonctionnalité: Accorder le changement d'actionnaire d'un projet lauréat
         Alors la dreal devrait être informé que "Aucune demande de changement d'actionnaire n'est en cours"
 
     Scénario: Impossible d'accorder le changement d'actionnaire d'un projet lauréat si la demande a déjà été accordée
-        Etant donné un changement d'actionnaire accordé pour le projet lauréat
+        Etant donné une demande de changement d'actionnaire accordée pour le projet lauréat
         Quand la DREAL associée au projet accorde le changement d'actionnaire pour le projet lauréat
         Alors l'utilisateur devrait être informé que "La demande de changement d'actionnaire a déjà été accordée"
 
