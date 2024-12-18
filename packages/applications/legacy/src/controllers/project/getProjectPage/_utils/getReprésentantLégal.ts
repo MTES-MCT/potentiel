@@ -7,6 +7,7 @@ import { Candidature } from '@potentiel-domain/candidature';
 import { Routes } from '@potentiel-applications/routes';
 import { Role } from '@potentiel-domain/utilisateur';
 import { getLogger } from '@potentiel-libraries/monitoring';
+import { isDemandeChangementReprésentantLégalEnabled } from '@potentiel-applications/feature-flags';
 
 export type GetReprésentantLégalForProjectPage =
   | {
@@ -38,17 +39,20 @@ export const getReprésentantLégal: GetReprésentantLégal = async (identifiant
       });
 
     if (Option.isSome(représentantLégal)) {
+      const featureActivated = isDemandeChangementReprésentantLégalEnabled();
+
       const demandeChangementExistante = await getChangementReprésentantLégal(identifiantProjet);
 
       const peutConsulterLaDemandeExistante =
-        demandeChangementExistante && utilisateur.aLaPermission('représentantLégal.consulter');
+        utilisateur.aLaPermission('représentantLégal.consulter') && demandeChangementExistante;
 
       const peutFaireUneDemande =
-        !demandeChangementExistante &&
-        utilisateur.aLaPermission('représentantLégal.demanderChangement');
+        featureActivated &&
+        utilisateur.aLaPermission('représentantLégal.demanderChangement') &&
+        !demandeChangementExistante;
 
       const peutFaireModification =
-        !demandeChangementExistante && utilisateur.aLaPermission('représentantLégal.modifier');
+        utilisateur.aLaPermission('représentantLégal.modifier') && !demandeChangementExistante;
 
       return {
         nom: représentantLégal.nomReprésentantLégal,
@@ -97,12 +101,28 @@ export const getReprésentantLégal: GetReprésentantLégal = async (identifiant
 };
 
 const getChangementReprésentantLégal = async (identifiantProjet: IdentifiantProjet.ValueType) => {
-  const demande = await mediator.send<ReprésentantLégal.ConsulterChangementReprésentantLégalQuery>({
-    type: 'Lauréat.ReprésentantLégal.Query.ConsulterChangementReprésentantLégal',
-    data: { identifiantProjet: identifiantProjet.formatter() },
-  });
+  if (!isDemandeChangementReprésentantLégalEnabled()) {
+    return false;
+  }
 
-  return Option.match(demande)
-    .some(() => true)
-    .none(() => false);
+  try {
+    const demande =
+      await mediator.send<ReprésentantLégal.ConsulterChangementReprésentantLégalQuery>({
+        type: 'Lauréat.ReprésentantLégal.Query.ConsulterChangementReprésentantLégal',
+        data: { identifiantProjet: identifiantProjet.formatter() },
+      });
+
+    return Option.match(demande)
+      .some(() => true)
+      .none(() => false);
+  } catch (error) {
+    getLogger('getChangementReprésentant').error(
+      `Impossible de consulter la demande de changement de représentant légal`,
+      {
+        identifiantProjet: identifiantProjet.formatter(),
+        contexte: 'legacy',
+      },
+    );
+    return false;
+  }
 };
