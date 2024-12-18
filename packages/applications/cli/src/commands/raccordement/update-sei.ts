@@ -1,8 +1,24 @@
 import { Command, Flags } from '@oclif/core';
 import { mediator } from 'mediateur';
 
-import { bootstrap } from '@potentiel-applications/bootstrap';
-import { Raccordement } from '@potentiel-domain/reseau';
+import { Raccordement, registerRéseauUseCases } from '@potentiel-domain/reseau';
+import { registerRéseauQueries } from '@potentiel-domain/reseau';
+import {
+  countProjection,
+  findProjection,
+  listProjection,
+} from '@potentiel-infrastructure/pg-projections';
+import { loadAggregate } from '@potentiel-infrastructure/pg-event-sourcing';
+
+registerRéseauQueries({
+  count: countProjection,
+  find: findProjection,
+  list: listProjection,
+});
+
+registerRéseauUseCases({
+  loadAggregate: loadAggregate,
+});
 
 export default class UpdateSEI extends Command {
   static override description = 'Mise à jour de tous les raccordements SEI sur le même GRD';
@@ -19,7 +35,6 @@ export default class UpdateSEI extends Command {
   public async run(): Promise<void> {
     console.info('Lancement du script...');
     const { flags } = await this.parse(UpdateSEI);
-    await bootstrap({ middlewares: [] });
 
     let success = 0;
 
