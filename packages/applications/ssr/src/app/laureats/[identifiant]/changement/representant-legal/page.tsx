@@ -40,7 +40,6 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
       return (
         <DétailsChangementReprésentantLégalPage
           identifiantProjet={mapToPlainObject(identifiantProjet)}
-          statut={mapToPlainObject(changement.statut)}
           demande={mapToPlainObject(changement.demande)}
           role={mapToPlainObject(utilisateur.role)}
           actions={[]}
