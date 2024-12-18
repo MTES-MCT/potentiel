@@ -27,10 +27,11 @@ export class ChangementReprésentantLégalWorld {
 
   mapToExpected(
     identifiantProjet: IdentifiantProjet.ValueType,
+    statut?: ReprésentantLégal.StatutChangementReprésentantLégal.ValueType,
   ): ReprésentantLégal.ConsulterChangementReprésentantLégalReadModel {
     const expected: ReprésentantLégal.ConsulterChangementReprésentantLégalReadModel = {
       identifiantProjet,
-      statut: this.#demanderChangementReprésentantLégalFixture.statut,
+      statut: statut ?? this.#demanderChangementReprésentantLégalFixture.statut,
       demande: {
         nomReprésentantLégal: this.#demanderChangementReprésentantLégalFixture.nomReprésentantLégal,
         typeReprésentantLégal:
