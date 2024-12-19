@@ -10,7 +10,7 @@ Fonctionnalité: Accorder le changement d'actionnaire d'un projet lauréat
         Etant donné une demande de changement d'actionnaire en cours pour le projet lauréat
         Quand la DREAL associée au projet accorde le changement d'actionnaire pour le projet lauréat
         Alors l'actionnaire du projet lauréat devrait être mis à jour
-        Et la demande de changement de l'actionnaire devrait être consultable
+        Et la demande de changement de l'actionnaire devrait être accordée
 
     Scénario: Impossible d'accorder le changement d'actionnaire d'un projet lauréat si aucune demande n'est en cours
         Quand la DREAL associée au projet accorde le changement d'actionnaire pour le projet lauréat
