@@ -21,6 +21,7 @@ Fonctionnalité: Demander le changement de l'actionnaire d'un projet lauréat
         Quand le porteur demande le changement de l'actionnaire pour le projet lauréat
         Alors la nouvelle demande de changement de l'actionnaire devrait être consultable
 
+    @select
     Scénario: Demander le changement de l'actionnaire d'un projet lauréat si une demande a déjà été accordée
         Etant donné une demande de changement d'actionnaire accordée pour le projet lauréat
         Quand le porteur demande le changement de l'actionnaire pour le projet lauréat
