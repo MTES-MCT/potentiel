@@ -126,7 +126,7 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
       choisirNouveauCahierDesCharges: true,
       changement: {
         représentantLégal: {
-          typeTâchePlanifiée: 'représentant-légal.changement-réputé-accordé',
+          typeTâchePlanifiée: 'accord-tacite',
         },
       },
     },
@@ -153,7 +153,7 @@ Par dérogation, les modifications à la baisse de la Puissance installée qui s
       choisirNouveauCahierDesCharges: true,
       changement: {
         représentantLégal: {
-          typeTâchePlanifiée: 'représentant-légal.changement-réputé-accordé',
+          typeTâchePlanifiée: 'accord-tacite',
         },
       },
     },

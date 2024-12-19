@@ -102,7 +102,7 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
       choisirNouveauCahierDesCharges: true,
       changement: {
         représentantLégal: {
-          typeTâchePlanifiée: 'représentant-légal.changement-réputé-accordé',
+          typeTâchePlanifiée: 'accord-tacite',
         },
       },
     },
@@ -120,7 +120,7 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
       choisirNouveauCahierDesCharges: true,
       changement: {
         représentantLégal: {
-          typeTâchePlanifiée: 'représentant-légal.changement-réputé-accordé',
+          typeTâchePlanifiée: 'accord-tacite',
         },
       },
     },
