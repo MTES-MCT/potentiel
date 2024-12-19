@@ -11,7 +11,6 @@ export const handleChangementReprésentantLégalAccordé = async ({
     typeReprésentantLégal,
     accordéLe,
     accordéPar,
-    réponseSignée,
   },
 }: ReprésentantLégal.ChangementReprésentantLégalAccordéEvent) => {
   const changementReprésentantLégal =
@@ -32,7 +31,6 @@ export const handleChangementReprésentantLégalAccordé = async ({
             typeReprésentantLégal,
             accordéLe,
             accordéPar,
-            réponseSignée,
           },
         },
       },

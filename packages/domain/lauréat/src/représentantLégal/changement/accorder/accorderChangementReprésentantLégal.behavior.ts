@@ -3,7 +3,6 @@
 // Workspaces
 import { DomainEvent, InvalidOperationError } from '@potentiel-domain/core';
 import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
-import { DocumentProjet } from '@potentiel-domain/document';
 
 import { ReprésentantLégalAggregate } from '../../représentantLégal.aggregate';
 import * as StatutChangementReprésentantLégal from '../statutChangementReprésentantLégal.valueType';
@@ -17,9 +16,6 @@ export type ChangementReprésentantLégalAccordéEvent = DomainEvent<
     identifiantProjet: IdentifiantProjet.RawType;
     nomReprésentantLégal: string;
     typeReprésentantLégal: TypeReprésentantLégal.RawType;
-    réponseSignée: {
-      format: string;
-    };
   }
 >;
 
@@ -29,7 +25,6 @@ export type AccorderOptions = {
   identifiantProjet: IdentifiantProjet.ValueType;
   nomReprésentantLégal: string;
   typeReprésentantLégal: TypeReprésentantLégal.ValueType;
-  réponseSignée: DocumentProjet.ValueType;
 };
 
 export async function accorder(
@@ -38,7 +33,6 @@ export async function accorder(
     dateAccord,
     identifiantUtilisateur,
     identifiantProjet,
-    réponseSignée,
     nomReprésentantLégal,
     typeReprésentantLégal,
   }: AccorderOptions,
@@ -54,9 +48,6 @@ export async function accorder(
     type: 'ChangementReprésentantLégalAccordé-V1',
     payload: {
       identifiantProjet: identifiantProjet.formatter(),
-      réponseSignée: {
-        format: réponseSignée.format,
-      },
       accordéLe: dateAccord.formatter(),
       accordéPar: identifiantUtilisateur.formatter(),
       nomReprésentantLégal,
@@ -70,7 +61,7 @@ export async function accorder(
 export function applyChangementReprésentantLégalAccordé(
   this: ReprésentantLégalAggregate,
   {
-    payload: { accordéLe, réponseSignée, nomReprésentantLégal, typeReprésentantLégal },
+    payload: { accordéLe, nomReprésentantLégal, typeReprésentantLégal },
   }: ChangementReprésentantLégalAccordéEvent,
 ) {
   if (this.demande) {
@@ -80,7 +71,6 @@ export function applyChangementReprésentantLégalAccordé(
       accordéLe: DateTime.convertirEnValueType(accordéLe),
       nom: nomReprésentantLégal,
       type: TypeReprésentantLégal.convertirEnValueType(typeReprésentantLégal),
-      réponseSignée,
     };
   }
 }

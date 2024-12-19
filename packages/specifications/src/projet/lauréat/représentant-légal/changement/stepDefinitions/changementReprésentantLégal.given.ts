@@ -66,7 +66,6 @@ EtantDonné(
         typeReprésentantLégalValue: fixtureAccorder.typeReprésentantLégal.formatter(),
         identifiantUtilisateurValue: fixtureAccorder.accordéePar,
         dateAccordValue: fixtureAccorder.accordéeLe,
-        réponseSignéeValue: fixtureAccorder.réponseSignée,
       },
     });
   },

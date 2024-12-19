@@ -1,10 +1,10 @@
 import { InvalidOperationError } from '@potentiel-domain/core';
 
-export type TypeDocument = 'pièce-justificative' | 'changement-accordé';
+export type TypeDocument = 'pièce-justificative';
 
 export type RawType = `représentant-légal/${TypeDocument}`;
 
-const typeDocument: Array<TypeDocument> = ['pièce-justificative', 'changement-accordé'];
+const typeDocument: Array<TypeDocument> = ['pièce-justificative'];
 
 export type ValueType = Readonly<{
   type: TypeDocument;
@@ -30,7 +30,6 @@ function estValide(value: string): asserts value is TypeDocument {
 }
 
 export const pièceJustificative = convertirEnValueType('pièce-justificative');
-export const changementAccordé = convertirEnValueType('changement-accordé');
 
 class TypeDocumentChangementReprésentantLégalInvalideError extends InvalidOperationError {
   constructor(value: string) {
