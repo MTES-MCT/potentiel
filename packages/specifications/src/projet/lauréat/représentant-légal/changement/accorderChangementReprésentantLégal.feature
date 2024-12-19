@@ -1,5 +1,4 @@
 # language: fr
-@select
 Fonctionnalité: Accorder la demande de changement de représentant légal d'un projet lauréat
 
     Contexte:
@@ -13,7 +12,6 @@ Fonctionnalité: Accorder la demande de changement de représentant légal d'un 
         Alors la demande de changement de représentant légal du projet lauréat devrait être accordée
         Et le représentant légal du projet lauréat devrait être mis à jour
 
-        # Et l'historique des changements de représentant légal du projet lauréat devrait être mis à jour
         Exemples:
             | l'utilisateur autorisé      |
             | le DGEC validateur          |
@@ -24,13 +22,12 @@ Fonctionnalité: Accorder la demande de changement de représentant légal d'un 
         Quand le DGEC validateur accorde la demande de changement de représentant légal pour le projet lauréat
         Alors le DGEC validateur devrait être informé que "Aucun changement de représentant légal n'est en cours"
 
-    @NotImplemented
-    Scénario: Impossible d'accorder la demande de changement de représentant légal d'un projet lauréat si le changement a déjà été rejeté
-        Etant donné une demande de changement de représentant légal rejetée pour le projet lauréat
+    Scénario: Impossible d'accorder la demande de changement de représentant légal d'un projet lauréat si aucun changement n'a été demandé
         Quand le DGEC validateur accorde la demande de changement de représentant légal pour le projet lauréat
         Alors le DGEC validateur devrait être informé que "Aucun changement de représentant légal n'est en cours"
 
     @NotImplemented
-    Scénario: Impossible d'accorder la demande de changement de représentant légal d'un projet lauréat si aucun changement n'a été demandé
+    Scénario: Impossible d'accorder la demande de changement de représentant légal d'un projet lauréat si le changement a déjà été rejeté
+        Etant donné une demande de changement de représentant légal rejetée pour le projet lauréat
         Quand le DGEC validateur accorde la demande de changement de représentant légal pour le projet lauréat
         Alors le DGEC validateur devrait être informé que "Aucun changement de représentant légal n'est en cours"

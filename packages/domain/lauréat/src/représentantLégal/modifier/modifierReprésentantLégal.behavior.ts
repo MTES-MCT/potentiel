@@ -41,7 +41,7 @@ export async function modifier(
   }
 
   if (
-    this.représentantLégal.nom === nomReprésentantLégal &&
+    this.représentantLégal?.nom === nomReprésentantLégal &&
     this.représentantLégal.type.estÉgaleÀ(typeReprésentantLégal)
   ) {
     throw new ReprésentantLégalIdentifiqueError();

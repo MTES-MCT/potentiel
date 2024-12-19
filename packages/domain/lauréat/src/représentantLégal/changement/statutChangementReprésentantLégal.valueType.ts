@@ -1,6 +1,6 @@
 import { InvalidOperationError, PlainType, ReadonlyValueType } from '@potentiel-domain/core';
 
-export const statuts = ['accordé', 'demandé', 'rejeté', 'inconnu'] as const;
+export const statuts = ['accordé', 'demandé', 'rejeté'] as const;
 
 export type RawType = (typeof statuts)[number];
 
@@ -10,7 +10,6 @@ export type ValueType = ReadonlyValueType<{
   estDemandé: () => boolean;
   estAccordé: () => boolean;
   estRejeté: () => boolean;
-  estInconnu: () => boolean;
   vérifierQueLeChangementDeStatutEstPossibleEn: (nouveauStatut: ValueType) => void;
 }>;
 
@@ -32,9 +31,6 @@ export const bind = ({ statut }: PlainType<ValueType>): ValueType => {
     },
     estRejeté() {
       return this.statut === 'rejeté';
-    },
-    estInconnu() {
-      return this.statut === 'inconnu';
     },
     vérifierQueLeChangementDeStatutEstPossibleEn(nouveauStatut: ValueType) {
       if (nouveauStatut.estDemandé() && this.estDemandé()) {
@@ -63,7 +59,6 @@ function estValide(value: string): asserts value is RawType {
 export const demandé = convertirEnValueType('demandé');
 export const accordé = convertirEnValueType('accordé');
 export const rejeté = convertirEnValueType('rejeté');
-export const inconnu = convertirEnValueType('inconnu');
 
 class StatutChangementReprésentantLégalInvalideError extends InvalidOperationError {
   constructor(value: string) {
