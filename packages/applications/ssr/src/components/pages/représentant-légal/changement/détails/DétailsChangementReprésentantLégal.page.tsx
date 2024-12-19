@@ -33,8 +33,8 @@ export const DétailsChangementReprésentantLégalPage: FC<
   DétailsChangementReprésentantLégalPageProps
 > = ({
   identifiantProjet,
-  statut,
   demande: {
+    statut,
     nomReprésentantLégal,
     typeReprésentantLégal,
     pièceJustificative,
@@ -126,7 +126,7 @@ export const DétailsChangementReprésentantLégalPage: FC<
 type MapToActionsComponentsProps = {
   actions: ReadonlyArray<AvailableChangementReprésentantLégalAction>;
   identifiantProjet: string;
-  typeReprésentantLégal: string;
+  typeReprésentantLégal: ReprésentantLégal.TypeReprésentantLégal.RawType;
   nomReprésentantLégal: string;
 };
 

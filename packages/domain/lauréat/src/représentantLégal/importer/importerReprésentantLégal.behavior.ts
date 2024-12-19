@@ -25,7 +25,7 @@ export async function importer(
   this: ReprésentantLégalAggregate,
   { identifiantProjet, nomReprésentantLégal, importéLe, importéPar }: ImporterOptions,
 ) {
-  if (this.représentantLégal.nom) {
+  if (this.représentantLégal?.nom) {
     throw new ReprésentantLégalDéjàImportéError();
   }
 
