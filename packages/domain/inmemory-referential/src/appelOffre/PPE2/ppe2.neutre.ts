@@ -96,7 +96,7 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
       abandonAvecRecandidature: true,
       changement: {
         représentantLégal: {
-          typeTâchePlanifiée: 'représentant-légal.changement-réputé-rejeté',
+          typeTâchePlanifiée: 'rejet-tacite',
         },
       },
     },
@@ -126,7 +126,7 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
       cahiersDesChargesModifiésDisponibles: [],
       changement: {
         représentantLégal: {
-          typeTâchePlanifiée: 'représentant-légal.changement-réputé-rejeté',
+          typeTâchePlanifiée: 'rejet-tacite',
         },
       },
     },
@@ -156,7 +156,7 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
       cahiersDesChargesModifiésDisponibles: [],
       changement: {
         représentantLégal: {
-          typeTâchePlanifiée: 'représentant-légal.changement-réputé-rejeté',
+          typeTâchePlanifiée: 'rejet-tacite',
         },
       },
     },
