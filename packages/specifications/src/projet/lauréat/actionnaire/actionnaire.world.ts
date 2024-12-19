@@ -83,6 +83,7 @@ export class ActionnaireWorld {
   mapDemandeToExpected(
     identifiantProjet: IdentifiantProjet.ValueType,
     statut: Actionnaire.StatutChangementActionnaire.ValueType,
+    estUneNouvelleDemande?: boolean,
   ): Option.Type<Actionnaire.ConsulterChangementActionnaireReadModel> {
     if (!this.demanderChangementActionnaireFixture.aÉtéCréé) {
       throw new Error(
@@ -111,12 +112,7 @@ export class ActionnaireWorld {
         ),
 
         accord:
-          this.#accorderDemandeChangementActionnaireFixture.aÉtéCréé &&
-          DateTime.convertirEnValueType(
-            this.#accorderDemandeChangementActionnaireFixture.accordéeLe,
-          ).estUltérieureÀ(
-            DateTime.convertirEnValueType(this.#demanderChangementActionnaireFixture.demandéLe),
-          )
+          this.#accorderDemandeChangementActionnaireFixture.aÉtéCréé && !estUneNouvelleDemande
             ? {
                 accordéeLe: DateTime.convertirEnValueType(
                   this.#accorderDemandeChangementActionnaireFixture.accordéeLe,
@@ -137,12 +133,7 @@ export class ActionnaireWorld {
             : undefined,
 
         rejet:
-          this.#rejeterDemandeChangementActionnaireFixture.aÉtéCréé &&
-          DateTime.convertirEnValueType(
-            this.#rejeterDemandeChangementActionnaireFixture.rejetéeLe,
-          ).estUltérieureÀ(
-            DateTime.convertirEnValueType(this.#demanderChangementActionnaireFixture.demandéLe),
-          )
+          this.#rejeterDemandeChangementActionnaireFixture.aÉtéCréé && !estUneNouvelleDemande
             ? {
                 rejetéeLe: DateTime.convertirEnValueType(
                   this.#rejeterDemandeChangementActionnaireFixture.rejetéeLe,

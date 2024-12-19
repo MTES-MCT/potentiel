@@ -48,6 +48,18 @@ Alors(
 );
 
 Alors(
+  "la nouvelle demande de changement de l'actionnaire devrait être consultable",
+  async function (this: PotentielWorld) {
+    await vérifierDemandeChangementActionnaire.call(
+      this,
+      this.candidatureWorld.importerCandidature.identifiantProjet,
+      Actionnaire.StatutChangementActionnaire.demandé,
+      true,
+    );
+  },
+);
+
+Alors(
   "la demande de changement de l'actionnaire devrait être accordée",
   async function (this: PotentielWorld) {
     await vérifierDemandeChangementActionnaire.call(
@@ -141,6 +153,7 @@ async function vérifierDemandeChangementActionnaire(
   this: PotentielWorld,
   identifiantProjet: string,
   statut: Actionnaire.StatutChangementActionnaire.ValueType,
+  estUneNouvelleDemande?: boolean,
 ) {
   const demande = await mediator.send<Actionnaire.ConsulterChangementActionnaireQuery>({
     type: 'Lauréat.Actionnaire.Query.ConsulterChangementActionnaire',
@@ -154,16 +167,16 @@ async function vérifierDemandeChangementActionnaire(
     this.lauréatWorld.actionnaireWorld.mapDemandeToExpected(
       IdentifiantProjet.convertirEnValueType(identifiantProjet),
       statut,
+      estUneNouvelleDemande,
     ),
   );
 
-  if (Option.isSome(actual)) {
-    console.log(actual.demande.rejet);
-  }
-
   actual.should.be.deep.equal(expected);
 
-  if (this.lauréatWorld.actionnaireWorld.accorderDemandeChangementActionnaireFixture.aÉtéCréé) {
+  if (
+    this.lauréatWorld.actionnaireWorld.accorderDemandeChangementActionnaireFixture.aÉtéCréé &&
+    !estUneNouvelleDemande
+  ) {
     const result = await mediator.send<ConsulterDocumentProjetQuery>({
       type: 'Document.Query.ConsulterDocumentProjet',
       data: {
@@ -181,7 +194,10 @@ async function vérifierDemandeChangementActionnaire(
     expect(actualContent).to.be.equal(expectedContent);
   }
 
-  if (this.lauréatWorld.actionnaireWorld.rejeterDemandeChangementActionnaireFixture.aÉtéCréé) {
+  if (
+    this.lauréatWorld.actionnaireWorld.rejeterDemandeChangementActionnaireFixture.aÉtéCréé &&
+    !estUneNouvelleDemande
+  ) {
     const result = await mediator.send<ConsulterDocumentProjetQuery>({
       type: 'Document.Query.ConsulterDocumentProjet',
       data: {
