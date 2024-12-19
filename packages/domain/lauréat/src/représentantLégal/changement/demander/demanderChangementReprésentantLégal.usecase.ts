@@ -2,8 +2,9 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
 import { DocumentProjet, EnregistrerDocumentProjetCommand } from '@potentiel-domain/document';
+import { AjouterTâchePlanifiéeCommand } from '@potentiel-domain/tache-planifiee';
 
-import { TypeReprésentantLégal } from '../..';
+import { TypeReprésentantLégal, TypeTâchePlanifiéeChangementReprésentantLégal } from '../..';
 import * as TypeDocumentChangementReprésentantLégal from '../typeDocumentChangementReprésentantLégal.valueType';
 
 import { DemanderChangementReprésentantLégalCommand } from './demanderChangementReprésentantLégal.command';
@@ -33,6 +34,7 @@ export const registerDemanderChangementReprésentantLégalUseCase = () => {
     dateDemandeValue,
   }) => {
     const identifiantProjet = IdentifiantProjet.convertirEnValueType(identifiantProjetValue);
+
     const dateDemande = DateTime.convertirEnValueType(dateDemandeValue);
     const identifiantUtilisateur = Email.convertirEnValueType(identifiantUtilisateurValue);
     const typeReprésentantLégal = TypeReprésentantLégal.convertirEnValueType(
@@ -62,6 +64,21 @@ export const registerDemanderChangementReprésentantLégalUseCase = () => {
         identifiantUtilisateur,
         dateDemande,
         pièceJustificative,
+      },
+    });
+
+    await mediator.send<AjouterTâchePlanifiéeCommand>({
+      type: 'System.TâchePlanifiée.Command.AjouterTâchePlanifiée',
+      data: {
+        identifiantProjet,
+        tâches: [
+          {
+            typeTâchePlanifiée:
+              TypeTâchePlanifiéeChangementReprésentantLégal.gestionAutomatiqueDemandeChangement
+                .type,
+            àExécuterLe: dateDemande.ajouterNombreDeMois(3),
+          },
+        ],
       },
     });
   };

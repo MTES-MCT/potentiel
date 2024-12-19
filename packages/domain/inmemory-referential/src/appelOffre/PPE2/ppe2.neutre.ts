@@ -94,6 +94,11 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
       },
       cahiersDesChargesModifiésDisponibles: [],
       abandonAvecRecandidature: true,
+      changement: {
+        représentantLégal: {
+          typeTâchePlanifiée: 'rejet-tacite',
+        },
+      },
     },
     {
       id: '2',
@@ -119,6 +124,11 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
         },
       },
       cahiersDesChargesModifiésDisponibles: [],
+      changement: {
+        représentantLégal: {
+          typeTâchePlanifiée: 'rejet-tacite',
+        },
+      },
     },
     {
       id: '3',
@@ -144,6 +154,11 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
         },
       },
       cahiersDesChargesModifiésDisponibles: [],
+      changement: {
+        représentantLégal: {
+          typeTâchePlanifiée: 'rejet-tacite',
+        },
+      },
     },
   ],
 };

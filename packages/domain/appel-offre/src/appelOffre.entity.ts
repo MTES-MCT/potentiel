@@ -196,6 +196,11 @@ export type Periode = {
   abandonAvecRecandidature?: true;
   choisirNouveauCahierDesCharges?: true;
   familles: Array<Famille>;
+  changement: {
+    représentantLégal: {
+      typeTâchePlanifiée: 'accord-tacite' | 'rejet-tacite';
+    };
+  };
 } & (NotifiedPeriode | NotYetNotifiedPeriode | LegacyPeriode);
 
 // Territoire
