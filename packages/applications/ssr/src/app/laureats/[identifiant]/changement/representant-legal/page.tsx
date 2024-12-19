@@ -43,7 +43,7 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
 
       const actions: Array<AvailableChangementReprésentantLégalAction> = [];
 
-      if (utilisateur.role.estÉgaleÀ(Role.admin)) {
+      if (utilisateur.role.estÉgaleÀ(Role.admin) && changement.demande.statut.estDemandé()) {
         actions.push('accorder');
       }
 

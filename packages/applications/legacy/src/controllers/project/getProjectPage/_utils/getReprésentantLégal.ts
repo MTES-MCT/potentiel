@@ -107,14 +107,14 @@ const getChangementReprésentantLégal = async (identifiantProjet: IdentifiantPr
   }
 
   try {
-    const demande =
+    const changement =
       await mediator.send<ReprésentantLégal.ConsulterChangementReprésentantLégalQuery>({
         type: 'Lauréat.ReprésentantLégal.Query.ConsulterChangementReprésentantLégal',
         data: { identifiantProjet: identifiantProjet.formatter() },
       });
 
-    return Option.match(demande)
-      .some(() => true)
+    return Option.match(changement)
+      .some((changement) => changement.demande.statut.estDemandé())
       .none(() => false);
   } catch (error) {
     getLogger('getChangementReprésentant').error(
