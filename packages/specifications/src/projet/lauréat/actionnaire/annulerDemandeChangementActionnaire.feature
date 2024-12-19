@@ -1,5 +1,5 @@
 # language: fr
-Fonctionnalité: Demander le changement de l'actionnaire d'un projet lauréat
+Fonctionnalité: Annuler la demande changement de l'actionnaire d'un projet lauréat
 
     Contexte:
         Etant donné le projet lauréat "Du boulodrome de Marseille"
@@ -20,8 +20,7 @@ Fonctionnalité: Demander le changement de l'actionnaire d'un projet lauréat
         Quand le porteur annule la demande de changement de l'actionnaire pour le projet lauréat
         Alors l'utilisateur devrait être informé que "La demande de changement d'actionnaire a déjà été accordée"
 
-    @NotImplemented
     Scénario: Impossible d'annuler la demande de changement de l'actionnaire si la demande est rejetée
-        Etant donné une demande de changement d'actionnaire en cours pour le projet lauréat
+        Etant donné une demande de changement d'actionnaire rejetée pour le projet lauréat
         Quand le porteur annule la demande de changement de l'actionnaire pour le projet lauréat
-        Alors l'utilisateur devrait être informé que "La demande de changement d'actionnaire a déjà été rejetée"
+        Alors l'utilisateur devrait être informé que "Aucune demande de changement d'actionnaire n'est en cours"

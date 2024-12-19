@@ -6,35 +6,35 @@ import { DocumentProjet } from '@potentiel-domain/document';
 
 import { loadActionnaireFactory } from '../actionnaire.aggregate';
 
-export type AccorderDemandeChangementActionnaireCommand = Message<
-  'Lauréat.Actionnaire.Command.AccorderDemandeChangement',
+export type RejeterDemandeChangementActionnaireCommand = Message<
+  'Lauréat.Actionnaire.Command.RejeterDemandeChangement',
   {
     identifiantProjet: IdentifiantProjet.ValueType;
-    accordéeLe: DateTime.ValueType;
-    accordéePar: Email.ValueType;
+    rejetéeLe: DateTime.ValueType;
+    rejetéePar: Email.ValueType;
     réponseSignée: DocumentProjet.ValueType;
   }
 >;
 
-export const registerAccorderDemandeChangementActionnaireCommand = (
+export const registerRejeterDemandeChangementActionnaireCommand = (
   loadAggregate: LoadAggregate,
 ) => {
   const loadActionnaire = loadActionnaireFactory(loadAggregate);
 
-  const handler: MessageHandler<AccorderDemandeChangementActionnaireCommand> = async ({
+  const handler: MessageHandler<RejeterDemandeChangementActionnaireCommand> = async ({
     identifiantProjet,
-    accordéeLe,
-    accordéePar,
+    rejetéeLe,
+    rejetéePar,
     réponseSignée,
   }) => {
     const actionnaire = await loadActionnaire(identifiantProjet, false);
 
-    await actionnaire.accorderDemandeChangementActionnaire({
+    await actionnaire.rejeterDemandeChangementActionnaire({
       identifiantProjet,
-      accordéeLe,
-      accordéePar,
+      rejetéeLe,
+      rejetéePar,
       réponseSignée,
     });
   };
-  mediator.register('Lauréat.Actionnaire.Command.AccorderDemandeChangement', handler);
+  mediator.register('Lauréat.Actionnaire.Command.RejeterDemandeChangement', handler);
 };

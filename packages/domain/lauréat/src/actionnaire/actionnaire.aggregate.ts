@@ -33,13 +33,19 @@ import {
   applyDemandeChangementActionnaireAnnulée,
   DemandeChangementActionnaireAnnuléEvent,
 } from './annulerDemandeChangement/annulerDemandeChangement.behavior';
+import {
+  applyDemandeChangementActionnaireRejetée,
+  DemandeChangementActionnaireRejetéeEvent,
+  rejeterDemandeChangementActionnaire,
+} from './rejeterDemandeChangement/rejeterDemandeChangement.behavior';
 
 export type ActionnaireEvent =
   | ActionnaireImportéEvent
   | ActionnaireModifiéEvent
   | ChangementActionnaireDemandéEvent
   | DemandeChangementActionnaireAnnuléEvent
-  | DemandeChangementActionnaireAccordéeEvent;
+  | DemandeChangementActionnaireAccordéeEvent
+  | DemandeChangementActionnaireRejetéeEvent;
 
 export type ActionnaireAggregate = Aggregate<ActionnaireEvent> & {
   identifiantProjet: IdentifiantProjet.ValueType;
@@ -53,6 +59,7 @@ export type ActionnaireAggregate = Aggregate<ActionnaireEvent> & {
   demanderChangement: typeof demanderChangement;
   annulerDemandeChangement: typeof annulerDemandeChangement;
   accorderDemandeChangementActionnaire: typeof accorderDemandeChangementActionnaire;
+  rejeterDemandeChangementActionnaire: typeof rejeterDemandeChangementActionnaire;
 };
 
 export const getDefaultActionnaireAggregate: GetDefaultAggregateState<
@@ -67,6 +74,7 @@ export const getDefaultActionnaireAggregate: GetDefaultAggregateState<
   demanderChangement,
   annulerDemandeChangement,
   accorderDemandeChangementActionnaire,
+  rejeterDemandeChangementActionnaire,
 });
 
 function apply(this: ActionnaireAggregate, event: ActionnaireEvent) {
@@ -89,6 +97,10 @@ function apply(this: ActionnaireAggregate, event: ActionnaireEvent) {
 
     case 'DemandeChangementActionnaireAnnulée-V1':
       applyDemandeChangementActionnaireAnnulée.bind(this)();
+      break;
+
+    case 'DemandeChangementActionnaireRejetée-V1':
+      applyDemandeChangementActionnaireRejetée.bind(this)();
       break;
   }
 }

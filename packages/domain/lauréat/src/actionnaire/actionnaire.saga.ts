@@ -31,15 +31,15 @@ export const register = () => {
         break;
 
       case 'DemandeChangementActionnaireAccordée-V1':
-        const { accordéPar, accordéLe, nouvelActionnaire } = event.payload;
+        const { accordéePar, accordéeLe, nouvelActionnaire } = event.payload;
 
         await mediator.send<ModifierActionnaireCommand>({
           type: 'Lauréat.Actionnaire.Command.ModifierActionnaire',
           data: {
             identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
-            identifiantUtilisateur: Email.convertirEnValueType(accordéPar),
+            identifiantUtilisateur: Email.convertirEnValueType(accordéePar),
             actionnaire: nouvelActionnaire,
-            dateModification: DateTime.convertirEnValueType(accordéLe),
+            dateModification: DateTime.convertirEnValueType(accordéeLe),
           },
         });
 
