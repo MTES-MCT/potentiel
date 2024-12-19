@@ -11,6 +11,22 @@ Fonctionnalité: Demander le changement de l'actionnaire d'un projet lauréat
         Quand le porteur demande le changement de l'actionnaire pour le projet lauréat
         Alors la demande de changement de l'actionnaire devrait être consultable
 
+    @select
+    Scénario: Demander le changement de l'actionnaire d'un projet lauréat si une demande a déjà été rejetée
+        Etant donné une demande de changement d'actionnaire rejetée pour le projet lauréat
+        Quand le porteur demande le changement de l'actionnaire pour le projet lauréat
+        Alors la demande de changement de l'actionnaire devrait être consultable
+
+    Scénario: Demander le changement de l'actionnaire d'un projet lauréat si une demande a déjà été annulée
+        Etant donné une demande de changement d'actionnaire annulée pour le projet lauréat
+        Quand le porteur demande le changement de l'actionnaire pour le projet lauréat
+        Alors la demande de changement de l'actionnaire devrait être consultable
+
+    Scénario: Demander le changement de l'actionnaire d'un projet lauréat si une demande a déjà été accordée
+        Etant donné une demande de changement d'actionnaire accordée pour le projet lauréat
+        Quand le porteur demande le changement de l'actionnaire pour le projet lauréat
+        Alors la demande de changement de l'actionnaire devrait être consultable
+
     Scénario: Impossible de demander le changement de l'actionnaire si l'actionnaire est inexistant
         Etant donné le projet éliminé "Du boulodrome de Lyon"
         Quand le porteur demande le changement de l'actionnaire pour le projet éliminé
