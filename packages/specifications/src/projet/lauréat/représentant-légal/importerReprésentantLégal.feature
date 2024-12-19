@@ -1,4 +1,5 @@
 # language: fr
+@select
 Fonctionnalité: Importer le représentant légal lors de la désignation d'une candidature lauréate
 
     Scénario: Importer le représentant légal lors de la désignation d'une candidature lauréate

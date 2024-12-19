@@ -89,7 +89,7 @@ export * from './changement/changementReprésentantLégal.entity';
 export { loadReprésentantLégalFactory } from './représentantLégal.aggregate';
 
 // Saga
-export * as ReprésentantLégalSaga from './représentantLégal.saga';
+export * as ReprésentantLégalSaga from './saga';
 
 // ValueType
 export * as TypeReprésentantLégal from './typeReprésentantLégal.valueType';

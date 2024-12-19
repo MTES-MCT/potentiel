@@ -251,7 +251,7 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
       choisirNouveauCahierDesCharges: true,
       changement: {
         représentantLégal: {
-          typeTâchePlanifiée: 'représentant-légal.changement-réputé-accordé',
+          typeTâchePlanifiée: 'accord-tacite',
         },
       },
     },
@@ -352,7 +352,7 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
       choisirNouveauCahierDesCharges: true,
       changement: {
         représentantLégal: {
-          typeTâchePlanifiée: 'représentant-légal.changement-réputé-accordé',
+          typeTâchePlanifiée: 'accord-tacite',
         },
       },
     },
@@ -451,7 +451,7 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
       choisirNouveauCahierDesCharges: true,
       changement: {
         représentantLégal: {
-          typeTâchePlanifiée: 'représentant-légal.changement-réputé-accordé',
+          typeTâchePlanifiée: 'accord-tacite',
         },
       },
     },
@@ -552,7 +552,7 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
       choisirNouveauCahierDesCharges: true,
       changement: {
         représentantLégal: {
-          typeTâchePlanifiée: 'représentant-légal.changement-réputé-accordé',
+          typeTâchePlanifiée: 'accord-tacite',
         },
       },
     },
@@ -646,7 +646,7 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
       choisirNouveauCahierDesCharges: true,
       changement: {
         représentantLégal: {
-          typeTâchePlanifiée: 'représentant-légal.changement-réputé-accordé',
+          typeTâchePlanifiée: 'accord-tacite',
         },
       },
     },
@@ -739,7 +739,7 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
       cahiersDesChargesModifiésDisponibles: [CDCModifié07022023, CDCModifié07022023Alternatif],
       changement: {
         représentantLégal: {
-          typeTâchePlanifiée: 'représentant-légal.changement-réputé-accordé',
+          typeTâchePlanifiée: 'accord-tacite',
         },
       },
     },

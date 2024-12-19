@@ -97,7 +97,7 @@ du paragraphe 2.6.`,
       cahiersDesChargesModifiésDisponibles: [],
       changement: {
         représentantLégal: {
-          typeTâchePlanifiée: 'représentant-légal.changement-réputé-accordé',
+          typeTâchePlanifiée: 'accord-tacite',
         },
       },
     },
@@ -129,7 +129,7 @@ du paragraphe 2.6.`,
       cahiersDesChargesModifiésDisponibles: [],
       changement: {
         représentantLégal: {
-          typeTâchePlanifiée: 'représentant-légal.changement-réputé-accordé',
+          typeTâchePlanifiée: 'accord-tacite',
         },
       },
     },

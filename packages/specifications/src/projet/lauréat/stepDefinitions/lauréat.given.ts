@@ -71,30 +71,6 @@ EtantDonné(
 );
 
 EtantDonné(
-  'le projet lauréat {string} avec :',
-  async function (this: PotentielWorld, nomProjet: string, table: DataTable) {
-    const exemple = table.rowsHash();
-
-    const data = this.candidatureWorld.mapExempleToFixtureValues(exemple);
-
-    const identifiantProjet =
-      data.appelOffreValue && data.périodeValue && data.numéroCREValue
-        ? IdentifiantProjet.convertirEnValueType(
-            `${data.appelOffreValue}#${data.périodeValue}#${data.familleValue ?? ''}#${data.numéroCREValue}`,
-          ).formatter()
-        : undefined;
-
-    await importerCandidature.call(this, nomProjet, 'classé', data, identifiantProjet);
-
-    const dateDésignation = this.lauréatWorld.dateDésignation;
-
-    await notifierLauréat.call(this, dateDésignation);
-
-    await insérerProjetAvecDonnéesCandidature.call(this, dateDésignation, 'lauréat');
-  },
-);
-
-EtantDonné(
   'le projet lauréat {string} ayant été notifié le {string}',
   async function (this: PotentielWorld, nomProjet: string, dateNotification: string) {
     const dateDésignation = new Date(dateNotification).toISOString();

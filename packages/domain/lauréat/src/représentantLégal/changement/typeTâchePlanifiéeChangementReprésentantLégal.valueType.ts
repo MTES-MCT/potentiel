@@ -1,11 +1,8 @@
 import { InvalidOperationError, PlainType, ReadonlyValueType } from '@potentiel-domain/core';
 
-const types = [
-  'représentant-légal.changement-réputé-accordé',
-  'représentant-légal.changement-réputé-rejeté',
-] as const;
+const type = 'représentant-légal.changement-accord-ou-rejet-tacite' as const;
 
-export type RawType = (typeof types)[number];
+export type RawType = (typeof type)[number];
 
 export type ValueType = ReadonlyValueType<{
   type: RawType;
@@ -20,10 +17,10 @@ export const bind = ({ type }: PlainType<ValueType>): ValueType => {
       return this.type === type;
     },
     estChangementRéputéAccordé() {
-      return this.type === 'représentant-légal.changement-réputé-accordé';
+      return this.type === 'accord-tacite';
     },
     estChangementRéputéRejeté() {
-      return this.type === 'représentant-légal.changement-réputé-rejeté';
+      return this.type === 'rejet-tacite';
     },
   };
 };
@@ -36,18 +33,15 @@ export const convertirEnValueType = (value: string): ValueType => {
 };
 
 function estValide(value: string): asserts value is RawType {
-  const isValid = types.includes(value as RawType);
+  const isValid = type.includes(value as RawType);
 
   if (!isValid) {
     throw new TypeTâchePlanifiéeInvalideError(value);
   }
 }
 
-export const changementRéputéAccordé = convertirEnValueType(
-  'représentant-légal.changement-réputé-accordé',
-);
-export const changementRéputéRejeté = convertirEnValueType(
-  'représentant-légal.changement-réputé-rejeté',
+export const changementAccordOuRejetTacite = convertirEnValueType(
+  'représentant-légal.changement-accord-ou-rejet-tacite',
 );
 
 class TypeTâchePlanifiéeInvalideError extends InvalidOperationError {

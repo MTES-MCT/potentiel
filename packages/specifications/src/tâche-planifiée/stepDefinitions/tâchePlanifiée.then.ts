@@ -40,34 +40,29 @@ Alors(
 );
 
 Alors(
-  `une tâche {string} est planifiée pour le projet {string}`,
-  async function (
-    this: PotentielWorld,
-    typeTâche: RechercherTypeTâchePlanifiée,
-    nomProjet: string,
-  ) {
-    const actualTypeTâche = this.tâchePlanifiéeWorld.rechercherTypeTâchePlanifiée(typeTâche).type;
-    const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
-    const dateDemande = match(typeTâche)
-      .with('changement de représentant légal réputé accordé', () =>
-        DateTime.convertirEnValueType(
-          this.lauréatWorld.représentantLégalWorld.changementReprésentantLégalWorld
-            .demanderChangementReprésentantLégalFixture.demandéLe,
-        )
-          .ajouterNombreDeMois(3)
-          .formatter(),
-      )
-      .otherwise(() => DateTime.now().formatter());
-
+  `une tâche {string} est planifiée pour le projet lauréat`,
+  async function (this: PotentielWorld, typeTâche: RechercherTypeTâchePlanifiée) {
     await waitForExpect(async () => {
+      const actualTypeTâche = this.tâchePlanifiéeWorld.rechercherTypeTâchePlanifiée(typeTâche).type;
+      const { identifiantProjet } = this.lauréatWorld;
+
+      const dateDemande = match(typeTâche)
+        .with('instruction tacite de la demande de changement de représentant légal', () =>
+          DateTime.convertirEnValueType(
+            this.lauréatWorld.représentantLégalWorld.changementReprésentantLégalWorld
+              .demanderChangementReprésentantLégalFixture.demandéLe,
+          )
+            .ajouterNombreDeMois(3)
+            .formatter(),
+        )
+        .otherwise(() => DateTime.now().formatter());
+
       const tâches = await mediator.send<ListerTâchesPlanifiéesQuery>({
         type: 'Tâche.Query.ListerTâchesPlanifiées',
         data: {
           àExécuterLe: dateDemande,
         },
       });
-
-      console.log('tâches', tâches.items);
 
       const tâche = tâches.items.find(
         (t) =>

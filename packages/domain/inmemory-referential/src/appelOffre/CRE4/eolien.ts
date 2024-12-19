@@ -149,7 +149,7 @@ Dans tous les cas, l’attribution des délais est soumis à la prolongation de 
       abandonAvecRecandidature: true,
       changement: {
         représentantLégal: {
-          typeTâchePlanifiée: 'représentant-légal.changement-réputé-rejeté',
+          typeTâchePlanifiée: 'rejet-tacite',
         },
       },
     },
@@ -205,7 +205,7 @@ Dans tous les cas, l’attribution des délais est soumis à la prolongation de 
       abandonAvecRecandidature: true,
       changement: {
         représentantLégal: {
-          typeTâchePlanifiée: 'représentant-légal.changement-réputé-rejeté',
+          typeTâchePlanifiée: 'rejet-tacite',
         },
       },
     },
@@ -261,7 +261,7 @@ Dans tous les cas, l’attribution des délais supplémentaires est conditionné
       abandonAvecRecandidature: true,
       changement: {
         représentantLégal: {
-          typeTâchePlanifiée: 'représentant-légal.changement-réputé-rejeté',
+          typeTâchePlanifiée: 'rejet-tacite',
         },
       },
     },
@@ -316,7 +316,7 @@ Dans tous les cas, l’attribution des délais supplémentaires est conditionné
       abandonAvecRecandidature: true,
       changement: {
         représentantLégal: {
-          typeTâchePlanifiée: 'représentant-légal.changement-réputé-rejeté',
+          typeTâchePlanifiée: 'rejet-tacite',
         },
       },
     },
@@ -371,7 +371,7 @@ Dans tous les cas, l’attribution des délais supplémentaires est conditionné
       abandonAvecRecandidature: true,
       changement: {
         représentantLégal: {
-          typeTâchePlanifiée: 'représentant-légal.changement-réputé-rejeté',
+          typeTâchePlanifiée: 'rejet-tacite',
         },
       },
     },
@@ -427,7 +427,7 @@ Dans tous les cas, l’attribution des délais supplémentaires est conditionné
       abandonAvecRecandidature: true,
       changement: {
         représentantLégal: {
-          typeTâchePlanifiée: 'représentant-légal.changement-réputé-rejeté',
+          typeTâchePlanifiée: 'rejet-tacite',
         },
       },
     },
@@ -483,7 +483,7 @@ Dans tous les cas, l’attribution des délais supplémentaires est conditionné
       abandonAvecRecandidature: true,
       changement: {
         représentantLégal: {
-          typeTâchePlanifiée: 'représentant-légal.changement-réputé-rejeté',
+          typeTâchePlanifiée: 'rejet-tacite',
         },
       },
     },
@@ -539,7 +539,7 @@ Dans tous les cas, l’attribution des délais supplémentaires est conditionné
       abandonAvecRecandidature: true,
       changement: {
         représentantLégal: {
-          typeTâchePlanifiée: 'représentant-légal.changement-réputé-rejeté',
+          typeTâchePlanifiée: 'rejet-tacite',
         },
       },
     },
