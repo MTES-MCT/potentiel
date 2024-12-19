@@ -1,13 +1,11 @@
 import { InvalidOperationError, PlainType, ReadonlyValueType } from '@potentiel-domain/core';
 
-const type = 'représentant-légal.changement-accord-ou-rejet-tacite' as const;
+const type = 'représentant-légal.gestion-automatique-demande-changement' as const;
 
 export type RawType = (typeof type)[number];
 
 export type ValueType = ReadonlyValueType<{
   type: RawType;
-  estChangementRéputéAccordé: () => boolean;
-  estChangementRéputéRejeté: () => boolean;
 }>;
 
 export const bind = ({ type }: PlainType<ValueType>): ValueType => {
@@ -15,12 +13,6 @@ export const bind = ({ type }: PlainType<ValueType>): ValueType => {
     type,
     estÉgaleÀ({ type }) {
       return this.type === type;
-    },
-    estChangementRéputéAccordé() {
-      return this.type === 'accord-tacite';
-    },
-    estChangementRéputéRejeté() {
-      return this.type === 'rejet-tacite';
     },
   };
 };
@@ -40,8 +32,8 @@ function estValide(value: string): asserts value is RawType {
   }
 }
 
-export const changementAccordOuRejetTacite = convertirEnValueType(
-  'représentant-légal.changement-accord-ou-rejet-tacite',
+export const gestionAutomatiqueDemandeChangement = convertirEnValueType(
+  'représentant-légal.gestion-automatique-demande-changement',
 );
 
 class TypeTâchePlanifiéeInvalideError extends InvalidOperationError {
