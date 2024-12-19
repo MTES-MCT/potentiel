@@ -50,6 +50,7 @@ type ProjectDetailsProps = {
   demandeRecours: ProjectDataForProjectPage['demandeRecours'];
   garantiesFinancières?: GarantiesFinancièresProjetProps['garantiesFinancières'];
   représentantLégal?: ContactProps['représentantLégal'];
+  actionnaire?: InfoGeneralesProps['actionnaire'];
   hasAttestationConformité: boolean;
 };
 
@@ -63,6 +64,7 @@ export const ProjectDetails = ({
   demandeRecours,
   hasAttestationConformité,
   représentantLégal,
+  actionnaire,
   garantiesFinancières,
 }: ProjectDetailsProps) => {
   const { user } = request;
@@ -141,6 +143,7 @@ export const ProjectDetails = ({
               raccordement={raccordement}
               demandeRecours={demandeRecours}
               garantiesFinancières={garantiesFinancières}
+              actionnaire={actionnaire}
             />
             <Contact
               identifiantProjet={identifiantProjet}
