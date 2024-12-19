@@ -6,12 +6,16 @@ import { Option } from '@potentiel-libraries/monads';
 import { ReprésentantLégal } from '@potentiel-domain/laureat';
 import { mapToPlainObject } from '@potentiel-domain/core';
 import { IdentifiantProjet } from '@potentiel-domain/common';
+import { Role } from '@potentiel-domain/utilisateur';
 
 import { decodeParameter } from '@/utils/decodeParameter';
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
-import { DétailsChangementReprésentantLégalPage } from '@/components/pages/représentant-légal/changement/détails/DétailsChangementReprésentantLégal.page';
+import {
+  AvailableChangementReprésentantLégalAction,
+  DétailsChangementReprésentantLégalPage,
+} from '@/components/pages/représentant-légal/changement/détails/DétailsChangementReprésentantLégal.page';
 
 export const metadata: Metadata = {
   title: 'Détail du représentant légal du projet - Potentiel',
@@ -37,12 +41,18 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
         return notFound();
       }
 
+      const actions: Array<AvailableChangementReprésentantLégalAction> = [];
+
+      if (utilisateur.role.estÉgaleÀ(Role.admin)) {
+        actions.push('accorder');
+      }
+
       return (
         <DétailsChangementReprésentantLégalPage
           identifiantProjet={mapToPlainObject(identifiantProjet)}
           demande={mapToPlainObject(changement.demande)}
           role={mapToPlainObject(utilisateur.role)}
-          actions={[]}
+          actions={actions}
         />
       );
     }),
