@@ -7,7 +7,7 @@ import Input from '@codegouvfr/react-dsfr/Input';
 import Select from '@codegouvfr/react-dsfr/SelectNext';
 import RadioButtons from '@codegouvfr/react-dsfr/RadioButtons';
 
-import { DateTime } from '@potentiel-domain/common';
+import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 import { Routes } from '@potentiel-applications/routes';
 import { Candidature } from '@potentiel-domain/candidature';
 
@@ -18,6 +18,7 @@ import { InputDate } from '@/components/atoms/form/InputDate';
 
 import { getGarantiesFinancièresTypeLabel } from '../../garanties-financières/getGarantiesFinancièresTypeLabel';
 import { getTechnologieTypeLabel } from '../helpers';
+import { getActionnariatTypeLabel } from '../helpers/getActionnariatTypeLabel';
 
 import {
   corrigerCandidatureAction,
@@ -43,6 +44,12 @@ export const CorrigerCandidatureForm: React.FC<CorrigerCandidatureFormProps> = (
   const [showDateGf, setShowDateGf] = useState(
     candidature.typeGarantiesFinancieres === 'avec-date-échéance',
   );
+
+  const typesActionnariat = IdentifiantProjet.convertirEnValueType(
+    candidature.identifiantProjet,
+  ).appelOffre.startsWith('PPE2')
+    ? Candidature.TypeActionnariat.ppe2Types
+    : Candidature.TypeActionnariat.cre4Types;
 
   return (
     <Form
@@ -153,14 +160,10 @@ export const CorrigerCandidatureForm: React.FC<CorrigerCandidatureFormProps> = (
         label="Actionnariat (optionnel)"
         options={[
           { label: '', value: '' },
-          {
-            label: 'Financement Collectif',
-            value: Candidature.TypeActionnariat.financementCollectif.type,
-          },
-          {
-            label: 'Gouvernance Partagée',
-            value: Candidature.TypeActionnariat.gouvernancePartagée.type,
-          },
+          ...typesActionnariat.map((type) => ({
+            label: getActionnariatTypeLabel(type),
+            value: type,
+          })),
         ]}
         nativeSelectProps={{
           name: 'actionnariat',
