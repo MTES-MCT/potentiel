@@ -22,7 +22,6 @@ export type ConsulterChangementReprésentantLégalReadModel = {
     accord?: {
       nomReprésentantLégal: string;
       typeReprésentantLégal: TypeReprésentantLégal.ValueType;
-      réponseSignée: DocumentProjet.ValueType;
       accordéPar: Email.ValueType;
       accordéLe: DateTime.ValueType;
     };
@@ -101,12 +100,6 @@ const mapToReadModel: MapToReadModel = ({
         nomReprésentantLégal: accord.nomReprésentantLégal,
         typeReprésentantLégal: ReprésentantLégal.TypeReprésentantLégal.convertirEnValueType(
           accord.typeReprésentantLégal,
-        ),
-        réponseSignée: DocumentProjet.convertirEnValueType(
-          identifiantProjet.formatter(),
-          ReprésentantLégal.TypeDocumentChangementReprésentantLégal.changementAccordé.formatter(),
-          accord.accordéLe,
-          accord.réponseSignée.format,
         ),
         accordéPar: Email.convertirEnValueType(accord.accordéPar),
         accordéLe: DateTime.convertirEnValueType(accord.accordéLe),

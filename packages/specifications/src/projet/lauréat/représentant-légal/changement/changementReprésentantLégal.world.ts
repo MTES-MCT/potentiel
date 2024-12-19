@@ -62,12 +62,6 @@ export class ChangementReprésentantLégalWorld {
         accordéPar: Email.convertirEnValueType(
           this.accorderChangementReprésentantLégalFixture.accordéePar,
         ),
-        réponseSignée: DocumentProjet.convertirEnValueType(
-          identifiantProjet.formatter(),
-          ReprésentantLégal.TypeDocumentChangementReprésentantLégal.changementAccordé.formatter(),
-          this.#accorderChangementReprésentantLégalFixture.accordéeLe,
-          this.#accorderChangementReprésentantLégalFixture.réponseSignée.format,
-        ),
       };
     }
 

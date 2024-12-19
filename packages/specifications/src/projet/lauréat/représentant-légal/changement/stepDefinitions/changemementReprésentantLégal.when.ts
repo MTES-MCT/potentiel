@@ -85,7 +85,7 @@ Quand(
   async function (this: PotentielWorld, _: string) {
     const identifiantProjet = this.lauréatWorld.identifiantProjet.formatter();
 
-    const { accordéeLe, accordéePar, réponseSignée, nomReprésentantLégal, typeReprésentantLégal } =
+    const { accordéeLe, accordéePar, nomReprésentantLégal, typeReprésentantLégal } =
       this.lauréatWorld.représentantLégalWorld.changementReprésentantLégalWorld.accorderChangementReprésentantLégalFixture.créer();
 
     try {
@@ -96,7 +96,6 @@ Quand(
           identifiantUtilisateurValue: accordéePar,
           nomReprésentantLégalValue: nomReprésentantLégal,
           typeReprésentantLégalValue: typeReprésentantLégal.formatter(),
-          réponseSignéeValue: réponseSignée,
           dateAccordValue: accordéeLe,
         },
       });

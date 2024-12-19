@@ -27,9 +27,6 @@ export type ChangementReprésentantLégalEntity = Entity<
         typeReprésentantLégal: string;
         accordéLe: string;
         accordéPar: string;
-        réponseSignée: {
-          format: string;
-        };
       };
     };
   }

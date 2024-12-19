@@ -52,9 +52,6 @@ export type ReprésentantLégalAggregate = Aggregate<ReprésentantLégalEvent> &
       nom: string;
       type: TypeReprésentantLégal.ValueType;
       accordéLe: DateTime.ValueType;
-      réponseSignée: {
-        format: string;
-      };
     };
   };
 
