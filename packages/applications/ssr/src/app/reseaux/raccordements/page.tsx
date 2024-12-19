@@ -131,10 +131,10 @@ function récupérerIdentifiantGestionnaireUtilisateur(utilisateur: Utilisateur.
     return;
   }
   if (Option.isNone(utilisateur.groupe)) {
-    return 'inconnu';
+    return '!!GESTIONNAIRE INCONNU!!';
   }
   if (utilisateur.groupe.type !== 'GestionnairesRéseau') {
-    return 'inconnu';
+    return '!!GESTIONNAIRE INCONNU!!';
   }
   return utilisateur.groupe.nom;
 }
