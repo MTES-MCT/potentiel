@@ -47,7 +47,7 @@ Alors(
       const { identifiantProjet } = this.lauréatWorld;
 
       const dateDemande = match(typeTâche)
-        .with('instruction tacite de la demande de changement de représentant légal', () =>
+        .with('gestion automatique de la demande de changement de représentant légal', () =>
           DateTime.convertirEnValueType(
             this.lauréatWorld.représentantLégalWorld.changementReprésentantLégalWorld
               .demanderChangementReprésentantLégalFixture.demandéLe,

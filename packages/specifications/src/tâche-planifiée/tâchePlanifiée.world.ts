@@ -7,7 +7,7 @@ export type RechercherTypeTâchePlanifiée =
   | 'échoir les garanties financières'
   | 'rappel échéance garanties financières à un mois'
   | 'rappel échéance garanties financières à deux mois'
-  | 'instruction tacite de la demande de changement de représentant légal';
+  | 'gestion automatique de la demande de changement de représentant légal';
 
 export type RechercherStatutTâchePlanifiée = 'planifiée' | 'annulée' | 'executée';
 
@@ -27,10 +27,10 @@ export class TâchePlanifiéeWorld {
         () => GarantiesFinancières.TypeTâchePlanifiéeGarantiesFinancières.rappelÉchéanceDeuxMois,
       )
       .with(
-        'instruction tacite de la demande de changement de représentant légal',
+        'gestion automatique de la demande de changement de représentant légal',
         () =>
           ReprésentantLégal.TypeTâchePlanifiéeChangementReprésentantLégal
-            .changementAccordOuRejetTacite,
+            .gestionAutomatiqueDemandeChangement,
       )
       .exhaustive();
   }

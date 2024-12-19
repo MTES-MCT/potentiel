@@ -74,7 +74,8 @@ export const registerDemanderChangementReprésentantLégalUseCase = () => {
         tâches: [
           {
             typeTâchePlanifiée:
-              TypeTâchePlanifiéeChangementReprésentantLégal.changementAccordOuRejetTacite.type,
+              TypeTâchePlanifiéeChangementReprésentantLégal.gestionAutomatiqueDemandeChangement
+                .type,
             àExécuterLe: dateDemande.ajouterNombreDeMois(3),
           },
         ],
