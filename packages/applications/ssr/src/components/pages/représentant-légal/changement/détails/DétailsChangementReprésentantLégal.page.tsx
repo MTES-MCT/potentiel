@@ -126,7 +126,7 @@ export const DétailsChangementReprésentantLégalPage: FC<
 type MapToActionsComponentsProps = {
   actions: ReadonlyArray<AvailableChangementReprésentantLégalAction>;
   identifiantProjet: string;
-  typeReprésentantLégal: string;
+  typeReprésentantLégal: ReprésentantLégal.TypeReprésentantLégal.RawType;
   nomReprésentantLégal: string;
 };
 
