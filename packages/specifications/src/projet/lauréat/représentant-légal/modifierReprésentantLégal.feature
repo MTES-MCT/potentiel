@@ -1,5 +1,4 @@
 # language: fr
-@select
 Fonctionnalité: Modifier le représentant légal d'un projet lauréat
 
     Scénario: Modifier le représentant légal d'un projet lauréat
