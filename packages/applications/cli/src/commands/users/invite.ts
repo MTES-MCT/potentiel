@@ -69,6 +69,9 @@ export default class InviteUser extends Command {
     }
 
     const groupId = flags.group && (await getGroup(flags.group, flags.role));
+    if (flags.group && !groupId) {
+      console.warn('Group not found', flags.group);
+    }
     if (groupId) {
       try {
         console.log(`Adding group ${flags.group}`);
@@ -127,7 +130,12 @@ export default class InviteUser extends Command {
         console.log("Parent group GestionnairesRéseau doesn't exist");
         process.exit(1);
       }
-      const groups = await keycloakAdmin.groups.listSubGroups({ parentId: parentGroup.id });
+      const groups = await keycloakAdmin.groups.listSubGroups({
+        parentId: parentGroup.id,
+        // NB: upgrading keycloak should allow searching by name and removing `max`
+        // https://github.com/keycloak/keycloak/pull/29011
+        max: 500,
+      });
       return groups.find((g) => g.name === group)?.id;
     }
   }
