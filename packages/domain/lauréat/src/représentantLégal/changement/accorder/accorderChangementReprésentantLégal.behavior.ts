@@ -1,9 +1,8 @@
 // Third party
 
 // Workspaces
-import { DomainEvent } from '@potentiel-domain/core';
-import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
-import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
+import { DomainEvent, InvalidOperationError } from '@potentiel-domain/core';
+import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
 import { DocumentProjet } from '@potentiel-domain/document';
 
 import { ReprésentantLégalAggregate } from '../../représentantLégal.aggregate';
@@ -14,7 +13,7 @@ export type ChangementReprésentantLégalAccordéEvent = DomainEvent<
   'ChangementReprésentantLégalAccordé-V1',
   {
     accordéLe: DateTime.RawType;
-    accordéPar: IdentifiantUtilisateur.RawType;
+    accordéPar: Email.RawType;
     identifiantProjet: IdentifiantProjet.RawType;
     nomReprésentantLégal: string;
     typeReprésentantLégal: TypeReprésentantLégal.RawType;
@@ -26,7 +25,7 @@ export type ChangementReprésentantLégalAccordéEvent = DomainEvent<
 
 export type AccorderOptions = {
   dateAccord: DateTime.ValueType;
-  identifiantUtilisateur: IdentifiantUtilisateur.ValueType;
+  identifiantUtilisateur: Email.ValueType;
   identifiantProjet: IdentifiantProjet.ValueType;
   nomReprésentantLégal: string;
   typeReprésentantLégal: TypeReprésentantLégal.ValueType;
@@ -44,6 +43,9 @@ export async function accorder(
     typeReprésentantLégal,
   }: AccorderOptions,
 ) {
+  if (!this.demande) {
+    throw new DemandeChangementInexistanteError();
+  }
   this.demande?.statut.vérifierQueLeChangementDeStatutEstPossibleEn(
     StatutChangementReprésentantLégal.accordé,
   );
@@ -80,5 +82,11 @@ export function applyChangementReprésentantLégalAccordé(
       type: TypeReprésentantLégal.convertirEnValueType(typeReprésentantLégal),
       réponseSignée,
     };
+  }
+}
+
+class DemandeChangementInexistanteError extends InvalidOperationError {
+  constructor() {
+    super(`Aucun changement de représentant légal n'est en cours`);
   }
 }

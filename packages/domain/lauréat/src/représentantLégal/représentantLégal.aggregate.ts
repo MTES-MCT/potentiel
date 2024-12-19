@@ -38,14 +38,15 @@ export type ReprésentantLégalEvent =
   | ChangementReprésentantLégalAccordéEvent;
 
 export type ReprésentantLégalAggregate = Aggregate<ReprésentantLégalEvent> & {
-  représentantLégal: {
+  représentantLégal?: {
     nom: string;
     type: TypeReprésentantLégal.ValueType;
   };
+
   demande?: {
+    statut: StatutChangementReprésentantLégal.ValueType;
     nom: string;
     type: TypeReprésentantLégal.ValueType;
-    statut: StatutChangementReprésentantLégal.ValueType;
 
     accord?: {
       nom: string;
@@ -56,6 +57,7 @@ export type ReprésentantLégalAggregate = Aggregate<ReprésentantLégalEvent> &
       };
     };
   };
+
   readonly importer: typeof importer;
   readonly modifier: typeof modifier;
   readonly demander: typeof demander;
@@ -67,10 +69,6 @@ export const getDefaultReprésentantLégalAggregate: GetDefaultAggregateState<
   ReprésentantLégalEvent
 > = () => ({
   apply,
-  représentantLégal: {
-    nom: '',
-    type: TypeReprésentantLégal.inconnu,
-  },
   importer,
   modifier,
   demander,

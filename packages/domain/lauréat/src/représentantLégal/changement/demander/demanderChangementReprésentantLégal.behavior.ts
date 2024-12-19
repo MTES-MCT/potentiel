@@ -43,7 +43,7 @@ export async function demander(
   }: DemanderChangementOptions,
 ) {
   if (
-    this.représentantLégal.nom === nomReprésentantLégal &&
+    this.représentantLégal?.nom === nomReprésentantLégal &&
     this.représentantLégal.type.estÉgaleÀ(typeReprésentantLégal)
   ) {
     throw new ReprésentantLégalIdentifiqueError();
