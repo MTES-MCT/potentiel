@@ -18,7 +18,7 @@ Fonctionnalité: Accorder la demande de changement de représentant légal d'un 
             | la DREAL associée au projet |
 
     Scénario: Impossible d'accorder la demande de changement de représentant légal d'un projet lauréat si le changement a déjà été accordé
-        Etant donné une demande de changement de représentant légal acordée pour le projet lauréat
+        Etant donné une demande de changement de représentant légal accordée pour le projet lauréat
         Quand le DGEC validateur accorde la demande de changement de représentant légal pour le projet lauréat
         Alors le DGEC validateur devrait être informé que "Aucun changement de représentant légal n'est en cours"
 
