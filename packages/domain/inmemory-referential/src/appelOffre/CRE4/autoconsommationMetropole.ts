@@ -106,7 +106,7 @@ Ils doivent faire l’objet d’une information au Préfet dans un délai d’un
       choisirNouveauCahierDesCharges: true,
       changement: {
         représentantLégal: {
-          typeTâchePlanifiée: 'accord-tacite',
+          typeTâchePlanifiée: 'accord-automatique',
         },
       },
     },
@@ -147,7 +147,7 @@ Ils doivent faire l’objet d’une information au Préfet dans un délai d’un
       choisirNouveauCahierDesCharges: true,
       changement: {
         représentantLégal: {
-          typeTâchePlanifiée: 'accord-tacite',
+          typeTâchePlanifiée: 'accord-automatique',
         },
       },
     },
@@ -188,7 +188,7 @@ Ils doivent faire l’objet d’une information au Préfet dans un délai d’un
       choisirNouveauCahierDesCharges: true,
       changement: {
         représentantLégal: {
-          typeTâchePlanifiée: 'accord-tacite',
+          typeTâchePlanifiée: 'accord-automatique',
         },
       },
     },
@@ -229,7 +229,7 @@ Ils doivent faire l’objet d’une information au Préfet dans un délai d’un
       choisirNouveauCahierDesCharges: true,
       changement: {
         représentantLégal: {
-          typeTâchePlanifiée: 'accord-tacite',
+          typeTâchePlanifiée: 'accord-automatique',
         },
       },
     },
@@ -270,7 +270,7 @@ Ils doivent faire l’objet d’une information au Préfet dans un délai d’un
       choisirNouveauCahierDesCharges: true,
       changement: {
         représentantLégal: {
-          typeTâchePlanifiée: 'accord-tacite',
+          typeTâchePlanifiée: 'accord-automatique',
         },
       },
     },
@@ -311,7 +311,7 @@ Ils doivent faire l’objet d’une information au Préfet dans un délai d’un
       choisirNouveauCahierDesCharges: true,
       changement: {
         représentantLégal: {
-          typeTâchePlanifiée: 'accord-tacite',
+          typeTâchePlanifiée: 'accord-automatique',
         },
       },
     },
@@ -353,7 +353,7 @@ Ils doivent faire l’objet d’une information au Préfet dans un délai d’un
       choisirNouveauCahierDesCharges: true,
       changement: {
         représentantLégal: {
-          typeTâchePlanifiée: 'accord-tacite',
+          typeTâchePlanifiée: 'accord-automatique',
         },
       },
     },
@@ -395,7 +395,7 @@ Ils doivent faire l’objet d’une information au Préfet dans un délai d’un
       choisirNouveauCahierDesCharges: true,
       changement: {
         représentantLégal: {
-          typeTâchePlanifiée: 'accord-tacite',
+          typeTâchePlanifiée: 'accord-automatique',
         },
       },
     },
@@ -437,7 +437,7 @@ Ils doivent faire l’objet d’une information au Préfet dans un délai d’un
       choisirNouveauCahierDesCharges: true,
       changement: {
         représentantLégal: {
-          typeTâchePlanifiée: 'accord-tacite',
+          typeTâchePlanifiée: 'accord-automatique',
         },
       },
     },
@@ -479,7 +479,7 @@ Ils doivent faire l’objet d’une information au Préfet dans un délai d’un
       choisirNouveauCahierDesCharges: true,
       changement: {
         représentantLégal: {
-          typeTâchePlanifiée: 'accord-tacite',
+          typeTâchePlanifiée: 'accord-automatique',
         },
       },
     },

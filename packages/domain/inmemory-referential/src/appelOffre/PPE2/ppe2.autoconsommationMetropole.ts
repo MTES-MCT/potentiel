@@ -165,7 +165,7 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       abandonAvecRecandidature: true,
       changement: {
         représentantLégal: {
-          typeTâchePlanifiée: 'rejet-tacite',
+          typeTâchePlanifiée: 'rejet-automatique',
         },
       },
     },
@@ -183,7 +183,7 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       abandonAvecRecandidature: true,
       changement: {
         représentantLégal: {
-          typeTâchePlanifiée: 'rejet-tacite',
+          typeTâchePlanifiée: 'rejet-automatique',
         },
       },
     },
@@ -202,7 +202,7 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       abandonAvecRecandidature: true,
       changement: {
         représentantLégal: {
-          typeTâchePlanifiée: 'rejet-tacite',
+          typeTâchePlanifiée: 'rejet-automatique',
         },
       },
     },
@@ -220,7 +220,7 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       cahiersDesChargesModifiésDisponibles: [],
       changement: {
         représentantLégal: {
-          typeTâchePlanifiée: 'rejet-tacite',
+          typeTâchePlanifiée: 'rejet-automatique',
         },
       },
     },

@@ -129,7 +129,7 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       abandonAvecRecandidature: true,
       changement: {
         représentantLégal: {
-          typeTâchePlanifiée: 'rejet-tacite',
+          typeTâchePlanifiée: 'rejet-automatique',
         },
       },
     },
@@ -171,7 +171,7 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
       abandonAvecRecandidature: true,
       changement: {
         représentantLégal: {
-          typeTâchePlanifiée: 'rejet-tacite',
+          typeTâchePlanifiée: 'rejet-automatique',
         },
       },
     },
@@ -201,7 +201,7 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
       cahiersDesChargesModifiésDisponibles: [],
       changement: {
         représentantLégal: {
-          typeTâchePlanifiée: 'rejet-tacite',
+          typeTâchePlanifiée: 'rejet-automatique',
         },
       },
     },
@@ -230,7 +230,7 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
       cahiersDesChargesModifiésDisponibles: [],
       changement: {
         représentantLégal: {
-          typeTâchePlanifiée: 'rejet-tacite',
+          typeTâchePlanifiée: 'rejet-automatique',
         },
       },
     },
@@ -248,7 +248,7 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
       cahiersDesChargesModifiésDisponibles: [],
       changement: {
         représentantLégal: {
-          typeTâchePlanifiée: 'rejet-tacite',
+          typeTâchePlanifiée: 'rejet-automatique',
         },
       },
     },
@@ -266,7 +266,7 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
       cahiersDesChargesModifiésDisponibles: [],
       changement: {
         représentantLégal: {
-          typeTâchePlanifiée: 'rejet-tacite',
+          typeTâchePlanifiée: 'rejet-automatique',
         },
       },
     },
@@ -284,7 +284,7 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
       cahiersDesChargesModifiésDisponibles: [],
       changement: {
         représentantLégal: {
-          typeTâchePlanifiée: 'rejet-tacite',
+          typeTâchePlanifiée: 'rejet-automatique',
         },
       },
     },
@@ -302,7 +302,7 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
       cahiersDesChargesModifiésDisponibles: [],
       changement: {
         représentantLégal: {
-          typeTâchePlanifiée: 'rejet-tacite',
+          typeTâchePlanifiée: 'rejet-automatique',
         },
       },
     },
