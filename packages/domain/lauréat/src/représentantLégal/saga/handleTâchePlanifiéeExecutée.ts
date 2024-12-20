@@ -42,12 +42,12 @@ export const handleTâchePlanifiéeExécutée = async (event: TâchePlanifiéeEx
   } = période;
 
   match(typeTâchePlanifiée)
-    .with('accord-tacite', async () => {
+    .with('accord-automatique', async () => {
       /**
        * @todo Brancher le usecase d'accord
        */
     })
-    .with('rejet-tacite', async () => {
+    .with('rejet-automatique', async () => {
       /**
        * @todo Brancher le usecase de rejet
        */
