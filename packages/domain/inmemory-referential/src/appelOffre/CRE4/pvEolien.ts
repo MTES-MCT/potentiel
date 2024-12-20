@@ -140,7 +140,7 @@ Des délais supplémentaires, laissés à l’appréciation du ministre chargé 
       choisirNouveauCahierDesCharges: true,
       changement: {
         représentantLégal: {
-          typeTâchePlanifiée: 'accord-tacite',
+          typeTâchePlanifiée: 'accord-automatique',
         },
       },
     },

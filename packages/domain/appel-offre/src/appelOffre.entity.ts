@@ -198,7 +198,7 @@ export type Periode = {
   familles: Array<Famille>;
   changement: {
     représentantLégal: {
-      typeTâchePlanifiée: 'accord-tacite' | 'rejet-tacite';
+      typeTâchePlanifiée: 'accord-automatique' | 'rejet-automatique';
     };
   };
 } & (NotifiedPeriode | NotYetNotifiedPeriode | LegacyPeriode);

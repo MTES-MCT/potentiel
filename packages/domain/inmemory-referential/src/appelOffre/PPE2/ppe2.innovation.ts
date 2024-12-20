@@ -148,7 +148,7 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       abandonAvecRecandidature: true,
       changement: {
         représentantLégal: {
-          typeTâchePlanifiée: 'accord-tacite',
+          typeTâchePlanifiée: 'accord-automatique',
         },
       },
     },

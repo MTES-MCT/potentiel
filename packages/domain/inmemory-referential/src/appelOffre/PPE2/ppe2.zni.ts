@@ -97,7 +97,7 @@ du paragraphe 2.6.`,
       cahiersDesChargesModifiésDisponibles: [],
       changement: {
         représentantLégal: {
-          typeTâchePlanifiée: 'accord-tacite',
+          typeTâchePlanifiée: 'accord-automatique',
         },
       },
     },
@@ -129,7 +129,7 @@ du paragraphe 2.6.`,
       cahiersDesChargesModifiésDisponibles: [],
       changement: {
         représentantLégal: {
-          typeTâchePlanifiée: 'accord-tacite',
+          typeTâchePlanifiée: 'accord-automatique',
         },
       },
     },

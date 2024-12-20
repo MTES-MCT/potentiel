@@ -251,7 +251,7 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
       choisirNouveauCahierDesCharges: true,
       changement: {
         représentantLégal: {
-          typeTâchePlanifiée: 'accord-tacite',
+          typeTâchePlanifiée: 'accord-automatique',
         },
       },
     },
@@ -352,7 +352,7 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
       choisirNouveauCahierDesCharges: true,
       changement: {
         représentantLégal: {
-          typeTâchePlanifiée: 'accord-tacite',
+          typeTâchePlanifiée: 'accord-automatique',
         },
       },
     },
@@ -451,7 +451,7 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
       choisirNouveauCahierDesCharges: true,
       changement: {
         représentantLégal: {
-          typeTâchePlanifiée: 'accord-tacite',
+          typeTâchePlanifiée: 'accord-automatique',
         },
       },
     },
@@ -552,7 +552,7 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
       choisirNouveauCahierDesCharges: true,
       changement: {
         représentantLégal: {
-          typeTâchePlanifiée: 'accord-tacite',
+          typeTâchePlanifiée: 'accord-automatique',
         },
       },
     },
@@ -646,7 +646,7 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
       choisirNouveauCahierDesCharges: true,
       changement: {
         représentantLégal: {
-          typeTâchePlanifiée: 'accord-tacite',
+          typeTâchePlanifiée: 'accord-automatique',
         },
       },
     },
@@ -739,7 +739,7 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
       cahiersDesChargesModifiésDisponibles: [CDCModifié07022023, CDCModifié07022023Alternatif],
       changement: {
         représentantLégal: {
-          typeTâchePlanifiée: 'accord-tacite',
+          typeTâchePlanifiée: 'accord-automatique',
         },
       },
     },
