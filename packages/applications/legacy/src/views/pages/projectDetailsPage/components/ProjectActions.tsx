@@ -13,6 +13,7 @@ import {
   SecondaryLinkButton,
   DownloadLinkButton,
 } from '../../../components';
+import { featureFlags } from '@potentiel-applications/feature-flags';
 
 type EnregistrerUneModificationProps = {
   project: ProjectDataForProjectPage;
@@ -79,7 +80,13 @@ const PorteurProjetActions = ({
             <DropdownMenuSecondaryButton.DropdownItem href={routes.CHANGER_FOURNISSEUR(project.id)}>
               <span>Changer de fournisseur</span>
             </DropdownMenuSecondaryButton.DropdownItem>
-            <DropdownMenuSecondaryButton.DropdownItem href={routes.CHANGER_ACTIONNAIRE(project.id)}>
+            <DropdownMenuSecondaryButton.DropdownItem
+              href={
+                featureFlags.isActionnaireEnabled
+                  ? Routes.Actionnaire.modifier(identifiantProjet)
+                  : routes.CHANGER_ACTIONNAIRE(project.id)
+              }
+            >
               <span>Changer d'actionnaire</span>
             </DropdownMenuSecondaryButton.DropdownItem>
             <DropdownMenuSecondaryButton.DropdownItem
