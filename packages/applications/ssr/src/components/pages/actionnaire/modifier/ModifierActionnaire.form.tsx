@@ -9,6 +9,7 @@ import { IdentifiantProjet } from '@potentiel-domain/common';
 
 import { Form } from '@/components/atoms/form/Form';
 import { SubmitButton } from '@/components/atoms/form/SubmitButton';
+import { UploadNewOrModifyExistingDocument } from '@/components/atoms/form/document/UploadNewOrModifyExistingDocument';
 
 import { ValidationErrors } from '../../../../utils/formAction';
 
@@ -20,9 +21,11 @@ import { ModifierActionnairePageProps } from './ModifierActionnaire.page';
 
 export type ModifierActionnaireFormProps = ModifierActionnairePageProps;
 
+// TODO: reprendre le wording cf nouveau ticket
 export const ModifierActionnaireForm: FC<ModifierActionnaireFormProps> = ({
   identifiantProjet,
   actionnaire,
+  hasToUploadDocument,
 }) => {
   const [validationErrors, setValidationErrors] = useState<
     ValidationErrors<ModifierActionnaireFormKeys>
@@ -65,6 +68,14 @@ export const ModifierActionnaireForm: FC<ModifierActionnaireFormProps> = ({
             required: true,
             'aria-required': true,
           }}
+        />
+        <UploadNewOrModifyExistingDocument
+          label={`Pièce justificative${hasToUploadDocument ? '' : ' (optionnel)'}`}
+          name="pieceJustificative"
+          formats={['pdf']}
+          required={hasToUploadDocument}
+          state={validationErrors['pieceJustificative'] ? 'error' : 'default'}
+          stateRelatedMessage={validationErrors['pieceJustificative']}
         />
       </div>
     </Form>

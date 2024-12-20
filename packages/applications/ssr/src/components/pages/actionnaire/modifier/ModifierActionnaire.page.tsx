@@ -10,11 +10,14 @@ import { PageTemplate } from '@/components/templates/Page.template';
 
 import { ModifierActionnaireForm } from './ModifierActionnaire.form';
 
-export type ModifierActionnairePageProps = PlainType<Actionnaire.ConsulterActionnaireReadModel>;
+export type ModifierActionnairePageProps = PlainType<Actionnaire.ConsulterActionnaireReadModel> & {
+  hasToUploadDocument: boolean;
+};
 
 export const ModifierActionnairePage: FC<ModifierActionnairePageProps> = ({
   identifiantProjet,
   actionnaire,
+  hasToUploadDocument,
 }) => (
   <PageTemplate
     banner={
@@ -22,6 +25,10 @@ export const ModifierActionnairePage: FC<ModifierActionnairePageProps> = ({
     }
   >
     <Heading1>Modifier l'actionnaire</Heading1>
-    <ModifierActionnaireForm identifiantProjet={identifiantProjet} actionnaire={actionnaire} />
+    <ModifierActionnaireForm
+      identifiantProjet={identifiantProjet}
+      actionnaire={actionnaire}
+      hasToUploadDocument={hasToUploadDocument}
+    />
   </PageTemplate>
 );

@@ -26,6 +26,7 @@ export const getActionnaire = async (
       data: { identifiantProjet: identifiantProjet.formatter() },
     });
 
+    // voir ici pour ajouter la condition sur la demande vs la modification
     if (Option.isSome(actionnaire)) {
       return {
         nom: actionnaire.actionnaire,

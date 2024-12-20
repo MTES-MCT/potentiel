@@ -9,16 +9,19 @@ import { Routes } from '@potentiel-applications/routes';
 import { FormAction, formAction, FormState } from '@/utils/formAction';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 
+import { singleDocument } from '../../../../utils/zod/document/singleDocument';
+
 const schema = zod.object({
   identifiantProjet: zod.string().min(1),
   actionnaire: zod.string().min(1, { message: 'Champ obligatoire' }),
+  pieceJustificative: singleDocument({ optional: true, acceptedFileTypes: ['application/pdf'] }),
 });
 
 export type ModifierActionnaireFormKeys = keyof zod.infer<typeof schema>;
 
 const action: FormAction<FormState, typeof schema> = async (
   _,
-  { identifiantProjet, actionnaire },
+  { identifiantProjet, actionnaire, pieceJustificative },
 ) =>
   withUtilisateur(async (utilisateur) => {
     await mediator.send<Actionnaire.ActionnaireUseCase>({
@@ -28,6 +31,9 @@ const action: FormAction<FormState, typeof schema> = async (
         identifiantUtilisateurValue: utilisateur.identifiantUtilisateur.formatter(),
         dateModificationValue: new Date().toISOString(),
         actionnaireValue: actionnaire,
+        ...(pieceJustificative && {
+          pièceJustificativeValue: pieceJustificative,
+        }),
       },
     });
 

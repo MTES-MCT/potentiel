@@ -21,6 +21,7 @@ import { DemanderChangementActionnairePageProps } from './DemanderChangementActi
 
 export type DemanderChangementActionnaireFormProps = DemanderChangementActionnairePageProps;
 
+// TODO: reprendre le wording cf nouveau ticket
 export const DemanderChangementActionnaireForm: FC<DemanderChangementActionnaireFormProps> = ({
   identifiantProjet,
   actionnaire,
