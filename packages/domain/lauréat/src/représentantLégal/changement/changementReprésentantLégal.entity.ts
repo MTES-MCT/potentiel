@@ -28,6 +28,11 @@ export type ChangementReprésentantLégalEntity = Entity<
         accordéLe: string;
         accordéPar: string;
       };
+
+      rejet?: {
+        rejetéLe: string;
+        rejetéPar: string;
+      };
     };
   }
 >;

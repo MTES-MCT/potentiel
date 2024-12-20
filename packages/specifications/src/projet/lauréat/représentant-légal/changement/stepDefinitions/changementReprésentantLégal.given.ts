@@ -70,3 +70,41 @@ EtantDonné(
     });
   },
 );
+
+EtantDonné(
+  /une demande de changement de représentant légal rejetée pour le projet lauréat/,
+  async function (this: PotentielWorld) {
+    const identifiantProjet = this.lauréatWorld.identifiantProjet.formatter();
+
+    const fixtureDemander =
+      this.lauréatWorld.représentantLégalWorld.changementReprésentantLégalWorld.demanderChangementReprésentantLégalFixture.créer(
+        {
+          identifiantProjet,
+        },
+      );
+
+    await mediator.send<ReprésentantLégal.ReprésentantLégalUseCase>({
+      type: 'Lauréat.ReprésentantLégal.UseCase.DemanderChangementReprésentantLégal',
+      data: {
+        identifiantProjetValue: identifiantProjet,
+        nomReprésentantLégalValue: fixtureDemander.nomReprésentantLégal,
+        typeReprésentantLégalValue: fixtureDemander.typeReprésentantLégal.formatter(),
+        pièceJustificativeValue: fixtureDemander.pièceJustificative,
+        identifiantUtilisateurValue: fixtureDemander.demandéPar,
+        dateDemandeValue: fixtureDemander.demandéLe,
+      },
+    });
+
+    const fixtureRejeter =
+      this.lauréatWorld.représentantLégalWorld.changementReprésentantLégalWorld.rejeterChangementReprésentantLégalFixture.créer();
+
+    await mediator.send<ReprésentantLégal.ReprésentantLégalUseCase>({
+      type: 'Lauréat.ReprésentantLégal.UseCase.RejeterChangementReprésentantLégal',
+      data: {
+        identifiantProjetValue: identifiantProjet,
+        identifiantUtilisateurValue: fixtureRejeter.rejetéePar,
+        dateRejetValue: fixtureRejeter.rejetéeLe,
+      },
+    });
+  },
+);

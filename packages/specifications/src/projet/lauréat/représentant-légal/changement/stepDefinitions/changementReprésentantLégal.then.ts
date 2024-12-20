@@ -90,7 +90,34 @@ Alors(
 );
 
 Alors(
-  /le représentant légal du projet lauréat devrait être mis à jour/,
+  /la demande de changement de représentant légal du projet lauréat devrait être rejetée/,
+  async function (this: PotentielWorld) {
+    await waitForExpect(async () => {
+      const { identifiantProjet } = this.lauréatWorld;
+
+      const changement =
+        await mediator.send<ReprésentantLégal.ConsulterChangementReprésentantLégalQuery>({
+          type: 'Lauréat.ReprésentantLégal.Query.ConsulterChangementReprésentantLégal',
+          data: {
+            identifiantProjet: identifiantProjet.formatter(),
+          },
+        });
+
+      const actual = mapToPlainObject(changement);
+      const expected = mapToPlainObject(
+        this.lauréatWorld.représentantLégalWorld.changementReprésentantLégalWorld.mapToExpected(
+          identifiantProjet,
+          ReprésentantLégal.StatutChangementReprésentantLégal.rejeté,
+        ),
+      );
+
+      actual.should.be.deep.equal(expected);
+    });
+  },
+);
+
+Alors(
+  `le représentant légal du projet lauréat( ne) devrait( pas) être mis à jour`,
   async function (this: PotentielWorld) {
     await waitForExpect(async () => {
       const { identifiantProjet } = this.lauréatWorld;

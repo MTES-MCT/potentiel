@@ -36,7 +36,10 @@ export const bind = ({ statut }: PlainType<ValueType>): ValueType => {
       if (nouveauStatut.estDemandé() && this.estDemandé()) {
         throw new DemandeChangementDéjàDemandéeError();
       }
-      if (nouveauStatut.estAccordé() && this.estAccordé()) {
+      if (
+        (nouveauStatut.estAccordé() || nouveauStatut.estRejeté()) &&
+        (this.estAccordé() || this.estRejeté())
+      ) {
         throw new DemandeChangementInexistanteError();
       }
     },
