@@ -2,6 +2,7 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { IdentifiantProjet, DateTime, Email } from '@potentiel-domain/common';
 import { LoadAggregate } from '@potentiel-domain/core';
+import { DocumentProjet } from '@potentiel-domain/document';
 
 import { loadActionnaireFactory } from '../actionnaire.aggregate';
 

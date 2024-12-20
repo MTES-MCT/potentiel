@@ -1,6 +1,9 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
+import { DocumentProjet, EnregistrerDocumentProjetCommand } from '@potentiel-domain/document';
+
+import { TypeDocumentActionnaire } from '..';
 
 import { ModifierActionnaireCommand } from './modifierActionnaire.command';
 
@@ -24,12 +27,13 @@ export const registerModifierActionnaireUseCase = () => {
     identifiantUtilisateurValue,
     actionnaireValue,
     dateModificationValue,
+    pièceJustificativeValue,
   }) => {
     const pièceJustificative = pièceJustificativeValue
       ? DocumentProjet.convertirEnValueType(
           identifiantProjetValue,
-          TypeDocumentAbandon.pièceJustificative.formatter(),
-          dateDemandeValue,
+          TypeDocumentActionnaire.pièceJustificative.formatter(),
+          dateModificationValue,
           pièceJustificativeValue.format,
         )
       : undefined;

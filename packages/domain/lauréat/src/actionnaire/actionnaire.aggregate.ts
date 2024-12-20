@@ -22,7 +22,7 @@ import {
   applyChangementActionnaireDemandé,
   demanderChangement,
   ChangementActionnaireDemandéEvent,
-} from './demanderChangement/demandeChangement.behavior';
+} from './demanderChangement/demandeChangementActionnaire.behavior';
 import {
   accorderDemandeChangementActionnaire,
   applyDemandeChangementActionnaireAccordée,

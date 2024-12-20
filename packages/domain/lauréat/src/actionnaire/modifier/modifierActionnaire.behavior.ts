@@ -1,5 +1,6 @@
 import { DomainEvent } from '@potentiel-domain/core';
 import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
+import { DocumentProjet } from '@potentiel-domain/document';
 
 import { ActionnaireAggregate } from '../actionnaire.aggregate';
 import { ActionnaireIdentifiqueError, DemandeDeChangementEnCoursError } from '../errors';
