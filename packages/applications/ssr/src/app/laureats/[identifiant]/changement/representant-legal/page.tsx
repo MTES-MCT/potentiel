@@ -6,7 +6,6 @@ import { Option } from '@potentiel-libraries/monads';
 import { ReprésentantLégal } from '@potentiel-domain/laureat';
 import { mapToPlainObject } from '@potentiel-domain/core';
 import { IdentifiantProjet } from '@potentiel-domain/common';
-import { Role } from '@potentiel-domain/utilisateur';
 
 import { decodeParameter } from '@/utils/decodeParameter';
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
@@ -44,7 +43,7 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
       const actions: Array<AvailableChangementReprésentantLégalAction> = [];
 
       if (
-        (utilisateur.role.estÉgaleÀ(Role.admin) || utilisateur.role.estÉgaleÀ(Role.dreal)) &&
+        utilisateur.role.aLaPermission('représentantLégal.accorderChangement') &&
         changement.demande.statut.estDemandé()
       ) {
         actions.push('accorder');
