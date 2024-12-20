@@ -30,6 +30,8 @@ export type ReprésentantLégalEvent =
   | ReprésentantLégalImportéEvent
   | ReprésentantLégalModifiéEvent
   | ChangementReprésentantLégalDemandéEvent;
+// | ChangementReprésentantLégalAccordéEvent;
+// | ChangementReprésentantLégalRejetéEvent;
 
 export type ReprésentantLégalAggregate = Aggregate<ReprésentantLégalEvent> & {
   représentantLégal: {
