@@ -38,7 +38,7 @@ export type ReprésentantLégalEvent =
   | ChangementReprésentantLégalAccordéEvent;
 
 export type ReprésentantLégalAggregate = Aggregate<ReprésentantLégalEvent> & {
-  représentantLégal?: {
+  représentantLégal: {
     nom: string;
     type: TypeReprésentantLégal.ValueType;
   };
@@ -66,6 +66,10 @@ export const getDefaultReprésentantLégalAggregate: GetDefaultAggregateState<
   ReprésentantLégalEvent
 > = () => ({
   apply,
+  représentantLégal: {
+    nom: '',
+    type: TypeReprésentantLégal.inconnu,
+  },
   importer,
   modifier,
   demander,
