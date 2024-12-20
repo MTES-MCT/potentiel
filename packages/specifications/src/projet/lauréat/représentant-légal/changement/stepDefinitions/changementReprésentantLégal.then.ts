@@ -61,3 +61,54 @@ Alors(
     });
   },
 );
+
+Alors(
+  /la demande de changement de représentant légal du projet lauréat devrait être accordée/,
+  async function (this: PotentielWorld) {
+    await waitForExpect(async () => {
+      const { identifiantProjet } = this.lauréatWorld;
+
+      const changement =
+        await mediator.send<ReprésentantLégal.ConsulterChangementReprésentantLégalQuery>({
+          type: 'Lauréat.ReprésentantLégal.Query.ConsulterChangementReprésentantLégal',
+          data: {
+            identifiantProjet: identifiantProjet.formatter(),
+          },
+        });
+
+      const actual = mapToPlainObject(changement);
+      const expected = mapToPlainObject(
+        this.lauréatWorld.représentantLégalWorld.changementReprésentantLégalWorld.mapToExpected(
+          identifiantProjet,
+          ReprésentantLégal.StatutChangementReprésentantLégal.accordé,
+        ),
+      );
+
+      actual.should.be.deep.equal(expected);
+    });
+  },
+);
+
+Alors(
+  /le représentant légal du projet lauréat devrait être mis à jour/,
+  async function (this: PotentielWorld) {
+    await waitForExpect(async () => {
+      const { identifiantProjet } = this.lauréatWorld;
+
+      const représentantLégal =
+        await mediator.send<ReprésentantLégal.ConsulterReprésentantLégalQuery>({
+          type: 'Lauréat.ReprésentantLégal.Query.ConsulterReprésentantLégal',
+          data: {
+            identifiantProjet: identifiantProjet.formatter(),
+          },
+        });
+
+      const actual = mapToPlainObject(représentantLégal);
+      const expected = mapToPlainObject(
+        this.lauréatWorld.représentantLégalWorld.mapToExpected(identifiantProjet),
+      );
+
+      actual.should.be.deep.equal(expected);
+    });
+  },
+);

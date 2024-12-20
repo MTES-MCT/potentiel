@@ -20,6 +20,7 @@
     "@potentiel-domain/utilisateur": "*",
     "@potentiel-domain/tache-planifiee": "*",
     "@potentiel-domain/core": "^0.0.0",
+    "@potentiel-libraries/monads": "^0.0.0",
     "@potentiel-libraries/file-storage": "^0.0.0",
     "@potentiel-infrastructure/domain-adapters": "^0.0.0",
     "@potentiel-infrastructure/pg-event-sourcing": "^0.0.0",

@@ -3,12 +3,13 @@
 import { useState } from 'react';
 import Button from '@codegouvfr/react-dsfr/Button';
 import Input from '@codegouvfr/react-dsfr/Input';
-import SelectNext from '@codegouvfr/react-dsfr/SelectNext';
 
-// import { Routes } from '@potentiel-applications/routes';
+import { ReprésentantLégal } from '@potentiel-domain/laureat';
 
 import { ModalWithForm } from '@/components/molecules/ModalWithForm';
 import { ValidationErrors } from '@/utils/formAction';
+
+import { TypeReprésentantLégalSelect } from '../../../TypeReprésentantLégalSelect';
 
 import {
   accorderChangementReprésentantLégalAction,
@@ -17,7 +18,7 @@ import {
 
 type AccorderChangementReprésentantLégalFormProps = {
   identifiantProjet: string;
-  typeReprésentantLégal: string;
+  typeReprésentantLégal: ReprésentantLégal.TypeReprésentantLégal.RawType;
   nomReprésentantLégal: string;
 };
 
@@ -56,20 +57,18 @@ export const AccorderChangementReprésentantLégal = ({
             <>
               <input type={'hidden'} value={identifiantProjet} name="identifiantProjet" />
 
-              <SelectNext
-                label="Type de personne pour le représentant légal"
-                placeholder={`Sélectionner le type de personne pour le représentant légal`}
+              <TypeReprésentantLégalSelect
+                id="typeRepresentantLegal"
+                name="typeRepresentantLegal"
+                required
+                typeReprésentantLégalActuel={
+                  typeReprésentantLégal as Exclude<
+                    ReprésentantLégal.TypeReprésentantLégal.RawType,
+                    'inconnu'
+                  >
+                }
                 state={validationErrors.typeRepresentantLegal ? 'error' : 'default'}
                 stateRelatedMessage="Le type de personne pour le représentant légal est obligatoire"
-                options={['Personne physique', 'Personne morale', 'Collectivité', 'Autre'].map(
-                  (type) => ({
-                    label: type,
-                    value: type,
-                  }),
-                )}
-                nativeSelectProps={{
-                  value: typeReprésentantLégal,
-                }}
               />
 
               <Input
@@ -79,7 +78,7 @@ export const AccorderChangementReprésentantLégal = ({
                   name: 'nomRepresentantLegal',
                   required: true,
                   'aria-required': true,
-                  value: nomReprésentantLégal,
+                  defaultValue: nomReprésentantLégal,
                 }}
                 state={validationErrors['nomRepresentantLegal'] ? 'error' : 'default'}
                 stateRelatedMessage={validationErrors['nomRepresentantLegal']}

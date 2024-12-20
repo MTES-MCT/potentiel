@@ -4,7 +4,7 @@ export type TypeDocument = 'pièce-justificative';
 
 export type RawType = `représentant-légal/${TypeDocument}`;
 
-const typeDocument: TypeDocument = 'pièce-justificative';
+const typeDocument: Array<TypeDocument> = ['pièce-justificative'];
 
 export type ValueType = Readonly<{
   type: TypeDocument;
@@ -22,7 +22,7 @@ export const convertirEnValueType = (value: string): ValueType => {
 };
 
 function estValide(value: string): asserts value is TypeDocument {
-  const isValid = (typeDocument as string).includes(value);
+  const isValid = (typeDocument as Array<string>).includes(value);
 
   if (!isValid) {
     throw new TypeDocumentChangementReprésentantLégalInvalideError(value);

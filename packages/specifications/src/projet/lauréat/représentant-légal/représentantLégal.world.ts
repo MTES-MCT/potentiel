@@ -49,6 +49,15 @@ export class ReprésentantLégalWorld {
       expected.typeReprésentantLégal = this.#modifierReprésentantLégalFixture.typeReprésentantLégal;
     }
 
+    if (
+      this.#changementReprésentantLégalWorld.accorderChangementReprésentantLégalFixture.aÉtéCréé
+    ) {
+      expected.nomReprésentantLégal =
+        this.#changementReprésentantLégalWorld.accorderChangementReprésentantLégalFixture.nomReprésentantLégal;
+      expected.typeReprésentantLégal =
+        this.#changementReprésentantLégalWorld.accorderChangementReprésentantLégalFixture.typeReprésentantLégal;
+    }
+
     return expected;
   }
 }

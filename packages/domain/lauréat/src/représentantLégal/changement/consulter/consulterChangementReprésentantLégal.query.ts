@@ -10,13 +10,21 @@ import { StatutChangementReprésentantLégal, TypeReprésentantLégal } from '..
 
 export type ConsulterChangementReprésentantLégalReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
-  statut: StatutChangementReprésentantLégal.ValueType;
+
   demande: {
+    statut: StatutChangementReprésentantLégal.ValueType;
     nomReprésentantLégal: string;
     typeReprésentantLégal: TypeReprésentantLégal.ValueType;
     demandéLe: DateTime.ValueType;
     demandéPar: Email.ValueType;
     pièceJustificative: DocumentProjet.ValueType;
+
+    accord?: {
+      nomReprésentantLégal: string;
+      typeReprésentantLégal: TypeReprésentantLégal.ValueType;
+      accordéPar: Email.ValueType;
+      accordéLe: DateTime.ValueType;
+    };
   };
 };
 
@@ -45,10 +53,10 @@ export const registerConsulterChangementReprésentantLegalQuery = ({
     );
 
     return Option.match(changement)
-      .some(({ demande }) =>
+      .some((changement) =>
         mapToReadModel({
           identifiantProjet: identifiantProjetValueType,
-          demande,
+          changement,
         }),
       )
       .none();
@@ -61,24 +69,41 @@ export const registerConsulterChangementReprésentantLegalQuery = ({
 
 type MapToReadModel = (args: {
   identifiantProjet: IdentifiantProjet.ValueType;
-  demande: ReprésentantLégal.ChangementReprésentantLégalEntity['demande'];
-}) => Option.Type<ConsulterChangementReprésentantLégalReadModel>;
+  changement: ReprésentantLégal.ChangementReprésentantLégalEntity;
+}) => ConsulterChangementReprésentantLégalReadModel;
 
-const mapToReadModel: MapToReadModel = ({ identifiantProjet, demande }) => ({
+const mapToReadModel: MapToReadModel = ({
   identifiantProjet,
-  statut: ReprésentantLégal.StatutChangementReprésentantLégal.convertirEnValueType(demande.statut),
-  demande: {
-    nomReprésentantLégal: demande.nomReprésentantLégal,
-    typeReprésentantLégal: TypeReprésentantLégal.convertirEnValueType(
-      demande.typeReprésentantLégal,
-    ),
-    pièceJustificative: DocumentProjet.convertirEnValueType(
-      identifiantProjet.formatter(),
-      ReprésentantLégal.TypeDocumentChangementReprésentantLégal.pièceJustificative.formatter(),
-      demande.demandéLe,
-      demande.pièceJustificative.format,
-    ),
-    demandéLe: DateTime.convertirEnValueType(demande.demandéLe),
-    demandéPar: Email.convertirEnValueType(demande.demandéPar),
+  changement: {
+    demande: { accord, ...demande },
   },
-});
+}) => {
+  return {
+    identifiantProjet,
+    demande: {
+      statut: ReprésentantLégal.StatutChangementReprésentantLégal.convertirEnValueType(
+        demande.statut,
+      ),
+      nomReprésentantLégal: demande.nomReprésentantLégal,
+      typeReprésentantLégal: TypeReprésentantLégal.convertirEnValueType(
+        demande.typeReprésentantLégal,
+      ),
+      pièceJustificative: DocumentProjet.convertirEnValueType(
+        identifiantProjet.formatter(),
+        ReprésentantLégal.TypeDocumentChangementReprésentantLégal.pièceJustificative.formatter(),
+        demande.demandéLe,
+        demande.pièceJustificative.format,
+      ),
+      demandéLe: DateTime.convertirEnValueType(demande.demandéLe),
+      demandéPar: Email.convertirEnValueType(demande.demandéPar),
+      accord: accord && {
+        nomReprésentantLégal: accord.nomReprésentantLégal,
+        typeReprésentantLégal: ReprésentantLégal.TypeReprésentantLégal.convertirEnValueType(
+          accord.typeReprésentantLégal,
+        ),
+        accordéPar: Email.convertirEnValueType(accord.accordéPar),
+        accordéLe: DateTime.convertirEnValueType(accord.accordéLe),
+      },
+    },
+  };
+};

@@ -7,6 +7,8 @@ import { ModifierReprésentantLégalUseCase } from './modifier/modifierReprésen
 import { ImporterReprésentantLégalCommand } from './importer/importerReprésentantLégal.command';
 import { DemanderChangementReprésentantLégalUseCase } from './changement/demander/demanderChangementReprésentantLégal.usecase';
 import { DemanderChangementReprésentantLégalCommand } from './changement/demander/demanderChangementReprésentantLégal.command';
+import { AccorderChangementReprésentantLégalUseCase } from './changement/accorder/accorderChangementReprésentantLégal.usecase';
+import { AccorderChangementReprésentantLégalCommand } from './changement/accorder/accorderChangementReprésentantLégal.command';
 import {
   ConsulterChangementReprésentantLégalQuery,
   ConsulterChangementReprésentantLégalReadModel,
@@ -39,7 +41,8 @@ export type {
 export type ReprésentantLégalCommand =
   | ImporterReprésentantLégalCommand
   | ModifierReprésentantLégalCommand
-  | DemanderChangementReprésentantLégalCommand;
+  | DemanderChangementReprésentantLégalCommand
+  | AccorderChangementReprésentantLégalCommand;
 
 export type {
   ImporterReprésentantLégalCommand,
@@ -50,7 +53,8 @@ export type {
 // UseCase
 export type ReprésentantLégalUseCase =
   | ModifierReprésentantLégalUseCase
-  | DemanderChangementReprésentantLégalUseCase;
+  | DemanderChangementReprésentantLégalUseCase
+  | AccorderChangementReprésentantLégalUseCase;
 
 export type { ModifierReprésentantLégalUseCase, DemanderChangementReprésentantLégalUseCase };
 
@@ -59,6 +63,7 @@ export type { ReprésentantLégalEvent } from './représentantLégal.aggregate';
 export type { ReprésentantLégalImportéEvent } from './importer/importerReprésentantLégal.behavior';
 export type { ReprésentantLégalModifiéEvent } from './modifier/modifierReprésentantLégal.behavior';
 export type { ChangementReprésentantLégalDemandéEvent } from './changement/demander/demanderChangementReprésentantLégal.behavior';
+export type { ChangementReprésentantLégalAccordéEvent } from './changement/accorder/accorderChangementReprésentantLégal.behavior';
 
 // Register
 export {
