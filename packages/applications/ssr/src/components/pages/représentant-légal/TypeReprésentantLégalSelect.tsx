@@ -19,6 +19,7 @@ const typesReprésentantLégalOptions = ReprésentantLégal.TypeReprésentantLé
 export type TypeReprésentantLégalSelectProps = {
   id: string;
   name: string;
+  required?: true;
   label?: string;
   disabled?: boolean;
   state?: SelectProps.State | 'default';
@@ -32,6 +33,7 @@ export type TypeReprésentantLégalSelectProps = {
 export const TypeReprésentantLégalSelect = ({
   id,
   name,
+  required,
   label = 'Choisir le type de représentant légal',
   disabled,
   state = 'default',
@@ -44,6 +46,8 @@ export const TypeReprésentantLégalSelect = ({
     label={label}
     nativeSelectProps={{
       name,
+      required,
+      'aria-required': required,
       defaultValue: ReprésentantLégal.TypeReprésentantLégal.bind({
         type: typeReprésentantLégalActuel,
       }).estInconnu()
