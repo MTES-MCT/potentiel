@@ -32,7 +32,7 @@ EtantDonné(
 );
 
 EtantDonné(
-  /une demande de changement de représentant légal acordée pour le projet lauréat/,
+  /une demande de changement de représentant légal accordée pour le projet lauréat/,
   async function (this: PotentielWorld) {
     const identifiantProjet = this.lauréatWorld.identifiantProjet.formatter();
 
