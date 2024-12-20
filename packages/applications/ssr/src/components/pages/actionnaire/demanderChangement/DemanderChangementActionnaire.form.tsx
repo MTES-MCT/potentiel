@@ -43,16 +43,16 @@ export const DemanderChangementActionnaireForm: FC<DemanderChangementActionnaire
               prefetch: false,
             }}
             iconId="fr-icon-arrow-left-line"
-            disabled={
-              !type ||
-              !nom ||
-              !piècesJustificatives.length ||
-              Object.keys(validationErrors).length > 0
-            }
           >
             Retour sur le projet
           </Button>
-          <SubmitButton>Demander le changement de l'actionnaire</SubmitButton>
+          <SubmitButton
+            disabledCondition={() =>
+              !piècesJustificatives.length || Object.keys(validationErrors).length > 0
+            }
+          >
+            Demander le changement de l'actionnaire
+          </SubmitButton>
         </>
       }
     >

@@ -23,7 +23,6 @@ export type DemanderChangementUseCase = Message<
   }
 >;
 
-// TODO: après POC Julien et Hub, gestion multidocument
 export const registerDemanderChangementActionnaireUseCase = () => {
   const runner: MessageHandler<DemanderChangementUseCase> = async ({
     dateDemandeValue,

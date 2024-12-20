@@ -24,6 +24,7 @@ export const registerModifierActionnaireCommand = (loadAggregate: LoadAggregate)
     identifiantUtilisateur,
     actionnaire,
     dateModification,
+    pièceJustificative,
   }) => {
     const actionnaireAggrégat = await loadActionnaire(identifiantProjet);
 
@@ -32,6 +33,7 @@ export const registerModifierActionnaireCommand = (loadAggregate: LoadAggregate)
       identifiantUtilisateur,
       actionnaire,
       dateModification,
+      pièceJustificative,
     });
   };
   mediator.register('Lauréat.Actionnaire.Command.ModifierActionnaire', handler);

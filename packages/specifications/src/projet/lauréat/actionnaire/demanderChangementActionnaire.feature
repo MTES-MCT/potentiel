@@ -12,7 +12,8 @@ Fonctionnalité: Demander le changement de l'actionnaire d'un projet lauréat
         Alors la demande de changement de l'actionnaire devrait être consultable
 
     Scénario: Demander le changement de l'actionnaire d'un projet lauréat avec une valeur identique
-        Quand le porteur demande le changement de l'actionnaire avec la même valeur pour le projet lauréat        Alors la demande de changement de l'actionnaire devrait être consultable
+        Quand le porteur demande le changement de l'actionnaire avec la même valeur pour le projet lauréat
+        Alors la demande de changement de l'actionnaire devrait être consultable
 
     Scénario: Demander le changement de l'actionnaire d'un projet lauréat si une demande a déjà été rejetée
         Etant donné une demande de changement d'actionnaire rejetée pour le projet lauréat

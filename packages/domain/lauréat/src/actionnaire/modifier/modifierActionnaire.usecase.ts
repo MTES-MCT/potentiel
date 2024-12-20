@@ -47,13 +47,15 @@ export const registerModifierActionnaireUseCase = () => {
         },
       });
     }
-    mediator.send<ModifierActionnaireCommand>({
+
+    await mediator.send<ModifierActionnaireCommand>({
       type: 'Lauréat.Actionnaire.Command.ModifierActionnaire',
       data: {
         identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjetValue),
         identifiantUtilisateur: Email.convertirEnValueType(identifiantUtilisateurValue),
         actionnaire: actionnaireValue,
         dateModification: DateTime.convertirEnValueType(dateModificationValue),
+        pièceJustificative,
       },
     });
   };
