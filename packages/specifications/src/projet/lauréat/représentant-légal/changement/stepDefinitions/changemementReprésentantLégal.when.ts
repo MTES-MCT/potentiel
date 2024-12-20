@@ -104,3 +104,26 @@ Quand(
     }
   },
 );
+
+Quand(
+  /(le DGEC validateur|la DREAL associée au projet) rejete la demande de changement de représentant légal pour le projet lauréat/,
+  async function (this: PotentielWorld, _: string) {
+    const identifiantProjet = this.lauréatWorld.identifiantProjet.formatter();
+
+    const { rejetéeLe, rejetéePar } =
+      this.lauréatWorld.représentantLégalWorld.changementReprésentantLégalWorld.rejeterChangementReprésentantLégalFixture.créer();
+
+    try {
+      await mediator.send<ReprésentantLégal.ReprésentantLégalUseCase>({
+        type: 'Lauréat.ReprésentantLégal.UseCase.RejeterChangementReprésentantLégal',
+        data: {
+          identifiantProjetValue: identifiantProjet,
+          identifiantUtilisateurValue: rejetéePar,
+          dateRejetValue: rejetéeLe,
+        },
+      });
+    } catch (error) {
+      this.error = error as Error;
+    }
+  },
+);

@@ -30,12 +30,18 @@ import {
   ChangementReprésentantLégalAccordéEvent,
   accorder,
 } from './changement/accorder/accorderChangementReprésentantLégal.behavior';
+import {
+  applyChangementReprésentantLégalRejeté,
+  ChangementReprésentantLégalRejetéEvent,
+  rejeter,
+} from './changement/rejeter/rejeterChangementReprésentantLégal.behavior';
 
 export type ReprésentantLégalEvent =
   | ReprésentantLégalImportéEvent
   | ReprésentantLégalModifiéEvent
   | ChangementReprésentantLégalDemandéEvent
-  | ChangementReprésentantLégalAccordéEvent;
+  | ChangementReprésentantLégalAccordéEvent
+  | ChangementReprésentantLégalRejetéEvent;
 
 export type ReprésentantLégalAggregate = Aggregate<ReprésentantLégalEvent> & {
   représentantLégal: {
@@ -53,12 +59,16 @@ export type ReprésentantLégalAggregate = Aggregate<ReprésentantLégalEvent> &
       type: TypeReprésentantLégal.ValueType;
       accordéLe: DateTime.ValueType;
     };
+    rejet?: {
+      rejetéLe: DateTime.ValueType;
+    };
   };
 
   readonly importer: typeof importer;
   readonly modifier: typeof modifier;
   readonly demander: typeof demander;
   readonly accorder: typeof accorder;
+  readonly rejeter: typeof rejeter;
 };
 
 export const getDefaultReprésentantLégalAggregate: GetDefaultAggregateState<
@@ -74,6 +84,7 @@ export const getDefaultReprésentantLégalAggregate: GetDefaultAggregateState<
   modifier,
   demander,
   accorder,
+  rejeter,
 });
 
 function apply(this: ReprésentantLégalAggregate, event: ReprésentantLégalEvent) {
@@ -89,6 +100,9 @@ function apply(this: ReprésentantLégalAggregate, event: ReprésentantLégalEve
     )
     .with({ type: 'ChangementReprésentantLégalAccordé-V1' }, (event) =>
       applyChangementReprésentantLégalAccordé.bind(this)(event),
+    )
+    .with({ type: 'ChangementReprésentantLégalRejeté-V1' }, (event) =>
+      applyChangementReprésentantLégalRejeté.bind(this)(event),
     )
     .exhaustive();
 }
