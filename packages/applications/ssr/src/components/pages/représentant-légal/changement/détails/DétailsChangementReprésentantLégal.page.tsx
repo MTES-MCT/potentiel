@@ -40,12 +40,12 @@ export const DétailsChangementReprésentantLégalPage: FC<
     pièceJustificative,
     demandéLe,
     demandéPar,
+    accord,
   },
   // role,
   actions,
 }) => {
   const idProjet = IdentifiantProjet.bind(identifiantProjet).formatter();
-  const type = ReprésentantLégal.TypeReprésentantLégal.bind(typeReprésentantLégal).formatter();
 
   return (
     <ColumnPageTemplate
@@ -54,46 +54,24 @@ export const DétailsChangementReprésentantLégalPage: FC<
       leftColumn={{
         children: (
           <div className="flex flex-col gap-8">
-            <div>
-              <Heading2 className="mb-4">Contexte</Heading2>
-              <div className="flex flex-col gap-2">
-                <div className="text-xs italic">
-                  Demandé le{' '}
-                  <FormattedDate
-                    className="font-semibold"
-                    date={DateTime.bind(demandéLe).formatter()}
-                  />{' '}
-                  par <span className="font-semibold">{Email.bind(demandéPar).formatter()}</span>
-                </div>
-                <div className="flex gap-2">
-                  <div className="font-semibold">Statut :</div>{' '}
-                  <StatutChangementReprésentantLégalBadge
-                    statut={ReprésentantLégal.StatutChangementReprésentantLégal.bind(
-                      statut,
-                    ).formatter()}
-                  />
-                </div>
-                <div className="flex gap-2">
-                  <div className="font-semibold whitespace-nowrap">Type :</div>
-                  <div>{getTypeLabel(type)}</div>
-                </div>
-                <div className="flex gap-2">
-                  <div className="font-semibold whitespace-nowrap">Nom représentant légal :</div>
-                  <div>{nomReprésentantLégal}</div>
-                </div>
-                <div className="flex gap-2">
-                  <div className="font-semibold whitespace-nowrap">Pièce justificative :</div>
-                  <DownloadDocument
-                    className="mb-0"
-                    label="Télécharger la pièce justificative"
-                    format={pièceJustificative.format}
-                    url={Routes.Document.télécharger(
-                      DocumentProjet.bind(pièceJustificative).formatter(),
-                    )}
-                  />
-                </div>
-              </div>
-            </div>
+            {accord ? (
+              <ChangementAccordé
+                accordéLe={accord.accordéLe}
+                accordéPar={accord.accordéPar}
+                nomReprésentantLégal={accord.nomReprésentantLégal}
+                typeReprésentantLégal={accord.typeReprésentantLégal}
+              />
+            ) : (
+              ReprésentantLégal.StatutChangementReprésentantLégal.bind(statut).estDemandé() && (
+                <ChangementDemandé
+                  demandéLe={demandéLe}
+                  demandéPar={demandéPar}
+                  nomReprésentantLégal={nomReprésentantLégal}
+                  typeReprésentantLégal={typeReprésentantLégal}
+                  pièceJustificative={pièceJustificative}
+                />
+              )
+            )}
             {/* <div className="mb-4">
               <Heading2>Historique</Heading2>
               <EtapesChangementReprésentantLégal
@@ -162,3 +140,93 @@ const getTypeLabel = (type: ReprésentantLégal.TypeReprésentantLégal.RawType)
     .with('autre', () => 'Organisme')
     .with('inconnu', () => 'Inconnu')
     .exhaustive();
+
+type ChangementDemandéProps = Omit<
+  Omit<DétailsChangementReprésentantLégalPageProps['demande'], 'accord'>,
+  'statut'
+>;
+const ChangementDemandé: FC<ChangementDemandéProps> = ({
+  demandéLe,
+  demandéPar,
+  typeReprésentantLégal,
+  nomReprésentantLégal,
+  pièceJustificative,
+}) => (
+  <div>
+    <Heading2 className="mb-4">Contexte</Heading2>
+    <div className="flex flex-col gap-2">
+      <div className="text-xs italic">
+        Demandé le{' '}
+        <FormattedDate className="font-semibold" date={DateTime.bind(demandéLe).formatter()} /> par{' '}
+        <span className="font-semibold">{Email.bind(demandéPar).formatter()}</span>
+      </div>
+      <div className="flex gap-2">
+        <div className="font-semibold">Statut :</div>{' '}
+        <StatutChangementReprésentantLégalBadge
+          statut={ReprésentantLégal.StatutChangementReprésentantLégal.demandé.formatter()}
+        />
+      </div>
+      <div className="flex gap-2">
+        <div className="font-semibold whitespace-nowrap">Type :</div>
+        <div>
+          {getTypeLabel(
+            ReprésentantLégal.TypeReprésentantLégal.bind(typeReprésentantLégal).formatter(),
+          )}
+        </div>
+      </div>
+      <div className="flex gap-2">
+        <div className="font-semibold whitespace-nowrap">Nom représentant légal :</div>
+        <div>{nomReprésentantLégal}</div>
+      </div>
+      <div className="flex gap-2">
+        <div className="font-semibold whitespace-nowrap">Pièce justificative :</div>
+        <DownloadDocument
+          className="mb-0"
+          label="Télécharger la pièce justificative"
+          format={pièceJustificative.format}
+          url={Routes.Document.télécharger(DocumentProjet.bind(pièceJustificative).formatter())}
+        />
+      </div>
+    </div>
+  </div>
+);
+
+type ChangementAccordéProps = NonNullable<
+  DétailsChangementReprésentantLégalPageProps['demande']['accord']
+>;
+
+const ChangementAccordé: FC<ChangementAccordéProps> = ({
+  typeReprésentantLégal,
+  nomReprésentantLégal,
+  accordéLe,
+  accordéPar,
+}) => (
+  <div>
+    <Heading2 className="mb-4">Contexte</Heading2>
+    <div className="flex flex-col gap-2">
+      <div className="text-xs italic">
+        Accordé le{' '}
+        <FormattedDate className="font-semibold" date={DateTime.bind(accordéLe).formatter()} /> par{' '}
+        <span className="font-semibold">{Email.bind(accordéPar).formatter()}</span>
+      </div>
+      <div className="flex gap-2">
+        <div className="font-semibold">Statut :</div>{' '}
+        <StatutChangementReprésentantLégalBadge
+          statut={ReprésentantLégal.StatutChangementReprésentantLégal.accordé.formatter()}
+        />
+      </div>
+      <div className="flex gap-2">
+        <div className="font-semibold whitespace-nowrap">Type :</div>
+        <div>
+          {getTypeLabel(
+            ReprésentantLégal.TypeReprésentantLégal.bind(typeReprésentantLégal).formatter(),
+          )}
+        </div>
+      </div>
+      <div className="flex gap-2">
+        <div className="font-semibold whitespace-nowrap">Nom représentant légal :</div>
+        <div>{nomReprésentantLégal}</div>
+      </div>
+    </div>
+  </div>
+);
