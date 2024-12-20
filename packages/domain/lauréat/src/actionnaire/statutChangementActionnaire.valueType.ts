@@ -42,18 +42,19 @@ export const convertirEnValueType = (value: string): ValueType => {
           throw new DemandeChangementActionnaireDéjàEnCoursErreur();
         }
         return;
+      } else if (nouveauStatut.statut !== 'demandé') {
+        switch (this.statut) {
+          case 'accordé':
+            throw new DemandeChangementActionnaireDéjàAccordéeErreur();
+          case 'annulé':
+            throw new DemandeChangementActionnaireDéjàAnnuléeErreur();
+          case 'rejeté':
+            throw new DemandeChangementActionnaireDéjàRejetéeErreur();
+          default:
+            assertUnreachable(this.statut);
+        }
       }
-
-      switch (this.statut) {
-        case 'accordé':
-          throw new DemandeChangementActionnaireDéjàAccordéeErreur();
-        case 'annulé':
-          throw new DemandeChangementActionnaireDéjàAnnuléeErreur();
-        case 'rejeté':
-          throw new DemandeChangementActionnaireDéjàRejetéeErreur();
-        default:
-          assertUnreachable(this.statut);
-      }
+      return;
     },
   };
 };
