@@ -16,6 +16,8 @@ type ModificationRequest = {
   email: string;
   cancelledOn: number;
   cancelledBy: string;
+  respondedOn: number;
+  respondedBy: string;
 };
 
 const queryModifications = `
@@ -32,6 +34,7 @@ const queryModifications = `
     mr."requestedOn",
     u.email,
     mr."cancelledOn",
+    mr."respondedOn",
     u_cancel.email as "cancelledBy",
     u_respond.email as "respondedBy"
 from "modificationRequests" mr
@@ -132,9 +135,9 @@ export class Migrer extends Command {
             payload: {
               identifiantProjet,
               accordéeLe: DateTime.convertirEnValueType(
-                new Date(modification.cancelledOn * 1000),
+                new Date(modification.respondedOn * 1000),
               ).formatter(),
-              accordéePar: modification.cancelledBy,
+              accordéePar: modification.respondedBy,
               nouvelActionnaire: modification.actionnaire,
               // TODO !!
               réponseSignée: { format: 'application/pdf' },
