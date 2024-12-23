@@ -20,5 +20,14 @@ export const Default: Story = {
   args: {
     identifiantProjet: IdentifiantProjet.convertirEnValueType('PPE2 - Bâtiment#4#1#id-cre-738'),
     actionnaire: 'CAC40 boy',
+    hasToUploadDocument: false,
+  },
+};
+
+export const Porteur: Story = {
+  args: {
+    identifiantProjet: IdentifiantProjet.convertirEnValueType('PPE2 - Bâtiment#4#1#id-cre-738'),
+    actionnaire: 'CAC40 boy',
+    hasToUploadDocument: true,
   },
 };

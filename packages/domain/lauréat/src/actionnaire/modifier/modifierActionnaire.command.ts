@@ -17,6 +17,7 @@ export type ModifierActionnaireCommand = Message<
   }
 >;
 
+// créer un test pour gérer le cas
 export const registerModifierActionnaireCommand = (loadAggregate: LoadAggregate) => {
   const loadActionnaire = loadActionnaireFactory(loadAggregate);
   const handler: MessageHandler<ModifierActionnaireCommand> = async ({
@@ -26,7 +27,7 @@ export const registerModifierActionnaireCommand = (loadAggregate: LoadAggregate)
     dateModification,
     pièceJustificative,
   }) => {
-    const actionnaireAggrégat = await loadActionnaire(identifiantProjet);
+    const actionnaireAggrégat = await loadActionnaire(identifiantProjet, false);
 
     await actionnaireAggrégat.modifier({
       identifiantProjet,

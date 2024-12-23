@@ -4,16 +4,16 @@ import { notFound } from 'next/navigation';
 
 import { Option } from '@potentiel-libraries/monads';
 import { Actionnaire } from '@potentiel-domain/laureat';
-import { mapToPlainObject } from '@potentiel-domain/core';
 import { IdentifiantProjet } from '@potentiel-domain/common';
+import { mapToPlainObject } from '@potentiel-domain/core';
 import { Role } from '@potentiel-domain/utilisateur';
 
 import { decodeParameter } from '@/utils/decodeParameter';
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
-import { ModifierActionnairePage } from '@/components/pages/actionnaire/modifier/ModifierActionnaire.page';
 
 import { withUtilisateur } from '../../../../../utils/withUtilisateur';
+import { ModifierActionnairePage } from '../../../../../components/pages/actionnaire/modifier/ModifierActionnaire.page';
 
 export const metadata: Metadata = {
   title: "Modifier l'actionnaire du projet - Potentiel",
