@@ -11,7 +11,7 @@ import { decodeParameter } from '@/utils/decodeParameter';
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 
-import { DemanderChangementActionnairePage } from '../../../../../../components/pages/actionnaire/demanderChangement/DemanderChangementActionnaire.page';
+import { DemanderChangementActionnairePage } from '../../../../../components/pages/actionnaire/demanderChangement/DemanderChangementActionnaire.page';
 
 export const metadata: Metadata = {
   title: "Demander le changement de l'actionnaire d'un projet - Potentiel",

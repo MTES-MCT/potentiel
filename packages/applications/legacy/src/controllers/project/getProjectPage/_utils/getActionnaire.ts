@@ -26,7 +26,7 @@ export const getActionnaire = async (
       data: { identifiantProjet: identifiantProjet.formatter() },
     });
 
-    // voir ici pour ajouter la condition sur la demande vs la modification
+    // TODO: ajouter ici la condition sur la demande vs la modification (appel offre)
     if (Option.isSome(actionnaire)) {
       return {
         nom: actionnaire.actionnaire,
@@ -52,7 +52,10 @@ export const getActionnaire = async (
       };
     }
 
-    return undefined;
+    return {
+      nom: '',
+      modificationUrl: Routes.Actionnaire.transmettre(identifiantProjet.formatter()),
+    };
   } catch (error) {
     getLogger().error(`Impossible de consulter l'actionnaire'`, {
       identifiantProjet: identifiantProjet.formatter(),

@@ -13,27 +13,23 @@ import { UploadNewOrModifyExistingDocument } from '@/components/atoms/form/docum
 
 import { ValidationErrors } from '../../../../utils/formAction';
 
-import {
-  modifierActionnaireAction,
-  ModifierActionnaireFormKeys,
-} from './modifierActionnaire.action';
-import { ModifierActionnairePageProps } from './ModifierActionnaire.page';
+import { TransmettreActionnaireFormKeys } from './transmettreActionnaire.action';
+import { TransmettreActionnairePageProps } from './TransmettreActionnaire.page';
+import { transmettreActionnaireAction } from './transmettreActionnaire.action';
 
-export type ModifierActionnaireFormProps = ModifierActionnairePageProps;
+export type TransmettreActionnaireFormProps = TransmettreActionnairePageProps;
 
-// TODO: reprendre le wording cf nouveau ticket
-export const ModifierActionnaireForm: FC<ModifierActionnaireFormProps> = ({
+export const TransmettreActionnaireForm: FC<TransmettreActionnaireFormProps> = ({
   identifiantProjet,
-  actionnaire,
   hasToUploadDocument,
 }) => {
   const [validationErrors, setValidationErrors] = useState<
-    ValidationErrors<ModifierActionnaireFormKeys>
+    ValidationErrors<TransmettreActionnaireFormKeys>
   >({});
 
   return (
     <Form
-      action={modifierActionnaireAction}
+      action={transmettreActionnaireAction}
       onValidationError={(validationErrors) => setValidationErrors(validationErrors)}
       actions={
         <>
@@ -45,9 +41,9 @@ export const ModifierActionnaireForm: FC<ModifierActionnaireFormProps> = ({
             }}
             iconId="fr-icon-arrow-left-line"
           >
-            Retour sur le projet
+            Retour au projet
           </Button>
-          <SubmitButton>Modifier l'actionnaire</SubmitButton>
+          <SubmitButton>Transmettre mon actionnaire</SubmitButton>
         </>
       }
     >
@@ -64,7 +60,6 @@ export const ModifierActionnaireForm: FC<ModifierActionnaireFormProps> = ({
           label="Nouvel actionnaire"
           nativeInputProps={{
             name: 'actionnaire',
-            defaultValue: actionnaire,
             required: true,
             'aria-required': true,
           }}
