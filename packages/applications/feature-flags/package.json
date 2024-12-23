@@ -1,12 +1,14 @@
 {
   "name": "@potentiel-applications/feature-flags",
-  "version": "1.0.0",
+  "version": "0.0.0",
+  "description": "Feature flags",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
+  "private": true,
   "scripts": {
     "build": "tsc"
   },
-  "author": "",
-  "license": "ISC",
-  "description": ""
+  "devDependencies": {
+    "@potentiel-config/tsconfig": "*"
+  }
 }
