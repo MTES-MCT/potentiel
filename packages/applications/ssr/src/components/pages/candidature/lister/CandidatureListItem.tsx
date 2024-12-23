@@ -25,6 +25,7 @@ export type CandidatureListItemProps = {
   puissanceProductionAnnuelle: Candidature.ConsulterCandidatureReadModel['puissanceProductionAnnuelle'];
   prixReference: Candidature.ConsulterCandidatureReadModel['prixReference'];
   evaluationCarboneSimplifiée: Candidature.ConsulterCandidatureReadModel['evaluationCarboneSimplifiée'];
+  actionnariat?: PlainType<Candidature.TypeActionnariat.ValueType>;
   localité: {
     commune: Candidature.ConsulterCandidatureReadModel['localité']['commune'];
     département: Candidature.ConsulterCandidatureReadModel['localité']['département'];
@@ -44,6 +45,7 @@ export const CandidatureListItem: FC<CandidatureListItemProps> = ({
   nomReprésentantLégal,
   emailContact,
   puissanceProductionAnnuelle,
+  actionnariat,
   prixReference,
   unitePuissance,
   evaluationCarboneSimplifiée,
@@ -57,6 +59,7 @@ export const CandidatureListItem: FC<CandidatureListItemProps> = ({
         prefix="Candidature du projet"
         statut={statut.statut}
         estNotifié={estNotifiée}
+        actionnariat={actionnariat?.type}
       />
       <div className="max-md:hidden">
         <CandidatureListItemActions
