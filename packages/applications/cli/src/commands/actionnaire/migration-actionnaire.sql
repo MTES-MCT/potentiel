@@ -25,8 +25,7 @@ from "modificationRequests" mr
     left join users u on u.id = mr."userId"
     left join users u_cancel on u_cancel.id = mr."cancelledBy"
     left join users u_respond on u_respond.id = mr."respondedBy"
-where mr.type = 'actionnaire'
-    and mr.status = 'information validée';
+where mr.type = 'actionnaire';
 
 
 
@@ -55,6 +54,8 @@ from projects p
         p."familleId",
         p."numeroCRE"
     )
-where act.value is null
+where p.classe <> 'Eliminé'
+    and act.value is null
     and p.actionnaire is not null
-    and p.actionnaire <> '';
+    and p.actionnaire <> ''
+    and "notifiedOn" > 0;
