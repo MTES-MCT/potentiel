@@ -18,12 +18,11 @@ export type DemanderAbandonUseCase = Message<
     dateDemandeValue: string;
     identifiantUtilisateurValue: string;
     identifiantProjetValue: string;
-    pièceJustificativeValue?: {
+    pièceJustificativeValue: {
       content: ReadableStream;
       format: string;
     };
     raisonValue: string;
-    recandidatureValue: boolean;
   }
 >;
 
@@ -34,7 +33,6 @@ export const registerDemanderAbandonUseCase = () => {
     pièceJustificativeValue,
     identifiantUtilisateurValue,
     raisonValue,
-    recandidatureValue,
   }) => {
     const identifiantProjet = IdentifiantProjet.convertirEnValueType(identifiantProjetValue);
     const dateDemande = DateTime.convertirEnValueType(dateDemandeValue);
@@ -42,31 +40,26 @@ export const registerDemanderAbandonUseCase = () => {
       identifiantUtilisateurValue,
     );
 
-    const pièceJustificative = pièceJustificativeValue
-      ? DocumentProjet.convertirEnValueType(
-          identifiantProjetValue,
-          TypeDocumentAbandon.pièceJustificative.formatter(),
-          dateDemandeValue,
-          pièceJustificativeValue.format,
-        )
-      : undefined;
+    const pièceJustificative = DocumentProjet.convertirEnValueType(
+      identifiantProjetValue,
+      TypeDocumentAbandon.pièceJustificative.formatter(),
+      dateDemandeValue,
+      pièceJustificativeValue.format,
+    );
 
-    if (pièceJustificative) {
-      await mediator.send<EnregistrerDocumentProjetCommand>({
-        type: 'Document.Command.EnregistrerDocumentProjet',
-        data: {
-          content: pièceJustificativeValue!.content,
-          documentProjet: pièceJustificative,
-        },
-      });
-    }
+    await mediator.send<EnregistrerDocumentProjetCommand>({
+      type: 'Document.Command.EnregistrerDocumentProjet',
+      data: {
+        content: pièceJustificativeValue!.content,
+        documentProjet: pièceJustificative,
+      },
+    });
 
     await mediator.send<DemanderAbandonCommand>({
       type: 'Lauréat.Abandon.Command.DemanderAbandon',
       data: {
         dateDemande,
         raison: raisonValue,
-        recandidature: recandidatureValue,
         identifiantProjet,
         identifiantUtilisateur,
         pièceJustificative,

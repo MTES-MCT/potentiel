@@ -9,10 +9,6 @@ Fonctionnalité: Demander l'abandon d'un projet lauréat
         Quand le porteur demande l'abandon pour le projet lauréat
         Alors l'abandon du projet lauréat devrait être demandé
 
-    Scénario: Un porteur demande l'abandon d'un projet lauréat avec recandidature
-        Quand le porteur demande l'abandon avec recandidature pour le projet lauréat
-        Alors l'abandon du projet lauréat devrait être demandé
-
     Scénario: Un porteur demande l'abandon d'un projet lauréat après un rejet
         Etant donné un abandon rejeté pour le projet lauréat
         Quand le porteur demande l'abandon pour le projet lauréat
@@ -27,10 +23,6 @@ Fonctionnalité: Demander l'abandon d'un projet lauréat
         Etant donné un abandon accordé pour le projet lauréat
         Quand le porteur demande l'abandon pour le projet lauréat
         Alors le porteur devrait être informé que "L'abandon a déjà été accordé"
-
-    Scénario: Impossible de demander l'abandon d'un projet sans recandidature sans pièce justificative
-        Quand le porteur demande l'abandon sans recandidature et sans transmettre de pièce justificative pour le projet lauréat
-        Alors le porteur devrait être informé que "La pièce justificative est obligatoire"
 
     @NotImplemented
     Scénario: Impossible de demander l'abandon d'un projet si celui-ci est achevé (car l'attestation de conformité et la preuve de transmission au co-contractant ont été transmise)

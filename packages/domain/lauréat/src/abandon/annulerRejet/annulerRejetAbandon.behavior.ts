@@ -28,12 +28,13 @@ export async function annulerRejet(
 
   await this.publish(event);
 
-  await this.demander({
-    dateDemande: this.demande.demandéLe,
-    identifiantProjet,
-    raison: this.demande.raison,
-    recandidature: this.demande.recandidature,
-    identifiantUtilisateur: this.demande.demandéPar,
-    pièceJustificative: this.demande.pièceJustificative,
-  });
+  if (this.demande.pièceJustificative) {
+    await this.demander({
+      dateDemande: this.demande.demandéLe,
+      identifiantProjet,
+      raison: this.demande.raison,
+      identifiantUtilisateur: this.demande.demandéPar,
+      pièceJustificative: this.demande.pièceJustificative,
+    });
+  }
 }

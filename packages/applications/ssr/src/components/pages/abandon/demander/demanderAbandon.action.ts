@@ -10,27 +10,17 @@ import { FormAction, formAction, FormState } from '@/utils/formAction';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 import { singleDocument } from '@/utils/zod/document/singleDocument';
 
-const abandonWithRecandidatureSchema = zod.object({
+const schema = zod.object({
   identifiantProjet: zod.string().min(1),
-  recandidature: zod.literal('true'),
-  raison: zod.string().min(1, { message: 'Champ obligatoire' }),
-  pieceJustificative: singleDocument({ optional: true, acceptedFileTypes: ['application/pdf'] }),
-});
-
-const abandonWithoutRecandidatureSchema = zod.object({
-  identifiantProjet: zod.string().min(1),
-  recandidature: zod.literal('false').optional(),
   raison: zod.string().min(1, { message: 'Champ obligatoire' }),
   pieceJustificative: singleDocument({ acceptedFileTypes: ['application/pdf'] }),
 });
-
-const schema = zod.union([abandonWithRecandidatureSchema, abandonWithoutRecandidatureSchema]);
 
 export type DemanderAbandonFormKeys = keyof zod.infer<typeof schema>;
 
 const action: FormAction<FormState, typeof schema> = async (
   previousState,
-  { identifiantProjet, raison, recandidature, pieceJustificative },
+  { identifiantProjet, raison, pieceJustificative },
 ) => {
   return withUtilisateur(async (utilisateur) => {
     await mediator.send<Abandon.AbandonUseCase>({
@@ -40,10 +30,7 @@ const action: FormAction<FormState, typeof schema> = async (
         identifiantUtilisateurValue: utilisateur.identifiantUtilisateur.formatter(),
         dateDemandeValue: new Date().toISOString(),
         raisonValue: raison,
-        recandidatureValue: recandidature === 'true',
-        ...(pieceJustificative && {
-          pièceJustificativeValue: pieceJustificative,
-        }),
+        pièceJustificativeValue: pieceJustificative,
       },
     });
 

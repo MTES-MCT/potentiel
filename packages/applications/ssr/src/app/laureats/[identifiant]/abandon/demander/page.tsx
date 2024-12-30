@@ -57,17 +57,6 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
       redirect(Routes.Projet.details(identifiantProjet));
     }
 
-    const projetPériode = projetAppelOffre.periodes.find((p) => p.id === période);
-
-    if (!projetPériode) {
-      return notFound();
-    }
-
-    return (
-      <DemanderAbandonPage
-        identifiantProjet={identifiantProjet}
-        showRecandidatureCheckBox={projetPériode.abandonAvecRecandidature ? true : false}
-      />
-    );
+    return <DemanderAbandonPage identifiantProjet={identifiantProjet} />;
   });
 }

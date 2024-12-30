@@ -120,6 +120,7 @@ export const setupLauréat = async ({ sendEmail }: SetupLauréatDependencies) =>
     streamCategory: 'abandon',
     eventType: [
       'AbandonDemandé-V1',
+      'AbandonDemandé-V2',
       'AbandonAccordé-V1',
       'AbandonAnnulé-V1',
       'AbandonConfirmé-V1',
@@ -139,6 +140,7 @@ export const setupLauréat = async ({ sendEmail }: SetupLauréatDependencies) =>
     name: 'projector',
     eventType: [
       'AbandonDemandé-V1',
+      'AbandonDemandé-V2',
       'AbandonAccordé-V1',
       'AbandonAnnulé-V1',
       'AbandonConfirmé-V1',

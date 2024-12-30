@@ -12,8 +12,7 @@ export type DemanderAbandonCommand = Message<
   {
     identifiantProjet: IdentifiantProjet.ValueType;
     raison: string;
-    pièceJustificative?: DocumentProjet.ValueType;
-    recandidature: boolean;
+    pièceJustificative: DocumentProjet.ValueType;
     identifiantUtilisateur: IdentifiantUtilisateur.ValueType;
     dateDemande: DateTime.ValueType;
   }
@@ -25,7 +24,6 @@ export const registerDemanderAbandonCommand = (loadAggregate: LoadAggregate) => 
     identifiantProjet,
     pièceJustificative,
     raison,
-    recandidature,
     identifiantUtilisateur,
     dateDemande,
   }) => {
@@ -37,7 +35,6 @@ export const registerDemanderAbandonCommand = (loadAggregate: LoadAggregate) => 
       raison,
       identifiantUtilisateur,
       dateDemande,
-      recandidature,
     });
   };
   mediator.register('Lauréat.Abandon.Command.DemanderAbandon', handler);
