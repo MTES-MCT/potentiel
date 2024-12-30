@@ -18,7 +18,7 @@ export type DemanderAbandonUseCase = Message<
     dateDemandeValue: string;
     identifiantUtilisateurValue: string;
     identifiantProjetValue: string;
-    pièceJustificativeValue?: {
+    pièceJustificativeValue: {
       content: ReadableStream;
       format: string;
     };
@@ -40,24 +40,20 @@ export const registerDemanderAbandonUseCase = () => {
       identifiantUtilisateurValue,
     );
 
-    const pièceJustificative = pièceJustificativeValue
-      ? DocumentProjet.convertirEnValueType(
-          identifiantProjetValue,
-          TypeDocumentAbandon.pièceJustificative.formatter(),
-          dateDemandeValue,
-          pièceJustificativeValue.format,
-        )
-      : undefined;
+    const pièceJustificative = DocumentProjet.convertirEnValueType(
+      identifiantProjetValue,
+      TypeDocumentAbandon.pièceJustificative.formatter(),
+      dateDemandeValue,
+      pièceJustificativeValue.format,
+    );
 
-    if (pièceJustificative) {
-      await mediator.send<EnregistrerDocumentProjetCommand>({
-        type: 'Document.Command.EnregistrerDocumentProjet',
-        data: {
-          content: pièceJustificativeValue!.content,
-          documentProjet: pièceJustificative,
-        },
-      });
-    }
+    await mediator.send<EnregistrerDocumentProjetCommand>({
+      type: 'Document.Command.EnregistrerDocumentProjet',
+      data: {
+        content: pièceJustificativeValue!.content,
+        documentProjet: pièceJustificative,
+      },
+    });
 
     await mediator.send<DemanderAbandonCommand>({
       type: 'Lauréat.Abandon.Command.DemanderAbandon',

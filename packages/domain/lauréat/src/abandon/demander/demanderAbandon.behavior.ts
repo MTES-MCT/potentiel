@@ -11,6 +11,7 @@ import { TypeDocumentAbandon } from '..';
 
 /**
  * @deprecated use AbandonDemandéEvent instead
+ * Aucune demande avec recandidature n'est désormais possible
  */
 export type AbandonDemandéEventV1 = DomainEvent<
   'AbandonDemandé-V1',
@@ -33,7 +34,7 @@ export type AbandonDemandéEvent = DomainEvent<
     demandéPar: IdentifiantUtilisateur.RawType;
     identifiantProjet: IdentifiantProjet.RawType;
     raison: string;
-    pièceJustificative?: {
+    pièceJustificative: {
       format: string;
     };
   }
@@ -43,7 +44,7 @@ export type DemanderOptions = {
   dateDemande: DateTime.ValueType;
   identifiantUtilisateur: IdentifiantUtilisateur.ValueType;
   identifiantProjet: IdentifiantProjet.ValueType;
-  pièceJustificative?: DocumentProjet.ValueType;
+  pièceJustificative: DocumentProjet.ValueType;
   raison: string;
 };
 

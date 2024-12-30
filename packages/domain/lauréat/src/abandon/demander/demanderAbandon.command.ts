@@ -12,7 +12,7 @@ export type DemanderAbandonCommand = Message<
   {
     identifiantProjet: IdentifiantProjet.ValueType;
     raison: string;
-    pièceJustificative?: DocumentProjet.ValueType;
+    pièceJustificative: DocumentProjet.ValueType;
     identifiantUtilisateur: IdentifiantUtilisateur.ValueType;
     dateDemande: DateTime.ValueType;
   }
