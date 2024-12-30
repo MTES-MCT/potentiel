@@ -1,4 +1,5 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
+import { match } from 'ts-pattern';
 
 import { Option } from '@potentiel-libraries/monads';
 import { Abandon } from '@potentiel-domain/laureat';
@@ -44,11 +45,16 @@ export const register = () => {
 
       switch (type) {
         case 'AbandonDemandé-V1':
+        case 'AbandonDemandé-V2':
           const projet = await CandidatureAdapter.récupérerProjetAdapter(identifiantProjet);
 
           if (Option.isNone(projet)) {
             getLogger().warn(`Projet inconnu !`, { identifiantProjet, message: event });
           }
+
+          const estUneRecandidature = match(event)
+            .with({ type: 'AbandonDemandé-V1' }, (event) => event.payload.recandidature)
+            .otherwise(() => false);
 
           await upsertProjection<Abandon.AbandonEntity>(`abandon|${identifiantProjet}`, {
             ...abandonDefaultValue,
@@ -72,47 +78,12 @@ export const register = () => {
               demandéLe: payload.demandéLe,
               demandéPar: payload.demandéPar,
               raison: payload.raison,
-              estUneRecandidature: payload.recandidature,
-              recandidature: payload.recandidature
+              estUneRecandidature,
+              recandidature: estUneRecandidature
                 ? {
                     statut: Abandon.StatutPreuveRecandidature.enAttente.statut,
                   }
                 : undefined,
-            },
-            statut: 'demandé',
-            misÀJourLe: payload.demandéLe,
-          });
-          break;
-        case 'AbandonDemandé-V2':
-          const projet2 = await CandidatureAdapter.récupérerProjetAdapter(identifiantProjet);
-
-          if (Option.isNone(projet2)) {
-            getLogger().warn(`Projet inconnu !`, { identifiantProjet, message: event });
-          }
-
-          await upsertProjection<Abandon.AbandonEntity>(`abandon|${identifiantProjet}`, {
-            ...abandonDefaultValue,
-            projet: Option.isSome(projet2)
-              ? {
-                  appelOffre: projet2.appelOffre,
-                  nom: projet2.nom,
-                  numéroCRE: projet2.numéroCRE,
-                  période: projet2.période,
-                  région: projet2.localité.région,
-                  famille: projet2.famille,
-                }
-              : undefined,
-            demande: {
-              pièceJustificative: payload.pièceJustificative
-                ? {
-                    format: payload.pièceJustificative.format,
-                  }
-                : undefined,
-
-              demandéLe: payload.demandéLe,
-              demandéPar: payload.demandéPar,
-              raison: payload.raison,
-              estUneRecandidature: false,
             },
             statut: 'demandé',
             misÀJourLe: payload.demandéLe,
