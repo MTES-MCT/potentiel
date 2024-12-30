@@ -100,6 +100,7 @@ async function getEmailPayload(event: SubscriptionEvent): Promise<EmailPayload |
 
   switch (event.type) {
     case 'AbandonDemandé-V1':
+    case 'AbandonDemandé-V2':
       return sendEmailAbandonChangementDeStatut({
         statut: 'envoyée',
         templateId: templateId.demander,

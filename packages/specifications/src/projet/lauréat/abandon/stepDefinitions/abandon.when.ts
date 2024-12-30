@@ -5,37 +5,34 @@ import { Abandon } from '@potentiel-domain/laureat';
 
 import { PotentielWorld } from '../../../../potentiel.world';
 
-Quand(
-  /le porteur demande l'abandon(.*)pour le projet lauréat/,
-  async function (this: PotentielWorld, etat: string) {
-    try {
-      const identifiantProjet = this.lauréatWorld.identifiantProjet.formatter();
+Quand(/le porteur demande l'abandon pour le projet lauréat/, async function (this: PotentielWorld) {
+  try {
+    const identifiantProjet = this.lauréatWorld.identifiantProjet.formatter();
 
-      const { demandéLe, demandéPar, pièceJustificative, raison, recandidature } =
-        this.lauréatWorld.abandonWorld.demanderAbandonFixture.créer({
-          identifiantProjet,
-          recandidature: etat.includes('avec recandidature'),
-          demandéPar: this.utilisateurWorld.porteurFixture.email,
-        });
+    const { demandéLe, demandéPar, pièceJustificative, raison } =
+      this.lauréatWorld.abandonWorld.demanderAbandonFixture.créer({
+        identifiantProjet,
+        demandéPar: this.utilisateurWorld.porteurFixture.email,
+      });
 
+    if (pièceJustificative) {
       await mediator.send<Abandon.AbandonUseCase>({
         type: 'Lauréat.Abandon.UseCase.DemanderAbandon',
         data: {
           identifiantProjetValue: identifiantProjet,
           raisonValue: raison,
-          pièceJustificativeValue: etat.includes('sans transmettre de pièce justificative')
-            ? undefined
-            : pièceJustificative,
-          recandidatureValue: recandidature,
+          pièceJustificativeValue: pièceJustificative,
           dateDemandeValue: demandéLe,
           identifiantUtilisateurValue: demandéPar,
         },
       });
-    } catch (error) {
-      this.error = error as Error;
+    } else {
+      throw new Error('FIXTURE : La pièce justificative est désormais obligatoire');
     }
-  },
-);
+  } catch (error) {
+    this.error = error as Error;
+  }
+});
 
 Quand(`le porteur annule l'abandon pour le projet lauréat`, async function (this: PotentielWorld) {
   try {
