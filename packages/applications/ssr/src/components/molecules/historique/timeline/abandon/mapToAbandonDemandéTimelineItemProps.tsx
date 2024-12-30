@@ -9,7 +9,7 @@ export const mapToAbandonDemandéTimelineItemProps = (
   abandonDemandé: Historique.ListerHistoriqueProjetReadModel['items'][number],
 ) => {
   const { demandéLe, demandéPar, identifiantProjet, recandidature, pièceJustificative } =
-    abandonDemandé.payload as Abandon.AbandonDemandéEvent['payload'];
+    abandonDemandé.payload as Abandon.AbandonDemandéEventV1['payload'];
 
   return {
     date: demandéLe,

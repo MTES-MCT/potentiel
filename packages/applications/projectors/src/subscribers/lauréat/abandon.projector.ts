@@ -1,4 +1,5 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
+import { match } from 'ts-pattern';
 
 import { Option } from '@potentiel-libraries/monads';
 import { Abandon } from '@potentiel-domain/laureat';
@@ -44,11 +45,16 @@ export const register = () => {
 
       switch (type) {
         case 'AbandonDemandé-V1':
+        case 'AbandonDemandé-V2':
           const projet = await CandidatureAdapter.récupérerProjetAdapter(identifiantProjet);
 
           if (Option.isNone(projet)) {
             getLogger().warn(`Projet inconnu !`, { identifiantProjet, message: event });
           }
+
+          const estUneRecandidature = match(event)
+            .with({ type: 'AbandonDemandé-V1' }, (event) => event.payload.recandidature)
+            .otherwise(() => false);
 
           await upsertProjection<Abandon.AbandonEntity>(`abandon|${identifiantProjet}`, {
             ...abandonDefaultValue,
@@ -72,8 +78,8 @@ export const register = () => {
               demandéLe: payload.demandéLe,
               demandéPar: payload.demandéPar,
               raison: payload.raison,
-              estUneRecandidature: payload.recandidature,
-              recandidature: payload.recandidature
+              estUneRecandidature,
+              recandidature: estUneRecandidature
                 ? {
                     statut: Abandon.StatutPreuveRecandidature.enAttente.statut,
                   }

@@ -6,11 +6,11 @@ import { convertStringToReadableStream } from '../../../../helpers/convertString
 type PièceJustificative = { format: string; content: ReadableStream };
 
 interface DemanderAbandon {
-  readonly pièceJustificative?: PièceJustificative;
   readonly demandéLe: string;
   readonly demandéPar: string;
   readonly raison: string;
   readonly recandidature: boolean;
+  readonly pièceJustificative?: PièceJustificative;
 }
 
 export class DemanderAbandonFixture
@@ -62,13 +62,11 @@ export class DemanderAbandonFixture
   créer(
     partialFixture: Partial<Readonly<DemanderAbandon>> & { identifiantProjet: string },
   ): Readonly<DemanderAbandon> {
-    const recandidature = faker.datatype.boolean();
-
     const fixture = {
       demandéLe: faker.date.recent().toISOString(),
       demandéPar: faker.internet.email(),
       raison: faker.word.words(),
-      recandidature,
+      recandidature: false,
       ...partialFixture,
     };
 

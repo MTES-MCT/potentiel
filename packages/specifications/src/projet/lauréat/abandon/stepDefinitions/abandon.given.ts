@@ -3,6 +3,7 @@ import { mediator } from 'mediateur';
 
 import { DateTime } from '@potentiel-domain/common';
 import { Abandon } from '@potentiel-domain/laureat';
+import { publish } from '@potentiel-infrastructure/pg-event-sourcing';
 
 import { PotentielWorld } from '../../../../potentiel.world';
 
@@ -68,17 +69,37 @@ async function créerDemandeAbandon(this: PotentielWorld, etat: string) {
       demandéPar: this.utilisateurWorld.porteurFixture.email,
     });
 
-  await mediator.send<Abandon.AbandonUseCase>({
-    type: 'Lauréat.Abandon.UseCase.DemanderAbandon',
-    data: {
-      identifiantProjetValue: identifiantProjet,
-      pièceJustificativeValue: pièceJustificative,
-      raisonValue: raison,
-      recandidatureValue: recandidature,
-      dateDemandeValue: demandéLe,
-      identifiantUtilisateurValue: demandéPar,
-    },
-  });
+  // Comme il est désormais impossible de demander un abandon avec recandidature,
+  // il faut publier manuellement l'event V1 afin de recréer le cas pour les use case accorder, rejeter et preuve de recandidature
+  if (recandidature) {
+    const event: Abandon.AbandonDemandéEventV1 = {
+      type: 'AbandonDemandé-V1',
+      payload: {
+        identifiantProjet,
+        demandéLe: DateTime.convertirEnValueType(demandéLe).formatter(),
+        demandéPar,
+        raison,
+        pièceJustificative: pièceJustificative && {
+          format: pièceJustificative.format,
+        },
+        recandidature,
+      },
+    };
+    await publish(`abandon|${identifiantProjet}`, event);
+  } else if (pièceJustificative) {
+    await mediator.send<Abandon.AbandonUseCase>({
+      type: 'Lauréat.Abandon.UseCase.DemanderAbandon',
+      data: {
+        identifiantProjetValue: identifiantProjet,
+        pièceJustificativeValue: pièceJustificative,
+        raisonValue: raison,
+        dateDemandeValue: demandéLe,
+        identifiantUtilisateurValue: demandéPar,
+      },
+    });
+  } else {
+    throw new Error('FIXTURE : La pièce justificative est désormais obligatoire');
+  }
 }
 
 async function créerAccordAbandon(this: PotentielWorld) {
