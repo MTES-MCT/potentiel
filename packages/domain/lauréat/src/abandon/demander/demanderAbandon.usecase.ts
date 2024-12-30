@@ -23,7 +23,6 @@ export type DemanderAbandonUseCase = Message<
       format: string;
     };
     raisonValue: string;
-    recandidatureValue: boolean;
   }
 >;
 
@@ -34,7 +33,6 @@ export const registerDemanderAbandonUseCase = () => {
     pièceJustificativeValue,
     identifiantUtilisateurValue,
     raisonValue,
-    recandidatureValue,
   }) => {
     const identifiantProjet = IdentifiantProjet.convertirEnValueType(identifiantProjetValue);
     const dateDemande = DateTime.convertirEnValueType(dateDemandeValue);
@@ -66,7 +64,6 @@ export const registerDemanderAbandonUseCase = () => {
       data: {
         dateDemande,
         raison: raisonValue,
-        recandidature: recandidatureValue,
         identifiantProjet,
         identifiantUtilisateur,
         pièceJustificative,

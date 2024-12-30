@@ -1,3 +1,5 @@
+import { match } from 'ts-pattern';
+
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 import { DomainEvent, InvalidOperationError } from '@potentiel-domain/core';
 import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
@@ -7,6 +9,9 @@ import { AbandonAggregate } from '../abandon.aggregate';
 import * as StatutAbandon from '../statutAbandon.valueType';
 import { TypeDocumentAbandon } from '..';
 
+/**
+ * @deprecated use AbandonDemandéEvent instead
+ */
 export type AbandonDemandéEventV1 = DomainEvent<
   'AbandonDemandé-V1',
   {
@@ -21,12 +26,24 @@ export type AbandonDemandéEventV1 = DomainEvent<
   }
 >;
 
+export type AbandonDemandéEvent = DomainEvent<
+  'AbandonDemandé-V2',
+  {
+    demandéLe: DateTime.RawType;
+    demandéPar: IdentifiantUtilisateur.RawType;
+    identifiantProjet: IdentifiantProjet.RawType;
+    raison: string;
+    pièceJustificative?: {
+      format: string;
+    };
+  }
+>;
+
 export type DemanderOptions = {
   dateDemande: DateTime.ValueType;
   identifiantUtilisateur: IdentifiantUtilisateur.ValueType;
   identifiantProjet: IdentifiantProjet.ValueType;
   pièceJustificative?: DocumentProjet.ValueType;
-  recandidature: boolean;
   raison: string;
 };
 
@@ -38,20 +55,18 @@ export async function demander(
     identifiantProjet,
     pièceJustificative,
     raison,
-    recandidature,
   }: DemanderOptions,
 ) {
   this.statut.vérifierQueLeChangementDeStatutEstPossibleEn(StatutAbandon.demandé);
 
-  if (!recandidature && !pièceJustificative) {
+  if (!pièceJustificative) {
     throw new PièceJustificativeObligatoireError();
   }
 
-  const event: AbandonDemandéEventV1 = {
-    type: 'AbandonDemandé-V1',
+  const event: AbandonDemandéEvent = {
+    type: 'AbandonDemandé-V2',
     payload: {
       identifiantProjet: identifiantProjet.formatter(),
-      recandidature,
       pièceJustificative: pièceJustificative && {
         format: pièceJustificative.format,
       },
@@ -66,21 +81,16 @@ export async function demander(
 
 export function applyAbandonDemandé(
   this: AbandonAggregate,
-  {
-    payload: {
-      identifiantProjet,
-      demandéLe,
-      demandéPar,
-      raison,
-      recandidature,
-      pièceJustificative,
-    },
-  }: AbandonDemandéEventV1,
+  event: AbandonDemandéEventV1 | AbandonDemandéEvent,
 ) {
+  const { identifiantProjet, demandéLe, demandéPar, raison, pièceJustificative } = event.payload;
+
   this.statut = StatutAbandon.demandé;
 
   this.demande = {
-    recandidature,
+    recandidature: match(event)
+      .with({ type: 'AbandonDemandé-V1' }, (event) => event.payload.recandidature)
+      .otherwise(() => false),
     pièceJustificative:
       pièceJustificative &&
       DocumentProjet.convertirEnValueType(

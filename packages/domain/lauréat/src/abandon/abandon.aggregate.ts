@@ -10,6 +10,7 @@ import { DocumentProjet } from '@potentiel-domain/document';
 
 import * as StatutAbandon from './statutAbandon.valueType';
 import {
+  AbandonDemandéEvent,
   AbandonDemandéEventV1,
   applyAbandonDemandé,
   demander,
@@ -45,6 +46,7 @@ import {
 
 export type AbandonEvent =
   | AbandonDemandéEventV1
+  | AbandonDemandéEvent
   | AbandonAnnuléEvent
   | AbandonRejetéEvent
   | AbandonAccordéEvent
@@ -136,6 +138,7 @@ function apply(this: AbandonAggregate, event: AbandonEvent) {
       applyAbandonConfirmé.bind(this)(event);
       break;
     case 'AbandonDemandé-V1':
+    case 'AbandonDemandé-V2':
       applyAbandonDemandé.bind(this)(event);
       break;
     case 'AbandonRejeté-V1':

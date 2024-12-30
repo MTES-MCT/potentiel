@@ -83,6 +83,41 @@ export const register = () => {
             misÀJourLe: payload.demandéLe,
           });
           break;
+        case 'AbandonDemandé-V2':
+          const projet2 = await CandidatureAdapter.récupérerProjetAdapter(identifiantProjet);
+
+          if (Option.isNone(projet2)) {
+            getLogger().warn(`Projet inconnu !`, { identifiantProjet, message: event });
+          }
+
+          await upsertProjection<Abandon.AbandonEntity>(`abandon|${identifiantProjet}`, {
+            ...abandonDefaultValue,
+            projet: Option.isSome(projet2)
+              ? {
+                  appelOffre: projet2.appelOffre,
+                  nom: projet2.nom,
+                  numéroCRE: projet2.numéroCRE,
+                  période: projet2.période,
+                  région: projet2.localité.région,
+                  famille: projet2.famille,
+                }
+              : undefined,
+            demande: {
+              pièceJustificative: payload.pièceJustificative
+                ? {
+                    format: payload.pièceJustificative.format,
+                  }
+                : undefined,
+
+              demandéLe: payload.demandéLe,
+              demandéPar: payload.demandéPar,
+              raison: payload.raison,
+              estUneRecandidature: false,
+            },
+            statut: 'demandé',
+            misÀJourLe: payload.demandéLe,
+          });
+          break;
         case 'AbandonAccordé-V1':
           await upsertProjection<Abandon.AbandonEntity>(`abandon|${identifiantProjet}`, {
             ...abandonToUpsert,

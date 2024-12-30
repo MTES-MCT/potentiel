@@ -32,7 +32,6 @@ export async function annulerRejet(
     dateDemande: this.demande.demandéLe,
     identifiantProjet,
     raison: this.demande.raison,
-    recandidature: this.demande.recandidature,
     identifiantUtilisateur: this.demande.demandéPar,
     pièceJustificative: this.demande.pièceJustificative,
   });
