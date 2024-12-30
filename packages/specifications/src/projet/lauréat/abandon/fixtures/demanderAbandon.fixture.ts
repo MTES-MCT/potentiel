@@ -62,13 +62,11 @@ export class DemanderAbandonFixture
   créer(
     partialFixture: Partial<Readonly<DemanderAbandon>> & { identifiantProjet: string },
   ): Readonly<DemanderAbandon> {
-    const recandidature = faker.datatype.boolean();
-
     const fixture = {
       demandéLe: faker.date.recent().toISOString(),
       demandéPar: faker.internet.email(),
       raison: faker.word.words(),
-      recandidature,
+      recandidature: false,
       ...partialFixture,
     };
 
