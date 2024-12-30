@@ -38,7 +38,7 @@ export const DemanderAbandonForm: FC<DemanderAbandonFormProps> = ({ identifiantP
       />
 
       <UploadNewOrModifyExistingDocument
-        label="Pièce justificative$"
+        label="Pièce justificative"
         name="pieceJustificative"
         formats={['pdf']}
         required
