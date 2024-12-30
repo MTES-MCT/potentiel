@@ -6,7 +6,7 @@ import { convertStringToReadableStream } from '../../../../helpers/convertString
 type PièceJustificative = { format: string; content: ReadableStream };
 
 interface DemanderAbandon {
-  readonly pièceJustificative?: PièceJustificative;
+  readonly pièceJustificative: PièceJustificative;
   readonly demandéLe: string;
   readonly demandéPar: string;
   readonly raison: string;
@@ -17,16 +17,14 @@ export class DemanderAbandonFixture
   extends AbstractFixture<DemanderAbandon>
   implements DemanderAbandon
 {
-  #format?: string;
-  #content?: string;
+  #format!: string;
+  #content!: string;
 
-  get pièceJustificative(): PièceJustificative | undefined {
-    return this.#format && this.#content
-      ? {
-          format: this.#format,
-          content: convertStringToReadableStream(this.#content),
-        }
-      : undefined;
+  get pièceJustificative(): PièceJustificative {
+    return {
+      format: this.#format,
+      content: convertStringToReadableStream(this.#content),
+    };
   }
 
   #demandéLe!: string;
@@ -62,11 +60,17 @@ export class DemanderAbandonFixture
   créer(
     partialFixture: Partial<Readonly<DemanderAbandon>> & { identifiantProjet: string },
   ): Readonly<DemanderAbandon> {
+    const content = faker.word.words();
+
     const fixture = {
       demandéLe: faker.date.recent().toISOString(),
       demandéPar: faker.internet.email(),
       raison: faker.word.words(),
       recandidature: false,
+      pièceJustificative: {
+        format: faker.potentiel.fileFormat(),
+        content: convertStringToReadableStream(content),
+      },
       ...partialFixture,
     };
 
