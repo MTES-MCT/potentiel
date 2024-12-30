@@ -10,7 +10,7 @@ import { DocumentProjet } from '@potentiel-domain/document';
 
 import * as StatutAbandon from './statutAbandon.valueType';
 import {
-  AbandonDemandéEvent,
+  AbandonDemandéEventV1,
   applyAbandonDemandé,
   demander,
 } from './demander/demanderAbandon.behavior';
@@ -44,7 +44,7 @@ import {
 } from './demanderPreuveRecandidature/demanderPreuveRecandidatureAbandon.behavior';
 
 export type AbandonEvent =
-  | AbandonDemandéEvent
+  | AbandonDemandéEventV1
   | AbandonAnnuléEvent
   | AbandonRejetéEvent
   | AbandonAccordéEvent

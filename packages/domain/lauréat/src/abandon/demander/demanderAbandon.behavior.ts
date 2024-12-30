@@ -7,7 +7,7 @@ import { AbandonAggregate } from '../abandon.aggregate';
 import * as StatutAbandon from '../statutAbandon.valueType';
 import { TypeDocumentAbandon } from '..';
 
-export type AbandonDemandéEvent = DomainEvent<
+export type AbandonDemandéEventV1 = DomainEvent<
   'AbandonDemandé-V1',
   {
     demandéLe: DateTime.RawType;
@@ -47,7 +47,7 @@ export async function demander(
     throw new PièceJustificativeObligatoireError();
   }
 
-  const event: AbandonDemandéEvent = {
+  const event: AbandonDemandéEventV1 = {
     type: 'AbandonDemandé-V1',
     payload: {
       identifiantProjet: identifiantProjet.formatter(),
@@ -75,7 +75,7 @@ export function applyAbandonDemandé(
       recandidature,
       pièceJustificative,
     },
-  }: AbandonDemandéEvent,
+  }: AbandonDemandéEventV1,
 ) {
   this.statut = StatutAbandon.demandé;
 
