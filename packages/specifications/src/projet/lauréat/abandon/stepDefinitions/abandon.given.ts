@@ -86,7 +86,7 @@ async function créerDemandeAbandon(this: PotentielWorld, etat: string) {
       },
     };
     await publish(`abandon|${identifiantProjet}`, event);
-  } else {
+  } else if (pièceJustificative) {
     await mediator.send<Abandon.AbandonUseCase>({
       type: 'Lauréat.Abandon.UseCase.DemanderAbandon',
       data: {
@@ -97,6 +97,8 @@ async function créerDemandeAbandon(this: PotentielWorld, etat: string) {
         identifiantUtilisateurValue: demandéPar,
       },
     });
+  } else {
+    throw new Error('FIXTURE : La pièce justificative est désormais obligatoire');
   }
 }
 

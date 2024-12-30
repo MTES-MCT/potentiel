@@ -15,16 +15,20 @@ Quand(/le porteur demande l'abandon pour le projet lauréat/, async function (th
         demandéPar: this.utilisateurWorld.porteurFixture.email,
       });
 
-    await mediator.send<Abandon.AbandonUseCase>({
-      type: 'Lauréat.Abandon.UseCase.DemanderAbandon',
-      data: {
-        identifiantProjetValue: identifiantProjet,
-        raisonValue: raison,
-        pièceJustificativeValue: pièceJustificative,
-        dateDemandeValue: demandéLe,
-        identifiantUtilisateurValue: demandéPar,
-      },
-    });
+    if (pièceJustificative) {
+      await mediator.send<Abandon.AbandonUseCase>({
+        type: 'Lauréat.Abandon.UseCase.DemanderAbandon',
+        data: {
+          identifiantProjetValue: identifiantProjet,
+          raisonValue: raison,
+          pièceJustificativeValue: pièceJustificative,
+          dateDemandeValue: demandéLe,
+          identifiantUtilisateurValue: demandéPar,
+        },
+      });
+    } else {
+      throw new Error('FIXTURE : La pièce justificative est désormais obligatoire');
+    }
   } catch (error) {
     this.error = error as Error;
   }
