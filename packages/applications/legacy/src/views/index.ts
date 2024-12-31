@@ -149,7 +149,9 @@ export const ModificationRequestListPage = (props: Parameters<typeof Modificatio
     title: 'Demandes de modification',
   });
 
-export const DéclarationAccessibilitéPage = (props: Parameters<typeof Home>[0]) =>
+export const DéclarationAccessibilitéPage = (
+  props: Parameters<typeof DéclarationAccessibilité>[0],
+) =>
   makeHtml({
     Component: DéclarationAccessibilité,
     props,
