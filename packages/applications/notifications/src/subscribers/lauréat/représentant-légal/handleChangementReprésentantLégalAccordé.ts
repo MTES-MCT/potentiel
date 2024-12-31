@@ -1,4 +1,3 @@
-/* 
 import { récupérerPorteursParIdentifiantProjetAdapter } from '@potentiel-infrastructure/domain-adapters';
 import { IdentifiantProjet } from '@potentiel-domain/common';
 import { getLogger } from '@potentiel-libraries/monitoring';
@@ -23,7 +22,7 @@ export const handleReprésentantLégalAccordé = async ({
   projet,
   baseUrl,
 }: HandleChangementReprésentantLégalAccordéProps) => {
- const identifiantProjet = IdentifiantProjet.convertirEnValueType(event.payload.identifiantProjet);
+  const identifiantProjet = IdentifiantProjet.convertirEnValueType(event.payload.identifiantProjet);
   const porteurs = await récupérerPorteursParIdentifiantProjetAdapter(identifiantProjet);
 
   if (porteurs.length === 0) {
@@ -46,4 +45,3 @@ export const handleReprésentantLégalAccordé = async ({
     },
   });
 };
-*/

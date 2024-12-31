@@ -12,6 +12,8 @@ import { SendEmail } from '../../../sendEmail';
 
 import { handleReprésentantLégalModifié } from './handleReprésentantLégalModifié';
 import { handleChangementReprésentantLégalDemandé } from './handleChangementReprésentantLégalDemandé';
+import { handleReprésentantLégalAccordé } from './handleChangementReprésentantLégalAccordé';
+import { handleReprésentantLégalRejeté } from './handleChangementReprésentantLégalRejeté';
 
 export type SubscriptionEvent = ReprésentantLégal.ReprésentantLégalEvent & Event;
 
@@ -70,15 +72,13 @@ export const register = ({ sendEmail }: RegisterReprésentantLégalNotificationD
           baseUrl,
         }),
       )
+      .with({ type: 'ChangementReprésentantLégalAccordé-V1' }, async (event) =>
+        handleReprésentantLégalAccordé({ sendEmail, event, projet, baseUrl }),
+      )
+      .with({ type: 'ChangementReprésentantLégalRejeté-V1' }, async (event) =>
+        handleReprésentantLégalRejeté({ sendEmail, event, projet, baseUrl }),
+      )
       .otherwise(() => Promise.resolve());
-    /*  
-    .with({ type: 'ChangementReprésentantLégalAccordé-V1' }, async (event) =>
-      handleReprésentantLégalAccordé({ sendEmail, event, projet, baseUrl }),
-    )
-    .with({ type: 'ChangementReprésentantLégalRejeté-V1' }, async (event) =>
-      handleReprésentantLégalRejeté({ sendEmail, event, projet, baseUrl }),
-    )
-    */
   };
 
   mediator.register('System.Notification.Lauréat.ReprésentantLégal', handler);
