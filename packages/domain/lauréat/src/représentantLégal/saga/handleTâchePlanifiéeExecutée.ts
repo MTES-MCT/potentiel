@@ -1,11 +1,13 @@
 import { mediator } from 'mediateur';
 import { match } from 'ts-pattern';
 
-import { IdentifiantProjet } from '@potentiel-domain/common';
+import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
 import { TâchePlanifiéeExecutéeEvent } from '@potentiel-domain/tache-planifiee';
 import { Option } from '@potentiel-libraries/monads';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { getLogger } from '@potentiel-libraries/monitoring';
+
+import { ReprésentantLégal } from '../..';
 
 export const handleTâchePlanifiéeExécutée = async (event: TâchePlanifiéeExecutéeEvent) => {
   const identifiantProjet = IdentifiantProjet.convertirEnValueType(event.payload.identifiantProjet);
@@ -35,6 +37,22 @@ export const handleTâchePlanifiéeExécutée = async (event: TâchePlanifiéeEx
     return;
   }
 
+  const changement =
+    await mediator.send<ReprésentantLégal.ConsulterChangementReprésentantLégalQuery>({
+      type: 'Lauréat.ReprésentantLégal.Query.ConsulterChangementReprésentantLégal',
+      data: {
+        identifiantProjet: identifiantProjet.formatter(),
+      },
+    });
+
+  if (Option.isNone(changement)) {
+    getLogger().error(`Aucun changement de représentant légal à traiter`, {
+      identifiantProjet: identifiantProjet.formatter(),
+      context: 'Lauréat.ReprésentantLégal.Saga.HandleTâchePlanifiéeExécutée',
+    });
+    return;
+  }
+
   const {
     changement: {
       représentantLégal: { typeTâchePlanifiée },
@@ -43,14 +61,26 @@ export const handleTâchePlanifiéeExécutée = async (event: TâchePlanifiéeEx
 
   match(typeTâchePlanifiée)
     .with('accord-automatique', async () => {
-      /**
-       * @todo Brancher le usecase d'accord
-       */
+      await mediator.send<ReprésentantLégal.ReprésentantLégalUseCase>({
+        type: 'Lauréat.ReprésentantLégal.UseCase.AccorderChangementReprésentantLégal',
+        data: {
+          identifiantProjetValue: identifiantProjet.formatter(),
+          identifiantUtilisateurValue: Email.system().formatter(),
+          dateAccordValue: DateTime.now().formatter(),
+          nomReprésentantLégalValue: changement.demande.nomReprésentantLégal,
+          typeReprésentantLégalValue: changement.demande.typeReprésentantLégal.formatter(),
+        },
+      });
     })
     .with('rejet-automatique', async () => {
-      /**
-       * @todo Brancher le usecase de rejet
-       */
+      await mediator.send<ReprésentantLégal.ReprésentantLégalUseCase>({
+        type: 'Lauréat.ReprésentantLégal.UseCase.RejeterChangementReprésentantLégal',
+        data: {
+          identifiantProjetValue: identifiantProjet.formatter(),
+          identifiantUtilisateurValue: Email.system().formatter(),
+          dateRejetValue: DateTime.now().formatter(),
+        },
+      });
     })
     .exhaustive();
 };
