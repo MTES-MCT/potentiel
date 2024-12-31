@@ -1,5 +1,4 @@
 # language: fr
-@select
 Fonctionnalité: Modifier le gestionnaire de réseau d'un raccordement
 
     Contexte:

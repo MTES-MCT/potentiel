@@ -174,3 +174,17 @@ export async function insérerPorteurCandidature(this: PotentielWorld) {
 
   await associerProjetAuPorteur(porteur.id, projets);
 }
+
+export async function insérerPorteurCandidature(this: PotentielWorld) {
+  const {
+    values: { emailContactValue },
+    identifiantProjet,
+  } = this.candidatureWorld.importerCandidature;
+
+  const porteur = this.utilisateurWorld.porteurFixture.créer({ email: emailContactValue });
+  await insérerUtilisateur(porteur.id, porteur.nom, porteur.email, porteur.role);
+
+  const projets = await récupérerProjets(IdentifiantProjet.convertirEnValueType(identifiantProjet));
+
+  await associerProjetAuPorteur(porteur.id, projets);
+}
