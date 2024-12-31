@@ -48,6 +48,12 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
       ) {
         actions.push('accorder');
       }
+      if (
+        utilisateur.role.aLaPermission('représentantLégal.rejeterChangement') &&
+        changement.demande.statut.estDemandé()
+      ) {
+        actions.push('rejeter');
+      }
 
       return (
         <DétailsChangementReprésentantLégalPage

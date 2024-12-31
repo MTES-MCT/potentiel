@@ -41,6 +41,7 @@ export const DétailsChangementReprésentantLégalPage: FC<
     demandéLe,
     demandéPar,
     accord,
+    rejet,
   },
   // role,
   actions,
@@ -60,6 +61,13 @@ export const DétailsChangementReprésentantLégalPage: FC<
                 accordéPar={accord.accordéPar}
                 nomReprésentantLégal={accord.nomReprésentantLégal}
                 typeReprésentantLégal={accord.typeReprésentantLégal}
+              />
+            ) : rejet ? (
+              <ChangementRejeté
+                rejetéLe={rejet.rejetéLe}
+                rejetéPar={rejet.rejetéPar}
+                nomReprésentantLégal={nomReprésentantLégal}
+                typeReprésentantLégal={typeReprésentantLégal}
               />
             ) : (
               ReprésentantLégal.StatutChangementReprésentantLégal.bind(statut).estDemandé() && (
@@ -213,6 +221,49 @@ const ChangementAccordé: FC<ChangementAccordéProps> = ({
         <div className="font-semibold">Statut :</div>{' '}
         <StatutChangementReprésentantLégalBadge
           statut={ReprésentantLégal.StatutChangementReprésentantLégal.accordé.formatter()}
+        />
+      </div>
+      <div className="flex gap-2">
+        <div className="font-semibold whitespace-nowrap">Type :</div>
+        <div>
+          {getTypeLabel(
+            ReprésentantLégal.TypeReprésentantLégal.bind(typeReprésentantLégal).formatter(),
+          )}
+        </div>
+      </div>
+      <div className="flex gap-2">
+        <div className="font-semibold whitespace-nowrap">Nom représentant légal :</div>
+        <div>{nomReprésentantLégal}</div>
+      </div>
+    </div>
+  </div>
+);
+
+type ChangementRejetéProps = NonNullable<
+  DétailsChangementReprésentantLégalPageProps['demande']['rejet'] & {
+    nomReprésentantLégal: DétailsChangementReprésentantLégalPageProps['demande']['nomReprésentantLégal'];
+    typeReprésentantLégal: DétailsChangementReprésentantLégalPageProps['demande']['typeReprésentantLégal'];
+  }
+>;
+
+const ChangementRejeté: FC<ChangementRejetéProps> = ({
+  rejetéLe,
+  rejetéPar,
+  nomReprésentantLégal,
+  typeReprésentantLégal,
+}) => (
+  <div>
+    <Heading2 className="mb-4">Contexte</Heading2>
+    <div className="flex flex-col gap-2">
+      <div className="text-xs italic">
+        Rejeté le{' '}
+        <FormattedDate className="font-semibold" date={DateTime.bind(rejetéLe).formatter()} /> par{' '}
+        <span className="font-semibold">{Email.bind(rejetéPar).formatter()}</span>
+      </div>
+      <div className="flex gap-2">
+        <div className="font-semibold">Statut :</div>{' '}
+        <StatutChangementReprésentantLégalBadge
+          statut={ReprésentantLégal.StatutChangementReprésentantLégal.rejeté.formatter()}
         />
       </div>
       <div className="flex gap-2">
