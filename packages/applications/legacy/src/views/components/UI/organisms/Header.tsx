@@ -41,7 +41,7 @@ const LogoAndTitle = () => (
     </div>
     <Link
       className="no-underline hover:no-underline focus:no-underline visited:no-underline"
-      href={routes.HOME}
+      href="/"
       title="Retour à l'accueil"
       aria-label="Retour à l'accueil"
     >

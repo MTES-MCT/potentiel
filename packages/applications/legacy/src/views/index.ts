@@ -5,7 +5,6 @@ import {
   AdminStatistiques,
   DemanderDelai,
   Error,
-  Home,
   ModificationRequest,
   ModificationRequestList,
   NewModificationRequest,
@@ -148,13 +147,6 @@ export const ModificationRequestListPage = (props: Parameters<typeof Modificatio
     Component: ModificationRequestList,
     props,
     title: 'Demandes de modification',
-  });
-
-export const HomePage = (props: Parameters<typeof Home>[0]) =>
-  makeHtml({
-    Component: Home,
-    props,
-    title: 'Accueil',
   });
 
 export const DéclarationAccessibilitéPage = (props: Parameters<typeof Home>[0]) =>
