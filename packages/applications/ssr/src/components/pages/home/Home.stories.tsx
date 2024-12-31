@@ -3,7 +3,7 @@ import type { Meta, StoryObj } from '@storybook/react';
 import { IdentifiantUtilisateur, Role, Utilisateur } from '@potentiel-domain/utilisateur';
 import { Option } from '@potentiel-libraries/monads';
 
-import { HomePage, HomePageProps } from './HomePage.page';
+import { HomePage, HomePageProps } from './Home.page';
 
 // More on how to set up stories at: https://storybook.js.org/docs/writing-stories#default-export
 const meta = {
