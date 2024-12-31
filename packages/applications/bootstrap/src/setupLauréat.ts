@@ -265,6 +265,7 @@ export const setupLauréat = async ({ sendEmail }: SetupLauréatDependencies) =>
         'ReprésentantLégalModifié-V1',
         'ChangementReprésentantLégalDemandé-V1',
         'ChangementReprésentantLégalAccordé-V1',
+        'ChangementReprésentantLégalRejeté-V1',
         'RebuildTriggered',
       ],
       eventHandler: async (event) => {

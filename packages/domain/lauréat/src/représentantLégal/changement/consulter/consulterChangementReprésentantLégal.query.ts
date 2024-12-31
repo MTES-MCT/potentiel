@@ -25,6 +25,11 @@ export type ConsulterChangementReprésentantLégalReadModel = {
       accordéPar: Email.ValueType;
       accordéLe: DateTime.ValueType;
     };
+
+    rejet?: {
+      rejetéPar: Email.ValueType;
+      rejetéLe: DateTime.ValueType;
+    };
   };
 };
 
@@ -75,7 +80,7 @@ type MapToReadModel = (args: {
 const mapToReadModel: MapToReadModel = ({
   identifiantProjet,
   changement: {
-    demande: { accord, ...demande },
+    demande: { accord, rejet, ...demande },
   },
 }) => {
   return {
@@ -103,6 +108,10 @@ const mapToReadModel: MapToReadModel = ({
         ),
         accordéPar: Email.convertirEnValueType(accord.accordéPar),
         accordéLe: DateTime.convertirEnValueType(accord.accordéLe),
+      },
+      rejet: rejet && {
+        rejetéPar: Email.convertirEnValueType(rejet.rejetéPar),
+        rejetéLe: DateTime.convertirEnValueType(rejet.rejetéLe),
       },
     },
   };

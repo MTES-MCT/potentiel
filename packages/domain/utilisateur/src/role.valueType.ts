@@ -204,11 +204,13 @@ const référencielPermissions = {
         modifier: 'Lauréat.ReprésentantLégal.UseCase.ModifierReprésentantLégal',
         demanderChangement: 'Lauréat.ReprésentantLégal.UseCase.DemanderChangementReprésentantLégal',
         accorderChangement: 'Lauréat.ReprésentantLégal.UseCase.AccorderChangementReprésentantLégal',
+        rejeterChangement: 'Lauréat.ReprésentantLégal.UseCase.RejeterChangementReprésentantLégal',
       },
       command: {
         modifier: 'Lauréat.ReprésentantLégal.Command.ModifierReprésentantLégal',
         demanderChangement: 'Lauréat.ReprésentantLégal.Command.DemanderChangementReprésentantLégal',
         accorderChangement: 'Lauréat.ReprésentantLégal.Command.AccorderChangementReprésentantLégal',
+        rejeterChangement: 'Lauréat.ReprésentantLégal.Command.RejeterChangementReprésentantLégal',
       },
     },
     usecase: { notifier: 'Lauréat.UseCase.NotifierLauréat' },
@@ -855,6 +857,10 @@ const policies = {
       référencielPermissions.lauréat.représentantLégal.usecase.accorderChangement,
       référencielPermissions.lauréat.représentantLégal.command.accorderChangement,
     ],
+    rejeterChangement: [
+      référencielPermissions.lauréat.représentantLégal.usecase.rejeterChangement,
+      référencielPermissions.lauréat.représentantLégal.command.rejeterChangement,
+    ],
     consulterChangement: [
       référencielPermissions.lauréat.représentantLégal.query.consulterChangement,
     ],
@@ -971,6 +977,7 @@ const adminPolicies: ReadonlyArray<Policy> = [
   'représentantLégal.consulterChangement',
   'représentantLégal.listerChangement',
   'représentantLégal.accorderChangement',
+  'représentantLégal.rejeterChangement',
 ];
 
 const dgecValidateurPolicies: ReadonlyArray<Policy> = [
@@ -1056,6 +1063,7 @@ const drealPolicies: ReadonlyArray<Policy> = [
   'représentantLégal.consulterChangement',
   'représentantLégal.listerChangement',
   'représentantLégal.accorderChangement',
+  'représentantLégal.rejeterChangement',
 ];
 
 const porteurProjetPolicies: ReadonlyArray<Policy> = [

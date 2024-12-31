@@ -4,6 +4,7 @@ import { DocumentProjet } from '@potentiel-domain/document';
 
 import { DemanderChangementReprésentantLégalFixture } from './fixtures/demanderChangementReprésentantLégal.fixture';
 import { AccorderChangementReprésentantLégalFixture } from './fixtures/accorderChangementReprésentantLégal.fixture';
+import { RejeterChangementReprésentantLégalFixture } from './fixtures/rejeterChangementReprésentantLégal.fixture';
 
 export class ChangementReprésentantLégalWorld {
   #demanderChangementReprésentantLégalFixture: DemanderChangementReprésentantLégalFixture;
@@ -18,11 +19,19 @@ export class ChangementReprésentantLégalWorld {
     return this.#accorderChangementReprésentantLégalFixture;
   }
 
+  #rejeterChangementReprésentantLégalFixture: RejeterChangementReprésentantLégalFixture;
+
+  get rejeterChangementReprésentantLégalFixture() {
+    return this.#rejeterChangementReprésentantLégalFixture;
+  }
+
   constructor() {
     this.#demanderChangementReprésentantLégalFixture =
       new DemanderChangementReprésentantLégalFixture();
     this.#accorderChangementReprésentantLégalFixture =
       new AccorderChangementReprésentantLégalFixture();
+    this.#rejeterChangementReprésentantLégalFixture =
+      new RejeterChangementReprésentantLégalFixture();
   }
 
   mapToExpected(
@@ -61,6 +70,17 @@ export class ChangementReprésentantLégalWorld {
         ),
         accordéPar: Email.convertirEnValueType(
           this.accorderChangementReprésentantLégalFixture.accordéePar,
+        ),
+      };
+    }
+
+    if (this.rejeterChangementReprésentantLégalFixture.aÉtéCréé) {
+      expected.demande.rejet = {
+        rejetéLe: DateTime.convertirEnValueType(
+          this.rejeterChangementReprésentantLégalFixture.rejetéeLe,
+        ),
+        rejetéPar: Email.convertirEnValueType(
+          this.rejeterChangementReprésentantLégalFixture.rejetéePar,
         ),
       };
     }
