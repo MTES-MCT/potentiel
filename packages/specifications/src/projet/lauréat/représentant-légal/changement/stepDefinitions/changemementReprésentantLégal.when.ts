@@ -106,7 +106,7 @@ Quand(
 );
 
 Quand(
-  /(le DGEC validateur|la DREAL associée au projet) rejete la demande de changement de représentant légal pour le projet lauréat/,
+  /(le DGEC validateur|la DREAL associée au projet) rejette la demande de changement de représentant légal pour le projet lauréat/,
   async function (this: PotentielWorld, _: string) {
     const identifiantProjet = this.lauréatWorld.identifiantProjet.formatter();
 
