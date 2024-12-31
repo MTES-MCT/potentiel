@@ -8,7 +8,7 @@ Fonctionnalité: Supprimer le raccordement d'un projet
         Et le porteur "Barbara Gordon" ayant accés au projet lauréat "Du boulodrome de Marseille"
 
     Scénario: Le système supprime le raccordement d'un projet si celui-ci a un abandon accordé
-        Et une demande complète de raccordement pour le projet lauréat transmise auprès du gestionnaire de réseau avec :
+        Etant donné une demande complète de raccordement pour le projet lauréat transmise auprès du gestionnaire de réseau avec :
             | La date de qualification                | 2022-10-28         |
             | La référence du dossier de raccordement | OUE-RP-2022-000033 |
             | Le format de l'accusé de réception      | application/pdf    |

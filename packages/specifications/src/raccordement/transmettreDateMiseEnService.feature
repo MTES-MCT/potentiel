@@ -38,7 +38,7 @@ Fonctionnalité: Transmettre une date de mise en service pour une demande compl�
 
     Scénario: Impossible de transmettre une date de mise en service antérieure à la date de notification du projet
         Etant donné le projet lauréat "Du boulodrome de Lille" ayant été notifié le "2022-10-26"
-        Etant donné une demande complète de raccordement pour le projet lauréat transmise auprès du gestionnaire de réseau avec :
+        Et une demande complète de raccordement pour le projet lauréat transmise auprès du gestionnaire de réseau avec :
             | La date de qualification                | 2022-10-28                                                                                            |
             | La référence du dossier de raccordement | OUE-RP-2022-000033                                                                                    |
             | Le format de l'accusé de réception      | application/pdf                                                                                       |
