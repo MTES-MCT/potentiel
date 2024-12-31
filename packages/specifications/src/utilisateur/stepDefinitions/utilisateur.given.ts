@@ -21,30 +21,30 @@ EtantDonné(
       )
       .otherwise(() => this.eliminéWorld.rechercherÉliminéFixture(nomProjet).identifiantProjet);
 
-    const { email, id, nom, role } = this.utilisateurWorld.porteurFixture.créer({
+    const porteur = this.utilisateurWorld.porteurFixture.créer({
       nom: porteurNom,
     });
 
-    await insérerUtilisateur(id, nom, email, role);
+    await insérerUtilisateur(porteur);
 
     const projets = await récupérerProjets(identifiantProjet);
 
-    await associerProjetAuPorteur(id, projets);
+    await associerProjetAuPorteur(porteur.id, projets);
   },
 );
 
 EtantDonné(
   'la dreal {string} associée à la région du projet',
   async function (this: PotentielWorld, drealNom: string) {
-    const { email, id, nom, role } = this.utilisateurWorld.drealFixture.créer({
+    const dreal = this.utilisateurWorld.drealFixture.créer({
       nom: drealNom,
     });
 
-    await insérerUtilisateur(id, nom, email, role);
+    await insérerUtilisateur(dreal);
 
     const { région } = this.candidatureWorld.importerCandidature.values.localitéValue;
 
-    await associerUtilisateurÀSaDreal(id, région);
+    await associerUtilisateurÀSaDreal(dreal.id, région);
   },
 );
 
@@ -112,7 +112,17 @@ async function associerUtilisateurÀSaDreal(userId: string, régionProjet: strin
   );
 }
 
-async function insérerUtilisateur(userId: string, fullName: string, email: string, role: string) {
+async function insérerUtilisateur({
+  id,
+  nom,
+  email,
+  role,
+}: {
+  id: string;
+  nom: string;
+  email: string;
+  role: string;
+}) {
   await executeQuery(
     `
       insert into "users" (
@@ -132,8 +142,8 @@ async function insérerUtilisateur(userId: string, fullName: string, email: stri
         $6
       )
     `,
-    userId,
-    fullName,
+    id,
+    nom,
     email,
     role,
     new Date().toISOString(),
@@ -146,7 +156,21 @@ export async function initialiserUtilisateursTests(this: PotentielWorld) {
   const system = this.utilisateurWorld.systemFixture.créer();
   const admin = this.utilisateurWorld.adminFixture.créer();
 
-  await insérerUtilisateur(validateur.id, validateur.nom, validateur.email, validateur.role);
-  await insérerUtilisateur(system.id, system.nom, system.email, system.role);
-  await insérerUtilisateur(admin.id, admin.nom, admin.email, admin.role);
+  await insérerUtilisateur(validateur);
+  await insérerUtilisateur(system);
+  await insérerUtilisateur(admin);
+}
+
+export async function insérerPorteurCandidature(this: PotentielWorld) {
+  const {
+    values: { emailContactValue },
+    identifiantProjet,
+  } = this.candidatureWorld.importerCandidature;
+
+  const porteur = this.utilisateurWorld.porteurFixture.créer({ email: emailContactValue });
+  await insérerUtilisateur(porteur);
+
+  const projets = await récupérerProjets(IdentifiantProjet.convertirEnValueType(identifiantProjet));
+
+  await associerProjetAuPorteur(porteur.id, projets);
 }
