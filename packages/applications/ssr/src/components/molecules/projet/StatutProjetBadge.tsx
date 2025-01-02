@@ -17,7 +17,7 @@ const getStatutProjetBadgeLabel = (statut: StatutProjet.RawType): string => {
   return statut;
 };
 
-const getFinancementType = (actionnariat?: Candidature.TypeActionnariat.RawType) =>
+const getTypeActionnariat = (actionnariat?: Candidature.TypeActionnariat.RawType) =>
   actionnariat
     ? actionnariat
         .split('-')
@@ -31,6 +31,6 @@ export const StatutProjetBadge: FC<{
 }> = ({ statut, actionnariat }) => (
   <Badge small noIcon severity={convertStatutProjetToBadgeSeverity[statut]}>
     {getStatutProjetBadgeLabel(statut)}
-    {getFinancementType(actionnariat) && ` (${getFinancementType(actionnariat)})`}
+    {getTypeActionnariat(actionnariat) && ` (${getTypeActionnariat(actionnariat)})`}
   </Badge>
 );
