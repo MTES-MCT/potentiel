@@ -3,7 +3,7 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
 import { LoadAggregate } from '@potentiel-domain/core';
 
-import { loadActionnaireFactory } from '../actionnaire.aggregate';
+import { loadActionnaireFactory } from '../../actionnaire.aggregate';
 
 export type AnnulerDemandeChangementActionnaireCommand = Message<
   'Lauréat.Actionnaire.Command.AnnulerDemandeChangement',

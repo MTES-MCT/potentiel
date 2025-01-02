@@ -2,9 +2,9 @@ import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
 import { DomainEvent } from '@potentiel-domain/core';
 import { DocumentProjet } from '@potentiel-domain/document';
 
-import { StatutChangementActionnaire } from '..';
-import { ActionnaireAggregate } from '../actionnaire.aggregate';
-import { ActionnaireIdentifiqueError } from '../errors';
+import { StatutChangementActionnaire } from '../..';
+import { ActionnaireAggregate } from '../../actionnaire.aggregate';
+import { ActionnaireIdentifiqueError } from '../../errors';
 
 export type ChangementActionnaireDemandéEvent = DomainEvent<
   'ChangementActionnaireDemandé-V1',

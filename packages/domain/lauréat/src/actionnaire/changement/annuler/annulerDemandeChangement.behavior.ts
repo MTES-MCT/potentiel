@@ -1,9 +1,9 @@
 import { DomainEvent } from '@potentiel-domain/core';
 import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
 
-import { ActionnaireAggregate } from '../actionnaire.aggregate';
-import { StatutChangementActionnaire } from '..';
-import { DemandeChangementActionnaireInexistanteErreur } from '../errors';
+import { ActionnaireAggregate } from '../../actionnaire.aggregate';
+import { StatutChangementActionnaire } from '../..';
+import { DemandeChangementActionnaireInexistanteErreur } from '../../errors';
 
 export type DemandeChangementActionnaireAnnuléEvent = DomainEvent<
   'DemandeChangementActionnaireAnnulée-V1',

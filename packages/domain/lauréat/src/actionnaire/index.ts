@@ -1,21 +1,21 @@
-import { AnnulerDemandeChangementActionnaireCommand } from './annulerDemandeChangement/annulerDemandeChangement.command';
-import { AnnulerDemandeChangementActionnaireUseCase } from './annulerDemandeChangement/annulerDemandeChangement.usecase';
-import { AccorderDemandeChangementActionnaireCommand } from './accorderDemandeChangement/accorderDemandeChangement.command';
+import { AccorderDemandeChangementActionnaireCommand } from './changement/accorder/accorderDemandeChangement.command';
+import { AccorderDemandeChangementActionnaireUseCase } from './changement/accorder/accorderDemandeChangement.usecase';
+import { AnnulerDemandeChangementActionnaireCommand } from './changement/annuler/annulerDemandeChangement.command';
+import { AnnulerDemandeChangementActionnaireUseCase } from './changement/annuler/annulerDemandeChangement.usecase';
+import {
+  ConsulterChangementActionnaireQuery,
+  ConsulterChangementActionnaireReadModel,
+} from './changement/consulter/consulterChangementActionnaire.query';
+import { DemanderChangementUseCase } from './changement/demander/demandeChangement.usecase';
+import { RejeterDemandeChangementActionnaireCommand } from './changement/rejeter/rejeterDemandeChangement.command';
+import { RejeterDemandeChangementActionnaireUseCase } from './changement/rejeter/rejeterDemandeChangement.usecase';
 import {
   ConsulterActionnaireQuery,
   ConsulterActionnaireReadModel,
 } from './consulter/consulterActionnaire.query';
-import {
-  ConsulterChangementActionnaireQuery,
-  ConsulterChangementActionnaireReadModel,
-} from './consulterDemandeChangement/consulterChangementActionnaire.query';
-import { DemanderChangementUseCase } from './demanderChangement/demandeChangement.usecase';
 import { ImporterActionnaireCommand } from './importer/importerActionnaire.command';
 import { ModifierActionnaireCommand } from './modifier/modifierActionnaire.command';
 import { ModifierActionnaireUseCase } from './modifier/modifierActionnaire.usecase';
-import { AccorderDemandeChangementActionnaireUseCase } from './accorderDemandeChangement/accorderDemandeChangement.usecase';
-import { RejeterDemandeChangementActionnaireCommand } from './rejeterDemandeChangement/rejeterDemandeChangement.command';
-import { RejeterDemandeChangementActionnaireUseCase } from './rejeterDemandeChangement/rejeterDemandeChangement.usecase';
 
 // Query
 export type ActionnaireQuery = ConsulterActionnaireQuery | ConsulterChangementActionnaireQuery;
@@ -58,10 +58,10 @@ export type {
 export type { ActionnaireEvent } from './actionnaire.aggregate';
 export type { ActionnaireImportéEvent } from './importer/importerActionnaire.behavior';
 export type { ActionnaireModifiéEvent } from './modifier/modifierActionnaire.behavior';
-export type { ChangementActionnaireDemandéEvent } from './demanderChangement/demandeChangement.behavior';
-export type { DemandeChangementActionnaireAnnuléEvent } from './annulerDemandeChangement/annulerDemandeChangement.behavior';
-export type { DemandeChangementActionnaireAccordéeEvent } from './accorderDemandeChangement/accorderDemandeChangement.behavior.ts';
-export type { DemandeChangementActionnaireRejetéeEvent } from './rejeterDemandeChangement/rejeterDemandeChangement.behavior';
+export type { ChangementActionnaireDemandéEvent } from './changement/demander/demandeChangement.behavior';
+export type { DemandeChangementActionnaireAnnuléEvent } from './changement/annuler/annulerDemandeChangement.behavior';
+export type { DemandeChangementActionnaireAccordéeEvent } from './changement/accorder/accorderDemandeChangement.behavior';
+export type { DemandeChangementActionnaireRejetéeEvent } from './changement/rejeter/rejeterDemandeChangement.behavior';
 
 // Saga
 export * as ActionnaireSaga from './actionnaire.saga';

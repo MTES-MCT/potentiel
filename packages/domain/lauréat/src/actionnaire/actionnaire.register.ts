@@ -5,17 +5,17 @@ import {
   ConsulterActionnaireDependencies,
   registerConsulterActionnaireQuery,
 } from './consulter/consulterActionnaire.query';
-import { registerModifierActionnaireUseCase } from './modifier/modifierActionnaire.usecase';
+import { registerAccorderDemandeChangementActionnaireCommand } from './changement/accorder/accorderDemandeChangement.command';
+import { registerAccorderDemandeChangementActionnaireUseCase } from './changement/accorder/accorderDemandeChangement.usecase';
+import { registerAnnulerDemandeChangementCommand } from './changement/annuler/annulerDemandeChangement.command';
+import { registerAnnulerDemandeChangementActionnaireUseCase } from './changement/annuler/annulerDemandeChangement.usecase';
+import { registerConsulterChangementActionnaireQuery } from './changement/consulter/consulterChangementActionnaire.query';
+import { registerDemanderChangementActionnaireCommand } from './changement/demander/demandeChangement.command';
+import { registerDemanderChangementActionnaireUseCase } from './changement/demander/demandeChangement.usecase';
+import { registerRejeterDemandeChangementActionnaireCommand } from './changement/rejeter/rejeterDemandeChangement.command';
+import { registerRejeterDemandeChangementActionnaireUseCase } from './changement/rejeter/rejeterDemandeChangement.usecase';
 import { registerModifierActionnaireCommand } from './modifier/modifierActionnaire.command';
-import { registerDemanderChangementActionnaireUseCase } from './demanderChangement/demandeChangement.usecase';
-import { registerDemanderChangementActionnaireCommand } from './demanderChangement/demandeChangement.command';
-import { registerAnnulerDemandeChangementCommand } from './annulerDemandeChangement/annulerDemandeChangement.command';
-import { registerAnnulerDemandeChangementActionnaireUseCase } from './annulerDemandeChangement/annulerDemandeChangement.usecase';
-import { registerConsulterChangementActionnaireQuery } from './consulterDemandeChangement/consulterChangementActionnaire.query';
-import { registerAccorderDemandeChangementActionnaireCommand } from './accorderDemandeChangement/accorderDemandeChangement.command';
-import { registerAccorderDemandeChangementActionnaireUseCase } from './accorderDemandeChangement/accorderDemandeChangement.usecase';
-import { registerRejeterDemandeChangementActionnaireCommand } from './rejeterDemandeChangement/rejeterDemandeChangement.command';
-import { registerRejeterDemandeChangementActionnaireUseCase } from './rejeterDemandeChangement/rejeterDemandeChangement.usecase';
+import { registerModifierActionnaireUseCase } from './modifier/modifierActionnaire.usecase';
 
 export type ActionnaireQueryDependencies = ConsulterActionnaireDependencies;
 
