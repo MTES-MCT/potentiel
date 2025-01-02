@@ -3,6 +3,7 @@ import { FC } from 'react';
 import { IdentifiantProjet, StatutProjet } from '@potentiel-domain/common';
 import { Iso8601DateTime } from '@potentiel-libraries/iso8601-datetime';
 import { PlainType } from '@potentiel-domain/core';
+import { Candidature } from '@potentiel-domain/candidature';
 
 import { FormattedDate } from '../../atoms/FormattedDate';
 import { NotificationBadge } from '../candidature/NotificationBadge';
@@ -16,6 +17,7 @@ export type ProjectListItemHeadingProps = {
   prefix: string;
   misÀJourLe?: Iso8601DateTime;
   estNotifié?: boolean;
+  actionnariat?: Candidature.TypeActionnariat.RawType;
 };
 
 export const ProjectListItemHeading: FC<ProjectListItemHeadingProps> = ({
@@ -25,6 +27,7 @@ export const ProjectListItemHeading: FC<ProjectListItemHeadingProps> = ({
   misÀJourLe,
   statut,
   estNotifié,
+  actionnariat,
 }) => (
   <div className="flex flex-col gap-2">
     <div className="flex flex-row justify-between gap-2 w-full">
@@ -40,7 +43,7 @@ export const ProjectListItemHeading: FC<ProjectListItemHeadingProps> = ({
 
     <div className="flex gap-1 md:items-center md:flex-row flex-col">
       <div className="flex gap-1">
-        {statut && <StatutProjetBadge statut={statut} />}
+        {statut && <StatutProjetBadge statut={statut} actionnariat={actionnariat} />}
         {estNotifié !== undefined && <NotificationBadge estNotifié={estNotifié} />}
       </div>
 
