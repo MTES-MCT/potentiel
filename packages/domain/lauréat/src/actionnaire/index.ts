@@ -7,7 +7,10 @@ import {
   ConsulterChangementActionnaireReadModel,
 } from './changement/consulter/consulterChangementActionnaire.query';
 import { DemanderChangementUseCase } from './changement/demander/demandeChangement.usecase';
-import { ListerChangementActionnaireQuery } from './changement/lister/listerChangementActionnaire.query';
+import {
+  ListerChangementActionnaireQuery,
+  ListerChangementActionnaireReadModel,
+} from './changement/lister/listerChangementActionnaire.query';
 import { RejeterDemandeChangementActionnaireCommand } from './changement/rejeter/rejeterDemandeChangement.command';
 import { RejeterDemandeChangementActionnaireUseCase } from './changement/rejeter/rejeterDemandeChangement.usecase';
 import {
@@ -30,7 +33,11 @@ export type {
 };
 
 // ReadModel
-export type { ConsulterActionnaireReadModel, ConsulterChangementActionnaireReadModel };
+export type {
+  ConsulterActionnaireReadModel,
+  ConsulterChangementActionnaireReadModel,
+  ListerChangementActionnaireReadModel,
+};
 
 // UseCase
 export type ActionnaireUseCase =
