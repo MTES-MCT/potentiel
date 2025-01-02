@@ -4,7 +4,7 @@ import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
 import { LoadAggregate } from '@potentiel-domain/core';
 import { DocumentProjet } from '@potentiel-domain/document';
 
-import { loadActionnaireFactory } from '../actionnaire.aggregate';
+import { loadActionnaireFactory } from '../../actionnaire.aggregate';
 
 export type AccorderDemandeChangementActionnaireCommand = Message<
   'Lauréat.Actionnaire.Command.AccorderDemandeChangement',

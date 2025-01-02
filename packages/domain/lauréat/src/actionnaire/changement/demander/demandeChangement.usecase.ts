@@ -1,10 +1,9 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { DocumentProjet, EnregistrerDocumentProjetCommand } from '@potentiel-domain/document';
-import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
-import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
+import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
 
-import { TypeDocumentActionnaire } from '..';
+import { TypeDocumentActionnaire } from '../..';
 
 import { DemanderChangementCommand } from './demandeChangement.command';
 
@@ -35,9 +34,7 @@ export const registerDemanderChangementActionnaireUseCase = () => {
   }) => {
     const identifiantProjet = IdentifiantProjet.convertirEnValueType(identifiantProjetValue);
     const dateDemande = DateTime.convertirEnValueType(dateDemandeValue);
-    const identifiantUtilisateur = IdentifiantUtilisateur.convertirEnValueType(
-      identifiantUtilisateurValue,
-    );
+    const identifiantUtilisateur = Email.convertirEnValueType(identifiantUtilisateurValue);
 
     const pièceJustificative = DocumentProjet.convertirEnValueType(
       identifiantProjetValue,

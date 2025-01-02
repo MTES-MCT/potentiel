@@ -1,4 +1,4 @@
-import { InvalidOperationError, ReadonlyValueType } from '@potentiel-domain/core';
+import { InvalidOperationError, PlainType, ReadonlyValueType } from '@potentiel-domain/core';
 
 import { assertUnreachable } from '../utils/assertUnreachable';
 
@@ -15,11 +15,11 @@ export type ValueType = ReadonlyValueType<{
   vérifierQueLeChangementDeStatutEstPossibleEn: (nouveauStatut: ValueType) => void;
 }>;
 
-export const convertirEnValueType = (value: string): ValueType => {
-  estValide(value);
+export const bind = ({ statut }: PlainType<ValueType>): ValueType => {
+  estValide(statut);
   return {
     get statut() {
-      return value;
+      return statut;
     },
     estAccordé() {
       return this.statut === 'accordé';
@@ -57,6 +57,11 @@ export const convertirEnValueType = (value: string): ValueType => {
       return;
     },
   };
+};
+
+export const convertirEnValueType = (value: string): ValueType => {
+  estValide(value);
+  return bind({ statut: value });
 };
 
 function estValide(value: string): asserts value is RawType {

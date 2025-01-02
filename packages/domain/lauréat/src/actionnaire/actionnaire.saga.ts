@@ -4,8 +4,9 @@ import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
 
 import { LauréatNotifiéEvent } from '../lauréat';
 
+import { DemandeChangementActionnaireAccordéeEvent } from '.';
+
 import { ImporterActionnaireCommand } from './importer/importerActionnaire.command';
-import { DemandeChangementActionnaireAccordéeEvent } from './accorderDemandeChangement/accorderDemandeChangement.behavior';
 import { ModifierActionnaireCommand } from './modifier/modifierActionnaire.command';
 
 export type SubscriptionEvent = LauréatNotifiéEvent | DemandeChangementActionnaireAccordéeEvent;

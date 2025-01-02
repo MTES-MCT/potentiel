@@ -5,7 +5,7 @@ import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
 import { Find } from '@potentiel-domain/entity';
 import { DocumentProjet } from '@potentiel-domain/document';
 
-import { ActionnaireEntity, StatutChangementActionnaire, TypeDocumentActionnaire } from '..';
+import { ActionnaireEntity, StatutChangementActionnaire, TypeDocumentActionnaire } from '../..';
 
 export type ConsulterChangementActionnaireReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
