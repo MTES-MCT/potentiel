@@ -7,6 +7,7 @@ import {
   ConsulterChangementActionnaireReadModel,
 } from './changement/consulter/consulterChangementActionnaire.query';
 import { DemanderChangementUseCase } from './changement/demander/demandeChangement.usecase';
+import { ListerChangementActionnaireQuery } from './changement/lister/listerChangementActionnaire.query';
 import { RejeterDemandeChangementActionnaireCommand } from './changement/rejeter/rejeterDemandeChangement.command';
 import { RejeterDemandeChangementActionnaireUseCase } from './changement/rejeter/rejeterDemandeChangement.usecase';
 import {
@@ -18,8 +19,15 @@ import { ModifierActionnaireCommand } from './modifier/modifierActionnaire.comma
 import { ModifierActionnaireUseCase } from './modifier/modifierActionnaire.usecase';
 
 // Query
-export type ActionnaireQuery = ConsulterActionnaireQuery | ConsulterChangementActionnaireQuery;
-export type { ConsulterActionnaireQuery, ConsulterChangementActionnaireQuery };
+export type ActionnaireQuery =
+  | ConsulterActionnaireQuery
+  | ConsulterChangementActionnaireQuery
+  | ListerChangementActionnaireQuery;
+export type {
+  ConsulterActionnaireQuery,
+  ConsulterChangementActionnaireQuery,
+  ListerChangementActionnaireQuery,
+};
 
 // ReadModel
 export type { ConsulterActionnaireReadModel, ConsulterChangementActionnaireReadModel };

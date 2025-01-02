@@ -16,8 +16,13 @@ import { registerRejeterDemandeChangementActionnaireCommand } from './changement
 import { registerRejeterDemandeChangementActionnaireUseCase } from './changement/rejeter/rejeterDemandeChangement.usecase';
 import { registerModifierActionnaireCommand } from './modifier/modifierActionnaire.command';
 import { registerModifierActionnaireUseCase } from './modifier/modifierActionnaire.usecase';
+import {
+  ListerChangementActionnaireDependencies,
+  registerListerChangementActionnaireQuery,
+} from './changement/lister/listerChangementActionnaire.query';
 
-export type ActionnaireQueryDependencies = ConsulterActionnaireDependencies;
+export type ActionnaireQueryDependencies = ConsulterActionnaireDependencies &
+  ListerChangementActionnaireDependencies;
 
 export type ActionnaireCommandDependencies = {
   loadAggregate: LoadAggregate;
@@ -41,4 +46,5 @@ export const registerActionnaireUseCases = ({ loadAggregate }: ActionnaireComman
 export const registerActionnaireQueries = (dependencies: ActionnaireQueryDependencies) => {
   registerConsulterActionnaireQuery(dependencies);
   registerConsulterChangementActionnaireQuery(dependencies);
+  registerListerChangementActionnaireQuery(dependencies);
 };
