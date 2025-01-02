@@ -23,7 +23,8 @@
     "@potentiel-libraries/pg-helpers": "*",
     "@potentiel-libraries/flat": "*",
     "flat": "^6.0.1",
-    "mediateur": "^0.3.0"
+    "mediateur": "^0.3.0",
+    "pdf-lib": "^1.17.1"
   },
   "devDependencies": {
     "@potentiel-config/tsconfig": "*"
