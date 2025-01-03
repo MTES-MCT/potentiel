@@ -2,16 +2,26 @@ import { When as Quand } from '@cucumber/cucumber';
 import { mediator } from 'mediateur';
 
 import { ReprésentantLégal } from '@potentiel-domain/laureat';
+import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
 
 import { PotentielWorld } from '../../../../potentiel.world';
-
-import { importerReprésentantLégal } from './représentantLégal.given';
 
 Quand(
   /le représentant légal est importé pour le projet lauréat/,
   async function (this: PotentielWorld) {
     try {
-      await importerReprésentantLégal.call(this);
+      const identifiantProjet = this.candidatureWorld.importerCandidature.identifiantProjet;
+      const { importéLe } =
+        this.lauréatWorld.représentantLégalWorld.importerReprésentantLégalFixture.créer();
+
+      await mediator.send<ReprésentantLégal.ReprésentantLégalCommand>({
+        type: 'Lauréat.ReprésentantLégal.Command.ImporterReprésentantLégal',
+        data: {
+          identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
+          importéLe: DateTime.convertirEnValueType(importéLe),
+          importéPar: Email.system(),
+        },
+      });
     } catch (error) {
       this.error = error as Error;
     }

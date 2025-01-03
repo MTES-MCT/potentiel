@@ -5,6 +5,11 @@ import { Candidature } from '@potentiel-domain/candidature';
 import { DateTime } from '@potentiel-domain/common';
 
 import { PotentielWorld } from '../../potentiel.world';
+import {
+  insérerProjetAvecDonnéesCandidature,
+  notifierLauréat,
+} from '../../projet/lauréat/stepDefinitions/lauréat.given';
+import { insérerPorteurCandidature } from '../../utilisateur/stepDefinitions/utilisateur.given';
 
 Quand(
   `le DGEC validateur importe la candidature {string} avec :`,
@@ -47,6 +52,13 @@ Quand(
     await corrigerCandidature.call(this);
   },
 );
+
+Quand('le DGEC validateur notifie la candidature lauréate', async function (this: PotentielWorld) {
+  const dateDésignation = DateTime.now().formatter();
+  await notifierLauréat.call(this, dateDésignation);
+  await insérerProjetAvecDonnéesCandidature.call(this, dateDésignation, 'lauréat');
+  await insérerPorteurCandidature.call(this);
+});
 
 export async function corrigerCandidature(this: PotentielWorld, exemple?: Record<string, string>) {
   const unchangedValues = this.candidatureWorld.importerCandidature.values;
