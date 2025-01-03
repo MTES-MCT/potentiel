@@ -9,14 +9,8 @@ import { convertStringToReadableStream } from '../../helpers/convertStringToRead
 import { PotentielWorld } from '../../potentiel.world';
 
 Quand(
-  `le porteur transmet une demande complète de raccordement pour le projet {lauréat-éliminé} {string} auprès du gestionnaire de réseau {string} avec :`,
-  async function (
-    this: PotentielWorld,
-    statutProjet: 'lauréat' | 'éliminé',
-    nomProjet: string,
-    raisonSocialeGestionnaire: string,
-    table: DataTable,
-  ) {
+  `le porteur transmet une demande complète de raccordement pour le projet {lauréat-éliminé} auprès du gestionnaire de réseau avec :`,
+  async function (this: PotentielWorld, statutProjet: 'lauréat' | 'éliminé', table: DataTable) {
     const exemple = table.rowsHash();
     const dateQualification = new Date(exemple['La date de qualification']).toISOString();
     const référenceDossierRaccordement = exemple['La référence du dossier de raccordement'];
@@ -30,15 +24,8 @@ Quand(
 
     const identifiantProjet =
       statutProjet === 'lauréat'
-        ? this.lauréatWorld.rechercherLauréatFixture(nomProjet).identifiantProjet.formatter()
-        : this.eliminéWorld.rechercherÉliminéFixture(nomProjet).identifiantProjet.formatter();
-
-    const identifiantGestionnaireRéseau =
-      raisonSocialeGestionnaire === 'Inconnu'
-        ? 'Code EIC inconnu'
-        : this.gestionnaireRéseauWorld.rechercherGestionnaireRéseauFixture(
-            raisonSocialeGestionnaire,
-          ).codeEIC;
+        ? this.lauréatWorld.identifiantProjet.formatter()
+        : this.eliminéWorld.identifiantProjet.formatter();
 
     try {
       this.raccordementWorld.dateQualification = DateTime.convertirEnValueType(dateQualification);
@@ -55,7 +42,6 @@ Quand(
         data: {
           accuséRéceptionValue: accuséRéception,
           dateQualificationValue: dateQualification,
-          identifiantGestionnaireRéseauValue: identifiantGestionnaireRéseau,
           identifiantProjetValue: identifiantProjet,
           référenceDossierValue: référenceDossierRaccordement,
         },
@@ -67,14 +53,13 @@ Quand(
 );
 
 Quand(
-  `le gestionnaire de réseau transmet la date de mise en service {string} pour le dossier de raccordement du le projet lauréat {string} ayant pour référence {string}`,
+  `le gestionnaire de réseau transmet la date de mise en service {string} pour le dossier de raccordement du le projet lauréat ayant pour référence {string}`,
   async function (
     this: PotentielWorld,
     dateMiseEnService: string,
-    nomProjet: string,
     référenceDossierRaccordement: string,
   ) {
-    const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
+    const { identifiantProjet } = this.lauréatWorld;
 
     this.raccordementWorld.dateMiseEnService = DateTime.convertirEnValueType(
       new Date(dateMiseEnService).toISOString(),
@@ -100,19 +85,14 @@ Quand(
 );
 
 Quand(
-  `le porteur transmet une proposition technique et financière pour le dossier de raccordement du projet lauréat {string} ayant pour référence {string} avec :`,
-  async function (
-    this: PotentielWorld,
-    nomProjet: string,
-    référenceDossierRaccordement: string,
-    table: DataTable,
-  ) {
+  `le porteur transmet une proposition technique et financière pour le dossier de raccordement du projet lauréat ayant pour référence {string} avec :`,
+  async function (this: PotentielWorld, référenceDossierRaccordement: string, table: DataTable) {
     const exemple = table.rowsHash();
     const dateSignature = exemple['La date de signature'];
     const format = exemple[`Le format de la proposition technique et financière`];
     const content = exemple[`Le contenu de proposition technique et financière`];
 
-    const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
+    const { identifiantProjet } = this.lauréatWorld;
 
     const propositionTechniqueEtFinancièreSignée = {
       format,
@@ -146,13 +126,11 @@ Quand(
 );
 
 Quand(
-  `l'utilisateur avec le rôle {string} modifie la demande complète de raccordement pour le projet lauréat {string} ayant pour référence {string} auprès du gestionnaire de réseau {string} avec :`,
+  `l'utilisateur avec le rôle {string} modifie la demande complète de raccordement pour le projet lauréat ayant pour référence {string} auprès du gestionnaire de réseau avec :`,
   async function (
     this: PotentielWorld,
     rôleUtilisateur: string,
-    nomProjet: string,
     référenceDossierRaccordement: string,
-    raisonSocialeGestionnaire: string,
     table: DataTable,
   ) {
     const exemple = table.rowsHash();
@@ -160,9 +138,7 @@ Quand(
     const format = exemple[`Le format de l'accusé de réception`];
     const content = exemple[`Le contenu de l'accusé de réception`];
 
-    const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
-    const { codeEIC } =
-      this.gestionnaireRéseauWorld.rechercherGestionnaireRéseauFixture(raisonSocialeGestionnaire);
+    const { identifiantProjet } = this.lauréatWorld;
 
     const accuséRéception = {
       format,
@@ -182,7 +158,6 @@ Quand(
         type: 'Réseau.Raccordement.UseCase.ModifierDemandeComplèteRaccordement',
         data: {
           identifiantProjetValue: identifiantProjet.formatter(),
-          identifiantGestionnaireRéseauValue: codeEIC,
           référenceDossierRaccordementValue: référenceDossierRaccordement,
           dateQualificationValue: dateQualification,
           accuséRéceptionValue: accuséRéception,
@@ -196,19 +171,14 @@ Quand(
 );
 
 Quand(
-  `le porteur modifie la proposition technique et financière pour le dossier de raccordement du projet lauréat {string} ayant pour référence {string} avec :`,
-  async function (
-    this: PotentielWorld,
-    nomProjet: string,
-    référenceDossierRaccordement: string,
-    table: DataTable,
-  ) {
+  `le porteur modifie la proposition technique et financière pour le dossier de raccordement du projet lauréat ayant pour référence {string} avec :`,
+  async function (this: PotentielWorld, référenceDossierRaccordement: string, table: DataTable) {
     const exemple = table.rowsHash();
     const dateSignature = new Date(exemple['La date de signature']).toISOString();
     const format = exemple[`Le format de la proposition technique et financière`];
     const content = exemple[`Le contenu de proposition technique et financière`];
 
-    const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
+    const { identifiantProjet } = this.lauréatWorld;
 
     const propositionTechniqueEtFinancièreSignée = {
       format,
@@ -240,9 +210,9 @@ Quand(
 );
 
 Quand(
-  `un porteur modifie le gestionnaire de réseau du projet {string} avec un gestionnaire non référencé`,
-  async function (this: PotentielWorld, nomProjet: string) {
-    const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
+  `un porteur modifie le gestionnaire de réseau du projet avec un gestionnaire non référencé`,
+  async function (this: PotentielWorld) {
+    const { identifiantProjet } = this.lauréatWorld;
 
     try {
       await mediator.send<Raccordement.ModifierGestionnaireRéseauRaccordementUseCase>({
@@ -260,9 +230,9 @@ Quand(
 );
 
 Quand(
-  `le système modifie le gestionnaire de réseau du projet {string} avec un gestionnaire inconnu`,
-  async function (this: PotentielWorld, nomProjet: string) {
-    const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
+  `le système modifie le gestionnaire de réseau du projet avec un gestionnaire inconnu`,
+  async function (this: PotentielWorld) {
+    const { identifiantProjet } = this.lauréatWorld;
 
     try {
       await mediator.send<Raccordement.ModifierGestionnaireRéseauRaccordementUseCase>({
@@ -280,9 +250,9 @@ Quand(
 );
 
 Quand(
-  `un porteur modifie le gestionnaire de réseau du projet {string} avec le gestionnaire {string}`,
-  async function (this: PotentielWorld, nomProjet: string, raisonSocialGestionnaireRéseau: string) {
-    const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
+  `un porteur modifie le gestionnaire de réseau du projet avec le gestionnaire {string}`,
+  async function (this: PotentielWorld, raisonSocialGestionnaireRéseau: string) {
+    const { identifiantProjet } = this.lauréatWorld;
     const { codeEIC } = this.gestionnaireRéseauWorld.rechercherGestionnaireRéseauFixture(
       raisonSocialGestionnaireRéseau,
     );
@@ -303,9 +273,9 @@ Quand(
 );
 
 Quand(
-  `une dreal modifie le gestionnaire de réseau du projet {string} avec le gestionnaire {string}`,
-  async function (this: PotentielWorld, nomProjet: string, raisonSocialGestionnaireRéseau: string) {
-    const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
+  `une dreal modifie le gestionnaire de réseau du projet avec le gestionnaire {string}`,
+  async function (this: PotentielWorld, raisonSocialGestionnaireRéseau: string) {
+    const { identifiantProjet } = this.lauréatWorld;
     const { codeEIC } = this.gestionnaireRéseauWorld.rechercherGestionnaireRéseauFixture(
       raisonSocialGestionnaireRéseau,
     );
@@ -326,15 +296,14 @@ Quand(
 );
 
 Quand(
-  `l'utilisateur avec le rôle {string} modifie la demande complète de raccordement pour le projet lauréat {string} ayant pour référence {string} avec la référence {string}`,
+  `l'utilisateur avec le rôle {string} modifie la demande complète de raccordement pour le projet lauréat ayant pour référence {string} avec la référence {string}`,
   async function (
     this: PotentielWorld,
     rôleUtilisateur: string,
-    nomProjet: string,
     référenceDossierRaccordementActuelle: string,
     nouvelleRéférenceDossierRaccordement: string,
   ) {
-    const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
+    const { identifiantProjet } = this.lauréatWorld;
 
     try {
       this.raccordementWorld.référenceDossierRaccordement =
@@ -357,83 +326,9 @@ Quand(
 );
 
 Quand(
-  `le gestionnaire de réseau {string} est attribué au raccordement du projet {lauréat-éliminé} {string}`,
-  async function (
-    this: PotentielWorld,
-    nomGestionnaireRéseau: string,
-    statutProjet: 'lauréat' | 'éliminé',
-    nomProjet: string,
-  ) {
-    const { identifiantProjet } =
-      statutProjet === 'lauréat'
-        ? this.lauréatWorld.rechercherLauréatFixture(nomProjet)
-        : this.eliminéWorld.rechercherÉliminéFixture(nomProjet);
-
-    const { codeEIC } =
-      this.gestionnaireRéseauWorld.rechercherGestionnaireRéseauFixture(nomGestionnaireRéseau);
-
-    try {
-      await mediator.send<Raccordement.RaccordementUseCase>({
-        type: 'Réseau.Raccordement.UseCase.AttribuerGestionnaireRéseau',
-        data: {
-          identifiantGestionnaireRéseauValue: codeEIC,
-          identifiantProjetValue: identifiantProjet.formatter(),
-        },
-      });
-    } catch (e) {
-      this.error = e as Error;
-    }
-  },
-);
-
-Quand(
-  `un gestionnaire de réseau non référencé est attribué au raccordement du projet {lauréat-éliminé} {string}`,
-  async function (this: PotentielWorld, statutProjet: 'lauréat' | 'éliminé', nomProjet: string) {
-    const { identifiantProjet } =
-      statutProjet === 'lauréat'
-        ? this.lauréatWorld.rechercherLauréatFixture(nomProjet)
-        : this.eliminéWorld.rechercherÉliminéFixture(nomProjet);
-
-    try {
-      await mediator.send<Raccordement.RaccordementUseCase>({
-        type: 'Réseau.Raccordement.UseCase.AttribuerGestionnaireRéseau',
-        data: {
-          identifiantGestionnaireRéseauValue: 'GESTIONNAIRE NON RÉFÉRENCÉ',
-          identifiantProjetValue: identifiantProjet.formatter(),
-        },
-      });
-    } catch (e) {
-      this.error = e as Error;
-    }
-  },
-);
-
-Quand(
-  `le gestionnaire de réseau inconnu est attribué au raccordement du projet {lauréat-éliminé} {string}`,
-  async function (this: PotentielWorld, statutProjet: 'lauréat' | 'éliminé', nomProjet: string) {
-    const { identifiantProjet } =
-      statutProjet === 'lauréat'
-        ? this.lauréatWorld.rechercherLauréatFixture(nomProjet)
-        : this.eliminéWorld.rechercherÉliminéFixture(nomProjet);
-
-    try {
-      await mediator.send<Raccordement.RaccordementUseCase>({
-        type: 'Réseau.Raccordement.UseCase.AttribuerGestionnaireRéseau',
-        data: {
-          identifiantGestionnaireRéseauValue: 'inconnu',
-          identifiantProjetValue: identifiantProjet.formatter(),
-        },
-      });
-    } catch (e) {
-      this.error = e as Error;
-    }
-  },
-);
-
-Quand(
-  `le porteur supprime le dossier ayant pour référence {string} du raccordement pour le projet lauréat {string}`,
-  async function (this: PotentielWorld, référenceDossier: string, nomProjet: string) {
-    const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
+  `le porteur supprime le dossier ayant pour référence {string} du raccordement pour le projet lauréat`,
+  async function (this: PotentielWorld, référenceDossier: string) {
+    const { identifiantProjet } = this.lauréatWorld;
 
     try {
       await mediator.send<Raccordement.SupprimerDossierDuRaccordementUseCase>({

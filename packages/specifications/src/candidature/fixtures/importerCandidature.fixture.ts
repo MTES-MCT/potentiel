@@ -5,6 +5,7 @@ import { IdentifiantProjet } from '@potentiel-domain/common';
 import { appelsOffreData } from '@potentiel-domain/inmemory-referential';
 
 import { AbstractFixture, DeepPartial } from '../../fixture';
+import { getFakeLocation } from '../../helpers/getFakeLocation';
 
 interface ImporterCandidature {
   identifiantProjet: string;
@@ -43,10 +44,7 @@ export class ImporterCandidatureFixture
     const localitéValue = {
       adresse1: faker.location.streetAddress(),
       adresse2: faker.location.secondaryAddress(),
-      codePostal: faker.location.zipCode(),
-      commune: faker.location.city(),
-      région: faker.location.state(),
-      département: faker.location.state(),
+      ...getFakeLocation(),
       ...values.localitéValue,
     };
 

@@ -1,4 +1,3 @@
-import { AttribuerGestionnaireRéseauUseCase } from './attribuer/attribuerGestionnaireRéseau.usecase';
 import {
   ConsulterDossierRaccordementQuery,
   ConsulterDossierRaccordementReadModel,
@@ -83,7 +82,6 @@ export type RaccordementUseCase =
   | TransmettreDateMiseEnServiceUseCase
   | TransmettreDemandeComplèteRaccordementUseCase
   | TransmettrePropositionTechniqueEtFinancièreUseCase
-  | AttribuerGestionnaireRéseauUseCase
   | SupprimerDossierDuRaccordementUseCase;
 
 export type {
@@ -94,7 +92,6 @@ export type {
   TransmettreDateMiseEnServiceUseCase,
   TransmettreDemandeComplèteRaccordementUseCase,
   TransmettrePropositionTechniqueEtFinancièreUseCase,
-  AttribuerGestionnaireRéseauUseCase,
   SupprimerDossierDuRaccordementUseCase,
 };
 
@@ -144,3 +141,4 @@ export * from './raccordement.entity';
 
 // Saga
 export * as RaccordementSaga from './raccordement.saga';
+export { RécupererGRDParVillePort } from './raccordement.saga';

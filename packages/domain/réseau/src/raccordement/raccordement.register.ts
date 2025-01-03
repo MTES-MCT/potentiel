@@ -34,7 +34,6 @@ import {
   registerListerRaccordementQuery,
   ListerRaccordementQueryDependencies,
 } from './lister/listerRaccordement.query';
-import { registerAttribuerGestionnaireRéseauUseCase } from './attribuer/attribuerGestionnaireRéseau.usecase';
 import { registerAttribuerGestionnaireCommand } from './attribuer/attribuerGestionnaireRéseau.command';
 import {
   ConsulterNombreDeRaccordementDependencies,
@@ -89,6 +88,5 @@ export const registerRaccordementUseCases = ({
   registerTransmettreDateMiseEnServiceUseCase();
   registerTransmettreDemandeComplèteRaccordementUseCase();
   registerTransmettrePropositionTechniqueEtFinancièreUseCase();
-  registerAttribuerGestionnaireRéseauUseCase();
   registerSupprimerDossierDuRaccordementUseCase();
 };

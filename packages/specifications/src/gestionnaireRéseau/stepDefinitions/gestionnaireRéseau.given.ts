@@ -1,9 +1,11 @@
 import { DataTable, Given as EtantDonné } from '@cucumber/cucumber';
 import { mediator } from 'mediateur';
+import { faker } from '@faker-js/faker';
 
 import { GestionnaireRéseau } from '@potentiel-domain/reseau';
 
 import { PotentielWorld } from '../../potentiel.world';
+import { fakeLocations } from '../../helpers/getFakeLocation';
 
 EtantDonné('un gestionnaire de réseau', async function (this: PotentielWorld, table: DataTable) {
   const exemple = table.rowsHash();
@@ -62,3 +64,19 @@ EtantDonné(
     });
   },
 );
+
+// Ce step assigne de manière aléatoire chacun des gestionnaires réseau
+// présent dans les fixtures à une (ou plusieurs) ville(s), imitant ainsi le référentiel ORE
+EtantDonné('le référentiel ORE', async function (this: PotentielWorld) {
+  for (const city of fakeLocations) {
+    const { codeEIC, raisonSociale } = faker.helpers.arrayElement([
+      ...this.gestionnaireRéseauWorld.gestionnairesRéseauFixtures.values(),
+    ]);
+    this.gestionnaireRéseauWorld.référentielOREFixtures.push({
+      codeEIC,
+      raisonSociale,
+      codePostal: city.codePostal,
+      commune: city.commune,
+    });
+  }
+});

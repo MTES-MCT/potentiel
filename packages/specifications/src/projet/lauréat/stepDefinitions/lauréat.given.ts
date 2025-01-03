@@ -9,6 +9,7 @@ import { Lauréat } from '@potentiel-domain/laureat';
 
 import { PotentielWorld } from '../../../potentiel.world';
 import { importerCandidature } from '../../../candidature/stepDefinitions/candidature.given';
+import { waitForEvents } from '../../../helpers/waitForEvents';
 
 EtantDonné('le projet lauréat {string}', async function (this: PotentielWorld, nomProjet: string) {
   await importerCandidature.call(this, nomProjet, 'classé');
@@ -83,6 +84,7 @@ EtantDonné(
 );
 
 export async function notifierLauréat(this: PotentielWorld, dateDésignation: string) {
+  await waitForEvents();
   const candidature = this.candidatureWorld.importerCandidature;
   const identifiantProjetValue = IdentifiantProjet.convertirEnValueType(
     candidature.identifiantProjet,
