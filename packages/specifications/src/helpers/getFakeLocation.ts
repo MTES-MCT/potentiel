@@ -1,8 +1,6 @@
 import { faker } from '@faker-js/faker';
 
-export { faker };
-
-export const cities = faker.helpers.multiple(
+export const fakeLocations = faker.helpers.multiple(
   () => ({
     codePostal: faker.location.zipCode(),
     commune: faker.location.city(),
@@ -11,3 +9,5 @@ export const cities = faker.helpers.multiple(
   }),
   { count: 10 },
 );
+
+export const getFakeLocation = () => faker.helpers.arrayElement(fakeLocations);
