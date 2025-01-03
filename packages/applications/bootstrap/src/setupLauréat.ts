@@ -320,7 +320,12 @@ export const setupLauréat = async ({ sendEmail }: SetupLauréatDependencies) =>
     await subscribe<ReprésentantLégalNotification.SubscriptionEvent>({
       name: 'notifications',
       streamCategory: 'représentant-légal',
-      eventType: ['ReprésentantLégalModifié-V1', 'ChangementReprésentantLégalDemandé-V1'],
+      eventType: [
+        'ReprésentantLégalModifié-V1',
+        'ChangementReprésentantLégalDemandé-V1',
+        'ChangementReprésentantLégalAccordé-V1',
+        'ChangementReprésentantLégalRejeté-V1',
+      ],
       eventHandler: async (event) =>
         mediator.publish<ReprésentantLégalNotification.Execute>({
           type: 'System.Notification.Lauréat.ReprésentantLégal',
