@@ -1,10 +1,9 @@
 import { PDFDocument, StandardFonts } from 'pdf-lib';
 
-export const getSensibleDocReplacement = async () => {
+export const getSensibleDocReplacement = async (text: string) => {
   const pdfDoc = await PDFDocument.create();
   const page = pdfDoc.addPage();
 
-  const text = 'Document sensible supprimé automatiquement';
   const textSize = 24;
 
   const helveticaFont = await pdfDoc.embedFont(StandardFonts.Helvetica);

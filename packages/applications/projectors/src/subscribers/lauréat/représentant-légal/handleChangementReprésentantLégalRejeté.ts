@@ -51,6 +51,9 @@ export const handleChangementReprésentantLégalRejeté = async (
   );
 
   if (await fileExists(pièceJustificative.formatter())) {
-    await upload(pièceJustificative.formatter(), await getSensibleDocReplacement());
+    await upload(
+      pièceJustificative.formatter(),
+      await getSensibleDocReplacement('Document sensible supprimé automatiquement après rejet'),
+    );
   }
 };
