@@ -6,7 +6,7 @@ import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
 
 import { TypeDocumentActionnaire } from '..';
 
-import { DemanderChangementCommand } from './demandeChangement.command';
+import { DemanderChangementCommand } from './demandeChangementActionnaire.command';
 
 export type DemanderChangementUseCase = Message<
   'Lauréat.Actionnaire.UseCase.DemanderChangement',
@@ -23,7 +23,6 @@ export type DemanderChangementUseCase = Message<
   }
 >;
 
-// TODO: après POC Julien et Hub, gestion multidocument
 export const registerDemanderChangementActionnaireUseCase = () => {
   const runner: MessageHandler<DemanderChangementUseCase> = async ({
     dateDemandeValue,
