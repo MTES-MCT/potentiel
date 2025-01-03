@@ -282,7 +282,7 @@ export const setupLauréat = async ({ sendEmail }: SetupLauréatDependencies) =>
   >({
     name: 'representant-legal-saga',
     streamCategory: 'lauréat',
-    eventType: ['LauréatNotifié-V1'],
+    eventType: ['LauréatNotifié-V1', 'TâchePlanifiéeExecutée-V1'],
     eventHandler: async (event) =>
       mediator.publish<ReprésentantLégal.ReprésentantLégalSaga.Execute>({
         type: 'System.Lauréat.ReprésentantLégal.Saga.Execute',
