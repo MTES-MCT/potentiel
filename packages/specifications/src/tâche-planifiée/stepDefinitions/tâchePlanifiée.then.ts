@@ -4,9 +4,29 @@ import waitForExpect from 'wait-for-expect';
 import { expect } from 'chai';
 
 import { ListerTâchesPlanifiéesQuery } from '@potentiel-domain/tache-planifiee';
+import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 
 import { PotentielWorld } from '../../potentiel.world';
 import { RechercherTypeTâchePlanifiée } from '../tâchePlanifiée.world';
+
+async function recupérerTâche(
+  typeTâche: string,
+  identifiantProjet: IdentifiantProjet.ValueType,
+  dateTâche?: DateTime.RawType,
+) {
+  const tâches = await mediator.send<ListerTâchesPlanifiéesQuery>({
+    type: 'Tâche.Query.ListerTâchesPlanifiées',
+    data: {
+      àExécuterLe: dateTâche,
+    },
+  });
+
+  const tâche = tâches.items.find(
+    (t) => t.typeTâchePlanifiée === typeTâche && t.identifiantProjet.estÉgaleÀ(identifiantProjet),
+  );
+
+  return tâche;
+}
 
 Alors(
   `une tâche {string} est planifiée à la date du {string} pour le projet {string}`,
@@ -16,23 +36,37 @@ Alors(
     dateTâche: string,
     nomProjet: string,
   ) {
-    const actualTypeTâche = this.tâchePlanifiéeWorld.rechercherTypeTâchePlanifiée(typeTâche).type;
-    const projet = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
-
     await waitForExpect(async () => {
-      const tâches = await mediator.send<ListerTâchesPlanifiéesQuery>({
-        type: 'Tâche.Query.ListerTâchesPlanifiées',
-        data: {
-          àExécuterLe: new Date(dateTâche).toISOString(),
-        },
-      });
+      const actualTypeTâche = this.tâchePlanifiéeWorld.rechercherTypeTâchePlanifiée(typeTâche).type;
+      const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
 
-      const tâche = tâches.items.find(
-        (t) =>
-          t.typeTâchePlanifiée === actualTypeTâche &&
-          t.identifiantProjet.estÉgaleÀ(projet.identifiantProjet),
+      const actualTâche = await recupérerTâche(
+        actualTypeTâche,
+        identifiantProjet,
+        DateTime.convertirEnValueType(new Date(dateTâche)).formatter(),
       );
-      expect(tâche).not.to.be.undefined;
+      expect(actualTâche).not.to.be.undefined;
+    });
+  },
+);
+
+Alors(
+  `une tâche {string} est planifiée {int} mois plus tard pour le projet lauréat`,
+  async function (
+    this: PotentielWorld,
+    typeTâche: RechercherTypeTâchePlanifiée,
+    nombreDeMois: number,
+  ) {
+    await waitForExpect(async () => {
+      const actualTypeTâche = this.tâchePlanifiéeWorld.rechercherTypeTâchePlanifiée(typeTâche).type;
+      const { identifiantProjet } = this.lauréatWorld;
+
+      const actualTâche = await recupérerTâche(
+        actualTypeTâche,
+        identifiantProjet,
+        DateTime.now().ajouterNombreDeMois(nombreDeMois).formatter(),
+      );
+      expect(actualTâche).not.to.be.undefined;
     });
   },
 );
@@ -45,20 +79,11 @@ Alors(
     nomProjet: string,
   ) {
     const actualTypeTâche = this.tâchePlanifiéeWorld.rechercherTypeTâchePlanifiée(typeTâche).type;
-    const projet = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
+    const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
 
     await waitForExpect(async () => {
-      const tâches = await mediator.send<ListerTâchesPlanifiéesQuery>({
-        type: 'Tâche.Query.ListerTâchesPlanifiées',
-        data: {},
-      });
-
-      const tâche = tâches.items.find(
-        (t) =>
-          t.typeTâchePlanifiée === actualTypeTâche &&
-          t.identifiantProjet.estÉgaleÀ(projet.identifiantProjet),
-      );
-      expect(tâche).to.be.undefined;
+      const actualTâche = await recupérerTâche(actualTypeTâche, identifiantProjet);
+      expect(actualTâche).to.be.undefined;
     });
   },
 );
