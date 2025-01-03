@@ -5,7 +5,6 @@ import { List, RangeOptions, Where } from '@potentiel-domain/entity';
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 import { Lauréat } from '@potentiel-domain/laureat';
 import { Candidature } from '@potentiel-domain/candidature';
-import { Abandon } from '@potentiel-domain/laureat';
 
 import { RéférenceDossierRaccordement } from '..';
 import { DossierRaccordementEntity } from '../raccordement.entity';
@@ -103,12 +102,6 @@ export const registerListerDossierRaccordementQuery = ({
       },
     });
 
-    const abandons = await list<Abandon.AbandonEntity>('abandon', {
-      where: {
-        identifiantProjet: Where.include(identifiantsProjet),
-      },
-    });
-
     const gestionnairesRéseau = await list<GestionnaireRéseau.GestionnaireRéseauEntity>(
       'gestionnaire-réseau',
       {
@@ -119,9 +112,7 @@ export const registerListerDossierRaccordementQuery = ({
     );
 
     return {
-      items: items.map((item) =>
-        toReadModel(item, candidatures.items, abandons.items, gestionnairesRéseau.items),
-      ),
+      items: items.map((item) => toReadModel(item, candidatures.items, gestionnairesRéseau.items)),
       range: {
         endPosition,
         startPosition,
@@ -141,7 +132,6 @@ export const toReadModel = (
     identifiantGestionnaireRéseau,
   }: DossierRaccordementEntity,
   candidatures: ReadonlyArray<Candidature.CandidatureEntity>,
-  abandons: ReadonlyArray<Abandon.AbandonEntity>,
   gestionnairesRéseau: ReadonlyArray<GestionnaireRéseau.GestionnaireRéseauEntity>,
 ): DossierRaccordement => {
   const { appelOffre, famille, numéroCRE, période } =
@@ -149,7 +139,6 @@ export const toReadModel = (
   const candidature = candidatures.find(
     (candidature) => candidature.identifiantProjet === identifiantProjet,
   );
-  const abandon = abandons.find((abandons) => abandons.identifiantProjet === identifiantProjet);
   const gestionnaire = gestionnairesRéseau.find(
     (gestionnaireRéseau) => gestionnaireRéseau.codeEIC === identifiantGestionnaireRéseau,
   );
@@ -182,9 +171,7 @@ export const toReadModel = (
     numéroCRE,
     période,
     référenceDossier: RéférenceDossierRaccordement.convertirEnValueType(référence),
-    statutDGEC: match(abandon)
-      .with(undefined, () => Lauréat.StatutLauréat.classé.formatter())
-      .otherwise(() => Lauréat.StatutLauréat.abandonné.formatter()),
+    statutDGEC: Lauréat.StatutLauréat.classé.formatter(),
     dateMiseEnService: miseEnService
       ? DateTime.convertirEnValueType(miseEnService.dateMiseEnService)
       : undefined,
