@@ -11,6 +11,10 @@ Fonctionnalité: Rejeter la demande de changement de représentant légal d'un p
         Quand <l'utilisateur autorisé> rejette la demande de changement de représentant légal pour le projet lauréat
         Alors la demande de changement de représentant légal du projet lauréat devrait être rejetée
         Mais le représentant légal du projet lauréat ne devrait pas être mis à jour
+        Et un email a été envoyé au porteur avec :
+            | sujet      | Potentiel - La demande de modification du représentant légal pour le projet Du boulodrome de Marseille dans le département(.*) a été rejetée |
+            | nom_projet | Du boulodrome de Marseille                                                                                                                   |
+            | url        | https://potentiel.beta.gouv.fr/projet/.*/details.html                                                                                        |
 
         Exemples:
             | l'utilisateur autorisé      |
