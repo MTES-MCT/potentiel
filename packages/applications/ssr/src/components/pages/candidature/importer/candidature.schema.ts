@@ -161,7 +161,7 @@ const candidatureCsvRowSchema = z
     [colonnes.prixRéférence]: strictlyPositiveNumberSchema,
     [colonnes.noteTotale]: numberSchema,
     [colonnes.nomReprésentantLégal]: requiredStringSchema,
-    [colonnes.emailContact]: requiredStringSchema.email(),
+    [colonnes.emailContact]: requiredStringSchema.email().toLowerCase(),
     [colonnes.adresse1]: optionalStringSchema, // see refine below
     [colonnes.adresse2]: optionalStringSchema,
     [colonnes.codePostaux]: requiredStringSchema
@@ -279,7 +279,7 @@ export const candidatureSchema = z
     prixReference: strictlyPositiveNumberSchema,
     noteTotale: numberSchema,
     nomRepresentantLegal: requiredStringSchema,
-    emailContact: requiredStringSchema.email(),
+    emailContact: requiredStringSchema.email().toLowerCase(),
 
     adresse1: requiredStringSchema,
     adresse2: optionalStringSchema,

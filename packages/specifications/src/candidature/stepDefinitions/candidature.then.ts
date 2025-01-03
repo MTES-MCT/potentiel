@@ -51,7 +51,7 @@ Alors(
   'le porteur a été prévenu que sa candidature a été notifiée',
   async function (this: PotentielWorld) {
     const email = this.notificationWorld.récupérerNotification(
-      this.candidatureWorld.importerCandidature.values.emailContactValue,
+      this.candidatureWorld.importerCandidature.values.emailContactValue.toLowerCase(),
     );
 
     await waitForExpect(async () => {
@@ -64,7 +64,7 @@ Alors(
   'le porteur a été prévenu que son attestation a été modifiée',
   async function (this: PotentielWorld) {
     const email = this.notificationWorld.récupérerNotification(
-      this.candidatureWorld.importerCandidature.values.emailContactValue,
+      this.candidatureWorld.importerCandidature.values.emailContactValue.toLowerCase(),
     );
 
     await waitForExpect(async () => {
@@ -82,7 +82,7 @@ Alors(
     await sleep(400);
     try {
       this.notificationWorld.récupérerNotification(
-        this.candidatureWorld.importerCandidature.values.emailContactValue,
+        this.candidatureWorld.importerCandidature.values.emailContactValue.toLowerCase(),
       );
     } catch (error) {
       expect((error as Error).message).to.equal('Pas de notification');

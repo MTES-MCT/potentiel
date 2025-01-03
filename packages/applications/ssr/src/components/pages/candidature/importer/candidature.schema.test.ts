@@ -15,7 +15,7 @@ const minimumValues: Partial<Record<keyof CandidatureCsvRowShape, string>> = {
   prix_reference: '1',
   'Note totale': '1',
   'Nom et prénom du représentant légal': 'valentin cognito',
-  'Adresse électronique du contact': 'porteur@test.com',
+  'Adresse électronique du contact': 'Porteur@test.com',
   'N°, voie, lieu-dit 1': 'adresse ',
   CP: '12345',
   Commune: 'MARSEILLE',
