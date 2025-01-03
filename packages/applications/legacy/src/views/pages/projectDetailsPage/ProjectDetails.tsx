@@ -100,6 +100,7 @@ export const ProjectDetails = ({
           featureFlags.isDemandeChangementReprésentantLégalEnabled &&
           !!représentantLégal?.demandeDeModification?.peutFaireUneDemande
         }
+        peutModifierActionnaire={!!actionnaire}
       />
       <div className="print:hidden">
         {success && <SuccessBox title={success} />}

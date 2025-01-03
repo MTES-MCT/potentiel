@@ -37,7 +37,9 @@ type PorteurProjetActionsProps = {
   modificationsNonPermisesParLeCDCActuel: boolean;
   hasAttestationConformité: boolean;
   peutFaireDemandeChangementReprésentantLégal: boolean;
+  peutModifierActionnaire: boolean;
 };
+
 const PorteurProjetActions = ({
   project,
   abandonEnCours,
@@ -45,6 +47,7 @@ const PorteurProjetActions = ({
   modificationsNonPermisesParLeCDCActuel,
   hasAttestationConformité,
   peutFaireDemandeChangementReprésentantLégal,
+  peutModifierActionnaire,
 }: PorteurProjetActionsProps) => {
   const identifiantProjet = formatProjectDataToIdentifiantProjetValueType({
     appelOffreId: project.appelOffreId,
@@ -82,7 +85,7 @@ const PorteurProjetActions = ({
             </DropdownMenuSecondaryButton.DropdownItem>
             <DropdownMenuSecondaryButton.DropdownItem
               href={
-                featureFlags.isActionnaireEnabled
+                featureFlags.isActionnaireEnabled && peutModifierActionnaire
                   ? Routes.Actionnaire.modifier(identifiantProjet)
                   : routes.CHANGER_ACTIONNAIRE(project.id)
               }
@@ -203,7 +206,9 @@ type ProjectActionsProps = {
   modificationsNonPermisesParLeCDCActuel: boolean;
   hasAttestationConformité: boolean;
   peutFaireDemandeChangementReprésentantLégal: boolean;
+  peutModifierActionnaire: boolean;
 };
+
 export const ProjectActions = ({
   project,
   user,
@@ -212,6 +217,7 @@ export const ProjectActions = ({
   modificationsNonPermisesParLeCDCActuel,
   hasAttestationConformité,
   peutFaireDemandeChangementReprésentantLégal,
+  peutModifierActionnaire,
 }: ProjectActionsProps) => (
   <div className="print:hidden whitespace-nowrap">
     {userIs(['admin', 'dgec-validateur'])(user) && <AdminActions {...{ project }} />}
@@ -223,6 +229,7 @@ export const ProjectActions = ({
         modificationsNonPermisesParLeCDCActuel={modificationsNonPermisesParLeCDCActuel}
         hasAttestationConformité={hasAttestationConformité}
         peutFaireDemandeChangementReprésentantLégal={peutFaireDemandeChangementReprésentantLégal}
+        peutModifierActionnaire={peutModifierActionnaire}
       />
     )}
     {userIs(['dreal'])(user) && <DrealActions project={project} />}

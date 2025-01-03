@@ -11,7 +11,7 @@ export type GetActionnaireForProjectPage =
   | {
       nom: string;
       modification?: {
-        type: 'lauréat' | 'candidature';
+        label: string;
         url: string;
       };
     }
@@ -34,7 +34,10 @@ export const getActionnaire = async (
       return {
         nom: actionnaire.actionnaire,
         modification: utilisateur.aLaPermission('actionnaire.modifier')
-          ? { url: Routes.Actionnaire.modifier(identifiantProjet.formatter()), type: 'lauréat' }
+          ? {
+              url: Routes.Actionnaire.modifier(identifiantProjet.formatter()),
+              label: "Modifier l'actionnaire",
+            }
           : undefined,
       };
     }
@@ -48,7 +51,10 @@ export const getActionnaire = async (
       return {
         nom: '',
         modification: utilisateur.aLaPermission('actionnaire.transmettre')
-          ? { url: Routes.Actionnaire.transmettre(identifiantProjet.formatter()), type: 'lauréat' }
+          ? {
+              url: Routes.Actionnaire.transmettre(identifiantProjet.formatter()),
+              label: "Transmettre l'actionnaire",
+            }
           : undefined,
       };
     }
@@ -64,7 +70,10 @@ export const getActionnaire = async (
       return {
         nom: candidature.sociétéMère,
         modification: utilisateur.aLaPermission('candidature.corriger')
-          ? { url: Routes.Candidature.corriger(identifiantProjet.formatter()), type: 'candidature' }
+          ? {
+              url: Routes.Candidature.corriger(identifiantProjet.formatter()),
+              label: 'Modifier la candidature',
+            }
           : undefined,
       };
     }

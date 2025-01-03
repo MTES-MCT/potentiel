@@ -133,8 +133,7 @@ export const InfoGenerales = ({
           <p className="m-0">{actionnaire?.nom ?? 'Non renseigné'}</p>
           {actionnaire?.modification && (
             <Link href={actionnaire.modification.url} aria-label="Modifier" className="mt-1">
-              Modifier{' '}
-              {actionnaire.modification.type === 'lauréat' ? "l'actionnaire" : 'la candidature'}
+              {actionnaire.modification.label}
             </Link>
           )}
         </div>

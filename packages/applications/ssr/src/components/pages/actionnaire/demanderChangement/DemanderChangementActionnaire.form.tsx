@@ -10,8 +10,7 @@ import { IdentifiantProjet } from '@potentiel-domain/common';
 import { UploadNewOrModifyExistingDocument } from '@/components/atoms/form/document/UploadNewOrModifyExistingDocument';
 import { Form } from '@/components/atoms/form/Form';
 import { SubmitButton } from '@/components/atoms/form/SubmitButton';
-
-import { ValidationErrors } from '../../../../utils/formAction';
+import { ValidationErrors } from '@/utils/formAction';
 
 import {
   demanderChangementActionnaireAction,
