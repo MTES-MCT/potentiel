@@ -11,6 +11,7 @@ import { handleDemandeChangementActionnaireAnnulée } from './handleDemandeChang
 import { handleActionnaireImporté } from './handleActionnaireImporté';
 import { handleActionnaireModifié } from './handleActionnaireModifié';
 import { handleDemandeChangementActionnaireRejetée } from './handleDemandeChangementActionnaireRejetée';
+import { handleActionnaireTransmis } from './handleActionnaireTransmis';
 
 export type SubscriptionEvent = (Actionnaire.ActionnaireEvent & Event) | RebuildTriggered;
 
@@ -22,6 +23,7 @@ export const register = () => {
       .with({ type: 'RebuildTriggered' }, handleRebuilTriggered)
       .with({ type: 'ActionnaireImporté-V1' }, handleActionnaireImporté)
       .with({ type: 'ActionnaireModifié-V1' }, handleActionnaireModifié)
+      .with({ type: 'ActionnaireTransmis-V1' }, handleActionnaireTransmis)
       .with({ type: 'ChangementActionnaireDemandé-V1' }, handleChangementActionnaireDemandé)
       .with(
         { type: 'DemandeChangementActionnaireAnnulée-V1' },
