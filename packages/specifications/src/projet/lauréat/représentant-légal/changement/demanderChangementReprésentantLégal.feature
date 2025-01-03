@@ -13,7 +13,7 @@ Fonctionnalité: Demander le changement de représentant légal d'un projet laur
             | sujet      | Potentiel - Demande de modification du représentant légal pour le projet Du boulodrome de Marseille dans le département(.*) |
             | nom_projet | Du boulodrome de Marseille                                                                                                  |
             | url        | https://potentiel.beta.gouv.fr/laureats/.*/changement/representant-legal                                                    |
-        Et une tâche "gestion automatique de la demande de changement de représentant légal" est planifiée pour le projet lauréat
+        Et une tâche "gestion automatique de la demande de changement de représentant légal" est planifiée 3 mois plus tard pour le projet lauréat
 
     Scénario: Impossible de demander le changement de représentant légal d'un projet lauréat si le changement est déjà en cours
         Etant donné une demande de changement de représentant légal en cours pour le projet lauréat
