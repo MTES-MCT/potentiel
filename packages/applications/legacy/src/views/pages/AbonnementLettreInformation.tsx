@@ -101,7 +101,7 @@ const AbonnementLettreInformationForm = ({
             <SaveIcon className="mr-2" />
             M'abonner
           </PrimaryButton>
-          <SecondaryLinkButton href={routes.HOME}>Annuler</SecondaryLinkButton>
+          <SecondaryLinkButton href="/">Annuler</SecondaryLinkButton>
         </div>
       </Form>
     </div>
@@ -118,7 +118,7 @@ const AbonnementLettreInformationSuccessful = () => (
       </div>
     </h1>
 
-    <SecondaryLinkButton className="mt-8 my-4 mx-auto" href={routes.HOME}>
+    <SecondaryLinkButton className="mt-8 my-4 mx-auto" href="/">
       Retour à l'accueil
     </SecondaryLinkButton>
   </Container>

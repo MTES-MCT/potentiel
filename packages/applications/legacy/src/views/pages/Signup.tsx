@@ -116,7 +116,7 @@ const SignupForm = ({ utilisateurInvité, email, error }: SignupFormProps) => (
             <SaveIcon className="mr-2" />
             M'inscrire
           </PrimaryButton>
-          <SecondaryLinkButton href={routes.HOME}>Annuler</SecondaryLinkButton>
+          <SecondaryLinkButton href="/">Annuler</SecondaryLinkButton>
         </div>
       </Form>
     </div>
@@ -136,7 +136,7 @@ const SignupSuccessful = () => (
       Un courriel vous a été envoyé afin de vérifier et valider votre inscription.
     </div>
 
-    <SecondaryLinkButton className="my-4 mx-auto" href={routes.HOME}>
+    <SecondaryLinkButton className="my-4 mx-auto" href="/">
       Retour à l'accueil
     </SecondaryLinkButton>
   </Container>
