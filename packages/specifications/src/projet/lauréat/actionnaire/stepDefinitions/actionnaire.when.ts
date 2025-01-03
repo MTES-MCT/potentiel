@@ -274,8 +274,8 @@ async function modifierActionnaire(this: PotentielWorld, modifiéPar: string) {
 async function transmettreActionnaire(this: PotentielWorld, modifiéPar: string) {
   const identifiantProjet = this.lauréatWorld.identifiantProjet.formatter();
 
-  const { actionnaire, dateModification } =
-    this.lauréatWorld.actionnaireWorld.modifierActionnaireFixture.créer();
+  const { actionnaire, dateTransmission } =
+    this.lauréatWorld.actionnaireWorld.transmettreActionnaireFixture.créer();
 
   await mediator.send<Actionnaire.ActionnaireUseCase>({
     type: 'Lauréat.Actionnaire.UseCase.TransmettreActionnaire',
@@ -283,7 +283,7 @@ async function transmettreActionnaire(this: PotentielWorld, modifiéPar: string)
       identifiantProjetValue: identifiantProjet,
       identifiantUtilisateurValue: modifiéPar,
       actionnaireValue: actionnaire,
-      dateTransmissionValue: dateModification,
+      dateTransmissionValue: dateTransmission,
     },
   });
 }
