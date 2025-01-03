@@ -93,7 +93,7 @@ export class CandidatureWorld {
       dateÉchéanceGf: expectedValues.dateÉchéanceGfValue
         ? DateTime.convertirEnValueType(expectedValues.dateÉchéanceGfValue)
         : undefined,
-      emailContact: expectedValues.emailContactValue,
+      emailContact: expectedValues.emailContactValue.toLowerCase(),
       evaluationCarboneSimplifiée: expectedValues.evaluationCarboneSimplifiéeValue,
       historiqueAbandon: Candidature.HistoriqueAbandon.convertirEnValueType(
         expectedValues.historiqueAbandonValue,
