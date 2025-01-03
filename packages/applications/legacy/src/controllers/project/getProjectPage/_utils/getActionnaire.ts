@@ -47,7 +47,7 @@ export const getActionnaire = async (
     if (Option.isSome(lauréat)) {
       return {
         nom: '',
-        modification: utilisateur.aLaPermission('actionnaire.modifier')
+        modification: utilisateur.aLaPermission('actionnaire.transmettre')
           ? { url: Routes.Actionnaire.transmettre(identifiantProjet.formatter()), type: 'lauréat' }
           : undefined,
       };

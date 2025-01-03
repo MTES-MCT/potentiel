@@ -218,10 +218,12 @@ const référencielPermissions = {
         consulter: 'Lauréat.Actionnaire.Query.ConsulterActionnaire',
       },
       usecase: {
+        transmettre: 'Lauréat.Actionnaire.UseCase.TransmettreActionnaire',
         modifier: 'Lauréat.Actionnaire.UseCase.ModifierActionnaire',
         demanderChangement: 'Lauréat.Actionnaire.UseCase.DemanderChangement',
       },
       command: {
+        transmettre: 'Lauréat.Actionnaire.Command.TransmettreActionnaire',
         modifier: 'Lauréat.Actionnaire.Command.ModifierActionnaire',
         demanderChangement: 'Lauréat.Actionnaire.Command.DemanderChangement',
       },
@@ -887,6 +889,11 @@ const policies = {
       référencielPermissions.candidature.query.consulterProjet,
       référencielPermissions.lauréat.actionnaire.query.consulter,
     ],
+    transmettre: [
+      référencielPermissions.lauréat.actionnaire.usecase.transmettre,
+      référencielPermissions.lauréat.actionnaire.command.transmettre,
+    ],
+
     modifier: [
       référencielPermissions.candidature.query.consulterProjet,
       référencielPermissions.lauréat.actionnaire.usecase.modifier,
@@ -1012,6 +1019,7 @@ const adminPolicies: ReadonlyArray<Policy> = [
 
   // Actionnaire
   'actionnaire.consulter',
+  'actionnaire.transmettre',
   'actionnaire.modifier',
 ];
 
@@ -1102,6 +1110,7 @@ const drealPolicies: ReadonlyArray<Policy> = [
 
   // Actionnaire
   'actionnaire.consulter',
+  'actionnaire.transmettre',
   'actionnaire.modifier',
 ];
 
@@ -1164,6 +1173,7 @@ const porteurProjetPolicies: ReadonlyArray<Policy> = [
 
   // Actionnaire
   'actionnaire.consulter',
+  'actionnaire.transmettre',
   'actionnaire.modifier',
   'actionnaire.demanderChangement',
 ];

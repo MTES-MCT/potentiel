@@ -57,7 +57,7 @@ export const TransmettreActionnaireForm: FC<TransmettreActionnaireFormProps> = (
         <Input
           state={validationErrors['actionnaire'] ? 'error' : 'default'}
           stateRelatedMessage={validationErrors['actionnaire']}
-          label="Nouvel actionnaire"
+          label="Votre actionnaire"
           nativeInputProps={{
             name: 'actionnaire',
             required: true,

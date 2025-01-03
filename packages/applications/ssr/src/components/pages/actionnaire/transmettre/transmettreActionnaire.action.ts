@@ -25,11 +25,11 @@ const action: FormAction<FormState, typeof schema> = async (
 ) =>
   withUtilisateur(async (utilisateur) => {
     await mediator.send<Actionnaire.ActionnaireUseCase>({
-      type: 'Lauréat.Actionnaire.UseCase.ModifierActionnaire',
+      type: 'Lauréat.Actionnaire.UseCase.TransmettreActionnaire',
       data: {
         identifiantProjetValue: identifiantProjet,
         identifiantUtilisateurValue: utilisateur.identifiantUtilisateur.formatter(),
-        dateModificationValue: new Date().toISOString(),
+        dateTransmissionValue: new Date().toISOString(),
         actionnaireValue: actionnaire,
         ...(pieceJustificative && {
           pièceJustificativeValue: pieceJustificative,
