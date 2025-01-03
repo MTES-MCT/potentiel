@@ -16,6 +16,8 @@ import { ModifierActionnaireUseCase } from './modifier/modifierActionnaire.useca
 import { AccorderDemandeChangementActionnaireUseCase } from './accorderDemandeChangement/accorderDemandeChangement.usecase';
 import { RejeterDemandeChangementActionnaireCommand } from './rejeterDemandeChangement/rejeterDemandeChangement.command';
 import { RejeterDemandeChangementActionnaireUseCase } from './rejeterDemandeChangement/rejeterDemandeChangement.usecase';
+import { TransmettreActionnaireUseCase } from './transmettre/transmettreActionnaire.usecase';
+import { TransmettreActionnaireCommand } from './transmettre/transmettreActionnaire.command';
 
 // Query
 export type ActionnaireQuery = ConsulterActionnaireQuery | ConsulterChangementActionnaireQuery;
@@ -26,12 +28,14 @@ export type { ConsulterActionnaireReadModel, ConsulterChangementActionnaireReadM
 
 // UseCase
 export type ActionnaireUseCase =
+  | TransmettreActionnaireUseCase
   | ModifierActionnaireUseCase
   | DemanderChangementUseCase
   | AnnulerDemandeChangementActionnaireUseCase
   | AccorderDemandeChangementActionnaireUseCase
   | RejeterDemandeChangementActionnaireUseCase;
 export type {
+  TransmettreActionnaireUseCase,
   ModifierActionnaireUseCase,
   DemanderChangementUseCase,
   AnnulerDemandeChangementActionnaireUseCase,
@@ -43,12 +47,14 @@ export type {
 export type ActionnaireCommand =
   | ImporterActionnaireCommand
   | ModifierActionnaireCommand
+  | TransmettreActionnaireCommand
   | AnnulerDemandeChangementActionnaireCommand
   | AccorderDemandeChangementActionnaireCommand
   | RejeterDemandeChangementActionnaireCommand;
 export type {
   ImporterActionnaireCommand,
   ModifierActionnaireCommand,
+  TransmettreActionnaireCommand,
   AnnulerDemandeChangementActionnaireCommand,
   AccorderDemandeChangementActionnaireCommand,
   RejeterDemandeChangementActionnaireCommand,
@@ -58,6 +64,7 @@ export type {
 export type { ActionnaireEvent } from './actionnaire.aggregate';
 export type { ActionnaireImportéEvent } from './importer/importerActionnaire.behavior';
 export type { ActionnaireModifiéEvent } from './modifier/modifierActionnaire.behavior';
+export type { ActionnaireTransmisEvent } from './transmettre/transmettreActionnaire.behavior';
 export type { ChangementActionnaireDemandéEvent } from './demanderChangement/demandeChangement.behavior';
 export type { DemandeChangementActionnaireAnnuléEvent } from './annulerDemandeChangement/annulerDemandeChangement.behavior';
 export type { DemandeChangementActionnaireAccordéeEvent } from './accorderDemandeChangement/accorderDemandeChangement.behavior.ts';

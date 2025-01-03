@@ -6,6 +6,12 @@ export class ActionnaireIdentifiqueError extends DomainError {
   }
 }
 
+export class ActionnaireDéjàTransmisError extends DomainError {
+  constructor() {
+    super("L'actionnaire a déjà été transmis");
+  }
+}
+
 export class DemandeDeChangementEnCoursError extends DomainError {
   constructor() {
     super('Une demande de changement est déjà en cours');

@@ -86,6 +86,7 @@ export const setupLauréat = async ({ sendEmail }: SetupLauréatDependencies) =>
       'RebuildTriggered',
       'ActionnaireImporté-V1',
       'ActionnaireModifié-V1',
+      'ActionnaireTransmis-V1',
       'ChangementActionnaireDemandé-V1',
       'DemandeChangementActionnaireAnnulée-V1',
       'DemandeChangementActionnaireAccordée-V1',

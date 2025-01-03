@@ -50,6 +50,17 @@ Quand(
 );
 
 Quand(
+  "le porteur transmet l'actionnaire pour le projet lauréat",
+  async function (this: PotentielWorld) {
+    try {
+      await transmettreActionnaire.call(this, this.utilisateurWorld.porteurFixture.email);
+    } catch (error) {
+      this.error = error as Error;
+    }
+  },
+);
+
+Quand(
   "le DGEC validateur modifie l'actionnaire avec la même valeur pour le projet lauréat",
   async function (this: PotentielWorld) {
     try {
@@ -256,6 +267,23 @@ async function modifierActionnaire(this: PotentielWorld, modifiéPar: string) {
       identifiantUtilisateurValue: modifiéPar,
       actionnaireValue: actionnaire,
       dateModificationValue: dateModification,
+    },
+  });
+}
+
+async function transmettreActionnaire(this: PotentielWorld, modifiéPar: string) {
+  const identifiantProjet = this.lauréatWorld.identifiantProjet.formatter();
+
+  const { actionnaire, dateTransmission } =
+    this.lauréatWorld.actionnaireWorld.transmettreActionnaireFixture.créer();
+
+  await mediator.send<Actionnaire.ActionnaireUseCase>({
+    type: 'Lauréat.Actionnaire.UseCase.TransmettreActionnaire',
+    data: {
+      identifiantProjetValue: identifiantProjet,
+      identifiantUtilisateurValue: modifiéPar,
+      actionnaireValue: actionnaire,
+      dateTransmissionValue: dateTransmission,
     },
   });
 }
