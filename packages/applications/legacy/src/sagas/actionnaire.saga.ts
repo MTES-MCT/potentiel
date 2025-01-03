@@ -28,6 +28,7 @@ export const register = () => {
 
     switch (type) {
       case 'ActionnaireModifié-V1':
+      case 'ActionnaireTransmis-V1':
         const {
           payload: { actionnaire },
         } = event;
