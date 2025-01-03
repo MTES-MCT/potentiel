@@ -9,7 +9,7 @@ export type RechercherTypeTâchePlanifiée =
   | 'rappel échéance garanties financières à deux mois'
   | 'gestion automatique de la demande de changement de représentant légal';
 
-export type RechercherStatutTâchePlanifiée = 'planifiée' | 'annulée' | 'executée';
+export type RechercherStatutTâchePlanifiée = 'planifiée' | 'annulée' | 'exécutée';
 
 export class TâchePlanifiéeWorld {
   rechercherTypeTâchePlanifiée(value: RechercherTypeTâchePlanifiée) {
@@ -38,7 +38,7 @@ export class TâchePlanifiéeWorld {
     return match(value)
       .with('planifiée', () => StatutTâchePlanifiée.enAttenteExécution)
       .with('annulée', () => StatutTâchePlanifiée.annulée)
-      .with('executée', () => StatutTâchePlanifiée.exécutée)
+      .with('exécutée', () => StatutTâchePlanifiée.exécutée)
       .exhaustive();
   }
 }
