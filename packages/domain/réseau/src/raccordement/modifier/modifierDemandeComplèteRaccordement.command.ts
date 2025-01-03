@@ -35,7 +35,6 @@ export const registerModifierDemandeComplèteRaccordementCommand = (
     const raccordement = await loadRaccordement(identifiantProjet);
     const gestionnaireRéseau = await loadGestionnaireRéseau(
       raccordement.identifiantGestionnaireRéseau,
-      true,
     );
 
     await raccordement.modifierDemandeComplèteRaccordement({
