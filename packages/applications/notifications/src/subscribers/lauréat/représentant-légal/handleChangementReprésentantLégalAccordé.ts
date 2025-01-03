@@ -16,7 +16,7 @@ type HandleChangementReprésentantLégalAccordéProps = {
   baseUrl: string;
 };
 
-export const handleReprésentantLégalAccordé = async ({
+export const handleChangementReprésentantLégalAccordé = async ({
   sendEmail,
   event,
   projet,
