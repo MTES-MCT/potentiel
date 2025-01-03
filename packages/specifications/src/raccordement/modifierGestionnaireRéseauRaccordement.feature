@@ -80,6 +80,6 @@ Fonctionnalité: Modifier le gestionnaire de réseau d'un raccordement
         Alors une tâche indiquant de "mettre à jour le gestionnaire de réseau" est consultable dans la liste des tâches du porteur pour le projet
 
     Scénario: Une tâche est achevée lorsqu'un raccordement est modifié avec un gestionnaire réseau valide
-        Etant donné une tâche indiquant de "mettre à jour le gestionnaire de réseau" pour le projet lauréat
+        Etant donné une tâche indiquant de "mettre à jour le gestionnaire de réseau" pour le projet lauréat avec gestionnaire inconnu
         Quand un porteur modifie le gestionnaire de réseau du projet avec le gestionnaire "Enedis"
         Alors une tâche indiquant de "mettre à jour le gestionnaire de réseau" n'est plus consultable dans la liste des tâches du porteur pour le projet

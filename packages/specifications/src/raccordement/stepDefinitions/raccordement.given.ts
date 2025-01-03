@@ -150,7 +150,7 @@ EtantDonné(
 );
 
 EtantDonné(
-  'une tâche indiquant de {string} pour le projet lauréat',
+  'une tâche indiquant de {string} pour le projet lauréat avec gestionnaire inconnu',
   async function (this: PotentielWorld, tâche: RechercherTypeTâche) {
     const actualTypeTâche = this.tâcheWorld.rechercherTypeTâche(tâche);
     const { identifiantProjet } = this.lauréatWorld;
