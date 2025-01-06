@@ -14,7 +14,7 @@ const schema = zod.object({
   identifiantProjet: zod.string().min(1),
   dateQualification: zod.string().min(1, { message: 'Champ obligatoire' }),
   identifiantGestionnaireReseau: zod.string().min(1),
-  identifiantGestionnaireReseauActuel: zod.string().optional(),
+  identifiantGestionnaireReseauActuel: zod.string(),
   referenceDossier: zod.string().min(1, { message: 'Champ obligatoire' }),
   accuseReception: singleDocument({ acceptedFileTypes: ['application/pdf'] }),
 });
@@ -33,10 +33,7 @@ const action: FormAction<FormState, typeof schema> = async (
   },
 ) =>
   withUtilisateur(async (utilisateur) => {
-    if (
-      identifiantGestionnaireReseauActuel ||
-      identifiantGestionnaireReseauActuel !== identifiantGestionnaireReseau
-    ) {
+    if (identifiantGestionnaireReseauActuel !== identifiantGestionnaireReseau) {
       await mediator.send<Raccordement.RaccordementUseCase>({
         type: 'Réseau.Raccordement.UseCase.ModifierGestionnaireRéseauRaccordement',
         data: {

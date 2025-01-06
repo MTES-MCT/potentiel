@@ -104,7 +104,7 @@ export const TransmettreDemandeComplèteRaccordementForm = ({
       <input name="identifiantProjet" type="hidden" value={identifiantProjetValue} />
 
       <input
-        name="identifiantGestionnaireRéseauActuel"
+        name="identifiantGestionnaireReseauActuel"
         type="hidden"
         value={identifiantGestionnaireRéseauActuel}
       />
