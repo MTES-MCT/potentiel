@@ -9,7 +9,9 @@ import { getLogger } from '@potentiel-libraries/monitoring';
 
 import { ReprésentantLégal } from '../..';
 
-export const handleTâchePlanifiéeExécutée = async (event: TâchePlanifiéeExecutéeEvent) => {
+export const handleTâchePlanifiéeGestionAutomatiqueDemandeChangementExecutée = async (
+  event: TâchePlanifiéeExecutéeEvent,
+) => {
   const identifiantProjet = IdentifiantProjet.convertirEnValueType(event.payload.identifiantProjet);
 
   const appelOffre = await mediator.send<AppelOffre.ConsulterAppelOffreQuery>({
