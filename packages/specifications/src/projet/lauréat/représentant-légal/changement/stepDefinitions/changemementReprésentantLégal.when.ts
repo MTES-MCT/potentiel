@@ -97,6 +97,7 @@ Quand(
           nomReprésentantLégalValue: nomReprésentantLégal,
           typeReprésentantLégalValue: typeReprésentantLégal.formatter(),
           dateAccordValue: accordéeLe,
+          accordAutomatiqueValue: false,
         },
       });
     } catch (error) {
@@ -120,6 +121,7 @@ Quand(
           identifiantProjetValue: identifiantProjet,
           identifiantUtilisateurValue: rejetéePar,
           dateRejetValue: rejetéeLe,
+          rejetAutomatiqueValue: false,
         },
       });
     } catch (error) {
