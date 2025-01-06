@@ -14,7 +14,7 @@ const schema = zod.object({
   identifiantProjet: zod.string().min(1),
   dateQualification: zod.string().min(1, { message: 'Champ obligatoire' }),
   identifiantGestionnaireReseau: zod.string().min(1),
-  identifiantGestionnaireReseauActuel: zod.string(),
+  identifiantGestionnaireReseauActuel: zod.string().min(1),
   referenceDossier: zod.string().min(1, { message: 'Champ obligatoire' }),
   accuseReception: singleDocument({ acceptedFileTypes: ['application/pdf'] }),
 });
