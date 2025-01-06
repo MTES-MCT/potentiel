@@ -1,7 +1,7 @@
 import { Then as Alors } from '@cucumber/cucumber';
 import { mediator } from 'mediateur';
 import waitForExpect from 'wait-for-expect';
-import { expect } from 'chai';
+import { assert, expect } from 'chai';
 
 import { Raccordement, GestionnaireRéseau } from '@potentiel-domain/reseau';
 import { ConsulterDocumentProjetQuery } from '@potentiel-domain/document';
@@ -312,9 +312,7 @@ async function vérifierGestionnaireAttribué(
       },
     });
 
-    if (Option.isNone(résultat)) {
-      throw new Error('Raccordement inconnu');
-    }
+    assert(Option.isSome(résultat));
 
     expect(résultat.identifiantGestionnaireRéseau?.codeEIC).to.eq(
       identifiantGestionnaireRéseau?.codeEIC,
