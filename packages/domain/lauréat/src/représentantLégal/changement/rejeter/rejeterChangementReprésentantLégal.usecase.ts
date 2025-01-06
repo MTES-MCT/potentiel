@@ -13,6 +13,7 @@ export type RejeterChangementReprésentantLégalUseCase = Message<
     identifiantProjetValue: string;
     identifiantUtilisateurValue: string;
     dateRejetValue: string;
+    rejetAutomatiqueValue: boolean;
   }
 >;
 
@@ -21,6 +22,7 @@ export const registerRejeterChangementReprésentantLégalUseCase = () => {
     identifiantUtilisateurValue,
     dateRejetValue,
     identifiantProjetValue,
+    rejetAutomatiqueValue,
   }) => {
     const identifiantProjet = IdentifiantProjet.convertirEnValueType(identifiantProjetValue);
     const dateRejet = DateTime.convertirEnValueType(dateRejetValue);
@@ -34,6 +36,7 @@ export const registerRejeterChangementReprésentantLégalUseCase = () => {
         dateRejet,
         identifiantUtilisateur,
         identifiantProjet,
+        rejetAutomatique: rejetAutomatiqueValue,
       },
     });
   };

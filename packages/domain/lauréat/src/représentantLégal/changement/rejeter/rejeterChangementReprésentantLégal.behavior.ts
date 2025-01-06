@@ -13,6 +13,7 @@ export type ChangementReprésentantLégalRejetéEvent = DomainEvent<
     rejetéLe: DateTime.RawType;
     rejetéPar: Email.RawType;
     identifiantProjet: IdentifiantProjet.RawType;
+    rejetAutomatique: boolean;
   }
 >;
 
@@ -20,11 +21,12 @@ export type RejeterOptions = {
   dateRejet: DateTime.ValueType;
   identifiantUtilisateur: Email.ValueType;
   identifiantProjet: IdentifiantProjet.ValueType;
+  rejetAutomatique: boolean;
 };
 
 export async function rejeter(
   this: ReprésentantLégalAggregate,
-  { dateRejet, identifiantUtilisateur, identifiantProjet }: RejeterOptions,
+  { dateRejet, identifiantUtilisateur, identifiantProjet, rejetAutomatique }: RejeterOptions,
 ) {
   if (!this.demande) {
     throw new DemandeChangementInexistanteError();
@@ -39,6 +41,7 @@ export async function rejeter(
       identifiantProjet: identifiantProjet.formatter(),
       rejetéLe: dateRejet.formatter(),
       rejetéPar: identifiantUtilisateur.formatter(),
+      rejetAutomatique,
     },
   };
 

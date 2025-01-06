@@ -15,6 +15,7 @@ export type RejeterChangementReprésentantLégalCommand = Message<
     dateRejet: DateTime.ValueType;
     identifiantUtilisateur: IdentifiantUtilisateur.ValueType;
     identifiantProjet: IdentifiantProjet.ValueType;
+    rejetAutomatique: boolean;
   }
 >;
 
@@ -24,6 +25,7 @@ export const registerRejeterChangementReprésentantLégalCommand = (loadAggregat
     dateRejet,
     identifiantUtilisateur,
     identifiantProjet,
+    rejetAutomatique,
   }) => {
     const représentantLégal = await load(identifiantProjet);
 
@@ -31,6 +33,7 @@ export const registerRejeterChangementReprésentantLégalCommand = (loadAggregat
       dateRejet,
       identifiantUtilisateur,
       identifiantProjet,
+      rejetAutomatique,
     });
   };
   mediator.register(

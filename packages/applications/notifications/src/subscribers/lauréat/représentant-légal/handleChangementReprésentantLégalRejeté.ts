@@ -1,4 +1,7 @@
-import { récupérerPorteursParIdentifiantProjetAdapter } from '@potentiel-infrastructure/domain-adapters';
+import {
+  récupérerDrealsParIdentifiantProjetAdapter,
+  récupérerPorteursParIdentifiantProjetAdapter,
+} from '@potentiel-infrastructure/domain-adapters';
 import { IdentifiantProjet } from '@potentiel-domain/common';
 import { getLogger } from '@potentiel-libraries/monitoring';
 import { Routes } from '@potentiel-applications/routes';
@@ -29,12 +32,12 @@ export const handleChangementReprésentantLégalRejeté = async ({
     getLogger().error('Aucun porteur trouvé', {
       identifiantProjet: identifiantProjet.formatter(),
       application: 'notifications',
-      fonction: 'handleReprésentantLégalAccordé',
+      fonction: 'handleChangementReprésentantLégalRejeté',
     });
     return;
   }
 
-  return sendEmail({
+  await sendEmail({
     templateId: 6582166,
     messageSubject: `Potentiel - La demande de modification du représentant légal pour le projet ${projet.nom} dans le département ${projet.département} a été rejetée`,
     recipients: porteurs,
@@ -45,4 +48,29 @@ export const handleChangementReprésentantLégalRejeté = async ({
       url: `${baseUrl}${Routes.Projet.details(identifiantProjet.formatter())}`,
     },
   });
+
+  if (event.payload.rejetAutomatique) {
+    const dreals = await récupérerDrealsParIdentifiantProjetAdapter(identifiantProjet);
+
+    if (dreals.length === 0) {
+      getLogger().error('Aucune dreal trouvée', {
+        identifiantProjet: identifiantProjet.formatter(),
+        application: 'notifications',
+        fonction: 'handleChangementReprésentantLégalRejeté',
+      });
+      return;
+    }
+
+    await sendEmail({
+      templateId: 6611643,
+      messageSubject: `Potentiel - La demande de modification du représentant légal pour le projet ${projet.nom} dans le département ${projet.département} a été rejetée automatiquement`,
+      recipients: dreals,
+      variables: {
+        type: 'rejet',
+        nom_projet: projet.nom,
+        departement_projet: projet.département,
+        url: `${baseUrl}${Routes.Projet.details(identifiantProjet.formatter())}`,
+      },
+    });
+  }
 };
