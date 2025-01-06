@@ -277,12 +277,25 @@ export const setupLauréat = async ({ sendEmail }: SetupLauréatDependencies) =>
       },
     });
 
-  const unsubscribeReprésentantLégalSaga = await subscribe<
+  const unsubscribeReprésentantLégalSagaLauréat = await subscribe<
     ReprésentantLégal.ReprésentantLégalSaga.SubscriptionEvent & Event
   >({
-    name: 'representant-legal-saga',
+    name: 'representant-legal-saga-lauréat',
     streamCategory: 'lauréat',
-    eventType: ['LauréatNotifié-V1', 'TâchePlanifiéeExecutée-V1'],
+    eventType: ['LauréatNotifié-V1'],
+    eventHandler: async (event) =>
+      mediator.publish<ReprésentantLégal.ReprésentantLégalSaga.Execute>({
+        type: 'System.Lauréat.ReprésentantLégal.Saga.Execute',
+        data: event,
+      }),
+  });
+
+  const unsubscribeReprésentantLégalSagaTâchePlanifiée = await subscribe<
+    ReprésentantLégal.ReprésentantLégalSaga.SubscriptionEvent & Event
+  >({
+    name: 'representant-legal-saga-tâche-planifiée',
+    streamCategory: 'tâche-planifiée',
+    eventType: ['TâchePlanifiéeExecutée-V1'],
     eventHandler: async (event) =>
       mediator.publish<ReprésentantLégal.ReprésentantLégalSaga.Execute>({
         type: 'System.Lauréat.ReprésentantLégal.Saga.Execute',
@@ -351,7 +364,8 @@ export const setupLauréat = async ({ sendEmail }: SetupLauréatDependencies) =>
     await unsubscribeGarantiesFinancièresSaga();
     await unsubscribeTypeGarantiesFinancièresSaga();
     await unsubscribeLauréatSaga();
-    await unsubscribeReprésentantLégalSaga();
+    await unsubscribeReprésentantLégalSagaLauréat();
+    await unsubscribeReprésentantLégalSagaTâchePlanifiée();
     await unsubscribeActionnaireSaga();
   };
 };
