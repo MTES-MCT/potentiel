@@ -5,7 +5,6 @@ import type { Preview } from '@storybook/react';
 import { DsfrProvider } from '@codegouvfr/react-dsfr/next-appdir/DsfrProvider';
 import { createMuiDsfrThemeProvider } from '@codegouvfr/react-dsfr/mui';
 
-import { Option } from '@potentiel-libraries/monads';
 import { Candidature } from '@potentiel-domain/candidature';
 import { Iso8601DateTime } from '@potentiel-libraries/iso8601-datetime';
 
@@ -40,14 +39,28 @@ Candidature.registerCandidatureQueries({
       potentielIdentifier: '',
       puissance: 0,
       type: '',
-    };
+    } as any;
   },
+  find: async () =>
+    ({
+      type: 'candidature',
+      identifiantProjet: 'Appel offre#Période#Famille#NuméroCRE',
+      nomProjet: 'Le projet',
+      statut: 'classé',
+      localité: {
+        commune: 'Commune',
+        codePostal: 'XXXXX',
+        département: 'Département',
+        région: 'Région',
+      },
+      notifiéeLe: new Date('2021-10-22').toISOString() as Iso8601DateTime,
+    }) as any,
   récupérerProjetsEligiblesPreuveRecanditure: async () => [],
   récupérerProjets: async () => ({
     items: [],
     total: 0,
   }),
-  find: async () => Option.none,
+  list: async () => ({ items: [], range: { startPosition: 0, endPosition: 0 }, total: 0 }),
 });
 
 export const decorators = [
