@@ -56,8 +56,7 @@ export const ModifierDemandeComplèteRaccordementForm: FC<
     ValidationErrors<ModifierDemandeComplèteRaccordementFormKeys>
   >({});
 
-  const { aideSaisieRéférenceDossierRaccordement, identifiantGestionnaireRéseau } =
-    gestionnaireRéseauActuel;
+  const { aideSaisieRéférenceDossierRaccordement } = gestionnaireRéseauActuel;
 
   return (
     <Form
@@ -82,11 +81,6 @@ export const ModifierDemandeComplèteRaccordementForm: FC<
     >
       <input name="identifiantProjet" type="hidden" value={identifiantProjet} />
       <input name="referenceDossierRaccordementActuelle" type="hidden" value={référence.value} />
-      <input
-        name="identifiantGestionnaireReseau"
-        type="hidden"
-        value={identifiantGestionnaireRéseau}
-      />
 
       <div>
         Gestionnaire réseau :{' '}

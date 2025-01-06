@@ -8,11 +8,12 @@ import { Routes } from '@potentiel-applications/routes';
 
 import { FormAction, FormState, formAction } from '@/utils/formAction';
 import { singleDocument } from '@/utils/zod/document/singleDocument';
+import { withUtilisateur } from '@/utils/withUtilisateur';
 
 const schema = zod.object({
   identifiantProjet: zod.string().min(1),
   dateQualification: zod.string().min(1, { message: 'Champ obligatoire' }),
-  identifiantGestionnaireReseau: zod.string().min(1),
+  identifiantGestionnaireReseau: zod.string().optional(),
   referenceDossier: zod.string().min(1, { message: 'Champ obligatoire' }),
   accuseReception: singleDocument({ acceptedFileTypes: ['application/pdf'] }),
 });
@@ -28,22 +29,32 @@ const action: FormAction<FormState, typeof schema> = async (
     referenceDossier,
     accuseReception,
   },
-) => {
-  await mediator.send<Raccordement.RaccordementUseCase>({
-    type: 'Réseau.Raccordement.UseCase.TransmettreDemandeComplèteRaccordement',
-    data: {
-      identifiantProjetValue: identifiantProjet,
-      dateQualificationValue: new Date(dateQualification).toISOString(),
-      identifiantGestionnaireRéseauValue: identifiantGestionnaireReseau,
-      référenceDossierValue: referenceDossier,
-      accuséRéceptionValue: accuseReception,
-    },
-  });
+) =>
+  withUtilisateur(async (utilisateur) => {
+    if (identifiantGestionnaireReseau) {
+      await mediator.send<Raccordement.RaccordementUseCase>({
+        type: 'Réseau.Raccordement.UseCase.ModifierGestionnaireRéseauRaccordement',
+        data: {
+          identifiantProjetValue: identifiantProjet,
+          identifiantGestionnaireRéseauValue: identifiantGestionnaireReseau,
+          rôleValue: utilisateur.role.nom,
+        },
+      });
+    }
+    await mediator.send<Raccordement.RaccordementUseCase>({
+      type: 'Réseau.Raccordement.UseCase.TransmettreDemandeComplèteRaccordement',
+      data: {
+        identifiantProjetValue: identifiantProjet,
+        dateQualificationValue: new Date(dateQualification).toISOString(),
+        référenceDossierValue: referenceDossier,
+        accuséRéceptionValue: accuseReception,
+      },
+    });
 
-  return {
-    status: 'success',
-    redirection: { url: Routes.Raccordement.détail(identifiantProjet) },
-  };
-};
+    return {
+      status: 'success',
+      redirection: { url: Routes.Raccordement.détail(identifiantProjet) },
+    };
+  });
 
 export const transmettreDemandeComplèteRaccordementAction = formAction(action, schema);

@@ -35,20 +35,35 @@ const listeGestionnairesRéseau = Array.from({ length: 3 }, (_, i) => ({
   contactEmail: Option.none,
 }));
 
+listeGestionnairesRéseau[0].aideSaisieRéférenceDossierRaccordement = {
+  expressionReguliere: ExpressionRegulière.convertirEnValueType('[a-zA-Z]{3}'),
+  format: 'ABC',
+  légende: 'légende',
+};
+
 export const Default: Story = {
   args: {
     listeGestionnairesRéseau,
-    gestionnaireRéseauActuel: Option.none,
+    gestionnaireRéseauActuel: listeGestionnairesRéseau[1],
     identifiantProjet: IdentifiantProjet.convertirEnValueType('PPE2 - Bâtiment#4#1#id-cre-738'),
     delaiDemandeDeRaccordementEnMois: { texte: '3 mois', valeur: 3 },
     aDéjàTransmisUneDemandeComplèteDeRaccordement: false,
   },
 };
 
-export const AvecGestionnaire: Story = {
+export const GestionnaireRéseauInconnu: Story = {
   args: {
     listeGestionnairesRéseau,
-    gestionnaireRéseauActuel: listeGestionnairesRéseau[1],
+    gestionnaireRéseauActuel: {
+      aideSaisieRéférenceDossierRaccordement: {
+        expressionReguliere: ExpressionRegulière.accepteTout,
+        format: Option.none,
+        légende: Option.none,
+      },
+      contactEmail: Option.none,
+      identifiantGestionnaireRéseau: GestionnaireRéseau.IdentifiantGestionnaireRéseau.inconnu,
+      raisonSociale: '',
+    },
     identifiantProjet: IdentifiantProjet.convertirEnValueType('PPE2 - Bâtiment#4#1#id-cre-738'),
     delaiDemandeDeRaccordementEnMois: { texte: '3 mois', valeur: 3 },
     aDéjàTransmisUneDemandeComplèteDeRaccordement: false,

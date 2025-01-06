@@ -9,6 +9,13 @@ type GestionnaireRéseau = {
   contactEmail?: string;
 };
 
+type OREItem = {
+  commune: string;
+  codePostal: string;
+  raisonSociale: string;
+  codeEIC: string;
+};
+
 export class GestionnaireRéseauWorld {
   #gestionnairesRéseauFixtures: Map<string, GestionnaireRéseau> = new Map();
   get gestionnairesRéseauFixtures() {
@@ -20,7 +27,10 @@ export class GestionnaireRéseauWorld {
     return this.#résultatsValidation;
   }
 
-  constructor() {}
+  #référentielOREFixtures: OREItem[] = [];
+  get référentielOREFixtures() {
+    return this.#référentielOREFixtures;
+  }
 
   rechercherGestionnaireRéseauFixture(raisonSociale: string): GestionnaireRéseau {
     const gestionnaireRéseau = this.#gestionnairesRéseauFixtures.get(raisonSociale);
@@ -32,5 +42,18 @@ export class GestionnaireRéseauWorld {
     }
 
     return JSON.parse(JSON.stringify(gestionnaireRéseau));
+  }
+
+  rechercherOREParVille({ codePostal, commune }: { codePostal: string; commune: string }) {
+    const item = this.#référentielOREFixtures.find(
+      (ore) => ore.codePostal === codePostal && ore.commune === commune,
+    );
+    if (item) {
+      return {
+        codeEIC: item.codeEIC,
+        raisonSociale: item.raisonSociale,
+      };
+    }
+    return;
   }
 }

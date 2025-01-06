@@ -5,7 +5,6 @@
   "private": true,
   "scripts": {
     "build": "tsc",
-    "start:attribuer-grd": "node ./dist/raccordement/attribuer-gestionnaire-réseau",
     "start:relancer-abandon-sans-preuve": "node ./dist/abandon/relancer-abandon-sans-preuve",
     "start:déplacer-fichiers-vers-bucket-secnum": "node ./dist/déplacer-fichiers-vers-bucket-secnum",
     "start:créer-backup": "node ./dist/backup/créer-backup",

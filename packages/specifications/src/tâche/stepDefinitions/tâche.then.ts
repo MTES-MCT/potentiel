@@ -7,12 +7,14 @@ import { ListerTâchesQuery } from '@potentiel-domain/tache';
 
 import { PotentielWorld } from '../../potentiel.world';
 import { RechercherTypeTâche } from '../tâche.world';
+import { waitForEvents } from '../../helpers/waitForEvents';
 
 Alors(
   `une tâche indiquant de {string} est consultable dans la liste des tâches du porteur pour le projet`,
   async function (this: PotentielWorld, typeTâche: RechercherTypeTâche) {
     const actualTypeTâche = this.tâcheWorld.rechercherTypeTâche(typeTâche);
 
+    await waitForEvents();
     await waitForExpect(async () => {
       const tâches = await mediator.send<ListerTâchesQuery>({
         type: 'Tâche.Query.ListerTâches',

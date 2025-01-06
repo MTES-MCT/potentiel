@@ -51,20 +51,17 @@ export const TransmettreDemandeComplèteRaccordementForm = ({
   const [selectedIdentifiantGestionnaireRéseau, setSelectedIdentifiantGestionnaireRéseau] =
     useState<string | undefined>(identifiantGestionnaireRéseauActuel);
 
-  const alreadyHasAGestionnaireRéseau =
-    identifiantGestionnaireRéseauActuel && identifiantGestionnaireRéseauActuel !== 'inconnu';
-
-  const gestionnaireActuel = selectedIdentifiantGestionnaireRéseau
+  const aideSaisieRéférenceDossierRaccordement = selectedIdentifiantGestionnaireRéseau
     ? listeGestionnairesRéseau.find(
         (gestionnaire) =>
           gestionnaire.identifiantGestionnaireRéseau.codeEIC ===
           selectedIdentifiantGestionnaireRéseau,
-      )
+      )?.aideSaisieRéférenceDossierRaccordement
     : undefined;
-  const format = gestionnaireActuel?.aideSaisieRéférenceDossierRaccordement?.format ?? Option.none;
-  const légende = gestionnaireActuel?.aideSaisieRéférenceDossierRaccordement.légende ?? Option.none;
+  const format = aideSaisieRéférenceDossierRaccordement?.format ?? Option.none;
+  const légende = aideSaisieRéférenceDossierRaccordement?.légende ?? Option.none;
   const expressionReguliere =
-    gestionnaireActuel?.aideSaisieRéférenceDossierRaccordement?.expressionReguliere?.expression ??
+    aideSaisieRéférenceDossierRaccordement?.expressionReguliere?.expression ??
     ExpressionRegulière.accepteTout.expression;
 
   return (
@@ -103,13 +100,8 @@ export const TransmettreDemandeComplèteRaccordementForm = ({
     >
       <input name="identifiantProjet" type="hidden" value={identifiantProjetValue} />
 
-      {alreadyHasAGestionnaireRéseau ? (
+      {Option.isSome(gestionnaireRéseauActuel) ? (
         <div className="flex flex-col">
-          <input
-            type="hidden"
-            name="identifiantGestionnaireReseau"
-            value={identifiantGestionnaireRéseauActuel}
-          />
           <div className="flex gap-3">
             <legend className="font-bold">Gestionnaire réseau actuel</legend>
             {aDéjàTransmisUneDemandeComplèteDeRaccordement ? null : (
@@ -119,8 +111,8 @@ export const TransmettreDemandeComplèteRaccordementForm = ({
             )}
           </div>
           <div className="flex flex-col">
-            {gestionnaireActuel?.raisonSociale} (
-            {gestionnaireActuel?.identifiantGestionnaireRéseau?.codeEIC})
+            {gestionnaireRéseauActuel.raisonSociale} (
+            {gestionnaireRéseauActuel.identifiantGestionnaireRéseau.codeEIC})
           </div>
         </div>
       ) : (

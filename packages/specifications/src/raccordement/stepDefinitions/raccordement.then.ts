@@ -1,20 +1,21 @@
 import { Then as Alors } from '@cucumber/cucumber';
 import { mediator } from 'mediateur';
 import waitForExpect from 'wait-for-expect';
-import { expect } from 'chai';
+import { assert, expect } from 'chai';
 
 import { Raccordement, GestionnaireRéseau } from '@potentiel-domain/reseau';
 import { ConsulterDocumentProjetQuery } from '@potentiel-domain/document';
 import { Option } from '@potentiel-libraries/monads';
-import { DateTime } from '@potentiel-domain/common';
+import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 
 import { convertReadableStreamToString } from '../../helpers/convertReadableToString';
 import { PotentielWorld } from '../../potentiel.world';
+import { waitForEvents } from '../../helpers/waitForEvents';
 
 Alors(
-  `le dossier est consultable dans la liste des dossiers de raccordement du projet lauréat {string}`,
-  async function (this: PotentielWorld, nomProjet: string) {
-    const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
+  `le dossier est consultable dans la liste des dossiers de raccordement du projet lauréat`,
+  async function (this: PotentielWorld) {
+    const { identifiantProjet } = this.lauréatWorld;
     await waitForExpect(async () => {
       const actual = await mediator.send<Raccordement.ConsulterRaccordementQuery>({
         type: 'Réseau.Raccordement.Query.ConsulterRaccordement',
@@ -35,9 +36,9 @@ Alors(
 );
 
 Alors(
-  `la demande complète de raccordement devrait être consultable dans le dossier de raccordement du projet lauréat {string}`,
-  async function (this: PotentielWorld, nomProjet: string) {
-    const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
+  `la demande complète de raccordement devrait être consultable dans le dossier de raccordement du projet lauréat`,
+  async function (this: PotentielWorld) {
+    const { identifiantProjet } = this.lauréatWorld;
     await waitForExpect(async () => {
       const dossierRaccordement =
         await mediator.send<Raccordement.ConsulterDossierRaccordementQuery>({
@@ -86,66 +87,54 @@ Alors(
 );
 
 Alors(
-  `le projet {string} devrait avoir un raccordement attribué au gestionnaire de réseau {string}`,
-  async function (this: PotentielWorld, nomProjet: string, raisonSociale: string) {
-    const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
+  `le projet devrait avoir un raccordement attribué au gestionnaire de réseau {string}`,
+  async function (this: PotentielWorld, raisonSociale: string) {
+    const { identifiantProjet } = this.lauréatWorld;
     const { codeEIC } =
       this.gestionnaireRéseauWorld.rechercherGestionnaireRéseauFixture(raisonSociale);
 
-    // Assert on read model
-    const résultat = await mediator.send<Raccordement.ConsulterRaccordementQuery>({
-      type: 'Réseau.Raccordement.Query.ConsulterRaccordement',
-      data: {
-        identifiantProjetValue: identifiantProjet.formatter(),
-      },
-    });
-
-    if (Option.isNone(résultat)) {
-      throw new Error('Raccordement inconnu');
-    }
-
-    expect(
-      résultat.identifiantGestionnaireRéseau?.estÉgaleÀ(
-        GestionnaireRéseau.IdentifiantGestionnaireRéseau.convertirEnValueType(codeEIC),
-      ),
-    ).to.be.true;
+    await vérifierGestionnaireAttribué.call(
+      this,
+      identifiantProjet,
+      GestionnaireRéseau.IdentifiantGestionnaireRéseau.convertirEnValueType(codeEIC),
+    );
   },
 );
 
 Alors(
-  `le projet {string} devrait avoir un raccordement attribué au gestionnaire de réseau inconnu`,
-  async function (this: PotentielWorld, nomProjet: string) {
-    const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
+  `le projet devrait avoir un raccordement attribué au gestionnaire de réseau`,
+  async function (this: PotentielWorld) {
+    const identifiantProjet = this.lauréatWorld.identifiantProjet;
 
-    // Assert on read model
-    const résultat = await mediator.send<Raccordement.ConsulterRaccordementQuery>({
-      type: 'Réseau.Raccordement.Query.ConsulterRaccordement',
-      data: {
-        identifiantProjetValue: identifiantProjet.formatter(),
-      },
-    });
+    const { commune, codePostal } = this.candidatureWorld.importerCandidature.values.localitéValue;
+    const codeEIC =
+      this.gestionnaireRéseauWorld.rechercherOREParVille({ commune, codePostal })?.codeEIC ?? '';
 
-    if (Option.isNone(résultat)) {
-      throw new Error('Raccordement inconnu');
-    }
-
-    expect(
-      résultat.identifiantGestionnaireRéseau?.estÉgaleÀ(
-        GestionnaireRéseau.IdentifiantGestionnaireRéseau.inconnu,
-      ),
-    ).to.be.true;
+    await vérifierGestionnaireAttribué.call(
+      this,
+      identifiantProjet,
+      GestionnaireRéseau.IdentifiantGestionnaireRéseau.convertirEnValueType(codeEIC),
+    );
   },
 );
 
 Alors(
-  'le projet lauréat {string} devrait avoir {int} dossiers de raccordement pour le gestionnaire de réseau {string}',
-  async function (
-    this: PotentielWorld,
-    nomProjet: string,
-    nombreDeDemandes: number,
-    _raisonSociale: string,
-  ) {
-    const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
+  `le projet devrait avoir un raccordement attribué au gestionnaire de réseau inconnu`,
+  async function (this: PotentielWorld) {
+    const { identifiantProjet } = this.lauréatWorld;
+
+    await vérifierGestionnaireAttribué.call(
+      this,
+      identifiantProjet,
+      GestionnaireRéseau.IdentifiantGestionnaireRéseau.inconnu,
+    );
+  },
+);
+
+Alors(
+  'le projet lauréat devrait avoir {int} dossiers de raccordement pour le gestionnaire de réseau {string}',
+  async function (this: PotentielWorld, nombreDeDemandes: number, _raisonSociale: string) {
+    const { identifiantProjet } = this.lauréatWorld;
 
     await waitForExpect(async () => {
       const actual = await mediator.send<Raccordement.ConsulterRaccordementQuery>({
@@ -165,14 +154,14 @@ Alors(
 );
 
 Alors(
-  `la date de mise en service {string} devrait être consultable dans le dossier de raccordement du le projet lauréat {string} ayant pour référence {string}`,
+  `la date de mise en service {string} devrait être consultable dans le dossier de raccordement du projet lauréat ayant pour référence {string}`,
   async function (
     this: PotentielWorld,
     dateMiseEnService: string,
-    nomProjet: string,
     référenceDossierRaccordement: string,
   ) {
-    const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
+    const { identifiantProjet } = this.lauréatWorld;
+    await waitForEvents();
     await waitForExpect(async () => {
       const actual = await mediator.send<Raccordement.ConsulterDossierRaccordementQuery>({
         type: 'Réseau.Raccordement.Query.ConsulterDossierRaccordement',
@@ -200,9 +189,9 @@ Alors(
 );
 
 Alors(
-  `la proposition technique et financière signée devrait être consultable dans le dossier de raccordement du projet lauréat {string} ayant pour référence {string}`,
-  async function (this: PotentielWorld, nomProjet: string, référenceDossierRaccordement: string) {
-    const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
+  `la proposition technique et financière signée devrait être consultable dans le dossier de raccordement du projet lauréat ayant pour référence {string}`,
+  async function (this: PotentielWorld, référenceDossierRaccordement: string) {
+    const { identifiantProjet } = this.lauréatWorld;
     await waitForExpect(async () => {
       const dossierRaccordement =
         await mediator.send<Raccordement.ConsulterDossierRaccordementQuery>({
@@ -246,9 +235,9 @@ Alors(
 );
 
 Alors(
-  `le dossier ayant pour référence {string} ne devrait plus être consultable dans la liste des dossiers du raccordement pour le projet {string}`,
-  async function (this: PotentielWorld, référenceDossier: string, nomProjet: string) {
-    const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
+  `le dossier ayant pour référence {string} ne devrait plus être consultable dans la liste des dossiers du raccordement pour le projet`,
+  async function (this: PotentielWorld, référenceDossier: string) {
+    const { identifiantProjet } = this.lauréatWorld;
     await waitForExpect(async () => {
       const raccordementDuProjet = await mediator.send<Raccordement.ConsulterRaccordementQuery>({
         type: 'Réseau.Raccordement.Query.ConsulterRaccordement',
@@ -282,9 +271,9 @@ Alors(
 );
 
 Alors(
-  `le dossier ayant comme référence {string} ne devrait plus être consultable dans le raccordement du projet lauréat {string}`,
-  async function (this: PotentielWorld, référenceDossier: string, nomProjet: string) {
-    const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
+  `le dossier ayant comme référence {string} ne devrait plus être consultable dans le raccordement du projet lauréat`,
+  async function (this: PotentielWorld, référenceDossier: string) {
+    const { identifiantProjet } = this.lauréatWorld;
     await waitForExpect(async () => {
       const raccordement = await mediator.send<Raccordement.ConsulterRaccordementQuery>({
         type: 'Réseau.Raccordement.Query.ConsulterRaccordement',
@@ -308,3 +297,25 @@ Alors(
     });
   },
 );
+
+async function vérifierGestionnaireAttribué(
+  this: PotentielWorld,
+  identifiantProjet: IdentifiantProjet.ValueType,
+  identifiantGestionnaireRéseau: GestionnaireRéseau.IdentifiantGestionnaireRéseau.ValueType,
+) {
+  await waitForExpect(async () => {
+    // Assert on read model
+    const résultat = await mediator.send<Raccordement.ConsulterRaccordementQuery>({
+      type: 'Réseau.Raccordement.Query.ConsulterRaccordement',
+      data: {
+        identifiantProjetValue: identifiantProjet.formatter(),
+      },
+    });
+
+    assert(Option.isSome(résultat));
+
+    expect(résultat.identifiantGestionnaireRéseau?.codeEIC).to.eq(
+      identifiantGestionnaireRéseau?.codeEIC,
+    );
+  });
+}
