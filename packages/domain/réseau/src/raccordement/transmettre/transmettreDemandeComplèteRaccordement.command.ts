@@ -35,10 +35,9 @@ export const registerTransmettreDemandeComplèteRaccordementCommand = (
     await loadLauréat(identifiantProjet);
 
     const abandon = await loadAbandon(identifiantProjet, false);
-    const raccordement = await loadRaccordement(identifiantProjet, true);
+    const raccordement = await loadRaccordement(identifiantProjet);
     const gestionnaireRéseau = await loadGestionnaireRéseau(
       raccordement.identifiantGestionnaireRéseau,
-      true,
     );
 
     await raccordement.transmettreDemande({

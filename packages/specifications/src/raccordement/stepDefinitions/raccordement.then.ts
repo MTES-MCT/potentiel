@@ -154,7 +154,7 @@ Alors(
 );
 
 Alors(
-  `la date de mise en service {string} devrait être consultable dans le dossier de raccordement du le projet lauréat ayant pour référence {string}`,
+  `la date de mise en service {string} devrait être consultable dans le dossier de raccordement du projet lauréat ayant pour référence {string}`,
   async function (
     this: PotentielWorld,
     dateMiseEnService: string,

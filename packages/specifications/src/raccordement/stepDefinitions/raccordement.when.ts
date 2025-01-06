@@ -53,7 +53,7 @@ Quand(
 );
 
 Quand(
-  `le gestionnaire de réseau transmet la date de mise en service {string} pour le dossier de raccordement du le projet lauréat ayant pour référence {string}`,
+  `le gestionnaire de réseau transmet la date de mise en service {string} pour le dossier de raccordement du projet lauréat ayant pour référence {string}`,
   async function (
     this: PotentielWorld,
     dateMiseEnService: string,
