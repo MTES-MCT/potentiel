@@ -24,12 +24,17 @@ const récupérerGRDParTranche = async (offset: string): Promise<OreGestionnaire
 
   const parsedResult = OREresultSchema.parse(result);
 
+  const mapRaisonSociale: Record<string, string> = {
+    SEI: 'EDF SEI',
+  };
+
   /**
    * Règle métier : quand aucun code EIC n'est fourni, on utilise la raison sociale (ou grd)
    */
   const parsedResultsWithNonNullableEIC = parsedResult.results.map((gestionnaire) => ({
     ...gestionnaire,
-    eic: gestionnaire.eic ?? gestionnaire.grd,
+    grd: mapRaisonSociale[gestionnaire.grd] ?? gestionnaire.grd,
+    eic: gestionnaire.eic ?? mapRaisonSociale[gestionnaire.grd] ?? gestionnaire.grd,
   }));
 
   return {
