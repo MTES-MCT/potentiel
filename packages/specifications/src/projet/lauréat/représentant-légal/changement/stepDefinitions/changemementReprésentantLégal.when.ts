@@ -1,5 +1,6 @@
 import { When as Quand } from '@cucumber/cucumber';
 import { mediator } from 'mediateur';
+import { match } from 'ts-pattern';
 
 import { ReprésentantLégal } from '@potentiel-domain/laureat';
 import { IdentifiantProjet } from '@potentiel-domain/common';
@@ -103,6 +104,55 @@ Quand(
     } catch (error) {
       this.error = error as Error;
     }
+  },
+);
+
+Quand(
+  /le système (accorde|rejette) automatiquement la demande de changement de représentant légal pour le projet lauréat/,
+  async function (this: PotentielWorld, action: 'accorde' | 'rejette') {
+    const identifiantProjet = this.lauréatWorld.identifiantProjet.formatter();
+
+    return match(action)
+      .with('accorde', async () => {
+        const { accordéeLe, accordéePar, nomReprésentantLégal, typeReprésentantLégal } =
+          this.lauréatWorld.représentantLégalWorld.changementReprésentantLégalWorld.accorderChangementReprésentantLégalFixture.créer();
+
+        try {
+          await mediator.send<ReprésentantLégal.AccorderChangementReprésentantLégalUseCase>({
+            type: 'Lauréat.ReprésentantLégal.UseCase.AccorderChangementReprésentantLégal',
+            data: {
+              identifiantProjetValue: identifiantProjet,
+              identifiantUtilisateurValue: accordéePar,
+              nomReprésentantLégalValue: nomReprésentantLégal,
+              typeReprésentantLégalValue: typeReprésentantLégal.formatter(),
+              dateAccordValue: accordéeLe,
+              accordAutomatiqueValue: true,
+            },
+          });
+        } catch (error) {
+          console.log(error);
+          this.error = error as Error;
+        }
+      })
+      .with('rejette', async () => {
+        const { rejetéeLe, rejetéePar } =
+          this.lauréatWorld.représentantLégalWorld.changementReprésentantLégalWorld.rejeterChangementReprésentantLégalFixture.créer();
+
+        try {
+          await mediator.send<ReprésentantLégal.RejeterChangementReprésentantLégalUseCase>({
+            type: 'Lauréat.ReprésentantLégal.UseCase.RejeterChangementReprésentantLégal',
+            data: {
+              identifiantProjetValue: identifiantProjet,
+              identifiantUtilisateurValue: rejetéePar,
+              dateRejetValue: rejetéeLe,
+              rejetAutomatiqueValue: true,
+            },
+          });
+        } catch (error) {
+          console.log(error);
+          this.error = error as Error;
+        }
+      });
   },
 );
 

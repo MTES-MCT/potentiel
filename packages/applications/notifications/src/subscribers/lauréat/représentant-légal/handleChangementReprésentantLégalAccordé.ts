@@ -36,7 +36,6 @@ export const handleChangementReprésentantLégalAccordé = async ({
     });
     return;
   }
-
   await sendEmail({
     templateId: 6582166,
     messageSubject: `Potentiel - La demande de modification du représentant légal pour le projet ${projet.nom} dans le département ${projet.département} a été accordée`,
@@ -61,7 +60,7 @@ export const handleChangementReprésentantLégalAccordé = async ({
       return;
     }
 
-    await sendEmail({
+    return sendEmail({
       templateId: 6611643,
       messageSubject: `Potentiel - La demande de modification du représentant légal pour le projet ${projet.nom} dans le département ${projet.département} a été accordée automatiquement`,
       recipients: dreals,
