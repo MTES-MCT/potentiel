@@ -39,6 +39,7 @@ export const handleChangementReprésentantLégalAccordé = async ({
     messageSubject: `Potentiel - La demande de modification du représentant légal pour le projet ${projet.nom} dans le département ${projet.département} a été accordée`,
     recipients: porteurs,
     variables: {
+      type: 'accord',
       nom_projet: projet.nom,
       departement_projet: projet.département,
       url: `${baseUrl}${Routes.Projet.details(identifiantProjet.formatter())}`,

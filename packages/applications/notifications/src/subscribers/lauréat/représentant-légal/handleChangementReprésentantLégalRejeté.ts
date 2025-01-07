@@ -35,10 +35,11 @@ export const handleChangementReprésentantLégalRejeté = async ({
   }
 
   return sendEmail({
-    templateId: 6582254,
+    templateId: 6582166,
     messageSubject: `Potentiel - La demande de modification du représentant légal pour le projet ${projet.nom} dans le département ${projet.département} a été rejetée`,
     recipients: porteurs,
     variables: {
+      type: 'rejet',
       nom_projet: projet.nom,
       departement_projet: projet.département,
       url: `${baseUrl}${Routes.Projet.details(identifiantProjet.formatter())}`,

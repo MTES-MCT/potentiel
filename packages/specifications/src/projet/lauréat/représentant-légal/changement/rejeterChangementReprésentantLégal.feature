@@ -15,6 +15,7 @@ Fonctionnalité: Rejeter la demande de changement de représentant légal d'un p
             | sujet      | Potentiel - La demande de modification du représentant légal pour le projet Du boulodrome de Marseille dans le département(.*) a été rejetée |
             | nom_projet | Du boulodrome de Marseille                                                                                                                   |
             | url        | https://potentiel.beta.gouv.fr/projet/.*/details.html                                                                                        |
+            | type       | rejet                                                                                                                                        |
 
         Exemples:
             | l'utilisateur autorisé      |
