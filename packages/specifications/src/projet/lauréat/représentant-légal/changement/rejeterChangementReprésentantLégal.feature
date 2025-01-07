@@ -22,6 +22,17 @@ Fonctionnalité: Rejeter la demande de changement de représentant légal d'un p
             | le DGEC validateur          |
             | la DREAL associée au projet |
 
+    Scénario: Rejet automatique de la demande de changement de représentant légal d'un projet lauréat
+        Etant donné une demande de changement de représentant légal en cours pour le projet lauréat
+        Quand le système rejette la demande de changement de représentant légal pour le projet lauréat
+        Alors la demande de changement de représentant légal du projet lauréat devrait être rejetée
+        Mais le représentant légal du projet lauréat ne devrait pas être mis à jour
+        Et un email a été envoyé à la dreal avec :
+            | type       | rejet                                                                                                                                                        |
+            | sujet      | Potentiel - La demande de modification du représentant légal pour le projet Du boulodrome de Marseille dans le département(.*) a été rejetée automatiquement |
+            | nom_projet | Du boulodrome de Marseille                                                                                                                                   |
+            | url        | https://potentiel.beta.gouv.fr/projet/.*/details.html                                                                                                        |
+
     Scénario: Impossible de rejeter la demande de changement de représentant légal d'un projet lauréat si le changement a déjà été rejeté
         Etant donné une demande de changement de représentant légal rejetée pour le projet lauréat
         Quand le DGEC validateur rejette la demande de changement de représentant légal pour le projet lauréat

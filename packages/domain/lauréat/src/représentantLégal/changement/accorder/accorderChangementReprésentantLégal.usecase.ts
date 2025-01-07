@@ -17,6 +17,7 @@ export type AccorderChangementReprésentantLégalUseCase = Message<
     nomReprésentantLégalValue: string;
     typeReprésentantLégalValue: string;
     dateAccordValue: string;
+    accordAutomatiqueValue: boolean;
   }
 >;
 
@@ -27,6 +28,7 @@ export const registerAccorderChangementReprésentantLégalUseCase = () => {
     identifiantProjetValue,
     nomReprésentantLégalValue,
     typeReprésentantLégalValue,
+    accordAutomatiqueValue,
   }) => {
     const identifiantProjet = IdentifiantProjet.convertirEnValueType(identifiantProjetValue);
     const dateAccord = DateTime.convertirEnValueType(dateAccordValue);
@@ -44,6 +46,7 @@ export const registerAccorderChangementReprésentantLégalUseCase = () => {
         dateAccord,
         identifiantUtilisateur,
         identifiantProjet,
+        accordAutomatique: accordAutomatiqueValue,
       },
     });
   };

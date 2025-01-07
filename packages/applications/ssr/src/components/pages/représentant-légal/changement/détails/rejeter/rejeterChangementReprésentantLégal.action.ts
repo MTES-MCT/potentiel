@@ -23,6 +23,7 @@ const action: FormAction<FormState, typeof schema> = async (_, { identifiantProj
         identifiantProjetValue: identifiantProjet,
         identifiantUtilisateurValue: utilisateur.identifiantUtilisateur.formatter(),
         dateRejetValue: new Date().toISOString(),
+        rejetAutomatiqueValue: false,
       },
     });
 

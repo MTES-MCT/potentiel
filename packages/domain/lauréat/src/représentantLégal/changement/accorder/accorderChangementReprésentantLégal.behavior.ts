@@ -16,6 +16,7 @@ export type ChangementReprésentantLégalAccordéEvent = DomainEvent<
     identifiantProjet: IdentifiantProjet.RawType;
     nomReprésentantLégal: string;
     typeReprésentantLégal: TypeReprésentantLégal.RawType;
+    accordAutomatique: boolean;
   }
 >;
 
@@ -25,6 +26,7 @@ export type AccorderOptions = {
   identifiantProjet: IdentifiantProjet.ValueType;
   nomReprésentantLégal: string;
   typeReprésentantLégal: TypeReprésentantLégal.ValueType;
+  accordAutomatique: boolean;
 };
 
 export async function accorder(
@@ -35,6 +37,7 @@ export async function accorder(
     identifiantProjet,
     nomReprésentantLégal,
     typeReprésentantLégal,
+    accordAutomatique,
   }: AccorderOptions,
 ) {
   if (!this.demande) {
@@ -52,6 +55,7 @@ export async function accorder(
       accordéPar: identifiantUtilisateur.formatter(),
       nomReprésentantLégal,
       typeReprésentantLégal: typeReprésentantLégal.formatter(),
+      accordAutomatique,
     },
   };
 

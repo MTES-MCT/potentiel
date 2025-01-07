@@ -60,7 +60,12 @@ export type ReprésentantLégalUseCase =
   | AccorderChangementReprésentantLégalUseCase
   | RejeterChangementReprésentantLégalUseCase;
 
-export type { ModifierReprésentantLégalUseCase, DemanderChangementReprésentantLégalUseCase };
+export type {
+  ModifierReprésentantLégalUseCase,
+  DemanderChangementReprésentantLégalUseCase,
+  AccorderChangementReprésentantLégalUseCase,
+  RejeterChangementReprésentantLégalUseCase,
+};
 
 // Event
 export type { ReprésentantLégalEvent } from './représentantLégal.aggregate';

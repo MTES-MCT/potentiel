@@ -18,6 +18,7 @@ export type AccorderChangementReprésentantLégalCommand = Message<
     dateAccord: DateTime.ValueType;
     identifiantUtilisateur: IdentifiantUtilisateur.ValueType;
     identifiantProjet: IdentifiantProjet.ValueType;
+    accordAutomatique: boolean;
   }
 >;
 
@@ -31,6 +32,7 @@ export const registerAccorderChangementReprésentantLégalCommand = (
     dateAccord,
     identifiantUtilisateur,
     identifiantProjet,
+    accordAutomatique,
   }) => {
     const représentantLégal = await load(identifiantProjet);
 
@@ -40,6 +42,7 @@ export const registerAccorderChangementReprésentantLégalCommand = (
       dateAccord,
       identifiantUtilisateur,
       identifiantProjet,
+      accordAutomatique,
     });
   };
   mediator.register(

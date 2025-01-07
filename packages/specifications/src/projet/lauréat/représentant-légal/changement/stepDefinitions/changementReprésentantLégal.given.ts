@@ -66,6 +66,7 @@ EtantDonné(
         typeReprésentantLégalValue: fixtureAccorder.typeReprésentantLégal.formatter(),
         identifiantUtilisateurValue: fixtureAccorder.accordéePar,
         dateAccordValue: fixtureAccorder.accordéeLe,
+        accordAutomatiqueValue: false,
       },
     });
   },
@@ -104,6 +105,7 @@ EtantDonné(
         identifiantProjetValue: identifiantProjet,
         identifiantUtilisateurValue: fixtureRejeter.rejetéePar,
         dateRejetValue: fixtureRejeter.rejetéeLe,
+        rejetAutomatiqueValue: false,
       },
     });
   },

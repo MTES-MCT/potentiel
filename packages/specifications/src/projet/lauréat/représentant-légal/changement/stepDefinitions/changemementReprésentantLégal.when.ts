@@ -81,8 +81,11 @@ const getOptions: GetOptions = ({ potentielWorld, identifiantProjet, extra }) =>
 };
 
 Quand(
-  /(le DGEC validateur|la DREAL associée au projet) accorde la demande de changement de représentant légal pour le projet lauréat/,
-  async function (this: PotentielWorld, _: string) {
+  /(le DGEC validateur|la DREAL associée au projet|le système) accorde la demande de changement de représentant légal pour le projet lauréat/,
+  async function (
+    this: PotentielWorld,
+    rôle: 'le DGEC validateur' | 'la DREAL associée au projet' | 'le système',
+  ) {
     const identifiantProjet = this.lauréatWorld.identifiantProjet.formatter();
 
     const { accordéeLe, accordéePar, nomReprésentantLégal, typeReprésentantLégal } =
@@ -97,6 +100,7 @@ Quand(
           nomReprésentantLégalValue: nomReprésentantLégal,
           typeReprésentantLégalValue: typeReprésentantLégal.formatter(),
           dateAccordValue: accordéeLe,
+          accordAutomatiqueValue: rôle === 'le système',
         },
       });
     } catch (error) {
@@ -106,8 +110,11 @@ Quand(
 );
 
 Quand(
-  /(le DGEC validateur|la DREAL associée au projet) rejette la demande de changement de représentant légal pour le projet lauréat/,
-  async function (this: PotentielWorld, _: string) {
+  /(le DGEC validateur|la DREAL associée au projet|le système) rejette la demande de changement de représentant légal pour le projet lauréat/,
+  async function (
+    this: PotentielWorld,
+    rôle: 'le DGEC validateur' | 'la DREAL associée au projet' | 'le système',
+  ) {
     const identifiantProjet = this.lauréatWorld.identifiantProjet.formatter();
 
     const { rejetéeLe, rejetéePar } =
@@ -120,6 +127,7 @@ Quand(
           identifiantProjetValue: identifiantProjet,
           identifiantUtilisateurValue: rejetéePar,
           dateRejetValue: rejetéeLe,
+          rejetAutomatiqueValue: rôle === 'le système',
         },
       });
     } catch (error) {

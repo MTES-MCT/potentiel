@@ -34,6 +34,7 @@ const action: FormAction<FormState, typeof schema> = async (
         nomReprésentantLégalValue: nomRepresentantLegal,
         typeReprésentantLégalValue: typeRepresentantLegal,
         dateAccordValue: DateTime.now().formatter(),
+        accordAutomatiqueValue: false,
       },
     });
 
