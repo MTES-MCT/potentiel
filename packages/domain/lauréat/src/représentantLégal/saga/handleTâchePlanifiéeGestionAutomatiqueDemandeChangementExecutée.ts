@@ -71,6 +71,7 @@ export const handleTâchePlanifiéeGestionAutomatiqueDemandeChangementExecutée 
           dateAccordValue: DateTime.now().formatter(),
           nomReprésentantLégalValue: changement.demande.nomReprésentantLégal,
           typeReprésentantLégalValue: changement.demande.typeReprésentantLégal.formatter(),
+          accordAutomatiqueValue: true,
         },
       });
     })
@@ -81,6 +82,7 @@ export const handleTâchePlanifiéeGestionAutomatiqueDemandeChangementExecutée 
           identifiantProjetValue: identifiantProjet.formatter(),
           identifiantUtilisateurValue: Email.system().formatter(),
           dateRejetValue: DateTime.now().formatter(),
+          rejetAutomatiqueValue: true,
         },
       });
     })
