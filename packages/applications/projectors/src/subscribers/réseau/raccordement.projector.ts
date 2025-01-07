@@ -33,13 +33,14 @@ export const register = () => {
       const raccordement = await getRaccordementToUpsert(identifiantProjet);
 
       if (
-        event.type === 'GestionnaireRéseauRaccordementModifié-V1' ||
-        event.type === 'GestionnaireRéseauInconnuAttribué-V1'
+        type === 'GestionnaireRéseauRaccordementModifié-V1' ||
+        type === 'GestionnaireRéseauInconnuAttribué-V1' ||
+        type === 'GestionnaireRéseauAttribué-V1'
       ) {
         const identifiantGestionnaireRéseau =
-          type === 'GestionnaireRéseauRaccordementModifié-V1'
-            ? payload.identifiantGestionnaireRéseau
-            : GestionnaireRéseau.IdentifiantGestionnaireRéseau.inconnu.formatter();
+          type === 'GestionnaireRéseauInconnuAttribué-V1'
+            ? GestionnaireRéseau.IdentifiantGestionnaireRéseau.inconnu.formatter()
+            : payload.identifiantGestionnaireRéseau;
         await upsertProjection<Raccordement.RaccordementEntity>(
           `raccordement|${event.payload.identifiantProjet}`,
           {
@@ -120,14 +121,6 @@ export const register = () => {
         await upsertProjection<Raccordement.DossierRaccordementEntity>(
           `dossier-raccordement|${event.payload.identifiantProjet}#${event.payload.référenceDossierRaccordement}`,
           dossier,
-        );
-      } else if (event.type === 'GestionnaireRéseauAttribué-V1') {
-        await upsertProjection<Raccordement.RaccordementEntity>(
-          `raccordement|${event.payload.identifiantProjet}`,
-          {
-            ...raccordement,
-            identifiantGestionnaireRéseau: event.payload.identifiantGestionnaireRéseau,
-          },
         );
       } else if (event.type === 'DossierDuRaccordementSupprimé-V1') {
         const { identifiantProjet, référenceDossier } = event.payload;
