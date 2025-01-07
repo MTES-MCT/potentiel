@@ -280,7 +280,7 @@ export const setupLauréat = async ({ sendEmail }: SetupLauréatDependencies) =>
   const unsubscribeReprésentantLégalSagaLauréat = await subscribe<
     ReprésentantLégal.ReprésentantLégalSaga.SubscriptionEvent & Event
   >({
-    name: 'representant-legal-saga-lauréat',
+    name: 'representant-legal-saga-laureat',
     streamCategory: 'lauréat',
     eventType: ['LauréatNotifié-V1'],
     eventHandler: async (event) =>
@@ -293,7 +293,7 @@ export const setupLauréat = async ({ sendEmail }: SetupLauréatDependencies) =>
   const unsubscribeReprésentantLégalSagaTâchePlanifiée = await subscribe<
     ReprésentantLégal.ReprésentantLégalSaga.SubscriptionEvent & Event
   >({
-    name: 'representant-legal-saga-tâche-planifiée',
+    name: 'representant-legal-saga-tache-planifiee',
     streamCategory: 'tâche-planifiée',
     eventType: ['TâchePlanifiéeExecutée-V1'],
     eventHandler: async (event) =>
