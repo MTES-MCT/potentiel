@@ -36,6 +36,7 @@ export const registerNotifierPériodeCommand = (loadAggregate: LoadAggregate) =>
     const identifiantLauréats: Array<IdentifiantProjet.ValueType> = [];
     const identifiantÉliminés: Array<IdentifiantProjet.ValueType> = [];
 
+    let nbError = 0;
     for (const identifiantCandidature of identifiantCandidatures) {
       const candidature = await loadCandidature(identifiantCandidature);
 
@@ -77,6 +78,10 @@ export const registerNotifierPériodeCommand = (loadAggregate: LoadAggregate) =>
         }
       } catch (error) {
         getLogger().error(error as Error, { identifiantCandidature });
+        nbError++;
+        if (nbError === identifiantCandidatures.length) {
+          throw error;
+        }
       }
     }
 

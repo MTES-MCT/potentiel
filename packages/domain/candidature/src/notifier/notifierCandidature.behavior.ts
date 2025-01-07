@@ -55,6 +55,13 @@ export async function notifier(
     throw new CandidatureDéjàNotifiéeError(identifiantProjet);
   }
 
+  if (!validateur.fonction) {
+    throw new FonctionManquanteError();
+  }
+  if (!validateur.nomComplet) {
+    throw new NomManquantError();
+  }
+
   const event: CandidatureNotifiéeEvent = {
     type: 'CandidatureNotifiée-V2',
     payload: {
@@ -81,5 +88,17 @@ export function applyCandidatureNotifiée(
 class CandidatureDéjàNotifiéeError extends InvalidOperationError {
   constructor(identifiantProjet: IdentifiantProjet.ValueType) {
     super(`La candidature est déjà notifiée`, { identifiantProjet });
+  }
+}
+
+class FonctionManquanteError extends InvalidOperationError {
+  constructor() {
+    super(`La fonction de l'utilisateur doit être précisée pour cette opération`);
+  }
+}
+
+class NomManquantError extends InvalidOperationError {
+  constructor() {
+    super(`Le nom de l'utilisateur doit être précisé pour cette opération`);
   }
 }
