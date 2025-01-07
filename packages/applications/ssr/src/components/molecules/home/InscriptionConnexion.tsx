@@ -14,7 +14,10 @@ export const InscriptionConnexion = () => (
           </h3>
           <div>
             <div className="fr-tabs shadow-none before:shadow-none">
-              <ul className="fr-tabs__list px-0 text-theme-blueFrance" role="tablist">
+              <ul
+                className="fr-tabs__list px-0 flex justify-center text-theme-blueFrance"
+                role="tablist"
+              >
                 <li role="presentation">
                   <button
                     id="tabpanel-404"
