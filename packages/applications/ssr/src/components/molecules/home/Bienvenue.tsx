@@ -23,7 +23,7 @@ export const Bienvenue = ({ utilisateur }: BienvenueProps) => {
           <p className="mt-0 mb-6 text-2xl lg:text-3xl font-semibold text-theme-blueFrance">
             Bonjour {utilisateur.nom}, nous sommes ravis de vous revoir.
           </p>
-          <div className="flex flex-col md:flex-row w-full md:w-fit gap-3">
+          <div className="flex flex-col items-center md:flex-row w-full md:w-fit gap-3">
             <Button
               className="inline-flex items-center lg:text-lg"
               iconId="ri-dashboard-line"
