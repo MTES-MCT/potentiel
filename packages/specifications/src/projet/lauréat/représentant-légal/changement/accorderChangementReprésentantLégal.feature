@@ -24,7 +24,7 @@ Fonctionnalité: Accorder la demande de changement de représentant légal d'un 
 
     Scénario: Accord automatique de la demande de changement de représentant légal d'un projet lauréat
         Etant donné une demande de changement de représentant légal en cours pour le projet lauréat
-        Quand le système accorde automatiquement la demande de changement de représentant légal pour le projet lauréat
+        Quand le système accorde la demande de changement de représentant légal pour le projet lauréat
         Alors la demande de changement de représentant légal du projet lauréat devrait être accordée
         Et le représentant légal du projet lauréat devrait être mis à jour
         Et un email a été envoyé à la dreal avec :

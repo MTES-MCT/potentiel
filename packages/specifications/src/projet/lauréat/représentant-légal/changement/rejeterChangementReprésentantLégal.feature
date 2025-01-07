@@ -24,7 +24,7 @@ Fonctionnalité: Rejeter la demande de changement de représentant légal d'un p
 
     Scénario: Rejet automatique de la demande de changement de représentant légal d'un projet lauréat
         Etant donné une demande de changement de représentant légal en cours pour le projet lauréat
-        Quand le système rejette automatiquement la demande de changement de représentant légal pour le projet lauréat
+        Quand le système rejette la demande de changement de représentant légal pour le projet lauréat
         Alors la demande de changement de représentant légal du projet lauréat devrait être rejetée
         Mais le représentant légal du projet lauréat ne devrait pas être mis à jour
         Et un email a été envoyé à la dreal avec :
