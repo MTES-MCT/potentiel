@@ -96,7 +96,7 @@ export const GET = async (_: Request, { params: { identifiant } }: IdentifiantPa
           DateTime.convertirEnValueType(candidature.dateDésignation).date,
         ),
         dreal: régionDreal ?? '',
-        email: '',
+        email: candidature.candidat.contact,
         familles: candidature.famille ? 'yes' : '',
         justificationDemande: demandeChangement.demande.raison,
         nomCandidat: candidature.candidat.nom,
