@@ -7,13 +7,13 @@ Fonctionnalité: Demander le changement de représentant légal d'un projet laur
         Et la dreal "Dreal du sud-ouest" associée à la région du projet
 
     Scénario: Un porteur demande le changement de réprésentant légal d'un projet lauréat
-        Quand le porteur demande le changement de réprésentant pour le projet lauréat
+        Quand le porteur demande le changement de réprésentant pour le projet lauréat le "2024-10-24"
         Alors une demande de changement de représentant légal du projet lauréat devrait être consultable
         Et un email a été envoyé à la dreal avec :
             | sujet      | Potentiel - Demande de modification du représentant légal pour le projet Du boulodrome de Marseille dans le département(.*) |
             | nom_projet | Du boulodrome de Marseille                                                                                                  |
             | url        | https://potentiel.beta.gouv.fr/laureats/.*/changement/representant-legal                                                    |
-        Et une tâche "gestion automatique de la demande de changement de représentant légal" est planifiée 3 mois plus tard pour le projet lauréat
+        Et une tâche "gestion automatique de la demande de changement de représentant légal" est planifiée à la date du "2025-01-24" pour le projet lauréat
 
     Scénario: Impossible de demander le changement de représentant légal d'un projet lauréat si le changement est déjà en cours
         Etant donné une demande de changement de représentant légal en cours pour le projet lauréat
@@ -30,12 +30,12 @@ Fonctionnalité: Demander le changement de représentant légal d'un projet laur
 
     Scénario: Impossible de demander le changement de représentant légal d'un projet lauréat abandonné
         Etant donné un abandon accordé pour le projet lauréat
-        Quand le porteur demande le changement de réprésentant pour le projet lauréat sans pièce justificative
+        Quand le porteur demande le changement de réprésentant pour le projet lauréat
         Alors le porteur devrait être informé que "Impossible de demander le changement de réprésentant légal pour un projet abandonné"
 
     Scénario: Impossible de demander le changement de représentant légal avec une demande d'abandon en cours
         Etant donné une demande d'abandon en cours pour le projet lauréat
-        Quand le porteur demande le changement de réprésentant pour le projet lauréat sans pièce justificative
+        Quand le porteur demande le changement de réprésentant pour le projet lauréat
         Alors le porteur devrait être informé que "Impossible de demander le changement de réprésentant légal car une demande d'abandon est en cours pour le projet"
 
     Scénario: Impossible de demander le changement de représentant légal si le projet est achevé
