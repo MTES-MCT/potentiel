@@ -13,6 +13,7 @@ import { findProjection, listProjection } from '@potentiel-infrastructure/pg-pro
 import {
   AbandonNotification,
   AchèvementNotification,
+  ActionnaireNotification,
   GarantiesFinancièresNotification,
   ReprésentantLégalNotification,
 } from '@potentiel-applications/notifications';
@@ -347,6 +348,24 @@ export const setupLauréat = async ({ sendEmail }: SetupLauréatDependencies) =>
         }),
     });
 
+  const unsubscribeActionnaireNotification =
+    await subscribe<ActionnaireNotification.SubscriptionEvent>({
+      name: 'notifications',
+      streamCategory: 'actionnaire',
+      eventType: [
+        'ActionnaireModifié-V1',
+        'ChangementActionnaireDemandé-V1',
+        'DemandeChangementActionnaireAccordée-V1',
+        'DemandeChangementActionnaireRejetée-V1',
+        'DemandeChangementActionnaireAnnulée-V1',
+      ],
+      eventHandler: async (event) =>
+        mediator.publish<ActionnaireNotification.Execute>({
+          type: 'System.Notification.Lauréat.Actionnaire',
+          data: event,
+        }),
+    });
+
   return async () => {
     // projectors
     await unsubscribeLauréatProjector();
@@ -360,6 +379,7 @@ export const setupLauréat = async ({ sendEmail }: SetupLauréatDependencies) =>
     await unsubscribeGarantiesFinancièresNotification();
     await unsubscribeAchèvementNotification();
     await unsubscribeReprésentantLégalNotification();
+    await unsubscribeActionnaireNotification();
     // sagas
     await unsubscribeGarantiesFinancièresSaga();
     await unsubscribeTypeGarantiesFinancièresSaga();

@@ -81,7 +81,7 @@ export type { ActionnaireImportéEvent } from './importer/importerActionnaire.be
 export type { ActionnaireModifiéEvent } from './modifier/modifierActionnaire.behavior';
 export type { ActionnaireTransmisEvent } from './transmettre/transmettreActionnaire.behavior';
 export type { ChangementActionnaireDemandéEvent } from './changement/demander/demandeChangementActionnaire.behavior';
-export type { DemandeChangementActionnaireAnnuléEvent } from './changement/annuler/annulerChangementActionnaire.behavior';
+export type { DemandeChangementActionnaireAnnuléeEvent } from './changement/annuler/annulerChangementActionnaire.behavior';
 export type { DemandeChangementActionnaireAccordéeEvent } from './changement/accorder/accorderChangementActionnaire.behavior';
 export type { DemandeChangementActionnaireRejetéeEvent } from './changement/rejeter/rejeterChangementActionnaire.behavior';
 
