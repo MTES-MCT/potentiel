@@ -51,11 +51,11 @@ Alors(
 );
 
 Alors(
-  `une tâche {string} est planifiée {int} mois plus tard pour le projet lauréat`,
+  `une tâche {string} est planifiée à la date du {string} pour le projet lauréat`,
   async function (
     this: PotentielWorld,
     typeTâche: RechercherTypeTâchePlanifiée,
-    nombreDeMois: number,
+    dateTâche: string,
   ) {
     await waitForExpect(async () => {
       const actualTypeTâche = this.tâchePlanifiéeWorld.rechercherTypeTâchePlanifiée(typeTâche).type;
@@ -64,7 +64,7 @@ Alors(
       const actualTâche = await recupérerTâche(
         actualTypeTâche,
         identifiantProjet,
-        DateTime.now().ajouterNombreDeMois(nombreDeMois).formatter(),
+        DateTime.convertirEnValueType(new Date(dateTâche)).formatter(),
       );
       expect(actualTâche).not.to.be.undefined;
     });
