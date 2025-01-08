@@ -5,7 +5,7 @@ import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
 import { TâchePlanifiéeExecutéeEvent } from '@potentiel-domain/tache-planifiee';
 import { Option } from '@potentiel-libraries/monads';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
-import { getLogger } from '@potentiel-libraries/monitoring';
+// import { getLogger } from '@potentiel-libraries/monitoring';
 
 import { ReprésentantLégal } from '../..';
 
@@ -22,20 +22,20 @@ export const handleTâchePlanifiéeGestionAutomatiqueDemandeChangementExecutée 
   });
 
   if (Option.isNone(appelOffre)) {
-    getLogger().error(`Appel d'offre non trouvée`, {
-      identifiantProjet: identifiantProjet.formatter(),
-      context: 'Lauréat.ReprésentantLégal.Saga.HandleTâchePlanifiéeExécutée',
-    });
+    // getLogger().error(`Appel d'offre non trouvée`, {
+    //   identifiantProjet: identifiantProjet.formatter(),
+    //   context: 'Lauréat.ReprésentantLégal.Saga.HandleTâchePlanifiéeExécutée',
+    // });
     return;
   }
 
   const période = appelOffre.periodes.find((p) => p.id === identifiantProjet.période);
 
   if (!période) {
-    getLogger().error(`Période non trouvée`, {
-      identifiantProjet: identifiantProjet.formatter(),
-      context: 'Lauréat.ReprésentantLégal.Saga.HandleTâchePlanifiéeExécutée',
-    });
+    // getLogger().error(`Période non trouvée`, {
+    //   identifiantProjet: identifiantProjet.formatter(),
+    //   context: 'Lauréat.ReprésentantLégal.Saga.HandleTâchePlanifiéeExécutée',
+    // });
     return;
   }
 
@@ -48,10 +48,10 @@ export const handleTâchePlanifiéeGestionAutomatiqueDemandeChangementExecutée 
     });
 
   if (Option.isNone(changement)) {
-    getLogger().error(`Aucun changement de représentant légal à traiter`, {
-      identifiantProjet: identifiantProjet.formatter(),
-      context: 'Lauréat.ReprésentantLégal.Saga.HandleTâchePlanifiéeExécutée',
-    });
+    // getLogger().error(`Aucun changement de représentant légal à traiter`, {
+    //   identifiantProjet: identifiantProjet.formatter(),
+    //   context: 'Lauréat.ReprésentantLégal.Saga.HandleTâchePlanifiéeExécutée',
+    // });
     return;
   }
 
