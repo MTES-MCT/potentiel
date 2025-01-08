@@ -65,7 +65,6 @@ export const registerConsulterCahierDesChargesChoisiQuery = ({
       (c) => c.paruLe === paruLe && c.alternatif === alternatif,
     );
 
-    console.log({ cahierDesChargesModifié });
     if (!cahierDesChargesModifié) {
       return Option.none;
     }
