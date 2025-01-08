@@ -4,7 +4,6 @@ import { mediator } from 'mediateur';
 import { GarantiesFinancières } from '@potentiel-domain/laureat';
 
 import { PotentielWorld } from '../../../../../potentiel.world';
-import { waitForEvents } from '../../../../../helpers/waitForEvents';
 
 import {
   setAccordMainlevéeData,
@@ -39,7 +38,6 @@ EtantDonné(
       type: 'Lauréat.GarantiesFinancières.Mainlevée.UseCase.Demander',
       data: setDemandeMainlevéeData({ identifiantProjet }),
     });
-    await waitForEvents();
 
     await mediator.send<GarantiesFinancières.DémarrerInstructionDemandeMainlevéeGarantiesFinancièresUseCase>(
       {
