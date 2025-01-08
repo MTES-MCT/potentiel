@@ -27,7 +27,7 @@ Fonctionnalité: Modifier le gestionnaire de réseau d'un raccordement
             | La référence du dossier de raccordement | OUE-RP-2022-000033                                                                                    |
             | Le format de l'accusé de réception      | application/pdf                                                                                       |
             | Le contenu de l'accusé de réception     | Accusé de réception ayant pour référence OUE-RP-2022-000033 et la date de qualification au 2022-10-28 |
-        Etant donné une demande complète de raccordement pour le projet lauréat transmise auprès du gestionnaire de réseau avec :
+        Et une demande complète de raccordement pour le projet lauréat transmise auprès du gestionnaire de réseau avec :
             | La date de qualification                | 2022-10-28                                                                                            |
             | La référence du dossier de raccordement | OUE-RP-2022-000034                                                                                    |
             | Le format de l'accusé de réception      | application/pdf                                                                                       |
