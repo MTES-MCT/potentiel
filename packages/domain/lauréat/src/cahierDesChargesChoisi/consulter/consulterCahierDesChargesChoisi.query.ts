@@ -59,7 +59,6 @@ export const registerConsulterCahierDesChargesChoisiQuery = ({
 
     const paruLe = cahierDesChargesChoisi.replace('-alternatif', '');
     const alternatif = cahierDesChargesChoisi.search('-alternatif') >= 0 ? true : undefined;
-    console.log({ paruLe, alternatif });
 
     const cahierDesChargesModifié = périodeDetails.cahiersDesChargesModifiésDisponibles.find(
       (c) => c.paruLe === paruLe && c.alternatif === alternatif,
