@@ -9,6 +9,10 @@ Fonctionnalité: Modifier le gestionnaire de réseau d'un raccordement
         Et le porteur "Marcel Patoulatchi" ayant accés au projet lauréat "Du boulodrome de Marseille"
 
     Scénario: Un porteur de projet modifie le gestionnaire de réseau d'un raccordement
+        Quand un porteur modifie le gestionnaire de réseau du projet avec le gestionnaire "Arc Energies Maurienne"
+        Alors le projet devrait avoir un raccordement attribué au gestionnaire de réseau "Arc Energies Maurienne"
+
+    Scénario: Un porteur de projet modifie le gestionnaire de réseau d'un raccordement avec dossier
         Etant donné une demande complète de raccordement pour le projet lauréat transmise auprès du gestionnaire de réseau avec :
             | La date de qualification                | 2022-10-28                                                                                            |
             | La référence du dossier de raccordement | OUE-RP-2022-000033                                                                                    |
@@ -17,12 +21,21 @@ Fonctionnalité: Modifier le gestionnaire de réseau d'un raccordement
         Quand un porteur modifie le gestionnaire de réseau du projet avec le gestionnaire "Arc Energies Maurienne"
         Alors le projet devrait avoir un raccordement attribué au gestionnaire de réseau "Arc Energies Maurienne"
 
-    Scénario: Un porteur de projet modifie le gestionnaire de réseau d'un raccordement avec un gestionnaire non référencé
+    Scénario: Un porteur de projet modifie le gestionnaire de réseau d'un raccordement avec plusieurs dossiers
         Etant donné une demande complète de raccordement pour le projet lauréat transmise auprès du gestionnaire de réseau avec :
             | La date de qualification                | 2022-10-28                                                                                            |
             | La référence du dossier de raccordement | OUE-RP-2022-000033                                                                                    |
             | Le format de l'accusé de réception      | application/pdf                                                                                       |
             | Le contenu de l'accusé de réception     | Accusé de réception ayant pour référence OUE-RP-2022-000033 et la date de qualification au 2022-10-28 |
+        Et une demande complète de raccordement pour le projet lauréat transmise auprès du gestionnaire de réseau avec :
+            | La date de qualification                | 2022-10-28                                                                                            |
+            | La référence du dossier de raccordement | OUE-RP-2022-000034                                                                                    |
+            | Le format de l'accusé de réception      | application/pdf                                                                                       |
+            | Le contenu de l'accusé de réception     | Accusé de réception ayant pour référence OUE-RP-2022-000034 et la date de qualification au 2022-10-28 |
+        Quand un porteur modifie le gestionnaire de réseau du projet avec le gestionnaire "Arc Energies Maurienne"
+        Alors le projet devrait avoir un raccordement attribué au gestionnaire de réseau "Arc Energies Maurienne"
+
+    Scénario: Un porteur de projet modifie le gestionnaire de réseau d'un raccordement avec un gestionnaire non référencé
         Quand un porteur modifie le gestionnaire de réseau du projet avec un gestionnaire non référencé
         Alors le porteur devrait être informé que "Le gestionnaire de réseau n'est pas référencé"
 

@@ -40,6 +40,12 @@ Alors(
   async function (this: PotentielWorld) {
     const { identifiantProjet } = this.lauréatWorld;
     await waitForExpect(async () => {
+      const raccordement = await mediator.send<Raccordement.ConsulterRaccordementQuery>({
+        type: 'Réseau.Raccordement.Query.ConsulterRaccordement',
+        data: {
+          identifiantProjetValue: identifiantProjet.formatter(),
+        },
+      });
       const dossierRaccordement =
         await mediator.send<Raccordement.ConsulterDossierRaccordementQuery>({
           type: 'Réseau.Raccordement.Query.ConsulterDossierRaccordement',
@@ -50,37 +56,42 @@ Alors(
           },
         });
 
-      expect(Option.isSome(dossierRaccordement)).to.be.true;
+      assert(Option.isSome(raccordement), 'raccordement non trouvé');
+      assert(Option.isSome(dossierRaccordement), 'dossier raccordement non trouvé');
 
-      if (Option.isSome(dossierRaccordement)) {
-        const {
-          référence: actualRéférence,
-          demandeComplèteRaccordement: {
-            accuséRéception: actualAccuséRéception,
-            dateQualification: actualDateQualification,
+      const {
+        référence: actualRéférence,
+        demandeComplèteRaccordement: {
+          accuséRéception: actualAccuséRéception,
+          dateQualification: actualDateQualification,
+        },
+        identifiantGestionnaireRéseau,
+      } = dossierRaccordement;
+
+      expect(identifiantGestionnaireRéseau.codeEIC).to.eq(
+        raccordement.identifiantGestionnaireRéseau?.codeEIC,
+        'Gestionnaire réseau incorrect',
+      );
+
+      const {
+        dateQualification: expectedDateQualification,
+        accuséRéceptionDemandeComplèteRaccordement: { content: expectedContent },
+        référenceDossierRaccordement: expectedRéférence,
+      } = this.raccordementWorld;
+
+      expect(actualDateQualification?.estÉgaleÀ(expectedDateQualification)).to.be.true;
+      expect(actualRéférence.estÉgaleÀ(expectedRéférence)).to.be.true;
+
+      if (actualAccuséRéception) {
+        const result = await mediator.send<ConsulterDocumentProjetQuery>({
+          type: 'Document.Query.ConsulterDocumentProjet',
+          data: {
+            documentKey: actualAccuséRéception.formatter(),
           },
-        } = dossierRaccordement;
+        });
 
-        const {
-          dateQualification: expectedDateQualification,
-          accuséRéceptionDemandeComplèteRaccordement: { content: expectedContent },
-          référenceDossierRaccordement: expectedRéférence,
-        } = this.raccordementWorld;
-
-        expect(actualDateQualification?.estÉgaleÀ(expectedDateQualification)).to.be.true;
-        expect(actualRéférence.estÉgaleÀ(expectedRéférence)).to.be.true;
-
-        if (actualAccuséRéception) {
-          const result = await mediator.send<ConsulterDocumentProjetQuery>({
-            type: 'Document.Query.ConsulterDocumentProjet',
-            data: {
-              documentKey: actualAccuséRéception.formatter(),
-            },
-          });
-
-          const actualContent = await convertReadableStreamToString(result.content);
-          actualContent.should.be.equal(expectedContent);
-        }
+        const actualContent = await convertReadableStreamToString(result.content);
+        actualContent.should.be.equal(expectedContent);
       }
     });
   },
@@ -316,6 +327,22 @@ async function vérifierGestionnaireAttribué(
 
     expect(résultat.identifiantGestionnaireRéseau?.codeEIC).to.eq(
       identifiantGestionnaireRéseau?.codeEIC,
+      'raccordement invalide',
     );
+
+    for (const { référence } of résultat.dossiers) {
+      const dossier = await mediator.send<Raccordement.ConsulterDossierRaccordementQuery>({
+        type: 'Réseau.Raccordement.Query.ConsulterDossierRaccordement',
+        data: {
+          identifiantProjetValue: identifiantProjet.formatter(),
+          référenceDossierRaccordementValue: référence.formatter(),
+        },
+      });
+      assert(Option.isSome(dossier));
+      expect(dossier.identifiantGestionnaireRéseau.codeEIC).to.eq(
+        identifiantGestionnaireRéseau.codeEIC,
+        'dossier invalide',
+      );
+    }
   });
 }

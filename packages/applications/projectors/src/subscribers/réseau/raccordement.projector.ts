@@ -32,31 +32,31 @@ export const register = () => {
 
       const raccordement = await getRaccordementToUpsert(identifiantProjet);
 
-      if (event.type === 'GestionnaireRéseauRaccordementModifié-V1') {
-        await upsertProjection(`raccordement|${event.payload.identifiantProjet}`, {
-          ...raccordement,
-          identifiantGestionnaireRéseau: event.payload.identifiantGestionnaireRéseau,
-        });
-
-        await updateManyProjections<Raccordement.DossierRaccordementEntity>(
-          'dossier-raccordement',
-          { identifiantProjet: Where.equal(identifiantProjet) },
-          { identifiantGestionnaireRéseau: event.payload.identifiantGestionnaireRéseau },
-        );
-      } else if (event.type === 'GestionnaireRéseauInconnuAttribué-V1') {
-        await upsertProjection(`raccordement|${event.payload.identifiantProjet}`, {
-          ...raccordement,
-          identifiantGestionnaireRéseau:
-            GestionnaireRéseau.IdentifiantGestionnaireRéseau.inconnu.formatter(),
-        });
-
-        await updateManyProjections<Raccordement.DossierRaccordementEntity>(
-          'dossier-raccordement',
-          { identifiantProjet: Where.equal(identifiantProjet) },
+      if (
+        type === 'GestionnaireRéseauRaccordementModifié-V1' ||
+        type === 'GestionnaireRéseauInconnuAttribué-V1' ||
+        type === 'GestionnaireRéseauAttribué-V1'
+      ) {
+        const identifiantGestionnaireRéseau =
+          type === 'GestionnaireRéseauInconnuAttribué-V1'
+            ? GestionnaireRéseau.IdentifiantGestionnaireRéseau.inconnu.formatter()
+            : payload.identifiantGestionnaireRéseau;
+        await upsertProjection<Raccordement.RaccordementEntity>(
+          `raccordement|${event.payload.identifiantProjet}`,
           {
-            identifiantGestionnaireRéseau:
-              GestionnaireRéseau.IdentifiantGestionnaireRéseau.inconnu.formatter(),
+            ...raccordement,
+            dossiers: raccordement.dossiers.map((dossier) => ({
+              ...dossier,
+              identifiantGestionnaireRéseau,
+            })),
+            identifiantGestionnaireRéseau,
           },
+        );
+
+        await updateManyProjections<Raccordement.DossierRaccordementEntity>(
+          'dossier-raccordement',
+          { identifiantProjet: Where.equal(identifiantProjet) },
+          { identifiantGestionnaireRéseau },
         );
       } else if (
         event.type === 'DemandeComplèteDeRaccordementTransmise-V1' ||
@@ -122,11 +122,6 @@ export const register = () => {
           `dossier-raccordement|${event.payload.identifiantProjet}#${event.payload.référenceDossierRaccordement}`,
           dossier,
         );
-      } else if (event.type === 'GestionnaireRéseauAttribué-V1') {
-        await upsertProjection(`raccordement|${event.payload.identifiantProjet}`, {
-          ...raccordement,
-          identifiantGestionnaireRéseau: event.payload.identifiantGestionnaireRéseau,
-        });
       } else if (event.type === 'DossierDuRaccordementSupprimé-V1') {
         const { identifiantProjet, référenceDossier } = event.payload;
 

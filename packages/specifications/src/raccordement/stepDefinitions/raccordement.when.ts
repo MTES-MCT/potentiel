@@ -7,6 +7,7 @@ import { Role } from '@potentiel-domain/utilisateur';
 
 import { convertStringToReadableStream } from '../../helpers/convertStringToReadable';
 import { PotentielWorld } from '../../potentiel.world';
+import { waitForEvents } from '../../helpers/waitForEvents';
 
 Quand(
   `le porteur transmet une demande complète de raccordement pour le projet {lauréat-éliminé} auprès du gestionnaire de réseau avec :`,
@@ -212,6 +213,7 @@ Quand(
 Quand(
   `un porteur modifie le gestionnaire de réseau du projet avec un gestionnaire non référencé`,
   async function (this: PotentielWorld) {
+    await waitForEvents();
     const { identifiantProjet } = this.lauréatWorld;
 
     try {
@@ -232,6 +234,7 @@ Quand(
 Quand(
   `le système modifie le gestionnaire de réseau du projet avec un gestionnaire inconnu`,
   async function (this: PotentielWorld) {
+    await waitForEvents();
     const { identifiantProjet } = this.lauréatWorld;
 
     try {
@@ -252,6 +255,7 @@ Quand(
 Quand(
   `un porteur modifie le gestionnaire de réseau du projet avec le gestionnaire {string}`,
   async function (this: PotentielWorld, raisonSocialGestionnaireRéseau: string) {
+    await waitForEvents();
     const { identifiantProjet } = this.lauréatWorld;
     const { codeEIC } = this.gestionnaireRéseauWorld.rechercherGestionnaireRéseauFixture(
       raisonSocialGestionnaireRéseau,
