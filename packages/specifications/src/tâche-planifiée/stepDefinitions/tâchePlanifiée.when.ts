@@ -10,7 +10,7 @@ import { PotentielWorld } from '../../potentiel.world';
 import { RechercherTypeTâchePlanifiée } from '../tâchePlanifiée.world';
 
 Quand(
-  'on execute les tâches planifiées à la date du {string}',
+  'on exécute les tâches planifiées à la date du {string}',
   async function (this: PotentielWorld, àExécuterLe: string) {
     const tâches = await mediator.send<ListerTâchesPlanifiéesQuery>({
       type: 'Tâche.Query.ListerTâchesPlanifiées',
@@ -35,7 +35,7 @@ Quand(
 );
 
 Quand(
-  'on execute la tâche planifiée {string} pour le projet {string}',
+  'on exécute la tâche planifiée {string} pour le projet {string}',
   async function (
     this: PotentielWorld,
     typeTâche: RechercherTypeTâchePlanifiée,

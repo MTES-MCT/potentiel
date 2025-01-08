@@ -83,7 +83,7 @@ export class DemanderChangementReprésentantLégalFixture
       demandéLe: faker.date.recent().toISOString(),
       demandéPar: faker.internet.email(),
       pièceJustificative: {
-        format: faker.potentiel.fileFormat(),
+        format: 'application/pdf',
         content: convertStringToReadableStream(content),
       },
       ...partialFixture,

@@ -173,6 +173,11 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
       cahiersDesChargesModifiésDisponibles: [CDCModifié30072021, CDCModifié30082022],
       abandonAvecRecandidature: true,
       choisirNouveauCahierDesCharges: true,
+      changement: {
+        représentantLégal: {
+          typeTâchePlanifiée: 'accord-automatique',
+        },
+      },
     },
     {
       id: '2',
@@ -218,6 +223,11 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
       cahiersDesChargesModifiésDisponibles: [CDCModifié30072021, CDCModifié30082022],
       abandonAvecRecandidature: true,
       choisirNouveauCahierDesCharges: true,
+      changement: {
+        représentantLégal: {
+          typeTâchePlanifiée: 'accord-automatique',
+        },
+      },
     },
     {
       id: '3',
@@ -263,6 +273,11 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
       cahiersDesChargesModifiésDisponibles: [CDCModifié30072021, CDCModifié30082022],
       abandonAvecRecandidature: true,
       choisirNouveauCahierDesCharges: true,
+      changement: {
+        représentantLégal: {
+          typeTâchePlanifiée: 'accord-automatique',
+        },
+      },
     },
   ],
 };

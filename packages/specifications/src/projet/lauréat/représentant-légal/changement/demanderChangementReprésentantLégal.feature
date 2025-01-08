@@ -13,6 +13,7 @@ Fonctionnalité: Demander le changement de représentant légal d'un projet laur
             | sujet      | Potentiel - Demande de modification du représentant légal pour le projet Du boulodrome de Marseille dans le département(.*) |
             | nom_projet | Du boulodrome de Marseille                                                                                                  |
             | url        | https://potentiel.beta.gouv.fr/laureats/.*/changement/representant-legal                                                    |
+        Et une tâche "gestion automatique de la demande de changement de représentant légal" est planifiée 3 mois plus tard pour le projet lauréat
 
     Scénario: Impossible de demander le changement de représentant légal d'un projet lauréat si le changement est déjà en cours
         Etant donné une demande de changement de représentant légal en cours pour le projet lauréat
@@ -45,15 +46,16 @@ Fonctionnalité: Demander le changement de représentant légal d'un projet laur
     @NotImplemented
     Scénario: Impossible de demander le changement de représentant légal si le projet est déjà en service
         Etant donné le gestionnaire de réseau "Enedis"
-        Et une demande complète de raccordement pour le projet lauréat transmise auprès du gestionnaire de réseau avec :
+        Et le gestionnaire de réseau "Enedis" attribué au raccordement du projet lauréat "Du boulodrome de Marseille"
+        Et une demande complète de raccordement pour le projet lauréat "Du boulodrome de Marseille" transmise auprès du gestionnaire de réseau "Enedis" avec :
             | La date de qualification                | 2022-10-28                                                                                            |
             | La référence du dossier de raccordement | OUE-RP-2022-000033                                                                                    |
             | Le format de l'accusé de réception      | application/pdf                                                                                       |
             | Le contenu de l'accusé de réception     | Accusé de réception ayant pour référence OUE-RP-2022-000033 et la date de qualification au 2022-10-28 |
-        Et une proposition technique et financière pour le dossier ayant comme référence "OUE-RP-2022-000033" du raccordement pour le projet lauréat avec :
+        Et une proposition technique et financière pour le dossier ayant comme référence "OUE-RP-2022-000033" du raccordement pour le projet lauréat "Du boulodrome de Marseille" avec :
             | La date de signature                                | 2023-01-10                                                                                                        |
             | Le format de la proposition technique et financière | application/pdf                                                                                                   |
             | Le contenu de proposition technique et financière   | Proposition technique et financière pour la référence OUE-RP-2022-000033 avec une date de signature au 2023-01-10 |
-        Et une date de mise en service "2024-01-01" pour le dossier ayant comme référence "OUE-RP-2022-000033" du raccordement pour le projet lauréat
+        Et une date de mise en service "2024-01-01" pour le dossier ayant comme référence "OUE-RP-2022-000033" du raccordement pour le projet lauréat "Du boulodrome de Marseille"
         Quand le porteur demande le changement de réprésentant pour le projet lauréat
         Alors le porteur devrait être informé que "Impossible de demander le changement de représentant légal pour un projet déjà en service"

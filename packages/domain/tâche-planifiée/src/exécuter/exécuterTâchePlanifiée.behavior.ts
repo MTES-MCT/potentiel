@@ -48,7 +48,7 @@ export function applyTâchePlanifiéeExecutée(
 
 class TâcheDéjàExécutéeError extends InvalidOperationError {
   constructor(identifiantProjet: IdentifiantProjet.ValueType, typeTâchePlanifiée: string) {
-    super('La tâche planifiée est déjà executée', {
+    super('La tâche planifiée est déjà exécutée', {
       identifiantProjet,
       typeTâchePlanifiée,
     });

@@ -10,11 +10,11 @@ import { CréerDemandeChangementReprésentantLégalFixture } from '../fixtures/d
 Quand(
   /le porteur demande le changement de réprésentant pour le projet lauréat(.*)/,
   async function (this: PotentielWorld, extra?: string) {
-    const identifiantProjet = this.lauréatWorld.identifiantProjet.formatter();
+    const identifiantProjet = this.lauréatWorld.identifiantProjet;
 
     const options = getOptions({
       potentielWorld: this,
-      identifiantProjet,
+      identifiantProjet: identifiantProjet.formatter(),
       extra,
     });
 
@@ -30,7 +30,7 @@ Quand(
       );
 
     try {
-      await mediator.send<ReprésentantLégal.ReprésentantLégalUseCase>({
+      await mediator.send<ReprésentantLégal.DemanderChangementReprésentantLégalUseCase>({
         type: 'Lauréat.ReprésentantLégal.UseCase.DemanderChangementReprésentantLégal',
         data: {
           identifiantProjetValue: options.identifiantProjet,

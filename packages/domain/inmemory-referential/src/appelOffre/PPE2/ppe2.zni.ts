@@ -95,6 +95,11 @@ du paragraphe 2.6.`,
       ],
       noteThreshold: 41.8253968253968,
       cahiersDesChargesModifiésDisponibles: [],
+      changement: {
+        représentantLégal: {
+          typeTâchePlanifiée: 'accord-automatique',
+        },
+      },
     },
     {
       id: '2',
@@ -122,6 +127,11 @@ du paragraphe 2.6.`,
       ],
       noteThreshold: 26.62,
       cahiersDesChargesModifiésDisponibles: [],
+      changement: {
+        représentantLégal: {
+          typeTâchePlanifiée: 'accord-automatique',
+        },
+      },
     },
   ],
 };

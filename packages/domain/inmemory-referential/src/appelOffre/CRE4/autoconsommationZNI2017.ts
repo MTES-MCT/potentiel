@@ -122,6 +122,11 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
       cahiersDesChargesModifiésDisponibles: [CDCModifié30072021, CDCModifié30082022],
       abandonAvecRecandidature: true,
       choisirNouveauCahierDesCharges: true,
+      changement: {
+        représentantLégal: {
+          typeTâchePlanifiée: 'accord-automatique',
+        },
+      },
     },
   ],
 };

@@ -127,6 +127,11 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
         },
       ],
       abandonAvecRecandidature: true,
+      changement: {
+        représentantLégal: {
+          typeTâchePlanifiée: 'rejet-automatique',
+        },
+      },
     },
     {
       id: '2',
@@ -164,6 +169,11 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
         },
       },
       abandonAvecRecandidature: true,
+      changement: {
+        représentantLégal: {
+          typeTâchePlanifiée: 'rejet-automatique',
+        },
+      },
     },
     {
       id: '3',
@@ -189,6 +199,11 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
         },
       },
       cahiersDesChargesModifiésDisponibles: [],
+      changement: {
+        représentantLégal: {
+          typeTâchePlanifiée: 'rejet-automatique',
+        },
+      },
     },
     {
       id: '4',
@@ -213,6 +228,11 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
         },
       },
       cahiersDesChargesModifiésDisponibles: [],
+      changement: {
+        représentantLégal: {
+          typeTâchePlanifiée: 'rejet-automatique',
+        },
+      },
     },
     {
       id: '5',
@@ -226,6 +246,11 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
       delaiDcrEnMois: { valeur: 3, texte: 'trois' },
       familles: [],
       cahiersDesChargesModifiésDisponibles: [],
+      changement: {
+        représentantLégal: {
+          typeTâchePlanifiée: 'rejet-automatique',
+        },
+      },
     },
     {
       id: '6',
@@ -239,6 +264,11 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
       delaiDcrEnMois: { valeur: 3, texte: 'trois' },
       familles: [],
       cahiersDesChargesModifiésDisponibles: [],
+      changement: {
+        représentantLégal: {
+          typeTâchePlanifiée: 'rejet-automatique',
+        },
+      },
     },
     {
       id: '7',
@@ -252,6 +282,11 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
       delaiDcrEnMois: { valeur: 3, texte: 'trois' },
       familles: [],
       cahiersDesChargesModifiésDisponibles: [],
+      changement: {
+        représentantLégal: {
+          typeTâchePlanifiée: 'rejet-automatique',
+        },
+      },
     },
     {
       id: '8',
@@ -265,6 +300,11 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
       delaiDcrEnMois: { valeur: 3, texte: 'trois' },
       familles: [],
       cahiersDesChargesModifiésDisponibles: [],
+      changement: {
+        représentantLégal: {
+          typeTâchePlanifiée: 'rejet-automatique',
+        },
+      },
     },
   ],
 };
