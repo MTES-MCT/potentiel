@@ -1,6 +1,3 @@
-// Third party
-
-// Workspaces
 import { DomainEvent, InvalidOperationError } from '@potentiel-domain/core';
 import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
 
@@ -10,27 +7,36 @@ import * as StatutChangementReprésentantLégal from '../statutChangementReprés
 export type ChangementReprésentantLégalRejetéEvent = DomainEvent<
   'ChangementReprésentantLégalRejeté-V1',
   {
+    identifiantProjet: IdentifiantProjet.RawType;
+    motifRejet: string;
     rejetéLe: DateTime.RawType;
     rejetéPar: Email.RawType;
-    identifiantProjet: IdentifiantProjet.RawType;
     rejetAutomatique: boolean;
   }
 >;
 
 export type RejeterOptions = {
-  dateRejet: DateTime.ValueType;
-  identifiantUtilisateur: Email.ValueType;
   identifiantProjet: IdentifiantProjet.ValueType;
+  identifiantUtilisateur: Email.ValueType;
+  dateRejet: DateTime.ValueType;
+  motifRejet: string;
   rejetAutomatique: boolean;
 };
 
 export async function rejeter(
   this: ReprésentantLégalAggregate,
-  { dateRejet, identifiantUtilisateur, identifiantProjet, rejetAutomatique }: RejeterOptions,
+  {
+    identifiantProjet,
+    identifiantUtilisateur,
+    motifRejet,
+    dateRejet,
+    rejetAutomatique,
+  }: RejeterOptions,
 ) {
   if (!this.demande) {
     throw new DemandeChangementInexistanteError();
   }
+
   this.demande?.statut.vérifierQueLeChangementDeStatutEstPossibleEn(
     StatutChangementReprésentantLégal.rejeté,
   );
@@ -39,6 +45,7 @@ export async function rejeter(
     type: 'ChangementReprésentantLégalRejeté-V1',
     payload: {
       identifiantProjet: identifiantProjet.formatter(),
+      motifRejet,
       rejetéLe: dateRejet.formatter(),
       rejetéPar: identifiantUtilisateur.formatter(),
       rejetAutomatique,

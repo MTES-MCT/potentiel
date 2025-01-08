@@ -13,6 +13,7 @@ export type RejeterChangementReprésentantLégalUseCase = Message<
     identifiantProjetValue: string;
     identifiantUtilisateurValue: string;
     dateRejetValue: string;
+    motifRejetValue: string;
     rejetAutomatiqueValue: boolean;
   }
 >;
@@ -20,8 +21,9 @@ export type RejeterChangementReprésentantLégalUseCase = Message<
 export const registerRejeterChangementReprésentantLégalUseCase = () => {
   const runner: MessageHandler<RejeterChangementReprésentantLégalUseCase> = async ({
     identifiantUtilisateurValue,
-    dateRejetValue,
     identifiantProjetValue,
+    dateRejetValue,
+    motifRejetValue,
     rejetAutomatiqueValue,
   }) => {
     const identifiantProjet = IdentifiantProjet.convertirEnValueType(identifiantProjetValue);
@@ -36,6 +38,7 @@ export const registerRejeterChangementReprésentantLégalUseCase = () => {
         dateRejet,
         identifiantUtilisateur,
         identifiantProjet,
+        motifRejet: motifRejetValue,
         rejetAutomatique: rejetAutomatiqueValue,
       },
     });

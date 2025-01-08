@@ -64,6 +64,7 @@ export const DétailsChangementReprésentantLégalPage: FC<
               />
             ) : rejet ? (
               <ChangementRejeté
+                motif={rejet.motif}
                 rejetéLe={rejet.rejetéLe}
                 rejetéPar={rejet.rejetéPar}
                 nomReprésentantLégal={nomReprésentantLégal}
@@ -249,6 +250,7 @@ type ChangementRejetéProps = NonNullable<
 const ChangementRejeté: FC<ChangementRejetéProps> = ({
   rejetéLe,
   rejetéPar,
+  motif,
   nomReprésentantLégal,
   typeReprésentantLégal,
 }) => (
@@ -265,6 +267,10 @@ const ChangementRejeté: FC<ChangementRejetéProps> = ({
         <StatutChangementReprésentantLégalBadge
           statut={ReprésentantLégal.StatutChangementReprésentantLégal.rejeté.formatter()}
         />
+      </div>
+      <div className="flex gap-2">
+        <div className="font-semibold">Motif :</div>
+        {motif}
       </div>
       <div className="flex gap-2">
         <div className="font-semibold whitespace-nowrap">Type :</div>

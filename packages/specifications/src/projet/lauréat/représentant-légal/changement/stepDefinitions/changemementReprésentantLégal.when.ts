@@ -117,16 +117,17 @@ Quand(
   ) {
     const identifiantProjet = this.lauréatWorld.identifiantProjet.formatter();
 
-    const { rejetéeLe, rejetéePar } =
+    const { rejetéeLe, rejetéePar, motif } =
       this.lauréatWorld.représentantLégalWorld.changementReprésentantLégalWorld.rejeterChangementReprésentantLégalFixture.créer();
 
     try {
-      await mediator.send<ReprésentantLégal.ReprésentantLégalUseCase>({
+      await mediator.send<ReprésentantLégal.RejeterChangementReprésentantLégalUseCase>({
         type: 'Lauréat.ReprésentantLégal.UseCase.RejeterChangementReprésentantLégal',
         data: {
           identifiantProjetValue: identifiantProjet,
           identifiantUtilisateurValue: rejetéePar,
           dateRejetValue: rejetéeLe,
+          motifRejetValue: motif,
           rejetAutomatiqueValue: rôle === 'le système',
         },
       });

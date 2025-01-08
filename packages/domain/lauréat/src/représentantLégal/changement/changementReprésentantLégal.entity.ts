@@ -30,6 +30,7 @@ export type ChangementReprésentantLégalEntity = Entity<
       };
 
       rejet?: {
+        motif: string;
         rejetéLe: string;
         rejetéPar: string;
       };

@@ -13,7 +13,7 @@ export const handleChangementReprésentantLégalRejeté = async (
   event: ReprésentantLégal.ChangementReprésentantLégalRejetéEvent,
 ) => {
   const {
-    payload: { identifiantProjet, rejetéLe, rejetéPar },
+    payload: { identifiantProjet, motifRejet, rejetéLe, rejetéPar },
   } = event;
 
   const changementReprésentantLégal =
@@ -36,6 +36,7 @@ export const handleChangementReprésentantLégalRejeté = async (
         ...changementReprésentantLégal.demande,
         statut: ReprésentantLégal.StatutChangementReprésentantLégal.rejeté.formatter(),
         rejet: {
+          motif: motifRejet,
           rejetéLe,
           rejetéPar,
         },

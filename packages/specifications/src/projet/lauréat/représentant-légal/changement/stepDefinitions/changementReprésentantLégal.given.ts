@@ -99,11 +99,12 @@ EtantDonné(
     const fixtureRejeter =
       this.lauréatWorld.représentantLégalWorld.changementReprésentantLégalWorld.rejeterChangementReprésentantLégalFixture.créer();
 
-    await mediator.send<ReprésentantLégal.ReprésentantLégalUseCase>({
+    await mediator.send<ReprésentantLégal.RejeterChangementReprésentantLégalUseCase>({
       type: 'Lauréat.ReprésentantLégal.UseCase.RejeterChangementReprésentantLégal',
       data: {
         identifiantProjetValue: identifiantProjet,
         identifiantUtilisateurValue: fixtureRejeter.rejetéePar,
+        motifRejetValue: fixtureRejeter.motif,
         dateRejetValue: fixtureRejeter.rejetéeLe,
         rejetAutomatiqueValue: false,
       },

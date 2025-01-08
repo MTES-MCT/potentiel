@@ -76,6 +76,7 @@ export class ChangementReprésentantLégalWorld {
 
     if (this.rejeterChangementReprésentantLégalFixture.aÉtéCréé) {
       expected.demande.rejet = {
+        motif: this.rejeterChangementReprésentantLégalFixture.motif,
         rejetéLe: DateTime.convertirEnValueType(
           this.rejeterChangementReprésentantLégalFixture.rejetéeLe,
         ),
