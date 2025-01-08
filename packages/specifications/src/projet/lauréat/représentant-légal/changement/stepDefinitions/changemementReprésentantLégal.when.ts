@@ -122,43 +122,6 @@ Quand(
 );
 
 Quand(
-  'le porteur demande le changement de réprésentant pour le projet lauréat sans pièce justificative',
-  async function (this: PotentielWorld) {
-    const identifiantProjet = this.lauréatWorld.identifiantProjet.formatter();
-
-    const {
-      nomReprésentantLégal,
-      typeReprésentantLégal,
-      pièceJustificative,
-      demandéLe,
-      demandéPar,
-    } =
-      this.lauréatWorld.représentantLégalWorld.changementReprésentantLégalWorld.demanderChangementReprésentantLégalFixture.créer(
-        {
-          identifiantProjet,
-          demandéPar: this.utilisateurWorld.porteurFixture.email,
-        },
-      );
-
-    try {
-      await mediator.send<ReprésentantLégal.DemanderChangementReprésentantLégalUseCase>({
-        type: 'Lauréat.ReprésentantLégal.UseCase.DemanderChangementReprésentantLégal',
-        data: {
-          identifiantProjetValue: identifiantProjet,
-          nomReprésentantLégalValue: nomReprésentantLégal,
-          typeReprésentantLégalValue: typeReprésentantLégal.formatter(),
-          pièceJustificativeValue: pièceJustificative,
-          dateDemandeValue: demandéLe,
-          identifiantUtilisateurValue: demandéPar,
-        },
-      });
-    } catch (error) {
-      this.error = error as Error;
-    }
-  },
-);
-
-Quand(
   'le porteur demande le changement de réprésentant pour le projet lauréat le {string}',
   async function (this: PotentielWorld, dateDemande: string) {
     const identifiantProjet = this.lauréatWorld.identifiantProjet;
