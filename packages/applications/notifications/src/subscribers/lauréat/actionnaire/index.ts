@@ -25,67 +25,70 @@ export type RegisterActionnaireNotificationDependencies = {
 };
 
 // voir si le cas transmis doit être géré
-
 export const register = ({ sendEmail }: RegisterActionnaireNotificationDependencies) => {
   const handler: MessageHandler<Execute> = async (event) => {
-    const identifiantProjet = IdentifiantProjet.convertirEnValueType(
-      event.payload.identifiantProjet,
-    );
-    const détailsProjet = await CandidatureAdapter.récupérerProjetAdapter(
-      identifiantProjet.formatter(),
-    );
+    try {
+      const identifiantProjet = IdentifiantProjet.convertirEnValueType(
+        event.payload.identifiantProjet,
+      );
+      const détailsProjet = await CandidatureAdapter.récupérerProjetAdapter(
+        identifiantProjet.formatter(),
+      );
 
-    if (Option.isNone(détailsProjet)) {
-      getLogger().error(new Error('Projet non trouvé'), {
-        identifiantProjet: identifiantProjet.formatter(),
-        application: 'notifications',
-        fonction: 'actionnaire',
-      });
-      return;
+      if (Option.isNone(détailsProjet)) {
+        getLogger().error(new Error('Projet non trouvé'), {
+          identifiantProjet: identifiantProjet.formatter(),
+          application: 'notifications',
+          fonction: 'actionnaire',
+        });
+        return;
+      }
+
+      const { BASE_URL: baseUrl } = process.env;
+
+      if (!baseUrl) {
+        getLogger().error(`variable d'environnement BASE_URL non trouvée`, {
+          application: 'notifications',
+          fonction: 'actionnaire',
+        });
+        return;
+      }
+
+      const projet = {
+        nom: détailsProjet.nom,
+        département: détailsProjet.localité.département,
+      };
+
+      return match(event)
+        .with({ type: 'ActionnaireModifié-V1' }, async (event) =>
+          handleActionnaireModifié({
+            sendEmail,
+            event,
+            projet,
+            baseUrl,
+          }),
+        )
+        .with({ type: 'ChangementActionnaireDemandé-V1' }, async (event) =>
+          handleChangementActionnaireDemandé({
+            sendEmail,
+            event,
+            projet,
+            baseUrl,
+          }),
+        )
+        .with({ type: 'DemandeChangementActionnaireAccordée-V1' }, async (event) =>
+          handleDemandeChangementActionnaireAccordée({ sendEmail, event, projet, baseUrl }),
+        )
+        .with({ type: 'DemandeChangementActionnaireRejetée-V1' }, async (event) =>
+          handleDemandeChangementActionnaireRejetée({ sendEmail, event, projet, baseUrl }),
+        )
+        .with({ type: 'DemandeChangementActionnaireAnnulée-V1' }, async (event) =>
+          handleDemandeChangementActionnaireAnnulée({ sendEmail, event, projet, baseUrl }),
+        )
+        .otherwise(() => Promise.resolve());
+    } catch (e) {
+      console.log(e);
     }
-
-    const { BASE_URL: baseUrl } = process.env;
-
-    if (!baseUrl) {
-      getLogger().error(`variable d'environnement BASE_URL non trouvée`, {
-        application: 'notifications',
-        fonction: 'représentant-légal',
-      });
-      return;
-    }
-
-    const projet = {
-      nom: détailsProjet.nom,
-      département: détailsProjet.localité.département,
-    };
-
-    return match(event)
-      .with({ type: 'ActionnaireModifié-V1' }, async (event) =>
-        handleActionnaireModifié({
-          sendEmail,
-          event,
-          projet,
-          baseUrl,
-        }),
-      )
-      .with({ type: 'ChangementActionnaireDemandé-V1' }, async (event) =>
-        handleChangementActionnaireDemandé({
-          sendEmail,
-          event,
-          projet,
-          baseUrl,
-        }),
-      )
-      .with({ type: 'DemandeChangementActionnaireAccordée-V1' }, async (event) =>
-        handleDemandeChangementActionnaireAccordée({ sendEmail, event, projet, baseUrl }),
-      )
-      .with({ type: 'DemandeChangementActionnaireRejetée-V1' }, async (event) =>
-        handleDemandeChangementActionnaireRejetée({ sendEmail, event, projet, baseUrl }),
-      )
-      .with({ type: 'DemandeChangementActionnaireAnnulée-V1' }, async (event) =>
-        handleDemandeChangementActionnaireAnnulée({ sendEmail, event, projet, baseUrl }),
-      )
-      .otherwise(() => Promise.resolve());
   };
 
   mediator.register('System.Notification.Lauréat.Actionnaire', handler);

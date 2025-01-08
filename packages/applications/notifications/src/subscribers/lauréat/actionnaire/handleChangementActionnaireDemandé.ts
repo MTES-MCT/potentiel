@@ -31,7 +31,6 @@ export const handleChangementActionnaireDemandé = async ({
     getLogger().error('Aucune dreal trouvée', {
       identifiantProjet: identifiantProjet.formatter(),
       application: 'notifications',
-      fonction: 'handleChangementActionnaireDemandé',
     });
     return;
   }
@@ -43,7 +42,7 @@ export const handleChangementActionnaireDemandé = async ({
     variables: {
       nom_projet: projet.nom,
       departement_projet: projet.département,
-      url: `${baseUrl}${Routes.Actionnaire.changement.détail(identifiantProjet.formatter())}`,
+      url: `${baseUrl}${Routes.ReprésentantLégal.changement.détail(identifiantProjet.formatter())}`,
     },
   });
 };

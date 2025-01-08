@@ -7,10 +7,34 @@ Fonctionnalité: Modifier l'actionnaire d'un projet lauréat
         Et la dreal "DREAL" associée à la région du projet
         Quand le DGEC validateur modifie l'actionnaire pour le projet lauréat
         Alors l'actionnaire du projet lauréat devrait être mis à jour
+        Et un email a été envoyé au porteur avec :
+            | sujet      | Potentiel - Modification de l'actionnaire pour le projet Du boulodrome de Marseille dans le département(.*) |
+            | nom_projet | Du boulodrome de Marseille                                                                                  |
+            | url        | https://potentiel.beta.gouv.fr/projet/.*/details.html                                                       |
+        Et un email a été envoyé à la dreal avec :
+            | sujet      | Potentiel - Modification de l'actionnaire pour le projet Du boulodrome de Marseille dans le département(.*) |
+            | nom_projet | Du boulodrome de Marseille                                                                                  |
+            | url        | https://potentiel.beta.gouv.fr/projet/.*/details.html                                                       |
         Quand la DREAL modifie l'actionnaire pour le projet lauréat
         Alors l'actionnaire du projet lauréat devrait être mis à jour
+        Et un email a été envoyé au porteur avec :
+            | sujet      | Potentiel - Modification de l'actionnaire pour le projet Du boulodrome de Marseille dans le département(.*) |
+            | nom_projet | Du boulodrome de Marseille                                                                                  |
+            | url        | https://potentiel.beta.gouv.fr/projet/.*/details.html                                                       |
+        Et un email a été envoyé à la dreal avec :
+            | sujet      | Potentiel - Modification de l'actionnaire pour le projet Du boulodrome de Marseille dans le département(.*) |
+            | nom_projet | Du boulodrome de Marseille                                                                                  |
+            | url        | https://potentiel.beta.gouv.fr/projet/.*/details.html                                                       |
         Quand le porteur modifie l'actionnaire pour le projet lauréat
         Alors l'actionnaire du projet lauréat devrait être mis à jour
+        Et un email a été envoyé au porteur avec :
+            | sujet      | Potentiel - Modification de l'actionnaire pour le projet Du boulodrome de Marseille dans le département(.*) |
+            | nom_projet | Du boulodrome de Marseille                                                                                  |
+            | url        | https://potentiel.beta.gouv.fr/projet/.*/details.html                                                       |
+        Et un email a été envoyé à la dreal avec :
+            | sujet      | Potentiel - Modification de l'actionnaire pour le projet Du boulodrome de Marseille dans le département(.*) |
+            | nom_projet | Du boulodrome de Marseille                                                                                  |
+            | url        | https://potentiel.beta.gouv.fr/projet/.*/details.html                                                       |
 
     Scénario: Impossible de modifier l'actionnaire si l'actionnaire est inexistant
         Quand le DGEC validateur modifie l'actionnaire pour le projet lauréat

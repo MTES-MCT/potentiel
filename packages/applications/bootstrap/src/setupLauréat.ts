@@ -60,6 +60,7 @@ export const setupLauréat = async ({ sendEmail }: SetupLauréatDependencies) =>
   GarantiesFinancièresNotification.register({ sendEmail });
   AchèvementNotification.register({ sendEmail });
   ReprésentantLégalNotification.register({ sendEmail });
+  ActionnaireNotification.register({ sendEmail });
 
   // Sagas
   GarantiesFinancières.GarantiesFinancièresSaga.register();

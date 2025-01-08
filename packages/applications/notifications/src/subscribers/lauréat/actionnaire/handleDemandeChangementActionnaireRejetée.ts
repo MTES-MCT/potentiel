@@ -42,7 +42,7 @@ export const handleDemandeChangementActionnaireRejetée = async ({
       type: 'rejet',
       nom_projet: projet.nom,
       departement_projet: projet.département,
-      url: `${baseUrl}${Routes.Actionnaire.changement.détail(identifiantProjet.formatter())}`,
+      url: `${baseUrl}${Routes.ReprésentantLégal.changement.détail(identifiantProjet.formatter())}`,
     },
   });
 };
