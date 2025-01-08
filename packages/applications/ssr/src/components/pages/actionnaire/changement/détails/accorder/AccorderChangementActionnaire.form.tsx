@@ -3,9 +3,12 @@
 import { useState } from 'react';
 import Button from '@codegouvfr/react-dsfr/Button';
 
+import { Routes } from '@potentiel-applications/routes';
+
 import { ModalWithForm } from '@/components/molecules/ModalWithForm';
 import { ValidationErrors } from '@/utils/formAction';
 import { UploadNewOrModifyExistingDocument } from '@/components/atoms/form/document/UploadNewOrModifyExistingDocument';
+import { DownloadDocument } from '@/components/atoms/form/document/DownloadDocument';
 
 import {
   accorderChangementActionnaireAction,
@@ -59,12 +62,12 @@ export const AccorderChangementActionnaire = ({
                 formats={['pdf']}
               />
 
-              {/* <DownloadDocument
+              <DownloadDocument
                 className="mb-4"
-                url={Routes.Actionnaire.téléchargerModèleRéponse(identifiantProjet)}
+                url={Routes.Actionnaire.changement.téléchargerModèleRéponse(identifiantProjet)}
                 format="docx"
                 label="Télécharger le modèle de réponse"
-              /> */}
+              />
             </>
           ),
         }}

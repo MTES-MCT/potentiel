@@ -11,5 +11,7 @@ export const changement = {
     `/laureats/${encodeParameter(identifiantProjet)}/changement/actionnaire`,
   demander: (identifiantProjet: string) =>
     `/laureats/${encodeParameter(identifiantProjet)}/changement/actionnaire/demander`,
+  téléchargerModèleRéponse: (identifiantProjet: string) =>
+    `/laureats/${encodeParameter(identifiantProjet)}/changement/actionnaire/modele-reponse`,
   lister: `/laureats/changements/actionnaire`,
 };

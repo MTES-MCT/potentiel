@@ -52,7 +52,7 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
 
     if (
       projetAppelOffre.periodes.find(({ id }) => id === période)?.choisirNouveauCahierDesCharges &&
-      cahierDesChargesChoisi === 'initial'
+      cahierDesChargesChoisi.type === 'initial'
     ) {
       redirect(Routes.Projet.details(identifiantProjet));
     }

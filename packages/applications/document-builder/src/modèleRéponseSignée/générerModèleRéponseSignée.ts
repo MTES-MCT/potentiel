@@ -22,12 +22,17 @@ import {
   ModèleMiseEnDemeure,
   modèleRéponseMiseEnDemeureFileName,
 } from './garantiesFinancières/modèleRéponseSignéeMiseEnDemeure';
+import {
+  ModèleRéponseActionnaire,
+  modèleRéponseActionnaireFileName as modèleRéponseActionnaireFileName,
+} from './actionnaire/modèleRéponseSignéeActionnaire';
 
 export type GénérerModèleRéponseOptions = { logo?: string } & (
   | ModèleRéponseAbandon
   | ModèleRéponseRecours
   | ModèleMiseEnDemeure
   | ModèleRéponseMainlevée
+  | ModèleRéponseActionnaire
 );
 
 export type GénérerModèleRéponsePort = (
@@ -83,5 +88,7 @@ const getModèleRéponseFilePath = (type: GénérerModèleRéponseOptions['type'
       return path.resolve(assets.docxFolderPath, modèleRéponseMainlevéeFileName);
     case 'mise-en-demeure':
       return path.resolve(assets.docxFolderPath, modèleRéponseMiseEnDemeureFileName);
+    case 'actionnaire':
+      return path.resolve(assets.docxFolderPath, modèleRéponseActionnaireFileName);
   }
 };

@@ -7,7 +7,6 @@ import { Routes } from '@potentiel-applications/routes';
 import { Role } from '@potentiel-domain/utilisateur';
 import { getLogger } from '@potentiel-libraries/monitoring';
 import { IdentifiantProjet } from '@potentiel-domain/common';
-import { AppelOffre } from '@potentiel-domain/appel-offre';
 
 export type GetActionnaireForProjectPage =
   | {
@@ -37,16 +36,6 @@ export const getActionnaire = async (
     });
 
     if (Option.isSome(actionnaire)) {
-      const appelOffre = await mediator.send<AppelOffre.ConsulterAppelOffreQuery>({
-        type: 'AppelOffre.Query.ConsulterAppelOffre',
-        data: { identifiantAppelOffre: identifiantProjet.appelOffre },
-      });
-
-      if (Option.isNone(appelOffre)) {
-        getLogger().error(`Appel d'offres non trouvé`, { identifiantProjet });
-        return;
-      }
-
       const demandeExistanteDeChangement =
         await mediator.send<Actionnaire.ConsulterDemandeChangementActionnaireQuery>({
           type: 'Lauréat.Actionnaire.Query.ConsulterDemandeChangementActionnaire',
@@ -58,7 +47,8 @@ export const getActionnaire = async (
         demandeExistanteDeChangement.demande.statut.estDemandé();
 
       const doitDemanderEtPasModifier =
-        appelOffre.id === 'Eolien' && utilisateur.aLaPermission('actionnaire.demanderChangement');
+        identifiantProjet.appelOffre === 'Eolien' &&
+        utilisateur.aLaPermission('actionnaire.demanderChangement');
 
       // TODO: affiner la condition sur la demande vs la modification
       const peutFaireUneDemandeDeChangement = doitDemanderEtPasModifier && !aUneDemandeEnCours;

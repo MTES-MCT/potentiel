@@ -912,6 +912,7 @@ const policies = {
       référencielPermissions.lauréat.actionnaire.command.demanderChangement,
     ],
     accorderChangement: [
+      référencielPermissions.appelOffre.cahierDesCharges.query.consulter,
       référencielPermissions.lauréat.actionnaire.usecase.accorderChangement,
       référencielPermissions.lauréat.actionnaire.command.accorderChangement,
     ],
