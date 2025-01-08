@@ -32,7 +32,7 @@ import { getFakeFormat } from './helpers/getFakeFormat';
 import { getFakeIdentifiantProjet } from './helpers/getFakeIdentifiantProjet';
 import { getFakeContent } from './helpers/getFakeContent';
 import { initialiserUtilisateursTests } from './utilisateur/stepDefinitions/utilisateur.given';
-import { waitForEvents } from './helpers/waitForEvents';
+import { waitForSagasNotificationsAndProjectionsToFinish } from './helpers/waitForSagasNotificationsAndProjectionsToFinish';
 
 should();
 setWorldConstructor(PotentielWorld);
@@ -69,6 +69,10 @@ BeforeStep(async ({ pickleStep }) => {
 });
 
 AfterStep(async function (this: PotentielWorld, { pickleStep, result }) {
+  if (pickleStep.type && ['Context', 'Action'].includes(pickleStep.type)) {
+    await waitForSagasNotificationsAndProjectionsToFinish();
+  }
+
   if (pickleStep.type === 'Outcome' && result.status === 'PASSED') {
     if (!pickleStep.text.includes('devrait être informé que')) {
       expect(this.hasNoError).to.be.true;
@@ -121,7 +125,6 @@ Before<PotentielWorld>(async function (this: PotentielWorld) {
 });
 
 After(async () => {
-  await waitForEvents();
   const objectsToDelete = await getClient().send(new ListObjectsV2Command({ Bucket: bucketName }));
 
   if (objectsToDelete.Contents?.length) {

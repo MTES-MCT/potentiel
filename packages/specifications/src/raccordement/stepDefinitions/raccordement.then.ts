@@ -10,7 +10,6 @@ import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 
 import { convertReadableStreamToString } from '../../helpers/convertReadableToString';
 import { PotentielWorld } from '../../potentiel.world';
-import { waitForEvents } from '../../helpers/waitForEvents';
 
 Alors(
   `le dossier est consultable dans la liste des dossiers de raccordement du projet lauréat`,
@@ -172,7 +171,6 @@ Alors(
     référenceDossierRaccordement: string,
   ) {
     const { identifiantProjet } = this.lauréatWorld;
-    await waitForEvents();
     await waitForExpect(async () => {
       const actual = await mediator.send<Raccordement.ConsulterDossierRaccordementQuery>({
         type: 'Réseau.Raccordement.Query.ConsulterDossierRaccordement',

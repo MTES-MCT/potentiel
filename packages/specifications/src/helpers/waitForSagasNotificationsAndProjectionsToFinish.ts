@@ -3,7 +3,7 @@ import { expect } from 'chai';
 
 import { executeSelect } from '@potentiel-libraries/pg-helpers';
 
-export async function waitForEvents() {
+export async function waitForSagasNotificationsAndProjectionsToFinish() {
   await new Promise((r) => setTimeout(r, 50));
   // wait for sagas, notifications and projections to finish
   await waitForExpect(async () => {

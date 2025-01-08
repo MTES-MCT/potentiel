@@ -10,12 +10,10 @@ import { ListerTâchesQuery } from '@potentiel-domain/tache';
 import { convertStringToReadableStream } from '../../helpers/convertStringToReadable';
 import { PotentielWorld } from '../../potentiel.world';
 import { RechercherTypeTâche } from '../../tâche/tâche.world';
-import { waitForEvents } from '../../helpers/waitForEvents';
 
 EtantDonné(
   'le gestionnaire de réseau {string} attribué au raccordement du projet lauréat',
   async function (this: PotentielWorld, raisonSocialeGestionnaireRéseau: string) {
-    await waitForEvents();
     const { codeEIC } = this.gestionnaireRéseauWorld.rechercherGestionnaireRéseauFixture(
       raisonSocialeGestionnaireRéseau,
     );
@@ -33,8 +31,6 @@ EtantDonné(
 EtantDonné(
   'le gestionnaire de réseau inconnu attribué au raccordement du projet lauréat',
   async function (this: PotentielWorld) {
-    await waitForEvents();
-
     await mediator.send<Raccordement.ModifierGestionnaireRéseauRaccordementUseCase>({
       type: 'Réseau.Raccordement.UseCase.ModifierGestionnaireRéseauRaccordement',
       data: {
@@ -70,9 +66,6 @@ EtantDonné(
       format,
       content,
     };
-
-    // le raccordement est créé par une saga
-    await waitForEvents();
 
     await mediator.send<Raccordement.RaccordementUseCase>({
       type: 'Réseau.Raccordement.UseCase.TransmettreDemandeComplèteRaccordement',
@@ -155,7 +148,6 @@ EtantDonné(
     const actualTypeTâche = this.tâcheWorld.rechercherTypeTâche(tâche);
     const { identifiantProjet } = this.lauréatWorld;
 
-    await waitForEvents();
     await mediator.send<Raccordement.RaccordementUseCase>({
       type: 'Réseau.Raccordement.UseCase.ModifierGestionnaireRéseauRaccordement',
       data: {
