@@ -2,10 +2,15 @@
 
 import { useState } from 'react';
 import Button from '@codegouvfr/react-dsfr/Button';
+import Input from '@codegouvfr/react-dsfr/Input';
 
 import { ModalWithForm } from '@/components/molecules/ModalWithForm';
+import { ValidationErrors } from '@/utils/formAction';
 
-import { rejeterChangementReprésentantLégalAction } from './rejeterChangementReprésentantLégal.action';
+import {
+  rejeterChangementReprésentantLégalAction,
+  RejeterChangementReprésentantLégalFormKeys,
+} from './rejeterChangementReprésentantLégal.action';
 
 type RejeterChangementReprésentantLégalFormProps = {
   identifiantProjet: string;
@@ -15,6 +20,10 @@ export const RejeterChangementReprésentantLégal = ({
   identifiantProjet,
 }: RejeterChangementReprésentantLégalFormProps) => {
   const [isOpen, setIsOpen] = useState(false);
+
+  const [validationErrors, setValidationErrors] = useState<
+    ValidationErrors<RejeterChangementReprésentantLégalFormKeys>
+  >({});
 
   return (
     <>
@@ -36,12 +45,24 @@ export const RejeterChangementReprésentantLégal = ({
         form={{
           action: rejeterChangementReprésentantLégalAction,
           id: 'rejeter-changementReprésentantLégal-form',
+          onValidationError: (validationErrors) => setValidationErrors(validationErrors),
           omitMandatoryFieldsLegend: true,
           children: (
             <>
-              <p className="mt-3">
-                Êtes-vous sûr de vouloir rejeter ce changement de représentant légal ?
-              </p>
+              <Input
+                className="mt-3"
+                label="Motif du rejet"
+                hintText="Veuillez préciser le motif du rejet"
+                state={validationErrors['motifRejet'] ? 'error' : 'default'}
+                stateRelatedMessage={validationErrors['motifRejet']}
+                textArea
+                nativeTextAreaProps={{
+                  name: 'motifRejet',
+                  required: true,
+                  'aria-required': true,
+                }}
+              />
+              <p>Êtes-vous sûr de vouloir rejeter ce changement de représentant légal ?</p>
 
               <input type={'hidden'} value={identifiantProjet} name="identifiantProjet" />
             </>

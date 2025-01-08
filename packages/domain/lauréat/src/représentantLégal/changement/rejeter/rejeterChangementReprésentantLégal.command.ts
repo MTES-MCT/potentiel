@@ -12,9 +12,10 @@ import { loadReprésentantLégalFactory } from '../../représentantLégal.aggreg
 export type RejeterChangementReprésentantLégalCommand = Message<
   'Lauréat.ReprésentantLégal.Command.RejeterChangementReprésentantLégal',
   {
-    dateRejet: DateTime.ValueType;
-    identifiantUtilisateur: IdentifiantUtilisateur.ValueType;
     identifiantProjet: IdentifiantProjet.ValueType;
+    identifiantUtilisateur: IdentifiantUtilisateur.ValueType;
+    dateRejet: DateTime.ValueType;
+    motifRejet: string;
     rejetAutomatique: boolean;
   }
 >;
@@ -22,17 +23,19 @@ export type RejeterChangementReprésentantLégalCommand = Message<
 export const registerRejeterChangementReprésentantLégalCommand = (loadAggregate: LoadAggregate) => {
   const load = loadReprésentantLégalFactory(loadAggregate);
   const handler: MessageHandler<RejeterChangementReprésentantLégalCommand> = async ({
-    dateRejet,
-    identifiantUtilisateur,
     identifiantProjet,
+    identifiantUtilisateur,
+    dateRejet,
+    motifRejet,
     rejetAutomatique,
   }) => {
     const représentantLégal = await load(identifiantProjet);
 
     await représentantLégal.rejeter({
-      dateRejet,
-      identifiantUtilisateur,
       identifiantProjet,
+      identifiantUtilisateur,
+      dateRejet,
+      motifRejet,
       rejetAutomatique,
     });
   };

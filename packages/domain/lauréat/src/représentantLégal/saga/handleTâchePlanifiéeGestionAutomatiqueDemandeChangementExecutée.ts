@@ -81,6 +81,7 @@ export const handleTâchePlanifiéeGestionAutomatiqueDemandeChangementExecutée 
         data: {
           identifiantProjetValue: identifiantProjet.formatter(),
           identifiantUtilisateurValue: Email.system().formatter(),
+          motifRejetValue: 'Rejet automatique',
           dateRejetValue: DateTime.now().formatter(),
           rejetAutomatiqueValue: true,
         },
