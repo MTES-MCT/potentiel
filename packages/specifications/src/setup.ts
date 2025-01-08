@@ -12,7 +12,6 @@ import {
   AfterStep,
 } from '@cucumber/cucumber';
 import { expect, should } from 'chai';
-import waitForExpect from 'wait-for-expect';
 import { Message, MessageResult, clear } from 'mediateur';
 import {
   CreateBucketCommand,
@@ -38,7 +37,6 @@ import { waitForEvents } from './helpers/waitForEvents';
 should();
 setWorldConstructor(PotentielWorld);
 setDefaultTimeout(5000);
-waitForExpect.defaults.timeout = 500;
 
 declare module '@faker-js/faker' {
   interface Faker {
