@@ -24,8 +24,6 @@ export type GetActionnaireForProjectPage =
     }
   | undefined;
 
-const logger = getLogger();
-
 export const getActionnaire = async (
   identifiantProjet: IdentifiantProjet.ValueType,
   rôle: string,
@@ -45,7 +43,7 @@ export const getActionnaire = async (
       });
 
       if (Option.isNone(appelOffre)) {
-        logger.error(`Appel d'offres non trouvé`, { identifiantProjet });
+        getLogger().error(`Appel d'offres non trouvé`, { identifiantProjet });
         return;
       }
 

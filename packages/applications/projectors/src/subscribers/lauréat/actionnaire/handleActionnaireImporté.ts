@@ -1,22 +1,18 @@
-import { mediator } from 'mediateur';
-
 import { Option } from '@potentiel-libraries/monads';
 import { Actionnaire } from '@potentiel-domain/laureat';
 import { IdentifiantProjet } from '@potentiel-domain/common';
 import { Candidature } from '@potentiel-domain/candidature';
 import { getLogger } from '@potentiel-libraries/monitoring';
+import { findProjection } from '@potentiel-infrastructure/pg-projections';
 
 import { upsertProjection } from '../../../infrastructure';
 
 export const handleActionnaireImporté = async ({
   payload: { identifiantProjet, actionnaire, importéLe },
 }: Actionnaire.ActionnaireImportéEvent) => {
-  const candidature = await mediator.send<Candidature.ConsulterCandidatureQuery>({
-    type: 'Candidature.Query.ConsulterCandidature',
-    data: {
-      identifiantProjet,
-    },
-  });
+  const candidature = await findProjection<Candidature.CandidatureEntity>(
+    `candidature|${identifiantProjet}`,
+  );
 
   if (Option.isNone(candidature)) {
     getLogger().error('Candidature non trouvée', {

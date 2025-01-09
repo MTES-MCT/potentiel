@@ -99,7 +99,7 @@ const MenuAdmin = (currentPage?: string) => (
       </DropdownMenu.DropdownItem>
       {isActionnaireEnabled() && (
         <DropdownMenu.DropdownItem href={Routes.Actionnaire.changement.lister}>
-          Actionnaire
+          Changements d'actionnaire
         </DropdownMenu.DropdownItem>
       )}
     </DropdownMenu>
@@ -193,7 +193,7 @@ const MenuPorteurProjet = (currentPage?: string) => (
       </DropdownMenu.DropdownItem>
       {isActionnaireEnabled() && (
         <DropdownMenu.DropdownItem href={Routes.Actionnaire.changement.lister}>
-          Actionnaire
+          Changements d'actionnaire
         </DropdownMenu.DropdownItem>
       )}
     </DropdownMenu>
@@ -263,7 +263,7 @@ const MenuDreal = (currentPage?: string) => (
       </DropdownMenu.DropdownItem>
       {isActionnaireEnabled() && (
         <DropdownMenu.DropdownItem href={Routes.Actionnaire.changement.lister}>
-          Actionnaire
+          Changements d'actionnaire
         </DropdownMenu.DropdownItem>
       )}
     </DropdownMenu>
