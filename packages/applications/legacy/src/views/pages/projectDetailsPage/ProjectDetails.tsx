@@ -32,7 +32,6 @@ import { formatProjectDataToIdentifiantProjetValueType } from '../../../helpers/
 import { Role } from '@potentiel-domain/utilisateur';
 import { Raccordement } from '@potentiel-domain/reseau';
 import { Option } from '@potentiel-libraries/monads';
-import { isDemandeChangementReprésentantLégalEnabled } from '@potentiel-applications/feature-flags';
 
 export type AlerteRaccordement =
   | 'référenceDossierManquantePourDélaiCDC2022'
