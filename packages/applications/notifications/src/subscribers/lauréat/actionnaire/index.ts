@@ -24,7 +24,6 @@ export type RegisterActionnaireNotificationDependencies = {
   sendEmail: SendEmail;
 };
 
-// voir si le cas transmis doit être géré
 export const register = ({ sendEmail }: RegisterActionnaireNotificationDependencies) => {
   const handler: MessageHandler<Execute> = async (event) => {
     try {

@@ -39,7 +39,7 @@ Fonctionnalité: Demander le changement de l'actionnaire d'un projet lauréat
         Et un email a été envoyé à la dreal avec :
             | sujet      | Potentiel - Demande de changement de l'actionnaire pour le projet Du boulodrome de Marseille dans le département(.*) |
             | nom_projet | Du boulodrome de Marseille                                                                                           |
-            | url        | https://potentiel.beta.gouv.fr/laureats/.*/changement/representant-legal                                             |
+            | url        | https://potentiel.beta.gouv.fr/laureats/.*/changement/actionnaire                                                    |
 
     Scénario: Demander le changement de l'actionnaire d'un projet lauréat si l'actionnaire a une valeur identique
         Quand le porteur demande le changement de l'actionnaire avec la même valeur pour le projet lauréat
