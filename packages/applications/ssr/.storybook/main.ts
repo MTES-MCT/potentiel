@@ -58,6 +58,12 @@ const config: StorybookConfig = {
 
     if (config.plugins) {
       config.plugins.push(
+        new webpack.NormalModuleReplacementPlugin(
+          /src\/utils\/withUtilisateur/,
+          path.join(__dirname, 'mockedWithUtilisateur.js'),
+        ),
+      );
+      config.plugins.push(
         new webpack.NormalModuleReplacementPlugin(/^node:/, (resource) => {
           resource.request = resource.request.replace(/^node:/, '');
         }),
