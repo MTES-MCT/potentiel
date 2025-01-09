@@ -18,8 +18,7 @@
     "@potentiel-domain/document": "*",
     "@potentiel-domain/appel-offre": "*",
     "@potentiel-domain/tache-planifiee": "*",
-    "@potentiel-domain/utilisateur": "*",
-    "@potentiel-applications/feature-flags": "*"
+    "@potentiel-domain/utilisateur": "*"
   },
   "devDependencies": {
     "@potentiel-config/tsconfig": "*"

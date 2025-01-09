@@ -1,7 +1,6 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
-import { featureFlags } from '@potentiel-applications/feature-flags';
 
 import { LauréatNotifiéEvent } from '../lauréat';
 
@@ -17,36 +16,34 @@ export const register = () => {
   const handler: MessageHandler<Execute> = async (event) => {
     const { identifiantProjet } = event.payload;
 
-    if (featureFlags.isActionnaireEnabled) {
-      switch (event.type) {
-        case 'LauréatNotifié-V1':
-          const { notifiéLe } = event.payload;
+    switch (event.type) {
+      case 'LauréatNotifié-V1':
+        const { notifiéLe } = event.payload;
 
-          await mediator.send<ImporterActionnaireCommand>({
-            type: 'Lauréat.Actionnaire.Command.ImporterActionnaire',
-            data: {
-              identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
-              importéLe: DateTime.convertirEnValueType(notifiéLe),
-            },
-          });
+        await mediator.send<ImporterActionnaireCommand>({
+          type: 'Lauréat.Actionnaire.Command.ImporterActionnaire',
+          data: {
+            identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
+            importéLe: DateTime.convertirEnValueType(notifiéLe),
+          },
+        });
 
-          break;
+        break;
 
-        case 'DemandeChangementActionnaireAccordée-V1':
-          const { accordéePar, accordéeLe, nouvelActionnaire } = event.payload;
+      case 'DemandeChangementActionnaireAccordée-V1':
+        const { accordéePar, accordéeLe, nouvelActionnaire } = event.payload;
 
-          await mediator.send<ModifierActionnaireCommand>({
-            type: 'Lauréat.Actionnaire.Command.ModifierActionnaire',
-            data: {
-              identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
-              identifiantUtilisateur: Email.convertirEnValueType(accordéePar),
-              actionnaire: nouvelActionnaire,
-              dateModification: DateTime.convertirEnValueType(accordéeLe),
-            },
-          });
+        await mediator.send<ModifierActionnaireCommand>({
+          type: 'Lauréat.Actionnaire.Command.ModifierActionnaire',
+          data: {
+            identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
+            identifiantUtilisateur: Email.convertirEnValueType(accordéePar),
+            actionnaire: nouvelActionnaire,
+            dateModification: DateTime.convertirEnValueType(accordéeLe),
+          },
+        });
 
-          break;
-      }
+        break;
     }
   };
   mediator.register('System.Lauréat.Actionnaire.Saga.Execute', handler);
