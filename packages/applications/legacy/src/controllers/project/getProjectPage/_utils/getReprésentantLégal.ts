@@ -7,7 +7,6 @@ import { Candidature } from '@potentiel-domain/candidature';
 import { Routes } from '@potentiel-applications/routes';
 import { Role } from '@potentiel-domain/utilisateur';
 import { getLogger } from '@potentiel-libraries/monitoring';
-import { isDemandeChangementReprésentantLégalEnabled } from '@potentiel-applications/feature-flags';
 
 export type GetReprésentantLégalForProjectPage =
   | {
@@ -39,16 +38,12 @@ export const getReprésentantLégal: GetReprésentantLégal = async (identifiant
       });
 
     if (Option.isSome(représentantLégal)) {
-      const featureDemandeChangementReprésentantLégalEnabled =
-        isDemandeChangementReprésentantLégalEnabled();
-
       const demandeChangementExistante = await getChangementReprésentantLégal(identifiantProjet);
 
       const peutConsulterLaDemandeExistante =
         utilisateur.aLaPermission('représentantLégal.consulter') && demandeChangementExistante;
 
       const peutFaireUneDemande =
-        featureDemandeChangementReprésentantLégalEnabled &&
         utilisateur.aLaPermission('représentantLégal.demanderChangement') &&
         !demandeChangementExistante;
 
@@ -102,10 +97,6 @@ export const getReprésentantLégal: GetReprésentantLégal = async (identifiant
 };
 
 const getChangementReprésentantLégal = async (identifiantProjet: IdentifiantProjet.ValueType) => {
-  if (!isDemandeChangementReprésentantLégalEnabled()) {
-    return false;
-  }
-
   try {
     const changement =
       await mediator.send<ReprésentantLégal.ConsulterChangementReprésentantLégalQuery>({
