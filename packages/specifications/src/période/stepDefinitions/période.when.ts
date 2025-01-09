@@ -7,7 +7,7 @@ import { Période } from '@potentiel-domain/periode';
 import { PotentielWorld } from '../../potentiel.world';
 
 Quand(
-  `un DGEC validateur notifie la période d'un appel d'offres`,
+  /.* DGEC validateur notifie la période d'un appel d'offres/,
   async function (this: PotentielWorld) {
     await notifierPériode.call(this);
   },

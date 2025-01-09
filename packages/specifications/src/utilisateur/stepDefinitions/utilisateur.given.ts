@@ -48,6 +48,26 @@ EtantDonné(
   },
 );
 
+EtantDonné(
+  'le DGEC Validateur sans fonction {string}',
+  async function (this: PotentielWorld, nom: string) {
+    const validateur = this.utilisateurWorld.validateurFixture.créer({
+      nom,
+      fonction: undefined,
+    });
+
+    await insérerUtilisateur(validateur);
+  },
+);
+
+EtantDonné('le DGEC Validateur sans nom', async function (this: PotentielWorld) {
+  const validateur = this.utilisateurWorld.validateurFixture.créer({
+    nom: '',
+  });
+
+  await insérerUtilisateur(validateur);
+});
+
 async function récupérerProjets(identifiantProjet: IdentifiantProjet.ValueType) {
   return executeSelect<{
     id: string;
