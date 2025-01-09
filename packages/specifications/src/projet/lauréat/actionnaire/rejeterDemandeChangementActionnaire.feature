@@ -6,11 +6,10 @@ Fonctionnalité: Rejeter la demande de changement d'actionnaire d'un projet laur
         Et le porteur "Marcel Patoulatchi" ayant accés au projet lauréat "Du boulodrome de Marseille"
         Et la dreal "Dreal du sud" associée à la région du projet
 
-    @select
     Scénario: la DREAL associée au projet rejette le changement d'actionnaire d'un projet lauréat
         Etant donné une demande de changement d'actionnaire en cours pour le projet lauréat
         Quand la DREAL associée au projet rejette le changement d'actionnaire pour le projet lauréat
-        Alors la demande de changement de l'actionnaire devrait être rejetée
+        Alors la demande de changement d'actionnaire devrait être rejetée
         Et l'actionnaire du projet lauréat ne devrait pas être mis à jour
         Et un email a été envoyé au porteur avec :
             | sujet      | Potentiel - La demande de changement d'actionnaire pour le projet Du boulodrome de Marseille dans le département(.*) a été rejetée |

@@ -71,7 +71,7 @@ Alors(
 );
 
 Alors(
-  "la demande de changement de l'actionnaire devrait être rejetée",
+  "la demande de changement d'actionnaire devrait être rejetée",
   async function (this: PotentielWorld) {
     return waitForExpect(async () => {
       await vérifierDemandeChangementActionnaire.call(

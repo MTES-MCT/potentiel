@@ -6,7 +6,6 @@ Fonctionnalité: Demander le changement de l'actionnaire d'un projet lauréat
         Et le porteur "Marcel Patoulatchi" ayant accés au projet lauréat "Du boulodrome de Marseille"
         Et la dreal "DREAL" associée à la région du projet
 
-    @select
     Scénario: Demander le changement de l'actionnaire d'un projet lauréat
         Quand le porteur demande le changement de l'actionnaire pour le projet lauréat
         Alors la demande de changement de l'actionnaire devrait être consultable
@@ -15,7 +14,6 @@ Fonctionnalité: Demander le changement de l'actionnaire d'un projet lauréat
             | nom_projet | Du boulodrome de Marseille                                                                                           |
             | url        | https://potentiel.beta.gouv.fr/laureats/.*/changement/actionnaire                                                    |
 
-    @select
     Scénario: Demander le changement de l'actionnaire d'un projet lauréat si une demande a déjà été rejetée
         Etant donné une demande de changement d'actionnaire rejetée pour le projet lauréat
         Quand le porteur demande le changement de l'actionnaire pour le projet lauréat
@@ -25,7 +23,6 @@ Fonctionnalité: Demander le changement de l'actionnaire d'un projet lauréat
             | nom_projet | Du boulodrome de Marseille                                                                                           |
             | url        | https://potentiel.beta.gouv.fr/laureats/.*/changement/actionnaire                                                    |
 
-    @select
     Scénario: Demander le changement de l'actionnaire d'un projet lauréat si une demande a déjà été annulée
         Etant donné une demande de changement d'actionnaire annulée pour le projet lauréat
         Quand le porteur demande le changement de l'actionnaire pour le projet lauréat

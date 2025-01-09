@@ -37,7 +37,7 @@ export const handleDemandeChangementActionnaireAnnulée = async ({
 
   await sendEmail({
     templateId: actionnaireNotificationTemplateId.annuler,
-    messageSubject: `Potentiel - La demande de changement de l'actionnaire pour le projet ${projet.nom} dans le département ${projet.département} a été annulée`,
+    messageSubject: `Potentiel - La demande de changement d'actionnaire pour le projet ${projet.nom} dans le département ${projet.département} a été annulée`,
     recipients: dreals,
     variables: {
       type: 'annulation',

@@ -34,9 +34,10 @@ export const handleDemandeChangementActionnaireAccordée = async ({
     });
     return;
   }
+
   await sendEmail({
     templateId: actionnaireNotificationTemplateId.accorder,
-    messageSubject: `Potentiel - La demande de changement de l'actionnaire pour le projet ${projet.nom} dans le département ${projet.département} a été accordée`,
+    messageSubject: `Potentiel - La demande de changement d'actionnaire pour le projet ${projet.nom} dans le département ${projet.département} a été accordée`,
     recipients: porteurs,
     variables: {
       type: 'accord',
