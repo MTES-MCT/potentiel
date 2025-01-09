@@ -5,7 +5,6 @@ import { MenuProps } from '@codegouvfr/react-dsfr/MainNavigation/Menu';
 import { Routes } from '@potentiel-applications/routes';
 import { Role, Utilisateur } from '@potentiel-domain/utilisateur';
 import { getContext } from '@potentiel-applications/request-context';
-import { isDemandeChangementReprésentantLégalEnabled } from '@potentiel-applications/feature-flags';
 
 import { NavLinks } from './NavLinks';
 
@@ -62,16 +61,13 @@ const getNavigationItemsBasedOnRole = (utilisateur: Utilisateur.ValueType) => {
         href: Routes.Recours.lister,
       },
     },
-  ];
-
-  if (isDemandeChangementReprésentantLégalEnabled()) {
-    demandesMenuLinks.push({
+    {
       text: 'Changements de représentant légal',
       linkProps: {
         href: Routes.ReprésentantLégal.changement.lister,
       },
-    });
-  }
+    },
+  ];
 
   return match(utilisateur.role.nom)
     .returnType<MainNavigationProps['items']>()
