@@ -7,7 +7,7 @@ import { Candidature } from '@potentiel-domain/candidature';
 import { Routes } from '@potentiel-applications/routes';
 import { Role } from '@potentiel-domain/utilisateur';
 import { getLogger } from '@potentiel-libraries/monitoring';
-import { featureFlags } from '@potentiel-applications/feature-flags';
+import { isDemandeChangementReprésentantLégalEnabled } from '@potentiel-applications/feature-flags';
 
 export type GetReprésentantLégalForProjectPage =
   | {
@@ -40,7 +40,7 @@ export const getReprésentantLégal: GetReprésentantLégal = async (identifiant
 
     if (Option.isSome(représentantLégal)) {
       const featureDemandeChangementReprésentantLégalEnabled =
-        featureFlags.isDemandeChangementReprésentantLégalEnabled;
+        isDemandeChangementReprésentantLégalEnabled();
 
       const demandeChangementExistante = await getChangementReprésentantLégal(identifiantProjet);
 
@@ -102,7 +102,7 @@ export const getReprésentantLégal: GetReprésentantLégal = async (identifiant
 };
 
 const getChangementReprésentantLégal = async (identifiantProjet: IdentifiantProjet.ValueType) => {
-  if (!featureFlags.isDemandeChangementReprésentantLégalEnabled) {
+  if (!isDemandeChangementReprésentantLégalEnabled()) {
     return false;
   }
 

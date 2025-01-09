@@ -5,7 +5,7 @@ import { MenuProps } from '@codegouvfr/react-dsfr/MainNavigation/Menu';
 import { Routes } from '@potentiel-applications/routes';
 import { Utilisateur } from '@potentiel-domain/utilisateur';
 import { getContext } from '@potentiel-applications/request-context';
-import { featureFlags } from '@potentiel-applications/feature-flags';
+import { isDemandeChangementReprésentantLégalEnabled } from '@potentiel-applications/feature-flags';
 
 import { NavLinks } from './NavLinks';
 
@@ -62,7 +62,7 @@ const getNavigationItemsBasedOnRole = (utilisateur: Utilisateur.ValueType) => {
     },
   ];
 
-  if (featureFlags.isDemandeChangementReprésentantLégalEnabled) {
+  if (isDemandeChangementReprésentantLégalEnabled()) {
     demandesMenuLinks.push({
       text: 'Changements de représentant légal',
       linkProps: {

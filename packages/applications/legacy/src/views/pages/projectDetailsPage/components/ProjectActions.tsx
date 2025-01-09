@@ -13,7 +13,7 @@ import {
   SecondaryLinkButton,
   DownloadLinkButton,
 } from '../../../components';
-import { featureFlags } from '@potentiel-applications/feature-flags';
+import { isActionnaireEnabled } from '@potentiel-applications/feature-flags';
 
 type EnregistrerUneModificationProps = {
   project: ProjectDataForProjectPage;
@@ -85,7 +85,7 @@ const PorteurProjetActions = ({
             </DropdownMenuSecondaryButton.DropdownItem>
             <DropdownMenuSecondaryButton.DropdownItem
               href={
-                featureFlags.isActionnaireEnabled && peutModifierActionnaire
+                isActionnaireEnabled() && peutModifierActionnaire
                   ? Routes.Actionnaire.modifier(identifiantProjet)
                   : routes.CHANGER_ACTIONNAIRE(project.id)
               }

@@ -28,7 +28,7 @@ import {
 } from './sections';
 import { ProjectHeader } from './components';
 import { Routes } from '@potentiel-applications/routes';
-import { featureFlags } from '@potentiel-applications/feature-flags';
+import { isDemandeChangementReprésentantLégalEnabled } from '@potentiel-applications/feature-flags';
 import { formatProjectDataToIdentifiantProjetValueType } from '../../../helpers/dataToValueTypes';
 import { Role } from '@potentiel-domain/utilisateur';
 import { Raccordement } from '@potentiel-domain/reseau';
@@ -97,7 +97,7 @@ export const ProjectDetails = ({
         hasAttestationConformité={hasAttestationConformité}
         demandeRecours={demandeRecours}
         peutFaireDemandeChangementReprésentantLégal={
-          featureFlags.isDemandeChangementReprésentantLégalEnabled &&
+          isDemandeChangementReprésentantLégalEnabled() &&
           !!représentantLégal?.demandeDeModification?.peutFaireUneDemande
         }
         peutModifierActionnaire={!!actionnaire}

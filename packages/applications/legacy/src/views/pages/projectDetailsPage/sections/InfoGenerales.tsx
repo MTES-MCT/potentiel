@@ -12,7 +12,7 @@ import { Role } from '@potentiel-domain/utilisateur';
 import { Raccordement } from '@potentiel-domain/reseau';
 import { Option } from '@potentiel-libraries/monads';
 import { IdentifiantProjet } from '@potentiel-domain/common';
-import { featureFlags } from '@potentiel-applications/feature-flags';
+import { isActionnaireEnabled } from '@potentiel-applications/feature-flags';
 import { GetActionnaireForProjectPage } from '../../../../controllers/project/getProjectPage/_utils';
 
 export type InfoGeneralesProps = {
@@ -127,7 +127,7 @@ export const InfoGenerales = ({
           {departementProjet}, {regionProjet}
         </p>
       </div>
-      {featureFlags.isActionnaireEnabled && (
+      {isActionnaireEnabled() && (
         <div>
           <Heading3 className="m-0">Actionnaire</Heading3>
           <p className="m-0">{actionnaire?.nom ?? 'Non renseigné'}</p>
