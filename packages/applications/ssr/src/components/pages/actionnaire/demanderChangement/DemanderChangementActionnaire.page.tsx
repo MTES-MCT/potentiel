@@ -22,7 +22,7 @@ export const DemanderChangementActionnairePage: FC<DemanderChangementActionnaire
       <ProjetBanner identifiantProjet={IdentifiantProjet.bind(identifiantProjet).formatter()} />
     }
   >
-    <Heading1>Demander le changement de l'actionnaire</Heading1>
+    <Heading1>Demander un changement d'actionnaire</Heading1>
     <DemanderChangementActionnaireForm
       identifiantProjet={identifiantProjet}
       actionnaire={actionnaire}

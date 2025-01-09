@@ -5,21 +5,26 @@ import {
   ConsulterActionnaireDependencies,
   registerConsulterActionnaireQuery,
 } from './consulter/consulterActionnaire.query';
-import { registerModifierActionnaireUseCase } from './modifier/modifierActionnaire.usecase';
+import { registerAccorderDemandeChangementActionnaireCommand } from './changement/accorder/accorderChangementActionnairet.command';
+import { registerAccorderDemandeChangementActionnaireUseCase } from './changement/accorder/accorderChangementActionnaire.usecase';
+import { registerAnnulerDemandeChangementCommand } from './changement/annuler/annulerChangementActionnaire.command';
+import { registerAnnulerDemandeChangementActionnaireUseCase } from './changement/annuler/annulerChangementActionnaire.usecase';
+import { registerConsulterDemandeChangementActionnaireQuery } from './changement/consulter/consulterDemandeChangementActionnaire.query';
+import { registerDemanderChangementActionnaireCommand } from './changement/demander/demandeChangementActionnaire.command';
+import { registerDemanderChangementActionnaireUseCase } from './changement/demander/demandeChangementActionnaire.usecase';
+import { registerRejeterDemandeChangementActionnaireCommand } from './changement/rejeter/rejeterChangementActionnaire.command';
+import { registerRejeterDemandeChangementActionnaireUseCase } from './changement/rejeter/rejeterChangementActionnaire.usecase';
 import { registerModifierActionnaireCommand } from './modifier/modifierActionnaire.command';
-import { registerDemanderChangementActionnaireUseCase } from './demanderChangement/demandeChangementActionnaire.usecase';
-import { registerDemanderChangementActionnaireCommand } from './demanderChangement/demandeChangementActionnaire.command';
-import { registerAnnulerDemandeChangementCommand } from './annulerDemandeChangement/annulerDemandeChangement.command';
-import { registerAnnulerDemandeChangementActionnaireUseCase } from './annulerDemandeChangement/annulerDemandeChangement.usecase';
-import { registerConsulterChangementActionnaireQuery } from './consulterDemandeChangement/consulterChangementActionnaire.query';
-import { registerAccorderDemandeChangementActionnaireCommand } from './accorderDemandeChangement/accorderDemandeChangement.command';
-import { registerAccorderDemandeChangementActionnaireUseCase } from './accorderDemandeChangement/accorderDemandeChangement.usecase';
-import { registerRejeterDemandeChangementActionnaireCommand } from './rejeterDemandeChangement/rejeterDemandeChangement.command';
-import { registerRejeterDemandeChangementActionnaireUseCase } from './rejeterDemandeChangement/rejeterDemandeChangement.usecase';
 import { registerTransmettreActionnaireUseCase } from './transmettre/transmettreActionnaire.usecase';
 import { registerTransmettreActionnaireCommand } from './transmettre/transmettreActionnaire.command';
+import { registerModifierActionnaireUseCase } from './modifier/modifierActionnaire.usecase';
+import {
+  ListerChangementActionnaireDependencies,
+  registerListerChangementActionnaireQuery,
+} from './changement/lister/listerChangementActionnaire.query';
 
-export type ActionnaireQueryDependencies = ConsulterActionnaireDependencies;
+export type ActionnaireQueryDependencies = ConsulterActionnaireDependencies &
+  ListerChangementActionnaireDependencies;
 
 export type ActionnaireCommandDependencies = {
   loadAggregate: LoadAggregate;
@@ -44,5 +49,6 @@ export const registerActionnaireUseCases = ({ loadAggregate }: ActionnaireComman
 
 export const registerActionnaireQueries = (dependencies: ActionnaireQueryDependencies) => {
   registerConsulterActionnaireQuery(dependencies);
-  registerConsulterChangementActionnaireQuery(dependencies);
+  registerConsulterDemandeChangementActionnaireQuery(dependencies);
+  registerListerChangementActionnaireQuery(dependencies);
 };

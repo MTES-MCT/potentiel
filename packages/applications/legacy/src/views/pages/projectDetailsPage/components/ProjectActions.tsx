@@ -37,7 +37,10 @@ type PorteurProjetActionsProps = {
   modificationsNonPermisesParLeCDCActuel: boolean;
   hasAttestationConformité: boolean;
   peutFaireDemandeChangementReprésentantLégal: boolean;
-  peutModifierActionnaire: boolean;
+  actionnaireMenu?: {
+    label: string;
+    url: string;
+  };
 };
 
 const PorteurProjetActions = ({
@@ -47,7 +50,7 @@ const PorteurProjetActions = ({
   modificationsNonPermisesParLeCDCActuel,
   hasAttestationConformité,
   peutFaireDemandeChangementReprésentantLégal,
-  peutModifierActionnaire,
+  actionnaireMenu,
 }: PorteurProjetActionsProps) => {
   const identifiantProjet = formatProjectDataToIdentifiantProjetValueType({
     appelOffreId: project.appelOffreId,
@@ -85,12 +88,16 @@ const PorteurProjetActions = ({
             </DropdownMenuSecondaryButton.DropdownItem>
             <DropdownMenuSecondaryButton.DropdownItem
               href={
-                isActionnaireEnabled() && peutModifierActionnaire
-                  ? Routes.Actionnaire.modifier(identifiantProjet)
+                isActionnaireEnabled() && actionnaireMenu
+                  ? actionnaireMenu.url
                   : routes.CHANGER_ACTIONNAIRE(project.id)
               }
             >
-              <span>Changer d'actionnaire</span>
+              <span>
+                {isActionnaireEnabled() && actionnaireMenu
+                  ? actionnaireMenu.label
+                  : "Changer l'actionaire"}
+              </span>
             </DropdownMenuSecondaryButton.DropdownItem>
             <DropdownMenuSecondaryButton.DropdownItem
               href={routes.DEMANDER_CHANGEMENT_PUISSANCE(project.id)}
@@ -206,7 +213,10 @@ type ProjectActionsProps = {
   modificationsNonPermisesParLeCDCActuel: boolean;
   hasAttestationConformité: boolean;
   peutFaireDemandeChangementReprésentantLégal: boolean;
-  peutModifierActionnaire: boolean;
+  actionnaireMenu?: {
+    label: string;
+    url: string;
+  };
 };
 
 export const ProjectActions = ({
@@ -217,7 +227,7 @@ export const ProjectActions = ({
   modificationsNonPermisesParLeCDCActuel,
   hasAttestationConformité,
   peutFaireDemandeChangementReprésentantLégal,
-  peutModifierActionnaire,
+  actionnaireMenu,
 }: ProjectActionsProps) => (
   <div className="print:hidden whitespace-nowrap">
     {userIs(['admin', 'dgec-validateur'])(user) && <AdminActions {...{ project }} />}
@@ -229,7 +239,7 @@ export const ProjectActions = ({
         modificationsNonPermisesParLeCDCActuel={modificationsNonPermisesParLeCDCActuel}
         hasAttestationConformité={hasAttestationConformité}
         peutFaireDemandeChangementReprésentantLégal={peutFaireDemandeChangementReprésentantLégal}
-        peutModifierActionnaire={peutModifierActionnaire}
+        actionnaireMenu={actionnaireMenu}
       />
     )}
     {userIs(['dreal'])(user) && <DrealActions project={project} />}

@@ -98,7 +98,7 @@ export const ProjectDetails = ({
         peutFaireDemandeChangementReprésentantLégal={
           !!représentantLégal?.demandeDeModification?.peutFaireUneDemande
         }
-        peutModifierActionnaire={!!actionnaire}
+        actionnaireMenu={actionnaire?.menu}
       />
       <div className="print:hidden">
         {success && <SuccessBox title={success} />}

@@ -92,7 +92,7 @@ Alors(
       );
 
       const actual = await mediator.send<Actionnaire.ActionnaireQuery>({
-        type: 'Lauréat.Actionnaire.Query.ConsulterChangementActionnaire',
+        type: 'Lauréat.Actionnaire.Query.ConsulterDemandeChangementActionnaire',
         data: {
           identifiantProjet: identifiantProjet.formatter(),
         },
@@ -156,14 +156,15 @@ async function vérifierDemandeChangementActionnaire(
   statut: Actionnaire.StatutChangementActionnaire.ValueType,
   estUneNouvelleDemande?: boolean,
 ) {
-  const demande = await mediator.send<Actionnaire.ConsulterChangementActionnaireQuery>({
-    type: 'Lauréat.Actionnaire.Query.ConsulterChangementActionnaire',
+  const demande = await mediator.send<Actionnaire.ConsulterDemandeChangementActionnaireQuery>({
+    type: 'Lauréat.Actionnaire.Query.ConsulterDemandeChangementActionnaire',
     data: {
       identifiantProjet: identifiantProjet,
     },
   });
 
   const actual = mapToPlainObject(demande);
+
   const expected = mapToPlainObject(
     this.lauréatWorld.actionnaireWorld.mapDemandeToExpected(
       IdentifiantProjet.convertirEnValueType(identifiantProjet),

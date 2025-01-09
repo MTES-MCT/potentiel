@@ -1,8 +1,8 @@
 import React, { ComponentProps } from 'react';
-import { ProjectDataForProjectPage } from '../../../../modules/project';
-import { BuildingIcon, Heading3, Link, Section, WarningIcon } from '../../../components';
-import { formatProjectDataToIdentifiantProjetValueType } from '../../../../helpers/dataToValueTypes';
-import { afficherDate } from '../../../helpers';
+import { ProjectDataForProjectPage } from '../../../../../modules/project';
+import { BuildingIcon, Heading3, Link, Section, WarningIcon } from '../../../../components';
+import { formatProjectDataToIdentifiantProjetValueType } from '../../../../../helpers/dataToValueTypes';
+import { afficherDate } from '../../../../helpers';
 import { Routes } from '@potentiel-applications/routes';
 import { match } from 'ts-pattern';
 
@@ -13,7 +13,8 @@ import { Raccordement } from '@potentiel-domain/reseau';
 import { Option } from '@potentiel-libraries/monads';
 import { IdentifiantProjet } from '@potentiel-domain/common';
 import { isActionnaireEnabled } from '@potentiel-applications/feature-flags';
-import { GetActionnaireForProjectPage } from '../../../../controllers/project/getProjectPage/_utils';
+import { InfoActionnaire } from './InfoActionnaire';
+import { GetActionnaireForProjectPage } from '../../../../../controllers/project/getProjectPage/_utils';
 
 export type InfoGeneralesProps = {
   project: ProjectDataForProjectPage;
@@ -128,15 +129,7 @@ export const InfoGenerales = ({
         </p>
       </div>
       {isActionnaireEnabled() && (
-        <div>
-          <Heading3 className="m-0">Actionnaire</Heading3>
-          <p className="m-0">{actionnaire?.nom ?? 'Non renseigné'}</p>
-          {actionnaire?.modification && (
-            <Link href={actionnaire.modification.url} aria-label="Modifier" className="mt-1">
-              {actionnaire.modification.label}
-            </Link>
-          )}
-        </div>
+        <InfoActionnaire actionnaire={actionnaire} identifiantProjet={identifiantProjet} />
       )}
     </Section>
   );

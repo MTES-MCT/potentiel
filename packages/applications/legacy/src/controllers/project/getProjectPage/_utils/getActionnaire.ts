@@ -6,20 +6,27 @@ import { Candidature } from '@potentiel-domain/candidature';
 import { Routes } from '@potentiel-applications/routes';
 import { Role } from '@potentiel-domain/utilisateur';
 import { getLogger } from '@potentiel-libraries/monitoring';
+import { IdentifiantProjet } from '@potentiel-domain/common';
+import { AppelOffre } from '@potentiel-domain/appel-offre';
 
 export type GetActionnaireForProjectPage =
   | {
       nom: string;
-      modification?: {
+      pageProjet?: {
         label: string;
         url: string;
       };
+      menu?: {
+        label: string;
+        url: string;
+      };
+      peutConsulterDemandeChangement: boolean;
     }
   | undefined;
 
 export const getActionnaire = async (
-  identifiantProjet,
-  rôle,
+  identifiantProjet: IdentifiantProjet.ValueType,
+  rôle: string,
 ): Promise<GetActionnaireForProjectPage> => {
   try {
     const utilisateur = Role.convertirEnValueType(rôle);
@@ -29,16 +36,73 @@ export const getActionnaire = async (
       data: { identifiantProjet: identifiantProjet.formatter() },
     });
 
-    // TODO: ajouter ici la condition sur la demande vs la modification (appel offre)
     if (Option.isSome(actionnaire)) {
+      const appelOffre = await mediator.send<AppelOffre.ConsulterAppelOffreQuery>({
+        type: 'AppelOffre.Query.ConsulterAppelOffre',
+        data: { identifiantAppelOffre: identifiantProjet.appelOffre },
+      });
+
+      if (Option.isNone(appelOffre)) {
+        getLogger().error(`Appel d'offres non trouvé`, { identifiantProjet });
+        return;
+      }
+
+      const demandeExistanteDeChangement =
+        await mediator.send<Actionnaire.ConsulterDemandeChangementActionnaireQuery>({
+          type: 'Lauréat.Actionnaire.Query.ConsulterDemandeChangementActionnaire',
+          data: { identifiantProjet: identifiantProjet.formatter() },
+        });
+
+      const aUneDemandeEnCours =
+        Option.isSome(demandeExistanteDeChangement) &&
+        demandeExistanteDeChangement.demande.statut.estDemandé();
+
+      const doitDemanderEtPasModifier =
+        appelOffre.id === 'Eolien' && utilisateur.aLaPermission('actionnaire.demanderChangement');
+
+      // TODO: affiner la condition sur la demande vs la modification
+      const peutFaireUneDemandeDeChangement = doitDemanderEtPasModifier && !aUneDemandeEnCours;
+
+      const peutFaireUneModification =
+        !doitDemanderEtPasModifier &&
+        utilisateur.aLaPermission('actionnaire.modifier') &&
+        !aUneDemandeEnCours;
+
+      const afficherFormulaireDemandeSurPageProjet =
+        doitDemanderEtPasModifier &&
+        (Option.isNone(demandeExistanteDeChangement) ||
+          demandeExistanteDeChangement.demande.statut.estAnnulé());
+
+      const afficherFormulaireModificationSurPageProjet =
+        !doitDemanderEtPasModifier && Option.isNone(demandeExistanteDeChangement);
+
       return {
         nom: actionnaire.actionnaire,
-        modification: utilisateur.aLaPermission('actionnaire.modifier')
+        pageProjet: afficherFormulaireDemandeSurPageProjet
           ? {
-              url: Routes.Actionnaire.modifier(identifiantProjet.formatter()),
-              label: "Modifier l'actionnaire",
+              url: Routes.Actionnaire.changement.demander(identifiantProjet.formatter()),
+              label: "Demander un changement d'actionnaire",
             }
-          : undefined,
+          : afficherFormulaireModificationSurPageProjet
+            ? {
+                url: Routes.Actionnaire.modifier(identifiantProjet.formatter()),
+                label: "Modifier l'actionnaire",
+              }
+            : undefined,
+        menu: peutFaireUneDemandeDeChangement
+          ? {
+              url: Routes.Actionnaire.changement.demander(identifiantProjet.formatter()),
+              label: "Demander un changement d'actionnaire",
+            }
+          : peutFaireUneModification
+            ? {
+                url: Routes.Actionnaire.modifier(identifiantProjet.formatter()),
+                label: "Modifier l'actionnaire",
+              }
+            : undefined,
+        peutConsulterDemandeChangement:
+          utilisateur.aLaPermission('actionnaire.consulterChangement') &&
+          Option.isSome(demandeExistanteDeChangement),
       };
     }
 
@@ -50,12 +114,19 @@ export const getActionnaire = async (
     if (Option.isSome(lauréat)) {
       return {
         nom: '',
-        modification: utilisateur.aLaPermission('actionnaire.transmettre')
+        pageProjet: utilisateur.aLaPermission('actionnaire.transmettre')
           ? {
               url: Routes.Actionnaire.transmettre(identifiantProjet.formatter()),
               label: "Transmettre l'actionnaire",
             }
           : undefined,
+        menu: utilisateur.aLaPermission('actionnaire.transmettre')
+          ? {
+              url: Routes.Actionnaire.transmettre(identifiantProjet.formatter()),
+              label: "Transmettre l'actionnaire",
+            }
+          : undefined,
+        peutConsulterDemandeChangement: false,
       };
     }
 
@@ -69,18 +140,25 @@ export const getActionnaire = async (
     if (Option.isSome(candidature)) {
       return {
         nom: candidature.sociétéMère,
-        modification: utilisateur.aLaPermission('candidature.corriger')
+        pageProjet: utilisateur.aLaPermission('candidature.corriger')
           ? {
               url: Routes.Candidature.corriger(identifiantProjet.formatter()),
               label: 'Modifier la candidature',
             }
           : undefined,
+        menu: utilisateur.aLaPermission('candidature.corriger')
+          ? {
+              url: Routes.Candidature.corriger(identifiantProjet.formatter()),
+              label: 'Modifier la candidature',
+            }
+          : undefined,
+        peutConsulterDemandeChangement: false,
       };
     }
 
     return {
       nom: '',
-      modification: undefined,
+      peutConsulterDemandeChangement: false,
     };
   } catch (error) {
     getLogger().error(`Impossible de consulter l'actionnaire'`, {

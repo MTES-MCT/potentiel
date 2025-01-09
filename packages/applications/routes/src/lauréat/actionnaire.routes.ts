@@ -6,5 +6,10 @@ export const transmettre = (identifiantProjet: string) =>
 export const modifier = (identifiantProjet: string) =>
   `/laureats/${encodeParameter(identifiantProjet)}/actionnaire/modifier`;
 
-export const demanderChangement = (identifiantProjet: string) =>
-  `/laureats/${encodeParameter(identifiantProjet)}/changement/actionnaire/demander`;
+export const changement = {
+  détail: (identifiantProjet: string) =>
+    `/laureats/${encodeParameter(identifiantProjet)}/changement/actionnaire`,
+  demander: (identifiantProjet: string) =>
+    `/laureats/${encodeParameter(identifiantProjet)}/changement/actionnaire/demander`,
+  lister: `/laureats/changements/actionnaire`,
+};

@@ -166,6 +166,7 @@ export async function demanderChangementActionnaire(
     actionnaire,
   } = this.lauréatWorld.actionnaireWorld.demanderChangementActionnaireFixture.créer({
     demandéPar: utilisateur,
+    ...(actionnaireValue && { actionnaire: actionnaireValue }),
   });
 
   await mediator.send<Actionnaire.ActionnaireUseCase>({
@@ -218,6 +219,9 @@ export async function accorderDemandeChangementActionnaire(
     accordéePar: utilisateur,
   });
 
+  this.lauréatWorld.actionnaireWorld.actionnaire =
+    this.lauréatWorld.actionnaireWorld.demanderChangementActionnaireFixture.actionnaire;
+
   await mediator.send<Actionnaire.ActionnaireUseCase>({
     type: 'Lauréat.Actionnaire.UseCase.AccorderDemandeChangement',
     data: {
@@ -260,6 +264,8 @@ async function modifierActionnaire(this: PotentielWorld, modifiéPar: string) {
   const { actionnaire, dateModification } =
     this.lauréatWorld.actionnaireWorld.modifierActionnaireFixture.créer();
 
+  this.lauréatWorld.actionnaireWorld.actionnaire = actionnaire;
+
   await mediator.send<Actionnaire.ActionnaireUseCase>({
     type: 'Lauréat.Actionnaire.UseCase.ModifierActionnaire',
     data: {
@@ -276,6 +282,8 @@ async function transmettreActionnaire(this: PotentielWorld, modifiéPar: string)
 
   const { actionnaire, dateTransmission } =
     this.lauréatWorld.actionnaireWorld.transmettreActionnaireFixture.créer();
+
+  this.lauréatWorld.actionnaireWorld.actionnaire = actionnaire;
 
   await mediator.send<Actionnaire.ActionnaireUseCase>({
     type: 'Lauréat.Actionnaire.UseCase.TransmettreActionnaire',

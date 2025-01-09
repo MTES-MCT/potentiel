@@ -19,6 +19,7 @@ export class ActionnaireWorld {
   #annulerDemandeChangementActionnaireFixture: AnnulerDemandeChangementActionnaireFixture;
   #accorderDemandeChangementActionnaireFixture: AccorderChangementActionnaireFixture;
   #rejeterDemandeChangementActionnaireFixture: RejeterDemandeChangementActionnaireFixture;
+  #actionnaire: string;
 
   get importerActionnaireFixture() {
     return this.#importerActionnaireFixture;
@@ -48,6 +49,14 @@ export class ActionnaireWorld {
     return this.#rejeterDemandeChangementActionnaireFixture;
   }
 
+  get actionnaire() {
+    return this.#actionnaire;
+  }
+
+  set actionnaire(value: string) {
+    this.#actionnaire = value;
+  }
+
   constructor() {
     this.#importerActionnaireFixture = new ImporterActionnaireFixture();
     this.#modifierActionnaireFixture = new ModifierActionnaireFixture();
@@ -58,44 +67,23 @@ export class ActionnaireWorld {
     this.#accorderDemandeChangementActionnaireFixture = new AccorderChangementActionnaireFixture();
     this.#rejeterDemandeChangementActionnaireFixture =
       new RejeterDemandeChangementActionnaireFixture();
+    this.#actionnaire = '';
   }
 
   mapToExpected(
     identifiantProjet: IdentifiantProjet.ValueType,
   ): Actionnaire.ConsulterActionnaireReadModel {
-    const expected: Actionnaire.ConsulterActionnaireReadModel = {
+    return {
       identifiantProjet,
-      actionnaire: this.#importerActionnaireFixture.actionnaire,
+      actionnaire: this.#actionnaire,
     };
-
-    if (this.#demanderChangementActionnaireFixture.aÉtéCréé) {
-      expected.actionnaire = this.#demanderChangementActionnaireFixture.actionnaire;
-    }
-
-    if (this.#modifierActionnaireFixture.aÉtéCréé) {
-      expected.actionnaire = this.#modifierActionnaireFixture.actionnaire;
-    }
-
-    if (this.#transmettreActionnaireFixture.aÉtéCréé) {
-      expected.actionnaire = this.#transmettreActionnaireFixture.actionnaire;
-    }
-
-    if (this.#accorderDemandeChangementActionnaireFixture.aÉtéCréé) {
-      expected.actionnaire = this.#demanderChangementActionnaireFixture.actionnaire;
-    }
-
-    if (this.#rejeterDemandeChangementActionnaireFixture.aÉtéCréé) {
-      expected.actionnaire = this.#importerActionnaireFixture.actionnaire;
-    }
-
-    return expected;
   }
 
   mapDemandeToExpected(
     identifiantProjet: IdentifiantProjet.ValueType,
     statut: Actionnaire.StatutChangementActionnaire.ValueType,
     estUneNouvelleDemande?: boolean,
-  ): Option.Type<Actionnaire.ConsulterChangementActionnaireReadModel> {
+  ): Option.Type<Actionnaire.ConsulterDemandeChangementActionnaireReadModel> {
     if (!this.demanderChangementActionnaireFixture.aÉtéCréé) {
       throw new Error(
         `Aucune demande de changement d'actionnaire n'a été créée dans ActionnaireWorld`,
@@ -104,6 +92,10 @@ export class ActionnaireWorld {
 
     return {
       identifiantProjet,
+      actionnaire: {
+        actuel: this.#actionnaire,
+        demandé: this.#demanderChangementActionnaireFixture.actionnaire,
+      },
       demande: {
         statut,
         demandéeLe: DateTime.convertirEnValueType(

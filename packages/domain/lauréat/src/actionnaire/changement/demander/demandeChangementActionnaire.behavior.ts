@@ -2,15 +2,15 @@ import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
 import { DomainEvent } from '@potentiel-domain/core';
 import { DocumentProjet } from '@potentiel-domain/document';
 
-import { StatutChangementActionnaire } from '..';
-import { ActionnaireAggregate } from '../actionnaire.aggregate';
+import { StatutChangementActionnaire } from '../..';
+import { ActionnaireAggregate } from '../../actionnaire.aggregate';
 
 export type ChangementActionnaireDemandéEvent = DomainEvent<
   'ChangementActionnaireDemandé-V1',
   {
     identifiantProjet: IdentifiantProjet.RawType;
     actionnaire: string;
-    raison?: string;
+    raison: string;
     demandéeLe: DateTime.RawType;
     demandéePar: Email.RawType;
     pièceJustificative: {
@@ -22,7 +22,7 @@ export type ChangementActionnaireDemandéEvent = DomainEvent<
 export type DemanderOptions = {
   identifiantProjet: IdentifiantProjet.ValueType;
   actionnaire: string;
-  raison?: string;
+  raison: string;
   pièceJustificative: DocumentProjet.ValueType;
   identifiantUtilisateur: Email.ValueType;
   dateDemande: DateTime.ValueType;
