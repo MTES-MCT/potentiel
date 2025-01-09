@@ -22,10 +22,14 @@ Fonctionnalité: Rejeter la demande de changement de représentant légal d'un p
             | le DGEC validateur          |
             | la DREAL associée au projet |
 
+    @notImplemented
     Scénario: Rejet automatique de la demande de changement de représentant légal d'un projet lauréat
-        Etant donné une demande de changement de représentant légal en cours pour le projet lauréat
-        Quand le système rejette la demande de changement de représentant légal pour le projet lauréat
-        Alors la demande de changement de représentant légal du projet lauréat devrait être rejetée
+        Etant donné le projet lauréat "Du boulodrome de Besançon" sur une période d'appel d'offre avec rejet automatique du changement de représentant légal
+        Et le porteur "Louis Pasteur" ayant accés au projet lauréat "Du boulodrome de Besançon"
+        Et la dreal "Dreal du nord-est" associée à la région du projet
+        Et une demande de changement de représentant légal en cours pour le projet lauréat
+        Quand le système rejette automatiquement la demande de changement de représentant légal pour le projet lauréat
+        Alors la demande de changement de représentant légal du projet lauréat devrait être rejetée automatiquement
         Mais le représentant légal du projet lauréat ne devrait pas être mis à jour
         Et un email a été envoyé à la dreal avec :
             | type       | rejet                                                                                                                                                        |

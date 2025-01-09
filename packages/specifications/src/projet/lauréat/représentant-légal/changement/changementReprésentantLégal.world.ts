@@ -78,10 +78,10 @@ export class ChangementReprésentantLégalWorld {
       expected.demande.rejet = {
         motif: this.rejeterChangementReprésentantLégalFixture.motif,
         rejetéLe: DateTime.convertirEnValueType(
-          this.rejeterChangementReprésentantLégalFixture.rejetéeLe,
+          this.rejeterChangementReprésentantLégalFixture.rejetéLe,
         ),
         rejetéPar: Email.convertirEnValueType(
-          this.rejeterChangementReprésentantLégalFixture.rejetéePar,
+          this.rejeterChangementReprésentantLégalFixture.rejetéPar,
         ),
       };
     }

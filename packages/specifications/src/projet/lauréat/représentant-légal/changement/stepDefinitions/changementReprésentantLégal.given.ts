@@ -1,9 +1,16 @@
 import { Given as EtantDonné } from '@cucumber/cucumber';
 import { mediator } from 'mediateur';
+// import { match } from 'ts-pattern';
 
 import { ReprésentantLégal } from '@potentiel-domain/laureat';
+import { DateTime } from '@potentiel-domain/common';
 
 import { PotentielWorld } from '../../../../../potentiel.world';
+import { importerCandidature } from '../../../../../candidature/stepDefinitions/candidature.given';
+import {
+  insérerProjetAvecDonnéesCandidature,
+  notifierLauréat,
+} from '../../../stepDefinitions/lauréat.given';
 
 EtantDonné(
   /une demande de changement de représentant légal en cours pour le projet lauréat/,
@@ -16,6 +23,15 @@ EtantDonné(
           identifiantProjet,
         },
       );
+
+    const dateDemande = DateTime.convertirEnValueType(fixture.demandéLe);
+
+    this.tâchePlanifiéeWorld.ajouterTâchePlanifiéeFixture.créer({
+      identifiantProjet,
+      ajoutéeLe: dateDemande.formatter(),
+      àExécuterLe: dateDemande.ajouterNombreDeMois(3).formatter(),
+      typeTâchePlanifiée: 'gestion automatique de la demande de changement de représentant légal',
+    });
 
     await mediator.send<ReprésentantLégal.DemanderChangementReprésentantLégalUseCase>({
       type: 'Lauréat.ReprésentantLégal.UseCase.DemanderChangementReprésentantLégal',
@@ -103,11 +119,48 @@ EtantDonné(
       type: 'Lauréat.ReprésentantLégal.UseCase.RejeterChangementReprésentantLégal',
       data: {
         identifiantProjetValue: identifiantProjet,
-        identifiantUtilisateurValue: fixtureRejeter.rejetéePar,
+        identifiantUtilisateurValue: fixtureRejeter.rejetéPar,
         motifRejetValue: fixtureRejeter.motif,
-        dateRejetValue: fixtureRejeter.rejetéeLe,
+        dateRejetValue: fixtureRejeter.rejetéLe,
         rejetAutomatiqueValue: false,
       },
     });
+  },
+);
+
+EtantDonné(
+  "le projet lauréat {string} sur une période d'appel d'offre avec accord automatique du changement de représentant légal",
+  async function (this: PotentielWorld, nomProjet: string) {
+    const identifiantAvecPériodePermettantAccordAutomatique = `CRE4 - Autoconsommation ZNI#1##test-1`;
+
+    await importerCandidature.call(
+      this,
+      nomProjet,
+      'classé',
+      undefined,
+      identifiantAvecPériodePermettantAccordAutomatique,
+    );
+
+    const dateDésignation = this.lauréatWorld.dateDésignation;
+    await notifierLauréat.call(this, dateDésignation);
+    await insérerProjetAvecDonnéesCandidature.call(this, dateDésignation, 'lauréat');
+  },
+);
+
+EtantDonné(
+  "le projet lauréat {string} sur une période d'appel d'offre avec rejet automatique du changement de représentant légal",
+  async function (this: PotentielWorld, nomProjet: string) {
+    const identifiantAvecPériodePermettantRejetAutomatique = `PPE2 - Eolien#1##test-2`;
+
+    await importerCandidature.call(
+      this,
+      nomProjet,
+      'classé',
+      undefined,
+      identifiantAvecPériodePermettantRejetAutomatique,
+    );
+    const dateDésignation = this.lauréatWorld.dateDésignation;
+    await notifierLauréat.call(this, dateDésignation);
+    await insérerProjetAvecDonnéesCandidature.call(this, dateDésignation, 'lauréat');
   },
 );

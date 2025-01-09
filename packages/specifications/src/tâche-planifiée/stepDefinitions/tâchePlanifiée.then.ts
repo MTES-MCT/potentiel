@@ -7,7 +7,7 @@ import { ListerTâchesPlanifiéesQuery } from '@potentiel-domain/tache-planifiee
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 
 import { PotentielWorld } from '../../potentiel.world';
-import { RechercherTypeTâchePlanifiée } from '../tâchePlanifiée.world';
+import { TypeTâchePlanifiée } from '../tâchePlanifiée.world';
 
 async function recupérerTâche(
   typeTâche: string,
@@ -32,7 +32,7 @@ Alors(
   `une tâche {string} est planifiée à la date du {string} pour le projet {string}`,
   async function (
     this: PotentielWorld,
-    typeTâche: RechercherTypeTâchePlanifiée,
+    typeTâche: TypeTâchePlanifiée,
     dateTâche: string,
     nomProjet: string,
   ) {
@@ -52,11 +52,7 @@ Alors(
 
 Alors(
   `une tâche {string} est planifiée à la date du {string} pour le projet lauréat`,
-  async function (
-    this: PotentielWorld,
-    typeTâche: RechercherTypeTâchePlanifiée,
-    dateTâche: string,
-  ) {
+  async function (this: PotentielWorld, typeTâche: TypeTâchePlanifiée, dateTâche: string) {
     await waitForExpect(async () => {
       const actualTypeTâche = this.tâchePlanifiéeWorld.rechercherTypeTâchePlanifiée(typeTâche).type;
       const { identifiantProjet } = this.lauréatWorld;
@@ -73,11 +69,7 @@ Alors(
 
 Alors(
   `une tâche {string} n'est plus planifiée pour le projet {string}`,
-  async function (
-    this: PotentielWorld,
-    typeTâche: RechercherTypeTâchePlanifiée,
-    nomProjet: string,
-  ) {
+  async function (this: PotentielWorld, typeTâche: TypeTâchePlanifiée, nomProjet: string) {
     const actualTypeTâche = this.tâchePlanifiéeWorld.rechercherTypeTâchePlanifiée(typeTâche).type;
     const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
 

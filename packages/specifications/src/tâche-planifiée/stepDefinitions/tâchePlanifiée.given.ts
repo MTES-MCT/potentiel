@@ -9,10 +9,7 @@ import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 import { TâchePlanifiéeAnnuléeEvent } from '@potentiel-domain/tache-planifiee';
 
 import { PotentielWorld } from '../../potentiel.world';
-import {
-  RechercherStatutTâchePlanifiée,
-  RechercherTypeTâchePlanifiée,
-} from '../tâchePlanifiée.world';
+import { RechercherStatutTâchePlanifiée, TypeTâchePlanifiée } from '../tâchePlanifiée.world';
 
 async function ajouterTâche(
   identifiantProjet: IdentifiantProjet.ValueType,
@@ -72,7 +69,7 @@ EtantDonné(
     const exemple = dataTable.rowsHash();
     const projet = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
     const typeTâche = this.tâchePlanifiéeWorld.rechercherTypeTâchePlanifiée(
-      exemple['type'] as RechercherTypeTâchePlanifiée,
+      exemple['type'] as TypeTâchePlanifiée,
     ).type;
     const actualStatutTâche = this.tâchePlanifiéeWorld.rechercherStatutTâchePlanifiée(statutTâche);
     await ajouterTâche(projet.identifiantProjet, typeTâche, new Date(exemple["date d'exécution"]));
