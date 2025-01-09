@@ -7,8 +7,8 @@ import {
 } from './consulter/consulterActionnaire.query';
 import { registerModifierActionnaireUseCase } from './modifier/modifierActionnaire.usecase';
 import { registerModifierActionnaireCommand } from './modifier/modifierActionnaire.command';
-import { registerDemanderChangementActionnaireUseCase } from './demanderChangement/demandeChangement.usecase';
-import { registerDemanderChangementActionnaireCommand } from './demanderChangement/demandeChangement.command';
+import { registerDemanderChangementActionnaireUseCase } from './demanderChangement/demandeChangementActionnaire.usecase';
+import { registerDemanderChangementActionnaireCommand } from './demanderChangement/demandeChangementActionnaire.command';
 import { registerAnnulerDemandeChangementCommand } from './annulerDemandeChangement/annulerDemandeChangement.command';
 import { registerAnnulerDemandeChangementActionnaireUseCase } from './annulerDemandeChangement/annulerDemandeChangement.usecase';
 import { registerConsulterChangementActionnaireQuery } from './consulterDemandeChangement/consulterChangementActionnaire.query';
@@ -27,15 +27,15 @@ export type ActionnaireCommandDependencies = {
 
 export const registerActionnaireUseCases = ({ loadAggregate }: ActionnaireCommandDependencies) => {
   registerImporterActionnaireCommand(loadAggregate);
-  registerModifierActionnaireCommand(loadAggregate);
   registerTransmettreActionnaireCommand(loadAggregate);
+  registerModifierActionnaireCommand(loadAggregate);
   registerDemanderChangementActionnaireCommand(loadAggregate);
   registerAnnulerDemandeChangementCommand(loadAggregate);
   registerAccorderDemandeChangementActionnaireCommand(loadAggregate);
   registerRejeterDemandeChangementActionnaireCommand(loadAggregate);
 
-  registerModifierActionnaireUseCase();
   registerTransmettreActionnaireUseCase();
+  registerModifierActionnaireUseCase();
   registerDemanderChangementActionnaireUseCase();
   registerAnnulerDemandeChangementActionnaireUseCase();
   registerAccorderDemandeChangementActionnaireUseCase();

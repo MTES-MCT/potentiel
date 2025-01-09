@@ -20,6 +20,7 @@ export type DemanderChangementCommand = Message<
 
 export const registerDemanderChangementActionnaireCommand = (loadAggregate: LoadAggregate) => {
   const loadActionnaire = loadActionnaireFactory(loadAggregate);
+
   const handler: MessageHandler<DemanderChangementCommand> = async ({
     identifiantProjet,
     pièceJustificative,

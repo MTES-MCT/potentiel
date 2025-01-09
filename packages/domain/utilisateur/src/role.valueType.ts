@@ -213,6 +213,21 @@ const référencielPermissions = {
         rejeterChangement: 'Lauréat.ReprésentantLégal.Command.RejeterChangementReprésentantLégal',
       },
     },
+    actionnaire: {
+      query: {
+        consulter: 'Lauréat.Actionnaire.Query.ConsulterActionnaire',
+      },
+      usecase: {
+        transmettre: 'Lauréat.Actionnaire.UseCase.TransmettreActionnaire',
+        modifier: 'Lauréat.Actionnaire.UseCase.ModifierActionnaire',
+        demanderChangement: 'Lauréat.Actionnaire.UseCase.DemanderChangement',
+      },
+      command: {
+        transmettre: 'Lauréat.Actionnaire.Command.TransmettreActionnaire',
+        modifier: 'Lauréat.Actionnaire.Command.ModifierActionnaire',
+        demanderChangement: 'Lauréat.Actionnaire.Command.DemanderChangement',
+      },
+    },
     usecase: { notifier: 'Lauréat.UseCase.NotifierLauréat' },
     command: { notifier: 'Lauréat.Command.NotifierLauréat' },
     query: { consulter: 'Lauréat.Query.ConsulterLauréat' },
@@ -869,6 +884,26 @@ const policies = {
   historique: {
     lister: [référencielPermissions.historique.query.lister],
   },
+  actionnaire: {
+    consulter: [
+      référencielPermissions.candidature.query.consulterProjet,
+      référencielPermissions.lauréat.actionnaire.query.consulter,
+    ],
+    transmettre: [
+      référencielPermissions.lauréat.actionnaire.usecase.transmettre,
+      référencielPermissions.lauréat.actionnaire.command.transmettre,
+    ],
+
+    modifier: [
+      référencielPermissions.candidature.query.consulterProjet,
+      référencielPermissions.lauréat.actionnaire.usecase.modifier,
+      référencielPermissions.lauréat.actionnaire.command.modifier,
+    ],
+    demanderChangement: [
+      référencielPermissions.lauréat.actionnaire.usecase.demanderChangement,
+      référencielPermissions.lauréat.actionnaire.command.demanderChangement,
+    ],
+  },
 } as const;
 
 /**
@@ -904,6 +939,9 @@ const pageProjetPolicies: Policy[] = [
 
   // Représentant légal
   'représentantLégal.consulter',
+
+  // Actionnaire
+  'actionnaire.consulter',
 ];
 
 const adminPolicies: ReadonlyArray<Policy> = [
@@ -978,6 +1016,11 @@ const adminPolicies: ReadonlyArray<Policy> = [
   'représentantLégal.listerChangement',
   'représentantLégal.accorderChangement',
   'représentantLégal.rejeterChangement',
+
+  // Actionnaire
+  'actionnaire.consulter',
+  'actionnaire.transmettre',
+  'actionnaire.modifier',
 ];
 
 const dgecValidateurPolicies: ReadonlyArray<Policy> = [
@@ -1064,6 +1107,11 @@ const drealPolicies: ReadonlyArray<Policy> = [
   'représentantLégal.listerChangement',
   'représentantLégal.accorderChangement',
   'représentantLégal.rejeterChangement',
+
+  // Actionnaire
+  'actionnaire.consulter',
+  'actionnaire.transmettre',
+  'actionnaire.modifier',
 ];
 
 const porteurProjetPolicies: ReadonlyArray<Policy> = [
@@ -1121,6 +1169,13 @@ const porteurProjetPolicies: ReadonlyArray<Policy> = [
   'représentantLégal.demanderChangement',
   'représentantLégal.consulterChangement',
   'représentantLégal.listerChangement',
+  'représentantLégal.consulter',
+
+  // Actionnaire
+  'actionnaire.consulter',
+  'actionnaire.transmettre',
+  'actionnaire.modifier',
+  'actionnaire.demanderChangement',
 ];
 
 const acheteurObligéPolicies: ReadonlyArray<Policy> = [

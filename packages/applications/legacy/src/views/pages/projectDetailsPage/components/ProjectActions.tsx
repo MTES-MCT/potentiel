@@ -13,6 +13,7 @@ import {
   SecondaryLinkButton,
   DownloadLinkButton,
 } from '../../../components';
+import { isActionnaireEnabled } from '@potentiel-applications/feature-flags';
 
 type EnregistrerUneModificationProps = {
   project: ProjectDataForProjectPage;
@@ -36,7 +37,9 @@ type PorteurProjetActionsProps = {
   modificationsNonPermisesParLeCDCActuel: boolean;
   hasAttestationConformité: boolean;
   peutFaireDemandeChangementReprésentantLégal: boolean;
+  peutModifierActionnaire: boolean;
 };
+
 const PorteurProjetActions = ({
   project,
   abandonEnCours,
@@ -44,6 +47,7 @@ const PorteurProjetActions = ({
   modificationsNonPermisesParLeCDCActuel,
   hasAttestationConformité,
   peutFaireDemandeChangementReprésentantLégal,
+  peutModifierActionnaire,
 }: PorteurProjetActionsProps) => {
   const identifiantProjet = formatProjectDataToIdentifiantProjetValueType({
     appelOffreId: project.appelOffreId,
@@ -79,7 +83,13 @@ const PorteurProjetActions = ({
             <DropdownMenuSecondaryButton.DropdownItem href={routes.CHANGER_FOURNISSEUR(project.id)}>
               <span>Changer de fournisseur</span>
             </DropdownMenuSecondaryButton.DropdownItem>
-            <DropdownMenuSecondaryButton.DropdownItem href={routes.CHANGER_ACTIONNAIRE(project.id)}>
+            <DropdownMenuSecondaryButton.DropdownItem
+              href={
+                isActionnaireEnabled() && peutModifierActionnaire
+                  ? Routes.Actionnaire.modifier(identifiantProjet)
+                  : routes.CHANGER_ACTIONNAIRE(project.id)
+              }
+            >
               <span>Changer d'actionnaire</span>
             </DropdownMenuSecondaryButton.DropdownItem>
             <DropdownMenuSecondaryButton.DropdownItem
@@ -196,7 +206,9 @@ type ProjectActionsProps = {
   modificationsNonPermisesParLeCDCActuel: boolean;
   hasAttestationConformité: boolean;
   peutFaireDemandeChangementReprésentantLégal: boolean;
+  peutModifierActionnaire: boolean;
 };
+
 export const ProjectActions = ({
   project,
   user,
@@ -205,6 +217,7 @@ export const ProjectActions = ({
   modificationsNonPermisesParLeCDCActuel,
   hasAttestationConformité,
   peutFaireDemandeChangementReprésentantLégal,
+  peutModifierActionnaire,
 }: ProjectActionsProps) => (
   <div className="print:hidden whitespace-nowrap">
     {userIs(['admin', 'dgec-validateur'])(user) && <AdminActions {...{ project }} />}
@@ -216,6 +229,7 @@ export const ProjectActions = ({
         modificationsNonPermisesParLeCDCActuel={modificationsNonPermisesParLeCDCActuel}
         hasAttestationConformité={hasAttestationConformité}
         peutFaireDemandeChangementReprésentantLégal={peutFaireDemandeChangementReprésentantLégal}
+        peutModifierActionnaire={peutModifierActionnaire}
       />
     )}
     {userIs(['dreal'])(user) && <DrealActions project={project} />}
