@@ -6,6 +6,7 @@ Fonctionnalité: Rejeter la demande de changement d'actionnaire d'un projet laur
         Et le porteur "Marcel Patoulatchi" ayant accés au projet lauréat "Du boulodrome de Marseille"
         Et la dreal "Dreal du sud" associée à la région du projet
 
+    @select
     Scénario: la DREAL associée au projet rejette le changement d'actionnaire d'un projet lauréat
         Etant donné une demande de changement d'actionnaire en cours pour le projet lauréat
         Quand la DREAL associée au projet rejette le changement d'actionnaire pour le projet lauréat
