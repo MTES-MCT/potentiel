@@ -3,7 +3,7 @@ import { match, P } from 'ts-pattern';
 import { MenuProps } from '@codegouvfr/react-dsfr/MainNavigation/Menu';
 
 import { Routes } from '@potentiel-applications/routes';
-import { Utilisateur } from '@potentiel-domain/utilisateur';
+import { Role, Utilisateur } from '@potentiel-domain/utilisateur';
 import { getContext } from '@potentiel-applications/request-context';
 import { isDemandeChangementReprésentantLégalEnabled } from '@potentiel-applications/feature-flags';
 
@@ -45,7 +45,9 @@ const getNavigationItemsBasedOnRole = (utilisateur: Utilisateur.ValueType) => {
     {
       text: 'Toutes les demandes',
       linkProps: {
-        href: '/admin/demandes.html',
+        href: utilisateur.role.estÉgaleÀ(Role.porteur)
+          ? '/mes-demandes.html'
+          : '/admin/demandes.html',
       },
     },
     {
