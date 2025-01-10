@@ -77,17 +77,17 @@ Fonctionnalité: Modifier l'actionnaire d'un projet lauréat
         Quand le DGEC validateur modifie l'actionnaire pour le projet lauréat
         Alors l'utilisateur devrait être informé que "Une demande de changement est déjà en cours"
 
-    Scénario: Impossible pour le porteur de demander le changement de l'actionnaire d'un projet lauréat abandonné
+    Scénario: Impossible pour le porteur de modifier l'actionnaire d'un projet lauréat abandonné
         Etant donné un abandon accordé pour le projet lauréat
         Quand le porteur modifie l'actionnaire pour le projet lauréat
         Alors le porteur devrait être informé que "Impossible de demander le changement d'actionnaire pour un projet abandonné"
 
-    Scénario: Impossible pour le porteur  de demander le changement d'actionnaire avec une demande d'abandon en cours
+    Scénario: Impossible pour le porteur de modifier l'actionnaire si une demande d'abandon est en cours
         Etant donné une demande d'abandon en cours pour le projet lauréat
         Quand le porteur modifie l'actionnaire pour le projet lauréat
         Alors le porteur devrait être informé que "Impossible de demander le changement d'actionnaire car une demande d'abandon est en cours pour le projet"
 
-    Scénario: Impossible pour le porteur  de demander le changement de l'actionnaire d'un projet achevé
+    Scénario: Impossible pour le porteur de modifier l'actionnaire d'un projet achevé
         Etant donné une attestation de conformité transmise pour le projet "Du boulodrome de Marseille"
         Quand le porteur modifie l'actionnaire pour le projet lauréat
         Alors le porteur devrait être informé que "Impossible de demander le changement d'actionnaire pour un projet achevé"

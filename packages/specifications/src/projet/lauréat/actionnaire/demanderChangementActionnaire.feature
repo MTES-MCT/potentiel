@@ -60,7 +60,7 @@ Fonctionnalité: Demander le changement de l'actionnaire d'un projet lauréat
         Quand le porteur demande le changement de l'actionnaire pour le projet lauréat
         Alors le porteur devrait être informé que "Impossible de demander le changement d'actionnaire pour un projet abandonné"
 
-    Scénario: Impossible de demander le changement d'actionnaire avec une demande d'abandon en cours
+    Scénario: Impossible de demander le changement d'actionnaire si une demande d'abandon est en cours
         Etant donné une demande d'abandon en cours pour le projet lauréat
         Quand le porteur demande le changement de l'actionnaire pour le projet lauréat
         Alors le porteur devrait être informé que "Impossible de demander le changement d'actionnaire car une demande d'abandon est en cours pour le projet"
