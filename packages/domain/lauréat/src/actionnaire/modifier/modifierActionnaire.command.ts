@@ -18,6 +18,7 @@ export type ModifierActionnaireCommand = Message<
     dateModification: DateTime.ValueType;
     pièceJustificative?: DocumentProjet.ValueType;
     rôle: Role.ValueType;
+    raison: string;
   }
 >;
 
@@ -32,6 +33,7 @@ export const registerModifierActionnaireCommand = (loadAggregate: LoadAggregate)
     dateModification,
     pièceJustificative,
     rôle,
+    raison,
   }) => {
     const actionnaireAggrégat = await loadActionnaire(identifiantProjet);
     const abandon = await loadAbandon(identifiantProjet, false);
@@ -44,6 +46,7 @@ export const registerModifierActionnaireCommand = (loadAggregate: LoadAggregate)
       actionnaire,
       dateModification,
       pièceJustificative,
+      raison,
       estAbandonnéEtUtilisateurEstPorteur: abandon.statut.estAccordé() && utilisateurEstPorteur,
       estAchevéEtUtilisateurEstPorteur: achèvement.estAchevé() && utilisateurEstPorteur,
       demandeAbandonEnCoursEtUtilisateurEstPorteur:

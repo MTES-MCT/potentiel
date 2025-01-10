@@ -20,6 +20,7 @@ export type ModifierActionnaireUseCase = Message<
     };
     dateModificationValue: string;
     rôleValue: string;
+    raisonValue: string;
   }
 >;
 
@@ -31,6 +32,7 @@ export const registerModifierActionnaireUseCase = () => {
     dateModificationValue,
     pièceJustificativeValue,
     rôleValue,
+    raisonValue,
   }) => {
     const pièceJustificative = pièceJustificativeValue
       ? DocumentProjet.convertirEnValueType(
@@ -62,6 +64,7 @@ export const registerModifierActionnaireUseCase = () => {
         dateModification: DateTime.convertirEnValueType(dateModificationValue),
         pièceJustificative,
         rôle,
+        raison: raisonValue,
       },
     });
   };

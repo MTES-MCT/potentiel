@@ -20,7 +20,6 @@ import { ModifierActionnairePageProps } from './ModifierActionnaire.page';
 
 export type ModifierActionnaireFormProps = ModifierActionnairePageProps;
 
-// TODO: reprendre le wording cf nouveau ticket
 export const ModifierActionnaireForm: FC<ModifierActionnaireFormProps> = ({
   identifiantProjet,
   actionnaire,
@@ -29,6 +28,7 @@ export const ModifierActionnaireForm: FC<ModifierActionnaireFormProps> = ({
   const [validationErrors, setValidationErrors] = useState<
     ValidationErrors<ModifierActionnaireFormKeys>
   >({});
+  const [piècesJustificatives, setPiècesJustificatives] = useState<Array<string>>([]);
 
   return (
     <Form
@@ -46,7 +46,14 @@ export const ModifierActionnaireForm: FC<ModifierActionnaireFormProps> = ({
           >
             Retour sur le projet
           </Button>
-          <SubmitButton>Je modifie l’actionnariat</SubmitButton>
+          <SubmitButton
+            disabledCondition={() =>
+              (hasToUploadDocument && !piècesJustificatives.length) ||
+              Object.keys(validationErrors).length > 0
+            }
+          >
+            Je modifie l’actionnariat
+          </SubmitButton>
         </>
       }
     >
@@ -68,16 +75,30 @@ export const ModifierActionnaireForm: FC<ModifierActionnaireFormProps> = ({
             'aria-required': true,
           }}
         />
+        <Input
+          textArea
+          label="Raison"
+          id="raison"
+          hintText="Veuillez détailler les raisons ayant conduit à cette modification."
+          nativeTextAreaProps={{ name: 'raison', required: true, 'aria-required': true }}
+          state={validationErrors['raison'] ? 'error' : 'default'}
+          stateRelatedMessage={validationErrors['raison']}
+        />
         <UploadNewOrModifyExistingDocument
-          label={`Pièce justificative${hasToUploadDocument ? '' : ' (optionnel)'}`}
+          label="Pièce justificative"
           name="piecesJustificatives"
           hintText={
             'Joindre la copie des statuts de la société à jour et le(s) justificatif(s) relatif(s) à la composition de l’actionnariat'
           }
-          formats={['pdf']}
           required={hasToUploadDocument}
-          state={validationErrors['pieceJustificative'] ? 'error' : 'default'}
-          stateRelatedMessage={validationErrors['pieceJustificative']}
+          formats={['pdf']}
+          multiple
+          state={validationErrors['piecesJustificatives'] ? 'error' : 'default'}
+          stateRelatedMessage={validationErrors['piecesJustificatives']}
+          onChange={(piècesJustificatives) => {
+            delete validationErrors['piecesJustificatives'];
+            setPiècesJustificatives(piècesJustificatives);
+          }}
         />
       </div>
     </Form>

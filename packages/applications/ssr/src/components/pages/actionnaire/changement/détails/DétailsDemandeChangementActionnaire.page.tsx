@@ -40,7 +40,7 @@ export const DétailsDemandeChangementActionnairePage: FC<
   return (
     <ColumnPageTemplate
       banner={<ProjetBanner identifiantProjet={idProjet} />}
-      heading={<Heading1>Détails de la demande de changement d'actionnaire</Heading1>}
+      heading={<Heading1>Détails de la modification de l’actionnariat</Heading1>}
       leftColumn={{
         children: (
           <div className="flex flex-col gap-8">
