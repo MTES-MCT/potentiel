@@ -6,7 +6,6 @@ export type ModèleRéponse = {
     refPotentiel: string; // identifiantProjet
     nomRepresentantLegal: string;
     nomCandidat: string;
-    status: string;
     adresseCandidat: string;
     email: string;
     titrePeriode: string;
