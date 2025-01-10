@@ -20,7 +20,6 @@ import { DemanderChangementActionnairePageProps } from './DemanderChangementActi
 
 export type DemanderChangementActionnaireFormProps = DemanderChangementActionnairePageProps;
 
-// TODO: reprendre le wording cf nouveau ticket
 export const DemanderChangementActionnaireForm: FC<DemanderChangementActionnaireFormProps> = ({
   identifiantProjet,
   actionnaire,
@@ -51,7 +50,7 @@ export const DemanderChangementActionnaireForm: FC<DemanderChangementActionnaire
               !piècesJustificatives.length || Object.keys(validationErrors).length > 0
             }
           >
-            Demander le changement de l'actionnaire
+            Je demande la modification de l’actionnariat
           </SubmitButton>
         </>
       }
@@ -67,6 +66,7 @@ export const DemanderChangementActionnaireForm: FC<DemanderChangementActionnaire
           state={validationErrors['actionnaire'] ? 'error' : 'default'}
           stateRelatedMessage={validationErrors['actionnaire']}
           label="Nouvelle société mère"
+          hintText="Si la modification de l’actionnariat n'entraîne pas le changement de la société mère, veuillez laisser la société mère actuelle"
           nativeInputProps={{
             name: 'actionnaire',
             defaultValue: actionnaire,
@@ -84,10 +84,10 @@ export const DemanderChangementActionnaireForm: FC<DemanderChangementActionnaire
           stateRelatedMessage={validationErrors['raison']}
         />
         <UploadNewOrModifyExistingDocument
-          label={'Pièce justificative'}
+          label="Pièce justificative"
           name="piecesJustificatives"
           hintText={
-            "Veuillez transmettre vos pièces justificatives justifiant le changement de société mère ou d'actionnariat"
+            'Joindre la copie des statuts de la société à jour et le(s) justificatif(s) relatif(s) à la composition de l’actionnariat'
           }
           required
           formats={['pdf']}

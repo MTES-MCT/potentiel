@@ -46,7 +46,7 @@ export const ModifierActionnaireForm: FC<ModifierActionnaireFormProps> = ({
           >
             Retour sur le projet
           </Button>
-          <SubmitButton>Modifier l'actionnaire</SubmitButton>
+          <SubmitButton>Je modifie l’actionnariat</SubmitButton>
         </>
       }
     >
@@ -60,7 +60,7 @@ export const ModifierActionnaireForm: FC<ModifierActionnaireFormProps> = ({
         <Input
           state={validationErrors['actionnaire'] ? 'error' : 'default'}
           stateRelatedMessage={validationErrors['actionnaire']}
-          label="Nouvel actionnaire"
+          label="Nouvelle société mère"
           nativeInputProps={{
             name: 'actionnaire',
             defaultValue: actionnaire,
@@ -70,7 +70,10 @@ export const ModifierActionnaireForm: FC<ModifierActionnaireFormProps> = ({
         />
         <UploadNewOrModifyExistingDocument
           label={`Pièce justificative${hasToUploadDocument ? '' : ' (optionnel)'}`}
-          name="pieceJustificative"
+          name="piecesJustificatives"
+          hintText={
+            'Joindre la copie des statuts de la société à jour et le(s) justificatif(s) relatif(s) à la composition de l’actionnariat'
+          }
           formats={['pdf']}
           required={hasToUploadDocument}
           state={validationErrors['pieceJustificative'] ? 'error' : 'default'}
