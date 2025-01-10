@@ -8,11 +8,6 @@ import { Role } from '@potentiel-domain/utilisateur';
 import { loadActionnaireFactory } from '../actionnaire.aggregate';
 import { loadAbandonFactory } from '../../abandon';
 import { loadAchèvementFactory } from '../../achèvement/achèvement.aggregate';
-import {
-  ProjetAbandonnéError,
-  ProjetAvecDemandeAbandonEnCoursError,
-  ProjetAchevéError,
-} from '../errors';
 
 export type ModifierActionnaireCommand = Message<
   'Lauréat.Actionnaire.Command.ModifierActionnaire',
@@ -43,22 +38,11 @@ export const registerModifierActionnaireCommand = (loadAggregate: LoadAggregate)
     const achèvement = await loadAchèvement(identifiantProjet, false);
     const utilisateurEstPorteur = rôle.estÉgaleÀ(Role.porteur);
 
-    /**
-     * @todo
-     * Ces checks devraient être fait au niveau du behavior
-     */
-    if (abandon.statut.estAccordé() && utilisateurEstPorteur) {
-      throw new ProjetAbandonnéError();
-    }
-
-    if (abandon.statut.estEnCours() && utilisateurEstPorteur) {
-      throw new ProjetAvecDemandeAbandonEnCoursError();
-    }
-
-    if (achèvement.estAchevé() && utilisateurEstPorteur) {
-      throw new ProjetAchevéError();
-    }
-    /****/
+    const estAbandonnéEtUtilisateurEstPorteur =
+      abandon.statut.estAccordé() && utilisateurEstPorteur;
+    const estAchevéEtUtilisateurEstPorteur = achèvement.estAchevé() && utilisateurEstPorteur;
+    const demandeAbandonEnCoursEtUtilisateurEstPorteur =
+      abandon.statut.estEnCours() && utilisateurEstPorteur;
 
     await actionnaireAggrégat.modifier({
       identifiantProjet,
@@ -66,6 +50,9 @@ export const registerModifierActionnaireCommand = (loadAggregate: LoadAggregate)
       actionnaire,
       dateModification,
       pièceJustificative,
+      estAbandonnéEtUtilisateurEstPorteur,
+      estAchevéEtUtilisateurEstPorteur,
+      demandeAbandonEnCoursEtUtilisateurEstPorteur,
     });
   };
   mediator.register('Lauréat.Actionnaire.Command.ModifierActionnaire', handler);

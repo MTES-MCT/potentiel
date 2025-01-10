@@ -3,7 +3,13 @@ import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
 import { DocumentProjet } from '@potentiel-domain/document';
 
 import { ActionnaireAggregate } from '../actionnaire.aggregate';
-import { ActionnaireIdentifiqueError, DemandeDeChangementEnCoursError } from '../errors';
+import {
+  ActionnaireIdentifiqueError,
+  DemandeDeChangementEnCoursError,
+  ProjetAbandonnéError,
+  ProjetAchevéError,
+  ProjetAvecDemandeAbandonEnCoursError,
+} from '../errors';
 
 export type ActionnaireModifiéEvent = DomainEvent<
   'ActionnaireModifié-V1',
@@ -24,6 +30,9 @@ export type ModifierOptions = {
   actionnaire: string;
   dateModification: DateTime.ValueType;
   pièceJustificative?: DocumentProjet.ValueType;
+  estAbandonnéEtUtilisateurEstPorteur: boolean;
+  estAchevéEtUtilisateurEstPorteur: boolean;
+  demandeAbandonEnCoursEtUtilisateurEstPorteur: boolean;
 };
 
 export async function modifier(
@@ -34,6 +43,9 @@ export async function modifier(
     dateModification,
     identifiantUtilisateur,
     pièceJustificative,
+    estAbandonnéEtUtilisateurEstPorteur,
+    estAchevéEtUtilisateurEstPorteur,
+    demandeAbandonEnCoursEtUtilisateurEstPorteur,
   }: ModifierOptions,
 ) {
   if (this.actionnaire === actionnaire) {
@@ -42,6 +54,18 @@ export async function modifier(
 
   if (this.demande?.statut.estDemandé()) {
     throw new DemandeDeChangementEnCoursError();
+  }
+
+  if (estAbandonnéEtUtilisateurEstPorteur) {
+    throw new ProjetAbandonnéError();
+  }
+
+  if (demandeAbandonEnCoursEtUtilisateurEstPorteur) {
+    throw new ProjetAvecDemandeAbandonEnCoursError();
+  }
+
+  if (estAchevéEtUtilisateurEstPorteur) {
+    throw new ProjetAchevéError();
   }
 
   const event: ActionnaireModifiéEvent = {

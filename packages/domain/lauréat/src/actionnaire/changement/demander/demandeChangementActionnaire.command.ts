@@ -7,11 +7,6 @@ import { LoadAggregate } from '@potentiel-domain/core';
 import { loadActionnaireFactory } from '../../actionnaire.aggregate';
 import { loadAbandonFactory } from '../../../abandon';
 import { loadAchèvementFactory } from '../../../achèvement/achèvement.aggregate';
-import {
-  ProjetAbandonnéError,
-  ProjetAvecDemandeAbandonEnCoursError,
-  ProjetAchevéError,
-} from '../../errors';
 
 export type DemanderChangementCommand = Message<
   'Lauréat.Actionnaire.Command.DemanderChangement',
@@ -41,22 +36,9 @@ export const registerDemanderChangementActionnaireCommand = (loadAggregate: Load
     const abandon = await loadAbandon(identifiantProjet, false);
     const achèvement = await loadAchèvement(identifiantProjet, false);
 
-    /**
-     * @todo
-     * Ces checks devraient être fait au niveau du behavior
-     */
-    if (abandon.statut.estAccordé()) {
-      throw new ProjetAbandonnéError();
-    }
-
-    if (abandon.statut.estEnCours()) {
-      throw new ProjetAvecDemandeAbandonEnCoursError();
-    }
-
-    if (achèvement.estAchevé()) {
-      throw new ProjetAchevéError();
-    }
-    /****/
+    const estAbandonné = abandon.statut.estAccordé();
+    const demandeAbandonEnCours = abandon.statut.estEnCours();
+    const estAchevé = achèvement.estAchevé();
 
     await actionnaireAggrégat.demanderChangement({
       identifiantProjet,
@@ -65,6 +47,9 @@ export const registerDemanderChangementActionnaireCommand = (loadAggregate: Load
       identifiantUtilisateur,
       dateDemande,
       actionnaire,
+      estAbandonné,
+      demandeAbandonEnCours,
+      estAchevé,
     });
   };
   mediator.register('Lauréat.Actionnaire.Command.DemanderChangement', handler);
