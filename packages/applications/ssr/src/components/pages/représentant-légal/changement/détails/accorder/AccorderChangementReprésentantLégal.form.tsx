@@ -63,7 +63,7 @@ export const AccorderChangementReprésentantLégal = ({
               />
 
               <Input
-                label="Nom du représentant légal"
+                label="Nom du représentant légal (à corriger si besoin)"
                 id="nomRepresentantLegal"
                 nativeInputProps={{
                   name: 'nomRepresentantLegal',
