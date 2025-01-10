@@ -36,10 +36,6 @@ export const registerDemanderChangementActionnaireCommand = (loadAggregate: Load
     const abandon = await loadAbandon(identifiantProjet, false);
     const achèvement = await loadAchèvement(identifiantProjet, false);
 
-    const estAbandonné = abandon.statut.estAccordé();
-    const demandeAbandonEnCours = abandon.statut.estEnCours();
-    const estAchevé = achèvement.estAchevé();
-
     await actionnaireAggrégat.demanderChangement({
       identifiantProjet,
       pièceJustificative,
@@ -47,9 +43,9 @@ export const registerDemanderChangementActionnaireCommand = (loadAggregate: Load
       identifiantUtilisateur,
       dateDemande,
       actionnaire,
-      estAbandonné,
-      demandeAbandonEnCours,
-      estAchevé,
+      estAbandonné: abandon.statut.estAccordé(),
+      demandeAbandonEnCours: abandon.statut.estEnCours(),
+      estAchevé: achèvement.estAchevé(),
     });
   };
   mediator.register('Lauréat.Actionnaire.Command.DemanderChangement', handler);

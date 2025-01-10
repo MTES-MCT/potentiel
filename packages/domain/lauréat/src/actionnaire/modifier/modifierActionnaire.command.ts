@@ -38,21 +38,16 @@ export const registerModifierActionnaireCommand = (loadAggregate: LoadAggregate)
     const achèvement = await loadAchèvement(identifiantProjet, false);
     const utilisateurEstPorteur = rôle.estÉgaleÀ(Role.porteur);
 
-    const estAbandonnéEtUtilisateurEstPorteur =
-      abandon.statut.estAccordé() && utilisateurEstPorteur;
-    const estAchevéEtUtilisateurEstPorteur = achèvement.estAchevé() && utilisateurEstPorteur;
-    const demandeAbandonEnCoursEtUtilisateurEstPorteur =
-      abandon.statut.estEnCours() && utilisateurEstPorteur;
-
     await actionnaireAggrégat.modifier({
       identifiantProjet,
       identifiantUtilisateur,
       actionnaire,
       dateModification,
       pièceJustificative,
-      estAbandonnéEtUtilisateurEstPorteur,
-      estAchevéEtUtilisateurEstPorteur,
-      demandeAbandonEnCoursEtUtilisateurEstPorteur,
+      estAbandonnéEtUtilisateurEstPorteur: abandon.statut.estAccordé() && utilisateurEstPorteur,
+      estAchevéEtUtilisateurEstPorteur: achèvement.estAchevé() && utilisateurEstPorteur,
+      demandeAbandonEnCoursEtUtilisateurEstPorteur:
+        abandon.statut.estEnCours() && utilisateurEstPorteur,
     });
   };
   mediator.register('Lauréat.Actionnaire.Command.ModifierActionnaire', handler);
