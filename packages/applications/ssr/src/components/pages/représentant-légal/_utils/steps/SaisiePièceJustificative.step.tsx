@@ -35,7 +35,7 @@ export const SaisiePièceJustificativeStep: FC<SaisiePièceJustificativeProps> =
       .with('collectivité', () => `Un extrait de délibération portant sur le projet`)
       .otherwise(
         () =>
-          `Tout document officiel permettant d'attester de l'existence juridique de l'organisme'`,
+          `Tout document officiel permettant d'attester de l'existence juridique de l'organisme`,
       );
 
   return (
