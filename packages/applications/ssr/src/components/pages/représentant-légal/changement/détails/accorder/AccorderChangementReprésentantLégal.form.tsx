@@ -9,8 +9,6 @@ import { ReprésentantLégal } from '@potentiel-domain/laureat';
 import { ModalWithForm } from '@/components/molecules/ModalWithForm';
 import { ValidationErrors } from '@/utils/formAction';
 
-import { TypeReprésentantLégalSelect } from '../../../TypeReprésentantLégalSelect';
-
 import {
   accorderChangementReprésentantLégalAction,
   AccorderChangementReprésentantLégalFormKeys,
@@ -57,18 +55,11 @@ export const AccorderChangementReprésentantLégal = ({
             <>
               <input type={'hidden'} value={identifiantProjet} name="identifiantProjet" />
 
-              <TypeReprésentantLégalSelect
+              <input
                 id="typeRepresentantLegal"
                 name="typeRepresentantLegal"
-                required
-                typeReprésentantLégalActuel={
-                  typeReprésentantLégal as Exclude<
-                    ReprésentantLégal.TypeReprésentantLégal.RawType,
-                    'inconnu'
-                  >
-                }
-                state={validationErrors.typeRepresentantLegal ? 'error' : 'default'}
-                stateRelatedMessage="Le type de personne pour le représentant légal est obligatoire"
+                hidden
+                value={typeReprésentantLégal}
               />
 
               <Input
