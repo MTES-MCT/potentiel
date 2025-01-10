@@ -154,7 +154,7 @@ v1Router.get(
       });
       const attestationConformité = await getAttestationDeConformité(
         identifiantProjetValueType,
-        user,
+        user.role,
       );
 
       miseAJourStatistiquesUtilisation({
@@ -191,6 +191,9 @@ v1Router.get(
           représentantLégal: await getReprésentantLégal(identifiantProjetValueType, user.role),
           demandeRecours: await getRecours(identifiantProjetValueType),
           hasAttestationConformité: !!attestationConformité,
+          modificationsNonPermisesParLeCDCActuel:
+            project.cahierDesChargesActuel.type === 'initial' &&
+            !!project.appelOffre.periode.choisirNouveauCahierDesCharges,
         }),
       );
     },

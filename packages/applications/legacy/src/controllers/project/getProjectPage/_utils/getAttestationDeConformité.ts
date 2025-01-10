@@ -6,12 +6,15 @@ import { Option } from '@potentiel-libraries/monads';
 import { AchèvementRéelDTO } from '../../../../modules/frise';
 import { User } from '../../../../entities';
 import { getLogger } from '@potentiel-libraries/monitoring';
+import { Role } from '@potentiel-domain/utilisateur';
 
 export const getAttestationDeConformité = async (
   identifiantProjet: IdentifiantProjet.ValueType,
-  user: User,
+  rôle: string,
 ): Promise<AchèvementRéelDTO | undefined> => {
   try {
+    const utilisateur = Role.convertirEnValueType(rôle);
+
     const attestationConformité =
       await mediator.send<Achèvement.ConsulterAttestationConformitéQuery>({
         type: 'Lauréat.Achèvement.AttestationConformité.Query.ConsulterAttestationConformité',
@@ -26,7 +29,7 @@ export const getAttestationDeConformité = async (
           preuveTransmissionAuCocontractant:
             attestationConformité.preuveTransmissionAuCocontractant.formatter(),
           identifiantProjet: identifiantProjet.formatter(),
-          permissionModifier: ['admin', 'dreal', 'dgec-validateur'].includes(user.role),
+          permissionModifier: utilisateur.aLaPermission('achèvement.modifier'),
         }
       : undefined;
   } catch (error) {

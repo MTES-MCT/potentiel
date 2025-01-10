@@ -66,9 +66,6 @@ const PorteurProjetActions = ({
 
         {project.isClasse && (
           <DropdownMenuSecondaryButton buttonChildren="Actions" className="w-fit">
-            <DropdownMenuSecondaryButton.DropdownItem href={routes.DEMANDER_DELAI(project.id)}>
-              <span>Demander un délai</span>
-            </DropdownMenuSecondaryButton.DropdownItem>
             {project.appelOffre.changementProducteurPossibleAvantAchèvement && (
               <DropdownMenuSecondaryButton.DropdownItem
                 href={routes.GET_CHANGER_PRODUCTEUR(project.id)}
@@ -92,6 +89,17 @@ const PorteurProjetActions = ({
                   : `puissance`}
               </span>
             </DropdownMenuSecondaryButton.DropdownItem>
+            <DropdownMenuSecondaryButton.DropdownItem href={routes.DEMANDER_DELAI(project.id)}>
+              <span>Demander un délai</span>
+            </DropdownMenuSecondaryButton.DropdownItem>
+            {peutFaireDemandeChangementReprésentantLégal && (
+              <DropdownMenuSecondaryButton.DropdownItem
+                href={Routes.ReprésentantLégal.changement.demander(identifiantProjet)}
+                disabled={modificationsNonPermisesParLeCDCActuel ? true : undefined}
+              >
+                <span>Demander un changement de représentant légal</span>
+              </DropdownMenuSecondaryButton.DropdownItem>
+            )}
             {!abandonEnCours && (
               <>
                 <DropdownMenuSecondaryButton.DropdownItem
@@ -108,13 +116,6 @@ const PorteurProjetActions = ({
                   </DropdownMenuSecondaryButton.DropdownItem>
                 )}
               </>
-            )}
-            {peutFaireDemandeChangementReprésentantLégal && (
-              <DropdownMenuSecondaryButton.DropdownItem
-                href={Routes.ReprésentantLégal.changement.demander(identifiantProjet)}
-              >
-                <span>Demander un changement de représentant légal</span>
-              </DropdownMenuSecondaryButton.DropdownItem>
             )}
           </DropdownMenuSecondaryButton>
         )}

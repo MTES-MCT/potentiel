@@ -25,9 +25,16 @@ export type ContactProps = {
   project: ProjectDataForProjectPage;
   user: Request['user'];
   représentantLégal: GetReprésentantLégalForProjectPage;
+  modificationsNonPermisesParLeCDCActuel: boolean;
 };
 
-export const Contact = ({ identifiantProjet, project, user, représentantLégal }: ContactProps) => (
+export const Contact = ({
+  identifiantProjet,
+  project,
+  user,
+  représentantLégal,
+  modificationsNonPermisesParLeCDCActuel,
+}: ContactProps) => (
   <Section title="Contact" icon={<UserIcon />}>
     <div className="mb-3">{project.nomCandidat}</div>
     <div>
@@ -53,15 +60,16 @@ export const Contact = ({ identifiantProjet, project, user, représentantLégal 
               Voir la demande de changement en cours
             </Link>
           )}
-          {représentantLégal.demandeDeModification?.peutFaireUneDemande && (
-            <Link
-              href={Routes.ReprésentantLégal.changement.demander(identifiantProjet)}
-              aria-label="Demander un changement"
-              className="block"
-            >
-              Faire une demande de changement
-            </Link>
-          )}
+          {représentantLégal.demandeDeModification?.peutFaireUneDemande &&
+            !modificationsNonPermisesParLeCDCActuel && (
+              <Link
+                href={Routes.ReprésentantLégal.changement.demander(identifiantProjet)}
+                aria-label="Demander un changement"
+                className="block"
+              >
+                Faire une demande de changement
+              </Link>
+            )}
         </>
       )}
       <Heading3 className="mb-1">Adresse email de candidature</Heading3>
