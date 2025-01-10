@@ -157,7 +157,7 @@ export const CorrigerCandidatureForm: React.FC<CorrigerCandidatureFormProps> = (
       <Select
         state={validationErrors['actionnariat'] ? 'error' : 'default'}
         stateRelatedMessage={validationErrors['actionnariat']}
-        label="Actionnariat (optionnel)"
+        label="Type d'actionnariat (optionnel)"
         options={[
           { label: '', value: '' },
           ...typesActionnariat.map((type) => ({

@@ -26,6 +26,7 @@ export type GetActionnaireForProjectPage =
 export const getActionnaire = async (
   identifiantProjet: IdentifiantProjet.ValueType,
   rôle: string,
+  demandeNécessiteInstruction: boolean,
 ): Promise<GetActionnaireForProjectPage> => {
   try {
     const utilisateur = Role.convertirEnValueType(rôle);
@@ -47,13 +48,11 @@ export const getActionnaire = async (
         demandeExistanteDeChangement.demande.statut.estDemandé();
 
       const doitDemanderEtPasModifier =
-        identifiantProjet.appelOffre === 'Eolien' &&
-        utilisateur.aLaPermission('actionnaire.demanderChangement');
+        demandeNécessiteInstruction && utilisateur.aLaPermission('actionnaire.demanderChangement');
 
-      // TODO: affiner la condition sur la demande vs la modification
       const peutFaireUneDemandeDeChangement = doitDemanderEtPasModifier && !aUneDemandeEnCours;
 
-      const peutFaireUneModification =
+      const peutModifierDirectement =
         !doitDemanderEtPasModifier &&
         utilisateur.aLaPermission('actionnaire.modifier') &&
         !aUneDemandeEnCours;
@@ -84,7 +83,7 @@ export const getActionnaire = async (
               url: Routes.Actionnaire.changement.demander(identifiantProjet.formatter()),
               label: "Demander une modification de l'actionnariat",
             }
-          : peutFaireUneModification
+          : peutModifierDirectement
             ? {
                 url: Routes.Actionnaire.modifier(identifiantProjet.formatter()),
                 label: 'Modifier l’actionnariat',
