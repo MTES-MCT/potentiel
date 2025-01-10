@@ -30,15 +30,12 @@ export const SaisiePièceJustificativeStep: FC<SaisiePièceJustificativeProps> =
       .with(
         'personne-morale',
         () =>
-          'Un extrait Kbis, pour les sociétés en cours de constitutionv une copie des statuts de la société en cours de constitution, une attestation de récépissé de dépôt de fonds pour constitution de capital social et une copie de l’acte désignant le représentant légal de la société',
+          'Un extrait Kbis, pour les sociétés en cours de constitution une copie des statuts de la société en cours de constitution, une attestation de récépissé de dépôt de fonds pour constitution de capital social et une copie de l’acte désignant le représentant légal de la société',
       )
-      .with(
-        'collectivité',
-        () => `Un extrait de délibération portant sur le projet objet de l'offre`,
-      )
+      .with('collectivité', () => `Un extrait de délibération portant sur le projet`)
       .otherwise(
         () =>
-          `Tout document officiel permettant d'attester de l'existence juridique de la personne`,
+          `Tout document officiel permettant d'attester de l'existence juridique de l'organisme'`,
       );
 
   return (

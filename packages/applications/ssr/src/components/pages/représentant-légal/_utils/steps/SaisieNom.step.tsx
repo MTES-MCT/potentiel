@@ -26,7 +26,7 @@ export const SaisieNomStep: FC<SaisieNomProps> = ({
     .returnType<{ label: string; hintText: string }>()
     .with('personne-physique', () => ({
       label: 'Les nom et prénom(s) de la personne physique',
-      hintText: 'les nom et prénoms',
+      hintText: 'les nom et prénom(s)',
     }))
     .with('personne-morale', () => ({
       label: 'Le nom de la société',
