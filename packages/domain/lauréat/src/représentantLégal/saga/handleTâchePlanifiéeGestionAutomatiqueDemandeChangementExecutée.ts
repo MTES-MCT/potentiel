@@ -5,7 +5,6 @@ import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
 import { TâchePlanifiéeExecutéeEvent } from '@potentiel-domain/tache-planifiee';
 import { Option } from '@potentiel-libraries/monads';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
-// import { getLogger } from '@potentiel-libraries/monitoring';
 
 import { ReprésentantLégal } from '../..';
 
@@ -22,21 +21,19 @@ export const handleTâchePlanifiéeGestionAutomatiqueDemandeChangementExecutée 
   });
 
   if (Option.isNone(appelOffre)) {
-    // getLogger().error(`Appel d'offre non trouvée`, {
-    //   identifiantProjet: identifiantProjet.formatter(),
-    //   context: 'Lauréat.ReprésentantLégal.Saga.HandleTâchePlanifiéeExécutée',
-    // });
-    return;
+    throw new TâchePlanifiéeGestionAutomatiqueDemandeChangementError(
+      `Appel d'offre non trouvée`,
+      identifiantProjet.formatter(),
+    );
   }
 
   const période = appelOffre.periodes.find((p) => p.id === identifiantProjet.période);
 
   if (!période) {
-    // getLogger().error(`Période non trouvée`, {
-    //   identifiantProjet: identifiantProjet.formatter(),
-    //   context: 'Lauréat.ReprésentantLégal.Saga.HandleTâchePlanifiéeExécutée',
-    // });
-    return;
+    throw new TâchePlanifiéeGestionAutomatiqueDemandeChangementError(
+      `Période non trouvée`,
+      identifiantProjet.formatter(),
+    );
   }
 
   const changement =
@@ -48,11 +45,10 @@ export const handleTâchePlanifiéeGestionAutomatiqueDemandeChangementExecutée 
     });
 
   if (Option.isNone(changement)) {
-    // getLogger().error(`Aucun changement de représentant légal à traiter`, {
-    //   identifiantProjet: identifiantProjet.formatter(),
-    //   context: 'Lauréat.ReprésentantLégal.Saga.HandleTâchePlanifiéeExécutée',
-    // });
-    return;
+    throw new TâchePlanifiéeGestionAutomatiqueDemandeChangementError(
+      `Aucun changement de représentant légal à traiter`,
+      identifiantProjet.formatter(),
+    );
   }
 
   const {
@@ -89,3 +85,14 @@ export const handleTâchePlanifiéeGestionAutomatiqueDemandeChangementExecutée 
     })
     .exhaustive();
 };
+
+class TâchePlanifiéeGestionAutomatiqueDemandeChangementError extends Error {
+  constructor(
+    public cause: string,
+    public identifiantProjet: string,
+  ) {
+    super(
+      `Impossible de traiter automatiquement la tâche planifier pour le changement de représentant légal`,
+    );
+  }
+}
