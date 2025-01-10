@@ -5,6 +5,13 @@ import { DocumentProjet } from '@potentiel-domain/document';
 import { LoadAggregate } from '@potentiel-domain/core';
 
 import { loadActionnaireFactory } from '../../actionnaire.aggregate';
+import { loadAbandonFactory } from '../../../abandon';
+import { loadAchèvementFactory } from '../../../achèvement/achèvement.aggregate';
+import {
+  ProjetAbandonnéError,
+  ProjetAvecDemandeAbandonEnCoursError,
+  ProjetAchevéError,
+} from '../../errors';
 
 export type DemanderChangementCommand = Message<
   'Lauréat.Actionnaire.Command.DemanderChangement',
@@ -20,6 +27,8 @@ export type DemanderChangementCommand = Message<
 
 export const registerDemanderChangementActionnaireCommand = (loadAggregate: LoadAggregate) => {
   const loadActionnaire = loadActionnaireFactory(loadAggregate);
+  const loadAbandon = loadAbandonFactory(loadAggregate);
+  const loadAchèvement = loadAchèvementFactory(loadAggregate);
   const handler: MessageHandler<DemanderChangementCommand> = async ({
     identifiantProjet,
     pièceJustificative,
@@ -29,6 +38,25 @@ export const registerDemanderChangementActionnaireCommand = (loadAggregate: Load
     dateDemande,
   }) => {
     const actionnaireAggrégat = await loadActionnaire(identifiantProjet);
+    const abandon = await loadAbandon(identifiantProjet, false);
+    const achèvement = await loadAchèvement(identifiantProjet, false);
+
+    /**
+     * @todo
+     * Ces checks devraient être fait au niveau du behavior
+     */
+    if (abandon.statut.estAccordé()) {
+      throw new ProjetAbandonnéError();
+    }
+
+    if (abandon.statut.estEnCours()) {
+      throw new ProjetAvecDemandeAbandonEnCoursError();
+    }
+
+    if (achèvement.estAchevé()) {
+      throw new ProjetAchevéError();
+    }
+    /****/
 
     await actionnaireAggrégat.demanderChangement({
       identifiantProjet,

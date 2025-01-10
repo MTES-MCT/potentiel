@@ -3,6 +3,7 @@ import { mediator } from 'mediateur';
 
 import { Actionnaire } from '@potentiel-domain/laureat';
 import { DateTime } from '@potentiel-domain/common';
+import { Role } from '@potentiel-domain/utilisateur';
 
 import { PotentielWorld } from '../../../../potentiel.world';
 
@@ -17,32 +18,25 @@ Quand("l'actionnaire est importé pour le projet", async function (this: Potenti
 });
 
 Quand(
-  "le DGEC validateur modifie l'actionnaire pour le projet lauréat",
-  async function (this: PotentielWorld) {
+  /(le DGEC validateur|la DREAL associée au projet|le porteur) modifie l'actionnaire pour le projet lauréat/,
+  async function (
+    this: PotentielWorld,
+    rôle: 'le DGEC validateur' | 'la DREAL associée au projet' | 'le porteur',
+  ) {
     try {
-      await modifierActionnaire.call(this, this.utilisateurWorld.adminFixture.email);
-    } catch (error) {
-      this.error = error as Error;
-    }
-  },
-);
-
-Quand(
-  "la DREAL modifie l'actionnaire pour le projet lauréat",
-  async function (this: PotentielWorld) {
-    try {
-      await modifierActionnaire.call(this, this.utilisateurWorld.drealFixture.email);
-    } catch (error) {
-      this.error = error as Error;
-    }
-  },
-);
-
-Quand(
-  "le porteur modifie l'actionnaire pour le projet lauréat",
-  async function (this: PotentielWorld) {
-    try {
-      await modifierActionnaire.call(this, this.utilisateurWorld.porteurFixture.email);
+      await modifierActionnaire.call(
+        this,
+        rôle === 'le DGEC validateur'
+          ? this.utilisateurWorld.adminFixture.email
+          : rôle === 'le porteur'
+            ? this.utilisateurWorld.porteurFixture.email
+            : this.utilisateurWorld.drealFixture.email,
+        rôle === 'le DGEC validateur'
+          ? Role.dgecValidateur.nom
+          : rôle === 'le porteur'
+            ? Role.porteur.nom
+            : Role.dreal.nom,
+      );
     } catch (error) {
       this.error = error as Error;
     }
@@ -66,7 +60,8 @@ Quand(
     try {
       await modifierActionnaireSansChangement.call(
         this,
-        this.utilisateurWorld.porteurFixture.email,
+        this.utilisateurWorld.adminFixture.email,
+        Role.dgecValidateur.nom,
       );
     } catch (error) {
       this.error = error as Error;
@@ -258,7 +253,7 @@ export async function rejeterDemandeChangementActionnaire(
   });
 }
 
-async function modifierActionnaire(this: PotentielWorld, modifiéPar: string) {
+async function modifierActionnaire(this: PotentielWorld, modifiéPar: string, rôle: string) {
   const identifiantProjet = this.lauréatWorld.identifiantProjet.formatter();
 
   const { actionnaire, dateModification } =
@@ -273,6 +268,7 @@ async function modifierActionnaire(this: PotentielWorld, modifiéPar: string) {
       identifiantUtilisateurValue: modifiéPar,
       actionnaireValue: actionnaire,
       dateModificationValue: dateModification,
+      rôleValue: rôle,
     },
   });
 }
@@ -296,7 +292,11 @@ async function transmettreActionnaire(this: PotentielWorld, modifiéPar: string)
   });
 }
 
-async function modifierActionnaireSansChangement(this: PotentielWorld, modifiéPar: string) {
+async function modifierActionnaireSansChangement(
+  this: PotentielWorld,
+  modifiéPar: string,
+  rôle: string,
+) {
   const identifiantProjet = this.lauréatWorld.identifiantProjet.formatter();
 
   await mediator.send<Actionnaire.ActionnaireUseCase>({
@@ -306,6 +306,7 @@ async function modifierActionnaireSansChangement(this: PotentielWorld, modifiéP
       identifiantUtilisateurValue: modifiéPar,
       actionnaireValue: this.lauréatWorld.actionnaireWorld.importerActionnaireFixture.actionnaire,
       dateModificationValue: DateTime.now().formatter(),
+      rôleValue: rôle,
     },
   });
 }
