@@ -132,19 +132,21 @@ type ChangementProps = Pick<
 const Changement: FC<ChangementProps> = ({ actionnaire, pièceJustificative, raison }) => (
   <>
     <div className="flex gap-2">
-      <div className="font-semibold whitespace-nowrap">Nouvel actionnaire :</div>
+      <div className="font-semibold whitespace-nowrap">Société mère</div>
       <div>{actionnaire.demandé}</div>
     </div>
-    <div className="flex gap-2">
-      <div className="italic whitespace-nowrap">Actionnaire actuel :</div>
-      <div>{actionnaire.actuel}</div>
-    </div>
+    {actionnaire.demandé !== actionnaire.actuel && (
+      <div className="flex gap-2">
+        <div className="italic whitespace-nowrap">Ancienne société mère</div>
+        <div>{actionnaire.actuel}</div>
+      </div>
+    )}
     <div className="flex gap-2">
       <div className="font-semibold whitespace-nowrap">Raison du changement :</div>
       <div>{raison}</div>
     </div>
     <div className="flex gap-2">
-      <div className="font-semibold whitespace-nowrap">Pièce justificative :</div>
+      <div className="font-semibold whitespace-nowrap">Pièce(s) justificative(s) :</div>
       <DownloadDocument
         className="mb-0"
         label="Télécharger la pièce justificative"
