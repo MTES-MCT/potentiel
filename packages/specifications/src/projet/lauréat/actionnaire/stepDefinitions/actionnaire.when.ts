@@ -1,5 +1,6 @@
 import { When as Quand } from '@cucumber/cucumber';
 import { mediator } from 'mediateur';
+import { match } from 'ts-pattern';
 
 import { Actionnaire } from '@potentiel-domain/laureat';
 import { DateTime } from '@potentiel-domain/common';
@@ -24,19 +25,12 @@ Quand(
     rôle: 'le DGEC validateur' | 'la DREAL associée au projet' | 'le porteur',
   ) {
     try {
-      await modifierActionnaire.call(
-        this,
-        rôle === 'le DGEC validateur'
-          ? this.utilisateurWorld.adminFixture.email
-          : rôle === 'le porteur'
-            ? this.utilisateurWorld.porteurFixture.email
-            : this.utilisateurWorld.drealFixture.email,
-        rôle === 'le DGEC validateur'
-          ? Role.dgecValidateur.nom
-          : rôle === 'le porteur'
-            ? Role.porteur.nom
-            : Role.dreal.nom,
-      );
+      const { email, role } = match(rôle)
+        .with('le DGEC validateur', () => this.utilisateurWorld.adminFixture)
+        .with('la DREAL associée au projet', () => this.utilisateurWorld.drealFixture)
+        .with('le porteur', () => this.utilisateurWorld.porteurFixture)
+        .exhaustive();
+      await modifierActionnaire.call(this, email, role);
     } catch (error) {
       this.error = error as Error;
     }
