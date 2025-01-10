@@ -17,12 +17,15 @@ import { bootstrap, permissionMiddleware } from '@potentiel-applications/bootstr
 import crypto from 'node:crypto';
 import { MulterError } from 'multer';
 import { runWithContext } from '@potentiel-applications/request-context';
+import { setupLogger } from './setupLogger';
 
 setDefaultOptions({ locale: LOCALE.fr });
 dotenv.config();
 
 export async function makeServer(port: number) {
   try {
+    setupLogger();
+
     const app = express();
 
     // Always first middleware

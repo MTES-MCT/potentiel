@@ -2,15 +2,19 @@ import { createServer } from 'http';
 import { parse } from 'url';
 
 import next from 'next';
+import * as Sentry from '@sentry/nextjs';
 
 import { bootstrap, permissionMiddleware } from '@potentiel-applications/bootstrap';
-import { runWithContext } from '@potentiel-applications/request-context';
+import { getContext, runWithContext } from '@potentiel-applications/request-context';
+
+import { setupLogger } from './setupLogger';
 
 /**
  * This is the entrypoint to the DEV mode of the SSR app.
  * For the entrypoint of the production mode, see the `legacy` application
  */
 async function main() {
+  setupLogger();
   const port = parseInt(process.env.PORT || '3000', 10);
   const dev = process.env.NODE_ENV !== 'production';
   const app = next({ dev });
@@ -19,13 +23,25 @@ async function main() {
   await app.prepare();
 
   await bootstrap({ middlewares: [permissionMiddleware] });
+
+  // remove bootstrap messages from sentry's breadcrumbs
+  Sentry.getCurrentScope().clearBreadcrumbs();
+
   const server = createServer(async (req, res) => {
     const parsedUrl = parse(req.url!, true);
 
     await runWithContext({
       req,
       res,
-      callback: () => handle(req, res, parsedUrl),
+      callback: () =>
+        Sentry.withScope((scope) => {
+          const utilisateur = getContext()?.utilisateur;
+          if (utilisateur) {
+            scope.setUser({ email: utilisateur.identifiantUtilisateur.email });
+          }
+          // Handle incoming HTTP request
+          return handle(req, res, parsedUrl);
+        }),
     });
   });
 
