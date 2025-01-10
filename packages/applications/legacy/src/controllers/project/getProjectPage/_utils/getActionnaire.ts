@@ -71,7 +71,7 @@ export const getActionnaire = async (
         pageProjet: afficherFormulaireDemandeSurPageProjet
           ? {
               url: Routes.Actionnaire.changement.demander(identifiantProjet.formatter()),
-              label: "Demander un changement d'actionnariat",
+              label: "Demander une modification de l'actionnariat",
             }
           : afficherFormulaireModificationSurPageProjet
             ? {
@@ -82,7 +82,7 @@ export const getActionnaire = async (
         menu: peutFaireUneDemandeDeChangement
           ? {
               url: Routes.Actionnaire.changement.demander(identifiantProjet.formatter()),
-              label: "Demander un changement d'actionnariat",
+              label: "Demander une modification de l'actionnariat",
             }
           : peutFaireUneModification
             ? {

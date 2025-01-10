@@ -15,7 +15,7 @@ import { withUtilisateur } from '@/utils/withUtilisateur';
 import { ModifierActionnairePage } from '@/components/pages/actionnaire/modifier/ModifierActionnaire.page';
 
 export const metadata: Metadata = {
-  title: "Modifier l'actionnaire du projet - Potentiel",
+  title: "Modifier l'actionnariat du projet - Potentiel",
   description: "Formulaire de modification de l'actionnaire d'un projet",
 };
 

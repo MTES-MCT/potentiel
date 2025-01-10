@@ -3,7 +3,6 @@ import { mediator } from 'mediateur';
 import { match } from 'ts-pattern';
 
 import { Actionnaire } from '@potentiel-domain/laureat';
-import { DateTime } from '@potentiel-domain/common';
 import { Role } from '@potentiel-domain/utilisateur';
 
 import { PotentielWorld } from '../../../../potentiel.world';
@@ -250,7 +249,7 @@ export async function rejeterDemandeChangementActionnaire(
 async function modifierActionnaire(this: PotentielWorld, modifiéPar: string, rôle: string) {
   const identifiantProjet = this.lauréatWorld.identifiantProjet.formatter();
 
-  const { actionnaire, dateModification } =
+  const { actionnaire, dateModification, raison } =
     this.lauréatWorld.actionnaireWorld.modifierActionnaireFixture.créer();
 
   this.lauréatWorld.actionnaireWorld.actionnaire = actionnaire;
@@ -263,6 +262,7 @@ async function modifierActionnaire(this: PotentielWorld, modifiéPar: string, r�
       actionnaireValue: actionnaire,
       dateModificationValue: dateModification,
       rôleValue: rôle,
+      raisonValue: raison,
     },
   });
 }
@@ -293,14 +293,18 @@ async function modifierActionnaireSansChangement(
 ) {
   const identifiantProjet = this.lauréatWorld.identifiantProjet.formatter();
 
+  const { dateModification, raison } =
+    this.lauréatWorld.actionnaireWorld.modifierActionnaireFixture.créer();
+
   await mediator.send<Actionnaire.ActionnaireUseCase>({
     type: 'Lauréat.Actionnaire.UseCase.ModifierActionnaire',
     data: {
       identifiantProjetValue: identifiantProjet,
       identifiantUtilisateurValue: modifiéPar,
       actionnaireValue: this.lauréatWorld.actionnaireWorld.importerActionnaireFixture.actionnaire,
-      dateModificationValue: DateTime.now().formatter(),
+      dateModificationValue: dateModification,
       rôleValue: rôle,
+      raisonValue: raison,
     },
   });
 }

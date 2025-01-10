@@ -44,7 +44,7 @@ export const ModifierActionnaireForm: FC<ModifierActionnaireFormProps> = ({
             }}
             iconId="fr-icon-arrow-left-line"
           >
-            Retour sur le projet
+            Retour à la page projet
           </Button>
           <SubmitButton
             disabledCondition={() =>
@@ -79,7 +79,7 @@ export const ModifierActionnaireForm: FC<ModifierActionnaireFormProps> = ({
           textArea
           label="Raison"
           id="raison"
-          hintText="Veuillez détailler les raisons ayant conduit à cette modification."
+          hintText="Veuillez détailler les raisons ayant conduit à la modification de l'actionnariat."
           nativeTextAreaProps={{ name: 'raison', required: true, 'aria-required': true }}
           state={validationErrors['raison'] ? 'error' : 'default'}
           stateRelatedMessage={validationErrors['raison']}
@@ -87,9 +87,7 @@ export const ModifierActionnaireForm: FC<ModifierActionnaireFormProps> = ({
         <UploadNewOrModifyExistingDocument
           label="Pièce justificative"
           name="piecesJustificatives"
-          hintText={
-            'Joindre la copie des statuts de la société à jour et le(s) justificatif(s) relatif(s) à la composition de l’actionnariat'
-          }
+          hintText="Joindre la copie des statuts de la société à jour et le(s) justificatif(s) relatif(s) à la composition de l’actionnariat"
           required={hasToUploadDocument}
           formats={['pdf']}
           multiple

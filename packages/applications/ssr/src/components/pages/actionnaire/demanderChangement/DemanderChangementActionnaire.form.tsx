@@ -43,7 +43,7 @@ export const DemanderChangementActionnaireForm: FC<DemanderChangementActionnaire
             }}
             iconId="fr-icon-arrow-left-line"
           >
-            Retour sur le projet
+            Retour à la page projet
           </Button>
           <SubmitButton
             disabledCondition={() =>
@@ -78,17 +78,15 @@ export const DemanderChangementActionnaireForm: FC<DemanderChangementActionnaire
           textArea
           label="Raison"
           id="raison"
-          hintText="Pour faciliter le traitement de votre demande, veuillez détailler les raisons ayant conduit au changement d'actionnaire."
+          hintText="Pour faciliter le traitement de votre demande, veuillez détailler les raisons ayant conduit à la modification de l'actionnariat."
           nativeTextAreaProps={{ name: 'raison', required: true, 'aria-required': true }}
           state={validationErrors['raison'] ? 'error' : 'default'}
           stateRelatedMessage={validationErrors['raison']}
         />
         <UploadNewOrModifyExistingDocument
-          label="Pièce justificative"
+          label="Pièce(s) justificative(s)"
           name="piecesJustificatives"
-          hintText={
-            'Joindre la copie des statuts de la société à jour et le(s) justificatif(s) relatif(s) à la composition de l’actionnariat'
-          }
+          hintText="Joindre la copie des statuts de la société à jour et le(s) justificatif(s) relatif(s) à la composition de l’actionnariat"
           required
           formats={['pdf']}
           multiple

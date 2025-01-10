@@ -18,7 +18,7 @@ export const AnnulerChangementActionnaire = ({
 
   return (
     <>
-      <Button priority="secondary" onClick={() => setIsOpen(true)} className="block text-center">
+      <Button onClick={() => setIsOpen(true)} className="block text-center">
         Annuler la demande de modification de l’actionnariat
       </Button>
 

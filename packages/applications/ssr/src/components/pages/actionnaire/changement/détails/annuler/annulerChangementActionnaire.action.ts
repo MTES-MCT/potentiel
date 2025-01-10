@@ -28,7 +28,7 @@ const action: FormAction<FormState, typeof schema> = async (_, { identifiantProj
       status: 'success',
       redirection: {
         url: Routes.Projet.details(identifiantProjet),
-        message: "La demande de changement d'actionnaire a bien été annulée",
+        message: "La demande de modification de l'actionnariat a bien été annulée",
       },
     };
   });

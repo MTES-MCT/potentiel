@@ -24,7 +24,7 @@ export const ModifierActionnairePage: FC<ModifierActionnairePageProps> = ({
       <ProjetBanner identifiantProjet={IdentifiantProjet.bind(identifiantProjet).formatter()} />
     }
   >
-    <Heading1>Modifier l'actionnaire</Heading1>
+    <Heading1>Modifier l'actionnariat</Heading1>
     <ModifierActionnaireForm
       identifiantProjet={identifiantProjet}
       actionnaire={actionnaire}

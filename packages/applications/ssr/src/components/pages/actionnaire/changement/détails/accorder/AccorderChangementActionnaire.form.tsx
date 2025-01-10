@@ -29,7 +29,7 @@ export const AccorderChangementActionnaire = ({
 
   return (
     <>
-      <Button priority="secondary" onClick={() => setIsOpen(true)} className="block text-center">
+      <Button onClick={() => setIsOpen(true)} className="block text-center">
         Accorder la demande de modification de l’actionnariat
       </Button>
 
