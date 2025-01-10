@@ -18,13 +18,13 @@ export const AnnulerChangementActionnaire = ({
 
   return (
     <>
-      <Button priority="secondary" onClick={() => setIsOpen(true)} className="block text-center">
-        Annuler
+      <Button onClick={() => setIsOpen(true)} className="block text-center">
+        Annuler la demande de modification de l’actionnariat
       </Button>
 
       <ModalWithForm
         id="annuler-changement-actionnaire-modal"
-        title="Annuler le changement d'actionnaire"
+        title="Annuler la demande de modification de l’actionnariat"
         acceptButtonLabel="Oui"
         rejectButtonLabel="Non"
         isOpen={isOpen}
@@ -35,7 +35,9 @@ export const AnnulerChangementActionnaire = ({
           omitMandatoryFieldsLegend: true,
           children: (
             <>
-              <p className="mt-3">Êtes-vous sûr de vouloir annuler ce changement d'actionnaire ?</p>
+              <p className="mt-3">
+                Êtes-vous sûr de vouloir annuler cette modification de l’actionnariat ?
+              </p>
               <input type={'hidden'} value={identifiantProjet} name="identifiantProjet" />
             </>
           ),

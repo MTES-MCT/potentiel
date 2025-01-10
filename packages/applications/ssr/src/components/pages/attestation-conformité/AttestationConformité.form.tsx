@@ -66,7 +66,7 @@ export const AttestationConformitéForm: FC<AttestationConformitéFormProps> = (
             }}
             iconId="fr-icon-arrow-left-line"
           >
-            Retour sur le projet
+            Retour à la page projet
           </Button>
           <SubmitButton>{submitButtonLabel}</SubmitButton>
         </>

@@ -40,11 +40,11 @@ export const DétailsDemandeChangementActionnairePage: FC<
   return (
     <ColumnPageTemplate
       banner={<ProjetBanner identifiantProjet={idProjet} />}
-      heading={<Heading1>Détails de la demande de changement d'actionnaire</Heading1>}
+      heading={<Heading1>Détails de la demande de modification de l’actionnariat</Heading1>}
       leftColumn={{
         children: (
-          <div className="flex flex-col gap-8">
-            <Heading2 className="mb-4">Contexte</Heading2>
+          <div className="flex flex-col gap-4">
+            <Heading2 className="mb-4">Contexte de la demande</Heading2>
             <div className="flex flex-col gap-4">
               <div className="flex flex-col gap-2">
                 {accord && (
@@ -132,19 +132,21 @@ type ChangementProps = Pick<
 const Changement: FC<ChangementProps> = ({ actionnaire, pièceJustificative, raison }) => (
   <>
     <div className="flex gap-2">
-      <div className="font-semibold whitespace-nowrap">Nouvel actionnaire :</div>
+      <div className="font-semibold whitespace-nowrap">Société mère</div>
       <div>{actionnaire.demandé}</div>
     </div>
-    <div className="flex gap-2">
-      <div className="italic whitespace-nowrap">Actionnaire actuel :</div>
-      <div>{actionnaire.actuel}</div>
-    </div>
+    {actionnaire.demandé !== actionnaire.actuel && (
+      <div className="flex gap-2">
+        <div className="italic whitespace-nowrap">Ancienne société mère</div>
+        <div>{actionnaire.actuel}</div>
+      </div>
+    )}
     <div className="flex gap-2">
       <div className="font-semibold whitespace-nowrap">Raison du changement :</div>
       <div>{raison}</div>
     </div>
     <div className="flex gap-2">
-      <div className="font-semibold whitespace-nowrap">Pièce justificative :</div>
+      <div className="font-semibold whitespace-nowrap">Pièce(s) justificative(s) :</div>
       <DownloadDocument
         className="mb-0"
         label="Télécharger la pièce justificative"

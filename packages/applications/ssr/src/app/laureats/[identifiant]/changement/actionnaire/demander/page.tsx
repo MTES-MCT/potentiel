@@ -13,7 +13,7 @@ import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { DemanderChangementActionnairePage } from '@/components/pages/actionnaire/demanderChangement/DemanderChangementActionnaire.page';
 
 export const metadata: Metadata = {
-  title: "Demander un changement d'actionnaire d'un projet - Potentiel",
+  title: "Demander une modification de l'actionnariat d'un projet - Potentiel",
   description: "Formulaire de demande de changement d'actionnaire d'un projet",
 };
 

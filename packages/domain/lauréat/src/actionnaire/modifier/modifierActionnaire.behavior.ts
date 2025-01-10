@@ -18,6 +18,7 @@ export type ActionnaireModifiéEvent = DomainEvent<
     actionnaire: string;
     modifiéLe: DateTime.RawType;
     modifiéPar: Email.RawType;
+    raison: string;
     pièceJustificative?: {
       format: string;
     };
@@ -30,6 +31,7 @@ export type ModifierOptions = {
   actionnaire: string;
   dateModification: DateTime.ValueType;
   pièceJustificative?: DocumentProjet.ValueType;
+  raison: string;
   estAbandonnéEtUtilisateurEstPorteur: boolean;
   estAchevéEtUtilisateurEstPorteur: boolean;
   demandeAbandonEnCoursEtUtilisateurEstPorteur: boolean;
@@ -43,6 +45,7 @@ export async function modifier(
     dateModification,
     identifiantUtilisateur,
     pièceJustificative,
+    raison,
     estAbandonnéEtUtilisateurEstPorteur,
     estAchevéEtUtilisateurEstPorteur,
     demandeAbandonEnCoursEtUtilisateurEstPorteur,
@@ -75,6 +78,7 @@ export async function modifier(
       actionnaire,
       modifiéLe: dateModification.formatter(),
       modifiéPar: identifiantUtilisateur.formatter(),
+      raison,
       pièceJustificative: pièceJustificative && {
         format: pièceJustificative.format,
       },

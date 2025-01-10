@@ -20,7 +20,6 @@ import { DemanderChangementActionnairePageProps } from './DemanderChangementActi
 
 export type DemanderChangementActionnaireFormProps = DemanderChangementActionnairePageProps;
 
-// TODO: reprendre le wording cf nouveau ticket
 export const DemanderChangementActionnaireForm: FC<DemanderChangementActionnaireFormProps> = ({
   identifiantProjet,
   actionnaire,
@@ -44,14 +43,14 @@ export const DemanderChangementActionnaireForm: FC<DemanderChangementActionnaire
             }}
             iconId="fr-icon-arrow-left-line"
           >
-            Retour sur le projet
+            Retour à la page projet
           </Button>
           <SubmitButton
             disabledCondition={() =>
               !piècesJustificatives.length || Object.keys(validationErrors).length > 0
             }
           >
-            Demander le changement de l'actionnaire
+            Je demande la modification de l’actionnariat
           </SubmitButton>
         </>
       }
@@ -67,6 +66,7 @@ export const DemanderChangementActionnaireForm: FC<DemanderChangementActionnaire
           state={validationErrors['actionnaire'] ? 'error' : 'default'}
           stateRelatedMessage={validationErrors['actionnaire']}
           label="Nouvelle société mère"
+          hintText="Si la modification de l’actionnariat n'entraîne pas le changement de la société mère, veuillez laisser la société mère actuelle"
           nativeInputProps={{
             name: 'actionnaire',
             defaultValue: actionnaire,
@@ -78,17 +78,15 @@ export const DemanderChangementActionnaireForm: FC<DemanderChangementActionnaire
           textArea
           label="Raison"
           id="raison"
-          hintText="Pour faciliter le traitement de votre demande, veuillez détailler les raisons ayant conduit au changement d'actionnaire."
+          hintText="Pour faciliter le traitement de votre demande, veuillez détailler les raisons ayant conduit à la modification de l'actionnariat."
           nativeTextAreaProps={{ name: 'raison', required: true, 'aria-required': true }}
           state={validationErrors['raison'] ? 'error' : 'default'}
           stateRelatedMessage={validationErrors['raison']}
         />
         <UploadNewOrModifyExistingDocument
-          label={'Pièce justificative'}
+          label="Pièce(s) justificative(s)"
           name="piecesJustificatives"
-          hintText={
-            "Veuillez transmettre vos pièces justificatives justifiant le changement de société mère ou d'actionnariat"
-          }
+          hintText="Joindre la copie des statuts de la société à jour et le(s) justificatif(s) relatif(s) à la composition de l’actionnariat"
           required
           formats={['pdf']}
           multiple

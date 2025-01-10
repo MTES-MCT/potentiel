@@ -29,13 +29,13 @@ export const AccorderChangementActionnaire = ({
 
   return (
     <>
-      <Button priority="secondary" onClick={() => setIsOpen(true)} className="block text-center">
-        Accorder
+      <Button onClick={() => setIsOpen(true)} className="block text-center">
+        Accorder la demande de modification de l’actionnariat
       </Button>
 
       <ModalWithForm
         id="accorder-changement-actionnaire-modal"
-        title="Accorder le changement d'actionnaire"
+        title="Accorder la demande de modification de l’actionnariat"
         acceptButtonLabel="Oui"
         rejectButtonLabel="Non"
         isOpen={isOpen}
@@ -47,7 +47,7 @@ export const AccorderChangementActionnaire = ({
           children: (
             <>
               <p className="mt-3">
-                Êtes-vous sûr de vouloir accorder ce changement d'actionnaire ?
+                Êtes-vous sûr de vouloir accorder cette modification de l'actionnariat ?
               </p>
 
               <input type={'hidden'} value={identifiantProjet} name="identifiantProjet" />

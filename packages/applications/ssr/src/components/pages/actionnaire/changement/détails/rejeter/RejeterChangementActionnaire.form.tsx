@@ -27,12 +27,12 @@ export const RejeterChangementActionnaire = ({
   return (
     <>
       <Button priority="secondary" onClick={() => setIsOpen(true)} className="block text-center">
-        Rejeter
+        Rejeter la demande de modification de l’actionnariat
       </Button>
 
       <ModalWithForm
         id="rejeter-changement-actionnaire-modal"
-        title="Rejeter le changement d'actionnaire"
+        title="Rejeter la demande de modification de l’actionnariat"
         acceptButtonLabel="Oui"
         rejectButtonLabel="Non"
         isOpen={isOpen}
@@ -43,7 +43,9 @@ export const RejeterChangementActionnaire = ({
           onValidationError: (validationErrors) => setValidationErrors(validationErrors),
           children: (
             <>
-              <p className="mt-3">Êtes-vous sûr de vouloir rejeter ce changement d'actionnaire ?</p>
+              <p className="mt-3">
+                Êtes-vous sûr de vouloir rejeter cette modification de l’actionnariat ?
+              </p>
 
               <input type={'hidden'} value={identifiantProjet} name="identifiantProjet" />
 

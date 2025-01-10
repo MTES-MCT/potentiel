@@ -71,23 +71,23 @@ export const getActionnaire = async (
         pageProjet: afficherFormulaireDemandeSurPageProjet
           ? {
               url: Routes.Actionnaire.changement.demander(identifiantProjet.formatter()),
-              label: "Demander un changement d'actionnaire",
+              label: "Demander une modification de l'actionnariat",
             }
           : afficherFormulaireModificationSurPageProjet
             ? {
                 url: Routes.Actionnaire.modifier(identifiantProjet.formatter()),
-                label: "Modifier l'actionnaire",
+                label: 'Modifier l’actionnariat',
               }
             : undefined,
         menu: peutFaireUneDemandeDeChangement
           ? {
               url: Routes.Actionnaire.changement.demander(identifiantProjet.formatter()),
-              label: "Demander un changement d'actionnaire",
+              label: "Demander une modification de l'actionnariat",
             }
           : peutFaireUneModification
             ? {
                 url: Routes.Actionnaire.modifier(identifiantProjet.formatter()),
-                label: "Modifier l'actionnaire",
+                label: 'Modifier l’actionnariat',
               }
             : undefined,
         peutConsulterDemandeChangement:

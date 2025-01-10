@@ -8,19 +8,20 @@ import { Routes } from '@potentiel-applications/routes';
 
 import { FormAction, formAction, FormState } from '@/utils/formAction';
 import { withUtilisateur } from '@/utils/withUtilisateur';
-import { singleDocument } from '@/utils/zod/document/singleDocument';
+import { manyDocuments } from '@/utils/zod/document/manyDocuments';
 
 const schema = zod.object({
   identifiantProjet: zod.string().min(1),
   actionnaire: zod.string().min(1, { message: 'Champ obligatoire' }),
-  pieceJustificative: singleDocument({ optional: true, acceptedFileTypes: ['application/pdf'] }),
+  raison: zod.string().min(1, { message: 'Champ obligatoire' }),
+  piecesJustificatives: manyDocuments({ optional: true, acceptedFileTypes: ['application/pdf'] }),
 });
 
 export type ModifierActionnaireFormKeys = keyof zod.infer<typeof schema>;
 
 const action: FormAction<FormState, typeof schema> = async (
   _,
-  { identifiantProjet, actionnaire, pieceJustificative },
+  { identifiantProjet, actionnaire, raison, piecesJustificatives },
 ) =>
   withUtilisateur(async (utilisateur) => {
     await mediator.send<Actionnaire.ActionnaireUseCase>({
@@ -29,9 +30,10 @@ const action: FormAction<FormState, typeof schema> = async (
         identifiantProjetValue: identifiantProjet,
         identifiantUtilisateurValue: utilisateur.identifiantUtilisateur.formatter(),
         dateModificationValue: new Date().toISOString(),
+        raisonValue: raison,
         actionnaireValue: actionnaire,
-        ...(pieceJustificative && {
-          pièceJustificativeValue: pieceJustificative,
+        ...(piecesJustificatives && {
+          pièceJustificativeValue: piecesJustificatives,
         }),
         rôleValue: utilisateur.role.nom,
       },
@@ -41,7 +43,7 @@ const action: FormAction<FormState, typeof schema> = async (
       status: 'success',
       redirection: {
         url: Routes.Projet.details(identifiantProjet),
-        message: "L'actionnaire a bien été modifié",
+        message: "L'actionnariat a bien été modifié",
       },
     };
   });
