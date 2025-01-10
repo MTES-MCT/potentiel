@@ -7,8 +7,10 @@ import { notFound } from 'next/navigation';
 import { Routes } from '@potentiel-applications/routes';
 import { Candidature } from '@potentiel-domain/candidature';
 import { Option } from '@potentiel-libraries/monads';
-import { IdentifiantProjet } from '@potentiel-domain/common';
+import { IdentifiantProjet, StatutProjet } from '@potentiel-domain/common';
 import { Role } from '@potentiel-domain/utilisateur';
+import { Abandon } from '@potentiel-domain/laureat';
+import { Recours } from '@potentiel-domain/elimine';
 
 import { StatutProjetBadge } from '@/components/molecules/projet/StatutProjetBadge';
 import { withUtilisateur } from '@/utils/withUtilisateur';
@@ -28,15 +30,31 @@ export const ProjetBanner: FC<ProjetBannerProps> = async ({ identifiantProjet })
       },
     });
 
+    const abandon = await mediator.send<Abandon.ConsulterAbandonQuery>({
+      type: 'Lauréat.Abandon.Query.ConsulterAbandon',
+      data: {
+        identifiantProjetValue: identifiantProjet,
+      },
+    });
+
+    const recours = await mediator.send<Recours.ConsulterRecoursQuery>({
+      type: 'Éliminé.Recours.Query.ConsulterRecours',
+      data: {
+        identifiantProjetValue: identifiantProjet,
+      },
+    });
+
     if (Option.isNone(candidature)) {
       return notFound();
     }
 
-    const { nomProjet, statut, localité, notifiéeLe } = candidature;
+    const { nomProjet, localité, notifiéeLe } = candidature;
+
+    const statut = getStatutProjet(candidature, abandon, recours);
 
     return (
       <ProjetBannerTemplate
-        badge={<StatutProjetBadge statut={statut.formatter()} />}
+        badge={<StatutProjetBadge statut={statut} />}
         localité={localité}
         dateDésignation={Option.match(notifiéeLe)
           .some((date) => date.formatter())
@@ -50,4 +68,20 @@ export const ProjetBanner: FC<ProjetBannerProps> = async ({ identifiantProjet })
       />
     );
   });
+};
+
+const getStatutProjet = (
+  candidature: Candidature.ConsulterRésuméCandidatureReadModel,
+  abandon: Option.Type<Abandon.ConsulterAbandonReadModel>,
+  recours: Option.Type<Recours.ConsulterRecoursReadModel>,
+): StatutProjet.RawType => {
+  if (Option.isSome(abandon) && abandon.statut.estAccordé()) {
+    return 'abandonné';
+  }
+
+  if (Option.isSome(recours) && recours.statut.estAccordé()) {
+    return 'classé';
+  }
+
+  return candidature.statut.formatter();
 };
