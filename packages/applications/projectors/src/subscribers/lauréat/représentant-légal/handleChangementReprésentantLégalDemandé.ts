@@ -1,10 +1,9 @@
-import { mediator } from 'mediateur';
-
 import { ReprésentantLégal } from '@potentiel-domain/laureat';
 import { Candidature } from '@potentiel-domain/candidature';
 import { Option } from '@potentiel-libraries/monads';
 import { getLogger } from '@potentiel-libraries/monitoring';
 import { IdentifiantProjet } from '@potentiel-domain/common';
+import { findProjection } from '@potentiel-infrastructure/pg-projections';
 
 import { upsertProjection } from '../../../infrastructure';
 
@@ -18,12 +17,9 @@ export const handleChangementReprésentantLégalDemandé = async ({
     demandéPar,
   },
 }: ReprésentantLégal.ChangementReprésentantLégalDemandéEvent) => {
-  const candidature = await mediator.send<Candidature.ConsulterCandidatureQuery>({
-    type: 'Candidature.Query.ConsulterCandidature',
-    data: {
-      identifiantProjet,
-    },
-  });
+  const candidature = await findProjection<Candidature.CandidatureEntity>(
+    `candidature|${identifiantProjet}`,
+  );
 
   if (Option.isNone(candidature)) {
     getLogger().error('Projet non trouvé', {

@@ -51,7 +51,7 @@ export const handleChangementReprésentantLégalAccordé = async (
     },
   );
 
-  updateOneProjection<ReprésentantLégal.ReprésentantLégalEntity>(
+  await updateOneProjection<ReprésentantLégal.ReprésentantLégalEntity>(
     `représentant-légal|${identifiantProjet}`,
     {
       nomReprésentantLégal,
