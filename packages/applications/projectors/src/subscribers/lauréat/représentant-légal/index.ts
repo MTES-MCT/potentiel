@@ -10,6 +10,7 @@ import { handleReprésentantLégalModifié } from './handleReprésentantLégalMo
 import { handleChangementReprésentantLégalDemandé } from './handleChangementReprésentantLégalDemandé';
 import { handleChangementReprésentantLégalAccordé } from './handleChangementReprésentantLégalAccordé';
 import { handleChangementReprésentantLégalRejeté } from './handleChangementReprésentantLégalRejeté';
+import { handleChangementReprésentantLégalSupprimé } from './handleChangementReprésentantLégalSupprimé';
 
 export type SubscriptionEvent =
   | (ReprésentantLégal.ReprésentantLégalEvent & Event)
@@ -34,6 +35,12 @@ export const register = () => {
       .with(
         { type: 'ChangementReprésentantLégalRejeté-V1' },
         handleChangementReprésentantLégalRejeté,
+      )
+      .with(
+        {
+          type: 'ChangementReprésentantLégalSupprimé-V1',
+        },
+        handleChangementReprésentantLégalSupprimé,
       )
       .exhaustive();
 
