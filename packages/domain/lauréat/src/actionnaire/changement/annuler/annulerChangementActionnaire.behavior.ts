@@ -5,7 +5,7 @@ import { ActionnaireAggregate } from '../../actionnaire.aggregate';
 import { StatutChangementActionnaire } from '../..';
 import { DemandeChangementActionnaireInexistanteErreur } from '../../errors';
 
-export type DemandeChangementActionnaireAnnuléEvent = DomainEvent<
+export type DemandeChangementActionnaireAnnuléeEvent = DomainEvent<
   'DemandeChangementActionnaireAnnulée-V1',
   {
     annuléeLe: DateTime.RawType;
@@ -32,7 +32,7 @@ export async function annulerDemandeChangement(
     StatutChangementActionnaire.annulé,
   );
 
-  const event: DemandeChangementActionnaireAnnuléEvent = {
+  const event: DemandeChangementActionnaireAnnuléeEvent = {
     type: 'DemandeChangementActionnaireAnnulée-V1',
     payload: {
       identifiantProjet: identifiantProjet.formatter(),

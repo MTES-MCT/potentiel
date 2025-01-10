@@ -11,6 +11,11 @@ Fonctionnalité: Accorder le changement d'actionnaire d'un projet lauréat
         Quand la DREAL associée au projet accorde le changement d'actionnaire pour le projet lauréat
         Alors l'actionnaire du projet lauréat devrait être mis à jour
         Et la demande de changement de l'actionnaire devrait être accordée
+        Et un email a été envoyé au porteur avec :
+            | sujet      | Potentiel - La demande de changement d'actionnaire pour le projet Du boulodrome de Marseille dans le département(.*) a été accordée |
+            | nom_projet | Du boulodrome de Marseille                                                                                                          |
+            | url        | https://potentiel.beta.gouv.fr/laureats/.*/changement/actionnaire                                                                   |
+            | type       | accord                                                                                                                              |
 
     Scénario: Impossible d'accorder le changement d'actionnaire d'un projet lauréat si aucune demande n'est en cours
         Quand la DREAL associée au projet accorde le changement d'actionnaire pour le projet lauréat

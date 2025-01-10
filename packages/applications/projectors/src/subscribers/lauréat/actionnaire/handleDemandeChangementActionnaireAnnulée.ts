@@ -7,7 +7,7 @@ import { upsertProjection } from '../../../infrastructure';
 
 export const handleDemandeChangementActionnaireAnnulée = async ({
   payload: { identifiantProjet },
-}: Actionnaire.DemandeChangementActionnaireAnnuléEvent) => {
+}: Actionnaire.DemandeChangementActionnaireAnnuléeEvent) => {
   const projectionToUpsert = await findProjection<Actionnaire.ActionnaireEntity>(
     `actionnaire|${identifiantProjet}`,
   );
