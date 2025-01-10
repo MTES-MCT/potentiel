@@ -50,6 +50,7 @@ type ProjectDetailsProps = {
   garantiesFinancières?: GarantiesFinancièresProjetProps['garantiesFinancières'];
   représentantLégal?: ContactProps['représentantLégal'];
   hasAttestationConformité: boolean;
+  modificationsNonPermisesParLeCDCActuel: boolean;
 };
 
 export const ProjectDetails = ({
@@ -63,6 +64,7 @@ export const ProjectDetails = ({
   hasAttestationConformité,
   représentantLégal,
   garantiesFinancières,
+  modificationsNonPermisesParLeCDCActuel,
 }: ProjectDetailsProps) => {
   const { user } = request;
   const { error, success } = (request.query as any) || {};
@@ -75,9 +77,6 @@ export const ProjectDetails = ({
   }).formatter();
 
   const abandonEnCours = !!abandon && abandon.statut !== 'rejeté';
-  const modificationsNonPermisesParLeCDCActuel =
-    project.cahierDesChargesActuel.type === 'initial' &&
-    !!project.appelOffre.periode.choisirNouveauCahierDesCharges;
 
   return (
     <LegacyPageTemplate user={request.user} currentPage="list-projects">
@@ -145,6 +144,7 @@ export const ProjectDetails = ({
               project={project}
               user={user}
               représentantLégal={représentantLégal}
+              modificationsNonPermisesParLeCDCActuel={modificationsNonPermisesParLeCDCActuel}
             />
             <MaterielsEtTechnologies
               fournisseur={project.fournisseur}
