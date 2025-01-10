@@ -89,6 +89,7 @@ const PorteurProjetActions = ({
                   ? actionnaireMenu.url
                   : routes.CHANGER_ACTIONNAIRE(project.id)
               }
+              disabled={modificationsNonPermisesParLeCDCActuel ? true : undefined}
             >
               <span>
                 {isActionnaireEnabled() && actionnaireMenu

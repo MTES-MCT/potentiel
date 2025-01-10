@@ -110,7 +110,7 @@ export const ProjectDetails = ({
               <a href={Routes.Abandon.détail(identifiantProjet)}>Voir les détails de l'abandon</a>
             </AlertBox>
           )}
-          {user.role === 'porteur-projet' && modificationsNonPermisesParLeCDCActuel && (
+          {user.role === Role.porteur.nom && modificationsNonPermisesParLeCDCActuel && (
             <InfoBox>
               Votre cahier des charges actuel ne vous permet pas d'accéder aux fonctionnalités
               dématérialisées d'information au Préfet et de modification de votre projet (abandon,
@@ -142,6 +142,9 @@ export const ProjectDetails = ({
               demandeRecours={demandeRecours}
               garantiesFinancières={garantiesFinancières}
               actionnaire={actionnaire}
+              modificationParPorteurNonPermise={
+                user.role === Role.porteur.nom && modificationsNonPermisesParLeCDCActuel
+              }
             />
             <Contact
               identifiantProjet={identifiantProjet}
