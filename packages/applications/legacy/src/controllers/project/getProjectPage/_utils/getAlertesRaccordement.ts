@@ -11,14 +11,16 @@ export const getAlertesRaccordement = async ({
   identifiantProjet,
   CDC2022Choisi,
   raccordement,
+  statutAbandon,
 }: {
   role: Role.ValueType;
   identifiantProjet: IdentifiantProjet.ValueType;
   CDC2022Choisi: boolean;
   raccordement: Option.Type<Raccordement.ConsulterRaccordementReadModel>;
+  statutAbandon?: string;
 }) => {
   try {
-    if (!role.estÉgaleÀ(Role.porteur)) {
+    if (!role.estÉgaleÀ(Role.porteur) || statutAbandon === 'accordé') {
       return [];
     }
 
