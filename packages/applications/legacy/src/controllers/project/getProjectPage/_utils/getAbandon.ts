@@ -19,7 +19,7 @@ export const getAbandonStatut: GetAbandonStatut = async (
     });
 
     if (Option.isNone(abandon)) {
-      return;
+      return undefined;
     }
 
     const { statut } = abandon;

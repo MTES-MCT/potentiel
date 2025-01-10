@@ -20,7 +20,7 @@ Fonctionnalité: Modifier le représentant légal d'un projet lauréat
         Quand le DGEC validateur modifie le nom et le type du représentant légal avec les mêmes valeurs pour le projet lauréat
         Alors l'utilisateur devrait être informé que "Le représentant légal est identique à celui déjà associé au projet"
 
-    Scénario: Impossible de modifier le représentant légal d'un projet lauréat si  une demande de changement de représentant légal est en cours
+    Scénario: Impossible de modifier le représentant légal d'un projet lauréat si une demande de changement de représentant légal est en cours
         Etant donné le projet lauréat "Du boulodrome de Marseille"
         Et une demande de changement de représentant légal en cours pour le projet lauréat
         Quand le DGEC validateur modifie le nom et le type du représentant légal pour le projet lauréat
