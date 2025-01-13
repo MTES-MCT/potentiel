@@ -54,11 +54,11 @@ export const registerLauréatUseCases = (dependencies: LauréatCommandDependenci
   registerNotifierLauréatCommand(dependencies.loadAggregate);
 
   // Use cases
-  registerAbandonUseCases({ loadAggregate: dependencies.loadAggregate });
-  registerGarantiesFinancièresUseCases({ loadAggregate: dependencies.loadAggregate });
-  registerAchèvementUseCases({ loadAggregate: dependencies.loadAggregate });
+  registerAbandonUseCases(dependencies);
+  registerGarantiesFinancièresUseCases(dependencies);
+  registerAchèvementUseCases(dependencies);
   registerNotifierLauréatUseCase();
-  registerReprésentantLégalUseCases({ loadAggregate: dependencies.loadAggregate });
+  registerReprésentantLégalUseCases(dependencies);
   registerActionnaireUseCases(dependencies);
 };
 
