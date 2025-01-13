@@ -91,3 +91,13 @@ Fonctionnalité: Modifier l'actionnaire d'un projet lauréat
         Etant donné une attestation de conformité transmise pour le projet "Du boulodrome de Marseille"
         Quand le porteur modifie l'actionnaire pour le projet lauréat
         Alors le porteur devrait être informé que "Impossible de demander le changement d'actionnaire pour un projet achevé"
+
+    # Impossible de créer un projet avec l'AO 'Eolien' (legacy) pour le moment
+    @NotImplemented
+    Scénario: Impossible pour le porteur de modifier l'actionnaire d'un projet "Eolien" sous certains conditions
+        Etant donné le projet lauréat "Du bouchon de Lyon" avec :
+            | appel d'offre | Eolien |
+            | période       | 1      |
+            | famille       |        |
+        Quand le porteur modifie l'actionnaire pour le projet lauréat
+        Alors le porteur devrait être informé que "Impossible de demander le changement d'actionnaire pour un projet achevé"

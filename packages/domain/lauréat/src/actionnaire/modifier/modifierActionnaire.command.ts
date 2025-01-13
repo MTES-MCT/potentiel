@@ -46,6 +46,7 @@ export const registerModifierActionnaireCommand = ({
   const loadAbandon = loadAbandonFactory(loadAggregate);
   const loadAchèvement = loadAchèvementFactory(loadAggregate);
   const loadGarantiesFinancières = loadGarantiesFinancièresFactory(loadAggregate);
+
   const handler: MessageHandler<ModifierActionnaireCommand> = async ({
     identifiantProjet,
     identifiantUtilisateur,
@@ -61,15 +62,15 @@ export const registerModifierActionnaireCommand = ({
     const utilisateurEstPorteur = rôle.estÉgaleÀ(Role.porteur);
     let devraitPasserParUneDemande = false;
 
-    if (identifiantProjet.appelOffre === 'Eolien') {
+    if (identifiantProjet.appelOffre === 'Eolien' && utilisateurEstPorteur) {
       const garantiesFinancières = await loadGarantiesFinancières(identifiantProjet, false);
-      const project = await récupérerTypeActionnariatParIdentifiantProjet(identifiantProjet);
+      const projet = await récupérerTypeActionnariatParIdentifiantProjet(identifiantProjet);
 
       devraitPasserParUneDemande = !!(
         garantiesFinancières?.actuelles ||
         garantiesFinancières?.dépôtsEnCours ||
-        (Option.isSome(project) &&
-          (project.isFinancementParticipatif || project.isInvestissementParticipatif))
+        (Option.isSome(projet) &&
+          (projet.isFinancementParticipatif || projet.isInvestissementParticipatif))
       );
     }
 

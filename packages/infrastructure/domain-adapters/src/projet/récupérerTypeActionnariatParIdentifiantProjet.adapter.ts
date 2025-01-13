@@ -6,7 +6,7 @@ import { Option } from '@potentiel-libraries/monads';
 const selectTypeActionnariatByProjetQuery = `
   select json_build_object(
     'isFinancementParticipatif', "isFinancementParticipatif",
-    'isInvestissementParticipatif', "isInvestissementParticipatif",
+    'isInvestissementParticipatif', "isInvestissementParticipatif"
   ) as value
   from "projects"
   where "appelOffreId" = $1 and "periodeId" = $2 and "numeroCRE" = $3 and "familleId" = $4
