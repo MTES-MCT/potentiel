@@ -105,7 +105,7 @@ export class Migrer extends Command {
       ).formatter();
 
       const requestedOn = DateTime.convertirEnValueType(
-        new Date(modification.requestedOn * 1000),
+        new Date(modification.requestedOn),
       ).formatter();
       const request: Actionnaire.ChangementActionnaireDemandéEvent = {
         type: 'ChangementActionnaireDemandé-V1',
@@ -115,7 +115,7 @@ export class Migrer extends Command {
           demandéePar: modification.email,
           identifiantProjet,
           raison: modification.justification,
-          // TODO !!
+          // !!! TODO !!!
           pièceJustificative: { format: 'application/pdf' },
         },
       };
@@ -126,6 +126,7 @@ export class Migrer extends Command {
           identifiantProjet,
           modifiéLe: requestedOn,
           modifiéPar: modification.email,
+          raison: modification.justification,
         },
       };
       switch (modification.status) {
@@ -143,8 +144,7 @@ export class Migrer extends Command {
               réponseSignée: { format: 'application/pdf' },
             },
           };
-          // TODO est-ce qu'on doit publier modifié ou laisser la saga s'en charger ?
-          eventsPerProjet[modification.identifiantProjet].push(request, acceptation, modifié);
+          eventsPerProjet[modification.identifiantProjet].push(request, acceptation);
           break;
         // TODO rejected ?
         case 'annulée':

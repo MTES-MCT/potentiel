@@ -3,6 +3,7 @@ delete from event_store.subscriber
 where stream_category = 'actionnaire';
 
 
+-- run scripts
 -- check modifications
 select format(
         '%s#%s#%s#%s',
@@ -33,10 +34,19 @@ select *
 from event_store.event_stream
 where stream_id like 'actionnaire|%';
 
+select *
+from event_store.pending_acknowledgement;
+
+
+delete from event_store.pending_acknowledgement
+where subscriber_name = 'dead-letter-queue'
+    and stream_category = 'actionnaire';
 
 -- Rebuild actionnaire (RESTART required!!)
 call event_store.rebuild('actionnaire');
 
+
+-- vérication des données manquantes
 select format(
         '%s#%s#%s#%s',
         p."appelOffreId",
@@ -59,3 +69,26 @@ where p.classe <> 'Eliminé'
     and p.actionnaire is not null
     and p.actionnaire <> ''
     and "notifiedOn" > 0;
+
+
+
+-- vérication des données erronées
+select p.id,
+    format(
+        '%s#%s#%s#%s',
+        p."appelOffreId",
+        p."periodeId",
+        p."familleId",
+        p."numeroCRE"
+    ) as "identifiantProjet",
+    actionnaire,
+    act.value->>'actionnaire.nom' projection
+from projects p
+    inner join domain_views.projection act on act.key = format(
+        'actionnaire|%s#%s#%s#%s',
+        p."appelOffreId",
+        p."periodeId",
+        p."familleId",
+        p."numeroCRE"
+    )
+where act.value->>'actionnaire.nom' <> p.actionnaire;
