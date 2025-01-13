@@ -30,6 +30,8 @@ import {
   ReprésentantLégalQueryDependencies,
 } from './représentantLégal/représentantLégal.register';
 import {
+  ActionnaireCommandDependencies,
+  ActionnaireQueryDependencies,
   registerActionnaireQueries,
   registerActionnaireUseCases,
 } from './actionnaire/actionnaire.register';
@@ -38,23 +40,25 @@ export type LauréatQueryDependencies = AbandonQueryDependencies &
   CahierDesChargesChoisiQueryDependencies &
   GarantiesFinancièresQueryDependencies &
   AchèvementQueryDependencies &
-  ReprésentantLégalQueryDependencies;
+  ReprésentantLégalQueryDependencies &
+  ActionnaireQueryDependencies;
 
 export type LauréatCommandDependencies = AbandonCommandDependencies &
   GarantiesFinancièresCommandDependencies &
   AchèvementCommandDependencies &
-  ReprésentantLégalCommandDependencies;
+  ReprésentantLégalCommandDependencies &
+  ActionnaireCommandDependencies;
 
 export const registerLauréatUseCases = (dependencies: LauréatCommandDependencies) => {
   // Commands
   registerNotifierLauréatCommand(dependencies.loadAggregate);
 
   // Use cases
-  registerAbandonUseCases(dependencies);
-  registerGarantiesFinancièresUseCases(dependencies);
-  registerAchèvementUseCases(dependencies);
+  registerAbandonUseCases({ loadAggregate: dependencies.loadAggregate });
+  registerGarantiesFinancièresUseCases({ loadAggregate: dependencies.loadAggregate });
+  registerAchèvementUseCases({ loadAggregate: dependencies.loadAggregate });
   registerNotifierLauréatUseCase();
-  registerReprésentantLégalUseCases(dependencies);
+  registerReprésentantLégalUseCases({ loadAggregate: dependencies.loadAggregate });
   registerActionnaireUseCases(dependencies);
 };
 
