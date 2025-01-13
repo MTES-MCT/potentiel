@@ -90,7 +90,7 @@ export type { DemandeChangementActionnaireRejetéeEvent } from './changement/rej
 export type { DemandeChangementActionnaireSuppriméeEvent } from './changement/supprimer/supprimerDemandeChangementActionnaire.behavior';
 
 // Saga
-export * as ActionnaireSaga from './actionnaire.saga';
+export * as ActionnaireSaga from './saga';
 
 // ValueType
 export * as StatutChangementActionnaire from './statutChangementActionnaire.valueType';

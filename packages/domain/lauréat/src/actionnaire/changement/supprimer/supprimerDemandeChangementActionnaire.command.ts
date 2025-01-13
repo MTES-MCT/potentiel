@@ -1,7 +1,6 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
-import { IdentifiantProjet, DateTime } from '@potentiel-domain/common';
-import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
+import { IdentifiantProjet, DateTime, Email } from '@potentiel-domain/common';
 import { LoadAggregate } from '@potentiel-domain/core';
 
 import { loadActionnaireFactory } from '../../actionnaire.aggregate';
@@ -10,7 +9,7 @@ export type SupprimerDemandeChangementActionnaireCommand = Message<
   'Lauréat.Actionnaire.Command.SupprimerDemandeChangementActionnaire',
   {
     identifiantProjet: IdentifiantProjet.ValueType;
-    identifiantUtilisateur: IdentifiantUtilisateur.ValueType;
+    identifiantUtilisateur: Email.ValueType;
     dateSuppression: DateTime.ValueType;
   }
 >;
