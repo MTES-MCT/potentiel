@@ -4,7 +4,7 @@ import { expect, should } from 'chai';
 import waitForExpect from 'wait-for-expect';
 
 import { executeQuery, executeSelect, killPool } from '@potentiel-libraries/pg-helpers';
-import * as monitoring from '@potentiel-libraries/monitoring';
+import { overrideLogger } from '@potentiel-libraries/monitoring';
 import { DomainEvent } from '@potentiel-domain/core';
 
 import { Event } from '../event';
@@ -44,8 +44,7 @@ describe(`subscribe`, () => {
   });
 
   beforeEach(async () => {
-    monitoring.resetLogger();
-    global.console = { log: logMock } as unknown as Console;
+    overrideLogger({ debug: logMock, error: logMock, info: logMock, warn: logMock });
 
     await executeQuery('delete from event_store.event_stream');
     await executeQuery('delete from event_store.subscriber');
