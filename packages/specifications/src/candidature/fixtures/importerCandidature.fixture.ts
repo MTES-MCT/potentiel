@@ -52,8 +52,6 @@ export class ImporterCandidatureFixture
       ...values.localitéValue,
     };
 
-    console.log('viovio values', values);
-
     const fixture = {
       appelOffreValue: appelOffre,
       périodeValue: période,

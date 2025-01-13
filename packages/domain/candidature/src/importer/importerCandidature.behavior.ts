@@ -163,7 +163,6 @@ export function applyCandidatureImportée(
   this: CandidatureAggregate,
   { payload }: CandidatureImportéeEvent,
 ) {
-  console.log('viovio', payload);
   this.importé = true;
   this.statut = StatutCandidature.convertirEnValueType(payload.statut);
   this.garantiesFinancières = payload.typeGarantiesFinancières
