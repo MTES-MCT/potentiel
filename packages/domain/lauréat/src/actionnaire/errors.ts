@@ -43,3 +43,9 @@ export class ProjetAchevéError extends DomainError {
     super("Impossible de demander le changement d'actionnaire pour un projet achevé");
   }
 }
+
+export class ActionnaireNePeutPasÊtreModifiéDirectement extends DomainError {
+  constructor() {
+    super("Impossible de modifier directement l'actionnaire dans ces conditions");
+  }
+}

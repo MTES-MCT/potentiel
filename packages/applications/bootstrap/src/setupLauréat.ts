@@ -36,9 +36,7 @@ type SetupLauréatDependencies = {
 };
 
 export const setupLauréat = async ({ sendEmail }: SetupLauréatDependencies) => {
-  registerLauréatUseCases({
-    loadAggregate,
-  });
+  registerLauréatUseCases({ loadAggregate });
 
   registerLauréatQueries({
     find: findProjection,

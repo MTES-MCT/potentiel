@@ -5,6 +5,7 @@ import { DocumentProjet } from '@potentiel-domain/document';
 import { ActionnaireAggregate } from '../actionnaire.aggregate';
 import {
   ActionnaireIdentifiqueError,
+  ActionnaireNePeutPasÊtreModifiéDirectement,
   DemandeDeChangementEnCoursError,
   ProjetAbandonnéError,
   ProjetAchevéError,
@@ -35,6 +36,7 @@ export type ModifierOptions = {
   estAbandonnéEtUtilisateurEstPorteur: boolean;
   estAchevéEtUtilisateurEstPorteur: boolean;
   demandeAbandonEnCoursEtUtilisateurEstPorteur: boolean;
+  devraitPasserParUneDemande: boolean;
 };
 
 export async function modifier(
@@ -49,8 +51,13 @@ export async function modifier(
     estAbandonnéEtUtilisateurEstPorteur,
     estAchevéEtUtilisateurEstPorteur,
     demandeAbandonEnCoursEtUtilisateurEstPorteur,
+    devraitPasserParUneDemande,
   }: ModifierOptions,
 ) {
+  if (devraitPasserParUneDemande) {
+    throw new ActionnaireNePeutPasÊtreModifiéDirectement();
+  }
+
   if (this.actionnaire === actionnaire) {
     throw new ActionnaireIdentifiqueError();
   }

@@ -171,6 +171,18 @@ v1Router.get(
         },
       });
 
+      const garantiesFinancières = await getGarantiesFinancières(
+        identifiantProjetValueType,
+        role,
+        project.appelOffre.isSoumisAuxGF,
+      );
+
+      const demandeNécessiteInstructionPourActionnaire =
+        project.appelOffreId === 'Eolien' &&
+        ((!garantiesFinancières?.actuelles && !garantiesFinancières?.dépôtÀTraiter) ||
+          project.isFinancementParticipatif ||
+          project.isInvestissementParticipatif);
+
       return response.send(
         ProjectDetailsPage({
           request,
@@ -184,14 +196,14 @@ v1Router.get(
           raccordement,
           alertesRaccordement,
           abandon,
-          garantiesFinancières: await getGarantiesFinancières(
-            identifiantProjetValueType,
-            role,
-            project.appelOffre.isSoumisAuxGF,
-          ),
+          garantiesFinancières,
           représentantLégal: await getReprésentantLégal(identifiantProjetValueType, user.role),
           demandeRecours: await getRecours(identifiantProjetValueType),
-          actionnaire: await getActionnaire(identifiantProjetValueType, user.role),
+          actionnaire: await getActionnaire(
+            identifiantProjetValueType,
+            user.role,
+            demandeNécessiteInstructionPourActionnaire,
+          ),
           hasAttestationConformité: !!attestationConformité,
           modificationsNonPermisesParLeCDCActuel:
             project.cahierDesChargesActuel.type === 'initial' &&

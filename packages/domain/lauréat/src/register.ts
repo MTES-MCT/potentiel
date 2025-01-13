@@ -30,6 +30,8 @@ import {
   ReprésentantLégalQueryDependencies,
 } from './représentantLégal/représentantLégal.register';
 import {
+  ActionnaireCommandDependencies,
+  ActionnaireQueryDependencies,
   registerActionnaireQueries,
   registerActionnaireUseCases,
 } from './actionnaire/actionnaire.register';
@@ -38,12 +40,14 @@ export type LauréatQueryDependencies = AbandonQueryDependencies &
   CahierDesChargesChoisiQueryDependencies &
   GarantiesFinancièresQueryDependencies &
   AchèvementQueryDependencies &
-  ReprésentantLégalQueryDependencies;
+  ReprésentantLégalQueryDependencies &
+  ActionnaireQueryDependencies;
 
 export type LauréatCommandDependencies = AbandonCommandDependencies &
   GarantiesFinancièresCommandDependencies &
   AchèvementCommandDependencies &
-  ReprésentantLégalCommandDependencies;
+  ReprésentantLégalCommandDependencies &
+  ActionnaireCommandDependencies;
 
 export const registerLauréatUseCases = (dependencies: LauréatCommandDependencies) => {
   // Commands

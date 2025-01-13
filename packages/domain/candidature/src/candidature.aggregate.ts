@@ -28,6 +28,7 @@ import {
   notifier,
 } from './notifier/notifierCandidature.behavior';
 import { CandidatureNonTrouvéeError } from './candidatureNonTrouvée.error';
+import { TypeActionnariat } from './candidature';
 
 export type CandidatureEvent =
   | CandidatureImportéeEvent
@@ -55,6 +56,7 @@ export type CandidatureAggregate = Aggregate<CandidatureEvent> &
     payloadHash: string;
     nomReprésentantLégal: string;
     sociétéMère: string;
+    typeActionnariat?: TypeActionnariat.ValueType;
     importer: typeof importer;
     corriger: typeof corriger;
     notifier: typeof notifier;

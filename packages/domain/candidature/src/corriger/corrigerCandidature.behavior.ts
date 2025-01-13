@@ -20,6 +20,7 @@ import {
 import { AttestationNonGénéréeError } from '../attestationNonGénérée.error';
 import { CandidatureNonTrouvéeError } from '../candidatureNonTrouvée.error';
 import * as TypeGarantiesFinancières from '../typeGarantiesFinancières.valueType';
+import { TypeActionnariat } from '../candidature';
 
 type CandidatureCorrigéePayload = CandidatureImportéeEventCommonPayload & {
   corrigéLe: DateTime.RawType;
@@ -139,6 +140,9 @@ export function applyCandidatureCorrigée(
     };
   }
   this.payloadHash = this.calculerHash(payload);
+  this.typeActionnariat = payload.actionnariat
+    ? TypeActionnariat.convertirEnValueType(payload.actionnariat)
+    : undefined;
 }
 
 class StatutNonModifiableAprèsNotificationError extends InvalidOperationError {

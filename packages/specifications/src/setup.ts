@@ -41,7 +41,7 @@ setDefaultTimeout(5000);
 declare module '@faker-js/faker' {
   interface Faker {
     potentiel: {
-      identifiantProjet: () => string;
+      identifiantProjet: typeof getFakeIdentifiantProjet;
       fileFormat: () => string;
       fileContent: () => ReadableStream;
     };

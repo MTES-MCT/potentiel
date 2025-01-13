@@ -3,6 +3,7 @@ import { faker } from '@faker-js/faker';
 import { Candidature } from '@potentiel-domain/candidature';
 import { IdentifiantProjet } from '@potentiel-domain/common';
 import { appelsOffreData } from '@potentiel-domain/inmemory-referential';
+import { PlainType } from '@potentiel-domain/core';
 
 import { AbstractFixture, DeepPartial } from '../../fixture';
 import { getFakeLocation } from '../../helpers/getFakeLocation';
@@ -28,15 +29,18 @@ export class ImporterCandidatureFixture
 
   créer({
     values,
-    identifiantProjet,
   }: {
-    identifiantProjet?: string;
     values: DeepPartial<ImporterCandidature['values']> & {
       statutValue: string;
       importéPar: string;
     };
   }): Readonly<ImporterCandidature> {
-    this.#identifiantProjet = identifiantProjet ?? getValidFakeIdentifiantProjet();
+    this.#identifiantProjet = getValidFakeIdentifiantProjet({
+      appelOffre: values.appelOffreValue,
+      période: values.périodeValue,
+      famille: values.familleValue,
+      numéroCRE: values.numéroCREValue,
+    });
     const { appelOffre, période, famille, numéroCRE } = IdentifiantProjet.convertirEnValueType(
       this.#identifiantProjet,
     );
@@ -71,12 +75,15 @@ export class ImporterCandidatureFixture
       noteTotaleValue: faker.number.int({ min: 0, max: 5 }),
       nomReprésentantLégalValue: faker.person.fullName(),
       evaluationCarboneSimplifiéeValue: faker.number.float({ min: 0.1, max: 3 }),
-      actionnariat: faker.helpers.maybe(() =>
-        faker.helpers.arrayElement(Candidature.TypeActionnariat.types),
-      ),
-      financementCollectifValue: false,
-      gouvernancePartagéeValue: false,
-      financementParticipatifValue: false,
+      actionnariat:
+        values?.actionnariatValue ??
+        faker.helpers.maybe(() => faker.helpers.arrayElement(Candidature.TypeActionnariat.types)),
+      financementCollectifValue:
+        values?.actionnariatValue === Candidature.TypeActionnariat.financementCollectif.type,
+      gouvernancePartagéeValue:
+        values?.actionnariatValue === Candidature.TypeActionnariat.gouvernancePartagée.type,
+      financementParticipatifValue:
+        values?.actionnariatValue === Candidature.TypeActionnariat.financementParticipatif.type,
       importéLe: new Date().toISOString(),
       ...values,
       détailsValue: {
@@ -97,20 +104,22 @@ export class ImporterCandidatureFixture
 }
 
 // Pour l'import, il est impératif que le projet soit sur une période non legacy
-function getValidFakeIdentifiantProjet(): string {
-  const identifiantProjet = faker.potentiel.identifiantProjet();
+function getValidFakeIdentifiantProjet(
+  props: Partial<PlainType<IdentifiantProjet.ValueType>>,
+): string {
+  const identifiantProjet = faker.potentiel.identifiantProjet(props);
   const { appelOffre, période } = IdentifiantProjet.convertirEnValueType(identifiantProjet);
 
   const périodeData = appelsOffreData
     .find((x) => x.id === appelOffre)
     ?.periodes.find((x) => x.id === période);
 
-  if (!périodeData) {
-    return getValidFakeIdentifiantProjet();
+  if (!périodeData && props.période === undefined) {
+    return getValidFakeIdentifiantProjet(props);
   }
 
-  if (périodeData.type === 'legacy') {
-    return getValidFakeIdentifiantProjet();
+  if (périodeData?.type === 'legacy' && !props.appelOffre && !props.période) {
+    return getValidFakeIdentifiantProjet(props);
   }
   return identifiantProjet;
 }
