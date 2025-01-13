@@ -138,7 +138,7 @@ const PorteurProjetActions = ({
           </DropdownMenuSecondaryButton>
         )}
 
-        {project.notifiedOn && (
+        {project.notifiedOn && !project.isLegacy && (
           <DownloadLinkButton
             className="w-fit"
             fileUrl={Routes.Candidature.téléchargerAttestation(identifiantProjet)}
@@ -169,7 +169,7 @@ const AdminActions = ({ project }: AdminActionsProps) => {
   return (
     <div className="flex flex-col md:flex-row gap-2">
       <EnregistrerUneModification {...{ project }} />
-      {project.notifiedOn ? (
+      {project.notifiedOn && !project.isLegacy ? (
         <DownloadLinkButton
           fileUrl={Routes.Candidature.téléchargerAttestation(identifiantProjet)}
           className="m-auto"
