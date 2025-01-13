@@ -4,7 +4,6 @@ import { match } from 'ts-pattern';
 import { TâchePlanifiéeExecutéeEvent } from '@potentiel-domain/tache-planifiee';
 
 import { LauréatNotifiéEvent } from '../../lauréat';
-import { TypeTâchePlanifiéeChangementReprésentantLégal } from '..';
 import { AbandonAccordéEvent } from '../../abandon';
 import { AttestationConformitéTransmiseEvent } from '../../achèvement';
 
@@ -28,17 +27,12 @@ export const register = () => {
       .with(
         {
           type: 'TâchePlanifiéeExecutée-V1',
-          payload: {
-            typeTâchePlanifiée:
-              TypeTâchePlanifiéeChangementReprésentantLégal.gestionAutomatiqueDemandeChangement
-                .type,
-          },
         },
         handleTâchePlanifiéeGestionAutomatiqueDemandeChangementExecutée,
       )
       .with({ type: 'AbandonAccordé-V1' }, handleAbandonAccordé)
       .with({ type: 'AttestationConformitéTransmise-V1' }, handleAttestationConformitéTransmise)
-      .otherwise(() => {});
+      .exhaustive();
 
   mediator.register('System.Lauréat.ReprésentantLégal.Saga.Execute', handler);
 };
