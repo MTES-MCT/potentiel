@@ -12,6 +12,7 @@ import { handleActionnaireImporté } from './handleActionnaireImporté';
 import { handleActionnaireModifié } from './handleActionnaireModifié';
 import { handleDemandeChangementActionnaireRejetée } from './handleDemandeChangementActionnaireRejetée';
 import { handleActionnaireTransmis } from './handleActionnaireTransmis';
+import { handleDemandeChangementActionnaireSupprimée } from './handleDemandeChangementActionnaireSupprimée';
 
 export type SubscriptionEvent = (Actionnaire.ActionnaireEvent & Event) | RebuildTriggered;
 
@@ -36,6 +37,10 @@ export const register = () => {
       .with(
         { type: 'DemandeChangementActionnaireRejetée-V1' },
         handleDemandeChangementActionnaireRejetée,
+      )
+      .with(
+        { type: 'DemandeChangementActionnaireSupprimée-V1' },
+        handleDemandeChangementActionnaireSupprimée,
       )
       .exhaustive();
 
