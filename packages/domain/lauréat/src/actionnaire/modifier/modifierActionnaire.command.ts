@@ -66,12 +66,10 @@ export const registerModifierActionnaireCommand = ({
       const garantiesFinancières = await loadGarantiesFinancières(identifiantProjet, false);
       const projet = await récupérerTypeActionnariatParIdentifiantProjet(identifiantProjet);
 
-      devraitPasserParUneDemande = !!(
-        garantiesFinancières?.actuelles ||
-        garantiesFinancières?.dépôtsEnCours ||
+      devraitPasserParUneDemande =
+        (!garantiesFinancières?.actuelles && !garantiesFinancières?.dépôtsEnCours) ||
         (Option.isSome(projet) &&
-          (projet.isFinancementParticipatif || projet.isInvestissementParticipatif))
-      );
+          (projet.isFinancementParticipatif || projet.isInvestissementParticipatif));
     }
 
     await actionnaireAggrégat.modifier({
