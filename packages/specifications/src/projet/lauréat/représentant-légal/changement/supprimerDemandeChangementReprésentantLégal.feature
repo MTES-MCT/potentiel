@@ -13,7 +13,6 @@ Fonctionnalité: Supprimer la demande de changement de représentant légal
         Alors la demande de changement de représentant légal du projet lauréat ne devrait plus être consultable
         Et une tâche "gestion automatique de la demande de changement de représentant légal" n'est plus planifiée pour le projet "Du boulodrome de Marseille"
 
-    @select
     Scénario: Le système supprime la demande de changement de représentant légal ainsi que la tâche planifiée d'instruction automatique quand une attestation de conformité est transmise pour le projet
         Etant donné une demande de changement de représentant légal en cours pour le projet lauréat
         Quand le porteur transmet une attestation de conformité pour le projet lauréat "Du boulodrome de Marseille" avec :
