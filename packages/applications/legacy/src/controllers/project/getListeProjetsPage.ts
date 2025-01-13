@@ -16,6 +16,8 @@ import {
   FiltreListeProjets,
 } from '../../modules/project/queries/listerProjets';
 import { UtilisateurReadModel } from '../../modules/utilisateur/récupérer/UtilisateurReadModel';
+import { IdentifiantProjet } from '@potentiel-domain/common';
+import { Routes } from '@potentiel-applications/routes';
 
 const getFiltres = ({
   query,
@@ -72,6 +74,11 @@ const getProjectListPage = asyncHandler(async (request, response) => {
     query,
     user,
   });
+
+  // Recherche par identifiant projet
+  if (filtres.recherche && IdentifiantProjet.estValide(filtres.recherche)) {
+    return response.redirect(Routes.Projet.details(filtres.recherche));
+  }
 
   const pagination = getPagination(request);
 
