@@ -177,13 +177,11 @@ v1Router.get(
         project.appelOffre.isSoumisAuxGF,
       );
 
-      const demandeNécessiteInstructionPourActionnaire = !!(
+      const demandeNécessiteInstructionPourActionnaire =
         project.appelOffreId === 'Eolien' &&
-        (garantiesFinancières?.actuelles ||
-          garantiesFinancières?.dépôtÀTraiter ||
+        ((!garantiesFinancières?.actuelles && !garantiesFinancières?.dépôtÀTraiter) ||
           project.isFinancementParticipatif ||
-          project.isInvestissementParticipatif)
-      );
+          project.isInvestissementParticipatif);
 
       return response.send(
         ProjectDetailsPage({
