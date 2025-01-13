@@ -12,7 +12,6 @@ import { AnnulerTâchePlanifiéeCommand } from '@potentiel-domain/tache-planifie
 
 import * as TypeDocumentAbandon from '../typeDocumentAbandon.valueType';
 import { TypeTâchePlanifiéeGarantiesFinancières } from '../../garantiesFinancières';
-import { TypeTâchePlanifiéeChangementReprésentantLégal } from '../../représentantLégal';
 
 import { AccorderAbandonCommand } from './accorderAbandon.command';
 
@@ -88,15 +87,6 @@ export const registerAccorderAbandonUseCase = () => {
       data: {
         identifiantProjet,
         typeTâchePlanifiée: TypeTâchePlanifiéeGarantiesFinancières.rappelÉchéanceDeuxMois.type,
-      },
-    });
-
-    await mediator.send<AnnulerTâchePlanifiéeCommand>({
-      type: 'System.TâchePlanifiée.Command.AnnulerTâchePlanifiée',
-      data: {
-        identifiantProjet,
-        typeTâchePlanifiée:
-          TypeTâchePlanifiéeChangementReprésentantLégal.gestionAutomatiqueDemandeChangement.type,
       },
     });
   };

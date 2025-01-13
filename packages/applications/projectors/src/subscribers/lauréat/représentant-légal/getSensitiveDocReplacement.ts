@@ -1,6 +1,6 @@
 import { PDFDocument, StandardFonts } from 'pdf-lib';
 
-export const getSensibleDocReplacement = async (text: string) => {
+export const getSensitiveDocReplacement = async (text: string) => {
   const pdfDoc = await PDFDocument.create();
   const page = pdfDoc.addPage();
 

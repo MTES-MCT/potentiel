@@ -7,7 +7,7 @@ import { DocumentProjet } from '@potentiel-domain/document';
 
 import { removeProjection } from '../../../infrastructure';
 
-import { getSensibleDocReplacement } from './getSensibleDocReplacement';
+import { getSensitiveDocReplacement } from './getSensitiveDocReplacement';
 
 export const handleChangementReprésentantLégalSupprimé = async (
   event: ReprésentantLégal.ChangementReprésentantLégalSuppriméEvent,
@@ -40,7 +40,9 @@ export const handleChangementReprésentantLégalSupprimé = async (
   if (await fileExists(pièceJustificative.formatter())) {
     await upload(
       pièceJustificative.formatter(),
-      await getSensibleDocReplacement('Document sensible supprimé automatiquement après accord'),
+      await getSensitiveDocReplacement(
+        'Document sensible supprimé automatiquement après suppression de la demande',
+      ),
     );
   }
 };

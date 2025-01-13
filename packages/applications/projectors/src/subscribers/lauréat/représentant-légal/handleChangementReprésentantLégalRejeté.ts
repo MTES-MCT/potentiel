@@ -7,7 +7,7 @@ import { fileExists, upload } from '@potentiel-libraries/file-storage';
 
 import { upsertProjection } from '../../../infrastructure';
 
-import { getSensibleDocReplacement } from './getSensibleDocReplacement';
+import { getSensitiveDocReplacement } from './getSensitiveDocReplacement';
 
 export const handleChangementReprésentantLégalRejeté = async (
   event: ReprésentantLégal.ChangementReprésentantLégalRejetéEvent,
@@ -54,7 +54,7 @@ export const handleChangementReprésentantLégalRejeté = async (
   if (await fileExists(pièceJustificative.formatter())) {
     await upload(
       pièceJustificative.formatter(),
-      await getSensibleDocReplacement('Document sensible supprimé automatiquement après rejet'),
+      await getSensitiveDocReplacement('Document sensible supprimé automatiquement après rejet'),
     );
   }
 };
