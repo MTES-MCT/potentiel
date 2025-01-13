@@ -144,6 +144,12 @@ Quand(
         this.lauréatWorld.représentantLégalWorld.changementReprésentantLégalWorld.accorderChangementReprésentantLégalFixture.créer(
           {
             accordéePar: Email.system().formatter(),
+            nomReprésentantLégal:
+              this.lauréatWorld.représentantLégalWorld.changementReprésentantLégalWorld
+                .demanderChangementReprésentantLégalFixture.nomReprésentantLégal,
+            typeReprésentantLégal:
+              this.lauréatWorld.représentantLégalWorld.changementReprésentantLégalWorld
+                .demanderChangementReprésentantLégalFixture.typeReprésentantLégal,
           },
         );
       }

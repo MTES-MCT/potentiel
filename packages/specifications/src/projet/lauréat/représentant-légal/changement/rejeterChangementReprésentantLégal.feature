@@ -22,7 +22,6 @@ Fonctionnalité: Rejeter la demande de changement de représentant légal d'un p
             | le DGEC validateur          |
             | la DREAL associée au projet |
 
-    @select
     Scénario: Rejet automatique de la demande de changement de représentant légal d'un projet lauréat
         Etant donné le projet lauréat "Du boulodrome de Besançon" sur une période d'appel d'offre avec rejet automatique du changement de représentant légal
         Et le porteur "Louis Pasteur" ayant accés au projet lauréat "Du boulodrome de Besançon"
