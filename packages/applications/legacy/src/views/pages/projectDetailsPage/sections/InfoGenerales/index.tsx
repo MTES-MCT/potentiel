@@ -41,6 +41,7 @@ export const InfoGenerales = ({
     regionProjet,
     departementProjet,
     adresseProjet,
+    isAbandoned,
   },
   raccordement,
   role,
@@ -94,6 +95,7 @@ export const InfoGenerales = ({
         </div>
       )}
       {isClasse &&
+        !isAbandoned &&
         Option.isNone(raccordement) &&
         role.aLaPermission('réseau.raccordement.gestionnaire.modifier') && (
           <div className="print:hidden">

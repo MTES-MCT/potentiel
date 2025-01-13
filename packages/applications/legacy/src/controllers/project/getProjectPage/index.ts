@@ -148,6 +148,7 @@ v1Router.get(
         raccordement,
         role,
         identifiantProjet: identifiantProjetValueType,
+        statutAbandon: abandon?.statut,
         CDC2022Choisi:
           project.cahierDesChargesActuel.type === 'modifié' &&
           project.cahierDesChargesActuel.paruLe === '30/08/2022',
