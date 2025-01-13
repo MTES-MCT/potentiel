@@ -106,7 +106,6 @@ Quand(
         },
       });
     } catch (error) {
-      console.error(error);
       this.error = error as Error;
     }
   },

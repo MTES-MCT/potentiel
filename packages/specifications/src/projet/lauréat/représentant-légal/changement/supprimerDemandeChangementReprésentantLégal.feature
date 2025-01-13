@@ -6,7 +6,6 @@ Fonctionnalité: Supprimer la demande de changement de représentant légal
         Et le porteur "Marcel Patoulatchi" ayant accés au projet lauréat "Du boulodrome de Marseille"
         Et la dreal "Dreal du sud-ouest" associée à la région du projet
 
-    @select
     Scénario: Le système supprime la demande de changement de représentant légal d'un projet si celui-ci est abandonné
         Etant donné une demande de changement de représentant légal en cours pour le projet lauréat
         Et une demande d'abandon en cours pour le projet lauréat
