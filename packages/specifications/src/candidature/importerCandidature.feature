@@ -21,12 +21,14 @@ Fonctionnalité: Importer une candidature
         Quand le DGEC validateur importe la candidature "Du boulodrome de Marseille" avec :
             | statut        | classé     |
             | appel d'offre | inexistant |
+            | période       | 1          |
         Alors l'administrateur devrait être informé que "L'appel d'offre spécifié n'existe pas"
 
     Scénario: Impossible d'importer une candidature avec une période d'AO inexistante
         Quand le DGEC validateur importe la candidature "Du boulodrome de Marseille" avec :
-            | statut  | classé |
-            | période | 812    |
+            | statut        | classé          |
+            | appel d'offre | PPE2 - Bâtiment |
+            | période       | 812             |
         Alors l'administrateur devrait être informé que "La période d'appel d'offre spécifiée n'existe pas"
 
     Scénario: Impossible d'importer une candidature avec une famille d'AO inexistante

@@ -62,10 +62,8 @@ export async function importerCandidature(
   nomProjet: string,
   statut: Candidature.StatutCandidature.RawType,
   partialValues?: DeepPartial<Candidature.ImporterCandidatureUseCase['data']>,
-  identifiantProjet?: string,
 ) {
   const { values } = this.candidatureWorld.importerCandidature.créer({
-    identifiantProjet,
     values: {
       ...partialValues,
       statutValue: statut,

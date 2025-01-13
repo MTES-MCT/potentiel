@@ -44,21 +44,17 @@ EtantDonné(
   'le projet lauréat sans garanties financières importées {string}',
   async function (this: PotentielWorld, nomProjet: string) {
     try {
-      const identifiantProjetSansGf =
-        this.candidatureWorld.identifiantProjetSansGarantiesFinancières.formatter();
+      const { appelOffre, période } =
+        this.candidatureWorld.identifiantProjetSansGarantiesFinancières;
 
       const dateDésignation = this.lauréatWorld.dateDésignation;
 
-      await importerCandidature.call(
-        this,
-        nomProjet,
-        'classé',
-        {
-          typeGarantiesFinancièresValue: undefined,
-          dateÉchéanceGfValue: undefined,
-        },
-        identifiantProjetSansGf,
-      );
+      await importerCandidature.call(this, nomProjet, 'classé', {
+        typeGarantiesFinancièresValue: undefined,
+        dateÉchéanceGfValue: undefined,
+        appelOffreValue: appelOffre,
+        périodeValue: période,
+      });
 
       await notifierLauréat.call(this, dateDésignation);
 
