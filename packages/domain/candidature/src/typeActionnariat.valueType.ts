@@ -33,6 +33,8 @@ function estValide(value: string): asserts value is RawType {
 
 export const financementCollectif = convertirEnValueType('financement-collectif');
 export const gouvernancePartagée = convertirEnValueType('gouvernance-partagée');
+export const financementParticipatif = convertirEnValueType('financement-participatif');
+export const investissementParticipatif = convertirEnValueType('investissement-participatif');
 
 class TypeActionnariatInvalideError extends InvalidOperationError {
   constructor(value: string) {

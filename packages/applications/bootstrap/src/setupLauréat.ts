@@ -28,7 +28,6 @@ import {
 import {
   consulterCahierDesChargesChoisiAdapter,
   récupérerIdentifiantsProjetParEmailPorteurAdapter,
-  récupérerTypeActionnariatParIdentifiantProjetAdapter,
 } from '@potentiel-infrastructure/domain-adapters';
 import { SendEmail } from '@potentiel-applications/notifications';
 
@@ -37,11 +36,7 @@ type SetupLauréatDependencies = {
 };
 
 export const setupLauréat = async ({ sendEmail }: SetupLauréatDependencies) => {
-  registerLauréatUseCases({
-    loadAggregate,
-    récupérerTypeActionnariatParIdentifiantProjet:
-      récupérerTypeActionnariatParIdentifiantProjetAdapter,
-  });
+  registerLauréatUseCases({ loadAggregate });
 
   registerLauréatQueries({
     find: findProjection,

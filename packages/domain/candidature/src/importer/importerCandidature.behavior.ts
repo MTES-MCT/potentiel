@@ -163,6 +163,7 @@ export function applyCandidatureImportée(
   this: CandidatureAggregate,
   { payload }: CandidatureImportéeEvent,
 ) {
+  console.log('viovio', payload);
   this.importé = true;
   this.statut = StatutCandidature.convertirEnValueType(payload.statut);
   this.garantiesFinancières = payload.typeGarantiesFinancières
@@ -175,6 +176,9 @@ export function applyCandidatureImportée(
   this.payloadHash = this.calculerHash(payload);
   this.nomReprésentantLégal = payload.nomReprésentantLégal;
   this.sociétéMère = payload.sociétéMère;
+  this.typeActionnariat = payload.actionnariat
+    ? TypeActionnariat.convertirEnValueType(payload.actionnariat)
+    : undefined;
 }
 
 export const mapToEventPayload = (candidature: ImporterCandidatureBehaviorCommonOptions) => ({

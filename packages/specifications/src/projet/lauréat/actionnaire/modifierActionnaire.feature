@@ -92,10 +92,16 @@ Fonctionnalité: Modifier l'actionnaire d'un projet lauréat
         Quand le porteur modifie l'actionnaire pour le projet lauréat
         Alors le porteur devrait être informé que "Impossible de demander le changement d'actionnaire pour un projet achevé"
 
-    # Impossible de créer un projet avec l'AO 'Eolien' (legacy) pour le moment
     Scénario: Impossible pour le porteur de modifier l'actionnaire d'un projet "Eolien" sous certains conditions
         Etant donné le projet lauréat "Du bouchon de Lyon" avec :
-            | appel d'offre | Eolien |
-            | période       | 6      |
+            | appel d'offre | Eolien                   |
+            | période       | 6                        |
+            | actionnariat  | financement-participatif |
+        Quand le porteur modifie l'actionnaire pour le projet lauréat
+        Alors le porteur devrait être informé que "Impossible de modifier directement l'actionnaire dans ces conditions"
+        Etant donné le projet lauréat "Du bouchon de Lyon le retour" avec :
+            | appel d'offre | Eolien                      |
+            | période       | 6                           |
+            | actionnariat  | investissement-participatif |
         Quand le porteur modifie l'actionnaire pour le projet lauréat
         Alors le porteur devrait être informé que "Impossible de modifier directement l'actionnaire dans ces conditions"

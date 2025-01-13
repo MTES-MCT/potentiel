@@ -68,9 +68,7 @@ export class CandidatureWorld {
       nomReprésentantLégalValue: exemple['nomReprésentant légal'],
       evaluationCarboneSimplifiéeValue: mapNumber(exemple['evaluation carbone simplifiée']),
       valeurÉvaluationCarboneValue: mapNumber(exemple['valeur évalutation carbone']),
-      financementCollectifValue: mapBoolean(exemple['financement collectif']),
-      gouvernancePartagéeValue: mapBoolean(exemple['gouvernance partagée']),
-      financementParticipatifValue: mapBoolean(exemple['financement participatif']),
+      actionnariatValue: exemple['actionnariat'],
       doitRégénérerAttestation: mapBoolean(exemple['doit régénérer attestation']),
       statutValue: exemple['statut'],
     });

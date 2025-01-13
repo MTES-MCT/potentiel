@@ -52,6 +52,8 @@ export class ImporterCandidatureFixture
       ...values.localitéValue,
     };
 
+    console.log('viovio values', values);
+
     const fixture = {
       appelOffreValue: appelOffre,
       périodeValue: période,
@@ -75,12 +77,15 @@ export class ImporterCandidatureFixture
       noteTotaleValue: faker.number.int({ min: 0, max: 5 }),
       nomReprésentantLégalValue: faker.person.fullName(),
       evaluationCarboneSimplifiéeValue: faker.number.float({ min: 0.1, max: 3 }),
-      actionnariat: faker.helpers.maybe(() =>
-        faker.helpers.arrayElement(Candidature.TypeActionnariat.types),
-      ),
-      financementCollectifValue: false,
-      gouvernancePartagéeValue: false,
-      financementParticipatifValue: false,
+      actionnariat:
+        values?.actionnariatValue ??
+        faker.helpers.maybe(() => faker.helpers.arrayElement(Candidature.TypeActionnariat.types)),
+      financementCollectifValue:
+        values?.actionnariatValue === Candidature.TypeActionnariat.financementCollectif.type,
+      gouvernancePartagéeValue:
+        values?.actionnariatValue === Candidature.TypeActionnariat.gouvernancePartagée.type,
+      financementParticipatifValue:
+        values?.actionnariatValue === Candidature.TypeActionnariat.financementParticipatif.type,
       importéLe: new Date().toISOString(),
       ...values,
       détailsValue: {

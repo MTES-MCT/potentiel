@@ -14,10 +14,7 @@ import { registerDemanderChangementActionnaireCommand } from './changement/deman
 import { registerDemanderChangementActionnaireUseCase } from './changement/demander/demandeChangementActionnaire.usecase';
 import { registerRejeterDemandeChangementActionnaireCommand } from './changement/rejeter/rejeterChangementActionnaire.command';
 import { registerRejeterDemandeChangementActionnaireUseCase } from './changement/rejeter/rejeterChangementActionnaire.usecase';
-import {
-  registerModifierActionnaireCommand,
-  RécupérerTypeActionnariatParIdentifiantProjetPort,
-} from './modifier/modifierActionnaire.command';
+import { registerModifierActionnaireCommand } from './modifier/modifierActionnaire.command';
 import { registerTransmettreActionnaireUseCase } from './transmettre/transmettreActionnaire.usecase';
 import { registerTransmettreActionnaireCommand } from './transmettre/transmettreActionnaire.command';
 import { registerModifierActionnaireUseCase } from './modifier/modifierActionnaire.usecase';
@@ -31,19 +28,12 @@ export type ActionnaireQueryDependencies = ConsulterActionnaireDependencies &
 
 export type ActionnaireCommandDependencies = {
   loadAggregate: LoadAggregate;
-  récupérerTypeActionnariatParIdentifiantProjet: RécupérerTypeActionnariatParIdentifiantProjetPort;
 };
 
-export const registerActionnaireUseCases = ({
-  loadAggregate,
-  récupérerTypeActionnariatParIdentifiantProjet,
-}: ActionnaireCommandDependencies) => {
+export const registerActionnaireUseCases = ({ loadAggregate }: ActionnaireCommandDependencies) => {
   registerImporterActionnaireCommand(loadAggregate);
   registerTransmettreActionnaireCommand(loadAggregate);
-  registerModifierActionnaireCommand({
-    loadAggregate,
-    récupérerTypeActionnariatParIdentifiantProjet,
-  });
+  registerModifierActionnaireCommand(loadAggregate);
   registerDemanderChangementActionnaireCommand(loadAggregate);
   registerAnnulerDemandeChangementCommand(loadAggregate);
   registerAccorderDemandeChangementActionnaireCommand(loadAggregate);

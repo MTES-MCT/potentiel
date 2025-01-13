@@ -9,7 +9,6 @@ import {
 import {
   consulterCahierDesChargesChoisiAdapter,
   récupérerIdentifiantsProjetParEmailPorteurAdapter,
-  récupérerTypeActionnariatParIdentifiantProjetAdapter,
 } from '@potentiel-infrastructure/domain-adapters';
 import { loadAggregate } from '@potentiel-infrastructure/pg-event-sourcing';
 import { findProjection, listProjection } from '@potentiel-infrastructure/pg-projections';
@@ -24,8 +23,6 @@ registerLauréatQueries({
 
 registerLauréatUseCases({
   loadAggregate,
-  récupérerTypeActionnariatParIdentifiantProjet:
-    récupérerTypeActionnariatParIdentifiantProjetAdapter,
 });
 
 (async () => {

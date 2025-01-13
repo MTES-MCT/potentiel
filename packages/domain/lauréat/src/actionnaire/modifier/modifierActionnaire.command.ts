@@ -4,7 +4,7 @@ import { IdentifiantProjet, DateTime, Email } from '@potentiel-domain/common';
 import { LoadAggregate } from '@potentiel-domain/core';
 import { DocumentProjet } from '@potentiel-domain/document';
 import { Role } from '@potentiel-domain/utilisateur';
-import { Option } from '@potentiel-libraries/monads';
+import { Candidature } from '@potentiel-domain/candidature';
 
 import { loadActionnaireFactory } from '../actionnaire.aggregate';
 import { loadAbandonFactory } from '../../abandon';
@@ -24,28 +24,12 @@ export type ModifierActionnaireCommand = Message<
   }
 >;
 
-export type RécupérerTypeActionnariatParIdentifiantProjetPort = (
-  identifiantProjet: IdentifiantProjet.ValueType,
-) => Promise<
-  Option.Type<{
-    isFinancementParticipatif: boolean;
-    isInvestissementParticipatif: boolean;
-  }>
->;
-
-export type ModifierActionnaireDependencies = {
-  loadAggregate: LoadAggregate;
-  récupérerTypeActionnariatParIdentifiantProjet: RécupérerTypeActionnariatParIdentifiantProjetPort;
-};
-
-export const registerModifierActionnaireCommand = ({
-  loadAggregate,
-  récupérerTypeActionnariatParIdentifiantProjet,
-}: ModifierActionnaireDependencies) => {
+export const registerModifierActionnaireCommand = (loadAggregate: LoadAggregate) => {
   const loadActionnaire = loadActionnaireFactory(loadAggregate);
   const loadAbandon = loadAbandonFactory(loadAggregate);
   const loadAchèvement = loadAchèvementFactory(loadAggregate);
   const loadGarantiesFinancières = loadGarantiesFinancièresFactory(loadAggregate);
+  const loadCandidature = Candidature.Aggregate.loadCandidatureFactory(loadAggregate);
 
   const handler: MessageHandler<ModifierActionnaireCommand> = async ({
     identifiantProjet,
@@ -64,12 +48,20 @@ export const registerModifierActionnaireCommand = ({
 
     if (identifiantProjet.appelOffre === 'Eolien' && utilisateurEstPorteur) {
       const garantiesFinancières = await loadGarantiesFinancières(identifiantProjet, false);
-      const projet = await récupérerTypeActionnariatParIdentifiantProjet(identifiantProjet);
+      // quickwin : nous passons ici par un appel à l'agrégat candidature au lieu de projet
+      // cela devrait être repris quand les types d'actionnariat seront migrés
+      // Par ailleurs les données sont les mêmes à date (janv 2025)
+      const candidature = await loadCandidature(identifiantProjet);
 
-      devraitPasserParUneDemande =
+      devraitPasserParUneDemande = !!(
         (!garantiesFinancières?.actuelles && !garantiesFinancières?.dépôtsEnCours) ||
-        (Option.isSome(projet) &&
-          (projet.isFinancementParticipatif || projet.isInvestissementParticipatif));
+        candidature.typeActionnariat?.estÉgaleÀ(
+          Candidature.TypeActionnariat.financementParticipatif,
+        ) ||
+        candidature.typeActionnariat?.estÉgaleÀ(
+          Candidature.TypeActionnariat.investissementParticipatif,
+        )
+      );
     }
 
     await actionnaireAggrégat.modifier({
