@@ -40,7 +40,9 @@ export const getReprésentantLégal: GetReprésentantLégal = async (identifiant
       });
 
     if (Option.isSome(représentantLégal)) {
-      const demandeChangementExistante = await getChangementReprésentantLégal(identifiantProjet);
+      const demandeChangementExistante =
+        utilisateur.aLaPermission('représentantLégal.consulterChangement') &&
+        (await getChangementReprésentantLégal(identifiantProjet));
 
       const statutAbandon = await getAbandonStatut(identifiantProjet);
       const abandonAccordé = statutAbandon?.statut === 'accordé';
@@ -54,10 +56,7 @@ export const getReprésentantLégal: GetReprésentantLégal = async (identifiant
         rôle,
       ));
 
-      const peutConsulterLaDemandeExistante =
-        utilisateur.aLaPermission('représentantLégal.consulter') &&
-        demandeChangementExistante &&
-        !abandonAccordé;
+      const peutConsulterLaDemandeExistante = demandeChangementExistante && !abandonAccordé;
 
       const peutFaireUneDemande =
         utilisateur.aLaPermission('représentantLégal.demanderChangement') &&
