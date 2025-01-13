@@ -135,17 +135,27 @@ Quand(
 );
 
 Quand(
-  /le système rejette automatiquement la demande de changement de représentant légal pour le projet lauréat/,
-  async function (this: PotentielWorld) {
+  /le système (accorde|rejette) automatiquement la demande de changement de représentant légal pour le projet lauréat/,
+  async function (this: PotentielWorld, action: 'accorde' | 'rejette') {
     const identifiantProjet = this.lauréatWorld.identifiantProjet.formatter();
 
     try {
-      this.lauréatWorld.représentantLégalWorld.changementReprésentantLégalWorld.rejeterChangementReprésentantLégalFixture.créer(
-        {
-          motif: 'Rejet automatique',
-          rejetéPar: Email.system().formatter(),
-        },
-      );
+      if (action === 'accorde') {
+        this.lauréatWorld.représentantLégalWorld.changementReprésentantLégalWorld.accorderChangementReprésentantLégalFixture.créer(
+          {
+            accordéePar: Email.system().formatter(),
+          },
+        );
+      }
+
+      if (action === 'rejette') {
+        this.lauréatWorld.représentantLégalWorld.changementReprésentantLégalWorld.rejeterChangementReprésentantLégalFixture.créer(
+          {
+            motif: 'Rejet automatique',
+            rejetéPar: Email.system().formatter(),
+          },
+        );
+      }
 
       const typeTâchePlanifiéeValue = this.tâchePlanifiéeWorld.rechercherTypeTâchePlanifiée(
         this.tâchePlanifiéeWorld.ajouterTâchePlanifiéeFixture.typeTâchePlanifiée,

@@ -131,7 +131,7 @@ EtantDonné(
 EtantDonné(
   "le projet lauréat {string} sur une période d'appel d'offre avec accord automatique du changement de représentant légal",
   async function (this: PotentielWorld, nomProjet: string) {
-    const identifiantAvecPériodePermettantAccordAutomatique = `CRE4 - Autoconsommation ZNI#1##test-1`;
+    const identifiantAvecPériodePermettantAccordAutomatique = `PPE2 - Sol#1##test-1`;
 
     await importerCandidature.call(
       this,
