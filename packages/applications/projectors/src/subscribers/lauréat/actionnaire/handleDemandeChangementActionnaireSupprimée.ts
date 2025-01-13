@@ -3,7 +3,7 @@ import { findProjection } from '@potentiel-infrastructure/pg-projections';
 import { Option } from '@potentiel-libraries/monads';
 import { getLogger } from '@potentiel-libraries/monitoring';
 
-import { updateOneProjection } from '../../../infrastructure';
+import { upsertProjection } from '../../../infrastructure';
 
 export const handleDemandeChangementActionnaireSupprimée = async ({
   payload: { identifiantProjet },
@@ -22,7 +22,8 @@ export const handleDemandeChangementActionnaireSupprimée = async ({
     return;
   }
 
-  await updateOneProjection<Actionnaire.ActionnaireEntity>(`actionnaire|${identifiantProjet}`, {
+  await upsertProjection<Actionnaire.ActionnaireEntity>(`actionnaire|${identifiantProjet}`, {
+    ...projectionToUpsert,
     demande: undefined,
   });
 };
