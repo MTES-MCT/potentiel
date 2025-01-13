@@ -74,6 +74,7 @@ export type { ReprésentantLégalModifiéEvent } from './modifier/modifierRepré
 export type { ChangementReprésentantLégalDemandéEvent } from './changement/demander/demanderChangementReprésentantLégal.behavior';
 export type { ChangementReprésentantLégalAccordéEvent } from './changement/accorder/accorderChangementReprésentantLégal.behavior';
 export type { ChangementReprésentantLégalRejetéEvent } from './changement/rejeter/rejeterChangementReprésentantLégal.behavior';
+export type { ChangementReprésentantLégalSuppriméEvent } from './changement/supprimer/supprimerChangementReprésentantLégal.behavior';
 
 // Register
 export {

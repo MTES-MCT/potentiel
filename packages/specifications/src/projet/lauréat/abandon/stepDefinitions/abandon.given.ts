@@ -87,7 +87,7 @@ async function créerDemandeAbandon(this: PotentielWorld, etat: string) {
     };
     await publish(`abandon|${identifiantProjet}`, event);
   } else if (pièceJustificative) {
-    await mediator.send<Abandon.AbandonUseCase>({
+    await mediator.send<Abandon.DemanderAbandonUseCase>({
       type: 'Lauréat.Abandon.UseCase.DemanderAbandon',
       data: {
         identifiantProjetValue: identifiantProjet,

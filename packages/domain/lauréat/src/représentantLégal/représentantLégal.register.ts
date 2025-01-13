@@ -18,6 +18,7 @@ import { registerAccorderChangementReprésentantLégalUseCase } from './changeme
 import { registerAccorderChangementReprésentantLégalCommand } from './changement/accorder/accorderChangementReprésentantLégal.command';
 import { registerRejeterChangementReprésentantLégalUseCase } from './changement/rejeter/rejeterChangementReprésentantLégal.usecase';
 import { registerRejeterChangementReprésentantLégalCommand } from './changement/rejeter/rejeterChangementReprésentantLégal.command';
+import { registerSupprimerChangementReprésentantLégalCommand } from './changement/supprimer/supprimerChangementReprésentantLégal.command';
 
 export type ReprésentantLégalQueryDependencies = ConsulterReprésentantLégalDependencies &
   ListerChangementReprésentantLégalDependencies;
@@ -35,6 +36,7 @@ export const registerReprésentantLégalUseCases = ({
   registerDemanderChangementReprésentantLégalCommand(loadAggregate);
   registerAccorderChangementReprésentantLégalCommand(loadAggregate);
   registerRejeterChangementReprésentantLégalCommand(loadAggregate);
+  registerSupprimerChangementReprésentantLégalCommand(loadAggregate);
 
   // UseCases
   registerModifierReprésentantLégalUseCase();
