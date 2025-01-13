@@ -10,7 +10,7 @@ declare module 'logform' {
  * We are currently using a custom formatter because we don't really have monitoring capabilities.
  * In the futur, we can switch to logstash if beta.gouv.fr setup something like ELK
  */
-export const customFormat = winston.format((info) => {
+const customFormat = winston.format((info) => {
   if ('error' in info && info.error instanceof Error && info.error.cause) {
     info.meta.cause = String(info.error.cause);
   }

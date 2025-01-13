@@ -4,8 +4,9 @@ import { expect } from 'chai';
 import winston from 'winston';
 
 import { getLogger } from './getLogger';
-import { consoleTransport } from './console.transport';
+import { consoleTransport } from './winston/console.transport';
 import { initLogger, resetLogger } from './logger';
+import { createLogger } from './winston/createLogger';
 
 const logMock = (calls: string[]) => (info: any, next: any) => calls.push(info.message) && next();
 
@@ -16,10 +17,12 @@ describe('winston-logger', () => {
 
   it('logs the correct format', () => {
     const calls: string[] = [];
-    initLogger({
-      level: 'debug',
-      transports: [consoleTransport({ log: logMock(calls) })],
-    });
+    initLogger(
+      createLogger({
+        level: 'debug',
+        transports: [consoleTransport({ log: logMock(calls) })],
+      }),
+    );
     const logger = getLogger('serviceName');
 
     logger.info('hello', { foo: 'bar', baz: 1 });
@@ -29,10 +32,12 @@ describe('winston-logger', () => {
 
   it('logs the correct level', async () => {
     const calls: string[] = [];
-    initLogger({
-      level: 'warn',
-      transports: [new winston.transports.Console({ log: logMock(calls) })],
-    });
+    initLogger(
+      createLogger({
+        level: 'warn',
+        transports: [new winston.transports.Console({ log: logMock(calls) })],
+      }),
+    );
     const logger = getLogger();
 
     logger.debug('hello debug');

@@ -1,15 +1,11 @@
-import winston from 'winston';
-
-import { getLevel, Level } from './level';
-import { consoleTransport } from './console.transport';
-import { Logger } from './getLogger';
+export type Logger = {
+  debug(message: string, meta?: Record<string, unknown>): void;
+  info(message: string, meta?: Record<string, unknown>): void;
+  warn(message: string, meta?: Record<string, unknown>): void;
+  error(error: Error | string, meta?: Record<string, unknown>): void;
+};
 
 let logger: (Logger & { child?: (props: Object) => Logger }) | undefined;
-
-type InitLoggerProps = {
-  level?: Level;
-  transports?: winston.transport[];
-};
 
 export const forkLogger = (service?: string): Logger => {
   if (!logger) return console;
@@ -17,21 +13,11 @@ export const forkLogger = (service?: string): Logger => {
   return logger.child({ service });
 };
 
-export const initLogger = ({ level = getLevel(), transports = [] }: InitLoggerProps) => {
+export const initLogger = (newLogger: Logger) => {
   if (logger) {
     throw new Error('Logger already initialized');
   }
-  logger = winston.createLogger({
-    transports: [consoleTransport(), ...transports],
-    level,
-  });
-};
-
-/**
- * @deprecated use `initLogger`. This function exists for bypassing the logging mechanisms in tests
- */
-export const overrideLogger = (_logger: Logger) => {
-  logger = _logger;
+  logger = newLogger;
 };
 
 export const resetLogger = () => {

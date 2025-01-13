@@ -25,6 +25,10 @@
     "./sentry": {
       "types": "./dist/sentry/index.d.ts",
       "default": "./dist/sentry/index.js"
+    },
+    "./winston": {
+      "types": "./dist/winston/index.d.ts",
+      "default": "./dist/winston/index.js"
     }
   }
 }

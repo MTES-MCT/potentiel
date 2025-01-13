@@ -1,11 +1,4 @@
-import { forkLogger } from './logger';
-
-export type Logger = {
-  debug(message: string, meta?: Record<string, unknown>): void;
-  info(message: string, meta?: Record<string, unknown>): void;
-  warn(message: string, meta?: Record<string, unknown>): void;
-  error(error: Error | string, meta?: Record<string, unknown>): void;
-};
+import { Logger, forkLogger } from './logger';
 
 export const getLogger = (service?: string): Logger => {
   const logger = forkLogger(service);
