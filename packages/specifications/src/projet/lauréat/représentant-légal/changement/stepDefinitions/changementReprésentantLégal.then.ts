@@ -1,6 +1,7 @@
 import { Then as Alors } from '@cucumber/cucumber';
 import waitForExpect from 'wait-for-expect';
 import { mediator } from 'mediateur';
+import { assert } from 'chai';
 
 import { Option } from '@potentiel-libraries/monads';
 import { ReprésentantLégal } from '@potentiel-domain/laureat';
@@ -90,7 +91,7 @@ Alors(
 );
 
 Alors(
-  /la demande de changement de représentant légal du projet lauréat devrait être rejetée/,
+  'la demande de changement de représentant légal du projet lauréat devrait être rejetée',
   async function (this: PotentielWorld) {
     await waitForExpect(async () => {
       const { identifiantProjet } = this.lauréatWorld;
@@ -112,6 +113,40 @@ Alors(
       );
 
       actual.should.be.deep.equal(expected);
+    });
+  },
+);
+
+Alors(
+  'la demande de changement de représentant légal du projet lauréat devrait être rejetée automatiquement',
+  async function (this: PotentielWorld) {
+    await waitForExpect(async () => {
+      const { identifiantProjet } = this.lauréatWorld;
+
+      const changement =
+        await mediator.send<ReprésentantLégal.ConsulterChangementReprésentantLégalQuery>({
+          type: 'Lauréat.ReprésentantLégal.Query.ConsulterChangementReprésentantLégal',
+          data: {
+            identifiantProjet: identifiantProjet.formatter(),
+          },
+        });
+
+      assert(
+        Option.isSome(changement),
+        'Aucune demande de changement de représentant légal trouvée',
+      );
+
+      const actual = mapToPlainObject(changement);
+      const expected = mapToPlainObject(
+        this.lauréatWorld.représentantLégalWorld.changementReprésentantLégalWorld.mapToExpected(
+          identifiantProjet,
+          ReprésentantLégal.StatutChangementReprésentantLégal.rejeté,
+        ),
+      );
+
+      actual.demande.statut.should.be.deep.equal(expected.demande.statut);
+      actual.demande.rejet?.motif.should.be.equal(expected.demande.rejet?.motif);
+      actual.demande.rejet?.rejetéPar.should.be.deep.equal(expected.demande.rejet?.rejetéPar);
     });
   },
 );
