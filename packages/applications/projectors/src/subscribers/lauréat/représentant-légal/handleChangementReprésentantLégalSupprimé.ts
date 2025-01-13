@@ -2,18 +2,18 @@ import { ReprésentantLégal } from '@potentiel-domain/laureat';
 import { findProjection } from '@potentiel-infrastructure/pg-projections';
 import { Option } from '@potentiel-libraries/monads';
 import { getLogger } from '@potentiel-libraries/monitoring';
-import { DocumentProjet } from '@potentiel-domain/document';
 import { fileExists, upload } from '@potentiel-libraries/file-storage';
+import { DocumentProjet } from '@potentiel-domain/document';
 
-import { upsertProjection } from '../../../infrastructure';
+import { removeProjection } from '../../../infrastructure';
 
 import { getSensitiveDocReplacement } from './getSensitiveDocReplacement';
 
-export const handleChangementReprésentantLégalRejeté = async (
-  event: ReprésentantLégal.ChangementReprésentantLégalRejetéEvent,
+export const handleChangementReprésentantLégalSupprimé = async (
+  event: ReprésentantLégal.ChangementReprésentantLégalSuppriméEvent,
 ) => {
   const {
-    payload: { identifiantProjet, motifRejet, rejetéLe, rejetéPar },
+    payload: { identifiantProjet },
   } = event;
 
   const changementReprésentantLégal =
@@ -22,27 +22,13 @@ export const handleChangementReprésentantLégalRejeté = async (
     );
 
   if (Option.isNone(changementReprésentantLégal)) {
-    getLogger().warn(`Aucune demande n'a été trouvée pour le changement de représentant rejeté`, {
+    getLogger().warn(`Aucune demande n'a été trouvée pour le changement de représentant supprimé`, {
       event,
     });
     return;
   }
 
-  await upsertProjection<ReprésentantLégal.ChangementReprésentantLégalEntity>(
-    `changement-représentant-légal|${identifiantProjet}`,
-    {
-      ...changementReprésentantLégal,
-      demande: {
-        ...changementReprésentantLégal.demande,
-        statut: ReprésentantLégal.StatutChangementReprésentantLégal.rejeté.formatter(),
-        rejet: {
-          motif: motifRejet,
-          rejetéLe,
-          rejetéPar,
-        },
-      },
-    },
-  );
+  await removeProjection(`changement-représentant-légal|${identifiantProjet}`);
 
   const pièceJustificative = DocumentProjet.convertirEnValueType(
     identifiantProjet,
@@ -54,7 +40,9 @@ export const handleChangementReprésentantLégalRejeté = async (
   if (await fileExists(pièceJustificative.formatter())) {
     await upload(
       pièceJustificative.formatter(),
-      await getSensitiveDocReplacement('Document sensible supprimé automatiquement après rejet'),
+      await getSensitiveDocReplacement(
+        'Document sensible supprimé automatiquement après suppression de la demande',
+      ),
     );
   }
 };

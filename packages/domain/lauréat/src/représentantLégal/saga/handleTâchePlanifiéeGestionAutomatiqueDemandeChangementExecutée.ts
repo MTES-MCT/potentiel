@@ -7,10 +7,18 @@ import { Option } from '@potentiel-libraries/monads';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 
 import { ReprésentantLégal } from '../..';
+import { TypeTâchePlanifiéeChangementReprésentantLégal } from '..';
 
 export const handleTâchePlanifiéeGestionAutomatiqueDemandeChangementExecutée = async (
   event: TâchePlanifiéeExecutéeEvent,
 ) => {
+  if (
+    event.payload.typeTâchePlanifiée !==
+    TypeTâchePlanifiéeChangementReprésentantLégal.gestionAutomatiqueDemandeChangement.type
+  ) {
+    return;
+  }
+
   const identifiantProjet = IdentifiantProjet.convertirEnValueType(event.payload.identifiantProjet);
 
   const appelOffre = await mediator.send<AppelOffre.ConsulterAppelOffreQuery>({

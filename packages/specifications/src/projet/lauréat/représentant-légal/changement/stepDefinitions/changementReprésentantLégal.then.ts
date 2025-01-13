@@ -139,3 +139,22 @@ Alors(
     });
   },
 );
+
+Alors(
+  /la demande de changement de représentant légal du projet lauréat ne devrait plus être consultable/,
+  async function (this: PotentielWorld) {
+    await waitForExpect(async () => {
+      const { identifiantProjet } = this.lauréatWorld;
+
+      const changement =
+        await mediator.send<ReprésentantLégal.ConsulterChangementReprésentantLégalQuery>({
+          type: 'Lauréat.ReprésentantLégal.Query.ConsulterChangementReprésentantLégal',
+          data: {
+            identifiantProjet: identifiantProjet.formatter(),
+          },
+        });
+
+      Option.isNone(changement).should.be.true;
+    });
+  },
+);
