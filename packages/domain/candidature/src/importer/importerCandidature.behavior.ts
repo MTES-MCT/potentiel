@@ -30,7 +30,7 @@ export type CandidatureImportéeEventCommonPayload = {
   prixReference: number;
   noteTotale: number;
   nomReprésentantLégal: string;
-  emailContact: string;
+  emailContact: Email.RawType;
   localité: {
     adresse1: string;
     adresse2: string;
@@ -70,7 +70,7 @@ export type ImporterCandidatureBehaviorCommonOptions = {
   prixReference: number;
   noteTotale: number;
   nomReprésentantLégal: string;
-  emailContact: string;
+  emailContact: Email.ValueType;
   localité: {
     adresse1: string;
     adresse2: string;
@@ -194,7 +194,7 @@ export const mapToEventPayload = (candidature: ImporterCandidatureBehaviorCommon
   prixReference: candidature.prixReference,
   noteTotale: candidature.noteTotale,
   nomReprésentantLégal: candidature.nomReprésentantLégal,
-  emailContact: candidature.emailContact,
+  emailContact: candidature.emailContact.formatter(),
   localité: candidature.localité,
   motifÉlimination: candidature.motifÉlimination,
   puissanceALaPointe: candidature.puissanceALaPointe,

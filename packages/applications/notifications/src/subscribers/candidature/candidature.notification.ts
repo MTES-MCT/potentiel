@@ -49,7 +49,10 @@ export const register = ({ sendEmail }: RegisterCandidatureNotificationDependenc
             templateId: templateId.attestationRegénéréePorteur,
             messageSubject: `Potentiel - Une nouvelle attestation est disponible pour le projet ${candidature.nomProjet}`,
             recipients: [
-              { email: candidature.emailContact, fullName: candidature.nomReprésentantLégal },
+              {
+                email: candidature.emailContact.formatter(),
+                fullName: candidature.nomReprésentantLégal,
+              },
             ],
             variables: {
               nom_projet: candidature.nomProjet,

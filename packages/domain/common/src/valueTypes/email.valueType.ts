@@ -22,13 +22,13 @@ export const bind = ({ email }: PlainType<ValueType>): ValueType => {
 
 export const convertirEnValueType = (value: string): ValueType => {
   return bind({
-    email: value,
+    email: value?.toLowerCase(),
   });
 };
 
-const regexEmail = /^[a-zA-Z0-9.+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+const regexEmail = /^[a-z0-9.+/=?^_`{|}~-]+@[a-z0-9-]+(?:\.[a-z0-9-]+)*$/;
 
-export const system = () => convertirEnValueType('system@system');
+export const system = convertirEnValueType('system@system');
 
 function estValide(value: string): asserts value is RawType {
   const isValid = regexEmail.test(value);

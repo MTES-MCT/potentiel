@@ -5,7 +5,7 @@ import { getLogger } from '@potentiel-libraries/monitoring';
 import { Candidature } from '@potentiel-domain/candidature';
 import { Option } from '@potentiel-libraries/monads';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
-import { IdentifiantProjet } from '@potentiel-domain/common';
+import { Email, IdentifiantProjet } from '@potentiel-domain/common';
 
 import { buildCertificate, BuildCertificateProps } from './buildCertificate';
 
@@ -170,7 +170,7 @@ export const register = () => {
 const mapCorrectionToCandidature = (
   payload: Candidature.CandidatureCorrigéeEvent['payload'],
 ): BuildCertificateProps['candidature'] => ({
-  emailContact: payload.emailContact,
+  emailContact: Email.convertirEnValueType(payload.emailContact),
   evaluationCarboneSimplifiée: payload.evaluationCarboneSimplifiée,
   localité: payload.localité,
   nomCandidat: payload.nomCandidat,

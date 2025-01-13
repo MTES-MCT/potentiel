@@ -1,7 +1,7 @@
 import { FC } from 'react';
 
 import { PlainType } from '@potentiel-domain/core';
-import { IdentifiantProjet } from '@potentiel-domain/common';
+import { Email, IdentifiantProjet } from '@potentiel-domain/common';
 import { Candidature } from '@potentiel-domain/candidature';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 
@@ -21,7 +21,7 @@ export type CandidatureListItemProps = {
   nomProjet: Candidature.ConsulterCandidatureReadModel['nomProjet'];
   nomCandidat: Candidature.ConsulterCandidatureReadModel['nomCandidat'];
   nomReprésentantLégal: Candidature.ConsulterCandidatureReadModel['nomReprésentantLégal'];
-  emailContact: Candidature.ConsulterCandidatureReadModel['emailContact'];
+  emailContact: PlainType<Email.ValueType>;
   puissanceProductionAnnuelle: Candidature.ConsulterCandidatureReadModel['puissanceProductionAnnuelle'];
   prixReference: Candidature.ConsulterCandidatureReadModel['prixReference'];
   evaluationCarboneSimplifiée: Candidature.ConsulterCandidatureReadModel['evaluationCarboneSimplifiée'];
@@ -91,8 +91,8 @@ export const CandidatureListItem: FC<CandidatureListItemProps> = ({
           />
           <div className="flex flex-col overflow-hidden">
             <div>{nomReprésentantLégal}</div>
-            <div className="truncate" title={emailContact}>
-              {emailContact}
+            <div className="truncate" title={emailContact.email}>
+              {emailContact.email}
             </div>
           </div>
         </div>

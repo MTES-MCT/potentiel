@@ -27,7 +27,7 @@ export type ConsulterCandidatureReadModel = {
   };
   nomCandidat: string;
   nomReprésentantLégal: string;
-  emailContact: string;
+  emailContact: Email.ValueType;
   puissanceProductionAnnuelle: number;
   prixReference: number;
   technologie: TypeTechnologie.ValueType;
@@ -115,7 +115,7 @@ export const mapToReadModel = ({
   localité,
   nomCandidat,
   nomReprésentantLégal,
-  emailContact,
+  emailContact: Email.convertirEnValueType(emailContact),
   puissanceProductionAnnuelle,
   prixReference,
   sociétéMère,

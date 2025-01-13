@@ -142,7 +142,9 @@ export const DétailsCandidaturePage: FC<DétailsCandidaturePageProps> = ({
               <Field name="Nom du représentant légal">{candidature.nomReprésentantLégal}</Field>
               <Field name="Adresse email à la candidature">
                 <span>
-                  <a href={`mailto:${candidature.emailContact}`}>{candidature.emailContact}</a>
+                  <a href={`mailto:${candidature.emailContact.email}`}>
+                    {candidature.emailContact.email}
+                  </a>
                 </span>
               </Field>
             </FieldGroup>

@@ -22,7 +22,7 @@ export type ImporterCandidatureCommandCommonOptions = {
   prixReference: number;
   noteTotale: number;
   nomReprésentantLégal: string;
-  emailContact: string;
+  emailContact: Email.ValueType;
   localité: {
     adresse1: string;
     adresse2: string;

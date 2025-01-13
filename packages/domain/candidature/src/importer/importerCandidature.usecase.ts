@@ -105,7 +105,7 @@ export const mapPayloadForCommand = (payload: ImporterCandidatureUseCaseCommonPa
   historiqueAbandon: HistoriqueAbandon.convertirEnValueType(payload.historiqueAbandonValue),
   nomProjet: payload.nomProjetValue,
   localité: payload.localitéValue,
-  emailContact: payload.emailContactValue,
+  emailContact: Email.convertirEnValueType(payload.emailContactValue),
   evaluationCarboneSimplifiée: payload.evaluationCarboneSimplifiéeValue,
   nomCandidat: payload.nomCandidatValue,
   nomReprésentantLégal: payload.nomReprésentantLégalValue,

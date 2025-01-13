@@ -19,7 +19,7 @@ Quand(
         data: {
           identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
           importéLe: DateTime.convertirEnValueType(importéLe),
-          importéPar: Email.system(),
+          importéPar: Email.system,
         },
       });
     } catch (error) {
