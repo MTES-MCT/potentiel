@@ -1,5 +1,6 @@
 import { When as Quand } from '@cucumber/cucumber';
 import { mediator } from 'mediateur';
+import { match } from 'ts-pattern';
 
 import { ReprésentantLégal } from '@potentiel-domain/laureat';
 import { DateTime, Email } from '@potentiel-domain/common';
@@ -7,32 +8,6 @@ import { ExécuterTâchePlanifiéeUseCase } from '@potentiel-domain/tache-planif
 
 import { PotentielWorld } from '../../../../../potentiel.world';
 import { CréerDemandeChangementReprésentantLégalFixture } from '../fixtures/demanderChangementReprésentantLégal.fixture';
-
-async function demanderChangement(
-  this: PotentielWorld,
-  partialFixture: CréerDemandeChangementReprésentantLégalFixture,
-) {
-  const { nomReprésentantLégal, typeReprésentantLégal, pièceJustificative, demandéLe, demandéPar } =
-    this.lauréatWorld.représentantLégalWorld.changementReprésentantLégalWorld.demanderChangementReprésentantLégalFixture.créer(
-      { ...partialFixture },
-    );
-
-  try {
-    await mediator.send<ReprésentantLégal.DemanderChangementReprésentantLégalUseCase>({
-      type: 'Lauréat.ReprésentantLégal.UseCase.DemanderChangementReprésentantLégal',
-      data: {
-        identifiantProjetValue: partialFixture.identifiantProjet,
-        nomReprésentantLégalValue: nomReprésentantLégal,
-        typeReprésentantLégalValue: typeReprésentantLégal.formatter(),
-        pièceJustificativeValue: pièceJustificative,
-        dateDemandeValue: demandéLe,
-        identifiantUtilisateurValue: demandéPar,
-      },
-    });
-  } catch (error) {
-    this.error = error as Error;
-  }
-}
 
 Quand(
   'le porteur demande le changement de réprésentant pour le projet lauréat',
@@ -82,100 +57,144 @@ Quand(
 
 Quand(
   /(le DGEC validateur|la DREAL associée au projet) accorde la demande de changement de représentant légal pour le projet lauréat/,
-  async function (
-    this: PotentielWorld,
-    rôle: 'le DGEC validateur' | 'la DREAL associée au projet' | 'le système',
-  ) {
-    const identifiantProjet = this.lauréatWorld.identifiantProjet.formatter();
-
-    const { accordéeLe, accordéePar, nomReprésentantLégal, typeReprésentantLégal } =
-      this.lauréatWorld.représentantLégalWorld.changementReprésentantLégalWorld.accorderChangementReprésentantLégalFixture.créer();
-
-    try {
-      await mediator.send<ReprésentantLégal.ReprésentantLégalUseCase>({
-        type: 'Lauréat.ReprésentantLégal.UseCase.AccorderChangementReprésentantLégal',
-        data: {
-          identifiantProjetValue: identifiantProjet,
-          identifiantUtilisateurValue: accordéePar,
-          nomReprésentantLégalValue: nomReprésentantLégal,
-          typeReprésentantLégalValue: typeReprésentantLégal.formatter(),
-          dateAccordValue: accordéeLe,
-          accordAutomatiqueValue: rôle === 'le système',
-        },
-      });
-    } catch (error) {
-      this.error = error as Error;
-    }
+  async function (this: PotentielWorld, _: 'le DGEC validateur' | 'la DREAL associée au projet') {
+    await instruireChangement.call(this, 'accord');
   },
 );
 
 Quand(
   /(le DGEC validateur|la DREAL associée au projet) rejette la demande de changement de représentant légal pour le projet lauréat/,
   async function (this: PotentielWorld, _: 'le DGEC validateur' | 'la DREAL associée au projet') {
-    const identifiantProjet = this.lauréatWorld.identifiantProjet.formatter();
-
-    const { rejetéLe, rejetéPar, motif } =
-      this.lauréatWorld.représentantLégalWorld.changementReprésentantLégalWorld.rejeterChangementReprésentantLégalFixture.créer();
-
-    try {
-      await mediator.send<ReprésentantLégal.RejeterChangementReprésentantLégalUseCase>({
-        type: 'Lauréat.ReprésentantLégal.UseCase.RejeterChangementReprésentantLégal',
-        data: {
-          identifiantProjetValue: identifiantProjet,
-          identifiantUtilisateurValue: rejetéPar,
-          dateRejetValue: rejetéLe,
-          motifRejetValue: motif,
-          rejetAutomatiqueValue: false,
-        },
-      });
-    } catch (error) {
-      this.error = error as Error;
-    }
+    await instruireChangement.call(this, 'rejet');
   },
 );
 
 Quand(
-  /le système (accorde|rejette) automatiquement la demande de changement de représentant légal pour le projet lauréat/,
-  async function (this: PotentielWorld, action: 'accorde' | 'rejette') {
-    const identifiantProjet = this.lauréatWorld.identifiantProjet.formatter();
-
-    try {
-      if (action === 'accorde') {
-        this.lauréatWorld.représentantLégalWorld.changementReprésentantLégalWorld.accorderChangementReprésentantLégalFixture.créer(
-          {
-            accordéePar: Email.system().formatter(),
-            nomReprésentantLégal:
-              this.lauréatWorld.représentantLégalWorld.changementReprésentantLégalWorld
-                .demanderChangementReprésentantLégalFixture.nomReprésentantLégal,
-            typeReprésentantLégal:
-              this.lauréatWorld.représentantLégalWorld.changementReprésentantLégalWorld
-                .demanderChangementReprésentantLégalFixture.typeReprésentantLégal,
-          },
-        );
-      }
-
-      if (action === 'rejette') {
-        this.lauréatWorld.représentantLégalWorld.changementReprésentantLégalWorld.rejeterChangementReprésentantLégalFixture.créer(
-          {
-            motif: 'Rejet automatique',
-            rejetéPar: Email.system().formatter(),
-          },
-        );
-      }
-
-      const typeTâchePlanifiéeValue = this.tâchePlanifiéeWorld.rechercherTypeTâchePlanifiée(
-        this.tâchePlanifiéeWorld.ajouterTâchePlanifiéeFixture.typeTâchePlanifiée,
-      ).type;
-
-      await mediator.send<ExécuterTâchePlanifiéeUseCase>({
-        type: 'System.TâchePlanifiée.UseCase.ExécuterTâchePlanifiée',
-        data: {
-          identifiantProjetValue: identifiantProjet,
-          typeTâchePlanifiéeValue,
-        },
-      });
-    } catch (error) {
-      this.error = error as Error;
-    }
+  /le système accorde automatiquement la demande de changement de représentant légal pour le projet lauréat/,
+  async function (this: PotentielWorld) {
+    await instruireAutomatiquementChangement.call(this, 'accord');
   },
 );
+
+Quand(
+  /le système rejette automatiquement la demande de changement de représentant légal pour le projet lauréat/,
+  async function (this: PotentielWorld) {
+    await instruireAutomatiquementChangement.call(this, 'rejet');
+  },
+);
+
+async function demanderChangement(
+  this: PotentielWorld,
+  partialFixture: CréerDemandeChangementReprésentantLégalFixture,
+) {
+  const { nomReprésentantLégal, typeReprésentantLégal, pièceJustificative, demandéLe, demandéPar } =
+    this.lauréatWorld.représentantLégalWorld.changementReprésentantLégalWorld.demanderChangementReprésentantLégalFixture.créer(
+      { ...partialFixture },
+    );
+
+  try {
+    await mediator.send<ReprésentantLégal.DemanderChangementReprésentantLégalUseCase>({
+      type: 'Lauréat.ReprésentantLégal.UseCase.DemanderChangementReprésentantLégal',
+      data: {
+        identifiantProjetValue: partialFixture.identifiantProjet,
+        nomReprésentantLégalValue: nomReprésentantLégal,
+        typeReprésentantLégalValue: typeReprésentantLégal.formatter(),
+        pièceJustificativeValue: pièceJustificative,
+        dateDemandeValue: demandéLe,
+        identifiantUtilisateurValue: demandéPar,
+      },
+    });
+  } catch (error) {
+    this.error = error as Error;
+  }
+}
+
+async function instruireChangement(this: PotentielWorld, instruction: 'accord' | 'rejet') {
+  const identifiantProjet = this.lauréatWorld.identifiantProjet.formatter();
+
+  return match(instruction)
+    .with('accord', async () => {
+      try {
+        const { accordéeLe, accordéePar, nomReprésentantLégal, typeReprésentantLégal } =
+          this.lauréatWorld.représentantLégalWorld.changementReprésentantLégalWorld.accorderChangementReprésentantLégalFixture.créer();
+
+        await mediator.send<ReprésentantLégal.AccorderChangementReprésentantLégalUseCase>({
+          type: 'Lauréat.ReprésentantLégal.UseCase.AccorderChangementReprésentantLégal',
+          data: {
+            identifiantProjetValue: identifiantProjet,
+            identifiantUtilisateurValue: accordéePar,
+            nomReprésentantLégalValue: nomReprésentantLégal,
+            typeReprésentantLégalValue: typeReprésentantLégal.formatter(),
+            dateAccordValue: accordéeLe,
+            accordAutomatiqueValue: false,
+          },
+        });
+      } catch (error) {
+        this.error = error as Error;
+      }
+    })
+    .with('rejet', async () => {
+      try {
+        const { rejetéLe, rejetéPar, motif } =
+          this.lauréatWorld.représentantLégalWorld.changementReprésentantLégalWorld.rejeterChangementReprésentantLégalFixture.créer();
+
+        await mediator.send<ReprésentantLégal.RejeterChangementReprésentantLégalUseCase>({
+          type: 'Lauréat.ReprésentantLégal.UseCase.RejeterChangementReprésentantLégal',
+          data: {
+            identifiantProjetValue: identifiantProjet,
+            identifiantUtilisateurValue: rejetéPar,
+            dateRejetValue: rejetéLe,
+            motifRejetValue: motif,
+            rejetAutomatiqueValue: false,
+          },
+        });
+      } catch (error) {
+        this.error = error as Error;
+      }
+    })
+    .exhaustive();
+}
+
+async function instruireAutomatiquementChangement(
+  this: PotentielWorld,
+  instruction: 'accord' | 'rejet',
+) {
+  try {
+    const identifiantProjet = this.lauréatWorld.identifiantProjet.formatter();
+
+    if (instruction === 'accord') {
+      this.lauréatWorld.représentantLégalWorld.changementReprésentantLégalWorld.accorderChangementReprésentantLégalFixture.créer(
+        {
+          accordéePar: Email.system().formatter(),
+          nomReprésentantLégal:
+            this.lauréatWorld.représentantLégalWorld.changementReprésentantLégalWorld
+              .demanderChangementReprésentantLégalFixture.nomReprésentantLégal,
+          typeReprésentantLégal:
+            this.lauréatWorld.représentantLégalWorld.changementReprésentantLégalWorld
+              .demanderChangementReprésentantLégalFixture.typeReprésentantLégal,
+        },
+      );
+    } else {
+      this.lauréatWorld.représentantLégalWorld.changementReprésentantLégalWorld.rejeterChangementReprésentantLégalFixture.créer(
+        {
+          motif: 'Rejet automatique',
+          rejetéPar: Email.system().formatter(),
+        },
+      );
+    }
+
+    const typeTâchePlanifiéeValue = this.tâchePlanifiéeWorld.rechercherTypeTâchePlanifiée(
+      this.tâchePlanifiéeWorld.ajouterTâchePlanifiéeFixture.typeTâchePlanifiée,
+    ).type;
+
+    await mediator.send<ExécuterTâchePlanifiéeUseCase>({
+      type: 'System.TâchePlanifiée.UseCase.ExécuterTâchePlanifiée',
+      data: {
+        identifiantProjetValue: identifiantProjet,
+        typeTâchePlanifiéeValue,
+      },
+    });
+  } catch (error) {
+    this.error = error as Error;
+  }
+}

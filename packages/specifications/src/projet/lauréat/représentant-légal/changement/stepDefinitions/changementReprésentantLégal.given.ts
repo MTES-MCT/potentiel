@@ -59,7 +59,7 @@ EtantDonné(
         },
       );
 
-    await mediator.send<ReprésentantLégal.ReprésentantLégalUseCase>({
+    await mediator.send<ReprésentantLégal.DemanderChangementReprésentantLégalUseCase>({
       type: 'Lauréat.ReprésentantLégal.UseCase.DemanderChangementReprésentantLégal',
       data: {
         identifiantProjetValue: identifiantProjet,
@@ -74,7 +74,7 @@ EtantDonné(
     const fixtureAccorder =
       this.lauréatWorld.représentantLégalWorld.changementReprésentantLégalWorld.accorderChangementReprésentantLégalFixture.créer();
 
-    await mediator.send<ReprésentantLégal.ReprésentantLégalUseCase>({
+    await mediator.send<ReprésentantLégal.AccorderChangementReprésentantLégalUseCase>({
       type: 'Lauréat.ReprésentantLégal.UseCase.AccorderChangementReprésentantLégal',
       data: {
         identifiantProjetValue: identifiantProjet,

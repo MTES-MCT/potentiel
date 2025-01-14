@@ -64,126 +64,6 @@ Alors(
 );
 
 Alors(
-  'la demande de changement de représentant légal du projet lauréat devrait être accordée',
-  async function (this: PotentielWorld) {
-    await waitForExpect(async () => {
-      const { identifiantProjet } = this.lauréatWorld;
-
-      const changement =
-        await mediator.send<ReprésentantLégal.ConsulterChangementReprésentantLégalQuery>({
-          type: 'Lauréat.ReprésentantLégal.Query.ConsulterChangementReprésentantLégal',
-          data: {
-            identifiantProjet: identifiantProjet.formatter(),
-          },
-        });
-
-      const actual = mapToPlainObject(changement);
-      const expected = mapToPlainObject(
-        this.lauréatWorld.représentantLégalWorld.changementReprésentantLégalWorld.mapToExpected(
-          identifiantProjet,
-          ReprésentantLégal.StatutChangementReprésentantLégal.accordé,
-        ),
-      );
-
-      actual.should.be.deep.equal(expected);
-    });
-  },
-);
-
-Alors(
-  'la demande de changement de représentant légal du projet lauréat devrait être rejetée',
-  async function (this: PotentielWorld) {
-    await waitForExpect(async () => {
-      const { identifiantProjet } = this.lauréatWorld;
-
-      const changement =
-        await mediator.send<ReprésentantLégal.ConsulterChangementReprésentantLégalQuery>({
-          type: 'Lauréat.ReprésentantLégal.Query.ConsulterChangementReprésentantLégal',
-          data: {
-            identifiantProjet: identifiantProjet.formatter(),
-          },
-        });
-
-      const actual = mapToPlainObject(changement);
-      const expected = mapToPlainObject(
-        this.lauréatWorld.représentantLégalWorld.changementReprésentantLégalWorld.mapToExpected(
-          identifiantProjet,
-          ReprésentantLégal.StatutChangementReprésentantLégal.rejeté,
-        ),
-      );
-
-      actual.should.be.deep.equal(expected);
-    });
-  },
-);
-
-Alors(
-  'la demande de changement de représentant légal du projet lauréat devrait être rejetée automatiquement',
-  async function (this: PotentielWorld) {
-    await waitForExpect(async () => {
-      const { identifiantProjet } = this.lauréatWorld;
-
-      const changement =
-        await mediator.send<ReprésentantLégal.ConsulterChangementReprésentantLégalQuery>({
-          type: 'Lauréat.ReprésentantLégal.Query.ConsulterChangementReprésentantLégal',
-          data: {
-            identifiantProjet: identifiantProjet.formatter(),
-          },
-        });
-
-      assert(
-        Option.isSome(changement),
-        'Aucune demande de changement de représentant légal trouvée',
-      );
-
-      const actual = mapToPlainObject(changement);
-      const expected = mapToPlainObject(
-        this.lauréatWorld.représentantLégalWorld.changementReprésentantLégalWorld.mapToExpected(
-          identifiantProjet,
-          ReprésentantLégal.StatutChangementReprésentantLégal.rejeté,
-        ),
-      );
-
-      actual.demande.statut.should.be.deep.equal(expected.demande.statut);
-      actual.demande.rejet?.motif.should.be.equal(expected.demande.rejet?.motif);
-      actual.demande.rejet?.rejetéPar.should.be.deep.equal(expected.demande.rejet?.rejetéPar);
-    });
-  },
-);
-Alors(
-  'la demande de changement de représentant légal du projet lauréat devrait être accordée automatiquement',
-  async function (this: PotentielWorld) {
-    await waitForExpect(async () => {
-      const { identifiantProjet } = this.lauréatWorld;
-
-      const changement =
-        await mediator.send<ReprésentantLégal.ConsulterChangementReprésentantLégalQuery>({
-          type: 'Lauréat.ReprésentantLégal.Query.ConsulterChangementReprésentantLégal',
-          data: {
-            identifiantProjet: identifiantProjet.formatter(),
-          },
-        });
-
-      assert(
-        Option.isSome(changement),
-        'Aucune demande de changement de représentant légal trouvée',
-      );
-
-      const actual = mapToPlainObject(changement);
-      const expected = mapToPlainObject(
-        this.lauréatWorld.représentantLégalWorld.changementReprésentantLégalWorld.mapToExpected(
-          identifiantProjet,
-          ReprésentantLégal.StatutChangementReprésentantLégal.accordé,
-        ),
-      );
-
-      actual.demande.statut.should.be.deep.equal(expected.demande.statut);
-      actual.demande.accord?.accordéPar.should.be.deep.equal(expected.demande.accord?.accordéPar);
-    });
-  },
-);
-
-Alors(
   /la demande de changement de représentant légal du projet lauréat ne devrait plus être consultable/,
   async function (this: PotentielWorld) {
     await waitForExpect(async () => {
@@ -201,3 +81,105 @@ Alors(
     });
   },
 );
+
+Alors(
+  'la demande de changement de représentant légal du projet lauréat devrait être accordée',
+  async function (this: PotentielWorld) {
+    await vérifierInstructionDemande.bind(
+      this,
+      ReprésentantLégal.StatutChangementReprésentantLégal.accordé,
+    );
+  },
+);
+
+Alors(
+  'la demande de changement de représentant légal du projet lauréat devrait être rejetée',
+  async function (this: PotentielWorld) {
+    await vérifierInstructionDemande.bind(
+      this,
+      ReprésentantLégal.StatutChangementReprésentantLégal.rejeté,
+    );
+  },
+);
+
+Alors(
+  'la demande de changement de représentant légal du projet lauréat devrait être rejetée automatiquement',
+  async function (this: PotentielWorld) {
+    await vérifierInstructionAutomatiqueDemande.bind(this, 'rejet');
+  },
+);
+
+Alors(
+  'la demande de changement de représentant légal du projet lauréat devrait être accordée automatiquement',
+  async function (this: PotentielWorld) {
+    await vérifierInstructionAutomatiqueDemande.bind(this, 'rejet');
+  },
+);
+
+async function vérifierInstructionDemande(
+  this: PotentielWorld,
+  statut: ReprésentantLégal.StatutChangementReprésentantLégal.ValueType,
+) {
+  await waitForExpect(async () => {
+    const { identifiantProjet } = this.lauréatWorld;
+
+    const changement =
+      await mediator.send<ReprésentantLégal.ConsulterChangementReprésentantLégalQuery>({
+        type: 'Lauréat.ReprésentantLégal.Query.ConsulterChangementReprésentantLégal',
+        data: {
+          identifiantProjet: identifiantProjet.formatter(),
+        },
+      });
+
+    const actual = mapToPlainObject(changement);
+    const expected = mapToPlainObject(
+      this.lauréatWorld.représentantLégalWorld.changementReprésentantLégalWorld.mapToExpected(
+        identifiantProjet,
+        statut,
+      ),
+    );
+
+    actual.should.be.deep.equal(expected);
+  });
+}
+
+async function vérifierInstructionAutomatiqueDemande(
+  this: PotentielWorld,
+  action: 'accord' | 'rejet',
+) {
+  return waitForExpect(async () => {
+    const { identifiantProjet } = this.lauréatWorld;
+
+    const changement =
+      await mediator.send<ReprésentantLégal.ConsulterChangementReprésentantLégalQuery>({
+        type: 'Lauréat.ReprésentantLégal.Query.ConsulterChangementReprésentantLégal',
+        data: {
+          identifiantProjet: identifiantProjet.formatter(),
+        },
+      });
+
+    assert(Option.isSome(changement), 'Aucune demande de changement de représentant légal trouvée');
+
+    const statut =
+      action === 'accord'
+        ? ReprésentantLégal.StatutChangementReprésentantLégal.accordé
+        : ReprésentantLégal.StatutChangementReprésentantLégal.rejeté;
+
+    const actual = mapToPlainObject(changement);
+    const expected = mapToPlainObject(
+      this.lauréatWorld.représentantLégalWorld.changementReprésentantLégalWorld.mapToExpected(
+        identifiantProjet,
+        statut,
+      ),
+    );
+
+    actual.demande.statut.should.be.deep.equal(expected.demande.statut);
+
+    if (action === 'accord') {
+      actual.demande.accord?.accordéPar.should.be.deep.equal(expected.demande.accord?.accordéPar);
+    } else {
+      actual.demande.rejet?.motif.should.be.equal(expected.demande.rejet?.motif);
+      actual.demande.rejet?.rejetéPar.should.be.deep.equal(expected.demande.rejet?.rejetéPar);
+    }
+  });
+}

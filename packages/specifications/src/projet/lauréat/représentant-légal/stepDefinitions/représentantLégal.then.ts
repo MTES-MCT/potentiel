@@ -63,28 +63,23 @@ Alors(
 Alors(
   `le représentant légal du projet lauréat( ne) devrait( pas) être mis à jour`,
   async function (this: PotentielWorld) {
-    try {
-      await waitForExpect(async () => {
-        const { identifiantProjet } = this.lauréatWorld;
+    await waitForExpect(async () => {
+      const { identifiantProjet } = this.lauréatWorld;
 
-        const représentantLégal =
-          await mediator.send<ReprésentantLégal.ConsulterReprésentantLégalQuery>({
-            type: 'Lauréat.ReprésentantLégal.Query.ConsulterReprésentantLégal',
-            data: {
-              identifiantProjet: identifiantProjet.formatter(),
-            },
-          });
+      const représentantLégal =
+        await mediator.send<ReprésentantLégal.ConsulterReprésentantLégalQuery>({
+          type: 'Lauréat.ReprésentantLégal.Query.ConsulterReprésentantLégal',
+          data: {
+            identifiantProjet: identifiantProjet.formatter(),
+          },
+        });
 
-        const actual = mapToPlainObject(représentantLégal);
-        const expected = mapToPlainObject(
-          this.lauréatWorld.représentantLégalWorld.mapToExpected(identifiantProjet),
-        );
+      const actual = mapToPlainObject(représentantLégal);
+      const expected = mapToPlainObject(
+        this.lauréatWorld.représentantLégalWorld.mapToExpected(identifiantProjet),
+      );
 
-        actual.should.be.deep.equal(expected);
-      });
-    } catch (e) {
-      console.error('🤢🤢');
-      console.error(e);
-    }
+      actual.should.be.deep.equal(expected);
+    });
   },
 );
