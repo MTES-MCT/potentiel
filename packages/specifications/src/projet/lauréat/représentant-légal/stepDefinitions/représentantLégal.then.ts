@@ -33,33 +33,6 @@ Alors(
   },
 );
 
-/*
- @todo merger les deux steps ci-dessous
-*/
-Alors(
-  /le nom et le type du représentant légal du projet lauréat devrait être mis à jour/,
-  async function (this: PotentielWorld) {
-    return waitForExpect(async () => {
-      const { identifiantProjet } = this.lauréatWorld;
-
-      const représentantLégal =
-        await mediator.send<ReprésentantLégal.ConsulterReprésentantLégalQuery>({
-          type: 'Lauréat.ReprésentantLégal.Query.ConsulterReprésentantLégal',
-          data: {
-            identifiantProjet: identifiantProjet.formatter(),
-          },
-        });
-
-      const actual = mapToPlainObject(représentantLégal);
-      const expected = mapToPlainObject(
-        this.lauréatWorld.représentantLégalWorld.mapToExpected(identifiantProjet),
-      );
-
-      actual.should.be.deep.equal(expected);
-    });
-  },
-);
-
 Alors(
   `le représentant légal du projet lauréat( ne) devrait( pas) être mis à jour`,
   async function (this: PotentielWorld) {

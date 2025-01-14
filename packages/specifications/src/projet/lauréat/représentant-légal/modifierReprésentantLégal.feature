@@ -5,7 +5,7 @@ Fonctionnalité: Modifier le représentant légal d'un projet lauréat
         Etant donné le projet lauréat "Du boulodrome de Marseille"
         Et le porteur "Marcel Patoulatchi" ayant accés au projet lauréat "Du boulodrome de Marseille"
         Quand le DGEC validateur modifie le nom et le type du représentant légal pour le projet lauréat
-        Alors le nom et le type du représentant légal du projet lauréat devrait être mis à jour
+        Alors le représentant légal du projet lauréat devrait être mis à jour
         Et un email a été envoyé au porteur avec :
             | sujet      | Potentiel - Modification du représentant légal pour le projet Du boulodrome de Marseille dans le département(.*) |
             | nom_projet | Du boulodrome de Marseille                                                                                       |
