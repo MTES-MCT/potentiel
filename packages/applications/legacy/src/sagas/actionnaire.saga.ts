@@ -41,7 +41,7 @@ export const register = () => {
           }))
           .with({ type: 'ChangementActionnaireAccordé-V1' }, ({ payload }) => ({
             actionnaire: payload.nouvelActionnaire,
-            identifiantUtilisateur: payload.accordéePar,
+            identifiantUtilisateur: payload.accordéPar,
           }))
           .exhaustive();
 
