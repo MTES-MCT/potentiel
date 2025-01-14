@@ -22,6 +22,7 @@ import { ModifierActionnaireCommand } from './modifier/modifierActionnaire.comma
 import { ModifierActionnaireUseCase } from './modifier/modifierActionnaire.usecase';
 import { TransmettreActionnaireUseCase } from './transmettre/transmettreActionnaire.usecase';
 import { TransmettreActionnaireCommand } from './transmettre/transmettreActionnaire.command';
+import { SupprimerDemandeChangementActionnaireCommand } from './changement/supprimer/supprimerDemandeChangementActionnaire.command';
 
 // Query
 export type ActionnaireQuery =
@@ -65,7 +66,8 @@ export type ActionnaireCommand =
   | TransmettreActionnaireCommand
   | AnnulerDemandeChangementActionnaireCommand
   | AccorderDemandeChangementActionnaireCommand
-  | RejeterDemandeChangementActionnaireCommand;
+  | RejeterDemandeChangementActionnaireCommand
+  | SupprimerDemandeChangementActionnaireCommand;
 export type {
   ImporterActionnaireCommand,
   ModifierActionnaireCommand,
@@ -73,6 +75,7 @@ export type {
   AnnulerDemandeChangementActionnaireCommand,
   AccorderDemandeChangementActionnaireCommand,
   RejeterDemandeChangementActionnaireCommand,
+  SupprimerDemandeChangementActionnaireCommand,
 };
 
 // Event
@@ -84,9 +87,10 @@ export type { ChangementActionnaireDemandéEvent } from './changement/demander/d
 export type { DemandeChangementActionnaireAnnuléeEvent } from './changement/annuler/annulerChangementActionnaire.behavior';
 export type { DemandeChangementActionnaireAccordéeEvent } from './changement/accorder/accorderChangementActionnaire.behavior';
 export type { DemandeChangementActionnaireRejetéeEvent } from './changement/rejeter/rejeterChangementActionnaire.behavior';
+export type { DemandeChangementActionnaireSuppriméeEvent } from './changement/supprimer/supprimerDemandeChangementActionnaire.behavior';
 
 // Saga
-export * as ActionnaireSaga from './actionnaire.saga';
+export * as ActionnaireSaga from './saga';
 
 // ValueType
 export * as StatutChangementActionnaire from './statutChangementActionnaire.valueType';

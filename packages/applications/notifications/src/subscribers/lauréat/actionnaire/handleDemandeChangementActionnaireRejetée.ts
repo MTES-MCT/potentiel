@@ -35,8 +35,6 @@ export const handleDemandeChangementActionnaireRejetée = async ({
     return;
   }
 
-  console.log(porteurs);
-
   await sendEmail({
     templateId: actionnaireNotificationTemplateId.rejeter,
     messageSubject: `Potentiel - La demande de changement d'actionnaire pour le projet ${projet.nom} dans le département ${projet.département} a été rejetée`,

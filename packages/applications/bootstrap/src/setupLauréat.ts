@@ -91,6 +91,7 @@ export const setupLauréat = async ({ sendEmail }: SetupLauréatDependencies) =>
       'DemandeChangementActionnaireAnnulée-V1',
       'DemandeChangementActionnaireAccordée-V1',
       'DemandeChangementActionnaireRejetée-V1',
+      'DemandeChangementActionnaireSupprimée-V1',
     ],
     eventHandler: async (event) => {
       await mediator.send<ActionnaireProjector.Execute>({
@@ -333,9 +334,35 @@ export const setupLauréat = async ({ sendEmail }: SetupLauréatDependencies) =>
   const unsubscribeActionnaireSaga = await subscribe<
     Actionnaire.ActionnaireSaga.SubscriptionEvent & Event
   >({
-    name: 'actionnaire-saga',
+    name: 'actionnaire-laureat-saga',
     streamCategory: 'lauréat',
     eventType: ['LauréatNotifié-V1'],
+    eventHandler: async (event) =>
+      mediator.publish<Actionnaire.ActionnaireSaga.Execute>({
+        type: 'System.Lauréat.Actionnaire.Saga.Execute',
+        data: event,
+      }),
+  });
+
+  const unsubscribeActionnaireSagaAbandon = await subscribe<
+    Actionnaire.ActionnaireSaga.SubscriptionEvent & Event
+  >({
+    name: 'actionnaire-abandon-saga',
+    streamCategory: 'abandon',
+    eventType: ['AbandonAccordé-V1'],
+    eventHandler: async (event) =>
+      mediator.publish<Actionnaire.ActionnaireSaga.Execute>({
+        type: 'System.Lauréat.Actionnaire.Saga.Execute',
+        data: event,
+      }),
+  });
+
+  const unsubscribeActionnaireSagaAchèvement = await subscribe<
+    Actionnaire.ActionnaireSaga.SubscriptionEvent & Event
+  >({
+    name: 'actionnaire-achevement-saga',
+    streamCategory: 'achevement',
+    eventType: ['AttestationConformitéTransmise-V1'],
     eventHandler: async (event) =>
       mediator.publish<Actionnaire.ActionnaireSaga.Execute>({
         type: 'System.Lauréat.Actionnaire.Saga.Execute',
@@ -415,5 +442,7 @@ export const setupLauréat = async ({ sendEmail }: SetupLauréatDependencies) =>
     await unsubscribeReprésentantLégalSagaAbandon();
     await unsubscribeReprésentantLégalSagaAchèvement();
     await unsubscribeActionnaireSaga();
+    await unsubscribeActionnaireSagaAbandon();
+    await unsubscribeActionnaireSagaAchèvement();
   };
 };
