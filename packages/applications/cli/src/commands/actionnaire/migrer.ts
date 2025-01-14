@@ -125,8 +125,8 @@ export class Migrer extends Command {
         type: 'ChangementActionnaireDemandé-V1',
         payload: {
           actionnaire: cleanInput(modification.actionnaire),
-          demandéeLe: requestedOn,
-          demandéePar: modification.email,
+          demandéLe: requestedOn,
+          demandéPar: modification.email,
           identifiantProjet,
           raison: cleanInput(modification.justification),
           pièceJustificative: { format: 'application/pdf' },
@@ -147,13 +147,13 @@ export class Migrer extends Command {
       switch (modification.status) {
         case 'acceptée':
           const acceptation: Actionnaire.ActionnaireEvent = {
-            type: 'DemandeChangementActionnaireAccordée-V1',
+            type: 'ChangementActionnaireAccordé-V1',
             payload: {
               identifiantProjet,
-              accordéeLe: DateTime.convertirEnValueType(
+              accordéLe: DateTime.convertirEnValueType(
                 new Date(modification.respondedOn),
               ).formatter(),
-              accordéePar: modification.respondedBy,
+              accordéPar: modification.respondedBy,
               nouvelActionnaire: cleanInput(modification.actionnaire),
               // !!! TODO !!!
               réponseSignée: { format: 'application/pdf' },
