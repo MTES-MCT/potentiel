@@ -48,7 +48,7 @@ const Details = (props: ModificationReceivedItemProps) => {
           ))}
         </ul>
       )}
-      {detailsUrl && (
+      {detailsUrl && modificationType !== 'actionnaire' && (
         <Link
           href={detailsUrl}
           aria-label={`Voir le détail de la modification de type "${libelleTypeDemande[modificationType]}"`}
