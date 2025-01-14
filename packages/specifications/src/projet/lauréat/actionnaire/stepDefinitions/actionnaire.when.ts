@@ -188,8 +188,8 @@ export async function accorderChangementActionnaire(this: PotentielWorld, utilis
   await mediator.send<Actionnaire.ActionnaireUseCase>({
     type: 'Lauréat.Actionnaire.UseCase.AccorderChangement',
     data: {
-      accordéeLeValue: accordéeLe,
-      accordéeParValue: accordéePar,
+      accordéLeValue: accordéeLe,
+      accordéParValue: accordéePar,
       identifiantProjetValue: identifiantProjet,
       réponseSignéeValue: {
         content,
@@ -210,8 +210,8 @@ export async function rejeterChangementActionnaire(this: PotentielWorld, utilisa
   await mediator.send<Actionnaire.ActionnaireUseCase>({
     type: 'Lauréat.Actionnaire.UseCase.RejeterDemandeChangement',
     data: {
-      rejetéeLeValue: rejetéeLe,
-      rejetéeParValue: rejetéePar,
+      rejetéLeValue: rejetéeLe,
+      rejetéParValue: rejetéePar,
       réponseSignéeValue: réponseSignée,
       identifiantProjetValue: identifiantProjet,
     },
