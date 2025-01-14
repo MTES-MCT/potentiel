@@ -5,7 +5,7 @@ import { LoadAggregate } from '@potentiel-domain/core';
 
 import { loadActionnaireFactory } from '../../actionnaire.aggregate';
 
-export type AnnulerDemandeChangementActionnaireCommand = Message<
+export type AnnulerChangementActionnaireCommand = Message<
   'Lauréat.Actionnaire.Command.AnnulerDemandeChangement',
   {
     dateAnnulation: DateTime.ValueType;
@@ -17,7 +17,7 @@ export type AnnulerDemandeChangementActionnaireCommand = Message<
 export const registerAnnulerDemandeChangementCommand = (loadAggregate: LoadAggregate) => {
   const loadActionnaire = loadActionnaireFactory(loadAggregate);
 
-  const handler: MessageHandler<AnnulerDemandeChangementActionnaireCommand> = async ({
+  const handler: MessageHandler<AnnulerChangementActionnaireCommand> = async ({
     dateAnnulation,
     identifiantUtilisateur,
     identifiantProjet,

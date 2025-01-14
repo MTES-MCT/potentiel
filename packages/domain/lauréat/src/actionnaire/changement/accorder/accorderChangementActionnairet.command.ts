@@ -6,8 +6,8 @@ import { DocumentProjet } from '@potentiel-domain/document';
 
 import { loadActionnaireFactory } from '../../actionnaire.aggregate';
 
-export type AccorderDemandeChangementActionnaireCommand = Message<
-  'Lauréat.Actionnaire.Command.AccorderDemandeChangement',
+export type AccorderChangementActionnaireCommand = Message<
+  'Lauréat.Actionnaire.Command.AccorderChangement',
   {
     identifiantProjet: IdentifiantProjet.ValueType;
     accordéeLe: DateTime.ValueType;
@@ -16,12 +16,10 @@ export type AccorderDemandeChangementActionnaireCommand = Message<
   }
 >;
 
-export const registerAccorderDemandeChangementActionnaireCommand = (
-  loadAggregate: LoadAggregate,
-) => {
+export const registerAccorderChangementActionnaireCommand = (loadAggregate: LoadAggregate) => {
   const loadActionnaire = loadActionnaireFactory(loadAggregate);
 
-  const handler: MessageHandler<AccorderDemandeChangementActionnaireCommand> = async ({
+  const handler: MessageHandler<AccorderChangementActionnaireCommand> = async ({
     identifiantProjet,
     accordéeLe,
     accordéePar,
@@ -29,12 +27,12 @@ export const registerAccorderDemandeChangementActionnaireCommand = (
   }) => {
     const actionnaire = await loadActionnaire(identifiantProjet, false);
 
-    await actionnaire.accorderDemandeChangementActionnaire({
+    await actionnaire.accorderChangementActionnaire({
       identifiantProjet,
       accordéeLe,
       accordéePar,
       réponseSignée,
     });
   };
-  mediator.register('Lauréat.Actionnaire.Command.AccorderDemandeChangement', handler);
+  mediator.register('Lauréat.Actionnaire.Command.AccorderChangement', handler);
 };

@@ -216,20 +216,20 @@ const référencielPermissions = {
     actionnaire: {
       query: {
         consulter: 'Lauréat.Actionnaire.Query.ConsulterActionnaire',
-        consulterChangement: 'Lauréat.Actionnaire.Query.ConsulterDemandeChangementActionnaire',
+        consulterChangement: 'Lauréat.Actionnaire.Query.ConsulterChangementActionnaire',
         listerChangement: 'Lauréat.Actionnaire.Query.ListerChangementActionnaire',
       },
       usecase: {
         modifier: 'Lauréat.Actionnaire.UseCase.ModifierActionnaire',
         demanderChangement: 'Lauréat.Actionnaire.UseCase.DemanderChangement',
-        accorderChangement: 'Lauréat.Actionnaire.UseCase.AccorderDemandeChangement',
+        accorderChangement: 'Lauréat.Actionnaire.UseCase.AccorderChangement',
         rejeterChangement: 'Lauréat.Actionnaire.UseCase.RejeterDemandeChangement',
         annulerChangement: 'Lauréat.Actionnaire.UseCase.AnnulerDemandeChangement',
       },
       command: {
         modifier: 'Lauréat.Actionnaire.Command.ModifierActionnaire',
         demanderChangement: 'Lauréat.Actionnaire.Command.DemanderChangement',
-        accorderChangement: 'Lauréat.Actionnaire.Command.AccorderDemandeChangement',
+        accorderChangement: 'Lauréat.Actionnaire.Command.AccorderChangement',
         rejeterChangement: 'Lauréat.Actionnaire.Command.RejeterDemandeChangement',
         annulerChangement: 'Lauréat.Actionnaire.Command.AnnulerDemandeChangement',
       },

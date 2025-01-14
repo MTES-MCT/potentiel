@@ -7,7 +7,7 @@ import { DocumentProjet } from '@potentiel-domain/document';
 
 import { ActionnaireEntity, StatutChangementActionnaire, TypeDocumentActionnaire } from '../..';
 
-export type ConsulterDemandeChangementActionnaireReadModel = {
+export type ConsulterChangementActionnaireReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
   actionnaire: {
     actuel: string;
@@ -36,22 +36,22 @@ export type ConsulterDemandeChangementActionnaireReadModel = {
   };
 };
 
-export type ConsulterDemandeChangementActionnaireQuery = Message<
-  'Lauréat.Actionnaire.Query.ConsulterDemandeChangementActionnaire',
+export type ConsulterChangementActionnaireQuery = Message<
+  'Lauréat.Actionnaire.Query.ConsulterChangementActionnaire',
   {
     identifiantProjet: string;
   },
-  Option.Type<ConsulterDemandeChangementActionnaireReadModel>
+  Option.Type<ConsulterChangementActionnaireReadModel>
 >;
 
-export type ConsulterDemandeChangementActionnaireDependencies = {
+export type ConsulterChangementActionnaireDependencies = {
   find: Find;
 };
 
-export const registerConsulterDemandeChangementActionnaireQuery = ({
+export const registerConsulterChangementActionnaireQuery = ({
   find,
-}: ConsulterDemandeChangementActionnaireDependencies) => {
-  const handler: MessageHandler<ConsulterDemandeChangementActionnaireQuery> = async ({
+}: ConsulterChangementActionnaireDependencies) => {
+  const handler: MessageHandler<ConsulterChangementActionnaireQuery> = async ({
     identifiantProjet,
   }) => {
     const identifiantProjetValueType = IdentifiantProjet.convertirEnValueType(identifiantProjet);
@@ -62,7 +62,7 @@ export const registerConsulterDemandeChangementActionnaireQuery = ({
 
     return Option.match(demandeChangementActionnaire).some(mapToReadModel).none();
   };
-  mediator.register('Lauréat.Actionnaire.Query.ConsulterDemandeChangementActionnaire', handler);
+  mediator.register('Lauréat.Actionnaire.Query.ConsulterChangementActionnaire', handler);
 };
 
 export const mapToReadModel = (result: ActionnaireEntity) => {
@@ -115,5 +115,5 @@ export const mapToReadModel = (result: ActionnaireEntity) => {
           }
         : undefined,
     },
-  } satisfies ConsulterDemandeChangementActionnaireReadModel;
+  } satisfies ConsulterChangementActionnaireReadModel;
 };

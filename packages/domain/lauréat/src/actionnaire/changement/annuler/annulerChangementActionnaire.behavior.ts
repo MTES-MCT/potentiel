@@ -3,10 +3,10 @@ import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
 
 import { ActionnaireAggregate } from '../../actionnaire.aggregate';
 import { StatutChangementActionnaire } from '../..';
-import { DemandeChangementActionnaireInexistanteErreur } from '../../errors';
+import { ChangementActionnaireInexistanteErreur } from '../../errors';
 
-export type DemandeChangementActionnaireAnnuléeEvent = DomainEvent<
-  'DemandeChangementActionnaireAnnulée-V1',
+export type ChangementActionnaireAnnuléEvent = DomainEvent<
+  'ChangementActionnaireAnnulé-V1',
   {
     annuléeLe: DateTime.RawType;
     annuléePar: Email.RawType;
@@ -25,15 +25,15 @@ export async function annulerDemandeChangement(
   { dateAnnulation, identifiantUtilisateur, identifiantProjet }: AnnulerOptions,
 ) {
   if (!this.demande) {
-    throw new DemandeChangementActionnaireInexistanteErreur();
+    throw new ChangementActionnaireInexistanteErreur();
   }
 
   this.demande.statut.vérifierQueLeChangementDeStatutEstPossibleEn(
     StatutChangementActionnaire.annulé,
   );
 
-  const event: DemandeChangementActionnaireAnnuléeEvent = {
-    type: 'DemandeChangementActionnaireAnnulée-V1',
+  const event: ChangementActionnaireAnnuléEvent = {
+    type: 'ChangementActionnaireAnnulé-V1',
     payload: {
       identifiantProjet: identifiantProjet.formatter(),
       annuléeLe: dateAnnulation.formatter(),
@@ -44,6 +44,6 @@ export async function annulerDemandeChangement(
   await this.publish(event);
 }
 
-export function applyDemandeChangementActionnaireAnnulée(this: ActionnaireAggregate) {
+export function applyChangementActionnaireAnnulé(this: ActionnaireAggregate) {
   this.demande = undefined;
 }

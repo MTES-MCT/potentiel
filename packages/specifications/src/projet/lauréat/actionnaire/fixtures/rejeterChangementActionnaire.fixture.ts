@@ -3,20 +3,20 @@ import { faker } from '@faker-js/faker';
 import { AbstractFixture } from '../../../../fixture';
 import { convertStringToReadableStream } from '../../../../helpers/convertStringToReadable';
 
-interface RejeterDemandeChangementActionnaire {
+interface RejeterChangementActionnaire {
   readonly réponseSignée: { format: string; content: ReadableStream };
   readonly rejetéeLe: string;
   readonly rejetéePar: string;
 }
 
-export class RejeterDemandeChangementActionnaireFixture
-  extends AbstractFixture<RejeterDemandeChangementActionnaire>
-  implements RejeterDemandeChangementActionnaire
+export class RejeterChangementActionnaireFixture
+  extends AbstractFixture<RejeterChangementActionnaire>
+  implements RejeterChangementActionnaire
 {
   #format!: string;
   #content!: string;
 
-  get réponseSignée(): RejeterDemandeChangementActionnaire['réponseSignée'] {
+  get réponseSignée(): RejeterChangementActionnaire['réponseSignée'] {
     return {
       format: this.#format,
       content: convertStringToReadableStream(this.#content),
@@ -35,12 +35,10 @@ export class RejeterDemandeChangementActionnaireFixture
     return this.#rejetéePar;
   }
 
-  créer(
-    partialFixture?: Partial<RejeterDemandeChangementActionnaire>,
-  ): RejeterDemandeChangementActionnaire {
+  créer(partialFixture?: Partial<RejeterChangementActionnaire>): RejeterChangementActionnaire {
     const content = faker.word.words();
 
-    const fixture: RejeterDemandeChangementActionnaire = {
+    const fixture: RejeterChangementActionnaire = {
       rejetéeLe: faker.date.soon().toISOString(),
       rejetéePar: faker.internet.email(),
       réponseSignée: {

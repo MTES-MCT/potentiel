@@ -38,8 +38,8 @@ export const getActionnaire = async (
 
     if (Option.isSome(actionnaire)) {
       const demandeExistanteDeChangement =
-        await mediator.send<Actionnaire.ConsulterDemandeChangementActionnaireQuery>({
-          type: 'Lauréat.Actionnaire.Query.ConsulterDemandeChangementActionnaire',
+        await mediator.send<Actionnaire.ConsulterChangementActionnaireQuery>({
+          type: 'Lauréat.Actionnaire.Query.ConsulterChangementActionnaire',
           data: { identifiantProjet: identifiantProjet.formatter() },
         });
 

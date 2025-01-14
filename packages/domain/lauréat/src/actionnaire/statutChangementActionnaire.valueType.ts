@@ -39,17 +39,17 @@ export const bind = ({ statut }: PlainType<ValueType>): ValueType => {
     vérifierQueLeChangementDeStatutEstPossibleEn(nouveauStatut: ValueType) {
       if (this.statut === 'demandé') {
         if (nouveauStatut.statut === 'demandé') {
-          throw new DemandeChangementActionnaireDéjàEnCoursErreur();
+          throw new ChangementActionnaireDéjàEnCoursErreur();
         }
         return;
       } else if (nouveauStatut.statut !== 'demandé') {
         switch (this.statut) {
           case 'accordé':
-            throw new DemandeChangementActionnaireDéjàAccordéeErreur();
+            throw new ChangementActionnaireDéjàAccordéeErreur();
           case 'annulé':
-            throw new DemandeChangementActionnaireDéjàAnnuléeErreur();
+            throw new ChangementActionnaireDéjàAnnuléeErreur();
           case 'rejeté':
-            throw new DemandeChangementActionnaireDéjàRejetéeErreur();
+            throw new ChangementActionnaireDéjàRejetéeErreur();
           default:
             assertUnreachable(this.statut);
         }
@@ -85,25 +85,25 @@ class StatutChangementActionnaireInvalideError extends InvalidOperationError {
   }
 }
 
-class DemandeChangementActionnaireDéjàAccordéeErreur extends InvalidOperationError {
+class ChangementActionnaireDéjàAccordéeErreur extends InvalidOperationError {
   constructor() {
     super(`La demande de changement d'actionnaire a déjà été accordée`);
   }
 }
 
-class DemandeChangementActionnaireDéjàRejetéeErreur extends InvalidOperationError {
+class ChangementActionnaireDéjàRejetéeErreur extends InvalidOperationError {
   constructor() {
     super(`La demande de changement d'actionnaire a déjà été rejetée`);
   }
 }
 
-class DemandeChangementActionnaireDéjàAnnuléeErreur extends InvalidOperationError {
+class ChangementActionnaireDéjàAnnuléeErreur extends InvalidOperationError {
   constructor() {
     super(`La demande de changement d'actionnaire a déjà été annulée`);
   }
 }
 
-class DemandeChangementActionnaireDéjàEnCoursErreur extends InvalidOperationError {
+class ChangementActionnaireDéjàEnCoursErreur extends InvalidOperationError {
   constructor() {
     super(`Une demande de changement est déjà en cours`);
   }

@@ -6,7 +6,7 @@ import { DocumentProjet } from '@potentiel-domain/document';
 
 import { loadActionnaireFactory } from '../../actionnaire.aggregate';
 
-export type RejeterDemandeChangementActionnaireCommand = Message<
+export type RejeterChangementActionnaireCommand = Message<
   'Lauréat.Actionnaire.Command.RejeterDemandeChangement',
   {
     identifiantProjet: IdentifiantProjet.ValueType;
@@ -16,12 +16,10 @@ export type RejeterDemandeChangementActionnaireCommand = Message<
   }
 >;
 
-export const registerRejeterDemandeChangementActionnaireCommand = (
-  loadAggregate: LoadAggregate,
-) => {
+export const registerRejeterChangementActionnaireCommand = (loadAggregate: LoadAggregate) => {
   const loadActionnaire = loadActionnaireFactory(loadAggregate);
 
-  const handler: MessageHandler<RejeterDemandeChangementActionnaireCommand> = async ({
+  const handler: MessageHandler<RejeterChangementActionnaireCommand> = async ({
     identifiantProjet,
     rejetéeLe,
     rejetéePar,
@@ -29,7 +27,7 @@ export const registerRejeterDemandeChangementActionnaireCommand = (
   }) => {
     const actionnaire = await loadActionnaire(identifiantProjet, false);
 
-    await actionnaire.rejeterDemandeChangementActionnaire({
+    await actionnaire.rejeterChangementActionnaire({
       identifiantProjet,
       rejetéeLe,
       rejetéePar,

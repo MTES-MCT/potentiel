@@ -5,8 +5,8 @@ import { LoadAggregate } from '@potentiel-domain/core';
 
 import { loadActionnaireFactory } from '../../actionnaire.aggregate';
 
-export type SupprimerDemandeChangementActionnaireCommand = Message<
-  'Lauréat.Actionnaire.Command.SupprimerDemandeChangementActionnaire',
+export type SupprimerChangementActionnaireCommand = Message<
+  'Lauréat.Actionnaire.Command.SupprimerChangementActionnaire',
   {
     identifiantProjet: IdentifiantProjet.ValueType;
     identifiantUtilisateur: Email.ValueType;
@@ -14,11 +14,9 @@ export type SupprimerDemandeChangementActionnaireCommand = Message<
   }
 >;
 
-export const registerSupprimerDemandeChangementActionnaireCommand = (
-  loadAggregate: LoadAggregate,
-) => {
+export const registerSupprimerChangementActionnaireCommand = (loadAggregate: LoadAggregate) => {
   const load = loadActionnaireFactory(loadAggregate);
-  const handler: MessageHandler<SupprimerDemandeChangementActionnaireCommand> = async ({
+  const handler: MessageHandler<SupprimerChangementActionnaireCommand> = async ({
     identifiantProjet,
     identifiantUtilisateur,
     dateSuppression,
@@ -31,5 +29,5 @@ export const registerSupprimerDemandeChangementActionnaireCommand = (
       dateSuppression,
     });
   };
-  mediator.register('Lauréat.Actionnaire.Command.SupprimerDemandeChangementActionnaire', handler);
+  mediator.register('Lauréat.Actionnaire.Command.SupprimerChangementActionnaire', handler);
 };

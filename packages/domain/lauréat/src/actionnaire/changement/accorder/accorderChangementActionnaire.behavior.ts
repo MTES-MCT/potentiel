@@ -4,10 +4,10 @@ import { DocumentProjet } from '@potentiel-domain/document';
 
 import { ActionnaireAggregate } from '../../actionnaire.aggregate';
 import { StatutChangementActionnaire } from '../..';
-import { DemandeChangementActionnaireInexistanteErreur } from '../../errors';
+import { ChangementActionnaireInexistanteErreur } from '../../errors';
 
-export type DemandeChangementActionnaireAccordéeEvent = DomainEvent<
-  'DemandeChangementActionnaireAccordée-V1',
+export type ChangementActionnaireAccordéEvent = DomainEvent<
+  'ChangementActionnaireAccordé-V1',
   {
     identifiantProjet: IdentifiantProjet.RawType;
     accordéeLe: DateTime.RawType;
@@ -26,20 +26,20 @@ type Options = {
   réponseSignée: DocumentProjet.ValueType;
 };
 
-export async function accorderDemandeChangementActionnaire(
+export async function accorderChangementActionnaire(
   this: ActionnaireAggregate,
   { identifiantProjet, accordéeLe, accordéePar, réponseSignée }: Options,
 ) {
   if (!this.demande) {
-    throw new DemandeChangementActionnaireInexistanteErreur();
+    throw new ChangementActionnaireInexistanteErreur();
   }
 
   this.demande.statut.vérifierQueLeChangementDeStatutEstPossibleEn(
     StatutChangementActionnaire.accordé,
   );
 
-  const event: DemandeChangementActionnaireAccordéeEvent = {
-    type: 'DemandeChangementActionnaireAccordée-V1',
+  const event: ChangementActionnaireAccordéEvent = {
+    type: 'ChangementActionnaireAccordé-V1',
     payload: {
       identifiantProjet: identifiantProjet.formatter(),
       accordéeLe: accordéeLe.formatter(),
@@ -54,9 +54,9 @@ export async function accorderDemandeChangementActionnaire(
   await this.publish(event);
 }
 
-export function applyDemandeChangementActionnaireAccordée(
+export function applyChangementActionnaireAccordé(
   this: ActionnaireAggregate,
-  { payload: { nouvelActionnaire } }: DemandeChangementActionnaireAccordéeEvent,
+  { payload: { nouvelActionnaire } }: ChangementActionnaireAccordéEvent,
 ) {
   this.actionnaire = nouvelActionnaire;
   this.demande = {

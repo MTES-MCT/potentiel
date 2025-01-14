@@ -5,14 +5,14 @@ import { getLogger } from '@potentiel-libraries/monitoring';
 
 import { updateOneProjection } from '../../../infrastructure';
 
-export const handleDemandeChangementActionnaireRejetée = async ({
+export const handleChangementActionnaireRejeté = async ({
   payload: {
     identifiantProjet,
     rejetéeLe,
     rejetéePar,
     réponseSignée: { format },
   },
-}: Actionnaire.DemandeChangementActionnaireRejetéeEvent) => {
+}: Actionnaire.ChangementActionnaireRejetéEvent) => {
   const projectionToUpsert = await findProjection<Actionnaire.ActionnaireEntity>(
     `actionnaire|${identifiantProjet}`,
   );

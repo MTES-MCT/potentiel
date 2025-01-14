@@ -2,9 +2,9 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
 
-import { AnnulerDemandeChangementActionnaireCommand } from './annulerChangementActionnaire.command';
+import { AnnulerChangementActionnaireCommand } from './annulerChangementActionnaire.command';
 
-export type AnnulerDemandeChangementActionnaireUseCase = Message<
+export type AnnulerChangementActionnaireUseCase = Message<
   'Lauréat.Actionnaire.UseCase.AnnulerDemandeChangement',
   {
     identifiantProjetValue: string;
@@ -13,8 +13,8 @@ export type AnnulerDemandeChangementActionnaireUseCase = Message<
   }
 >;
 
-export const registerAnnulerDemandeChangementActionnaireUseCase = () => {
-  const runner: MessageHandler<AnnulerDemandeChangementActionnaireUseCase> = async ({
+export const registerAnnulerChangementActionnaireUseCase = () => {
+  const runner: MessageHandler<AnnulerChangementActionnaireUseCase> = async ({
     identifiantUtilisateurValue,
     dateAnnulationValue,
     identifiantProjetValue,
@@ -23,7 +23,7 @@ export const registerAnnulerDemandeChangementActionnaireUseCase = () => {
     const dateAnnulation = DateTime.convertirEnValueType(dateAnnulationValue);
     const identifiantUtilisateur = Email.convertirEnValueType(identifiantUtilisateurValue);
 
-    await mediator.send<AnnulerDemandeChangementActionnaireCommand>({
+    await mediator.send<AnnulerChangementActionnaireCommand>({
       type: 'Lauréat.Actionnaire.Command.AnnulerDemandeChangement',
       data: {
         dateAnnulation,

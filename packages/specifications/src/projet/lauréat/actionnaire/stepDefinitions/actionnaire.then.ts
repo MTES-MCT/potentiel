@@ -39,7 +39,7 @@ Alors(
 Alors(
   "la demande de changement de l'actionnaire devrait être consultable",
   async function (this: PotentielWorld) {
-    await vérifierDemandeChangementActionnaire.call(
+    await vérifierChangementActionnaire.call(
       this,
       this.candidatureWorld.importerCandidature.identifiantProjet,
       Actionnaire.StatutChangementActionnaire.demandé,
@@ -50,7 +50,7 @@ Alors(
 Alors(
   "la nouvelle demande de changement de l'actionnaire devrait être consultable",
   async function (this: PotentielWorld) {
-    await vérifierDemandeChangementActionnaire.call(
+    await vérifierChangementActionnaire.call(
       this,
       this.candidatureWorld.importerCandidature.identifiantProjet,
       Actionnaire.StatutChangementActionnaire.demandé,
@@ -62,7 +62,7 @@ Alors(
 Alors(
   "la demande de changement de l'actionnaire devrait être accordée",
   async function (this: PotentielWorld) {
-    await vérifierDemandeChangementActionnaire.call(
+    await vérifierChangementActionnaire.call(
       this,
       this.candidatureWorld.importerCandidature.identifiantProjet,
       Actionnaire.StatutChangementActionnaire.accordé,
@@ -74,7 +74,7 @@ Alors(
   "la demande de changement d'actionnaire devrait être rejetée",
   async function (this: PotentielWorld) {
     return waitForExpect(async () => {
-      await vérifierDemandeChangementActionnaire.call(
+      await vérifierChangementActionnaire.call(
         this,
         this.candidatureWorld.importerCandidature.identifiantProjet,
         Actionnaire.StatutChangementActionnaire.rejeté,
@@ -92,7 +92,7 @@ Alors(
       );
 
       const actual = await mediator.send<Actionnaire.ActionnaireQuery>({
-        type: 'Lauréat.Actionnaire.Query.ConsulterDemandeChangementActionnaire',
+        type: 'Lauréat.Actionnaire.Query.ConsulterChangementActionnaire',
         data: {
           identifiantProjet: identifiantProjet.formatter(),
         },
@@ -150,14 +150,14 @@ Alors(
   },
 );
 
-async function vérifierDemandeChangementActionnaire(
+async function vérifierChangementActionnaire(
   this: PotentielWorld,
   identifiantProjet: string,
   statut: Actionnaire.StatutChangementActionnaire.ValueType,
   estUneNouvelleDemande?: boolean,
 ) {
-  const demande = await mediator.send<Actionnaire.ConsulterDemandeChangementActionnaireQuery>({
-    type: 'Lauréat.Actionnaire.Query.ConsulterDemandeChangementActionnaire',
+  const demande = await mediator.send<Actionnaire.ConsulterChangementActionnaireQuery>({
+    type: 'Lauréat.Actionnaire.Query.ConsulterChangementActionnaire',
     data: {
       identifiantProjet: identifiantProjet,
     },
@@ -176,7 +176,7 @@ async function vérifierDemandeChangementActionnaire(
   actual.should.be.deep.equal(expected);
 
   if (
-    this.lauréatWorld.actionnaireWorld.accorderDemandeChangementActionnaireFixture.aÉtéCréé &&
+    this.lauréatWorld.actionnaireWorld.accorderChangementActionnaireFixture.aÉtéCréé &&
     !estUneNouvelleDemande
   ) {
     const result = await mediator.send<ConsulterDocumentProjetQuery>({
@@ -190,14 +190,14 @@ async function vérifierDemandeChangementActionnaire(
 
     const actualContent = await convertReadableStreamToString(result.content);
     const expectedContent = await convertReadableStreamToString(
-      this.lauréatWorld.actionnaireWorld.accorderDemandeChangementActionnaireFixture.réponseSignée
+      this.lauréatWorld.actionnaireWorld.accorderChangementActionnaireFixture.réponseSignée
         ?.content ?? new ReadableStream(),
     );
     expect(actualContent).to.be.equal(expectedContent);
   }
 
   if (
-    this.lauréatWorld.actionnaireWorld.rejeterDemandeChangementActionnaireFixture.aÉtéCréé &&
+    this.lauréatWorld.actionnaireWorld.rejeterChangementActionnaireFixture.aÉtéCréé &&
     !estUneNouvelleDemande
   ) {
     const result = await mediator.send<ConsulterDocumentProjetQuery>({
@@ -211,7 +211,7 @@ async function vérifierDemandeChangementActionnaire(
 
     const actualContent = await convertReadableStreamToString(result.content);
     const expectedContent = await convertReadableStreamToString(
-      this.lauréatWorld.actionnaireWorld.rejeterDemandeChangementActionnaireFixture.réponseSignée
+      this.lauréatWorld.actionnaireWorld.rejeterChangementActionnaireFixture.réponseSignée
         ?.content ?? new ReadableStream(),
     );
     expect(actualContent).to.be.equal(expectedContent);

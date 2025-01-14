@@ -15,7 +15,7 @@ const schema = zod.object({
 
 const action: FormAction<FormState, typeof schema> = async (_, { identifiantProjet }) => {
   return withUtilisateur(async (utilisateur) => {
-    await mediator.send<Actionnaire.AnnulerDemandeChangementActionnaireUseCase>({
+    await mediator.send<Actionnaire.AnnulerChangementActionnaireUseCase>({
       type: 'Lauréat.Actionnaire.UseCase.AnnulerDemandeChangement',
       data: {
         identifiantProjetValue: identifiantProjet,

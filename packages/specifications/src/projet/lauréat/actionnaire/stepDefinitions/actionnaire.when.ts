@@ -87,10 +87,7 @@ Quand(
   "le porteur annule la demande de changement de l'actionnaire pour le projet lauréat",
   async function (this: PotentielWorld) {
     try {
-      await annulerDemandeChangementActionnaire.call(
-        this,
-        this.utilisateurWorld.porteurFixture.email,
-      );
+      await annulerChangementActionnaire.call(this, this.utilisateurWorld.porteurFixture.email);
     } catch (error) {
       this.error = error as Error;
     }
@@ -101,10 +98,7 @@ Quand(
   "la DREAL associée au projet accorde le changement d'actionnaire pour le projet lauréat",
   async function (this: PotentielWorld) {
     try {
-      await accorderDemandeChangementActionnaire.call(
-        this,
-        this.utilisateurWorld.drealFixture.email,
-      );
+      await accorderChangementActionnaire.call(this, this.utilisateurWorld.drealFixture.email);
     } catch (error) {
       this.error = error as Error;
     }
@@ -115,10 +109,7 @@ Quand(
   "la DREAL associée au projet rejette le changement d'actionnaire pour le projet lauréat",
   async function (this: PotentielWorld) {
     try {
-      await rejeterDemandeChangementActionnaire.call(
-        this,
-        this.utilisateurWorld.drealFixture.email,
-      );
+      await rejeterChangementActionnaire.call(this, this.utilisateurWorld.drealFixture.email);
     } catch (error) {
       this.error = error as Error;
     }
@@ -163,14 +154,11 @@ export async function demanderChangementActionnaire(
   });
 }
 
-export async function annulerDemandeChangementActionnaire(
-  this: PotentielWorld,
-  utilisateur?: string,
-) {
+export async function annulerChangementActionnaire(this: PotentielWorld, utilisateur?: string) {
   const identifiantProjet = this.lauréatWorld.identifiantProjet.formatter();
 
   const { annuléeLe, annuléePar } =
-    this.lauréatWorld.actionnaireWorld.annulerDemandeChangementActionnaireFixture.créer({
+    this.lauréatWorld.actionnaireWorld.annulerChangementActionnaireFixture.créer({
       annuléePar: utilisateur,
     });
 
@@ -184,16 +172,13 @@ export async function annulerDemandeChangementActionnaire(
   });
 }
 
-export async function accorderDemandeChangementActionnaire(
-  this: PotentielWorld,
-  utilisateur?: string,
-) {
+export async function accorderChangementActionnaire(this: PotentielWorld, utilisateur?: string) {
   const identifiantProjet = this.lauréatWorld.identifiantProjet.formatter();
   const {
     réponseSignée: { format, content },
     accordéeLe,
     accordéePar,
-  } = this.lauréatWorld.actionnaireWorld.accorderDemandeChangementActionnaireFixture.créer({
+  } = this.lauréatWorld.actionnaireWorld.accorderChangementActionnaireFixture.créer({
     accordéePar: utilisateur,
   });
 
@@ -201,7 +186,7 @@ export async function accorderDemandeChangementActionnaire(
     this.lauréatWorld.actionnaireWorld.demanderChangementActionnaireFixture.actionnaire;
 
   await mediator.send<Actionnaire.ActionnaireUseCase>({
-    type: 'Lauréat.Actionnaire.UseCase.AccorderDemandeChangement',
+    type: 'Lauréat.Actionnaire.UseCase.AccorderChangement',
     data: {
       accordéeLeValue: accordéeLe,
       accordéeParValue: accordéePar,
@@ -214,14 +199,11 @@ export async function accorderDemandeChangementActionnaire(
   });
 }
 
-export async function rejeterDemandeChangementActionnaire(
-  this: PotentielWorld,
-  utilisateur?: string,
-) {
+export async function rejeterChangementActionnaire(this: PotentielWorld, utilisateur?: string) {
   const identifiantProjet = this.lauréatWorld.identifiantProjet.formatter();
 
   const { rejetéeLe, rejetéePar, réponseSignée } =
-    this.lauréatWorld.actionnaireWorld.rejeterDemandeChangementActionnaireFixture.créer({
+    this.lauréatWorld.actionnaireWorld.rejeterChangementActionnaireFixture.créer({
       rejetéePar: utilisateur,
     });
 

@@ -5,9 +5,9 @@ import { DocumentProjet, EnregistrerDocumentProjetCommand } from '@potentiel-dom
 
 import { TypeDocumentActionnaire } from '../..';
 
-import { RejeterDemandeChangementActionnaireCommand } from './rejeterChangementActionnaire.command';
+import { RejeterChangementActionnaireCommand } from './rejeterChangementActionnaire.command';
 
-export type RejeterDemandeChangementActionnaireUseCase = Message<
+export type RejeterChangementActionnaireUseCase = Message<
   'Lauréat.Actionnaire.UseCase.RejeterDemandeChangement',
   {
     identifiantProjetValue: string;
@@ -20,8 +20,8 @@ export type RejeterDemandeChangementActionnaireUseCase = Message<
   }
 >;
 
-export const registerRejeterDemandeChangementActionnaireUseCase = () => {
-  const runner: MessageHandler<RejeterDemandeChangementActionnaireUseCase> = async ({
+export const registerRejeterChangementActionnaireUseCase = () => {
+  const runner: MessageHandler<RejeterChangementActionnaireUseCase> = async ({
     identifiantProjetValue,
     rejetéeLeValue,
     rejetéeParValue,
@@ -45,7 +45,7 @@ export const registerRejeterDemandeChangementActionnaireUseCase = () => {
       },
     });
 
-    await mediator.send<RejeterDemandeChangementActionnaireCommand>({
+    await mediator.send<RejeterChangementActionnaireCommand>({
       type: 'Lauréat.Actionnaire.Command.RejeterDemandeChangement',
       data: {
         rejetéeLe,

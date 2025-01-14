@@ -8,8 +8,8 @@ import {
 
 import {
   ChangementActionnaireDemandéEvent,
-  DemandeChangementActionnaireAccordéeEvent,
-  DemandeChangementActionnaireRejetéeEvent,
+  ChangementActionnaireAccordéEvent,
+  ChangementActionnaireRejetéEvent,
   StatutChangementActionnaire,
 } from '.';
 
@@ -24,36 +24,36 @@ import {
   modifier,
 } from './modifier/modifierActionnaire.behavior';
 import {
-  accorderDemandeChangementActionnaire,
-  applyDemandeChangementActionnaireAccordée,
+  accorderChangementActionnaire,
+  applyChangementActionnaireAccordé,
 } from './changement/accorder/accorderChangementActionnaire.behavior';
 import {
   annulerDemandeChangement,
-  applyDemandeChangementActionnaireAnnulée,
-  DemandeChangementActionnaireAnnuléeEvent,
+  applyChangementActionnaireAnnulé,
+  ChangementActionnaireAnnuléEvent,
 } from './changement/annuler/annulerChangementActionnaire.behavior';
 import {
   demanderChangement,
   applyChangementActionnaireDemandé,
-} from './changement/demander/demandeChangementActionnaire.behavior';
+} from './changement/demander/demanderChangementActionnaire.behavior';
 import {
-  applyDemandeChangementActionnaireRejetée,
-  rejeterDemandeChangementActionnaire,
+  applyChangementActionnaireRejeté,
+  rejeterChangementActionnaire,
 } from './changement/rejeter/rejeterChangementActionnaire.behavior';
 import {
-  applyDemandeChangementActionnaireSupprimée,
-  DemandeChangementActionnaireSuppriméeEvent,
+  applyChangementActionnaireSupprimé,
+  ChangementActionnaireSuppriméEvent,
   supprimer,
-} from './changement/supprimer/supprimerDemandeChangementActionnaire.behavior';
+} from './changement/supprimer/supprimerChangementActionnaire.behavior';
 
 export type ActionnaireEvent =
   | ActionnaireImportéEvent
   | ActionnaireModifiéEvent
   | ChangementActionnaireDemandéEvent
-  | DemandeChangementActionnaireAnnuléeEvent
-  | DemandeChangementActionnaireAccordéeEvent
-  | DemandeChangementActionnaireRejetéeEvent
-  | DemandeChangementActionnaireSuppriméeEvent;
+  | ChangementActionnaireAnnuléEvent
+  | ChangementActionnaireAccordéEvent
+  | ChangementActionnaireRejetéEvent
+  | ChangementActionnaireSuppriméEvent;
 
 export type ActionnaireAggregate = Aggregate<ActionnaireEvent> & {
   identifiantProjet: IdentifiantProjet.ValueType;
@@ -66,8 +66,8 @@ export type ActionnaireAggregate = Aggregate<ActionnaireEvent> & {
   modifier: typeof modifier;
   demanderChangement: typeof demanderChangement;
   annulerDemandeChangement: typeof annulerDemandeChangement;
-  accorderDemandeChangementActionnaire: typeof accorderDemandeChangementActionnaire;
-  rejeterDemandeChangementActionnaire: typeof rejeterDemandeChangementActionnaire;
+  accorderChangementActionnaire: typeof accorderChangementActionnaire;
+  rejeterChangementActionnaire: typeof rejeterChangementActionnaire;
   supprimer: typeof supprimer;
 };
 
@@ -82,8 +82,8 @@ export const getDefaultActionnaireAggregate: GetDefaultAggregateState<
   modifier,
   demanderChangement,
   annulerDemandeChangement,
-  accorderDemandeChangementActionnaire,
-  rejeterDemandeChangementActionnaire,
+  accorderChangementActionnaire,
+  rejeterChangementActionnaire,
   supprimer,
 });
 
@@ -101,20 +101,20 @@ function apply(this: ActionnaireAggregate, event: ActionnaireEvent) {
       applyChangementActionnaireDemandé.bind(this)(event);
       break;
 
-    case 'DemandeChangementActionnaireAccordée-V1':
-      applyDemandeChangementActionnaireAccordée.bind(this)(event);
+    case 'ChangementActionnaireAccordé-V1':
+      applyChangementActionnaireAccordé.bind(this)(event);
       break;
 
-    case 'DemandeChangementActionnaireAnnulée-V1':
-      applyDemandeChangementActionnaireAnnulée.bind(this)();
+    case 'ChangementActionnaireAnnulé-V1':
+      applyChangementActionnaireAnnulé.bind(this)();
       break;
 
-    case 'DemandeChangementActionnaireRejetée-V1':
-      applyDemandeChangementActionnaireRejetée.bind(this)();
+    case 'ChangementActionnaireRejeté-V1':
+      applyChangementActionnaireRejeté.bind(this)();
       break;
 
-    case 'DemandeChangementActionnaireSupprimée-V1':
-      applyDemandeChangementActionnaireSupprimée.bind(this)(event);
+    case 'ChangementActionnaireSupprimé-V1':
+      applyChangementActionnaireSupprimé.bind(this)(event);
       break;
   }
 }
