@@ -81,6 +81,20 @@ export const registerDemanderChangementReprésentantLégalUseCase = () => {
         ],
       },
     });
+
+    await mediator.send<AjouterTâchePlanifiéeCommand>({
+      type: 'System.TâchePlanifiée.Command.AjouterTâchePlanifiée',
+      data: {
+        identifiantProjet,
+        tâches: [
+          {
+            typeTâchePlanifiée:
+              TypeTâchePlanifiéeChangementReprésentantLégal.rappelInstructionÀDeuxMois.type,
+            àExécuterLe: dateDemande.ajouterNombreDeMois(2),
+          },
+        ],
+      },
+    });
   };
 
   mediator.register(
