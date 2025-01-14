@@ -26,10 +26,6 @@ export async function importer(
     throw new ActionnaireDéjàImportéError();
   }
 
-  if (!actionnaire) {
-    return;
-  }
-
   const event: ActionnaireImportéEvent = {
     type: 'ActionnaireImporté-V1',
     payload: {

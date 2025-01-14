@@ -18,10 +18,11 @@ Quand("l'actionnaire est importé pour le projet", async function (this: Potenti
 });
 
 Quand(
-  /(le DGEC validateur|la DREAL associée au projet|le porteur) modifie l'actionnaire pour le projet lauréat/,
+  /(le DGEC validateur|la DREAL associée au projet|le porteur) modifie l'actionnaire pour le projet (lauréat|éliminé)/,
   async function (
     this: PotentielWorld,
     rôle: 'le DGEC validateur' | 'la DREAL associée au projet' | 'le porteur',
+    statutProjet: 'lauréat' | 'éliminé',
   ) {
     try {
       const { email, role } = match(rôle)
@@ -29,7 +30,7 @@ Quand(
         .with('la DREAL associée au projet', () => this.utilisateurWorld.drealFixture)
         .with('le porteur', () => this.utilisateurWorld.porteurFixture)
         .exhaustive();
-      await modifierActionnaire.call(this, email, role);
+      await modifierActionnaire.call(this, email, role, statutProjet);
     } catch (error) {
       this.error = error as Error;
     }
@@ -246,8 +247,16 @@ export async function rejeterDemandeChangementActionnaire(
   });
 }
 
-async function modifierActionnaire(this: PotentielWorld, modifiéPar: string, rôle: string) {
-  const identifiantProjet = this.lauréatWorld.identifiantProjet.formatter();
+async function modifierActionnaire(
+  this: PotentielWorld,
+  modifiéPar: string,
+  rôle: string,
+  statutProjet?: 'lauréat' | 'éliminé',
+) {
+  const identifiantProjet =
+    statutProjet === 'éliminé'
+      ? this.eliminéWorld.identifiantProjet.formatter()
+      : this.lauréatWorld.identifiantProjet.formatter();
 
   const { actionnaire, dateModification, raison } =
     this.lauréatWorld.actionnaireWorld.modifierActionnaireFixture.créer();
