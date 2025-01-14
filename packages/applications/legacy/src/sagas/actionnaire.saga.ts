@@ -33,16 +33,11 @@ export const register = () => {
 
     switch (type) {
       case 'ActionnaireModifié-V1':
-      case 'ActionnaireTransmis-V1':
       case 'DemandeChangementActionnaireAccordée-V1':
         const { identifiantUtilisateur, actionnaire } = match(event)
           .with({ type: 'ActionnaireModifié-V1' }, ({ payload }) => ({
             actionnaire: payload.actionnaire,
             identifiantUtilisateur: payload.modifiéPar,
-          }))
-          .with({ type: 'ActionnaireTransmis-V1' }, ({ payload }) => ({
-            actionnaire: payload.actionnaire,
-            identifiantUtilisateur: payload.transmisPar,
           }))
           .with({ type: 'DemandeChangementActionnaireAccordée-V1' }, ({ payload }) => ({
             actionnaire: payload.nouvelActionnaire,

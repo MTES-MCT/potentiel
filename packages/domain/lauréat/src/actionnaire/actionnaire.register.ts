@@ -15,8 +15,6 @@ import { registerDemanderChangementActionnaireUseCase } from './changement/deman
 import { registerRejeterDemandeChangementActionnaireCommand } from './changement/rejeter/rejeterChangementActionnaire.command';
 import { registerRejeterDemandeChangementActionnaireUseCase } from './changement/rejeter/rejeterChangementActionnaire.usecase';
 import { registerModifierActionnaireCommand } from './modifier/modifierActionnaire.command';
-import { registerTransmettreActionnaireUseCase } from './transmettre/transmettreActionnaire.usecase';
-import { registerTransmettreActionnaireCommand } from './transmettre/transmettreActionnaire.command';
 import { registerModifierActionnaireUseCase } from './modifier/modifierActionnaire.usecase';
 import {
   ListerChangementActionnaireDependencies,
@@ -33,7 +31,6 @@ export type ActionnaireCommandDependencies = {
 
 export const registerActionnaireUseCases = ({ loadAggregate }: ActionnaireCommandDependencies) => {
   registerImporterActionnaireCommand(loadAggregate);
-  registerTransmettreActionnaireCommand(loadAggregate);
   registerModifierActionnaireCommand(loadAggregate);
   registerDemanderChangementActionnaireCommand(loadAggregate);
   registerAnnulerDemandeChangementCommand(loadAggregate);
@@ -41,7 +38,6 @@ export const registerActionnaireUseCases = ({ loadAggregate }: ActionnaireComman
   registerRejeterDemandeChangementActionnaireCommand(loadAggregate);
   registerSupprimerDemandeChangementActionnaireCommand(loadAggregate);
 
-  registerTransmettreActionnaireUseCase();
   registerModifierActionnaireUseCase();
   registerDemanderChangementActionnaireUseCase();
   registerAnnulerDemandeChangementActionnaireUseCase();

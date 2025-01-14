@@ -220,7 +220,6 @@ const référencielPermissions = {
         listerChangement: 'Lauréat.Actionnaire.Query.ListerChangementActionnaire',
       },
       usecase: {
-        transmettre: 'Lauréat.Actionnaire.UseCase.TransmettreActionnaire',
         modifier: 'Lauréat.Actionnaire.UseCase.ModifierActionnaire',
         demanderChangement: 'Lauréat.Actionnaire.UseCase.DemanderChangement',
         accorderChangement: 'Lauréat.Actionnaire.UseCase.AccorderDemandeChangement',
@@ -228,7 +227,6 @@ const référencielPermissions = {
         annulerChangement: 'Lauréat.Actionnaire.UseCase.AnnulerDemandeChangement',
       },
       command: {
-        transmettre: 'Lauréat.Actionnaire.Command.TransmettreActionnaire',
         modifier: 'Lauréat.Actionnaire.Command.ModifierActionnaire',
         demanderChangement: 'Lauréat.Actionnaire.Command.DemanderChangement',
         accorderChangement: 'Lauréat.Actionnaire.Command.AccorderDemandeChangement',
@@ -897,10 +895,7 @@ const policies = {
       référencielPermissions.candidature.query.consulterProjet,
       référencielPermissions.lauréat.actionnaire.query.consulter,
     ],
-    transmettre: [
-      référencielPermissions.lauréat.actionnaire.usecase.transmettre,
-      référencielPermissions.lauréat.actionnaire.command.transmettre,
-    ],
+
     modifier: [
       référencielPermissions.candidature.query.consulterProjet,
       référencielPermissions.lauréat.actionnaire.usecase.modifier,
@@ -1040,7 +1035,6 @@ const adminPolicies: ReadonlyArray<Policy> = [
   'représentantLégal.rejeterChangement',
 
   // Actionnaire
-  'actionnaire.transmettre',
   'actionnaire.modifier',
   'actionnaire.consulter',
   'actionnaire.consulterChangement',
@@ -1136,7 +1130,6 @@ const drealPolicies: ReadonlyArray<Policy> = [
 
   // Actionnaire
   'actionnaire.consulter',
-  'actionnaire.transmettre',
   'actionnaire.modifier',
   'actionnaire.consulterChangement',
   'actionnaire.listerChangement',
@@ -1202,7 +1195,6 @@ const porteurProjetPolicies: ReadonlyArray<Policy> = [
   'représentantLégal.consulter',
 
   // Actionnaire
-  'actionnaire.transmettre',
   'actionnaire.modifier',
   'actionnaire.consulter',
   'actionnaire.consulterChangement',
