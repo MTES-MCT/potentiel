@@ -8,8 +8,8 @@ export type ChangementActionnaireSuppriméEvent = DomainEvent<
   'ChangementActionnaireSupprimé-V1',
   {
     identifiantProjet: IdentifiantProjet.RawType;
-    suppriméeLe: DateTime.RawType;
-    suppriméePar: Email.RawType;
+    suppriméLe: DateTime.RawType;
+    suppriméPar: Email.RawType;
   }
 >;
 
@@ -31,8 +31,8 @@ export async function supprimer(
     type: 'ChangementActionnaireSupprimé-V1',
     payload: {
       identifiantProjet: identifiantProjet.formatter(),
-      suppriméeLe: dateSuppression.formatter(),
-      suppriméePar: identifiantUtilisateur.formatter(),
+      suppriméLe: dateSuppression.formatter(),
+      suppriméPar: identifiantUtilisateur.formatter(),
     },
   };
 

@@ -10,8 +10,8 @@ export type ChangementActionnaireAccordéEvent = DomainEvent<
   'ChangementActionnaireAccordé-V1',
   {
     identifiantProjet: IdentifiantProjet.RawType;
-    accordéeLe: DateTime.RawType;
-    accordéePar: Email.RawType;
+    accordéLe: DateTime.RawType;
+    accordéPar: Email.RawType;
     réponseSignée: {
       format: string;
     };
@@ -42,8 +42,8 @@ export async function accorderChangementActionnaire(
     type: 'ChangementActionnaireAccordé-V1',
     payload: {
       identifiantProjet: identifiantProjet.formatter(),
-      accordéeLe: accordéeLe.formatter(),
-      accordéePar: accordéePar.formatter(),
+      accordéLe: accordéeLe.formatter(),
+      accordéPar: accordéePar.formatter(),
       réponseSignée: {
         format: réponseSignée.format,
       },

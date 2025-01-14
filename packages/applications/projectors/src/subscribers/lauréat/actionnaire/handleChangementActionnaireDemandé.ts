@@ -9,8 +9,8 @@ export const handleChangementActionnaireDemandé = async ({
   payload: {
     actionnaire,
     identifiantProjet,
-    demandéeLe,
-    demandéePar,
+    demandéLe,
+    demandéPar,
     raison,
     pièceJustificative: { format },
   },
@@ -29,8 +29,8 @@ export const handleChangementActionnaireDemandé = async ({
     demande: {
       statut: Actionnaire.StatutChangementActionnaire.demandé.statut,
       nouvelActionnaire: actionnaire,
-      demandéePar,
-      demandéeLe,
+      demandéePar: demandéPar,
+      demandéeLe: demandéLe,
       raison,
       pièceJustificative: {
         format,

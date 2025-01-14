@@ -10,8 +10,8 @@ export type ChangementActionnaireRejetéEvent = DomainEvent<
   'ChangementActionnaireRejeté-V1',
   {
     identifiantProjet: IdentifiantProjet.RawType;
-    rejetéeLe: DateTime.RawType;
-    rejetéePar: Email.RawType;
+    rejetéLe: DateTime.RawType;
+    rejetéPar: Email.RawType;
     réponseSignée: {
       format: string;
     };
@@ -41,8 +41,8 @@ export async function rejeterChangementActionnaire(
     type: 'ChangementActionnaireRejeté-V1',
     payload: {
       identifiantProjet: identifiantProjet.formatter(),
-      rejetéeLe: rejetéeLe.formatter(),
-      rejetéePar: rejetéePar.formatter(),
+      rejetéLe: rejetéeLe.formatter(),
+      rejetéPar: rejetéePar.formatter(),
       réponseSignée: {
         format: réponseSignée.format,
       },

@@ -8,8 +8,8 @@ import { updateOneProjection } from '../../../infrastructure';
 export const handleChangementActionnaireRejeté = async ({
   payload: {
     identifiantProjet,
-    rejetéeLe,
-    rejetéePar,
+    rejetéLe,
+    rejetéPar,
     réponseSignée: { format },
   },
 }: Actionnaire.ChangementActionnaireRejetéEvent) => {
@@ -33,8 +33,8 @@ export const handleChangementActionnaireRejeté = async ({
       statut: Actionnaire.StatutChangementActionnaire.rejeté.statut,
 
       rejet: {
-        rejetéeLe,
-        rejetéePar,
+        rejetéeLe: rejetéLe,
+        rejetéePar: rejetéPar,
         réponseSignée: {
           format,
         },
