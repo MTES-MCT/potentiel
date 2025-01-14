@@ -72,7 +72,7 @@ const getNavigationItemsBasedOnRole = (utilisateur: Utilisateur.ValueType) => {
 
   if (isActionnaireEnabled()) {
     demandesMenuLinks.push({
-      text: 'Actionnaire',
+      text: "Modification d'actionnariat",
       linkProps: {
         href: Routes.Actionnaire.changement.lister,
       },
