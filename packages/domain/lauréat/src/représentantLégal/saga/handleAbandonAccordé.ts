@@ -38,4 +38,13 @@ export const handleAbandonAccordé = async ({
         TypeTâchePlanifiéeChangementReprésentantLégal.gestionAutomatiqueDemandeChangement.type,
     },
   });
+
+  await mediator.send<AnnulerTâchePlanifiéeCommand>({
+    type: 'System.TâchePlanifiée.Command.AnnulerTâchePlanifiée',
+    data: {
+      identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
+      typeTâchePlanifiée:
+        TypeTâchePlanifiéeChangementReprésentantLégal.rappelInstructionÀDeuxMois.type,
+    },
+  });
 };
