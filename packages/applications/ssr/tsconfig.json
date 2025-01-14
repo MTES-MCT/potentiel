@@ -74,9 +74,6 @@
       "path": "../bootstrap"
     },
     {
-      "path": "../feature-flags"
-    },
-    {
       "path": "../document-builder"
     },
     {
