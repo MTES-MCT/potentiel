@@ -3,7 +3,9 @@ import { match } from 'ts-pattern';
 import { GarantiesFinancières, ReprésentantLégal } from '@potentiel-domain/laureat';
 import { StatutTâchePlanifiée } from '@potentiel-domain/tache-planifiee';
 
-export type RechercherTypeTâchePlanifiée =
+import { AjouterTâchePlanifiéeFixture } from './fixtures/ajouterTâchePlanifiée.fixture';
+
+export type TypeTâchePlanifiée =
   | 'échoir les garanties financières'
   | 'rappel échéance garanties financières à un mois'
   | 'rappel échéance garanties financières à deux mois'
@@ -12,7 +14,17 @@ export type RechercherTypeTâchePlanifiée =
 export type RechercherStatutTâchePlanifiée = 'planifiée' | 'annulée' | 'exécutée';
 
 export class TâchePlanifiéeWorld {
-  rechercherTypeTâchePlanifiée(value: RechercherTypeTâchePlanifiée) {
+  #ajouterTâchePlanifiéeFixture: AjouterTâchePlanifiéeFixture;
+
+  get ajouterTâchePlanifiéeFixture() {
+    return this.#ajouterTâchePlanifiéeFixture;
+  }
+
+  constructor() {
+    this.#ajouterTâchePlanifiéeFixture = new AjouterTâchePlanifiéeFixture();
+  }
+
+  rechercherTypeTâchePlanifiée(value: TypeTâchePlanifiée) {
     return match(value)
       .with(
         'échoir les garanties financières',

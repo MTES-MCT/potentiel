@@ -11,3 +11,9 @@ defineParameterType({
   regexp: /lauréat|éliminé/,
   transformer: (s) => s as 'lauréat' | 'éliminé',
 });
+
+defineParameterType({
+  name: 'accord-rejet',
+  regexp: /accord|rejet/,
+  transformer: (s) => s as 'accord' | 'rejet',
+});

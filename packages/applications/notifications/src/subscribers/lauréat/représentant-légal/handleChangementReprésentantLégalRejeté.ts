@@ -27,7 +27,6 @@ export const handleChangementReprésentantLégalRejeté = async ({
 }: HandleChangementReprésentantLégalRejetéProps) => {
   const identifiantProjet = IdentifiantProjet.convertirEnValueType(event.payload.identifiantProjet);
   const porteurs = await récupérerPorteursParIdentifiantProjetAdapter(identifiantProjet);
-
   if (porteurs.length === 0) {
     getLogger().error('Aucun porteur trouvé', {
       identifiantProjet: identifiantProjet.formatter(),

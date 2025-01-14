@@ -7,7 +7,7 @@ import {
 } from '@potentiel-domain/tache-planifiee';
 
 import { PotentielWorld } from '../../potentiel.world';
-import { RechercherTypeTâchePlanifiée } from '../tâchePlanifiée.world';
+import { TypeTâchePlanifiée } from '../tâchePlanifiée.world';
 
 Quand(
   'on exécute les tâches planifiées à la date du {string}',
@@ -36,11 +36,7 @@ Quand(
 
 Quand(
   'on exécute la tâche planifiée {string} pour le projet {string}',
-  async function (
-    this: PotentielWorld,
-    typeTâche: RechercherTypeTâchePlanifiée,
-    nomProjet: string,
-  ) {
+  async function (this: PotentielWorld, typeTâche: TypeTâchePlanifiée, nomProjet: string) {
     try {
       const projet = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
       const actualTypeTâche = this.tâchePlanifiéeWorld.rechercherTypeTâchePlanifiée(typeTâche);

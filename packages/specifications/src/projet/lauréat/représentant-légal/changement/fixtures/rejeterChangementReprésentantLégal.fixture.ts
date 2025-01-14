@@ -4,8 +4,8 @@ import { AbstractFixture } from '../../../../../fixture';
 
 interface RejeterChangementReprésentantLégal {
   readonly motif: string;
-  readonly rejetéeLe: string;
-  readonly rejetéePar: string;
+  readonly rejetéLe: string;
+  readonly rejetéPar: string;
 }
 
 export class RejeterChangementReprésentantLégalFixture
@@ -20,13 +20,13 @@ export class RejeterChangementReprésentantLégalFixture
 
   #rejetéLe!: string;
 
-  get rejetéeLe(): string {
+  get rejetéLe(): string {
     return this.#rejetéLe;
   }
 
   #rejetéPar!: string;
 
-  get rejetéePar(): string {
+  get rejetéPar(): string {
     return this.#rejetéPar;
   }
 
@@ -35,14 +35,14 @@ export class RejeterChangementReprésentantLégalFixture
   ): RejeterChangementReprésentantLégal {
     const fixture: RejeterChangementReprésentantLégal = {
       motif: faker.lorem.sentence(),
-      rejetéeLe: faker.date.soon().toISOString(),
-      rejetéePar: faker.internet.email(),
+      rejetéLe: faker.date.soon().toISOString(),
+      rejetéPar: faker.internet.email(),
       ...partialFixture,
     };
 
     this.#motif = fixture.motif;
-    this.#rejetéLe = fixture.rejetéeLe;
-    this.#rejetéPar = fixture.rejetéePar;
+    this.#rejetéLe = fixture.rejetéLe;
+    this.#rejetéPar = fixture.rejetéPar;
 
     this.aÉtéCréé = true;
     return fixture;

@@ -19,7 +19,11 @@ EtantDonné(
         'lauréat',
         () => this.lauréatWorld.rechercherLauréatFixture(nomProjet).identifiantProjet,
       )
-      .otherwise(() => this.eliminéWorld.rechercherÉliminéFixture(nomProjet).identifiantProjet);
+      .with(
+        'éliminé',
+        () => this.eliminéWorld.rechercherÉliminéFixture(nomProjet).identifiantProjet,
+      )
+      .exhaustive();
 
     const porteur = this.utilisateurWorld.porteurFixture.créer({
       nom: porteurNom,

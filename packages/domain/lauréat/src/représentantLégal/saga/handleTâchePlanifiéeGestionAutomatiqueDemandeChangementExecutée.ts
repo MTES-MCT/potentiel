@@ -67,7 +67,7 @@ export const handleTâchePlanifiéeGestionAutomatiqueDemandeChangementExecutée 
 
   await match(typeTâchePlanifiée)
     .with('accord-automatique', async () => {
-      await mediator.send<ReprésentantLégal.ReprésentantLégalUseCase>({
+      await mediator.send<ReprésentantLégal.AccorderChangementReprésentantLégalUseCase>({
         type: 'Lauréat.ReprésentantLégal.UseCase.AccorderChangementReprésentantLégal',
         data: {
           identifiantProjetValue: identifiantProjet.formatter(),
@@ -80,7 +80,7 @@ export const handleTâchePlanifiéeGestionAutomatiqueDemandeChangementExecutée 
       });
     })
     .with('rejet-automatique', async () => {
-      await mediator.send<ReprésentantLégal.ReprésentantLégalUseCase>({
+      await mediator.send<ReprésentantLégal.RejeterChangementReprésentantLégalUseCase>({
         type: 'Lauréat.ReprésentantLégal.UseCase.RejeterChangementReprésentantLégal',
         data: {
           identifiantProjetValue: identifiantProjet.formatter(),

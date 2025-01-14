@@ -34,9 +34,9 @@ Alors(
 );
 
 Alors(
-  /le nom et le type du représentant légal du projet lauréat devrait être mis à jour/,
+  `le représentant légal du projet lauréat( ne) devrait( pas) être mis à jour`,
   async function (this: PotentielWorld) {
-    return waitForExpect(async () => {
+    await waitForExpect(async () => {
       const { identifiantProjet } = this.lauréatWorld;
 
       const représentantLégal =
