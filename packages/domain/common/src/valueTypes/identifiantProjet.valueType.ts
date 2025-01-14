@@ -36,7 +36,9 @@ export const bind = ({
 };
 
 export const convertirEnValueType = (identifiantProjet: string): ValueType => {
-  estValide(identifiantProjet);
+  if (!estValide(identifiantProjet)) {
+    throw new IdentifiantProjetInvalideError(identifiantProjet);
+  }
 
   const [appelOffre, période, famille, numéroCRE] = identifiantProjet.split('#');
 
@@ -50,12 +52,8 @@ export const convertirEnValueType = (identifiantProjet: string): ValueType => {
 
 const regexIdentifiantProjet = /^[^#]+#[^#]+#([^#]+)?#[^#]+$/;
 
-function estValide(value: string): asserts value is RawType {
-  const isValid = regexIdentifiantProjet.test(value);
-
-  if (!isValid) {
-    throw new IdentifiantProjetInvalideError(value);
-  }
+export function estValide(value: string) {
+  return regexIdentifiantProjet.test(value);
 }
 
 export const inconnu = convertirEnValueType(
