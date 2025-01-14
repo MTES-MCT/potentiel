@@ -5,14 +5,14 @@ import { DocumentProjet, EnregistrerDocumentProjetCommand } from '@potentiel-dom
 
 import { TypeDocumentActionnaire } from '../..';
 
-import { AccorderDemandeChangementActionnaireCommand } from './accorderChangementActionnairet.command';
+import { AccorderChangementActionnaireCommand } from './accorderChangementActionnairet.command';
 
-export type AccorderDemandeChangementActionnaireUseCase = Message<
-  'Lauréat.Actionnaire.UseCase.AccorderDemandeChangement',
+export type AccorderChangementActionnaireUseCase = Message<
+  'Lauréat.Actionnaire.UseCase.AccorderChangement',
   {
     identifiantProjetValue: string;
-    accordéeLeValue: string;
-    accordéeParValue: string;
+    accordéLeValue: string;
+    accordéParValue: string;
     réponseSignéeValue: {
       content: ReadableStream;
       format: string;
@@ -20,20 +20,20 @@ export type AccorderDemandeChangementActionnaireUseCase = Message<
   }
 >;
 
-export const registerAccorderDemandeChangementActionnaireUseCase = () => {
-  const runner: MessageHandler<AccorderDemandeChangementActionnaireUseCase> = async ({
+export const registerAccorderChangementActionnaireUseCase = () => {
+  const runner: MessageHandler<AccorderChangementActionnaireUseCase> = async ({
     identifiantProjetValue,
-    accordéeLeValue,
-    accordéeParValue,
+    accordéLeValue,
+    accordéParValue,
     réponseSignéeValue: { format, content },
   }) => {
     const identifiantProjet = IdentifiantProjet.convertirEnValueType(identifiantProjetValue);
-    const accordéeLe = DateTime.convertirEnValueType(accordéeLeValue);
-    const accordéePar = Email.convertirEnValueType(accordéeParValue);
+    const accordéLe = DateTime.convertirEnValueType(accordéLeValue);
+    const accordéPar = Email.convertirEnValueType(accordéParValue);
     const réponseSignée = DocumentProjet.convertirEnValueType(
       identifiantProjetValue,
       TypeDocumentActionnaire.changementAccordé.formatter(),
-      accordéeLe.formatter(),
+      accordéLe.formatter(),
       format,
     );
 
@@ -45,15 +45,15 @@ export const registerAccorderDemandeChangementActionnaireUseCase = () => {
       },
     });
 
-    await mediator.send<AccorderDemandeChangementActionnaireCommand>({
-      type: 'Lauréat.Actionnaire.Command.AccorderDemandeChangement',
+    await mediator.send<AccorderChangementActionnaireCommand>({
+      type: 'Lauréat.Actionnaire.Command.AccorderChangement',
       data: {
-        accordéeLe,
-        accordéePar,
+        accordéLe,
+        accordéPar,
         identifiantProjet,
         réponseSignée,
       },
     });
   };
-  mediator.register('Lauréat.Actionnaire.UseCase.AccorderDemandeChangement', runner);
+  mediator.register('Lauréat.Actionnaire.UseCase.AccorderChangement', runner);
 };

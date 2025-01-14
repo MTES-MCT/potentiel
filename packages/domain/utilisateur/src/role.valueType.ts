@@ -216,22 +216,20 @@ const référencielPermissions = {
     actionnaire: {
       query: {
         consulter: 'Lauréat.Actionnaire.Query.ConsulterActionnaire',
-        consulterChangement: 'Lauréat.Actionnaire.Query.ConsulterDemandeChangementActionnaire',
+        consulterChangement: 'Lauréat.Actionnaire.Query.ConsulterChangementActionnaire',
         listerChangement: 'Lauréat.Actionnaire.Query.ListerChangementActionnaire',
       },
       usecase: {
-        transmettre: 'Lauréat.Actionnaire.UseCase.TransmettreActionnaire',
         modifier: 'Lauréat.Actionnaire.UseCase.ModifierActionnaire',
         demanderChangement: 'Lauréat.Actionnaire.UseCase.DemanderChangement',
-        accorderChangement: 'Lauréat.Actionnaire.UseCase.AccorderDemandeChangement',
+        accorderChangement: 'Lauréat.Actionnaire.UseCase.AccorderChangement',
         rejeterChangement: 'Lauréat.Actionnaire.UseCase.RejeterDemandeChangement',
         annulerChangement: 'Lauréat.Actionnaire.UseCase.AnnulerDemandeChangement',
       },
       command: {
-        transmettre: 'Lauréat.Actionnaire.Command.TransmettreActionnaire',
         modifier: 'Lauréat.Actionnaire.Command.ModifierActionnaire',
         demanderChangement: 'Lauréat.Actionnaire.Command.DemanderChangement',
-        accorderChangement: 'Lauréat.Actionnaire.Command.AccorderDemandeChangement',
+        accorderChangement: 'Lauréat.Actionnaire.Command.AccorderChangement',
         rejeterChangement: 'Lauréat.Actionnaire.Command.RejeterDemandeChangement',
         annulerChangement: 'Lauréat.Actionnaire.Command.AnnulerDemandeChangement',
       },
@@ -897,10 +895,7 @@ const policies = {
       référencielPermissions.candidature.query.consulterProjet,
       référencielPermissions.lauréat.actionnaire.query.consulter,
     ],
-    transmettre: [
-      référencielPermissions.lauréat.actionnaire.usecase.transmettre,
-      référencielPermissions.lauréat.actionnaire.command.transmettre,
-    ],
+
     modifier: [
       référencielPermissions.candidature.query.consulterProjet,
       référencielPermissions.lauréat.actionnaire.usecase.modifier,
@@ -1040,7 +1035,6 @@ const adminPolicies: ReadonlyArray<Policy> = [
   'représentantLégal.rejeterChangement',
 
   // Actionnaire
-  'actionnaire.transmettre',
   'actionnaire.modifier',
   'actionnaire.consulter',
   'actionnaire.consulterChangement',
@@ -1136,7 +1130,6 @@ const drealPolicies: ReadonlyArray<Policy> = [
 
   // Actionnaire
   'actionnaire.consulter',
-  'actionnaire.transmettre',
   'actionnaire.modifier',
   'actionnaire.consulterChangement',
   'actionnaire.listerChangement',
@@ -1202,7 +1195,6 @@ const porteurProjetPolicies: ReadonlyArray<Policy> = [
   'représentantLégal.consulter',
 
   // Actionnaire
-  'actionnaire.transmettre',
   'actionnaire.modifier',
   'actionnaire.consulter',
   'actionnaire.consulterChangement',

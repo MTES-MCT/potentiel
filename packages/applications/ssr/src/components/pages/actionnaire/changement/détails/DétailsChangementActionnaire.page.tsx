@@ -19,16 +19,16 @@ import { AccorderChangementActionnaire } from './accorder/AccorderChangementActi
 import { RejeterChangementActionnaire } from './rejeter/RejeterChangementActionnaire.form';
 import { AnnulerChangementActionnaire } from './annuler/AnnulerChangementActionnaire.form';
 
-type DemandeChangementActionnaireActions = 'accorder' | 'rejeter' | 'annuler' | 'demander';
+type ChangementActionnaireActions = 'accorder' | 'rejeter' | 'annuler' | 'demander';
 
-export type DétailsDemandeChangementActionnairePageProps =
-  PlainType<Actionnaire.ConsulterDemandeChangementActionnaireReadModel> & {
+export type DétailsChangementActionnairePagePropsProps =
+  PlainType<Actionnaire.ConsulterChangementActionnaireReadModel> & {
     identifiantProjet: PlainType<IdentifiantProjet.ValueType>;
-    actions: Array<DemandeChangementActionnaireActions>;
+    actions: Array<ChangementActionnaireActions>;
   };
 
-export const DétailsDemandeChangementActionnairePage: FC<
-  DétailsDemandeChangementActionnairePageProps
+export const DétailsChangementActionnairePageProps: FC<
+  DétailsChangementActionnairePagePropsProps
 > = ({
   actionnaire,
   demande: { statut, demandéePar, demandéeLe, raison, pièceJustificative, accord, rejet },
@@ -92,9 +92,9 @@ export const DétailsDemandeChangementActionnairePage: FC<
 };
 
 type MapToActionsComponentsProps = {
-  actions: ReadonlyArray<DemandeChangementActionnaireActions>;
+  actions: ReadonlyArray<ChangementActionnaireActions>;
   identifiantProjet: string;
-  actionnaire: DétailsDemandeChangementActionnairePageProps['actionnaire'];
+  actionnaire: DétailsChangementActionnairePagePropsProps['actionnaire'];
 };
 
 const mapToActionComponents = ({ actions, identifiantProjet }: MapToActionsComponentsProps) =>
@@ -125,9 +125,9 @@ const mapToActionComponents = ({ actions, identifiantProjet }: MapToActionsCompo
   ) : null;
 
 type ChangementProps = Pick<
-  DétailsDemandeChangementActionnairePageProps['demande'],
+  DétailsChangementActionnairePagePropsProps['demande'],
   'raison' | 'pièceJustificative'
-> & { actionnaire: DétailsDemandeChangementActionnairePageProps['actionnaire'] };
+> & { actionnaire: DétailsChangementActionnairePagePropsProps['actionnaire'] };
 
 const Changement: FC<ChangementProps> = ({ actionnaire, pièceJustificative, raison }) => (
   <>
@@ -158,7 +158,7 @@ const Changement: FC<ChangementProps> = ({ actionnaire, pièceJustificative, rai
 );
 
 type ChangementDemandéProps = Pick<
-  DétailsDemandeChangementActionnairePageProps['demande'],
+  DétailsChangementActionnairePagePropsProps['demande'],
   'demandéeLe' | 'demandéePar'
 >;
 
@@ -179,7 +179,7 @@ const ChangementDemandé: FC<ChangementDemandéProps> = ({ demandéeLe, demandé
 );
 
 type ChangementAccordéProps = NonNullable<
-  DétailsDemandeChangementActionnairePageProps['demande']['accord']
+  DétailsChangementActionnairePagePropsProps['demande']['accord']
 >;
 
 const ChangementAccordé: FC<ChangementAccordéProps> = ({
@@ -212,7 +212,7 @@ const ChangementAccordé: FC<ChangementAccordéProps> = ({
 );
 
 type ChangementRejetéProps = NonNullable<
-  DétailsDemandeChangementActionnairePageProps['demande']['rejet']
+  DétailsChangementActionnairePagePropsProps['demande']['rejet']
 >;
 
 const ChangementRejeté: FC<ChangementRejetéProps> = ({ rejetéeLe, rejetéePar, réponseSignée }) => (

@@ -52,7 +52,7 @@ export const ModifierActionnaireForm: FC<ModifierActionnaireFormProps> = ({
               Object.keys(validationErrors).length > 0
             }
           >
-            Je modifie l’actionnariat
+            Modifier
           </SubmitButton>
         </>
       }

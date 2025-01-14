@@ -5,7 +5,7 @@ import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
 
 import { TypeDocumentActionnaire } from '../..';
 
-import { DemanderChangementCommand } from './demandeChangementActionnaire.command';
+import { DemanderChangementCommand } from './demanderChangementActionnaire.command';
 
 export type DemanderChangementUseCase = Message<
   'Lauréat.Actionnaire.UseCase.DemanderChangement',

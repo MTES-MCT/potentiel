@@ -2,14 +2,14 @@ import { faker } from '@faker-js/faker';
 
 import { AbstractFixture } from '../../../../fixture';
 
-interface AnnulerDemandeChangementActionnaire {
+interface AnnulerChangementActionnaire {
   readonly annuléeLe: string;
   readonly annuléePar: string;
 }
 
-export class AnnulerDemandeChangementActionnaireFixture
-  extends AbstractFixture<AnnulerDemandeChangementActionnaire>
-  implements AnnulerDemandeChangementActionnaire
+export class AnnulerChangementActionnaireFixture
+  extends AbstractFixture<AnnulerChangementActionnaire>
+  implements AnnulerChangementActionnaire
 {
   #annuléeLe!: string;
 
@@ -24,8 +24,8 @@ export class AnnulerDemandeChangementActionnaireFixture
   }
 
   créer(
-    partialData?: Partial<AnnulerDemandeChangementActionnaire>,
-  ): Readonly<AnnulerDemandeChangementActionnaire> {
+    partialData?: Partial<AnnulerChangementActionnaire>,
+  ): Readonly<AnnulerChangementActionnaire> {
     const fixture = {
       annuléeLe: faker.date.recent().toISOString(),
       annuléePar: faker.internet.email(),

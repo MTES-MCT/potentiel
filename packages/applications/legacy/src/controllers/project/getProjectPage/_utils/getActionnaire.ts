@@ -1,5 +1,5 @@
 import { mediator } from 'mediateur';
-import { Actionnaire, Lauréat } from '@potentiel-domain/laureat';
+import { Actionnaire } from '@potentiel-domain/laureat';
 
 import { Option } from '@potentiel-libraries/monads';
 import { Candidature } from '@potentiel-domain/candidature';
@@ -38,8 +38,8 @@ export const getActionnaire = async (
 
     if (Option.isSome(actionnaire)) {
       const demandeExistanteDeChangement =
-        await mediator.send<Actionnaire.ConsulterDemandeChangementActionnaireQuery>({
-          type: 'Lauréat.Actionnaire.Query.ConsulterDemandeChangementActionnaire',
+        await mediator.send<Actionnaire.ConsulterChangementActionnaireQuery>({
+          type: 'Lauréat.Actionnaire.Query.ConsulterChangementActionnaire',
           data: { identifiantProjet: identifiantProjet.formatter() },
         });
 
@@ -92,30 +92,6 @@ export const getActionnaire = async (
         peutConsulterDemandeChangement:
           utilisateur.aLaPermission('actionnaire.consulterChangement') &&
           Option.isSome(demandeExistanteDeChangement),
-      };
-    }
-
-    const lauréat = await mediator.send<Lauréat.ConsulterLauréatQuery>({
-      type: 'Lauréat.Query.ConsulterLauréat',
-      data: { identifiantProjet: identifiantProjet.formatter() },
-    });
-
-    if (Option.isSome(lauréat)) {
-      return {
-        nom: '',
-        pageProjet: utilisateur.aLaPermission('actionnaire.transmettre')
-          ? {
-              url: Routes.Actionnaire.transmettre(identifiantProjet.formatter()),
-              label: "Transmettre l'actionnaire",
-            }
-          : undefined,
-        menu: utilisateur.aLaPermission('actionnaire.transmettre')
-          ? {
-              url: Routes.Actionnaire.transmettre(identifiantProjet.formatter()),
-              label: "Transmettre l'actionnaire",
-            }
-          : undefined,
-        peutConsulterDemandeChangement: false,
       };
     }
 

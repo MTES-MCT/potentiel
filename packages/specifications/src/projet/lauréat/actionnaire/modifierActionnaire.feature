@@ -61,9 +61,8 @@ Fonctionnalité: Modifier l'actionnaire d'un projet lauréat
             | la DREAL associée au projet |
 
     Scénario: Impossible de modifier l'actionnaire si l'actionnaire est inexistant
-        Etant donné le projet lauréat "Du bouchon de Lyon" avec :
-            | société mère |  |
-        Quand le DGEC validateur modifie l'actionnaire pour le projet lauréat
+        Etant donné le projet éliminé "Du boulodrome de Lyon"
+        Quand le DGEC validateur modifie l'actionnaire pour le projet éliminé
         Alors l'utilisateur devrait être informé que "L'actionnaire n'existe pas"
 
     Scénario: Impossible de modifier l'actionnaire avec une valeur identique

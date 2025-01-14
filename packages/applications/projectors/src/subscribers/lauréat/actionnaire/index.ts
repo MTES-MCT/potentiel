@@ -4,15 +4,14 @@ import { match } from 'ts-pattern';
 import { RebuildTriggered, Event } from '@potentiel-infrastructure/pg-event-sourcing';
 import { Actionnaire } from '@potentiel-domain/laureat';
 
-import { handleDemandeChangementActionnaireAccordée } from './handleDemandeChangementActionnaireAccordée';
+import { handleChangementActionnaireAccordé } from './handleChangementActionnaireAccordé';
 import { handleRebuilTriggered } from './handleRebuildTriggered';
 import { handleChangementActionnaireDemandé } from './handleChangementActionnaireDemandé';
-import { handleDemandeChangementActionnaireAnnulée } from './handleDemandeChangementActionnaireAnnulée';
+import { handleChangementActionnaireAnnulé } from './handleChangementActionnaireAnnulé';
 import { handleActionnaireImporté } from './handleActionnaireImporté';
 import { handleActionnaireModifié } from './handleActionnaireModifié';
-import { handleDemandeChangementActionnaireRejetée } from './handleDemandeChangementActionnaireRejetée';
-import { handleActionnaireTransmis } from './handleActionnaireTransmis';
-import { handleDemandeChangementActionnaireSupprimée } from './handleDemandeChangementActionnaireSupprimée';
+import { handleChangementActionnaireRejeté } from './handleChangementActionnaireRejeté';
+import { handleChangementActionnaireSupprimé } from './handleChangementActionnaireSupprimé';
 
 export type SubscriptionEvent = (Actionnaire.ActionnaireEvent & Event) | RebuildTriggered;
 
@@ -24,24 +23,11 @@ export const register = () => {
       .with({ type: 'RebuildTriggered' }, handleRebuilTriggered)
       .with({ type: 'ActionnaireImporté-V1' }, handleActionnaireImporté)
       .with({ type: 'ActionnaireModifié-V1' }, handleActionnaireModifié)
-      .with({ type: 'ActionnaireTransmis-V1' }, handleActionnaireTransmis)
       .with({ type: 'ChangementActionnaireDemandé-V1' }, handleChangementActionnaireDemandé)
-      .with(
-        { type: 'DemandeChangementActionnaireAnnulée-V1' },
-        handleDemandeChangementActionnaireAnnulée,
-      )
-      .with(
-        { type: 'DemandeChangementActionnaireAccordée-V1' },
-        handleDemandeChangementActionnaireAccordée,
-      )
-      .with(
-        { type: 'DemandeChangementActionnaireRejetée-V1' },
-        handleDemandeChangementActionnaireRejetée,
-      )
-      .with(
-        { type: 'DemandeChangementActionnaireSupprimée-V1' },
-        handleDemandeChangementActionnaireSupprimée,
-      )
+      .with({ type: 'ChangementActionnaireAnnulé-V1' }, handleChangementActionnaireAnnulé)
+      .with({ type: 'ChangementActionnaireAccordé-V1' }, handleChangementActionnaireAccordé)
+      .with({ type: 'ChangementActionnaireRejeté-V1' }, handleChangementActionnaireRejeté)
+      .with({ type: 'ChangementActionnaireSupprimé-V1' }, handleChangementActionnaireSupprimé)
       .exhaustive();
 
   mediator.register('System.Projector.Lauréat.Actionnaire', handler);

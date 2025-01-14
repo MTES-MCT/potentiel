@@ -86,12 +86,11 @@ export const setupLauréat = async ({ sendEmail }: SetupLauréatDependencies) =>
       'RebuildTriggered',
       'ActionnaireImporté-V1',
       'ActionnaireModifié-V1',
-      'ActionnaireTransmis-V1',
       'ChangementActionnaireDemandé-V1',
-      'DemandeChangementActionnaireAnnulée-V1',
-      'DemandeChangementActionnaireAccordée-V1',
-      'DemandeChangementActionnaireRejetée-V1',
-      'DemandeChangementActionnaireSupprimée-V1',
+      'ChangementActionnaireAnnulé-V1',
+      'ChangementActionnaireAccordé-V1',
+      'ChangementActionnaireRejeté-V1',
+      'ChangementActionnaireSupprimé-V1',
     ],
     eventHandler: async (event) => {
       await mediator.send<ActionnaireProjector.Execute>({
@@ -408,9 +407,9 @@ export const setupLauréat = async ({ sendEmail }: SetupLauréatDependencies) =>
       eventType: [
         'ActionnaireModifié-V1',
         'ChangementActionnaireDemandé-V1',
-        'DemandeChangementActionnaireAccordée-V1',
-        'DemandeChangementActionnaireRejetée-V1',
-        'DemandeChangementActionnaireAnnulée-V1',
+        'ChangementActionnaireAccordé-V1',
+        'ChangementActionnaireRejeté-V1',
+        'ChangementActionnaireAnnulé-V1',
       ],
       eventHandler: async (event) =>
         mediator.publish<ActionnaireNotification.Execute>({

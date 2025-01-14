@@ -4,14 +4,14 @@ import { DocumentProjet } from '@potentiel-domain/document';
 
 import { ActionnaireAggregate } from '../../actionnaire.aggregate';
 import { StatutChangementActionnaire } from '../..';
-import { DemandeChangementActionnaireInexistanteErreur } from '../../errors';
+import { ChangementActionnaireInexistanteErreur } from '../../errors';
 
-export type DemandeChangementActionnaireAccordéeEvent = DomainEvent<
-  'DemandeChangementActionnaireAccordée-V1',
+export type ChangementActionnaireAccordéEvent = DomainEvent<
+  'ChangementActionnaireAccordé-V1',
   {
     identifiantProjet: IdentifiantProjet.RawType;
-    accordéeLe: DateTime.RawType;
-    accordéePar: Email.RawType;
+    accordéLe: DateTime.RawType;
+    accordéPar: Email.RawType;
     réponseSignée: {
       format: string;
     };
@@ -21,29 +21,29 @@ export type DemandeChangementActionnaireAccordéeEvent = DomainEvent<
 
 type Options = {
   identifiantProjet: IdentifiantProjet.ValueType;
-  accordéeLe: DateTime.ValueType;
-  accordéePar: Email.ValueType;
+  accordéLe: DateTime.ValueType;
+  accordéPar: Email.ValueType;
   réponseSignée: DocumentProjet.ValueType;
 };
 
-export async function accorderDemandeChangementActionnaire(
+export async function accorderChangementActionnaire(
   this: ActionnaireAggregate,
-  { identifiantProjet, accordéeLe, accordéePar, réponseSignée }: Options,
+  { identifiantProjet, accordéLe, accordéPar, réponseSignée }: Options,
 ) {
   if (!this.demande) {
-    throw new DemandeChangementActionnaireInexistanteErreur();
+    throw new ChangementActionnaireInexistanteErreur();
   }
 
   this.demande.statut.vérifierQueLeChangementDeStatutEstPossibleEn(
     StatutChangementActionnaire.accordé,
   );
 
-  const event: DemandeChangementActionnaireAccordéeEvent = {
-    type: 'DemandeChangementActionnaireAccordée-V1',
+  const event: ChangementActionnaireAccordéEvent = {
+    type: 'ChangementActionnaireAccordé-V1',
     payload: {
       identifiantProjet: identifiantProjet.formatter(),
-      accordéeLe: accordéeLe.formatter(),
-      accordéePar: accordéePar.formatter(),
+      accordéLe: accordéLe.formatter(),
+      accordéPar: accordéPar.formatter(),
       réponseSignée: {
         format: réponseSignée.format,
       },
@@ -54,9 +54,9 @@ export async function accorderDemandeChangementActionnaire(
   await this.publish(event);
 }
 
-export function applyDemandeChangementActionnaireAccordée(
+export function applyChangementActionnaireAccordé(
   this: ActionnaireAggregate,
-  { payload: { nouvelActionnaire } }: DemandeChangementActionnaireAccordéeEvent,
+  { payload: { nouvelActionnaire } }: ChangementActionnaireAccordéEvent,
 ) {
   this.actionnaire = nouvelActionnaire;
   this.demande = {

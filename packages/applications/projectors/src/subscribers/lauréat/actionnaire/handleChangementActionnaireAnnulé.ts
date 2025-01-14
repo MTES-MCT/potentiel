@@ -5,9 +5,9 @@ import { Option } from '@potentiel-libraries/monads';
 
 import { upsertProjection } from '../../../infrastructure';
 
-export const handleDemandeChangementActionnaireAnnulée = async ({
+export const handleChangementActionnaireAnnulé = async ({
   payload: { identifiantProjet },
-}: Actionnaire.DemandeChangementActionnaireAnnuléeEvent) => {
+}: Actionnaire.ChangementActionnaireAnnuléEvent) => {
   const projectionToUpsert = await findProjection<Actionnaire.ActionnaireEntity>(
     `actionnaire|${identifiantProjet}`,
   );

@@ -2,9 +2,14 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 import { Event } from '@potentiel-infrastructure/pg-event-sourcing';
 import { IdentifiantProjet } from '@potentiel-domain/common';
 import { getLegacyProjetByIdentifiantProjet } from '../infra/sequelize/queries/project';
-import { logger } from '../core/utils';
+import { logger, ok } from '../core/utils';
 import { Actionnaire } from '@potentiel-domain/laureat';
-import { Project } from '../infra/sequelize/projectionsNext/project/project.model';
+import { eventStore } from '../config/eventStore.config';
+import { ProjectActionnaireUpdated } from '../modules/project';
+import { getUserByEmail } from '../infra/sequelize/queries/users/getUserByEmail';
+import { ModificationReceived } from '../modules/modificationRequest';
+import { UniqueEntityID } from '../core/domain';
+import { match } from 'ts-pattern';
 
 export type SubscriptionEvent = Actionnaire.ActionnaireEvent & Event;
 
@@ -28,17 +33,46 @@ export const register = () => {
 
     switch (type) {
       case 'ActionnaireModifié-V1':
-      case 'ActionnaireTransmis-V1':
-        const {
-          payload: { actionnaire },
-        } = event;
-        await Project.update(
-          {
-            actionnaire,
-          },
-          {
-            where: { id: projet.id },
-          },
+      case 'ChangementActionnaireAccordé-V1':
+        const { identifiantUtilisateur, actionnaire } = match(event)
+          .with({ type: 'ActionnaireModifié-V1' }, ({ payload }) => ({
+            actionnaire: payload.actionnaire,
+            identifiantUtilisateur: payload.modifiéPar,
+          }))
+          .with({ type: 'ChangementActionnaireAccordé-V1' }, ({ payload }) => ({
+            actionnaire: payload.nouvelActionnaire,
+            identifiantUtilisateur: payload.accordéPar,
+          }))
+          .exhaustive();
+
+        const userId = await new Promise<string>((r) =>
+          getUserByEmail(identifiantUtilisateur).map((user) => {
+            r(user?.id ?? '');
+            return ok(user);
+          }),
+        );
+
+        await eventStore.publish(
+          new ModificationReceived({
+            payload: {
+              type: 'actionnaire',
+              actionnaire,
+              authority: 'dreal',
+              modificationRequestId: new UniqueEntityID().toString(),
+              projectId: projet.id,
+              requestedBy: userId,
+            },
+          }),
+        );
+
+        await eventStore.publish(
+          new ProjectActionnaireUpdated({
+            payload: {
+              projectId: projet.id,
+              newActionnaire: actionnaire,
+              updatedBy: userId,
+            },
+          }),
         );
 
         break;

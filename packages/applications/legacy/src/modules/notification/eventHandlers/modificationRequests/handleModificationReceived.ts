@@ -33,6 +33,12 @@ export const handleModificationReceived =
         periodeId,
         familleId,
       }) => {
+        // la saga legacy continue d'émettre des modificationsreceived
+        // pour maintenir la frise
+        if (type === 'actionnaire') {
+          return;
+        }
+
         await Promise.all(
           porteursProjet.map(async ({ fullName, email, id }) => {
             const notificationPayload = {

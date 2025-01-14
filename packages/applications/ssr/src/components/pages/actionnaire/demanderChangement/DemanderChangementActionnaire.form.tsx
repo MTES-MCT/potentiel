@@ -50,7 +50,7 @@ export const DemanderChangementActionnaireForm: FC<DemanderChangementActionnaire
               !piècesJustificatives.length || Object.keys(validationErrors).length > 0
             }
           >
-            Je demande la modification de l’actionnariat
+            Demander la modification
           </SubmitButton>
         </>
       }

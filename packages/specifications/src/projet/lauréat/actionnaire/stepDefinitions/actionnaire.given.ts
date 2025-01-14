@@ -7,10 +7,10 @@ import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 import { PotentielWorld } from '../../../../potentiel.world';
 
 import {
-  accorderDemandeChangementActionnaire,
-  annulerDemandeChangementActionnaire,
+  accorderChangementActionnaire,
+  annulerChangementActionnaire,
   demanderChangementActionnaire,
-  rejeterDemandeChangementActionnaire,
+  rejeterChangementActionnaire,
 } from './actionnaire.when';
 
 EtantDonné(
@@ -32,7 +32,7 @@ EtantDonné(
       'lauréat',
       this.utilisateurWorld.adminFixture.email,
     );
-    await accorderDemandeChangementActionnaire.call(this, this.utilisateurWorld.drealFixture.email);
+    await accorderChangementActionnaire.call(this, this.utilisateurWorld.drealFixture.email);
   },
 );
 
@@ -44,7 +44,7 @@ EtantDonné(
       'lauréat',
       this.utilisateurWorld.adminFixture.email,
     );
-    await annulerDemandeChangementActionnaire.call(this, this.utilisateurWorld.drealFixture.email);
+    await annulerChangementActionnaire.call(this, this.utilisateurWorld.drealFixture.email);
   },
 );
 
@@ -56,7 +56,7 @@ EtantDonné(
       'lauréat',
       this.utilisateurWorld.adminFixture.email,
     );
-    await rejeterDemandeChangementActionnaire.call(this, this.utilisateurWorld.drealFixture.email);
+    await rejeterChangementActionnaire.call(this, this.utilisateurWorld.drealFixture.email);
   },
 );
 

@@ -4,14 +4,14 @@ import { DocumentProjet } from '@potentiel-domain/document';
 
 import { StatutChangementActionnaire } from '../..';
 import { ActionnaireAggregate } from '../../actionnaire.aggregate';
-import { DemandeChangementActionnaireInexistanteErreur } from '../../errors';
+import { ChangementActionnaireInexistanteErreur } from '../../errors';
 
-export type DemandeChangementActionnaireRejetéeEvent = DomainEvent<
-  'DemandeChangementActionnaireRejetée-V1',
+export type ChangementActionnaireRejetéEvent = DomainEvent<
+  'ChangementActionnaireRejeté-V1',
   {
     identifiantProjet: IdentifiantProjet.RawType;
-    rejetéeLe: DateTime.RawType;
-    rejetéePar: Email.RawType;
+    rejetéLe: DateTime.RawType;
+    rejetéPar: Email.RawType;
     réponseSignée: {
       format: string;
     };
@@ -20,29 +20,29 @@ export type DemandeChangementActionnaireRejetéeEvent = DomainEvent<
 
 type Options = {
   identifiantProjet: IdentifiantProjet.ValueType;
-  rejetéeLe: DateTime.ValueType;
-  rejetéePar: Email.ValueType;
+  rejetéLe: DateTime.ValueType;
+  rejetéPar: Email.ValueType;
   réponseSignée: DocumentProjet.ValueType;
 };
 
-export async function rejeterDemandeChangementActionnaire(
+export async function rejeterChangementActionnaire(
   this: ActionnaireAggregate,
-  { identifiantProjet, rejetéeLe, rejetéePar, réponseSignée }: Options,
+  { identifiantProjet, rejetéLe, rejetéPar, réponseSignée }: Options,
 ) {
   if (!this.demande) {
-    throw new DemandeChangementActionnaireInexistanteErreur();
+    throw new ChangementActionnaireInexistanteErreur();
   }
 
   this.demande.statut.vérifierQueLeChangementDeStatutEstPossibleEn(
     StatutChangementActionnaire.rejeté,
   );
 
-  const event: DemandeChangementActionnaireRejetéeEvent = {
-    type: 'DemandeChangementActionnaireRejetée-V1',
+  const event: ChangementActionnaireRejetéEvent = {
+    type: 'ChangementActionnaireRejeté-V1',
     payload: {
       identifiantProjet: identifiantProjet.formatter(),
-      rejetéeLe: rejetéeLe.formatter(),
-      rejetéePar: rejetéePar.formatter(),
+      rejetéLe: rejetéLe.formatter(),
+      rejetéPar: rejetéPar.formatter(),
       réponseSignée: {
         format: réponseSignée.format,
       },
@@ -52,6 +52,6 @@ export async function rejeterDemandeChangementActionnaire(
   await this.publish(event);
 }
 
-export function applyDemandeChangementActionnaireRejetée(this: ActionnaireAggregate) {
+export function applyChangementActionnaireRejeté(this: ActionnaireAggregate) {
   this.demande = undefined;
 }

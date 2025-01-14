@@ -18,7 +18,7 @@ export class DemandeDeChangementEnCoursError extends InvalidOperationError {
   }
 }
 
-export class DemandeChangementActionnaireInexistanteErreur extends InvalidOperationError {
+export class ChangementActionnaireInexistanteErreur extends InvalidOperationError {
   constructor() {
     super(`Aucune demande de changement d'actionnaire n'est en cours`);
   }

@@ -5,14 +5,14 @@ import { DocumentProjet, EnregistrerDocumentProjetCommand } from '@potentiel-dom
 
 import { TypeDocumentActionnaire } from '../..';
 
-import { RejeterDemandeChangementActionnaireCommand } from './rejeterChangementActionnaire.command';
+import { RejeterChangementActionnaireCommand } from './rejeterChangementActionnaire.command';
 
-export type RejeterDemandeChangementActionnaireUseCase = Message<
+export type RejeterChangementActionnaireUseCase = Message<
   'Lauréat.Actionnaire.UseCase.RejeterDemandeChangement',
   {
     identifiantProjetValue: string;
-    rejetéeLeValue: string;
-    rejetéeParValue: string;
+    rejetéLeValue: string;
+    rejetéParValue: string;
     réponseSignéeValue: {
       content: ReadableStream;
       format: string;
@@ -20,20 +20,20 @@ export type RejeterDemandeChangementActionnaireUseCase = Message<
   }
 >;
 
-export const registerRejeterDemandeChangementActionnaireUseCase = () => {
-  const runner: MessageHandler<RejeterDemandeChangementActionnaireUseCase> = async ({
+export const registerRejeterChangementActionnaireUseCase = () => {
+  const runner: MessageHandler<RejeterChangementActionnaireUseCase> = async ({
     identifiantProjetValue,
-    rejetéeLeValue,
-    rejetéeParValue,
+    rejetéLeValue,
+    rejetéParValue,
     réponseSignéeValue: { format, content },
   }) => {
     const identifiantProjet = IdentifiantProjet.convertirEnValueType(identifiantProjetValue);
-    const rejetéeLe = DateTime.convertirEnValueType(rejetéeLeValue);
-    const rejetéePar = Email.convertirEnValueType(rejetéeParValue);
+    const rejetéLe = DateTime.convertirEnValueType(rejetéLeValue);
+    const rejetéPar = Email.convertirEnValueType(rejetéParValue);
     const réponseSignée = DocumentProjet.convertirEnValueType(
       identifiantProjetValue,
       TypeDocumentActionnaire.changementRejeté.formatter(),
-      rejetéeLe.formatter(),
+      rejetéLe.formatter(),
       format,
     );
 
@@ -45,11 +45,11 @@ export const registerRejeterDemandeChangementActionnaireUseCase = () => {
       },
     });
 
-    await mediator.send<RejeterDemandeChangementActionnaireCommand>({
+    await mediator.send<RejeterChangementActionnaireCommand>({
       type: 'Lauréat.Actionnaire.Command.RejeterDemandeChangement',
       data: {
-        rejetéeLe,
-        rejetéePar,
+        rejetéLe,
+        rejetéPar,
         identifiantProjet,
         réponseSignée,
       },

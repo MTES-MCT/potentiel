@@ -16,8 +16,8 @@ export type ChangementActionnaireDemandéEvent = DomainEvent<
     identifiantProjet: IdentifiantProjet.RawType;
     actionnaire: string;
     raison: string;
-    demandéeLe: DateTime.RawType;
-    demandéePar: Email.RawType;
+    demandéLe: DateTime.RawType;
+    demandéPar: Email.RawType;
     pièceJustificative: {
       format: string;
     };
@@ -79,8 +79,8 @@ export async function demanderChangement(
         format: pièceJustificative.format,
       },
       raison,
-      demandéeLe: dateDemande.formatter(),
-      demandéePar: identifiantUtilisateur.formatter(),
+      demandéLe: dateDemande.formatter(),
+      demandéPar: identifiantUtilisateur.formatter(),
     },
   };
 

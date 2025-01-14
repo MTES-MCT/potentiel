@@ -5,6 +5,11 @@ Fonctionnalité: Importer l'actionnaire lors de la désignation d'une candidatur
         Etant donné le projet lauréat "Du boulodrome de Marseille"
         Alors l'actionnaire du projet lauréat devrait être consultable
 
+    Scénario: Importer l'actionnaire lors de la désignation d'une candidature lauréate avec une société mère vide
+        Etant donné le projet lauréat "Du boulodrome de Marseille" avec :
+            | société mère |  |
+        Alors l'actionnaire du projet lauréat devrait être consultable
+
     Scénario: Impossible d'importer l'actionnaire pour un projet éliminé
         Etant donné le projet éliminé "Du boulodrome de Marseille"
         Quand l'actionnaire est importé pour le projet

@@ -8,9 +8,9 @@ import { RegisterActionnaireNotificationDependencies } from '.';
 
 import { actionnaireNotificationTemplateId } from './templateIds';
 
-type HandleChangementActionnaireRejetéeProps = {
+type HandleChangementActionnaireAccordéProps = {
   sendEmail: RegisterActionnaireNotificationDependencies['sendEmail'];
-  event: Actionnaire.DemandeChangementActionnaireRejetéeEvent;
+  event: Actionnaire.ChangementActionnaireAccordéEvent;
   projet: {
     nom: string;
     département: string;
@@ -18,12 +18,12 @@ type HandleChangementActionnaireRejetéeProps = {
   baseUrl: string;
 };
 
-export const handleDemandeChangementActionnaireRejetée = async ({
+export const handleChangementActionnaireAccordé = async ({
   sendEmail,
   event,
   projet,
   baseUrl,
-}: HandleChangementActionnaireRejetéeProps) => {
+}: HandleChangementActionnaireAccordéProps) => {
   const identifiantProjet = IdentifiantProjet.convertirEnValueType(event.payload.identifiantProjet);
   const porteurs = await récupérerPorteursParIdentifiantProjetAdapter(identifiantProjet);
 
@@ -36,11 +36,11 @@ export const handleDemandeChangementActionnaireRejetée = async ({
   }
 
   await sendEmail({
-    templateId: actionnaireNotificationTemplateId.rejeter,
-    messageSubject: `Potentiel - La demande de changement d'actionnaire pour le projet ${projet.nom} dans le département ${projet.département} a été rejetée`,
+    templateId: actionnaireNotificationTemplateId.accorder,
+    messageSubject: `Potentiel - La demande de changement d'actionnaire pour le projet ${projet.nom} dans le département ${projet.département} a été accordée`,
     recipients: porteurs,
     variables: {
-      type: 'rejet',
+      type: 'accord',
       nom_projet: projet.nom,
       departement_projet: projet.département,
       url: `${baseUrl}${Routes.Actionnaire.changement.détail(identifiantProjet.formatter())}`,

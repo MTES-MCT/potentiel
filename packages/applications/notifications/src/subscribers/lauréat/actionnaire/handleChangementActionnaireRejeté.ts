@@ -1,16 +1,16 @@
+import { récupérerPorteursParIdentifiantProjetAdapter } from '@potentiel-infrastructure/domain-adapters';
 import { IdentifiantProjet } from '@potentiel-domain/common';
 import { getLogger } from '@potentiel-libraries/monitoring';
 import { Routes } from '@potentiel-applications/routes';
 import { Actionnaire } from '@potentiel-domain/laureat';
-import { récupérerDrealsParIdentifiantProjetAdapter } from '@potentiel-infrastructure/domain-adapters';
 
 import { RegisterActionnaireNotificationDependencies } from '.';
 
 import { actionnaireNotificationTemplateId } from './templateIds';
 
-type HandleChangementActionnaireAnnuléeProps = {
+type HandleChangementActionnaireRejetéeProps = {
   sendEmail: RegisterActionnaireNotificationDependencies['sendEmail'];
-  event: Actionnaire.DemandeChangementActionnaireAnnuléeEvent;
+  event: Actionnaire.ChangementActionnaireRejetéEvent;
   projet: {
     nom: string;
     département: string;
@@ -18,17 +18,17 @@ type HandleChangementActionnaireAnnuléeProps = {
   baseUrl: string;
 };
 
-export const handleDemandeChangementActionnaireAnnulée = async ({
+export const handleChangementActionnaireRejeté = async ({
   sendEmail,
   event,
   projet,
   baseUrl,
-}: HandleChangementActionnaireAnnuléeProps) => {
+}: HandleChangementActionnaireRejetéeProps) => {
   const identifiantProjet = IdentifiantProjet.convertirEnValueType(event.payload.identifiantProjet);
-  const dreals = await récupérerDrealsParIdentifiantProjetAdapter(identifiantProjet);
+  const porteurs = await récupérerPorteursParIdentifiantProjetAdapter(identifiantProjet);
 
-  if (dreals.length === 0) {
-    getLogger().error('Aucune dreal trouvée', {
+  if (porteurs.length === 0) {
+    getLogger().error('Aucun porteur trouvé', {
       identifiantProjet: identifiantProjet.formatter(),
       application: 'notifications',
     });
@@ -36,14 +36,14 @@ export const handleDemandeChangementActionnaireAnnulée = async ({
   }
 
   await sendEmail({
-    templateId: actionnaireNotificationTemplateId.annuler,
-    messageSubject: `Potentiel - La demande de changement d'actionnaire pour le projet ${projet.nom} dans le département ${projet.département} a été annulée`,
-    recipients: dreals,
+    templateId: actionnaireNotificationTemplateId.rejeter,
+    messageSubject: `Potentiel - La demande de changement d'actionnaire pour le projet ${projet.nom} dans le département ${projet.département} a été rejetée`,
+    recipients: porteurs,
     variables: {
-      type: 'annulation',
+      type: 'rejet',
       nom_projet: projet.nom,
       departement_projet: projet.département,
-      url: `${baseUrl}${Routes.Projet.details(identifiantProjet.formatter())}`,
+      url: `${baseUrl}${Routes.Actionnaire.changement.détail(identifiantProjet.formatter())}`,
     },
   });
 };

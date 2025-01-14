@@ -11,10 +11,10 @@ import { getLogger } from '@potentiel-libraries/monitoring';
 import { SendEmail } from '../../../sendEmail';
 
 import { handleActionnaireModifié } from './handleActionnaireModifié';
-import { handleDemandeChangementActionnaireAccordée } from './handleDemandeChangementActionnaireAccordée';
-import { handleDemandeChangementActionnaireAnnulée } from './handleDemandeChangementActionnaireAnnulée';
+import { handleChangementActionnaireAccordé } from './handleChangementActionnaireAccordé';
+import { handleChangementActionnaireAnnulé } from './handleChangementActionnaireAnnulé';
 import { handleChangementActionnaireDemandé } from './handleChangementActionnaireDemandé';
-import { handleDemandeChangementActionnaireRejetée } from './handleDemandeChangementActionnaireRejetée';
+import { handleChangementActionnaireRejeté } from './handleChangementActionnaireRejeté';
 
 export type SubscriptionEvent = Actionnaire.ActionnaireEvent & Event;
 
@@ -74,14 +74,14 @@ export const register = ({ sendEmail }: RegisterActionnaireNotificationDependenc
           baseUrl,
         }),
       )
-      .with({ type: 'DemandeChangementActionnaireAccordée-V1' }, async (event) =>
-        handleDemandeChangementActionnaireAccordée({ sendEmail, event, projet, baseUrl }),
+      .with({ type: 'ChangementActionnaireAccordé-V1' }, async (event) =>
+        handleChangementActionnaireAccordé({ sendEmail, event, projet, baseUrl }),
       )
-      .with({ type: 'DemandeChangementActionnaireRejetée-V1' }, async (event) =>
-        handleDemandeChangementActionnaireRejetée({ sendEmail, event, projet, baseUrl }),
+      .with({ type: 'ChangementActionnaireRejeté-V1' }, async (event) =>
+        handleChangementActionnaireRejeté({ sendEmail, event, projet, baseUrl }),
       )
-      .with({ type: 'DemandeChangementActionnaireAnnulée-V1' }, async (event) =>
-        handleDemandeChangementActionnaireAnnulée({ sendEmail, event, projet, baseUrl }),
+      .with({ type: 'ChangementActionnaireAnnulé-V1' }, async (event) =>
+        handleChangementActionnaireAnnulé({ sendEmail, event, projet, baseUrl }),
       )
       .otherwise(() => Promise.resolve());
   };

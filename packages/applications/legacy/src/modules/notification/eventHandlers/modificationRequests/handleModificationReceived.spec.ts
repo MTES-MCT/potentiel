@@ -28,14 +28,14 @@ describe(`Notifier lorsqu'un porteur dépose une demande de modification`, () =>
             } as CahierDesChargesModifié,
           ] as ProjectAppelOffre['periode']['cahiersDesChargesModifiésDisponibles'],
         } as ProjectAppelOffre['periode'],
-      } as ProjectAppelOffre),
+      }) as ProjectAppelOffre,
   );
   describe(`Cas général`, () => {
     it(`Etant donné un projet sous l'autorité DREAL
       Et ayant plusieurs porteurs rattachés
       Lorsque l'un des porteurs informe le préfet d'une modification du projet
-      Alors tous les porteurs ayant accès au projet devraient être notifiés
-      Et tous les agents des DREALs rattachées au projet devraient être notifiés`, async () => {
+      Lorsque l'un des porteurs informe le préfet d'une modification de l'actionnaire du projet
+      Alors personne ne devrait être notifié`, async () => {
       const sendNotification = jest.fn<NotificationService['sendNotification']>();
 
       const getProjectInfoForModificationReceivedNotification: GetProjectInfoForModificationReceivedNotification =
@@ -86,112 +86,7 @@ describe(`Notifier lorsqu'un porteur dépose une demande de modification`, () =>
         }),
       );
 
-      expect(sendNotification).toHaveBeenCalledTimes(5);
-
-      expect(sendNotification).toHaveBeenCalledWith(
-        expect.objectContaining({
-          type: 'pp-modification-received',
-          message: expect.objectContaining({
-            email: 'porteur1@test.test',
-          }),
-          context: expect.objectContaining({
-            modificationRequestId,
-            userId: 'id-user-1',
-            projectId: projetId,
-          }),
-          variables: expect.objectContaining({
-            type_demande: 'actionnaire',
-            button_url: routes.USER_LIST_REQUESTS,
-            button_title: 'Consulter la demande',
-            button_instructions: `Pour la consulter, connectez-vous à Potentiel.`,
-            demande_action_pp: undefined,
-          }),
-        }),
-      );
-
-      expect(sendNotification).toHaveBeenCalledWith(
-        expect.objectContaining({
-          type: 'pp-modification-received',
-          message: expect.objectContaining({
-            email: 'porteur2@test.test',
-          }),
-          context: expect.objectContaining({
-            modificationRequestId,
-            userId: 'id-user-2',
-            projectId: projetId,
-          }),
-          variables: expect.objectContaining({
-            type_demande: 'actionnaire',
-            button_url: routes.USER_LIST_REQUESTS,
-            button_title: 'Consulter la demande',
-            button_instructions: `Pour la consulter, connectez-vous à Potentiel.`,
-            demande_action_pp: undefined,
-          }),
-        }),
-      );
-
-      expect(sendNotification).toHaveBeenCalledWith(
-        expect.objectContaining({
-          type: 'dreal-modification-received',
-          message: expect.objectContaining({
-            email: 'drealA@test.test',
-            name: 'drealA',
-          }),
-          context: expect.objectContaining({
-            modificationRequestId,
-            dreal: 'regionA',
-            projectId: projetId,
-          }),
-          variables: expect.objectContaining({
-            nom_projet: 'nom-du-projet',
-            modification_request_url: routes.DEMANDE_PAGE_DETAILS(modificationRequestId),
-            type_demande: 'actionnaire',
-            departement_projet: 'département-du-projet',
-          }),
-        }),
-      );
-
-      expect(sendNotification).toHaveBeenCalledWith(
-        expect.objectContaining({
-          type: 'dreal-modification-received',
-          message: expect.objectContaining({
-            email: 'drealB@test.test',
-            name: 'drealB',
-          }),
-          context: expect.objectContaining({
-            modificationRequestId,
-            dreal: 'regionB',
-            projectId: projetId,
-          }),
-          variables: expect.objectContaining({
-            nom_projet: 'nom-du-projet',
-            modification_request_url: routes.DEMANDE_PAGE_DETAILS(modificationRequestId),
-            type_demande: 'actionnaire',
-            departement_projet: 'département-du-projet',
-          }),
-        }),
-      );
-
-      expect(sendNotification).toHaveBeenCalledWith(
-        expect.objectContaining({
-          type: 'dreal-modification-received',
-          message: expect.objectContaining({
-            email: 'drealC@test.test',
-            name: 'drealC',
-          }),
-          context: expect.objectContaining({
-            modificationRequestId,
-            dreal: 'regionB',
-            projectId: projetId,
-          }),
-          variables: expect.objectContaining({
-            nom_projet: 'nom-du-projet',
-            modification_request_url: routes.DEMANDE_PAGE_DETAILS(modificationRequestId),
-            type_demande: 'actionnaire',
-            departement_projet: 'département-du-projet',
-          }),
-        }),
-      );
+      expect(sendNotification).toHaveBeenCalledTimes(0);
     });
   });
 
