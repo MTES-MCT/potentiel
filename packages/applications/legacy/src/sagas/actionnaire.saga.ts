@@ -9,6 +9,7 @@ import { ProjectActionnaireUpdated } from '../modules/project';
 import { getUserByEmail } from '../infra/sequelize/queries/users/getUserByEmail';
 import { ModificationReceived } from '../modules/modificationRequest';
 import { UniqueEntityID } from '../core/domain';
+import { match } from 'ts-pattern';
 
 export type SubscriptionEvent = Actionnaire.ActionnaireEvent & Event;
 
@@ -33,8 +34,22 @@ export const register = () => {
     switch (type) {
       case 'ActionnaireModifié-V1':
       case 'ActionnaireTransmis-V1':
-        const identifiantUtilisateur =
-          type === 'ActionnaireModifié-V1' ? payload.modifiéPar : payload.transmisPar;
+      case 'DemandeChangementActionnaireAccordée-V1':
+        const { identifiantUtilisateur, actionnaire } = match(event)
+          .with({ type: 'ActionnaireModifié-V1' }, ({ payload }) => ({
+            actionnaire: payload.actionnaire,
+            identifiantUtilisateur: payload.modifiéPar,
+          }))
+          .with({ type: 'ActionnaireTransmis-V1' }, ({ payload }) => ({
+            actionnaire: payload.actionnaire,
+            identifiantUtilisateur: payload.transmisPar,
+          }))
+          .with({ type: 'DemandeChangementActionnaireAccordée-V1' }, ({ payload }) => ({
+            actionnaire: payload.nouvelActionnaire,
+            identifiantUtilisateur: payload.accordéePar,
+          }))
+          .exhaustive();
+
         const userId = await new Promise<string>((r) =>
           getUserByEmail(identifiantUtilisateur).map((user) => {
             r(user?.id ?? '');
@@ -46,7 +61,7 @@ export const register = () => {
           new ModificationReceived({
             payload: {
               type: 'actionnaire',
-              actionnaire: payload.actionnaire,
+              actionnaire,
               authority: 'dreal',
               modificationRequestId: new UniqueEntityID().toString(),
               projectId: projet.id,
@@ -59,7 +74,7 @@ export const register = () => {
           new ProjectActionnaireUpdated({
             payload: {
               projectId: projet.id,
-              newActionnaire: payload.actionnaire,
+              newActionnaire: actionnaire,
               updatedBy: userId,
             },
           }),
