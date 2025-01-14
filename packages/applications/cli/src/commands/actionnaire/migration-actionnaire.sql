@@ -34,13 +34,12 @@ select *
 from event_store.event_stream
 where stream_id like 'actionnaire|%';
 
-select *
-from event_store.pending_acknowledgement;
-
-
 delete from event_store.pending_acknowledgement
 where subscriber_name = 'dead-letter-queue'
     and stream_category = 'actionnaire';
+
+select *
+from event_store.pending_acknowledgement;
 
 -- Rebuild actionnaire (RESTART required!!)
 call event_store.rebuild('actionnaire');
@@ -66,14 +65,13 @@ from projects p
     )
 where p.classe <> 'Eliminé'
     and act.value is null
-    and p.actionnaire is not null
-    and p.actionnaire <> ''
     and "notifiedOn" > 0;
 
 
 
 -- vérication des données erronées
 select p.id,
+    p."nomProjet",
     format(
         '%s#%s#%s#%s',
         p."appelOffreId",
@@ -91,4 +89,9 @@ from projects p
         p."familleId",
         p."numeroCRE"
     )
-where act.value->>'actionnaire.nom' <> p.actionnaire;
+where (
+        act.value->>'actionnaire.nom' is null
+        and p.actionnaire <> ''
+    )
+    OR (act.value->>'actionnaire.nom' <> p.actionnaire)
+order by act.value->>'identifiantProjet';

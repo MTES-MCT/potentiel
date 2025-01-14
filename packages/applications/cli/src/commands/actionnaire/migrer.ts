@@ -42,7 +42,12 @@ from "modificationRequests" mr
     left join users u on u.id = mr."userId"
     left join users u_cancel on u_cancel.id = mr."cancelledBy"
     left join users u_respond on u_respond.id = mr."respondedBy"
-where mr.type = 'actionnaire' and mr.actionnaire is not null and mr.actionnaire<>'';
+where 
+        mr.type = 'actionnaire' 
+    and mr.actionnaire is not null 
+    and mr.actionnaire<>''
+    and mr.status<>'annulée'
+order by mr."requestedOn";
     `;
 
 export class Migrer extends Command {
@@ -110,11 +115,11 @@ export class Migrer extends Command {
       const request: Actionnaire.ChangementActionnaireDemandéEvent = {
         type: 'ChangementActionnaireDemandé-V1',
         payload: {
-          actionnaire: modification.actionnaire,
+          actionnaire: cleanInput(modification.actionnaire),
           demandéeLe: requestedOn,
           demandéePar: modification.email,
           identifiantProjet,
-          raison: modification.justification,
+          raison: cleanInput(modification.justification),
           // !!! TODO !!!
           pièceJustificative: { format: 'application/pdf' },
         },
@@ -122,11 +127,11 @@ export class Migrer extends Command {
       const modifié: Actionnaire.ActionnaireModifiéEvent = {
         type: 'ActionnaireModifié-V1',
         payload: {
-          actionnaire: modification.actionnaire,
+          actionnaire: cleanInput(modification.actionnaire),
           identifiantProjet,
           modifiéLe: requestedOn,
           modifiéPar: modification.email,
-          raison: modification.justification,
+          raison: cleanInput(modification.justification),
         },
       };
       switch (modification.status) {
@@ -136,29 +141,15 @@ export class Migrer extends Command {
             payload: {
               identifiantProjet,
               accordéeLe: DateTime.convertirEnValueType(
-                new Date(modification.respondedOn * 1000),
+                new Date(modification.respondedOn),
               ).formatter(),
               accordéePar: modification.respondedBy,
-              nouvelActionnaire: modification.actionnaire,
-              // TODO !!
+              nouvelActionnaire: cleanInput(modification.actionnaire),
+              // !!! TODO !!!
               réponseSignée: { format: 'application/pdf' },
             },
           };
           eventsPerProjet[modification.identifiantProjet].push(request, acceptation);
-          break;
-        // TODO rejected ?
-        case 'annulée':
-          const annulation: Actionnaire.ActionnaireEvent = {
-            type: 'DemandeChangementActionnaireAnnulée-V1',
-            payload: {
-              identifiantProjet,
-              annuléeLe: DateTime.convertirEnValueType(
-                new Date(modification.cancelledOn * 1000),
-              ).formatter(),
-              annuléePar: modification.cancelledBy,
-            },
-          };
-          eventsPerProjet[modification.identifiantProjet].push(request, annulation);
           break;
 
         case 'envoyée':
@@ -181,3 +172,10 @@ export class Migrer extends Command {
     process.exit(0);
   }
 }
+
+const cleanInput = (str: string) =>
+  str
+    .replaceAll(/\t/g, ' ')
+    .replaceAll(/\r\n/g, '\\n')
+    // .replace(/\x0a/g, ' \\n') A TESTER
+    .replaceAll('"', '\\"');
