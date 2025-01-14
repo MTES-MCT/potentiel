@@ -5,6 +5,10 @@
       "size": "M"
     },
     {
+      "command": "0 4 * * * ./packages/applications/scheduled-tasks/backup-3-2-1.sh",
+      "size": "M"
+    },
+    {
       "command": "0 0 * * * ./packages/applications/scheduled-tasks/s3-backup.sh",
       "size": "M"
     },
