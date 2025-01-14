@@ -10,8 +10,8 @@ export type RejeterChangementActionnaireCommand = Message<
   'Lauréat.Actionnaire.Command.RejeterDemandeChangement',
   {
     identifiantProjet: IdentifiantProjet.ValueType;
-    rejetéeLe: DateTime.ValueType;
-    rejetéePar: Email.ValueType;
+    rejetéLe: DateTime.ValueType;
+    rejetéPar: Email.ValueType;
     réponseSignée: DocumentProjet.ValueType;
   }
 >;
@@ -21,16 +21,16 @@ export const registerRejeterChangementActionnaireCommand = (loadAggregate: LoadA
 
   const handler: MessageHandler<RejeterChangementActionnaireCommand> = async ({
     identifiantProjet,
-    rejetéeLe,
-    rejetéePar,
+    rejetéLe,
+    rejetéPar,
     réponseSignée,
   }) => {
     const actionnaire = await loadActionnaire(identifiantProjet, false);
 
     await actionnaire.rejeterChangementActionnaire({
       identifiantProjet,
-      rejetéeLe,
-      rejetéePar,
+      rejetéLe,
+      rejetéPar,
       réponseSignée,
     });
   };

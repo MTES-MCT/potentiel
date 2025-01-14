@@ -11,8 +11,8 @@ export type RejeterChangementActionnaireUseCase = Message<
   'Lauréat.Actionnaire.UseCase.RejeterDemandeChangement',
   {
     identifiantProjetValue: string;
-    rejetéeLeValue: string;
-    rejetéeParValue: string;
+    rejetéLeValue: string;
+    rejetéParValue: string;
     réponseSignéeValue: {
       content: ReadableStream;
       format: string;
@@ -23,17 +23,17 @@ export type RejeterChangementActionnaireUseCase = Message<
 export const registerRejeterChangementActionnaireUseCase = () => {
   const runner: MessageHandler<RejeterChangementActionnaireUseCase> = async ({
     identifiantProjetValue,
-    rejetéeLeValue,
-    rejetéeParValue,
+    rejetéLeValue,
+    rejetéParValue,
     réponseSignéeValue: { format, content },
   }) => {
     const identifiantProjet = IdentifiantProjet.convertirEnValueType(identifiantProjetValue);
-    const rejetéeLe = DateTime.convertirEnValueType(rejetéeLeValue);
-    const rejetéePar = Email.convertirEnValueType(rejetéeParValue);
+    const rejetéLe = DateTime.convertirEnValueType(rejetéLeValue);
+    const rejetéPar = Email.convertirEnValueType(rejetéParValue);
     const réponseSignée = DocumentProjet.convertirEnValueType(
       identifiantProjetValue,
       TypeDocumentActionnaire.changementRejeté.formatter(),
-      rejetéeLe.formatter(),
+      rejetéLe.formatter(),
       format,
     );
 
@@ -48,8 +48,8 @@ export const registerRejeterChangementActionnaireUseCase = () => {
     await mediator.send<RejeterChangementActionnaireCommand>({
       type: 'Lauréat.Actionnaire.Command.RejeterDemandeChangement',
       data: {
-        rejetéeLe,
-        rejetéePar,
+        rejetéLe,
+        rejetéPar,
         identifiantProjet,
         réponseSignée,
       },

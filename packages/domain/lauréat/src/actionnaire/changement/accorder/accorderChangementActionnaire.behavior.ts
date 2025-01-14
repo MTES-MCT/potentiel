@@ -21,14 +21,14 @@ export type ChangementActionnaireAccordéEvent = DomainEvent<
 
 type Options = {
   identifiantProjet: IdentifiantProjet.ValueType;
-  accordéeLe: DateTime.ValueType;
-  accordéePar: Email.ValueType;
+  accordéLe: DateTime.ValueType;
+  accordéPar: Email.ValueType;
   réponseSignée: DocumentProjet.ValueType;
 };
 
 export async function accorderChangementActionnaire(
   this: ActionnaireAggregate,
-  { identifiantProjet, accordéeLe, accordéePar, réponseSignée }: Options,
+  { identifiantProjet, accordéLe, accordéPar, réponseSignée }: Options,
 ) {
   if (!this.demande) {
     throw new ChangementActionnaireInexistanteErreur();
@@ -42,8 +42,8 @@ export async function accorderChangementActionnaire(
     type: 'ChangementActionnaireAccordé-V1',
     payload: {
       identifiantProjet: identifiantProjet.formatter(),
-      accordéLe: accordéeLe.formatter(),
-      accordéPar: accordéePar.formatter(),
+      accordéLe: accordéLe.formatter(),
+      accordéPar: accordéPar.formatter(),
       réponseSignée: {
         format: réponseSignée.format,
       },

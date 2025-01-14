@@ -20,14 +20,14 @@ export type ChangementActionnaireRejetéEvent = DomainEvent<
 
 type Options = {
   identifiantProjet: IdentifiantProjet.ValueType;
-  rejetéeLe: DateTime.ValueType;
-  rejetéePar: Email.ValueType;
+  rejetéLe: DateTime.ValueType;
+  rejetéPar: Email.ValueType;
   réponseSignée: DocumentProjet.ValueType;
 };
 
 export async function rejeterChangementActionnaire(
   this: ActionnaireAggregate,
-  { identifiantProjet, rejetéeLe, rejetéePar, réponseSignée }: Options,
+  { identifiantProjet, rejetéLe, rejetéPar, réponseSignée }: Options,
 ) {
   if (!this.demande) {
     throw new ChangementActionnaireInexistanteErreur();
@@ -41,8 +41,8 @@ export async function rejeterChangementActionnaire(
     type: 'ChangementActionnaireRejeté-V1',
     payload: {
       identifiantProjet: identifiantProjet.formatter(),
-      rejetéLe: rejetéeLe.formatter(),
-      rejetéPar: rejetéePar.formatter(),
+      rejetéLe: rejetéLe.formatter(),
+      rejetéPar: rejetéPar.formatter(),
       réponseSignée: {
         format: réponseSignée.format,
       },

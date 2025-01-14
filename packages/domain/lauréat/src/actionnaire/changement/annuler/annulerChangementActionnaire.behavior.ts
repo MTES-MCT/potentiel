@@ -8,8 +8,8 @@ import { ChangementActionnaireInexistanteErreur } from '../../errors';
 export type ChangementActionnaireAnnuléEvent = DomainEvent<
   'ChangementActionnaireAnnulé-V1',
   {
-    annuléeLe: DateTime.RawType;
-    annuléePar: Email.RawType;
+    annuléLe: DateTime.RawType;
+    annuléPar: Email.RawType;
     identifiantProjet: IdentifiantProjet.RawType;
   }
 >;
@@ -36,8 +36,8 @@ export async function annulerDemandeChangement(
     type: 'ChangementActionnaireAnnulé-V1',
     payload: {
       identifiantProjet: identifiantProjet.formatter(),
-      annuléeLe: dateAnnulation.formatter(),
-      annuléePar: identifiantUtilisateur.formatter(),
+      annuléLe: dateAnnulation.formatter(),
+      annuléPar: identifiantUtilisateur.formatter(),
     },
   };
 
