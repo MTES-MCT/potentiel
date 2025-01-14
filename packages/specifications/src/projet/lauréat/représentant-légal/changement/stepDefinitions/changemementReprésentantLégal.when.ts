@@ -83,6 +83,13 @@ Quand(
   },
 );
 
+Quand(
+  /le système relance automatiquement la dreal pour faire (l'accord|le rejet) de la demande de changement de représentant légal pour le projet lauréat/,
+  async function (this: PotentielWorld, _: "l'accord" | 'le rejet') {
+    await relancerAutomatiquementDreal.call(this);
+  },
+);
+
 async function demanderChangement(
   this: PotentielWorld,
   partialFixture: CréerDemandeChangementReprésentantLégalFixture,
@@ -182,6 +189,26 @@ async function instruireAutomatiquementChangement(
         },
       );
     }
+
+    const typeTâchePlanifiéeValue = this.tâchePlanifiéeWorld.rechercherTypeTâchePlanifiée(
+      this.tâchePlanifiéeWorld.ajouterTâchePlanifiéeFixture.typeTâchePlanifiée,
+    ).type;
+
+    await mediator.send<ExécuterTâchePlanifiéeUseCase>({
+      type: 'System.TâchePlanifiée.UseCase.ExécuterTâchePlanifiée',
+      data: {
+        identifiantProjetValue: identifiantProjet,
+        typeTâchePlanifiéeValue,
+      },
+    });
+  } catch (error) {
+    this.error = error as Error;
+  }
+}
+
+async function relancerAutomatiquementDreal(this: PotentielWorld) {
+  try {
+    const identifiantProjet = this.lauréatWorld.identifiantProjet.formatter();
 
     const typeTâchePlanifiéeValue = this.tâchePlanifiéeWorld.rechercherTypeTâchePlanifiée(
       this.tâchePlanifiéeWorld.ajouterTâchePlanifiéeFixture.typeTâchePlanifiée,

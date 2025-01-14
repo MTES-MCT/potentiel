@@ -2,13 +2,15 @@ import { InvalidOperationError, PlainType, ReadonlyValueType } from '@potentiel-
 
 const types = [
   'représentant-légal.gestion-automatique-demande-changement',
-  'représenant-légal.rappel-instruction-à-deux-mois',
+  'représentant-légal.rappel-instruction-à-deux-mois',
 ] as const;
 
 export type RawType = (typeof types)[number];
 
 export type ValueType = ReadonlyValueType<{
   type: RawType;
+  estGestionAutomatiqueDemandeChangement: () => boolean;
+  estRappelInstructionÀDeuxMois: () => boolean;
 }>;
 
 export const bind = ({ type }: PlainType<ValueType>): ValueType => {
@@ -16,6 +18,12 @@ export const bind = ({ type }: PlainType<ValueType>): ValueType => {
     type,
     estÉgaleÀ({ type }) {
       return this.type === type;
+    },
+    estGestionAutomatiqueDemandeChangement() {
+      return this.type === 'représentant-légal.gestion-automatique-demande-changement';
+    },
+    estRappelInstructionÀDeuxMois() {
+      return this.type === 'représentant-légal.rappel-instruction-à-deux-mois';
     },
   };
 };
@@ -40,7 +48,7 @@ export const gestionAutomatiqueDemandeChangement = convertirEnValueType(
 );
 
 export const rappelInstructionÀDeuxMois = convertirEnValueType(
-  'représenant-légal.rappel-instruction-à-deux-mois',
+  'représentant-légal.rappel-instruction-à-deux-mois',
 );
 export class TypeTâchePlanifiéeInvalideError extends InvalidOperationError {
   constructor(value: string) {

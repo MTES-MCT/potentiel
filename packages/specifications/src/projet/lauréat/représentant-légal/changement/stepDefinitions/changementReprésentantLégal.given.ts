@@ -33,6 +33,14 @@ EtantDonné(
       typeTâchePlanifiée: 'gestion automatique de la demande de changement de représentant légal',
     });
 
+    this.tâchePlanifiéeWorld.ajouterTâchePlanifiéeFixture.créer({
+      identifiantProjet,
+      ajoutéeLe: dateDemande.formatter(),
+      àExécuterLe: dateDemande.ajouterNombreDeMois(2).formatter(),
+      typeTâchePlanifiée:
+        "rappel d'instruction de la demande de changement de représentant légal à deux mois",
+    });
+
     await mediator.send<ReprésentantLégal.DemanderChangementReprésentantLégalUseCase>({
       type: 'Lauréat.ReprésentantLégal.UseCase.DemanderChangementReprésentantLégal',
       data: {
