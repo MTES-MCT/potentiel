@@ -1,4 +1,7 @@
+import { extname } from 'node:path';
+
 import { Command, Flags } from '@oclif/core';
+import { contentType } from 'mime-types';
 
 import { Actionnaire, Lauréat } from '@potentiel-domain/laureat';
 import { listProjection } from '@potentiel-infrastructure/pg-projections';
@@ -9,7 +12,7 @@ import { publish } from '@potentiel-infrastructure/pg-event-sourcing';
 
 type ModificationRequest = {
   identifiantProjet: string;
-  status: 'en instruction' | 'annulée' | 'acceptée' | 'envoyée' | 'information validée';
+  status: 'en instruction' | 'acceptée' | 'envoyée' | 'information validée';
   actionnaire: string;
   justification: string;
   requestedOn: number;
@@ -18,10 +21,12 @@ type ModificationRequest = {
   cancelledBy: string;
   respondedOn: number;
   respondedBy: string;
+  requestFile: string;
+  responseFile: string;
 };
 
 const queryModifications = `
-  select format(
+ select format(
         '%s#%s#%s#%s',
         p."appelOffreId",
         p."periodeId",
@@ -36,17 +41,21 @@ const queryModifications = `
     mr."cancelledOn",
     mr."respondedOn",
     u_cancel.email as "cancelledBy",
-    u_respond.email as "respondedBy"
+    u_respond.email as "respondedBy",
+    f."storedAt" as "requestFile",
+    fr."storedAt" as "responseFile"
 from "modificationRequests" mr
     inner join projects p on p.id = mr."projectId"
     left join users u on u.id = mr."userId"
     left join users u_cancel on u_cancel.id = mr."cancelledBy"
     left join users u_respond on u_respond.id = mr."respondedBy"
+    left join files f on f.id = mr."fileId"
+    left join files fr on fr.id = mr."responseFileId"
 where 
-        mr.type = 'actionnaire' 
-    and mr.actionnaire is not null 
-    and mr.actionnaire<>''
-    and mr.status<>'annulée'
+        mr.type = 'actionnaire'
+      and mr.actionnaire is not null
+      and mr.actionnaire <> ''
+      and mr.status <> 'annulée'
 order by mr."requestedOn";
     `;
 
@@ -120,10 +129,10 @@ export class Migrer extends Command {
           demandéePar: modification.email,
           identifiantProjet,
           raison: cleanInput(modification.justification),
-          // !!! TODO !!!
           pièceJustificative: { format: 'application/pdf' },
         },
       };
+      const format = modification.requestFile && contentType(extname(modification.requestFile));
       const modifié: Actionnaire.ActionnaireModifiéEvent = {
         type: 'ActionnaireModifié-V1',
         payload: {
@@ -132,6 +141,7 @@ export class Migrer extends Command {
           modifiéLe: requestedOn,
           modifiéPar: modification.email,
           raison: cleanInput(modification.justification),
+          pièceJustificative: format ? { format } : undefined,
         },
       };
       switch (modification.status) {
