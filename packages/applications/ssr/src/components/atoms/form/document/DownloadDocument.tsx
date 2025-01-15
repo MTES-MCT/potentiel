@@ -1,6 +1,6 @@
 import { FC } from 'react';
 import { Download } from '@codegouvfr/react-dsfr/Download';
-
+import { extension } from 'mime-types';
 export type DownloadDocumentProps = {
   className?: string;
   label: string;
@@ -17,7 +17,7 @@ export const DownloadDocument: FC<DownloadDocumentProps> = ({
   <Download
     className={className}
     label={label}
-    details={format.toUpperCase()}
+    details={(extension(format) || format).toUpperCase()}
     linkProps={{
       href: url,
       target: '_blank',
