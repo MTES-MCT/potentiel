@@ -30,7 +30,7 @@ export const handleTâchePlanifiéeGestionAutomatiqueDemandeChangementExecutée 
 
     if (Option.isNone(appelOffre)) {
       throw new TâchePlanifiéeGestionAutomatiqueDemandeChangementError(
-        `Appel d'offre non trouvée`,
+        `Appel d'offre non trouvé`,
         identifiantProjet.formatter(),
       );
     }
