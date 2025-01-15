@@ -16,7 +16,6 @@ import {
   Form,
 } from '../../components';
 import { hydrateOnClient } from '../../helpers';
-import { ChangementActionnaire, DemandeRecours } from './components';
 import routes from '../../../routes';
 
 type NewModificationRequestProps = {
@@ -30,7 +29,7 @@ export const NewModificationRequest = ({
   project,
   appelOffre,
 }: NewModificationRequestProps) => {
-  const { action, error, success, actionnaire, justification } = (request.query as any) || {};
+  const { action, error, success } = (request.query as any) || {};
 
   const doitChoisirCahierDesCharges =
     appelOffre.periode.choisirNouveauCahierDesCharges &&
@@ -49,9 +48,7 @@ export const NewModificationRequest = ({
             cahierDesChargesActuel: 'initial',
             identifiantGestionnaireRéseau: project.identifiantGestionnaire,
           }}
-          redirectUrl={
-            action === 'actionnaire' ? routes.CHANGER_ACTIONNAIRE(project.id) : routes.LISTE_PROJETS
-          }
+          redirectUrl={routes.LISTE_PROJETS}
           type={action}
           cahiersDesChargesUrl={project.cahiersDesChargesUrl}
           formulaireModificationProjet={true}
@@ -73,11 +70,6 @@ export const NewModificationRequest = ({
             <div className="mb-2">Concernant le projet:</div>
             <ProjectInfo project={project} />
           </div>
-
-          {action === 'actionnaire' && (
-            <ChangementActionnaire {...{ project, actionnaire, justification }} />
-          )}
-          {action === 'recours' && <DemandeRecours {...{ justification }} />}
 
           <div className="mx-auto flex flex-col md:flex-row gap-4 items-center">
             <PrimaryButton type="submit" id="submit">

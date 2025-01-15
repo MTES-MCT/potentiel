@@ -23,7 +23,6 @@ import {
   makeCancelModificationRequest,
   makeConfirmRequest,
   makeRejectModificationRequest,
-  makeRequestActionnaireModification,
   makeRequestConfirmation,
   makeRequestFournisseursModification,
   makeChangerProducteur,
@@ -45,7 +44,6 @@ import {
   getProjectDataForProjectClaim,
   getPuissanceProjet,
   getUserByEmail,
-  hasDemandeDeMêmeTypeOuverte,
 } from './queries.config';
 import {
   demandeDélaiRepo,
@@ -120,13 +118,6 @@ export const demanderChangementDePuissance = makeDemanderChangementDePuissance({
   fileRepo,
   getPuissanceProjet,
   getProjectAppelOffre,
-});
-
-export const requestActionnaireModification = makeRequestActionnaireModification({
-  eventBus: eventStore,
-  shouldUserAccessProject: shouldUserAccessProject.check.bind(shouldUserAccessProject),
-  projectRepo,
-  fileRepo,
 });
 
 export const changerProducteur = makeChangerProducteur({
