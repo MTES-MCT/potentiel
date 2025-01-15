@@ -69,7 +69,6 @@ export type ModificationRequestPageDTO = {
 } & Variant;
 
 type Variant =
-  | { type: 'actionnaire'; actionnaire: string }
   | { type: 'fournisseur'; fournisseurs: Fournisseur[]; evaluationCarbone?: number }
   | { type: 'producteur'; producteur: string }
   | { type: 'puissance'; puissance: number; puissanceAuMomentDuDepot?: number }

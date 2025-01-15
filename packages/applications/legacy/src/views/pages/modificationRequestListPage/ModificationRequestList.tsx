@@ -247,7 +247,6 @@ export const ModificationRequestList = ({
                   Choisir un type de demande
                 </option>
                 <option value="">Tous</option>
-                <option value="actionnaire">Actionnaire</option>
                 <option value="fournisseur">Fournisseur</option>
                 <option value="producteur">Producteur</option>
                 <option value="puissance">Puissance</option>

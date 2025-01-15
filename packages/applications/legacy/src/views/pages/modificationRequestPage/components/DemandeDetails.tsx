@@ -62,8 +62,6 @@ const DetailsByType = ({ modificationRequest }: DetailsByTypeProps) => {
   switch (modificationRequest.type) {
     case 'puissance':
       return <PuissanceDetails modificationRequest={modificationRequest} />;
-    case 'actionnaire':
-      return <ActionnaireDetails modificationRequest={modificationRequest} />;
     case 'producteur':
       return <ProducteurDetails modificationRequest={modificationRequest} />;
     case 'fournisseur':
@@ -125,20 +123,6 @@ const PuissanceDetails = ({ modificationRequest }: PuissanceDetailsProps) => {
         <span className="font-bold">
           {modificationRequest.puissance} {unitePuissance}
         </span>
-      </div>
-    </div>
-  );
-};
-
-interface ActionnaireDetailsProps {
-  modificationRequest: ModificationRequestPageDTO & { type: 'actionnaire' };
-}
-const ActionnaireDetails = ({ modificationRequest }: ActionnaireDetailsProps) => {
-  return (
-    <div>
-      <Heading3 className="mb-2">Nouvel actionnaire</Heading3>
-      <div>
-        Nouvel actionnaire : <span className="font-bold">{modificationRequest.actionnaire}</span>
       </div>
     </div>
   );
