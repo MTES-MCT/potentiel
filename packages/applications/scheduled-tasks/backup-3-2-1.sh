@@ -1,0 +1,39 @@
+#! /bin/bash -l
+echo "Installing PG utils..."
+dbclient-fetcher pgsql
+
+DATE=$(date +"%Y-%m-%d_%H-%M-%S")
+echo "Today's date to use in file names is ${DATE}"
+
+echo "Creating compressed backup..."
+COMPRESSED_BACKUP_FILE_NAME=dump_${DATE}.pgsql
+pg_dump --clean --if-exists --format c --dbname "${SCALINGO_POSTGRESQL_URL}" --no-owner --no-privileges --no-comments --exclude-schema 'information_schema' --exclude-schema '^pg_*' --file ${COMPRESSED_BACKUP_FILE_NAME}
+
+echo Creating plain backup...
+PLAIN_BACKUP_FILE_NAME=dump_${DATE}.sql
+pg_dump --clean --if-exists --format p --dbname "${SCALINGO_POSTGRESQL_URL}" --no-owner --no-privileges --no-comments --exclude-schema 'information_schema' --exclude-schema '^pg_*' --file ${PLAIN_BACKUP_FILE_NAME}
+
+echo Creating gz archive backup...
+TAR_BACKUP_FILE_NAME=dump_${DATE}.tar
+GZ_BACKUP_FILE_NAME=${TAR_BACKUP_FILE_NAME}.gz
+pg_dump --clean --if-exists --format t --dbname "${SCALINGO_POSTGRESQL_URL}" --no-owner --no-privileges --no-comments --exclude-schema 'information_schema' --exclude-schema '^pg_*' --file ${TAR_BACKUP_FILE_NAME}
+gzip ./${TAR_BACKUP_FILE_NAME}
+
+echo "Installing aws cli..."
+
+curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip"
+unzip awscliv2.zip
+./aws/install -i ~/aws-cli -b ~/aws-cli/bin
+
+cd ~/aws-cli/bin
+
+./aws configure set aws_access_key_id $AWS_ACCESS_KEY_ID
+./aws configure set aws_secret_access_key $AWS_SECRET_ACCESS_KEY
+./aws configure set region $AWS_REGION
+./aws configure set endpoint_url  $S3_ENDPOINT
+
+echo "Uploading backups to bucket..."
+
+./aws s3 cp ../../${COMPRESSED_BACKUP_FILE_NAME} s3://${S3_BUCKET}/db_backups/${COMPRESSED_BACKUP_FILE_NAME}
+./aws s3 cp ../../${PLAIN_BACKUP_FILE_NAME} s3://${S3_BUCKET}/db_backups/${PLAIN_BACKUP_FILE_NAME}
+./aws s3 cp ../../${GZ_BACKUP_FILE_NAME} s3://${S3_BUCKET}/db_backups/${GZ_BACKUP_FILE_NAME}
