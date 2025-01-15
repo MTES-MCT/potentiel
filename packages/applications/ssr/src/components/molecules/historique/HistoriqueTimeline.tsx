@@ -19,6 +19,7 @@ export const HistoriqueTimeline: FC<HistoriqueTimelineProps> = ({ historique }) 
   return <Timeline items={historique.items.map((item) => mapToTimelineItemProps(item))} />;
 };
 
+// ajouter l'historique actionnaire ici après la MEP
 const mapToTimelineItemProps = (record: HistoryRecord) => {
   return match(record)
     .returnType<TimelineItemProps>()
