@@ -137,6 +137,18 @@ export class Migrer extends Command {
         },
       };
 
+      const eventModifié: Actionnaire.ActionnaireModifiéEvent = {
+        type: 'ActionnaireModifié-V1',
+        payload: {
+          actionnaire: cleanInput(modification.actionnaire),
+          identifiantProjet,
+          modifiéLe: requestedOn,
+          modifiéPar: modification.email,
+          raison: cleanInput(modification.justification),
+          pièceJustificative: formatRequestFile ? { format: formatRequestFile } : undefined,
+        },
+      };
+
       switch (modification.status) {
         case 'acceptée':
           const acceptation: Actionnaire.ActionnaireEvent = {
@@ -156,27 +168,27 @@ export class Migrer extends Command {
 
         case 'envoyée':
         case 'en instruction':
-          eventsPerProjet[modification.identifiantProjet].push(request);
+          if (!identifiantProjet.startsWith('Eolien#')) {
+            const candidature = candidatures.find(
+              (candidature) => candidature.identifiantProjet === modification.identifiantProjet,
+            );
+            console.log(
+              `📨 Demande automatiquement acceptée pour ${identifiantProjet} (${candidature?.emailContact})`,
+            );
+            eventsPerProjet[modification.identifiantProjet].push(eventModifié);
+          } else {
+            eventsPerProjet[modification.identifiantProjet].push(request);
+          }
           break;
         case 'information validée':
-          eventsPerProjet[modification.identifiantProjet].push({
-            type: 'ActionnaireModifié-V1',
-            payload: {
-              actionnaire: cleanInput(modification.actionnaire),
-              identifiantProjet,
-              modifiéLe: requestedOn,
-              modifiéPar: modification.email,
-              raison: cleanInput(modification.justification),
-              pièceJustificative: formatRequestFile ? { format: formatRequestFile } : undefined,
-            },
-          });
+          eventsPerProjet[modification.identifiantProjet].push(eventModifié);
       }
     }
 
     const eventsStats: Record<string, number> = {};
 
     for (const [identifiantProjet, events] of Object.entries(eventsPerProjet)) {
-      console.log(identifiantProjet, events.map((ev) => ev.type).join(', '));
+      // console.log(identifiantProjet, events.map((ev) => ev.type).join(', '));
       for (const event of events) {
         if (!flags.dryRun) {
           await publish(`actionnaire|${identifiantProjet}`, event);
