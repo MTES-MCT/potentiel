@@ -17,10 +17,9 @@ Fonctionnalité: Annuler la demande de changement de représentant légal d'un p
             | nom_projet | Du boulodrome de Marseille                                                                                                                         |
             | url        | https://potentiel.beta.gouv.fr/projet/.*/details.html                                                                                              |
 
-    @NotImplemented
     Scénario: Impossible d'annuler la demande de changement de représentant légal d'un projet lauréat si aucun changement n'a été demandé
         Quand le porteur annule la demande de changement de représentant légal pour le projet lauréat
-        Alors le porteur devrait être informé que "Aucun changement de représentant légal n'est en cours"
+        Alors le porteur devrait être informé que "Aucune demande de changement de représentant légal n'est en cours"
 
     @NotImplemented
     Scénario: Impossible d'annuler la demande de changement de représentant légal d'un projet lauréat si il a déjà été accordé

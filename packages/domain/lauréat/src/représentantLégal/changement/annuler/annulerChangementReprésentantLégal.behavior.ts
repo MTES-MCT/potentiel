@@ -1,7 +1,4 @@
-// Third party
-
-// Workspaces
-import { DomainEvent } from '@potentiel-domain/core';
+import { DomainEvent, InvalidOperationError } from '@potentiel-domain/core';
 import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
 
 import { ReprésentantLégalAggregate } from '../../représentantLégal.aggregate';
@@ -25,9 +22,9 @@ export async function annuler(
   this: ReprésentantLégalAggregate,
   { identifiantProjet, identifiantUtilisateur, dateAnnulation }: AccorderOptions,
 ) {
-  // if (!this.demande) {
-  //   throw new DemandeChangementInexistanteError();
-  // }
+  if (!this.demande) {
+    throw new DemandeChangementInexistanteError();
+  }
   // // this.demande?.statut.vérifierQueLeChangementDeStatutEstPossibleEn(
   // //   StatutChangementReprésentantLégal.accordé,
   // // );
@@ -53,8 +50,8 @@ export function applyChangementReprésentantLégalAnnulé(
   }
 }
 
-// class DemandeChangementInexistanteError extends InvalidOperationError {
-//   constructor() {
-//     super(`Aucun changement de représentant légal n'est en cours`);
-//   }
-// }
+class DemandeChangementInexistanteError extends InvalidOperationError {
+  constructor() {
+    super(`Aucune demande de changement de représentant légal n'est en cours`);
+  }
+}

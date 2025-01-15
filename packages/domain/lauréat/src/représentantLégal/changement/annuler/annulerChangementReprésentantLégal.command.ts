@@ -1,12 +1,9 @@
-// Third party
 import { Message, MessageHandler, mediator } from 'mediateur';
 
-// Workspaces
 import { IdentifiantProjet, DateTime } from '@potentiel-domain/common';
 import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
 import { LoadAggregate } from '@potentiel-domain/core';
 
-// Package
 import { loadReprésentantLégalFactory } from '../../représentantLégal.aggregate';
 
 export type AnnulerChangementReprésentantLégalCommand = Message<
