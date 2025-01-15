@@ -55,8 +55,6 @@ echo "Uploading backups to bucket..."
 ./aws s3 cp ../../${PLAIN_BACKUP_FILE_NAME} s3://${S3_BUCKET}/db_backups/${PLAIN_BACKUP_FILE_NAME}
 ./aws s3 cp ../../${GZ_BACKUP_FILE_NAME} s3://${S3_BUCKET}/db_backups/${GZ_BACKUP_FILE_NAME}
 
-## TODO: Check-in for crons in sentry
-
 echo "Backup 3-2-1 successfully executed !"
 
 curl "$SENTRY_CRONS?check_in_id=${CHECK_IN_ID}&status=ok&environment=$APPLICATION_STAGE"
