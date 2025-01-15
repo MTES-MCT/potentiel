@@ -55,6 +55,10 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
         actions.push('rejeter');
       }
 
+      if (utilisateur.role.aLaPermission('représentantLégal.annulerChangement')) {
+        actions.push('annuler');
+      }
+
       return (
         <DétailsChangementReprésentantLégalPage
           identifiantProjet={mapToPlainObject(identifiantProjet)}
