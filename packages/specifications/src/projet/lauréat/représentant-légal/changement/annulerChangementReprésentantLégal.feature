@@ -21,14 +21,12 @@ Fonctionnalité: Annuler la demande de changement de représentant légal d'un p
         Quand le porteur annule la demande de changement de représentant légal pour le projet lauréat
         Alors le porteur devrait être informé que "Aucune demande de changement de représentant légal n'est en cours"
 
-    @NotImplemented
     Scénario: Impossible d'annuler la demande de changement de représentant légal d'un projet lauréat si il a déjà été accordé
-        Etant donné un abandon accordé pour le projet lauréat
+        Etant donné une demande de changement de représentant légal accordée pour le projet lauréat
         Quand le porteur annule la demande de changement de représentant légal pour le projet lauréat
-        Alors le porteur devrait être informé que "Le changement de représentant légal a déjà été accordé"
+        Alors le porteur devrait être informé que "La demande de changement de représentant légal a déjà été accordée"
 
-    @NotImplemented
     Scénario: Impossible d'annuler la demande de changement de représentant légal d'un projet lauréat si il a déjà été rejeté
-        Etant donné un abandon rejeté pour le projet lauréat
+        Etant donné une demande de changement de représentant légal rejetée pour le projet lauréat
         Quand le porteur annule la demande de changement de représentant légal pour le projet lauréat
-        Alors le porteur devrait être informé que "Le changement de représentant légal a déjà été rejeté"
+        Alors le porteur devrait être informé que "La demande de changement de représentant légal a déjà été rejetée"

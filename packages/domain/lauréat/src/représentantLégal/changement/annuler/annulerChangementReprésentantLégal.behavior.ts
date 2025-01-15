@@ -2,6 +2,7 @@ import { DomainEvent, InvalidOperationError } from '@potentiel-domain/core';
 import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
 
 import { ReprésentantLégalAggregate } from '../../représentantLégal.aggregate';
+import { StatutChangementReprésentantLégal } from '../..';
 
 export type ChangementReprésentantLégalAnnuléEvent = DomainEvent<
   'ChangementReprésentantLégalAnnulé-V1',
@@ -25,9 +26,9 @@ export async function annuler(
   if (!this.demande) {
     throw new DemandeChangementInexistanteError();
   }
-  // // this.demande?.statut.vérifierQueLeChangementDeStatutEstPossibleEn(
-  // //   StatutChangementReprésentantLégal.accordé,
-  // // );
+  this.demande?.statut.vérifierQueLeChangementDeStatutEstPossibleEn(
+    StatutChangementReprésentantLégal.annulé,
+  );
 
   const event: ChangementReprésentantLégalAnnuléEvent = {
     type: 'ChangementReprésentantLégalAnnulé-V1',
