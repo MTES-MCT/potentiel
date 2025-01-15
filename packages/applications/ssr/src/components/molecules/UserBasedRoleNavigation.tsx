@@ -53,13 +53,13 @@ const getNavigationItemsBasedOnRole = (utilisateur: Utilisateur.ValueType) => {
     {
       text: 'Abandons',
       linkProps: {
-        href: Routes.Abandon.lister,
+        href: Routes.Abandon.lister({ statut: 'demandé' }),
       },
     },
     {
       text: 'Recours',
       linkProps: {
-        href: Routes.Recours.lister,
+        href: Routes.Recours.lister({ statut: 'demandé' }),
       },
     },
     {
@@ -252,13 +252,13 @@ const getNavigationItemsBasedOnRole = (utilisateur: Utilisateur.ValueType) => {
       {
         text: 'Abandons',
         linkProps: {
-          href: Routes.Abandon.lister,
+          href: Routes.Abandon.lister({ statut: 'demandé' }),
         },
       },
       {
         text: 'Recours',
         linkProps: {
-          href: Routes.Recours.lister,
+          href: Routes.Recours.lister({ statut: 'demandé' }),
         },
       },
       {
