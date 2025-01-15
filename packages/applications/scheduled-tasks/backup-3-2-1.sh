@@ -1,4 +1,6 @@
 #! /bin/bash -l
+CHECK_IN_ID="$(uuidgen)"
+curl "$SENTRY_CRONS?check_in_id=${CHECK_IN_ID}&status=in_progress&environment=$APPLICATION_STAGE"
 
 handle_error() {
   local message="Error on backup 3-2-1 script line $1"
@@ -7,15 +9,7 @@ handle_error() {
   local timestamp=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
   local hostname=$(hostname)
 
-  curl -X POST "$SENTRY_DSN" \
-    -H 'Content-Type: application/json' \
-    -d '{
-      "level": "error",
-      "timestamp": "'"$timestamp"'",
-      "platform": "shell",
-      "message": "'"$message"'"
-      "environment": "'"$APPLICATION_STAGE"'"
-    }'
+  curl "$SENTRY_CRONS?check_in_id=${CHECK_IN_ID}&status=error&environment=$APPLICATION_STAGE"
 
   exit 1
 }
@@ -64,4 +58,7 @@ echo "Uploading backups to bucket..."
 ## TODO: Check-in for crons in sentry
 
 echo "Backup 3-2-1 successfully executed !"
+
+curl "$SENTRY_CRONS?check_in_id=${CHECK_IN_ID}&status=ok&environment=$APPLICATION_STAGE"
+
 exit 0
