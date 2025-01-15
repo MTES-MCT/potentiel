@@ -1,4 +1,27 @@
 #! /bin/bash -l
+
+handle_error() {
+  local message="Error on backup 3-2-1 script line $1"
+  echo $message
+
+  local timestamp=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
+  local hostname=$(hostname)
+
+  curl -X POST "$SENTRY_DSN" \
+    -H 'Content-Type: application/json' \
+    -d '{
+      "level": "error",
+      "timestamp": "'"$timestamp"'",
+      "platform": "shell",
+      "message": "'"$message"'"
+      "environment": "'"$APPLICATION_STAGE"'"
+    }'
+
+  exit 1
+}
+
+trap 'handle_error $LINENO' ERR
+
 echo "Installing PG utils..."
 dbclient-fetcher pgsql
 
@@ -37,3 +60,8 @@ echo "Uploading backups to bucket..."
 ./aws s3 cp ../../${COMPRESSED_BACKUP_FILE_NAME} s3://${S3_BUCKET}/db_backups/${COMPRESSED_BACKUP_FILE_NAME}
 ./aws s3 cp ../../${PLAIN_BACKUP_FILE_NAME} s3://${S3_BUCKET}/db_backups/${PLAIN_BACKUP_FILE_NAME}
 ./aws s3 cp ../../${GZ_BACKUP_FILE_NAME} s3://${S3_BUCKET}/db_backups/${GZ_BACKUP_FILE_NAME}
+
+## TODO: Check-in for crons in sentry
+
+echo "Backup 3-2-1 successfully executed !"
+exit 0
