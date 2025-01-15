@@ -9,6 +9,7 @@
     "build": "tsc"
   },
   "devDependencies": {
-    "@potentiel-config/tsconfig": "*"
+    "@potentiel-config/tsconfig": "*",
+    "@potentiel-domain/laureat": "*"
   }
 }
