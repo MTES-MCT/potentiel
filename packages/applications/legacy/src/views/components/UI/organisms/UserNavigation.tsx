@@ -65,8 +65,8 @@ const MenuCre = (currentPage?: string) => (
     >
       Projets
     </Header.MenuItem>
-    <Header.MenuItem href={Routes.Abandon.lister}>Abandons</Header.MenuItem>
-    <Header.MenuItem href={Routes.Recours.lister}>Recours</Header.MenuItem>
+    <Header.MenuItem href={Routes.Abandon.lister({ statut: 'demandé' })}>Abandons</Header.MenuItem>
+    <Header.MenuItem href={Routes.Recours.lister({ statut: 'demandé' })}>Recours</Header.MenuItem>
     <Header.MenuItem href={Routes.Raccordement.lister}>Raccordements</Header.MenuItem>
     <Header.MenuItem
       href={routes.GET_CRE_STATISTIQUES}
