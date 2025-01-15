@@ -2,7 +2,7 @@ import { DomainEvent } from '@potentiel-domain/core';
 import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
 import { DocumentProjet } from '@potentiel-domain/document';
 
-import { ActionnaireAggregate } from '../actionnaire.aggregate';
+import { ActionnaireAggregate } from '../../actionnaire.aggregate';
 import {
   ActionnaireIdentifiqueError,
   ActionnaireNePeutPasÊtreModifiéDirectement,
@@ -10,7 +10,7 @@ import {
   ProjetAbandonnéError,
   ProjetAchevéError,
   ProjetAvecDemandeAbandonEnCoursError,
-} from '../errors';
+} from '../../errors';
 
 export type ActionnaireModifiéEvent = DomainEvent<
   'ActionnaireModifié-V1',

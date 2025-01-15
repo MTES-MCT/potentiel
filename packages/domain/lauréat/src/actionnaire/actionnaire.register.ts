@@ -14,8 +14,8 @@ import { registerDemanderChangementActionnaireCommand } from './changement/deman
 import { registerDemanderChangementActionnaireUseCase } from './changement/demander/demanderChangementActionnaire.usecase';
 import { registerRejeterChangementActionnaireCommand } from './changement/rejeter/rejeterChangementActionnaire.command';
 import { registerRejeterChangementActionnaireUseCase } from './changement/rejeter/rejeterChangementActionnaire.usecase';
-import { registerModifierActionnaireCommand } from './modifier/modifierActionnaire.command';
-import { registerModifierActionnaireUseCase } from './modifier/modifierActionnaire.usecase';
+import { registerModifierActionnaireCommand } from './modification/modifier/modifierActionnaire.command';
+import { registerModifierActionnaireUseCase } from './modification/modifier/modifierActionnaire.usecase';
 import {
   ListerChangementActionnaireDependencies,
   registerListerChangementActionnaireQuery,

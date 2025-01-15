@@ -18,8 +18,8 @@ import {
   ConsulterActionnaireReadModel,
 } from './consulter/consulterActionnaire.query';
 import { ImporterActionnaireCommand } from './importer/importerActionnaire.command';
-import { ModifierActionnaireCommand } from './modifier/modifierActionnaire.command';
-import { ModifierActionnaireUseCase } from './modifier/modifierActionnaire.usecase';
+import { ModifierActionnaireCommand } from './modification/modifier/modifierActionnaire.command';
+import { ModifierActionnaireUseCase } from './modification/modifier/modifierActionnaire.usecase';
 import { SupprimerChangementActionnaireCommand } from './changement/supprimer/supprimerChangementActionnaire.command';
 
 // Query
@@ -75,7 +75,7 @@ export type {
 // Event
 export type { ActionnaireEvent } from './actionnaire.aggregate';
 export type { ActionnaireImportéEvent } from './importer/importerActionnaire.behavior';
-export type { ActionnaireModifiéEvent } from './modifier/modifierActionnaire.behavior';
+export type { ActionnaireModifiéEvent } from './modification/modifier/modifierActionnaire.behavior';
 export type { ChangementActionnaireDemandéEvent } from './changement/demander/demanderChangementActionnaire.behavior';
 export type { ChangementActionnaireAnnuléEvent } from './changement/annuler/annulerChangementActionnaire.behavior';
 export type { ChangementActionnaireAccordéEvent } from './changement/accorder/accorderChangementActionnaire.behavior';
@@ -91,3 +91,4 @@ export * as TypeDocumentActionnaire from './typeDocumentActionnaire.valueType';
 
 // Entities
 export * from './actionnaire.entity';
+export * from './modification/modificationActionnaire.entity';

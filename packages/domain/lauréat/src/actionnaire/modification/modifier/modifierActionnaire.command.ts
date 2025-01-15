@@ -6,10 +6,10 @@ import { DocumentProjet } from '@potentiel-domain/document';
 import { Role } from '@potentiel-domain/utilisateur';
 import { Candidature } from '@potentiel-domain/candidature';
 
-import { loadActionnaireFactory } from '../actionnaire.aggregate';
-import { loadAbandonFactory } from '../../abandon';
-import { loadAchèvementFactory } from '../../achèvement/achèvement.aggregate';
-import { loadGarantiesFinancièresFactory } from '../../garantiesFinancières/garantiesFinancières.aggregate';
+import { loadActionnaireFactory } from '../../actionnaire.aggregate';
+import { loadAbandonFactory } from '../../../abandon';
+import { loadAchèvementFactory } from '../../../achèvement/achèvement.aggregate';
+import { loadGarantiesFinancièresFactory } from '../../../garantiesFinancières/garantiesFinancières.aggregate';
 
 export type ModifierActionnaireCommand = Message<
   'Lauréat.Actionnaire.Command.ModifierActionnaire',
