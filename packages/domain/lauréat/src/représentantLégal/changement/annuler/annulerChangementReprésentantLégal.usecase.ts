@@ -43,12 +43,13 @@ export const registerAnnulerChangementReprésentantLégalUseCase = () => {
           TypeTâchePlanifiéeChangementReprésentantLégal.gestionAutomatiqueDemandeChangement.type,
       },
     });
+
     await mediator.send<AnnulerTâchePlanifiéeCommand>({
       type: 'System.TâchePlanifiée.Command.AnnulerTâchePlanifiée',
       data: {
         identifiantProjet,
         typeTâchePlanifiée:
-          TypeTâchePlanifiéeChangementReprésentantLégal.gestionAutomatiqueDemandeChangement.type,
+          TypeTâchePlanifiéeChangementReprésentantLégal.rappelInstructionÀDeuxMois.type,
       },
     });
   };

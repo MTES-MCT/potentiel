@@ -14,6 +14,7 @@ import { handleReprésentantLégalModifié } from './handleReprésentantLégalMo
 import { handleChangementReprésentantLégalDemandé } from './handleChangementReprésentantLégalDemandé';
 import { handleChangementReprésentantLégalAccordé } from './handleChangementReprésentantLégalAccordé';
 import { handleChangementReprésentantLégalRejeté } from './handleChangementReprésentantLégalRejeté';
+import { handleChangementReprésentantLégalAnnulé } from './handleChangementReprésentantLégalAnnulé';
 
 export type SubscriptionEvent = ReprésentantLégal.ReprésentantLégalEvent & Event;
 
@@ -66,6 +67,14 @@ export const register = ({ sendEmail }: RegisterReprésentantLégalNotificationD
       )
       .with({ type: 'ChangementReprésentantLégalDemandé-V1' }, async (event) =>
         handleChangementReprésentantLégalDemandé({
+          sendEmail,
+          event,
+          projet,
+          baseUrl,
+        }),
+      )
+      .with({ type: 'ChangementReprésentantLégalAnnulé-V1' }, async (event) =>
+        handleChangementReprésentantLégalAnnulé({
           sendEmail,
           event,
           projet,
