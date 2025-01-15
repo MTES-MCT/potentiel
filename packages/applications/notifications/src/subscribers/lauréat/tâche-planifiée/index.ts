@@ -7,10 +7,10 @@ import { IdentifiantProjet } from '@potentiel-domain/common';
 import { getLogger } from '@potentiel-libraries/monitoring';
 import { Option } from '@potentiel-libraries/monads';
 import { CandidatureAdapter } from '@potentiel-infrastructure/domain-adapters';
+import { GarantiesFinancières, ReprésentantLégal } from '@potentiel-domain/laureat';
 
 import { SendEmail } from '../../../sendEmail';
 
-import {} from '@potentiel-domain/laureat';
 import { handleGarantiesFinancièresRappelÉchéance } from './handleGarantiesFinancièresRappelÉchéance';
 import { handleReprésentantLégalRappelInstructionÀDeuxMois } from './handleReprésentantLégalRappelInstructionÀDeuxMois';
 
@@ -23,9 +23,8 @@ export type RegisterTâchePlanifiéeNotificationDependencies = {
 };
 
 type TâchePlanifiée =
-  | 'garanties-financières.rappel-échéance-un-mois'
-  | 'garanties-financières.rappel-échéance-deux-mois'
-  | 'représentant-légal.rappel-instruction-à-deux-mois';
+  | GarantiesFinancières.TypeTâchePlanifiéeGarantiesFinancières.RawType
+  | ReprésentantLégal.TypeTâchePlanifiéeChangementReprésentantLégal.RawType;
 
 export const register = ({ sendEmail }: RegisterTâchePlanifiéeNotificationDependencies) => {
   const handler: MessageHandler<Execute> = async (event) => {
@@ -82,7 +81,7 @@ export const register = ({ sendEmail }: RegisterTâchePlanifiéeNotificationDepe
           baseUrl,
         }),
       )
-      .exhaustive();
+      .otherwise(() => Promise.resolve());
   };
 
   mediator.register('System.Notification.TâchePlanifiée', handler);
