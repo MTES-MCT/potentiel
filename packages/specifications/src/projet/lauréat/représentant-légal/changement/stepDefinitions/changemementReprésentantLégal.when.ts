@@ -56,6 +56,30 @@ Quand(
 );
 
 Quand(
+  /le porteur annule la demande de changement de représentant légal pour le projet lauréat/,
+  async function (this: PotentielWorld) {
+    try {
+      const identifiantProjet = this.lauréatWorld.identifiantProjet.formatter();
+
+      const { annuléLe, annuléPar } =
+        this.lauréatWorld.représentantLégalWorld.changementReprésentantLégalWorld.annulerChangementReprésentantLégalFixture.créer();
+
+      await mediator.send<ReprésentantLégal.AnnulerChangementReprésentantLégalUseCase>({
+        type: 'Lauréat.ReprésentantLégal.UseCase.AnnulerChangementReprésentantLégal',
+        data: {
+          identifiantProjetValue: identifiantProjet,
+          identifiantUtilisateurValue: annuléPar,
+          dateAnnulationValue: annuléLe,
+        },
+      });
+    } catch (e) {
+      console.error(e);
+      this.error = e as Error;
+    }
+  },
+);
+
+Quand(
   /(le DGEC validateur|la DREAL associée au projet) accorde la demande de changement de représentant légal pour le projet lauréat/,
   async function (this: PotentielWorld, _: 'le DGEC validateur' | 'la DREAL associée au projet') {
     await instruireChangement.call(this, 'accord');

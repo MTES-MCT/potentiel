@@ -19,6 +19,8 @@ import {
   ListerChangementReprésentantLégalQuery,
   ListerChangementReprésentantLégalReadModel,
 } from './changement/lister/listerChangementReprésentantLégal.query';
+import { AnnulerChangementReprésentantLégalCommand } from './changement/annuler/annulerChangementReprésentantLégal.command';
+import { AnnulerChangementReprésentantLégalUseCase } from './changement/annuler/annulerChangementReprésentantLégal.usecase';
 
 // Query
 export type ReprésentantLégalQuery =
@@ -44,6 +46,7 @@ export type ReprésentantLégalCommand =
   | ImporterReprésentantLégalCommand
   | ModifierReprésentantLégalCommand
   | DemanderChangementReprésentantLégalCommand
+  | AnnulerChangementReprésentantLégalCommand
   | AccorderChangementReprésentantLégalCommand
   | RejeterChangementReprésentantLégalCommand;
 
@@ -57,12 +60,14 @@ export type {
 export type ReprésentantLégalUseCase =
   | ModifierReprésentantLégalUseCase
   | DemanderChangementReprésentantLégalUseCase
+  | AnnulerChangementReprésentantLégalUseCase
   | AccorderChangementReprésentantLégalUseCase
   | RejeterChangementReprésentantLégalUseCase;
 
 export type {
   ModifierReprésentantLégalUseCase,
   DemanderChangementReprésentantLégalUseCase,
+  AnnulerChangementReprésentantLégalUseCase,
   AccorderChangementReprésentantLégalUseCase,
   RejeterChangementReprésentantLégalUseCase,
 };
@@ -72,6 +77,7 @@ export type { ReprésentantLégalEvent } from './représentantLégal.aggregate';
 export type { ReprésentantLégalImportéEvent } from './importer/importerReprésentantLégal.behavior';
 export type { ReprésentantLégalModifiéEvent } from './modifier/modifierReprésentantLégal.behavior';
 export type { ChangementReprésentantLégalDemandéEvent } from './changement/demander/demanderChangementReprésentantLégal.behavior';
+export type { ChangementReprésentantLégalAnnuléEvent } from './changement/annuler/annulerChangementReprésentantLégal.behavior';
 export type { ChangementReprésentantLégalAccordéEvent } from './changement/accorder/accorderChangementReprésentantLégal.behavior';
 export type { ChangementReprésentantLégalRejetéEvent } from './changement/rejeter/rejeterChangementReprésentantLégal.behavior';
 export type { ChangementReprésentantLégalSuppriméEvent } from './changement/supprimer/supprimerChangementReprésentantLégal.behavior';
