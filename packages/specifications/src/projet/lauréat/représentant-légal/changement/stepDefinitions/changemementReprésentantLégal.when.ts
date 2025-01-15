@@ -273,7 +273,7 @@ async function instruireAutomatiquementChangement(
     if (instruction === 'accord') {
       this.lauréatWorld.représentantLégalWorld.changementReprésentantLégalWorld.accorderChangementReprésentantLégalFixture.créer(
         {
-          accordéePar: Email.system().formatter(),
+          accordéePar: Email.system.formatter(),
           nomReprésentantLégal:
             this.lauréatWorld.représentantLégalWorld.changementReprésentantLégalWorld
               .demanderChangementReprésentantLégalFixture.nomReprésentantLégal,
@@ -286,7 +286,7 @@ async function instruireAutomatiquementChangement(
       this.lauréatWorld.représentantLégalWorld.changementReprésentantLégalWorld.rejeterChangementReprésentantLégalFixture.créer(
         {
           motif: 'Rejet automatique',
-          rejetéPar: Email.system().formatter(),
+          rejetéPar: Email.system.formatter(),
         },
       );
     }
