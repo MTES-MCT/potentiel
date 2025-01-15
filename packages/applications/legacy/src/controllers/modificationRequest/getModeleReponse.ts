@@ -82,16 +82,14 @@ const getTemplate = ({
   status: ModificationRequestDataForResponseTemplateDTO['status'];
 }) => {
   switch (type) {
-    case 'actionnaire':
-      return 'Modèle réponse Changement Actionnaire - dynamique.docx';
     case 'delai':
       return 'Modèle réponse Prolongation de délai - dynamique.docx';
     case 'producteur':
       return 'Modèle réponse Changement Producteur - dynamique.docx';
     case 'puissance':
       return 'Modèle réponse Puissance - dynamique.docx';
-    case 'recours':
-      return 'Modèle réponse Recours gracieux - dynamique.docx';
+    default:
+      return '';
   }
 };
 

@@ -67,7 +67,7 @@ describe('Requête sequelize getModificationRequestDataForResponseTemplate', () 
         projectId,
         userId,
         fileId,
-        type: 'recours',
+        type: 'producteur',
         requestedOn: 123,
         respondedOn: 321,
         respondedBy: userId2,
@@ -156,7 +156,7 @@ describe('Requête sequelize getModificationRequestDataForResponseTemplate', () 
         projectId,
         userId,
         fileId,
-        type: 'recours',
+        type: 'producteur',
         requestedOn: 123,
         respondedOn: 321,
         respondedBy: userId2,
@@ -523,135 +523,6 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
           autreDelaiDemandePrecedenteAccorde: 'yes',
           dateDemandePrecedenteAccordée: formatDate(new Date('2021-01-01').getTime()),
         });
-      });
-    });
-  });
-
-  describe(`Cas d'une demande de recours`, () => {
-    beforeAll(async () => {
-      // Create the tables and remove all data
-      await resetDatabase();
-
-      await Project.create({
-        ...project,
-        isFinancementParticipatif: true,
-        isInvestissementParticipatif: false,
-        engagementFournitureDePuissanceAlaPointe: true,
-        motifsElimination: 'Non instruit: blabla',
-      });
-
-      await File.create(makeFakeFile({ id: fileId, filename: 'filename' }));
-
-      await User.create(makeFakeUser({ id: userId, fullName: 'John Doe' }));
-
-      await ModificationRequest.create({
-        id: modificationRequestId,
-        projectId,
-        userId,
-        fileId,
-        type: 'recours',
-        requestedOn: 123,
-        respondedOn: 321,
-        respondedBy: userId2,
-        status: 'envoyée',
-        justification: 'justification',
-        versionDate,
-      });
-    });
-
-    it('Une liste spécifique de champs devrait être retournée', async () => {
-      const modificationRequestResult = await getModificationRequestDataForResponseTemplate(
-        modificationRequestId.toString(),
-        fakeAdminUser,
-        dgecEmail,
-      );
-
-      expect(modificationRequestResult.isOk()).toBe(true);
-      if (modificationRequestResult.isErr()) return;
-
-      const modificationRequestDTO = modificationRequestResult.value;
-
-      expect(modificationRequestDTO).toMatchObject({
-        type: 'recours',
-        isFinancementParticipatif: 'yes',
-        isInvestissementParticipatif: '',
-        isEngagementParticipatif: 'yes',
-        evaluationCarbone: '345',
-        engagementFournitureDePuissanceAlaPointe: 'yes',
-        prixReference: '456',
-
-        nonInstruit: 'yes',
-        motifsElimination: 'Non instruit: blabla',
-
-        // related to Fessenheim AO
-        tarifOuPrimeRetenue: "le prix de référence T de l'électricité retenu",
-        tarifOuPrimeRetenueAlt: 'ce prix de référence',
-        paragraphePrixReference: '7',
-        affichageParagrapheECS: 'yes',
-
-        eolien: '',
-        AOInnovation: '',
-
-        soumisGF: 'yes',
-        renvoiSoumisAuxGarantiesFinancieres: 'doit être au minimum de 42 mois',
-        renvoiDemandeCompleteRaccordement: '6.1',
-        renvoiRetraitDesignationGarantieFinancieres: '5.3 et 6.2',
-        paragrapheDelaiDerogatoire: '6.4',
-        paragrapheAttestationConformite: '6.6',
-        paragrapheEngagementIPFPGPFC: '3.2.6',
-        renvoiModification: '5.4',
-        delaiRealisationTexte: 'vingt-quatre (24) mois',
-      });
-    });
-  });
-
-  describe(`Cas d'un changement d'actionnaire`, () => {
-    beforeAll(async () => {
-      // Create the tables and remove all data
-      await resetDatabase();
-
-      await Project.create(project);
-
-      await File.create(makeFakeFile({ id: fileId, filename: 'filename' }));
-
-      await User.create(makeFakeUser({ id: userId, fullName: 'John Doe' }));
-
-      await ModificationRequest.create({
-        id: modificationRequestId,
-        projectId,
-        userId,
-        fileId,
-        type: 'actionnaire',
-        actionnaire: 'new actionnaire',
-        requestedOn: 123,
-        respondedOn: 321,
-        respondedBy: userId2,
-        status: 'envoyée',
-        justification: 'justification',
-        versionDate,
-      });
-    });
-
-    it('Une liste spécifique de champs devrait être retournée', async () => {
-      const modificationRequestResult = await getModificationRequestDataForResponseTemplate(
-        modificationRequestId.toString(),
-        fakeAdminUser,
-        dgecEmail,
-      );
-
-      expect(modificationRequestResult.isOk()).toBe(true);
-      if (modificationRequestResult.isErr()) return;
-
-      const modificationRequestDTO = modificationRequestResult.value;
-
-      expect(modificationRequestDTO).toMatchObject({
-        type: 'actionnaire',
-        nouvelActionnaire: 'new actionnaire',
-        // les deux données ci-dessous sont issues de l'appel d'offre Fessenheim stocké en mémoire
-        referenceParagrapheActionnaire: '5.4.2',
-        contenuParagrapheActionnaire: `Les modifications de la structure du capital du Candidat avant constitution des garanties financières prévues au 6.2 ne sont pas autorisées. 
-Les modifications de la structure du capital du Candidat après constitution des garanties financières prévues au 6.2 sont réputées autorisées. Elles doivent faire l’objet d’une information au Préfet dans un délai d’un (1) mois. A cette fin, le producteur transmet à la DREAL les copies des statuts de la société et le(s) justificatif(s) relatif à la composition de l’actionnariat. 
-Si le candidat a joint à son offre la lettre d’engagement du 3.2.6, il est de sa responsabilité de s’assurer du respect de son engagement.`,
       });
     });
   });
