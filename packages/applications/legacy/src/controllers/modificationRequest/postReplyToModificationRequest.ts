@@ -10,7 +10,7 @@ import {
 } from '../../config';
 import { logger } from '../../core/utils';
 import { addQueryParams } from '../../helpers/addQueryParams';
-import { isDateFormatValid, isStrictlyPositiveNumber } from '../../helpers/formValidators';
+import { isStrictlyPositiveNumber } from '../../helpers/formValidators';
 import { validateUniqueId } from '../../helpers/validateUniqueId';
 import { getModificationRequestAuthority } from '../../infra/sequelize/queries';
 import {
@@ -55,7 +55,6 @@ v1Router.post(
         submitConfirm,
         puissance,
         isDecisionJustice,
-        actionnaire,
         producteur,
       },
     } = request;
@@ -83,17 +82,6 @@ v1Router.post(
       newNotificationDate = format(parseISO(request.body.newNotificationDate), 'dd/MM/yyyy', {
         locale: fr,
       });
-    }
-    if (
-      type === 'recours' &&
-      newNotificationDate &&
-      !isDateFormatValid(newNotificationDate, FORMAT_DATE)
-    ) {
-      return response.redirect(
-        addQueryParams(routes.DEMANDE_PAGE_DETAILS(modificationRequestId), {
-          error: "La réponse n'a pas pu être envoyée: la date de notification est erronée.",
-        }),
-      );
     }
 
     if (type === 'puissance' && !isStrictlyPositiveNumber(puissance)) {
