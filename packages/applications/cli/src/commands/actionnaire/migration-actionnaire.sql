@@ -69,7 +69,7 @@ where p.classe <> 'Eliminé'
 
 
 
--- vérication des données erronées
+-- vérification des données erronées
 select p.id,
     p."nomProjet",
     format(

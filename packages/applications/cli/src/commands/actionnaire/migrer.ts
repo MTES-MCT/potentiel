@@ -2,6 +2,7 @@ import { extname } from 'node:path';
 
 import { Command, Flags } from '@oclif/core';
 import { contentType } from 'mime-types';
+import { PDFDocument, StandardFonts } from 'pdf-lib';
 
 import { Actionnaire, Lauréat } from '@potentiel-domain/laureat';
 import { listProjection } from '@potentiel-infrastructure/pg-projections';
@@ -9,6 +10,8 @@ import { Candidature } from '@potentiel-domain/candidature';
 import { executeSelect } from '@potentiel-libraries/pg-helpers';
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 import { publish } from '@potentiel-infrastructure/pg-event-sourcing';
+import { upload, copyFile } from '@potentiel-libraries/file-storage';
+import { DocumentProjet } from '@potentiel-domain/document';
 
 type ModificationRequest = {
   identifiantProjet: string;
@@ -121,6 +124,10 @@ export class Migrer extends Command {
       const requestedOn = DateTime.convertirEnValueType(
         new Date(modification.requestedOn),
       ).formatter();
+      const formatRequestFile =
+        modification.requestFile && contentType(extname(modification.requestFile));
+      const formatResponseFile =
+        modification.responseFile && contentType(extname(modification.responseFile));
       const request: Actionnaire.ChangementActionnaireDemandéEvent = {
         type: 'ChangementActionnaireDemandé-V1',
         payload: {
@@ -129,21 +136,10 @@ export class Migrer extends Command {
           demandéPar: modification.email,
           identifiantProjet,
           raison: cleanInput(modification.justification),
-          pièceJustificative: { format: 'application/pdf' },
+          pièceJustificative: { format: formatRequestFile || 'application/pdf' },
         },
       };
-      const format = modification.requestFile && contentType(extname(modification.requestFile));
-      const modifié: Actionnaire.ActionnaireModifiéEvent = {
-        type: 'ActionnaireModifié-V1',
-        payload: {
-          actionnaire: cleanInput(modification.actionnaire),
-          identifiantProjet,
-          modifiéLe: requestedOn,
-          modifiéPar: modification.email,
-          raison: cleanInput(modification.justification),
-          pièceJustificative: format ? { format } : undefined,
-        },
-      };
+
       switch (modification.status) {
         case 'acceptée':
           const acceptation: Actionnaire.ActionnaireEvent = {
@@ -155,8 +151,7 @@ export class Migrer extends Command {
               ).formatter(),
               accordéPar: modification.respondedBy,
               nouvelActionnaire: cleanInput(modification.actionnaire),
-              // !!! TODO !!!
-              réponseSignée: { format: 'application/pdf' },
+              réponseSignée: { format: formatResponseFile || 'application/pdf' },
             },
           };
           eventsPerProjet[modification.identifiantProjet].push(request, acceptation);
@@ -167,7 +162,17 @@ export class Migrer extends Command {
           eventsPerProjet[modification.identifiantProjet].push(request);
           break;
         case 'information validée':
-          eventsPerProjet[modification.identifiantProjet].push(modifié);
+          eventsPerProjet[modification.identifiantProjet].push({
+            type: 'ActionnaireModifié-V1',
+            payload: {
+              actionnaire: cleanInput(modification.actionnaire),
+              identifiantProjet,
+              modifiéLe: requestedOn,
+              modifiéPar: modification.email,
+              raison: cleanInput(modification.justification),
+              pièceJustificative: formatRequestFile ? { format: formatRequestFile } : undefined,
+            },
+          });
       }
     }
 
@@ -179,13 +184,90 @@ export class Migrer extends Command {
         }
       }
     }
+
+    console.log('All events published.');
+    console.log('Migrating files...');
+
+    for (const modification of modifications) {
+      await migrateFile(
+        modification.identifiantProjet,
+        modification.requestFile,
+        Actionnaire.TypeDocumentActionnaire.pièceJustificative,
+        DateTime.convertirEnValueType(new Date(modification.requestedOn)),
+        modification.status !== 'information validée',
+      );
+      if (modification.status === 'acceptée') {
+        await migrateFile(
+          modification.identifiantProjet,
+          modification.responseFile,
+          Actionnaire.TypeDocumentActionnaire.changementAccordé,
+          DateTime.convertirEnValueType(new Date(modification.respondedOn)),
+          true,
+        );
+      }
+    }
+
     process.exit(0);
   }
 }
 
 const cleanInput = (str: string) =>
-  str
-    .replaceAll(/\t/g, ' ')
-    .replaceAll(/\r\n/g, '\\n')
-    // .replace(/\x0a/g, ' \\n') A TESTER
-    .replaceAll('"', '\\"');
+  str.replaceAll(/\t/g, ' ').replaceAll(/\r\n/g, '\\n').replaceAll('"', '\\"');
+
+const getReplacementDoc = async (text: string) => {
+  const pdfDoc = await PDFDocument.create();
+  const page = pdfDoc.addPage();
+
+  const textSize = 14;
+
+  const helveticaFont = await pdfDoc.embedFont(StandardFonts.Helvetica);
+  const textWidth = helveticaFont.widthOfTextAtSize(text, textSize);
+  const textHeight = helveticaFont.heightAtSize(textSize);
+
+  page.drawText(text, {
+    x: page.getWidth() / 2 - textWidth / 2,
+    y: (2 / 3) * page.getHeight() - textHeight / 2,
+    size: textSize,
+    font: helveticaFont,
+  });
+
+  const pdfBytes = await pdfDoc.save();
+
+  return new Blob([pdfBytes], { type: 'application/pdf' }).stream();
+};
+
+const migrateFile = async (
+  identifiantProjet: string,
+  file: string | undefined,
+  typeDocument: Actionnaire.TypeDocumentActionnaire.ValueType,
+  date: DateTime.ValueType,
+  createOnMissing: boolean,
+) => {
+  const format = file ? contentType(extname(file)) : 'application/pdf';
+  if (!format) {
+    throw new Error('Unknown format', { cause: file });
+  }
+  const key = DocumentProjet.convertirEnValueType(
+    identifiantProjet,
+    typeDocument.formatter(),
+    date.formatter(),
+    format,
+  ).formatter();
+
+  if (file) {
+    await copyFile(
+      file.replace('S3:potentiel-production:', '').replace('S3:production-potentiel:', ''),
+      key,
+    );
+  } else if (createOnMissing) {
+    console.warn(
+      `📁 Pas de fichier trouvé pour ${identifiantProjet} - ${typeDocument.formatter()}`,
+    );
+    await upload(
+      key,
+      await getReplacementDoc(
+        "Fichier généré automatiquement en l'absence de pièces justificatives",
+      ),
+    );
+  }
+};
