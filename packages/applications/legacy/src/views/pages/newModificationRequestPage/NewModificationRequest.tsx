@@ -20,7 +20,7 @@ import routes from '../../../routes';
 
 type NewModificationRequestProps = {
   request: Request;
-  project: ProjectProps & { cahierDesChargesActuel: string; actionnaire?: string };
+  project: ProjectProps & { cahierDesChargesActuel: string };
   appelOffre: ProjectAppelOffre;
 };
 

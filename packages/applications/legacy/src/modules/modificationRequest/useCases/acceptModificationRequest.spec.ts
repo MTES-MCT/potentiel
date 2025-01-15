@@ -8,7 +8,7 @@ import {
 import { makeAcceptModificationRequest } from './acceptModificationRequest';
 import { logger, okAsync } from '../../../core/utils';
 import { FileObject } from '../../file';
-import { Repository, UniqueEntityID } from '../../../core/domain';
+import { Repository } from '../../../core/domain';
 import { Readable } from 'stream';
 import makeFakeUser from '../../../__tests__/fixtures/user';
 import { makeUser } from '../../../entities';
@@ -118,51 +118,6 @@ describe('acceptModificationRequest use-case', () => {
 
         if (res.isErr()) logger.error(res.error);
         expect(res.isOk()).toEqual(true);
-      });
-
-      it('should save the project', () => {
-        expect(projectRepo.save).toHaveBeenCalled();
-        expect(projectRepo.save.mock.calls[0][0]).toEqual(fakeProject);
-      });
-    });
-
-    describe('when type is actionnaire', () => {
-      const fakeModificationRequest = {
-        ...makeFakeModificationRequest(),
-        type: 'actionnaire',
-      };
-      const fakeProject = {
-        ...makeFakeProject(),
-        id: fakeModificationRequest.projectId,
-      };
-      const modificationRequestRepo = fakeRepo(fakeModificationRequest as ModificationRequest);
-      const projectRepo = fakeRepo(fakeProject as Project);
-      const fileRepo = {
-        save: jest.fn((file: FileObject) => okAsync(null)),
-        load: jest.fn(),
-      };
-
-      const acceptModificationRequest = makeAcceptModificationRequest({
-        modificationRequestRepo,
-        projectRepo,
-        fileRepo: fileRepo as Repository<FileObject>,
-      });
-      beforeAll(async () => {
-        const res = await acceptModificationRequest({
-          modificationRequestId: fakeModificationRequest.id,
-          versionDate: fakeModificationRequest.lastUpdatedOn,
-          responseFile: { contents: fakeFileContents, filename: fakeFileName },
-          acceptanceParams: { type: 'actionnaire', newActionnaire: 'new actionnaire' },
-          submittedBy: fakeUser,
-        });
-
-        if (res.isErr()) logger.error(res.error);
-        expect(res.isOk()).toEqual(true);
-      });
-
-      it('should call updateActionnaire on project', () => {
-        expect(fakeProject.updateActionnaire).toHaveBeenCalledTimes(1);
-        expect(fakeProject.updateActionnaire).toHaveBeenCalledWith(fakeUser, 'new actionnaire');
       });
 
       it('should save the project', () => {

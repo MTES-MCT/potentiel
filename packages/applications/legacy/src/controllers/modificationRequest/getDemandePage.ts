@@ -7,7 +7,7 @@ import asyncHandler from '../helpers/asyncHandler';
 import { v1Router } from '../v1Router';
 import { Project } from '../../infra/sequelize/projectionsNext';
 
-const ACTIONS = ['actionnaire', 'puissance', 'recours'];
+const ACTIONS = ['puissance'];
 
 v1Router.get(
   routes.DEMANDE_GENERIQUE,

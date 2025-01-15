@@ -142,9 +142,6 @@ v1Router.post(
       case 'puissance':
         acceptanceParams = { type, newPuissance: puissance, isDecisionJustice };
         break;
-      case 'actionnaire':
-        acceptanceParams = { type, newActionnaire: actionnaire };
-        break;
       case 'producteur':
         acceptanceParams = { type, newProducteur: producteur };
         break;
