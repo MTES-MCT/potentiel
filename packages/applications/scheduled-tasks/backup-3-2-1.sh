@@ -1,5 +1,5 @@
 #! /bin/bash -l
-CHECK_IN_ID="$(uuidgen)"
+CHECK_IN_ID="$(($(date +%s%N)/1000000))"
 curl "$SENTRY_CRONS?check_in_id=${CHECK_IN_ID}&status=in_progress&environment=$APPLICATION_STAGE"
 
 handle_error() {
