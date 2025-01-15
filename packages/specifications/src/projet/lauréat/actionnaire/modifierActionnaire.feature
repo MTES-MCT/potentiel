@@ -115,3 +115,12 @@ Fonctionnalité: Modifier l'actionnaire d'un projet lauréat
             | type GF       |        |
         Quand le porteur modifie l'actionnaire pour le projet lauréat
         Alors le porteur devrait être informé que "Impossible de modifier directement l'actionnaire dans ces conditions"
+
+    Scénario: Impossible pour le porteur de modifier l'actionnaire d'un projet "Eolien" si il y a un dépot de GFs en cours
+        Etant donné le projet lauréat "Du bouchon de Lyon" avec :
+            | appel d'offre | Eolien |
+            | période       | 6      |
+            | actionnariat  |        |
+        Et un dépôt de garanties financières pour le projet "Du bouchon de Lyon"
+        Quand le porteur modifie l'actionnaire pour le projet lauréat
+        Alors le porteur devrait être informé que "Impossible de modifier directement l'actionnaire dans ces conditions"

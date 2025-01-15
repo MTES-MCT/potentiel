@@ -177,9 +177,13 @@ v1Router.get(
         project.appelOffre.isSoumisAuxGF,
       );
 
+      const aDesGarantiesFinancièresConstituées = !!garantiesFinancières?.actuelles;
+      const aUnDépotEnCours = !!garantiesFinancières?.dépôtÀTraiter;
+
       const demandeNécessiteInstructionPourActionnaire =
         project.appelOffreId === 'Eolien' &&
-        ((!garantiesFinancières?.actuelles && !garantiesFinancières?.dépôtÀTraiter) ||
+        (!aDesGarantiesFinancièresConstituées ||
+          aUnDépotEnCours ||
           project.isFinancementParticipatif ||
           project.isInvestissementParticipatif);
 
