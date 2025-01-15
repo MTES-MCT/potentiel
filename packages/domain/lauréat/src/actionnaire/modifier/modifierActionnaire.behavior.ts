@@ -33,10 +33,13 @@ export type ModifierOptions = {
   dateModification: DateTime.ValueType;
   pièceJustificative?: DocumentProjet.ValueType;
   raison: string;
-  estAbandonnéEtUtilisateurEstPorteur: boolean;
-  estAchevéEtUtilisateurEstPorteur: boolean;
-  demandeAbandonEnCoursEtUtilisateurEstPorteur: boolean;
-  devraitPasserParUneDemande: boolean;
+  estAbandonné: boolean;
+  estAchevé: boolean;
+  demandeAbandonEnCours: boolean;
+  utilisateurEstPorteur: boolean;
+  estParticipatif: boolean;
+  aDesGarantiesFinancièresConstituées: boolean;
+  aUnDépotEnCours: boolean;
 };
 
 export async function modifier(
@@ -48,13 +51,23 @@ export async function modifier(
     identifiantUtilisateur,
     pièceJustificative,
     raison,
-    estAbandonnéEtUtilisateurEstPorteur,
-    estAchevéEtUtilisateurEstPorteur,
-    demandeAbandonEnCoursEtUtilisateurEstPorteur,
-    devraitPasserParUneDemande,
+    estAbandonné,
+    estAchevé,
+    demandeAbandonEnCours,
+    utilisateurEstPorteur,
+    estParticipatif,
+    aUnDépotEnCours,
+    aDesGarantiesFinancièresConstituées,
   }: ModifierOptions,
 ) {
-  if (devraitPasserParUneDemande) {
+  // Règle métier, spécifique à l'AO Eolien (pour lequel le type de GF est `après candidature`)
+  // La demande doit être en "instruction" si il n'y a pas de GF validées sur le projet ou si il y a une demande de renouvellement ou de modifications des garanties financières en cours
+  // La demande doit être en "instruction" si le candidat a joint à son offre la lettre d’engagement (l'investissement participatif ou financement participatif)
+  const devraitPasserParUneDemande =
+    identifiantProjet.appelOffre === 'Eolien' &&
+    (!aDesGarantiesFinancièresConstituées || aUnDépotEnCours || estParticipatif);
+
+  if (utilisateurEstPorteur && devraitPasserParUneDemande) {
     throw new ActionnaireNePeutPasÊtreModifiéDirectement();
   }
 
@@ -66,15 +79,15 @@ export async function modifier(
     throw new DemandeDeChangementEnCoursError();
   }
 
-  if (estAbandonnéEtUtilisateurEstPorteur) {
+  if (utilisateurEstPorteur && estAbandonné) {
     throw new ProjetAbandonnéError();
   }
 
-  if (demandeAbandonEnCoursEtUtilisateurEstPorteur) {
+  if (utilisateurEstPorteur && demandeAbandonEnCours) {
     throw new ProjetAvecDemandeAbandonEnCoursError();
   }
 
-  if (estAchevéEtUtilisateurEstPorteur) {
+  if (utilisateurEstPorteur && estAchevé) {
     throw new ProjetAchevéError();
   }
 

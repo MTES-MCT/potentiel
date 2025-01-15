@@ -44,25 +44,16 @@ export const registerModifierActionnaireCommand = (loadAggregate: LoadAggregate)
     const abandon = await loadAbandon(identifiantProjet, false);
     const achèvement = await loadAchèvement(identifiantProjet, false);
     const utilisateurEstPorteur = rôle.estÉgaleÀ(Role.porteur);
-    let devraitPasserParUneDemande = false;
+    const garantiesFinancières = await loadGarantiesFinancières(identifiantProjet, false);
 
-    if (identifiantProjet.appelOffre === 'Eolien' && utilisateurEstPorteur) {
-      const garantiesFinancières = await loadGarantiesFinancières(identifiantProjet, false);
-      // quickwin : nous passons ici par un appel à l'agrégat candidature au lieu de projet
-      // cela devrait être repris quand les types d'actionnariat seront migrés
-      // Par ailleurs les données sont les mêmes à date (janv 2025)
-      const candidature = await loadCandidature(identifiantProjet);
+    // quickwin : nous passons ici par un appel à l'agrégat candidature au lieu de projet
+    // cela devrait être repris quand les types d'actionnariat seront migrés dans l'aggregat Actionnaire
+    // Par ailleurs les données sont les mêmes à date (janv 2025)
+    const candidature = await loadCandidature(identifiantProjet);
 
-      devraitPasserParUneDemande = !!(
-        (!garantiesFinancières?.actuelles && !garantiesFinancières?.dépôtsEnCours) ||
-        candidature.typeActionnariat?.estÉgaleÀ(
-          Candidature.TypeActionnariat.financementParticipatif,
-        ) ||
-        candidature.typeActionnariat?.estÉgaleÀ(
-          Candidature.TypeActionnariat.investissementParticipatif,
-        )
-      );
-    }
+    const estParticipatif =
+      candidature.typeActionnariat?.type === 'financement-participatif' ||
+      candidature.typeActionnariat?.type === 'investissement-participatif';
 
     await actionnaireAggrégat.modifier({
       identifiantProjet,
@@ -71,11 +62,13 @@ export const registerModifierActionnaireCommand = (loadAggregate: LoadAggregate)
       dateModification,
       pièceJustificative,
       raison,
-      estAbandonnéEtUtilisateurEstPorteur: abandon.statut.estAccordé() && utilisateurEstPorteur,
-      estAchevéEtUtilisateurEstPorteur: achèvement.estAchevé() && utilisateurEstPorteur,
-      demandeAbandonEnCoursEtUtilisateurEstPorteur:
-        abandon.statut.estEnCours() && utilisateurEstPorteur,
-      devraitPasserParUneDemande,
+      utilisateurEstPorteur,
+      estAbandonné: abandon.statut.estAccordé(),
+      estAchevé: achèvement.estAchevé(),
+      demandeAbandonEnCours: abandon.statut.estEnCours(),
+      estParticipatif,
+      aDesGarantiesFinancièresConstituées: !!garantiesFinancières?.actuelles,
+      aUnDépotEnCours: !!garantiesFinancières?.dépôtsEnCours,
     });
   };
   mediator.register('Lauréat.Actionnaire.Command.ModifierActionnaire', handler);
