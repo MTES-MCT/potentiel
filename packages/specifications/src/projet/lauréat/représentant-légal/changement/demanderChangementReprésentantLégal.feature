@@ -6,6 +6,7 @@ Fonctionnalité: Demander le changement de représentant légal d'un projet laur
         Et le porteur "Marcel Patoulatchi" ayant accés au projet lauréat "Du boulodrome de Marseille"
         Et la dreal "Dreal du sud-ouest" associée à la région du projet
 
+    # Feature
     Scénario: Un porteur demande le changement de réprésentant légal d'un projet lauréat
         Quand le porteur demande le changement de réprésentant pour le projet lauréat le "2024-10-24"
         Alors une demande de changement de représentant légal du projet lauréat devrait être consultable
@@ -14,6 +15,7 @@ Fonctionnalité: Demander le changement de représentant légal d'un projet laur
             | nom_projet | Du boulodrome de Marseille                                                                                                  |
             | url        | https://potentiel.beta.gouv.fr/laureats/.*/changement/representant-legal                                                    |
         Et une tâche "gestion automatique de la demande de changement de représentant légal" est planifiée à la date du "2025-01-24" pour le projet lauréat
+        Et une tâche "rappel d'instruction de la demande de changement de représentant légal à deux mois" est planifiée à la date du "2024-12-24" pour le projet lauréat
 
     Scénario: Impossible de demander le changement de représentant légal d'un projet lauréat si le changement est déjà en cours
         Etant donné une demande de changement de représentant légal en cours pour le projet lauréat
@@ -42,6 +44,44 @@ Fonctionnalité: Demander le changement de représentant légal d'un projet laur
         Etant donné une attestation de conformité transmise pour le projet "Du boulodrome de Marseille"
         Quand le porteur demande le changement de réprésentant pour le projet lauréat
         Alors le porteur devrait être informé que "Impossible de demander le changement de représentant légal pour un projet achevé"
+
+    # Tâches planifiées
+    Scénario: Relance automatique pour l'instruction de la demande de changement de représentant légal d'un projet lauréat disposant d'un accord automatique
+        Etant donné le projet lauréat "Du boulodrome de Bordeaux" sur une période d'appel d'offre avec accord automatique du changement de représentant légal
+        Et le porteur "Tom Bombadil" ayant accés au projet lauréat "Du boulodrome de Bordeaux"
+        Et la dreal "Dreal du sud-ouest" associée à la région du projet
+        Et une demande de changement de représentant légal en cours pour le projet lauréat
+        Quand le système relance automatiquement la dreal pour faire l'accord de la demande de changement de représentant légal pour le projet lauréat
+        Alors un email a été envoyé à la dreal avec :
+            | type       | accord                                                                                                                                                    |
+            | sujet      | Potentiel - La demande de modification du représentant légal pour le projet Du boulodrome de Bordeaux dans le département(.*) nécessite votre instruction |
+            | nom_projet | Du boulodrome de Bordeaux                                                                                                                                 |
+            | url        | https://potentiel.beta.gouv.fr/laureats/.*/changement/representant-legal                                                                                  |
+
+    Scénario: Relance automatique pour l'instruction de la demande de changement de représentant légal d'un projet lauréat disposant d'un rejet automatique
+        Etant donné le projet lauréat "Du boulodrome de Bordeaux" sur une période d'appel d'offre avec rejet automatique du changement de représentant légal
+        Et le porteur "Tom Bombadil" ayant accés au projet lauréat "Du boulodrome de Bordeaux"
+        Et la dreal "Dreal du sud-ouest" associée à la région du projet
+        Et une demande de changement de représentant légal en cours pour le projet lauréat
+        Quand le système relance automatiquement la dreal pour faire le rejet de la demande de changement de représentant légal pour le projet lauréat
+        Alors un email a été envoyé à la dreal avec :
+            | type       | rejet                                                                                                                                                     |
+            | sujet      | Potentiel - La demande de modification du représentant légal pour le projet Du boulodrome de Bordeaux dans le département(.*) nécessite votre instruction |
+            | nom_projet | Du boulodrome de Bordeaux                                                                                                                                 |
+            | url        | https://potentiel.beta.gouv.fr/laureats/.*/changement/representant-legal                                                                                  |
+
+    Scénario: Un DGEC validateur accorde l'abandon d'un projet lauréat avec une demande de changement de représentant légal en cours
+        Etant donné une demande de changement de représentant légal en cours pour le projet lauréat
+        Et une demande d'abandon en cours pour le projet lauréat
+        Quand le DGEC validateur accorde l'abandon pour le projet lauréat
+        Alors une tâche "gestion automatique de la demande de changement de représentant légal" n'est plus planifiée pour le projet "Du boulodrome de Marseille"
+        Et une tâche "rappel d'instruction de la demande de changement de représentant légal à deux mois" n'est plus planifiée pour le projet "Du boulodrome de Marseille"
+
+    Scénario: Un porteur transmet l'attestation de conformité d'un projet lauréat avec une demande de changement de représentant légal en cours
+        Etant donné une demande de changement de représentant légal en cours pour le projet lauréat
+        Et une attestation de conformité transmise pour le projet "Du boulodrome de Marseille"
+        Alors une tâche "gestion automatique de la demande de changement de représentant légal" n'est plus planifiée pour le projet "Du boulodrome de Marseille"
+        Et une tâche "rappel d'instruction de la demande de changement de représentant légal à deux mois" n'est plus planifiée pour le projet "Du boulodrome de Marseille"
 
     @NotImplemented
     Scénario: Impossible de demander le changement de représentant légal si le projet est déjà en service

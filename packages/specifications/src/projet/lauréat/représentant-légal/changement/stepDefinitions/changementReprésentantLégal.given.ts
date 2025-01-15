@@ -26,11 +26,23 @@ EtantDonné(
 
     const dateDemande = DateTime.convertirEnValueType(fixture.demandéLe);
 
-    this.tâchePlanifiéeWorld.ajouterTâchePlanifiéeFixture.créer({
-      identifiantProjet,
-      ajoutéeLe: dateDemande.formatter(),
-      àExécuterLe: dateDemande.ajouterNombreDeMois(3).formatter(),
-      typeTâchePlanifiée: 'gestion automatique de la demande de changement de représentant légal',
+    this.tâchePlanifiéeWorld.ajouterTâchesPlanifiéesFixture.créer({
+      tâches: [
+        {
+          identifiantProjet,
+          ajoutéeLe: dateDemande.formatter(),
+          àExécuterLe: dateDemande.ajouterNombreDeMois(3).formatter(),
+          typeTâchePlanifiée:
+            'gestion automatique de la demande de changement de représentant légal',
+        },
+        {
+          identifiantProjet,
+          ajoutéeLe: dateDemande.formatter(),
+          àExécuterLe: dateDemande.ajouterNombreDeMois(2).formatter(),
+          typeTâchePlanifiée:
+            "rappel d'instruction de la demande de changement de représentant légal à deux mois",
+        },
+      ],
     });
 
     await mediator.send<ReprésentantLégal.DemanderChangementReprésentantLégalUseCase>({
