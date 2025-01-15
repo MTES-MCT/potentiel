@@ -3,7 +3,7 @@ import { match } from 'ts-pattern';
 import { GarantiesFinancières, ReprésentantLégal } from '@potentiel-domain/laureat';
 import { StatutTâchePlanifiée } from '@potentiel-domain/tache-planifiee';
 
-import { AjouterTâchePlanifiéeFixture } from './fixtures/ajouterTâchePlanifiée.fixture';
+import { AjouterTâchesPlanifiéesFixture } from './fixtures/ajouterTâchesPlanifiées.fixture';
 
 export type TypeTâchePlanifiée =
   | 'échoir les garanties financières'
@@ -15,14 +15,26 @@ export type TypeTâchePlanifiée =
 export type RechercherStatutTâchePlanifiée = 'planifiée' | 'annulée' | 'exécutée';
 
 export class TâchePlanifiéeWorld {
-  #ajouterTâchePlanifiéeFixture: AjouterTâchePlanifiéeFixture;
+  #ajouterTâchesPlanifiéesFixture: AjouterTâchesPlanifiéesFixture;
 
-  get ajouterTâchePlanifiéeFixture() {
-    return this.#ajouterTâchePlanifiéeFixture;
+  get ajouterTâchesPlanifiéesFixture() {
+    return this.#ajouterTâchesPlanifiéesFixture;
   }
 
   constructor() {
-    this.#ajouterTâchePlanifiéeFixture = new AjouterTâchePlanifiéeFixture();
+    this.#ajouterTâchesPlanifiéesFixture = new AjouterTâchesPlanifiéesFixture();
+  }
+
+  rechercherTâchePlanifiée(value: TypeTâchePlanifiée) {
+    const tâche = this.#ajouterTâchesPlanifiéesFixture.tâches.find(
+      (t) => t.typeTâchePlanifiée === value,
+    );
+
+    if (!tâche) {
+      throw new Error('Tâche planifiée non trouvée');
+    }
+
+    return tâche;
   }
 
   rechercherTypeTâchePlanifiée(value: TypeTâchePlanifiée) {
@@ -53,6 +65,7 @@ export class TâchePlanifiéeWorld {
       )
       .exhaustive();
   }
+
   rechercherStatutTâchePlanifiée(value: RechercherStatutTâchePlanifiée) {
     return match(value)
       .with('planifiée', () => StatutTâchePlanifiée.enAttenteExécution)

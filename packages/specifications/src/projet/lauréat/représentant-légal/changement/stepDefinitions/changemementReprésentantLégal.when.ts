@@ -190,8 +190,16 @@ async function instruireAutomatiquementChangement(
       );
     }
 
+    const tâchePlanifiée = this.tâchePlanifiéeWorld.rechercherTâchePlanifiée(
+      'gestion automatique de la demande de changement de représentant légal',
+    );
+
+    if (!tâchePlanifiée) {
+      throw new Error('Type de tâche planifiée non trouvé');
+    }
+
     const typeTâchePlanifiéeValue = this.tâchePlanifiéeWorld.rechercherTypeTâchePlanifiée(
-      this.tâchePlanifiéeWorld.ajouterTâchePlanifiéeFixture.typeTâchePlanifiée,
+      tâchePlanifiée.typeTâchePlanifiée,
     ).type;
 
     await mediator.send<ExécuterTâchePlanifiéeUseCase>({
@@ -210,8 +218,12 @@ async function relancerAutomatiquementDreal(this: PotentielWorld) {
   try {
     const identifiantProjet = this.lauréatWorld.identifiantProjet.formatter();
 
+    const tâchePlanifiée = this.tâchePlanifiéeWorld.rechercherTâchePlanifiée(
+      "rappel d'instruction de la demande de changement de représentant légal à deux mois",
+    );
+
     const typeTâchePlanifiéeValue = this.tâchePlanifiéeWorld.rechercherTypeTâchePlanifiée(
-      this.tâchePlanifiéeWorld.ajouterTâchePlanifiéeFixture.typeTâchePlanifiée,
+      tâchePlanifiée.typeTâchePlanifiée,
     ).type;
 
     await mediator.send<ExécuterTâchePlanifiéeUseCase>({
