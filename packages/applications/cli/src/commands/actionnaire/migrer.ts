@@ -10,7 +10,7 @@ import { Candidature } from '@potentiel-domain/candidature';
 import { executeSelect } from '@potentiel-libraries/pg-helpers';
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 import { publish } from '@potentiel-infrastructure/pg-event-sourcing';
-import { upload, copyFile } from '@potentiel-libraries/file-storage';
+import { upload, copyFile, fileExists } from '@potentiel-libraries/file-storage';
 import { DocumentProjet } from '@potentiel-domain/document';
 
 type ModificationRequest = {
@@ -77,8 +77,6 @@ export class Migrer extends Command {
       "select count(*) as count from event_store.subscriber where stream_category='actionnaire'",
     );
 
-    const stats: Record<string, string[]> = {};
-
     if (subscriberCount[0].count > 0 && !flags.dryRun) {
       console.warn("Il existe des subscribers pour 'actionnaire'");
       process.exit(1);
@@ -94,8 +92,7 @@ export class Migrer extends Command {
         (candidature) => candidature.identifiantProjet === lauréat.identifiantProjet,
       );
       if (!candidature) {
-        stats['candidature non trouvée'] ??= [];
-        stats['candidature non trouvée'].push(lauréat.identifiantProjet);
+        console.warn('candidature non trouvée', lauréat.identifiantProjet);
         continue;
       }
       const actionnaireImporté: Actionnaire.ActionnaireImportéEvent = {
@@ -176,14 +173,19 @@ export class Migrer extends Command {
       }
     }
 
+    const eventsStats: Record<string, number> = {};
+
     for (const [identifiantProjet, events] of Object.entries(eventsPerProjet)) {
       console.log(identifiantProjet, events.map((ev) => ev.type).join(', '));
-      if (!flags.dryRun) {
-        for (const event of events) {
+      for (const event of events) {
+        if (!flags.dryRun) {
           await publish(`actionnaire|${identifiantProjet}`, event);
         }
+        eventsStats[event.type] ??= 0;
+        eventsStats[event.type]++;
       }
     }
+    console.log(eventsStats);
 
     console.log('All events published.');
     console.log('Migrating files...');
@@ -195,6 +197,7 @@ export class Migrer extends Command {
         Actionnaire.TypeDocumentActionnaire.pièceJustificative,
         DateTime.convertirEnValueType(new Date(modification.requestedOn)),
         modification.status !== 'information validée',
+        flags.dryRun,
       );
       if (modification.status === 'acceptée') {
         await migrateFile(
@@ -203,6 +206,7 @@ export class Migrer extends Command {
           Actionnaire.TypeDocumentActionnaire.changementAccordé,
           DateTime.convertirEnValueType(new Date(modification.respondedOn)),
           true,
+          flags.dryRun,
         );
       }
     }
@@ -242,6 +246,7 @@ const migrateFile = async (
   typeDocument: Actionnaire.TypeDocumentActionnaire.ValueType,
   date: DateTime.ValueType,
   createOnMissing: boolean,
+  dryRun: boolean,
 ) => {
   const format = file ? contentType(extname(file)) : 'application/pdf';
   if (!format) {
@@ -255,19 +260,38 @@ const migrateFile = async (
   ).formatter();
 
   if (file) {
-    await copyFile(
-      file.replace('S3:potentiel-production:', '').replace('S3:production-potentiel:', ''),
-      key,
-    );
+    if (dryRun) {
+      const exists = await fileExists(
+        file.replace('S3:potentiel-production:', '').replace('S3:production-potentiel:', ''),
+      );
+      if (!exists) {
+        console.warn(
+          `📁 Fichier non trouvé pour ${identifiantProjet} - ${typeDocument.formatter()}`,
+        );
+      }
+    } else {
+      try {
+        await copyFile(
+          file.replace('S3:potentiel-production:', '').replace('S3:production-potentiel:', ''),
+          key,
+        );
+      } catch (e) {
+        console.warn(
+          `📁 La copie du fichier a échouée pour ${identifiantProjet} - ${typeDocument.formatter()}`,
+        );
+      }
+    }
   } else if (createOnMissing) {
     console.warn(
       `📁 Pas de fichier trouvé pour ${identifiantProjet} - ${typeDocument.formatter()}`,
     );
-    await upload(
-      key,
-      await getReplacementDoc(
-        "Fichier généré automatiquement en l'absence de pièces justificatives",
-      ),
-    );
+    if (!dryRun) {
+      await upload(
+        key,
+        await getReplacementDoc(
+          "Fichier généré automatiquement en l'absence de pièces justificatives",
+        ),
+      );
+    }
   }
 };
