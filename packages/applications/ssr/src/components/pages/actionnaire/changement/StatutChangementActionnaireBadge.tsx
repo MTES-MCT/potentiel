@@ -1,6 +1,6 @@
 import Badge, { BadgeProps } from '@codegouvfr/react-dsfr/Badge';
 import { FC } from 'react';
-import { match } from 'ts-pattern';
+import { match, P } from 'ts-pattern';
 
 import { Actionnaire } from '@potentiel-domain/laureat';
 
@@ -22,6 +22,6 @@ const getSeverity = (statut: StatutChangementActionnaireBadgeProps['statut']) =>
     .returnType<BadgeProps['severity']>()
     .with('demandé', () => 'new')
     .with('annulé', () => 'info')
-    .with('accordé', () => 'success')
     .with('rejeté', () => 'warning')
+    .with(P.union('accordé', 'information-enregistrée'), () => 'success')
     .exhaustive();
