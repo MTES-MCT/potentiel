@@ -4,15 +4,10 @@ import { encodeParameter } from '../encodeParameter';
 
 type ListerFilters = {
   statut?: Abandon.StatutAbandon.RawType;
-  appelOffre?: string;
 };
 
 export const lister = (filters: ListerFilters = {}) => {
   const searchParams = new URLSearchParams();
-
-  if (filters?.appelOffre) {
-    searchParams.set('appelOffre', filters.appelOffre);
-  }
 
   if (filters?.statut) {
     searchParams.set('statut', filters.statut);
