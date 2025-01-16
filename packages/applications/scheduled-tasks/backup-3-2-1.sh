@@ -5,7 +5,8 @@ then
         exit 0
 fi
 
-MONITORING_URL="$SENTRY_CRONS?environment=$APPLICATION_STAGE"
+SENTRY_URL=$(echo "$SENTRY_CRONS" | sed 's|<monitor_slug>|backup-3-2-1|')
+MONITORING_URL="$SENTRY_URL?environment=$APPLICATION_STAGE"
 
 handle_error() {
   local message="Error on backup 3-2-1 script line $1"
