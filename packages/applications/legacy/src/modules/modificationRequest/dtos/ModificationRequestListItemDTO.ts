@@ -6,7 +6,16 @@ export const MODIFICATION_REQUEST_TYPES = [
   'delai',
   'autre',
 ] as const;
+export const MODIFICATION_REQUEST_TYPES_V2 = [
+  'fournisseur',
+  'producteur',
+  'puissance',
+  'delai',
+  'autre',
+] as const;
 export type ModificationRequestTypes = (typeof MODIFICATION_REQUEST_TYPES)[number];
+export type ModificationRequestTypesV2 = (typeof MODIFICATION_REQUEST_TYPES_V2)[number];
+
 
 export type ModificationRequestStatusDTO =
   | 'envoyée'
