@@ -1,6 +1,20 @@
+import { Abandon } from '@potentiel-domain/laureat';
+
 import { encodeParameter } from '../encodeParameter';
 
-export const lister = '/abandons';
+type ListerFilters = {
+  statut?: Abandon.StatutAbandon.RawType;
+};
+
+export const lister = (filters: ListerFilters = {}) => {
+  const searchParams = new URLSearchParams();
+
+  if (filters?.statut) {
+    searchParams.set('statut', filters.statut);
+  }
+
+  return `/abandons${searchParams.toString() ? `?${searchParams.toString()}` : ''}`;
+};
 
 export const détail = (identifiantProjet: string) =>
   `/laureats/${encodeParameter(identifiantProjet)}/abandon`;
