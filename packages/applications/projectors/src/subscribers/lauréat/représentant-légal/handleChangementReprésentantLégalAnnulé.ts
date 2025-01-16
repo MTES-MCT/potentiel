@@ -43,7 +43,9 @@ export const handleChangementReprésentantLégalAnnulé = async (
   if (await fileExists(pièceJustificative.formatter())) {
     await upload(
       pièceJustificative.formatter(),
-      await getSensitiveDocReplacement('Document sensible supprimé automatiquement après accord'),
+      await getSensitiveDocReplacement(
+        'Document sensible supprimé automatiquement après annulation',
+      ),
     );
   }
 };

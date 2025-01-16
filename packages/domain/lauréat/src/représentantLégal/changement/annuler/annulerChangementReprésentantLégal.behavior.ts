@@ -13,7 +13,7 @@ export type ChangementReprésentantLégalAnnuléEvent = DomainEvent<
   }
 >;
 
-export type AccorderOptions = {
+export type AnnulerOptions = {
   identifiantProjet: IdentifiantProjet.ValueType;
   identifiantUtilisateur: Email.ValueType;
   dateAnnulation: DateTime.ValueType;
@@ -21,7 +21,7 @@ export type AccorderOptions = {
 
 export async function annuler(
   this: ReprésentantLégalAggregate,
-  { identifiantProjet, identifiantUtilisateur, dateAnnulation }: AccorderOptions,
+  { identifiantProjet, identifiantUtilisateur, dateAnnulation }: AnnulerOptions,
 ) {
   if (!this.demande) {
     throw new DemandeChangementInexistanteError();
