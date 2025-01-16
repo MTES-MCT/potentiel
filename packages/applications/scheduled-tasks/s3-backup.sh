@@ -2,8 +2,13 @@
 
 if [ "$APPLICATION_STAGE" != "production" ]
 then
-        echo "No backup for $APPLICATION_STAGE environment"
-        exit 0
+  echo "No backup for $APPLICATION_STAGE environment"
+  exit 0
+fi
+
+if [ -z $SENTRY_CRONS ] || [ -z $APPLICATION_STAGE ]
+then
+  echo "A monitoring variable is missing !!"
 fi
 
 SENTRY_URL=$(echo "$SENTRY_CRONS" | sed 's|<monitor_slug>|s3-backup|')
