@@ -1,14 +1,27 @@
 #! /bin/bash -l
 if [ "$APPLICATION_STAGE" != "production" ]
 then
-        echo "No backup for $APPLICATION_STAGE environment"
-        exit 0
+  echo "No backup for $APPLICATION_STAGE environment"
+  exit 0
 fi
 
-MONITORING_URL="$SENTRY_CRONS?environment=$APPLICATION_STAGE"
+if [ -z $SENTRY_CRONS ] || [ -z $APPLICATION_STAGE ]
+then
+  echo "A monitoring variable is missing !!"
+fi
+
+SENTRY_URL=$(echo "$SENTRY_CRONS" | sed 's|<monitor_slug>|backup-3-2-1|')
+MONITORING_URL="$SENTRY_URL?environment=$APPLICATION_STAGE"
+
+if [ -z $AWS_ACCESS_KEY_ID ] || [ -z $AWS_SECRET_ACCESS_KEY ] || [ -z $S3_ENDPOINT ] || [ -z $S3_BACKUP_BUCKET ]  || [ -z $SCALINGO_POSTGRESQL_URL ]
+then
+    echo "An environment variable is missing !!"
+    curl "${MONITORING_URL}&status=error"
+    exit 1
+fi
 
 handle_error() {
-  local message="Error on backup 3-2-1 script line $1"
+  local message="Error on 'backup-3-2-1' script line $1"
   echo $message
 
   local timestamp=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
@@ -56,13 +69,12 @@ cd ~/aws-cli/bin
 
 echo "Uploading backups to bucket..."
 
-./aws s3 cp ../../${COMPRESSED_BACKUP_FILE_NAME} s3://${S3_BUCKET}/db_backups/${COMPRESSED_BACKUP_FILE_NAME}
-./aws s3 cp ../../${PLAIN_BACKUP_FILE_NAME} s3://${S3_BUCKET}/db_backups/${PLAIN_BACKUP_FILE_NAME}
-./aws s3 cp ../../${GZ_BACKUP_FILE_NAME} s3://${S3_BUCKET}/db_backups/${GZ_BACKUP_FILE_NAME}
+./aws s3 cp ../../${COMPRESSED_BACKUP_FILE_NAME} s3://${S3_BACKUP_BUCKET}/db_backups/${COMPRESSED_BACKUP_FILE_NAME}
+./aws s3 cp ../../${PLAIN_BACKUP_FILE_NAME} s3://${S3_BACKUP_BUCKET}/db_backups/${PLAIN_BACKUP_FILE_NAME}
+./aws s3 cp ../../${GZ_BACKUP_FILE_NAME} s3://${S3_BACKUP_BUCKET}/db_backups/${GZ_BACKUP_FILE_NAME}
 
 echo "Backup 3-2-1 successfully executed !"
 
 curl "${MONITORING_URL}&status=ok"
-
 
 exit 0
