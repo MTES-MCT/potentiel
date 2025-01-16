@@ -6,6 +6,9 @@ export const MODIFICATION_REQUEST_TYPES = [
   'delai',
   'autre',
 ] as const;
+// ce type est utilisé pour filtrer facilement la liste demande legacy
+// quand des domaines sont migrés
+// Migrés : "actionnaire"
 export const MODIFICATION_REQUEST_TYPES_V2 = [
   'fournisseur',
   'producteur',

@@ -28,7 +28,7 @@ describe('Sequelize getModificationRequestListForAdmin', () => {
 
       const baseRequest = {
         projectId,
-        type: 'actionnaire' as const,
+        type: 'producteur' as const,
         userId: fakePorteur.id,
         fileId,
         requestedOn: 123,
@@ -39,13 +39,11 @@ describe('Sequelize getModificationRequestListForAdmin', () => {
         {
           ...baseRequest,
           id: new UniqueEntityID().toString(),
-          actionnaire: 'target',
           authority: 'dgec',
         },
         {
           ...baseRequest,
           id: new UniqueEntityID().toString(),
-          actionnaire: 'nottarget',
           authority: 'dreal',
         },
       ]);
@@ -60,8 +58,6 @@ describe('Sequelize getModificationRequestListForAdmin', () => {
       expect(res.isOk()).toBe(true);
 
       expect(res._unsafeUnwrap().itemCount).toEqual(1);
-
-      expect(res._unsafeUnwrap().items[0]).toMatchObject({ description: 'target' });
     });
 
     describe('when the noAuthority filter is true', () => {
