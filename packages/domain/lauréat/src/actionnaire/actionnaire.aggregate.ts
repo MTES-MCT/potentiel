@@ -22,7 +22,7 @@ import {
   ActionnaireModifiéEvent,
   applyActionnaireModifié,
   modifier,
-} from './modification/modifier/modifierActionnaire.behavior';
+} from './modifier/modifierActionnaire.behavior';
 import {
   accorderChangementActionnaire,
   applyChangementActionnaireAccordé,

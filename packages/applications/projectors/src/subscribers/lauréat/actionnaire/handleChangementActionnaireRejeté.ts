@@ -3,7 +3,7 @@ import { findProjection } from '@potentiel-infrastructure/pg-projections';
 import { Option } from '@potentiel-libraries/monads';
 import { getLogger } from '@potentiel-libraries/monitoring';
 
-import { updateOneProjection } from '../../../infrastructure';
+import { updateOneProjection, upsertProjection } from '../../../infrastructure';
 
 export const handleChangementActionnaireRejeté = async ({
   payload: {
@@ -22,23 +22,34 @@ export const handleChangementActionnaireRejeté = async ({
     return;
   }
 
-  if (!projectionToUpsert.demande) {
+  if (!projectionToUpsert.demandeEnCours) {
     getLogger().error(`Demande non trouvée`, { identifiantProjet });
     return;
   }
 
-  await updateOneProjection<Actionnaire.ActionnaireEntity>(`actionnaire|${identifiantProjet}`, {
-    demande: {
-      ...projectionToUpsert.demande,
-      statut: Actionnaire.StatutChangementActionnaire.rejeté.statut,
+  const demande = {
+    ...projectionToUpsert.demandeEnCours,
+    statut: Actionnaire.StatutChangementActionnaire.rejeté.statut,
 
-      rejet: {
-        rejetéeLe: rejetéLe,
-        rejetéePar: rejetéPar,
-        réponseSignée: {
-          format,
-        },
+    rejet: {
+      rejetéeLe: rejetéLe,
+      rejetéePar: rejetéPar,
+      réponseSignée: {
+        format,
       },
     },
+  };
+
+  await updateOneProjection<Actionnaire.ActionnaireEntity>(`actionnaire|${identifiantProjet}`, {
+    demandeEnCours: demande,
   });
+
+  await upsertProjection<Actionnaire.ChangementActionnaireEntity>(
+    `changement-actionnaire|${identifiantProjet}#${projectionToUpsert.demandeEnCours.demandéeLe}`,
+    {
+      identifiantProjet,
+      projet: projectionToUpsert.projet,
+      demande,
+    },
+  );
 };

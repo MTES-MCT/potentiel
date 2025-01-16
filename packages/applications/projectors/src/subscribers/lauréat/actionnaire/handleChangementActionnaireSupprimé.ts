@@ -3,7 +3,7 @@ import { findProjection } from '@potentiel-infrastructure/pg-projections';
 import { Option } from '@potentiel-libraries/monads';
 import { getLogger } from '@potentiel-libraries/monitoring';
 
-import { upsertProjection } from '../../../infrastructure';
+import { removeProjection, upsertProjection } from '../../../infrastructure';
 
 export const handleChangementActionnaireSupprimé = async ({
   payload: { identifiantProjet },
@@ -17,13 +17,17 @@ export const handleChangementActionnaireSupprimé = async ({
     return;
   }
 
-  if (!projectionToUpsert.demande) {
+  if (!projectionToUpsert.demandeEnCours) {
     getLogger().error(`Demande non trouvée`, { identifiantProjet });
     return;
   }
 
   await upsertProjection<Actionnaire.ActionnaireEntity>(`actionnaire|${identifiantProjet}`, {
     ...projectionToUpsert,
-    demande: undefined,
+    demandeEnCours: undefined,
   });
+
+  await removeProjection<Actionnaire.ChangementActionnaireEntity>(
+    `changement-actionnaire|${identifiantProjet}#${projectionToUpsert.demandeEnCours.demandéeLe}`,
+  );
 };

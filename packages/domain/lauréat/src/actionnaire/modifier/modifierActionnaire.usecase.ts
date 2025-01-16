@@ -4,7 +4,7 @@ import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
 import { DocumentProjet, EnregistrerDocumentProjetCommand } from '@potentiel-domain/document';
 import { Role } from '@potentiel-domain/utilisateur';
 
-import { TypeDocumentActionnaire } from '../..';
+import { TypeDocumentActionnaire } from '..';
 
 import { ModifierActionnaireCommand } from './modifierActionnaire.command';
 

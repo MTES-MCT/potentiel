@@ -17,6 +17,8 @@ export const handleActionnaireModifié = async ({
     },
   });
 
+  // si c'est un porteur qui modifie
+  // la pj est obligatoire
   const candidature = await findProjection<Candidature.CandidatureEntity>(
     `candidature|${identifiantProjet}`,
   );
@@ -31,22 +33,25 @@ export const handleActionnaireModifié = async ({
   const { appelOffre, période, famille } =
     IdentifiantProjet.convertirEnValueType(identifiantProjet);
 
-  await upsertProjection<Actionnaire.ModificationActionnaireEntity>(
-    `modification-actionnaire|${identifiantProjet}#${modifiéLe}`,
+  await upsertProjection<Actionnaire.ChangementActionnaireEntity>(
+    `changement-actionnaire|${identifiantProjet}#${modifiéLe}`,
     {
       identifiantProjet,
       projet: {
-        nomProjet: candidature.nomProjet,
+        nom: candidature.nomProjet,
         appelOffre,
         période,
         famille,
-        régionProjet: candidature.localité.région,
+        région: candidature.localité.région,
       },
-      modifiéLe,
-      modifiéPar,
-      actionnaire,
-      raison,
-      pièceJustificative,
+      demande: {
+        nouvelActionnaire: actionnaire,
+        statut: Actionnaire.StatutChangementActionnaire.informationEnregistrée.statut,
+        demandéePar: modifiéPar,
+        demandéeLe: modifiéLe,
+        raison,
+        pièceJustificative,
+      },
     },
   );
 };

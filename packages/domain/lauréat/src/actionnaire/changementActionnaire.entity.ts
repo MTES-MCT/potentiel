@@ -1,29 +1,33 @@
 import { DateTime } from '@potentiel-domain/common';
 import { Entity } from '@potentiel-domain/entity';
 
-export type ActionnaireEntity = Entity<
-  'actionnaire',
+export type ChangementActionnaireEntity = Entity<
+  'changement-actionnaire',
   {
     identifiantProjet: string;
+
     projet: {
       nom: string;
       appelOffre: string;
       période: string;
       famille?: string;
-      numéroCRE: string;
       région: string;
     };
 
-    actionnaire: { nom: string; misÀJourLe: DateTime.RawType };
-
-    demandeEnCours?: {
+    // voir comment on gère la modification du coup
+    demande: {
       nouvelActionnaire: string;
       statut: string;
       demandéePar: string;
       demandéeLe: DateTime.RawType;
       raison: string;
-      pièceJustificative: {
+      pièceJustificative?: {
         format: string;
+      };
+
+      annulation?: {
+        annuléePar: string;
+        annuléeLe: DateTime.RawType;
       };
 
       accord?: {

@@ -6,7 +6,7 @@ import { Option } from '@potentiel-libraries/monads';
 import { upsertProjection } from '../../../infrastructure';
 
 export const handleChangementActionnaireAnnulé = async ({
-  payload: { identifiantProjet },
+  payload: { identifiantProjet, annuléLe, annuléPar },
 }: Actionnaire.ChangementActionnaireAnnuléEvent) => {
   const projectionToUpsert = await findProjection<Actionnaire.ActionnaireEntity>(
     `actionnaire|${identifiantProjet}`,
@@ -17,13 +17,29 @@ export const handleChangementActionnaireAnnulé = async ({
     return;
   }
 
-  if (!projectionToUpsert.demande) {
+  if (!projectionToUpsert.demandeEnCours) {
     getLogger().error(`Demande non trouvée`, { identifiantProjet });
     return;
   }
 
   await upsertProjection<Actionnaire.ActionnaireEntity>(`actionnaire|${identifiantProjet}`, {
     ...projectionToUpsert,
-    demande: undefined,
+    demandeEnCours: undefined,
   });
+
+  await upsertProjection<Actionnaire.ChangementActionnaireEntity>(
+    `changement-actionnaire|${identifiantProjet}#${projectionToUpsert.demandeEnCours.demandéeLe}`,
+    {
+      identifiantProjet,
+      projet: projectionToUpsert.projet,
+      demande: {
+        ...projectionToUpsert.demandeEnCours,
+        statut: Actionnaire.StatutChangementActionnaire.annulé.statut,
+        annulation: {
+          annuléeLe: annuléLe,
+          annuléePar: annuléPar,
+        },
+      },
+    },
+  );
 };

@@ -14,13 +14,13 @@ import { registerDemanderChangementActionnaireCommand } from './changement/deman
 import { registerDemanderChangementActionnaireUseCase } from './changement/demander/demanderChangementActionnaire.usecase';
 import { registerRejeterChangementActionnaireCommand } from './changement/rejeter/rejeterChangementActionnaire.command';
 import { registerRejeterChangementActionnaireUseCase } from './changement/rejeter/rejeterChangementActionnaire.usecase';
-import { registerModifierActionnaireCommand } from './modification/modifier/modifierActionnaire.command';
-import { registerModifierActionnaireUseCase } from './modification/modifier/modifierActionnaire.usecase';
 import {
   ListerChangementActionnaireDependencies,
   registerListerChangementActionnaireQuery,
 } from './changement/lister/listerChangementActionnaire.query';
 import { registerSupprimerChangementActionnaireCommand } from './changement/supprimer/supprimerChangementActionnaire.command';
+import { registerModifierActionnaireCommand } from './modifier/modifierActionnaire.command';
+import { registerModifierActionnaireUseCase } from './modifier/modifierActionnaire.usecase';
 
 export type ActionnaireQueryDependencies = ConsulterActionnaireDependencies &
   ListerChangementActionnaireDependencies;
