@@ -1,6 +1,7 @@
 #! /bin/bash -l
-CHECK_IN_ID="$(($(date +%s%N)/1000000))"
-curl "$SENTRY_CRONS?check_in_id=${CHECK_IN_ID}&status=in_progress&environment=$APPLICATION_STAGE"
+MONITORING_URL="$SENTRY_CRONS?environment=$APPLICATION_STAGE"
+
+curl "${MONITORING_URL}&status=in_progress"
 
 handle_error() {
   local message="Error on backup 3-2-1 script line $1"
@@ -9,7 +10,7 @@ handle_error() {
   local timestamp=$(date -u +"%Y-%m-%dT%H:%M:%SZ")
   local hostname=$(hostname)
 
-  curl "$SENTRY_CRONS?check_in_id=${CHECK_IN_ID}&status=error&environment=$APPLICATION_STAGE"
+  curl "${MONITORING_URL}&status=error"
 
   exit 1
 }
@@ -57,6 +58,7 @@ echo "Uploading backups to bucket..."
 
 echo "Backup 3-2-1 successfully executed !"
 
-curl "$SENTRY_CRONS?check_in_id=${CHECK_IN_ID}&status=ok&environment=$APPLICATION_STAGE"
+curl "${MONITORING_URL}&status=ok"
+
 
 exit 0
