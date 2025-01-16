@@ -94,7 +94,7 @@ const PorteurProjetActions = ({
               <span>
                 {isActionnaireEnabled() && actionnaireMenu
                   ? actionnaireMenu.label
-                  : "Changer l'actionaire"}
+                  : "Changer l'actionnaire"}
               </span>
             </DropdownMenuSecondaryButton.DropdownItem>
             <DropdownMenuSecondaryButton.DropdownItem
