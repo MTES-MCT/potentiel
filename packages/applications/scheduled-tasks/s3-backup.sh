@@ -46,4 +46,6 @@ echo "Syncing bucket..."
 
 echo "Bucket successfully synced..."
 
+curl "${MONITORING_URL}&status=ok"
+
 exit 0
