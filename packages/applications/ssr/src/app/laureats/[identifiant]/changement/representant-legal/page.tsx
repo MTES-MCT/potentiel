@@ -42,21 +42,16 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
 
       const actions: Array<AvailableChangementReprésentantLégalAction> = [];
 
-      if (
-        utilisateur.role.aLaPermission('représentantLégal.accorderChangement') &&
-        changement.demande.statut.estDemandé()
-      ) {
-        actions.push('accorder');
-      }
-      if (
-        utilisateur.role.aLaPermission('représentantLégal.rejeterChangement') &&
-        changement.demande.statut.estDemandé()
-      ) {
-        actions.push('rejeter');
-      }
-
-      if (utilisateur.role.aLaPermission('représentantLégal.annulerChangement')) {
-        actions.push('annuler');
+      if (changement.demande.statut.estDemandé()) {
+        if (utilisateur.role.aLaPermission('représentantLégal.accorderChangement')) {
+          actions.push('accorder');
+        }
+        if (utilisateur.role.aLaPermission('représentantLégal.rejeterChangement')) {
+          actions.push('rejeter');
+        }
+        if (utilisateur.role.aLaPermission('représentantLégal.annulerChangement')) {
+          actions.push('annuler');
+        }
       }
 
       return (
