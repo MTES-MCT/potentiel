@@ -8,12 +8,9 @@ Fonctionnalité: Supprimer le raccordement d'un projet
         Et le porteur "Barbara Gordon" ayant accés au projet lauréat "Du boulodrome de Marseille"
 
     Scénario: Le système supprime le raccordement d'un projet si celui-ci a un abandon accordé
-        Etant donné une demande complète de raccordement pour le projet lauréat auprès du gestionnaire de réseau
-        Et une proposition technique et financière pour le dossier ayant comme référence "OUE-RP-2022-000033" du raccordement pour le projet lauréat avec :
-            | La date de signature                                | 2023-01-10      |
-            | Le format de la proposition technique et financière | application/pdf |
-            | Le contenu de proposition technique et financière   | contenu         |
-        Et une date de mise en service "2024-01-01" pour le dossier ayant comme référence "OUE-RP-2022-000033" du raccordement pour le projet lauréat
+        Etant donné une demande complète de raccordement pour le projet lauréat
+        Et une proposition technique et financière pour le dossier de raccordement du projet lauréat
+        Et une date de mise en service pour le dossier de raccordement du projet lauréat
         Et une demande d'abandon en cours pour le projet lauréat
         Quand le DGEC validateur accorde l'abandon pour le projet lauréat
         Alors le dossier de raccordement ne devrait plus être consultable dans le raccordement du projet lauréat

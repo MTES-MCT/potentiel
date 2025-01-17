@@ -27,9 +27,3 @@ Fonctionnalité: Transmettre une proposition technique et financière
         Quand le porteur transmet une proposition technique et financière pour le dossier de raccordement du projet lauréat avec :
             | La date de signature | 2999-12-31 |
         Alors le porteur devrait être informé que "La date ne peut pas être une date future"
-
-    Scénario: Impossible de transmettre une proposition technique et financière si le projet est abandonné
-        Etant donné une demande complète de raccordement pour le projet lauréat
-        Et un abandon accordé pour le projet lauréat
-        Quand le porteur transmet une proposition technique et financière pour le dossier de raccordement du projet lauréat
-        Alors le porteur devrait être informé que "Le dossier n'est pas référencé dans le raccordement de ce projet"

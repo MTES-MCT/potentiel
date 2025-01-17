@@ -45,13 +45,13 @@ Fonctionnalité: Modifier le gestionnaire de réseau d'un raccordement
 
     Scénario: Impossible pour un porteur de projet de modifier le gestionnaire de réseau d'un raccordement avec mise en service
         Etant donné une demande complète de raccordement pour le projet lauréat
-        Et une date de mise en service pour le dossier de raccordement pour le projet lauréat
+        Et une date de mise en service pour le dossier de raccordement du projet lauréat
         Quand un porteur modifie le gestionnaire de réseau du projet avec le gestionnaire "Arc Energies Maurienne"
         Alors le porteur devrait être informé que "Le gestionnaire de réseau ne peut être modifié car le raccordement a une date de mise en service"
 
     Scénario: Impossible pour une dreal de modifier le gestionnaire de réseau d'un raccordement avec mise en service
         Etant donné une demande complète de raccordement pour le projet lauréat
-        Et une date de mise en service pour le dossier de raccordement pour le projet lauréat
+        Et une date de mise en service pour le dossier de raccordement du projet lauréat
         Quand une dreal modifie le gestionnaire de réseau du projet avec le gestionnaire "Arc Energies Maurienne"
         Alors la dreal devrait être informé que "Le gestionnaire de réseau ne peut être modifié car le raccordement a une date de mise en service"
 

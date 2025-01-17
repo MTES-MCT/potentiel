@@ -5,7 +5,7 @@ import { assert, expect } from 'chai';
 
 import { Raccordement, GestionnaireRéseau } from '@potentiel-domain/reseau';
 import { Option } from '@potentiel-libraries/monads';
-import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
+import { IdentifiantProjet } from '@potentiel-domain/common';
 import { mapToPlainObject } from '@potentiel-domain/core';
 import { ConsulterDocumentProjetQuery } from '@potentiel-domain/document';
 
@@ -154,35 +154,21 @@ Alors(
 );
 
 Alors(
-  `la date de mise en service {string} devrait être consultable dans le dossier de raccordement du projet lauréat ayant pour référence {string}`,
-  async function (
-    this: PotentielWorld,
-    dateMiseEnService: string,
-    référenceDossierRaccordement: string,
-  ) {
+  `la date de mise en service devrait être consultable dans le dossier de raccordement du projet lauréat`,
+  async function (this: PotentielWorld) {
     const { identifiantProjet } = this.lauréatWorld;
+    const { référenceDossier } = this.raccordementWorld;
     await waitForExpect(async () => {
-      const actual = await mediator.send<Raccordement.ConsulterDossierRaccordementQuery>({
-        type: 'Réseau.Raccordement.Query.ConsulterDossierRaccordement',
-        data: {
-          référenceDossierRaccordementValue: référenceDossierRaccordement,
-          identifiantProjetValue: identifiantProjet.formatter(),
-        },
-      });
+      const dossierRaccordement =
+        await mediator.send<Raccordement.ConsulterDossierRaccordementQuery>({
+          type: 'Réseau.Raccordement.Query.ConsulterDossierRaccordement',
+          data: {
+            référenceDossierRaccordementValue: référenceDossier,
+            identifiantProjetValue: identifiantProjet.formatter(),
+          },
+        });
 
-      if (Option.isNone(actual)) {
-        throw new Error('Dossier de raccordement non trouvé');
-      }
-
-      if (Option.isNone(actual.miseEnService)) {
-        throw new Error('Date mise en service non trouvé');
-      }
-
-      expect(
-        actual.miseEnService?.dateMiseEnService?.estÉgaleÀ(
-          DateTime.convertirEnValueType(new Date(dateMiseEnService).toISOString()),
-        ),
-      ).to.be.true;
+      vérifierDossierRaccordement.call(this, identifiantProjet, dossierRaccordement);
     });
   },
 );
@@ -233,9 +219,10 @@ Alors(
 );
 
 Alors(
-  `le dossier ayant pour référence {string} ne devrait plus être consultable dans la liste des dossiers du raccordement pour le projet`,
-  async function (this: PotentielWorld, référenceDossier: string) {
+  `le dossier ne devrait plus être consultable dans la liste des dossiers du raccordement pour le projet`,
+  async function (this: PotentielWorld) {
     const { identifiantProjet } = this.lauréatWorld;
+    const { référenceDossier } = this.raccordementWorld;
     await waitForExpect(async () => {
       const raccordementDuProjet = await mediator.send<Raccordement.ConsulterRaccordementQuery>({
         type: 'Réseau.Raccordement.Query.ConsulterRaccordement',

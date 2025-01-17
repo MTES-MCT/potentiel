@@ -10,8 +10,9 @@ import { convertStringToReadableStream } from '../../helpers/convertStringToRead
 type PièceJustificative = { format: string; content: ReadableStream };
 
 interface ModifierPropositionTechniqueEtFinancière {
-  readonly dateSignature: string;
-  readonly propositionTechniqueEtFinancièreSignée: PièceJustificative;
+  dateSignature: string;
+  référenceDossier: string;
+  propositionTechniqueEtFinancièreSignée: PièceJustificative;
 }
 
 export class ModifierPropositionTechniqueEtFinancièreFixture
@@ -65,6 +66,19 @@ export class ModifierPropositionTechniqueEtFinancièreFixture
     this.#identifiantProjet = fixture.identifiantProjet;
     this.aÉtéCréé = true;
     return fixture;
+  }
+
+  mapExempleToFixtureValues(exemple: Record<string, string>) {
+    const values: Partial<ModifierPropositionTechniqueEtFinancière> = {};
+    const dateSignature = exemple['La date de signature'];
+    const référenceDossier = exemple['La référence du dossier de raccordement'];
+    if (dateSignature) {
+      values.dateSignature = new Date(dateSignature).toISOString();
+    }
+    if (référenceDossier) {
+      values.référenceDossier = référenceDossier;
+    }
+    return values;
   }
 
   mapToExpected(référenceDossier?: string) {

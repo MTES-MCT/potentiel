@@ -19,18 +19,6 @@ export class TransmettrePropositionTechniqueEtFinancièreFixture
   extends AbstractFixture<TransmettrePropositionTechniqueEtFinancière>
   implements TransmettrePropositionTechniqueEtFinancière
 {
-  mapExempleToFixtureValues(exemple: Record<string, string>) {
-    const values: Partial<TransmettrePropositionTechniqueEtFinancière> = {};
-    const dateSignature = exemple['La date de signature'];
-    const référenceDossier = exemple['La référence du dossier de raccordement'];
-    if (dateSignature) {
-      values.dateSignature = new Date(dateSignature).toISOString();
-    }
-    if (référenceDossier) {
-      values.référenceDossier = référenceDossier;
-    }
-    return values;
-  }
   #dateSignature!: string;
   get dateSignature(): string {
     return this.#dateSignature;
@@ -92,5 +80,17 @@ export class TransmettrePropositionTechniqueEtFinancièreFixture
         this.#format,
       ),
     };
+  }
+  mapExempleToFixtureValues(exemple: Record<string, string>) {
+    const values: Partial<TransmettrePropositionTechniqueEtFinancière> = {};
+    const dateSignature = exemple['La date de signature'];
+    const référenceDossier = exemple['La référence du dossier de raccordement'];
+    if (dateSignature) {
+      values.dateSignature = new Date(dateSignature).toISOString();
+    }
+    if (référenceDossier) {
+      values.référenceDossier = référenceDossier;
+    }
+    return values;
   }
 }

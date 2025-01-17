@@ -5,7 +5,8 @@ import { DateTime } from '@potentiel-domain/common';
 import { AbstractFixture } from '../../fixture';
 
 interface TransmettreDateDeMiseEnService {
-  readonly dateMiseEnService: string;
+  dateMiseEnService: string;
+  référenceDossier: string;
 }
 
 export class TransmettreDateMiseEnServiceFixture
@@ -50,5 +51,18 @@ export class TransmettreDateMiseEnServiceFixture
       return;
     }
     return { dateMiseEnService: DateTime.convertirEnValueType(this.dateMiseEnService) };
+  }
+
+  mapExempleToFixtureValues(exemple: Record<string, string>) {
+    const values: Partial<TransmettreDateDeMiseEnService> = {};
+    const référenceDossier = exemple['La référence du dossier de raccordement'];
+    const dateMiseEnService = exemple['La date de mise en service'];
+    if (référenceDossier) {
+      values.référenceDossier = référenceDossier;
+    }
+    if (dateMiseEnService) {
+      values.dateMiseEnService = new Date(dateMiseEnService).toISOString();
+    }
+    return values;
   }
 }

@@ -38,12 +38,12 @@ Fonctionnalité: Modifier une demande complète de raccordement
 
     Scénario: Impossible pour un porteur de modifier une demande complète de raccordement si le projet est déjà en service
         Etant donné une demande complète de raccordement pour le projet lauréat
-        Et une date de mise en service pour le dossier de raccordement pour le projet lauréat
+        Et une date de mise en service pour le dossier de raccordement du projet lauréat
         Quand le porteur modifie la demande complète de raccordement
         Alors le porteur devrait être informé que "La demande complète de raccordement du dossier ne peut pas être modifiée car celui-ci dispose déjà d'une date de mise en service"
 
     Scénario: Impossible pour une dreal de modifier une demande complète de raccordement si le projet est déjà en service
         Etant donné une demande complète de raccordement pour le projet lauréat
-        Et une date de mise en service pour le dossier de raccordement pour le projet lauréat
+        Et une date de mise en service pour le dossier de raccordement du projet lauréat
         Quand la dreal modifie la demande complète de raccordement
         Alors la dreal devrait être informé que "La demande complète de raccordement du dossier ne peut pas être modifiée car celui-ci dispose déjà d'une date de mise en service"

@@ -90,7 +90,7 @@ EtantDonné(
 );
 
 EtantDonné(
-  'une date de mise en service pour le dossier de raccordement pour le projet lauréat',
+  'une date de mise en service pour le dossier de raccordement du projet lauréat',
   async function (this: PotentielWorld) {
     const { identifiantProjet } = this.lauréatWorld;
     const { référenceDossier } = this.raccordementWorld;
