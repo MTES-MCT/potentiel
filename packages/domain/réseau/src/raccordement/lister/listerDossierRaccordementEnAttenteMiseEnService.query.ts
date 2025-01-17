@@ -5,7 +5,6 @@ import { List, RangeOptions, Where } from '@potentiel-domain/entity';
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 import { Lauréat } from '@potentiel-domain/laureat';
 import { Candidature } from '@potentiel-domain/candidature';
-import { Abandon } from '@potentiel-domain/laureat';
 
 import { RéférenceDossierRaccordement } from '..';
 import { DossierRaccordementEntity } from '../raccordement.entity';
@@ -79,14 +78,8 @@ export const registerListerDossierRaccordementEnAttenteMiseEnServiceQuery = ({
       },
     });
 
-    const abandons = await list<Abandon.AbandonEntity>('abandon', {
-      where: {
-        identifiantProjet: Where.include(identifiants),
-      },
-    });
-
     return {
-      items: items.map((item) => toReadModel(item, candidatures.items, abandons.items)),
+      items: items.map((item) => toReadModel(item, candidatures.items)),
       range: {
         endPosition,
         startPosition,
@@ -104,14 +97,12 @@ export const registerListerDossierRaccordementEnAttenteMiseEnServiceQuery = ({
 export const toReadModel = (
   { identifiantProjet, référence }: DossierRaccordementEntity,
   candidatures: ReadonlyArray<Candidature.CandidatureEntity>,
-  abandons: ReadonlyArray<Abandon.AbandonEntity>,
 ): DossierRaccordementEnAttenteMiseEnService => {
   const { appelOffre, famille, numéroCRE, période } =
     IdentifiantProjet.convertirEnValueType(identifiantProjet);
   const candidature = candidatures.find(
     (candidature) => candidature.identifiantProjet === identifiantProjet,
   );
-  const abandon = abandons.find((abandons) => abandons.identifiantProjet === identifiantProjet);
 
   const { nomProjet, codePostal, commune } = match(candidature)
     .with(undefined, () => ({
@@ -135,8 +126,6 @@ export const toReadModel = (
     numéroCRE,
     période,
     référenceDossier: RéférenceDossierRaccordement.convertirEnValueType(référence),
-    statutDGEC: match(abandon)
-      .with(undefined, () => Lauréat.StatutLauréat.classé.formatter())
-      .otherwise(() => Lauréat.StatutLauréat.abandonné.formatter()),
+    statutDGEC: Lauréat.StatutLauréat.classé.formatter(),
   };
 };
