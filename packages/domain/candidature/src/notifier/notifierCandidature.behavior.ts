@@ -80,9 +80,10 @@ export async function notifier(
 
 export function applyCandidatureNotifiée(
   this: CandidatureAggregate,
-  _event: CandidatureNotifiéeEvent | CandidatureNotifiéeEventV1,
+  event: CandidatureNotifiéeEvent | CandidatureNotifiéeEventV1,
 ) {
   this.estNotifiée = true;
+  this.notifiéeLe = DateTime.convertirEnValueType(event.payload.notifiéeLe);
 }
 
 class CandidatureDéjàNotifiéeError extends InvalidOperationError {

@@ -21,7 +21,7 @@ Fonctionnalité: Transmettre une preuve de recandidature
 
     Scénario: Impossible de transmettre si une preuve de recandidature a déjà été saisie
         Etant donné un abandon accordé avec recandidature avec preuve transmise pour le projet lauréat
-        Et le projet lauréat "Boulodrome Sainte Livrade"
+        Et le projet lauréat "Boulodrome Sainte Livrade" ayant été notifié le "2024-01-01"
         Quand le porteur transmet le projet lauréat "Boulodrome Sainte Livrade" comme preuve de recandidature suite à l'abandon du projet
         Alors le porteur devrait être informé que "La preuve de recandidature a déjà été transmise"
 

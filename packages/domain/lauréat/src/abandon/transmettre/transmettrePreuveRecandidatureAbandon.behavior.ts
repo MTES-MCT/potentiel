@@ -34,6 +34,12 @@ class TranmissionPreuveRecandidatureImpossibleError extends InvalidOperationErro
   }
 }
 
+class ProjetNonNotifiéError extends InvalidOperationError {
+  constructor() {
+    super(`Il est impossible de transmettre une preuve de recandidature non notifiée`);
+  }
+}
+
 class ProjetNotifiéAvantLaDateMinimumError extends InvalidOperationError {
   constructor() {
     super(
@@ -53,7 +59,7 @@ class ProjetNotifiéAprèsLaDateMaximumError extends InvalidOperationError {
 export type TransmettrePreuveRecandidatureOptions = {
   identifiantProjet: IdentifiantProjet.ValueType;
   preuveRecandidature: IdentifiantProjet.ValueType;
-  dateNotification: DateTime.ValueType;
+  dateNotification?: DateTime.ValueType;
   identifiantUtilisateur: IdentifiantUtilisateur.ValueType;
   dateTransmissionPreuveRecandidature: DateTime.ValueType;
 };
@@ -78,6 +84,10 @@ export async function transmettrePreuveRecandidature(
 
   if (!this.statut.estAccordé()) {
     throw new TranmissionPreuveRecandidatureImpossibleError();
+  }
+
+  if (!dateNotification) {
+    throw new ProjetNonNotifiéError();
   }
 
   if (dateNotification.estAntérieurÀ(DateTime.convertirEnValueType(new Date('2023-12-15')))) {

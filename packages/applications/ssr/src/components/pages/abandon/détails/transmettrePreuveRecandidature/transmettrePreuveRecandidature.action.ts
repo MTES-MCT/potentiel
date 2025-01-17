@@ -12,14 +12,13 @@ import { withUtilisateur } from '@/utils/withUtilisateur';
 const schema = zod.object({
   identifiantProjet: zod.string().min(1),
   preuveRecandidature: zod.string().min(1),
-  dateDesignation: zod.string().min(1, { message: 'Champ obligatoire' }),
 });
 
 export type TransmettrePreuveRecandidatureFormKeys = keyof zod.infer<typeof schema>;
 
 const action: FormAction<FormState, typeof schema> = async (
   _,
-  { identifiantProjet, preuveRecandidature, dateDesignation },
+  { identifiantProjet, preuveRecandidature },
 ) =>
   withUtilisateur(async (utilisateur) => {
     await mediator.send<Abandon.AbandonUseCase>({
@@ -27,7 +26,6 @@ const action: FormAction<FormState, typeof schema> = async (
       data: {
         identifiantProjetValue: identifiantProjet,
         preuveRecandidatureValue: preuveRecandidature,
-        dateNotificationValue: dateDesignation,
         identifiantUtilisateurValue: utilisateur.identifiantUtilisateur.formatter(),
         dateTransmissionPreuveRecandidatureValue: new Date().toISOString(),
       },

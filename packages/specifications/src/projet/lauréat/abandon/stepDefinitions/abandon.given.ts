@@ -1,9 +1,11 @@
 import { Given as EtantDonné } from '@cucumber/cucumber';
 import { mediator } from 'mediateur';
+import { faker } from '@faker-js/faker';
 
 import { DateTime } from '@potentiel-domain/common';
-import { Abandon } from '@potentiel-domain/laureat';
+import { Abandon, Lauréat } from '@potentiel-domain/laureat';
 import { publish } from '@potentiel-infrastructure/pg-event-sourcing';
+import { Candidature } from '@potentiel-domain/candidature';
 
 import { PotentielWorld } from '../../../../potentiel.world';
 
@@ -194,17 +196,45 @@ async function créerDemandePreuveRecandidature(this: PotentielWorld) {
 async function créerPreuveRecandidatureTransmise(this: PotentielWorld) {
   const identifiantProjet = this.lauréatWorld.identifiantProjet.formatter();
 
+  const { values } = this.candidatureWorld.importerCandidature.créer({
+    values: {
+      importéPar: this.utilisateurWorld.validateurFixture.email,
+      statutValue: 'classé',
+    },
+  });
+
+  await mediator.send<Candidature.ImporterCandidatureUseCase>({
+    type: 'Candidature.UseCase.ImporterCandidature',
+    data: values,
+  });
+
+  await mediator.send<Lauréat.NotifierLauréatUseCase>({
+    type: 'Lauréat.UseCase.NotifierLauréat',
+    data: {
+      identifiantProjetValue: this.candidatureWorld.importerCandidature.identifiantProjet,
+      notifiéLeValue: faker.date.recent().toISOString(),
+      notifiéParValue: this.utilisateurWorld.validateurFixture.email,
+      attestationValue: {
+        format: `application/pdf`,
+      },
+      validateurValue: {
+        fonction: this.utilisateurWorld.validateurFixture.fonction,
+        nomComplet: this.utilisateurWorld.validateurFixture.nom,
+      },
+    },
+  });
+
   const { transmiseLe: dateTransmissionPreuveRecandidature, preuveRecandidature } =
-    this.lauréatWorld.abandonWorld.transmettrePreuveRecandidatureAbandonFixture.créer();
+    this.lauréatWorld.abandonWorld.transmettrePreuveRecandidatureAbandonFixture.créer({
+      preuveRecandidature: this.candidatureWorld.importerCandidature.identifiantProjet,
+    });
 
   const { accordéePar } = this.lauréatWorld.abandonWorld.accorderAbandonFixture;
 
-  // TODO : la date de notification ne doit plus être passée en param. Il faudra charger l'aggregate Lauréat directement dans la commande.
   await mediator.send<Abandon.AbandonUseCase>({
     type: 'Lauréat.Abandon.UseCase.TransmettrePreuveRecandidatureAbandon',
     data: {
       identifiantProjetValue: identifiantProjet,
-      dateNotificationValue: DateTime.now().formatter(),
       dateTransmissionPreuveRecandidatureValue: dateTransmissionPreuveRecandidature,
       preuveRecandidatureValue: preuveRecandidature,
       identifiantUtilisateurValue: accordéePar,

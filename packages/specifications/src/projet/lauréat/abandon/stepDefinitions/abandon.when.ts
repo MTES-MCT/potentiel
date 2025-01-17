@@ -193,10 +193,7 @@ Quand(
     try {
       const { identifiantProjet } = this.lauréatWorld.abandonWorld.demanderAbandonFixture;
 
-      const {
-        dateDésignation: dateDésignationPreuveRecandidature,
-        identifiantProjet: identifiantProjetPreuveRecandidature,
-      } =
+      const { identifiantProjet: identifiantProjetPreuveRecandidature } =
         statutProjet === 'lauréat'
           ? this.lauréatWorld.rechercherLauréatFixture(nomPreuveRecandidature)
           : this.eliminéWorld.rechercherÉliminéFixture(nomPreuveRecandidature);
@@ -210,7 +207,6 @@ Quand(
       await mediator.send<Abandon.AbandonUseCase>({
         type: 'Lauréat.Abandon.UseCase.TransmettrePreuveRecandidatureAbandon',
         data: {
-          dateNotificationValue: dateDésignationPreuveRecandidature,
           identifiantProjetValue: identifiantProjet,
           preuveRecandidatureValue: preuveRecandidature,
           identifiantUtilisateurValue: transmisePar,
