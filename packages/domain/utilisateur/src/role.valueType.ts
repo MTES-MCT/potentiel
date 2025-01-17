@@ -886,10 +886,12 @@ const policies = {
     accorderChangement: [
       référencielPermissions.lauréat.représentantLégal.usecase.accorderChangement,
       référencielPermissions.lauréat.représentantLégal.command.accorderChangement,
+      référencielPermissions.document.command.supprimerDocumentSensible,
     ],
     rejeterChangement: [
       référencielPermissions.lauréat.représentantLégal.usecase.rejeterChangement,
       référencielPermissions.lauréat.représentantLégal.command.rejeterChangement,
+      référencielPermissions.document.command.supprimerDocumentSensible,
     ],
     consulterChangement: [
       référencielPermissions.lauréat.représentantLégal.query.consulterChangement,
