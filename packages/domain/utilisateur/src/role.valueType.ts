@@ -319,6 +319,7 @@ const référencielPermissions = {
       enregister: 'Document.Command.EnregistrerDocumentProjet',
       déplacer: 'Document.Command.DéplacerDocumentProjet',
       corriger: 'Document.Command.CorrigerDocumentProjet',
+      supprimerDocumentSensible: 'Document.Command.SupprimerDocumentProjetSensible',
     },
   },
   réseau: {
@@ -875,10 +876,12 @@ const policies = {
     demanderChangement: [
       référencielPermissions.lauréat.représentantLégal.usecase.demanderChangement,
       référencielPermissions.lauréat.représentantLégal.command.demanderChangement,
+      référencielPermissions.document.command.enregister,
     ],
     annulerChangement: [
       référencielPermissions.lauréat.représentantLégal.usecase.annulerChangement,
       référencielPermissions.lauréat.représentantLégal.command.annulerChangement,
+      référencielPermissions.document.command.supprimerDocumentSensible,
     ],
     accorderChangement: [
       référencielPermissions.lauréat.représentantLégal.usecase.accorderChangement,
@@ -890,6 +893,7 @@ const policies = {
     ],
     consulterChangement: [
       référencielPermissions.lauréat.représentantLégal.query.consulterChangement,
+      référencielPermissions.document.query.consulter,
     ],
     listerChangement: [référencielPermissions.lauréat.représentantLégal.query.listerChangement],
   },

@@ -7,6 +7,7 @@ import {
   LoadAggregate,
 } from '@potentiel-domain/core';
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
+import { DocumentProjet } from '@potentiel-domain/document';
 
 import { StatutChangementReprésentantLégal, TypeReprésentantLégal } from '.';
 
@@ -65,6 +66,7 @@ export type ReprésentantLégalAggregate = Aggregate<ReprésentantLégalEvent> &
     statut: StatutChangementReprésentantLégal.ValueType;
     nom: string;
     type: TypeReprésentantLégal.ValueType;
+    pièceJustificative: DocumentProjet.ValueType;
 
     accord?: {
       nom: string;

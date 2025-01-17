@@ -44,7 +44,7 @@ export const registerReprésentantLégalUseCases = ({
   // UseCases
   registerModifierReprésentantLégalUseCase();
   registerDemanderChangementReprésentantLégalUseCase();
-  registerAnnulerChangementReprésentantLégalUseCase();
+  registerAnnulerChangementReprésentantLégalUseCase(loadAggregate);
   registerAccorderChangementReprésentantLégalUseCase();
   registerRejeterChangementReprésentantLégalUseCase();
 };

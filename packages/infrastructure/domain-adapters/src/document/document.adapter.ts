@@ -10,3 +10,5 @@ export const téléchargerDocumentProjet: RécupérerDocumentProjetPort = downlo
 export const téléverserDocumentProjet: EnregistrerDocumentProjetPort = upload;
 export const déplacerDossierProjet: DéplacerDossierProjetPort = copyFolder;
 export const archiverDocumentProjet: ArchiverDocumentProjetPort = copyFile;
+
+export { supprimerDocumentProjetSensible } from './supprimerDocumentProjetSensible.adapter';

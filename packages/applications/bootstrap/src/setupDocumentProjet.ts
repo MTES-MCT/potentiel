@@ -13,5 +13,6 @@ export const setupDocumentProjet = () => {
     enregistrerDocumentProjet: DocumentAdapter.téléverserDocumentProjet,
     déplacerDossierProjet: DocumentAdapter.déplacerDossierProjet,
     archiverDocumentProjet: DocumentAdapter.archiverDocumentProjet,
+    supprimerDocumentProjetSensible: DocumentAdapter.supprimerDocumentProjetSensible,
   });
 };
