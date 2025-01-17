@@ -1,27 +1,49 @@
 import { faker } from '@faker-js/faker';
 
-import { AbstractFixture } from '../../fixture';
+import { DateTime } from '@potentiel-domain/common';
+import { DocumentProjet } from '@potentiel-domain/document';
+import { Raccordement } from '@potentiel-domain/reseau';
+
 import { convertStringToReadableStream } from '../../helpers/convertStringToReadable';
+import { AbstractFixture } from '../../fixture';
 
 type PièceJustificative = { format: string; content: ReadableStream };
 
 interface TransmettrePropositionTechniqueEtFinancière {
-  readonly dateSignature: string;
-  readonly propositionTechniqueEtFinancièreSignée: PièceJustificative;
+  dateSignature: string;
+  référenceDossier: string;
+  propositionTechniqueEtFinancièreSignée: PièceJustificative;
 }
 
 export class TransmettrePropositionTechniqueEtFinancièreFixture
   extends AbstractFixture<TransmettrePropositionTechniqueEtFinancière>
   implements TransmettrePropositionTechniqueEtFinancière
 {
+  mapExempleToFixtureValues(exemple: Record<string, string>) {
+    const values: Partial<TransmettrePropositionTechniqueEtFinancière> = {};
+    const dateSignature = exemple['La date de signature'];
+    const référenceDossier = exemple['La référence du dossier de raccordement'];
+    if (dateSignature) {
+      values.dateSignature = new Date(dateSignature).toISOString();
+    }
+    if (référenceDossier) {
+      values.référenceDossier = référenceDossier;
+    }
+    return values;
+  }
   #dateSignature!: string;
   get dateSignature(): string {
     return this.#dateSignature;
   }
 
-  #propositionTechniqueEtFinancièreSignée!: PièceJustificative;
+  #format!: string;
+  #content!: string;
+
   get propositionTechniqueEtFinancièreSignée(): PièceJustificative {
-    return this.#propositionTechniqueEtFinancièreSignée;
+    return {
+      format: this.#format,
+      content: convertStringToReadableStream(this.#content),
+    };
   }
 
   #identifiantProjet!: string;
@@ -51,9 +73,24 @@ export class TransmettrePropositionTechniqueEtFinancièreFixture
 
     this.#dateSignature = fixture.dateSignature;
     this.#référenceDossier = fixture.référenceDossier;
-    this.#propositionTechniqueEtFinancièreSignée = fixture.propositionTechniqueEtFinancièreSignée;
+    this.#format = fixture.propositionTechniqueEtFinancièreSignée.format;
+    this.#content = content;
     this.#identifiantProjet = fixture.identifiantProjet;
     this.aÉtéCréé = true;
     return fixture;
+  }
+  mapToExpected(référenceDossier?: string) {
+    if (!this.aÉtéCréé) return;
+    return {
+      dateSignature: DateTime.convertirEnValueType(this.dateSignature),
+      propositionTechniqueEtFinancièreSignée: DocumentProjet.convertirEnValueType(
+        this.identifiantProjet,
+        Raccordement.TypeDocumentRaccordement.convertirEnPropositionTechniqueEtFinancièreValueType(
+          référenceDossier ?? this.référenceDossier,
+        ).formatter(),
+        this.#dateSignature,
+        this.#format,
+      ),
+    };
   }
 }

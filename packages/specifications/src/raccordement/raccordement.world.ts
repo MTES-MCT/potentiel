@@ -13,17 +13,15 @@ export class RaccordementWorld {
     new TransmettreDemandeComplèteRaccordementFixture();
   readonly modifierDemandeComplèteRaccordementFixture =
     new ModifierDemandeComplèteRaccordementFixture();
+
   readonly modifierRéférenceDossierRaccordement = new ModifierRéférenceDossierRaccordementFixture();
+
   readonly transmettrePropositionTechniqueEtFinancièreFixture =
     new TransmettrePropositionTechniqueEtFinancièreFixture();
   readonly modifierPropositionTechniqueEtFinancièreFixture =
     new ModifierPropositionTechniqueEtFinancièreFixture();
 
   readonly transmettreDateMiseEnServiceFixture = new TransmettreDateMiseEnServiceFixture();
-
-  get identifiantProjet() {
-    return this.transmettreDemandeComplèteRaccordementFixture.identifiantProjet;
-  }
 
   get référenceDossier() {
     return this.modifierRéférenceDossierRaccordement.aÉtéCréé
@@ -39,10 +37,17 @@ export class RaccordementWorld {
     this.#identifiantGestionnaireRéseau = identifiantGestionnaireRéseau;
   }
 
-  mapToExpected() {
+  mapToExpected(identifiantProjet: IdentifiantProjet.ValueType) {
     const nouvelleRéférenceDossier = this.modifierRéférenceDossierRaccordement.aÉtéCréé
       ? this.modifierRéférenceDossierRaccordement.nouvelleRéférenceDossier
       : undefined;
+    const propositionTechniqueEtFinancière =
+      this.modifierPropositionTechniqueEtFinancièreFixture.mapToExpected(
+        nouvelleRéférenceDossier,
+      ) ??
+      this.transmettrePropositionTechniqueEtFinancièreFixture.mapToExpected(
+        nouvelleRéférenceDossier,
+      );
     const dossier = {
       demandeComplèteRaccordement: {
         ...(this.modifierDemandeComplèteRaccordementFixture.mapToExpected(
@@ -56,12 +61,12 @@ export class RaccordementWorld {
         this.référenceDossier,
       ),
       miseEnService: this.transmettreDateMiseEnServiceFixture.mapToExpected(),
+      propositionTechniqueEtFinancière,
     };
     const identifiantGestionnaireRéseau =
       GestionnaireRéseau.IdentifiantGestionnaireRéseau.convertirEnValueType(
         this.identifiantGestionnaireRéseau,
       );
-    const identifiantProjet = IdentifiantProjet.convertirEnValueType(this.identifiantProjet);
     return {
       raccordement: {
         dossiers: [dossier],
@@ -74,36 +79,5 @@ export class RaccordementWorld {
         identifiantGestionnaireRéseau,
       },
     };
-    /**
-     * const {
-        référence: actualRéférence,
-        demandeComplèteRaccordement: {
-          accuséRéception: actualAccuséRéception,
-          dateQualification: actualDateQualification,
-        },
-        identifiantGestionnaireRéseau,
-      } = dossierRaccordement;
-
-      expect(identifiantGestionnaireRéseau.codeEIC).to.eq(
-        raccordement.identifiantGestionnaireRéseau?.codeEIC,
-        'Gestionnaire réseau incorrect',
-      );
-
-      expect(actualDateQualification?.estÉgaleÀ(expectedDateQualification)).to.be.true;
-      expect(actualRéférence.estÉgaleÀ(expectedRéférence)).to.be.true;
-
-      if (actualAccuséRéception) {
-        const result = await mediator.send<ConsulterDocumentProjetQuery>({
-          type: 'Document.Query.ConsulterDocumentProjet',
-          data: {
-            documentKey: actualAccuséRéception.formatter(),
-          },
-        });
-
-        const actualContent = await convertReadableStreamToString(result.content);
-        actualContent.should.be.equal(expectedContent);
-      }
-     */
-    return {};
   }
 }

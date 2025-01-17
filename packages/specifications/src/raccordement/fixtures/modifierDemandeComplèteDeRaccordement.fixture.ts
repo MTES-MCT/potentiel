@@ -29,9 +29,13 @@ export class ModifierDemandeComplèteRaccordementFixture
     return this.#référenceDossier;
   }
 
-  #accuséRéception!: PièceJustificative;
+  #format!: string;
+  #content!: string;
   get accuséRéception(): PièceJustificative {
-    return this.#accuséRéception;
+    return {
+      format: this.#format,
+      content: convertStringToReadableStream(this.#content),
+    };
   }
 
   #identifiantProjet!: string;
@@ -57,7 +61,8 @@ export class ModifierDemandeComplèteRaccordementFixture
 
     this.#dateQualification = fixture.dateQualification;
     this.#référenceDossier = fixture.référenceDossier;
-    this.#accuséRéception = fixture.accuséRéception;
+    this.#format = fixture.accuséRéception.format;
+    this.#content = content;
     this.#identifiantProjet = fixture.identifiantProjet;
     this.aÉtéCréé = true;
     return fixture;

@@ -35,10 +35,11 @@ Quand(
 Quand(
   `le gestionnaire de réseau transmet la date de mise en service {string} pour le dossier de raccordement du projet lauréat`,
   async function (this: PotentielWorld, date: string) {
-    const { identifiantProjet, référenceDossier } = this.raccordementWorld;
+    const { identifiantProjet } = this.lauréatWorld;
+    const { référenceDossier } = this.raccordementWorld;
 
     const { dateMiseEnService } = this.raccordementWorld.transmettreDateMiseEnServiceFixture.créer({
-      identifiantProjet,
+      identifiantProjet: identifiantProjet.formatter(),
       référenceDossier,
       dateMiseEnService: new Date(date).toISOString(),
     });
@@ -46,7 +47,7 @@ Quand(
       await mediator.send<Raccordement.RaccordementUseCase>({
         type: 'Réseau.Raccordement.UseCase.TransmettreDateMiseEnService',
         data: {
-          identifiantProjetValue: identifiantProjet,
+          identifiantProjetValue: identifiantProjet.formatter(),
           référenceDossierValue: référenceDossier,
           dateMiseEnServiceValue: dateMiseEnService,
           transmiseLeValue: DateTime.now().formatter(),
@@ -62,27 +63,43 @@ Quand(
 Quand(
   `le porteur transmet une proposition technique et financière pour le dossier de raccordement du projet lauréat`,
   async function (this: PotentielWorld) {
-    const { identifiantProjet, référenceDossier } = this.raccordementWorld;
+    const { identifiantProjet } = this.lauréatWorld;
+    const { référenceDossier } = this.raccordementWorld;
 
-    const { dateSignature, propositionTechniqueEtFinancièreSignée } =
-      this.raccordementWorld.transmettrePropositionTechniqueEtFinancièreFixture.créer({
-        identifiantProjet,
-        référenceDossier,
-      });
+    await transmettrePropositionTechniqueEtFinancière.call(
+      this,
+      identifiantProjet.formatter(),
+      référenceDossier,
+    );
+  },
+);
 
-    try {
-      await mediator.send<Raccordement.RaccordementUseCase>({
-        type: 'Réseau.Raccordement.UseCase.TransmettrePropositionTechniqueEtFinancière',
-        data: {
-          dateSignatureValue: dateSignature,
-          référenceDossierRaccordementValue: référenceDossier,
-          identifiantProjetValue: identifiantProjet,
-          propositionTechniqueEtFinancièreSignéeValue: propositionTechniqueEtFinancièreSignée,
-        },
-      });
-    } catch (e) {
-      this.error = e as Error;
-    }
+Quand(
+  `le porteur transmet une proposition technique et financière pour le dossier de raccordement du projet éliminé`,
+  async function (this: PotentielWorld) {
+    const { identifiantProjet } = this.eliminéWorld;
+    const { référenceDossier } = this.raccordementWorld;
+
+    await transmettrePropositionTechniqueEtFinancière.call(
+      this,
+      identifiantProjet.formatter(),
+      référenceDossier,
+    );
+  },
+);
+
+Quand(
+  `le porteur transmet une proposition technique et financière pour le dossier de raccordement du projet lauréat avec :`,
+  async function (this: PotentielWorld, datatable: DataTable) {
+    const { identifiantProjet } = this.lauréatWorld;
+    const { référenceDossier } = this.raccordementWorld;
+
+    await transmettrePropositionTechniqueEtFinancière.call(
+      this,
+      identifiantProjet.formatter(),
+      référenceDossier,
+      datatable.rowsHash(),
+    );
   },
 );
 
@@ -133,11 +150,12 @@ Quand(
 Quand(
   `le porteur modifie la proposition technique et financière pour le dossier de raccordement du projet lauréat`,
   async function (this: PotentielWorld) {
-    const { identifiantProjet, référenceDossier } = this.raccordementWorld;
+    const { identifiantProjet } = this.lauréatWorld;
+    const { référenceDossier } = this.raccordementWorld;
 
     const { dateSignature, propositionTechniqueEtFinancièreSignée } =
       this.raccordementWorld.modifierPropositionTechniqueEtFinancièreFixture.créer({
-        identifiantProjet,
+        identifiantProjet: identifiantProjet.formatter(),
         référenceDossier,
       });
 
@@ -147,7 +165,7 @@ Quand(
         data: {
           dateSignatureValue: dateSignature,
           référenceDossierRaccordementValue: référenceDossier,
-          identifiantProjetValue: identifiantProjet,
+          identifiantProjetValue: identifiantProjet.formatter(),
           propositionTechniqueEtFinancièreSignéeValue: propositionTechniqueEtFinancièreSignée,
         },
       });
@@ -306,6 +324,36 @@ Quand(
     }
   },
 );
+
+async function transmettrePropositionTechniqueEtFinancière(
+  this: PotentielWorld,
+  identifiantProjet: string,
+  référence: string,
+  data: Record<string, string> = {},
+) {
+  const { dateSignature, propositionTechniqueEtFinancièreSignée, référenceDossier } =
+    this.raccordementWorld.transmettrePropositionTechniqueEtFinancièreFixture.créer({
+      identifiantProjet,
+      référenceDossier: référence,
+      ...this.raccordementWorld.transmettrePropositionTechniqueEtFinancièreFixture.mapExempleToFixtureValues(
+        data,
+      ),
+    });
+
+  try {
+    await mediator.send<Raccordement.RaccordementUseCase>({
+      type: 'Réseau.Raccordement.UseCase.TransmettrePropositionTechniqueEtFinancière',
+      data: {
+        dateSignatureValue: dateSignature,
+        référenceDossierRaccordementValue: référenceDossier,
+        identifiantProjetValue: identifiantProjet,
+        propositionTechniqueEtFinancièreSignéeValue: propositionTechniqueEtFinancièreSignée,
+      },
+    });
+  } catch (e) {
+    this.error = e as Error;
+  }
+}
 
 export async function transmettreDemandeComplèteRaccordement(
   this: PotentielWorld,

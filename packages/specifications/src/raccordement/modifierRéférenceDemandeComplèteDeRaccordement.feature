@@ -1,4 +1,5 @@
 # language: fr
+@select
 Fonctionnalité: Modifier la référence d'une demande complète de raccordement
 
     Contexte:
@@ -35,8 +36,6 @@ Fonctionnalité: Modifier la référence d'une demande complète de raccordement
         Alors le dossier est consultable dans la liste des dossiers de raccordement du projet lauréat
         Et la demande complète de raccordement devrait être consultable dans le dossier de raccordement du projet lauréat
 
-    # TODO
-    # @select
     Scénario: Modifier la référence d'une demande complète de raccordement ayant une PTF
         Etant donné une demande complète de raccordement pour le projet lauréat avec :
             | La référence du dossier de raccordement | OUE-RP-2022-000033 |
@@ -44,7 +43,7 @@ Fonctionnalité: Modifier la référence d'une demande complète de raccordement
         Quand le porteur modifie la référence de la demande complète de raccordement pour le projet lauréat avec :
             | La référence du dossier de raccordement          | OUE-RP-2022-000033 |
             | La nouvelle référence du dossier de raccordement | OUE-RP-2022-000034 |
-        Alors la proposition technique et financière signée devrait être consultable dans le dossier de raccordement du projet lauréat ayant pour référence "OUE-RP-2022-000034"
+        Alors la proposition technique et financière signée devrait être consultable dans le dossier de raccordement du projet lauréat
 
     Scénario: Impossible de modifier une demande complète de raccordement avec une référence ne correspondant pas au format défini par le gestionnaire de réseau
         Etant donné un gestionnaire de réseau

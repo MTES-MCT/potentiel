@@ -92,9 +92,10 @@ EtantDonné(
 EtantDonné(
   'une date de mise en service pour le dossier de raccordement pour le projet lauréat',
   async function (this: PotentielWorld) {
-    const { identifiantProjet, référenceDossier } = this.raccordementWorld;
+    const { identifiantProjet } = this.lauréatWorld;
+    const { référenceDossier } = this.raccordementWorld;
     const { dateMiseEnService } = this.raccordementWorld.transmettreDateMiseEnServiceFixture.créer({
-      identifiantProjet,
+      identifiantProjet: identifiantProjet.formatter(),
       référenceDossier,
     });
 
@@ -102,7 +103,7 @@ EtantDonné(
       await mediator.send<Raccordement.RaccordementUseCase>({
         type: 'Réseau.Raccordement.UseCase.TransmettreDateMiseEnService',
         data: {
-          identifiantProjetValue: identifiantProjet,
+          identifiantProjetValue: identifiantProjet.formatter(),
           référenceDossierValue: référenceDossier,
           dateMiseEnServiceValue: dateMiseEnService,
           transmiseLeValue: DateTime.now().formatter(),
