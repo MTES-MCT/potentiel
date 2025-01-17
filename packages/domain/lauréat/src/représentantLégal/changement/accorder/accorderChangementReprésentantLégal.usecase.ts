@@ -2,10 +2,12 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
 // Workspaces
+import { LoadAggregate } from '@potentiel-domain/core';
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
+import { SupprimerDocumentProjetSensibleCommand } from '@potentiel-domain/document';
 
-import { TypeReprésentantLégal } from '../..';
+import { loadReprésentantLégalFactory, TypeReprésentantLégal } from '../..';
 
 import { AccorderChangementReprésentantLégalCommand } from './accorderChangementReprésentantLégal.command';
 
@@ -21,7 +23,11 @@ export type AccorderChangementReprésentantLégalUseCase = Message<
   }
 >;
 
-export const registerAccorderChangementReprésentantLégalUseCase = () => {
+export const registerAccorderChangementReprésentantLégalUseCase = (
+  loadAggregate: LoadAggregate,
+) => {
+  const load = loadReprésentantLégalFactory(loadAggregate);
+
   const runner: MessageHandler<AccorderChangementReprésentantLégalUseCase> = async ({
     identifiantUtilisateurValue,
     dateAccordValue,
@@ -36,6 +42,8 @@ export const registerAccorderChangementReprésentantLégalUseCase = () => {
       identifiantUtilisateurValue,
     );
 
+    const représentantLégal = await load(identifiantProjet);
+
     await mediator.send<AccorderChangementReprésentantLégalCommand>({
       type: 'Lauréat.ReprésentantLégal.Command.AccorderChangementReprésentantLégal',
       data: {
@@ -49,6 +57,16 @@ export const registerAccorderChangementReprésentantLégalUseCase = () => {
         accordAutomatique: accordAutomatiqueValue,
       },
     });
+
+    if (représentantLégal.demande) {
+      await mediator.send<SupprimerDocumentProjetSensibleCommand>({
+        type: 'Document.Command.SupprimerDocumentProjetSensible',
+        data: {
+          documentProjet: représentantLégal.demande.pièceJustificative,
+          raison: 'Pièce justificative supprimée automatiquement après annulation',
+        },
+      });
+    }
   };
   mediator.register(
     'Lauréat.ReprésentantLégal.UseCase.AccorderChangementReprésentantLégal',
