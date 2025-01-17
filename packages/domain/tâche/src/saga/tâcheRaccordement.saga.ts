@@ -9,6 +9,7 @@ import * as Tâche from '../typeTâche.valueType';
 
 export type SubscriptionEvent =
   | Raccordement.RéférenceDossierRacordementModifiéeEvent
+  | Raccordement.RéférenceDossierRacordementModifiéeEventV1
   | Raccordement.GestionnaireRéseauRaccordementModifiéEvent
   | Raccordement.GestionnaireRéseauInconnuAttribuéEvent
   | Raccordement.RaccordementSuppriméEvent;
@@ -22,6 +23,7 @@ export const register = () => {
     } = event;
     switch (event.type) {
       case 'RéférenceDossierRacordementModifiée-V1':
+      case 'RéférenceDossierRacordementModifiée-V2':
         await mediator.send<AcheverTâcheCommand>({
           type: 'System.Tâche.Command.AcheverTâche',
           data: {

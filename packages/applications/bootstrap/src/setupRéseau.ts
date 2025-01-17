@@ -79,6 +79,7 @@ export const setupRéseau = async ({ récupérerGRDParVille }: SetupRéseauDepen
         'PropositionTechniqueEtFinancièreTransmise-V1',
         'PropositionTechniqueEtFinancièreTransmise-V2',
         'RéférenceDossierRacordementModifiée-V1',
+        'RéférenceDossierRacordementModifiée-V2',
         'GestionnaireRéseauAttribué-V1',
         'DossierDuRaccordementSupprimé-V1',
         'RaccordementSupprimé-V1',

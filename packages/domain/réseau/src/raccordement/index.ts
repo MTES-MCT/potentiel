@@ -102,7 +102,10 @@ export type {
   DemandeComplèteRaccordementModifiéeEventV1,
   DemandeComplèteRaccordementModifiéeEventV2,
 } from './modifier/modifierDemandeComplèteRaccordement.behavior';
-export type { RéférenceDossierRacordementModifiéeEvent } from './modifier/modifierRéférenceDossierRaccordement.behavior';
+export type {
+  RéférenceDossierRacordementModifiéeEvent,
+  RéférenceDossierRacordementModifiéeEventV1,
+} from './modifier/modifierRéférenceDossierRaccordement.behavior';
 export type {
   GestionnaireRéseauRaccordementModifiéEvent,
   GestionnaireRéseauProjetModifiéEvent,

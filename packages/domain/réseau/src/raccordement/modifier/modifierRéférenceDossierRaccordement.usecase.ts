@@ -1,6 +1,6 @@
 import { mediator, MessageHandler, Message } from 'mediateur';
 
-import { IdentifiantProjet } from '@potentiel-domain/common';
+import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
 import { Role } from '@potentiel-domain/utilisateur';
 import { DossierProjet, DéplacerDocumentProjetCommand } from '@potentiel-domain/document';
 
@@ -16,6 +16,8 @@ export type ModifierRéférenceDossierRaccordementUseCase = Message<
     référenceDossierRaccordementActuelleValue: string;
     nouvelleRéférenceDossierRaccordementValue: string;
     rôleValue: string;
+    modifiéeLeValue: string;
+    modifiéeParValue: string;
   }
 >;
 
@@ -24,6 +26,8 @@ export const registerModifierRéférenceDossierRaccordementUseCase = () => {
     identifiantProjetValue,
     nouvelleRéférenceDossierRaccordementValue,
     référenceDossierRaccordementActuelleValue,
+    modifiéeLeValue,
+    modifiéeParValue,
     rôleValue,
   }) => {
     const identifiantProjet = IdentifiantProjet.convertirEnValueType(identifiantProjetValue);
@@ -34,6 +38,8 @@ export const registerModifierRéférenceDossierRaccordementUseCase = () => {
       référenceDossierRaccordementActuelleValue,
     );
     const rôle = Role.convertirEnValueType(rôleValue);
+    const modifiéeLe = DateTime.convertirEnValueType(modifiéeLeValue);
+    const modifiéePar = Email.convertirEnValueType(modifiéeParValue);
 
     const dossierAccuséRéceptionSource = DossierProjet.convertirEnValueType(
       identifiantProjetValue,
@@ -86,6 +92,8 @@ export const registerModifierRéférenceDossierRaccordementUseCase = () => {
         identifiantProjet,
         nouvelleRéférenceDossierRaccordement,
         référenceDossierRaccordementActuelle,
+        modifiéeLe,
+        modifiéePar,
         rôle,
       },
     });
