@@ -1,79 +1,54 @@
-import { When as Quand, DataTable } from '@cucumber/cucumber';
+import { DataTable, When as Quand } from '@cucumber/cucumber';
 import { mediator } from 'mediateur';
+import { match } from 'ts-pattern';
 
 import { Raccordement } from '@potentiel-domain/reseau';
-import { DateTime } from '@potentiel-domain/common';
+import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 import { Role } from '@potentiel-domain/utilisateur';
 
-import { convertStringToReadableStream } from '../../helpers/convertStringToReadable';
 import { PotentielWorld } from '../../potentiel.world';
 
 Quand(
-  `le porteur transmet une demande complète de raccordement pour le projet {lauréat-éliminé} auprès du gestionnaire de réseau avec :`,
-  async function (this: PotentielWorld, statutProjet: 'lauréat' | 'éliminé', table: DataTable) {
-    const exemple = table.rowsHash();
-    const dateQualification = new Date(exemple['La date de qualification']).toISOString();
-    const référenceDossierRaccordement = exemple['La référence du dossier de raccordement'];
-    const format = exemple[`Le format de l'accusé de réception`];
-    const content = exemple[`Le contenu de l'accusé de réception`];
-
-    const accuséRéception = {
-      format,
-      content: convertStringToReadableStream(content),
-    };
-
-    const identifiantProjet =
-      statutProjet === 'lauréat'
-        ? this.lauréatWorld.identifiantProjet.formatter()
-        : this.eliminéWorld.identifiantProjet.formatter();
-
-    try {
-      this.raccordementWorld.dateQualification = DateTime.convertirEnValueType(dateQualification);
-      this.raccordementWorld.référenceDossierRaccordement =
-        Raccordement.RéférenceDossierRaccordement.convertirEnValueType(
-          référenceDossierRaccordement,
-        );
-      this.raccordementWorld.accuséRéceptionDemandeComplèteRaccordement = {
-        format,
-        content,
-      };
-      await mediator.send<Raccordement.RaccordementUseCase>({
-        type: 'Réseau.Raccordement.UseCase.TransmettreDemandeComplèteRaccordement',
-        data: {
-          accuséRéceptionValue: accuséRéception,
-          dateQualificationValue: dateQualification,
-          identifiantProjetValue: identifiantProjet,
-          référenceDossierValue: référenceDossierRaccordement,
-        },
-      });
-    } catch (e) {
-      this.error = e as Error;
-    }
+  'le porteur transmet une demande complète de raccordement pour le projet lauréat',
+  async function (this: PotentielWorld) {
+    await transmettreDemandeComplèteRaccordement.call(this, this.lauréatWorld.identifiantProjet);
+  },
+);
+Quand(
+  'le porteur transmet une demande complète de raccordement pour le projet éliminé',
+  async function (this: PotentielWorld) {
+    await transmettreDemandeComplèteRaccordement.call(this, this.eliminéWorld.identifiantProjet);
   },
 );
 
 Quand(
-  `le gestionnaire de réseau transmet la date de mise en service {string} pour le dossier de raccordement du projet lauréat ayant pour référence {string}`,
-  async function (
-    this: PotentielWorld,
-    dateMiseEnService: string,
-    référenceDossierRaccordement: string,
-  ) {
-    const { identifiantProjet } = this.lauréatWorld;
-
-    this.raccordementWorld.dateMiseEnService = DateTime.convertirEnValueType(
-      new Date(dateMiseEnService).toISOString(),
+  'le porteur transmet une demande complète de raccordement pour le projet lauréat avec :',
+  async function (this: PotentielWorld, datatable: DataTable) {
+    await transmettreDemandeComplèteRaccordement.call(
+      this,
+      this.lauréatWorld.identifiantProjet,
+      datatable.rowsHash(),
     );
-    this.raccordementWorld.référenceDossierRaccordement =
-      Raccordement.RéférenceDossierRaccordement.convertirEnValueType(référenceDossierRaccordement);
+  },
+);
 
+Quand(
+  `le gestionnaire de réseau transmet la date de mise en service {string} pour le dossier de raccordement du projet lauréat`,
+  async function (this: PotentielWorld, date: string) {
+    const { identifiantProjet, référenceDossier } = this.raccordementWorld;
+
+    const { dateMiseEnService } = this.raccordementWorld.transmettreDateMiseEnServiceFixture.créer({
+      identifiantProjet,
+      référenceDossier,
+      dateMiseEnService: new Date(date).toISOString(),
+    });
     try {
       await mediator.send<Raccordement.RaccordementUseCase>({
         type: 'Réseau.Raccordement.UseCase.TransmettreDateMiseEnService',
         data: {
-          identifiantProjetValue: identifiantProjet.formatter(),
-          référenceDossierValue: référenceDossierRaccordement,
-          dateMiseEnServiceValue: new Date(dateMiseEnService).toISOString(),
+          identifiantProjetValue: identifiantProjet,
+          référenceDossierValue: référenceDossier,
+          dateMiseEnServiceValue: dateMiseEnService,
           transmiseLeValue: DateTime.now().formatter(),
           transmiseParValue: this.utilisateurWorld.grdFixture.email,
         },
@@ -85,37 +60,23 @@ Quand(
 );
 
 Quand(
-  `le porteur transmet une proposition technique et financière pour le dossier de raccordement du projet lauréat ayant pour référence {string} avec :`,
-  async function (this: PotentielWorld, référenceDossierRaccordement: string, table: DataTable) {
-    const exemple = table.rowsHash();
-    const dateSignature = exemple['La date de signature'];
-    const format = exemple[`Le format de la proposition technique et financière`];
-    const content = exemple[`Le contenu de proposition technique et financière`];
+  `le porteur transmet une proposition technique et financière pour le dossier de raccordement du projet lauréat`,
+  async function (this: PotentielWorld) {
+    const { identifiantProjet, référenceDossier } = this.raccordementWorld;
 
-    const { identifiantProjet } = this.lauréatWorld;
-
-    const propositionTechniqueEtFinancièreSignée = {
-      format,
-      content: convertStringToReadableStream(content),
-    };
-
-    this.raccordementWorld.dateSignature = DateTime.convertirEnValueType(
-      new Date(dateSignature).toISOString(),
-    );
-    this.raccordementWorld.référenceDossierRaccordement =
-      Raccordement.RéférenceDossierRaccordement.convertirEnValueType(référenceDossierRaccordement);
-    this.raccordementWorld.propositionTechniqueEtFinancièreSignée = {
-      format,
-      content,
-    };
+    const { dateSignature, propositionTechniqueEtFinancièreSignée } =
+      this.raccordementWorld.transmettrePropositionTechniqueEtFinancièreFixture.créer({
+        identifiantProjet,
+        référenceDossier,
+      });
 
     try {
       await mediator.send<Raccordement.RaccordementUseCase>({
         type: 'Réseau.Raccordement.UseCase.TransmettrePropositionTechniqueEtFinancière',
         data: {
-          dateSignatureValue: new Date(dateSignature).toISOString(),
-          référenceDossierRaccordementValue: référenceDossierRaccordement,
-          identifiantProjetValue: identifiantProjet.formatter(),
+          dateSignatureValue: dateSignature,
+          référenceDossierRaccordementValue: référenceDossier,
+          identifiantProjetValue: identifiantProjet,
           propositionTechniqueEtFinancièreSignéeValue: propositionTechniqueEtFinancièreSignée,
         },
       });
@@ -126,80 +87,67 @@ Quand(
 );
 
 Quand(
-  `l'utilisateur avec le rôle {string} modifie la demande complète de raccordement pour le projet lauréat ayant pour référence {string} auprès du gestionnaire de réseau avec :`,
-  async function (
-    this: PotentielWorld,
-    rôleUtilisateur: string,
-    référenceDossierRaccordement: string,
-    table: DataTable,
-  ) {
-    const exemple = table.rowsHash();
-    const dateQualification = new Date(exemple['La date de qualification']).toISOString();
-    const format = exemple[`Le format de l'accusé de réception`];
-    const content = exemple[`Le contenu de l'accusé de réception`];
+  /(le porteur|la dreal) modifie la demande complète de raccordement$/,
+  async function (this: PotentielWorld, rôleUtilisateur: 'le porteur' | 'la dreal') {
+    const { role } = match(rôleUtilisateur)
+      .with('le porteur', () => this.utilisateurWorld.porteurFixture)
+      .with('la dreal', () => this.utilisateurWorld.drealFixture)
+      .exhaustive();
 
     const { identifiantProjet } = this.lauréatWorld;
-
-    const accuséRéception = {
-      format,
-      content: convertStringToReadableStream(content),
-    };
-
-    this.raccordementWorld.dateQualification = DateTime.convertirEnValueType(dateQualification);
-    this.raccordementWorld.référenceDossierRaccordement =
-      Raccordement.RéférenceDossierRaccordement.convertirEnValueType(référenceDossierRaccordement);
-    this.raccordementWorld.accuséRéceptionDemandeComplèteRaccordement = {
-      format,
-      content,
-    };
-
-    try {
-      await mediator.send<Raccordement.RaccordementUseCase>({
-        type: 'Réseau.Raccordement.UseCase.ModifierDemandeComplèteRaccordement',
-        data: {
-          identifiantProjetValue: identifiantProjet.formatter(),
-          référenceDossierRaccordementValue: référenceDossierRaccordement,
-          dateQualificationValue: dateQualification,
-          accuséRéceptionValue: accuséRéception,
-          rôleValue: rôleUtilisateur,
-        },
-      });
-    } catch (e) {
-      this.error = e as Error;
-    }
+    const { référenceDossier } = this.raccordementWorld;
+    await modifierDemandeComplèteRaccordement.call(
+      this,
+      identifiantProjet.formatter(),
+      référenceDossier,
+      role,
+    );
   },
 );
 
 Quand(
-  `le porteur modifie la proposition technique et financière pour le dossier de raccordement du projet lauréat ayant pour référence {string} avec :`,
-  async function (this: PotentielWorld, référenceDossierRaccordement: string, table: DataTable) {
-    const exemple = table.rowsHash();
-    const dateSignature = new Date(exemple['La date de signature']).toISOString();
-    const format = exemple[`Le format de la proposition technique et financière`];
-    const content = exemple[`Le contenu de proposition technique et financière`];
+  /(le porteur|la dreal) modifie la demande complète de raccordement avec :/,
+  async function (
+    this: PotentielWorld,
+    rôleUtilisateur: 'le porteur' | 'la dreal',
+    datatable: DataTable,
+  ) {
+    const { role } = match(rôleUtilisateur)
+      .with('le porteur', () => this.utilisateurWorld.porteurFixture)
+      .with('la dreal', () => this.utilisateurWorld.drealFixture)
+      .exhaustive();
 
     const { identifiantProjet } = this.lauréatWorld;
+    const { référenceDossier } =
+      this.raccordementWorld.transmettreDemandeComplèteRaccordementFixture;
+    await modifierDemandeComplèteRaccordement.call(
+      this,
+      identifiantProjet.formatter(),
+      référenceDossier,
+      role,
+      datatable.rowsHash(),
+    );
+  },
+);
 
-    const propositionTechniqueEtFinancièreSignée = {
-      format,
-      content: convertStringToReadableStream(content),
-    };
+Quand(
+  `le porteur modifie la proposition technique et financière pour le dossier de raccordement du projet lauréat`,
+  async function (this: PotentielWorld) {
+    const { identifiantProjet, référenceDossier } = this.raccordementWorld;
 
-    this.raccordementWorld.dateSignature = DateTime.convertirEnValueType(dateSignature);
-    this.raccordementWorld.référenceDossierRaccordement =
-      Raccordement.RéférenceDossierRaccordement.convertirEnValueType(référenceDossierRaccordement);
-    this.raccordementWorld.propositionTechniqueEtFinancièreSignée = {
-      format,
-      content,
-    };
+    const { dateSignature, propositionTechniqueEtFinancièreSignée } =
+      this.raccordementWorld.modifierPropositionTechniqueEtFinancièreFixture.créer({
+        identifiantProjet,
+        référenceDossier,
+      });
 
     try {
       await mediator.send<Raccordement.RaccordementUseCase>({
         type: 'Réseau.Raccordement.UseCase.ModifierPropositionTechniqueEtFinancière',
         data: {
           dateSignatureValue: dateSignature,
-          référenceDossierRaccordementValue: référenceDossierRaccordement,
-          identifiantProjetValue: identifiantProjet.formatter(),
+          référenceDossierRaccordementValue: référenceDossier,
+          identifiantProjetValue: identifiantProjet,
           propositionTechniqueEtFinancièreSignéeValue: propositionTechniqueEtFinancièreSignée,
         },
       });
@@ -296,32 +244,47 @@ Quand(
 );
 
 Quand(
-  `l'utilisateur avec le rôle {string} modifie la demande complète de raccordement pour le projet lauréat ayant pour référence {string} avec la référence {string}`,
+  /(le porteur|la dreal|l'administrateur) modifie la référence de la demande complète de raccordement pour le projet lauréat$/,
   async function (
     this: PotentielWorld,
-    rôleUtilisateur: string,
-    référenceDossierRaccordementActuelle: string,
-    nouvelleRéférenceDossierRaccordement: string,
+    rôleUtilisateur: 'le porteur' | 'la dreal' | "l'administrateur",
   ) {
+    const { role } = match(rôleUtilisateur)
+      .with('le porteur', () => this.utilisateurWorld.porteurFixture)
+      .with('la dreal', () => this.utilisateurWorld.drealFixture)
+      .with("l'administrateur", () => this.utilisateurWorld.adminFixture)
+      .exhaustive();
     const { identifiantProjet } = this.lauréatWorld;
+    const { référenceDossier } = this.raccordementWorld;
+    await modifierRéférenceDossierRaccordement.call(
+      this,
+      identifiantProjet.formatter(),
+      référenceDossier,
+      role,
+    );
+  },
+);
 
-    try {
-      this.raccordementWorld.référenceDossierRaccordement =
-        Raccordement.RéférenceDossierRaccordement.convertirEnValueType(
-          nouvelleRéférenceDossierRaccordement,
-        );
-      await mediator.send<Raccordement.RaccordementUseCase>({
-        type: 'Réseau.Raccordement.UseCase.ModifierRéférenceDossierRaccordement',
-        data: {
-          identifiantProjetValue: identifiantProjet.formatter(),
-          nouvelleRéférenceDossierRaccordementValue: nouvelleRéférenceDossierRaccordement,
-          référenceDossierRaccordementActuelleValue: référenceDossierRaccordementActuelle,
-          rôleValue: rôleUtilisateur,
-        },
-      });
-    } catch (e) {
-      this.error = e as Error;
-    }
+Quand(
+  /(le porteur|la dreal) modifie la référence de la demande complète de raccordement pour le projet lauréat avec :/,
+  async function (
+    this: PotentielWorld,
+    rôleUtilisateur: 'le porteur' | 'la dreal',
+    datatable: DataTable,
+  ) {
+    const { role } = match(rôleUtilisateur)
+      .with('le porteur', () => this.utilisateurWorld.porteurFixture)
+      .with('la dreal', () => this.utilisateurWorld.drealFixture)
+      .exhaustive();
+    const { identifiantProjet } = this.lauréatWorld;
+    const { référenceDossier } = this.raccordementWorld;
+    await modifierRéférenceDossierRaccordement.call(
+      this,
+      identifiantProjet.formatter(),
+      référenceDossier,
+      role,
+      datatable.rowsHash(),
+    );
   },
 );
 
@@ -343,3 +306,94 @@ Quand(
     }
   },
 );
+
+export async function transmettreDemandeComplèteRaccordement(
+  this: PotentielWorld,
+  identifiantProjet: IdentifiantProjet.ValueType,
+  data: Record<string, string> = {},
+) {
+  const { accuséRéception, dateQualification, référenceDossier } =
+    this.raccordementWorld.transmettreDemandeComplèteRaccordementFixture.créer({
+      identifiantProjet: identifiantProjet.formatter(),
+      ...this.raccordementWorld.transmettreDemandeComplèteRaccordementFixture.mapExempleToFixtureValues(
+        data,
+      ),
+    });
+
+  try {
+    await mediator.send<Raccordement.RaccordementUseCase>({
+      type: 'Réseau.Raccordement.UseCase.TransmettreDemandeComplèteRaccordement',
+      data: {
+        accuséRéceptionValue: accuséRéception,
+        dateQualificationValue: dateQualification,
+        identifiantProjetValue: identifiantProjet.formatter(),
+        référenceDossierValue: référenceDossier,
+      },
+    });
+  } catch (e) {
+    this.error = e as Error;
+  }
+}
+
+async function modifierDemandeComplèteRaccordement(
+  this: PotentielWorld,
+  identifiantProjet: string,
+  référence: string,
+  role: Role.RawType,
+  data: Record<string, string> = {},
+) {
+  const { accuséRéception, dateQualification, référenceDossier } =
+    this.raccordementWorld.modifierDemandeComplèteRaccordementFixture.créer({
+      identifiantProjet,
+      référenceDossier: référence,
+      ...this.raccordementWorld.transmettreDemandeComplèteRaccordementFixture.mapExempleToFixtureValues(
+        data,
+      ),
+    });
+
+  try {
+    await mediator.send<Raccordement.RaccordementUseCase>({
+      type: 'Réseau.Raccordement.UseCase.ModifierDemandeComplèteRaccordement',
+      data: {
+        identifiantProjetValue: identifiantProjet,
+        référenceDossierRaccordementValue: référenceDossier,
+        dateQualificationValue: dateQualification,
+        accuséRéceptionValue: accuséRéception,
+        rôleValue: role,
+      },
+    });
+  } catch (e) {
+    this.error = e as Error;
+  }
+}
+
+async function modifierRéférenceDossierRaccordement(
+  this: PotentielWorld,
+  identifiantProjet: string,
+  référence: string,
+  role: Role.RawType,
+  data: Record<string, string> = {},
+) {
+  const { référenceDossier, nouvelleRéférenceDossier } =
+    this.raccordementWorld.modifierRéférenceDossierRaccordement.créer({
+      identifiantProjet,
+      référenceDossier: référence,
+      ...this.raccordementWorld.modifierRéférenceDossierRaccordement.mapExempleToFixtureValues(
+        data,
+      ),
+    });
+
+  try {
+    await mediator.send<Raccordement.RaccordementUseCase>({
+      type: 'Réseau.Raccordement.UseCase.ModifierRéférenceDossierRaccordement',
+      data: {
+        identifiantProjetValue: identifiantProjet,
+        nouvelleRéférenceDossierRaccordementValue: nouvelleRéférenceDossier,
+        référenceDossierRaccordementActuelleValue: référenceDossier,
+        rôleValue: role,
+      },
+    });
+  } catch (e) {
+    this.error = e as Error;
+  }
+}

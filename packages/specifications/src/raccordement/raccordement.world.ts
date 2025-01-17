@@ -1,82 +1,109 @@
-import { DateTime } from '@potentiel-domain/common';
-import { Raccordement } from '@potentiel-domain/reseau';
+import { IdentifiantProjet } from '@potentiel-domain/common';
+import { GestionnaireRéseau, Raccordement } from '@potentiel-domain/reseau';
+
+import { TransmettreDemandeComplèteRaccordementFixture } from './fixtures/transmettreDemandeComplèteDeRaccordement.fixture';
+import { TransmettrePropositionTechniqueEtFinancièreFixture } from './fixtures/transmettrePropositionTechniqueEtFinancière.fixture';
+import { ModifierDemandeComplèteRaccordementFixture } from './fixtures/modifierDemandeComplèteDeRaccordement.fixture';
+import { TransmettreDateMiseEnServiceFixture } from './fixtures/transmettreDateDeMiseEnService.fixture';
+import { ModifierPropositionTechniqueEtFinancièreFixture } from './fixtures/modifierPropositionTechniqueEtFinancière.fixture';
+import { ModifierRéférenceDossierRaccordementFixture } from './fixtures/modifierRéférenceDossierRaccordement.fixture';
 
 export class RaccordementWorld {
-  #dateQualification!: DateTime.ValueType;
+  readonly transmettreDemandeComplèteRaccordementFixture =
+    new TransmettreDemandeComplèteRaccordementFixture();
+  readonly modifierDemandeComplèteRaccordementFixture =
+    new ModifierDemandeComplèteRaccordementFixture();
+  readonly modifierRéférenceDossierRaccordement = new ModifierRéférenceDossierRaccordementFixture();
+  readonly transmettrePropositionTechniqueEtFinancièreFixture =
+    new TransmettrePropositionTechniqueEtFinancièreFixture();
+  readonly modifierPropositionTechniqueEtFinancièreFixture =
+    new ModifierPropositionTechniqueEtFinancièreFixture();
 
-  get dateQualification(): DateTime.ValueType {
-    if (!this.#dateQualification) {
-      throw new Error('dateQualification not initialized');
-    }
-    return this.#dateQualification;
+  readonly transmettreDateMiseEnServiceFixture = new TransmettreDateMiseEnServiceFixture();
+
+  get identifiantProjet() {
+    return this.transmettreDemandeComplèteRaccordementFixture.identifiantProjet;
   }
 
-  set dateQualification(value: DateTime.ValueType) {
-    this.#dateQualification = value;
+  get référenceDossier() {
+    return this.modifierRéférenceDossierRaccordement.aÉtéCréé
+      ? this.modifierRéférenceDossierRaccordement.nouvelleRéférenceDossier
+      : this.transmettreDemandeComplèteRaccordementFixture.référenceDossier;
   }
 
-  #dateSignature!: DateTime.ValueType;
-
-  get dateSignature(): DateTime.ValueType {
-    if (!this.#dateSignature) {
-      throw new Error('dateSignature not initialized');
-    }
-    return this.#dateSignature;
+  #identifiantGestionnaireRéseau!: string;
+  get identifiantGestionnaireRéseau() {
+    return this.#identifiantGestionnaireRéseau;
+  }
+  set identifiantGestionnaireRéseau(identifiantGestionnaireRéseau: string) {
+    this.#identifiantGestionnaireRéseau = identifiantGestionnaireRéseau;
   }
 
-  set dateSignature(value: DateTime.ValueType) {
-    this.#dateSignature = value;
-  }
+  mapToExpected() {
+    const nouvelleRéférenceDossier = this.modifierRéférenceDossierRaccordement.aÉtéCréé
+      ? this.modifierRéférenceDossierRaccordement.nouvelleRéférenceDossier
+      : undefined;
+    const dossier = {
+      demandeComplèteRaccordement: {
+        ...(this.modifierDemandeComplèteRaccordementFixture.mapToExpected(
+          nouvelleRéférenceDossier,
+        ) ??
+          this.transmettreDemandeComplèteRaccordementFixture?.mapToExpected(
+            nouvelleRéférenceDossier,
+          )),
+      },
+      référence: Raccordement.RéférenceDossierRaccordement.convertirEnValueType(
+        this.référenceDossier,
+      ),
+      miseEnService: this.transmettreDateMiseEnServiceFixture.mapToExpected(),
+    };
+    const identifiantGestionnaireRéseau =
+      GestionnaireRéseau.IdentifiantGestionnaireRéseau.convertirEnValueType(
+        this.identifiantGestionnaireRéseau,
+      );
+    const identifiantProjet = IdentifiantProjet.convertirEnValueType(this.identifiantProjet);
+    return {
+      raccordement: {
+        dossiers: [dossier],
+        identifiantProjet,
+        identifiantGestionnaireRéseau,
+      },
+      dossier: {
+        ...dossier,
+        identifiantProjet,
+        identifiantGestionnaireRéseau,
+      },
+    };
+    /**
+     * const {
+        référence: actualRéférence,
+        demandeComplèteRaccordement: {
+          accuséRéception: actualAccuséRéception,
+          dateQualification: actualDateQualification,
+        },
+        identifiantGestionnaireRéseau,
+      } = dossierRaccordement;
 
-  #dateMiseEnService!: DateTime.ValueType;
+      expect(identifiantGestionnaireRéseau.codeEIC).to.eq(
+        raccordement.identifiantGestionnaireRéseau?.codeEIC,
+        'Gestionnaire réseau incorrect',
+      );
 
-  get dateMiseEnService(): DateTime.ValueType {
-    if (!this.#dateMiseEnService) {
-      throw new Error('dateMiseEnService not initialized');
-    }
-    return this.#dateMiseEnService;
-  }
+      expect(actualDateQualification?.estÉgaleÀ(expectedDateQualification)).to.be.true;
+      expect(actualRéférence.estÉgaleÀ(expectedRéférence)).to.be.true;
 
-  set dateMiseEnService(value: DateTime.ValueType) {
-    this.#dateMiseEnService = value;
-  }
+      if (actualAccuséRéception) {
+        const result = await mediator.send<ConsulterDocumentProjetQuery>({
+          type: 'Document.Query.ConsulterDocumentProjet',
+          data: {
+            documentKey: actualAccuséRéception.formatter(),
+          },
+        });
 
-  #accuséRéceptionDemandeComplèteRaccordement!: { format: string; content: string };
-
-  get accuséRéceptionDemandeComplèteRaccordement(): { format: string; content: string } {
-    if (!this.#accuséRéceptionDemandeComplèteRaccordement) {
-      throw new Error('accuséRéceptionDemandeComplèteRaccordement not initialized');
-    }
-    return this.#accuséRéceptionDemandeComplèteRaccordement;
-  }
-
-  set accuséRéceptionDemandeComplèteRaccordement(value: { format: string; content: string }) {
-    this.#accuséRéceptionDemandeComplèteRaccordement = value;
-  }
-
-  #propositionTechniqueEtFinancièreSignée!: { format: string; content: string };
-
-  get propositionTechniqueEtFinancièreSignée(): { format: string; content: string } {
-    if (!this.#propositionTechniqueEtFinancièreSignée) {
-      throw new Error('fichierPropositionTechniqueEtFinancière not initialized');
-    }
-    return this.#propositionTechniqueEtFinancièreSignée;
-  }
-
-  set propositionTechniqueEtFinancièreSignée(value: { format: string; content: string }) {
-    this.#propositionTechniqueEtFinancièreSignée = value;
-  }
-
-  #référenceDossierRaccordement!: Raccordement.RéférenceDossierRaccordement.ValueType;
-
-  get référenceDossierRaccordement(): Raccordement.RéférenceDossierRaccordement.ValueType {
-    if (!this.#référenceDossierRaccordement) {
-      throw new Error('référenceDossierRaccordement not initialized');
-    }
-    return this.#référenceDossierRaccordement;
-  }
-
-  set référenceDossierRaccordement(value: Raccordement.RéférenceDossierRaccordement.ValueType) {
-    this.#référenceDossierRaccordement = value;
+        const actualContent = await convertReadableStreamToString(result.content);
+        actualContent.should.be.equal(expectedContent);
+      }
+     */
+    return {};
   }
 }

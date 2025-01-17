@@ -6,7 +6,7 @@ Fonctionnalité: Modifier une proposition technique et financière
         Et le projet lauréat "Du boulodrome de Marseille"
 
     Scénario: Un porteur de projet modifie une proposition technique et financière
-        Etant donné une demande complète de raccordement pour le projet lauréat transmise auprès du gestionnaire de réseau avec :
+        Etant donné une demande complète de raccordement pour le projet lauréat auprès du gestionnaire de réseau avec :
             | La date de qualification                | 2022-10-28                                                                                            |
             | La référence du dossier de raccordement | OUE-RP-2022-000033                                                                                    |
             | Le format de l'accusé de réception      | application/pdf                                                                                       |
@@ -29,7 +29,7 @@ Fonctionnalité: Modifier une proposition technique et financière
         Alors le porteur devrait être informé que "Le dossier n'est pas référencé dans le raccordement de ce projet"
 
     Scénario: Impossible de modifier une proposition technique et financière pour un dossier n'étant pas référencé dans le raccordement du projet
-        Etant donné une demande complète de raccordement pour le projet lauréat transmise auprès du gestionnaire de réseau avec :
+        Etant donné une demande complète de raccordement pour le projet lauréat auprès du gestionnaire de réseau avec :
             | La date de qualification                | 2022-10-28                                                                                            |
             | La référence du dossier de raccordement | OUE-RP-2022-000033                                                                                    |
             | Le format de l'accusé de réception      | application/pdf                                                                                       |
@@ -41,7 +41,7 @@ Fonctionnalité: Modifier une proposition technique et financière
         Alors le porteur devrait être informé que "Le dossier n'est pas référencé dans le raccordement de ce projet"
 
     Scénario: Impossible de modifier une proposition technique et financière avec une date de signature dans le futur
-        Etant donné une demande complète de raccordement pour le projet lauréat transmise auprès du gestionnaire de réseau avec :
+        Etant donné une demande complète de raccordement pour le projet lauréat auprès du gestionnaire de réseau avec :
             | La date de qualification                | 2022-10-28                                                                                            |
             | La référence du dossier de raccordement | OUE-RP-2022-000033                                                                                    |
             | Le format de l'accusé de réception      | application/pdf                                                                                       |
