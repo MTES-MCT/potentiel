@@ -84,6 +84,7 @@ export const registerListerDossierRaccordementQuery = ({
       },
       orderBy: {
         référence: 'ascending',
+        identifiantProjet: 'ascending',
       },
       range,
     });
