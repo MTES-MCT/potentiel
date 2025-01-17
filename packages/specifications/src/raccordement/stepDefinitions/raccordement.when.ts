@@ -403,7 +403,7 @@ async function modifierRéférenceDossierRaccordement(
   this: PotentielWorld,
   identifiantProjet: string,
   référence: string,
-  role: Role.RawType,
+  rôleUtilisateur: Role.RawType,
   data: Record<string, string> = {},
 ) {
   const { référenceDossier, nouvelleRéférenceDossier } =
@@ -414,6 +414,7 @@ async function modifierRéférenceDossierRaccordement(
         data,
       ),
     });
+  const email = this.utilisateurWorld.récupérerEmailSelonRôle(rôleUtilisateur);
 
   try {
     await mediator.send<Raccordement.RaccordementUseCase>({
@@ -422,7 +423,9 @@ async function modifierRéférenceDossierRaccordement(
         identifiantProjetValue: identifiantProjet,
         nouvelleRéférenceDossierRaccordementValue: nouvelleRéférenceDossier,
         référenceDossierRaccordementActuelleValue: référenceDossier,
-        rôleValue: role,
+        rôleValue: rôleUtilisateur,
+        modifiéeLeValue: DateTime.now().formatter(),
+        modifiéeParValue: email,
       },
     });
   } catch (e) {

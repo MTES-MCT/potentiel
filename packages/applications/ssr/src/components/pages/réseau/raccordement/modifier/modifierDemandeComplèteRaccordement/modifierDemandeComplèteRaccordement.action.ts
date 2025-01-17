@@ -5,6 +5,7 @@ import * as zod from 'zod';
 
 import { Raccordement } from '@potentiel-domain/reseau';
 import { Routes } from '@potentiel-applications/routes';
+import { DateTime } from '@potentiel-domain/common';
 
 import { FormAction, FormState, formAction } from '@/utils/formAction';
 import { withUtilisateur } from '@/utils/withUtilisateur';
@@ -39,6 +40,8 @@ const action: FormAction<FormState, typeof schema> = async (
           référenceDossierRaccordementActuelleValue: referenceDossierRaccordementActuelle,
           nouvelleRéférenceDossierRaccordementValue: referenceDossierRaccordement,
           rôleValue: utilisateur.role.nom,
+          modifiéeLeValue: DateTime.now().formatter(),
+          modifiéeParValue: utilisateur.identifiantUtilisateur.formatter(),
         },
       });
     }
