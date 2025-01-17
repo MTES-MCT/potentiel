@@ -58,6 +58,7 @@ export const GET = (request: NextRequest) =>
           range: page
             ? mapToRangeOptions({
                 currentPage: page,
+                itemsPerPage: 50,
               })
             : undefined,
         },
@@ -71,10 +72,10 @@ const récupérerIdentifiantGestionnaireUtilisateur = (utilisateur: Utilisateur.
     return;
   }
   if (Option.isNone(utilisateur.groupe)) {
-    return 'inconnu';
+    return '!!GESTIONNAIRE INCONNU!!';
   }
   if (utilisateur.groupe.type !== 'GestionnairesRéseau') {
-    return 'inconnu';
+    return '!!GESTIONNAIRE INCONNU!!';
   }
   return utilisateur.groupe.nom;
 };
