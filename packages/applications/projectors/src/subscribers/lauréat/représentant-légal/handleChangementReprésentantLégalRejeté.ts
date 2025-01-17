@@ -2,12 +2,8 @@ import { ReprésentantLégal } from '@potentiel-domain/laureat';
 import { findProjection } from '@potentiel-infrastructure/pg-projections';
 import { Option } from '@potentiel-libraries/monads';
 import { getLogger } from '@potentiel-libraries/monitoring';
-import { DocumentProjet } from '@potentiel-domain/document';
-import { fileExists, upload } from '@potentiel-libraries/file-storage';
 
 import { upsertProjection } from '../../../infrastructure';
-
-import { getSensitiveDocReplacement } from './getSensitiveDocReplacement';
 
 export const handleChangementReprésentantLégalRejeté = async (
   event: ReprésentantLégal.ChangementReprésentantLégalRejetéEvent,
@@ -43,18 +39,4 @@ export const handleChangementReprésentantLégalRejeté = async (
       },
     },
   );
-
-  const pièceJustificative = DocumentProjet.convertirEnValueType(
-    identifiantProjet,
-    ReprésentantLégal.TypeDocumentChangementReprésentantLégal.pièceJustificative.formatter(),
-    changementReprésentantLégal.demande.demandéLe,
-    changementReprésentantLégal.demande.pièceJustificative.format,
-  );
-
-  if (await fileExists(pièceJustificative.formatter())) {
-    await upload(
-      pièceJustificative.formatter(),
-      await getSensitiveDocReplacement('Document sensible supprimé automatiquement après rejet'),
-    );
-  }
 };
