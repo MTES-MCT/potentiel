@@ -21,7 +21,7 @@ export type CorrigerRéférencesDossierFormKeys = keyof zod.infer<typeof schema>
 const csvSchema = zod.object({
   identifiantProjet: zod.string().min(1),
   referenceDossier: zod.string().min(1),
-  referenceDossierCorrigee: zod.string().min(1),
+  referenceDossierCorrigee: zod.string().min(1).trim(),
 });
 
 const action: FormAction<FormState, typeof schema> = (_, { fichierCorrections }) =>

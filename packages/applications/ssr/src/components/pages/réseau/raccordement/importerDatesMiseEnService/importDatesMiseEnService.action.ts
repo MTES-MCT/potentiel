@@ -25,9 +25,13 @@ const csvSchema = zod.object({
   referenceDossier: zod.string().min(1, {
     message: 'La référence du dossier ne peut pas être vide',
   }),
-  dateMiseEnService: zod.string().regex(/^\d{2}\/\d{2}\/\d{4}$/, {
-    message: "Le format de la date n'est pas respecté (format attendu : JJ/MM/AAAA)",
-  }),
+  dateMiseEnService: zod
+    .string()
+    .regex(/^\d{2}\/\d{2}\/\d{4}$/, {
+      message: "Le format de la date n'est pas respecté (format attendu : JJ/MM/AAAA)",
+    })
+    .optional()
+    .or(zod.literal('')),
 });
 
 const convertDateToCommonFormat = (date: string) => {
@@ -56,6 +60,10 @@ const action: FormAction<FormState, typeof schema> = async (
   const errors: ActionResult['errors'] = [];
 
   for (const { identifiantProjet, referenceDossier, dateMiseEnService } of lines) {
+    if (!dateMiseEnService) {
+      continue;
+    }
+
     if (identifiantProjet) {
       const dossier = await mediator.send<Raccordement.ConsulterDossierRaccordementQuery>({
         type: 'Réseau.Raccordement.Query.ConsulterDossierRaccordement',
