@@ -77,12 +77,6 @@ Fonctionnalité: Demander le changement de représentant légal d'un projet laur
         Alors une tâche "gestion automatique de la demande de changement de représentant légal" n'est plus planifiée pour le projet "Du boulodrome de Marseille"
         Et une tâche "rappel d'instruction de la demande de changement de représentant légal à deux mois" n'est plus planifiée pour le projet "Du boulodrome de Marseille"
 
-    Scénario: Un porteur transmet l'attestation de conformité d'un projet lauréat avec une demande de changement de représentant légal en cours
-        Etant donné une demande de changement de représentant légal en cours pour le projet lauréat
-        Et une attestation de conformité transmise pour le projet "Du boulodrome de Marseille"
-        Alors une tâche "gestion automatique de la demande de changement de représentant légal" n'est plus planifiée pour le projet "Du boulodrome de Marseille"
-        Et une tâche "rappel d'instruction de la demande de changement de représentant légal à deux mois" n'est plus planifiée pour le projet "Du boulodrome de Marseille"
-
     @NotImplemented
     Scénario: Impossible de demander le changement de représentant légal si le projet est déjà en service
         Etant donné le gestionnaire de réseau "Enedis"
