@@ -4,10 +4,10 @@ import { SupprimerDocumentProjetSensiblePort } from '@potentiel-domain/document'
 import { upload } from '@potentiel-libraries/file-storage';
 
 export const remplacerDocumentProjetSensible: SupprimerDocumentProjetSensiblePort = async (
-  key,
+  documentProjet,
   raison,
 ) => {
-  await upload(key, await buildCenteredTextPdfFile(raison));
+  await upload(documentProjet.formatter(), await buildCenteredTextPdfFile(raison));
 };
 
 const buildCenteredTextPdfFile = async (text: string) => {

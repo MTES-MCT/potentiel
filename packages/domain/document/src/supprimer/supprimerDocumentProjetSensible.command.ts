@@ -9,10 +9,11 @@ export type SupprimerDocumentProjetSensibleCommand = Message<
     raison: string;
   }
 >;
-/**
- * @todo Ici la key ne devrait pas être un string mais un IdentifiantDocumentProjet avec la propriété identifiantProjet, typeDocument et dateCréation
- */
-export type SupprimerDocumentProjetSensiblePort = (key: string, raison: string) => Promise<void>;
+
+export type SupprimerDocumentProjetSensiblePort = (
+  documentProjet: DocumentProjet.ValueType,
+  raison: string,
+) => Promise<void>;
 
 export type SupprimerDocumentProjetSensibleDependencies = {
   supprimerDocumentProjetSensible: SupprimerDocumentProjetSensiblePort;
@@ -24,6 +25,6 @@ export const registerSupprimerDocumentProjetSensible = ({
   const handler: MessageHandler<SupprimerDocumentProjetSensibleCommand> = ({
     documentProjet,
     raison,
-  }) => supprimerDocumentProjetSensible(documentProjet.formatter(), raison);
+  }) => supprimerDocumentProjetSensible(documentProjet, raison);
   mediator.register('Document.Command.SupprimerDocumentProjetSensible', handler);
 };
