@@ -49,6 +49,7 @@ type Importé = {
 export type CandidatureAggregate = Aggregate<CandidatureEvent> &
   (Importé | NonImporté) & {
     estNotifiée: boolean;
+    notifiéeLe?: DateTime.ValueType;
     garantiesFinancières?: {
       type: TypeGarantiesFinancières.ValueType;
       dateEchéance?: DateTime.ValueType;

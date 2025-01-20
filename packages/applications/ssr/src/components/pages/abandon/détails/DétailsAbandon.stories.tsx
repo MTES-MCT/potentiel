@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
 import { Iso8601DateTime } from '@potentiel-libraries/iso8601-datetime';
-import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
+import { IdentifiantProjet } from '@potentiel-domain/common';
 import { Abandon } from '@potentiel-domain/laureat';
 
 import { DétailsAbandonPage, DétailsAbandonPageProps } from './DétailsAbandon.page';
@@ -30,7 +30,6 @@ const getProjetsÀSélectionner = () => {
       numéroCRE: `${i}`,
       nom: `Projet ${i}`,
       identifiantProjet: `CRE4-${i}#${i}##${i}`,
-      dateDésignation: DateTime.convertirEnValueType('2022-01-01').formatter(),
     });
   }
   return projetsÀSélectionner;

@@ -1,11 +1,14 @@
 import { Given as EtantDonné } from '@cucumber/cucumber';
 import { mediator } from 'mediateur';
+import { faker } from '@faker-js/faker';
 
 import { DateTime } from '@potentiel-domain/common';
 import { Abandon } from '@potentiel-domain/laureat';
 import { publish } from '@potentiel-infrastructure/pg-event-sourcing';
 
 import { PotentielWorld } from '../../../../potentiel.world';
+import { importerCandidature } from '../../../../candidature/stepDefinitions/candidature.given';
+import { notifierLauréat } from '../../stepDefinitions/lauréat.given';
 
 EtantDonné(
   /une demande d'abandon en cours(.*)pour le projet lauréat/,
@@ -194,17 +197,20 @@ async function créerDemandePreuveRecandidature(this: PotentielWorld) {
 async function créerPreuveRecandidatureTransmise(this: PotentielWorld) {
   const identifiantProjet = this.lauréatWorld.identifiantProjet.formatter();
 
+  await importerCandidature.call(this, faker.company.name(), 'classé');
+  await notifierLauréat.call(this, faker.date.recent().toISOString());
+
   const { transmiseLe: dateTransmissionPreuveRecandidature, preuveRecandidature } =
-    this.lauréatWorld.abandonWorld.transmettrePreuveRecandidatureAbandonFixture.créer();
+    this.lauréatWorld.abandonWorld.transmettrePreuveRecandidatureAbandonFixture.créer({
+      preuveRecandidature: this.candidatureWorld.importerCandidature.identifiantProjet,
+    });
 
   const { accordéePar } = this.lauréatWorld.abandonWorld.accorderAbandonFixture;
 
-  // TODO : la date de notification ne doit plus être passée en param. Il faudra charger l'aggregate Lauréat directement dans la commande.
   await mediator.send<Abandon.AbandonUseCase>({
     type: 'Lauréat.Abandon.UseCase.TransmettrePreuveRecandidatureAbandon',
     data: {
       identifiantProjetValue: identifiantProjet,
-      dateNotificationValue: DateTime.now().formatter(),
       dateTransmissionPreuveRecandidatureValue: dateTransmissionPreuveRecandidature,
       preuveRecandidatureValue: preuveRecandidature,
       identifiantUtilisateurValue: accordéePar,

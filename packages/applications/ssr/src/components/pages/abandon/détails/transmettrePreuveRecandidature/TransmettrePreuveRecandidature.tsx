@@ -7,8 +7,6 @@ import { v4 as uuid } from 'uuid';
 import { useIsModalOpen } from '@codegouvfr/react-dsfr/Modal/useIsModalOpen';
 import SelectNext from '@codegouvfr/react-dsfr/SelectNext';
 
-import { Iso8601DateTime } from '@potentiel-libraries/iso8601-datetime';
-
 import { Form } from '@/components/atoms/form/Form';
 import { SubmitButton } from '@/components/atoms/form/SubmitButton';
 import { ValidationErrors } from '@/utils/formAction';
@@ -29,7 +27,6 @@ type ProjetÀSélectionner = {
   période: string;
   famille: string;
   numéroCRE: string;
-  dateDésignation: Iso8601DateTime;
   nom: string;
 };
 
@@ -46,7 +43,6 @@ export const TransmettrePreuveRecandidature = ({
   >({});
   const [projetSélectionné, setProjetSélectionné] = useState<{
     identifiantProjet: ProjetÀSélectionner['identifiantProjet'];
-    dateDésignation: ProjetÀSélectionner['dateDésignation'];
   }>();
 
   const getProjectLabel = (projet: ProjetÀSélectionner) =>
@@ -106,7 +102,6 @@ export const TransmettrePreuveRecandidature = ({
                 if (projet) {
                   setProjetSélectionné({
                     identifiantProjet: projet.identifiantProjet,
-                    dateDésignation: projet.dateDésignation,
                   });
                 }
               },
@@ -124,11 +119,6 @@ export const TransmettrePreuveRecandidature = ({
                 type={'hidden'}
                 value={projetSélectionné.identifiantProjet}
                 name="preuveRecandidature"
-              />
-              <input
-                type={'hidden'}
-                value={projetSélectionné.dateDésignation}
-                name="dateDesignation"
               />
             </>
           )}

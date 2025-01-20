@@ -10,7 +10,6 @@ export type TransmettrePreuveRecandidatureAbandonUseCase = Message<
   {
     identifiantProjetValue: string;
     preuveRecandidatureValue: string;
-    dateNotificationValue: string;
     identifiantUtilisateurValue: string;
     dateTransmissionPreuveRecandidatureValue: string;
   }
@@ -21,13 +20,11 @@ export const registerTransmettrePreuveRecandidatureAbandonUseCase = () => {
     identifiantProjetValue,
     preuveRecandidatureValue,
     identifiantUtilisateurValue,
-    dateNotificationValue,
     dateTransmissionPreuveRecandidatureValue,
   }) => {
     const identifiantProjet = IdentifiantProjet.convertirEnValueType(identifiantProjetValue);
     const preuveRecandidature = IdentifiantProjet.convertirEnValueType(preuveRecandidatureValue);
 
-    const dateNotification = DateTime.convertirEnValueType(dateNotificationValue);
     const identifiantUtilisateur = IdentifiantUtilisateur.convertirEnValueType(
       identifiantUtilisateurValue,
     );
@@ -41,7 +38,6 @@ export const registerTransmettrePreuveRecandidatureAbandonUseCase = () => {
       data: {
         identifiantProjet,
         preuveRecandidature,
-        dateNotification,
         identifiantUtilisateur,
         dateTransmissionPreuveRecandidature,
       },
