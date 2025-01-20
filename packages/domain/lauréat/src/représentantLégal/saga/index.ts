@@ -5,18 +5,15 @@ import { TâchePlanifiéeExecutéeEvent } from '@potentiel-domain/tache-planifie
 
 import { LauréatNotifiéEvent } from '../../lauréat';
 import { AbandonAccordéEvent } from '../../abandon';
-import { AttestationConformitéTransmiseEvent } from '../../achèvement';
 
 import { handleLauréatNotifié } from './handleLauréatNotifié';
 import { handleTâchePlanifiéeGestionAutomatiqueDemandeChangementExecutée } from './handleTâchePlanifiéeGestionAutomatiqueDemandeChangementExecutée';
 import { handleAbandonAccordé } from './handleAbandonAccordé';
-import { handleAttestationConformitéTransmise } from './handleAttestationConformitéTransmise';
 
 export type SubscriptionEvent =
   | LauréatNotifiéEvent
   | TâchePlanifiéeExecutéeEvent
-  | AbandonAccordéEvent
-  | AttestationConformitéTransmiseEvent;
+  | AbandonAccordéEvent;
 
 export type Execute = Message<'System.Lauréat.ReprésentantLégal.Saga.Execute', SubscriptionEvent>;
 
@@ -31,7 +28,6 @@ export const register = () => {
         handleTâchePlanifiéeGestionAutomatiqueDemandeChangementExecutée,
       )
       .with({ type: 'AbandonAccordé-V1' }, handleAbandonAccordé)
-      .with({ type: 'AttestationConformitéTransmise-V1' }, handleAttestationConformitéTransmise)
       .exhaustive();
 
   mediator.register('System.Lauréat.ReprésentantLégal.Saga.Execute', handler);
