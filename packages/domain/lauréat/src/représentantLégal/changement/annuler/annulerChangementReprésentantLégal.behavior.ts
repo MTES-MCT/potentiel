@@ -26,7 +26,7 @@ export async function annuler(
   if (!this.demande) {
     throw new DemandeChangementInexistanteError();
   }
-  this.demande?.statut.vérifierQueLeChangementDeStatutEstPossibleEn(
+  this.demande.statut.vérifierQueLeChangementDeStatutEstPossibleEn(
     StatutChangementReprésentantLégal.annulé,
   );
 
