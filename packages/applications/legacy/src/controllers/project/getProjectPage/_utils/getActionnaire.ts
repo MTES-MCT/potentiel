@@ -48,7 +48,9 @@ export const getActionnaire = async (
         demandeExistanteDeChangement.demande.statut.estDemandé();
 
       const doitDemanderEtPasModifier =
-        demandeNécessiteInstruction && utilisateur.aLaPermission('actionnaire.demanderChangement');
+        demandeNécessiteInstruction &&
+        utilisateur.aLaPermission('actionnaire.demanderChangement') &&
+        utilisateur.estÉgaleÀ(Role.porteur);
 
       const peutFaireUneDemandeDeChangement = doitDemanderEtPasModifier && !aUneDemandeEnCours;
 
@@ -62,6 +64,8 @@ export const getActionnaire = async (
         (Option.isNone(demandeExistanteDeChangement) ||
           demandeExistanteDeChangement.demande.statut.estAnnulé());
 
+      // on affiche pas le lien vers la modification pour ne pas surcharger les informations de la page projet
+      // la demande peut être faire depuis le menu action / enregistrer modification
       const afficherFormulaireModificationSurPageProjet =
         !doitDemanderEtPasModifier && Option.isNone(demandeExistanteDeChangement);
 

@@ -14,6 +14,7 @@ import {
   DownloadLinkButton,
 } from '../../../components';
 import { isActionnaireEnabled } from '@potentiel-applications/feature-flags';
+import { IdentifiantProjet } from '@potentiel-domain/common';
 
 type EnregistrerUneModificationProps = {
   project: ProjectDataForProjectPage;
@@ -26,7 +27,17 @@ const EnregistrerUneModification = ({ project }: EnregistrerUneModificationProps
     >
       <span>Demande de délai</span>
     </DropdownMenuSecondaryButton.DropdownItem>
-    <></>
+    {isActionnaireEnabled() && (
+      <DropdownMenuSecondaryButton.DropdownItem
+        href={Routes.Actionnaire.modifier(
+          IdentifiantProjet.convertirEnValueType(
+            `${project.appelOffreId}#${project.periodeId}#${project.familleId}#${project.numeroCRE}`,
+          ).formatter(),
+        )}
+      >
+        <span>Modification de l'actionnariat</span>
+      </DropdownMenuSecondaryButton.DropdownItem>
+    )}
   </DropdownMenuSecondaryButton>
 );
 

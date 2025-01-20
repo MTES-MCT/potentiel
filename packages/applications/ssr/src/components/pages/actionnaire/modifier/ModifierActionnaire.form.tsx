@@ -85,7 +85,7 @@ export const ModifierActionnaireForm: FC<ModifierActionnaireFormProps> = ({
           stateRelatedMessage={validationErrors['raison']}
         />
         <UploadNewOrModifyExistingDocument
-          label="Pièce justificative"
+          label={`Pièce(s) justificative(s)${hasToUploadDocument ? ' (optionnel)' : ''}`}
           name="piecesJustificatives"
           hintText="Joindre la copie des statuts de la société à jour et le(s) justificatif(s) relatif(s) à la composition de l’actionnariat"
           required={hasToUploadDocument}
