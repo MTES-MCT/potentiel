@@ -48,9 +48,7 @@ export const bind = ({ statut }: PlainType<ValueType>): ValueType => {
     },
     vérifierQueLeChangementDeStatutEstPossibleEn(nouveauStatut: ValueType) {
       if (this.statut === 'information-enregistrée') {
-        // changer ça
-        // viovio
-        throw new ChangementActionnaireDéjàAccordéeErreur();
+        throw new AucuneDemandeDeChangementEnCoursErreur();
       }
       if (this.statut === 'demandé') {
         if (nouveauStatut.statut === 'demandé') {
@@ -122,5 +120,11 @@ class ChangementActionnaireDéjàAnnuléeErreur extends InvalidOperationError {
 class ChangementActionnaireDéjàEnCoursErreur extends InvalidOperationError {
   constructor() {
     super(`Une demande de changement est déjà en cours`);
+  }
+}
+
+class AucuneDemandeDeChangementEnCoursErreur extends InvalidOperationError {
+  constructor() {
+    super(`Aucune demande de changement n'est en cours`);
   }
 }

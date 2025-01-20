@@ -17,8 +17,6 @@ export const handleActionnaireModifié = async ({
     },
   });
 
-  // si c'est un porteur qui modifie
-  // la pj est obligatoire
   const candidature = await findProjection<Candidature.CandidatureEntity>(
     `candidature|${identifiantProjet}`,
   );

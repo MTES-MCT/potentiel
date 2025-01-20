@@ -14,7 +14,6 @@ export type ChangementActionnaireEntity = Entity<
       région: string;
     };
 
-    // voir comment on gère la modification du coup
     demande: {
       nouvelActionnaire: string;
       statut: string;
