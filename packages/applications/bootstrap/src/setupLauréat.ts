@@ -356,19 +356,6 @@ export const setupLauréat = async ({ sendEmail }: SetupLauréatDependencies) =>
       }),
   });
 
-  const unsubscribeActionnaireSagaAchèvement = await subscribe<
-    Actionnaire.ActionnaireSaga.SubscriptionEvent & Event
-  >({
-    name: 'actionnaire-achevement-saga',
-    streamCategory: 'achevement',
-    eventType: ['AttestationConformitéTransmise-V1'],
-    eventHandler: async (event) =>
-      mediator.publish<Actionnaire.ActionnaireSaga.Execute>({
-        type: 'System.Lauréat.Actionnaire.Saga.Execute',
-        data: event,
-      }),
-  });
-
   const unsubscribeTypeGarantiesFinancièresSaga = await subscribe<
     GarantiesFinancières.TypeGarantiesFinancièresSaga.SubscriptionEvent & Event
   >({
@@ -442,6 +429,5 @@ export const setupLauréat = async ({ sendEmail }: SetupLauréatDependencies) =>
     await unsubscribeReprésentantLégalSagaAchèvement();
     await unsubscribeActionnaireSaga();
     await unsubscribeActionnaireSagaAbandon();
-    await unsubscribeActionnaireSagaAchèvement();
   };
 };
