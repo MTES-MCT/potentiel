@@ -938,7 +938,14 @@ type Leaves<O extends Record<string, unknown>> = {
 
 type Policy = Leaves<typeof policies>;
 
-const commonPolicies: ReadonlyArray<Policy> = ['candidature.consulterRésumé', 'historique.lister'];
+const commonPolicies: ReadonlyArray<Policy> = [
+  'historique.lister',
+
+  // Header projet
+  'candidature.consulterRésumé',
+  'abandon.consulter.détail',
+  'recours.consulter.détail',
+];
 
 // En attendant d'avoir des gateways qui groupent les query
 const pageProjetPolicies: Policy[] = [
