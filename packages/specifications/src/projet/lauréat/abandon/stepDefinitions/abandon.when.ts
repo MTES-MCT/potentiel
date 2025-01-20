@@ -220,29 +220,10 @@ Quand(
 );
 
 Quand(
-  `le DGEC validateur relance à la date du {string} le porteur du projet {string} pour qu'il transmettre une preuve de recandidature`,
-  async function (this: PotentielWorld, dateDeRelance: string, nomProjet: string) {
-    try {
-      const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
-
-      await mediator.send<Abandon.AbandonUseCase>({
-        type: 'Lauréat.Abandon.UseCase.DemanderPreuveRecandidatureAbandon',
-        data: {
-          identifiantProjetValue: identifiantProjet.formatter(),
-          dateDemandeValue: new Date(dateDeRelance).toISOString(),
-        },
-      });
-    } catch (error) {
-      this.error = error as Error;
-    }
-  },
-);
-
-Quand(
   /le DGEC validateur demande au porteur du projet de transmettre une preuve de recandidature(.*)/,
   async function (this: PotentielWorld, dateLimite: string) {
     try {
-      const identifiantProjet = this.lauréatWorld.identifiantProjet.formatter();
+      const { identifiantProjet } = this.lauréatWorld.abandonWorld.demanderAbandonFixture;
 
       const { demandéeLe } =
         this.lauréatWorld.abandonWorld.demanderPreuveCandidatureAbandonFixture.créer({
