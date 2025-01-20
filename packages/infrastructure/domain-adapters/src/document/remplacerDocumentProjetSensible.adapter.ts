@@ -3,7 +3,7 @@ import { PDFDocument, StandardFonts } from 'pdf-lib';
 import { SupprimerDocumentProjetSensiblePort } from '@potentiel-domain/document';
 import { upload } from '@potentiel-libraries/file-storage';
 
-export const supprimerDocumentProjetSensible: SupprimerDocumentProjetSensiblePort = async (
+export const remplacerDocumentProjetSensible: SupprimerDocumentProjetSensiblePort = async (
   key,
   raison,
 ) => {
