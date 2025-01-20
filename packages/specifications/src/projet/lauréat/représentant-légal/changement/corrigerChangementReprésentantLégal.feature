@@ -15,13 +15,11 @@ Fonctionnalité: Corriger la demande de changement de représentant légal d'un 
         Quand le porteur corrige une demande inexistante de changement de représentant légal pour le projet lauréat
         Alors le porteur devrait être informé que "Aucun changement de représentant légal n'est en cours"
 
-    @NotImplemented
     Scénario: Impossible de corriger le changement de représentant légal d'un projet lauréat si le changement a déjà été accordé
-        Etant donné une demande de changement de représentant légal acordée pour le projet lauréat
+        Etant donné une demande de changement de représentant légal accordée pour le projet lauréat
         Quand le porteur corrige la demande de changement de représentant légal pour le projet lauréat
         Alors le porteur devrait être informé que "Le changement de représentant légal a déjà été accordé"
 
-    @NotImplemented
     Scénario: Impossible de corriger le changement de représentant légal d'un projet lauréat si le changement a déjà été rejété
         Etant donné une demande de changement de représentant légal rejetée pour le projet lauréat
         Quand le porteur corrige la demande de changement de représentant légal pour le projet lauréat

@@ -1,4 +1,4 @@
-import { DomainEvent } from '@potentiel-domain/core';
+import { DomainEvent, InvalidOperationError } from '@potentiel-domain/core';
 import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
 import { DocumentProjet } from '@potentiel-domain/document';
 
@@ -44,22 +44,13 @@ export async function corriger(
     throw new DemandeChangementInexistanteError();
   }
 
-  // if (
-  //   this.représentantLégal?.nom === nomReprésentantLégal &&
-  //   this.représentantLégal.type.estÉgaleÀ(typeReprésentantLégal)
-  // ) {
-  //   throw new ReprésentantLégalIdentifiqueError();
-  // }
+  if (this.demande.statut.estAccordé()) {
+    throw new ChangementDéjàAccordéError();
+  }
 
-  // if (typeReprésentantLégal.estInconnu()) {
-  //   throw new ReprésentantLégalTypeInconnuError();
-  // }
-
-  // if (this.demande) {
-  //   this.demande.statut.vérifierQueLeChangementDeStatutEstPossibleEn(
-  //     StatutChangementReprésentantLégal.demandé,
-  //   );
-  // }
+  if (this.demande.statut.estRejeté()) {
+    throw new ChangementDéjàRejetéError();
+  }
 
   const event: ChangementReprésentantLégalCorrigéEvent = {
     type: 'ChangementReprésentantLégalCorrigé-V1',
@@ -85,5 +76,16 @@ export function applyChangementReprésentantLégalCorrigé(
   if (this.demande) {
     this.demande.nom = nomReprésentantLégal;
     this.demande.type = TypeReprésentantLégal.convertirEnValueType(typeReprésentantLégal);
+  }
+}
+
+class ChangementDéjàAccordéError extends InvalidOperationError {
+  constructor() {
+    super(`Le changement de représentant légal a déjà été accordé`);
+  }
+}
+class ChangementDéjàRejetéError extends InvalidOperationError {
+  constructor() {
+    super(`Le changement de représentant légal a déjà été rejeté`);
   }
 }
