@@ -45,6 +45,10 @@ export const setupHistorique = async () => {
         'ActionnaireImporté-V1',
         'ActionnaireModifié-V1',
         'ChangementActionnaireAccordé-V1',
+        'ChangementActionnaireAnnulé-V1',
+        'ChangementActionnaireRejeté-V1',
+        'ChangementActionnaireSupprimé-V1',
+        'ChangementActionnaireDemandé-V1',
       ],
       eventHandler: async (event) => {
         await mediator.send<HistoriqueProjector.Execute>({

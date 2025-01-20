@@ -1,7 +1,6 @@
 import { Routes } from '@potentiel-applications/routes';
 import { DocumentProjet } from '@potentiel-domain/document';
 import { Historique } from '@potentiel-domain/historique';
-import { Recours } from '@potentiel-domain/elimine';
 import { Actionnaire } from '@potentiel-domain/laureat';
 
 import { DownloadDocument } from '@/components/atoms/form/document/DownloadDocument';
@@ -21,7 +20,7 @@ export const mapToChangementActionnaireAccordéTimelineItemProps = (
 
   const réponseSignée = DocumentProjet.convertirEnValueType(
     identifiantProjet,
-    Recours.TypeDocumentRecours.recoursAccordé.formatter(),
+    Actionnaire.TypeDocumentActionnaire.changementAccordé.formatter(),
     accordéLe,
     format,
   ).formatter();
@@ -36,7 +35,7 @@ export const mapToChangementActionnaireAccordéTimelineItemProps = (
     content: (
       <div className="flex gap-2">
         <div>
-          Nouvel actionnaire <span className="font-semibold">{nouvelActionnaire}</span>
+          Nouvel actionnaire : <span className="font-semibold">{nouvelActionnaire}</span>
         </div>
         <DownloadDocument
           className="mb-0"
