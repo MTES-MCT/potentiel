@@ -407,10 +407,10 @@ async function modifierRéférenceDossierRaccordement(
   data: Record<string, string> = {},
 ) {
   const { référenceDossier, nouvelleRéférenceDossier } =
-    this.raccordementWorld.modifierRéférenceDossierRaccordement.créer({
+    this.raccordementWorld.modifierRéférenceDossierRaccordementFixture.créer({
       identifiantProjet,
       référenceDossier: référence,
-      ...this.raccordementWorld.modifierRéférenceDossierRaccordement.mapExempleToFixtureValues(
+      ...this.raccordementWorld.modifierRéférenceDossierRaccordementFixture.mapExempleToFixtureValues(
         data,
       ),
     });

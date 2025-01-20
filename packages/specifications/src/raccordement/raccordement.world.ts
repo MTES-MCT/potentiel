@@ -14,7 +14,8 @@ export class RaccordementWorld {
   readonly modifierDemandeComplèteRaccordementFixture =
     new ModifierDemandeComplèteRaccordementFixture();
 
-  readonly modifierRéférenceDossierRaccordement = new ModifierRéférenceDossierRaccordementFixture();
+  readonly modifierRéférenceDossierRaccordementFixture =
+    new ModifierRéférenceDossierRaccordementFixture();
 
   readonly transmettrePropositionTechniqueEtFinancièreFixture =
     new TransmettrePropositionTechniqueEtFinancièreFixture();
@@ -24,8 +25,8 @@ export class RaccordementWorld {
   readonly transmettreDateMiseEnServiceFixture = new TransmettreDateMiseEnServiceFixture();
 
   get référenceDossier() {
-    return this.modifierRéférenceDossierRaccordement.aÉtéCréé
-      ? this.modifierRéférenceDossierRaccordement.nouvelleRéférenceDossier
+    return this.modifierRéférenceDossierRaccordementFixture.aÉtéCréé
+      ? this.modifierRéférenceDossierRaccordementFixture.nouvelleRéférenceDossier
       : this.transmettreDemandeComplèteRaccordementFixture.référenceDossier;
   }
 
@@ -38,8 +39,8 @@ export class RaccordementWorld {
   }
 
   mapToExpected(identifiantProjet: IdentifiantProjet.ValueType) {
-    const nouvelleRéférenceDossier = this.modifierRéférenceDossierRaccordement.aÉtéCréé
-      ? this.modifierRéférenceDossierRaccordement.nouvelleRéférenceDossier
+    const nouvelleRéférenceDossier = this.modifierRéférenceDossierRaccordementFixture.aÉtéCréé
+      ? this.modifierRéférenceDossierRaccordementFixture.nouvelleRéférenceDossier
       : undefined;
     const propositionTechniqueEtFinancière =
       this.modifierPropositionTechniqueEtFinancièreFixture.mapToExpected(
