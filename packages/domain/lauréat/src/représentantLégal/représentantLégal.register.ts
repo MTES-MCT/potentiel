@@ -25,6 +25,8 @@ import {
   SupprimerDocumentProjetSensibleCommandDependencies,
   registerSupprimerDocumentProjetSensibleCommand,
 } from './changement/supprimerDocumentSensible/supprimerDocumentProjetSensible.command';
+import { registerCorrigerChangementReprésentantLégalUseCase } from './changement/corriger/corrigerChangementReprésentantLégal.usecase';
+import { registerCorrigerChangementReprésentantLégalCommand } from './changement/corriger/corrigerChangementReprésentantLégal.command';
 
 export type ReprésentantLégalQueryDependencies = ConsulterReprésentantLégalDependencies &
   ListerChangementReprésentantLégalDependencies;
@@ -42,6 +44,7 @@ export const registerReprésentantLégalUseCases = ({
   registerModifierReprésentantLégalCommand(loadAggregate);
   registerDemanderChangementReprésentantLégalCommand(loadAggregate);
   registerAnnulerChangementReprésentantLégalCommand(loadAggregate);
+  registerCorrigerChangementReprésentantLégalCommand(loadAggregate);
   registerAccorderChangementReprésentantLégalCommand(loadAggregate);
   registerRejeterChangementReprésentantLégalCommand(loadAggregate);
   registerSupprimerChangementReprésentantLégalCommand(loadAggregate);
@@ -54,6 +57,7 @@ export const registerReprésentantLégalUseCases = ({
   registerModifierReprésentantLégalUseCase();
   registerDemanderChangementReprésentantLégalUseCase();
   registerAnnulerChangementReprésentantLégalUseCase();
+  registerCorrigerChangementReprésentantLégalUseCase();
   registerAccorderChangementReprésentantLégalUseCase();
   registerRejeterChangementReprésentantLégalUseCase();
 };

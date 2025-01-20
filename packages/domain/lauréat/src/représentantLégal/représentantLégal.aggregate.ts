@@ -46,11 +46,17 @@ import {
   applyChangementReprésentantLégalAnnulé,
   ChangementReprésentantLégalAnnuléEvent,
 } from './changement/annuler/annulerChangementReprésentantLégal.behavior';
+import {
+  applyChangementReprésentantLégalCorrigé,
+  ChangementReprésentantLégalCorrigéEvent,
+  corriger,
+} from './changement/corriger/corrigerChangementReprésentantLégal.behavior';
 
 export type ReprésentantLégalEvent =
   | ReprésentantLégalImportéEvent
   | ReprésentantLégalModifiéEvent
   | ChangementReprésentantLégalDemandéEvent
+  | ChangementReprésentantLégalCorrigéEvent
   | ChangementReprésentantLégalAccordéEvent
   | ChangementReprésentantLégalRejetéEvent
   | ChangementReprésentantLégalSuppriméEvent
@@ -82,6 +88,7 @@ export type ReprésentantLégalAggregate = Aggregate<ReprésentantLégalEvent> &
   readonly modifier: typeof modifier;
   readonly demander: typeof demander;
   readonly annuler: typeof annuler;
+  readonly corriger: typeof corriger;
   readonly accorder: typeof accorder;
   readonly rejeter: typeof rejeter;
   readonly supprimer: typeof supprimer;
@@ -100,6 +107,7 @@ export const getDefaultReprésentantLégalAggregate: GetDefaultAggregateState<
   modifier,
   demander,
   annuler,
+  corriger,
   accorder,
   rejeter,
   supprimer,
@@ -118,6 +126,9 @@ function apply(this: ReprésentantLégalAggregate, event: ReprésentantLégalEve
     )
     .with({ type: 'ChangementReprésentantLégalAnnulé-V1' }, (event) =>
       applyChangementReprésentantLégalAnnulé.bind(this)(event),
+    )
+    .with({ type: 'ChangementReprésentantLégalCorrigé-V1' }, (event) =>
+      applyChangementReprésentantLégalCorrigé.bind(this)(event),
     )
     .with({ type: 'ChangementReprésentantLégalAccordé-V1' }, (event) =>
       applyChangementReprésentantLégalAccordé.bind(this)(event),

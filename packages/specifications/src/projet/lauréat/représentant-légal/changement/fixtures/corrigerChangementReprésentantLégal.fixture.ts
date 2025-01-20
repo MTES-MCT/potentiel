@@ -1,0 +1,106 @@
+import { faker } from '@faker-js/faker';
+
+import { ReprésentantLégal } from '@potentiel-domain/laureat';
+
+import { AbstractFixture } from '../../../../../fixture';
+import { convertStringToReadableStream } from '../../../../../helpers/convertStringToReadable';
+
+type PièceJustificative = { format: string; content: ReadableStream };
+
+export type CréerCorrectionChangementReprésentantLégalFixture = Partial<
+  Readonly<CorrigerChangementReprésentantLégal>
+> & {
+  identifiantProjet: string;
+};
+
+export interface CorrigerChangementReprésentantLégal {
+  readonly nomReprésentantLégal: string;
+  readonly typeReprésentantLégal: ReprésentantLégal.TypeReprésentantLégal.ValueType;
+  readonly pièceJustificative: PièceJustificative;
+  readonly corrigéLe: string;
+  readonly corrigéPar: string;
+}
+
+export class CorrigerChangementReprésentantLégalFixture
+  extends AbstractFixture<CorrigerChangementReprésentantLégal>
+  implements CorrigerChangementReprésentantLégal
+{
+  #identifiantProjet!: string;
+
+  get identifiantProjet(): string {
+    return this.#identifiantProjet;
+  }
+
+  #nomReprésentantLégal!: string;
+
+  get nomReprésentantLégal(): string {
+    return this.#nomReprésentantLégal;
+  }
+
+  #typeReprésentantLégal!: ReprésentantLégal.TypeReprésentantLégal.ValueType;
+
+  get typeReprésentantLégal(): ReprésentantLégal.TypeReprésentantLégal.ValueType {
+    return this.#typeReprésentantLégal;
+  }
+
+  #format!: string;
+  #content!: string;
+
+  get pièceJustificative(): CorrigerChangementReprésentantLégal['pièceJustificative'] {
+    return {
+      format: this.#format,
+      content: convertStringToReadableStream(this.#content),
+    };
+  }
+
+  #corrigéLe!: string;
+
+  get corrigéLe(): string {
+    return this.#corrigéLe;
+  }
+
+  #corrigéPar!: string;
+
+  get corrigéPar(): string {
+    return this.#corrigéPar;
+  }
+
+  #statut!: ReprésentantLégal.StatutChangementReprésentantLégal.ValueType;
+
+  get statut(): ReprésentantLégal.StatutChangementReprésentantLégal.ValueType {
+    return this.#statut;
+  }
+
+  créer(
+    partialFixture: CréerCorrectionChangementReprésentantLégalFixture,
+  ): Readonly<CorrigerChangementReprésentantLégal> {
+    const content = faker.word.words();
+
+    const fixture = {
+      statut: ReprésentantLégal.StatutChangementReprésentantLégal.demandé,
+      nomReprésentantLégal: faker.person.fullName(),
+      typeReprésentantLégal: ReprésentantLégal.TypeReprésentantLégal.personneMorale,
+      corrigéLe: faker.date.recent().toISOString(),
+      corrigéPar: faker.internet.email(),
+      pièceJustificative: {
+        format: 'application/pdf',
+        content: convertStringToReadableStream(content),
+      },
+      ...partialFixture,
+    };
+
+    this.#format = fixture.pièceJustificative.format;
+    this.#content = content;
+
+    this.#identifiantProjet = fixture.identifiantProjet;
+    this.#nomReprésentantLégal = fixture.nomReprésentantLégal;
+    this.#typeReprésentantLégal = fixture.typeReprésentantLégal;
+    this.#corrigéLe = fixture.corrigéLe;
+    this.#corrigéPar = fixture.corrigéPar;
+    this.#statut = fixture.statut;
+
+    this.aÉtéCréé = true;
+
+    return fixture;
+  }
+}

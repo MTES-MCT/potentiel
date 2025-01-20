@@ -36,6 +36,10 @@ export const register = () => {
         changementReprésentantLégalAnnuléProjector,
       )
       .with(
+        { type: 'ChangementReprésentantLégalCorrigé-V1' },
+        handleChangementReprésentantLégalCorrigé,
+      )
+      .with(
         { type: 'ChangementReprésentantLégalAccordé-V1' },
         changementReprésentantLégalAccordéProjector,
       )
