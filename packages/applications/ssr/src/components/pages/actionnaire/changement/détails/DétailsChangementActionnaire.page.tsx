@@ -27,6 +27,7 @@ export type DétailsChangementActionnairePagePropsProps =
     actions: Array<ChangementActionnaireActions>;
   };
 
+// TODO: ajouter l'historique ici
 export const DétailsChangementActionnairePageProps: FC<
   DétailsChangementActionnairePagePropsProps
 > = ({
@@ -40,7 +41,9 @@ export const DétailsChangementActionnairePageProps: FC<
   return (
     <ColumnPageTemplate
       banner={<ProjetBanner identifiantProjet={idProjet} />}
-      heading={<Heading1>Détails de la demande de modification de l’actionnariat</Heading1>}
+      heading={
+        <Heading1>Détails de la demande en cours de modification de l’actionnariat</Heading1>
+      }
       leftColumn={{
         children: (
           <div className="flex flex-col gap-4">
@@ -65,7 +68,6 @@ export const DétailsChangementActionnairePageProps: FC<
                   <ChangementDemandé demandéeLe={demandéeLe} demandéePar={demandéePar} />
                 )}
               </div>
-
               <Changement
                 actionnaire={actionnaire}
                 raison={raison}

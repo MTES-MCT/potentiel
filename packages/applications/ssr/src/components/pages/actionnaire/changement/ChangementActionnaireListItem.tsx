@@ -1,10 +1,8 @@
 import { FC } from 'react';
-import Link from 'next/link';
 
-import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
+import { DateTime } from '@potentiel-domain/common';
 import { PlainType } from '@potentiel-domain/core';
 import { Actionnaire } from '@potentiel-domain/laureat';
-import { Routes } from '@potentiel-applications/routes';
 
 import { ProjectListItemHeading } from '@/components/molecules/projet/ProjectListItemHeading';
 import { ListItem } from '@/components/molecules/ListItem';
@@ -15,6 +13,8 @@ export type ChangementActionnaireListItemProps = PlainType<
   Actionnaire.ListerChangementActionnaireReadModel['items'][number]
 >;
 
+// TODO: remettre le lien vers l'action
+// une fois que l'historique sera intégré
 export const ChangementActionnaireListItem: FC<ChangementActionnaireListItemProps> = ({
   identifiantProjet,
   nomProjet,
@@ -31,14 +31,15 @@ export const ChangementActionnaireListItem: FC<ChangementActionnaireListItemProp
       />
     }
     actions={
-      <Link
-        href={Routes.Actionnaire.changement.détail(
-          IdentifiantProjet.bind(identifiantProjet).formatter(),
-        )}
-        aria-label={`voir le détail de la demande de changement de l'actionnaire pour le projet ${nomProjet}`}
-      >
-        voir le détail
-      </Link>
+      <></>
+      // <Link
+      //   href={Routes.Actionnaire.changement.détail(
+      //     IdentifiantProjet.bind(identifiantProjet).formatter(),
+      //   )}
+      //   aria-label={`voir le détail de la demande de changement de l'actionnaire pour le projet ${nomProjet}`}
+      // >
+      //   voir le détail
+      // </Link>
     }
   >
     <StatutChangementActionnaireBadge
