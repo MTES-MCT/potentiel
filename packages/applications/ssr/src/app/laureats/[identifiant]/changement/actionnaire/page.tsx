@@ -7,6 +7,7 @@ import { Actionnaire } from '@potentiel-domain/laureat';
 import { mapToPlainObject } from '@potentiel-domain/core';
 import { IdentifiantProjet } from '@potentiel-domain/common';
 import { Utilisateur } from '@potentiel-domain/utilisateur';
+import { Historique } from '@potentiel-domain/historique';
 
 import { decodeParameter } from '@/utils/decodeParameter';
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
@@ -37,18 +38,30 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
           },
         });
 
-      if (Option.isNone(demandeDeChangement)) {
+      const historique = await mediator.send<Historique.ListerHistoriqueProjetQuery>({
+        type: 'Historique.Query.ListerHistoriqueProjet',
+        data: {
+          identifiantProjet: identifiantProjet.formatter(),
+          category: 'actionnaire',
+        },
+      });
+
+      if (Option.isNone(demandeDeChangement) && historique.items.length === 0) {
         return notFound();
       }
 
-      const actions = mapToActions({ utilisateur, demandeDeChangement });
+      const actions = Option.isSome(demandeDeChangement)
+        ? mapToActions({ utilisateur, demandeDeChangement })
+        : [];
 
       return (
         <DétailsChangementActionnairePageProps
           identifiantProjet={mapToPlainObject(identifiantProjet)}
-          actionnaire={mapToPlainObject(demandeDeChangement.actionnaire)}
-          demande={mapToPlainObject(demandeDeChangement.demande)}
+          demandeEnCours={
+            Option.isSome(demandeDeChangement) ? mapToPlainObject(demandeDeChangement) : undefined
+          }
           actions={actions}
+          historique={mapToPlainObject(historique)}
         />
       );
     }),

@@ -10,6 +10,7 @@ import { Timeline, TimelineItemProps } from '@/components/organisms/Timeline';
 
 import { mapToAbandonTimelineItemProps } from './timeline/abandon/mapToAbandonTimelineItemProps';
 import { mapToRecoursTimelineItemProps } from './timeline/recours/mapToRecoursTimelineItemProps';
+import { mapToActionnaireTimelineItemProps } from './timeline/actionnaire/mapToActionnaireTimelineItemProps';
 
 export type HistoriqueTimelineProps = {
   historique: PlainType<Historique.ListerHistoriqueProjetReadModel>;
@@ -19,7 +20,6 @@ export const HistoriqueTimeline: FC<HistoriqueTimelineProps> = ({ historique }) 
   return <Timeline items={historique.items.map((item) => mapToTimelineItemProps(item))} />;
 };
 
-// ajouter l'historique actionnaire ici après la MEP
 const mapToTimelineItemProps = (record: HistoryRecord) => {
   return match(record)
     .returnType<TimelineItemProps>()
@@ -35,6 +35,7 @@ const mapToTimelineItemProps = (record: HistoryRecord) => {
       },
       mapToRecoursTimelineItemProps,
     )
+    .with({ category: 'actionnaire' }, mapToActionnaireTimelineItemProps)
     .otherwise(() => ({
       date: record.createdAt as DateTime.RawType,
       title: 'Étape inconnue',

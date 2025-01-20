@@ -6,12 +6,14 @@ import { PlainType } from '@potentiel-domain/core';
 import { Actionnaire } from '@potentiel-domain/laureat';
 import { Routes } from '@potentiel-applications/routes';
 import { DocumentProjet } from '@potentiel-domain/document';
+import { Historique } from '@potentiel-domain/historique';
 
 import { DownloadDocument } from '@/components/atoms/form/document/DownloadDocument';
 import { FormattedDate } from '@/components/atoms/FormattedDate';
 import { Heading1, Heading2 } from '@/components/atoms/headings';
 import { ProjetBanner } from '@/components/molecules/projet/ProjetBanner';
 import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
+import { HistoriqueTimeline } from '@/components/molecules/historique/HistoriqueTimeline';
 
 import { StatutChangementActionnaireBadge } from '../StatutChangementActionnaireBadge';
 
@@ -21,21 +23,17 @@ import { AnnulerChangementActionnaire } from './annuler/AnnulerChangementActionn
 
 type ChangementActionnaireActions = 'accorder' | 'rejeter' | 'annuler' | 'demander';
 
-export type DétailsChangementActionnairePagePropsProps =
-  PlainType<Actionnaire.ConsulterChangementActionnaireReadModel> & {
-    identifiantProjet: PlainType<IdentifiantProjet.ValueType>;
-    actions: Array<ChangementActionnaireActions>;
-  };
+export type DétailsChangementActionnairePagePropsProps = {
+  demandeEnCours?: PlainType<Actionnaire.ConsulterChangementActionnaireReadModel>;
+  identifiantProjet: PlainType<IdentifiantProjet.ValueType>;
+  actions: Array<ChangementActionnaireActions>;
+  historique: PlainType<Historique.ListerHistoriqueProjetReadModel>;
+};
 
 // TODO: ajouter l'historique ici
 export const DétailsChangementActionnairePageProps: FC<
   DétailsChangementActionnairePagePropsProps
-> = ({
-  actionnaire,
-  demande: { statut, demandéePar, demandéeLe, raison, pièceJustificative, accord, rejet },
-  identifiantProjet,
-  actions,
-}) => {
+> = ({ demandeEnCours, identifiantProjet, actions, historique }) => {
   const idProjet = IdentifiantProjet.bind(identifiantProjet).formatter();
 
   return (
@@ -45,36 +43,49 @@ export const DétailsChangementActionnairePageProps: FC<
         <Heading1>Détails de la demande en cours de modification de l’actionnariat</Heading1>
       }
       leftColumn={{
-        children: (
-          <div className="flex flex-col gap-4">
-            <Heading2 className="mb-4">Contexte de la demande</Heading2>
+        children: demandeEnCours ? (
+          <>
             <div className="flex flex-col gap-4">
-              <div className="flex flex-col gap-2">
-                {accord && (
-                  <ChangementAccordé
-                    accordéeLe={accord.accordéeLe}
-                    accordéePar={accord.accordéePar}
-                    réponseSignée={accord.réponseSignée}
-                  />
-                )}
-                {rejet && (
-                  <ChangementRejeté
-                    rejetéeLe={rejet.rejetéeLe}
-                    rejetéePar={rejet.rejetéePar}
-                    réponseSignée={rejet.réponseSignée}
-                  />
-                )}
-                {Actionnaire.StatutChangementActionnaire.bind(statut).estDemandé() && (
-                  <ChangementDemandé demandéeLe={demandéeLe} demandéePar={demandéePar} />
-                )}
+              <Heading2 className="mb-4">Contexte de la demande</Heading2>
+              <div className="flex flex-col gap-4">
+                <div className="flex flex-col gap-2">
+                  {demandeEnCours.demande.accord && (
+                    <ChangementAccordé
+                      accordéeLe={demandeEnCours.demande.accord.accordéeLe}
+                      accordéePar={demandeEnCours.demande.accord.accordéePar}
+                      réponseSignée={demandeEnCours.demande.accord.réponseSignée}
+                    />
+                  )}
+                  {demandeEnCours.demande.rejet && (
+                    <ChangementRejeté
+                      rejetéeLe={demandeEnCours.demande.rejet.rejetéeLe}
+                      rejetéePar={demandeEnCours.demande.rejet.rejetéePar}
+                      réponseSignée={demandeEnCours.demande.rejet.réponseSignée}
+                    />
+                  )}
+                  {Actionnaire.StatutChangementActionnaire.bind(
+                    demandeEnCours.demande.statut,
+                  ).estDemandé() && (
+                    <ChangementDemandé
+                      demandéeLe={demandeEnCours.demande.demandéeLe}
+                      demandéePar={demandeEnCours.demande.demandéePar}
+                    />
+                  )}
+                </div>
               </div>
               <Changement
-                actionnaire={actionnaire}
-                raison={raison}
-                pièceJustificative={pièceJustificative}
+                actionnaire={demandeEnCours.actionnaire}
+                raison={demandeEnCours.raison}
+                pièceJustificative={demandeEnCours.pièceJustificative}
               />
             </div>
-          </div>
+            <div className="mb-4">
+              <Heading2>Historique</Heading2>
+              <HistoriqueTimeline historique={historique} />
+            </div>
+          </>
+        ) : (
+          <>Pas de demande en cours</>
         ),
       }}
       rightColumn={{
@@ -96,7 +107,6 @@ export const DétailsChangementActionnairePageProps: FC<
 type MapToActionsComponentsProps = {
   actions: ReadonlyArray<ChangementActionnaireActions>;
   identifiantProjet: string;
-  actionnaire: DétailsChangementActionnairePagePropsProps['actionnaire'];
 };
 
 const mapToActionComponents = ({ actions, identifiantProjet }: MapToActionsComponentsProps) =>
