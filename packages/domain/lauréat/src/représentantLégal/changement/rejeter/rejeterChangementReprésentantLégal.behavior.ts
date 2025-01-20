@@ -1,8 +1,9 @@
-import { DomainEvent, InvalidOperationError } from '@potentiel-domain/core';
+import { DomainEvent } from '@potentiel-domain/core';
 import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
 
 import { ReprésentantLégalAggregate } from '../../représentantLégal.aggregate';
 import * as StatutChangementReprésentantLégal from '../statutChangementReprésentantLégal.valueType';
+import { DemandeChangementInexistanteError } from '../changementReprésentantLégal.error';
 
 export type ChangementReprésentantLégalRejetéEvent = DomainEvent<
   'ChangementReprésentantLégalRejeté-V1',
@@ -65,11 +66,5 @@ export function applyChangementReprésentantLégalRejeté(
     this.demande.rejet = {
       rejetéLe: DateTime.convertirEnValueType(rejetéLe),
     };
-  }
-}
-
-class DemandeChangementInexistanteError extends InvalidOperationError {
-  constructor() {
-    super(`Aucun changement de représentant légal n'est en cours`);
   }
 }

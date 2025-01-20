@@ -2,12 +2,13 @@
 import { match } from 'ts-pattern';
 
 // Workspaces
-import { DomainEvent, InvalidOperationError } from '@potentiel-domain/core';
+import { DomainEvent } from '@potentiel-domain/core';
 import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
 
 import { ReprésentantLégalAggregate } from '../../représentantLégal.aggregate';
 import * as StatutChangementReprésentantLégal from '../statutChangementReprésentantLégal.valueType';
 import { TypeReprésentantLégal } from '../..';
+import { DemandeChangementInexistanteError } from '../changementReprésentantLégal.error';
 
 export type ChangementReprésentantLégalAccordéEvent = DomainEvent<
   'ChangementReprésentantLégalAccordé-V1',
@@ -88,11 +89,5 @@ export function applyChangementReprésentantLégalAccordé(
       nom: nomReprésentantLégal,
       type: TypeReprésentantLégal.convertirEnValueType(typeReprésentantLégal),
     };
-  }
-}
-
-class DemandeChangementInexistanteError extends InvalidOperationError {
-  constructor() {
-    super(`Aucun changement de représentant légal n'est en cours`);
   }
 }

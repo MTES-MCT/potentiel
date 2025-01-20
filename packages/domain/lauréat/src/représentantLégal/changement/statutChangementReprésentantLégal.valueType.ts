@@ -1,6 +1,8 @@
 import { InvalidOperationError, PlainType, ReadonlyValueType } from '@potentiel-domain/core';
 
-export const statuts = ['demandé', 'annulé', 'accordé', 'rejeté'] as const;
+import { DemandeChangementInexistanteError } from './changementReprésentantLégal.error';
+
+export const statuts = ['accordé', 'annulé', 'demandé', 'rejeté'] as const;
 
 export type RawType = (typeof statuts)[number];
 

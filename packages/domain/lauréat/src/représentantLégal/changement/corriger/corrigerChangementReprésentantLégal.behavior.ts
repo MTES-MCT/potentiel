@@ -4,6 +4,7 @@ import { DocumentProjet } from '@potentiel-domain/document';
 
 import { ReprésentantLégalAggregate } from '../../représentantLégal.aggregate';
 import { TypeReprésentantLégal } from '../..';
+import { DemandeChangementInexistanteError } from '../changementReprésentantLégal.error';
 
 export type ChangementReprésentantLégalCorrigéEvent = DomainEvent<
   'ChangementReprésentantLégalCorrigé-V1',
@@ -39,6 +40,10 @@ export async function corriger(
     dateCorrection,
   }: CorrigerChangementOptions,
 ) {
+  if (!this.demande) {
+    throw new DemandeChangementInexistanteError();
+  }
+
   // if (
   //   this.représentantLégal?.nom === nomReprésentantLégal &&
   //   this.représentantLégal.type.estÉgaleÀ(typeReprésentantLégal)
