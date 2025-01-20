@@ -7,6 +7,7 @@ import { type Raccordement } from '@potentiel-domain/reseau';
 import { DomainError } from '@potentiel-domain/core';
 import { parseCsv } from '@potentiel-libraries/csv';
 import { Routes } from '@potentiel-applications/routes';
+import { DateTime } from '@potentiel-domain/common';
 
 import { ActionResult, FormAction, FormState, formAction } from '@/utils/formAction';
 import { withUtilisateur } from '@/utils/withUtilisateur';
@@ -58,6 +59,8 @@ const action: FormAction<FormState, typeof schema> = (_, { fichierCorrections })
             nouvelleRéférenceDossierRaccordementValue: referenceDossierCorrigee,
             référenceDossierRaccordementActuelleValue: referenceDossier,
             rôleValue: utilisateur.role.nom,
+            modifiéeLeValue: DateTime.now().formatter(),
+            modifiéeParValue: utilisateur.identifiantUtilisateur.formatter(),
           },
         });
         success++;
