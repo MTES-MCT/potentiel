@@ -14,9 +14,9 @@ import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 import {
-  DétailsChangementActionnairePageProps,
-  DétailsChangementActionnairePagePropsProps,
-} from '@/components/pages/actionnaire/changement/détails/DétailsChangementActionnaire.page';
+  DétailsActionnairePageProps,
+  DétailsChangementActionnairePage,
+} from '@/components/pages/actionnaire/changement/détails/DétailsActionnaire.page';
 
 export const metadata: Metadata = {
   title: "Détails de la demande de changement d'actionnaire du projet - Potentiel",
@@ -55,10 +55,17 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
         : [];
 
       return (
-        <DétailsChangementActionnairePageProps
+        <DétailsChangementActionnairePage
           identifiantProjet={mapToPlainObject(identifiantProjet)}
-          demandeEnCours={
-            Option.isSome(demandeDeChangement) ? mapToPlainObject(demandeDeChangement) : undefined
+          actionnaire={
+            Option.isSome(demandeDeChangement)
+              ? mapToPlainObject(demandeDeChangement.actionnaire)
+              : undefined
+          }
+          demande={
+            Option.isSome(demandeDeChangement)
+              ? mapToPlainObject(demandeDeChangement.demande)
+              : undefined
           }
           actions={actions}
           historique={mapToPlainObject(historique)}
@@ -74,8 +81,8 @@ const mapToActions = ({
 }: {
   utilisateur: Utilisateur.ValueType;
   demandeDeChangement: Actionnaire.ConsulterChangementActionnaireReadModel;
-}): DétailsChangementActionnairePagePropsProps['actions'] => {
-  const actions: DétailsChangementActionnairePagePropsProps['actions'] = [];
+}): DétailsActionnairePageProps['actions'] => {
+  const actions: DétailsActionnairePageProps['actions'] = [];
 
   if (
     utilisateur.role.aLaPermission('actionnaire.annulerChangement') &&
