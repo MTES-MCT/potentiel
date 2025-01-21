@@ -15,10 +15,6 @@ import {
   EnregistrerDocumentProjetCommand,
   EnregistrerDocumentProjetPort,
 } from './enregistrer/enregistrerDocument.command';
-import {
-  SupprimerDocumentProjetSensibleCommand,
-  SupprimerDocumentProjetSensiblePort,
-} from './supprimer/supprimerDocumentProjetSensible.command';
 
 // Query
 export type DocumentProjetQuery = ConsulterDocumentProjetQuery;
@@ -31,14 +27,12 @@ export { ConsulterDocumentProjetReadModel };
 export type DocumentProjetCommand =
   | EnregistrerDocumentProjetCommand
   | DéplacerDossierProjetCommand
-  | CorrigerDocumentProjetCommand
-  | SupprimerDocumentProjetSensibleCommand;
+  | CorrigerDocumentProjetCommand;
 
 export {
   EnregistrerDocumentProjetCommand,
   DéplacerDossierProjetCommand as DéplacerDocumentProjetCommand,
   CorrigerDocumentProjetCommand,
-  SupprimerDocumentProjetSensibleCommand,
 };
 
 // Register
@@ -54,5 +48,4 @@ export {
   EnregistrerDocumentProjetPort,
   DéplacerDossierProjetPort,
   ArchiverDocumentProjetPort,
-  SupprimerDocumentProjetSensiblePort,
 };

@@ -2,12 +2,11 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
 // Workspaces
-import { LoadAggregate } from '@potentiel-domain/core';
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
-import { SupprimerDocumentProjetSensibleCommand } from '@potentiel-domain/document';
 
-import { loadReprésentantLégalFactory, TypeReprésentantLégal } from '../..';
+import { TypeReprésentantLégal } from '../..';
+import { SupprimerDocumentProjetSensibleCommand } from '../supprimerDocumentSensible/supprimerDocumentProjetSensible.command';
 
 import { AccorderChangementReprésentantLégalCommand } from './accorderChangementReprésentantLégal.command';
 
@@ -23,11 +22,7 @@ export type AccorderChangementReprésentantLégalUseCase = Message<
   }
 >;
 
-export const registerAccorderChangementReprésentantLégalUseCase = (
-  loadAggregate: LoadAggregate,
-) => {
-  const load = loadReprésentantLégalFactory(loadAggregate);
-
+export const registerAccorderChangementReprésentantLégalUseCase = () => {
   const runner: MessageHandler<AccorderChangementReprésentantLégalUseCase> = async ({
     identifiantUtilisateurValue,
     dateAccordValue,
@@ -41,8 +36,6 @@ export const registerAccorderChangementReprésentantLégalUseCase = (
     const identifiantUtilisateur = IdentifiantUtilisateur.convertirEnValueType(
       identifiantUtilisateurValue,
     );
-
-    const représentantLégal = await load(identifiantProjet);
 
     await mediator.send<AccorderChangementReprésentantLégalCommand>({
       type: 'Lauréat.ReprésentantLégal.Command.AccorderChangementReprésentantLégal',
@@ -58,15 +51,13 @@ export const registerAccorderChangementReprésentantLégalUseCase = (
       },
     });
 
-    if (représentantLégal.demande) {
-      await mediator.send<SupprimerDocumentProjetSensibleCommand>({
-        type: 'Document.Command.SupprimerDocumentProjetSensible',
-        data: {
-          documentProjet: représentantLégal.demande.pièceJustificative,
-          raison: 'Pièce justificative supprimée automatiquement après annulation',
-        },
-      });
-    }
+    await mediator.send<SupprimerDocumentProjetSensibleCommand>({
+      type: 'Lauréat.ReprésentantLégal.Command.SupprimerDocumentProjetSensible',
+      data: {
+        identifiantProjet,
+        raison: 'Pièce justificative supprimée automatiquement après annulation',
+      },
+    });
   };
   mediator.register(
     'Lauréat.ReprésentantLégal.UseCase.AccorderChangementReprésentantLégal',

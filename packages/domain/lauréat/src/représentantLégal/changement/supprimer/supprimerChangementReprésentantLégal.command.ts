@@ -24,7 +24,7 @@ export const registerSupprimerChangementReprésentantLégalCommand = (
     identifiantUtilisateur,
     dateSuppression,
   }) => {
-    const représentantLégal = await load(identifiantProjet);
+    const représentantLégal = await load(identifiantProjet, false);
 
     await représentantLégal.supprimer({
       identifiantProjet,

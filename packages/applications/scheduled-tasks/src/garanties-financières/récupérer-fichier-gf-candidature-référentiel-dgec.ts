@@ -66,7 +66,6 @@ registerDocumentProjetCommand({
   enregistrerDocumentProjet: DocumentAdapter.téléverserDocumentProjet,
   déplacerDossierProjet: DocumentAdapter.déplacerDossierProjet,
   archiverDocumentProjet: DocumentAdapter.archiverDocumentProjet,
-  supprimerDocumentProjetSensible: DocumentAdapter.remplacerDocumentProjetSensible,
 });
 
 registerDocumentProjetQueries({

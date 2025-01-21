@@ -8,6 +8,7 @@ import {
 } from '@potentiel-domain/laureat';
 import {
   consulterCahierDesChargesChoisiAdapter,
+  DocumentAdapter,
   récupérerIdentifiantsProjetParEmailPorteurAdapter,
 } from '@potentiel-infrastructure/domain-adapters';
 import { loadAggregate } from '@potentiel-infrastructure/pg-event-sourcing';
@@ -23,6 +24,7 @@ registerLauréatQueries({
 
 registerLauréatUseCases({
   loadAggregate,
+  supprimerDocumentProjetSensible: DocumentAdapter.remplacerDocumentProjetSensible,
 });
 
 (async () => {

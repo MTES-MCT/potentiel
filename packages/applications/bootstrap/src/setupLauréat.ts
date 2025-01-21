@@ -27,6 +27,7 @@ import {
 } from '@potentiel-applications/projectors';
 import {
   consulterCahierDesChargesChoisiAdapter,
+  DocumentAdapter,
   récupérerIdentifiantsProjetParEmailPorteurAdapter,
 } from '@potentiel-infrastructure/domain-adapters';
 import { SendEmail } from '@potentiel-applications/notifications';
@@ -36,7 +37,10 @@ type SetupLauréatDependencies = {
 };
 
 export const setupLauréat = async ({ sendEmail }: SetupLauréatDependencies) => {
-  registerLauréatUseCases({ loadAggregate });
+  registerLauréatUseCases({
+    loadAggregate,
+    supprimerDocumentProjetSensible: DocumentAdapter.remplacerDocumentProjetSensible,
+  });
 
   registerLauréatQueries({
     find: findProjection,

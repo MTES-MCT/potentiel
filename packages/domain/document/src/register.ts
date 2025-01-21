@@ -14,16 +14,11 @@ import {
   EnregistrerDocumentProjetDependencies,
   registerEnregistrerDocumentCommand,
 } from './enregistrer/enregistrerDocument.command';
-import {
-  SupprimerDocumentProjetSensibleDependencies,
-  registerSupprimerDocumentProjetSensible,
-} from './supprimer/supprimerDocumentProjetSensible.command';
 
 type DocumentProjetQueryDependencies = ConsulterDocumentProjetDependencies;
 type DocumentProjetCommandDependencies = EnregistrerDocumentProjetDependencies &
   DéplacerDossierProjetDependencies &
-  CorrigerDocumentProjetDependencies &
-  SupprimerDocumentProjetSensibleDependencies;
+  CorrigerDocumentProjetDependencies;
 
 export const registerDocumentProjetQueries = (dependencies: DocumentProjetQueryDependencies) => {
   registerConsulterDocumentProjetQuery(dependencies);
@@ -33,5 +28,4 @@ export const registerDocumentProjetCommand = (dependencies: DocumentProjetComman
   registerEnregistrerDocumentCommand(dependencies);
   registerDéplacerDocumentCommand(dependencies);
   registerCorrigerDocumentProjetCommand(dependencies);
-  registerSupprimerDocumentProjetSensible(dependencies);
 };

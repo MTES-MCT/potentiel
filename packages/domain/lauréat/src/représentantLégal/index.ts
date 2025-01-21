@@ -21,6 +21,7 @@ import {
 } from './changement/lister/listerChangementReprésentantLégal.query';
 import { AnnulerChangementReprésentantLégalCommand } from './changement/annuler/annulerChangementReprésentantLégal.command';
 import { AnnulerChangementReprésentantLégalUseCase } from './changement/annuler/annulerChangementReprésentantLégal.usecase';
+import { SupprimerDocumentProjetSensibleCommand } from './changement/supprimerDocumentSensible/supprimerDocumentProjetSensible.command';
 
 // Query
 export type ReprésentantLégalQuery =
@@ -48,7 +49,8 @@ export type ReprésentantLégalCommand =
   | DemanderChangementReprésentantLégalCommand
   | AnnulerChangementReprésentantLégalCommand
   | AccorderChangementReprésentantLégalCommand
-  | RejeterChangementReprésentantLégalCommand;
+  | RejeterChangementReprésentantLégalCommand
+  | SupprimerDocumentProjetSensibleCommand;
 
 export type {
   ImporterReprésentantLégalCommand,
@@ -103,3 +105,6 @@ export * as TypeReprésentantLégal from './typeReprésentantLégal.valueType';
 export * as TypeDocumentChangementReprésentantLégal from './changement/typeDocumentChangementReprésentantLégal.valueType';
 export * as TypeTâchePlanifiéeChangementReprésentantLégal from './changement/typeTâchePlanifiéeChangementReprésentantLégal.valueType';
 export * as StatutChangementReprésentantLégal from './changement/statutChangementReprésentantLégal.valueType';
+
+// Ports
+export { type SupprimerDocumentProjetSensiblePort } from './changement/supprimerDocumentSensible/supprimerDocumentProjetSensible.command';

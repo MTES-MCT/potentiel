@@ -21,16 +21,21 @@ import { registerRejeterChangementReprésentantLégalCommand } from './changemen
 import { registerSupprimerChangementReprésentantLégalCommand } from './changement/supprimer/supprimerChangementReprésentantLégal.command';
 import { registerAnnulerChangementReprésentantLégalCommand } from './changement/annuler/annulerChangementReprésentantLégal.command';
 import { registerAnnulerChangementReprésentantLégalUseCase } from './changement/annuler/annulerChangementReprésentantLégal.usecase';
+import {
+  SupprimerDocumentProjetSensibleCommandDependencies,
+  registerSupprimerDocumentProjetSensibleCommand,
+} from './changement/supprimerDocumentSensible/supprimerDocumentProjetSensible.command';
 
 export type ReprésentantLégalQueryDependencies = ConsulterReprésentantLégalDependencies &
   ListerChangementReprésentantLégalDependencies;
 
 export type ReprésentantLégalCommandDependencies = {
   loadAggregate: LoadAggregate;
-};
+} & SupprimerDocumentProjetSensibleCommandDependencies;
 
 export const registerReprésentantLégalUseCases = ({
   loadAggregate,
+  supprimerDocumentProjetSensible,
 }: ReprésentantLégalCommandDependencies) => {
   // Commands
   registerImporterReprésentantLégalCommand(loadAggregate);
@@ -40,13 +45,17 @@ export const registerReprésentantLégalUseCases = ({
   registerAccorderChangementReprésentantLégalCommand(loadAggregate);
   registerRejeterChangementReprésentantLégalCommand(loadAggregate);
   registerSupprimerChangementReprésentantLégalCommand(loadAggregate);
+  registerSupprimerDocumentProjetSensibleCommand({
+    loadAggregate,
+    supprimerDocumentProjetSensible,
+  });
 
   // UseCases
   registerModifierReprésentantLégalUseCase();
   registerDemanderChangementReprésentantLégalUseCase();
-  registerAnnulerChangementReprésentantLégalUseCase(loadAggregate);
-  registerAccorderChangementReprésentantLégalUseCase(loadAggregate);
-  registerRejeterChangementReprésentantLégalUseCase(loadAggregate);
+  registerAnnulerChangementReprésentantLégalUseCase();
+  registerAccorderChangementReprésentantLégalUseCase();
+  registerRejeterChangementReprésentantLégalUseCase();
 };
 
 export const registerReprésentantLégalQueries = (
