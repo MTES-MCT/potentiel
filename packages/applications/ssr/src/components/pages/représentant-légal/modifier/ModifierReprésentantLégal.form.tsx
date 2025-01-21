@@ -10,13 +10,12 @@ import { Form } from '@/components/atoms/form/Form';
 import { ValidationErrors } from '@/utils/formAction';
 import { Step, Steps } from '@/components/molecules/step/Steps';
 
-import { SaisieNomStep, SaisieTypeStep } from '../_utils/steps';
+import { SaisieNomStep, SaisieTypeStep, ValidationStep } from '../_utils/steps';
 
 import {
   modifierReprésentantLégalAction,
   ModifierReprésentantLégalFormKeys,
 } from './modifierReprésentantLégal.action';
-import { ValidationStep } from './steps';
 import { ModifierReprésentantLégalPageProps } from './ModifierReprésentantLégal.page';
 
 export type ModifierReprésentantLégalFormProps = ModifierReprésentantLégalPageProps;

@@ -26,7 +26,6 @@ export const KeepOrEditDocument: FC<KeepOrEditDocumentProps> = ({
   const hasManyDocuments = documentKeys.length > 1;
   const hasOnlyOneDocument = documentKeys.length === 1;
   const noExistingDocument = documentKeys.length === 0;
-
   const [documentSelection, setDocumentSelection] = useState<
     'keep_existing_document' | 'edit_document'
   >(noExistingDocument ? 'edit_document' : 'keep_existing_document');

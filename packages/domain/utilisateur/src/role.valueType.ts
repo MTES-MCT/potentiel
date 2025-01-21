@@ -250,6 +250,7 @@ const référencielPermissions = {
         modifier: 'Lauréat.ReprésentantLégal.UseCase.ModifierReprésentantLégal',
         demanderChangement: 'Lauréat.ReprésentantLégal.UseCase.DemanderChangementReprésentantLégal',
         annulerChangement: 'Lauréat.ReprésentantLégal.UseCase.AnnulerChangementReprésentantLégal',
+        corrigerChangement: 'Lauréat.ReprésentantLégal.UseCase.CorrigerChangementReprésentantLégal',
         accorderChangement: 'Lauréat.ReprésentantLégal.UseCase.AccorderChangementReprésentantLégal',
         rejeterChangement: 'Lauréat.ReprésentantLégal.UseCase.RejeterChangementReprésentantLégal',
       },
@@ -257,6 +258,7 @@ const référencielPermissions = {
         modifier: 'Lauréat.ReprésentantLégal.Command.ModifierReprésentantLégal',
         demanderChangement: 'Lauréat.ReprésentantLégal.Command.DemanderChangementReprésentantLégal',
         annulerChangement: 'Lauréat.ReprésentantLégal.Command.AnnulerChangementReprésentantLégal',
+        corrigerChangement: 'Lauréat.ReprésentantLégal.Command.CorrigerChangementReprésentantLégal',
         accorderChangement: 'Lauréat.ReprésentantLégal.Command.AccorderChangementReprésentantLégal',
         rejeterChangement: 'Lauréat.ReprésentantLégal.Command.RejeterChangementReprésentantLégal',
         supprimerDocumentSensible:
@@ -769,6 +771,10 @@ const policies = {
       référencielPermissions.lauréat.représentantLégal.usecase.modifier,
       référencielPermissions.lauréat.représentantLégal.command.modifier,
     ],
+    corrigerChangement: [
+      référencielPermissions.lauréat.représentantLégal.usecase.corrigerChangement,
+      référencielPermissions.lauréat.représentantLégal.command.corrigerChangement,
+    ],
     demanderChangement: [
       référencielPermissions.lauréat.représentantLégal.usecase.demanderChangement,
       référencielPermissions.lauréat.représentantLégal.command.demanderChangement,
@@ -1209,6 +1215,7 @@ const porteurProjetPolicies: ReadonlyArray<Policy> = [
   // Représentant légal
   'représentantLégal.demanderChangement',
   'représentantLégal.annulerChangement',
+  'représentantLégal.corrigerChangement',
   'représentantLégal.consulterChangement',
   'représentantLégal.listerChangement',
   'représentantLégal.consulter',

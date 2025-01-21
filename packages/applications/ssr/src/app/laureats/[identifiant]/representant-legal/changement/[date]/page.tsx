@@ -62,6 +62,13 @@ export default async function Page({ params: { identifiant, date } }: PageProps)
         }
       }
 
+      if (
+        utilisateur.role.aLaPermission('représentantLégal.corrigerChangement') &&
+        changement.demande.statut.estDemandé()
+      ) {
+        actions.push('corriger');
+      }
+
       return (
         <DétailsChangementReprésentantLégalPage
           identifiantProjet={mapToPlainObject(identifiantProjet)}
