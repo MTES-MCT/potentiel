@@ -31,6 +31,12 @@ export class DemanderChangementReprésentantLégalFixture
     return this.#identifiantProjet;
   }
 
+  #identifiantChangement!: string;
+
+  get identifiantChangement(): string {
+    return this.#identifiantChangement;
+  }
+
   #nomReprésentantLégal!: string;
 
   get nomReprésentantLégal(): string {
@@ -92,6 +98,7 @@ export class DemanderChangementReprésentantLégalFixture
     this.#format = fixture.pièceJustificative.format;
     this.#content = content;
 
+    this.#identifiantChangement = `${fixture.identifiantProjet}_${fixture.demandéLe}`;
     this.#identifiantProjet = fixture.identifiantProjet;
     this.#nomReprésentantLégal = fixture.nomReprésentantLégal;
     this.#typeReprésentantLégal = fixture.typeReprésentantLégal;

@@ -48,6 +48,7 @@ export class ChangementReprésentantLégalWorld {
     statut?: ReprésentantLégal.StatutChangementReprésentantLégal.ValueType,
   ): ReprésentantLégal.ConsulterChangementReprésentantLégalReadModel {
     const expected: ReprésentantLégal.ConsulterChangementReprésentantLégalReadModel = {
+      identifiantChangement: this.#demanderChangementReprésentantLégalFixture.identifiantChangement,
       identifiantProjet,
       demande: {
         statut: statut ?? this.#demanderChangementReprésentantLégalFixture.statut,
