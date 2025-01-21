@@ -9,6 +9,7 @@ import { ReprésentantLégal } from '../../..';
 import { StatutChangementReprésentantLégal, TypeReprésentantLégal } from '../..';
 
 export type ConsulterChangementReprésentantLégalReadModel = {
+  identifiantChangement: string;
   identifiantProjet: IdentifiantProjet.ValueType;
 
   demande: {
@@ -81,10 +82,12 @@ type MapToReadModel = (args: {
 const mapToReadModel: MapToReadModel = ({
   identifiantProjet,
   changement: {
+    identifiantChangement,
     demande: { accord, rejet, ...demande },
   },
 }) => {
   return {
+    identifiantChangement,
     identifiantProjet,
     demande: {
       statut: ReprésentantLégal.StatutChangementReprésentantLégal.convertirEnValueType(

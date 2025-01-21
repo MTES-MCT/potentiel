@@ -6,6 +6,7 @@ import { List, ListOptions, RangeOptions, Where } from '@potentiel-domain/entity
 import { ChangementReprésentantLégalEntity, StatutChangementReprésentantLégal } from '../..';
 
 type ChangementReprésentantLégalItemReadModel = {
+  identifiantChangement: string;
   identifiantProjet: IdentifiantProjet.ValueType;
   nomProjet: string;
   statut: StatutChangementReprésentantLégal.ValueType;
@@ -86,4 +87,5 @@ const mapToReadModel = (
   statut: StatutChangementReprésentantLégal.convertirEnValueType(entity.demande.statut),
   misÀJourLe: DateTime.convertirEnValueType(entity.demande.demandéLe),
   identifiantProjet: IdentifiantProjet.convertirEnValueType(entity.identifiantProjet),
+  identifiantChangement: entity.identifiantChangement,
 });

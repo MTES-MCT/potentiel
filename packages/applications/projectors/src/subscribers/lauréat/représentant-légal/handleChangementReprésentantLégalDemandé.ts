@@ -33,9 +33,12 @@ export const handleChangementReprésentantLégalDemandé = async ({
   const { appelOffre, période, famille, numéroCRE } =
     IdentifiantProjet.convertirEnValueType(identifiantProjet);
 
+  const identifiantChangement = `${identifiantProjet}_${demandéLe}`;
+
   await upsertProjection<ReprésentantLégal.ChangementReprésentantLégalEntity>(
-    `changement-représentant-légal|${identifiantProjet}`,
+    `changement-représentant-légal|${identifiantChangement}`,
     {
+      identifiantChangement,
       identifiantProjet,
       projet: {
         nom: candidature.nomProjet,

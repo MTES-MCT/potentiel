@@ -3,7 +3,9 @@ import { Entity } from '@potentiel-domain/entity';
 export type ChangementReprésentantLégalEntity = Entity<
   'changement-représentant-légal',
   {
+    identifiantChangement: string;
     identifiantProjet: string;
+
     projet: {
       nom: string;
       appelOffre: string;
@@ -12,6 +14,7 @@ export type ChangementReprésentantLégalEntity = Entity<
       numéroCRE: string;
       région: string;
     };
+
     demande: {
       statut: string;
       nomReprésentantLégal: string;
