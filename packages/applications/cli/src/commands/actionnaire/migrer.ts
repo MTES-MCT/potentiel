@@ -8,14 +8,14 @@ import { Actionnaire, Lauréat } from '@potentiel-domain/laureat';
 import { listProjection } from '@potentiel-infrastructure/pg-projections';
 import { Candidature } from '@potentiel-domain/candidature';
 import { executeSelect } from '@potentiel-libraries/pg-helpers';
-import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
+import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
 import { publish } from '@potentiel-infrastructure/pg-event-sourcing';
 import { upload, copyFile, fileExists } from '@potentiel-libraries/file-storage';
 import { DocumentProjet } from '@potentiel-domain/document';
 
 type ModificationRequest = {
   identifiantProjet: string;
-  status: 'en instruction' | 'acceptée' | 'envoyée' | 'information validée';
+  status: 'en instruction' | 'acceptée' | 'envoyée' | 'annulée' | 'information validée';
   actionnaire: string;
   justification: string;
   requestedOn: number;
@@ -26,6 +26,7 @@ type ModificationRequest = {
   respondedBy: string;
   requestFile: string;
   responseFile: string;
+  abandonedOn: number;
 };
 
 const queryModifications = `
@@ -46,7 +47,8 @@ const queryModifications = `
     u_cancel.email as "cancelledBy",
     u_respond.email as "respondedBy",
     f."storedAt" as "requestFile",
-    fr."storedAt" as "responseFile"
+    fr."storedAt" as "responseFile",
+    p."abandonedOn"    
 from "modificationRequests" mr
     inner join projects p on p.id = mr."projectId"
     left join users u on u.id = mr."userId"
@@ -58,7 +60,6 @@ where
         mr.type = 'actionnaire'
       and mr.actionnaire is not null
       and mr.actionnaire <> ''
-      and mr.status <> 'annulée'
 order by mr."requestedOn";
     `;
 
@@ -86,7 +87,6 @@ export class Migrer extends Command {
 
     const eventsPerProjet: Record<string, Actionnaire.ActionnaireEvent[]> = {};
 
-    // todo changer en lauréat
     for (const lauréat of lauréats) {
       const candidature = candidatures.find(
         (candidature) => candidature.identifiantProjet === lauréat.identifiantProjet,
@@ -166,6 +166,18 @@ export class Migrer extends Command {
           eventsPerProjet[modification.identifiantProjet].push(request, acceptation);
           break;
 
+        case 'annulée':
+          eventsPerProjet[modification.identifiantProjet].push(request, {
+            type: 'ChangementActionnaireAnnulé-V1',
+            payload: {
+              identifiantProjet,
+              annuléLe: DateTime.convertirEnValueType(
+                new Date(modification.cancelledOn),
+              ).formatter(),
+              annuléPar: modification.cancelledBy,
+            },
+          });
+          break;
         case 'envoyée':
         case 'en instruction':
           if (!identifiantProjet.startsWith('Eolien#')) {
@@ -178,6 +190,22 @@ export class Migrer extends Command {
             eventsPerProjet[modification.identifiantProjet].push(eventModifié);
           } else {
             eventsPerProjet[modification.identifiantProjet].push(request);
+
+            if (modification.abandonedOn > 0) {
+              eventsPerProjet[modification.identifiantProjet].push({
+                type: 'ChangementActionnaireSupprimé-V1',
+                payload: {
+                  identifiantProjet: IdentifiantProjet.convertirEnValueType(
+                    modification.identifiantProjet,
+                  ).formatter(),
+                  suppriméLe: DateTime.convertirEnValueType(
+                    new Date(modification.abandonedOn),
+                  ).formatter(),
+                  suppriméPar: Email.system().formatter(),
+                },
+              });
+              console.log(`🚮 Demande automatiquement supprimée pour ${identifiantProjet}`);
+            }
           }
           break;
         case 'information validée':
