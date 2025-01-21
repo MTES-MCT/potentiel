@@ -96,6 +96,8 @@ const mapToListProps = (
       nomProjet: item.nomProjet,
       statut: mapToPlainObject(item.statut),
       misÀJourLe: mapToPlainObject(item.misÀJourLe),
+      demandéLe: mapToPlainObject(item.demandéLe),
+      nouvelActionnaire: item.nouvelActionnaire,
     })),
     pagination,
     total: readModel.total,

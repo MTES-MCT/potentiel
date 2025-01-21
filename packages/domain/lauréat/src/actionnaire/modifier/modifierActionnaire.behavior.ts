@@ -4,12 +4,12 @@ import { DocumentProjet } from '@potentiel-domain/document';
 
 import { ActionnaireAggregate } from '../actionnaire.aggregate';
 import {
-  ActionnaireIdentifiqueError,
   ActionnaireNePeutPasÊtreModifiéDirectement,
+  ActionnaireIdentiqueError,
   DemandeDeChangementEnCoursError,
   ProjetAbandonnéError,
-  ProjetAchevéError,
   ProjetAvecDemandeAbandonEnCoursError,
+  ProjetAchevéError,
 } from '../errors';
 
 export type ActionnaireModifiéEvent = DomainEvent<
@@ -72,7 +72,7 @@ export async function modifier(
   }
 
   if (this.actionnaire === actionnaire) {
-    throw new ActionnaireIdentifiqueError();
+    throw new ActionnaireIdentiqueError();
   }
 
   if (this.demande?.statut.estDemandé()) {

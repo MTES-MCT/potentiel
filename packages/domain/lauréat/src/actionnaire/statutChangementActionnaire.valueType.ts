@@ -2,7 +2,13 @@ import { InvalidOperationError, PlainType, ReadonlyValueType } from '@potentiel-
 
 import { assertUnreachable } from '../utils/assertUnreachable';
 
-export const statuts = ['accordé', 'annulé', 'demandé', 'rejeté'] as const;
+export const statuts = [
+  'accordé',
+  'annulé',
+  'demandé',
+  'rejeté',
+  'information-enregistrée',
+] as const;
 
 export type RawType = (typeof statuts)[number];
 
@@ -12,6 +18,7 @@ export type ValueType = ReadonlyValueType<{
   estRejeté: () => boolean;
   estAnnulé: () => boolean;
   estDemandé: () => boolean;
+  estInformationEnregistrée: () => boolean;
   vérifierQueLeChangementDeStatutEstPossibleEn: (nouveauStatut: ValueType) => void;
 }>;
 
@@ -33,10 +40,16 @@ export const bind = ({ statut }: PlainType<ValueType>): ValueType => {
     estDemandé() {
       return this.statut === 'demandé';
     },
+    estInformationEnregistrée() {
+      return this.statut === 'information-enregistrée';
+    },
     estÉgaleÀ(valueType) {
       return this.statut === valueType.statut;
     },
     vérifierQueLeChangementDeStatutEstPossibleEn(nouveauStatut: ValueType) {
+      if (this.statut === 'information-enregistrée') {
+        throw new AucuneDemandeDeChangementEnCoursErreur();
+      }
       if (this.statut === 'demandé') {
         if (nouveauStatut.statut === 'demandé') {
           throw new ChangementActionnaireDéjàEnCoursErreur();
@@ -76,6 +89,7 @@ export const accordé = convertirEnValueType('accordé');
 export const annulé = convertirEnValueType('annulé');
 export const demandé = convertirEnValueType('demandé');
 export const rejeté = convertirEnValueType('rejeté');
+export const informationEnregistrée = convertirEnValueType('information-enregistrée');
 
 class StatutChangementActionnaireInvalideError extends InvalidOperationError {
   constructor(value: string) {
@@ -106,5 +120,11 @@ class ChangementActionnaireDéjàAnnuléeErreur extends InvalidOperationError {
 class ChangementActionnaireDéjàEnCoursErreur extends InvalidOperationError {
   constructor() {
     super(`Une demande de changement est déjà en cours`);
+  }
+}
+
+class AucuneDemandeDeChangementEnCoursErreur extends InvalidOperationError {
+  constructor() {
+    super(`Aucune demande de changement n'est en cours`);
   }
 }

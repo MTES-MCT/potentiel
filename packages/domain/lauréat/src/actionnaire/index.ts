@@ -91,3 +91,4 @@ export * as TypeDocumentActionnaire from './typeDocumentActionnaire.valueType';
 
 // Entities
 export * from './actionnaire.entity';
+export * from './changementActionnaire.entity';

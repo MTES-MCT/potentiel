@@ -24,17 +24,28 @@ export const handleChangementActionnaireDemandé = async ({
     return;
   }
 
+  const demande = {
+    statut: Actionnaire.StatutChangementActionnaire.demandé.statut,
+    nouvelActionnaire: actionnaire,
+    demandéePar: demandéPar,
+    demandéeLe: demandéLe,
+    raison,
+    pièceJustificative: {
+      format,
+    },
+  };
+
   await upsertProjection<Actionnaire.ActionnaireEntity>(`actionnaire|${identifiantProjet}`, {
     ...projectionToUpsert,
-    demande: {
-      statut: Actionnaire.StatutChangementActionnaire.demandé.statut,
-      nouvelActionnaire: actionnaire,
-      demandéePar: demandéPar,
-      demandéeLe: demandéLe,
-      raison,
-      pièceJustificative: {
-        format,
-      },
-    },
+    demandeEnCours: demande,
   });
+
+  await upsertProjection<Actionnaire.ChangementActionnaireEntity>(
+    `changement-actionnaire|${identifiantProjet}#${demandéLe}`,
+    {
+      identifiantProjet,
+      projet: projectionToUpsert.projet,
+      demande,
+    },
+  );
 };

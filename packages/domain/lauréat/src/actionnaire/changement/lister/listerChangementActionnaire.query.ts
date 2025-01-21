@@ -3,13 +3,15 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 import { List, ListOptions, RangeOptions, Where } from '@potentiel-domain/entity';
 
-import { ActionnaireEntity, StatutChangementActionnaire } from '../..';
+import { ChangementActionnaireEntity, StatutChangementActionnaire } from '../..';
 
 type ChangementActionnaireItemReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
   nomProjet: string;
   statut: StatutChangementActionnaire.ValueType;
   misÀJourLe: DateTime.ValueType;
+  demandéLe: DateTime.ValueType;
+  nouvelActionnaire: string;
 };
 
 export type ListerChangementActionnaireReadModel = {
@@ -47,7 +49,7 @@ export const registerListerChangementActionnaireQuery = ({
     nomProjet,
     range,
   }) => {
-    const options: ListOptions<ActionnaireEntity> = {
+    const options: ListOptions<ChangementActionnaireEntity> = {
       range,
       orderBy: {
         demande: {
@@ -65,22 +67,24 @@ export const registerListerChangementActionnaireQuery = ({
       },
     };
 
-    const demandes = await list<ActionnaireEntity>('actionnaire', options);
+    const demandes = await list<ChangementActionnaireEntity>('changement-actionnaire', options);
 
     return {
       ...demandes,
-      items: demandes.items
-        .filter((demande) => demande.demande)
-        .map((demande) => mapToReadModel(demande)),
+      items: demandes.items.map(mapToReadModel),
     };
   };
 
   mediator.register('Lauréat.Actionnaire.Query.ListerChangementActionnaire', handler);
 };
 
-const mapToReadModel = (entity: ActionnaireEntity): ChangementActionnaireItemReadModel => ({
+const mapToReadModel = (
+  entity: ChangementActionnaireEntity,
+): ChangementActionnaireItemReadModel => ({
   nomProjet: entity.projet.nom,
-  statut: StatutChangementActionnaire.convertirEnValueType(entity.demande!.statut),
-  misÀJourLe: DateTime.convertirEnValueType(entity.demande!.demandéeLe),
+  statut: StatutChangementActionnaire.convertirEnValueType(entity.demande.statut),
+  misÀJourLe: DateTime.convertirEnValueType(entity.demande.demandéeLe),
   identifiantProjet: IdentifiantProjet.convertirEnValueType(entity.identifiantProjet),
+  demandéLe: DateTime.convertirEnValueType(entity.demande.demandéeLe),
+  nouvelActionnaire: entity.demande.nouvelActionnaire,
 });

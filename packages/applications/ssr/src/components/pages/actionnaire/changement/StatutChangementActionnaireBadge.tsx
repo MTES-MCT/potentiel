@@ -1,6 +1,6 @@
 import Badge, { BadgeProps } from '@codegouvfr/react-dsfr/Badge';
 import { FC } from 'react';
-import { match } from 'ts-pattern';
+import { match, P } from 'ts-pattern';
 
 import { Actionnaire } from '@potentiel-domain/laureat';
 
@@ -13,7 +13,7 @@ export const StatutChangementActionnaireBadge: FC<StatutChangementActionnaireBad
   small,
 }) => (
   <Badge noIcon severity={getSeverity(statut)} small={small}>
-    {statut}
+    {getText(statut)}
   </Badge>
 );
 
@@ -22,6 +22,11 @@ const getSeverity = (statut: StatutChangementActionnaireBadgeProps['statut']) =>
     .returnType<BadgeProps['severity']>()
     .with('demandé', () => 'new')
     .with('annulé', () => 'info')
-    .with('accordé', () => 'success')
     .with('rejeté', () => 'warning')
+    .with(P.union('accordé', 'information-enregistrée'), () => 'success')
     .exhaustive();
+
+const getText = (statut: StatutChangementActionnaireBadgeProps['statut']) =>
+  match(statut)
+    .with('information-enregistrée', () => 'information enregistrée')
+    .otherwise(() => statut);
