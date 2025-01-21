@@ -7,9 +7,9 @@ import { TâchePlanifiéeExecutéeEvent } from '@potentiel-domain/tache-planifie
 import { LauréatNotifiéEvent } from '../../lauréat';
 import { AbandonAccordéEvent } from '../../abandon';
 
-import { buildLauréatNotifiéEventHandler } from './lauréatNotifié.eventHandler';
-import { buildTâchePlanifiéeGestionAutomatiqueDemandeChangementExecutéeEventHandler } from './tâchePlanifiéeGestionAutomatiqueDemandeChangementExecutée.eventHandler';
-import { buildAbandonAccordéEventHandler } from './abandonAccordé.eventHandler';
+import { buildTâchePlanifiéeGestionAutomatiqueDemandeChangementExecutéeSaga } from './tâchePlanifiéeGestionAutomatiqueDemandeChangementExecutée.saga';
+import { buildAbandonAccordéSaga } from './abandonAccordé.saga';
+import { buildLauréatNotifiéSaga } from './lauréatNotifié.saga';
 
 export type SubscriptionEvent =
   | LauréatNotifiéEvent
@@ -19,10 +19,10 @@ export type SubscriptionEvent =
 export type Execute = Message<'System.Lauréat.ReprésentantLégal.Saga.Execute', SubscriptionEvent>;
 
 export const register = (loadAggregate: LoadAggregate) => {
-  const handleAbandonAccordé = buildAbandonAccordéEventHandler(loadAggregate);
-  const handleLauréatNotifié = buildLauréatNotifiéEventHandler();
+  const handleAbandonAccordé = buildAbandonAccordéSaga(loadAggregate);
+  const handleLauréatNotifié = buildLauréatNotifiéSaga();
   const handleTâchePlanifiéeGestionAutomatiqueDemandeChangementExecutée =
-    buildTâchePlanifiéeGestionAutomatiqueDemandeChangementExecutéeEventHandler(loadAggregate);
+    buildTâchePlanifiéeGestionAutomatiqueDemandeChangementExecutéeSaga(loadAggregate);
 
   const handler: MessageHandler<Execute> = async (event) =>
     match(event)

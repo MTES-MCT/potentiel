@@ -5,7 +5,7 @@ import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
 import { LauréatNotifiéEvent } from '../../lauréat';
 import { ImporterReprésentantLégalCommand } from '../importer/importerReprésentantLégal.command';
 
-export const buildLauréatNotifiéEventHandler = () => {
+export const buildLauréatNotifiéSaga = () => {
   const handler = async ({ payload: { identifiantProjet, notifiéLe } }: LauréatNotifiéEvent) =>
     mediator.send<ImporterReprésentantLégalCommand>({
       type: 'Lauréat.ReprésentantLégal.Command.ImporterReprésentantLégal',

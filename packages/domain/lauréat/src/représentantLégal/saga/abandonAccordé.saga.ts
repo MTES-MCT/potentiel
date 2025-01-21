@@ -9,7 +9,7 @@ import { AbandonAccordéEvent } from '../../abandon';
 import { SupprimerChangementReprésentantLégalCommand } from '../changement/supprimer/supprimerChangementReprésentantLégal.command';
 import { loadReprésentantLégalFactory, TypeTâchePlanifiéeChangementReprésentantLégal } from '..';
 
-export const buildAbandonAccordéEventHandler = (loadAggregate: LoadAggregate) => {
+export const buildAbandonAccordéSaga = (loadAggregate: LoadAggregate) => {
   const load = loadReprésentantLégalFactory(loadAggregate);
 
   const handler = async ({ payload: { identifiantProjet } }: AbandonAccordéEvent) => {

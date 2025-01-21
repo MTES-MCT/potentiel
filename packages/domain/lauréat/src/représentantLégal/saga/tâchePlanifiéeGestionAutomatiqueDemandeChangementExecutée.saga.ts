@@ -10,7 +10,7 @@ import { LoadAggregate } from '@potentiel-domain/core';
 import { ReprésentantLégal } from '../..';
 import { loadReprésentantLégalFactory, TypeTâchePlanifiéeChangementReprésentantLégal } from '..';
 
-export const buildTâchePlanifiéeGestionAutomatiqueDemandeChangementExecutéeEventHandler = (
+export const buildTâchePlanifiéeGestionAutomatiqueDemandeChangementExecutéeSaga = (
   loadAggregate: LoadAggregate,
 ) => {
   const load = loadReprésentantLégalFactory(loadAggregate);
