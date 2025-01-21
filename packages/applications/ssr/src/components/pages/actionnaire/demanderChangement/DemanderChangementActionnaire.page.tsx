@@ -9,6 +9,7 @@ import { Heading1 } from '@/components/atoms/headings';
 import { PageTemplate } from '@/components/templates/Page.template';
 
 import { DemanderChangementActionnaireForm } from './DemanderChangementActionnaire.form';
+import { InfoBoxDemandeActionnaire } from './InfoxBoxDemandeActionnaire';
 
 export type DemanderChangementActionnairePageProps =
   PlainType<Actionnaire.ConsulterActionnaireReadModel>;
@@ -23,6 +24,7 @@ export const DemanderChangementActionnairePage: FC<DemanderChangementActionnaire
     }
   >
     <Heading1>Demander une modification de l'actionnariat</Heading1>
+    <InfoBoxDemandeActionnaire />
     <DemanderChangementActionnaireForm
       identifiantProjet={identifiantProjet}
       actionnaire={actionnaire}
