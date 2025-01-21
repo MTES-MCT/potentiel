@@ -139,8 +139,6 @@ class routes {
     } else return route;
   };
 
-  static CHANGER_ACTIONNAIRE = withProjectId('/demande-modification.html?action=actionnaire');
-
   static CHANGER_CDC = '/changer-CDC';
 
   static DEMANDE_ACTION = '/soumettre-demande';

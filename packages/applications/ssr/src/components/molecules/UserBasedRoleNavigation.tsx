@@ -5,7 +5,6 @@ import { MenuProps } from '@codegouvfr/react-dsfr/MainNavigation/Menu';
 import { Routes } from '@potentiel-applications/routes';
 import { Role, Utilisateur } from '@potentiel-domain/utilisateur';
 import { getContext } from '@potentiel-applications/request-context';
-import { isActionnaireEnabled } from '@potentiel-applications/feature-flags';
 
 import { NavLinks } from './NavLinks';
 
@@ -68,16 +67,13 @@ const getNavigationItemsBasedOnRole = (utilisateur: Utilisateur.ValueType) => {
         href: Routes.ReprésentantLégal.changement.lister,
       },
     },
-  ];
-
-  if (isActionnaireEnabled()) {
-    demandesMenuLinks.push({
+    {
       text: "Modification d'actionnariat",
       linkProps: {
         href: Routes.Actionnaire.changement.lister,
       },
-    });
-  }
+    },
+  ];
 
   return match(utilisateur.role.nom)
     .returnType<MainNavigationProps['items']>()

@@ -37,59 +37,6 @@ describe('Requête getModificationRequestDetails', () => {
   const versionDate = new Date(456);
 
   describe(`Données par type de demande attendues`, () => {
-    it(`Etant donné une modification de type "recours",
-      lorsqu'un utilisateur affiche le détail de la demande,
-      alors la requête devrait retourner un DTO complet ModificationRequestPageDTO`, async () => {
-      await File.create(makeFakeFile({ id: fileId, filename: 'filename' }));
-
-      await User.create(makeFakeUser({ id: userId, fullName: 'John Doe' }));
-      await User.create(makeFakeUser({ id: userId2, fullName: 'Admin Doe' }));
-
-      await ModificationRequest.create({
-        id: modificationRequestId,
-        projectId,
-        userId,
-        fileId,
-        type: 'recours',
-        requestedOn: 123,
-        respondedOn: 321,
-        respondedBy: userId2,
-        status: 'envoyée',
-        justification: 'justification',
-        versionDate,
-      });
-
-      const modificationRequestResult = await getModificationRequestDetails(
-        modificationRequestId.toString(),
-      );
-
-      expect(modificationRequestResult.isOk()).toBe(true);
-      if (modificationRequestResult.isErr()) return;
-
-      const modificationRequestDTO = modificationRequestResult.value;
-
-      expect(modificationRequestDTO).toMatchObject({
-        id: modificationRequestId,
-        type: 'recours',
-        status: 'envoyée',
-        respondedOn: 321,
-        respondedBy: 'Admin Doe',
-        versionDate: versionDate.getTime(),
-        requestedOn: 123,
-        requestedBy: 'John Doe',
-        justification: 'justification',
-        attachmentFile: {
-          filename: 'filename',
-          id: fileId,
-        },
-        project: {
-          ...projectInfo,
-          unitePuissance: 'MWc',
-          notifiedOn: projectInfo.notifiedOn,
-        },
-      });
-    });
-
     it(`Etant donné une modification de type "puissance",
       lorsqu'un utilisateur affiche le détail de la demande,
       alors la requête devrait retourner un DTO complet ModificationRequestPageDTO`, async () => {

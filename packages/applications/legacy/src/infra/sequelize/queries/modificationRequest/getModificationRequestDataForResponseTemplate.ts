@@ -143,10 +143,7 @@ export const getModificationRequestDataForResponseTemplate: GetModificationReque
             requestedOn,
             delayInMonths = null,
             justification,
-            actionnaire,
             status,
-            confirmationRequestedOn,
-            confirmedOn,
             producteur,
             dateAchèvementDemandée = null,
           } = modificationRequest;
@@ -173,35 +170,12 @@ export const getModificationRequestDataForResponseTemplate: GetModificationReque
             codePostalProjet,
             communeProjet,
             completionDueOn,
-            motifsElimination,
-            prixReference,
-            evaluationCarbone,
-            isFinancementParticipatif,
-            actionnariat,
-            isInvestissementParticipatif,
-            engagementFournitureDePuissanceAlaPointe,
             notifiedOn,
             potentielIdentifier,
             cahierDesChargesActuel,
           } = project;
 
-          const {
-            periode,
-            tarifOuPrimeRetenue,
-            tarifOuPrimeRetenueAlt,
-            paragraphePrixReference,
-            affichageParagrapheECS,
-            unitePuissance,
-            renvoiDemandeCompleteRaccordement,
-            renvoiRetraitDesignationGarantieFinancieres,
-            paragrapheDelaiDerogatoire,
-            paragrapheAttestationConformite,
-            paragrapheEngagementIPFPGPFC,
-            renvoiModification,
-            delaiRealisationTexte,
-            renvoiSoumisAuxGarantiesFinancieres,
-            isSoumisAuxGF,
-          } = appelOffre;
+          const { periode, unitePuissance } = appelOffre;
 
           const commonData = {
             type,
@@ -236,11 +210,9 @@ export const getModificationRequestDataForResponseTemplate: GetModificationReque
           };
 
           const {
-            texteChangementDActionnariat,
             texteChangementDeProducteur,
             texteChangementDePuissance,
             texteDélaisDAchèvement,
-            texteEngagementRéalisationEtModalitésAbandon,
             texteIdentitéDuProducteur,
           } = getDonnéesCourriersRéponse(cahierDesChargesActuel, appelOffre);
           switch (type) {
@@ -262,47 +234,6 @@ export const getModificationRequestDataForResponseTemplate: GetModificationReque
                   : formatDate(Number(moment(completionDueOn).add(delayInMonths, 'months'))),
                 dateLimiteAchevementActuelle: formatDate(completionDueOn),
                 ..._makePreviousDelaiFromPreviousRequest(previousRequest),
-              } as ModificationRequestDataForResponseTemplateDTO);
-            case 'actionnaire':
-              return ok({
-                ...commonData,
-                nouvelActionnaire: actionnaire,
-                referenceParagrapheActionnaire: texteChangementDActionnariat.référenceParagraphe,
-                contenuParagrapheActionnaire: texteChangementDActionnariat.dispositions,
-              } as ModificationRequestDataForResponseTemplateDTO);
-            case 'recours':
-              return ok({
-                ...commonData,
-                prixReference: prixReference.toString(),
-                evaluationCarbone: evaluationCarbone.toString(),
-                isFinancementParticipatif: isFinancementParticipatif ? 'yes' : '',
-                isInvestissementParticipatif: isInvestissementParticipatif ? 'yes' : '',
-                isEngagementParticipatif:
-                  isFinancementParticipatif || isInvestissementParticipatif ? 'yes' : '',
-                engagementFournitureDePuissanceAlaPointe: engagementFournitureDePuissanceAlaPointe
-                  ? 'yes'
-                  : '',
-
-                nonInstruit: motifsElimination.toLowerCase().includes('non instruit') ? 'yes' : '',
-                motifsElimination,
-                tarifOuPrimeRetenue,
-                tarifOuPrimeRetenueAlt,
-                paragraphePrixReference,
-                affichageParagrapheECS: affichageParagrapheECS ? 'yes' : '',
-                unitePuissance,
-                eolien: appelOffre.typeAppelOffre === 'eolien' ? 'yes' : '',
-                AOInnovation: appelOffre.typeAppelOffre === 'innovation' ? 'yes' : '',
-                soumisGF: isSoumisAuxGF ? 'yes' : '',
-                renvoiSoumisAuxGarantiesFinancieres,
-                renvoiDemandeCompleteRaccordement,
-                renvoiRetraitDesignationGarantieFinancieres,
-                paragrapheDelaiDerogatoire,
-                paragrapheAttestationConformite,
-                paragrapheEngagementIPFPGPFC,
-                renvoiModification,
-                delaiRealisationTexte,
-                isFinancementCollectif: actionnariat === 'financement-collectif' ? 'yes' : '',
-                isGouvernancePartagée: actionnariat === 'gouvernance-partagee' ? 'yes' : '',
               } as ModificationRequestDataForResponseTemplateDTO);
 
             case 'puissance':

@@ -4,7 +4,6 @@ import { Header } from './Header';
 import { DropdownMenu } from '../molecules/dropdowns/DropdownMenu';
 import { UtilisateurReadModel } from '../../../../modules/utilisateur/récupérer/UtilisateurReadModel';
 import { Routes } from '@potentiel-applications/routes';
-import { isActionnaireEnabled } from '@potentiel-applications/feature-flags';
 
 const MenuGarantiesFinancières = ({ currentPage }: { currentPage?: string }) => (
   <DropdownMenu buttonChildren={'Garanties financières'}>
@@ -101,11 +100,9 @@ const MenuAdmin = (currentPage?: string) => (
       <DropdownMenu.DropdownItem href={Routes.ReprésentantLégal.changement.lister}>
         Changements de représentant légal
       </DropdownMenu.DropdownItem>
-      {isActionnaireEnabled() && (
-        <DropdownMenu.DropdownItem href={Routes.Actionnaire.changement.lister}>
-          Modification d'actionnariat
-        </DropdownMenu.DropdownItem>
-      )}
+      <DropdownMenu.DropdownItem href={Routes.Actionnaire.changement.lister}>
+        Modification d'actionnariat
+      </DropdownMenu.DropdownItem>
     </DropdownMenu>
     <MenuGarantiesFinancières currentPage={currentPage} />
     <DropdownMenu buttonChildren={'Candidatures'}>
@@ -199,11 +196,9 @@ const MenuPorteurProjet = (currentPage?: string) => (
       <DropdownMenu.DropdownItem href={Routes.ReprésentantLégal.changement.lister}>
         Changements de représentant légal
       </DropdownMenu.DropdownItem>
-      {isActionnaireEnabled() && (
-        <DropdownMenu.DropdownItem href={Routes.Actionnaire.changement.lister}>
-          Modification d'actionnariat
-        </DropdownMenu.DropdownItem>
-      )}
+      <DropdownMenu.DropdownItem href={Routes.Actionnaire.changement.lister}>
+        Modification d'actionnariat
+      </DropdownMenu.DropdownItem>
     </DropdownMenu>
     <MenuGarantiesFinancières currentPage={currentPage} />
     <Header.MenuItem
@@ -273,11 +268,9 @@ const MenuDreal = (currentPage?: string) => (
       <DropdownMenu.DropdownItem href={Routes.ReprésentantLégal.changement.lister}>
         Changements de représentant légal
       </DropdownMenu.DropdownItem>
-      {isActionnaireEnabled() && (
-        <DropdownMenu.DropdownItem href={Routes.Actionnaire.changement.lister}>
-          Modification d'actionnariat
-        </DropdownMenu.DropdownItem>
-      )}
+      <DropdownMenu.DropdownItem href={Routes.Actionnaire.changement.lister}>
+        Modification d'actionnariat
+      </DropdownMenu.DropdownItem>
     </DropdownMenu>
     <MenuGarantiesFinancières currentPage={currentPage} />
     <Header.MenuItem href={Routes.Raccordement.lister}>Raccordements</Header.MenuItem>

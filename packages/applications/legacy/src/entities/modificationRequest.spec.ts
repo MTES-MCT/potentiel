@@ -2,40 +2,6 @@ import { describe, expect, it } from '@jest/globals';
 import { makeModificationRequest } from '.';
 
 describe('ModificationRequest entity', () => {
-  it("should accept an 'actionnaire' request with actionnaire and filename", () => {
-    const modificationRequestResult = makeModificationRequest({
-      userId: '1',
-      projectId: '1',
-      type: 'actionnaire',
-      actionnaire: 'nouvel actionnaire',
-      fileId: 'filename',
-    } as any);
-
-    expect(modificationRequestResult.isOk()).toBeTruthy();
-  });
-
-  it("should refuse a 'actionnaire' request that is missing filename", () => {
-    const modificationRequestResult = makeModificationRequest({
-      userId: '1',
-      projectId: '1',
-      type: 'actionnaire',
-      actionnaire: 'nouvel actionnaire',
-    } as any);
-
-    expect(modificationRequestResult.isErr()).toBeTruthy();
-  });
-
-  it("should refuse a 'actionnaire' request that is missing actionnaire", () => {
-    const modificationRequestResult = makeModificationRequest({
-      userId: '1',
-      projectId: '1',
-      type: 'actionnaire',
-      fileId: 'filename',
-    } as any);
-
-    expect(modificationRequestResult.isErr()).toBeTruthy();
-  });
-
   it("should accept an 'producteur' request with producteur and filename", () => {
     const modificationRequestResult = makeModificationRequest({
       userId: '1',

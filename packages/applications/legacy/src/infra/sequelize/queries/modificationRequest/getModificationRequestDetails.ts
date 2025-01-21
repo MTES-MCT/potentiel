@@ -90,7 +90,6 @@ export const getModificationRequestDetails: GetModificationRequestDetails = (
       delayInMonths,
       puissance,
       puissanceAuMomentDuDepot,
-      actionnaire,
       fournisseurs,
       evaluationCarbone,
       producteur,
@@ -125,7 +124,6 @@ export const getModificationRequestDetails: GetModificationRequestDetails = (
       delayInMonths,
       dateAchèvementDemandée,
       //@ts-ignore
-      actionnaire,
       fournisseurs,
       evaluationCarbone,
       producteur,

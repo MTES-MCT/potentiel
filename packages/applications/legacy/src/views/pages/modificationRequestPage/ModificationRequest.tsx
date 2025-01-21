@@ -14,14 +14,12 @@ import moment from 'moment';
 import React from 'react';
 import { hydrateOnClient } from '../../helpers';
 import {
-  ActionnaireForm,
   AdminResponseForm,
   CancelButton,
   DemandeDetails,
   DemandeStatus,
   ProducteurForm,
   PuissanceForm,
-  RecoursForm,
   PuissanceALaHausseInfoBox,
 } from './components';
 
@@ -78,13 +76,8 @@ export const ModificationRequest = ({ request, modificationRequest }: Modificati
             <Heading2>Répondre à la demande</Heading2>
 
             <AdminResponseForm role={user.role} modificationRequest={modificationRequest}>
-              {type === 'recours' && <RecoursForm />}
-
               {type === 'puissance' && <PuissanceForm modificationRequest={modificationRequest} />}
 
-              {type === 'actionnaire' && (
-                <ActionnaireForm modificationRequest={modificationRequest} />
-              )}
               {type === 'producteur' && (
                 <ProducteurForm modificationRequest={modificationRequest} />
               )}

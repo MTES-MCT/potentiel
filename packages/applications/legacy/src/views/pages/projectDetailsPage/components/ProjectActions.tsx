@@ -13,7 +13,6 @@ import {
   SecondaryLinkButton,
   DownloadLinkButton,
 } from '../../../components';
-import { isActionnaireEnabled } from '@potentiel-applications/feature-flags';
 import { IdentifiantProjet } from '@potentiel-domain/common';
 
 type EnregistrerUneModificationProps = {
@@ -27,17 +26,15 @@ const EnregistrerUneModification = ({ project }: EnregistrerUneModificationProps
     >
       <span>Demande de délai</span>
     </DropdownMenuSecondaryButton.DropdownItem>
-    {isActionnaireEnabled() && (
-      <DropdownMenuSecondaryButton.DropdownItem
-        href={Routes.Actionnaire.modifier(
-          IdentifiantProjet.convertirEnValueType(
-            `${project.appelOffreId}#${project.periodeId}#${project.familleId}#${project.numeroCRE}`,
-          ).formatter(),
-        )}
-      >
-        <span>Modification de l'actionnariat</span>
-      </DropdownMenuSecondaryButton.DropdownItem>
-    )}
+    <DropdownMenuSecondaryButton.DropdownItem
+      href={Routes.Actionnaire.modifier(
+        IdentifiantProjet.convertirEnValueType(
+          `${project.appelOffreId}#${project.periodeId}#${project.familleId}#${project.numeroCRE}`,
+        ).formatter(),
+      )}
+    >
+      <span>Modification de l'actionnariat</span>
+    </DropdownMenuSecondaryButton.DropdownItem>
   </DropdownMenuSecondaryButton>
 );
 
@@ -94,20 +91,16 @@ const PorteurProjetActions = ({
             <DropdownMenuSecondaryButton.DropdownItem href={routes.CHANGER_FOURNISSEUR(project.id)}>
               <span>Changer de fournisseur</span>
             </DropdownMenuSecondaryButton.DropdownItem>
-            <DropdownMenuSecondaryButton.DropdownItem
-              href={
-                isActionnaireEnabled() && actionnaireMenu
-                  ? actionnaireMenu.url
-                  : routes.CHANGER_ACTIONNAIRE(project.id)
-              }
-              disabled={modificationsNonPermisesParLeCDCActuel ? true : undefined}
-            >
-              <span>
-                {isActionnaireEnabled() && actionnaireMenu
-                  ? actionnaireMenu.label
-                  : "Changer l'actionnariat"}
-              </span>
-            </DropdownMenuSecondaryButton.DropdownItem>
+            {actionnaireMenu ? (
+              <DropdownMenuSecondaryButton.DropdownItem
+                href={actionnaireMenu.url}
+                disabled={modificationsNonPermisesParLeCDCActuel ? true : undefined}
+              >
+                <span>{actionnaireMenu.label}</span>
+              </DropdownMenuSecondaryButton.DropdownItem>
+            ) : (
+              <></>
+            )}
             <DropdownMenuSecondaryButton.DropdownItem
               href={routes.DEMANDER_CHANGEMENT_PUISSANCE(project.id)}
             >

@@ -6,7 +6,7 @@ import { User } from '../../../../entities';
 import { makePaginatedList, mapToOffsetAndLimit } from '../pagination';
 import {
   GetModificationRequestListForPorteur,
-  MODIFICATION_REQUEST_TYPES,
+  MODIFICATION_REQUEST_TYPES_V2,
   ModificationRequestListItemDTO,
 } from '../../../../modules/modificationRequest';
 import { InfraNotAvailableError } from '../../../../modules/shared';
@@ -44,7 +44,7 @@ export const getModificationRequestListForPorteur: GetModificationRequestListFor
               ? { type: modificationRequestType }
               : {
                   type: {
-                    [Op.in]: MODIFICATION_REQUEST_TYPES,
+                    [Op.in]: MODIFICATION_REQUEST_TYPES_V2,
                   },
                 }),
             ...(modificationRequestStatus && { status: modificationRequestStatus }),

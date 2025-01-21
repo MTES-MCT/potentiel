@@ -12,7 +12,6 @@ import { Role } from '@potentiel-domain/utilisateur';
 import { Raccordement } from '@potentiel-domain/reseau';
 import { Option } from '@potentiel-libraries/monads';
 import { IdentifiantProjet } from '@potentiel-domain/common';
-import { isActionnaireEnabled } from '@potentiel-applications/feature-flags';
 import { InfoActionnaire } from './InfoActionnaire';
 import { GetActionnaireForProjectPage } from '../../../../../controllers/project/getProjectPage/_utils';
 
@@ -133,13 +132,11 @@ export const InfoGenerales = ({
           {departementProjet}, {regionProjet}
         </p>
       </div>
-      {isActionnaireEnabled() && (
-        <InfoActionnaire
-          actionnaire={actionnaire}
-          identifiantProjet={identifiantProjet}
-          modificationParPorteurNonPermise={modificationParPorteurNonPermise}
-        />
-      )}
+      <InfoActionnaire
+        actionnaire={actionnaire}
+        identifiantProjet={identifiantProjet}
+        modificationParPorteurNonPermise={modificationParPorteurNonPermise}
+      />
     </Section>
   );
 };
