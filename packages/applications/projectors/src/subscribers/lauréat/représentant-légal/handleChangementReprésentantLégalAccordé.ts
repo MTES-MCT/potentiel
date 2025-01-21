@@ -1,6 +1,5 @@
 import { ReprésentantLégal } from '@potentiel-domain/laureat';
-import { findProjection } from '@potentiel-infrastructure/pg-projections';
-import { Option } from '@potentiel-libraries/monads';
+import { listProjection } from '@potentiel-infrastructure/pg-projections';
 import { getLogger } from '@potentiel-libraries/monitoring';
 
 import { updateOneProjection, upsertProjection } from '../../../infrastructure';
@@ -18,20 +17,45 @@ export const handleChangementReprésentantLégalAccordé = async (
     },
   } = event;
 
-  const changementReprésentantLégal =
-    await findProjection<ReprésentantLégal.ChangementReprésentantLégalEntity>(
-      `changement-représentant-légal|${identifiantProjet}`,
+  const derniersChangementsDemandés =
+    await listProjection<ReprésentantLégal.ChangementReprésentantLégalEntity>(
+      `changement-représentant-légal`,
+      {
+        where: {
+          identifiantProjet: {
+            operator: 'equal',
+            value: identifiantProjet,
+          },
+          demande: {
+            statut: {
+              operator: 'equal',
+              value: ReprésentantLégal.StatutChangementReprésentantLégal.demandé.formatter(),
+            },
+          },
+        },
+      },
     );
 
-  if (Option.isNone(changementReprésentantLégal)) {
+  if (derniersChangementsDemandés.total === 0) {
     getLogger().warn(`Aucune demande n'a été trouvée pour le changement de représentant accordé`, {
       event,
     });
     return;
   }
+  if (derniersChangementsDemandés.total > 1) {
+    getLogger().warn(
+      `Plusieurs demandes ont été trouvées pour le changement de représentant accordé`,
+      {
+        event,
+      },
+    );
+    return;
+  }
+
+  const changementReprésentantLégal = derniersChangementsDemandés.items[0];
 
   await upsertProjection<ReprésentantLégal.ChangementReprésentantLégalEntity>(
-    `changement-représentant-légal|${identifiantProjet}`,
+    `changement-représentant-légal|${changementReprésentantLégal.identifiantChangement}`,
     {
       ...changementReprésentantLégal,
       demande: {
