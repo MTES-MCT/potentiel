@@ -7,6 +7,7 @@ import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { ReprésentantLégal } from '@potentiel-domain/laureat';
 import { Option } from '@potentiel-libraries/monads';
 import { getLogger } from '@potentiel-libraries/monitoring';
+import { listProjection } from '@potentiel-infrastructure/pg-projections';
 
 import { RegisterTâchePlanifiéeNotificationDependencies } from '.';
 
@@ -55,15 +56,26 @@ export const handleReprésentantLégalRappelInstructionÀDeuxMois = async ({
     return;
   }
 
-  const changement =
-    await mediator.send<ReprésentantLégal.ConsulterChangementReprésentantLégalQuery>({
-      type: 'Lauréat.ReprésentantLégal.Query.ConsulterChangementReprésentantLégal',
-      data: {
-        identifiantProjet: identifiantProjet.formatter(),
+  const derniersChangementsDemandés =
+    await listProjection<ReprésentantLégal.ChangementReprésentantLégalEntity>(
+      `changement-représentant-légal`,
+      {
+        where: {
+          identifiantProjet: {
+            operator: 'equal',
+            value: identifiantProjet.formatter(),
+          },
+          demande: {
+            statut: {
+              operator: 'equal',
+              value: ReprésentantLégal.StatutChangementReprésentantLégal.demandé.formatter(),
+            },
+          },
+        },
       },
-    });
+    );
 
-  if (Option.isNone(changement)) {
+  if (derniersChangementsDemandés.total === 0) {
     getLogger().error('Aucun changement de représentant légal à traiter', {
       identifiantProjet: identifiantProjet.formatter(),
       application: 'notifications',
@@ -71,6 +83,19 @@ export const handleReprésentantLégalRappelInstructionÀDeuxMois = async ({
     });
     return;
   }
+  if (derniersChangementsDemandés.total > 1) {
+    getLogger().error(
+      'Plusieurs demandes ont été trouvées pour le changement de représentant légal à traiter',
+      {
+        identifiantProjet: identifiantProjet.formatter(),
+        application: 'notifications',
+        fonction: 'handleReprésentantLégalRappelInstructionÀDeuxMois',
+      },
+    );
+    return;
+  }
+
+  const { identifiantChangement } = derniersChangementsDemandés.items[0];
 
   const {
     changement: {
@@ -88,7 +113,7 @@ export const handleReprésentantLégalRappelInstructionÀDeuxMois = async ({
       type: typeTâchePlanifiée === 'accord-automatique' ? 'accord' : 'rejet',
       nom_projet: nom,
       departement_projet: département,
-      url: `${baseUrl}${Routes.ReprésentantLégal.changement.détail(identifiantProjet.formatter())}`,
+      url: `${baseUrl}${Routes.ReprésentantLégal.changement.détail(identifiantChangement)}`,
     },
   });
 };

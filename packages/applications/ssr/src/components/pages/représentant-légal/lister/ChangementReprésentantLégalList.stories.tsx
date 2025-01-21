@@ -23,6 +23,7 @@ type Story = StoryObj<typeof meta>;
 
 const items: ChangementReprésentantLégalListPageProps['list']['items'] = [
   {
+    identifiantChangement: 'id-changement',
     identifiantProjet: mapToPlainObject({
       appelOffre: `Appel d'offre 1`,
       période: `1`,
@@ -34,6 +35,7 @@ const items: ChangementReprésentantLégalListPageProps['list']['items'] = [
     misÀJourLe: mapToPlainObject(DateTime.now()),
   },
   {
+    identifiantChangement: 'id-changement',
     identifiantProjet: mapToPlainObject({
       appelOffre: `Appel d'offre 2`,
       période: `2`,
@@ -45,6 +47,7 @@ const items: ChangementReprésentantLégalListPageProps['list']['items'] = [
     misÀJourLe: mapToPlainObject(DateTime.now()),
   },
   {
+    identifiantChangement: 'id-changement',
     identifiantProjet: mapToPlainObject({
       appelOffre: `Appel d'offre 3`,
       période: `3`,

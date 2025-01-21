@@ -1,7 +1,7 @@
 import { FC } from 'react';
 import Link from 'next/link';
 
-import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
+import { DateTime } from '@potentiel-domain/common';
 import { PlainType } from '@potentiel-domain/core';
 import { ReprésentantLégal } from '@potentiel-domain/laureat';
 import { Routes } from '@potentiel-applications/routes';
@@ -16,6 +16,7 @@ export type ChangementReprésentantLégalListItemProps = PlainType<
 >;
 
 export const ChangementReprésentantLégalListItem: FC<ChangementReprésentantLégalListItemProps> = ({
+  identifiantChangement,
   identifiantProjet,
   nomProjet,
   statut,
@@ -32,9 +33,7 @@ export const ChangementReprésentantLégalListItem: FC<ChangementReprésentantL�
     }
     actions={
       <Link
-        href={Routes.ReprésentantLégal.changement.détail(
-          IdentifiantProjet.bind(identifiantProjet).formatter(),
-        )}
+        href={Routes.ReprésentantLégal.changement.détail(identifiantChangement)}
         aria-label={`voir le détail du changement de représentant légal en statut ${statut} pour le projet ${nomProjet}`}
       >
         voir le détail

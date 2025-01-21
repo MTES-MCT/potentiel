@@ -25,7 +25,6 @@ export type AvailableChangementReprésentantLégalAction = 'accorder' | 'rejeter
 
 export type DétailsChangementReprésentantLégalPageProps =
   PlainType<ReprésentantLégal.ConsulterChangementReprésentantLégalReadModel> & {
-    identifiantProjet: PlainType<IdentifiantProjet.ValueType>;
     role: PlainType<Role.ValueType>;
     actions: ReadonlyArray<AvailableChangementReprésentantLégalAction>;
   };

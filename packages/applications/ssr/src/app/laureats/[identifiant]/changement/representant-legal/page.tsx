@@ -5,7 +5,6 @@ import { notFound } from 'next/navigation';
 import { Option } from '@potentiel-libraries/monads';
 import { ReprésentantLégal } from '@potentiel-domain/laureat';
 import { mapToPlainObject } from '@potentiel-domain/core';
-import { IdentifiantProjet } from '@potentiel-domain/common';
 
 import { decodeParameter } from '@/utils/decodeParameter';
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
@@ -24,15 +23,13 @@ export const metadata: Metadata = {
 export default async function Page({ params: { identifiant } }: IdentifiantParameter) {
   return PageWithErrorHandling(async () =>
     withUtilisateur(async (utilisateur) => {
-      const identifiantProjet = IdentifiantProjet.convertirEnValueType(
-        decodeParameter(identifiant),
-      );
+      const identifiantChangement = decodeParameter(identifiant);
 
       const changement =
         await mediator.send<ReprésentantLégal.ConsulterChangementReprésentantLégalQuery>({
           type: 'Lauréat.ReprésentantLégal.Query.ConsulterChangementReprésentantLégal',
           data: {
-            identifiantProjet: identifiantProjet.formatter(),
+            identifiantChangement,
           },
         });
 
@@ -56,7 +53,8 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
 
       return (
         <DétailsChangementReprésentantLégalPage
-          identifiantProjet={mapToPlainObject(identifiantProjet)}
+          identifiantProjet={mapToPlainObject(changement.identifiantProjet)}
+          identifiantChangement={changement.identifiantChangement}
           demande={mapToPlainObject(changement.demande)}
           role={mapToPlainObject(utilisateur.role)}
           actions={actions}

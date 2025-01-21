@@ -28,6 +28,7 @@ const identifiantProjet = IdentifiantProjet.convertirEnValueType('PPE2 - Bâtime
 export const Demandé: Story = {
   args: {
     identifiantProjet,
+    identifiantChangement: 'id-changement',
     role: mapToPlainObject(Role.porteur),
     demande: {
       statut: mapToPlainObject(ReprésentantLégal.StatutChangementReprésentantLégal.demandé),

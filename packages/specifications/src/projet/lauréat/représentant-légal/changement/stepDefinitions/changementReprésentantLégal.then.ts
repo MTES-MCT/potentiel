@@ -21,7 +21,9 @@ Alors(
         await mediator.send<ReprésentantLégal.ConsulterChangementReprésentantLégalQuery>({
           type: 'Lauréat.ReprésentantLégal.Query.ConsulterChangementReprésentantLégal',
           data: {
-            identifiantProjet: identifiantProjet.formatter(),
+            identifiantChangement:
+              this.lauréatWorld.représentantLégalWorld.changementReprésentantLégalWorld
+                .demanderChangementReprésentantLégalFixture.identifiantChangement,
           },
         });
 
@@ -67,13 +69,13 @@ Alors(
   /la demande de changement de représentant légal du projet lauréat ne devrait plus être consultable/,
   async function (this: PotentielWorld) {
     await waitForExpect(async () => {
-      const { identifiantProjet } = this.lauréatWorld;
-
       const changement =
         await mediator.send<ReprésentantLégal.ConsulterChangementReprésentantLégalQuery>({
           type: 'Lauréat.ReprésentantLégal.Query.ConsulterChangementReprésentantLégal',
           data: {
-            identifiantProjet: identifiantProjet.formatter(),
+            identifiantChangement:
+              this.lauréatWorld.représentantLégalWorld.changementReprésentantLégalWorld
+                .demanderChangementReprésentantLégalFixture.identifiantChangement,
           },
         });
 
@@ -127,7 +129,9 @@ async function vérifierInstructionDemande(
       await mediator.send<ReprésentantLégal.ConsulterChangementReprésentantLégalQuery>({
         type: 'Lauréat.ReprésentantLégal.Query.ConsulterChangementReprésentantLégal',
         data: {
-          identifiantProjet: identifiantProjet.formatter(),
+          identifiantChangement:
+            this.lauréatWorld.représentantLégalWorld.changementReprésentantLégalWorld
+              .demanderChangementReprésentantLégalFixture.identifiantChangement,
         },
       });
 
@@ -154,7 +158,9 @@ async function vérifierInstructionAutomatiqueDemande(
       await mediator.send<ReprésentantLégal.ConsulterChangementReprésentantLégalQuery>({
         type: 'Lauréat.ReprésentantLégal.Query.ConsulterChangementReprésentantLégal',
         data: {
-          identifiantProjet: identifiantProjet.formatter(),
+          identifiantChangement:
+            this.lauréatWorld.représentantLégalWorld.changementReprésentantLégalWorld
+              .demanderChangementReprésentantLégalFixture.identifiantChangement,
         },
       });
 

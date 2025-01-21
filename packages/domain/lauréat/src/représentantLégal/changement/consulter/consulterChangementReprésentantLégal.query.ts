@@ -38,7 +38,7 @@ export type ConsulterChangementReprésentantLégalReadModel = {
 export type ConsulterChangementReprésentantLégalQuery = Message<
   'Lauréat.ReprésentantLégal.Query.ConsulterChangementReprésentantLégal',
   {
-    identifiantProjet: string;
+    identifiantChangement: string;
   },
   Option.Type<ConsulterChangementReprésentantLégalReadModel>
 >;
@@ -51,18 +51,16 @@ export const registerConsulterChangementReprésentantLegalQuery = ({
   find,
 }: ConsulterChangementReprésentantLégalDependencies) => {
   const handler: MessageHandler<ConsulterChangementReprésentantLégalQuery> = async ({
-    identifiantProjet,
+    identifiantChangement,
   }) => {
-    const identifiantProjetValueType = IdentifiantProjet.convertirEnValueType(identifiantProjet);
-
     const changement = await find<ReprésentantLégal.ChangementReprésentantLégalEntity>(
-      `changement-représentant-légal|${identifiantProjetValueType.formatter()}`,
+      `changement-représentant-légal|${identifiantChangement}`,
     );
 
     return Option.match(changement)
       .some((changement) =>
         mapToReadModel({
-          identifiantProjet: identifiantProjetValueType,
+          identifiantProjet: IdentifiantProjet.convertirEnValueType(changement.identifiantProjet),
           changement,
         }),
       )
