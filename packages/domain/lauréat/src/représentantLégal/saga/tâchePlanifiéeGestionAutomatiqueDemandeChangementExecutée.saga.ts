@@ -17,84 +17,85 @@ export const buildTâchePlanifiéeGestionAutomatiqueDemandeChangementExecutéeSa
 
   const handler = async (event: TâchePlanifiéeExecutéeEvent) => {
     if (
-      TypeTâchePlanifiéeChangementReprésentantLégal.convertirEnValueType(
-        event.payload.typeTâchePlanifiée,
-      ).estGestionAutomatiqueDemandeChangement()
+      event.payload.typeTâchePlanifiée !==
+      TypeTâchePlanifiéeChangementReprésentantLégal.gestionAutomatiqueDemandeChangement.type
     ) {
-      const identifiantProjet = IdentifiantProjet.convertirEnValueType(
-        event.payload.identifiantProjet,
-      );
-
-      const appelOffre = await mediator.send<AppelOffre.ConsulterAppelOffreQuery>({
-        type: 'AppelOffre.Query.ConsulterAppelOffre',
-        data: {
-          identifiantAppelOffre: identifiantProjet.appelOffre,
-        },
-      });
-
-      if (Option.isNone(appelOffre)) {
-        throw new TâchePlanifiéeGestionAutomatiqueDemandeChangementError(
-          `Appel d'offre non trouvé`,
-          identifiantProjet.formatter(),
-        );
-      }
-
-      const période = appelOffre.periodes.find((p) => p.id === identifiantProjet.période);
-
-      if (!période) {
-        throw new TâchePlanifiéeGestionAutomatiqueDemandeChangementError(
-          `Période non trouvée`,
-          identifiantProjet.formatter(),
-        );
-      }
-
-      const représentantLégal = await load(identifiantProjet);
-
-      if (!représentantLégal.demande) {
-        throw new TâchePlanifiéeGestionAutomatiqueDemandeChangementError(
-          `Aucun changement de représentant légal à traiter`,
-          identifiantProjet.formatter(),
-        );
-      }
-
-      const {
-        demande: { nom: nomReprésentantLégalValue, type: typeReprésentantLégal },
-      } = représentantLégal;
-
-      const {
-        changement: {
-          représentantLégal: { typeTâchePlanifiée },
-        },
-      } = période;
-
-      await match(typeTâchePlanifiée)
-        .with('accord-automatique', async () => {
-          await mediator.send<ReprésentantLégal.AccorderChangementReprésentantLégalUseCase>({
-            type: 'Lauréat.ReprésentantLégal.UseCase.AccorderChangementReprésentantLégal',
-            data: {
-              identifiantProjetValue: identifiantProjet.formatter(),
-              identifiantUtilisateurValue: Email.system().formatter(),
-              dateAccordValue: DateTime.now().formatter(),
-              nomReprésentantLégalValue,
-              typeReprésentantLégalValue: typeReprésentantLégal.formatter(),
-              accordAutomatiqueValue: true,
-            },
-          });
-        })
-        .with('rejet-automatique', async () => {
-          await mediator.send<ReprésentantLégal.RejeterChangementReprésentantLégalUseCase>({
-            type: 'Lauréat.ReprésentantLégal.UseCase.RejeterChangementReprésentantLégal',
-            data: {
-              identifiantProjetValue: identifiantProjet.formatter(),
-              identifiantUtilisateurValue: Email.system().formatter(),
-              motifRejetValue: 'Rejet automatique',
-              dateRejetValue: DateTime.now().formatter(),
-              rejetAutomatiqueValue: true,
-            },
-          });
-        })
-        .exhaustive();
+      return;
     }
+
+    const identifiantProjet = IdentifiantProjet.convertirEnValueType(
+      event.payload.identifiantProjet,
+    );
+
+    const appelOffre = await mediator.send<AppelOffre.ConsulterAppelOffreQuery>({
+      type: 'AppelOffre.Query.ConsulterAppelOffre',
+      data: {
+        identifiantAppelOffre: identifiantProjet.appelOffre,
+      },
+    });
+
+    if (Option.isNone(appelOffre)) {
+      throw new TâchePlanifiéeGestionAutomatiqueDemandeChangementError(
+        `Appel d'offre non trouvé`,
+        identifiantProjet.formatter(),
+      );
+    }
+
+    const période = appelOffre.periodes.find((p) => p.id === identifiantProjet.période);
+
+    if (!période) {
+      throw new TâchePlanifiéeGestionAutomatiqueDemandeChangementError(
+        `Période non trouvée`,
+        identifiantProjet.formatter(),
+      );
+    }
+
+    const représentantLégal = await load(identifiantProjet);
+
+    if (!représentantLégal.demande) {
+      throw new TâchePlanifiéeGestionAutomatiqueDemandeChangementError(
+        `Aucun changement de représentant légal à traiter`,
+        identifiantProjet.formatter(),
+      );
+    }
+
+    const {
+      demande: { nom: nomReprésentantLégalValue, type: typeReprésentantLégal },
+    } = représentantLégal;
+
+    const {
+      changement: {
+        représentantLégal: { typeTâchePlanifiée },
+      },
+    } = période;
+
+    await match(typeTâchePlanifiée)
+      .with('accord-automatique', async () => {
+        await mediator.send<ReprésentantLégal.AccorderChangementReprésentantLégalUseCase>({
+          type: 'Lauréat.ReprésentantLégal.UseCase.AccorderChangementReprésentantLégal',
+          data: {
+            identifiantProjetValue: identifiantProjet.formatter(),
+            identifiantUtilisateurValue: Email.system().formatter(),
+            dateAccordValue: DateTime.now().formatter(),
+            nomReprésentantLégalValue,
+            typeReprésentantLégalValue: typeReprésentantLégal.formatter(),
+            accordAutomatiqueValue: true,
+          },
+        });
+      })
+      .with('rejet-automatique', async () => {
+        await mediator.send<ReprésentantLégal.RejeterChangementReprésentantLégalUseCase>({
+          type: 'Lauréat.ReprésentantLégal.UseCase.RejeterChangementReprésentantLégal',
+          data: {
+            identifiantProjetValue: identifiantProjet.formatter(),
+            identifiantUtilisateurValue: Email.system().formatter(),
+            motifRejetValue: 'Rejet automatique',
+            dateRejetValue: DateTime.now().formatter(),
+            rejetAutomatiqueValue: true,
+          },
+        });
+      })
+      .exhaustive();
   };
 
   return handler;

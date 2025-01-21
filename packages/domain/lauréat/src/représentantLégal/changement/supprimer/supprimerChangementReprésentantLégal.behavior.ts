@@ -1,4 +1,4 @@
-import { DomainEvent, InvalidOperationError } from '@potentiel-domain/core';
+import { DomainEvent } from '@potentiel-domain/core';
 import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
 
 import { ReprésentantLégalAggregate } from '../../représentantLégal.aggregate';
@@ -23,7 +23,7 @@ export async function supprimer(
   { identifiantProjet, identifiantUtilisateur, dateSuppression }: SupprimerOptions,
 ) {
   if (!this.demande) {
-    throw new DemandeChangementInexistanteError();
+    return;
   }
 
   const event: ChangementReprésentantLégalSuppriméEvent = {
@@ -43,10 +43,4 @@ export function applyChangementReprésentantLégalSupprimé(
   _: ChangementReprésentantLégalSuppriméEvent,
 ) {
   this.demande = undefined;
-}
-
-class DemandeChangementInexistanteError extends InvalidOperationError {
-  constructor() {
-    super(`Aucun changement de représentant légal n'est en cours`);
-  }
 }
