@@ -41,15 +41,7 @@ export const setupHistorique = async () => {
   const unsubscribeActionnaireHistoriqueProjector =
     await subscribe<HistoriqueProjector.SubscriptionEvent>({
       name: 'history',
-      eventType: [
-        'ActionnaireImporté-V1',
-        'ActionnaireModifié-V1',
-        'ChangementActionnaireAccordé-V1',
-        'ChangementActionnaireAnnulé-V1',
-        'ChangementActionnaireRejeté-V1',
-        'ChangementActionnaireSupprimé-V1',
-        'ChangementActionnaireDemandé-V1',
-      ],
+      eventType: 'all',
       eventHandler: async (event) => {
         await mediator.send<HistoriqueProjector.Execute>({
           type: 'System.Projector.Historique',

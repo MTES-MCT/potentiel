@@ -28,7 +28,7 @@ export type DétailsActionnairePageProps = {
   historique: PlainType<Historique.ListerHistoriqueProjetReadModel>;
 };
 
-export const DétailsChangementActionnairePage: FC<DétailsActionnairePageProps> = ({
+export const DétailsActionnairePage: FC<DétailsActionnairePageProps> = ({
   actionnaire,
   demande,
   identifiantProjet,

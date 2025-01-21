@@ -14,8 +14,8 @@ import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 import {
+  DétailsActionnairePage,
   DétailsActionnairePageProps,
-  DétailsChangementActionnairePage,
 } from '@/components/pages/actionnaire/changement/détails/DétailsActionnaire.page';
 
 export const metadata: Metadata = {
@@ -55,7 +55,7 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
         : [];
 
       return (
-        <DétailsChangementActionnairePage
+        <DétailsActionnairePage
           identifiantProjet={mapToPlainObject(identifiantProjet)}
           actionnaire={
             Option.isSome(demandeDeChangement)
