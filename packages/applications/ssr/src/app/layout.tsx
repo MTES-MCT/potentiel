@@ -5,6 +5,7 @@ import { getHtmlAttributes } from '@codegouvfr/react-dsfr/next-appdir/getHtmlAtt
 import { SkipLinks } from '@codegouvfr/react-dsfr/SkipLinks';
 import { Metadata } from 'next';
 import Link from 'next/link';
+import dynamicImport from 'next/dynamic';
 
 import { Footer } from '@/components/organisms/Footer';
 import { Header } from '@/components/organisms/Header';
@@ -25,7 +26,8 @@ type RootLayoutProps = {
 };
 
 export default function RootLayout({ children }: RootLayoutProps) {
-  //NOTE: The lang parameter is optional and defaults to "fr"
+  const crispWebsiteId = process.env.CRISP_WEBSITE_ID;
+  const CrispChat = dynamicImport(() => import('@/components/organisms/CrispChat'));
 
   return (
     // eslint-disable-next-line react/jsx-props-no-spreading
@@ -58,6 +60,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
             {children}
           </main>
           <Footer />
+          {crispWebsiteId && <CrispChat websiteId={crispWebsiteId} />}
         </Providers>
       </body>
     </html>
