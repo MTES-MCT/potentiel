@@ -384,6 +384,7 @@ export const setupLauréat = async ({
         'ReprésentantLégalModifié-V1',
         'ChangementReprésentantLégalDemandé-V1',
         'ChangementReprésentantLégalAnnulé-V1',
+        'ChangementReprésentantLégalCorrigé-V1',
         'ChangementReprésentantLégalAccordé-V1',
         'ChangementReprésentantLégalRejeté-V1',
       ],
