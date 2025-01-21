@@ -1,7 +1,7 @@
 'use client';
 
 import { FC, ReactNode, useState } from 'react';
-import { match } from 'ts-pattern';
+import { match, P } from 'ts-pattern';
 
 import { ReprésentantLégal } from '@potentiel-domain/laureat';
 
@@ -11,10 +11,10 @@ import { Heading3 } from '@/components/atoms/headings';
 import { ModifierReprésentantLégalFormKeys } from '../../modifier/modifierReprésentantLégal.action';
 import { TypeReprésentantLégalSelect } from '../../TypeReprésentantLégalSelect';
 
-type Contexte = 'demander' | 'modifier';
+type Contexte = 'demander' | 'modifier' | 'corriger';
 
 export type SaisieTypeStepProps = {
-  contexte: 'demander' | 'modifier';
+  contexte: Contexte;
   typeReprésentantLégal: ReprésentantLégal.TypeReprésentantLégal.RawType;
   onChange?: (nouveauType: ReprésentantLégal.TypeReprésentantLégal.RawType) => void;
   validationErrors: ValidationErrors<ModifierReprésentantLégalFormKeys>;
@@ -121,7 +121,7 @@ const Situation: FC<{
   piècesJustificatives: ReactNode;
 }> = ({ contexte, nom, informationÀRemplir, piècesJustificatives }) => {
   const wordingPiècesJustificatives = match(contexte)
-    .with('demander', () => `Pièces à joindre :`)
+    .with(P.union('demander', 'corriger'), () => `Pièces à joindre :`)
     .with(
       'modifier',
       () =>

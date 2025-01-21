@@ -89,7 +89,7 @@ export const CorrigerChangementReprésentantLégalForm: FC<
             règles du cahier des charges en vigueur sur votre projet.
           </p>
           <SaisieTypeStep
-            contexte="demander"
+            contexte="corriger"
             typeReprésentantLégal={type}
             validationErrors={validationErrors}
             onChange={(nouveauType) => setType(nouveauType)}
@@ -104,7 +104,7 @@ export const CorrigerChangementReprésentantLégalForm: FC<
     },
     {
       index: 2,
-      name: `Renseigner les informations concernant le changement`,
+      name: `Renseigner les informations concernant la correction de la demande de changement`,
       children: (
         <>
           <SaisieNomStep
@@ -132,19 +132,19 @@ export const CorrigerChangementReprésentantLégalForm: FC<
     },
     {
       index: 3,
-      name: `Confirmer la demande de changement`,
+      name: `Confirmer la correction de la demande de changement`,
       children: (
         <ValidationStep
           typeReprésentantLégal={type}
           nomReprésentantLégal={nom}
           piècesJustificatives={piècesJustificatives}
-          message={`Vous êtes sur le point de demander le changement du représentant légal du projet. Veuillez vérifier l'ensemble des informations saisies et confirmer si tout est correct`}
+          message={`Vous êtes sur le point de corriger la demande de changement du représentant légal du projet. Veuillez vérifier l'ensemble des informations saisies et confirmer si tout est correct`}
         />
       ),
       previousStep: { name: 'Corriger' },
       nextStep: {
         type: 'submit',
-        name: 'Confirmer la demande',
+        name: 'Confirmer la correction',
         disabled: disableCondition && !validationErrors,
       },
     },
