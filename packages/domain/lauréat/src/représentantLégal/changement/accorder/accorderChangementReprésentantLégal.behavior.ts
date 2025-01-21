@@ -51,11 +51,13 @@ export async function accorder(this: ReprésentantLégalAggregate, options: Acco
 
   const nomReprésentantLégal = match(options)
     .with({ accordAutomatique: true }, () => demande.nom)
-    .otherwise(({ nomReprésentantLégal }) => nomReprésentantLégal);
+    .with({ accordAutomatique: false }, ({ nomReprésentantLégal }) => nomReprésentantLégal)
+    .exhaustive();
 
   const typeReprésentantLégal = match(options)
     .with({ accordAutomatique: true }, () => demande.type)
-    .otherwise(({ typeReprésentantLégal }) => typeReprésentantLégal);
+    .with({ accordAutomatique: false }, ({ typeReprésentantLégal }) => typeReprésentantLégal)
+    .exhaustive();
 
   const event: ChangementReprésentantLégalAccordéEvent = {
     type: 'ChangementReprésentantLégalAccordé-V1',

@@ -48,14 +48,15 @@ export const registerAccorderChangementReprésentantLégalUseCase = () => {
         typeReprésentantLégal: TypeReprésentantLégal.convertirEnValueType(
           options.typeReprésentantLégalValue,
         ),
-        accordAutomatique: false,
+        accordAutomatique: false as const,
       }))
-      .otherwise(() => ({
+      .with({ accordAutomatiqueValue: true }, () => ({
         dateAccord,
         identifiantUtilisateur,
         identifiantProjet,
-        accordAutomatique: true,
-      }));
+        accordAutomatique: true as const,
+      }))
+      .exhaustive();
 
     await mediator.send<AccorderChangementReprésentantLégalCommand>({
       type: 'Lauréat.ReprésentantLégal.Command.AccorderChangementReprésentantLégal',
