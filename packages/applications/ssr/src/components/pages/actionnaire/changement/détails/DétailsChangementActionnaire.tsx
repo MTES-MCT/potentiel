@@ -27,8 +27,7 @@ export const DétailsChangementActionnaire: FC<DétailsChangementActionnaireProp
     <div className="flex flex-col gap-4">
       <Heading2>Détails de la demande en cours de modification de l’actionnariat</Heading2>
       {demande && actionnaire ? (
-        <div className="flex flex-col gap-4">
-          <Heading2 className="mb-4">Contexte de la demande</Heading2>
+        <>
           <div className="flex flex-col gap-4">
             <div className="flex flex-col gap-2">
               {demande.accord && (
@@ -58,7 +57,7 @@ export const DétailsChangementActionnaire: FC<DétailsChangementActionnaireProp
             raison={demande.raison}
             pièceJustificative={demande.pièceJustificative}
           />
-        </div>
+        </>
       ) : (
         <span>Pas de demande en cours</span>
       )}
