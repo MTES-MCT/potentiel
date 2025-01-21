@@ -17,6 +17,7 @@
   },
   "dependencies": {
     "@codegouvfr/react-dsfr": "^1.9.11",
+    "@edge-csrf/nextjs": "^2.5.3-cloudflare-rc1",
     "@emotion/react": "*",
     "@emotion/server": "*",
     "@emotion/styled": "*",
@@ -25,6 +26,7 @@
     "@potentiel-applications/api-documentation": "*",
     "@potentiel-applications/bootstrap": "*",
     "@potentiel-applications/document-builder": "*",
+    "@potentiel-applications/feature-flags": "*",
     "@potentiel-applications/request-context": "*",
     "@potentiel-applications/routes": "*",
     "@potentiel-domain/appel-offre": "*",

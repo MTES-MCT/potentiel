@@ -23,6 +23,7 @@ export type FormProps = {
   onError?: FormHTMLAttributes<HTMLFormElement>['onError'];
   onInvalid?: FormHTMLAttributes<HTMLFormElement>['onInvalid'];
   successMessage?: string;
+  csrfToken?: string;
 };
 
 export const Form: FC<FormProps> = ({
@@ -37,6 +38,7 @@ export const Form: FC<FormProps> = ({
   actions,
   onError,
   onInvalid,
+  csrfToken,
 }) => {
   const [state, formAction] = useFormState(action, {
     status: undefined,
@@ -49,6 +51,7 @@ export const Form: FC<FormProps> = ({
   return (
     // eslint-disable-next-line react/no-unknown-property
     <form id={id} action={formAction} onInvalid={onInvalid} onError={onError}>
+      <input type="hidden" name="csrf_token" value={csrfToken ?? 'empty_token'} />
       {heading && <Heading2 className="mb-4">{heading}</Heading2>}
       <FormFeedback formState={state} successMessage={successMessage} />
 
