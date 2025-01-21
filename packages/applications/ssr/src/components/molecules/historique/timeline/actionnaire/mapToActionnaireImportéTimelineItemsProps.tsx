@@ -4,9 +4,8 @@ import { Actionnaire } from '@potentiel-domain/laureat';
 export const mapToActionnaireImportéTimelineItemProps = (
   modification: Historique.ListerHistoriqueProjetReadModel['items'][number],
 ) => {
-  const {
-    payload: { importéLe, actionnaire },
-  } = modification.payload as Actionnaire.ActionnaireImportéEvent;
+  const { importéLe, actionnaire } =
+    modification.payload as Actionnaire.ActionnaireImportéEvent['payload'];
 
   return {
     date: importéLe,

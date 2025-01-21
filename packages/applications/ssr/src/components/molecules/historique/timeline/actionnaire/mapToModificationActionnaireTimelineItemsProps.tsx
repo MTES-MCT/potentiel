@@ -8,9 +8,8 @@ import { DownloadDocument } from '@/components/atoms/form/document/DownloadDocum
 export const mapToModificationActionnaireTimelineItemProps = (
   modificationActionnaire: Historique.ListerHistoriqueProjetReadModel['items'][number],
 ) => {
-  const {
-    payload: { modifiéLe, modifiéPar, identifiantProjet, raison, pièceJustificative, actionnaire },
-  } = modificationActionnaire.payload as Actionnaire.ActionnaireModifiéEvent;
+  const { modifiéLe, modifiéPar, identifiantProjet, raison, pièceJustificative, actionnaire } =
+    modificationActionnaire.payload as Actionnaire.ActionnaireModifiéEvent['payload'];
 
   return {
     date: modifiéLe,

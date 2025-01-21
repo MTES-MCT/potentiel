@@ -9,14 +9,12 @@ export const mapToChangementActionnaireDemandéTimelineItemProps = (
   demandeChangement: Historique.ListerHistoriqueProjetReadModel['items'][number],
 ) => {
   const {
-    payload: {
-      demandéLe,
-      demandéPar,
-      identifiantProjet,
-      pièceJustificative: { format },
-      actionnaire,
-    },
-  } = demandeChangement.payload as Actionnaire.ChangementActionnaireDemandéEvent;
+    demandéLe,
+    demandéPar,
+    identifiantProjet,
+    pièceJustificative: { format },
+    actionnaire,
+  } = demandeChangement.payload as Actionnaire.ChangementActionnaireDemandéEvent['payload'];
 
   const pièceJustificative = DocumentProjet.convertirEnValueType(
     identifiantProjet,
@@ -33,7 +31,7 @@ export const mapToChangementActionnaireDemandéTimelineItemProps = (
       </div>
     ),
     content: (
-      <div className="flex gap-2">
+      <div className="flex flex-col gap-2">
         <div>
           Nouvel actionnaire : <span className="font-semibold">{actionnaire}</span>
         </div>

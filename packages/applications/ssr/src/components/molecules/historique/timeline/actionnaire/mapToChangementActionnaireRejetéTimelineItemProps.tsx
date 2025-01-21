@@ -9,13 +9,11 @@ export const mapToChangementActionnaireRejetéTimelineItemProps = (
   changementRejeté: Historique.ListerHistoriqueProjetReadModel['items'][number],
 ) => {
   const {
-    payload: {
-      rejetéLe,
-      rejetéPar,
-      identifiantProjet,
-      réponseSignée: { format },
-    },
-  } = changementRejeté.payload as Actionnaire.ChangementActionnaireRejetéEvent;
+    rejetéLe,
+    rejetéPar,
+    identifiantProjet,
+    réponseSignée: { format },
+  } = changementRejeté.payload as Actionnaire.ChangementActionnaireRejetéEvent['payload'];
 
   const réponseSignée = DocumentProjet.convertirEnValueType(
     identifiantProjet,
