@@ -10,6 +10,8 @@ type ChangementActionnaireItemReadModel = {
   nomProjet: string;
   statut: StatutChangementActionnaire.ValueType;
   misÀJourLe: DateTime.ValueType;
+  demandéLe: DateTime.ValueType;
+  nouvelActionnaire: string;
 };
 
 export type ListerChangementActionnaireReadModel = {
@@ -83,4 +85,6 @@ const mapToReadModel = (
   statut: StatutChangementActionnaire.convertirEnValueType(entity.demande.statut),
   misÀJourLe: DateTime.convertirEnValueType(entity.demande.demandéeLe),
   identifiantProjet: IdentifiantProjet.convertirEnValueType(entity.identifiantProjet),
+  demandéLe: DateTime.convertirEnValueType(entity.demande.demandéeLe),
+  nouvelActionnaire: entity.demande.nouvelActionnaire,
 });

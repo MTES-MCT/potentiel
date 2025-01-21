@@ -31,7 +31,7 @@ export const ChangementActionnaireListPage: FC<ChangementActionnaireListPageProp
     actions={[]}
     items={items.map((item) => ({
       ...item,
-      key: IdentifiantProjet.bind(item.identifiantProjet).formatter() + item.misÀJourLe,
+      key: IdentifiantProjet.bind(item.identifiantProjet).formatter() + item.demandéLe.date,
     }))}
     currentPage={currentPage}
     totalItems={total}

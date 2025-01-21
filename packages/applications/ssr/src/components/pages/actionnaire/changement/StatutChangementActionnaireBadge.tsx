@@ -13,7 +13,7 @@ export const StatutChangementActionnaireBadge: FC<StatutChangementActionnaireBad
   small,
 }) => (
   <Badge noIcon severity={getSeverity(statut)} small={small}>
-    {statut}
+    {getText(statut)}
   </Badge>
 );
 
@@ -25,3 +25,8 @@ const getSeverity = (statut: StatutChangementActionnaireBadgeProps['statut']) =>
     .with('rejeté', () => 'warning')
     .with(P.union('accordé', 'information-enregistrée'), () => 'success')
     .exhaustive();
+
+const getText = (statut: StatutChangementActionnaireBadgeProps['statut']) =>
+  match(statut)
+    .with('information-enregistrée', () => 'information enregistrée')
+    .otherwise(() => statut);

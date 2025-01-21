@@ -8,6 +8,7 @@ import { Routes } from '@potentiel-applications/routes';
 
 import { ProjectListItemHeading } from '@/components/molecules/projet/ProjectListItemHeading';
 import { ListItem } from '@/components/molecules/ListItem';
+import { FormattedDate } from '@/components/atoms/FormattedDate';
 
 import { StatutChangementActionnaireBadge } from './StatutChangementActionnaireBadge';
 
@@ -22,6 +23,8 @@ export const ChangementActionnaireListItem: FC<ChangementActionnaireListItemProp
   nomProjet,
   statut,
   misÀJourLe,
+  demandéLe,
+  nouvelActionnaire,
 }) => (
   <ListItem
     heading={
@@ -49,6 +52,19 @@ export const ChangementActionnaireListItem: FC<ChangementActionnaireListItemProp
       )
     }
   >
+    <ul className="mt-3 text-sm">
+      <li>
+        <span>
+          Nouvel actionnaire : <span className="font-semibold">{nouvelActionnaire}</span>
+        </span>
+      </li>
+      <li>
+        <span>
+          Date de la demande :{' '}
+          <FormattedDate className="font-semibold" date={DateTime.bind(demandéLe).formatter()} />
+        </span>
+      </li>
+    </ul>
     <StatutChangementActionnaireBadge
       statut={Actionnaire.StatutChangementActionnaire.bind(statut).statut}
       small
