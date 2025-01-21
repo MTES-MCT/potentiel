@@ -5,7 +5,7 @@ export const modifier = (identifiantProjet: string) =>
 
 export const changement = {
   détail: (identifiantProjet: string) =>
-    `/laureats/${encodeParameter(identifiantProjet)}/changement/actionnaire`,
+    `/laureats/${encodeParameter(identifiantProjet)}/actionnaire`,
   demander: (identifiantProjet: string) =>
     `/laureats/${encodeParameter(identifiantProjet)}/changement/actionnaire/demander`,
   téléchargerModèleRéponse: (identifiantProjet: string) =>
