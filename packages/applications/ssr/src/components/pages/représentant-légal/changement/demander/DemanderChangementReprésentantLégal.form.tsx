@@ -3,6 +3,7 @@
 import { FC, useState } from 'react';
 import { Stepper } from '@codegouvfr/react-dsfr/Stepper';
 import Alert from '@codegouvfr/react-dsfr/Alert';
+import Link from 'next/link';
 
 import { ReprésentantLégal } from '@potentiel-domain/laureat';
 
@@ -65,7 +66,11 @@ export const DemanderChangementReprésentantLégalForm: FC<
               <ul className="p-4 list-disc">
                 <li>
                   Un filigrane sera automatiquement appliqué sur l'ensemble des pièces
-                  justificatives transmises
+                  justificatives transmises (nous utilisons l'API de la plateforme d'état{' '}
+                  <Link href="https://filigrane.beta.gouv.fr/" target="_blank">
+                    filigrane.beta.gouv.fr
+                  </Link>{' '}
+                  )
                 </li>
                 <li>
                   Les pièces seront automatiquement supprimées après traitement de votre demande

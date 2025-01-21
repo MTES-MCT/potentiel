@@ -1,8 +1,6 @@
 import { FC } from 'react';
-// import Alert from '@codegouvfr/react-dsfr/Alert';
 
 import { ProjetBanner } from '@/components/molecules/projet/ProjetBanner';
-// import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
 import { Heading1 } from '@/components/atoms/headings';
 import { PageTemplate } from '@/components/templates/Page.template';
 
