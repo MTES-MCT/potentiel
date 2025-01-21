@@ -17,7 +17,6 @@ import {
   DemanderChangementActionnaireFormKeys,
 } from './demanderChangementActionnaire.action';
 import { DemanderChangementActionnairePageProps } from './DemanderChangementActionnaire.page';
-import { InfoBoxDemandeActionnaire } from './InfoxBoxDemandeActionnaire';
 
 export type DemanderChangementActionnaireFormProps = DemanderChangementActionnairePageProps;
 
@@ -98,7 +97,6 @@ export const DemanderChangementActionnaireForm: FC<DemanderChangementActionnaire
             setPiècesJustificatives(piècesJustificatives);
           }}
         />
-        <InfoBoxDemandeActionnaire />
       </div>
     </Form>
   );
