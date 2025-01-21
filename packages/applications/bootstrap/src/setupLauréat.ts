@@ -68,7 +68,7 @@ export const setupLauréat = async ({ sendEmail }: SetupLauréatDependencies) =>
   GarantiesFinancières.GarantiesFinancièresSaga.register();
   GarantiesFinancières.TypeGarantiesFinancièresSaga.register();
   Lauréat.LauréatSaga.register();
-  ReprésentantLégal.ReprésentantLégalSaga.register(loadAggregate);
+  ReprésentantLégal.ReprésentantLégalSaga.register();
   Actionnaire.ActionnaireSaga.register();
 
   const unsubscribeLauréatProjector = await subscribe<LauréatProjector.SubscriptionEvent>({
