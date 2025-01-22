@@ -5,9 +5,9 @@ import { getLogger } from '@potentiel-libraries/monitoring';
 import { IdentifiantProjet } from '@potentiel-domain/common';
 import { findProjection } from '@potentiel-infrastructure/pg-projections';
 
-import { upsertProjection } from '../../../infrastructure';
+import { upsertProjection } from '../../../../infrastructure';
 
-export const handleChangementReprésentantLégalDemandé = async ({
+export const changementReprésentantLégalDemandéProjector = async ({
   payload: {
     identifiantProjet,
     nomReprésentantLégal,
@@ -24,8 +24,8 @@ export const handleChangementReprésentantLégalDemandé = async ({
   if (Option.isNone(candidature)) {
     getLogger().error('Projet non trouvé', {
       identifiantProjet,
-      application: 'projectors',
-      fonction: 'handleChangementReprésentantLégalDemandé',
+      application: 'projector',
+      fonction: 'changementReprésentantLégalDemandéProjector',
     });
     return;
   }
