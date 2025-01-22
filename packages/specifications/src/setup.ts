@@ -25,6 +25,7 @@ import { getClient } from '@potentiel-libraries/file-storage';
 import { bootstrap } from '@potentiel-applications/bootstrap';
 import { EmailPayload } from '@potentiel-applications/notifications';
 import { Option } from '@potentiel-libraries/monads';
+import { createLogger, initLogger } from '@potentiel-libraries/monitoring';
 
 import { PotentielWorld } from './potentiel.world';
 import { sleep } from './helpers/sleep';
@@ -81,6 +82,8 @@ AfterStep(async function (this: PotentielWorld, { pickleStep, result }) {
 });
 
 BeforeAll(async () => {
+  const logger = createLogger({});
+  initLogger(logger);
   process.env.EVENT_STORE_CONNECTION_STRING = 'postgres://testuser@localhost:5433/potentiel_test';
   process.env.S3_ENDPOINT = 'http://localhost:9001';
   process.env.S3_BUCKET = bucketName;
