@@ -10,11 +10,11 @@ import { getLogger } from '@potentiel-libraries/monitoring';
 
 import { SendEmail } from '../../../sendEmail';
 
-import { handleReprésentantLégalModifié } from './handleReprésentantLégalModifié';
-import { handleChangementReprésentantLégalDemandé } from './handleChangementReprésentantLégalDemandé';
-import { handleChangementReprésentantLégalAccordé } from './handleChangementReprésentantLégalAccordé';
-import { handleChangementReprésentantLégalRejeté } from './handleChangementReprésentantLégalRejeté';
-import { handleChangementReprésentantLégalAnnulé } from './handleChangementReprésentantLégalAnnulé';
+import { représentantLégalModifiéNotification } from './représentantLégalModifié.notification';
+import { changementReprésentantLégalDemandéNotification } from './changementReprésentantLégalDemandé.notification';
+import { changementReprésentantLégalAccordéNotification } from './changementReprésentantLégalAccordé.notification';
+import { changementReprésentantLégalRejetéNotification } from './changementReprésentantLégalRejeté.notification';
+import { changementReprésentantLégalAnnuléNotification } from './changementReprésentantLégalAnnulé.notification';
 
 export type SubscriptionEvent = ReprésentantLégal.ReprésentantLégalEvent & Event;
 
@@ -58,7 +58,7 @@ export const register = ({ sendEmail }: RegisterReprésentantLégalNotificationD
 
     return match(event)
       .with({ type: 'ReprésentantLégalModifié-V1' }, async (event) =>
-        handleReprésentantLégalModifié({
+        représentantLégalModifiéNotification({
           sendEmail,
           event,
           projet,
@@ -66,7 +66,7 @@ export const register = ({ sendEmail }: RegisterReprésentantLégalNotificationD
         }),
       )
       .with({ type: 'ChangementReprésentantLégalDemandé-V1' }, async (event) =>
-        handleChangementReprésentantLégalDemandé({
+        changementReprésentantLégalDemandéNotification({
           sendEmail,
           event,
           projet,
@@ -74,7 +74,7 @@ export const register = ({ sendEmail }: RegisterReprésentantLégalNotificationD
         }),
       )
       .with({ type: 'ChangementReprésentantLégalAnnulé-V1' }, async (event) =>
-        handleChangementReprésentantLégalAnnulé({
+        changementReprésentantLégalAnnuléNotification({
           sendEmail,
           event,
           projet,
@@ -82,10 +82,10 @@ export const register = ({ sendEmail }: RegisterReprésentantLégalNotificationD
         }),
       )
       .with({ type: 'ChangementReprésentantLégalAccordé-V1' }, async (event) =>
-        handleChangementReprésentantLégalAccordé({ sendEmail, event, projet, baseUrl }),
+        changementReprésentantLégalAccordéNotification({ sendEmail, event, projet, baseUrl }),
       )
       .with({ type: 'ChangementReprésentantLégalRejeté-V1' }, async (event) =>
-        handleChangementReprésentantLégalRejeté({ sendEmail, event, projet, baseUrl }),
+        changementReprésentantLégalRejetéNotification({ sendEmail, event, projet, baseUrl }),
       )
       .otherwise(() => Promise.resolve());
   };

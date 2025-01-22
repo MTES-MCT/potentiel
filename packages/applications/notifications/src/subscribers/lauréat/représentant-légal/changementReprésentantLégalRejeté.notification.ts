@@ -9,7 +9,7 @@ import { ReprésentantLégal } from '@potentiel-domain/laureat';
 
 import { RegisterReprésentantLégalNotificationDependencies } from '.';
 
-type HandleChangementReprésentantLégalRejetéProps = {
+type ChangementReprésentantLégalRejetéNotificationProps = {
   sendEmail: RegisterReprésentantLégalNotificationDependencies['sendEmail'];
   event: ReprésentantLégal.ChangementReprésentantLégalRejetéEvent;
   projet: {
@@ -19,19 +19,19 @@ type HandleChangementReprésentantLégalRejetéProps = {
   baseUrl: string;
 };
 
-export const handleChangementReprésentantLégalRejeté = async ({
+export const changementReprésentantLégalRejetéNotification = async ({
   sendEmail,
   event,
   projet,
   baseUrl,
-}: HandleChangementReprésentantLégalRejetéProps) => {
+}: ChangementReprésentantLégalRejetéNotificationProps) => {
   const identifiantProjet = IdentifiantProjet.convertirEnValueType(event.payload.identifiantProjet);
   const porteurs = await récupérerPorteursParIdentifiantProjetAdapter(identifiantProjet);
   if (porteurs.length === 0) {
     getLogger().error('Aucun porteur trouvé', {
       identifiantProjet: identifiantProjet.formatter(),
       application: 'notifications',
-      fonction: 'handleChangementReprésentantLégalRejeté',
+      fonction: 'changementReprésentantLégalRejetéNotification',
     });
     return;
   }
@@ -55,7 +55,7 @@ export const handleChangementReprésentantLégalRejeté = async ({
       getLogger().error('Aucune dreal trouvée', {
         identifiantProjet: identifiantProjet.formatter(),
         application: 'notifications',
-        fonction: 'handleChangementReprésentantLégalRejeté',
+        fonction: 'changementReprésentantLégalRejetéNotification',
       });
       return;
     }

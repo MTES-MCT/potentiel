@@ -6,7 +6,7 @@ import { ReprésentantLégal } from '@potentiel-domain/laureat';
 
 import { RegisterReprésentantLégalNotificationDependencies } from '.';
 
-type HandleReprésentantLégalModifiéProps = {
+type ReprésentantLégalModifiéNotificationProps = {
   sendEmail: RegisterReprésentantLégalNotificationDependencies['sendEmail'];
   event: ReprésentantLégal.ReprésentantLégalModifiéEvent;
   projet: {
@@ -16,12 +16,12 @@ type HandleReprésentantLégalModifiéProps = {
   baseUrl: string;
 };
 
-export const handleReprésentantLégalModifié = async ({
+export const représentantLégalModifiéNotification = async ({
   sendEmail,
   event,
   projet,
   baseUrl,
-}: HandleReprésentantLégalModifiéProps) => {
+}: ReprésentantLégalModifiéNotificationProps) => {
   const identifiantProjet = IdentifiantProjet.convertirEnValueType(event.payload.identifiantProjet);
   const porteurs = await récupérerPorteursParIdentifiantProjetAdapter(identifiantProjet);
 
@@ -29,7 +29,7 @@ export const handleReprésentantLégalModifié = async ({
     getLogger().error('Aucun porteur trouvé', {
       identifiantProjet: identifiantProjet.formatter(),
       application: 'notifications',
-      fonction: 'handleReprésentantLégalModifié',
+      fonction: 'représentantLégalModifiéNotification',
     });
     return;
   }
