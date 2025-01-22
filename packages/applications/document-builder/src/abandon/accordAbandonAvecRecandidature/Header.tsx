@@ -29,7 +29,7 @@ export const Header: FC<HeaderProps> = ({
           }}
         >
           <Image
-            style={{ maxWidth: 120, marginBottom: 40 }}
+            style={{ maxWidth: 120, marginTop: 15, marginBottom: 40 }}
             src={`${imagesFolderPath}/logo_gouvernement.png`}
           />
 
