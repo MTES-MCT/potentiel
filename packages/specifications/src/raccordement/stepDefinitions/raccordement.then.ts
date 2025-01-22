@@ -4,12 +4,13 @@ import waitForExpect from 'wait-for-expect';
 import { assert, expect } from 'chai';
 
 import { Raccordement, GestionnaireRéseau } from '@potentiel-domain/reseau';
-import { ConsulterDocumentProjetQuery } from '@potentiel-domain/document';
 import { Option } from '@potentiel-libraries/monads';
-import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
+import { IdentifiantProjet } from '@potentiel-domain/common';
+import { mapToPlainObject } from '@potentiel-domain/core';
+import { ConsulterDocumentProjetQuery } from '@potentiel-domain/document';
 
-import { convertReadableStreamToString } from '../../helpers/convertReadableToString';
 import { PotentielWorld } from '../../potentiel.world';
+import { convertReadableStreamToString } from '../../helpers/convertReadableToString';
 
 Alors(
   `le dossier est consultable dans la liste des dossiers de raccordement du projet lauréat`,
@@ -29,7 +30,7 @@ Alors(
 
       actual.dossiers
         .map((d) => d.référence.formatter())
-        .should.contain(this.raccordementWorld.référenceDossierRaccordement.formatter());
+        .should.contain(this.raccordementWorld.référenceDossier);
     });
   },
 );
@@ -38,6 +39,7 @@ Alors(
   `la demande complète de raccordement devrait être consultable dans le dossier de raccordement du projet lauréat`,
   async function (this: PotentielWorld) {
     const { identifiantProjet } = this.lauréatWorld;
+    const { référenceDossier } = this.raccordementWorld;
     await waitForExpect(async () => {
       const raccordement = await mediator.send<Raccordement.ConsulterRaccordementQuery>({
         type: 'Réseau.Raccordement.Query.ConsulterRaccordement',
@@ -45,53 +47,41 @@ Alors(
           identifiantProjetValue: identifiantProjet.formatter(),
         },
       });
+
       const dossierRaccordement =
         await mediator.send<Raccordement.ConsulterDossierRaccordementQuery>({
           type: 'Réseau.Raccordement.Query.ConsulterDossierRaccordement',
           data: {
             identifiantProjetValue: identifiantProjet.formatter(),
-            référenceDossierRaccordementValue:
-              this.raccordementWorld.référenceDossierRaccordement.formatter(),
+            référenceDossierRaccordementValue: référenceDossier,
           },
         });
 
-      assert(Option.isSome(raccordement), 'raccordement non trouvé');
-      assert(Option.isSome(dossierRaccordement), 'dossier raccordement non trouvé');
+      vérifierRaccordement.call(this, identifiantProjet, raccordement);
+      vérifierDossierRaccordement.call(this, identifiantProjet, dossierRaccordement);
 
-      const {
-        référence: actualRéférence,
-        demandeComplèteRaccordement: {
-          accuséRéception: actualAccuséRéception,
-          dateQualification: actualDateQualification,
-        },
-        identifiantGestionnaireRéseau,
-      } = dossierRaccordement;
-
-      expect(identifiantGestionnaireRéseau.codeEIC).to.eq(
-        raccordement.identifiantGestionnaireRéseau?.codeEIC,
-        'Gestionnaire réseau incorrect',
+      assert(Option.isSome(dossierRaccordement), 'dossierRaccordement is undefined');
+      assert(
+        dossierRaccordement.demandeComplèteRaccordement,
+        'demandeComplèteRaccordement is undefined',
       );
+      const actualAccuséRéception = dossierRaccordement.demandeComplèteRaccordement.accuséRéception;
+      const { accuséRéception: expectedAccuséRéception } = this.raccordementWorld
+        .modifierDemandeComplèteRaccordementFixture.aÉtéCréé
+        ? this.raccordementWorld.modifierDemandeComplèteRaccordementFixture
+        : this.raccordementWorld.transmettreDemandeComplèteRaccordementFixture;
 
-      const {
-        dateQualification: expectedDateQualification,
-        accuséRéceptionDemandeComplèteRaccordement: { content: expectedContent },
-        référenceDossierRaccordement: expectedRéférence,
-      } = this.raccordementWorld;
+      assert(actualAccuséRéception, 'actualAccuséRéception is not defined');
+      const result = await mediator.send<ConsulterDocumentProjetQuery>({
+        type: 'Document.Query.ConsulterDocumentProjet',
+        data: {
+          documentKey: actualAccuséRéception.formatter(),
+        },
+      });
 
-      expect(actualDateQualification?.estÉgaleÀ(expectedDateQualification)).to.be.true;
-      expect(actualRéférence.estÉgaleÀ(expectedRéférence)).to.be.true;
-
-      if (actualAccuséRéception) {
-        const result = await mediator.send<ConsulterDocumentProjetQuery>({
-          type: 'Document.Query.ConsulterDocumentProjet',
-          data: {
-            documentKey: actualAccuséRéception.formatter(),
-          },
-        });
-
-        const actualContent = await convertReadableStreamToString(result.content);
-        actualContent.should.be.equal(expectedContent);
-      }
+      const actualContent = await convertReadableStreamToString(result.content);
+      const expectedContent = await convertReadableStreamToString(expectedAccuséRéception.content);
+      actualContent.should.be.equal(expectedContent);
     });
   },
 );
@@ -142,8 +132,8 @@ Alors(
 );
 
 Alors(
-  'le projet lauréat devrait avoir {int} dossiers de raccordement pour le gestionnaire de réseau {string}',
-  async function (this: PotentielWorld, nombreDeDemandes: number, _raisonSociale: string) {
+  'le projet lauréat devrait avoir {int} dossiers de raccordement',
+  async function (this: PotentielWorld, nombreDeDemandes: number) {
     const { identifiantProjet } = this.lauréatWorld;
 
     await waitForExpect(async () => {
@@ -164,89 +154,75 @@ Alors(
 );
 
 Alors(
-  `la date de mise en service {string} devrait être consultable dans le dossier de raccordement du projet lauréat ayant pour référence {string}`,
-  async function (
-    this: PotentielWorld,
-    dateMiseEnService: string,
-    référenceDossierRaccordement: string,
-  ) {
+  `la date de mise en service devrait être consultable dans le dossier de raccordement du projet lauréat`,
+  async function (this: PotentielWorld) {
     const { identifiantProjet } = this.lauréatWorld;
+    const { référenceDossier } = this.raccordementWorld;
     await waitForExpect(async () => {
-      const actual = await mediator.send<Raccordement.ConsulterDossierRaccordementQuery>({
-        type: 'Réseau.Raccordement.Query.ConsulterDossierRaccordement',
-        data: {
-          référenceDossierRaccordementValue: référenceDossierRaccordement,
-          identifiantProjetValue: identifiantProjet.formatter(),
-        },
-      });
+      const dossierRaccordement =
+        await mediator.send<Raccordement.ConsulterDossierRaccordementQuery>({
+          type: 'Réseau.Raccordement.Query.ConsulterDossierRaccordement',
+          data: {
+            référenceDossierRaccordementValue: référenceDossier,
+            identifiantProjetValue: identifiantProjet.formatter(),
+          },
+        });
 
-      if (Option.isNone(actual)) {
-        throw new Error('Dossier de raccordement non trouvé');
-      }
-
-      if (Option.isNone(actual.miseEnService)) {
-        throw new Error('Date mise en service non trouvé');
-      }
-
-      expect(
-        actual.miseEnService?.dateMiseEnService?.estÉgaleÀ(
-          DateTime.convertirEnValueType(new Date(dateMiseEnService).toISOString()),
-        ),
-      ).to.be.true;
+      vérifierDossierRaccordement.call(this, identifiantProjet, dossierRaccordement);
     });
   },
 );
 
 Alors(
-  `la proposition technique et financière signée devrait être consultable dans le dossier de raccordement du projet lauréat ayant pour référence {string}`,
-  async function (this: PotentielWorld, référenceDossierRaccordement: string) {
+  `la proposition technique et financière signée devrait être consultable dans le dossier de raccordement du projet lauréat`,
+  async function (this: PotentielWorld) {
     const { identifiantProjet } = this.lauréatWorld;
+    const { référenceDossier } = this.raccordementWorld;
     await waitForExpect(async () => {
       const dossierRaccordement =
         await mediator.send<Raccordement.ConsulterDossierRaccordementQuery>({
           type: 'Réseau.Raccordement.Query.ConsulterDossierRaccordement',
           data: {
             identifiantProjetValue: identifiantProjet.formatter(),
-            référenceDossierRaccordementValue: référenceDossierRaccordement,
+            référenceDossierRaccordementValue: référenceDossier,
           },
         });
 
-      expect(Option.isSome(dossierRaccordement)).to.be.true;
+      vérifierDossierRaccordement.call(this, identifiantProjet, dossierRaccordement);
+      assert(Option.isSome(dossierRaccordement));
 
-      if (Option.isSome(dossierRaccordement)) {
-        const { propositionTechniqueEtFinancière } = dossierRaccordement;
+      const { propositionTechniqueEtFinancière } = dossierRaccordement;
 
-        const {
-          dateSignature: expectedDateSignature,
-          propositionTechniqueEtFinancièreSignée: { content: expectedContent },
-        } = this.raccordementWorld;
+      assert(propositionTechniqueEtFinancière, 'propositionTechniqueEtFinancière is undefined');
 
-        expect(propositionTechniqueEtFinancière).to.be.not.undefined;
+      const { propositionTechniqueEtFinancièreSignée } = this.raccordementWorld
+        .modifierPropositionTechniqueEtFinancièreFixture.aÉtéCréé
+        ? this.raccordementWorld.modifierPropositionTechniqueEtFinancièreFixture
+        : this.raccordementWorld.transmettrePropositionTechniqueEtFinancièreFixture;
 
-        expect(propositionTechniqueEtFinancière?.dateSignature?.estÉgaleÀ(expectedDateSignature)).to
-          .be.true;
+      const result = await mediator.send<ConsulterDocumentProjetQuery>({
+        type: 'Document.Query.ConsulterDocumentProjet',
+        data: {
+          documentKey:
+            propositionTechniqueEtFinancière.propositionTechniqueEtFinancièreSignée.formatter(),
+        },
+      });
 
-        if (propositionTechniqueEtFinancière) {
-          const result = await mediator.send<ConsulterDocumentProjetQuery>({
-            type: 'Document.Query.ConsulterDocumentProjet',
-            data: {
-              documentKey:
-                propositionTechniqueEtFinancière.propositionTechniqueEtFinancièreSignée.formatter(),
-            },
-          });
+      const actualContent = await convertReadableStreamToString(result.content);
+      const expectedContent = await convertReadableStreamToString(
+        propositionTechniqueEtFinancièreSignée.content,
+      );
 
-          const actualContent = await convertReadableStreamToString(result.content);
-          actualContent.should.be.equal(expectedContent);
-        }
-      }
+      actualContent.should.be.equal(expectedContent);
     });
   },
 );
 
 Alors(
-  `le dossier ayant pour référence {string} ne devrait plus être consultable dans la liste des dossiers du raccordement pour le projet`,
-  async function (this: PotentielWorld, référenceDossier: string) {
+  `le dossier ne devrait plus être consultable dans la liste des dossiers du raccordement pour le projet`,
+  async function (this: PotentielWorld) {
     const { identifiantProjet } = this.lauréatWorld;
+    const { référenceDossier } = this.raccordementWorld;
     await waitForExpect(async () => {
       const raccordementDuProjet = await mediator.send<Raccordement.ConsulterRaccordementQuery>({
         type: 'Réseau.Raccordement.Query.ConsulterRaccordement',
@@ -280,9 +256,11 @@ Alors(
 );
 
 Alors(
-  `le dossier ayant comme référence {string} ne devrait plus être consultable dans le raccordement du projet lauréat`,
-  async function (this: PotentielWorld, référenceDossier: string) {
+  `le dossier de raccordement ne devrait plus être consultable dans le raccordement du projet lauréat`,
+  async function (this: PotentielWorld) {
     const { identifiantProjet } = this.lauréatWorld;
+    const { référenceDossier } =
+      this.raccordementWorld.transmettreDemandeComplèteRaccordementFixture;
     await waitForExpect(async () => {
       const raccordement = await mediator.send<Raccordement.ConsulterRaccordementQuery>({
         type: 'Réseau.Raccordement.Query.ConsulterRaccordement',
@@ -343,4 +321,49 @@ async function vérifierGestionnaireAttribué(
       );
     }
   });
+}
+
+function vérifierRaccordement(
+  this: PotentielWorld,
+  identifiantProjet: IdentifiantProjet.ValueType,
+  raccordement: Option.Type<Raccordement.ConsulterRaccordementReadModel>,
+) {
+  const { raccordement: expectedRaccordement } = mapToPlainObject(
+    this.raccordementWorld.mapToExpected(identifiantProjet),
+  );
+  const actualRaccordement = mapToPlainObject(raccordement);
+
+  // HACK : misÀJourLe vaut la date de l'event (created_at),
+  //  on ne peut pas calculer cette date de manière exacte dans les tests
+  if (Option.isSome(actualRaccordement)) {
+    for (const doss of actualRaccordement.dossiers) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      delete (doss as any).misÀJourLe;
+    }
+  }
+
+  actualRaccordement.should.be.deep.equal(
+    expectedRaccordement,
+    `le raccordement n'est pas identique`,
+  );
+}
+
+function vérifierDossierRaccordement(
+  this: PotentielWorld,
+  identifiantProjet: IdentifiantProjet.ValueType,
+  dossierRaccordement: Option.Type<Raccordement.ConsulterDossierRaccordementReadModel>,
+): asserts dossierRaccordement is Raccordement.ConsulterDossierRaccordementReadModel {
+  const { dossier: expectedDossier } = mapToPlainObject(
+    this.raccordementWorld.mapToExpected(identifiantProjet),
+  );
+  const actualDossierRaccordement = mapToPlainObject(dossierRaccordement);
+
+  if (Option.isSome(actualDossierRaccordement)) {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    delete (actualDossierRaccordement as any).misÀJourLe;
+  }
+  actualDossierRaccordement.should.be.deep.equal(
+    expectedDossier,
+    `le dossier de raccordement n'est pas identique`,
+  );
 }

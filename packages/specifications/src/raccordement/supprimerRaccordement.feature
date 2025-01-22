@@ -8,19 +8,12 @@ Fonctionnalité: Supprimer le raccordement d'un projet
         Et le porteur "Barbara Gordon" ayant accés au projet lauréat "Du boulodrome de Marseille"
 
     Scénario: Le système supprime le raccordement d'un projet si celui-ci a un abandon accordé
-        Etant donné une demande complète de raccordement pour le projet lauréat transmise auprès du gestionnaire de réseau avec :
-            | La date de qualification                | 2022-10-28         |
-            | La référence du dossier de raccordement | OUE-RP-2022-000033 |
-            | Le format de l'accusé de réception      | application/pdf    |
-            | Le contenu de l'accusé de réception     | contenu            |
-        Et une proposition technique et financière pour le dossier ayant comme référence "OUE-RP-2022-000033" du raccordement pour le projet lauréat avec :
-            | La date de signature                                | 2023-01-10      |
-            | Le format de la proposition technique et financière | application/pdf |
-            | Le contenu de proposition technique et financière   | contenu         |
-        Et une date de mise en service "2024-01-01" pour le dossier ayant comme référence "OUE-RP-2022-000033" du raccordement pour le projet lauréat
+        Etant donné une demande complète de raccordement pour le projet lauréat
+        Et une proposition technique et financière pour le dossier de raccordement du projet lauréat
+        Et une date de mise en service pour le dossier de raccordement du projet lauréat
         Et une demande d'abandon en cours pour le projet lauréat
         Quand le DGEC validateur accorde l'abandon pour le projet lauréat
-        Alors le dossier ayant comme référence "OUE-RP-2022-000033" ne devrait plus être consultable dans le raccordement du projet lauréat
+        Alors le dossier de raccordement ne devrait plus être consultable dans le raccordement du projet lauréat
 
     Scénario: Le système supprime les tâches de raccordement d'un projet si celui-ci a un abandon accordé
         Etant donné le gestionnaire de réseau inconnu attribué au raccordement du projet lauréat
