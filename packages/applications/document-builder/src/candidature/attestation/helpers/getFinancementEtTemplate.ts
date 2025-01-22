@@ -16,23 +16,24 @@ export const getFinancementEtTemplate = ({
       ? ('gouvernance-partagée' as const)
       : undefined;
 
-  switch (période.certificateTemplate) {
+  const template = période.certificateTemplate;
+  switch (template) {
     case 'cre4.v0':
     case 'cre4.v1':
       return {
-        template: période.certificateTemplate,
+        template,
         isFinancementParticipatif: actionnariat?.type === 'financement-participatif',
         isInvestissementParticipatif: actionnariat?.type === 'investissement-participatif',
       };
 
     case 'ppe2.v1':
       return {
-        template: période.certificateTemplate,
+        template,
         actionnariat: ppe2Actionnariat,
       };
     case 'ppe2.v2':
       return {
-        template: 'ppe2.v2',
+        template,
         logo: période.logo,
         actionnariat: ppe2Actionnariat,
       };
