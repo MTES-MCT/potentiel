@@ -22,6 +22,21 @@ Fonctionnalité: Accorder la demande de changement de représentant légal d'un 
             | le DGEC validateur          |
             | la DREAL associée au projet |
 
+    Plan du scénario: Corriger et accorder la demande de changement de représentant légal d'un projet lauréat
+        Etant donné une demande de changement de représentant légal en cours pour le projet lauréat
+        Quand <l'utilisateur autorisé> corrige puis accorde la demande de changement de représentant légal pour le projet lauréat
+        Alors la demande de changement de représentant légal du projet lauréat devrait être accordée
+        Et le représentant légal du projet lauréat devrait être mis à jour
+        Et un email a été envoyé au porteur avec :
+            | sujet      | Potentiel - Correction et accord de la demande de modification du représentant légal pour le projet Du boulodrome de Marseille dans le département(.*) |
+            | nom_projet | Du boulodrome de Marseille                                                                                                                             |
+            | url        | https://potentiel.beta.gouv.fr/laureats/.*/changement/representant-legal                                                                               |
+
+        Exemples:
+            | l'utilisateur autorisé      |
+            | le DGEC validateur          |
+            | la DREAL associée au projet |
+
     Scénario: Accord automatique de la demande de changement de représentant légal d'un projet lauréat
         Etant donné le projet lauréat "Du boulodrome de Bordeaux" sur une période d'appel d'offre avec accord automatique du changement de représentant légal
         Et le porteur "Tom Bombadil" ayant accés au projet lauréat "Du boulodrome de Bordeaux"

@@ -1,3 +1,6 @@
+import { mediator } from 'mediateur';
+
+import { Option } from '@potentiel-libraries/monads';
 import {
   récupérerDrealsParIdentifiantProjetAdapter,
   récupérerPorteursParIdentifiantProjetAdapter,
@@ -36,17 +39,6 @@ export const changementReprésentantLégalAccordéNotification = async ({
     });
     return;
   }
-  await sendEmail({
-    templateId: 6582166,
-    messageSubject: `Potentiel - La demande de modification du représentant légal pour le projet ${projet.nom} dans le département ${projet.département} a été accordée`,
-    recipients: porteurs,
-    variables: {
-      type: 'accord',
-      nom_projet: projet.nom,
-      departement_projet: projet.département,
-      url: `${baseUrl}${Routes.Projet.details(identifiantProjet.formatter())}`,
-    },
-  });
 
   if (event.payload.accordAutomatique) {
     const dreals = await récupérerDrealsParIdentifiantProjetAdapter(identifiantProjet);
@@ -72,4 +64,46 @@ export const changementReprésentantLégalAccordéNotification = async ({
       },
     });
   }
+
+  const changement =
+    await mediator.send<ReprésentantLégal.ConsulterChangementReprésentantLégalQuery>({
+      type: 'Lauréat.ReprésentantLégal.Query.ConsulterChangementReprésentantLégal',
+      data: {
+        identifiantProjet: event.payload.identifiantProjet,
+      },
+    });
+
+  if (Option.isNone(changement)) {
+    getLogger().error('Aucune demande de changement de représentant légal trouvée', {
+      identifiantProjet: identifiantProjet.formatter(),
+      application: 'notifications',
+      fonction: 'changementReprésentantLégalAccordéNotification',
+    });
+    return;
+  }
+
+  if (changement.demande.nomReprésentantLégal !== event.payload.nomReprésentantLégal) {
+    return sendEmail({
+      templateId: 6661131,
+      messageSubject: `Potentiel - Correction et accord de la demande de modification du représentant légal pour le projet ${projet.nom} dans le département ${projet.département}`,
+      recipients: porteurs,
+      variables: {
+        nom_projet: projet.nom,
+        departement_projet: projet.département,
+        url: `${baseUrl}${Routes.ReprésentantLégal.changement.détail(identifiantProjet.formatter())}`,
+      },
+    });
+  }
+
+  return sendEmail({
+    templateId: 6582166,
+    messageSubject: `Potentiel - La demande de modification du représentant légal pour le projet ${projet.nom} dans le département ${projet.département} a été accordée`,
+    recipients: porteurs,
+    variables: {
+      type: 'accord',
+      nom_projet: projet.nom,
+      departement_projet: projet.département,
+      url: `${baseUrl}${Routes.Projet.details(identifiantProjet.formatter())}`,
+    },
+  });
 };

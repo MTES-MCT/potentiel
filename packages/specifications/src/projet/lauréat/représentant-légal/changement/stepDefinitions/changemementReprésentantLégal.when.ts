@@ -86,6 +86,13 @@ Quand(
 );
 
 Quand(
+  /(le DGEC validateur|la DREAL associée au projet) corrige puis accorde la demande de changement de représentant légal pour le projet lauréat/,
+  async function (this: PotentielWorld, _: 'le DGEC validateur' | 'la DREAL associée au projet') {
+    await instruireChangement.call(this, 'accord', 'Nom de représentant légal corrigé');
+  },
+);
+
+Quand(
   /(le DGEC validateur|la DREAL associée au projet) rejette la demande de changement de représentant légal pour le projet lauréat/,
   async function (this: PotentielWorld, _: 'le DGEC validateur' | 'la DREAL associée au projet') {
     await instruireChangement.call(this, 'rejet');
@@ -139,27 +146,39 @@ async function demanderChangement(
   }
 }
 
-async function instruireChangement(this: PotentielWorld, instruction: 'accord' | 'rejet') {
+async function instruireChangement(
+  this: PotentielWorld,
+  instruction: 'accord' | 'rejet',
+  correctionNomReprésentantLégal?: string,
+) {
   const identifiantProjet = this.lauréatWorld.identifiantProjet.formatter();
 
   return match(instruction)
     .with('accord', async () => {
       try {
         const { accordéeLe, accordéePar, nomReprésentantLégal, typeReprésentantLégal } =
-          this.lauréatWorld.représentantLégalWorld.changementReprésentantLégalWorld.accorderChangementReprésentantLégalFixture.créer();
+          this.lauréatWorld.représentantLégalWorld.changementReprésentantLégalWorld.accorderChangementReprésentantLégalFixture.créer(
+            {
+              nomReprésentantLégal:
+                correctionNomReprésentantLégal ??
+                this.lauréatWorld.représentantLégalWorld.changementReprésentantLégalWorld
+                  .demanderChangementReprésentantLégalFixture.nomReprésentantLégal,
+            },
+          );
 
         await mediator.send<ReprésentantLégal.AccorderChangementReprésentantLégalUseCase>({
           type: 'Lauréat.ReprésentantLégal.UseCase.AccorderChangementReprésentantLégal',
           data: {
             identifiantProjetValue: identifiantProjet,
             identifiantUtilisateurValue: accordéePar,
-            nomReprésentantLégalValue: nomReprésentantLégal,
+            nomReprésentantLégalValue: correctionNomReprésentantLégal ?? nomReprésentantLégal,
             typeReprésentantLégalValue: typeReprésentantLégal.formatter(),
             dateAccordValue: accordéeLe,
             accordAutomatiqueValue: false,
           },
         });
       } catch (error) {
+        console.log('😐wtf', error);
         this.error = error as Error;
       }
     })
