@@ -1,6 +1,6 @@
 'use client';
 
-import { FC, FormHTMLAttributes, ReactNode } from 'react';
+import { FC, FormHTMLAttributes, ReactNode, useEffect, useState } from 'react';
 import { useFormState } from 'react-dom';
 
 import { formAction, ValidationErrors } from '@/utils/formAction';
@@ -23,7 +23,6 @@ export type FormProps = {
   onError?: FormHTMLAttributes<HTMLFormElement>['onError'];
   onInvalid?: FormHTMLAttributes<HTMLFormElement>['onInvalid'];
   successMessage?: string;
-  csrfToken?: string;
 };
 
 export const Form: FC<FormProps> = ({
@@ -38,8 +37,22 @@ export const Form: FC<FormProps> = ({
   actions,
   onError,
   onInvalid,
-  csrfToken,
 }) => {
+  const [csrfToken, setCsrfToken] = useState('');
+
+  useEffect(() => {
+    const fetchCSRFToken = async () => {
+      const response = await fetch('/csrf', {
+        method: 'HEAD',
+      });
+
+      const tokenFromHeader = response.headers.get('csrf_token');
+      setCsrfToken(tokenFromHeader ?? 'empty_token');
+    };
+
+    fetchCSRFToken();
+  }, []);
+
   const [state, formAction] = useFormState(action, {
     status: undefined,
   });

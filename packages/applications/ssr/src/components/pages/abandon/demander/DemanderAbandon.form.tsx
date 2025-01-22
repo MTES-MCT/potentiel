@@ -12,13 +12,9 @@ import { demanderAbandonAction, DemanderAbandonFormKeys } from './demanderAbando
 
 export type DemanderAbandonFormProps = {
   identifiantProjet: string;
-  csrfToken: string;
 };
 
-export const DemanderAbandonForm: FC<DemanderAbandonFormProps> = ({
-  identifiantProjet,
-  csrfToken,
-}) => {
+export const DemanderAbandonForm: FC<DemanderAbandonFormProps> = ({ identifiantProjet }) => {
   const [validationErrors, setValidationErrors] = useState<
     ValidationErrors<DemanderAbandonFormKeys>
   >({});
@@ -27,7 +23,6 @@ export const DemanderAbandonForm: FC<DemanderAbandonFormProps> = ({
       action={demanderAbandonAction}
       onValidationError={(validationErrors) => setValidationErrors(validationErrors)}
       actions={<SubmitButton>Demander l'abandon</SubmitButton>}
-      csrfToken={csrfToken}
     >
       <input type={'hidden'} value={identifiantProjet} name="identifiantProjet" />
 
