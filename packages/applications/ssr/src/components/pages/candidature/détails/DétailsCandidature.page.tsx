@@ -150,7 +150,7 @@ export const DétailsCandidaturePage: FC<DétailsCandidaturePageProps> = ({
         ),
       }}
       rightColumn={{
-        className: 'flex flex-col md:items-end gap-4',
+        className: 'flex flex-col md:items-center gap-4',
         children: mapToActionComponents({
           actions,
           identifiantProjet,

@@ -110,6 +110,12 @@ const getNavigationItemsBasedOnRole = (utilisateur: Utilisateur.ValueType) => {
             },
           },
           {
+            text: 'Correction par lot',
+            linkProps: {
+              href: Routes.Candidature.corrigerParLot,
+            },
+          },
+          {
             text: 'Tous les candidats',
             linkProps: {
               href: Routes.Candidature.lister({ estNotifié: false }),

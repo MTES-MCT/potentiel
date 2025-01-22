@@ -116,6 +116,9 @@ const MenuAdmin = (currentPage?: string) => (
       >
         Candidats à notifier
       </DropdownMenu.DropdownItem>
+      <DropdownMenu.DropdownItem href={Routes.Candidature.corrigerParLot}>
+        Correction par lot
+      </DropdownMenu.DropdownItem>
       <DropdownMenu.DropdownItem
         href={Routes.Candidature.lister({
           estNotifié: false,
