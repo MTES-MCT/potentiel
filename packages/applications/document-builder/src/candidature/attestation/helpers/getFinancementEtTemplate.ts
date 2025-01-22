@@ -1,7 +1,6 @@
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { Candidature } from '@potentiel-domain/candidature';
 
-const defaultLogo = 'MCE';
 export const getFinancementEtTemplate = ({
   période,
   actionnariat,
@@ -16,6 +15,7 @@ export const getFinancementEtTemplate = ({
     : actionnariat?.estÉgaleÀ(Candidature.TypeActionnariat.gouvernancePartagée)
       ? ('gouvernance-partagée' as const)
       : undefined;
+
   switch (période.certificateTemplate) {
     case 'cre4.v0':
     case 'cre4.v1':
@@ -30,11 +30,13 @@ export const getFinancementEtTemplate = ({
         template: période.certificateTemplate,
         actionnariat: ppe2Actionnariat,
       };
-    default:
+    case 'ppe2.v2':
       return {
-        template: période.certificateTemplate ?? 'ppe2.v2',
-        logo: période.certificateTemplate === 'ppe2.v2' ? période.logo : defaultLogo,
+        template: 'ppe2.v2',
+        ministère: période.logo,
         actionnariat: ppe2Actionnariat,
       };
+    default:
+      throw new Error('Impossible de générer une attestation sans modèle de certificat');
   }
 };
