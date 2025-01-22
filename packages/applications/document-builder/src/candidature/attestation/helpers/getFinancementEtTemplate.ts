@@ -33,7 +33,7 @@ export const getFinancementEtTemplate = ({
     case 'ppe2.v2':
       return {
         template: 'ppe2.v2',
-        ministère: période.logo,
+        logo: période.logo,
         actionnariat: ppe2Actionnariat,
       };
     default:
