@@ -24,7 +24,7 @@ import {
 } from './garantiesFinancières/modèleRéponseSignéeMiseEnDemeure';
 import {
   ModèleRéponseActionnaire,
-  modèleRéponseActionnaireFileName as modèleRéponseActionnaireFileName,
+  modèleRéponseActionnaireFileName,
 } from './actionnaire/modèleRéponseSignéeActionnaire';
 
 export type GénérerModèleRéponseOptions = { logo?: string } & (

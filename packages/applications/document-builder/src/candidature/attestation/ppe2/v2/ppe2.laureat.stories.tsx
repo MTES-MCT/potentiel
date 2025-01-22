@@ -34,7 +34,7 @@ type Story = StoryObj<typeof meta>;
 
 const fakeProject = {
   template: 'ppe2.v2',
-  ministère: 'MCE',
+  logo: 'Gouvernement',
   famille: undefined,
   isClasse: true,
   prixReference: 42,

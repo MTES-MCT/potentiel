@@ -1,7 +1,7 @@
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { Candidature } from '@potentiel-domain/candidature';
 
-const defaultMinistère = 'MCE';
+const defaultLogo = 'MCE';
 export const getFinancementEtTemplate = ({
   période,
   actionnariat,
@@ -33,7 +33,7 @@ export const getFinancementEtTemplate = ({
     default:
       return {
         template: période.certificateTemplate ?? 'ppe2.v2',
-        ministère: période.certificateTemplate === 'ppe2.v2' ? période.ministère : defaultMinistère,
+        logo: période.certificateTemplate === 'ppe2.v2' ? période.logo : defaultLogo,
         actionnariat: ppe2Actionnariat,
       };
   }

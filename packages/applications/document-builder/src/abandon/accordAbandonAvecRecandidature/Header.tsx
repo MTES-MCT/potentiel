@@ -29,8 +29,8 @@ export const Header: FC<HeaderProps> = ({
           }}
         >
           <Image
-            style={{ maxWidth: 151, maxHeight: 85, marginTop: 15, marginBottom: 40 }}
-            src={`${imagesFolderPath}/logo_MCE.png`}
+            style={{ maxWidth: 120, marginBottom: 40 }}
+            src={`${imagesFolderPath}/logo_gouvernement.png`}
           />
 
           <View style={{ width: 165, paddingBottom: 10, fontStyle: 'italic' }}>

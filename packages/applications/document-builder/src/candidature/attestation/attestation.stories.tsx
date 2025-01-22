@@ -31,7 +31,7 @@ const meta = {
   },
 } satisfies Meta<{
   appelOffre: string;
-  periode: string;
+  periode?: string;
   isClasse: boolean;
 }>;
 
@@ -41,7 +41,9 @@ type Story = StoryObj<typeof meta>;
 
 const fakeProject = (appelOffreId: string, périodeId?: string): AttestationCandidatureOptions => {
   const appelOffre = appelsOffreData.find((x) => x.id === appelOffreId)!;
-  const période = appelOffre.periodes.find((x) => x.id === périodeId) ?? appelOffre.periodes[0];
+  const période =
+    appelOffre.periodes.find((x) => x.id === périodeId) ??
+    appelOffre.periodes[appelOffre.periodes.length - 1];
   const data = {
     appelOffre,
     période,
@@ -68,7 +70,7 @@ const fakeProject = (appelOffreId: string, périodeId?: string): AttestationCand
   if (!période.certificateTemplate || période.certificateTemplate === 'ppe2.v2') {
     return {
       template: 'ppe2.v2',
-      ministère: période.certificateTemplate === 'ppe2.v2' ? période.ministère : 'MCE',
+      logo: période.certificateTemplate === 'ppe2.v2' ? période.logo : 'MCE',
       ...data,
     };
   }
@@ -85,8 +87,8 @@ const validateur = {
 
 export const Générique: Story = {
   args: {
-    appelOffre: appelsOffreData[0].id,
+    appelOffre: 'PPE2 - Eolien',
     isClasse: true,
-    periode: '1',
+    periode: undefined,
   },
 };

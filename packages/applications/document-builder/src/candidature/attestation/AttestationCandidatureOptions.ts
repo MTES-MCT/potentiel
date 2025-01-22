@@ -38,7 +38,7 @@ export type AttestationPPE2V1Options = PPE2BaseOptions & {
 };
 export type AttestationPPE2V2Options = PPE2BaseOptions & {
   template: 'ppe2.v2';
-  ministère: 'MEFSIN' | 'MCE';
+  logo: 'MEFSIN' | 'MCE' | 'Gouvernement';
 };
 export type AttestationPPE2Options = AttestationPPE2V1Options | AttestationPPE2V2Options;
 

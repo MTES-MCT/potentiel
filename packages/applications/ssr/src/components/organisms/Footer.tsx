@@ -3,13 +3,7 @@ import DsfrFooter from '@codegouvfr/react-dsfr/Footer';
 export const Footer = () => (
   <DsfrFooter
     id="footer"
-    brandTop={
-      <>
-        Ministère
-        <br />
-        chargé de l'énergie
-      </>
-    }
+    brandTop={<>Gouvernement</>}
     accessibility="partially compliant"
     contentDescription={
       <>

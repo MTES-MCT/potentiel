@@ -190,7 +190,7 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       id: '3',
       title: 'troisième',
       certificateTemplate: 'ppe2.v2',
-      ministère: 'MEFSIN',
+      logo: 'MEFSIN',
       cahierDesCharges: {
         référence: '2022 S 093-254888',
       },
@@ -229,7 +229,7 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       id: '4',
       title: 'quatrième',
       certificateTemplate: 'ppe2.v2',
-      ministère: 'MEFSIN',
+      logo: 'MEFSIN',
       cahierDesCharges: {
         référence: '2022 S 216-620968',
       },
@@ -256,7 +256,7 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       id: '5',
       title: 'cinquième',
       certificateTemplate: 'ppe2.v2',
-      ministère: 'MEFSIN',
+      logo: 'MEFSIN',
       cahierDesCharges: {
         référence: '2023 S 071-217458',
       },
@@ -294,7 +294,7 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       id: '6',
       title: 'sixième',
       certificateTemplate: 'ppe2.v2',
-      ministère: 'MEFSIN',
+      logo: 'MEFSIN',
       cahierDesCharges: {
         référence: '2023/S 217-683937',
       },
@@ -332,7 +332,7 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       id: '7',
       title: 'septième',
       certificateTemplate: 'ppe2.v2',
-      ministère: 'MEFSIN',
+      logo: 'MEFSIN',
       cahierDesCharges: {
         référence: '2024 S 061-179441',
       },
@@ -370,7 +370,7 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       id: '8',
       title: 'huitième',
       certificateTemplate: 'ppe2.v2',
-      ministère: 'MCE',
+      logo: 'MCE',
       cahierDesCharges: {
         référence: '2024 S 420503-2024',
       },

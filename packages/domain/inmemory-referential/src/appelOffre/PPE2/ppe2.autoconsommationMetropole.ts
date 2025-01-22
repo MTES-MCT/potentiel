@@ -191,7 +191,7 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       id: '3',
       title: 'troisième',
       certificateTemplate: 'ppe2.v2',
-      ministère: 'MEFSIN',
+      logo: 'MEFSIN',
       noteThreshold: 72.13,
       cahierDesCharges: {
         référence: '2022 S 150-427955',
@@ -210,7 +210,7 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       id: '4',
       title: 'quatrième',
       certificateTemplate: 'ppe2.v2',
-      ministère: 'MEFSIN',
+      logo: 'MEFSIN',
       noteThreshold: 76.25,
       cahierDesCharges: {
         référence: '2023/S 176-551607',
