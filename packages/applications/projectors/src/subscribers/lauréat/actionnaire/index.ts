@@ -4,14 +4,14 @@ import { match } from 'ts-pattern';
 import { RebuildTriggered, Event } from '@potentiel-infrastructure/pg-event-sourcing';
 import { Actionnaire } from '@potentiel-domain/laureat';
 
-import { handleChangementActionnaireAccordé } from './handleChangementActionnaireAccordé';
-import { handleRebuilTriggered } from './handleRebuildTriggered';
-import { handleChangementActionnaireDemandé } from './handleChangementActionnaireDemandé';
-import { handleChangementActionnaireAnnulé } from './handleChangementActionnaireAnnulé';
-import { handleActionnaireImporté } from './handleActionnaireImporté';
-import { handleActionnaireModifié } from './handleActionnaireModifié';
-import { handleChangementActionnaireRejeté } from './handleChangementActionnaireRejeté';
-import { handleChangementActionnaireSupprimé } from './handleChangementActionnaireSupprimé';
+import { handleChangementActionnaireAccordé } from './handleChangementActionnaireAccordé.projector';
+import { handleRebuilTriggered } from './handleActionnaireRebuildTriggered.projector';
+import { handleChangementActionnaireDemandé } from './handleChangementActionnaireDemandé.projector';
+import { handleChangementActionnaireAnnulé } from './handleChangementActionnaireAnnulé.projector';
+import { handleActionnaireImporté } from './handleActionnaireImporté.projector';
+import { handleActionnaireModifié } from './handleActionnaireModifié.projector';
+import { handleChangementActionnaireRejeté } from './handleChangementActionnaireRejeté.projector';
+import { handleChangementActionnaireSupprimé } from './handleChangementActionnaireSupprimé.projector';
 
 export type SubscriptionEvent = (Actionnaire.ActionnaireEvent & Event) | RebuildTriggered;
 

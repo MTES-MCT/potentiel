@@ -4,8 +4,8 @@ import { match } from 'ts-pattern';
 import { LauréatNotifiéEvent } from '../../lauréat';
 import { AbandonAccordéEvent } from '../../abandon';
 
-import { handleLauréatNotifié } from './handleLauréatNotifié';
-import { handleAbandonAccordé } from './handleAbandonAccordé';
+import { handleLauréatNotifié } from './handleLauréatNotifié.saga';
+import { handleAbandonAccordé } from './handleAbandonAccordé.saga';
 
 export type SubscriptionEvent = LauréatNotifiéEvent | AbandonAccordéEvent;
 

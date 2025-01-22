@@ -10,11 +10,11 @@ import { getLogger } from '@potentiel-libraries/monitoring';
 
 import { SendEmail } from '../../../sendEmail';
 
-import { handleActionnaireModifié } from './handleActionnaireModifié';
-import { handleChangementActionnaireAccordé } from './handleChangementActionnaireAccordé';
-import { handleChangementActionnaireAnnulé } from './handleChangementActionnaireAnnulé';
-import { handleChangementActionnaireDemandé } from './handleChangementActionnaireDemandé';
-import { handleChangementActionnaireRejeté } from './handleChangementActionnaireRejeté';
+import { handleActionnaireModifié } from './handleActionnaireModifié.notifications';
+import { handleChangementActionnaireAccordé } from './handleChangementActionnaireAccordé.notifications';
+import { handleChangementActionnaireAnnulé } from './handleChangementActionnaireAnnulé.notifications';
+import { handleChangementActionnaireDemandé } from './handleChangementActionnaireDemandé.notifications';
+import { handleChangementActionnaireRejeté } from './handleChangementActionnaireRejeté.notifications';
 
 export type SubscriptionEvent = Actionnaire.ActionnaireEvent & Event;
 
