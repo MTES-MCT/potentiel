@@ -34,36 +34,36 @@ export const DétailsActionnairePage: FC<DétailsActionnairePageProps> = ({
   identifiantProjet,
   actions,
   historique,
-}) => {
-  const idProjet = IdentifiantProjet.bind(identifiantProjet).formatter();
-
-  return (
-    <ColumnPageTemplate
-      banner={<ProjetBanner identifiantProjet={idProjet} />}
-      heading={<Heading1>Détails de l’actionnariat</Heading1>}
-      leftColumn={{
-        children: (
-          <div className="flex flex-col gap-4">
-            <DétailsChangementActionnaire actionnaire={actionnaire} demande={demande} />
+}) => (
+  <ColumnPageTemplate
+    banner={
+      <ProjetBanner identifiantProjet={IdentifiantProjet.bind(identifiantProjet).formatter()} />
+    }
+    heading={<Heading1>Détails de l’actionnariat</Heading1>}
+    leftColumn={{
+      children: (
+        <div className="flex flex-col gap-8">
+          <DétailsChangementActionnaire actionnaire={actionnaire} demande={demande} />
+          <div>
             <Heading2>Historique</Heading2>
             <HistoriqueTimeline historique={historique} />
           </div>
-        ),
-      }}
-      rightColumn={{
-        className: 'flex flex-col gap-8',
-        children: (
-          <>
-            {mapToActionComponents({
-              actions,
-              identifiantProjet: IdentifiantProjet.bind(identifiantProjet).formatter(),
-            })}
-          </>
-        ),
-      }}
-    />
-  );
-};
+        </div>
+      ),
+    }}
+    rightColumn={{
+      className: 'flex flex-col gap-8',
+      children: (
+        <>
+          {mapToActionComponents({
+            actions,
+            identifiantProjet: IdentifiantProjet.bind(identifiantProjet).formatter(),
+          })}
+        </>
+      ),
+    }}
+  />
+);
 
 type MapToActionsComponentsProps = {
   actions: ReadonlyArray<ChangementActionnaireActions>;

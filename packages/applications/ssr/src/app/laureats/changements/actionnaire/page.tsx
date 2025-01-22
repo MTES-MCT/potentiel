@@ -24,13 +24,11 @@ export const metadata: Metadata = {
   description: "Liste des demandes de changement d'actionnaire",
 };
 
-const statuts = [...Actionnaire.StatutChangementActionnaire.statuts, 'enregistré'] as const;
-
 const paramsSchema = z.object({
   page: z.coerce.number().int().optional().default(1),
   nomProjet: z.string().optional(),
   appelOffre: z.string().optional(),
-  statut: z.enum(statuts).optional(),
+  statut: z.enum(Actionnaire.StatutChangementActionnaire.statuts).optional(),
 });
 
 export default async function Page({ searchParams }: PageProps) {
@@ -39,10 +37,6 @@ export default async function Page({ searchParams }: PageProps) {
       const { page, nomProjet, appelOffre, statut } = paramsSchema.parse(searchParams);
 
       const régionDreal = await getRégionUtilisateur(utilisateur);
-
-      if (statut === 'enregistré') {
-        throw new Error('TODO');
-      }
 
       const changements = await mediator.send<Actionnaire.ListerChangementActionnaireQuery>({
         type: 'Lauréat.Actionnaire.Query.ListerChangementActionnaire',
@@ -79,7 +73,7 @@ export default async function Page({ searchParams }: PageProps) {
         {
           label: 'Statut',
           searchParamKey: 'statut',
-          options: statuts.map((statut) => ({
+          options: Actionnaire.StatutChangementActionnaire.statuts.map((statut) => ({
             label: statut.replace('-', ' ').toLocaleLowerCase(),
             value: statut,
           })),
@@ -91,6 +85,7 @@ export default async function Page({ searchParams }: PageProps) {
   );
 }
 
+// viovio
 const mapToListProps = (
   readModel: Actionnaire.ListerChangementActionnaireReadModel,
 ): ChangementActionnaireListPageProps['list'] => {

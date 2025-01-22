@@ -19,7 +19,7 @@ export const mapToModificationActionnaireTimelineItemProps = (
       </div>
     ),
     content: (
-      <>
+      <div className="flex flex-col gap-2">
         <div>
           Nouvel actionnaire <span className="font-semibold">{actionnaire}</span>
         </div>
@@ -41,7 +41,7 @@ export const mapToModificationActionnaireTimelineItemProps = (
             )}
           />
         )}
-      </>
+      </div>
     ),
   };
 };
