@@ -1,13 +1,13 @@
 import { Actionnaire } from '@potentiel-domain/laureat';
 import { findProjection } from '@potentiel-infrastructure/pg-projections';
-import { Option } from '@potentiel-libraries/monads';
 import { getLogger } from '@potentiel-libraries/monitoring';
+import { Option } from '@potentiel-libraries/monads';
 
-import { removeProjection, upsertProjection } from '../../../infrastructure';
+import { upsertProjection } from '../../../infrastructure';
 
-export const handleChangementActionnaireSupprimé = async ({
-  payload: { identifiantProjet },
-}: Actionnaire.ChangementActionnaireSuppriméEvent) => {
+export const changementActionnaireAnnuléProjector = async ({
+  payload: { identifiantProjet, annuléLe, annuléPar },
+}: Actionnaire.ChangementActionnaireAnnuléEvent) => {
   const projectionToUpsert = await findProjection<Actionnaire.ActionnaireEntity>(
     `actionnaire|${identifiantProjet}`,
   );
@@ -27,7 +27,19 @@ export const handleChangementActionnaireSupprimé = async ({
     demandeEnCours: undefined,
   });
 
-  await removeProjection<Actionnaire.ChangementActionnaireEntity>(
+  await upsertProjection<Actionnaire.ChangementActionnaireEntity>(
     `changement-actionnaire|${identifiantProjet}#${projectionToUpsert.demandeEnCours.demandéeLe}`,
+    {
+      identifiantProjet,
+      projet: projectionToUpsert.projet,
+      demande: {
+        ...projectionToUpsert.demandeEnCours,
+        statut: Actionnaire.StatutChangementActionnaire.annulé.statut,
+        annulation: {
+          annuléeLe: annuléLe,
+          annuléePar: annuléPar,
+        },
+      },
+    },
   );
 };

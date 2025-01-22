@@ -7,7 +7,7 @@ import { Option } from '@potentiel-libraries/monads';
 
 import { updateOneProjection, upsertProjection } from '../../../infrastructure';
 
-export const handleActionnaireModifié = async ({
+export const actionnaireModifiéProjector = async ({
   payload: { identifiantProjet, modifiéLe, actionnaire, modifiéPar, raison, pièceJustificative },
 }: Actionnaire.ActionnaireModifiéEvent) => {
   await updateOneProjection<Actionnaire.ActionnaireEntity>(`actionnaire|${identifiantProjet}`, {

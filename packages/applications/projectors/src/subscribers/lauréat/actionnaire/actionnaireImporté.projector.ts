@@ -7,7 +7,7 @@ import { findProjection } from '@potentiel-infrastructure/pg-projections';
 
 import { upsertProjection } from '../../../infrastructure';
 
-export const handleActionnaireImporté = async ({
+export const actionnaireImportéProjector = async ({
   payload: { identifiantProjet, actionnaire, importéLe },
 }: Actionnaire.ActionnaireImportéEvent) => {
   const candidature = await findProjection<Candidature.CandidatureEntity>(

@@ -8,7 +8,7 @@ import { RegisterActionnaireNotificationDependencies } from '.';
 
 import { actionnaireNotificationTemplateId } from './templateIds';
 
-type HandleChangementActionnaireAnnuléeProps = {
+type changementActionnaireAnnuléNotificationsProps = {
   sendEmail: RegisterActionnaireNotificationDependencies['sendEmail'];
   event: Actionnaire.ChangementActionnaireAnnuléEvent;
   projet: {
@@ -18,12 +18,12 @@ type HandleChangementActionnaireAnnuléeProps = {
   baseUrl: string;
 };
 
-export const handleChangementActionnaireAnnulé = async ({
+export const changementActionnaireAnnuléNotifications = async ({
   sendEmail,
   event,
   projet,
   baseUrl,
-}: HandleChangementActionnaireAnnuléeProps) => {
+}: changementActionnaireAnnuléNotificationsProps) => {
   const identifiantProjet = IdentifiantProjet.convertirEnValueType(event.payload.identifiantProjet);
   const dreals = await récupérerDrealsParIdentifiantProjetAdapter(identifiantProjet);
 

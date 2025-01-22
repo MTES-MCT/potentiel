@@ -5,7 +5,7 @@ import { listProjection } from '@potentiel-infrastructure/pg-projections';
 
 import { removeProjection } from '../../../infrastructure';
 
-export const handleRebuilTriggered = async ({ payload: { id } }: RebuildTriggered) => {
+export const actionnaireRebuilTriggered = async ({ payload: { id } }: RebuildTriggered) => {
   await removeProjection<Actionnaire.ActionnaireEntity>(`actionnaire|${id}`);
 
   const demandeChangementActionnaire =
