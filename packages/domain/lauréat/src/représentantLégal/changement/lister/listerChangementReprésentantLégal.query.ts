@@ -22,11 +22,12 @@ export type ListerChangementReprésentantLégalReadModel = {
 export type ListerChangementReprésentantLégalQuery = Message<
   'Lauréat.ReprésentantLégal.Query.ListerChangementReprésentantLégal',
   {
-    utilisateur: {
+    utilisateur?: {
       rôle: string;
       email: string;
       régionDreal?: string;
     };
+    identifiantProjet?: IdentifiantProjet.RawType;
     statut?: StatutChangementReprésentantLégal.RawType;
     appelOffre?: string;
     nomProjet?: string;
@@ -43,6 +44,7 @@ export const registerListerChangementReprésentantLégalQuery = ({
   list,
 }: ListerChangementReprésentantLégalDependencies) => {
   const handler: MessageHandler<ListerChangementReprésentantLégalQuery> = async ({
+    identifiantProjet,
     statut,
     appelOffre,
     nomProjet,
@@ -56,6 +58,7 @@ export const registerListerChangementReprésentantLégalQuery = ({
         },
       },
       where: {
+        identifiantProjet: Where.equal(identifiantProjet),
         demande: {
           statut: Where.equal(statut),
         },

@@ -116,15 +116,20 @@ export const getReprésentantLégal: GetReprésentantLégal = async (identifiant
 
 const getChangementReprésentantLégal = async (identifiantProjet: IdentifiantProjet.ValueType) => {
   try {
-    const changement =
-      await mediator.send<ReprésentantLégal.ConsulterChangementReprésentantLégalQuery>({
-        type: 'Lauréat.ReprésentantLégal.Query.ConsulterChangementReprésentantLégal',
-        data: { identifiantProjet: identifiantProjet.formatter() },
+    const changements =
+      await mediator.send<ReprésentantLégal.ListerChangementReprésentantLégalQuery>({
+        type: 'Lauréat.ReprésentantLégal.Query.ListerChangementReprésentantLégal',
+        data: {
+          identifiantProjet: identifiantProjet.formatter(),
+          statut: 'demandé',
+          range: {
+            startPosition: 0,
+            endPosition: 1,
+          },
+        },
       });
 
-    return Option.match(changement)
-      .some((changement) => changement.demande.statut.estDemandé())
-      .none(() => false);
+    return changements.total === 1;
   } catch (error) {
     getLogger('getChangementReprésentant').error(
       `Impossible de consulter la demande de changement de représentant légal`,
