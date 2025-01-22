@@ -85,7 +85,6 @@ export default async function Page({ searchParams }: PageProps) {
   );
 }
 
-// viovio
 const mapToListProps = (
   readModel: Actionnaire.ListerChangementActionnaireReadModel,
 ): ChangementActionnaireListPageProps['list'] => {
