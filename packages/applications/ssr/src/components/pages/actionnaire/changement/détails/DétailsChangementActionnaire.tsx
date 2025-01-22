@@ -25,7 +25,7 @@ export const DétailsChangementActionnaire: FC<DétailsChangementActionnaireProp
 }) => {
   return (
     <div className="flex flex-col gap-4">
-      <Heading2>Détails de la demande en cours de modification de l’actionnariat</Heading2>
+      <Heading2>Détails de la demande de modification de l’actionnariat</Heading2>
       {demande && actionnaire ? (
         <>
           <div className="flex flex-col gap-4">
