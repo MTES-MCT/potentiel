@@ -28,7 +28,7 @@ export const convertirEnValueType = (value: string): ValueType => {
 
 const regexEmail = /^[a-z0-9.+/=?^_`{|}~-]+@[a-z0-9-]+(?:\.[a-z0-9-]+)*$/;
 
-export const system = convertirEnValueType('system@system');
+export const system = () => convertirEnValueType('system@system');
 
 function estValide(value: string): asserts value is RawType {
   const isValid = regexEmail.test(value);

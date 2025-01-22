@@ -13,6 +13,6 @@ export const lauréatNotifiéSaga = async ({
     data: {
       identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
       importéLe: DateTime.convertirEnValueType(notifiéLe),
-      importéPar: Email.system,
+      importéPar: Email.system(),
     },
   });

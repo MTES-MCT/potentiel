@@ -201,7 +201,7 @@ export class Migrer extends Command {
                   suppriméLe: DateTime.convertirEnValueType(
                     new Date(modification.abandonedOn),
                   ).formatter(),
-                  suppriméPar: Email.system.formatter(),
+                  suppriméPar: Email.system().formatter(),
                 },
               });
               console.log(`🚮 Demande automatiquement supprimée pour ${identifiantProjet}`);

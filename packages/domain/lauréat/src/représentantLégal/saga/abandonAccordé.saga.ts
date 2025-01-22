@@ -15,7 +15,7 @@ export const abandonAccordéSaga = async ({ payload }: AbandonAccordéEvent) => 
     type: 'Lauréat.ReprésentantLégal.Command.SupprimerChangementReprésentantLégal',
     data: {
       identifiantProjet,
-      identifiantUtilisateur: Email.system,
+      identifiantUtilisateur: Email.system(),
       dateSuppression: DateTime.now(),
     },
   });

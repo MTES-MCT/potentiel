@@ -56,7 +56,7 @@ export const tâchePlanifiéeGestionAutomatiqueDemandeChangementExecutéeSaga = 
         type: 'Lauréat.ReprésentantLégal.UseCase.AccorderChangementReprésentantLégal',
         data: {
           identifiantProjetValue: identifiantProjet.formatter(),
-          identifiantUtilisateurValue: Email.system.formatter(),
+          identifiantUtilisateurValue: Email.system().formatter(),
           dateAccordValue: DateTime.now().formatter(),
           accordAutomatiqueValue: true,
         },
@@ -67,7 +67,7 @@ export const tâchePlanifiéeGestionAutomatiqueDemandeChangementExecutéeSaga = 
         type: 'Lauréat.ReprésentantLégal.UseCase.RejeterChangementReprésentantLégal',
         data: {
           identifiantProjetValue: identifiantProjet.formatter(),
-          identifiantUtilisateurValue: Email.system.formatter(),
+          identifiantUtilisateurValue: Email.system().formatter(),
           motifRejetValue: 'Rejet automatique',
           dateRejetValue: DateTime.now().formatter(),
           rejetAutomatiqueValue: true,
