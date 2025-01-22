@@ -1,72 +1,50 @@
-import { afterEach, beforeEach, describe, it, mock } from 'node:test';
+import { afterEach, describe, it } from 'node:test';
 
 import { expect } from 'chai';
+import winston from 'winston';
 
-import { getLogger, resetLogger, levels } from './logger';
+import { getLogger } from './getLogger';
+import { consoleTransport } from './winston/console.transport';
+import { initLogger, resetLogger } from './logger';
+import { createLogger } from './winston/createLogger';
+
+const logMock = (calls: string[]) => (info: any, next: any) => calls.push(info.message) && next();
 
 describe('winston-logger', () => {
-  const logMock = mock.fn();
-  beforeEach(() => {
-    resetLogger();
-    global.console = { log: logMock } as any;
-    process.env.LOGGER_LEVEL = undefined;
-  });
-
   afterEach(() => {
-    logMock.mock.resetCalls();
+    resetLogger();
   });
-  // Test all cases for non error logs
-  for (const level of levels) {
-    it(`Etant donnée une configuration du logger en mode '${level}'
-        Quand le logger log en mode '${level}'
-        Alors le log est présent dans le terminal
-      `, () => {
-      // Arrange
-      const applicationName = 'an application name';
-      const message = level === 'error' ? new Error('an error') : 'a message';
-      const meta = {
-        test: 'a test meta',
-        deep: { foo: 'bar' },
-      };
-      process.env.LOGGER_LEVEL = level;
-      process.env.APPLICATION_NAME = applicationName;
 
-      // Act
-      const logger = getLogger();
-      (logger as any)[level](message, meta);
+  it('logs the correct format', () => {
+    const calls: string[] = [];
+    initLogger(
+      createLogger({
+        level: 'debug',
+        transports: [consoleTransport({ log: logMock(calls) })],
+      }),
+    );
+    const logger = getLogger('serviceName');
 
-      // Assert
-      expect(logMock.mock.callCount()).to.eq(1);
-      expect(logMock.mock.calls[0].arguments[0]).to.contain(
-        `${level === 'error' ? 'an error' : 'a message'} | Service(an application name) | Metadata({test="a test meta"} {deep={"foo":"bar"}})`,
-      );
-    });
+    logger.info('hello', { foo: 'bar', baz: 1 });
 
-    for (const otherLevel of levels.filter((l) => l !== level)) {
-      it(`Etant donnée une configuration du logger en mode '${level}'
-        Quand le logger log en mode '${otherLevel}'
-        Alors le log ${
-          levels.indexOf(otherLevel) <= levels.indexOf(level) ? 'est' : "n'est pas"
-        } présent dans le terminal
-      `, () => {
-        // Arrange
-        const applicationName = 'an application name';
-        const message = level === 'error' ? new Error('an error') : 'a message';
-        const meta = {
-          test: 'a test meta',
-        };
-        process.env.LOGGER_LEVEL = level;
-        process.env.APPLICATION_NAME = applicationName;
+    expect(calls[0].trim()).to.eq('hello | Service(serviceName) | Metadata({foo="bar"} {baz=1})');
+  });
 
-        // Act
-        const logger = getLogger();
-        (logger as any)[otherLevel](message, meta);
+  it('logs the correct level', async () => {
+    const calls: string[] = [];
+    initLogger(
+      createLogger({
+        level: 'warn',
+        transports: [new winston.transports.Console({ log: logMock(calls) })],
+      }),
+    );
+    const logger = getLogger();
 
-        // Assert
-        expect(logMock.mock.callCount()).to.eq(
-          levels.indexOf(otherLevel) <= levels.indexOf(level) ? 1 : 0,
-        );
-      });
-    }
-  }
+    logger.debug('hello debug');
+    logger.info('hello info');
+    logger.warn('hello warn');
+    logger.error('hello error');
+
+    expect(calls).to.deep.eq(['hello warn', 'hello error']);
+  });
 });

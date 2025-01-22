@@ -10,10 +10,25 @@
     "test": "tsx --test ./**/*.spec.ts"
   },
   "dependencies": {
-    "@sentry/node": "^7.119.2",
+    "@sentry/core": "^8.48.0",
+    "@sentry/nextjs": "^8.48.0",
     "winston": "^3.10.0"
   },
   "devDependencies": {
     "@potentiel-config/tsconfig": "*"
+  },
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    },
+    "./sentry": {
+      "types": "./dist/sentry/index.d.ts",
+      "default": "./dist/sentry/index.js"
+    },
+    "./winston": {
+      "types": "./dist/winston/index.d.ts",
+      "default": "./dist/winston/index.js"
+    }
   }
 }

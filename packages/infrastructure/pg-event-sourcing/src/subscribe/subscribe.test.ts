@@ -4,7 +4,7 @@ import { expect, should } from 'chai';
 import waitForExpect from 'wait-for-expect';
 
 import { executeQuery, executeSelect, killPool } from '@potentiel-libraries/pg-helpers';
-import * as monitoring from '@potentiel-libraries/monitoring';
+import { initLogger } from '@potentiel-libraries/monitoring';
 import { DomainEvent } from '@potentiel-domain/core';
 
 import { Event } from '../event';
@@ -44,15 +44,14 @@ describe(`subscribe`, () => {
   });
 
   beforeEach(async () => {
-    monitoring.resetLogger();
-    global.console = { log: logMock } as unknown as Console;
-
     await executeQuery('delete from event_store.event_stream');
     await executeQuery('delete from event_store.subscriber');
     await executeQuery('delete from event_store.pending_acknowledgement');
   });
 
   before(async () => {
+    initLogger({ debug: logMock, error: logMock, info: logMock, warn: logMock });
+
     process.env.EVENT_STORE_CONNECTION_STRING = 'postgres://testuser@localhost:5433/potentiel_test';
     process.env.LOGGER_LEVEL = 'warn';
 
