@@ -64,7 +64,7 @@ export const CorrigerCandidaturePage: React.FC<CorrigerCandidaturePageProps> = (
                   <Link href={Routes.Projet.details(identifiantProjet.formatter())}>dédié</Link>.
                 </div>
                 <div>
-                  Pour un changement par lot (fichier CSV), veuillez utiliser la{' '}
+                  Pour une correction par lot (fichier CSV), veuillez utiliser la{' '}
                   <Link href={Routes.Candidature.corrigerParLot}>page de correction par lot</Link>
                 </div>
               </div>

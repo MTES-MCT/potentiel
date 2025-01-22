@@ -1,5 +1,8 @@
 import { FC } from 'react';
 import Alert from '@codegouvfr/react-dsfr/Alert';
+import Link from 'next/link';
+
+import { Routes } from '@potentiel-applications/routes';
 
 import { Heading1 } from '@/components/atoms/headings';
 import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
@@ -18,8 +21,16 @@ export const CorrigerCandidaturesPage: FC = () => (
           severity="info"
           small
           description={
-            <div className="py-4 text-justify">
-              Aucune notification ne sera envoyée suite à cet import.
+            <div className="flex flex-col gap-2 text-justify">
+              <span>Aucune notification ne sera envoyée suite à cet import</span>
+              <span>
+                Il est possible de corriger les données candidature par candidature et de régénérer
+                une attestation post-désignation en consultant{' '}
+                <Link href={Routes.Candidature.lister()} target="_blank">
+                  la liste des candidatures
+                </Link>{' '}
+                ou la page du projet concerné.
+              </span>
             </div>
           }
         />
