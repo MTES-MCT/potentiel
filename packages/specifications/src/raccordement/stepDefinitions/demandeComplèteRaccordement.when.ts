@@ -51,7 +51,7 @@ Quand(
   async function (this: PotentielWorld, rôleUtilisateur: RôleUtilisateur, datatable: DataTable) {
     const { identifiantProjet } = this.lauréatWorld;
     const { référenceDossier } =
-      this.raccordementWorld.transmettreDemandeComplèteRaccordementFixture;
+      this.raccordementWorld.demandeComplèteDeRaccordement.transmettreFixture;
     await modifierDemandeComplèteRaccordement.call(
       this,
       identifiantProjet.formatter(),
@@ -97,9 +97,9 @@ export async function transmettreDemandeComplèteRaccordement(
   data: Record<string, string> = {},
 ) {
   const { accuséRéception, dateQualification, référenceDossier } =
-    this.raccordementWorld.transmettreDemandeComplèteRaccordementFixture.créer({
+    this.raccordementWorld.demandeComplèteDeRaccordement.transmettreFixture.créer({
       identifiantProjet: identifiantProjet.formatter(),
-      ...this.raccordementWorld.transmettreDemandeComplèteRaccordementFixture.mapExempleToFixtureValues(
+      ...this.raccordementWorld.demandeComplèteDeRaccordement.transmettreFixture.mapExempleToFixtureValues(
         data,
       ),
     });
@@ -127,10 +127,10 @@ async function modifierDemandeComplèteRaccordement(
   data: Record<string, string> = {},
 ) {
   const { accuséRéception, dateQualification, référenceDossier } =
-    this.raccordementWorld.modifierDemandeComplèteRaccordementFixture.créer({
+    this.raccordementWorld.demandeComplèteDeRaccordement.modifierFixture.créer({
       identifiantProjet,
       référenceDossier: référence,
-      ...this.raccordementWorld.transmettreDemandeComplèteRaccordementFixture.mapExempleToFixtureValues(
+      ...this.raccordementWorld.demandeComplèteDeRaccordement.transmettreFixture.mapExempleToFixtureValues(
         data,
       ),
     });

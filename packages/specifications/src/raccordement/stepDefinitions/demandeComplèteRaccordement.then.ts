@@ -46,9 +46,9 @@ Alors(
       );
       const actualAccuséRéception = dossierRaccordement.demandeComplèteRaccordement.accuséRéception;
       const { accuséRéception: expectedAccuséRéception } = this.raccordementWorld
-        .modifierDemandeComplèteRaccordementFixture.aÉtéCréé
-        ? this.raccordementWorld.modifierDemandeComplèteRaccordementFixture
-        : this.raccordementWorld.transmettreDemandeComplèteRaccordementFixture;
+        .demandeComplèteDeRaccordement.modifierFixture.aÉtéCréé
+        ? this.raccordementWorld.demandeComplèteDeRaccordement.modifierFixture
+        : this.raccordementWorld.demandeComplèteDeRaccordement.transmettreFixture;
 
       assert(actualAccuséRéception, 'actualAccuséRéception is not defined');
       const result = await mediator.send<ConsulterDocumentProjetQuery>({

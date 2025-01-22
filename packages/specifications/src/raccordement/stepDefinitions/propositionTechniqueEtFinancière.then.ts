@@ -35,9 +35,9 @@ Alors(
       assert(propositionTechniqueEtFinancière, 'propositionTechniqueEtFinancière is undefined');
 
       const { propositionTechniqueEtFinancièreSignée } = this.raccordementWorld
-        .modifierPropositionTechniqueEtFinancièreFixture.aÉtéCréé
-        ? this.raccordementWorld.modifierPropositionTechniqueEtFinancièreFixture
-        : this.raccordementWorld.transmettrePropositionTechniqueEtFinancièreFixture;
+        .propositionTechniqueEtFinancière.modifierFixture.aÉtéCréé
+        ? this.raccordementWorld.propositionTechniqueEtFinancière.modifierFixture
+        : this.raccordementWorld.propositionTechniqueEtFinancière.transmettreFixture;
 
       const result = await mediator.send<ConsulterDocumentProjetQuery>({
         type: 'Document.Query.ConsulterDocumentProjet',

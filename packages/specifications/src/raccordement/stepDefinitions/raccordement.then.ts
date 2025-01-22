@@ -142,7 +142,7 @@ Alors(
   async function (this: PotentielWorld) {
     const { identifiantProjet } = this.lauréatWorld;
     const { référenceDossier } =
-      this.raccordementWorld.transmettreDemandeComplèteRaccordementFixture;
+      this.raccordementWorld.demandeComplèteDeRaccordement.transmettreFixture;
     await waitForExpect(async () => {
       const raccordement = await mediator.send<Raccordement.ConsulterRaccordementQuery>({
         type: 'Réseau.Raccordement.Query.ConsulterRaccordement',

@@ -9,10 +9,10 @@ EtantDonné(
   'une proposition technique et financière pour le dossier de raccordement du projet lauréat',
   async function (this: PotentielWorld) {
     const { identifiantProjet, référenceDossier } =
-      this.raccordementWorld.transmettreDemandeComplèteRaccordementFixture;
+      this.raccordementWorld.demandeComplèteDeRaccordement.transmettreFixture;
 
     const { dateSignature, propositionTechniqueEtFinancièreSignée } =
-      this.raccordementWorld.transmettrePropositionTechniqueEtFinancièreFixture.créer({
+      this.raccordementWorld.propositionTechniqueEtFinancière.transmettreFixture.créer({
         identifiantProjet,
         référenceDossier,
       });

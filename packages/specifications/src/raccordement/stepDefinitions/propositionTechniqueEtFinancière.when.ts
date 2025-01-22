@@ -81,10 +81,10 @@ async function transmettrePropositionTechniqueEtFinancière(
   data: Record<string, string> = {},
 ) {
   const { dateSignature, propositionTechniqueEtFinancièreSignée, référenceDossier } =
-    this.raccordementWorld.transmettrePropositionTechniqueEtFinancièreFixture.créer({
+    this.raccordementWorld.propositionTechniqueEtFinancière.modifierFixture.créer({
       identifiantProjet,
       référenceDossier: référence,
-      ...this.raccordementWorld.transmettrePropositionTechniqueEtFinancièreFixture.mapExempleToFixtureValues(
+      ...this.raccordementWorld.propositionTechniqueEtFinancière.modifierFixture.mapExempleToFixtureValues(
         data,
       ),
     });
@@ -111,10 +111,10 @@ async function modifierPropositionTechniqueEtFinancière(
   data: Record<string, string> = {},
 ) {
   const { dateSignature, propositionTechniqueEtFinancièreSignée, référenceDossier } =
-    this.raccordementWorld.modifierPropositionTechniqueEtFinancièreFixture.créer({
+    this.raccordementWorld.propositionTechniqueEtFinancière.modifierFixture.créer({
       identifiantProjet: identifiantProjet.formatter(),
       référenceDossier: référence,
-      ...this.raccordementWorld.modifierPropositionTechniqueEtFinancièreFixture.mapExempleToFixtureValues(
+      ...this.raccordementWorld.propositionTechniqueEtFinancière.modifierFixture.mapExempleToFixtureValues(
         data,
       ),
     });
