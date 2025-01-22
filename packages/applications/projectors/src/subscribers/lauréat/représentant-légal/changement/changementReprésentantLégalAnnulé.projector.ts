@@ -1,7 +1,7 @@
 import { ReprésentantLégal } from '@potentiel-domain/laureat';
-import { findProjection } from '@potentiel-infrastructure/pg-projections';
-import { Option } from '@potentiel-libraries/monads';
+import { listProjection } from '@potentiel-infrastructure/pg-projections';
 import { getLogger } from '@potentiel-libraries/monitoring';
+import { Where } from '@potentiel-domain/entity';
 
 import { removeProjection } from '../../../../infrastructure';
 
@@ -12,14 +12,30 @@ export const changementReprésentantLégalAnnuléProjector = async (
     payload: { identifiantProjet },
   } = event;
 
-  const changementReprésentantLégal =
-    await findProjection<ReprésentantLégal.ChangementReprésentantLégalEntity>(
-      `changement-représentant-légal|${identifiantProjet}`,
+  const derniersChangementsDemandés =
+    await listProjection<ReprésentantLégal.ChangementReprésentantLégalEntity>(
+      `changement-représentant-légal`,
+      {
+        where: {
+          identifiantProjet: Where.equal(identifiantProjet),
+          demande: {
+            statut: Where.equal(
+              ReprésentantLégal.StatutChangementReprésentantLégal.demandé.formatter(),
+            ),
+          },
+        },
+      },
     );
 
-  if (Option.isNone(changementReprésentantLégal)) {
+  if (derniersChangementsDemandés.total === 0) {
+    getLogger().warn(`Aucune demande n'a été trouvée pour le changement de représentant accordé`, {
+      event,
+    });
+    return;
+  }
+  if (derniersChangementsDemandés.total > 1) {
     getLogger().warn(
-      `Aucune demande n'a été trouvée pour l'annulation de la demande de changement de représentant légal`,
+      `Plusieurs demandes ont été trouvées pour le changement de représentant accordé`,
       {
         event,
       },
@@ -27,5 +43,8 @@ export const changementReprésentantLégalAnnuléProjector = async (
     return;
   }
 
-  await removeProjection(`changement-représentant-légal|${identifiantProjet}`);
+  const changementReprésentantLégal = derniersChangementsDemandés.items[0];
+  const identifiantChangement = `${identifiantProjet}#${changementReprésentantLégal.demande.demandéLe}`;
+
+  await removeProjection(`changement-représentant-légal|${identifiantChangement}`);
 };
