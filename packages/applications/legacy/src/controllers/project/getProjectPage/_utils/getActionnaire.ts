@@ -95,7 +95,8 @@ export const getActionnaire = async (
             : undefined,
         peutConsulterDemandeChangement:
           utilisateur.aLaPermission('actionnaire.consulterChangement') &&
-          Option.isSome(demandeExistanteDeChangement),
+          Option.isSome(demandeExistanteDeChangement) &&
+          demandeExistanteDeChangement.demande.statut.estDemandé(),
       };
     }
 
