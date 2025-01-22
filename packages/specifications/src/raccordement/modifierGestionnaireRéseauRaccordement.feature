@@ -9,12 +9,12 @@ Fonctionnalité: Modifier le gestionnaire de réseau d'un raccordement
         Et le porteur "Marcel Patoulatchi" ayant accés au projet lauréat "Du boulodrome de Marseille"
 
     Scénario: Un porteur de projet modifie le gestionnaire de réseau d'un raccordement
-        Quand un porteur modifie le gestionnaire de réseau du projet avec le gestionnaire "Arc Energies Maurienne"
+        Quand le porteur modifie le gestionnaire de réseau du projet avec le gestionnaire "Arc Energies Maurienne"
         Alors le projet devrait avoir un raccordement attribué au gestionnaire de réseau "Arc Energies Maurienne"
 
     Scénario: Un porteur de projet modifie le gestionnaire de réseau d'un raccordement avec dossier
         Etant donné une demande complète de raccordement pour le projet lauréat
-        Quand un porteur modifie le gestionnaire de réseau du projet avec le gestionnaire "Arc Energies Maurienne"
+        Quand le porteur modifie le gestionnaire de réseau du projet avec le gestionnaire "Arc Energies Maurienne"
         Alors le projet devrait avoir un raccordement attribué au gestionnaire de réseau "Arc Energies Maurienne"
 
     Scénario: Un porteur de projet modifie le gestionnaire de réseau d'un raccordement avec plusieurs dossiers
@@ -22,11 +22,11 @@ Fonctionnalité: Modifier le gestionnaire de réseau d'un raccordement
             | La référence du dossier de raccordement | OUE-RP-2022-000033 |
         Et une demande complète de raccordement pour le projet lauréat avec :
             | La référence du dossier de raccordement | OUE-RP-2022-000034 |
-        Quand un porteur modifie le gestionnaire de réseau du projet avec le gestionnaire "Arc Energies Maurienne"
+        Quand le porteur modifie le gestionnaire de réseau du projet avec le gestionnaire "Arc Energies Maurienne"
         Alors le projet devrait avoir un raccordement attribué au gestionnaire de réseau "Arc Energies Maurienne"
 
     Scénario: Un porteur de projet modifie le gestionnaire de réseau d'un raccordement avec un gestionnaire non référencé
-        Quand un porteur modifie le gestionnaire de réseau du projet avec un gestionnaire non référencé
+        Quand le porteur modifie le gestionnaire de réseau du projet avec un gestionnaire non référencé
         Alors le porteur devrait être informé que "Le gestionnaire de réseau n'est pas référencé"
 
     Scénario: Le système modifie le gestionnaire de réseau d'un raccordement avec un gestionnaire inconnu
@@ -37,7 +37,7 @@ Fonctionnalité: Modifier le gestionnaire de réseau d'un raccordement
     Scénario: Un porteur de projet peut transmettre une demande complète de raccordemnent pour son nouveau gestionnaire de projet
         Etant donné une demande complète de raccordement pour le projet lauréat avec :
             | La référence du dossier de raccordement | OUE-RP-2022-000033 |
-        Quand un porteur modifie le gestionnaire de réseau du projet avec le gestionnaire "Arc Energies Maurienne"
+        Quand le porteur modifie le gestionnaire de réseau du projet avec le gestionnaire "Arc Energies Maurienne"
         Et le porteur transmet une demande complète de raccordement pour le projet lauréat avec :
             | La référence du dossier de raccordement | OUE-RP-2022-000034 |
         Alors le projet lauréat devrait avoir 2 dossiers de raccordement
@@ -46,7 +46,7 @@ Fonctionnalité: Modifier le gestionnaire de réseau d'un raccordement
     Scénario: Impossible pour un porteur de projet de modifier le gestionnaire de réseau d'un raccordement avec mise en service
         Etant donné une demande complète de raccordement pour le projet lauréat
         Et une date de mise en service pour le dossier de raccordement du projet lauréat
-        Quand un porteur modifie le gestionnaire de réseau du projet avec le gestionnaire "Arc Energies Maurienne"
+        Quand le porteur modifie le gestionnaire de réseau du projet avec le gestionnaire "Arc Energies Maurienne"
         Alors le porteur devrait être informé que "Le gestionnaire de réseau ne peut être modifié car le raccordement a une date de mise en service"
 
     Scénario: Impossible pour une dreal de modifier le gestionnaire de réseau d'un raccordement avec mise en service
@@ -62,5 +62,5 @@ Fonctionnalité: Modifier le gestionnaire de réseau d'un raccordement
 
     Scénario: Une tâche est achevée lorsqu'un raccordement est modifié avec un gestionnaire réseau valide
         Etant donné une tâche indiquant de "mettre à jour le gestionnaire de réseau" pour le projet lauréat avec gestionnaire inconnu
-        Quand un porteur modifie le gestionnaire de réseau du projet avec le gestionnaire "Enedis"
+        Quand le porteur modifie le gestionnaire de réseau du projet avec le gestionnaire "Enedis"
         Alors une tâche indiquant de "mettre à jour le gestionnaire de réseau" n'est plus consultable dans la liste des tâches du porteur pour le projet
