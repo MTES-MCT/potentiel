@@ -30,6 +30,8 @@ const action: FormAction<FormState, typeof schema> = async (
   { identifiantProjet, nomRepresentantLegal, typeRepresentantLegal, piecesJustificatives },
 ) =>
   withUtilisateur(async (utilisateur) => {
+    const dateDemandeValue = new Date().toISOString();
+
     await mediator.send<ReprésentantLégal.ReprésentantLégalUseCase>({
       type: 'Lauréat.ReprésentantLégal.UseCase.DemanderChangementReprésentantLégal',
       data: {
@@ -38,13 +40,13 @@ const action: FormAction<FormState, typeof schema> = async (
         typeReprésentantLégalValue: typeRepresentantLegal,
         pièceJustificativeValue: piecesJustificatives,
         identifiantUtilisateurValue: utilisateur.identifiantUtilisateur.formatter(),
-        dateDemandeValue: new Date().toISOString(),
+        dateDemandeValue,
       },
     });
     return {
       status: 'success',
       redirection: {
-        url: Routes.ReprésentantLégal.changement.détail(identifiantProjet),
+        url: Routes.ReprésentantLégal.changement.détail(identifiantProjet, dateDemandeValue),
         message: 'La demande de changement de représentant légal a bien été transmise',
       },
     };

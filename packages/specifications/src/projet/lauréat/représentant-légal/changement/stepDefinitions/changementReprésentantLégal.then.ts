@@ -22,6 +22,9 @@ Alors(
           type: 'Lauréat.ReprésentantLégal.Query.ConsulterChangementReprésentantLégal',
           data: {
             identifiantProjet: identifiantProjet.formatter(),
+            demandéLe:
+              this.lauréatWorld.représentantLégalWorld.changementReprésentantLégalWorld
+                .demanderChangementReprésentantLégalFixture.demandéLe,
           },
         });
 
@@ -74,6 +77,9 @@ Alors(
           type: 'Lauréat.ReprésentantLégal.Query.ConsulterChangementReprésentantLégal',
           data: {
             identifiantProjet: identifiantProjet.formatter(),
+            demandéLe:
+              this.lauréatWorld.représentantLégalWorld.changementReprésentantLégalWorld
+                .demanderChangementReprésentantLégalFixture.demandéLe,
           },
         });
 
@@ -128,6 +134,9 @@ async function vérifierInstructionDemande(
         type: 'Lauréat.ReprésentantLégal.Query.ConsulterChangementReprésentantLégal',
         data: {
           identifiantProjet: identifiantProjet.formatter(),
+          demandéLe:
+            this.lauréatWorld.représentantLégalWorld.changementReprésentantLégalWorld
+              .demanderChangementReprésentantLégalFixture.demandéLe,
         },
       });
 
@@ -155,6 +164,9 @@ async function vérifierInstructionAutomatiqueDemande(
         type: 'Lauréat.ReprésentantLégal.Query.ConsulterChangementReprésentantLégal',
         data: {
           identifiantProjet: identifiantProjet.formatter(),
+          demandéLe:
+            this.lauréatWorld.représentantLégalWorld.changementReprésentantLégalWorld
+              .demanderChangementReprésentantLégalFixture.demandéLe,
         },
       });
 

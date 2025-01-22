@@ -1,6 +1,7 @@
 import { mediator } from 'mediateur';
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
+import { z } from 'zod';
 
 import { Option } from '@potentiel-libraries/monads';
 import { ReprésentantLégal } from '@potentiel-domain/laureat';
@@ -21,18 +22,28 @@ export const metadata: Metadata = {
   description: "Détail du représentant légal d'un projet",
 };
 
-export default async function Page({ params: { identifiant } }: IdentifiantParameter) {
+type PageProps = IdentifiantParameter & {
+  searchParams?: Record<string, string>;
+};
+
+const paramsSchema = z.object({
+  demandeLe: z.string().min(1),
+});
+
+export default async function Page({ params: { identifiant }, searchParams }: PageProps) {
   return PageWithErrorHandling(async () =>
     withUtilisateur(async (utilisateur) => {
       const identifiantProjet = IdentifiantProjet.convertirEnValueType(
         decodeParameter(identifiant),
       );
+      const { demandeLe: demandéLe } = paramsSchema.parse(searchParams);
 
       const changement =
         await mediator.send<ReprésentantLégal.ConsulterChangementReprésentantLégalQuery>({
           type: 'Lauréat.ReprésentantLégal.Query.ConsulterChangementReprésentantLégal',
           data: {
             identifiantProjet: identifiantProjet.formatter(),
+            demandéLe,
           },
         });
 

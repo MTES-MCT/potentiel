@@ -96,6 +96,7 @@ const mapToListProps = (
   return {
     items: readModel.items.map((item) => ({
       identifiantProjet: mapToPlainObject(item.identifiantProjet),
+      demandéLe: item.demandéLe,
       nomProjet: item.nomProjet,
       statut: mapToPlainObject(item.statut),
       misÀJourLe: mapToPlainObject(item.misÀJourLe),

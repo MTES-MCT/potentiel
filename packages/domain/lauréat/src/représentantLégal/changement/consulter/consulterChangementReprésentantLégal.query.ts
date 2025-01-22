@@ -38,6 +38,7 @@ export type ConsulterChangementReprésentantLégalQuery = Message<
   'Lauréat.ReprésentantLégal.Query.ConsulterChangementReprésentantLégal',
   {
     identifiantProjet: string;
+    demandéLe: string;
   },
   Option.Type<ConsulterChangementReprésentantLégalReadModel>
 >;
@@ -51,11 +52,12 @@ export const registerConsulterChangementReprésentantLegalQuery = ({
 }: ConsulterChangementReprésentantLégalDependencies) => {
   const handler: MessageHandler<ConsulterChangementReprésentantLégalQuery> = async ({
     identifiantProjet,
+    demandéLe,
   }) => {
     const identifiantProjetValueType = IdentifiantProjet.convertirEnValueType(identifiantProjet);
 
     const changement = await find<ReprésentantLégal.ChangementReprésentantLégalEntity>(
-      `changement-représentant-légal|${identifiantProjetValueType.formatter()}`,
+      `changement-représentant-légal|${identifiantProjetValueType.formatter()}#${demandéLe}`,
     );
 
     return Option.match(changement)

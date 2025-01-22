@@ -11,6 +11,7 @@ import { withUtilisateur } from '@/utils/withUtilisateur';
 
 const schema = zod.object({
   identifiantProjet: zod.string().min(1),
+  dateDemande: zod.string().min(1),
   motifRejet: zod.string().min(1),
 });
 
@@ -18,7 +19,7 @@ export type RejeterChangementReprésentantLégalFormKeys = keyof zod.infer<typeo
 
 const action: FormAction<FormState, typeof schema> = async (
   _,
-  { identifiantProjet, motifRejet },
+  { identifiantProjet, motifRejet, dateDemande },
 ) => {
   return withUtilisateur(async (utilisateur) => {
     await mediator.send<ReprésentantLégal.ReprésentantLégalUseCase>({
@@ -35,7 +36,7 @@ const action: FormAction<FormState, typeof schema> = async (
     return {
       status: 'success',
       redirection: {
-        url: Routes.ReprésentantLégal.changement.détail(identifiantProjet),
+        url: Routes.ReprésentantLégal.changement.détail(identifiantProjet, dateDemande),
       },
     };
   });
