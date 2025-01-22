@@ -2,7 +2,7 @@ import { ReprésentantLégal } from '@potentiel-domain/laureat';
 
 import { createProjection } from '../../../infrastructure';
 
-export const handleReprésentantLégalImporté = async ({
+export const représentantLégalImportéProjector = async ({
   payload: { identifiantProjet, nomReprésentantLégal },
 }: ReprésentantLégal.ReprésentantLégalImportéEvent) =>
   createProjection<ReprésentantLégal.ReprésentantLégalEntity>(

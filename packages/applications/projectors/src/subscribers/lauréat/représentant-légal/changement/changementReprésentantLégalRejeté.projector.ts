@@ -3,9 +3,9 @@ import { findProjection } from '@potentiel-infrastructure/pg-projections';
 import { Option } from '@potentiel-libraries/monads';
 import { getLogger } from '@potentiel-libraries/monitoring';
 
-import { upsertProjection } from '../../../infrastructure';
+import { upsertProjection } from '../../../../infrastructure';
 
-export const handleChangementReprésentantLégalRejeté = async (
+export const changementReprésentantLégalRejetéProjector = async (
   event: ReprésentantLégal.ChangementReprésentantLégalRejetéEvent,
 ) => {
   const {

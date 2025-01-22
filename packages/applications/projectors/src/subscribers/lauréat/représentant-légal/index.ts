@@ -4,14 +4,14 @@ import { match } from 'ts-pattern';
 import { RebuildTriggered, Event } from '@potentiel-infrastructure/pg-event-sourcing';
 import { ReprésentantLégal } from '@potentiel-domain/laureat';
 
-import { handleRebuilTriggered } from './handleRebuildTriggered';
-import { handleReprésentantLégalImporté } from './handleReprésentantLégalImporté';
-import { handleReprésentantLégalModifié } from './handleReprésentantLégalModifié';
-import { handleChangementReprésentantLégalDemandé } from './handleChangementReprésentantLégalDemandé';
-import { handleChangementReprésentantLégalAccordé } from './handleChangementReprésentantLégalAccordé';
-import { handleChangementReprésentantLégalRejeté } from './handleChangementReprésentantLégalRejeté';
-import { handleChangementReprésentantLégalSupprimé } from './handleChangementReprésentantLégalSupprimé';
-import { handleChangementReprésentantLégalAnnulé } from './handleChangementReprésentantLégalAnnulé';
+import { rebuilTriggeredProjector } from './rebuildTriggered.projector';
+import { représentantLégalImportéProjector } from './représentantLégalImporté.projector';
+import { représentantLégalModifiéProjector } from './représentantLégalModifié.projector';
+import { changementReprésentantLégalDemandéProjector } from './changement/changementReprésentantLégalDemandé.projector';
+import { changementReprésentantLégalAccordéProjector } from './changement/changementReprésentantLégalAccordé.projector';
+import { changementReprésentantLégalRejetéProjector } from './changement/changementReprésentantLégalRejeté.projector';
+import { changementReprésentantLégalSuppriméProjector } from './changement/changementReprésentantLégalSupprimé.projector';
+import { changementReprésentantLégalAnnuléProjector } from './changement/changementReprésentantLégalAnnulé.projector';
 
 export type SubscriptionEvent =
   | (ReprésentantLégal.ReprésentantLégalEvent & Event)
@@ -22,32 +22,32 @@ export type Execute = Message<'System.Projector.Lauréat.ReprésentantLégal', S
 export const register = () => {
   const handler: MessageHandler<Execute> = async (event) =>
     match(event)
-      .with({ type: 'RebuildTriggered' }, handleRebuilTriggered)
-      .with({ type: 'ReprésentantLégalImporté-V1' }, handleReprésentantLégalImporté)
-      .with({ type: 'ReprésentantLégalModifié-V1' }, handleReprésentantLégalModifié)
+      .with({ type: 'RebuildTriggered' }, rebuilTriggeredProjector)
+      .with({ type: 'ReprésentantLégalImporté-V1' }, représentantLégalImportéProjector)
+      .with({ type: 'ReprésentantLégalModifié-V1' }, représentantLégalModifiéProjector)
       .with(
         { type: 'ChangementReprésentantLégalDemandé-V1' },
-        handleChangementReprésentantLégalDemandé,
+        changementReprésentantLégalDemandéProjector,
       )
       .with(
         {
           type: 'ChangementReprésentantLégalAnnulé-V1',
         },
-        handleChangementReprésentantLégalAnnulé,
+        changementReprésentantLégalAnnuléProjector,
       )
       .with(
         { type: 'ChangementReprésentantLégalAccordé-V1' },
-        handleChangementReprésentantLégalAccordé,
+        changementReprésentantLégalAccordéProjector,
       )
       .with(
         { type: 'ChangementReprésentantLégalRejeté-V1' },
-        handleChangementReprésentantLégalRejeté,
+        changementReprésentantLégalRejetéProjector,
       )
       .with(
         {
           type: 'ChangementReprésentantLégalSupprimé-V1',
         },
-        handleChangementReprésentantLégalSupprimé,
+        changementReprésentantLégalSuppriméProjector,
       )
       .exhaustive();
 
