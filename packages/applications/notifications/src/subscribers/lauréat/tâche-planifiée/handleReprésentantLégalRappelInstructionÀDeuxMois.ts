@@ -55,22 +55,29 @@ export const handleReprésentantLégalRappelInstructionÀDeuxMois = async ({
     return;
   }
 
-  const changement =
-    await mediator.send<ReprésentantLégal.ConsulterChangementReprésentantLégalQuery>({
-      type: 'Lauréat.ReprésentantLégal.Query.ConsulterChangementReprésentantLégal',
+  const derniersChangementsDemandés =
+    await mediator.send<ReprésentantLégal.ListerChangementReprésentantLégalQuery>({
+      type: 'Lauréat.ReprésentantLégal.Query.ListerChangementReprésentantLégal',
       data: {
         identifiantProjet: identifiantProjet.formatter(),
+        statut: ReprésentantLégal.StatutChangementReprésentantLégal.demandé.formatter(),
       },
     });
 
-  if (Option.isNone(changement)) {
-    getLogger().error('Aucun changement de représentant légal à traiter', {
-      identifiantProjet: identifiantProjet.formatter(),
-      application: 'notifications',
-      fonction: 'handleReprésentantLégalRappelInstructionÀDeuxMois',
+  if (derniersChangementsDemandés.total === 0) {
+    getLogger().warn(`Aucune demande n'a été trouvée pour le changement de représentant`, {
+      event,
     });
     return;
   }
+  if (derniersChangementsDemandés.total > 1) {
+    getLogger().warn(`Plusieurs demandes ont été trouvées pour le changement de représentant`, {
+      event,
+    });
+    return;
+  }
+
+  const changementReprésentantLégal = derniersChangementsDemandés.items[0];
 
   const {
     changement: {
@@ -88,7 +95,7 @@ export const handleReprésentantLégalRappelInstructionÀDeuxMois = async ({
       type: typeTâchePlanifiée === 'accord-automatique' ? 'accord' : 'rejet',
       nom_projet: nom,
       departement_projet: département,
-      url: `${baseUrl}${Routes.ReprésentantLégal.changement.détail(identifiantProjet.formatter())}`,
+      url: `${baseUrl}${Routes.ReprésentantLégal.changement.détail(identifiantProjet.formatter(), changementReprésentantLégal.demandéLe)}`,
     },
   });
 };

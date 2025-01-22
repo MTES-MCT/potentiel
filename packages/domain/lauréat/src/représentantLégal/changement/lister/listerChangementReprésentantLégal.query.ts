@@ -31,7 +31,7 @@ export type ListerChangementReprésentantLégalQuery = Message<
     statut?: StatutChangementReprésentantLégal.RawType;
     appelOffre?: string;
     nomProjet?: string;
-    range: RangeOptions;
+    range?: RangeOptions;
   },
   ListerChangementReprésentantLégalReadModel
 >;
