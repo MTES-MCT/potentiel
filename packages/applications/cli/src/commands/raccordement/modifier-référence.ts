@@ -128,7 +128,7 @@ export default class ModifierRéférence extends Command {
               nouvelleRéférenceDossierRaccordementValue: row['referenceDossier corrigé GRD'],
               rôleValue: 'admin',
               modifiéeLeValue: DateTime.now().formatter(),
-              modifiéeParValue: Email.system().formatter(),
+              modifiéeParValue: Email.system.formatter(),
             },
           });
         }
