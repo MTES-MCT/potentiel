@@ -1,39 +1,37 @@
 import { mediator } from 'mediateur';
 
 import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
-import { Option } from '@potentiel-libraries/monads';
 import { AnnulerTâchePlanifiéeCommand } from '@potentiel-domain/tache-planifiee';
 
 import { AbandonAccordéEvent } from '../../abandon';
 import { SupprimerChangementReprésentantLégalCommand } from '../changement/supprimer/supprimerChangementReprésentantLégal.command';
-import { ConsulterChangementReprésentantLégalQuery } from '../changement/consulter/consulterChangementReprésentantLégal.query';
 import { TypeTâchePlanifiéeChangementReprésentantLégal } from '..';
+import { SupprimerDocumentProjetSensibleCommand } from '../changement/supprimerDocumentSensible/supprimerDocumentProjetSensible.command';
 
-export const handleAbandonAccordé = async ({
-  payload: { identifiantProjet },
-}: AbandonAccordéEvent) => {
-  const demande = await mediator.send<ConsulterChangementReprésentantLégalQuery>({
-    type: 'Lauréat.ReprésentantLégal.Query.ConsulterChangementReprésentantLégal',
+export const abandonAccordéSaga = async ({ payload }: AbandonAccordéEvent) => {
+  const identifiantProjet = IdentifiantProjet.convertirEnValueType(payload.identifiantProjet);
+
+  await mediator.send<SupprimerChangementReprésentantLégalCommand>({
+    type: 'Lauréat.ReprésentantLégal.Command.SupprimerChangementReprésentantLégal',
     data: {
       identifiantProjet,
+      identifiantUtilisateur: Email.system(),
+      dateSuppression: DateTime.now(),
     },
   });
 
-  if (Option.isSome(demande)) {
-    await mediator.send<SupprimerChangementReprésentantLégalCommand>({
-      type: 'Lauréat.ReprésentantLégal.Command.SupprimerChangementReprésentantLégal',
-      data: {
-        identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
-        identifiantUtilisateur: Email.system(),
-        dateSuppression: DateTime.now(),
-      },
-    });
-  }
+  await mediator.send<SupprimerDocumentProjetSensibleCommand>({
+    type: 'Lauréat.ReprésentantLégal.Command.SupprimerDocumentProjetSensible',
+    data: {
+      identifiantProjet,
+      raison: 'Pièce justificative supprimée automatiquement après annulation',
+    },
+  });
 
   await mediator.send<AnnulerTâchePlanifiéeCommand>({
     type: 'System.TâchePlanifiée.Command.AnnulerTâchePlanifiée',
     data: {
-      identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
+      identifiantProjet,
       typeTâchePlanifiée:
         TypeTâchePlanifiéeChangementReprésentantLégal.gestionAutomatiqueDemandeChangement.type,
     },
@@ -42,7 +40,7 @@ export const handleAbandonAccordé = async ({
   await mediator.send<AnnulerTâchePlanifiéeCommand>({
     type: 'System.TâchePlanifiée.Command.AnnulerTâchePlanifiée',
     data: {
-      identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
+      identifiantProjet,
       typeTâchePlanifiée:
         TypeTâchePlanifiéeChangementReprésentantLégal.rappelInstructionÀDeuxMois.type,
     },

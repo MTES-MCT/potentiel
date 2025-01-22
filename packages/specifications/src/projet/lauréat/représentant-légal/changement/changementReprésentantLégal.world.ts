@@ -2,15 +2,22 @@ import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
 import { ReprésentantLégal } from '@potentiel-domain/laureat';
 import { DocumentProjet } from '@potentiel-domain/document';
 
-import { DemanderChangementReprésentantLégalFixture } from './fixtures/demanderChangementReprésentantLégal.fixture';
+import { AnnulerChangementReprésentantLégalFixture } from './fixtures/annulerChangementReprésentantLégal.fixture';
 import { AccorderChangementReprésentantLégalFixture } from './fixtures/accorderChangementReprésentantLégal.fixture';
 import { RejeterChangementReprésentantLégalFixture } from './fixtures/rejeterChangementReprésentantLégal.fixture';
+import { DemanderChangementReprésentantLégalFixture } from './fixtures/demanderChangementReprésentantLégal.fixture';
 
 export class ChangementReprésentantLégalWorld {
   #demanderChangementReprésentantLégalFixture: DemanderChangementReprésentantLégalFixture;
 
   get demanderChangementReprésentantLégalFixture() {
     return this.#demanderChangementReprésentantLégalFixture;
+  }
+
+  #annulerChangementReprésentantLégalFixture: AnnulerChangementReprésentantLégalFixture;
+
+  get annulerChangementReprésentantLégalFixture() {
+    return this.#annulerChangementReprésentantLégalFixture;
   }
 
   #accorderChangementReprésentantLégalFixture: AccorderChangementReprésentantLégalFixture;
@@ -28,6 +35,8 @@ export class ChangementReprésentantLégalWorld {
   constructor() {
     this.#demanderChangementReprésentantLégalFixture =
       new DemanderChangementReprésentantLégalFixture();
+    this.#annulerChangementReprésentantLégalFixture =
+      new AnnulerChangementReprésentantLégalFixture();
     this.#accorderChangementReprésentantLégalFixture =
       new AccorderChangementReprésentantLégalFixture();
     this.#rejeterChangementReprésentantLégalFixture =

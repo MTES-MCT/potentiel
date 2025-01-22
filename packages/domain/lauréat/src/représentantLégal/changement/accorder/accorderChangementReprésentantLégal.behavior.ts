@@ -1,4 +1,5 @@
 // Third party
+import { match } from 'ts-pattern';
 
 // Workspaces
 import { DomainEvent, InvalidOperationError } from '@potentiel-domain/core';
@@ -24,28 +25,39 @@ export type AccorderOptions = {
   dateAccord: DateTime.ValueType;
   identifiantUtilisateur: Email.ValueType;
   identifiantProjet: IdentifiantProjet.ValueType;
-  nomReprésentantLégal: string;
-  typeReprésentantLégal: TypeReprésentantLégal.ValueType;
-  accordAutomatique: boolean;
-};
+} & (
+  | {
+      nomReprésentantLégal: string;
+      typeReprésentantLégal: TypeReprésentantLégal.ValueType;
+      accordAutomatique: false;
+    }
+  | {
+      accordAutomatique: true;
+    }
+);
 
-export async function accorder(
-  this: ReprésentantLégalAggregate,
-  {
-    dateAccord,
-    identifiantUtilisateur,
-    identifiantProjet,
-    nomReprésentantLégal,
-    typeReprésentantLégal,
-    accordAutomatique,
-  }: AccorderOptions,
-) {
-  if (!this.demande) {
+export async function accorder(this: ReprésentantLégalAggregate, options: AccorderOptions) {
+  const { demande } = this;
+
+  if (!demande) {
     throw new DemandeChangementInexistanteError();
   }
-  this.demande?.statut.vérifierQueLeChangementDeStatutEstPossibleEn(
+
+  const { dateAccord, identifiantUtilisateur, identifiantProjet, accordAutomatique } = options;
+
+  demande.statut.vérifierQueLeChangementDeStatutEstPossibleEn(
     StatutChangementReprésentantLégal.accordé,
   );
+
+  const nomReprésentantLégal = match(options)
+    .with({ accordAutomatique: true }, () => demande.nom)
+    .with({ accordAutomatique: false }, ({ nomReprésentantLégal }) => nomReprésentantLégal)
+    .exhaustive();
+
+  const typeReprésentantLégal = match(options)
+    .with({ accordAutomatique: true }, () => demande.type)
+    .with({ accordAutomatique: false }, ({ typeReprésentantLégal }) => typeReprésentantLégal)
+    .exhaustive();
 
   const event: ChangementReprésentantLégalAccordéEvent = {
     type: 'ChangementReprésentantLégalAccordé-V1',

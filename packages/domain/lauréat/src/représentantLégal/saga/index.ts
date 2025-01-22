@@ -6,9 +6,9 @@ import { TâchePlanifiéeExecutéeEvent } from '@potentiel-domain/tache-planifie
 import { LauréatNotifiéEvent } from '../../lauréat';
 import { AbandonAccordéEvent } from '../../abandon';
 
-import { handleLauréatNotifié } from './handleLauréatNotifié';
-import { handleTâchePlanifiéeGestionAutomatiqueDemandeChangementExecutée } from './handleTâchePlanifiéeGestionAutomatiqueDemandeChangementExecutée';
-import { handleAbandonAccordé } from './handleAbandonAccordé';
+import { lauréatNotifiéSaga } from './lauréatNotifié.saga';
+import { abandonAccordéSaga } from './abandonAccordé.saga';
+import { tâchePlanifiéeGestionAutomatiqueDemandeChangementExecutéeSaga } from './tâchePlanifiéeGestionAutomatiqueDemandeChangementExecutée.saga';
 
 export type SubscriptionEvent =
   | LauréatNotifiéEvent
@@ -20,14 +20,14 @@ export type Execute = Message<'System.Lauréat.ReprésentantLégal.Saga.Execute'
 export const register = () => {
   const handler: MessageHandler<Execute> = async (event) =>
     match(event)
-      .with({ type: 'LauréatNotifié-V1' }, handleLauréatNotifié)
+      .with({ type: 'LauréatNotifié-V1' }, lauréatNotifiéSaga)
       .with(
         {
           type: 'TâchePlanifiéeExecutée-V1',
         },
-        handleTâchePlanifiéeGestionAutomatiqueDemandeChangementExecutée,
+        tâchePlanifiéeGestionAutomatiqueDemandeChangementExecutéeSaga,
       )
-      .with({ type: 'AbandonAccordé-V1' }, handleAbandonAccordé)
+      .with({ type: 'AbandonAccordé-V1' }, abandonAccordéSaga)
       .exhaustive();
 
   mediator.register('System.Lauréat.ReprésentantLégal.Saga.Execute', handler);

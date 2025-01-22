@@ -17,11 +17,12 @@ export class ReprésentantLégalWorld {
   }
 
   #importerReprésentantLégalFixture: ImporterReprésentantLégalFixture;
-  #modifierReprésentantLégalFixture: ModifierReprésentantLégalFixture;
 
   get importerReprésentantLégalFixture() {
     return this.#importerReprésentantLégalFixture;
   }
+
+  #modifierReprésentantLégalFixture: ModifierReprésentantLégalFixture;
 
   get modifierReprésentantLégalFixture() {
     return this.#modifierReprésentantLégalFixture;

@@ -1,6 +1,6 @@
 import Badge, { BadgeProps } from '@codegouvfr/react-dsfr/Badge';
 import { FC } from 'react';
-import { match } from 'ts-pattern';
+import { match, P } from 'ts-pattern';
 
 import { ReprésentantLégal } from '@potentiel-domain/laureat';
 
@@ -21,5 +21,5 @@ const getSeverity = (statut: StatutChangementReprésentantLégalBadgeProps['stat
     .returnType<BadgeProps['severity']>()
     .with('demandé', () => 'new')
     .with('accordé', () => 'success')
-    .with('rejeté', () => 'warning')
+    .with(P.union('rejeté', 'annulé'), () => 'warning')
     .exhaustive();

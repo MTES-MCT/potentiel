@@ -19,8 +19,9 @@ import { StatutChangementReprésentantLégalBadge } from '../../StatutChangement
 // import { EtapesChangementReprésentantLégal } from './EtapesChangementReprésentantLégal';
 import { AccorderChangementReprésentantLégal } from './accorder/AccorderChangementReprésentantLégal.form';
 import { RejeterChangementReprésentantLégal } from './rejeter/RejeterChangementReprésentantLégal.form';
+import { AnnulerChangementReprésentantLégal } from './annuler/AnnulerChangementReprésentantLégal.form';
 
-export type AvailableChangementReprésentantLégalAction = 'accorder' | 'rejeter';
+export type AvailableChangementReprésentantLégalAction = 'accorder' | 'rejeter' | 'annuler';
 
 export type DétailsChangementReprésentantLégalPageProps =
   PlainType<ReprésentantLégal.ConsulterChangementReprésentantLégalReadModel> & {
@@ -136,6 +137,10 @@ const mapToActionComponents = ({
       )}
       {actions.includes('rejeter') && (
         <RejeterChangementReprésentantLégal identifiantProjet={identifiantProjet} />
+      )}
+
+      {actions.includes('annuler') && (
+        <AnnulerChangementReprésentantLégal identifiantProjet={identifiantProjet} />
       )}
     </div>
   ) : null;

@@ -5,8 +5,8 @@ import { getLogger } from '@potentiel-libraries/monitoring';
 
 import { removeProjection } from '../../../infrastructure';
 
-export const handleChangementReprésentantLégalSupprimé = async (
-  event: ReprésentantLégal.ChangementReprésentantLégalSuppriméEvent,
+export const handleChangementReprésentantLégalAnnulé = async (
+  event: ReprésentantLégal.ChangementReprésentantLégalAnnuléEvent,
 ) => {
   const {
     payload: { identifiantProjet },
@@ -18,9 +18,12 @@ export const handleChangementReprésentantLégalSupprimé = async (
     );
 
   if (Option.isNone(changementReprésentantLégal)) {
-    getLogger().warn(`Aucune demande n'a été trouvée pour le changement de représentant supprimé`, {
-      event,
-    });
+    getLogger().warn(
+      `Aucune demande n'a été trouvée pour l'annulation de la demande de changement de représentant légal`,
+      {
+        event,
+      },
+    );
     return;
   }
 

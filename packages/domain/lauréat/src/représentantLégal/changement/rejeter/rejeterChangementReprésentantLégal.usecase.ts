@@ -5,6 +5,8 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
 
+import { SupprimerDocumentProjetSensibleCommand } from '../supprimerDocumentSensible/supprimerDocumentProjetSensible.command';
+
 import { RejeterChangementReprésentantLégalCommand } from './rejeterChangementReprésentantLégal.command';
 
 export type RejeterChangementReprésentantLégalUseCase = Message<
@@ -40,6 +42,14 @@ export const registerRejeterChangementReprésentantLégalUseCase = () => {
         identifiantProjet,
         motifRejet: motifRejetValue,
         rejetAutomatique: rejetAutomatiqueValue,
+      },
+    });
+
+    await mediator.send<SupprimerDocumentProjetSensibleCommand>({
+      type: 'Lauréat.ReprésentantLégal.Command.SupprimerDocumentProjetSensible',
+      data: {
+        identifiantProjet,
+        raison: 'Pièce justificative supprimée automatiquement après annulation',
       },
     });
   };

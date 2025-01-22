@@ -203,14 +203,18 @@ const référencielPermissions = {
       usecase: {
         modifier: 'Lauréat.ReprésentantLégal.UseCase.ModifierReprésentantLégal',
         demanderChangement: 'Lauréat.ReprésentantLégal.UseCase.DemanderChangementReprésentantLégal',
+        annulerChangement: 'Lauréat.ReprésentantLégal.UseCase.AnnulerChangementReprésentantLégal',
         accorderChangement: 'Lauréat.ReprésentantLégal.UseCase.AccorderChangementReprésentantLégal',
         rejeterChangement: 'Lauréat.ReprésentantLégal.UseCase.RejeterChangementReprésentantLégal',
       },
       command: {
         modifier: 'Lauréat.ReprésentantLégal.Command.ModifierReprésentantLégal',
         demanderChangement: 'Lauréat.ReprésentantLégal.Command.DemanderChangementReprésentantLégal',
+        annulerChangement: 'Lauréat.ReprésentantLégal.Command.AnnulerChangementReprésentantLégal',
         accorderChangement: 'Lauréat.ReprésentantLégal.Command.AccorderChangementReprésentantLégal',
         rejeterChangement: 'Lauréat.ReprésentantLégal.Command.RejeterChangementReprésentantLégal',
+        supprimerDocumentSensible:
+          'Lauréat.ReprésentantLégal.Command.SupprimerDocumentProjetSensible',
       },
     },
     actionnaire: {
@@ -873,17 +877,26 @@ const policies = {
     demanderChangement: [
       référencielPermissions.lauréat.représentantLégal.usecase.demanderChangement,
       référencielPermissions.lauréat.représentantLégal.command.demanderChangement,
+      référencielPermissions.document.command.enregister,
+    ],
+    annulerChangement: [
+      référencielPermissions.lauréat.représentantLégal.usecase.annulerChangement,
+      référencielPermissions.lauréat.représentantLégal.command.annulerChangement,
+      référencielPermissions.lauréat.représentantLégal.command.supprimerDocumentSensible,
     ],
     accorderChangement: [
       référencielPermissions.lauréat.représentantLégal.usecase.accorderChangement,
       référencielPermissions.lauréat.représentantLégal.command.accorderChangement,
+      référencielPermissions.lauréat.représentantLégal.command.supprimerDocumentSensible,
     ],
     rejeterChangement: [
       référencielPermissions.lauréat.représentantLégal.usecase.rejeterChangement,
       référencielPermissions.lauréat.représentantLégal.command.rejeterChangement,
+      référencielPermissions.lauréat.représentantLégal.command.supprimerDocumentSensible,
     ],
     consulterChangement: [
       référencielPermissions.lauréat.représentantLégal.query.consulterChangement,
+      référencielPermissions.document.query.consulter,
     ],
     listerChangement: [référencielPermissions.lauréat.représentantLégal.query.listerChangement],
   },
@@ -1197,6 +1210,7 @@ const porteurProjetPolicies: ReadonlyArray<Policy> = [
 
   // Représentant légal
   'représentantLégal.demanderChangement',
+  'représentantLégal.annulerChangement',
   'représentantLégal.consulterChangement',
   'représentantLégal.listerChangement',
   'représentantLégal.consulter',

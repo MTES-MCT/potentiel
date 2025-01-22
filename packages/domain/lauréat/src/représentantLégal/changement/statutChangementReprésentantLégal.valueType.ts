@@ -1,6 +1,6 @@
 import { InvalidOperationError, PlainType, ReadonlyValueType } from '@potentiel-domain/core';
 
-export const statuts = ['accordé', 'demandé', 'rejeté'] as const;
+export const statuts = ['demandé', 'annulé', 'accordé', 'rejeté'] as const;
 
 export type RawType = (typeof statuts)[number];
 
@@ -8,6 +8,7 @@ export type ValueType = ReadonlyValueType<{
   statut: RawType;
   formatter(): RawType;
   estDemandé: () => boolean;
+  estAnnulé: () => boolean;
   estAccordé: () => boolean;
   estRejeté: () => boolean;
   vérifierQueLeChangementDeStatutEstPossibleEn: (nouveauStatut: ValueType) => void;
@@ -23,6 +24,9 @@ export const bind = ({ statut }: PlainType<ValueType>): ValueType => {
     formatter() {
       return this.statut;
     },
+    estAnnulé() {
+      return this.statut === 'annulé';
+    },
     estDemandé() {
       return this.statut === 'demandé';
     },
@@ -36,11 +40,17 @@ export const bind = ({ statut }: PlainType<ValueType>): ValueType => {
       if (nouveauStatut.estDemandé() && this.estDemandé()) {
         throw new DemandeChangementDéjàDemandéeError();
       }
+
       if (
         (nouveauStatut.estAccordé() || nouveauStatut.estRejeté()) &&
         (this.estAccordé() || this.estRejeté())
       ) {
         throw new DemandeChangementInexistanteError();
+      }
+
+      if (nouveauStatut.estAnnulé()) {
+        if (this.estAccordé()) throw new DemandeChangementDéjàAccordéeError();
+        if (this.estRejeté()) throw new DemandeChangementDéjàRejetéeError();
       }
     },
   };
@@ -60,6 +70,7 @@ function estValide(value: string): asserts value is RawType {
 }
 
 export const demandé = convertirEnValueType('demandé');
+export const annulé = convertirEnValueType('annulé');
 export const accordé = convertirEnValueType('accordé');
 export const rejeté = convertirEnValueType('rejeté');
 
@@ -77,6 +88,16 @@ class DemandeChangementDéjàDemandéeError extends InvalidOperationError {
   }
 }
 
+class DemandeChangementDéjàAccordéeError extends InvalidOperationError {
+  constructor() {
+    super(`La demande de changement de représentant légal a déjà été accordée`);
+  }
+}
+class DemandeChangementDéjàRejetéeError extends InvalidOperationError {
+  constructor() {
+    super(`La demande de changement de représentant légal a déjà été rejetée`);
+  }
+}
 class DemandeChangementInexistanteError extends InvalidOperationError {
   constructor() {
     super(`Aucun changement de représentant légal n'est en cours`);

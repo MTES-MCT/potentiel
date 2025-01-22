@@ -27,6 +27,7 @@ import {
 } from '@potentiel-applications/projectors';
 import {
   consulterCahierDesChargesChoisiAdapter,
+  DocumentAdapter,
   récupérerIdentifiantsProjetParEmailPorteurAdapter,
 } from '@potentiel-infrastructure/domain-adapters';
 import { SendEmail } from '@potentiel-applications/notifications';
@@ -36,7 +37,10 @@ type SetupLauréatDependencies = {
 };
 
 export const setupLauréat = async ({ sendEmail }: SetupLauréatDependencies) => {
-  registerLauréatUseCases({ loadAggregate });
+  registerLauréatUseCases({
+    loadAggregate,
+    supprimerDocumentProjetSensible: DocumentAdapter.remplacerDocumentProjetSensible,
+  });
 
   registerLauréatQueries({
     find: findProjection,
@@ -265,6 +269,7 @@ export const setupLauréat = async ({ sendEmail }: SetupLauréatDependencies) =>
         'ReprésentantLégalImporté-V1',
         'ReprésentantLégalModifié-V1',
         'ChangementReprésentantLégalDemandé-V1',
+        'ChangementReprésentantLégalAnnulé-V1',
         'ChangementReprésentantLégalAccordé-V1',
         'ChangementReprésentantLégalRejeté-V1',
         'ChangementReprésentantLégalSupprimé-V1',
@@ -364,6 +369,7 @@ export const setupLauréat = async ({ sendEmail }: SetupLauréatDependencies) =>
       eventType: [
         'ReprésentantLégalModifié-V1',
         'ChangementReprésentantLégalDemandé-V1',
+        'ChangementReprésentantLégalAnnulé-V1',
         'ChangementReprésentantLégalAccordé-V1',
         'ChangementReprésentantLégalRejeté-V1',
       ],

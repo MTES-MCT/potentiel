@@ -2,8 +2,7 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
 // Workspaces
-import { IdentifiantProjet, DateTime } from '@potentiel-domain/common';
-import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
+import { IdentifiantProjet, DateTime, Email } from '@potentiel-domain/common';
 import { LoadAggregate } from '@potentiel-domain/core';
 
 // Package
@@ -13,37 +12,29 @@ import { TypeReprésentantLégal } from '../..';
 export type AccorderChangementReprésentantLégalCommand = Message<
   'Lauréat.ReprésentantLégal.Command.AccorderChangementReprésentantLégal',
   {
-    nomReprésentantLégal: string;
-    typeReprésentantLégal: TypeReprésentantLégal.ValueType;
     dateAccord: DateTime.ValueType;
-    identifiantUtilisateur: IdentifiantUtilisateur.ValueType;
+    identifiantUtilisateur: Email.ValueType;
     identifiantProjet: IdentifiantProjet.ValueType;
-    accordAutomatique: boolean;
-  }
+  } & (
+    | {
+        nomReprésentantLégal: string;
+        typeReprésentantLégal: TypeReprésentantLégal.ValueType;
+        accordAutomatique: false;
+      }
+    | {
+        accordAutomatique: true;
+      }
+  )
 >;
 
 export const registerAccorderChangementReprésentantLégalCommand = (
   loadAggregate: LoadAggregate,
 ) => {
   const load = loadReprésentantLégalFactory(loadAggregate);
-  const handler: MessageHandler<AccorderChangementReprésentantLégalCommand> = async ({
-    nomReprésentantLégal,
-    typeReprésentantLégal,
-    dateAccord,
-    identifiantUtilisateur,
-    identifiantProjet,
-    accordAutomatique,
-  }) => {
-    const représentantLégal = await load(identifiantProjet);
+  const handler: MessageHandler<AccorderChangementReprésentantLégalCommand> = async (options) => {
+    const représentantLégal = await load(options.identifiantProjet);
 
-    await représentantLégal.accorder({
-      nomReprésentantLégal,
-      typeReprésentantLégal,
-      dateAccord,
-      identifiantUtilisateur,
-      identifiantProjet,
-      accordAutomatique,
-    });
+    await représentantLégal.accorder(options);
   };
   mediator.register(
     'Lauréat.ReprésentantLégal.Command.AccorderChangementReprésentantLégal',

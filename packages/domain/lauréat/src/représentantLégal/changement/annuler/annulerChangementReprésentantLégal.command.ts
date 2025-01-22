@@ -6,34 +6,32 @@ import { LoadAggregate } from '@potentiel-domain/core';
 
 import { loadReprésentantLégalFactory } from '../../représentantLégal.aggregate';
 
-export type SupprimerChangementReprésentantLégalCommand = Message<
-  'Lauréat.ReprésentantLégal.Command.SupprimerChangementReprésentantLégal',
+export type AnnulerChangementReprésentantLégalCommand = Message<
+  'Lauréat.ReprésentantLégal.Command.AnnulerChangementReprésentantLégal',
   {
     identifiantProjet: IdentifiantProjet.ValueType;
     identifiantUtilisateur: IdentifiantUtilisateur.ValueType;
-    dateSuppression: DateTime.ValueType;
+    dateAnnulation: DateTime.ValueType;
   }
 >;
 
-export const registerSupprimerChangementReprésentantLégalCommand = (
-  loadAggregate: LoadAggregate,
-) => {
+export const registerAnnulerChangementReprésentantLégalCommand = (loadAggregate: LoadAggregate) => {
   const load = loadReprésentantLégalFactory(loadAggregate);
-  const handler: MessageHandler<SupprimerChangementReprésentantLégalCommand> = async ({
+  const handler: MessageHandler<AnnulerChangementReprésentantLégalCommand> = async ({
     identifiantProjet,
     identifiantUtilisateur,
-    dateSuppression,
+    dateAnnulation,
   }) => {
-    const représentantLégal = await load(identifiantProjet, false);
+    const représentantLégal = await load(identifiantProjet);
 
-    await représentantLégal.supprimer({
+    await représentantLégal.annuler({
       identifiantProjet,
       identifiantUtilisateur,
-      dateSuppression,
+      dateAnnulation,
     });
   };
   mediator.register(
-    'Lauréat.ReprésentantLégal.Command.SupprimerChangementReprésentantLégal',
+    'Lauréat.ReprésentantLégal.Command.AnnulerChangementReprésentantLégal',
     handler,
   );
 };
