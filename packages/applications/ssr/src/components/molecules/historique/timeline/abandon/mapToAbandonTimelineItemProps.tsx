@@ -1,4 +1,4 @@
-import { match } from 'ts-pattern';
+import { match, P } from 'ts-pattern';
 
 import { HistoryRecord } from '@potentiel-domain/entity';
 import { DateTime } from '@potentiel-domain/common';
@@ -19,7 +19,7 @@ export const mapToAbandonTimelineItemProps = (record: HistoryRecord) => {
     .returnType<TimelineItemProps>()
     .with(
       {
-        type: 'AbandonDemandé-V1',
+        type: P.union('AbandonDemandé-V1', 'AbandonDemandé-V2'),
       },
       mapToAbandonDemandéTimelineItemProps,
     )

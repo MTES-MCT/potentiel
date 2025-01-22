@@ -54,7 +54,10 @@ export type {
 // Event
 export type { AbandonEvent } from './abandon.aggregate';
 export type { AbandonAnnuléEvent } from './annuler/annulerAbandon.behavior';
-export type { AbandonDemandéEventV1 } from './demander/demanderAbandon.behavior';
+export type {
+  AbandonDemandéEventV1,
+  AbandonDemandéEvent,
+} from './demander/demanderAbandon.behavior';
 export type { ConfirmationAbandonDemandéeEvent } from './demanderConfirmation/demanderConfirmationAbandon.behavior';
 export type { AbandonConfirméEvent } from './confirmer/confirmerAbandon.behavior';
 export type { AbandonRejetéEvent } from './rejeter/rejeterAbandon.behavior';
