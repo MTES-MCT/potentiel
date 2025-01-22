@@ -5,6 +5,7 @@ import { mediator } from 'mediateur';
 
 import type { Raccordement } from '@potentiel-domain/reseau';
 import { Routes } from '@potentiel-applications/routes';
+import { DateTime } from '@potentiel-domain/common';
 
 import { FormAction, FormState, formAction } from '@/utils/formAction';
 import { withUtilisateur } from '@/utils/withUtilisateur';
@@ -21,7 +22,7 @@ const action: FormAction<FormState, typeof schema> = (
   _,
   { identifiantProjet, referenceDossier, referenceDossierCorrigee },
 ) =>
-  withUtilisateur(async ({ role }) => {
+  withUtilisateur(async ({ role, identifiantUtilisateur }) => {
     await mediator.send<Raccordement.ModifierRéférenceDossierRaccordementUseCase>({
       type: 'Réseau.Raccordement.UseCase.ModifierRéférenceDossierRaccordement',
       data: {
@@ -29,6 +30,8 @@ const action: FormAction<FormState, typeof schema> = (
         nouvelleRéférenceDossierRaccordementValue: referenceDossierCorrigee,
         référenceDossierRaccordementActuelleValue: referenceDossier,
         rôleValue: role.nom,
+        modifiéeLeValue: DateTime.now().formatter(),
+        modifiéeParValue: identifiantUtilisateur.formatter(),
       },
     });
 

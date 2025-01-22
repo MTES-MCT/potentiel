@@ -3,6 +3,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import * as zod from 'zod';
 
 import { Raccordement } from '@potentiel-domain/reseau';
+import { DateTime } from '@potentiel-domain/common';
 
 import { apiAction } from '@/utils/apiAction';
 import { withUtilisateur } from '@/utils/withUtilisateur';
@@ -37,6 +38,8 @@ export const POST = (request: NextRequest, routeParams: RouteParams) =>
             référenceDossierRaccordementActuelleValue: reference,
             nouvelleRéférenceDossierRaccordementValue: nouvelleReference,
             rôleValue: utilisateur.role.nom,
+            modifiéeLeValue: DateTime.now().formatter(),
+            modifiéeParValue: utilisateur.identifiantUtilisateur.formatter(),
           },
         });
 

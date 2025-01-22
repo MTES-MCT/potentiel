@@ -91,6 +91,7 @@ const registerTâcheRaccordementSaga = async () => {
     streamCategory: 'raccordement',
     eventType: [
       'RéférenceDossierRacordementModifiée-V1',
+      'RéférenceDossierRacordementModifiée-V2',
       'GestionnaireRéseauRaccordementModifié-V1',
       'GestionnaireRéseauInconnuAttribué-V1',
       'RaccordementSupprimé-V1',

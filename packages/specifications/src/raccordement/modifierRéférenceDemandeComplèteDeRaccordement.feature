@@ -5,6 +5,7 @@ Fonctionnalité: Modifier la référence d'une demande complète de raccordement
         Etant donné le gestionnaire de réseau "Enedis"
         Et le projet lauréat "Du boulodrome de Marseille"
         Et le gestionnaire de réseau "Enedis" attribué au raccordement du projet lauréat
+        Et la dreal "Dreal du sud-ouest" associée à la région du projet
 
     Plan du Scénario: Modifier la référence d'une demande complète de raccordement
         Etant donné une demande complète de raccordement pour le projet lauréat avec :

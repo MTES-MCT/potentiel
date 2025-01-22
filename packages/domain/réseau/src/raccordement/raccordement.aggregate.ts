@@ -47,7 +47,8 @@ import {
 } from './modifier/modifierDemandeComplèteRaccordement.behavior';
 import {
   RéférenceDossierRacordementModifiéeEvent,
-  applyRéférenceDossierRacordementModifiéeEventV1,
+  RéférenceDossierRacordementModifiéeEventV1,
+  applyRéférenceDossierRacordementModifiéeEvent,
   modifierRéférenceDossierRacordement,
 } from './modifier/modifierRéférenceDossierRaccordement.behavior';
 import {
@@ -97,6 +98,7 @@ export type RaccordementEvent =
   | DateMiseEnServiceTransmiseEvent
   | DemandeComplèteRaccordementModifiéeEvent
   | RéférenceDossierRacordementModifiéeEvent
+  | RéférenceDossierRacordementModifiéeEventV1
   | PropositionTechniqueEtFinancièreModifiéeEvent
   | GestionnaireRéseauRaccordementModifiéEvent
   | GestionnaireRéseauInconnuAttribuéEvent
@@ -213,7 +215,8 @@ function apply(this: RaccordementAggregate, event: RaccordementEvent) {
       applyDemandeComplèteRaccordementModifiéeEventV3.bind(this)(event);
       break;
     case 'RéférenceDossierRacordementModifiée-V1':
-      applyRéférenceDossierRacordementModifiéeEventV1.bind(this)(event);
+    case 'RéférenceDossierRacordementModifiée-V2':
+      applyRéférenceDossierRacordementModifiéeEvent.bind(this)(event);
       break;
     case 'PropositionTechniqueEtFinancièreTransmise-V1':
       applyPropositionTechniqueEtFinancièreTransmiseEventV1.bind(this)(event);

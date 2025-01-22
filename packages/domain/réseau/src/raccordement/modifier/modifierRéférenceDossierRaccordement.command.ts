@@ -2,7 +2,7 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { LoadAggregate } from '@potentiel-domain/core';
 import { Role } from '@potentiel-domain/utilisateur';
-import { IdentifiantProjet } from '@potentiel-domain/common';
+import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
 
 import { loadRaccordementAggregateFactory } from '../raccordement.aggregate';
 import { loadGestionnaireRéseauFactory } from '../../gestionnaire/gestionnaireRéseau.aggregate';
@@ -15,6 +15,8 @@ export type ModifierRéférenceDossierRaccordementCommand = Message<
     référenceDossierRaccordementActuelle: RéférenceDossierRaccordement.ValueType;
     nouvelleRéférenceDossierRaccordement: RéférenceDossierRaccordement.ValueType;
     rôle: Role.ValueType;
+    modifiéeLe: DateTime.ValueType;
+    modifiéePar: Email.ValueType;
   }
 >;
 
@@ -28,6 +30,8 @@ export const registerModifierRéférenceDossierRaccordementCommand = (
     identifiantProjet,
     référenceDossierRaccordementActuelle,
     nouvelleRéférenceDossierRaccordement,
+    modifiéeLe,
+    modifiéePar,
     rôle,
   }) => {
     const raccordement = await loadRaccordement(identifiantProjet);
@@ -41,6 +45,8 @@ export const registerModifierRéférenceDossierRaccordementCommand = (
       référenceDossierExpressionRegulière:
         gestionnaireRéseau.référenceDossierRaccordementExpressionRegulière,
       référenceDossierRaccordementActuelle,
+      modifiéeLe,
+      modifiéePar,
       rôle,
     });
   };

@@ -52,6 +52,7 @@ export class UtilisateurWorld {
 
   récupérerEmailSelonRôle(role: string): string {
     switch (role) {
+      case 'porteur-projet':
       case 'porteur':
         return this.porteurFixture.email;
       case 'dreal':

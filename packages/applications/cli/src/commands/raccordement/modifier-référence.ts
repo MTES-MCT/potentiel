@@ -14,6 +14,7 @@ import {
   findProjection,
   listProjection,
 } from '@potentiel-infrastructure/pg-projections';
+import { DateTime, Email } from '@potentiel-domain/common';
 
 import { parseCsvFile } from '../../helpers/parse-file';
 import { parseIdentifiantProjet } from '../../helpers/parse-identifiant-projet';
@@ -118,6 +119,8 @@ export default class ModifierRéférence extends Command {
               référenceDossierRaccordementActuelleValue: row.referenceDossier,
               nouvelleRéférenceDossierRaccordementValue: row['referenceDossier corrigé GRD'],
               rôleValue: 'admin',
+              modifiéeLeValue: DateTime.now().formatter(),
+              modifiéeParValue: Email.system().formatter(),
             },
           });
         }

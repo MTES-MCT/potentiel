@@ -1,4 +1,5 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
+import { match, P } from 'ts-pattern';
 
 import { Event, RebuildTriggered } from '@potentiel-infrastructure/pg-event-sourcing';
 import { Raccordement, GestionnaireRéseau } from '@potentiel-domain/reseau';
@@ -165,12 +166,19 @@ export const register = () => {
           );
         }
       } else {
-        const référence =
-          event.type === 'DemandeComplèteRaccordementModifiée-V1'
-            ? event.payload.referenceActuelle
-            : event.type === 'RéférenceDossierRacordementModifiée-V1'
-              ? event.payload.référenceDossierRaccordementActuelle
-              : event.payload.référenceDossierRaccordement;
+        const référence = match(event)
+          .with(
+            { type: 'DemandeComplèteRaccordementModifiée-V1' },
+            ({ payload }) => payload.referenceActuelle,
+          )
+          .with(
+            P.union(
+              { type: 'RéférenceDossierRacordementModifiée-V1' },
+              { type: 'RéférenceDossierRacordementModifiée-V2' },
+            ),
+            ({ payload }) => payload.référenceDossierRaccordementActuelle,
+          )
+          .otherwise(({ payload }) => payload.référenceDossierRaccordement);
 
         const dossier = raccordement.dossiers.find((d) => d.référence === référence);
 
@@ -286,6 +294,7 @@ export const register = () => {
                   misÀJourLe: event.created_at,
                 };
               case 'RéférenceDossierRacordementModifiée-V1':
+              case 'RéférenceDossierRacordementModifiée-V2':
                 return {
                   ...dossier,
                   référence: event.payload.nouvelleRéférenceDossierRaccordement,
@@ -307,7 +316,8 @@ export const register = () => {
 
           if (
             event.type === 'DemandeComplèteRaccordementModifiée-V1' ||
-            event.type === 'RéférenceDossierRacordementModifiée-V1'
+            event.type === 'RéférenceDossierRacordementModifiée-V1' ||
+            event.type === 'RéférenceDossierRacordementModifiée-V2'
           ) {
             await removeProjection(
               `dossier-raccordement|${event.payload.identifiantProjet}#${référence}`,
