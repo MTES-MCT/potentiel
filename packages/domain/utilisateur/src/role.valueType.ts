@@ -213,6 +213,8 @@ const référencielPermissions = {
         annulerChangement: 'Lauréat.ReprésentantLégal.Command.AnnulerChangementReprésentantLégal',
         accorderChangement: 'Lauréat.ReprésentantLégal.Command.AccorderChangementReprésentantLégal',
         rejeterChangement: 'Lauréat.ReprésentantLégal.Command.RejeterChangementReprésentantLégal',
+        supprimerDocumentSensible:
+          'Lauréat.ReprésentantLégal.Command.SupprimerDocumentProjetSensible',
       },
     },
     actionnaire: {
@@ -319,7 +321,6 @@ const référencielPermissions = {
       enregister: 'Document.Command.EnregistrerDocumentProjet',
       déplacer: 'Document.Command.DéplacerDocumentProjet',
       corriger: 'Document.Command.CorrigerDocumentProjet',
-      supprimerDocumentSensible: 'Document.Command.SupprimerDocumentProjetSensible',
     },
   },
   réseau: {
@@ -881,17 +882,17 @@ const policies = {
     annulerChangement: [
       référencielPermissions.lauréat.représentantLégal.usecase.annulerChangement,
       référencielPermissions.lauréat.représentantLégal.command.annulerChangement,
-      référencielPermissions.document.command.supprimerDocumentSensible,
+      référencielPermissions.lauréat.représentantLégal.command.supprimerDocumentSensible,
     ],
     accorderChangement: [
       référencielPermissions.lauréat.représentantLégal.usecase.accorderChangement,
       référencielPermissions.lauréat.représentantLégal.command.accorderChangement,
-      référencielPermissions.document.command.supprimerDocumentSensible,
+      référencielPermissions.lauréat.représentantLégal.command.supprimerDocumentSensible,
     ],
     rejeterChangement: [
       référencielPermissions.lauréat.représentantLégal.usecase.rejeterChangement,
       référencielPermissions.lauréat.représentantLégal.command.rejeterChangement,
-      référencielPermissions.document.command.supprimerDocumentSensible,
+      référencielPermissions.lauréat.représentantLégal.command.supprimerDocumentSensible,
     ],
     consulterChangement: [
       référencielPermissions.lauréat.représentantLégal.query.consulterChangement,
