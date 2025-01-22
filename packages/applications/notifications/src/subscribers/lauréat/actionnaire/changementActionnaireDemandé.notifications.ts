@@ -1,7 +1,4 @@
-import {
-  récupérerDrealsParIdentifiantProjetAdapter,
-  récupérerPorteursParIdentifiantProjetAdapter,
-} from '@potentiel-infrastructure/domain-adapters';
+import { récupérerDrealsParIdentifiantProjetAdapter } from '@potentiel-infrastructure/domain-adapters';
 import { IdentifiantProjet } from '@potentiel-domain/common';
 import { getLogger } from '@potentiel-libraries/monitoring';
 import { Routes } from '@potentiel-applications/routes';
@@ -11,9 +8,9 @@ import { RegisterActionnaireNotificationDependencies } from '.';
 
 import { actionnaireNotificationTemplateId } from './templateIds';
 
-type HandleActionnaireModifiéProps = {
+type changementActionnaireDemandéNotificationsProps = {
   sendEmail: RegisterActionnaireNotificationDependencies['sendEmail'];
-  event: Actionnaire.ActionnaireModifiéEvent;
+  event: Actionnaire.ChangementActionnaireDemandéEvent;
   projet: {
     nom: string;
     département: string;
@@ -21,32 +18,31 @@ type HandleActionnaireModifiéProps = {
   baseUrl: string;
 };
 
-export const handleActionnaireModifié = async ({
+export const changementActionnaireDemandéNotifications = async ({
   sendEmail,
   event,
   projet,
   baseUrl,
-}: HandleActionnaireModifiéProps) => {
+}: changementActionnaireDemandéNotificationsProps) => {
   const identifiantProjet = IdentifiantProjet.convertirEnValueType(event.payload.identifiantProjet);
-  const porteurs = await récupérerPorteursParIdentifiantProjetAdapter(identifiantProjet);
   const dreals = await récupérerDrealsParIdentifiantProjetAdapter(identifiantProjet);
 
-  if (porteurs.length === 0 && dreals.length === 0) {
-    getLogger().error('Aucun porteur ou dreal trouvé(e)', {
+  if (dreals.length === 0) {
+    getLogger().error('Aucune dreal trouvée', {
       identifiantProjet: identifiantProjet.formatter(),
       application: 'notifications',
     });
     return;
   }
 
-  await sendEmail({
-    templateId: actionnaireNotificationTemplateId.modifier,
-    messageSubject: `Potentiel - Modification de l'actionnaire pour le projet ${projet.nom} dans le département ${projet.département}`,
-    recipients: [...porteurs, ...dreals],
+  return sendEmail({
+    templateId: actionnaireNotificationTemplateId.demanderChangement,
+    messageSubject: `Potentiel - Demande de changement de l'actionnaire pour le projet ${projet.nom} dans le département ${projet.département}`,
+    recipients: dreals,
     variables: {
       nom_projet: projet.nom,
       departement_projet: projet.département,
-      url: `${baseUrl}${Routes.Projet.details(identifiantProjet.formatter())}`,
+      url: `${baseUrl}${Routes.Actionnaire.changement.détail(identifiantProjet.formatter())}`,
     },
   });
 };

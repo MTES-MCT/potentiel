@@ -5,14 +5,15 @@ import { getLogger } from '@potentiel-libraries/monitoring';
 
 import { updateOneProjection, upsertProjection } from '../../../infrastructure';
 
-export const handleChangementActionnaireRejeté = async ({
+export const changementActionnaireAccordéProjector = async ({
   payload: {
+    nouvelActionnaire,
     identifiantProjet,
-    rejetéLe,
-    rejetéPar,
+    accordéLe,
+    accordéPar,
     réponseSignée: { format },
   },
-}: Actionnaire.ChangementActionnaireRejetéEvent) => {
+}: Actionnaire.ChangementActionnaireAccordéEvent) => {
   const projectionToUpsert = await findProjection<Actionnaire.ActionnaireEntity>(
     `actionnaire|${identifiantProjet}`,
   );
@@ -29,11 +30,11 @@ export const handleChangementActionnaireRejeté = async ({
 
   const demande = {
     ...projectionToUpsert.demandeEnCours,
-    statut: Actionnaire.StatutChangementActionnaire.rejeté.statut,
+    statut: Actionnaire.StatutChangementActionnaire.accordé.statut,
 
-    rejet: {
-      rejetéeLe: rejetéLe,
-      rejetéePar: rejetéPar,
+    accord: {
+      accordéeLe: accordéLe,
+      accordéePar: accordéPar,
       réponseSignée: {
         format,
       },
@@ -41,6 +42,10 @@ export const handleChangementActionnaireRejeté = async ({
   };
 
   await updateOneProjection<Actionnaire.ActionnaireEntity>(`actionnaire|${identifiantProjet}`, {
+    actionnaire: {
+      nom: nouvelActionnaire,
+      misÀJourLe: accordéLe,
+    },
     demandeEnCours: demande,
   });
 

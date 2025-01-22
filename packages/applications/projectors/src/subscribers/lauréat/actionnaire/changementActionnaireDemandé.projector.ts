@@ -5,7 +5,7 @@ import { getLogger } from '@potentiel-libraries/monitoring';
 
 import { upsertProjection } from '../../../infrastructure';
 
-export const handleChangementActionnaireDemandé = async ({
+export const changementActionnaireDemandéProjector = async ({
   payload: {
     actionnaire,
     identifiantProjet,

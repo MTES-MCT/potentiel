@@ -10,11 +10,11 @@ import { getLogger } from '@potentiel-libraries/monitoring';
 
 import { SendEmail } from '../../../sendEmail';
 
-import { handleActionnaireModifié } from './handleActionnaireModifié.notifications';
-import { handleChangementActionnaireAccordé } from './handleChangementActionnaireAccordé.notifications';
-import { handleChangementActionnaireAnnulé } from './handleChangementActionnaireAnnulé.notifications';
-import { handleChangementActionnaireDemandé } from './handleChangementActionnaireDemandé.notifications';
-import { handleChangementActionnaireRejeté } from './handleChangementActionnaireRejeté.notifications';
+import { changementActionnaireAnnuléNotifications } from './changementActionnaireAnnulé.notifications';
+import { changementActionnaireDemandéNotifications } from './changementActionnaireDemandé.notifications';
+import { changementActionnaireRejetéNotifications } from './changementActionnaireRejeté.notifications';
+import { actionnaireModifiéNotifications } from './actionnaireModifié.notifications';
+import { changementActionnaireAccordéNotifications } from './changementActionnaireAccordé.notifications';
 
 export type SubscriptionEvent = Actionnaire.ActionnaireEvent & Event;
 
@@ -59,7 +59,7 @@ export const register = ({ sendEmail }: RegisterActionnaireNotificationDependenc
 
     return match(event)
       .with({ type: 'ActionnaireModifié-V1' }, async (event) =>
-        handleActionnaireModifié({
+        actionnaireModifiéNotifications({
           sendEmail,
           event,
           projet,
@@ -67,7 +67,7 @@ export const register = ({ sendEmail }: RegisterActionnaireNotificationDependenc
         }),
       )
       .with({ type: 'ChangementActionnaireDemandé-V1' }, async (event) =>
-        handleChangementActionnaireDemandé({
+        changementActionnaireDemandéNotifications({
           sendEmail,
           event,
           projet,
@@ -75,13 +75,13 @@ export const register = ({ sendEmail }: RegisterActionnaireNotificationDependenc
         }),
       )
       .with({ type: 'ChangementActionnaireAccordé-V1' }, async (event) =>
-        handleChangementActionnaireAccordé({ sendEmail, event, projet, baseUrl }),
+        changementActionnaireAccordéNotifications({ sendEmail, event, projet, baseUrl }),
       )
       .with({ type: 'ChangementActionnaireRejeté-V1' }, async (event) =>
-        handleChangementActionnaireRejeté({ sendEmail, event, projet, baseUrl }),
+        changementActionnaireRejetéNotifications({ sendEmail, event, projet, baseUrl }),
       )
       .with({ type: 'ChangementActionnaireAnnulé-V1' }, async (event) =>
-        handleChangementActionnaireAnnulé({ sendEmail, event, projet, baseUrl }),
+        changementActionnaireAnnuléNotifications({ sendEmail, event, projet, baseUrl }),
       )
       .otherwise(() => Promise.resolve());
   };
