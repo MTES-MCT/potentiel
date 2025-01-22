@@ -27,7 +27,7 @@ export const InfoActionnaire = ({
       )}
       {actionnaire?.peutConsulterDemandeChangement && (
         <Link
-          href={Routes.Actionnaire.changement.détail(identifiantProjet.formatter())}
+          href={Routes.Actionnaire.détails(identifiantProjet.formatter())}
           aria-label="Voir la demande de modification de l'actionnariat en cours"
           className="block"
         >

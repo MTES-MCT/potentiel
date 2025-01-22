@@ -41,9 +41,7 @@ export const ChangementActionnaireListItem: FC<ChangementActionnaireListItemProp
     }
     actions={
       <Link
-        href={Routes.Actionnaire.changement.détail(
-          IdentifiantProjet.bind(identifiantProjet).formatter(),
-        )}
+        href={Routes.Actionnaire.détails(IdentifiantProjet.bind(identifiantProjet).formatter())}
         aria-label={`voir le détail de l'actionnariat pour ${nomProjet}`}
       >
         Voir le détail
