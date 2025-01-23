@@ -182,6 +182,7 @@ v1Router.get(
 
       const demandeNécessiteInstructionPourActionnaire =
         project.appelOffreId === 'Eolien' &&
+        role.estÉgaleÀ(Role.porteur) &&
         (!aDesGarantiesFinancièresConstituées ||
           aUnDépotEnCours ||
           project.isFinancementParticipatif ||
