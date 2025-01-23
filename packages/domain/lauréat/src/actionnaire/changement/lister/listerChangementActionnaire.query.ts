@@ -50,6 +50,11 @@ export const registerListerChangementActionnaireQuery = ({
     utilisateur,
     range,
   }) => {
+    const { identifiantProjet, régionProjet } = await getRoleBasedWhereCondition(
+      utilisateur,
+      récupérerIdentifiantsProjetParEmailPorteur,
+    );
+
     const options: ListOptions<ChangementActionnaireEntity> = {
       range,
       orderBy: {
@@ -58,17 +63,15 @@ export const registerListerChangementActionnaireQuery = ({
         },
       },
       where: {
+        identifiantProjet,
         demande: {
           statut: statut ? Where.equal(statut) : Where.notEqualNull(),
         },
         projet: {
           appelOffre: Where.equal(appelOffre),
           nom: Where.contains(nomProjet),
+          région: régionProjet,
         },
-        ...(await getRoleBasedWhereCondition(
-          utilisateur,
-          récupérerIdentifiantsProjetParEmailPorteur,
-        )),
       },
     };
 
