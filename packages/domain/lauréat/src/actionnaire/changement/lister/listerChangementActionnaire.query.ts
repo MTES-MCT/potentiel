@@ -2,9 +2,10 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 import { List, ListOptions, RangeOptions, Where } from '@potentiel-domain/entity';
-import { RécupérerIdentifiantsProjetParEmailPorteur, Role } from '@potentiel-domain/utilisateur';
+import { RécupérerIdentifiantsProjetParEmailPorteur } from '@potentiel-domain/utilisateur';
 
 import { ChangementActionnaireEntity, StatutChangementActionnaire } from '../..';
+import { Utilisateur, getRoleBasedWhereCondition } from '../../utils/getRoleBasedWhereCondition';
 
 type ChangementActionnaireItemReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
@@ -24,11 +25,7 @@ export type ListerChangementActionnaireReadModel = {
 export type ListerChangementActionnaireQuery = Message<
   'Lauréat.Actionnaire.Query.ListerChangementActionnaire',
   {
-    utilisateur: {
-      rôle: string;
-      email: string;
-      régionDreal?: string;
-    };
+    utilisateur: Utilisateur;
     statut?: StatutChangementActionnaire.RawType;
     appelOffre?: string;
     nomProjet?: string;
@@ -50,13 +47,9 @@ export const registerListerChangementActionnaireQuery = ({
     statut,
     appelOffre,
     nomProjet,
-    utilisateur: { email, rôle, régionDreal },
+    utilisateur,
     range,
   }) => {
-    const régionProjet = Role.convertirEnValueType(rôle).estÉgaleÀ(Role.dreal)
-      ? (régionDreal ?? 'non-trouvée')
-      : undefined;
-
     const options: ListOptions<ChangementActionnaireEntity> = {
       range,
       orderBy: {
@@ -65,19 +58,17 @@ export const registerListerChangementActionnaireQuery = ({
         },
       },
       where: {
-        identifiantProjet: await getIdentifiantProjetWhereCondition(
-          rôle,
-          email,
-          récupérerIdentifiantsProjetParEmailPorteur,
-        ),
         demande: {
           statut: statut ? Where.equal(statut) : Where.notEqualNull(),
         },
         projet: {
           appelOffre: Where.equal(appelOffre),
           nom: Where.contains(nomProjet),
-          région: Where.equal(régionProjet),
         },
+        ...(await getRoleBasedWhereCondition(
+          utilisateur,
+          récupérerIdentifiantsProjetParEmailPorteur,
+        )),
       },
     };
 
@@ -102,17 +93,3 @@ const mapToReadModel = (
   demandéLe: DateTime.convertirEnValueType(entity.demande.demandéeLe),
   nouvelActionnaire: entity.demande.nouvelActionnaire,
 });
-
-const getIdentifiantProjetWhereCondition = async (
-  rôle: string,
-  email: string,
-  récupérerIdentifiantsProjetParEmailPorteur: RécupérerIdentifiantsProjetParEmailPorteur,
-) => {
-  if (Role.convertirEnValueType(rôle).estÉgaleÀ(Role.porteur)) {
-    const identifiantProjets = await récupérerIdentifiantsProjetParEmailPorteur(email);
-
-    return Where.include(identifiantProjets);
-  }
-
-  return undefined;
-};
