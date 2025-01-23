@@ -178,7 +178,6 @@ async function instruireChangement(
           },
         });
       } catch (error) {
-        console.log('😐wtf', error);
         this.error = error as Error;
       }
     })
