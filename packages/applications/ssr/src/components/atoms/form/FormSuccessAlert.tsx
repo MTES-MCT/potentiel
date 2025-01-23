@@ -33,6 +33,7 @@ export const FormSuccessAlert: FC<Props> = ({ message }) => {
         severity="success"
         onClose={handleRemoveQueryParam}
         description={<p>{message}</p>}
+        className="min-h-10"
       />
     </div>
   );
