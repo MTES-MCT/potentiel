@@ -1,7 +1,6 @@
 import { mediator } from 'mediateur';
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
-import { z } from 'zod';
 
 import { Option } from '@potentiel-libraries/monads';
 import { ReprésentantLégal } from '@potentiel-domain/laureat';
@@ -9,7 +8,6 @@ import { mapToPlainObject } from '@potentiel-domain/core';
 import { IdentifiantProjet } from '@potentiel-domain/common';
 
 import { decodeParameter } from '@/utils/decodeParameter';
-import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 import {
@@ -22,21 +20,20 @@ export const metadata: Metadata = {
   description: "Détail du représentant légal d'un projet",
 };
 
-type PageProps = IdentifiantParameter & {
-  searchParams?: Record<string, string>;
+type PageProps = {
+  params: {
+    identifiant: string;
+    date: string;
+  };
 };
 
-const paramsSchema = z.object({
-  demandeLe: z.string().min(1),
-});
-
-export default async function Page({ params: { identifiant }, searchParams }: PageProps) {
+export default async function Page({ params: { identifiant, date } }: PageProps) {
   return PageWithErrorHandling(async () =>
     withUtilisateur(async (utilisateur) => {
       const identifiantProjet = IdentifiantProjet.convertirEnValueType(
         decodeParameter(identifiant),
       );
-      const { demandeLe: demandéLe } = paramsSchema.parse(searchParams);
+      const demandéLe = decodeParameter(date);
 
       const changement =
         await mediator.send<ReprésentantLégal.ConsulterChangementReprésentantLégalQuery>({
