@@ -119,22 +119,13 @@ export const getReprésentantLégal: GetReprésentantLégal = async (identifiant
 
 const getChangementReprésentantLégal = async (identifiantProjet: IdentifiantProjet.ValueType) => {
   try {
-    const derniersChangementsDemandés =
-      await listProjection<ReprésentantLégal.ChangementReprésentantLégalEntity>(
-        `changement-représentant-légal`,
-        {
-          where: {
-            identifiantProjet: Where.equal(identifiantProjet.formatter()),
-            demande: {
-              statut: Where.equal(
-                ReprésentantLégal.StatutChangementReprésentantLégal.demandé.formatter(),
-              ),
-            },
-          },
-        },
-      );
+    const représentantLégal =
+      await mediator.send<ReprésentantLégal.ConsulterReprésentantLégalQuery>({
+        type: 'Lauréat.ReprésentantLégal.Query.ConsulterReprésentantLégal',
+        data: { identifiantProjet: identifiantProjet.formatter() },
+      });
 
-    if (derniersChangementsDemandés.total === 1) {
+    if (Option.isSome(représentantLégal) && représentantLégal.) {
       return derniersChangementsDemandés.items[0].demande.demandéLe;
     }
 

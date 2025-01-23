@@ -1,9 +1,9 @@
 import { ReprésentantLégal } from '@potentiel-domain/laureat';
-import { listProjection } from '@potentiel-infrastructure/pg-projections';
+import { findProjection } from '@potentiel-infrastructure/pg-projections';
 import { getLogger } from '@potentiel-libraries/monitoring';
-import { Where } from '@potentiel-domain/entity';
+import { Option } from '@potentiel-libraries/monads';
 
-import { removeProjection } from '../../../../infrastructure';
+import { removeProjection, updateOneProjection } from '../../../../infrastructure';
 
 export const changementReprésentantLégalSuppriméProjector = async (
   event: ReprésentantLégal.ChangementReprésentantLégalSuppriméEvent,
@@ -12,39 +12,34 @@ export const changementReprésentantLégalSuppriméProjector = async (
     payload: { identifiantProjet },
   } = event;
 
-  const derniersChangementsDemandés =
-    await listProjection<ReprésentantLégal.ChangementReprésentantLégalEntity>(
-      `changement-représentant-légal`,
-      {
-        where: {
-          identifiantProjet: Where.equal(identifiantProjet),
-          demande: {
-            statut: Where.equal(
-              ReprésentantLégal.StatutChangementReprésentantLégal.demandé.formatter(),
-            ),
-          },
-        },
-      },
-    );
+  const représentantLégal = await findProjection<ReprésentantLégal.ReprésentantLégalEntity>(
+    `représentant-légal|${identifiantProjet}`,
+  );
 
-  if (derniersChangementsDemandés.total === 0) {
-    getLogger().warn(`Aucune demande n'a été trouvée pour le changement de représentant supprimé`, {
-      event,
-    });
-    return;
-  }
-  if (derniersChangementsDemandés.total > 1) {
+  if (Option.isNone(représentantLégal)) {
     getLogger().warn(
-      `Plusieurs demandes ont été trouvées pour le changement de représentant supprimé`,
+      `Aucun représentant légal n'a été trouvé pour le changement de représentant supprimé`,
       {
         event,
       },
     );
     return;
   }
+  if (!représentantLégal.demandeEnCours) {
+    getLogger().warn(`Aucune demande n'a été trouvée pour le changement de représentant supprimé`, {
+      event,
+    });
+    return;
+  }
 
-  const changementReprésentantLégal = derniersChangementsDemandés.items[0];
-  const identifiantChangement = `${identifiantProjet}#${changementReprésentantLégal.demande.demandéLe}`;
+  const identifiantChangement = `${identifiantProjet}#${représentantLégal.demandeEnCours.demandéLe}`;
 
   await removeProjection(`changement-représentant-légal|${identifiantChangement}`);
+
+  await updateOneProjection<ReprésentantLégal.ReprésentantLégalEntity>(
+    `représentant-légal|${identifiantProjet}`,
+    {
+      demandeEnCours: undefined,
+    },
+  );
 };

@@ -1,7 +1,7 @@
 import { ReprésentantLégal } from '@potentiel-domain/laureat';
-import { listProjection } from '@potentiel-infrastructure/pg-projections';
+import { findProjection } from '@potentiel-infrastructure/pg-projections';
 import { getLogger } from '@potentiel-libraries/monitoring';
-import { Where } from '@potentiel-domain/entity';
+import { Option } from '@potentiel-libraries/monads';
 
 import { updateOneProjection, upsertProjection } from '../../../../infrastructure';
 
@@ -18,39 +18,42 @@ export const changementReprésentantLégalAccordéProjector = async (
     },
   } = event;
 
-  const derniersChangementsDemandés =
-    await listProjection<ReprésentantLégal.ChangementReprésentantLégalEntity>(
-      `changement-représentant-légal`,
-      {
-        where: {
-          identifiantProjet: Where.equal(identifiantProjet),
-          demande: {
-            statut: Where.equal(
-              ReprésentantLégal.StatutChangementReprésentantLégal.demandé.formatter(),
-            ),
-          },
-        },
-      },
-    );
+  const représentantLégal = await findProjection<ReprésentantLégal.ReprésentantLégalEntity>(
+    `représentant-légal|${identifiantProjet}`,
+  );
 
-  if (derniersChangementsDemandés.total === 0) {
-    getLogger().warn(`Aucune demande n'a été trouvée pour le changement de représentant accordé`, {
-      event,
-    });
-    return;
-  }
-  if (derniersChangementsDemandés.total > 1) {
+  if (Option.isNone(représentantLégal)) {
     getLogger().warn(
-      `Plusieurs demandes ont été trouvées pour le changement de représentant accordé`,
+      `Aucun représentant légal n'a été trouvé pour le changement de représentant accordé`,
       {
         event,
       },
     );
     return;
   }
+  if (!représentantLégal.demandeEnCours) {
+    getLogger().warn(`Aucune demande en cours pour le changement de représentant accordé`, {
+      event,
+    });
+    return;
+  }
 
-  const changementReprésentantLégal = derniersChangementsDemandés.items[0];
-  const identifiantChangement = `${identifiantProjet}#${changementReprésentantLégal.demande.demandéLe}`;
+  const identifiantChangement = `${identifiantProjet}#${représentantLégal.demandeEnCours.demandéLe}`;
+
+  const changementReprésentantLégal =
+    await findProjection<ReprésentantLégal.ChangementReprésentantLégalEntity>(
+      `changement-représentant-légal|${identifiantChangement}`,
+    );
+
+  if (Option.isNone(changementReprésentantLégal)) {
+    getLogger().warn(
+      `Aucun changement de représentant légal n'a été trouvé pour le changement de représentant accordé`,
+      {
+        event,
+      },
+    );
+    return;
+  }
 
   await upsertProjection<ReprésentantLégal.ChangementReprésentantLégalEntity>(
     `changement-représentant-légal|${identifiantChangement}`,
@@ -74,6 +77,7 @@ export const changementReprésentantLégalAccordéProjector = async (
     {
       nomReprésentantLégal,
       typeReprésentantLégal,
+      demandeEnCours: undefined,
     },
   );
 };
