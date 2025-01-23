@@ -28,14 +28,14 @@ export const changementReprésentantLégalRejetéProjector = async (
     );
 
   if (derniersChangementsDemandés.total === 0) {
-    getLogger().warn(`Aucune demande n'a été trouvée pour le changement de représentant accordé`, {
+    getLogger().warn(`Aucune demande n'a été trouvée pour le changement de représentant rejeté`, {
       event,
     });
     return;
   }
   if (derniersChangementsDemandés.total > 1) {
     getLogger().warn(
-      `Plusieurs demandes ont été trouvées pour le changement de représentant accordé`,
+      `Plusieurs demandes ont été trouvées pour le changement de représentant rejeté`,
       {
         event,
       },
