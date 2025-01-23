@@ -34,7 +34,7 @@ const action: FormAction<FormState, typeof schema> = async (
   withUtilisateur(async (utilisateur) => {
     if (referenceDossierRaccordement !== referenceDossierRaccordementActuelle) {
       await mediator.send<Raccordement.ModifierRéférenceDossierRaccordementUseCase>({
-        type: 'Réseau.Raccordement.UseCase.ModifierRéférenceDossierRaccordement',
+        type: 'Lauréat.Raccordement.UseCase.ModifierRéférenceDossierRaccordement',
         data: {
           identifiantProjetValue: identifiantProjet,
           référenceDossierRaccordementActuelleValue: referenceDossierRaccordementActuelle,
@@ -47,7 +47,7 @@ const action: FormAction<FormState, typeof schema> = async (
     }
 
     await mediator.send<Raccordement.RaccordementUseCase>({
-      type: 'Réseau.Raccordement.UseCase.ModifierDemandeComplèteRaccordement',
+      type: 'Lauréat.Raccordement.UseCase.ModifierDemandeComplèteRaccordement',
       data: {
         identifiantProjetValue: identifiantProjet,
         accuséRéceptionValue: accuseReception,

@@ -37,7 +37,7 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
 
     const gestionnaireRéseau =
       await mediator.send<Raccordement.ConsulterGestionnaireRéseauRaccordementQuery>({
-        type: 'Réseau.Raccordement.Query.ConsulterGestionnaireRéseauRaccordement',
+        type: 'Lauréat.Raccordement.Query.ConsulterGestionnaireRéseauRaccordement',
         data: { identifiantProjetValue: identifiantProjet.formatter() },
       });
 

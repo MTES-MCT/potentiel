@@ -40,7 +40,7 @@ export default async function Page({ searchParams }: PageProps) {
       gestionnairesRéseau.items.map(async (gestionnaire) => {
         const nombreDeRaccordements =
           await mediator.send<Raccordement.ConsulterNombreDeRaccordementQuery>({
-            type: 'Réseau.Raccordement.Query.ConsulterNombreDeRaccordement',
+            type: 'Lauréat.Raccordement.Query.ConsulterNombreDeRaccordement',
             data: {
               identifiantGestionnaireRéseauValue:
                 gestionnaire.identifiantGestionnaireRéseau.formatter(),

@@ -8,7 +8,7 @@ import { loadRaccordementAggregateFactory } from '../raccordement.aggregate';
 import { loadLauréatFactory } from '../../lauréat.aggregate';
 
 export type TransmettreDateMiseEnServiceCommand = Message<
-  'Réseau.Raccordement.Command.TransmettreDateMiseEnService',
+  'Lauréat.Raccordement.Command.TransmettreDateMiseEnService',
   {
     dateMiseEnService: DateTime.ValueType;
     référenceDossier: RéférenceDossierRaccordement.ValueType;
@@ -42,5 +42,5 @@ export const registerTransmettreDateMiseEnServiceCommand = (loadAggregate: LoadA
     });
   };
 
-  mediator.register('Réseau.Raccordement.Command.TransmettreDateMiseEnService', handler);
+  mediator.register('Lauréat.Raccordement.Command.TransmettreDateMiseEnService', handler);
 };

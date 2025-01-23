@@ -67,7 +67,7 @@ const action: FormAction<FormState, typeof schema> = async (
 
     if (identifiantProjet) {
       const dossier = await mediator.send<Raccordement.ConsulterDossierRaccordementQuery>({
-        type: 'Réseau.Raccordement.Query.ConsulterDossierRaccordement',
+        type: 'Lauréat.Raccordement.Query.ConsulterDossierRaccordement',
         data: {
           identifiantProjetValue: identifiantProjet,
           référenceDossierRaccordementValue: referenceDossier,
@@ -100,7 +100,7 @@ const action: FormAction<FormState, typeof schema> = async (
       }
     } else {
       const dossiers = await mediator.send<Raccordement.RechercherDossierRaccordementQuery>({
-        type: 'Réseau.Raccordement.Query.RechercherDossierRaccordement',
+        type: 'Lauréat.Raccordement.Query.RechercherDossierRaccordement',
         data: {
           référenceDossierRaccordement: referenceDossier,
         },
@@ -154,7 +154,7 @@ const transmettreDateDeMiseEnService = async (
   withUtilisateur(async (utilisateur) => {
     try {
       await mediator.send<Raccordement.TransmettreDateMiseEnServiceUseCase>({
-        type: 'Réseau.Raccordement.UseCase.TransmettreDateMiseEnService',
+        type: 'Lauréat.Raccordement.UseCase.TransmettreDateMiseEnService',
         data: {
           identifiantProjetValue: identifiantProjet,
           référenceDossierValue: référenceDossierRaccordement,

@@ -9,7 +9,7 @@ import { loadRaccordementAggregateFactory } from '../raccordement.aggregate';
 import * as RéférenceDossierRaccordement from '../référenceDossierRaccordement.valueType';
 
 export type ModifierRéférenceDossierRaccordementCommand = Message<
-  'Réseau.Raccordement.Command.ModifierRéférenceDossierRaccordement',
+  'Lauréat.Raccordement.Command.ModifierRéférenceDossierRaccordement',
   {
     identifiantProjet: IdentifiantProjet.ValueType;
     référenceDossierRaccordementActuelle: RéférenceDossierRaccordement.ValueType;
@@ -51,5 +51,5 @@ export const registerModifierRéférenceDossierRaccordementCommand = (
     });
   };
 
-  mediator.register('Réseau.Raccordement.Command.ModifierRéférenceDossierRaccordement', handler);
+  mediator.register('Lauréat.Raccordement.Command.ModifierRéférenceDossierRaccordement', handler);
 };

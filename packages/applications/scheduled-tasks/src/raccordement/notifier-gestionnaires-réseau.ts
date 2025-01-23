@@ -83,7 +83,7 @@ registerLauréatQueries({
 
       const dossiersRaccordement =
         await mediator.send<Raccordement.ListerDossierRaccordementEnAttenteMiseEnServiceQuery>({
-          type: 'Réseau.Raccordement.Query.ListerDossierRaccordementEnAttenteMiseEnServiceQuery',
+          type: 'Lauréat.Raccordement.Query.ListerDossierRaccordementEnAttenteMiseEnServiceQuery',
           data: {
             identifiantGestionnaireRéseau: gestionnaire.identifiantGestionnaireRéseau.codeEIC,
             projetNotifiéAvant: DateTime.now().ajouterNombreDeMois(12).formatter(),

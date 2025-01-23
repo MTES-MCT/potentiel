@@ -58,7 +58,7 @@ Quand(
 
     try {
       await mediator.send<Raccordement.SupprimerDossierDuRaccordementUseCase>({
-        type: 'Réseau.Raccordement.UseCase.SupprimerDossierDuRaccordement',
+        type: 'Lauréat.Raccordement.UseCase.SupprimerDossierDuRaccordement',
         data: {
           identifiantProjetValue: identifiantProjet.formatter(),
           référenceDossierValue: référenceDossier,
@@ -77,7 +77,7 @@ Quand(
 
     try {
       await mediator.send<Raccordement.SupprimerDossierDuRaccordementUseCase>({
-        type: 'Réseau.Raccordement.UseCase.SupprimerDossierDuRaccordement',
+        type: 'Lauréat.Raccordement.UseCase.SupprimerDossierDuRaccordement',
         data: {
           identifiantProjetValue: identifiantProjet.formatter(),
           référenceDossierValue: référenceDossier,
@@ -97,7 +97,7 @@ async function modifierGestionnaireRéseauRaccordement(
   const { identifiantProjet } = this.lauréatWorld;
   try {
     await mediator.send<Raccordement.ModifierGestionnaireRéseauRaccordementUseCase>({
-      type: 'Réseau.Raccordement.UseCase.ModifierGestionnaireRéseauRaccordement',
+      type: 'Lauréat.Raccordement.UseCase.ModifierGestionnaireRéseauRaccordement',
       data: {
         identifiantProjetValue: identifiantProjet.formatter(),
         identifiantGestionnaireRéseauValue: codeEIC,

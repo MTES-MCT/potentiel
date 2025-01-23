@@ -9,7 +9,7 @@ import * as RéférenceDossierRaccordement from '../référenceDossierRaccordeme
 import { TransmettreDemandeComplèteRaccordementCommand } from './transmettreDemandeComplèteRaccordement.command';
 
 export type TransmettreDemandeComplèteRaccordementUseCase = Message<
-  'Réseau.Raccordement.UseCase.TransmettreDemandeComplèteRaccordement',
+  'Lauréat.Raccordement.UseCase.TransmettreDemandeComplèteRaccordement',
   {
     identifiantProjetValue: string;
     dateQualificationValue: string;
@@ -44,7 +44,7 @@ export const registerTransmettreDemandeComplèteRaccordementUseCase = () => {
      * Merci de laisser la commande transmettre en première puisqu'elle fait des vérifications (notamment sur l'abandon du projet)
      */
     await mediator.send<TransmettreDemandeComplèteRaccordementCommand>({
-      type: 'Réseau.Raccordement.Command.TransmettreDemandeComplèteRaccordement',
+      type: 'Lauréat.Raccordement.Command.TransmettreDemandeComplèteRaccordement',
       data: {
         identifiantProjet,
         dateQualification,
@@ -62,5 +62,5 @@ export const registerTransmettreDemandeComplèteRaccordementUseCase = () => {
     });
   };
 
-  mediator.register('Réseau.Raccordement.UseCase.TransmettreDemandeComplèteRaccordement', runner);
+  mediator.register('Lauréat.Raccordement.UseCase.TransmettreDemandeComplèteRaccordement', runner);
 };

@@ -46,7 +46,7 @@ const schema = z.object({
 const isUpToDate = async (row: z.infer<typeof schema>) => {
   const raccordementRefOrigine =
     await mediator.send<Raccordement.ConsulterDossierRaccordementQuery>({
-      type: 'Réseau.Raccordement.Query.ConsulterDossierRaccordement',
+      type: 'Lauréat.Raccordement.Query.ConsulterDossierRaccordement',
       data: {
         identifiantProjetValue: row.identifiantProjet,
         référenceDossierRaccordementValue: row.referenceDossier,
@@ -55,7 +55,7 @@ const isUpToDate = async (row: z.infer<typeof schema>) => {
   if (Option.isNone(raccordementRefOrigine)) {
     const raccordementRefCorrigée =
       await mediator.send<Raccordement.ConsulterDossierRaccordementQuery>({
-        type: 'Réseau.Raccordement.Query.ConsulterDossierRaccordement',
+        type: 'Lauréat.Raccordement.Query.ConsulterDossierRaccordement',
         data: {
           identifiantProjetValue: row.identifiantProjet,
           référenceDossierRaccordementValue: row['referenceDossier corrigé GRD'],
@@ -121,7 +121,7 @@ export default class ModifierRéférence extends Command {
           );
         } else {
           await mediator.send<Raccordement.ModifierRéférenceDossierRaccordementUseCase>({
-            type: 'Réseau.Raccordement.UseCase.ModifierRéférenceDossierRaccordement',
+            type: 'Lauréat.Raccordement.UseCase.ModifierRéférenceDossierRaccordement',
             data: {
               identifiantProjetValue: identifiantProjet,
               référenceDossierRaccordementActuelleValue: row.referenceDossier,

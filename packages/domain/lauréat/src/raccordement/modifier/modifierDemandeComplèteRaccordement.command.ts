@@ -9,7 +9,7 @@ import * as RéférenceDossierRaccordement from '../référenceDossierRaccordeme
 import { loadRaccordementAggregateFactory } from '../raccordement.aggregate';
 
 export type ModifierDemandeComplèteRaccordementCommand = Message<
-  'Réseau.Raccordement.Command.ModifierDemandeComplèteRaccordement',
+  'Lauréat.Raccordement.Command.ModifierDemandeComplèteRaccordement',
   {
     identifiantProjet: IdentifiantProjet.ValueType;
     dateQualification: DateTime.ValueType;
@@ -48,5 +48,5 @@ export const registerModifierDemandeComplèteRaccordementCommand = (
     });
   };
 
-  mediator.register('Réseau.Raccordement.Command.ModifierDemandeComplèteRaccordement', handler);
+  mediator.register('Lauréat.Raccordement.Command.ModifierDemandeComplèteRaccordement', handler);
 };

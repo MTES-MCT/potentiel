@@ -7,7 +7,7 @@ import * as RéférenceDossierRaccordement from '../../référenceDossierRaccord
 import { SupprimerDossierDuRaccordementCommand } from './supprimerDossierDuRaccordement.command';
 
 export type SupprimerDossierDuRaccordementUseCase = Message<
-  'Réseau.Raccordement.UseCase.SupprimerDossierDuRaccordement',
+  'Lauréat.Raccordement.UseCase.SupprimerDossierDuRaccordement',
   {
     identifiantProjetValue: string;
     référenceDossierValue: string;
@@ -24,7 +24,7 @@ export const registerSupprimerDossierDuRaccordementUseCase = () => {
       RéférenceDossierRaccordement.convertirEnValueType(référenceDossierValue);
 
     await mediator.send<SupprimerDossierDuRaccordementCommand>({
-      type: 'Réseau.Raccordement.Command.SupprimerDossierDuRaccordement',
+      type: 'Lauréat.Raccordement.Command.SupprimerDossierDuRaccordement',
       data: {
         identifiantProjet,
         référenceDossier,
@@ -32,5 +32,5 @@ export const registerSupprimerDossierDuRaccordementUseCase = () => {
     });
   };
 
-  mediator.register('Réseau.Raccordement.UseCase.SupprimerDossierDuRaccordement', runner);
+  mediator.register('Lauréat.Raccordement.UseCase.SupprimerDossierDuRaccordement', runner);
 };

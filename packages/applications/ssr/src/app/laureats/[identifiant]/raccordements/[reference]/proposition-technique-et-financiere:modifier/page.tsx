@@ -42,7 +42,7 @@ export default async function Page({ params: { identifiant, reference } }: PageP
 
     const dossierRaccordement = await mediator.send<Raccordement.ConsulterDossierRaccordementQuery>(
       {
-        type: 'Réseau.Raccordement.Query.ConsulterDossierRaccordement',
+        type: 'Lauréat.Raccordement.Query.ConsulterDossierRaccordement',
         data: {
           identifiantProjetValue: identifiantProjet.formatter(),
           référenceDossierRaccordementValue: referenceDossierRaccordement,

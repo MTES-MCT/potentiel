@@ -10,7 +10,7 @@ import * as TypeDocumentRaccordement from '../typeDocumentRaccordement.valueType
 import { ModifierRéférenceDossierRaccordementCommand } from './modifierRéférenceDossierRaccordement.command';
 
 export type ModifierRéférenceDossierRaccordementUseCase = Message<
-  'Réseau.Raccordement.UseCase.ModifierRéférenceDossierRaccordement',
+  'Lauréat.Raccordement.UseCase.ModifierRéférenceDossierRaccordement',
   {
     identifiantProjetValue: string;
     référenceDossierRaccordementActuelleValue: string;
@@ -87,7 +87,7 @@ export const registerModifierRéférenceDossierRaccordementUseCase = () => {
     });
 
     await mediator.send<ModifierRéférenceDossierRaccordementCommand>({
-      type: 'Réseau.Raccordement.Command.ModifierRéférenceDossierRaccordement',
+      type: 'Lauréat.Raccordement.Command.ModifierRéférenceDossierRaccordement',
       data: {
         identifiantProjet,
         nouvelleRéférenceDossierRaccordement,
@@ -99,5 +99,5 @@ export const registerModifierRéférenceDossierRaccordementUseCase = () => {
     });
   };
 
-  mediator.register('Réseau.Raccordement.UseCase.ModifierRéférenceDossierRaccordement', runner);
+  mediator.register('Lauréat.Raccordement.UseCase.ModifierRéférenceDossierRaccordement', runner);
 };

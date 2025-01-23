@@ -11,12 +11,12 @@ type GetRaccordementProps = {
   identifiantProjet: IdentifiantProjet.ValueType;
 };
 export const getRaccordement = async ({ role, identifiantProjet }: GetRaccordementProps) => {
-  if (!role.aLaPermission('réseau.raccordement.consulter')) {
+  if (!role.aLaPermission('raccordement.consulter')) {
     return Option.none;
   }
 
   const raccordement = await mediator.send<Raccordement.ConsulterRaccordementQuery>({
-    type: 'Réseau.Raccordement.Query.ConsulterRaccordement',
+    type: 'Lauréat.Raccordement.Query.ConsulterRaccordement',
     data: { identifiantProjetValue: identifiantProjet.formatter() },
   });
   if (

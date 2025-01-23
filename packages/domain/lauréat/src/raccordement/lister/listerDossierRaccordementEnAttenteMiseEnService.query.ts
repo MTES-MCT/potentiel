@@ -29,7 +29,7 @@ export type ListerDossierRaccordementEnAttenteMiseEnServiceReadModel = {
 };
 
 export type ListerDossierRaccordementEnAttenteMiseEnServiceQuery = Message<
-  'Réseau.Raccordement.Query.ListerDossierRaccordementEnAttenteMiseEnServiceQuery',
+  'Lauréat.Raccordement.Query.ListerDossierRaccordementEnAttenteMiseEnServiceQuery',
   {
     identifiantGestionnaireRéseau: string;
     projetNotifiéAvant?: DateTime.RawType;
@@ -89,7 +89,7 @@ export const registerListerDossierRaccordementEnAttenteMiseEnServiceQuery = ({
   };
 
   mediator.register(
-    'Réseau.Raccordement.Query.ListerDossierRaccordementEnAttenteMiseEnServiceQuery',
+    'Lauréat.Raccordement.Query.ListerDossierRaccordementEnAttenteMiseEnServiceQuery',
     handler,
   );
 };

@@ -61,7 +61,7 @@ const action: FormAction<FormState, typeof schema> = async (
     }
 
     const raccordement = await mediator.send<Raccordement.ConsulterRaccordementQuery>({
-      type: 'Réseau.Raccordement.Query.ConsulterRaccordement',
+      type: 'Lauréat.Raccordement.Query.ConsulterRaccordement',
       data: {
         identifiantProjetValue: identifiantProjet,
       },

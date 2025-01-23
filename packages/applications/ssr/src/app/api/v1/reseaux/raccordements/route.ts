@@ -51,7 +51,7 @@ export const GET = (request: NextRequest) =>
         Object.fromEntries(searchParams.entries()),
       );
       const result = await mediator.send<Raccordement.ListerDossierRaccordementQuery>({
-        type: 'Réseau.Raccordement.Query.ListerDossierRaccordementQuery',
+        type: 'Lauréat.Raccordement.Query.ListerDossierRaccordementQuery',
         data: {
           identifiantGestionnaireRéseau: récupérerIdentifiantGestionnaireUtilisateur(utilisateur),
           avecDateMiseEnService,

@@ -10,7 +10,7 @@ import { loadAbandonFactory } from '../../abandon';
 import { loadLauréatFactory } from '../../lauréat.aggregate';
 
 export type TransmettreDemandeComplèteRaccordementCommand = Message<
-  'Réseau.Raccordement.Command.TransmettreDemandeComplèteRaccordement',
+  'Lauréat.Raccordement.Command.TransmettreDemandeComplèteRaccordement',
   {
     identifiantProjet: IdentifiantProjet.ValueType;
     dateQualification: DateTime.ValueType;
@@ -53,5 +53,5 @@ export const registerTransmettreDemandeComplèteRaccordementCommand = (
     });
   };
 
-  mediator.register('Réseau.Raccordement.Command.TransmettreDemandeComplèteRaccordement', handler);
+  mediator.register('Lauréat.Raccordement.Command.TransmettreDemandeComplèteRaccordement', handler);
 };

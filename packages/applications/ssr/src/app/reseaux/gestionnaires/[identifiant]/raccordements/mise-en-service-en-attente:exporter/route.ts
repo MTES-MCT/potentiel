@@ -23,7 +23,7 @@ export const GET = async (_: Request, { params: { identifiant } }: ExporterRacco
 
     const dossiers =
       await mediator.send<Raccordement.ListerDossierRaccordementEnAttenteMiseEnServiceQuery>({
-        type: 'Réseau.Raccordement.Query.ListerDossierRaccordementEnAttenteMiseEnServiceQuery',
+        type: 'Lauréat.Raccordement.Query.ListerDossierRaccordementEnAttenteMiseEnServiceQuery',
         data: {
           identifiantGestionnaireRéseau,
         },

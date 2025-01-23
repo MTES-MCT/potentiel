@@ -53,7 +53,7 @@ const action: FormAction<FormState, typeof schema> = (_, { fichierCorrections })
     for (const { identifiantProjet, referenceDossier, referenceDossierCorrigee } of lines) {
       try {
         await mediator.send<Raccordement.ModifierRéférenceDossierRaccordementUseCase>({
-          type: 'Réseau.Raccordement.UseCase.ModifierRéférenceDossierRaccordement',
+          type: 'Lauréat.Raccordement.UseCase.ModifierRéférenceDossierRaccordement',
           data: {
             identifiantProjetValue: parseIdentifiantProjet(identifiantProjet),
             nouvelleRéférenceDossierRaccordementValue: referenceDossierCorrigee,

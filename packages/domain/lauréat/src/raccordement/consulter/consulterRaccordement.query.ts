@@ -31,7 +31,7 @@ export type ConsulterRaccordementReadModel = {
 };
 
 export type ConsulterRaccordementQuery = Message<
-  'Réseau.Raccordement.Query.ConsulterRaccordement',
+  'Lauréat.Raccordement.Query.ConsulterRaccordement',
   {
     identifiantProjetValue: string;
   },
@@ -53,7 +53,7 @@ export const registerConsulterRaccordementQuery = ({ find }: ConsulterRaccordeme
     return Option.match(result).some(mapToReadModel).none();
   };
 
-  mediator.register('Réseau.Raccordement.Query.ConsulterRaccordement', handler);
+  mediator.register('Lauréat.Raccordement.Query.ConsulterRaccordement', handler);
 };
 
 const mapToReadModel = (entity: RaccordementEntity): ConsulterRaccordementReadModel => {

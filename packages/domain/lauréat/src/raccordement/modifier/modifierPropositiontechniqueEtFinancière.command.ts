@@ -7,7 +7,7 @@ import * as RéférenceDossierRaccordement from '../référenceDossierRaccordeme
 import { loadRaccordementAggregateFactory } from '../raccordement.aggregate';
 
 export type ModifierPropositionTechniqueEtFinancièreCommand = Message<
-  'Réseau.Raccordement.Command.ModifierPropositionTechniqueEtFinancière',
+  'Lauréat.Raccordement.Command.ModifierPropositionTechniqueEtFinancière',
   {
     identifiantProjet: IdentifiantProjet.ValueType;
     dateSignature: DateTime.ValueType;
@@ -36,7 +36,7 @@ export const registerModifierPropositionTechniqueEtFinancièreCommand = (
   };
 
   mediator.register(
-    'Réseau.Raccordement.Command.ModifierPropositionTechniqueEtFinancière',
+    'Lauréat.Raccordement.Command.ModifierPropositionTechniqueEtFinancière',
     handler,
   );
 };

@@ -54,7 +54,7 @@ export default async function Page({ searchParams }: PageProps) {
       const identifiantGestionnaireRéseauUtilisateur =
         récupérerIdentifiantGestionnaireUtilisateur(utilisateur);
       const dossiers = await mediator.send<Raccordement.ListerDossierRaccordementQuery>({
-        type: 'Réseau.Raccordement.Query.ListerDossierRaccordementQuery',
+        type: 'Lauréat.Raccordement.Query.ListerDossierRaccordementQuery',
         data: {
           identifiantGestionnaireRéseau:
             identifiantGestionnaireRéseauUtilisateur ?? identifiantGestionnaireReseau,

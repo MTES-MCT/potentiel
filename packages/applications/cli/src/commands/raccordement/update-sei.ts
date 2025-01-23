@@ -59,7 +59,7 @@ export default class UpdateSEI extends Command {
     ];
     for (const identifiantGestionnaireRéseauValue of gestionnaires) {
       const { items } = await mediator.send<Raccordement.ListerRaccordementQuery>({
-        type: 'Réseau.Raccordement.Query.ListerRaccordement',
+        type: 'Lauréat.Raccordement.Query.ListerRaccordement',
         data: { identifiantGestionnaireRéseauValue },
       });
 
@@ -75,7 +75,7 @@ export default class UpdateSEI extends Command {
             );
           } else {
             await mediator.send<Raccordement.ModifierGestionnaireRéseauRaccordementUseCase>({
-              type: 'Réseau.Raccordement.UseCase.ModifierGestionnaireRéseauRaccordement',
+              type: 'Lauréat.Raccordement.UseCase.ModifierGestionnaireRéseauRaccordement',
               data: {
                 identifiantProjetValue: raccordement.identifiantProjet.formatter(),
                 identifiantGestionnaireRéseauValue: SEI,

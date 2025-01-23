@@ -18,7 +18,7 @@ EtantDonné(
 
     try {
       await mediator.send<Raccordement.RaccordementUseCase>({
-        type: 'Réseau.Raccordement.UseCase.TransmettreDateMiseEnService',
+        type: 'Lauréat.Raccordement.UseCase.TransmettreDateMiseEnService',
         data: {
           identifiantProjetValue: identifiantProjet.formatter(),
           référenceDossierValue: référenceDossier,

@@ -9,7 +9,7 @@ export type ConsulterNombreDeRaccordementReadModel = {
 };
 
 export type ConsulterNombreDeRaccordementQuery = Message<
-  'Réseau.Raccordement.Query.ConsulterNombreDeRaccordement',
+  'Lauréat.Raccordement.Query.ConsulterNombreDeRaccordement',
   {
     identifiantGestionnaireRéseauValue: RaccordementEntity['identifiantGestionnaireRéseau'];
   },
@@ -36,5 +36,5 @@ export const registerConsulterNombreDeRaccordementQuery = ({
       nombreRaccordements,
     };
   };
-  mediator.register('Réseau.Raccordement.Query.ConsulterNombreDeRaccordement', handler);
+  mediator.register('Lauréat.Raccordement.Query.ConsulterNombreDeRaccordement', handler);
 };

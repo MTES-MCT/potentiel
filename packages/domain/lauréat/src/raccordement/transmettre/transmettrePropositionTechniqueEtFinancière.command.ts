@@ -7,7 +7,7 @@ import * as RéférenceDossierRaccordement from '../référenceDossierRaccordeme
 import { loadRaccordementAggregateFactory } from '../raccordement.aggregate';
 
 export type TransmettrePropositionTechniqueEtFinancièreCommand = Message<
-  'Réseau.Raccordement.Command.TransmettrePropositionTechniqueEtFinancière',
+  'Lauréat.Raccordement.Command.TransmettrePropositionTechniqueEtFinancière',
   {
     dateSignature: DateTime.ValueType;
     référenceDossierRaccordement: RéférenceDossierRaccordement.ValueType;
@@ -36,7 +36,7 @@ export const registerTransmettrePropositionTechniqueEtFinancièreCommand = (
   };
 
   mediator.register(
-    'Réseau.Raccordement.Command.TransmettrePropositionTechniqueEtFinancière',
+    'Lauréat.Raccordement.Command.TransmettrePropositionTechniqueEtFinancière',
     handler,
   );
 };

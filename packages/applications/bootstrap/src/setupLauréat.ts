@@ -419,7 +419,7 @@ export const setupLauréat = async ({
     eventType: ['AbandonAccordé-V1'],
     eventHandler: async (event) => {
       await mediator.publish<Raccordement.RaccordementSaga.Execute>({
-        type: 'System.Réseau.Raccordement.Saga.Execute',
+        type: 'System.Lauréat.Raccordement.Saga.Execute',
         data: event,
       });
     },
@@ -432,7 +432,7 @@ export const setupLauréat = async ({
     eventType: ['LauréatNotifié-V1'],
     eventHandler: async (event) => {
       await mediator.publish<Raccordement.RaccordementSaga.Execute>({
-        type: 'System.Réseau.Raccordement.Saga.Execute',
+        type: 'System.Lauréat.Raccordement.Saga.Execute',
         data: event,
       });
     },

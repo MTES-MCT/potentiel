@@ -35,7 +35,7 @@ export type ListerDossierRaccordementReadModel = {
 };
 
 export type ListerDossierRaccordementQuery = Message<
-  'Réseau.Raccordement.Query.ListerDossierRaccordementQuery',
+  'Lauréat.Raccordement.Query.ListerDossierRaccordementQuery',
   {
     identifiantGestionnaireRéseau?: string;
     appelOffre?: string;
@@ -122,7 +122,7 @@ export const registerListerDossierRaccordementQuery = ({
     };
   };
 
-  mediator.register('Réseau.Raccordement.Query.ListerDossierRaccordementQuery', handler);
+  mediator.register('Lauréat.Raccordement.Query.ListerDossierRaccordementQuery', handler);
 };
 
 export const toReadModel = (

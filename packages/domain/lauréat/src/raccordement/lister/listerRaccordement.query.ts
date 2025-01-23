@@ -17,7 +17,7 @@ export type ListerRaccordementReadModel = {
 };
 
 export type ListerRaccordementQuery = Message<
-  'Réseau.Raccordement.Query.ListerRaccordement',
+  'Lauréat.Raccordement.Query.ListerRaccordement',
   {
     identifiantGestionnaireRéseauValue?: string;
   },
@@ -46,7 +46,7 @@ export const registerListerRaccordementQuery = ({ list }: ListerRaccordementQuer
       total,
     };
   };
-  mediator.register('Réseau.Raccordement.Query.ListerRaccordement', handler);
+  mediator.register('Lauréat.Raccordement.Query.ListerRaccordement', handler);
 };
 
 const mapToReadModel = (raccordement: RaccordementEntity): RaccordementReadModel => {

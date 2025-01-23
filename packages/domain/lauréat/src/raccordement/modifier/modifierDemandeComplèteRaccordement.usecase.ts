@@ -10,7 +10,7 @@ import * as RéférenceDossierRaccordement from '../référenceDossierRaccordeme
 import { ModifierDemandeComplèteRaccordementCommand } from './modifierDemandeComplèteRaccordement.command';
 
 export type ModifierDemandeComplèteRaccordementUseCase = Message<
-  'Réseau.Raccordement.UseCase.ModifierDemandeComplèteRaccordement',
+  'Lauréat.Raccordement.UseCase.ModifierDemandeComplèteRaccordement',
   {
     identifiantProjetValue: string;
     dateQualificationValue: string;
@@ -56,7 +56,7 @@ export const registerModifierDemandeComplèteRaccordementUseCase = () => {
     });
 
     await mediator.send<ModifierDemandeComplèteRaccordementCommand>({
-      type: 'Réseau.Raccordement.Command.ModifierDemandeComplèteRaccordement',
+      type: 'Lauréat.Raccordement.Command.ModifierDemandeComplèteRaccordement',
       data: {
         dateQualification,
         formatAccuséRéception: format,
@@ -67,5 +67,5 @@ export const registerModifierDemandeComplèteRaccordementUseCase = () => {
     });
   };
 
-  mediator.register('Réseau.Raccordement.UseCase.ModifierDemandeComplèteRaccordement', runner);
+  mediator.register('Lauréat.Raccordement.UseCase.ModifierDemandeComplèteRaccordement', runner);
 };

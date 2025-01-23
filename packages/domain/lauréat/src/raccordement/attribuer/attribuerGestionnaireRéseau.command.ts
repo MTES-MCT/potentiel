@@ -7,7 +7,7 @@ import { GestionnaireRéseau } from '@potentiel-domain/reseau';
 import { loadRaccordementAggregateFactory } from '../raccordement.aggregate';
 
 export type AttribuerGestionnaireRéseauCommand = Message<
-  'Réseau.Raccordement.Command.AttribuerGestionnaireRéseau',
+  'Lauréat.Raccordement.Command.AttribuerGestionnaireRéseau',
   {
     identifiantGestionnaireRéseau: GestionnaireRéseau.IdentifiantGestionnaireRéseau.ValueType;
     identifiantProjet: IdentifiantProjet.ValueType;
@@ -31,5 +31,5 @@ export const registerAttribuerGestionnaireCommand = (loadAggregate: LoadAggregat
     });
   };
 
-  mediator.register('Réseau.Raccordement.Command.AttribuerGestionnaireRéseau', handler);
+  mediator.register('Lauréat.Raccordement.Command.AttribuerGestionnaireRéseau', handler);
 };

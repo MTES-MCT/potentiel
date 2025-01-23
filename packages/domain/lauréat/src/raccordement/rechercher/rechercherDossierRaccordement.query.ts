@@ -14,7 +14,7 @@ export type RechercherDossierRaccordementReadModel = ReadonlyArray<{
 }>;
 
 export type RechercherDossierRaccordementQuery = Message<
-  'Réseau.Raccordement.Query.RechercherDossierRaccordement',
+  'Lauréat.Raccordement.Query.RechercherDossierRaccordement',
   {
     numéroCRE?: string;
     référenceDossierRaccordement: string;
@@ -43,7 +43,7 @@ export const registerRechercherDossierRaccordementQuery = ({
     return mapToReadModel(results.items);
   };
 
-  mediator.register('Réseau.Raccordement.Query.RechercherDossierRaccordement', handler);
+  mediator.register('Lauréat.Raccordement.Query.RechercherDossierRaccordement', handler);
 };
 
 const mapToReadModel = (result: ReadonlyArray<DossierRaccordementEntity>) => {

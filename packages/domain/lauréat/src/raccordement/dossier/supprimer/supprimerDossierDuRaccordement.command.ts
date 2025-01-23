@@ -7,7 +7,7 @@ import * as RéférenceDossierRaccordement from '../../référenceDossierRaccord
 import { loadRaccordementAggregateFactory } from '../../raccordement.aggregate';
 
 export type SupprimerDossierDuRaccordementCommand = Message<
-  'Réseau.Raccordement.Command.SupprimerDossierDuRaccordement',
+  'Lauréat.Raccordement.Command.SupprimerDossierDuRaccordement',
   {
     identifiantProjet: IdentifiantProjet.ValueType;
     référenceDossier: RéférenceDossierRaccordement.ValueType;
@@ -28,5 +28,5 @@ export const registerSupprimerDossierDuRaccordementCommand = (loadAggregate: Loa
     });
   };
 
-  mediator.register('Réseau.Raccordement.Command.SupprimerDossierDuRaccordement', handler);
+  mediator.register('Lauréat.Raccordement.Command.SupprimerDossierDuRaccordement', handler);
 };

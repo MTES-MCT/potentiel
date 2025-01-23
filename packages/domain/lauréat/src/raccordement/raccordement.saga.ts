@@ -13,7 +13,7 @@ import { AttribuerGestionnaireRéseauCommand } from './attribuer/attribuerGestio
 
 export type SubscriptionEvent = AbandonAccordéEvent | LauréatNotifiéEvent;
 
-export type Execute = Message<'System.Réseau.Raccordement.Saga.Execute', SubscriptionEvent>;
+export type Execute = Message<'System.Lauréat.Raccordement.Saga.Execute', SubscriptionEvent>;
 
 export type RécupererGRDParVillePort = (props: {
   codePostal: string;
@@ -52,7 +52,7 @@ export const register = ({ récupérerGRDParVille }: RegisterRaccordementSagaDep
           .none(() => GestionnaireRéseau.IdentifiantGestionnaireRéseau.inconnu);
 
         await mediator.send<AttribuerGestionnaireRéseauCommand>({
-          type: 'Réseau.Raccordement.Command.AttribuerGestionnaireRéseau',
+          type: 'Lauréat.Raccordement.Command.AttribuerGestionnaireRéseau',
           data: {
             identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
             identifiantGestionnaireRéseau,
@@ -61,7 +61,7 @@ export const register = ({ récupérerGRDParVille }: RegisterRaccordementSagaDep
         break;
       case 'AbandonAccordé-V1':
         await mediator.send<SupprimerRaccordementCommand>({
-          type: 'Réseau.Raccordement.Command.SupprimerRaccordement',
+          type: 'Lauréat.Raccordement.Command.SupprimerRaccordement',
           data: {
             identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
           },
@@ -69,5 +69,5 @@ export const register = ({ récupérerGRDParVille }: RegisterRaccordementSagaDep
         break;
     }
   };
-  mediator.register('System.Réseau.Raccordement.Saga.Execute', handler);
+  mediator.register('System.Lauréat.Raccordement.Saga.Execute', handler);
 };

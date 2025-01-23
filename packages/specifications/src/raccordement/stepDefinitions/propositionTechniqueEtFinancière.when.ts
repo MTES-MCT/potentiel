@@ -91,7 +91,7 @@ async function transmettrePropositionTechniqueEtFinancière(
 
   try {
     await mediator.send<Raccordement.RaccordementUseCase>({
-      type: 'Réseau.Raccordement.UseCase.TransmettrePropositionTechniqueEtFinancière',
+      type: 'Lauréat.Raccordement.UseCase.TransmettrePropositionTechniqueEtFinancière',
       data: {
         dateSignatureValue: dateSignature,
         référenceDossierRaccordementValue: référenceDossier,
@@ -121,7 +121,7 @@ async function modifierPropositionTechniqueEtFinancière(
 
   try {
     await mediator.send<Raccordement.RaccordementUseCase>({
-      type: 'Réseau.Raccordement.UseCase.ModifierPropositionTechniqueEtFinancière',
+      type: 'Lauréat.Raccordement.UseCase.ModifierPropositionTechniqueEtFinancière',
       data: {
         dateSignatureValue: dateSignature,
         référenceDossierRaccordementValue: référenceDossier,

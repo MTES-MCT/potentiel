@@ -28,7 +28,7 @@ export type ConsulterDossierRaccordementReadModel = {
 };
 
 export type ConsulterDossierRaccordementQuery = Message<
-  'Réseau.Raccordement.Query.ConsulterDossierRaccordement',
+  'Lauréat.Raccordement.Query.ConsulterDossierRaccordement',
   {
     identifiantProjetValue: string;
     référenceDossierRaccordementValue: string;
@@ -63,7 +63,7 @@ export const registerConsulterDossierRaccordementQuery = ({
     return mapToResult(identifiantProjet, référence, result);
   };
 
-  mediator.register('Réseau.Raccordement.Query.ConsulterDossierRaccordement', handler);
+  mediator.register('Lauréat.Raccordement.Query.ConsulterDossierRaccordement', handler);
 };
 
 const mapToResult = (

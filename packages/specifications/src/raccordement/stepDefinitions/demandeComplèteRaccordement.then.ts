@@ -21,7 +21,7 @@ Alors(
     const { référenceDossier } = this.raccordementWorld;
     await waitForExpect(async () => {
       const raccordement = await mediator.send<Raccordement.ConsulterRaccordementQuery>({
-        type: 'Réseau.Raccordement.Query.ConsulterRaccordement',
+        type: 'Lauréat.Raccordement.Query.ConsulterRaccordement',
         data: {
           identifiantProjetValue: identifiantProjet.formatter(),
         },
@@ -29,7 +29,7 @@ Alors(
 
       const dossierRaccordement =
         await mediator.send<Raccordement.ConsulterDossierRaccordementQuery>({
-          type: 'Réseau.Raccordement.Query.ConsulterDossierRaccordement',
+          type: 'Lauréat.Raccordement.Query.ConsulterDossierRaccordement',
           data: {
             identifiantProjetValue: identifiantProjet.formatter(),
             référenceDossierRaccordementValue: référenceDossier,

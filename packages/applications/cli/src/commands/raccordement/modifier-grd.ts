@@ -48,7 +48,7 @@ const schema = z.object({
 const isUpToDate = async (row: z.infer<typeof schema>) => {
   const gestionnaire =
     await mediator.send<Raccordement.ConsulterGestionnaireRéseauRaccordementQuery>({
-      type: 'Réseau.Raccordement.Query.ConsulterGestionnaireRéseauRaccordement',
+      type: 'Lauréat.Raccordement.Query.ConsulterGestionnaireRéseauRaccordement',
       data: {
         identifiantProjetValue: row.identifiantProjet,
       },
@@ -133,7 +133,7 @@ export default class ModifierGRD extends Command {
           );
         } else {
           await mediator.send<Raccordement.ModifierGestionnaireRéseauRaccordementUseCase>({
-            type: 'Réseau.Raccordement.UseCase.ModifierGestionnaireRéseauRaccordement',
+            type: 'Lauréat.Raccordement.UseCase.ModifierGestionnaireRéseauRaccordement',
             data: {
               identifiantProjetValue: identifiantProjet,
               identifiantGestionnaireRéseauValue: identifiantGestionnaireRéseau,

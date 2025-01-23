@@ -6,7 +6,7 @@ import { LoadAggregate } from '@potentiel-domain/core';
 import { loadRaccordementAggregateFactory } from '../raccordement.aggregate';
 
 export type SupprimerRaccordementCommand = Message<
-  'Réseau.Raccordement.Command.SupprimerRaccordement',
+  'Lauréat.Raccordement.Command.SupprimerRaccordement',
   {
     identifiantProjet: IdentifiantProjet.ValueType;
   }
@@ -22,5 +22,5 @@ export const registerSupprimerRaccordementCommand = (loadAggregate: LoadAggregat
     });
   };
 
-  mediator.register('Réseau.Raccordement.Command.SupprimerRaccordement', handler);
+  mediator.register('Lauréat.Raccordement.Command.SupprimerRaccordement', handler);
 };

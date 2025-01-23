@@ -9,7 +9,7 @@ import * as TypeDocumentRaccordement from '../typeDocumentRaccordement.valueType
 import { TransmettrePropositionTechniqueEtFinancièreCommand } from './transmettrePropositionTechniqueEtFinancière.command';
 
 export type TransmettrePropositionTechniqueEtFinancièreUseCase = Message<
-  'Réseau.Raccordement.UseCase.TransmettrePropositionTechniqueEtFinancière',
+  'Lauréat.Raccordement.UseCase.TransmettrePropositionTechniqueEtFinancière',
   {
     dateSignatureValue: string;
     référenceDossierRaccordementValue: string;
@@ -52,7 +52,7 @@ export const registerTransmettrePropositionTechniqueEtFinancièreUseCase = () =>
     });
 
     await mediator.send<TransmettrePropositionTechniqueEtFinancièreCommand>({
-      type: 'Réseau.Raccordement.Command.TransmettrePropositionTechniqueEtFinancière',
+      type: 'Lauréat.Raccordement.Command.TransmettrePropositionTechniqueEtFinancière',
       data: {
         dateSignature,
         identifiantProjet,
@@ -63,7 +63,7 @@ export const registerTransmettrePropositionTechniqueEtFinancièreUseCase = () =>
   };
 
   mediator.register(
-    'Réseau.Raccordement.UseCase.TransmettrePropositionTechniqueEtFinancière',
+    'Lauréat.Raccordement.UseCase.TransmettrePropositionTechniqueEtFinancière',
     runner,
   );
 };

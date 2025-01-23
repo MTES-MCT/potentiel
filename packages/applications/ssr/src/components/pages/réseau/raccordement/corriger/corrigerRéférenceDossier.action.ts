@@ -24,7 +24,7 @@ const action: FormAction<FormState, typeof schema> = (
 ) =>
   withUtilisateur(async ({ role, identifiantUtilisateur }) => {
     await mediator.send<Raccordement.ModifierRéférenceDossierRaccordementUseCase>({
-      type: 'Réseau.Raccordement.UseCase.ModifierRéférenceDossierRaccordement',
+      type: 'Lauréat.Raccordement.UseCase.ModifierRéférenceDossierRaccordement',
       data: {
         identifiantProjetValue: identifiantProjet,
         nouvelleRéférenceDossierRaccordementValue: referenceDossierCorrigee,
@@ -38,7 +38,7 @@ const action: FormAction<FormState, typeof schema> = (
     return {
       status: 'success',
       redirection: {
-        url: role.aLaPermission('réseau.raccordement.consulter')
+        url: role.aLaPermission('raccordement.consulter')
           ? Routes.Raccordement.détail(identifiantProjet)
           : Routes.Raccordement.lister,
         message: 'Référence du dossier de raccordement modifiée',

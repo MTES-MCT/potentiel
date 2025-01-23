@@ -88,7 +88,7 @@ export const InfoGenerales = ({
           <Heading3 className="m-0">Raccordement au réseau</Heading3>
           <Link href={Routes.Raccordement.détail(formattedIdentifiantProjet)}>
             Consulter{' '}
-            {role.aLaPermission('réseau.raccordement.gestionnaire.modifier') ? 'ou modifier ' : ''}
+            {role.aLaPermission('raccordement.gestionnaire.modifier') ? 'ou modifier ' : ''}
             les données de raccordement
           </Link>
         </div>
@@ -96,7 +96,7 @@ export const InfoGenerales = ({
       {isClasse &&
         !isAbandoned &&
         Option.isNone(raccordement) &&
-        role.aLaPermission('réseau.raccordement.gestionnaire.modifier') && (
+        role.aLaPermission('raccordement.gestionnaire.modifier') && (
           <div className="print:hidden">
             <Heading3 className="m-0">Raccordement au réseau</Heading3>
             <Link href={Routes.Raccordement.détail(formattedIdentifiantProjet)}>

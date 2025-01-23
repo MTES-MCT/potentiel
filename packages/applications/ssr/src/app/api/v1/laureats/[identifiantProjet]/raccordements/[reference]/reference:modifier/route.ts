@@ -32,7 +32,7 @@ export const POST = (request: NextRequest, routeParams: RouteParams) =>
       if (result.success) {
         const { nouvelleReference, identifiantProjet, reference } = result.data;
         await mediator.send<Raccordement.RaccordementUseCase>({
-          type: 'Réseau.Raccordement.UseCase.ModifierRéférenceDossierRaccordement',
+          type: 'Lauréat.Raccordement.UseCase.ModifierRéférenceDossierRaccordement',
           data: {
             identifiantProjetValue: identifiantProjet,
             référenceDossierRaccordementActuelleValue: reference,

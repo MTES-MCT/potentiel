@@ -9,7 +9,7 @@ import * as RéférenceDossierRaccordement from '../référenceDossierRaccordeme
 import { ModifierPropositionTechniqueEtFinancièreCommand } from './modifierPropositiontechniqueEtFinancière.command';
 
 export type ModifierPropositiontechniqueEtFinancièreUseCase = Message<
-  'Réseau.Raccordement.UseCase.ModifierPropositionTechniqueEtFinancière',
+  'Lauréat.Raccordement.UseCase.ModifierPropositionTechniqueEtFinancière',
   {
     dateSignatureValue: string;
     référenceDossierRaccordementValue: string;
@@ -52,7 +52,7 @@ export const registerModifierPropositiontechniqueEtFinancièreUseCase = () => {
     });
 
     await mediator.send<ModifierPropositionTechniqueEtFinancièreCommand>({
-      type: 'Réseau.Raccordement.Command.ModifierPropositionTechniqueEtFinancière',
+      type: 'Lauréat.Raccordement.Command.ModifierPropositionTechniqueEtFinancière',
       data: {
         dateSignature,
         identifiantProjet,
@@ -62,5 +62,8 @@ export const registerModifierPropositiontechniqueEtFinancièreUseCase = () => {
     });
   };
 
-  mediator.register('Réseau.Raccordement.UseCase.ModifierPropositionTechniqueEtFinancière', runner);
+  mediator.register(
+    'Lauréat.Raccordement.UseCase.ModifierPropositionTechniqueEtFinancière',
+    runner,
+  );
 };

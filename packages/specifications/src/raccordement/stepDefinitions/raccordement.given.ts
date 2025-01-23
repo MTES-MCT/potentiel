@@ -18,7 +18,7 @@ EtantDonné(
     );
     this.raccordementWorld.identifiantGestionnaireRéseau = codeEIC;
     await mediator.send<Raccordement.ModifierGestionnaireRéseauRaccordementUseCase>({
-      type: 'Réseau.Raccordement.UseCase.ModifierGestionnaireRéseauRaccordement',
+      type: 'Lauréat.Raccordement.UseCase.ModifierGestionnaireRéseauRaccordement',
       data: {
         identifiantGestionnaireRéseauValue: codeEIC,
         identifiantProjetValue: this.lauréatWorld.identifiantProjet.formatter(),
@@ -34,7 +34,7 @@ EtantDonné(
     this.raccordementWorld.identifiantGestionnaireRéseau =
       GestionnaireRéseau.IdentifiantGestionnaireRéseau.inconnu.formatter();
     await mediator.send<Raccordement.ModifierGestionnaireRéseauRaccordementUseCase>({
-      type: 'Réseau.Raccordement.UseCase.ModifierGestionnaireRéseauRaccordement',
+      type: 'Lauréat.Raccordement.UseCase.ModifierGestionnaireRéseauRaccordement',
       data: {
         identifiantGestionnaireRéseauValue:
           GestionnaireRéseau.IdentifiantGestionnaireRéseau.inconnu.formatter(),
@@ -52,7 +52,7 @@ EtantDonné(
     const { identifiantProjet } = this.lauréatWorld;
 
     await mediator.send<Raccordement.RaccordementUseCase>({
-      type: 'Réseau.Raccordement.UseCase.ModifierGestionnaireRéseauRaccordement',
+      type: 'Lauréat.Raccordement.UseCase.ModifierGestionnaireRéseauRaccordement',
       data: {
         identifiantGestionnaireRéseauValue: 'inconnu',
         identifiantProjetValue: identifiantProjet.formatter(),

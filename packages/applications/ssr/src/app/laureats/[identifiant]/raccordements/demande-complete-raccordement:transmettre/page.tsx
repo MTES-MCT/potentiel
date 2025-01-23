@@ -57,12 +57,12 @@ export default async function Page({ params: { identifiant } }: PageProps) {
 
     const gestionnaireRéseauActuel =
       await mediator.send<Raccordement.ConsulterGestionnaireRéseauRaccordementQuery>({
-        type: 'Réseau.Raccordement.Query.ConsulterGestionnaireRéseauRaccordement',
+        type: 'Lauréat.Raccordement.Query.ConsulterGestionnaireRéseauRaccordement',
         data: { identifiantProjetValue: identifiantProjet.formatter() },
       });
 
     const raccordements = await mediator.send<Raccordement.ConsulterRaccordementQuery>({
-      type: 'Réseau.Raccordement.Query.ConsulterRaccordement',
+      type: 'Lauréat.Raccordement.Query.ConsulterRaccordement',
       data: { identifiantProjetValue: identifiantProjet.formatter() },
     });
 
