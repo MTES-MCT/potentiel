@@ -7,6 +7,8 @@ import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { ReprésentantLégal } from '@potentiel-domain/laureat';
 import { Option } from '@potentiel-libraries/monads';
 import { getLogger } from '@potentiel-libraries/monitoring';
+import { Where } from '@potentiel-domain/entity';
+import { listProjection } from '@potentiel-infrastructure/pg-projections';
 
 import { RegisterTâchePlanifiéeNotificationDependencies } from '.';
 
@@ -56,13 +58,19 @@ export const handleReprésentantLégalRappelInstructionÀDeuxMois = async ({
   }
 
   const derniersChangementsDemandés =
-    await mediator.send<ReprésentantLégal.ListerChangementReprésentantLégalQuery>({
-      type: 'Lauréat.ReprésentantLégal.Query.ListerChangementReprésentantLégal',
-      data: {
-        identifiantProjet: identifiantProjet.formatter(),
-        statut: ReprésentantLégal.StatutChangementReprésentantLégal.demandé.formatter(),
+    await listProjection<ReprésentantLégal.ChangementReprésentantLégalEntity>(
+      `changement-représentant-légal`,
+      {
+        where: {
+          identifiantProjet: Where.equal(identifiantProjet.formatter()),
+          demande: {
+            statut: Where.equal(
+              ReprésentantLégal.StatutChangementReprésentantLégal.demandé.formatter(),
+            ),
+          },
+        },
       },
-    });
+    );
 
   if (derniersChangementsDemandés.total === 0) {
     getLogger().warn(`Aucune demande n'a été trouvée pour le changement de représentant`, {
@@ -95,7 +103,7 @@ export const handleReprésentantLégalRappelInstructionÀDeuxMois = async ({
       type: typeTâchePlanifiée === 'accord-automatique' ? 'accord' : 'rejet',
       nom_projet: nom,
       departement_projet: département,
-      url: `${baseUrl}${Routes.ReprésentantLégal.changement.détail(identifiantProjet.formatter(), changementReprésentantLégal.demandéLe)}`,
+      url: `${baseUrl}${Routes.ReprésentantLégal.changement.détail(identifiantProjet.formatter(), changementReprésentantLégal.demande.demandéLe)}`,
     },
   });
 };

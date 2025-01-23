@@ -1,7 +1,7 @@
 import { mediator } from 'mediateur';
 import { IdentifiantProjet } from '@potentiel-domain/common';
 import { ReprésentantLégal } from '@potentiel-domain/laureat';
-
+import { listProjection } from '@potentiel-infrastructure/pg-projections';
 import { Option } from '@potentiel-libraries/monads';
 import { Candidature } from '@potentiel-domain/candidature';
 import { Routes } from '@potentiel-applications/routes';
@@ -9,6 +9,7 @@ import { Role } from '@potentiel-domain/utilisateur';
 import { getLogger } from '@potentiel-libraries/monitoring';
 import { getAbandonStatut } from './getAbandon';
 import { getAttestationDeConformité } from './getAttestationDeConformité';
+import { Where } from '@potentiel-domain/entity';
 
 export type GetReprésentantLégalForProjectPage =
   | {
@@ -119,16 +120,22 @@ export const getReprésentantLégal: GetReprésentantLégal = async (identifiant
 const getChangementReprésentantLégal = async (identifiantProjet: IdentifiantProjet.ValueType) => {
   try {
     const derniersChangementsDemandés =
-      await mediator.send<ReprésentantLégal.ListerChangementReprésentantLégalQuery>({
-        type: 'Lauréat.ReprésentantLégal.Query.ListerChangementReprésentantLégal',
-        data: {
-          identifiantProjet: identifiantProjet.formatter(),
-          statut: ReprésentantLégal.StatutChangementReprésentantLégal.demandé.formatter(),
+      await listProjection<ReprésentantLégal.ChangementReprésentantLégalEntity>(
+        `changement-représentant-légal`,
+        {
+          where: {
+            identifiantProjet: Where.equal(identifiantProjet.formatter()),
+            demande: {
+              statut: Where.equal(
+                ReprésentantLégal.StatutChangementReprésentantLégal.demandé.formatter(),
+              ),
+            },
+          },
         },
-      });
+      );
 
     if (derniersChangementsDemandés.total === 1) {
-      return derniersChangementsDemandés.items[0].demandéLe;
+      return derniersChangementsDemandés.items[0].demande.demandéLe;
     }
 
     return;
