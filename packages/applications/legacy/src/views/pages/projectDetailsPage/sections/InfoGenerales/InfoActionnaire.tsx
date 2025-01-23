@@ -20,14 +20,14 @@ export const InfoActionnaire = ({
     <div>
       <Heading3 className="m-0">Actionnaire</Heading3>
       <p className="m-0">{actionnaire?.nom ?? 'Non renseigné'}</p>
-      {!modificationParPorteurNonPermise && actionnaire?.pageProjet && (
-        <Link href={actionnaire.pageProjet.url} aria-label="Modifier" className="mt-1">
-          {actionnaire.pageProjet.label}
+      {!modificationParPorteurNonPermise && actionnaire?.affichage && (
+        <Link href={actionnaire.affichage.url} aria-label="Modifier" className="mt-1">
+          {actionnaire.affichage.label}
         </Link>
       )}
-      {actionnaire?.peutConsulterDemandeChangement && (
+      {actionnaire?.afficherLienChangementSurPageProjet && (
         <Link
-          href={Routes.Actionnaire.changement.détail(identifiantProjet.formatter())}
+          href={Routes.Actionnaire.détails(identifiantProjet.formatter())}
           aria-label="Voir la demande de modification de l'actionnariat en cours"
           className="block"
         >

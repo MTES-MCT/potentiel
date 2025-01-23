@@ -7,15 +7,16 @@ import { Actionnaire } from '@potentiel-domain/laureat';
 import { mapToPlainObject } from '@potentiel-domain/core';
 import { IdentifiantProjet } from '@potentiel-domain/common';
 import { Utilisateur } from '@potentiel-domain/utilisateur';
+import { Historique } from '@potentiel-domain/historique';
 
 import { decodeParameter } from '@/utils/decodeParameter';
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 import {
-  DétailsChangementActionnairePageProps,
-  DétailsChangementActionnairePagePropsProps,
-} from '@/components/pages/actionnaire/changement/détails/DétailsChangementActionnaire.page';
+  DétailsActionnairePage,
+  DétailsActionnairePageProps,
+} from '@/components/pages/actionnaire/changement/détails/DétailsActionnaire.page';
 
 export const metadata: Metadata = {
   title: "Détails de la demande de changement d'actionnaire du projet - Potentiel",
@@ -37,18 +38,37 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
           },
         });
 
-      if (Option.isNone(demandeDeChangement)) {
+      const historique = await mediator.send<Historique.ListerHistoriqueProjetQuery>({
+        type: 'Historique.Query.ListerHistoriqueProjet',
+        data: {
+          identifiantProjet: identifiantProjet.formatter(),
+          category: 'actionnaire',
+        },
+      });
+
+      if (Option.isNone(demandeDeChangement) && historique.items.length === 0) {
         return notFound();
       }
 
-      const actions = mapToActions({ utilisateur, demandeDeChangement });
+      const actions = Option.isSome(demandeDeChangement)
+        ? mapToActions({ utilisateur, demandeDeChangement })
+        : [];
 
       return (
-        <DétailsChangementActionnairePageProps
+        <DétailsActionnairePage
           identifiantProjet={mapToPlainObject(identifiantProjet)}
-          actionnaire={mapToPlainObject(demandeDeChangement.actionnaire)}
-          demande={mapToPlainObject(demandeDeChangement.demande)}
+          actionnaire={
+            Option.isSome(demandeDeChangement)
+              ? mapToPlainObject(demandeDeChangement.actionnaire)
+              : undefined
+          }
+          demande={
+            Option.isSome(demandeDeChangement)
+              ? mapToPlainObject(demandeDeChangement.demande)
+              : undefined
+          }
           actions={actions}
+          historique={mapToPlainObject(historique)}
         />
       );
     }),
@@ -61,8 +81,8 @@ const mapToActions = ({
 }: {
   utilisateur: Utilisateur.ValueType;
   demandeDeChangement: Actionnaire.ConsulterChangementActionnaireReadModel;
-}): DétailsChangementActionnairePagePropsProps['actions'] => {
-  const actions: DétailsChangementActionnairePagePropsProps['actions'] = [];
+}): DétailsActionnairePageProps['actions'] => {
+  const actions: DétailsActionnairePageProps['actions'] = [];
 
   if (
     utilisateur.role.aLaPermission('actionnaire.annulerChangement') &&

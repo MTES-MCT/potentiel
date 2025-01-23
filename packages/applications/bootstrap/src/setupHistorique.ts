@@ -38,8 +38,22 @@ export const setupHistorique = async () => {
       streamCategory: 'recours',
     });
 
+  const unsubscribeActionnaireHistoriqueProjector =
+    await subscribe<HistoriqueProjector.SubscriptionEvent>({
+      name: 'history',
+      eventType: 'all',
+      eventHandler: async (event) => {
+        await mediator.send<HistoriqueProjector.Execute>({
+          type: 'System.Projector.Historique',
+          data: event,
+        });
+      },
+      streamCategory: 'actionnaire',
+    });
+
   return async () => {
     await unsubscribeAbandonHistoriqueProjector();
     await unsubscribeRecoursHistoriqueProjector();
+    await unsubscribeActionnaireHistoriqueProjector();
   };
 };

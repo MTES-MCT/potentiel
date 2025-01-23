@@ -60,14 +60,15 @@ export async function modifier(
     aDesGarantiesFinancièresConstituées,
   }: ModifierOptions,
 ) {
-  // Règle métier, spécifique à l'AO Eolien (pour lequel le type de GF est `après candidature`)
+  // Règle métier, spécifique à l'AO Eolien (pour lequel le type de GF est `après candidature`) pour les porteurs
   // La demande doit être en "instruction" si il n'y a pas de GF validées sur le projet ou si il y a une demande de renouvellement ou de modifications des garanties financières en cours
   // La demande doit être en "instruction" si le candidat a joint à son offre la lettre d’engagement (l'investissement participatif ou financement participatif)
   const devraitPasserParUneDemande =
+    utilisateurEstPorteur &&
     identifiantProjet.appelOffre === 'Eolien' &&
     (!aDesGarantiesFinancièresConstituées || aUnDépotEnCours || estParticipatif);
 
-  if (utilisateurEstPorteur && devraitPasserParUneDemande) {
+  if (devraitPasserParUneDemande) {
     throw new ActionnaireNePeutPasÊtreModifiéDirectement();
   }
 

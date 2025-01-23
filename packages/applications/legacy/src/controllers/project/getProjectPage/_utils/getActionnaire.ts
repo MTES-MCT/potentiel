@@ -11,15 +11,11 @@ import { IdentifiantProjet } from '@potentiel-domain/common';
 export type GetActionnaireForProjectPage =
   | {
       nom: string;
-      pageProjet?: {
+      affichage?: {
         label: string;
         url: string;
       };
-      menu?: {
-        label: string;
-        url: string;
-      };
-      peutConsulterDemandeChangement: boolean;
+      afficherLienChangementSurPageProjet: boolean;
     }
   | undefined;
 
@@ -47,42 +43,19 @@ export const getActionnaire = async (
         Option.isSome(demandeExistanteDeChangement) &&
         demandeExistanteDeChangement.demande.statut.estDemandé();
 
-      const doitDemanderEtPasModifier =
+      const peutFaireUneDemandeDeChangement =
         demandeNécessiteInstruction &&
         utilisateur.aLaPermission('actionnaire.demanderChangement') &&
-        utilisateur.estÉgaleÀ(Role.porteur);
-
-      const peutFaireUneDemandeDeChangement = doitDemanderEtPasModifier && !aUneDemandeEnCours;
+        !aUneDemandeEnCours;
 
       const peutModifierDirectement =
-        !doitDemanderEtPasModifier &&
+        !demandeNécessiteInstruction &&
         utilisateur.aLaPermission('actionnaire.modifier') &&
         !aUneDemandeEnCours;
 
-      const afficherFormulaireDemandeSurPageProjet =
-        doitDemanderEtPasModifier &&
-        (Option.isNone(demandeExistanteDeChangement) ||
-          demandeExistanteDeChangement.demande.statut.estAnnulé());
-
-      // on affiche pas le lien vers la modification pour ne pas surcharger les informations de la page projet
-      // la demande peut être faire depuis le menu action / enregistrer modification
-      const afficherFormulaireModificationSurPageProjet =
-        !doitDemanderEtPasModifier && Option.isNone(demandeExistanteDeChangement);
-
       return {
         nom: actionnaire.actionnaire,
-        pageProjet: afficherFormulaireDemandeSurPageProjet
-          ? {
-              url: Routes.Actionnaire.changement.demander(identifiantProjet.formatter()),
-              label: "Demander une modification de l'actionnariat",
-            }
-          : afficherFormulaireModificationSurPageProjet
-            ? {
-                url: Routes.Actionnaire.modifier(identifiantProjet.formatter()),
-                label: 'Modifier l’actionnariat',
-              }
-            : undefined,
-        menu: peutFaireUneDemandeDeChangement
+        affichage: peutFaireUneDemandeDeChangement
           ? {
               url: Routes.Actionnaire.changement.demander(identifiantProjet.formatter()),
               label: "Demander une modification de l'actionnariat",
@@ -93,9 +66,8 @@ export const getActionnaire = async (
                 label: 'Modifier l’actionnariat',
               }
             : undefined,
-        peutConsulterDemandeChangement:
-          utilisateur.aLaPermission('actionnaire.consulterChangement') &&
-          Option.isSome(demandeExistanteDeChangement),
+        afficherLienChangementSurPageProjet:
+          utilisateur.aLaPermission('actionnaire.consulterChangement') && aUneDemandeEnCours,
       };
     }
 
@@ -109,25 +81,19 @@ export const getActionnaire = async (
     if (Option.isSome(candidature)) {
       return {
         nom: candidature.sociétéMère,
-        pageProjet: utilisateur.aLaPermission('candidature.corriger')
+        affichage: utilisateur.aLaPermission('candidature.corriger')
           ? {
               url: Routes.Candidature.corriger(identifiantProjet.formatter()),
               label: 'Modifier la candidature',
             }
           : undefined,
-        menu: utilisateur.aLaPermission('candidature.corriger')
-          ? {
-              url: Routes.Candidature.corriger(identifiantProjet.formatter()),
-              label: 'Modifier la candidature',
-            }
-          : undefined,
-        peutConsulterDemandeChangement: false,
+        afficherLienChangementSurPageProjet: false,
       };
     }
 
     return {
       nom: '',
-      peutConsulterDemandeChangement: false,
+      afficherLienChangementSurPageProjet: false,
     };
   } catch (error) {
     getLogger().error(`Impossible de consulter l'actionnaire'`, {

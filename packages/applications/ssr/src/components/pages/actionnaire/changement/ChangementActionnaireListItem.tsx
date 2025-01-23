@@ -40,16 +40,12 @@ export const ChangementActionnaireListItem: FC<ChangementActionnaireListItemProp
       />
     }
     actions={
-      statut.statut === 'demandé' && (
-        <Link
-          href={Routes.Actionnaire.changement.détail(
-            IdentifiantProjet.bind(identifiantProjet).formatter(),
-          )}
-          aria-label={`voir le détail de la demande de changement de l'actionnaire pour le projet ${nomProjet}`}
-        >
-          voir le détail
-        </Link>
-      )
+      <Link
+        href={Routes.Actionnaire.détails(IdentifiantProjet.bind(identifiantProjet).formatter())}
+        aria-label={`voir le détail de l'actionnariat pour ${nomProjet}`}
+      >
+        Voir le détail
+      </Link>
     }
   >
     <ul className="mt-3 text-sm">

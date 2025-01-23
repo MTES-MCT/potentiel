@@ -10,6 +10,7 @@ import { Timeline, TimelineItemProps } from '@/components/organisms/Timeline';
 
 import { mapToAbandonTimelineItemProps } from './timeline/abandon/mapToAbandonTimelineItemProps';
 import { mapToRecoursTimelineItemProps } from './timeline/recours/mapToRecoursTimelineItemProps';
+import { mapToActionnaireTimelineItemProps } from './timeline/actionnaire/mapToActionnaireTimelineItemProps';
 
 export type HistoriqueTimelineProps = {
   historique: PlainType<Historique.ListerHistoriqueProjetReadModel>;
@@ -34,6 +35,7 @@ const mapToTimelineItemProps = (record: HistoryRecord) => {
       },
       mapToRecoursTimelineItemProps,
     )
+    .with({ category: 'actionnaire' }, mapToActionnaireTimelineItemProps)
     .otherwise(() => ({
       date: record.createdAt as DateTime.RawType,
       title: 'Étape inconnue',

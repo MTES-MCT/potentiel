@@ -42,7 +42,7 @@ export const changementActionnaireDemandéNotifications = async ({
     variables: {
       nom_projet: projet.nom,
       departement_projet: projet.département,
-      url: `${baseUrl}${Routes.Actionnaire.changement.détail(identifiantProjet.formatter())}`,
+      url: `${baseUrl}${Routes.Actionnaire.détails(identifiantProjet.formatter())}`,
     },
   });
 };
