@@ -1,33 +1,23 @@
 import { IdentifiantProjet } from '@potentiel-domain/common';
 import { GestionnaireRéseau, Raccordement } from '@potentiel-domain/reseau';
 
-import { TransmettreDemandeComplèteRaccordementFixture } from './fixtures/transmettreDemandeComplèteDeRaccordement.fixture';
-import { TransmettrePropositionTechniqueEtFinancièreFixture } from './fixtures/transmettrePropositionTechniqueEtFinancière.fixture';
-import { ModifierDemandeComplèteRaccordementFixture } from './fixtures/modifierDemandeComplèteDeRaccordement.fixture';
 import { TransmettreDateMiseEnServiceFixture } from './fixtures/transmettreDateDeMiseEnService.fixture';
-import { ModifierPropositionTechniqueEtFinancièreFixture } from './fixtures/modifierPropositionTechniqueEtFinancière.fixture';
 import { ModifierRéférenceDossierRaccordementFixture } from './fixtures/modifierRéférenceDossierRaccordement.fixture';
+import { DemandeComplèteRaccordementWorld } from './demandeComplèteRaccordement.world';
+import { PropositionTechniqueEtFinancièreWorld } from './propositionTechniqueEtFinancière.world';
 
 export class RaccordementWorld {
-  readonly transmettreDemandeComplèteRaccordementFixture =
-    new TransmettreDemandeComplèteRaccordementFixture();
-  readonly modifierDemandeComplèteRaccordementFixture =
-    new ModifierDemandeComplèteRaccordementFixture();
-
   readonly modifierRéférenceDossierRaccordementFixture =
     new ModifierRéférenceDossierRaccordementFixture();
 
-  readonly transmettrePropositionTechniqueEtFinancièreFixture =
-    new TransmettrePropositionTechniqueEtFinancièreFixture();
-  readonly modifierPropositionTechniqueEtFinancièreFixture =
-    new ModifierPropositionTechniqueEtFinancièreFixture();
-
+  readonly demandeComplèteDeRaccordement = new DemandeComplèteRaccordementWorld();
+  readonly propositionTechniqueEtFinancière = new PropositionTechniqueEtFinancièreWorld();
   readonly transmettreDateMiseEnServiceFixture = new TransmettreDateMiseEnServiceFixture();
 
   get référenceDossier() {
     return this.modifierRéférenceDossierRaccordementFixture.aÉtéCréé
       ? this.modifierRéférenceDossierRaccordementFixture.nouvelleRéférenceDossier
-      : this.transmettreDemandeComplèteRaccordementFixture.référenceDossier;
+      : this.demandeComplèteDeRaccordement.transmettreFixture.référenceDossier;
   }
 
   #identifiantGestionnaireRéseau!: string;
@@ -42,27 +32,16 @@ export class RaccordementWorld {
     const nouvelleRéférenceDossier = this.modifierRéférenceDossierRaccordementFixture.aÉtéCréé
       ? this.modifierRéférenceDossierRaccordementFixture.nouvelleRéférenceDossier
       : undefined;
-    const propositionTechniqueEtFinancière =
-      this.modifierPropositionTechniqueEtFinancièreFixture.mapToExpected(
-        nouvelleRéférenceDossier,
-      ) ??
-      this.transmettrePropositionTechniqueEtFinancièreFixture.mapToExpected(
-        nouvelleRéférenceDossier,
-      );
+
     const dossier = {
-      demandeComplèteRaccordement: {
-        ...(this.modifierDemandeComplèteRaccordementFixture.mapToExpected(
-          nouvelleRéférenceDossier,
-        ) ??
-          this.transmettreDemandeComplèteRaccordementFixture?.mapToExpected(
-            nouvelleRéférenceDossier,
-          )),
-      },
+      demandeComplèteRaccordement:
+        this.demandeComplèteDeRaccordement.mapToExpected(nouvelleRéférenceDossier),
       référence: Raccordement.RéférenceDossierRaccordement.convertirEnValueType(
         this.référenceDossier,
       ),
       miseEnService: this.transmettreDateMiseEnServiceFixture.mapToExpected(),
-      propositionTechniqueEtFinancière,
+      propositionTechniqueEtFinancière:
+        this.propositionTechniqueEtFinancière.mapToExpected(nouvelleRéférenceDossier),
     };
     const identifiantGestionnaireRéseau =
       GestionnaireRéseau.IdentifiantGestionnaireRéseau.convertirEnValueType(
