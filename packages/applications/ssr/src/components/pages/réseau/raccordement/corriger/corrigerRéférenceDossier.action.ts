@@ -41,7 +41,7 @@ const action: FormAction<FormState, typeof schema> = (
         url: role.aLaPermission('réseau.raccordement.consulter')
           ? Routes.Raccordement.détail(identifiantProjet)
           : Routes.Raccordement.lister,
-        message: 'Référence du dossier de raccordement modifiée',
+        message: 'La référence du dossier de raccordement a été modifiée',
       },
     };
   });
