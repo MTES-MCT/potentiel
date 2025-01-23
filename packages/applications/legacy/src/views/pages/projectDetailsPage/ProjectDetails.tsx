@@ -142,9 +142,7 @@ export const ProjectDetails = ({
               demandeRecours={demandeRecours}
               garantiesFinancières={garantiesFinancières}
               actionnaire={actionnaire}
-              modificationParPorteurNonPermise={
-                user.role === Role.porteur.nom && modificationsNonPermisesParLeCDCActuel
-              }
+              modificationsNonPermisesParLeCDCActuel={modificationsNonPermisesParLeCDCActuel}
             />
             <Contact
               identifiantProjet={identifiantProjet}

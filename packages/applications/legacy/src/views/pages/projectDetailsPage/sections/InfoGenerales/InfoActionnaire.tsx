@@ -8,19 +8,19 @@ import { IdentifiantProjet } from '@potentiel-domain/common';
 export type InfoActionnaireProps = {
   identifiantProjet: IdentifiantProjet.ValueType;
   actionnaire: GetActionnaireForProjectPage;
-  modificationParPorteurNonPermise: boolean;
+  modificationsNonPermisesParLeCDCActuel: boolean;
 };
 
 export const InfoActionnaire = ({
   identifiantProjet,
   actionnaire,
-  modificationParPorteurNonPermise,
+  modificationsNonPermisesParLeCDCActuel,
 }: InfoActionnaireProps) => {
   return (
     <div>
       <Heading3 className="m-0">Actionnaire</Heading3>
       <p className="m-0">{actionnaire?.nom ?? 'Non renseigné'}</p>
-      {!modificationParPorteurNonPermise && actionnaire?.affichage && (
+      {!modificationsNonPermisesParLeCDCActuel && actionnaire?.affichage && (
         <Link href={actionnaire.affichage.url} aria-label="Modifier" className="mt-1">
           {actionnaire.affichage.label}
         </Link>

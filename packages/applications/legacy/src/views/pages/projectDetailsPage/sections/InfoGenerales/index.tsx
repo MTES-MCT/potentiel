@@ -22,7 +22,7 @@ export type InfoGeneralesProps = {
   demandeRecours: ProjectDataForProjectPage['demandeRecours'];
   garantiesFinancières?: GarantiesFinancièresProjetProps['garantiesFinancières'];
   actionnaire: GetActionnaireForProjectPage;
-  modificationParPorteurNonPermise: boolean;
+  modificationsNonPermisesParLeCDCActuel: boolean;
 };
 
 export const InfoGenerales = ({
@@ -47,7 +47,7 @@ export const InfoGenerales = ({
   garantiesFinancières,
   demandeRecours,
   actionnaire,
-  modificationParPorteurNonPermise,
+  modificationsNonPermisesParLeCDCActuel,
 }: InfoGeneralesProps) => {
   const puissanceInférieurePuissanceMaxVolRéservé =
     appelOffre.periode.noteThresholdBy === 'category' &&
@@ -135,7 +135,7 @@ export const InfoGenerales = ({
       <InfoActionnaire
         actionnaire={actionnaire}
         identifiantProjet={identifiantProjet}
-        modificationParPorteurNonPermise={modificationParPorteurNonPermise}
+        modificationsNonPermisesParLeCDCActuel={modificationsNonPermisesParLeCDCActuel}
       />
     </Section>
   );
