@@ -9,6 +9,11 @@ import {
   findProjection,
   listProjection,
 } from '@potentiel-infrastructure/pg-projections';
+import { registerLauréatQueries } from '@potentiel-domain/laureat';
+import {
+  consulterCahierDesChargesChoisiAdapter,
+  récupérerIdentifiantsProjetParEmailPorteurAdapter,
+} from '@potentiel-infrastructure/domain-adapters';
 
 const configSchema = z.object({
   KEYCLOAK_SERVER: z.string().url(),
@@ -18,9 +23,16 @@ const configSchema = z.object({
 });
 
 registerRéseauQueries({
-  count: countProjection,
   find: findProjection,
   list: listProjection,
+});
+
+registerLauréatQueries({
+  find: findProjection,
+  list: listProjection,
+  count: countProjection,
+  récupérerIdentifiantsProjetParEmailPorteur: récupérerIdentifiantsProjetParEmailPorteurAdapter,
+  consulterCahierDesChargesAdapter: consulterCahierDesChargesChoisiAdapter,
 });
 
 export default class SyncKeycloakGroups extends Command {

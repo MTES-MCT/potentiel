@@ -3,7 +3,8 @@ import { mediator } from 'mediateur';
 import waitForExpect from 'wait-for-expect';
 import { assert, expect } from 'chai';
 
-import { Raccordement, GestionnaireRéseau } from '@potentiel-domain/reseau';
+import { GestionnaireRéseau } from '@potentiel-domain/reseau';
+import { Raccordement } from '@potentiel-domain/laureat';
 import { Option } from '@potentiel-libraries/monads';
 import { IdentifiantProjet } from '@potentiel-domain/common';
 import { mapToPlainObject } from '@potentiel-domain/core';
@@ -16,7 +17,7 @@ Alors(
     const { identifiantProjet } = this.lauréatWorld;
     await waitForExpect(async () => {
       const actual = await mediator.send<Raccordement.ConsulterRaccordementQuery>({
-        type: 'Réseau.Raccordement.Query.ConsulterRaccordement',
+        type: 'Lauréat.Raccordement.Query.ConsulterRaccordement',
         data: {
           identifiantProjetValue: identifiantProjet.formatter(),
         },
@@ -85,7 +86,7 @@ Alors(
 
     await waitForExpect(async () => {
       const actual = await mediator.send<Raccordement.ConsulterRaccordementQuery>({
-        type: 'Réseau.Raccordement.Query.ConsulterRaccordement',
+        type: 'Lauréat.Raccordement.Query.ConsulterRaccordement',
         data: {
           identifiantProjetValue: identifiantProjet.formatter(),
         },
@@ -107,7 +108,7 @@ Alors(
     const { référenceDossier } = this.raccordementWorld;
     await waitForExpect(async () => {
       const raccordementDuProjet = await mediator.send<Raccordement.ConsulterRaccordementQuery>({
-        type: 'Réseau.Raccordement.Query.ConsulterRaccordement',
+        type: 'Lauréat.Raccordement.Query.ConsulterRaccordement',
         data: {
           identifiantProjetValue: identifiantProjet.formatter(),
         },
@@ -125,7 +126,7 @@ Alors(
 
       const dossierRaccordement =
         await mediator.send<Raccordement.ConsulterDossierRaccordementQuery>({
-          type: 'Réseau.Raccordement.Query.ConsulterDossierRaccordement',
+          type: 'Lauréat.Raccordement.Query.ConsulterDossierRaccordement',
           data: {
             identifiantProjetValue: identifiantProjet.formatter(),
             référenceDossierRaccordementValue: référenceDossier,
@@ -145,7 +146,7 @@ Alors(
       this.raccordementWorld.demandeComplèteDeRaccordement.transmettreFixture;
     await waitForExpect(async () => {
       const raccordement = await mediator.send<Raccordement.ConsulterRaccordementQuery>({
-        type: 'Réseau.Raccordement.Query.ConsulterRaccordement',
+        type: 'Lauréat.Raccordement.Query.ConsulterRaccordement',
         data: {
           identifiantProjetValue: identifiantProjet.formatter(),
         },
@@ -155,7 +156,7 @@ Alors(
 
       const dossierRaccordement =
         await mediator.send<Raccordement.ConsulterDossierRaccordementQuery>({
-          type: 'Réseau.Raccordement.Query.ConsulterDossierRaccordement',
+          type: 'Lauréat.Raccordement.Query.ConsulterDossierRaccordement',
           data: {
             identifiantProjetValue: identifiantProjet.formatter(),
             référenceDossierRaccordementValue: référenceDossier,
@@ -175,7 +176,7 @@ async function vérifierGestionnaireAttribué(
   await waitForExpect(async () => {
     // Assert on read model
     const résultat = await mediator.send<Raccordement.ConsulterRaccordementQuery>({
-      type: 'Réseau.Raccordement.Query.ConsulterRaccordement',
+      type: 'Lauréat.Raccordement.Query.ConsulterRaccordement',
       data: {
         identifiantProjetValue: identifiantProjet.formatter(),
       },
@@ -190,7 +191,7 @@ async function vérifierGestionnaireAttribué(
 
     for (const { référence } of résultat.dossiers) {
       const dossier = await mediator.send<Raccordement.ConsulterDossierRaccordementQuery>({
-        type: 'Réseau.Raccordement.Query.ConsulterDossierRaccordement',
+        type: 'Lauréat.Raccordement.Query.ConsulterDossierRaccordement',
         data: {
           identifiantProjetValue: identifiantProjet.formatter(),
           référenceDossierRaccordementValue: référence.formatter(),

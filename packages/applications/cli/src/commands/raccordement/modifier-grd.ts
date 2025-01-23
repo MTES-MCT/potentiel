@@ -4,7 +4,6 @@ import { z } from 'zod';
 
 import {
   GestionnaireRéseau,
-  Raccordement,
   registerRéseauQueries,
   registerRéseauUseCases,
 } from '@potentiel-domain/reseau';
@@ -15,18 +14,30 @@ import {
   findProjection,
   listProjection,
 } from '@potentiel-infrastructure/pg-projections';
+import { Raccordement, registerLauréatQueries } from '@potentiel-domain/laureat';
+import {
+  consulterCahierDesChargesChoisiAdapter,
+  récupérerIdentifiantsProjetParEmailPorteurAdapter,
+} from '@potentiel-infrastructure/domain-adapters';
 
 import { parseCsvFile } from '../../helpers/parse-file';
 import { parseIdentifiantProjet } from '../../helpers/parse-identifiant-projet';
 
 registerRéseauQueries({
-  count: countProjection,
   find: findProjection,
   list: listProjection,
 });
 
 registerRéseauUseCases({
   loadAggregate: loadAggregate,
+});
+
+registerLauréatQueries({
+  find: findProjection,
+  list: listProjection,
+  count: countProjection,
+  récupérerIdentifiantsProjetParEmailPorteur: récupérerIdentifiantsProjetParEmailPorteurAdapter,
+  consulterCahierDesChargesAdapter: consulterCahierDesChargesChoisiAdapter,
 });
 
 const schema = z.object({
@@ -37,7 +48,7 @@ const schema = z.object({
 const isUpToDate = async (row: z.infer<typeof schema>) => {
   const gestionnaire =
     await mediator.send<Raccordement.ConsulterGestionnaireRéseauRaccordementQuery>({
-      type: 'Réseau.Raccordement.Query.ConsulterGestionnaireRéseauRaccordement',
+      type: 'Lauréat.Raccordement.Query.ConsulterGestionnaireRéseauRaccordement',
       data: {
         identifiantProjetValue: row.identifiantProjet,
       },
@@ -122,7 +133,7 @@ export default class ModifierGRD extends Command {
           );
         } else {
           await mediator.send<Raccordement.ModifierGestionnaireRéseauRaccordementUseCase>({
-            type: 'Réseau.Raccordement.UseCase.ModifierGestionnaireRéseauRaccordement',
+            type: 'Lauréat.Raccordement.UseCase.ModifierGestionnaireRéseauRaccordement',
             data: {
               identifiantProjetValue: identifiantProjet,
               identifiantGestionnaireRéseauValue: identifiantGestionnaireRéseau,

@@ -1,7 +1,7 @@
 import { Command, Flags } from '@oclif/core';
 import { mediator } from 'mediateur';
 
-import { Raccordement, registerRéseauUseCases } from '@potentiel-domain/reseau';
+import { registerRéseauUseCases } from '@potentiel-domain/reseau';
 import { registerRéseauQueries } from '@potentiel-domain/reseau';
 import {
   countProjection,
@@ -9,11 +9,23 @@ import {
   listProjection,
 } from '@potentiel-infrastructure/pg-projections';
 import { loadAggregate } from '@potentiel-infrastructure/pg-event-sourcing';
+import { Raccordement, registerLauréatQueries } from '@potentiel-domain/laureat';
+import {
+  consulterCahierDesChargesChoisiAdapter,
+  récupérerIdentifiantsProjetParEmailPorteurAdapter,
+} from '@potentiel-infrastructure/domain-adapters';
 
 registerRéseauQueries({
-  count: countProjection,
   find: findProjection,
   list: listProjection,
+});
+
+registerLauréatQueries({
+  find: findProjection,
+  list: listProjection,
+  count: countProjection,
+  récupérerIdentifiantsProjetParEmailPorteur: récupérerIdentifiantsProjetParEmailPorteurAdapter,
+  consulterCahierDesChargesAdapter: consulterCahierDesChargesChoisiAdapter,
 });
 
 registerRéseauUseCases({
@@ -47,7 +59,7 @@ export default class UpdateSEI extends Command {
     ];
     for (const identifiantGestionnaireRéseauValue of gestionnaires) {
       const { items } = await mediator.send<Raccordement.ListerRaccordementQuery>({
-        type: 'Réseau.Raccordement.Query.ListerRaccordement',
+        type: 'Lauréat.Raccordement.Query.ListerRaccordement',
         data: { identifiantGestionnaireRéseauValue },
       });
 
@@ -63,7 +75,7 @@ export default class UpdateSEI extends Command {
             );
           } else {
             await mediator.send<Raccordement.ModifierGestionnaireRéseauRaccordementUseCase>({
-              type: 'Réseau.Raccordement.UseCase.ModifierGestionnaireRéseauRaccordement',
+              type: 'Lauréat.Raccordement.UseCase.ModifierGestionnaireRéseauRaccordement',
               data: {
                 identifiantProjetValue: raccordement.identifiantProjet.formatter(),
                 identifiantGestionnaireRéseauValue: SEI,

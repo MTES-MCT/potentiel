@@ -2,7 +2,7 @@ import { mediator } from 'mediateur';
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 
-import { Raccordement } from '@potentiel-domain/reseau';
+import { Raccordement } from '@potentiel-domain/laureat';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { DateTime } from '@potentiel-domain/common';
 import { Option } from '@potentiel-libraries/monads';
@@ -49,7 +49,7 @@ export default async function Page({ params: { identifiant, reference } }: PageP
 
       const dossierRaccordement =
         await mediator.send<Raccordement.ConsulterDossierRaccordementQuery>({
-          type: 'Réseau.Raccordement.Query.ConsulterDossierRaccordement',
+          type: 'Lauréat.Raccordement.Query.ConsulterDossierRaccordement',
           data: {
             identifiantProjetValue: identifiantProjet,
             référenceDossierRaccordementValue: referenceDossierRaccordement,
@@ -130,7 +130,7 @@ const mapToProps: MapToProps = ({
           max: DateTime.convertirEnValueType(intervalleDatesMeSDélaiCDC2022.max).formatter(),
         }
       : undefined,
-    lienRetour: utilisateur.role.aLaPermission('réseau.raccordement.consulter')
+    lienRetour: utilisateur.role.aLaPermission('raccordement.consulter')
       ? Routes.Raccordement.détail(identifiantProjet)
       : Routes.Raccordement.lister,
   };

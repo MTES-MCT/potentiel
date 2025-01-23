@@ -2,7 +2,8 @@ import type { Meta, StoryObj } from '@storybook/react';
 
 import { Iso8601DateTime } from '@potentiel-libraries/iso8601-datetime';
 import { ExpressionRegulière, IdentifiantProjet } from '@potentiel-domain/common';
-import { GestionnaireRéseau, Raccordement } from '@potentiel-domain/reseau';
+import { GestionnaireRéseau } from '@potentiel-domain/reseau';
+import { Raccordement } from '@potentiel-domain/laureat';
 import { PlainType } from '@potentiel-domain/core';
 
 import { DétailsRaccordementPage, DétailsRaccordementPageProps } from './DétailsRaccordement.page';

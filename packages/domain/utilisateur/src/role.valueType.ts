@@ -116,6 +116,52 @@ const référencielPermissions = {
         rejeter: 'Lauréat.Abandon.Command.RejeterAbandon',
       },
     },
+    raccordement: {
+      query: {
+        consulter: 'Lauréat.Raccordement.Query.ConsulterRaccordement',
+        consulterDossier: 'Lauréat.Raccordement.Query.ConsulterDossierRaccordement',
+        consulterGestionnaireRéseau:
+          'Lauréat.Raccordement.Query.ConsulterGestionnaireRéseauRaccordement',
+        consulterNombre: 'Lauréat.Raccordement.Query.ConsulterNombreDeRaccordement',
+        rechercher: 'Lauréat.Raccordement.Query.RechercherDossierRaccordement',
+        lister: 'Lauréat.Raccordement.Query.ListerRaccordement',
+        listerDossierRaccordementEnAttenteMiseEnService:
+          'Lauréat.Raccordement.Query.ListerDossierRaccordementEnAttenteMiseEnServiceQuery',
+        listerDossierRaccordement: 'Lauréat.Raccordement.Query.ListerDossierRaccordementQuery',
+      },
+      usecase: {
+        modifierDemandeComplète: 'Lauréat.Raccordement.UseCase.ModifierDemandeComplèteRaccordement',
+        modifierGestionnaireRéseau:
+          'Lauréat.Raccordement.UseCase.ModifierGestionnaireRéseauRaccordement',
+        modifierPropostionTechniqueEtFinancière:
+          'Lauréat.Raccordement.UseCase.ModifierPropositionTechniqueEtFinancière',
+        modifierRéférenceDossier:
+          'Lauréat.Raccordement.UseCase.ModifierRéférenceDossierRaccordement',
+        transmettreDateMiseEnService: 'Lauréat.Raccordement.UseCase.TransmettreDateMiseEnService',
+        transmettreDemandeComplète:
+          'Lauréat.Raccordement.UseCase.TransmettreDemandeComplèteRaccordement',
+        transmettrePropositionTechniqueEtFinancière:
+          'Lauréat.Raccordement.UseCase.TransmettrePropositionTechniqueEtFinancière',
+        supprimerDossierDuRaccordement:
+          'Lauréat.Raccordement.UseCase.SupprimerDossierDuRaccordement',
+      },
+      command: {
+        modifierDemandeComplète: 'Lauréat.Raccordement.Command.ModifierDemandeComplèteRaccordement',
+        modifierGestionnaireRéseau:
+          'Lauréat.Raccordement.Command.ModifierGestionnaireRéseauRaccordement',
+        modifierPropostionTechniqueEtFinancière:
+          'Lauréat.Raccordement.Command.ModifierPropositionTechniqueEtFinancière',
+        modifierRéférenceDossier:
+          'Lauréat.Raccordement.Command.ModifierRéférenceDossierRaccordement',
+        transmettreDateMiseEnService: 'Lauréat.Raccordement.Command.TransmettreDateMiseEnService',
+        transmettreDemandeComplète:
+          'Lauréat.Raccordement.Command.TransmettreDemandeComplèteRaccordement',
+        transmettrePropositionTechniqueEtFinancière:
+          'Lauréat.Raccordement.Command.TransmettrePropositionTechniqueEtFinancière',
+        supprimerDossierDuRaccordement:
+          'Lauréat.Raccordement.Command.SupprimerDossierDuRaccordement',
+      },
+    },
     garantiesFinancières: {
       query: {
         consulterGarantiesFinancièresActuelles:
@@ -338,52 +384,6 @@ const référencielPermissions = {
         modifier: 'Réseau.Gestionnaire.Command.ModifierGestionnaireRéseau',
       },
     },
-    raccordement: {
-      query: {
-        consulter: 'Réseau.Raccordement.Query.ConsulterRaccordement',
-        consulterDossier: 'Réseau.Raccordement.Query.ConsulterDossierRaccordement',
-        consulterGestionnaireRéseau:
-          'Réseau.Raccordement.Query.ConsulterGestionnaireRéseauRaccordement',
-        consulterNombre: 'Réseau.Raccordement.Query.ConsulterNombreDeRaccordement',
-        rechercher: 'Réseau.Raccordement.Query.RechercherDossierRaccordement',
-        lister: 'Réseau.Raccordement.Query.ListerRaccordement',
-        listerDossierRaccordementEnAttenteMiseEnService:
-          'Réseau.Raccordement.Query.ListerDossierRaccordementEnAttenteMiseEnServiceQuery',
-        listerDossierRaccordement: 'Réseau.Raccordement.Query.ListerDossierRaccordementQuery',
-      },
-      usecase: {
-        modifierDemandeComplète: 'Réseau.Raccordement.UseCase.ModifierDemandeComplèteRaccordement',
-        modifierGestionnaireRéseau:
-          'Réseau.Raccordement.UseCase.ModifierGestionnaireRéseauRaccordement',
-        modifierPropostionTechniqueEtFinancière:
-          'Réseau.Raccordement.UseCase.ModifierPropositionTechniqueEtFinancière',
-        modifierRéférenceDossier:
-          'Réseau.Raccordement.UseCase.ModifierRéférenceDossierRaccordement',
-        transmettreDateMiseEnService: 'Réseau.Raccordement.UseCase.TransmettreDateMiseEnService',
-        transmettreDemandeComplète:
-          'Réseau.Raccordement.UseCase.TransmettreDemandeComplèteRaccordement',
-        transmettrePropositionTechniqueEtFinancière:
-          'Réseau.Raccordement.UseCase.TransmettrePropositionTechniqueEtFinancière',
-        supprimerDossierDuRaccordement:
-          'Réseau.Raccordement.UseCase.SupprimerDossierDuRaccordement',
-      },
-      command: {
-        modifierDemandeComplète: 'Réseau.Raccordement.Command.ModifierDemandeComplèteRaccordement',
-        modifierGestionnaireRéseau:
-          'Réseau.Raccordement.Command.ModifierGestionnaireRéseauRaccordement',
-        modifierPropostionTechniqueEtFinancière:
-          'Réseau.Raccordement.Command.ModifierPropositionTechniqueEtFinancière',
-        modifierRéférenceDossier:
-          'Réseau.Raccordement.Command.ModifierRéférenceDossierRaccordement',
-        transmettreDateMiseEnService: 'Réseau.Raccordement.Command.TransmettreDateMiseEnService',
-        transmettreDemandeComplète:
-          'Réseau.Raccordement.Command.TransmettreDemandeComplèteRaccordement',
-        transmettrePropositionTechniqueEtFinancière:
-          'Réseau.Raccordement.Command.TransmettrePropositionTechniqueEtFinancière',
-        supprimerDossierDuRaccordement:
-          'Réseau.Raccordement.Command.SupprimerDossierDuRaccordement',
-      },
-    },
   },
   utilisateur: {
     query: {
@@ -408,111 +408,6 @@ const référencielPermissions = {
  */
 const policies = {
   réseau: {
-    raccordement: {
-      listerDossierRaccordement: [
-        référencielPermissions.réseau.raccordement.query
-          .listerDossierRaccordementEnAttenteMiseEnService,
-        référencielPermissions.réseau.raccordement.query.listerDossierRaccordement,
-        référencielPermissions.appelOffre.query.lister,
-      ],
-      consulter: [
-        référencielPermissions.candidature.query.consulterProjet,
-        référencielPermissions.réseau.raccordement.query.consulter,
-        référencielPermissions.réseau.raccordement.query.consulterNombre,
-        référencielPermissions.réseau.raccordement.query.consulterDossier,
-        référencielPermissions.document.query.consulter,
-        référencielPermissions.réseau.gestionnaire.query.consulter,
-      ],
-      'demande-complète-raccordement': {
-        transmettre: [
-          référencielPermissions.candidature.query.consulterProjet,
-          référencielPermissions.appelOffre.query.consulter,
-          référencielPermissions.document.command.enregister,
-          référencielPermissions.réseau.gestionnaire.query.lister,
-          référencielPermissions.réseau.raccordement.query.consulterGestionnaireRéseau,
-          référencielPermissions.réseau.raccordement.usecase.transmettreDemandeComplète,
-          référencielPermissions.réseau.raccordement.command.transmettreDemandeComplète,
-        ],
-        modifier: [
-          référencielPermissions.candidature.query.consulterProjet,
-          référencielPermissions.appelOffre.query.consulter,
-          référencielPermissions.document.command.enregister,
-          référencielPermissions.réseau.raccordement.query.consulterGestionnaireRéseau,
-          référencielPermissions.réseau.raccordement.query.consulterDossier,
-          référencielPermissions.réseau.raccordement.usecase.modifierDemandeComplète,
-          référencielPermissions.réseau.raccordement.command.modifierDemandeComplète,
-        ],
-      },
-      'proposition-technique-et-financière': {
-        transmettre: [
-          référencielPermissions.candidature.query.consulterProjet,
-          référencielPermissions.document.command.enregister,
-          référencielPermissions.réseau.raccordement.query.consulterDossier,
-          référencielPermissions.réseau.raccordement.usecase
-            .transmettrePropositionTechniqueEtFinancière,
-          référencielPermissions.réseau.raccordement.command
-            .transmettrePropositionTechniqueEtFinancière,
-        ],
-        modifier: [
-          référencielPermissions.candidature.query.consulterProjet,
-          référencielPermissions.document.command.enregister,
-          référencielPermissions.réseau.raccordement.query.consulterDossier,
-          référencielPermissions.réseau.raccordement.usecase
-            .modifierPropostionTechniqueEtFinancière,
-          référencielPermissions.réseau.raccordement.command
-            .modifierPropostionTechniqueEtFinancière,
-        ],
-      },
-      'date-mise-en-service': {
-        transmettre: [
-          référencielPermissions.candidature.query.consulterProjet,
-          référencielPermissions.appelOffre.query.consulter,
-          référencielPermissions.réseau.raccordement.query.consulterDossier,
-          référencielPermissions.réseau.raccordement.usecase.transmettreDateMiseEnService,
-          référencielPermissions.réseau.raccordement.command.transmettreDateMiseEnService,
-        ],
-        importer: [
-          référencielPermissions.réseau.raccordement.query.rechercher,
-          référencielPermissions.candidature.query.consulterProjet,
-          référencielPermissions.réseau.raccordement.usecase.transmettreDateMiseEnService,
-          référencielPermissions.réseau.raccordement.command.transmettreDateMiseEnService,
-        ],
-        modifier: [
-          référencielPermissions.candidature.query.consulterProjet,
-          référencielPermissions.appelOffre.query.consulter,
-          référencielPermissions.réseau.raccordement.query.consulterDossier,
-          // TODO ca devrait être modifierDateMiseEnService, mais pour le moment, la modification se fait va le même usecase
-          référencielPermissions.réseau.raccordement.usecase.transmettreDateMiseEnService,
-          référencielPermissions.réseau.raccordement.command.transmettreDateMiseEnService,
-        ],
-      },
-      'référence-dossier': {
-        modifier: [
-          référencielPermissions.candidature.query.consulterProjet,
-          référencielPermissions.appelOffre.query.consulter,
-          référencielPermissions.document.command.déplacer,
-          référencielPermissions.réseau.raccordement.query.consulterGestionnaireRéseau,
-          référencielPermissions.réseau.raccordement.query.consulterDossier,
-          référencielPermissions.réseau.raccordement.usecase.modifierRéférenceDossier,
-          référencielPermissions.réseau.raccordement.command.modifierRéférenceDossier,
-        ],
-      },
-      dossier: {
-        supprimer: [
-          référencielPermissions.réseau.raccordement.usecase.supprimerDossierDuRaccordement,
-          référencielPermissions.réseau.raccordement.command.supprimerDossierDuRaccordement,
-        ],
-      },
-      gestionnaire: {
-        modifier: [
-          référencielPermissions.candidature.query.consulterProjet,
-          référencielPermissions.réseau.gestionnaire.query.lister,
-          référencielPermissions.réseau.raccordement.query.consulterGestionnaireRéseau,
-          référencielPermissions.réseau.raccordement.usecase.modifierGestionnaireRéseau,
-          référencielPermissions.réseau.raccordement.command.modifierGestionnaireRéseau,
-        ],
-      },
-    },
     gestionnaire: {
       lister: [référencielPermissions.réseau.gestionnaire.query.lister],
       ajouter: [
@@ -903,6 +798,109 @@ const policies = {
   historique: {
     lister: [référencielPermissions.historique.query.lister],
   },
+  raccordement: {
+    listerDossierRaccordement: [
+      référencielPermissions.lauréat.raccordement.query
+        .listerDossierRaccordementEnAttenteMiseEnService,
+      référencielPermissions.lauréat.raccordement.query.listerDossierRaccordement,
+      référencielPermissions.appelOffre.query.lister,
+    ],
+    consulter: [
+      référencielPermissions.candidature.query.consulterProjet,
+      référencielPermissions.lauréat.raccordement.query.consulter,
+      référencielPermissions.lauréat.raccordement.query.consulterNombre,
+      référencielPermissions.lauréat.raccordement.query.consulterDossier,
+      référencielPermissions.document.query.consulter,
+      référencielPermissions.réseau.gestionnaire.query.consulter,
+    ],
+    'demande-complète-raccordement': {
+      transmettre: [
+        référencielPermissions.candidature.query.consulterProjet,
+        référencielPermissions.appelOffre.query.consulter,
+        référencielPermissions.document.command.enregister,
+        référencielPermissions.réseau.gestionnaire.query.lister,
+        référencielPermissions.lauréat.raccordement.query.consulterGestionnaireRéseau,
+        référencielPermissions.lauréat.raccordement.usecase.transmettreDemandeComplète,
+        référencielPermissions.lauréat.raccordement.command.transmettreDemandeComplète,
+      ],
+      modifier: [
+        référencielPermissions.candidature.query.consulterProjet,
+        référencielPermissions.appelOffre.query.consulter,
+        référencielPermissions.document.command.enregister,
+        référencielPermissions.lauréat.raccordement.query.consulterGestionnaireRéseau,
+        référencielPermissions.lauréat.raccordement.query.consulterDossier,
+        référencielPermissions.lauréat.raccordement.usecase.modifierDemandeComplète,
+        référencielPermissions.lauréat.raccordement.command.modifierDemandeComplète,
+      ],
+    },
+    'proposition-technique-et-financière': {
+      transmettre: [
+        référencielPermissions.candidature.query.consulterProjet,
+        référencielPermissions.document.command.enregister,
+        référencielPermissions.lauréat.raccordement.query.consulterDossier,
+        référencielPermissions.lauréat.raccordement.usecase
+          .transmettrePropositionTechniqueEtFinancière,
+        référencielPermissions.lauréat.raccordement.command
+          .transmettrePropositionTechniqueEtFinancière,
+      ],
+      modifier: [
+        référencielPermissions.candidature.query.consulterProjet,
+        référencielPermissions.document.command.enregister,
+        référencielPermissions.lauréat.raccordement.query.consulterDossier,
+        référencielPermissions.lauréat.raccordement.usecase.modifierPropostionTechniqueEtFinancière,
+        référencielPermissions.lauréat.raccordement.command.modifierPropostionTechniqueEtFinancière,
+      ],
+    },
+    'date-mise-en-service': {
+      transmettre: [
+        référencielPermissions.candidature.query.consulterProjet,
+        référencielPermissions.appelOffre.query.consulter,
+        référencielPermissions.lauréat.raccordement.query.consulterDossier,
+        référencielPermissions.lauréat.raccordement.usecase.transmettreDateMiseEnService,
+        référencielPermissions.lauréat.raccordement.command.transmettreDateMiseEnService,
+      ],
+      importer: [
+        référencielPermissions.lauréat.raccordement.query.rechercher,
+        référencielPermissions.candidature.query.consulterProjet,
+        référencielPermissions.lauréat.raccordement.usecase.transmettreDateMiseEnService,
+        référencielPermissions.lauréat.raccordement.command.transmettreDateMiseEnService,
+      ],
+      modifier: [
+        référencielPermissions.candidature.query.consulterProjet,
+        référencielPermissions.appelOffre.query.consulter,
+        référencielPermissions.lauréat.raccordement.query.consulterDossier,
+        // TODO ca devrait être modifierDateMiseEnService, mais pour le moment, la modification se fait va le même usecase
+        référencielPermissions.lauréat.raccordement.usecase.transmettreDateMiseEnService,
+        référencielPermissions.lauréat.raccordement.command.transmettreDateMiseEnService,
+      ],
+    },
+    'référence-dossier': {
+      modifier: [
+        référencielPermissions.candidature.query.consulterProjet,
+        référencielPermissions.appelOffre.query.consulter,
+        référencielPermissions.document.command.déplacer,
+        référencielPermissions.lauréat.raccordement.query.consulterGestionnaireRéseau,
+        référencielPermissions.lauréat.raccordement.query.consulterDossier,
+        référencielPermissions.lauréat.raccordement.usecase.modifierRéférenceDossier,
+        référencielPermissions.lauréat.raccordement.command.modifierRéférenceDossier,
+      ],
+    },
+    dossier: {
+      supprimer: [
+        référencielPermissions.lauréat.raccordement.usecase.supprimerDossierDuRaccordement,
+        référencielPermissions.lauréat.raccordement.command.supprimerDossierDuRaccordement,
+      ],
+    },
+    gestionnaire: {
+      modifier: [
+        référencielPermissions.candidature.query.consulterProjet,
+        référencielPermissions.réseau.gestionnaire.query.lister,
+        référencielPermissions.lauréat.raccordement.query.consulterGestionnaireRéseau,
+        référencielPermissions.lauréat.raccordement.usecase.modifierGestionnaireRéseau,
+        référencielPermissions.lauréat.raccordement.command.modifierGestionnaireRéseau,
+      ],
+    },
+  },
   actionnaire: {
     consulter: [
       référencielPermissions.candidature.query.consulterProjet,
@@ -1002,18 +1000,18 @@ const adminPolicies: ReadonlyArray<Policy> = [
   'réseau.gestionnaire.modifier',
 
   // Raccordement
-  'réseau.raccordement.consulter',
-  'réseau.raccordement.gestionnaire.modifier',
-  'réseau.raccordement.demande-complète-raccordement.transmettre',
-  'réseau.raccordement.demande-complète-raccordement.modifier',
-  'réseau.raccordement.proposition-technique-et-financière.transmettre',
-  'réseau.raccordement.proposition-technique-et-financière.modifier',
-  'réseau.raccordement.date-mise-en-service.transmettre',
-  'réseau.raccordement.date-mise-en-service.modifier',
-  'réseau.raccordement.date-mise-en-service.importer',
-  'réseau.raccordement.référence-dossier.modifier',
-  'réseau.raccordement.dossier.supprimer',
-  'réseau.raccordement.listerDossierRaccordement',
+  'raccordement.consulter',
+  'raccordement.gestionnaire.modifier',
+  'raccordement.demande-complète-raccordement.transmettre',
+  'raccordement.demande-complète-raccordement.modifier',
+  'raccordement.proposition-technique-et-financière.transmettre',
+  'raccordement.proposition-technique-et-financière.modifier',
+  'raccordement.date-mise-en-service.transmettre',
+  'raccordement.date-mise-en-service.modifier',
+  'raccordement.date-mise-en-service.importer',
+  'raccordement.référence-dossier.modifier',
+  'raccordement.dossier.supprimer',
+  'raccordement.listerDossierRaccordement',
 
   // Garanties financières
   'garantiesFinancières.archives.consulter',
@@ -1086,8 +1084,8 @@ const crePolicies: ReadonlyArray<Policy> = [
   'réseau.gestionnaire.lister',
 
   // Raccordement
-  'réseau.raccordement.consulter',
-  'réseau.raccordement.listerDossierRaccordement',
+  'raccordement.consulter',
+  'raccordement.listerDossierRaccordement',
 
   // Garanties financières
   'garantiesFinancières.actuelles.consulter',
@@ -1105,13 +1103,13 @@ const drealPolicies: ReadonlyArray<Policy> = [
   'recours.consulter.liste',
 
   // Raccordement
-  'réseau.raccordement.consulter',
-  'réseau.raccordement.listerDossierRaccordement',
-  'réseau.raccordement.demande-complète-raccordement.transmettre',
-  'réseau.raccordement.demande-complète-raccordement.modifier',
-  'réseau.raccordement.proposition-technique-et-financière.transmettre',
-  'réseau.raccordement.proposition-technique-et-financière.modifier',
-  'réseau.raccordement.gestionnaire.modifier',
+  'raccordement.consulter',
+  'raccordement.listerDossierRaccordement',
+  'raccordement.demande-complète-raccordement.transmettre',
+  'raccordement.demande-complète-raccordement.modifier',
+  'raccordement.proposition-technique-et-financière.transmettre',
+  'raccordement.proposition-technique-et-financière.modifier',
+  'raccordement.gestionnaire.modifier',
 
   // Garanties financières
   'garantiesFinancières.archives.consulter',
@@ -1172,14 +1170,14 @@ const porteurProjetPolicies: ReadonlyArray<Policy> = [
   'recours.annuler',
 
   // Raccordement
-  'réseau.raccordement.consulter',
-  'réseau.raccordement.gestionnaire.modifier',
-  'réseau.raccordement.demande-complète-raccordement.transmettre',
-  'réseau.raccordement.demande-complète-raccordement.modifier',
-  'réseau.raccordement.proposition-technique-et-financière.transmettre',
-  'réseau.raccordement.proposition-technique-et-financière.modifier',
-  'réseau.raccordement.référence-dossier.modifier',
-  'réseau.raccordement.dossier.supprimer',
+  'raccordement.consulter',
+  'raccordement.gestionnaire.modifier',
+  'raccordement.demande-complète-raccordement.transmettre',
+  'raccordement.demande-complète-raccordement.modifier',
+  'raccordement.proposition-technique-et-financière.transmettre',
+  'raccordement.proposition-technique-et-financière.modifier',
+  'raccordement.référence-dossier.modifier',
+  'raccordement.dossier.supprimer',
 
   // Tâche
   'tâche.consulter',
@@ -1226,7 +1224,7 @@ const porteurProjetPolicies: ReadonlyArray<Policy> = [
 
 const acheteurObligéPolicies: ReadonlyArray<Policy> = [
   ...pageProjetPolicies,
-  'réseau.raccordement.consulter',
+  'raccordement.consulter',
 
   // Garanties financières
   'garantiesFinancières.actuelles.consulter',
@@ -1254,11 +1252,11 @@ const grdPolicies: ReadonlyArray<Policy> = [
   'réseau.gestionnaire.consulter',
 
   // Raccordement
-  'réseau.raccordement.consulter',
-  'réseau.raccordement.listerDossierRaccordement',
-  'réseau.raccordement.date-mise-en-service.transmettre',
-  'réseau.raccordement.date-mise-en-service.modifier',
-  'réseau.raccordement.référence-dossier.modifier',
+  'raccordement.consulter',
+  'raccordement.listerDossierRaccordement',
+  'raccordement.date-mise-en-service.transmettre',
+  'raccordement.date-mise-en-service.modifier',
+  'raccordement.référence-dossier.modifier',
 ];
 
 const ademePolicies: ReadonlyArray<Policy> = [...pageProjetPolicies];

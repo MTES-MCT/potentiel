@@ -2,7 +2,7 @@ import Link from 'next/link';
 import { FC } from 'react';
 
 import { Routes } from '@potentiel-applications/routes';
-import { Raccordement } from '@potentiel-domain/reseau';
+import { Raccordement } from '@potentiel-domain/laureat';
 import { PlainType } from '@potentiel-domain/core';
 import { DocumentProjet } from '@potentiel-domain/document';
 import { DateTime } from '@potentiel-domain/common';

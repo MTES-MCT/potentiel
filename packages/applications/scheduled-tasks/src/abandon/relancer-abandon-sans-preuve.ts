@@ -12,7 +12,11 @@ import {
   récupérerIdentifiantsProjetParEmailPorteurAdapter,
 } from '@potentiel-infrastructure/domain-adapters';
 import { loadAggregate } from '@potentiel-infrastructure/pg-event-sourcing';
-import { findProjection, listProjection } from '@potentiel-infrastructure/pg-projections';
+import {
+  countProjection,
+  findProjection,
+  listProjection,
+} from '@potentiel-infrastructure/pg-projections';
 import { getLogger } from '@potentiel-libraries/monitoring';
 
 registerLauréatQueries({
@@ -20,6 +24,7 @@ registerLauréatQueries({
   list: listProjection,
   récupérerIdentifiantsProjetParEmailPorteur: récupérerIdentifiantsProjetParEmailPorteurAdapter,
   consulterCahierDesChargesAdapter: consulterCahierDesChargesChoisiAdapter,
+  count: countProjection,
 });
 
 registerLauréatUseCases({

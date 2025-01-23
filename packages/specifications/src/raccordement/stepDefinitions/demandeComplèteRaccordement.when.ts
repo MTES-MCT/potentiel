@@ -3,7 +3,7 @@ import { match } from 'ts-pattern';
 import { mediator } from 'mediateur';
 
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
-import { Raccordement } from '@potentiel-domain/reseau';
+import { Raccordement } from '@potentiel-domain/laureat';
 import { Role } from '@potentiel-domain/utilisateur';
 
 import { PotentielWorld } from '../../potentiel.world';
@@ -106,7 +106,7 @@ export async function transmettreDemandeComplèteRaccordement(
 
   try {
     await mediator.send<Raccordement.RaccordementUseCase>({
-      type: 'Réseau.Raccordement.UseCase.TransmettreDemandeComplèteRaccordement',
+      type: 'Lauréat.Raccordement.UseCase.TransmettreDemandeComplèteRaccordement',
       data: {
         accuséRéceptionValue: accuséRéception,
         dateQualificationValue: dateQualification,
@@ -137,7 +137,7 @@ async function modifierDemandeComplèteRaccordement(
 
   try {
     await mediator.send<Raccordement.RaccordementUseCase>({
-      type: 'Réseau.Raccordement.UseCase.ModifierDemandeComplèteRaccordement',
+      type: 'Lauréat.Raccordement.UseCase.ModifierDemandeComplèteRaccordement',
       data: {
         identifiantProjetValue: identifiantProjet,
         référenceDossierRaccordementValue: référenceDossier,
@@ -169,7 +169,7 @@ async function modifierRéférenceDossierRaccordement(
 
   try {
     await mediator.send<Raccordement.RaccordementUseCase>({
-      type: 'Réseau.Raccordement.UseCase.ModifierRéférenceDossierRaccordement',
+      type: 'Lauréat.Raccordement.UseCase.ModifierRéférenceDossierRaccordement',
       data: {
         identifiantProjetValue: identifiantProjet,
         nouvelleRéférenceDossierRaccordementValue: nouvelleRéférenceDossier,

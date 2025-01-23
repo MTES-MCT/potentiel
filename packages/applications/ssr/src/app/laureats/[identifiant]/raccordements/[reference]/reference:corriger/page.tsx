@@ -2,7 +2,7 @@ import { mediator } from 'mediateur';
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 
-import { Raccordement } from '@potentiel-domain/reseau';
+import { Raccordement } from '@potentiel-domain/laureat';
 import { Option } from '@potentiel-libraries/monads';
 import { IdentifiantProjet } from '@potentiel-domain/common';
 import { mapToPlainObject } from '@potentiel-domain/core';
@@ -44,7 +44,7 @@ export default async function Page({ params: { identifiant, reference } }: PageP
 
       const gestionnaireRéseau =
         await mediator.send<Raccordement.ConsulterGestionnaireRéseauRaccordementQuery>({
-          type: 'Réseau.Raccordement.Query.ConsulterGestionnaireRéseauRaccordement',
+          type: 'Lauréat.Raccordement.Query.ConsulterGestionnaireRéseauRaccordement',
           data: { identifiantProjetValue: identifiantProjet.formatter() },
         });
 
@@ -54,7 +54,7 @@ export default async function Page({ params: { identifiant, reference } }: PageP
 
       const dossierRaccordement =
         await mediator.send<Raccordement.ConsulterDossierRaccordementQuery>({
-          type: 'Réseau.Raccordement.Query.ConsulterDossierRaccordement',
+          type: 'Lauréat.Raccordement.Query.ConsulterDossierRaccordement',
           data: {
             référenceDossierRaccordementValue: referenceDossierRaccordement,
             identifiantProjetValue: identifiantProjet.formatter(),
@@ -71,7 +71,7 @@ export default async function Page({ params: { identifiant, reference } }: PageP
           gestionnaireRéseau={mapToPlainObject(gestionnaireRéseau)}
           dossierRaccordement={mapToPlainObject(dossierRaccordement)}
           lienRetour={
-            role.aLaPermission('réseau.raccordement.consulter')
+            role.aLaPermission('raccordement.consulter')
               ? Routes.Raccordement.détail(identifiantProjet.formatter())
               : Routes.Raccordement.lister
           }

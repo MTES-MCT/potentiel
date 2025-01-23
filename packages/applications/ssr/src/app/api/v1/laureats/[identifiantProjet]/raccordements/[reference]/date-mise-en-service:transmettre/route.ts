@@ -2,7 +2,7 @@ import { mediator } from 'mediateur';
 import { NextRequest, NextResponse } from 'next/server';
 import * as zod from 'zod';
 
-import { Raccordement } from '@potentiel-domain/reseau';
+import { Raccordement } from '@potentiel-domain/laureat';
 import { DateTime } from '@potentiel-domain/common';
 
 import { apiAction } from '@/utils/apiAction';
@@ -32,7 +32,7 @@ export const POST = (request: NextRequest, routeParams: RouteParams) =>
       if (result.success) {
         const { dateMiseEnService, identifiantProjet, reference } = result.data;
         await mediator.send<Raccordement.RaccordementUseCase>({
-          type: 'Réseau.Raccordement.UseCase.TransmettreDateMiseEnService',
+          type: 'Lauréat.Raccordement.UseCase.TransmettreDateMiseEnService',
           data: {
             identifiantProjetValue: identifiantProjet,
             référenceDossierValue: reference,

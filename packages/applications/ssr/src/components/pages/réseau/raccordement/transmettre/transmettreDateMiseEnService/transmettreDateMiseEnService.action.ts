@@ -3,7 +3,7 @@
 import { mediator } from 'mediateur';
 import * as zod from 'zod';
 
-import { Raccordement } from '@potentiel-domain/reseau';
+import { Raccordement } from '@potentiel-domain/laureat';
 import { Routes } from '@potentiel-applications/routes';
 import { DateTime } from '@potentiel-domain/common';
 
@@ -24,7 +24,7 @@ const action: FormAction<FormState, typeof schema> = async (
 ) =>
   withUtilisateur(async (utilisateur) => {
     await mediator.send<Raccordement.RaccordementUseCase>({
-      type: 'Réseau.Raccordement.UseCase.TransmettreDateMiseEnService',
+      type: 'Lauréat.Raccordement.UseCase.TransmettreDateMiseEnService',
       data: {
         identifiantProjetValue: identifiantProjet,
         référenceDossierValue: referenceDossier,

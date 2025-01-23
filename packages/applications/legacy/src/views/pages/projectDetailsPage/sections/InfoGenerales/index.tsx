@@ -9,7 +9,7 @@ import { match } from 'ts-pattern';
 import { GarantiesFinancières } from '@potentiel-domain/laureat';
 import { Candidature } from '@potentiel-domain/candidature';
 import { Role } from '@potentiel-domain/utilisateur';
-import { Raccordement } from '@potentiel-domain/reseau';
+import { Raccordement } from '@potentiel-domain/laureat';
 import { Option } from '@potentiel-libraries/monads';
 import { IdentifiantProjet } from '@potentiel-domain/common';
 import { InfoActionnaire } from './InfoActionnaire';
@@ -88,7 +88,7 @@ export const InfoGenerales = ({
           <Heading3 className="m-0">Raccordement au réseau</Heading3>
           <Link href={Routes.Raccordement.détail(formattedIdentifiantProjet)}>
             Consulter{' '}
-            {role.aLaPermission('réseau.raccordement.gestionnaire.modifier') ? 'ou modifier ' : ''}
+            {role.aLaPermission('raccordement.gestionnaire.modifier') ? 'ou modifier ' : ''}
             les données de raccordement
           </Link>
         </div>
@@ -96,7 +96,7 @@ export const InfoGenerales = ({
       {isClasse &&
         !isAbandoned &&
         Option.isNone(raccordement) &&
-        role.aLaPermission('réseau.raccordement.gestionnaire.modifier') && (
+        role.aLaPermission('raccordement.gestionnaire.modifier') && (
           <div className="print:hidden">
             <Heading3 className="m-0">Raccordement au réseau</Heading3>
             <Link href={Routes.Raccordement.détail(formattedIdentifiantProjet)}>

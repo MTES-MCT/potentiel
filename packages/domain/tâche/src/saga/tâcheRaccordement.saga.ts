@@ -1,7 +1,7 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
-import { Raccordement } from '@potentiel-domain/reseau';
 import { IdentifiantProjet } from '@potentiel-domain/common';
+import { Raccordement } from '@potentiel-domain/laureat';
 
 import { AjouterTâcheCommand } from '../ajouter/ajouterTâche.command';
 import { AcheverTâcheCommand } from '../achever/acheverTâche.command';

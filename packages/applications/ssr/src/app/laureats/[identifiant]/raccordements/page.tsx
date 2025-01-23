@@ -2,12 +2,13 @@ import { mediator } from 'mediateur';
 import type { Metadata } from 'next';
 import { redirect } from 'next/navigation';
 
-import { GestionnaireRéseau, Raccordement } from '@potentiel-domain/reseau';
+import { GestionnaireRéseau } from '@potentiel-domain/reseau';
 import { Role, Utilisateur } from '@potentiel-domain/utilisateur';
 import { Option } from '@potentiel-libraries/monads';
 import { Routes } from '@potentiel-applications/routes';
 import { mapToPlainObject } from '@potentiel-domain/core';
 import { IdentifiantProjet } from '@potentiel-domain/common';
+import { Raccordement } from '@potentiel-domain/laureat';
 
 import {
   DétailsRaccordementPage,
@@ -41,7 +42,7 @@ export default async function Page({ params: { identifiant } }: PageProps) {
       });
 
       const raccordement = await mediator.send<Raccordement.ConsulterRaccordementQuery>({
-        type: 'Réseau.Raccordement.Query.ConsulterRaccordement',
+        type: 'Lauréat.Raccordement.Query.ConsulterRaccordement',
         data: {
           identifiantProjetValue: identifiantProjet.formatter(),
         },
@@ -116,30 +117,26 @@ const mapToActions = (
     };
   }
   return {
-    supprimer: role.aLaPermission('réseau.raccordement.dossier.supprimer'),
+    supprimer: role.aLaPermission('raccordement.dossier.supprimer'),
     demandeComplèteRaccordement: {
       modifierRéférence:
-        role.aLaPermission('réseau.raccordement.référence-dossier.modifier') &&
-        !role.aLaPermission('réseau.raccordement.demande-complète-raccordement.modifier'),
-      transmettre: role.aLaPermission(
-        'réseau.raccordement.demande-complète-raccordement.transmettre',
-      ),
-      modifier: role.aLaPermission('réseau.raccordement.demande-complète-raccordement.modifier'),
+        role.aLaPermission('raccordement.référence-dossier.modifier') &&
+        !role.aLaPermission('raccordement.demande-complète-raccordement.modifier'),
+      transmettre: role.aLaPermission('raccordement.demande-complète-raccordement.transmettre'),
+      modifier: role.aLaPermission('raccordement.demande-complète-raccordement.modifier'),
     },
     propositionTechniqueEtFinancière: {
       transmettre: role.aLaPermission(
-        'réseau.raccordement.proposition-technique-et-financière.transmettre',
+        'raccordement.proposition-technique-et-financière.transmettre',
       ),
-      modifier: role.aLaPermission(
-        'réseau.raccordement.proposition-technique-et-financière.modifier',
-      ),
+      modifier: role.aLaPermission('raccordement.proposition-technique-et-financière.modifier'),
     },
     miseEnService: {
-      transmettre: role.aLaPermission('réseau.raccordement.date-mise-en-service.transmettre'),
-      modifier: role.aLaPermission('réseau.raccordement.date-mise-en-service.modifier'),
+      transmettre: role.aLaPermission('raccordement.date-mise-en-service.transmettre'),
+      modifier: role.aLaPermission('raccordement.date-mise-en-service.modifier'),
     },
     gestionnaireRéseau: {
-      modifier: role.aLaPermission('réseau.raccordement.gestionnaire.modifier'),
+      modifier: role.aLaPermission('raccordement.gestionnaire.modifier'),
     },
   };
 };

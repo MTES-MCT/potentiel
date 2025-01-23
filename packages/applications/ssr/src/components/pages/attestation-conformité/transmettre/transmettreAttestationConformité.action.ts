@@ -7,7 +7,7 @@ import { Option } from '@potentiel-libraries/monads';
 import { Achèvement, GarantiesFinancières } from '@potentiel-domain/laureat';
 import { DateTime } from '@potentiel-domain/common';
 import { Routes } from '@potentiel-applications/routes';
-import { Raccordement } from '@potentiel-domain/reseau';
+import { Raccordement } from '@potentiel-domain/laureat';
 
 import { FormAction, FormState, formAction } from '@/utils/formAction';
 import { withUtilisateur } from '@/utils/withUtilisateur';
@@ -61,7 +61,7 @@ const action: FormAction<FormState, typeof schema> = async (
     }
 
     const raccordement = await mediator.send<Raccordement.ConsulterRaccordementQuery>({
-      type: 'Réseau.Raccordement.Query.ConsulterRaccordement',
+      type: 'Lauréat.Raccordement.Query.ConsulterRaccordement',
       data: {
         identifiantProjetValue: identifiantProjet,
       },

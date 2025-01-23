@@ -4,9 +4,10 @@ import { z } from 'zod';
 
 import { Option } from '@potentiel-libraries/monads';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
-import { GestionnaireRéseau, Raccordement } from '@potentiel-domain/reseau';
+import { GestionnaireRéseau } from '@potentiel-domain/reseau';
 import { mapToPlainObject } from '@potentiel-domain/core';
 import { Role, Utilisateur } from '@potentiel-domain/utilisateur';
+import { Raccordement } from '@potentiel-domain/laureat';
 
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
@@ -53,7 +54,7 @@ export default async function Page({ searchParams }: PageProps) {
       const identifiantGestionnaireRéseauUtilisateur =
         récupérerIdentifiantGestionnaireUtilisateur(utilisateur);
       const dossiers = await mediator.send<Raccordement.ListerDossierRaccordementQuery>({
-        type: 'Réseau.Raccordement.Query.ListerDossierRaccordementQuery',
+        type: 'Lauréat.Raccordement.Query.ListerDossierRaccordementQuery',
         data: {
           identifiantGestionnaireRéseau:
             identifiantGestionnaireRéseauUtilisateur ?? identifiantGestionnaireReseau,

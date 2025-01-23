@@ -2,7 +2,7 @@ import { mediator } from 'mediateur';
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 
-import { Raccordement } from '@potentiel-domain/reseau';
+import { Raccordement } from '@potentiel-domain/laureat';
 import { IdentifiantProjet } from '@potentiel-domain/common';
 import { Option } from '@potentiel-libraries/monads';
 
@@ -41,7 +41,7 @@ export default async function Page({ params: { identifiant, reference } }: PageP
 
     const dossierRaccordement = await mediator.send<Raccordement.ConsulterDossierRaccordementQuery>(
       {
-        type: 'Réseau.Raccordement.Query.ConsulterDossierRaccordement',
+        type: 'Lauréat.Raccordement.Query.ConsulterDossierRaccordement',
         data: {
           identifiantProjetValue: identifiantProjet,
           référenceDossierRaccordementValue: referenceDossierRaccordement,

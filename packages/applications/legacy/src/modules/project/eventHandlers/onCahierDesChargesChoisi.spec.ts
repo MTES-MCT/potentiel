@@ -13,7 +13,7 @@ import { makeOnCahierDesChargesChoisi } from './onCahierDesChargesChoisi';
 import { Project } from '../Project';
 import { RécupérerDétailDossiersRaccordements } from '../queries';
 import { DateTime } from '@potentiel-domain/common';
-import { Raccordement } from '@potentiel-domain/reseau';
+import { Raccordement } from '@potentiel-domain/laureat';
 
 describe(`onCahierDesChargesChoisi event handler`, () => {
   const publishToEventStore = jest.fn((event: DomainEvent) =>

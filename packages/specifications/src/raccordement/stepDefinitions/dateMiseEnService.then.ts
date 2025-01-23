@@ -2,7 +2,7 @@ import { Then as Alors } from '@cucumber/cucumber';
 import { mediator } from 'mediateur';
 import waitForExpect from 'wait-for-expect';
 
-import { Raccordement } from '@potentiel-domain/reseau';
+import { Raccordement } from '@potentiel-domain/laureat';
 
 import { PotentielWorld } from '../../potentiel.world';
 
@@ -16,7 +16,7 @@ Alors(
     await waitForExpect(async () => {
       const dossierRaccordement =
         await mediator.send<Raccordement.ConsulterDossierRaccordementQuery>({
-          type: 'Réseau.Raccordement.Query.ConsulterDossierRaccordement',
+          type: 'Lauréat.Raccordement.Query.ConsulterDossierRaccordement',
           data: {
             référenceDossierRaccordementValue: référenceDossier,
             identifiantProjetValue: identifiantProjet.formatter(),

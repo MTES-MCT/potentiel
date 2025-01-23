@@ -3,7 +3,7 @@
 import { FC, useState } from 'react';
 import Button from '@codegouvfr/react-dsfr/Button';
 
-import { Raccordement } from '@potentiel-domain/reseau';
+import { Raccordement } from '@potentiel-domain/laureat';
 import { PlainType } from '@potentiel-domain/core';
 
 import { ModalWithForm } from '@/components/molecules/ModalWithForm';

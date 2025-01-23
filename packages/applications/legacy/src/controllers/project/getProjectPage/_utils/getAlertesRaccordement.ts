@@ -1,5 +1,5 @@
 import { IdentifiantProjet } from '@potentiel-domain/common';
-import { Raccordement } from '@potentiel-domain/reseau';
+import { Raccordement } from '@potentiel-domain/laureat';
 import { Option } from '@potentiel-libraries/monads';
 
 import { AlerteRaccordement } from '../../../../views/pages';

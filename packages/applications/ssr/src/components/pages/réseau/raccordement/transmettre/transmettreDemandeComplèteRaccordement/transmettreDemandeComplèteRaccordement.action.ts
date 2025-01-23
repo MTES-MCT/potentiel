@@ -3,7 +3,7 @@
 import { mediator } from 'mediateur';
 import * as zod from 'zod';
 
-import { Raccordement } from '@potentiel-domain/reseau';
+import { Raccordement } from '@potentiel-domain/laureat';
 import { Routes } from '@potentiel-applications/routes';
 
 import { FormAction, FormState, formAction } from '@/utils/formAction';
@@ -33,7 +33,7 @@ const action: FormAction<FormState, typeof schema> = async (
   withUtilisateur(async (utilisateur) => {
     if (identifiantGestionnaireReseau) {
       await mediator.send<Raccordement.RaccordementUseCase>({
-        type: 'Réseau.Raccordement.UseCase.ModifierGestionnaireRéseauRaccordement',
+        type: 'Lauréat.Raccordement.UseCase.ModifierGestionnaireRéseauRaccordement',
         data: {
           identifiantProjetValue: identifiantProjet,
           identifiantGestionnaireRéseauValue: identifiantGestionnaireReseau,
@@ -42,7 +42,7 @@ const action: FormAction<FormState, typeof schema> = async (
       });
     }
     await mediator.send<Raccordement.RaccordementUseCase>({
-      type: 'Réseau.Raccordement.UseCase.TransmettreDemandeComplèteRaccordement',
+      type: 'Lauréat.Raccordement.UseCase.TransmettreDemandeComplèteRaccordement',
       data: {
         identifiantProjetValue: identifiantProjet,
         dateQualificationValue: new Date(dateQualification).toISOString(),

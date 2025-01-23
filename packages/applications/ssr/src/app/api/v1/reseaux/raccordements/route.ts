@@ -3,7 +3,7 @@ import { z } from 'zod';
 import { NextRequest, NextResponse } from 'next/server';
 
 import { Option } from '@potentiel-libraries/monads';
-import { Raccordement } from '@potentiel-domain/reseau';
+import { Raccordement } from '@potentiel-domain/laureat';
 import { Role, Utilisateur } from '@potentiel-domain/utilisateur';
 import { RangeOptions } from '@potentiel-domain/entity';
 
@@ -51,7 +51,7 @@ export const GET = (request: NextRequest) =>
         Object.fromEntries(searchParams.entries()),
       );
       const result = await mediator.send<Raccordement.ListerDossierRaccordementQuery>({
-        type: 'Réseau.Raccordement.Query.ListerDossierRaccordementQuery',
+        type: 'Lauréat.Raccordement.Query.ListerDossierRaccordementQuery',
         data: {
           identifiantGestionnaireRéseau: récupérerIdentifiantGestionnaireUtilisateur(utilisateur),
           avecDateMiseEnService,

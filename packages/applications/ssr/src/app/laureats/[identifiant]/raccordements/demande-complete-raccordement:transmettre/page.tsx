@@ -3,10 +3,11 @@ import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 
 import { AppelOffre } from '@potentiel-domain/appel-offre';
-import { GestionnaireRéseau, Raccordement } from '@potentiel-domain/reseau';
+import { GestionnaireRéseau } from '@potentiel-domain/reseau';
 import { Option } from '@potentiel-libraries/monads';
 import { IdentifiantProjet } from '@potentiel-domain/common';
 import { mapToPlainObject } from '@potentiel-domain/core';
+import { Raccordement } from '@potentiel-domain/laureat';
 
 import { TransmettreDemandeComplèteRaccordementPage } from '@/components/pages/réseau/raccordement/transmettre/transmettreDemandeComplèteRaccordement/TransmettreDemandeComplèteRaccordement.page';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
@@ -56,12 +57,12 @@ export default async function Page({ params: { identifiant } }: PageProps) {
 
     const gestionnaireRéseauActuel =
       await mediator.send<Raccordement.ConsulterGestionnaireRéseauRaccordementQuery>({
-        type: 'Réseau.Raccordement.Query.ConsulterGestionnaireRéseauRaccordement',
+        type: 'Lauréat.Raccordement.Query.ConsulterGestionnaireRéseauRaccordement',
         data: { identifiantProjetValue: identifiantProjet.formatter() },
       });
 
     const raccordements = await mediator.send<Raccordement.ConsulterRaccordementQuery>({
-      type: 'Réseau.Raccordement.Query.ConsulterRaccordement',
+      type: 'Lauréat.Raccordement.Query.ConsulterRaccordement',
       data: { identifiantProjetValue: identifiantProjet.formatter() },
     });
 

@@ -1,7 +1,7 @@
 import { FC } from 'react';
 
 import { PlainType } from '@potentiel-domain/core';
-import { Raccordement } from '@potentiel-domain/reseau';
+import { Raccordement } from '@potentiel-domain/laureat';
 import { IdentifiantProjet } from '@potentiel-domain/common';
 
 import { mapToPagination } from '@/utils/pagination';

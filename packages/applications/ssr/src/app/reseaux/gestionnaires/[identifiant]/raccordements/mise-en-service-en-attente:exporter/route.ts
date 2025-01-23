@@ -2,9 +2,10 @@ import { Parser } from '@json2csv/plainjs';
 import { mediator } from 'mediateur';
 
 import { Option } from '@potentiel-libraries/monads';
-import { GestionnaireRéseau, Raccordement } from '@potentiel-domain/reseau';
+import { GestionnaireRéseau } from '@potentiel-domain/reseau';
 import { Groupe, Role, Utilisateur } from '@potentiel-domain/utilisateur';
 import { OperationRejectedError } from '@potentiel-domain/core';
+import { Raccordement } from '@potentiel-domain/laureat';
 
 import { withUtilisateur } from '@/utils/withUtilisateur';
 import { decodeParameter } from '@/utils/decodeParameter';
@@ -22,7 +23,7 @@ export const GET = async (_: Request, { params: { identifiant } }: ExporterRacco
 
     const dossiers =
       await mediator.send<Raccordement.ListerDossierRaccordementEnAttenteMiseEnServiceQuery>({
-        type: 'Réseau.Raccordement.Query.ListerDossierRaccordementEnAttenteMiseEnServiceQuery',
+        type: 'Lauréat.Raccordement.Query.ListerDossierRaccordementEnAttenteMiseEnServiceQuery',
         data: {
           identifiantGestionnaireRéseau,
         },

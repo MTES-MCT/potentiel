@@ -4,22 +4,11 @@ import {
   GestionnaireRéseauProjector,
   RaccordementProjector,
 } from '@potentiel-applications/projectors';
-import {
-  Raccordement,
-  registerRéseauQueries,
-  registerRéseauUseCases,
-} from '@potentiel-domain/reseau';
-import { Event, loadAggregate, subscribe } from '@potentiel-infrastructure/pg-event-sourcing';
-import {
-  countProjection,
-  findProjection,
-  listProjection,
-} from '@potentiel-infrastructure/pg-projections';
+import { registerRéseauQueries, registerRéseauUseCases } from '@potentiel-domain/reseau';
+import { loadAggregate, subscribe } from '@potentiel-infrastructure/pg-event-sourcing';
+import { findProjection, listProjection } from '@potentiel-infrastructure/pg-projections';
 
-type SetupRéseauDependencies = {
-  récupérerGRDParVille: Raccordement.RécupererGRDParVillePort;
-};
-export const setupRéseau = async ({ récupérerGRDParVille }: SetupRéseauDependencies) => {
+export const setupRéseau = async () => {
   registerRéseauUseCases({
     loadAggregate,
   });
@@ -27,17 +16,11 @@ export const setupRéseau = async ({ récupérerGRDParVille }: SetupRéseauDepen
   registerRéseauQueries({
     list: listProjection,
     find: findProjection,
-    count: countProjection,
   });
 
   // Projectors
   GestionnaireRéseauProjector.register();
   RaccordementProjector.register();
-
-  // Sagas
-  Raccordement.RaccordementSaga.register({
-    récupérerGRDParVille,
-  });
 
   const unsubscribeGestionnaireRéseauProjector =
     await subscribe<GestionnaireRéseauProjector.SubscriptionEvent>({
@@ -94,37 +77,8 @@ export const setupRéseau = async ({ récupérerGRDParVille }: SetupRéseauDepen
     },
   );
 
-  const unsubscribeRaccordementAbandonSaga = await subscribe<
-    Raccordement.RaccordementSaga.SubscriptionEvent & Event
-  >({
-    name: 'raccordement-abandon-saga',
-    streamCategory: 'abandon',
-    eventType: ['AbandonAccordé-V1'],
-    eventHandler: async (event) => {
-      await mediator.publish<Raccordement.RaccordementSaga.Execute>({
-        type: 'System.Réseau.Raccordement.Saga.Execute',
-        data: event,
-      });
-    },
-  });
-  const unsubscribeRaccordementLauréatSaga = await subscribe<
-    Raccordement.RaccordementSaga.SubscriptionEvent & Event
-  >({
-    name: 'raccordement-laureat-saga',
-    streamCategory: 'lauréat',
-    eventType: ['LauréatNotifié-V1'],
-    eventHandler: async (event) => {
-      await mediator.publish<Raccordement.RaccordementSaga.Execute>({
-        type: 'System.Réseau.Raccordement.Saga.Execute',
-        data: event,
-      });
-    },
-  });
-
   return async () => {
     await unsubscribeGestionnaireRéseauProjector();
     await unsubscribeRaccordementProjector();
-    await unsubscribeRaccordementAbandonSaga();
-    await unsubscribeRaccordementLauréatSaga();
   };
 };
