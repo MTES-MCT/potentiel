@@ -1,7 +1,7 @@
 import { Command, Flags } from '@oclif/core';
 import { mediator } from 'mediateur';
 
-import { Raccordement, registerRéseauUseCases } from '@potentiel-domain/reseau';
+import { registerRéseauUseCases } from '@potentiel-domain/reseau';
 import { registerRéseauQueries } from '@potentiel-domain/reseau';
 import {
   countProjection,
@@ -9,11 +9,23 @@ import {
   listProjection,
 } from '@potentiel-infrastructure/pg-projections';
 import { loadAggregate } from '@potentiel-infrastructure/pg-event-sourcing';
+import { Raccordement, registerLauréatQueries } from '@potentiel-domain/laureat';
+import {
+  consulterCahierDesChargesChoisiAdapter,
+  récupérerIdentifiantsProjetParEmailPorteurAdapter,
+} from '@potentiel-infrastructure/domain-adapters';
 
 registerRéseauQueries({
-  count: countProjection,
   find: findProjection,
   list: listProjection,
+});
+
+registerLauréatQueries({
+  find: findProjection,
+  list: listProjection,
+  count: countProjection,
+  récupérerIdentifiantsProjetParEmailPorteur: récupérerIdentifiantsProjetParEmailPorteurAdapter,
+  consulterCahierDesChargesAdapter: consulterCahierDesChargesChoisiAdapter,
 });
 
 registerRéseauUseCases({

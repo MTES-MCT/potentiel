@@ -2,7 +2,7 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 import { match, P } from 'ts-pattern';
 
 import { Event, RebuildTriggered } from '@potentiel-infrastructure/pg-event-sourcing';
-import { Raccordement, GestionnaireRéseau } from '@potentiel-domain/reseau';
+import { GestionnaireRéseau } from '@potentiel-domain/reseau';
 import { findProjection } from '@potentiel-infrastructure/pg-projections';
 import { Option } from '@potentiel-libraries/monads';
 import { IdentifiantProjet } from '@potentiel-domain/common';
@@ -10,6 +10,7 @@ import { getLogger } from '@potentiel-libraries/monitoring';
 import { CandidatureAdapter } from '@potentiel-infrastructure/domain-adapters';
 import { Where } from '@potentiel-domain/entity';
 import { Candidature } from '@potentiel-domain/candidature';
+import { Raccordement } from '@potentiel-domain/laureat';
 
 import { removeProjection } from '../../infrastructure/removeProjection';
 import { upsertProjection } from '../../infrastructure/upsertProjection';

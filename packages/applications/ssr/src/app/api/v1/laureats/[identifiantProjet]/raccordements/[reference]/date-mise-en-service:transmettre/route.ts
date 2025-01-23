@@ -2,7 +2,7 @@ import { mediator } from 'mediateur';
 import { NextRequest, NextResponse } from 'next/server';
 import * as zod from 'zod';
 
-import { Raccordement } from '@potentiel-domain/reseau';
+import { Raccordement } from '@potentiel-domain/laureat';
 import { DateTime } from '@potentiel-domain/common';
 
 import { apiAction } from '@/utils/apiAction';

@@ -65,7 +65,7 @@ export const bootstrap = async ({
 
     const unsetupEliminé = await setupEliminé(allDependencies);
     const unsetupLauréat = await setupLauréat(allDependencies);
-    const unsetupGestionnaireRéseau = await setupRéseau(allDependencies);
+    const unsetupGestionnaireRéseau = await setupRéseau();
 
     getLogger().info('Application bootstrapped');
 

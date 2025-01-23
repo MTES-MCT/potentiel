@@ -1,10 +1,10 @@
 import { DateTime, ExpressionRegulière, IdentifiantProjet } from '@potentiel-domain/common';
 import { DomainEvent, OperationRejectedError } from '@potentiel-domain/core';
 import { Option } from '@potentiel-libraries/monads';
+import { GestionnaireRéseau } from '@potentiel-domain/reseau';
 
 import * as RéférenceDossierRaccordement from '../référenceDossierRaccordement.valueType';
 import { RaccordementAggregate } from '../raccordement.aggregate';
-import { IdentifiantGestionnaireRéseau } from '../../gestionnaire';
 import { DateDansLeFuturError } from '../dateDansLeFutur.error';
 import { FormatRéférenceDossierRaccordementInvalideError } from '../formatRéférenceDossierRaccordementInvalide.error';
 import { RéférenceDossierRaccordementDéjàExistantePourLeProjetError } from '../référenceDossierRaccordementDéjàExistante.error';
@@ -17,7 +17,7 @@ export type DemandeComplèteRaccordementTransmiseEventV1 = DomainEvent<
   'DemandeComplèteDeRaccordementTransmise-V1',
   {
     identifiantProjet: IdentifiantProjet.RawType;
-    identifiantGestionnaireRéseau: IdentifiantGestionnaireRéseau.RawType;
+    identifiantGestionnaireRéseau: GestionnaireRéseau.IdentifiantGestionnaireRéseau.RawType;
     dateQualification?: DateTime.RawType;
     référenceDossierRaccordement: RéférenceDossierRaccordement.RawType;
   }
@@ -40,7 +40,7 @@ export type DemandeComplèteRaccordementTransmiseEvent = DomainEvent<
   'DemandeComplèteDeRaccordementTransmise-V2',
   {
     identifiantProjet: IdentifiantProjet.RawType;
-    identifiantGestionnaireRéseau: IdentifiantGestionnaireRéseau.RawType;
+    identifiantGestionnaireRéseau: GestionnaireRéseau.IdentifiantGestionnaireRéseau.RawType;
     dateQualification?: DateTime.RawType;
     référenceDossierRaccordement: RéférenceDossierRaccordement.RawType;
     accuséRéception: {
@@ -52,7 +52,7 @@ export type DemandeComplèteRaccordementTransmiseEvent = DomainEvent<
 type TransmettreDemandeOptions = {
   dateQualification: DateTime.ValueType;
   identifiantProjet: IdentifiantProjet.ValueType;
-  identifiantGestionnaireRéseau: IdentifiantGestionnaireRéseau.ValueType;
+  identifiantGestionnaireRéseau: GestionnaireRéseau.IdentifiantGestionnaireRéseau.ValueType;
   référenceDossier: RéférenceDossierRaccordement.ValueType;
   référenceDossierExpressionRegulière: ExpressionRegulière.ValueType;
   formatAccuséRéception: string;
@@ -76,7 +76,9 @@ export async function transmettreDemande(
   }
 
   if (
-    !this.identifiantGestionnaireRéseau.estÉgaleÀ(IdentifiantGestionnaireRéseau.inconnu) &&
+    !this.identifiantGestionnaireRéseau.estÉgaleÀ(
+      GestionnaireRéseau.IdentifiantGestionnaireRéseau.inconnu,
+    ) &&
     !this.identifiantGestionnaireRéseau.estÉgaleÀ(identifiantGestionnaireRéseau)
   ) {
     throw new PlusieursGestionnairesRéseauPourUnProjetError();
@@ -132,10 +134,15 @@ export function applyDemandeComplèteDeRaccordementTransmiseEventV1(
     },
   }: DemandeComplèteRaccordementTransmiseEventV1,
 ) {
-  if (this.identifiantGestionnaireRéseau.estÉgaleÀ(IdentifiantGestionnaireRéseau.inconnu)) {
-    this.identifiantGestionnaireRéseau = IdentifiantGestionnaireRéseau.convertirEnValueType(
-      identifiantGestionnaireRéseau,
-    );
+  if (
+    this.identifiantGestionnaireRéseau.estÉgaleÀ(
+      GestionnaireRéseau.IdentifiantGestionnaireRéseau.inconnu,
+    )
+  ) {
+    this.identifiantGestionnaireRéseau =
+      GestionnaireRéseau.IdentifiantGestionnaireRéseau.convertirEnValueType(
+        identifiantGestionnaireRéseau,
+      );
   }
 
   if (this.identifiantProjet.estÉgaleÀ(IdentifiantProjet.inconnu)) {

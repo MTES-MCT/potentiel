@@ -2,7 +2,7 @@ import { faker } from '@faker-js/faker';
 
 import { DateTime } from '@potentiel-domain/common';
 import { DocumentProjet } from '@potentiel-domain/document';
-import { Raccordement } from '@potentiel-domain/reseau';
+import { Raccordement } from '@potentiel-domain/laureat';
 
 import { AbstractFixture } from '../../fixture';
 import { convertStringToReadableStream } from '../../helpers/convertStringToReadable';

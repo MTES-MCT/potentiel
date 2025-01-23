@@ -2,7 +2,7 @@ import { mediator } from 'mediateur';
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 
-import { Raccordement } from '@potentiel-domain/reseau';
+import { Raccordement } from '@potentiel-domain/laureat';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { DateTime } from '@potentiel-domain/common';
 import { Option } from '@potentiel-libraries/monads';

@@ -3,9 +3,9 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 import { LoadAggregate } from '@potentiel-domain/core';
 import { Role } from '@potentiel-domain/utilisateur';
 import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
+import { GestionnaireRéseau } from '@potentiel-domain/reseau';
 
 import { loadRaccordementAggregateFactory } from '../raccordement.aggregate';
-import { loadGestionnaireRéseauFactory } from '../../gestionnaire/gestionnaireRéseau.aggregate';
 import * as RéférenceDossierRaccordement from '../référenceDossierRaccordement.valueType';
 
 export type ModifierRéférenceDossierRaccordementCommand = Message<
@@ -24,7 +24,7 @@ export const registerModifierRéférenceDossierRaccordementCommand = (
   loadAggregate: LoadAggregate,
 ) => {
   const loadRaccordement = loadRaccordementAggregateFactory(loadAggregate);
-  const loadGestionnaireRéseau = loadGestionnaireRéseauFactory(loadAggregate);
+  const loadGestionnaireRéseau = GestionnaireRéseau.loadGestionnaireRéseauFactory(loadAggregate);
 
   const handler: MessageHandler<ModifierRéférenceDossierRaccordementCommand> = async ({
     identifiantProjet,

@@ -2,8 +2,7 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { IdentifiantProjet } from '@potentiel-domain/common';
 import { Role } from '@potentiel-domain/utilisateur';
-
-import { IdentifiantGestionnaireRéseau } from '../../gestionnaire';
+import { GestionnaireRéseau } from '@potentiel-domain/reseau';
 
 import { ModifierGestionnaireRéseauRaccordementCommand } from './modifierGestionnaireRéseauRaccordement.command';
 
@@ -23,9 +22,10 @@ export const registerModifierGestionnaireRéseauRaccordementUseCase = () => {
     rôleValue,
   }) => {
     const identifiantProjet = IdentifiantProjet.convertirEnValueType(identifiantProjetValue);
-    const identifiantGestionnaireRéseau = IdentifiantGestionnaireRéseau.convertirEnValueType(
-      identifiantGestionnaireRéseauValue,
-    );
+    const identifiantGestionnaireRéseau =
+      GestionnaireRéseau.IdentifiantGestionnaireRéseau.convertirEnValueType(
+        identifiantGestionnaireRéseauValue,
+      );
     const rôle = Role.convertirEnValueType(rôleValue);
     await mediator.send<ModifierGestionnaireRéseauRaccordementCommand>({
       type: 'Réseau.Raccordement.Command.ModifierGestionnaireRéseauRaccordement',

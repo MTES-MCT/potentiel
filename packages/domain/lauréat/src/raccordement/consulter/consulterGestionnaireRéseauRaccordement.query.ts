@@ -5,12 +5,12 @@ import { Email, ExpressionRegulière, IdentifiantProjet } from '@potentiel-domai
 import { Find } from '@potentiel-domain/entity';
 import { Option } from '@potentiel-libraries/monads';
 import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
+import { GestionnaireRéseau } from '@potentiel-domain/reseau';
 
-import { GestionnaireRéseauEntity, IdentifiantGestionnaireRéseau } from '../../gestionnaire';
 import { RaccordementEntity } from '../raccordement.entity';
 
 export type ConsulterGestionnaireRéseauRaccordementReadModel = {
-  identifiantGestionnaireRéseau: IdentifiantGestionnaireRéseau.ValueType;
+  identifiantGestionnaireRéseau: GestionnaireRéseau.IdentifiantGestionnaireRéseau.ValueType;
   raisonSociale: string;
   aideSaisieRéférenceDossierRaccordement: {
     format: Option.Type<string>;
@@ -48,7 +48,7 @@ export const registerConsulterGestionnaireRéseauRaccordementQuery = ({
       return Option.none;
     }
 
-    const gestionnaireRéseauResult = await find<GestionnaireRéseauEntity>(
+    const gestionnaireRéseauResult = await find<GestionnaireRéseau.GestionnaireRéseauEntity>(
       `gestionnaire-réseau|${raccordementResult.identifiantGestionnaireRéseau}`,
     );
 
@@ -65,9 +65,10 @@ export const mapToReadModel = ({
   raisonSociale,
   aideSaisieRéférenceDossierRaccordement: { format, légende, expressionReguliere },
   contactEmail,
-}: GestionnaireRéseauEntity): ConsulterGestionnaireRéseauRaccordementReadModel => {
+}: GestionnaireRéseau.GestionnaireRéseauEntity): ConsulterGestionnaireRéseauRaccordementReadModel => {
   return {
-    identifiantGestionnaireRéseau: IdentifiantGestionnaireRéseau.convertirEnValueType(codeEIC),
+    identifiantGestionnaireRéseau:
+      GestionnaireRéseau.IdentifiantGestionnaireRéseau.convertirEnValueType(codeEIC),
     raisonSociale,
     aideSaisieRéférenceDossierRaccordement: {
       format: match(format)

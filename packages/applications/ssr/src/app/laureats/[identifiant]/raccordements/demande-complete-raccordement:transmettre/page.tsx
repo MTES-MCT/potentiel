@@ -3,10 +3,11 @@ import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 
 import { AppelOffre } from '@potentiel-domain/appel-offre';
-import { GestionnaireRéseau, Raccordement } from '@potentiel-domain/reseau';
+import { GestionnaireRéseau } from '@potentiel-domain/reseau';
 import { Option } from '@potentiel-libraries/monads';
 import { IdentifiantProjet } from '@potentiel-domain/common';
 import { mapToPlainObject } from '@potentiel-domain/core';
+import { Raccordement } from '@potentiel-domain/laureat';
 
 import { TransmettreDemandeComplèteRaccordementPage } from '@/components/pages/réseau/raccordement/transmettre/transmettreDemandeComplèteRaccordement/TransmettreDemandeComplèteRaccordement.page';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';

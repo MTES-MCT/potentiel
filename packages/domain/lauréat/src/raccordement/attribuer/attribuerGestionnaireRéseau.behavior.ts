@@ -1,14 +1,14 @@
 import { IdentifiantProjet } from '@potentiel-domain/common';
 import { DomainEvent } from '@potentiel-domain/core';
+import { GestionnaireRéseau } from '@potentiel-domain/reseau';
 
 import { RaccordementAggregate } from '../raccordement.aggregate';
-import { IdentifiantGestionnaireRéseau } from '../../gestionnaire';
 import { RaccordementDéjàExistantError } from '../raccordementDéjàExistantError';
 
 export type GestionnaireRéseauAttribuéEvent = DomainEvent<
   'GestionnaireRéseauAttribué-V1',
   {
-    identifiantGestionnaireRéseau: IdentifiantGestionnaireRéseau.RawType;
+    identifiantGestionnaireRéseau: GestionnaireRéseau.IdentifiantGestionnaireRéseau.RawType;
     identifiantProjet: IdentifiantProjet.RawType;
   }
 >;
@@ -21,7 +21,7 @@ export type GestionnaireRéseauInconnuAttribuéEvent = DomainEvent<
 >;
 
 export type AttribuerGestionnaireRéseauOptions = {
-  identifiantGestionnaireRéseau: IdentifiantGestionnaireRéseau.ValueType;
+  identifiantGestionnaireRéseau: GestionnaireRéseau.IdentifiantGestionnaireRéseau.ValueType;
   identifiantProjet: IdentifiantProjet.ValueType;
 };
 
@@ -35,7 +35,11 @@ export async function attribuerGestionnaireRéseau(
     throw new RaccordementDéjàExistantError(identifiantProjet.formatter());
   }
 
-  if (identifiantGestionnaireRéseau.estÉgaleÀ(IdentifiantGestionnaireRéseau.inconnu)) {
+  if (
+    identifiantGestionnaireRéseau.estÉgaleÀ(
+      GestionnaireRéseau.IdentifiantGestionnaireRéseau.inconnu,
+    )
+  ) {
     const event: GestionnaireRéseauInconnuAttribuéEvent = {
       type: 'GestionnaireRéseauInconnuAttribué-V1',
       payload: {
@@ -64,7 +68,8 @@ export function applyAttribuerGestionnaireRéseauEventV1(
   }: GestionnaireRéseauAttribuéEvent,
 ) {
   this.identifiantProjet = IdentifiantProjet.convertirEnValueType(identifiantProjet);
-  this.identifiantGestionnaireRéseau = IdentifiantGestionnaireRéseau.convertirEnValueType(
-    identifiantGestionnaireRéseau,
-  );
+  this.identifiantGestionnaireRéseau =
+    GestionnaireRéseau.IdentifiantGestionnaireRéseau.convertirEnValueType(
+      identifiantGestionnaireRéseau,
+    );
 }

@@ -3,10 +3,10 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 import { LoadAggregate } from '@potentiel-domain/core';
 import { Role } from '@potentiel-domain/utilisateur';
+import { GestionnaireRéseau } from '@potentiel-domain/reseau';
 
 import * as RéférenceDossierRaccordement from '../référenceDossierRaccordement.valueType';
 import { loadRaccordementAggregateFactory } from '../raccordement.aggregate';
-import { loadGestionnaireRéseauFactory } from '../../gestionnaire/gestionnaireRéseau.aggregate';
 
 export type ModifierDemandeComplèteRaccordementCommand = Message<
   'Réseau.Raccordement.Command.ModifierDemandeComplèteRaccordement',
@@ -23,7 +23,7 @@ export const registerModifierDemandeComplèteRaccordementCommand = (
   loadAggregate: LoadAggregate,
 ) => {
   const loadRaccordement = loadRaccordementAggregateFactory(loadAggregate);
-  const loadGestionnaireRéseau = loadGestionnaireRéseauFactory(loadAggregate);
+  const loadGestionnaireRéseau = GestionnaireRéseau.loadGestionnaireRéseauFactory(loadAggregate);
 
   const handler: MessageHandler<ModifierDemandeComplèteRaccordementCommand> = async ({
     identifiantProjet,

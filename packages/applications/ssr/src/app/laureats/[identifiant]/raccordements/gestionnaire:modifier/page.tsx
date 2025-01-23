@@ -1,9 +1,10 @@
 import { mediator } from 'mediateur';
 import { Metadata } from 'next';
 
-import { GestionnaireRéseau, Raccordement } from '@potentiel-domain/reseau';
+import { GestionnaireRéseau } from '@potentiel-domain/reseau';
 import { IdentifiantProjet } from '@potentiel-domain/common';
 import { mapToPlainObject } from '@potentiel-domain/core';
+import { Raccordement } from '@potentiel-domain/laureat';
 
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { decodeParameter } from '@/utils/decodeParameter';

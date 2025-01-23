@@ -42,3 +42,6 @@ export * as IdentifiantGestionnaireRéseau from './identifiantGestionnaireRésea
 
 // Entities
 export * from './gestionnaireRéseau.entity';
+
+// Aggregate
+export { loadGestionnaireRéseauFactory } from './gestionnaireRéseau.aggregate';

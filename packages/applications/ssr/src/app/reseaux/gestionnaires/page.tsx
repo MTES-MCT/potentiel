@@ -1,7 +1,8 @@
 import { mediator } from 'mediateur';
 
-import { GestionnaireRéseau, Raccordement } from '@potentiel-domain/reseau';
+import { GestionnaireRéseau } from '@potentiel-domain/reseau';
 import { mapToPlainObject } from '@potentiel-domain/core';
+import { Raccordement } from '@potentiel-domain/laureat';
 
 import {
   GestionnaireRéseauListPage,

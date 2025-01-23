@@ -3,8 +3,9 @@ import { mediator } from 'mediateur';
 import waitForExpect from 'wait-for-expect';
 import { expect } from 'chai';
 
-import { GestionnaireRéseau, Raccordement } from '@potentiel-domain/reseau';
+import { GestionnaireRéseau } from '@potentiel-domain/reseau';
 import { ListerTâchesQuery } from '@potentiel-domain/tache';
+import { Raccordement } from '@potentiel-domain/laureat';
 
 import { PotentielWorld } from '../../potentiel.world';
 import { RechercherTypeTâche } from '../../tâche/tâche.world';

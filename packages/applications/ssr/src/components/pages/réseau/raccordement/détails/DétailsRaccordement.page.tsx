@@ -6,9 +6,10 @@ import Alert from '@codegouvfr/react-dsfr/Alert';
 
 import { Routes } from '@potentiel-applications/routes';
 import { Option } from '@potentiel-libraries/monads';
-import { GestionnaireRéseau, Raccordement } from '@potentiel-domain/reseau';
+import { GestionnaireRéseau } from '@potentiel-domain/reseau';
 import { PlainType } from '@potentiel-domain/core';
 import { IdentifiantProjet } from '@potentiel-domain/common';
+import { Raccordement } from '@potentiel-domain/laureat';
 
 import { ProjetBanner } from '@/components/molecules/projet/ProjetBanner';
 import { PageTemplate } from '@/components/templates/Page.template';

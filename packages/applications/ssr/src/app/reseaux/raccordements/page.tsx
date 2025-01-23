@@ -4,9 +4,10 @@ import { z } from 'zod';
 
 import { Option } from '@potentiel-libraries/monads';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
-import { GestionnaireRéseau, Raccordement } from '@potentiel-domain/reseau';
+import { GestionnaireRéseau } from '@potentiel-domain/reseau';
 import { mapToPlainObject } from '@potentiel-domain/core';
 import { Role, Utilisateur } from '@potentiel-domain/utilisateur';
+import { Raccordement } from '@potentiel-domain/laureat';
 
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';

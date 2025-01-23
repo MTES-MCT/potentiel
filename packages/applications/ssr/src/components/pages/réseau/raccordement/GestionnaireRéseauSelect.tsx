@@ -3,7 +3,7 @@ import Select, { SelectProps } from '@codegouvfr/react-dsfr/SelectNext';
 import { GestionnaireRéseau } from '@potentiel-domain/reseau';
 import { PlainType } from '@potentiel-domain/core';
 import { Option } from '@potentiel-libraries/monads';
-import { Raccordement } from '@potentiel-domain/reseau/';
+import { Raccordement } from '@potentiel-domain/laureat';
 
 export type GestionnaireRéseauSelectProps = {
   id: string;

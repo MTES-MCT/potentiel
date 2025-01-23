@@ -1,8 +1,8 @@
 import { IdentifiantProjet } from '@potentiel-domain/common';
 import { DomainEvent } from '@potentiel-domain/core';
+import { GestionnaireRéseau } from '@potentiel-domain/reseau';
 
 import { RaccordementAggregate } from '../raccordement.aggregate';
-import { IdentifiantGestionnaireRéseau } from '../../gestionnaire';
 
 export type RaccordementSuppriméEvent = DomainEvent<
   'RaccordementSupprimé-V1',
@@ -34,6 +34,6 @@ export function applyRaccordementSuppriméEventV1(
   event: RaccordementSuppriméEvent,
 ) {
   this.identifiantProjet = IdentifiantProjet.convertirEnValueType(event.payload.identifiantProjet);
-  this.identifiantGestionnaireRéseau = IdentifiantGestionnaireRéseau.inconnu;
+  this.identifiantGestionnaireRéseau = GestionnaireRéseau.IdentifiantGestionnaireRéseau.inconnu;
   this.dossiers = new Map();
 }

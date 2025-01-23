@@ -2,7 +2,7 @@ import { mediator } from 'mediateur';
 
 import { getKeycloakAdminClient } from '@potentiel-libraries/keycloak-cjs';
 import { getLogger } from '@potentiel-libraries/monitoring';
-import { GestionnaireRéseau, Raccordement, registerRéseauQueries } from '@potentiel-domain/reseau';
+import { GestionnaireRéseau, registerRéseauQueries } from '@potentiel-domain/reseau';
 import {
   countProjection,
   findProjection,
@@ -11,11 +11,23 @@ import {
 import { sendEmail } from '@potentiel-infrastructure/email';
 import { Routes } from '@potentiel-applications/routes';
 import { DateTime } from '@potentiel-domain/common';
+import { Raccordement, registerLauréatQueries } from '@potentiel-domain/laureat';
+import {
+  consulterCahierDesChargesChoisiAdapter,
+  récupérerIdentifiantsProjetParEmailPorteurAdapter,
+} from '@potentiel-infrastructure/domain-adapters';
 
 registerRéseauQueries({
   list: listProjection,
   find: findProjection,
+});
+
+registerLauréatQueries({
+  consulterCahierDesChargesAdapter: consulterCahierDesChargesChoisiAdapter,
   count: countProjection,
+  find: findProjection,
+  list: listProjection,
+  récupérerIdentifiantsProjetParEmailPorteur: récupérerIdentifiantsProjetParEmailPorteurAdapter,
 });
 
 // Envoyer un email de notification aux GRDs ayant des dossiers de raccordement en attente de MES, pour les projets notifiés depuis 12 mois

@@ -14,6 +14,7 @@
     "@potentiel-domain/entity": "*",
     "@potentiel-domain/candidature": "*",
     "@potentiel-domain/elimine": "*",
+    "@potentiel-domain/reseau": "*",
     "@potentiel-domain/common": "*",
     "@potentiel-domain/document": "*",
     "@potentiel-domain/appel-offre": "*",

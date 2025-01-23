@@ -3,7 +3,7 @@ import { z } from 'zod';
 import { NextRequest, NextResponse } from 'next/server';
 
 import { Option } from '@potentiel-libraries/monads';
-import { Raccordement } from '@potentiel-domain/reseau';
+import { Raccordement } from '@potentiel-domain/laureat';
 import { Role, Utilisateur } from '@potentiel-domain/utilisateur';
 import { RangeOptions } from '@potentiel-domain/entity';
 

@@ -3,7 +3,8 @@
 import * as zod from 'zod';
 import { mediator } from 'mediateur';
 
-import { GestionnaireRéseau, Raccordement } from '@potentiel-domain/reseau';
+import { GestionnaireRéseau } from '@potentiel-domain/reseau';
+import { Raccordement } from '@potentiel-domain/laureat';
 import { DomainError } from '@potentiel-domain/core';
 import { parseCsv } from '@potentiel-libraries/csv';
 import { Option } from '@potentiel-libraries/monads';

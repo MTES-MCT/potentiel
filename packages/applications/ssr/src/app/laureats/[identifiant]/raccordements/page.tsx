@@ -2,12 +2,13 @@ import { mediator } from 'mediateur';
 import type { Metadata } from 'next';
 import { redirect } from 'next/navigation';
 
-import { GestionnaireRéseau, Raccordement } from '@potentiel-domain/reseau';
+import { GestionnaireRéseau } from '@potentiel-domain/reseau';
 import { Role, Utilisateur } from '@potentiel-domain/utilisateur';
 import { Option } from '@potentiel-libraries/monads';
 import { Routes } from '@potentiel-applications/routes';
 import { mapToPlainObject } from '@potentiel-domain/core';
 import { IdentifiantProjet } from '@potentiel-domain/common';
+import { Raccordement } from '@potentiel-domain/laureat';
 
 import {
   DétailsRaccordementPage,

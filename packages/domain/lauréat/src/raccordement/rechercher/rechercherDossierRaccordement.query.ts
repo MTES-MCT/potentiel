@@ -2,13 +2,13 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { IdentifiantProjet } from '@potentiel-domain/common';
 import { List, Where } from '@potentiel-domain/entity';
+import { GestionnaireRéseau } from '@potentiel-domain/reseau';
 
 import * as RéférenceDossierRaccordement from '../référenceDossierRaccordement.valueType';
 import { DossierRaccordementEntity } from '../raccordement.entity';
-import { IdentifiantGestionnaireRéseau } from '../../gestionnaire';
 
 export type RechercherDossierRaccordementReadModel = ReadonlyArray<{
-  identifiantGestionnaireRéseau: IdentifiantGestionnaireRéseau.ValueType;
+  identifiantGestionnaireRéseau: GestionnaireRéseau.IdentifiantGestionnaireRéseau.ValueType;
   référenceDossierRaccordement: RéférenceDossierRaccordement.ValueType;
   identifiantProjet: IdentifiantProjet.ValueType;
 }>;
@@ -48,9 +48,10 @@ export const registerRechercherDossierRaccordementQuery = ({
 
 const mapToReadModel = (result: ReadonlyArray<DossierRaccordementEntity>) => {
   return result.map(({ identifiantGestionnaireRéseau, identifiantProjet, référence }) => ({
-    identifiantGestionnaireRéseau: IdentifiantGestionnaireRéseau.convertirEnValueType(
-      identifiantGestionnaireRéseau,
-    ),
+    identifiantGestionnaireRéseau:
+      GestionnaireRéseau.IdentifiantGestionnaireRéseau.convertirEnValueType(
+        identifiantGestionnaireRéseau,
+      ),
     identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
     référenceDossierRaccordement: RéférenceDossierRaccordement.convertirEnValueType(référence),
   }));

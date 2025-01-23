@@ -3,7 +3,7 @@ import { match } from 'ts-pattern';
 import { mediator } from 'mediateur';
 
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
-import { Raccordement } from '@potentiel-domain/reseau';
+import { Raccordement } from '@potentiel-domain/laureat';
 import { Role } from '@potentiel-domain/utilisateur';
 
 import { PotentielWorld } from '../../potentiel.world';

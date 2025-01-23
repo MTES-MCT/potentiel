@@ -2,13 +2,13 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { IdentifiantProjet } from '@potentiel-domain/common';
 import { List, Where } from '@potentiel-domain/entity';
+import { GestionnaireRéseau } from '@potentiel-domain/reseau';
 
 import { RaccordementEntity } from '..';
-import { IdentifiantGestionnaireRéseau } from '../../gestionnaire';
 
 export type RaccordementReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
-  identifiantGestionnaireRéseau: IdentifiantGestionnaireRéseau.ValueType;
+  identifiantGestionnaireRéseau: GestionnaireRéseau.IdentifiantGestionnaireRéseau.ValueType;
 };
 
 export type ListerRaccordementReadModel = {
@@ -52,8 +52,9 @@ export const registerListerRaccordementQuery = ({ list }: ListerRaccordementQuer
 const mapToReadModel = (raccordement: RaccordementEntity): RaccordementReadModel => {
   return {
     identifiantProjet: IdentifiantProjet.convertirEnValueType(raccordement.identifiantProjet),
-    identifiantGestionnaireRéseau: IdentifiantGestionnaireRéseau.convertirEnValueType(
-      raccordement.identifiantGestionnaireRéseau,
-    ),
+    identifiantGestionnaireRéseau:
+      GestionnaireRéseau.IdentifiantGestionnaireRéseau.convertirEnValueType(
+        raccordement.identifiantGestionnaireRéseau,
+      ),
   };
 };

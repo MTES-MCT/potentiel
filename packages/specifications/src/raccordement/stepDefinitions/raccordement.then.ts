@@ -3,7 +3,8 @@ import { mediator } from 'mediateur';
 import waitForExpect from 'wait-for-expect';
 import { assert, expect } from 'chai';
 
-import { Raccordement, GestionnaireRéseau } from '@potentiel-domain/reseau';
+import { GestionnaireRéseau } from '@potentiel-domain/reseau';
+import { Raccordement } from '@potentiel-domain/laureat';
 import { Option } from '@potentiel-libraries/monads';
 import { IdentifiantProjet } from '@potentiel-domain/common';
 import { mapToPlainObject } from '@potentiel-domain/core';

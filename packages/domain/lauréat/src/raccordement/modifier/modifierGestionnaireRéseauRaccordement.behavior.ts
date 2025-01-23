@@ -1,8 +1,8 @@
 import { DomainEvent, InvalidOperationError } from '@potentiel-domain/core';
 import { IdentifiantProjet } from '@potentiel-domain/common';
 import { Role } from '@potentiel-domain/utilisateur';
+import { GestionnaireRéseau } from '@potentiel-domain/reseau';
 
-import { IdentifiantGestionnaireRéseau } from '../../gestionnaire';
 import { RaccordementAggregate } from '../raccordement.aggregate';
 import { GestionnaireRéseauInconnuAttribuéEvent } from '../attribuer/attribuerGestionnaireRéseau.behavior';
 
@@ -13,7 +13,7 @@ export type GestionnaireRéseauProjetModifiéEvent = DomainEvent<
   'GestionnaireRéseauProjetModifié-V1',
   {
     identifiantProjet: IdentifiantProjet.RawType;
-    identifiantGestionnaireRéseau: IdentifiantGestionnaireRéseau.RawType;
+    identifiantGestionnaireRéseau: GestionnaireRéseau.IdentifiantGestionnaireRéseau.RawType;
   }
 >;
 
@@ -21,13 +21,13 @@ export type GestionnaireRéseauRaccordementModifiéEvent = DomainEvent<
   'GestionnaireRéseauRaccordementModifié-V1',
   {
     identifiantProjet: IdentifiantProjet.RawType;
-    identifiantGestionnaireRéseau: IdentifiantGestionnaireRéseau.RawType;
+    identifiantGestionnaireRéseau: GestionnaireRéseau.IdentifiantGestionnaireRéseau.RawType;
   }
 >;
 
 type ModifierGestionnaireRéseauOptions = {
   identifiantProjet: IdentifiantProjet.ValueType;
-  identifiantGestionnaireRéseau: IdentifiantGestionnaireRéseau.ValueType;
+  identifiantGestionnaireRéseau: GestionnaireRéseau.IdentifiantGestionnaireRéseau.ValueType;
   rôle: Role.ValueType;
 };
 
@@ -46,7 +46,11 @@ export async function modifierGestionnaireRéseau(
     throw new GestionnaireRéseauNonModifiableCarRaccordementAvecDateDeMiseEnServiceError();
   }
 
-  if (identifiantGestionnaireRéseau.estÉgaleÀ(IdentifiantGestionnaireRéseau.inconnu)) {
+  if (
+    identifiantGestionnaireRéseau.estÉgaleÀ(
+      GestionnaireRéseau.IdentifiantGestionnaireRéseau.inconnu,
+    )
+  ) {
     const event: GestionnaireRéseauInconnuAttribuéEvent = {
       type: 'GestionnaireRéseauInconnuAttribué-V1',
       payload: {
@@ -72,22 +76,23 @@ export function applyGestionnaireRéseauRaccordementModifiéEventV1(
   this: RaccordementAggregate,
   { payload: { identifiantGestionnaireRéseau } }: GestionnaireRéseauRaccordementModifiéEvent,
 ) {
-  this.identifiantGestionnaireRéseau = IdentifiantGestionnaireRéseau.convertirEnValueType(
-    identifiantGestionnaireRéseau,
-  );
+  this.identifiantGestionnaireRéseau =
+    GestionnaireRéseau.IdentifiantGestionnaireRéseau.convertirEnValueType(
+      identifiantGestionnaireRéseau,
+    );
 }
 
 export function applyGestionnaireRéseauRaccordemenInconnuEventV1(
   this: RaccordementAggregate,
   _: GestionnaireRéseauInconnuAttribuéEvent,
 ) {
-  this.identifiantGestionnaireRéseau = IdentifiantGestionnaireRéseau.inconnu;
+  this.identifiantGestionnaireRéseau = GestionnaireRéseau.IdentifiantGestionnaireRéseau.inconnu;
 }
 
 export class GestionnaireRéseauIdentiqueError extends InvalidOperationError {
   constructor(
     identifiantProjet: IdentifiantProjet.ValueType,
-    identifiantGestionnaireRéseau: IdentifiantGestionnaireRéseau.ValueType,
+    identifiantGestionnaireRéseau: GestionnaireRéseau.IdentifiantGestionnaireRéseau.ValueType,
   ) {
     super(`Ce gestionnaire de réseau est déjà déclaré pour le dossier de raccordement`, {
       identifiantProjet: identifiantProjet.formatter(),

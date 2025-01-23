@@ -9,7 +9,7 @@ import { match } from 'ts-pattern';
 import { GarantiesFinancières } from '@potentiel-domain/laureat';
 import { Candidature } from '@potentiel-domain/candidature';
 import { Role } from '@potentiel-domain/utilisateur';
-import { Raccordement } from '@potentiel-domain/reseau';
+import { Raccordement } from '@potentiel-domain/laureat';
 import { Option } from '@potentiel-libraries/monads';
 import { IdentifiantProjet } from '@potentiel-domain/common';
 import { InfoActionnaire } from './InfoActionnaire';

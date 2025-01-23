@@ -2,10 +2,10 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
 import { LoadAggregate } from '@potentiel-domain/core';
-import { Lauréat } from '@potentiel-domain/laureat';
 
 import * as RéférenceDossierRaccordement from '../référenceDossierRaccordement.valueType';
 import { loadRaccordementAggregateFactory } from '../raccordement.aggregate';
+import { loadLauréatFactory } from '../../lauréat.aggregate';
 
 export type TransmettreDateMiseEnServiceCommand = Message<
   'Réseau.Raccordement.Command.TransmettreDateMiseEnService',
@@ -20,7 +20,7 @@ export type TransmettreDateMiseEnServiceCommand = Message<
 
 export const registerTransmettreDateMiseEnServiceCommand = (loadAggregate: LoadAggregate) => {
   const loadRaccordementAggregate = loadRaccordementAggregateFactory(loadAggregate);
-  const loadLauréatAggregate = Lauréat.loadLauréatFactory(loadAggregate);
+  const loadLauréatAggregate = loadLauréatFactory(loadAggregate);
 
   const handler: MessageHandler<TransmettreDateMiseEnServiceCommand> = async ({
     dateMiseEnService,

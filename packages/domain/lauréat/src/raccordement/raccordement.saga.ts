@@ -1,16 +1,17 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { IdentifiantProjet } from '@potentiel-domain/common';
-import { Abandon, Lauréat } from '@potentiel-domain/laureat';
 import { Candidature } from '@potentiel-domain/candidature';
 import { Option } from '@potentiel-libraries/monads';
+import { GestionnaireRéseau } from '@potentiel-domain/reseau';
 
-import * as IdentifiantGestionnaireRéseau from '../gestionnaire/identifiantGestionnaireRéseau.valueType';
+import { AbandonAccordéEvent } from '../abandon';
+import { LauréatNotifiéEvent } from '../lauréat';
 
 import { SupprimerRaccordementCommand } from './supprimer/supprimerRaccordement.command';
 import { AttribuerGestionnaireRéseauCommand } from './attribuer/attribuerGestionnaireRéseau.command';
 
-export type SubscriptionEvent = Abandon.AbandonAccordéEvent | Lauréat.LauréatNotifiéEvent;
+export type SubscriptionEvent = AbandonAccordéEvent | LauréatNotifiéEvent;
 
 export type Execute = Message<'System.Réseau.Raccordement.Saga.Execute', SubscriptionEvent>;
 
@@ -45,8 +46,10 @@ export const register = ({ récupérerGRDParVille }: RegisterRaccordementSagaDep
           commune: candidature.localité.commune,
         });
         const identifiantGestionnaireRéseau = Option.match(grd)
-          .some((grd) => IdentifiantGestionnaireRéseau.convertirEnValueType(grd.codeEIC))
-          .none(() => IdentifiantGestionnaireRéseau.inconnu);
+          .some((grd) =>
+            GestionnaireRéseau.IdentifiantGestionnaireRéseau.convertirEnValueType(grd.codeEIC),
+          )
+          .none(() => GestionnaireRéseau.IdentifiantGestionnaireRéseau.inconnu);
 
         await mediator.send<AttribuerGestionnaireRéseauCommand>({
           type: 'Réseau.Raccordement.Command.AttribuerGestionnaireRéseau',

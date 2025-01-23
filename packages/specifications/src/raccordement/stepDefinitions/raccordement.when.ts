@@ -1,7 +1,8 @@
 import { When as Quand } from '@cucumber/cucumber';
 import { mediator } from 'mediateur';
 
-import { GestionnaireRéseau, Raccordement } from '@potentiel-domain/reseau';
+import { GestionnaireRéseau } from '@potentiel-domain/reseau';
+import { Raccordement } from '@potentiel-domain/laureat';
 import { Role } from '@potentiel-domain/utilisateur';
 
 import { PotentielWorld } from '../../potentiel.world';

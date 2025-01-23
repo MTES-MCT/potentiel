@@ -2,7 +2,7 @@ import { mediator } from 'mediateur';
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 
-import { Raccordement } from '@potentiel-domain/reseau';
+import { Raccordement } from '@potentiel-domain/laureat';
 import { Option } from '@potentiel-libraries/monads';
 import { IdentifiantProjet } from '@potentiel-domain/common';
 import { mapToPlainObject } from '@potentiel-domain/core';

@@ -6,8 +6,7 @@ import {
 } from '@potentiel-domain/core';
 import { Option } from '@potentiel-libraries/monads';
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
-
-import { IdentifiantGestionnaireRéseau } from '../gestionnaire';
+import { GestionnaireRéseau } from '@potentiel-domain/reseau';
 
 import {
   AccuséRéceptionDemandeComplèteRaccordementTransmisEventV1,
@@ -124,7 +123,7 @@ type DossierRaccordement = {
 export type RaccordementAggregate = Aggregate<RaccordementEvent> & {
   dossiers: Map<string, DossierRaccordement>;
   identifiantProjet: IdentifiantProjet.ValueType;
-  identifiantGestionnaireRéseau: IdentifiantGestionnaireRéseau.ValueType;
+  identifiantGestionnaireRéseau: GestionnaireRéseau.IdentifiantGestionnaireRéseau.ValueType;
   readonly transmettreDemande: typeof transmettreDemande;
   readonly transmettreDateMiseEnService: typeof transmettreDateMiseEnService;
   readonly transmettrePropositionTechniqueEtFinancière: typeof transmettrePropositionTechniqueEtFinancière;
@@ -150,7 +149,7 @@ export const getDefaultRaccordementAggregate: GetDefaultAggregateState<
 > = () => ({
   dossiers: new Map(),
   identifiantProjet: IdentifiantProjet.inconnu,
-  identifiantGestionnaireRéseau: IdentifiantGestionnaireRéseau.inconnu,
+  identifiantGestionnaireRéseau: GestionnaireRéseau.IdentifiantGestionnaireRéseau.inconnu,
   apply,
   transmettreDemande,
   transmettreDateMiseEnService,

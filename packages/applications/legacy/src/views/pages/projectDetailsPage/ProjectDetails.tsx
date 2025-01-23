@@ -30,7 +30,7 @@ import { ProjectHeader } from './components';
 import { Routes } from '@potentiel-applications/routes';
 import { formatProjectDataToIdentifiantProjetValueType } from '../../../helpers/dataToValueTypes';
 import { Role } from '@potentiel-domain/utilisateur';
-import { Raccordement } from '@potentiel-domain/reseau';
+import { Raccordement } from '@potentiel-domain/laureat';
 import { Option } from '@potentiel-libraries/monads';
 
 export type AlerteRaccordement =

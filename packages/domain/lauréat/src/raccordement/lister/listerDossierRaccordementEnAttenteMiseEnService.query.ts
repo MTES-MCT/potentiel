@@ -3,11 +3,11 @@ import { match } from 'ts-pattern';
 
 import { List, RangeOptions, Where } from '@potentiel-domain/entity';
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
-import { Lauréat } from '@potentiel-domain/laureat';
 import { Candidature } from '@potentiel-domain/candidature';
 
 import { RéférenceDossierRaccordement } from '..';
 import { DossierRaccordementEntity } from '../raccordement.entity';
+import * as StatutLauréat from '../../statutLauréat.valueType';
 
 type DossierRaccordementEnAttenteMiseEnService = {
   nomProjet: string;
@@ -19,7 +19,7 @@ type DossierRaccordementEnAttenteMiseEnService = {
   commune: string;
   codePostal: string;
   référenceDossier: RéférenceDossierRaccordement.ValueType;
-  statutDGEC: Lauréat.StatutLauréat.RawType;
+  statutDGEC: StatutLauréat.RawType;
 };
 
 export type ListerDossierRaccordementEnAttenteMiseEnServiceReadModel = {
@@ -126,6 +126,6 @@ export const toReadModel = (
     numéroCRE,
     période,
     référenceDossier: RéférenceDossierRaccordement.convertirEnValueType(référence),
-    statutDGEC: Lauréat.StatutLauréat.classé.formatter(),
+    statutDGEC: StatutLauréat.classé.formatter(),
   };
 };

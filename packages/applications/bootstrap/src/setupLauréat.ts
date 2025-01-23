@@ -7,9 +7,14 @@ import {
   Lauréat,
   ReprésentantLégal,
   Actionnaire,
+  Raccordement,
 } from '@potentiel-domain/laureat';
 import { Event, loadAggregate, subscribe } from '@potentiel-infrastructure/pg-event-sourcing';
-import { findProjection, listProjection } from '@potentiel-infrastructure/pg-projections';
+import {
+  countProjection,
+  findProjection,
+  listProjection,
+} from '@potentiel-infrastructure/pg-projections';
 import {
   AbandonNotification,
   AchèvementNotification,
@@ -34,9 +39,13 @@ import { SendEmail } from '@potentiel-applications/notifications';
 
 type SetupLauréatDependencies = {
   sendEmail: SendEmail;
+  récupérerGRDParVille: Raccordement.RécupererGRDParVillePort;
 };
 
-export const setupLauréat = async ({ sendEmail }: SetupLauréatDependencies) => {
+export const setupLauréat = async ({
+  sendEmail,
+  récupérerGRDParVille,
+}: SetupLauréatDependencies) => {
   registerLauréatUseCases({
     loadAggregate,
     supprimerDocumentProjetSensible: DocumentAdapter.remplacerDocumentProjetSensible,
@@ -45,6 +54,7 @@ export const setupLauréat = async ({ sendEmail }: SetupLauréatDependencies) =>
   registerLauréatQueries({
     find: findProjection,
     list: listProjection,
+    count: countProjection,
     récupérerIdentifiantsProjetParEmailPorteur: récupérerIdentifiantsProjetParEmailPorteurAdapter,
     consulterCahierDesChargesAdapter: consulterCahierDesChargesChoisiAdapter,
   });
@@ -70,6 +80,9 @@ export const setupLauréat = async ({ sendEmail }: SetupLauréatDependencies) =>
   Lauréat.LauréatSaga.register();
   ReprésentantLégal.ReprésentantLégalSaga.register();
   Actionnaire.ActionnaireSaga.register();
+  Raccordement.RaccordementSaga.register({
+    récupérerGRDParVille,
+  });
 
   const unsubscribeLauréatProjector = await subscribe<LauréatProjector.SubscriptionEvent>({
     name: 'projector',
@@ -398,6 +411,33 @@ export const setupLauréat = async ({ sendEmail }: SetupLauréatDependencies) =>
         }),
     });
 
+  const unsubscribeRaccordementAbandonSaga = await subscribe<
+    Raccordement.RaccordementSaga.SubscriptionEvent & Event
+  >({
+    name: 'raccordement-abandon-saga',
+    streamCategory: 'abandon',
+    eventType: ['AbandonAccordé-V1'],
+    eventHandler: async (event) => {
+      await mediator.publish<Raccordement.RaccordementSaga.Execute>({
+        type: 'System.Réseau.Raccordement.Saga.Execute',
+        data: event,
+      });
+    },
+  });
+  const unsubscribeRaccordementLauréatSaga = await subscribe<
+    Raccordement.RaccordementSaga.SubscriptionEvent & Event
+  >({
+    name: 'raccordement-laureat-saga',
+    streamCategory: 'lauréat',
+    eventType: ['LauréatNotifié-V1'],
+    eventHandler: async (event) => {
+      await mediator.publish<Raccordement.RaccordementSaga.Execute>({
+        type: 'System.Réseau.Raccordement.Saga.Execute',
+        data: event,
+      });
+    },
+  });
+
   return async () => {
     // projectors
     await unsubscribeLauréatProjector();
@@ -421,5 +461,7 @@ export const setupLauréat = async ({ sendEmail }: SetupLauréatDependencies) =>
     await unsubscribeReprésentantLégalSagaAbandon();
     await unsubscribeActionnaireSaga();
     await unsubscribeActionnaireSagaAbandon();
+    await unsubscribeRaccordementAbandonSaga();
+    await unsubscribeRaccordementLauréatSaga();
   };
 };

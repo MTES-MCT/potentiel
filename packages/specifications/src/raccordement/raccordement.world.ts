@@ -1,5 +1,6 @@
 import { IdentifiantProjet } from '@potentiel-domain/common';
-import { GestionnaireRéseau, Raccordement } from '@potentiel-domain/reseau';
+import { GestionnaireRéseau } from '@potentiel-domain/reseau';
+import { Raccordement } from '@potentiel-domain/laureat';
 
 import { TransmettreDateMiseEnServiceFixture } from './fixtures/transmettreDateDeMiseEnService.fixture';
 import { ModifierRéférenceDossierRaccordementFixture } from './fixtures/modifierRéférenceDossierRaccordement.fixture';

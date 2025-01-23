@@ -13,7 +13,7 @@ import { DateMiseEnServiceTransmise } from '../events';
 import { jest, describe, it, beforeEach, expect } from '@jest/globals';
 import { RécupérerDétailDossiersRaccordements } from '../queries';
 import { DateTime } from '@potentiel-domain/common';
-import { Raccordement } from '@potentiel-domain/reseau';
+import { Raccordement } from '@potentiel-domain/laureat';
 import { formatProjectDataToIdentifiantProjetValueType } from '../../../helpers/dataToValueTypes';
 
 describe(`Handler onDateMiseEnServiceTransmise`, () => {

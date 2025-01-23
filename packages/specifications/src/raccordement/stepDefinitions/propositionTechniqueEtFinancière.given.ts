@@ -1,7 +1,7 @@
 import { Given as EtantDonné } from '@cucumber/cucumber';
 import { mediator } from 'mediateur';
 
-import { Raccordement } from '@potentiel-domain/reseau';
+import { Raccordement } from '@potentiel-domain/laureat';
 
 import { PotentielWorld } from '../../potentiel.world';
 

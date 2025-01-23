@@ -3,7 +3,7 @@
 import * as zod from 'zod';
 import { mediator } from 'mediateur';
 
-import type { Raccordement } from '@potentiel-domain/reseau';
+import type { Raccordement } from '@potentiel-domain/laureat';
 import { Routes } from '@potentiel-applications/routes';
 import { DateTime } from '@potentiel-domain/common';
 

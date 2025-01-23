@@ -3,13 +3,12 @@ import { match } from 'ts-pattern';
 
 import { List, RangeOptions, Where } from '@potentiel-domain/entity';
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
-import { Lauréat } from '@potentiel-domain/laureat';
 import { Candidature } from '@potentiel-domain/candidature';
+import { GestionnaireRéseau } from '@potentiel-domain/reseau';
 
 import { RéférenceDossierRaccordement } from '..';
 import { DossierRaccordementEntity } from '../raccordement.entity';
-import { IdentifiantGestionnaireRéseau } from '../../gestionnaire';
-import { GestionnaireRéseau } from '../..';
+import * as StatutLauréat from '../../statutLauréat.valueType';
 
 type DossierRaccordement = {
   nomProjet: string;
@@ -23,9 +22,9 @@ type DossierRaccordement = {
   région: string;
   codePostal: string;
   référenceDossier: RéférenceDossierRaccordement.ValueType;
-  statutDGEC: Lauréat.StatutLauréat.RawType;
+  statutDGEC: StatutLauréat.RawType;
   dateMiseEnService?: DateTime.ValueType;
-  identifiantGestionnaireRéseau: IdentifiantGestionnaireRéseau.ValueType;
+  identifiantGestionnaireRéseau: GestionnaireRéseau.IdentifiantGestionnaireRéseau.ValueType;
   raisonSocialeGestionnaireRéseau: string;
 };
 
@@ -94,7 +93,8 @@ export const registerListerDossierRaccordementQuery = ({
     );
 
     const identifiantsGestionnaireRéseau = items.map(
-      (dossier) => dossier.identifiantGestionnaireRéseau as IdentifiantGestionnaireRéseau.RawType,
+      (dossier) =>
+        dossier.identifiantGestionnaireRéseau as GestionnaireRéseau.IdentifiantGestionnaireRéseau.RawType,
     );
 
     const candidatures = await list<Candidature.CandidatureEntity>('candidature', {
@@ -172,13 +172,14 @@ export const toReadModel = (
     numéroCRE,
     période,
     référenceDossier: RéférenceDossierRaccordement.convertirEnValueType(référence),
-    statutDGEC: Lauréat.StatutLauréat.classé.formatter(),
+    statutDGEC: StatutLauréat.classé.formatter(),
     dateMiseEnService: miseEnService
       ? DateTime.convertirEnValueType(miseEnService.dateMiseEnService)
       : undefined,
-    identifiantGestionnaireRéseau: IdentifiantGestionnaireRéseau.convertirEnValueType(
-      identifiantGestionnaireRéseau,
-    ),
+    identifiantGestionnaireRéseau:
+      GestionnaireRéseau.IdentifiantGestionnaireRéseau.convertirEnValueType(
+        identifiantGestionnaireRéseau,
+      ),
     raisonSocialeGestionnaireRéseau: match(gestionnaire)
       .with(undefined, () => 'Gestionnaire réseau inconnu')
       .otherwise((value) => value.raisonSociale),

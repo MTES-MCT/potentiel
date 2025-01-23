@@ -4,7 +4,7 @@ import { FC, useState } from 'react';
 import Input from '@codegouvfr/react-dsfr/Input';
 import Button from '@codegouvfr/react-dsfr/Button';
 
-import { Raccordement } from '@potentiel-domain/reseau';
+import { Raccordement } from '@potentiel-domain/laureat';
 import { PlainType } from '@potentiel-domain/core';
 import { Option } from '@potentiel-libraries/monads';
 

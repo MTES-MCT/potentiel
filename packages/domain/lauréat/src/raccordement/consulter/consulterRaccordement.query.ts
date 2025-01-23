@@ -4,15 +4,15 @@ import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 import { Find } from '@potentiel-domain/entity';
 import { Option } from '@potentiel-libraries/monads';
 import { DocumentProjet } from '@potentiel-domain/document';
+import { GestionnaireRéseau } from '@potentiel-domain/reseau';
 
 import * as RéférenceDossierRaccordement from '../référenceDossierRaccordement.valueType';
 import * as TypeDocumentRaccordement from '../typeDocumentRaccordement.valueType';
 import { RaccordementEntity } from '../raccordement.entity';
-import { IdentifiantGestionnaireRéseau } from '../../gestionnaire';
 
 export type ConsulterRaccordementReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
-  identifiantGestionnaireRéseau?: IdentifiantGestionnaireRéseau.ValueType;
+  identifiantGestionnaireRéseau?: GestionnaireRéseau.IdentifiantGestionnaireRéseau.ValueType;
   dossiers: Array<{
     référence: RéférenceDossierRaccordement.ValueType;
     demandeComplèteRaccordement: {
@@ -58,9 +58,10 @@ export const registerConsulterRaccordementQuery = ({ find }: ConsulterRaccordeme
 
 const mapToReadModel = (entity: RaccordementEntity): ConsulterRaccordementReadModel => {
   return {
-    identifiantGestionnaireRéseau: IdentifiantGestionnaireRéseau.convertirEnValueType(
-      entity.identifiantGestionnaireRéseau,
-    ),
+    identifiantGestionnaireRéseau:
+      GestionnaireRéseau.IdentifiantGestionnaireRéseau.convertirEnValueType(
+        entity.identifiantGestionnaireRéseau,
+      ),
     identifiantProjet: IdentifiantProjet.convertirEnValueType(entity.identifiantProjet),
     dossiers: entity.dossiers.map(
       ({
