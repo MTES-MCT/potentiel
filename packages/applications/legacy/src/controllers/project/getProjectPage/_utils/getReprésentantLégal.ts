@@ -125,8 +125,8 @@ const getChangementReprésentantLégal = async (identifiantProjet: IdentifiantPr
         data: { identifiantProjet: identifiantProjet.formatter() },
       });
 
-    if (Option.isSome(représentantLégal) && représentantLégal.) {
-      return derniersChangementsDemandés.items[0].demande.demandéLe;
+    if (Option.isSome(représentantLégal) && représentantLégal.demandeEnCours) {
+      return représentantLégal.demandeEnCours.demandéLe;
     }
 
     return;

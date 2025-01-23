@@ -7,8 +7,6 @@ import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { ReprésentantLégal } from '@potentiel-domain/laureat';
 import { Option } from '@potentiel-libraries/monads';
 import { getLogger } from '@potentiel-libraries/monitoring';
-import { Where } from '@potentiel-domain/entity';
-import { listProjection } from '@potentiel-infrastructure/pg-projections';
 
 import { RegisterTâchePlanifiéeNotificationDependencies } from '.';
 
@@ -57,35 +55,45 @@ export const handleReprésentantLégalRappelInstructionÀDeuxMois = async ({
     return;
   }
 
-  const derniersChangementsDemandés =
-    await listProjection<ReprésentantLégal.ChangementReprésentantLégalEntity>(
-      `changement-représentant-légal`,
+  const représentantLégal = await mediator.send<ReprésentantLégal.ConsulterReprésentantLégalQuery>({
+    type: 'Lauréat.ReprésentantLégal.Query.ConsulterReprésentantLégal',
+    data: { identifiantProjet: identifiantProjet.formatter() },
+  });
+
+  if (Option.isNone(représentantLégal)) {
+    getLogger().warn(
+      `Aucun représentant légal n'a été trouvé pour le changement de représentant accordé`,
       {
-        where: {
-          identifiantProjet: Where.equal(identifiantProjet.formatter()),
-          demande: {
-            statut: Where.equal(
-              ReprésentantLégal.StatutChangementReprésentantLégal.demandé.formatter(),
-            ),
-          },
-        },
+        event,
       },
     );
-
-  if (derniersChangementsDemandés.total === 0) {
-    getLogger().warn(`Aucune demande n'a été trouvée pour le changement de représentant`, {
-      event,
-    });
     return;
   }
-  if (derniersChangementsDemandés.total > 1) {
-    getLogger().warn(`Plusieurs demandes ont été trouvées pour le changement de représentant`, {
+  if (!représentantLégal.demandeEnCours) {
+    getLogger().warn(`Aucune demande en cours pour le changement de représentant accordé`, {
       event,
     });
     return;
   }
 
-  const changementReprésentantLégal = derniersChangementsDemandés.items[0];
+  const changementReprésentantLégal =
+    await mediator.send<ReprésentantLégal.ConsulterChangementReprésentantLégalQuery>({
+      type: 'Lauréat.ReprésentantLégal.Query.ConsulterChangementReprésentantLégal',
+      data: {
+        identifiantProjet: identifiantProjet.formatter(),
+        demandéLe: représentantLégal.demandeEnCours.demandéLe,
+      },
+    });
+
+  if (Option.isNone(changementReprésentantLégal)) {
+    getLogger().warn(
+      `Aucun changement de représentant légal n'a été trouvé pour le changement de représentant accordé`,
+      {
+        event,
+      },
+    );
+    return;
+  }
 
   const {
     changement: {
@@ -103,7 +111,7 @@ export const handleReprésentantLégalRappelInstructionÀDeuxMois = async ({
       type: typeTâchePlanifiée === 'accord-automatique' ? 'accord' : 'rejet',
       nom_projet: nom,
       departement_projet: département,
-      url: `${baseUrl}${Routes.ReprésentantLégal.changement.détail(identifiantProjet.formatter(), changementReprésentantLégal.demande.demandéLe)}`,
+      url: `${baseUrl}${Routes.ReprésentantLégal.changement.détail(identifiantProjet.formatter(), changementReprésentantLégal.demande.demandéLe.formatter())}`,
     },
   });
 };
