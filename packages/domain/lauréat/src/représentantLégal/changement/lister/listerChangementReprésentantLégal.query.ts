@@ -2,6 +2,7 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 import { List, ListOptions, RangeOptions, Where } from '@potentiel-domain/entity';
+import { Role, RécupérerIdentifiantsProjetParEmailPorteur } from '@potentiel-domain/utilisateur';
 
 import { ChangementReprésentantLégalEntity, StatutChangementReprésentantLégal } from '../..';
 
@@ -36,17 +37,24 @@ export type ListerChangementReprésentantLégalQuery = Message<
 
 export type ListerChangementReprésentantLégalDependencies = {
   list: List;
+  récupérerIdentifiantsProjetParEmailPorteur: RécupérerIdentifiantsProjetParEmailPorteur;
 };
 
 export const registerListerChangementReprésentantLégalQuery = ({
   list,
+  récupérerIdentifiantsProjetParEmailPorteur,
 }: ListerChangementReprésentantLégalDependencies) => {
   const handler: MessageHandler<ListerChangementReprésentantLégalQuery> = async ({
+    utilisateur: { rôle, email, régionDreal },
     statut,
     appelOffre,
     nomProjet,
     range,
   }) => {
+    const régionProjet = Role.convertirEnValueType(rôle).estÉgaleÀ(Role.dreal)
+      ? (régionDreal ?? 'non-trouvée')
+      : undefined;
+
     const options: ListOptions<ChangementReprésentantLégalEntity> = {
       range,
       orderBy: {
@@ -55,12 +63,18 @@ export const registerListerChangementReprésentantLégalQuery = ({
         },
       },
       where: {
+        identifiantProjet: await getIdentifiantProjetWhereCondition(
+          rôle,
+          email,
+          récupérerIdentifiantsProjetParEmailPorteur,
+        ),
         demande: {
           statut: Where.equal(statut),
         },
         projet: {
           appelOffre: Where.equal(appelOffre),
           nom: Where.contains(nomProjet),
+          région: Where.equal(régionProjet),
         },
       },
     };
@@ -87,3 +101,17 @@ const mapToReadModel = (
   misÀJourLe: DateTime.convertirEnValueType(entity.demande.demandéLe),
   identifiantProjet: IdentifiantProjet.convertirEnValueType(entity.identifiantProjet),
 });
+
+const getIdentifiantProjetWhereCondition = async (
+  rôle: string,
+  email: string,
+  récupérerIdentifiantsProjetParEmailPorteur: RécupérerIdentifiantsProjetParEmailPorteur,
+) => {
+  if (Role.convertirEnValueType(rôle).estÉgaleÀ(Role.porteur)) {
+    const identifiantProjets = await récupérerIdentifiantsProjetParEmailPorteur(email);
+
+    return Where.include(identifiantProjets);
+  }
+
+  return undefined;
+};
