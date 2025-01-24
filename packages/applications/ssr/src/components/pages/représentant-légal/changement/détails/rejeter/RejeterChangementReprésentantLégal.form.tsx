@@ -14,10 +14,12 @@ import {
 
 type RejeterChangementReprésentantLégalFormProps = {
   identifiantProjet: string;
+  dateDemande: string;
 };
 
 export const RejeterChangementReprésentantLégal = ({
   identifiantProjet,
+  dateDemande,
 }: RejeterChangementReprésentantLégalFormProps) => {
   const [isOpen, setIsOpen] = useState(false);
 
@@ -65,6 +67,7 @@ export const RejeterChangementReprésentantLégal = ({
               <p>Êtes-vous sûr de vouloir rejeter ce changement de représentant légal ?</p>
 
               <input type={'hidden'} value={identifiantProjet} name="identifiantProjet" />
+              <input type={'hidden'} value={dateDemande} name="dateDemande" />
             </>
           ),
         }}

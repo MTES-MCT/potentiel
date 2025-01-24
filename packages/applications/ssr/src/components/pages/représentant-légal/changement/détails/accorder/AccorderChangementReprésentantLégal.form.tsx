@@ -16,12 +16,14 @@ import {
 
 type AccorderChangementReprésentantLégalFormProps = {
   identifiantProjet: string;
+  dateDemande: string;
   typeReprésentantLégal: ReprésentantLégal.TypeReprésentantLégal.RawType;
   nomReprésentantLégal: string;
 };
 
 export const AccorderChangementReprésentantLégal = ({
   identifiantProjet,
+  dateDemande,
   typeReprésentantLégal,
   nomReprésentantLégal,
 }: AccorderChangementReprésentantLégalFormProps) => {
@@ -53,6 +55,7 @@ export const AccorderChangementReprésentantLégal = ({
           onValidationError: (validationErrors) => setValidationErrors(validationErrors),
           children: (
             <>
+              <input type={'hidden'} value={dateDemande} name="dateDemande" />
               <input type={'hidden'} value={identifiantProjet} name="identifiantProjet" />
 
               <input
