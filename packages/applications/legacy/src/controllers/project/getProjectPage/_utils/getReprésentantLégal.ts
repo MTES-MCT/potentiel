@@ -42,7 +42,7 @@ export const getReprésentantLégal: GetReprésentantLégal = async (identifiant
       });
 
     if (Option.isSome(représentantLégal)) {
-      const demandéLe = await getChangementReprésentantLégal(identifiantProjet);
+      const demandéLe = await getDateDemandeEnCours(identifiantProjet);
       const demandeChangementExistante =
         utilisateur.aLaPermission('représentantLégal.consulterChangement') && !!demandéLe;
 
@@ -117,7 +117,7 @@ export const getReprésentantLégal: GetReprésentantLégal = async (identifiant
   }
 };
 
-const getChangementReprésentantLégal = async (identifiantProjet: IdentifiantProjet.ValueType) => {
+const getDateDemandeEnCours = async (identifiantProjet: IdentifiantProjet.ValueType) => {
   try {
     const représentantLégal =
       await mediator.send<ReprésentantLégal.ConsulterReprésentantLégalQuery>({
