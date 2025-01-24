@@ -61,16 +61,13 @@ export const handleReprésentantLégalRappelInstructionÀDeuxMois = async ({
   });
 
   if (Option.isNone(représentantLégal)) {
-    getLogger().warn(
-      `Aucun représentant légal n'a été trouvé pour le changement de représentant accordé`,
-      {
-        event,
-      },
-    );
+    getLogger().warn(`Aucun représentant légal n'a été trouvé pour le rappel à 2 mois`, {
+      event,
+    });
     return;
   }
   if (!représentantLégal.demandeEnCours) {
-    getLogger().warn(`Aucune demande en cours pour le changement de représentant accordé`, {
+    getLogger().warn(`Aucune demande en cours pour le rappel à 2 mois`, {
       event,
     });
     return;
@@ -87,7 +84,7 @@ export const handleReprésentantLégalRappelInstructionÀDeuxMois = async ({
 
   if (Option.isNone(changementReprésentantLégal)) {
     getLogger().warn(
-      `Aucun changement de représentant légal n'a été trouvé pour le changement de représentant accordé`,
+      `Aucun changement de représentant légal n'a été trouvé pour le rappel à 2 mois`,
       {
         event,
       },
