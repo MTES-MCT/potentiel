@@ -3,7 +3,7 @@ import { findProjection } from '@potentiel-infrastructure/pg-projections';
 import { getLogger } from '@potentiel-libraries/monitoring';
 import { Option } from '@potentiel-libraries/monads';
 
-import { updateOneProjection, upsertProjection } from '../../../../infrastructure';
+import { upsertProjection } from '../../../../infrastructure';
 
 export const changementReprésentantLégalAccordéProjector = async (
   event: ReprésentantLégal.ChangementReprésentantLégalAccordéEvent,
@@ -72,12 +72,12 @@ export const changementReprésentantLégalAccordéProjector = async (
     },
   );
 
-  await updateOneProjection<ReprésentantLégal.ReprésentantLégalEntity>(
+  await upsertProjection<ReprésentantLégal.ReprésentantLégalEntity>(
     `représentant-légal|${identifiantProjet}`,
     {
+      identifiantProjet,
       nomReprésentantLégal,
       typeReprésentantLégal,
-      demandeEnCours: undefined,
     },
   );
 };
