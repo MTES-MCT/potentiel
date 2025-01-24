@@ -23,7 +23,7 @@ export const changementReprésentantLégalAccordéProjector = async (
   );
 
   if (Option.isNone(représentantLégal)) {
-    getLogger().warn(
+    getLogger().error(
       `Aucun représentant légal n'a été trouvé pour le changement de représentant accordé`,
       {
         event,
@@ -32,7 +32,7 @@ export const changementReprésentantLégalAccordéProjector = async (
     return;
   }
   if (!représentantLégal.demandeEnCours) {
-    getLogger().warn(`Aucune demande en cours pour le changement de représentant accordé`, {
+    getLogger().error(`Aucune demande en cours pour le changement de représentant accordé`, {
       event,
     });
     return;
@@ -46,7 +46,7 @@ export const changementReprésentantLégalAccordéProjector = async (
     );
 
   if (Option.isNone(changementReprésentantLégal)) {
-    getLogger().warn(
+    getLogger().error(
       `Aucun changement de représentant légal n'a été trouvé pour le changement de représentant accordé`,
       {
         event,

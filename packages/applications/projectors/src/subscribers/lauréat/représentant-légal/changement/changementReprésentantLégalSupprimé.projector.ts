@@ -17,7 +17,7 @@ export const changementReprésentantLégalSuppriméProjector = async (
   );
 
   if (Option.isNone(représentantLégal)) {
-    getLogger().warn(
+    getLogger().error(
       `Aucun représentant légal n'a été trouvé pour le changement de représentant supprimé`,
       {
         event,
@@ -26,9 +26,12 @@ export const changementReprésentantLégalSuppriméProjector = async (
     return;
   }
   if (!représentantLégal.demandeEnCours) {
-    getLogger().warn(`Aucune demande n'a été trouvée pour le changement de représentant supprimé`, {
-      event,
-    });
+    getLogger().error(
+      `Aucune demande n'a été trouvée pour le changement de représentant supprimé`,
+      {
+        event,
+      },
+    );
     return;
   }
 

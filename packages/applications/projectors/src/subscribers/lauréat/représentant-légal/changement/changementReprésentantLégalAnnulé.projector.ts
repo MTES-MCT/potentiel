@@ -17,7 +17,7 @@ export const changementReprésentantLégalAnnuléProjector = async (
   );
 
   if (Option.isNone(représentantLégal)) {
-    getLogger().warn(
+    getLogger().error(
       `Aucun représentant légal n'a été trouvé pour le changement de représentant annulé`,
       {
         event,
@@ -26,7 +26,7 @@ export const changementReprésentantLégalAnnuléProjector = async (
     return;
   }
   if (!représentantLégal.demandeEnCours) {
-    getLogger().warn(`Aucune demande en cours pour le changement de représentant annulé`, {
+    getLogger().error(`Aucune demande en cours pour le changement de représentant annulé`, {
       event,
     });
     return;
