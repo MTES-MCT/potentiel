@@ -65,11 +65,30 @@ export const changementReprésentantLégalAccordéNotification = async ({
     });
   }
 
+  const représentantLégal = await mediator.send<ReprésentantLégal.ConsulterReprésentantLégalQuery>({
+    type: 'Lauréat.ReprésentantLégal.Query.ConsulterReprésentantLégal',
+    data: { identifiantProjet: identifiantProjet.formatter() },
+  });
+
+  if (Option.isNone(représentantLégal)) {
+    getLogger().warn(`Aucun représentant légal n'a été trouvé pour le rappel à 2 mois`, {
+      event,
+    });
+    return;
+  }
+  if (!représentantLégal.demandeEnCours) {
+    getLogger().warn(`Aucune demande en cours pour le rappel à 2 mois`, {
+      event,
+    });
+    return;
+  }
+
   const changement =
     await mediator.send<ReprésentantLégal.ConsulterChangementReprésentantLégalQuery>({
       type: 'Lauréat.ReprésentantLégal.Query.ConsulterChangementReprésentantLégal',
       data: {
-        identifiantProjet: event.payload.identifiantProjet,
+        identifiantProjet: identifiantProjet.formatter(),
+        demandéLe: représentantLégal.demandeEnCours.demandéLe,
       },
     });
 
@@ -90,7 +109,7 @@ export const changementReprésentantLégalAccordéNotification = async ({
       variables: {
         nom_projet: projet.nom,
         departement_projet: projet.département,
-        url: `${baseUrl}${Routes.ReprésentantLégal.changement.détail(identifiantProjet.formatter())}`,
+        url: `${baseUrl}${Routes.ReprésentantLégal.changement.détail(identifiantProjet.formatter(), changement.demande.demandéLe.formatter())}`,
       },
     });
   }
