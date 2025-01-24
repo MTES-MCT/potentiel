@@ -22,6 +22,18 @@ export function withCSRF(middleware: CustomMiddleware) {
       await csrfProtect(request, response);
     } catch (err) {
       if (err instanceof CsrfError) {
+        const isAction = request.method === 'POST' && request.headers.has('Next-Action');
+        if (isAction) {
+          return NextResponse.json(
+            {
+              status: 'failed',
+            },
+            {
+              status: 403,
+              statusText: 'Invalid CSRF token',
+            },
+          );
+        }
         return NextResponse.redirect(new URL('/error', request.url));
       }
       throw err;

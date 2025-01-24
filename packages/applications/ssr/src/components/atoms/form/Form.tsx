@@ -2,6 +2,7 @@
 
 import { FC, FormHTMLAttributes, ReactNode, useEffect, useState } from 'react';
 import { useFormState } from 'react-dom';
+import { useRouter } from 'next/navigation';
 
 import { formAction, ValidationErrors } from '@/utils/formAction';
 
@@ -56,6 +57,11 @@ export const Form: FC<FormProps> = ({
   const [state, formAction] = useFormState(action, {
     status: undefined,
   });
+
+  if (!state) {
+    const router = useRouter();
+    router.push('/error');
+  }
 
   if (state.status === 'validation-error' && onValidationError) {
     onValidationError(state.errors);
