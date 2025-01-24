@@ -5,9 +5,9 @@ import { getLogger } from '@potentiel-libraries/monitoring';
 import { IdentifiantProjet } from '@potentiel-domain/common';
 import { findProjection } from '@potentiel-infrastructure/pg-projections';
 
-import { upsertProjection } from '../../../infrastructure';
+import { upsertProjection } from '../../../../infrastructure';
 
-export const handleChangementReprésentantLégalCorrigé = async ({
+export const changementReprésentantLégalCorrigéProjector = async ({
   payload: {
     identifiantProjet,
     nomReprésentantLégal,

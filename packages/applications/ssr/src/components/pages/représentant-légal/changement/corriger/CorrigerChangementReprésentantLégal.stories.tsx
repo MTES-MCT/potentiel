@@ -27,6 +27,7 @@ const identifiantProjet = IdentifiantProjet.convertirEnValueType('PPE2 - Bâtime
 export const Default: Story = {
   args: {
     identifiantProjet,
+    dateDemande: mapToPlainObject(DateTime.now()),
     typeReprésentantLégal: mapToPlainObject(
       ReprésentantLégal.TypeReprésentantLégal.personnePhysique,
     ),

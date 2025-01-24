@@ -91,6 +91,9 @@ async function vérifierDemande(this: PotentielWorld, statut: 'demande' | 'corre
           type: 'Lauréat.ReprésentantLégal.Query.ConsulterChangementReprésentantLégal',
           data: {
             identifiantProjet: identifiantProjet.formatter(),
+            demandéLe:
+              this.lauréatWorld.représentantLégalWorld.changementReprésentantLégalWorld
+                .demanderChangementReprésentantLégalFixture.demandéLe,
           },
         });
 

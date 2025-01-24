@@ -157,7 +157,7 @@ const mapToActionComponents = ({
       {actions.includes('corriger') && (
         <Button
           linkProps={{
-            href: Routes.ReprésentantLégal.changement.corriger(identifiantProjet),
+            href: Routes.ReprésentantLégal.changement.corriger(identifiantProjet, dateDemande),
             prefetch: false,
           }}
         >

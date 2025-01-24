@@ -16,7 +16,13 @@ export type CorrigerChangementReprésentantLégalPageProps =
 
 export const CorrigerChangementReprésentantLégalPage: FC<
   CorrigerChangementReprésentantLégalPageProps
-> = ({ identifiantProjet, typeReprésentantLégal, nomReprésentantLégal, pièceJustificative }) => (
+> = ({
+  identifiantProjet,
+  typeReprésentantLégal,
+  nomReprésentantLégal,
+  pièceJustificative,
+  dateDemande,
+}) => (
   <PageTemplate
     banner={
       <ProjetBanner identifiantProjet={IdentifiantProjet.bind(identifiantProjet).formatter()} />
@@ -28,6 +34,7 @@ export const CorrigerChangementReprésentantLégalPage: FC<
       typeReprésentantLégal={typeReprésentantLégal}
       nomReprésentantLégal={nomReprésentantLégal}
       pièceJustificative={pièceJustificative}
+      dateDemande={dateDemande}
     />
   </PageTemplate>
 );

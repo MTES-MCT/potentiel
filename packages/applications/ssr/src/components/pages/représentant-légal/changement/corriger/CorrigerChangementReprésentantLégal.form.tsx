@@ -8,7 +8,7 @@ import Link from 'next/link';
 import { ReprésentantLégal } from '@potentiel-domain/laureat';
 import { PlainType } from '@potentiel-domain/core';
 import { DocumentProjet } from '@potentiel-domain/document';
-import { IdentifiantProjet } from '@potentiel-domain/common';
+import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 
 import { Form } from '@/components/atoms/form/Form';
 import { ValidationErrors } from '@/utils/formAction';
@@ -31,11 +31,18 @@ export type CorrigerChangementReprésentantLégalFormProps = PlainType<{
   typeReprésentantLégal: ReprésentantLégal.ConsulterChangementReprésentantLégalReadModel['demande']['typeReprésentantLégal'];
   nomReprésentantLégal: ReprésentantLégal.ConsulterChangementReprésentantLégalReadModel['demande']['nomReprésentantLégal'];
   pièceJustificative: ReprésentantLégal.ConsulterChangementReprésentantLégalReadModel['demande']['pièceJustificative'];
+  dateDemande: ReprésentantLégal.ConsulterChangementReprésentantLégalReadModel['demande']['demandéLe'];
 }>;
 
 export const CorrigerChangementReprésentantLégalForm: FC<
   CorrigerChangementReprésentantLégalFormProps
-> = ({ identifiantProjet, typeReprésentantLégal, nomReprésentantLégal, pièceJustificative }) => {
+> = ({
+  identifiantProjet,
+  typeReprésentantLégal,
+  nomReprésentantLégal,
+  pièceJustificative,
+  dateDemande,
+}) => {
   const [validationErrors, setValidationErrors] = useState<
     ValidationErrors<CorrigerChangementReprésentantLégalFormKeys>
   >({});
@@ -181,6 +188,8 @@ export const CorrigerChangementReprésentantLégalForm: FC<
         actions={null}
         omitMandatoryFieldsLegend={currentStep !== 2 ? true : undefined}
       >
+        <input type="hidden" value={DateTime.bind(dateDemande).formatter()} name="dateDemande" />
+
         <input
           type={'hidden'}
           value={IdentifiantProjet.bind(identifiantProjet).formatter()}

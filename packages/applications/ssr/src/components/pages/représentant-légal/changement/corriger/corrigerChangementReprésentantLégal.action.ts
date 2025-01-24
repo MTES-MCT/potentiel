@@ -12,6 +12,7 @@ import { keepOrUpdateManyDocuments } from '@/utils/zod/document/keepOrUpdateDocu
 
 const schema = zod.object({
   identifiantProjet: zod.string().min(1),
+  dateDemande: zod.string().min(1),
   typeRepresentantLegal: zod.enum(ReprésentantLégal.TypeReprésentantLégal.types, {
     invalid_type_error: 'Le type de réprésentant légal est invalide',
     required_error: 'Champ obligatoire',
@@ -27,7 +28,13 @@ export type CorrigerChangementReprésentantLégalFormKeys = keyof zod.infer<type
 
 const action: FormAction<FormState, typeof schema> = async (
   _,
-  { identifiantProjet, typeRepresentantLegal, nomRepresentantLegal, piecesJustificatives },
+  {
+    identifiantProjet,
+    typeRepresentantLegal,
+    nomRepresentantLegal,
+    piecesJustificatives,
+    dateDemande,
+  },
 ) =>
   withUtilisateur(async (utilisateur) => {
     await mediator.send<ReprésentantLégal.CorrigerChangementReprésentantLégalUseCase>({
@@ -45,7 +52,7 @@ const action: FormAction<FormState, typeof schema> = async (
     return {
       status: 'success',
       redirection: {
-        url: Routes.ReprésentantLégal.changement.détail(identifiantProjet),
+        url: Routes.ReprésentantLégal.changement.détail(identifiantProjet, dateDemande),
         message: 'La demande de changement de représentant légal a bien été corrigée',
       },
     };
