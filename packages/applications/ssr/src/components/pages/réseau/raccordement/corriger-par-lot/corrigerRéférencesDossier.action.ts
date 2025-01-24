@@ -22,7 +22,7 @@ export type CorrigerRéférencesDossierFormKeys = keyof zod.infer<typeof schema>
 const csvSchema = zod.object({
   identifiantProjet: zod.string().min(1),
   referenceDossier: zod.string().min(1),
-  referenceDossierCorrigee: zod.string().min(1).trim(),
+  referenceDossierCorrigee: zod.string().trim().optional(),
 });
 
 const action: FormAction<FormState, typeof schema> = (_, { fichierCorrections }) =>
@@ -31,6 +31,7 @@ const action: FormAction<FormState, typeof schema> = (_, { fichierCorrections })
       // on conserve les espaces, car c'est potentiellement l'erreur à corriger
       ltrim: false,
       rtrim: false,
+      encoding: 'utf8',
     });
 
     if (lines.length === 0) {
@@ -51,6 +52,12 @@ const action: FormAction<FormState, typeof schema> = (_, { fichierCorrections })
       identifiant.replace(/(.*)-P?(\d*)-F?(.{0,3})-(.*)/, '$1#$2#$3#$4');
 
     for (const { identifiantProjet, referenceDossier, referenceDossierCorrigee } of lines) {
+      if (!referenceDossierCorrigee) {
+        continue;
+      }
+      if (referenceDossier === referenceDossierCorrigee) {
+        continue;
+      }
       try {
         await mediator.send<Raccordement.ModifierRéférenceDossierRaccordementUseCase>({
           type: 'Lauréat.Raccordement.UseCase.ModifierRéférenceDossierRaccordement',

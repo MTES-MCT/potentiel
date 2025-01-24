@@ -43,7 +43,7 @@ export const GET = async (_: Request, { params: { identifiant } }: ExporterRacco
       'dateMiseEnService',
     ];
 
-    const csvParser = new Parser({ fields, delimiter: ';' });
+    const csvParser = new Parser({ fields, delimiter: ';', withBOM: true });
 
     const csv = csvParser.parse(
       dossiers.items.map(
