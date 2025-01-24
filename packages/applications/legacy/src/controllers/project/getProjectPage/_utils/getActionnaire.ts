@@ -1,5 +1,5 @@
 import { mediator } from 'mediateur';
-import { Actionnaire } from '@potentiel-domain/laureat';
+import { Abandon, Actionnaire } from '@potentiel-domain/laureat';
 
 import { Option } from '@potentiel-libraries/monads';
 import { Candidature } from '@potentiel-domain/candidature';
@@ -7,6 +7,8 @@ import { Routes } from '@potentiel-applications/routes';
 import { Role } from '@potentiel-domain/utilisateur';
 import { getLogger } from '@potentiel-libraries/monitoring';
 import { IdentifiantProjet } from '@potentiel-domain/common';
+import { getAbandonStatut } from './getAbandon';
+import { getAttestationDeConformité } from './getAttestationDeConformité';
 
 export type GetActionnaireForProjectPage =
   | {
@@ -19,11 +21,17 @@ export type GetActionnaireForProjectPage =
     }
   | undefined;
 
-export const getActionnaire = async (
-  identifiantProjet: IdentifiantProjet.ValueType,
-  rôle: string,
-  demandeNécessiteInstruction: boolean,
-): Promise<GetActionnaireForProjectPage> => {
+type Props = {
+  identifiantProjet: IdentifiantProjet.ValueType;
+  rôle: string;
+  demandeNécessiteInstruction: boolean;
+};
+
+export const getActionnaire = async ({
+  identifiantProjet,
+  rôle,
+  demandeNécessiteInstruction,
+}: Props): Promise<GetActionnaireForProjectPage> => {
   try {
     const utilisateur = Role.convertirEnValueType(rôle);
 
@@ -31,6 +39,14 @@ export const getActionnaire = async (
       type: 'Lauréat.Actionnaire.Query.ConsulterActionnaire',
       data: { identifiantProjet: identifiantProjet.formatter() },
     });
+
+    const estAbandonnéOuEnCoursAbandonOuAchevé = await checkAbandonAndAchèvement(
+      identifiantProjet,
+      rôle,
+    );
+
+    const nePeutFaireAucuneAction =
+      utilisateur.nom === 'porteur-projet' && estAbandonnéOuEnCoursAbandonOuAchevé;
 
     if (Option.isSome(actionnaire)) {
       const demandeExistanteDeChangement =
@@ -46,12 +62,14 @@ export const getActionnaire = async (
       const peutFaireUneDemandeDeChangement =
         demandeNécessiteInstruction &&
         utilisateur.aLaPermission('actionnaire.demanderChangement') &&
-        !aUneDemandeEnCours;
+        !aUneDemandeEnCours &&
+        !nePeutFaireAucuneAction;
 
-      const peutModifierDirectement =
+      const peutModifier =
         !demandeNécessiteInstruction &&
         utilisateur.aLaPermission('actionnaire.modifier') &&
-        !aUneDemandeEnCours;
+        !aUneDemandeEnCours &&
+        !nePeutFaireAucuneAction;
 
       return {
         nom: actionnaire.actionnaire,
@@ -60,7 +78,7 @@ export const getActionnaire = async (
               url: Routes.Actionnaire.changement.demander(identifiantProjet.formatter()),
               label: "Demander une modification de l'actionnariat",
             }
-          : peutModifierDirectement
+          : peutModifier
             ? {
                 url: Routes.Actionnaire.modifier(identifiantProjet.formatter()),
                 label: 'Modifier l’actionnariat',
@@ -101,4 +119,19 @@ export const getActionnaire = async (
     });
     return undefined;
   }
+};
+
+const checkAbandonAndAchèvement = async (
+  identifiantProjet: Props['identifiantProjet'],
+  rôle: Props['rôle'],
+) => {
+  const statutAbandon = await getAbandonStatut(identifiantProjet);
+  const attestationConformitéExistante = await getAttestationDeConformité(identifiantProjet, rôle);
+
+  return (
+    statutAbandon?.statut === 'accordé' ||
+    (statutAbandon &&
+      Abandon.StatutAbandon.convertirEnValueType(statutAbandon?.statut).estEnCours()) ||
+    !!attestationConformitéExistante
+  );
 };
