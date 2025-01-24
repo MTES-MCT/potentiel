@@ -204,11 +204,11 @@ v1Router.get(
           garantiesFinancières,
           représentantLégal: await getReprésentantLégal(identifiantProjetValueType, user.role),
           demandeRecours: await getRecours(identifiantProjetValueType),
-          actionnaire: await getActionnaire(
-            identifiantProjetValueType,
-            user.role,
-            demandeNécessiteInstructionPourActionnaire,
-          ),
+          actionnaire: await getActionnaire({
+            identifiantProjet: identifiantProjetValueType,
+            rôle: user.role,
+            demandeNécessiteInstruction: demandeNécessiteInstructionPourActionnaire,
+          }),
           hasAttestationConformité: !!attestationConformité,
           modificationsNonPermisesParLeCDCActuel:
             project.cahierDesChargesActuel.type === 'initial' &&
