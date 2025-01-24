@@ -163,7 +163,6 @@ const mapToActionComponents = ({
         >
           Corriger
         </Button>
-        // <CorrigerChangementReprésentantLégal identifiantProjet={identifiantProjet} />
       )}
     </div>
   ) : null;

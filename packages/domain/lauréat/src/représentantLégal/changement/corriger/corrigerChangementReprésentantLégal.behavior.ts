@@ -3,7 +3,7 @@ import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
 import { DocumentProjet } from '@potentiel-domain/document';
 
 import { ReprésentantLégalAggregate } from '../../représentantLégal.aggregate';
-import { TypeReprésentantLégal } from '../..';
+import { TypeDocumentChangementReprésentantLégal, TypeReprésentantLégal } from '../..';
 import { DemandeChangementInexistanteError } from '../changementReprésentantLégal.error';
 
 export type ChangementReprésentantLégalCorrigéEvent = DomainEvent<
@@ -70,12 +70,18 @@ export async function corriger(
 export function applyChangementReprésentantLégalCorrigé(
   this: ReprésentantLégalAggregate,
   {
-    payload: { nomReprésentantLégal, typeReprésentantLégal },
+    payload: { nomReprésentantLégal, typeReprésentantLégal, identifiantProjet, pièceJustificative },
   }: ChangementReprésentantLégalCorrigéEvent,
 ) {
   if (this.demande) {
     this.demande.nom = nomReprésentantLégal;
     this.demande.type = TypeReprésentantLégal.convertirEnValueType(typeReprésentantLégal);
+    this.demande.pièceJustificative = DocumentProjet.convertirEnValueType(
+      identifiantProjet,
+      TypeDocumentChangementReprésentantLégal.pièceJustificative.formatter(),
+      this.demande.demandéLe.formatter(),
+      pièceJustificative.format,
+    );
   }
 }
 

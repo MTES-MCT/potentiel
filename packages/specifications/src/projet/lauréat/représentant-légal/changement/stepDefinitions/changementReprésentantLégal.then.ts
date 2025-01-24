@@ -82,87 +82,82 @@ Alors(
 );
 
 async function vérifierDemande(this: PotentielWorld, statut: 'demande' | 'correction') {
-  try {
-    await waitForExpect(async () => {
-      const { identifiantProjet } = this.lauréatWorld;
+  await waitForExpect(async () => {
+    const { identifiantProjet } = this.lauréatWorld;
 
-      const demande =
-        await mediator.send<ReprésentantLégal.ConsulterChangementReprésentantLégalQuery>({
-          type: 'Lauréat.ReprésentantLégal.Query.ConsulterChangementReprésentantLégal',
-          data: {
-            identifiantProjet: identifiantProjet.formatter(),
-            demandéLe:
-              this.lauréatWorld.représentantLégalWorld.changementReprésentantLégalWorld
-                .demanderChangementReprésentantLégalFixture.demandéLe,
-          },
-        });
+    const demande =
+      await mediator.send<ReprésentantLégal.ConsulterChangementReprésentantLégalQuery>({
+        type: 'Lauréat.ReprésentantLégal.Query.ConsulterChangementReprésentantLégal',
+        data: {
+          identifiantProjet: identifiantProjet.formatter(),
+          demandéLe:
+            this.lauréatWorld.représentantLégalWorld.changementReprésentantLégalWorld
+              .demanderChangementReprésentantLégalFixture.demandéLe,
+        },
+      });
 
-      const actual = mapToPlainObject(demande);
-      const expected = mapToPlainObject(
-        this.lauréatWorld.représentantLégalWorld.changementReprésentantLégalWorld.mapToExpected(
-          identifiantProjet,
-        ),
+    const actual = mapToPlainObject(demande);
+    const expected = mapToPlainObject(
+      this.lauréatWorld.représentantLégalWorld.changementReprésentantLégalWorld.mapToExpected(
+        identifiantProjet,
+      ),
+    );
+
+    actual.should.be.deep.equal(expected);
+
+    if (
+      statut === 'demande' &&
+      this.lauréatWorld.représentantLégalWorld.changementReprésentantLégalWorld
+        .demanderChangementReprésentantLégalFixture.aÉtéCréé
+    ) {
+      const result = await mediator.send<ConsulterDocumentProjetQuery>({
+        type: 'Document.Query.ConsulterDocumentProjet',
+        data: {
+          documentKey: Option.match(demande)
+            .some(({ demande }) => {
+              return demande.pièceJustificative.formatter() ?? '';
+            })
+            .none(() => ''),
+        },
+      });
+
+      const actualContent = await convertReadableStreamToString(result.content);
+
+      const expectedContent = await convertReadableStreamToString(
+        this.lauréatWorld.représentantLégalWorld.changementReprésentantLégalWorld
+          .demanderChangementReprésentantLégalFixture.pièceJustificative?.content ??
+          new ReadableStream(),
       );
 
-      actual.should.be.deep.equal(expected);
+      actualContent.should.be.equal(expectedContent);
+    }
 
-      if (
-        statut === 'demande' &&
+    if (
+      statut === 'correction' &&
+      this.lauréatWorld.représentantLégalWorld.changementReprésentantLégalWorld
+        .corrigerChangementReprésentantLégalFixture.aÉtéCréé
+    ) {
+      const result = await mediator.send<ConsulterDocumentProjetQuery>({
+        type: 'Document.Query.ConsulterDocumentProjet',
+        data: {
+          documentKey: Option.match(demande)
+            .some(({ demande }) => {
+              return demande.pièceJustificative.formatter() ?? '';
+            })
+            .none(() => ''),
+        },
+      });
+
+      const actualContent = await convertReadableStreamToString(result.content);
+      const expectedContent = await convertReadableStreamToString(
         this.lauréatWorld.représentantLégalWorld.changementReprésentantLégalWorld
-          .demanderChangementReprésentantLégalFixture.aÉtéCréé
-      ) {
-        const result = await mediator.send<ConsulterDocumentProjetQuery>({
-          type: 'Document.Query.ConsulterDocumentProjet',
-          data: {
-            documentKey: Option.match(demande)
-              .some(({ demande }) => {
-                return demande.pièceJustificative.formatter() ?? '';
-              })
-              .none(() => ''),
-          },
-        });
+          .corrigerChangementReprésentantLégalFixture.pièceJustificative?.content ??
+          new ReadableStream(),
+      );
 
-        const actualContent = await convertReadableStreamToString(result.content);
-
-        const expectedContent = await convertReadableStreamToString(
-          this.lauréatWorld.représentantLégalWorld.changementReprésentantLégalWorld
-            .demanderChangementReprésentantLégalFixture.pièceJustificative?.content ??
-            new ReadableStream(),
-        );
-
-        actualContent.should.be.equal(expectedContent);
-      }
-
-      if (
-        statut === 'correction' &&
-        this.lauréatWorld.représentantLégalWorld.changementReprésentantLégalWorld
-          .corrigerChangementReprésentantLégalFixture.aÉtéCréé
-      ) {
-        const result = await mediator.send<ConsulterDocumentProjetQuery>({
-          type: 'Document.Query.ConsulterDocumentProjet',
-          data: {
-            documentKey: Option.match(demande)
-              .some(({ demande }) => {
-                return demande.pièceJustificative.formatter() ?? '';
-              })
-              .none(() => ''),
-          },
-        });
-
-        const actualContent = await convertReadableStreamToString(result.content);
-
-        const expectedContent = await convertReadableStreamToString(
-          this.lauréatWorld.représentantLégalWorld.changementReprésentantLégalWorld
-            .corrigerChangementReprésentantLégalFixture.pièceJustificative?.content ??
-            new ReadableStream(),
-        );
-
-        actualContent.should.be.equal(expectedContent);
-      }
-    });
-  } catch (e) {
-    console.error(e);
-  }
+      actualContent.should.be.equal(expectedContent);
+    }
+  });
 }
 
 async function vérifierInstructionDemande(

@@ -2,7 +2,6 @@ import { DomainEvent } from '@potentiel-domain/core';
 import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
 
 import { ReprésentantLégalAggregate } from '../../représentantLégal.aggregate';
-import { DemandeChangementInexistanteError } from '../changementReprésentantLégal.error';
 
 export type ChangementReprésentantLégalSuppriméEvent = DomainEvent<
   'ChangementReprésentantLégalSupprimé-V1',

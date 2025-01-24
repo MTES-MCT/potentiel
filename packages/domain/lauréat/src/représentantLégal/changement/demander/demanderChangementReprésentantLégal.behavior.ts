@@ -94,6 +94,7 @@ export function applyChangementReprésentantLégalDemandé(
     statut: StatutChangementReprésentantLégal.demandé,
     nom: nomReprésentantLégal,
     type: TypeReprésentantLégal.convertirEnValueType(typeReprésentantLégal),
+    demandéLe: DateTime.convertirEnValueType(demandéLe),
     pièceJustificative: DocumentProjet.convertirEnValueType(
       identifiantProjet,
       TypeDocumentChangementReprésentantLégal.pièceJustificative.formatter(),

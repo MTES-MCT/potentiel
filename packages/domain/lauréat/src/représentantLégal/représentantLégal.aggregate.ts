@@ -73,6 +73,7 @@ export type ReprésentantLégalAggregate = Aggregate<ReprésentantLégalEvent> &
     nom: string;
     type: TypeReprésentantLégal.ValueType;
     pièceJustificative: DocumentProjet.ValueType;
+    demandéLe: DateTime.ValueType;
 
     accord?: {
       nom: string;
