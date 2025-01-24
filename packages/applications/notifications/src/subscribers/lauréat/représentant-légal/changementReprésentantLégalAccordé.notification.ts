@@ -41,6 +41,18 @@ export const changementReprésentantLégalAccordéNotification = async ({
   }
 
   if (event.payload.accordAutomatique) {
+    await sendEmail({
+      templateId: 6582166,
+      messageSubject: `Potentiel - La demande de modification du représentant légal pour le projet ${projet.nom} dans le département ${projet.département} a été accordée`,
+      recipients: porteurs,
+      variables: {
+        type: 'accord',
+        nom_projet: projet.nom,
+        departement_projet: projet.département,
+        url: `${baseUrl}${Routes.Projet.details(identifiantProjet.formatter())}`,
+      },
+    });
+
     const dreals = await récupérerDrealsParIdentifiantProjetAdapter(identifiantProjet);
 
     if (dreals.length === 0) {
