@@ -5,7 +5,7 @@ import { getLogger } from '@potentiel-libraries/monitoring';
 import { IdentifiantProjet } from '@potentiel-domain/common';
 import { findProjection } from '@potentiel-infrastructure/pg-projections';
 
-import { upsertProjection } from '../../../../infrastructure';
+import { updateOneProjection, upsertProjection } from '../../../../infrastructure';
 
 export const changementReprésentantLégalDemandéProjector = async ({
   payload: {
@@ -33,8 +33,10 @@ export const changementReprésentantLégalDemandéProjector = async ({
   const { appelOffre, période, famille, numéroCRE } =
     IdentifiantProjet.convertirEnValueType(identifiantProjet);
 
+  const identifiantChangement = `${identifiantProjet}#${demandéLe}`;
+
   await upsertProjection<ReprésentantLégal.ChangementReprésentantLégalEntity>(
-    `changement-représentant-légal|${identifiantProjet}`,
+    `changement-représentant-légal|${identifiantChangement}`,
     {
       identifiantProjet,
       projet: {
@@ -53,6 +55,13 @@ export const changementReprésentantLégalDemandéProjector = async ({
         demandéLe,
         demandéPar,
       },
+    },
+  );
+
+  await updateOneProjection<ReprésentantLégal.ReprésentantLégalEntity>(
+    `représentant-légal|${identifiantProjet}`,
+    {
+      demandeEnCours: { demandéLe },
     },
   );
 };

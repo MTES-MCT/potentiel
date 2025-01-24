@@ -11,6 +11,9 @@ export type ConsulterReprésentantLégalReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
   nomReprésentantLégal: string;
   typeReprésentantLégal: TypeReprésentantLégal.ValueType;
+  demandeEnCours?: {
+    demandéLe: string;
+  };
 };
 
 export type ConsulterReprésentantLégalQuery = Message<
@@ -60,4 +63,5 @@ const mapToReadModel: MapToReadModel = ({ identifiantProjet, représentantLégal
   typeReprésentantLégal: TypeReprésentantLégal.convertirEnValueType(
     représentantLégal.typeReprésentantLégal,
   ),
+  demandeEnCours: représentantLégal.demandeEnCours,
 });

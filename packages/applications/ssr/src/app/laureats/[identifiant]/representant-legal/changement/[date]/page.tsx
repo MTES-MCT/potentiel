@@ -8,7 +8,6 @@ import { mapToPlainObject } from '@potentiel-domain/core';
 import { IdentifiantProjet } from '@potentiel-domain/common';
 
 import { decodeParameter } from '@/utils/decodeParameter';
-import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 import {
@@ -21,18 +20,27 @@ export const metadata: Metadata = {
   description: "Détail du représentant légal d'un projet",
 };
 
-export default async function Page({ params: { identifiant } }: IdentifiantParameter) {
+type PageProps = {
+  params: {
+    identifiant: string;
+    date: string;
+  };
+};
+
+export default async function Page({ params: { identifiant, date } }: PageProps) {
   return PageWithErrorHandling(async () =>
     withUtilisateur(async (utilisateur) => {
       const identifiantProjet = IdentifiantProjet.convertirEnValueType(
         decodeParameter(identifiant),
       );
+      const demandéLe = decodeParameter(date);
 
       const changement =
         await mediator.send<ReprésentantLégal.ConsulterChangementReprésentantLégalQuery>({
           type: 'Lauréat.ReprésentantLégal.Query.ConsulterChangementReprésentantLégal',
           data: {
             identifiantProjet: identifiantProjet.formatter(),
+            demandéLe,
           },
         });
 

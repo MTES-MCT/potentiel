@@ -103,6 +103,7 @@ export const DétailsChangementReprésentantLégalPage: FC<
                 type: typeReprésentantLégal.type,
               }).formatter(),
               nomReprésentantLégal,
+              dateDemande: DateTime.bind(demandéLe).formatter(),
             })}
           </>
         ),
@@ -116,6 +117,7 @@ type MapToActionsComponentsProps = {
   identifiantProjet: string;
   typeReprésentantLégal: ReprésentantLégal.TypeReprésentantLégal.RawType;
   nomReprésentantLégal: string;
+  dateDemande: string;
 };
 
 const mapToActionComponents = ({
@@ -123,6 +125,7 @@ const mapToActionComponents = ({
   identifiantProjet,
   typeReprésentantLégal,
   nomReprésentantLégal,
+  dateDemande,
 }: MapToActionsComponentsProps) =>
   actions.length ? (
     <div className="flex flex-col gap-4">
@@ -131,12 +134,16 @@ const mapToActionComponents = ({
       {actions.includes('accorder') && (
         <AccorderChangementReprésentantLégal
           identifiantProjet={identifiantProjet}
+          dateDemande={dateDemande}
           typeReprésentantLégal={typeReprésentantLégal}
           nomReprésentantLégal={nomReprésentantLégal}
         />
       )}
       {actions.includes('rejeter') && (
-        <RejeterChangementReprésentantLégal identifiantProjet={identifiantProjet} />
+        <RejeterChangementReprésentantLégal
+          identifiantProjet={identifiantProjet}
+          dateDemande={dateDemande}
+        />
       )}
 
       {actions.includes('annuler') && (

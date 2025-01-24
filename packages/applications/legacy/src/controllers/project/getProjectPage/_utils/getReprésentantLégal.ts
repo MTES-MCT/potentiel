@@ -1,7 +1,7 @@
 import { mediator } from 'mediateur';
 import { IdentifiantProjet } from '@potentiel-domain/common';
 import { ReprésentantLégal } from '@potentiel-domain/laureat';
-
+import { listProjection } from '@potentiel-infrastructure/pg-projections';
 import { Option } from '@potentiel-libraries/monads';
 import { Candidature } from '@potentiel-domain/candidature';
 import { Routes } from '@potentiel-applications/routes';
@@ -9,6 +9,7 @@ import { Role } from '@potentiel-domain/utilisateur';
 import { getLogger } from '@potentiel-libraries/monitoring';
 import { getAbandonStatut } from './getAbandon';
 import { getAttestationDeConformité } from './getAttestationDeConformité';
+import { Where } from '@potentiel-domain/entity';
 
 export type GetReprésentantLégalForProjectPage =
   | {
@@ -18,6 +19,7 @@ export type GetReprésentantLégalForProjectPage =
         url: string;
       };
       demandeDeModification?: {
+        demandéLe: string;
         peutConsulterLaDemandeExistante: boolean;
         peutFaireUneDemande: boolean;
       };
@@ -40,9 +42,9 @@ export const getReprésentantLégal: GetReprésentantLégal = async (identifiant
       });
 
     if (Option.isSome(représentantLégal)) {
+      const demandéLe = await getDateDemandeEnCours(identifiantProjet);
       const demandeChangementExistante =
-        utilisateur.aLaPermission('représentantLégal.consulterChangement') &&
-        (await getChangementReprésentantLégal(identifiantProjet));
+        utilisateur.aLaPermission('représentantLégal.consulterChangement') && !!demandéLe;
 
       const statutAbandon = await getAbandonStatut(identifiantProjet);
       const abandonAccordé = statutAbandon?.statut === 'accordé';
@@ -77,6 +79,7 @@ export const getReprésentantLégal: GetReprésentantLégal = async (identifiant
             }
           : undefined,
         demandeDeModification: {
+          demandéLe: demandéLe ?? '',
           peutConsulterLaDemandeExistante,
           peutFaireUneDemande,
         },
@@ -114,17 +117,19 @@ export const getReprésentantLégal: GetReprésentantLégal = async (identifiant
   }
 };
 
-const getChangementReprésentantLégal = async (identifiantProjet: IdentifiantProjet.ValueType) => {
+const getDateDemandeEnCours = async (identifiantProjet: IdentifiantProjet.ValueType) => {
   try {
-    const changement =
-      await mediator.send<ReprésentantLégal.ConsulterChangementReprésentantLégalQuery>({
-        type: 'Lauréat.ReprésentantLégal.Query.ConsulterChangementReprésentantLégal',
+    const représentantLégal =
+      await mediator.send<ReprésentantLégal.ConsulterReprésentantLégalQuery>({
+        type: 'Lauréat.ReprésentantLégal.Query.ConsulterReprésentantLégal',
         data: { identifiantProjet: identifiantProjet.formatter() },
       });
 
-    return Option.match(changement)
-      .some((changement) => changement.demande.statut.estDemandé())
-      .none(() => false);
+    if (Option.isSome(représentantLégal) && représentantLégal.demandeEnCours) {
+      return représentantLégal.demandeEnCours.demandéLe;
+    }
+
+    return;
   } catch (error) {
     getLogger('getChangementReprésentant').error(
       `Impossible de consulter la demande de changement de représentant légal`,
@@ -133,6 +138,6 @@ const getChangementReprésentantLégal = async (identifiantProjet: IdentifiantPr
         contexte: 'legacy',
       },
     );
-    return false;
+    return;
   }
 };

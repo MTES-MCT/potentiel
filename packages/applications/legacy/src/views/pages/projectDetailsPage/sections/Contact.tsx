@@ -53,7 +53,10 @@ export const Contact = ({
           )}
           {représentantLégal.demandeDeModification?.peutConsulterLaDemandeExistante && (
             <Link
-              href={Routes.ReprésentantLégal.changement.détail(identifiantProjet)}
+              href={Routes.ReprésentantLégal.changement.détail(
+                identifiantProjet,
+                représentantLégal.demandeDeModification.demandéLe,
+              )}
               aria-label="Voir la demande de changement en cours"
               className="block"
             >

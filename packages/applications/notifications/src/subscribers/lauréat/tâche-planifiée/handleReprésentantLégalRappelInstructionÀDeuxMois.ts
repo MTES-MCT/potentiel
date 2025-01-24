@@ -55,20 +55,40 @@ export const handleReprésentantLégalRappelInstructionÀDeuxMois = async ({
     return;
   }
 
-  const changement =
+  const représentantLégal = await mediator.send<ReprésentantLégal.ConsulterReprésentantLégalQuery>({
+    type: 'Lauréat.ReprésentantLégal.Query.ConsulterReprésentantLégal',
+    data: { identifiantProjet: identifiantProjet.formatter() },
+  });
+
+  if (Option.isNone(représentantLégal)) {
+    getLogger().warn(`Aucun représentant légal n'a été trouvé pour le rappel à 2 mois`, {
+      event,
+    });
+    return;
+  }
+  if (!représentantLégal.demandeEnCours) {
+    getLogger().warn(`Aucune demande en cours pour le rappel à 2 mois`, {
+      event,
+    });
+    return;
+  }
+
+  const changementReprésentantLégal =
     await mediator.send<ReprésentantLégal.ConsulterChangementReprésentantLégalQuery>({
       type: 'Lauréat.ReprésentantLégal.Query.ConsulterChangementReprésentantLégal',
       data: {
         identifiantProjet: identifiantProjet.formatter(),
+        demandéLe: représentantLégal.demandeEnCours.demandéLe,
       },
     });
 
-  if (Option.isNone(changement)) {
-    getLogger().error('Aucun changement de représentant légal à traiter', {
-      identifiantProjet: identifiantProjet.formatter(),
-      application: 'notifications',
-      fonction: 'handleReprésentantLégalRappelInstructionÀDeuxMois',
-    });
+  if (Option.isNone(changementReprésentantLégal)) {
+    getLogger().warn(
+      `Aucun changement de représentant légal n'a été trouvé pour le rappel à 2 mois`,
+      {
+        event,
+      },
+    );
     return;
   }
 
@@ -88,7 +108,7 @@ export const handleReprésentantLégalRappelInstructionÀDeuxMois = async ({
       type: typeTâchePlanifiée === 'accord-automatique' ? 'accord' : 'rejet',
       nom_projet: nom,
       departement_projet: département,
-      url: `${baseUrl}${Routes.ReprésentantLégal.changement.détail(identifiantProjet.formatter())}`,
+      url: `${baseUrl}${Routes.ReprésentantLégal.changement.détail(identifiantProjet.formatter(), changementReprésentantLégal.demande.demandéLe.formatter())}`,
     },
   });
 };

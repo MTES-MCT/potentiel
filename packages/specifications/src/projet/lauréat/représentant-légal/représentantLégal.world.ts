@@ -51,12 +51,32 @@ export class ReprésentantLégalWorld {
     }
 
     if (
+      this.#changementReprésentantLégalWorld.demanderChangementReprésentantLégalFixture.aÉtéCréé
+    ) {
+      expected.demandeEnCours = {
+        demandéLe:
+          this.#changementReprésentantLégalWorld.demanderChangementReprésentantLégalFixture
+            .demandéLe,
+      };
+    }
+
+    if (
       this.#changementReprésentantLégalWorld.accorderChangementReprésentantLégalFixture.aÉtéCréé
     ) {
       expected.nomReprésentantLégal =
         this.#changementReprésentantLégalWorld.accorderChangementReprésentantLégalFixture.nomReprésentantLégal;
       expected.typeReprésentantLégal =
         this.#changementReprésentantLégalWorld.accorderChangementReprésentantLégalFixture.typeReprésentantLégal;
+
+      delete expected.demandeEnCours;
+    }
+
+    if (this.#changementReprésentantLégalWorld.rejeterChangementReprésentantLégalFixture.aÉtéCréé) {
+      delete expected.demandeEnCours;
+    }
+
+    if (this.#changementReprésentantLégalWorld.annulerChangementReprésentantLégalFixture.aÉtéCréé) {
+      delete expected.demandeEnCours;
     }
 
     return expected;

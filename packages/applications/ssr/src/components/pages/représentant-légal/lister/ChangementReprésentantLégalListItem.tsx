@@ -20,6 +20,7 @@ export const ChangementReprésentantLégalListItem: FC<ChangementReprésentantL�
   nomProjet,
   statut,
   misÀJourLe,
+  demandéLe,
 }) => (
   <ListItem
     heading={
@@ -34,6 +35,7 @@ export const ChangementReprésentantLégalListItem: FC<ChangementReprésentantL�
       <Link
         href={Routes.ReprésentantLégal.changement.détail(
           IdentifiantProjet.bind(identifiantProjet).formatter(),
+          demandéLe,
         )}
         aria-label={`voir le détail du changement de représentant légal en statut ${statut} pour le projet ${nomProjet}`}
       >

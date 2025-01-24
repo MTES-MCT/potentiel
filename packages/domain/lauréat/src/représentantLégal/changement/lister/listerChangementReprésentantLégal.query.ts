@@ -8,6 +8,7 @@ import { ChangementReprésentantLégalEntity, StatutChangementReprésentantLéga
 
 type ChangementReprésentantLégalItemReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
+  demandéLe: string;
   nomProjet: string;
   statut: StatutChangementReprésentantLégal.ValueType;
   misÀJourLe: DateTime.ValueType;
@@ -30,7 +31,7 @@ export type ListerChangementReprésentantLégalQuery = Message<
     statut?: StatutChangementReprésentantLégal.RawType;
     appelOffre?: string;
     nomProjet?: string;
-    range: RangeOptions;
+    range?: RangeOptions;
   },
   ListerChangementReprésentantLégalReadModel
 >;
@@ -100,6 +101,7 @@ const mapToReadModel = (
   statut: StatutChangementReprésentantLégal.convertirEnValueType(entity.demande.statut),
   misÀJourLe: DateTime.convertirEnValueType(entity.demande.demandéLe),
   identifiantProjet: IdentifiantProjet.convertirEnValueType(entity.identifiantProjet),
+  demandéLe: entity.demande.demandéLe,
 });
 
 const getIdentifiantProjetWhereCondition = async (
