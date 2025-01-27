@@ -40,7 +40,7 @@ export const DétailsActionnairePage: FC<DétailsActionnairePageProps> = ({
     banner={
       <ProjetBanner identifiantProjet={IdentifiantProjet.bind(identifiantProjet).formatter()} />
     }
-    heading={<Heading1>Modification(s) de l'actionnariat</Heading1>}
+    heading={<Heading1>Détails du changement d'actionnaire</Heading1>}
     leftColumn={{
       children: (
         <div className="flex flex-col gap-8">
