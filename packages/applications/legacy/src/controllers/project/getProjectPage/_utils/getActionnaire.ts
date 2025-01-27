@@ -73,12 +73,17 @@ export const getActionnaire = async ({
         nom: actionnaire.actionnaire,
         affichage: nePeutFaireAucuneAction
           ? undefined
-          : peutFaireUneDemandeDeChangement
+          : peutModifier
             ? {
-                url: Routes.Actionnaire.changement.demander(identifiantProjet.formatter()),
-                label: "Demander une modification de l'actionnariat",
+                url: Routes.Actionnaire.modifier(identifiantProjet.formatter()),
+                label: 'Modifier l’actionnariat',
               }
-            : undefined,
+            : peutFaireUneDemandeDeChangement
+              ? {
+                  url: Routes.Actionnaire.changement.demander(identifiantProjet.formatter()),
+                  label: "Demander une modification de l'actionnariat",
+                }
+              : undefined,
         demandeEnCours:
           utilisateur.aLaPermission('actionnaire.consulterChangement') && aUneDemandeEnCours
             ? {
@@ -111,9 +116,7 @@ export const getActionnaire = async ({
       nom: '',
     };
   } catch (error) {
-    getLogger().error(`Impossible de consulter l'actionnaire'`, {
-      identifiantProjet: identifiantProjet.formatter(),
-    });
+    getLogger().error(error);
     return undefined;
   }
 };
