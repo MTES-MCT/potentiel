@@ -40,6 +40,7 @@ export const Form: FC<FormProps> = ({
   onInvalid,
 }) => {
   const [csrfToken, setCsrfToken] = useState('');
+  const router = useRouter();
 
   useEffect(() => {
     const fetchCSRFToken = async () => {
@@ -59,7 +60,6 @@ export const Form: FC<FormProps> = ({
   });
 
   if (!state) {
-    const router = useRouter();
     router.push('/error');
   }
 
