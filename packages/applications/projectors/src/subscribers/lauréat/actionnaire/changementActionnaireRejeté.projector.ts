@@ -13,43 +13,45 @@ export const changementActionnaireRejetéProjector = async ({
     réponseSignée: { format },
   },
 }: Actionnaire.ChangementActionnaireRejetéEvent) => {
-  const projectionToUpsert = await findProjection<Actionnaire.ActionnaireEntity>(
+  const actionnaire = await findProjection<Actionnaire.ActionnaireEntity>(
     `actionnaire|${identifiantProjet}`,
   );
 
-  if (Option.isNone(projectionToUpsert)) {
-    getLogger().error(`Actionnaire non trouvé`, { identifiantProjet });
-    return;
-  }
-
-  if (!projectionToUpsert.demandeEnCours) {
+  if (Option.isNone(actionnaire) || !actionnaire.demandeEnCours) {
     getLogger().error(`Demande non trouvée`, { identifiantProjet });
     return;
   }
 
-  const demande = {
-    ...projectionToUpsert.demandeEnCours,
-    statut: Actionnaire.StatutChangementActionnaire.rejeté.statut,
+  const projectionToUpsert = await findProjection<Actionnaire.ChangementActionnaireEntity>(
+    `changement-actionnaire|${identifiantProjet}#${actionnaire.demandeEnCours.demandéeLe}`,
+  );
 
-    rejet: {
-      rejetéeLe: rejetéLe,
-      rejetéePar: rejetéPar,
-      réponseSignée: {
-        format,
-      },
-    },
-  };
+  if (Option.isNone(projectionToUpsert)) {
+    getLogger().error(`Demande non trouvée`, { identifiantProjet });
+    return;
+  }
 
   await updateOneProjection<Actionnaire.ActionnaireEntity>(`actionnaire|${identifiantProjet}`, {
-    demandeEnCours: demande,
+    demandeEnCours: undefined,
   });
 
   await upsertProjection<Actionnaire.ChangementActionnaireEntity>(
-    `changement-actionnaire|${identifiantProjet}#${projectionToUpsert.demandeEnCours.demandéeLe}`,
+    `changement-actionnaire|${identifiantProjet}#${actionnaire.demandeEnCours.demandéeLe}`,
     {
       identifiantProjet,
       projet: projectionToUpsert.projet,
-      demande,
+      demande: {
+        ...projectionToUpsert.demande,
+        statut: Actionnaire.StatutChangementActionnaire.rejeté.statut,
+
+        rejet: {
+          rejetéeLe: rejetéLe,
+          rejetéePar: rejetéPar,
+          réponseSignée: {
+            format,
+          },
+        },
+      },
     },
   );
 };

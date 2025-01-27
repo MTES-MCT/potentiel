@@ -14,47 +14,49 @@ export const changementActionnaireAccordéProjector = async ({
     réponseSignée: { format },
   },
 }: Actionnaire.ChangementActionnaireAccordéEvent) => {
-  const projectionToUpsert = await findProjection<Actionnaire.ActionnaireEntity>(
+  const actionnaire = await findProjection<Actionnaire.ActionnaireEntity>(
     `actionnaire|${identifiantProjet}`,
   );
 
-  if (Option.isNone(projectionToUpsert)) {
-    getLogger().error(`Actionnaire non trouvé`, { identifiantProjet });
-    return;
-  }
-
-  if (!projectionToUpsert.demandeEnCours) {
+  if (Option.isNone(actionnaire) || !actionnaire.demandeEnCours) {
     getLogger().error(`Demande non trouvée`, { identifiantProjet });
     return;
   }
 
-  const demande = {
-    ...projectionToUpsert.demandeEnCours,
-    statut: Actionnaire.StatutChangementActionnaire.accordé.statut,
+  const projectionToUpsert = await findProjection<Actionnaire.ChangementActionnaireEntity>(
+    `changement-actionnaire|${identifiantProjet}#${actionnaire.demandeEnCours.demandéeLe}`,
+  );
 
-    accord: {
-      accordéeLe: accordéLe,
-      accordéePar: accordéPar,
-      réponseSignée: {
-        format,
-      },
-    },
-  };
+  if (Option.isNone(projectionToUpsert)) {
+    getLogger().error(`Demande non trouvée`, { identifiantProjet });
+    return;
+  }
 
   await updateOneProjection<Actionnaire.ActionnaireEntity>(`actionnaire|${identifiantProjet}`, {
     actionnaire: {
       nom: nouvelActionnaire,
       misÀJourLe: accordéLe,
     },
-    demandeEnCours: demande,
+    demandeEnCours: undefined,
   });
 
   await upsertProjection<Actionnaire.ChangementActionnaireEntity>(
-    `changement-actionnaire|${identifiantProjet}#${projectionToUpsert.demandeEnCours.demandéeLe}`,
+    `changement-actionnaire|${identifiantProjet}#${actionnaire.demandeEnCours.demandéeLe}`,
     {
       identifiantProjet,
       projet: projectionToUpsert.projet,
-      demande,
+      demande: {
+        ...projectionToUpsert.demande,
+        statut: Actionnaire.StatutChangementActionnaire.accordé.statut,
+
+        accord: {
+          accordéeLe: accordéLe,
+          accordéePar: accordéPar,
+          réponseSignée: {
+            format,
+          },
+        },
+      },
     },
   );
 };

@@ -24,20 +24,11 @@ export const changementActionnaireDemandéProjector = async ({
     return;
   }
 
-  const demande = {
-    statut: Actionnaire.StatutChangementActionnaire.demandé.statut,
-    nouvelActionnaire: actionnaire,
-    demandéePar: demandéPar,
-    demandéeLe: demandéLe,
-    raison,
-    pièceJustificative: {
-      format,
-    },
-  };
-
   await upsertProjection<Actionnaire.ActionnaireEntity>(`actionnaire|${identifiantProjet}`, {
     ...projectionToUpsert,
-    demandeEnCours: demande,
+    demandeEnCours: {
+      demandéeLe: demandéLe,
+    },
   });
 
   await upsertProjection<Actionnaire.ChangementActionnaireEntity>(
@@ -45,7 +36,16 @@ export const changementActionnaireDemandéProjector = async ({
     {
       identifiantProjet,
       projet: projectionToUpsert.projet,
-      demande,
+      demande: {
+        statut: Actionnaire.StatutChangementActionnaire.demandé.statut,
+        nouvelActionnaire: actionnaire,
+        demandéePar: demandéPar,
+        demandéeLe: demandéLe,
+        raison,
+        pièceJustificative: {
+          format,
+        },
+      },
     },
   );
 };
