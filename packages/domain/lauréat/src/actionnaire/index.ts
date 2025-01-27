@@ -5,7 +5,7 @@ import { AnnulerChangementActionnaireUseCase } from './changement/annuler/annule
 import {
   ConsulterChangementActionnaireQuery,
   ConsulterChangementActionnaireReadModel,
-} from './changement/consulter/consulterChangementActionnaire.query';
+} from './changement/consulter/consulterChangementActionnaireEnCours.query';
 import { DemanderChangementUseCase } from './changement/demander/demanderChangementActionnaire.usecase';
 import {
   ListerChangementActionnaireQuery,

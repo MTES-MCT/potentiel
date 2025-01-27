@@ -9,7 +9,7 @@ import { registerAccorderChangementActionnaireCommand } from './changement/accor
 import { registerAccorderChangementActionnaireUseCase } from './changement/accorder/accorderChangementActionnaire.usecase';
 import { registerAnnulerDemandeChangementCommand } from './changement/annuler/annulerChangementActionnaire.command';
 import { registerAnnulerChangementActionnaireUseCase } from './changement/annuler/annulerChangementActionnaire.usecase';
-import { registerConsulterChangementActionnaireQuery } from './changement/consulter/consulterChangementActionnaire.query';
+import { registerConsulterChangementActionnaireQuery } from './changement/consulter/consulterChangementActionnaireEnCours.query';
 import { registerDemanderChangementActionnaireCommand } from './changement/demander/demanderChangementActionnaire.command';
 import { registerDemanderChangementActionnaireUseCase } from './changement/demander/demanderChangementActionnaire.usecase';
 import { registerRejeterChangementActionnaireCommand } from './changement/rejeter/rejeterChangementActionnaire.command';
