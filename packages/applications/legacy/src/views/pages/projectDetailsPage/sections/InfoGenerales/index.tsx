@@ -21,7 +21,7 @@ export type InfoGeneralesProps = {
   raccordement: Option.Type<Raccordement.ConsulterRaccordementReadModel>;
   demandeRecours: ProjectDataForProjectPage['demandeRecours'];
   garantiesFinancières?: GarantiesFinancièresProjetProps['garantiesFinancières'];
-  actionnaire: GetActionnaireForProjectPage;
+  actionnaire: GetActionnaireForProjectPage | undefined;
   modificationsNonPermisesParLeCDCActuel: boolean;
 };
 
@@ -132,11 +132,13 @@ export const InfoGenerales = ({
           {departementProjet}, {regionProjet}
         </p>
       </div>
-      <InfoActionnaire
-        actionnaire={actionnaire}
-        identifiantProjet={identifiantProjet}
-        modificationsNonPermisesParLeCDCActuel={modificationsNonPermisesParLeCDCActuel}
-      />
+      {actionnaire && (
+        <InfoActionnaire
+          actionnaire={actionnaire}
+          identifiantProjet={identifiantProjet}
+          modificationsNonPermisesParLeCDCActuel={modificationsNonPermisesParLeCDCActuel}
+        />
+      )}
     </Section>
   );
 };

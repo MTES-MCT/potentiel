@@ -10,16 +10,14 @@ import { IdentifiantProjet } from '@potentiel-domain/common';
 import { getAbandonStatut } from './getAbandon';
 import { getAttestationDeConformité } from './getAttestationDeConformité';
 
-export type GetActionnaireForProjectPage =
-  | {
-      nom: string;
-      affichage?: {
-        label: string;
-        url: string;
-      };
-      afficherLienChangementSurPageProjet: boolean;
-    }
-  | undefined;
+export type GetActionnaireForProjectPage = {
+  nom: string;
+  affichage?: {
+    label: string;
+    url: string;
+  };
+  afficherLienChangementSurPageProjet: boolean;
+};
 
 type Props = {
   identifiantProjet: IdentifiantProjet.ValueType;
@@ -31,7 +29,7 @@ export const getActionnaire = async ({
   identifiantProjet,
   rôle,
   demandeNécessiteInstruction,
-}: Props): Promise<GetActionnaireForProjectPage> => {
+}: Props): Promise<GetActionnaireForProjectPage | undefined> => {
   try {
     const utilisateur = Role.convertirEnValueType(rôle);
 
@@ -62,28 +60,28 @@ export const getActionnaire = async ({
       const peutFaireUneDemandeDeChangement =
         demandeNécessiteInstruction &&
         utilisateur.aLaPermission('actionnaire.demanderChangement') &&
-        !aUneDemandeEnCours &&
-        !nePeutFaireAucuneAction;
+        !aUneDemandeEnCours;
 
       const peutModifier =
         !demandeNécessiteInstruction &&
         utilisateur.aLaPermission('actionnaire.modifier') &&
-        !aUneDemandeEnCours &&
-        !nePeutFaireAucuneAction;
+        !aUneDemandeEnCours;
 
       return {
         nom: actionnaire.actionnaire,
-        affichage: peutFaireUneDemandeDeChangement
-          ? {
-              url: Routes.Actionnaire.changement.demander(identifiantProjet.formatter()),
-              label: "Demander une modification de l'actionnariat",
-            }
-          : peutModifier
+        affichage: nePeutFaireAucuneAction
+          ? undefined
+          : peutFaireUneDemandeDeChangement
             ? {
-                url: Routes.Actionnaire.modifier(identifiantProjet.formatter()),
-                label: 'Modifier l’actionnariat',
+                url: Routes.Actionnaire.changement.demander(identifiantProjet.formatter()),
+                label: "Demander une modification de l'actionnariat",
               }
-            : undefined,
+            : peutModifier
+              ? {
+                  url: Routes.Actionnaire.modifier(identifiantProjet.formatter()),
+                  label: 'Modifier l’actionnariat',
+                }
+              : undefined,
         afficherLienChangementSurPageProjet:
           utilisateur.aLaPermission('actionnaire.consulterChangement') && aUneDemandeEnCours,
       };
@@ -129,9 +127,9 @@ const checkAbandonAndAchèvement = async (
   const attestationConformitéExistante = await getAttestationDeConformité(identifiantProjet, rôle);
 
   return (
-    statutAbandon?.statut === 'accordé' ||
     (statutAbandon &&
-      Abandon.StatutAbandon.convertirEnValueType(statutAbandon?.statut).estEnCours()) ||
+      (Abandon.StatutAbandon.convertirEnValueType(statutAbandon.statut).estAccordé() ||
+        Abandon.StatutAbandon.convertirEnValueType(statutAbandon.statut).estEnCours())) ||
     !!attestationConformitéExistante
   );
 };
