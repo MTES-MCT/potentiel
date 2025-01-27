@@ -91,8 +91,8 @@ Alors(
         this.candidatureWorld.importerCandidature.identifiantProjet,
       );
 
-      const actual = await mediator.send<Actionnaire.ActionnaireQuery>({
-        type: 'Lauréat.Actionnaire.Query.ConsulterChangementActionnaire',
+      const actual = await mediator.send<Actionnaire.ConsulterChangementEnCoursActionnaireQuery>({
+        type: 'Lauréat.Actionnaire.Query.ConsulterChangementActionnaireEnCours',
         data: {
           identifiantProjet: identifiantProjet.formatter(),
         },
@@ -156,14 +156,15 @@ async function vérifierChangementActionnaire(
   statut: Actionnaire.StatutChangementActionnaire.ValueType,
   estUneNouvelleDemande?: boolean,
 ) {
-  const demande = await mediator.send<Actionnaire.ConsulterChangementActionnaireQuery>({
-    type: 'Lauréat.Actionnaire.Query.ConsulterChangementActionnaire',
-    data: {
-      identifiantProjet: identifiantProjet,
-    },
-  });
+  const demandeEnCours =
+    await mediator.send<Actionnaire.ConsulterChangementEnCoursActionnaireQuery>({
+      type: 'Lauréat.Actionnaire.Query.ConsulterChangementActionnaireEnCours',
+      data: {
+        identifiantProjet: identifiantProjet,
+      },
+    });
 
-  const actual = mapToPlainObject(demande);
+  const actual = mapToPlainObject(demandeEnCours);
 
   const expected = mapToPlainObject(
     this.lauréatWorld.actionnaireWorld.mapDemandeToExpected(
@@ -182,7 +183,7 @@ async function vérifierChangementActionnaire(
     const result = await mediator.send<ConsulterDocumentProjetQuery>({
       type: 'Document.Query.ConsulterDocumentProjet',
       data: {
-        documentKey: Option.match(demande)
+        documentKey: Option.match(demandeEnCours)
           .some(({ demande: { accord } }) => accord?.réponseSignée?.formatter() ?? '')
           .none(() => ''),
       },
@@ -203,7 +204,7 @@ async function vérifierChangementActionnaire(
     const result = await mediator.send<ConsulterDocumentProjetQuery>({
       type: 'Document.Query.ConsulterDocumentProjet',
       data: {
-        documentKey: Option.match(demande)
+        documentKey: Option.match(demandeEnCours)
           .some(({ demande: { rejet } }) => rejet?.réponseSignée?.formatter() ?? '')
           .none(() => ''),
       },

@@ -64,10 +64,11 @@ export const GET = async (_: Request, { params: { identifiant } }: IdentifiantPa
       return notFound();
     }
 
-    const demandeChangement = await mediator.send<Actionnaire.ConsulterChangementActionnaireQuery>({
-      type: 'Lauréat.Actionnaire.Query.ConsulterChangementActionnaire',
-      data: { identifiantProjet },
-    });
+    const demandeChangement =
+      await mediator.send<Actionnaire.ConsulterChangementEnCoursActionnaireQuery>({
+        type: 'Lauréat.Actionnaire.Query.ConsulterChangementActionnaireEnCours',
+        data: { identifiantProjet },
+      });
     if (Option.isNone(demandeChangement)) {
       return notFound();
     }

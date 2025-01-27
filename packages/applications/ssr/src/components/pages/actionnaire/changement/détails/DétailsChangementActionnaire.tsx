@@ -14,87 +14,77 @@ import { StatutChangementActionnaireBadge } from '../StatutChangementActionnaire
 
 import { DétailsActionnairePageProps } from './DétailsActionnaire.page';
 
-export type DétailsChangementActionnaireProps = Pick<
-  DétailsActionnairePageProps,
-  'actionnaire' | 'demande'
->;
+export type DétailsChangementActionnaireProps = Pick<DétailsActionnairePageProps, 'demande'>;
 
+// viovio
+// voir pour ajouter un bandeau demande en cours si on ne consulte pas la demande en cours
 export const DétailsChangementActionnaire: FC<DétailsChangementActionnaireProps> = ({
-  actionnaire,
   demande,
 }) => {
   return (
     <div className="flex flex-col gap-4">
       <Heading2>Détails de la demande de modification de l’actionnariat</Heading2>
-      {demande && actionnaire ? (
-        <>
-          <div className="flex flex-col gap-4">
-            <div className="flex flex-col gap-2">
-              {demande.accord && (
-                <ChangementAccordé
-                  accordéeLe={demande.accord.accordéeLe}
-                  accordéePar={demande.accord.accordéePar}
-                  réponseSignée={demande.accord.réponseSignée}
-                />
-              )}
-              {demande.rejet && (
-                <ChangementRejeté
-                  rejetéeLe={demande.rejet.rejetéeLe}
-                  rejetéePar={demande.rejet.rejetéePar}
-                  réponseSignée={demande.rejet.réponseSignée}
-                />
-              )}
-              {Actionnaire.StatutChangementActionnaire.bind(demande.statut).estDemandé() && (
-                <ChangementDemandé
-                  demandéeLe={demande.demandéeLe}
-                  demandéePar={demande.demandéePar}
-                />
-              )}
-            </div>
+      <>
+        <div className="flex flex-col gap-4">
+          <div className="flex flex-col gap-2">
+            {demande.accord && (
+              <ChangementAccordé
+                accordéeLe={demande.accord.accordéeLe}
+                accordéePar={demande.accord.accordéePar}
+                réponseSignée={demande.accord.réponseSignée}
+              />
+            )}
+            {demande.rejet && (
+              <ChangementRejeté
+                rejetéeLe={demande.rejet.rejetéeLe}
+                rejetéePar={demande.rejet.rejetéePar}
+                réponseSignée={demande.rejet.réponseSignée}
+              />
+            )}
+            {Actionnaire.StatutChangementActionnaire.bind(demande.statut).estDemandé() && (
+              <ChangementDemandé
+                demandéeLe={demande.demandéeLe}
+                demandéePar={demande.demandéePar}
+              />
+            )}
           </div>
-          <Changement
-            actionnaire={actionnaire}
-            raison={demande.raison}
-            pièceJustificative={demande.pièceJustificative}
-          />
-        </>
-      ) : (
-        <span>Pas de demande en cours</span>
-      )}
+        </div>
+        <Changement
+          nouvelActionnaire={demande.nouvelActionnaire}
+          raison={demande.raison}
+          pièceJustificative={demande.pièceJustificative}
+        />
+      </>
     </div>
   );
 };
 
 type ChangementProps = Pick<
   PlainType<Actionnaire.ConsulterChangementActionnaireReadModel['demande']>,
-  'raison' | 'pièceJustificative'
-> & { actionnaire: PlainType<Actionnaire.ConsulterChangementActionnaireReadModel['actionnaire']> };
+  'raison' | 'pièceJustificative' | 'nouvelActionnaire'
+>;
 
-const Changement: FC<ChangementProps> = ({ actionnaire, pièceJustificative, raison }) => (
+const Changement: FC<ChangementProps> = ({ nouvelActionnaire, pièceJustificative, raison }) => (
   <>
     <div className="flex gap-2">
       <div className="font-semibold whitespace-nowrap">Société mère</div>
-      <div>{actionnaire.demandé}</div>
+      <div>{nouvelActionnaire}</div>
     </div>
-    {actionnaire.demandé !== actionnaire.actuel && (
-      <div className="flex gap-2">
-        <div className="italic whitespace-nowrap">Ancienne société mère</div>
-        <div>{actionnaire.actuel}</div>
-      </div>
-    )}
     <div className="flex gap-2">
       <div className="font-semibold whitespace-nowrap">Raison du changement :</div>
       <div>{raison}</div>
     </div>
-    <div className="flex gap-2">
-      <div className="font-semibold whitespace-nowrap">Pièce(s) justificative(s) :</div>
-      <DownloadDocument
-        className="mb-0"
-        label="Télécharger la pièce justificative"
-        format={pièceJustificative.format}
-        url={Routes.Document.télécharger(DocumentProjet.bind(pièceJustificative).formatter())}
-      />
-    </div>
+    {pièceJustificative && (
+      <div className="flex gap-2">
+        <div className="font-semibold whitespace-nowrap">Pièce(s) justificative(s) :</div>
+        <DownloadDocument
+          className="mb-0"
+          label="Télécharger la pièce justificative"
+          format={pièceJustificative.format}
+          url={Routes.Document.télécharger(DocumentProjet.bind(pièceJustificative).formatter())}
+        />
+      </div>
+    )}
   </>
 );
 

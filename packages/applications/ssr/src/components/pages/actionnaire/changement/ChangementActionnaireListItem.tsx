@@ -16,8 +16,6 @@ export type ChangementActionnaireListItemProps = PlainType<
   Actionnaire.ListerChangementActionnaireReadModel['items'][number]
 >;
 
-// TODO: remettre le lien vers l'action pour tous les statuts
-// une fois que l'historique sera intégré
 export const ChangementActionnaireListItem: FC<ChangementActionnaireListItemProps> = ({
   identifiantProjet,
   nomProjet,
@@ -41,10 +39,13 @@ export const ChangementActionnaireListItem: FC<ChangementActionnaireListItemProp
     }
     actions={
       <Link
-        href={Routes.Actionnaire.détails(IdentifiantProjet.bind(identifiantProjet).formatter())}
-        aria-label={`voir le détail de l'actionnariat pour ${nomProjet}`}
+        href={Routes.Actionnaire.changement.détails(
+          IdentifiantProjet.bind(identifiantProjet).formatter(),
+          demandéLe.date,
+        )}
+        aria-label="voir le détail de la demande"
       >
-        Voir le détail
+        Voir la demande
       </Link>
     }
   >

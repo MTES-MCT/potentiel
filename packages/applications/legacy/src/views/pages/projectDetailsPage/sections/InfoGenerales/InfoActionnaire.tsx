@@ -25,10 +25,13 @@ export const InfoActionnaire = ({
           {actionnaire.affichage.label}
         </Link>
       )}
-      {actionnaire.afficherLienChangementSurPageProjet && (
+      {actionnaire?.demandeEnCours && (
         <Link
-          href={Routes.Actionnaire.détails(identifiantProjet.formatter())}
-          aria-label="Voir la demande de modification de l'actionnariat en cours"
+          href={Routes.Actionnaire.changement.détails(
+            identifiantProjet.formatter(),
+            actionnaire.demandeEnCours.demandéeLe,
+          )}
+          aria-label="Voir la demande de modification en cours de l'actionnariat"
           className="block"
         >
           Voir la demande de modification

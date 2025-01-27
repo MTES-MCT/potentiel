@@ -24,6 +24,7 @@ export type ChangementActionnaireEntity = Entity<
         format: string;
       };
 
+      // viovio supprimer annulation
       annulation?: {
         annuléePar: string;
         annuléeLe: DateTime.RawType;

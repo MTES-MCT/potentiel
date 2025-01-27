@@ -83,11 +83,9 @@ export class ActionnaireWorld {
 
     return {
       identifiantProjet,
-      actionnaire: {
-        actuel: this.#actionnaire,
-        demandé: this.#demanderChangementActionnaireFixture.actionnaire,
-      },
+
       demande: {
+        nouvelActionnaire: this.#demanderChangementActionnaireFixture.actionnaire,
         statut,
         demandéeLe: DateTime.convertirEnValueType(
           this.#demanderChangementActionnaireFixture.demandéLe,

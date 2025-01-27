@@ -22,14 +22,12 @@ type ChangementActionnaireActions = 'accorder' | 'rejeter' | 'annuler' | 'demand
 
 export type DétailsActionnairePageProps = {
   identifiantProjet: PlainType<IdentifiantProjet.ValueType>;
-  actionnaire?: PlainType<Actionnaire.ConsulterChangementActionnaireReadModel['actionnaire']>;
-  demande?: PlainType<Actionnaire.ConsulterChangementActionnaireReadModel['demande']>;
+  demande: PlainType<Actionnaire.ConsulterChangementActionnaireReadModel['demande']>;
   actions: Array<ChangementActionnaireActions>;
   historique: PlainType<Historique.ListerHistoriqueProjetReadModel>;
 };
 
 export const DétailsActionnairePage: FC<DétailsActionnairePageProps> = ({
-  actionnaire,
   demande,
   identifiantProjet,
   actions,
@@ -43,7 +41,7 @@ export const DétailsActionnairePage: FC<DétailsActionnairePageProps> = ({
     leftColumn={{
       children: (
         <div className="flex flex-col gap-8">
-          <DétailsChangementActionnaire actionnaire={actionnaire} demande={demande} />
+          <DétailsChangementActionnaire demande={demande} />
           <div>
             <Heading2>Historique</Heading2>
             <HistoriqueTimeline historique={historique} />

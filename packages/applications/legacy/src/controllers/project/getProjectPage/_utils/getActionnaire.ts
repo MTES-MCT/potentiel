@@ -16,7 +16,9 @@ export type GetActionnaireForProjectPage = {
     label: string;
     url: string;
   };
-  afficherLienChangementSurPageProjet: boolean;
+  demandeEnCours?: {
+    demandéeLe: string;
+  };
 };
 
 type Props = {
@@ -48,8 +50,8 @@ export const getActionnaire = async ({
 
     if (Option.isSome(actionnaire)) {
       const demandeExistanteDeChangement =
-        await mediator.send<Actionnaire.ConsulterChangementActionnaireQuery>({
-          type: 'Lauréat.Actionnaire.Query.ConsulterChangementActionnaire',
+        await mediator.send<Actionnaire.ConsulterChangementEnCoursActionnaireQuery>({
+          type: 'Lauréat.Actionnaire.Query.ConsulterChangementActionnaireEnCours',
           data: { identifiantProjet: identifiantProjet.formatter() },
         });
 
@@ -76,14 +78,13 @@ export const getActionnaire = async ({
                 url: Routes.Actionnaire.changement.demander(identifiantProjet.formatter()),
                 label: "Demander une modification de l'actionnariat",
               }
-            : peutModifier
-              ? {
-                  url: Routes.Actionnaire.modifier(identifiantProjet.formatter()),
-                  label: 'Modifier l’actionnariat',
-                }
-              : undefined,
-        afficherLienChangementSurPageProjet:
-          utilisateur.aLaPermission('actionnaire.consulterChangement') && aUneDemandeEnCours,
+            : undefined,
+        demandeEnCours:
+          utilisateur.aLaPermission('actionnaire.consulterChangement') && aUneDemandeEnCours
+            ? {
+                demandéeLe: demandeExistanteDeChangement.demande.demandéeLe.formatter(),
+              }
+            : undefined,
       };
     }
 
@@ -103,13 +104,11 @@ export const getActionnaire = async ({
               label: 'Modifier la candidature',
             }
           : undefined,
-        afficherLienChangementSurPageProjet: false,
       };
     }
 
     return {
       nom: '',
-      afficherLienChangementSurPageProjet: false,
     };
   } catch (error) {
     getLogger().error(`Impossible de consulter l'actionnaire'`, {

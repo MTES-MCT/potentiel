@@ -9,7 +9,7 @@ import { registerAccorderChangementActionnaireCommand } from './changement/accor
 import { registerAccorderChangementActionnaireUseCase } from './changement/accorder/accorderChangementActionnaire.usecase';
 import { registerAnnulerDemandeChangementCommand } from './changement/annuler/annulerChangementActionnaire.command';
 import { registerAnnulerChangementActionnaireUseCase } from './changement/annuler/annulerChangementActionnaire.usecase';
-import { registerConsulterChangementActionnaireQuery } from './changement/consulter/consulterChangementActionnaireEnCours.query';
+import { registerConsulterChangementActionnaireQuery } from './changement/consulter/consulterChangementActionnaire.query';
 import { registerDemanderChangementActionnaireCommand } from './changement/demander/demanderChangementActionnaire.command';
 import { registerDemanderChangementActionnaireUseCase } from './changement/demander/demanderChangementActionnaire.usecase';
 import { registerRejeterChangementActionnaireCommand } from './changement/rejeter/rejeterChangementActionnaire.command';
@@ -21,6 +21,7 @@ import {
 import { registerSupprimerChangementActionnaireCommand } from './changement/supprimer/supprimerChangementActionnaire.command';
 import { registerModifierActionnaireCommand } from './modifier/modifierActionnaire.command';
 import { registerModifierActionnaireUseCase } from './modifier/modifierActionnaire.usecase';
+import { registerConsulterChangementEnCoursActionnaireQuery } from './changement/consulter/consulterChangementEnCoursActionnaire.query';
 
 export type ActionnaireQueryDependencies = ConsulterActionnaireDependencies &
   ListerChangementActionnaireDependencies;
@@ -48,5 +49,6 @@ export const registerActionnaireUseCases = ({ loadAggregate }: ActionnaireComman
 export const registerActionnaireQueries = (dependencies: ActionnaireQueryDependencies) => {
   registerConsulterActionnaireQuery(dependencies);
   registerConsulterChangementActionnaireQuery(dependencies);
+  registerConsulterChangementEnCoursActionnaireQuery(dependencies);
   registerListerChangementActionnaireQuery(dependencies);
 };

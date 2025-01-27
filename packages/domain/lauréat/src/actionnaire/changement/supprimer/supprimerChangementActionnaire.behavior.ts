@@ -2,7 +2,6 @@ import { DomainEvent } from '@potentiel-domain/core';
 import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
 
 import { ActionnaireAggregate } from '../../actionnaire.aggregate';
-import { ChangementActionnaireInexistanteErreur } from '../../errors';
 
 export type ChangementActionnaireSuppriméEvent = DomainEvent<
   'ChangementActionnaireSupprimé-V1',
@@ -24,7 +23,7 @@ export async function supprimer(
   { identifiantProjet, identifiantUtilisateur, dateSuppression }: SupprimerOptions,
 ) {
   if (!this.demande) {
-    throw new ChangementActionnaireInexistanteErreur();
+    return;
   }
 
   const event: ChangementActionnaireSuppriméEvent = {
