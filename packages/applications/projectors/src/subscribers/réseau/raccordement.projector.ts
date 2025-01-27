@@ -5,7 +5,7 @@ import { Event, RebuildTriggered } from '@potentiel-infrastructure/pg-event-sour
 import { GestionnaireRéseau } from '@potentiel-domain/reseau';
 import { findProjection } from '@potentiel-infrastructure/pg-projections';
 import { Option } from '@potentiel-libraries/monads';
-import { IdentifiantProjet } from '@potentiel-domain/common';
+import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 import { getLogger } from '@potentiel-libraries/monitoring';
 import { CandidatureAdapter } from '@potentiel-infrastructure/domain-adapters';
 import { Where } from '@potentiel-domain/entity';
@@ -30,6 +30,8 @@ export const register = () => {
       await removeRaccordementProjections(event.payload.id);
     } else {
       const identifiantProjet = payload.identifiantProjet;
+      const misÀJourLe = DateTime.convertirEnValueType(event.created_at).formatter();
+
       const { appelOffre } = IdentifiantProjet.convertirEnValueType(identifiantProjet);
 
       const raccordement = await getRaccordementToUpsert(identifiantProjet);
@@ -89,7 +91,7 @@ export const register = () => {
                   dateQualification: event.payload.dateQualification,
                 },
                 projetNotifiéLe,
-                misÀJourLe: event.created_at,
+                misÀJourLe,
                 région,
               };
             case 'DemandeComplèteDeRaccordementTransmise-V2':
@@ -105,7 +107,7 @@ export const register = () => {
                   },
                 },
                 projetNotifiéLe,
-                misÀJourLe: event.created_at,
+                misÀJourLe,
                 région,
               };
           }
@@ -195,7 +197,7 @@ export const register = () => {
                       format: event.payload.format,
                     },
                   },
-                  misÀJourLe: event.created_at,
+                  misÀJourLe,
                 };
               case 'DateMiseEnServiceTransmise-V1':
               case 'DateMiseEnServiceTransmise-V2':
@@ -203,8 +205,16 @@ export const register = () => {
                   ...dossier,
                   miseEnService: {
                     dateMiseEnService: event.payload.dateMiseEnService,
+                    transmiseLe:
+                      event.type === 'DateMiseEnServiceTransmise-V2'
+                        ? event.payload.transmiseLe
+                        : misÀJourLe,
+                    tranmisePar:
+                      event.type === 'DateMiseEnServiceTransmise-V2'
+                        ? event.payload.transmisePar
+                        : undefined,
                   },
-                  misÀJourLe: event.created_at,
+                  misÀJourLe,
                 };
               case 'DemandeComplèteRaccordementModifiée-V1':
                 return {
@@ -214,7 +224,7 @@ export const register = () => {
                     ...dossier.demandeComplèteRaccordement,
                     dateQualification: event.payload.dateQualification,
                   },
-                  misÀJourLe: event.created_at,
+                  misÀJourLe,
                 };
               case 'DemandeComplèteRaccordementModifiée-V2':
                 return {
@@ -223,7 +233,7 @@ export const register = () => {
                     ...dossier.demandeComplèteRaccordement,
                     dateQualification: event.payload.dateQualification,
                   },
-                  misÀJourLe: event.created_at,
+                  misÀJourLe,
                 };
               case 'DemandeComplèteRaccordementModifiée-V3':
                 return {
@@ -235,7 +245,7 @@ export const register = () => {
                       format: event.payload.accuséRéception.format,
                     },
                   },
-                  misÀJourLe: event.created_at,
+                  misÀJourLe,
                 };
               case 'PropositionTechniqueEtFinancièreModifiée-V1':
                 return {
@@ -248,7 +258,7 @@ export const register = () => {
                           ?.propositionTechniqueEtFinancièreSignée?.format || '',
                     },
                   },
-                  misÀJourLe: event.created_at,
+                  misÀJourLe,
                 };
               case 'PropositionTechniqueEtFinancièreModifiée-V2':
                 return {
@@ -259,7 +269,7 @@ export const register = () => {
                       format: event.payload.propositionTechniqueEtFinancièreSignée.format,
                     },
                   },
-                  misÀJourLe: event.created_at,
+                  misÀJourLe,
                 };
               case 'PropositionTechniqueEtFinancièreSignéeTransmise-V1':
                 return {
@@ -270,7 +280,7 @@ export const register = () => {
                       format: event.payload.format,
                     },
                   },
-                  misÀJourLe: event.created_at,
+                  misÀJourLe,
                 };
               case 'PropositionTechniqueEtFinancièreTransmise-V1':
                 return {
@@ -281,7 +291,7 @@ export const register = () => {
                       format: '',
                     },
                   },
-                  misÀJourLe: event.created_at,
+                  misÀJourLe,
                 };
               case 'PropositionTechniqueEtFinancièreTransmise-V2':
                 return {
@@ -292,14 +302,14 @@ export const register = () => {
                       format: event.payload.propositionTechniqueEtFinancièreSignée.format,
                     },
                   },
-                  misÀJourLe: event.created_at,
+                  misÀJourLe,
                 };
               case 'RéférenceDossierRacordementModifiée-V1':
               case 'RéférenceDossierRacordementModifiée-V2':
                 return {
                   ...dossier,
                   référence: event.payload.nouvelleRéférenceDossierRaccordement,
-                  misÀJourLe: event.created_at,
+                  misÀJourLe,
                 };
             }
           })();

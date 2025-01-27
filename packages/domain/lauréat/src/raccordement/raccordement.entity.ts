@@ -1,4 +1,4 @@
-import { DateTime } from '@potentiel-domain/common';
+import { DateTime, Email } from '@potentiel-domain/common';
 import { Entity } from '@potentiel-domain/entity';
 
 type DossierRaccordement = {
@@ -10,7 +10,7 @@ type DossierRaccordement = {
   référence: string;
   projetNotifiéLe?: DateTime.RawType;
   demandeComplèteRaccordement?: {
-    dateQualification?: string;
+    dateQualification?: DateTime.RawType;
     accuséRéception?: { format: string };
   };
   propositionTechniqueEtFinancière?: {
@@ -20,9 +20,11 @@ type DossierRaccordement = {
     };
   };
   miseEnService?: {
-    dateMiseEnService: string;
+    dateMiseEnService: DateTime.RawType;
+    transmiseLe: DateTime.RawType;
+    tranmisePar?: Email.RawType;
   };
-  misÀJourLe: string;
+  misÀJourLe: DateTime.RawType;
 };
 
 export type RaccordementEntity = Entity<
