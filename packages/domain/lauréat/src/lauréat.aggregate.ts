@@ -17,6 +17,15 @@ export type LauréatEvent = LauréatNotifiéEvent;
 export type LauréatAggregate = Aggregate<LauréatEvent> & {
   identifiantProjet: IdentifiantProjet.ValueType;
   notifiéLe: DateTime.ValueType;
+  nomProjet: string;
+  localité: {
+    adresse1: string;
+    adresse2: string;
+    codePostal: string;
+    commune: string;
+    région: string;
+    département: string;
+  };
   notifier: typeof notifier;
 };
 
@@ -26,13 +35,22 @@ export const getDefaultLauréatAggregate: GetDefaultAggregateState<
 > = () => ({
   identifiantProjet: IdentifiantProjet.inconnu,
   notifiéLe: DateTime.now(),
+  nomProjet: '',
+  localité: {
+    adresse1: '',
+    adresse2: '',
+    codePostal: '',
+    commune: '',
+    région: '',
+    département: '',
+  },
   apply,
   notifier,
 });
 
 function apply(this: LauréatAggregate, event: LauréatEvent) {
   switch (event.type) {
-    case 'LauréatNotifié-V1':
+    case 'LauréatNotifié-V2':
       applyLauréatNotifié.bind(this)(event);
       break;
   }

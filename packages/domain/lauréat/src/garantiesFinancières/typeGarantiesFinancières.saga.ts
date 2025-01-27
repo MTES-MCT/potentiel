@@ -17,7 +17,7 @@ export const register = () => {
       payload: { identifiantProjet },
     } = event;
     switch (event.type) {
-      case 'LauréatNotifié-V1':
+      case 'LauréatNotifié-V2':
         await mediator.send<ImporterTypeGarantiesFinancièresUseCase>({
           type: 'Lauréat.GarantiesFinancières.UseCase.ImporterTypeGarantiesFinancières',
           data: {

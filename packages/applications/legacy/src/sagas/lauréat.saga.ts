@@ -51,7 +51,7 @@ export const register = () => {
     }
 
     switch (type) {
-      case 'LauréatNotifié-V1':
+      case 'LauréatNotifié-V2':
         const basePayload = {
           appelOffreId: identifiantProjet.appelOffre,
           periodeId: identifiantProjet.période,

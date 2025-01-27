@@ -34,9 +34,7 @@ export const registerNotifierLauréatUseCase = () => {
         notifiéeLeValue: notifiéLeValue,
         notifiéeParValue: notifiéParValue,
         validateurValue,
-        attestationValue: {
-          format: 'application/pdf',
-        },
+        attestationValue: { format },
       },
     });
     await mediator.send<NotifierLauréatCommand>({
