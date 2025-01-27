@@ -7,6 +7,7 @@ import { Actionnaire } from '@potentiel-domain/laureat';
 import { mapToPlainObject } from '@potentiel-domain/core';
 import { IdentifiantProjet } from '@potentiel-domain/common';
 import { Historique } from '@potentiel-domain/historique';
+import { Role } from '@potentiel-domain/utilisateur';
 
 import { decodeParameter } from '@/utils/decodeParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
@@ -55,20 +56,6 @@ export default async function Page({ params: { identifiant, date } }: PageProps)
           },
         });
 
-      const actions: Array<AvailableChangementReprésentantLégalAction> = [];
-
-      if (changement.demande.statut.estDemandé()) {
-        if (utilisateur.role.aLaPermission('actionnaire.accorderChangement')) {
-          actions.push('accorder');
-        }
-        if (utilisateur.role.aLaPermission('actionnaire.rejeterChangement')) {
-          actions.push('rejeter');
-        }
-        if (utilisateur.role.aLaPermission('actionnaire.annulerChangement')) {
-          actions.push('annuler');
-        }
-      }
-
       const historique = await mediator.send<Historique.ListerHistoriqueProjetQuery>({
         type: 'Historique.Query.ListerHistoriqueProjet',
         data: {
@@ -81,10 +68,11 @@ export default async function Page({ params: { identifiant, date } }: PageProps)
         <DétailsActionnairePage
           identifiantProjet={mapToPlainObject(identifiantProjet)}
           demande={mapToPlainObject(changement.demande)}
-          actions={actions}
+          actions={mapToActions(changement.demande.statut, utilisateur.role)}
           historique={mapToPlainObject(historique)}
           demandeEnCoursDate={
-            Option.isSome(demandeDeChangementEnCours)
+            Option.isSome(demandeDeChangementEnCours) &&
+            demandeDeChangementEnCours.demande.statut.estDemandé()
               ? demandeDeChangementEnCours.demande.demandéeLe.formatter()
               : undefined
           }
@@ -93,3 +81,24 @@ export default async function Page({ params: { identifiant, date } }: PageProps)
     }),
   );
 }
+
+const mapToActions = (
+  statut: Actionnaire.StatutChangementActionnaire.ValueType,
+  rôle: Role.ValueType,
+): Array<AvailableChangementReprésentantLégalAction> => {
+  const actions: Array<AvailableChangementReprésentantLégalAction> = [];
+
+  if (statut.estDemandé()) {
+    if (rôle.aLaPermission('actionnaire.accorderChangement')) {
+      actions.push('accorder');
+    }
+    if (rôle.aLaPermission('actionnaire.rejeterChangement')) {
+      actions.push('rejeter');
+    }
+    if (rôle.aLaPermission('actionnaire.annulerChangement')) {
+      actions.push('annuler');
+    }
+  }
+
+  return actions;
+};

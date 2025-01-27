@@ -20,7 +20,7 @@ export const InfoBoxDemandeEnCours: FC<Props> = ({
     small
     description={
       <div className="p-3">
-        Une demande de changement d'actionnaire est en cours,
+        Une demande de changement d'actionnaire est en cours,{' '}
         <Link
           href={Routes.Actionnaire.changement.détails(
             IdentifiantProjet.bind(identifiantProjet).formatter(),

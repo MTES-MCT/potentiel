@@ -21,11 +21,7 @@ export const DétailsChangementActionnaire: FC<DétailsChangementActionnaireProp
 }) => {
   return (
     <div className="flex flex-col gap-4">
-      <Heading2>
-        {demande.statut.statut === 'information-enregistrée'
-          ? "Détails de l'information enregistrée"
-          : 'Détails de la demande de modification de l’actionnariat'}
-      </Heading2>
+      <Heading2>Demande de changement d'actionnaire</Heading2>
       <>
         <div className="flex flex-col gap-4">
           <div className="flex flex-col gap-2">
@@ -108,7 +104,7 @@ const InformationEnregistrée: FC<ChangementDemandéProps> = ({ demandéeLe, dem
     <div className="flex gap-2">
       <div className="font-semibold">Statut :</div>{' '}
       <StatutChangementActionnaireBadge
-        statut={Actionnaire.StatutChangementActionnaire.demandé.statut}
+        statut={Actionnaire.StatutChangementActionnaire.informationEnregistrée.statut}
       />
     </div>
   </>
