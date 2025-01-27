@@ -5,35 +5,23 @@ import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
 import { Find } from '@potentiel-domain/entity';
 import { DocumentProjet } from '@potentiel-domain/document';
 
-import { ActionnaireEntity, StatutChangementActionnaire, TypeDocumentActionnaire } from '../..';
+import {
+  ActionnaireEntity,
+  ConsulterChangementActionnaireReadModel,
+  StatutChangementActionnaire,
+  TypeDocumentActionnaire,
+} from '../..';
 
-export type ConsulterChangementActionnaireEnCoursReadModel = {
-  identifiantProjet: IdentifiantProjet.ValueType;
-  actionnaire: {
-    actuel: string;
-    demandé: string;
-  };
-
-  demande: {
-    statut: StatutChangementActionnaire.ValueType;
-
-    demandéePar: Email.ValueType;
-    demandéeLe: DateTime.ValueType;
-    raison: string;
+export type ConsulterChangementActionnaireEnCoursReadModel = Omit<
+  ConsulterChangementActionnaireReadModel,
+  'demande'
+> & {
+  demande: Omit<ConsulterChangementActionnaireReadModel['demande'], 'pièceJustificative'> & {
     pièceJustificative: DocumentProjet.ValueType;
-
-    accord?: {
-      réponseSignée: DocumentProjet.ValueType;
-      accordéePar: Email.ValueType;
-      accordéeLe: DateTime.ValueType;
-    };
-    rejet?: {
-      réponseSignée: DocumentProjet.ValueType;
-      rejetéePar: Email.ValueType;
-      rejetéeLe: DateTime.ValueType;
-    };
   };
 };
+
+// TODO::refacto - utiliser un where dans le find et supprimer la demandeEnCours dans la projection actionnaire
 export type ConsulterChangementEnCoursActionnaireQuery = Message<
   'Lauréat.Actionnaire.Query.ConsulterChangementEnCoursActionnaire',
   {
@@ -68,14 +56,10 @@ export const mapToReadModel = (result: ActionnaireEntity) => {
 
   return {
     identifiantProjet: IdentifiantProjet.convertirEnValueType(result.identifiantProjet),
-    actionnaire: {
-      actuel: result.actionnaire.nom,
-      demandé: result.demandeEnCours.nouvelActionnaire,
-    },
 
     demande: {
       statut: StatutChangementActionnaire.convertirEnValueType(result.demandeEnCours.statut),
-
+      nouvelActionnaire: result.demandeEnCours.nouvelActionnaire,
       demandéeLe: DateTime.convertirEnValueType(result.demandeEnCours.demandéeLe),
       demandéePar: Email.convertirEnValueType(result.demandeEnCours.demandéePar),
       raison: result.demandeEnCours.raison,

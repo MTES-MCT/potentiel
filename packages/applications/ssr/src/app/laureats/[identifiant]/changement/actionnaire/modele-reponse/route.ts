@@ -112,7 +112,7 @@ export const GET = async (_: Request, { params: { identifiant } }: IdentifiantPa
           appelOffres.periodes.find((période) => période.id === candidature.période)?.title || '',
         unitePuissance: appelOffres.unitePuissance,
         enCopies: getEnCopies(candidature.localité.région),
-        nouvelActionnaire: demandeChangement.actionnaire.demandé,
+        nouvelActionnaire: demandeChangement.demande.nouvelActionnaire,
         referenceParagrapheActionnaire: texteChangementDActionnariat.référenceParagraphe,
         contenuParagrapheActionnaire: texteChangementDActionnariat?.dispositions,
       },
