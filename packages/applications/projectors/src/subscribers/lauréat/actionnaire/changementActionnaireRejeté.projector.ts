@@ -17,13 +17,13 @@ export const changementActionnaireRejetéProjector = async ({
     `actionnaire|${identifiantProjet}`,
   );
 
-  if (Option.isNone(actionnaire) || !actionnaire.demandeEnCours) {
+  if (Option.isNone(actionnaire) || !actionnaire.dateDemandeEnCours) {
     getLogger().error(`Demande non trouvée`, { identifiantProjet });
     return;
   }
 
   const projectionToUpsert = await findProjection<Actionnaire.ChangementActionnaireEntity>(
-    `changement-actionnaire|${identifiantProjet}#${actionnaire.demandeEnCours.demandéeLe}`,
+    `changement-actionnaire|${identifiantProjet}#${actionnaire.dateDemandeEnCours}`,
   );
 
   if (Option.isNone(projectionToUpsert)) {
@@ -33,11 +33,11 @@ export const changementActionnaireRejetéProjector = async ({
 
   await upsertProjection<Actionnaire.ActionnaireEntity>(`actionnaire|${identifiantProjet}`, {
     ...actionnaire,
-    demandeEnCours: undefined,
+    dateDemandeEnCours: undefined,
   });
 
   await upsertProjection<Actionnaire.ChangementActionnaireEntity>(
-    `changement-actionnaire|${identifiantProjet}#${actionnaire.demandeEnCours.demandéeLe}`,
+    `changement-actionnaire|${identifiantProjet}#${actionnaire.dateDemandeEnCours}`,
     {
       identifiantProjet,
       projet: projectionToUpsert.projet,

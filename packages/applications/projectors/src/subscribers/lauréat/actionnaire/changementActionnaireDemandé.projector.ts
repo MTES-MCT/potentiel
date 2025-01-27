@@ -26,9 +26,7 @@ export const changementActionnaireDemandéProjector = async ({
 
   await upsertProjection<Actionnaire.ActionnaireEntity>(`actionnaire|${identifiantProjet}`, {
     ...projectionToUpsert,
-    demandeEnCours: {
-      demandéeLe: demandéLe,
-    },
+    dateDemandeEnCours: demandéLe,
   });
 
   await upsertProjection<Actionnaire.ChangementActionnaireEntity>(

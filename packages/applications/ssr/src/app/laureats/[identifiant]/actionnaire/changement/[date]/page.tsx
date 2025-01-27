@@ -51,8 +51,8 @@ export default async function Page({ params: { identifiant, date } }: PageProps)
       }
 
       const dateDemandeDeChangement =
-        await mediator.send<Actionnaire.ConsulterDateChangementEnCoursActionnaireQuery>({
-          type: 'Lauréat.Actionnaire.Query.ConsulterDateChangementEnCoursActionnaire',
+        await mediator.send<Actionnaire.ConsulterDateChangementActionnaireQuery>({
+          type: 'Lauréat.Actionnaire.Query.ConsulterDateChangementActionnaire',
           data: {
             identifiantProjet: identifiantProjet.formatter(),
           },

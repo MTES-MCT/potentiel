@@ -17,17 +17,17 @@ export const changementActionnaireSuppriméProjector = async ({
     return;
   }
 
-  if (!projectionToUpsert.demandeEnCours) {
+  if (!projectionToUpsert.dateDemandeEnCours) {
     getLogger().error(`Demande non trouvée`, { identifiantProjet });
     return;
   }
 
   await upsertProjection<Actionnaire.ActionnaireEntity>(`actionnaire|${identifiantProjet}`, {
     ...projectionToUpsert,
-    demandeEnCours: undefined,
+    dateDemandeEnCours: undefined,
   });
 
   await removeProjection<Actionnaire.ChangementActionnaireEntity>(
-    `changement-actionnaire|${identifiantProjet}#${projectionToUpsert.demandeEnCours.demandéeLe}`,
+    `changement-actionnaire|${identifiantProjet}#${projectionToUpsert.dateDemandeEnCours}`,
   );
 };

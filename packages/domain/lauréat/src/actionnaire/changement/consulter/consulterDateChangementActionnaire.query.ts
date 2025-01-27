@@ -6,22 +6,22 @@ import { Find } from '@potentiel-domain/entity';
 
 import { ActionnaireEntity } from '../..';
 
-export type ConsulterDateChangementActionnaireEnCoursReadModel = DateTime.ValueType;
+export type ConsulterDateChangementActionnaireReadModel = DateTime.ValueType;
 
-export type ConsulterDateChangementEnCoursActionnaireQuery = Message<
-  'Lauréat.Actionnaire.Query.ConsulterDateChangementEnCoursActionnaire',
+export type ConsulterDateChangementActionnaireQuery = Message<
+  'Lauréat.Actionnaire.Query.ConsulterDateChangementActionnaire',
   {
     identifiantProjet: string;
   },
-  Option.Type<ConsulterDateChangementActionnaireEnCoursReadModel>
+  Option.Type<ConsulterDateChangementActionnaireReadModel>
 >;
 export type ConsulterChangementActionnaireEnCoursDependencies = {
   find: Find;
 };
-export const registerConsulterDateChangementEnCoursActionnaireQuery = ({
+export const registerConsulterDateChangementActionnaireQuery = ({
   find,
 }: ConsulterChangementActionnaireEnCoursDependencies) => {
-  const handler: MessageHandler<ConsulterDateChangementEnCoursActionnaireQuery> = async ({
+  const handler: MessageHandler<ConsulterDateChangementActionnaireQuery> = async ({
     identifiantProjet,
   }) => {
     const identifiantProjetValueType = IdentifiantProjet.convertirEnValueType(identifiantProjet);
@@ -30,9 +30,9 @@ export const registerConsulterDateChangementEnCoursActionnaireQuery = ({
       `actionnaire|${identifiantProjetValueType.formatter()}`,
     );
 
-    return Option.isSome(actionnaire) && actionnaire.demandeEnCours
-      ? DateTime.convertirEnValueType(actionnaire.demandeEnCours.demandéeLe)
+    return Option.isSome(actionnaire) && actionnaire.dateDemandeEnCours
+      ? DateTime.convertirEnValueType(actionnaire.dateDemandeEnCours)
       : Option.none;
   };
-  mediator.register('Lauréat.Actionnaire.Query.ConsulterDateChangementEnCoursActionnaire', handler);
+  mediator.register('Lauréat.Actionnaire.Query.ConsulterDateChangementActionnaire', handler);
 };

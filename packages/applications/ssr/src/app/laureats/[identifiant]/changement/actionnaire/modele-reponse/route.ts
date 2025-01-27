@@ -65,8 +65,8 @@ export const GET = async (_: Request, { params: { identifiant } }: IdentifiantPa
     }
 
     const dateDemandeDeChangement =
-      await mediator.send<Actionnaire.ConsulterDateChangementEnCoursActionnaireQuery>({
-        type: 'Lauréat.Actionnaire.Query.ConsulterDateChangementEnCoursActionnaire',
+      await mediator.send<Actionnaire.ConsulterDateChangementActionnaireQuery>({
+        type: 'Lauréat.Actionnaire.Query.ConsulterDateChangementActionnaire',
         data: { identifiantProjet },
       });
 

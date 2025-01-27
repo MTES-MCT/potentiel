@@ -29,7 +29,7 @@ export const registerConsulterActionnaireQuery = ({ find }: ConsulterActionnaire
 
     const actionnaire = await find<ActionnaireEntity>(
       `actionnaire|${identifiantProjetValueType.formatter()}`,
-      { select: ['identifiantProjet', 'actionnaire.nom', 'demandeEnCours.demandéeLe'] },
+      { select: ['identifiantProjet', 'actionnaire.nom'] },
     );
 
     return Option.match(actionnaire).some(mapToReadModel).none();

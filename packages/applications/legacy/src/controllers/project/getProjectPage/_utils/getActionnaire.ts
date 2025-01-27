@@ -50,8 +50,8 @@ export const getActionnaire = async ({
 
     if (Option.isSome(actionnaire)) {
       const dateDemandeExistanteDeChangement =
-        await mediator.send<Actionnaire.ConsulterDateChangementEnCoursActionnaireQuery>({
-          type: 'Lauréat.Actionnaire.Query.ConsulterDateChangementEnCoursActionnaire',
+        await mediator.send<Actionnaire.ConsulterDateChangementActionnaireQuery>({
+          type: 'Lauréat.Actionnaire.Query.ConsulterDateChangementActionnaire',
           data: { identifiantProjet: identifiantProjet.formatter() },
         });
 

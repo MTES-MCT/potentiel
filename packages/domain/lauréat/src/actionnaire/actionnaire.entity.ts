@@ -15,9 +15,6 @@ export type ActionnaireEntity = Entity<
     };
 
     actionnaire: { nom: string; misÀJourLe: DateTime.RawType };
-
-    demandeEnCours?: {
-      demandéeLe: DateTime.RawType;
-    };
+    dateDemandeEnCours?: DateTime.RawType;
   }
 >;

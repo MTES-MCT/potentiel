@@ -22,19 +22,19 @@ import { ModifierActionnaireCommand } from './modifier/modifierActionnaire.comma
 import { ModifierActionnaireUseCase } from './modifier/modifierActionnaire.usecase';
 import { SupprimerChangementActionnaireCommand } from './changement/supprimer/supprimerChangementActionnaire.command';
 import {
-  ConsulterDateChangementEnCoursActionnaireQuery,
-  ConsulterDateChangementActionnaireEnCoursReadModel,
-} from './changement/consulter/consulterDateChangementEnCoursActionnaire.query';
+  ConsulterDateChangementActionnaireQuery,
+  ConsulterDateChangementActionnaireReadModel,
+} from './changement/consulter/consulterDateChangementActionnaire.query';
 
 // Query
 export type ActionnaireQuery =
   | ConsulterActionnaireQuery
   | ConsulterChangementActionnaireQuery
-  | ConsulterDateChangementEnCoursActionnaireQuery
+  | ConsulterDateChangementActionnaireQuery
   | ListerChangementActionnaireQuery;
 export type {
   ConsulterActionnaireQuery,
-  ConsulterDateChangementEnCoursActionnaireQuery,
+  ConsulterDateChangementActionnaireQuery,
   ConsulterChangementActionnaireQuery,
   ListerChangementActionnaireQuery,
 };
@@ -43,7 +43,7 @@ export type {
 export type {
   ConsulterActionnaireReadModel,
   ConsulterChangementActionnaireReadModel,
-  ConsulterDateChangementActionnaireEnCoursReadModel,
+  ConsulterDateChangementActionnaireReadModel,
   ListerChangementActionnaireReadModel,
 };
 

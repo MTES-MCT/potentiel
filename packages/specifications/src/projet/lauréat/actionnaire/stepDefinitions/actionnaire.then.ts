@@ -91,13 +91,12 @@ Alors(
         this.candidatureWorld.importerCandidature.identifiantProjet,
       );
 
-      const actual =
-        await mediator.send<Actionnaire.ConsulterDateChangementEnCoursActionnaireQuery>({
-          type: 'Lauréat.Actionnaire.Query.ConsulterDateChangementEnCoursActionnaire',
-          data: {
-            identifiantProjet: identifiantProjet.formatter(),
-          },
-        });
+      const actual = await mediator.send<Actionnaire.ConsulterDateChangementActionnaireQuery>({
+        type: 'Lauréat.Actionnaire.Query.ConsulterDateChangementActionnaire',
+        data: {
+          identifiantProjet: identifiantProjet.formatter(),
+        },
+      });
 
       expect(Option.isNone(actual)).to.be.true;
     });
@@ -178,8 +177,8 @@ async function vérifierChangementActionnaire(
   actual.should.be.deep.equal(expected);
 
   const dateDemandeDeChangement =
-    await mediator.send<Actionnaire.ConsulterDateChangementEnCoursActionnaireQuery>({
-      type: 'Lauréat.Actionnaire.Query.ConsulterDateChangementEnCoursActionnaire',
+    await mediator.send<Actionnaire.ConsulterDateChangementActionnaireQuery>({
+      type: 'Lauréat.Actionnaire.Query.ConsulterDateChangementActionnaire',
       data: {
         identifiantProjet: identifiantProjet,
       },
