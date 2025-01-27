@@ -91,12 +91,13 @@ Alors(
         this.candidatureWorld.importerCandidature.identifiantProjet,
       );
 
-      const actual = await mediator.send<Actionnaire.ConsulterChangementEnCoursActionnaireQuery>({
-        type: 'Lauréat.Actionnaire.Query.ConsulterChangementEnCoursActionnaire',
-        data: {
-          identifiantProjet: identifiantProjet.formatter(),
-        },
-      });
+      const actual =
+        await mediator.send<Actionnaire.ConsulterDateChangementEnCoursActionnaireQuery>({
+          type: 'Lauréat.Actionnaire.Query.ConsulterDateChangementEnCoursActionnaire',
+          data: {
+            identifiantProjet: identifiantProjet.formatter(),
+          },
+        });
 
       expect(Option.isNone(actual)).to.be.true;
     });
@@ -156,13 +157,25 @@ async function vérifierChangementActionnaire(
   statut: Actionnaire.StatutChangementActionnaire.ValueType,
   estUneNouvelleDemande?: boolean,
 ) {
-  const demandeEnCours =
-    await mediator.send<Actionnaire.ConsulterChangementEnCoursActionnaireQuery>({
-      type: 'Lauréat.Actionnaire.Query.ConsulterChangementEnCoursActionnaire',
+  const dateDemandeChangement =
+    await mediator.send<Actionnaire.ConsulterDateChangementEnCoursActionnaireQuery>({
+      type: 'Lauréat.Actionnaire.Query.ConsulterDateChangementEnCoursActionnaire',
       data: {
         identifiantProjet: identifiantProjet,
       },
     });
+
+  if (Option.isNone(dateDemandeChangement)) {
+    throw new Error('erreur');
+  }
+
+  const demandeEnCours = await mediator.send<Actionnaire.ConsulterChangementActionnaireQuery>({
+    type: 'Lauréat.Actionnaire.Query.ConsulterChangementActionnaire',
+    data: {
+      identifiantProjet: identifiantProjet,
+      demandéLe: dateDemandeChangement.formatter(),
+    },
+  });
 
   const actual = mapToPlainObject(demandeEnCours);
 

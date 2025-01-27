@@ -64,13 +64,23 @@ export const GET = async (_: Request, { params: { identifiant } }: IdentifiantPa
       return notFound();
     }
 
-    const demandeChangement =
-      await mediator.send<Actionnaire.ConsulterChangementEnCoursActionnaireQuery>({
-        type: 'Lauréat.Actionnaire.Query.ConsulterChangementEnCoursActionnaire',
+    const dateDemandeDeChangement =
+      await mediator.send<Actionnaire.ConsulterDateChangementEnCoursActionnaireQuery>({
+        type: 'Lauréat.Actionnaire.Query.ConsulterDateChangementEnCoursActionnaire',
         data: { identifiantProjet },
       });
 
-    if (Option.isNone(demandeChangement)) {
+    if (Option.isNone(dateDemandeDeChangement)) {
+      return notFound();
+    }
+
+    const demandeDeChangement =
+      await mediator.send<Actionnaire.ConsulterChangementActionnaireQuery>({
+        type: 'Lauréat.Actionnaire.Query.ConsulterChangementActionnaire',
+        data: { identifiantProjet, demandéLe: dateDemandeDeChangement.formatter() },
+      });
+
+    if (Option.isNone(demandeDeChangement)) {
       return notFound();
     }
 
@@ -92,14 +102,14 @@ export const GET = async (_: Request, { params: { identifiant } }: IdentifiantPa
         adresseCandidat: candidature.candidat.adressePostale,
         codePostalProjet: candidature.localité.codePostal,
         communeProjet: candidature.localité.commune,
-        dateDemande: formatDateForDocument(demandeChangement.demande.demandéeLe.date),
+        dateDemande: formatDateForDocument(demandeDeChangement.demande.demandéeLe.date),
         dateNotification: formatDateForDocument(
           DateTime.convertirEnValueType(candidature.dateDésignation).date,
         ),
         dreal: régionDreal ?? '',
         email: candidature.candidat.contact,
         familles: candidature.famille ? 'yes' : '',
-        justificationDemande: demandeChangement.demande.raison,
+        justificationDemande: demandeDeChangement.demande.raison,
         nomCandidat: candidature.candidat.nom,
         nomProjet: candidature.nom,
         nomRepresentantLegal: candidature.candidat.représentantLégal,
@@ -113,7 +123,7 @@ export const GET = async (_: Request, { params: { identifiant } }: IdentifiantPa
           appelOffres.periodes.find((période) => période.id === candidature.période)?.title || '',
         unitePuissance: appelOffres.unitePuissance,
         enCopies: getEnCopies(candidature.localité.région),
-        nouvelActionnaire: demandeChangement.demande.nouvelActionnaire,
+        nouvelActionnaire: demandeDeChangement.demande.nouvelActionnaire,
         referenceParagrapheActionnaire: texteChangementDActionnariat.référenceParagraphe,
         contenuParagrapheActionnaire: texteChangementDActionnariat?.dispositions,
       },
