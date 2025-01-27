@@ -16,14 +16,16 @@ import { DétailsActionnairePageProps } from './DétailsActionnaire.page';
 
 export type DétailsChangementActionnaireProps = Pick<DétailsActionnairePageProps, 'demande'>;
 
-// viovio
-// voir pour ajouter un bandeau demande en cours si on ne consulte pas la demande en cours
 export const DétailsChangementActionnaire: FC<DétailsChangementActionnaireProps> = ({
   demande,
 }) => {
   return (
     <div className="flex flex-col gap-4">
-      <Heading2>Détails de la demande de modification de l’actionnariat</Heading2>
+      <Heading2>
+        {demande.statut.statut === 'information-enregistrée'
+          ? "Détails de l'information enregistrée"
+          : 'Détails de la demande de modification de l’actionnariat'}
+      </Heading2>
       <>
         <div className="flex flex-col gap-4">
           <div className="flex flex-col gap-2">
@@ -43,6 +45,14 @@ export const DétailsChangementActionnaire: FC<DétailsChangementActionnaireProp
             )}
             {Actionnaire.StatutChangementActionnaire.bind(demande.statut).estDemandé() && (
               <ChangementDemandé
+                demandéeLe={demande.demandéeLe}
+                demandéePar={demande.demandéePar}
+              />
+            )}
+            {Actionnaire.StatutChangementActionnaire.bind(
+              demande.statut,
+            ).estInformationEnregistrée() && (
+              <InformationEnregistrée
                 demandéeLe={demande.demandéeLe}
                 demandéePar={demande.demandéePar}
               />
@@ -85,6 +95,22 @@ const Changement: FC<ChangementProps> = ({ nouvelActionnaire, pièceJustificativ
         />
       </div>
     )}
+  </>
+);
+
+const InformationEnregistrée: FC<ChangementDemandéProps> = ({ demandéeLe, demandéePar }) => (
+  <>
+    <div className="text-xs italic">
+      Modifié le{' '}
+      <FormattedDate className="font-semibold" date={DateTime.bind(demandéeLe).formatter()} /> par{' '}
+      <span className="font-semibold">{Email.bind(demandéePar).formatter()}</span>
+    </div>
+    <div className="flex gap-2">
+      <div className="font-semibold">Statut :</div>{' '}
+      <StatutChangementActionnaireBadge
+        statut={Actionnaire.StatutChangementActionnaire.demandé.statut}
+      />
+    </div>
   </>
 );
 

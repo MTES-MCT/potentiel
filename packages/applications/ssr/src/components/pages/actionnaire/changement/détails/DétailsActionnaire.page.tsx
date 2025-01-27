@@ -17,6 +17,7 @@ import { AccorderChangementActionnaire } from './accorder/AccorderChangementActi
 import { RejeterChangementActionnaire } from './rejeter/RejeterChangementActionnaire.form';
 import { AnnulerChangementActionnaire } from './annuler/AnnulerChangementActionnaire.form';
 import { DétailsChangementActionnaire } from './DétailsChangementActionnaire';
+import { InfoBoxDemandeActionnaire } from './InfoBoxDemandeEnCours';
 
 type ChangementActionnaireActions = 'accorder' | 'rejeter' | 'annuler' | 'demander';
 
@@ -25,6 +26,7 @@ export type DétailsActionnairePageProps = {
   demande: PlainType<Actionnaire.ConsulterChangementActionnaireReadModel['demande']>;
   actions: Array<ChangementActionnaireActions>;
   historique: PlainType<Historique.ListerHistoriqueProjetReadModel>;
+  demandeEnCoursDate?: string;
 };
 
 export const DétailsActionnairePage: FC<DétailsActionnairePageProps> = ({
@@ -32,6 +34,7 @@ export const DétailsActionnairePage: FC<DétailsActionnairePageProps> = ({
   identifiantProjet,
   actions,
   historique,
+  demandeEnCoursDate,
 }) => (
   <ColumnPageTemplate
     banner={
@@ -41,6 +44,12 @@ export const DétailsActionnairePage: FC<DétailsActionnairePageProps> = ({
     leftColumn={{
       children: (
         <div className="flex flex-col gap-8">
+          {demandeEnCoursDate && (
+            <InfoBoxDemandeActionnaire
+              identifiantProjet={identifiantProjet}
+              demandeEnCoursDate={demandeEnCoursDate}
+            />
+          )}
           <DétailsChangementActionnaire demande={demande} />
           <div>
             <Heading2>Historique</Heading2>

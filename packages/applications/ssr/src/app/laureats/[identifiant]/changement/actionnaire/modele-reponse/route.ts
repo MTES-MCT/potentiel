@@ -66,7 +66,7 @@ export const GET = async (_: Request, { params: { identifiant } }: IdentifiantPa
 
     const demandeChangement =
       await mediator.send<Actionnaire.ConsulterChangementEnCoursActionnaireQuery>({
-        type: 'Lauréat.Actionnaire.Query.ConsulterChangementActionnaireEnCours',
+        type: 'Lauréat.Actionnaire.Query.ConsulterChangementEnCoursActionnaire',
         data: { identifiantProjet },
       });
     if (Option.isNone(demandeChangement)) {

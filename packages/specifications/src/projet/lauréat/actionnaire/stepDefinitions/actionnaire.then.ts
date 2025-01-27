@@ -92,7 +92,7 @@ Alors(
       );
 
       const actual = await mediator.send<Actionnaire.ConsulterChangementEnCoursActionnaireQuery>({
-        type: 'Lauréat.Actionnaire.Query.ConsulterChangementActionnaireEnCours',
+        type: 'Lauréat.Actionnaire.Query.ConsulterChangementEnCoursActionnaire',
         data: {
           identifiantProjet: identifiantProjet.formatter(),
         },
@@ -158,7 +158,7 @@ async function vérifierChangementActionnaire(
 ) {
   const demandeEnCours =
     await mediator.send<Actionnaire.ConsulterChangementEnCoursActionnaireQuery>({
-      type: 'Lauréat.Actionnaire.Query.ConsulterChangementActionnaireEnCours',
+      type: 'Lauréat.Actionnaire.Query.ConsulterChangementEnCoursActionnaire',
       data: {
         identifiantProjet: identifiantProjet,
       },

@@ -35,7 +35,7 @@ export type ConsulterChangementActionnaireEnCoursReadModel = {
   };
 };
 export type ConsulterChangementEnCoursActionnaireQuery = Message<
-  'Lauréat.Actionnaire.Query.ConsulterChangementActionnaireEnCours',
+  'Lauréat.Actionnaire.Query.ConsulterChangementEnCoursActionnaire',
   {
     identifiantProjet: string;
   },
@@ -58,7 +58,7 @@ export const registerConsulterChangementEnCoursActionnaireQuery = ({
 
     return Option.match(demandeChangementActionnaire).some(mapToReadModel).none();
   };
-  mediator.register('Lauréat.Actionnaire.Query.ConsulterChangementActionnaireEnCours', handler);
+  mediator.register('Lauréat.Actionnaire.Query.ConsulterChangementEnCoursActionnaire', handler);
 };
 
 export const mapToReadModel = (result: ActionnaireEntity) => {
