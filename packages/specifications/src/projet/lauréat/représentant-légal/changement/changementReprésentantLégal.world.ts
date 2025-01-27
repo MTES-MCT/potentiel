@@ -78,12 +78,6 @@ export class ChangementReprésentantLégalWorld {
         this.corrigerChangementReprésentantLégalFixture.nomReprésentantLégal;
       expected.demande.typeReprésentantLégal =
         this.corrigerChangementReprésentantLégalFixture.typeReprésentantLégal;
-      expected.demande.demandéLe = DateTime.convertirEnValueType(
-        this.corrigerChangementReprésentantLégalFixture.corrigéLe,
-      );
-      expected.demande.demandéPar = Email.convertirEnValueType(
-        this.corrigerChangementReprésentantLégalFixture.corrigéPar,
-      );
       expected.demande.pièceJustificative = DocumentProjet.convertirEnValueType(
         identifiantProjet.formatter(),
         ReprésentantLégal.TypeDocumentChangementReprésentantLégal.pièceJustificative.formatter(),

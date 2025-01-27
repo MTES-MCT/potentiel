@@ -192,6 +192,9 @@ async function corrigerDemandeChangement(
         nomReprésentantLégalValue: nomReprésentantLégal,
         typeReprésentantLégalValue: typeReprésentantLégal.formatter(),
         pièceJustificativeValue: pièceJustificative,
+        dateDemandeValue:
+          this.lauréatWorld.représentantLégalWorld.changementReprésentantLégalWorld
+            .demanderChangementReprésentantLégalFixture.demandéLe,
         dateCorrectionValue: corrigéLe,
         identifiantUtilisateurValue: corrigéPar,
       },

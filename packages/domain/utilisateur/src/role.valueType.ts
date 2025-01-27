@@ -774,6 +774,7 @@ const policies = {
     corrigerChangement: [
       référencielPermissions.lauréat.représentantLégal.usecase.corrigerChangement,
       référencielPermissions.lauréat.représentantLégal.command.corrigerChangement,
+      référencielPermissions.document.command.corriger,
     ],
     demanderChangement: [
       référencielPermissions.lauréat.représentantLégal.usecase.demanderChangement,

@@ -1,57 +1,60 @@
 import { ReprésentantLégal } from '@potentiel-domain/laureat';
-import { Candidature } from '@potentiel-domain/candidature';
 import { Option } from '@potentiel-libraries/monads';
 import { getLogger } from '@potentiel-libraries/monitoring';
-import { IdentifiantProjet } from '@potentiel-domain/common';
 import { findProjection } from '@potentiel-infrastructure/pg-projections';
 
 import { upsertProjection } from '../../../../infrastructure';
 
 export const changementReprésentantLégalCorrigéProjector = async ({
-  payload: {
-    identifiantProjet,
-    nomReprésentantLégal,
-    typeReprésentantLégal,
-    pièceJustificative,
-    corrigéLe,
-    corrigéPar,
-  },
+  payload: { identifiantProjet, nomReprésentantLégal, typeReprésentantLégal, pièceJustificative },
 }: ReprésentantLégal.ChangementReprésentantLégalCorrigéEvent) => {
-  const candidature = await findProjection<Candidature.CandidatureEntity>(
-    `candidature|${identifiantProjet}`,
+  const représentantLégal = await findProjection<ReprésentantLégal.ReprésentantLégalEntity>(
+    `représentant-légal|${identifiantProjet}`,
   );
 
-  if (Option.isNone(candidature)) {
-    getLogger().error('Projet non trouvé', {
-      identifiantProjet,
-      application: 'projectors',
-      fonction: 'handleChangementReprésentantLégalCorrigé',
+  if (Option.isNone(représentantLégal)) {
+    getLogger().error(
+      `Aucun représentant légal n'a été trouvé pour le changement de représentant accordé`,
+      {
+        event,
+      },
+    );
+    return;
+  }
+
+  if (!représentantLégal.demandeEnCours) {
+    getLogger().error(`Aucune demande en cours pour le changement de représentant accordé`, {
+      event,
     });
     return;
   }
 
-  const { appelOffre, période, famille, numéroCRE } =
-    IdentifiantProjet.convertirEnValueType(identifiantProjet);
+  const identifiantChangement = `${identifiantProjet}#${représentantLégal.demandeEnCours.demandéLe}`;
+
+  const changementReprésentantLégal =
+    await findProjection<ReprésentantLégal.ChangementReprésentantLégalEntity>(
+      `changement-représentant-légal|${identifiantChangement}`,
+    );
+
+  if (Option.isNone(changementReprésentantLégal)) {
+    getLogger().error(
+      `Aucun changement de représentant légal n'a été trouvé pour la correction de la demande`,
+      {
+        event,
+      },
+    );
+    return;
+  }
 
   await upsertProjection<ReprésentantLégal.ChangementReprésentantLégalEntity>(
-    `changement-représentant-légal|${identifiantProjet}`,
+    `changement-représentant-légal|${identifiantChangement}`,
     {
-      identifiantProjet,
-      projet: {
-        nom: candidature.nomProjet,
-        appelOffre,
-        période,
-        famille,
-        numéroCRE,
-        région: candidature.localité.région,
-      },
+      ...changementReprésentantLégal,
       demande: {
-        statut: ReprésentantLégal.StatutChangementReprésentantLégal.demandé.formatter(),
+        ...changementReprésentantLégal.demande,
         nomReprésentantLégal,
         typeReprésentantLégal,
         pièceJustificative,
-        demandéLe: corrigéLe,
-        demandéPar: corrigéPar,
       },
     },
   );
