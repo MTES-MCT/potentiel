@@ -5,7 +5,7 @@ import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
 import { AbandonAccordéEvent } from '../../abandon';
 import { SupprimerChangementActionnaireCommand } from '..';
 
-export const handleAbandonAccordé = async ({
+export const abandonAccordéSaga = async ({
   payload: { identifiantProjet },
 }: AbandonAccordéEvent) => {
   await mediator.send<SupprimerChangementActionnaireCommand>({
