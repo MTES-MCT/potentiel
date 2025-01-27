@@ -64,10 +64,11 @@ export const GET = async (_: Request, { params: { identifiant } }: IdentifiantPa
       return notFound();
     }
 
-    const demandeChangement = await mediator.send<Actionnaire.ConsulterChangementActionnaireQuery>({
-      type: 'Lauréat.Actionnaire.Query.ConsulterChangementActionnaire',
-      data: { identifiantProjet },
-    });
+    const demandeChangement =
+      await mediator.send<Actionnaire.ConsulterChangementEnCoursActionnaireQuery>({
+        type: 'Lauréat.Actionnaire.Query.ConsulterChangementEnCoursActionnaire',
+        data: { identifiantProjet },
+      });
     if (Option.isNone(demandeChangement)) {
       return notFound();
     }
@@ -111,7 +112,7 @@ export const GET = async (_: Request, { params: { identifiant } }: IdentifiantPa
           appelOffres.periodes.find((période) => période.id === candidature.période)?.title || '',
         unitePuissance: appelOffres.unitePuissance,
         enCopies: getEnCopies(candidature.localité.région),
-        nouvelActionnaire: demandeChangement.actionnaire.demandé,
+        nouvelActionnaire: demandeChangement.demande.nouvelActionnaire,
         referenceParagrapheActionnaire: texteChangementDActionnariat.référenceParagraphe,
         contenuParagrapheActionnaire: texteChangementDActionnariat?.dispositions,
       },

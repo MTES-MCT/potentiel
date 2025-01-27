@@ -24,11 +24,6 @@ export type ChangementActionnaireEntity = Entity<
         format: string;
       };
 
-      annulation?: {
-        annuléePar: string;
-        annuléeLe: DateTime.RawType;
-      };
-
       accord?: {
         réponseSignée: {
           format: string;

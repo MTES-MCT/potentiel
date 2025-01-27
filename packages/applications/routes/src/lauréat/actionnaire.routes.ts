@@ -2,13 +2,13 @@ import { encodeParameter } from '../encodeParameter';
 
 export const modifier = (identifiantProjet: string) =>
   `/laureats/${encodeParameter(identifiantProjet)}/actionnaire/modifier`;
-export const détails = (identifiantProjet: string) =>
-  `/laureats/${encodeParameter(identifiantProjet)}/actionnaire`;
 
 export const changement = {
   demander: (identifiantProjet: string) =>
-    `/laureats/${encodeParameter(identifiantProjet)}/changement/actionnaire/demander`,
+    `/laureats/${encodeParameter(identifiantProjet)}/actionnaire/changement/demander`,
+  détails: (identifiantProjet: string, demandéLe: string) =>
+    `/laureats/${encodeParameter(identifiantProjet)}/actionnaire/changement/${demandéLe}`,
   téléchargerModèleRéponse: (identifiantProjet: string) =>
-    `/laureats/${encodeParameter(identifiantProjet)}/changement/actionnaire/modele-reponse`,
+    `/laureats/${encodeParameter(identifiantProjet)}/actionnaire/changement/modele-reponse`,
   lister: `/laureats/changements/actionnaire`,
 };

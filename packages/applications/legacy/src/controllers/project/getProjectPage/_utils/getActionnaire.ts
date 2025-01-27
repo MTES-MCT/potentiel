@@ -16,7 +16,9 @@ export type GetActionnaireForProjectPage = {
     label: string;
     url: string;
   };
-  afficherLienChangementSurPageProjet: boolean;
+  demandeEnCours?: {
+    demandéeLe: string;
+  };
 };
 
 type Props = {
@@ -48,8 +50,8 @@ export const getActionnaire = async ({
 
     if (Option.isSome(actionnaire)) {
       const demandeExistanteDeChangement =
-        await mediator.send<Actionnaire.ConsulterChangementActionnaireQuery>({
-          type: 'Lauréat.Actionnaire.Query.ConsulterChangementActionnaire',
+        await mediator.send<Actionnaire.ConsulterChangementEnCoursActionnaireQuery>({
+          type: 'Lauréat.Actionnaire.Query.ConsulterChangementEnCoursActionnaire',
           data: { identifiantProjet: identifiantProjet.formatter() },
         });
 
@@ -71,19 +73,23 @@ export const getActionnaire = async ({
         nom: actionnaire.actionnaire,
         affichage: nePeutFaireAucuneAction
           ? undefined
-          : peutFaireUneDemandeDeChangement
+          : peutModifier
             ? {
-                url: Routes.Actionnaire.changement.demander(identifiantProjet.formatter()),
-                label: "Demander une modification de l'actionnariat",
+                url: Routes.Actionnaire.modifier(identifiantProjet.formatter()),
+                label: 'Modifier l’actionnariat',
               }
-            : peutModifier
+            : peutFaireUneDemandeDeChangement
               ? {
-                  url: Routes.Actionnaire.modifier(identifiantProjet.formatter()),
-                  label: 'Modifier l’actionnariat',
+                  url: Routes.Actionnaire.changement.demander(identifiantProjet.formatter()),
+                  label: "Demander une modification de l'actionnariat",
                 }
               : undefined,
-        afficherLienChangementSurPageProjet:
-          utilisateur.aLaPermission('actionnaire.consulterChangement') && aUneDemandeEnCours,
+        demandeEnCours:
+          utilisateur.aLaPermission('actionnaire.consulterChangement') && aUneDemandeEnCours
+            ? {
+                demandéeLe: demandeExistanteDeChangement.demande.demandéeLe.formatter(),
+              }
+            : undefined,
       };
     }
 
@@ -103,18 +109,14 @@ export const getActionnaire = async ({
               label: 'Modifier la candidature',
             }
           : undefined,
-        afficherLienChangementSurPageProjet: false,
       };
     }
 
     return {
       nom: '',
-      afficherLienChangementSurPageProjet: false,
     };
   } catch (error) {
-    getLogger().error(`Impossible de consulter l'actionnaire'`, {
-      identifiantProjet: identifiantProjet.formatter(),
-    });
+    getLogger().error(error);
     return undefined;
   }
 };

@@ -267,6 +267,8 @@ const référencielPermissions = {
       query: {
         consulter: 'Lauréat.Actionnaire.Query.ConsulterActionnaire',
         consulterChangement: 'Lauréat.Actionnaire.Query.ConsulterChangementActionnaire',
+        consulterChangementEnCours:
+          'Lauréat.Actionnaire.Query.ConsulterChangementEnCoursActionnaire',
         listerChangement: 'Lauréat.Actionnaire.Query.ListerChangementActionnaire',
       },
       usecase: {
@@ -912,7 +914,10 @@ const policies = {
       référencielPermissions.lauréat.actionnaire.usecase.modifier,
       référencielPermissions.lauréat.actionnaire.command.modifier,
     ],
-    consulterChangement: [référencielPermissions.lauréat.actionnaire.query.consulterChangement],
+    consulterChangement: [
+      référencielPermissions.lauréat.actionnaire.query.consulterChangement,
+      référencielPermissions.lauréat.actionnaire.query.consulterChangementEnCours,
+    ],
     demanderChangement: [
       référencielPermissions.lauréat.actionnaire.usecase.demanderChangement,
       référencielPermissions.lauréat.actionnaire.command.demanderChangement,
@@ -977,6 +982,7 @@ const pageProjetPolicies: Policy[] = [
 
   // Actionnaire
   'actionnaire.consulter',
+  'actionnaire.consulterChangement',
 ];
 
 const adminPolicies: ReadonlyArray<Policy> = [

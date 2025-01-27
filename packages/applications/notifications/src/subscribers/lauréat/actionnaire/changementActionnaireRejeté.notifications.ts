@@ -43,7 +43,7 @@ export const changementActionnaireRejetéNotifications = async ({
       type: 'rejet',
       nom_projet: projet.nom,
       departement_projet: projet.département,
-      url: `${baseUrl}${Routes.Actionnaire.détails(identifiantProjet.formatter())}`,
+      url: `${baseUrl}${Routes.Projet.details(identifiantProjet.formatter())}`,
     },
   });
 };

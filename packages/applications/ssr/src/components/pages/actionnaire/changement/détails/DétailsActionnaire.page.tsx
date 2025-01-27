@@ -17,33 +17,40 @@ import { AccorderChangementActionnaire } from './accorder/AccorderChangementActi
 import { RejeterChangementActionnaire } from './rejeter/RejeterChangementActionnaire.form';
 import { AnnulerChangementActionnaire } from './annuler/AnnulerChangementActionnaire.form';
 import { DétailsChangementActionnaire } from './DétailsChangementActionnaire';
+import { InfoBoxDemandeEnCours } from './InfoBoxDemandeEnCours';
 
 type ChangementActionnaireActions = 'accorder' | 'rejeter' | 'annuler' | 'demander';
 
 export type DétailsActionnairePageProps = {
   identifiantProjet: PlainType<IdentifiantProjet.ValueType>;
-  actionnaire?: PlainType<Actionnaire.ConsulterChangementActionnaireReadModel['actionnaire']>;
-  demande?: PlainType<Actionnaire.ConsulterChangementActionnaireReadModel['demande']>;
+  demande: PlainType<Actionnaire.ConsulterChangementActionnaireReadModel['demande']>;
   actions: Array<ChangementActionnaireActions>;
   historique: PlainType<Historique.ListerHistoriqueProjetReadModel>;
+  demandeEnCoursDate?: string;
 };
 
 export const DétailsActionnairePage: FC<DétailsActionnairePageProps> = ({
-  actionnaire,
   demande,
   identifiantProjet,
   actions,
   historique,
+  demandeEnCoursDate,
 }) => (
   <ColumnPageTemplate
     banner={
       <ProjetBanner identifiantProjet={IdentifiantProjet.bind(identifiantProjet).formatter()} />
     }
-    heading={<Heading1>Détails de l’actionnariat</Heading1>}
+    heading={<Heading1>Détails du changement d'actionnaire</Heading1>}
     leftColumn={{
       children: (
         <div className="flex flex-col gap-8">
-          <DétailsChangementActionnaire actionnaire={actionnaire} demande={demande} />
+          {demandeEnCoursDate && demandeEnCoursDate !== demande.demandéeLe.date && (
+            <InfoBoxDemandeEnCours
+              identifiantProjet={identifiantProjet}
+              demandeEnCoursDate={demandeEnCoursDate}
+            />
+          )}
+          <DétailsChangementActionnaire demande={demande} />
           <div>
             <Heading2>Historique</Heading2>
             <HistoriqueTimeline historique={historique} />

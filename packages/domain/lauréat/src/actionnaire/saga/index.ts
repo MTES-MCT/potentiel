@@ -4,8 +4,8 @@ import { match } from 'ts-pattern';
 import { LauréatNotifiéEvent } from '../../lauréat';
 import { AbandonAccordéEvent } from '../../abandon';
 
-import { handleLauréatNotifié } from './handleLauréatNotifié.saga';
-import { handleAbandonAccordé } from './handleAbandonAccordé.saga';
+import { lauréatNotifiéSaga } from './lauréatNotifié.saga';
+import { abandonAccordéSaga } from './abandonAccordé.saga';
 
 export type SubscriptionEvent = LauréatNotifiéEvent | AbandonAccordéEvent;
 
@@ -14,8 +14,8 @@ export type Execute = Message<'System.Lauréat.Actionnaire.Saga.Execute', Subscr
 export const register = () => {
   const handler: MessageHandler<Execute> = async (event) =>
     match(event)
-      .with({ type: 'LauréatNotifié-V1' }, handleLauréatNotifié)
-      .with({ type: 'AbandonAccordé-V1' }, handleAbandonAccordé)
+      .with({ type: 'LauréatNotifié-V1' }, lauréatNotifiéSaga)
+      .with({ type: 'AbandonAccordé-V1' }, abandonAccordéSaga)
       .exhaustive();
 
   mediator.register('System.Lauréat.Actionnaire.Saga.Execute', handler);
