@@ -69,6 +69,7 @@ export const GET = async (_: Request, { params: { identifiant } }: IdentifiantPa
         type: 'Lauréat.Actionnaire.Query.ConsulterChangementEnCoursActionnaire',
         data: { identifiantProjet },
       });
+
     if (Option.isNone(demandeChangement)) {
       return notFound();
     }

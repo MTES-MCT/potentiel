@@ -2,11 +2,11 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { Option } from '@potentiel-libraries/monads';
 import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
-import { Find } from '@potentiel-domain/entity';
+import { Find, Where } from '@potentiel-domain/entity';
 import { DocumentProjet } from '@potentiel-domain/document';
 
 import {
-  ActionnaireEntity,
+  ChangementActionnaireEntity,
   ConsulterChangementActionnaireReadModel,
   StatutChangementActionnaire,
   TypeDocumentActionnaire,
@@ -21,11 +21,11 @@ export type ConsulterChangementActionnaireEnCoursReadModel = Omit<
   };
 };
 
-// TODO::refacto - utiliser un where dans le find et supprimer la demandeEnCours dans la projection actionnaire
 export type ConsulterChangementEnCoursActionnaireQuery = Message<
   'Lauréat.Actionnaire.Query.ConsulterChangementEnCoursActionnaire',
   {
     identifiantProjet: string;
+    demandéLe: string;
   },
   Option.Type<ConsulterChangementActionnaireEnCoursReadModel>
 >;
@@ -37,11 +37,19 @@ export const registerConsulterChangementEnCoursActionnaireQuery = ({
 }: ConsulterChangementActionnaireEnCoursDependencies) => {
   const handler: MessageHandler<ConsulterChangementEnCoursActionnaireQuery> = async ({
     identifiantProjet,
+    demandéLe,
   }) => {
     const identifiantProjetValueType = IdentifiantProjet.convertirEnValueType(identifiantProjet);
 
-    const demandeChangementActionnaire = await find<ActionnaireEntity>(
-      `actionnaire|${identifiantProjetValueType.formatter()}`,
+    const demandeChangementActionnaire = await find<ChangementActionnaireEntity>(
+      `changement-actionnaire|${identifiantProjetValueType.formatter()}#${demandéLe}`,
+      {
+        where: {
+          demande: {
+            statut: Where.equal(StatutChangementActionnaire.demandé.statut),
+          },
+        },
+      },
     );
 
     return Option.match(demandeChangementActionnaire).some(mapToReadModel).none();
@@ -49,8 +57,8 @@ export const registerConsulterChangementEnCoursActionnaireQuery = ({
   mediator.register('Lauréat.Actionnaire.Query.ConsulterChangementEnCoursActionnaire', handler);
 };
 
-export const mapToReadModel = (result: ActionnaireEntity) => {
-  if (!result.demandeEnCours) {
+export const mapToReadModel = (result: ChangementActionnaireEntity) => {
+  if (!result) {
     return Option.none;
   }
 
@@ -58,39 +66,39 @@ export const mapToReadModel = (result: ActionnaireEntity) => {
     identifiantProjet: IdentifiantProjet.convertirEnValueType(result.identifiantProjet),
 
     demande: {
-      statut: StatutChangementActionnaire.convertirEnValueType(result.demandeEnCours.statut),
-      nouvelActionnaire: result.demandeEnCours.nouvelActionnaire,
-      demandéeLe: DateTime.convertirEnValueType(result.demandeEnCours.demandéeLe),
-      demandéePar: Email.convertirEnValueType(result.demandeEnCours.demandéePar),
-      raison: result.demandeEnCours.raison,
+      statut: StatutChangementActionnaire.convertirEnValueType(result.demande.statut),
+      nouvelActionnaire: result.demande.nouvelActionnaire,
+      demandéeLe: DateTime.convertirEnValueType(result.demande.demandéeLe),
+      demandéePar: Email.convertirEnValueType(result.demande.demandéePar),
+      raison: result.demande.raison,
       pièceJustificative: DocumentProjet.convertirEnValueType(
         result.identifiantProjet,
         TypeDocumentActionnaire.pièceJustificative.formatter(),
-        DateTime.convertirEnValueType(result.demandeEnCours.demandéeLe).formatter(),
-        result.demandeEnCours.pièceJustificative?.format,
+        DateTime.convertirEnValueType(result.demande.demandéeLe).formatter(),
+        result.demande.pièceJustificative!.format,
       ),
-
-      accord: result.demandeEnCours.accord
+      accord: result.demande.accord
         ? {
-            accordéeLe: DateTime.convertirEnValueType(result.demandeEnCours.accord.accordéeLe),
-            accordéePar: Email.convertirEnValueType(result.demandeEnCours.accord.accordéePar),
+            accordéeLe: DateTime.convertirEnValueType(result.demande.accord.accordéeLe),
+            accordéePar: Email.convertirEnValueType(result.demande.accord.accordéePar),
             réponseSignée: DocumentProjet.convertirEnValueType(
               result.identifiantProjet,
               TypeDocumentActionnaire.changementAccordé.formatter(),
-              DateTime.convertirEnValueType(result.demandeEnCours.accord.accordéeLe).formatter(),
-              result.demandeEnCours.accord.réponseSignée.format,
+              DateTime.convertirEnValueType(result.demande.accord.accordéeLe).formatter(),
+              result.demande.accord.réponseSignée.format,
             ),
           }
         : undefined,
-      rejet: result.demandeEnCours.rejet
+
+      rejet: result.demande.rejet
         ? {
-            rejetéeLe: DateTime.convertirEnValueType(result.demandeEnCours.rejet.rejetéeLe),
-            rejetéePar: Email.convertirEnValueType(result.demandeEnCours.rejet.rejetéePar),
+            rejetéeLe: DateTime.convertirEnValueType(result.demande.rejet.rejetéeLe),
+            rejetéePar: Email.convertirEnValueType(result.demande.rejet.rejetéePar),
             réponseSignée: DocumentProjet.convertirEnValueType(
               result.identifiantProjet,
               TypeDocumentActionnaire.changementRejeté.formatter(),
-              DateTime.convertirEnValueType(result.demandeEnCours.rejet.rejetéeLe).formatter(),
-              result.demandeEnCours.rejet.réponseSignée.format,
+              DateTime.convertirEnValueType(result.demande.rejet.rejetéeLe).formatter(),
+              result.demande.rejet.réponseSignée.format,
             ),
           }
         : undefined,
