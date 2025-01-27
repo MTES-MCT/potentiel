@@ -11,7 +11,7 @@ type Props = {
   demandeEnCoursDate: string;
 };
 
-export const InfoBoxDemandeActionnaire: FC<Props> = ({
+export const InfoBoxDemandeEnCours: FC<Props> = ({
   identifiantProjet,
   demandeEnCoursDate,
 }: Props) => (

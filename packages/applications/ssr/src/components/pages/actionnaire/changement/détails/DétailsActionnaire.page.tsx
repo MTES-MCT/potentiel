@@ -17,7 +17,7 @@ import { AccorderChangementActionnaire } from './accorder/AccorderChangementActi
 import { RejeterChangementActionnaire } from './rejeter/RejeterChangementActionnaire.form';
 import { AnnulerChangementActionnaire } from './annuler/AnnulerChangementActionnaire.form';
 import { DétailsChangementActionnaire } from './DétailsChangementActionnaire';
-import { InfoBoxDemandeActionnaire } from './InfoBoxDemandeEnCours';
+import { InfoBoxDemandeEnCours } from './InfoBoxDemandeEnCours';
 
 type ChangementActionnaireActions = 'accorder' | 'rejeter' | 'annuler' | 'demander';
 
@@ -44,8 +44,8 @@ export const DétailsActionnairePage: FC<DétailsActionnairePageProps> = ({
     leftColumn={{
       children: (
         <div className="flex flex-col gap-8">
-          {demandeEnCoursDate && (
-            <InfoBoxDemandeActionnaire
+          {demandeEnCoursDate && demandeEnCoursDate !== demande.demandéeLe.date && (
+            <InfoBoxDemandeEnCours
               identifiantProjet={identifiantProjet}
               demandeEnCoursDate={demandeEnCoursDate}
             />
