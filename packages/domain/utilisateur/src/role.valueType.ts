@@ -50,7 +50,6 @@ export const convertirEnValueType = (value: string): ValueType => {
       const aLaPermission = droitsMessagesMediator[this.nom].has(typeMessage);
 
       if (!aLaPermission) {
-        console.log('erreur ici viovio');
         throw new AccèsFonctionnalitéRefuséError(typeMessage, this.nom);
       }
     },
