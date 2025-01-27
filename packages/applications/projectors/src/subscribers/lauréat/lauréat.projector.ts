@@ -18,13 +18,15 @@ export const register = () => {
       await removeProjection<Lauréat.LauréatEntity>(`lauréat|${payload.id}`);
     } else {
       switch (type) {
-        case 'LauréatNotifié-V1':
-          const { identifiantProjet, notifiéLe, notifiéPar } = payload;
+        case 'LauréatNotifié-V2':
+          const { identifiantProjet, notifiéLe, notifiéPar, nomProjet, localité } = payload;
 
           await upsertProjection<Lauréat.LauréatEntity>(`lauréat|${identifiantProjet}`, {
             identifiantProjet,
             notifiéLe,
             notifiéPar,
+            nomProjet,
+            localité,
           });
           break;
       }

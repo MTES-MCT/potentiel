@@ -10,6 +10,15 @@ export type ConsulterLauréatReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
   notifiéLe: DateTime.ValueType;
   notifiéPar: Email.ValueType;
+  nomProjet: string;
+  localité: {
+    adresse1: string;
+    adresse2: string;
+    codePostal: string;
+    commune: string;
+    région: string;
+    département: string;
+  };
 };
 
 export type ConsulterLauréatQuery = Message<
@@ -41,8 +50,19 @@ const mapToReadModel = ({
   identifiantProjet,
   notifiéLe,
   notifiéPar,
+  nomProjet,
+  localité: { adresse1, adresse2, codePostal, commune, département, région },
 }: LauréatEntity): ConsulterLauréatReadModel => ({
   identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
   notifiéLe: DateTime.convertirEnValueType(notifiéLe),
   notifiéPar: Email.convertirEnValueType(notifiéPar),
+  nomProjet,
+  localité: {
+    adresse1,
+    adresse2,
+    codePostal,
+    commune,
+    département,
+    région,
+  },
 });

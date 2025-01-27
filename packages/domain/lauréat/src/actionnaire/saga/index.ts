@@ -14,7 +14,7 @@ export type Execute = Message<'System.Lauréat.Actionnaire.Saga.Execute', Subscr
 export const register = () => {
   const handler: MessageHandler<Execute> = async (event) =>
     match(event)
-      .with({ type: 'LauréatNotifié-V1' }, lauréatNotifiéSaga)
+      .with({ type: 'LauréatNotifié-V2' }, lauréatNotifiéSaga)
       .with({ type: 'AbandonAccordé-V1' }, abandonAccordéSaga)
       .exhaustive();
 

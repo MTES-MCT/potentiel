@@ -10,9 +10,22 @@ export type NotifierOptions = {
   attestation: {
     format: string;
   };
+  nomProjet: string;
+  localité: {
+    adresse1: string;
+    adresse2: string;
+    codePostal: string;
+    commune: string;
+    région: string;
+    département: string;
+  };
 };
 
-export type LauréatNotifiéEvent = DomainEvent<
+/**
+ * l'évènement V1 ne contenait pas les informations nomProjet et localité;
+ * Une V2 est émise pour chaque V1, donc V1 n'est plus à utiliser
+ */
+export type LauréatNotifiéV1Event = DomainEvent<
   'LauréatNotifié-V1',
   {
     identifiantProjet: IdentifiantProjet.RawType;
@@ -25,18 +38,57 @@ export type LauréatNotifiéEvent = DomainEvent<
   }
 >;
 
+export type LauréatNotifiéEvent = DomainEvent<
+  'LauréatNotifié-V2',
+  {
+    identifiantProjet: IdentifiantProjet.RawType;
+    notifiéLe: DateTime.RawType;
+    notifiéPar: Email.RawType;
+
+    attestation: {
+      format: string;
+    };
+
+    nomProjet: string;
+    localité: {
+      adresse1: string;
+      adresse2: string;
+      codePostal: string;
+      commune: string;
+      région: string;
+      département: string;
+    };
+  }
+>;
+
 export async function notifier(
   this: LauréatAggregate,
-  { identifiantProjet, notifiéLe, notifiéPar, attestation: { format } }: NotifierOptions,
+  {
+    identifiantProjet,
+    notifiéLe,
+    notifiéPar,
+    attestation: { format },
+    nomProjet,
+    localité: { adresse1, adresse2, codePostal, commune, département, région },
+  }: NotifierOptions,
 ) {
   const event: LauréatNotifiéEvent = {
-    type: 'LauréatNotifié-V1',
+    type: 'LauréatNotifié-V2',
     payload: {
       identifiantProjet: identifiantProjet.formatter(),
       notifiéLe: notifiéLe.formatter(),
       notifiéPar: notifiéPar.formatter(),
       attestation: {
         format,
+      },
+      nomProjet,
+      localité: {
+        adresse1,
+        adresse2,
+        codePostal,
+        commune,
+        région,
+        département,
       },
     },
   };
@@ -46,8 +98,10 @@ export async function notifier(
 
 export function applyLauréatNotifié(
   this: LauréatAggregate,
-  { payload: { identifiantProjet, notifiéLe } }: LauréatNotifiéEvent,
+  { payload: { identifiantProjet, notifiéLe, localité, nomProjet } }: LauréatNotifiéEvent,
 ) {
   this.identifiantProjet = IdentifiantProjet.convertirEnValueType(identifiantProjet);
   this.notifiéLe = DateTime.convertirEnValueType(notifiéLe);
+  this.nomProjet = nomProjet;
+  this.localité = localité;
 }
