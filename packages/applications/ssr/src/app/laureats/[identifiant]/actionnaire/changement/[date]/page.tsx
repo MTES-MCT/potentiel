@@ -12,8 +12,10 @@ import { Role } from '@potentiel-domain/utilisateur';
 import { decodeParameter } from '@/utils/decodeParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
-import { AvailableChangementReprésentantLégalAction } from '@/components/pages/représentant-légal/changement/détails/DétailsChangementReprésentantLégal.page';
-import { DétailsActionnairePage } from '@/components/pages/actionnaire/changement/détails/DétailsActionnaire.page';
+import {
+  ChangementActionnaireActions,
+  DétailsActionnairePage,
+} from '@/components/pages/actionnaire/changement/détails/DétailsActionnaire.page';
 
 export const metadata: Metadata = {
   title: "Détail de l'actionnariat du projet - Potentiel",
@@ -85,8 +87,8 @@ export default async function Page({ params: { identifiant, date } }: PageProps)
 const mapToActions = (
   statut: Actionnaire.StatutChangementActionnaire.ValueType,
   rôle: Role.ValueType,
-): Array<AvailableChangementReprésentantLégalAction> => {
-  const actions: Array<AvailableChangementReprésentantLégalAction> = [];
+): Array<ChangementActionnaireActions> => {
+  const actions: Array<ChangementActionnaireActions> = [];
 
   if (statut.estDemandé()) {
     if (rôle.aLaPermission('actionnaire.accorderChangement')) {

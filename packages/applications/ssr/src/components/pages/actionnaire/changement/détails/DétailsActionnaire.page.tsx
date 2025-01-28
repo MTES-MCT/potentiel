@@ -19,7 +19,7 @@ import { AnnulerChangementActionnaire } from './annuler/AnnulerChangementActionn
 import { DétailsChangementActionnaire } from './DétailsChangementActionnaire';
 import { InfoBoxDemandeEnCours } from './InfoBoxDemandeEnCours';
 
-type ChangementActionnaireActions = 'accorder' | 'rejeter' | 'annuler' | 'demander';
+export type ChangementActionnaireActions = 'accorder' | 'rejeter' | 'annuler' | 'demander';
 
 export type DétailsActionnairePageProps = {
   identifiantProjet: PlainType<IdentifiantProjet.ValueType>;
