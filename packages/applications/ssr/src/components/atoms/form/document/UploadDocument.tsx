@@ -109,7 +109,7 @@ export const UploadDocument: FC<UploadDocumentProps> = ({
       )}
       <div className="fr-hint-text">
         Taille maximale : <span className="font-semibold">{fileSizeLimitInMegaBytes} Mo</span>,
-        Formats supportés : <span className="font-semibold">{formats.join(', ')}</span>.
+        Format(s) supporté(s) : <span className="font-semibold">{formats.join(', ')}</span>.
         {multiple && <> Plusieurs fichiers possibles</>}
       </div>
       {hintText && <div className="fr-hint-text">{hintText}</div>}
