@@ -6,28 +6,30 @@ import { AnnulerChangementReprésentantLégalFixture } from './fixtures/annulerC
 import { AccorderChangementReprésentantLégalFixture } from './fixtures/accorderChangementReprésentantLégal.fixture';
 import { RejeterChangementReprésentantLégalFixture } from './fixtures/rejeterChangementReprésentantLégal.fixture';
 import { DemanderChangementReprésentantLégalFixture } from './fixtures/demanderChangementReprésentantLégal.fixture';
+import { CorrigerChangementReprésentantLégalFixture } from './fixtures/corrigerChangementReprésentantLégal.fixture';
 
 export class ChangementReprésentantLégalWorld {
   #demanderChangementReprésentantLégalFixture: DemanderChangementReprésentantLégalFixture;
-
   get demanderChangementReprésentantLégalFixture() {
     return this.#demanderChangementReprésentantLégalFixture;
   }
 
   #annulerChangementReprésentantLégalFixture: AnnulerChangementReprésentantLégalFixture;
-
   get annulerChangementReprésentantLégalFixture() {
     return this.#annulerChangementReprésentantLégalFixture;
   }
 
-  #accorderChangementReprésentantLégalFixture: AccorderChangementReprésentantLégalFixture;
+  #corrigerChangementReprésentantLégalFixture: CorrigerChangementReprésentantLégalFixture;
+  get corrigerChangementReprésentantLégalFixture() {
+    return this.#corrigerChangementReprésentantLégalFixture;
+  }
 
+  #accorderChangementReprésentantLégalFixture: AccorderChangementReprésentantLégalFixture;
   get accorderChangementReprésentantLégalFixture() {
     return this.#accorderChangementReprésentantLégalFixture;
   }
 
   #rejeterChangementReprésentantLégalFixture: RejeterChangementReprésentantLégalFixture;
-
   get rejeterChangementReprésentantLégalFixture() {
     return this.#rejeterChangementReprésentantLégalFixture;
   }
@@ -37,6 +39,8 @@ export class ChangementReprésentantLégalWorld {
       new DemanderChangementReprésentantLégalFixture();
     this.#annulerChangementReprésentantLégalFixture =
       new AnnulerChangementReprésentantLégalFixture();
+    this.#corrigerChangementReprésentantLégalFixture =
+      new CorrigerChangementReprésentantLégalFixture();
     this.#accorderChangementReprésentantLégalFixture =
       new AccorderChangementReprésentantLégalFixture();
     this.#rejeterChangementReprésentantLégalFixture =
@@ -68,6 +72,19 @@ export class ChangementReprésentantLégalWorld {
         ),
       },
     };
+
+    if (this.corrigerChangementReprésentantLégalFixture.aÉtéCréé) {
+      expected.demande.nomReprésentantLégal =
+        this.corrigerChangementReprésentantLégalFixture.nomReprésentantLégal;
+      expected.demande.typeReprésentantLégal =
+        this.corrigerChangementReprésentantLégalFixture.typeReprésentantLégal;
+      expected.demande.pièceJustificative = DocumentProjet.convertirEnValueType(
+        identifiantProjet.formatter(),
+        ReprésentantLégal.TypeDocumentChangementReprésentantLégal.pièceJustificative.formatter(),
+        this.#corrigerChangementReprésentantLégalFixture.corrigéLe,
+        this.#corrigerChangementReprésentantLégalFixture.pièceJustificative!.format,
+      );
+    }
 
     if (this.accorderChangementReprésentantLégalFixture.aÉtéCréé) {
       expected.demande.accord = {

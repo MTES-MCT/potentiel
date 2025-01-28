@@ -22,6 +22,8 @@ import {
 import { AnnulerChangementReprésentantLégalCommand } from './changement/annuler/annulerChangementReprésentantLégal.command';
 import { AnnulerChangementReprésentantLégalUseCase } from './changement/annuler/annulerChangementReprésentantLégal.usecase';
 import { SupprimerDocumentProjetSensibleCommand } from './changement/supprimerDocumentSensible/supprimerDocumentProjetSensible.command';
+import { CorrigerChangementReprésentantLégalUseCase } from './changement/corriger/corrigerChangementReprésentantLégal.usecase';
+import { CorrigerChangementReprésentantLégalCommand } from './changement/corriger/corrigerChangementReprésentantLégal.command';
 
 // Query
 export type ReprésentantLégalQuery =
@@ -48,6 +50,7 @@ export type ReprésentantLégalCommand =
   | ModifierReprésentantLégalCommand
   | DemanderChangementReprésentantLégalCommand
   | AnnulerChangementReprésentantLégalCommand
+  | CorrigerChangementReprésentantLégalCommand
   | AccorderChangementReprésentantLégalCommand
   | RejeterChangementReprésentantLégalCommand
   | SupprimerDocumentProjetSensibleCommand;
@@ -56,6 +59,9 @@ export type {
   ImporterReprésentantLégalCommand,
   ModifierReprésentantLégalCommand,
   DemanderChangementReprésentantLégalCommand,
+  CorrigerChangementReprésentantLégalCommand,
+  AccorderChangementReprésentantLégalCommand,
+  RejeterChangementReprésentantLégalCommand,
 };
 
 // UseCase
@@ -63,6 +69,7 @@ export type ReprésentantLégalUseCase =
   | ModifierReprésentantLégalUseCase
   | DemanderChangementReprésentantLégalUseCase
   | AnnulerChangementReprésentantLégalUseCase
+  | CorrigerChangementReprésentantLégalUseCase
   | AccorderChangementReprésentantLégalUseCase
   | RejeterChangementReprésentantLégalUseCase;
 
@@ -70,6 +77,7 @@ export type {
   ModifierReprésentantLégalUseCase,
   DemanderChangementReprésentantLégalUseCase,
   AnnulerChangementReprésentantLégalUseCase,
+  CorrigerChangementReprésentantLégalUseCase,
   AccorderChangementReprésentantLégalUseCase,
   RejeterChangementReprésentantLégalUseCase,
 };
@@ -80,6 +88,7 @@ export type { ReprésentantLégalImportéEvent } from './importer/importerRepré
 export type { ReprésentantLégalModifiéEvent } from './modifier/modifierReprésentantLégal.behavior';
 export type { ChangementReprésentantLégalDemandéEvent } from './changement/demander/demanderChangementReprésentantLégal.behavior';
 export type { ChangementReprésentantLégalAnnuléEvent } from './changement/annuler/annulerChangementReprésentantLégal.behavior';
+export type { ChangementReprésentantLégalCorrigéEvent } from './changement/corriger/corrigerChangementReprésentantLégal.behavior';
 export type { ChangementReprésentantLégalAccordéEvent } from './changement/accorder/accorderChangementReprésentantLégal.behavior';
 export type { ChangementReprésentantLégalRejetéEvent } from './changement/rejeter/rejeterChangementReprésentantLégal.behavior';
 export type { ChangementReprésentantLégalSuppriméEvent } from './changement/supprimer/supprimerChangementReprésentantLégal.behavior';

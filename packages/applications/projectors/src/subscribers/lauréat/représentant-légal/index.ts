@@ -12,6 +12,7 @@ import { changementReprésentantLégalAccordéProjector } from './changement/cha
 import { changementReprésentantLégalRejetéProjector } from './changement/changementReprésentantLégalRejeté.projector';
 import { changementReprésentantLégalSuppriméProjector } from './changement/changementReprésentantLégalSupprimé.projector';
 import { changementReprésentantLégalAnnuléProjector } from './changement/changementReprésentantLégalAnnulé.projector';
+import { changementReprésentantLégalCorrigéProjector } from './changement/changementReprésentantLégalCorrigé.projector';
 
 export type SubscriptionEvent =
   | (ReprésentantLégal.ReprésentantLégalEvent & Event)
@@ -34,6 +35,10 @@ export const register = () => {
           type: 'ChangementReprésentantLégalAnnulé-V1',
         },
         changementReprésentantLégalAnnuléProjector,
+      )
+      .with(
+        { type: 'ChangementReprésentantLégalCorrigé-V1' },
+        changementReprésentantLégalCorrigéProjector,
       )
       .with(
         { type: 'ChangementReprésentantLégalAccordé-V1' },

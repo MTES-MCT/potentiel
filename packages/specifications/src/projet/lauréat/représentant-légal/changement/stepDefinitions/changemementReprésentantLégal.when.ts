@@ -8,6 +8,7 @@ import { ExécuterTâchePlanifiéeUseCase } from '@potentiel-domain/tache-planif
 
 import { PotentielWorld } from '../../../../../potentiel.world';
 import { CréerDemandeChangementReprésentantLégalFixture } from '../fixtures/demanderChangementReprésentantLégal.fixture';
+import { CréerCorrectionChangementReprésentantLégalFixture } from '../fixtures/corrigerChangementReprésentantLégal.fixture';
 
 Quand(
   'le porteur demande le changement de réprésentant pour le projet lauréat',
@@ -60,7 +61,6 @@ Quand(
   async function (this: PotentielWorld) {
     try {
       const identifiantProjet = this.lauréatWorld.identifiantProjet.formatter();
-
       const { annuléLe, annuléPar } =
         this.lauréatWorld.représentantLégalWorld.changementReprésentantLégalWorld.annulerChangementReprésentantLégalFixture.créer();
 
@@ -75,6 +75,27 @@ Quand(
     } catch (e) {
       this.error = e as Error;
     }
+  },
+);
+
+Quand(
+  /le porteur corrige la demande de changement de représentant légal pour le projet lauréat/,
+  async function (this: PotentielWorld) {
+    await corrigerDemandeChangement.call(this, {
+      identifiantProjet: this.lauréatWorld.identifiantProjet.formatter(),
+      corrigéPar:
+        this.lauréatWorld.représentantLégalWorld.changementReprésentantLégalWorld
+          .demanderChangementReprésentantLégalFixture.demandéPar,
+    });
+  },
+);
+
+Quand(
+  /le porteur corrige une demande inexistante de changement de représentant légal pour le projet lauréat/,
+  async function (this: PotentielWorld) {
+    await corrigerDemandeChangement.call(this, {
+      identifiantProjet: this.lauréatWorld.identifiantProjet.formatter(),
+    });
   },
 );
 
@@ -139,6 +160,45 @@ async function demanderChangement(
         pièceJustificativeValue: pièceJustificative,
         dateDemandeValue: demandéLe,
         identifiantUtilisateurValue: demandéPar,
+      },
+    });
+  } catch (error) {
+    this.error = error as Error;
+  }
+}
+
+async function corrigerDemandeChangement(
+  this: PotentielWorld,
+  partialFixture: CréerCorrectionChangementReprésentantLégalFixture,
+) {
+  try {
+    const {
+      nomReprésentantLégal,
+      typeReprésentantLégal,
+      pièceJustificative,
+      corrigéLe,
+      corrigéPar,
+    } =
+      this.lauréatWorld.représentantLégalWorld.changementReprésentantLégalWorld.corrigerChangementReprésentantLégalFixture.créer(
+        {
+          ...partialFixture,
+        },
+      );
+
+    await mediator.send<ReprésentantLégal.CorrigerChangementReprésentantLégalUseCase>({
+      type: 'Lauréat.ReprésentantLégal.UseCase.CorrigerChangementReprésentantLégal',
+      data: {
+        identifiantProjetValue: partialFixture.identifiantProjet,
+        nomReprésentantLégalValue: nomReprésentantLégal,
+        typeReprésentantLégalValue: typeReprésentantLégal.formatter(),
+        pièceJustificativeValue: pièceJustificative,
+        dateDemandeValue: this.lauréatWorld.représentantLégalWorld.changementReprésentantLégalWorld
+          .demanderChangementReprésentantLégalFixture.aÉtéCréé
+          ? this.lauréatWorld.représentantLégalWorld.changementReprésentantLégalWorld
+              .demanderChangementReprésentantLégalFixture.demandéLe
+          : DateTime.now().formatter(),
+        dateCorrectionValue: corrigéLe,
+        identifiantUtilisateurValue: corrigéPar,
       },
     });
   } catch (error) {

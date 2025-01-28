@@ -1,5 +1,6 @@
 import { FC } from 'react';
 import { match } from 'ts-pattern';
+import Button from '@codegouvfr/react-dsfr/Button';
 
 import { PlainType } from '@potentiel-domain/core';
 import { Role } from '@potentiel-domain/utilisateur';
@@ -21,7 +22,11 @@ import { AccorderChangementReprésentantLégal } from './accorder/AccorderChange
 import { RejeterChangementReprésentantLégal } from './rejeter/RejeterChangementReprésentantLégal.form';
 import { AnnulerChangementReprésentantLégal } from './annuler/AnnulerChangementReprésentantLégal.form';
 
-export type AvailableChangementReprésentantLégalAction = 'accorder' | 'rejeter' | 'annuler';
+export type AvailableChangementReprésentantLégalAction =
+  | 'accorder'
+  | 'rejeter'
+  | 'annuler'
+  | 'corriger';
 
 export type DétailsChangementReprésentantLégalPageProps =
   PlainType<ReprésentantLégal.ConsulterChangementReprésentantLégalReadModel> & {
@@ -148,6 +153,16 @@ const mapToActionComponents = ({
 
       {actions.includes('annuler') && (
         <AnnulerChangementReprésentantLégal identifiantProjet={identifiantProjet} />
+      )}
+      {actions.includes('corriger') && (
+        <Button
+          linkProps={{
+            href: Routes.ReprésentantLégal.changement.corriger(identifiantProjet, dateDemande),
+            prefetch: false,
+          }}
+        >
+          Corriger
+        </Button>
       )}
     </div>
   ) : null;

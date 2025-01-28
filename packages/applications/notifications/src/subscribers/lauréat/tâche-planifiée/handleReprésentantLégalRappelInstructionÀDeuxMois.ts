@@ -83,7 +83,7 @@ export const handleReprésentantLégalRappelInstructionÀDeuxMois = async ({
     });
 
   if (Option.isNone(changementReprésentantLégal)) {
-    getLogger().warn(
+    getLogger().error(
       `Aucun changement de représentant légal n'a été trouvé pour le rappel à 2 mois`,
       {
         event,

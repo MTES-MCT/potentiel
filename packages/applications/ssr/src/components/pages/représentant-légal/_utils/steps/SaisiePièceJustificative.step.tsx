@@ -11,12 +11,14 @@ import { DemanderChangementReprésentantLégalFormKeys } from '../../changement/
 
 export type SaisiePièceJustificativeProps = {
   typeReprésentantLégal: ReprésentantLégal.TypeReprésentantLégal.RawType;
+  pièceJustificative?: Array<string>;
   onChange?: (piècesJustificative: Array<string>) => void;
   validationErrors: ValidationErrors<DemanderChangementReprésentantLégalFormKeys>;
 };
 
 export const SaisiePièceJustificativeStep: FC<SaisiePièceJustificativeProps> = ({
   typeReprésentantLégal,
+  pièceJustificative,
   validationErrors,
   onChange,
 }) => {
@@ -52,6 +54,7 @@ export const SaisiePièceJustificativeStep: FC<SaisiePièceJustificativeProps> =
         delete validationErrors['piecesJustificatives'];
         onChange && onChange(piècesJustificatives);
       }}
+      documentKeys={pièceJustificative}
     />
   );
 };

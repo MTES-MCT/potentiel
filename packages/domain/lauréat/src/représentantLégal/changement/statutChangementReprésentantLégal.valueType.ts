@@ -1,6 +1,8 @@
 import { InvalidOperationError, PlainType, ReadonlyValueType } from '@potentiel-domain/core';
 
-export const statuts = ['demandé', 'annulé', 'accordé', 'rejeté'] as const;
+import { DemandeChangementInexistanteError } from './changementReprésentantLégal.error';
+
+export const statuts = ['accordé', 'annulé', 'demandé', 'rejeté'] as const;
 
 export type RawType = (typeof statuts)[number];
 
@@ -96,10 +98,5 @@ class DemandeChangementDéjàAccordéeError extends InvalidOperationError {
 class DemandeChangementDéjàRejetéeError extends InvalidOperationError {
   constructor() {
     super(`La demande de changement de représentant légal a déjà été rejetée`);
-  }
-}
-class DemandeChangementInexistanteError extends InvalidOperationError {
-  constructor() {
-    super(`Aucun changement de représentant légal n'est en cours`);
   }
 }
