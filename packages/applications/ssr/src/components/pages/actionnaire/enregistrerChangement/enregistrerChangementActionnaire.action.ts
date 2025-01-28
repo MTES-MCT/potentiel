@@ -13,8 +13,8 @@ import { manyDocuments } from '@/utils/zod/document/manyDocuments';
 const schema = zod.object({
   identifiantProjet: zod.string().min(1),
   actionnaire: zod.string().min(1, { message: 'Champ obligatoire' }),
-  raison: zod.string().optional(),
-  piecesJustificatives: manyDocuments({ optional: true, acceptedFileTypes: ['application/pdf'] }),
+  raison: zod.string().min(1, { message: 'Champ obligatoire' }),
+  piecesJustificatives: manyDocuments({ acceptedFileTypes: ['application/pdf'] }),
 });
 
 export type ModifierActionnaireFormKeys = keyof zod.infer<typeof schema>;
@@ -25,16 +25,14 @@ const action: FormAction<FormState, typeof schema> = async (
 ) =>
   withUtilisateur(async (utilisateur) => {
     await mediator.send<Actionnaire.ActionnaireUseCase>({
-      type: 'Lauréat.Actionnaire.UseCase.ModifierActionnaire',
+      type: 'Lauréat.Actionnaire.UseCase.EnregistrerChangement',
       data: {
         identifiantProjetValue: identifiantProjet,
         identifiantUtilisateurValue: utilisateur.identifiantUtilisateur.formatter(),
-        dateModificationValue: new Date().toISOString(),
-        raisonValue: raison ?? '',
+        raisonValue: raison,
         actionnaireValue: actionnaire,
-        ...(piecesJustificatives && {
-          pièceJustificativeValue: piecesJustificatives,
-        }),
+        dateChangementValue: new Date().toISOString(),
+        pièceJustificativeValue: piecesJustificatives,
       },
     });
 
@@ -47,4 +45,4 @@ const action: FormAction<FormState, typeof schema> = async (
     };
   });
 
-export const modifierActionnaireAction = formAction(action, schema);
+export const enregistrerChangementActionnaireAction = formAction(action, schema);

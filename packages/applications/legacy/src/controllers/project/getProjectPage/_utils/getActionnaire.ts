@@ -86,7 +86,7 @@ export const getActionnaire = async ({
         return {
           nom,
           affichage: {
-            url: Routes.Actionnaire.modifier(identifiantProjet.formatter()),
+            url: Routes.Actionnaire.changement.enregistrer(identifiantProjet.formatter()),
             label: "Changer d'actionnaire(s)",
           },
         };

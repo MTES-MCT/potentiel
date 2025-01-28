@@ -10,11 +10,11 @@ import { mapToPlainObject } from '@potentiel-domain/core';
 import { decodeParameter } from '@/utils/decodeParameter';
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
-import { ModifierActionnairePage } from '@/components/pages/actionnaire/modifier/ModifierActionnaire.page';
+import { EnregistrerChangementActionnairePage } from '@/components/pages/actionnaire/enregistrerChangement/EnregistrerChangementActionnaire.page';
 
 export const metadata: Metadata = {
-  title: "Changement d'actionnaire(s) du projet - Potentiel",
-  description: "Formulaire de changement d'actionnaire(s) d'un projet",
+  title: "Demander une modification de l'actionnariat d'un projet - Potentiel",
+  description: "Formulaire de demande de changement d'actionnaire d'un projet",
 };
 
 export default async function Page({ params: { identifiant } }: IdentifiantParameter) {
@@ -33,8 +33,8 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
     }
 
     return (
-      <ModifierActionnairePage
-        identifiantProjet={mapToPlainObject(identifiantProjet)}
+      <EnregistrerChangementActionnairePage
+        identifiantProjet={mapToPlainObject(actionnaireActuel.identifiantProjet)}
         actionnaire={actionnaireActuel.actionnaire}
       />
     );

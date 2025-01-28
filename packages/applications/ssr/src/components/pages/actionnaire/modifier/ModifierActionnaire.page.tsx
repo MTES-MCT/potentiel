@@ -13,8 +13,6 @@ export type ModifierActionnairePageProps = ModifierActionnaireFormProps;
 export const ModifierActionnairePage: FC<ModifierActionnairePageProps> = ({
   identifiantProjet,
   actionnaire,
-  hasToUploadDocument,
-  hasToGiveReason,
 }) => (
   <PageTemplate
     banner={
@@ -22,11 +20,6 @@ export const ModifierActionnairePage: FC<ModifierActionnairePageProps> = ({
     }
   >
     <Heading1>Changer d'actionnaire(s)</Heading1>
-    <ModifierActionnaireForm
-      identifiantProjet={identifiantProjet}
-      actionnaire={actionnaire}
-      hasToUploadDocument={hasToUploadDocument}
-      hasToGiveReason={hasToGiveReason}
-    />
+    <ModifierActionnaireForm identifiantProjet={identifiantProjet} actionnaire={actionnaire} />
   </PageTemplate>
 );
