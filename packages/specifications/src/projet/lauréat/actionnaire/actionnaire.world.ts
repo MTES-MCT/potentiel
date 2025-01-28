@@ -9,10 +9,12 @@ import { DemanderChangementActionnaireFixture } from './fixtures/demanderChangem
 import { AnnulerChangementActionnaireFixture } from './fixtures/annulerChangementActionnaire.fixture';
 import { AccorderChangementActionnaireFixture } from './fixtures/accorderChangementActionnaire.fixture';
 import { RejeterChangementActionnaireFixture } from './fixtures/rejeterChangementActionnaire.fixture';
+import { EnregistrerChangementActionnaireFixture } from './fixtures/enregistrerDemandeChangementActionnaire.fixture';
 
 export class ActionnaireWorld {
   #importerActionnaireFixture: ImporterActionnaireFixture;
   #modifierActionnaireFixture: ModifierActionnaireFixture;
+  #enregistrerChangementActionnaireFixture: EnregistrerChangementActionnaireFixture;
   #demanderChangementActionnaireFixture: DemanderChangementActionnaireFixture;
   #annulerChangementActionnaireFixture: AnnulerChangementActionnaireFixture;
   #accorderChangementActionnaireFixture: AccorderChangementActionnaireFixture;
@@ -25,6 +27,10 @@ export class ActionnaireWorld {
 
   get modifierActionnaireFixture() {
     return this.#modifierActionnaireFixture;
+  }
+
+  get enregistrerChangementActionnaireFixture() {
+    return this.#enregistrerChangementActionnaireFixture;
   }
 
   get demanderChangementActionnaireFixture() {
@@ -54,6 +60,7 @@ export class ActionnaireWorld {
   constructor() {
     this.#importerActionnaireFixture = new ImporterActionnaireFixture();
     this.#modifierActionnaireFixture = new ModifierActionnaireFixture();
+    this.#enregistrerChangementActionnaireFixture = new EnregistrerChangementActionnaireFixture();
     this.#demanderChangementActionnaireFixture = new DemanderChangementActionnaireFixture();
     this.#annulerChangementActionnaireFixture = new AnnulerChangementActionnaireFixture();
     this.#accorderChangementActionnaireFixture = new AccorderChangementActionnaireFixture();
