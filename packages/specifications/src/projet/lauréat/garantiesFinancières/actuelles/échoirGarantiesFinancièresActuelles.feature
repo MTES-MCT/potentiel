@@ -4,6 +4,7 @@ Fonctionnalité: Échoir les garanties financières actuelles d'un projet
     Contexte:
         Etant donné le projet lauréat "Du boulodrome de Marseille"
         Et le porteur "Marcel Patoulatchi" ayant accés au projet lauréat "Du boulodrome de Marseille"
+        Et la dreal "Dreal du sud" associée à la région du projet
 
     Scénario: Échoir les garanties financières actuelles d'un projet à J+1 après la date d'échéance
         Etant donné des garanties financières actuelles pour le projet "Du boulodrome de Marseille" avec :
@@ -13,6 +14,10 @@ Fonctionnalité: Échoir les garanties financières actuelles d'un projet
             | à échoir le | 2024-07-18 |
         Alors les garanties financières actuelles du projet "Du boulodrome de Marseille" sont échues
         Et un email a été envoyé au porteur avec :
+            | sujet         | Potentiel - Date d'échéance dépassée pour les garanties financières du projet Du boulodrome de Marseille dans le département(.*) |
+            | nom_projet    | Du boulodrome de Marseille                                                                                                       |
+            | date_echeance | 17/07/2024                                                                                                                       |
+        Et un email a été envoyé à la dreal avec :
             | sujet         | Potentiel - Date d'échéance dépassée pour les garanties financières du projet Du boulodrome de Marseille dans le département(.*) |
             | nom_projet    | Du boulodrome de Marseille                                                                                                       |
             | date_echeance | 17/07/2024                                                                                                                       |
