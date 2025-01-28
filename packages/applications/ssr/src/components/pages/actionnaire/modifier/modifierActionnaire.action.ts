@@ -35,7 +35,6 @@ const action: FormAction<FormState, typeof schema> = async (
         ...(piecesJustificatives && {
           pièceJustificativeValue: piecesJustificatives,
         }),
-        rôleValue: utilisateur.role.nom,
       },
     });
 
