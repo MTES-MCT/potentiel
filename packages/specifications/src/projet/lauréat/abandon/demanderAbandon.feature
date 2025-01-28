@@ -24,6 +24,8 @@ Fonctionnalité: Demander l'abandon d'un projet lauréat
         Quand le porteur demande l'abandon pour le projet lauréat
         Alors le porteur devrait être informé que "L'abandon a déjà été accordé"
 
-    @NotImplemented
-    Scénario: Impossible de demander l'abandon d'un projet si celui-ci est achevé (car l'attestation de conformité et la preuve de transmission au co-contractant ont été transmise)
-
+    @select
+    Scénario: Impossible de demander l'abandon d'un projet achevé
+        Etant donné une attestation de conformité transmise pour le projet "Du boulodrome de Marseille"
+        Quand le porteur demande l'abandon pour le projet lauréat
+        Alors le porteur devrait être informé que "Impossible de demander l'abandon d'un projet achevé"
