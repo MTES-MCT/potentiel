@@ -36,10 +36,30 @@ Quand(
 );
 
 Quand(
-  "le porteur enregistre un changement d'actionnaire pour le projet (lauréat|éliminé)",
+  "le porteur enregistre un changement d'actionnaire pour le projet {lauréat-éliminé}",
   async function (this: PotentielWorld, statutProjet: 'lauréat' | 'éliminé') {
     try {
-      await enregistrerChangementActionnaire.call(this, statutProjet);
+      await enregistrerChangementActionnaire.call(
+        this,
+        this.utilisateurWorld.porteurFixture.email,
+        statutProjet,
+      );
+    } catch (error) {
+      this.error = error as Error;
+    }
+  },
+);
+
+Quand(
+  "le porteur enregistre un changement d'actionnaire avec la même valeur pour le projet lauréat",
+  async function (this: PotentielWorld) {
+    try {
+      await enregistrerChangementActionnaire.call(
+        this,
+        this.utilisateurWorld.porteurFixture.email,
+        'lauréat',
+        this.lauréatWorld.actionnaireWorld.importerActionnaireFixture.actionnaire,
+      );
     } catch (error) {
       this.error = error as Error;
     }
@@ -272,15 +292,17 @@ async function enregistrerChangementActionnaire(
   this: PotentielWorld,
   enregistréPar: string,
   statutProjet?: 'lauréat' | 'éliminé',
+  nouvelActionnaire?: string,
 ) {
   const identifiantProjet =
     statutProjet === 'éliminé'
       ? this.eliminéWorld.identifiantProjet.formatter()
       : this.lauréatWorld.identifiantProjet.formatter();
 
-  const { pièceJustificative, enregistréLe, raison, actionnaire } =
-    this.lauréatWorld.actionnaireWorld.enregistrerChangementActionnaireFixture.créer({
-      enregistréPar,
+  const { pièceJustificative, demandéLe, raison, actionnaire } =
+    this.lauréatWorld.actionnaireWorld.demanderChangementActionnaireFixture.créer({
+      demandéPar: enregistréPar,
+      ...(nouvelActionnaire && { actionnaire: nouvelActionnaire }),
     });
 
   this.lauréatWorld.actionnaireWorld.actionnaire = actionnaire;
@@ -290,8 +312,8 @@ async function enregistrerChangementActionnaire(
     data: {
       identifiantProjetValue: identifiantProjet,
       identifiantUtilisateurValue: enregistréPar,
-      actionnaireValue: actionnaire,
-      dateChangementValue: enregistréLe,
+      actionnaireValue: this.lauréatWorld.actionnaireWorld.actionnaire,
+      dateChangementValue: demandéLe,
       pièceJustificativeValue: pièceJustificative,
       raisonValue: raison,
     },

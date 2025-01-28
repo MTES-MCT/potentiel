@@ -15,6 +15,7 @@ import { changementActionnaireDemandéNotifications } from './changementActionna
 import { changementActionnaireRejetéNotifications } from './changementActionnaireRejeté.notifications';
 import { actionnaireModifiéNotifications } from './actionnaireModifié.notifications';
 import { changementActionnaireAccordéNotifications } from './changementActionnaireAccordé.notifications';
+import { changementActionnaireEnregistréNotifications } from './changementActionnaireEnregistré.notifications';
 
 export type SubscriptionEvent = Actionnaire.ActionnaireEvent & Event;
 
@@ -82,6 +83,9 @@ export const register = ({ sendEmail }: RegisterActionnaireNotificationDependenc
       )
       .with({ type: 'ChangementActionnaireAnnulé-V1' }, async (event) =>
         changementActionnaireAnnuléNotifications({ sendEmail, event, projet, baseUrl }),
+      )
+      .with({ type: 'ChangementActionnaireEnregistré-V1' }, async (event) =>
+        changementActionnaireEnregistréNotifications({ sendEmail, event, projet, baseUrl }),
       )
       .otherwise(() => Promise.resolve());
   };

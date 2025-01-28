@@ -19,6 +19,7 @@ Fonctionnalité: Modifier l'actionnaire d'un projet lauréat
             | url        | https://potentiel.beta.gouv.fr/projet/.*/details.html                                                       |
 
         Exemples:
+            | l'utilisateur autorisé      |
             | le DGEC validateur          |
             | la DREAL associée au projet |
 
@@ -36,6 +37,7 @@ Fonctionnalité: Modifier l'actionnaire d'un projet lauréat
             | url        | https://potentiel.beta.gouv.fr/projet/.*/details.html                                                       |
 
         Exemples:
+            | l'utilisateur autorisé      |
             | le DGEC validateur          |
             | la DREAL associée au projet |
 

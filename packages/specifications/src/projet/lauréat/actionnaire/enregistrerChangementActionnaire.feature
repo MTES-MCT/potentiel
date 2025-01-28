@@ -7,31 +7,28 @@ Fonctionnalité: Enregistrer un changement d'actionnaire d'un projet lauréat
         Et la dreal "DREAL" associée à la région du projet
 
     Scénario: Enregistrer un changement d'actionnaire d'un projet lauréat
-        Quand le porteur enregistrer un changement d'actionnaire pour le projet lauréat
+        Quand le porteur enregistre un changement d'actionnaire pour le projet lauréat
         Alors l'actionnaire du projet lauréat devrait être mis à jour
-        Et un email a été envoyé au porteur avec :
-            | sujet      | Potentiel - Modification de l'actionnaire pour le projet Du boulodrome de Marseille dans le département(.*) |
-            | nom_projet | Du boulodrome de Marseille                                                                                  |
-            | url        | https://potentiel.beta.gouv.fr/projet/.*/details.html                                                       |
+        Et le changement enregistré de l'actionnaire devrait être consultable
         Et un email a été envoyé à la dreal avec :
-            | sujet      | Potentiel - Modification de l'actionnaire pour le projet Du boulodrome de Marseille dans le département(.*) |
-            | nom_projet | Du boulodrome de Marseille                                                                                  |
-            | url        | https://potentiel.beta.gouv.fr/projet/.*/details.html                                                       |
+            | sujet      | Potentiel - Enregistrement d'un changement d'actionnaire pour le projet Du boulodrome de Marseille dans le département(.*) |
+            | nom_projet | Du boulodrome de Marseille                                                                                                 |
+            | url        | https://potentiel.beta.gouv.fr/projet/.*/details.html                                                                      |
 
     Scénario: Impossible d'enregistrer un changement d'actionnaire si l'actionnaire est inexistant
         Etant donné le projet éliminé "Du boulodrome de Lyon"
-        Quand le DGEC validateur enregistre un changement d'actionnaire pour le projet éliminé
+        Quand le porteur enregistre un changement d'actionnaire pour le projet éliminé
         Alors l'utilisateur devrait être informé que "L'actionnaire n'existe pas"
 
     Scénario: Impossible  d'enregistrer un changement d'actionnaire avec une valeur identique
         Etant donné le projet lauréat "Du boulodrome de Marseille"
-        Quand le DGEC validateur enregistre un changement d'actionnaire avec la même valeur pour le projet lauréat
+        Quand le porteur enregistre un changement d'actionnaire avec la même valeur pour le projet lauréat
         Alors l'utilisateur devrait être informé que "Le nouvel actionnaire est identique à celui associé au projet"
 
     Scénario: Impossible  d'enregistrer un changement d'actionnaire alors qu'un changement d'actionnaire est en cours
         Etant donné le projet lauréat "Du boulodrome de Marseille"
         Et une demande de changement d'actionnaire en cours pour le projet lauréat
-        Quand le DGEC validateur enregistre un changement d'actionnaire pour le projet lauréat
+        Quand le porteur enregistre un changement d'actionnaire pour le projet lauréat
         Alors l'utilisateur devrait être informé que "Une demande de changement est déjà en cours"
 
     Scénario: Impossible pour le porteur de modifier l'actionnaire d'un projet lauréat abandonné

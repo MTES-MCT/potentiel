@@ -406,6 +406,7 @@ export const setupLauréat = async ({
         'ChangementActionnaireAccordé-V1',
         'ChangementActionnaireRejeté-V1',
         'ChangementActionnaireAnnulé-V1',
+        'ChangementActionnaireEnregistré-V1',
       ],
       eventHandler: async (event) =>
         mediator.publish<ActionnaireNotification.Execute>({
