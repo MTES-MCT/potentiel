@@ -6,6 +6,7 @@ import { Option } from '@potentiel-libraries/monads';
 import { ReprésentantLégal } from '@potentiel-domain/laureat';
 import { mapToPlainObject } from '@potentiel-domain/core';
 import { IdentifiantProjet } from '@potentiel-domain/common';
+import { Historique } from '@potentiel-domain/historique';
 
 import { decodeParameter } from '@/utils/decodeParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
@@ -60,14 +61,18 @@ export default async function Page({ params: { identifiant, date } }: PageProps)
         if (utilisateur.role.aLaPermission('représentantLégal.annulerChangement')) {
           actions.push('annuler');
         }
+        if (utilisateur.role.aLaPermission('représentantLégal.corrigerChangement')) {
+          actions.push('corriger');
+        }
       }
 
-      if (
-        utilisateur.role.aLaPermission('représentantLégal.corrigerChangement') &&
-        changement.demande.statut.estDemandé()
-      ) {
-        actions.push('corriger');
-      }
+      const historique = await mediator.send<Historique.ListerHistoriqueProjetQuery>({
+        type: 'Historique.Query.ListerHistoriqueProjet',
+        data: {
+          identifiantProjet: identifiantProjet.formatter(),
+          category: 'représentant-légal',
+        },
+      });
 
       return (
         <DétailsChangementReprésentantLégalPage
@@ -75,6 +80,7 @@ export default async function Page({ params: { identifiant, date } }: PageProps)
           demande={mapToPlainObject(changement.demande)}
           role={mapToPlainObject(utilisateur.role)}
           actions={actions}
+          historique={mapToPlainObject(historique)}
         />
       );
     }),
