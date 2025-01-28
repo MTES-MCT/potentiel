@@ -24,7 +24,7 @@ Fonctionnalité: Accorder une demande de mainlevée des garanties financières
             | contenu fichier réponse | contenu du fichier |
 
     Scénario: Un utilisateur Dreal accorde une demande de mainlevée pour un projet achevé
-        Etant donné une attestation de conformité transmise pour le projet "Du boulodrome de Marseille"
+        Etant donné une attestation de conformité transmise pour le projet lauréat
         Et des garanties financières actuelles pour le projet "Du boulodrome de Marseille"
         Et une demande de mainlevée de garanties financières pour le projet "Du boulodrome de Marseille" avec :
             | motif | projet-achevé |
@@ -42,21 +42,21 @@ Fonctionnalité: Accorder une demande de mainlevée des garanties financières
             | contenu fichier réponse | contenu du fichier |
 
     Scénario: Impossible d'accorder une demande de mainlevée si le projet n'a pas de demande de mainlevée
-        Etant donné une attestation de conformité transmise pour le projet "Du boulodrome de Marseille"
+        Etant donné une attestation de conformité transmise pour le projet lauréat
         Et des garanties financières actuelles pour le projet "Du boulodrome de Marseille"
         Quand un utilisateur Dreal accorde la demande de mainlevée des garanties financières du projet "Du boulodrome de Marseille"
         Alors l'utilisateur devrait être informé que "Il n'y a pas de demande de mainlevée de garanties financières en cours pour ce projet"
 
     Scénario: Impossible d'accorder une demande de mainlevée si le projet a déjà une demande de mainlevée accordée
         Etant donné des garanties financières actuelles pour le projet "Du boulodrome de Marseille"
-        Et une attestation de conformité transmise pour le projet "Du boulodrome de Marseille"
+        Et une attestation de conformité transmise pour le projet lauréat
         Et une demande de mainlevée de garanties financières accordée pour le projet "Du boulodrome de Marseille" achevé
         Quand un utilisateur Dreal accorde la demande de mainlevée des garanties financières du projet "Du boulodrome de Marseille"
         Alors le porteur devrait être informé que "Il y a déjà une demande de mainlevée accordée pour ce projet"
 
     Scénario: Impossible d'accorder une demande de mainlevée si le projet a déjà une demande de mainlevée rejetée et aucune en cours
         Etant donné des garanties financières actuelles pour le projet "Du boulodrome de Marseille"
-        Et une attestation de conformité transmise pour le projet "Du boulodrome de Marseille"
+        Et une attestation de conformité transmise pour le projet lauréat
         Et une demande de mainlevée de garanties financières rejetée pour le projet "Du boulodrome de Marseille" achevé
         Quand un utilisateur Dreal accorde la demande de mainlevée des garanties financières du projet "Du boulodrome de Marseille"
         Alors le porteur devrait être informé que "La dernière demande de mainlevée pour ce projet a été rejetée, aucune n'est en cours"

@@ -42,7 +42,7 @@ Fonctionnalité: Modifier l'actionnaire d'un projet lauréat
             | la DREAL associée au projet |
 
     Scénario: Modifier l'actionnaire d'un projet lauréat abandonné par une dreal ou un admin
-        Etant donné une attestation de conformité transmise pour le projet "Du boulodrome de Marseille"
+        Etant donné une attestation de conformité transmise pour le projet lauréat
         Quand <l'utilisateur autorisé> modifie l'actionnaire pour le projet lauréat
         Alors l'actionnaire du projet lauréat devrait être mis à jour
         Et un email a été envoyé au porteur avec :

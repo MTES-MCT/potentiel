@@ -5,7 +5,7 @@ Fonctionnalité: Modifier une attestation de conformité
         Etant donné le projet lauréat "Centrale PV"
 
     Scénario: Un porteur modifie une attestation de conformité
-        Et une attestation de conformité transmise pour le projet "Centrale PV"
+        Et une attestation de conformité transmise pour le projet lauréatCentrale PV"
         Quand l'admin modifie l'attestation de conformité pour le projet "Centrale PV" avec :
             | format attestation                            | application/pdf                     |
             | contenu attestation                           | le nouveau contenu de l'attestation |
@@ -23,7 +23,7 @@ Fonctionnalité: Modifier une attestation de conformité
             | mis à jour par                                | admin                               |
 
     Scénario: Impossible de modifier une attestation de conformité si la date de transmission au co-contractant est dans le futur
-        Et une attestation de conformité transmise pour le projet "Centrale PV"
+        Et une attestation de conformité transmise pour le projet lauréatCentrale PV"
         Quand l'admin modifie l'attestation de conformité pour le projet "Centrale PV" avec :
             | date transmission au co-contractant | 2040-01-01 |
         Alors le porteur devrait être informé que "la date de transmission au co-contractant ne peut pas être une date future"

@@ -5,7 +5,6 @@ Fonctionnalité: Accorder le recours d'un projet éliminé
         Etant donné le projet éliminé "Du boulodrome de Marseille"
         Et le porteur "Marcel Patoulatchi" ayant accés au projet éliminé "Du boulodrome de Marseille"
 
-    @NotImplemented
     Scénario: Un DGEC validateur accorde le recours d'un projet éliminé
         Etant donné un recours en cours pour le projet éliminé
         Quand le DGEC validateur accorde le recours pour le projet éliminé

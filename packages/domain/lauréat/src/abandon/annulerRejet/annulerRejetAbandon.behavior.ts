@@ -35,6 +35,7 @@ export async function annulerRejet(
       raison: this.demande.raison,
       identifiantUtilisateur: this.demande.demandéPar,
       pièceJustificative: this.demande.pièceJustificative,
+      estAchevé: true, // TODO !
     });
   }
 }
