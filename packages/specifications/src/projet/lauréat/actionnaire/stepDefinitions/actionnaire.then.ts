@@ -91,8 +91,8 @@ Alors(
         this.candidatureWorld.importerCandidature.identifiantProjet,
       );
 
-      const actual = await mediator.send<Actionnaire.ConsulterChangementEnCoursActionnaireQuery>({
-        type: 'Lauréat.Actionnaire.Query.ConsulterChangementEnCoursActionnaire',
+      const actual = await mediator.send<Actionnaire.ConsulterDateChangementActionnaireQuery>({
+        type: 'Lauréat.Actionnaire.Query.ConsulterDateChangementActionnaire',
         data: {
           identifiantProjet: identifiantProjet.formatter(),
         },
@@ -156,13 +156,13 @@ async function vérifierChangementActionnaire(
   statut: Actionnaire.StatutChangementActionnaire.ValueType,
   estUneNouvelleDemande?: boolean,
 ) {
-  const demandeEnCours =
-    await mediator.send<Actionnaire.ConsulterChangementEnCoursActionnaireQuery>({
-      type: 'Lauréat.Actionnaire.Query.ConsulterChangementEnCoursActionnaire',
-      data: {
-        identifiantProjet: identifiantProjet,
-      },
-    });
+  const demandeEnCours = await mediator.send<Actionnaire.ConsulterChangementActionnaireQuery>({
+    type: 'Lauréat.Actionnaire.Query.ConsulterChangementActionnaire',
+    data: {
+      identifiantProjet: identifiantProjet,
+      demandéLe: this.lauréatWorld.actionnaireWorld.demanderChangementActionnaireFixture.demandéLe,
+    },
+  });
 
   const actual = mapToPlainObject(demandeEnCours);
 
@@ -175,6 +175,20 @@ async function vérifierChangementActionnaire(
   );
 
   actual.should.be.deep.equal(expected);
+
+  const dateDemandeDeChangement =
+    await mediator.send<Actionnaire.ConsulterDateChangementActionnaireQuery>({
+      type: 'Lauréat.Actionnaire.Query.ConsulterDateChangementActionnaire',
+      data: {
+        identifiantProjet: identifiantProjet,
+      },
+    });
+
+  if (statut.estDemandé()) {
+    expect(Option.isSome(dateDemandeDeChangement)).to.be.true;
+  } else {
+    expect(Option.isNone(dateDemandeDeChangement)).to.be.true;
+  }
 
   if (
     this.lauréatWorld.actionnaireWorld.accorderChangementActionnaireFixture.aÉtéCréé &&

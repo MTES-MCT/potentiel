@@ -74,7 +74,7 @@ export class ActionnaireWorld {
     identifiantProjet: IdentifiantProjet.ValueType,
     statut: Actionnaire.StatutChangementActionnaire.ValueType,
     estUneNouvelleDemande?: boolean,
-  ): Option.Type<Actionnaire.ConsulterChangementActionnaireEnCoursReadModel> {
+  ): Option.Type<Actionnaire.ConsulterChangementActionnaireReadModel> {
     if (!this.demanderChangementActionnaireFixture.aÉtéCréé) {
       throw new Error(
         `Aucune demande de changement d'actionnaire n'a été créée dans ActionnaireWorld`,

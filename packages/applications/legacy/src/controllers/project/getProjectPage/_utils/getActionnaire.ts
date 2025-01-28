@@ -49,15 +49,13 @@ export const getActionnaire = async ({
       utilisateur.nom === 'porteur-projet' && estAbandonnéOuEnCoursAbandonOuAchevé;
 
     if (Option.isSome(actionnaire)) {
-      const demandeExistanteDeChangement =
-        await mediator.send<Actionnaire.ConsulterChangementEnCoursActionnaireQuery>({
-          type: 'Lauréat.Actionnaire.Query.ConsulterChangementEnCoursActionnaire',
+      const dateDemandeExistanteDeChangement =
+        await mediator.send<Actionnaire.ConsulterDateChangementActionnaireQuery>({
+          type: 'Lauréat.Actionnaire.Query.ConsulterDateChangementActionnaire',
           data: { identifiantProjet: identifiantProjet.formatter() },
         });
 
-      const aUneDemandeEnCours =
-        Option.isSome(demandeExistanteDeChangement) &&
-        demandeExistanteDeChangement.demande.statut.estDemandé();
+      const aUneDemandeEnCours = Option.isSome(dateDemandeExistanteDeChangement);
 
       const peutFaireUneDemandeDeChangement =
         demandeNécessiteInstruction &&
@@ -87,7 +85,7 @@ export const getActionnaire = async ({
         demandeEnCours:
           utilisateur.aLaPermission('actionnaire.consulterChangement') && aUneDemandeEnCours
             ? {
-                demandéeLe: demandeExistanteDeChangement.demande.demandéeLe.formatter(),
+                demandéeLe: dateDemandeExistanteDeChangement.formatter(),
               }
             : undefined,
       };

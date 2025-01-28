@@ -50,9 +50,9 @@ export default async function Page({ params: { identifiant, date } }: PageProps)
         return notFound();
       }
 
-      const demandeDeChangementEnCours =
-        await mediator.send<Actionnaire.ConsulterChangementEnCoursActionnaireQuery>({
-          type: 'Lauréat.Actionnaire.Query.ConsulterChangementEnCoursActionnaire',
+      const dateDemandeDeChangement =
+        await mediator.send<Actionnaire.ConsulterDateChangementActionnaireQuery>({
+          type: 'Lauréat.Actionnaire.Query.ConsulterDateChangementActionnaire',
           data: {
             identifiantProjet: identifiantProjet.formatter(),
           },
@@ -73,10 +73,7 @@ export default async function Page({ params: { identifiant, date } }: PageProps)
           actions={mapToActions(changement.demande.statut, utilisateur.role)}
           historique={mapToPlainObject(historique)}
           demandeEnCoursDate={
-            Option.isSome(demandeDeChangementEnCours) &&
-            demandeDeChangementEnCours.demande.statut.estDemandé()
-              ? demandeDeChangementEnCours.demande.demandéeLe.formatter()
-              : undefined
+            Option.isSome(dateDemandeDeChangement) ? dateDemandeDeChangement.formatter() : undefined
           }
         />
       );

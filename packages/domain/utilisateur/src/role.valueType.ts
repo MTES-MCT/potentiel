@@ -269,8 +269,7 @@ const référencielPermissions = {
       query: {
         consulter: 'Lauréat.Actionnaire.Query.ConsulterActionnaire',
         consulterChangement: 'Lauréat.Actionnaire.Query.ConsulterChangementActionnaire',
-        consulterChangementEnCours:
-          'Lauréat.Actionnaire.Query.ConsulterChangementEnCoursActionnaire',
+        consulterChangementEnCours: 'Lauréat.Actionnaire.Query.ConsulterDateChangementActionnaire',
         listerChangement: 'Lauréat.Actionnaire.Query.ListerChangementActionnaire',
       },
       usecase: {
