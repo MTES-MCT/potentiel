@@ -8,7 +8,7 @@ export type ListerHistoriqueProjetQuery = Message<
   'Historique.Query.ListerHistoriqueProjet',
   {
     identifiantProjet: string;
-    category?: 'abandon' | 'recours' | 'actionnaire';
+    category?: 'abandon' | 'recours' | 'actionnaire' | 'représentant-légal';
     range?: RangeOptions;
   },
   ListerHistoriqueProjetReadModel
