@@ -29,6 +29,8 @@ describe('listHistoryProjection', () => {
   });
 
   beforeEach(async () => {
+    await executeQuery('delete from domain_views.history');
+
     category = randomUUID();
     id = randomUUID();
     fakeDataWithCategory = [];
