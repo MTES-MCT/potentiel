@@ -5,6 +5,7 @@ import * as zod from 'zod';
 
 import { Actionnaire } from '@potentiel-domain/laureat';
 import { Routes } from '@potentiel-applications/routes';
+import { InvalidOperationError } from '@potentiel-domain/core';
 
 import { FormAction, formAction, FormState } from '@/utils/formAction';
 import { withUtilisateur } from '@/utils/withUtilisateur';
@@ -24,19 +25,36 @@ const action: FormAction<FormState, typeof schema> = async (
   { identifiantProjet, actionnaire, raison, piecesJustificatives },
 ) =>
   withUtilisateur(async (utilisateur) => {
-    await mediator.send<Actionnaire.ActionnaireUseCase>({
-      type: 'Lauréat.Actionnaire.UseCase.ModifierActionnaire',
-      data: {
-        identifiantProjetValue: identifiantProjet,
-        identifiantUtilisateurValue: utilisateur.identifiantUtilisateur.formatter(),
-        dateModificationValue: new Date().toISOString(),
-        raisonValue: raison,
-        actionnaireValue: actionnaire,
-        ...(piecesJustificatives && {
+    if (utilisateur.role.aLaPermission('actionnaire.modifier')) {
+      await mediator.send<Actionnaire.ActionnaireUseCase>({
+        type: 'Lauréat.Actionnaire.UseCase.ModifierActionnaire',
+        data: {
+          identifiantProjetValue: identifiantProjet,
+          identifiantUtilisateurValue: utilisateur.identifiantUtilisateur.formatter(),
+          dateModificationValue: new Date().toISOString(),
+          raisonValue: raison,
+          actionnaireValue: actionnaire,
+          ...(piecesJustificatives && {
+            pièceJustificativeValue: piecesJustificatives,
+          }),
+        },
+      });
+    } else {
+      if (!piecesJustificatives) {
+        throw new InvalidOperationError('Une pièce justificative est obligatoire');
+      }
+      await mediator.send<Actionnaire.ActionnaireUseCase>({
+        type: 'Lauréat.Actionnaire.UseCase.EnregistrerChangement',
+        data: {
+          identifiantProjetValue: identifiantProjet,
+          identifiantUtilisateurValue: utilisateur.identifiantUtilisateur.formatter(),
+          raisonValue: raison,
+          actionnaireValue: actionnaire,
+          dateChangementValue: new Date().toISOString(),
           pièceJustificativeValue: piecesJustificatives,
-        }),
-      },
-    });
+        },
+      });
+    }
 
     return {
       status: 'success',

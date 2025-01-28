@@ -6,7 +6,6 @@ import { Option } from '@potentiel-libraries/monads';
 import { Actionnaire } from '@potentiel-domain/laureat';
 import { IdentifiantProjet } from '@potentiel-domain/common';
 import { mapToPlainObject } from '@potentiel-domain/core';
-import { Role } from '@potentiel-domain/utilisateur';
 
 import { decodeParameter } from '@/utils/decodeParameter';
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
@@ -41,7 +40,7 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
         <ModifierActionnairePage
           identifiantProjet={mapToPlainObject(identifiantProjet)}
           actionnaire={actionnaireActuel.actionnaire}
-          hasToUploadDocument={utilisateur.role.estÉgaleÀ(Role.porteur)}
+          hasToUploadDocument={!utilisateur.role.aLaPermission('actionnaire.modifier')}
         />
       );
     }),
