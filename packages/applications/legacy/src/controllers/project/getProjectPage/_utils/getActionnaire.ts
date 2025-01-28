@@ -74,12 +74,12 @@ export const getActionnaire = async ({
           : peutModifier
             ? {
                 url: Routes.Actionnaire.modifier(identifiantProjet.formatter()),
-                label: 'Modifier l’actionnariat',
+                label: "Changer d'actionnaire(s)",
               }
             : peutFaireUneDemandeDeChangement
               ? {
                   url: Routes.Actionnaire.changement.demander(identifiantProjet.formatter()),
-                  label: "Demander une modification de l'actionnariat",
+                  label: 'Demander un changement d’actionnaire(s)',
                 }
               : undefined,
         demandeEnCours:

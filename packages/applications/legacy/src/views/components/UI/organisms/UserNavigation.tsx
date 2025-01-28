@@ -101,7 +101,7 @@ const MenuAdmin = (currentPage?: string) => (
         Changements de représentant légal
       </DropdownMenu.DropdownItem>
       <DropdownMenu.DropdownItem href={Routes.Actionnaire.changement.lister}>
-        Modification d'actionnariat
+        Actionnaire(s)
       </DropdownMenu.DropdownItem>
     </DropdownMenu>
     <MenuGarantiesFinancières currentPage={currentPage} />
@@ -200,7 +200,7 @@ const MenuPorteurProjet = (currentPage?: string) => (
         Changements de représentant légal
       </DropdownMenu.DropdownItem>
       <DropdownMenu.DropdownItem href={Routes.Actionnaire.changement.lister}>
-        Modification d'actionnariat
+        Actionnaire(s)
       </DropdownMenu.DropdownItem>
     </DropdownMenu>
     <MenuGarantiesFinancières currentPage={currentPage} />
@@ -272,7 +272,7 @@ const MenuDreal = (currentPage?: string) => (
         Changements de représentant légal
       </DropdownMenu.DropdownItem>
       <DropdownMenu.DropdownItem href={Routes.Actionnaire.changement.lister}>
-        Modification d'actionnariat
+        Actionnaire(s)
       </DropdownMenu.DropdownItem>
     </DropdownMenu>
     <MenuGarantiesFinancières currentPage={currentPage} />

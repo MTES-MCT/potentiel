@@ -15,8 +15,8 @@ import { withUtilisateur } from '@/utils/withUtilisateur';
 import { ModifierActionnairePage } from '@/components/pages/actionnaire/modifier/ModifierActionnaire.page';
 
 export const metadata: Metadata = {
-  title: "Modifier l'actionnariat du projet - Potentiel",
-  description: "Formulaire de modification de l'actionnaire d'un projet",
+  title: "Changement d'actionnaire(s) du projet - Potentiel",
+  description: "Formulaire de changement d'actionnaire(s) d'un projet",
 };
 
 export default async function Page({ params: { identifiant } }: IdentifiantParameter) {

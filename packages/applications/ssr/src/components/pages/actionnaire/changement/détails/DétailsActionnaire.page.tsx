@@ -7,7 +7,7 @@ import { Actionnaire } from '@potentiel-domain/laureat';
 import { Routes } from '@potentiel-applications/routes';
 import { Historique } from '@potentiel-domain/historique';
 
-import { Heading1, Heading2 } from '@/components/atoms/headings';
+import { Heading2 } from '@/components/atoms/headings';
 import { ProjetBanner } from '@/components/molecules/projet/ProjetBanner';
 import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
 
@@ -40,7 +40,6 @@ export const DétailsActionnairePage: FC<DétailsActionnairePageProps> = ({
     banner={
       <ProjetBanner identifiantProjet={IdentifiantProjet.bind(identifiantProjet).formatter()} />
     }
-    heading={<Heading1>Détails du changement d'actionnaire</Heading1>}
     leftColumn={{
       children: (
         <div className="flex flex-col gap-8">
