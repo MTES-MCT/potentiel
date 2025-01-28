@@ -19,9 +19,16 @@ export type DétailsChangementActionnaireProps = Pick<DétailsActionnairePagePro
 export const DétailsChangementActionnaire: FC<DétailsChangementActionnaireProps> = ({
   demande,
 }) => {
+  const estUneInformationEnregistrée = Actionnaire.StatutChangementActionnaire.bind(
+    demande.statut,
+  ).estInformationEnregistrée();
   return (
     <div className="flex flex-col gap-4">
-      <Heading2>Demande de changement d'actionnaire</Heading2>
+      <Heading2>
+        {estUneInformationEnregistrée
+          ? "Changement d'actionnaire(s)"
+          : "Demande de changement d'actionnaire(s)"}
+      </Heading2>
       <>
         <div className="flex flex-col gap-4">
           <div className="flex flex-col gap-2">
@@ -45,9 +52,7 @@ export const DétailsChangementActionnaire: FC<DétailsChangementActionnaireProp
                 demandéePar={demande.demandéePar}
               />
             )}
-            {Actionnaire.StatutChangementActionnaire.bind(
-              demande.statut,
-            ).estInformationEnregistrée() && (
+            {estUneInformationEnregistrée && (
               <InformationEnregistrée
                 demandéeLe={demande.demandéeLe}
                 demandéePar={demande.demandéePar}
