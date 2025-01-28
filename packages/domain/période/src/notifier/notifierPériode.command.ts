@@ -77,11 +77,11 @@ export const registerNotifierPériodeCommand = (loadAggregate: LoadAggregate) =>
           identifiantÉliminés.push(identifiantCandidature);
         }
       } catch (error) {
-        getLogger().error(error as Error, { identifiantCandidature });
         nbError++;
         if (nbError === identifiantCandidatures.length) {
           throw error;
         }
+        getLogger().error(error as Error, { identifiantCandidature });
       }
     }
 
