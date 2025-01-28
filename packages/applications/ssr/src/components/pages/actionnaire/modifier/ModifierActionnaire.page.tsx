@@ -1,23 +1,20 @@
 import { FC } from 'react';
 
-import { Actionnaire } from '@potentiel-domain/laureat';
-import { PlainType } from '@potentiel-domain/core';
 import { IdentifiantProjet } from '@potentiel-domain/common';
 
 import { ProjetBanner } from '@/components/molecules/projet/ProjetBanner';
 import { Heading1 } from '@/components/atoms/headings';
 import { PageTemplate } from '@/components/templates/Page.template';
 
-import { ModifierActionnaireForm } from './ModifierActionnaire.form';
+import { ModifierActionnaireForm, ModifierActionnaireFormProps } from './ModifierActionnaire.form';
 
-export type ModifierActionnairePageProps = PlainType<Actionnaire.ConsulterActionnaireReadModel> & {
-  hasToUploadDocument: boolean;
-};
+export type ModifierActionnairePageProps = ModifierActionnaireFormProps;
 
 export const ModifierActionnairePage: FC<ModifierActionnairePageProps> = ({
   identifiantProjet,
   actionnaire,
   hasToUploadDocument,
+  hasToGiveReason,
 }) => (
   <PageTemplate
     banner={
@@ -29,6 +26,7 @@ export const ModifierActionnairePage: FC<ModifierActionnairePageProps> = ({
       identifiantProjet={identifiantProjet}
       actionnaire={actionnaire}
       hasToUploadDocument={hasToUploadDocument}
+      hasToGiveReason={hasToGiveReason}
     />
   </PageTemplate>
 );

@@ -41,6 +41,7 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
           identifiantProjet={mapToPlainObject(identifiantProjet)}
           actionnaire={actionnaireActuel.actionnaire}
           hasToUploadDocument={!utilisateur.role.aLaPermission('actionnaire.modifier')}
+          hasToGiveReason={!utilisateur.role.aLaPermission('actionnaire.modifier')}
         />
       );
     }),

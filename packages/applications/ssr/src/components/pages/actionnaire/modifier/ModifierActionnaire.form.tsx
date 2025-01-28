@@ -6,6 +6,8 @@ import Input from '@codegouvfr/react-dsfr/Input';
 
 import { Routes } from '@potentiel-applications/routes';
 import { IdentifiantProjet } from '@potentiel-domain/common';
+import { Actionnaire } from '@potentiel-domain/laureat';
+import { PlainType } from '@potentiel-domain/core';
 
 import { Form } from '@/components/atoms/form/Form';
 import { SubmitButton } from '@/components/atoms/form/SubmitButton';
@@ -16,14 +18,17 @@ import {
   modifierActionnaireAction,
   ModifierActionnaireFormKeys,
 } from './modifierActionnaire.action';
-import { ModifierActionnairePageProps } from './ModifierActionnaire.page';
 
-export type ModifierActionnaireFormProps = ModifierActionnairePageProps;
+export type ModifierActionnaireFormProps = PlainType<Actionnaire.ConsulterActionnaireReadModel> & {
+  hasToUploadDocument: boolean;
+  hasToGiveReason: boolean;
+};
 
 export const ModifierActionnaireForm: FC<ModifierActionnaireFormProps> = ({
   identifiantProjet,
   actionnaire,
   hasToUploadDocument,
+  hasToGiveReason,
 }) => {
   const [validationErrors, setValidationErrors] = useState<
     ValidationErrors<ModifierActionnaireFormKeys>
@@ -77,10 +82,10 @@ export const ModifierActionnaireForm: FC<ModifierActionnaireFormProps> = ({
         />
         <Input
           textArea
-          label="Raison"
+          label={`Raison${hasToGiveReason ? '' : ' (optionnel)'}`}
           id="raison"
           hintText="Veuillez détailler les raisons ayant conduit au changement d'actionnaire(s)."
-          nativeTextAreaProps={{ name: 'raison', required: true, 'aria-required': true }}
+          nativeTextAreaProps={{ name: 'raison', required: hasToGiveReason, 'aria-required': true }}
           state={validationErrors['raison'] ? 'error' : 'default'}
           stateRelatedMessage={validationErrors['raison']}
         />
