@@ -14,10 +14,13 @@ import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
 import { Heading1, Heading2 } from '@/components/atoms/headings';
 import { FormattedDate } from '@/components/atoms/FormattedDate';
 import { DownloadDocument } from '@/components/atoms/form/document/DownloadDocument';
+import {
+  HistoriqueTimeline,
+  HistoriqueTimelineProps,
+} from '@/components/molecules/historique/HistoriqueTimeline';
 
 import { StatutChangementReprésentantLégalBadge } from '../../StatutChangementReprésentantLégalBadge';
 
-// import { EtapesChangementReprésentantLégal } from './EtapesChangementReprésentantLégal';
 import { AccorderChangementReprésentantLégal } from './accorder/AccorderChangementReprésentantLégal.form';
 import { RejeterChangementReprésentantLégal } from './rejeter/RejeterChangementReprésentantLégal.form';
 import { AnnulerChangementReprésentantLégal } from './annuler/AnnulerChangementReprésentantLégal.form';
@@ -33,6 +36,7 @@ export type DétailsChangementReprésentantLégalPageProps =
     identifiantProjet: PlainType<IdentifiantProjet.ValueType>;
     role: PlainType<Role.ValueType>;
     actions: ReadonlyArray<AvailableChangementReprésentantLégalAction>;
+    historique: HistoriqueTimelineProps['historique'];
   };
 
 export const DétailsChangementReprésentantLégalPage: FC<
@@ -49,8 +53,8 @@ export const DétailsChangementReprésentantLégalPage: FC<
     accord,
     rejet,
   },
-  // role,
   actions,
+  historique,
 }) => {
   const idProjet = IdentifiantProjet.bind(identifiantProjet).formatter();
 
@@ -87,13 +91,10 @@ export const DétailsChangementReprésentantLégalPage: FC<
                 />
               )
             )}
-            {/* <div className="mb-4">
+            <div className="mb-4">
               <Heading2>Historique</Heading2>
-              <EtapesChangementReprésentantLégal
-                changementReprésentantLégal={changementReprésentantLégal}
-                role={role}
-              />
-            </div> */}
+              <HistoriqueTimeline historique={historique} />
+            </div>
           </div>
         ),
       }}
