@@ -274,6 +274,7 @@ const référencielPermissions = {
       },
       usecase: {
         modifier: 'Lauréat.Actionnaire.UseCase.ModifierActionnaire',
+        enregistrerChangement: 'Lauréat.Actionnaire.UseCase.EnregistrerChangement',
         demanderChangement: 'Lauréat.Actionnaire.UseCase.DemanderChangement',
         accorderChangement: 'Lauréat.Actionnaire.UseCase.AccorderChangement',
         rejeterChangement: 'Lauréat.Actionnaire.UseCase.RejeterDemandeChangement',
@@ -281,6 +282,7 @@ const référencielPermissions = {
       },
       command: {
         modifier: 'Lauréat.Actionnaire.Command.ModifierActionnaire',
+        enregistrerChangement: 'Lauréat.Actionnaire.Command.EnregistrerChangement',
         demanderChangement: 'Lauréat.Actionnaire.Command.DemanderChangement',
         accorderChangement: 'Lauréat.Actionnaire.Command.AccorderChangement',
         rejeterChangement: 'Lauréat.Actionnaire.Command.RejeterDemandeChangement',
@@ -914,7 +916,6 @@ const policies = {
       référencielPermissions.candidature.query.consulterProjet,
       référencielPermissions.lauréat.actionnaire.query.consulter,
     ],
-
     modifier: [
       référencielPermissions.candidature.query.consulterProjet,
       référencielPermissions.lauréat.actionnaire.usecase.modifier,
@@ -923,6 +924,10 @@ const policies = {
     consulterChangement: [
       référencielPermissions.lauréat.actionnaire.query.consulterChangement,
       référencielPermissions.lauréat.actionnaire.query.consulterChangementEnCours,
+    ],
+    enregistrerChangement: [
+      référencielPermissions.lauréat.actionnaire.usecase.enregistrerChangement,
+      référencielPermissions.lauréat.actionnaire.command.enregistrerChangement,
     ],
     demanderChangement: [
       référencielPermissions.lauréat.actionnaire.usecase.demanderChangement,
@@ -1235,9 +1240,9 @@ const porteurProjetPolicies: ReadonlyArray<Policy> = [
   'représentantLégal.consulter',
 
   // Actionnaire
-  'actionnaire.modifier',
   'actionnaire.consulter',
   'actionnaire.consulterChangement',
+  'actionnaire.enregistrerChangement',
   'actionnaire.demanderChangement',
   'actionnaire.annulerChangement',
   'actionnaire.listerChangement',
