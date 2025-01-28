@@ -2,7 +2,10 @@
 Fonctionnalité: Exécuter une tâche planifiée
 
     Contexte:
-        Etant donné le projet lauréat "Du boulodrome de Marseille"
+        Etant donné le projet lauréat "Du boulodrome de Marseille" avec :
+            | type GF         | avec-date-échéance |
+            | date d'échéance | 2024-01-01         |
+
         Et le porteur "Marcel Patoulatchi" ayant accés au projet lauréat "Du boulodrome de Marseille"
 
     Scénario: Une tâche planifiée est exécutée

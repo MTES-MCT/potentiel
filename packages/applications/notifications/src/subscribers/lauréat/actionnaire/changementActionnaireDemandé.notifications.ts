@@ -31,6 +31,7 @@ export const changementActionnaireDemandéNotifications = async ({
     getLogger().error('Aucune dreal trouvée', {
       identifiantProjet: identifiantProjet.formatter(),
       application: 'notifications',
+      fonction: 'changementActionnaireDemandéNotifications',
     });
     return;
   }

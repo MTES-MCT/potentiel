@@ -85,6 +85,10 @@ EtantDonné(`une période avec des candidats importés`, async function (this: P
   await importerCandidatsPériode.call(this, candidats);
 });
 
+EtantDonné(`une période avec un candidat importé`, async function (this: PotentielWorld) {
+  await importerCandidatsPériode.call(this, [candidats[0]]);
+});
+
 EtantDonné(`une période avec des candidats notifiés`, async function (this: PotentielWorld) {
   await importerCandidatsPériode.call(this, candidats);
   await notifierPériode.call(this);
