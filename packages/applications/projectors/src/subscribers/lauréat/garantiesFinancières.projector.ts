@@ -130,30 +130,6 @@ export const register = () => {
         dateLimiteSoumission: '',
       };
 
-      const mainlevéeEnCoursArray = (
-        await listProjection<GarantiesFinancières.MainlevéeGarantiesFinancièresEntity>(
-          `mainlevee-garanties-financieres`,
-          {
-            where: {
-              identifiantProjet: Where.equal(identifiantProjet),
-              statut: Where.notEqual(
-                GarantiesFinancières.StatutMainlevéeGarantiesFinancières.rejeté.statut,
-              ),
-            },
-          },
-        )
-      ).items;
-
-      if (mainlevéeEnCoursArray.length > 1) {
-        getLogger().error(new Error(`Il existe plus d'une main levée en cours pour ce projet`), {
-          identifiantProjet,
-          message: event,
-        });
-        return;
-      }
-
-      const mainlevéeEnCours = mainlevéeEnCoursArray[0];
-
       const garantiesFinancièresToUpsert: Omit<
         GarantiesFinancières.GarantiesFinancièresEntity,
         'type'
@@ -498,69 +474,69 @@ export const register = () => {
         case 'MainlevéeGarantiesFinancièresDemandée-V1':
           détailProjet = await getProjectData(identifiantProjet);
 
-          const mainlevéeDemandée = {
-            identifiantProjet,
-            projet: détailProjet,
-            demande: {
-              demandéeLe: payload.demandéLe,
-              demandéePar: payload.demandéPar,
-            },
-            motif: payload.motif,
-            statut: GarantiesFinancières.StatutMainlevéeGarantiesFinancières.demandé.statut,
-            dernièreMiseÀJour: {
-              date: payload.demandéLe,
-              par: payload.demandéPar,
-            },
-          };
-
           await upsertProjection<GarantiesFinancières.MainlevéeGarantiesFinancièresEntity>(
             `mainlevee-garanties-financieres|${identifiantProjet}#${payload.demandéLe}`,
-            mainlevéeDemandée,
+            {
+              identifiantProjet,
+              projet: détailProjet,
+              demande: {
+                demandéeLe: payload.demandéLe,
+                demandéePar: payload.demandéPar,
+              },
+              motif: payload.motif,
+              statut: GarantiesFinancières.StatutMainlevéeGarantiesFinancières.demandé.statut,
+              dernièreMiseÀJour: {
+                date: payload.demandéLe,
+                par: payload.demandéPar,
+              },
+            },
           );
           break;
 
         case 'DemandeMainlevéeGarantiesFinancièresAnnulée-V1':
+          const mainlevéeASupprimer = await getMainlevéeToUpsert(identifiantProjet);
+
           await removeProjection<GarantiesFinancières.MainlevéeGarantiesFinancièresEntity>(
-            `mainlevee-garanties-financieres|${identifiantProjet}#${mainlevéeEnCours.demande.demandéeLe}`,
+            `mainlevee-garanties-financieres|${identifiantProjet}#${mainlevéeASupprimer.demande.demandéeLe}`,
           );
           break;
 
         case 'InstructionDemandeMainlevéeGarantiesFinancièresDémarrée-V1':
-          const nouvelleMainlevéeAprèsInstruction = {
-            ...mainlevéeEnCours,
-            statut: GarantiesFinancières.StatutMainlevéeGarantiesFinancières.enInstruction.statut,
-            instruction: { démarréeLe: payload.démarréLe, démarréePar: payload.démarréPar },
-            dernièreMiseÀJour: {
-              date: payload.démarréLe,
-              par: payload.démarréPar,
-            },
-          };
+          const mainlevéeAInstruire = await getMainlevéeToUpsert(identifiantProjet);
 
           await upsertProjection<GarantiesFinancières.MainlevéeGarantiesFinancièresEntity>(
-            `mainlevee-garanties-financieres|${identifiantProjet}#${mainlevéeEnCours.demande.demandéeLe}`,
-            nouvelleMainlevéeAprèsInstruction,
+            `mainlevee-garanties-financieres|${identifiantProjet}#${mainlevéeAInstruire.demande.demandéeLe}`,
+            {
+              ...mainlevéeAInstruire,
+              statut: GarantiesFinancières.StatutMainlevéeGarantiesFinancières.enInstruction.statut,
+              instruction: { démarréeLe: payload.démarréLe, démarréePar: payload.démarréPar },
+              dernièreMiseÀJour: {
+                date: payload.démarréLe,
+                par: payload.démarréPar,
+              },
+            },
           );
 
           break;
 
         case 'DemandeMainlevéeGarantiesFinancièresAccordée-V1':
-          const nouvelleMainlevéeAprèsAccord = {
-            ...mainlevéeEnCours,
-            statut: GarantiesFinancières.StatutMainlevéeGarantiesFinancières.accordé.statut,
-            accord: {
-              accordéeLe: payload.accordéLe,
-              accordéePar: payload.accordéPar,
-              courrierAccord: { format: payload.réponseSignée.format },
-            },
-            dernièreMiseÀJour: {
-              date: payload.accordéLe,
-              par: payload.accordéPar,
-            },
-          };
+          const mainlevéeAAccorder = await getMainlevéeToUpsert(identifiantProjet);
 
           await upsertProjection<GarantiesFinancières.MainlevéeGarantiesFinancièresEntity>(
-            `mainlevee-garanties-financieres|${identifiantProjet}#${mainlevéeEnCours.demande.demandéeLe}`,
-            nouvelleMainlevéeAprèsAccord,
+            `mainlevee-garanties-financieres|${identifiantProjet}#${mainlevéeAAccorder.demande.demandéeLe}`,
+            {
+              ...mainlevéeAAccorder,
+              statut: GarantiesFinancières.StatutMainlevéeGarantiesFinancières.accordé.statut,
+              accord: {
+                accordéeLe: payload.accordéLe,
+                accordéePar: payload.accordéPar,
+                courrierAccord: { format: payload.réponseSignée.format },
+              },
+              dernièreMiseÀJour: {
+                date: payload.accordéLe,
+                par: payload.accordéPar,
+              },
+            },
           );
 
           await upsertProjection<GarantiesFinancières.GarantiesFinancièresEntity>(
@@ -580,23 +556,23 @@ export const register = () => {
           break;
 
         case 'DemandeMainlevéeGarantiesFinancièresRejetée-V1':
-          const nouvelleMainlevéeAprèsRejet = {
-            ...mainlevéeEnCours,
-            statut: GarantiesFinancières.StatutMainlevéeGarantiesFinancières.rejeté.statut,
-            rejet: {
-              rejetéLe: payload.rejetéLe,
-              rejetéPar: payload.rejetéPar,
-              courrierRejet: { format: payload.réponseSignée.format },
-            },
-            dernièreMiseÀJour: {
-              date: payload.rejetéLe,
-              par: payload.rejetéPar,
-            },
-          };
+          const mainlevéeARejeter = await getMainlevéeToUpsert(identifiantProjet);
 
           await upsertProjection<GarantiesFinancières.MainlevéeGarantiesFinancièresEntity>(
-            `mainlevee-garanties-financieres|${identifiantProjet}#${mainlevéeEnCours.demande.demandéeLe}`,
-            nouvelleMainlevéeAprèsRejet,
+            `mainlevee-garanties-financieres|${identifiantProjet}#${mainlevéeARejeter.demande.demandéeLe}`,
+            {
+              ...mainlevéeARejeter,
+              statut: GarantiesFinancières.StatutMainlevéeGarantiesFinancières.rejeté.statut,
+              rejet: {
+                rejetéLe: payload.rejetéLe,
+                rejetéPar: payload.rejetéPar,
+                courrierRejet: { format: payload.réponseSignée.format },
+              },
+              dernièreMiseÀJour: {
+                date: payload.rejetéLe,
+                par: payload.rejetéPar,
+              },
+            },
           );
 
           break;
@@ -634,4 +610,33 @@ const removeMainlevéeProjections = async (identifiantProjet: string) => {
       `mainlevee-garanties-financieres|${identifiantProjet}#${détailsMainlevée.demande.demandéeLe}`,
     );
   }
+};
+
+const getMainlevéeToUpsert = async (
+  identifiantProjet: IdentifiantProjet.RawType,
+): Promise<Omit<GarantiesFinancières.MainlevéeGarantiesFinancièresEntity, 'type'>> => {
+  const mainlevéeEnCoursArray = (
+    await listProjection<GarantiesFinancières.MainlevéeGarantiesFinancièresEntity>(
+      `mainlevee-garanties-financieres`,
+      {
+        where: {
+          identifiantProjet: Where.equal(identifiantProjet),
+          statut: Where.notEqual(
+            GarantiesFinancières.StatutMainlevéeGarantiesFinancières.rejeté.statut,
+          ),
+        },
+      },
+    )
+  ).items;
+
+  if (mainlevéeEnCoursArray.length !== 1) {
+    throw (
+      (new Error(`Il existe plus d'une main levée en cours pour ce projet`),
+      {
+        identifiantProjet,
+      })
+    );
+  }
+
+  return mainlevéeEnCoursArray[0];
 };
