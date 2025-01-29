@@ -217,7 +217,7 @@ const MenuPorteurProjet = (currentPage?: string) => (
       >
         Changements de représentant légal
       </DropdownMenu.DropdownItem>
-      <DropdownMenu.DropdownItem href={Routes.Actionnaire.changement.lister}>
+      <DropdownMenu.DropdownItem href={Routes.Actionnaire.changement.lister({ statut: 'demandé' })}>
         Actionnaire(s)
       </DropdownMenu.DropdownItem>
     </DropdownMenu>
