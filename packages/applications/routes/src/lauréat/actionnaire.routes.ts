@@ -16,9 +16,8 @@ export const changement = {
     `/laureats/${encodeParameter(identifiantProjet)}/actionnaire/changement/enregistrer`,
   détails: (identifiantProjet: string, demandéLe: string) =>
     `/laureats/${encodeParameter(identifiantProjet)}/actionnaire/changement/${demandéLe}`,
-  téléchargerModèleRéponse: (identifiantProjet: string) =>
-    `/laureats/${encodeParameter(identifiantProjet)}/actionnaire/changement/modele-reponse`,
-
+  téléchargerModèleRéponse: (identifiantProjet: string, estAccepté: boolean) =>
+    `/laureats/${encodeParameter(identifiantProjet)}/actionnaire/changement/modele-reponse?estAccepté=${estAccepté}`,
   lister: (filters: ListerFilters = {}) => {
     const searchParams = new URLSearchParams();
 
