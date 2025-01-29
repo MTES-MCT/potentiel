@@ -108,8 +108,9 @@ export const UploadDocument: FC<UploadDocumentProps> = ({
         <label className={clsx('fr-label', state === 'error' && 'text-theme-error')}>{label}</label>
       )}
       <div className="fr-hint-text">
-        Formats accepté : <span className="font-semibold">{formats.join(', ')}</span>, taille
-        maximale acceptée : <span className="font-semibold">{fileSizeLimitInMegaBytes} Mo</span>
+        Taille maximale : <span className="font-semibold">{fileSizeLimitInMegaBytes} Mo</span>,
+        Format(s) supporté(s) : <span className="font-semibold">{formats.join(', ')}</span>.
+        {multiple && <> Plusieurs fichiers possibles</>}
       </div>
       {hintText && <div className="fr-hint-text">{hintText}</div>}
 
