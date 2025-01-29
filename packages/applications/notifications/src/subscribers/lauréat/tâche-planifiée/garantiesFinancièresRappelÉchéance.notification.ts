@@ -9,7 +9,7 @@ import { getLogger } from '@potentiel-libraries/monitoring';
 
 import { RegisterTâchePlanifiéeNotificationDependencies } from '.';
 
-type HandleGarantiesFinancièresRappelÉchéanceProps = {
+type GarantiesFinancièresRappelÉchéanceNotificationProps = {
   sendEmail: RegisterTâchePlanifiéeNotificationDependencies['sendEmail'];
   identifiantProjet: IdentifiantProjet.ValueType;
   event: TâchePlanifiéeExecutéeEvent;
@@ -20,20 +20,20 @@ type HandleGarantiesFinancièresRappelÉchéanceProps = {
   baseUrl: string;
 };
 
-export const handleGarantiesFinancièresRappelÉchéance = async ({
+export const garantiesFinancièresRappelÉchéanceNotification = async ({
   sendEmail,
   identifiantProjet,
   event,
   projet: { nom, département },
   baseUrl,
-}: HandleGarantiesFinancièresRappelÉchéanceProps) => {
+}: GarantiesFinancièresRappelÉchéanceNotificationProps) => {
   const porteurs = await récupérerPorteursParIdentifiantProjetAdapter(identifiantProjet);
 
   if (porteurs.length === 0) {
     getLogger().error('Aucun porteur trouvé', {
       identifiantProjet: identifiantProjet.formatter(),
       application: 'notifications',
-      fonction: 'handleGarantiesFinancièresRappelÉchéance',
+      fonction: 'garantiesFinancièresRappelÉchéanceNotification',
     });
     return;
   }
@@ -44,7 +44,7 @@ export const handleGarantiesFinancièresRappelÉchéance = async ({
     getLogger().error('Aucune dreal trouvée', {
       identifiantProjet: identifiantProjet.formatter(),
       application: 'notifications',
-      fonction: 'handleGarantiesFinancièresRappelÉchéance',
+      fonction: 'garantiesFinancièresRappelÉchéanceNotification',
     });
     return;
   }

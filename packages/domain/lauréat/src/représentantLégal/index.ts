@@ -24,16 +24,19 @@ import { AnnulerChangementReprésentantLégalUseCase } from './changement/annule
 import { SupprimerDocumentProjetSensibleCommand } from './changement/supprimerDocumentSensible/supprimerDocumentProjetSensible.command';
 import { CorrigerChangementReprésentantLégalUseCase } from './changement/corriger/corrigerChangementReprésentantLégal.usecase';
 import { CorrigerChangementReprésentantLégalCommand } from './changement/corriger/corrigerChangementReprésentantLégal.command';
+import { ConsulterChangementReprésentantLégalEnCoursQuery } from './changement/consulter/consulterChangementReprésentantLégalEnCours.query';
 
 // Query
 export type ReprésentantLégalQuery =
   | ConsulterReprésentantLégalQuery
   | ConsulterChangementReprésentantLégalQuery
+  | ConsulterChangementReprésentantLégalEnCoursQuery
   | ListerChangementReprésentantLégalQuery;
 
 export type {
   ConsulterReprésentantLégalQuery,
   ConsulterChangementReprésentantLégalQuery,
+  ConsulterChangementReprésentantLégalEnCoursQuery,
   ListerChangementReprésentantLégalQuery,
 };
 

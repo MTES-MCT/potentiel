@@ -10,7 +10,7 @@ import { getLogger } from '@potentiel-libraries/monitoring';
 
 import { RegisterTâchePlanifiéeNotificationDependencies } from '.';
 
-type HandleReprésentantLégalRappelInstructionÀDeuxMoisProps = {
+type HandleReprésentantLégalRappelInstructionÀDeuxMoisNotificationProps = {
   sendEmail: RegisterTâchePlanifiéeNotificationDependencies['sendEmail'];
   identifiantProjet: IdentifiantProjet.ValueType;
   projet: {
@@ -20,12 +20,12 @@ type HandleReprésentantLégalRappelInstructionÀDeuxMoisProps = {
   baseUrl: string;
 };
 
-export const handleReprésentantLégalRappelInstructionÀDeuxMois = async ({
+export const représentantLégalRappelInstructionÀDeuxMoisNotification = async ({
   sendEmail,
   identifiantProjet,
   projet: { nom, département },
   baseUrl,
-}: HandleReprésentantLégalRappelInstructionÀDeuxMoisProps) => {
+}: HandleReprésentantLégalRappelInstructionÀDeuxMoisNotificationProps) => {
   const dreals = await récupérerDrealsParIdentifiantProjetAdapter(identifiantProjet);
 
   const appelOffre = await mediator.send<AppelOffre.ConsulterAppelOffreQuery>({
@@ -55,40 +55,20 @@ export const handleReprésentantLégalRappelInstructionÀDeuxMois = async ({
     return;
   }
 
-  const représentantLégal = await mediator.send<ReprésentantLégal.ConsulterReprésentantLégalQuery>({
-    type: 'Lauréat.ReprésentantLégal.Query.ConsulterReprésentantLégal',
-    data: { identifiantProjet: identifiantProjet.formatter() },
-  });
-
-  if (Option.isNone(représentantLégal)) {
-    getLogger().warn(`Aucun représentant légal n'a été trouvé pour le rappel à 2 mois`, {
-      event,
-    });
-    return;
-  }
-  if (!représentantLégal.demandeEnCours) {
-    getLogger().warn(`Aucune demande en cours pour le rappel à 2 mois`, {
-      event,
-    });
-    return;
-  }
-
-  const changementReprésentantLégal =
-    await mediator.send<ReprésentantLégal.ConsulterChangementReprésentantLégalQuery>({
-      type: 'Lauréat.ReprésentantLégal.Query.ConsulterChangementReprésentantLégal',
+  const changementEnCours =
+    await mediator.send<ReprésentantLégal.ConsulterChangementReprésentantLégalEnCoursQuery>({
+      type: 'Lauréat.ReprésentantLégal.Query.ConsulterChangementReprésentantLégalEnCours',
       data: {
         identifiantProjet: identifiantProjet.formatter(),
-        demandéLe: représentantLégal.demandeEnCours.demandéLe,
       },
     });
 
-  if (Option.isNone(changementReprésentantLégal)) {
-    getLogger().error(
-      `Aucun changement de représentant légal n'a été trouvé pour le rappel à 2 mois`,
-      {
-        event,
-      },
-    );
+  if (Option.isNone(changementEnCours)) {
+    getLogger().error('Aucune demande de changement de représentant légal en cours trouvée', {
+      identifiantProjet: identifiantProjet.formatter(),
+      application: 'notifications',
+      fonction: 'représentantLégalRappelInstructionÀDeuxMoisNotification',
+    });
     return;
   }
 
@@ -108,7 +88,7 @@ export const handleReprésentantLégalRappelInstructionÀDeuxMois = async ({
       type: typeTâchePlanifiée === 'accord-automatique' ? 'accord' : 'rejet',
       nom_projet: nom,
       departement_projet: département,
-      url: `${baseUrl}${Routes.ReprésentantLégal.changement.détail(identifiantProjet.formatter(), changementReprésentantLégal.demande.demandéLe.formatter())}`,
+      url: `${baseUrl}${Routes.ReprésentantLégal.changement.détail(identifiantProjet.formatter(), changementEnCours.demandéLe.formatter())}`,
     },
   });
 };

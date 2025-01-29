@@ -1,9 +1,8 @@
 import { ReprésentantLégal } from '@potentiel-domain/laureat';
-import { findProjection } from '@potentiel-infrastructure/pg-projections';
-import { getLogger } from '@potentiel-libraries/monitoring';
-import { Option } from '@potentiel-libraries/monads';
 
 import { removeProjection, upsertProjection } from '../../../../infrastructure';
+
+import { getInfosReprésentantLégal } from './_utils/getInfosReprésentantLégal';
 
 export const changementReprésentantLégalSuppriméProjector = async (
   event: ReprésentantLégal.ChangementReprésentantLégalSuppriméEvent,
@@ -12,39 +11,20 @@ export const changementReprésentantLégalSuppriméProjector = async (
     payload: { identifiantProjet },
   } = event;
 
-  const représentantLégal = await findProjection<ReprésentantLégal.ReprésentantLégalEntity>(
-    `représentant-légal|${identifiantProjet}`,
-  );
+  const représentantLégal = await getInfosReprésentantLégal(identifiantProjet);
 
-  if (Option.isNone(représentantLégal)) {
-    getLogger().error(
-      `Aucun représentant légal n'a été trouvé pour le changement de représentant supprimé`,
+  if (représentantLégal) {
+    await removeProjection(
+      `changement-représentant-légal|${représentantLégal.identifiantChangement}`,
+    );
+
+    await upsertProjection<ReprésentantLégal.ReprésentantLégalEntity>(
+      `représentant-légal|${identifiantProjet}`,
       {
-        event,
+        identifiantProjet,
+        nomReprésentantLégal: représentantLégal.actuel.nom,
+        typeReprésentantLégal: représentantLégal.actuel.type,
       },
     );
-    return;
   }
-  if (!représentantLégal.demandeEnCours) {
-    getLogger().error(
-      `Aucune demande n'a été trouvée pour le changement de représentant supprimé`,
-      {
-        event,
-      },
-    );
-    return;
-  }
-
-  const identifiantChangement = `${identifiantProjet}#${représentantLégal.demandeEnCours.demandéLe}`;
-
-  await removeProjection(`changement-représentant-légal|${identifiantChangement}`);
-
-  await upsertProjection<ReprésentantLégal.ReprésentantLégalEntity>(
-    `représentant-légal|${identifiantProjet}`,
-    {
-      identifiantProjet,
-      nomReprésentantLégal: représentantLégal.nomReprésentantLégal,
-      typeReprésentantLégal: représentantLégal.typeReprésentantLégal,
-    },
-  );
 };

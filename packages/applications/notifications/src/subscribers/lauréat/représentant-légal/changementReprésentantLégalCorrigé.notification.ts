@@ -37,41 +37,20 @@ export const changementReprésentantLégalCorrigéNotification = async ({
     return;
   }
 
-  const représentantLégal = await mediator.send<ReprésentantLégal.ConsulterReprésentantLégalQuery>({
-    type: 'Lauréat.ReprésentantLégal.Query.ConsulterReprésentantLégal',
-    data: { identifiantProjet: identifiantProjet.formatter() },
-  });
-
-  if (Option.isNone(représentantLégal)) {
-    getLogger().error(`Aucun représentant légal n'a été trouvé pour le rappel à 2 mois`, {
-      event,
-    });
-    return;
-  }
-
-  if (!représentantLégal.demandeEnCours) {
-    getLogger().error(`Aucune demande en cours pour le rappel à 2 mois`, {
-      event,
-    });
-    return;
-  }
-
-  const changementReprésentantLégal =
-    await mediator.send<ReprésentantLégal.ConsulterChangementReprésentantLégalQuery>({
-      type: 'Lauréat.ReprésentantLégal.Query.ConsulterChangementReprésentantLégal',
+  const changementEnCours =
+    await mediator.send<ReprésentantLégal.ConsulterChangementReprésentantLégalEnCoursQuery>({
+      type: 'Lauréat.ReprésentantLégal.Query.ConsulterChangementReprésentantLégalEnCours',
       data: {
         identifiantProjet: identifiantProjet.formatter(),
-        demandéLe: représentantLégal.demandeEnCours.demandéLe,
       },
     });
 
-  if (Option.isNone(changementReprésentantLégal)) {
-    getLogger().error(
-      `Aucun changement de représentant légal n'a été trouvé pour le rappel à 2 mois`,
-      {
-        event,
-      },
-    );
+  if (Option.isNone(changementEnCours)) {
+    getLogger().error('Aucune demande de changement de représentant légal en cours trouvée', {
+      identifiantProjet: identifiantProjet.formatter(),
+      application: 'notifications',
+      fonction: 'changementReprésentantLégalCorrigéNotification',
+    });
     return;
   }
 
@@ -82,7 +61,7 @@ export const changementReprésentantLégalCorrigéNotification = async ({
     variables: {
       nom_projet: projet.nom,
       departement_projet: projet.département,
-      url: `${baseUrl}${Routes.ReprésentantLégal.changement.détail(identifiantProjet.formatter(), changementReprésentantLégal.demande.demandéLe.formatter())}`,
+      url: `${baseUrl}${Routes.ReprésentantLégal.changement.détail(identifiantProjet.formatter(), changementEnCours.demandéLe.formatter())}`,
     },
   });
 };

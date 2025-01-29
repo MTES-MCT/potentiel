@@ -9,7 +9,6 @@ import { Role } from '@potentiel-domain/utilisateur';
 import { getLogger } from '@potentiel-libraries/monitoring';
 import { getAbandonStatut } from './getAbandon';
 import { getAttestationDeConformité } from './getAttestationDeConformité';
-import { Where } from '@potentiel-domain/entity';
 
 export type GetReprésentantLégalForProjectPage =
   | {
@@ -41,59 +40,17 @@ export const getReprésentantLégal: GetReprésentantLégal = async (identifiant
         data: { identifiantProjet: identifiantProjet.formatter() },
       });
 
-    if (Option.isSome(représentantLégal)) {
-      const demandéLe = await getDateDemandeEnCours(identifiantProjet);
-      const demandeChangementExistante =
-        utilisateur.aLaPermission('représentantLégal.consulterChangement') && !!demandéLe;
-
-      const statutAbandon = await getAbandonStatut(identifiantProjet);
-      const abandonAccordé = statutAbandon?.statut === 'accordé';
-      const abandonEnCours = !!(
-        statutAbandon?.statut &&
-        ['demandé', 'confirmé', 'confirmation-demandée'].includes(statutAbandon.statut)
-      );
-
-      const attestationConformitéExistante = !!(await getAttestationDeConformité(
-        identifiantProjet,
-        rôle,
-      ));
-
-      const peutConsulterLaDemandeExistante = demandeChangementExistante && !abandonAccordé;
-
-      const peutFaireUneDemande =
-        utilisateur.aLaPermission('représentantLégal.demanderChangement') &&
-        !demandeChangementExistante &&
-        !abandonAccordé &&
-        !abandonEnCours &&
-        !attestationConformitéExistante;
-
-      const peutModifier =
-        utilisateur.aLaPermission('représentantLégal.modifier') && !demandeChangementExistante;
-
-      return {
-        nom: représentantLégal.nomReprésentantLégal,
-        modification: peutModifier
-          ? {
-              type: 'lauréat',
-              url: Routes.ReprésentantLégal.modifier(identifiantProjet.formatter()),
-            }
-          : undefined,
-        demandeDeModification: {
-          demandéLe: demandéLe ?? '',
-          peutConsulterLaDemandeExistante,
-          peutFaireUneDemande,
+    if (Option.isNone(représentantLégal)) {
+      const candidature = await mediator.send<Candidature.ConsulterCandidatureQuery>({
+        type: 'Candidature.Query.ConsulterCandidature',
+        data: {
+          identifiantProjet: identifiantProjet.formatter(),
         },
-      };
-    }
+      });
 
-    const candidature = await mediator.send<Candidature.ConsulterCandidatureQuery>({
-      type: 'Candidature.Query.ConsulterCandidature',
-      data: {
-        identifiantProjet: identifiantProjet.formatter(),
-      },
-    });
-
-    if (Option.isSome(candidature)) {
+      if (Option.isNone(candidature)) {
+        return undefined;
+      }
       return {
         nom: candidature.nomReprésentantLégal,
         modification: utilisateur.aLaPermission('candidature.corriger')
@@ -105,7 +62,56 @@ export const getReprésentantLégal: GetReprésentantLégal = async (identifiant
       };
     }
 
-    return undefined;
+    const demandeEnCours =
+      await mediator.send<ReprésentantLégal.ConsulterChangementReprésentantLégalEnCoursQuery>({
+        type: 'Lauréat.ReprésentantLégal.Query.ConsulterChangementReprésentantLégalEnCours',
+        data: {
+          identifiantProjet: identifiantProjet.formatter(),
+        },
+      });
+
+    const demandeChangementExistante =
+      utilisateur.aLaPermission('représentantLégal.consulterChangement') &&
+      Option.isSome(demandeEnCours);
+
+    const statutAbandon = await getAbandonStatut(identifiantProjet);
+    const abandonAccordé = statutAbandon?.statut === 'accordé';
+    const abandonEnCours = !!(
+      statutAbandon?.statut &&
+      ['demandé', 'confirmé', 'confirmation-demandée'].includes(statutAbandon.statut)
+    );
+
+    const attestationConformitéExistante = !!(await getAttestationDeConformité(
+      identifiantProjet,
+      rôle,
+    ));
+
+    const peutConsulterLaDemandeExistante = demandeChangementExistante && !abandonAccordé;
+
+    const peutFaireUneDemande =
+      utilisateur.aLaPermission('représentantLégal.demanderChangement') &&
+      !demandeChangementExistante &&
+      !abandonAccordé &&
+      !abandonEnCours &&
+      !attestationConformitéExistante;
+
+    const peutModifier =
+      utilisateur.aLaPermission('représentantLégal.modifier') && !demandeChangementExistante;
+
+    return {
+      nom: représentantLégal.nomReprésentantLégal,
+      modification: peutModifier
+        ? {
+            type: 'lauréat',
+            url: Routes.ReprésentantLégal.modifier(identifiantProjet.formatter()),
+          }
+        : undefined,
+      demandeDeModification: {
+        demandéLe: Option.isSome(demandeEnCours) ? demandeEnCours.demandéLe.formatter() : '',
+        peutConsulterLaDemandeExistante,
+        peutFaireUneDemande,
+      },
+    };
   } catch (error) {
     getLogger('Legacy|getProjectPage|getReprésentantLégal').error(
       `Impossible de consulter le représentant légal`,
@@ -114,30 +120,5 @@ export const getReprésentantLégal: GetReprésentantLégal = async (identifiant
       },
     );
     return undefined;
-  }
-};
-
-const getDateDemandeEnCours = async (identifiantProjet: IdentifiantProjet.ValueType) => {
-  try {
-    const représentantLégal =
-      await mediator.send<ReprésentantLégal.ConsulterReprésentantLégalQuery>({
-        type: 'Lauréat.ReprésentantLégal.Query.ConsulterReprésentantLégal',
-        data: { identifiantProjet: identifiantProjet.formatter() },
-      });
-
-    if (Option.isSome(représentantLégal) && représentantLégal.demandeEnCours) {
-      return représentantLégal.demandeEnCours.demandéLe;
-    }
-
-    return;
-  } catch (error) {
-    getLogger('getChangementReprésentant').error(
-      `Impossible de consulter la demande de changement de représentant légal`,
-      {
-        identifiantProjet: identifiantProjet.formatter(),
-        contexte: 'legacy',
-      },
-    );
-    return;
   }
 };

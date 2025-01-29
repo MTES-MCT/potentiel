@@ -27,6 +27,7 @@ import {
 } from './changement/supprimerDocumentSensible/supprimerDocumentProjetSensible.command';
 import { registerCorrigerChangementReprésentantLégalUseCase } from './changement/corriger/corrigerChangementReprésentantLégal.usecase';
 import { registerCorrigerChangementReprésentantLégalCommand } from './changement/corriger/corrigerChangementReprésentantLégal.command';
+import { registerConsulterChangementReprésentantLegalEnCoursQuery } from './changement/consulter/consulterChangementReprésentantLégalEnCours.query';
 
 export type ReprésentantLégalQueryDependencies = ConsulterReprésentantLégalDependencies &
   ListerChangementReprésentantLégalDependencies;
@@ -67,5 +68,6 @@ export const registerReprésentantLégalQueries = (
 ) => {
   registerConsulterRepresentantLegalQuery(dependencies);
   registerConsulterChangementReprésentantLegalQuery(dependencies);
+  registerConsulterChangementReprésentantLegalEnCoursQuery(dependencies);
   registerListerChangementReprésentantLégalQuery(dependencies);
 };
