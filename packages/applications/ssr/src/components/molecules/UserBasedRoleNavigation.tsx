@@ -68,7 +68,7 @@ const getNavigationItemsBasedOnRole = (utilisateur: Utilisateur.ValueType) => {
       },
     },
     {
-      text: "Modification d'actionnariat",
+      text: 'Actionnaire(s)',
       linkProps: {
         href: Routes.Actionnaire.changement.lister,
       },

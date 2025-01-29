@@ -73,10 +73,12 @@ export default async function Page({ searchParams }: PageProps) {
         {
           label: 'Statut',
           searchParamKey: 'statut',
-          options: Actionnaire.StatutChangementActionnaire.statuts.map((statut) => ({
-            label: statut.replace('-', ' ').toLocaleLowerCase(),
-            value: statut,
-          })),
+          options: Actionnaire.StatutChangementActionnaire.statuts
+            .filter((s) => s !== 'annulé')
+            .map((statut) => ({
+              label: statut.replace('-', ' ').toLocaleLowerCase(),
+              value: statut,
+            })),
         },
       ];
 

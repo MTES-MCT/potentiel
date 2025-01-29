@@ -31,8 +31,8 @@ export const ChangementActionnaireListItem: FC<ChangementActionnaireListItemProp
         identifiantProjet={identifiantProjet}
         prefix={
           statut.statut === 'information-enregistrée'
-            ? "Modification de l'actionnariat du projet"
-            : "Demande de changement de l'actionnariat du projet"
+            ? "Changement d'actionnaire(s) du projet"
+            : "Demande de changement d'actionnaire(s) du projet"
         }
         misÀJourLe={DateTime.bind(misÀJourLe).formatter()}
       />
