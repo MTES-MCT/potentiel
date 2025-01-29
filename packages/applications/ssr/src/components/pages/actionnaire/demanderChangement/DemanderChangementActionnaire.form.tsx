@@ -66,7 +66,7 @@ export const DemanderChangementActionnaireForm: FC<DemanderChangementActionnaire
           state={validationErrors['actionnaire'] ? 'error' : 'default'}
           stateRelatedMessage={validationErrors['actionnaire']}
           label="Nouvelle société mère"
-          hintText="Si la modification de l’actionnariat n'entraîne pas le changement de la société mère, veuillez laisser la société mère actuelle"
+          hintText="Si le changement d'actionnaire(s) n'entraîne pas le changement de la société mère, veuillez laisser la société mère actuelle"
           nativeInputProps={{
             name: 'actionnaire',
             defaultValue: actionnaire,

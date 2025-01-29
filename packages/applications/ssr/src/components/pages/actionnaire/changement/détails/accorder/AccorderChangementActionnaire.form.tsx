@@ -30,12 +30,12 @@ export const AccorderChangementActionnaire = ({
   return (
     <>
       <Button onClick={() => setIsOpen(true)} className="block text-center">
-        Accorder la demande de modification de l’actionnariat
+        Accorder la demande de changement d'actionnaire(s)
       </Button>
 
       <ModalWithForm
         id="accorder-changement-actionnaire-modal"
-        title="Accorder la demande de modification de l’actionnariat"
+        title="Accorder la demande de changement d'actionnaire(s)"
         acceptButtonLabel="Oui"
         rejectButtonLabel="Non"
         isOpen={isOpen}

@@ -19,12 +19,12 @@ export const AnnulerChangementActionnaire = ({
   return (
     <>
       <Button onClick={() => setIsOpen(true)} className="block text-center">
-        Annuler la demande de modification de l’actionnariat
+        Annuler la demandede changement d'actionnaire(s)
       </Button>
 
       <ModalWithForm
         id="annuler-changement-actionnaire-modal"
-        title="Annuler la demande de modification de l’actionnariat"
+        title="Annuler la demandede changement d'actionnaire(s)"
         acceptButtonLabel="Oui"
         rejectButtonLabel="Non"
         isOpen={isOpen}
@@ -36,7 +36,7 @@ export const AnnulerChangementActionnaire = ({
           children: (
             <>
               <p className="mt-3">
-                Êtes-vous sûr de vouloir annuler cette modification de l’actionnariat ?
+                Êtes-vous sûr de vouloir annuler ce changement d'actionnaire(s) ?
               </p>
               <input type={'hidden'} value={identifiantProjet} name="identifiantProjet" />
             </>

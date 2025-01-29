@@ -30,12 +30,12 @@ export const RejeterChangementActionnaire = ({
   return (
     <>
       <Button priority="secondary" onClick={() => setIsOpen(true)} className="block text-center">
-        Rejeter la demande de modification de l’actionnariat
+        Rejeter la demande de changement d'actionnaire(s)
       </Button>
 
       <ModalWithForm
         id="rejeter-changement-actionnaire-modal"
-        title="Rejeter la demande de modification de l’actionnariat"
+        title="Rejeter la demande de changement d'actionnaire(s)"
         acceptButtonLabel="Oui"
         rejectButtonLabel="Non"
         isOpen={isOpen}
@@ -47,7 +47,7 @@ export const RejeterChangementActionnaire = ({
           children: (
             <>
               <p className="mt-3">
-                Êtes-vous sûr de vouloir rejeter cette modification de l’actionnariat ?
+                Êtes-vous sûr de vouloir rejeter ce changement d'actionnaire(s) ?
               </p>
 
               <input type={'hidden'} value={identifiantProjet} name="identifiantProjet" />
