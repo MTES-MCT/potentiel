@@ -7,6 +7,7 @@ import { ReprésentantLégal } from '@potentiel-domain/laureat';
 import { mapToPlainObject } from '@potentiel-domain/core';
 import { IdentifiantProjet } from '@potentiel-domain/common';
 import { Historique } from '@potentiel-domain/historique';
+import { Role } from '@potentiel-domain/utilisateur';
 
 import { decodeParameter } from '@/utils/decodeParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
@@ -49,22 +50,13 @@ export default async function Page({ params: { identifiant, date } }: PageProps)
         return notFound();
       }
 
-      const actions: Array<AvailableChangementReprésentantLégalAction> = [];
-
-      if (changement.demande.statut.estDemandé()) {
-        if (utilisateur.role.aLaPermission('représentantLégal.accorderChangement')) {
-          actions.push('accorder');
-        }
-        if (utilisateur.role.aLaPermission('représentantLégal.rejeterChangement')) {
-          actions.push('rejeter');
-        }
-        if (utilisateur.role.aLaPermission('représentantLégal.annulerChangement')) {
-          actions.push('annuler');
-        }
-        if (utilisateur.role.aLaPermission('représentantLégal.corrigerChangement')) {
-          actions.push('corriger');
-        }
-      }
+      const représentantLégal =
+        await mediator.send<ReprésentantLégal.ConsulterReprésentantLégalQuery>({
+          type: 'Lauréat.ReprésentantLégal.Query.ConsulterReprésentantLégal',
+          data: {
+            identifiantProjet: identifiantProjet.formatter(),
+          },
+        });
 
       const historique = await mediator.send<Historique.ListerHistoriqueProjetQuery>({
         type: 'Historique.Query.ListerHistoriqueProjet',
@@ -74,15 +66,46 @@ export default async function Page({ params: { identifiant, date } }: PageProps)
         },
       });
 
+      const dateDemandeEnCoursPourLien =
+        Option.isSome(représentantLégal) &&
+        représentantLégal.demandeEnCours &&
+        représentantLégal.demandeEnCours.demandéLe !== demandéLe
+          ? représentantLégal.demandeEnCours.demandéLe
+          : undefined;
+
       return (
         <DétailsChangementReprésentantLégalPage
           identifiantProjet={mapToPlainObject(identifiantProjet)}
           demande={mapToPlainObject(changement.demande)}
           role={mapToPlainObject(utilisateur.role)}
-          actions={actions}
+          actions={mapToActions(utilisateur.role, changement.demande.statut)}
           historique={mapToPlainObject(historique)}
+          dateDemandeEnCoursPourLien={dateDemandeEnCoursPourLien}
         />
       );
     }),
   );
 }
+
+const mapToActions = (
+  role: Role.ValueType,
+  statut: ReprésentantLégal.ConsulterChangementReprésentantLégalReadModel['demande']['statut'],
+) => {
+  const actions: Array<AvailableChangementReprésentantLégalAction> = [];
+
+  if (statut.estDemandé()) {
+    if (role.aLaPermission('représentantLégal.accorderChangement')) {
+      actions.push('accorder');
+    }
+    if (role.aLaPermission('représentantLégal.rejeterChangement')) {
+      actions.push('rejeter');
+    }
+    if (role.aLaPermission('représentantLégal.annulerChangement')) {
+      actions.push('annuler');
+    }
+    if (role.aLaPermission('représentantLégal.corrigerChangement')) {
+      actions.push('corriger');
+    }
+  }
+  return actions;
+};
