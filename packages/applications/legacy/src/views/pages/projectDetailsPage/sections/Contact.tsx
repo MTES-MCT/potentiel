@@ -45,10 +45,7 @@ export const Contact = ({
 
           {représentantLégal.modification && (
             <Link href={représentantLégal.modification.url} aria-label="Modifier" className="mt-1">
-              Modifier{' '}
-              {représentantLégal.modification.type === 'lauréat'
-                ? 'le représentant légal'
-                : 'la candidature'}
+              Modifier {représentantLégal.modification.type === 'lauréat' ? '' : 'la candidature'}
             </Link>
           )}
           {représentantLégal.demandeDeModification?.peutConsulterLaDemandeExistante && (

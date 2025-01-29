@@ -33,7 +33,7 @@ const EnregistrerUneModification = ({ project }: EnregistrerUneModificationProps
         ).formatter(),
       )}
     >
-      <span>Modificatio d'actionnaire(s)</span>
+      <span>Modification d'actionnaire(s)</span>
     </DropdownMenuSecondaryButton.DropdownItem>
   </DropdownMenuSecondaryButton>
 );

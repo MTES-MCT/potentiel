@@ -59,7 +59,6 @@ Fonctionnalité: Modifier l'actionnaire d'un projet lauréat
             | le DGEC validateur          |
             | la DREAL associée au projet |
 
-    @select
     Scénario: Modifier l'actionnaire avec une valeur identique
         Etant donné le projet lauréat "Du boulodrome de Marseille"
         Quand le DGEC validateur modifie l'actionnaire avec la même valeur pour le projet lauréat

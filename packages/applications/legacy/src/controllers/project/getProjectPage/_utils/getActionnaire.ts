@@ -80,8 +80,7 @@ export const getActionnaire = async ({
           nom,
           affichage: {
             url: Routes.Actionnaire.modifier(identifiantProjet.formatter()),
-            label: 'Faire un changement',
-            action: "Changer d'actionnaire(s)",
+            label: 'Modifier',
           },
         };
       }
