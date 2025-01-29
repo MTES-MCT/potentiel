@@ -11,8 +11,8 @@ import { GarantiesFinancières, ReprésentantLégal } from '@potentiel-domain/la
 
 import { SendEmail } from '../../../sendEmail';
 
-import { handleGarantiesFinancièresRappelÉchéance } from './handleGarantiesFinancièresRappelÉchéance';
-import { handleReprésentantLégalRappelInstructionÀDeuxMois } from './handleReprésentantLégalRappelInstructionÀDeuxMois';
+import { garantiesFinancièresRappelÉchéanceNotification } from './garantiesFinancièresRappelÉchéance.notification';
+import { représentantLégalRappelInstructionÀDeuxMoisNotification } from './représentantLégalRappelInstructionÀDeuxMois.notification';
 
 export type SubscriptionEvent = TâchePlanifiéeExecutéeEvent & Event;
 
@@ -65,7 +65,7 @@ export const register = ({ sendEmail }: RegisterTâchePlanifiéeNotificationDepe
           'garanties-financières.rappel-échéance-deux-mois',
         ),
         async () =>
-          handleGarantiesFinancièresRappelÉchéance({
+          garantiesFinancièresRappelÉchéanceNotification({
             sendEmail,
             identifiantProjet,
             event,
@@ -74,7 +74,7 @@ export const register = ({ sendEmail }: RegisterTâchePlanifiéeNotificationDepe
           }),
       )
       .with('représentant-légal.rappel-instruction-à-deux-mois', async () =>
-        handleReprésentantLégalRappelInstructionÀDeuxMois({
+        représentantLégalRappelInstructionÀDeuxMoisNotification({
           sendEmail,
           identifiantProjet,
           projet,
