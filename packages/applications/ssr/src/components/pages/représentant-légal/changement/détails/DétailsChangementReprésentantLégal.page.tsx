@@ -24,6 +24,7 @@ import { StatutChangementReprésentantLégalBadge } from '../../StatutChangement
 import { AccorderChangementReprésentantLégal } from './accorder/AccorderChangementReprésentantLégal.form';
 import { RejeterChangementReprésentantLégal } from './rejeter/RejeterChangementReprésentantLégal.form';
 import { AnnulerChangementReprésentantLégal } from './annuler/AnnulerChangementReprésentantLégal.form';
+import { InfoBoxDemandeEnCours } from './InfoBoxDemandeEnCours';
 
 export type AvailableChangementReprésentantLégalAction =
   | 'accorder'
@@ -37,6 +38,7 @@ export type DétailsChangementReprésentantLégalPageProps =
     role: PlainType<Role.ValueType>;
     actions: ReadonlyArray<AvailableChangementReprésentantLégalAction>;
     historique: HistoriqueTimelineProps['historique'];
+    dateDemandeEnCoursPourLien?: string;
   };
 
 export const DétailsChangementReprésentantLégalPage: FC<
@@ -55,6 +57,7 @@ export const DétailsChangementReprésentantLégalPage: FC<
   },
   actions,
   historique,
+  dateDemandeEnCoursPourLien,
 }) => {
   const idProjet = IdentifiantProjet.bind(identifiantProjet).formatter();
 
@@ -65,6 +68,14 @@ export const DétailsChangementReprésentantLégalPage: FC<
       leftColumn={{
         children: (
           <div className="flex flex-col gap-8">
+            {dateDemandeEnCoursPourLien && (
+              <InfoBoxDemandeEnCours
+                lien={Routes.ReprésentantLégal.changement.détail(
+                  idProjet,
+                  dateDemandeEnCoursPourLien,
+                )}
+              />
+            )}
             {accord ? (
               <ChangementAccordé
                 accordéLe={accord.accordéLe}
