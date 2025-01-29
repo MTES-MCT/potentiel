@@ -1104,6 +1104,14 @@ const crePolicies: ReadonlyArray<Policy> = [
   'garantiesFinancières.dépôt.consulter',
   'garantiesFinancières.mainlevée.lister',
   'garantiesFinancières.enAttente.consulter',
+
+  // Actionnaire
+  'actionnaire.consulterChangement',
+  'actionnaire.listerChangement',
+
+  // Représentant Légal
+  'représentantLégal.consulterChangement',
+  'représentantLégal.listerChangement',
 ];
 
 const drealPolicies: ReadonlyArray<Policy> = [
@@ -1247,6 +1255,14 @@ const acheteurObligéPolicies: ReadonlyArray<Policy> = [
 
   // Achèvement
   // 'achèvement.transmettre',
+
+  // Actionnaire
+  'actionnaire.consulterChangement',
+  'actionnaire.listerChangement',
+
+  // Représentant Légal
+  'représentantLégal.consulterChangement',
+  'représentantLégal.listerChangement',
 ];
 
 const caisseDesDépôtsPolicies: ReadonlyArray<Policy> = [
