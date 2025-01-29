@@ -1,4 +1,10 @@
+import { ReprésentantLégal } from '@potentiel-domain/laureat';
+
 import { encodeParameter } from '../encodeParameter';
+
+type ListerFilters = {
+  statut?: ReprésentantLégal.StatutChangementReprésentantLégal.RawType;
+};
 
 export const modifier = (identifiantProjet: string) =>
   `/laureats/${encodeParameter(identifiantProjet)}/representant-legal/modifier`;
@@ -10,5 +16,13 @@ export const changement = {
     `/laureats/${encodeParameter(identifiantProjet)}/representant-legal/changement/demander`,
   corriger: (identifiantProjet: string, demandéLe: string) =>
     `/laureats/${encodeParameter(identifiantProjet)}/representant-legal/changement/${demandéLe}/corriger`,
-  lister: `/laureats/changements/representant-legal?statut=demandé`,
+  lister: (filters: ListerFilters = {}) => {
+    const searchParams = new URLSearchParams();
+
+    if (filters?.statut) {
+      searchParams.set('statut', filters.statut);
+    }
+
+    return `/laureats/changements/representant-legal${searchParams.toString() ? `?${searchParams.toString()}` : ''}`;
+  },
 };

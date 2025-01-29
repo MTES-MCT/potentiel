@@ -64,8 +64,22 @@ const MenuCre = (currentPage?: string) => (
     >
       Projets
     </Header.MenuItem>
-    <Header.MenuItem href={Routes.Abandon.lister({ statut: 'demandé' })}>Abandons</Header.MenuItem>
-    <Header.MenuItem href={Routes.Recours.lister({ statut: 'demandé' })}>Recours</Header.MenuItem>
+    <DropdownMenu buttonChildren={'Demandes'}>
+      <DropdownMenu.DropdownItem href={Routes.Abandon.lister({ statut: 'demandé' })}>
+        Abandons
+      </DropdownMenu.DropdownItem>
+      <DropdownMenu.DropdownItem href={Routes.Recours.lister({ statut: 'demandé' })}>
+        Recours
+      </DropdownMenu.DropdownItem>
+      <DropdownMenu.DropdownItem
+        href={Routes.ReprésentantLégal.changement.lister({ statut: 'demandé' })}
+      >
+        Changements de représentant légal
+      </DropdownMenu.DropdownItem>
+      <DropdownMenu.DropdownItem href={Routes.Actionnaire.changement.lister({ statut: 'demandé' })}>
+        Actionnaire(s)
+      </DropdownMenu.DropdownItem>
+    </DropdownMenu>
     <Header.MenuItem href={Routes.Raccordement.lister}>Raccordements</Header.MenuItem>
     <Header.MenuItem
       href={routes.GET_CRE_STATISTIQUES}
@@ -97,10 +111,12 @@ const MenuAdmin = (currentPage?: string) => (
       <DropdownMenu.DropdownItem href={Routes.Recours.lister({ statut: 'demandé' })}>
         Recours
       </DropdownMenu.DropdownItem>
-      <DropdownMenu.DropdownItem href={Routes.ReprésentantLégal.changement.lister}>
+      <DropdownMenu.DropdownItem
+        href={Routes.ReprésentantLégal.changement.lister({ statut: 'demandé' })}
+      >
         Changements de représentant légal
       </DropdownMenu.DropdownItem>
-      <DropdownMenu.DropdownItem href={Routes.Actionnaire.changement.lister}>
+      <DropdownMenu.DropdownItem href={Routes.Actionnaire.changement.lister({ statut: 'demandé' })}>
         Actionnaire(s)
       </DropdownMenu.DropdownItem>
     </DropdownMenu>
@@ -196,7 +212,9 @@ const MenuPorteurProjet = (currentPage?: string) => (
       <DropdownMenu.DropdownItem href={Routes.Recours.lister({ statut: 'demandé' })}>
         Recours
       </DropdownMenu.DropdownItem>
-      <DropdownMenu.DropdownItem href={Routes.ReprésentantLégal.changement.lister}>
+      <DropdownMenu.DropdownItem
+        href={Routes.ReprésentantLégal.changement.lister({ statut: 'demandé' })}
+      >
         Changements de représentant légal
       </DropdownMenu.DropdownItem>
       <DropdownMenu.DropdownItem href={Routes.Actionnaire.changement.lister}>
@@ -268,10 +286,12 @@ const MenuDreal = (currentPage?: string) => (
       <DropdownMenu.DropdownItem href={Routes.Recours.lister({ statut: 'demandé' })}>
         Recours
       </DropdownMenu.DropdownItem>
-      <DropdownMenu.DropdownItem href={Routes.ReprésentantLégal.changement.lister}>
+      <DropdownMenu.DropdownItem
+        href={Routes.ReprésentantLégal.changement.lister({ statut: 'demandé' })}
+      >
         Changements de représentant légal
       </DropdownMenu.DropdownItem>
-      <DropdownMenu.DropdownItem href={Routes.Actionnaire.changement.lister}>
+      <DropdownMenu.DropdownItem href={Routes.Actionnaire.changement.lister({ statut: 'demandé' })}>
         Actionnaire(s)
       </DropdownMenu.DropdownItem>
     </DropdownMenu>
