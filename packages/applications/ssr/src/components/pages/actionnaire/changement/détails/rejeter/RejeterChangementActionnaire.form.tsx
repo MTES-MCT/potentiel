@@ -30,12 +30,12 @@ export const RejeterChangementActionnaire = ({
   return (
     <>
       <Button priority="secondary" onClick={() => setIsOpen(true)} className="block text-center">
-        Rejeter la demande de changement d'actionnaire(s)
+        Rejeter
       </Button>
 
       <ModalWithForm
         id="rejeter-changement-actionnaire-modal"
-        title="Rejeter la demande de changement d'actionnaire(s)"
+        title="Rejeter"
         acceptButtonLabel="Oui"
         rejectButtonLabel="Non"
         isOpen={isOpen}

@@ -19,12 +19,12 @@ export const AnnulerChangementActionnaire = ({
   return (
     <>
       <Button onClick={() => setIsOpen(true)} className="block text-center">
-        Annuler la demandede changement d'actionnaire(s)
+        Annuler
       </Button>
 
       <ModalWithForm
         id="annuler-changement-actionnaire-modal"
-        title="Annuler la demandede changement d'actionnaire(s)"
+        title="Annuler"
         acceptButtonLabel="Oui"
         rejectButtonLabel="Non"
         isOpen={isOpen}
