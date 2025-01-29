@@ -5,7 +5,6 @@ import { DocumentProjet } from '@potentiel-domain/document';
 import { ActionnaireAggregate } from '../../actionnaire.aggregate';
 import {
   ActionnaireNePeutPasÊtreModifiéDirectement,
-  ActionnaireIdentiqueError,
   DemandeDeChangementEnCoursError,
   ProjetAbandonnéError,
   ProjetAvecDemandeAbandonEnCoursError,
@@ -67,10 +66,6 @@ export async function enregistrerChangement(
 
   if (devraitPasserParUneDemande) {
     throw new ActionnaireNePeutPasÊtreModifiéDirectement();
-  }
-
-  if (this.actionnaire === actionnaire) {
-    throw new ActionnaireIdentiqueError();
   }
 
   if (this.demande?.statut.estDemandé()) {

@@ -59,15 +59,16 @@ Fonctionnalité: Modifier l'actionnaire d'un projet lauréat
             | le DGEC validateur          |
             | la DREAL associée au projet |
 
+    @select
+    Scénario: Modifier l'actionnaire avec une valeur identique
+        Etant donné le projet lauréat "Du boulodrome de Marseille"
+        Quand le DGEC validateur modifie l'actionnaire avec la même valeur pour le projet lauréat
+        Alors l'actionnaire du projet lauréat devrait être mis à jour
+
     Scénario: Impossible de modifier l'actionnaire si l'actionnaire est inexistant
         Etant donné le projet éliminé "Du boulodrome de Lyon"
         Quand le DGEC validateur modifie l'actionnaire pour le projet éliminé
         Alors l'utilisateur devrait être informé que "L'actionnaire n'existe pas"
-
-    Scénario: Impossible de modifier l'actionnaire avec une valeur identique
-        Etant donné le projet lauréat "Du boulodrome de Marseille"
-        Quand le DGEC validateur modifie l'actionnaire avec la même valeur pour le projet lauréat
-        Alors l'utilisateur devrait être informé que "Le nouvel actionnaire est identique à celui associé au projet"
 
     Scénario: Impossible de modifier l'actionnaire d'un projet lauréat alors qu'un changement d'actionnaire est en cours
         Etant donné le projet lauréat "Du boulodrome de Marseille"

@@ -3,7 +3,7 @@ import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
 import { DocumentProjet } from '@potentiel-domain/document';
 
 import { ActionnaireAggregate } from '../actionnaire.aggregate';
-import { ActionnaireIdentiqueError, DemandeDeChangementEnCoursError } from '../errors';
+import { DemandeDeChangementEnCoursError } from '../errors';
 
 export type ActionnaireModifiéEvent = DomainEvent<
   'ActionnaireModifié-V1',
@@ -39,10 +39,6 @@ export async function modifier(
     raison,
   }: ModifierOptions,
 ) {
-  if (this.actionnaire === actionnaire) {
-    throw new ActionnaireIdentiqueError();
-  }
-
   if (this.demande?.statut.estDemandé()) {
     throw new DemandeDeChangementEnCoursError();
   }

@@ -15,15 +15,15 @@ Fonctionnalité: Enregistrer un changement d'actionnaire d'un projet lauréat
             | nom_projet | Du boulodrome de Marseille                                                                                                 |
             | url        | https://potentiel.beta.gouv.fr/projet/.*/details.html                                                                      |
 
+    Scénario: Enregistrer un changement d'actionnaire avec une valeur identique
+        Etant donné le projet lauréat "Du boulodrome de Marseille"
+        Quand le porteur enregistre un changement d'actionnaire avec la même valeur pour le projet lauréat
+        Alors le changement enregistré de l'actionnaire devrait être consultable
+
     Scénario: Impossible d'enregistrer un changement d'actionnaire si l'actionnaire est inexistant
         Etant donné le projet éliminé "Du boulodrome de Lyon"
         Quand le porteur enregistre un changement d'actionnaire pour le projet éliminé
         Alors l'utilisateur devrait être informé que "L'actionnaire n'existe pas"
-
-    Scénario: Impossible  d'enregistrer un changement d'actionnaire avec une valeur identique
-        Etant donné le projet lauréat "Du boulodrome de Marseille"
-        Quand le porteur enregistre un changement d'actionnaire avec la même valeur pour le projet lauréat
-        Alors l'utilisateur devrait être informé que "Le nouvel actionnaire est identique à celui associé au projet"
 
     Scénario: Impossible  d'enregistrer un changement d'actionnaire alors qu'un changement d'actionnaire est en cours
         Etant donné le projet lauréat "Du boulodrome de Marseille"
