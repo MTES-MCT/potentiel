@@ -78,7 +78,7 @@ export const DemanderChangementActionnaireForm: FC<DemanderChangementActionnaire
           textArea
           label="Raison"
           id="raison"
-          hintText="Pour faciliter le traitement de votre demande, veuillez détailler les raisons ayant conduit à la modification de l'actionnariat."
+          hintText="Pour faciliter le traitement de votre demande, veuillez détailler les raisons ayant conduit au changement d'actionnaires."
           nativeTextAreaProps={{ name: 'raison', required: true, 'aria-required': true }}
           state={validationErrors['raison'] ? 'error' : 'default'}
           stateRelatedMessage={validationErrors['raison']}

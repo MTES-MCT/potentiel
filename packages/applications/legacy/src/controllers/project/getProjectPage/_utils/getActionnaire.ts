@@ -12,7 +12,10 @@ import { getAttestationDeConformité } from './getAttestationDeConformité';
 export type GetActionnaireForProjectPage = {
   nom: string;
   affichage?: {
+    // label dans la page projet
     label: string;
+    // action dans le menu déroulant page projet
+    action?: string;
     url: string;
   };
   demandeEnCours?: {
@@ -77,7 +80,8 @@ export const getActionnaire = async ({
           nom,
           affichage: {
             url: Routes.Actionnaire.modifier(identifiantProjet.formatter()),
-            label: "Changer d'actionnaire(s)",
+            label: 'Faire un changement',
+            action: "Changer d'actionnaire(s)",
           },
         };
       }
@@ -87,7 +91,8 @@ export const getActionnaire = async ({
           nom,
           affichage: {
             url: Routes.Actionnaire.changement.enregistrer(identifiantProjet.formatter()),
-            label: "Changer d'actionnaire(s)",
+            label: 'Faire un changement',
+            action: "Changer d'actionnaire(s)",
           },
         };
       }
@@ -97,7 +102,8 @@ export const getActionnaire = async ({
           nom,
           affichage: {
             url: Routes.Actionnaire.changement.demander(identifiantProjet.formatter()),
-            label: 'Demander un changement d’actionnaire(s)',
+            label: 'Faire une demande de changement',
+            action: 'Demander un changement d’actionnaire(s)',
           },
         };
       }

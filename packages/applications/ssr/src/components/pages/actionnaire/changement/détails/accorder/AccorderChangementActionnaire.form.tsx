@@ -47,7 +47,7 @@ export const AccorderChangementActionnaire = ({
           children: (
             <>
               <p className="mt-3">
-                Êtes-vous sûr de vouloir accorder cette modification de l'actionnariat ?
+                Êtes-vous sûr de vouloir accorder ce changement d'actionnaire(s) ?
               </p>
 
               <input type={'hidden'} value={identifiantProjet} name="identifiantProjet" />
