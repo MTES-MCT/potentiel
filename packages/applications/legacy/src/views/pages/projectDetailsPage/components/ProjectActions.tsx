@@ -96,12 +96,7 @@ const PorteurProjetActions = ({
             <DropdownMenuSecondaryButton.DropdownItem
               href={routes.DEMANDER_CHANGEMENT_PUISSANCE(project.id)}
             >
-              <span>
-                Changer de{' '}
-                {project.appelOffre.typeAppelOffre === 'biométhane'
-                  ? `production annuelle prévisionnelle`
-                  : `puissance`}
-              </span>
+              <span>Changer de puissance</span>
             </DropdownMenuSecondaryButton.DropdownItem>
             <DropdownMenuSecondaryButton.DropdownItem href={routes.DEMANDER_DELAI(project.id)}>
               <span>Demander un délai</span>

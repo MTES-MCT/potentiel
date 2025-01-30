@@ -119,7 +119,7 @@ export const ProjectDetails = ({
             </InfoBox>
           )}
 
-          {alertesRaccordement.length > 0 && project.appelOffre.typeAppelOffre !== 'biométhane' && (
+          {alertesRaccordement.length > 0 && (
             <AlerteBoxRaccordement
               dcrDueOn={project.dcrDueOn}
               alertes={alertesRaccordement}

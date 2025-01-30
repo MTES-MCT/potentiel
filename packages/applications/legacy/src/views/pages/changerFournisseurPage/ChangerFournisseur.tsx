@@ -79,13 +79,7 @@ export const ChangerFournisseur = ({ request, project, appelOffre }: ChangerFour
           {error && <ErrorBox title={error} />}
 
           <ChampsObligatoiresLégende />
-          {CHAMPS_FOURNISSEURS.filter((champ) => {
-            if (appelOffre.typeAppelOffre === 'biométhane') {
-              return champ === `Nom du fabricant \n(Autres technologies)`;
-            } else {
-              return true;
-            }
-          }).map((champ) => (
+          {CHAMPS_FOURNISSEURS.map((champ) => (
             <div key={champ}>
               <div className="mb-3">
                 <Heading2 className="m-0 text-xl">
@@ -105,7 +99,7 @@ export const ChangerFournisseur = ({ request, project, appelOffre }: ChangerFour
               />
             </div>
           ))}
-          {appelOffre.typeAppelOffre !== 'biométhane' && project.evaluationCarbone > 0 && (
+          {project.evaluationCarbone > 0 && (
             <div>
               <div className="mb-3">
                 <Heading2 className="m-0 text-xl">évaluation carbone</Heading2>
