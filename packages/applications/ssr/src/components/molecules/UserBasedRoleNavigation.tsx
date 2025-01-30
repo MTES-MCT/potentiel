@@ -255,6 +255,18 @@ const getNavigationItemsBasedOnRole = (utilisateur: Utilisateur.ValueType) => {
         text: 'Demandes',
         menuLinks: [
           {
+            text: 'Abandons',
+            linkProps: {
+              href: Routes.Abandon.lister({ statut: 'demandé' }),
+            },
+          },
+          {
+            text: 'Recours',
+            linkProps: {
+              href: Routes.Recours.lister({ statut: 'demandé' }),
+            },
+          },
+          {
             text: 'Changements de représentant légal',
             linkProps: {
               href: Routes.ReprésentantLégal.changement.lister({ statut: 'demandé' }),
