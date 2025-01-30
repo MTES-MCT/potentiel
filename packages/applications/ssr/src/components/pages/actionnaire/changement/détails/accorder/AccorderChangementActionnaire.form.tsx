@@ -64,9 +64,8 @@ export const AccorderChangementActionnaire = ({
 
               <DownloadDocument
                 className="mb-4"
-                url={Routes.Actionnaire.changement.téléchargerModèleRéponse(
+                url={Routes.Actionnaire.changement.téléchargerModèleRéponseAccordé(
                   identifiantProjet,
-                  true,
                 )}
                 format="docx"
                 label="Télécharger le modèle de réponse"

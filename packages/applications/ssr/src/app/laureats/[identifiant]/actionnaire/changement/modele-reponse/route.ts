@@ -24,7 +24,7 @@ export const GET = async (
 ) =>
   withUtilisateur(async (utilisateur) => {
     const identifiantProjet = decodeParameter(identifiant);
-    const estAccepté = request.nextUrl.searchParams.get('estAccepté') === 'true';
+    const estAccordé = request.nextUrl.searchParams.get('estAccordé') === 'true';
 
     const utilisateurDétails = await mediator.send<ConsulterUtilisateurQuery>({
       type: 'Utilisateur.Query.ConsulterUtilisateur',
@@ -131,7 +131,7 @@ export const GET = async (
         nouvelActionnaire: demandeDeChangement.demande.nouvelActionnaire,
         referenceParagrapheActionnaire: texteChangementDActionnariat.référenceParagraphe,
         contenuParagrapheActionnaire: texteChangementDActionnariat?.dispositions,
-        estAccepté,
+        estAccordé,
       },
     });
 

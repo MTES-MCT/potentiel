@@ -63,9 +63,8 @@ export const RejeterChangementActionnaire = ({
               />
               <DownloadDocument
                 className="mb-4"
-                url={Routes.Actionnaire.changement.téléchargerModèleRéponse(
+                url={Routes.Actionnaire.changement.téléchargerModèleRéponseRejeté(
                   identifiantProjet,
-                  false,
                 )}
                 format="docx"
                 label="Télécharger le modèle de réponse"

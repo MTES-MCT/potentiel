@@ -9,6 +9,6 @@ export type ModèleRéponseActionnaire = ModèleRéponse & {
     referenceParagrapheActionnaire: string;
     contenuParagrapheActionnaire: string;
     enCopies: Array<string>;
-    estAccepté: boolean;
+    estAccordé: boolean;
   };
 };
