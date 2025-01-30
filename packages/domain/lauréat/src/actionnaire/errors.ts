@@ -1,11 +1,5 @@
 import { DomainError, InvalidOperationError } from '@potentiel-domain/core';
 
-export class ActionnaireIdentiqueError extends InvalidOperationError {
-  constructor() {
-    super('Le nouvel actionnaire est identique à celui associé au projet');
-  }
-}
-
 export class ActionnaireDéjàTransmisError extends InvalidOperationError {
   constructor() {
     super("L'actionnaire a déjà été transmis");

@@ -2,7 +2,6 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
 import { DocumentProjet, EnregistrerDocumentProjetCommand } from '@potentiel-domain/document';
-import { Role } from '@potentiel-domain/utilisateur';
 
 import { TypeDocumentActionnaire } from '..';
 
@@ -19,7 +18,6 @@ export type ModifierActionnaireUseCase = Message<
       format: string;
     };
     dateModificationValue: string;
-    rôleValue: string;
     raisonValue: string;
   }
 >;
@@ -31,7 +29,6 @@ export const registerModifierActionnaireUseCase = () => {
     actionnaireValue,
     dateModificationValue,
     pièceJustificativeValue,
-    rôleValue,
     raisonValue,
   }) => {
     const pièceJustificative = pièceJustificativeValue
@@ -53,8 +50,6 @@ export const registerModifierActionnaireUseCase = () => {
       });
     }
 
-    const rôle = Role.convertirEnValueType(rôleValue);
-
     await mediator.send<ModifierActionnaireCommand>({
       type: 'Lauréat.Actionnaire.Command.ModifierActionnaire',
       data: {
@@ -63,7 +58,6 @@ export const registerModifierActionnaireUseCase = () => {
         actionnaire: actionnaireValue,
         dateModification: DateTime.convertirEnValueType(dateModificationValue),
         pièceJustificative,
-        rôle,
         raison: raisonValue,
       },
     });

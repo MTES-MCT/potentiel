@@ -139,16 +139,12 @@ const mapToActionComponents = ({
       {actions.includes('accorder') && (
         <AccorderChangementReprésentantLégal
           identifiantProjet={identifiantProjet}
-          dateDemande={dateDemande}
           typeReprésentantLégal={typeReprésentantLégal}
           nomReprésentantLégal={nomReprésentantLégal}
         />
       )}
       {actions.includes('rejeter') && (
-        <RejeterChangementReprésentantLégal
-          identifiantProjet={identifiantProjet}
-          dateDemande={dateDemande}
-        />
+        <RejeterChangementReprésentantLégal identifiantProjet={identifiantProjet} />
       )}
 
       {actions.includes('annuler') && (

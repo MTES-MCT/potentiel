@@ -2,16 +2,19 @@ import type { Meta, StoryObj } from '@storybook/react';
 
 import { IdentifiantProjet } from '@potentiel-domain/common';
 
-import { ModifierActionnairePage, ModifierActionnairePageProps } from './ModifierActionnaire.page';
+import {
+  EnregistrerChangementActionnairePage,
+  EnregistrerChangementActionnairePageProps,
+} from './EnregistrerChangementActionnaire.page';
 
 // More on how to set up stories at: https://storybook.js.org/docs/writing-stories#default-export
 const meta = {
   title: 'Pages/Actionnaire/Modifier',
-  component: ModifierActionnairePage,
+  component: EnregistrerChangementActionnairePage,
   parameters: {},
   tags: ['autodocs'],
   argTypes: {},
-} satisfies Meta<ModifierActionnairePageProps>;
+} satisfies Meta<EnregistrerChangementActionnairePageProps>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;

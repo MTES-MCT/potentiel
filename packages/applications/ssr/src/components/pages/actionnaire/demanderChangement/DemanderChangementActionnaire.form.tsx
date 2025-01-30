@@ -50,7 +50,7 @@ export const DemanderChangementActionnaireForm: FC<DemanderChangementActionnaire
               !piècesJustificatives.length || Object.keys(validationErrors).length > 0
             }
           >
-            Demander la modification
+            Confirmer la demande
           </SubmitButton>
         </>
       }
@@ -66,7 +66,7 @@ export const DemanderChangementActionnaireForm: FC<DemanderChangementActionnaire
           state={validationErrors['actionnaire'] ? 'error' : 'default'}
           stateRelatedMessage={validationErrors['actionnaire']}
           label="Nouvelle société mère"
-          hintText="Si la modification de l’actionnariat n'entraîne pas le changement de la société mère, veuillez laisser la société mère actuelle"
+          hintText="Si le changement d'actionnaire(s) n'entraîne pas le changement de la société mère, veuillez laisser la société mère actuelle"
           nativeInputProps={{
             name: 'actionnaire',
             defaultValue: actionnaire,
@@ -78,7 +78,7 @@ export const DemanderChangementActionnaireForm: FC<DemanderChangementActionnaire
           textArea
           label="Raison"
           id="raison"
-          hintText="Pour faciliter le traitement de votre demande, veuillez détailler les raisons ayant conduit à la modification de l'actionnariat."
+          hintText="Pour faciliter le traitement de votre demande, veuillez détailler les raisons ayant conduit au changement d'actionnaire(s)."
           nativeTextAreaProps={{ name: 'raison', required: true, 'aria-required': true }}
           state={validationErrors['raison'] ? 'error' : 'default'}
           stateRelatedMessage={validationErrors['raison']}

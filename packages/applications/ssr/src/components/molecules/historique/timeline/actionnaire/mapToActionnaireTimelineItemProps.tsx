@@ -11,6 +11,7 @@ import { mapToChangementActionnaireAnnuléTimelineItemProps } from './mapToChang
 import { mapToActionnaireModifiéTimelineItemProps } from './mapToActionnaireModifiéTimelineItemsProps';
 import { mapToChangementActionnaireDemandéTimelineItemProps } from './mapToChangementActionnaireDemandéTimelineItemProps';
 import { mapToActionnaireImportéTimelineItemProps } from './mapToActionnaireImportéTimelineItemsProps';
+import { mapToChangementActionnaireEnregistréTimelineItemProps } from './mapToChangementActionnaireEnregistréTimelineItemProps';
 
 export const mapToActionnaireTimelineItemProps = (record: HistoryRecord) => {
   return match(record)
@@ -26,6 +27,12 @@ export const mapToActionnaireTimelineItemProps = (record: HistoryRecord) => {
         type: 'ActionnaireModifié-V1',
       },
       mapToActionnaireModifiéTimelineItemProps,
+    )
+    .with(
+      {
+        type: 'ChangementActionnaireEnregistré-V1',
+      },
+      mapToChangementActionnaireEnregistréTimelineItemProps,
     )
     .with(
       {

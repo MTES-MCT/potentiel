@@ -48,6 +48,17 @@ Alors(
 );
 
 Alors(
+  "le changement enregistré de l'actionnaire devrait être consultable",
+  async function (this: PotentielWorld) {
+    await vérifierChangementActionnaire.call(
+      this,
+      this.candidatureWorld.importerCandidature.identifiantProjet,
+      Actionnaire.StatutChangementActionnaire.informationEnregistrée,
+    );
+  },
+);
+
+Alors(
   "la nouvelle demande de changement de l'actionnaire devrait être consultable",
   async function (this: PotentielWorld) {
     await vérifierChangementActionnaire.call(

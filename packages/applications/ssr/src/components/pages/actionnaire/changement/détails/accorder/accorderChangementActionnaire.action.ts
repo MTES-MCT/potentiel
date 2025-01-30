@@ -37,6 +37,7 @@ const action: FormAction<FormState, typeof schema> = async (
       status: 'success',
       redirection: {
         url: Routes.Projet.details(identifiantProjet),
+        message: "Le changement d'actionnaire(s) a été pris en compte",
       },
     };
   });

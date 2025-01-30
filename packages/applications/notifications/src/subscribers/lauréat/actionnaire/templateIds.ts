@@ -4,4 +4,5 @@ export const actionnaireNotificationTemplateId = {
   modifier: 6619337,
   rejeter: 6619256,
   demanderChangement: 6619284,
+  enregistrerChangement: 6677623,
 };

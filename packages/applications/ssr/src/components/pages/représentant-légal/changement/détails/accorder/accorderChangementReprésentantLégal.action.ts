@@ -24,7 +24,7 @@ export type AccorderChangementReprésentantLégalFormKeys = keyof zod.infer<type
 
 const action: FormAction<FormState, typeof schema> = async (
   _,
-  { identifiantProjet, nomRepresentantLegal, typeRepresentantLegal, dateDemande },
+  { identifiantProjet, nomRepresentantLegal, typeRepresentantLegal },
 ) =>
   withUtilisateur(async (utilisateur) => {
     await mediator.send<ReprésentantLégal.ReprésentantLégalUseCase>({
@@ -42,7 +42,8 @@ const action: FormAction<FormState, typeof schema> = async (
     return {
       status: 'success',
       redirection: {
-        url: Routes.ReprésentantLégal.changement.détail(identifiantProjet, dateDemande),
+        url: Routes.Projet.details(identifiantProjet),
+        message: 'Le changement de représentant légal a bien été pris en compte',
       },
     };
   });

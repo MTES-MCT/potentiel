@@ -30,12 +30,12 @@ export const AccorderChangementActionnaire = ({
   return (
     <>
       <Button onClick={() => setIsOpen(true)} className="block text-center">
-        Accorder la demande de modification de l’actionnariat
+        Accorder
       </Button>
 
       <ModalWithForm
         id="accorder-changement-actionnaire-modal"
-        title="Accorder la demande de modification de l’actionnariat"
+        title="Accorder"
         acceptButtonLabel="Oui"
         rejectButtonLabel="Non"
         isOpen={isOpen}
@@ -47,7 +47,7 @@ export const AccorderChangementActionnaire = ({
           children: (
             <>
               <p className="mt-3">
-                Êtes-vous sûr de vouloir accorder cette modification de l'actionnariat ?
+                Êtes-vous sûr de vouloir accorder ce changement d'actionnaire(s) ?
               </p>
 
               <input type={'hidden'} value={identifiantProjet} name="identifiantProjet" />
@@ -64,7 +64,9 @@ export const AccorderChangementActionnaire = ({
 
               <DownloadDocument
                 className="mb-4"
-                url={Routes.Actionnaire.changement.téléchargerModèleRéponse(identifiantProjet)}
+                url={Routes.Actionnaire.changement.téléchargerModèleRéponseAccordé(
+                  identifiantProjet,
+                )}
                 format="docx"
                 label="Télécharger le modèle de réponse"
               />
