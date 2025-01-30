@@ -239,6 +239,22 @@ const MenuAcheteurObligé = (currentPage?: string) => (
     >
       Projets
     </Header.MenuItem>
+    <DropdownMenu buttonChildren={'Demandes'}>
+      <DropdownMenu.DropdownItem href={Routes.Abandon.lister({ statut: 'demandé' })}>
+        Abandons
+      </DropdownMenu.DropdownItem>
+      <DropdownMenu.DropdownItem href={Routes.Recours.lister({ statut: 'demandé' })}>
+        Recours
+      </DropdownMenu.DropdownItem>
+      <DropdownMenu.DropdownItem
+        href={Routes.ReprésentantLégal.changement.lister({ statut: 'demandé' })}
+      >
+        Changements de représentant légal
+      </DropdownMenu.DropdownItem>
+      <DropdownMenu.DropdownItem href={Routes.Actionnaire.changement.lister({ statut: 'demandé' })}>
+        Actionnaire(s)
+      </DropdownMenu.DropdownItem>
+    </DropdownMenu>
     <Header.MenuItem
       href={routes.ACHETEUR_OBLIGE_STATISTIQUES}
       {...(currentPage === 'acheteur-oblige-statistiques' && { isCurrent: true })}

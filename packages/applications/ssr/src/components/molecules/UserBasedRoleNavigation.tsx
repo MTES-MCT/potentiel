@@ -40,7 +40,15 @@ const menuLinks = {
 };
 
 const getNavigationItemsBasedOnRole = (utilisateur: Utilisateur.ValueType) => {
-  const demandesMigrées: Array<MenuProps.Link> = [
+  const demandesMenuLinks: Array<MenuProps.Link> = [
+    {
+      text: 'Toutes les demandes',
+      linkProps: {
+        href: utilisateur.role.estÉgaleÀ(Role.porteur)
+          ? '/mes-demandes.html'
+          : '/admin/demandes.html',
+      },
+    },
     {
       text: 'Abandons',
       linkProps: {
@@ -65,17 +73,6 @@ const getNavigationItemsBasedOnRole = (utilisateur: Utilisateur.ValueType) => {
         href: Routes.Actionnaire.changement.lister({ statut: 'demandé' }),
       },
     },
-  ];
-  const demandesMenuLinks: Array<MenuProps.Link> = [
-    {
-      text: 'Toutes les demandes',
-      linkProps: {
-        href: utilisateur.role.estÉgaleÀ(Role.porteur)
-          ? '/mes-demandes.html'
-          : '/admin/demandes.html',
-      },
-    },
-    ...demandesMigrées,
   ];
 
   return match(utilisateur.role.nom)
@@ -256,7 +253,20 @@ const getNavigationItemsBasedOnRole = (utilisateur: Utilisateur.ValueType) => {
       },
       {
         text: 'Demandes',
-        menuLinks: demandesMigrées,
+        menuLinks: [
+          {
+            text: 'Changements de représentant légal',
+            linkProps: {
+              href: Routes.ReprésentantLégal.changement.lister({ statut: 'demandé' }),
+            },
+          },
+          {
+            text: 'Actionnaire(s)',
+            linkProps: {
+              href: Routes.Actionnaire.changement.lister({ statut: 'demandé' }),
+            },
+          },
+        ],
       },
       {
         text: 'Raccordements',
@@ -291,6 +301,23 @@ const getNavigationItemsBasedOnRole = (utilisateur: Utilisateur.ValueType) => {
         linkProps: {
           href: '/projets.html',
         },
+      },
+      {
+        text: 'Demandes',
+        menuLinks: [
+          {
+            text: 'Changements de représentant légal',
+            linkProps: {
+              href: Routes.ReprésentantLégal.changement.lister({ statut: 'demandé' }),
+            },
+          },
+          {
+            text: 'Actionnaire(s)',
+            linkProps: {
+              href: Routes.Actionnaire.changement.lister({ statut: 'demandé' }),
+            },
+          },
+        ],
       },
       {
         text: 'Tableau de bord',
