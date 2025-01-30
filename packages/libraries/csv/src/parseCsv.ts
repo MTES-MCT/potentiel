@@ -1,8 +1,7 @@
-import { Readable } from 'node:stream';
-
 import iconv from 'iconv-lite';
 import { parse } from 'csv-parse';
 import * as zod from 'zod';
+import { detect } from 'chardet';
 
 export type CsvError = {
   line: string;
@@ -23,10 +22,11 @@ const defaultParseOptions = {
   rtrim: true,
   skip_empty_lines: true,
   skip_records_with_empty_values: true,
-  encoding: 'win1252' as 'utf8' | 'win1252',
 };
 
-export type ParseOptions = typeof defaultParseOptions;
+export type ParseOptions = typeof defaultParseOptions & {
+  encoding?: 'utf8' | 'win1252';
+};
 
 type ParseCsv = <TSchema extends zod.ZodTypeAny>(
   fileStream: ReadableStream,
@@ -63,36 +63,48 @@ export const parseCsv: ParseCsv = async (
   }
 };
 
-const loadCsv = (fileStream: ReadableStream, parseOptions: Partial<typeof defaultParseOptions>) => {
-  return new Promise<Array<Record<string, string>>>((resolve, reject) => {
-    const data: Array<Record<string, string>> = [];
-    const { encoding, ...options } = { ...defaultParseOptions, ...parseOptions };
-    const decode = iconv.decodeStream(encoding);
+// https://stackoverflow.com/questions/40385133/retrieve-data-from-a-readablestream-object
+function concatArrayBuffers(chunks: Uint8Array[]): Uint8Array {
+  const result = new Uint8Array(chunks.reduce((a, c) => a + c.length, 0));
+  let offset = 0;
+  for (const chunk of chunks) {
+    result.set(chunk, offset);
+    offset += chunk.length;
+  }
+  return result;
+}
+export async function streamToArrayBuffer(stream: ReadableStream<Uint8Array>): Promise<Uint8Array> {
+  const chunks: Uint8Array[] = [];
+  for await (const chunk of stream) {
+    chunks.push(chunk);
+  }
+  return concatArrayBuffers(chunks);
+}
 
-    webRSToNodeRS(fileStream)
-      .pipe(decode)
-      .pipe(parse(options))
-      .on('data', (row: Record<string, string>) => {
-        data.push(row);
-      })
-      .on('error', (e) => {
-        reject(e);
-      })
-      .on('end', () => {
-        resolve(data);
-      });
-  });
+const loadCsv = async (fileStream: ReadableStream, parseOptions: Partial<ParseOptions>) => {
+  const { encoding: encodingOption, ...options } = { ...defaultParseOptions, ...parseOptions };
+  const arrayBuffer = await streamToArrayBuffer(fileStream);
+  const encoding = getEncoding(arrayBuffer, encodingOption);
+  const decoded = iconv.decode(Buffer.from(arrayBuffer), encoding);
+  const rows = await new Promise<Record<string, string>[]>((resolve, reject) =>
+    parse(decoded, options, (err, records) => {
+      if (err) reject(err);
+      else {
+        resolve(records);
+      }
+    }),
+  );
+  return rows;
 };
 
-const webRSToNodeRS = (rs: ReadableStream): NodeJS.ReadableStream => {
-  const reader = rs.getReader();
-  const out = new Readable();
-  reader.read().then(async ({ value, done }) => {
-    while (!done) {
-      out.push(value);
-      ({ done, value } = await reader.read());
-    }
-    out.push(null);
-  });
-  return out;
+const getEncoding = (arrayBuffer: Uint8Array, expectedEncoding: ParseOptions['encoding']) => {
+  if (expectedEncoding) {
+    return expectedEncoding;
+  }
+
+  const encoding = detect(arrayBuffer);
+  if (!encoding) {
+    throw new Error('Encoding cannot be determined');
+  }
+  return encoding;
 };
