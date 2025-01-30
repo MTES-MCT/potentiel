@@ -803,7 +803,10 @@ const policies = {
       référencielPermissions.lauréat.représentantLégal.query.consulterChangement,
       référencielPermissions.document.query.consulter,
     ],
-    listerChangement: [référencielPermissions.lauréat.représentantLégal.query.listerChangement],
+    listerChangement: [
+      référencielPermissions.appelOffre.query.lister,
+      référencielPermissions.lauréat.représentantLégal.query.listerChangement,
+    ],
   },
   historique: {
     lister: [référencielPermissions.historique.query.lister],
@@ -946,7 +949,10 @@ const policies = {
       référencielPermissions.lauréat.actionnaire.usecase.annulerChangement,
       référencielPermissions.lauréat.actionnaire.command.annulerChangement,
     ],
-    listerChangement: [référencielPermissions.lauréat.actionnaire.query.listerChangement],
+    listerChangement: [
+      référencielPermissions.appelOffre.query.lister,
+      référencielPermissions.lauréat.actionnaire.query.listerChangement,
+    ],
   },
 } as const;
 
@@ -1250,6 +1256,7 @@ const porteurProjetPolicies: ReadonlyArray<Policy> = [
 
 const acheteurObligéPolicies: ReadonlyArray<Policy> = [
   ...pageProjetPolicies,
+  // Raccordement
   'raccordement.consulter',
 
   // Garanties financières
