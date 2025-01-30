@@ -1,7 +1,9 @@
 import iconv from 'iconv-lite';
 import { parse } from 'csv-parse';
 import * as zod from 'zod';
-import { detect } from 'chardet';
+
+import { streamToArrayBuffer } from './streamToArrayBuffer';
+import { getEncoding } from './getEncoding';
 
 export type CsvError = {
   line: string;
@@ -63,24 +65,6 @@ export const parseCsv: ParseCsv = async (
   }
 };
 
-// https://stackoverflow.com/questions/40385133/retrieve-data-from-a-readablestream-object
-function concatArrayBuffers(chunks: Uint8Array[]): Uint8Array {
-  const result = new Uint8Array(chunks.reduce((a, c) => a + c.length, 0));
-  let offset = 0;
-  for (const chunk of chunks) {
-    result.set(chunk, offset);
-    offset += chunk.length;
-  }
-  return result;
-}
-export async function streamToArrayBuffer(stream: ReadableStream<Uint8Array>): Promise<Uint8Array> {
-  const chunks: Uint8Array[] = [];
-  for await (const chunk of stream) {
-    chunks.push(chunk);
-  }
-  return concatArrayBuffers(chunks);
-}
-
 const loadCsv = async (fileStream: ReadableStream, parseOptions: Partial<ParseOptions>) => {
   const { encoding: encodingOption, ...options } = { ...defaultParseOptions, ...parseOptions };
   const arrayBuffer = await streamToArrayBuffer(fileStream);
@@ -95,16 +79,4 @@ const loadCsv = async (fileStream: ReadableStream, parseOptions: Partial<ParseOp
     }),
   );
   return rows;
-};
-
-const getEncoding = (arrayBuffer: Uint8Array, expectedEncoding: ParseOptions['encoding']) => {
-  if (expectedEncoding) {
-    return expectedEncoding;
-  }
-
-  const encoding = detect(arrayBuffer);
-  if (!encoding) {
-    throw new Error('Encoding cannot be determined');
-  }
-  return encoding;
 };
