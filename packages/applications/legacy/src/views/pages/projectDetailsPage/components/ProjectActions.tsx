@@ -26,15 +26,7 @@ const EnregistrerUneModification = ({ project }: EnregistrerUneModificationProps
     >
       <span>Demande de délai</span>
     </DropdownMenuSecondaryButton.DropdownItem>
-    <DropdownMenuSecondaryButton.DropdownItem
-      href={Routes.Actionnaire.modifier(
-        IdentifiantProjet.convertirEnValueType(
-          `${project.appelOffreId}#${project.periodeId}#${project.familleId}#${project.numeroCRE}`,
-        ).formatter(),
-      )}
-    >
-      <span>Modification d'actionnaire(s)</span>
-    </DropdownMenuSecondaryButton.DropdownItem>
+    <></>
   </DropdownMenuSecondaryButton>
 );
 
