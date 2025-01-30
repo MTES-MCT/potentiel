@@ -25,6 +25,8 @@ import {
   ConsulterDateChangementActionnaireQuery,
   ConsulterDateChangementActionnaireReadModel,
 } from './changement/consulter/consulterDateChangementActionnaire.query';
+import { EnregistrerChangementActionnaireUseCase } from './changement/enregistrerChangement/enregistrerChangement.usecase';
+import { EnregistrerChangementActionnaireCommand } from './changement/enregistrerChangement/enregistrerChangement.command';
 
 // Query
 export type ActionnaireQuery =
@@ -53,13 +55,15 @@ export type ActionnaireUseCase =
   | DemanderChangementUseCase
   | AnnulerChangementActionnaireUseCase
   | AccorderChangementActionnaireUseCase
-  | RejeterChangementActionnaireUseCase;
+  | RejeterChangementActionnaireUseCase
+  | EnregistrerChangementActionnaireUseCase;
 export type {
   ModifierActionnaireUseCase,
   DemanderChangementUseCase,
   AnnulerChangementActionnaireUseCase,
   AccorderChangementActionnaireUseCase,
   RejeterChangementActionnaireUseCase,
+  EnregistrerChangementActionnaireUseCase,
 };
 
 // Command
@@ -69,7 +73,8 @@ export type ActionnaireCommand =
   | AnnulerChangementActionnaireCommand
   | AccorderChangementActionnaireCommand
   | RejeterChangementActionnaireCommand
-  | SupprimerChangementActionnaireCommand;
+  | SupprimerChangementActionnaireCommand
+  | EnregistrerChangementActionnaireCommand;
 export type {
   ImporterActionnaireCommand,
   ModifierActionnaireCommand,
@@ -77,6 +82,7 @@ export type {
   AccorderChangementActionnaireCommand,
   RejeterChangementActionnaireCommand,
   SupprimerChangementActionnaireCommand,
+  EnregistrerChangementActionnaireCommand,
 };
 
 // Event
@@ -88,6 +94,7 @@ export type { ChangementActionnaireAnnuléEvent } from './changement/annuler/ann
 export type { ChangementActionnaireAccordéEvent } from './changement/accorder/accorderChangementActionnaire.behavior';
 export type { ChangementActionnaireRejetéEvent } from './changement/rejeter/rejeterChangementActionnaire.behavior';
 export type { ChangementActionnaireSuppriméEvent } from './changement/supprimer/supprimerChangementActionnaire.behavior';
+export type { ChangementActionnaireEnregistréEvent } from './changement/enregistrerChangement/enregistrerChangement.behavior';
 
 // Saga
 export * as ActionnaireSaga from './saga';

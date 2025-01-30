@@ -45,10 +45,16 @@ import {
   ChangementActionnaireSuppriméEvent,
   supprimer,
 } from './changement/supprimer/supprimerChangementActionnaire.behavior';
+import {
+  applyChangementActionnaireEnregistré,
+  ChangementActionnaireEnregistréEvent,
+  enregistrerChangement,
+} from './changement/enregistrerChangement/enregistrerChangement.behavior';
 
 export type ActionnaireEvent =
   | ActionnaireImportéEvent
   | ActionnaireModifiéEvent
+  | ChangementActionnaireEnregistréEvent
   | ChangementActionnaireDemandéEvent
   | ChangementActionnaireAnnuléEvent
   | ChangementActionnaireAccordéEvent
@@ -64,6 +70,7 @@ export type ActionnaireAggregate = Aggregate<ActionnaireEvent> & {
   };
   importer: typeof importer;
   modifier: typeof modifier;
+  enregistrerChangement: typeof enregistrerChangement;
   demanderChangement: typeof demanderChangement;
   annulerDemandeChangement: typeof annulerDemandeChangement;
   accorderChangementActionnaire: typeof accorderChangementActionnaire;
@@ -80,6 +87,7 @@ export const getDefaultActionnaireAggregate: GetDefaultAggregateState<
   apply,
   importer,
   modifier,
+  enregistrerChangement,
   demanderChangement,
   annulerDemandeChangement,
   accorderChangementActionnaire,
@@ -95,6 +103,10 @@ function apply(this: ActionnaireAggregate, event: ActionnaireEvent) {
 
     case 'ActionnaireModifié-V1':
       applyActionnaireModifié.bind(this)(event);
+      break;
+
+    case 'ChangementActionnaireEnregistré-V1':
+      applyChangementActionnaireEnregistré.bind(this)(event);
       break;
 
     case 'ChangementActionnaireDemandé-V1':

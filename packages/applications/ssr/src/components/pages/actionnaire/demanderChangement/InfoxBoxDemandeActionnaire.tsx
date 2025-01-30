@@ -7,7 +7,7 @@ export const InfoBoxDemandeActionnaire: FC = () => (
     small
     description={
       <div className="p-3">
-        Votre demande de modification de l'actionnariat nécessite une instruction si votre projet
+        Votre demande de changement d'actionnaire(s) nécessite une instruction si votre projet
         remplit <span className="font-semibold">une</span> des conditions suivantes :
         <ul className="list-disc list-inside mb-2">
           <li>l'actionnariat est de type financement ou investissement participatif</li>

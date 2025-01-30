@@ -1,5 +1,6 @@
 import { mediator } from 'mediateur';
 import { notFound } from 'next/navigation';
+import { NextRequest } from 'next/server';
 
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { Candidature } from '@potentiel-domain/candidature';
@@ -17,9 +18,13 @@ import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 import { formatIdentifiantProjetForDocument } from '@/utils/modèle-document/formatIdentifiantProjetForDocument';
 
-export const GET = async (_: Request, { params: { identifiant } }: IdentifiantParameter) =>
+export const GET = async (
+  request: NextRequest,
+  { params: { identifiant } }: IdentifiantParameter,
+) =>
   withUtilisateur(async (utilisateur) => {
     const identifiantProjet = decodeParameter(identifiant);
+    const estAccordé = request.nextUrl.searchParams.get('estAccordé') === 'true';
 
     const utilisateurDétails = await mediator.send<ConsulterUtilisateurQuery>({
       type: 'Utilisateur.Query.ConsulterUtilisateur',
@@ -126,6 +131,7 @@ export const GET = async (_: Request, { params: { identifiant } }: IdentifiantPa
         nouvelActionnaire: demandeDeChangement.demande.nouvelActionnaire,
         referenceParagrapheActionnaire: texteChangementDActionnariat.référenceParagraphe,
         contenuParagrapheActionnaire: texteChangementDActionnariat?.dispositions,
+        estAccordé,
       },
     });
 

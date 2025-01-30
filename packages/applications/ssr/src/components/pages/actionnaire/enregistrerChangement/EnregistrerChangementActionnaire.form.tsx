@@ -15,23 +15,24 @@ import { UploadNewOrModifyExistingDocument } from '@/components/atoms/form/docum
 import { ValidationErrors } from '@/utils/formAction';
 
 import {
-  modifierActionnaireAction,
+  enregistrerChangementActionnaireAction,
   ModifierActionnaireFormKeys,
-} from './modifierActionnaire.action';
+} from './enregistrerChangementActionnaire.action';
 
-export type ModifierActionnaireFormProps = PlainType<Actionnaire.ConsulterActionnaireReadModel>;
+export type EnregistrerChangementActionnaireFormProps =
+  PlainType<Actionnaire.ConsulterActionnaireReadModel>;
 
-export const ModifierActionnaireForm: FC<ModifierActionnaireFormProps> = ({
-  identifiantProjet,
-  actionnaire,
-}) => {
+export const EnregistrerChangementActionnaireForm: FC<
+  EnregistrerChangementActionnaireFormProps
+> = ({ identifiantProjet, actionnaire }) => {
   const [validationErrors, setValidationErrors] = useState<
     ValidationErrors<ModifierActionnaireFormKeys>
   >({});
+  const [piècesJustificatives, setPiècesJustificatives] = useState<Array<string>>([]);
 
   return (
     <Form
-      action={modifierActionnaireAction}
+      action={enregistrerChangementActionnaireAction}
       onValidationError={(validationErrors) => setValidationErrors(validationErrors)}
       actions={
         <>
@@ -45,7 +46,13 @@ export const ModifierActionnaireForm: FC<ModifierActionnaireFormProps> = ({
           >
             Retour à la page projet
           </Button>
-          <SubmitButton>Modifier</SubmitButton>
+          <SubmitButton
+            disabledCondition={() =>
+              !piècesJustificatives.length || Object.keys(validationErrors).length > 0
+            }
+          >
+            Modifier
+          </SubmitButton>
         </>
       }
     >
@@ -60,6 +67,7 @@ export const ModifierActionnaireForm: FC<ModifierActionnaireFormProps> = ({
           state={validationErrors['actionnaire'] ? 'error' : 'default'}
           stateRelatedMessage={validationErrors['actionnaire']}
           label="Nouvelle société mère"
+          hintText="Si le changement d'actionnaire(s) n'entraîne pas le changement de la société mère, veuillez laisser la société mère actuelle"
           nativeInputProps={{
             name: 'actionnaire',
             defaultValue: actionnaire,
@@ -69,21 +77,26 @@ export const ModifierActionnaireForm: FC<ModifierActionnaireFormProps> = ({
         />
         <Input
           textArea
-          label={`Raison (optionnel)`}
+          label="Raison"
           id="raison"
           hintText="Veuillez détailler les raisons ayant conduit au changement d'actionnaire(s)."
-          nativeTextAreaProps={{ name: 'raison', required: false, 'aria-required': true }}
+          nativeTextAreaProps={{ name: 'raison', required: true, 'aria-required': true }}
           state={validationErrors['raison'] ? 'error' : 'default'}
           stateRelatedMessage={validationErrors['raison']}
         />
         <UploadNewOrModifyExistingDocument
-          label={`Pièce(s) justificative(s) (optionnel)`}
+          label={`Pièce(s) justificative(s)`}
           name="piecesJustificatives"
           hintText="Joindre la copie des statuts de la société à jour et le(s) justificatif(s) relatif(s) à la composition de l’actionnariat"
+          required
           formats={['pdf']}
           multiple
           state={validationErrors['piecesJustificatives'] ? 'error' : 'default'}
           stateRelatedMessage={validationErrors['piecesJustificatives']}
+          onChange={(piècesJustificatives) => {
+            delete validationErrors['piecesJustificatives'];
+            setPiècesJustificatives(piècesJustificatives);
+          }}
         />
       </div>
     </Form>

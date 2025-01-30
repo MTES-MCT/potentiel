@@ -3,9 +3,12 @@
 import { useState } from 'react';
 import Button from '@codegouvfr/react-dsfr/Button';
 
+import { Routes } from '@potentiel-applications/routes';
+
 import { ModalWithForm } from '@/components/molecules/ModalWithForm';
 import { ValidationErrors } from '@/utils/formAction';
 import { UploadNewOrModifyExistingDocument } from '@/components/atoms/form/document/UploadNewOrModifyExistingDocument';
+import { DownloadDocument } from '@/components/atoms/form/document/DownloadDocument';
 
 import {
   rejeterChangementActionnaireAction,
@@ -27,12 +30,12 @@ export const RejeterChangementActionnaire = ({
   return (
     <>
       <Button priority="secondary" onClick={() => setIsOpen(true)} className="block text-center">
-        Rejeter la demande de modification de l’actionnariat
+        Rejeter
       </Button>
 
       <ModalWithForm
         id="rejeter-changement-actionnaire-modal"
-        title="Rejeter la demande de modification de l’actionnariat"
+        title="Rejeter"
         acceptButtonLabel="Oui"
         rejectButtonLabel="Non"
         isOpen={isOpen}
@@ -44,7 +47,7 @@ export const RejeterChangementActionnaire = ({
           children: (
             <>
               <p className="mt-3">
-                Êtes-vous sûr de vouloir rejeter cette modification de l’actionnariat ?
+                Êtes-vous sûr de vouloir rejeter ce changement d'actionnaire(s) ?
               </p>
 
               <input type={'hidden'} value={identifiantProjet} name="identifiantProjet" />
@@ -57,6 +60,14 @@ export const RejeterChangementActionnaire = ({
                 required
                 className="mb-4"
                 formats={['pdf']}
+              />
+              <DownloadDocument
+                className="mb-4"
+                url={Routes.Actionnaire.changement.téléchargerModèleRéponseRejeté(
+                  identifiantProjet,
+                )}
+                format="docx"
+                label="Télécharger le modèle de réponse"
               />
             </>
           ),

@@ -33,7 +33,7 @@ const EnregistrerUneModification = ({ project }: EnregistrerUneModificationProps
         ).formatter(),
       )}
     >
-      <span>Modification de l'actionnariat</span>
+      <span>Modification d'actionnaire(s)</span>
     </DropdownMenuSecondaryButton.DropdownItem>
   </DropdownMenuSecondaryButton>
 );
@@ -46,7 +46,7 @@ type PorteurProjetActionsProps = {
   hasAttestationConformité: boolean;
   peutFaireDemandeChangementReprésentantLégal: boolean;
   actionnaireMenu?: {
-    label: string;
+    action?: string;
     url: string;
   };
 };
@@ -91,12 +91,12 @@ const PorteurProjetActions = ({
             <DropdownMenuSecondaryButton.DropdownItem href={routes.CHANGER_FOURNISSEUR(project.id)}>
               <span>Changer de fournisseur</span>
             </DropdownMenuSecondaryButton.DropdownItem>
-            {actionnaireMenu ? (
+            {actionnaireMenu?.action ? (
               <DropdownMenuSecondaryButton.DropdownItem
                 href={actionnaireMenu.url}
                 disabled={modificationsNonPermisesParLeCDCActuel ? true : undefined}
               >
-                <span>{actionnaireMenu.label}</span>
+                <span>{actionnaireMenu.action}</span>
               </DropdownMenuSecondaryButton.DropdownItem>
             ) : (
               <></>
@@ -221,6 +221,7 @@ type ProjectActionsProps = {
   peutFaireDemandeChangementReprésentantLégal: boolean;
   actionnaireMenu?: {
     label: string;
+    action?: string;
     url: string;
   };
 };

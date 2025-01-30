@@ -7,13 +7,15 @@ import { Routes } from '@potentiel-applications/routes';
 import { Role } from '@potentiel-domain/utilisateur';
 import { getLogger } from '@potentiel-libraries/monitoring';
 import { IdentifiantProjet } from '@potentiel-domain/common';
-import { getAbandonStatut } from './getAbandon';
 import { getAttestationDeConformité } from './getAttestationDeConformité';
 
 export type GetActionnaireForProjectPage = {
   nom: string;
   affichage?: {
+    // label dans la page projet
     label: string;
+    // action dans le menu déroulant page projet
+    action?: string;
     url: string;
   };
   demandeEnCours?: {
@@ -33,61 +35,79 @@ export const getActionnaire = async ({
   demandeNécessiteInstruction,
 }: Props): Promise<GetActionnaireForProjectPage | undefined> => {
   try {
-    const utilisateur = Role.convertirEnValueType(rôle);
+    const role = Role.convertirEnValueType(rôle);
 
     const actionnaire = await mediator.send<Actionnaire.ConsulterActionnaireQuery>({
       type: 'Lauréat.Actionnaire.Query.ConsulterActionnaire',
       data: { identifiantProjet: identifiantProjet.formatter() },
     });
 
-    const estAbandonnéOuEnCoursAbandonOuAchevé = await checkAbandonAndAchèvement(
-      identifiantProjet,
-      rôle,
-    );
-
-    const nePeutFaireAucuneAction =
-      utilisateur.nom === 'porteur-projet' && estAbandonnéOuEnCoursAbandonOuAchevé;
+    const estAbandonnéOuAchevé = await checkAbandonAndAchèvement(identifiantProjet, rôle);
 
     if (Option.isSome(actionnaire)) {
+      const nom = actionnaire.actionnaire;
+
       const dateDemandeExistanteDeChangement =
         await mediator.send<Actionnaire.ConsulterDateChangementActionnaireQuery>({
           type: 'Lauréat.Actionnaire.Query.ConsulterDateChangementActionnaire',
           data: { identifiantProjet: identifiantProjet.formatter() },
         });
 
-      const aUneDemandeEnCours = Option.isSome(dateDemandeExistanteDeChangement);
-
-      const peutFaireUneDemandeDeChangement =
-        demandeNécessiteInstruction &&
-        utilisateur.aLaPermission('actionnaire.demanderChangement') &&
-        !aUneDemandeEnCours;
-
-      const peutModifier =
-        !demandeNécessiteInstruction &&
-        utilisateur.aLaPermission('actionnaire.modifier') &&
-        !aUneDemandeEnCours;
-
-      return {
-        nom: actionnaire.actionnaire,
-        affichage: nePeutFaireAucuneAction
-          ? undefined
-          : peutModifier
-            ? {
-                url: Routes.Actionnaire.modifier(identifiantProjet.formatter()),
-                label: "Changer d'actionnaire(s)",
-              }
-            : peutFaireUneDemandeDeChangement
-              ? {
-                  url: Routes.Actionnaire.changement.demander(identifiantProjet.formatter()),
-                  label: 'Demander un changement d’actionnaire(s)',
-                }
-              : undefined,
-        demandeEnCours:
-          utilisateur.aLaPermission('actionnaire.consulterChangement') && aUneDemandeEnCours
+      if (Option.isSome(dateDemandeExistanteDeChangement)) {
+        return {
+          nom,
+          demandeEnCours: role.aLaPermission('actionnaire.consulterChangement')
             ? {
                 demandéeLe: dateDemandeExistanteDeChangement.formatter(),
               }
             : undefined,
+        };
+      }
+
+      const peutModifier = role.aLaPermission('actionnaire.modifier');
+      const peutFaireUneDemandeDeChangement =
+        demandeNécessiteInstruction &&
+        role.aLaPermission('actionnaire.demanderChangement') &&
+        !estAbandonnéOuAchevé;
+
+      const peutEnregistrerChangement =
+        !demandeNécessiteInstruction &&
+        role.aLaPermission('actionnaire.enregistrerChangement') &&
+        !estAbandonnéOuAchevé;
+
+      if (peutModifier) {
+        return {
+          nom,
+          affichage: {
+            url: Routes.Actionnaire.modifier(identifiantProjet.formatter()),
+            label: 'Modifier',
+          },
+        };
+      }
+
+      if (peutEnregistrerChangement) {
+        return {
+          nom,
+          affichage: {
+            url: Routes.Actionnaire.changement.enregistrer(identifiantProjet.formatter()),
+            label: 'Faire un changement',
+            action: "Changer d'actionnaire(s)",
+          },
+        };
+      }
+
+      if (peutFaireUneDemandeDeChangement) {
+        return {
+          nom,
+          affichage: {
+            url: Routes.Actionnaire.changement.demander(identifiantProjet.formatter()),
+            label: 'Faire une demande de changement',
+            action: 'Demander un changement d’actionnaire(s)',
+          },
+        };
+      }
+      return {
+        nom,
       };
     }
 
@@ -101,7 +121,7 @@ export const getActionnaire = async ({
     if (Option.isSome(candidature)) {
       return {
         nom: candidature.sociétéMère,
-        affichage: utilisateur.aLaPermission('candidature.corriger')
+        affichage: role.aLaPermission('candidature.corriger')
           ? {
               url: Routes.Candidature.corriger(identifiantProjet.formatter()),
               label: 'Modifier la candidature',
@@ -123,13 +143,24 @@ const checkAbandonAndAchèvement = async (
   identifiantProjet: Props['identifiantProjet'],
   rôle: Props['rôle'],
 ) => {
-  const statutAbandon = await getAbandonStatut(identifiantProjet);
   const attestationConformitéExistante = await getAttestationDeConformité(identifiantProjet, rôle);
 
-  return (
-    (statutAbandon &&
-      (Abandon.StatutAbandon.convertirEnValueType(statutAbandon.statut).estAccordé() ||
-        Abandon.StatutAbandon.convertirEnValueType(statutAbandon.statut).estEnCours())) ||
-    !!attestationConformitéExistante
-  );
+  if (attestationConformitéExistante) {
+    return true;
+  }
+
+  try {
+    const abandon = await mediator.send<Abandon.ConsulterAbandonQuery>({
+      type: 'Lauréat.Abandon.Query.ConsulterAbandon',
+      data: { identifiantProjetValue: identifiantProjet.formatter() },
+    });
+    if (Option.isNone(abandon)) return false;
+    return abandon.statut.estAccordé() || abandon.statut.estEnCours();
+  } catch (e) {
+    getLogger('getActionnaire.checkActionnaire').warn("Impossible de récupérer l'abandon", {
+      error: (e as Error)?.message,
+      identifiantProjet: identifiantProjet.formatter(),
+    });
+    return false;
+  }
 };

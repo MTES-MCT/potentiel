@@ -12,6 +12,7 @@ import { changementActionnaireAnnuléProjector } from './changementActionnaireAn
 import { changementActionnaireDemandéProjector } from './changementActionnaireDemandé.projector';
 import { changementActionnaireRejetéProjector } from './changementActionnaireRejeté.projector';
 import { changementActionnaireSuppriméProjector } from './changementActionnaireSupprimé.projector';
+import { changementActionnaireEnregistréProjector } from './changementActionnaireEnregistré.projector';
 
 export type SubscriptionEvent = (Actionnaire.ActionnaireEvent & Event) | RebuildTriggered;
 
@@ -28,6 +29,10 @@ export const register = () => {
       .with({ type: 'ChangementActionnaireAccordé-V1' }, changementActionnaireAccordéProjector)
       .with({ type: 'ChangementActionnaireRejeté-V1' }, changementActionnaireRejetéProjector)
       .with({ type: 'ChangementActionnaireSupprimé-V1' }, changementActionnaireSuppriméProjector)
+      .with(
+        { type: 'ChangementActionnaireEnregistré-V1' },
+        changementActionnaireEnregistréProjector,
+      )
       .exhaustive();
 
   mediator.register('System.Projector.Lauréat.Actionnaire', handler);

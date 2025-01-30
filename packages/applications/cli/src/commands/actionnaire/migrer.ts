@@ -137,15 +137,15 @@ export class Migrer extends Command {
         },
       };
 
-      const eventModifié: Actionnaire.ActionnaireModifiéEvent = {
-        type: 'ActionnaireModifié-V1',
+      const eventEnregistré: Actionnaire.ChangementActionnaireEnregistréEvent = {
+        type: 'ChangementActionnaireEnregistré-V1',
         payload: {
           actionnaire: cleanInput(modification.actionnaire),
           identifiantProjet,
-          modifiéLe: requestedOn,
-          modifiéPar: modification.email,
+          enregistréLe: requestedOn,
+          enregistréPar: modification.email,
           raison: cleanInput(modification.justification),
-          pièceJustificative: formatRequestFile ? { format: formatRequestFile } : undefined,
+          pièceJustificative: { format: formatRequestFile || 'application/pdf' },
         },
       };
 
@@ -187,7 +187,7 @@ export class Migrer extends Command {
             console.log(
               `📨 Demande automatiquement acceptée pour ${identifiantProjet} (${candidature?.emailContact})`,
             );
-            eventsPerProjet[modification.identifiantProjet].push(eventModifié);
+            eventsPerProjet[modification.identifiantProjet].push(eventEnregistré);
           } else {
             eventsPerProjet[modification.identifiantProjet].push(request);
 
@@ -209,7 +209,7 @@ export class Migrer extends Command {
           }
           break;
         case 'information validée':
-          eventsPerProjet[modification.identifiantProjet].push(eventModifié);
+          eventsPerProjet[modification.identifiantProjet].push(eventEnregistré);
       }
     }
 

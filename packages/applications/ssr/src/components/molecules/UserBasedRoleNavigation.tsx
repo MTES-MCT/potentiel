@@ -64,13 +64,13 @@ const getNavigationItemsBasedOnRole = (utilisateur: Utilisateur.ValueType) => {
     {
       text: 'Changements de représentant légal',
       linkProps: {
-        href: Routes.ReprésentantLégal.changement.lister,
+        href: Routes.ReprésentantLégal.changement.lister({ statut: 'demandé' }),
       },
     },
     {
       text: 'Actionnaire(s)',
       linkProps: {
-        href: Routes.Actionnaire.changement.lister,
+        href: Routes.Actionnaire.changement.lister({ statut: 'demandé' }),
       },
     },
   ];
@@ -252,16 +252,21 @@ const getNavigationItemsBasedOnRole = (utilisateur: Utilisateur.ValueType) => {
         },
       },
       {
-        text: 'Abandons',
-        linkProps: {
-          href: Routes.Abandon.lister({ statut: 'demandé' }),
-        },
-      },
-      {
-        text: 'Recours',
-        linkProps: {
-          href: Routes.Recours.lister({ statut: 'demandé' }),
-        },
+        text: 'Demandes',
+        menuLinks: [
+          {
+            text: 'Changements de représentant légal',
+            linkProps: {
+              href: Routes.ReprésentantLégal.changement.lister({ statut: 'demandé' }),
+            },
+          },
+          {
+            text: 'Actionnaire(s)',
+            linkProps: {
+              href: Routes.Actionnaire.changement.lister({ statut: 'demandé' }),
+            },
+          },
+        ],
       },
       {
         text: 'Raccordements',
@@ -296,6 +301,23 @@ const getNavigationItemsBasedOnRole = (utilisateur: Utilisateur.ValueType) => {
         linkProps: {
           href: '/projets.html',
         },
+      },
+      {
+        text: 'Demandes',
+        menuLinks: [
+          {
+            text: 'Changements de représentant légal',
+            linkProps: {
+              href: Routes.ReprésentantLégal.changement.lister({ statut: 'demandé' }),
+            },
+          },
+          {
+            text: 'Actionnaire(s)',
+            linkProps: {
+              href: Routes.Actionnaire.changement.lister({ statut: 'demandé' }),
+            },
+          },
+        ],
       },
       {
         text: 'Tableau de bord',
