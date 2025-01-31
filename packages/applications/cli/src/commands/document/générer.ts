@@ -170,6 +170,7 @@ const getData = (type: TypeDocument): ModèleRéponseSignée.GénérerModèleRé
           contenuParagrapheActionnaire:
             appelOffre.donnéesCourriersRéponse.texteChangementDActionnariat?.dispositions ??
             '!!!MANQUANT!!!',
+          estAccordé: true,
           enCopies: [],
         },
       };
