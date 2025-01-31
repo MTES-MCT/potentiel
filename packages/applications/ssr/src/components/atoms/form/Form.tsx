@@ -1,7 +1,8 @@
 'use client';
 
-import { FC, FormHTMLAttributes, ReactNode } from 'react';
+import { FC, FormHTMLAttributes, ReactNode, useEffect, useState } from 'react';
 import { useFormState } from 'react-dom';
+import { useRouter } from 'next/navigation';
 
 import { formAction, ValidationErrors } from '@/utils/formAction';
 
@@ -38,9 +39,29 @@ export const Form: FC<FormProps> = ({
   onError,
   onInvalid,
 }) => {
+  const [csrfToken, setCsrfToken] = useState('');
+  const router = useRouter();
+
+  useEffect(() => {
+    const fetchCSRFToken = async () => {
+      const response = await fetch('/csrf', {
+        method: 'HEAD',
+      });
+
+      const tokenFromHeader = response.headers.get('csrf_token');
+      setCsrfToken(tokenFromHeader ?? 'empty_token');
+    };
+
+    fetchCSRFToken();
+  }, []);
+
   const [state, formAction] = useFormState(action, {
     status: undefined,
   });
+
+  if (!state) {
+    router.push('/error');
+  }
 
   if (state.status === 'validation-error' && onValidationError) {
     onValidationError(state.errors);
@@ -49,6 +70,7 @@ export const Form: FC<FormProps> = ({
   return (
     // eslint-disable-next-line react/no-unknown-property
     <form id={id} action={formAction} onInvalid={onInvalid} onError={onError}>
+      <input type="hidden" name="csrf_token" value={csrfToken ?? 'empty_token'} />
       {heading && <Heading2 className="mb-4">{heading}</Heading2>}
       <FormFeedback formState={state} successMessage={successMessage} />
 

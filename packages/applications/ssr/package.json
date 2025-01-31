@@ -17,6 +17,7 @@
   },
   "dependencies": {
     "@codegouvfr/react-dsfr": "^1.9.11",
+    "@edge-csrf/nextjs": "^2.5.3-cloudflare-rc1",
     "@emotion/react": "*",
     "@emotion/server": "*",
     "@emotion/styled": "*",

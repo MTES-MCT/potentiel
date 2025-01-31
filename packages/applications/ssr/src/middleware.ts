@@ -1,16 +1,12 @@
-import { withAuth } from 'next-auth/middleware';
+import { chain } from './middlewares/chain';
+import { withNextAuth } from './middlewares/withNextAuth';
+import { withCSRF } from './middlewares/withCSRF';
 
-export default withAuth({
-  // NB: importing Routes is not working in the middleware
-  pages: { signIn: '/auth/signIn' },
-  callbacks: {
-    authorized: ({ token }) => !!token?.utilisateur,
-  },
-});
+export default chain([withNextAuth, withCSRF]);
 
 export const config = {
   // do not run middleware for paths matching one of following
   matcher: [
-    '/((?!api|_next/static|_next/image|auth|favicon.ico|robots.txt|images|illustrations|$).*)',
+    '/((?!api|_next/static|_next/image|auth|favicon.ico|robots.txt|images|illustrations|error|$).*)',
   ],
 };
