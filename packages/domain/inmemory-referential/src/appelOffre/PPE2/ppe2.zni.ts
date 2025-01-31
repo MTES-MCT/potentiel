@@ -73,7 +73,7 @@ export const zniPPE2: AppelOffre.AppelOffreReadModel = {
       id: '1',
       title: 'première',
       certificateTemplate: 'ppe2.v2',
-      ministère: 'MEFSIN',
+      logo: 'MEFSIN',
       cahierDesCharges: {
         référence: '2023/S 183-570186',
       },
@@ -105,7 +105,7 @@ du paragraphe 2.6.`,
       id: '2',
       title: 'seconde',
       certificateTemplate: 'ppe2.v2',
-      ministère: 'MCE',
+      logo: 'MCE',
       cahierDesCharges: {
         référence: '2024/S 490218-2024',
       },

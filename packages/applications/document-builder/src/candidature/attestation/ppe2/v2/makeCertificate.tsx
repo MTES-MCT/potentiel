@@ -27,7 +27,7 @@ const makeCertificate = (
       header={
         <Header
           project={project}
-          logo={<Logo nom={project.ministère} imagesRootPath={imagesRootPath} />}
+          logo={<Logo nom={project.logo} imagesRootPath={imagesRootPath} />}
         />
       }
       objet={<Objet text={objet} />}

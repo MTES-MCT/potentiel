@@ -175,7 +175,7 @@ type CertificateTemplateProps =
     }
   | {
       certificateTemplate: 'ppe2.v2';
-      ministère: 'MEFSIN' | 'MCE';
+      logo: 'MEFSIN' | 'MCE' | 'Gouvernement';
     };
 
 export type CertificateTemplate = CertificateTemplateProps['certificateTemplate'];

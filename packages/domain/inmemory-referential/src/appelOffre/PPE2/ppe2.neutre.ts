@@ -74,7 +74,7 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       title: 'première',
       type: 'notified',
       certificateTemplate: 'ppe2.v2',
-      ministère: 'MEFSIN',
+      logo: 'MEFSIN',
       noteThreshold: 26.89,
       cahierDesCharges: {
         référence: '2022 S 100-276861',
@@ -105,7 +105,7 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
       title: 'deuxième',
       type: 'notified',
       certificateTemplate: 'ppe2.v2',
-      ministère: 'MEFSIN',
+      logo: 'MEFSIN',
       noteThreshold: 26.87,
       cahierDesCharges: {
         référence: '2023 S 147-469153',
@@ -135,7 +135,7 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
       title: 'troisième',
       type: 'notified',
       certificateTemplate: 'ppe2.v2',
-      ministère: 'MCE',
+      logo: 'MCE',
       noteThreshold: 28.59,
       cahierDesCharges: {
         référence: '2024/S 489025-2024',

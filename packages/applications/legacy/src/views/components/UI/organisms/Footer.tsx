@@ -26,9 +26,7 @@ const Footer: React.FC<FooterProps> = ({ user }) => (
             >
               <div className="lg:mb-1 logo-before" />
               <div className="m-0 font-bold tracking-tighter text-black uppercase text-[17px] md:text-[21px] leading-5">
-                Ministère
-                <br />
-                chargé de l'énergie
+                Gouvernement
               </div>
               <div className="logo-after" />
             </Link>
