@@ -34,7 +34,7 @@ export const bind = ({ email }: PlainType<ValueType>): ValueType => {
  */
 export const convertirEnValueType = (value: string): ValueType => {
   return bind({
-    email: value?.toLowerCase(),
+    email: value.toLowerCase(),
   });
 };
 

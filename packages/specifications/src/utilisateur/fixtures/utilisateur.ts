@@ -1,7 +1,5 @@
 import { faker } from '@faker-js/faker';
 
-import { Email } from '@potentiel-domain/common';
-
 export interface Utilisateur {
   id: string;
   email: string;
@@ -41,7 +39,7 @@ export abstract class AbstractUtilisateur implements Utilisateur {
 
   protected créer(partial?: Partial<Readonly<Omit<Utilisateur, 'role>'>>>): Readonly<Utilisateur> {
     const utilisateur: Utilisateur = {
-      email: Email.convertirEnValueType(faker.internet.email()).formatter(),
+      email: faker.internet.email().toLowerCase(),
       nom: faker.person.fullName(),
       id: faker.string.uuid(),
       ...partial,
