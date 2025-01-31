@@ -36,10 +36,7 @@ export const PuissanceForm = ({ modificationRequest }: PuissanceFormProps) => {
     project.cahierDesChargesActuel,
   );
 
-  const textPuissance =
-    project.appelOffre?.typeAppelOffre === 'biométhane'
-      ? `Production annuelle prévisionnelle`
-      : `Puissance`;
+  const textPuissance = 'Puissance';
 
   return (
     <>
@@ -50,7 +47,7 @@ export const PuissanceForm = ({ modificationRequest }: PuissanceFormProps) => {
       />
       <div>
         <div>
-          Nouvelle {textPuissance.toLowerCase()} demandée :{' '}
+          Nouvelle puissance demandée :{' '}
           <span className="font-bold">
             {modificationRequest.puissance} {modificationRequest.project.unitePuissance}
           </span>
@@ -59,24 +56,22 @@ export const PuissanceForm = ({ modificationRequest }: PuissanceFormProps) => {
 
         {!CDC2022choisi && exceedsRatios && (
           <AlertBox className="mt-2">
-            La nouvelle {textPuissance.toLowerCase()} demandée est inférieure à{' '}
-            {Math.round(ratios.min * 100)}% de la {textPuissance.toLowerCase()} initiale ou
-            supérieure à {Math.round(ratios.max * 100)}%.{' '}
+            La nouvelle puissance demandée est inférieure à {Math.round(ratios.min * 100)}% de la
+            puissance initiale ou supérieure à {Math.round(ratios.max * 100)}%.{' '}
           </AlertBox>
         )}
         {exceedsPuissanceMax && reservedVolume && (
           <AlertBox className="mt-2">
-            La nouvelle {textPuissance.toLowerCase()} demandée dépasse la{' '}
-            {textPuissance.toLowerCase()} maximum de {reservedVolume.puissanceMax}{' '}
-            {modificationRequest.project.unitePuissance} du volume reservé de l'appel d'offre.
+            La nouvelle puissance demandée dépasse la puissance maximum de{' '}
+            {reservedVolume.puissanceMax} {modificationRequest.project.unitePuissance} du volume
+            reservé de l'appel d'offre.
           </AlertBox>
         )}
       </div>
 
       <div className="form__group mb-4">
         <Checkbox id="statusUpdateOnly" name="isDecisionJustice">
-          La demande de changement de {textPuissance.toLowerCase()} fait suite à une décision de
-          l'État
+          La demande de changement de puissance fait suite à une décision de l'État
         </Checkbox>
         <div style={{ fontSize: 11, lineHeight: '1.5em', marginTop: 3 }}>
           En cochant cette case, vous devrez joindre un courrier uniquement en cas de refus.

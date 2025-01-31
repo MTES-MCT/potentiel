@@ -8,7 +8,6 @@ type AppelOffreTypes =
   | 'neutre'
   | 'sol'
   | 'zni'
-  | 'biométhane'
   | 'autre';
 
 type Ratios = {

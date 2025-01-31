@@ -107,10 +107,7 @@ export const InfoGenerales = ({
       <div>
         <Heading3 className="m-0">Performances</Heading3>
         <p className="m-0">
-          {appelOffre.typeAppelOffre === 'biométhane'
-            ? `Production annuelle prévisionnelle`
-            : `Puissance installée`}{' '}
-          : {puissance} {appelOffre?.unitePuissance}
+          Puissance installée : {puissance} {appelOffre?.unitePuissance}
         </p>
         {désignationCatégorie === 'volume-réservé' && (
           <p className="mb-0 mt-1">Ce projet fait partie du volume réservé de la période.</p>

@@ -50,14 +50,9 @@ export const DemanderChangementPuissance = ({
 
   const [disableSubmit, setDisableSubmit] = useState(false);
 
-  const textPuissance =
-    appelOffre.typeAppelOffre === 'biométhane' ? `Production annuelle prévisionnelle` : `Puissance`;
-
   return (
     <LegacyPageTemplate user={request.user} currentPage="list-requests">
-      <Heading1 className="mb-10">
-        Je signale un changement de {textPuissance.toLowerCase()}
-      </Heading1>
+      <Heading1 className="mb-10">Je signale un changement de puissance</Heading1>
       {doitChoisirCahierDesCharges ? (
         <ChoisirCahierDesChargesFormulaire
           projet={{

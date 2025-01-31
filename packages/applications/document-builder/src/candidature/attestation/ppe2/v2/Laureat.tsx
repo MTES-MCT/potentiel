@@ -90,122 +90,86 @@ export const buildLauréat = ({ project }: LaureatProps) => {
             cahier des charges;
           </Text>
 
-          {appelOffre.typeAppelOffre !== 'biométhane' ? (
-            <>
+          <Text
+            style={{
+              marginTop: 10,
+            }}
+          >
+            - si ce n’est déjà fait, déposer une demande complète de raccordement dans les{' '}
+            {delaiDcrEnMois.texte} ({delaiDcrEnMois.valeur}) mois à compter de la présente
+            notification
+            {appelOffre.typeAppelOffre === 'eolien' &&
+              ` ou dans les ${delaiDcrEnMois.texte} mois suivant la délivrance de l’autorisation environnementale pour les cas de candidature sans autorisation environnementale`}
+            ;
+          </Text>
+
+          {soumisAuxGarantiesFinancieres &&
+            appelOffre.renvoiRetraitDesignationGarantieFinancieres && (
               <Text
                 style={{
                   marginTop: 10,
                 }}
               >
-                - si ce n’est déjà fait, déposer une demande complète de raccordement dans les{' '}
-                {delaiDcrEnMois.texte} ({delaiDcrEnMois.valeur}) mois à compter de la présente
-                notification
-                {appelOffre.typeAppelOffre === 'eolien' &&
-                  ` ou dans les ${delaiDcrEnMois.texte} mois suivant la délivrance de l’autorisation environnementale pour les cas de candidature sans autorisation environnementale`}
-                ;
+                - prévoir une durée de garantie financière d’exécution couvrant le projet jusqu’à 6
+                mois après la date d’Achèvement de l’installation (date de fourniture de
+                l’attestation de conformité selon les dispositions du chapitre{' '}
+                {appelOffre.paragrapheAttestationConformite}) ou un renouvellement régulier afin
+                d’assurer une telle couverture temporelle;
               </Text>
+            )}
 
-              {soumisAuxGarantiesFinancieres &&
-                appelOffre.renvoiRetraitDesignationGarantieFinancieres && (
-                  <Text
-                    style={{
-                      marginTop: 10,
-                    }}
-                  >
-                    - prévoir une durée de garantie financière d’exécution couvrant le projet
-                    jusqu’à 6 mois après la date d’Achèvement de l’installation (date de fourniture
-                    de l’attestation de conformité selon les dispositions du chapitre{' '}
-                    {appelOffre.paragrapheAttestationConformite}) ou un renouvellement régulier afin
-                    d’assurer une telle couverture temporelle;
-                  </Text>
-                )}
+          {appelOffre.typeAppelOffre === 'innovation' && (
+            <Text
+              style={{
+                marginTop: 10,
+              }}
+            >
+              - mettre en oeuvre les éléments, dispositifs et systèmes innovants décrits dans le
+              rapport de contribution à l’innovation et le cas échéant dans le mémoire technique sur
+              la synergie avec l’usage agricole, remis lors du dépôt de l’offre;
+            </Text>
+          )}
 
-              {appelOffre.typeAppelOffre === 'innovation' && (
-                <Text
-                  style={{
-                    marginTop: 10,
-                  }}
-                >
-                  - mettre en oeuvre les éléments, dispositifs et systèmes innovants décrits dans le
-                  rapport de contribution à l’innovation et le cas échéant dans le mémoire technique
-                  sur la synergie avec l’usage agricole, remis lors du dépôt de l’offre;
-                </Text>
-              )}
+          <Text
+            style={{
+              marginTop: 10,
+            }}
+          >
+            - sauf délais dérogatoires prévus au {appelOffre.paragrapheDelaiDerogatoire} du cahier
+            des charges, achever l’installation dans un délai de{' '}
+            {getDelaiDeRealisation(appelOffre, technologie)} mois à compter de la présente
+            notification;
+          </Text>
 
-              <Text
-                style={{
-                  marginTop: 10,
-                }}
-              >
-                - sauf délais dérogatoires prévus au {appelOffre.paragrapheDelaiDerogatoire} du
-                cahier des charges, achever l’installation dans un délai de{' '}
-                {getDelaiDeRealisation(appelOffre, technologie)} mois à compter de la présente
-                notification;
-              </Text>
+          <Text
+            style={{
+              marginTop: 10,
+            }}
+          >
+            - fournir à EDF l’attestation de conformité de l’installation prévue au paragraphe{' '}
+            {appelOffre.paragrapheAttestationConformite} du cahier des charges;
+          </Text>
 
-              <Text
-                style={{
-                  marginTop: 10,
-                }}
-              >
-                - fournir à EDF l’attestation de conformité de l’installation prévue au paragraphe{' '}
-                {appelOffre.paragrapheAttestationConformite} du cahier des charges;
-              </Text>
+          {project.actionnariat === 'gouvernance-partagée' && (
+            <Text
+              style={{
+                marginTop: 10,
+              }}
+            >
+              - respecter les engagements pris conformément aux paragraphes{' '}
+              {appelOffre.paragrapheEngagementIPFPGPFC} concernant la gouvernance partagée;
+            </Text>
+          )}
 
-              {project.actionnariat === 'gouvernance-partagée' && (
-                <Text
-                  style={{
-                    marginTop: 10,
-                  }}
-                >
-                  - respecter les engagements pris conformément aux paragraphes{' '}
-                  {appelOffre.paragrapheEngagementIPFPGPFC} concernant la gouvernance partagée;
-                </Text>
-              )}
-
-              {project.actionnariat === 'financement-collectif' && (
-                <Text
-                  style={{
-                    marginTop: 10,
-                  }}
-                >
-                  - respecter les engagements pris conformément aux paragraphes{' '}
-                  {appelOffre.paragrapheEngagementIPFPGPFC} concernant le financement collectif;
-                </Text>
-              )}
-            </>
-          ) : (
-            <>
-              <Text
-                style={{
-                  marginTop: 10,
-                }}
-              >
-                - fournir au cocontractant l’attestation de conformité de l’installation prévue au
-                paragraphe 6.5 du cahier des charges;
-              </Text>
-              {project.actionnariat === 'gouvernance-partagée' && (
-                <Text
-                  style={{
-                    marginTop: 10,
-                  }}
-                >
-                  - respecter les engagements pris conformément aux paragraphes{' '}
-                  {appelOffre.paragrapheEngagementIPFPGPFC} concernant la gouvernance partagée;
-                </Text>
-              )}
-
-              {project.actionnariat === 'financement-collectif' && (
-                <Text
-                  style={{
-                    marginTop: 10,
-                  }}
-                >
-                  - respecter les engagements pris conformément aux paragraphes{' '}
-                  {appelOffre.paragrapheEngagementIPFPGPFC} concernant le financement collectif;
-                </Text>
-              )}
-            </>
+          {project.actionnariat === 'financement-collectif' && (
+            <Text
+              style={{
+                marginTop: 10,
+              }}
+            >
+              - respecter les engagements pris conformément aux paragraphes{' '}
+              {appelOffre.paragrapheEngagementIPFPGPFC} concernant le financement collectif;
+            </Text>
           )}
         </View>
 
