@@ -64,7 +64,7 @@ Fonctionnalité: Transmettre une attestation de conformité
         Alors le porteur devrait être informé que "la date de transmission au co-contractant ne peut pas être une date future"
 
     Scénario: Impossible de transmettre une attestation de conformité si le projet a déjà une attestation de conformité
-        Et une attestation de conformité transmise pour le projet "Du boulodrome de Marseille"
+        Et une attestation de conformité transmise pour le projet lauréat
         Quand le porteur transmet une attestation de conformité pour le projet lauréat "Du boulodrome de Marseille" avec :
             | format attestation                            | application/pdf             |
             | contenu attestation                           | le contenu de l'attestation |

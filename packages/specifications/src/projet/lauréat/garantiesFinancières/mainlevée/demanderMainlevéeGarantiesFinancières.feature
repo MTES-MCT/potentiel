@@ -19,7 +19,7 @@ Fonctionnalité: Demander la mainlevée des garanties financières d'un projet
             | statut       | demandé           |
 
     Scénario: Un porteur demande la levée des garanties financières de son projet achevé
-        Etant donné une attestation de conformité transmise pour le projet "Du boulodrome de Marseille"
+        Etant donné une attestation de conformité transmise pour le projet lauréat
         Et des garanties financières actuelles pour le projet "Du boulodrome de Marseille"
         Quand le porteur demande la mainlevée des garanties financières pour le projet "Du boulodrome de Marseille" avec :
             | motif        | projet-achevé     |
@@ -50,13 +50,13 @@ Fonctionnalité: Demander la mainlevée des garanties financières d'un projet
         Alors le porteur devrait être informé que "Il n'y a pas de garanties financières à lever pour ce projet"
 
     Scénario: Impossible de demander la mainlevée des garanties financières d'un projet si les garanties financières sont manquantes pour un projet achevé
-        Etant donné une attestation de conformité transmise pour le projet "Du boulodrome de Marseille"
+        Etant donné une attestation de conformité transmise pour le projet lauréat
         Quand le porteur demande la mainlevée des garanties financières pour le projet "Du boulodrome de Marseille" avec :
             | motif | projet-achevé |
         Alors le porteur devrait être informé que "Il n'y a pas de garanties financières à lever pour ce projet"
 
     Scénario: Impossible de demander la mainlevée des garanties financières d'un projet s'il y a un dépôt de garanties financières pour le projet
-        Etant donné une attestation de conformité transmise pour le projet "Du boulodrome de Marseille"
+        Etant donné une attestation de conformité transmise pour le projet lauréat
         Etant donné des garanties financières actuelles pour le projet "Du boulodrome de Marseille"
         Et un dépôt de garanties financières pour le projet "Du boulodrome de Marseille"
         Quand le porteur demande la mainlevée des garanties financières pour le projet "Du boulodrome de Marseille" avec :
@@ -65,7 +65,7 @@ Fonctionnalité: Demander la mainlevée des garanties financières d'un projet
 
     Scénario: Impossible de demander la mainlevée des garanties financières d'un projet si le projet a déjà une demande de mainlevée
         Etant donné des garanties financières actuelles pour le projet "Du boulodrome de Marseille"
-        Et une attestation de conformité transmise pour le projet "Du boulodrome de Marseille"
+        Et une attestation de conformité transmise pour le projet lauréat
         Et une demande de mainlevée de garanties financières pour le projet "Du boulodrome de Marseille" avec :
             | motif | projet-achevé |
         Quand le porteur demande la mainlevée des garanties financières pour le projet "Du boulodrome de Marseille" avec :
@@ -74,7 +74,7 @@ Fonctionnalité: Demander la mainlevée des garanties financières d'un projet
 
     Scénario: Impossible de demander la mainlevée des garanties financières d'un projet si le projet a déjà une demande de mainlevée en cours d'instruction
         Etant donné des garanties financières actuelles pour le projet "Du boulodrome de Marseille"
-        Et une attestation de conformité transmise pour le projet "Du boulodrome de Marseille"
+        Et une attestation de conformité transmise pour le projet lauréat
         Et une demande de mainlevée de garanties financières en instruction pour le projet "Du boulodrome de Marseille"
         Quand le porteur demande la mainlevée des garanties financières pour le projet "Du boulodrome de Marseille" avec :
             | motif | projet-achevé |
@@ -82,7 +82,7 @@ Fonctionnalité: Demander la mainlevée des garanties financières d'un projet
 
     Scénario: Impossible de demander la mainlevée des garanties financières d'un projet si le projet a déjà une demande de mainlevée accordée
         Etant donné des garanties financières actuelles pour le projet "Du boulodrome de Marseille"
-        Et une attestation de conformité transmise pour le projet "Du boulodrome de Marseille"
+        Et une attestation de conformité transmise pour le projet lauréat
         Et une demande de mainlevée de garanties financières accordée pour le projet "Du boulodrome de Marseille" achevé
         Quand le porteur demande la mainlevée des garanties financières pour le projet "Du boulodrome de Marseille" avec :
             | motif | projet-achevé |
@@ -92,7 +92,7 @@ Fonctionnalité: Demander la mainlevée des garanties financières d'un projet
         Etant donné des garanties financières actuelles échues pour le projet "Du boulodrome de Marseille" avec :
             | date d'échéance | 2024-07-17         |
             | type GF         | avec-date-échéance |
-        Et une attestation de conformité transmise pour le projet "Du boulodrome de Marseille"
+        Et une attestation de conformité transmise pour le projet lauréat
         Quand le porteur demande la mainlevée des garanties financières pour le projet "Du boulodrome de Marseille" avec :
             | motif        | projet-achevé     |
             | utilisateur  | porteur@test.test |
@@ -108,7 +108,7 @@ Fonctionnalité: Demander la mainlevée des garanties financières d'un projet
 
     Scénario: Impossible de demander la mainlevée des garanties financières d'un projet si l'attestation de constitution de garanties financières manque pour un projet achevé
         Etant donné le projet lauréat "Du boulodrome de Lyon"
-        Et une attestation de conformité transmise pour le projet "Du boulodrome de Lyon"
+        Et une attestation de conformité transmise pour le projet lauréat
         Quand le porteur demande la mainlevée des garanties financières pour le projet "Du boulodrome de Lyon" avec :
             | motif | projet-achevé |
         Alors le porteur devrait être informé que "Votre demande n'a pas pu être enregistrée car l'attestation de constitution de vos garanties financières reste à transmettre dans Potentiel"

@@ -100,7 +100,6 @@ const référencielPermissions = {
         transmettrePreuveRecandidature:
           'Lauréat.Abandon.UseCase.TransmettrePreuveRecandidatureAbandon',
         accorder: 'Lauréat.Abandon.UseCase.AccorderAbandon',
-        annulerRejet: 'Lauréat.Abandon.UseCase.AnnulerRejetAbandon',
         demanderConfirmation: 'Lauréat.Abandon.UseCase.DemanderConfirmationAbandon',
         rejeter: 'Lauréat.Abandon.UseCase.RejeterAbandon',
       },
@@ -111,7 +110,6 @@ const référencielPermissions = {
         transmettrePreuveRecandidature:
           'Lauréat.Abandon.Command.TransmettrePreuveRecandidatureAbandon',
         accorder: 'Lauréat.Abandon.Command.AccorderAbandon',
-        annulerRejet: 'Lauréat.Abandon.Command.AnnulerRejetAbandon',
         demanderConfirmation: 'Lauréat.Abandon.Command.DemanderConfirmationAbandon',
         rejeter: 'Lauréat.Abandon.Command.RejeterAbandon',
       },
@@ -510,12 +508,6 @@ const policies = {
         référencielPermissions.lauréat.abandon.command.accorder,
       ],
     },
-    'annuler-rejet': [
-      référencielPermissions.candidature.query.consulterProjet,
-      référencielPermissions.lauréat.abandon.query.consulter,
-      référencielPermissions.lauréat.abandon.usecase.annulerRejet,
-      référencielPermissions.lauréat.abandon.command.annulerRejet,
-    ],
   },
   recours: {
     consulter: {
@@ -1010,7 +1002,6 @@ const adminPolicies: ReadonlyArray<Policy> = [
   'abandon.accorder',
   'abandon.rejeter',
   'abandon.demander-confirmation',
-  'abandon.annuler-rejet',
 
   // Recours
   'recours.consulter.liste',

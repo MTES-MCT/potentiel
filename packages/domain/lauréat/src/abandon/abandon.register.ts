@@ -4,7 +4,6 @@ import { registerAccorderAbandonCommand } from './accorder/accorderAbandon.comma
 import { registerAccorderAbandonUseCase } from './accorder/accorderAbandon.usecase';
 import { registerAnnulerAbandonCommand } from './annuler/annulerAbandon.command';
 import { registerAnnulerAbandonUseCase } from './annuler/annulerAbandon.usecase';
-import { registerAnnulerRejetAbandonUseCase } from './annulerRejet/annulerRejetAbandon.usecase';
 import { registerConfirmerAbandonCommand } from './confirmer/confirmerAbandon.command';
 import { registerConfirmerAbandonUseCase } from './confirmer/confirmerAbandon.usecase';
 import {
@@ -21,7 +20,6 @@ import {
 } from './lister/listerAbandons.query';
 import { registerRejeterAbandonCommand } from './rejeter/rejeterAbandon.command';
 import { registerRejeterAbandonUseCase } from './rejeter/rejeterAbandon.usecase';
-import { registerAnnulerRejetAbandonCommand } from './annulerRejet/annulerRejetAbandon.command';
 import { registerTransmettrePreuveRecandidatureAbandonCommand } from './transmettre/transmettrePreuveRecandidatureAbandon.command';
 import { registerTransmettrePreuveRecandidatureAbandonUseCase } from './transmettre/transmettrePreuveRecandidatureAbandon.usecase';
 import { registerDemanderPreuveRecandidatureAbandonCommand } from './demanderPreuveRecandidature/demanderPreuveRecandidatureAbandon.command';
@@ -46,7 +44,6 @@ export const registerAbandonUseCases = ({ loadAggregate }: AbandonCommandDepende
   registerDemanderConfirmationAbandonCommand(loadAggregate);
   registerRejeterAbandonCommand(loadAggregate);
   registerAnnulerAbandonCommand(loadAggregate);
-  registerAnnulerRejetAbandonCommand(loadAggregate);
   registerTransmettrePreuveRecandidatureAbandonCommand(loadAggregate);
   registerDemanderPreuveRecandidatureAbandonCommand(loadAggregate);
 
@@ -56,7 +53,6 @@ export const registerAbandonUseCases = ({ loadAggregate }: AbandonCommandDepende
   registerDemanderConfirmationAbandonUseCase();
   registerRejeterAbandonUseCase();
   registerAnnulerAbandonUseCase();
-  registerAnnulerRejetAbandonUseCase();
   registerTransmettrePreuveRecandidatureAbandonUseCase();
   registerDemanderPreuveRecandidatureAbandonUseCase();
 };

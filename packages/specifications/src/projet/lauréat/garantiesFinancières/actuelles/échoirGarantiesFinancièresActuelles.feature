@@ -84,7 +84,7 @@ Fonctionnalité: Échoir les garanties financières actuelles d'un projet
         Etant donné des garanties financières actuelles pour le projet "Du boulodrome de Marseille" avec :
             | type GF         | avec-date-échéance |
             | date d'échéance | 2024-07-17         |
-        Et une attestation de conformité transmise pour le projet "Du boulodrome de Marseille"
+        Et une attestation de conformité transmise pour le projet lauréat
         Quand un admin échoie les garanties financières actuelles pour le projet "Du boulodrome de Marseille" avec :
             | date d'échéance | 2024-07-17 |
             | date à vérifier | 2024-07-18 |

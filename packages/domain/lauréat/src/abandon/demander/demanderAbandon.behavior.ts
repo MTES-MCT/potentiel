@@ -46,6 +46,7 @@ export type DemanderOptions = {
   identifiantProjet: IdentifiantProjet.ValueType;
   pièceJustificative: DocumentProjet.ValueType;
   raison: string;
+  estAchevé: boolean;
 };
 
 export async function demander(
@@ -56,9 +57,13 @@ export async function demander(
     identifiantProjet,
     pièceJustificative,
     raison,
+    estAchevé,
   }: DemanderOptions,
 ) {
   this.statut.vérifierQueLeChangementDeStatutEstPossibleEn(StatutAbandon.demandé);
+  if (estAchevé) {
+    throw new ProjetAchevéError(identifiantProjet);
+  }
 
   if (!pièceJustificative) {
     throw new PièceJustificativeObligatoireError();
@@ -112,5 +117,11 @@ export function applyAbandonDemandé(
 class PièceJustificativeObligatoireError extends InvalidOperationError {
   constructor() {
     super('La pièce justificative est obligatoire');
+  }
+}
+
+class ProjetAchevéError extends InvalidOperationError {
+  constructor(public identifiantProjet: IdentifiantProjet.ValueType) {
+    super("Impossible de demander l'abandon d'un projet achevé");
   }
 }

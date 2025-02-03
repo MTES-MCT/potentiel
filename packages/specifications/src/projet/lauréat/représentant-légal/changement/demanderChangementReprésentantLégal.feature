@@ -40,7 +40,7 @@ Fonctionnalité: Demander le changement de représentant légal d'un projet laur
         Alors le porteur devrait être informé que "Impossible de demander le changement de réprésentant légal car une demande d'abandon est en cours pour le projet"
 
     Scénario: Impossible de demander le changement de représentant légal si le projet est achevé
-        Etant donné une attestation de conformité transmise pour le projet "Du boulodrome de Marseille"
+        Etant donné une attestation de conformité transmise pour le projet lauréat
         Quand le porteur demande le changement de réprésentant pour le projet lauréat
         Alors le porteur devrait être informé que "Impossible de demander le changement de représentant légal pour un projet achevé"
 

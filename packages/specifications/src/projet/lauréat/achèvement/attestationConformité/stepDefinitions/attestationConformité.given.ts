@@ -7,9 +7,9 @@ import { PotentielWorld } from '../../../../../potentiel.world';
 import { convertStringToReadableStream } from '../../../../../helpers/convertStringToReadable';
 
 EtantDonné(
-  'une attestation de conformité transmise pour le projet {string}',
-  async function (this: PotentielWorld, nomProjet: string) {
-    const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
+  'une attestation de conformité transmise pour le projet lauréat',
+  async function (this: PotentielWorld) {
+    const { identifiantProjet } = this.lauréatWorld;
 
     const attestationValue = {
       content: convertStringToReadableStream('contenu par défaut'),

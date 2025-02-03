@@ -92,7 +92,7 @@ Fonctionnalité: Modifier des garanties financières actuelles
         Alors l'utilisateur devrait être informé que "Il n'y a aucunes garanties financières actuelles pour ce projet"
 
     Scénario: Impossible de modifier des garanties financières actuelles si les garanties financières du projet sont levées
-        Etant donné une attestation de conformité transmise pour le projet "Du boulodrome de Marseille"
+        Etant donné une attestation de conformité transmise pour le projet lauréat
         Et des garanties financières actuelles pour le projet "Du boulodrome de Marseille"
         Et une demande de mainlevée de garanties financières accordée pour le projet "Du boulodrome de Marseille" achevé
         Quand un admin modifie les garanties financières actuelles pour le projet "Du boulodrome de Marseille" avec :

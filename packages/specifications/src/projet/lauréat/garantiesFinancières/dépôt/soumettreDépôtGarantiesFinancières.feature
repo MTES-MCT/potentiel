@@ -91,7 +91,7 @@ Fonctionnalité: Soumettre de nouvelles garanties financières
         Alors l'utilisateur devrait être informé que "Il y a déjà des garanties financières en attente de validation pour ce projet"
 
     Scénario: Impossible de soumettre un dépôt de garanties financières si une demande de mainlevée a été demandée
-        Etant donné une attestation de conformité transmise pour le projet "Du boulodrome de Marseille"
+        Etant donné une attestation de conformité transmise pour le projet lauréat
         Et des garanties financières actuelles pour le projet "Du boulodrome de Marseille"
         Et une demande de mainlevée de garanties financières pour le projet "Du boulodrome de Marseille" avec :
             | motif | projet-achevé |
@@ -100,7 +100,7 @@ Fonctionnalité: Soumettre de nouvelles garanties financières
         Alors l'utilisateur devrait être informé que "Vous ne pouvez pas déposer de nouvelles garanties financières car vous avez une demande de mainlevée de garanties financières en cours"
 
     Scénario: Impossible de soumettre un dépôt de garanties financières si une demande de mainlevée est en instruction
-        Etant donné une attestation de conformité transmise pour le projet "Du boulodrome de Marseille"
+        Etant donné une attestation de conformité transmise pour le projet lauréat
         Et des garanties financières actuelles pour le projet "Du boulodrome de Marseille"
         Et une demande de mainlevée de garanties financières en instruction pour le projet "Du boulodrome de Marseille"
         Quand un porteur soumet un dépôt de garanties financières pour le projet "Du boulodrome de Marseille" avec :
@@ -108,7 +108,7 @@ Fonctionnalité: Soumettre de nouvelles garanties financières
         Alors l'utilisateur devrait être informé que "Vous ne pouvez pas déposer de nouvelles garanties financières car vous avez une mainlevée de garanties financières en cours d'instruction"
 
     Scénario: Impossible de soumettre un dépôt de garanties financières si les garanties financières du projet sont levées
-        Etant donné une attestation de conformité transmise pour le projet "Du boulodrome de Marseille"
+        Etant donné une attestation de conformité transmise pour le projet lauréat
         Et des garanties financières actuelles pour le projet "Du boulodrome de Marseille"
         Et une demande de mainlevée de garanties financières accordée pour le projet "Du boulodrome de Marseille" achevé
         Quand un porteur soumet un dépôt de garanties financières pour le projet "Du boulodrome de Marseille" avec :
