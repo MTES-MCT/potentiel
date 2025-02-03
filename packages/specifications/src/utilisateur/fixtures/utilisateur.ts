@@ -39,7 +39,7 @@ export abstract class AbstractUtilisateur implements Utilisateur {
 
   protected créer(partial?: Partial<Readonly<Omit<Utilisateur, 'role>'>>>): Readonly<Utilisateur> {
     const utilisateur: Utilisateur = {
-      email: faker.internet.email(),
+      email: faker.internet.email().toLowerCase(),
       nom: faker.person.fullName(),
       id: faker.string.uuid(),
       ...partial,

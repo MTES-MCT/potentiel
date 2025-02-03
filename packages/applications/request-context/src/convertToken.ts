@@ -2,8 +2,9 @@ import { z } from 'zod';
 import { jwtVerify } from 'jose';
 
 import { PlainType } from '@potentiel-domain/core';
-import { Role, Groupe, IdentifiantUtilisateur, Utilisateur } from '@potentiel-domain/utilisateur';
+import { Role, Groupe, Utilisateur } from '@potentiel-domain/utilisateur';
 import { Option } from '@potentiel-libraries/monads';
+import { Email } from '@potentiel-domain/common';
 
 import { getJwks } from './openid';
 
@@ -36,6 +37,6 @@ export const convertToken = async (
     role: Role.convertirEnValueType(role ?? ''),
     groupe: groupe ? Groupe.convertirEnValueType(groupe) : Option.none,
     nom,
-    identifiantUtilisateur: IdentifiantUtilisateur.convertirEnValueType(email),
+    identifiantUtilisateur: Email.convertirEnValueType(email),
   };
 };

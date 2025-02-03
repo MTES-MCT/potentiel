@@ -1,6 +1,7 @@
 import { assert } from 'chai';
 
 import { EmailPayload } from '@potentiel-applications/notifications';
+import { Email } from '@potentiel-domain/common';
 
 export class NotificationWorld {
   #notifications: EmailPayload[] = [];
@@ -9,10 +10,11 @@ export class NotificationWorld {
     this.#notifications.push(notification);
   }
 
-  récupérerNotification(email: string, sujet?: string) {
+  récupérerNotification(emailValue: string, sujet?: string) {
+    const email = Email.convertirEnValueType(emailValue);
     const notif = this.#notifications.find(
       (notif) =>
-        notif.recipients.find((r) => r.email === email) &&
+        notif.recipients.find((r) => Email.convertirEnValueType(r.email).estÉgaleÀ(email)) &&
         (!sujet || notif.messageSubject.match(new RegExp(sujet))),
     );
     assert(notif, 'Pas de notification');

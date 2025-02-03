@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react';
 
-import { IdentifiantProjet } from '@potentiel-domain/common';
+import { Email, IdentifiantProjet } from '@potentiel-domain/common';
 import { Candidature } from '@potentiel-domain/candidature';
 
 import { CandidatureListPage, CandidatureListPageProps } from './CandidatureList.page';
@@ -29,7 +29,7 @@ const commonItem: CommonItem = {
   statut: Candidature.StatutCandidature.classé,
   nomProjet: 'Nom projet',
   nomCandidat: 'Candidat',
-  emailContact: 'porteur@test.test',
+  emailContact: Email.convertirEnValueType('porteur@test.test'),
   localité: {
     commune: 'Commune',
     département: 'Département',

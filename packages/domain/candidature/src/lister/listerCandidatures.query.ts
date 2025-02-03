@@ -1,7 +1,7 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { List, RangeOptions, Where } from '@potentiel-domain/entity';
-import { IdentifiantProjet } from '@potentiel-domain/common';
+import { Email, IdentifiantProjet } from '@potentiel-domain/common';
 import { DocumentProjet } from '@potentiel-domain/document';
 
 import * as StatutCandidature from '../statutCandidature.valueType';
@@ -120,7 +120,7 @@ export const mapToReadModel = ({
   nomProjet,
   nomCandidat,
   nomReprésentantLégal,
-  emailContact,
+  emailContact: Email.convertirEnValueType(emailContact),
   puissanceProductionAnnuelle,
   prixReference,
   evaluationCarboneSimplifiée,

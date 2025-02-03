@@ -1,5 +1,5 @@
 import { Candidature } from '@potentiel-domain/candidature';
-import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
+import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
 import { DocumentProjet } from '@potentiel-domain/document';
 
 import { CorrigerCandidatureFixture } from './fixtures/corrigerCandidature.fixture';
@@ -91,7 +91,7 @@ export class CandidatureWorld {
       dateÉchéanceGf: expectedValues.dateÉchéanceGfValue
         ? DateTime.convertirEnValueType(expectedValues.dateÉchéanceGfValue)
         : undefined,
-      emailContact: expectedValues.emailContactValue,
+      emailContact: Email.convertirEnValueType(expectedValues.emailContactValue),
       evaluationCarboneSimplifiée: expectedValues.evaluationCarboneSimplifiéeValue,
       historiqueAbandon: Candidature.HistoriqueAbandon.convertirEnValueType(
         expectedValues.historiqueAbandonValue,

@@ -109,7 +109,7 @@ async function getEmailPayloads(
           templateId: templateId.notifierPorteur,
           recipients: [
             {
-              email,
+              email: email.formatter(),
               fullName,
             },
           ],

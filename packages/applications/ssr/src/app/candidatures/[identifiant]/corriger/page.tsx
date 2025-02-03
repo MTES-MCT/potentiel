@@ -52,7 +52,7 @@ const mapToProps: MapToProps = (candidature) => ({
     nomProjet: candidature.nomProjet,
     nomCandidat: candidature.nomCandidat,
     nomRepresentantLegal: candidature.nomReprésentantLégal,
-    emailContact: candidature.emailContact,
+    emailContact: candidature.emailContact.formatter(),
     puissanceProductionAnnuelle: candidature.puissanceProductionAnnuelle,
     prixReference: candidature.prixReference,
     societeMere: candidature.sociétéMère,

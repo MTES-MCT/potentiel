@@ -25,7 +25,7 @@ export const CandidatureNonNotifiée: Story = {
       statut: Candidature.StatutCandidature.classé,
       nomProjet: 'Nom projet',
       nomCandidat: 'Candidat',
-      emailContact: 'porteur@test.test',
+      emailContact: Email.convertirEnValueType('porteur@test.test'),
       localité: {
         commune: 'Commune',
         département: 'Département',
@@ -63,7 +63,7 @@ export const CandidatureNotifiée: Story = {
       statut: Candidature.StatutCandidature.classé,
       nomProjet: 'Nom projet',
       nomCandidat: 'Candidat',
-      emailContact: 'porteur@test.test',
+      emailContact: Email.convertirEnValueType('porteur@test.test'),
       localité: {
         commune: 'Commune',
         département: 'Département',

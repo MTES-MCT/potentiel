@@ -1,13 +1,13 @@
 import { PlainType, ReadonlyValueType } from '@potentiel-domain/core';
 import { Option } from '@potentiel-libraries/monads';
+import { Email } from '@potentiel-domain/common';
 
 import * as Role from './role.valueType';
 import * as Groupe from './groupe.valueType';
-import * as IdentifiantUtilisateur from './identifiantUtilisateur.valueType';
 
 export type ValueType = ReadonlyValueType<{
   nom: string;
-  identifiantUtilisateur: IdentifiantUtilisateur.ValueType;
+  identifiantUtilisateur: Email.ValueType;
   role: Role.ValueType;
   groupe: Option.Type<Groupe.ValueType>;
 }>;
@@ -18,7 +18,7 @@ export const bind = ({
   groupe,
   role,
 }: PlainType<ValueType>): ValueType => {
-  const _identifiantUtilisateur = IdentifiantUtilisateur.bind(identifiantUtilisateur);
+  const _identifiantUtilisateur = Email.bind(identifiantUtilisateur);
   return {
     nom,
     role: Role.bind(role),
