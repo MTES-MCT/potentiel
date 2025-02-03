@@ -80,6 +80,6 @@
   "dependencies": {
     "isomorphic-dompurify": "^2.16.0",
     "prettier-plugin-gherkin": "^2.3.0",
-    "ts-pattern": "^5.5.0"
+    "ts-pattern": "^5.6.2"
   }
 }
