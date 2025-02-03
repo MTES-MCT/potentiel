@@ -1,6 +1,5 @@
 import { AccorderAbandonUseCase } from './accorder/accorderAbandon.usecase';
 import { AnnulerAbandonUseCase } from './annuler/annulerAbandon.usecase';
-import { AnnulerRejetAbandonUseCase } from './annulerRejet/annulerRejetAbandon.usecase';
 import { ConfirmerAbandonUseCase } from './confirmer/confirmerAbandon.usecase';
 import {
   ConsulterAbandonQuery,
@@ -33,7 +32,6 @@ export type { ConsulterAbandonReadModel, ListerAbandonReadModel };
 export type AbandonUseCase =
   | AccorderAbandonUseCase
   | AnnulerAbandonUseCase
-  | AnnulerRejetAbandonUseCase
   | ConfirmerAbandonUseCase
   | DemanderAbandonUseCase
   | DemanderConfirmationAbandonUseCase
@@ -44,7 +42,6 @@ export type AbandonUseCase =
 export type {
   AccorderAbandonUseCase,
   AnnulerAbandonUseCase,
-  AnnulerRejetAbandonUseCase,
   ConfirmerAbandonUseCase,
   DemanderAbandonUseCase,
   DemanderConfirmationAbandonUseCase,

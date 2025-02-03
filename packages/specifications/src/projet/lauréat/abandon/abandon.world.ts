@@ -9,7 +9,6 @@ import { DemanderAbandonFixture } from './fixtures/demanderAbandon.fixture';
 import { DemanderConfirmationAbandonFixture } from './fixtures/demanderConfirmationAbandon.fixture';
 import { TransmettrePreuveRecandidatureAbandonFixture } from './fixtures/transmettrePreuveRecandidatureAbandon.fixture';
 import { RejetAbandonFixture } from './fixtures/rejeterAbandonFixture';
-import { AnnulerRejetAbandonFixture } from './fixtures/annulerRejetAbandon.fixture';
 import { DemanderPreuveRecandidatureAbandonFixture } from './fixtures/demanderPreuveRecandidature.fixture';
 
 export class AbandonWord {
@@ -23,12 +22,6 @@ export class AbandonWord {
 
   get annulerAbandonFixture() {
     return this.#annulerAbandonFixture;
-  }
-
-  #annulerRejetAbandonFixture: AnnulerRejetAbandonFixture;
-
-  get annulerRejetAbandonFixture() {
-    return this.#annulerRejetAbandonFixture;
   }
 
   #confirmerAbandonFixture: ConfirmerAbandonFixture;
@@ -70,7 +63,6 @@ export class AbandonWord {
   constructor() {
     this.#accorderAbandonFixture = new AccorderAbandonFixture();
     this.#annulerAbandonFixture = new AnnulerAbandonFixture();
-    this.#annulerRejetAbandonFixture = new AnnulerRejetAbandonFixture();
     this.#confirmerAbandonFixture = new ConfirmerAbandonFixture();
     this.#demanderAbandonFixture = new DemanderAbandonFixture();
     this.#demanderConfirmationAbandonFixture = new DemanderConfirmationAbandonFixture();
@@ -83,7 +75,6 @@ export class AbandonWord {
   reinitialiserEnDemande() {
     this.#accorderAbandonFixture = new AccorderAbandonFixture();
     this.#annulerAbandonFixture = new AnnulerAbandonFixture();
-    this.#annulerRejetAbandonFixture = new AnnulerRejetAbandonFixture();
     this.#confirmerAbandonFixture = new ConfirmerAbandonFixture();
     this.#demanderConfirmationAbandonFixture = new DemanderConfirmationAbandonFixture();
     this.#demanderPreuveCandidatureAbandonFixture = new DemanderPreuveRecandidatureAbandonFixture();

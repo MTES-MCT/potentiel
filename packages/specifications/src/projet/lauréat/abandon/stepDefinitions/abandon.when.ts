@@ -112,29 +112,6 @@ Quand(
 );
 
 Quand(
-  `le DGEC validateur annule le rejet de l'abandon pour le projet lauréat`,
-  async function (this: PotentielWorld) {
-    try {
-      const identifiantProjet = this.lauréatWorld.identifiantProjet.formatter();
-
-      const { annuléeLe, annuléePar } =
-        this.lauréatWorld.abandonWorld.annulerRejetAbandonFixture.créer();
-
-      await mediator.send<Abandon.AbandonUseCase>({
-        type: 'Lauréat.Abandon.UseCase.AnnulerRejetAbandon',
-        data: {
-          identifiantProjetValue: identifiantProjet,
-          dateAnnulationValue: annuléeLe,
-          identifiantUtilisateurValue: annuléePar,
-        },
-      });
-    } catch (error) {
-      this.error = error as Error;
-    }
-  },
-);
-
-Quand(
   `le DGEC validateur demande une confirmation d'abandon pour le projet lauréat`,
   async function (this: PotentielWorld) {
     try {

@@ -32,7 +32,6 @@ import {
   applyAbandonConfirmé,
   confirmer,
 } from './confirmer/confirmerAbandon.behavior';
-import { annulerRejet } from './annulerRejet/annulerRejetAbandon.behavior';
 import {
   transmettrePreuveRecandidature,
   PreuveRecandidatureTransmiseEvent,
@@ -89,7 +88,6 @@ export type AbandonAggregate = Aggregate<AbandonEvent> & {
   };
   annuléLe?: DateTime.ValueType;
   readonly accorder: typeof accorder;
-  readonly annulerRejet: typeof annulerRejet;
   readonly annuler: typeof annuler;
   readonly confirmer: typeof confirmer;
   readonly demander: typeof demander;
@@ -114,7 +112,6 @@ export const getDefaultAbandonAggregate: GetDefaultAggregateState<
   },
   accorder,
   annuler,
-  annulerRejet,
   confirmer,
   demander,
   demanderConfirmation,
