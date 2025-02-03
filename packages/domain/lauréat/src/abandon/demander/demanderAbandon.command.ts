@@ -21,7 +21,6 @@ export type DemanderAbandonCommand = Message<
 
 export const registerDemanderAbandonCommand = (loadAggregate: LoadAggregate) => {
   const loadAbandon = loadAbandonFactory(loadAggregate);
-  //  TODO use aggregateRoot
   const loadAchèvement = loadAchèvementFactory(loadAggregate);
 
   const handler: MessageHandler<DemanderAbandonCommand> = async ({

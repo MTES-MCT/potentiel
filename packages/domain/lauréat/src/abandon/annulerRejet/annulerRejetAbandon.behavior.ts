@@ -9,11 +9,12 @@ export type AnnulerRejetOptions = {
   dateAnnulation: DateTime.ValueType;
   identifiantUtilisateur: IdentifiantUtilisateur.ValueType;
   identifiantProjet: IdentifiantProjet.ValueType;
+  estAchevé: boolean;
 };
 
 export async function annulerRejet(
   this: AbandonAggregate,
-  { dateAnnulation, identifiantUtilisateur, identifiantProjet }: AnnulerRejetOptions,
+  { dateAnnulation, identifiantUtilisateur, identifiantProjet, estAchevé }: AnnulerRejetOptions,
 ) {
   this.statut.vérifierQueLeChangementDeStatutEstPossibleEn(StatutAbandon.demandé);
 
@@ -35,7 +36,7 @@ export async function annulerRejet(
       raison: this.demande.raison,
       identifiantUtilisateur: this.demande.demandéPar,
       pièceJustificative: this.demande.pièceJustificative,
-      estAchevé: true, // TODO !
+      estAchevé,
     });
   }
 }
