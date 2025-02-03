@@ -58,6 +58,7 @@ const PorteurProjetActions = ({
     familleId: project.familleId,
     numeroCRE: project.numeroCRE,
   }).formatter();
+  const peutDemanderAbandon = !abandonEnCours && !hasAttestationConformité;
 
   return (
     <div className="flex flex-col gap-3">
@@ -109,7 +110,7 @@ const PorteurProjetActions = ({
                 <span>Demander un changement de représentant légal</span>
               </DropdownMenuSecondaryButton.DropdownItem>
             )}
-            {!abandonEnCours && (
+            {peutDemanderAbandon && (
               <>
                 <DropdownMenuSecondaryButton.DropdownItem
                   href={Routes.Abandon.demander(identifiantProjet)}
