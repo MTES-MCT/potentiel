@@ -4,9 +4,9 @@ services:
   db:
     container_name: potentiel_db
     image: postgres:13
-    volumes:
-      - .database/potentiel-dev.dump:/dump/potentiel-dev.dump
-      - .database/restore-dev-db.sh:/docker-entrypoint-initdb.d/restore-dev-db.sh
+    # volumes:
+    #   - .database/potentiel-dev.dump:/dump/potentiel-dev.dump
+    #   - .database/restore-dev-db.sh:/docker-entrypoint-initdb.d/restore-dev-db.sh
     environment:
       - POSTGRES_USER=potadmindb
       - POSTGRES_PASSWORD=localpwd
