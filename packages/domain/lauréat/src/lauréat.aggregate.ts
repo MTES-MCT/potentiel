@@ -1,3 +1,5 @@
+import { match } from 'ts-pattern';
+
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 import {
   Aggregate,
@@ -11,8 +13,13 @@ import {
   applyLauréatNotifié,
   notifier,
 } from './notifier/notifierLauréat.behavior';
+import {
+  LauréatModifiéEvent,
+  modifier,
+  applyLauréatModifié,
+} from './modifier/modifierLauréat.behavior';
 
-export type LauréatEvent = LauréatNotifiéEvent;
+export type LauréatEvent = LauréatNotifiéEvent | LauréatModifiéEvent;
 
 export type LauréatAggregate = Aggregate<LauréatEvent> & {
   identifiantProjet: IdentifiantProjet.ValueType;
@@ -23,10 +30,9 @@ export type LauréatAggregate = Aggregate<LauréatEvent> & {
     adresse2: string;
     codePostal: string;
     commune: string;
-    région: string;
-    département: string;
   };
   notifier: typeof notifier;
+  modifier: typeof modifier;
 };
 
 export const getDefaultLauréatAggregate: GetDefaultAggregateState<
@@ -41,19 +47,17 @@ export const getDefaultLauréatAggregate: GetDefaultAggregateState<
     adresse2: '',
     codePostal: '',
     commune: '',
-    région: '',
-    département: '',
   },
   apply,
   notifier,
+  modifier,
 });
 
 function apply(this: LauréatAggregate, event: LauréatEvent) {
-  switch (event.type) {
-    case 'LauréatNotifié-V2':
-      applyLauréatNotifié.bind(this)(event);
-      break;
-  }
+  match(event)
+    .with({ type: 'LauréatNotifié-V2' }, applyLauréatNotifié.bind(this))
+    .with({ type: 'LauréatModifié-V1' }, applyLauréatModifié.bind(this))
+    .exhaustive();
 }
 
 export const loadLauréatFactory =

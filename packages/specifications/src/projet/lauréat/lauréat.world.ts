@@ -4,6 +4,7 @@ import { AbandonWord } from './abandon/abandon.world';
 import { ReprésentantLégalWorld } from './représentant-légal/représentantLégal.world';
 import { ActionnaireWorld } from './actionnaire/actionnaire.world';
 import { AchèvementWorld } from './achèvement/attestationConformité/achèvement.world';
+import { ModifierLauréatFixture } from './fixtures/modifierLauréat.fixture';
 
 type LauréatFixture = {
   nom: string;
@@ -19,6 +20,12 @@ export class LauréatWorld {
     return this.#lauréatFixtures;
   }
 
+  #modifierLauréatFixture: ModifierLauréatFixture;
+  get modifierLauréatFixture() {
+    return this.#modifierLauréatFixture;
+  }
+
+  /** @deprecated use `identifiantProjet` */
   rechercherLauréatFixture(nom: string): LauréatFixture {
     const lauréat = this.#lauréatFixtures.get(nom);
 
@@ -75,8 +82,9 @@ export class LauréatWorld {
     this.#actionnaireWorld = new ActionnaireWorld();
     this.#achèvementWorld = new AchèvementWorld();
 
-    this.#identifiantProjet = IdentifiantProjet.convertirEnValueType(`PPE2 - Eolien#1##23`);
+    this.#modifierLauréatFixture = new ModifierLauréatFixture();
 
+    this.#identifiantProjet = IdentifiantProjet.convertirEnValueType(`PPE2 - Eolien#1##23`);
     this.#dateDésignation = new Date('2022-10-27').toISOString();
   }
 }
