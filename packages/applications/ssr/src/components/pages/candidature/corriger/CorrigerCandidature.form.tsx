@@ -159,7 +159,7 @@ export const CorrigerCandidatureForm: React.FC<CorrigerCandidatureFormProps> = (
         stateRelatedMessage={validationErrors['actionnariat']}
         label="Type d'actionnariat (optionnel)"
         options={[
-          { label: '', value: '' },
+          { label: 'Aucun', value: '' },
           ...typesActionnariat.map((type) => ({
             label: getActionnariatTypeLabel(type),
             value: type,
