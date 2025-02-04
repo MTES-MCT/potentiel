@@ -242,6 +242,8 @@ const référencielPermissions = {
       query: {
         consulter: 'Lauréat.ReprésentantLégal.Query.ConsulterReprésentantLégal',
         consulterChangement: 'Lauréat.ReprésentantLégal.Query.ConsulterChangementReprésentantLégal',
+        consulterChangementEnCours:
+          'Lauréat.ReprésentantLégal.Query.ConsulterChangementReprésentantLégalEnCours',
         listerChangement: 'Lauréat.ReprésentantLégal.Query.ListerChangementReprésentantLégal',
       },
       usecase: {
@@ -793,6 +795,7 @@ const policies = {
     ],
     consulterChangement: [
       référencielPermissions.lauréat.représentantLégal.query.consulterChangement,
+      référencielPermissions.lauréat.représentantLégal.query.consulterChangementEnCours,
       référencielPermissions.document.query.consulter,
     ],
     listerChangement: [
