@@ -12,7 +12,9 @@ import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
 
 import { CorrigerCandidatureForm, CorrigerCandidatureFormProps } from './CorrigerCandidature.form';
 
-export type CorrigerCandidaturePageProps = CorrigerCandidatureFormProps & { estNotifiée: boolean };
+export type CorrigerCandidaturePageProps = CorrigerCandidatureFormProps & {
+  estNotifiée: boolean;
+};
 
 export const CorrigerCandidaturePage: React.FC<CorrigerCandidaturePageProps> = ({
   candidature,
