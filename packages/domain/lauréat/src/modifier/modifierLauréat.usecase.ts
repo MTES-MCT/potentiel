@@ -16,6 +16,8 @@ export type ModifierLauréatUseCase = Message<
       adresse2: string;
       codePostal: string;
       commune: string;
+      département: string;
+      région: string;
     };
   }
 >;

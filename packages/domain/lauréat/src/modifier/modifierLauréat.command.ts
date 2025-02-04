@@ -17,6 +17,8 @@ export type ModifierLauréatCommand = Message<
       adresse2: string;
       codePostal: string;
       commune: string;
+      région: string;
+      département: string;
     };
   }
 >;

@@ -5,7 +5,7 @@ export const fakeLocations = faker.helpers.multiple(
     codePostal: faker.location.zipCode(),
     commune: faker.location.city(),
     région: faker.location.state(),
-    département: faker.location.state(),
+    département: faker.location.county(),
   }),
   { count: 10 },
 );

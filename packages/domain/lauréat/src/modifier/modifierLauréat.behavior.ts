@@ -13,6 +13,8 @@ export type ModifierLauréatOptions = {
     adresse2: string;
     codePostal: string;
     commune: string;
+    région: string;
+    département: string;
   };
 };
 
@@ -28,6 +30,8 @@ export type LauréatModifiéEvent = DomainEvent<
       adresse2: string;
       codePostal: string;
       commune: string;
+      région: string;
+      département: string;
     };
   }
 >;
@@ -39,7 +43,7 @@ export async function modifier(
     modifiéLe,
     modifiéPar,
     nomProjet,
-    localité: { adresse1, adresse2, codePostal, commune },
+    localité: { adresse1, adresse2, codePostal, commune, département, région },
   }: ModifierLauréatOptions,
 ) {
   const event: LauréatModifiéEvent = {
@@ -54,6 +58,8 @@ export async function modifier(
         adresse2,
         codePostal,
         commune,
+        département,
+        région,
       },
     },
   };

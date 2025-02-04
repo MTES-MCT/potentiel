@@ -1,25 +1,25 @@
 import { faker } from '@faker-js/faker';
 
+import { DateTime, Email } from '@potentiel-domain/common';
+
 import { AbstractFixture } from '../../../fixture';
 import { getFakeLocation } from '../../../helpers/getFakeLocation';
 
-export interface ModifierLauréat {
+export interface NotifierLauréat {
   readonly nomProjet: string;
-  readonly modifiéLe: string;
-  readonly modifiéPar: string;
+  readonly notifiéLe: string;
+  readonly notifiéPar: string;
   readonly localité: {
     adresse1: string;
     adresse2: string;
     codePostal: string;
     commune: string;
-    département: string;
-    région: string;
   };
 }
 
-export class ModifierLauréatFixture
-  extends AbstractFixture<ModifierLauréat>
-  implements ModifierLauréat
+export class NotifierLauréatFixture
+  extends AbstractFixture<NotifierLauréat>
+  implements NotifierLauréat
 {
   #nomProjet!: string;
 
@@ -27,29 +27,29 @@ export class ModifierLauréatFixture
     return this.#nomProjet;
   }
 
-  #modifiéLe!: string;
+  #notifiéLe!: string;
 
-  get modifiéLe(): string {
-    return this.#modifiéLe;
+  get notifiéLe(): string {
+    return this.#notifiéLe;
   }
-  #modifiéPar!: string;
+  #notifiéPar!: string;
 
-  get modifiéPar(): string {
-    return this.#modifiéPar;
+  get notifiéPar(): string {
+    return this.#notifiéPar;
   }
 
-  #localité!: ModifierLauréat['localité'];
+  #localité!: NotifierLauréat['localité'];
 
-  get localité(): ModifierLauréat['localité'] {
+  get localité(): NotifierLauréat['localité'] {
     return this.#localité;
   }
 
   créer(
-    partialFixture: Partial<Readonly<ModifierLauréat>> & { modifiéPar: string },
-  ): Readonly<ModifierLauréat> {
+    partialFixture: Partial<Readonly<NotifierLauréat>> & { notifiéPar: string },
+  ): Readonly<NotifierLauréat> {
     const fixture = {
       nomProjet: faker.person.fullName(),
-      modifiéLe: faker.date.recent().toISOString(),
+      notifiéLe: faker.date.recent().toISOString(),
       localité: {
         adresse1: faker.location.streetAddress(),
         adresse2: faker.location.streetAddress(),
@@ -60,8 +60,8 @@ export class ModifierLauréatFixture
 
     this.#nomProjet = fixture.nomProjet;
     this.#localité = fixture.localité;
-    this.#modifiéLe = fixture.modifiéLe;
-    this.#modifiéPar = fixture.modifiéPar;
+    this.#notifiéLe = fixture.notifiéLe;
+    this.#notifiéPar = fixture.notifiéPar;
 
     this.aÉtéCréé = true;
 
@@ -75,6 +75,8 @@ export class ModifierLauréatFixture
     return {
       nomProjet: this.nomProjet,
       localité: this.localité,
+      notifiéLe: DateTime.convertirEnValueType(this.notifiéLe),
+      notifiéPar: Email.convertirEnValueType(this.notifiéPar),
     };
   }
 }

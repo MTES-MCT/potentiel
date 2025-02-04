@@ -30,6 +30,8 @@ export type LauréatAggregate = Aggregate<LauréatEvent> & {
     adresse2: string;
     codePostal: string;
     commune: string;
+    département: string;
+    région: string;
   };
   notifier: typeof notifier;
   modifier: typeof modifier;
@@ -47,6 +49,8 @@ export const getDefaultLauréatAggregate: GetDefaultAggregateState<
     adresse2: '',
     codePostal: '',
     commune: '',
+    département: '',
+    région: '',
   },
   apply,
   notifier,
