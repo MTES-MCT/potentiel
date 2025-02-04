@@ -16,8 +16,8 @@ export type NotifierOptions = {
     adresse2: string;
     codePostal: string;
     commune: string;
-    région: string;
     département: string;
+    région: string;
   };
 };
 

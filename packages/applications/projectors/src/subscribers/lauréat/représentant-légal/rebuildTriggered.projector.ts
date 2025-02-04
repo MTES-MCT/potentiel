@@ -5,7 +5,7 @@ import { Where } from '@potentiel-domain/entity';
 
 import { removeProjection } from '../../../infrastructure';
 
-export const rebuilTriggeredProjector = async ({ payload: { id } }: RebuildTriggered) => {
+export const rebuildTriggeredProjector = async ({ payload: { id } }: RebuildTriggered) => {
   await removeProjection<ReprésentantLégal.ReprésentantLégalEntity>(`représentant-légal|${id}`);
 
   const changements = await listProjection<ReprésentantLégal.ChangementReprésentantLégalEntity>(

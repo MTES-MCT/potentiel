@@ -7,4 +7,4 @@ Fonctionnalité: Modifier le nom d'un projet lauréat
         # Et le porteur "Marcel Patoulatchi" ayant accés au projet lauréat "Du boulodrome de Marseille"
         # Et la dreal "Dreal du sud" associée à la région du projet
         Quand un administrateur modifie le nom du projet lauréat
-        Alors le projet lauréat devrait être mis à jour
+        Alors le projet lauréat devrait être consultable
