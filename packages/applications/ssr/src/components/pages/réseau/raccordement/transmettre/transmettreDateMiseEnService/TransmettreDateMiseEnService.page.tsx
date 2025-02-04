@@ -43,6 +43,11 @@ export const TransmettreDateMiseEnServicePage = ({
           description={
             <div className="py-4 text-justify">
               <ul className="flex flex-col gap-3">
+                <li>
+                  La Mise en service correspond à la mise en exploitation des ouvrages de
+                  raccordement permettant la première injection sur le réseau d'électricité pour
+                  l'installation.
+                </li>
                 {intervalleDatesMeSDélaiCDC2022 && (
                   <li>
                     Si le projet{' '}
