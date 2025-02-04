@@ -1,5 +1,7 @@
-import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
+import { DateTime, Email } from '@potentiel-domain/common';
 import { Entity } from '@potentiel-domain/entity';
+
+import { IdentifiantProjet } from '..';
 
 export type LauréatEntity = Entity<
   'lauréat',

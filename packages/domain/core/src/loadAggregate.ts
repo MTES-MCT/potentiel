@@ -13,6 +13,7 @@ export type LoadAggregateOption<
 > = {
   aggregateId: AggregateId;
   getDefaultAggregate: GetDefaultAggregateState<TAggregate, TDomainEvent>;
+  /** @deprecated */
   onNone?: () => void;
 };
 

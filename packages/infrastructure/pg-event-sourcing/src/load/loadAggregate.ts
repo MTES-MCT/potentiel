@@ -20,6 +20,9 @@ export const loadAggregate: LoadAggregate = async <
     ...getDefaultAggregate(),
     aggregateId,
     version: 0,
+    get exists() {
+      return this.version > 0;
+    },
     async publish(event) {
       await publish(aggregateId, event);
       this.apply(event);

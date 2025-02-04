@@ -5,10 +5,8 @@ type Période = string;
 type Famille = string;
 type NuméroCRE = string;
 
-/** @deprecated use @potentiel-domain/projet instead */
 export type RawType = `${AppelOffre}#${Période}#${Famille}#${NuméroCRE}`;
 
-/** @deprecated use @potentiel-domain/projet instead */
 export type ValueType = ReadonlyValueType<{
   appelOffre: AppelOffre;
   période: Période;
@@ -17,7 +15,6 @@ export type ValueType = ReadonlyValueType<{
   formatter(): RawType;
 }>;
 
-/** @deprecated use @potentiel-domain/projet instead */
 export const bind = ({
   appelOffre,
   famille,
@@ -38,7 +35,6 @@ export const bind = ({
   };
 };
 
-/** @deprecated use @potentiel-domain/projet instead */
 export const convertirEnValueType = (identifiantProjet: string): ValueType => {
   if (!estValide(identifiantProjet)) {
     throw new IdentifiantProjetInvalideError(identifiantProjet);
@@ -56,17 +52,14 @@ export const convertirEnValueType = (identifiantProjet: string): ValueType => {
 
 const regexIdentifiantProjet = /^[^#]+#[^#]+#([^#]+)?#[^#]+$/;
 
-/** @deprecated use @potentiel-domain/projet instead */
 export function estValide(value: string) {
   return regexIdentifiantProjet.test(value);
 }
 
-/** @deprecated use @potentiel-domain/projet instead */
 export const inconnu = convertirEnValueType(
   'appelOffreInconnu#périodeInconnu#familleInconnu#numéroCREInconnu',
 );
 
-/** @deprecated use @potentiel-domain/projet instead */
 class IdentifiantProjetInvalideError extends InvalidOperationError {
   constructor(value: string) {
     super(
