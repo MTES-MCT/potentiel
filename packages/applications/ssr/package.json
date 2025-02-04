@@ -9,10 +9,6 @@
     "lint:fix": "next lint --fix",
     "predev": "only-include-used-icons --silent",
     "prebuild": "only-include-used-icons --silent",
-    "storybook": "storybook dev -p 6006",
-    "build-storybook": "storybook build",
-    "prestorybook": "copy-dsfr-to-public --publicDir .storybook/static && only-include-used-icons --publicDir .storybook/static",
-    "prebuild-storybook": "npm run prestorybook",
     "pretest": "npm run build"
   },
   "dependencies": {
@@ -59,14 +55,6 @@
     "zod-i18n-map": "^2.27.0"
   },
   "devDependencies": {
-    "@storybook/addon-essentials": "^8.2.7",
-    "@storybook/addon-links": "^8.2.7",
-    "@storybook/addon-themes": "^8.2.7",
-    "@storybook/addon-webpack5-compiler-swc": "^1.0.4",
-    "@storybook/blocks": "^8.2.7",
-    "@storybook/nextjs": "^8.2.7",
-    "@storybook/react": "^8.2.7",
-    "@storybook/test": "^8.2.7",
     "@types/node": "^20",
     "@types/react": "^18",
     "@types/react-dom": "^18.3.1",
