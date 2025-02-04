@@ -33,7 +33,7 @@
     "@potentiel-domain/reseau": "*",
     "@potentiel-infrastructure/pg-event-sourcing": "*",
     "@react-pdf/renderer": "^3.4.5",
-    "@sentry/node": "^7.119.2",
+    "@sentry/node": "^8.54.0",
     "cookie-parser": "^1.4.7",
     "csv-parse": "^5.5.6",
     "date-fns": "^2.30.0",

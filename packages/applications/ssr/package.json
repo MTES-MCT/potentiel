@@ -38,7 +38,7 @@
     "@potentiel-libraries/monads": "*",
     "@potentiel-libraries/monitoring": "*",
     "@sentry/core": "^8.48.0",
-    "@sentry/nextjs": "^8.48.0",
+    "@sentry/nextjs": "^8.54.0",
     "clsx": "^2.1.1",
     "crisp-sdk-web": "^1.0.25",
     "i18next": "^23.16.0",
