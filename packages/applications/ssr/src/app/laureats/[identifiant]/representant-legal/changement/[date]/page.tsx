@@ -68,9 +68,9 @@ export default async function Page({ params: { identifiant, date } }: PageProps)
 
       const dateDemandeEnCoursPourLien =
         Option.isSome(représentantLégal) &&
-        représentantLégal.demandeEnCours &&
-        représentantLégal.demandeEnCours.demandéLe !== demandéLe
-          ? représentantLégal.demandeEnCours.demandéLe
+        représentantLégal.dernièreDemande &&
+        représentantLégal.dernièreDemande.demandéLe !== demandéLe
+          ? représentantLégal.dernièreDemande.demandéLe
           : undefined;
 
       return (

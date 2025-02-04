@@ -5,14 +5,19 @@ import { Find } from '@potentiel-domain/entity';
 import { IdentifiantProjet } from '@potentiel-domain/common';
 
 import { ReprésentantLégal } from '../..';
-import { ReprésentantLégalEntity, TypeReprésentantLégal } from '..';
+import {
+  ReprésentantLégalEntity,
+  StatutChangementReprésentantLégal,
+  TypeReprésentantLégal,
+} from '..';
 
 export type ConsulterReprésentantLégalReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
   nomReprésentantLégal: string;
   typeReprésentantLégal: TypeReprésentantLégal.ValueType;
-  demandeEnCours?: {
+  dernièreDemande?: {
     demandéLe: string;
+    statut: StatutChangementReprésentantLégal.ValueType;
   };
 };
 
@@ -63,5 +68,12 @@ const mapToReadModel: MapToReadModel = ({ identifiantProjet, représentantLégal
   typeReprésentantLégal: TypeReprésentantLégal.convertirEnValueType(
     représentantLégal.typeReprésentantLégal,
   ),
-  demandeEnCours: représentantLégal.demandeEnCours,
+  dernièreDemande: représentantLégal.dernièreDemande
+    ? {
+        demandéLe: représentantLégal.dernièreDemande?.demandéLe,
+        statut: StatutChangementReprésentantLégal.convertirEnValueType(
+          représentantLégal.dernièreDemande.statut,
+        ),
+      }
+    : undefined,
 });

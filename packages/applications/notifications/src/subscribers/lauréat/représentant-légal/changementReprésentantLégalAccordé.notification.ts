@@ -77,15 +77,41 @@ export const changementReprésentantLégalAccordéNotification = async ({
     });
   }
 
-  const demandeChangementEnCours =
-    await mediator.send<ReprésentantLégal.ConsulterChangementReprésentantLégalEnCoursQuery>({
-      type: 'Lauréat.ReprésentantLégal.Query.ConsulterChangementReprésentantLégalEnCours',
+  const représentantLégal = await mediator.send<ReprésentantLégal.ConsulterReprésentantLégalQuery>({
+    type: 'Lauréat.ReprésentantLégal.Query.ConsulterReprésentantLégal',
+    data: {
+      identifiantProjet: identifiantProjet.formatter(),
+    },
+  });
+
+  if (Option.isNone(représentantLégal)) {
+    getLogger().error('Aucun représentant légal trouvé', {
+      identifiantProjet: identifiantProjet.formatter(),
+      application: 'notifications',
+      fonction: 'changementReprésentantLégalAccordéNotification',
+    });
+    return;
+  }
+
+  if (!représentantLégal.dernièreDemande) {
+    getLogger().error('Aucune demande en cours trouvée', {
+      identifiantProjet: identifiantProjet.formatter(),
+      application: 'notifications',
+      fonction: 'changementReprésentantLégalAccordéNotification',
+    });
+    return;
+  }
+
+  const demandeChangement =
+    await mediator.send<ReprésentantLégal.ConsulterChangementReprésentantLégalQuery>({
+      type: 'Lauréat.ReprésentantLégal.Query.ConsulterChangementReprésentantLégal',
       data: {
         identifiantProjet: identifiantProjet.formatter(),
+        demandéLe: représentantLégal.dernièreDemande.demandéLe,
       },
     });
 
-  if (Option.isNone(demandeChangementEnCours)) {
+  if (Option.isNone(demandeChangement)) {
     getLogger().error('Aucune demande de changement de représentant légal en cours trouvée', {
       identifiantProjet: identifiantProjet.formatter(),
       application: 'notifications',
@@ -94,7 +120,7 @@ export const changementReprésentantLégalAccordéNotification = async ({
     return;
   }
 
-  if (demandeChangementEnCours.nomReprésentantLégal !== event.payload.nomReprésentantLégal) {
+  if (demandeChangement.demande.nomReprésentantLégal !== event.payload.nomReprésentantLégal) {
     return sendEmail({
       templateId: 6661131,
       messageSubject: `Potentiel - Correction et accord de la demande de modification du représentant légal pour le projet ${projet.nom} dans le département ${projet.département}`,
@@ -102,7 +128,7 @@ export const changementReprésentantLégalAccordéNotification = async ({
       variables: {
         nom_projet: projet.nom,
         departement_projet: projet.département,
-        url: `${baseUrl}${Routes.ReprésentantLégal.changement.détail(identifiantProjet.formatter(), demandeChangementEnCours.demandéLe.formatter())}`,
+        url: `${baseUrl}${Routes.ReprésentantLégal.changement.détail(identifiantProjet.formatter(), demandeChangement.demande.demandéLe.formatter())}`,
       },
     });
   }

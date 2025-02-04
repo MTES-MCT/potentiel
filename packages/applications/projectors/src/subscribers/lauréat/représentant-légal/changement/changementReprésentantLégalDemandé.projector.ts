@@ -61,7 +61,10 @@ export const changementReprésentantLégalDemandéProjector = async ({
   await updateOneProjection<ReprésentantLégal.ReprésentantLégalEntity>(
     `représentant-légal|${identifiantProjet}`,
     {
-      demandeEnCours: { demandéLe },
+      dernièreDemande: {
+        demandéLe,
+        statut: ReprésentantLégal.StatutChangementReprésentantLégal.demandé.formatter(),
+      },
     },
   );
 };

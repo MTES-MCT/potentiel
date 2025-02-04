@@ -7,8 +7,9 @@ export type ReprésentantLégalEntity = Entity<
     nomReprésentantLégal: string;
     typeReprésentantLégal: string;
 
-    demandeEnCours?: {
+    dernièreDemande?: {
       demandéLe: string;
+      statut: string;
     };
   }
 >;

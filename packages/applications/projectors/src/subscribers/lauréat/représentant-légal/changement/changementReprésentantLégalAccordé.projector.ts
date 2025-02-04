@@ -1,6 +1,6 @@
 import { ReprésentantLégal } from '@potentiel-domain/laureat';
 
-import { upsertProjection } from '../../../../infrastructure';
+import { updateOneProjection, upsertProjection } from '../../../../infrastructure';
 
 import { getInfosReprésentantLégal } from './_utils/getInfosReprésentantLégal';
 
@@ -36,12 +36,16 @@ export const changementReprésentantLégalAccordéProjector = async (
         },
       },
     );
-    await upsertProjection<ReprésentantLégal.ReprésentantLégalEntity>(
+
+    await updateOneProjection<ReprésentantLégal.ReprésentantLégalEntity>(
       `représentant-légal|${identifiantProjet}`,
       {
-        identifiantProjet,
         nomReprésentantLégal,
         typeReprésentantLégal,
+        dernièreDemande: {
+          demandéLe: représentantLégal.changementEnCours.demande.demandéLe,
+          statut: ReprésentantLégal.StatutChangementReprésentantLégal.accordé.formatter(),
+        },
       },
     );
   }

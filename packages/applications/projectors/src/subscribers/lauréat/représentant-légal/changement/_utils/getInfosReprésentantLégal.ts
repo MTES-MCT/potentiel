@@ -18,14 +18,14 @@ export const getInfosReprésentantLégal = async (identifiantProjet: Identifiant
     );
     return;
   }
-  if (!représentantLégal.demandeEnCours) {
+  if (!représentantLégal.dernièreDemande) {
     getLogger().error(`Aucune demande en cours pour le changement de représentant accordé`, {
       event,
     });
     return;
   }
 
-  const identifiantChangement = `${identifiantProjet}#${représentantLégal.demandeEnCours.demandéLe}`;
+  const identifiantChangement = `${identifiantProjet}#${représentantLégal.dernièreDemande.demandéLe}`;
 
   const changementEnCours =
     await findProjection<ReprésentantLégal.ChangementReprésentantLégalEntity>(

@@ -53,10 +53,12 @@ export class ReprésentantLégalWorld {
     if (
       this.#changementReprésentantLégalWorld.demanderChangementReprésentantLégalFixture.aÉtéCréé
     ) {
-      expected.demandeEnCours = {
+      expected.dernièreDemande = {
         demandéLe:
           this.#changementReprésentantLégalWorld.demanderChangementReprésentantLégalFixture
             .demandéLe,
+        statut:
+          this.#changementReprésentantLégalWorld.demanderChangementReprésentantLégalFixture.statut,
       };
     }
 
@@ -68,15 +70,18 @@ export class ReprésentantLégalWorld {
       expected.typeReprésentantLégal =
         this.#changementReprésentantLégalWorld.accorderChangementReprésentantLégalFixture.typeReprésentantLégal;
 
-      delete expected.demandeEnCours;
+      if (expected.dernièreDemande) {
+        expected.dernièreDemande.statut =
+          ReprésentantLégal.StatutChangementReprésentantLégal.accordé;
+      }
     }
 
     if (this.#changementReprésentantLégalWorld.rejeterChangementReprésentantLégalFixture.aÉtéCréé) {
-      delete expected.demandeEnCours;
+      delete expected.dernièreDemande;
     }
 
     if (this.#changementReprésentantLégalWorld.annulerChangementReprésentantLégalFixture.aÉtéCréé) {
-      delete expected.demandeEnCours;
+      delete expected.dernièreDemande;
     }
 
     return expected;
