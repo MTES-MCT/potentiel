@@ -101,6 +101,7 @@ BeforeAll(async () => {
 
 Before<PotentielWorld>(async function (this: PotentielWorld) {
   await executeQuery(`delete from "projects"`);
+  await executeQuery(`delete from event_store.pending_acknowledgement`);
   await executeQuery(`delete from event_store.event_stream`);
   await executeQuery(`delete from event_store.subscriber`);
   await executeQuery(`delete from domain_views.projection`);
