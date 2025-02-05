@@ -4,7 +4,7 @@ import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 import { DocumentProjet } from '@potentiel-domain/document';
 import {
   IdentifiantUtilisateur,
-  RécupérerIdentifiantsProjetParEmailPorteur,
+  RécupérerIdentifiantsProjetParEmailPorteurPort,
 } from '@potentiel-domain/utilisateur';
 import { List, RangeOptions, Where } from '@potentiel-domain/entity';
 import { Candidature } from '@potentiel-domain/candidature';
@@ -47,7 +47,7 @@ export type ListerDépôtsEnCoursGarantiesFinancièresQuery = Message<
 
 export type ListerDépôtsEnCoursGarantiesFinancièresDependencies = {
   list: List;
-  récupérerIdentifiantsProjetParEmailPorteur: RécupérerIdentifiantsProjetParEmailPorteur;
+  récupérerIdentifiantsProjetParEmailPorteur: RécupérerIdentifiantsProjetParEmailPorteurPort;
 };
 
 export const registerListerDépôtsEnCoursGarantiesFinancièresQuery = ({

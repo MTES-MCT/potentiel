@@ -1,5 +1,8 @@
 import { Where, WhereOptions } from '@potentiel-domain/entity';
-import { Role, RécupérerIdentifiantsProjetParEmailPorteur } from '@potentiel-domain/utilisateur';
+import {
+  Role,
+  RécupérerIdentifiantsProjetParEmailPorteurPort,
+} from '@potentiel-domain/utilisateur';
 
 export type Utilisateur = {
   rôle: string;
@@ -9,7 +12,7 @@ export type Utilisateur = {
 
 export const getRoleBasedWhereCondition = async (
   utilisateur: Utilisateur,
-  récupérerIdentifiantsProjetParEmailPorteur: RécupérerIdentifiantsProjetParEmailPorteur,
+  récupérerIdentifiantsProjetParEmailPorteur: RécupérerIdentifiantsProjetParEmailPorteurPort,
 ): Promise<WhereOptions<{ identifiantProjet: string; régionProjet: string }>> => {
   const rôleValueType = Role.convertirEnValueType(utilisateur.rôle);
 
