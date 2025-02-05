@@ -30,7 +30,7 @@ Fonctionnalité: Accorder la demande de changement de représentant légal d'un 
         Et un email a été envoyé au porteur avec :
             | sujet      | Potentiel - Correction et accord de la demande de modification du représentant légal pour le projet Du boulodrome de Marseille dans le département(.*) |
             | nom_projet | Du boulodrome de Marseille                                                                                                                             |
-            | url        | https://potentiel.beta.gouv.fr/laureats/.*/representant-legal/changement/.*                                                                            |
+            | url        | https://potentiel.beta.gouv.fr/projet/.*/details.html                                                                                                  |
 
         Exemples:
             | l'utilisateur autorisé      |

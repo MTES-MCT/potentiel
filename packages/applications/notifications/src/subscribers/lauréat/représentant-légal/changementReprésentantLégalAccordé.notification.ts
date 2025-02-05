@@ -1,6 +1,3 @@
-import { mediator } from 'mediateur';
-
-import { Option } from '@potentiel-libraries/monads';
 import {
   récupérerDrealsParIdentifiantProjetAdapter,
   récupérerPorteursParIdentifiantProjetAdapter,
@@ -77,24 +74,7 @@ export const changementReprésentantLégalAccordéNotification = async ({
     });
   }
 
-  const demandeChangementEnCours =
-    await mediator.send<ReprésentantLégal.ConsulterChangementReprésentantLégalEnCoursQuery>({
-      type: 'Lauréat.ReprésentantLégal.Query.ConsulterChangementReprésentantLégalEnCours',
-      data: {
-        identifiantProjet: identifiantProjet.formatter(),
-      },
-    });
-
-  if (Option.isNone(demandeChangementEnCours)) {
-    getLogger().error('Aucune demande de changement de représentant légal en cours trouvée', {
-      identifiantProjet: identifiantProjet.formatter(),
-      application: 'notifications',
-      fonction: 'changementReprésentantLégalAccordéNotification',
-    });
-    return;
-  }
-
-  if (demandeChangementEnCours.nomReprésentantLégal !== event.payload.nomReprésentantLégal) {
+  if (event.payload.avecCorrection) {
     return sendEmail({
       templateId: 6661131,
       messageSubject: `Potentiel - Correction et accord de la demande de modification du représentant légal pour le projet ${projet.nom} dans le département ${projet.département}`,
@@ -102,7 +82,7 @@ export const changementReprésentantLégalAccordéNotification = async ({
       variables: {
         nom_projet: projet.nom,
         departement_projet: projet.département,
-        url: `${baseUrl}${Routes.ReprésentantLégal.changement.détail(identifiantProjet.formatter(), demandeChangementEnCours.demandéLe.formatter())}`,
+        url: `${baseUrl}${Routes.Projet.details(identifiantProjet.formatter())}`,
       },
     });
   }
