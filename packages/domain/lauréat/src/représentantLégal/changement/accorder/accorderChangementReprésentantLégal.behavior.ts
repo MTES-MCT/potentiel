@@ -19,7 +19,7 @@ export type ChangementReprésentantLégalAccordéEvent = DomainEvent<
     nomReprésentantLégal: string;
     typeReprésentantLégal: TypeReprésentantLégal.RawType;
     accordAutomatique: boolean;
-    avecCorrection: boolean;
+    avecCorrection?: true;
   }
 >;
 
@@ -70,7 +70,7 @@ export async function accorder(this: ReprésentantLégalAggregate, options: Acco
       nomReprésentantLégal,
       typeReprésentantLégal: typeReprésentantLégal.formatter(),
       accordAutomatique,
-      avecCorrection: demande.nom !== nomReprésentantLégal,
+      avecCorrection: demande.nom !== nomReprésentantLégal ? true : undefined,
     },
   };
 
