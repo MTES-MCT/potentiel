@@ -11,7 +11,7 @@ import {
   StatutMainlevéeGarantiesFinancières,
   TypeDocumentRéponseDemandeMainlevée,
 } from '../..';
-import { getRoleBasedWhereCondition, Utilisateur } from '../../_utils/getRoleBasedWhereCondition';
+import { getRoleBasedWhereCondition, Utilisateur } from '../../../utils/getRoleBasedWhereCondition';
 
 export type ListerMainlevéeItemReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
@@ -88,6 +88,7 @@ export const registerListerMainlevéesQuery = ({
     const roleBasedCondition = utilisateur
       ? await getRoleBasedWhereCondition(utilisateur, récupérerIdentifiantsProjetParEmailPorteur)
       : {};
+
     const {
       items,
       range: { endPosition, startPosition },

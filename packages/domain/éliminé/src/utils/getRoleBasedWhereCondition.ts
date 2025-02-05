@@ -7,8 +7,6 @@ export type Utilisateur = {
   identifiantUtilisateur: string;
 };
 
-// cc from garantiesfinanciere
-// should be shared accross every domain
 export const getRoleBasedWhereCondition = async (
   utilisateur: Utilisateur,
   récupérerIdentifiantsProjetParEmailPorteur: RécupérerIdentifiantsProjetParEmailPorteur,

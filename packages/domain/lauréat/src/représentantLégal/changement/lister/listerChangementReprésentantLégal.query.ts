@@ -2,9 +2,10 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 import { List, ListOptions, RangeOptions, Where } from '@potentiel-domain/entity';
-import { Role, RécupérerIdentifiantsProjetParEmailPorteur } from '@potentiel-domain/utilisateur';
+import { RécupérerIdentifiantsProjetParEmailPorteur } from '@potentiel-domain/utilisateur';
 
 import { ChangementReprésentantLégalEntity, StatutChangementReprésentantLégal } from '../..';
+import { getRoleBasedWhereCondition, Utilisateur } from '../../../utils/getRoleBasedWhereCondition';
 
 type ChangementReprésentantLégalItemReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
@@ -23,11 +24,7 @@ export type ListerChangementReprésentantLégalReadModel = {
 export type ListerChangementReprésentantLégalQuery = Message<
   'Lauréat.ReprésentantLégal.Query.ListerChangementReprésentantLégal',
   {
-    utilisateur: {
-      rôle: string;
-      email: string;
-      régionDreal?: string;
-    };
+    utilisateur: Utilisateur;
     statut?: StatutChangementReprésentantLégal.RawType;
     appelOffre?: string;
     nomProjet?: string;
@@ -46,15 +43,16 @@ export const registerListerChangementReprésentantLégalQuery = ({
   récupérerIdentifiantsProjetParEmailPorteur,
 }: ListerChangementReprésentantLégalDependencies) => {
   const handler: MessageHandler<ListerChangementReprésentantLégalQuery> = async ({
-    utilisateur: { rôle, email, régionDreal },
+    utilisateur,
     statut,
     appelOffre,
     nomProjet,
     range,
   }) => {
-    const régionProjet = Role.convertirEnValueType(rôle).estÉgaleÀ(Role.dreal)
-      ? (régionDreal ?? 'non-trouvée')
-      : undefined;
+    const { identifiantProjet, régionProjet } = await getRoleBasedWhereCondition(
+      utilisateur,
+      récupérerIdentifiantsProjetParEmailPorteur,
+    );
 
     const options: ListOptions<ChangementReprésentantLégalEntity> = {
       range,
@@ -64,18 +62,14 @@ export const registerListerChangementReprésentantLégalQuery = ({
         },
       },
       where: {
-        identifiantProjet: await getIdentifiantProjetWhereCondition(
-          rôle,
-          email,
-          récupérerIdentifiantsProjetParEmailPorteur,
-        ),
+        identifiantProjet,
         demande: {
           statut: Where.equal(statut),
         },
         projet: {
           appelOffre: Where.equal(appelOffre),
           nom: Where.contains(nomProjet),
-          région: Where.equal(régionProjet),
+          région: régionProjet,
         },
       },
     };
@@ -103,17 +97,3 @@ const mapToReadModel = (
   identifiantProjet: IdentifiantProjet.convertirEnValueType(entity.identifiantProjet),
   demandéLe: entity.demande.demandéLe,
 });
-
-const getIdentifiantProjetWhereCondition = async (
-  rôle: string,
-  email: string,
-  récupérerIdentifiantsProjetParEmailPorteur: RécupérerIdentifiantsProjetParEmailPorteur,
-) => {
-  if (Role.convertirEnValueType(rôle).estÉgaleÀ(Role.porteur)) {
-    const identifiantProjets = await récupérerIdentifiantsProjetParEmailPorteur(email);
-
-    return Where.include(identifiantProjets);
-  }
-
-  return undefined;
-};

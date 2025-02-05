@@ -33,15 +33,15 @@ export default async function Page({ searchParams }: PageProps) {
     withUtilisateur(async (utilisateur) => {
       const { page, nomProjet, appelOffre, statut } = paramsSchema.parse(searchParams);
 
-      const région = await getRégionUtilisateur(utilisateur);
+      const régionDreal = await getRégionUtilisateur(utilisateur);
 
       const { items, range, total } = await mediator.send<Recours.ListerRecoursQuery>({
         type: 'Éliminé.Recours.Query.ListerRecours',
         data: {
           utilisateur: {
-            email: utilisateur.identifiantUtilisateur.email,
+            identifiantUtilisateur: utilisateur.identifiantUtilisateur.email,
             rôle: utilisateur.role.nom,
-            région,
+            régionDreal,
           },
           range: mapToRangeOptions({
             currentPage: page,

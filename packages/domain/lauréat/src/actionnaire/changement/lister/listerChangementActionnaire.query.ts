@@ -5,7 +5,7 @@ import { List, ListOptions, RangeOptions, Where } from '@potentiel-domain/entity
 import { RécupérerIdentifiantsProjetParEmailPorteur } from '@potentiel-domain/utilisateur';
 
 import { ChangementActionnaireEntity, StatutChangementActionnaire } from '../..';
-import { Utilisateur, getRoleBasedWhereCondition } from '../../utils/getRoleBasedWhereCondition';
+import { getRoleBasedWhereCondition, Utilisateur } from '../../../utils/getRoleBasedWhereCondition';
 
 type ChangementActionnaireItemReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
