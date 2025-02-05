@@ -2,10 +2,11 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 import { List, ListOptions, RangeOptions, Where } from '@potentiel-domain/entity';
-import { Role, RécupérerIdentifiantsProjetParEmailPorteur } from '@potentiel-domain/utilisateur';
+import { RécupérerIdentifiantsProjetParEmailPorteur } from '@potentiel-domain/utilisateur';
 
 import { StatutAbandon, StatutPreuveRecandidature } from '..';
 import { AbandonEntity } from '../abandon.entity';
+import { getRoleBasedWhereCondition, Utilisateur } from '../../utils/getRoleBasedWhereCondition';
 
 type AbandonListItemReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
@@ -25,11 +26,7 @@ export type ListerAbandonReadModel = {
 export type ListerAbandonsQuery = Message<
   'Lauréat.Abandon.Query.ListerAbandons',
   {
-    utilisateur: {
-      rôle: string;
-      email: string;
-      régionDreal?: string;
-    };
+    utilisateur: Utilisateur;
     recandidature?: boolean;
     statut?: StatutAbandon.RawType;
     appelOffre?: string;
@@ -55,25 +52,26 @@ export const registerListerAbandonQuery = ({
     appelOffre,
     preuveRecandidatureStatut,
     nomProjet,
-    utilisateur: { email, régionDreal, rôle },
+    utilisateur,
     range,
   }) => {
+    const { identifiantProjet, régionProjet } = await getRoleBasedWhereCondition(
+      utilisateur,
+      récupérerIdentifiantsProjetParEmailPorteur,
+    );
+
     const options: ListOptions<AbandonEntity> = {
       range,
       orderBy: {
         misÀJourLe: 'descending',
       },
       where: {
-        identifiantProjet: await getIdentifiantProjetWhereCondition(
-          rôle,
-          email,
-          récupérerIdentifiantsProjetParEmailPorteur,
-        ),
+        identifiantProjet,
         statut: Where.equal(statut),
         projet: {
           appelOffre: Where.equal(appelOffre),
           nom: Where.contains(nomProjet),
-          région: Where.equal(régionDreal),
+          région: régionProjet,
         },
         demande: {
           estUneRecandidature: Where.equal(recandidature),
@@ -105,18 +103,4 @@ const mapToReadModel = (entity: AbandonEntity): AbandonListItemReadModel => {
       ? StatutPreuveRecandidature.convertirEnValueType(entity.demande.recandidature.statut)
       : StatutPreuveRecandidature.nonApplicable,
   };
-};
-
-const getIdentifiantProjetWhereCondition = async (
-  rôle: string,
-  email: string,
-  récupérerIdentifiantsProjetParEmailPorteur: RécupérerIdentifiantsProjetParEmailPorteur,
-) => {
-  if (Role.convertirEnValueType(rôle).estÉgaleÀ(Role.porteur)) {
-    const identifiantProjets = await récupérerIdentifiantsProjetParEmailPorteur(email);
-
-    return Where.include(identifiantProjets);
-  }
-
-  return undefined;
 };
