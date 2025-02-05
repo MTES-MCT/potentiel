@@ -10,7 +10,10 @@ import { List, RangeOptions, Where } from '@potentiel-domain/entity';
 import { Candidature } from '@potentiel-domain/candidature';
 
 import { DépôtEnCoursGarantiesFinancièresEntity, TypeDocumentGarantiesFinancières } from '../..';
-import { Utilisateur, getRoleBasedWhereCondition } from '../../../utils/getRoleBasedWhereCondition';
+import {
+  Utilisateur,
+  getRoleBasedWhereCondition,
+} from '../../../_utils/getRoleBasedWhereCondition';
 
 type DépôtEnCoursGarantiesFinancièresListItemReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;

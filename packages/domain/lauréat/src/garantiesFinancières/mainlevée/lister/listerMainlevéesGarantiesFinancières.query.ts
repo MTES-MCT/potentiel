@@ -11,7 +11,10 @@ import {
   StatutMainlevéeGarantiesFinancières,
   TypeDocumentRéponseDemandeMainlevée,
 } from '../..';
-import { getRoleBasedWhereCondition, Utilisateur } from '../../../utils/getRoleBasedWhereCondition';
+import {
+  getRoleBasedWhereCondition,
+  Utilisateur,
+} from '../../../_utils/getRoleBasedWhereCondition';
 
 export type ListerMainlevéeItemReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;

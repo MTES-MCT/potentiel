@@ -6,7 +6,7 @@ import { RécupérerIdentifiantsProjetParEmailPorteurPort } from '@potentiel-dom
 
 import { StatutAbandon, StatutPreuveRecandidature } from '..';
 import { AbandonEntity } from '../abandon.entity';
-import { getRoleBasedWhereCondition, Utilisateur } from '../../utils/getRoleBasedWhereCondition';
+import { getRoleBasedWhereCondition, Utilisateur } from '../../_utils/getRoleBasedWhereCondition';
 
 type AbandonListItemReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;

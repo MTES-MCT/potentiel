@@ -6,7 +6,7 @@ import { RécupérerIdentifiantsProjetParEmailPorteurPort } from '@potentiel-dom
 
 import { StatutRecours } from '..';
 import { RecoursEntity } from '../recours.entity';
-import { getRoleBasedWhereCondition, Utilisateur } from '../../utils/getRoleBasedWhereCondition';
+import { getRoleBasedWhereCondition, Utilisateur } from '../../_utils/getRoleBasedWhereCondition';
 
 type RecoursListItemReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
