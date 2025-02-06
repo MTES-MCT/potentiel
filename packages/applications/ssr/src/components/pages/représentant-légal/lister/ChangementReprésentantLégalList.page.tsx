@@ -27,7 +27,7 @@ export const ChangementReprésentantLégalListPage: FC<ChangementReprésentantL�
   filters,
 }) => (
   <ListPageTemplate
-    heading="Changements de représentant légal"
+    heading="Demandes de changement de représentant légal"
     actions={[]}
     items={items.map((item) => ({
       ...item,

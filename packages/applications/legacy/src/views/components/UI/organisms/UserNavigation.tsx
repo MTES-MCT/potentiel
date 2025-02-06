@@ -74,7 +74,7 @@ const MenuCre = (currentPage?: string) => (
       <DropdownMenu.DropdownItem
         href={Routes.ReprésentantLégal.changement.lister({ statut: 'demandé' })}
       >
-        Changements de représentant légal
+        Représentant légal
       </DropdownMenu.DropdownItem>
       <DropdownMenu.DropdownItem href={Routes.Actionnaire.changement.lister({ statut: 'demandé' })}>
         Actionnaire(s)
@@ -114,7 +114,7 @@ const MenuAdmin = (currentPage?: string) => (
       <DropdownMenu.DropdownItem
         href={Routes.ReprésentantLégal.changement.lister({ statut: 'demandé' })}
       >
-        Changements de représentant légal
+        Représentant légal
       </DropdownMenu.DropdownItem>
       <DropdownMenu.DropdownItem href={Routes.Actionnaire.changement.lister({ statut: 'demandé' })}>
         Actionnaire(s)
@@ -215,7 +215,7 @@ const MenuPorteurProjet = (currentPage?: string) => (
       <DropdownMenu.DropdownItem
         href={Routes.ReprésentantLégal.changement.lister({ statut: 'demandé' })}
       >
-        Changements de représentant légal
+        Représentant légal
       </DropdownMenu.DropdownItem>
       <DropdownMenu.DropdownItem href={Routes.Actionnaire.changement.lister({ statut: 'demandé' })}>
         Actionnaire(s)
@@ -249,7 +249,7 @@ const MenuAcheteurObligé = (currentPage?: string) => (
       <DropdownMenu.DropdownItem
         href={Routes.ReprésentantLégal.changement.lister({ statut: 'demandé' })}
       >
-        Changements de représentant légal
+        Représentant légal
       </DropdownMenu.DropdownItem>
       <DropdownMenu.DropdownItem href={Routes.Actionnaire.changement.lister({ statut: 'demandé' })}>
         Actionnaire(s)
@@ -305,7 +305,7 @@ const MenuDreal = (currentPage?: string) => (
       <DropdownMenu.DropdownItem
         href={Routes.ReprésentantLégal.changement.lister({ statut: 'demandé' })}
       >
-        Changements de représentant légal
+        Représentant légal
       </DropdownMenu.DropdownItem>
       <DropdownMenu.DropdownItem href={Routes.Actionnaire.changement.lister({ statut: 'demandé' })}>
         Actionnaire(s)
