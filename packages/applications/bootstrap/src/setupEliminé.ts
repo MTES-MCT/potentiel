@@ -4,8 +4,8 @@ import { registerEliminéQueries, registerEliminéUseCases } from '@potentiel-do
 import { loadAggregate, subscribe } from '@potentiel-infrastructure/pg-event-sourcing';
 import { findProjection, listProjection } from '@potentiel-infrastructure/pg-projections';
 import {
-  listerIdentifiantsProjetsParPorteurAdapter,
   RecoursAdapter,
+  récupérerIdentifiantsProjetParEmailPorteurAdapter,
 } from '@potentiel-infrastructure/domain-adapters';
 import { RecoursProjector, ÉliminéProjector } from '@potentiel-applications/projectors';
 import { RecoursNotification, SendEmail } from '@potentiel-applications/notifications';
@@ -22,7 +22,7 @@ export const setupEliminé = async ({ sendEmail }: SetupÉliminéDependencies) =
   registerEliminéQueries({
     find: findProjection,
     list: listProjection,
-    listerProjetsAccessibles: listerIdentifiantsProjetsParPorteurAdapter,
+    récupérerIdentifiantsProjetParEmailPorteur: récupérerIdentifiantsProjetParEmailPorteurAdapter,
     consulterRecoursAdapter: RecoursAdapter.consulterRecoursAdapter,
   });
 

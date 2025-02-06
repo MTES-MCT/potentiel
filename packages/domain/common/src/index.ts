@@ -1,4 +1,3 @@
-export * as CommonPort from './ports';
 export * as DateTime from './valueTypes/dateTime.valueType';
 export * as Email from './valueTypes/email.valueType';
 export * as IdentifiantProjet from './valueTypes/identifiantProjet.valueType';

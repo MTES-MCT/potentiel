@@ -2,7 +2,7 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 import { match, Pattern } from 'ts-pattern';
 
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
-import { RécupérerIdentifiantsProjetParEmailPorteur } from '@potentiel-domain/utilisateur';
+import { RécupérerIdentifiantsProjetParEmailPorteurPort } from '@potentiel-domain/utilisateur';
 import { List, RangeOptions, Where } from '@potentiel-domain/entity';
 
 import { TâcheEntity } from '../tâche.entity';
@@ -35,7 +35,7 @@ export type ListerTâchesQuery = Message<
 >;
 
 export type ListerTâchesQueryDependencies = {
-  récupérerIdentifiantsProjetParEmailPorteur: RécupérerIdentifiantsProjetParEmailPorteur;
+  récupérerIdentifiantsProjetParEmailPorteur: RécupérerIdentifiantsProjetParEmailPorteurPort;
   list: List;
 };
 

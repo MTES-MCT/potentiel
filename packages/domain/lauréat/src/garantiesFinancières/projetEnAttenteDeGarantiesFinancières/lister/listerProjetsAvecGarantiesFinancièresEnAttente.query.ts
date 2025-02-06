@@ -1,14 +1,17 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
-import { RécupérerIdentifiantsProjetParEmailPorteur } from '@potentiel-domain/utilisateur';
+import { RécupérerIdentifiantsProjetParEmailPorteurPort } from '@potentiel-domain/utilisateur';
 import { Where, List, RangeOptions } from '@potentiel-domain/entity';
 
 import {
   MotifDemandeGarantiesFinancières,
   ProjetAvecGarantiesFinancièresEnAttenteEntity,
 } from '../..';
-import { getRoleBasedWhereCondition, Utilisateur } from '../../_utils/getRoleBasedWhereCondition';
+import {
+  Utilisateur,
+  getRoleBasedWhereCondition,
+} from '../../../_utils/getRoleBasedWhereCondition';
 
 type ProjetAvecGarantiesFinancièresEnAttenteListItemReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
@@ -40,7 +43,7 @@ export type ListerProjetsAvecGarantiesFinancièresEnAttenteQuery = Message<
 
 export type ListerProjetsAvecGarantiesFinancièresEnAttenteDependencies = {
   list: List;
-  récupérerIdentifiantsProjetParEmailPorteur: RécupérerIdentifiantsProjetParEmailPorteur;
+  récupérerIdentifiantsProjetParEmailPorteur: RécupérerIdentifiantsProjetParEmailPorteurPort;
 };
 
 export const registerListerProjetsAvecGarantiesFinancièresEnAttenteQuery = ({

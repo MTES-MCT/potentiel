@@ -1,6 +1,6 @@
 import { InvalidOperationError, PlainType, ReadonlyValueType } from '@potentiel-domain/core';
 
-import { assertUnreachable } from '../utils/assertUnreachable';
+import { assertUnreachable } from '../_utils/assertUnreachable';
 
 export const statuts = [
   'accordé',

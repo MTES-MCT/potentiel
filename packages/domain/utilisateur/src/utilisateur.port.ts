@@ -1,1 +1,1 @@
-export type RécupérerIdentifiantsProjetParEmailPorteur = (email: string) => Promise<string[]>;
+export type RécupérerIdentifiantsProjetParEmailPorteurPort = (email: string) => Promise<string[]>;

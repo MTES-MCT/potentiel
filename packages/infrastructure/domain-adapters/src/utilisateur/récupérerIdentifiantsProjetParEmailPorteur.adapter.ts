@@ -1,4 +1,4 @@
-import { RécupérerIdentifiantsProjetParEmailPorteur } from '@potentiel-domain/utilisateur';
+import { RécupérerIdentifiantsProjetParEmailPorteurPort } from '@potentiel-domain/utilisateur';
 import { executeSelect } from '@potentiel-libraries/pg-helpers';
 
 const getIdentifiantsProjetParEmailUtilisateurQuery = `
@@ -9,7 +9,7 @@ const getIdentifiantsProjetParEmailUtilisateurQuery = `
   where p."notifiedOn" > 0 and u."email" = $1
 `;
 
-export const récupérerIdentifiantsProjetParEmailPorteurAdapter: RécupérerIdentifiantsProjetParEmailPorteur =
+export const récupérerIdentifiantsProjetParEmailPorteurAdapter: RécupérerIdentifiantsProjetParEmailPorteurPort =
   async (email) => {
     const results = await executeSelect<{
       identifiantProjet: string;

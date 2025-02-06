@@ -43,7 +43,7 @@ export default async function Page({ searchParams }: PageProps) {
           type: 'Lauréat.ReprésentantLégal.Query.ListerChangementReprésentantLégal',
           data: {
             utilisateur: {
-              email: utilisateur.identifiantUtilisateur.email,
+              identifiantUtilisateur: utilisateur.identifiantUtilisateur.email,
               rôle: utilisateur.role.nom,
               régionDreal,
             },

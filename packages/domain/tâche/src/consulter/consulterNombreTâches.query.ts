@@ -1,7 +1,7 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { Count, Where } from '@potentiel-domain/entity';
-import { RécupérerIdentifiantsProjetParEmailPorteur } from '@potentiel-domain/utilisateur';
+import { RécupérerIdentifiantsProjetParEmailPorteurPort } from '@potentiel-domain/utilisateur';
 
 import { TâcheEntity } from '../tâche.entity';
 
@@ -18,7 +18,7 @@ export type ConsulterNombreTâchesQuery = Message<
 >;
 
 export type ConsulterNombreTâchesQueryDependencies = {
-  récupérerIdentifiantsProjetParEmailPorteur: RécupérerIdentifiantsProjetParEmailPorteur;
+  récupérerIdentifiantsProjetParEmailPorteur: RécupérerIdentifiantsProjetParEmailPorteurPort;
   count: Count;
 };
 

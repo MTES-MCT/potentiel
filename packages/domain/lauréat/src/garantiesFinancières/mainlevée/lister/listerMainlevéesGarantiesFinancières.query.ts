@@ -1,7 +1,7 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { Where, List, RangeOptions } from '@potentiel-domain/entity';
-import { RécupérerIdentifiantsProjetParEmailPorteur } from '@potentiel-domain/utilisateur';
+import { RécupérerIdentifiantsProjetParEmailPorteurPort } from '@potentiel-domain/utilisateur';
 import { IdentifiantProjet, DateTime, Email } from '@potentiel-domain/common';
 import { DocumentProjet } from '@potentiel-domain/document';
 
@@ -11,7 +11,10 @@ import {
   StatutMainlevéeGarantiesFinancières,
   TypeDocumentRéponseDemandeMainlevée,
 } from '../..';
-import { getRoleBasedWhereCondition, Utilisateur } from '../../_utils/getRoleBasedWhereCondition';
+import {
+  getRoleBasedWhereCondition,
+  Utilisateur,
+} from '../../../_utils/getRoleBasedWhereCondition';
 
 export type ListerMainlevéeItemReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
@@ -69,7 +72,7 @@ export type ListerMainlevéesQuery = Message<
 
 type ListerMainlevéesQueryDependencies = {
   list: List;
-  récupérerIdentifiantsProjetParEmailPorteur: RécupérerIdentifiantsProjetParEmailPorteur;
+  récupérerIdentifiantsProjetParEmailPorteur: RécupérerIdentifiantsProjetParEmailPorteurPort;
 };
 
 export const registerListerMainlevéesQuery = ({
@@ -88,6 +91,7 @@ export const registerListerMainlevéesQuery = ({
     const roleBasedCondition = utilisateur
       ? await getRoleBasedWhereCondition(utilisateur, récupérerIdentifiantsProjetParEmailPorteur)
       : {};
+
     const {
       items,
       range: { endPosition, startPosition },

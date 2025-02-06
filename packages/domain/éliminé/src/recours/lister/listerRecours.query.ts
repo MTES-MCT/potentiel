@@ -1,11 +1,12 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
-import { DateTime, IdentifiantProjet, CommonPort } from '@potentiel-domain/common';
+import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 import { List, RangeOptions, Where } from '@potentiel-domain/entity';
-import { Role } from '@potentiel-domain/utilisateur';
+import { RécupérerIdentifiantsProjetParEmailPorteurPort } from '@potentiel-domain/utilisateur';
 
 import { StatutRecours } from '..';
 import { RecoursEntity } from '../recours.entity';
+import { getRoleBasedWhereCondition, Utilisateur } from '../../_utils/getRoleBasedWhereCondition';
 
 type RecoursListItemReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
@@ -26,11 +27,7 @@ export type ListerRecoursReadModel = {
 export type ListerRecoursQuery = Message<
   'Éliminé.Recours.Query.ListerRecours',
   {
-    utilisateur: {
-      rôle: string;
-      région?: string;
-      email: string;
-    };
+    utilisateur: Utilisateur;
     statut?: StatutRecours.RawType;
     appelOffre?: string;
     nomProjet?: string;
@@ -41,40 +38,36 @@ export type ListerRecoursQuery = Message<
 
 export type ListerRecoursDependencies = {
   list: List;
-  listerProjetsAccessibles: CommonPort.ListerIdentifiantsProjetsAccessiblesPort;
+  récupérerIdentifiantsProjetParEmailPorteur: RécupérerIdentifiantsProjetParEmailPorteurPort;
 };
 
 export const registerListerRecoursQuery = ({
   list,
-  listerProjetsAccessibles,
+  récupérerIdentifiantsProjetParEmailPorteur,
 }: ListerRecoursDependencies) => {
   const handler: MessageHandler<ListerRecoursQuery> = async ({
     statut,
     appelOffre,
     nomProjet,
-    utilisateur: { région, rôle, email },
+    utilisateur,
     range,
   }) => {
-    const régionProjet = Role.convertirEnValueType(rôle).estÉgaleÀ(Role.dreal)
-      ? (région ?? 'non-trouvée')
-      : undefined;
-
-    const canSeeAllProjects = ['admin', 'dgec-validateur', 'dreal'].includes(rôle);
-    const identifiantProjet = canSeeAllProjects
-      ? undefined
-      : await getIdentifiantProjetWhereCondition(listerProjetsAccessibles, email);
+    const { identifiantProjet, régionProjet } = await getRoleBasedWhereCondition(
+      utilisateur,
+      récupérerIdentifiantsProjetParEmailPorteur,
+    );
 
     const recours = await list<RecoursEntity>('recours', {
       orderBy: { misÀJourLe: 'descending' },
       range,
       where: {
+        identifiantProjet,
         statut: Where.equal(statut),
         projet: {
           appelOffre: Where.equal(appelOffre),
           nom: Where.contains(nomProjet),
-          région: Where.equal(régionProjet),
+          région: régionProjet,
         },
-        identifiantProjet,
       },
     });
 
@@ -97,18 +90,4 @@ const mapToReadModel = (entity: RecoursEntity): RecoursListItemReadModel => {
     misÀJourLe: DateTime.convertirEnValueType(entity.misÀJourLe),
     identifiantProjet: IdentifiantProjet.convertirEnValueType(entity.identifiantProjet),
   };
-};
-
-const getIdentifiantProjetWhereCondition = async (
-  listerIdentifiantsProjetsAccessiblesPort: CommonPort.ListerIdentifiantsProjetsAccessiblesPort,
-  email: string,
-) => {
-  const projets = await listerIdentifiantsProjetsAccessiblesPort(email);
-
-  return Where.include(
-    projets.map(
-      ({ appelOffre, période, famille, numéroCRE }) =>
-        `${appelOffre}#${période}#${famille}#${numéroCRE}`,
-    ),
-  );
 };
