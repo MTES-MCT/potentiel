@@ -62,7 +62,7 @@ const getNavigationItemsBasedOnRole = (utilisateur: Utilisateur.ValueType) => {
       },
     },
     {
-      text: 'Changements de représentant légal',
+      text: 'Représentant légal',
       linkProps: {
         href: Routes.ReprésentantLégal.changement.lister({ statut: 'demandé' }),
       },
@@ -267,7 +267,7 @@ const getNavigationItemsBasedOnRole = (utilisateur: Utilisateur.ValueType) => {
             },
           },
           {
-            text: 'Changements de représentant légal',
+            text: 'Représentant légal',
             linkProps: {
               href: Routes.ReprésentantLégal.changement.lister({ statut: 'demandé' }),
             },
@@ -318,7 +318,7 @@ const getNavigationItemsBasedOnRole = (utilisateur: Utilisateur.ValueType) => {
         text: 'Demandes',
         menuLinks: [
           {
-            text: 'Changements de représentant légal',
+            text: 'Représentant légal',
             linkProps: {
               href: Routes.ReprésentantLégal.changement.lister({ statut: 'demandé' }),
             },
