@@ -28,9 +28,6 @@ export async function makeServer(port: number) {
 
     const app = express();
 
-    // Always first middleware
-    app.use(Sentry.Handlers.requestHandler());
-
     // This handles the authentication
     app.use((req, res, next) => runWithContext({ req, res, callback: next }));
 
@@ -127,7 +124,7 @@ export async function makeServer(port: number) {
     app.use(v1Router);
     app.use(express.static(path.join(__dirname, 'public')));
 
-    app.use(Sentry.Handlers.errorHandler());
+    Sentry.setupExpressErrorHandler(app);
 
     app.use((error, req, res, next) => {
       logger.error(error);
