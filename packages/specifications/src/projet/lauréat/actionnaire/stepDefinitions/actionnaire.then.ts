@@ -109,10 +109,7 @@ Alors(
         },
       });
 
-      expect(Option.isSome(actual)).to.be.true;
-      if (Option.isSome(actual)) {
-        expect(actual.dateDemandeEnCours).to.be.undefined;
-      }
+      expect(Option.isSome(actual) && actual.dateDemandeEnCours).to.be.undefined;
     });
   },
 );
@@ -197,7 +194,6 @@ async function vérifierChangementActionnaire(
     },
   });
 
-  // viovio
   if (statut.estDemandé()) {
     expect(Option.isSome(actionnaire) && actionnaire.dateDemandeEnCours).to.be.not.undefined;
   } else {
