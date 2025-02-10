@@ -18,7 +18,7 @@ export class CsvValidationError extends Error {
 }
 
 const defaultParseOptions = {
-  delimiter: ';',
+  delimiter: [',', ';', '\t'] as string[] | string,
   columns: true,
   ltrim: true,
   rtrim: true,
