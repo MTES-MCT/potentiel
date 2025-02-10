@@ -2,13 +2,14 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { Option } from '@potentiel-libraries/monads';
 import { Find } from '@potentiel-domain/entity';
-import { IdentifiantProjet } from '@potentiel-domain/common';
+import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 
 import { ActionnaireEntity } from '..';
 
 export type ConsulterActionnaireReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
   actionnaire: string;
+  dateDemandeEnCours?: DateTime.ValueType;
 };
 
 export type ConsulterActionnaireQuery = Message<
@@ -29,7 +30,7 @@ export const registerConsulterActionnaireQuery = ({ find }: ConsulterActionnaire
 
     const actionnaire = await find<ActionnaireEntity>(
       `actionnaire|${identifiantProjetValueType.formatter()}`,
-      { select: ['identifiantProjet', 'actionnaire.nom'] },
+      { select: ['identifiantProjet', 'actionnaire.nom', 'dateDemandeEnCours'] },
     );
 
     return Option.match(actionnaire).some(mapToReadModel).none();
@@ -37,7 +38,11 @@ export const registerConsulterActionnaireQuery = ({ find }: ConsulterActionnaire
   mediator.register('Lauréat.Actionnaire.Query.ConsulterActionnaire', handler);
 };
 
-export const mapToReadModel = ({ identifiantProjet, actionnaire }: ActionnaireEntity) => {
+export const mapToReadModel = ({
+  identifiantProjet,
+  actionnaire,
+  dateDemandeEnCours,
+}: ActionnaireEntity) => {
   if (!actionnaire) {
     return Option.none;
   }
@@ -45,5 +50,8 @@ export const mapToReadModel = ({ identifiantProjet, actionnaire }: ActionnaireEn
   return {
     identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
     actionnaire: actionnaire.nom,
+    dateDemandeEnCours: dateDemandeEnCours
+      ? DateTime.convertirEnValueType(dateDemandeEnCours)
+      : undefined,
   };
 };

@@ -269,7 +269,6 @@ const référencielPermissions = {
       query: {
         consulter: 'Lauréat.Actionnaire.Query.ConsulterActionnaire',
         consulterChangement: 'Lauréat.Actionnaire.Query.ConsulterChangementActionnaire',
-        consulterChangementEnCours: 'Lauréat.Actionnaire.Query.ConsulterDateChangementActionnaire',
         listerChangement: 'Lauréat.Actionnaire.Query.ListerChangementActionnaire',
       },
       usecase: {
@@ -921,7 +920,7 @@ const policies = {
     ],
     consulterChangement: [
       référencielPermissions.lauréat.actionnaire.query.consulterChangement,
-      référencielPermissions.lauréat.actionnaire.query.consulterChangementEnCours,
+      référencielPermissions.lauréat.actionnaire.query.consulter,
     ],
     enregistrerChangement: [
       référencielPermissions.lauréat.actionnaire.usecase.enregistrerChangement,

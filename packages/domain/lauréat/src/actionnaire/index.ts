@@ -21,10 +21,6 @@ import { ImporterActionnaireCommand } from './importer/importerActionnaire.comma
 import { ModifierActionnaireCommand } from './modifier/modifierActionnaire.command';
 import { ModifierActionnaireUseCase } from './modifier/modifierActionnaire.usecase';
 import { SupprimerChangementActionnaireCommand } from './changement/supprimer/supprimerChangementActionnaire.command';
-import {
-  ConsulterDateChangementActionnaireQuery,
-  ConsulterDateChangementActionnaireReadModel,
-} from './changement/consulter/consulterDateChangementActionnaire.query';
 import { EnregistrerChangementActionnaireUseCase } from './changement/enregistrerChangement/enregistrerChangement.usecase';
 import { EnregistrerChangementActionnaireCommand } from './changement/enregistrerChangement/enregistrerChangement.command';
 
@@ -32,11 +28,9 @@ import { EnregistrerChangementActionnaireCommand } from './changement/enregistre
 export type ActionnaireQuery =
   | ConsulterActionnaireQuery
   | ConsulterChangementActionnaireQuery
-  | ConsulterDateChangementActionnaireQuery
   | ListerChangementActionnaireQuery;
 export type {
   ConsulterActionnaireQuery,
-  ConsulterDateChangementActionnaireQuery,
   ConsulterChangementActionnaireQuery,
   ListerChangementActionnaireQuery,
 };
@@ -45,7 +39,6 @@ export type {
 export type {
   ConsulterActionnaireReadModel,
   ConsulterChangementActionnaireReadModel,
-  ConsulterDateChangementActionnaireReadModel,
   ListerChangementActionnaireReadModel,
 };
 

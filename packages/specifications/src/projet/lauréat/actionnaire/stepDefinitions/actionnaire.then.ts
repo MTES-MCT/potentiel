@@ -102,14 +102,14 @@ Alors(
         this.candidatureWorld.importerCandidature.identifiantProjet,
       );
 
-      const actual = await mediator.send<Actionnaire.ConsulterDateChangementActionnaireQuery>({
-        type: 'Lauréat.Actionnaire.Query.ConsulterDateChangementActionnaire',
+      const actual = await mediator.send<Actionnaire.ConsulterActionnaireQuery>({
+        type: 'Lauréat.Actionnaire.Query.ConsulterActionnaire',
         data: {
           identifiantProjet: identifiantProjet.formatter(),
         },
       });
 
-      expect(Option.isNone(actual)).to.be.true;
+      expect(Option.isSome(actual) && actual.dateDemandeEnCours).to.be.undefined;
     });
   },
 );
@@ -187,18 +187,17 @@ async function vérifierChangementActionnaire(
 
   actual.should.be.deep.equal(expected);
 
-  const dateDemandeDeChangement =
-    await mediator.send<Actionnaire.ConsulterDateChangementActionnaireQuery>({
-      type: 'Lauréat.Actionnaire.Query.ConsulterDateChangementActionnaire',
-      data: {
-        identifiantProjet: identifiantProjet,
-      },
-    });
+  const actionnaire = await mediator.send<Actionnaire.ConsulterActionnaireQuery>({
+    type: 'Lauréat.Actionnaire.Query.ConsulterActionnaire',
+    data: {
+      identifiantProjet: identifiantProjet,
+    },
+  });
 
   if (statut.estDemandé()) {
-    expect(Option.isSome(dateDemandeDeChangement)).to.be.true;
+    expect(Option.isSome(actionnaire) && actionnaire.dateDemandeEnCours).to.be.not.undefined;
   } else {
-    expect(Option.isNone(dateDemandeDeChangement)).to.be.true;
+    expect(Option.isSome(actionnaire) && actionnaire.dateDemandeEnCours).to.be.undefined;
   }
 
   if (

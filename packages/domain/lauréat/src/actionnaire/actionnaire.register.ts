@@ -21,7 +21,6 @@ import {
 import { registerSupprimerChangementActionnaireCommand } from './changement/supprimer/supprimerChangementActionnaire.command';
 import { registerModifierActionnaireCommand } from './modifier/modifierActionnaire.command';
 import { registerModifierActionnaireUseCase } from './modifier/modifierActionnaire.usecase';
-import { registerConsulterDateChangementActionnaireQuery } from './changement/consulter/consulterDateChangementActionnaire.query';
 import { registerEnregistrerChangementActionnaireUseCase } from './changement/enregistrerChangement/enregistrerChangement.usecase';
 import { registerEnregistrerChangementActionnaireCommand } from './changement/enregistrerChangement/enregistrerChangement.command';
 
@@ -53,6 +52,5 @@ export const registerActionnaireUseCases = ({ loadAggregate }: ActionnaireComman
 export const registerActionnaireQueries = (dependencies: ActionnaireQueryDependencies) => {
   registerConsulterActionnaireQuery(dependencies);
   registerConsulterChangementActionnaireQuery(dependencies);
-  registerConsulterDateChangementActionnaireQuery(dependencies);
   registerListerChangementActionnaireQuery(dependencies);
 };

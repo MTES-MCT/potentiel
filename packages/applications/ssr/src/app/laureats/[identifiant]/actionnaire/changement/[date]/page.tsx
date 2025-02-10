@@ -50,13 +50,16 @@ export default async function Page({ params: { identifiant, date } }: PageProps)
         return notFound();
       }
 
-      const dateDemandeDeChangement =
-        await mediator.send<Actionnaire.ConsulterDateChangementActionnaireQuery>({
-          type: 'Lauréat.Actionnaire.Query.ConsulterDateChangementActionnaire',
-          data: {
-            identifiantProjet: identifiantProjet.formatter(),
-          },
-        });
+      const actionnaire = await mediator.send<Actionnaire.ConsulterActionnaireQuery>({
+        type: 'Lauréat.Actionnaire.Query.ConsulterActionnaire',
+        data: {
+          identifiantProjet: identifiantProjet.formatter(),
+        },
+      });
+
+      if (Option.isNone(actionnaire)) {
+        return notFound();
+      }
 
       const historique = await mediator.send<Historique.ListerHistoriqueProjetQuery>({
         type: 'Historique.Query.ListerHistoriqueProjet',
@@ -73,7 +76,7 @@ export default async function Page({ params: { identifiant, date } }: PageProps)
           actions={mapToActions(changement.demande.statut, utilisateur.role)}
           historique={mapToPlainObject(historique)}
           demandeEnCoursDate={
-            Option.isSome(dateDemandeDeChangement) ? dateDemandeDeChangement.formatter() : undefined
+            actionnaire.dateDemandeEnCours ? actionnaire.dateDemandeEnCours.formatter() : undefined
           }
         />
       );
