@@ -77,6 +77,7 @@ export class TransmettreAttestationConformitéFixture
     };
 
     this.#dateTransmissionAuCocontractant = fixture.dateTransmissionAuCocontractant;
+    this.#date = fixture.date;
     this.#utilisateur = fixture.utilisateur;
     this.#format = fixture.attestation.format;
     this.#content = content;

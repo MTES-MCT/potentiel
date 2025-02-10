@@ -60,7 +60,7 @@ export class LauréatWorld {
   #achèvementWorld!: AchèvementWorld;
 
   get achèvementWorld() {
-    return new AchèvementWorld();
+    return this.#achèvementWorld;
   }
 
   #dateDésignation: string;

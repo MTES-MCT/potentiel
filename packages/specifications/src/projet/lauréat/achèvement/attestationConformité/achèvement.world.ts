@@ -41,22 +41,6 @@ export class AchèvementWorld {
       ? this.#modifierAttestationConformitéFixture
       : this.#transmettreAttestationConformitéFixture;
 
-    console.log('coucou');
-
-    try {
-      const test = DocumentProjet.convertirEnValueType(
-        identifiantProjet.formatter(),
-        Achèvement.TypeDocumentAchèvement.attestationConformitéValueType.formatter(),
-        DateTime.convertirEnValueType(date).formatter(),
-        format,
-      );
-      console.log(test);
-    } catch (e) {
-      console.log(e);
-    }
-
-    console.log('coucou II');
-
     return {
       identifiantProjet,
       attestation: DocumentProjet.convertirEnValueType(
@@ -71,7 +55,7 @@ export class AchèvementWorld {
       preuveTransmissionAuCocontractant: DocumentProjet.convertirEnValueType(
         identifiantProjet.formatter(),
         Achèvement.TypeDocumentAchèvement.attestationConformitéPreuveTransmissionValueType.formatter(),
-        DateTime.convertirEnValueType(date).formatter(),
+        DateTime.convertirEnValueType(dateTransmissionAuCocontractant).formatter(),
         format,
       ),
       misÀJourLe: DateTime.convertirEnValueType(date),

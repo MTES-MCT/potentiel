@@ -20,13 +20,11 @@ Alors(
       });
 
       const expected = this.lauréatWorld.achèvementWorld.mapToExpected(identifiantProjet);
-      console.log('actuel', achèvement);
-      console.log('expected', expected);
 
       achèvement.should.be.deep.equal(expected);
 
-      // viovio
       // ajouter content / format
+      // fusionner transmettre et modifier Fixture (même payload)
     });
   },
 );
