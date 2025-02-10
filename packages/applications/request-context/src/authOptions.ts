@@ -1,3 +1,5 @@
+import { randomUUID } from 'node:crypto';
+
 import { AuthOptions } from 'next-auth';
 import KeycloakProvider from 'next-auth/providers/keycloak';
 import { mediator, Message } from 'mediateur';
@@ -29,6 +31,65 @@ export const authOptions: AuthOptions = {
       clientId,
       clientSecret,
     }),
+    {
+      id: 'proconnect',
+      name: 'ProConnect',
+      type: 'oauth',
+      idToken: true,
+      clientId: process.env.PROCONNECT_CLIENT_ID,
+      clientSecret: process.env.PROCONNECT_CLIENT_SECRET,
+      wellKnown: new URL(
+        '/api/v2/.well-known/openid-configuration',
+        process.env.PROCONNECT_ENDPOINT,
+      ).toString(),
+      allowDangerousEmailAccountLinking: true,
+      checks: ['nonce', 'state'],
+      authorization: {
+        params: {
+          scope: 'openid uid given_name usual_name email siret',
+          acr_values: 'eidas1',
+          redirect_uri: new URL(
+            '/api/auth/callback/proconnect',
+            process.env.NEXTAUTH_URL,
+          ).toString(),
+          nonce: randomUUID(),
+          state: randomUUID(),
+        },
+      },
+      client: {
+        authorization_signed_response_alg: 'HS256',
+        id_token_signed_response_alg: 'HS256',
+        userinfo_encrypted_response_alg: 'HS256',
+        userinfo_signed_response_alg: 'HS256',
+        userinfo_encrypted_response_enc: 'HS256',
+      },
+      userinfo: {
+        async request(context) {
+          const userInfo = await fetch(
+            new URL('api/v2/userinfo', process.env.PROCONNECT_ENDPOINT).toString(),
+            {
+              method: 'GET',
+              headers: {
+                Authorization: `Bearer ${context.tokens.access_token}`,
+              },
+            },
+          ).then((res) => {
+            return res.text();
+          });
+          return JSON.parse(Buffer.from(userInfo.split('.')[1], 'base64').toString());
+        },
+      },
+      profile: async (profile) => {
+        return {
+          id: profile.email,
+          prenom: profile.given_name,
+          nom: profile.usual_name,
+          email: profile.email,
+          poste: profile.belonging_population,
+          agentconnect_info: profile,
+        };
+      },
+    },
   ],
   session: {
     strategy: 'jwt',

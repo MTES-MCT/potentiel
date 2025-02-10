@@ -3,6 +3,8 @@
 import { redirect, useSearchParams } from 'next/navigation';
 import { signIn, useSession } from 'next-auth/react';
 import { useEffect } from 'react';
+import Button from '@codegouvfr/react-dsfr/Button';
+import ProConnectButton from '@codegouvfr/react-dsfr/ProConnectButton';
 
 import { Routes } from '@potentiel-applications/routes';
 
@@ -23,16 +25,20 @@ export default function SignIn() {
           break;
         }
         redirect(callbackUrl);
-        break;
-      case 'unauthenticated':
-        signIn('keycloak', { callbackUrl });
+      //   break;
+      // case 'unauthenticated':
+      //   signIn('keycloak', { callbackUrl });
     }
   }, [status, callbackUrl, data]);
 
   return (
     <PageTemplate>
-      <div className="flex m-auto">
-        <div className="font-bold text-2xl">Authentification en cours, merci de patienter ...</div>
+      <div className="flex flex-col m-auto">
+        <Button onClick={() => signIn('keycloak', { callbackUrl })}>
+          Connexion email/mot de passe
+        </Button>
+
+        <ProConnectButton onClick={() => signIn('proconnect', { callbackUrl })} />
       </div>
     </PageTemplate>
   );
