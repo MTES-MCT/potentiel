@@ -12,8 +12,6 @@ import { withUtilisateur } from '@/utils/withUtilisateur';
 import { getCandidature } from '@/app/candidatures/_helpers/getCandidature';
 import { candidatureSchema } from '@/utils/zod/candidature';
 
-import { getLocalité } from '../helpers';
-
 export type CorrigerCandidaturesState = FormState;
 
 const schema = candidatureSchema;
@@ -63,12 +61,14 @@ const mapBodyToUseCaseData = (
     noteTotaleValue: data.noteTotale,
     nomReprésentantLégalValue: data.nomRepresentantLegal,
     emailContactValue: data.emailContact,
-    localitéValue: getLocalité({
-      codePostaux: data.codePostal.split('/').map((x) => x.trim()),
-      commune: data.commune,
+    localitéValue: {
+      codePostal: data.codePostal,
       adresse1: data.adresse1,
       adresse2: data.adresse2,
-    }),
+      commune: data.commune,
+      département: data.departement,
+      région: data.region,
+    },
     motifÉliminationValue: data.motifElimination,
     puissanceALaPointeValue: data.puissanceALaPointe,
     evaluationCarboneSimplifiéeValue: data.evaluationCarboneSimplifiee,

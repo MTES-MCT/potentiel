@@ -23,6 +23,8 @@ import {
   technologieSchema,
   typeGarantiesFinancieresSchema,
   communeSchema,
+  départementSchema,
+  régionSchema,
 } from './candidatureFields.schema';
 
 /** Schema simplifié pour utilisation sans données Csv */
@@ -41,6 +43,8 @@ export const candidatureSchema = z
     adresse2: adresse2Schema,
     codePostal: codePostalSchema,
     commune: communeSchema,
+    departement: départementSchema,
+    region: régionSchema,
     statut: statutSchema,
     puissanceALaPointe: puissanceALaPointeSchema,
     evaluationCarboneSimplifiee: évaluationCarboneSimplifiéeSchema,
