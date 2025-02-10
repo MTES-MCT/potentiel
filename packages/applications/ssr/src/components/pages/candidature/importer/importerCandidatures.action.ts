@@ -28,7 +28,7 @@ const action: FormAction<FormState, typeof schema> = async (_, { fichierImportCa
     const { parsedData, rawData } = await parseCsv(
       fichierImportCandidature.content,
       candidatureCsvSchema,
-      { encoding: 'win1252' },
+      { encoding: 'win1252', delimiter: ';' },
     );
 
     if (parsedData.length === 0) {
