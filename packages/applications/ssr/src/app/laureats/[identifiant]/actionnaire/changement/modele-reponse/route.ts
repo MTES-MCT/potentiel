@@ -69,20 +69,19 @@ export const GET = async (
       return notFound();
     }
 
-    const dateDemandeDeChangement =
-      await mediator.send<Actionnaire.ConsulterDateChangementActionnaireQuery>({
-        type: 'Lauréat.Actionnaire.Query.ConsulterDateChangementActionnaire',
-        data: { identifiantProjet },
-      });
+    const actionnaire = await mediator.send<Actionnaire.ConsulterActionnaireQuery>({
+      type: 'Lauréat.Actionnaire.Query.ConsulterActionnaire',
+      data: { identifiantProjet },
+    });
 
-    if (Option.isNone(dateDemandeDeChangement)) {
+    if (Option.isNone(actionnaire) || !actionnaire.dateDemandeEnCours) {
       return notFound();
     }
 
     const demandeDeChangement =
       await mediator.send<Actionnaire.ConsulterChangementActionnaireQuery>({
         type: 'Lauréat.Actionnaire.Query.ConsulterChangementActionnaire',
-        data: { identifiantProjet, demandéLe: dateDemandeDeChangement.formatter() },
+        data: { identifiantProjet, demandéLe: actionnaire.dateDemandeEnCours.formatter() },
       });
 
     if (Option.isNone(demandeDeChangement)) {

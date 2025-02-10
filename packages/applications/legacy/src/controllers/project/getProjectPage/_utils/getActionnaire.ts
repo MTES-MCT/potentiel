@@ -45,20 +45,14 @@ export const getActionnaire = async ({
     const estAbandonnéOuAchevé = await checkAbandonAndAchèvement(identifiantProjet, rôle);
 
     if (Option.isSome(actionnaire)) {
-      const nom = actionnaire.actionnaire;
+      const { actionnaire: nom, dateDemandeEnCours } = actionnaire;
 
-      const dateDemandeExistanteDeChangement =
-        await mediator.send<Actionnaire.ConsulterDateChangementActionnaireQuery>({
-          type: 'Lauréat.Actionnaire.Query.ConsulterDateChangementActionnaire',
-          data: { identifiantProjet: identifiantProjet.formatter() },
-        });
-
-      if (Option.isSome(dateDemandeExistanteDeChangement)) {
+      if (dateDemandeEnCours) {
         return {
           nom,
           demandeEnCours: role.aLaPermission('actionnaire.consulterChangement')
             ? {
-                demandéeLe: dateDemandeExistanteDeChangement.formatter(),
+                demandéeLe: dateDemandeEnCours.formatter(),
               }
             : undefined,
         };
