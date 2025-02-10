@@ -6,33 +6,33 @@
   - [Table des matières](#table-des-matières)
   - [ Organisation du code source](#-organisation-du-code-source)
   - [ Scripts NPM](#-scripts-npm)
-    - [`prepare`](#prepare)
-    - [`start`](#start)
-    - [`up`](#up)
-    - [`down`](#down)
-    - [`prestart:legacy`](#prestartlegacy)
-    - [`start:legacy`](#startlegacy)
-    - [`build`](#build)
-    - [`build:dev`](#builddev)
-    - [`build:test`](#buildtest)
-    - [`predev`](#predev)
-    - [`dev`](#dev)
-    - [`lint`](#lint)
-    - [`lint:fix`](#lintfix)
-    - [`format`](#format)
-    - [`storybook`](#storybook)
-    - [`up:test`](#uptest)
-    - [`down:test`](#downtest)
-    - [`pretest`](#pretest)
-    - [`pretest:legacy`](#pretestlegacy)
-    - [`test:legacy`](#testlegacy)
-    - [`pretest:libraries`](#pretestlibraries)
-    - [`test:libraries`](#testlibraries)
-    - [`prespecs`](#prespecs)
-    - [`specs`](#specs)
-    - [`prespecs:select`](#prespecsselect)
-    - [`specs:select`](#specsselect)
-    - [`version`](#version)
+      - [`prepare`](#prepare)
+      - [`start`](#start)
+      - [`up`](#up)
+      - [`down`](#down)
+      - [`prestart:legacy`](#prestartlegacy)
+      - [`start:legacy`](#startlegacy)
+      - [`build`](#build)
+      - [`build:dev`](#builddev)
+      - [`build:test`](#buildtest)
+      - [`predev`](#predev)
+      - [`dev`](#dev)
+      - [`lint`](#lint)
+      - [`lint:fix`](#lintfix)
+      - [`format`](#format)
+      - [`storybook:documents`](#storybookdocuments)
+      - [`up:test`](#uptest)
+      - [`down:test`](#downtest)
+      - [`pretest`](#pretest)
+      - [`pretest:legacy`](#pretestlegacy)
+      - [`test:legacy`](#testlegacy)
+      - [`pretest:libraries`](#pretestlibraries)
+      - [`test:libraries`](#testlibraries)
+      - [`prespecs`](#prespecs)
+      - [`specs`](#specs)
+      - [`prespecs:select`](#prespecsselect)
+      - [`specs:select`](#specsselect)
+      - [`version`](#version)
   - [ Environnements](#-environnements)
   - [ Déploiement](#-déploiement)
   - [ Apporter des changements](#-apporter-des-changements)
@@ -144,10 +144,10 @@ Vous trouverez ci-dessous une description du fonctionnement de l'ensemble des sc
 - **Description**: Formate le code dans tous les workspaces qui définissent le script `format`, si présent.
 - **Commande**: `npm run format --workspaces --if-present`
 
-#### `storybook`
+#### `storybook:documents`
 
-- **Description**: Build le Storybook pour tous les workspaces qui le définissent, si présent.
-- **Commande**: `npm run storybook build --workspaces --if-present`
+- **Description**: Build le Storybook pour les documents.
+- **Commande**: `npm run storybook build -w @potentiel-applications/document-builder`
 
 #### `up:test`
 
