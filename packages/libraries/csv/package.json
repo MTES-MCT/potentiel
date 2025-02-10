@@ -6,7 +6,8 @@
   "types": "dist/index.d.ts",
   "private": true,
   "scripts": {
-    "build": "tsc"
+    "build": "tsc",
+    "test": "tsx --test **/*.test.ts"
   },
   "devDependencies": {
     "@potentiel-config/tsconfig": "*"
