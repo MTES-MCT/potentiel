@@ -23,7 +23,7 @@ export class AchèvementWorld {
     this.#modifierAttestationConformitéFixture = new ModifierAttestationConformitéFixture();
   }
 
-  mapoExpected(
+  mapToExpected(
     identifiantProjet: IdentifiantProjet.ValueType,
   ): Option.Type<Achèvement.ConsulterAttestationConformitéReadModel> {
     if (!this.transmettreAttestationConformitéFixture.aÉtéCréé) {
@@ -40,6 +40,22 @@ export class AchèvementWorld {
     } = this.#modifierAttestationConformitéFixture.aÉtéCréé
       ? this.#modifierAttestationConformitéFixture
       : this.#transmettreAttestationConformitéFixture;
+
+    console.log('coucou');
+
+    try {
+      const test = DocumentProjet.convertirEnValueType(
+        identifiantProjet.formatter(),
+        Achèvement.TypeDocumentAchèvement.attestationConformitéValueType.formatter(),
+        DateTime.convertirEnValueType(date).formatter(),
+        format,
+      );
+      console.log(test);
+    } catch (e) {
+      console.log(e);
+    }
+
+    console.log('coucou II');
 
     return {
       identifiantProjet,

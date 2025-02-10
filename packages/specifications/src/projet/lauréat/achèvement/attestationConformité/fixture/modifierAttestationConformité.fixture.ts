@@ -60,7 +60,7 @@ export class ModifierAttestationConformitéFixture
     const content = faker.word.words();
 
     const fixture: ModifierAttestationConformité = {
-      dateTransmissionAuCocontractant: faker.date.soon().toISOString(),
+      dateTransmissionAuCocontractant: faker.date.past().toISOString(),
       date: faker.date.soon().toISOString(),
       utilisateur: faker.internet.email(),
       preuveTransmissionAuCocontractant: {

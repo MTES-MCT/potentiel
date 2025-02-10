@@ -62,7 +62,7 @@ export class TransmettreAttestationConformitéFixture
     const content = faker.word.words();
 
     const fixture: TransmettreAttestationConformité = {
-      dateTransmissionAuCocontractant: faker.date.soon().toISOString(),
+      dateTransmissionAuCocontractant: faker.date.past().toISOString(),
       date: faker.date.soon().toISOString(),
       utilisateur: faker.internet.email(),
       preuveTransmissionAuCocontractant: {
@@ -82,6 +82,7 @@ export class TransmettreAttestationConformitéFixture
     this.#content = content;
 
     this.aÉtéCréé = true;
+
     return fixture;
   }
 }
