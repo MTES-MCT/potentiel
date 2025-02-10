@@ -1,59 +1,82 @@
-
-}
-
 import { faker } from '@faker-js/faker';
 
-import { convertStringToReadableStream } from '../../../../helpers/convertStringToReadable';
-import { AbstractFixture } from '../../../../fixture';
+import { AbstractFixture } from '../../../../../fixture';
+import { convertStringToReadableStream } from '../../../../../helpers/convertStringToReadable';
 
-interface TransmettreAttestationConformitéActionnaire {
-  readonly réponseSignée: { format: string; content: ReadableStream };
-  readonly accordéeLe: string;
-  readonly accordéePar: string;
+interface ModifierAttestationConformité {
+  readonly attestation: {
+    content: ReadableStream;
+    format: string;
+  };
+  readonly dateTransmissionAuCocontractant: string;
+  readonly preuveTransmissionAuCocontractant: {
+    content: ReadableStream;
+    format: string;
+  };
+  readonly date: string;
+  readonly utilisateur: string;
 }
 
-export class TransmettreAttestationConformitéActionnaireFixture
-  extends AbstractFixture<TransmettreAttestationConformitéActionnaire>
-  implements TransmettreAttestationConformitéActionnaire
+export class ModifierAttestationConformitéFixture
+  extends AbstractFixture<ModifierAttestationConformité>
+  implements ModifierAttestationConformité
 {
   #format!: string;
   #content!: string;
 
-  get réponseSignée(): TransmettreAttestationConformitéActionnaire['réponseSignée'] {
+  get attestation(): ModifierAttestationConformité['attestation'] {
     return {
       format: this.#format,
       content: convertStringToReadableStream(this.#content),
     };
   }
 
-  #accordéeLe!: string;
-
-  get accordéeLe(): string {
-    return this.#accordéeLe;
+  get preuveTransmissionAuCocontractant(): ModifierAttestationConformité['preuveTransmissionAuCocontractant'] {
+    return {
+      format: this.#format,
+      content: convertStringToReadableStream(this.#content),
+    };
   }
 
-  #accordéePar!: string;
+  #dateTransmissionAuCocontractant!: string;
 
-  get accordéePar(): string {
-    return this.#accordéePar;
+  get dateTransmissionAuCocontractant(): string {
+    return this.#dateTransmissionAuCocontractant;
   }
 
-  créer(partialFixture?: Partial<TransmettreAttestationConformitéActionnaire>): TransmettreAttestationConformitéActionnaire {
+  #date!: string;
+
+  get date(): string {
+    return this.#date;
+  }
+
+  #utilisateur!: string;
+
+  get utilisateur(): string {
+    return this.#utilisateur;
+  }
+
+  créer(partialFixture?: Partial<ModifierAttestationConformité>): ModifierAttestationConformité {
     const content = faker.word.words();
 
-    const fixture: TransmettreAttestationConformitéActionnaire = {
-      accordéeLe: faker.date.soon().toISOString(),
-      accordéePar: faker.internet.email(),
-      réponseSignée: {
+    const fixture: ModifierAttestationConformité = {
+      dateTransmissionAuCocontractant: faker.date.soon().toISOString(),
+      date: faker.date.soon().toISOString(),
+      utilisateur: faker.internet.email(),
+      preuveTransmissionAuCocontractant: {
+        format: faker.potentiel.fileFormat(),
+        content: convertStringToReadableStream(content),
+      },
+      attestation: {
         format: faker.potentiel.fileFormat(),
         content: convertStringToReadableStream(content),
       },
       ...partialFixture,
     };
 
-    this.#accordéeLe = fixture.accordéeLe;
-    this.#accordéePar = fixture.accordéePar;
-    this.#format = fixture.réponseSignée.format;
+    this.#dateTransmissionAuCocontractant = fixture.dateTransmissionAuCocontractant;
+    this.#utilisateur = fixture.utilisateur;
+    this.#format = fixture.attestation.format;
     this.#content = content;
 
     this.aÉtéCréé = true;
