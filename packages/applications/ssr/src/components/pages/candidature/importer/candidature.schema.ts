@@ -207,7 +207,9 @@ const candidatureCsvRowSchema = z
   // le type de GF est obligatoire si la candidature est classée
   .superRefine((obj, ctx) => {
     const actualStatut = statut[obj[colonnes.statut]];
-    if (actualStatut === 'classé' && !obj[colonnes.typeGf]) {
+    const ao = obj[colonnes.appelOffre];
+    const isPPE2 = ao.startsWith('PPE2');
+    if (isPPE2 && actualStatut === 'classé' && !obj[colonnes.typeGf]) {
       ctx.addIssue(conditionalRequiredError(colonnes.typeGf, colonnes.statut, actualStatut));
     }
   })

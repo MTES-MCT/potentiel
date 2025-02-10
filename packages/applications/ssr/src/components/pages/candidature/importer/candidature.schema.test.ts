@@ -406,6 +406,36 @@ describe('Schema candidature', () => {
         path: ['Financement collectif (Oui/Non)', 'Gouvernance partagée (Oui/Non)'],
       });
     });
+
+    test('le type de GF est obligatoire pour projet classé PPE2', () => {
+      const result = candidatureCsvSchema.safeParse({
+        ...minimumValuesClassé,
+        "Appel d'offres": 'PPE2 - Eolien',
+        "1. Garantie financière jusqu'à 6 mois après la date d'achèvement\n2. Garantie financière avec date d'échéance et à renouveler\n3. Consignation":
+          undefined,
+      });
+      assert(!result.success);
+      expect(result.error.errors[0]).to.deep.eq({
+        code: 'invalid_type',
+        expected: 'string',
+        received: 'undefined',
+        path: [
+          "1. Garantie financière jusqu'à 6 mois après la date d'achèvement\n2. Garantie financière avec date d'échéance et à renouveler\n3. Consignation",
+        ],
+        message:
+          '"1. Garantie financière jusqu\'à 6 mois après la date d\'achèvement\n2. Garantie financière avec date d\'échéance et à renouveler\n3. Consignation" est requis lorsque "Classé ?" a la valeur "classé"',
+      });
+    });
+
+    test("le type de GF n'est pas obligatoire pour projet classé CRE4", () => {
+      const result = candidatureCsvSchema.safeParse({
+        ...minimumValuesClassé,
+        "Appel d'offres": 'Eolien',
+        "1. Garantie financière jusqu'à 6 mois après la date d'achèvement\n2. Garantie financière avec date d'échéance et à renouveler\n3. Consignation":
+          undefined,
+      });
+      assertNoError(result);
+    });
   });
 
   describe('Cas particuliers', () => {
