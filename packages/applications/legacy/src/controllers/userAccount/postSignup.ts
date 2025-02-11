@@ -54,7 +54,7 @@ v1Router.post(
         .some(() =>
           response.redirect(
             addQueryParams(routes.SIGNUP, {
-              error: `Un compte existe déjà avec cette adresse email. Si vous avez oublié votre mot de passe, vous pouvez le réinitialiser.`,
+              error: `Une erreur est survenue lors de la création du compte. N'hésitez pas à nous contacter si le problème persiste.`,
             }),
           ),
         )
