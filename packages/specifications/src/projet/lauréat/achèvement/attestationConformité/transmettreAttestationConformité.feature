@@ -6,7 +6,6 @@ Fonctionnalité: Transmettre une attestation de conformité
         Et le porteur "Marcel Patoulatchi" ayant accés au projet lauréat "Du boulodrome de Marseille"
         Et la dreal "Dreal du sud" associée à la région du projet
 
-    @select
     Scénario: le porteur transmet une attestation de conformité pour le projet lauréat
         Quand le porteur transmet une attestation de conformité pour le projet lauréat
         Alors une attestation de conformité devrait être consultable pour le projet lauréat

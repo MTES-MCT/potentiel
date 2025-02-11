@@ -26,12 +26,8 @@ export class AchèvementWorld {
       );
     }
 
-    const {
-      dateTransmissionAuCocontractant,
-      date,
-      utilisateur,
-      document: { format },
-    } = this.#transmettreOuModifierAttestationConformitéFixture;
+    const { dateTransmissionAuCocontractant, date, utilisateur, attestation, preuve } =
+      this.#transmettreOuModifierAttestationConformitéFixture;
 
     return {
       identifiantProjet,
@@ -39,7 +35,7 @@ export class AchèvementWorld {
         identifiantProjet.formatter(),
         Achèvement.TypeDocumentAchèvement.attestationConformitéValueType.formatter(),
         DateTime.convertirEnValueType(date).formatter(),
-        format,
+        attestation.format,
       ),
       dateTransmissionAuCocontractant: DateTime.convertirEnValueType(
         dateTransmissionAuCocontractant,
@@ -48,7 +44,7 @@ export class AchèvementWorld {
         identifiantProjet.formatter(),
         Achèvement.TypeDocumentAchèvement.attestationConformitéPreuveTransmissionValueType.formatter(),
         DateTime.convertirEnValueType(dateTransmissionAuCocontractant).formatter(),
-        format,
+        preuve.format,
       ),
       misÀJourLe: DateTime.convertirEnValueType(date),
       misÀJourPar: Email.convertirEnValueType(utilisateur),

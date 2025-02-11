@@ -12,7 +12,7 @@ Quand(
       const { identifiantProjet } =
         statutProjet === 'lauréat' ? this.lauréatWorld : this.eliminéWorld;
 
-      const { document, dateTransmissionAuCocontractant, date, utilisateur } =
+      const { attestation, preuve, dateTransmissionAuCocontractant, date, utilisateur } =
         this.lauréatWorld.achèvementWorld.transmettreOuModifierAttestationConformitéFixture.créer({
           utilisateur: this.utilisateurWorld.porteurFixture.email,
         });
@@ -21,10 +21,10 @@ Quand(
         type: 'Lauréat.Achèvement.AttestationConformité.UseCase.TransmettreAttestationConformité',
         data: {
           identifiantProjetValue: identifiantProjet.formatter(),
-          attestationValue: document,
+          attestationValue: attestation,
           dateTransmissionAuCocontractantValue: dateTransmissionAuCocontractant,
           dateValue: date,
-          preuveTransmissionAuCocontractantValue: document,
+          preuveTransmissionAuCocontractantValue: preuve,
           utilisateurValue: utilisateur,
         },
       });
@@ -42,7 +42,7 @@ Quand(
     try {
       const { identifiantProjet } = this.lauréatWorld;
 
-      const { document, dateTransmissionAuCocontractant, date, utilisateur } =
+      const { attestation, preuve, dateTransmissionAuCocontractant, date, utilisateur } =
         this.lauréatWorld.achèvementWorld.transmettreOuModifierAttestationConformitéFixture.créer({
           utilisateur: this.utilisateurWorld.porteurFixture.email,
           ...(exemple['date transmission au co-contractant'] && {
@@ -56,10 +56,10 @@ Quand(
         type: 'Lauréat.Achèvement.AttestationConformité.UseCase.TransmettreAttestationConformité',
         data: {
           identifiantProjetValue: identifiantProjet.formatter(),
-          attestationValue: document,
+          attestationValue: attestation,
           dateTransmissionAuCocontractantValue: dateTransmissionAuCocontractant,
           dateValue: date,
-          preuveTransmissionAuCocontractantValue: document,
+          preuveTransmissionAuCocontractantValue: preuve,
           utilisateurValue: utilisateur,
         },
       });
@@ -75,7 +75,7 @@ Quand(
     try {
       const { identifiantProjet } = this.lauréatWorld;
 
-      const { document, dateTransmissionAuCocontractant, date, utilisateur } =
+      const { attestation, preuve, dateTransmissionAuCocontractant, date, utilisateur } =
         this.lauréatWorld.achèvementWorld.transmettreOuModifierAttestationConformitéFixture.créer({
           utilisateur: this.utilisateurWorld.adminFixture.email,
         });
@@ -84,10 +84,10 @@ Quand(
         type: 'Lauréat.Achèvement.AttestationConformité.UseCase.ModifierAttestationConformité',
         data: {
           identifiantProjetValue: identifiantProjet.formatter(),
-          attestationValue: document,
+          attestationValue: attestation,
           dateTransmissionAuCocontractantValue: dateTransmissionAuCocontractant,
           dateValue: date,
-          preuveTransmissionAuCocontractantValue: document,
+          preuveTransmissionAuCocontractantValue: preuve,
           utilisateurValue: utilisateur,
         },
       });
@@ -104,7 +104,7 @@ Quand(
     try {
       const { identifiantProjet } = this.lauréatWorld;
 
-      const { document, dateTransmissionAuCocontractant, date, utilisateur } =
+      const { attestation, preuve, dateTransmissionAuCocontractant, date, utilisateur } =
         this.lauréatWorld.achèvementWorld.transmettreOuModifierAttestationConformitéFixture.créer({
           utilisateur: this.utilisateurWorld.adminFixture.email,
           ...(exemple['date transmission au co-contractant'] && {
@@ -118,10 +118,10 @@ Quand(
         type: 'Lauréat.Achèvement.AttestationConformité.UseCase.ModifierAttestationConformité',
         data: {
           identifiantProjetValue: identifiantProjet.formatter(),
-          attestationValue: document,
+          attestationValue: attestation,
           dateTransmissionAuCocontractantValue: dateTransmissionAuCocontractant,
           dateValue: date,
-          preuveTransmissionAuCocontractantValue: document,
+          preuveTransmissionAuCocontractantValue: preuve,
           utilisateurValue: utilisateur,
         },
       });

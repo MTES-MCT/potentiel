@@ -42,29 +42,28 @@ Alors(
 
       const actualAttestationContent = await convertReadableStreamToString(attestation.content);
       const expectedAttestationContent = await convertReadableStreamToString(
-        this.lauréatWorld.achèvementWorld.transmettreOuModifierAttestationConformitéFixture.document
-          .content ?? new ReadableStream(),
+        this.lauréatWorld.achèvementWorld.transmettreOuModifierAttestationConformitéFixture
+          .attestation.content ?? new ReadableStream(),
       );
 
       expect(actualAttestationContent).to.be.equal(expectedAttestationContent);
 
-      // à fixer
-      // const preuve = await mediator.send<ConsulterDocumentProjetQuery>({
-      //   type: 'Document.Query.ConsulterDocumentProjet',
-      //   data: {
-      //     documentKey: Option.match(achèvement)
-      //       .some((a) => a.preuveTransmissionAuCocontractant.formatter() ?? '')
-      //       .none(() => ''),
-      //   },
-      // });
+      const preuve = await mediator.send<ConsulterDocumentProjetQuery>({
+        type: 'Document.Query.ConsulterDocumentProjet',
+        data: {
+          documentKey: Option.match(achèvement)
+            .some((a) => a.preuveTransmissionAuCocontractant.formatter() ?? '')
+            .none(() => ''),
+        },
+      });
 
-      // const actualPreuveContent = await convertReadableStreamToString(preuve.content);
-      // const expectedPreuveContent = await convertReadableStreamToString(
-      //   this.lauréatWorld.achèvementWorld.transmettreOuModifierAttestationConformitéFixture.document
-      //     .content ?? new ReadableStream(),
-      // );
+      const actualPreuveContent = await convertReadableStreamToString(preuve.content);
+      const expectedPreuveContent = await convertReadableStreamToString(
+        this.lauréatWorld.achèvementWorld.transmettreOuModifierAttestationConformitéFixture.preuve
+          .content ?? new ReadableStream(),
+      );
 
-      // expect(actualPreuveContent).to.be.equal(expectedPreuveContent);
+      expect(actualPreuveContent).to.be.equal(expectedPreuveContent);
     });
   },
 );

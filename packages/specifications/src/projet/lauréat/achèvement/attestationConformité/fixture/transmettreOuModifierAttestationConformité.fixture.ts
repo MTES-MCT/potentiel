@@ -9,7 +9,8 @@ interface TransmettreOuModifierAttestationConformitéDocument {
 }
 
 interface TransmettreOuModifierAttestationConformité {
-  readonly document: TransmettreOuModifierAttestationConformitéDocument;
+  readonly attestation: TransmettreOuModifierAttestationConformitéDocument;
+  readonly preuve: TransmettreOuModifierAttestationConformitéDocument;
   readonly dateTransmissionAuCocontractant: string;
   readonly date: string;
   readonly utilisateur: string;
@@ -19,13 +20,23 @@ export class TransmettreOuModifierAttestationConformitéFixture
   extends AbstractFixture<TransmettreOuModifierAttestationConformité>
   implements TransmettreOuModifierAttestationConformité
 {
-  #format!: string;
-  #content!: string;
+  #formatAttestation!: string;
+  #contentAttestation!: string;
 
-  get document(): TransmettreOuModifierAttestationConformité['document'] {
+  get attestation(): TransmettreOuModifierAttestationConformité['attestation'] {
     return {
-      format: this.#format,
-      content: convertStringToReadableStream(this.#content),
+      format: this.#formatAttestation,
+      content: convertStringToReadableStream(this.#contentAttestation),
+    };
+  }
+
+  #formatPreuve!: string;
+  #contentPreuve!: string;
+
+  get preuve(): TransmettreOuModifierAttestationConformité['preuve'] {
+    return {
+      format: this.#formatPreuve,
+      content: convertStringToReadableStream(this.#contentPreuve),
     };
   }
 
@@ -50,16 +61,23 @@ export class TransmettreOuModifierAttestationConformitéFixture
   créer(
     partialFixture?: Partial<TransmettreOuModifierAttestationConformité>,
   ): TransmettreOuModifierAttestationConformité {
-    const content = faker.word.words();
-    const format = 'application/pdf';
+    const contentAttestation = faker.word.words();
+    const formatAttestation = 'application/pdf';
+
+    const contentPreuve = faker.word.words();
+    const formatPreuve = 'application/pdf';
 
     const fixture: TransmettreOuModifierAttestationConformité = {
       dateTransmissionAuCocontractant: faker.date.past().toISOString(),
       date: faker.date.soon().toISOString(),
       utilisateur: faker.internet.email(),
-      document: {
-        format,
-        content: convertStringToReadableStream(content),
+      attestation: {
+        format: formatAttestation,
+        content: convertStringToReadableStream(contentAttestation),
+      },
+      preuve: {
+        format: formatPreuve,
+        content: convertStringToReadableStream(contentPreuve),
       },
       ...partialFixture,
     };
@@ -67,8 +85,10 @@ export class TransmettreOuModifierAttestationConformitéFixture
     this.#dateTransmissionAuCocontractant = fixture.dateTransmissionAuCocontractant;
     this.#date = fixture.date;
     this.#utilisateur = fixture.utilisateur;
-    this.#format = format;
-    this.#content = content;
+    this.#formatAttestation = formatAttestation;
+    this.#contentAttestation = contentAttestation;
+    this.#formatPreuve = formatPreuve;
+    this.#contentPreuve = contentPreuve;
 
     this.aÉtéCréé = true;
 
