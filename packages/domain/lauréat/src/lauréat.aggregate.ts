@@ -10,7 +10,11 @@ import {
 
 import {
   LauréatNotifiéEvent,
+  LauréatNotifiéV1Event,
+  NomEtLocalitéLauréatImportésEvent,
   applyLauréatNotifié,
+  applyLauréatNotifiéV1,
+  applyNomEtlocalitéLauréatImportés,
   notifier,
 } from './notifier/notifierLauréat.behavior';
 import {
@@ -19,7 +23,11 @@ import {
   applyLauréatModifié,
 } from './modifier/modifierLauréat.behavior';
 
-export type LauréatEvent = LauréatNotifiéEvent | LauréatModifiéEvent;
+export type LauréatEvent =
+  | LauréatNotifiéEvent
+  | LauréatNotifiéV1Event
+  | NomEtLocalitéLauréatImportésEvent
+  | LauréatModifiéEvent;
 
 export type LauréatAggregate = Aggregate<LauréatEvent> & {
   identifiantProjet: IdentifiantProjet.ValueType;
@@ -59,6 +67,8 @@ export const getDefaultLauréatAggregate: GetDefaultAggregateState<
 
 function apply(this: LauréatAggregate, event: LauréatEvent) {
   match(event)
+    .with({ type: 'LauréatNotifié-V1' }, applyLauréatNotifiéV1.bind(this))
+    .with({ type: 'NomEtLocalitéLauréatImportés-V1' }, applyNomEtlocalitéLauréatImportés.bind(this))
     .with({ type: 'LauréatNotifié-V2' }, applyLauréatNotifié.bind(this))
     .with({ type: 'LauréatModifié-V1' }, applyLauréatModifié.bind(this))
     .exhaustive();

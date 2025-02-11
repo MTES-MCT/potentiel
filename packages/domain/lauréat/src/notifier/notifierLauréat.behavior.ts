@@ -22,8 +22,8 @@ export type NotifierOptions = {
 };
 
 /**
- * l'évènement V1 ne contenait pas les informations nomProjet et localité;
- * Une V2 est émise pour chaque V1, donc V1 n'est plus à utiliser
+ * @deprecated Remplacé par LauréatNotifié-V2 qui ajoute le nom et la localité du projet
+ * L'évènement NomEtLocalitéLauréatImportés-V1 permet d'ajouter les valeurs manquantes pour les projets notifiés avec la V1
  */
 export type LauréatNotifiéV1Event = DomainEvent<
   'LauréatNotifié-V1',
@@ -34,6 +34,26 @@ export type LauréatNotifiéV1Event = DomainEvent<
 
     attestation: {
       format: string;
+    };
+  }
+>;
+
+/**
+ * @deprecated Ajoute les informations nomProjet et localité à un lauréat notifié avec LauréatNotifié-V1
+ * Tous les évènements LauréatNotifié-V1 doivent avoir un évènement NomEtLocalitéLauréatImportés-V1 associé
+ */
+export type NomEtLocalitéLauréatImportésEvent = DomainEvent<
+  'NomEtLocalitéLauréatImportés-V1',
+  {
+    identifiantProjet: IdentifiantProjet.RawType;
+    nomProjet: string;
+    localité: {
+      adresse1: string;
+      adresse2: string;
+      codePostal: string;
+      commune: string;
+      région: string;
+      département: string;
     };
   }
 >;
@@ -94,6 +114,22 @@ export async function notifier(
   };
 
   await this.publish(event);
+}
+
+export function applyLauréatNotifiéV1(
+  this: LauréatAggregate,
+  { payload: { identifiantProjet, notifiéLe } }: LauréatNotifiéV1Event,
+) {
+  this.identifiantProjet = IdentifiantProjet.convertirEnValueType(identifiantProjet);
+  this.notifiéLe = DateTime.convertirEnValueType(notifiéLe);
+}
+
+export function applyNomEtlocalitéLauréatImportés(
+  this: LauréatAggregate,
+  { payload: { localité, nomProjet } }: NomEtLocalitéLauréatImportésEvent,
+) {
+  this.nomProjet = nomProjet;
+  this.localité = localité;
 }
 
 export function applyLauréatNotifié(

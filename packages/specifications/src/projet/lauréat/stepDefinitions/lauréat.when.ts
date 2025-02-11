@@ -5,7 +5,7 @@ import { Lauréat } from '@potentiel-domain/laureat';
 
 import { PotentielWorld } from '../../../potentiel.world';
 
-Quand(/un administrateur modifie le nom du projet lauréat/, async function (this: PotentielWorld) {
+Quand(/un administrateur modifie le projet lauréat/, async function (this: PotentielWorld) {
   try {
     const { modifiéLe, modifiéPar, nomProjet, localité } =
       this.lauréatWorld.modifierLauréatFixture.créer({

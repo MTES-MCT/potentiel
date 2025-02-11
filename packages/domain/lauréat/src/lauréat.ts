@@ -1,6 +1,10 @@
 import { LauréatModifiéEvent } from './modifier/modifierLauréat.behavior';
 import { ModifierLauréatUseCase } from './modifier/modifierLauréat.usecase';
-import { LauréatNotifiéEvent } from './notifier/notifierLauréat.behavior';
+import {
+  LauréatNotifiéEvent,
+  LauréatNotifiéV1Event,
+  NomEtLocalitéLauréatImportésEvent,
+} from './notifier/notifierLauréat.behavior';
 import { NotifierLauréatUseCase } from './notifier/notifierLauréat.usecase';
 export { LauréatEntity } from './lauréat.entity';
 
@@ -10,8 +14,17 @@ export {
 } from './consulter/consulterLauréat.query';
 
 // Event
-export type LauréatEvent = LauréatNotifiéEvent | LauréatModifiéEvent;
-export { LauréatNotifiéEvent, LauréatModifiéEvent };
+export type LauréatEvent =
+  | LauréatNotifiéEvent
+  | LauréatNotifiéV1Event
+  | NomEtLocalitéLauréatImportésEvent
+  | LauréatModifiéEvent;
+export {
+  LauréatNotifiéEvent,
+  LauréatNotifiéV1Event,
+  NomEtLocalitéLauréatImportésEvent,
+  LauréatModifiéEvent,
+};
 
 // UseCases
 export type LauréatUseCases = NotifierLauréatUseCase | ModifierLauréatUseCase;
