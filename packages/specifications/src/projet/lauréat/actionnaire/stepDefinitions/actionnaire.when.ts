@@ -152,16 +152,11 @@ export async function demanderChangementActionnaire(
       ? this.lauréatWorld.identifiantProjet.formatter()
       : this.eliminéWorld.identifiantProjet.formatter();
 
-  const {
-    pièceJustificative: { format, content },
-    demandéLe,
-    demandéPar,
-    raison,
-    actionnaire,
-  } = this.lauréatWorld.actionnaireWorld.demanderChangementActionnaireFixture.créer({
-    demandéPar: utilisateur,
-    ...(actionnaireValue && { actionnaire: actionnaireValue }),
-  });
+  const { pièceJustificative, demandéLe, demandéPar, raison, actionnaire } =
+    this.lauréatWorld.actionnaireWorld.demanderChangementActionnaireFixture.créer({
+      demandéPar: utilisateur,
+      ...(actionnaireValue && { actionnaire: actionnaireValue }),
+    });
 
   await mediator.send<Actionnaire.ActionnaireUseCase>({
     type: 'Lauréat.Actionnaire.UseCase.DemanderChangement',
@@ -171,10 +166,7 @@ export async function demanderChangementActionnaire(
       dateDemandeValue: demandéLe,
       identifiantUtilisateurValue: demandéPar,
       identifiantProjetValue: identifiantProjet,
-      pièceJustificativeValue: {
-        content,
-        format,
-      },
+      pièceJustificativeValue: pièceJustificative,
     },
   });
 }
@@ -199,13 +191,10 @@ export async function annulerChangementActionnaire(this: PotentielWorld, utilisa
 
 export async function accorderChangementActionnaire(this: PotentielWorld, utilisateur?: string) {
   const identifiantProjet = this.lauréatWorld.identifiantProjet.formatter();
-  const {
-    réponseSignée: { format, content },
-    accordéeLe,
-    accordéePar,
-  } = this.lauréatWorld.actionnaireWorld.accorderChangementActionnaireFixture.créer({
-    accordéePar: utilisateur,
-  });
+  const { réponseSignée, accordéeLe, accordéePar } =
+    this.lauréatWorld.actionnaireWorld.accorderChangementActionnaireFixture.créer({
+      accordéePar: utilisateur,
+    });
 
   this.lauréatWorld.actionnaireWorld.actionnaire =
     this.lauréatWorld.actionnaireWorld.demanderChangementActionnaireFixture.actionnaire;
@@ -216,10 +205,7 @@ export async function accorderChangementActionnaire(this: PotentielWorld, utilis
       accordéLeValue: accordéeLe,
       accordéParValue: accordéePar,
       identifiantProjetValue: identifiantProjet,
-      réponseSignéeValue: {
-        content,
-        format,
-      },
+      réponseSignéeValue: réponseSignée,
     },
   });
 }

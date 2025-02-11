@@ -3,6 +3,7 @@ import { IdentifiantProjet } from '@potentiel-domain/common';
 import { AbandonWord } from './abandon/abandon.world';
 import { ReprésentantLégalWorld } from './représentant-légal/représentantLégal.world';
 import { ActionnaireWorld } from './actionnaire/actionnaire.world';
+import { AchèvementWorld } from './achèvement/attestationConformité/achèvement.world';
 
 type LauréatFixture = {
   nom: string;
@@ -56,6 +57,12 @@ export class LauréatWorld {
     return this.#actionnaireWorld;
   }
 
+  #achèvementWorld!: AchèvementWorld;
+
+  get achèvementWorld() {
+    return this.#achèvementWorld;
+  }
+
   #dateDésignation: string;
 
   get dateDésignation() {
@@ -66,6 +73,7 @@ export class LauréatWorld {
     this.#abandonWorld = new AbandonWord();
     this.#représentantLégalWorld = new ReprésentantLégalWorld();
     this.#actionnaireWorld = new ActionnaireWorld();
+    this.#achèvementWorld = new AchèvementWorld();
 
     this.#identifiantProjet = IdentifiantProjet.convertirEnValueType(`PPE2 - Eolien#1##23`);
 

@@ -41,6 +41,7 @@ export async function modifier(
   if (dateTransmissionAuCocontractant.estDansLeFutur()) {
     throw new DateDeTransmissionAuCoContractantFuturError();
   }
+
   if (!this.attestationConformité?.format) {
     throw new AucuneAttestationDeConformitéÀCorrigerError();
   }
