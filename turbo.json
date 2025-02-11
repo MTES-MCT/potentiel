@@ -1,53 +1,41 @@
 {
   "$schema": "https://turborepo.org/schema.json",
-  "pipeline": {
+  "globalDependencies": ["package.json"],
+  "tasks": {
     "build": {
       "inputs": ["src/**/*.{ts,tsx}"],
       "dependsOn": ["^build"],
-      "outputMode": "new-only"
+      "outputLogs": "new-only"
     },
     "build:dev": {
       "inputs": ["src/**/*.{ts,tsx}"],
       "dependsOn": ["^build:dev"],
-      "outputMode": "new-only"
+      "outputLogs": "new-only"
     },
     "build:test": {
-      "inputs": [
-        "src/**/*.{ts,tsx}"
-      ],
-      "dependsOn": [
-        "^build:test"
-      ],
-      "outputMode": "new-only"
+      "inputs": ["src/**/*.{ts,tsx}"],
+      "dependsOn": ["^build:test"],
+      "outputLogs": "new-only"
     },
     "dev": {
       "dependsOn": ["^build:dev"],
       "cache": false
     },
     "test:legacy": {
-      "dependsOn": [
-        "^build:test"
-      ],
+      "dependsOn": ["^build:test"],
       "cache": false
     },
     "test": {
-      "dependsOn": [
-        "^build:test"
-      ],
+      "dependsOn": ["^build:test"],
       "cache": false
     },
     "specs": {
-      "dependsOn": [
-        "^build:test"
-      ],
+      "dependsOn": ["^build:test"],
       "cache": false
     },
     "specs:select": {
-      "dependsOn": [
-        "^build:test"
-      ],
+      "dependsOn": ["^build:test"],
       "cache": false
     }
-  },
-  "globalDependencies": ["package.json"]
+  }
 }
