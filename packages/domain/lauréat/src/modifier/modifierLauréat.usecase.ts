@@ -8,10 +8,10 @@ export type ModifierLauréatUseCase = Message<
   'Lauréat.UseCase.ModifierLauréat',
   {
     identifiantProjetValue: string;
-    nomProjetValue: string;
     modifiéLeValue: string;
     modifiéParValue: string;
-    localité: {
+    nomProjetValue?: string;
+    localitéValue?: {
       adresse1: string;
       adresse2: string;
       codePostal: string;
@@ -28,7 +28,7 @@ export const registerModifierLauréatUseCase = () => {
     nomProjetValue,
     modifiéLeValue,
     modifiéParValue,
-    localité,
+    localitéValue,
   }) => {
     await mediator.send<ModifierLauréatCommand>({
       type: 'Lauréat.Command.ModifierLauréat',
@@ -37,7 +37,7 @@ export const registerModifierLauréatUseCase = () => {
         nomProjet: nomProjetValue,
         modifiéLe: DateTime.convertirEnValueType(modifiéLeValue),
         modifiéPar: Email.convertirEnValueType(modifiéParValue),
-        localité,
+        localité: localitéValue,
       },
     });
   };

@@ -9,10 +9,10 @@ export type ModifierLauréatCommand = Message<
   'Lauréat.Command.ModifierLauréat',
   {
     identifiantProjet: IdentifiantProjet.ValueType;
-    nomProjet: string;
     modifiéLe: DateTime.ValueType;
     modifiéPar: Email.ValueType;
-    localité: {
+    nomProjet?: string;
+    localité?: {
       adresse1: string;
       adresse2: string;
       codePostal: string;

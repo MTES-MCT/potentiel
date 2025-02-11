@@ -288,8 +288,14 @@ const référencielPermissions = {
         annulerChangement: 'Lauréat.Actionnaire.Command.AnnulerDemandeChangement',
       },
     },
-    usecase: { notifier: 'Lauréat.UseCase.NotifierLauréat' },
-    command: { notifier: 'Lauréat.Command.NotifierLauréat' },
+    usecase: {
+      notifier: 'Lauréat.UseCase.NotifierLauréat',
+      modifier: 'Lauréat.UseCase.ModifierLauréat',
+    },
+    command: {
+      notifier: 'Lauréat.Command.NotifierLauréat',
+      modifier: 'Lauréat.Command.ModifierLauréat',
+    },
     query: { consulter: 'Lauréat.Query.ConsulterLauréat' },
   },
   éliminé: {
@@ -948,6 +954,14 @@ const policies = {
       référencielPermissions.lauréat.actionnaire.query.listerChangement,
     ],
   },
+  lauréat: {
+    consulter: [référencielPermissions.lauréat.query.consulter],
+    modifier: [
+      référencielPermissions.lauréat.query.consulter,
+      référencielPermissions.lauréat.usecase.modifier,
+      référencielPermissions.lauréat.command.modifier,
+    ],
+  },
 } as const;
 
 /**
@@ -1075,6 +1089,9 @@ const adminPolicies: ReadonlyArray<Policy> = [
   'actionnaire.listerChangement',
   'actionnaire.accorderChangement',
   'actionnaire.rejeterChangement',
+
+  // Lauréat
+  'lauréat.modifier',
 ];
 
 const dgecValidateurPolicies: ReadonlyArray<Policy> = [
