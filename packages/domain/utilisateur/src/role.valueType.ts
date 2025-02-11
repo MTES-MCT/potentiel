@@ -339,7 +339,6 @@ const référencielPermissions = {
   candidature: {
     query: {
       consulterCandidature: 'Candidature.Query.ConsulterCandidature',
-      consulterRésuméCandidature: 'Candidature.Query.ConsulterRésuméCandidature',
       consulterProjet: 'Candidature.Query.ConsulterProjet',
       listerProjetsPreuveRecandidature:
         'Candidature.Query.ListerProjetsEligiblesPreuveRecandidature',

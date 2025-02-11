@@ -23,7 +23,6 @@ import {
 } from './lister/listerCandidatures.query';
 import { registerNotifierCandidatureCommand } from './notifier/notifierCandidature.command';
 import { registerNotifierCandidatureUseCase } from './notifier/notifierCandidature.usecase';
-import { registerConsulterRésuméCandidatureQuery } from './consulter/consulterRésuméCandidature.query';
 
 type CandidatureQueryDependencies = ConsulterProjetDependencies &
   ListerProjetsEligiblesPreuveRecanditureDependencies &
@@ -39,7 +38,6 @@ export const registerCandidatureQueries = (dependencies: CandidatureQueryDepende
   registerConsulterProjetQuery(dependencies);
   registerProjetsQuery(dependencies);
   registerProjetsEligiblesPreuveRecanditureQuery(dependencies);
-  registerConsulterRésuméCandidatureQuery(dependencies);
   registerConsulterCandidatureQuery(dependencies);
   registerListerCandidaturesQuery(dependencies);
 };

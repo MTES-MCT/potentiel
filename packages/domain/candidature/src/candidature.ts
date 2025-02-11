@@ -31,10 +31,6 @@ import {
   CandidatureNotifiéeEvent,
   CandidatureNotifiéeEventV1,
 } from './notifier/notifierCandidature.behavior';
-import {
-  ConsulterRésuméCandidatureQuery,
-  ConsulterRésuméCandidatureReadModel,
-} from './consulter/consulterRésuméCandidature.query';
 
 // Query
 export type CandidatureQuery =
@@ -42,8 +38,7 @@ export type CandidatureQuery =
   | ListerCandidaturesQuery
   | ListerProjetsEligiblesPreuveRecanditureQuery
   | ListerProjetsQuery
-  | ConsulterCandidatureQuery
-  | ConsulterRésuméCandidatureQuery;
+  | ConsulterCandidatureQuery;
 
 export {
   ConsulterProjetQuery,
@@ -51,7 +46,6 @@ export {
   ListerProjetsQuery,
   ListerCandidaturesQuery,
   ConsulterCandidatureQuery,
-  ConsulterRésuméCandidatureQuery,
 };
 
 // ReadModel
@@ -62,7 +56,6 @@ export {
   ListerProjetsReadModel,
   ListerCandidaturesReadModel,
   ConsulterCandidatureReadModel,
-  ConsulterRésuméCandidatureReadModel,
 };
 
 // UseCases
