@@ -4,7 +4,6 @@ Fonctionnalité: Modifier une attestation de conformité
     Contexte:
         Etant donné le projet lauréat "Centrale PV"
 
-    @select
     Scénario: Un porteur modifie une attestation de conformité
         Et une attestation de conformité transmise pour le projet lauréat
         Quand l'admin modifie l'attestation de conformité pour le projet lauréat

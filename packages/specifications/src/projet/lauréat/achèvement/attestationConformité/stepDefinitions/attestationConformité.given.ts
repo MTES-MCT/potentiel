@@ -10,21 +10,17 @@ EtantDonné(
   async function (this: PotentielWorld) {
     const { identifiantProjet } = this.lauréatWorld;
 
-    const {
-      attestation: { content, format },
-      dateTransmissionAuCocontractant,
-      date,
-      utilisateur,
-    } = this.lauréatWorld.achèvementWorld.transmettreAttestationConformitéFixture.créer({});
+    const { dateTransmissionAuCocontractant, date, utilisateur, document } =
+      this.lauréatWorld.achèvementWorld.transmettreOuModifierAttestationConformitéFixture.créer({});
 
     await mediator.send<Achèvement.TransmettreAttestationConformitéUseCase>({
       type: 'Lauréat.Achèvement.AttestationConformité.UseCase.TransmettreAttestationConformité',
       data: {
         identifiantProjetValue: identifiantProjet.formatter(),
-        attestationValue: { format, content },
+        attestationValue: document,
         dateTransmissionAuCocontractantValue: dateTransmissionAuCocontractant,
         dateValue: date,
-        preuveTransmissionAuCocontractantValue: { format, content },
+        preuveTransmissionAuCocontractantValue: document,
         utilisateurValue: utilisateur,
       },
     });

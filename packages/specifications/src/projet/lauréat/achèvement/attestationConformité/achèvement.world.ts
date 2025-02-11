@@ -3,30 +3,24 @@ import { Achèvement } from '@potentiel-domain/laureat';
 import { Option } from '@potentiel-libraries/monads';
 import { DocumentProjet } from '@potentiel-domain/document';
 
-import { TransmettreAttestationConformitéFixture } from './fixture/transmettreAttestationConformité.fixture';
-import { ModifierAttestationConformitéFixture } from './fixture/modifierAttestationConformité.fixture';
+import { TransmettreOuModifierAttestationConformitéFixture } from './fixture/transmettreOuModifierAttestationConformité.fixture';
 
 export class AchèvementWorld {
-  #transmettreAttestationConformitéFixture: TransmettreAttestationConformitéFixture;
-  #modifierAttestationConformitéFixture: ModifierAttestationConformitéFixture;
+  #transmettreOuModifierAttestationConformitéFixture: TransmettreOuModifierAttestationConformitéFixture;
 
-  get transmettreAttestationConformitéFixture() {
-    return this.#transmettreAttestationConformitéFixture;
-  }
-
-  get modifierAttestationConformitéFixture() {
-    return this.#modifierAttestationConformitéFixture;
+  get transmettreOuModifierAttestationConformitéFixture() {
+    return this.#transmettreOuModifierAttestationConformitéFixture;
   }
 
   constructor() {
-    this.#transmettreAttestationConformitéFixture = new TransmettreAttestationConformitéFixture();
-    this.#modifierAttestationConformitéFixture = new ModifierAttestationConformitéFixture();
+    this.#transmettreOuModifierAttestationConformitéFixture =
+      new TransmettreOuModifierAttestationConformitéFixture();
   }
 
   mapToExpected(
     identifiantProjet: IdentifiantProjet.ValueType,
   ): Option.Type<Achèvement.ConsulterAttestationConformitéReadModel> {
-    if (!this.transmettreAttestationConformitéFixture.aÉtéCréé) {
+    if (!this.transmettreOuModifierAttestationConformitéFixture.aÉtéCréé) {
       throw new Error(
         `Aucune transmission d'attestation de conformité n'a été crée dans AchèvementWorld`,
       );
@@ -36,10 +30,8 @@ export class AchèvementWorld {
       dateTransmissionAuCocontractant,
       date,
       utilisateur,
-      attestation: { format },
-    } = this.#modifierAttestationConformitéFixture.aÉtéCréé
-      ? this.#modifierAttestationConformitéFixture
-      : this.#transmettreAttestationConformitéFixture;
+      document: { format },
+    } = this.#transmettreOuModifierAttestationConformitéFixture;
 
     return {
       identifiantProjet,

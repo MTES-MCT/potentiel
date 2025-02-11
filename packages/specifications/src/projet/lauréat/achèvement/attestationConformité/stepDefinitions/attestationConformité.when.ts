@@ -12,23 +12,19 @@ Quand(
       const { identifiantProjet } =
         statutProjet === 'lauréat' ? this.lauréatWorld : this.eliminéWorld;
 
-      const {
-        attestation: { content, format },
-        dateTransmissionAuCocontractant,
-        date,
-        utilisateur,
-      } = this.lauréatWorld.achèvementWorld.transmettreAttestationConformitéFixture.créer({
-        utilisateur: this.utilisateurWorld.porteurFixture.email,
-      });
+      const { document, dateTransmissionAuCocontractant, date, utilisateur } =
+        this.lauréatWorld.achèvementWorld.transmettreOuModifierAttestationConformitéFixture.créer({
+          utilisateur: this.utilisateurWorld.porteurFixture.email,
+        });
 
       await mediator.send<Achèvement.TransmettreAttestationConformitéUseCase>({
         type: 'Lauréat.Achèvement.AttestationConformité.UseCase.TransmettreAttestationConformité',
         data: {
           identifiantProjetValue: identifiantProjet.formatter(),
-          attestationValue: { format, content },
+          attestationValue: document,
           dateTransmissionAuCocontractantValue: dateTransmissionAuCocontractant,
           dateValue: date,
-          preuveTransmissionAuCocontractantValue: { format, content },
+          preuveTransmissionAuCocontractantValue: document,
           utilisateurValue: utilisateur,
         },
       });
@@ -46,28 +42,24 @@ Quand(
     try {
       const { identifiantProjet } = this.lauréatWorld;
 
-      const {
-        attestation: { content, format },
-        dateTransmissionAuCocontractant,
-        date,
-        utilisateur,
-      } = this.lauréatWorld.achèvementWorld.transmettreAttestationConformitéFixture.créer({
-        utilisateur: this.utilisateurWorld.porteurFixture.email,
-        ...(exemple['date transmission au co-contractant'] && {
-          dateTransmissionAuCocontractant: new Date(
-            exemple['date transmission au co-contractant'],
-          ).toISOString(),
-        }),
-      });
+      const { document, dateTransmissionAuCocontractant, date, utilisateur } =
+        this.lauréatWorld.achèvementWorld.transmettreOuModifierAttestationConformitéFixture.créer({
+          utilisateur: this.utilisateurWorld.porteurFixture.email,
+          ...(exemple['date transmission au co-contractant'] && {
+            dateTransmissionAuCocontractant: new Date(
+              exemple['date transmission au co-contractant'],
+            ).toISOString(),
+          }),
+        });
 
       await mediator.send<Achèvement.TransmettreAttestationConformitéUseCase>({
         type: 'Lauréat.Achèvement.AttestationConformité.UseCase.TransmettreAttestationConformité',
         data: {
           identifiantProjetValue: identifiantProjet.formatter(),
-          attestationValue: { format, content },
+          attestationValue: document,
           dateTransmissionAuCocontractantValue: dateTransmissionAuCocontractant,
           dateValue: date,
-          preuveTransmissionAuCocontractantValue: { format, content },
+          preuveTransmissionAuCocontractantValue: document,
           utilisateurValue: utilisateur,
         },
       });
@@ -83,23 +75,19 @@ Quand(
     try {
       const { identifiantProjet } = this.lauréatWorld;
 
-      const {
-        attestation: { content, format },
-        dateTransmissionAuCocontractant,
-        date,
-        utilisateur,
-      } = this.lauréatWorld.achèvementWorld.modifierAttestationConformitéFixture.créer({
-        utilisateur: this.utilisateurWorld.adminFixture.email,
-      });
+      const { document, dateTransmissionAuCocontractant, date, utilisateur } =
+        this.lauréatWorld.achèvementWorld.transmettreOuModifierAttestationConformitéFixture.créer({
+          utilisateur: this.utilisateurWorld.adminFixture.email,
+        });
 
       await mediator.send<Achèvement.ModifierAttestationConformitéUseCase>({
         type: 'Lauréat.Achèvement.AttestationConformité.UseCase.ModifierAttestationConformité',
         data: {
           identifiantProjetValue: identifiantProjet.formatter(),
-          attestationValue: { format, content },
+          attestationValue: document,
           dateTransmissionAuCocontractantValue: dateTransmissionAuCocontractant,
           dateValue: date,
-          preuveTransmissionAuCocontractantValue: { format, content },
+          preuveTransmissionAuCocontractantValue: document,
           utilisateurValue: utilisateur,
         },
       });
@@ -116,28 +104,24 @@ Quand(
     try {
       const { identifiantProjet } = this.lauréatWorld;
 
-      const {
-        attestation: { content, format },
-        dateTransmissionAuCocontractant,
-        date,
-        utilisateur,
-      } = this.lauréatWorld.achèvementWorld.modifierAttestationConformitéFixture.créer({
-        utilisateur: this.utilisateurWorld.adminFixture.email,
-        ...(exemple['date transmission au co-contractant'] && {
-          dateTransmissionAuCocontractant: new Date(
-            exemple['date transmission au co-contractant'],
-          ).toISOString(),
-        }),
-      });
+      const { document, dateTransmissionAuCocontractant, date, utilisateur } =
+        this.lauréatWorld.achèvementWorld.transmettreOuModifierAttestationConformitéFixture.créer({
+          utilisateur: this.utilisateurWorld.adminFixture.email,
+          ...(exemple['date transmission au co-contractant'] && {
+            dateTransmissionAuCocontractant: new Date(
+              exemple['date transmission au co-contractant'],
+            ).toISOString(),
+          }),
+        });
 
       await mediator.send<Achèvement.ModifierAttestationConformitéUseCase>({
         type: 'Lauréat.Achèvement.AttestationConformité.UseCase.ModifierAttestationConformité',
         data: {
           identifiantProjetValue: identifiantProjet.formatter(),
-          attestationValue: { format, content },
+          attestationValue: document,
           dateTransmissionAuCocontractantValue: dateTransmissionAuCocontractant,
           dateValue: date,
-          preuveTransmissionAuCocontractantValue: { format, content },
+          preuveTransmissionAuCocontractantValue: document,
           utilisateurValue: utilisateur,
         },
       });
