@@ -5,19 +5,31 @@ import { Option } from '@potentiel-libraries/monads';
 import { NotificationBadge } from '@/components/molecules/candidature/NotificationBadge';
 import { ProjetBannerTemplate } from '@/components/molecules/projet/ProjetBanner.template';
 import { StatutProjetBadge } from '@/components/molecules/projet/StatutProjetBadge';
+import {
+  ModifierCandidatureNotifiéeFormEntries,
+  ModifierLauréatKeys,
+  ModifierLauréatValueFormEntries,
+} from '@/utils/zod/candidature';
 
 import { PageTemplate } from '../../../templates/Page.template';
-import { GetLauréat } from '../../../../app/laureats/[identifiant]/_helpers/getLauréat';
 
 import { ModifierLauréatForm } from './ModifierLauréat.form';
-import { ModifierLauréatCandidatureFormEntries } from './modifierLauréat.action';
+
+type ModifierLauréatFormEntries = {
+  [K in ModifierLauréatKeys]: {
+    currentValue: ModifierLauréatValueFormEntries[K];
+    estEnCoursDeModification: boolean;
+  };
+};
 
 export type ModifierLauréatPageProps = {
-  candidature: ModifierLauréatCandidatureFormEntries;
-  lauréat: GetLauréat;
+  candidature: ModifierCandidatureNotifiéeFormEntries;
+  lauréat: ModifierLauréatFormEntries;
   projet: {
     identifiantProjet: string;
     nomProjet: string;
+    isCRE4ZNI: boolean;
+    isPPE2: boolean;
   };
 };
 

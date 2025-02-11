@@ -1,6 +1,5 @@
 import { Request } from 'express';
 import React from 'react';
-import { appelsOffreStatic } from '../../../../dataAccess/inMemory';
 import { ProjectDataForProjectPage } from '../../../../modules/project/queries';
 import ROUTES from '../../../../routes';
 import {
@@ -41,11 +40,9 @@ export const EditProjectData = ({ project, request }: EditProjectDataProps) => {
         <br />
         {project.isClasse && (
           <>
-            Pour modifier le nom ou le site de production du projet après notifiation, utiliser le{' '}
-            <a href={Routes.Lauréat.modifierNomLocalité(identifiantProjet)}>
-              formulaire de modification
-            </a>{' '}
-            du projet.
+            Pour modifier la candidature et le projet après notification, utiliser le{' '}
+            <a href={Routes.Lauréat.modifier(identifiantProjet)}>formulaire de modification</a> du
+            projet.
           </>
         )}
       </InfoBox>

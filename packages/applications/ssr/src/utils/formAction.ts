@@ -10,6 +10,7 @@ import { isNotFoundError } from 'next/dist/client/components/not-found';
 import { DomainError } from '@potentiel-domain/core';
 import { CsvError, CsvValidationError } from '@potentiel-libraries/csv';
 import { getLogger } from '@potentiel-libraries/monitoring';
+import { unflatten } from '@potentiel-libraries/flat';
 
 import { applySearchParams } from '../app/_helpers';
 
@@ -90,7 +91,9 @@ export const formAction =
         };
       }, {});
 
-      const data = schema ? await schema.parseAsync(dataReduced) : dataReduced;
+      const data = schema
+        ? await schema.parseAsync(unflatten(dataReduced))
+        : unflatten(dataReduced);
 
       const result = await action(previousState, data);
 

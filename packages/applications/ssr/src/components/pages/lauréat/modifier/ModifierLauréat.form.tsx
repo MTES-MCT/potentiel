@@ -2,90 +2,26 @@
 'use client';
 
 import Button from '@codegouvfr/react-dsfr/Button';
-import Input from '@codegouvfr/react-dsfr/Input';
-import React, { useState } from 'react';
+import React from 'react';
+import Alert from '@codegouvfr/react-dsfr/Alert';
 
 import { Routes } from '@potentiel-applications/routes';
 
+import { Form } from '@/components/atoms/form/Form';
+import { SubmitButton } from '@/components/atoms/form/SubmitButton';
+import { FormRow } from '@/components/atoms/form/FormRow';
 import { Heading3 } from '@/components/atoms/headings';
-
-import { Form } from '../../../atoms/form/Form';
-import { SubmitButton } from '../../../atoms/form/SubmitButton';
 
 import { modifierLauréatAction } from './modifierLauréat.action';
 import { ModifierLauréatPageProps } from './ModifierLauréat.page';
-
-const FormRow = ({ children }: { children: React.ReactNode }) => (
-  <div className="flex flex-row items-center gap-4 mt-4">{children}</div>
-);
-
-type FieldProps<T> = { candidature: T; lauréat: T; aÉtéModifié?: boolean };
-
-const ActionnaireField = ({ candidature, lauréat, aÉtéModifié }: FieldProps<string>) => {
-  const [linked, setLinked] = useState(candidature === lauréat);
-  const [candidatureValue, setCandidatureValue] = useState(candidature);
-  const [lauréatValue, setLauréatValue] = useState(lauréat);
-
-  return (
-    <div className="flex flex-row items-center gap-4 w-full">
-      <div className="flex-1 font-semibold">Actionnaire(s)</div>
-      <div className="flex-1 flex mb-5">
-        <input
-          name="societeMere"
-          type="hidden"
-          value={candidatureValue}
-          disabled={candidatureValue === candidature}
-        />
-        <Input
-          label="Actionnaire"
-          nativeInputProps={{
-            value: candidatureValue,
-            onChange: (ev) => {
-              setCandidatureValue(ev.target.value);
-              if (linked) {
-                setLauréatValue(ev.target.value);
-              }
-            },
-          }}
-        />
-      </div>
-      <div className="flex-1 flex flex-row gap-2 items-center">
-        <input
-          name="actionnaire"
-          type="hidden"
-          value={lauréatValue}
-          disabled={lauréatValue === lauréat}
-        />
-        <Input
-          disabled={aÉtéModifié || linked}
-          label="Actionnaire"
-          nativeInputProps={{
-            value: lauréatValue,
-            onChange: (ev) => {
-              setLauréatValue(ev.target.value);
-              if (linked) {
-                setCandidatureValue(ev.target.value);
-              }
-            },
-          }}
-        />
-        <Button
-          type="button"
-          iconId={linked ? 'fr-icon-lock-unlock-fill' : 'fr-icon-lock-fill'}
-          title="Appliquer les changements au projet"
-          size="small"
-          className="mt-3"
-          onClick={() => setLinked((l) => !l)}
-          disabled={aÉtéModifié}
-        />
-      </div>
-    </div>
-  );
-};
+import { CandidatureField, ProjectField } from './fields/ModifierLauréatFields';
+import { TechnologieField } from './fields/TechnologieField';
+import { ActionnariatField } from './fields/ActionnariatField';
+import { LocalitéField } from './fields/LocalitéField';
+import { PuissanceALaPointeField } from './fields/PuissanceALaPointeField ';
 
 export type ModifierLauréatFormProps = ModifierLauréatPageProps;
 
-// TODO: validation erreurs dans un second temps
 export const ModifierLauréatForm: React.FC<ModifierLauréatFormProps> = ({
   candidature,
   lauréat,
@@ -130,10 +66,100 @@ export const ModifierLauréatForm: React.FC<ModifierLauréatFormProps> = ({
         </FormRow>
         <input type={'hidden'} value={projet.identifiantProjet} name="identifiantProjet" />
         <FormRow>
-          <ActionnaireField
-            candidature={candidature.societeMere}
+          <ProjectField
+            candidature={candidature.nomProjet}
+            lauréat={lauréat.nomProjet.currentValue}
+            estEnCoursDeModification={lauréat.nomProjet.estEnCoursDeModification}
+            label="Nom du projet"
+            name="nomProjet"
+          />
+        </FormRow>
+        <FormRow>
+          <CandidatureField
+            candidature={candidature.nomCandidat}
+            label={'Nom du candidat'}
+            name={'nomCandidat'}
+          />
+        </FormRow>
+        <FormRow>
+          <CandidatureField
+            candidature={candidature.emailContact}
+            label={'Email de contact'}
+            name={'emailContact'}
+          />
+        </FormRow>
+        <FormRow>
+          <ProjectField
+            candidature={candidature.nomRepresentantLegal}
+            lauréat={lauréat.nomRepresentantLegal.currentValue}
+            estEnCoursDeModification={lauréat.nomRepresentantLegal.estEnCoursDeModification}
+            label="Nom représentant légal"
+            name="nomRepresentantLegal"
+          />
+        </FormRow>
+        <FormRow>
+          <ActionnariatField candidature={candidature.actionnariat} isPPE2={projet.isPPE2} />
+        </FormRow>
+        <FormRow>
+          <ProjectField
+            candidature={candidature.actionnaire}
             lauréat={lauréat.actionnaire.currentValue}
-            aÉtéModifié={lauréat.actionnaire.AÉtéModifié}
+            estEnCoursDeModification={lauréat.actionnaire.estEnCoursDeModification}
+            label="Actionnaire(s)"
+            name="actionnaire"
+          />
+        </FormRow>
+        <LocalitéField candidature={candidature} lauréat={lauréat} />
+        <FormRow>
+          <TechnologieField candidature={candidature.technologie} />
+        </FormRow>
+        <FormRow>
+          <CandidatureField
+            candidature={candidature.prixReference}
+            label={'Prix de référence'}
+            name={'prixReference'}
+          />
+        </FormRow>
+        <FormRow>
+          <div className="flex flex-col gap-2 w-full">
+            <ProjectField
+              candidature={candidature.puissanceProductionAnnuelle}
+              lauréat={lauréat.puissanceProductionAnnuelle.currentValue}
+              estEnCoursDeModification={
+                lauréat.puissanceProductionAnnuelle.estEnCoursDeModification
+              }
+              label={'Puissance (en MWc)'}
+              name={'puissanceProductionAnnuelle'}
+            />
+            <Alert
+              severity="warning"
+              small
+              description={
+                <div className="p-3">
+                  Pour modifier ce champs pour le projet avant la migration de puissance,
+                  rendez-vous sur le formulaire de modification de puissance.
+                </div>
+              }
+            />
+          </div>
+        </FormRow>
+        {projet.isCRE4ZNI && (
+          <FormRow>
+            <PuissanceALaPointeField puissanceALaPointe={candidature.puissanceALaPointe} />
+          </FormRow>
+        )}
+        <FormRow>
+          <CandidatureField
+            candidature={candidature.evaluationCarboneSimplifiee}
+            label={'Evaluation carbone'}
+            name={'evaluationCarboneSimplifiee'}
+          />
+        </FormRow>
+        <FormRow>
+          <CandidatureField
+            candidature={candidature.noteTotale}
+            label={'Note'}
+            name={'noteTotale'}
           />
         </FormRow>
       </div>
