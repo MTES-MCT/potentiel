@@ -716,7 +716,7 @@ const policies = {
     ],
   },
   candidature: {
-    consulterRésumé: [référencielPermissions.candidature.query.consulterRésuméCandidature],
+    consulter: [référencielPermissions.candidature.query.consulterCandidature],
     importer: [
       référencielPermissions.appelOffre.query.consulter,
       référencielPermissions.candidature.usecase.importer,
@@ -983,9 +983,9 @@ const commonPolicies: ReadonlyArray<Policy> = [
   'historique.lister',
 
   // Header projet
-  'candidature.consulterRésumé',
+  'lauréat.consulter',
+  'candidature.consulter',
   'abandon.consulter.détail',
-  'recours.consulter.détail',
 ];
 
 // En attendant d'avoir des gateways qui groupent les query
