@@ -39,7 +39,7 @@
     "date-fns": "^2.30.0",
     "docxtemplater": "^3.51.0",
     "dotenv": "^16.4.5",
-    "esbuild": "^0.20.1",
+    "esbuild": "^0.25.0",
     "express": "^4.21.1",
     "express-async-handler": "^1.2.0",
     "helmet": "^6.2.0",
