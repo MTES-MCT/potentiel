@@ -22,19 +22,6 @@ const configSchema = z.object({
   KEYCLOAK_ADMIN_CLIENT_SECRET: z.string(),
 });
 
-registerRéseauQueries({
-  find: findProjection,
-  list: listProjection,
-});
-
-registerLauréatQueries({
-  find: findProjection,
-  list: listProjection,
-  count: countProjection,
-  récupérerIdentifiantsProjetParEmailPorteur: récupérerIdentifiantsProjetParEmailPorteurAdapter,
-  consulterCahierDesChargesAdapter: consulterCahierDesChargesChoisiAdapter,
-});
-
 export default class SyncKeycloakGroups extends Command {
   static override description = 'Crée les groupes de gestionnaires réseau manquants dans Keycloak';
 
@@ -46,6 +33,21 @@ export default class SyncKeycloakGroups extends Command {
       description: 'Exécution test, sans mise à jour',
     }),
   };
+
+  public async init() {
+    registerRéseauQueries({
+      find: findProjection,
+      list: listProjection,
+    });
+
+    registerLauréatQueries({
+      find: findProjection,
+      list: listProjection,
+      count: countProjection,
+      récupérerIdentifiantsProjetParEmailPorteur: récupérerIdentifiantsProjetParEmailPorteurAdapter,
+      consulterCahierDesChargesAdapter: consulterCahierDesChargesChoisiAdapter,
+    });
+  }
 
   public async run(): Promise<void> {
     console.info('Lancement du script...');
