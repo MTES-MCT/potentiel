@@ -5,6 +5,9 @@ export const Footer = () => (
     id="footer"
     brandTop={<>Gouvernement</>}
     accessibility="partially compliant"
+    accessibilityLinkProps={{
+      href: '/accessibilite.html',
+    }}
     contentDescription={
       <>
         Suivez efficacement vos projets :
