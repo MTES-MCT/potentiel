@@ -31,7 +31,6 @@ const action: FormAction<FormState, typeof schema> = (_, { fichierCorrections })
       // on conserve les espaces, car c'est potentiellement l'erreur à corriger
       ltrim: false,
       rtrim: false,
-      encoding: 'utf8',
     });
 
     if (lines.length === 0) {

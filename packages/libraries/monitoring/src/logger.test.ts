@@ -8,6 +8,7 @@ import { consoleTransport } from './winston/console.transport';
 import { initLogger, resetLogger } from './logger';
 import { createLogger } from './winston/createLogger';
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const logMock = (calls: string[]) => (info: any, next: any) => calls.push(info.message) && next();
 
 describe('winston-logger', () => {
