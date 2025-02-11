@@ -17,7 +17,7 @@ import { withUtilisateur } from '@/utils/withUtilisateur';
 import { ProjetBannerTemplate } from './ProjetBanner.template';
 
 export type ProjetBannerProps = {
-  identifiantProjet: IdentifiantProjet.RawType;
+  identifiantProjet: string;
 };
 
 export const ProjetBanner: FC<ProjetBannerProps> = async ({ identifiantProjet }) => {
@@ -45,7 +45,7 @@ export const ProjetBanner: FC<ProjetBannerProps> = async ({ identifiantProjet })
 };
 
 const getProjet = async (
-  identifiantProjet: IdentifiantProjet.RawType,
+  identifiantProjet: string,
 ): Promise<
   | {
       nomProjet: string;
