@@ -26,9 +26,7 @@ Références :
 
 ## Utilisation dans Potentiel
 
-Pour Potentiel, nous appliquons le design atomic dans le dossier `UI` organisés entre les dossiers atoms et molecules.
-
-Chaque composant dispose d'une story qui lui permet d'être consultable dans le storybook. 
+Pour Potentiel, nous appliquons le design atomic dans le dossier `UI` organisés entre les dossiers atoms et molecules. 
 
 Afin de pouvoir bien construire chacun de nos composants, nous utilisons certaines conventions : 
 - Tout nos composants doivent être construit dans une logique [mobile-first](https://www.anthedesign.fr/webdesign-2/mobile-first/) qui garanti une bonne utilisation du composant quelque soit le device.

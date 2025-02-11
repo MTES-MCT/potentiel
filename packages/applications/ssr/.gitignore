@@ -35,7 +35,4 @@ next-env.d.ts
 /public/dsfr/
 public/dsfr
 
-/storybook-static
-/.storybook/static/dsfr/
-
 .env
