@@ -13,9 +13,6 @@ export const updateOneProjection = async <TProjection extends Entity>(
   readModel: AtLeastOne<Omit<TProjection, 'type'>>,
 ): Promise<void> => {
   const [updateQuery, values] = getUpdateClause(readModel, 1);
-
-  console.log({ updateQuery, values });
-
   const result = await executeQuery(`${updateQuery} where key = $1`, id, ...values);
   if (result.rowCount === 0) {
     getLogger('Projectors.infrastructure.updateOneProjection').warn(
