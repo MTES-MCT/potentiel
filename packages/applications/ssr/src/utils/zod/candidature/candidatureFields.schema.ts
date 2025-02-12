@@ -45,8 +45,7 @@ export const typeGarantiesFinancieresSchema = optionalEnum(
   z.enum(Candidature.TypeGarantiesFinancières.types),
 );
 export const typeGfSchema = z.enum(['1', '2', '3', '4']);
-// optionnel car une fois notifié, ce champs n'est plus modifiable
-export const statutSchema = z.enum(Candidature.StatutCandidature.statuts).optional();
+export const statutSchema = z.enum(Candidature.StatutCandidature.statuts).optional(); // plus modifiable une fois notifiée
 export const puissanceALaPointeSchema = booleanSchema;
 export const évaluationCarboneSimplifiéeSchema = strictlyPositiveNumberSchema;
 

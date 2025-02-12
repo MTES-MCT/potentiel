@@ -67,7 +67,6 @@ const colonnes = {
   financementCollectif: 'Financement collectif (Oui/Non)',
   gouvernancePartagée: 'Gouvernance partagée (Oui/Non)',
   dateÉchéanceGf: "Date d'échéance au format JJ/MM/AAAA",
-  // TODO quel est le bon nom pour cette colonne?
   historiqueAbandon:
     "1. Lauréat d'aucun AO\n2. Abandon classique\n3. Abandon avec recandidature\n4. Lauréat d'un AO",
   territoireProjet: 'Territoire\n(AO ZNI)',
