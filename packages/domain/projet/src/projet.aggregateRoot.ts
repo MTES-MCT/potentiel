@@ -2,6 +2,8 @@ import { LoadAggregate } from '@potentiel-domain/core';
 
 import { IdentifiantProjet } from '.';
 
+import { ÉliminéAggregate } from './éliminé/éliminé.aggregate';
+
 interface ProjetAggregateRootDependencies {
   loadAggregate: LoadAggregate;
 }
@@ -13,12 +15,19 @@ class ProjetAggregateRootAlreadyInitialized extends Error {
 }
 
 export class ProjetAggregateRoot {
-  #identifiantProjet: IdentifiantProjet.ValueType;
   #initialized: boolean = false;
   #loadAggregate: LoadAggregate;
 
+  #identifiantProjet: IdentifiantProjet.ValueType;
+
   get identifiantProjet() {
     return this.#identifiantProjet;
+  }
+
+  #éliminé!: ÉliminéAggregate;
+
+  get éliminé() {
+    return this.#éliminé;
   }
 
   private constructor(
