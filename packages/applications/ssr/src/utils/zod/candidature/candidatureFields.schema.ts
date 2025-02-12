@@ -37,6 +37,7 @@ export const codePostalSchema = requiredStringSchema
     'Le code postal ne correspond à aucune région / département',
   )
   .transform((val) => val.join(' / '));
+
 export const communeSchema = requiredStringSchema;
 export const doitRegenererAttestationSchema = booleanSchema.optional();
 export const motifEliminationSchema = optionalStringSchema.transform((val) => val || undefined);
@@ -78,3 +79,9 @@ export const territoireProjetCsvSchema = optionalStringSchema;
 export const notifiedOnCsvSchema = z.undefined({
   invalid_type_error: 'Le champs notifiedOn ne peut pas être présent',
 });
+export const codePostalCsvSchema = requiredStringSchema
+  .transform((val) => val.split('/').map((str) => str.trim()))
+  .refine(
+    (val) => val.every(getRégionAndDépartementFromCodePostal),
+    'Le code postal ne correspond à aucune région / département',
+  );

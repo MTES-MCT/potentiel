@@ -22,6 +22,7 @@ import {
   statutSchema,
   technologieSchema,
   typeGarantiesFinancieresSchema,
+  communeSchema,
 } from './candidatureFields.schema';
 
 /** Schema simplifié pour utilisation sans données Csv */
@@ -39,6 +40,7 @@ export const candidatureSchema = z
     adresse1: adresse1Schema,
     adresse2: adresse2Schema,
     codePostal: codePostalSchema,
+    commune: communeSchema,
     statut: statutSchema,
     puissanceALaPointe: puissanceALaPointeSchema,
     evaluationCarboneSimplifiee: évaluationCarboneSimplifiéeSchema,

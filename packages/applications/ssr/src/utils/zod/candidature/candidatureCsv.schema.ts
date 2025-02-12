@@ -11,7 +11,6 @@ import {
   adresse1CsvSchema,
   adresse2Schema,
   appelOffreSchema,
-  codePostalSchema,
   communeSchema,
   emailContactSchema,
   évaluationCarboneSimplifiéeCsvSchema,
@@ -36,6 +35,7 @@ import {
   dateEchéanceGfCsvSchema,
   territoireProjetCsvSchema,
   notifiedOnCsvSchema,
+  codePostalCsvSchema,
 } from './candidatureFields.schema';
 
 // Les colonnes du fichier Csv
@@ -89,7 +89,7 @@ const candidatureCsvRowSchema = z
     [colonnes.emailContact]: emailContactSchema,
     [colonnes.adresse1]: adresse1CsvSchema,
     [colonnes.adresse2]: adresse2Schema, // see refine below
-    [colonnes.codePostaux]: codePostalSchema,
+    [colonnes.codePostaux]: codePostalCsvSchema,
     [colonnes.commune]: communeSchema,
     [colonnes.statut]: statutCsvSchema,
     [colonnes.puissanceÀLaPointe]: puissanceALaPointeCsvSchema,
