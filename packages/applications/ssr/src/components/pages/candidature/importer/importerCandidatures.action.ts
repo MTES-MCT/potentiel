@@ -12,10 +12,9 @@ import { Routes } from '@potentiel-applications/routes';
 import { ActionResult, FormAction, formAction, FormState } from '@/utils/formAction';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 import { singleDocument } from '@/utils/zod/document/singleDocument';
+import { candidatureCsvSchema, CandidatureShape } from '@/utils/zod/candidature';
 
 import { getLocalité } from '../helpers';
-
-import { candidatureCsvSchema, CandidatureShape } from './candidature.schema';
 
 const schema = zod.object({
   fichierImportCandidature: singleDocument({ acceptedFileTypes: ['text/csv'] }),
