@@ -1,15 +1,9 @@
 import { InvalidOperationError, ReadonlyValueType } from '@potentiel-domain/core';
 
-/**
- * @deprecated use potentiel-domain/projet
- */
 export type RawType = 'non-notifié' | 'abandonné' | 'classé' | 'éliminé';
 
 const statuts: Array<RawType> = ['non-notifié', 'abandonné', 'classé', 'éliminé'];
 
-/**
- * @deprecated use potentiel-domain/projet
- */
 export type ValueType = ReadonlyValueType<{
   statut: RawType;
   estAbandonné: () => boolean;
@@ -18,9 +12,6 @@ export type ValueType = ReadonlyValueType<{
   estÉliminé: () => boolean;
 }>;
 
-/**
- * @deprecated use potentiel-domain/projet
- */
 export const convertirEnValueType = (value: string): ValueType => {
   estValide(value);
   return {
@@ -53,24 +44,9 @@ function estValide(value: string): asserts value is RawType {
   }
 }
 
-/**
- * @deprecated use potentiel-domain/projet
- */
 export const abandonné = convertirEnValueType('abandonné');
-
-/**
- * @deprecated use potentiel-domain/projet
- */
 export const classé = convertirEnValueType('classé');
-
-/**
- * @deprecated use potentiel-domain/projet
- */
 export const nonNotifié = convertirEnValueType('non-notifié');
-
-/**
- * @deprecated use potentiel-domain/projet
- */
 export const éliminé = convertirEnValueType('éliminé');
 
 class StatutProjetInvalideError extends InvalidOperationError {

@@ -5,14 +5,8 @@ type Période = string;
 type Famille = string;
 type NuméroCRE = string;
 
-/**
- * @deprecated use potentiel-domain/projet
- */
 export type RawType = `${AppelOffre}#${Période}#${Famille}#${NuméroCRE}`;
 
-/**
- * @deprecated use potentiel-domain/projet
- */
 export type ValueType = ReadonlyValueType<{
   appelOffre: AppelOffre;
   période: Période;
@@ -21,9 +15,6 @@ export type ValueType = ReadonlyValueType<{
   formatter(): RawType;
 }>;
 
-/**
- * @deprecated use potentiel-domain/projet
- */
 export const bind = ({
   appelOffre,
   famille,
@@ -44,9 +35,6 @@ export const bind = ({
   };
 };
 
-/**
- * @deprecated use potentiel-domain/projet
- */
 export const convertirEnValueType = (identifiantProjet: string): ValueType => {
   if (!estValide(identifiantProjet)) {
     throw new IdentifiantProjetInvalideError(identifiantProjet);
@@ -64,16 +52,10 @@ export const convertirEnValueType = (identifiantProjet: string): ValueType => {
 
 const regexIdentifiantProjet = /^[^#]+#[^#]+#([^#]+)?#[^#]+$/;
 
-/**
- * @deprecated use potentiel-domain/projet
- */
 export function estValide(value: string) {
   return regexIdentifiantProjet.test(value);
 }
 
-/**
- * @deprecated use potentiel-domain/projet
- */
 export const inconnu = convertirEnValueType(
   'appelOffreInconnu#périodeInconnu#familleInconnu#numéroCREInconnu',
 );
