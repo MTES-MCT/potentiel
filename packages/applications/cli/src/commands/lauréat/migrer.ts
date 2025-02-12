@@ -7,13 +7,12 @@ import { executeSelect } from '@potentiel-libraries/pg-helpers';
 
 const récupérerLauréatNotifiéEvents = `
 select es.stream_id,
-    jsonb_set(
-        jsonb_set(
-            es.payload,
-            '{nomProjet}',
-            to_jsonb(cand.value->>'nomProjet')
-        ),
-        '{localité}',
+    jsonb_build_object(
+        'identifiantProjet',
+        cand.value->>'identifiantProjet',
+        'nomProjet',
+        cand.value->>'nomProjet',
+        'localité',
         jsonb_build_object(
             'adresse1',
             cand.value->>'localité.adresse1',
