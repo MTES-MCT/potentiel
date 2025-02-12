@@ -10,13 +10,17 @@ import { ProjetBanner } from '@/components/molecules/projet/ProjetBanner';
 import { Heading1 } from '@/components/atoms/headings';
 import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
 
-import { ModifierNomProjetForm, ModifierNomProjetFormProps } from './ModifierNomProjet.form';
+import {
+  ModifierNomLocalitéLauréatForm,
+  ModifierNomLocalitéLauréatFormProps,
+} from './ModifierNomLocalitéLauréat.form';
 
-export type ModifierNomProjetPageProps = ModifierNomProjetFormProps;
+export type ModifierNomEtLocalitéProjetPageProps = ModifierNomLocalitéLauréatFormProps;
 
-export const ModifierNomProjetPage: FC<ModifierNomProjetPageProps> = ({
+export const ModifierNomEtLocalitéProjetPage: FC<ModifierNomEtLocalitéProjetPageProps> = ({
   identifiantProjet,
   nomProjet,
+  localité,
 }) => (
   <ColumnPageTemplate
     banner={
@@ -25,9 +29,10 @@ export const ModifierNomProjetPage: FC<ModifierNomProjetPageProps> = ({
     heading={<Heading1>Modifier le nom du projet</Heading1>}
     leftColumn={{
       children: (
-        <ModifierNomProjetForm
+        <ModifierNomLocalitéLauréatForm
           identifiantProjet={mapToPlainObject(identifiantProjet)}
           nomProjet={nomProjet}
+          localité={localité}
         />
       ),
     }}

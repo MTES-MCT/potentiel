@@ -11,8 +11,8 @@ export type ModifierLauréatCommand = Message<
     identifiantProjet: IdentifiantProjet.ValueType;
     modifiéLe: DateTime.ValueType;
     modifiéPar: Email.ValueType;
-    nomProjet?: string;
-    localité?: {
+    nomProjet: string;
+    localité: {
       adresse1: string;
       adresse2: string;
       codePostal: string;

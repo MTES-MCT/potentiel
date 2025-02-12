@@ -7,8 +7,8 @@ export type ModifierLauréatOptions = {
   identifiantProjet: IdentifiantProjet.ValueType;
   modifiéLe: DateTime.ValueType;
   modifiéPar: Email.ValueType;
-  nomProjet?: string;
-  localité?: {
+  nomProjet: string;
+  localité: {
     adresse1: string;
     adresse2: string;
     codePostal: string;
@@ -38,17 +38,21 @@ export type LauréatModifiéEvent = DomainEvent<
 
 export async function modifier(
   this: LauréatAggregate,
-  { identifiantProjet, modifiéLe, modifiéPar, nomProjet, localité }: ModifierLauréatOptions,
+  {
+    identifiantProjet,
+    modifiéLe,
+    modifiéPar,
+    nomProjet,
+    localité: { adresse1, adresse2, codePostal, commune, département, région },
+  }: ModifierLauréatOptions,
 ) {
-  const { adresse1, adresse2, codePostal, commune, département, région } =
-    localité ?? this.localité;
   const event: LauréatModifiéEvent = {
     type: 'LauréatModifié-V1',
     payload: {
       identifiantProjet: identifiantProjet.formatter(),
       modifiéLe: modifiéLe.formatter(),
       modifiéPar: modifiéPar.formatter(),
-      nomProjet: nomProjet ?? this.nomProjet,
+      nomProjet: nomProjet,
       localité: {
         adresse1,
         adresse2,

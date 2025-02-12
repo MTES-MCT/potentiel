@@ -12,17 +12,32 @@ import { withUtilisateur } from '@/utils/withUtilisateur';
 const schema = zod.object({
   identifiantProjet: zod.string().min(1),
   nomProjet: zod.string().min(1, { message: 'Champ obligatoire' }),
+  adresse1: zod.string().min(1),
+  adresse2: zod.string().optional(),
+  commune: zod.string().min(1),
+  codePostal: zod.string().min(5).max(5),
 });
 
-export type ModifierNomProjetFormKeys = keyof zod.infer<typeof schema>;
+export type ModifierNomLocalitéLauréatFormKeys = keyof zod.infer<typeof schema>;
 
-const action: FormAction<FormState, typeof schema> = async (_, { identifiantProjet, nomProjet }) =>
+const action: FormAction<FormState, typeof schema> = async (
+  _,
+  { identifiantProjet, nomProjet, adresse1, adresse2, codePostal, commune },
+) =>
   withUtilisateur(async (utilisateur) => {
     await mediator.send<Lauréat.ModifierLauréatUseCase>({
       type: 'Lauréat.UseCase.ModifierLauréat',
       data: {
         identifiantProjetValue: identifiantProjet,
         nomProjetValue: nomProjet,
+        localitéValue: {
+          adresse1,
+          adresse2: adresse2 || '',
+          codePostal,
+          commune,
+          département: '',
+          région: '',
+        },
         modifiéLeValue: new Date().toISOString(),
         modifiéParValue: utilisateur.identifiantUtilisateur.email,
       },
@@ -37,4 +52,4 @@ const action: FormAction<FormState, typeof schema> = async (_, { identifiantProj
     };
   });
 
-export const modifierNomProjetAction = formAction(action, schema);
+export const modifierNomLocalitéLauréatAction = formAction(action, schema);

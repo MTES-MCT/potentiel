@@ -10,8 +10,8 @@ export type ModifierLauréatUseCase = Message<
     identifiantProjetValue: string;
     modifiéLeValue: string;
     modifiéParValue: string;
-    nomProjetValue?: string;
-    localitéValue?: {
+    nomProjetValue: string;
+    localitéValue: {
       adresse1: string;
       adresse2: string;
       codePostal: string;

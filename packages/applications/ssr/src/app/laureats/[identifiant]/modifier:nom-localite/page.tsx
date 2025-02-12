@@ -9,7 +9,7 @@ import { Option } from '@potentiel-libraries/monads';
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { decodeParameter } from '@/utils/decodeParameter';
-import { ModifierNomProjetPage } from '@/components/pages/lauréat/modifier/nom/ModifierNomProjet.page';
+import { ModifierNomEtLocalitéProjetPage } from '@/components/pages/lauréat/modifier/ModifierNomLocalitéLauréat.page';
 
 type PageProps = IdentifiantParameter;
 
@@ -33,7 +33,11 @@ export default async function Page({ params: { identifiant } }: PageProps) {
     }
 
     return (
-      <ModifierNomProjetPage identifiantProjet={identifiantProjet} nomProjet={lauréat.nomProjet} />
+      <ModifierNomEtLocalitéProjetPage
+        identifiantProjet={identifiantProjet}
+        nomProjet={lauréat.nomProjet}
+        localité={lauréat.localité}
+      />
     );
   });
 }
