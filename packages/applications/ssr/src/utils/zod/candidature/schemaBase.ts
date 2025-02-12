@@ -89,24 +89,3 @@ export const typeGf = [
   Candidature.TypeGarantiesFinancières.avecDateÉchéance.type,
   Candidature.TypeGarantiesFinancières.consignation.type,
 ] as const;
-
-export const historiqueAbandon = [
-  'première-candidature',
-  'abandon-classique',
-  'abandon-avec-recandidature',
-  'lauréat-autre-période',
-] as const;
-
-export const statut = {
-  éliminé: 'éliminé',
-  eliminé: 'éliminé',
-  classé: 'classé',
-  retenu: 'classé',
-} as const;
-
-export const technologie = {
-  Eolien: 'eolien',
-  Hydraulique: 'hydraulique',
-  PV: 'pv',
-  'N/A': 'N/A',
-} as const;

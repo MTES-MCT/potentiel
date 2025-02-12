@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-import { conditionalRequiredError, typeGf } from './schemaBase';
+import { conditionalRequiredError } from './schemaBase';
 import {
   actionnariatSchema,
   adresse1Schema,
@@ -65,10 +65,11 @@ export const candidatureSchema = z
   })
   // la date d'échéance est obligatoire si les GF sont de type "avec date d'échéance"
   .superRefine((obj, ctx) => {
-    const actualTypeGf = obj.typeGarantiesFinancieres
-      ? typeGf[Number(obj.typeGarantiesFinancieres)]
-      : undefined;
-    if (obj.statut === 'classé' && actualTypeGf === 'avec-date-échéance' && !obj.motifElimination) {
+    if (
+      obj.statut === 'classé' &&
+      obj.typeGarantiesFinancieres === 'avec-date-échéance' &&
+      !obj.motifElimination
+    ) {
       ctx.addIssue(
         conditionalRequiredError(
           'dateEcheanceGf',

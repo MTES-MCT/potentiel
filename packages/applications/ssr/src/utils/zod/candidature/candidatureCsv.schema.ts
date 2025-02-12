@@ -1,12 +1,6 @@
 import { z } from 'zod';
 
-import {
-  statut,
-  conditionalRequiredError,
-  typeGf,
-  historiqueAbandon,
-  technologie,
-} from './schemaBase';
+import { conditionalRequiredError, typeGf } from './schemaBase';
 import {
   adresse1CsvSchema,
   adresse2Schema,
@@ -37,6 +31,28 @@ import {
   notifiedOnCsvSchema,
   codePostalCsvSchema,
 } from './candidatureFields.schema';
+
+// Order matters! the CSV uses "1"/"2"/"3"
+const historiqueAbandon = [
+  'première-candidature',
+  'abandon-classique',
+  'abandon-avec-recandidature',
+  'lauréat-autre-période',
+] as const;
+
+const statut = {
+  éliminé: 'éliminé',
+  eliminé: 'éliminé',
+  classé: 'classé',
+  retenu: 'classé',
+} as const;
+
+const technologie = {
+  Eolien: 'eolien',
+  Hydraulique: 'hydraulique',
+  PV: 'pv',
+  'N/A': 'N/A',
+} as const;
 
 // Les colonnes du fichier Csv
 const colonnes = {
