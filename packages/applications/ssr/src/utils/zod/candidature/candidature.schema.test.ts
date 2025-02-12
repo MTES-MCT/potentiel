@@ -3,7 +3,7 @@ import { test, describe } from 'node:test';
 import { expect, assert } from 'chai';
 import { SafeParseReturnType, SafeParseSuccess } from 'zod';
 
-import { CandidatureCsvRowShape, candidatureCsvSchema } from './candidature.schema';
+import { CandidatureCsvRowShape, candidatureCsvSchema } from '.';
 
 const minimumValues: Partial<Record<keyof CandidatureCsvRowShape, string>> = {
   "Appel d'offres": "appel d'offre",

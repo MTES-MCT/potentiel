@@ -97,7 +97,6 @@ export const historiqueAbandon = [
   'lauréat-autre-période',
 ] as const;
 
-// en a t on besoin ?
 export const statut = {
   éliminé: 'éliminé',
   eliminé: 'éliminé',
@@ -105,7 +104,6 @@ export const statut = {
   retenu: 'classé',
 } as const;
 
-// en a t on besoin ?
 export const technologie = {
   Eolien: 'eolien',
   Hydraulique: 'hydraulique',

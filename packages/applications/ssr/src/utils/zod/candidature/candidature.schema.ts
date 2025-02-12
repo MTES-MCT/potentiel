@@ -6,25 +6,25 @@ import {
   adresse1Schema,
   adresse2Schema,
   codePostalSchema,
-  dateEcheanceGfSchema,
+  dateEchéanceGfSchema,
   doitRegenererAttestationSchema,
   emailContactSchema,
-  evaluationCarboneSimplifieeSchema,
+  évaluationCarboneSimplifiéeSchema,
   motifEliminationSchema,
   nomCandidatSchema,
   nomProjetSchema,
-  nomRepresentantLegalSchema,
+  nomReprésentantLégalSchema,
   noteTotaleSchema,
-  prixReferenceSchema,
+  prixRéférenceSchema,
   puissanceALaPointeSchema,
   puissanceProductionAnnuelleSchema,
   sociétéMèreSchema,
   statutSchema,
   technologieSchema,
   typeGarantiesFinancieresSchema,
-} from './candidatureFieldsSchema';
+} from './candidatureFields.schema';
 
-/** Schema simplifié pour utilisation sans données CSV */
+/** Schema simplifié pour utilisation sans données Csv */
 export const candidatureSchema = z
   .object({
     identifiantProjet: z.string(),
@@ -32,25 +32,22 @@ export const candidatureSchema = z
     societeMere: sociétéMèreSchema,
     nomCandidat: nomCandidatSchema,
     puissanceProductionAnnuelle: puissanceProductionAnnuelleSchema,
-    prixReference: prixReferenceSchema,
+    prixReference: prixRéférenceSchema,
     noteTotale: noteTotaleSchema,
-    nomRepresentantLegal: nomRepresentantLegalSchema,
+    nomRepresentantLegal: nomReprésentantLégalSchema,
     emailContact: emailContactSchema,
     adresse1: adresse1Schema,
     adresse2: adresse2Schema,
     codePostal: codePostalSchema,
     statut: statutSchema,
     puissanceALaPointe: puissanceALaPointeSchema,
-    evaluationCarboneSimplifiee: evaluationCarboneSimplifieeSchema,
+    evaluationCarboneSimplifiee: évaluationCarboneSimplifiéeSchema,
     actionnariat: actionnariatSchema,
     doitRegenererAttestation: doitRegenererAttestationSchema,
-    motifElimination: motifEliminationSchema,
-    // see refine below
+    motifElimination: motifEliminationSchema, // see refine below
     technologie: technologieSchema,
-    typeGarantiesFinancieres: typeGarantiesFinancieresSchema,
-    // see refine below
-    dateEcheanceGf: dateEcheanceGfSchema,
-    // see refine below
+    typeGarantiesFinancieres: typeGarantiesFinancieresSchema, // see refine below
+    dateEcheanceGf: dateEchéanceGfSchema, // see refine below
   })
   // le motif d'élimination est obligatoire si la candidature est éliminée
   .superRefine((obj, ctx) => {

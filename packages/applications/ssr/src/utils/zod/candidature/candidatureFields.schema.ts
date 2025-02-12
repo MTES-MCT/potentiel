@@ -24,11 +24,10 @@ export const nomProjetSchema = requiredStringSchema;
 export const sociétéMèreSchema = optionalStringSchema;
 export const nomCandidatSchema = requiredStringSchema;
 export const puissanceProductionAnnuelleSchema = strictlyPositiveNumberSchema;
-export const prixReferenceSchema = strictlyPositiveNumberSchema;
+export const prixRéférenceSchema = strictlyPositiveNumberSchema;
 export const noteTotaleSchema = numberSchema;
-export const nomRepresentantLegalSchema = requiredStringSchema;
+export const nomReprésentantLégalSchema = requiredStringSchema;
 export const emailContactSchema = requiredStringSchema.email();
-export const adresse1CsvSchema = optionalStringSchema;
 export const adresse1Schema = requiredStringSchema;
 export const adresse2Schema = optionalStringSchema;
 export const codePostalSchema = requiredStringSchema
@@ -45,29 +44,37 @@ export const typeGarantiesFinancieresSchema = optionalEnum(
   z.enum(Candidature.TypeGarantiesFinancières.types),
 );
 export const typeGfSchema = z.enum(['1', '2', '3', '4']);
-export const statutCsvSchema = z
-  .string()
-  .toLowerCase()
-  .pipe(z.enum(['eliminé', 'éliminé', 'classé', 'retenu']));
 // optionnel car une fois notifié, ce champs n'est plus modifiable
 export const statutSchema = z.enum(Candidature.StatutCandidature.statuts).optional();
 export const puissanceALaPointeSchema = booleanSchema;
-export const puissanceALaPointeCsvSchema = optionalOuiNonSchema;
-export const evaluationCarboneSimplifieeSchema = strictlyPositiveNumberSchema;
-export const evaluationCarboneSimplifieeCsvSchema = z
-  .union([z.literal('N/A'), z.literal(''), strictlyPositiveNumberSchema])
-  .transform((val) => (val === 'N/A' || val === '' ? 0 : val));
+export const évaluationCarboneSimplifiéeSchema = strictlyPositiveNumberSchema;
+
 export const actionnariatSchema = optionalEnum(z.enum(Candidature.TypeActionnariat.types));
 export const technologieSchema = z.enum(Candidature.TypeTechnologie.types);
+export const dateEchéanceGfSchema = z
+  .string()
+  .transform((str) => (str ? new Date(str) : undefined))
+  .optional();
+
+// champs spécifiques au Csv
+export const puissanceALaPointeCsvSchema = optionalOuiNonSchema;
+export const évaluationCarboneSimplifiéeCsvSchema = z
+  .union([z.literal('N/A'), z.literal(''), strictlyPositiveNumberSchema])
+  .transform((val) => (val === 'N/A' || val === '' ? 0 : val));
 export const technologieCsvSchema = z
   .union([z.enum(['N/A', 'Eolien', 'Hydraulique', 'PV']), z.literal('')])
   .optional()
   .transform((val) => val || 'N/A');
-export const dateEcheanceGfSchema = z
+export const statutCsvSchema = z
   .string()
-  .transform((str) => (str ? new Date(str) : undefined))
-  .optional();
-export const dateEcheanceGfCsvSchema = dateSchema.optional();
+  .toLowerCase()
+  .pipe(z.enum(['eliminé', 'éliminé', 'classé', 'retenu']));
+export const adresse1CsvSchema = optionalStringSchema;
+export const dateEchéanceGfCsvSchema = dateSchema.optional();
 export const financementCollectifCsvSchema = ouiNonSchema;
 export const gouvernancePartagéeCsvSchema = ouiNonSchema;
 export const historiqueAbandonCsvSchema = z.enum(['1', '2', '3', '4']);
+export const territoireProjetCsvSchema = optionalStringSchema;
+export const notifiedOnCsvSchema = z.undefined({
+  invalid_type_error: 'Le champs notifiedOn ne peut pas être présent',
+});

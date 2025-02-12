@@ -10,8 +10,8 @@ import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 import { FormAction, formAction, FormState } from '@/utils/formAction';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 import { getCandidature } from '@/app/candidatures/_helpers/getCandidature';
+import { candidatureSchema } from '@/utils/zod/candidature';
 
-import { candidatureSchema } from '../importer/candidature.schema';
 import { getLocalité } from '../helpers';
 
 export type CorrigerCandidaturesState = FormState;

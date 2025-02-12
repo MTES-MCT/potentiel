@@ -1,24 +1,44 @@
 import { z } from 'zod';
 
-import { getRégionAndDépartementFromCodePostal } from '../../../components/pages/candidature/helpers';
-
 import {
-  requiredStringSchema,
-  optionalStringSchema,
-  strictlyPositiveNumberSchema,
-  numberSchema,
-  optionalOuiNonSchema,
-  ouiNonSchema,
-  optionalEnum,
-  dateSchema,
   statut,
   conditionalRequiredError,
   typeGf,
   historiqueAbandon,
   technologie,
 } from './schemaBase';
+import {
+  adresse1CsvSchema,
+  adresse2Schema,
+  appelOffreSchema,
+  codePostalSchema,
+  communeSchema,
+  emailContactSchema,
+  évaluationCarboneSimplifiéeCsvSchema,
+  familleSchema,
+  nomCandidatSchema,
+  nomProjetSchema,
+  nomReprésentantLégalSchema,
+  noteTotaleSchema,
+  numéroCRESchema,
+  prixRéférenceSchema,
+  puissanceALaPointeCsvSchema,
+  puissanceProductionAnnuelleSchema,
+  périodeSchema,
+  sociétéMèreSchema,
+  statutCsvSchema,
+  technologieCsvSchema,
+  financementCollectifCsvSchema,
+  gouvernancePartagéeCsvSchema,
+  historiqueAbandonCsvSchema,
+  motifEliminationSchema,
+  typeGfSchema,
+  dateEchéanceGfCsvSchema,
+  territoireProjetCsvSchema,
+  notifiedOnCsvSchema,
+} from './candidatureFields.schema';
 
-// Les colonnes du fichier CSV
+// Les colonnes du fichier Csv
 const colonnes = {
   appelOffre: `Appel d'offres`,
   période: 'Période',
@@ -53,52 +73,37 @@ const colonnes = {
   territoireProjet: 'Territoire\n(AO ZNI)',
 } as const;
 
-export const candidatureCsvRowSchema = z
+const candidatureCsvRowSchema = z
   .object({
-    [colonnes.appelOffre]: requiredStringSchema,
-    [colonnes.période]: requiredStringSchema,
-    [colonnes.famille]: optionalStringSchema,
-    [colonnes.numéroCRE]: requiredStringSchema,
-    [colonnes.nomProjet]: requiredStringSchema,
-    [colonnes.sociétéMère]: optionalStringSchema,
-    [colonnes.nomCandidat]: requiredStringSchema,
-    [colonnes.puissanceProductionAnnuelle]: strictlyPositiveNumberSchema,
-    [colonnes.prixRéférence]: strictlyPositiveNumberSchema,
-    [colonnes.noteTotale]: numberSchema,
-    [colonnes.nomReprésentantLégal]: requiredStringSchema,
-    [colonnes.emailContact]: requiredStringSchema.email(),
-    [colonnes.adresse1]: optionalStringSchema, // see refine below
-    [colonnes.adresse2]: optionalStringSchema,
-    [colonnes.codePostaux]: requiredStringSchema
-      .transform((val) => val.split('/').map((str) => str.trim()))
-      .refine(
-        (val) => val.every(getRégionAndDépartementFromCodePostal),
-        'Le code postal ne correspond à aucune région / département',
-      ),
-    [colonnes.commune]: requiredStringSchema,
-    [colonnes.statut]: z
-      .string()
-      .toLowerCase()
-      .pipe(z.enum(['eliminé', 'éliminé', 'classé', 'retenu'])),
-    [colonnes.puissanceÀLaPointe]: optionalOuiNonSchema,
-    [colonnes.evaluationCarboneSimplifiée]: z
-      .union([z.literal('N/A'), z.literal(''), strictlyPositiveNumberSchema])
-      .transform((val) => (val === 'N/A' || val === '' ? 0 : val)),
-    [colonnes.technologie]: z
-      .union([z.enum(['N/A', 'Eolien', 'Hydraulique', 'PV']), z.literal('')])
-      .optional()
-      .transform((val) => val || 'N/A'),
-    [colonnes.financementCollectif]: ouiNonSchema,
-    [colonnes.gouvernancePartagée]: ouiNonSchema,
-    [colonnes.historiqueAbandon]: z.enum(['1', '2', '3', '4']),
+    [colonnes.appelOffre]: appelOffreSchema,
+    [colonnes.période]: périodeSchema,
+    [colonnes.famille]: familleSchema,
+    [colonnes.numéroCRE]: numéroCRESchema,
+    [colonnes.nomProjet]: nomProjetSchema,
+    [colonnes.sociétéMère]: sociétéMèreSchema,
+    [colonnes.nomCandidat]: nomCandidatSchema,
+    [colonnes.puissanceProductionAnnuelle]: puissanceProductionAnnuelleSchema,
+    [colonnes.prixRéférence]: prixRéférenceSchema,
+    [colonnes.noteTotale]: noteTotaleSchema,
+    [colonnes.nomReprésentantLégal]: nomReprésentantLégalSchema,
+    [colonnes.emailContact]: emailContactSchema,
+    [colonnes.adresse1]: adresse1CsvSchema,
+    [colonnes.adresse2]: adresse2Schema, // see refine below
+    [colonnes.codePostaux]: codePostalSchema,
+    [colonnes.commune]: communeSchema,
+    [colonnes.statut]: statutCsvSchema,
+    [colonnes.puissanceÀLaPointe]: puissanceALaPointeCsvSchema,
+    [colonnes.evaluationCarboneSimplifiée]: évaluationCarboneSimplifiéeCsvSchema,
+    [colonnes.technologie]: technologieCsvSchema,
+    [colonnes.financementCollectif]: financementCollectifCsvSchema,
+    [colonnes.gouvernancePartagée]: gouvernancePartagéeCsvSchema,
+    [colonnes.historiqueAbandon]: historiqueAbandonCsvSchema,
     // columns with refines
-    [colonnes.motifÉlimination]: optionalStringSchema.transform((val) => val || undefined), // see refine below
-    [colonnes.typeGf]: optionalEnum(z.enum(['1', '2', '3'])), // see refine below
-    [colonnes.dateÉchéanceGf]: dateSchema.optional(), // see refine below
-    [colonnes.territoireProjet]: optionalStringSchema, // see refines below
-    notifiedOn: z.undefined({
-      invalid_type_error: 'Le champs notifiedOn ne peut pas être présent',
-    }),
+    [colonnes.motifÉlimination]: motifEliminationSchema, // see refine below
+    [colonnes.typeGf]: typeGfSchema, // see refine below
+    [colonnes.dateÉchéanceGf]: dateEchéanceGfCsvSchema, // see refine below
+    [colonnes.territoireProjet]: territoireProjetCsvSchema, // see refines below
+    notifiedOn: notifiedOnCsvSchema,
   })
   // le motif d'élimination est obligatoire si la candidature est éliminée
   .superRefine((obj, ctx) => {
@@ -146,7 +151,7 @@ export const candidatureCsvRowSchema = z
   })
   // on doit avoir au minimum adresse1 ou adresse2
   .refine((val) => !!val[colonnes.adresse1] || !!val[colonnes.adresse2], {
-    message: `Au moins l'une des deux colonnes "${colonnes.adresse1}" et "${colonnes.adresse2}" doit être renseignée`,
+    message: `L'une des deux colonnes "${colonnes.adresse1}" et "${colonnes.adresse2}" doit être renseignée`,
     path: [colonnes.adresse1, colonnes.adresse2],
   });
 
