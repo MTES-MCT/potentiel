@@ -33,7 +33,9 @@ const fetchCommunes = async (search: string, signal?: AbortSignal): Promise<Comm
     limit: '10',
   });
 
-  const response = await fetch(`https://geo.api.gouv.fr/communes?${params}`, { signal });
+  const apiUrl = process.env.NEXT_PUBLIC_GEO_API_URL || '';
+
+  const response = await fetch(`${apiUrl}/communes?${params}`, { signal });
   const data: GeoApiCommuneItem[] = await response.json();
   return data.map(({ nom, region, departement, codesPostaux }) => ({
     commune: nom,
