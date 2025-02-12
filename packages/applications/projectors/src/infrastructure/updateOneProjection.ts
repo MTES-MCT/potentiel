@@ -13,6 +13,9 @@ export const updateOneProjection = async <TProjection extends Entity>(
   readModel: AtLeastOne<Omit<TProjection, 'type'>>,
 ): Promise<void> => {
   const [updateQuery, values] = getUpdateClause(readModel, 1);
+
+  console.log({ updateQuery, values });
+
   const result = await executeQuery(`${updateQuery} where key = $1`, id, ...values);
   if (result.rowCount === 0) {
     getLogger('Projectors.infrastructure.updateOneProjection').warn(
@@ -41,7 +44,17 @@ export const getUpdateClause = <TProjection extends Entity>(
     'value',
   );
   const values = Object.values(flatReadModel).map((value) =>
-    typeof value === 'string' ? `"${value}"` : value,
+    typeof value === 'string' ? toJsonbString(value) : value,
   );
   return [`update domain_views.projection set value=${jsonb_set}`, values];
+};
+
+const toJsonbString = (value: string) => {
+  const escaped = value
+    .replaceAll('"', `\\"`)
+    .replaceAll("'", `''`)
+    .replaceAll('\n', `\\n`)
+    .replaceAll('\r', `\\r`)
+    .replaceAll('\t', `\\t`);
+  return `"${escaped}"`;
 };

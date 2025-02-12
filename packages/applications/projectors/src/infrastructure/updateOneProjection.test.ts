@@ -48,4 +48,12 @@ describe('updateOneProjection', () => {
     );
     expect(values).to.deep.eq(['""', -1, false]);
   });
+
+  test(`escaping characters`, () => {
+    const [, values] = getUpdateClause<TestEntity>(
+      { foo: `hello "you" with  'quotes' and \n \t \r` },
+      1,
+    );
+    expect(values).to.deep.eq([`"hello \\"you\\" with  ''quotes'' and \\n \\t \\r"`]);
+  });
 });
