@@ -1,7 +1,4 @@
 import asyncHandler from '../helpers/asyncHandler';
-import fs from 'fs';
-import moment from 'moment-timezone';
-import sanitize from 'sanitize-filename';
 import { correctProjectData, ensureRole } from '../../config';
 import { logger } from '../../core/utils';
 import { addQueryParams } from '../../helpers/addQueryParams';
@@ -39,22 +36,14 @@ v1Router.post(
     const {
       projectId,
       projectVersionDate,
-      nomProjet,
       territoireProjet,
       puissance,
       prixReference,
       evaluationCarbone,
-      note,
       nomCandidat,
-      nomRepresentantLegal,
       email,
-      adresseProjet,
-      codePostalProjet,
-      communeProjet,
       engagementFournitureDePuissanceAlaPointe,
       participatif,
-      isClasse,
-      motifsElimination,
       actionnariat,
     } = request.body;
 
@@ -76,21 +65,14 @@ v1Router.post(
 
     const correctedData = {
       territoireProjet: territoireProjet.length ? territoireProjet : undefined,
-      nomProjet,
       puissance: Number(puissance),
       prixReference: Number(prixReference),
       evaluationCarbone: Number(evaluationCarbone),
-      note: Number(note),
       nomCandidat,
-      nomRepresentantLegal,
       email,
-      adresseProjet,
-      codePostalProjet,
-      communeProjet,
       engagementFournitureDePuissanceAlaPointe: Boolean(engagementFournitureDePuissanceAlaPointe),
       isFinancementParticipatif: Boolean(isFinancementParticipatif),
       isInvestissementParticipatif: Boolean(isInvestissementParticipatif),
-      motifsElimination,
       actionnariat,
     };
     const result = await correctProjectData({
@@ -98,7 +80,6 @@ v1Router.post(
       projectVersionDate: new Date(Number(projectVersionDate)),
       correctedData,
       user: request.user,
-      shouldGrantClasse: Number(isClasse) === 1,
     });
 
     return result.match(
