@@ -1,6 +1,8 @@
 import { z } from 'zod';
 
-import { conditionalRequiredError, typeGf } from './schemaBase';
+import { Candidature } from '@potentiel-domain/candidature';
+
+import { conditionalRequiredError } from './schemaBase';
 import {
   adresse1CsvSchema,
   adresse2Schema,
@@ -33,6 +35,12 @@ import {
 } from './candidatureFields.schema';
 
 // Order matters! the CSV uses "1"/"2"/"3"
+const typeGf = [
+  Candidature.TypeGarantiesFinancières.sixMoisAprèsAchèvement.type,
+  Candidature.TypeGarantiesFinancières.avecDateÉchéance.type,
+  Candidature.TypeGarantiesFinancières.consignation.type,
+] as const;
+
 const historiqueAbandon = [
   'première-candidature',
   'abandon-classique',

@@ -1,7 +1,5 @@
 import { z } from 'zod';
 
-import { Candidature } from '@potentiel-domain/candidature';
-
 export const requiredStringSchema = z.string().trim().min(1);
 
 export const optionalStringSchema = z
@@ -82,10 +80,3 @@ export const conditionalRequiredError = (
   path: [field],
   message: `"${field}" est requis lorsque "${referenceField}" a la valeur "${expectedValue}"`,
 });
-
-// Order matters! the CSV uses "1"/"2"/"3"
-export const typeGf = [
-  Candidature.TypeGarantiesFinancières.sixMoisAprèsAchèvement.type,
-  Candidature.TypeGarantiesFinancières.avecDateÉchéance.type,
-  Candidature.TypeGarantiesFinancières.consignation.type,
-] as const;
