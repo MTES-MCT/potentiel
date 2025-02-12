@@ -62,16 +62,32 @@ const getProjet = async (
     },
   });
 
-  if (Option.isNone(lauréat)) {
-    const candidature = await mediator.send<Candidature.ConsulterCandidatureQuery>({
-      type: 'Candidature.Query.ConsulterCandidature',
+  if (Option.isSome(lauréat)) {
+    const abandon = await mediator.send<Abandon.ConsulterAbandonQuery>({
+      type: 'Lauréat.Abandon.Query.ConsulterAbandon',
       data: {
-        identifiantProjet,
+        identifiantProjetValue: identifiantProjet,
       },
     });
-    if (Option.isNone(candidature)) {
-      return;
-    }
+
+    const statut = Option.isSome(abandon) && abandon.statut.estAccordé() ? 'abandonné' : 'classé';
+
+    return {
+      nomProjet: lauréat.nomProjet,
+      localité: lauréat.localité,
+      notifiéLe: lauréat.notifiéLe.formatter(),
+      statut,
+    };
+  }
+
+  const candidature = await mediator.send<Candidature.ConsulterCandidatureQuery>({
+    type: 'Candidature.Query.ConsulterCandidature',
+    data: {
+      identifiantProjet,
+    },
+  });
+
+  if (Option.isSome(candidature)) {
     return {
       nomProjet: candidature.nomProjet,
       localité: candidature.localité,
@@ -79,20 +95,5 @@ const getProjet = async (
       statut: candidature.statut.formatter(),
     };
   }
-  const abandon = await mediator.send<Abandon.ConsulterAbandonQuery>({
-    type: 'Lauréat.Abandon.Query.ConsulterAbandon',
-    data: {
-      identifiantProjetValue: identifiantProjet,
-    },
-  });
-
-  return {
-    nomProjet: lauréat.nomProjet,
-    localité: lauréat.localité,
-    notifiéLe: lauréat.notifiéLe.formatter(),
-    statut:
-      Option.isSome(abandon) && abandon.statut.estAccordé()
-        ? ('abandonné' as const)
-        : ('classé' as const),
-  };
+  return;
 };
