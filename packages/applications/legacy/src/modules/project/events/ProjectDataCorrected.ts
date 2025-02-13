@@ -17,6 +17,8 @@ export interface ProjectDataCorrectedPayload {
     email: string;
     adresseProjet: string;
     codePostalProjet: string;
+    regionProjet: string;
+    departementProjet: string;
     communeProjet: string;
     engagementFournitureDePuissanceAlaPointe: boolean;
     isFinancementParticipatif: boolean;

@@ -135,6 +135,8 @@ export const register = () => {
                   .join('\n'),
                 communeProjet: event.payload.localité.commune,
                 codePostalProjet: event.payload.localité.codePostal,
+                departementProjet: event.payload.localité.département,
+                regionProjet: event.payload.localité.région,
               },
             },
           }),

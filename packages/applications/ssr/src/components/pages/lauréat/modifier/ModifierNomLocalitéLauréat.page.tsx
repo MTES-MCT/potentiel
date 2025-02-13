@@ -26,7 +26,7 @@ export const ModifierNomEtLocalitéProjetPage: FC<ModifierNomEtLocalitéProjetPa
     banner={
       <ProjetBanner identifiantProjet={IdentifiantProjet.bind(identifiantProjet).formatter()} />
     }
-    heading={<Heading1>Modifier le nom du projet</Heading1>}
+    heading={<Heading1>Modifier le projet lauréat</Heading1>}
     leftColumn={{
       children: (
         <ModifierNomLocalitéLauréatForm

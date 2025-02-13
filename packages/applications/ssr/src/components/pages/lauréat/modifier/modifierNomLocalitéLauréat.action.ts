@@ -12,17 +12,19 @@ import { withUtilisateur } from '@/utils/withUtilisateur';
 const schema = zod.object({
   identifiantProjet: zod.string().min(1),
   nomProjet: zod.string().min(1, { message: 'Champ obligatoire' }),
-  adresse1: zod.string().min(1),
+  adresse1: zod.string().min(1, { message: 'Champ obligatoire' }),
   adresse2: zod.string().optional(),
-  commune: zod.string().min(1),
+  commune: zod.string().min(1, { message: 'Champ obligatoire' }),
   codePostal: zod.string().min(5).max(5),
+  departement: zod.string().min(1, { message: 'Champ obligatoire' }),
+  region: zod.string().min(1, { message: 'Champ obligatoire' }),
 });
 
 export type ModifierNomLocalitéLauréatFormKeys = keyof zod.infer<typeof schema>;
 
 const action: FormAction<FormState, typeof schema> = async (
   _,
-  { identifiantProjet, nomProjet, adresse1, adresse2, codePostal, commune },
+  { identifiantProjet, nomProjet, adresse1, adresse2, codePostal, commune, departement, region },
 ) =>
   withUtilisateur(async (utilisateur) => {
     await mediator.send<Lauréat.ModifierLauréatUseCase>({
@@ -35,8 +37,8 @@ const action: FormAction<FormState, typeof schema> = async (
           adresse2: adresse2 || '',
           codePostal,
           commune,
-          département: '',
-          région: '',
+          département: departement,
+          région: region,
         },
         modifiéLeValue: new Date().toISOString(),
         modifiéParValue: utilisateur.identifiantUtilisateur.email,
@@ -47,7 +49,7 @@ const action: FormAction<FormState, typeof schema> = async (
       status: 'success',
       redirection: {
         url: Routes.Projet.details(identifiantProjet),
-        message: 'Le nom du projet a été modifié',
+        message: 'Le projet a été modifié',
       },
     };
   });

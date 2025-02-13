@@ -12,6 +12,7 @@ import { Form } from '@/components/atoms/form/Form';
 import { SubmitButton } from '@/components/atoms/form/SubmitButton';
 import { ValidationErrors } from '@/utils/formAction';
 import { Heading4 } from '@/components/atoms/headings';
+import { CommunePicker } from '@/components/molecules/CommunePicker';
 
 import {
   modifierNomLocalitéLauréatAction,
@@ -31,6 +32,13 @@ export const ModifierNomLocalitéLauréatForm = ({
   const [validationErrors, setValidationErrors] = useState<
     ValidationErrors<ModifierNomLocalitéLauréatFormKeys>
   >({});
+
+  const [commune, setCommune] = useState({
+    commune: localité.commune,
+    codePostal: localité.codePostal,
+    departement: localité.département,
+    region: localité.région,
+  });
 
   return (
     <Form
@@ -92,28 +100,37 @@ export const ModifierNomLocalitéLauréatForm = ({
             defaultValue: localité.adresse2,
           }}
         />
-        <Input
-          state={validationErrors['codePostal'] ? 'error' : 'default'}
-          stateRelatedMessage={validationErrors['codePostal']}
-          label="Code Postal"
-          nativeInputProps={{
-            name: 'codePostal',
-            defaultValue: localité.codePostal,
-            required: true,
-            'aria-required': true,
-          }}
-        />
-        <Input
-          state={validationErrors['commune'] ? 'error' : 'default'}
-          stateRelatedMessage={validationErrors['commune']}
-          label="Commune"
-          nativeInputProps={{
-            name: 'commune',
-            defaultValue: localité.commune,
-            required: true,
-            'aria-required': true,
-          }}
-        />
+        <div className="flex flex-row gap-2 justify-between">
+          <CommunePicker
+            defaultValue={commune}
+            label="Commune"
+            nativeInputProps={{
+              required: true,
+              'aria-required': true,
+            }}
+            onSelected={(commune) => commune && setCommune(commune)}
+            className="mb-6 flex-1"
+          />
+          <input type="hidden" value={commune.commune} name="commune" />
+          {validationErrors['commune']}
+          <input type="hidden" value={commune.departement} name="departement" />
+          {validationErrors['departement']}
+          <input type="hidden" value={commune.region} name="region" />
+          {validationErrors['region']}
+          <Input
+            state={validationErrors['codePostal'] ? 'error' : 'default'}
+            stateRelatedMessage={validationErrors['codePostal']}
+            label="Code Postal"
+            nativeInputProps={{
+              name: 'codePostal',
+              defaultValue: commune.codePostal,
+              required: true,
+              'aria-required': true,
+              minLength: 5,
+              maxLength: 5,
+            }}
+          />
+        </div>
       </div>
     </Form>
   );
