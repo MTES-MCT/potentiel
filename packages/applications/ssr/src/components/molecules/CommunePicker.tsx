@@ -1,9 +1,11 @@
 'use client';
 
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import Autocomplete from '@mui/material/Autocomplete';
 import Input, { InputProps } from '@codegouvfr/react-dsfr/Input';
 import { debounce } from '@mui/material/utils';
+
+import { getLogger } from '@potentiel-libraries/monitoring';
 
 type GeoApiCommuneItem = {
   nom: string;
@@ -59,29 +61,26 @@ export const CommunePicker: React.FC<CommunePickerProps> = ({
 }) => {
   const [communes, setCommunes] = useState<Commune[]>([]);
   const [selectedCommune, setSelectedCommune] = useState<Commune | null>(defaultValue ?? null);
-  const [search, setSearch] = useState('');
   const [loading, setLoading] = useState(false);
 
-  useEffect(() => {
+  const handleSearch = async (search: string) => {
     if (!search) {
       setCommunes([]);
       setLoading(false);
       return;
     }
     setLoading(true);
-    const controller = new AbortController();
-    fetchCommunes(search, controller.signal)
-      .then((data) => {
-        setCommunes(data);
-        setLoading(false);
-      })
-      .catch((error) => console.error('Error fetching communes:', error));
-    return () => {
-      controller.abort();
-    };
-  }, [search]);
+    try {
+      const data = await fetchCommunes(search);
+      setCommunes(data);
+    } catch (error) {
+      getLogger('CommunePicker').error(new Error('Error fetching communes', { cause: error }));
+    } finally {
+      setLoading(false);
+    }
+  };
 
-  const searchDelayed = debounce(setSearch, 400);
+  const searchDelayed = debounce(handleSearch, 400);
 
   return (
     <Autocomplete
