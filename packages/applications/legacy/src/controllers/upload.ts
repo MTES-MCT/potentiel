@@ -27,7 +27,7 @@ export const upload = {
           return errorCallback(
             req,
             response,
-            `Le fichier ne pas dépasser ${FILE_SIZE_LIMIT_IN_MB} Mo`,
+            `Le fichier ne doit pas dépasser ${FILE_SIZE_LIMIT_IN_MB} Mo`,
           );
         }
 
