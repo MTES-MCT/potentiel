@@ -1,6 +1,6 @@
 import { match } from 'ts-pattern';
 
-import { AbstractAggregate } from '@potentiel-domain/core';
+import { AbstractAggregate, LoadAggregateV2 } from '@potentiel-domain/core';
 
 import { ProjetAggregateRoot } from '../projet.aggregateRoot';
 
@@ -23,7 +23,7 @@ export class ÉliminéAggregate extends AbstractAggregate<ÉliminéEvent> {
     return this.#estArchivé;
   }
 
-  async init(projet: ProjetAggregateRoot) {
+  async init(projet: ProjetAggregateRoot, _loadAggregate: LoadAggregateV2) {
     this.#projet = projet;
   }
 
