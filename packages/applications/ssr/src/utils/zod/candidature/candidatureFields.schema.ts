@@ -39,6 +39,8 @@ export const codePostalSchema = requiredStringSchema
   .transform((val) => val.join(' / '));
 
 export const communeSchema = requiredStringSchema;
+export const départementSchema = requiredStringSchema;
+export const régionSchema = requiredStringSchema;
 export const doitRegenererAttestationSchema = booleanSchema.optional();
 export const motifEliminationSchema = optionalStringSchema.transform((val) => val || undefined);
 export const typeGarantiesFinancieresSchema = optionalEnum(

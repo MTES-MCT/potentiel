@@ -72,10 +72,3 @@ Fonctionnalité: Importer une candidature
             | période       | 1                           |
             | famille       |                             |
         Alors l'administrateur devrait être informé que "Cette période est obsolète et ne peut être importée"
-
-    @NotImplemented
-    Scénario: Impossible d'importer une candidature si la région ou le département n'existe pas
-        Quand le DGEC validateur importe la candidature "Du boulodrome de Marseille" avec :
-            | statut      | classé  |
-            | code postal | inconnu |
-        Alors l'administrateur devrait être informé que "Le code postal renseigné ne correspond à aucun département ou région connu"
