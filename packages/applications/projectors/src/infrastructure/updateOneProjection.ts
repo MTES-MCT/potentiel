@@ -41,7 +41,17 @@ export const getUpdateClause = <TProjection extends Entity>(
     'value',
   );
   const values = Object.values(flatReadModel).map((value) =>
-    typeof value === 'string' ? `"${value}"` : value,
+    typeof value === 'string' ? toJsonbString(value) : value,
   );
   return [`update domain_views.projection set value=${jsonb_set}`, values];
+};
+
+const toJsonbString = (value: string) => {
+  const escaped = value
+    .replaceAll('"', `\\"`)
+    .replaceAll("'", `''`)
+    .replaceAll('\n', `\\n`)
+    .replaceAll('\r', `\\r`)
+    .replaceAll('\t', `\\t`);
+  return `"${escaped}"`;
 };
