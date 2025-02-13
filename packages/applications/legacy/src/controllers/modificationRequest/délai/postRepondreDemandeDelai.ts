@@ -37,7 +37,13 @@ const requestBodySchema = yup.object({
 v1Router.post(
   routes.ADMIN_REPONDRE_DEMANDE_DELAI,
   ensureRole(['admin', 'dgec-validateur', 'dreal']),
-  upload.single('file'),
+  upload.single('file', (request, response, error) =>
+    response.redirect(
+      addQueryParams(routes.GET_DETAILS_DEMANDE_DELAI_PAGE(request.body.modificationRequestId), {
+        error,
+      }),
+    ),
+  ),
   asyncHandler(async (request, response) => {
     validateRequestBodyForErrorArray(request.body, requestBodySchema)
       .asyncAndThen((body) => {

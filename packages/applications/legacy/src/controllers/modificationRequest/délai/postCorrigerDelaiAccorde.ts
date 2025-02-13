@@ -41,7 +41,13 @@ const schema = yup.object({
 
 v1Router.post(
   routes.POST_CORRIGER_DELAI_ACCORDE,
-  upload.single('file'),
+  upload.single('file', (request, response, error) =>
+    response.redirect(
+      addQueryParams(routes.GET_CORRIGER_DELAI_ACCORDE_PAGE(request.body.demandeDelaiId), {
+        error,
+      }),
+    ),
+  ),
   ensureRole(['admin', 'dgec-validateur', 'dreal']),
   safeAsyncHandler(
     {

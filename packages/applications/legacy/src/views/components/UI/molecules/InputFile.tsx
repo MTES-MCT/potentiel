@@ -27,7 +27,7 @@ export const InputFile = ({
         disabled={disabled}
         className={className}
       />
-      <LabelDescription className="italic">Taille maximale du fichier : 50 Mo</LabelDescription>
+      <LabelDescription className="italic">Taille maximale du fichier : 25 Mo</LabelDescription>
     </div>
   );
 };

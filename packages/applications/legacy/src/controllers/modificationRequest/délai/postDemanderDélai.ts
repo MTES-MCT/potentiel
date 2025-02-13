@@ -34,7 +34,14 @@ const schema = yup.object({
 
 v1Router.post(
   routes.DEMANDE_DELAI_ACTION,
-  upload.single('file'),
+  upload.single('file', (request, response, error) =>
+    response.redirect(
+      addQueryParams(routes.DEMANDER_DELAI(request.body.projectId), {
+        ...omit(request.body, 'projectId'),
+        error,
+      }),
+    ),
+  ),
   ensureRole('porteur-projet'),
   safeAsyncHandler(
     {

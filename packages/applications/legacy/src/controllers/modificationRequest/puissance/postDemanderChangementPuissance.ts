@@ -34,7 +34,14 @@ const schema = yup.object({
 v1Router.post(
   routes.CHANGEMENT_PUISSANCE_ACTION,
   ensureRole('porteur-projet'),
-  upload.single('file'),
+  upload.single('file', (request, response, error) =>
+    response.redirect(
+      addQueryParams(routes.DEMANDER_CHANGEMENT_PUISSANCE(request.body.projectId), {
+        ...omit(request.body, 'projectId'),
+        error,
+      }),
+    ),
+  ),
   safeAsyncHandler(
     {
       schema,

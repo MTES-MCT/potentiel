@@ -50,7 +50,13 @@ const schema = yup.object({
 v1Router.post(
   routes.CHANGEMENT_FOURNISSEUR_ACTION,
   ensureRole('porteur-projet'),
-  upload.single('file'),
+  upload.single('file', (request, response, error) =>
+    response.redirect(
+      addQueryParams(routes.CHANGER_FOURNISSEUR(request.body.projectId), {
+        error,
+      }),
+    ),
+  ),
   safeAsyncHandler(
     {
       schema,

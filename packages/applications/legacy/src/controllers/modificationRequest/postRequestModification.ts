@@ -13,7 +13,13 @@ import { v1Router } from '../v1Router';
 v1Router.post(
   routes.DEMANDE_ACTION,
   ensureRole('porteur-projet'),
-  upload.single('file'),
+  upload.single('file', (_, response, error) =>
+    response.redirect(
+      addQueryParams(routes.LISTE_PROJETS, {
+        error,
+      }),
+    ),
+  ),
   asyncHandler(async (request, response) => {
     const { projectId } = request.body;
 

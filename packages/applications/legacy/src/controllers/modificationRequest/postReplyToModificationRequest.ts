@@ -42,7 +42,13 @@ const FORMAT_DATE = 'DD/MM/YYYY';
 v1Router.post(
   routes.ADMIN_REPLY_TO_MODIFICATION_REQUEST,
 
-  upload.single('file'),
+  upload.single('file', (request, response, error) =>
+    response.redirect(
+      addQueryParams(routes.DEMANDE_PAGE_DETAILS(request.body.modificationRequestId), {
+        error,
+      }),
+    ),
+  ),
   ensureRole(['admin', 'dgec-validateur', 'dreal']),
   asyncHandler(async (request, response) => {
     const {
