@@ -1,3 +1,4 @@
+import { AggregateId } from './aggregateId';
 import { DomainEvent } from './domainEvent';
 
 export type Publish = <TDomainEvent extends DomainEvent>(
@@ -18,10 +19,6 @@ export abstract class AbstractAggregate<TDomainEvent extends DomainEvent> {
     return this.#version;
   }
 
-  get exists() {
-    return this.#version > 0;
-  }
-
   #publish: Publish;
 
   constructor(aggregateId: string, version: number, publish: Publish) {
@@ -38,3 +35,16 @@ export abstract class AbstractAggregate<TDomainEvent extends DomainEvent> {
     this.#version++;
   }
 }
+
+export type AggregateType<
+  TAggregate extends AbstractAggregate<TDomainEvent>,
+  TDomainEvent extends DomainEvent = DomainEvent,
+> = Omit<TAggregate, 'aggregateId' | 'version' | 'apply'>;
+
+export type LoadAggregateV2 = <
+  TDomainEvent extends DomainEvent,
+  TAggregate extends AbstractAggregate<TDomainEvent>,
+>(
+  aggregateId: AggregateId,
+  ctor: new (aggregateId: string, version: number, publish: Publish) => TAggregate,
+) => Promise<AggregateType<TAggregate>>;

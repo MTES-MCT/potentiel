@@ -1,11 +1,11 @@
-import { LoadAggregate } from '@potentiel-domain/core';
+import { AggregateType, LoadAggregateV2 } from '@potentiel-domain/core';
 
 import { IdentifiantProjet } from '.';
 
 import { ÉliminéAggregate } from './éliminé/éliminé.aggregate';
 
 interface ProjetAggregateRootDependencies {
-  loadAggregate: LoadAggregate;
+  loadAggregate: LoadAggregateV2;
 }
 
 class ProjetAggregateRootAlreadyInitialized extends Error {
@@ -16,7 +16,7 @@ class ProjetAggregateRootAlreadyInitialized extends Error {
 
 export class ProjetAggregateRoot {
   #initialized: boolean = false;
-  #loadAggregate: LoadAggregate;
+  #loadAggregate: LoadAggregateV2;
 
   #identifiantProjet: IdentifiantProjet.ValueType;
 
@@ -24,7 +24,7 @@ export class ProjetAggregateRoot {
     return this.#identifiantProjet;
   }
 
-  #éliminé!: ÉliminéAggregate;
+  #éliminé!: AggregateType<ÉliminéAggregate>;
 
   get éliminé() {
     return this.#éliminé;
@@ -32,7 +32,7 @@ export class ProjetAggregateRoot {
 
   private constructor(
     identifiantProjet: IdentifiantProjet.ValueType,
-    loadAggregate: LoadAggregate,
+    loadAggregate: LoadAggregateV2,
   ) {
     this.#identifiantProjet = identifiantProjet;
     this.#loadAggregate = loadAggregate;
@@ -51,6 +51,12 @@ export class ProjetAggregateRoot {
       throw new ProjetAggregateRootAlreadyInitialized();
     }
 
-    // TODO load graph
+    this.#éliminé = await this.#loadAggregate(
+      `éliminé|${this.identifiantProjet.formatter()}`,
+      ÉliminéAggregate,
+    );
+    await this.#éliminé.init(this, this.#loadAggregate);
+
+    this.#initialized = true;
   }
 }

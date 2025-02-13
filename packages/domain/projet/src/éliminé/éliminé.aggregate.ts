@@ -1,6 +1,6 @@
 import { match } from 'ts-pattern';
 
-import { AbstractAggregate, Publish } from '@potentiel-domain/core';
+import { AbstractAggregate } from '@potentiel-domain/core';
 
 import { ProjetAggregateRoot } from '../projet.aggregateRoot';
 
@@ -11,7 +11,7 @@ import { ArchiverÉliminéOptions } from './archiver/archiverÉliminé.options';
 import { ÉliminéNotifiéEvent } from './notifier/éliminéNotifié.event';
 
 export class ÉliminéAggregate extends AbstractAggregate<ÉliminéEvent> {
-  readonly #projet: ProjetAggregateRoot;
+  #projet!: ProjetAggregateRoot;
 
   get projet() {
     return this.#projet;
@@ -23,8 +23,7 @@ export class ÉliminéAggregate extends AbstractAggregate<ÉliminéEvent> {
     return this.#estArchivé;
   }
 
-  constructor(aggregateId: string, version: number, publish: Publish, projet: ProjetAggregateRoot) {
-    super(aggregateId, version, publish);
+  async init(projet: ProjetAggregateRoot) {
     this.#projet = projet;
   }
 
@@ -76,11 +75,11 @@ export class ÉliminéAggregate extends AbstractAggregate<ÉliminéEvent> {
       .exhaustive();
   }
 
-  applyÉliminéArchivéV1(_: ÉliminéArchivéEvent) {
+  private applyÉliminéArchivéV1(_: ÉliminéArchivéEvent) {
     this.#estArchivé = true;
   }
 
-  applyÉliminéNotifiéV1(_: ÉliminéNotifiéEvent) {
+  private applyÉliminéNotifiéV1(_: ÉliminéNotifiéEvent) {
     // TODO
   }
 }
