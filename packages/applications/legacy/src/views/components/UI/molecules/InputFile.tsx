@@ -1,6 +1,8 @@
 import React from 'react';
 import { Input, LabelDescription } from '../atoms';
 
+const FILE_SIZE_LIMIT_IN_MB = 25;
+
 type InputFileProps = {
   id?: string;
   name?: string;
@@ -27,7 +29,9 @@ export const InputFile = ({
         disabled={disabled}
         className={className}
       />
-      <LabelDescription className="italic">Taille maximale du fichier : 25 Mo</LabelDescription>
+      <LabelDescription className="italic">
+        Taille maximale du fichier : {FILE_SIZE_LIMIT_IN_MB} Mo
+      </LabelDescription>
     </div>
   );
 };
