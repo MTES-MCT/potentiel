@@ -50,13 +50,7 @@ const schema = yup.object({
 v1Router.post(
   routes.CHANGEMENT_FOURNISSEUR_ACTION,
   ensureRole('porteur-projet'),
-  upload.single('file', (request, response, error) =>
-    response.redirect(
-      addQueryParams(routes.CHANGER_FOURNISSEUR(request.body.projectId), {
-        error,
-      }),
-    ),
-  ),
+  upload.single('file'),
   safeAsyncHandler(
     {
       schema,
@@ -68,6 +62,14 @@ v1Router.post(
         ),
     },
     async (request, response) => {
+      if (request.errorFileSizeLimit) {
+        return response.redirect(
+          addQueryParams(routes.CHANGER_FOURNISSEUR(request.body.projectId), {
+            error: request.errorFileSizeLimit,
+          }),
+        );
+      }
+
       const { user } = request;
       const { projectId, evaluationCarbone, justification } = request.body;
       const file = request.file && {

@@ -12,21 +12,20 @@ import { errorResponse } from '../helpers';
 import { upload } from '../upload';
 import { v1Router } from '../v1Router';
 import { ProjetDéjàClasséError } from '../../modules/modificationRequest';
-import { request } from 'http';
-
-const FORMAT_DATE = 'DD/MM/YYYY';
 
 v1Router.post(
   routes.ADMIN_CORRECT_PROJECT_DATA_ACTION,
-  upload.single('file', (request, response, error) =>
-    response.redirect(
-      addQueryParams(routes.PROJECT_DETAILS(request.body.projectId), {
-        error,
-      }),
-    ),
-  ),
+  upload.single('file'),
   ensureRole(['admin', 'dgec-validateur']),
   asyncHandler(async (request, response) => {
+    if (request.errorFileSizeLimit) {
+      return response.redirect(
+        addQueryParams(routes.PROJECT_DETAILS(request.body.projectId), {
+          error: request.errorFileSizeLimit,
+        }),
+      );
+    }
+
     if (request.body.numeroCRE || request.body.familleId || request.body.appelOffreAndPeriode) {
       return response.redirect(
         addQueryParams(routes.PROJECT_DETAILS(request.body.projectId), {

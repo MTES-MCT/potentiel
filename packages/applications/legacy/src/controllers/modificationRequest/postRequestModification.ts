@@ -13,14 +13,16 @@ import { v1Router } from '../v1Router';
 v1Router.post(
   routes.DEMANDE_ACTION,
   ensureRole('porteur-projet'),
-  upload.single('file', (_, response, error) =>
-    response.redirect(
-      addQueryParams(routes.LISTE_PROJETS, {
-        error,
-      }),
-    ),
-  ),
+  upload.single('file'),
   asyncHandler(async (request, response) => {
+    if (request.errorFileSizeLimit) {
+      return response.redirect(
+        addQueryParams(routes.LISTE_PROJETS, {
+          error: request.errorFileSizeLimit,
+        }),
+      );
+    }
+
     const { projectId } = request.body;
 
     if (!validateUniqueId(projectId)) {

@@ -14,21 +14,14 @@ const uploadWithMulter = multer({
 
 export const upload = {
   single:
-    (
-      filename: string,
-      errorCallback: (request: core.Request, response: core.Response, error: string) => void,
-    ) =>
-    (req, response, next) => {
+    (filename: string) => (req: core.Request, response: core.Response, next: core.NextFunction) => {
       const uploadHandler = uploadWithMulter.single(filename);
 
       uploadHandler(req, response, (err) => {
         if (err) {
           logger.error(err);
-          return errorCallback(
-            req,
-            response,
-            `Le fichier ne doit pas dépasser ${FILE_SIZE_LIMIT_IN_MB} Mo`,
-          );
+          req.errorFileSizeLimit = `Le fichier ne doit pas dépasser ${FILE_SIZE_LIMIT_IN_MB} Mo`;
+          return next();
         }
 
         response.on('finish', async () => {

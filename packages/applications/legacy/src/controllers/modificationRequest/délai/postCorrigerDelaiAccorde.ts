@@ -41,13 +41,7 @@ const schema = yup.object({
 
 v1Router.post(
   routes.POST_CORRIGER_DELAI_ACCORDE,
-  upload.single('file', (request, response, error) =>
-    response.redirect(
-      addQueryParams(routes.GET_CORRIGER_DELAI_ACCORDE_PAGE(request.body.demandeDelaiId), {
-        error,
-      }),
-    ),
-  ),
+  upload.single('file'),
   ensureRole(['admin', 'dgec-validateur', 'dreal']),
   safeAsyncHandler(
     {
@@ -80,6 +74,14 @@ v1Router.post(
         return response.redirect(
           addQueryParams(routes.GET_CORRIGER_DELAI_ACCORDE_PAGE(demandeDélaiId), {
             error: `Vous devez joindre un nouveau courrier de réponse.`,
+          }),
+        );
+      }
+
+      if (request.errorFileSizeLimit) {
+        return response.redirect(
+          addQueryParams(routes.GET_CORRIGER_DELAI_ACCORDE_PAGE(demandeDélaiId), {
+            error: request.errorFileSizeLimit,
           }),
         );
       }

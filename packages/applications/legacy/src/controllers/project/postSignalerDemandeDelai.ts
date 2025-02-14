@@ -1,6 +1,6 @@
 import fs from 'fs';
 import { ensureRole, signalerDemandeDelai } from '../../config';
-import { logger } from '../../core/utils';
+import { errAsync, logger } from '../../core/utils';
 import asyncHandler from '../helpers/asyncHandler';
 import { UnauthorizedError } from '../../modules/shared';
 import routes from '../../routes';
@@ -8,6 +8,7 @@ import {
   errorResponse,
   iso8601DateToDateYupTransformation,
   RequestValidationError,
+  FileSizeLimitError,
   unauthorizedResponse,
   validateRequestBody,
 } from '../helpers';
@@ -54,18 +55,15 @@ const requestBodySchema = yup.object({
 
 v1Router.post(
   routes.ADMIN_SIGNALER_DEMANDE_DELAI_POST,
-  upload.single('file', (request, response, error) =>
-    response.redirect(
-      addQueryParams(routes.ADMIN_SIGNALER_DEMANDE_DELAI_PAGE(request.body.projectId), {
-        ...request.body,
-        error,
-      }),
-    ),
-  ),
+  upload.single('file'),
   ensureRole(['admin', 'dgec-validateur', 'dreal']),
   asyncHandler(async (request, response) => {
     validateRequestBody(request.body, requestBodySchema)
       .asyncAndThen((body) => {
+        if (request.errorFileSizeLimit) {
+          return errAsync(new FileSizeLimitError(request.errorFileSizeLimit));
+        }
+
         const { projectId, decidedOn, status, notes, délaiCdc2022 } = body;
         const { user: signaledBy } = request;
 
@@ -100,6 +98,15 @@ v1Router.post(
           );
         },
         (error) => {
+          if (error instanceof FileSizeLimitError) {
+            return response.redirect(
+              addQueryParams(routes.ADMIN_SIGNALER_DEMANDE_DELAI_PAGE(request.body.projectId), {
+                ...request.body,
+                error,
+              }),
+            );
+          }
+
           if (error instanceof RequestValidationError) {
             return response.redirect(
               addQueryParams(routes.ADMIN_SIGNALER_DEMANDE_DELAI_PAGE(request.body.projectId), {

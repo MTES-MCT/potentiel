@@ -9,6 +9,7 @@ import { AccorderDateAchèvementAntérieureDateThéoriqueError } from '../../../
 import asyncHandler from '../../helpers/asyncHandler';
 import {
   errorResponse,
+  FileSizeLimitError,
   iso8601DateToDateYupTransformation,
   RequestValidationErrorArray,
   unauthorizedResponse,
@@ -37,13 +38,7 @@ const requestBodySchema = yup.object({
 v1Router.post(
   routes.ADMIN_REPONDRE_DEMANDE_DELAI,
   ensureRole(['admin', 'dgec-validateur', 'dreal']),
-  upload.single('file', (request, response, error) =>
-    response.redirect(
-      addQueryParams(routes.GET_DETAILS_DEMANDE_DELAI_PAGE(request.body.modificationRequestId), {
-        error,
-      }),
-    ),
-  ),
+  upload.single('file'),
   asyncHandler(async (request, response) => {
     validateRequestBodyForErrorArray(request.body, requestBodySchema)
       .asyncAndThen((body) => {
@@ -61,6 +56,10 @@ v1Router.post(
               "La réponse n'a pas pu être envoyée car il manque le courrier de réponse (obligatoire pour cette réponse).",
             ]),
           );
+        }
+
+        if (request.errorFileSizeLimit) {
+          return errAsync(new FileSizeLimitError(request.errorFileSizeLimit));
         }
 
         const file = request.file && {
@@ -104,6 +103,18 @@ v1Router.post(
         (error) => {
           if (error instanceof UnauthorizedError) {
             return unauthorizedResponse({ request, response });
+          }
+
+          if (error instanceof FileSizeLimitError) {
+            return response.redirect(
+              addQueryParams(
+                routes.GET_DETAILS_DEMANDE_DELAI_PAGE(request.body.modificationRequestId),
+                {
+                  ...request.body,
+                  error,
+                },
+              ),
+            );
           }
 
           if (error instanceof RequestValidationErrorArray) {
