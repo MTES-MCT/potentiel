@@ -27,7 +27,7 @@ import {
   gouvernancePartagéeCsvSchema,
   historiqueAbandonCsvSchema,
   motifEliminationSchema,
-  typeGfSchema,
+  typeGarantiesFinancieresCsvSchema,
   dateEchéanceGfCsvSchema,
   territoireProjetCsvSchema,
   notifiedOnCsvSchema,
@@ -123,7 +123,7 @@ const candidatureCsvRowSchema = z
     [colonnes.historiqueAbandon]: historiqueAbandonCsvSchema,
     // columns with refines
     [colonnes.motifÉlimination]: motifEliminationSchema, // see refine below
-    [colonnes.typeGf]: typeGfSchema, // see refine below
+    [colonnes.typeGf]: typeGarantiesFinancieresCsvSchema, // see refine below
     [colonnes.dateÉchéanceGf]: dateEchéanceGfCsvSchema, // see refine below
     [colonnes.territoireProjet]: territoireProjetCsvSchema, // see refines below
     notifiedOn: notifiedOnCsvSchema,

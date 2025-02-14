@@ -18,7 +18,7 @@ import {
 
 export const appelOffreSchema = requiredStringSchema;
 export const périodeSchema = requiredStringSchema;
-export const familleSchema = requiredStringSchema;
+export const familleSchema = optionalStringSchema;
 export const numéroCRESchema = requiredStringSchema;
 export const nomProjetSchema = requiredStringSchema;
 export const sociétéMèreSchema = optionalStringSchema;
@@ -44,7 +44,6 @@ export const motifEliminationSchema = optionalStringSchema.transform((val) => va
 export const typeGarantiesFinancieresSchema = optionalEnum(
   z.enum(Candidature.TypeGarantiesFinancières.types),
 );
-export const typeGfSchema = z.enum(['1', '2', '3', '4']);
 export const statutSchema = z.enum(Candidature.StatutCandidature.statuts).optional(); // plus modifiable une fois notifiée
 export const puissanceALaPointeSchema = booleanSchema;
 export const évaluationCarboneSimplifiéeSchema = strictlyPositiveNumberSchema;
@@ -74,6 +73,7 @@ export const dateEchéanceGfCsvSchema = dateSchema.optional();
 export const financementCollectifCsvSchema = ouiNonSchema;
 export const gouvernancePartagéeCsvSchema = ouiNonSchema;
 export const historiqueAbandonCsvSchema = z.enum(['1', '2', '3', '4']);
+export const typeGarantiesFinancieresCsvSchema = optionalEnum(z.enum(['1', '2', '3']));
 export const territoireProjetCsvSchema = optionalStringSchema;
 export const notifiedOnCsvSchema = z.undefined({
   invalid_type_error: 'Le champs notifiedOn ne peut pas être présent',
