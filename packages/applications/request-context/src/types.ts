@@ -7,12 +7,14 @@ export interface PotentielJWT {
   refreshToken?: string;
   expiresAt?: number;
   utilisateur?: PlainType<Utilisateur.ValueType>;
+  provider?: string;
 }
 
 // This is the content of the session, as returned by getServerSession or useSession
 export interface PotentielSession {
   idToken?: string;
   utilisateur?: PlainType<Utilisateur.ValueType>;
+  provider?: string;
 }
 
 declare module 'next-auth/jwt' {

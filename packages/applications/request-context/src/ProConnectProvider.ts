@@ -18,12 +18,11 @@ export default function ProConnect<P extends ProConnectProfile>(
     name: 'ProConnect',
     type: 'oauth',
     idToken: true,
-    wellKnown: new URL('/api/v2/.well-known/openid-configuration', options.issuer).toString(),
+    wellKnown: `${options.issuer}/.well-known/openid-configuration`,
     authorization: {
       params: {
         scope: 'openid uid given_name usual_name email siret',
         acr_values: 'eidas1',
-        // redirect_uri: new URL('/api/auth/callback/proconnect', process.env.NEXTAUTH_URL).toString(),
         nonce: randomUUID(),
         state: randomUUID(),
       },
@@ -38,15 +37,12 @@ export default function ProConnect<P extends ProConnectProfile>(
     },
     userinfo: {
       async request(context) {
-        const userInfo = await fetch(
-          new URL('api/v2/userinfo', process.env.PROCONNECT_ENDPOINT).toString(),
-          {
-            method: 'GET',
-            headers: {
-              Authorization: `Bearer ${context.tokens.access_token}`,
-            },
+        const userInfo = await fetch(`${options.issuer}/userinfo`, {
+          method: 'GET',
+          headers: {
+            Authorization: `Bearer ${context.tokens.access_token}`,
           },
-        ).then((res) => {
+        }).then((res) => {
           return res.text();
         });
         return JSON.parse(Buffer.from(userInfo.split('.')[1], 'base64').toString());

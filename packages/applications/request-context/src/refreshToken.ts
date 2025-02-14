@@ -2,8 +2,8 @@ import { InvalidOperationError } from '@potentiel-domain/core';
 
 import { getOpenIdClient } from './openid';
 
-export async function refreshAccessToken(refreshToken: string) {
-  const client = await getOpenIdClient();
+export async function refreshAccessToken(refreshToken: string, provider: string) {
+  const client = await getOpenIdClient(provider);
   const refreshedTokens = await client.refresh(refreshToken);
   if (!refreshedTokens.access_token || !refreshedTokens.expires_in) {
     throw new RefreshTokenError();

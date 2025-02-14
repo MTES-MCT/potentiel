@@ -1,5 +1,3 @@
-import { randomUUID } from 'node:crypto';
-
 import { AuthOptions } from 'next-auth';
 import KeycloakProvider from 'next-auth/providers/keycloak';
 import { mediator, Message } from 'mediateur';
@@ -7,9 +5,17 @@ import { mediator, Message } from 'mediateur';
 import { getLogger } from '@potentiel-libraries/monitoring';
 import { Role } from '@potentiel-domain/utilisateur';
 
-import { issuerUrl, clientId, clientSecret } from './constants';
+import {
+  keycloakIssuerUrl,
+  keycloakClientId,
+  keycloakClientSecret,
+  proConnectIssuerUrl,
+  proConnectClientId,
+  proConnectClientSecret,
+} from './constants';
 import { convertToken } from './convertToken';
 import { refreshAccessToken } from './refreshToken';
+import ProConnectProvider from './ProConnectProvider';
 const ONE_HOUR_IN_SECONDS = 60 * 60;
 
 type AjouterStatistique = Message<
@@ -27,69 +33,15 @@ type AjouterStatistique = Message<
 export const authOptions: AuthOptions = {
   providers: [
     KeycloakProvider({
-      issuer: issuerUrl,
-      clientId,
-      clientSecret,
+      issuer: keycloakIssuerUrl,
+      clientId: keycloakClientId,
+      clientSecret: keycloakClientSecret,
     }),
-    {
-      id: 'proconnect',
-      name: 'ProConnect',
-      type: 'oauth',
-      idToken: true,
-      clientId: process.env.PROCONNECT_CLIENT_ID,
-      clientSecret: process.env.PROCONNECT_CLIENT_SECRET,
-      wellKnown: new URL(
-        '/api/v2/.well-known/openid-configuration',
-        process.env.PROCONNECT_ENDPOINT,
-      ).toString(),
-      allowDangerousEmailAccountLinking: true,
-      checks: ['nonce', 'state'],
-      authorization: {
-        params: {
-          scope: 'openid uid given_name usual_name email siret',
-          acr_values: 'eidas1',
-          redirect_uri: new URL(
-            '/api/auth/callback/proconnect',
-            process.env.NEXTAUTH_URL,
-          ).toString(),
-          nonce: randomUUID(),
-          state: randomUUID(),
-        },
-      },
-      client: {
-        authorization_signed_response_alg: 'HS256',
-        id_token_signed_response_alg: 'HS256',
-        userinfo_encrypted_response_alg: 'HS256',
-        userinfo_signed_response_alg: 'HS256',
-        userinfo_encrypted_response_enc: 'HS256',
-      },
-      userinfo: {
-        async request(context) {
-          const userInfo = await fetch(
-            new URL('api/v2/userinfo', process.env.PROCONNECT_ENDPOINT).toString(),
-            {
-              method: 'GET',
-              headers: {
-                Authorization: `Bearer ${context.tokens.access_token}`,
-              },
-            },
-          ).then((res) => {
-            return res.text();
-          });
-          return JSON.parse(Buffer.from(userInfo.split('.')[1], 'base64').toString());
-        },
-      },
-      profile: async (profile) => {
-        return {
-          id: profile.email,
-          prenom: profile.given_name,
-          nom: profile.usual_name,
-          email: profile.email,
-          poste: profile.belonging_population,
-          agentconnect_info: profile,
-        };
-      },
-    },
+    ProConnectProvider({
+      issuer: proConnectIssuerUrl,
+      clientId: proConnectClientId,
+      clientSecret: proConnectClientSecret,
+    }),
   ],
   session: {
     strategy: 'jwt',
@@ -111,19 +63,23 @@ export const authOptions: AuthOptions = {
       if (account?.id_token) {
         token.idToken = account.id_token;
       }
+
       // NB `account` is defined only at login
       if (account?.access_token) {
         token.expiresAt = (account.expires_at ?? 0) * 1000;
         token.refreshToken = account.refresh_token;
+
         logger.debug(`User logged in`, { sub: token.sub, expiresAt: new Date(token.expiresAt) });
+
         try {
-          const utilisateur = await convertToken(account.access_token);
+          const utilisateur = await convertToken(account.access_token, account.provider);
           token.utilisateur = utilisateur;
         } catch (e) {
           logger.error(
             new Error("Impossible de convertir l'accessToken en Utilisateur", { cause: e }),
           );
         }
+
         try {
           await mediator.send<AjouterStatistique>({
             type: 'System.Statistiques.AjouterStatistique',
@@ -136,6 +92,7 @@ export const authOptions: AuthOptions = {
           console.log(e);
           logger.error("Impossible d'ajouter les statistiques de connexion", { cause: e });
         }
+
         return token;
       }
 
@@ -143,19 +100,28 @@ export const authOptions: AuthOptions = {
       if (token.expiresAt && Date.now() < token.expiresAt) {
         return token;
       }
+
       logger.debug(`Token expired`, { sub: token.sub });
+
       if (!token.refreshToken) {
         logger.warn(`no refreshToken available`, { sub: token.sub });
         return {};
       }
+
       try {
+        const provider = account?.provider ?? 'proconnect';
+
         const { accessToken, expiresAt, refreshToken } = await refreshAccessToken(
           token.refreshToken,
+          provider,
         );
+
         logger.debug(`Token refreshed`, { sub: token.sub, expiresAt: new Date(expiresAt) });
+
         token.expiresAt = expiresAt;
         token.refreshToken = refreshToken;
-        const utilisateur = await convertToken(accessToken);
+
+        const utilisateur = await convertToken(accessToken, provider);
         token.utilisateur = utilisateur;
         return token;
       } catch (e) {
@@ -173,6 +139,7 @@ export const authOptions: AuthOptions = {
         if (token.utilisateur) {
           session.utilisateur = token.utilisateur;
         }
+
         return session;
       }
     },

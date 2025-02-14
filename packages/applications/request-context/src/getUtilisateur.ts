@@ -29,10 +29,10 @@ async function getUserSession(req: IncomingMessage, res: ServerResponse) {
 }
 
 // API clients are authenticated by Authorization header
-async function getApiUser(req: IncomingMessage) {
+async function getApiUser(req: IncomingMessage, provider: string) {
   const authHeader = req.headers.authorization ?? '';
   if (authHeader.toLowerCase().startsWith('bearer ')) {
-    const utilisateur = await convertToken(authHeader.slice('bearer '.length));
+    const utilisateur = await convertToken(authHeader.slice('bearer '.length), provider);
     return Utilisateur.bind(utilisateur);
   }
 }
@@ -45,7 +45,7 @@ export async function getUtilisateur(req: IncomingMessage, res: ServerResponse) 
       return user;
     }
     if (req.url?.startsWith('/api')) {
-      return await getApiUser(req);
+      return await getApiUser(req, 'keycloak');
     }
   } catch (e) {
     const error = e as Error;
