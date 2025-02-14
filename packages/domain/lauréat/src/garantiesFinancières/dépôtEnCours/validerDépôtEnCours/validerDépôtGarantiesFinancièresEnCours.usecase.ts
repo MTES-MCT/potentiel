@@ -3,10 +3,9 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
 import { DocumentProjetCommand, DossierProjet } from '@potentiel-domain/document';
-import { AjouterTâchePlanifiéeCommand } from '@potentiel-domain/tache-planifiee';
 
 import { TypeDocumentGarantiesFinancières } from '../..';
-import * as TypeTâchePlanifiéeGarantiesFinancières from '../../typeTâchePlanifiéeGarantiesFinancières.valueType';
+import { AjouterTâchesGarantiesFinancièresCommand } from '../../tâches-planifiées/ajouter/ajouterTâches.command';
 
 import { ValiderDépôtGarantiesFinancièresEnCoursCommand } from './validerDépôtGarantiesFinancièresEnCours.command';
 
@@ -54,29 +53,15 @@ export const registerValiderDépôtGarantiesFinancièresEnCoursUseCase = () => {
       },
     });
 
-    if (dateÉchéanceValue) {
-      await mediator.send<AjouterTâchePlanifiéeCommand>({
-        type: 'System.TâchePlanifiée.Command.AjouterTâchePlanifiée',
-        data: {
-          identifiantProjet,
-          tâches: [
-            {
-              typeTâchePlanifiée: TypeTâchePlanifiéeGarantiesFinancières.échoir.type,
-              àExécuterLe: DateTime.convertirEnValueType(dateÉchéanceValue).ajouterNombreDeJours(1),
-            },
-            {
-              typeTâchePlanifiée: TypeTâchePlanifiéeGarantiesFinancières.rappelÉchéanceUnMois.type,
-              àExécuterLe: DateTime.convertirEnValueType(dateÉchéanceValue).retirerNombreDeMois(1),
-            },
-            {
-              typeTâchePlanifiée:
-                TypeTâchePlanifiéeGarantiesFinancières.rappelÉchéanceDeuxMois.type,
-              àExécuterLe: DateTime.convertirEnValueType(dateÉchéanceValue).retirerNombreDeMois(2),
-            },
-          ],
-        },
-      });
-    }
+    await mediator.send<AjouterTâchesGarantiesFinancièresCommand>({
+      type: 'Lauréat.GarantiesFinancières.Command.AjouterTâches',
+      data: {
+        identifiantProjet,
+        dateÉchéance: dateÉchéanceValue
+          ? DateTime.convertirEnValueType(dateÉchéanceValue)
+          : undefined,
+      },
+    });
   };
 
   mediator.register(

@@ -2,11 +2,7 @@ import { DataTable, When as Quand } from '@cucumber/cucumber';
 import { mediator } from 'mediateur';
 
 import { GarantiesFinancières } from '@potentiel-domain/laureat';
-import {
-  AjouterTâchePlanifiéeCommand,
-  ExécuterTâchePlanifiéeUseCase,
-} from '@potentiel-domain/tache-planifiee';
-import { DateTime } from '@potentiel-domain/common';
+import { ExécuterTâchePlanifiéeUseCase } from '@potentiel-domain/tache-planifiee';
 
 import { PotentielWorld } from '../../../../../potentiel.world';
 import { corrigerCandidature } from '../../../../../candidature/stepDefinitions/candidature.when';
@@ -103,27 +99,10 @@ Quand(
 );
 
 Quand(
-  `un admin échoie les garanties financières actuelles pour le projet {string} avec :`,
-  async function (this: PotentielWorld, nomProjet: string, dataTable: DataTable) {
-    const exemple = dataTable.rowsHash();
+  `un admin échoie les garanties financières actuelles pour le projet {string}`,
+  async function (this: PotentielWorld, nomProjet: string) {
     try {
       const { identifiantProjet } = this.lauréatWorld.rechercherLauréatFixture(nomProjet);
-
-      const échuLeValue = new Date(exemple['à échoir le']).toISOString();
-
-      await mediator.send<AjouterTâchePlanifiéeCommand>({
-        type: 'System.TâchePlanifiée.Command.AjouterTâchePlanifiée',
-        data: {
-          identifiantProjet,
-          tâches: [
-            {
-              typeTâchePlanifiée:
-                GarantiesFinancières.TypeTâchePlanifiéeGarantiesFinancières.échoir.type,
-              àExécuterLe: DateTime.convertirEnValueType(échuLeValue),
-            },
-          ],
-        },
-      });
 
       await mediator.send<ExécuterTâchePlanifiéeUseCase>({
         type: 'System.TâchePlanifiée.UseCase.ExécuterTâchePlanifiée',

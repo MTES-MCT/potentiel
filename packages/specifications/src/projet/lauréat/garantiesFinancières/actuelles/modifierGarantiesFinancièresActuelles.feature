@@ -98,3 +98,14 @@ Fonctionnalité: Modifier des garanties financières actuelles
         Quand un admin modifie les garanties financières actuelles pour le projet "Du boulodrome de Marseille" avec :
             | date de constitution | 2020-01-01 |
         Alors l'utilisateur devrait être informé que "Vous ne pouvez pas déposer ou modifier des garanties financières car elles ont déjà été levées pour ce projet"
+
+    Scénario: Une tâche du type "échoir les garanties financières" n'est pas ajoutée si une attestation de conformité est déjà transmise
+        Etant donné des garanties financières actuelles pour le projet "Du boulodrome de Marseille" avec :
+            | type GF            | avec-date-échéance |
+            | date d'échéance    | 2024-12-01         |
+            | date de validation | 2024-11-24         |
+        Et une attestation de conformité transmise pour le projet lauréat
+        Quand un admin modifie les garanties financières actuelles pour le projet "Du boulodrome de Marseille" avec :
+            | type GF         | avec-date-échéance |
+            | date d'échéance | 2024-12-02         |
+        Alors une tâche "échoir les garanties financières" n'est plus planifiée pour le projet "Du boulodrome de Marseille"

@@ -5,7 +5,6 @@ export type RechercherTypeTâche =
   | 'confirmer un abandon'
   | 'transmettre les garanties financières'
   | 'mettre à jour le gestionnaire de réseau'
-  | 'échoir les garanties financières'
   | 'transmettre une référence de raccordement';
 
 export class TâcheWorld {
@@ -15,8 +14,6 @@ export class TâcheWorld {
         return TypeTâche.abandonTransmettrePreuveRecandidature;
       case 'confirmer un abandon':
         return TypeTâche.abandonConfirmer;
-      case 'échoir les garanties financières':
-        return TypeTâche.garantiesFinancieresEchoir;
       case 'transmettre les garanties financières':
         return TypeTâche.garantiesFinancièresDemander;
       case 'mettre à jour le gestionnaire de réseau':

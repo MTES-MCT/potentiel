@@ -20,10 +20,7 @@ export const registerAnnulerTâchePlanifiéeCommand = (loadAggregate: LoadAggreg
     typeTâchePlanifiée,
   }) => {
     const tâche = await loadTâchePlanifiée(typeTâchePlanifiée, identifiantProjet, false);
-    await tâche.annuler({
-      typeTâchePlanifiée,
-      identifiantProjet,
-    });
+    await tâche.annuler();
   };
   mediator.register('System.TâchePlanifiée.Command.AnnulerTâchePlanifiée', handler);
 };

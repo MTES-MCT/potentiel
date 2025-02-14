@@ -18,17 +18,14 @@ export type AnnulerOptions = {
   typeTâchePlanifiée: string;
 };
 
-export async function annuler(
-  this: TâchePlanifiéeAggregate,
-  { identifiantProjet, typeTâchePlanifiée }: AnnulerOptions,
-) {
+export async function annuler(this: TâchePlanifiéeAggregate) {
   if (this.statut.estÉgaleÀ(StatutTâchePlanifiée.enAttenteExécution)) {
     const event: TâchePlanifiéeAnnuléeEvent = {
       type: 'TâchePlanifiéeAnnulée-V1',
       payload: {
         annuléeLe: DateTime.now().formatter(),
-        identifiantProjet: identifiantProjet.formatter(),
-        typeTâchePlanifiée,
+        identifiantProjet: this.identifiantProjet.formatter(),
+        typeTâchePlanifiée: this.typeTâchePlanifiée,
       },
     };
     await this.publish(event);
@@ -37,9 +34,8 @@ export async function annuler(
 
 export function applyTâchePlanifiéeAnnulée(
   this: TâchePlanifiéeAggregate,
-  { payload: { typeTâchePlanifiée, annuléeLe } }: TâchePlanifiéeAnnuléeEvent,
+  { payload: { annuléeLe } }: TâchePlanifiéeAnnuléeEvent,
 ) {
-  this.typeTâchePlanifiée = typeTâchePlanifiée;
   this.annuléeLe = DateTime.convertirEnValueType(annuléeLe);
   this.statut = StatutTâchePlanifiée.annulée;
 }

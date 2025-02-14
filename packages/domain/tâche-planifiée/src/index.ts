@@ -37,3 +37,8 @@ export * as StatutTâchePlanifiée from './statutTâchePlanifiée.valueType';
 
 // Entities
 export * from './tâchePlanifiée.entity';
+
+export {
+  loadTâchePlanifiéeAggregateFactory,
+  TâchePlanifiéeAggregate,
+} from './tâchePlanifiée.aggregate';
