@@ -1,31 +1,26 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
-import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
+import { IdentifiantProjet } from '@potentiel-domain/common';
 import { LoadAggregate } from '@potentiel-domain/core';
 import { loadTâchePlanifiéeAggregateFactory } from '@potentiel-domain/tache-planifiee';
 
 import { loadGarantiesFinancièresFactory } from '../../garantiesFinancières.aggregate';
-import { loadAchèvementFactory } from '../../../achèvement/achèvement.aggregate';
 import * as TypeTâchePlanifiéeGarantiesFinancières from '../../typeTâchePlanifiéeGarantiesFinancières.valueType';
 
-export type AjouterTâchesGarantiesFinancièresCommand = Message<
-  'Lauréat.GarantiesFinancières.Command.AjouterTâches',
+export type AnnulerTâchesGarantiesFinancièresCommand = Message<
+  'Lauréat.GarantiesFinancières.Command.AnnulerTâchesPlanifiées',
   {
     identifiantProjet: IdentifiantProjet.ValueType;
-    dateÉchéance?: DateTime.ValueType;
   }
 >;
 
-export const registerAjouterTâchesCommand = (loadAggregate: LoadAggregate) => {
+export const registerAnnulerTâchesPlanifiéesCommand = (loadAggregate: LoadAggregate) => {
   const loadGarantiesFinancières = loadGarantiesFinancièresFactory(loadAggregate);
-  const loadAchèvement = loadAchèvementFactory(loadAggregate);
   const loadTâchePlanifiée = loadTâchePlanifiéeAggregateFactory(loadAggregate);
-  const handler: MessageHandler<AjouterTâchesGarantiesFinancièresCommand> = async ({
+  const handler: MessageHandler<AnnulerTâchesGarantiesFinancièresCommand> = async ({
     identifiantProjet,
-    dateÉchéance,
   }) => {
     const garantiesFinancières = await loadGarantiesFinancières(identifiantProjet);
-    const achèvement = await loadAchèvement(identifiantProjet, false);
     const tâchePlanifiéeEchoir = await loadTâchePlanifiée(
       TypeTâchePlanifiéeGarantiesFinancières.échoir.type,
       identifiantProjet,
@@ -41,14 +36,12 @@ export const registerAjouterTâchesCommand = (loadAggregate: LoadAggregate) => {
       identifiantProjet,
       false,
     );
-    await garantiesFinancières.ajouterTâches({
+    await garantiesFinancières.annulerTâchesPlanifiées({
       tâchePlanifiéeEchoir,
       tâchePlanifiéeRappel1mois,
       tâchePlanifiéeRappel2mois,
-      dateÉchéance,
-      estAchevé: achèvement.estAchevé(),
     });
   };
 
-  mediator.register('Lauréat.GarantiesFinancières.Command.AjouterTâches', handler);
+  mediator.register('Lauréat.GarantiesFinancières.Command.AnnulerTâchesPlanifiées', handler);
 };

@@ -13,7 +13,7 @@ type AjouterTâchesOptions = {
   tâchePlanifiéeRappel2mois: TâchePlanifiéeAggregate;
 };
 
-export async function ajouterTâches(
+export async function ajouterTâchesPlanifiées(
   this: GarantiesFinancièresAggregate,
   {
     estAchevé,

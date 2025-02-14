@@ -9,7 +9,7 @@ type annulerTâchesOptions = {
   tâchePlanifiéeRappel2mois: TâchePlanifiéeAggregate;
 };
 
-export async function annulerTâches(
+export async function annulerTâchesPlanifiées(
   this: GarantiesFinancièresAggregate,
   {
     tâchePlanifiéeEchoir,

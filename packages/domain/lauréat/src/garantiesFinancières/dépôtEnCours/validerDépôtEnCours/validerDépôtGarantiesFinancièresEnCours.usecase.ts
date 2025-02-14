@@ -5,7 +5,7 @@ import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
 import { DocumentProjetCommand, DossierProjet } from '@potentiel-domain/document';
 
 import { TypeDocumentGarantiesFinancières } from '../..';
-import { AjouterTâchesGarantiesFinancièresCommand } from '../../tâches-planifiées/ajouter/ajouterTâches.command';
+import { AjouterTâchesGarantiesFinancièresCommand } from '../../tâches-planifiées/ajouter/ajouter.command';
 
 import { ValiderDépôtGarantiesFinancièresEnCoursCommand } from './validerDépôtGarantiesFinancièresEnCours.command';
 
@@ -54,7 +54,7 @@ export const registerValiderDépôtGarantiesFinancièresEnCoursUseCase = () => {
     });
 
     await mediator.send<AjouterTâchesGarantiesFinancièresCommand>({
-      type: 'Lauréat.GarantiesFinancières.Command.AjouterTâches',
+      type: 'Lauréat.GarantiesFinancières.Command.AjouterTâchesPlanifiées',
       data: {
         identifiantProjet,
         dateÉchéance: dateÉchéanceValue

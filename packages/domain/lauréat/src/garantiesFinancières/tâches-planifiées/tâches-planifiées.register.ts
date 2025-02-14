@@ -1,10 +1,10 @@
 import { LoadAggregate } from '@potentiel-domain/core';
 
-import { registerAjouterTâchesCommand } from './ajouter/ajouterTâches.command';
-import { registerAnnulerTâchesCommand } from './annuler/annulerTâches.command';
+import { registerAjouterTâchesPlanfiéesCommand } from './ajouter/ajouter.command';
+import { registerAnnulerTâchesPlanifiéesCommand } from './annuler/annuler.command';
 
 export const registerTâchesPlanifiées = (loadAggregate: LoadAggregate) => {
   // commands
-  registerAjouterTâchesCommand(loadAggregate);
-  registerAnnulerTâchesCommand(loadAggregate);
+  registerAjouterTâchesPlanfiéesCommand(loadAggregate);
+  registerAnnulerTâchesPlanifiéesCommand(loadAggregate);
 };

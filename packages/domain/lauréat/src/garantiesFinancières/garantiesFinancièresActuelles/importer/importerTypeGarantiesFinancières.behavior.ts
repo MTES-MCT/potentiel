@@ -56,7 +56,7 @@ export async function importerType(
     },
   };
 
-  await this.ajouterTâches({
+  await this.ajouterTâchesPlanifiées({
     dateÉchéance,
     tâchePlanifiéeEchoir,
     tâchePlanifiéeRappel1mois,

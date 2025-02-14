@@ -6,7 +6,7 @@ import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
 import { Candidature } from '@potentiel-domain/candidature';
 
 import { TypeDocumentGarantiesFinancières } from '../..';
-import { AnnulerTâchesGarantiesFinancièresCommand } from '../../tâches-planifiées/annuler/annulerTâches.command';
+import { AnnulerTâchesGarantiesFinancièresCommand } from '../../tâches-planifiées/annuler/annuler.command';
 
 import { SoumettreDépôtGarantiesFinancièresCommand } from './soumettreDépôtGarantiesFinancières.command';
 
@@ -74,7 +74,7 @@ export const registerSoumettreDépôtGarantiesFinancièresUseCase = () => {
     });
 
     await mediator.send<AnnulerTâchesGarantiesFinancièresCommand>({
-      type: 'Lauréat.GarantiesFinancières.Command.AnnulerTâches',
+      type: 'Lauréat.GarantiesFinancières.Command.AnnulerTâchesPlanifiées',
       data: {
         identifiantProjet,
       },
