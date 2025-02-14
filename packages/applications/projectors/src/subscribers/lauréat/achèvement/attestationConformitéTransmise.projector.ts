@@ -1,8 +1,7 @@
 import { Achèvement } from '@potentiel-domain/laureat';
 
 import { upsertProjection } from '../../../infrastructure';
-
-import { getProjectData } from './utils/getProjectData';
+import { getProjectData } from '../_utils/getProjectData';
 
 export const attestationConformitéTransmiseProjector = async ({
   payload,

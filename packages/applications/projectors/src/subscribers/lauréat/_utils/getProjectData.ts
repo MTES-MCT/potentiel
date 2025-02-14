@@ -16,6 +16,7 @@ export const getProjectData = async (identifiantProjet: IdentifiantProjet.RawTyp
       appelOffre: `N/A`,
       période: `N/A`,
       famille: undefined,
+      numéroCRE: `N/A`,
       régionProjet: '',
     };
   }
@@ -25,6 +26,7 @@ export const getProjectData = async (identifiantProjet: IdentifiantProjet.RawTyp
     appelOffre: projet.appelOffre,
     période: projet.période,
     famille: projet.famille,
+    numéroCRE: projet.numéroCRE,
     régionProjet: projet.localité.région,
   };
 };
