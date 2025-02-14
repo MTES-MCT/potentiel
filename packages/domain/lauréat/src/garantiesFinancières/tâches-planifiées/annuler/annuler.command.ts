@@ -20,7 +20,7 @@ export const registerAnnulerTâchesPlanifiéesCommand = (loadAggregate: LoadAggr
   const handler: MessageHandler<AnnulerTâchesGarantiesFinancièresCommand> = async ({
     identifiantProjet,
   }) => {
-    const garantiesFinancières = await loadGarantiesFinancières(identifiantProjet);
+    const garantiesFinancières = await loadGarantiesFinancières(identifiantProjet, false);
     const tâchePlanifiéeEchoir = await loadTâchePlanifiée(
       TypeTâchePlanifiéeGarantiesFinancières.échoir.type,
       identifiantProjet,
