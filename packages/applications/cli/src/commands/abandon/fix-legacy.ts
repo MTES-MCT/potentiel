@@ -71,17 +71,24 @@ export default class FixLegacyAbandon extends Command {
   }
 
   public async run(): Promise<void> {
+    const { flags } = await this.parse(FixLegacyAbandon);
     console.info('Lancement du script...');
 
     const subscriberCount = await executeSelect<{ count: number }>(
       "select count(*) as count from event_store.subscriber where stream_category='abandon'",
     );
-    if (subscriberCount[0].count > 0) {
+    if (subscriberCount[0].count > 0 && !flags.dryRun) {
       console.warn("Il existe des subscribers pour 'abandon'");
       process.exit(1);
     }
 
     const results = await executeSelect<QueryResult>(getAbandonsLegacy);
+
+    console.log(`${results.length} abandons à traiter`);
+
+    if (flags.dryRun) {
+      return;
+    }
 
     for (const { identifiantProjet, abandonedOn } of results) {
       console.log(identifiantProjet);
