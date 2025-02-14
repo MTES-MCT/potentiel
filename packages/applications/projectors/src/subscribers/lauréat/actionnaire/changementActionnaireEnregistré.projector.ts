@@ -1,11 +1,8 @@
 import { Actionnaire } from '@potentiel-domain/laureat';
-import { findProjection } from '@potentiel-infrastructure/pg-projections';
-import { Candidature } from '@potentiel-domain/candidature';
-import { IdentifiantProjet } from '@potentiel-domain/common';
 import { getLogger } from '@potentiel-libraries/monitoring';
-import { Option } from '@potentiel-libraries/monads';
 
 import { updateOneProjection, upsertProjection } from '../../../infrastructure';
+import { getProjectData } from '../_utils/getProjectData';
 
 export const changementActionnaireEnregistréProjector = async ({
   payload: {
@@ -24,31 +21,20 @@ export const changementActionnaireEnregistréProjector = async ({
     },
   });
 
-  const candidature = await findProjection<Candidature.CandidatureEntity>(
-    `candidature|${identifiantProjet}`,
-  );
+  const projet = await getProjectData(identifiantProjet);
 
-  if (Option.isNone(candidature)) {
-    getLogger().error('Candidature non trouvée', {
+  if (!projet) {
+    getLogger().error('Projet non trouvé', {
       identifiantProjet,
     });
     return;
   }
 
-  const { appelOffre, période, famille } =
-    IdentifiantProjet.convertirEnValueType(identifiantProjet);
-
   await upsertProjection<Actionnaire.ChangementActionnaireEntity>(
     `changement-actionnaire|${identifiantProjet}#${enregistréLe}`,
     {
       identifiantProjet,
-      projet: {
-        nom: candidature.nomProjet,
-        appelOffre,
-        période,
-        famille,
-        région: candidature.localité.région,
-      },
+      projet,
       demande: {
         nouvelActionnaire: actionnaire,
         statut: Actionnaire.StatutChangementActionnaire.informationEnregistrée.statut,

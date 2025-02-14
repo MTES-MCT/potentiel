@@ -7,26 +7,18 @@ export const getProjectData = async (identifiantProjet: IdentifiantProjet.RawTyp
   const projet = await CandidatureAdapter.récupérerProjetAdapter(identifiantProjet);
 
   if (Option.isNone(projet)) {
-    getLogger().warn(`Projet inconnu !`, {
+    getLogger().error(`Projet inconnu !`, {
       identifiantProjet,
     });
-
-    return {
-      nomProjet: 'Projet inconnu',
-      appelOffre: `N/A`,
-      période: `N/A`,
-      famille: undefined,
-      numéroCRE: `N/A`,
-      régionProjet: '',
-    };
+    return;
   }
 
   return {
-    nomProjet: projet.nom,
+    nom: projet.nom,
     appelOffre: projet.appelOffre,
     période: projet.période,
     famille: projet.famille,
     numéroCRE: projet.numéroCRE,
-    régionProjet: projet.localité.région,
+    région: projet.localité.région,
   };
 };
