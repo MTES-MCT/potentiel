@@ -47,6 +47,14 @@ v1Router.post(
         ),
     },
     async (request, response) => {
+      if (request.errorFileSizeLimit) {
+        return response.redirect(
+          addQueryParams(routes.DEMANDER_CHANGEMENT_PUISSANCE(request.body.projectId), {
+            error: request.errorFileSizeLimit,
+          }),
+        );
+      }
+
       const {
         body: { projectId, puissance, justification },
         user,

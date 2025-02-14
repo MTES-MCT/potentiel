@@ -49,6 +49,14 @@ v1Router.post(
       },
     },
     async (request, response) => {
+      if (request.errorFileSizeLimit) {
+        return response.redirect(
+          addQueryParams(routes.DEMANDER_DELAI(request.body.projectId), {
+            error: request.errorFileSizeLimit,
+          }),
+        );
+      }
+
       const {
         projectId,
         justification,

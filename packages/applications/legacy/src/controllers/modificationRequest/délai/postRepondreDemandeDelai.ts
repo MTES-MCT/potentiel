@@ -9,6 +9,7 @@ import { AccorderDateAchèvementAntérieureDateThéoriqueError } from '../../../
 import asyncHandler from '../../helpers/asyncHandler';
 import {
   errorResponse,
+  FileSizeLimitError,
   iso8601DateToDateYupTransformation,
   RequestValidationErrorArray,
   unauthorizedResponse,
@@ -57,6 +58,10 @@ v1Router.post(
           );
         }
 
+        if (request.errorFileSizeLimit) {
+          return errAsync(new FileSizeLimitError(request.errorFileSizeLimit));
+        }
+
         const file = request.file && {
           contents: fs.createReadStream(request.file.path),
           filename: `${Date.now()}-${request.file.originalname}`,
@@ -98,6 +103,18 @@ v1Router.post(
         (error) => {
           if (error instanceof UnauthorizedError) {
             return unauthorizedResponse({ request, response });
+          }
+
+          if (error instanceof FileSizeLimitError) {
+            return response.redirect(
+              addQueryParams(
+                routes.GET_DETAILS_DEMANDE_DELAI_PAGE(request.body.modificationRequestId),
+                {
+                  ...request.body,
+                  error,
+                },
+              ),
+            );
           }
 
           if (error instanceof RequestValidationErrorArray) {

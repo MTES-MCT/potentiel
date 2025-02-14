@@ -15,6 +15,14 @@ v1Router.post(
   ensureRole('porteur-projet'),
   upload.single('file'),
   asyncHandler(async (request, response) => {
+    if (request.errorFileSizeLimit) {
+      return response.redirect(
+        addQueryParams(routes.LISTE_PROJETS, {
+          error: request.errorFileSizeLimit,
+        }),
+      );
+    }
+
     const { projectId } = request.body;
 
     if (!validateUniqueId(projectId)) {

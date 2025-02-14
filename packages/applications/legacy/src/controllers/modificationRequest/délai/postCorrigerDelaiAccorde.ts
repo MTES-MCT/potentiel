@@ -78,6 +78,14 @@ v1Router.post(
         );
       }
 
+      if (request.errorFileSizeLimit) {
+        return response.redirect(
+          addQueryParams(routes.GET_CORRIGER_DELAI_ACCORDE_PAGE(demandeDélaiId), {
+            error: request.errorFileSizeLimit,
+          }),
+        );
+      }
+
       const fichierRéponse = request.file && {
         contents: fs.createReadStream(request.file.path),
         filename: `${Date.now()}-${request.file.originalname}`,

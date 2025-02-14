@@ -37,14 +37,20 @@ import { fr } from 'date-fns/locale';
 import { mediator } from 'mediateur';
 import { ModificationRequest, Project } from '../../infra/sequelize';
 
-const FORMAT_DATE = 'DD/MM/YYYY';
-
 v1Router.post(
   routes.ADMIN_REPLY_TO_MODIFICATION_REQUEST,
 
   upload.single('file'),
   ensureRole(['admin', 'dgec-validateur', 'dreal']),
   asyncHandler(async (request, response) => {
+    if (request.errorFileSizeLimit) {
+      return response.redirect(
+        addQueryParams(routes.DEMANDE_PAGE_DETAILS(request.body.modificationRequestId), {
+          error: request.errorFileSizeLimit,
+        }),
+      );
+    }
+
     const {
       user: { role },
       body: {

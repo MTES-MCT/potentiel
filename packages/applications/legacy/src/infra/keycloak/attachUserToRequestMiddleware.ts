@@ -21,6 +21,7 @@ declare module 'express-serve-static-core' {
       accountUrl: string;
       permissions: Permission[];
     };
+    errorFileSizeLimit?: string;
   }
 }
 

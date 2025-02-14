@@ -51,6 +51,14 @@ v1Router.post(
       },
     },
     async (request, response) => {
+      if (request.errorFileSizeLimit) {
+        return response.redirect(
+          addQueryParams(routes.GET_CHANGER_PRODUCTEUR(request.body.projetId), {
+            error: request.errorFileSizeLimit,
+          }),
+        );
+      }
+
       const { user } = request;
       const { projetId, justification, producteur } = request.body;
 

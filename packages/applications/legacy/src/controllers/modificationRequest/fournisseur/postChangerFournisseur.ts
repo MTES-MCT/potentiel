@@ -62,6 +62,14 @@ v1Router.post(
         ),
     },
     async (request, response) => {
+      if (request.errorFileSizeLimit) {
+        return response.redirect(
+          addQueryParams(routes.CHANGER_FOURNISSEUR(request.body.projectId), {
+            error: request.errorFileSizeLimit,
+          }),
+        );
+      }
+
       const { user } = request;
       const { projectId, evaluationCarbone, justification } = request.body;
       const file = request.file && {
