@@ -1,39 +1,24 @@
-import { Option } from '@potentiel-libraries/monads';
 import { Actionnaire } from '@potentiel-domain/laureat';
-import { IdentifiantProjet } from '@potentiel-domain/common';
-import { Candidature } from '@potentiel-domain/candidature';
 import { getLogger } from '@potentiel-libraries/monitoring';
-import { findProjection } from '@potentiel-infrastructure/pg-projections';
 
 import { upsertProjection } from '../../../infrastructure';
+import { getProjectData } from '../_utils/getProjectData';
 
 export const actionnaireImportéProjector = async ({
   payload: { identifiantProjet, actionnaire, importéLe },
 }: Actionnaire.ActionnaireImportéEvent) => {
-  const candidature = await findProjection<Candidature.CandidatureEntity>(
-    `candidature|${identifiantProjet}`,
-  );
+  const projet = await getProjectData(identifiantProjet);
 
-  if (Option.isNone(candidature)) {
-    getLogger().error('Candidature non trouvée', {
+  if (!projet) {
+    getLogger().error('Projet non trouvé', {
       identifiantProjet,
     });
     return;
   }
 
-  const { appelOffre, période, famille, numéroCRE } =
-    IdentifiantProjet.convertirEnValueType(identifiantProjet);
-
   await upsertProjection<Actionnaire.ActionnaireEntity>(`actionnaire|${identifiantProjet}`, {
     identifiantProjet,
-    projet: {
-      nom: candidature.nomProjet,
-      appelOffre,
-      période,
-      famille,
-      numéroCRE,
-      région: candidature.localité.région,
-    },
+    projet,
     actionnaire: {
       nom: actionnaire,
       misÀJourLe: importéLe,

@@ -12,6 +12,7 @@ export type ChangementActionnaireEntity = Entity<
       période: string;
       famille?: string;
       région: string;
+      numéroCRE: string;
     };
 
     demande: {
