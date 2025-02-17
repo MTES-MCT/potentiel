@@ -1,7 +1,7 @@
 import { Abandon } from '@potentiel-domain/laureat';
 import { getLogger } from '@potentiel-libraries/monitoring';
 
-import { upsertProjection } from '../../../infrastructure';
+import { updateOneProjection } from '../../../infrastructure';
 
 import { getInfosAbandon } from './utils/getInfosAbandon';
 
@@ -18,8 +18,7 @@ export const abandonConfirméProjector = async ({
     return;
   }
 
-  await upsertProjection<Abandon.AbandonEntity>(`abandon|${identifiantProjet}`, {
-    ...abandonToUpsert,
+  await updateOneProjection<Abandon.AbandonEntity>(`abandon|${identifiantProjet}`, {
     demande: {
       ...abandonToUpsert.demande,
       confirmation: {

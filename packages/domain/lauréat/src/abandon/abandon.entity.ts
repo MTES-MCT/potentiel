@@ -7,11 +7,10 @@ export type AbandonEntity = Entity<
 
     projet?: {
       nom: string;
+      région: string;
       appelOffre: string;
       période: string;
       famille?: string;
-      numéroCRE: string;
-      région: string;
     };
 
     demande: {

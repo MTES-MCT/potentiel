@@ -7,19 +7,17 @@ import { Candidature } from '@potentiel-domain/candidature';
 
 type ProjetData = {
   nom: string;
+  région: string;
   appelOffre: string;
   période: string;
   famille?: string;
-  numéroCRE: string;
-  région: string;
 };
 
 export const projetDataDefaultValue = {
   nom: 'Projet inconnu',
+  région: '',
   appelOffre: `N/A`,
   période: `N/A`,
-  numéroCRE: `N/A`,
-  région: '',
 };
 
 // TODO: refacto ces 2 fonctions pour un join sur lauréat idéalement (et arrêter de mettre ces données qui peuvent être modifiées dans chaque projection)
@@ -41,7 +39,6 @@ export const getProjectDataFromProjet = async (
     appelOffre: projet.appelOffre,
     période: projet.période,
     famille: projet.famille,
-    numéroCRE: projet.numéroCRE,
     région: projet.localité.région,
   };
 };
@@ -57,7 +54,7 @@ export const getProjectDataFromCandidature = async (
     return undefined;
   }
 
-  const { appelOffre, période, famille, numéroCRE } =
+  const { appelOffre, période, famille } =
     IdentifiantProjet.convertirEnValueType(identifiantProjet);
 
   return {
@@ -65,7 +62,6 @@ export const getProjectDataFromCandidature = async (
     appelOffre,
     période,
     famille,
-    numéroCRE,
     région: candidature.localité.région,
   };
 };
