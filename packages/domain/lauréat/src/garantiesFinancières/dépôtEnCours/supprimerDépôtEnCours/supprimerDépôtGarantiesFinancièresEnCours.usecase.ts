@@ -3,7 +3,7 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
 
-import { AjouterTâchesGarantiesFinancièresCommand } from '../../tâches-planifiées/ajouter/ajouter.command';
+import { AjouterTâchesPlanifiéesGarantiesFinancièresCommand } from '../../tâches-planifiées/ajouter/ajouter.command';
 
 import { SupprimerDépôtGarantiesFinancièresEnCoursCommand } from './supprimerDépôtGarantiesFinancièresEnCours.command';
 
@@ -37,7 +37,7 @@ export const registerSupprimerGarantiesFinancièresÀTraiterUseCase = () => {
       },
     });
 
-    await mediator.send<AjouterTâchesGarantiesFinancièresCommand>({
+    await mediator.send<AjouterTâchesPlanifiéesGarantiesFinancièresCommand>({
       type: 'Lauréat.GarantiesFinancières.Command.AjouterTâchesPlanifiées',
       data: {
         identifiantProjet,

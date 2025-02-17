@@ -7,7 +7,7 @@ import { loadTâchePlanifiéeAggregateFactory } from '@potentiel-domain/tache-pl
 import { loadGarantiesFinancièresFactory } from '../../garantiesFinancières.aggregate';
 import * as TypeTâchePlanifiéeGarantiesFinancières from '../../typeTâchePlanifiéeGarantiesFinancières.valueType';
 
-export type AnnulerTâchesGarantiesFinancièresCommand = Message<
+export type AnnulerTâchesPlanifiéesGarantiesFinancièresCommand = Message<
   'Lauréat.GarantiesFinancières.Command.AnnulerTâchesPlanifiées',
   {
     identifiantProjet: IdentifiantProjet.ValueType;
@@ -17,7 +17,7 @@ export type AnnulerTâchesGarantiesFinancièresCommand = Message<
 export const registerAnnulerTâchesPlanifiéesCommand = (loadAggregate: LoadAggregate) => {
   const loadGarantiesFinancières = loadGarantiesFinancièresFactory(loadAggregate);
   const loadTâchePlanifiée = loadTâchePlanifiéeAggregateFactory(loadAggregate);
-  const handler: MessageHandler<AnnulerTâchesGarantiesFinancièresCommand> = async ({
+  const handler: MessageHandler<AnnulerTâchesPlanifiéesGarantiesFinancièresCommand> = async ({
     identifiantProjet,
   }) => {
     const garantiesFinancières = await loadGarantiesFinancières(identifiantProjet, false);

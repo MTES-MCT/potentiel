@@ -9,7 +9,7 @@ import { DocumentProjet, EnregistrerDocumentProjetCommand } from '@potentiel-dom
 
 // Package
 import * as TypeDocumentAbandon from '../typeDocumentAbandon.valueType';
-import { AnnulerTâchesGarantiesFinancièresCommand } from '../../garantiesFinancières/tâches-planifiées/annuler/annuler.command';
+import { AnnulerTâchesPlanifiéesGarantiesFinancièresCommand } from '../../garantiesFinancières/tâches-planifiées/annuler/annuler.command';
 
 import { AccorderAbandonCommand } from './accorderAbandon.command';
 
@@ -64,7 +64,7 @@ export const registerAccorderAbandonUseCase = () => {
       },
     });
 
-    await mediator.send<AnnulerTâchesGarantiesFinancièresCommand>({
+    await mediator.send<AnnulerTâchesPlanifiéesGarantiesFinancièresCommand>({
       type: 'Lauréat.GarantiesFinancières.Command.AnnulerTâchesPlanifiées',
       data: {
         identifiantProjet,

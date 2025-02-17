@@ -8,7 +8,7 @@ import { loadGarantiesFinancièresFactory } from '../../garantiesFinancières.ag
 import { loadAchèvementFactory } from '../../../achèvement/achèvement.aggregate';
 import * as TypeTâchePlanifiéeGarantiesFinancières from '../../typeTâchePlanifiéeGarantiesFinancières.valueType';
 
-export type AjouterTâchesGarantiesFinancièresCommand = Message<
+export type AjouterTâchesPlanifiéesGarantiesFinancièresCommand = Message<
   'Lauréat.GarantiesFinancières.Command.AjouterTâchesPlanifiées',
   {
     identifiantProjet: IdentifiantProjet.ValueType;
@@ -20,7 +20,7 @@ export const registerAjouterTâchesPlanfiéesCommand = (loadAggregate: LoadAggre
   const loadGarantiesFinancières = loadGarantiesFinancièresFactory(loadAggregate);
   const loadAchèvement = loadAchèvementFactory(loadAggregate);
   const loadTâchePlanifiée = loadTâchePlanifiéeAggregateFactory(loadAggregate);
-  const handler: MessageHandler<AjouterTâchesGarantiesFinancièresCommand> = async ({
+  const handler: MessageHandler<AjouterTâchesPlanifiéesGarantiesFinancièresCommand> = async ({
     identifiantProjet,
     dateÉchéance,
   }) => {
