@@ -117,6 +117,7 @@ npm run start:dev
    - dgec-validateur@test.test
    - cre@test.test
    - caissedesdepots@test.test
+   - grd@test.test
 
 > ℹ️ Il est possible de couper les services utilisés localement pour lancer l'application via le script npm **`stop:dev`**
 
