@@ -33,7 +33,7 @@
       "path": "../routes"
     },
     {
-      "path": "../statistiques-publiques"
+      "path": "../../statistiques/statistiques-publiques"
     }
   ]
 }

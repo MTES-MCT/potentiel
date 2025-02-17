@@ -4,7 +4,7 @@ import { z } from 'zod';
 import {
   cleanStatistiquesPubliques,
   computeStatistiquesPubliques,
-} from '@potentiel-applications/statistiques-publiques';
+} from '@potentiel-statistiques/statistiques-publiques';
 
 const configSchema = z.object({
   EVENT_STORE_CONNECTION_STRING: z.string(),

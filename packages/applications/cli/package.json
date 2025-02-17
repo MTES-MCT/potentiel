@@ -24,7 +24,7 @@
     "@potentiel-domain/reseau": "*",
     "@potentiel-applications/bootstrap": "*",
     "@potentiel-infrastructure/domain-adapters": "*",
-    "@potentiel-applications/statistiques-publiques": "*"
+    "@potentiel-statistiques/statistiques-publiques": "*"
   },
   "devDependencies": {
     "@potentiel-config/tsconfig": "*",

@@ -1,7 +1,7 @@
 import {
   cleanStatistiquesPubliques,
   computeStatistiquesPubliques,
-} from '@potentiel-applications/statistiques-publiques';
+} from '@potentiel-statistiques/statistiques-publiques';
 
 (async () => {
   await cleanStatistiquesPubliques();
