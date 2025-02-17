@@ -21,6 +21,10 @@
       "size": "M"
     },
     {
+      "command": "0 6 * * * ./packages/applications/scheduled-tasks/extraire-données-statistiques-publiques.sh",
+      "size": "M"
+    },
+    {
       "command": "0 2 * * * ./packages/applications/scheduler/scheduler.sh",
       "size": "M"
     }
