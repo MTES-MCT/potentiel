@@ -1,0 +1,14 @@
+{
+  "name": "@potentiel-applications/public-statistics",
+  "version": "0.0.0",
+  "description": "Statistics referential for the Potentiel public dashboard",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "private": true,
+  "scripts": {
+    "build": "tsc"
+  },
+  "devDependencies": {
+    "@potentiel-config/tsconfig": "*"
+  }
+}
