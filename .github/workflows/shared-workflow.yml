@@ -85,5 +85,6 @@ jobs:
           node-version: 20.x
           cache: 'npm'
       - run: npm ci
+      - run: npm run build
       - run: npm run up
-      - run: npm exec tsx ./packages/applications/cli/bin/dev.js stats extraire
+      - run: npm exec potentiel-cli stats extraire
