@@ -4,13 +4,14 @@ import { Option } from '@potentiel-libraries/monads';
 import { GarantiesFinancières } from '@potentiel-domain/laureat';
 import { RebuildTriggered, Event } from '@potentiel-infrastructure/pg-event-sourcing';
 import { findProjection, listProjection } from '@potentiel-infrastructure/pg-projections';
-import { CandidatureAdapter } from '@potentiel-infrastructure/domain-adapters';
 import { getLogger } from '@potentiel-libraries/monitoring';
 import { IdentifiantProjet } from '@potentiel-domain/common';
 import { Where } from '@potentiel-domain/entity';
 
 import { removeProjection } from '../../infrastructure/removeProjection';
 import { upsertProjection } from '../../infrastructure/upsertProjection';
+
+import { getProjectDataFromProjet } from './_utils/getProjectData';
 
 export type SubscriptionEvent =
   | (GarantiesFinancières.GarantiesFinancièresEvent & Event)
@@ -67,7 +68,7 @@ export const register = () => {
         appelOffre: '',
         période: '',
         famille: undefined,
-        régionProjet: '',
+        région: '',
         garantiesFinancières: {
           statut: 'validé',
           type: '',
@@ -158,44 +159,9 @@ export const register = () => {
         ? projetAvecGarantiesFinancièresEnAttente
         : projetAvecGarantiesFinancièresEnAttenteDefaultValue;
 
-      const getProjectData = async (identifiantProjet: IdentifiantProjet.RawType) => {
-        const projet = await CandidatureAdapter.récupérerProjetAdapter(identifiantProjet);
-        if (Option.isNone(projet)) {
-          getLogger().warn(`Projet inconnu !`),
-            {
-              identifiantProjet,
-              message: event,
-            };
-          return {
-            nomProjet: 'Projet inconnu',
-            appelOffre: `N/A`,
-            période: `N/A`,
-            famille: undefined,
-            régionProjet: '',
-          };
-        }
-        return {
-          nomProjet: projet.nom,
-          appelOffre: projet.appelOffre,
-          période: projet.période,
-          famille: projet.famille,
-          régionProjet: projet.localité.région,
-        };
-      };
-
-      let détailProjet:
-        | {
-            nomProjet: string;
-            régionProjet: string;
-            appelOffre: string;
-            période: string;
-            famille?: string;
-          }
-        | undefined = undefined;
-
       switch (type) {
         case 'GarantiesFinancièresDemandées-V1':
-          détailProjet = await getProjectData(identifiantProjet);
+          let détailProjet = await getProjectDataFromProjet(identifiantProjet);
 
           await upsertProjection<GarantiesFinancières.ProjetAvecGarantiesFinancièresEnAttenteEntity>(
             `projet-avec-garanties-financieres-en-attente|${identifiantProjet}`,
@@ -213,7 +179,7 @@ export const register = () => {
           break;
 
         case 'DépôtGarantiesFinancièresSoumis-V1':
-          détailProjet = await getProjectData(identifiantProjet);
+          détailProjet = await getProjectDataFromProjet(identifiantProjet);
 
           await upsertProjection<GarantiesFinancières.DépôtEnCoursGarantiesFinancièresEntity>(
             `depot-en-cours-garanties-financieres|${identifiantProjet}`,
@@ -248,7 +214,7 @@ export const register = () => {
 
         case 'DépôtGarantiesFinancièresEnCoursValidé-V1':
         case 'DépôtGarantiesFinancièresEnCoursValidé-V2':
-          détailProjet = await getProjectData(identifiantProjet);
+          détailProjet = await getProjectDataFromProjet(identifiantProjet);
 
           const dépôtValidé = dépôtEnCoursGarantiesFinancièresToUpsert.dépôt;
 
@@ -344,7 +310,7 @@ export const register = () => {
           break;
 
         case 'TypeGarantiesFinancièresImporté-V1':
-          détailProjet = await getProjectData(identifiantProjet);
+          détailProjet = await getProjectDataFromProjet(identifiantProjet);
           await upsertProjection<GarantiesFinancières.GarantiesFinancièresEntity>(
             `garanties-financieres|${identifiantProjet}`,
             {
@@ -390,7 +356,7 @@ export const register = () => {
           break;
 
         case 'AttestationGarantiesFinancièresEnregistrée-V1':
-          détailProjet = await getProjectData(identifiantProjet);
+          détailProjet = await getProjectDataFromProjet(identifiantProjet);
           await upsertProjection<GarantiesFinancières.GarantiesFinancièresEntity>(
             `garanties-financieres|${identifiantProjet}`,
             {
@@ -414,7 +380,7 @@ export const register = () => {
           break;
 
         case 'GarantiesFinancièresEnregistrées-V1':
-          détailProjet = await getProjectData(identifiantProjet);
+          détailProjet = await getProjectDataFromProjet(identifiantProjet);
           await upsertProjection<GarantiesFinancières.GarantiesFinancièresEntity>(
             `garanties-financieres|${identifiantProjet}`,
             {
@@ -440,7 +406,7 @@ export const register = () => {
           break;
 
         case 'HistoriqueGarantiesFinancièresEffacé-V1':
-          détailProjet = await getProjectData(identifiantProjet);
+          détailProjet = await getProjectDataFromProjet(identifiantProjet);
           await upsertProjection<GarantiesFinancières.ArchivesGarantiesFinancièresEntity>(
             `archives-garanties-financieres|${identifiantProjet}`,
             {
@@ -472,7 +438,7 @@ export const register = () => {
           break;
 
         case 'MainlevéeGarantiesFinancièresDemandée-V1':
-          détailProjet = await getProjectData(identifiantProjet);
+          détailProjet = await getProjectDataFromProjet(identifiantProjet);
 
           await upsertProjection<GarantiesFinancières.MainlevéeGarantiesFinancièresEntity>(
             `mainlevee-garanties-financieres|${identifiantProjet}#${payload.demandéLe}`,
