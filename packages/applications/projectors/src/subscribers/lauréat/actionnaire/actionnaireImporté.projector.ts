@@ -2,12 +2,12 @@ import { Actionnaire } from '@potentiel-domain/laureat';
 import { getLogger } from '@potentiel-libraries/monitoring';
 
 import { upsertProjection } from '../../../infrastructure';
-import { getProjectData } from '../_utils/getProjectData';
+import { getProjectDataFromCandidature } from '../_utils/getProjectData';
 
 export const actionnaireImportéProjector = async ({
   payload: { identifiantProjet, actionnaire, importéLe },
 }: Actionnaire.ActionnaireImportéEvent) => {
-  const projet = await getProjectData(identifiantProjet);
+  const projet = await getProjectDataFromCandidature(identifiantProjet);
 
   if (!projet) {
     getLogger().error('Projet non trouvé', {

@@ -2,7 +2,7 @@ import { ReprésentantLégal } from '@potentiel-domain/laureat';
 import { getLogger } from '@potentiel-libraries/monitoring';
 
 import { updateOneProjection, upsertProjection } from '../../../../infrastructure';
-import { getProjectData } from '../../_utils/getProjectData';
+import { getProjectDataFromCandidature } from '../../_utils/getProjectData';
 
 export const changementReprésentantLégalDemandéProjector = async ({
   payload: {
@@ -14,7 +14,7 @@ export const changementReprésentantLégalDemandéProjector = async ({
     demandéPar,
   },
 }: ReprésentantLégal.ChangementReprésentantLégalDemandéEvent) => {
-  const projet = await getProjectData(identifiantProjet);
+  const projet = await getProjectDataFromCandidature(identifiantProjet);
 
   if (!projet) {
     getLogger().error('Projet non trouvé', {
