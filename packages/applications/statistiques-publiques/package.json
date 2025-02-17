@@ -1,5 +1,5 @@
 {
-  "name": "@potentiel-applications/public-statistics",
+  "name": "@potentiel-applications/statistiques-publiques",
   "version": "0.0.0",
   "description": "Statistics referential for the Potentiel public dashboard",
   "main": "dist/index.js",

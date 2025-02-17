@@ -14,6 +14,7 @@
   },
   "dependencies": {
     "@potentiel-applications/routes": "*",
+    "@potentiel-applications/statistiques-publiques": "*",
     "@potentiel-domain/common": "*",
     "@potentiel-domain/elimine": "*",
     "@potentiel-domain/laureat": "*",

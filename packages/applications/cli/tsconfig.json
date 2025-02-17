@@ -12,6 +12,9 @@
     { "path": "../../domain/réseau" },
     {
       "path": "../../infrastructure/domain-adapters"
+    },
+    {
+      "path": "../statistiques-publiques"
     }
   ]
 }
