@@ -18,10 +18,13 @@ export default class ExtraireStats extends Command {
 
   static override flags = {};
 
+  public async init() {
+    const { success } = configSchema.safeParse(process.env);
+    console.info(`Env variables defined : ${success}`);
+  }
+
   public async run(): Promise<void> {
     console.info('Lancement du script...');
-
-    configSchema.parse(process.env);
 
     console.info('Clean données statistiques publiques existantes');
     await cleanStatistiquesPubliques();

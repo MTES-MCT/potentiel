@@ -87,4 +87,5 @@ jobs:
       - run: npm ci
       - run: npm run build
       - run: npm run up
+      - run: cp packages/applications/cli/.env.template packages/applications/cli/.env
       - run: npm exec potentiel-cli stats extraire
