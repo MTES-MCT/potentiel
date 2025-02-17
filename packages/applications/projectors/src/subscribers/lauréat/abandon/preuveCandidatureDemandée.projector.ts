@@ -10,7 +10,14 @@ export const preuveCandidatureDemandéeProjector = async ({
 }: Abandon.PreuveRecandidatureDemandéeEvent) => {
   const abandonToUpsert = await getInfosAbandon(identifiantProjet);
 
-  // voir si on log l'erreur ou si c'est plus grave
+  if (!abandonToUpsert) {
+    getLogger().error(`Abandon non trouvé`, {
+      identifiantProjet,
+      fonction: 'preuveCandidatureDemandéeProjector',
+    });
+    return;
+  }
+
   if (abandonToUpsert.demande.recandidature) {
     await upsertProjection<Abandon.AbandonEntity>(`abandon|${identifiantProjet}`, {
       ...abandonToUpsert,

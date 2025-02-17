@@ -13,12 +13,18 @@ export const changementActionnaireAnnuléProjector = async ({
   );
 
   if (Option.isNone(projectionToUpsert)) {
-    getLogger().error(`Actionnaire non trouvé`, { identifiantProjet });
+    getLogger().error(`Actionnaire non trouvé`, {
+      identifiantProjet,
+      fonction: 'changementActionnaireAnnuléProjector',
+    });
     return;
   }
 
   if (!projectionToUpsert.dateDemandeEnCours) {
-    getLogger().error(`Demande non trouvée`, { identifiantProjet });
+    getLogger().error(`Demande actionnaire non trouvée`, {
+      identifiantProjet,
+      fonction: 'changementActionnaireAnnuléProjector',
+    });
     return;
   }
 

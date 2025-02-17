@@ -13,12 +13,18 @@ export const changementActionnaireSuppriméProjector = async ({
   );
 
   if (Option.isNone(projectionToUpsert)) {
-    getLogger().error(`Actionnaire non trouvé`, { identifiantProjet });
+    getLogger().error(`Actionnaire non trouvé`, {
+      identifiantProjet,
+      fonction: 'changementActionnaireSuppriméProjector',
+    });
     return;
   }
 
   if (!projectionToUpsert.dateDemandeEnCours) {
-    getLogger().error(`Demande non trouvée`, { identifiantProjet });
+    getLogger().error(`Demande de changement d'actionnaire non trouvée`, {
+      identifiantProjet,
+      fonction: 'changementActionnaireSuppriméProjector',
+    });
     return;
   }
 
