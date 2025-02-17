@@ -69,11 +69,14 @@ export const authOptions: AuthOptions = {
         token.idToken = account.id_token;
       }
 
+      if (!token.provider) {
+        token.provider = account?.provider;
+      }
+
       // NB `account` is defined only at login
       if (account?.access_token) {
         token.expiresAt = (account.expires_at ?? 0) * 1000;
         token.refreshToken = account.refresh_token;
-        token.provider = account?.provider;
 
         logger.debug(`User logged in`, { sub: token.sub, expiresAt: new Date(token.expiresAt) });
 

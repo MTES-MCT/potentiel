@@ -16,9 +16,8 @@ let jwksPromise: Promise<KeyLike>;
 
 const getOpenIdIssuer = (provider: string) => {
   const issuer = match(provider)
-    .with('keycloak', () => keycloakIssuerUrl)
     .with('proconnect', () => proConnectIssuerUrl)
-    .otherwise(() => '');
+    .otherwise(() => keycloakIssuerUrl);
 
   if (!openIdIssuerPromise) {
     openIdIssuerPromise = Issuer.discover(issuer);
