@@ -108,7 +108,7 @@ export const registerListerMainlevéesQuery = ({
           : Where.equal(statut),
         projet: {
           appelOffre: Where.equal(appelOffre),
-          régionProjet: roleBasedCondition.régionProjet,
+          région: roleBasedCondition.régionProjet,
         },
       },
     });
@@ -130,7 +130,7 @@ const listerMainlevéeGarantiesFinancièresMapToReadModel = (
 ): ListerMainlevéeItemReadModel => ({
   identifiantProjet: IdentifiantProjet.convertirEnValueType(mainlevée.identifiantProjet),
   appelOffre: mainlevée.projet.appelOffre,
-  nomProjet: mainlevée.projet.nomProjet,
+  nomProjet: mainlevée.projet.nom,
   statut: StatutMainlevéeGarantiesFinancières.convertirEnValueType(mainlevée.statut),
   motif: MotifDemandeMainlevéeGarantiesFinancières.convertirEnValueType(mainlevée.motif),
   demande: {
