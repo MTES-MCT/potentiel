@@ -6,4 +6,5 @@ import {
 (async () => {
   await cleanStatistiquesPubliques();
   await computeStatistiquesPubliques();
+  process.exit(0);
 })();
