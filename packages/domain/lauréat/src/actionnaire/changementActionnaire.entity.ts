@@ -8,11 +8,10 @@ export type ChangementActionnaireEntity = Entity<
 
     projet: {
       nom: string;
+      région: string;
       appelOffre: string;
       période: string;
       famille?: string;
-      région: string;
-      numéroCRE: string;
     };
 
     demande: {

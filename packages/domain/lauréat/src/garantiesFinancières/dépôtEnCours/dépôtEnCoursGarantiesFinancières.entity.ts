@@ -10,7 +10,6 @@ export type DépôtEnCoursGarantiesFinancièresEntity = Entity<
       appelOffre: string;
       période: string;
       famille?: string;
-      numéroCRE: string;
     };
     dépôt: {
       type: string;
