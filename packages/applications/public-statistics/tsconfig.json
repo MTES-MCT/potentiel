@@ -3,5 +3,10 @@
   "compilerOptions": {
     "outDir": "./dist",
     "rootDir": "./src"
-  }
+  },
+  "references": [
+    {
+      "path": "../../libraries/pg-helpers"
+    }
+  ]
 }
