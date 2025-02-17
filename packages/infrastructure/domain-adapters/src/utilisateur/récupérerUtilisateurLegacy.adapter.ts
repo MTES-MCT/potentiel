@@ -8,7 +8,8 @@ const selectUtilisateurQuery = `
     'nomComplet', "fullName",
     'fonction', "fonction",
     'identifiantUtilisateur', "email",
-    'régionDreal', ud."dreal"
+    'régionDreal', ud."dreal",
+    'rôle', "role"
   ) as value
   from "users" u
   left join "userDreals" ud on ud."userId" = u."id" 

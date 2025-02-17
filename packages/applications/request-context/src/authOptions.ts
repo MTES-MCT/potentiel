@@ -2,8 +2,12 @@ import { AuthOptions } from 'next-auth';
 import KeycloakProvider from 'next-auth/providers/keycloak';
 import { mediator, Message } from 'mediateur';
 
+import { Option } from '@potentiel-libraries/monads';
 import { getLogger } from '@potentiel-libraries/monitoring';
-import { Role } from '@potentiel-domain/utilisateur';
+import { Role, Utilisateur } from '@potentiel-domain/utilisateur';
+import { récupérerUtilisateurAdapter } from '@potentiel-infrastructure/domain-adapters';
+import { Email } from '@potentiel-domain/common';
+import { PlainType } from '@potentiel-domain/core';
 
 import {
   keycloakIssuerUrl,
@@ -16,6 +20,7 @@ import {
 import { convertToken } from './convertToken';
 import { refreshAccessToken } from './refreshToken';
 import ProConnectProvider from './ProConnectProvider';
+
 const ONE_HOUR_IN_SECONDS = 60 * 60;
 
 type AjouterStatistique = Message<
@@ -68,11 +73,19 @@ export const authOptions: AuthOptions = {
       if (account?.access_token) {
         token.expiresAt = (account.expires_at ?? 0) * 1000;
         token.refreshToken = account.refresh_token;
+        token.provider = account?.provider;
 
         logger.debug(`User logged in`, { sub: token.sub, expiresAt: new Date(token.expiresAt) });
 
         try {
-          const utilisateur = await convertToken(account.access_token, account.provider);
+          let utilisateur: PlainType<Utilisateur.ValueType>;
+
+          if (account.provider === 'proconnect') {
+            utilisateur = await getUser(token.email ?? '');
+          } else {
+            utilisateur = await convertToken(account.access_token ?? '');
+          }
+
           token.utilisateur = utilisateur;
         } catch (e) {
           logger.error(
@@ -80,17 +93,19 @@ export const authOptions: AuthOptions = {
           );
         }
 
-        try {
-          await mediator.send<AjouterStatistique>({
-            type: 'System.Statistiques.AjouterStatistique',
-            data: {
-              type: 'connexionUtilisateur',
-              données: { utilisateur: { role: token.utilisateur!.role.nom } },
-            },
-          });
-        } catch (e) {
-          console.log(e);
-          logger.error("Impossible d'ajouter les statistiques de connexion", { cause: e });
+        if (token.utilisateur) {
+          try {
+            await mediator.send<AjouterStatistique>({
+              type: 'System.Statistiques.AjouterStatistique',
+              data: {
+                type: 'connexionUtilisateur',
+                données: { utilisateur: { role: token.utilisateur.role.nom } },
+              },
+            });
+          } catch (e) {
+            console.log(e);
+            logger.error("Impossible d'ajouter les statistiques de connexion", { cause: e });
+          }
         }
 
         return token;
@@ -109,7 +124,7 @@ export const authOptions: AuthOptions = {
       }
 
       try {
-        const provider = account?.provider ?? 'proconnect';
+        const provider = token.provider ?? '';
 
         const { accessToken, expiresAt, refreshToken } = await refreshAccessToken(
           token.refreshToken,
@@ -121,7 +136,11 @@ export const authOptions: AuthOptions = {
         token.expiresAt = expiresAt;
         token.refreshToken = refreshToken;
 
-        const utilisateur = await convertToken(accessToken, provider);
+        const utilisateur =
+          token.provider === 'proconnect'
+            ? await getUser(token.email ?? '')
+            : await convertToken(accessToken ?? '');
+
         token.utilisateur = utilisateur;
         return token;
       } catch (e) {
@@ -140,8 +159,27 @@ export const authOptions: AuthOptions = {
           session.utilisateur = token.utilisateur;
         }
 
+        if (token.provider) {
+          session.provider = token.provider;
+        }
+
         return session;
       }
     },
   },
+};
+
+const getUser = async (email: string): Promise<PlainType<Utilisateur.ValueType>> => {
+  const utilisateur = await récupérerUtilisateurAdapter(email);
+
+  if (Option.isNone(utilisateur)) {
+    throw new Error(`User not found !`);
+  }
+
+  return {
+    role: Role.convertirEnValueType(utilisateur.rôle),
+    groupe: Option.none,
+    nom: utilisateur.nomComplet,
+    identifiantUtilisateur: Email.convertirEnValueType(email),
+  };
 };

@@ -19,33 +19,23 @@ const jwtSchema = z.object({
 
 export const convertToken = async (
   accessToken: string,
-  provider: string,
 ): Promise<PlainType<Utilisateur.ValueType>> => {
-  if (provider === 'keycloak') {
-    const jwks = await getJwks(provider);
-    const { payload } = await jwtVerify(accessToken, jwks);
-    const {
-      email,
-      name: nom,
-      realm_access: { roles },
-      groups: groupes,
-    } = jwtSchema.parse(payload);
+  const jwks = await getJwks('keycloak');
+  const { payload } = await jwtVerify(accessToken, jwks);
+  const {
+    email,
+    name: nom,
+    realm_access: { roles },
+    groups: groupes,
+  } = jwtSchema.parse(payload);
 
-    const role = roles.find((r) => Role.estUnRoleValide(r));
-    const groupe = groupes?.find((g) => Groupe.estUnGroupeValide(g));
-
-    return {
-      role: Role.convertirEnValueType(role ?? ''),
-      groupe: groupe ? Groupe.convertirEnValueType(groupe) : Option.none,
-      nom,
-      identifiantUtilisateur: Email.convertirEnValueType(email),
-    };
-  }
+  const role = roles.find((r) => Role.estUnRoleValide(r));
+  const groupe = groupes?.find((g) => Groupe.estUnGroupeValide(g));
 
   return {
-    role: Role.admin,
-    groupe: Option.none,
-    nom: 'Test ProConnect',
-    identifiantUtilisateur: Email.convertirEnValueType('test@proconnect.gouv.fr'),
+    role: Role.convertirEnValueType(role ?? ''),
+    groupe: groupe ? Groupe.convertirEnValueType(groupe) : Option.none,
+    nom,
+    identifiantUtilisateur: Email.convertirEnValueType(email),
   };
 };
