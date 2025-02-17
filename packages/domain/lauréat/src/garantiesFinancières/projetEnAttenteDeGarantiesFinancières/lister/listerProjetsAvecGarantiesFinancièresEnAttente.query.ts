@@ -67,11 +67,13 @@ export const registerListerProjetsAvecGarantiesFinancièresEnAttenteQuery = ({
         orderBy: { dernièreMiseÀJour: { date: 'descending' } },
         range,
         where: {
-          appelOffre: cycle
-            ? cycle === 'PPE2'
-              ? Where.contains('PPE2')
-              : Where.notContains('PPE2')
-            : Where.equal(appelOffre),
+          projet: {
+            appelOffre: cycle
+              ? cycle === 'PPE2'
+                ? Where.contains('PPE2')
+                : Where.notContains('PPE2')
+              : Where.equal(appelOffre),
+          },
           motif: Where.equal(motif),
           ...(await getRoleBasedWhereCondition(
             utilisateur,
@@ -95,14 +97,14 @@ export const registerListerProjetsAvecGarantiesFinancièresEnAttenteQuery = ({
 };
 
 const mapToReadModel = ({
-  nomProjet,
+  projet: { nom },
   identifiantProjet,
   motif,
   dateLimiteSoumission,
   dernièreMiseÀJour: { date },
 }: ProjetAvecGarantiesFinancièresEnAttenteEntity): ProjetAvecGarantiesFinancièresEnAttenteListItemReadModel => ({
   identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
-  nomProjet,
+  nomProjet: nom,
   motif: MotifDemandeGarantiesFinancières.convertirEnValueType(motif),
   dateLimiteSoumission: DateTime.convertirEnValueType(dateLimiteSoumission),
   dernièreMiseÀJour: {

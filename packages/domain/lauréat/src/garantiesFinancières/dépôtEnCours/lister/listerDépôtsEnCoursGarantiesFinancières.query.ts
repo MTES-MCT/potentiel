@@ -63,6 +63,10 @@ export const registerListerDépôtsEnCoursGarantiesFinancièresQuery = ({
     range,
     cycle,
   }) => {
+    const { identifiantProjet, régionProjet } = await getRoleBasedWhereCondition(
+      utilisateur,
+      récupérerIdentifiantsProjetParEmailPorteur,
+    );
     const {
       items,
       range: { startPosition, endPosition },
@@ -71,15 +75,15 @@ export const registerListerDépôtsEnCoursGarantiesFinancièresQuery = ({
       orderBy: { dépôt: { dernièreMiseÀJour: { date: 'descending' } } },
       range,
       where: {
-        appelOffre: cycle
-          ? cycle === 'PPE2'
-            ? Where.contains('PPE2')
-            : Where.notContains('PPE2')
-          : Where.equal(appelOffre),
-        ...(await getRoleBasedWhereCondition(
-          utilisateur,
-          récupérerIdentifiantsProjetParEmailPorteur,
-        )),
+        identifiantProjet,
+        projet: {
+          appelOffre: cycle
+            ? cycle === 'PPE2'
+              ? Where.contains('PPE2')
+              : Where.notContains('PPE2')
+            : Where.equal(appelOffre),
+          région: régionProjet,
+        },
       },
     });
 
@@ -97,12 +101,12 @@ export const registerListerDépôtsEnCoursGarantiesFinancièresQuery = ({
 };
 
 const mapToReadModel = ({
-  nomProjet,
+  projet: { nom },
   identifiantProjet,
   dépôt,
 }: DépôtEnCoursGarantiesFinancièresEntity): DépôtEnCoursGarantiesFinancièresListItemReadModel => ({
   identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
-  nomProjet,
+  nomProjet: nom,
   dépôt: {
     type: Candidature.TypeGarantiesFinancières.convertirEnValueType(dépôt.type),
     dateÉchéance: dépôt.dateÉchéance

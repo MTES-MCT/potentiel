@@ -14,6 +14,14 @@ type ProjetData = {
   région: string;
 };
 
+export const projetDataDefaultValue = {
+  nom: 'Projet inconnu',
+  appelOffre: `N/A`,
+  période: `N/A`,
+  numéroCRE: `N/A`,
+  région: '',
+};
+
 // TODO: refacto ces 2 fonctions pour un join sur lauréat idéalement (et arrêter de mettre ces données qui peuvent être modifiées dans chaque projection)
 export const getProjectDataFromProjet = async (
   identifiantProjet: IdentifiantProjet.RawType,
@@ -25,14 +33,7 @@ export const getProjectDataFromProjet = async (
       identifiantProjet,
     });
 
-    return {
-      nom: 'Projet inconnu',
-      appelOffre: `N/A`,
-      période: `N/A`,
-      numéroCRE: `N/A`,
-      famille: undefined,
-      région: '',
-    };
+    return projetDataDefaultValue;
   }
 
   return {
