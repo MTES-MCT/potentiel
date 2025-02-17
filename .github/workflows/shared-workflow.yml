@@ -76,7 +76,7 @@ jobs:
   verify_statistics:
     runs-on: ubuntu-latest
     env:
-      APPLICATION_STAGE: test
+      EVENT_STORE_CONNECTION_STRING: postgres://potadmindb:localpwd@localhost:5432/potentiel
 
     steps:
       - uses: actions/checkout@v4
@@ -87,5 +87,4 @@ jobs:
       - run: npm ci
       - run: npm run build
       - run: npm run up
-      - run: cp packages/applications/cli/.env.template packages/applications/cli/.env
       - run: npm exec potentiel-cli stats extraire
