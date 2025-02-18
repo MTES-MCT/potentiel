@@ -30,6 +30,14 @@ import {
   cleanPourcentageProjetAvecDCREtPTF,
   computePourcentageProjetAvecDCREtPTF,
 } from './projet/pourcentageProjetAvecDCREtPTF.statistic';
+import {
+  cleanPourcentageDCRDéposées,
+  computePourcentageDCRDéposées,
+} from './projet/pourcentageDCRDéposées.statistic';
+import {
+  cleanPourcentagePTFDéposées,
+  computePourcentagePTFDéposées,
+} from './projet/pourcentagePTFDéposées.statistic';
 
 export const cleanStatistiquesPubliques = async () => {
   await cleanNombreTotalProjet();
@@ -40,6 +48,8 @@ export const cleanStatistiquesPubliques = async () => {
   await cleanNombreTotalDemandeComplèteRaccordementDéposées();
   await cleanPuissanceTotaleMiseEnService();
   await cleanPourcentageProjetAvecDCREtPTF();
+  await cleanPourcentageDCRDéposées();
+  await cleanPourcentagePTFDéposées();
 };
 
 export const computeStatistiquesPubliques = async () => {
@@ -51,4 +61,6 @@ export const computeStatistiquesPubliques = async () => {
   await computeNombreTotalDemandeComplèteRaccordementDéposées();
   await computePuissanceTotaleMiseEnService();
   await computePourcentageProjetAvecDCREtPTF();
+  await computePourcentageDCRDéposées();
+  await computePourcentagePTFDéposées();
 };
