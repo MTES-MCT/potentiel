@@ -1,16 +1,12 @@
 import { AuthOptions } from 'next-auth';
 import KeycloakProvider from 'next-auth/providers/keycloak';
-import { mediator, Message } from 'mediateur';
-
-import { getLogger } from '@potentiel-libraries/monitoring';
-import { Role } from '@potentiel-domain/utilisateur';
 
 import { getProviderConfiguration } from './getProviderConfiguration';
 import { refreshToken } from './refreshToken';
 import ProConnectProvider from './ProConnectProvider';
-import { getUtilisateurFromEmail } from './getUtilisateur';
 import { signIn } from './signIn';
 import { authConfig } from './authConfig';
+import { ajouterStatistiqueConnexion } from './ajouterStatistiqueConnexion';
 
 export const authOptions: AuthOptions = {
   providers: [
@@ -32,20 +28,15 @@ export const authOptions: AuthOptions = {
   },
   callbacks: {
     // Stores user data and idToken to the next-auth cookie
-    async jwt({ token, account, trigger }) {
+    jwt({ token, account, trigger }) {
       if (trigger === 'signIn' && account) {
-        const result = await signIn({
+        return signIn({
           token,
           account,
         });
-        console.log(`signIn ${JSON.stringify(result)}`);
-        return result;
       }
 
-      const refreshedResult = await refreshToken(token);
-      console.log(`refresh ${JSON.stringify(refreshedResult)}`);
-
-      return refreshedResult;
+      return refreshToken(token);
     },
     session({ session, token }) {
       {
@@ -54,8 +45,6 @@ export const authOptions: AuthOptions = {
         }
 
         if (token.provider) {
-          console.log(`Token: ${JSON.stringify(token)}`);
-          console.log(`Session: ${JSON.stringify(session)}`);
           session.provider = token.provider;
         }
 
@@ -64,31 +53,3 @@ export const authOptions: AuthOptions = {
     },
   },
 };
-
-type AjouterStatistique = Message<
-  'System.Statistiques.AjouterStatistique',
-  {
-    type: 'connexionUtilisateur';
-    données: {
-      utilisateur: {
-        role: Role.RawType;
-      };
-    };
-  }
->;
-
-async function ajouterStatistiqueConnexion(email: string) {
-  try {
-    const utilisateur = await getUtilisateurFromEmail(email);
-
-    await mediator.send<AjouterStatistique>({
-      type: 'System.Statistiques.AjouterStatistique',
-      data: {
-        type: 'connexionUtilisateur',
-        données: { utilisateur: { role: utilisateur.role.nom } },
-      },
-    });
-  } catch (e) {
-    getLogger('Auth').error("Impossible d'ajouter les statistiques de connexion", { cause: e });
-  }
-}

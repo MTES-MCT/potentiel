@@ -19,9 +19,8 @@ export const getOpenIdClient = async () => {
   });
 };
 
-export const getJwks = async () => {
+export const getJwks = async (provider: 'proconnect' | 'keycloak') => {
   if (!jwksPromise) {
-    const provider = await getCurrentProvider();
     const issuer = await getOpenIdIssuer(provider);
     jwksPromise = createRemoteJWKSet(new URL(issuer.metadata.jwks_uri!))({ alg: 'RS256' });
   }

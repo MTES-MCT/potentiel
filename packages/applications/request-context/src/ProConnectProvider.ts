@@ -46,8 +46,10 @@ export default function ProConnect<P extends ProConnectProfile>(
             Authorization: `Bearer ${context.tokens.access_token}`,
           },
         }).then((res) => res.text());
+
         const jwks = await getJwks('proconnect');
         const { payload } = await jwtVerify(userInfo, jwks);
+
         return payload;
       },
     },
