@@ -10,6 +10,7 @@ import { refreshToken } from './refreshToken';
 import ProConnectProvider from './ProConnectProvider';
 import { getUtilisateurFromEmail } from './getUtilisateur';
 import { signIn } from './signIn';
+import { authConfig } from './authConfig';
 
 export const authOptions: AuthOptions = {
   providers: [
@@ -22,7 +23,7 @@ export const authOptions: AuthOptions = {
     // It is renewed on each page refresh, so this represents inactivity time.
     // Moreover, the user will not be disconnected after expiration (if their Keycloak session still exists),
     // but there will be a redirection to keycloak.
-    maxAge: getTokenMaxAge(),
+    maxAge: authConfig.SESSION_MAX_AGE,
   },
   events: {
     signIn: async ({ user: { email } }) => {
@@ -56,11 +57,6 @@ export const authOptions: AuthOptions = {
     },
   },
 };
-
-function getTokenMaxAge() {
-  const OneHourInSeconds = 60 * 60;
-  return parseInt(process.env.SESSION_MAX_AGE ?? String(OneHourInSeconds), 10);
-}
 
 type AjouterStatistique = Message<
   'System.Statistiques.AjouterStatistique',
