@@ -48,16 +48,12 @@ export default function ProConnect<P extends ProConnectProfile>(
         return JSON.parse(Buffer.from(userInfo.split('.')[1], 'base64').toString());
       },
     },
-    profile: async (profile) => {
-      console.log(JSON.stringify(profile));
-
-      return {
-        id: profile.uid,
-        email: profile.email,
-        given_name: profile.given_name,
-        usual_name: profile.usual_name,
-      };
-    },
+    profile: async (profile) => ({
+      id: profile.uid,
+      email: profile.email,
+      given_name: profile.given_name,
+      usual_name: profile.usual_name,
+    }),
     options,
   };
 }

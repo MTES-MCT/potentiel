@@ -1,13 +1,19 @@
 import { IncomingMessage, ServerResponse } from 'node:http';
 import { parse } from 'node:url';
 
+import { z } from 'zod';
+import { jwtVerify } from 'jose';
 import { getServerSession } from 'next-auth';
 
-import { Utilisateur } from '@potentiel-domain/utilisateur';
+import { Groupe, Role, Utilisateur } from '@potentiel-domain/utilisateur';
 import { getLogger } from '@potentiel-libraries/monitoring';
+import { Email } from '@potentiel-domain/common';
+import { PlainType } from '@potentiel-domain/core';
+import { récupérerUtilisateurAdapter } from '@potentiel-infrastructure/domain-adapters';
+import { Option } from '@potentiel-libraries/monads';
 
 import { authOptions } from './authOptions';
-import { convertToken } from './convertToken';
+import { getJwks } from './openid';
 
 const parseRequest = (req: IncomingMessage) => {
   const { query } = parse(req.url!, true);
@@ -32,7 +38,8 @@ async function getUserSession(req: IncomingMessage, res: ServerResponse) {
 async function getApiUser(req: IncomingMessage) {
   const authHeader = req.headers.authorization ?? '';
   if (authHeader.toLowerCase().startsWith('bearer ')) {
-    const utilisateur = await convertToken(authHeader.slice('bearer '.length));
+    const accessToken = authHeader.slice('bearer '.length);
+    const utilisateur = await getUtilisateurFromAccessToken(accessToken);
     return Utilisateur.bind(utilisateur);
   }
 }
@@ -52,3 +59,70 @@ export async function getUtilisateur(req: IncomingMessage, res: ServerResponse) 
     getLogger('getUtilisateur').warn(`Auth failed: ${error}`);
   }
 }
+
+export async function getUtilisateurFromProvider(
+  provider: string,
+  email: string | null | undefined,
+  access_token: string,
+): Promise<PlainType<Utilisateur.ValueType> | undefined> {
+  try {
+    if (provider === 'proconnect') {
+      return await getUtilisateurFromEmail(email ?? '');
+    }
+
+    return await getUtilisateurFromAccessToken(access_token);
+  } catch (e) {
+    getLogger('Auth').error(
+      new Error("Impossible de convertir l'accessToken en Utilisateur", { cause: e }),
+    );
+  }
+}
+
+export const getUtilisateurFromAccessToken = async (
+  accessToken: string,
+): Promise<PlainType<Utilisateur.ValueType>> => {
+  const jwtSchema = z.object({
+    name: z.string().default(''),
+    email: z.string(),
+    realm_access: z.object({
+      roles: z.array(z.string()),
+    }),
+    groups: z.array(z.string()).optional(),
+  });
+
+  const jwks = await getJwks('keycloak');
+  const { payload } = await jwtVerify(accessToken, jwks);
+  const {
+    email,
+    name: nom,
+    realm_access: { roles },
+    groups: groupes,
+  } = jwtSchema.parse(payload);
+
+  const role = roles.find((r) => Role.estUnRoleValide(r));
+  const groupe = groupes?.find((g) => Groupe.estUnGroupeValide(g));
+
+  return {
+    role: Role.convertirEnValueType(role ?? ''),
+    groupe: groupe ? Groupe.convertirEnValueType(groupe) : Option.none,
+    nom,
+    identifiantUtilisateur: Email.convertirEnValueType(email),
+  };
+};
+
+export const getUtilisateurFromEmail = async (
+  email: string,
+): Promise<PlainType<Utilisateur.ValueType>> => {
+  const utilisateur = await récupérerUtilisateurAdapter(email);
+
+  if (Option.isNone(utilisateur)) {
+    throw new Error(`User not found !`);
+  }
+
+  return {
+    role: Role.convertirEnValueType(utilisateur.rôle),
+    groupe: Option.none,
+    nom: utilisateur.nomComplet,
+    identifiantUtilisateur: Email.convertirEnValueType(email),
+  };
+};
