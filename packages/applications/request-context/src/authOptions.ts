@@ -5,14 +5,7 @@ import { mediator, Message } from 'mediateur';
 import { getLogger } from '@potentiel-libraries/monitoring';
 import { Role } from '@potentiel-domain/utilisateur';
 
-import {
-  keycloakIssuerUrl,
-  keycloakClientId,
-  keycloakClientSecret,
-  proConnectIssuerUrl,
-  proConnectClientId,
-  proConnectClientSecret,
-} from './constants';
+import { getProviderConfiguration } from './constants';
 import { refreshToken } from './refreshToken';
 import ProConnectProvider from './ProConnectProvider';
 import { getUtilisateurFromEmail } from './getUtilisateur';
@@ -20,16 +13,8 @@ import { signIn } from './signIn';
 
 export const authOptions: AuthOptions = {
   providers: [
-    KeycloakProvider({
-      issuer: keycloakIssuerUrl,
-      clientId: keycloakClientId,
-      clientSecret: keycloakClientSecret,
-    }),
-    ProConnectProvider({
-      issuer: proConnectIssuerUrl,
-      clientId: proConnectClientId,
-      clientSecret: proConnectClientSecret,
-    }),
+    KeycloakProvider(getProviderConfiguration('keycloak')),
+    ProConnectProvider(getProviderConfiguration('proconnect')),
   ],
   session: {
     strategy: 'jwt',
