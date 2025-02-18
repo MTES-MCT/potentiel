@@ -1,6 +1,9 @@
 import { randomUUID } from 'node:crypto';
 
 import { OAuthConfig, OAuthUserConfig } from 'next-auth/providers';
+import { jwtVerify } from 'jose';
+
+import { getJwks } from './openid';
 
 export type ProConnectProfile = {
   email: string;
