@@ -14,6 +14,7 @@ should();
 
 describe('findProjection', () => {
   let category = '';
+  let category2 = '';
 
   type FakeProjection = Entity<
     typeof category,
@@ -26,12 +27,23 @@ describe('findProjection', () => {
     }
   >;
 
+  type FakeProjection2 = Entity<
+    typeof category2,
+    {
+      moreData2: string;
+    }
+  >;
+
   const fakeData: Omit<FakeProjection, 'type'> = {
     moreData: 'coucou',
     data: {
       value: 'value',
       name: 'name',
     },
+  };
+
+  const fakeData2: Omit<FakeProjection2, 'type'> = {
+    moreData2: 'foo',
   };
 
   before(() => {
@@ -44,16 +56,23 @@ describe('findProjection', () => {
 
   beforeEach(async () => {
     category = randomUUID();
+    category2 = randomUUID();
 
     await executeQuery(
       `insert into domain_views.projection values ($1, $2)`,
       `${category}|${fakeData.data.value}`,
       flatten(fakeData),
     );
+    await executeQuery(
+      `insert into domain_views.projection values ($1, $2)`,
+      `${category2}|${fakeData.data.value}`,
+      flatten(fakeData2),
+    );
   });
 
   afterEach(async () => {
     await executeQuery(`delete from domain_views.projection where key like $1`, `${category}|%`);
+    await executeQuery(`delete from domain_views.projection where key like $1`, `${category2}|%`);
   });
 
   it('should find a projection by its key', async () => {
@@ -89,6 +108,27 @@ describe('findProjection', () => {
     const expected = {
       type: category,
       data: fakeData.data,
+    };
+
+    Option.isSome(actual).should.be.true;
+
+    actual.should.deep.equal(expected);
+  });
+
+  it('should return joined projection when a join option is provided', async () => {
+    const actual = await findProjection<FakeProjection, FakeProjection2>(
+      `${category}|${fakeData.data.value}`,
+      {
+        join: { key: 'data.value', projection: category2 },
+      },
+    );
+
+    const expected = {
+      type: category,
+      ...fakeData,
+      [category2]: {
+        moreData2: 'foo',
+      },
     };
 
     Option.isSome(actual).should.be.true;

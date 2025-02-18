@@ -19,6 +19,7 @@ should();
 
 describe('listProjection', () => {
   let category = '';
+  let category2 = '';
 
   type FakeProjection = Entity<
     typeof category,
@@ -33,6 +34,16 @@ describe('listProjection', () => {
 
   let fakeData: Array<Omit<FakeProjection, 'type'>> = [];
 
+  type FakeProjection2 = Entity<
+    typeof category2,
+    {
+      moreData2: string;
+    }
+  >;
+  const joinProjectionFakeData: Omit<FakeProjection2, 'type'> = {
+    moreData2: 'foo',
+  };
+
   before(() => {
     process.env.DATABASE_CONNECTION_STRING = 'postgres://potentiel@localhost:5433/potentiel';
   });
@@ -43,6 +54,7 @@ describe('listProjection', () => {
 
   beforeEach(async () => {
     category = randomUUID();
+    category2 = randomUUID();
     fakeData = [];
 
     for (let time = 0; time <= Math.random() * 100 + 10; time++) {
@@ -54,6 +66,14 @@ describe('listProjection', () => {
         },
       });
     }
+
+    await executeQuery(
+      `insert
+      into domain_views.projection
+      values ($1, $2)`,
+      `${category2}|${fakeData[0].data.value}`,
+      flatten(joinProjectionFakeData),
+    );
 
     await Promise.all(
       fakeData.map((fake) =>
@@ -70,6 +90,7 @@ describe('listProjection', () => {
 
   afterEach(async () => {
     await executeQuery(`delete from domain_views.projection where key like $1`, `${category}|%`);
+    await executeQuery(`delete from domain_views.projection where key like $1`, `${category2}|%`);
   });
 
   const mapToListResultItems = (
@@ -557,5 +578,23 @@ describe('listProjection', () => {
     actual.should.have.all.keys(Object.keys(expected));
 
     actual.items.should.have.deep.members(expected.items);
+  });
+
+  it('should find projections with joined projection', async () => {
+    const expected = mapToListResultItems([fakeData[0]]);
+    const expectedItems = expected.items.map((item) => ({
+      ...item,
+      [category2]: {
+        moreData2: joinProjectionFakeData.moreData2,
+      },
+    }));
+
+    const actual = await listProjection<FakeProjection, FakeProjection2>(category, {
+      join: { key: 'data.value', projection: category2 },
+    });
+
+    actual.should.have.all.keys(Object.keys(expected));
+
+    actual.items.should.have.deep.members(expectedItems);
   });
 });
