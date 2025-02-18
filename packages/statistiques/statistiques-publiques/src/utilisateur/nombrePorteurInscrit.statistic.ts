@@ -1,18 +1,17 @@
 import { executeQuery } from '@potentiel-libraries/pg-helpers';
 
-export const cleanNombrePorteurInscrit = () =>
-  executeQuery(`
-  delete
-  from domain_public_statistic.scalar_statistic
-  where type = 'nombrePorteurInscrit' 
-`);
+import { cleanScalarStatistic } from '../_utils/cleanScalarStatistic';
+
+const statisticType = 'nombrePorteurInscrit';
+
+export const cleanNombrePorteurInscrit = cleanScalarStatistic(statisticType);
 
 export const computeNombrePorteurInscrit = () =>
   executeQuery(
     `
     insert
     into domain_public_statistic.scalar_statistic
-    values('nombrePorteurInscrit', (
+    values($1, (
       select
         count(*) as "count"
       from
@@ -21,4 +20,5 @@ export const computeNombrePorteurInscrit = () =>
         "public"."users"."role" = 'porteur-projet'
     )
     `,
+    statisticType,
   );
