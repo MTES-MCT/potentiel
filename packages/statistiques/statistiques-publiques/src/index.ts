@@ -18,6 +18,10 @@ import {
   cleanNombrePorteurInscrit,
   computeNombrePorteurInscrit,
 } from './utilisateur/nombrePorteurInscrit.statistic';
+import {
+  cleanNombreTotalDemandeComplèteRaccordementDéposées,
+  computeNombreTotalDemandeComplèteRaccordementDéposées,
+} from './projet/nombreTotalDemandeComplèteRaccordementDéposées.statistic';
 
 export const cleanStatistiquesPubliques = async () => {
   await cleanNombreTotalProjet();
@@ -25,6 +29,7 @@ export const cleanStatistiquesPubliques = async () => {
   await cleanNombreParrainage();
   await cleanPourcentageAttestationTéléchargée();
   await cleanPourcentageDesGFPPE2Validées();
+  await cleanNombreTotalDemandeComplèteRaccordementDéposées();
 };
 
 export const computeStatistiquesPubliques = async () => {
@@ -33,4 +38,5 @@ export const computeStatistiquesPubliques = async () => {
   await computeNombreParrainage();
   await computePourcentageAttestationTéléchargée();
   await computePourcentageDesGFPPE2Validées();
+  await computeNombreTotalDemandeComplèteRaccordementDéposées();
 };
