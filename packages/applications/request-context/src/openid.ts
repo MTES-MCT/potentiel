@@ -1,19 +1,13 @@
 import { BaseClient, Issuer } from 'openid-client';
 import { createRemoteJWKSet, KeyLike } from 'jose';
-import { match } from 'ts-pattern';
 
-import { getProviderConfiguration } from './constants';
+import { getProviderConfiguration } from './getProviderConfiguration';
 
 let openIdIssuerPromise: Promise<Issuer<BaseClient>>;
 let jwksPromise: Promise<KeyLike>;
 
-const keycloakConfiguration = getProviderConfiguration('keycloak');
-const proConnectConfiguration = getProviderConfiguration('proconnect');
-
 const getOpenIdIssuer = (provider: string) => {
-  const issuer = match(provider)
-    .with('proconnect', () => proConnectConfiguration.issuer)
-    .otherwise(() => keycloakConfiguration.issuer);
+  const { issuer } = getProviderConfiguration(provider);
 
   if (!openIdIssuerPromise) {
     openIdIssuerPromise = Issuer.discover(issuer);
@@ -22,17 +16,11 @@ const getOpenIdIssuer = (provider: string) => {
 };
 export const getOpenIdClient = async (provider: string) => {
   const { Client } = await getOpenIdIssuer(provider);
-
-  if (provider === 'proconnect') {
-    return new Client({
-      client_id: proConnectConfiguration.clientId,
-      client_secret: proConnectConfiguration.clientSecret,
-    });
-  }
+  const { clientId, clientSecret } = getProviderConfiguration(provider);
 
   return new Client({
-    client_id: keycloakConfiguration.clientId,
-    client_secret: keycloakConfiguration.clientSecret,
+    client_id: clientId,
+    client_secret: clientSecret,
   });
 };
 

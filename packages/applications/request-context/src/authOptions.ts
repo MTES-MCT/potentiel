@@ -5,7 +5,7 @@ import { mediator, Message } from 'mediateur';
 import { getLogger } from '@potentiel-libraries/monitoring';
 import { Role } from '@potentiel-domain/utilisateur';
 
-import { getProviderConfiguration } from './constants';
+import { getProviderConfiguration } from './getProviderConfiguration';
 import { refreshToken } from './refreshToken';
 import ProConnectProvider from './ProConnectProvider';
 import { getUtilisateurFromEmail } from './getUtilisateur';
