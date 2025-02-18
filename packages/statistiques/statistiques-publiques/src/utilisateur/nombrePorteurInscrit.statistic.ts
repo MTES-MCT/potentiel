@@ -2,11 +2,11 @@ import { executeQuery } from '@potentiel-libraries/pg-helpers';
 
 import { cleanScalarStatistic } from '../_utils/cleanScalarStatistic';
 
-const statisticType = 'nombreTotalProjet';
+const statisticType = 'nombrePorteurInscrit';
 
-export const cleanNombreTotalProjet = cleanScalarStatistic(statisticType);
+export const cleanNombrePorteurInscrit = cleanScalarStatistic(statisticType);
 
-export const computeNombreTotalProjet = () =>
+export const computeNombrePorteurInscrit = () =>
   executeQuery(
     `
     insert
@@ -18,8 +18,9 @@ export const computeNombreTotalProjet = () =>
         select
           count(*)
         from
-          domain_views.projection 
-        where key like 'candidature|%'
+          "public"."users"
+        where
+          "public"."users"."role" = 'porteur-projet'
       )
     )
     `,
