@@ -10,10 +10,12 @@
     "start:créer-backup": "node ./dist/backup/créer-backup",
     "start:mettre-à-jour-gestionnaire-réseau": "node ./dist/gestionnaireRéseau",
     "start:récupérer-fichier-gf-candidature-référentiel-dgec": "node ./dist/garanties-financières/récupérer-fichier-gf-candidature-référentiel-dgec",
-    "start:notifier-gestionnaires-réseau": "node ./dist/raccordement/notifier-gestionnaires-réseau"
+    "start:notifier-gestionnaires-réseau": "node ./dist/raccordement/notifier-gestionnaires-réseau",
+    "start:extraire-données-statistiques-publiques": "node ./dist/statistiques-publiques/extraire-données-statistiques-publiques"
   },
   "dependencies": {
     "@potentiel-applications/routes": "*",
+    "@potentiel-statistiques/statistiques-publiques": "*",
     "@potentiel-domain/common": "*",
     "@potentiel-domain/elimine": "*",
     "@potentiel-domain/laureat": "*",

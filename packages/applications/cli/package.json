@@ -23,7 +23,8 @@
     "@potentiel-libraries/keycloak-cjs": "*",
     "@potentiel-domain/reseau": "*",
     "@potentiel-applications/bootstrap": "*",
-    "@potentiel-infrastructure/domain-adapters": "*"
+    "@potentiel-infrastructure/domain-adapters": "*",
+    "@potentiel-statistiques/statistiques-publiques": "*"
   },
   "devDependencies": {
     "@potentiel-config/tsconfig": "*",
