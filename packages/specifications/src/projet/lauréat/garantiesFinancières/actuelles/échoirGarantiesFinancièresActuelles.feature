@@ -10,8 +10,7 @@ Fonctionnalité: Échoir les garanties financières actuelles d'un projet
         Etant donné des garanties financières actuelles pour le projet "Du boulodrome de Marseille" avec :
             | type GF         | avec-date-échéance |
             | date d'échéance | 2024-07-17         |
-        Quand un admin échoie les garanties financières actuelles pour le projet "Du boulodrome de Marseille" avec :
-            | à échoir le | 2024-07-18 |
+        Quand un admin échoie les garanties financières actuelles pour le projet "Du boulodrome de Marseille"
         Alors les garanties financières actuelles du projet "Du boulodrome de Marseille" sont échues
         Et un email a été envoyé au porteur avec :
             | sujet         | Potentiel - Date d'échéance dépassée pour les garanties financières du projet Du boulodrome de Marseille dans le département(.*) |
@@ -29,7 +28,7 @@ Fonctionnalité: Échoir les garanties financières actuelles d'un projet
         Et une demande d'abandon en cours pour le projet lauréat
         Quand le DGEC validateur accorde l'abandon pour le projet lauréat
         Alors l'abandon du projet lauréat devrait être accordé
-        Et une tâche indiquant de "échoir les garanties financières" n'est plus consultable dans la liste des tâches du porteur pour le projet
+        Et une tâche "échoir les garanties financières" n'est plus planifiée pour le projet "Du boulodrome de Marseille"
 
     @NotImplemented
     Scénario: Impossible d'échoir les garanties financières actuelles d'un projet si il n'y a pas de garanties financières actuelles pour ce projet

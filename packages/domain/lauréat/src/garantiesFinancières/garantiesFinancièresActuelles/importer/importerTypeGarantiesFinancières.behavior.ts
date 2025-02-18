@@ -1,6 +1,7 @@
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 import { DomainEvent } from '@potentiel-domain/core';
 import { Candidature } from '@potentiel-domain/candidature';
+import { TâchePlanifiéeAggregate } from '@potentiel-domain/tache-planifiee';
 
 import { StatutGarantiesFinancières } from '../..';
 import { GarantiesFinancièresAggregate } from '../../garantiesFinancières.aggregate';
@@ -20,11 +21,26 @@ export type Options = {
   type?: Candidature.TypeGarantiesFinancières.ValueType;
   dateÉchéance?: DateTime.ValueType;
   importéLe: DateTime.ValueType;
+
+  // TODO remove the following options once aggregate root is available
+  estAchevé: boolean;
+  tâchePlanifiéeEchoir: TâchePlanifiéeAggregate;
+  tâchePlanifiéeRappel1mois: TâchePlanifiéeAggregate;
+  tâchePlanifiéeRappel2mois: TâchePlanifiéeAggregate;
 };
 
 export async function importerType(
   this: GarantiesFinancièresAggregate,
-  { identifiantProjet, type, dateÉchéance, importéLe }: Options,
+  {
+    identifiantProjet,
+    type,
+    dateÉchéance,
+    importéLe,
+    estAchevé,
+    tâchePlanifiéeEchoir,
+    tâchePlanifiéeRappel1mois,
+    tâchePlanifiéeRappel2mois,
+  }: Options,
 ) {
   if (!type) {
     return;
@@ -39,6 +55,14 @@ export async function importerType(
       importéLe: importéLe.formatter(),
     },
   };
+
+  await this.ajouterTâchesPlanifiées({
+    dateÉchéance,
+    tâchePlanifiéeEchoir,
+    tâchePlanifiéeRappel1mois,
+    tâchePlanifiéeRappel2mois,
+    estAchevé,
+  });
 
   await this.publish(event);
 }

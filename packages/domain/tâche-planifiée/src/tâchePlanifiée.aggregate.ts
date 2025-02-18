@@ -1,4 +1,4 @@
-import { Aggregate, GetDefaultAggregateState, LoadAggregate } from '@potentiel-domain/core';
+import { Aggregate, AggregateState, LoadAggregate } from '@potentiel-domain/core';
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 
 import * as StatutTâchePlanifiée from './statutTâchePlanifiée.valueType';
@@ -25,8 +25,9 @@ export type TâchePlanifiéeEvent =
   | TâchePlanifiéeExecutéeEvent;
 
 export type TâchePlanifiéeAggregate = Aggregate<TâchePlanifiéeEvent> & {
+  readonly identifiantProjet: IdentifiantProjet.ValueType;
+  readonly typeTâchePlanifiée: string;
   statut: StatutTâchePlanifiée.ValueType;
-  typeTâchePlanifiée: string;
   àExécuterLe: DateTime.ValueType;
   annuléeLe?: DateTime.ValueType;
   ajouter: typeof ajouter;
@@ -34,13 +35,14 @@ export type TâchePlanifiéeAggregate = Aggregate<TâchePlanifiéeEvent> & {
   exécuter: typeof exécuter;
 };
 
-export const getDefaultTâchePlanifiéeAggregate: GetDefaultAggregateState<
-  TâchePlanifiéeAggregate,
-  TâchePlanifiéeEvent
-> = () => ({
-  statut: StatutTâchePlanifiée.inconnu,
+export const getDefaultTâchePlanifiéeAggregate = (
+  typeTâchePlanifiée: string,
+  identifiantProjet: IdentifiantProjet.ValueType,
+): AggregateState<TâchePlanifiéeAggregate, TâchePlanifiéeEvent> => ({
   apply,
-  typeTâchePlanifiée: 'inconnue',
+  statut: StatutTâchePlanifiée.inconnu,
+  identifiantProjet,
+  typeTâchePlanifiée: typeTâchePlanifiée,
   àExécuterLe: DateTime.now(),
   ajouter,
   annuler,
@@ -66,7 +68,7 @@ export const loadTâchePlanifiéeAggregateFactory =
   (type: string, identifiantProjet: IdentifiantProjet.ValueType, throwOnNone = true) => {
     return loadAggregate({
       aggregateId: `tâche-planifiée|${type}#${identifiantProjet.formatter()}`,
-      getDefaultAggregate: getDefaultTâchePlanifiéeAggregate,
+      getDefaultAggregate: () => getDefaultTâchePlanifiéeAggregate(type, identifiantProjet),
       onNone: throwOnNone
         ? () => {
             throw new TâchePlanifiéeInconnueError(type, identifiantProjet.formatter());

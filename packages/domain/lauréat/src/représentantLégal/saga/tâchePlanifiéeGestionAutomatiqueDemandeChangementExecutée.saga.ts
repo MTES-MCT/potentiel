@@ -83,7 +83,7 @@ class TâchePlanifiéeGestionAutomatiqueDemandeChangementError extends Error {
     public identifiantProjet: string,
   ) {
     super(
-      `Impossible de traiter automatiquement la tâche planifier pour le changement de représentant légal`,
+      `Impossible de traiter automatiquement la tâche planifiée pour le changement de représentant légal`,
     );
   }
 }

@@ -3,11 +3,10 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 import { DocumentProjet, EnregistrerDocumentProjetCommand } from '@potentiel-domain/document';
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
-import { AjouterTâchePlanifiéeCommand } from '@potentiel-domain/tache-planifiee';
 import { Candidature } from '@potentiel-domain/candidature';
 
 import { TypeDocumentGarantiesFinancières } from '../..';
-import * as TypeTâchePlanifiéeGarantiesFinancières from '../../typeTâchePlanifiéeGarantiesFinancières.valueType';
+import { AjouterTâchesPlanifiéesGarantiesFinancièresCommand } from '../../tâches-planifiées/ajouter/ajouter.command';
 
 import { ModifierGarantiesFinancièresCommand } from './modifierGarantiesFinancières.command';
 
@@ -73,29 +72,13 @@ export const registerModifierGarantiesFinancièresUseCase = () => {
       },
     });
 
-    if (dateÉchéanceValue) {
-      await mediator.send<AjouterTâchePlanifiéeCommand>({
-        type: 'System.TâchePlanifiée.Command.AjouterTâchePlanifiée',
-        data: {
-          identifiantProjet,
-          tâches: [
-            {
-              typeTâchePlanifiée: TypeTâchePlanifiéeGarantiesFinancières.échoir.type,
-              àExécuterLe: DateTime.convertirEnValueType(dateÉchéanceValue).ajouterNombreDeJours(1),
-            },
-            {
-              typeTâchePlanifiée: TypeTâchePlanifiéeGarantiesFinancières.rappelÉchéanceUnMois.type,
-              àExécuterLe: DateTime.convertirEnValueType(dateÉchéanceValue).retirerNombreDeMois(1),
-            },
-            {
-              typeTâchePlanifiée:
-                TypeTâchePlanifiéeGarantiesFinancières.rappelÉchéanceDeuxMois.type,
-              àExécuterLe: DateTime.convertirEnValueType(dateÉchéanceValue).retirerNombreDeMois(2),
-            },
-          ],
-        },
-      });
-    }
+    await mediator.send<AjouterTâchesPlanifiéesGarantiesFinancièresCommand>({
+      type: 'Lauréat.GarantiesFinancières.Command.AjouterTâchesPlanifiées',
+      data: {
+        identifiantProjet,
+        dateÉchéance,
+      },
+    });
   };
   mediator.register('Lauréat.GarantiesFinancières.UseCase.ModifierGarantiesFinancières', runner);
 };

@@ -8,10 +8,8 @@ import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
 import { DocumentProjet, EnregistrerDocumentProjetCommand } from '@potentiel-domain/document';
 
 // Package
-import { AnnulerTâchePlanifiéeCommand } from '@potentiel-domain/tache-planifiee';
-
 import * as TypeDocumentAbandon from '../typeDocumentAbandon.valueType';
-import { TypeTâchePlanifiéeGarantiesFinancières } from '../../garantiesFinancières';
+import { AnnulerTâchesPlanifiéesGarantiesFinancièresCommand } from '../../garantiesFinancières/tâches-planifiées/annuler/annuler.command';
 
 import { AccorderAbandonCommand } from './accorderAbandon.command';
 
@@ -66,27 +64,10 @@ export const registerAccorderAbandonUseCase = () => {
       },
     });
 
-    await mediator.send<AnnulerTâchePlanifiéeCommand>({
-      type: 'System.TâchePlanifiée.Command.AnnulerTâchePlanifiée',
+    await mediator.send<AnnulerTâchesPlanifiéesGarantiesFinancièresCommand>({
+      type: 'Lauréat.GarantiesFinancières.Command.AnnulerTâchesPlanifiées',
       data: {
         identifiantProjet,
-        typeTâchePlanifiée: TypeTâchePlanifiéeGarantiesFinancières.échoir.type,
-      },
-    });
-
-    await mediator.send<AnnulerTâchePlanifiéeCommand>({
-      type: 'System.TâchePlanifiée.Command.AnnulerTâchePlanifiée',
-      data: {
-        identifiantProjet,
-        typeTâchePlanifiée: TypeTâchePlanifiéeGarantiesFinancières.rappelÉchéanceUnMois.type,
-      },
-    });
-
-    await mediator.send<AnnulerTâchePlanifiéeCommand>({
-      type: 'System.TâchePlanifiée.Command.AnnulerTâchePlanifiée',
-      data: {
-        identifiantProjet,
-        typeTâchePlanifiée: TypeTâchePlanifiéeGarantiesFinancières.rappelÉchéanceDeuxMois.type,
       },
     });
   };

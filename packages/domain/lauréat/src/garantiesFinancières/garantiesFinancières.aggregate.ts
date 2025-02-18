@@ -96,6 +96,8 @@ import {
   GarantiesFinancièresÉchuesEvent,
   échoir,
 } from './garantiesFinancièresActuelles/échoir/échoirGarantiesFinancières.behavior';
+import { ajouterTâchesPlanifiées } from './tâches-planifiées/ajouter/ajouter.behavior';
+import { annulerTâchesPlanifiées } from './tâches-planifiées/annuler/annuler.behavior';
 
 export type GarantiesFinancièresEvent =
   | DépôtGarantiesFinancièresSoumisEvent
@@ -155,6 +157,8 @@ export type GarantiesFinancièresAggregate = Aggregate<GarantiesFinancièresEven
   readonly démarrerInstructionDemandeMainlevée: typeof démarrerInstructionDemandeMainlevée;
   readonly rejeterDemandeMainlevéeGarantiesFinancières: typeof rejeterDemandeMainlevéeGarantiesFinancières;
   readonly accorderDemandeMainlevéeGarantiesFinancières: typeof accorderDemandeMainlevéeGarantiesFinancières;
+  readonly ajouterTâchesPlanifiées: typeof ajouterTâchesPlanifiées;
+  readonly annulerTâchesPlanifiées: typeof annulerTâchesPlanifiées;
 };
 
 export const getDefaultGarantiesFinancièresAggregate: GetDefaultAggregateState<
@@ -179,6 +183,8 @@ export const getDefaultGarantiesFinancièresAggregate: GetDefaultAggregateState<
   rejeterDemandeMainlevéeGarantiesFinancières,
   accorderDemandeMainlevéeGarantiesFinancières,
   échoir,
+  ajouterTâchesPlanifiées,
+  annulerTâchesPlanifiées,
 });
 
 function apply(this: GarantiesFinancièresAggregate, event: GarantiesFinancièresEvent) {
