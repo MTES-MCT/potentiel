@@ -3,6 +3,10 @@ import {
   computeNombreTotalProjet,
 } from './projet/nombreTotalProjet.statistic';
 import {
+  cleanPourcentageDesGFPPE2Validées,
+  computePourcentageDesGFPPE2Validées,
+} from './projet/pourcentageDesGFPPE2Validées.statistic';
+import {
   cleanNombreParrainage,
   computeNombreParrainage,
 } from './utilisateur/nombreParrainage.statistic';
@@ -20,6 +24,7 @@ export const cleanStatistiquesPubliques = async () => {
   await cleanNombrePorteurInscrit();
   await cleanNombreParrainage();
   await cleanPourcentageAttestationTéléchargée();
+  await cleanPourcentageDesGFPPE2Validées();
 };
 
 export const computeStatistiquesPubliques = async () => {
@@ -27,4 +32,5 @@ export const computeStatistiquesPubliques = async () => {
   await computeNombrePorteurInscrit();
   await computeNombreParrainage();
   await computePourcentageAttestationTéléchargée();
+  await computePourcentageDesGFPPE2Validées();
 };
