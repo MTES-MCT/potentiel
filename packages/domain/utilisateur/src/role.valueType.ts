@@ -288,8 +288,14 @@ const référencielPermissions = {
         annulerChangement: 'Lauréat.Actionnaire.Command.AnnulerDemandeChangement',
       },
     },
-    usecase: { notifier: 'Lauréat.UseCase.NotifierLauréat' },
-    command: { notifier: 'Lauréat.Command.NotifierLauréat' },
+    usecase: {
+      notifier: 'Lauréat.UseCase.NotifierLauréat',
+      modifier: 'Lauréat.UseCase.ModifierLauréat',
+    },
+    command: {
+      notifier: 'Lauréat.Command.NotifierLauréat',
+      modifier: 'Lauréat.Command.ModifierLauréat',
+    },
     query: { consulter: 'Lauréat.Query.ConsulterLauréat' },
   },
   éliminé: {
@@ -333,7 +339,6 @@ const référencielPermissions = {
   candidature: {
     query: {
       consulterCandidature: 'Candidature.Query.ConsulterCandidature',
-      consulterRésuméCandidature: 'Candidature.Query.ConsulterRésuméCandidature',
       consulterProjet: 'Candidature.Query.ConsulterProjet',
       listerProjetsPreuveRecandidature:
         'Candidature.Query.ListerProjetsEligiblesPreuveRecandidature',
@@ -710,7 +715,7 @@ const policies = {
     ],
   },
   candidature: {
-    consulterRésumé: [référencielPermissions.candidature.query.consulterRésuméCandidature],
+    consulter: [référencielPermissions.candidature.query.consulterCandidature],
     importer: [
       référencielPermissions.appelOffre.query.consulter,
       référencielPermissions.candidature.usecase.importer,
@@ -948,6 +953,14 @@ const policies = {
       référencielPermissions.lauréat.actionnaire.query.listerChangement,
     ],
   },
+  lauréat: {
+    consulter: [référencielPermissions.lauréat.query.consulter],
+    modifier: [
+      référencielPermissions.lauréat.query.consulter,
+      référencielPermissions.lauréat.usecase.modifier,
+      référencielPermissions.lauréat.command.modifier,
+    ],
+  },
 } as const;
 
 /**
@@ -969,9 +982,9 @@ const commonPolicies: ReadonlyArray<Policy> = [
   'historique.lister',
 
   // Header projet
-  'candidature.consulterRésumé',
+  'lauréat.consulter',
+  'candidature.consulter',
   'abandon.consulter.détail',
-  'recours.consulter.détail',
 ];
 
 // En attendant d'avoir des gateways qui groupent les query
@@ -1075,6 +1088,9 @@ const adminPolicies: ReadonlyArray<Policy> = [
   'actionnaire.listerChangement',
   'actionnaire.accorderChangement',
   'actionnaire.rejeterChangement',
+
+  // Lauréat
+  'lauréat.modifier',
 ];
 
 const dgecValidateurPolicies: ReadonlyArray<Policy> = [

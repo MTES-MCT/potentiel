@@ -1,11 +1,14 @@
+import { ok } from 'neverthrow';
 import { Message, MessageHandler, mediator } from 'mediateur';
 import { Event } from '@potentiel-infrastructure/pg-event-sourcing';
 import { Lauréat } from '@potentiel-domain/laureat';
 import {
   ProjectClasseGranted,
   ProjectCompletionDueDateSet,
+  ProjectDataCorrected,
   ProjectDCRDueDateSet,
   ProjectNotified,
+  ProjectRawDataCorrected,
 } from '../modules/project';
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 import { getLegacyProjetByIdentifiantProjet } from '../infra/sequelize/queries/project';
@@ -15,8 +18,9 @@ import { Option } from '@potentiel-libraries/monads';
 import { CandidateNotifiedForPeriode } from '../modules/notificationCandidats';
 import { eventStore } from '../config/eventStore.config';
 import { getCompletionDate } from './_helpers/getCompletionDate';
+import { getUserByEmail } from '../config';
 
-export type SubscriptionEvent = Lauréat.LauréatNotifiéEvent & Event;
+export type SubscriptionEvent = (Lauréat.LauréatNotifiéEvent | Lauréat.LauréatModifiéEvent) & Event;
 
 export type Execute = Message<'System.Saga.Lauréat', SubscriptionEvent>;
 
@@ -51,7 +55,7 @@ export const register = () => {
     }
 
     switch (type) {
-      case 'LauréatNotifié-V1':
+      case 'LauréatNotifié-V2':
         const basePayload = {
           appelOffreId: identifiantProjet.appelOffre,
           periodeId: identifiantProjet.période,
@@ -112,6 +116,31 @@ export const register = () => {
           }),
         );
         return;
+      case 'LauréatModifié-V1':
+        const userId = await new Promise<string>((r) =>
+          getUserByEmail(event.payload.modifiéPar).map((user) => {
+            r(user?.id ?? '');
+            return ok(user);
+          }),
+        );
+        await eventStore.publish(
+          new ProjectDataCorrected({
+            payload: {
+              correctedBy: userId,
+              projectId: projet.id,
+              correctedData: {
+                nomProjet: event.payload.nomProjet,
+                adresseProjet: [event.payload.localité.adresse1, event.payload.localité.adresse2]
+                  .filter(Boolean)
+                  .join('\n'),
+                communeProjet: event.payload.localité.commune,
+                codePostalProjet: event.payload.localité.codePostal,
+                departementProjet: event.payload.localité.département,
+                regionProjet: event.payload.localité.région,
+              },
+            },
+          }),
+        );
     }
   };
 

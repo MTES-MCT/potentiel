@@ -27,7 +27,6 @@ interface CorrectProjectDataArgs {
   projectId: string;
   projectVersionDate: Date;
   user: User;
-  shouldGrantClasse: boolean;
   correctedData: Partial<{
     nomProjet: string;
     territoireProjet: string;
@@ -66,7 +65,7 @@ export type CorrectProjectData = (
 
 export const makeCorrectProjectData =
   (deps: CorrectProjectDataDeps): CorrectProjectData =>
-  ({ projectId, projectVersionDate, user, correctedData, shouldGrantClasse }) => {
+  ({ projectId, projectVersionDate, user, correctedData }) => {
     if (!['admin', 'dgec-validateur'].includes(user.role)) {
       return errAsync(new UnauthorizedError());
     }
@@ -85,13 +84,7 @@ export const makeCorrectProjectData =
           return err(new ProjectHasBeenUpdatedSinceError());
         }
 
-        return _grantClasseIfNecessary(project).andThen(() =>
-          project.correctData(user, correctedData),
-        );
+        return project.correctData(user, correctedData);
       },
     );
-
-    function _grantClasseIfNecessary(project: Project): Result<null, ProjetDéjàClasséError> {
-      return shouldGrantClasse ? project.grantClasse(user) : ok(null);
-    }
   };

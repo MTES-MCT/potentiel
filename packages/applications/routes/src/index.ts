@@ -1,4 +1,11 @@
-import { Abandon, Raccordement, Achèvement, ReprésentantLégal, Actionnaire } from './lauréat';
+import {
+  Abandon,
+  Raccordement,
+  Achèvement,
+  ReprésentantLégal,
+  Actionnaire,
+  Lauréat,
+} from './lauréat';
 import { Candidature } from './candidature';
 import { Document } from './document';
 import { GarantiesFinancières } from './garanties-financières';
@@ -24,4 +31,5 @@ export const Routes = {
   Auth,
   ReprésentantLégal,
   Actionnaire,
+  Lauréat,
 };

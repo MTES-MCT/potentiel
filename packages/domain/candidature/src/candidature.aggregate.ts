@@ -58,6 +58,15 @@ export type CandidatureAggregate = Aggregate<CandidatureEvent> &
     nomReprésentantLégal: string;
     sociétéMère: string;
     typeActionnariat?: TypeActionnariat.ValueType;
+    nomProjet: string;
+    localité: {
+      adresse1: string;
+      adresse2: string;
+      codePostal: string;
+      commune: string;
+      région: string;
+      département: string;
+    };
     importer: typeof importer;
     corriger: typeof corriger;
     notifier: typeof notifier;
@@ -91,6 +100,15 @@ export const getDefaultCandidatureAggregate: GetDefaultAggregateState<
 > = () => ({
   identifiantProjet: IdentifiantProjet.inconnu,
   payloadHash: '',
+  nomProjet: '',
+  localité: {
+    adresse1: '',
+    adresse2: '',
+    codePostal: '',
+    commune: '',
+    région: '',
+    département: '',
+  },
   nomReprésentantLégal: '',
   sociétéMère: '',
   estNotifiée: false,

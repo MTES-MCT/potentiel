@@ -131,6 +131,8 @@ export function applyCandidatureCorrigée(
 ) {
   this.importé = true;
   this.statut = StatutCandidature.convertirEnValueType(payload.statut);
+  this.nomProjet = payload.nomProjet;
+  this.localité = payload.localité;
   if (payload.typeGarantiesFinancières) {
     this.garantiesFinancières = {
       type: TypeGarantiesFinancières.convertirEnValueType(payload.typeGarantiesFinancières),

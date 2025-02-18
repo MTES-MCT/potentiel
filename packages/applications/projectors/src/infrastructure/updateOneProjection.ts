@@ -49,7 +49,6 @@ export const getUpdateClause = <TProjection extends Entity>(
 const toJsonbString = (value: string) => {
   const escaped = value
     .replaceAll('"', `\\"`)
-    .replaceAll("'", `''`)
     .replaceAll('\n', `\\n`)
     .replaceAll('\r', `\\r`)
     .replaceAll('\t', `\\t`);

@@ -1,3 +1,5 @@
+import { match } from 'ts-pattern';
+
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 import {
   Aggregate,
@@ -8,16 +10,39 @@ import {
 
 import {
   LauréatNotifiéEvent,
+  LauréatNotifiéV1Event,
+  NomEtLocalitéLauréatImportésEvent,
   applyLauréatNotifié,
+  applyLauréatNotifiéV1,
+  applyNomEtlocalitéLauréatImportés,
   notifier,
 } from './notifier/notifierLauréat.behavior';
+import {
+  LauréatModifiéEvent,
+  modifier,
+  applyLauréatModifié,
+} from './modifier/modifierLauréat.behavior';
 
-export type LauréatEvent = LauréatNotifiéEvent;
+export type LauréatEvent =
+  | LauréatNotifiéEvent
+  | LauréatNotifiéV1Event
+  | NomEtLocalitéLauréatImportésEvent
+  | LauréatModifiéEvent;
 
 export type LauréatAggregate = Aggregate<LauréatEvent> & {
   identifiantProjet: IdentifiantProjet.ValueType;
   notifiéLe: DateTime.ValueType;
+  nomProjet: string;
+  localité: {
+    adresse1: string;
+    adresse2: string;
+    codePostal: string;
+    commune: string;
+    département: string;
+    région: string;
+  };
   notifier: typeof notifier;
+  modifier: typeof modifier;
 };
 
 export const getDefaultLauréatAggregate: GetDefaultAggregateState<
@@ -26,16 +51,27 @@ export const getDefaultLauréatAggregate: GetDefaultAggregateState<
 > = () => ({
   identifiantProjet: IdentifiantProjet.inconnu,
   notifiéLe: DateTime.now(),
+  nomProjet: '',
+  localité: {
+    adresse1: '',
+    adresse2: '',
+    codePostal: '',
+    commune: '',
+    département: '',
+    région: '',
+  },
   apply,
   notifier,
+  modifier,
 });
 
 function apply(this: LauréatAggregate, event: LauréatEvent) {
-  switch (event.type) {
-    case 'LauréatNotifié-V1':
-      applyLauréatNotifié.bind(this)(event);
-      break;
-  }
+  match(event)
+    .with({ type: 'LauréatNotifié-V1' }, applyLauréatNotifiéV1.bind(this))
+    .with({ type: 'NomEtLocalitéLauréatImportés-V1' }, applyNomEtlocalitéLauréatImportés.bind(this))
+    .with({ type: 'LauréatNotifié-V2' }, applyLauréatNotifié.bind(this))
+    .with({ type: 'LauréatModifié-V1' }, applyLauréatModifié.bind(this))
+    .exhaustive();
 }
 
 export const loadLauréatFactory =

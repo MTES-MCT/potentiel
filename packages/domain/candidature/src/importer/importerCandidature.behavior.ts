@@ -165,6 +165,8 @@ export function applyCandidatureImportée(
 ) {
   this.importé = true;
   this.statut = StatutCandidature.convertirEnValueType(payload.statut);
+  this.nomProjet = payload.nomProjet;
+  this.localité = payload.localité;
   this.garantiesFinancières = payload.typeGarantiesFinancières
     ? {
         type: TypeGarantiesFinancières.convertirEnValueType(payload.typeGarantiesFinancières),
@@ -173,6 +175,7 @@ export function applyCandidatureImportée(
       }
     : undefined;
   this.payloadHash = this.calculerHash(payload);
+
   this.nomReprésentantLégal = payload.nomReprésentantLégal;
   this.sociétéMère = payload.sociétéMère;
   this.typeActionnariat = payload.actionnariat

@@ -60,7 +60,7 @@ export const registerSagas = async () => {
 
   const unsubscribeLauréat = await subscribe<LauréatSaga.SubscriptionEvent>({
     name: 'legacy-saga',
-    eventType: ['LauréatNotifié-V1'],
+    eventType: ['LauréatNotifié-V2', 'LauréatModifié-V1'],
     eventHandler: async (event) => {
       await mediator.send<LauréatSaga.Execute>({
         type: 'System.Saga.Lauréat',

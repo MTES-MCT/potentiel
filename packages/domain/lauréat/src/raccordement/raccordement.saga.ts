@@ -31,7 +31,7 @@ export const register = ({ récupérerGRDParVille }: RegisterRaccordementSagaDep
     } = event;
 
     switch (event.type) {
-      case 'LauréatNotifié-V1':
+      case 'LauréatNotifié-V2':
         const candidature = await mediator.send<Candidature.ConsulterCandidatureQuery>({
           type: 'Candidature.Query.ConsulterCandidature',
           data: {

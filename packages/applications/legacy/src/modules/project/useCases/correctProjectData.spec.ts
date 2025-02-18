@@ -35,7 +35,6 @@ describe('correctProjectData', () => {
         projectId,
         projectVersionDate: new Date(),
         user,
-        shouldGrantClasse: false,
         correctedData: {
           nomProjet: 'test',
         },
@@ -72,7 +71,6 @@ describe('correctProjectData', () => {
           projectId: projectId,
           projectVersionDate: new Date(0), // before new Date(1)
           user,
-          shouldGrantClasse: true,
           correctedData: {},
         });
 

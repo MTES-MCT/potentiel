@@ -54,6 +54,6 @@ describe('updateOneProjection', () => {
       { foo: `hello "you" with  'quotes' and \n \t \r` },
       1,
     );
-    expect(values).to.deep.eq([`"hello \\"you\\" with  ''quotes'' and \\n \\t \\r"`]);
+    expect(values).to.deep.eq([`"hello \\"you\\" with  'quotes' and \\n \\t \\r"`]);
   });
 });

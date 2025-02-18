@@ -4,7 +4,7 @@ import { match } from 'ts-pattern';
 import { RebuildTriggered, Event } from '@potentiel-infrastructure/pg-event-sourcing';
 import { ReprésentantLégal } from '@potentiel-domain/laureat';
 
-import { rebuilTriggeredProjector } from './rebuildTriggered.projector';
+import { rebuildTriggeredProjector } from './rebuildTriggered.projector';
 import { représentantLégalImportéProjector } from './représentantLégalImporté.projector';
 import { représentantLégalModifiéProjector } from './représentantLégalModifié.projector';
 import { changementReprésentantLégalDemandéProjector } from './changement/changementReprésentantLégalDemandé.projector';
@@ -23,7 +23,7 @@ export type Execute = Message<'System.Projector.Lauréat.ReprésentantLégal', S
 export const register = () => {
   const handler: MessageHandler<Execute> = async (event) =>
     match(event)
-      .with({ type: 'RebuildTriggered' }, rebuilTriggeredProjector)
+      .with({ type: 'RebuildTriggered' }, rebuildTriggeredProjector)
       .with({ type: 'ReprésentantLégalImporté-V1' }, représentantLégalImportéProjector)
       .with({ type: 'ReprésentantLégalModifié-V1' }, représentantLégalModifiéProjector)
       .with(

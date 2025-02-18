@@ -87,7 +87,13 @@ export const setupLauréat = async ({
   const unsubscribeLauréatProjector = await subscribe<LauréatProjector.SubscriptionEvent>({
     name: 'projector',
     streamCategory: 'lauréat',
-    eventType: ['LauréatNotifié-V1', 'RebuildTriggered'],
+    eventType: [
+      'LauréatNotifié-V1',
+      'NomEtLocalitéLauréatImportés-V1',
+      'LauréatNotifié-V2',
+      'LauréatModifié-V1',
+      'RebuildTriggered',
+    ],
     eventHandler: async (event) => {
       await mediator.send<LauréatProjector.Execute>({
         type: 'System.Projector.Lauréat',
@@ -303,7 +309,7 @@ export const setupLauréat = async ({
   >({
     name: 'representant-legal-laureat-saga',
     streamCategory: 'lauréat',
-    eventType: ['LauréatNotifié-V1'],
+    eventType: ['LauréatNotifié-V2'],
     eventHandler: async (event) =>
       mediator.publish<ReprésentantLégal.ReprésentantLégalSaga.Execute>({
         type: 'System.Lauréat.ReprésentantLégal.Saga.Execute',
@@ -342,7 +348,7 @@ export const setupLauréat = async ({
   >({
     name: 'actionnaire-laureat-saga',
     streamCategory: 'lauréat',
-    eventType: ['LauréatNotifié-V1'],
+    eventType: ['LauréatNotifié-V2'],
     eventHandler: async (event) =>
       mediator.publish<Actionnaire.ActionnaireSaga.Execute>({
         type: 'System.Lauréat.Actionnaire.Saga.Execute',
@@ -368,7 +374,7 @@ export const setupLauréat = async ({
   >({
     name: 'type-garanties-financieres-saga',
     streamCategory: 'lauréat',
-    eventType: ['LauréatNotifié-V1'],
+    eventType: ['LauréatNotifié-V2'],
     eventHandler: async (event) => {
       await mediator.publish<GarantiesFinancières.TypeGarantiesFinancièresSaga.Execute>({
         type: 'System.Lauréat.TypeGarantiesFinancières.Saga.Execute',
@@ -433,7 +439,7 @@ export const setupLauréat = async ({
   >({
     name: 'raccordement-laureat-saga',
     streamCategory: 'lauréat',
-    eventType: ['LauréatNotifié-V1'],
+    eventType: ['LauréatNotifié-V2'],
     eventHandler: async (event) => {
       await mediator.publish<Raccordement.RaccordementSaga.Execute>({
         type: 'System.Lauréat.Raccordement.Saga.Execute',
