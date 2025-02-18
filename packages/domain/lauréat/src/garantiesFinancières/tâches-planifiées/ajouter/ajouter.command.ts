@@ -8,6 +8,10 @@ import { loadGarantiesFinancièresFactory } from '../../garantiesFinancières.ag
 import { loadAchèvementFactory } from '../../../achèvement/achèvement.aggregate';
 import * as TypeTâchePlanifiéeGarantiesFinancières from '../../typeTâchePlanifiéeGarantiesFinancières.valueType';
 
+/**
+ * @deprecated Cette commande est temporaire pour permettre l'appel au behavior,
+ * qui à terme sera fait directement depuis le behavior appelant, via l'aggregate root.
+ **/
 export type AjouterTâchesPlanifiéesGarantiesFinancièresCommand = Message<
   'Lauréat.GarantiesFinancières.Command.AjouterTâchesPlanifiées',
   {
@@ -16,6 +20,7 @@ export type AjouterTâchesPlanifiéesGarantiesFinancièresCommand = Message<
   }
 >;
 
+/** @deprecated */
 export const registerAjouterTâchesPlanfiéesCommand = (loadAggregate: LoadAggregate) => {
   const loadGarantiesFinancières = loadGarantiesFinancièresFactory(loadAggregate);
   const loadAchèvement = loadAchèvementFactory(loadAggregate);

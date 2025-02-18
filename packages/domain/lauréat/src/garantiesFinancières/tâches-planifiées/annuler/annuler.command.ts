@@ -7,6 +7,10 @@ import { loadTâchePlanifiéeAggregateFactory } from '@potentiel-domain/tache-pl
 import { loadGarantiesFinancièresFactory } from '../../garantiesFinancières.aggregate';
 import * as TypeTâchePlanifiéeGarantiesFinancières from '../../typeTâchePlanifiéeGarantiesFinancières.valueType';
 
+/**
+ * @deprecated Cette commande est temporaire pour permettre l'appel au behavior,
+ * qui à terme sera fait directement depuis le behavior appelant, via l'aggregate root.
+ **/
 export type AnnulerTâchesPlanifiéesGarantiesFinancièresCommand = Message<
   'Lauréat.GarantiesFinancières.Command.AnnulerTâchesPlanifiées',
   {
@@ -14,6 +18,7 @@ export type AnnulerTâchesPlanifiéesGarantiesFinancièresCommand = Message<
   }
 >;
 
+/** @deprecated */
 export const registerAnnulerTâchesPlanifiéesCommand = (loadAggregate: LoadAggregate) => {
   const loadGarantiesFinancières = loadGarantiesFinancièresFactory(loadAggregate);
   const loadTâchePlanifiée = loadTâchePlanifiéeAggregateFactory(loadAggregate);
