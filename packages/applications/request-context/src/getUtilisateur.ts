@@ -90,7 +90,7 @@ export const getUtilisateurFromAccessToken = async (
     groups: z.array(z.string()).optional(),
   });
 
-  const jwks = await getJwks('keycloak');
+  const jwks = await getJwks();
   const { payload } = await jwtVerify(accessToken, jwks);
   const {
     email,

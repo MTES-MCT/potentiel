@@ -34,13 +34,18 @@ export const authOptions: AuthOptions = {
     // Stores user data and idToken to the next-auth cookie
     async jwt({ token, account, trigger }) {
       if (trigger === 'signIn' && account) {
-        return await signIn({
+        const result = await signIn({
           token,
           account,
         });
+        console.log(`signIn ${JSON.stringify(result)}`);
+        return result;
       }
 
-      return await refreshToken(token);
+      const refreshedResult = await refreshToken(token);
+      console.log(`refresh ${JSON.stringify(refreshedResult)}`);
+
+      return refreshedResult;
     },
     session({ session, token }) {
       {
@@ -49,6 +54,8 @@ export const authOptions: AuthOptions = {
         }
 
         if (token.provider) {
+          console.log(`Token: ${JSON.stringify(token)}`);
+          console.log(`Session: ${JSON.stringify(session)}`);
           session.provider = token.provider;
         }
 

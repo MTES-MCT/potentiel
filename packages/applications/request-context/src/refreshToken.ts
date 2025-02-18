@@ -23,10 +23,7 @@ export async function refreshToken(token: JWT): Promise<JWT> {
   }
 
   try {
-    const { accessToken, expiresAt, refreshToken } = await refreshAccessToken(
-      token.refreshToken,
-      provider,
-    );
+    const { accessToken, expiresAt, refreshToken } = await refreshAccessToken(token.refreshToken);
 
     const utilisateur = await getUtilisateurFromProvider(provider, email, accessToken);
 
@@ -54,8 +51,8 @@ function isTokenUpToDate(expiresAt: number) {
   return expiresAt > Date.now();
 }
 
-async function refreshAccessToken(refreshToken: string, provider: string) {
-  const client = await getOpenIdClient(provider);
+async function refreshAccessToken(refreshToken: string) {
+  const client = await getOpenIdClient();
   const refreshedTokens = await client.refresh(refreshToken);
   if (!refreshedTokens.access_token || !refreshedTokens.expires_in) {
     throw new RefreshTokenError();

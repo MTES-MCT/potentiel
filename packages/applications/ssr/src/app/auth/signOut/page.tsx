@@ -17,19 +17,20 @@ export default async function SignOut() {
       },
     },
   });
+
   if (!session) {
     return redirect(BASE_URL);
   }
 
+  console.log(`SignOut Page : ${session}`);
+
   const callbackUrl =
     session.idToken &&
-    (await getLogoutUrl(
-      {
-        id_token_hint: session.idToken,
-        post_logout_redirect_uri: BASE_URL,
-      },
-      session.provider ?? 'keycloak',
-    ));
+    (await getLogoutUrl({
+      id_token_hint: session.idToken,
+      post_logout_redirect_uri: BASE_URL,
+    }));
+
   return (
     <PageTemplate>
       <div className="flex m-auto">
