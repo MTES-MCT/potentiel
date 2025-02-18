@@ -1,7 +1,3 @@
-type NestedKeys<T> = T extends object
-  ? {
-      [K in keyof T]: `${Exclude<K, symbol>}${NestedKeys<T[K]> extends never ? '' : `.${NestedKeys<T[K]>}`}`;
-    }[keyof T]
-  : never;
+import { NestedKeys } from './nestedKeys';
 
 export type SelectOptions<T> = NestedKeys<T>[];
