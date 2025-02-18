@@ -1,6 +1,6 @@
 import { Lauréat } from '@potentiel-domain/laureat';
 
-import { updateOneProjection, upsertProjection } from '../../infrastructure';
+import { upsertProjection } from '../../infrastructure';
 
 export const lauréatNotifiéV1Projector = async ({
   payload: { identifiantProjet, notifiéLe, notifiéPar },
@@ -20,14 +20,6 @@ export const lauréatNotifiéV1Projector = async ({
       département: '!! VALEUR MANQUANTE !!',
       région: '!! VALEUR MANQUANTE !!',
     },
-  });
-
-export const nomEtLocalitéLauréatImportésProjector = async ({
-  payload: { identifiantProjet, nomProjet, localité },
-}: Lauréat.NomEtLocalitéLauréatImportésEvent) =>
-  await updateOneProjection<Lauréat.LauréatEntity>(`lauréat|${identifiantProjet}`, {
-    nomProjet,
-    localité,
   });
 
 export const lauréatNotifiéProjector = async ({

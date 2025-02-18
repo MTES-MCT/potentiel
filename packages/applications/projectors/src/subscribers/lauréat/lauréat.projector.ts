@@ -5,12 +5,9 @@ import { Lauréat } from '@potentiel-domain/laureat';
 import { RebuildTriggered, Event } from '@potentiel-infrastructure/pg-event-sourcing';
 
 import { rebuildTriggeredProjector } from './rebuildTriggered.projector';
-import {
-  lauréatNotifiéProjector,
-  lauréatNotifiéV1Projector,
-  nomEtLocalitéLauréatImportésProjector,
-} from './lauréatNotifié.projector';
+import { lauréatNotifiéProjector, lauréatNotifiéV1Projector } from './lauréatNotifié.projector';
 import { lauréatModifiéProjector } from './lauréatModifié.projector';
+import { nomEtLocalitéLauréatImportésProjector } from './nomEtLocalitéLauréatImportés.projector';
 
 export type SubscriptionEvent = (Lauréat.LauréatEvent & Event) | RebuildTriggered;
 
