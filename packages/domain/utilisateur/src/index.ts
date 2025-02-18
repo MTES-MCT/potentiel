@@ -5,6 +5,10 @@ import {
 } from './consulter/consulterUtilisateur.query';
 import { ListerUtilisateursQuery, ListerUtilisateursPort } from './lister/listerUtilisateurs.query';
 import {
+  TrouverUtilisateurPort,
+  TrouverUtilisateurQuery,
+} from './trouver/trouverUtilisateur.query';
+import {
   VérifierAccèsProjetQuery,
   VérifierAccèsProjetPort,
 } from './vérifierAccèsProjet/vérifierAccèsProjet.query';
@@ -19,15 +23,26 @@ export { AccèsFonctionnalitéRefuséError } from './errors';
 export type UtilisateurQuery =
   | ConsulterUtilisateurQuery
   | ListerUtilisateursQuery
+  | TrouverUtilisateurQuery
   | VérifierAccèsProjetQuery;
 
-export { ConsulterUtilisateurQuery, ListerUtilisateursQuery, VérifierAccèsProjetQuery };
+export {
+  ConsulterUtilisateurQuery,
+  ListerUtilisateursQuery,
+  TrouverUtilisateurQuery,
+  VérifierAccèsProjetQuery,
+};
 
 // Register
 export * from './register';
 
 // Port
-export { ListerUtilisateursPort, RécupérerUtilisateurPort, VérifierAccèsProjetPort };
+export {
+  ListerUtilisateursPort,
+  RécupérerUtilisateurPort,
+  VérifierAccèsProjetPort,
+  TrouverUtilisateurPort,
+};
 export * from './utilisateur.port';
 
 // Entity

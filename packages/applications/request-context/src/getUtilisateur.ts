@@ -2,14 +2,14 @@ import { IncomingMessage, ServerResponse } from 'node:http';
 import { parse } from 'node:url';
 
 import { z } from 'zod';
+import { mediator } from 'mediateur';
 import { jwtVerify } from 'jose';
 import { getServerSession } from 'next-auth';
 
-import { Groupe, Role, Utilisateur } from '@potentiel-domain/utilisateur';
+import { Groupe, Role, Utilisateur, TrouverUtilisateurQuery } from '@potentiel-domain/utilisateur';
 import { getLogger } from '@potentiel-libraries/monitoring';
 import { Email } from '@potentiel-domain/common';
 import { PlainType } from '@potentiel-domain/core';
-import { récupérerUtilisateurAdapter } from '@potentiel-infrastructure/domain-adapters';
 import { Option } from '@potentiel-libraries/monads';
 
 import { authOptions } from './authOptions';
@@ -113,14 +113,19 @@ export const getUtilisateurFromAccessToken = async (
 export const getUtilisateurFromEmail = async (
   email: string,
 ): Promise<PlainType<Utilisateur.ValueType>> => {
-  const utilisateur = await récupérerUtilisateurAdapter(email);
+  const utilisateur = await mediator.send<TrouverUtilisateurQuery>({
+    type: 'System.Utilisateur.Query.TrouverUtilisateur',
+    data: {
+      identifiantUtilisateur: email,
+    },
+  });
 
   if (Option.isNone(utilisateur)) {
     throw new Error(`User not found !`);
   }
 
   return {
-    role: Role.convertirEnValueType(utilisateur.rôle),
+    role: utilisateur.rôle,
     groupe: Option.none,
     nom: utilisateur.nomComplet,
     identifiantUtilisateur: Email.convertirEnValueType(email),
