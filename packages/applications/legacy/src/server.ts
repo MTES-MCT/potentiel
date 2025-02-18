@@ -57,6 +57,9 @@ export async function makeServer(port: number) {
                 'potentiel.beta.gouv.fr',
                 'client.crisp.chat',
                 'wss://client.relay.crisp.chat',
+                process.env.NEXT_PUBLIC_GEO_API_URL
+                  ? new URL(process.env.NEXT_PUBLIC_GEO_API_URL).hostname
+                  : '',
               ],
               'font-src': ["'self'", 'client.crisp.chat'],
               'frame-src': ['metabase.potentiel.beta.gouv.fr', 'blob:'],
