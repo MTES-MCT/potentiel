@@ -630,12 +630,7 @@ const getMainlevéeToUpsert = async (
   ).items;
 
   if (mainlevéeEnCoursArray.length !== 1) {
-    throw (
-      (new Error(`Il existe plus d'une main levée en cours pour ce projet`),
-      {
-        identifiantProjet,
-      })
-    );
+    throw new Error(`Il existe plus d'une main levée en cours pour ce projet`);
   }
 
   return mainlevéeEnCoursArray[0];
