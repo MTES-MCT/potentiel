@@ -42,10 +42,10 @@ export default function ProConnect<P extends ProConnectProfile>(
           headers: {
             Authorization: `Bearer ${context.tokens.access_token}`,
           },
-        }).then((res) => {
-          return res.text();
-        });
-        return JSON.parse(Buffer.from(userInfo.split('.')[1], 'base64').toString());
+        }).then((res) => res.text());
+        const jwks = await getJwks('proconnect');
+        const { payload } = await jwtVerify(userInfo, jwks);
+        return payload;
       },
     },
     profile: async (profile) => ({
