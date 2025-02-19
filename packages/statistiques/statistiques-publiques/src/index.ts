@@ -38,6 +38,10 @@ import {
   cleanPourcentagePTFDéposées,
   computePourcentagePTFDéposées,
 } from './projet/pourcentagePTFDéposées.statistic';
+import {
+  cleanNombreTotalDemande,
+  computeNombreTotalDemande,
+} from './projet/nombreTotalDemande.statistic';
 
 export const cleanStatistiquesPubliques = async () => {
   await cleanNombreTotalProjet();
@@ -50,6 +54,7 @@ export const cleanStatistiquesPubliques = async () => {
   await cleanPourcentageProjetAvecDCREtPTF();
   await cleanPourcentageDCRDéposées();
   await cleanPourcentagePTFDéposées();
+  await cleanNombreTotalDemande();
 };
 
 export const computeStatistiquesPubliques = async () => {
@@ -63,4 +68,5 @@ export const computeStatistiquesPubliques = async () => {
   await computePourcentageProjetAvecDCREtPTF();
   await computePourcentageDCRDéposées();
   await computePourcentagePTFDéposées();
+  await computeNombreTotalDemande();
 };
