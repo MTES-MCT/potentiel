@@ -22,5 +22,6 @@ declare module 'next-auth/jwt' {
 }
 
 declare module 'next-auth' {
+  interface User extends PlainType<Utilisateur.ValueType> {}
   interface Session extends PotentielSession {}
 }

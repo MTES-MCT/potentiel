@@ -1,16 +1,11 @@
-import { BaseClient, Issuer } from 'openid-client';
-import { createRemoteJWKSet, KeyLike } from 'jose';
+import { Issuer } from 'openid-client';
+import { createRemoteJWKSet } from 'jose';
 import { getServerSession } from 'next-auth';
 
 import { getProviderConfiguration } from './getProviderConfiguration';
 
-let openIdIssuerPromise: Promise<Issuer<BaseClient>>;
-let jwksPromise: Promise<KeyLike>;
-
-export const getOpenIdClient = async (provider?: string) => {
-  if (!provider) {
-    provider = await getCurrentProvider();
-  }
+export const getOpenIdClient = async (providerOption?: 'proconnect' | 'keycloak') => {
+  const provider = providerOption ?? (await getCurrentProvider());
 
   const { Client } = await getOpenIdIssuer(provider);
   const { clientId, clientSecret } = getProviderConfiguration(provider);
@@ -22,10 +17,9 @@ export const getOpenIdClient = async (provider?: string) => {
 };
 
 export const getJwks = async (provider: 'proconnect' | 'keycloak') => {
-  if (!jwksPromise) {
-    const issuer = await getOpenIdIssuer(provider);
-    jwksPromise = createRemoteJWKSet(new URL(issuer.metadata.jwks_uri!))({ alg: 'RS256' });
-  }
+  const issuer = await getOpenIdIssuer(provider);
+  const jwksPromise = createRemoteJWKSet(new URL(issuer.metadata.jwks_uri!))({ alg: 'RS256' });
+
   return jwksPromise;
 };
 
@@ -45,8 +39,6 @@ const getCurrentProvider = async () => {
 const getOpenIdIssuer = (provider: string) => {
   const { issuer } = getProviderConfiguration(provider);
 
-  if (!openIdIssuerPromise) {
-    openIdIssuerPromise = Issuer.discover(issuer);
-  }
+  const openIdIssuerPromise = Issuer.discover(issuer);
   return openIdIssuerPromise;
 };

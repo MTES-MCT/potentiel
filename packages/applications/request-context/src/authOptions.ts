@@ -1,17 +1,29 @@
 import { AuthOptions } from 'next-auth';
 import KeycloakProvider from 'next-auth/providers/keycloak';
 
+import { getLogger } from '@potentiel-libraries/monitoring';
+
 import { getProviderConfiguration } from './getProviderConfiguration';
 import { refreshToken } from './refreshToken';
 import ProConnectProvider from './ProConnectProvider';
-import { signIn } from './signIn';
 import { ajouterStatistiqueConnexion } from './ajouterStatistiqueConnexion';
+import { getUtilisateurFromAccessToken } from './getUtilisateur';
 
 const OneHourInSeconds = 60 * 60;
 
 export const authOptions: AuthOptions = {
   providers: [
-    KeycloakProvider(getProviderConfiguration('keycloak')),
+    KeycloakProvider({
+      ...getProviderConfiguration('keycloak'),
+      profile: async (profile, tokens) => {
+        const utilisateur = await getUtilisateurFromAccessToken(tokens.access_token ?? '');
+
+        return {
+          id: profile.sub,
+          ...utilisateur,
+        };
+      },
+    }),
     ProConnectProvider(getProviderConfiguration('proconnect')),
   ],
   session: {
@@ -23,18 +35,31 @@ export const authOptions: AuthOptions = {
     maxAge: parseInt(process.env.SESSION_MAX_AGE ?? String(OneHourInSeconds)),
   },
   events: {
-    signIn: async ({ user: { email } }) => {
+    signIn: async ({
+      user: {
+        identifiantUtilisateur: { email },
+      },
+    }) => {
       await ajouterStatistiqueConnexion(email ?? '');
     },
   },
   callbacks: {
     // Stores user data and idToken to the next-auth cookie
-    jwt({ token, account, trigger }) {
-      if (trigger === 'signIn' && account) {
-        return signIn({
-          token,
-          account,
-        });
+    jwt({ token, trigger, account, user }) {
+      if (trigger === 'signIn' && account && user) {
+        const { sub, expires_at = 0, provider } = account;
+        const expiresAtInMs = expires_at * 1000;
+
+        getLogger('Auth').debug(`User logged in`, { sub, expiresAt: new Date(expiresAtInMs) });
+
+        return {
+          ...token,
+          provider,
+          idToken: account.id_token,
+          expiresAt: expiresAtInMs,
+          refreshToken: account.refresh_token,
+          utilisateur: user,
+        };
       }
 
       return refreshToken(token);

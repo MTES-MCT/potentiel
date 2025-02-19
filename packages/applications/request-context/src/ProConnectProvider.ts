@@ -1,9 +1,13 @@
 import { randomUUID } from 'node:crypto';
 
-import { OAuthConfig, OAuthUserConfig } from 'next-auth/providers';
 import { jwtVerify } from 'jose';
+import { OAuthConfig, OAuthUserConfig } from 'next-auth/providers';
+
+import { mapToPlainObject, PlainType } from '@potentiel-domain/core';
+import { Utilisateur } from '@potentiel-domain/utilisateur';
 
 import { getJwks } from './openid';
+import { getUtilisateurFromEmail } from './getUtilisateur';
 
 export type ProConnectProfile = {
   email: string;
@@ -11,6 +15,7 @@ export type ProConnectProfile = {
   usual_name: string;
   uid: string;
   siret: string;
+  utilisateur: PlainType<Utilisateur.ValueType>;
 };
 
 export default function ProConnect<P extends ProConnectProfile>(
@@ -53,12 +58,14 @@ export default function ProConnect<P extends ProConnectProfile>(
         return payload;
       },
     },
-    profile: async (profile) => ({
-      id: profile.uid,
-      email: profile.email,
-      given_name: profile.given_name,
-      usual_name: profile.usual_name,
-    }),
+    profile: async (profile) => {
+      const utilisateur = await getUtilisateurFromEmail(profile.email);
+
+      return {
+        id: profile.uid,
+        ...mapToPlainObject(utilisateur),
+      };
+    },
     options,
   };
 }
