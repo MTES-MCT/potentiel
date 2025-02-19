@@ -29,65 +29,39 @@ export const computeNombreDeDemandeParCategorie = async () => {
     insert
     into 
       domain_public_statistic.camembert_statistic
-    values(
-      $1,
-      'abandon',
+    values
       (
-        select count(*) from "event_store"."event_stream" 
-        where type like 'AbandonDemandé-V%'
-      )
-    )
-    `,
-    statisticType,
-  );
-
-  await executeQuery(
-    `
-    insert
-    into 
-      domain_public_statistic.camembert_statistic
-    values(
-      $1,
-      'actionnaire',
+        $1,
+        'abandon',
+        (
+          select count(*) from "event_store"."event_stream" 
+          where type like 'AbandonDemandé-V%'
+        )
+      ),
       (
-        select count(*) from "event_store"."event_stream" 
-        where type like 'ChangementActionnaireDemandé-V%'
-      )
-    )
-    `,
-    statisticType,
-  );
-
-  await executeQuery(
-    `
-    insert
-    into 
-      domain_public_statistic.camembert_statistic
-    values(
-      $1,
-      'représentant légal',
+        $1,
+        'actionnaire',
+        (
+          select count(*) from "event_store"."event_stream" 
+          where type like 'ChangementActionnaireDemandé-V%'
+        )
+      ),
       (
-        select count(*) from "event_store"."event_stream" 
-        where type like 'ChangementReprésentantLégalDemandé-V%'
-      )
-    )
-    `,
-    statisticType,
-  );
-
-  await executeQuery(
-    `
-    insert
-    into 
-      domain_public_statistic.camembert_statistic
-    values(
-      $1,
-      'recours',
+        $1,
+        'représentant légal',
+        (
+          select count(*) from "event_store"."event_stream" 
+          where type like 'ChangementReprésentantLégalDemandé-V%'
+        )
+      ),
       (
-        select count(*) from "event_store"."event_stream" 
-        where type like 'RecoursDemandé-V%'
+        $1,
+        'recours',
+        (
+          select count(*) from "event_store"."event_stream" 
+          where type like 'RecoursDemandé-V%'
+        )
       )
-    )
     `,
     statisticType,
   );
