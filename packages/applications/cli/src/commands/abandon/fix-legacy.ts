@@ -13,6 +13,7 @@ import { executeSelect, killPool } from '@potentiel-libraries/pg-helpers';
 import { Email } from '@potentiel-domain/common';
 import { registerDocumentProjetCommand } from '@potentiel-domain/document';
 import { registerTâchePlanifiéeUseCases } from '@potentiel-domain/tache-planifiee';
+import { GarantiesFinancières } from '@potentiel-domain/laureat/';
 
 type QueryResult = {
   identifiantProjet: string;
@@ -58,6 +59,7 @@ export default class FixLegacyAbandon extends Command {
       archiverDocumentProjet: DocumentAdapter.archiverDocumentProjet,
     });
     registerTâchePlanifiéeUseCases({ loadAggregate });
+    GarantiesFinancières.registerGarantiesFinancièresUseCases({ loadAggregate });
     Abandon.registerAbandonQueries({
       find: findProjection,
       list: listProjection,
