@@ -14,7 +14,7 @@
   "scripts": {
     "prepare": "husky",
     "start": "npm run start --workspaces --if-present ",
-    "up": "docker compose --profile app up -d && until docker exec potentiel_db pg_isready -U potadmindb -d potentiel; do sleep 1; done ",
+    "up": "docker compose --profile app up -d && until docker exec potentiel_db pg_isready -U postgres_admin -d potentiel; do sleep 1; done ",
     "down": "docker compose  --profile app down --remove-orphans",
     "prestart:legacy": "npm run build && npm run up",
     "start:legacy": "npm run start -w @potentiel-applications/legacy",
@@ -38,8 +38,8 @@
     "prespecs:select": "npm run prespecs",
     "specs:select": "npm run test:select -w @potentiel/specifications",
     "version": "npx tsx .github/getPatchVersion.ts",
-    "update:dump": "docker exec -it potentiel_db pg_dump -U potadmindb -Fc -b -v -f \"potentiel-dev.dump\" potentiel && docker cp potentiel_db:/potentiel-dev.dump ./.database/potentiel-dev.dump",
-    "update:dump-metabase": "docker exec -it potentiel_db pg_dump -U potadmindb -Fc -b -v -f \"metabase-dev.dump\" metabase && docker cp potentiel_db:/metabase-dev.dump ./.database/metabase-dev.dump"
+    "update:dump": "docker exec -it potentiel_db pg_dump -U potentiel -Fc -b -v -f \"potentiel-dev.dump\" potentiel && docker cp potentiel_db:/potentiel-dev.dump ./.database/potentiel-dev.dump",
+    "update:dump-metabase": "docker exec -it potentiel_db pg_dump -U metabase -Fc -b -v -f \"metabase-dev.dump\" metabase && docker cp potentiel_db:/metabase-dev.dump ./.database/metabase-dev.dump"
   },
   "repository": {
     "type": "git",

@@ -8,9 +8,9 @@ services:
       - .database/potentiel-dev.dump:/dump/potentiel-dev.dump
       - .database/restore-dev-db.sh:/docker-entrypoint-initdb.d/restore-dev-db.sh
     environment:
-      - POSTGRES_USER=potadmindb
-      - POSTGRES_PASSWORD=localpwd
-      - POSTGRES_DB=potentiel
+      - POSTGRES_USER=postgres_admin
+      - POSTGRES_PASSWORD=postgres_password
+      - POSTGRES_MULTIPLE_DATABASES=potentiel,metabase
     restart: always
     ports:
       - 5432:5432
@@ -23,21 +23,21 @@ services:
     ports:
       - 6379:6379
     profiles: ['app']
-  metabase:
-    image: metabase/metabase:latest
-    container_name: metabase
-    ports:
-      - '3615:3000'
-    environment:
-      MB_DB_TYPE: postgres
-      MB_DB_DBNAME: metabase
-      MB_DB_PORT: 5432
-      MB_DB_USER: potadmindb
-      MB_DB_PASS: localpwd
-      MB_DB_HOST: db
-    depends_on:
-      - db
-    profiles: ['app']
+  # metabase:
+  #   image: metabase/metabase:latest
+  #   container_name: metabase
+  #   ports:
+  #     - '3615:3000'
+  #   environment:
+  #     MB_DB_TYPE: postgres
+  #     MB_DB_DBNAME: metabase
+  #     MB_DB_PORT: 5432
+  #     MB_DB_USER: potadmindb
+  #     MB_DB_PASS: localpwd
+  #     MB_DB_HOST: db
+  #   depends_on:
+  #     - db
+  #   profiles: ['app']
   s3:
     container_name: potentiel_s3
     image: quay.io/minio/minio

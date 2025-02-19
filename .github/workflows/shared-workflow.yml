@@ -76,7 +76,7 @@ jobs:
   verify_statistics:
     runs-on: ubuntu-latest
     env:
-      EVENT_STORE_CONNECTION_STRING: postgres://potadmindb:localpwd@localhost:5432/potentiel
+      EVENT_STORE_CONNECTION_STRING: postgres://postgres_admin:password@localhost:5432/potentiel
 
     steps:
       - uses: actions/checkout@v4

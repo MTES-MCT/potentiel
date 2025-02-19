@@ -87,7 +87,7 @@ Vous trouverez ci-dessous une description du fonctionnement de l'ensemble des sc
 #### `up`
 
 - **Description**: Démarre les services définis dans le fichier `docker-compose` avec le profil `app`, et attend que la base de données soit prête avant de continuer.
-- **Commande**: `docker compose --profile app up -d && until docker exec potentiel_db pg_isready -U potadmindb -d potentiel; do sleep 1; done`
+- **Commande**: `docker compose --profile app up -d && until docker exec potentiel_db pg_isready -U postgres_admin -d potentiel; do sleep 1; done`
 
 #### `down`
 
