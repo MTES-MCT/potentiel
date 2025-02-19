@@ -16,7 +16,9 @@ export default function SignIn() {
   const params = useSearchParams();
   const { status, data } = useSession();
   const callbackUrl = params.get('callbackUrl') ?? Routes.Auth.redirectToDashboard();
-  const proConnectActivated = params.get('proconnect') ?? false;
+  const proConnectActivated =
+    params.get('proconnect') ??
+    process.env.NEXT_PUBLIC_FLAGS_PROCONNECT_ACTIVATED?.toLowerCase() === 'true';
 
   useEffect(() => {
     switch (status) {

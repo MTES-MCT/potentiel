@@ -7,8 +7,10 @@ import { getProviderConfiguration } from './getProviderConfiguration';
 let openIdIssuerPromise: Promise<Issuer<BaseClient>>;
 let jwksPromise: Promise<KeyLike>;
 
-export const getOpenIdClient = async () => {
-  const provider = await getCurrentProvider();
+export const getOpenIdClient = async (provider?: string) => {
+  if (!provider) {
+    provider = await getCurrentProvider();
+  }
 
   const { Client } = await getOpenIdIssuer(provider);
   const { clientId, clientSecret } = getProviderConfiguration(provider);
