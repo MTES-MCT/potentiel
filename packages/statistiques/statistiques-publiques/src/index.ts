@@ -42,6 +42,10 @@ import {
   cleanNombreTotalDemande,
   computeNombreTotalDemande,
 } from './projet/nombreTotalDemande.statistic';
+import {
+  cleanNombreDeDemandeParCategorie,
+  computeNombreDeDemandeParCategorie,
+} from './projet/nombreDeDemandeParCategorie.statistic';
 
 export const cleanStatistiquesPubliques = async () => {
   await cleanNombreTotalProjet();
@@ -55,6 +59,7 @@ export const cleanStatistiquesPubliques = async () => {
   await cleanPourcentageDCRDéposées();
   await cleanPourcentagePTFDéposées();
   await cleanNombreTotalDemande();
+  await cleanNombreDeDemandeParCategorie();
 };
 
 export const computeStatistiquesPubliques = async () => {
@@ -69,4 +74,5 @@ export const computeStatistiquesPubliques = async () => {
   await computePourcentageDCRDéposées();
   await computePourcentagePTFDéposées();
   await computeNombreTotalDemande();
+  await computeNombreDeDemandeParCategorie();
 };
