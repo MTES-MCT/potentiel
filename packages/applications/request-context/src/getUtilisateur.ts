@@ -60,24 +60,6 @@ export async function getUtilisateur(req: IncomingMessage, res: ServerResponse) 
   }
 }
 
-export async function getUtilisateurFromProvider(
-  provider: string,
-  email: string | null | undefined,
-  access_token: string,
-): Promise<PlainType<Utilisateur.ValueType> | undefined> {
-  try {
-    if (provider === 'proconnect') {
-      return await getUtilisateurFromEmail(email ?? '');
-    }
-
-    return await getUtilisateurFromAccessToken(access_token);
-  } catch (e) {
-    getLogger('Auth').error(
-      new Error("Impossible de convertir l'accessToken en Utilisateur", { cause: e }),
-    );
-  }
-}
-
 export const getUtilisateurFromAccessToken = async (
   accessToken: string,
 ): Promise<PlainType<Utilisateur.ValueType>> => {

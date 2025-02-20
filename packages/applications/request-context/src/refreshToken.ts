@@ -4,12 +4,11 @@ import { InvalidOperationError } from '@potentiel-domain/core';
 import { getLogger } from '@potentiel-libraries/monitoring';
 
 import { getOpenIdClient } from './openid';
-import { getUtilisateurFromProvider } from './getUtilisateur';
 
 const logger = getLogger('Auth');
 
 export async function refreshToken(token: JWT): Promise<JWT> {
-  const { sub, provider = '', email, expiresAt } = token;
+  const { sub, provider = '', expiresAt } = token;
 
   if (expiresAt && isTokenUpToDate(expiresAt)) {
     return token;
@@ -23,9 +22,7 @@ export async function refreshToken(token: JWT): Promise<JWT> {
   }
 
   try {
-    const { accessToken, expiresAt, refreshToken } = await refreshAccessToken(token.refreshToken);
-
-    const utilisateur = await getUtilisateurFromProvider(provider, email, accessToken);
+    const { expiresAt, refreshToken } = await refreshAccessToken(token.refreshToken, provider);
 
     logger.debug(`Token refreshed`, { sub, expiresAt: new Date(expiresAt) });
 
@@ -33,7 +30,6 @@ export async function refreshToken(token: JWT): Promise<JWT> {
       ...token,
       expiresAt,
       refreshToken,
-      utilisateur,
     };
   } catch (e) {
     const err = e as { error?: string; error_description?: string };
@@ -51,8 +47,8 @@ function isTokenUpToDate(expiresAt: number) {
   return expiresAt > Date.now();
 }
 
-async function refreshAccessToken(refreshToken: string) {
-  const client = await getOpenIdClient();
+async function refreshAccessToken(refreshToken: string, provider: string) {
+  const client = await getOpenIdClient(provider);
   const refreshedTokens = await client.refresh(refreshToken);
   if (!refreshedTokens.access_token || !refreshedTokens.expires_in) {
     throw new RefreshTokenError();

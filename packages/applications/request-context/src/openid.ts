@@ -4,7 +4,7 @@ import { getServerSession } from 'next-auth';
 
 import { getProviderConfiguration } from './getProviderConfiguration';
 
-export const getOpenIdClient = async (providerOption?: 'proconnect' | 'keycloak') => {
+export const getOpenIdClient = async (providerOption?: string) => {
   const provider = providerOption ?? (await getCurrentProvider());
 
   const { Client } = await getOpenIdIssuer(provider);
