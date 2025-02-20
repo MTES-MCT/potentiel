@@ -4,10 +4,7 @@ import {
   ConsulterUtilisateurReadModel,
 } from './consulter/consulterUtilisateur.query';
 import { ListerUtilisateursQuery, ListerUtilisateursPort } from './lister/listerUtilisateurs.query';
-import {
-  TrouverUtilisateurPort,
-  TrouverUtilisateurQuery,
-} from './trouver/trouverUtilisateur.query';
+import { TrouverUtilisateurQuery } from './trouver/trouverUtilisateur.query';
 import {
   VérifierAccèsProjetQuery,
   VérifierAccèsProjetPort,
@@ -37,12 +34,7 @@ export {
 export * from './register';
 
 // Port
-export {
-  ListerUtilisateursPort,
-  RécupérerUtilisateurPort,
-  VérifierAccèsProjetPort,
-  TrouverUtilisateurPort,
-};
+export { ListerUtilisateursPort, RécupérerUtilisateurPort, VérifierAccèsProjetPort };
 export * from './utilisateur.port';
 
 // Entity
