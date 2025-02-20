@@ -36,10 +36,8 @@ let databaseOptions: Options = {
 
 if (APPLICATION_STAGE === 'test') {
   databaseOptions = {
+    ...databaseOptions,
     dialect: 'postgres',
-    host: 'localhost',
-    username: 'potentiel',
-    database: 'potentiel',
     port: 5433,
     logging: false,
     pool: {
