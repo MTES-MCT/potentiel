@@ -37,13 +37,7 @@ export const authOptions: AuthOptions = {
     maxAge: parseInt(process.env.SESSION_MAX_AGE ?? String(OneHourInSeconds)),
   },
   events: {
-    signIn: async ({
-      user: {
-        identifiantUtilisateur: { email },
-      },
-    }) => {
-      await ajouterStatistiqueConnexion(email ?? '');
-    },
+    signIn: ({ user, account }) => ajouterStatistiqueConnexion(user, account?.provider ?? ''),
   },
   callbacks: {
     signIn({ account, user }) {

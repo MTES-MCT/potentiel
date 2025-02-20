@@ -1,9 +1,8 @@
 import { Message, mediator } from 'mediateur';
 
-import { Role } from '@potentiel-domain/utilisateur';
 import { getLogger } from '@potentiel-libraries/monitoring';
-
-import { getUtilisateurFromEmail } from './getUtilisateur';
+import { PlainType } from '@potentiel-domain/core';
+import { Role, Utilisateur } from '@potentiel-domain/utilisateur';
 
 type AjouterStatistique = Message<
   'System.Statistiques.AjouterStatistique',
@@ -13,19 +12,21 @@ type AjouterStatistique = Message<
       utilisateur: {
         role: Role.RawType;
       };
+      provider: string;
     };
   }
 >;
 
-export async function ajouterStatistiqueConnexion(email: string) {
+export async function ajouterStatistiqueConnexion(
+  utilisateur: PlainType<Utilisateur.ValueType>,
+  provider: string,
+) {
   try {
-    const utilisateur = await getUtilisateurFromEmail(email);
-
     await mediator.send<AjouterStatistique>({
       type: 'System.Statistiques.AjouterStatistique',
       data: {
         type: 'connexionUtilisateur',
-        données: { utilisateur: { role: utilisateur.role.nom } },
+        données: { utilisateur: { role: utilisateur.role.nom }, provider },
       },
     });
   } catch (e) {
