@@ -22,8 +22,6 @@ export default async function SignOut() {
     return redirect(BASE_URL);
   }
 
-  console.log(`SignOut Page : ${session}`);
-
   const callbackUrl =
     session.idToken &&
     (await getLogoutUrl({
