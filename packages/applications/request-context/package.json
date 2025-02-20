@@ -9,6 +9,7 @@
     "build": "tsc"
   },
   "dependencies": {
+    "@potentiel-applications/routes": "*",
     "@potentiel-libraries/monads": "*",
     "@potentiel-domain/common": "*",
     "@potentiel-domain/utilisateur": "*",

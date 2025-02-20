@@ -2,6 +2,9 @@ import { AuthOptions } from 'next-auth';
 import KeycloakProvider from 'next-auth/providers/keycloak';
 
 import { getLogger } from '@potentiel-libraries/monitoring';
+import { Role } from '@potentiel-domain/utilisateur';
+import { PlainType } from '@potentiel-domain/core';
+import { Routes } from '@potentiel-applications/routes';
 
 import { getProviderConfiguration } from './getProviderConfiguration';
 import { refreshToken } from './refreshToken';
@@ -44,7 +47,19 @@ export const authOptions: AuthOptions = {
     },
   },
   callbacks: {
-    // Stores user data and idToken to the next-auth cookie
+    signIn({ account, user }) {
+      if (account?.provider === 'proconnect' && !canConnectWIthProConnect(user.role)) {
+        getLogger('Auth').info(`User try to connect with ProConnect but is not authorized yet`, {
+          user,
+        });
+        const url = Routes.Auth.signIn({ proConnectNotAvailableForUser: true });
+        console.log(`URL ${url}`);
+
+        return url;
+      }
+
+      return true;
+    },
     jwt({ token, trigger, account, user }) {
       if (trigger === 'signIn' && account && user) {
         const { sub, expires_at = 0, provider } = account;
@@ -78,4 +93,9 @@ export const authOptions: AuthOptions = {
       }
     },
   },
+};
+
+const canConnectWIthProConnect = (role: PlainType<Role.ValueType>) => {
+  const roleValueType = Role.bind(role);
+  return roleValueType.estÉgaleÀ(Role.admin) || roleValueType.estÉgaleÀ(Role.dreal);
 };

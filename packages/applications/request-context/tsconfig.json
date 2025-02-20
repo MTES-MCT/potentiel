@@ -6,6 +6,9 @@
   },
   "references": [
     {
+      "path": "../../applications/routes"
+    },
+    {
       "path": "../../domain/utilisateur"
     }
   ]

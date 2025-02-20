@@ -16,9 +16,11 @@ export default function SignIn() {
   const params = useSearchParams();
   const { status, data } = useSession();
   const callbackUrl = params.get('callbackUrl') ?? Routes.Auth.redirectToDashboard();
-  const proConnectActivated =
-    params.get('proconnect') ??
+  const showProConnect =
+    params.get('showProConnect') ??
     process.env.NEXT_PUBLIC_FLAGS_PROCONNECT_ACTIVATED?.toLowerCase() === 'true';
+
+  const proConnectNotAvailableForUser = params.get('proConnectNotAvailableForUser') ?? false;
 
   useEffect(() => {
     switch (status) {
@@ -33,16 +35,22 @@ export default function SignIn() {
         break;
 
       case 'unauthenticated':
-        if (!proConnectActivated) {
-          signIn('keycloak', { callbackUrl });
+        if (!showProConnect || proConnectNotAvailableForUser) {
+          setTimeout(() => signIn('keycloak', { callbackUrl }), 2000);
         }
+
         break;
     }
   }, [status, callbackUrl, data]);
 
   return (
     <PageTemplate>
-      {proConnectActivated ? (
+      {proConnectNotAvailableForUser ? (
+        <div className="font-bold text-2xl">
+          Vous n'êtes pas autorisé à utiliser ce mode d'authentification. Nous vous redirigeons vers
+          le mode de connexion classique. Veuillez patienter ...
+        </div>
+      ) : showProConnect ? (
         <>
           <Heading1>Identifiez-vous</Heading1>
           <div className="flex flex-col items-center gap-6 mt-12 md:mt-20">
@@ -71,7 +79,7 @@ export default function SignIn() {
           </div>
         </>
       ) : (
-        'Authentification en cours ...'
+        <div className="font-bold text-2xl">Authentification en cours ...</div>
       )}
     </PageTemplate>
   );
