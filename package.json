@@ -14,7 +14,7 @@
   "scripts": {
     "prepare": "husky",
     "start": "npm run start --workspaces --if-present ",
-    "up": "./scripts/up.sh",
+    "up": "./.database/up.sh",
     "down": "docker compose  --profile app down --remove-orphans",
     "prestart:legacy": "npm run build && npm run up",
     "start:legacy": "npm run start -w @potentiel-applications/legacy",
@@ -26,7 +26,7 @@
     "lint:fix": "eslint . --fix",
     "format": "npm run format --workspaces --if-present",
     "storybook:documents": "npm run storybook build -w @potentiel-applications/document-builder",
-    "up:test": "./scripts/up-test.sh",
+    "up:test": "./.database/up-test.sh",
     "down:test": "docker compose --profile test down --remove-orphans",
     "pretest": "npm run down:test && npm run up:test",
     "pretest:legacy": "turbo run build --filter=@potentiel-applications/legacy^... && npm run pretest",
