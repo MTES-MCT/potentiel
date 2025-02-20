@@ -597,4 +597,31 @@ describe('listProjection', () => {
 
     actual.items.should.have.deep.members(expectedItems);
   });
+
+  it('should find projections with joined projection and where clause matching results', async () => {
+    const expected = mapToListResultItems([fakeData[0]]);
+    const expectedItems = expected.items.map((item) => ({
+      ...item,
+      [category2]: {
+        moreData2: joinProjectionFakeData.moreData2,
+      },
+    }));
+
+    const actual = await listProjection<FakeProjection, FakeProjection2>(category, {
+      join: { key: 'data.value', projection: category2, where: { moreData2: Where.equal('foo') } },
+    });
+
+    actual.items.length.should.eq(1);
+    actual.should.have.all.keys(Object.keys(expected));
+
+    actual.items.should.have.deep.members(expectedItems);
+  });
+
+  it('should find projections with joined projection and where clause matching no results', async () => {
+    const actual = await listProjection<FakeProjection, FakeProjection2>(category, {
+      join: { key: 'data.value', projection: category2, where: { moreData2: Where.equal('bar') } },
+    });
+
+    actual.items.length.should.eq(0);
+  });
 });

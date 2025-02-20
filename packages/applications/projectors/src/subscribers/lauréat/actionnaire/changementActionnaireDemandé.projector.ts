@@ -33,7 +33,6 @@ export const changementActionnaireDemandéProjector = async ({
     `changement-actionnaire|${identifiantProjet}#${demandéLe}`,
     {
       identifiantProjet,
-      projet: projectionToUpsert.projet,
       demande: {
         statut: Actionnaire.StatutChangementActionnaire.demandé.statut,
         nouvelActionnaire: actionnaire,

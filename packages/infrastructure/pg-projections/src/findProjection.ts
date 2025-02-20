@@ -21,7 +21,6 @@ export const findProjection = async <TEntity extends Entity, TJoin extends Entit
   const fromClause = baseFindClause + (join ? getJoinClause<TEntity>(join) : '');
 
   const find = format(`${selectClause} ${fromClause} ${whereClause}`);
-  console.log({ find });
 
   const result = await executeSelect<KeyValuePair<TEntity> & { join_value?: string }>(find, id);
 

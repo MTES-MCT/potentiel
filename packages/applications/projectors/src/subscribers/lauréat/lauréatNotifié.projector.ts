@@ -1,12 +1,18 @@
 import { Lauréat } from '@potentiel-domain/laureat';
+import { IdentifiantProjet } from '@potentiel-domain/common';
 
 import { upsertProjection } from '../../infrastructure';
 
 export const lauréatNotifiéV1Projector = async ({
   payload: { identifiantProjet, notifiéLe, notifiéPar },
-}: Lauréat.LauréatNotifiéV1Event) =>
+}: Lauréat.LauréatNotifiéV1Event) => {
+  const { appelOffre, période, famille } =
+    IdentifiantProjet.convertirEnValueType(identifiantProjet);
   await upsertProjection<Lauréat.LauréatEntity>(`lauréat|${identifiantProjet}`, {
     identifiantProjet,
+    appelOffre,
+    période,
+    famille,
     notifiéLe,
     notifiéPar,
 
@@ -21,14 +27,21 @@ export const lauréatNotifiéV1Projector = async ({
       région: '!! VALEUR MANQUANTE !!',
     },
   });
+};
 
 export const lauréatNotifiéProjector = async ({
   payload: { identifiantProjet, notifiéLe, notifiéPar, nomProjet, localité },
-}: Lauréat.LauréatNotifiéEvent) =>
+}: Lauréat.LauréatNotifiéEvent) => {
+  const { appelOffre, période, famille } =
+    IdentifiantProjet.convertirEnValueType(identifiantProjet);
   await upsertProjection<Lauréat.LauréatEntity>(`lauréat|${identifiantProjet}`, {
     identifiantProjet,
+    appelOffre,
+    période,
+    famille,
     notifiéLe,
     notifiéPar,
     nomProjet,
     localité,
   });
+};

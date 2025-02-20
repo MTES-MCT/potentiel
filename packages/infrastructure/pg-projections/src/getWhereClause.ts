@@ -1,21 +1,28 @@
 import format from 'pg-format';
+import { match } from 'ts-pattern';
 
 import { Entity, WhereOperator, WhereOptions } from '@potentiel-domain/entity';
 import { flatten } from '@potentiel-libraries/flat';
 
 type Condition = { name: string; value?: unknown; operator: WhereOperator };
 
-// Build the SQL WHERE clause and the array of values based on input filters
-// the returned SQL clause uses $3, $4... instead of variables to prevent SQL injection
-// NB: $1 is already used by the key of the projection (see methods calling `getWhereClause`)
+/**
+  Build the SQL WHERE clause and the array of values based on input filters
+  the returned SQL clause uses $3, $4... instead of variables to prevent SQL injection
+  NB: $1 is already used by the key of the projection (see methods calling `getWhereClause`)
+  @param projection can be used to differentiate which projection to filter
+  @param startIndex can be used to shift the index of variables, if multiple where clause are combined
+*/
 export const getWhereClause = <TEntity extends Entity>(
   where: WhereOptions<Omit<TEntity, 'type'>>,
+  projection?: string,
+  startIndex = 0,
 ): [clause: string, values: Array<unknown>] => {
   const rawWhere = flatten<typeof where, Record<string, unknown>>(where);
   const conditions = mapToConditions(rawWhere);
   const [sqlClause] = conditions.reduce(
     ([prevSql, prevIndex], { operator, name }) => {
-      const [newSql, newIndex] = mapOperatorToSqlCondition(operator, prevIndex);
+      const [newSql, newIndex] = mapOperatorToSqlCondition(operator, prevIndex, projection);
       // format the query to safely pass the parameter name (%L)
       const formattedNewSql = format(newSql, name);
       return [prevSql.concat(' ', formattedNewSql), newIndex] as [string, number];
@@ -23,7 +30,7 @@ export const getWhereClause = <TEntity extends Entity>(
     // we offset by 2 the index of the sql variable to account for:
     // - the index starting at 1 and not 0
     // - the key always being the first where condition
-    ['', 2] as [string, number],
+    ['', 2 + startIndex] as [string, number],
   );
   return [sqlClause, conditions.map(({ value }) => value).filter((value) => value !== undefined)];
 };
@@ -58,33 +65,20 @@ const mapToConditions = (flattenWhere: Record<string, unknown>): Array<Condition
 const mapOperatorToSqlCondition = (
   operator: WhereOperator,
   index: number,
+  projection?: string,
 ): [clause: string, variableIndex: number] => {
-  const baseCondition = 'and value->>%L';
-  switch (operator) {
-    case 'equal':
-      return [`${baseCondition} = $${index}`, index + 1];
-    case 'notEqual':
-      return [`${baseCondition} <> $${index}`, index + 1];
-    case 'like':
-      return [`${baseCondition} ILIKE $${index}`, index + 1];
-    case 'notLike':
-      return [`${baseCondition} NOT ILIKE $${index}`, index + 1];
-    case 'include':
-      return [`${baseCondition} = ANY($${index})`, index + 1];
-    case 'notInclude':
-      return [`${baseCondition} <> ALL($${index})`, index + 1];
-    case 'lessOrEqual':
-      return [`${baseCondition} <= $${index}`, index + 1];
-    case 'greaterOrEqual':
-      return [`${baseCondition} >= $${index}`, index + 1];
-    case 'equalNull':
-      return [`${baseCondition} IS NULL`, index];
-    case 'notEqualNull':
-      return [`${baseCondition} IS NOT NULL`, index];
-  }
-  return assertUnreachable(operator);
+  const baseCondition = projection ? format('and %I.value->>%%L', projection) : 'and value->>%L';
+  return match(operator)
+    .returnType<[clause: string, variableIndex: number]>()
+    .with('equal', () => [`${baseCondition} = $${index}`, index + 1])
+    .with('notEqual', () => [`${baseCondition} <> $${index}`, index + 1])
+    .with('like', () => [`${baseCondition} ILIKE $${index}`, index + 1])
+    .with('notLike', () => [`${baseCondition} NOT ILIKE $${index}`, index + 1])
+    .with('include', () => [`${baseCondition} = ANY($${index})`, index + 1])
+    .with('notInclude', () => [`${baseCondition} <> ALL($${index})`, index + 1])
+    .with('lessOrEqual', () => [`${baseCondition} <= $${index}`, index + 1])
+    .with('greaterOrEqual', () => [`${baseCondition} >= $${index}`, index + 1])
+    .with('equalNull', () => [`${baseCondition} IS NULL`, index])
+    .with('notEqualNull', () => [`${baseCondition} IS NOT NULL`, index])
+    .exhaustive();
 };
-
-function assertUnreachable(operator: never): never {
-  throw new Error(`Unknown operator ${operator}`);
-}

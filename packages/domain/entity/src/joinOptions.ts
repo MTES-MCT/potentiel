@@ -1,9 +1,11 @@
 import { Entity } from './entity';
 import { NestedKeys } from './nestedKeys';
+import { WhereOptions } from './whereOptions';
 
 export type JoinOptions<TEntity extends Entity, TJoin extends Entity> = {
   projection: TJoin['type'];
   key: NestedKeys<Omit<TEntity, 'type'>>;
+  where?: WhereOptions<Omit<TJoin, 'type'>>;
 };
 
 export type Joined<TEntity extends Entity | {} = {}> = TEntity extends Entity
