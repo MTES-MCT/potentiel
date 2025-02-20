@@ -26,7 +26,7 @@ describe('countProjection', () => {
   let fakeData: Array<Omit<FakeProjection, 'type'>> = [];
 
   before(() => {
-    process.env.EVENT_STORE_CONNECTION_STRING = 'postgres://testuser@localhost:5433/potentiel_test';
+    process.env.DATABASE_CONNECTION_STRING = 'postgres://testuser@localhost:5433/potentiel_test';
   });
 
   after(async () => {

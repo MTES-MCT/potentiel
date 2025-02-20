@@ -26,7 +26,7 @@ import { dgecEmail } from '../_utils/constant';
 
 [
   'DIRECTORY_PATH',
-  'EVENT_STORE_CONNECTION_STRING',
+  'DATABASE_CONNECTION_STRING',
   'AWS_ACCESS_KEY_ID',
   'AWS_SECRET_ACCESS_KEY',
   'S3_ENDPOINT',

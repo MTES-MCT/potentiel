@@ -7,7 +7,7 @@ import {
 } from '@potentiel-statistiques/statistiques-publiques';
 
 const configSchema = z.object({
-  EVENT_STORE_CONNECTION_STRING: z.string(),
+  DATABASE_CONNECTION_STRING: z.string(),
 });
 
 export default class ExtraireStats extends Command {

@@ -6,6 +6,10 @@ import { Options, Sequelize } from 'sequelize';
 dotenv.config();
 pg.defaults.parseInt8 = true;
 
+if (!process.env.DATABASE_CONNECTION_STRING) {
+  throw new Error('DATABASE_CONNECTION_STRING env variable is not defined');
+}
+
 const getOptionsFromUrl = (url): Options => {
   const { host, port, database, user: username, password } = parse(url);
 
@@ -18,28 +22,12 @@ const getOptionsFromUrl = (url): Options => {
   };
 };
 
-const {
-  POSTGRESQL_ADDON_HOST,
-  POSTGRESQL_ADDON_PORT,
-  POSTGRESQL_ADDON_DB,
-  POSTGRESQL_ADDON_USER,
-  POSTGRESQL_ADDON_PASSWORD,
-  POSTGRESQL_POOL_MAX,
-  APPLICATION_STAGE,
-  DATABASE_URL,
-} = process.env;
+const { POSTGRESQL_POOL_MAX, APPLICATION_STAGE, DATABASE_CONNECTION_STRING } = process.env;
+const options = getOptionsFromUrl(DATABASE_CONNECTION_STRING);
 
 let databaseOptions: Options = {
   dialect: 'postgres',
-  ...(DATABASE_URL
-    ? getOptionsFromUrl(DATABASE_URL)
-    : {
-        host: POSTGRESQL_ADDON_HOST,
-        username: POSTGRESQL_ADDON_USER,
-        password: POSTGRESQL_ADDON_PASSWORD,
-        database: POSTGRESQL_ADDON_DB,
-        port: POSTGRESQL_ADDON_PORT ? +POSTGRESQL_ADDON_PORT : undefined,
-      }),
+  ...options,
   pool: {
     max: Number(POSTGRESQL_POOL_MAX),
   },
