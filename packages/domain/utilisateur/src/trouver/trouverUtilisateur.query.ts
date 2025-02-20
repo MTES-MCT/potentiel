@@ -4,7 +4,7 @@ import { Option } from '@potentiel-libraries/monads';
 
 import { UtilisateurEntity } from '../utilisateur.entity';
 import * as IdentifiantUtilisateur from '../identifiantUtilisateur.valueType';
-import { Role } from '..';
+import { Role, RécupérerUtilisateurPort } from '..';
 
 export type TrouverUtilisateurReadModel = {
   identifiantUtilisateur: IdentifiantUtilisateur.ValueType;
@@ -20,19 +20,15 @@ export type TrouverUtilisateurQuery = Message<
   Option.Type<TrouverUtilisateurReadModel>
 >;
 
-export type TrouverUtilisateurPort = (
-  identifiantUtilisateur: string,
-) => Promise<Option.Type<UtilisateurEntity>>;
-
 export type TrouverUtilisateurDependencies = {
-  trouverUtilisateur: TrouverUtilisateurPort;
+  récupérerUtilisateur: RécupérerUtilisateurPort;
 };
 
 export const registerTrouverUtilisateurQuery = ({
-  trouverUtilisateur,
+  récupérerUtilisateur,
 }: TrouverUtilisateurDependencies) => {
   const handler: MessageHandler<TrouverUtilisateurQuery> = async ({ identifiantUtilisateur }) => {
-    const result = await trouverUtilisateur(identifiantUtilisateur);
+    const result = await récupérerUtilisateur(identifiantUtilisateur);
 
     if (Option.isNone(result)) {
       return result;

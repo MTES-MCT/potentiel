@@ -8,7 +8,6 @@ import {
 export const setupUtilisateur = () => {
   registerUtilisateurQueries({
     récupérerUtilisateur: récupérerUtilisateurAdapter,
-    trouverUtilisateur: récupérerUtilisateurAdapter,
     vérifierAccèsProjet: vérifierAccèsProjetAdapter,
     listerUtilisateurs: listerUtilisateursAdapter,
   });
