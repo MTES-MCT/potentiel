@@ -47,6 +47,8 @@ export const candidatureNotifiéeSchema = z
   })
   .merge(localitéSchema);
 
+const partialCandidatureNotifiéeSchema = candidatureNotifiéeSchema.partial();
+
 export const lauréatSchema = z
   .object({
     actionnaire: sociétéMèreSchema,
@@ -56,17 +58,35 @@ export const lauréatSchema = z
   })
   .merge(localitéSchema);
 
+const partialLauréatSchema = lauréatSchema.partial();
+
 export const identifiantProjetSchema = z.object({
   identifiantProjet: z.string().min(1),
 });
 
 export const modifierLauréatEtCandidatureSchéma = z
-  .object({ candidature: candidatureNotifiéeSchema })
-  .merge(z.object({ laureat: lauréatSchema }))
-  .partial()
+  .object({ candidature: partialCandidatureNotifiéeSchema })
+  .merge(z.object({ laureat: partialLauréatSchema }))
   .merge(identifiantProjetSchema);
 
+type NestedKeys<T> = T extends object
+  ? {
+      [K in keyof T]: K extends string
+        ? T[K] extends object
+          ? `${K}.${NestedKeys<T[K]>}`
+          : `${K}`
+        : never;
+    }[keyof T]
+  : never;
+
 export type ModifierCandidatureNotifiéeFormEntries = z.infer<typeof candidatureNotifiéeSchema>;
-export type ModifierLauréatValueFormEntries = z.infer<typeof lauréatSchema>;
-export type ModifierLauréatKeys = keyof ModifierLauréatValueFormEntries;
+export type PartialModifierCandidatureNotifiéeFormEntries = z.infer<
+  typeof partialCandidatureNotifiéeSchema
+>;
 export type ModifierCandidatureNotifiéeKeys = keyof ModifierCandidatureNotifiéeFormEntries;
+export type ModifierLauréatValueFormEntries = z.infer<typeof lauréatSchema>;
+export type PartialModifierLauréatValueFormEntries = z.infer<typeof partialLauréatSchema>;
+export type ModifierLauréatKeys = keyof ModifierLauréatValueFormEntries;
+export type ModifierLauréatEtCandidatureNotifiéeFormEntries = NestedKeys<
+  z.infer<typeof modifierLauréatEtCandidatureSchéma>
+>;

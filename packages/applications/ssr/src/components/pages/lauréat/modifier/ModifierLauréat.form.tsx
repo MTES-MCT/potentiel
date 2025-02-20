@@ -2,7 +2,7 @@
 'use client';
 
 import Button from '@codegouvfr/react-dsfr/Button';
-import React from 'react';
+import React, { useState } from 'react';
 import Alert from '@codegouvfr/react-dsfr/Alert';
 
 import { Routes } from '@potentiel-applications/routes';
@@ -11,6 +11,9 @@ import { Form } from '@/components/atoms/form/Form';
 import { SubmitButton } from '@/components/atoms/form/SubmitButton';
 import { FormRow } from '@/components/atoms/form/FormRow';
 import { Heading3 } from '@/components/atoms/headings';
+import { ModifierLauréatEtCandidatureNotifiéeFormEntries } from '@/utils/zod/candidature';
+
+import { ValidationErrors } from '../../../../utils/formAction';
 
 import { modifierLauréatAction } from './modifierLauréat.action';
 import { ModifierLauréatPageProps } from './ModifierLauréat.page';
@@ -27,10 +30,17 @@ export const ModifierLauréatForm: React.FC<ModifierLauréatFormProps> = ({
   lauréat,
   projet,
 }) => {
+  const [validationErrors, setValidationErrors] = useState<
+    ValidationErrors<ModifierLauréatEtCandidatureNotifiéeFormEntries>
+  >({});
+
+  console.log('validations', validationErrors);
+
   return (
     <Form
       action={modifierLauréatAction}
       heading="Modifier le lauréat"
+      onValidationError={setValidationErrors}
       pendingModal={{
         id: 'form-modifier-lauréat',
         title: 'Modifier le lauréat',
@@ -57,10 +67,10 @@ export const ModifierLauréatForm: React.FC<ModifierLauréatFormProps> = ({
           <div className="flex-1">
             <Heading3>Champs à modifier</Heading3>
           </div>
-          <div className="flex-1">
+          <div className="flex-[2] text-center">
             <Heading3>Valeur à la candidature</Heading3>
           </div>
-          <div className="flex-1">
+          <div className="flex-[2] text-center">
             <Heading3>Valeur actuelle (lauréat)</Heading3>
           </div>
         </FormRow>
@@ -136,8 +146,8 @@ export const ModifierLauréatForm: React.FC<ModifierLauréatFormProps> = ({
               small
               description={
                 <div className="p-3">
-                  Pour modifier ce champs pour le projet avant la migration de puissance,
-                  rendez-vous sur le formulaire de modification de puissance.
+                  Modifier directement ce champs pour le projet est temporairement impossible pour
+                  un admin
                 </div>
               }
             />

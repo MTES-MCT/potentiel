@@ -15,7 +15,7 @@ export const PuissanceALaPointeField = ({ puissanceALaPointe }: Props) => (
       {
         label: 'Engagement de fourniture de puissance à la pointe',
         nativeInputProps: {
-          name: 'puissanceALaPointe',
+          name: 'candidature.puissanceALaPointe',
           value: 'true',
           defaultChecked: puissanceALaPointe,
         },
