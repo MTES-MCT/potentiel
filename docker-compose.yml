@@ -93,7 +93,7 @@ services:
     environment:
       - POSTGRES_USER=postgres_admin
       - POSTGRES_PASSWORD=postgres_password
-      - POSTGRES_MULTIPLE_DATABASES=potentiel
+      - POSTGRES_MULTIPLE_DATABASES=potentiel,metabase
       - POSTGRES_HOST_AUTH_METHOD=trust
     restart: always
     ports:

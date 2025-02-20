@@ -152,7 +152,7 @@ Vous trouverez ci-dessous une description du fonctionnement de l'ensemble des sc
 #### `up:test`
 
 - **Description**: Lance les services Docker nécessaires pour les tests avec le profil `test` et attend que la base de données soit prête.
-- **Commande**: `docker compose --profile test up -d && until docker exec potentiel_db_tests_integration pg_isready -U testuser -d potentiel_test; do sleep 1; done`
+- **Commande**: `docker compose --profile test up -d && until docker exec potentiel_db_tests_integration pg_isready -U potentiel -d potentiel; do sleep 1; done`
 
 #### `down:test`
 

@@ -38,8 +38,8 @@ if (APPLICATION_STAGE === 'test') {
   databaseOptions = {
     dialect: 'postgres',
     host: 'localhost',
-    username: 'testuser',
-    database: 'potentiel_test',
+    username: 'potentiel',
+    database: 'potentiel',
     port: 5433,
     logging: false,
     pool: {

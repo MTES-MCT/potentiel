@@ -8,10 +8,9 @@ ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT SELECT, INSERT, UPDATE, DELETE O
 
 
 -- Sequences (Legacy)
-GRANT USAGE, SELECT, UPDATE ON SEQUENCE public.statistiquesUtilisation_id_seq TO potentiel;
-GRANT USAGE, SELECT, UPDATE ON SEQUENCE public.taches_id_seq TO potentiel;
-GRANT USAGE, SELECT, UPDATE ON SEQUENCE public.userDreals_id_seq TO potentiel;
-
+GRANT USAGE, SELECT, UPDATE ON SEQUENCE "public"."statistiquesUtilisation_id_seq" TO potentiel;
+GRANT USAGE, SELECT, UPDATE ON SEQUENCE "public"."taches_id_seq" TO potentiel;
+GRANT USAGE, SELECT, UPDATE ON SEQUENCE "public"."userDreals_id_seq" TO potentiel;
 
 -- Event Store
 GRANT USAGE ON SCHEMA event_store TO potentiel;
