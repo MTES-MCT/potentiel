@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import Button from '@codegouvfr/react-dsfr/Button';
+import Input from '@codegouvfr/react-dsfr/Input';
 
 import { CommunePicker } from '@/components/molecules/CommunePicker';
 import { FormRow } from '@/components/atoms/form/FormRow';
@@ -17,6 +18,9 @@ export const LocalitéField = ({ candidature, lauréat }: LocalitéField) => {
   return (
     <div className="flex flex-col w-full mt-0">
       <FormRow>
+        <CommuneField candidature={candidature} lauréat={lauréat} />
+      </FormRow>
+      <FormRow>
         <ProjectField
           candidature={candidature.adresse1}
           lauréat={lauréat.adresse1.currentValue}
@@ -32,22 +36,6 @@ export const LocalitéField = ({ candidature, lauréat }: LocalitéField) => {
           estEnCoursDeModification={lauréat.adresse2.estEnCoursDeModification}
           label="Adresse 2"
           name="adresse2"
-        />
-      </FormRow>
-      <FormRow>
-        <CommuneField candidature={candidature} lauréat={lauréat} />
-      </FormRow>
-      <FormRow>
-        <ProjectField
-          candidature={candidature.codePostal}
-          lauréat={lauréat.codePostal.currentValue}
-          estEnCoursDeModification={lauréat.codePostal.estEnCoursDeModification}
-          label="Code Postal"
-          name="codePostal"
-          nativeInputProps={{
-            minLength: 5,
-            maxLength: 5,
-          }}
         />
       </FormRow>
     </div>
@@ -68,6 +56,7 @@ const CommuneField = ({ candidature, lauréat }: LocalitéField) => {
     region: lauréat.region.currentValue,
   });
   const [linked, setLinked] = useState(candidatureCommune === lauréatCommune);
+
   const onButtonClick = () => {
     setLinked((l) => !l);
     setLauréatCommune(candidatureCommune);
@@ -75,39 +64,75 @@ const CommuneField = ({ candidature, lauréat }: LocalitéField) => {
 
   return (
     <div className="flex flex-row items-center gap-4 w-full">
-      <div className="flex-1 font-semibold">Commune</div>
-      <div className="flex-1 flex ">
-        <CommunePicker
-          defaultValue={candidatureCommune}
-          label=""
-          nativeInputProps={{
-            required: true,
-            'aria-required': true,
-          }}
-          onSelected={(commune) => {
-            if (commune) {
-              setCandidatureCommune(commune);
-              if (linked) {
-                setLauréatCommune(commune);
+      <div className="flex-1 font-semibold">Commune / Code Postal</div>
+      <div className="flex-[2] flex flex-row gap-2 px-2">
+        <div className="flex-[4]">
+          <CommunePicker
+            defaultValue={candidatureCommune}
+            label=""
+            nativeInputProps={{
+              required: true,
+              'aria-required': true,
+            }}
+            onSelected={(commune) => {
+              if (commune) {
+                setCandidatureCommune(commune);
+                if (linked) {
+                  setLauréatCommune(commune);
+                }
               }
-            }
-          }}
+            }}
+          />
+        </div>
+        <div className="flex-1">
+          <Input
+            label=""
+            className="w-fit"
+            nativeInputProps={{
+              value: candidatureCommune.codePostal,
+              onChange: (e) => {
+                setCandidatureCommune((c) => ({ ...c, codePostal: e.target.value }));
+                if (linked) {
+                  setLauréatCommune((c) => ({ ...c, codePostal: e.target.value }));
+                }
+              },
+              required: true,
+              'aria-required': true,
+              minLength: 5,
+              maxLength: 5,
+            }}
+          />
+        </div>
+        <input
+          type="hidden"
+          value={candidatureCommune.codePostal}
+          name="candidature.codePostal"
+          disabled={candidatureCommune.codePostal === candidature.codePostal}
         />
-        <input type="hidden" value={candidatureCommune.commune} name="candidature.commune" />
-        {/* {validationErrors['commune']} */}
+        <input
+          type="hidden"
+          value={candidatureCommune.commune}
+          name="candidature.commune"
+          disabled={candidatureCommune.commune === candidature.commune}
+        />
         <input
           type="hidden"
           value={candidatureCommune.departement}
           name="candidature.departement"
+          disabled={candidatureCommune.region === candidature.region}
         />
-        {/* {validationErrors['departement']} */}
-        <input type="hidden" value={candidatureCommune.region} name="candidature.region" />
-        {/* {validationErrors['region']} */}
+        <input
+          type="hidden"
+          value={candidatureCommune.region}
+          name="candidature.region"
+          disabled={candidatureCommune.departement === candidature.departement}
+        />
       </div>
-      <div className="flex-1 flex flex-row gap-2 items-center">
-        <div className="flex-1 flex ">
+      <div className="flex-[2] flex flex-row gap-2 px-2">
+        <div className="flex-[2]">
           <CommunePicker
             defaultValue={lauréatCommune}
+            value={linked ? candidatureCommune : undefined}
             label=""
             nativeInputProps={{
               required: true,
@@ -121,6 +146,25 @@ const CommuneField = ({ candidature, lauréat }: LocalitéField) => {
                 }
               }
             }}
+          />
+        </div>
+        <div className="flex-1">
+          <Input
+            label=""
+            className="w-fit"
+            nativeInputProps={{
+              value: lauréatCommune.codePostal,
+              onChange: (e) => {
+                setLauréatCommune((c) => ({ ...c, codePostal: e.target.value }));
+                if (linked) {
+                  setCandidatureCommune((c) => ({ ...c, codePostal: e.target.value }));
+                }
+              },
+              required: true,
+              'aria-required': true,
+              minLength: 5,
+              maxLength: 5,
+            }}
             addon={
               <Button
                 type="button"
@@ -131,28 +175,31 @@ const CommuneField = ({ candidature, lauréat }: LocalitéField) => {
               />
             }
           />
-          <input
-            type="hidden"
-            value={lauréatCommune.commune}
-            disabled={lauréatCommune.commune === lauréat.commune.currentValue}
-            name="laureat.commune"
-          />
-          {/* {validationErrors['commune']} */}
-          <input
-            type="hidden"
-            value={lauréatCommune.departement}
-            disabled={lauréatCommune.departement === lauréat.departement.currentValue}
-            name="laureat.departement"
-          />
-          {/* {validationErrors['departement']} */}
-          <input
-            type="hidden"
-            value={lauréatCommune.region}
-            disabled={lauréatCommune.region === lauréat.region.currentValue}
-            name="laureat.region"
-          />
-          {/* {validationErrors['region']} */}
         </div>
+        <input
+          type="hidden"
+          value={lauréatCommune.codePostal}
+          name="lauréat.codePostal"
+          disabled={lauréatCommune.codePostal === lauréat.codePostal.currentValue}
+        />
+        <input
+          type="hidden"
+          value={lauréatCommune.commune}
+          name="lauréat.commune"
+          disabled={lauréatCommune.commune === lauréat.commune.currentValue}
+        />
+        <input
+          type="hidden"
+          value={lauréatCommune.departement}
+          name="lauréat.departement"
+          disabled={lauréatCommune.region === lauréat.region.currentValue}
+        />
+        <input
+          type="hidden"
+          value={lauréatCommune.region}
+          name="lauréat.region"
+          disabled={lauréatCommune.departement === lauréat.departement.currentValue}
+        />
       </div>
     </div>
   );

@@ -1,7 +1,7 @@
 'use server';
 
-import * as zod from 'zod';
 import { mediator } from 'mediateur';
+import { notFound } from 'next/navigation';
 
 import { Candidature } from '@potentiel-domain/candidature';
 import { Routes } from '@potentiel-applications/routes';
@@ -14,9 +14,9 @@ import { FormAction, formAction, FormState } from '@/utils/formAction';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 import { getCandidature } from '@/app/candidatures/_helpers/getCandidature';
 import {
-  candidatureNotifiéeSchema,
-  lauréatSchema,
   modifierLauréatEtCandidatureSchéma,
+  PartialModifierCandidatureNotifiéeFormEntries,
+  PartialModifierLauréatValueFormEntries,
 } from '@/utils/zod/candidature';
 
 export type CorrigerCandidaturesState = FormState;
@@ -34,7 +34,7 @@ const action: FormAction<FormState, typeof schema> = async (_, body) =>
       };
     }
 
-    if (candidature && !laureat) {
+    if (candidature) {
       const candidatureACorriger = await getCandidature(identifiantProjet);
 
       await mediator.send<Candidature.CorrigerCandidatureUseCase>({
@@ -73,29 +73,30 @@ const action: FormAction<FormState, typeof schema> = async (_, body) =>
           getLogger().error("Aucun représentant légal n'a été trouvé pour le lauréat", {
             identifiantProjet,
           });
-        } else {
-          await mediator.send<ReprésentantLégal.ModifierReprésentantLégalUseCase>({
-            type: 'Lauréat.ReprésentantLégal.UseCase.ModifierReprésentantLégal',
-            data: {
-              identifiantProjetValue: identifiantProjet,
-              identifiantUtilisateurValue: utilisateur.identifiantUtilisateur.formatter(),
-              dateModificationValue: new Date().toISOString(),
-              nomReprésentantLégalValue: laureat.nomRepresentantLegal,
-              typeReprésentantLégalValue: représentantLégal.typeReprésentantLégal.formatter(),
-            },
-          });
+          return notFound();
         }
+        await mediator.send<ReprésentantLégal.ModifierReprésentantLégalUseCase>({
+          type: 'Lauréat.ReprésentantLégal.UseCase.ModifierReprésentantLégal',
+          data: {
+            identifiantProjetValue: identifiantProjet,
+            identifiantUtilisateurValue: utilisateur.identifiantUtilisateur.formatter(),
+            dateModificationValue: new Date().toISOString(),
+            nomReprésentantLégalValue: laureat.nomRepresentantLegal,
+            typeReprésentantLégalValue: représentantLégal.typeReprésentantLégal.formatter(),
+          },
+        });
       }
 
-      if (
+      const lauréatAEtéModifié =
         laureat.adresse1 ||
         laureat.adresse2 ||
         laureat.nomProjet ||
         laureat.codePostal ||
         laureat.commune ||
         laureat.departement ||
-        laureat.region
-      ) {
+        laureat.region;
+
+      if (lauréatAEtéModifié) {
         const lauréatAModifier = await mediator.send<Lauréat.ConsulterLauréatQuery>({
           type: 'Lauréat.Query.ConsulterLauréat',
           data: {
@@ -107,16 +108,16 @@ const action: FormAction<FormState, typeof schema> = async (_, body) =>
           getLogger().error("Aucun lauréat n'a été trouvé", {
             identifiantProjet,
           });
-        } else {
-          await mediator.send<Lauréat.ModifierLauréatUseCase>({
-            type: 'Lauréat.UseCase.ModifierLauréat',
-            data: {
-              ...mapBodyToLauréatUsecaseData(identifiantProjet, laureat, lauréatAModifier),
-              modifiéLeValue: DateTime.now().formatter(),
-              modifiéParValue: utilisateur.identifiantUtilisateur.formatter(),
-            },
-          });
+          return notFound();
         }
+        await mediator.send<Lauréat.ModifierLauréatUseCase>({
+          type: 'Lauréat.UseCase.ModifierLauréat',
+          data: {
+            ...mapBodyToLauréatUsecaseData(identifiantProjet, laureat, lauréatAModifier),
+            modifiéLeValue: DateTime.now().formatter(),
+            modifiéParValue: utilisateur.identifiantUtilisateur.formatter(),
+          },
+        });
       }
     }
 
@@ -129,11 +130,11 @@ const action: FormAction<FormState, typeof schema> = async (_, body) =>
     };
   });
 
-export const modifierLauréatAction = formAction(action);
+export const modifierLauréatAction = formAction(action, modifierLauréatEtCandidatureSchéma);
 
 const mapBodyToCandidatureUsecaseData = (
   identifiantProjet: string,
-  data: zod.infer<typeof candidatureNotifiéeSchema>,
+  data: PartialModifierCandidatureNotifiéeFormEntries,
   previous: Candidature.ConsulterCandidatureReadModel,
 ): Omit<Candidature.CorrigerCandidatureUseCase['data'], 'corrigéLe' | 'corrigéPar'> => {
   const { appelOffre, période, famille, numéroCRE } =
@@ -180,7 +181,7 @@ const mapBodyToCandidatureUsecaseData = (
 
 const mapBodyToLauréatUsecaseData = (
   identifiantProjet: string,
-  data: zod.infer<typeof lauréatSchema>,
+  data: PartialModifierLauréatValueFormEntries,
   previous: Lauréat.ConsulterLauréatReadModel,
 ): Omit<Lauréat.ModifierLauréatUseCase['data'], 'modifiéLeValue' | 'modifiéParValue'> => {
   return {

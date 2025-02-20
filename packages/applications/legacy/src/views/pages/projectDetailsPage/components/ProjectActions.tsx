@@ -13,7 +13,6 @@ import {
   SecondaryLinkButton,
   DownloadLinkButton,
 } from '../../../components';
-import { IdentifiantProjet } from '@potentiel-domain/common';
 
 type EnregistrerUneModificationProps = {
   project: ProjectDataForProjectPage;
