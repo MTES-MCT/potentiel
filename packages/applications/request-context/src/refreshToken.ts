@@ -22,14 +22,20 @@ export async function refreshToken(token: JWT): Promise<JWT> {
   }
 
   try {
-    const { expiresAt, refreshToken } = await refreshAccessToken(token.refreshToken, provider);
+    const { refreshToken } = token;
+    const client = await getOpenIdClient(provider);
+    const refreshedTokens = await client.refresh(refreshToken);
+    if (!refreshedTokens.access_token || !refreshedTokens.expires_in) {
+      throw new RefreshTokenError();
+    }
 
+    const expiresAt = Date.now() + refreshedTokens.expires_in * 1000;
     logger.debug(`Token refreshed`, { sub, expiresAt: new Date(expiresAt) });
 
     return {
       ...token,
       expiresAt,
-      refreshToken,
+      refreshToken: refreshedTokens.refresh_token ?? refreshToken,
     };
   } catch (e) {
     const err = e as { error?: string; error_description?: string };
@@ -45,19 +51,6 @@ export async function refreshToken(token: JWT): Promise<JWT> {
 
 function isTokenUpToDate(expiresAt: number) {
   return expiresAt > Date.now();
-}
-
-async function refreshAccessToken(refreshToken: string, provider: string) {
-  const client = await getOpenIdClient(provider);
-  const refreshedTokens = await client.refresh(refreshToken);
-  if (!refreshedTokens.access_token || !refreshedTokens.expires_in) {
-    throw new RefreshTokenError();
-  }
-  return {
-    accessToken: refreshedTokens.access_token,
-    expiresAt: Date.now() + refreshedTokens.expires_in * 1000,
-    refreshToken: refreshedTokens.refresh_token ?? refreshToken,
-  };
 }
 
 class RefreshTokenError extends InvalidOperationError {
