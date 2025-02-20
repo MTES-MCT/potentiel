@@ -84,7 +84,7 @@ AfterStep(async function (this: PotentielWorld, { pickleStep, result }) {
 BeforeAll(async () => {
   const logger = createLogger({});
   initLogger(logger);
-  process.env.DATABASE_CONNECTION_STRING = 'postgres://testuser@localhost:5433/potentiel_test';
+  process.env.DATABASE_CONNECTION_STRING = 'postgres://potentiel@localhost:5433/potentiel';
   process.env.S3_ENDPOINT = 'http://localhost:9001';
   process.env.S3_BUCKET = bucketName;
   process.env.AWS_REGION = 'localhost';

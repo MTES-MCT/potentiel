@@ -91,9 +91,10 @@ services:
       - .database/potentiel-dev.dump:/dump/potentiel-dev.dump
       - .database/restore-dev-db.sh:/docker-entrypoint-initdb.d/restore-dev-db.sh
     environment:
+      - POSTGRES_USER=postgres_admin
+      - POSTGRES_PASSWORD=postgres_password
+      - POSTGRES_MULTIPLE_DATABASES=potentiel
       - POSTGRES_HOST_AUTH_METHOD=trust
-      - POSTGRES_USER=testuser
-      - POSTGRES_DB=potentiel_test
     restart: always
     ports:
       - 5433:5432
