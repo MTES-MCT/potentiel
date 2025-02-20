@@ -22,10 +22,10 @@ const getOptionsFromUrl = (url): Options => {
   };
 };
 
-const { POSTGRESQL_POOL_MAX, APPLICATION_STAGE, DATABASE_CONNECTION_STRING } = process.env;
+const { POSTGRESQL_POOL_MAX, DATABASE_CONNECTION_STRING } = process.env;
 const options = getOptionsFromUrl(DATABASE_CONNECTION_STRING);
 
-let databaseOptions: Options = {
+const databaseOptions: Options = {
   dialect: 'postgres',
   ...options,
   pool: {
@@ -33,18 +33,6 @@ let databaseOptions: Options = {
   },
   logging: false,
 };
-
-if (APPLICATION_STAGE === 'test') {
-  databaseOptions = {
-    ...databaseOptions,
-    dialect: 'postgres',
-    port: 5433,
-    logging: false,
-    pool: {
-      max: 2,
-    },
-  };
-}
 
 const sequelizeInstance = new Sequelize(databaseOptions);
 
