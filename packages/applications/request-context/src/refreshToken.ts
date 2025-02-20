@@ -38,6 +38,7 @@ export async function refreshToken(token: JWT): Promise<JWT> {
     } else {
       logger.error(new Error('Failed to refresh token', { cause: (e as Error).message }));
     }
+    return {};
   }
 
   return token;
