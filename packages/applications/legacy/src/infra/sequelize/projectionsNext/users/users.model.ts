@@ -14,4 +14,5 @@ export class User extends Model<InferAttributes<User>, InferCreationAttributes<U
   fonction: CreationOptional<string>;
   état: CreationOptional<États>;
   createdAt: CreationOptional<Date>;
+  disabled: CreationOptional<boolean>;
 }

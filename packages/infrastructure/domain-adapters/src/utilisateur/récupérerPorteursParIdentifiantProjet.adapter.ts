@@ -12,6 +12,7 @@ const selectPorteursProjectQuery = `
     inner join "UserProjects" up on u.id = up."userId" 
     inner join "projects" p on up."projectId" = p.id
     where p."appelOffreId" = $1 and p."periodeId" = $2 and p."numeroCRE" = $3 and p."familleId" = $4
+    and u."disabled" is not true
   ) as u
 `;
 

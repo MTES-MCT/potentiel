@@ -17,6 +17,7 @@ const getEstUnProjetAccessiblePorteurQuery = `
   and   p."numeroCRE" = $3 
   and   p."familleId" = $4
   and   u."email" = $5
+  and   u."disabled" is not true
 `;
 
 const getEstUnProjetAccessibleDrealQuery = `
@@ -30,7 +31,8 @@ const getEstUnProjetAccessibleDrealQuery = `
   and   p."periodeId" = $2 
   and   p."numeroCRE" = $3 
   and   p."familleId" = $4
-  and   u."email" = $5`;
+  and   u."email" = $5
+  and   u."disabled" is not true`;
 
 export const vérifierAccèsProjetAdapter: VérifierAccèsProjetPort = async ({
   identifiantProjetValue,

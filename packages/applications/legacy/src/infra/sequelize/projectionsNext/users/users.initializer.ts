@@ -39,6 +39,10 @@ export const initializeUserModel = (sequelize: Sequelize) => {
         type: DataTypes.ENUM(...étatsUser),
         allowNull: true,
       },
+      disabled: {
+        type: DataTypes.BOOLEAN,
+        allowNull: true,
+      },
 
       createdAt: DataTypes.DATE,
     },

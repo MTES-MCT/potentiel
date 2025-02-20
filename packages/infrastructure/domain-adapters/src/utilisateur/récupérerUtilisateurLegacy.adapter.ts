@@ -14,6 +14,7 @@ const selectUtilisateurQuery = `
   from "users" u
   left join "userDreals" ud on ud."userId" = u."id" 
   where "email" = $1
+  and "disabled" is not true;
 `;
 
 export const récupérerUtilisateurAdapter: RécupérerUtilisateurPort = async (

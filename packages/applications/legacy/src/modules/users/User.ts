@@ -1,7 +1,12 @@
 import { DomainEvent, EventStoreAggregate, UniqueEntityID } from '../../core/domain';
 import { err, ok, Result } from '../../core/utils';
 import { EmailAlreadyUsedError, EntityNotFoundError } from '../shared';
-import { FonctionUtilisateurModifiée, RôleUtilisateurModifié, UserCreated } from './events';
+import {
+  FonctionUtilisateurModifiée,
+  RôleUtilisateurModifié,
+  UserCreated,
+  UtilisateurDésactivé,
+} from './events';
 import { UserRole } from './UserRoles';
 
 export interface User extends EventStoreAggregate {
@@ -16,6 +21,7 @@ export interface User extends EventStoreAggregate {
 type UserProps = {
   email: string;
   userId: string | undefined;
+  disabled?: boolean;
   lastUpdatedOn?: Date;
   role: string | undefined;
   fonction?: string;
@@ -49,6 +55,8 @@ export const makeUser = (args: {
         props.role = event.payload.role;
       case RôleUtilisateurModifié.type:
         props.role = event.payload.role;
+      case UtilisateurDésactivé.type:
+        props.disabled = true;
       case FonctionUtilisateurModifiée.type:
         props.fonction = event.payload.fonction;
       default:
