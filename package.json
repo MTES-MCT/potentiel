@@ -14,7 +14,7 @@
   "scripts": {
     "prepare": "husky",
     "start": "npm run start --workspaces --if-present ",
-    "up": "docker compose --profile app up -d && until docker exec potentiel_db pg_isready -U postgres_admin -d potentiel; do sleep 1; done ",
+    "up": "./scripts/up.sh",
     "down": "docker compose  --profile app down --remove-orphans",
     "prestart:legacy": "npm run build && npm run up",
     "start:legacy": "npm run start -w @potentiel-applications/legacy",
