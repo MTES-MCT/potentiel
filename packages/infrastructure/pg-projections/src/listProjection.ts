@@ -18,25 +18,29 @@ const baseWhereClause = `where p1.key LIKE $1`;
 export const listProjection = async <TEntity extends Entity, TJoin extends Entity | {} = {}>(
   category: TEntity['type'],
   options?: ListOptions<TEntity, TJoin>,
-): Promise<ListResult<TEntity>> => {
+): Promise<ListResult<TEntity & Joined<TJoin>>> => {
   const { orderBy, range, where, join } = options ?? {};
-  const orderByClause = orderBy ? getOrderClause(orderBy) : '';
+  const orderByClause = orderBy ? getOrderClause(orderBy, 'p1') : '';
   const rangeClause = range ? getRangeClause(range) : '';
-  const [whereClause, whereValues] = where ? getWhereClause(where) : ['', []];
+
+  const [whereClause, whereValues] = where ? getWhereClause(where, 'p1') : ['', []];
   const joinSelectClause = join ? `, p2.value as "join_value"` : '';
   const joinClause = join ? getJoinClause<TEntity>(join) : '';
-  const selectQuery = `${baseSelectClause}${joinSelectClause} ${baseFromClause} ${joinClause} ${baseWhereClause}`;
+  const [joinWhereClause, joinWhereValues] = join?.where
+    ? getWhereClause(join.where, 'p2', whereValues.length)
+    : ['', []];
+  const selectQuery = `${baseSelectClause}${joinSelectClause} ${baseFromClause} ${joinClause}`;
+  const completeWhereClause = [baseWhereClause, whereClause, joinWhereClause].join(' ');
 
-  const select = format(`${selectQuery} ${whereClause} ${orderByClause} ${rangeClause}`);
+  const select = format(`${selectQuery}  ${completeWhereClause} ${orderByClause} ${rangeClause}`);
 
   const result = await executeSelect<KeyValuePair<TEntity> & { join_value?: string }>(
     select,
     `${category}|%`,
     ...whereValues,
+    ...joinWhereValues,
   );
-  const total = await countProjection(category, {
-    where,
-  });
+  const total = await countProjection(category, { where });
 
   return {
     total,
