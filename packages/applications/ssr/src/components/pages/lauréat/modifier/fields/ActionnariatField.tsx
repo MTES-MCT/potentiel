@@ -20,8 +20,8 @@ export const ActionnariatField = ({ candidature, isPPE2 }: Props) => {
 
   return (
     <div className="flex flex-row items-center gap-4 w-full">
-      <div className="flex-1 font-semibold">Type d'actionnariat</div>
-      <div className="flex-1 flex ">
+      <div className="flex-1 font-semibold">Type d'actionnariat (optionnel)</div>
+      <div className="flex-[2] flex px-2">
         <input
           name={`candidature.actionnariat`}
           type="hidden"
@@ -29,23 +29,26 @@ export const ActionnariatField = ({ candidature, isPPE2 }: Props) => {
           disabled={candidatureValue === candidature}
         />
         <Select
+          className="w-full"
           label=""
           nativeSelectProps={{
             defaultValue: candidature,
-            required: true,
-            'aria-required': true,
             onChange: (ev) => {
               setCandidatureValue(ev.target.value);
             },
           }}
-          options={typesActionnariat.map((type) => ({
-            value: type,
-            label: getActionnariatTypeLabel(type),
-          }))}
+          options={[
+            { label: 'Aucun', value: '' },
+            ...typesActionnariat.map((type) => ({
+              label: getActionnariatTypeLabel(type),
+              value: type,
+            })),
+          ]}
         />
       </div>
-      <div className="flex-1 flex flex-row gap-2 items-center">
+      <div className="flex-[2] flex px-2">
         <Input
+          className="w-full"
           disabled
           label=""
           nativeInputProps={{

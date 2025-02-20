@@ -17,7 +17,7 @@ export const TechnologieField = ({ candidature }: Props) => {
   return (
     <div className="flex flex-row items-center gap-4 w-full">
       <div className="flex-1 font-semibold">Technologie</div>
-      <div className="flex-1 flex ">
+      <div className="flex-[2] flex px-2">
         <input
           name={`candidature.technologie`}
           type="hidden"
@@ -25,6 +25,7 @@ export const TechnologieField = ({ candidature }: Props) => {
           disabled={candidatureValue === candidature}
         />
         <Select
+          className="w-full"
           label=""
           nativeSelectProps={{
             defaultValue: candidature,
@@ -40,8 +41,9 @@ export const TechnologieField = ({ candidature }: Props) => {
           }))}
         />
       </div>
-      <div className="flex-1 flex flex-row gap-2 items-center">
+      <div className="flex-[2] flex px-2">
         <Input
+          className="w-full"
           disabled
           label=""
           nativeInputProps={{
