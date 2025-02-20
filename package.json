@@ -26,7 +26,7 @@
     "lint:fix": "eslint . --fix",
     "format": "npm run format --workspaces --if-present",
     "storybook:documents": "npm run storybook build -w @potentiel-applications/document-builder",
-    "up:test": "docker compose --profile test up -d && until docker exec potentiel_db_tests_integration pg_isready -U potentiel -d potentiel; do sleep 5; done",
+    "up:test": "./scripts/up-test.sh",
     "down:test": "docker compose --profile test down --remove-orphans",
     "pretest": "npm run down:test && npm run up:test",
     "pretest:legacy": "turbo run build --filter=@potentiel-applications/legacy^... && npm run pretest",
