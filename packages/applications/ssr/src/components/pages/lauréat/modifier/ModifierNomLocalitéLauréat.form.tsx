@@ -123,7 +123,8 @@ export const ModifierNomLocalitéLauréatForm = ({
             label="Code Postal"
             nativeInputProps={{
               name: 'codePostal',
-              defaultValue: commune.codePostal,
+              value: commune.codePostal,
+              onChange: (e) => setCommune((c) => ({ ...c, codePostal: e.target.value })),
               required: true,
               'aria-required': true,
               minLength: 5,
