@@ -5,9 +5,9 @@ import { getLogger } from '@potentiel-libraries/monitoring';
 
 import { getOpenIdClient } from './openid';
 
-const logger = getLogger('Auth');
-
 export async function refreshToken(token: JWT): Promise<JWT> {
+  const logger = getLogger('Auth');
+
   const { sub, provider = '', expiresAt } = token;
 
   if (expiresAt && isTokenUpToDate(expiresAt)) {
