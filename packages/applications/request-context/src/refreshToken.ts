@@ -18,7 +18,7 @@ export async function refreshToken(token: JWT): Promise<JWT> {
 
   if (!token.refreshToken) {
     logger.warn(`no refreshToken available`, { sub });
-    return token;
+    return {};
   }
 
   try {
@@ -38,10 +38,9 @@ export async function refreshToken(token: JWT): Promise<JWT> {
     } else {
       logger.error(new Error('Failed to refresh token', { cause: (e as Error).message }));
     }
+
     return {};
   }
-
-  return token;
 }
 
 function isTokenUpToDate(expiresAt: number) {
