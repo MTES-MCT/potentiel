@@ -2,8 +2,6 @@ import { AuthOptions } from 'next-auth';
 import KeycloakProvider from 'next-auth/providers/keycloak';
 
 import { getLogger } from '@potentiel-libraries/monitoring';
-import { Role } from '@potentiel-domain/utilisateur';
-import { PlainType } from '@potentiel-domain/core';
 import { Routes } from '@potentiel-applications/routes';
 
 import { getProviderConfiguration } from './getProviderConfiguration';
@@ -11,6 +9,7 @@ import { refreshToken } from './refreshToken';
 import ProConnectProvider from './ProConnectProvider';
 import { ajouterStatistiqueConnexion } from './ajouterStatistiqueConnexion';
 import { getUtilisateurFromAccessToken } from './getUtilisateur';
+import { canConnectWithProConnect } from './canConnectWithProConnect';
 
 const OneHourInSeconds = 60 * 60;
 
@@ -48,14 +47,12 @@ export const authOptions: AuthOptions = {
   },
   callbacks: {
     signIn({ account, user }) {
-      if (account?.provider === 'proconnect' && !canConnectWIthProConnect(user.role)) {
+      if (account?.provider === 'proconnect' && !canConnectWithProConnect(user.role)) {
         getLogger('Auth').info(`User try to connect with ProConnect but is not authorized yet`, {
           user,
         });
-        const url = Routes.Auth.signIn({ proConnectNotAvailableForUser: true });
-        console.log(`URL ${url}`);
 
-        return url;
+        return Routes.Auth.signIn({ proConnectNotAvailableForUser: true });
       }
 
       return true;
@@ -93,9 +90,4 @@ export const authOptions: AuthOptions = {
       }
     },
   },
-};
-
-const canConnectWIthProConnect = (role: PlainType<Role.ValueType>) => {
-  const roleValueType = Role.bind(role);
-  return roleValueType.estÉgaleÀ(Role.admin) || roleValueType.estÉgaleÀ(Role.dreal);
 };
