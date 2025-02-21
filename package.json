@@ -14,8 +14,8 @@
   "scripts": {
     "prepare": "husky",
     "start": "npm run start --workspaces --if-present ",
-    "up": "./.database/up.sh",
-    "down": "docker compose  --profile app down --remove-orphans",
+    "up": "./.docker-scripts/up.sh",
+    "down": "./.docker-scripts/down.sh",
     "prestart:legacy": "npm run build && npm run up",
     "start:legacy": "npm run start -w @potentiel-applications/legacy",
     "build": "turbo run build",
@@ -26,8 +26,8 @@
     "lint:fix": "eslint . --fix",
     "format": "npm run format --workspaces --if-present",
     "storybook:documents": "npm run storybook build -w @potentiel-applications/document-builder",
-    "up:test": "./.database/up-test.sh",
-    "down:test": "docker compose --profile test down --remove-orphans",
+    "up:test": "./.docker-scripts/up-test.sh",
+    "down:test": "./.docker-scripts/down-test.sh",
     "pretest": "npm run down:test && npm run up:test",
     "pretest:libraries": "turbo run build --filter=@potentiel-libraries/* --filter=@potentiel-infrastructure/* && npm run pretest",
     "test:libraries": "turbo run test --filter=@potentiel-libraries/* --filter=@potentiel-infrastructure/*",
@@ -36,8 +36,8 @@
     "prespecs:select": "npm run prespecs",
     "specs:select": "npm run test:select -w @potentiel/specifications",
     "version": "npx tsx .github/getPatchVersion.ts",
-    "update:dump": "docker exec -it potentiel_db pg_dump -U potentiel -Fc -b -v -f \"potentiel-dev.dump\" potentiel && docker cp potentiel_db:/potentiel-dev.dump ./.database/potentiel-dev.dump",
-    "update:dump-metabase": "docker exec -it potentiel_db pg_dump -U metabase -Fc -b -v -f \"metabase-dev.dump\" metabase && docker cp potentiel_db:/metabase-dev.dump ./.database/metabase-dev.dump"
+    "update:dump": "./.database/scripts/update-potentiel-dump.sh",
+    "update:dump-metabase": "./.database/scripts/update-metabase-dump.sh"
   },
   "repository": {
     "type": "git",
