@@ -30,8 +30,9 @@ export async function generateMetadata(
 export default async function Page({ params }: PageProps) {
   return PageWithErrorHandling(async () => {
     const identifiantProjet = decodeParameter(params.identifiant);
+    const candidature = await getCandidature(identifiantProjet);
 
-    const props = mapToProps(await getCandidature(identifiantProjet));
+    const props = mapToProps(candidature);
 
     return (
       <CorrigerCandidaturePage
@@ -45,6 +46,7 @@ export default async function Page({ params }: PageProps) {
 type MapToProps = (
   candidature: Candidature.ConsulterCandidatureReadModel,
 ) => CorrigerCandidaturePageProps;
+
 const mapToProps: MapToProps = (candidature) => ({
   candidature: {
     identifiantProjet: candidature.identifiantProjet.formatter(),
