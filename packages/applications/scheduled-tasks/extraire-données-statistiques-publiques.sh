@@ -13,6 +13,7 @@ then
 fi
 
 SENTRY_URL=$(echo "$SENTRY_CRONS" | sed 's|<monitor_slug>|extraire-donnees-statistiques-publiques|')
+MONITORING_URL="$SENTRY_URL?environment=$APPLICATION_STAGE"
 
 handle_error() {
   local message="Error on 'extraire-donnees-statistiques-publiques' script line $1"
