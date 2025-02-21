@@ -9,8 +9,6 @@ import { getContext } from '@potentiel-applications/request-context';
 export async function UserHeaderQuickAccessItem() {
   const utilisateur = getContext()?.utilisateur;
 
-  const accountUrl = `${process.env.KEYCLOAK_SERVER}/realms/${process.env.KEYCLOAK_REALM}/account`;
-
   if (utilisateur) {
     return (
       <>
@@ -30,7 +28,7 @@ export async function UserHeaderQuickAccessItem() {
             quickAccessItem={{
               iconId: 'ri-user-line',
               linkProps: {
-                href: accountUrl,
+                href: utilisateur.accountUrl,
                 prefetch: false,
               },
               text: utilisateur.nom,

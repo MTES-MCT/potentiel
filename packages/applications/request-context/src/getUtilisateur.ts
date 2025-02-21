@@ -14,6 +14,7 @@ import { Option } from '@potentiel-libraries/monads';
 
 import { authOptions } from './authOptions';
 import { getJwks } from './openid';
+import { getProviderAccountUrl } from './getProviderConfiguration';
 
 const parseRequest = (req: IncomingMessage) => {
   const { query } = parse(req.url!, true);
@@ -30,7 +31,13 @@ const parseRequest = (req: IncomingMessage) => {
 async function getUserSession(req: IncomingMessage, res: ServerResponse) {
   const session = await getServerSession(parseRequest(req), res, authOptions);
   if (session?.utilisateur) {
-    return Utilisateur.bind(session?.utilisateur);
+    const utilisateur = Utilisateur.bind(session.utilisateur);
+    const provider = session.provider;
+
+    return {
+      ...utilisateur,
+      accountUrl: getProviderAccountUrl(provider ?? ''),
+    };
   }
 }
 
@@ -52,7 +59,10 @@ export async function getUtilisateur(req: IncomingMessage, res: ServerResponse) 
       return user;
     }
     if (req.url?.startsWith('/api')) {
-      return await getApiUser(req);
+      const apiUser = await getApiUser(req);
+      if (apiUser) {
+        return { ...apiUser, accountUrl: '' };
+      }
     }
   } catch (e) {
     const error = e as Error;

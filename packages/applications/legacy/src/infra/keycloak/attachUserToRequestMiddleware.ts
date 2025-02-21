@@ -8,7 +8,7 @@ import { getContext } from '@potentiel-applications/request-context';
 type AttachUserToRequestMiddlewareDependencies = {
   getUserByEmail: GetUserByEmail;
   createUser: CreateUser;
-  getUtilisateur?: () => Promise<Utilisateur.ValueType | undefined>;
+  getUtilisateur?: () => Promise<(Utilisateur.ValueType & { accountUrl: string }) | undefined>;
 };
 
 declare module 'express-serve-static-core' {
@@ -63,6 +63,7 @@ const makeAttachUserToRequestMiddleware =
         identifiantUtilisateur: { email },
         role: { nom: role },
         nom: fullName,
+        accountUrl,
       } = utilisateur;
 
       const getOrCreateUser = async () => {
@@ -77,7 +78,7 @@ const makeAttachUserToRequestMiddleware =
 
       request.user = {
         ...user,
-        accountUrl: `${process.env.KEYCLOAK_SERVER}/realms/${process.env.KEYCLOAK_REALM}/account`,
+        accountUrl,
         permissions: getPermissions(user),
       };
     } catch (e) {

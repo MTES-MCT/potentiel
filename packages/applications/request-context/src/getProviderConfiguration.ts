@@ -19,3 +19,15 @@ export function getProviderConfiguration(provider: string): {
     throw new Error(`Provider ${provider} not supported`);
   }
 }
+
+export function getProviderAccountUrl(provider: string) {
+  const { issuer } = getProviderConfiguration(provider);
+  const accountUrlTemplate =
+    provider === 'keycloak'
+      ? (process.env.KEYCLOAK_ACCOUNT ?? '')
+      : provider === 'proconnect'
+        ? (process.env.PROCONNECT_ACCOUNT ?? '')
+        : '';
+
+  return accountUrlTemplate.replace('{{issuer}}', issuer);
+}
