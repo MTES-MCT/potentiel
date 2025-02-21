@@ -119,7 +119,7 @@ describe('findProjection', () => {
     const actual = await findProjection<FakeProjection, FakeProjection2>(
       `${category}|${fakeData.data.value}`,
       {
-        join: { key: 'data.value', projection: category2 },
+        join: { key: 'data.value', entityType: category2 },
       },
     );
 

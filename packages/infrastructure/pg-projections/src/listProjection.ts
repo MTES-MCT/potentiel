@@ -50,7 +50,7 @@ export const listProjection = async <TEntity extends Entity, TJoin extends Entit
           ...unflatten<unknown, Omit<TEntity, 'type'>>(value),
           type: key.split('|')[0],
           ...(join && join_value
-            ? { [join.projection]: unflatten<unknown, Omit<TJoin, 'type'>>(join_value) }
+            ? { [join.entityType]: unflatten<unknown, Omit<TJoin, 'type'>>(join_value) }
             : {}),
         }) as TEntity & Joined<TJoin>,
     ),

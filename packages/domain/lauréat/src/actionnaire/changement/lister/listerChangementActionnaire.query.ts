@@ -70,7 +70,7 @@ export const registerListerChangementActionnaireQuery = ({
         },
         join: {
           key: 'identifiantProjet',
-          projection: 'lauréat',
+          entityType: 'lauréat',
           where: {
             appelOffre: Where.equal(appelOffre),
             nomProjet: Where.contains(nomProjet),

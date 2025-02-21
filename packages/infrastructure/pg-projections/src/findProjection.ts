@@ -34,7 +34,7 @@ export const findProjection = async <TEntity extends Entity, TJoin extends Entit
     type: key.split('|')[0] as TEntity['type'],
     ...unflatten<unknown, Omit<TEntity, 'type'>>(value),
     ...(join && join_value
-      ? { [join.projection]: unflatten<unknown, Omit<TJoin, 'type'>>(join_value) }
+      ? { [join.entityType]: unflatten<unknown, Omit<TJoin, 'type'>>(join_value) }
       : {}),
   } as TEntity & Joined<TJoin>;
 };
