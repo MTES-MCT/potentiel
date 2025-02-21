@@ -36,8 +36,8 @@
     "prespecs:select": "npm run prespecs",
     "specs:select": "npm run test:select -w @potentiel/specifications",
     "version": "npx tsx .github/getPatchVersion.ts",
-    "update:dump": "docker exec -it potentiel_db pg_dump -U potentiel -Fc -b -v -f \"potentiel-dev.dump\" potentiel && docker cp potentiel_db:/potentiel-dev.dump ./.database/potentiel-dev.dump",
-    "update:dump-metabase": "docker exec -it potentiel_db pg_dump -U metabase -Fc -b -v -f \"metabase-dev.dump\" metabase && docker cp potentiel_db:/metabase-dev.dump ./.database/metabase-dev.dump"
+    "update:dump": "./.database/update-potentiel-dump.sh",
+    "update:dump-metabase": "./.database/update-metabase-dump.sh"
   },
   "repository": {
     "type": "git",

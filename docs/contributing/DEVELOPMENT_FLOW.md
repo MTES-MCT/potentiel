@@ -32,6 +32,8 @@
       - [`specs`](#specs)
       - [`prespecs:select`](#prespecsselect)
       - [`specs:select`](#specsselect)
+      - [`update:dump`](#updatedump)
+      - [`update:dump-metabase`](#updatedump-metabase)
       - [`version`](#version)
   - [ Environnements](#-environnements)
   - [ Déploiement](#-déploiement)
@@ -203,6 +205,16 @@ Vous trouverez ci-dessous une description du fonctionnement de l'ensemble des sc
 
 - **Description**: Exécute une sélection de spécifications.
 - **Commande**: `npm run test:select -w @potentiel/specifications`
+  
+#### `update:dump`
+
+- **Description**: Génére un fichier .dump de la base `potentiel`
+- **Commande**: cf [.database/update-potentiel-dump.sh](../../.database/update-potentiel-dump.sh)
+
+#### `update:dump-metabase`
+
+- **Description**: Génére un fichier .dump de la base `metabase`
+- **Commande**: cf [.database/update-potentiel-dump.sh](../../.database/update-potentiel-dump.sh)
 
 #### `version`
 
