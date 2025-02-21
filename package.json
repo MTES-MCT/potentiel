@@ -14,7 +14,7 @@
   "scripts": {
     "prepare": "husky",
     "start": "npm run start --workspaces --if-present ",
-    "up": "./.database/up.sh",
+    "up": "./.database/scripts/up.sh",
     "down": "docker compose  --profile app down --remove-orphans",
     "prestart:legacy": "npm run build && npm run up",
     "start:legacy": "npm run start -w @potentiel-applications/legacy",
@@ -26,7 +26,7 @@
     "lint:fix": "eslint . --fix",
     "format": "npm run format --workspaces --if-present",
     "storybook:documents": "npm run storybook build -w @potentiel-applications/document-builder",
-    "up:test": "./.database/up-test.sh",
+    "up:test": "./.database/scripts/up-test.sh",
     "down:test": "docker compose --profile test down --remove-orphans",
     "pretest": "npm run down:test && npm run up:test",
     "pretest:libraries": "turbo run build --filter=@potentiel-libraries/* --filter=@potentiel-infrastructure/* && npm run pretest",
@@ -36,8 +36,8 @@
     "prespecs:select": "npm run prespecs",
     "specs:select": "npm run test:select -w @potentiel/specifications",
     "version": "npx tsx .github/getPatchVersion.ts",
-    "update:dump": "./.database/update-potentiel-dump.sh",
-    "update:dump-metabase": "./.database/update-metabase-dump.sh"
+    "update:dump": "./.database/scripts/update-potentiel-dump.sh",
+    "update:dump-metabase": "./.database/scripts/update-metabase-dump.sh"
   },
   "repository": {
     "type": "git",

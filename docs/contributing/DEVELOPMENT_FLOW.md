@@ -89,7 +89,7 @@ Vous trouverez ci-dessous une description du fonctionnement de l'ensemble des sc
 #### `up`
 
 - **Description**: Démarre les services définis dans le fichier `docker-compose` avec le profil `app`, et attend que la base de données soit prête avant de continuer.
-- **Commande**: cf [.database/up.sh](../../.database/up.sh)
+- **Commande**: cf [.database/scripts/up.sh](../../.database/scripts/up.sh)
 
 #### `down`
 
@@ -154,7 +154,7 @@ Vous trouverez ci-dessous une description du fonctionnement de l'ensemble des sc
 #### `up:test`
 
 - **Description**: Lance les services Docker nécessaires pour les tests avec le profil `test` et attend que la base de données soit prête.
-- **Commande**: cf [.database/up-test.sh](../../.database/up-test.sh)
+- **Commande**: cf [.database/scripts/up-test.sh](../../.database/scripts/up-test.sh)
 
 #### `down:test`
 
@@ -209,12 +209,12 @@ Vous trouverez ci-dessous une description du fonctionnement de l'ensemble des sc
 #### `update:dump`
 
 - **Description**: Génére un fichier .dump de la base `potentiel`
-- **Commande**: cf [.database/update-potentiel-dump.sh](../../.database/update-potentiel-dump.sh)
+- **Commande**: cf [.database/scripts/update-potentiel-dump.sh](../../.database/scripts/update-potentiel-dump.sh)
 
 #### `update:dump-metabase`
 
 - **Description**: Génére un fichier .dump de la base `metabase`
-- **Commande**: cf [.database/update-potentiel-dump.sh](../../.database/update-potentiel-dump.sh)
+- **Commande**: cf [.database/scripts/update-potentiel-dump.sh](../../.database/scripts/update-potentiel-dump.sh)
 
 #### `version`
 
