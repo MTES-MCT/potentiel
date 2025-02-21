@@ -14,7 +14,11 @@
   - [Lancer les tests](#lancer-les-tests)
     - [Specifications](#specifications)
   - [Metabase](#metabase)
+    - [Version local](#version-local)
+      - [Step 1 : extraire les données de statistique](#step-1--extraire-les-données-de-statistique)
+      - [Step 2 : se connecter à l'interface](#step-2--se-connecter-à-linterface)
   - [Restaurer un dump de la base de donnée](#restaurer-un-dump-de-la-base-de-donnée)
+  - [Lancer des commandes CLI](#lancer-des-commandes-cli)
 
 ## <a id="mise-en-place-du-projet">Mise en place du projet</a>
 
@@ -206,14 +210,24 @@ npm run specs:select
 
 ## <a id="metabase">Metabase</a>
 
-Nous utilisons metabase pour faire des analyses en mode no-code sur la base de données.
+Nous utilisons [Metabase](https://www.metabase.com/) pour faire afficher les [statistiques publiques](https://potentiel.beta.gouv.fr/stats.html) du projet.  
+Un container docker local est disponible pour vérifier et générer des dashboard à partir des données de db local, sur le schéma `domain_public_statistic` lisible en **read-only**.
 
-Il s'agit d'un service autonome qui est déployé sur sa propre instance Scalingo et a sa propre base de données (pour la configuration).
+### Version local
 
-Metabase est connecté à la base de données de production via un utilisateur read-only.
 
-Afin de déployer ou mettre à jour l'instance METABASE il suffit de suivre la procédure décrite dans la doc Scalingo ici :
-https://doc.scalingo.com/platform/getting-started/getting-started-with-metabase
+#### Step 1 : extraire les données de statistique
+
+- définir la variable `export DATABASE_CONNECTION_STRING=` (cf [.env.template](../../packages/applications/ssr/.env.template)) 
+- Lancer la commande depuis la racine du repo `npm exec potentiel-cli stats extraire`
+
+#### Step 2 : se connecter à l'interface
+
+Le container est monté lorsque la commande `up` est lancé (cf [scripts npm](./DEVELOPMENT_FLOW.md#scripts-npm)), et est disponible sur [cet url](http://localhost:3615).
+Pour se connecter à l'interface, il faut utiliser les credentials suivant : 
+
+- identifiant : `admin@test.test`
+- password: `test`
 
 ## <a id="restaurer-dump-db">Restaurer un dump de la base de donnée</a>
 
