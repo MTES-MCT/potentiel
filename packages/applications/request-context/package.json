@@ -9,10 +9,12 @@
     "build": "tsc"
   },
   "dependencies": {
+    "@potentiel-applications/routes": "*",
     "@potentiel-libraries/monads": "*",
     "@potentiel-domain/common": "*",
     "@potentiel-domain/utilisateur": "*",
-    "mediateur": "^0.3.0"
+    "mediateur": "^0.3.0",
+    "next-auth": "^4.24.5"
   },
   "devDependencies": {
     "@potentiel-config/tsconfig": "*"

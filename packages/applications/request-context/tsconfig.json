@@ -4,5 +4,12 @@
     "outDir": "dist",
     "rootDir": "src"
   },
-  "references": []
+  "references": [
+    {
+      "path": "../../applications/routes"
+    },
+    {
+      "path": "../../domain/utilisateur"
+    }
+  ]
 }

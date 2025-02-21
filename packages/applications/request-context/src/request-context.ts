@@ -4,7 +4,7 @@ import { type Utilisateur } from '@potentiel-domain/utilisateur';
 
 export type RequestContext = {
   correlationId: string;
-  utilisateur?: Utilisateur.ValueType;
+  utilisateur?: Utilisateur.ValueType & { accountUrl: string };
 };
 
 export const requestContextStorage = new AsyncLocalStorage<RequestContext>();

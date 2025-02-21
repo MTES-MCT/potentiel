@@ -1,117 +1,110 @@
 import { AuthOptions } from 'next-auth';
 import KeycloakProvider from 'next-auth/providers/keycloak';
-import { mediator, Message } from 'mediateur';
 
 import { getLogger } from '@potentiel-libraries/monitoring';
-import { Role } from '@potentiel-domain/utilisateur';
+import { Routes } from '@potentiel-applications/routes';
+import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
 
-import { issuerUrl, clientId, clientSecret } from './constants';
-import { convertToken } from './convertToken';
-import { refreshAccessToken } from './refreshToken';
-const ONE_HOUR_IN_SECONDS = 60 * 60;
+import { getProviderConfiguration } from './getProviderConfiguration';
+import { refreshToken } from './refreshToken';
+import ProConnectProvider from './ProConnectProvider';
+import { ajouterStatistiqueConnexion } from './ajouterStatistiqueConnexion';
+import { getUtilisateurFromAccessToken } from './getUtilisateur';
+import { canConnectWithProConnect } from './canConnectWithProConnect';
 
-type AjouterStatistique = Message<
-  'System.Statistiques.AjouterStatistique',
-  {
-    type: 'connexionUtilisateur';
-    données: {
-      utilisateur: {
-        role: Role.RawType;
-      };
-    };
-  }
->;
+const OneHourInSeconds = 60 * 60;
 
 export const authOptions: AuthOptions = {
   providers: [
     KeycloakProvider({
-      issuer: issuerUrl,
-      clientId,
-      clientSecret,
+      ...getProviderConfiguration('keycloak'),
+      profile: async (profile, tokens) => {
+        const utilisateur = await getUtilisateurFromAccessToken(tokens.access_token ?? '');
+
+        return {
+          id: profile.sub,
+          ...utilisateur,
+        };
+      },
     }),
+    ProConnectProvider(getProviderConfiguration('proconnect')),
   ],
+  pages: {
+    signIn: Routes.Auth.signIn(),
+    error: Routes.Auth.unauthorized(),
+    signOut: Routes.Auth.signOut(),
+  },
   session: {
     strategy: 'jwt',
     // This is the max age for the next-auth cookie
     // It is renewed on each page refresh, so this represents inactivity time.
     // Moreover, the user will not be disconnected after expiration (if their Keycloak session still exists),
     // but there will be a redirection to keycloak.
-    maxAge: parseInt(process.env.SESSION_MAX_AGE ?? String(ONE_HOUR_IN_SECONDS), 10),
+    maxAge: parseInt(process.env.SESSION_MAX_AGE ?? String(OneHourInSeconds)),
+  },
+  events: {
+    signIn: ({ user, account }) => {
+      if (
+        user?.identifiantUtilisateur &&
+        !IdentifiantUtilisateur.bind(user.identifiantUtilisateur).estInconnu()
+      ) {
+        ajouterStatistiqueConnexion(user, account?.provider ?? '');
+      }
+    },
   },
   callbacks: {
-    // Stores user data and idToken to the next-auth cookie
-    async jwt({ token, account }) {
-      if (!account && !token.utilisateur) {
-        return {};
+    signIn({ account, user }) {
+      if (
+        user?.identifiantUtilisateur &&
+        IdentifiantUtilisateur.bind(user.identifiantUtilisateur).estInconnu()
+      ) {
+        return false;
       }
-      const logger = getLogger('Auth');
+      if (account?.provider === 'proconnect' && !canConnectWithProConnect(user.role)) {
+        getLogger('Auth').info(`User try to connect with ProConnect but is not authorized yet`, {
+          user,
+        });
 
-      // Stores the id token as it is required to logout of Keycloak
-      if (account?.id_token) {
-        token.idToken = account.id_token;
-      }
-      // NB `account` is defined only at login
-      if (account?.access_token) {
-        token.expiresAt = (account.expires_at ?? 0) * 1000;
-        token.refreshToken = account.refresh_token;
-        logger.debug(`User logged in`, { sub: token.sub, expiresAt: new Date(token.expiresAt) });
-        try {
-          const utilisateur = await convertToken(account.access_token);
-          token.utilisateur = utilisateur;
-        } catch (e) {
-          logger.error(
-            new Error("Impossible de convertir l'accessToken en Utilisateur", { cause: e }),
-          );
-        }
-        try {
-          await mediator.send<AjouterStatistique>({
-            type: 'System.Statistiques.AjouterStatistique',
-            data: {
-              type: 'connexionUtilisateur',
-              données: { utilisateur: { role: token.utilisateur!.role.nom } },
-            },
-          });
-        } catch (e) {
-          console.log(e);
-          logger.error("Impossible d'ajouter les statistiques de connexion", { cause: e });
-        }
-        return token;
+        return Routes.Auth.signIn({ proConnectNotAvailableForUser: true });
       }
 
-      // nominal case, the token is up to date
-      if (token.expiresAt && Date.now() < token.expiresAt) {
-        return token;
-      }
-      logger.debug(`Token expired`, { sub: token.sub });
-      if (!token.refreshToken) {
-        logger.warn(`no refreshToken available`, { sub: token.sub });
+      return true;
+    },
+    jwt({ token, trigger, account, user }) {
+      if (
+        user?.identifiantUtilisateur &&
+        IdentifiantUtilisateur.bind(user.identifiantUtilisateur).estInconnu()
+      ) {
         return {};
       }
-      try {
-        const { accessToken, expiresAt, refreshToken } = await refreshAccessToken(
-          token.refreshToken,
-        );
-        logger.debug(`Token refreshed`, { sub: token.sub, expiresAt: new Date(expiresAt) });
-        token.expiresAt = expiresAt;
-        token.refreshToken = refreshToken;
-        const utilisateur = await convertToken(accessToken);
-        token.utilisateur = utilisateur;
-        return token;
-      } catch (e) {
-        const err = e as { error?: string; error_description?: string };
-        if (err?.error === 'invalid_grant') {
-          logger.warn(`Failed to refresh token (invalid_grant): ${err.error_description}`);
-        } else {
-          logger.error(new Error('Failed to refresh token', { cause: (e as Error).message }));
-        }
-        return {};
+      if (trigger === 'signIn' && account && user) {
+        const { sub, expires_at = 0, provider } = account;
+        const expiresAtInMs = expires_at * 1000;
+
+        getLogger('Auth').debug(`User logged in`, { sub, expiresAt: new Date(expiresAtInMs) });
+
+        return {
+          ...token,
+          provider,
+          idToken: account.id_token,
+          expiresAt: expiresAtInMs,
+          refreshToken: account.refresh_token,
+          utilisateur: user,
+        };
       }
+
+      return refreshToken(token);
     },
     session({ session, token }) {
       {
         if (token.utilisateur) {
           session.utilisateur = token.utilisateur;
         }
+
+        if (token.provider) {
+          session.provider = token.provider;
+        }
+
         return session;
       }
     },

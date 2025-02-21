@@ -1,26 +1,44 @@
-import { BaseClient, Issuer } from 'openid-client';
-import { createRemoteJWKSet, KeyLike } from 'jose';
+import { Issuer } from 'openid-client';
+import { createRemoteJWKSet } from 'jose';
+import { getServerSession } from 'next-auth';
 
-import { clientId, clientSecret, issuerUrl } from './constants';
+import { getProviderConfiguration } from './getProviderConfiguration';
 
-let openIdIssuerPromise: Promise<Issuer<BaseClient>>;
-let jwksPromise: Promise<KeyLike>;
+export const getOpenIdClient = async (providerOption?: string) => {
+  const provider = providerOption ?? (await getCurrentProvider());
 
-const getOpenIdIssuer = () => {
-  if (!openIdIssuerPromise) {
-    openIdIssuerPromise = Issuer.discover(issuerUrl);
-  }
-  return openIdIssuerPromise;
+  const { Client } = await getOpenIdIssuer(provider);
+  const { clientId, clientSecret } = getProviderConfiguration(provider);
+
+  return new Client({
+    client_id: clientId,
+    client_secret: clientSecret,
+  });
 };
-export const getOpenIdClient = async () => {
-  const { Client } = await getOpenIdIssuer();
-  return new Client({ client_id: clientId, client_secret: clientSecret });
-};
 
-export const getJwks = async () => {
-  if (!jwksPromise) {
-    const issuer = await getOpenIdIssuer();
-    jwksPromise = createRemoteJWKSet(new URL(issuer.metadata.jwks_uri!))({ alg: 'RS256' });
-  }
+export const getJwks = async (provider: 'proconnect' | 'keycloak') => {
+  const issuer = await getOpenIdIssuer(provider);
+  const jwksPromise = createRemoteJWKSet(new URL(issuer.metadata.jwks_uri!))({ alg: 'RS256' });
+
   return jwksPromise;
+};
+
+const getCurrentProvider = async () => {
+  const session = await getServerSession({
+    callbacks: {
+      session({ session, token }) {
+        session.provider = token.provider;
+        return session;
+      },
+    },
+  });
+
+  return session?.provider ?? 'keycloak';
+};
+
+const getOpenIdIssuer = (provider: string) => {
+  const { issuer } = getProviderConfiguration(provider);
+
+  const openIdIssuerPromise = Issuer.discover(issuer);
+  return openIdIssuerPromise;
 };

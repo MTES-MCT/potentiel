@@ -6,7 +6,7 @@ const getIdentifiantsProjetParEmailUtilisateurQuery = `
   from "projects" p
   inner join "UserProjects" up on p.id = up."projectId"
   inner join "users" u on up."userId" = u.id
-  where p."notifiedOn" > 0 and u."email" = $1
+  where p."notifiedOn" > 0 and u."email" = $1 and u."disabled" is not true
 `;
 
 export const récupérerIdentifiantsProjetParEmailPorteurAdapter: RécupérerIdentifiantsProjetParEmailPorteurPort =

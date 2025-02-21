@@ -4,6 +4,7 @@ import {
   ConsulterUtilisateurReadModel,
 } from './consulter/consulterUtilisateur.query';
 import { ListerUtilisateursQuery, ListerUtilisateursPort } from './lister/listerUtilisateurs.query';
+import { TrouverUtilisateurQuery } from './trouver/trouverUtilisateur.query';
 import {
   VérifierAccèsProjetQuery,
   VérifierAccèsProjetPort,
@@ -19,9 +20,15 @@ export { AccèsFonctionnalitéRefuséError } from './errors';
 export type UtilisateurQuery =
   | ConsulterUtilisateurQuery
   | ListerUtilisateursQuery
+  | TrouverUtilisateurQuery
   | VérifierAccèsProjetQuery;
 
-export { ConsulterUtilisateurQuery, ListerUtilisateursQuery, VérifierAccèsProjetQuery };
+export {
+  ConsulterUtilisateurQuery,
+  ListerUtilisateursQuery,
+  TrouverUtilisateurQuery,
+  VérifierAccèsProjetQuery,
+};
 
 // Register
 export * from './register';
