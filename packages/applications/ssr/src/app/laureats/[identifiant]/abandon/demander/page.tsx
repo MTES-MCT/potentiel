@@ -11,7 +11,7 @@ import { DemanderAbandonPage } from '@/components/pages/abandon/demander/Demande
 import { decodeParameter } from '@/utils/decodeParameter';
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
-import { récupérerProjet, vérifierQueLeProjetEstClassé } from '@/app/_helpers';
+import { récupérerLauréatNonAbandonné } from '@/app/_helpers';
 
 export const metadata: Metadata = {
   title: "Demander l'abandon du projet - Potentiel",
@@ -22,12 +22,8 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
   return PageWithErrorHandling(async () => {
     const identifiantProjet = decodeParameter(identifiant);
 
-    const { statut, appelOffre, période } = await récupérerProjet(identifiantProjet);
-
-    await vérifierQueLeProjetEstClassé({
-      statut,
-      message: "Vous ne pouvez pas demander l'abandon d'un projet non lauréat",
-    });
+    const lauréat = await récupérerLauréatNonAbandonné(identifiantProjet);
+    const { appelOffre, période } = lauréat.identifiantProjet;
 
     const projetAppelOffre = await mediator.send<AppelOffre.ConsulterAppelOffreQuery>({
       type: 'AppelOffre.Query.ConsulterAppelOffre',

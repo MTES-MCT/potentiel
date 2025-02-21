@@ -2,12 +2,11 @@ import { mediator } from 'mediateur';
 import type { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 
-import { Raccordement } from '@potentiel-domain/laureat';
+import { Lauréat, Raccordement } from '@potentiel-domain/laureat';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { DateTime } from '@potentiel-domain/common';
 import { Option } from '@potentiel-libraries/monads';
 import { Routes } from '@potentiel-applications/routes';
-import { Candidature } from '@potentiel-domain/candidature';
 import { Utilisateur } from '@potentiel-domain/utilisateur';
 
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
@@ -18,7 +17,7 @@ import {
   TransmettreDateMiseEnServicePage,
   TransmettreDateMiseEnServicePageProps,
 } from '@/components/pages/réseau/raccordement/transmettre/transmettreDateMiseEnService/TransmettreDateMiseEnService.page';
-import { récupérerProjet, vérifierQueLeProjetEstClassé } from '@/app/_helpers';
+import { récupérerLauréatNonAbandonné } from '@/app/_helpers';
 
 type PageProps = {
   params: {
@@ -36,14 +35,7 @@ export default async function Page({ params: { identifiant, reference } }: PageP
   return PageWithErrorHandling(async () =>
     withUtilisateur(async (utilisateur) => {
       const identifiantProjet = decodeParameter(identifiant);
-
-      const projet = await récupérerProjet(identifiantProjet);
-
-      await vérifierQueLeProjetEstClassé({
-        statut: projet.statut,
-        message:
-          "Vous ne pouvez pas transmettre la date de mise en service d'un raccordement pour un projet éliminé ou abandonné",
-      });
+      const lauréat = await récupérerLauréatNonAbandonné(identifiantProjet);
 
       const referenceDossierRaccordement = decodeParameter(reference);
 
@@ -63,7 +55,7 @@ export default async function Page({ params: { identifiant, reference } }: PageP
       const appelOffre = await mediator.send<AppelOffre.ConsulterAppelOffreQuery>({
         type: 'AppelOffre.Query.ConsulterAppelOffre',
         data: {
-          identifiantAppelOffre: projet.appelOffre,
+          identifiantAppelOffre: lauréat.identifiantProjet.appelOffre,
         },
       });
 
@@ -72,17 +64,17 @@ export default async function Page({ params: { identifiant, reference } }: PageP
       }
 
       const props = mapToProps({
-        identifiantProjet,
         utilisateur,
         referenceDossierRaccordement,
-        projet,
+        lauréat,
         appelOffre,
         dossierRaccordement,
       });
 
       return (
         <TransmettreDateMiseEnServicePage
-          projet={props.projet}
+          identifiantProjet={props.identifiantProjet}
+          dateDésignation={props.dateDésignation}
           dossierRaccordement={props.dossierRaccordement}
           intervalleDatesMeSDélaiCDC2022={props.intervalleDatesMeSDélaiCDC2022}
         />
@@ -92,33 +84,30 @@ export default async function Page({ params: { identifiant, reference } }: PageP
 }
 
 type MapToProps = (params: {
-  identifiantProjet: string;
   utilisateur: Utilisateur.ValueType;
   referenceDossierRaccordement: string;
-  projet: Candidature.ConsulterProjetReadModel;
+  lauréat: Lauréat.ConsulterLauréatReadModel;
   appelOffre: AppelOffre.ConsulterAppelOffreReadModel;
   dossierRaccordement: Raccordement.ConsulterDossierRaccordementReadModel;
 }) => TransmettreDateMiseEnServicePageProps;
 
 const mapToProps: MapToProps = ({
-  identifiantProjet,
   utilisateur,
   referenceDossierRaccordement,
-  projet,
+  lauréat,
   appelOffre,
   dossierRaccordement,
 }) => {
   const intervalleDatesMeSDélaiCDC2022 = appelOffre.periodes
-    .find((p) => p.id === projet.période)
+    .find((p) => p.id === lauréat.identifiantProjet.période)
     ?.cahiersDesChargesModifiésDisponibles.find(
       (cdc) => cdc.type === 'modifié' && cdc.paruLe === '30/08/2022',
     )?.délaiApplicable?.intervaleDateMiseEnService;
 
   return {
-    projet: {
-      identifiantProjet,
-      ...projet,
-    },
+    identifiantProjet: lauréat.identifiantProjet.formatter(),
+    dateDésignation: lauréat.notifiéLe.formatter(),
+
     dossierRaccordement: {
       référence: referenceDossierRaccordement,
       miseEnService: dossierRaccordement.miseEnService?.dateMiseEnService?.formatter() ?? undefined,
@@ -131,7 +120,7 @@ const mapToProps: MapToProps = ({
         }
       : undefined,
     lienRetour: utilisateur.role.aLaPermission('raccordement.consulter')
-      ? Routes.Raccordement.détail(identifiantProjet)
+      ? Routes.Raccordement.détail(lauréat.identifiantProjet.formatter())
       : Routes.Raccordement.lister,
   };
 };

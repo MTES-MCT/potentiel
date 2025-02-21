@@ -10,8 +10,7 @@ import { Candidature } from '@potentiel-domain/candidature';
 
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { decodeParameter } from '@/utils/decodeParameter';
-
-import { récupérerProjet } from '../../../_helpers';
+import { récupérerLauréat } from '@/app/_helpers';
 
 // TODO: à supprimer pour utiliser directement Routes.Document.télécharger dans le front
 // une fois qu'on aura migré la page Projet
@@ -37,7 +36,7 @@ export const GET = async (_: Request, { params: { identifiant } }: IdentifiantPa
     },
   });
 
-  const { nom: nomProjet } = await récupérerProjet(identifiantProjet);
+  const { nomProjet } = await récupérerLauréat(identifiantProjet);
 
   return new Response(result.content, {
     headers: {

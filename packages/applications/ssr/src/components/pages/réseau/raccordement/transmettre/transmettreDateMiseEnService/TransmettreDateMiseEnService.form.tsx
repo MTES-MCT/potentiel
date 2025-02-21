@@ -5,6 +5,7 @@ import { Button } from '@codegouvfr/react-dsfr/Button';
 
 import { Routes } from '@potentiel-applications/routes';
 import { Iso8601DateTime, now } from '@potentiel-libraries/iso8601-datetime';
+import { IdentifiantProjet } from '@potentiel-domain/common';
 
 import { Form } from '@/components/atoms/form/Form';
 import { InputDate } from '@/components/atoms/form/InputDate';
@@ -17,10 +18,8 @@ import {
 } from './transmettreDateMiseEnService.action';
 
 export type TransmettreDateMiseEnServiceFormProps = {
-  projet: {
-    identifiantProjet: string;
-    dateDésignation: Iso8601DateTime;
-  };
+  identifiantProjet: IdentifiantProjet.RawType;
+  dateDésignation: Iso8601DateTime;
   dossierRaccordement: {
     référence: string;
     miseEnService?: Iso8601DateTime;
@@ -28,7 +27,8 @@ export type TransmettreDateMiseEnServiceFormProps = {
 };
 
 export const TransmettreDateMiseEnServiceForm: FC<TransmettreDateMiseEnServiceFormProps> = ({
-  projet: { identifiantProjet, dateDésignation },
+  identifiantProjet,
+  dateDésignation,
   dossierRaccordement: { référence, miseEnService },
 }) => {
   const [validationErrors, setValidationErrors] = useState<

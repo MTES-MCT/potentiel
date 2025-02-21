@@ -13,7 +13,7 @@ import {
   ModifierPropositionTechniqueEtFinancièrePage,
   ModifierPropositionTechniqueEtFinancièrePageProps,
 } from '@/components/pages/réseau/raccordement/modifier/modifierPropositionTechniqueEtFinancière/ModifierPropositionTechniqueEtFinancière.page';
-import { récupérerProjet, vérifierQueLeProjetEstClassé } from '@/app/_helpers';
+import { récupérerLauréatNonAbandonné } from '@/app/_helpers';
 
 type PageProps = {
   params: {
@@ -31,12 +31,7 @@ export default async function Page({ params: { identifiant, reference } }: PageP
   return PageWithErrorHandling(async () => {
     const identifiantProjet = IdentifiantProjet.convertirEnValueType(decodeParameter(identifiant));
 
-    const projet = await récupérerProjet(identifiantProjet.formatter());
-    await vérifierQueLeProjetEstClassé({
-      statut: projet.statut,
-      message:
-        "Vous ne pouvez pas modifier la proposition technique et financière d'un dossier de raccordement pour un projet éliminé ou abandonné",
-    });
+    await récupérerLauréatNonAbandonné(identifiantProjet.formatter());
 
     const referenceDossierRaccordement = decodeParameter(reference);
 

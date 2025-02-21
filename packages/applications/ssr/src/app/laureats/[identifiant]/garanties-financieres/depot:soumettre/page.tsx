@@ -1,10 +1,9 @@
 import { Metadata } from 'next';
 import { mediator } from 'mediateur';
-import { notFound } from 'next/navigation';
 
 import { Option } from '@potentiel-libraries/monads';
-import { Candidature } from '@potentiel-domain/candidature';
 import { GarantiesFinancières } from '@potentiel-domain/laureat';
+import { IdentifiantProjet } from '@potentiel-domain/common';
 
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { decodeParameter } from '@/utils/decodeParameter';
@@ -23,20 +22,13 @@ export const metadata: Metadata = {
 export default async function Page({ params: { identifiant } }: IdentifiantParameter) {
   return PageWithErrorHandling(async () => {
     const identifiantProjet = decodeParameter(identifiant);
-
-    const candidature = await mediator.send<Candidature.ConsulterProjetQuery>({
-      type: 'Candidature.Query.ConsulterProjet',
-      data: { identifiantProjet },
-    });
-
-    if (Option.isNone(candidature)) {
-      return notFound();
-    }
+    const { appelOffre, famille, période } =
+      IdentifiantProjet.convertirEnValueType(identifiantProjet);
 
     const soumisAuxGarantiesFinancières = await projetSoumisAuxGarantiesFinancières({
-      appelOffre: candidature.appelOffre,
-      famille: candidature.famille,
-      periode: candidature.période,
+      appelOffre,
+      famille,
+      periode: période,
     });
 
     if (!soumisAuxGarantiesFinancières) {

@@ -18,7 +18,7 @@ import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { decodeParameter } from '@/utils/decodeParameter';
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { withUtilisateur } from '@/utils/withUtilisateur';
-import { récupérerProjet, vérifierQueLeProjetEstClassé } from '@/app/_helpers';
+import { récupérerLauréatNonAbandonné } from '@/app/_helpers';
 
 type PageProps = IdentifiantParameter;
 
@@ -34,12 +34,7 @@ export default async function Page({ params: { identifiant } }: PageProps) {
         decodeParameter(identifiant),
       );
 
-      const projet = await récupérerProjet(identifiantProjet.formatter());
-
-      await vérifierQueLeProjetEstClassé({
-        statut: projet.statut,
-        message: "Vous ne pouvez pas consulter le raccordement d'un projet éliminé ou abandonné",
-      });
+      await récupérerLauréatNonAbandonné(identifiantProjet.formatter());
 
       const raccordement = await mediator.send<Raccordement.ConsulterRaccordementQuery>({
         type: 'Lauréat.Raccordement.Query.ConsulterRaccordement',

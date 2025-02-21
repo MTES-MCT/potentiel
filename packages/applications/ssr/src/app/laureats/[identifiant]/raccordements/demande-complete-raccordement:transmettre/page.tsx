@@ -13,7 +13,7 @@ import { TransmettreDemandeComplèteRaccordementPage } from '@/components/pages/
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { decodeParameter } from '@/utils/decodeParameter';
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
-import { récupérerProjet, vérifierQueLeProjetEstClassé } from '@/app/_helpers';
+import { récupérerLauréatNonAbandonné } from '@/app/_helpers';
 
 export const metadata: Metadata = {
   title: 'Ajouter un dossier de raccordement - Potentiel',
@@ -26,17 +26,11 @@ export default async function Page({ params: { identifiant } }: PageProps) {
   return PageWithErrorHandling(async () => {
     const identifiantProjet = IdentifiantProjet.convertirEnValueType(decodeParameter(identifiant));
 
-    const projet = await récupérerProjet(identifiantProjet.formatter());
-
-    await vérifierQueLeProjetEstClassé({
-      statut: projet.statut,
-      message:
-        'Vous ne pouvez pas transmettre une demande complète de raccordement pour un projet éliminé ou abandonné',
-    });
+    await récupérerLauréatNonAbandonné(identifiantProjet.formatter());
 
     const appelOffre = await mediator.send<AppelOffre.ConsulterAppelOffreQuery>({
       type: 'AppelOffre.Query.ConsulterAppelOffre',
-      data: { identifiantAppelOffre: projet.appelOffre },
+      data: { identifiantAppelOffre: identifiantProjet.appelOffre },
     });
 
     if (Option.isNone(appelOffre)) {

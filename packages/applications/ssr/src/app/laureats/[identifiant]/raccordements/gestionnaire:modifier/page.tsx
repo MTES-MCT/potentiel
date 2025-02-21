@@ -10,7 +10,7 @@ import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { decodeParameter } from '@/utils/decodeParameter';
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { ModifierGestionnaireRéseauRaccordementPage } from '@/components/pages/réseau/raccordement/modifier/modifierGestionnaireRéseauRaccordement/ModifierGestionnaireRéseauRaccordement.page';
-import { récupérerProjet, vérifierQueLeProjetEstClassé } from '@/app/_helpers';
+import { récupérerLauréatNonAbandonné } from '@/app/_helpers';
 
 export const metadata: Metadata = {
   title: 'Modifier gestionnaire réseau - Potentiel',
@@ -21,13 +21,7 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
   return PageWithErrorHandling(async () => {
     const identifiantProjet = IdentifiantProjet.convertirEnValueType(decodeParameter(identifiant));
 
-    const projet = await récupérerProjet(identifiantProjet.formatter());
-
-    await vérifierQueLeProjetEstClassé({
-      statut: projet.statut,
-      message:
-        "Vous ne pouvez pas modifier le gestionnaire de réseau du raccordement d'un projet éliminé ou abandonné",
-    });
+    await récupérerLauréatNonAbandonné(identifiantProjet.formatter());
 
     const gestionnairesRéseau =
       await mediator.send<GestionnaireRéseau.ListerGestionnaireRéseauQuery>({

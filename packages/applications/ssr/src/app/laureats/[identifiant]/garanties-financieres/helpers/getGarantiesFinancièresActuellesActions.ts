@@ -1,7 +1,6 @@
 import { Option } from '@potentiel-libraries/monads';
 import { Achèvement, GarantiesFinancières } from '@potentiel-domain/laureat';
 import { Role } from '@potentiel-domain/utilisateur';
-import { StatutProjet } from '@potentiel-domain/common';
 
 import { GarantiesFinancièresActuelles } from '@/components/organisms/garantiesFinancières/types';
 
@@ -11,7 +10,7 @@ type GetGarantiesFinancièresActuellesActions = {
   dépôt: Option.Type<GarantiesFinancières.ConsulterDépôtEnCoursGarantiesFinancièresReadModel>;
   mainlevée?: GarantiesFinancières.ListerMainlevéeItemReadModel;
   achèvement: Option.Type<Achèvement.ConsulterAttestationConformitéReadModel>;
-  statutProjet: StatutProjet.RawType;
+  estAbandonné: boolean;
 };
 export const getGarantiesFinancièresActuellesActions = ({
   role,
@@ -19,7 +18,7 @@ export const getGarantiesFinancièresActuellesActions = ({
   dépôt,
   mainlevée,
   achèvement,
-  statutProjet,
+  estAbandonné,
 }: GetGarantiesFinancièresActuellesActions) => {
   const estAdminOuDGEC = role.estÉgaleÀ(Role.admin) || role.estÉgaleÀ(Role.dgecValidateur);
   const estDreal = role.estÉgaleÀ(Role.dreal);
@@ -30,7 +29,6 @@ export const getGarantiesFinancièresActuellesActions = ({
   const garantiesFinancièresÉchues = garantiesFinancières.statut.estÉchu();
   const dépôtEnCours = Option.isSome(dépôt) ? dépôt : undefined;
 
-  const projetAbandonné = statutProjet === 'abandonné';
   const projetAchevé = Option.isSome(achèvement) ? achèvement : undefined;
 
   const aGarantiesFinancièresAvecAttestationSansDepotNiMainlevée =
@@ -51,7 +49,7 @@ export const getGarantiesFinancièresActuellesActions = ({
     aGarantiesFinancièresAvecAttestationSansDepotNiMainlevée &&
     !garantiesFinancièresÉchues
   ) {
-    if (projetAbandonné) {
+    if (estAbandonné) {
       actions.push('demander-mainlevée-gf-pour-projet-abandonné');
     }
     if (projetAchevé) {
