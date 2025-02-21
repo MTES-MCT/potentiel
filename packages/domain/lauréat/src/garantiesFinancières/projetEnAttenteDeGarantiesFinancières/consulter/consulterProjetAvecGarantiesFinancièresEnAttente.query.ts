@@ -58,18 +58,14 @@ export const registerConsulterProjetAvecGarantiesFinancièresEnAttenteQuery = ({
 
 const mapToReadModel = ({
   identifiantProjet,
-  nomProjet,
-  appelOffre,
-  période,
-  famille,
-  régionProjet,
+  projet: { nom, appelOffre, période, famille, région },
   motif,
   dateLimiteSoumission,
   dernièreMiseÀJour,
 }: ProjetAvecGarantiesFinancièresEnAttenteEntity): ConsulterProjetAvecGarantiesFinancièresEnAttenteReadModel => ({
   identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
-  nomProjet,
-  régionProjet,
+  nomProjet: nom,
+  régionProjet: région,
   appelOffre,
   période,
   famille,

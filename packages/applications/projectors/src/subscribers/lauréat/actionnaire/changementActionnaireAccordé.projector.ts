@@ -19,7 +19,10 @@ export const changementActionnaireAccordéProjector = async ({
   );
 
   if (Option.isNone(actionnaire) || !actionnaire.dateDemandeEnCours) {
-    getLogger().error(`Demande non trouvée`, { identifiantProjet });
+    getLogger().error(`Demande actionnaire non trouvée`, {
+      identifiantProjet,
+      fonction: 'changementActionnaireAccordéProjector',
+    });
     return;
   }
 
@@ -28,7 +31,10 @@ export const changementActionnaireAccordéProjector = async ({
   );
 
   if (Option.isNone(projectionToUpsert)) {
-    getLogger().error(`Demande non trouvée`, { identifiantProjet });
+    getLogger().error(`Demande actionnaire non trouvée`, {
+      identifiantProjet,
+      fonction: 'changementActionnaireAccordéProjector',
+    });
     return;
   }
 

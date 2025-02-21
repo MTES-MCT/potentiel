@@ -13,14 +13,14 @@ export const getInfosReprésentantLégal = async (identifiantProjet: Identifiant
     getLogger().error(
       `Aucun représentant légal n'a été trouvé pour le changement de représentant accordé`,
       {
-        event,
+        identifiantProjet,
       },
     );
     return;
   }
   if (!représentantLégal.demandeEnCours) {
     getLogger().error(`Aucune demande en cours pour le changement de représentant accordé`, {
-      event,
+      identifiantProjet,
     });
     return;
   }
@@ -36,7 +36,7 @@ export const getInfosReprésentantLégal = async (identifiantProjet: Identifiant
     getLogger().error(
       `Aucun changement de représentant légal n'a été trouvé pour le changement de représentant accordé`,
       {
-        event,
+        identifiantProjet,
       },
     );
     return;
