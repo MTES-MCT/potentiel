@@ -89,12 +89,12 @@ Vous trouverez ci-dessous une description du fonctionnement de l'ensemble des sc
 #### `up`
 
 - **Description**: Démarre les services définis dans le fichier `docker-compose` avec le profil `app`, et attend que la base de données soit prête avant de continuer.
-- **Commande**: cf [.database/scripts/up.sh](../../.database/scripts/up.sh)
+- **Commande**: cf [.docker-scripts/up.sh](../../.docker-scripts/up.sh)
 
 #### `down`
 
 - **Description**: Arrête et supprime les conteneurs Docker qui ont été lancés avec le profil `app`, en supprimant également les orphelins.
-- **Commande**: `docker compose  --profile app down --remove-orphans`
+- **Commande**: cf [.docker-scripts/down.sh](../../.docker-scripts/down.sh)
 
 #### `prestart:legacy`
 
@@ -154,12 +154,12 @@ Vous trouverez ci-dessous une description du fonctionnement de l'ensemble des sc
 #### `up:test`
 
 - **Description**: Lance les services Docker nécessaires pour les tests avec le profil `test` et attend que la base de données soit prête.
-- **Commande**: cf [.database/scripts/up-test.sh](../../.database/scripts/up-test.sh)
+- **Commande**: cf [.docker-scripts/up-test.sh](../../.docker-scripts/up-test.sh)
 
 #### `down:test`
 
 - **Description**: Arrête et supprime les conteneurs Docker lancés pour les tests, en supprimant également les orphelins.
-- **Commande**: `docker compose --profile test down --remove-orphans`
+- **Commande**: cf [.docker-scripts/down-test.sh](../../.docker-scripts/down-test.sh)
 
 #### `pretest`
 
