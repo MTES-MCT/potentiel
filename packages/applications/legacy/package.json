@@ -13,8 +13,7 @@
     "build:css": "tailwindcss -i ./src/views/index.css -o ./src/public/css/index.css",
     "build:front": "webpack --config=webpack.config.js",
     "lint": "eslint ./src --ext .ts,.tsx",
-    "format": "prettier './src/**/*.{ts,tsx,css}' --write",
-    "test": "export APPLICATION_STAGE=test && jest --config=jest.config.js --detectOpenHandles --runInBand"
+    "format": "prettier './src/**/*.{ts,tsx,css}' --write"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.670.0",
@@ -75,7 +74,6 @@
   },
   "devDependencies": {
     "@fullhuman/postcss-purgecss": "^7.0.2",
-    "@jest/globals": "^29.6.4",
     "@types/express": "^4.17.17",
     "@types/ioredis": "^4.28.10",
     "@types/mime-types": "^2.1.4",
@@ -90,13 +88,11 @@
     "dotenv-webpack": "^8.1.0",
     "esbuild-loader": "^4.3.0",
     "glob": "^11.0.0",
-    "jest": "^29.6.4",
     "node-polyfill-webpack-plugin": "^2.0.1",
     "path-browserify": "^1.0.1",
     "postcss-cli": "^10.1.0",
     "postcss-import": "^15.1.0",
     "postcss-prefix-selector": "^1.16.1",
-    "ts-jest": "^29.2.5",
     "ts-node-dev": "^2.0.0",
     "wait-for-expect": "^3.0.2",
     "webpack": "^5.95.0",

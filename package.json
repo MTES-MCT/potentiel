@@ -29,8 +29,6 @@
     "up:test": "./.database/up-test.sh",
     "down:test": "docker compose --profile test down --remove-orphans",
     "pretest": "npm run down:test && npm run up:test",
-    "pretest:legacy": "turbo run build --filter=@potentiel-applications/legacy^... && npm run pretest",
-    "test:legacy": "turbo run test --filter=@potentiel-applications/legacy",
     "pretest:libraries": "turbo run build --filter=@potentiel-libraries/* --filter=@potentiel-infrastructure/* && npm run pretest",
     "test:libraries": "turbo run test --filter=@potentiel-libraries/* --filter=@potentiel-infrastructure/*",
     "prespecs": "turbo run build --filter=@potentiel/specifications && npm run pretest",
