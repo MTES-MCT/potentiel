@@ -37,6 +37,7 @@ services:
       MB_DB_PASS: password
       MB_DB_HOST: db
       MB_PASSWORD_COMPLEXITY: weak
+      MB_PASSWORD_LENGTH: 4
     depends_on:
       - db
     profiles: ['app']
