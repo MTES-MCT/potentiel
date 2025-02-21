@@ -4,7 +4,7 @@ import { notFound } from 'next/navigation';
 
 import { Achèvement } from '@potentiel-domain/laureat';
 import { Option } from '@potentiel-libraries/monads';
-import { Candidature } from '@potentiel-domain/candidature';
+import { IdentifiantProjet } from '@potentiel-domain/common';
 
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { decodeParameter } from '@/utils/decodeParameter';
@@ -13,7 +13,7 @@ import {
   ModifierAttestationConformitéPage,
   ModifierAttestationConformitéPageProps,
 } from '@/components/pages/attestation-conformité/modifier/modifierAttestationConformité.page';
-import { récupérerProjet, vérifierQueLeProjetEstClassé } from '@/app/_helpers';
+import { récupérerLauréatNonAbandonné } from '@/app/_helpers';
 
 export const metadata: Metadata = {
   title: `Modifier l'attestation de conformité - Potentiel`,
@@ -24,12 +24,7 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
   return PageWithErrorHandling(async () => {
     const identifiantProjet = decodeParameter(identifiant);
 
-    const projet = await récupérerProjet(identifiantProjet);
-    await vérifierQueLeProjetEstClassé({
-      statut: projet.statut,
-      message:
-        'Vous ne pouvez pas modifier une attestation de conformité pour un projet éliminé ou abandonné',
-    });
+    const projet = await récupérerLauréatNonAbandonné(identifiantProjet);
 
     const attestationConformitéActuelle =
       await mediator.send<Achèvement.ConsulterAttestationConformitéQuery>({
@@ -41,11 +36,11 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
       return notFound();
     }
 
-    const props = mapToProps(identifiantProjet, projet, attestationConformitéActuelle);
+    const props = mapToProps(projet.identifiantProjet, attestationConformitéActuelle);
 
     return (
       <ModifierAttestationConformitéPage
-        projet={props.projet}
+        identifiantProjet={props.identifiantProjet}
         attestationConformitéActuelle={props.attestationConformitéActuelle}
       />
     );
@@ -53,15 +48,11 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
 }
 
 type MapToProps = (
-  identifiantProjet: string,
-  projet: Candidature.ConsulterProjetReadModel,
+  identifiantProjet: IdentifiantProjet.ValueType,
   attestationConformitéActuelle: Achèvement.ConsulterAttestationConformitéReadModel,
 ) => ModifierAttestationConformitéPageProps;
-const mapToProps: MapToProps = (identifiantProjet, projet, attestationConformitéActuelle) => ({
-  projet: {
-    ...projet,
-    identifiantProjet,
-  },
+const mapToProps: MapToProps = (identifiantProjet, attestationConformitéActuelle) => ({
+  identifiantProjet: identifiantProjet.formatter(),
   attestationConformitéActuelle: {
     attestation: attestationConformitéActuelle.attestation.formatter(),
     preuveTransmissionAuCocontractant:
