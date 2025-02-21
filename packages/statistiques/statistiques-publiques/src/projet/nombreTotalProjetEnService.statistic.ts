@@ -2,12 +2,11 @@ import { executeQuery } from '@potentiel-libraries/pg-helpers';
 
 import { cleanScalarStatistic } from '../_utils/cleanScalarStatistic';
 
-const statisticType = 'nombreTotalDemandeComplèteRaccordementDéposées';
+const statisticType = 'nombreTotalProjetEnService';
 
-export const cleanNombreTotalDemandeComplèteRaccordementDéposées =
-  cleanScalarStatistic(statisticType);
+export const cleanNombreTotalProjetEnService = cleanScalarStatistic(statisticType);
 
-export const computeNombreTotalDemandeComplèteRaccordementDéposées = () =>
+export const computeNombreTotalProjetEnService = () =>
   executeQuery(
     `
     insert
@@ -17,12 +16,12 @@ export const computeNombreTotalDemandeComplèteRaccordementDéposées = () =>
       $1, 
       (
         select 
-            count(p.key)
+            count(distinct p.value->>'identifiantProjet')
         from
             domain_views.projection p
         where 
             p.key like 'dossier-raccordement|%'
-            and p.value->>'demandeComplèteRaccordement.accuséRéception.format' is not null
+            and p.value->>'miseEnService.dateMiseEnService' is not null
       )
     )
     `,
