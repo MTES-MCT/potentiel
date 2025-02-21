@@ -1,6 +1,7 @@
 import Alert from '@codegouvfr/react-dsfr/Alert';
 
 import { Iso8601DateTime } from '@potentiel-libraries/iso8601-datetime';
+import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 
 import { FormattedDate } from '@/components/atoms/FormattedDate';
 import { ProjetBanner } from '@/components/molecules/projet/ProjetBanner';
@@ -14,23 +15,26 @@ import {
 } from './TransmettreDateMiseEnService.form';
 
 export type TransmettreDateMiseEnServicePageProps = {
-  projet: TransmettreDateMiseEnServiceFormProps['projet'];
+  identifiantProjet: IdentifiantProjet.RawType;
+  dateDésignation: DateTime.RawType;
   dossierRaccordement: TransmettreDateMiseEnServiceFormProps['dossierRaccordement'];
   intervalleDatesMeSDélaiCDC2022?: { min: Iso8601DateTime; max: Iso8601DateTime };
 };
 
 export const TransmettreDateMiseEnServicePage = ({
-  projet,
+  identifiantProjet,
+  dateDésignation,
   dossierRaccordement,
   intervalleDatesMeSDélaiCDC2022,
 }: TransmettreDateMiseEnServicePageProps) => (
   <ColumnPageTemplate
-    banner={<ProjetBanner identifiantProjet={projet.identifiantProjet} />}
+    banner={<ProjetBanner identifiantProjet={identifiantProjet} />}
     heading={<TitrePageRaccordement />}
     leftColumn={{
       children: (
         <TransmettreDateMiseEnServiceForm
-          projet={projet}
+          identifiantProjet={identifiantProjet}
+          dateDésignation={dateDésignation}
           dossierRaccordement={dossierRaccordement}
         />
       ),
@@ -77,7 +81,7 @@ export const TransmettreDateMiseEnServicePage = ({
                   </span>
                   , la saisie d'une date de mise en service doit être comprise entre la date de
                   désignation du projet{' '}
-                  <FormattedDate className="font-bold" date={projet.dateDésignation} /> et{' '}
+                  <FormattedDate className="font-bold" date={dateDésignation} /> et{' '}
                   <span className="font-bold">ce jour</span>.
                 </li>
               </ul>

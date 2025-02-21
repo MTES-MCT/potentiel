@@ -1,6 +1,2 @@
-export { récupérerProjet } from './récupérerProjet';
-export {
-  vérifierQueLeProjetEstClassé,
-  vérifierQueLeProjetEstÉliminé,
-} from './vérifierStatutProjet';
+export { récupérerLauréat, récupérerLauréatNonAbandonné } from './récupérerLauréat';
 export { applySearchParams } from './applySearchParams';

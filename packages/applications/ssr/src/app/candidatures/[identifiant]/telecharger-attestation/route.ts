@@ -11,8 +11,6 @@ import { Candidature } from '@potentiel-domain/candidature';
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { decodeParameter } from '@/utils/decodeParameter';
 
-import { récupérerProjet } from '../../../_helpers';
-
 // TODO: à supprimer pour utiliser directement Routes.Document.télécharger dans le front
 // une fois qu'on aura migré la page Projet
 const logger = getLogger();
@@ -37,7 +35,16 @@ export const GET = async (_: Request, { params: { identifiant } }: IdentifiantPa
     },
   });
 
-  const { nom: nomProjet } = await récupérerProjet(identifiantProjet);
+  const candidature = await mediator.send<Candidature.ConsulterCandidatureQuery>({
+    type: 'Candidature.Query.ConsulterCandidature',
+    data: {
+      identifiantProjet,
+    },
+  });
+  if (Option.isNone(candidature)) {
+    return notFound();
+  }
+  const { nomProjet } = candidature;
 
   return new Response(result.content, {
     headers: {

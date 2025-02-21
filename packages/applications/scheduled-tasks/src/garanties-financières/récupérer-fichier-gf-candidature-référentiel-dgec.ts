@@ -6,8 +6,8 @@ import chardet from 'chardet';
 import { mediator } from 'mediateur';
 
 import { Option } from '@potentiel-libraries/monads';
-import { DateTime, Email, IdentifiantProjet, StatutProjet } from '@potentiel-domain/common';
-import { GarantiesFinancières } from '@potentiel-domain/laureat';
+import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
+import { GarantiesFinancières, Lauréat } from '@potentiel-domain/laureat';
 import { findProjection, listProjection } from '@potentiel-infrastructure/pg-projections';
 import { loadAggregate } from '@potentiel-infrastructure/pg-event-sourcing';
 import {
@@ -106,10 +106,6 @@ const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
       count: number;
       content: Array<string>;
     };
-    projetÉliminé: {
-      count: number;
-      content: Array<string>;
-    };
     attestationAjoutée: {
       count: number;
       content: Array<string>;
@@ -134,10 +130,6 @@ const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
       content: [],
     },
     projetInconnu: {
-      count: 0,
-      content: [],
-    },
-    projetÉliminé: {
       count: 0,
       content: [],
     },
@@ -181,8 +173,8 @@ const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
       const identifiantProjet = IdentifiantProjet.convertirEnValueType(formattedFileName);
 
-      const projet = await mediator.send<Candidature.ConsulterProjetQuery>({
-        type: 'Candidature.Query.ConsulterProjet',
+      const projet = await mediator.send<Lauréat.ConsulterLauréatQuery>({
+        type: 'Lauréat.Query.ConsulterLauréat',
         data: {
           identifiantProjet: identifiantProjet.formatter(),
         },
@@ -194,15 +186,6 @@ const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
       if (Option.isNone(projet)) {
         statistics.projetInconnu.count++;
         statistics.projetInconnu.content.push(identifiantProjet.formatter());
-        continue;
-      }
-
-      /**
-       * Si le projet est éliminé, on ne fait rien car les projets éliminés ne doivent pas avoir de garanties financières
-       */
-      if (StatutProjet.convertirEnValueType(projet.statut).estÉliminé()) {
-        statistics.projetÉliminé.count++;
-        statistics.projetÉliminé.content.push(identifiantProjet.formatter());
         continue;
       }
 
@@ -262,14 +245,14 @@ const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
       if (!période) {
         statistics.errors.content.push(
-          `❌ ${identifiantProjet.formatter()} (${projet.nom}) : Période non trouvée`,
+          `❌ ${identifiantProjet.formatter()} (${projet.nomProjet}) : Période non trouvée`,
         );
         continue;
       }
 
       if (!période.estNotifiée || !période.notifiéeLe) {
         statistics.errors.content.push(
-          `❌ ${identifiantProjet.formatter()} (${projet.nom}) : Période non notifiée`,
+          `❌ ${identifiantProjet.formatter()} (${projet.nomProjet}) : Période non notifiée`,
         );
         continue;
       }
@@ -301,12 +284,11 @@ const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
   console.log('\n\nStatistiques :');
   console.log(
-    `📂 Nombre de fichiers traités : ${statistics.attestationAjoutée.count + statistics.attestationExistante.count + statistics.fichiersNonCompatibles.count + statistics.gfCréeEtAttestationAjoutée.count + statistics.projetInconnu.count + statistics.projetÉliminé.count}/${dirrents.length}`,
+    `📂 Nombre de fichiers traités : ${statistics.attestationAjoutée.count + statistics.attestationExistante.count + statistics.fichiersNonCompatibles.count + statistics.gfCréeEtAttestationAjoutée.count + statistics.projetInconnu.count}/${dirrents.length}`,
   );
 
   console.log(`❌ Nombre de fichiers non compatibles : ${statistics.fichiersNonCompatibles.count}`);
   console.log(`❓ Nombre de projets inconnu dans potentiel : ${statistics.projetInconnu.count}`);
-  console.log(`☠️ Nombre de projets éliminés : ${statistics.projetÉliminé.count}`);
   console.log(
     `ℹ️ Nombre d'attestations déjà existantes : ${statistics.attestationExistante.count}`,
   );

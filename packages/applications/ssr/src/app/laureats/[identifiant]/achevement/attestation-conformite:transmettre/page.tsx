@@ -3,7 +3,7 @@ import { mediator } from 'mediateur';
 
 import { GarantiesFinancières } from '@potentiel-domain/laureat';
 import { Option } from '@potentiel-libraries/monads';
-import { Candidature } from '@potentiel-domain/candidature';
+import { IdentifiantProjet } from '@potentiel-domain/common';
 
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { decodeParameter } from '@/utils/decodeParameter';
@@ -12,7 +12,7 @@ import {
   TransmettreAttestationConformitéPage,
   TransmettreAttestationConformitéPageProps,
 } from '@/components/pages/attestation-conformité/transmettre/transmettreAttestationConformité.page';
-import { récupérerProjet, vérifierQueLeProjetEstClassé } from '@/app/_helpers';
+import { récupérerLauréatNonAbandonné } from '@/app/_helpers';
 
 export const metadata: Metadata = {
   title: `Transmettre l'attestation de conformité - Potentiel`,
@@ -23,13 +23,7 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
   return PageWithErrorHandling(async () => {
     const identifiantProjet = decodeParameter(identifiant);
 
-    const projet = await récupérerProjet(identifiantProjet);
-
-    await vérifierQueLeProjetEstClassé({
-      statut: projet.statut,
-      message:
-        'Vous ne pouvez pas transmettre une attestation de conformité pour un projet éliminé ou abandonné',
-    });
+    const projet = await récupérerLauréatNonAbandonné(identifiantProjet);
 
     const garantiesFinancières =
       await mediator.send<GarantiesFinancières.ConsulterGarantiesFinancièresQuery>({
@@ -40,14 +34,13 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
       });
 
     const props = mapToProps({
-      identifiantProjet,
-      projet,
+      identifiantProjet: projet.identifiantProjet,
       garantiesFinancières,
     });
 
     return (
       <TransmettreAttestationConformitéPage
-        projet={props.projet}
+        identifiantProjet={props.identifiantProjet}
         peutDemanderMainlevée={props.peutDemanderMainlevée}
         peutVoirMainlevée={props.peutVoirMainlevée}
       />
@@ -56,21 +49,17 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
 }
 
 type MapToProps = (params: {
-  identifiantProjet: string;
-  projet: Candidature.ConsulterProjetReadModel;
+  identifiantProjet: IdentifiantProjet.ValueType;
   garantiesFinancières: Option.Type<GarantiesFinancières.ConsulterGarantiesFinancièresReadModel>;
 }) => TransmettreAttestationConformitéPageProps;
 
-const mapToProps: MapToProps = ({ identifiantProjet, projet, garantiesFinancières }) => {
+const mapToProps: MapToProps = ({ identifiantProjet, garantiesFinancières }) => {
   const peutVoirMainlevée = Option.isSome(garantiesFinancières);
   const peutDemanderMainlevée =
     peutVoirMainlevée && garantiesFinancières.garantiesFinancières.attestation !== undefined;
 
   return {
-    projet: {
-      ...projet,
-      identifiantProjet,
-    },
+    identifiantProjet: identifiantProjet.formatter(),
     peutDemanderMainlevée,
     peutVoirMainlevée,
   };
