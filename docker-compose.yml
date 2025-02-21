@@ -36,6 +36,7 @@ services:
       MB_DB_USER: metabase
       MB_DB_PASS: password
       MB_DB_HOST: db
+      MB_PASSWORD_COMPLEXITY: weak
     depends_on:
       - db
     profiles: ['app']
