@@ -4,7 +4,8 @@ import { jwtVerify } from 'jose';
 import { OAuthConfig, OAuthUserConfig } from 'next-auth/providers';
 
 import { mapToPlainObject, PlainType } from '@potentiel-domain/core';
-import { Utilisateur } from '@potentiel-domain/utilisateur';
+import { IdentifiantUtilisateur, Role, Utilisateur } from '@potentiel-domain/utilisateur';
+import { Option } from '@potentiel-libraries/monads';
 
 import { getJwks } from './openid';
 import { getUtilisateurFromEmail } from './getUtilisateur';
@@ -60,6 +61,16 @@ export default function ProConnect<P extends ProConnectProfile>(
     },
     profile: async (profile) => {
       const utilisateur = await getUtilisateurFromEmail(profile.email);
+
+      if (Option.isNone(utilisateur)) {
+        return {
+          id: Option.none.type,
+          nom: '',
+          groupe: Option.none,
+          role: Role.porteur,
+          identifiantUtilisateur: IdentifiantUtilisateur.unknownUser,
+        };
+      }
 
       return {
         id: profile.uid,

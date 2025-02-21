@@ -5,6 +5,7 @@ export type RawType = string;
 export type ValueType = ReadonlyValueType<{
   email: string;
   formatter: () => RawType;
+  estInconnu: () => boolean;
 }>;
 
 export const bind = ({ email }: PlainType<ValueType>): ValueType => {
@@ -16,6 +17,9 @@ export const bind = ({ email }: PlainType<ValueType>): ValueType => {
     },
     estÉgaleÀ(valueType) {
       return valueType.email === this.email;
+    },
+    estInconnu() {
+      return this.estÉgaleÀ(inconnu);
     },
   };
 };
@@ -29,6 +33,7 @@ export const convertirEnValueType = (value: string): ValueType => {
 const regexEmail = /^[a-z0-9.+/=?^_`{|}~-]+@[a-z0-9-]+(?:\.[a-z0-9-]+)*$/;
 
 export const system = () => convertirEnValueType('system@system');
+export const inconnu = convertirEnValueType('unknown-user@unknown-email.com');
 
 function estValide(value: string): asserts value is RawType {
   const isValid = regexEmail.test(value);

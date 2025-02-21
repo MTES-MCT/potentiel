@@ -36,3 +36,4 @@ export const signOut = (callbackUrl?: string) => {
 };
 
 export const redirectToDashboard = () => `/go-to-user-dashboard`;
+export const unauthorized = () => `/auth/unauthorized`;

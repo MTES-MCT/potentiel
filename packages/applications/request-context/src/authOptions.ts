@@ -3,6 +3,7 @@ import KeycloakProvider from 'next-auth/providers/keycloak';
 
 import { getLogger } from '@potentiel-libraries/monitoring';
 import { Routes } from '@potentiel-applications/routes';
+import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
 
 import { getProviderConfiguration } from './getProviderConfiguration';
 import { refreshToken } from './refreshToken';
@@ -28,6 +29,11 @@ export const authOptions: AuthOptions = {
     }),
     ProConnectProvider(getProviderConfiguration('proconnect')),
   ],
+  pages: {
+    signIn: Routes.Auth.signIn(),
+    error: Routes.Auth.unauthorized(),
+    signOut: Routes.Auth.signOut(),
+  },
   session: {
     strategy: 'jwt',
     // This is the max age for the next-auth cookie
@@ -37,10 +43,23 @@ export const authOptions: AuthOptions = {
     maxAge: parseInt(process.env.SESSION_MAX_AGE ?? String(OneHourInSeconds)),
   },
   events: {
-    signIn: ({ user, account }) => ajouterStatistiqueConnexion(user, account?.provider ?? ''),
+    signIn: ({ user, account }) => {
+      if (
+        user?.identifiantUtilisateur &&
+        !IdentifiantUtilisateur.bind(user.identifiantUtilisateur).estInconnu()
+      ) {
+        ajouterStatistiqueConnexion(user, account?.provider ?? '');
+      }
+    },
   },
   callbacks: {
     signIn({ account, user }) {
+      if (
+        user?.identifiantUtilisateur &&
+        IdentifiantUtilisateur.bind(user.identifiantUtilisateur).estInconnu()
+      ) {
+        return false;
+      }
       if (account?.provider === 'proconnect' && !canConnectWithProConnect(user.role)) {
         getLogger('Auth').info(`User try to connect with ProConnect but is not authorized yet`, {
           user,
@@ -52,6 +71,12 @@ export const authOptions: AuthOptions = {
       return true;
     },
     jwt({ token, trigger, account, user }) {
+      if (
+        user?.identifiantUtilisateur &&
+        IdentifiantUtilisateur.bind(user.identifiantUtilisateur).estInconnu()
+      ) {
+        return {};
+      }
       if (trigger === 'signIn' && account && user) {
         const { sub, expires_at = 0, provider } = account;
         const expiresAtInMs = expires_at * 1000;

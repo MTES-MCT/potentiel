@@ -94,7 +94,7 @@ export const getUtilisateurFromAccessToken = async (
 
 export const getUtilisateurFromEmail = async (
   email: string,
-): Promise<PlainType<Utilisateur.ValueType>> => {
+): Promise<Option.Type<PlainType<Utilisateur.ValueType>>> => {
   const utilisateur = await mediator.send<TrouverUtilisateurQuery>({
     type: 'System.Utilisateur.Query.TrouverUtilisateur',
     data: {
@@ -103,7 +103,7 @@ export const getUtilisateurFromEmail = async (
   });
 
   if (Option.isNone(utilisateur)) {
-    throw new Error(`User not found !`);
+    return utilisateur;
   }
 
   return {

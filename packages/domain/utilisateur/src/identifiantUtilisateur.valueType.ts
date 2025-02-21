@@ -11,6 +11,7 @@ export type RawType = string;
 export type ValueType = ReadonlyValueType<{
   email: string;
   formatter: () => RawType;
+  estInconnu: () => boolean;
 }>;
 
 /**
@@ -25,6 +26,9 @@ export const bind = ({ email }: PlainType<ValueType>): ValueType => {
     },
     estÉgaleÀ(valueType) {
       return valueType.email === this.email;
+    },
+    estInconnu() {
+      return this.estÉgaleÀ(unknownUser);
     },
   };
 };
