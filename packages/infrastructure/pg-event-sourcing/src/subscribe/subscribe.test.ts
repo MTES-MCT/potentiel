@@ -52,7 +52,7 @@ describe(`subscribe`, () => {
   before(async () => {
     initLogger({ debug: logMock, error: logMock, info: logMock, warn: logMock });
 
-    process.env.EVENT_STORE_CONNECTION_STRING = 'postgres://testuser@localhost:5433/potentiel_test';
+    process.env.DATABASE_CONNECTION_STRING = 'postgres://potentiel@localhost:5433/potentiel';
     process.env.LOGGER_LEVEL = 'warn';
 
     await executeQuery(

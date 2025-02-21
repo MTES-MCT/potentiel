@@ -87,7 +87,7 @@ Vous trouverez ci-dessous une description du fonctionnement de l'ensemble des sc
 #### `up`
 
 - **Description**: Démarre les services définis dans le fichier `docker-compose` avec le profil `app`, et attend que la base de données soit prête avant de continuer.
-- **Commande**: `docker compose --profile app up -d && until docker exec potentiel_db pg_isready -U potadmindb -d potentiel; do sleep 1; done`
+- **Commande**: cf [.database/up.sh](../../.database/up.sh)
 
 #### `down`
 
@@ -152,7 +152,7 @@ Vous trouverez ci-dessous une description du fonctionnement de l'ensemble des sc
 #### `up:test`
 
 - **Description**: Lance les services Docker nécessaires pour les tests avec le profil `test` et attend que la base de données soit prête.
-- **Commande**: `docker compose --profile test up -d && until docker exec potentiel_db_tests_integration pg_isready -U testuser -d potentiel_test; do sleep 1; done`
+- **Commande**: cf [.database/up-test.sh](../../.database/up-test.sh)
 
 #### `down:test`
 

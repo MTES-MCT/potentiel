@@ -1,1 +1,1 @@
-export const getConnectionString = () => process.env.EVENT_STORE_CONNECTION_STRING || '';
+export const getConnectionString = () => process.env.DATABASE_CONNECTION_STRING || '';

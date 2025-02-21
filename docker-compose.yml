@@ -6,11 +6,12 @@ services:
     image: postgres:13
     volumes:
       - .database/potentiel-dev.dump:/dump/potentiel-dev.dump
+      - .database/metabase-dev.dump:/dump/metabase-dev.dump
       - .database/restore-dev-db.sh:/docker-entrypoint-initdb.d/restore-dev-db.sh
     environment:
-      - POSTGRES_USER=potadmindb
-      - POSTGRES_PASSWORD=localpwd
-      - POSTGRES_DB=potentiel
+      - POSTGRES_USER=postgres_admin
+      - POSTGRES_PASSWORD=postgres_password
+      - POSTGRES_MULTIPLE_DATABASES=potentiel,metabase
     restart: always
     ports:
       - 5432:5432
@@ -22,6 +23,23 @@ services:
     restart: always
     ports:
       - 6379:6379
+    profiles: ['app']
+  metabase:
+    image: metabase/metabase:v0.53.3
+    container_name: metabase
+    ports:
+      - '3615:3000'
+    environment:
+      MB_DB_TYPE: postgres
+      MB_DB_DBNAME: metabase
+      MB_DB_PORT: 5432
+      MB_DB_USER: metabase
+      MB_DB_PASS: password
+      MB_DB_HOST: db
+      MB_PASSWORD_COMPLEXITY: weak
+      MB_PASSWORD_LENGTH: 4
+    depends_on:
+      - db
     profiles: ['app']
   s3:
     container_name: potentiel_s3
@@ -76,9 +94,10 @@ services:
       - .database/potentiel-dev.dump:/dump/potentiel-dev.dump
       - .database/restore-dev-db.sh:/docker-entrypoint-initdb.d/restore-dev-db.sh
     environment:
+      - POSTGRES_USER=postgres_admin
+      - POSTGRES_PASSWORD=postgres_password
+      - POSTGRES_MULTIPLE_DATABASES=potentiel,metabase
       - POSTGRES_HOST_AUTH_METHOD=trust
-      - POSTGRES_USER=testuser
-      - POSTGRES_DB=potentiel_test
     restart: always
     ports:
       - 5433:5432

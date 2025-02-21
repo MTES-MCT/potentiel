@@ -14,7 +14,7 @@
     "build:front": "webpack --config=webpack.config.js",
     "lint": "eslint ./src --ext .ts,.tsx",
     "format": "prettier './src/**/*.{ts,tsx,css}' --write",
-    "test": "export APPLICATION_STAGE=test && jest --config=jest.config.js --detectOpenHandles"
+    "test": "export APPLICATION_STAGE=test && jest --config=jest.config.js --detectOpenHandles --runInBand"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.670.0",

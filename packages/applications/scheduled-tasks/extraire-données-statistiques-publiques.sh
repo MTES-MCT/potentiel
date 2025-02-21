@@ -1,7 +1,7 @@
 #! /bin/bash -l
 
 
-if [ -z $EVENT_STORE_CONNECTION_STRING ]
+if [ -z $DATABASE_CONNECTION_STRING ]
 then
     echo "Connection is missing!"
     exit 1

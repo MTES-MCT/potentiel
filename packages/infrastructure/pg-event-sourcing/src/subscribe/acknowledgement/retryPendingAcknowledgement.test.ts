@@ -29,7 +29,7 @@ describe('acknowledgement', () => {
   });
 
   before(async () => {
-    process.env.EVENT_STORE_CONNECTION_STRING = 'postgres://testuser@localhost:5433/potentiel_test';
+    process.env.DATABASE_CONNECTION_STRING = 'postgres://potentiel@localhost:5433/potentiel';
 
     await executeQuery(
       'DROP RULE IF EXISTS prevent_delete_on_event_stream on event_store.event_stream',

@@ -3,10 +3,12 @@
 👋 Bienvenue sur le guide de contribution du projet **Potentiel**. Avant tout, nous tenons à vous remercier pour le temps que vous allez consacrer à l'amélioration du projet 🙏
 
 ## Table des matières
-- [Developer's Certificate of Origin 1.1](#developer-certificate)
-- [Premiers pas dans le projet Potentiel](#premiers-pas)
-- [Architecture](#architecture)
-- [Flow de développement](#flow-développement)
+- [Contribuer à Potentiel](#contribuer-à-potentiel)
+  - [Table des matières](#table-des-matières)
+  - [ Developer's Certificate of Origin 1.1](#-developers-certificate-of-origin-11)
+  - [ Premiers pas dans le projet Potentiel](#-premiers-pas-dans-le-projet-potentiel)
+  - [ Architecture](#-architecture)
+  - [ Flow de développement](#-flow-de-développement)
 
 ## <a id="developer-certificate"></a> Developer's Certificate of Origin 1.1
 
