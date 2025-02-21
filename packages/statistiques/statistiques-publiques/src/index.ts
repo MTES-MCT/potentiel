@@ -19,9 +19,9 @@ import {
   computeNombrePorteurInscrit,
 } from './utilisateur/nombrePorteurInscrit.statistic';
 import {
-  cleanNombreTotalDemandeComplèteRaccordementDéposées,
-  computeNombreTotalDemandeComplèteRaccordementDéposées,
-} from './projet/nombreTotalDemandeComplèteRaccordementDéposées.statistic';
+  cleanNombreTotalDCRDéposées,
+  computeNombreTotalDCRDéposées,
+} from './projet/nombreTotalDCRDéposées.statistic';
 import {
   cleanPuissanceTotaleMiseEnService,
   computePuissanceTotaleMiseEnService,
@@ -54,6 +54,10 @@ import {
   cleanTotalPuissanceParAppelOffre,
   computeTotalPuissanceParAppelOffre,
 } from './projet/totalPuissanceParAppelOffre.statistic';
+import {
+  cleanNombreTotalProjetEnService,
+  computeNombreTotalProjetEnService,
+} from './projet/nombreTotalProjetEnService.statistic';
 
 export const cleanStatistiquesPubliques = async () => {
   await cleanNombreTotalProjet();
@@ -61,7 +65,7 @@ export const cleanStatistiquesPubliques = async () => {
   await cleanNombreParrainage();
   await cleanPourcentageAttestationTéléchargée();
   await cleanPourcentageDesGFPPE2Validées();
-  await cleanNombreTotalDemandeComplèteRaccordementDéposées();
+  await cleanNombreTotalDCRDéposées();
   await cleanPuissanceTotaleMiseEnService();
   await cleanPourcentageProjetAvecDCREtPTF();
   await cleanPourcentageDCRDéposées();
@@ -70,6 +74,7 @@ export const cleanStatistiquesPubliques = async () => {
   await cleanNombreDeDemandeParCategorie();
   await cleanNombreDeProjetLauréatParAppelOffre();
   await cleanTotalPuissanceParAppelOffre();
+  await cleanNombreTotalProjetEnService();
 };
 
 export const computeStatistiquesPubliques = async () => {
@@ -78,7 +83,7 @@ export const computeStatistiquesPubliques = async () => {
   await computeNombreParrainage();
   await computePourcentageAttestationTéléchargée();
   await computePourcentageDesGFPPE2Validées();
-  await computeNombreTotalDemandeComplèteRaccordementDéposées();
+  await computeNombreTotalDCRDéposées();
   await computePuissanceTotaleMiseEnService();
   await computePourcentageProjetAvecDCREtPTF();
   await computePourcentageDCRDéposées();
@@ -87,4 +92,5 @@ export const computeStatistiquesPubliques = async () => {
   await computeNombreDeDemandeParCategorie();
   await computeNombreDeProjetLauréatParAppelOffre();
   await computeTotalPuissanceParAppelOffre();
+  await computeNombreTotalProjetEnService();
 };
