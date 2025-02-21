@@ -36,12 +36,15 @@ describe(`attachUserToRequestMiddleware`, () => {
   describe(`when the path is not a static one`, () => {
     const request = { path: '/a-protected-path' } as express.Request;
     const makeFakeGetUtilisateur = (role: string, username: string) => async () => {
-      return Utilisateur.bind({
-        groupe: Option.none,
-        identifiantUtilisateur: IdentifiantUtilisateur.convertirEnValueType(username),
-        nom: '',
-        role: Role.convertirEnValueType(role),
-      });
+      return {
+        ...Utilisateur.bind({
+          groupe: Option.none,
+          identifiantUtilisateur: IdentifiantUtilisateur.convertirEnValueType(username),
+          nom: '',
+          role: Role.convertirEnValueType(role),
+        }),
+        accountUrl: '',
+      };
     };
     describe(`when there is no user email in the keycloak access token`, () => {
       const middleware = makeAttachUserToRequestMiddleware({
