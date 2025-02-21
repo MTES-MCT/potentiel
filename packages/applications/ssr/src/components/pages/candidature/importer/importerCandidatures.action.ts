@@ -17,7 +17,7 @@ import { candidatureCsvSchema, CandidatureShape } from '@/utils/zod/candidature'
 import { getLocalité } from '../helpers';
 
 const schema = zod.object({
-  fichierImportCandidature: singleDocument({ acceptedFileTypes: ['text/csv'] }),
+  fichierImportCandidature: singleDocument({ acceptedFileTypes: ['text/csv', 'text/plain'] }),
 });
 
 export type ImporterCandidaturesFormKeys = keyof zod.infer<typeof schema>;

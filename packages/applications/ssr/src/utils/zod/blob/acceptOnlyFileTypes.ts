@@ -1,4 +1,4 @@
-export type FileTypes = 'application/pdf' | 'text/csv';
+export type FileTypes = 'application/pdf' | 'text/csv' | 'text/plain';
 
 const refine =
   (fileTypes: Array<FileTypes>) =>
