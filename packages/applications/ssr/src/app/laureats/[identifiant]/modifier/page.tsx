@@ -16,8 +16,8 @@ import { getCandidature } from '../../../candidatures/_helpers/getCandidature';
 import { GetLauréat, getLauréat } from '../_helpers/getLauréat';
 
 export const metadata: Metadata = {
-  title: 'Page de modification des lauréats - Potentiel',
-  description: 'Page de modification des lauréats',
+  title: 'Page de modification du projet lauréat - Potentiel',
+  description: 'Page de modification du projet lauréat',
 };
 
 export default async function Page({ params: { identifiant } }: IdentifiantParameter) {
@@ -109,6 +109,7 @@ const mapToProps: MapToProps = (candidature, lauréat, identifiantProjet) => ({
     puissanceProductionAnnuelle: {
       currentValue: lauréat.puissance,
       // TODO: à changer après la migration de puissance
+      // pour le moment cela permet de bloquer la mise à jour côté projet / lauréat
       estEnCoursDeModification: true,
     },
   },

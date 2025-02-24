@@ -27,6 +27,7 @@ const action: FormAction<FormState, typeof schema> = async (_, body) =>
   withUtilisateur(async (utilisateur) => {
     const { identifiantProjet, candidature, laureat } = body;
 
+    // astuce pour tout bloquer si le formulaire ne contient pas de modification
     if (!candidature && !laureat) {
       return {
         status: 'domain-error',
@@ -110,6 +111,7 @@ const action: FormAction<FormState, typeof schema> = async (_, body) =>
           });
           return notFound();
         }
+
         await mediator.send<Lauréat.ModifierLauréatUseCase>({
           type: 'Lauréat.UseCase.ModifierLauréat',
           data: {
@@ -125,7 +127,7 @@ const action: FormAction<FormState, typeof schema> = async (_, body) =>
       status: 'success',
       redirection: {
         url: Routes.Projet.details(identifiantProjet),
-        message: 'Le lauréat et/ou la candidature ont bien été modifiés',
+        message: 'Le projet lauréat a bien été modifié',
       },
     };
   });
