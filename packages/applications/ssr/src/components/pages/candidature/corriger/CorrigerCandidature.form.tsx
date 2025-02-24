@@ -91,8 +91,18 @@ export const CorrigerCandidatureForm: React.FC<CorrigerCandidatureFormProps> = (
         stateRelatedMessage={validationErrors['statut']}
         label="Statut"
         options={[
-          { label: 'Classé', value: Candidature.StatutCandidature.classé.statut },
-          { label: 'Éliminé', value: Candidature.StatutCandidature.éliminé.statut },
+          {
+            label: 'Classé',
+            value: Candidature.StatutCandidature.classé.statut,
+            // TODO remove https://github.com/codegouvfr/react-dsfr/issues/387
+            selected: candidature.statut === 'classé',
+          },
+          {
+            label: 'Éliminé',
+            value: Candidature.StatutCandidature.éliminé.statut,
+            // TODO remove https://github.com/codegouvfr/react-dsfr/issues/387
+            selected: candidature.statut === 'éliminé',
+          },
         ]}
         nativeSelectProps={{
           name: 'statut',
@@ -171,6 +181,8 @@ export const CorrigerCandidatureForm: React.FC<CorrigerCandidatureFormProps> = (
           ...typesActionnariat.map((type) => ({
             label: getActionnariatTypeLabel(type),
             value: type,
+            // TODO remove https://github.com/codegouvfr/react-dsfr/issues/387
+            selected: type === candidature.actionnariat,
           })),
         ]}
         nativeSelectProps={{
@@ -252,6 +264,8 @@ export const CorrigerCandidatureForm: React.FC<CorrigerCandidatureFormProps> = (
         options={Candidature.TypeTechnologie.types.map((type) => ({
           value: type,
           label: getTechnologieTypeLabel(type),
+          // TODO remove https://github.com/codegouvfr/react-dsfr/issues/387
+          selected: type === candidature.technologie,
         }))}
       />
       <Input
@@ -323,7 +337,12 @@ export const CorrigerCandidatureForm: React.FC<CorrigerCandidatureFormProps> = (
               Candidature.TypeGarantiesFinancières.consignation,
               Candidature.TypeGarantiesFinancières.avecDateÉchéance,
               Candidature.TypeGarantiesFinancières.sixMoisAprèsAchèvement,
-            ].map(({ type }) => ({ value: type, label: getGarantiesFinancièresTypeLabel(type) }))}
+            ].map(({ type }) => ({
+              value: type,
+              label: getGarantiesFinancièresTypeLabel(type),
+              // TODO remove https://github.com/codegouvfr/react-dsfr/issues/387
+              selected: type === candidature.typeGarantiesFinancieres,
+            }))}
             nativeSelectProps={{
               name: 'typeGarantiesFinancieres',
               defaultValue: candidature.typeGarantiesFinancieres,

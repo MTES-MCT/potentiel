@@ -3,19 +3,6 @@ import { match } from 'ts-pattern';
 
 import { ReprésentantLégal } from '@potentiel-domain/laureat';
 
-const typesReprésentantLégalOptions = ReprésentantLégal.TypeReprésentantLégal.types
-  .filter((type) => type !== 'inconnu')
-  .map((type) => ({
-    label: match(type)
-      .with('personne-physique', () => 'Personne physique')
-      .with('personne-morale', () => 'Personne morale')
-      .with('collectivité', () => 'Collectivité')
-      .with('autre', () => 'Autre')
-      .exhaustive(),
-    value: type,
-    key: type,
-  }));
-
 export type TypeReprésentantLégalSelectProps = {
   id: string;
   name: string;
@@ -40,33 +27,52 @@ export const TypeReprésentantLégalSelect = ({
   stateRelatedMessage,
   typeReprésentantLégalActuel,
   onTypeReprésentantLégalSelected,
-}: TypeReprésentantLégalSelectProps) => (
-  <Select
-    id={id}
-    label={label}
-    nativeSelectProps={{
-      name,
-      required,
-      'aria-required': required,
-      defaultValue: ReprésentantLégal.TypeReprésentantLégal.bind({
-        type: typeReprésentantLégalActuel,
-      }).estInconnu()
-        ? undefined
-        : typeReprésentantLégalActuel,
-      onChange: (e) => {
-        const typeReprésentantLégalSélectionné = typesReprésentantLégalOptions.find(
-          (type) => type.value === e.currentTarget.value,
-        );
+}: TypeReprésentantLégalSelectProps) => {
+  const defaultValue = ReprésentantLégal.TypeReprésentantLégal.bind({
+    type: typeReprésentantLégalActuel,
+  }).estInconnu()
+    ? undefined
+    : typeReprésentantLégalActuel;
 
-        if (typeReprésentantLégalSélectionné && onTypeReprésentantLégalSelected) {
-          onTypeReprésentantLégalSelected(typeReprésentantLégalSélectionné.value);
-        }
-      },
-    }}
-    placeholder="Sélectionnez le type du représentant légal"
-    options={typesReprésentantLégalOptions}
-    state={state}
-    stateRelatedMessage={stateRelatedMessage}
-    disabled={disabled}
-  />
-);
+  const typesReprésentantLégalOptions = ReprésentantLégal.TypeReprésentantLégal.types
+    .filter((type) => type !== 'inconnu')
+    .map((type) => ({
+      label: match(type)
+        .with('personne-physique', () => 'Personne physique')
+        .with('personne-morale', () => 'Personne morale')
+        .with('collectivité', () => 'Collectivité')
+        .with('autre', () => 'Autre')
+        .exhaustive(),
+      value: type,
+      key: type,
+      // TODO remove https://github.com/codegouvfr/react-dsfr/issues/387
+      selected: type === defaultValue,
+    }));
+
+  return (
+    <Select
+      id={id}
+      label={label}
+      nativeSelectProps={{
+        name,
+        required,
+        'aria-required': required,
+        defaultValue,
+        onChange: (e) => {
+          const typeReprésentantLégalSélectionné = typesReprésentantLégalOptions.find(
+            (type) => type.value === e.currentTarget.value,
+          );
+
+          if (typeReprésentantLégalSélectionné && onTypeReprésentantLégalSelected) {
+            onTypeReprésentantLégalSelected(typeReprésentantLégalSélectionné.value);
+          }
+        },
+      }}
+      placeholder="Sélectionnez le type du représentant légal"
+      options={typesReprésentantLégalOptions}
+      state={state}
+      stateRelatedMessage={stateRelatedMessage}
+      disabled={disabled}
+    />
+  );
+};
