@@ -15,6 +15,7 @@ import { Recours } from './éliminé';
 import { Tache } from './tâche';
 import { Période } from './période';
 import { Auth } from './auth';
+import { StatistiquesPubliques } from './statistiques-publiques';
 
 export const Routes = {
   Abandon,
@@ -32,4 +33,5 @@ export const Routes = {
   ReprésentantLégal,
   Actionnaire,
   Lauréat,
+  StatistiquesPubliques,
 };

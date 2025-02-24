@@ -1,5 +1,7 @@
 import DsfrFooter from '@codegouvfr/react-dsfr/Footer';
 
+import { Routes } from '@potentiel-applications/routes';
+
 export const Footer = () => (
   <DsfrFooter
     id="footer"
@@ -40,7 +42,7 @@ export const Footer = () => (
       {
         text: 'Statistiques',
         linkProps: {
-          href: '/stats.html',
+          href: Routes.StatistiquesPubliques.consulter,
         },
       },
     ]}
