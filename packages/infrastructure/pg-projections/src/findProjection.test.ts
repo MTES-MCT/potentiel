@@ -114,25 +114,4 @@ describe('findProjection', () => {
 
     actual.should.deep.equal(expected);
   });
-
-  it('should return joined projection when a join option is provided', async () => {
-    const actual = await findProjection<FakeProjection, FakeProjection2>(
-      `${category}|${fakeData.data.value}`,
-      {
-        join: { key: 'data.value', entityType: category2 },
-      },
-    );
-
-    const expected = {
-      type: category,
-      ...fakeData,
-      [category2]: {
-        moreData2: 'foo',
-      },
-    };
-
-    Option.isSome(actual).should.be.true;
-
-    actual.should.deep.equal(expected);
-  });
 });

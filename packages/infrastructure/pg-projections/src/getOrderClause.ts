@@ -7,16 +7,12 @@ import { flatten } from '@potentiel-libraries/flat';
  */
 export const getOrderClause = <TEntity extends Entity>(
   orderBy: OrderByOptions<Omit<TEntity, 'type'>>,
-  projection?: string,
 ) => {
   const flattenOrderBy = flatten<typeof orderBy, Record<string, 'ascending' | 'descending'>>(
     orderBy,
   );
 
   return `order by ${Object.entries(flattenOrderBy)
-    .map(
-      ([key, value]) =>
-        `${projection ? projection + '.' : ''}value->>'${key}' ${value === 'ascending' ? 'ASC' : 'DESC'}`,
-    )
+    .map(([key, value]) => `p1.value->>'${key}' ${value === 'ascending' ? 'ASC' : 'DESC'}`)
     .join(', ')}`;
 };

@@ -9,37 +9,32 @@ import { getWhereClause } from './getWhereClause';
 import { getOrderClause } from './getOrderClause';
 import { getRangeClause } from './getRangeClause';
 import { countProjection } from './countProjection';
-import { getJoinClause } from './getJoinClause';
-
-const baseSelectClause = 'select p1.key, p1.value';
-const baseFromClause = 'from domain_views.projection p1';
-const baseWhereClause = `where p1.key LIKE $1`;
+import { getSelectClause } from './getSelectClause';
+import { getFromClause } from './getFromClause';
 
 export const listProjection = async <TEntity extends Entity, TJoin extends Entity | {} = {}>(
   category: TEntity['type'],
   options?: ListOptions<TEntity, TJoin>,
 ): Promise<ListResult<TEntity & Joined<TJoin>>> => {
   const { orderBy, range, where, join } = options ?? {};
-  const orderByClause = orderBy ? getOrderClause(orderBy, 'p1') : '';
+  const selectClause = getSelectClause({ join: !!join });
+  const fromClause = join ? getFromClause({ join }) : getFromClause({});
+  const orderByClause = orderBy ? getOrderClause(orderBy) : '';
   const rangeClause = range ? getRangeClause(range) : '';
+  const key = `${category}|%`;
+  const [whereClause, whereValues] = join
+    ? getWhereClause({ key, where, join })
+    : getWhereClause({ key, where });
 
-  const [whereClause, whereValues] = where ? getWhereClause(where, 'p1') : ['', []];
-  const joinSelectClause = join ? `, p2.value as "join_value"` : '';
-  const joinClause = join ? getJoinClause<TEntity>(join) : '';
-  const [joinWhereClause, joinWhereValues] = join?.where
-    ? getWhereClause(join.where, 'p2', whereValues.length)
-    : ['', []];
-  const selectQuery = `${baseSelectClause}${joinSelectClause} ${baseFromClause} ${joinClause}`;
-  const completeWhereClause = [baseWhereClause, whereClause, joinWhereClause].join(' ');
-
-  const select = format(`${selectQuery}  ${completeWhereClause} ${orderByClause} ${rangeClause}`);
+  const select = format(
+    `${selectClause} ${fromClause}  ${whereClause} ${orderByClause} ${rangeClause}`,
+  );
 
   const result = await executeSelect<KeyValuePair<TEntity> & { join_value?: string }>(
     select,
-    `${category}|%`,
     ...whereValues,
-    ...joinWhereValues,
   );
+
   const total = await countProjection(category, { where });
 
   return {
