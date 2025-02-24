@@ -17,7 +17,7 @@ v1Router.get(
   ensureRole(['ademe']),
   asyncHandler(async (request, response) => {
     if (!METABASE_SECRET_KEY || !METABASE_SITE_URL) {
-      response.status(500).send('Service indisponible');
+      return response.status(500).send('Service indisponible');
     }
 
     const tokenForDashboard = jwt.sign(
