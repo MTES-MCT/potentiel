@@ -4,13 +4,14 @@ import { Option } from '@potentiel-libraries/monads';
 import { GarantiesFinancières } from '@potentiel-domain/laureat';
 import { RebuildTriggered, Event } from '@potentiel-infrastructure/pg-event-sourcing';
 import { findProjection, listProjection } from '@potentiel-infrastructure/pg-projections';
-import { CandidatureAdapter } from '@potentiel-infrastructure/domain-adapters';
 import { getLogger } from '@potentiel-libraries/monitoring';
 import { IdentifiantProjet } from '@potentiel-domain/common';
 import { Where } from '@potentiel-domain/entity';
 
 import { removeProjection } from '../../infrastructure/removeProjection';
 import { upsertProjection } from '../../infrastructure/upsertProjection';
+
+import { getProjectDataFromProjet, projetDataDefaultValue } from './_utils/getProjectData';
 
 export type SubscriptionEvent =
   | (GarantiesFinancières.GarantiesFinancièresEvent & Event)
@@ -58,16 +59,21 @@ export const register = () => {
           `projet-avec-garanties-financieres-en-attente|${identifiantProjet}`,
         );
 
+      const archivesGarantiesFinancièresDefaultValue: Omit<
+        GarantiesFinancières.ArchivesGarantiesFinancièresEntity,
+        'type'
+      > = {
+        identifiantProjet,
+        projet: projetDataDefaultValue,
+        archives: [],
+      };
+
       const garantiesFinancièresDefaultValue: Omit<
         GarantiesFinancières.GarantiesFinancièresEntity,
         'type'
       > = {
         identifiantProjet,
-        nomProjet: '',
-        appelOffre: '',
-        période: '',
-        famille: undefined,
-        régionProjet: '',
+        projet: projetDataDefaultValue,
         garantiesFinancières: {
           statut: 'validé',
           type: '',
@@ -75,29 +81,12 @@ export const register = () => {
         },
       };
 
-      const archivesGarantiesFinancièresDefaultValue: Omit<
-        GarantiesFinancières.ArchivesGarantiesFinancièresEntity,
-        'type'
-      > = {
-        identifiantProjet,
-        nomProjet: '',
-        appelOffre: '',
-        période: '',
-        famille: '',
-        régionProjet: '',
-        archives: [],
-      };
-
       const dépôtEnCoursGarantiesFinancièresDefaultValue: Omit<
         GarantiesFinancières.DépôtEnCoursGarantiesFinancièresEntity,
         'type'
       > = {
         identifiantProjet,
-        nomProjet: '',
-        appelOffre: '',
-        période: '',
-        famille: undefined,
-        régionProjet: '',
+        projet: projetDataDefaultValue,
         dépôt: {
           type: '',
           dateÉchéance: '',
@@ -118,11 +107,7 @@ export const register = () => {
         'type'
       > = {
         identifiantProjet,
-        nomProjet: '',
-        appelOffre: '',
-        période: '',
-        famille: '',
-        régionProjet: '',
+        projet: projetDataDefaultValue,
         motif: '',
         dernièreMiseÀJour: {
           date: '',
@@ -158,50 +143,17 @@ export const register = () => {
         ? projetAvecGarantiesFinancièresEnAttente
         : projetAvecGarantiesFinancièresEnAttenteDefaultValue;
 
-      const getProjectData = async (identifiantProjet: IdentifiantProjet.RawType) => {
-        const projet = await CandidatureAdapter.récupérerProjetAdapter(identifiantProjet);
-        if (Option.isNone(projet)) {
-          getLogger().warn(`Projet inconnu !`),
-            {
-              identifiantProjet,
-              message: event,
-            };
-          return {
-            nomProjet: 'Projet inconnu',
-            appelOffre: `N/A`,
-            période: `N/A`,
-            famille: undefined,
-            régionProjet: '',
-          };
-        }
-        return {
-          nomProjet: projet.nom,
-          appelOffre: projet.appelOffre,
-          période: projet.période,
-          famille: projet.famille,
-          régionProjet: projet.localité.région,
-        };
-      };
-
-      let détailProjet:
-        | {
-            nomProjet: string;
-            régionProjet: string;
-            appelOffre: string;
-            période: string;
-            famille?: string;
-          }
-        | undefined = undefined;
+      let détailProjet = await getProjectDataFromProjet(identifiantProjet);
 
       switch (type) {
         case 'GarantiesFinancièresDemandées-V1':
-          détailProjet = await getProjectData(identifiantProjet);
+          détailProjet = await getProjectDataFromProjet(identifiantProjet);
 
           await upsertProjection<GarantiesFinancières.ProjetAvecGarantiesFinancièresEnAttenteEntity>(
             `projet-avec-garanties-financieres-en-attente|${identifiantProjet}`,
             {
               ...projetAvecGarantiesFinancièresEnAttenteToUpsert,
-              ...détailProjet,
+              projet: détailProjet,
               identifiantProjet: payload.identifiantProjet,
               motif: payload.motif ?? '',
               dateLimiteSoumission: payload.dateLimiteSoumission,
@@ -213,13 +165,13 @@ export const register = () => {
           break;
 
         case 'DépôtGarantiesFinancièresSoumis-V1':
-          détailProjet = await getProjectData(identifiantProjet);
+          détailProjet = await getProjectDataFromProjet(identifiantProjet);
 
           await upsertProjection<GarantiesFinancières.DépôtEnCoursGarantiesFinancièresEntity>(
             `depot-en-cours-garanties-financieres|${identifiantProjet}`,
             {
-              ...détailProjet,
               identifiantProjet,
+              projet: détailProjet,
               dépôt: {
                 type: payload.type,
                 dateÉchéance: payload.dateÉchéance,
@@ -248,7 +200,7 @@ export const register = () => {
 
         case 'DépôtGarantiesFinancièresEnCoursValidé-V1':
         case 'DépôtGarantiesFinancièresEnCoursValidé-V2':
-          détailProjet = await getProjectData(identifiantProjet);
+          détailProjet = await getProjectDataFromProjet(identifiantProjet);
 
           const dépôtValidé = dépôtEnCoursGarantiesFinancièresToUpsert.dépôt;
 
@@ -278,8 +230,8 @@ export const register = () => {
               `archives-garanties-financieres|${identifiantProjet}`,
               {
                 ...archivesGarantiesFinancièresToUpsert,
-                ...détailProjet,
                 identifiantProjet: payload.identifiantProjet,
+                projet: détailProjet,
                 archives: [
                   ...archivesGarantiesFinancièresToUpsert.archives,
                   {
@@ -299,7 +251,7 @@ export const register = () => {
             `garanties-financieres|${identifiantProjet}`,
             {
               ...garantiesFinancièresToUpsert,
-              ...détailProjet,
+              projet: détailProjet,
               garantiesFinancières: {
                 statut: GarantiesFinancières.StatutGarantiesFinancières.validé.statut,
                 type: dépôtValidé.type,
@@ -344,13 +296,13 @@ export const register = () => {
           break;
 
         case 'TypeGarantiesFinancièresImporté-V1':
-          détailProjet = await getProjectData(identifiantProjet);
+          détailProjet = await getProjectDataFromProjet(identifiantProjet);
           await upsertProjection<GarantiesFinancières.GarantiesFinancièresEntity>(
             `garanties-financieres|${identifiantProjet}`,
             {
               ...garantiesFinancièresToUpsert,
-              ...détailProjet,
               identifiantProjet,
+              projet: détailProjet,
               garantiesFinancières: {
                 ...garantiesFinancièresToUpsert.garantiesFinancières,
                 type: payload.type,
@@ -390,12 +342,12 @@ export const register = () => {
           break;
 
         case 'AttestationGarantiesFinancièresEnregistrée-V1':
-          détailProjet = await getProjectData(identifiantProjet);
+          détailProjet = await getProjectDataFromProjet(identifiantProjet);
           await upsertProjection<GarantiesFinancières.GarantiesFinancièresEntity>(
             `garanties-financieres|${identifiantProjet}`,
             {
               ...garantiesFinancièresToUpsert,
-              ...détailProjet,
+              projet: détailProjet,
               garantiesFinancières: {
                 ...garantiesFinancièresToUpsert.garantiesFinancières,
                 dateConstitution: payload.dateConstitution,
@@ -414,12 +366,12 @@ export const register = () => {
           break;
 
         case 'GarantiesFinancièresEnregistrées-V1':
-          détailProjet = await getProjectData(identifiantProjet);
+          détailProjet = await getProjectDataFromProjet(identifiantProjet);
           await upsertProjection<GarantiesFinancières.GarantiesFinancièresEntity>(
             `garanties-financieres|${identifiantProjet}`,
             {
               ...garantiesFinancièresToUpsert,
-              ...détailProjet,
+              projet: détailProjet,
               garantiesFinancières: {
                 statut: GarantiesFinancières.StatutGarantiesFinancières.validé.statut,
                 type: payload.type,
@@ -440,12 +392,12 @@ export const register = () => {
           break;
 
         case 'HistoriqueGarantiesFinancièresEffacé-V1':
-          détailProjet = await getProjectData(identifiantProjet);
+          détailProjet = await getProjectDataFromProjet(identifiantProjet);
           await upsertProjection<GarantiesFinancières.ArchivesGarantiesFinancièresEntity>(
             `archives-garanties-financieres|${identifiantProjet}`,
             {
               ...archivesGarantiesFinancièresToUpsert,
-              ...détailProjet,
+              projet: détailProjet,
               identifiantProjet: payload.identifiantProjet,
               archives: [
                 ...archivesGarantiesFinancièresToUpsert.archives,
@@ -472,7 +424,7 @@ export const register = () => {
           break;
 
         case 'MainlevéeGarantiesFinancièresDemandée-V1':
-          détailProjet = await getProjectData(identifiantProjet);
+          détailProjet = await getProjectDataFromProjet(identifiantProjet);
 
           await upsertProjection<GarantiesFinancières.MainlevéeGarantiesFinancièresEntity>(
             `mainlevee-garanties-financieres|${identifiantProjet}#${payload.demandéLe}`,

@@ -7,13 +7,11 @@ export type ActionnaireEntity = Entity<
     identifiantProjet: string;
     projet: {
       nom: string;
+      région: string;
       appelOffre: string;
       période: string;
       famille?: string;
-      numéroCRE: string;
-      région: string;
     };
-
     actionnaire: { nom: string; misÀJourLe: DateTime.RawType };
     dateDemandeEnCours?: DateTime.RawType;
   }
