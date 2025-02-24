@@ -1,4 +1,3 @@
-/* eslint-disable react/jsx-props-no-spreading */
 'use client';
 
 import Button from '@codegouvfr/react-dsfr/Button';

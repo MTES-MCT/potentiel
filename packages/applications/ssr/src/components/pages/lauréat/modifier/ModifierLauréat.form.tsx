@@ -1,4 +1,3 @@
-/* eslint-disable react/jsx-props-no-spreading */
 'use client';
 
 import Button from '@codegouvfr/react-dsfr/Button';
@@ -37,12 +36,12 @@ export const ModifierLauréatForm: React.FC<ModifierLauréatFormProps> = ({
   return (
     <Form
       action={modifierLauréatAction}
-      heading="Modifier le lauréat"
+      heading="Modifier le projet lauréat"
       onValidationError={setValidationErrors}
       pendingModal={{
         id: 'form-modifier-lauréat',
-        title: 'Modifier le lauréat',
-        children: 'Modification du lauréat en cours...',
+        title: 'Modifier le projet lauréat',
+        children: 'Modification du projet lauréat en cours...',
       }}
       actions={
         <>
