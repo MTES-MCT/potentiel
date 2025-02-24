@@ -34,11 +34,16 @@ export const GestionnaireRéseauSelect = ({
   gestionnaireRéseauActuel,
   onGestionnaireRéseauSelected,
 }: GestionnaireRéseauSelectProps) => {
+  const defaultValue = Option.match(gestionnaireRéseauActuel)
+    .some<string | undefined>((gestionnaire) => gestionnaire.identifiantGestionnaireRéseau.codeEIC)
+    .none(() => undefined);
   const gestionnaireRéseauOptions = listeGestionnairesRéseau.map(
     ({ identifiantGestionnaireRéseau, raisonSociale }) => ({
       label: `${raisonSociale} (code EIC ou gestionnaire : ${identifiantGestionnaireRéseau.codeEIC})`,
       value: identifiantGestionnaireRéseau.codeEIC,
       key: identifiantGestionnaireRéseau.codeEIC,
+      // TODO remove https://github.com/codegouvfr/react-dsfr/issues/387
+      selected: identifiantGestionnaireRéseau.codeEIC === defaultValue,
     }),
   );
 
@@ -48,11 +53,7 @@ export const GestionnaireRéseauSelect = ({
       label={label}
       nativeSelectProps={{
         name,
-        defaultValue: Option.match(gestionnaireRéseauActuel)
-          .some<string | undefined>(
-            (gestionnaire) => gestionnaire.identifiantGestionnaireRéseau.codeEIC,
-          )
-          .none(() => undefined),
+        defaultValue,
         onChange: (e) => {
           const gestionnaireSélectionné = listeGestionnairesRéseau.find(
             (gestionnaire) =>
