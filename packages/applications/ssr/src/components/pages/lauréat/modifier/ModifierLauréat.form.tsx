@@ -142,13 +142,14 @@ export const ModifierLauréatForm: React.FC<ModifierLauréatFormProps> = ({
               name={'puissanceProductionAnnuelle'}
             />
             <Alert
+              className="md:ml-64 md:mr-2"
               severity="warning"
               small
               description={
-                <div className="p-3">
+                <span>
                   Modifier directement ce champs pour le projet est temporairement impossible pour
                   un admin
-                </div>
+                </span>
               }
             />
           </div>

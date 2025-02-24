@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import Button from '@codegouvfr/react-dsfr/Button';
 import Input from '@codegouvfr/react-dsfr/Input';
 
 import { CommunePicker } from '@/components/molecules/CommunePicker';
@@ -7,7 +6,7 @@ import { FormRow } from '@/components/atoms/form/FormRow';
 
 import { ModifierLauréatPageProps } from '../ModifierLauréat.page';
 
-import { ProjectField } from './ModifierLauréatFields';
+import { LinkedValuesButton, ProjectField } from './ModifierLauréatFields';
 
 type LocalitéField = {
   candidature: ModifierLauréatPageProps['candidature'];
@@ -165,15 +164,7 @@ const CommuneField = ({ candidature, lauréat }: LocalitéField) => {
               minLength: 5,
               maxLength: 5,
             }}
-            addon={
-              <Button
-                type="button"
-                iconId={linked ? 'fr-icon-lock-unlock-fill' : 'fr-icon-lock-fill'}
-                title="Appliquer les changements au projet"
-                onClick={onButtonClick}
-                nativeButtonProps={{ 'aria-label': 'Appliquer les changements au projet' }}
-              />
-            }
+            addon={<LinkedValuesButton linked={linked} onButtonClick={onButtonClick} />}
           />
         </div>
         <input
