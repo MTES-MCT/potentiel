@@ -11,7 +11,6 @@ import {
   ProjectDetails,
   SignalerDemandeDelai,
   Signup,
-  Statistiques,
   UploadLegacyModificationFiles,
   ChangerProducteur,
   DemanderChangementPuissance,
@@ -32,13 +31,6 @@ import {
 } from './pages';
 
 export { App } from './App';
-
-export const StatistiquesPage = (props: Parameters<typeof Statistiques>[0]) =>
-  makeHtml({
-    Component: Statistiques,
-    props,
-    title: 'Tableau de bord public',
-  });
 
 export const AdminStatistiquesPage = (props: Parameters<typeof AdminStatistiques>[0]) =>
   makeHtml({
