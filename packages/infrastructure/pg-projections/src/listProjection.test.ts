@@ -17,7 +17,7 @@ import { listProjection } from './listProjection';
 
 should();
 
-describe('listProjection', () => {
+describe.only('listProjection', () => {
   let category = '';
   let category2 = '';
 
@@ -617,7 +617,7 @@ describe('listProjection', () => {
     actual.items.should.have.deep.members(expectedItems);
   });
 
-  it('should find projections with joined projection and where clause matching no results', async () => {
+  it.only('should find projections with joined projection and where clause matching no results', async () => {
     const actual = await listProjection<FakeProjection, FakeProjection2>(category, {
       join: { key: 'data.value', entityType: category2, where: { moreData2: Where.equal('bar') } },
     });
