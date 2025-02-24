@@ -6,20 +6,28 @@ import Input, { InputProps } from '@codegouvfr/react-dsfr/Input';
 import { useState } from 'react';
 import { Tooltip } from '@codegouvfr/react-dsfr/Tooltip';
 
-import { ModifierCandidatureNotifiéeFormEntries } from '@/utils/zod/candidature';
+import {
+  ModifierCandidatureNotifiéeFormEntries,
+  ModifierLauréatValueFormEntries,
+} from '@/utils/zod/candidature';
+
+import { FieldValidationErrors } from '../ModifierLauréat.form';
 
 export type FieldProps<T> = {
   candidature: T;
   lauréat: T;
-  name: keyof ModifierCandidatureNotifiéeFormEntries;
+  name: keyof ModifierLauréatValueFormEntries;
   estEnCoursDeModification?: boolean;
   isPPE2?: boolean;
 };
-type ProjectFieldProps<T> = FieldProps<T> & Pick<InputProps, 'label' | 'nativeInputProps'>;
-type CandidatureFieldProps<T> = {
+type ProjectFieldProps<T> = FieldProps<T> & { validationErrors: FieldValidationErrors } & Pick<
+    InputProps,
+    'label' | 'nativeInputProps'
+  >;
+export type CandidatureFieldProps<T> = {
   candidature: T;
   name: keyof ModifierCandidatureNotifiéeFormEntries;
-} & Pick<InputProps, 'label'>;
+} & { validationErrors: FieldValidationErrors } & Pick<InputProps, 'label'>;
 
 export const ProjectField = <T extends string | number>({
   candidature,
@@ -28,6 +36,7 @@ export const ProjectField = <T extends string | number>({
   name,
   estEnCoursDeModification,
   nativeInputProps,
+  validationErrors,
 }: ProjectFieldProps<T>) => {
   const [linked, setLinked] = useState(candidature === lauréat && !estEnCoursDeModification);
   const [candidatureValue, setCandidatureValue] = useState(candidature);
@@ -51,6 +60,8 @@ export const ProjectField = <T extends string | number>({
         <Input
           className="w-full"
           label=""
+          state={validationErrors[`candidature.${name}`] ? 'error' : 'default'}
+          stateRelatedMessage={validationErrors[`candidature.${name}`]}
           nativeInputProps={{
             ...nativeInputProps,
             value: candidatureValue,
@@ -74,6 +85,8 @@ export const ProjectField = <T extends string | number>({
           className="w-full"
           disabled={estEnCoursDeModification || linked}
           label=""
+          state={validationErrors[`laureat.${name}`] ? 'error' : 'default'}
+          stateRelatedMessage={validationErrors[`laureat.${name}`]}
           nativeInputProps={{
             ...nativeInputProps,
             value: lauréatValue,
@@ -101,6 +114,7 @@ export const CandidatureField = <T extends string | number>({
   candidature,
   label,
   name,
+  validationErrors,
 }: CandidatureFieldProps<T>) => {
   const [candidatureValue, setCandidatureValue] = useState(candidature);
 
@@ -117,6 +131,8 @@ export const CandidatureField = <T extends string | number>({
         <Input
           className="w-full"
           label=""
+          state={validationErrors[`candidature.${name}`] ? 'error' : 'default'}
+          stateRelatedMessage={validationErrors[`candidature.${name}`]}
           nativeInputProps={{
             value: candidatureValue,
             onChange: (ev) => {
@@ -130,6 +146,8 @@ export const CandidatureField = <T extends string | number>({
           className="w-full"
           disabled
           label=""
+          state={validationErrors[`candidature.${name}`] ? 'error' : 'default'}
+          stateRelatedMessage={validationErrors[`candidature.${name}`]}
           nativeInputProps={{
             value: candidatureValue,
           }}

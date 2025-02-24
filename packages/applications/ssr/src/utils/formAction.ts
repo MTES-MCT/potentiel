@@ -123,7 +123,8 @@ export const formAction =
 
       if (e instanceof zod.ZodError) {
         const errors = e.issues.reduce((acc, issue) => {
-          acc[issue.path[0]] = issue.message.trim() ?? '';
+          const path = issue.path.join('.');
+          acc[path] = issue.message.trim() ?? '';
           return acc;
         }, {} as ValidationErrors);
 
