@@ -6,14 +6,17 @@ import { Candidature } from '@potentiel-domain/candidature';
 
 import { getActionnariatTypeLabel } from '../../../candidature/helpers/getActionnariatTypeLabel';
 
-import { LinkedValuesButton } from './ModifierLauréatFields';
+import { CandidatureFieldProps, LinkedValuesButton } from './ModifierLauréatFields';
 
-type Props = {
-  candidature?: string;
-  isPPE2: boolean;
-};
+type Props = CandidatureFieldProps<string> & { isPPE2: boolean };
 
-export const ActionnariatField = ({ candidature, isPPE2 }: Props) => {
+export const ActionnariatField = ({
+  candidature,
+  isPPE2,
+  name,
+  validationErrors,
+  label,
+}: Props) => {
   const [candidatureValue, setCandidatureValue] = useState(candidature);
   const typesActionnariat = isPPE2
     ? Candidature.TypeActionnariat.ppe2Types
@@ -21,10 +24,10 @@ export const ActionnariatField = ({ candidature, isPPE2 }: Props) => {
 
   return (
     <div className="flex flex-row items-center gap-4 w-full">
-      <div className="flex-1 font-semibold">Type d'actionnariat (optionnel)</div>
+      <div className="flex-1 font-semibold">{label}</div>
       <div className="flex-[2] flex px-2">
         <input
-          name={`candidature.actionnariat`}
+          name={`candidature.${name}`}
           type="hidden"
           value={candidatureValue}
           disabled={candidatureValue === candidature}
@@ -32,6 +35,8 @@ export const ActionnariatField = ({ candidature, isPPE2 }: Props) => {
         <Select
           className="w-full"
           label=""
+          state={validationErrors[`candidature.${name}`] ? 'error' : 'default'}
+          stateRelatedMessage={validationErrors[`candidature.${name}`]}
           nativeSelectProps={{
             defaultValue: candidature,
             onChange: (ev) => {
@@ -52,6 +57,8 @@ export const ActionnariatField = ({ candidature, isPPE2 }: Props) => {
           className="w-full"
           disabled
           label=""
+          state={validationErrors[`candidature.${name}`] ? 'error' : 'default'}
+          stateRelatedMessage={validationErrors[`candidature.${name}`]}
           nativeInputProps={{
             value:
               candidatureValue &&

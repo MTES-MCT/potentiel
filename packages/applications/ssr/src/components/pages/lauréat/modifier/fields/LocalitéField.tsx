@@ -5,19 +5,25 @@ import { CommunePicker } from '@/components/molecules/CommunePicker';
 import { FormRow } from '@/components/atoms/form/FormRow';
 
 import { ModifierLauréatPageProps } from '../ModifierLauréat.page';
+import { FieldValidationErrors } from '../ModifierLauréat.form';
 
 import { LinkedValuesButton, ProjectField } from './ModifierLauréatFields';
 
 type LocalitéField = {
   candidature: ModifierLauréatPageProps['candidature'];
   lauréat: ModifierLauréatPageProps['lauréat'];
+  validationErrors: FieldValidationErrors;
 };
 
-export const LocalitéField = ({ candidature, lauréat }: LocalitéField) => {
+export const LocalitéField = ({ candidature, lauréat, validationErrors }: LocalitéField) => {
   return (
     <div className="flex flex-col w-full mt-0">
       <FormRow>
-        <CommuneField candidature={candidature} lauréat={lauréat} />
+        <CommuneField
+          candidature={candidature}
+          lauréat={lauréat}
+          validationErrors={validationErrors}
+        />
       </FormRow>
       <FormRow>
         <ProjectField
@@ -26,6 +32,7 @@ export const LocalitéField = ({ candidature, lauréat }: LocalitéField) => {
           estEnCoursDeModification={lauréat.adresse1.estEnCoursDeModification}
           label="Adresse 1"
           name="adresse1"
+          validationErrors={validationErrors}
         />
       </FormRow>
       <FormRow>
@@ -35,13 +42,14 @@ export const LocalitéField = ({ candidature, lauréat }: LocalitéField) => {
           estEnCoursDeModification={lauréat.adresse2.estEnCoursDeModification}
           label="Adresse 2"
           name="adresse2"
+          validationErrors={validationErrors}
         />
       </FormRow>
     </div>
   );
 };
 
-const CommuneField = ({ candidature, lauréat }: LocalitéField) => {
+const CommuneField = ({ candidature, lauréat, validationErrors }: LocalitéField) => {
   const [candidatureCommune, setCandidatureCommune] = useState({
     commune: candidature.commune,
     codePostal: candidature.codePostal,
@@ -87,6 +95,8 @@ const CommuneField = ({ candidature, lauréat }: LocalitéField) => {
           <Input
             label=""
             className="w-fit"
+            state={validationErrors['candidature.codePostal'] ? 'error' : 'default'}
+            stateRelatedMessage={validationErrors['candidature.codePostal']}
             nativeInputProps={{
               value: candidatureCommune.codePostal,
               onChange: (e) => {
@@ -151,6 +161,8 @@ const CommuneField = ({ candidature, lauréat }: LocalitéField) => {
           <Input
             label=""
             className="w-fit"
+            state={validationErrors['laureat.codePostal'] ? 'error' : 'default'}
+            stateRelatedMessage={validationErrors['laureat.codePostal']}
             nativeInputProps={{
               value: lauréatCommune.codePostal,
               onChange: (e) => {

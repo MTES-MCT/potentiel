@@ -6,21 +6,22 @@ import { Candidature } from '@potentiel-domain/candidature';
 
 import { getTechnologieTypeLabel } from '../../../candidature/helpers';
 
-import { LinkedValuesButton } from './ModifierLauréatFields';
+import { CandidatureFieldProps, LinkedValuesButton } from './ModifierLauréatFields';
 
-type Props = {
-  candidature: string;
-};
-
-export const TechnologieField = ({ candidature }: Props) => {
+export const TechnologieField = ({
+  candidature,
+  name,
+  label,
+  validationErrors,
+}: CandidatureFieldProps<string>) => {
   const [candidatureValue, setCandidatureValue] = useState(candidature);
 
   return (
     <div className="flex flex-row items-center gap-4 w-full">
-      <div className="flex-1 font-semibold">Technologie</div>
+      <div className="flex-1 font-semibold">{label}</div>
       <div className="flex-[2] flex px-2">
         <input
-          name={`candidature.technologie`}
+          name={`candidature.${name}`}
           type="hidden"
           value={candidatureValue}
           disabled={candidatureValue === candidature}
@@ -28,6 +29,8 @@ export const TechnologieField = ({ candidature }: Props) => {
         <Select
           className="w-full"
           label=""
+          state={validationErrors[`candidature.${name}`] ? 'error' : 'default'}
+          stateRelatedMessage={validationErrors[`candidature.${name}`]}
           nativeSelectProps={{
             defaultValue: candidature,
             required: true,
@@ -47,6 +50,8 @@ export const TechnologieField = ({ candidature }: Props) => {
           className="w-full"
           disabled
           label=""
+          state={validationErrors[`candidature.${name}`] ? 'error' : 'default'}
+          stateRelatedMessage={validationErrors[`candidature.${name}`]}
           nativeInputProps={{
             value:
               candidatureValue &&
