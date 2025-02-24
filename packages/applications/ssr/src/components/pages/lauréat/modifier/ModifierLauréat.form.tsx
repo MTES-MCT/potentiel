@@ -73,6 +73,7 @@ export const ModifierLauréatForm: React.FC<ModifierLauréatFormProps> = ({
           </div>
         </FormRow>
         <input type={'hidden'} value={projet.identifiantProjet} name="identifiantProjet" />
+
         <FormRow>
           <ProjectField
             candidature={candidature.nomProjet}
@@ -177,7 +178,9 @@ export const ModifierLauréatForm: React.FC<ModifierLauréatFormProps> = ({
         {projet.isCRE4ZNI && (
           <FormRow>
             <PuissanceALaPointeField
-              puissanceALaPointe={candidature.puissanceALaPointe}
+              candidature={candidature.puissanceALaPointe}
+              name="puissanceALaPointe"
+              label="Engagement de puissance à la pointe"
               validationErrors={validationErrors}
             />
           </FormRow>

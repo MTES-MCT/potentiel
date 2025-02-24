@@ -65,10 +65,29 @@ export const identifiantProjetSchema = z.object({
 });
 
 export const modifierLauréatEtCandidatureSchéma = z
+  .object({ candidature: partialCandidatureNotifiéeSchema.optional() })
+  .merge(z.object({ laureat: partialLauréatSchema.optional() }))
+  .merge(identifiantProjetSchema);
+
+// this is used for validations errors
+// the type won't work with the optional option we need
+const modifierLauréatEtCandidatureValidationSchéma = z
   .object({ candidature: partialCandidatureNotifiéeSchema })
   .merge(z.object({ laureat: partialLauréatSchema }))
   .merge(identifiantProjetSchema);
 
+export type ModifierCandidatureNotifiéeFormEntries = z.infer<typeof candidatureNotifiéeSchema>;
+export type PartialModifierCandidatureNotifiéeFormEntries = z.infer<
+  typeof partialCandidatureNotifiéeSchema
+>;
+export type ModifierLauréatValueFormEntries = z.infer<typeof lauréatSchema>;
+export type PartialModifierLauréatValueFormEntries = z.infer<typeof partialLauréatSchema>;
+export type ModifierLauréatKeys = keyof ModifierLauréatValueFormEntries;
+export type ModifierLauréatEtCandidatureNotifiéeFormEntries = NestedKeys<
+  z.infer<typeof modifierLauréatEtCandidatureValidationSchéma>
+>;
+
+// utils
 type NestedKeys<T> = T extends object
   ? {
       [K in keyof T]: K extends string
@@ -78,15 +97,3 @@ type NestedKeys<T> = T extends object
         : never;
     }[keyof T]
   : never;
-
-export type ModifierCandidatureNotifiéeFormEntries = z.infer<typeof candidatureNotifiéeSchema>;
-export type PartialModifierCandidatureNotifiéeFormEntries = z.infer<
-  typeof partialCandidatureNotifiéeSchema
->;
-export type ModifierCandidatureNotifiéeKeys = keyof ModifierCandidatureNotifiéeFormEntries;
-export type ModifierLauréatValueFormEntries = z.infer<typeof lauréatSchema>;
-export type PartialModifierLauréatValueFormEntries = z.infer<typeof partialLauréatSchema>;
-export type ModifierLauréatKeys = keyof ModifierLauréatValueFormEntries;
-export type ModifierLauréatEtCandidatureNotifiéeFormEntries = NestedKeys<
-  z.infer<typeof modifierLauréatEtCandidatureSchéma>
->;
