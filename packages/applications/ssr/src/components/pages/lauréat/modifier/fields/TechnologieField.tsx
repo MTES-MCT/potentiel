@@ -1,11 +1,12 @@
 import Select from '@codegouvfr/react-dsfr/SelectNext';
 import { useState } from 'react';
 import Input from '@codegouvfr/react-dsfr/Input';
-import Button from '@codegouvfr/react-dsfr/Button';
 
 import { Candidature } from '@potentiel-domain/candidature';
 
 import { getTechnologieTypeLabel } from '../../../candidature/helpers';
+
+import { LinkedValuesButton } from './ModifierLauréatFields';
 
 type Props = {
   candidature: string;
@@ -53,15 +54,7 @@ export const TechnologieField = ({ candidature }: Props) => {
                 Candidature.TypeTechnologie.convertirEnValueType(candidatureValue).type,
               ),
           }}
-          addon={
-            <Button
-              type="button"
-              iconId="fr-icon-lock-fill"
-              title="Appliquer les changements au projet"
-              disabled={true}
-              nativeButtonProps={{ 'aria-label': 'Appliquer les changements au projet' }}
-            />
-          }
+          addon={<LinkedValuesButton isLocked />}
         />
       </div>
     </div>
