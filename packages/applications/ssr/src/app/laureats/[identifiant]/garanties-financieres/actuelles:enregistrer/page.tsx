@@ -9,6 +9,7 @@ import { projetSoumisAuxGarantiesFinancières } from '@/utils/garanties-financi�
 import { ProjetNonSoumisAuxGarantiesFinancièresPage } from '@/components/pages/garanties-financières/ProjetNonSoumisAuxGarantiesFinancières.page';
 import { EnregistrerGarantiesFinancièresPage } from '@/components/pages/garanties-financières/actuelles/enregistrer/EnregistrerGarantiesFinancières.page';
 import { typesGarantiesFinancièresSansInconnuPourFormulaire } from '@/utils/garanties-financières/typesGarantiesFinancièresPourFormulaire';
+import { récupérerLauréat } from '@/app/_helpers';
 
 export const metadata: Metadata = {
   title: `Enregistrer des garanties financières actuelles - Potentiel`,
@@ -20,6 +21,8 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
     const identifiantProjet = decodeParameter(identifiant);
     const { appelOffre, famille, période } =
       IdentifiantProjet.convertirEnValueType(identifiantProjet);
+
+    await récupérerLauréat(identifiantProjet);
 
     const soumisAuxGarantiesFinancières = await projetSoumisAuxGarantiesFinancières({
       appelOffre,

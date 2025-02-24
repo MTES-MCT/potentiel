@@ -8,6 +8,7 @@ import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { EnregistrerAttestationGarantiesFinancièresPage } from '@/components/pages/garanties-financières/actuelles/enregistrerAttestation/EnregistrerAttestationGarantiesFinancières.page';
 import { projetSoumisAuxGarantiesFinancières } from '@/utils/garanties-financières/vérifierAppelOffreSoumisAuxGarantiesFinancières';
 import { ProjetNonSoumisAuxGarantiesFinancièresPage } from '@/components/pages/garanties-financières/ProjetNonSoumisAuxGarantiesFinancières.page';
+import { récupérerLauréat } from '@/app/_helpers';
 
 export const metadata: Metadata = {
   title: `Enregistrer l'attestation de constitution des garanties financières actuelles - Potentiel`,
@@ -19,6 +20,8 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
     const identifiantProjet = decodeParameter(identifiant);
     const { appelOffre, famille, période } =
       IdentifiantProjet.convertirEnValueType(identifiantProjet);
+
+    await récupérerLauréat(identifiantProjet);
 
     const soumisAuxGarantiesFinancières = await projetSoumisAuxGarantiesFinancières({
       appelOffre,

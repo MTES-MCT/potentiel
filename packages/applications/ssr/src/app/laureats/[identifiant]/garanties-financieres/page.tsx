@@ -20,6 +20,7 @@ import {
 } from '@/components/pages/garanties-financières/détails/DétailsGarantiesFinancières.page';
 import { projetSoumisAuxGarantiesFinancières } from '@/utils/garanties-financières/vérifierAppelOffreSoumisAuxGarantiesFinancières';
 import { ProjetNonSoumisAuxGarantiesFinancièresPage } from '@/components/pages/garanties-financières/ProjetNonSoumisAuxGarantiesFinancières.page';
+import { récupérerLauréat } from '@/app/_helpers';
 
 import { getHistoriqueMainlevéeRejetéesActions } from './helpers/getHistoriqueMainlevéeRejetéesActions';
 import { getMainlevéeActions } from './helpers/getMainlevéeActions';
@@ -37,6 +38,8 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
       const identifiantProjet = IdentifiantProjet.convertirEnValueType(
         decodeParameter(identifiant),
       );
+
+      await récupérerLauréat(identifiantProjet.formatter());
 
       const appelOffreDetails = await mediator.send<AppelOffre.ConsulterAppelOffreQuery>({
         type: 'AppelOffre.Query.ConsulterAppelOffre',
