@@ -14,22 +14,18 @@ export const computeProjetLauréatParDépartement = async () => {
     insert
     into 
       domain_public_statistic.carto_projet_statistic
-    select 
+    select
       concat("appelOffreId", '#', "periodeId", '#', "familleId", '#', "numeroCRE") as identifiant,
-      jsonb_build_object(
-        'appelOffreId', "appelOffreId",
-        'periodeId', "periodeId",
-        'familleId', "familleId",
-        'numeroCRE', "numeroCRE",
-        'notifiedOn', "notifiedOn",
-        'departementProjet', "departementProjet",
-        'isFinancementParticipatif', "isFinancementParticipatif",
-        'isInvestissementParticipatif', "isInvestissementParticipatif",
-        'puissance', "puissance"
-    ) as value
+      "appelOffreId" as "appelOffre",
+      TO_TIMESTAMP(("notifiedOn")::BIGINT / 1000)::DATE as "dateNotification",
+      "departementProjet",
+      "isFinancementParticipatif",
+      "isInvestissementParticipatif",
+      "puissance"
     from "projects"
-    where classe = 'Classé'
-    and "abandonedOn" = 0
+    where 
+      classe = 'Classé'
+      and "abandonedOn" = 0
     `,
   );
 };
