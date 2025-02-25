@@ -16,17 +16,18 @@ export const updateManyProjections = async <TEntity extends Entity>(
   await executeQuery(updateQuery, ...values);
 };
 
-export const getUpdateProjectionQuery = <TEntity extends Entity>(
+const getUpdateProjectionQuery = <TEntity extends Entity>(
   category: TEntity['type'],
   where: WhereOptions<Omit<TEntity, 'type'>>,
   update: AtLeastOne<Omit<TEntity, 'type'>>,
 ): [string, Array<unknown>] => {
-  const [whereClause, whereValues] = where ? getWhereClause(where) : ['', []];
-  // shift variable index by the number of where Values, and add 1 for the key filter (category)
-  const [updateClause, updateValues] = getUpdateClause<TEntity>(update, whereValues.length + 1);
+  const [whereClause, whereValues] = getWhereClause({
+    where,
+    key: { operator: 'like', value: `${category}|%` },
+  });
 
-  return [
-    `${updateClause} where key like $1 ${whereClause}`,
-    [`${category}|%`, ...whereValues, ...updateValues],
-  ];
+  // shift variable index by the number of where Values
+  const [updateClause, updateValues] = getUpdateClause<TEntity>(update, whereValues.length);
+
+  return [`${updateClause} ${whereClause}`, [...whereValues, ...updateValues]];
 };

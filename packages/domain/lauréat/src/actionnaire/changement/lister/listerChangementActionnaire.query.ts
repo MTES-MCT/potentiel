@@ -1,7 +1,7 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
-import { List, ListOptions, RangeOptions, Where } from '@potentiel-domain/entity';
+import { Joined, List, RangeOptions, Where } from '@potentiel-domain/entity';
 import { RécupérerIdentifiantsProjetParEmailPorteurPort } from '@potentiel-domain/utilisateur';
 
 import { ChangementActionnaireEntity, StatutChangementActionnaire } from '../..';
@@ -9,6 +9,7 @@ import {
   getRoleBasedWhereCondition,
   Utilisateur,
 } from '../../../_utils/getRoleBasedWhereCondition';
+import { Lauréat } from '../../..';
 
 type ChangementActionnaireItemReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
@@ -58,27 +59,34 @@ export const registerListerChangementActionnaireQuery = ({
       récupérerIdentifiantsProjetParEmailPorteur,
     );
 
-    const options: ListOptions<ChangementActionnaireEntity> = {
-      range,
-      orderBy: {
-        demande: {
-          demandéeLe: 'descending',
+    const demandes = await list<ChangementActionnaireEntity, Lauréat.LauréatEntity>(
+      'changement-actionnaire',
+      {
+        range,
+        orderBy: {
+          demande: {
+            demandéeLe: 'descending',
+          },
+        },
+        join: {
+          entity: 'lauréat',
+          on: 'identifiantProjet',
+          where: {
+            appelOffre: Where.equal(appelOffre),
+            nomProjet: Where.contains(nomProjet),
+            localité: {
+              région: régionProjet,
+            },
+          },
+        },
+        where: {
+          identifiantProjet,
+          demande: {
+            statut: statut ? Where.equal(statut) : Where.notEqualNull(),
+          },
         },
       },
-      where: {
-        identifiantProjet,
-        demande: {
-          statut: statut ? Where.equal(statut) : Where.notEqualNull(),
-        },
-        projet: {
-          appelOffre: Where.equal(appelOffre),
-          nom: Where.contains(nomProjet),
-          région: régionProjet,
-        },
-      },
-    };
-
-    const demandes = await list<ChangementActionnaireEntity>('changement-actionnaire', options);
+    );
 
     return {
       ...demandes,
@@ -90,9 +98,9 @@ export const registerListerChangementActionnaireQuery = ({
 };
 
 const mapToReadModel = (
-  entity: ChangementActionnaireEntity,
+  entity: ChangementActionnaireEntity & Joined<Lauréat.LauréatEntity>,
 ): ChangementActionnaireItemReadModel => ({
-  nomProjet: entity.projet.nom,
+  nomProjet: entity.lauréat.nomProjet,
   statut: StatutChangementActionnaire.convertirEnValueType(entity.demande.statut),
   misÀJourLe: DateTime.convertirEnValueType(entity.demande.demandéeLe),
   identifiantProjet: IdentifiantProjet.convertirEnValueType(entity.identifiantProjet),

@@ -1,6 +1,6 @@
-import { InvalidOperationError, PlainType, ReadonlyValueType } from '@potentiel-domain/core';
+import { match } from 'ts-pattern';
 
-import { assertUnreachable } from '../_utils/assertUnreachable';
+import { InvalidOperationError, PlainType, ReadonlyValueType } from '@potentiel-domain/core';
 
 export const statuts = [
   'accordé',
@@ -56,16 +56,12 @@ export const bind = ({ statut }: PlainType<ValueType>): ValueType => {
         }
         return;
       } else if (nouveauStatut.statut !== 'demandé') {
-        switch (this.statut) {
-          case 'accordé':
-            throw new ChangementActionnaireDéjàAccordéeErreur();
-          case 'annulé':
-            throw new ChangementActionnaireDéjàAnnuléeErreur();
-          case 'rejeté':
-            throw new ChangementActionnaireDéjàRejetéeErreur();
-          default:
-            assertUnreachable(this.statut);
-        }
+        const error = match(this.statut)
+          .with('accordé', () => new ChangementActionnaireDéjàAccordéeErreur())
+          .with('annulé', () => new ChangementActionnaireDéjàAnnuléeErreur())
+          .with('rejeté', () => new ChangementActionnaireDéjàRejetéeErreur())
+          .exhaustive();
+        throw error;
       }
       return;
     },
