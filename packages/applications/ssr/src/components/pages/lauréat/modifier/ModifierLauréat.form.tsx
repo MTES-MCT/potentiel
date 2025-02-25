@@ -3,6 +3,7 @@
 import Button from '@codegouvfr/react-dsfr/Button';
 import React, { useState } from 'react';
 import Alert from '@codegouvfr/react-dsfr/Alert';
+import Link from 'next/link';
 
 import { Routes } from '@potentiel-applications/routes';
 
@@ -167,8 +168,8 @@ export const ModifierLauréatForm: React.FC<ModifierLauréatFormProps> = ({
               small
               description={
                 <span>
-                  Modifier directement ce champs pour le projet est temporairement impossible pour
-                  un admin
+                  Pour un changement sur la puissance du projet, veuillez utiliser le formulaire{' '}
+                  <Link href={Routes.Projet.details(projet.identifiantProjet)}>dédié</Link>.
                 </span>
               }
             />
