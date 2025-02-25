@@ -27,7 +27,7 @@ export const listProjection = async <TEntity extends Entity, TJoin extends Entit
     : getWhereClause({ key, where });
 
   const select = format(
-    `${selectClause} ${fromClause}  ${whereClause} ${orderByClause} ${rangeClause}`,
+    [selectClause, fromClause, whereClause, orderByClause, rangeClause].join(' '),
   );
 
   const result = await executeSelect<KeyValuePair<TEntity> & { join_value?: string }>(
@@ -45,7 +45,7 @@ export const listProjection = async <TEntity extends Entity, TJoin extends Entit
           ...unflatten<unknown, Omit<TEntity, 'type'>>(value),
           type: key.split('|')[0],
           ...(join && join_value
-            ? { [join.entityType]: unflatten<unknown, Omit<TJoin, 'type'>>(join_value) }
+            ? { [join.entity]: unflatten<unknown, Omit<TJoin, 'type'>>(join_value) }
             : {}),
         }) as TEntity & Joined<TJoin>,
     ),

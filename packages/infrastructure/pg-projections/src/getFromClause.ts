@@ -22,6 +22,6 @@ export const getFromClause = <TEntity extends Entity, TJoin extends Entity | {} 
 const getJoinClause = <TEntity extends Entity>(join: JoinOptions<TEntity, Entity>) =>
   format(
     `inner join domain_views.projection p2 on p2.key=format('%s|%%%%s', p1.value->>%L)`,
-    join.entityType,
-    join.key,
+    join.entity,
+    join.on,
   );
