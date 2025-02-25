@@ -32,9 +32,10 @@ export const EditProjectData = ({ project, request }: EditProjectDataProps) => {
       <InfoBox className="mb-5">
         Ce formulaire est accessible temporairement pour modifier la puissance du projet.
         <br />
+        <br />
         {project.notifiedOn && project.isClasse && (
           <>
-            Pour modifier la candidature et le projet après notification, utiliser le{' '}
+            Pour modifier la candidature et le projet <b>après notification</b>, utiliser le{' '}
             <a href={Routes.Lauréat.modifier(identifiantProjet)}>formulaire de modification</a> du
             projet.
           </>
