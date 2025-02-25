@@ -7,7 +7,7 @@ export const getLegacyProjetByIdentifiantProjet = async ({
   période,
   famille,
   numéroCRE,
-}: PlainType<IdentifiantProjet.ValueType>) => {
+}: PlainType<IdentifiantProjet.ValueType>): Promise<Project | null> => {
   try {
     const projet = await Project.findOne({
       where: {
