@@ -10,6 +10,7 @@ import { isNotFoundError } from 'next/dist/client/components/not-found';
 import { DomainError } from '@potentiel-domain/core';
 import { CsvError, CsvValidationError } from '@potentiel-libraries/csv';
 import { getLogger } from '@potentiel-libraries/monitoring';
+import { unflatten } from '@potentiel-libraries/flat';
 
 import { applySearchParams } from '../app/_helpers';
 
@@ -90,7 +91,9 @@ export const formAction =
         };
       }, {});
 
-      const data = schema ? await schema.parseAsync(dataReduced) : dataReduced;
+      const data = schema
+        ? await schema.parseAsync(unflatten(dataReduced))
+        : unflatten(dataReduced);
 
       const result = await action(previousState, data);
 
@@ -120,7 +123,8 @@ export const formAction =
 
       if (e instanceof zod.ZodError) {
         const errors = e.issues.reduce((acc, issue) => {
-          acc[issue.path[0]] = issue.message.trim() ?? '';
+          const path = issue.path.join('.');
+          acc[path] = issue.message.trim() ?? '';
           return acc;
         }, {} as ValidationErrors);
 
