@@ -3,6 +3,7 @@ import path from 'path';
 
 import PizZip from 'pizzip';
 import Docxtemplater from 'docxtemplater';
+import { match } from 'ts-pattern';
 
 import { assets } from '../assets';
 
@@ -79,16 +80,15 @@ export const générerModèleRéponseAdapter: GénérerModèleRéponsePort = asy
 };
 
 const getModèleRéponseFilePath = (type: GénérerModèleRéponseOptions['type']) => {
-  switch (type) {
-    case 'abandon':
-      return path.resolve(assets.docxFolderPath, modèleRéponseAbandonFileName);
-    case 'recours':
-      return path.resolve(assets.docxFolderPath, modèleRéponseRecoursFileName);
-    case 'mainlevée':
-      return path.resolve(assets.docxFolderPath, modèleRéponseMainlevéeFileName);
-    case 'mise-en-demeure':
-      return path.resolve(assets.docxFolderPath, modèleRéponseMiseEnDemeureFileName);
-    case 'actionnaire':
-      return path.resolve(assets.docxFolderPath, modèleRéponseActionnaireFileName);
-  }
+  return match(type)
+    .with('abandon', () => path.resolve(assets.docxFolderPath, modèleRéponseAbandonFileName))
+    .with('recours', () => path.resolve(assets.docxFolderPath, modèleRéponseRecoursFileName))
+    .with('mainlevée', () => path.resolve(assets.docxFolderPath, modèleRéponseMainlevéeFileName))
+    .with('mise-en-demeure', () =>
+      path.resolve(assets.docxFolderPath, modèleRéponseMiseEnDemeureFileName),
+    )
+    .with('actionnaire', () =>
+      path.resolve(assets.docxFolderPath, modèleRéponseActionnaireFileName),
+    )
+    .exhaustive();
 };
