@@ -83,27 +83,38 @@ export const InfoGenerales = ({
           </Link>
         </div>
       )}
-      {Option.isSome(raccordement) && (
-        <div className="print:hidden">
-          <Heading3 className="m-0">Raccordement au réseau</Heading3>
-          <Link href={Routes.Raccordement.détail(formattedIdentifiantProjet)}>
-            Consulter{' '}
-            {role.aLaPermission('raccordement.gestionnaire.modifier') ? 'ou modifier ' : ''}
-            les données de raccordement
-          </Link>
-        </div>
-      )}
-      {isClasse &&
-        !isAbandoned &&
-        Option.isNone(raccordement) &&
-        role.aLaPermission('raccordement.gestionnaire.modifier') && (
-          <div className="print:hidden">
-            <Heading3 className="m-0">Raccordement au réseau</Heading3>
+      <div className="print:hidden">
+        <Heading3 className="m-0">Raccordement au réseau</Heading3>
+        {match({
+          raccordement: Option.isSome(raccordement),
+          isClasse,
+          isAbandoned,
+          modifierPermission: role.aLaPermission('raccordement.gestionnaire.modifier'),
+        })
+          .with({ raccordement: true }, ({ modifierPermission }) => (
             <Link href={Routes.Raccordement.détail(formattedIdentifiantProjet)}>
-              Renseigner les données de raccordement
+              {modifierPermission
+                ? 'Consulter ou modifier les documents'
+                : 'Consulter les documents'}
             </Link>
-          </div>
-        )}
+          ))
+          .with(
+            {
+              raccordement: false,
+              isClasse: true,
+              isAbandoned: false,
+              modifierPermission: true,
+            },
+            () => (
+              <Link href={Routes.Raccordement.détail(formattedIdentifiantProjet)}>
+                Renseigner les données de raccordement
+              </Link>
+            ),
+          )
+          .otherwise(() => (
+            <div>Aucun raccordement pour ce projet</div>
+          ))}
+      </div>
       <div>
         <Heading3 className="m-0">Performances</Heading3>
         <p className="m-0">
@@ -238,13 +249,13 @@ const GarantiesFinancièresProjet = ({
         {match({ peutModifier, peutLever })
           .with(
             { peutModifier: true, peutLever: true },
-            () => 'Consulter, modifier ou lever les garanties financières du projet',
+            () => 'Consulter, modifier ou lever les documents',
           )
           .with(
             { peutModifier: true, peutLever: false },
-            () => 'Consulter ou modifier les garanties financières du projet',
+            () => 'Consulter ou modifier les documents',
           )
-          .otherwise(() => 'Consulter les garanties financières du projet')}
+          .otherwise(() => 'Consulter les documents')}
       </Link>
     </div>
   );
