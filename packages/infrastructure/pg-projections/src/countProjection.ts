@@ -12,7 +12,10 @@ export const countProjection = async <TEntity extends Entity>(
 ): Promise<number> => {
   const selectClause = 'SELECT COUNT(key) as total';
   const fromClause = getFromClause({});
-  const [whereClause, whereValues] = getWhereClause({ where, key: `${category}|%` });
+  const [whereClause, whereValues] = getWhereClause({
+    where,
+    key: { operator: 'like', value: `${category}|%` },
+  });
   const count = format(`${selectClause} ${fromClause} ${whereClause}`);
 
   const [{ total }] = await executeSelect<{ total: number }>(count, ...whereValues);
