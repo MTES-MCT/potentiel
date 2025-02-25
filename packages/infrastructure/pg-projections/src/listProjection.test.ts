@@ -590,7 +590,7 @@ describe.only('listProjection', () => {
     }));
 
     const actual = await listProjection<FakeProjection, FakeProjection2>(category, {
-      join: { key: 'data.value', entityType: category2 },
+      join: { on: 'data.value', entity: category2 },
     });
 
     actual.should.have.all.keys(Object.keys(expected));
@@ -608,7 +608,7 @@ describe.only('listProjection', () => {
     }));
 
     const actual = await listProjection<FakeProjection, FakeProjection2>(category, {
-      join: { key: 'data.value', entityType: category2, where: { moreData2: Where.equal('foo') } },
+      join: { on: 'data.value', entity: category2, where: { moreData2: Where.equal('foo') } },
     });
 
     actual.items.length.should.eq(1);
@@ -619,7 +619,7 @@ describe.only('listProjection', () => {
 
   it.only('should find projections with joined projection and where clause matching no results', async () => {
     const actual = await listProjection<FakeProjection, FakeProjection2>(category, {
-      join: { key: 'data.value', entityType: category2, where: { moreData2: Where.equal('bar') } },
+      join: { on: 'data.value', entity: category2, where: { moreData2: Where.equal('bar') } },
     });
 
     actual.items.length.should.eq(0);

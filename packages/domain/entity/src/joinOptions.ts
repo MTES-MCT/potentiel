@@ -3,8 +3,8 @@ import { NestedKeys } from './nestedKeys';
 import { WhereOptions } from './whereOptions';
 
 export type JoinOptions<TEntity extends Entity, TJoin extends Entity> = {
-  entityType: TJoin['type'];
-  key: NestedKeys<Omit<TEntity, 'type'>>;
+  entity: TJoin['type'];
+  on: NestedKeys<Omit<TEntity, 'type'>>;
   where?: WhereOptions<Omit<TJoin, 'type'>>;
 };
 
