@@ -16,7 +16,7 @@ export const updateManyProjections = async <TEntity extends Entity>(
   await executeQuery(updateQuery, ...values);
 };
 
-export const getUpdateProjectionQuery = <TEntity extends Entity>(
+const getUpdateProjectionQuery = <TEntity extends Entity>(
   category: TEntity['type'],
   where: WhereOptions<Omit<TEntity, 'type'>>,
   update: AtLeastOne<Omit<TEntity, 'type'>>,

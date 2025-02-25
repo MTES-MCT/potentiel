@@ -1,59 +1,150 @@
-import { describe, test } from 'node:test';
+import { after, afterEach, before, beforeEach, describe, test } from 'node:test';
+import { randomUUID } from 'node:crypto';
 
 import { expect } from 'chai';
 
 import { Entity } from '@potentiel-domain/entity';
+import { executeQuery, killPool } from '@potentiel-libraries/pg-helpers';
+import { flatten } from '@potentiel-libraries/flat';
+import { listProjection } from '@potentiel-infrastructure/pg-projections';
 
-import { getUpdateClause } from './updateOneProjection';
-
-type TestEntity = Entity<
-  'test',
-  {
-    foo: string;
-    bar: number;
-    baz: boolean;
-  }
->;
+import { updateOneProjection } from './updateOneProjection';
 
 describe('updateOneProjection', () => {
-  test(`single string key`, () => {
-    const [query, values] = getUpdateClause<TestEntity>({ foo: 'hello' }, 1);
-    expect(query).to.eq("update domain_views.projection set value=jsonb_set(value,'{foo}',$2)");
-    expect(values).to.deep.eq(['"hello"']);
+  let category = '';
+
+  type TestEntity = Entity<
+    typeof category,
+    {
+      id: number;
+      foo: string;
+      bar: number;
+      baz: boolean;
+    }
+  >;
+  const fakeData1: Omit<TestEntity, 'type'> = {
+    id: 1,
+    foo: 'foo1',
+    bar: 1,
+    baz: true,
+  };
+  const fakeData2: Omit<TestEntity, 'type'> = {
+    id: 2,
+    foo: 'foo2',
+    bar: 2,
+    baz: true,
+  };
+
+  before(() => {
+    process.env.DATABASE_CONNECTION_STRING = 'postgres://potentiel@localhost:5433/potentiel';
   });
 
-  test(`single number key`, () => {
-    const [query, values] = getUpdateClause<TestEntity>({ bar: 1 }, 1);
-    expect(query).to.eq("update domain_views.projection set value=jsonb_set(value,'{bar}',$2)");
-    expect(values).to.deep.eq([1]);
+  after(async () => {
+    await killPool();
   });
 
-  test(`single boolean key`, () => {
-    const [query, values] = getUpdateClause<TestEntity>({ baz: true }, 1);
-    expect(query).to.eq("update domain_views.projection set value=jsonb_set(value,'{baz}',$2)");
-    expect(values).to.deep.eq([true]);
+  beforeEach(async () => {
+    category = randomUUID();
+
+    await executeQuery(
+      `insert into domain_views.projection values ($1, $2)`,
+      `${category}|${fakeData1.id}`,
+      flatten(fakeData1),
+    );
+    await executeQuery(
+      `insert into domain_views.projection values ($1, $2)`,
+      `${category}|${fakeData2.id}`,
+      flatten(fakeData2),
+    );
   });
 
-  test(`multiple keys`, () => {
-    const [query, values] = getUpdateClause<TestEntity>(
+  afterEach(async () => {
+    await executeQuery(`delete from domain_views.projection where key like $1`, `${category}|%`);
+  });
+
+  test(`single string key`, async () => {
+    const expected = [
       {
+        ...fakeData1,
+        type: category,
+        foo: 'updated foo',
+      },
+      { ...fakeData2, type: category },
+    ];
+
+    await updateOneProjection<TestEntity>(`${category}|1`, { foo: expected[0].foo });
+
+    const results = await listProjection<TestEntity>(category, { orderBy: { id: 'ascending' } });
+    expect(results.items).to.deep.eq(expected);
+  });
+
+  test(`single number key`, async () => {
+    const expected = [
+      {
+        ...fakeData1,
+        type: category,
+        bar: 42,
+      },
+      { ...fakeData2, type: category },
+    ];
+
+    await updateOneProjection<TestEntity>(`${category}|1`, { bar: expected[0].bar });
+
+    const results = await listProjection<TestEntity>(category, { orderBy: { id: 'ascending' } });
+    expect(results.items).to.deep.eq(expected);
+  });
+
+  test(`single boolean key`, async () => {
+    const expected = [
+      {
+        ...fakeData1,
+        type: category,
+        baz: false,
+      },
+      { ...fakeData2, type: category },
+    ];
+
+    await updateOneProjection<TestEntity>(`${category}|1`, { baz: expected[0].baz });
+
+    const results = await listProjection<TestEntity>(category, { orderBy: { id: 'ascending' } });
+    expect(results.items).to.deep.eq(expected);
+  });
+
+  test(`multiple keys`, async () => {
+    const expected = [
+      {
+        ...fakeData1,
+        type: category,
         foo: '',
         bar: -1,
         baz: false,
       },
-      1,
-    );
-    expect(query).to.eq(
-      "update domain_views.projection set value=jsonb_set(jsonb_set(jsonb_set(value,'{foo}',$2),'{bar}',$3),'{baz}',$4)",
-    );
-    expect(values).to.deep.eq(['""', -1, false]);
+      { ...fakeData2, type: category },
+    ];
+
+    await updateOneProjection<TestEntity>(`${category}|1`, {
+      foo: expected[0].foo,
+      bar: expected[0].bar,
+      baz: expected[0].baz,
+    });
+
+    const results = await listProjection<TestEntity>(category, { orderBy: { id: 'ascending' } });
+    expect(results.items).to.deep.eq(expected);
   });
 
-  test(`escaping characters`, () => {
-    const [, values] = getUpdateClause<TestEntity>(
-      { foo: `hello "you" with  'quotes' and \n \t \r` },
-      1,
-    );
-    expect(values).to.deep.eq([`"hello \\"you\\" with  'quotes' and \\n \\t \\r"`]);
+  test(`escaping characters`, async () => {
+    const expected = [
+      {
+        ...fakeData1,
+        type: category,
+        foo: `hello "you" with  'quotes' and \n \t \r`,
+      },
+      { ...fakeData2, type: category },
+    ];
+
+    await updateOneProjection<TestEntity>(`${category}|1`, { foo: expected[0].foo });
+
+    const results = await listProjection<TestEntity>(category, { orderBy: { id: 'ascending' } });
+    expect(results.items).to.deep.eq(expected);
   });
 });
