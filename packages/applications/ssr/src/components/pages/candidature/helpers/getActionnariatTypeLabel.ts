@@ -1,14 +1,11 @@
+import { match } from 'ts-pattern';
+
 import { Candidature } from '@potentiel-domain/candidature';
 
-export const getActionnariatTypeLabel = (type: Candidature.TypeActionnariat.RawType): string => {
-  switch (type) {
-    case 'financement-collectif':
-      return 'Financement Collectif';
-    case 'financement-participatif':
-      return 'Financement Participatif';
-    case 'gouvernance-partagée':
-      return 'Gouvernance Partagée';
-    case 'investissement-participatif':
-      return 'Investissement Participatif';
-  }
-};
+export const getActionnariatTypeLabel = (type: Candidature.TypeActionnariat.RawType): string =>
+  match(type)
+    .with('financement-collectif', () => 'Financement Collectif')
+    .with('financement-participatif', () => 'Financement Participatif')
+    .with('gouvernance-partagée', () => 'Gouvernance Partagée')
+    .with('investissement-participatif', () => 'Investissement Participatif')
+    .exhaustive();
