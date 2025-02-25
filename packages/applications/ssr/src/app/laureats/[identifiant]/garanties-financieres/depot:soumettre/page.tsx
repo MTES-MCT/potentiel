@@ -1,10 +1,9 @@
 import { Metadata } from 'next';
 import { mediator } from 'mediateur';
-import { notFound } from 'next/navigation';
 
 import { Option } from '@potentiel-libraries/monads';
-import { Candidature } from '@potentiel-domain/candidature';
 import { GarantiesFinancières } from '@potentiel-domain/laureat';
+import { IdentifiantProjet } from '@potentiel-domain/common';
 
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { decodeParameter } from '@/utils/decodeParameter';
@@ -14,6 +13,7 @@ import { projetSoumisAuxGarantiesFinancières } from '@/utils/garanties-financi�
 import { ProjetNonSoumisAuxGarantiesFinancièresPage } from '@/components/pages/garanties-financières/ProjetNonSoumisAuxGarantiesFinancières.page';
 import { ProjetADéjàUnDépôtEnCoursPage } from '@/components/pages/garanties-financières/dépôt/soumettre/ProjetADéjàUnDépôtEnCours.page';
 import { typesGarantiesFinancièresSansInconnuPourFormulaire } from '@/utils/garanties-financières/typesGarantiesFinancièresPourFormulaire';
+import { récupérerLauréat } from '@/app/_helpers';
 
 export const metadata: Metadata = {
   title: 'Soumettre des garanties financières - Potentiel',
@@ -23,20 +23,15 @@ export const metadata: Metadata = {
 export default async function Page({ params: { identifiant } }: IdentifiantParameter) {
   return PageWithErrorHandling(async () => {
     const identifiantProjet = decodeParameter(identifiant);
+    const { appelOffre, famille, période } =
+      IdentifiantProjet.convertirEnValueType(identifiantProjet);
 
-    const candidature = await mediator.send<Candidature.ConsulterProjetQuery>({
-      type: 'Candidature.Query.ConsulterProjet',
-      data: { identifiantProjet },
-    });
-
-    if (Option.isNone(candidature)) {
-      return notFound();
-    }
+    await récupérerLauréat(identifiantProjet);
 
     const soumisAuxGarantiesFinancières = await projetSoumisAuxGarantiesFinancières({
-      appelOffre: candidature.appelOffre,
-      famille: candidature.famille,
-      periode: candidature.période,
+      appelOffre,
+      famille,
+      periode: période,
     });
 
     if (!soumisAuxGarantiesFinancières) {
