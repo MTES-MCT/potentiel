@@ -1,8 +1,4 @@
-export const signIn = (options?: {
-  callbackUrl?: string;
-  showProConnect?: boolean;
-  proConnectNotAvailableForUser?: boolean;
-}) => {
+export const signIn = (options?: { callbackUrl?: string; showProConnect?: boolean }) => {
   const route = `/auth/signIn`;
 
   if (!options) {
@@ -10,14 +6,10 @@ export const signIn = (options?: {
   }
 
   const params = new URLSearchParams();
-  const { callbackUrl, proConnectNotAvailableForUser, showProConnect } = options;
+  const { callbackUrl, showProConnect } = options;
 
   if (callbackUrl) {
     params.set('callbackUrl', callbackUrl);
-  }
-
-  if (proConnectNotAvailableForUser) {
-    params.set('proConnectNotAvailableForUser', 'true');
   }
 
   if (showProConnect) {
@@ -28,11 +20,18 @@ export const signIn = (options?: {
 };
 
 // The signout page, where the user is redirected after federeated logout
-export const signOut = (callbackUrl?: string) => {
+export const signOut = (options?: {
+  callbackUrl?: string;
+  idToken?: string;
+  proConnectNotAvailableForUser?: boolean;
+}) => {
   const route = `/auth/signOut`;
-  if (!callbackUrl) return route;
-  const params = new URLSearchParams({ callbackUrl });
-  return `${route}?${params}`;
+  const { proConnectNotAvailableForUser, ...stringOptions } = options ?? {};
+  const params = new URLSearchParams(stringOptions);
+  if (proConnectNotAvailableForUser) {
+    params.set('proConnectNotAvailableForUser', 'true');
+  }
+  return params.size > 0 ? `${route}?${params}` : route;
 };
 
 export const redirectToDashboard = () => `/go-to-user-dashboard`;

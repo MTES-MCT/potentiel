@@ -54,18 +54,28 @@ export const authOptions: AuthOptions = {
   },
   callbacks: {
     signIn({ account, user }) {
+      const logger = getLogger('Auth');
       if (
         user?.identifiantUtilisateur &&
         IdentifiantUtilisateur.bind(user.identifiantUtilisateur).estInconnu()
       ) {
-        return false;
+        logger.info(`User tries to connect with ProConnect but is not registered yet`, {
+          user,
+        });
+        return Routes.Auth.signOut({
+          proConnectNotAvailableForUser: true,
+          idToken: account?.id_token,
+        });
       }
       if (account?.provider === 'proconnect' && !canConnectWithProConnect(user.role)) {
-        getLogger('Auth').info(`User try to connect with ProConnect but is not authorized yet`, {
+        logger.info(`User tries to connect with ProConnect but is not authorized yet`, {
           user,
         });
 
-        return Routes.Auth.signIn({ proConnectNotAvailableForUser: true });
+        return Routes.Auth.signOut({
+          proConnectNotAvailableForUser: true,
+          idToken: account?.id_token,
+        });
       }
 
       return true;

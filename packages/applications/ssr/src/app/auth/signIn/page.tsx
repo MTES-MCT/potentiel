@@ -20,22 +20,20 @@ export default function SignIn() {
     params.get('showProConnect') ??
     process.env.NEXT_PUBLIC_FLAGS_PROCONNECT_ACTIVATED?.toLowerCase() === 'true';
 
-  const proConnectNotAvailableForUser = params.get('proConnectNotAvailableForUser') ?? false;
-
   useEffect(() => {
     switch (status) {
       case 'authenticated':
         // This checks that the session is up to date with the necessary requirements
         // it's useful when changing what's inside the cookie for instance
         if (!data.utilisateur) {
-          redirect(Routes.Auth.signOut(callbackUrl));
+          redirect(Routes.Auth.signOut({ callbackUrl }));
           break;
         }
         redirect(callbackUrl);
         break;
 
       case 'unauthenticated':
-        if (!showProConnect || proConnectNotAvailableForUser) {
+        if (!showProConnect) {
           setTimeout(() => signIn('keycloak', { callbackUrl }), 2000);
         }
 
@@ -45,12 +43,7 @@ export default function SignIn() {
 
   return (
     <PageTemplate>
-      {proConnectNotAvailableForUser ? (
-        <div className="font-bold text-2xl">
-          Vous n'êtes pas autorisé à utiliser ce mode d'authentification. Nous vous redirigeons vers
-          le mode de connexion classique. Veuillez patienter ...
-        </div>
-      ) : showProConnect ? (
+      {showProConnect ? (
         <>
           <Heading1>Identifiez-vous</Heading1>
           <div className="flex flex-col items-center gap-6 mt-12 md:mt-20">
