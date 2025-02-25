@@ -9,8 +9,11 @@ import { UploadNewOrModifyExistingDocument } from '@/components/atoms/form/docum
 
 import { DemanderChangementReprésentantLégalFormKeys } from '../../changement/demander/demanderChangementReprésentantLégal.action';
 
+import { TypeSociété } from './SaisieTypeSociété.step';
+
 export type SaisiePièceJustificativeProps = {
   typeReprésentantLégal: ReprésentantLégal.TypeReprésentantLégal.RawType;
+  typeSociété?: TypeSociété;
   pièceJustificative?: Array<string>;
   onChange?: (piècesJustificative: Array<string>) => void;
   validationErrors: ValidationErrors<DemanderChangementReprésentantLégalFormKeys>;
@@ -18,6 +21,7 @@ export type SaisiePièceJustificativeProps = {
 
 export const SaisiePièceJustificativeStep: FC<SaisiePièceJustificativeProps> = ({
   typeReprésentantLégal,
+  typeSociété,
   pièceJustificative,
   validationErrors,
   onChange,
@@ -40,6 +44,9 @@ export const SaisiePièceJustificativeStep: FC<SaisiePièceJustificativeProps> =
           `Tout document officiel permettant d'attester de l'existence juridique de l'organisme`,
       );
 
+  const propMultipleDocument =
+    typeSociété !== 'société constituée' ? { multiple: true } : undefined;
+
   return (
     <UploadNewOrModifyExistingDocument
       label={'Pièce justificative'}
@@ -47,7 +54,6 @@ export const SaisiePièceJustificativeStep: FC<SaisiePièceJustificativeProps> =
       hintText={getPièceJustificativeHintText()}
       required
       formats={['pdf']}
-      multiple
       state={validationErrors['piecesJustificatives'] ? 'error' : 'default'}
       stateRelatedMessage={validationErrors['piecesJustificatives']}
       onChange={(piècesJustificatives) => {

@@ -14,9 +14,10 @@ import { Step, Steps } from '@/components/molecules/step/Steps';
 import {
   SaisieNomStep,
   SaisiePièceJustificativeStep,
-  SaisieTypeStep,
+  SaisieTypeReprésentantLégalStep,
   ValidationStep,
 } from '../../_utils/steps';
+import { SaisieTypeSociétéStep, TypeSociété } from '../../_utils/steps/SaisieTypeSociété.step';
 
 import {
   demanderChangementReprésentantLégalAction,
@@ -36,12 +37,28 @@ export const DemanderChangementReprésentantLégalForm: FC<
 
   const [currentStep, setCurrentStep] = useState(1);
 
-  const [type, setType] = useState<ReprésentantLégal.TypeReprésentantLégal.RawType>('inconnu');
+  const [typeReprésentantLégal, setTypeReprésentantLégal] =
+    useState<ReprésentantLégal.TypeReprésentantLégal.RawType>('inconnu');
+
+  const [typeSociété, setTypeSociété] = useState<TypeSociété | undefined>(undefined);
   const [nom, setNom] = useState('');
   const [piècesJustificatives, setPiècesJustificatives] = useState<Array<string>>([]);
 
   const disableCondition =
-    !type || !nom || !piècesJustificatives.length || Object.keys(validationErrors).length > 0;
+    !typeReprésentantLégal ||
+    !nom ||
+    !piècesJustificatives.length ||
+    Object.keys(validationErrors).length > 0;
+
+  const disableNextConditionStep1 =
+    !typeReprésentantLégal ||
+    ReprésentantLégal.TypeReprésentantLégal.bind({
+      type: typeReprésentantLégal,
+    }).estInconnu() ||
+    (ReprésentantLégal.TypeReprésentantLégal.bind({
+      type: typeReprésentantLégal,
+    }).estPersonneMorale() &&
+      !typeSociété);
 
   const steps: Array<Step> = [
     {
@@ -83,18 +100,25 @@ export const DemanderChangementReprésentantLégalForm: FC<
             À défaut de réponse, votre demande sera réputée accordée ou rejetée conformément aux
             règles du cahier des charges en vigueur sur votre projet.
           </p>
-          <SaisieTypeStep
+          <SaisieTypeReprésentantLégalStep
             contexte="demander"
-            typeReprésentantLégal={type}
+            typeReprésentantLégal={typeReprésentantLégal}
             validationErrors={validationErrors}
-            onChange={(nouveauType) => setType(nouveauType)}
+            onChange={(nouveauTypeReprésentantLégal) =>
+              setTypeReprésentantLégal(nouveauTypeReprésentantLégal)
+            }
+          />
+          <SaisieTypeSociétéStep
+            typeReprésentantLégal={typeReprésentantLégal}
+            validationErrors={validationErrors}
+            onChange={(nouveauTypeSociété) => setTypeSociété(nouveauTypeSociété as TypeSociété)}
           />
         </div>
       ),
       nextStep: {
         type: 'link',
         name: 'Commencer',
-        disabled: !type || ReprésentantLégal.TypeReprésentantLégal.bind({ type }).estInconnu(),
+        disabled: disableNextConditionStep1,
       },
     },
     {
@@ -103,13 +127,14 @@ export const DemanderChangementReprésentantLégalForm: FC<
       children: (
         <>
           <SaisieNomStep
-            typeReprésentantLégal={type}
+            typeReprésentantLégal={typeReprésentantLégal}
             nomReprésentantLégal={nom}
             validationErrors={validationErrors}
             onChange={(nouveauNom) => setNom(nouveauNom)}
           />
           <SaisiePièceJustificativeStep
-            typeReprésentantLégal={type}
+            typeReprésentantLégal={typeReprésentantLégal}
+            typeSociété={typeSociété}
             validationErrors={validationErrors}
             onChange={(nouvellesPiècesJustificatives) =>
               setPiècesJustificatives([...nouvellesPiècesJustificatives])
@@ -129,7 +154,8 @@ export const DemanderChangementReprésentantLégalForm: FC<
       name: `Confirmer la demande de changement`,
       children: (
         <ValidationStep
-          typeReprésentantLégal={type}
+          typeReprésentantLégal={typeReprésentantLégal}
+          typeSociété={typeSociété}
           nomReprésentantLégal={nom}
           piècesJustificatives={piècesJustificatives}
           message={`Vous êtes sur le point de demander le changement du représentant légal du projet. Veuillez vérifier l'ensemble des informations saisies et confirmer si tout est correct`}

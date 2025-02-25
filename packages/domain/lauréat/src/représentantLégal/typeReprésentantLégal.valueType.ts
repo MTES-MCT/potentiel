@@ -14,6 +14,7 @@ export type ValueType = ReadonlyValueType<{
   type: RawType;
   formatter(): RawType;
   estInconnu(): boolean;
+  estPersonneMorale(): boolean;
 }>;
 
 export const bind = ({ type }: PlainType<ValueType>): ValueType => {
@@ -28,6 +29,9 @@ export const bind = ({ type }: PlainType<ValueType>): ValueType => {
     },
     estInconnu() {
       return this.estÉgaleÀ(inconnu);
+    },
+    estPersonneMorale() {
+      return this.estÉgaleÀ(personneMorale);
     },
   };
 };

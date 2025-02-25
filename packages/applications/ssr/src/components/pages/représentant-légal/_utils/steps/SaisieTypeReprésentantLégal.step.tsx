@@ -13,14 +13,14 @@ import { TypeReprésentantLégalSelect } from '../../TypeReprésentantLégalSele
 
 type Contexte = 'demander' | 'modifier' | 'corriger';
 
-export type SaisieTypeStepProps = {
+export type SaisieTypeReprésentantLégalStepProps = {
   contexte: Contexte;
   typeReprésentantLégal: ReprésentantLégal.TypeReprésentantLégal.RawType;
   onChange?: (nouveauType: ReprésentantLégal.TypeReprésentantLégal.RawType) => void;
   validationErrors: ValidationErrors<ModifierReprésentantLégalFormKeys>;
 };
 
-export const SaisieTypeStep: FC<SaisieTypeStepProps> = ({
+export const SaisieTypeReprésentantLégalStep: FC<SaisieTypeReprésentantLégalStepProps> = ({
   contexte,
   typeReprésentantLégal,
   onChange,

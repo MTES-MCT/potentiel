@@ -8,7 +8,8 @@ import { Routes } from '@potentiel-applications/routes';
 
 import { FormAction, formAction, FormState } from '@/utils/formAction';
 import { withUtilisateur } from '@/utils/withUtilisateur';
-import { manyDocuments } from '@/utils/zod/document/manyDocuments';
+// import { manyDocuments } from '@/utils/zod/document/manyDocuments';
+import { singleDocument } from '@/utils/zod/document/singleDocument';
 
 const schema = zod.object({
   identifiantProjet: zod.string().min(1),
@@ -16,8 +17,9 @@ const schema = zod.object({
     invalid_type_error: 'Le type de réprésentant légal est invalide',
     required_error: 'Champ obligatoire',
   }),
+  typeSociete
   nomRepresentantLegal: zod.string().min(1, { message: 'Champ obligatoire' }),
-  piecesJustificatives: manyDocuments({
+  piecesJustificatives: singleDocument({
     acceptedFileTypes: ['application/pdf'],
     applyWatermark: true,
   }),

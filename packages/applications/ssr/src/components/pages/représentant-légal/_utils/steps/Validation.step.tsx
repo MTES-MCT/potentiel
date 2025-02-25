@@ -5,8 +5,11 @@ import { match } from 'ts-pattern';
 
 import { ReprésentantLégal } from '@potentiel-domain/laureat';
 
+import { TypeSociété } from './SaisieTypeSociété.step';
+
 type ValidationStepProps = {
   typeReprésentantLégal: ReprésentantLégal.TypeReprésentantLégal.RawType;
+  typeSociété?: TypeSociété;
   nomReprésentantLégal: string;
   piècesJustificatives: ReadonlyArray<string>;
   message: string;
