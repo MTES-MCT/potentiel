@@ -21,12 +21,11 @@ export const getUpdateProjectionQuery = <TEntity extends Entity>(
   where: WhereOptions<Omit<TEntity, 'type'>>,
   update: AtLeastOne<Omit<TEntity, 'type'>>,
 ): [string, Array<unknown>] => {
-  const [whereClause, whereValues] = where ? getWhereClause(where) : ['', []];
+  const [whereClause, whereValues] = where
+    ? getWhereClause({ where, key: `${category}|%` })
+    : ['', []];
   // shift variable index by the number of where Values, and add 1 for the key filter (category)
   const [updateClause, updateValues] = getUpdateClause<TEntity>(update, whereValues.length + 1);
 
-  return [
-    `${updateClause} where key like $1 ${whereClause}`,
-    [`${category}|%`, ...whereValues, ...updateValues],
-  ];
+  return [`${updateClause} where key like $1 ${whereClause}`, [...whereValues, ...updateValues]];
 };
