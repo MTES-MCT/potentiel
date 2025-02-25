@@ -12,20 +12,22 @@ import {
   PrintIcon,
   SecondaryLinkButton,
   DownloadLinkButton,
+  LinkButton,
 } from '../../../components';
+import { match } from 'ts-pattern';
 
 type EnregistrerUneModificationProps = {
-  project: ProjectDataForProjectPage;
+  projectId: ProjectDataForProjectPage['id'];
 };
 
-const EnregistrerUneModification = ({ project }: EnregistrerUneModificationProps) => (
+const EnregistrerUneModification = ({ projectId }: EnregistrerUneModificationProps) => (
   <DropdownMenuSecondaryButton buttonChildren="Enregistrer une modification">
+    <></>
     <DropdownMenuSecondaryButton.DropdownItem
-      href={routes.ADMIN_SIGNALER_DEMANDE_DELAI_PAGE(project.id)}
+      href={routes.ADMIN_SIGNALER_DEMANDE_DELAI_PAGE(projectId)}
     >
       <span>Demande de délai</span>
     </DropdownMenuSecondaryButton.DropdownItem>
-    <></>
   </DropdownMenuSecondaryButton>
 );
 
@@ -149,32 +151,49 @@ const PorteurProjetActions = ({
 type AdminActionsProps = {
   project: ProjectDataForProjectPage;
 };
-const AdminActions = ({ project }: AdminActionsProps) => {
+const AdminActions = ({
+  project: { appelOffreId, periodeId, familleId, numeroCRE, id, notifiedOn, isLegacy },
+}: AdminActionsProps) => {
   const identifiantProjet = formatProjectDataToIdentifiantProjetValueType({
-    appelOffreId: project.appelOffreId,
-    periodeId: project.periodeId,
-    familleId: project.familleId,
-    numeroCRE: project.numeroCRE,
+    appelOffreId: appelOffreId,
+    periodeId: periodeId,
+    familleId: familleId,
+    numeroCRE: numeroCRE,
   }).formatter();
 
   return (
     <div className="flex flex-col md:flex-row gap-2">
-      <EnregistrerUneModification {...{ project }} />
-      {project.notifiedOn && !project.isLegacy ? (
-        <DownloadLinkButton
-          fileUrl={Routes.Candidature.téléchargerAttestation(identifiantProjet)}
-          className="m-auto"
-        >
-          Voir attestation
-        </DownloadLinkButton>
-      ) : !project.isLegacy ? (
-        <PreviewLinkButton
-          fileUrl={Routes.Candidature.prévisualiserAttestation(identifiantProjet)}
-          className="m-auto"
-        >
-          Aperçu attestation
-        </PreviewLinkButton>
-      ) : null}
+      <EnregistrerUneModification projectId={id} />
+      {notifiedOn ? (
+        <LinkButton href={Routes.Lauréat.modifier(identifiantProjet)}>
+          Modifier le projet
+        </LinkButton>
+      ) : (
+        <LinkButton href={Routes.Candidature.corriger(identifiantProjet)}>
+          Modifier la candidature
+        </LinkButton>
+      )}
+      {match({
+        notifiedOn: !!notifiedOn,
+        isLegacy: isLegacy,
+      })
+        .with({ notifiedOn: true, isLegacy: false }, () => (
+          <DownloadLinkButton
+            fileUrl={Routes.Candidature.téléchargerAttestation(identifiantProjet)}
+            className="m-auto"
+          >
+            Voir attestation
+          </DownloadLinkButton>
+        ))
+        .with({ notifiedOn: false, isLegacy: false }, () => (
+          <PreviewLinkButton
+            fileUrl={Routes.Candidature.prévisualiserAttestation(identifiantProjet)}
+            className="m-auto"
+          >
+            Aperçu attestation
+          </PreviewLinkButton>
+        ))
+        .otherwise(() => null)}
       <PrimaryButton className="m-auto inline-flex items-center" onClick={() => window.print()}>
         <PrintIcon className="text-white mr-2" aria-hidden />
         Imprimer la page
@@ -189,7 +208,7 @@ type DrealActionsProps = {
 const DrealActions = ({ project }: DrealActionsProps) => {
   return (
     <div className="flex flex-col md:flex-row gap-2">
-      <EnregistrerUneModification project={project} />
+      <EnregistrerUneModification projectId={project.id} />
       <PrimaryButton onClick={() => window.print()}>
         <PrintIcon className="text-white mr-2" aria-hidden />
         Imprimer la page
