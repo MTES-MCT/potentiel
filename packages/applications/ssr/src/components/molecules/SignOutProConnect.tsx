@@ -17,7 +17,7 @@ export const SignOutProConnect = ({ callbackUrl }: SignOutProConnectProps) => {
       <Heading1>Vous n'êtes pas autorisé à utiliser ProConnect.</Heading1>
       <p className={fr.cx('fr-text--sm', 'fr-mb-3w')}>
         ProConnect est en phase d'expérimentation actuellement. <br />
-        Vous allez être déconnecté, veuillez choisir l'authentification par mot de passe.
+        Veuillez vous déconnecter et choisir l'authentification par mot de passe.
       </p>
       <ul className={fr.cx('fr-btns-group', 'fr-btns-group--inline-md')}>
         <li>
