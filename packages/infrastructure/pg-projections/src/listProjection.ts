@@ -1,6 +1,6 @@
 import format from 'pg-format';
 
-import { Entity, Joined, ListOptions, ListResult } from '@potentiel-domain/entity';
+import { Entity, Joined, ListOptions, ListResult, WhereCondition } from '@potentiel-domain/entity';
 import { unflatten } from '@potentiel-libraries/flat';
 import { executeSelect } from '@potentiel-libraries/pg-helpers';
 
@@ -21,7 +21,7 @@ export const listProjection = async <TEntity extends Entity, TJoin extends Entit
   const fromClause = join ? getFromClause({ join }) : getFromClause({});
   const orderByClause = orderBy ? getOrderClause(orderBy) : '';
   const rangeClause = range ? getRangeClause(range) : '';
-  const key = `${category}|%`;
+  const key: WhereCondition = { operator: 'like', value: `${category}|%` };
   const [whereClause, whereValues] = join
     ? getWhereClause({ key, where, join })
     : getWhereClause({ key, where });

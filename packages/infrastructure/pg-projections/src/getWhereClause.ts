@@ -1,13 +1,20 @@
 import format from 'pg-format';
 import { match } from 'ts-pattern';
 
-import { Entity, JoinOptions, WhereOperator, WhereOptions } from '@potentiel-domain/entity';
+import {
+  Entity,
+  EqualWhereCondition,
+  JoinOptions,
+  LikeWhereCondition,
+  WhereOperator,
+  WhereOptions,
+} from '@potentiel-domain/entity';
 import { flatten } from '@potentiel-libraries/flat';
 
 type Condition = { name: string; value?: unknown; operator: WhereOperator };
 
 type GetWhereClauseOptions<TEntity extends Entity, TJoin extends Entity | {} = {}> = {
-  key: string;
+  key: EqualWhereCondition<string> | LikeWhereCondition;
   where?: WhereOptions<Omit<TEntity, 'type'>>;
 } & (TJoin extends Entity ? { join: JoinOptions<TEntity, TJoin> } : { join?: undefined });
 
@@ -17,7 +24,7 @@ export const getWhereClause = <TEntity extends Entity, TJoin extends Entity | {}
   where,
   join,
 }: GetWhereClauseOptions<TEntity, TJoin>): [clause: string, values: Array<unknown>] => {
-  const baseWhereClause = `where p1.key LIKE $1`;
+  const baseWhereClause = key.operator === 'like' ? `where p1.key LIKE $1` : `where p1.key = $1`;
 
   const [whereClause, whereValues] = where ? buildWhereClause(where, 'p1') : ['', []];
 
@@ -26,7 +33,7 @@ export const getWhereClause = <TEntity extends Entity, TJoin extends Entity | {}
     : ['', []];
   const completeWhereClause = [baseWhereClause, whereClause, joinWhereClause].join(' ');
 
-  return [completeWhereClause, [key, ...whereValues, ...joinWhereValues]];
+  return [completeWhereClause, [key.value, ...whereValues, ...joinWhereValues]];
 };
 
 /**
