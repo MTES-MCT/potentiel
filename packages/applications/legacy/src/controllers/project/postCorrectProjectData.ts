@@ -33,19 +33,7 @@ v1Router.post(
       );
     }
 
-    const {
-      projectId,
-      projectVersionDate,
-      territoireProjet,
-      puissance,
-      prixReference,
-      evaluationCarbone,
-      nomCandidat,
-      email,
-      engagementFournitureDePuissanceAlaPointe,
-      participatif,
-      actionnariat,
-    } = request.body;
+    const { projectId, projectVersionDate, puissance } = request.body;
 
     if (!validateUniqueId(projectId)) {
       return errorResponse({
@@ -56,29 +44,10 @@ v1Router.post(
       });
     }
 
-    const { isFinancementParticipatif, isInvestissementParticipatif } =
-      participatif === 'investissement'
-        ? { isFinancementParticipatif: false, isInvestissementParticipatif: true }
-        : participatif === 'financement'
-          ? { isFinancementParticipatif: true, isInvestissementParticipatif: false }
-          : { isFinancementParticipatif: false, isInvestissementParticipatif: false };
-
-    const correctedData = {
-      territoireProjet: territoireProjet.length ? territoireProjet : undefined,
-      puissance: Number(puissance),
-      prixReference: Number(prixReference),
-      evaluationCarbone: Number(evaluationCarbone),
-      nomCandidat,
-      email,
-      engagementFournitureDePuissanceAlaPointe: Boolean(engagementFournitureDePuissanceAlaPointe),
-      isFinancementParticipatif: Boolean(isFinancementParticipatif),
-      isInvestissementParticipatif: Boolean(isInvestissementParticipatif),
-      actionnariat,
-    };
     const result = await correctProjectData({
       projectId,
       projectVersionDate: new Date(Number(projectVersionDate)),
-      correctedData,
+      correctedData: { puissance: Number(puissance) },
       user: request.user,
     });
 

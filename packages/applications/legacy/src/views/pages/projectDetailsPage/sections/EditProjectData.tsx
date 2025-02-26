@@ -19,8 +19,6 @@ type EditProjectDataProps = {
 };
 
 export const EditProjectData = ({ project, request }: EditProjectDataProps) => {
-  const { query } = request as any;
-
   if (!project.notifiedOn || project.isAbandoned) {
     return null;
   }
@@ -59,48 +57,6 @@ export const EditProjectData = ({ project, request }: EditProjectDataProps) => {
           name="projectVersionDate"
           value={new Date(project.updatedAt || 0).getTime()}
         />
-        <input
-          type="hidden"
-          name="territoireProjet"
-          value={query.territoireProjet || project.territoireProjet || ''}
-        />
-        <input
-          type="hidden"
-          name="prixReference"
-          value={query.prixReference || project.prixReference}
-        />
-        <input
-          type="hidden"
-          name="evaluationCarbone"
-          value={query.evaluationCarbone || project.evaluationCarbone}
-        />
-        <input type="hidden" name="nomCandidat" value={query.nomCandidat || project.nomCandidat} />
-        <input type="hidden" name="email" value={query.email || project.email} />
-        <input
-          type="hidden"
-          name="engagementFournitureDePuissanceAlaPointe"
-          value={
-            query.engagementFournitureDePuissanceAlaPointe ||
-            project.engagementFournitureDePuissanceAlaPointe
-          }
-        />
-        <input
-          type="hidden"
-          name="participatif"
-          value={
-            query.participatif ||
-            (project.isFinancementParticipatif
-              ? 'financement'
-              : project.isInvestissementParticipatif
-                ? 'investissement'
-                : '')
-          }
-        />
-        <input
-          type="hidden"
-          name="actionnariat"
-          value={query.actionnariat || project.actionnariat}
-        />
 
         <div>
           <Label htmlFor="puissance">Puissance (en {project.appelOffre?.unitePuissance})</Label>
@@ -111,7 +67,7 @@ export const EditProjectData = ({ project, request }: EditProjectDataProps) => {
             id="puissance"
             name="puissance"
             placeholder="Renseigner une puissance"
-            defaultValue={query.puissance || project.puissance}
+            defaultValue={project.puissance}
           />
         </div>
 
