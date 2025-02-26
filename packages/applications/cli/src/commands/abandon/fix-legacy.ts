@@ -1,3 +1,5 @@
+import { writeFile } from 'fs/promises';
+
 import { Command, Flags } from '@oclif/core';
 import { mediator } from 'mediateur';
 import { PDFDocument, StandardFonts } from 'pdf-lib';
@@ -92,28 +94,39 @@ export default class FixLegacyAbandon extends Command {
       return;
     }
 
+    const success = [];
+    const errors = [];
+
     for (const { identifiantProjet, abandonedOn } of results) {
-      console.log(identifiantProjet);
-      await mediator.send<Abandon.DemanderAbandonUseCase>({
-        type: 'Lauréat.Abandon.UseCase.DemanderAbandon',
-        data: {
-          identifiantProjetValue: identifiantProjet,
-          dateDemandeValue: new Date(abandonedOn).toISOString(),
-          identifiantUtilisateurValue: Email.system().email,
-          pièceJustificativeValue: buildDocument(),
-          raisonValue: 'Rapatriement des abandons accordés hors Potentiel',
-        },
-      });
-      await mediator.send<Abandon.AccorderAbandonUseCase>({
-        type: 'Lauréat.Abandon.UseCase.AccorderAbandon',
-        data: {
-          identifiantProjetValue: identifiantProjet,
-          dateAccordValue: new Date(abandonedOn).toISOString(),
-          identifiantUtilisateurValue: Email.system().email,
-          réponseSignéeValue: buildDocument(),
-        },
-      });
+      try {
+        console.log(identifiantProjet);
+        await mediator.send<Abandon.DemanderAbandonUseCase>({
+          type: 'Lauréat.Abandon.UseCase.DemanderAbandon',
+          data: {
+            identifiantProjetValue: identifiantProjet,
+            dateDemandeValue: new Date(abandonedOn).toISOString(),
+            identifiantUtilisateurValue: Email.system().email,
+            pièceJustificativeValue: buildDocument(),
+            raisonValue: 'Rapatriement des abandons accordés hors Potentiel',
+          },
+        });
+        await mediator.send<Abandon.AccorderAbandonUseCase>({
+          type: 'Lauréat.Abandon.UseCase.AccorderAbandon',
+          data: {
+            identifiantProjetValue: identifiantProjet,
+            dateAccordValue: new Date(abandonedOn).toISOString(),
+            identifiantUtilisateurValue: Email.system().email,
+            réponseSignéeValue: buildDocument(),
+          },
+        });
+        success.push(identifiantProjet);
+      } catch (error) {
+        errors.push({ identifiantProjet, error });
+      }
     }
+
+    await writeFile('success.json', JSON.stringify(success, null, 2));
+    await writeFile('errors.json', JSON.stringify(errors, null, 2));
   }
 }
 
