@@ -4,7 +4,7 @@ import { notFound } from 'next/navigation';
 
 import { Option } from '@potentiel-libraries/monads';
 import { Actionnaire, Lauréat, ReprésentantLégal } from '@potentiel-domain/laureat';
-import { CandidatureAdapter } from '@potentiel-infrastructure/domain-adapters';
+import { Candidature } from '@potentiel-domain/candidature';
 
 type Props = {
   identifiantProjet: string;
@@ -77,7 +77,12 @@ const getReprésentantLégalInfos = async ({ identifiantProjet }: Props) => {
 };
 
 const getPuissanceInfos = async ({ identifiantProjet }: Props) => {
-  const projet = await CandidatureAdapter.récupérerProjetAdapter(identifiantProjet);
+  const projet = await mediator.send<Candidature.ConsulterProjetQuery>({
+    type: 'Candidature.Query.ConsulterProjet',
+    data: {
+      identifiantProjet,
+    },
+  });
 
   if (Option.isNone(projet)) {
     return notFound();
