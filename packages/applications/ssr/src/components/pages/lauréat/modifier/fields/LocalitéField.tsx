@@ -62,7 +62,10 @@ const CommuneField = ({ candidature, lauréat, validationErrors }: LocalitéFiel
     departement: lauréat.departement.currentValue,
     region: lauréat.region.currentValue,
   });
-  const [linked, setLinked] = useState(candidatureCommune === lauréatCommune);
+  const [linked, setLinked] = useState(
+    candidatureCommune.commune === lauréatCommune.commune &&
+      candidatureCommune.codePostal === lauréatCommune.codePostal,
+  );
 
   const onButtonClick = () => {
     setLinked((l) => !l);
@@ -139,23 +142,39 @@ const CommuneField = ({ candidature, lauréat, validationErrors }: LocalitéFiel
       </div>
       <div className="flex-[2] flex flex-row gap-2 px-2">
         <div className="flex-[2]">
-          <CommunePicker
-            defaultValue={lauréatCommune}
-            value={linked ? candidatureCommune : undefined}
-            label=""
-            nativeInputProps={{
-              required: true,
-              'aria-required': true,
-            }}
-            onSelected={(commune) => {
-              if (commune) {
-                setLauréatCommune(commune);
-                if (linked) {
-                  setCandidatureCommune(commune);
+          {linked ? (
+            <Input
+              label=""
+              state={validationErrors['laureat.codePostal'] ? 'error' : 'default'}
+              stateRelatedMessage={validationErrors['laureat.codePostal']}
+              nativeInputProps={{
+                value: [
+                  lauréatCommune.commune,
+                  lauréatCommune.departement,
+                  lauréatCommune.region,
+                ].join(', '),
+              }}
+              addon={<div />}
+              disabled
+            />
+          ) : (
+            <CommunePicker
+              defaultValue={lauréatCommune}
+              label=""
+              nativeInputProps={{
+                required: true,
+                'aria-required': true,
+              }}
+              onSelected={(commune) => {
+                if (commune) {
+                  setLauréatCommune(commune);
+                  if (linked) {
+                    setCandidatureCommune(commune);
+                  }
                 }
-              }
-            }}
-          />
+              }}
+            />
+          )}
         </div>
         <div className="flex-1">
           <Input
@@ -176,6 +195,7 @@ const CommuneField = ({ candidature, lauréat, validationErrors }: LocalitéFiel
               minLength: 5,
               maxLength: 5,
             }}
+            disabled={linked}
             addon={<LinkedValuesButton linked={linked} onButtonClick={onButtonClick} />}
           />
         </div>
