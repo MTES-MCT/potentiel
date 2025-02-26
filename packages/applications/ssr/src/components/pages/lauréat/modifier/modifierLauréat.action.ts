@@ -89,13 +89,13 @@ const action: FormAction<FormState, typeof schema> = async (_, body) =>
       }
 
       const lauréatAEtéModifié =
-        laureat.adresse1 ||
-        laureat.adresse2 ||
-        laureat.nomProjet ||
-        laureat.codePostal ||
-        laureat.commune ||
-        laureat.departement ||
-        laureat.region;
+        laureat.adresse1 != undefined ||
+        laureat.adresse2 != undefined ||
+        laureat.nomProjet != undefined ||
+        laureat.codePostal != undefined ||
+        laureat.commune != undefined ||
+        laureat.departement != undefined ||
+        laureat.region != undefined;
 
       if (lauréatAEtéModifié) {
         const lauréatAModifier = await mediator.send<Lauréat.ConsulterLauréatQuery>({

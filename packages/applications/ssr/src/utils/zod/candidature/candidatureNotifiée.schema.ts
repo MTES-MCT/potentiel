@@ -60,21 +60,21 @@ export const lauréatSchema = z
 
 const partialLauréatSchema = lauréatSchema.partial();
 
-export const identifiantProjetSchema = z.object({
-  identifiantProjet: z.string().min(1),
-});
+const identifiantProjetSchema = z.string().min(1);
 
-export const modifierLauréatEtCandidatureSchéma = z
-  .object({ candidature: partialCandidatureNotifiéeSchema.optional() })
-  .merge(z.object({ laureat: partialLauréatSchema.optional() }))
-  .merge(identifiantProjetSchema);
+export const modifierLauréatEtCandidatureSchéma = z.object({
+  identifiantProjet: identifiantProjetSchema,
+  candidature: partialCandidatureNotifiéeSchema.optional(),
+  laureat: partialLauréatSchema.optional(),
+});
 
 // this is used for validations errors
 // the type won't work with the optional option we need
-const modifierLauréatEtCandidatureValidationSchéma = z
-  .object({ candidature: partialCandidatureNotifiéeSchema })
-  .merge(z.object({ laureat: partialLauréatSchema }))
-  .merge(identifiantProjetSchema);
+const modifierLauréatEtCandidatureValidationSchéma = z.object({
+  identifiantProjet: identifiantProjetSchema,
+  candidature: partialCandidatureNotifiéeSchema,
+  laureat: partialLauréatSchema,
+});
 
 export type ModifierCandidatureNotifiéeFormEntries = z.infer<typeof candidatureNotifiéeSchema>;
 export type PartialModifierCandidatureNotifiéeFormEntries = z.infer<
