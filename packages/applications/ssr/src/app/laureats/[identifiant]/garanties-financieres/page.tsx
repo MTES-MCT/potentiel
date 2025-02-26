@@ -3,11 +3,10 @@ import { mediator } from 'mediateur';
 import { notFound } from 'next/navigation';
 
 import { Option } from '@potentiel-libraries/monads';
-import { Candidature } from '@potentiel-domain/candidature';
-import { Achèvement, GarantiesFinancières } from '@potentiel-domain/laureat';
+import { Abandon, Achèvement, GarantiesFinancières } from '@potentiel-domain/laureat';
 import { Role, Utilisateur } from '@potentiel-domain/utilisateur';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
-import { IdentifiantProjet, StatutProjet } from '@potentiel-domain/common';
+import { IdentifiantProjet } from '@potentiel-domain/common';
 import { récupérerPorteursParIdentifiantProjetAdapter } from '@potentiel-infrastructure/domain-adapters';
 
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
@@ -21,6 +20,7 @@ import {
 } from '@/components/pages/garanties-financières/détails/DétailsGarantiesFinancières.page';
 import { projetSoumisAuxGarantiesFinancières } from '@/utils/garanties-financières/vérifierAppelOffreSoumisAuxGarantiesFinancières';
 import { ProjetNonSoumisAuxGarantiesFinancièresPage } from '@/components/pages/garanties-financières/ProjetNonSoumisAuxGarantiesFinancières.page';
+import { récupérerLauréat } from '@/app/_helpers';
 
 import { getHistoriqueMainlevéeRejetéesActions } from './helpers/getHistoriqueMainlevéeRejetéesActions';
 import { getMainlevéeActions } from './helpers/getMainlevéeActions';
@@ -35,22 +35,15 @@ export const metadata: Metadata = {
 export default async function Page({ params: { identifiant } }: IdentifiantParameter) {
   return PageWithErrorHandling(async () =>
     withUtilisateur(async (utilisateur) => {
-      const identifiantProjet = decodeParameter(identifiant);
-      const identifiantProjetValue =
-        IdentifiantProjet.convertirEnValueType(identifiantProjet).formatter();
+      const identifiantProjet = IdentifiantProjet.convertirEnValueType(
+        decodeParameter(identifiant),
+      );
 
-      const candidature = await mediator.send<Candidature.ConsulterProjetQuery>({
-        type: 'Candidature.Query.ConsulterProjet',
-        data: { identifiantProjet },
-      });
-
-      if (Option.isNone(candidature)) {
-        return notFound();
-      }
+      await récupérerLauréat(identifiantProjet.formatter());
 
       const appelOffreDetails = await mediator.send<AppelOffre.ConsulterAppelOffreQuery>({
         type: 'AppelOffre.Query.ConsulterAppelOffre',
-        data: { identifiantAppelOffre: candidature.appelOffre },
+        data: { identifiantAppelOffre: identifiantProjet.appelOffre },
       });
 
       if (Option.isNone(appelOffreDetails)) {
@@ -58,21 +51,23 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
       }
 
       const soumisAuxGarantiesFinancières = await projetSoumisAuxGarantiesFinancières({
-        appelOffre: candidature.appelOffre,
-        famille: candidature.famille,
-        periode: candidature.période,
+        appelOffre: identifiantProjet.appelOffre,
+        famille: identifiantProjet.famille,
+        periode: identifiantProjet.période,
       });
 
       if (!soumisAuxGarantiesFinancières) {
         return (
-          <ProjetNonSoumisAuxGarantiesFinancièresPage identifiantProjet={identifiantProjetValue} />
+          <ProjetNonSoumisAuxGarantiesFinancièresPage
+            identifiantProjet={identifiantProjet.formatter()}
+          />
         );
       }
 
       const garantiesFinancièresActuelles =
         await mediator.send<GarantiesFinancières.ConsulterGarantiesFinancièresQuery>({
           type: 'Lauréat.GarantiesFinancières.Query.ConsulterGarantiesFinancières',
-          data: { identifiantProjetValue },
+          data: { identifiantProjetValue: identifiantProjet.formatter() },
         });
 
       const peutAccéderAuxArchivesDesGfs =
@@ -85,34 +80,39 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
       const archivesGarantiesFinancières = peutAccéderAuxArchivesDesGfs
         ? await mediator.send<GarantiesFinancières.ConsulterArchivesGarantiesFinancièresQuery>({
             type: 'Lauréat.GarantiesFinancières.Query.ConsulterArchivesGarantiesFinancières',
-            data: { identifiantProjetValue },
+            data: { identifiantProjetValue: identifiantProjet.formatter() },
           })
         : Option.none;
 
       const dépôtEnCoursGarantiesFinancières =
         await mediator.send<GarantiesFinancières.ConsulterDépôtEnCoursGarantiesFinancièresQuery>({
           type: 'Lauréat.GarantiesFinancières.Query.ConsulterDépôtEnCoursGarantiesFinancières',
-          data: { identifiantProjetValue },
+          data: { identifiantProjetValue: identifiantProjet.formatter() },
         });
 
       const achèvement = await mediator.send<Achèvement.ConsulterAttestationConformitéQuery>({
         type: 'Lauréat.Achèvement.AttestationConformité.Query.ConsulterAttestationConformité',
-        data: { identifiantProjetValue },
+        data: { identifiantProjetValue: identifiantProjet.formatter() },
       });
 
       const mainlevéesList = await mediator.send<GarantiesFinancières.ListerMainlevéesQuery>({
         type: 'Lauréat.GarantiesFinancières.Mainlevée.Query.Lister',
         data: {
-          identifiantProjet: identifiantProjetValue,
+          identifiantProjet: identifiantProjet.formatter(),
         },
       });
 
-      const porteurs = await récupérerPorteursParIdentifiantProjetAdapter(
-        IdentifiantProjet.convertirEnValueType(identifiantProjet),
-      );
+      const porteurs = await récupérerPorteursParIdentifiantProjetAdapter(identifiantProjet);
+
+      const abandon = await mediator.send<Abandon.ConsulterAbandonQuery>({
+        type: 'Lauréat.Abandon.Query.ConsulterAbandon',
+        data: {
+          identifiantProjetValue: identifiantProjet.formatter(),
+        },
+      });
 
       const props = mapToProps({
-        identifiantProjet,
+        identifiantProjet: identifiantProjet.formatter(),
         utilisateur,
         garantiesFinancièresActuelles,
         dépôtEnCoursGarantiesFinancières,
@@ -125,14 +125,14 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
         historiqueMainlevée: mainlevéesList.items.filter((item) =>
           item.statut.estÉgaleÀ(GarantiesFinancières.StatutMainlevéeGarantiesFinancières.rejeté),
         ),
-        statut: candidature.statut,
+        estAbandonné: Option.isSome(abandon) && abandon.statut.estAccordé(),
         contactPorteurs: porteurs.map((porteur) => porteur.email),
         archivesGarantiesFinancières,
       });
 
       return (
         <DétailsGarantiesFinancièresPage
-          identifiantProjet={identifiantProjet}
+          identifiantProjet={identifiantProjet.formatter()}
           contactPorteurs={props.contactPorteurs}
           actuelles={props.actuelles}
           dépôtEnCours={props.dépôtEnCours}
@@ -159,7 +159,7 @@ type MapToProps = (params: {
   mainlevée: GarantiesFinancières.ListerMainlevéesReadModel['items'];
   appelOffreDetails: AppelOffre.AppelOffreReadModel;
   historiqueMainlevée: GarantiesFinancières.ListerMainlevéesReadModel['items'];
-  statut: StatutProjet.RawType;
+  estAbandonné: boolean;
   archivesGarantiesFinancières: Option.Type<GarantiesFinancières.ConsulterArchivesGarantiesFinancièresReadModel>;
 }) => DétailsGarantiesFinancièresPageProps;
 
@@ -173,7 +173,7 @@ const mapToProps: MapToProps = ({
   mainlevée,
   appelOffreDetails,
   historiqueMainlevée,
-  statut,
+  estAbandonné,
   archivesGarantiesFinancières,
 }) => {
   const archives = Option.isSome(archivesGarantiesFinancières)
@@ -228,7 +228,7 @@ const mapToProps: MapToProps = ({
           dépôt: dépôtEnCoursGarantiesFinancières,
           achèvement,
           mainlevée: mainlevéeEnCours,
-          statutProjet: statut,
+          estAbandonné,
         })
       : [],
     mainlevée: getMainlevéeActions({ role: utilisateur.role, mainlevée: mainlevéeEnCours }),
@@ -329,7 +329,7 @@ const mapToProps: MapToProps = ({
           !gfActuellesExistante?.garantiesFinancières.statut.estÉchu(),
       ),
       actions:
-        statut !== 'abandonné' && !achèvementExistant?.attestation
+        !estAbandonné && !achèvementExistant?.attestation
           ? 'transmettre-attestation-conformité'
           : undefined,
     },
