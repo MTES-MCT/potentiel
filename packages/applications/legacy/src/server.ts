@@ -5,7 +5,6 @@ import express, { Request } from 'express';
 import helmet from 'helmet';
 import path, { join } from 'path';
 import morgan from 'morgan';
-import cookieParser from 'cookie-parser';
 import * as Sentry from '@sentry/node';
 import { isLocalEnv, registerAuth } from './config';
 import { FILE_SIZE_LIMIT_IN_MB, v1Router } from './controllers';
@@ -93,8 +92,6 @@ export async function makeServer(port: number) {
       }),
     );
 
-    app.use(cookieParser());
-
     app.use((req, res, next) => {
       // Cas permettant d'avoir l'authentification keycloak fonctionnelle
       // pour l'application next. À terme ce code disparaîtra une fois l'intégralité
@@ -108,19 +105,6 @@ export async function makeServer(port: number) {
         })(req, res, next);
       }
     });
-
-    // TODO remove
-    // json parsing is unnecessary in the legacy app because we use only forms.
-    // let's just confirm it works well ;)
-    // app.use('*', (req, res, next) => {
-    //   // ignore API routes, because the express json middleware conflicts with next POST API routes
-    //   // error thrown is "Response body object should not be disturbed or locked"
-    //   if (req.originalUrl.startsWith('/api')) {
-    //     next();
-    //   } else {
-    //     express.json({ limit: FILE_SIZE_LIMIT_IN_MB + 'mb' })(req, res, next);
-    //   }
-    // });
 
     registerAuth({ app });
 

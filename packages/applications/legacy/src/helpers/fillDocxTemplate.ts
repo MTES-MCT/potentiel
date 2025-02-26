@@ -1,7 +1,7 @@
 import Docxtemplater from 'docxtemplater';
 import fs from 'fs';
 import PizZip from 'pizzip';
-import util from 'util';
+import util from 'node:util';
 import { logger } from '../core/utils';
 
 const readFile = util.promisify(fs.readFile);

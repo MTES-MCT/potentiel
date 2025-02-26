@@ -1,4 +1,4 @@
-import { promisify } from 'util';
+import { promisify } from 'node:util';
 import { access } from 'fs';
 
 const accessPromisified = promisify(access);
