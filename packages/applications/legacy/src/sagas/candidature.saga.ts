@@ -198,7 +198,8 @@ const mapToNotifiedCorrectedData = (
   motifsElimination: payload.motifÉlimination ?? '',
   // a un cycle de vie dans lauréat
   actionnaire: projet.actionnaire ?? '',
-  puissance: payload.puissanceProductionAnnuelle,
+  // a (bientôt) un cycle de vie dans lauréat et peut être modifié individuellement
+  puissance: projet.puissance,
   puissanceInitiale: payload.puissanceProductionAnnuelle,
   engagementFournitureDePuissanceAlaPointe: payload.puissanceALaPointe,
   prixReference: payload.prixReference,
