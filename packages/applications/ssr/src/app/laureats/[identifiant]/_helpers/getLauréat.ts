@@ -31,7 +31,7 @@ export const getLauréat = cache(async ({ identifiantProjet }: Props): Promise<G
   };
 });
 
-const getLauréatInfos = async ({ identifiantProjet }: Props) => {
+export const getLauréatInfos = async ({ identifiantProjet }: Props) => {
   const lauréat = await mediator.send<Lauréat.ConsulterLauréatQuery>({
     type: 'Lauréat.Query.ConsulterLauréat',
     data: {
@@ -61,7 +61,7 @@ const getActionnaireInfos = async ({ identifiantProjet }: Props) => {
   return actionnaire;
 };
 
-const getReprésentantLégalInfos = async ({ identifiantProjet }: Props) => {
+export const getReprésentantLégalInfos = async ({ identifiantProjet }: Props) => {
   const représentantLégal = await mediator.send<ReprésentantLégal.ConsulterReprésentantLégalQuery>({
     type: 'Lauréat.ReprésentantLégal.Query.ConsulterReprésentantLégal',
     data: {

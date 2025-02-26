@@ -1,14 +1,11 @@
 'use server';
 
 import { mediator } from 'mediateur';
-import { notFound } from 'next/navigation';
 
 import { Candidature } from '@potentiel-domain/candidature';
 import { Routes } from '@potentiel-applications/routes';
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 import { Actionnaire, Lauréat, ReprésentantLégal } from '@potentiel-domain/laureat';
-import { Option } from '@potentiel-libraries/monads';
-import { getLogger } from '@potentiel-libraries/monitoring';
 
 import { FormAction, formAction, FormState } from '@/utils/formAction';
 import { withUtilisateur } from '@/utils/withUtilisateur';
@@ -18,6 +15,11 @@ import {
   PartialModifierCandidatureNotifiéeFormEntries,
   PartialModifierLauréatValueFormEntries,
 } from '@/utils/zod/candidature';
+
+import {
+  getLauréatInfos,
+  getReprésentantLégalInfos,
+} from '../../../../app/laureats/[identifiant]/_helpers/getLauréat';
 
 export type CorrigerCandidaturesState = FormState;
 
@@ -36,6 +38,13 @@ const action: FormAction<FormState, typeof schema> = async (_, body) =>
     }
 
     if (candidature) {
+      if (candidature.doitRegenererAttestation === undefined) {
+        return {
+          status: 'domain-error',
+          message: "Vous devez indiquer si l'attestation doit ou pas être régénérée",
+        };
+      }
+
       const candidatureACorriger = await getCandidature(identifiantProjet);
 
       await mediator.send<Candidature.CorrigerCandidatureUseCase>({
@@ -63,19 +72,8 @@ const action: FormAction<FormState, typeof schema> = async (_, body) =>
       }
 
       if (laureat.nomRepresentantLegal) {
-        const représentantLégal =
-          await mediator.send<ReprésentantLégal.ConsulterReprésentantLégalQuery>({
-            type: 'Lauréat.ReprésentantLégal.Query.ConsulterReprésentantLégal',
-            data: {
-              identifiantProjet: identifiantProjet,
-            },
-          });
-        if (Option.isNone(représentantLégal)) {
-          getLogger().error("Aucun représentant légal n'a été trouvé pour le lauréat", {
-            identifiantProjet,
-          });
-          return notFound();
-        }
+        const représentantLégal = await getReprésentantLégalInfos({ identifiantProjet });
+
         await mediator.send<ReprésentantLégal.ModifierReprésentantLégalUseCase>({
           type: 'Lauréat.ReprésentantLégal.UseCase.ModifierReprésentantLégal',
           data: {
@@ -98,19 +96,7 @@ const action: FormAction<FormState, typeof schema> = async (_, body) =>
         laureat.region != undefined;
 
       if (lauréatAEtéModifié) {
-        const lauréatAModifier = await mediator.send<Lauréat.ConsulterLauréatQuery>({
-          type: 'Lauréat.Query.ConsulterLauréat',
-          data: {
-            identifiantProjet,
-          },
-        });
-
-        if (Option.isNone(lauréatAModifier)) {
-          getLogger().error("Aucun lauréat n'a été trouvé", {
-            identifiantProjet,
-          });
-          return notFound();
-        }
+        const lauréatAModifier = await getLauréatInfos({ identifiantProjet });
 
         await mediator.send<Lauréat.ModifierLauréatUseCase>({
           type: 'Lauréat.UseCase.ModifierLauréat',
@@ -171,6 +157,7 @@ const mapBodyToCandidatureUsecaseData = (
     evaluationCarboneSimplifiéeValue:
       data.evaluationCarboneSimplifiee ?? previous.evaluationCarboneSimplifiée,
     actionnariatValue: data.actionnariat ?? previous.actionnariat?.formatter(),
+    doitRégénérerAttestation: data.doitRegenererAttestation ? true : undefined,
     // non-editable fields
     motifÉliminationValue: previous.motifÉlimination,
     statutValue: previous.statut.formatter(),

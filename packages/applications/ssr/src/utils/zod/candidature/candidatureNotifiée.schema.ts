@@ -6,6 +6,7 @@ import {
   adresse2Schema,
   codePostalSchema,
   communeSchema,
+  doitRegenererAttestationSchema,
   départementSchema,
   emailContactSchema,
   nomCandidatSchema,
@@ -44,6 +45,7 @@ export const candidatureNotifiéeSchema = z
     nomProjet: nomProjetSchema,
     puissanceALaPointe: puissanceALaPointeSchema,
     puissanceProductionAnnuelle: puissanceProductionAnnuelleSchema,
+    doitRegenererAttestation: doitRegenererAttestationSchema,
   })
   .merge(localitéSchema);
 

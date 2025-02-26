@@ -50,7 +50,7 @@ const fetchCommunes = async (search: string, signal?: AbortSignal): Promise<Comm
 export type CommunePickerProps = {
   onSelected?: (commune: Commune | null) => void;
   defaultValue?: Commune;
-} & Pick<InputProps, 'className' | 'label' | 'nativeInputProps' | 'addon'>;
+} & Pick<InputProps, 'className' | 'label' | 'nativeInputProps'>;
 
 export const CommunePicker: React.FC<CommunePickerProps> = ({
   label,

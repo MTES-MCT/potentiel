@@ -22,6 +22,7 @@ import { TechnologieField } from './fields/TechnologieField';
 import { ActionnariatField } from './fields/ActionnariatField';
 import { LocalitéField } from './fields/LocalitéField';
 import { PuissanceALaPointeField } from './fields/PuissanceALaPointeField ';
+import { AttestationField } from './fields/AttestationField';
 
 export type ModifierLauréatFormProps = ModifierLauréatPageProps;
 export type FieldValidationErrors =
@@ -200,6 +201,9 @@ export const ModifierLauréatForm: React.FC<ModifierLauréatFormProps> = ({
             name="noteTotale"
             validationErrors={validationErrors}
           />
+        </FormRow>
+        <FormRow>
+          <AttestationField validationErrors={validationErrors} />
         </FormRow>
       </div>
     </Form>
