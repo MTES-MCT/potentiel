@@ -86,13 +86,6 @@ const getDescriptionTâche = (
       action: 'Soumettre les garanties financières',
       ariaLabel: `Soumettre des garanties financières pour le projet ${nomProjet}`,
     }))
-    .with('garanties-financières.échoir', () => ({
-      titre: 'Garanties financières à échoir',
-      description: `Des garanties financières sont à échoir pour ce projet`,
-      lien: Routes.GarantiesFinancières.détail(identifiant),
-      action: 'Echoir les garanties financières',
-      ariaLabel: `Echoir des garanties financières pour le projet ${nomProjet}`,
-    }))
     .with('inconnue', () => ({
       titre: '',
       description: '',
