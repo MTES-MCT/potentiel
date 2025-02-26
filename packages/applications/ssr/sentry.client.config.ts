@@ -8,7 +8,7 @@ Sentry.init({
   dsn: process.env.NEXT_PUBLIC_SENTRY_DSN,
   environment: process.env.NEXT_PUBLIC_APPLICATION_STAGE,
   tracesSampleRate: 1,
-  debug: process.env.NEXT_PUBLIC_APPLICATION_STAGE === 'local',
+  debug: false,
   replaysOnErrorSampleRate: 1.0,
   replaysSessionSampleRate: 0.1,
 });
