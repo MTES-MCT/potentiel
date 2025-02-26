@@ -56,6 +56,7 @@ export const dateEchéanceGfSchema = z
   .string()
   .transform((str) => (str ? new Date(str) : undefined))
   .optional();
+export const territoireProjetSchema = optionalStringSchema;
 
 // champs spécifiques au Csv
 export const puissanceALaPointeCsvSchema = optionalOuiNonSchema;
@@ -76,7 +77,6 @@ export const financementCollectifCsvSchema = ouiNonSchema;
 export const gouvernancePartagéeCsvSchema = ouiNonSchema;
 export const historiqueAbandonCsvSchema = z.enum(['1', '2', '3', '4']);
 export const typeGarantiesFinancieresCsvSchema = optionalEnum(z.enum(['1', '2', '3']));
-export const territoireProjetCsvSchema = optionalStringSchema;
 export const notifiedOnCsvSchema = z.undefined({
   invalid_type_error: 'Le champs notifiedOn ne peut pas être présent',
 });

@@ -2,7 +2,6 @@ export * from './délai';
 export * from './fournisseur';
 export * from './producteur';
 export * from './puissance';
-export * from './recours';
 export * from './getDemandePage';
 export * from './getModeleReponse';
 export * from './getModificationRequestListForAdminPage';

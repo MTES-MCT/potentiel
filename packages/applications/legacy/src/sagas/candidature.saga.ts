@@ -64,6 +64,7 @@ export const register = () => {
           }),
         );
         break;
+
       case 'CandidatureCorrigée-V1':
         const projet = await getLegacyProjetByIdentifiantProjet(identifiantProjet);
         // Si le projet n'est pas notifié, on le réimporte

@@ -15,7 +15,8 @@ import { candidatureSchema } from '@/utils/zod/candidature';
 export type CorrigerCandidaturesState = FormState;
 
 const schema = candidatureSchema;
-export type CorrigerCandidatureFormEntries = zod.infer<typeof schema>;
+
+export type CorrigerCandidatureFormEntries = zod.infer<typeof candidatureSchema>;
 
 const action: FormAction<FormState, typeof schema> = async (_, body) =>
   withUtilisateur(async (utilisateur) => {

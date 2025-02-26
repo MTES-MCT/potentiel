@@ -29,7 +29,7 @@ import {
   motifEliminationSchema,
   typeGarantiesFinancieresCsvSchema,
   dateEchéanceGfCsvSchema,
-  territoireProjetCsvSchema,
+  territoireProjetSchema,
   notifiedOnCsvSchema,
   codePostalCsvSchema,
 } from './candidatureFields.schema';
@@ -125,7 +125,7 @@ const candidatureCsvRowSchema = z
     [colonnes.motifÉlimination]: motifEliminationSchema, // see refine below
     [colonnes.typeGf]: typeGarantiesFinancieresCsvSchema, // see refine below
     [colonnes.dateÉchéanceGf]: dateEchéanceGfCsvSchema, // see refine below
-    [colonnes.territoireProjet]: territoireProjetCsvSchema, // see refines below
+    [colonnes.territoireProjet]: territoireProjetSchema, // see refines below
     notifiedOn: notifiedOnCsvSchema,
   })
   // le motif d'élimination est obligatoire si la candidature est éliminée
