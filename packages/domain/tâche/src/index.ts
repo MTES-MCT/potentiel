@@ -13,6 +13,10 @@ export { ConsulterNombreTâchesReadModel, ListerTâchesReadModel };
 
 // Event
 export { TâcheEvent } from './tâche.aggregate';
+export type { TâcheAjoutéeEvent } from './ajouter/ajouterTâche.behavior';
+export type { TâcheRenouvelléeEvent } from './ajouter/ajouterTâche.behavior';
+export type { TâcheRelancéeEvent } from './ajouter/ajouterTâche.behavior';
+export type { TâcheAchevéeEvent } from './achever/acheverTâche.behavior';
 
 // Saga
 export * as TâcheAbandonSaga from './saga/tâcheAbandon.saga';

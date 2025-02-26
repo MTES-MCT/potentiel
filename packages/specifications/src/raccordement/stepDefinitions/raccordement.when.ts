@@ -24,6 +24,7 @@ Quand(
     await modifierGestionnaireRéseauRaccordement.call(
       this,
       GestionnaireRéseau.IdentifiantGestionnaireRéseau.inconnu.codeEIC,
+      // system can't be mocked as a role but it doesn't change anything here
       Role.porteur,
     );
   },
