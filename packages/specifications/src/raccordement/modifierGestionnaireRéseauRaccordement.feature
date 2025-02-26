@@ -55,13 +55,11 @@ Fonctionnalité: Modifier le gestionnaire de réseau d'un raccordement
         Quand une dreal modifie le gestionnaire de réseau du projet avec le gestionnaire "Arc Energies Maurienne"
         Alors la dreal devrait être informé que "Le gestionnaire de réseau ne peut être modifié car le raccordement a une date de mise en service"
 
-    @select
     Scénario: Une tâche est ajoutée lorsqu'un raccordement est modifié avec un gestionnaire réseau inconnu
         Et une demande complète de raccordement pour le projet lauréat
         Quand le système modifie le gestionnaire de réseau du projet avec un gestionnaire inconnu
         Alors une tâche indiquant de "mettre à jour le gestionnaire de réseau" est consultable dans la liste des tâches du porteur pour le projet
 
-    @select
     Scénario: Une tâche est achevée lorsqu'un raccordement est modifié avec un gestionnaire réseau valide
         Etant donné une tâche indiquant de "mettre à jour le gestionnaire de réseau" pour le projet lauréat avec gestionnaire inconnu
         Quand le porteur modifie le gestionnaire de réseau du projet avec le gestionnaire "Enedis"
