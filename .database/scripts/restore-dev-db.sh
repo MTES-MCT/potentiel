@@ -24,5 +24,9 @@ fi
 pg_restore -U "$POSTGRES_USER" -d "potentiel" < /dump/potentiel-dev.dump
 echo "✨ Potentiel Database has been restored with potentiel-dev dump file✨"
 
-pg_restore -U "$POSTGRES_USER" -d "metabase" < /dump/metabase-dev.dump
-echo "✨ Metabase Database has been restored with metabase-dev dump file✨"
+if [ -f "/dump/metabase-dev.dump" ]; then
+	pg_restore -U "$POSTGRES_USER" -d "metabase" < /dump/metabase-dev.dump
+	echo "✨ Metabase Database has been restored with metabase-dev dump file✨"
+else
+	echo "❌ Metabase dump file not found"
+fi

@@ -6,7 +6,7 @@ echo "ℹ️  Waiting for database to be ready..."
 RETRIES=10
 COUNT=0
 
-until docker exec potentiel_db_tests_integration pg_isready -U testuser -d potentiel_test 2>/dev/null || [ $COUNT -eq $RETRIES ]; do
+until docker exec potentiel_db_tests_integration pg_isready -U postgres_admin -d potentiel 2>/dev/null || [ $COUNT -eq $RETRIES ]; do
     echo "⚠️ Try $COUNT : PostgreSQL isn't ready ..."
     sleep 1
     ((COUNT++))
