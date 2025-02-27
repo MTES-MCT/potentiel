@@ -4,6 +4,7 @@ import { Entity } from '@potentiel-domain/entity';
 import { flatten } from '@potentiel-libraries/flat';
 import { executeQuery } from '@potentiel-libraries/pg-helpers';
 import { getLogger } from '@potentiel-libraries/monitoring';
+import { getWhereClause } from '@potentiel-infrastructure/pg-projections';
 
 type AtLeastOne<T, U = { [K in keyof T]: Pick<T, K> }> = Partial<T> & U[keyof U];
 
@@ -12,8 +13,13 @@ export const updateOneProjection = async <TProjection extends Entity>(
   id: `${TProjection['type']}|${string}`,
   readModel: AtLeastOne<Omit<TProjection, 'type'>>,
 ): Promise<void> => {
-  const [updateQuery, values] = getUpdateClause(readModel, 1);
-  const result = await executeQuery(`${updateQuery} where key = $1`, id, ...values);
+  const [updateClause, updateValues] = getUpdateClause(readModel, 1);
+  const [whereClause, whereValues] = getWhereClause({ key: { operator: 'equal', value: id } });
+  const result = await executeQuery(
+    `${updateClause} ${whereClause}`,
+    ...whereValues,
+    ...updateValues,
+  );
   if (result.rowCount === 0) {
     getLogger('Projectors.infrastructure.updateOneProjection').warn(
       "La projection à mettre à jour n'existe pas",
@@ -43,7 +49,7 @@ export const getUpdateClause = <TProjection extends Entity>(
   const values = Object.values(flatReadModel).map((value) =>
     typeof value === 'string' ? toJsonbString(value) : value,
   );
-  return [`update domain_views.projection set value=${jsonb_set}`, values];
+  return [`update domain_views.projection p1 set value=${jsonb_set}`, values];
 };
 
 const toJsonbString = (value: string) => {

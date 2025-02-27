@@ -8,6 +8,9 @@ export type LauréatEntity = Entity<
     notifiéLe: DateTime.RawType;
     notifiéPar: Email.RawType;
     nomProjet: string;
+    appelOffre: string;
+    période: string;
+    famille?: string;
     localité: {
       adresse1: string;
       adresse2: string;

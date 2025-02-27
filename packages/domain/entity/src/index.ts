@@ -7,4 +7,5 @@ export * from './orderByOptions';
 export * from './rangeOptions';
 export * from './whereOptions';
 export * from './selectOptions';
+export * from './joinOptions';
 export * as Where from './where';
