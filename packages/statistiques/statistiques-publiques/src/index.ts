@@ -66,6 +66,10 @@ import {
   cleanUtilisateurCréation,
   computeUtilisateurCréation,
 } from './projet/utilisateurCréation.statistic';
+import {
+  cleanTotalPuissanceProjetAvecMainlevéeAccordée,
+  computeTotalPuissanceProjetAvecMainlevéeAccordée,
+} from './projet/totalPuissanceProjetAvecMainlevéeAccordée.statistic';
 
 export const cleanStatistiquesPubliques = async () => {
   await cleanNombreTotalProjet();
@@ -85,6 +89,7 @@ export const cleanStatistiquesPubliques = async () => {
   await cleanNombreTotalProjetEnService();
   await cleanProjetLauréatParDépartement();
   await cleanUtilisateurCréation();
+  await cleanTotalPuissanceProjetAvecMainlevéeAccordée();
 };
 
 export const computeStatistiquesPubliques = async () => {
@@ -105,4 +110,5 @@ export const computeStatistiquesPubliques = async () => {
   await computeNombreTotalProjetEnService();
   await computeProjetLauréatParDépartement();
   await computeUtilisateurCréation();
+  await computeTotalPuissanceProjetAvecMainlevéeAccordée();
 };
