@@ -213,9 +213,8 @@ const mapToNotifiedCorrectedData = (
         : undefined,
   isFinancementParticipatif: payload.actionnariat === 'financement-participatif',
   isInvestissementParticipatif: payload.actionnariat === 'investissement-participatif',
-
   territoireProjet: payload.territoireProjet,
-  // la localité a un cycle de vie dans lauréat
+  // la localité (adresse, code postal et commune) a un cycle de vie dans lauréat
   adresseProjet: projet.adresseProjet,
   codePostalProjet: projet.codePostalProjet,
   communeProjet: projet.communeProjet,
