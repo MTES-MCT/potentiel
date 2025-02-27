@@ -14,6 +14,7 @@ import { Heading3 } from '@/components/atoms/headings';
 import { ModifierLauréatEtCandidatureNotifiéeFormEntries } from '@/utils/zod/candidature';
 
 import { ValidationErrors } from '../../../../utils/formAction';
+import { FormAlertError } from '../../../atoms/form/FormAlertError';
 
 import { modifierLauréatAction } from './modifierLauréat.action';
 import { ModifierLauréatPageProps } from './ModifierLauréat.page';
@@ -74,7 +75,9 @@ export const ModifierLauréatForm: React.FC<ModifierLauréatFormProps> = ({
           </div>
         </FormRow>
         <input type={'hidden'} value={projet.identifiantProjet} name="identifiantProjet" />
-
+        {validationErrors['identifiantProjet'] && (
+          <FormAlertError description={validationErrors['identifiantProjet']} />
+        )}
         <FormRow>
           <ProjectField
             candidature={candidature.nomProjet}

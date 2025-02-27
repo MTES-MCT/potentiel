@@ -67,18 +67,20 @@ const identifiantProjetSchema = z.string().min(1);
 export const modifierLauréatEtCandidatureSchéma = z
   .object({
     identifiantProjet: identifiantProjetSchema,
-    candidature: partialCandidatureNotifiéeSchema.optional(),
+    candidature: partialCandidatureNotifiéeSchema
+      .refine((candidature) => !candidature || candidature.doitRegenererAttestation !== undefined, {
+        path: ['doitRegenererAttestation'],
+        message:
+          "Vous devez choisir de régénérer ou pas l'attestation lorsque la candidature est corrigée",
+      })
+      .optional(),
     laureat: partialLauréatSchema.optional(),
   })
-  .refine(
-    ({ candidature }) =>
-      candidature !== undefined && candidature.doitRegenererAttestation === undefined,
-    {
-      path: ['candidature', 'doitRegenererAttestation'],
-      message:
-        "Vous devez choisir de régénérer ou pas l'attestation lorsque la candidature est corrigée",
-    },
-  );
+  .refine((value) => value.laureat || value.candidature, {
+    // little hack as this is an error for the entire form
+    path: ['identifiantProjet'],
+    message: 'Le formulaire ne contient pas de modification',
+  });
 
 // this is used for validations errors
 // the type won't work with the .optional() we need
