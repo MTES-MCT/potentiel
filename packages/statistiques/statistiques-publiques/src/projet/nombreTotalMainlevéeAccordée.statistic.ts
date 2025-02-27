@@ -18,7 +18,7 @@ export const computeNombreTotalMainlevéeAccordée = () =>
         select 
           count(distinct(payload->>'identifiantProjet')) 
         from event_store.event_stream es 
-          where es.type = 'DemandeMainlevéeGarantiesFinancièresAccordée-V1'
+          where es.type like 'DemandeMainlevéeGarantiesFinancièresAccordée-V%'
       )
     )
     `,

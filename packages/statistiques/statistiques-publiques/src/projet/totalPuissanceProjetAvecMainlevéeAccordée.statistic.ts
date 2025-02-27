@@ -19,7 +19,7 @@ export const computeTotalPuissanceProjetAvecMainlevéeAccordée = () =>
             sum(p."puissance") as "value" 
         from projects p
         where p."appelOffreId" || '#' || p."periodeId" || '#' || p."familleId" || '#' || p."numeroCRE" in (
-          select distinct(payload->>'identifiantProjet') from event_store.event_stream es where es.type = 'DemandeMainlevéeGarantiesFinancièresAccordée-V1'
+          select distinct(payload->>'identifiantProjet') from event_store.event_stream es where es.type like 'DemandeMainlevéeGarantiesFinancièresAccordée-V%'
         )
       )
     )
