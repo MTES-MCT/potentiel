@@ -16,11 +16,11 @@ export const computeTotalPuissanceProjetAvecMainlevéeAccordée = () =>
       $1, 
       (
         select 
-	        sum(p."puissance") as "value" 
+            sum(p."puissance") as "value" 
         from projects p
-        join event_store.event_stream es 
-	        on es.payload->>'identifiantProjet' = p."appelOffreId" || '#' || p."periodeId" || '#' || p."familleId" || '#' || p."numeroCRE"
-        where es."type" = 'DemandeMainlevéeGarantiesFinancièresAccordée-V1'
+        where p."appelOffreId" || '#' || p."periodeId" || '#' || p."familleId" || '#' || p."numeroCRE" in (
+          select distinct(payload->>'identifiantProjet') from event_store.event_stream es where es.type = 'DemandeMainlevéeGarantiesFinancièresAccordée-V1'
+        )
       )
     )
     `,
