@@ -62,6 +62,10 @@ import {
   cleanProjetLauréatParDépartement,
   computeProjetLauréatParDépartement,
 } from './projet/projetLauréatParDépartement.statistic';
+import {
+  cleanUtilisateurCréation,
+  computeUtilisateurCréation,
+} from './projet/utilisateurCréation.statistic';
 
 export const cleanStatistiquesPubliques = async () => {
   await cleanNombreTotalProjet();
@@ -80,6 +84,7 @@ export const cleanStatistiquesPubliques = async () => {
   await cleanTotalPuissanceParAppelOffre();
   await cleanNombreTotalProjetEnService();
   await cleanProjetLauréatParDépartement();
+  await cleanUtilisateurCréation();
 };
 
 export const computeStatistiquesPubliques = async () => {
@@ -99,4 +104,5 @@ export const computeStatistiquesPubliques = async () => {
   await computeTotalPuissanceParAppelOffre();
   await computeNombreTotalProjetEnService();
   await computeProjetLauréatParDépartement();
+  await computeUtilisateurCréation();
 };
