@@ -64,14 +64,24 @@ const partialLauréatSchema = lauréatSchema.partial();
 
 const identifiantProjetSchema = z.string().min(1);
 
-export const modifierLauréatEtCandidatureSchéma = z.object({
-  identifiantProjet: identifiantProjetSchema,
-  candidature: partialCandidatureNotifiéeSchema.optional(),
-  laureat: partialLauréatSchema.optional(),
-});
+export const modifierLauréatEtCandidatureSchéma = z
+  .object({
+    identifiantProjet: identifiantProjetSchema,
+    candidature: partialCandidatureNotifiéeSchema.optional(),
+    laureat: partialLauréatSchema.optional(),
+  })
+  .refine(
+    ({ candidature }) =>
+      candidature !== undefined && candidature.doitRegenererAttestation === undefined,
+    {
+      path: ['candidature', 'doitRegenererAttestation'],
+      message:
+        "Vous devez choisir de régénérer ou pas l'attestation lorsque la candidature est corrigée",
+    },
+  );
 
 // this is used for validations errors
-// the type won't work with the optional option we need
+// the type won't work with the .optional() we need
 const modifierLauréatEtCandidatureValidationSchéma = z.object({
   identifiantProjet: identifiantProjetSchema,
   candidature: partialCandidatureNotifiéeSchema,
