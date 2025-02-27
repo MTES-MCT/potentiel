@@ -1,10 +1,12 @@
 'use client';
 
 import { FC } from 'react';
-import Alert, { AlertProps } from '@codegouvfr/react-dsfr/Alert';
+import Alert from '@codegouvfr/react-dsfr/Alert';
 import { useFormStatus } from 'react-dom';
 
 import { FormState } from '@/utils/formAction';
+
+import { FormAlertError } from './FormAlertError';
 
 export type FormFeedbackProps = {
   formState: FormState;
@@ -65,21 +67,17 @@ export const FormFeedback: FC<FormFeedbackProps> = ({ formState, successMessage 
       return <Alert closable small severity="success" description="L'opération est un succès" />;
 
     case 'domain-error':
-      return <AlertError description={formState.message} />;
+      return <FormAlertError description={formState.message} />;
 
     case 'unknown-error':
-      return <AlertError description="Une erreur est survenue" />;
+      return <FormAlertError description="Une erreur est survenue" />;
 
     case 'validation-error':
-      return <AlertError description="Erreur lors de la validation des données du formulaire" />;
+      return (
+        <FormAlertError description="Erreur lors de la validation des données du formulaire" />
+      );
 
     default:
       return null;
   }
 };
-
-type AlertErrorProps = Omit<AlertProps.Small, 'small'>;
-
-const AlertError: FC<AlertErrorProps> = ({ title, description }) => (
-  <Alert small closable severity="error" title={title} description={description} className="mb-4" />
-);

@@ -1,6 +1,9 @@
 import { Metadata, ResolvingMetadata } from 'next';
+import { mediator } from 'mediateur';
 
 import { Candidature } from '@potentiel-domain/candidature';
+import { Lauréat } from '@potentiel-domain/laureat';
+import { Option } from '@potentiel-libraries/monads';
 
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
@@ -31,23 +34,31 @@ export default async function Page({ params }: PageProps) {
   return PageWithErrorHandling(async () => {
     const identifiantProjet = decodeParameter(params.identifiant);
     const candidature = await getCandidature(identifiantProjet);
+    const lauréat = await mediator.send<Lauréat.ConsulterLauréatQuery>({
+      type: 'Lauréat.Query.ConsulterLauréat',
+      data: {
+        identifiantProjet,
+      },
+    });
 
-    const props = mapToProps(candidature);
+    const props = mapToProps(candidature, lauréat);
 
     return (
       <CorrigerCandidaturePage
         candidature={props.candidature}
         aUneAttestation={props.aUneAttestation}
         estNotifiée={props.estNotifiée}
+        estNotifiéeClassée={props.estNotifiéeClassée}
       />
     );
   });
 }
 type MapToProps = (
   candidature: Candidature.ConsulterCandidatureReadModel,
+  lauréat: Option.Type<Lauréat.ConsulterLauréatReadModel>,
 ) => CorrigerCandidaturePageProps;
 
-const mapToProps: MapToProps = (candidature) => ({
+const mapToProps: MapToProps = (candidature, lauréat) => ({
   candidature: {
     identifiantProjet: candidature.identifiantProjet.formatter(),
     statut: candidature.statut.formatter(),
@@ -75,4 +86,5 @@ const mapToProps: MapToProps = (candidature) => ({
   },
   estNotifiée: !!candidature.notification,
   aUneAttestation: !!candidature.notification?.attestation,
+  estNotifiéeClassée: Option.isSome(lauréat),
 });

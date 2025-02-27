@@ -29,22 +29,7 @@ const action: FormAction<FormState, typeof schema> = async (_, body) =>
   withUtilisateur(async (utilisateur) => {
     const { identifiantProjet, candidature, laureat } = body;
 
-    // astuce pour tout bloquer si le formulaire ne contient pas de modification
-    if (!candidature && !laureat) {
-      return {
-        status: 'domain-error',
-        message: 'Le formulaire ne contient pas de modification',
-      };
-    }
-
     if (candidature) {
-      if (candidature.doitRegenererAttestation === undefined) {
-        return {
-          status: 'domain-error',
-          message: "Vous devez indiquer si l'attestation doit ou pas être régénérée",
-        };
-      }
-
       const candidatureACorriger = await getCandidature(identifiantProjet);
 
       await mediator.send<Candidature.CorrigerCandidatureUseCase>({

@@ -25,19 +25,25 @@ export const EditProjectData = ({ project, request }: EditProjectDataProps) => {
 
   const identifiantProjet = `${project.appelOffreId}#${project.periodeId}#${project.familleId}#${project.numeroCRE}`;
 
+  if (!project.isClasse) {
+    return (
+      <InfoBox className="mb-5">
+        Pour corriger des données à la candidature et régénérer l'attestation, utiliser le{' '}
+        <a href={Routes.Candidature.corriger(identifiantProjet)}>formulaire de modification</a> de
+        la candidature.
+      </InfoBox>
+    );
+  }
+
   return (
     <Section title="Modifier le projet" icon={<BuildingIcon />} className="print:hidden">
       <InfoBox className="mb-5">
         Ce formulaire est accessible temporairement pour modifier la puissance du projet.
         <br />
         <br />
-        {project.notifiedOn && project.isClasse && (
-          <>
-            Pour modifier la candidature et le projet <b>après notification</b>, utiliser le{' '}
-            <a href={Routes.Lauréat.modifier(identifiantProjet)}>formulaire de modification</a> du
-            projet.
-          </>
-        )}
+        Pour modifier la candidature et le projet <b>après notification</b>, utiliser le{' '}
+        <a href={Routes.Lauréat.modifier(identifiantProjet)}>formulaire de modification</a> du
+        projet.
         <br />
         Pour corriger des données à la candidature et régénérer l'attestation, utiliser le{' '}
         <a href={Routes.Candidature.corriger(identifiantProjet)}>formulaire de modification</a> de

@@ -152,7 +152,7 @@ type AdminActionsProps = {
   project: ProjectDataForProjectPage;
 };
 const AdminActions = ({
-  project: { appelOffreId, periodeId, familleId, numeroCRE, id, notifiedOn, isLegacy },
+  project: { appelOffreId, periodeId, familleId, numeroCRE, id, notifiedOn, isLegacy, isClasse },
 }: AdminActionsProps) => {
   const identifiantProjet = formatProjectDataToIdentifiantProjetValueType({
     appelOffreId: appelOffreId,
@@ -164,7 +164,7 @@ const AdminActions = ({
   return (
     <div className="flex flex-col md:flex-row gap-2">
       <EnregistrerUneModification projectId={id} />
-      {notifiedOn ? (
+      {notifiedOn && isClasse ? (
         <LinkButton href={Routes.Lauréat.modifier(identifiantProjet)}>
           Modifier le projet
         </LinkButton>

@@ -14,12 +14,14 @@ import { CorrigerCandidatureForm, CorrigerCandidatureFormProps } from './Corrige
 
 export type CorrigerCandidaturePageProps = CorrigerCandidatureFormProps & {
   estNotifiée: boolean;
+  estNotifiéeClassée: boolean;
 };
 
 export const CorrigerCandidaturePage: React.FC<CorrigerCandidaturePageProps> = ({
   candidature,
   estNotifiée,
   aUneAttestation,
+  estNotifiéeClassée,
 }) => {
   const identifiantProjet = IdentifiantProjet.convertirEnValueType(candidature.identifiantProjet);
 
@@ -50,28 +52,61 @@ export const CorrigerCandidaturePage: React.FC<CorrigerCandidaturePageProps> = (
       }}
       rightColumn={{
         children: (
-          <Alert
-            severity="warning"
-            small
-            description={
-              <div className="flex flex-col gap-2">
-                <div>
-                  Ce formulaire sert à{' '}
-                  <span className="font-semibold">
-                    corriger des erreurs importées ou transmises à la candidature.
-                  </span>
+          <>
+            <Alert
+              severity="info"
+              small
+              description={
+                <div className="flex flex-col gap-2">
+                  <div>
+                    Ce formulaire sert à{' '}
+                    <span className="font-semibold">
+                      corriger des erreurs importées ou transmises à la candidature.
+                    </span>
+                  </div>
+                  <div>
+                    Pour un changement sur{' '}
+                    <span className="font-semibold">les données du projet</span>, veuillez utiliser
+                    le formulaire{' '}
+                    <Link href={Routes.Lauréat.modifier(identifiantProjet.formatter())}>dédié</Link>
+                    .
+                  </div>
+                  <div>
+                    Pour une correction par lot (fichier CSV), veuillez utiliser la{' '}
+                    <Link href={Routes.Candidature.corrigerParLot}>page de correction par lot</Link>
+                  </div>
                 </div>
-                <div className="font-semibold">
-                  Pour un changement sur les données du projet, veuillez utiliser le formulaire{' '}
-                  <Link href={Routes.Lauréat.modifier(identifiantProjet.formatter())}>dédié</Link>.
-                </div>
-                <div>
-                  Pour une correction par lot (fichier CSV), veuillez utiliser la{' '}
-                  <Link href={Routes.Candidature.corrigerParLot}>page de correction par lot</Link>
-                </div>
-              </div>
-            }
-          />
+              }
+            />
+            {estNotifiéeClassée && (
+              <Alert
+                severity="info"
+                small
+                description={
+                  <div className="flex flex-col gap-2 text-justify">
+                    <span>
+                      Cette candidature étant déjà notifiée, la modification des champs suivants{' '}
+                      <span className="font-semibold">ne mettra pas à jour le projet</span> :
+                      <ul className="p-4 list-disc">
+                        <li>Nom du projet</li>
+                        <li>Localité (adresse, commune, code postal, département, région)</li>
+                        <li>Actionnaire (société mère)</li>
+                        <li>Nom du représentant légal</li>
+                        <li>Puissance</li>
+                      </ul>
+                    </span>
+                    <span>
+                      Pour les modifier <b>après notification</b>, utilisez le{' '}
+                      <a href={Routes.Lauréat.modifier(identifiantProjet.formatter())}>
+                        formulaire de modification
+                      </a>{' '}
+                      du projet.
+                    </span>
+                  </div>
+                }
+              />
+            )}
+          </>
         ),
       }}
     />
