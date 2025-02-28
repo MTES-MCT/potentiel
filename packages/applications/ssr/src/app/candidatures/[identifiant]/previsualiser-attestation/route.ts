@@ -86,8 +86,12 @@ export const GET = async (_: Request, { params: { identifiant } }: IdentifiantPa
     }
 
     const validateur = candidature.notification?.validateur ?? {
-      fonction: user.fonction,
-      nomComplet: user.nomComplet,
+      fonction: Option.match(user.fonction)
+        .some((fonction) => fonction)
+        .none(() => 'Fonction du DGEC Validateur'),
+      nomComplet: Option.match(user.nomComplet)
+        .some((nom) => nom)
+        .none(() => 'Nom du DGEC Validateur'),
     };
 
     const certificate = await buildCertificate({

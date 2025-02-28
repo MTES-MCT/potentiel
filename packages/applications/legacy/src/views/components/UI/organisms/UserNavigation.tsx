@@ -163,6 +163,12 @@ const MenuAdmin = (currentPage?: string) => (
       </DropdownMenu.DropdownItem>
     </DropdownMenu>
     <DropdownMenu buttonChildren={'Gestion des accès'}>
+      <DropdownMenu.DropdownItem href={Routes.Utilisateur.lister}>
+        Utilisateurs
+      </DropdownMenu.DropdownItem>
+      <DropdownMenu.DropdownItem href={Routes.Utilisateur.inviter}>
+        Inviter un utilisateur
+      </DropdownMenu.DropdownItem>
       <DropdownMenu.DropdownItem
         href={routes.ADMIN_INVITATION_LIST}
         {...(currentPage === 'list-invitations' && { isCurrent: true })}

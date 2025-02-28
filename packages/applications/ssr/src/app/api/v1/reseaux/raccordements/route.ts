@@ -71,13 +71,11 @@ const récupérerIdentifiantGestionnaireUtilisateur = (utilisateur: Utilisateur.
   if (!utilisateur.role.estÉgaleÀ(Role.grd)) {
     return;
   }
-  if (Option.isNone(utilisateur.groupe)) {
+  if (Option.isNone(utilisateur.identifiantGestionnaireRéseau)) {
     return '!!GESTIONNAIRE INCONNU!!';
   }
-  if (utilisateur.groupe.type !== 'GestionnairesRéseau') {
-    return '!!GESTIONNAIRE INCONNU!!';
-  }
-  return utilisateur.groupe.nom;
+
+  return utilisateur.identifiantGestionnaireRéseau;
 };
 
 type MapToApiResponse = (dossiers: Raccordement.ListerDossierRaccordementReadModel) => ApiResponse;

@@ -16,7 +16,7 @@ export const GET = (_: Request, { params: { documentKey } }: DocumentKeyParamete
     const [identifiantProjet] = documentKey.split('/');
 
     await mediator.send<VérifierAccèsProjetQuery>({
-      type: 'System.Authorization.VérifierAccésProjet',
+      type: 'System.Authorization.VérifierAccèsProjet',
       data: {
         identifiantProjetValue: decodeURIComponent(identifiantProjet),
         utilisateur,
