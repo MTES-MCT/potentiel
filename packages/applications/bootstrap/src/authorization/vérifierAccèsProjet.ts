@@ -2,7 +2,7 @@ import { match } from 'ts-pattern';
 
 import { UtilisateurEntity, VérifierAccèsProjetPort } from '@potentiel-domain/utilisateur';
 import { Lauréat, Raccordement } from '@potentiel-domain/laureat';
-import { findProjection } from '@potentiel-infrastructure/pg-projections';
+import { findProjection } from '@potentiel-infrastructure/pg-projection-read';
 import { Email, IdentifiantProjet } from '@potentiel-domain/common';
 import { Option } from '@potentiel-libraries/monads';
 import { Candidature } from '@potentiel-domain/candidature';

@@ -5,7 +5,7 @@ import {
   registerUtiliseurUseCases,
 } from '@potentiel-domain/utilisateur';
 import { loadAggregate, subscribe } from '@potentiel-infrastructure/pg-event-sourcing';
-import { findProjection, listProjection } from '@potentiel-infrastructure/pg-projections';
+import { findProjection, listProjection } from '@potentiel-infrastructure/pg-projection-read';
 import { UtilisateurProjector } from '@potentiel-applications/projectors';
 
 import { vérifierAccèsProjetAdapter } from './authorization/vérifierAccèsProjet';
