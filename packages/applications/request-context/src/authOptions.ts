@@ -3,7 +3,7 @@ import KeycloakProvider from 'next-auth/providers/keycloak';
 
 import { getLogger } from '@potentiel-libraries/monitoring';
 import { Routes } from '@potentiel-applications/routes';
-import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
+import { Email } from '@potentiel-domain/common';
 
 import { getProviderConfiguration } from './getProviderConfiguration';
 import { refreshToken } from './refreshToken';
@@ -44,10 +44,7 @@ export const authOptions: AuthOptions = {
   },
   events: {
     signIn: ({ user, account }) => {
-      if (
-        user?.identifiantUtilisateur &&
-        !IdentifiantUtilisateur.bind(user.identifiantUtilisateur).estInconnu()
-      ) {
+      if (user?.identifiantUtilisateur && !Email.bind(user.identifiantUtilisateur).estInconnu()) {
         ajouterStatistiqueConnexion(user, account?.provider ?? '');
       }
     },
@@ -55,10 +52,7 @@ export const authOptions: AuthOptions = {
   callbacks: {
     signIn({ account, user }) {
       const logger = getLogger('Auth');
-      if (
-        user?.identifiantUtilisateur &&
-        IdentifiantUtilisateur.bind(user.identifiantUtilisateur).estInconnu()
-      ) {
+      if (user?.identifiantUtilisateur && Email.bind(user.identifiantUtilisateur).estInconnu()) {
         logger.info(`User tries to connect with ProConnect but is not registered yet`, {
           user,
         });
@@ -81,10 +75,7 @@ export const authOptions: AuthOptions = {
       return true;
     },
     jwt({ token, trigger, account, user }) {
-      if (
-        user?.identifiantUtilisateur &&
-        IdentifiantUtilisateur.bind(user.identifiantUtilisateur).estInconnu()
-      ) {
+      if (user?.identifiantUtilisateur && Email.bind(user.identifiantUtilisateur).estInconnu()) {
         return {};
       }
       if (trigger === 'signIn' && account && user) {

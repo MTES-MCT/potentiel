@@ -6,7 +6,7 @@ import { mediator } from 'mediateur';
 import { jwtVerify } from 'jose';
 import { getServerSession } from 'next-auth';
 
-import { Groupe, Role, Utilisateur, TrouverUtilisateurQuery } from '@potentiel-domain/utilisateur';
+import { Role, Utilisateur, TrouverUtilisateurQuery } from '@potentiel-domain/utilisateur';
 import { getLogger } from '@potentiel-libraries/monitoring';
 import { Email } from '@potentiel-domain/common';
 import { PlainType } from '@potentiel-domain/core';
@@ -92,13 +92,17 @@ export const getUtilisateurFromAccessToken = async (
   } = jwtSchema.parse(payload);
 
   const role = roles.find((r) => Role.estUnRoleValide(r));
-  const groupe = groupes?.find((g) => Groupe.estUnGroupeValide(g));
+  const groupeRegex = /\/(?<type>GestionnairesRéseau)\/(?<nom>[\p{L}0-9\-\s]+$)$/u;
 
   return {
     role: Role.convertirEnValueType(role ?? ''),
-    groupe: groupe ? Groupe.convertirEnValueType(groupe) : Option.none,
     nom,
     identifiantUtilisateur: Email.convertirEnValueType(email),
+    région: Option.none,
+    identifiantGestionnaireRéseau:
+      groupes?.[0] && groupeRegex.test(groupes[0])
+        ? groupes[0].match(groupeRegex)!.groups!.nom
+        : Option.none,
   };
 };
 
@@ -118,8 +122,9 @@ export const getUtilisateurFromEmail = async (
 
   return {
     role: utilisateur.rôle,
-    groupe: Option.none,
-    nom: utilisateur.nomComplet,
+    nom: '',
     identifiantUtilisateur: Email.convertirEnValueType(email),
+    identifiantGestionnaireRéseau: utilisateur.identifiantGestionnaireRéseau,
+    région: utilisateur.région,
   };
 };
