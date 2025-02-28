@@ -1,6 +1,6 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
-import { RangeOptions } from '@potentiel-domain/entity';
+import { List, RangeOptions, Where } from '@potentiel-domain/entity';
 
 import { UtilisateurEntity } from '../utilisateur.entity';
 import {
@@ -18,32 +18,41 @@ export type ListerUtilisateursReadModel = {
 export type ListerUtilisateursQuery = Message<
   'Utilisateur.Query.ListerUtilisateurs',
   {
-    roles?: Array<Role.RawType>;
+    roles?: Array<string>;
+    identifiantUtilisateur?: string;
+    range?: RangeOptions;
   },
   ListerUtilisateursReadModel
 >;
 
 export type ListerUtilisateursPort = (
-  roles?: Array<Role.RawType>,
+  roles?: Array<string>,
 ) => Promise<ReadonlyArray<UtilisateurEntity>>;
 
 export type ListerUtilisateursDependencies = {
-  listerUtilisateurs: ListerUtilisateursPort;
+  list: List;
 };
 
-export const registerListerUtilisateursQuery = ({
-  listerUtilisateurs,
-}: ListerUtilisateursDependencies) => {
-  const handler: MessageHandler<ListerUtilisateursQuery> = async ({ roles }) => {
-    const items = await listerUtilisateurs(roles);
+export const registerListerUtilisateursQuery = ({ list }: ListerUtilisateursDependencies) => {
+  const handler: MessageHandler<ListerUtilisateursQuery> = async ({
+    roles,
+    range,
+    identifiantUtilisateur,
+  }) => {
+    const utilisateurs = await list<UtilisateurEntity>('utilisateur', {
+      where: {
+        rôle: roles
+          ? Where.include(roles.map((role) => Role.convertirEnValueType(role).nom))
+          : undefined,
+        identifiantUtilisateur: Where.contains(identifiantUtilisateur),
+      },
+      range,
+    });
 
     return {
-      items: items.map(mapToReadModel),
-      range: {
-        startPosition: 0,
-        endPosition: items.length,
-      },
-      total: items.length,
+      items: utilisateurs.items.map(mapToReadModel),
+      range: utilisateurs.range,
+      total: utilisateurs.total,
     };
   };
 

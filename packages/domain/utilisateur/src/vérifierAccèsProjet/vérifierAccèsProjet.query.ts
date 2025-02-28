@@ -2,11 +2,10 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { OperationRejectedError } from '@potentiel-domain/core';
 
-import * as Role from '../role.valueType';
 import * as Utilisateur from '../utilisateur.valueType';
 
 export type VérifierAccèsProjetQuery = Message<
-  'System.Authorization.VérifierAccésProjet',
+  'System.Authorization.VérifierAccèsProjet',
   {
     utilisateur: Utilisateur.ValueType;
     identifiantProjetValue: string;
@@ -36,17 +35,6 @@ export const registerVérifierAccèsProjetQuery = ({
     utilisateur,
     identifiantProjetValue,
   }) => {
-    if (
-      utilisateur.role.estÉgaleÀ(Role.admin) ||
-      utilisateur.role.estÉgaleÀ(Role.dgecValidateur) ||
-      utilisateur.role.estÉgaleÀ(Role.cre) ||
-      utilisateur.role.estÉgaleÀ(Role.ademe) ||
-      utilisateur.role.estÉgaleÀ(Role.caisseDesDépôts) ||
-      utilisateur.role.estÉgaleÀ(Role.acheteurObligé)
-    ) {
-      return;
-    }
-
     const estAccessible = await vérifierAccèsProjet({
       utilisateur,
       identifiantProjetValue,
@@ -57,5 +45,5 @@ export const registerVérifierAccèsProjetQuery = ({
     }
   };
 
-  mediator.register('System.Authorization.VérifierAccésProjet', handler);
+  mediator.register('System.Authorization.VérifierAccèsProjet', handler);
 };
