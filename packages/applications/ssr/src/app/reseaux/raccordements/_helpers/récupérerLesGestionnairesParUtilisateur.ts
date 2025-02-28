@@ -1,21 +1,24 @@
 import { mediator } from 'mediateur';
 
 import { GestionnaireRéseau } from '@potentiel-domain/reseau';
-import { Utilisateur } from '@potentiel-domain/utilisateur';
+import { Role, Utilisateur } from '@potentiel-domain/utilisateur';
 import { Option } from '@potentiel-libraries/monads';
 
-export const récupérerLesGestionnairesParUtilisateur = async (user: Utilisateur.ValueType) => {
-  if (Option.isSome(user.groupe) && user.groupe.type === 'GestionnairesRéseau') {
-    const identifiantGestionnaireRéseau = user.groupe.nom;
-    const gestionnaireRéseau =
-      await mediator.send<GestionnaireRéseau.ConsulterGestionnaireRéseauQuery>({
-        type: 'Réseau.Gestionnaire.Query.ConsulterGestionnaireRéseau',
-        data: {
-          identifiantGestionnaireRéseau,
-        },
-      });
-    if (Option.isSome(gestionnaireRéseau)) {
-      return [gestionnaireRéseau];
+export const récupérerLesGestionnairesParUtilisateur = async (
+  utilisateur: Utilisateur.ValueType,
+) => {
+  if (utilisateur.role.estÉgaleÀ(Role.grd)) {
+    if (Option.isSome(utilisateur.identifiantGestionnaireRéseau)) {
+      const gestionnaireRéseau =
+        await mediator.send<GestionnaireRéseau.ConsulterGestionnaireRéseauQuery>({
+          type: 'Réseau.Gestionnaire.Query.ConsulterGestionnaireRéseau',
+          data: {
+            identifiantGestionnaireRéseau: utilisateur.identifiantGestionnaireRéseau,
+          },
+        });
+      if (Option.isSome(gestionnaireRéseau)) {
+        return [gestionnaireRéseau];
+      }
     }
     return [];
   }
