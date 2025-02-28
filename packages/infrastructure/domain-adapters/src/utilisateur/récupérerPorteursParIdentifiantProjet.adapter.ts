@@ -4,10 +4,10 @@ import { Option } from '@potentiel-libraries/monads';
 
 const selectPorteursProjectQuery = `
   select json_build_object(
-    'email', "email", 
-    'fullName', "fullName") 
+    'email', "email"
+  ) 
   as value from (
-    select distinct u.email, u."fullName" 
+    select distinct u.email
     from "users" u 
     inner join "UserProjects" up on u.id = up."userId" 
     inner join "projects" p on up."projectId" = p.id
@@ -23,7 +23,7 @@ export const récupérerPorteursParIdentifiantProjetAdapter = async ({
   numéroCRE,
 }: IdentifiantProjet.ValueType) => {
   const porteurs = await executeSelect<{
-    value: { email: string; fullName: string };
+    value: { email: string };
   }>(
     selectPorteursProjectQuery,
     appelOffre,

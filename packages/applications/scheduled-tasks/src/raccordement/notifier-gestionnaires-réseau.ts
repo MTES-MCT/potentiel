@@ -99,7 +99,6 @@ registerLauréatQueries({
       const recipients = (await keycloakAdmin.groups.listMembers({ id: groupId }))
         .map((u) => ({
           email: u.email ?? '',
-          fullName: u.lastName ?? '',
         }))
         .filter((u) => !!u.email);
 

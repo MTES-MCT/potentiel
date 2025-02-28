@@ -8,10 +8,9 @@ import { IdentifiantProjet } from '@potentiel-domain/common';
 import { Routes } from '@potentiel-applications/routes';
 import {
   CandidatureAdapter,
-  listerUtilisateursAdapter,
   récupérerPorteursParIdentifiantProjetAdapter,
 } from '@potentiel-infrastructure/domain-adapters';
-import { Role } from '@potentiel-domain/utilisateur';
+import { ListerUtilisateursQuery, Role } from '@potentiel-domain/utilisateur';
 
 import { SendEmail } from '../../sendEmail';
 
@@ -76,10 +75,14 @@ export const register = ({ sendEmail }: RegisterRecoursNotificationDependencies)
     });
 
     if (event.type === 'RecoursAccordé-V1') {
-      const utilisateursCre = await listerUtilisateursAdapter([Role.cre.nom]);
-      const recipients = utilisateursCre.map(({ email, nomComplet }) => ({
+      const utilisateursCre = await mediator.send<ListerUtilisateursQuery>({
+        type: 'Utilisateur.Query.ListerUtilisateurs',
+        data: {
+          roles: [Role.cre.nom],
+        },
+      });
+      const recipients = utilisateursCre.items.map(({ email }) => ({
         email,
-        fullName: nomComplet,
       }));
 
       if (recipients.length > 0) {

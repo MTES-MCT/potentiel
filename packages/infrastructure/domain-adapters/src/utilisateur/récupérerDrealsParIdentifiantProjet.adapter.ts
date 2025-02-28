@@ -7,12 +7,11 @@ select
     json_build_object   
     (
       'email', "email", 
-      'fullName', "fullName"
     ) 
   as value
 from 
     (
-      select  distinct  u.email, u."fullName"
+      select  distinct  u.email
       from "users" u
       inner join "userDreals" ud on u.id = ud."userId"
       inner join "projects" p on p."regionProjet" = ud."dreal"
@@ -28,7 +27,7 @@ export const récupérerDrealsParIdentifiantProjetAdapter = async ({
   numéroCRE,
 }: IdentifiantProjet.ValueType) => {
   const dreals = await executeSelect<{
-    value: { email: string; fullName: string };
+    value: { email: string };
   }>(
     selectDrealsProjectQuery,
     appelOffre,
