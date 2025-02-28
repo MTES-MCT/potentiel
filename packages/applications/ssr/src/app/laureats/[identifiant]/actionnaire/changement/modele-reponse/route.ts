@@ -5,7 +5,6 @@ import { NextRequest } from 'next/server';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { Candidature } from '@potentiel-domain/candidature';
 import { DateTime } from '@potentiel-domain/common';
-import { ConsulterUtilisateurQuery } from '@potentiel-domain/utilisateur';
 import {
   formatDateForDocument,
   ModèleRéponseSignée,
@@ -25,19 +24,6 @@ export const GET = async (
   withUtilisateur(async (utilisateur) => {
     const identifiantProjet = decodeParameter(identifiant);
     const estAccordé = request.nextUrl.searchParams.get('estAccordé') === 'true';
-
-    const utilisateurDétails = await mediator.send<ConsulterUtilisateurQuery>({
-      type: 'Utilisateur.Query.ConsulterUtilisateur',
-      data: {
-        identifiantUtilisateur: utilisateur.identifiantUtilisateur.formatter(),
-      },
-    });
-
-    if (Option.isNone(utilisateurDétails)) {
-      return notFound();
-    }
-
-    const { nomComplet } = utilisateurDétails;
 
     const candidature = await mediator.send<Candidature.ConsulterProjetQuery>({
       type: 'Candidature.Query.ConsulterProjet',
@@ -94,9 +80,7 @@ export const GET = async (
       période: candidature.période,
     });
 
-    const régionDreal = Option.isSome(utilisateurDétails.régionDreal)
-      ? utilisateurDétails.régionDreal
-      : undefined;
+    const régionDreal = Option.isSome(utilisateur.région) ? utilisateur.région : undefined;
 
     const refPotentiel = formatIdentifiantProjetForDocument(identifiantProjet);
     const content = await ModèleRéponseSignée.générerModèleRéponseAdapter({
@@ -119,7 +103,7 @@ export const GET = async (
         nomRepresentantLegal: candidature.candidat.représentantLégal,
         puissance: candidature.puissance.toString(),
         refPotentiel,
-        suiviPar: nomComplet || '',
+        suiviPar: utilisateur.nom,
         suiviParEmail: appelOffres.dossierSuiviPar,
         titreAppelOffre: appelOffres.title,
         titreFamille: candidature.famille || '',
