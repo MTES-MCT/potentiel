@@ -2,6 +2,7 @@ import { Command } from '@oclif/core';
 import { mediator } from 'mediateur';
 
 import {
+  InviterPorteurUseCase,
   InviterUtilisateurUseCase,
   registerUtiliseurUseCases,
   Role,
@@ -36,14 +37,11 @@ export default class Migrer extends Command {
     }>(`
         select u.email,u.role,u."fullName",u.fonction,ud.dreal from users u
         left join "userDreals" ud on u.id=ud."userId"
-        where role in (
+        where u.role in (
             'admin',  'dreal',  'acheteur-obligé',  'ademe',  
             'dgec-validateur',  'caisse-des-dépôts',  'cre')
+            and u.disabled is not true;
     `);
-
-    // restera
-    // 'porteur-projet'
-    // 'grd'
 
     for (const user of users) {
       console.log({ user });
@@ -55,6 +53,34 @@ export default class Migrer extends Command {
           région: user.dreal,
           fonction: user.fonction,
           nomComplet: user.fullName,
+          invitéLeValue: DateTime.now().formatter(), // TODO
+          invitéParValue: Email.system().formatter(), // TODO
+        },
+      });
+    }
+
+    const porteurs = await executeSelect<{
+      email: string;
+      role: Role.RawType;
+      identifiantProjet: string;
+    }>(`
+        select 
+          u.email, 
+          format('%s#%s#%s#%s', p."appelOffreId",p."periodeId",p."familleId",p."numeroCRE") as "identifiantProjet"
+        from users u
+        inner join "UserProjects" up on u.id=up."userId"
+        inner join projects p on p.id=up."projectId"
+        where u.role='porteur-projet' and u.disabled is not true;
+    `);
+
+    for (const porteur of porteurs) {
+      console.log({ porteur });
+
+      await mediator.send<InviterPorteurUseCase>({
+        type: 'Utilisateur.UseCase.InviterPorteur',
+        data: {
+          identifiantUtilisateurValue: porteur.email,
+          identifiantProjetValue: porteur.identifiantProjet,
           invitéLeValue: DateTime.now().formatter(), // TODO
           invitéParValue: Email.system().formatter(), // TODO
         },

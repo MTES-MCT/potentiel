@@ -399,6 +399,7 @@ const référencielPermissions = {
   utilisateur: {
     query: {
       consulter: 'Utilisateur.Query.ConsulterUtilisateur',
+      lister: 'Utilisateur.Query.ListerUtilisateurs',
     },
     command: {
       inviter: 'Utilisateur.Command.InviterUtilisateur',
@@ -979,6 +980,7 @@ const policies = {
     ],
   },
   utilisateur: {
+    lister: [référencielPermissions.utilisateur.query.lister],
     inviter: [
       référencielPermissions.utilisateur.command.inviter,
       référencielPermissions.utilisateur.usecase.inviter,
@@ -1121,6 +1123,7 @@ const adminPolicies: ReadonlyArray<Policy> = [
   'lauréat.modifier',
 
   // Utilisateur
+  'utilisateur.lister',
   'utilisateur.inviter',
   'utilisateur.inviterPorteur',
 ];
