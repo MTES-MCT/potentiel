@@ -20,7 +20,6 @@ export const computeNombreDeProjetLauréatParAppelOffre = async () => {
       "projects"
     where 
       "classe" = 'Classé' and 
-      "abandonedOn" = 0 and 
       "notifiedOn"!='0' 
     group by "appelOffreId"
     order by "appelOffreId" asc
