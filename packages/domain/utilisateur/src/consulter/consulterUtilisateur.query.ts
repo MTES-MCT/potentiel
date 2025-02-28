@@ -2,7 +2,7 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { Option } from '@potentiel-libraries/monads';
 import { Find } from '@potentiel-domain/entity';
-import { Email } from '@potentiel-domain/common';
+import { DateTime, Email } from '@potentiel-domain/common';
 
 import { UtilisateurEntity } from '../utilisateur.entity';
 import * as IdentifiantUtilisateur from '../identifiantUtilisateur.valueType';
@@ -14,6 +14,11 @@ export type ConsulterUtilisateurReadModel = {
   nomComplet: Option.Type<string>;
   rôle: Role.ValueType;
   fonction: Option.Type<string>;
+  région: Option.Type<string>;
+  identifiantGestionnaireRéseau: Option.Type<string>;
+  nombreDeProjets: Option.Type<number>;
+  invitéLe: DateTime.ValueType;
+  invitéPar: Email.ValueType;
 };
 
 export type ConsulterUtilisateurQuery = Message<
@@ -53,4 +58,10 @@ export const mapToReadModel = (utilisateur: UtilisateurEntity): ConsulterUtilisa
   email: utilisateur.identifiantUtilisateur,
   nomComplet: utilisateur.rôle === 'dgec-validateur' ? utilisateur.nomComplet : Option.none,
   fonction: utilisateur.rôle === 'dgec-validateur' ? utilisateur.fonction : Option.none,
+  région: utilisateur.rôle === 'dreal' ? utilisateur.région : Option.none,
+  identifiantGestionnaireRéseau:
+    utilisateur.rôle === 'grd' ? utilisateur.identifiantGestionnaireRéseau : Option.none,
+  nombreDeProjets: utilisateur.rôle === 'porteur-projet' ? utilisateur.projets.length : Option.none,
+  invitéLe: DateTime.convertirEnValueType(utilisateur.invitéLe),
+  invitéPar: Email.convertirEnValueType(utilisateur.invitéPar),
 });

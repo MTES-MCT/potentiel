@@ -21,6 +21,7 @@ export type ListerGestionnaireRéseauQuery = Message<
   {
     range?: RangeOptions;
     raisonSociale?: string;
+    identifiants?: string[];
   },
   ListerGestionnaireRéseauReadModel
 >;
@@ -35,6 +36,7 @@ export const registerListerGestionnaireRéseauQuery = ({
   const handler: MessageHandler<ListerGestionnaireRéseauQuery> = async ({
     range,
     raisonSociale,
+    identifiants,
   }) => {
     const {
       items,
@@ -46,6 +48,7 @@ export const registerListerGestionnaireRéseauQuery = ({
       },
       where: {
         raisonSociale: Where.contain(raisonSociale),
+        codeEIC: Where.matchAny(identifiants),
       },
       range,
     });
