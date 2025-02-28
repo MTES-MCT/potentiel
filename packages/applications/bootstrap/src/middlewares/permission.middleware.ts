@@ -26,7 +26,7 @@ export const permissionMiddleware: Middleware = async (message, next) => {
     const identifiantProjetValue = getIdentifiantProjetValue(message);
 
     await mediator.send<VérifierAccèsProjetQuery>({
-      type: 'System.Authorization.VérifierAccésProjet',
+      type: 'System.Authorization.VérifierAccèsProjet',
       data: {
         identifiantProjetValue,
         utilisateur,

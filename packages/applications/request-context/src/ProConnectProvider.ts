@@ -66,15 +66,17 @@ export default function ProConnect<P extends ProConnectProfile>(
         return {
           id: Option.none.type,
           nom: '',
-          groupe: Option.none,
           role: Role.porteur,
           identifiantUtilisateur: IdentifiantUtilisateur.unknownUser,
+          région: Option.none,
+          identifiantGestionnaireRéseau: Option.none,
         };
       }
 
       return {
         id: profile.uid,
         ...mapToPlainObject(utilisateur),
+        nom: profile.usual_name,
       };
     },
     options,
