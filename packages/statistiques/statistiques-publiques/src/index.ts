@@ -74,6 +74,18 @@ import {
   cleanNombreTotalMainlevéeAccordée,
   computeNombreTotalMainlevéeAccordée,
 } from './projet/nombreTotalMainlevéeAccordée.statistic';
+import {
+  cleanNombreTotalProjetAyantTransmisAttestationConformité,
+  computeNombreTotalProjetAyantTransmisAttestationConformité,
+} from './projet/nombreTotalProjetAyantTransmisAttestationConformité.statistic';
+import {
+  cleanNombreTotalProjetCRE4AyantTransmisAttestationConformité,
+  computeNombreTotalProjetCRE4AyantTransmisAttestationConformité,
+} from './projet/nombreTotalProjetCRE4AyantTransmisAttestationConformité.statistic';
+import {
+  cleanNombreTotalProjetPPE2AyantTransmisAttestationConformité,
+  computeNombreTotalProjetPPE2AyantTransmisAttestationConformité,
+} from './projet/nombreTotalProjetPPE2AyantTransmisAttestationConformité.statistic';
 
 export const cleanStatistiquesPubliques = async () => {
   await cleanNombreTotalProjet();
@@ -95,6 +107,9 @@ export const cleanStatistiquesPubliques = async () => {
   await cleanUtilisateurCréation();
   await cleanTotalPuissanceProjetAvecMainlevéeAccordée();
   await cleanNombreTotalMainlevéeAccordée();
+  await cleanNombreTotalProjetAyantTransmisAttestationConformité();
+  await cleanNombreTotalProjetCRE4AyantTransmisAttestationConformité();
+  await cleanNombreTotalProjetPPE2AyantTransmisAttestationConformité();
 };
 
 export const computeStatistiquesPubliques = async () => {
@@ -117,4 +132,7 @@ export const computeStatistiquesPubliques = async () => {
   await computeUtilisateurCréation();
   await computeTotalPuissanceProjetAvecMainlevéeAccordée();
   await computeNombreTotalMainlevéeAccordée();
+  await computeNombreTotalProjetAyantTransmisAttestationConformité();
+  await computeNombreTotalProjetCRE4AyantTransmisAttestationConformité();
+  await computeNombreTotalProjetPPE2AyantTransmisAttestationConformité();
 };
