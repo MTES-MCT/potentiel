@@ -1,7 +1,11 @@
+import { LoadAggregate } from '@potentiel-domain/core';
+
 import {
   ConsulterUtilisateurDependencies,
   registerConsulterUtilisateurQuery,
 } from './consulter/consulterUtilisateur.query';
+import { registerInviterPorteurCommand } from './inviter/inviterPorteur.command';
+import { registerInviterPorteurUseCase } from './inviter/inviterPorteur.usecase';
 import {
   ListerUtilisateursDependencies,
   registerListerUtilisateursQuery,
@@ -14,6 +18,8 @@ import {
   VérifierAccèsProjetDependencies,
   registerVérifierAccèsProjetQuery,
 } from './vérifierAccèsProjet/vérifierAccèsProjet.query';
+import { registerInviterUseCase } from './inviter/inviter.usecase';
+import { registerInviterCommand } from './inviter/inviter.command';
 
 type UtilisateurQueryDependencies = ConsulterUtilisateurDependencies &
   ListerUtilisateursDependencies &
@@ -25,4 +31,16 @@ export const registerUtilisateurQueries = (dependencies: UtilisateurQueryDepende
   registerListerUtilisateursQuery(dependencies);
   registerTrouverUtilisateurQuery(dependencies);
   registerVérifierAccèsProjetQuery(dependencies);
+};
+
+export type UtilisateurCommandDependencies = {
+  loadAggregate: LoadAggregate;
+};
+
+export const registerUtiliseurUseCases = ({ loadAggregate }: UtilisateurCommandDependencies) => {
+  registerInviterUseCase();
+  registerInviterPorteurUseCase();
+
+  registerInviterCommand(loadAggregate);
+  registerInviterPorteurCommand(loadAggregate);
 };

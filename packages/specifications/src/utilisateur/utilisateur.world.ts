@@ -1,9 +1,14 @@
+import { Role } from '@potentiel-domain/utilisateur';
+import { Option } from '@potentiel-libraries/monads';
+import { Email } from '@potentiel-domain/common';
+
 import { PorteurFixture } from './fixtures/porteur.fixture';
 import { ValidateurFixture } from './fixtures/validateur.fixture';
 import { DREALFixture } from './fixtures/dreal.fixture';
 import { AdminFixture } from './fixtures/admin.fixture';
 import { SystemFixture } from './fixtures/system.fixture';
 import { GRDFixture } from './fixtures/grd.fixture';
+import { InviterUtilisateurFixture } from './fixtures/inviter/inviter.fixture';
 
 export class UtilisateurWorld {
   #porteurFixture: PorteurFixture;
@@ -41,6 +46,12 @@ export class UtilisateurWorld {
     return this.#systemFixture;
   }
 
+  #inviterUtilisateur: InviterUtilisateurFixture;
+
+  get inviterUtilisateur() {
+    return this.#inviterUtilisateur;
+  }
+
   constructor() {
     this.#porteurFixture = new PorteurFixture();
     this.#validateurFixture = new ValidateurFixture();
@@ -48,6 +59,7 @@ export class UtilisateurWorld {
     this.#grdFixture = new GRDFixture();
     this.#adminFixture = new AdminFixture();
     this.#systemFixture = new SystemFixture();
+    this.#inviterUtilisateur = new InviterUtilisateurFixture();
   }
 
   récupérerEmailSelonRôle(role: string): string {
@@ -68,5 +80,19 @@ export class UtilisateurWorld {
       default:
         throw new Error(`La fixture ${role} n'a pas été créée`);
     }
+  }
+
+  mapToExpected() {
+    const email = Email.convertirEnValueType(this.inviterUtilisateur.email);
+    return {
+      identifiantUtilisateur: email,
+      email: email.email,
+      rôle: Role.convertirEnValueType(this.inviterUtilisateur.rôle),
+      régionDreal: this.inviterUtilisateur.région ?? Option.none,
+      fonction: this.inviterUtilisateur.fonction ?? Option.none,
+      nomComplet: this.inviterUtilisateur.nomComplet ?? Option.none,
+      identifiantGestionnaireRéseau:
+        this.inviterUtilisateur.identifiantGestionnaireRéseau ?? Option.none,
+    };
   }
 }

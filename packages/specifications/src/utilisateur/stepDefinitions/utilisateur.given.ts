@@ -3,8 +3,19 @@ import { match } from 'ts-pattern';
 
 import { executeQuery, executeSelect } from '@potentiel-libraries/pg-helpers';
 import { IdentifiantProjet } from '@potentiel-domain/common';
+import { Role } from '@potentiel-domain/utilisateur';
 
 import { PotentielWorld } from '../../potentiel.world';
+
+import { inviterUtilisateur } from './utilisateur.when';
+
+EtantDonné('le porteur {string}', async function (this: PotentielWorld, porteurNom: string) {
+  const porteur = this.utilisateurWorld.porteurFixture.créer({
+    nom: porteurNom,
+  });
+
+  await insérerUtilisateur(porteur);
+});
 
 EtantDonné(
   'le porteur {string} ayant accés au projet {lauréat-éliminé} {string}',
@@ -44,9 +55,11 @@ EtantDonné(
       nom: drealNom,
     });
 
-    await insérerUtilisateur(dreal);
-
     const { région } = this.candidatureWorld.importerCandidature.values.localitéValue;
+    await inviterUtilisateur.call(this, {
+      rôle: Role.dreal.nom,
+      région,
+    });
 
     await associerUtilisateurÀSaDreal(dreal.id, région);
   },
