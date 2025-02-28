@@ -75,6 +75,7 @@ const CDCModifié07022023Alternatif: AppelOffre.CahierDesChargesModifié = {
 export const zni: AppelOffre.AppelOffreReadModel = {
   id: 'CRE4 - ZNI',
   typeAppelOffre: 'zni',
+  cycleAppelOffre: 'CRE4',
   title:
     'portant sur la réalisation et l’exploitation d’installations de production d’électricité à partir de l’énergie solaire et situées dans les zones non interconnectées',
   shortTitle: 'CRE4 - ZNI',

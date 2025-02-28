@@ -62,6 +62,7 @@ Des délais supplémentaires pour l’Achèvement ou, pour ce qui concerne l’�
 export const innovation: AppelOffre.AppelOffreReadModel = {
   id: 'CRE4 - Innovation',
   typeAppelOffre: 'innovation',
+  cycleAppelOffre: 'CRE4',
   title:
     'portant sur la réalisation et l’exploitation d’Installations de production d’électricité innovantes à partir de l’énergie solaire, sans dispositifs de stockage',
   shortTitle: 'CRE4 - Innovation',

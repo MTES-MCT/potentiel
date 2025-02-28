@@ -24,6 +24,7 @@ export const eolien: AppelOffre.AppelOffreReadModel = {
   autoritéCompétenteDemandesDélai: 'dgec',
   id: 'Eolien',
   typeAppelOffre: 'eolien',
+  cycleAppelOffre: 'CRE4',
   title:
     'portant sur la réalisation et l’exploitation d’Installations de production d’électricité à partir de l’énergie mécanique du vent implantées à terre',
   shortTitle: 'Eolien',

@@ -3,6 +3,7 @@ import { AppelOffre } from '@potentiel-domain/appel-offre';
 export const zniPPE2: AppelOffre.AppelOffreReadModel = {
   id: 'PPE2 - ZNI',
   typeAppelOffre: 'zni',
+  cycleAppelOffre: 'PPE2',
   title: `portant sur la réalisation et l’exploitation d’installations de production d’électricité à partir de l’énergie solaire et situées dans les zones non interconnectées`,
   shortTitle: 'PPE2 - ZNI',
   launchDate: 'Décembre 2023',
