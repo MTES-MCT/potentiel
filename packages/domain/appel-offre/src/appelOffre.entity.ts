@@ -217,6 +217,7 @@ export type Territoire = (typeof territoires)[number];
 export type AppelOffreReadModel = {
   id: string;
   typeAppelOffre: AppelOffreTypes;
+  cycleAppelOffre: 'CRE4' | 'PPE2';
   title: string;
   shortTitle: string;
   launchDate: string;

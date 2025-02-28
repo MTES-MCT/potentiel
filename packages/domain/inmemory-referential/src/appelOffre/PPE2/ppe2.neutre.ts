@@ -3,6 +3,7 @@ import { AppelOffre } from '@potentiel-domain/appel-offre';
 export const neutrePPE2: AppelOffre.AppelOffreReadModel = {
   id: 'PPE2 - Neutre',
   typeAppelOffre: 'neutre',
+  cycleAppelOffre: 'PPE2',
   title:
     'portant sur la réalisation et l’exploitation d’Installations de production d’électricité à partir d’énergie solaire photovoltaïque, hydroélectrique ou éolienne situées en métropole continentale',
   shortTitle: 'PPE2 - Neutre',

@@ -60,6 +60,7 @@ Des délais supplémentaires pour l’Achèvement ou, pour ce qui concerne l’�
 export const fessenheim: AppelOffre.AppelOffreReadModel = {
   id: 'Fessenheim',
   typeAppelOffre: 'autre',
+  cycleAppelOffre: 'CRE4',
   title:
     'portant sur la réalisation et l’exploitation d’Installations de production d’électricité à partir de l’énergie solaire « transition énergétique du territoire de Fessenheim »',
   shortTitle: 'Fessenheim',

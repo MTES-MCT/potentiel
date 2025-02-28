@@ -32,6 +32,7 @@ Des délais supplémentaires pour l’Achèvement ou, pour ce qui concerne l’�
 export const solPPE2: AppelOffre.AppelOffreReadModel = {
   id: 'PPE2 - Sol',
   typeAppelOffre: 'sol',
+  cycleAppelOffre: 'PPE2',
   title:
     'portant sur la réalisation et l’exploitation d’Installations de production d’électricité à partir de l’énergie solaire « Centrales au sol »',
   shortTitle: 'PPE2 - Sol',

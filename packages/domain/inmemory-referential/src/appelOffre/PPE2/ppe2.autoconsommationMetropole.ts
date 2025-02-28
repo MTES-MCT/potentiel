@@ -64,6 +64,7 @@ Des délais supplémentaires pour l’Achèvement ou, pour ce qui concerne l’�
 export const autoconsommationMetropolePPE2: AppelOffre.AppelOffreReadModel = {
   id: 'PPE2 - Autoconsommation métropole',
   typeAppelOffre: 'autoconso',
+  cycleAppelOffre: 'PPE2',
   title:
     'portant sur la réalisation et l’exploitation d’Installations de production d’électricité à partir d’énergies renouvelables en autoconsommation et situées en métropole continentale',
   shortTitle: 'PPE2 - Autoconsommation métropole',
