@@ -5,7 +5,7 @@ import { mapToSendEmailMode } from './sendEmailMode';
 
 type Receipt = {
   email: string;
-  fullName: string;
+  fullName?: string;
 };
 
 type SendEmail = (email: {
