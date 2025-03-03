@@ -1,13 +1,5 @@
 import { executeQuery } from '@potentiel-libraries/pg-helpers';
 
-export const cleanUtilisateurCréation = () =>
-  executeQuery(
-    `
-    delete
-    from domain_public_statistic.utilisateur_creation_statistic
-    `,
-  );
-
 export const computeUtilisateurCréation = async () => {
   await executeQuery(
     `

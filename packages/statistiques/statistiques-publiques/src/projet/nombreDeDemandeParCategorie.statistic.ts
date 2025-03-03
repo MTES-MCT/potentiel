@@ -1,10 +1,6 @@
 import { executeQuery } from '@potentiel-libraries/pg-helpers';
 
-import { cleanCamembertStatistic } from '../_utils/cleanCamembertStatistic';
-
 const statisticType = 'nombreDeDemandeParCategorie';
-
-export const cleanNombreDeDemandeParCategorie = cleanCamembertStatistic(statisticType);
 
 export const computeNombreDeDemandeParCategorie = async () => {
   await executeQuery(

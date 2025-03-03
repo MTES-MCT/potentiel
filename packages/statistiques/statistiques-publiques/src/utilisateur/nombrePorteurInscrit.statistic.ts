@@ -1,10 +1,6 @@
 import { executeQuery } from '@potentiel-libraries/pg-helpers';
 
-import { cleanScalarStatistic } from '../_utils/cleanScalarStatistic';
-
 const statisticType = 'nombrePorteurInscrit';
-
-export const cleanNombrePorteurInscrit = cleanScalarStatistic(statisticType);
 
 export const computeNombrePorteurInscrit = () =>
   executeQuery(

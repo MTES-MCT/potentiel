@@ -1,13 +1,5 @@
 import { executeQuery } from '@potentiel-libraries/pg-helpers';
 
-export const cleanProjetLauréatParDépartement = () =>
-  executeQuery(
-    `
-    delete
-    from domain_public_statistic.carto_projet_statistic
-    `,
-  );
-
 export const computeProjetLauréatParDépartement = async () => {
   await executeQuery(
     `

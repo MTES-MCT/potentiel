@@ -1,11 +1,6 @@
 import { executeQuery } from '@potentiel-libraries/pg-helpers';
 
-import { cleanScalarStatistic } from '../_utils/cleanScalarStatistic';
-
 const statisticType = 'nombreTotalProjetAyantTransmisAttestationConformité';
-
-export const cleanNombreTotalProjetAyantTransmisAttestationConformité =
-  cleanScalarStatistic(statisticType);
 
 export const computeNombreTotalProjetAyantTransmisAttestationConformité = () =>
   executeQuery(

@@ -1,10 +1,6 @@
 import { executeQuery } from '@potentiel-libraries/pg-helpers';
 
-import { cleanScalarStatistic } from '../_utils/cleanScalarStatistic';
-
 const statisticType = 'pourcentageProjetAvecDCREtPTF';
-
-export const cleanPourcentageProjetAvecDCREtPTF = cleanScalarStatistic(statisticType);
 
 export const computePourcentageProjetAvecDCREtPTF = () =>
   executeQuery(
