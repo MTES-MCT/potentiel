@@ -1,4 +1,5 @@
 # language: fr
+@select
 Fonctionnalité: Annuler l'abandon d'un projet lauréat
 
     Contexte:
@@ -7,6 +8,11 @@ Fonctionnalité: Annuler l'abandon d'un projet lauréat
 
     Scénario: Un porteur annule l'abandon d'un projet lauréat
         Etant donné une demande d'abandon en cours pour le projet lauréat
+        Quand le porteur annule l'abandon pour le projet lauréat
+        Alors l'abandon du projet lauréat ne devrait plus exister
+
+    Scénario: Un porteur annule l'abandon en instruction d'un projet lauréat
+        Etant donné une demande d'abandon en instruction pour le projet lauréat
         Quand le porteur annule l'abandon pour le projet lauréat
         Alors l'abandon du projet lauréat ne devrait plus exister
 

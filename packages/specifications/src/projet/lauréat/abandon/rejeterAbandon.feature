@@ -1,4 +1,5 @@
 # language: fr
+@select
 Fonctionnalité: Rejeter l'abandon d'un projet lauréat
 
     Contexte:
@@ -7,6 +8,11 @@ Fonctionnalité: Rejeter l'abandon d'un projet lauréat
 
     Scénario: Un DGEC validateur rejette l'abandon d'un projet lauréat
         Etant donné une demande d'abandon en cours pour le projet lauréat
+        Quand le DGEC validateur rejette l'abandon pour le projet lauréat
+        Alors l'abandon du projet lauréat devrait être rejeté
+
+    Scénario: Un DGEC validateur rejette l'abandon en instruction d'un projet lauréat
+        Etant donné une demande d'abandon en instruction pour le projet lauréat
         Quand le DGEC validateur rejette l'abandon pour le projet lauréat
         Alors l'abandon du projet lauréat devrait être rejeté
 
