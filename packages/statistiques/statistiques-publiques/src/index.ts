@@ -78,6 +78,10 @@ import {
   cleanNombreTotalProjetPPE2AyantTransmisAttestationConformité,
   computeNombreTotalProjetPPE2AyantTransmisAttestationConformité,
 } from './projet/nombreTotalProjetPPE2AyantTransmisAttestationConformité.statistic';
+import {
+  cleanPourcentageProjetEnService,
+  computePourcentageProjetEnService,
+} from './projet/pourcentageProjetEnService.statistic';
 
 export const cleanStatistiquesPubliques = async () => {
   await cleanNombreTotalProjet();
@@ -100,6 +104,7 @@ export const cleanStatistiquesPubliques = async () => {
   await cleanNombreTotalProjetAyantTransmisAttestationConformité();
   await cleanNombreTotalProjetCRE4AyantTransmisAttestationConformité();
   await cleanNombreTotalProjetPPE2AyantTransmisAttestationConformité();
+  await cleanPourcentageProjetEnService();
 };
 
 export const computeStatistiquesPubliques = async () => {
@@ -123,4 +128,5 @@ export const computeStatistiquesPubliques = async () => {
   await computeNombreTotalProjetAyantTransmisAttestationConformité();
   await computeNombreTotalProjetCRE4AyantTransmisAttestationConformité();
   await computeNombreTotalProjetPPE2AyantTransmisAttestationConformité();
+  await computePourcentageProjetEnService();
 };
