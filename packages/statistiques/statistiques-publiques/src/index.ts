@@ -3,10 +3,6 @@ import {
   computeNombreTotalProjet,
 } from './projet/nombreTotalProjet.statistic';
 import {
-  cleanPourcentageDesGFPPE2Validées,
-  computePourcentageDesGFPPE2Validées,
-} from './projet/pourcentageDesGFPPE2Validées.statistic';
-import {
   cleanPourcentageAttestationTéléchargée,
   computePourcentageAttestationTéléchargée,
 } from './projet/pourcentageAttestationTéléchargée.statistic';
@@ -87,7 +83,6 @@ export const cleanStatistiquesPubliques = async () => {
   await cleanNombreTotalProjet();
   await cleanNombrePorteurInscrit();
   await cleanPourcentageAttestationTéléchargée();
-  await cleanPourcentageDesGFPPE2Validées();
   await cleanNombreTotalDCRDéposées();
   await cleanPuissanceTotaleMiseEnService();
   await cleanPourcentageProjetAvecDCREtPTF();
@@ -111,7 +106,6 @@ export const computeStatistiquesPubliques = async () => {
   await computeNombreTotalProjet();
   await computeNombrePorteurInscrit();
   await computePourcentageAttestationTéléchargée();
-  await computePourcentageDesGFPPE2Validées();
   await computeNombreTotalDCRDéposées();
   await computePuissanceTotaleMiseEnService();
   await computePourcentageProjetAvecDCREtPTF();
