@@ -46,6 +46,9 @@ export const registerListerUtilisateursQuery = ({ list }: ListerUtilisateursDepe
           : undefined,
         identifiantUtilisateur: Where.contains(identifiantUtilisateur),
       },
+      orderBy: {
+        invitéLe: 'descending',
+      },
       range,
     });
 
