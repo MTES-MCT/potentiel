@@ -23,3 +23,9 @@ export class GroupeRefuséError extends OperationRejectedError {
     });
   }
 }
+
+export class AccèsProjetDéjàAutorisé extends OperationRejectedError {
+  constructor() {
+    super(`L'utilisateur a déjà accès à ce projet`);
+  }
+}
