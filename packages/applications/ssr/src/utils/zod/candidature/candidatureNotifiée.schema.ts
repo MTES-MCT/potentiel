@@ -64,14 +64,36 @@ const partialLauréatSchema = lauréatSchema.partial();
 
 const identifiantProjetSchema = z.string().min(1);
 
-export const modifierLauréatEtCandidatureSchéma = z.object({
-  identifiantProjet: identifiantProjetSchema,
-  candidature: partialCandidatureNotifiéeSchema.optional(),
-  laureat: partialLauréatSchema.optional(),
-});
+export const modifierLauréatEtCandidatureSchéma = z
+  .object({
+    identifiantProjet: identifiantProjetSchema,
+    candidature: partialCandidatureNotifiéeSchema
+      .refine((candidature) => !candidature || candidature.doitRegenererAttestation !== undefined, {
+        path: ['doitRegenererAttestation'],
+        message:
+          "Vous devez choisir de régénérer ou pas l'attestation lorsque la candidature est corrigée",
+      })
+      .refine((value) => !!value.adresse1 || !!value.adresse2, {
+        message: `L'une des deux adresses doit être renseignée`,
+        // TODO: improve validation errors to enable multiple paths
+        path: ['adresse1'],
+      })
+      .optional(),
+    laureat: partialLauréatSchema
+      .refine((value) => !!value.adresse1 || !!value.adresse2, {
+        message: `L'une des deux adresses doit être renseignée`,
+        path: ['adresse1'],
+      })
+      .optional(),
+  })
+  .refine((value) => value.laureat || value.candidature, {
+    // little hack as this is an error for the entire form
+    path: ['identifiantProjet'],
+    message: 'Le formulaire ne contient pas de modification',
+  });
 
 // this is used for validations errors
-// the type won't work with the optional option we need
+// the type won't work with the .optional() we need
 const modifierLauréatEtCandidatureValidationSchéma = z.object({
   identifiantProjet: identifiantProjetSchema,
   candidature: partialCandidatureNotifiéeSchema,
