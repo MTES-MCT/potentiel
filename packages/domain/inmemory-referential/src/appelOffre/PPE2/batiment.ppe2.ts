@@ -30,6 +30,7 @@ Des délais supplémentaires pour l’Achèvement ou, pour ce qui concerne l’�
 export const batimentPPE2: AppelOffre.AppelOffreReadModel = {
   id: 'PPE2 - Bâtiment',
   typeAppelOffre: 'batiment',
+  cycleAppelOffre: 'PPE2',
   title:
     'portant sur la réalisation et l’exploitation d’Installations de production d’électricité à partir de l’énergie solaire « Centrales sur bâtiments, serres et hangars agricoles et ombrières de parking de puissance supérieure à 500 kWc»',
   shortTitle: 'PPE2 - Bâtiment',

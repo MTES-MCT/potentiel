@@ -41,6 +41,7 @@ const CDCModifié30082022: AppelOffre.CahierDesChargesModifié = {
 export const sol: AppelOffre.AppelOffreReadModel = {
   id: 'CRE4 - Sol',
   typeAppelOffre: 'sol',
+  cycleAppelOffre: 'CRE4',
   title:
     'portant sur la réalisation et l’exploitation d’installations de production d’électricité à partir de l’énergie solaire « Centrale au sol »',
   shortTitle: 'CRE4 - Sol',

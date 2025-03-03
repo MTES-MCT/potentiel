@@ -16,6 +16,7 @@ const CDCModifié30072021: AppelOffre.CahierDesChargesModifié = {
 export const autoconsommationMetropole: AppelOffre.AppelOffreReadModel = {
   id: 'CRE4 - Autoconsommation métropole',
   typeAppelOffre: 'autoconso',
+  cycleAppelOffre: 'CRE4',
   title:
     'portant sur la réalisation et l’exploitation d’Installations de production d’électricité à partir d’énergies renouvelables en autoconsommation et situées en métropole continentale',
   shortTitle: 'CRE4 - Autoconsommation métropole',

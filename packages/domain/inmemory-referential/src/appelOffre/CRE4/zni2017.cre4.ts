@@ -40,6 +40,7 @@ const CDCModifié30082022: AppelOffre.CahierDesChargesModifié = {
 export const zni2017: AppelOffre.AppelOffreReadModel = {
   id: 'CRE4 - ZNI 2017',
   typeAppelOffre: 'zni',
+  cycleAppelOffre: 'CRE4',
   title:
     'portant sur la réalisation et l’exploitation d’installations de production d’électricité à partir de techniques de conversion du rayonnement solaire d’une puissance supérieure à 100 kWc et situées dans les zones non interconnectées',
   shortTitle: 'CRE4 - ZNI 2017',

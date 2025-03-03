@@ -7,10 +7,6 @@ import {
   computePourcentageDesGFPPE2Validées,
 } from './projet/pourcentageDesGFPPE2Validées.statistic';
 import {
-  cleanNombreParrainage,
-  computeNombreParrainage,
-} from './utilisateur/nombreParrainage.statistic';
-import {
   cleanPourcentageAttestationTéléchargée,
   computePourcentageAttestationTéléchargée,
 } from './projet/pourcentageAttestationTéléchargée.statistic';
@@ -74,11 +70,22 @@ import {
   cleanNombreTotalMainlevéeAccordée,
   computeNombreTotalMainlevéeAccordée,
 } from './projet/nombreTotalMainlevéeAccordée.statistic';
+import {
+  cleanNombreTotalProjetAyantTransmisAttestationConformité,
+  computeNombreTotalProjetAyantTransmisAttestationConformité,
+} from './projet/nombreTotalProjetAyantTransmisAttestationConformité.statistic';
+import {
+  cleanNombreTotalProjetCRE4AyantTransmisAttestationConformité,
+  computeNombreTotalProjetCRE4AyantTransmisAttestationConformité,
+} from './projet/nombreTotalProjetCRE4AyantTransmisAttestationConformité.statistic';
+import {
+  cleanNombreTotalProjetPPE2AyantTransmisAttestationConformité,
+  computeNombreTotalProjetPPE2AyantTransmisAttestationConformité,
+} from './projet/nombreTotalProjetPPE2AyantTransmisAttestationConformité.statistic';
 
 export const cleanStatistiquesPubliques = async () => {
   await cleanNombreTotalProjet();
   await cleanNombrePorteurInscrit();
-  await cleanNombreParrainage();
   await cleanPourcentageAttestationTéléchargée();
   await cleanPourcentageDesGFPPE2Validées();
   await cleanNombreTotalDCRDéposées();
@@ -95,12 +102,14 @@ export const cleanStatistiquesPubliques = async () => {
   await cleanUtilisateurCréation();
   await cleanTotalPuissanceProjetAvecMainlevéeAccordée();
   await cleanNombreTotalMainlevéeAccordée();
+  await cleanNombreTotalProjetAyantTransmisAttestationConformité();
+  await cleanNombreTotalProjetCRE4AyantTransmisAttestationConformité();
+  await cleanNombreTotalProjetPPE2AyantTransmisAttestationConformité();
 };
 
 export const computeStatistiquesPubliques = async () => {
   await computeNombreTotalProjet();
   await computeNombrePorteurInscrit();
-  await computeNombreParrainage();
   await computePourcentageAttestationTéléchargée();
   await computePourcentageDesGFPPE2Validées();
   await computeNombreTotalDCRDéposées();
@@ -117,4 +126,7 @@ export const computeStatistiquesPubliques = async () => {
   await computeUtilisateurCréation();
   await computeTotalPuissanceProjetAvecMainlevéeAccordée();
   await computeNombreTotalMainlevéeAccordée();
+  await computeNombreTotalProjetAyantTransmisAttestationConformité();
+  await computeNombreTotalProjetCRE4AyantTransmisAttestationConformité();
+  await computeNombreTotalProjetPPE2AyantTransmisAttestationConformité();
 };

@@ -48,6 +48,7 @@ Des délais supplémentaires pour l’Achèvement ou, pour ce qui concerne l’�
 export const innovationPPE2: AppelOffre.AppelOffreReadModel = {
   id: 'PPE2 - Innovation',
   typeAppelOffre: 'innovation',
+  cycleAppelOffre: 'PPE2',
   title:
     'portant sur la réalisation et l’exploitation d’Installations de production d’électricité innovantes à partir de l’énergie solaire sans dispositifs de stockage',
   shortTitle: 'PPE2 - Innovation',

@@ -31,6 +31,7 @@ Des délais supplémentaires pour l’Achèvement ou, pour ce qui concerne l’�
 export const eolienPPE2: AppelOffre.AppelOffreReadModel = {
   id: 'PPE2 - Eolien',
   typeAppelOffre: 'eolien',
+  cycleAppelOffre: 'PPE2',
   title:
     'portant sur la réalisation et l’exploitation d’Installations de production d’électricité à partir de l’énergie mécanique du vent implantées à terre',
   shortTitle: 'PPE2 - Eolien',

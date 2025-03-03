@@ -47,6 +47,7 @@ Des délais supplémentaires pour l’Achèvement ou, pour ce qui concerne l’�
 export const pvEolien: AppelOffre.AppelOffreReadModel = {
   id: 'PV - Eolien',
   typeAppelOffre: 'eolien',
+  cycleAppelOffre: 'CRE4',
   title: `portant sur la réalisation de l'exploitation d'installations de production d'électricité à partir d'énergie solaire photovoltaïque ou élolienne situées en métropole continentale`,
   shortTitle: 'PV - Eolien',
   launchDate: 'Décembre 2017',
