@@ -11,7 +11,7 @@ import {
   AfterAll,
   AfterStep,
 } from '@cucumber/cucumber';
-import { expect, should } from 'chai';
+import { should } from 'chai';
 import { Message, MessageResult, clear } from 'mediateur';
 import {
   CreateBucketCommand,
@@ -69,15 +69,17 @@ BeforeStep(async ({ pickleStep }) => {
   }
 });
 
-AfterStep(async function (this: PotentielWorld, { pickleStep, result }) {
+AfterStep(async function (this: PotentielWorld, { pickleStep, result, pickle }) {
   if (pickleStep.type && ['Context', 'Action'].includes(pickleStep.type)) {
     await waitForSagasNotificationsAndProjectionsToFinish();
   }
 
-  if (pickleStep.type === 'Outcome' && result.status === 'PASSED') {
-    if (!pickleStep.text.includes('devrait être informé que')) {
-      expect(this.hasNoError).to.be.true;
-    }
+  const expectsErrorOutcome = pickle.steps.find(
+    (step) => step.type === 'Outcome' && step.text.includes('devrait être informé que'),
+  );
+
+  if (this.hasError && result.status === 'PASSED' && !expectsErrorOutcome) {
+    throw this.error;
   }
 });
 
