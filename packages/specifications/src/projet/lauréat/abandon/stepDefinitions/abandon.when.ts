@@ -161,6 +161,31 @@ Quand(
 );
 
 Quand(
+  `le porteur instruit l'abandon pour le projet lauréat`,
+  async function (this: PotentielWorld) {
+    try {
+      const identifiantProjet = this.lauréatWorld.identifiantProjet.formatter();
+
+      const { instruitLe, instruitPar } =
+        this.lauréatWorld.abandonWorld.instruireAbandonFixture.créer({
+          instruitPar: this.utilisateurWorld.validateurFixture.email,
+        });
+
+      await mediator.send<Abandon.AbandonUseCase>({
+        type: 'Lauréat.Abandon.UseCase.InstruireAbandon',
+        data: {
+          identifiantProjetValue: identifiantProjet,
+          dateInstructionValue: instruitLe,
+          identifiantUtilisateurValue: instruitPar,
+        },
+      });
+    } catch (error) {
+      this.error = error as Error;
+    }
+  },
+);
+
+Quand(
   `le porteur transmet le projet {lauréat-éliminé} {string} comme preuve de recandidature suite à l'abandon du projet`,
   async function (
     this: PotentielWorld,

@@ -8,21 +8,26 @@ export type StatutAbandonBadgeProps = {
   small?: true;
 };
 
-const convertStatutAbandonToBadgeSeverity: Record<
+const convertStatutAbandonToBadgeSeverityAndLabel: Record<
   Abandon.StatutAbandon.RawType,
-  BadgeProps['severity'] | undefined
+  { badgeSeverity: BadgeProps['severity'] | undefined; label: string }
 > = {
-  demandé: 'new',
-  confirmé: 'new',
-  accordé: 'success',
-  rejeté: 'warning',
-  annulé: 'warning',
-  'confirmation-demandée': 'info',
-  inconnu: undefined,
+  demandé: { badgeSeverity: 'new', label: 'Demandé' },
+  confirmé: { badgeSeverity: 'new', label: 'Confirmé' },
+  accordé: { badgeSeverity: 'success', label: 'Accordé' },
+  rejeté: { badgeSeverity: 'warning', label: 'Rejeté' },
+  annulé: { badgeSeverity: 'warning', label: 'Annulé' },
+  'confirmation-demandée': { badgeSeverity: 'info', label: 'Confirmation demandée' },
+  'en-instruction': { badgeSeverity: 'info', label: 'En instruction' },
+  inconnu: { badgeSeverity: undefined, label: 'Inconnu' },
 };
 
 export const StatutAbandonBadge: FC<StatutAbandonBadgeProps> = ({ statut, small }) => (
-  <Badge noIcon severity={convertStatutAbandonToBadgeSeverity[statut]} small={small}>
-    {statut}
+  <Badge
+    noIcon
+    severity={convertStatutAbandonToBadgeSeverityAndLabel[statut].badgeSeverity}
+    small={small}
+  >
+    {convertStatutAbandonToBadgeSeverityAndLabel[statut].label}
   </Badge>
 );

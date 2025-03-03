@@ -12,6 +12,7 @@ import { RejeterAbandonUseCase } from './rejeter/rejeterAbandon.usecase';
 import { DemanderPreuveRecandidatureAbandonUseCase } from './demanderPreuveRecandidature/demanderPreuveRecandidatureAbandon.usecase';
 import { TransmettrePreuveRecandidatureAbandonUseCase } from './transmettre/transmettrePreuveRecandidatureAbandon.usecase';
 import { ListerAbandonsAvecRecandidatureÀRelancerQuery } from './lister/listerAbandonsAvecRecandidatureÀRelancer.query';
+import { InstruireAbandonUseCase } from './instruire/instruireAbandon.usecase';
 
 // Query
 export type AbandonQuery =
@@ -37,7 +38,8 @@ export type AbandonUseCase =
   | DemanderConfirmationAbandonUseCase
   | RejeterAbandonUseCase
   | TransmettrePreuveRecandidatureAbandonUseCase
-  | DemanderPreuveRecandidatureAbandonUseCase;
+  | DemanderPreuveRecandidatureAbandonUseCase
+  | InstruireAbandonUseCase;
 
 export type {
   AccorderAbandonUseCase,
@@ -46,6 +48,7 @@ export type {
   DemanderAbandonUseCase,
   DemanderConfirmationAbandonUseCase,
   RejeterAbandonUseCase,
+  InstruireAbandonUseCase,
 };
 
 // Event
@@ -61,6 +64,7 @@ export type { AbandonRejetéEvent } from './rejeter/rejeterAbandon.behavior';
 export type { AbandonAccordéEvent } from './accorder/accorderAbandon.behavior';
 export type { PreuveRecandidatureDemandéeEvent } from './demanderPreuveRecandidature/demanderPreuveRecandidatureAbandon.behavior';
 export type { PreuveRecandidatureTransmiseEvent } from './transmettre/transmettrePreuveRecandidatureAbandon.behavior';
+export type { AbandonInstruitEvent } from './instruire/instruireAbandon.behavior';
 
 // Register
 export { registerAbandonQueries, registerAbandonUseCases } from './abandon.register';
