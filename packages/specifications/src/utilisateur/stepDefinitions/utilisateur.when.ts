@@ -15,9 +15,11 @@ Quand(
   'le porteur invite un autre porteur sur le projet {lauréat-éliminé}',
   async function (this: PotentielWorld, statutProjet: 'lauréat' | 'éliminé') {
     const porteurExistant = this.utilisateurWorld.porteurFixture.email;
-    const { email: porteurInvité } = this.utilisateurWorld.inviterUtilisateur.créer({
-      rôle: Role.porteur.nom,
-    });
+    const { email: porteurInvité } = this.utilisateurWorld.inviterUtilisateur.aÉtéCréé
+      ? this.utilisateurWorld.inviterUtilisateur
+      : this.utilisateurWorld.inviterUtilisateur.créer({
+          rôle: Role.porteur.nom,
+        });
     const identifiantProjet =
       statutProjet === 'éliminé'
         ? this.eliminéWorld.identifiantProjet.formatter()

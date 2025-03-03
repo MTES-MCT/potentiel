@@ -29,9 +29,8 @@ export type TrouverUtilisateurDependencies = {
 
 export const registerTrouverUtilisateurQuery = ({ find }: TrouverUtilisateurDependencies) => {
   const handler: MessageHandler<TrouverUtilisateurQuery> = async ({ identifiantUtilisateur }) => {
-    const result = await find<UtilisateurEntity>(`utilisateur|${identifiantUtilisateur}`, {
-      select: ['rôle', 'identifiantUtilisateur'],
-    });
+    const email = Email.convertirEnValueType(identifiantUtilisateur);
+    const result = await find<UtilisateurEntity>(`utilisateur|${email.formatter()}`);
 
     if (Option.isNone(result)) {
       return result;
