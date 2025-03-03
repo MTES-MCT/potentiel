@@ -86,11 +86,9 @@ export class UtilisateurWorld {
     const email = Email.convertirEnValueType(this.inviterUtilisateur.email);
     return {
       identifiantUtilisateur: email,
-      email: email.email,
       rôle: Role.convertirEnValueType(this.inviterUtilisateur.rôle),
-      régionDreal: this.inviterUtilisateur.région ?? Option.none,
+      région: this.inviterUtilisateur.région ?? Option.none,
       fonction: this.inviterUtilisateur.fonction ?? Option.none,
-      nomComplet: this.inviterUtilisateur.nomComplet ?? Option.none,
       identifiantGestionnaireRéseau:
         this.inviterUtilisateur.identifiantGestionnaireRéseau ?? Option.none,
     };

@@ -2,6 +2,7 @@ import { DomainEvent } from '@potentiel-domain/core';
 import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
 
 import { UtilisateurAggregate } from '../utilisateur.aggregate';
+import { AccèsProjetDéjàAutorisé } from '../errors';
 
 export type PorteurInvitéEvent = DomainEvent<
   'PorteurInvité-V1',
@@ -24,6 +25,10 @@ export async function inviterPorteur(
   this: UtilisateurAggregate,
   { identifiantProjet, identifiantUtilisateur, invitéLe, invitéPar }: InviterPorteurOptions,
 ) {
+  if (this.existe && this.aAccèsAuProjet(identifiantProjet)) {
+    throw new AccèsProjetDéjàAutorisé();
+  }
+
   const event: PorteurInvitéEvent = {
     type: 'PorteurInvité-V1',
     payload: {
@@ -42,5 +47,5 @@ export function applyPorteurInvité(
   { payload: { identifiantProjet } }: PorteurInvitéEvent,
 ) {
   this.existe = true;
-  this.projets.add(IdentifiantProjet.convertirEnValueType(identifiantProjet));
+  this.projets.add(identifiantProjet);
 }

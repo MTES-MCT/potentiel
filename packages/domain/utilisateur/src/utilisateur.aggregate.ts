@@ -20,7 +20,7 @@ export type UtilisateurAggregate = Aggregate<UtilisateurEvent> & {
   readonly inviterPorteur: typeof inviterPorteur;
   readonly inviter: typeof inviter;
   aAccèsAuProjet: (identifiantProjet: IdentifiantProjet.ValueType) => boolean;
-  projets: Set<IdentifiantProjet.ValueType>;
+  projets: Set<IdentifiantProjet.RawType>;
   existe: boolean;
 };
 
@@ -34,7 +34,7 @@ export const getDefaultUtilisateurAggregate: GetDefaultAggregateState<
   projets: new Set(),
   existe: false,
   aAccèsAuProjet(identifiantProjet) {
-    return this.projets.has(identifiantProjet);
+    return this.projets.has(identifiantProjet.formatter());
   },
 });
 
