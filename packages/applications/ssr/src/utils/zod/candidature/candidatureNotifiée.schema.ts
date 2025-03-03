@@ -73,18 +73,8 @@ export const modifierLauréatEtCandidatureSchéma = z
         message:
           "Vous devez choisir de régénérer ou pas l'attestation lorsque la candidature est corrigée",
       })
-      .refine((value) => !!value.adresse1 || !!value.adresse2, {
-        message: `L'une des deux adresses doit être renseignée`,
-        // TODO: improve validation errors to enable multiple paths
-        path: ['adresse1'],
-      })
       .optional(),
-    laureat: partialLauréatSchema
-      .refine((value) => !!value.adresse1 || !!value.adresse2, {
-        message: `L'une des deux adresses doit être renseignée`,
-        path: ['adresse1'],
-      })
-      .optional(),
+    laureat: partialLauréatSchema.optional(),
   })
   .refine((value) => value.laureat || value.candidature, {
     // little hack as this is an error for the entire form
