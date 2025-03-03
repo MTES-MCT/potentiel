@@ -161,7 +161,7 @@ Quand(
 );
 
 Quand(
-  `le porteur instruit l'abandon pour le projet lauréat`,
+  `le DGEC validateur instruit l'abandon pour le projet lauréat`,
   async function (this: PotentielWorld) {
     try {
       const identifiantProjet = this.lauréatWorld.identifiantProjet.formatter();

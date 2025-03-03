@@ -37,15 +37,6 @@ export async function instruire(
   await this.publish(event);
 }
 
-export function applyAbandonInstruit(
-  this: AbandonAggregate,
-  { payload: { instruitLe } }: AbandonInstruitEvent,
-) {
+export function applyAbandonInstruit(this: AbandonAggregate) {
   this.statut = StatutAbandon.enInstruction;
-  console.log(instruitLe);
-
-  // viovio
-  // if (this.demande.confirmation) {
-  //   this.demande.confirmation.instruitLe = DateTime.convertirEnValueType(instruitLe);
-  // }
 }

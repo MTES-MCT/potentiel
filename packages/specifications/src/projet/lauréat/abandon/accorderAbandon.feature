@@ -1,5 +1,4 @@
 # language: fr
-@select
 Fonctionnalité: Accorder l'abandon d'un projet lauréat
 
     Contexte:
@@ -11,6 +10,7 @@ Fonctionnalité: Accorder l'abandon d'un projet lauréat
         Quand le DGEC validateur accorde l'abandon pour le projet lauréat
         Alors l'abandon du projet lauréat devrait être accordé
 
+    @select
     Scénario: Un DGEC validateur accorde l'abandon en instruction d'un projet lauréat
         Etant donné une demande d'abandon en instruction pour le projet lauréat
         Quand le DGEC validateur accorde l'abandon pour le projet lauréat

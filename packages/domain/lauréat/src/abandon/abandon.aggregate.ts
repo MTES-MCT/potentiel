@@ -79,11 +79,6 @@ export type AbandonAggregate = Aggregate<AbandonEvent> & {
       demandéLe: DateTime.ValueType;
       confirméLe?: DateTime.ValueType;
     };
-    // viovio à voir
-    // instruction?: {
-    //   demandéLe: DateTime.ValueType;
-    //   confirméLe?: DateTime.ValueType;
-    // };
   };
   rejet?: {
     rejetéLe: DateTime.ValueType;
@@ -155,7 +150,7 @@ function apply(this: AbandonAggregate, event: AbandonEvent) {
       applyAbandonRejeté.bind(this)(event);
       break;
     case 'AbandonInstruit-V1':
-      applyAbandonInstruit.bind(this)(event);
+      applyAbandonInstruit.bind(this)();
       break;
     case 'ConfirmationAbandonDemandée-V1':
       applyConfirmationAbandonDemandée.bind(this)(event);

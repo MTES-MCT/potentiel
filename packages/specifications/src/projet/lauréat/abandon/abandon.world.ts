@@ -159,6 +159,13 @@ export class AbandonWord {
       );
     }
 
+    if (this.#instruireAbandonFixture.aÉtéCréé) {
+      expected.demande.instruction = {
+        instruitLe: DateTime.convertirEnValueType(this.#instruireAbandonFixture.instruitLe),
+        instruitPar: Email.convertirEnValueType(this.#instruireAbandonFixture.instruitPar),
+      };
+    }
+
     // Accord
     if (this.#accorderAbandonFixture.aÉtéCréé) {
       expected.demande.accord = {

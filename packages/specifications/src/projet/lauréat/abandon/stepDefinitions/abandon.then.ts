@@ -111,6 +111,19 @@ Alors(
   },
 );
 
+Alors(
+  `la demande d'abandon du projet lauréat devrait être en instruction`,
+  async function (this: PotentielWorld) {
+    await waitForExpect(async () =>
+      vérifierAbandon.call(
+        this,
+        this.lauréatWorld.abandonWorld.demanderAbandonFixture.identifiantProjet,
+        Abandon.StatutAbandon.enInstruction,
+      ),
+    );
+  },
+);
+
 async function vérifierAbandon(
   this: PotentielWorld,
   identifiantProjet: string,
