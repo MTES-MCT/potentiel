@@ -50,7 +50,7 @@ export const CommunePicker: React.FC<CommunePickerProps> = ({
         })),
       );
     } catch (error) {
-      getLogger('CommunePicker').error(error as Error);
+      getLogger('CommunePicker').error(new Error('Error fetching communes', { cause: error }));
     } finally {
       setLoading(false);
     }
