@@ -34,16 +34,51 @@ export default class Migrer extends Command {
       fullName?: string;
       fonction?: string;
       dreal?: string;
-    }>(`
-        select u.email,u.role,u."fullName",u.fonction,ud.dreal from users u
-        left join "userDreals" ud on u.id=ud."userId"
-        where u.role in (
-            'admin',  'dreal',  'acheteur-obligé',  'ademe',  
-            'dgec-validateur',  'caisse-des-dépôts',  'cre')
-            and u.disabled is not true;
+      createdAt: string;
+      identifiantsProjet?: string[];
+    }>(`     
+    with first_user_created as (
+        select LOWER(payload->>'email') as email,
+            min("occurredAt") as first_created
+        from "eventStores"
+        where type = 'UserCreated'
+        group by LOWER(payload->>'email')
+    ),
+    user_projects as (
+        select up."userId",
+            array_agg(
+                format(
+                    '%s#%s#%s#%s',
+                    p."appelOffreId",
+                    p."periodeId",
+                    p."familleId",
+                    p."numeroCRE"
+                )
+            ) as identifiants_projet
+        from "UserProjects" up
+            inner join projects p on p.id = up."projectId"
+        group by up."userId"
+    )
+    select u.email,
+        u.role,
+        u."fullName",
+        u.fonction,
+        ud.dreal,
+        COALESCE(fuc.first_created, u."createdAt") as "createdAt",
+        up.identifiants_projet as "identifiantsProjet"
+    from users u
+        left join "userDreals" ud on ud."userId" = u.id
+        left join first_user_created fuc on u.email = fuc.email
+        left join user_projects up on up."userId" = u.id
+    where u.disabled is not true
+        and u.role <> 'grd'
+        and u.email like  '%@%';
     `);
 
-    for (const user of users) {
+    const porteurs = users.filter((user) => user.role === 'porteur-projet');
+    const usersSaufPorteurs = users.filter((user) => user.role !== 'porteur-projet');
+
+    for (const user of usersSaufPorteurs) {
       console.log({ user });
       await mediator.send<InviterUtilisateurUseCase>({
         type: 'Utilisateur.UseCase.InviterUtilisateur',
@@ -53,38 +88,25 @@ export default class Migrer extends Command {
           région: user.dreal,
           fonction: user.fonction,
           nomComplet: user.fullName,
-          invitéLeValue: DateTime.now().formatter(), // TODO
-          invitéParValue: Email.system().formatter(), // TODO
+          invitéLeValue: DateTime.convertirEnValueType(user.createdAt).formatter(),
+          invitéParValue: Email.system().formatter(),
         },
       });
     }
 
-    const porteurs = await executeSelect<{
-      email: string;
-      role: Role.RawType;
-      identifiantProjet: string;
-    }>(`
-        select 
-          u.email, 
-          format('%s#%s#%s#%s', p."appelOffreId",p."periodeId",p."familleId",p."numeroCRE") as "identifiantProjet"
-        from users u
-        inner join "UserProjects" up on u.id=up."userId"
-        inner join projects p on p.id=up."projectId"
-        where u.role='porteur-projet' and u.disabled is not true;
-    `);
-
     for (const porteur of porteurs) {
-      console.log({ porteur });
-
-      await mediator.send<InviterPorteurUseCase>({
-        type: 'Utilisateur.UseCase.InviterPorteur',
-        data: {
-          identifiantUtilisateurValue: porteur.email,
-          identifiantProjetValue: porteur.identifiantProjet,
-          invitéLeValue: DateTime.now().formatter(), // TODO
-          invitéParValue: Email.system().formatter(), // TODO
-        },
-      });
+      console.log({ porteur }, porteur.identifiantsProjet?.length || 'AUCUN!', 'projet(s)');
+      for (const projet of porteur.identifiantsProjet ?? []) {
+        await mediator.send<InviterPorteurUseCase>({
+          type: 'Utilisateur.UseCase.InviterPorteur',
+          data: {
+            identifiantUtilisateurValue: porteur.email,
+            identifiantProjetValue: projet,
+            invitéLeValue: DateTime.convertirEnValueType(porteur.createdAt).formatter(),
+            invitéParValue: Email.system().formatter(),
+          },
+        });
+      }
     }
   }
 }
