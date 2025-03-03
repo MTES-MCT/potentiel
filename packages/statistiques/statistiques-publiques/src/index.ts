@@ -1,30 +1,17 @@
-import { computeNombreTotalProjet } from './projet/nombreTotalProjet.statistic';
-import { computePourcentageAttestationTéléchargée } from './projet/pourcentageAttestationTéléchargée.statistic';
-import { computeNombrePorteurInscrit } from './utilisateur/nombrePorteurInscrit.statistic';
-import { computeNombreTotalDCRDéposées } from './projet/nombreTotalDCRDéposées.statistic';
-import { computePuissanceTotaleMiseEnService } from './projet/puissanceTotaleMiseEnService.stastistic';
-import { computePourcentageProjetAvecDCREtPTF } from './projet/pourcentageProjetAvecDCREtPTF.statistic';
-import { computePourcentageDCRDéposées } from './projet/pourcentageDCRDéposées.statistic';
-import { computePourcentagePTFDéposées } from './projet/pourcentagePTFDéposées.statistic';
-import { computeNombreTotalDemande } from './projet/nombreTotalDemande.statistic';
-import { computeNombreDeDemandeParCategorie } from './projet/nombreDeDemandeParCategorie.statistic';
-import { computeNombreDeProjetLauréatParAppelOffre } from './projet/nombreDeProjetLauréatParAppelOffre.statistic';
-import { computeTotalPuissanceParAppelOffre } from './projet/totalPuissanceParAppelOffre.statistic';
-import { computeNombreTotalProjetEnService } from './projet/nombreTotalProjetEnService.statistic';
-import { computeProjetLauréatParDépartement } from './projet/projetLauréatParDépartement.statistic';
-import { computeUtilisateurCréation } from './projet/utilisateurCréation.statistic';
-import { computeTotalPuissanceProjetAvecMainlevéeAccordée } from './projet/totalPuissanceProjetAvecMainlevéeAccordée.statistic';
-import { computeNombreTotalMainlevéeAccordée } from './projet/nombreTotalMainlevéeAccordée.statistic';
-import { computeNombreTotalProjetAyantTransmisAttestationConformité } from './projet/nombreTotalProjetAyantTransmisAttestationConformité.statistic';
-import { computeNombreTotalProjetCRE4AyantTransmisAttestationConformité } from './projet/nombreTotalProjetCRE4AyantTransmisAttestationConformité.statistic';
-import { computeNombreTotalProjetPPE2AyantTransmisAttestationConformité } from './projet/nombreTotalProjetPPE2AyantTransmisAttestationConformité.statistic';
-import { computePourcentageProjetEnService } from './projet/pourcentageProjetEnService.statistic';
-import { computePourcentageProjetCRE4EnService } from './projet/pourcentageProjetCRE4EnService.statistic';
-import { computePourcentageProjetPPE2EnService } from './projet/pourcentageProjetPPE2EnService.statistic';
-import { cleanCartoProjetStatistic } from './_utils/cleanCartoProjetStatistic';
-import { cleanScalarStatistic } from './_utils/cleanScalarStatistic';
-import { cleanCamembertStatistic } from './_utils/cleanCamembertStatistic';
-import { cleanUtilisateurStatistic } from './_utils/cleanUtilisateurStatistic';
+import {
+  cleanCartoProjetStatistic,
+  cleanScalarStatistic,
+  cleanCamembertStatistic,
+  cleanUtilisateurStatistic,
+} from './_utils';
+import { computeEnsembleDesProjets } from './01-ensemble-des-projets';
+import { computeAvancementDesProjets } from './02-avancement-des-projets';
+import { computeDemandesDeModification } from './03-demandes-de-modification';
+import { computeMiseEnService } from './04-mise-en-service';
+import { computeGarantiesFinancieres } from './05-garanties-financieres';
+import { computeParCycle } from './06-par-cycle';
+import { computeUtilisateur } from './07-utilisateur';
+import { computeCarte } from './08-carte';
 
 export const cleanStatistiquesPubliques = async () => {
   await cleanCartoProjetStatistic();
@@ -34,27 +21,12 @@ export const cleanStatistiquesPubliques = async () => {
 };
 
 export const computeStatistiquesPubliques = async () => {
-  await computeNombreTotalProjet();
-  await computeNombrePorteurInscrit();
-  await computePourcentageAttestationTéléchargée();
-  await computeNombreTotalDCRDéposées();
-  await computePuissanceTotaleMiseEnService();
-  await computePourcentageProjetAvecDCREtPTF();
-  await computePourcentageDCRDéposées();
-  await computePourcentagePTFDéposées();
-  await computeNombreTotalDemande();
-  await computeNombreDeDemandeParCategorie();
-  await computeNombreDeProjetLauréatParAppelOffre();
-  await computeTotalPuissanceParAppelOffre();
-  await computeNombreTotalProjetEnService();
-  await computeProjetLauréatParDépartement();
-  await computeUtilisateurCréation();
-  await computeTotalPuissanceProjetAvecMainlevéeAccordée();
-  await computeNombreTotalMainlevéeAccordée();
-  await computeNombreTotalProjetAyantTransmisAttestationConformité();
-  await computeNombreTotalProjetCRE4AyantTransmisAttestationConformité();
-  await computeNombreTotalProjetPPE2AyantTransmisAttestationConformité();
-  await computePourcentageProjetEnService();
-  await computePourcentageProjetCRE4EnService();
-  await computePourcentageProjetPPE2EnService();
+  await computeEnsembleDesProjets();
+  await computeAvancementDesProjets();
+  await computeDemandesDeModification();
+  await computeMiseEnService();
+  await computeGarantiesFinancieres();
+  await computeParCycle();
+  await computeUtilisateur();
+  await computeCarte();
 };
