@@ -6,45 +6,13 @@ import Input, { InputProps } from '@codegouvfr/react-dsfr/Input';
 import { debounce } from '@mui/material/utils';
 
 import { getLogger } from '@potentiel-libraries/monitoring';
-
-type GeoApiCommuneItem = {
-  nom: string;
-  codesPostaux: string[];
-  departement: {
-    code: string;
-    nom: string;
-  };
-  region: {
-    code: string;
-    nom: string;
-  };
-};
+import { GeoApiClient } from '@potentiel-infrastructure/geo-api-client';
 
 type Commune = {
   commune: string;
   codePostal: string;
   departement: string;
   region: string;
-};
-
-const fetchCommunes = async (search: string, signal?: AbortSignal): Promise<Commune[]> => {
-  const params = new URLSearchParams({
-    nom: search,
-    fields: 'departement,region,codesPostaux',
-    boost: 'population',
-    limit: '10',
-  });
-
-  const apiUrl = process.env.NEXT_PUBLIC_GEO_API_URL || '';
-
-  const response = await fetch(`${apiUrl}/communes?${params}`, { signal });
-  const data: GeoApiCommuneItem[] = await response.json();
-  return data.map(({ nom, region, departement, codesPostaux }) => ({
-    commune: nom,
-    region: region.nom,
-    departement: departement.nom,
-    codePostal: codesPostaux[0],
-  }));
 };
 
 export type CommunePickerProps = {
@@ -71,8 +39,16 @@ export const CommunePicker: React.FC<CommunePickerProps> = ({
     }
     setLoading(true);
     try {
-      const data = await fetchCommunes(search);
-      setCommunes(data);
+      const geoClient = GeoApiClient(process.env.NEXT_PUBLIC_GEO_API_URL ?? '');
+      const data = await geoClient.fetchCommunes(search);
+      setCommunes(
+        data.map(({ nom, region, departement, codesPostaux }) => ({
+          commune: nom,
+          region: region.nom,
+          departement: departement.nom,
+          codePostal: codesPostaux[0],
+        })),
+      );
     } catch (error) {
       getLogger('CommunePicker').error(new Error('Error fetching communes', { cause: error }));
     } finally {

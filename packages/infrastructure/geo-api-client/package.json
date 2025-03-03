@@ -1,0 +1,18 @@
+{
+  "name": "@potentiel-infrastructure/geo-api-client",
+  "version": "0.0.0",
+  "description": "geo.api.gouv.fr client",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "private": true,
+  "scripts": {
+    "build": "tsc"
+  },
+  "devDependencies": {
+    "@potentiel-config/tsconfig": "*"
+  },
+  "dependencies": {
+    "@potentiel-libraries/http-client": "*",
+    "@potentiel-libraries/monads": "*"
+  }
+}

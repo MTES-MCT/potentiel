@@ -34,6 +34,7 @@
     "@potentiel-domain/tache": "*",
     "@potentiel-domain/utilisateur": "*",
     "@potentiel-infrastructure/filigrane-facile-client": "*",
+    "@potentiel-infrastructure/geo-api-client": "*",
     "@potentiel-libraries/csv": "*",
     "@potentiel-libraries/iso8601-datetime": "*",
     "@potentiel-libraries/monads": "*",
