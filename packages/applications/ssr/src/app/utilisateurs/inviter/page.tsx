@@ -8,8 +8,8 @@ import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { InviterUtilisateurPage } from '@/components/pages/utilisateur/inviter/InviterUtilisateur.page';
 
 export const metadata: Metadata = {
-  title: 'Inviter au projet - Potentiel',
-  description: 'Inviter un utilisateur sur le projet',
+  title: 'Inviter - Potentiel',
+  description: 'Inviter un utilisateur',
 };
 
 export default async function Page({ searchParams }: { searchParams: { role?: string } }) {

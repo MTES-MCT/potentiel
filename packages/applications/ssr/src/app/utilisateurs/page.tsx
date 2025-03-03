@@ -20,8 +20,8 @@ import {
 import { listeDesRoles } from '@/utils/utilisateur/format-role';
 
 export const metadata: Metadata = {
-  title: 'Inviter au projet - Potentiel',
-  description: 'Inviter un utilisateur sur le projet',
+  title: 'Utilisateurs - Potentiel',
+  description: 'Liste des utilisateurs ayant accès à Potentiel',
 };
 
 type PageProps = {
