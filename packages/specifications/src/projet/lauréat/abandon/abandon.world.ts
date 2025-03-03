@@ -159,6 +159,7 @@ export class AbandonWord {
       );
     }
 
+    // instruction
     if (this.#instruireAbandonFixture.aÉtéCréé) {
       expected.demande.instruction = {
         instruitLe: DateTime.convertirEnValueType(this.#instruireAbandonFixture.instruitLe),
