@@ -49,6 +49,7 @@ export default async function Page({ params }: PageProps) {
         aUneAttestation={props.aUneAttestation}
         estNotifiée={props.estNotifiée}
         estLauréat={props.estLauréat}
+        isCRE4ZNI={props.isCRE4ZNI}
       />
     );
   });
