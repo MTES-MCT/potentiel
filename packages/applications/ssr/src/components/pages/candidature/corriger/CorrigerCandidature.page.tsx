@@ -14,14 +14,16 @@ import { CorrigerCandidatureForm, CorrigerCandidatureFormProps } from './Corrige
 
 export type CorrigerCandidaturePageProps = CorrigerCandidatureFormProps & {
   estNotifiée: boolean;
-  estNotifiéeClassée: boolean;
+  estLauréat: boolean;
+  isCRE4ZNI: boolean;
 };
 
 export const CorrigerCandidaturePage: React.FC<CorrigerCandidaturePageProps> = ({
   candidature,
   estNotifiée,
   aUneAttestation,
-  estNotifiéeClassée,
+  estLauréat,
+  isCRE4ZNI,
 }) => {
   const identifiantProjet = IdentifiantProjet.convertirEnValueType(candidature.identifiantProjet);
 
@@ -47,6 +49,7 @@ export const CorrigerCandidaturePage: React.FC<CorrigerCandidaturePageProps> = (
             candidature={candidature}
             estNotifiée={estNotifiée}
             aUneAttestation={aUneAttestation}
+            isCRE4ZNI={isCRE4ZNI}
           />
         ),
       }}
@@ -65,20 +68,13 @@ export const CorrigerCandidaturePage: React.FC<CorrigerCandidaturePageProps> = (
                     </span>
                   </div>
                   <div>
-                    Pour un changement sur{' '}
-                    <span className="font-semibold">les données du projet</span>, veuillez utiliser
-                    le formulaire{' '}
-                    <Link href={Routes.Lauréat.modifier(identifiantProjet.formatter())}>dédié</Link>
-                    .
-                  </div>
-                  <div>
                     Pour une correction par lot (fichier CSV), veuillez utiliser la{' '}
                     <Link href={Routes.Candidature.corrigerParLot}>page de correction par lot</Link>
                   </div>
                 </div>
               }
             />
-            {estNotifiéeClassée && (
+            {estLauréat && (
               <Alert
                 severity="info"
                 small

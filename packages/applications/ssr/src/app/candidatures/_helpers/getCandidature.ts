@@ -12,8 +12,10 @@ export const getCandidature = cache(async (identifiantProjet: string) => {
       identifiantProjet,
     },
   });
+
   if (Option.isNone(candidature)) {
     notFound();
   }
+
   return candidature;
 });

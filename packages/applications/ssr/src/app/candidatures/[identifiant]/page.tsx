@@ -1,19 +1,18 @@
 import { Metadata, ResolvingMetadata } from 'next';
-import { match } from 'ts-pattern';
+import { mediator } from 'mediateur';
 
 import { mapToPlainObject } from '@potentiel-domain/core';
-import { Role } from '@potentiel-domain/utilisateur';
+import { Lauréat } from '@potentiel-domain/laureat';
+import { Option } from '@potentiel-libraries/monads';
 
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { decodeParameter } from '@/utils/decodeParameter';
-import {
-  DétailsCandidaturePage,
-  DétailsCandidaturePageProps,
-} from '@/components/pages/candidature/détails/DétailsCandidature.page';
+import { DétailsCandidaturePage } from '@/components/pages/candidature/détails/DétailsCandidature.page';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 
 import { getCandidature } from '../_helpers/getCandidature';
+import { getCandidatureActions } from '../_helpers/getCandidatureActions';
 
 type PageProps = IdentifiantParameter;
 
@@ -35,13 +34,20 @@ export default async function Page({ params }: PageProps) {
     withUtilisateur(async (utilisateur) => {
       const identifiantProjet = decodeParameter(params.identifiant);
       const candidature = await getCandidature(identifiantProjet);
+      const lauréat = await mediator.send<Lauréat.ConsulterLauréatQuery>({
+        type: 'Lauréat.Query.ConsulterLauréat',
+        data: {
+          identifiantProjet,
+        },
+      });
       return (
         <DétailsCandidaturePage
           candidature={mapToPlainObject(candidature)}
-          actions={mapToActions(
+          actions={getCandidatureActions(
             {
               estNotifiée: !!candidature.notification,
               aUneAttestation: !!candidature.notification?.attestation,
+              estLauréat: Option.isSome(lauréat),
             },
             utilisateur.role,
           )}
@@ -50,25 +56,3 @@ export default async function Page({ params }: PageProps) {
     }),
   );
 }
-
-const mapToActions = (
-  props: { estNotifiée: boolean; aUneAttestation: boolean },
-  role: Role.ValueType,
-) => {
-  const defaultActions = {
-    corriger: role.aLaPermission('candidature.corriger'),
-    prévisualiserAttestation: false,
-    téléchargerAttestation: false,
-  };
-  return match(props)
-    .returnType<DétailsCandidaturePageProps['actions']>()
-    .with({ estNotifiée: false }, () => ({
-      ...defaultActions,
-      prévisualiserAttestation: role.aLaPermission('candidature.attestation.prévisualiser'),
-    }))
-    .with({ aUneAttestation: true, estNotifiée: true }, () => ({
-      ...defaultActions,
-      téléchargerAttestation: true,
-    }))
-    .otherwise(() => defaultActions);
-};
