@@ -87,4 +87,5 @@ const mapToProps: MapToProps = (candidature, lauréat) => ({
   estNotifiée: !!candidature.notification,
   aUneAttestation: !!candidature.notification?.attestation,
   estLauréat: Option.isSome(lauréat),
+  isCRE4ZNI: candidature.identifiantProjet.appelOffre.startsWith('CRE4 - ZNI'),
 });
