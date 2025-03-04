@@ -10,6 +10,11 @@ Fonctionnalité: Accorder l'abandon d'un projet lauréat
         Quand le DGEC validateur accorde l'abandon pour le projet lauréat
         Alors l'abandon du projet lauréat devrait être accordé
 
+    Scénario: Un DGEC validateur accorde l'abandon en instruction d'un projet lauréat
+        Etant donné une demande d'abandon en instruction pour le projet lauréat
+        Quand le DGEC validateur accorde l'abandon pour le projet lauréat
+        Alors l'abandon du projet lauréat devrait être accordé
+
     Scénario: Le porteur reçoit une demande de preuve de recandidature quand l'abandon avec recandidature d'un projet lauréat a été accordé
         Etant donné une demande d'abandon en cours avec recandidature pour le projet lauréat
         Quand le DGEC validateur accorde l'abandon pour le projet lauréat

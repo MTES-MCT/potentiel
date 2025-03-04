@@ -161,6 +161,31 @@ Quand(
 );
 
 Quand(
+  `l'administrateur passe en instruction l'abandon pour le projet lauréat`,
+  async function (this: PotentielWorld) {
+    try {
+      const identifiantProjet = this.lauréatWorld.identifiantProjet.formatter();
+
+      const { passéEnInstructionLe, passéEnInstructionPar } =
+        this.lauréatWorld.abandonWorld.passerEnInstructionAbandonFixture.créer({
+          passéEnInstructionPar: this.utilisateurWorld.adminFixture.email,
+        });
+
+      await mediator.send<Abandon.AbandonUseCase>({
+        type: 'Lauréat.Abandon.UseCase.PasserAbandonEnInstruction',
+        data: {
+          identifiantProjetValue: identifiantProjet,
+          dateInstructionValue: passéEnInstructionLe,
+          identifiantUtilisateurValue: passéEnInstructionPar,
+        },
+      });
+    } catch (error) {
+      this.error = error as Error;
+    }
+  },
+);
+
+Quand(
   `le porteur transmet le projet {lauréat-éliminé} {string} comme preuve de recandidature suite à l'abandon du projet`,
   async function (
     this: PotentielWorld,

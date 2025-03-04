@@ -10,6 +10,7 @@ import { DemanderConfirmationAbandonFixture } from './fixtures/demanderConfirmat
 import { TransmettrePreuveRecandidatureAbandonFixture } from './fixtures/transmettrePreuveRecandidatureAbandon.fixture';
 import { RejetAbandonFixture } from './fixtures/rejeterAbandonFixture';
 import { DemanderPreuveRecandidatureAbandonFixture } from './fixtures/demanderPreuveRecandidature.fixture';
+import { PasserAbandonEnInstructionFixture } from './fixtures/passerAbandonEnInstruction.fixture';
 
 export class AbandonWord {
   #accorderAbandonFixture: AccorderAbandonFixture;
@@ -54,6 +55,12 @@ export class AbandonWord {
     return this.#rejeterAbandonFixture;
   }
 
+  #passerEnInstructionAbandonFixture: PasserAbandonEnInstructionFixture;
+
+  get passerEnInstructionAbandonFixture() {
+    return this.#passerEnInstructionAbandonFixture;
+  }
+
   #transmettrePreuveRecandidatureAbandonFixture: TransmettrePreuveRecandidatureAbandonFixture;
 
   get transmettrePreuveRecandidatureAbandonFixture() {
@@ -68,6 +75,7 @@ export class AbandonWord {
     this.#demanderConfirmationAbandonFixture = new DemanderConfirmationAbandonFixture();
     this.#demanderPreuveCandidatureAbandonFixture = new DemanderPreuveRecandidatureAbandonFixture();
     this.#rejeterAbandonFixture = new RejetAbandonFixture();
+    this.#passerEnInstructionAbandonFixture = new PasserAbandonEnInstructionFixture();
     this.#transmettrePreuveRecandidatureAbandonFixture =
       new TransmettrePreuveRecandidatureAbandonFixture();
   }
@@ -79,6 +87,7 @@ export class AbandonWord {
     this.#demanderConfirmationAbandonFixture = new DemanderConfirmationAbandonFixture();
     this.#demanderPreuveCandidatureAbandonFixture = new DemanderPreuveRecandidatureAbandonFixture();
     this.#rejeterAbandonFixture = new RejetAbandonFixture();
+    this.#passerEnInstructionAbandonFixture = new PasserAbandonEnInstructionFixture();
     this.#transmettrePreuveRecandidatureAbandonFixture =
       new TransmettrePreuveRecandidatureAbandonFixture();
   }
@@ -148,6 +157,18 @@ export class AbandonWord {
       expected.demande.confirmation.confirméPar = Email.convertirEnValueType(
         this.#confirmerAbandonFixture.confirméePar,
       );
+    }
+
+    // instruction
+    if (this.#passerEnInstructionAbandonFixture.aÉtéCréé) {
+      expected.demande.instruction = {
+        passéEnInstructionLe: DateTime.convertirEnValueType(
+          this.#passerEnInstructionAbandonFixture.passéEnInstructionLe,
+        ),
+        passéEnInstructionPar: Email.convertirEnValueType(
+          this.#passerEnInstructionAbandonFixture.passéEnInstructionPar,
+        ),
+      };
     }
 
     // Accord

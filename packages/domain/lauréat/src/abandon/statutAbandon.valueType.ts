@@ -7,6 +7,7 @@ export const statuts = [
   'confirmé',
   'demandé',
   'rejeté',
+  'en-instruction',
   'inconnu',
 ] as const;
 
@@ -23,6 +24,7 @@ export type ValueType = ReadonlyValueType<{
   estEnCours: () => boolean;
   estAnnulé: () => boolean;
   estDemandé: () => boolean;
+  estEnInstruction: () => boolean;
   estConfirmationDemandée: () => boolean;
   vérifierQueLeChangementDeStatutEstPossibleEn: (nouveauStatut: ValueType) => void;
 }>;
@@ -56,6 +58,9 @@ export const convertirEnValueType = (value: string): ValueType => {
     },
     estConfirmationDemandée() {
       return this.statut === 'confirmation-demandée';
+    },
+    estEnInstruction() {
+      return this.statut === 'en-instruction';
     },
     estÉgaleÀ(valueType) {
       return this.statut === valueType.statut;
@@ -118,6 +123,14 @@ export const convertirEnValueType = (value: string): ValueType => {
         if (this.estConfirmé()) {
           throw new AbandonDéjàConfirméError();
         }
+      } else if (nouveauStatut.estEnInstruction()) {
+        if (this.estAccordé()) {
+          throw new AbandonDéjàAccordéError();
+        }
+
+        if (this.estRejeté()) {
+          throw new AbandonDéjàRejetéError();
+        }
       } else if (nouveauStatut.estRejeté()) {
         if (this.estAccordé()) {
           throw new AbandonDéjàAccordéError();
@@ -145,6 +158,7 @@ export const confirmationDemandée = convertirEnValueType('confirmation-demandé
 export const confirmé = convertirEnValueType('confirmé');
 export const demandé = convertirEnValueType('demandé');
 export const rejeté = convertirEnValueType('rejeté');
+export const enInstruction = convertirEnValueType('en-instruction');
 export const inconnu = convertirEnValueType('inconnu');
 
 class StatutAbandonInvalideError extends InvalidOperationError {

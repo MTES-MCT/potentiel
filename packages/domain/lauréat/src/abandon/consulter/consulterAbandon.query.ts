@@ -31,6 +31,11 @@ export type ConsulterAbandonReadModel = {
       };
     };
 
+    instruction?: {
+      passéEnInstructionLe: DateTime.ValueType;
+      passéEnInstructionPar: Email.ValueType;
+    };
+
     confirmation?: {
       demandéePar: Email.ValueType;
       demandéeLe: DateTime.ValueType;
@@ -133,6 +138,16 @@ const mapToReadModel = (result: AbandonEntity) => {
             confirméPar: result.demande.confirmation.confirméPar
               ? Email.convertirEnValueType(result.demande.confirmation.confirméPar)
               : undefined,
+          }
+        : undefined,
+      instruction: result.demande.instruction
+        ? {
+            passéEnInstructionLe: DateTime.convertirEnValueType(
+              result.demande.instruction.passéEnInstructionLe,
+            ),
+            passéEnInstructionPar: Email.convertirEnValueType(
+              result.demande.instruction.passéEnInstructionPar,
+            ),
           }
         : undefined,
       accord: result.demande.accord

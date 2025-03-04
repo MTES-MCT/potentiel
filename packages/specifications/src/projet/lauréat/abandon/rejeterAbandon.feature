@@ -10,6 +10,11 @@ Fonctionnalité: Rejeter l'abandon d'un projet lauréat
         Quand le DGEC validateur rejette l'abandon pour le projet lauréat
         Alors l'abandon du projet lauréat devrait être rejeté
 
+    Scénario: Un DGEC validateur rejette l'abandon en instruction d'un projet lauréat
+        Etant donné une demande d'abandon en instruction pour le projet lauréat
+        Quand le DGEC validateur rejette l'abandon pour le projet lauréat
+        Alors l'abandon du projet lauréat devrait être rejeté
+
     Scénario: Impossible de rejetter l'abandon d'un projet lauréat si l'abandon a déjà été accordé
         Etant donné un abandon accordé pour le projet lauréat
         Quand le DGEC validateur rejette l'abandon pour le projet lauréat

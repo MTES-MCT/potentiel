@@ -45,6 +45,11 @@ export type AbandonEntity = Entity<
         confirméPar?: string;
       };
 
+      instruction?: {
+        passéEnInstructionLe: string;
+        passéEnInstructionPar: string;
+      };
+
       accord?: {
         réponseSignée: {
           format: string;
