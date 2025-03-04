@@ -49,6 +49,7 @@ export const CorrigerCandidaturesPage: FC = () => (
                     <li>Actionnaire (société mère)</li>
                     <li>Nom du représentant légal</li>
                     <li>Puissance</li>
+                    <li>Garanties financières</li>
                   </ul>
                 </span>
                 <span>

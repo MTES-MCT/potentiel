@@ -1,7 +1,6 @@
 import { mediator } from 'mediateur';
 import { IdentifiantProjet } from '@potentiel-domain/common';
 import { ReprésentantLégal } from '@potentiel-domain/laureat';
-import { listProjection } from '@potentiel-infrastructure/pg-projections';
 import { Option } from '@potentiel-libraries/monads';
 import { Candidature } from '@potentiel-domain/candidature';
 import { Routes } from '@potentiel-applications/routes';
@@ -51,6 +50,7 @@ export const getReprésentantLégal: GetReprésentantLégal = async (identifiant
       if (Option.isNone(candidature)) {
         return undefined;
       }
+
       return {
         nom: candidature.nomReprésentantLégal,
         modification: utilisateur.aLaPermission('candidature.corriger')

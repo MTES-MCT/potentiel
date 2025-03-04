@@ -12,7 +12,7 @@ import { CandidatureListPage } from '@/components/pages/candidature/lister/Candi
 import { CandidatureListItemProps } from '@/components/pages/candidature/lister/CandidatureListItem';
 import { ListFilterItem } from '@/components/molecules/ListFilters';
 
-import { getCandidatureActions } from './_helpers/getCandidatureActions';
+import { getCandidatureListActions } from './_helpers/getCandidatureListActions';
 
 type SearchParams = 'page' | 'appelOffre' | 'periode' | 'statut' | 'nomProjet' | 'notifie';
 
@@ -128,7 +128,7 @@ export default async function Page({ searchParams }: PageProps) {
         });
       }
 
-      const actions = getCandidatureActions({
+      const actions = getCandidatureListActions({
         estNotifiée: candidature.estNotifiée,
         aUneAttestation: !!candidature.attestation,
       });

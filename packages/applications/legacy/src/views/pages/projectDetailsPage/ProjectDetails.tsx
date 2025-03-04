@@ -166,7 +166,7 @@ export const ProjectDetails = ({
           </div>
         </div>
         {userIs(['admin', 'dgec-validateur'])(user) && project.notifiedOn && (
-          <EditProjectData project={project} request={request} />
+          <EditProjectData project={project} />
         )}
       </div>
     </LegacyPageTemplate>

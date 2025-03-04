@@ -19,7 +19,7 @@ import { getTechnologieTypeLabel } from '../helpers';
 import { getActionnariatTypeLabel } from '../helpers/getActionnariatTypeLabel';
 
 type AvailableActions = Record<
-  'corriger' | 'prévisualiserAttestation' | 'téléchargerAttestation',
+  'corriger' | 'modifierLauréat' | 'prévisualiserAttestation' | 'téléchargerAttestation',
   boolean
 >;
 
@@ -174,6 +174,16 @@ const mapToActionComponents = ({ identifiantProjet, actions }: MapToActionsCompo
       <Button
         linkProps={{
           href: Routes.Candidature.corriger(identifiantProjet.formatter()),
+          prefetch: false,
+        }}
+      >
+        Corriger
+      </Button>
+    )}
+    {actions.modifierLauréat && (
+      <Button
+        linkProps={{
+          href: Routes.Lauréat.modifier(identifiantProjet.formatter()),
           prefetch: false,
         }}
       >
