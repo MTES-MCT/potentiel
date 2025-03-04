@@ -2,7 +2,7 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 import { RécupérerIdentifiantsProjetParEmailPorteurPort } from '@potentiel-domain/utilisateur';
-import { Where, List, RangeOptions } from '@potentiel-domain/entity';
+import { Where, List, RangeOptions, Joined } from '@potentiel-domain/entity';
 
 import {
   MotifDemandeGarantiesFinancières,
@@ -12,6 +12,7 @@ import {
   Utilisateur,
   getRoleBasedWhereCondition,
 } from '../../../_utils/getRoleBasedWhereCondition';
+import { LauréatEntity } from '../../../lauréat.entity';
 
 type ProjetAvecGarantiesFinancièresEnAttenteListItemReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
@@ -57,28 +58,36 @@ export const registerListerProjetsAvecGarantiesFinancièresEnAttenteQuery = ({
     range,
     cycle,
   }) => {
+    const { identifiantProjet, régionProjet } = await getRoleBasedWhereCondition(
+      utilisateur,
+      récupérerIdentifiantsProjetParEmailPorteur,
+    );
     const {
       items,
       range: { endPosition, startPosition },
       total,
-    } = await list<ProjetAvecGarantiesFinancièresEnAttenteEntity>(
+    } = await list<ProjetAvecGarantiesFinancièresEnAttenteEntity, LauréatEntity>(
       'projet-avec-garanties-financieres-en-attente',
       {
         orderBy: { dernièreMiseÀJour: { date: 'descending' } },
         range,
         where: {
-          projet: {
+          identifiantProjet,
+          motif: Where.equal(motif),
+        },
+        join: {
+          entity: 'lauréat',
+          on: 'identifiantProjet',
+          where: {
             appelOffre: cycle
               ? cycle === 'PPE2'
                 ? Where.contains('PPE2')
                 : Where.notContains('PPE2')
               : Where.equal(appelOffre),
+            localité: {
+              région: régionProjet,
+            },
           },
-          motif: Where.equal(motif),
-          ...(await getRoleBasedWhereCondition(
-            utilisateur,
-            récupérerIdentifiantsProjetParEmailPorteur,
-          )),
         },
       },
     );
@@ -97,14 +106,15 @@ export const registerListerProjetsAvecGarantiesFinancièresEnAttenteQuery = ({
 };
 
 const mapToReadModel = ({
-  projet: { nom },
+  lauréat: { nomProjet },
   identifiantProjet,
   motif,
   dateLimiteSoumission,
   dernièreMiseÀJour: { date },
-}: ProjetAvecGarantiesFinancièresEnAttenteEntity): ProjetAvecGarantiesFinancièresEnAttenteListItemReadModel => ({
+}: ProjetAvecGarantiesFinancièresEnAttenteEntity &
+  Joined<LauréatEntity>): ProjetAvecGarantiesFinancièresEnAttenteListItemReadModel => ({
   identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
-  nomProjet: nom,
+  nomProjet,
   motif: MotifDemandeGarantiesFinancières.convertirEnValueType(motif),
   dateLimiteSoumission: DateTime.convertirEnValueType(dateLimiteSoumission),
   dernièreMiseÀJour: {

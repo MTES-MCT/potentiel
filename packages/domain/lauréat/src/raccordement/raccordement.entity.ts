@@ -4,8 +4,6 @@ import { Entity } from '@potentiel-domain/entity';
 type DossierRaccordement = {
   identifiantGestionnaireRéseau: string;
   identifiantProjet: string;
-  appelOffre: string;
-  région: string;
 
   référence: string;
   projetNotifiéLe?: DateTime.RawType;
@@ -32,13 +30,6 @@ export type RaccordementEntity = Entity<
   {
     identifiantProjet: string;
     identifiantGestionnaireRéseau: string;
-    nomProjet: string;
-
-    appelOffre: string;
-    période: string;
-    famille?: string;
-    numéroCRE: string;
-
     dossiers: Array<DossierRaccordement>;
   }
 >;

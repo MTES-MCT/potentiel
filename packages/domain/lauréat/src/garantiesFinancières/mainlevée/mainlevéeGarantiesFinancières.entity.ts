@@ -5,14 +5,6 @@ export type MainlevéeGarantiesFinancièresEntity = Entity<
   {
     identifiantProjet: string;
 
-    projet: {
-      nom: string;
-      région: string;
-      appelOffre: string;
-      période: string;
-      famille?: string;
-    };
-
     statut: string;
     motif: string;
     demande: { demandéeLe: string; demandéePar: string };

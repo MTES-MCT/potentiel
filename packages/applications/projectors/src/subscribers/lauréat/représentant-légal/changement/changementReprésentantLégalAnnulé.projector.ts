@@ -14,7 +14,7 @@ export const changementReprésentantLégalAnnuléProjector = async (
   const représentantLégal = await getInfosReprésentantLégal(identifiantProjet);
 
   if (représentantLégal) {
-    await removeProjection(
+    await removeProjection<ReprésentantLégal.ChangementReprésentantLégalEntity>(
       `changement-représentant-légal|${représentantLégal.identifiantChangement}`,
     );
 

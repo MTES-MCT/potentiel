@@ -8,6 +8,7 @@ import {
   MotifDemandeGarantiesFinancières,
   ProjetAvecGarantiesFinancièresEnAttenteEntity,
 } from '../..';
+import { LauréatEntity } from '../../../lauréat.entity';
 
 export type ConsulterProjetAvecGarantiesFinancièresEnAttenteReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
@@ -43,11 +44,13 @@ export const registerConsulterProjetAvecGarantiesFinancièresEnAttenteQuery = ({
   }) => {
     const identifiantProjet = IdentifiantProjet.convertirEnValueType(identifiantProjetValue);
 
+    const lauréat = await find<LauréatEntity>(`lauréat|${identifiantProjet.formatter()}`);
+
     const result = await find<ProjetAvecGarantiesFinancièresEnAttenteEntity>(
       `projet-avec-garanties-financieres-en-attente|${identifiantProjet.formatter()}`,
     );
 
-    return Option.isNone(result) ? Option.none : mapToReadModel(result);
+    return Option.isNone(result) ? Option.none : mapToReadModel(result, lauréat);
   };
 
   mediator.register(
@@ -56,22 +59,28 @@ export const registerConsulterProjetAvecGarantiesFinancièresEnAttenteQuery = ({
   );
 };
 
-const mapToReadModel = ({
-  identifiantProjet,
-  projet: { nom, appelOffre, période, famille, région },
-  motif,
-  dateLimiteSoumission,
-  dernièreMiseÀJour,
-}: ProjetAvecGarantiesFinancièresEnAttenteEntity): ConsulterProjetAvecGarantiesFinancièresEnAttenteReadModel => ({
-  identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
-  nomProjet: nom,
-  régionProjet: région,
-  appelOffre,
-  période,
-  famille,
-  motif: MotifDemandeGarantiesFinancières.convertirEnValueType(motif),
-  dateLimiteSoumission: DateTime.convertirEnValueType(dateLimiteSoumission),
-  dernièreMiseÀJour: {
-    date: DateTime.convertirEnValueType(dernièreMiseÀJour.date),
-  },
-});
+const mapToReadModel = (
+  {
+    identifiantProjet,
+    motif,
+    dateLimiteSoumission,
+    dernièreMiseÀJour,
+  }: ProjetAvecGarantiesFinancièresEnAttenteEntity,
+  lauréat: Option.Type<LauréatEntity>,
+): ConsulterProjetAvecGarantiesFinancièresEnAttenteReadModel => {
+  const { appelOffre, période, famille } =
+    IdentifiantProjet.convertirEnValueType(identifiantProjet);
+  return {
+    identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
+    nomProjet: Option.isSome(lauréat) ? lauréat.nomProjet : 'N/A',
+    régionProjet: Option.isSome(lauréat) ? lauréat.localité.région : 'N/A',
+    appelOffre,
+    période,
+    famille,
+    motif: MotifDemandeGarantiesFinancières.convertirEnValueType(motif),
+    dateLimiteSoumission: DateTime.convertirEnValueType(dateLimiteSoumission),
+    dernièreMiseÀJour: {
+      date: DateTime.convertirEnValueType(dernièreMiseÀJour.date),
+    },
+  };
+};

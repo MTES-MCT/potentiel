@@ -4,9 +4,7 @@ import { Option } from '@potentiel-libraries/monads';
 import { Recours } from '@potentiel-domain/elimine';
 import { RebuildTriggered, Event } from '@potentiel-infrastructure/pg-event-sourcing';
 import { findProjection } from '@potentiel-infrastructure/pg-projections';
-import { CandidatureAdapter } from '@potentiel-infrastructure/domain-adapters';
 import { DateTime } from '@potentiel-domain/common';
-import { getLogger } from '@potentiel-libraries/monitoring';
 
 import { removeProjection } from '../../infrastructure/removeProjection';
 import { upsertProjection } from '../../infrastructure/upsertProjection';
@@ -28,14 +26,6 @@ export const register = () => {
 
       const recoursDefaultValue: Omit<Recours.RecoursEntity, 'type'> = {
         identifiantProjet,
-        projet: {
-          nom: '',
-          appelOffre: '',
-          numéroCRE: '',
-          période: '',
-          famille: undefined,
-          région: '',
-        },
         demande: {
           demandéLe: '',
           demandéPar: '',
@@ -54,22 +44,8 @@ export const register = () => {
 
       switch (type) {
         case 'RecoursDemandé-V1':
-          const projet = await CandidatureAdapter.récupérerProjetAdapter(identifiantProjet);
-
-          if (Option.isNone(projet)) {
-            getLogger().warn(`Projet inconnu !`, { identifiantProjet, message: event });
-          }
-
           await upsertProjection<Recours.RecoursEntity>(`recours|${identifiantProjet}`, {
             ...recoursDefaultValue,
-            projet: {
-              nom: Option.isSome(projet) ? projet.nom : 'Projet inconnu',
-              appelOffre: Option.isSome(projet) ? projet.appelOffre : `N/A`,
-              période: Option.isSome(projet) ? projet.période : `N/A`,
-              famille: Option.isSome(projet) ? projet.famille : undefined,
-              région: Option.isSome(projet) ? projet.localité.région : '',
-              numéroCRE: Option.isSome(projet) ? projet.numéroCRE : '',
-            },
             demande: {
               demandéLe: payload.demandéLe,
               demandéPar: payload.demandéPar,
@@ -117,7 +93,7 @@ export const register = () => {
           });
           break;
         case 'RecoursAnnulé-V1':
-          await removeProjection(`recours|${identifiantProjet}`);
+          await removeProjection<Recours.RecoursEntity>(`recours|${identifiantProjet}`);
           break;
       }
     }

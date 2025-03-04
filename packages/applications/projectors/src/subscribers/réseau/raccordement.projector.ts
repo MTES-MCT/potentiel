@@ -7,7 +7,6 @@ import { findProjection } from '@potentiel-infrastructure/pg-projections';
 import { Option } from '@potentiel-libraries/monads';
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 import { getLogger } from '@potentiel-libraries/monitoring';
-import { CandidatureAdapter } from '@potentiel-infrastructure/domain-adapters';
 import { Where } from '@potentiel-domain/entity';
 import { Candidature } from '@potentiel-domain/candidature';
 import { Raccordement } from '@potentiel-domain/laureat';
@@ -31,8 +30,6 @@ export const register = () => {
     } else {
       const identifiantProjet = payload.identifiantProjet;
       const misÀJourLe = DateTime.convertirEnValueType(event.created_at).formatter();
-
-      const { appelOffre } = IdentifiantProjet.convertirEnValueType(identifiantProjet);
 
       const raccordement = await getRaccordementToUpsert(identifiantProjet);
 
@@ -71,9 +68,7 @@ export const register = () => {
         const candidature = await findProjection<Candidature.CandidatureEntity>(
           `candidature|${identifiantProjet}`,
         );
-        const région = Option.match(candidature)
-          .some(({ localité }) => localité.région)
-          .none(() => 'N/A');
+
         const projetNotifiéLe = Option.match(candidature)
           .some((candidature) =>
             candidature.estNotifiée ? candidature.notification.notifiéeLe : undefined,
@@ -85,20 +80,17 @@ export const register = () => {
               return {
                 identifiantProjet,
                 identifiantGestionnaireRéseau: event.payload.identifiantGestionnaireRéseau,
-                appelOffre,
                 référence,
                 demandeComplèteRaccordement: {
                   dateQualification: event.payload.dateQualification,
                 },
                 projetNotifiéLe,
                 misÀJourLe,
-                région,
               };
             case 'DemandeComplèteDeRaccordementTransmise-V2':
               return {
                 identifiantProjet,
                 identifiantGestionnaireRéseau: event.payload.identifiantGestionnaireRéseau,
-                appelOffre,
                 référence,
                 demandeComplèteRaccordement: {
                   dateQualification: event.payload.dateQualification,
@@ -108,7 +100,6 @@ export const register = () => {
                 },
                 projetNotifiéLe,
                 misÀJourLe,
-                région,
               };
           }
         })();
@@ -330,10 +321,9 @@ export const register = () => {
             event.type === 'RéférenceDossierRacordementModifiée-V1' ||
             event.type === 'RéférenceDossierRacordementModifiée-V2'
           ) {
-            await removeProjection(
+            await removeProjection<Raccordement.DossierRaccordementEntity>(
               `dossier-raccordement|${event.payload.identifiantProjet}#${référence}`,
             );
-            await removeProjection(`référence-raccordement-projet|${référence}`);
           }
 
           await upsertProjection<Raccordement.DossierRaccordementEntity>(
@@ -375,19 +365,8 @@ const getRaccordementToUpsert = async (
     `raccordement|${identifiantProjet}`,
   );
 
-  const projet = await CandidatureAdapter.récupérerProjetAdapter(identifiantProjet);
-
-  if (Option.isNone(projet)) {
-    getLogger().warn(`Projet inconnu !`, { identifiantProjet });
-  }
-
   const raccordementDefaultValue: Omit<Raccordement.RaccordementEntity, 'type'> = {
     identifiantProjet,
-    nomProjet: Option.isSome(projet) ? projet.nom : 'Projet inconnu',
-    appelOffre: Option.isSome(projet) ? projet.appelOffre : `N/A`,
-    période: Option.isSome(projet) ? projet.période : `N/A`,
-    famille: Option.isSome(projet) ? projet.famille : undefined,
-    numéroCRE: Option.isSome(projet) ? projet.numéroCRE : 'N/A',
     dossiers: [],
     identifiantGestionnaireRéseau:
       GestionnaireRéseau.IdentifiantGestionnaireRéseau.inconnu.formatter(),

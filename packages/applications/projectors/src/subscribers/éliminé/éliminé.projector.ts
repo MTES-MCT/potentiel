@@ -29,7 +29,7 @@ export const register = () => {
           });
           break;
         case 'ÉliminéArchivé-V1':
-          await removeProjection(`éliminé|${identifiantProjet}`);
+          await removeProjection<Éliminé.ÉliminéEntity>(`éliminé|${identifiantProjet}`);
           break;
       }
     }

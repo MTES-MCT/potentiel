@@ -1,7 +1,7 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
-import { List, ListOptions, RangeOptions, Where } from '@potentiel-domain/entity';
+import { Joined, List, ListOptions, RangeOptions, Where } from '@potentiel-domain/entity';
 import { RécupérerIdentifiantsProjetParEmailPorteurPort } from '@potentiel-domain/utilisateur';
 
 import { ChangementReprésentantLégalEntity, StatutChangementReprésentantLégal } from '../..';
@@ -9,6 +9,7 @@ import {
   getRoleBasedWhereCondition,
   Utilisateur,
 } from '../../../_utils/getRoleBasedWhereCondition';
+import { LauréatEntity } from '../../../lauréat.entity';
 
 type ChangementReprésentantLégalItemReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
@@ -57,7 +58,7 @@ export const registerListerChangementReprésentantLégalQuery = ({
       récupérerIdentifiantsProjetParEmailPorteur,
     );
 
-    const options: ListOptions<ChangementReprésentantLégalEntity> = {
+    const options: ListOptions<ChangementReprésentantLégalEntity, LauréatEntity> = {
       range,
       orderBy: {
         demande: {
@@ -69,15 +70,21 @@ export const registerListerChangementReprésentantLégalQuery = ({
         demande: {
           statut: Where.equal(statut),
         },
-        projet: {
+      },
+      join: {
+        entity: 'lauréat',
+        on: 'identifiantProjet',
+        where: {
           appelOffre: Where.equal(appelOffre),
-          nom: Where.contains(nomProjet),
-          région: régionProjet,
+          nomProjet: Where.contains(nomProjet),
+          localité: {
+            région: régionProjet,
+          },
         },
       },
     };
 
-    const demandes = await list<ChangementReprésentantLégalEntity>(
+    const demandes = await list<ChangementReprésentantLégalEntity, LauréatEntity>(
       'changement-représentant-légal',
       options,
     );
@@ -92,9 +99,9 @@ export const registerListerChangementReprésentantLégalQuery = ({
 };
 
 const mapToReadModel = (
-  entity: ChangementReprésentantLégalEntity,
+  entity: ChangementReprésentantLégalEntity & Joined<LauréatEntity>,
 ): ChangementReprésentantLégalItemReadModel => ({
-  nomProjet: entity.projet.nom,
+  nomProjet: entity.lauréat.nomProjet,
   statut: StatutChangementReprésentantLégal.convertirEnValueType(entity.demande.statut),
   misÀJourLe: DateTime.convertirEnValueType(entity.demande.demandéLe),
   identifiantProjet: IdentifiantProjet.convertirEnValueType(entity.identifiantProjet),

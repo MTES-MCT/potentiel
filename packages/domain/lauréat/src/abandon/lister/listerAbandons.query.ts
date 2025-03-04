@@ -1,12 +1,13 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
-import { List, ListOptions, RangeOptions, Where } from '@potentiel-domain/entity';
+import { Joined, List, ListOptions, RangeOptions, Where } from '@potentiel-domain/entity';
 import { RécupérerIdentifiantsProjetParEmailPorteurPort } from '@potentiel-domain/utilisateur';
 
 import { StatutAbandon, StatutPreuveRecandidature } from '..';
 import { AbandonEntity } from '../abandon.entity';
 import { getRoleBasedWhereCondition, Utilisateur } from '../../_utils/getRoleBasedWhereCondition';
+import { LauréatEntity } from '../../lauréat.entity';
 
 type AbandonListItemReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
@@ -60,7 +61,7 @@ export const registerListerAbandonQuery = ({
       récupérerIdentifiantsProjetParEmailPorteur,
     );
 
-    const options: ListOptions<AbandonEntity> = {
+    const options: ListOptions<AbandonEntity, LauréatEntity> = {
       range,
       orderBy: {
         misÀJourLe: 'descending',
@@ -68,11 +69,6 @@ export const registerListerAbandonQuery = ({
       where: {
         identifiantProjet,
         statut: Where.equal(statut),
-        projet: {
-          appelOffre: Where.equal(appelOffre),
-          nom: Where.contains(nomProjet),
-          région: régionProjet,
-        },
         demande: {
           estUneRecandidature: Where.equal(recandidature),
           recandidature: {
@@ -80,9 +76,18 @@ export const registerListerAbandonQuery = ({
           },
         },
       },
+      join: {
+        entity: 'lauréat',
+        on: 'identifiantProjet',
+        where: {
+          appelOffre: Where.equal(appelOffre),
+          nomProjet: Where.contains(nomProjet),
+          localité: { région: régionProjet },
+        },
+      },
     };
 
-    const abandons = await list<AbandonEntity>('abandon', options);
+    const abandons = await list<AbandonEntity, LauréatEntity>('abandon', options);
     return {
       ...abandons,
       items: abandons.items.map((abandon) => mapToReadModel(abandon)),
@@ -92,9 +97,11 @@ export const registerListerAbandonQuery = ({
   mediator.register('Lauréat.Abandon.Query.ListerAbandons', handler);
 };
 
-const mapToReadModel = (entity: AbandonEntity): AbandonListItemReadModel => {
+const mapToReadModel = (
+  entity: AbandonEntity & Joined<LauréatEntity>,
+): AbandonListItemReadModel => {
   return {
-    nomProjet: entity.projet?.nom || 'Projet inconnu',
+    nomProjet: entity.lauréat.nomProjet,
     statut: StatutAbandon.convertirEnValueType(entity.statut),
     recandidature: !!entity.demande.recandidature,
     misÀJourLe: DateTime.convertirEnValueType(entity.misÀJourLe),

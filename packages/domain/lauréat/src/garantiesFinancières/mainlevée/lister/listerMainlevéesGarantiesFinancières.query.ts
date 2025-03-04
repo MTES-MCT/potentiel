@@ -1,6 +1,6 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
-import { Where, List, RangeOptions } from '@potentiel-domain/entity';
+import { Where, List, RangeOptions, Joined } from '@potentiel-domain/entity';
 import { RécupérerIdentifiantsProjetParEmailPorteurPort } from '@potentiel-domain/utilisateur';
 import { IdentifiantProjet, DateTime, Email } from '@potentiel-domain/common';
 import { DocumentProjet } from '@potentiel-domain/document';
@@ -15,6 +15,7 @@ import {
   getRoleBasedWhereCondition,
   Utilisateur,
 } from '../../../_utils/getRoleBasedWhereCondition';
+import { LauréatEntity } from '../../../lauréat.entity';
 
 export type ListerMainlevéeItemReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
@@ -96,22 +97,29 @@ export const registerListerMainlevéesQuery = ({
       items,
       range: { endPosition, startPosition },
       total,
-    } = await list<MainlevéeGarantiesFinancièresEntity>('mainlevee-garanties-financieres', {
-      range,
-      where: {
-        identifiantProjet: identifiantProjet
-          ? Where.equal(identifiantProjet)
-          : roleBasedCondition.identifiantProjet,
-        motif: Where.equal(motif),
-        statut: estEnCours
-          ? Where.notEqual(StatutMainlevéeGarantiesFinancières.rejeté.statut)
-          : Where.equal(statut),
-        projet: {
-          appelOffre: Where.equal(appelOffre),
-          région: roleBasedCondition.régionProjet,
+    } = await list<MainlevéeGarantiesFinancièresEntity, LauréatEntity>(
+      'mainlevee-garanties-financieres',
+      {
+        range,
+        where: {
+          identifiantProjet: identifiantProjet
+            ? Where.equal(identifiantProjet)
+            : roleBasedCondition.identifiantProjet,
+          motif: Where.equal(motif),
+          statut: estEnCours
+            ? Where.notEqual(StatutMainlevéeGarantiesFinancières.rejeté.statut)
+            : Where.equal(statut),
+        },
+        join: {
+          entity: 'lauréat',
+          on: 'identifiantProjet',
+          where: {
+            appelOffre: Where.equal(appelOffre),
+            localité: { région: roleBasedCondition.régionProjet },
+          },
         },
       },
-    });
+    );
 
     return {
       items: items.map(listerMainlevéeGarantiesFinancièresMapToReadModel),
@@ -126,11 +134,11 @@ export const registerListerMainlevéesQuery = ({
 };
 
 const listerMainlevéeGarantiesFinancièresMapToReadModel = (
-  mainlevée: MainlevéeGarantiesFinancièresEntity,
+  mainlevée: MainlevéeGarantiesFinancièresEntity & Joined<LauréatEntity>,
 ): ListerMainlevéeItemReadModel => ({
   identifiantProjet: IdentifiantProjet.convertirEnValueType(mainlevée.identifiantProjet),
-  appelOffre: mainlevée.projet.appelOffre,
-  nomProjet: mainlevée.projet.nom,
+  appelOffre: mainlevée.lauréat.appelOffre,
+  nomProjet: mainlevée.lauréat.nomProjet,
   statut: StatutMainlevéeGarantiesFinancières.convertirEnValueType(mainlevée.statut),
   motif: MotifDemandeMainlevéeGarantiesFinancières.convertirEnValueType(mainlevée.motif),
   demande: {
