@@ -161,14 +161,14 @@ Quand(
 );
 
 Quand(
-  `le DGEC validateur instruit l'abandon pour le projet lauréat`,
+  `l'administrateur instruit l'abandon pour le projet lauréat`,
   async function (this: PotentielWorld) {
     try {
       const identifiantProjet = this.lauréatWorld.identifiantProjet.formatter();
 
       const { instruitLe, instruitPar } =
         this.lauréatWorld.abandonWorld.instruireAbandonFixture.créer({
-          instruitPar: this.utilisateurWorld.validateurFixture.email,
+          instruitPar: this.utilisateurWorld.adminFixture.email,
         });
 
       await mediator.send<Abandon.AbandonUseCase>({
