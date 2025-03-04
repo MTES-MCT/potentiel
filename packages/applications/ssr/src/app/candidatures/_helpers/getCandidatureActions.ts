@@ -1,18 +1,36 @@
 import { match } from 'ts-pattern';
 
-import { CandidatureListItemActionsProps } from '@/components/pages/candidature/lister/CandidatureListItemActions';
+import { Role } from '@potentiel-domain/utilisateur';
 
-type Props = {
-  estNotifiée: boolean;
-  aUneAttestation: boolean;
-};
+import { DétailsCandidaturePageProps } from '../../../components/pages/candidature/détails/DétailsCandidature.page';
 
-export const getCandidatureActions = (props: Props): CandidatureListItemActionsProps['actions'] =>
-  match(props)
-    .returnType<CandidatureListItemActionsProps['actions']>()
-    .with({ estNotifiée: false }, () => ({ télécharger: false, prévisualiser: true }))
-    .with({ estNotifiée: true, aUneAttestation: true }, () => ({
-      télécharger: true,
-      prévisualiser: false,
+export const getCandidatureActions = (
+  props: { estNotifiée: boolean; estNotifiéeClassée: boolean; aUneAttestation: boolean },
+  role: Role.ValueType,
+): DétailsCandidaturePageProps['actions'] => {
+  const defaultActions = {
+    corriger: role.aLaPermission('candidature.corriger'),
+    modifierLauréat: false,
+    prévisualiserAttestation: false,
+    téléchargerAttestation: false,
+  };
+
+  return match(props)
+    .returnType<DétailsCandidaturePageProps['actions']>()
+    .with({ estNotifiée: false }, () => ({
+      ...defaultActions,
+      prévisualiserAttestation: role.aLaPermission('candidature.attestation.prévisualiser'),
+      modifierLauréat: false,
     }))
-    .otherwise(() => ({ télécharger: false, prévisualiser: false }));
+    .with({ aUneAttestation: true, estNotifiée: true, estNotifiéeClassée: false }, () => ({
+      ...defaultActions,
+      téléchargerAttestation: true,
+    }))
+    .with({ aUneAttestation: true, estNotifiée: true, estNotifiéeClassée: true }, () => ({
+      ...defaultActions,
+      téléchargerAttestation: true,
+      corriger: false,
+      modifierLauréat: role.aLaPermission('lauréat.modifier'),
+    }))
+    .otherwise(() => defaultActions);
+};
