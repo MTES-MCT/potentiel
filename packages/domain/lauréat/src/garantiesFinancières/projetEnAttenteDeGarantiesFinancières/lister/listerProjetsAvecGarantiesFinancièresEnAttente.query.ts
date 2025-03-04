@@ -58,6 +58,10 @@ export const registerListerProjetsAvecGarantiesFinancièresEnAttenteQuery = ({
     range,
     cycle,
   }) => {
+    const { identifiantProjet, régionProjet } = await getRoleBasedWhereCondition(
+      utilisateur,
+      récupérerIdentifiantsProjetParEmailPorteur,
+    );
     const {
       items,
       range: { endPosition, startPosition },
@@ -68,11 +72,8 @@ export const registerListerProjetsAvecGarantiesFinancièresEnAttenteQuery = ({
         orderBy: { dernièreMiseÀJour: { date: 'descending' } },
         range,
         where: {
+          identifiantProjet,
           motif: Where.equal(motif),
-          ...(await getRoleBasedWhereCondition(
-            utilisateur,
-            récupérerIdentifiantsProjetParEmailPorteur,
-          )),
         },
         join: {
           entity: 'lauréat',
@@ -83,6 +84,9 @@ export const registerListerProjetsAvecGarantiesFinancièresEnAttenteQuery = ({
                 ? Where.contains('PPE2')
                 : Where.notContains('PPE2')
               : Where.equal(appelOffre),
+            localité: {
+              région: régionProjet,
+            },
           },
         },
       },
