@@ -47,7 +47,7 @@ export default async function Page({ params }: PageProps) {
             {
               estNotifiée: !!candidature.notification,
               aUneAttestation: !!candidature.notification?.attestation,
-              estNotifiéeClassée: Option.isSome(lauréat),
+              estLauréat: Option.isSome(lauréat),
             },
             utilisateur.role,
           )}

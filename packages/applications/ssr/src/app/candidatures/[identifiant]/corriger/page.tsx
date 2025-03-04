@@ -48,7 +48,7 @@ export default async function Page({ params }: PageProps) {
         candidature={props.candidature}
         aUneAttestation={props.aUneAttestation}
         estNotifiée={props.estNotifiée}
-        estNotifiéeClassée={props.estNotifiéeClassée}
+        estLauréat={props.estLauréat}
       />
     );
   });
@@ -86,5 +86,5 @@ const mapToProps: MapToProps = (candidature, lauréat) => ({
   },
   estNotifiée: !!candidature.notification,
   aUneAttestation: !!candidature.notification?.attestation,
-  estNotifiéeClassée: Option.isSome(lauréat),
+  estLauréat: Option.isSome(lauréat),
 });

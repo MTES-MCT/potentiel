@@ -5,7 +5,7 @@ import { Role } from '@potentiel-domain/utilisateur';
 import { DétailsCandidaturePageProps } from '../../../components/pages/candidature/détails/DétailsCandidature.page';
 
 export const getCandidatureActions = (
-  props: { estNotifiée: boolean; estNotifiéeClassée: boolean; aUneAttestation: boolean },
+  props: { estNotifiée: boolean; estLauréat: boolean; aUneAttestation: boolean },
   role: Role.ValueType,
 ): DétailsCandidaturePageProps['actions'] => {
   const defaultActions = {
@@ -21,11 +21,11 @@ export const getCandidatureActions = (
       ...defaultActions,
       prévisualiserAttestation: role.aLaPermission('candidature.attestation.prévisualiser'),
     }))
-    .with({ aUneAttestation: true, estNotifiée: true, estNotifiéeClassée: false }, () => ({
+    .with({ aUneAttestation: true, estNotifiée: true, estLauréat: false }, () => ({
       ...defaultActions,
       téléchargerAttestation: true,
     }))
-    .with({ aUneAttestation: true, estNotifiée: true, estNotifiéeClassée: true }, () => ({
+    .with({ aUneAttestation: true, estNotifiée: true, estLauréat: true }, () => ({
       ...defaultActions,
       téléchargerAttestation: true,
       corriger: false,

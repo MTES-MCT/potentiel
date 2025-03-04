@@ -14,14 +14,14 @@ import { CorrigerCandidatureForm, CorrigerCandidatureFormProps } from './Corrige
 
 export type CorrigerCandidaturePageProps = CorrigerCandidatureFormProps & {
   estNotifiée: boolean;
-  estNotifiéeClassée: boolean;
+  estLauréat: boolean;
 };
 
 export const CorrigerCandidaturePage: React.FC<CorrigerCandidaturePageProps> = ({
   candidature,
   estNotifiée,
   aUneAttestation,
-  estNotifiéeClassée,
+  estLauréat,
 }) => {
   const identifiantProjet = IdentifiantProjet.convertirEnValueType(candidature.identifiantProjet);
 
@@ -71,7 +71,7 @@ export const CorrigerCandidaturePage: React.FC<CorrigerCandidaturePageProps> = (
                 </div>
               }
             />
-            {estNotifiéeClassée && (
+            {estLauréat && (
               <Alert
                 severity="info"
                 small
