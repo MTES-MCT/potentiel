@@ -20,7 +20,6 @@ export const getCandidatureActions = (
     .with({ estNotifiée: false }, () => ({
       ...defaultActions,
       prévisualiserAttestation: role.aLaPermission('candidature.attestation.prévisualiser'),
-      modifierLauréat: false,
     }))
     .with({ aUneAttestation: true, estNotifiée: true, estNotifiéeClassée: false }, () => ({
       ...defaultActions,
