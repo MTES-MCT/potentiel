@@ -6,7 +6,7 @@ import {
   IdentifiantUtilisateur,
   RécupérerIdentifiantsProjetParEmailPorteurPort,
 } from '@potentiel-domain/utilisateur';
-import { List, RangeOptions, Where } from '@potentiel-domain/entity';
+import { Joined, List, RangeOptions, Where } from '@potentiel-domain/entity';
 import { Candidature } from '@potentiel-domain/candidature';
 
 import { DépôtEnCoursGarantiesFinancièresEntity, TypeDocumentGarantiesFinancières } from '../..';
@@ -14,6 +14,7 @@ import {
   Utilisateur,
   getRoleBasedWhereCondition,
 } from '../../../_utils/getRoleBasedWhereCondition';
+import { LauréatEntity } from '../../../lauréat.entity';
 
 type DépôtEnCoursGarantiesFinancièresListItemReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
@@ -71,21 +72,28 @@ export const registerListerDépôtsEnCoursGarantiesFinancièresQuery = ({
       items,
       range: { startPosition, endPosition },
       total,
-    } = await list<DépôtEnCoursGarantiesFinancièresEntity>('depot-en-cours-garanties-financieres', {
-      orderBy: { dépôt: { dernièreMiseÀJour: { date: 'descending' } } },
-      range,
-      where: {
-        identifiantProjet,
-        projet: {
-          appelOffre: cycle
-            ? cycle === 'PPE2'
-              ? Where.contains('PPE2')
-              : Where.notContains('PPE2')
-            : Where.equal(appelOffre),
-          région: régionProjet,
+    } = await list<DépôtEnCoursGarantiesFinancièresEntity, LauréatEntity>(
+      'depot-en-cours-garanties-financieres',
+      {
+        orderBy: { dépôt: { dernièreMiseÀJour: { date: 'descending' } } },
+        range,
+        where: {
+          identifiantProjet,
+        },
+        join: {
+          entity: 'lauréat',
+          on: 'identifiantProjet',
+          where: {
+            appelOffre: cycle
+              ? cycle === 'PPE2'
+                ? Where.contains('PPE2')
+                : Where.notContains('PPE2')
+              : Where.equal(appelOffre),
+            localité: { région: régionProjet },
+          },
         },
       },
-    });
+    );
 
     return {
       items: items.map((item) => mapToReadModel(item)),
@@ -101,12 +109,13 @@ export const registerListerDépôtsEnCoursGarantiesFinancièresQuery = ({
 };
 
 const mapToReadModel = ({
-  projet: { nom },
+  lauréat: { nomProjet },
   identifiantProjet,
   dépôt,
-}: DépôtEnCoursGarantiesFinancièresEntity): DépôtEnCoursGarantiesFinancièresListItemReadModel => ({
+}: DépôtEnCoursGarantiesFinancièresEntity &
+  Joined<LauréatEntity>): DépôtEnCoursGarantiesFinancièresListItemReadModel => ({
   identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
-  nomProjet: nom,
+  nomProjet,
   dépôt: {
     type: Candidature.TypeGarantiesFinancières.convertirEnValueType(dépôt.type),
     dateÉchéance: dépôt.dateÉchéance

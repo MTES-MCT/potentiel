@@ -5,5 +5,5 @@ import { removeProjection } from '../../../infrastructure';
 export const abandonAnnuléProjector = async ({
   payload: { identifiantProjet },
 }: Abandon.AbandonAnnuléEvent) => {
-  await removeProjection(`abandon|${identifiantProjet}`);
+  await removeProjection<Abandon.AbandonEntity>(`abandon|${identifiantProjet}`);
 };
