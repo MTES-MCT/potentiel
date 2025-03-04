@@ -189,7 +189,7 @@ async function instruireAbandon(this: PotentielWorld) {
     this.lauréatWorld.abandonWorld.instruireAbandonFixture.créer();
 
   await mediator.send<Abandon.AbandonUseCase>({
-    type: 'Lauréat.Abandon.UseCase.InstruireAbandon',
+    type: 'Lauréat.Abandon.UseCase.PasserAbandonEnInstruction',
     data: {
       identifiantProjetValue: identifiantProjet,
       dateInstructionValue: instruitLe,

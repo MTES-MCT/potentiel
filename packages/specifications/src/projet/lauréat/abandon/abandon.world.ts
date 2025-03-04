@@ -10,7 +10,7 @@ import { DemanderConfirmationAbandonFixture } from './fixtures/demanderConfirmat
 import { TransmettrePreuveRecandidatureAbandonFixture } from './fixtures/transmettrePreuveRecandidatureAbandon.fixture';
 import { RejetAbandonFixture } from './fixtures/rejeterAbandonFixture';
 import { DemanderPreuveRecandidatureAbandonFixture } from './fixtures/demanderPreuveRecandidature.fixture';
-import { InstruireAbandonFixture } from './fixtures/instruireAbandon.fixture';
+import { PasserAbandonEnInstructionFixture } from './fixtures/instruireAbandon.fixture';
 
 export class AbandonWord {
   #accorderAbandonFixture: AccorderAbandonFixture;
@@ -55,7 +55,7 @@ export class AbandonWord {
     return this.#rejeterAbandonFixture;
   }
 
-  #instruireAbandonFixture: InstruireAbandonFixture;
+  #instruireAbandonFixture: PasserAbandonEnInstructionFixture;
 
   get instruireAbandonFixture() {
     return this.#instruireAbandonFixture;
@@ -75,7 +75,7 @@ export class AbandonWord {
     this.#demanderConfirmationAbandonFixture = new DemanderConfirmationAbandonFixture();
     this.#demanderPreuveCandidatureAbandonFixture = new DemanderPreuveRecandidatureAbandonFixture();
     this.#rejeterAbandonFixture = new RejetAbandonFixture();
-    this.#instruireAbandonFixture = new InstruireAbandonFixture();
+    this.#instruireAbandonFixture = new PasserAbandonEnInstructionFixture();
     this.#transmettrePreuveRecandidatureAbandonFixture =
       new TransmettrePreuveRecandidatureAbandonFixture();
   }
@@ -87,7 +87,7 @@ export class AbandonWord {
     this.#demanderConfirmationAbandonFixture = new DemanderConfirmationAbandonFixture();
     this.#demanderPreuveCandidatureAbandonFixture = new DemanderPreuveRecandidatureAbandonFixture();
     this.#rejeterAbandonFixture = new RejetAbandonFixture();
-    this.#instruireAbandonFixture = new InstruireAbandonFixture();
+    this.#instruireAbandonFixture = new PasserAbandonEnInstructionFixture();
     this.#transmettrePreuveRecandidatureAbandonFixture =
       new TransmettrePreuveRecandidatureAbandonFixture();
   }

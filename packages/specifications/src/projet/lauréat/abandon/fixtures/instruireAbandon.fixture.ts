@@ -2,14 +2,14 @@ import { faker } from '@faker-js/faker';
 
 import { AbstractFixture } from '../../../../fixture';
 
-interface InstruireAbandon {
+interface PasserAbandonEnInstruction {
   readonly instruitLe: string;
   readonly instruitPar: string;
 }
 
-export class InstruireAbandonFixture
-  extends AbstractFixture<InstruireAbandon>
-  implements InstruireAbandon
+export class PasserAbandonEnInstructionFixture
+  extends AbstractFixture<PasserAbandonEnInstruction>
+  implements PasserAbandonEnInstruction
 {
   #instruitLe!: string;
 
@@ -23,8 +23,10 @@ export class InstruireAbandonFixture
     return this.#instruitPar;
   }
 
-  créer(partialData?: Partial<Readonly<InstruireAbandon>>): Readonly<InstruireAbandon> {
-    const fixture: InstruireAbandon = {
+  créer(
+    partialData?: Partial<Readonly<PasserAbandonEnInstruction>>,
+  ): Readonly<PasserAbandonEnInstruction> {
+    const fixture: PasserAbandonEnInstruction = {
       instruitLe: faker.date.soon().toISOString(),
       instruitPar: faker.internet.email(),
       ...partialData,

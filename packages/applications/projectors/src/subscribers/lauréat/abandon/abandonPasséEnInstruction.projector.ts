@@ -5,15 +5,15 @@ import { updateOneProjection } from '../../../infrastructure';
 
 import { getInfosAbandon } from './utils/getInfosAbandon';
 
-export const abandonInstruitProjector = async ({
+export const abandonPasséEnInstructionProjector = async ({
   payload: { identifiantProjet, instruitLe, instruitPar },
-}: Abandon.AbandonInstruitEvent) => {
+}: Abandon.AbandonPasséEnInstructionEvent) => {
   const abandonToUpsert = await getInfosAbandon(identifiantProjet);
 
   if (!abandonToUpsert) {
     getLogger().error(`Abandon non trouvé`, {
       identifiantProjet,
-      fonction: 'abandonInstruitProjector',
+      fonction: 'abandonPasséEnInstructionProjector',
     });
     return;
   }

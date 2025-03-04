@@ -43,10 +43,10 @@ import {
   demanderPreuveRecandidature,
 } from './demanderPreuveRecandidature/demanderPreuveRecandidatureAbandon.behavior';
 import {
-  AbandonInstruitEvent,
-  applyAbandonInstruit,
-  instruire,
-} from './instruire/instruireAbandon.behavior';
+  AbandonPasséEnInstructionEvent,
+  passerEnInstruction,
+  applyAbandonPasséEnInstruction,
+} from './instruire/passerAbandonEnInstruction.behavior';
 
 export type AbandonEvent =
   | AbandonDemandéEventV1
@@ -58,7 +58,7 @@ export type AbandonEvent =
   | AbandonConfirméEvent
   | PreuveRecandidatureTransmiseEvent
   | PreuveRecandidatureDemandéeEvent
-  | AbandonInstruitEvent;
+  | AbandonPasséEnInstructionEvent;
 
 export type AbandonAggregate = Aggregate<AbandonEvent> & {
   statut: StatutAbandon.ValueType;
@@ -99,7 +99,7 @@ export type AbandonAggregate = Aggregate<AbandonEvent> & {
   readonly demander: typeof demander;
   readonly demanderConfirmation: typeof demanderConfirmation;
   readonly rejeter: typeof rejeter;
-  readonly instruire: typeof instruire;
+  readonly passerEnInstruction: typeof passerEnInstruction;
   readonly transmettrePreuveRecandidature: typeof transmettrePreuveRecandidature;
   readonly demanderPreuveRecandidature: typeof demanderPreuveRecandidature;
   readonly estAccordé: () => boolean;
@@ -123,7 +123,7 @@ export const getDefaultAbandonAggregate: GetDefaultAggregateState<
   demander,
   demanderConfirmation,
   rejeter,
-  instruire,
+  passerEnInstruction,
   transmettrePreuveRecandidature,
   demanderPreuveRecandidature,
   estAccordé() {
@@ -149,8 +149,8 @@ function apply(this: AbandonAggregate, event: AbandonEvent) {
     case 'AbandonRejeté-V1':
       applyAbandonRejeté.bind(this)(event);
       break;
-    case 'AbandonInstruit-V1':
-      applyAbandonInstruit.bind(this)();
+    case 'AbandonPasséEnInstruction-V1':
+      applyAbandonPasséEnInstruction.bind(this)();
       break;
     case 'ConfirmationAbandonDemandée-V1':
       applyConfirmationAbandonDemandée.bind(this)(event);

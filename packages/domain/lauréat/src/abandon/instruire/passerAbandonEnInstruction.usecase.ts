@@ -2,10 +2,10 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
 
-import { InstruireAbandonCommand } from './instruireAbandon.command';
+import { PasserAbandonEnInstructionCommand } from './passerAbandonEnInstruction.command';
 
-export type InstruireAbandonUseCase = Message<
-  'Lauréat.Abandon.UseCase.InstruireAbandon',
+export type PasserEnInstructionAbandonUseCase = Message<
+  'Lauréat.Abandon.UseCase.PasserAbandonEnInstruction',
   {
     dateInstructionValue: string;
     identifiantUtilisateurValue: string;
@@ -13,8 +13,8 @@ export type InstruireAbandonUseCase = Message<
   }
 >;
 
-export const registerInstruireAbandonUseCase = () => {
-  const runner: MessageHandler<InstruireAbandonUseCase> = async ({
+export const registerPasserEnInstructionAbandonUseCase = () => {
+  const runner: MessageHandler<PasserEnInstructionAbandonUseCase> = async ({
     dateInstructionValue,
     identifiantProjetValue,
     identifiantUtilisateurValue,
@@ -23,8 +23,8 @@ export const registerInstruireAbandonUseCase = () => {
     const dateInstruction = DateTime.convertirEnValueType(dateInstructionValue);
     const identifiantUtilisateur = Email.convertirEnValueType(identifiantUtilisateurValue);
 
-    await mediator.send<InstruireAbandonCommand>({
-      type: 'Lauréat.Abandon.Command.InstruireAbandon',
+    await mediator.send<PasserAbandonEnInstructionCommand>({
+      type: 'Lauréat.Abandon.Command.PasserAbandonEnInstruction',
       data: {
         dateInstruction,
         identifiantProjet,
@@ -32,5 +32,5 @@ export const registerInstruireAbandonUseCase = () => {
       },
     });
   };
-  mediator.register('Lauréat.Abandon.UseCase.InstruireAbandon', runner);
+  mediator.register('Lauréat.Abandon.UseCase.PasserAbandonEnInstruction', runner);
 };

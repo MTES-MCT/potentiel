@@ -13,7 +13,7 @@ import { abandonConfirméProjector } from './abandonConfirmé.projector';
 import { confirmationAbandonDemandéeProjector } from './confirmationAbandonDemandée.projector';
 import { preuveCandidatureDemandéeProjector } from './preuveCandidatureDemandée.projector';
 import { preuveCandidatureTransmiseProjector } from './preuveRecandidatureTransmise.projector';
-import { abandonInstruitProjector } from './abandonInstruit.projector';
+import { abandonPasséEnInstructionProjector } from './abandonPasséEnInstruction.projector';
 
 export type SubscriptionEvent = (Abandon.AbandonEvent & Event) | RebuildTriggered;
 
@@ -29,7 +29,7 @@ export const register = () => {
       .with({ type: 'AbandonRejeté-V1' }, abandonRejetéProjector)
       .with({ type: 'AbandonAnnulé-V1' }, abandonAnnuléProjector)
       .with({ type: 'AbandonConfirmé-V1' }, abandonConfirméProjector)
-      .with({ type: 'AbandonInstruit-V1' }, abandonInstruitProjector)
+      .with({ type: 'AbandonPasséEnInstruction-V1' }, abandonPasséEnInstructionProjector)
       .with({ type: 'ConfirmationAbandonDemandée-V1' }, confirmationAbandonDemandéeProjector)
       .with({ type: 'PreuveRecandidatureDemandée-V1' }, preuveCandidatureDemandéeProjector)
       .with({ type: 'PreuveRecandidatureTransmise-V1' }, preuveCandidatureTransmiseProjector)

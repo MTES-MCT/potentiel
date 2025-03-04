@@ -28,8 +28,8 @@ import {
   ListerAbandonsAvecRecandidatureÀRelancerQueryDependencies,
   registerListerAbandonsAvecRecandidatureÀRelancerQuery,
 } from './lister/listerAbandonsAvecRecandidatureÀRelancer.query';
-import { registerInstruireAbandonCommand } from './instruire/instruireAbandon.command';
-import { registerInstruireAbandonUseCase } from './instruire/instruireAbandon.usecase';
+import { registerPasserAbandonEnInstructionCommand } from './instruire/passerAbandonEnInstruction.command';
+import { registerPasserEnInstructionAbandonUseCase } from './instruire/passerAbandonEnInstruction.usecase';
 
 export type AbandonQueryDependencies = ConsulterAbandonDependencies &
   ListerAbandonDependencies &
@@ -48,7 +48,7 @@ export const registerAbandonUseCases = ({ loadAggregate }: AbandonCommandDepende
   registerAnnulerAbandonCommand(loadAggregate);
   registerTransmettrePreuveRecandidatureAbandonCommand(loadAggregate);
   registerDemanderPreuveRecandidatureAbandonCommand(loadAggregate);
-  registerInstruireAbandonCommand(loadAggregate);
+  registerPasserAbandonEnInstructionCommand(loadAggregate);
 
   registerDemanderAbandonUseCase();
   registerAccorderAbandonUseCase();
@@ -58,7 +58,7 @@ export const registerAbandonUseCases = ({ loadAggregate }: AbandonCommandDepende
   registerAnnulerAbandonUseCase();
   registerTransmettrePreuveRecandidatureAbandonUseCase();
   registerDemanderPreuveRecandidatureAbandonUseCase();
-  registerInstruireAbandonUseCase();
+  registerPasserEnInstructionAbandonUseCase();
 };
 
 export const registerAbandonQueries = (dependencies: AbandonQueryDependencies) => {

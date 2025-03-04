@@ -161,7 +161,7 @@ Quand(
 );
 
 Quand(
-  `l'administrateur instruit l'abandon pour le projet lauréat`,
+  `l'administrateur passe en instruction l'abandon pour le projet lauréat`,
   async function (this: PotentielWorld) {
     try {
       const identifiantProjet = this.lauréatWorld.identifiantProjet.formatter();
@@ -172,7 +172,7 @@ Quand(
         });
 
       await mediator.send<Abandon.AbandonUseCase>({
-        type: 'Lauréat.Abandon.UseCase.InstruireAbandon',
+        type: 'Lauréat.Abandon.UseCase.PasserAbandonEnInstruction',
         data: {
           identifiantProjetValue: identifiantProjet,
           dateInstructionValue: instruitLe,
