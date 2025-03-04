@@ -30,12 +30,14 @@ export type CorrigerCandidatureFormProps = {
   candidature: CorrigerCandidatureFormEntries;
   estNotifiée: boolean;
   aUneAttestation: boolean;
+  isCRE4ZNI: boolean;
 };
 
 export const CorrigerCandidatureForm: React.FC<CorrigerCandidatureFormProps> = ({
   candidature,
   estNotifiée,
   aUneAttestation,
+  isCRE4ZNI,
 }) => {
   const [validationErrors, setValidationErrors] = useState<
     ValidationErrors<keyof CorrigerCandidatureFormEntries>
@@ -290,21 +292,23 @@ export const CorrigerCandidatureForm: React.FC<CorrigerCandidatureFormProps> = (
           'aria-required': true,
         }}
       />
-      <Checkbox
-        state={validationErrors['puissanceALaPointe'] ? 'error' : 'default'}
-        stateRelatedMessage={validationErrors['puissanceALaPointe']}
-        id="puissanceALaPointe"
-        options={[
-          {
-            label: 'Engagement de fourniture de puissance à la pointe',
-            nativeInputProps: {
-              name: 'puissanceALaPointe',
-              value: 'true',
-              defaultChecked: candidature.puissanceALaPointe,
+      {isCRE4ZNI && (
+        <Checkbox
+          state={validationErrors['puissanceALaPointe'] ? 'error' : 'default'}
+          stateRelatedMessage={validationErrors['puissanceALaPointe']}
+          id="puissanceALaPointe"
+          options={[
+            {
+              label: 'Engagement de fourniture de puissance à la pointe',
+              nativeInputProps: {
+                name: 'puissanceALaPointe',
+                value: 'true',
+                defaultChecked: candidature.puissanceALaPointe,
+              },
             },
-          },
-        ]}
-      />
+          ]}
+        />
+      )}
       <Input
         state={validationErrors['evaluationCarboneSimplifiee'] ? 'error' : 'default'}
         stateRelatedMessage={validationErrors['evaluationCarboneSimplifiee']}

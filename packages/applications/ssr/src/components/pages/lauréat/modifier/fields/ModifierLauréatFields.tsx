@@ -170,11 +170,13 @@ export const LinkedValuesButton = ({
   onButtonClick,
   estEnCoursDeModification,
 }: ButtonProps) => {
-  const label = isLocked
-    ? 'La valeur sera automatiquement appliquée au projet'
-    : linked
-      ? 'Ne pas appliquer les changements au projet'
-      : 'Appliquer les changements au projet';
+  const label = estEnCoursDeModification
+    ? 'Une demande de modification est en cours sur ce champs, sa modification côté projet est impossible'
+    : isLocked
+      ? 'La valeur sera automatiquement appliquée au projet'
+      : linked
+        ? 'Ne pas appliquer les changements au projet'
+        : 'Appliquer les changements au projet';
 
   return (
     <Tooltip kind="hover" title={label}>

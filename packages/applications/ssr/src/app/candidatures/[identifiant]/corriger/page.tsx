@@ -48,7 +48,8 @@ export default async function Page({ params }: PageProps) {
         candidature={props.candidature}
         aUneAttestation={props.aUneAttestation}
         estNotifiée={props.estNotifiée}
-        estNotifiéeClassée={props.estNotifiéeClassée}
+        estLauréat={props.estLauréat}
+        isCRE4ZNI={props.isCRE4ZNI}
       />
     );
   });
@@ -86,5 +87,6 @@ const mapToProps: MapToProps = (candidature, lauréat) => ({
   },
   estNotifiée: !!candidature.notification,
   aUneAttestation: !!candidature.notification?.attestation,
-  estNotifiéeClassée: Option.isSome(lauréat),
+  estLauréat: Option.isSome(lauréat),
+  isCRE4ZNI: candidature.identifiantProjet.appelOffre.startsWith('CRE4 - ZNI'),
 });
