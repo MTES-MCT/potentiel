@@ -1,4 +1,3 @@
-import { Request } from 'express';
 import React from 'react';
 import { ProjectDataForProjectPage } from '../../../../modules/project/queries';
 import ROUTES from '../../../../routes';
@@ -15,20 +14,29 @@ import { Routes } from '@potentiel-applications/routes';
 
 type EditProjectDataProps = {
   project: ProjectDataForProjectPage;
-  request: Request;
 };
 
-export const EditProjectData = ({ project, request }: EditProjectDataProps) => {
-  if (!project.notifiedOn || project.isAbandoned) {
+export const EditProjectData = ({ project }: EditProjectDataProps) => {
+  if (project.isAbandoned) {
     return null;
   }
 
   const identifiantProjet = `${project.appelOffreId}#${project.periodeId}#${project.familleId}#${project.numeroCRE}`;
 
+  if (!project.notifiedOn) {
+    return (
+      <InfoBox className="mb-5">
+        Pour corriger des données de la candidature, utilisez le{' '}
+        <a href={Routes.Candidature.corriger(identifiantProjet)}>formulaire de modification</a> de
+        la candidature.
+      </InfoBox>
+    );
+  }
+
   if (!project.isClasse) {
     return (
       <InfoBox className="mb-5">
-        Pour corriger des données à la candidature et régénérer l'attestation, utiliser le{' '}
+        Pour corriger des données à la candidature et régénérer l'attestation, utilisez le{' '}
         <a href={Routes.Candidature.corriger(identifiantProjet)}>formulaire de modification</a> de
         la candidature.
       </InfoBox>
@@ -40,16 +48,9 @@ export const EditProjectData = ({ project, request }: EditProjectDataProps) => {
       <InfoBox className="mb-5">
         Ce formulaire est accessible temporairement pour modifier la puissance du projet.
         <br />
-        <br />
-        Pour modifier la candidature et le projet <b>après notification</b>, utiliser le{' '}
+        Pour modifier la candidature et le projet, utilisez le{' '}
         <a href={Routes.Lauréat.modifier(identifiantProjet)}>formulaire de modification</a> du
         projet.
-        <br />
-        Pour corriger des données à la candidature et régénérer l'attestation, utiliser le{' '}
-        <a href={Routes.Candidature.corriger(identifiantProjet)}>formulaire de modification</a> de
-        la candidature.
-        <br />
-        <br />
       </InfoBox>
       <Form
         action={ROUTES.ADMIN_CORRECT_PROJECT_DATA_ACTION}

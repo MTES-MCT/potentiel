@@ -65,13 +65,6 @@ export const CorrigerCandidaturePage: React.FC<CorrigerCandidaturePageProps> = (
                     </span>
                   </div>
                   <div>
-                    Pour un changement sur{' '}
-                    <span className="font-semibold">les données du projet</span>, veuillez utiliser
-                    le formulaire{' '}
-                    <Link href={Routes.Lauréat.modifier(identifiantProjet.formatter())}>dédié</Link>
-                    .
-                  </div>
-                  <div>
                     Pour une correction par lot (fichier CSV), veuillez utiliser la{' '}
                     <Link href={Routes.Candidature.corrigerParLot}>page de correction par lot</Link>
                   </div>
