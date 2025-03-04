@@ -19,7 +19,7 @@ export const findProjection = async <TEntity extends Entity>(
   const fromClause = getFromClause({});
   const [whereClause, whereValues] = getWhereClause({ key: { operator: 'equal', value: id } });
 
-  const find = format([selectClause, fromClause, whereClause].join(' '));
+  const find = format(`${selectClause} ${fromClause} ${whereClause}`);
 
   const result = await executeSelect<KeyValuePair<TEntity>>(find, ...whereValues);
 

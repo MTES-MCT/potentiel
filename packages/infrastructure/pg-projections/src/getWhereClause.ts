@@ -31,7 +31,7 @@ export const getWhereClause = <TEntity extends Entity, TJoin extends Entity | {}
   const [joinWhereClause, joinWhereValues] = join?.where
     ? buildWhereClause(join.where, 'p2', whereValues.length)
     : ['', []];
-  const completeWhereClause = [baseWhereClause, whereClause, joinWhereClause].join(' ');
+  const completeWhereClause = `${baseWhereClause} ${whereClause} ${joinWhereClause}`;
 
   return [completeWhereClause, [key.value, ...whereValues, ...joinWhereValues]];
 };
