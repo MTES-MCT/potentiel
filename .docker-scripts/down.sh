@@ -1,3 +1,3 @@
 #!/usr/bin/env bash
 
-docker compose  --profile app down --remove-orphans
+docker compose --profile app down --remove-orphans --volumes

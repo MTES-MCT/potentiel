@@ -1,5 +1,3 @@
-version: '3'
-
 services:
   db:
     container_name: potentiel_db
@@ -101,13 +99,6 @@ services:
     restart: always
     ports:
       - 5433:5432
-    profiles: ['test']
-  eventBus_test:
-    container_name: potentiel_eventBus_tests_integration
-    image: redis:alpine
-    restart: always
-    ports:
-      - 6380:6379
     profiles: ['test']
   s3_test:
     container_name: potentiel_s3_tests_integration
