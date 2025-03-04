@@ -46,8 +46,8 @@ export type AbandonEntity = Entity<
       };
 
       instruction?: {
-        instruitLe: string;
-        instruitPar: string;
+        passéEnInstructionLe: string;
+        passéEnInstructionPar: string;
       };
 
       accord?: {

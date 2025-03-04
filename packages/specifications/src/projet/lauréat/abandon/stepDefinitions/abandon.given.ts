@@ -185,15 +185,15 @@ async function créerConfirmationAbandon(this: PotentielWorld) {
 
 async function instruireAbandon(this: PotentielWorld) {
   const identifiantProjet = this.lauréatWorld.identifiantProjet.formatter();
-  const { instruitLe, instruitPar } =
-    this.lauréatWorld.abandonWorld.instruireAbandonFixture.créer();
+  const { passéEnInstructionLe, passéEnInstructionPar } =
+    this.lauréatWorld.abandonWorld.passerEnInstructionAbandonFixture.créer();
 
   await mediator.send<Abandon.AbandonUseCase>({
     type: 'Lauréat.Abandon.UseCase.PasserAbandonEnInstruction',
     data: {
       identifiantProjetValue: identifiantProjet,
-      dateInstructionValue: instruitLe,
-      identifiantUtilisateurValue: instruitPar,
+      dateInstructionValue: passéEnInstructionLe,
+      identifiantUtilisateurValue: passéEnInstructionPar,
     },
   });
 }

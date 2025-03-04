@@ -7,8 +7,8 @@ import * as StatutAbandon from '../statutAbandon.valueType';
 export type AbandonPasséEnInstructionEvent = DomainEvent<
   'AbandonPasséEnInstruction-V1',
   {
-    instruitLe: DateTime.RawType;
-    instruitPar: Email.RawType;
+    passéEnInstructionLe: DateTime.RawType;
+    passéEnInstructionPar: Email.RawType;
     identifiantProjet: IdentifiantProjet.RawType;
   }
 >;
@@ -29,8 +29,8 @@ export async function passerEnInstruction(
     type: 'AbandonPasséEnInstruction-V1',
     payload: {
       identifiantProjet: identifiantProjet.formatter(),
-      instruitLe: dateInstruction.formatter(),
-      instruitPar: identifiantUtilisateur.formatter(),
+      passéEnInstructionLe: dateInstruction.formatter(),
+      passéEnInstructionPar: identifiantUtilisateur.formatter(),
     },
   };
 

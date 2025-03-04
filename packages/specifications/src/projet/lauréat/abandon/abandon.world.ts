@@ -10,7 +10,7 @@ import { DemanderConfirmationAbandonFixture } from './fixtures/demanderConfirmat
 import { TransmettrePreuveRecandidatureAbandonFixture } from './fixtures/transmettrePreuveRecandidatureAbandon.fixture';
 import { RejetAbandonFixture } from './fixtures/rejeterAbandonFixture';
 import { DemanderPreuveRecandidatureAbandonFixture } from './fixtures/demanderPreuveRecandidature.fixture';
-import { PasserAbandonEnInstructionFixture } from './fixtures/instruireAbandon.fixture';
+import { PasserAbandonEnInstructionFixture } from './fixtures/passerAbandonEnInstruction.fixture';
 
 export class AbandonWord {
   #accorderAbandonFixture: AccorderAbandonFixture;
@@ -55,10 +55,10 @@ export class AbandonWord {
     return this.#rejeterAbandonFixture;
   }
 
-  #instruireAbandonFixture: PasserAbandonEnInstructionFixture;
+  #passerEnInstructionAbandonFixture: PasserAbandonEnInstructionFixture;
 
-  get instruireAbandonFixture() {
-    return this.#instruireAbandonFixture;
+  get passerEnInstructionAbandonFixture() {
+    return this.#passerEnInstructionAbandonFixture;
   }
 
   #transmettrePreuveRecandidatureAbandonFixture: TransmettrePreuveRecandidatureAbandonFixture;
@@ -75,7 +75,7 @@ export class AbandonWord {
     this.#demanderConfirmationAbandonFixture = new DemanderConfirmationAbandonFixture();
     this.#demanderPreuveCandidatureAbandonFixture = new DemanderPreuveRecandidatureAbandonFixture();
     this.#rejeterAbandonFixture = new RejetAbandonFixture();
-    this.#instruireAbandonFixture = new PasserAbandonEnInstructionFixture();
+    this.#passerEnInstructionAbandonFixture = new PasserAbandonEnInstructionFixture();
     this.#transmettrePreuveRecandidatureAbandonFixture =
       new TransmettrePreuveRecandidatureAbandonFixture();
   }
@@ -87,7 +87,7 @@ export class AbandonWord {
     this.#demanderConfirmationAbandonFixture = new DemanderConfirmationAbandonFixture();
     this.#demanderPreuveCandidatureAbandonFixture = new DemanderPreuveRecandidatureAbandonFixture();
     this.#rejeterAbandonFixture = new RejetAbandonFixture();
-    this.#instruireAbandonFixture = new PasserAbandonEnInstructionFixture();
+    this.#passerEnInstructionAbandonFixture = new PasserAbandonEnInstructionFixture();
     this.#transmettrePreuveRecandidatureAbandonFixture =
       new TransmettrePreuveRecandidatureAbandonFixture();
   }
@@ -160,10 +160,14 @@ export class AbandonWord {
     }
 
     // instruction
-    if (this.#instruireAbandonFixture.aÉtéCréé) {
+    if (this.#passerEnInstructionAbandonFixture.aÉtéCréé) {
       expected.demande.instruction = {
-        instruitLe: DateTime.convertirEnValueType(this.#instruireAbandonFixture.instruitLe),
-        instruitPar: Email.convertirEnValueType(this.#instruireAbandonFixture.instruitPar),
+        passéEnInstructionLe: DateTime.convertirEnValueType(
+          this.#passerEnInstructionAbandonFixture.passéEnInstructionLe,
+        ),
+        passéEnInstructionPar: Email.convertirEnValueType(
+          this.#passerEnInstructionAbandonFixture.passéEnInstructionPar,
+        ),
       };
     }
 

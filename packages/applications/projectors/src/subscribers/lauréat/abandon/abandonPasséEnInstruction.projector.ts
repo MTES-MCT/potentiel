@@ -6,7 +6,7 @@ import { updateOneProjection } from '../../../infrastructure';
 import { getInfosAbandon } from './utils/getInfosAbandon';
 
 export const abandonPasséEnInstructionProjector = async ({
-  payload: { identifiantProjet, instruitLe, instruitPar },
+  payload: { identifiantProjet, passéEnInstructionLe, passéEnInstructionPar },
 }: Abandon.AbandonPasséEnInstructionEvent) => {
   const abandonToUpsert = await getInfosAbandon(identifiantProjet);
 
@@ -22,11 +22,11 @@ export const abandonPasséEnInstructionProjector = async ({
     demande: {
       ...abandonToUpsert.demande,
       instruction: {
-        instruitLe: instruitLe,
-        instruitPar: instruitPar,
+        passéEnInstructionLe: passéEnInstructionLe,
+        passéEnInstructionPar: passéEnInstructionPar,
       },
     },
     statut: Abandon.StatutAbandon.enInstruction.statut,
-    misÀJourLe: instruitLe,
+    misÀJourLe: passéEnInstructionLe,
   });
 };

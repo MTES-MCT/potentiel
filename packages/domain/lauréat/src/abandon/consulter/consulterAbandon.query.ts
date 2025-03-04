@@ -32,8 +32,8 @@ export type ConsulterAbandonReadModel = {
     };
 
     instruction?: {
-      instruitLe: DateTime.ValueType;
-      instruitPar: Email.ValueType;
+      passéEnInstructionLe: DateTime.ValueType;
+      passéEnInstructionPar: Email.ValueType;
     };
 
     confirmation?: {
@@ -142,8 +142,12 @@ const mapToReadModel = (result: AbandonEntity) => {
         : undefined,
       instruction: result.demande.instruction
         ? {
-            instruitLe: DateTime.convertirEnValueType(result.demande.instruction.instruitLe),
-            instruitPar: Email.convertirEnValueType(result.demande.instruction.instruitPar),
+            passéEnInstructionLe: DateTime.convertirEnValueType(
+              result.demande.instruction.passéEnInstructionLe,
+            ),
+            passéEnInstructionPar: Email.convertirEnValueType(
+              result.demande.instruction.passéEnInstructionPar,
+            ),
           }
         : undefined,
       accord: result.demande.accord
