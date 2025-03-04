@@ -4,21 +4,21 @@ import { Entity, CountOption } from '@potentiel-domain/entity';
 import { executeSelect } from '@potentiel-libraries/pg-helpers';
 
 import { getWhereClause } from './getWhereClause';
-
-const countQuery = 'SELECT COUNT(key) as total FROM domain_views.projection where key like $1';
+import { getFromClause } from './getFromClause';
 
 export const countProjection = async <TEntity extends Entity>(
   category: TEntity['type'],
   { where }: CountOption<TEntity> = {},
 ): Promise<number> => {
-  const [whereClause, whereValues] = where ? getWhereClause(where) : ['', []];
-  const count = format(`${countQuery} ${whereClause}`);
+  const selectClause = 'SELECT COUNT(key) as total';
+  const fromClause = getFromClause({});
+  const [whereClause, whereValues] = getWhereClause({
+    where,
+    key: { operator: 'like', value: `${category}|%` },
+  });
+  const count = format(`${selectClause} ${fromClause} ${whereClause}`);
 
-  const [{ total }] = await executeSelect<{ total: number }>(
-    count,
-    `${category}|%`,
-    ...whereValues,
-  );
+  const [{ total }] = await executeSelect<{ total: number }>(count, ...whereValues);
 
   return total;
 };

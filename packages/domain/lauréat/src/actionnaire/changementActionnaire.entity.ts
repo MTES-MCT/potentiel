@@ -6,14 +6,6 @@ export type ChangementActionnaireEntity = Entity<
   {
     identifiantProjet: string;
 
-    projet: {
-      nom: string;
-      région: string;
-      appelOffre: string;
-      période: string;
-      famille?: string;
-    };
-
     demande: {
       nouvelActionnaire: string;
       statut: string;

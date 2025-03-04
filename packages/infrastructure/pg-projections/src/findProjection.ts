@@ -7,18 +7,21 @@ import { unflatten } from '@potentiel-libraries/flat';
 
 import { KeyValuePair } from './keyValuePair';
 import { getSelectClause } from './getSelectClause';
-
-const findQuery = 'from domain_views.projection where key = $1';
+import { getFromClause } from './getFromClause';
+import { getWhereClause } from './getWhereClause';
 
 export const findProjection = async <TEntity extends Entity>(
   id: `${TEntity['type']}|${string}`,
-  { select }: FindOptions<TEntity> = {},
+  options?: FindOptions<TEntity>,
 ): Promise<Option.Type<TEntity>> => {
-  const selectQuery = getSelectClause(select);
+  const { select } = options ?? {};
+  const selectClause = getSelectClause({ select });
+  const fromClause = getFromClause({});
+  const [whereClause, whereValues] = getWhereClause({ key: { operator: 'equal', value: id } });
 
-  const find = format(`${selectQuery} ${findQuery}`);
+  const find = format(`${selectClause} ${fromClause} ${whereClause}`);
 
-  const result = await executeSelect<KeyValuePair<TEntity>>(find, id);
+  const result = await executeSelect<KeyValuePair<TEntity>>(find, ...whereValues);
 
   if (result.length !== 1) {
     return Option.none;
