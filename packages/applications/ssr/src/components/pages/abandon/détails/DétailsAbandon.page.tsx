@@ -25,6 +25,7 @@ import {
   TransmettrePreuveRecandidature,
   TransmettrePreuveRecandidatureFormProps,
 } from './transmettrePreuveRecandidature/TransmettrePreuveRecandidature';
+import { PasserAbandonEnInstruction } from './passerEnInstruction/PasserAbandonEnInstruction';
 
 type AvailableActions = Array<
   | 'demander-confirmation'
@@ -34,6 +35,7 @@ type AvailableActions = Array<
   | 'accorder-sans-recandidature'
   | 'rejeter'
   | 'transmettre-preuve-recandidature'
+  | 'passer-en-instruction'
 >;
 
 type AvailableInformation = 'demande-de-mainlevée' | 'demande-abandon-pour-recandidature';
@@ -57,6 +59,7 @@ export const DétailsAbandonPage: FC<DétailsAbandonPageProps> = ({
 }) => {
   const demandéLe = DateTime.bind(abandon.demande.demandéLe).formatter();
   const demandéPar = Email.bind(abandon.demande.demandéPar).formatter();
+
   return (
     <ColumnPageTemplate
       banner={<ProjetBanner identifiantProjet={identifiantProjet} />}
@@ -142,6 +145,9 @@ const mapToActionComponents = ({
       {actions.includes('rejeter') && <RejeterAbandon identifiantProjet={identifiantProjet} />}
       {actions.includes('confirmer') && <ConfirmerAbandon identifiantProjet={identifiantProjet} />}
       {actions.includes('annuler') && <AnnulerAbandon identifiantProjet={identifiantProjet} />}
+      {actions.includes('passer-en-instruction') && (
+        <PasserAbandonEnInstruction identifiantProjet={identifiantProjet} />
+      )}
       {actions.includes('transmettre-preuve-recandidature') && (
         <TransmettrePreuveRecandidature
           identifiantProjet={identifiantProjet}

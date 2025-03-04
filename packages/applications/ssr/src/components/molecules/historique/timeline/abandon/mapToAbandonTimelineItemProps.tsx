@@ -13,6 +13,7 @@ import { mapToAbandonConfirméTimelineItemProps } from './mapToAbandonConfirméT
 import { mapToAbandonAccordéTimelineItemProps } from './mapToAbandonAccordéTimelineItemProps';
 import { mapToConfirmationAbandonDemandéeTimelineItemProps } from './mapToConfirmationAbandonDemandéeTimelineItemProps';
 import { mapToPreuveRecandidatureTransmiseTimelineItemProps } from './mapToPreuveRecandidatureTransmiseTimelineItemProps';
+import { mapToAbandonPasséEnInstructionTimelineItemProps } from './mapToAbandonPasséEnInstructionTimelineItemProps';
 
 export const mapToAbandonTimelineItemProps = (record: HistoryRecord) => {
   return match(record)
@@ -64,6 +65,12 @@ export const mapToAbandonTimelineItemProps = (record: HistoryRecord) => {
         type: 'PreuveRecandidatureTransmise-V1',
       },
       mapToPreuveRecandidatureTransmiseTimelineItemProps,
+    )
+    .with(
+      {
+        type: 'AbandonPasséEnInstruction-V1',
+      },
+      mapToAbandonPasséEnInstructionTimelineItemProps,
     )
     .otherwise(() => ({
       date: record.createdAt as DateTime.RawType,

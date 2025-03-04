@@ -129,6 +129,7 @@ const mapToActions = ({
       if (statut.estEnCours() && !recandidature) {
         actions.push('accorder-sans-recandidature');
         actions.push('rejeter');
+        actions.push('passer-en-instruction');
       }
       break;
 
@@ -139,6 +140,7 @@ const mapToActions = ({
       if (statut.estEnCours()) {
         actions.push(recandidature ? 'accorder-avec-recandidature' : 'accorder-sans-recandidature');
         actions.push('rejeter');
+        actions.push('passer-en-instruction');
       }
       break;
 

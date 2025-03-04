@@ -102,6 +102,7 @@ const référencielPermissions = {
         accorder: 'Lauréat.Abandon.UseCase.AccorderAbandon',
         demanderConfirmation: 'Lauréat.Abandon.UseCase.DemanderConfirmationAbandon',
         rejeter: 'Lauréat.Abandon.UseCase.RejeterAbandon',
+        passerEnInstruction: 'Lauréat.Abandon.UseCase.PasserAbandonEnInstruction',
       },
       command: {
         annuler: 'Lauréat.Abandon.Command.AnnulerAbandon',
@@ -112,6 +113,7 @@ const référencielPermissions = {
         accorder: 'Lauréat.Abandon.Command.AccorderAbandon',
         demanderConfirmation: 'Lauréat.Abandon.Command.DemanderConfirmationAbandon',
         rejeter: 'Lauréat.Abandon.Command.RejeterAbandon',
+        passerEnInstruction: 'Lauréat.Abandon.Command.PasserAbandonEnInstruction',
       },
     },
     raccordement: {
@@ -517,6 +519,10 @@ const policies = {
         référencielPermissions.lauréat.abandon.command.accorder,
       ],
     },
+    'passer-en-instruction': [
+      référencielPermissions.lauréat.abandon.usecase.passerEnInstruction,
+      référencielPermissions.lauréat.abandon.command.passerEnInstruction,
+    ],
   },
   recours: {
     consulter: {
@@ -1026,6 +1032,7 @@ const adminPolicies: ReadonlyArray<Policy> = [
   'abandon.accorder',
   'abandon.rejeter',
   'abandon.demander-confirmation',
+  'abandon.passer-en-instruction',
 
   // Recours
   'recours.consulter.liste',
