@@ -7,14 +7,6 @@ export type GarantiesFinancièresEntity = Entity<
   {
     identifiantProjet: string;
 
-    projet: {
-      nom: string;
-      région: string;
-      appelOffre: string;
-      période: string;
-      famille?: string;
-    };
-
     garantiesFinancières: GarantiesFinancièresDetails;
   }
 >;
