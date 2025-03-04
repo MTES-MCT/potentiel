@@ -99,7 +99,7 @@ export const registerListerDossierRaccordementQuery = ({
 
     const candidatures = await list<Candidature.CandidatureEntity>('candidature', {
       where: {
-        identifiantProjet: Where.include(identifiantsProjet),
+        identifiantProjet: Where.in(identifiantsProjet),
       },
     });
 
@@ -107,7 +107,7 @@ export const registerListerDossierRaccordementQuery = ({
       'gestionnaire-réseau',
       {
         where: {
-          codeEIC: Where.include(identifiantsGestionnaireRéseau),
+          codeEIC: Where.in(identifiantsGestionnaireRéseau),
         },
       },
     );

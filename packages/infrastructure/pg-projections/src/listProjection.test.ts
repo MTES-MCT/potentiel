@@ -323,7 +323,7 @@ describe('listProjection', () => {
     const actual = await listProjection<FakeProjection>(category, {
       where: {
         data: {
-          name: Where.include(valuesArray),
+          name: Where.in(valuesArray),
         },
       },
     });
@@ -343,7 +343,7 @@ describe('listProjection', () => {
     const actual = await listProjection<FakeProjection>(category, {
       where: {
         data: {
-          name: Where.notInclude(valuesArray),
+          name: Where.notIn(valuesArray),
         },
       },
     });

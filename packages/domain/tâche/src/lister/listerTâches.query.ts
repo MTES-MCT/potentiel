@@ -59,7 +59,7 @@ export const registerListerTâchesQuery = ({
       total,
     } = await list<TâcheEntity>('tâche', {
       where: {
-        identifiantProjet: Where.include(identifiants),
+        identifiantProjet: Where.in(identifiants),
         projet: {
           appelOffre: cycle
             ? cycle === 'PPE2'

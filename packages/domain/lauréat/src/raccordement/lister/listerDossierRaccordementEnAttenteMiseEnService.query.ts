@@ -74,7 +74,7 @@ export const registerListerDossierRaccordementEnAttenteMiseEnServiceQuery = ({
 
     const candidatures = await list<Candidature.CandidatureEntity>('candidature', {
       where: {
-        identifiantProjet: Where.include(identifiants),
+        identifiantProjet: Where.in(identifiants),
       },
     });
 

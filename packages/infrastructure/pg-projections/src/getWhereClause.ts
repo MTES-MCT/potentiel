@@ -69,9 +69,9 @@ const mapOperatorToSqlCondition = (
       return [`${baseCondition} ILIKE $${index}`, index + 1];
     case 'notLike':
       return [`${baseCondition} NOT ILIKE $${index}`, index + 1];
-    case 'include':
+    case 'in':
       return [`${baseCondition} = ANY($${index})`, index + 1];
-    case 'notInclude':
+    case 'notIn':
       return [`${baseCondition} <> ALL($${index})`, index + 1];
     case 'lessOrEqual':
       return [`${baseCondition} <= $${index}`, index + 1];
