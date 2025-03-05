@@ -196,7 +196,13 @@ const CommuneField = ({ candidature, lauréat, validationErrors }: LocalitéFiel
               maxLength: 5,
             }}
             disabled={linked}
-            addon={<LinkedValuesButton linked={linked} onButtonClick={onButtonClick} />}
+            addon={
+              <LinkedValuesButton
+                linked={linked}
+                onButtonClick={onButtonClick}
+                aDéjàEtéModifié={candidature.commune !== lauréat.commune.currentValue}
+              />
+            }
           />
         </div>
         <input
