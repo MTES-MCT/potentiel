@@ -46,16 +46,12 @@ export const authOptions: AuthOptions = {
     }),
     ProConnectProvider(getProviderConfiguration('proconnect')),
     EmailProvider({
-      server: {
-        host: process.env.NEXTAUTH_MAGICLINK_SERVER_HOST,
-        port: process.env.NEXTAUTH_MAGICLINK_SERVER_PORT,
-        auth: {
-          user: process.env.NEXTAUTH_MAGICLINK_USERNAME,
-          pass: process.env.NEXTAUTH_MAGICLINK_PASSWORD,
-        },
-      },
       from: process.env.SEND_EMAILS_FROM,
       maxAge: fifteenMinutesInSeconds,
+      sendVerificationRequest: (args) => {
+        console.log(JSON.stringify(args));
+        sendEmail();
+      },
     }),
   ],
   pages: {
