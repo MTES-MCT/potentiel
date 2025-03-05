@@ -1,9 +1,9 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
-import { match, Pattern } from 'ts-pattern';
 
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 import { RécupérerIdentifiantsProjetParEmailPorteurPort } from '@potentiel-domain/utilisateur';
-import { List, RangeOptions, Where } from '@potentiel-domain/entity';
+import { List, RangeOptions, Where, Joined } from '@potentiel-domain/entity';
+import { Lauréat } from '@potentiel-domain/laureat';
 
 import { TâcheEntity } from '../tâche.entity';
 import * as TypeTâche from '../typeTâche.valueType';
@@ -57,20 +57,26 @@ export const registerListerTâchesQuery = ({
       items,
       range: { endPosition, startPosition },
       total,
-    } = await list<TâcheEntity>('tâche', {
+    } = await list<TâcheEntity, Lauréat.LauréatEntity>('tâche', {
       where: {
         identifiantProjet: Where.include(identifiants),
-        projet: {
+        typeTâche: Where.startWith(catégorieTâche ? `${catégorieTâche}.` : undefined),
+      },
+      range,
+      // Ici on join avec Lauréat car seuls les Lauréats peuvent avoir des tâches actuellement
+      // si cela venait à changer, il faudrait modifier cela
+      join: {
+        entity: 'lauréat',
+        on: 'identifiantProjet',
+        where: {
           appelOffre: cycle
             ? cycle === 'PPE2'
               ? Where.contains('PPE2')
               : Where.notContains('PPE2')
             : Where.equal(appelOffre),
-          nom: Where.contains(nomProjet),
+          nomProjet: Where.contains(nomProjet),
         },
-        typeTâche: Where.startWith(catégorieTâche ? `${catégorieTâche}.` : undefined),
       },
-      range,
     });
 
     return {
@@ -89,14 +95,12 @@ const mapToReadModel = ({
   identifiantProjet,
   misÀJourLe,
   typeTâche,
-  projet,
-}: TâcheEntity): TâcheListItem => {
+  lauréat: { nomProjet },
+}: TâcheEntity & Joined<Lauréat.LauréatEntity>): TâcheListItem => {
   return {
     identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
     misÀJourLe: DateTime.convertirEnValueType(misÀJourLe),
     typeTâche: TypeTâche.convertirEnValueType(typeTâche),
-    nomProjet: match(projet)
-      .with(Pattern.nullish, () => '')
-      .otherwise(({ nom }) => nom),
+    nomProjet,
   };
 };

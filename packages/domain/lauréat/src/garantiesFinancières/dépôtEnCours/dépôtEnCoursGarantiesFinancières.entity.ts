@@ -4,13 +4,7 @@ export type DépôtEnCoursGarantiesFinancièresEntity = Entity<
   'depot-en-cours-garanties-financieres',
   {
     identifiantProjet: string;
-    projet: {
-      nom: string;
-      région: string;
-      appelOffre: string;
-      période: string;
-      famille?: string;
-    };
+
     dépôt: {
       type: string;
       dateÉchéance?: string;

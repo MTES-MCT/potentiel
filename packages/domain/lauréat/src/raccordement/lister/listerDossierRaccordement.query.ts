@@ -1,14 +1,14 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 import { match } from 'ts-pattern';
 
-import { List, RangeOptions, Where } from '@potentiel-domain/entity';
+import { Joined, List, RangeOptions, Where } from '@potentiel-domain/entity';
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
-import { Candidature } from '@potentiel-domain/candidature';
 import { GestionnaireRéseau } from '@potentiel-domain/reseau';
 
 import { RéférenceDossierRaccordement } from '..';
 import { DossierRaccordementEntity } from '../raccordement.entity';
 import * as StatutLauréat from '../../statutLauréat.valueType';
+import { LauréatEntity } from '../../lauréat.entity';
 
 type DossierRaccordement = {
   nomProjet: string;
@@ -66,11 +66,10 @@ export const registerListerDossierRaccordementQuery = ({
       items,
       range: { endPosition, startPosition },
       total,
-    } = await list<DossierRaccordementEntity>('dossier-raccordement', {
+    } = await list<DossierRaccordementEntity, LauréatEntity>('dossier-raccordement', {
       where: {
         référence: Where.contains(référenceDossier),
         identifiantGestionnaireRéseau: Where.equal(identifiantGestionnaireRéseau),
-        appelOffre: Where.equal(appelOffre),
         miseEnService: {
           dateMiseEnService:
             avecDateMiseEnService === undefined
@@ -79,7 +78,14 @@ export const registerListerDossierRaccordementQuery = ({
                 ? Where.notEqualNull()
                 : Where.equalNull(),
         },
-        région: Where.equal(région),
+      },
+      join: {
+        entity: 'lauréat',
+        on: 'identifiantProjet',
+        where: {
+          appelOffre: Where.equal(appelOffre),
+          localité: { région: Where.equal(région) },
+        },
       },
       orderBy: {
         référence: 'ascending',
@@ -88,20 +94,10 @@ export const registerListerDossierRaccordementQuery = ({
       range,
     });
 
-    const identifiantsProjet = items.map(
-      (dossier) => dossier.identifiantProjet as IdentifiantProjet.RawType,
-    );
-
     const identifiantsGestionnaireRéseau = items.map(
       (dossier) =>
         dossier.identifiantGestionnaireRéseau as GestionnaireRéseau.IdentifiantGestionnaireRéseau.RawType,
     );
-
-    const candidatures = await list<Candidature.CandidatureEntity>('candidature', {
-      where: {
-        identifiantProjet: Where.include(identifiantsProjet),
-      },
-    });
 
     const gestionnairesRéseau = await list<GestionnaireRéseau.GestionnaireRéseauEntity>(
       'gestionnaire-réseau',
@@ -113,7 +109,7 @@ export const registerListerDossierRaccordementQuery = ({
     );
 
     return {
-      items: items.map((item) => toReadModel(item, candidatures.items, gestionnairesRéseau.items)),
+      items: items.map((item) => toReadModel(item, gestionnairesRéseau.items)),
       range: {
         endPosition,
         startPosition,
@@ -131,34 +127,20 @@ export const toReadModel = (
     référence,
     miseEnService,
     identifiantGestionnaireRéseau,
-  }: DossierRaccordementEntity,
-  candidatures: ReadonlyArray<Candidature.CandidatureEntity>,
+    lauréat,
+  }: DossierRaccordementEntity & Joined<LauréatEntity>,
   gestionnairesRéseau: ReadonlyArray<GestionnaireRéseau.GestionnaireRéseauEntity>,
 ): DossierRaccordement => {
   const { appelOffre, famille, numéroCRE, période } =
     IdentifiantProjet.convertirEnValueType(identifiantProjet);
-  const candidature = candidatures.find(
-    (candidature) => candidature.identifiantProjet === identifiantProjet,
-  );
   const gestionnaire = gestionnairesRéseau.find(
     (gestionnaireRéseau) => gestionnaireRéseau.codeEIC === identifiantGestionnaireRéseau,
   );
 
-  const { nomProjet, codePostal, commune, département, région } = match(candidature)
-    .with(undefined, () => ({
-      codePostal: 'Code postal inconnu',
-      commune: 'Commune inconnue',
-      nomProjet: 'Nom projet inconnu',
-      département: 'Département inconnu',
-      région: 'Région inconnue',
-    }))
-    .otherwise((value) => ({
-      codePostal: value.localité.codePostal,
-      commune: value.localité.commune,
-      nomProjet: value.nomProjet,
-      département: value.localité.département,
-      région: value.localité.région,
-    }));
+  const {
+    nomProjet,
+    localité: { codePostal, commune, département, région },
+  } = lauréat;
 
   return {
     appelOffre,

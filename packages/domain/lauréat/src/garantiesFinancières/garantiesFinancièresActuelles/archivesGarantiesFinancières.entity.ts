@@ -13,13 +13,7 @@ export type ArchivesGarantiesFinancièresEntity = Entity<
   'archives-garanties-financieres',
   {
     identifiantProjet: string;
-    projet: {
-      nom: string;
-      région: string;
-      appelOffre: string;
-      période: string;
-      famille?: string;
-    };
+
     archives: ReadonlyArray<ArchiveGarantiesFinancières>;
   }
 >;

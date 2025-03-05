@@ -7,13 +7,5 @@ export type TâcheEntity = Entity<
 
     typeTâche: string;
     misÀJourLe: string;
-
-    projet?: {
-      nom: string;
-      appelOffre: string;
-      période: string;
-      famille?: string;
-      numéroCRE: string;
-    };
   }
 >;
