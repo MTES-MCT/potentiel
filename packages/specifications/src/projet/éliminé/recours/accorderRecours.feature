@@ -6,7 +6,15 @@ Fonctionnalité: Accorder le recours d'un projet éliminé
         Et le porteur "Marcel Patoulatchi" ayant accés au projet éliminé "Du boulodrome de Marseille"
 
     Scénario: Un DGEC validateur accorde le recours d'un projet éliminé
-        Etant donné un recours en cours pour le projet éliminé
+        Etant donné une demande de recours en cours pour le projet éliminé
+        Quand le DGEC validateur accorde le recours pour le projet éliminé
+        Alors le recours du projet éliminé devrait être accordé
+        Et les garanties financières actuelles devraient être consultables pour le projet "Du boulodrome de Marseille"
+        Et des garanties financières devraient être attendues pour le projet lauréat "Du boulodrome de Marseille" avec :
+            | motif | recours-accordé |
+
+    Scénario: Un DGEC validateur accorde le recours en instruction d'un projet éliminé
+        Etant donné une demande de recours en instruction pour le projet éliminé
         Quand le DGEC validateur accorde le recours pour le projet éliminé
         Alors le recours du projet éliminé devrait être accordé
         Et les garanties financières actuelles devraient être consultables pour le projet "Du boulodrome de Marseille"

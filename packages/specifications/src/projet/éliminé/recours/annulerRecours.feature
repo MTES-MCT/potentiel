@@ -6,7 +6,12 @@ Fonctionnalité: Annuler le recours d'un projet éliminé
         Et le porteur "Marcel Patoulatchi" ayant accés au projet éliminé "Du boulodrome de Marseille"
 
     Scénario: Un porteur annule le recours d'un projet éliminé
-        Etant donné un recours en cours pour le projet éliminé
+        Etant donné une demande de recours en cours pour le projet éliminé
+        Quand le porteur annule le recours pour le projet éliminé
+        Alors le recours du projet éliminé ne devrait plus exister
+
+    Scénario: Un porteur annule le recours en instruction d'un projet éliminé
+        Etant donné une demande de recours en instruction pour le projet éliminé
         Quand le porteur annule le recours pour le projet éliminé
         Alors le recours du projet éliminé ne devrait plus exister
 
