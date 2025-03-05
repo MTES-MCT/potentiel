@@ -59,6 +59,22 @@ export default function SignIn() {
             />
             <Tile
               className="md:w-2/3"
+              title="Magic Link !"
+              detail={
+                <div className="flex flex-col gap-4">
+                  <p>Connectez-vous facilement à l'aide d'un lien magique !</p>
+                  <Button
+                    type="submit"
+                    className="mx-auto"
+                    onClick={() => signIn('email', { callbackUrl })}
+                  >
+                    Envoyer lien magique !
+                  </Button>
+                </div>
+              }
+            />
+            <Tile
+              className="md:w-2/3"
               title="Mot de passe"
               detail={
                 <div className="flex flex-col gap-4">

@@ -10,11 +10,14 @@
   },
   "dependencies": {
     "@potentiel-applications/routes": "*",
-    "@potentiel-libraries/monads": "*",
     "@potentiel-domain/common": "*",
     "@potentiel-domain/utilisateur": "*",
+    "@potentiel-libraries/monads": "*",
+    "@potentiel-libraries/auth-pg-adapter": "*",
     "mediateur": "^0.3.0",
-    "next-auth": "^4.24.5"
+    "next-auth": "^4.24.5",
+    "nodemailer": "^6.10.0",
+    "pg": "^8.13.3"
   },
   "devDependencies": {
     "@potentiel-config/tsconfig": "*"
