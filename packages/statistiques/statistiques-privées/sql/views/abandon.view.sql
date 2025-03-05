@@ -19,7 +19,7 @@ SELECT
               THEN 1
               ELSE 0
           END
-    )::BOOLEAN AS demande_a_une_piece_justificative
+    )::BOOLEAN AS demande_a_une_piece_justificative,
 
 
     -- recandidature
@@ -37,15 +37,15 @@ SELECT
 
     -- confirmation
     MAX(CASE
-      WHEN j.key = 'demande.confirmation'
+      WHEN j.key = 'demande.confirmation.demandéeLe'
         THEN 1
         ELSE 0
       END
     )::BOOLEAN AS demande_a_une_confirmation,
-    MAX(CASE WHEN j.key = 'confirmation.demandéeLe' THEN TO_TIMESTAMP(j.value, 'YYYY-MM-DD"T"HH24:MI:SS') END) AS confirmation_demandee_le,
-    MAX(CASE WHEN j.key = 'confirmation.demandéePar' THEN j.value END) AS confirmation_demandee_par,
-    MAX(CASE WHEN j.key = 'confirmation.confirméLe' THEN TO_TIMESTAMP(j.value, 'YYYY-MM-DD"T"HH24:MI:SS') END) AS confirmation_confirme_le,
-    MAX(CASE WHEN j.key = 'confirmation.confirméPar' THEN j.value END) AS confirmation_confirme_par,
+    MAX(CASE WHEN j.key = 'demande.confirmation.demandéeLe' THEN TO_TIMESTAMP(j.value, 'YYYY-MM-DD"T"HH24:MI:SS') END) AS demande_confirmation_demandee_le,
+    MAX(CASE WHEN j.key = 'demande.confirmation.demandéePar' THEN j.value END) AS confirmation_demandee_par,
+    MAX(CASE WHEN j.key = 'demande.confirmation.confirméLe' THEN TO_TIMESTAMP(j.value, 'YYYY-MM-DD"T"HH24:MI:SS') END) AS demande_confirmation_confirme_le,
+    MAX(CASE WHEN j.key = 'demande.confirmation.confirméPar' THEN j.value END) AS demande_confirmation_confirme_par,
 
 
     -- instruction
@@ -55,28 +55,28 @@ SELECT
                 ELSE 0
             END
     )::BOOLEAN AS demande_est_en_instruction,
-    MAX(CASE WHEN j.key = 'instruction.passéEnInstructionLe' THEN TO_TIMESTAMP(j.value, 'YYYY-MM-DD"T"HH24:MI:SS') END) AS instruction_passe_en_instruction_le,
-    MAX(CASE WHEN j.key = 'instruction.passéEnInstructionPar' THEN j.value END) AS instruction_passe_en_instruction_par,
+    MAX(CASE WHEN j.key = 'demande.instruction.passéEnInstructionLe' THEN TO_TIMESTAMP(j.value, 'YYYY-MM-DD"T"HH24:MI:SS') END) AS demande_instruction_passe_en_instruction_le,
+    MAX(CASE WHEN j.key = 'demande.instruction.passéEnInstructionPar' THEN j.value END) AS demande_instruction_passe_en_instruction_par,
 
     -- accord
     MAX(CASE
-            WHEN j.key = 'demande.accord'
+            WHEN j.key = 'demande.accord.accordéLe'
                 THEN 1
                 ELSE 0
             END
     )::BOOLEAN AS demande_a_un_accord,
-    MAX(CASE WHEN j.key = 'accord.accordéLe' THEN TO_TIMESTAMP(j.value, 'YYYY-MM-DD"T"HH24:MI:SS') END) AS accord_accorde_le,
-    MAX(CASE WHEN j.key = 'accord.accordéPar' THEN j.value END) AS accord_accorde_par,
+    MAX(CASE WHEN j.key = 'demande.accord.accordéLe' THEN TO_TIMESTAMP(j.value, 'YYYY-MM-DD"T"HH24:MI:SS') END) AS demande_accord_accorde_le,
+    MAX(CASE WHEN j.key = 'demande.accord.accordéPar' THEN j.value END) AS demande_accord_accorde_par,
 
     -- rejet
     MAX(CASE
-            WHEN j.key = 'demande.rejet'
+            WHEN j.key = 'demande.rejet.rejetéLe'
                 THEN 1
                 ELSE 0
             END
     )::BOOLEAN AS demande_a_un_rejet,
-    MAX(CASE WHEN j.key = 'rejet.rejetéLe' THEN TO_TIMESTAMP(j.value, 'YYYY-MM-DD"T"HH24:MI:SS') END) AS rejet_rejete_le,
-    MAX(CASE WHEN j.key = 'rejet.rejetéPar' THEN j.value END) AS rejet_rejete_par,
+    MAX(CASE WHEN j.key = 'demande.rejet.rejetéLe' THEN TO_TIMESTAMP(j.value, 'YYYY-MM-DD"T"HH24:MI:SS') END) AS demande_rejet_rejete_le,
+    MAX(CASE WHEN j.key = 'demande.rejet.rejetéPar' THEN j.value END) AS demande_rejet_rejete_par
 FROM domain_views.projection t,
 LATERAL jsonb_each_text(value) j
 WHERE t.key LIKE 'abandon|%'
