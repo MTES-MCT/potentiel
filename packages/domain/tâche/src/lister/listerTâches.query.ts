@@ -63,6 +63,8 @@ export const registerListerTâchesQuery = ({
         typeTâche: Where.startWith(catégorieTâche ? `${catégorieTâche}.` : undefined),
       },
       range,
+      // Ici on join avec Lauréat car seuls les Lauréats peuvent avoir des tâches actuellement
+      // si cela venait à changer, il faudrait modifier cela
       join: {
         entity: 'lauréat',
         on: 'identifiantProjet',
