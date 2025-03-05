@@ -42,8 +42,6 @@ export const TechnologieField = ({
           options={Candidature.TypeTechnologie.types.map((type) => ({
             value: type,
             label: getTechnologieTypeLabel(type),
-            // TODO: remove https://github.com/codegouvfr/react-dsfr/issues/387
-            selected: type === candidatureValue,
           }))}
         />
       </div>

@@ -45,8 +45,6 @@ export const TypeReprésentantLégalSelect = ({
         .exhaustive(),
       value: type,
       key: type,
-      // TODO remove https://github.com/codegouvfr/react-dsfr/issues/387
-      selected: type === defaultValue,
     }));
 
   return (
