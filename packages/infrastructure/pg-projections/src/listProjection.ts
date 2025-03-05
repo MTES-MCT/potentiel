@@ -35,7 +35,9 @@ export const listProjection = async <TEntity extends Entity, TJoin extends Entit
     ...whereValues,
   );
 
-  const total = await countProjection(category, { where });
+  const total = join
+    ? await countProjection<TEntity, Entity>(category, { where, join })
+    : await countProjection<TEntity>(category, { where });
 
   return {
     total,
