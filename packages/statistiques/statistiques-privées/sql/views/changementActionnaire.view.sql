@@ -8,8 +8,8 @@ SELECT
     -- demande
     MAX(CASE WHEN j.key = 'demande.nouvelActionnaire' THEN j.value END) AS demande_nouvel_actionnaire,
     MAX(CASE WHEN j.key = 'demande.statut' THEN j.value END) AS demande_statut,
-    MAX(CASE WHEN j.key = 'demande.demandéePar' THEN j.value END) AS demande_demandée_par,
-    MAX(CASE WHEN j.key = 'demande.demandéeLe' THEN TO_TIMESTAMP(j.value, 'YYYY-MM-DD"T"HH24:MI:SS') END) AS demande_demandée_le,
+    MAX(CASE WHEN j.key = 'demande.demandéePar' THEN j.value END) AS demande_demandee_par,
+    MAX(CASE WHEN j.key = 'demande.demandéeLe' THEN TO_TIMESTAMP(j.value, 'YYYY-MM-DD"T"HH24:MI:SS') END) AS demande_demandee_le,
     MAX(CASE WHEN j.key = 'demande.raison' THEN j.value END) AS demande_raison,
     MAX(CASE
           WHEN j.key = 'demande.pièceJustificative'

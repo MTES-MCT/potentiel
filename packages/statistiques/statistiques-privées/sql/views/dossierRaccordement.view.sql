@@ -3,13 +3,13 @@ DROP VIEW IF EXISTS domain_private_statistic.dossier_raccordement;
 CREATE VIEW domain_private_statistic.dossier_raccordement AS
 SELECT
     -- identifiantGestionnaireRéseau
-    MAX(CASE WHEN j.key = 'identifiantGestionnaireRéseau' THEN j.value END) AS identifiant_gestionnaire_réseau,
+    MAX(CASE WHEN j.key = 'identifiantGestionnaireRéseau' THEN j.value END) AS identifiant_gestionnaire_reseau,
     
     -- identifiantProjet
     MAX(CASE WHEN j.key = 'identifiantProjet' THEN j.value END) AS identifiant_projet,
 
     -- référence
-    MAX(CASE WHEN j.key = 'référence' THEN j.value END) AS référence,
+    MAX(CASE WHEN j.key = 'référence' THEN j.value END) AS reference,
 
     -- demandeComplèteRaccordement
     MAX(CASE WHEN j.key = 'demandeComplèteRaccordement.dateQualification' THEN TO_TIMESTAMP(j.value, 'YYYY-MM-DD"T"HH24:MI:SS') END) AS demande_complete_raccordement_date_qualification,
@@ -18,7 +18,7 @@ SELECT
                 THEN 1
                 ELSE 0
             END
-    )::BOOLEAN AS demande_a_un_accusé_réception,
+    )::BOOLEAN AS demande_a_un_accuse_réception,
 
     -- propositionTechniqueEtFinancière
     MAX(CASE
@@ -26,8 +26,8 @@ SELECT
                 THEN 1
                 ELSE 0
             END
-    )::BOOLEAN AS demande_a_une_ptf_signée,
-    MAX(CASE WHEN j.key = 'propositionTechniqueEtFinancière.dateSignature' THEN TO_TIMESTAMP(j.value, 'YYYY-MM-DD"T"HH24:MI:SS') END) AS proposition_technique_et_financière_date_signature,
+    )::BOOLEAN AS demande_a_une_ptf_signee,
+    MAX(CASE WHEN j.key = 'propositionTechniqueEtFinancière.dateSignature' THEN TO_TIMESTAMP(j.value, 'YYYY-MM-DD"T"HH24:MI:SS') END) AS proposition_technique_et_financiere_date_signature,
 
     -- miseEnService
     MAX(CASE WHEN j.key = 'miseEnService.dateMiseEnService' THEN TO_TIMESTAMP(j.value, 'YYYY-MM-DD"T"HH24:MI:SS') END) AS mise_en_service_date_mise_en_service,
