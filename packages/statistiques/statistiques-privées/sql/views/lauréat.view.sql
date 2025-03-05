@@ -2,24 +2,18 @@ DROP VIEW IF EXISTS domain_private_statistic.laureat;
 
 CREATE VIEW domain_private_statistic.laureat AS
 SELECT
-    -- identifiantProjet 
     MAX(CASE WHEN j.key = 'identifiantProjet' THEN j.value END) AS identifiant_projet,
-    
+    MAX(CASE WHEN j.key = 'identifiantProjet' THEN split_part(j.value, '#', 1) END) AS appel_offre,
+    MAX(CASE WHEN j.key = 'identifiantProjet' THEN split_part(j.value, '#', 2) END) AS periode,
+    MAX(CASE WHEN j.key = 'identifiantProjet' THEN split_part(j.value, '#', 3) END) AS famille,
+    MAX(CASE WHEN j.key = 'identifiantProjet' THEN split_part(j.value, '#', 4) END) AS numero_cre,
+
     -- notifié
     MAX(CASE WHEN j.key = 'notifiéLe' THEN TO_TIMESTAMP(j.value, 'YYYY-MM-DD"T"HH24:MI:SS') END) AS notifie_le,
     MAX(CASE WHEN j.key = 'notifiéPar' THEN j.value END) AS notifie_par,
 
     -- nomProjet
     MAX(CASE WHEN j.key = 'nomProjet' THEN j.value END) AS nom_projet,
-
-    -- appelOffre
-    MAX(CASE WHEN j.key = 'appelOffre' THEN j.value END) AS appel_offre,
-
-    -- période
-    MAX(CASE WHEN j.key = 'période' THEN j.value END) AS periode,
-
-    -- famille
-    MAX(CASE WHEN j.key = 'famille' THEN j.value END) AS famille,
 
     -- localité
     MAX(CASE WHEN j.key = 'localité.adresse1' THEN j.value END) AS localite_adresse1,

@@ -1,16 +1,22 @@
 DROP VIEW IF EXISTS domain_private_statistic.candidature;
 
 CREATE VIEW domain_private_statistic.candidature AS
-SELECT
-    -- identifiantProjet 
-    MAX(CASE WHEN j.key = 'identifiantProjet' THEN j.value END) AS identifiant_projet,
-    
-    -- appelOffre
-    MAX(CASE WHEN j.key = 'appelOffre' THEN j.value END) AS appel_offre,
+select
 
-    -- période
-    MAX(CASE WHEN j.key = 'période' THEN j.value END) AS periode,
-é_nancières' THEN j.value END) AS type_garanties_financieres,
+        MAX(CASE WHEN j.key = 'identifiantProjet' THEN j.value END) AS identifiant_projet,
+    MAX(CASE WHEN j.key = 'identifiantProjet' THEN split_part(j.value, '#', 1) END) AS appel_offre,
+    MAX(CASE WHEN j.key = 'identifiantProjet' THEN split_part(j.value, '#', 2) END) AS periode,
+    MAX(CASE WHEN j.key = 'identifiantProjet' THEN split_part(j.value, '#', 3) END) AS famille,
+    MAX(CASE WHEN j.key = 'identifiantProjet' THEN split_part(j.value, '#', 4) END) AS numero_cre,
+
+    -- statut
+    MAX(CASE WHEN j.key = 'statut' THEN j.value END) AS statut,
+
+    -- nomProjet
+    MAX(CASE WHEN j.key = 'nomProjet' THEN j.value END) AS nom_projet,
+
+    -- typeGarantiesFinancières
+    MAX(CASE WHEN j.key = 'typeGarantiesFinancières' THEN j.value END) AS type_garanties_financieres,
 
     -- historiqueAbandon
     MAX(CASE WHEN j.key = 'historiqueAbandon' THEN j.value END) AS historique_abandon,
@@ -45,12 +51,21 @@ SELECT
     MAX(CASE WHEN j.key = 'sociétéMère' THEN j.value END) AS societe_mere,
 
     -- noteTotale
-    MAX(CASE WHEN j.key = 'noteTotale' THEN j.value:é_
+    MAX(CASE WHEN j.key = 'noteTotale' THEN j.value END) AS note_totale,
     -- motifÉlimination
     MAX(CASE WHEN j.key = 'motifÉlimination' THEN j.value END) AS motif_elimination,
 
     -- puissanceALaPointe
-    MAX(CASE WHEN j.key = 'puissanceALaPointe' THEN j.value::BOOLEAN END) AS puissance_a_la_pointe,
+    MAX(CASE
+        WHEN j.key = 'puissanceALaPointe'
+            THEN
+                CASE
+                    WHEN j.value = 'true'
+                    THEN 1
+                    ELSE 0
+                END
+            END
+        )::BOOLEAN AS puissance_a_la_pointe,
 
     -- evaluationCarboneSimplifiée
     MAX(CASE WHEN j.key = 'evaluationCarboneSimplifiée' THEN j.value::NUMERIC END) AS evaluation_carbone_simplifiee,
