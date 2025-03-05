@@ -16,6 +16,11 @@ export type RecoursEntity = Entity<
         format: string;
       };
 
+      instruction?: {
+        passéEnInstructionLe: string;
+        passéEnInstructionPar: string;
+      };
+
       accord?: {
         réponseSignée: {
           format: string;

@@ -16,14 +16,10 @@ import {
 } from './lister/listerRecours.query';
 import { registerRejeterRecoursCommand } from './rejeter/rejeterRecours.command';
 import { registerRejeterRecoursUseCase } from './rejeter/rejeterRecours.usecase';
-import {
-  ConsulterDemandeRecoursLegacyDependencies,
-  registerConsulterDemandeRecoursLegacyQuery,
-} from './consulter/consulterDemandeRecoursLegacy.query';
+import { registerPasserRecoursEnInstructionUseCase } from './instruire/passerRecoursEnInstruction.usecase';
+import { registerPasserRecoursEnInstructionCommand } from './instruire/passerRecoursEnInstruction.command';
 
-export type RecoursQueryDependencies = ConsulterRecoursDependencies &
-  ListerRecoursDependencies &
-  ConsulterDemandeRecoursLegacyDependencies;
+export type RecoursQueryDependencies = ConsulterRecoursDependencies & ListerRecoursDependencies;
 export type RecoursCommandDependencies = {
   loadAggregate: LoadAggregate;
 };
@@ -33,15 +29,16 @@ export const registerRecoursUseCases = ({ loadAggregate }: RecoursCommandDepende
   registerAccorderRecoursCommand(loadAggregate);
   registerRejeterRecoursCommand(loadAggregate);
   registerAnnulerRecoursCommand(loadAggregate);
+  registerPasserRecoursEnInstructionCommand(loadAggregate);
 
   registerDemanderRecoursUseCase();
   registerAccorderRecoursUseCase();
   registerRejeterRecoursUseCase();
   registerAnnulerRecoursUseCase();
+  registerPasserRecoursEnInstructionUseCase();
 };
 
 export const registerRecoursQueries = (dependencies: RecoursQueryDependencies) => {
   registerConsulterRecoursQuery(dependencies);
-  registerConsulterDemandeRecoursLegacyQuery(dependencies);
   registerListerRecoursQuery(dependencies);
 };

@@ -311,7 +311,6 @@ const référencielPermissions = {
     },
     recours: {
       query: {
-        consulterLegacy: 'Éliminé.Recours.Query.ConsulterDemandeRecoursLegacy',
         consulter: 'Éliminé.Recours.Query.ConsulterRecours',
         lister: 'Éliminé.Recours.Query.ListerRecours',
       },
@@ -758,7 +757,6 @@ const policies = {
         référencielPermissions.document.query.consulter,
         référencielPermissions.candidature.query.consulterProjet,
         référencielPermissions.candidature.query.consulterCandidature,
-        référencielPermissions.éliminé.recours.query.consulterLegacy,
         référencielPermissions.éliminé.recours.query.consulter,
       ],
     },

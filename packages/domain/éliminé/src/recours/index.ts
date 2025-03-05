@@ -1,21 +1,18 @@
 import { AccorderRecoursUseCase } from './accorder/accorderRecours.usecase';
 import { AnnulerRecoursUseCase } from './annuler/annulerRecours.usecase';
-import { ConsulterDemandeRecoursLegacyQuery } from './consulter/consulterDemandeRecoursLegacy.query';
 import {
   ConsulterRecoursQuery,
   ConsulterRecoursReadModel,
 } from './consulter/consulterRecours.query';
 import { DemanderRecoursUseCase } from './demander/demanderRecours.usecase';
+import { PasserEnInstructionRecoursUseCase } from './instruire/passerRecoursEnInstruction.usecase';
 import { ListerRecoursQuery, ListerRecoursReadModel } from './lister/listerRecours.query';
 import { RejeterRecoursUseCase } from './rejeter/rejeterRecours.usecase';
 
 // Query
-export type RecoursQuery =
-  | ConsulterRecoursQuery
-  | ListerRecoursQuery
-  | ConsulterDemandeRecoursLegacyQuery;
+export type RecoursQuery = ConsulterRecoursQuery | ListerRecoursQuery;
 
-export { ConsulterRecoursQuery, ListerRecoursQuery, ConsulterDemandeRecoursLegacyQuery };
+export { ConsulterRecoursQuery, ListerRecoursQuery };
 
 // ReadModel
 export { ConsulterRecoursReadModel, ListerRecoursReadModel };
@@ -25,13 +22,15 @@ export type RecoursUseCase =
   | AccorderRecoursUseCase
   | AnnulerRecoursUseCase
   | DemanderRecoursUseCase
-  | RejeterRecoursUseCase;
+  | RejeterRecoursUseCase
+  | PasserEnInstructionRecoursUseCase;
 
 export {
   AccorderRecoursUseCase,
   AnnulerRecoursUseCase,
   DemanderRecoursUseCase,
   RejeterRecoursUseCase,
+  PasserEnInstructionRecoursUseCase,
 };
 
 // Event
@@ -40,6 +39,7 @@ export { RecoursAnnuléEvent } from './annuler/annulerRecours.behavior';
 export { RecoursRejetéEvent } from './rejeter/rejeterRecours.behavior';
 export { RecoursAccordéEvent } from './accorder/accorderRecours.behavior';
 export { RecoursDemandéEvent } from './demander/demanderRecours.behavior';
+export { RecoursPasséEnInstructionEvent } from './instruire/passerRecoursEnInstruction.behavior';
 
 // Register
 export { registerRecoursQueries, registerRecoursUseCases } from './recours.register';

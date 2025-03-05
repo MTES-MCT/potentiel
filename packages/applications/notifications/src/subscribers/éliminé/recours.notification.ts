@@ -57,7 +57,7 @@ export const register = ({ sendEmail }: RegisterRecoursNotificationDependencies)
       .with('RecoursAnnulé-V1', () => 'annulée')
       .with('RecoursAccordé-V1', () => 'accordée')
       .with('RecoursRejeté-V1', () => 'rejetée')
-      .exhaustive();
+      .otherwise(() => '');
 
     await sendEmail({
       templateId: templateId.changementStatutRecours,
