@@ -16,6 +16,7 @@ import ProConnectProvider from './ProConnectProvider';
 import { ajouterStatistiqueConnexion } from './ajouterStatistiqueConnexion';
 import { getUtilisateurFromAccessToken, getUtilisateurFromEmail } from './getUtilisateur';
 import { canConnectWithProConnect } from './canConnectWithProConnect';
+import { canConnectWithMagicLink } from './canConnectWithMagicLink';
 
 const OneHourInSeconds = 60 * 60;
 
@@ -82,13 +83,24 @@ export const authOptions: AuthOptions = {
     },
   },
   callbacks: {
-    signIn(args) {
+    async signIn(args) {
       const { account, user } = args;
 
       const logger = getLogger('Auth');
 
       if (account?.provider === 'email') {
-        return true;
+        const utilisateur = await getUtilisateurFromEmail(user.email ?? '');
+
+        if (Option.isNone(utilisateur)) {
+          return Routes.Auth.signOut();
+        }
+
+        if (!canConnectWithMagicLink(utilisateur.role)) {
+          getLogger('Auth').info(`User tries to connect with Magic Link but is not authorized`, {
+            utilisateur,
+          });
+          return Routes.Auth.signOut();
+        }
       }
 
       if (
