@@ -196,31 +196,40 @@ const CommuneField = ({ candidature, lauréat, validationErrors }: LocalitéFiel
               maxLength: 5,
             }}
             disabled={linked}
-            addon={<LinkedValuesButton linked={linked} onButtonClick={onButtonClick} />}
+            addon={
+              <LinkedValuesButton
+                linked={linked}
+                onButtonClick={onButtonClick}
+                aDéjàEtéModifié={
+                  candidature.commune !== lauréat.commune.currentValue ||
+                  candidature.codePostal !== lauréat.codePostal.currentValue
+                }
+              />
+            }
           />
         </div>
         <input
           type="hidden"
           value={lauréatCommune.codePostal}
-          name="lauréat.codePostal"
+          name="laureat.codePostal"
           disabled={lauréatCommune.codePostal === lauréat.codePostal.currentValue}
         />
         <input
           type="hidden"
           value={lauréatCommune.commune}
-          name="lauréat.commune"
+          name="laureat.commune"
           disabled={lauréatCommune.commune === lauréat.commune.currentValue}
         />
         <input
           type="hidden"
           value={lauréatCommune.departement}
-          name="lauréat.departement"
+          name="laureat.departement"
           disabled={lauréatCommune.region === lauréat.region.currentValue}
         />
         <input
           type="hidden"
           value={lauréatCommune.region}
-          name="lauréat.region"
+          name="laureat.region"
           disabled={lauréatCommune.departement === lauréat.departement.currentValue}
         />
       </div>

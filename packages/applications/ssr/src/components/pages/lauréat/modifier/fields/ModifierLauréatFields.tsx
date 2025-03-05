@@ -101,6 +101,7 @@ export const ProjectField = <T extends string | number>({
               linked={linked}
               estEnCoursDeModification={estEnCoursDeModification}
               onButtonClick={onButtonClick}
+              aDéjàEtéModifié={candidature !== lauréat}
             />
           }
         />
@@ -162,6 +163,7 @@ type ButtonProps = {
   linked?: boolean;
   onButtonClick?: () => void;
   estEnCoursDeModification?: boolean;
+  aDéjàEtéModifié?: boolean;
 };
 
 export const LinkedValuesButton = ({
@@ -169,14 +171,25 @@ export const LinkedValuesButton = ({
   linked,
   onButtonClick,
   estEnCoursDeModification,
+  aDéjàEtéModifié,
 }: ButtonProps) => {
-  const label = estEnCoursDeModification
-    ? 'Une demande de modification est en cours sur ce champs, sa modification côté projet est impossible'
-    : isLocked
-      ? 'La valeur sera automatiquement appliquée au projet'
-      : linked
-        ? 'Ne pas appliquer les changements au projet'
-        : 'Appliquer les changements au projet';
+  const label = aDéjàEtéModifié
+    ? 'Cette valeur a été modifiée par rapport à la valeur initiale de candidature'
+    : estEnCoursDeModification
+      ? 'Une demande de modification est en cours sur ce champs, sa modification côté projet est impossible'
+      : isLocked
+        ? 'La valeur de candidature sera automatiquement appliquée au projet'
+        : linked
+          ? 'Ne pas appliquer les changements au projet'
+          : 'Appliquer les changements au projet';
+
+  if (aDéjàEtéModifié) {
+    return (
+      <div className="flex items-center justify-center w-10">
+        <Tooltip kind="hover" title={label} />
+      </div>
+    );
+  }
 
   return (
     <Tooltip kind="hover" title={label}>
