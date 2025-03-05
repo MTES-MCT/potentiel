@@ -74,29 +74,31 @@ export default function SignIn() {
           />
           <Tile
             className="md:w-2/3"
-            title="À l'aide d'un lien magique"
+            title="Lien magique"
             detail={
               <div className="flex flex-col gap-4">
                 <p>
-                  Connectez-vous facilement sans mot de passe à l'aide d'un lien magique envoyé sur
-                  votre adresse de courriel
+                  Connectez-vous facilement sans mot de passe à l'aide d'un lien magique qui sera
+                  envoyé sur votre adresse de courriel
                 </p>
-                <Input
-                  label="Email"
-                  nativeInputProps={{
-                    type: 'email',
-                    name: 'email',
-                    required: true,
-                    onChange: (e) => setEmail(e.target.value),
-                  }}
-                />
-                <Button
-                  onClick={() => signIn('email', { callbackUrl, email })}
-                  type="button"
-                  className="mx-auto"
+                <form
+                  className="md:mx-24"
+                  action="javascript:void(0);"
+                  onSubmit={() => signIn('email', { callbackUrl, email })}
                 >
-                  Envoyer le lien magique
-                </Button>
+                  <Input
+                    label="Email"
+                    nativeInputProps={{
+                      type: 'email',
+                      name: 'email',
+                      required: true,
+                      onChange: (e) => setEmail(e.target.value),
+                    }}
+                  />
+                  <Button type="submit" className="mx-auto">
+                    Envoyer le lien magique
+                  </Button>
+                </form>
               </div>
             }
           />
