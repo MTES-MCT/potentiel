@@ -18,8 +18,6 @@ export type UtilisateurInvitéEvent = DomainEvent<
       }
     | {
         rôle: 'dgec-validateur';
-        fonction: string;
-        nomComplet: string;
       }
     | {
         rôle: 'dreal';
@@ -38,8 +36,6 @@ export type InviterOptions = {
   invitéLe: DateTime.ValueType;
   invitéPar: Email.ValueType;
 
-  fonction?: string;
-  nomComplet?: string;
   région?: string;
   identifiantGestionnaireRéseau?: string;
 };
@@ -51,8 +47,6 @@ export async function inviter(
     rôle,
     invitéLe,
     invitéPar,
-    fonction,
-    nomComplet,
     région,
     identifiantGestionnaireRéseau,
   }: InviterOptions,
@@ -69,20 +63,6 @@ export async function inviter(
 
   const payload = match(rôle.nom)
     .returnType<UtilisateurInvitéEvent['payload']>()
-    .with('dgec-validateur', (rôle) => {
-      if (!fonction) {
-        throw new FonctionManquanteError();
-      }
-      if (!nomComplet) {
-        throw new NomCompletManquantError();
-      }
-      return {
-        ...basePayload,
-        rôle,
-        fonction,
-        nomComplet,
-      };
-    })
     .with('dreal', (rôle) => {
       if (!région) {
         throw new RégionManquanteError();

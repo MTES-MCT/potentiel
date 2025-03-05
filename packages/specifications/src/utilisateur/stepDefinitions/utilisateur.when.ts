@@ -89,8 +89,6 @@ export async function inviterUtilisateur(
     rôle: rôleValue,
     région,
     identifiantGestionnaireRéseau,
-    fonction,
-    nomComplet,
   } = this.utilisateurWorld.inviterUtilisateur.créer(props);
   try {
     await mediator.send<InviterUtilisateurUseCase>({
@@ -102,8 +100,6 @@ export async function inviterUtilisateur(
         rôleValue,
         région,
         identifiantGestionnaireRéseau,
-        fonction,
-        nomComplet,
       },
     });
   } catch (error) {

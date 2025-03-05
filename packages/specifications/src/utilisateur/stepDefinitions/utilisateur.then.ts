@@ -37,6 +37,7 @@ Alors(
               this.utilisateurWorld.inviterUtilisateur.identifiantGestionnaireRéseau ?? Option.none,
             région: this.utilisateurWorld.inviterUtilisateur.région ?? Option.none,
             nom: '',
+            fonction: '',
           }),
         },
       }),

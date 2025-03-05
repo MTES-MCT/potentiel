@@ -5,8 +5,6 @@ import { Fixture } from '../../../fixture';
 interface InviterPorteur {
   readonly email: string;
   readonly rôle: string;
-  readonly fonction?: string | undefined;
-  readonly nomComplet?: string | undefined;
   readonly région?: string | undefined;
   readonly identifiantGestionnaireRéseau?: string | undefined;
 }
@@ -28,16 +26,6 @@ export class InviterUtilisateurFixture implements InviterPorteur, Fixture<Invite
     return this.#rôle;
   }
 
-  #fonction?: string;
-  get fonction(): string | undefined {
-    return this.#fonction;
-  }
-
-  #nomComplet?: string;
-  get nomComplet(): string | undefined {
-    return this.#nomComplet;
-  }
-
   #région?: string;
   get région(): string | undefined {
     return this.#région;
@@ -57,8 +45,6 @@ export class InviterUtilisateurFixture implements InviterPorteur, Fixture<Invite
     };
     this.#email = fixture.email;
     this.#rôle = fixture.rôle;
-    this.#fonction = fixture.fonction;
-    this.#nomComplet = fixture.nomComplet;
     this.#région = fixture.région;
     this.#identifiantGestionnaireRéseau = fixture.identifiantGestionnaireRéseau;
 

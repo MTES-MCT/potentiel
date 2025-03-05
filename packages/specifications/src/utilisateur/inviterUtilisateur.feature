@@ -47,10 +47,6 @@ Fonctionnalité: Inviter un utilisateur en tant qu'admin
         Quand un administrateur invite un utilisateur avec le rôle "grd"
         Alors l'utilisateur devrait être informé que "L'identifiant du gestionnaire de réseau est obligatoire pour un utilisateur grd"
 
-    Scénario: Impossible d'inviter un dgec-validateur sans fonction
-        Quand un administrateur invite un utilisateur avec le rôle "dgec-validateur"
-        Alors l'utilisateur devrait être informé que "La fonction est obligatoire pour un utilisateur dgec-validateur"
-
     @NotImplemented
     Scénario: Inviter un utilisateur désactivé
 
