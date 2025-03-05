@@ -13,11 +13,21 @@ SELECT
 
     -- demandeComplèteRaccordement
     MAX(CASE WHEN j.key = 'demandeComplèteRaccordement.dateQualification' THEN TO_TIMESTAMP(j.value, 'YYYY-MM-DD"T"HH24:MI:SS') END) AS demande_complete_raccordement_date_qualification,
-    MAX(CASE WHEN j.key = 'demandeComplèteRaccordement.accuséRéception.format' THEN j.value END) AS demande_complete_raccordement_accusé_réception_format,
+    MAX(CASE
+            WHEN j.key = 'demandeComplèteRaccordement.accuséRéception'
+                THEN 1
+                ELSE 0
+            END
+    )::BOOLEAN AS demande_a_un_accusé_réception,
 
     -- propositionTechniqueEtFinancière
+    MAX(CASE
+            WHEN j.key = 'propositionTechniqueEtFinancière.propositionTechniqueEtFinancièreSignée'
+                THEN 1
+                ELSE 0
+            END
+    )::BOOLEAN AS demande_a_une_ptf_signée,
     MAX(CASE WHEN j.key = 'propositionTechniqueEtFinancière.dateSignature' THEN TO_TIMESTAMP(j.value, 'YYYY-MM-DD"T"HH24:MI:SS') END) AS proposition_technique_et_financière_date_signature,
-    MAX(CASE WHEN j.key = 'propositionTechniqueEtFinancière.propositionTechniqueEtFinancièreSignée.format' THEN j.value END) AS proposition_technique_et_financière_signée_format,
 
     -- miseEnService
     MAX(CASE WHEN j.key = 'miseEnService.dateMiseEnService' THEN TO_TIMESTAMP(j.value, 'YYYY-MM-DD"T"HH24:MI:SS') END) AS mise_en_service_date_mise_en_service,

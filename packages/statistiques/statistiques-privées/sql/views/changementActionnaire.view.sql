@@ -24,8 +24,7 @@ SELECT
                 THEN 1
                 ELSE 0
             END
-    )::BOOLEAN AS a_un_accord,
-    MAX(CASE WHEN j.key = 'accord.réponseSignée.format' THEN j.value END) AS accord_reponse_signee_format,
+    )::BOOLEAN AS demande_a_un_accord,
     MAX(CASE WHEN j.key = 'accord.accordéePar' THEN j.value END) AS accord_accordee_par,
     MAX(CASE WHEN j.key = 'accord.accordéeLe' THEN TO_TIMESTAMP(j.value, 'YYYY-MM-DD"T"HH24:MI:SS') END) AS accord_accordee_le,
 
@@ -35,8 +34,7 @@ SELECT
                 THEN 1
                 ELSE 0
             END
-    )::BOOLEAN AS a_un_rejet,
-    MAX(CASE WHEN j.key = 'rejet.réponseSignée.format' THEN j.value END) AS rejet_reponse_signee_format,
+    )::BOOLEAN AS demande_a_un_rejet,
     MAX(CASE WHEN j.key = 'rejet.rejetéePar' THEN j.value END) AS rejet_rejetee_par,
     MAX(CASE WHEN j.key = 'rejet.rejetéeLe' THEN TO_TIMESTAMP(j.value, 'YYYY-MM-DD"T"HH24:MI:SS') END) AS rejet_rejetee_le
 FROM domain_views.projection t,
