@@ -211,25 +211,25 @@ const CommuneField = ({ candidature, lauréat, validationErrors }: LocalitéFiel
         <input
           type="hidden"
           value={lauréatCommune.codePostal}
-          name="lauréat.codePostal"
+          name="laureat.codePostal"
           disabled={lauréatCommune.codePostal === lauréat.codePostal.currentValue}
         />
         <input
           type="hidden"
           value={lauréatCommune.commune}
-          name="lauréat.commune"
+          name="laureat.commune"
           disabled={lauréatCommune.commune === lauréat.commune.currentValue}
         />
         <input
           type="hidden"
           value={lauréatCommune.departement}
-          name="lauréat.departement"
+          name="laureat.departement"
           disabled={lauréatCommune.region === lauréat.region.currentValue}
         />
         <input
           type="hidden"
           value={lauréatCommune.region}
-          name="lauréat.region"
+          name="laureat.region"
           disabled={lauréatCommune.departement === lauréat.departement.currentValue}
         />
       </div>
