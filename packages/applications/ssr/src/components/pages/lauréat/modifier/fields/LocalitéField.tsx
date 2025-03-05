@@ -200,7 +200,10 @@ const CommuneField = ({ candidature, lauréat, validationErrors }: LocalitéFiel
               <LinkedValuesButton
                 linked={linked}
                 onButtonClick={onButtonClick}
-                aDéjàEtéModifié={candidature.commune !== lauréat.commune.currentValue}
+                aDéjàEtéModifié={
+                  candidature.commune !== lauréat.commune.currentValue ||
+                  candidature.codePostal !== lauréat.codePostal.currentValue
+                }
               />
             }
           />

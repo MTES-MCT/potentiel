@@ -174,7 +174,7 @@ export const LinkedValuesButton = ({
   aDéjàEtéModifié,
 }: ButtonProps) => {
   const label = aDéjàEtéModifié
-    ? 'Cette valeur a déjà été modifiée par rapport à celle initiale de candidature'
+    ? 'Cette valeur a été modifiée par rapport à la valeur initiale de candidature'
     : estEnCoursDeModification
       ? 'Une demande de modification est en cours sur ce champs, sa modification côté projet est impossible'
       : isLocked
@@ -185,7 +185,7 @@ export const LinkedValuesButton = ({
 
   if (aDéjàEtéModifié) {
     return (
-      <div className="flex items-center ml-2">
+      <div className="flex items-center justify-center w-10">
         <Tooltip kind="hover" title={label} />
       </div>
     );
