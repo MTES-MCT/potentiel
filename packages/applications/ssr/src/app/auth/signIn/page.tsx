@@ -7,6 +7,7 @@ import Button from '@codegouvfr/react-dsfr/Button';
 import ProConnectButton from '@codegouvfr/react-dsfr/ProConnectButton';
 import Tile from '@codegouvfr/react-dsfr/Tile';
 import Input from '@codegouvfr/react-dsfr/Input';
+import Alert from '@codegouvfr/react-dsfr/Alert';
 
 import { Routes } from '@potentiel-applications/routes';
 
@@ -20,6 +21,8 @@ export default function SignIn() {
   const showProConnect =
     params.get('showProConnect') ??
     process.env.NEXT_PUBLIC_FLAGS_PROCONNECT_ACTIVATED?.toLowerCase() === 'true';
+
+  const error = params.get('error');
 
   useEffect(() => {
     switch (status) {
@@ -47,61 +50,83 @@ export default function SignIn() {
   return (
     <PageTemplate>
       {showProConnect ? (
-        <>
+        <div className="flex flex-col items-center gap-6 mt-12 md:mt-20">
           <Heading1>Identifiez-vous</Heading1>
-          <div className="flex flex-col items-center gap-6 mt-12 md:mt-20">
-            <Tile
+
+          {error && (
+            <Alert
               className="md:w-2/3"
-              title="ProConnect"
-              detail={
-                <div className="flex flex-col gap-4">
-                  <p>Connectez-vous facilement à l'aide de votre adresse professionnelle</p>
-                  <ProConnectButton onClick={() => signIn('proconnect', { callbackUrl })} />
-                </div>
-              }
+              severity="error"
+              small
+              description={getErrorDescription(error)}
+              closable
             />
-            <Tile
-              className="md:w-2/3"
-              title="Magic Link !"
-              detail={
-                <div className="flex flex-col gap-4">
-                  <p>Connectez-vous facilement à l'aide d'un lien magique !</p>
-                  <Input
-                    label="Email"
-                    nativeInputProps={{
-                      type: 'email',
-                      name: 'email',
-                      required: true,
-                      onChange: (e) => setEmail(e.target.value),
-                    }}
-                  />
-                  <Button
-                    onClick={() => signIn('email', { callbackUrl, email })}
-                    type="button"
-                    className="mx-auto"
-                  >
-                    Envoyer le lien magique
-                  </Button>
-                </div>
-              }
-            />
-            <Tile
-              className="md:w-2/3"
-              title="Mot de passe"
-              detail={
-                <div className="flex flex-col gap-4">
-                  <p>Vous pouvez toujours vous connecter à l'aide de vos identifiants classiques</p>
-                  <Button className="mx-auto" onClick={() => signIn('keycloak', { callbackUrl })}>
-                    Connexion avec mot de passe
-                  </Button>
-                </div>
-              }
-            />
-          </div>
-        </>
+          )}
+          <Tile
+            className="md:w-2/3"
+            title="ProConnect"
+            detail={
+              <div className="flex flex-col gap-4">
+                <p>Connectez-vous facilement à l'aide de votre adresse professionnelle</p>
+                <ProConnectButton onClick={() => signIn('proconnect', { callbackUrl })} />
+              </div>
+            }
+          />
+          <Tile
+            className="md:w-2/3"
+            title="À l'aide d'un lien magique"
+            detail={
+              <div className="flex flex-col gap-4">
+                <p>
+                  Connectez-vous facilement sans mot de passe à l'aide d'un lien magique envoyé sur
+                  votre adresse de courriel
+                </p>
+                <Input
+                  label="Email"
+                  nativeInputProps={{
+                    type: 'email',
+                    name: 'email',
+                    required: true,
+                    onChange: (e) => setEmail(e.target.value),
+                  }}
+                />
+                <Button
+                  onClick={() => signIn('email', { callbackUrl, email })}
+                  type="button"
+                  className="mx-auto"
+                >
+                  Envoyer le lien magique
+                </Button>
+              </div>
+            }
+          />
+          <Tile
+            className="md:w-2/3"
+            title="Mot de passe"
+            detail={
+              <div className="flex flex-col gap-4">
+                <p>Vous pouvez toujours vous connecter à l'aide de vos identifiants classiques</p>
+                <Button className="mx-auto" onClick={() => signIn('keycloak', { callbackUrl })}>
+                  Connexion avec mot de passe
+                </Button>
+              </div>
+            }
+          />
+        </div>
       ) : (
         <div className="font-bold text-2xl">Authentification en cours ...</div>
       )}
     </PageTemplate>
   );
 }
+
+const getErrorDescription = (error: string): string => {
+  switch (error) {
+    case 'EmailSignin':
+      return "Le lien de connexion n'a pas pu être envoyé. Si le problème persiste vous pouvez nous contacter";
+    case 'Unauthorized':
+      return "Vous n'êtes pas autorisé à utiliser ce mode de connexion";
+    default:
+      return 'Une erreur est survenue';
+  }
+};

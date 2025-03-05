@@ -28,7 +28,7 @@ const pool = new Pool({
   options: '-c search_path=auth',
 });
 
-const fifteenMinutesInMs = 900000;
+const fifteenMinutesInSeconds = 15 * 60;
 
 export const authOptions: AuthOptions = {
   adapter: PostgresAdapter(pool),
@@ -47,15 +47,15 @@ export const authOptions: AuthOptions = {
     ProConnectProvider(getProviderConfiguration('proconnect')),
     EmailProvider({
       server: {
-        host: process.env.EMAIL_SERVER_HOST,
-        port: process.env.EMAIL_SERVER_PORT,
+        host: process.env.NEXTAUTH_MAGICLINK_SERVER_HOST,
+        port: process.env.NEXTAUTH_MAGICLINK_SERVER_PORT,
         auth: {
-          user: 'user',
-          pass: 'password',
+          user: process.env.NEXTAUTH_MAGICLINK_USERNAME,
+          pass: process.env.NEXTAUTH_MAGICLINK_PASSWORD,
         },
       },
       from: process.env.SEND_EMAILS_FROM,
-      maxAge: fifteenMinutesInMs,
+      maxAge: fifteenMinutesInSeconds,
     }),
   ],
   pages: {
@@ -92,14 +92,14 @@ export const authOptions: AuthOptions = {
         const utilisateur = await getUtilisateurFromEmail(user.email ?? '');
 
         if (Option.isNone(utilisateur)) {
-          return Routes.Auth.signOut();
+          return Routes.Auth.signIn({ error: 'Unauthorized' });
         }
 
         if (!canConnectWithMagicLink(utilisateur.role)) {
           getLogger('Auth').info(`User tries to connect with Magic Link but is not authorized`, {
             utilisateur,
           });
-          return Routes.Auth.signOut();
+          return Routes.Auth.signIn({ error: 'Unauthorized' });
         }
       }
 
