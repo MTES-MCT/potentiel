@@ -2,10 +2,11 @@
 
 import { redirect, useSearchParams } from 'next/navigation';
 import { signIn, useSession } from 'next-auth/react';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import Button from '@codegouvfr/react-dsfr/Button';
 import ProConnectButton from '@codegouvfr/react-dsfr/ProConnectButton';
 import Tile from '@codegouvfr/react-dsfr/Tile';
+import Input from '@codegouvfr/react-dsfr/Input';
 
 import { Routes } from '@potentiel-applications/routes';
 
@@ -41,6 +42,8 @@ export default function SignIn() {
     }
   }, [status, callbackUrl, data]);
 
+  const [email, setEmail] = useState('');
+
   return (
     <PageTemplate>
       {showProConnect ? (
@@ -63,12 +66,21 @@ export default function SignIn() {
               detail={
                 <div className="flex flex-col gap-4">
                   <p>Connectez-vous facilement à l'aide d'un lien magique !</p>
+                  <Input
+                    label="Email"
+                    nativeInputProps={{
+                      type: 'email',
+                      name: 'email',
+                      required: true,
+                      onChange: (e) => setEmail(e.target.value),
+                    }}
+                  />
                   <Button
-                    type="submit"
+                    onClick={() => signIn('email', { callbackUrl, email })}
+                    type="button"
                     className="mx-auto"
-                    onClick={() => signIn('email', { callbackUrl })}
                   >
-                    Envoyer lien magique !
+                    Envoyer le lien magique
                   </Button>
                 </div>
               }
