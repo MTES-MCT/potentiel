@@ -41,20 +41,23 @@ export const CorrigerCandidaturesPage: FC = () => (
             description={
               <div className="flex flex-col gap-2 text-justify">
                 <span>
-                  Si les candidatures que vous modifiez sont déjà notifiées, alors la modification
-                  des champs suivants ne mettra pas à jour le projet :
+                  <b>Si les candidatures que vous modifiez sont notifiées</b>
+                  <br />- La modification de ces champs ne mettra pas à jour le projet
                   <ul className="p-4 list-disc">
                     <li>Nom du projet</li>
                     <li>Localité (adresse, commune, code postal, département, région)</li>
                     <li>Actionnaire (société mère)</li>
                     <li>Nom du représentant légal</li>
                     <li>Puissance</li>
-                    <li>Garanties financières</li>
                   </ul>
+                  Pour les modifier, utilisez le formulaire disponible sur chaque page Projet.
                 </span>
                 <span>
-                  Pour les modifier <b>après notification</b>, utilisez le formulaire de
-                  modification disponible sur chaque page Projet.
+                  <br />- Aussi, les données suivantes ne pourront pas être modifiées :
+                  <ul className="p-4 list-disc">
+                    <li>Statut</li>
+                    <li>Garanties financières</li>
+                  </ul>
                 </span>
               </div>
             }
