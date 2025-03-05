@@ -1,10 +1,7 @@
 import { notFound } from 'next/navigation';
 import { mediator } from 'mediateur';
 
-import {
-  AccèsFonctionnalitéRefuséError,
-  ConsulterUtilisateurQuery,
-} from '@potentiel-domain/utilisateur';
+import { AccèsFonctionnalitéRefuséError } from '@potentiel-domain/utilisateur';
 import { buildCertificate } from '@potentiel-applications/document-builder';
 import { Option } from '@potentiel-libraries/monads';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
@@ -39,7 +36,6 @@ export const GET = async (_: Request, { params: { identifiant } }: IdentifiantPa
     const candidature = await getCandidature(identifiantProjet);
 
     const notifiéLe = candidature.notification?.notifiéeLe ?? DateTime.now();
-    const notifiéPar = candidature.notification?.notifiéePar ?? utilisateur.identifiantUtilisateur;
 
     const appelOffres = await mediator.send<AppelOffre.ConsulterAppelOffreQuery>({
       type: 'AppelOffre.Query.ConsulterAppelOffre',
@@ -70,28 +66,11 @@ export const GET = async (_: Request, { params: { identifiant } }: IdentifiantPa
       return notFound();
     }
 
-    const user = await mediator.send<ConsulterUtilisateurQuery>({
-      type: 'Utilisateur.Query.ConsulterUtilisateur',
-      data: {
-        identifiantUtilisateur: notifiéPar.formatter(),
-      },
-    });
-
-    if (Option.isNone(user)) {
-      logger.warn(`Utilisateur non trouvé`, {
-        identifiantProjet,
-        identifiantUtilisateur: utilisateur.identifiantUtilisateur.formatter(),
-      });
-      return notFound();
-    }
-
     const validateur = candidature.notification?.validateur ?? {
-      fonction: Option.match(user.fonction)
+      fonction: Option.match(utilisateur.fonction)
         .some((fonction) => fonction)
         .none(() => 'Fonction du DGEC Validateur'),
-      nomComplet: Option.match(user.nomComplet)
-        .some((nom) => nom)
-        .none(() => 'Nom du DGEC Validateur'),
+      nomComplet: utilisateur.nom,
     };
 
     const certificate = await buildCertificate({

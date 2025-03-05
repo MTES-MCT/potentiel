@@ -10,6 +10,7 @@ export type ValueType = ReadonlyValueType<{
   role: Role.ValueType;
   région: Option.Type<string>;
   identifiantGestionnaireRéseau: Option.Type<string>;
+  fonction: Option.Type<string>;
 }>;
 
 export const bind = ({
@@ -17,6 +18,7 @@ export const bind = ({
   identifiantUtilisateur: { email },
   role,
   région,
+  fonction,
   identifiantGestionnaireRéseau,
 }: PlainType<ValueType>): ValueType => {
   const identifiantUtilisateur = Email.convertirEnValueType(email);
@@ -25,6 +27,7 @@ export const bind = ({
     role: Role.bind(role),
     identifiantUtilisateur,
     région,
+    fonction,
     identifiantGestionnaireRéseau,
     estÉgaleÀ(valueType) {
       return (

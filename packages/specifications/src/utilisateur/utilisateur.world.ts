@@ -88,7 +88,6 @@ export class UtilisateurWorld {
       identifiantUtilisateur: email,
       rôle: Role.convertirEnValueType(this.inviterUtilisateur.rôle),
       région: this.inviterUtilisateur.région ?? Option.none,
-      fonction: this.inviterUtilisateur.fonction ?? Option.none,
       identifiantGestionnaireRéseau:
         this.inviterUtilisateur.identifiantGestionnaireRéseau ?? Option.none,
     };
