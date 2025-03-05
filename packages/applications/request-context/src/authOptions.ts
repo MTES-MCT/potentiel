@@ -1,20 +1,34 @@
+import { Pool } from 'pg';
 import { AuthOptions } from 'next-auth';
 import KeycloakProvider from 'next-auth/providers/keycloak';
+import EmailProvider from 'next-auth/providers/email';
 
+import { PostgresAdapter } from '@potentiel-libraries/auth-pg-adapter';
 import { getLogger } from '@potentiel-libraries/monitoring';
+import { Option } from '@potentiel-libraries/monads';
 import { Routes } from '@potentiel-applications/routes';
-import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
+import { IdentifiantUtilisateur, Role } from '@potentiel-domain/utilisateur';
+import { mapToPlainObject } from '@potentiel-domain/core';
 
 import { getProviderConfiguration } from './getProviderConfiguration';
 import { refreshToken } from './refreshToken';
 import ProConnectProvider from './ProConnectProvider';
 import { ajouterStatistiqueConnexion } from './ajouterStatistiqueConnexion';
-import { getUtilisateurFromAccessToken } from './getUtilisateur';
+import { getUtilisateurFromAccessToken, getUtilisateurFromEmail } from './getUtilisateur';
 import { canConnectWithProConnect } from './canConnectWithProConnect';
 
 const OneHourInSeconds = 60 * 60;
 
+const pool = new Pool({
+  connectionString: process.env.DATABASE_CONNECTION_STRING,
+  max: 5,
+  idleTimeoutMillis: 30000,
+  connectionTimeoutMillis: 2000,
+  options: '-c search_path=auth',
+});
+
 export const authOptions: AuthOptions = {
+  adapter: PostgresAdapter(pool),
   providers: [
     KeycloakProvider({
       ...getProviderConfiguration('keycloak'),
@@ -28,6 +42,17 @@ export const authOptions: AuthOptions = {
       },
     }),
     ProConnectProvider(getProviderConfiguration('proconnect')),
+    EmailProvider({
+      server: {
+        host: process.env.EMAIL_SERVER_HOST,
+        port: process.env.EMAIL_SERVER_PORT,
+        auth: {
+          user: 'user',
+          pass: 'password',
+        },
+      },
+      from: process.env.SEND_EMAILS_FROM,
+    }),
   ],
   pages: {
     signIn: Routes.Auth.signIn(),
@@ -45,19 +70,26 @@ export const authOptions: AuthOptions = {
   events: {
     signIn: ({ user, account }) => {
       if (
-        user?.identifiantUtilisateur &&
-        !IdentifiantUtilisateur.bind(user.identifiantUtilisateur).estInconnu()
+        user?.utilisateur?.identifiantUtilisateur &&
+        !IdentifiantUtilisateur.bind(user.utilisateur.identifiantUtilisateur).estInconnu()
       ) {
-        ajouterStatistiqueConnexion(user, account?.provider ?? '');
+        ajouterStatistiqueConnexion(user.utilisateur, account?.provider ?? '');
       }
     },
   },
   callbacks: {
-    signIn({ account, user }) {
+    signIn(args) {
+      const { account, user } = args;
+
       const logger = getLogger('Auth');
+
+      if (account?.provider === 'email') {
+        return true;
+      }
+
       if (
-        user?.identifiantUtilisateur &&
-        IdentifiantUtilisateur.bind(user.identifiantUtilisateur).estInconnu()
+        user?.utilisateur?.identifiantUtilisateur &&
+        IdentifiantUtilisateur.bind(user.utilisateur.identifiantUtilisateur).estInconnu()
       ) {
         logger.info(`User tries to connect with ProConnect but is not registered yet`, {
           user,
@@ -67,7 +99,12 @@ export const authOptions: AuthOptions = {
           idToken: account?.id_token,
         });
       }
-      if (account?.provider === 'proconnect' && !canConnectWithProConnect(user.role)) {
+
+      if (
+        account?.provider === 'proconnect' &&
+        user.utilisateur &&
+        !canConnectWithProConnect(user.utilisateur.role)
+      ) {
         logger.info(`User tries to connect with ProConnect but is not authorized yet`, {
           user,
         });
@@ -80,10 +117,12 @@ export const authOptions: AuthOptions = {
 
       return true;
     },
-    jwt({ token, trigger, account, user }) {
+    async jwt(args) {
+      const { token, trigger, account, user } = args;
+
       if (
-        user?.identifiantUtilisateur &&
-        IdentifiantUtilisateur.bind(user.identifiantUtilisateur).estInconnu()
+        user?.utilisateur?.identifiantUtilisateur &&
+        IdentifiantUtilisateur.bind(user.utilisateur.identifiantUtilisateur).estInconnu()
       ) {
         return {};
       }
@@ -92,6 +131,39 @@ export const authOptions: AuthOptions = {
         const expiresAtInMs = expires_at * 1000;
 
         getLogger('Auth').debug(`User logged in`, { sub, expiresAt: new Date(expiresAtInMs) });
+
+        if (provider === 'email') {
+          const utilisateur = await getUtilisateurFromEmail(user.email ?? '');
+
+          if (Option.isNone(utilisateur)) {
+            return {
+              ...token,
+              provider,
+              idToken: account.id_token,
+              expiresAt: expiresAtInMs,
+              refreshToken: account.refresh_token,
+              utilisateur: {
+                id: Option.none.type,
+                nom: '',
+                groupe: Option.none,
+                role: Role.porteur,
+                identifiantUtilisateur: IdentifiantUtilisateur.unknownUser,
+              },
+            };
+          }
+
+          return {
+            ...token,
+            provider,
+            idToken: account.id_token,
+            expiresAt: expiresAtInMs,
+            refreshToken: account.refresh_token,
+            utilisateur: {
+              id: user.id,
+              ...mapToPlainObject(utilisateur),
+            },
+          };
+        }
 
         return {
           ...token,
@@ -103,7 +175,12 @@ export const authOptions: AuthOptions = {
         };
       }
 
-      return refreshToken(token);
+      if (token.provider !== 'email') {
+        const refreshedToken = await refreshToken(token);
+        return { ...refreshedToken, utilisateur: token.utilisateur };
+      }
+
+      return { ...token, utilisateur: token.utilisateur };
     },
     session({ session, token }) {
       {
