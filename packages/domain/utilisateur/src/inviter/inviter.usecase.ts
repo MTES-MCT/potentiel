@@ -14,8 +14,6 @@ export type InviterUtilisateurUseCase = Message<
     invitéLeValue: string;
     invitéParValue: string;
 
-    fonction?: string;
-    nomComplet?: string;
     région?: string;
     identifiantGestionnaireRéseau?: string;
   }
@@ -27,8 +25,6 @@ export const registerInviterUseCase = () => {
     rôleValue,
     invitéLeValue,
     invitéParValue,
-    fonction,
-    nomComplet,
     région,
     identifiantGestionnaireRéseau,
   }) => {
@@ -44,8 +40,6 @@ export const registerInviterUseCase = () => {
         rôle,
         invitéLe,
         invitéPar,
-        fonction,
-        nomComplet,
         région,
         // TODO value type?
         identifiantGestionnaireRéseau,

@@ -18,8 +18,6 @@ export type UtilisateurInvitéEvent = DomainEvent<
       }
     | {
         rôle: 'dgec-validateur';
-        fonction: string;
-        nomComplet: string;
       }
     | {
         rôle: 'dreal';

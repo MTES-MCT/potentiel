@@ -99,6 +99,7 @@ export const getUtilisateurFromAccessToken = async (
     nom,
     identifiantUtilisateur: Email.convertirEnValueType(email),
     région: Option.none,
+    fonction: Option.none,
     identifiantGestionnaireRéseau:
       groupes?.[0] && groupeRegex.test(groupes[0])
         ? groupes[0].match(groupeRegex)!.groups!.nom
@@ -123,6 +124,7 @@ export const getUtilisateurFromEmail = async (
   return {
     role: utilisateur.rôle,
     nom: '',
+    fonction: Option.none,
     identifiantUtilisateur: Email.convertirEnValueType(email),
     identifiantGestionnaireRéseau: utilisateur.identifiantGestionnaireRéseau,
     région: utilisateur.région,
