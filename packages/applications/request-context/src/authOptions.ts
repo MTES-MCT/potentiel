@@ -27,6 +27,8 @@ const pool = new Pool({
   options: '-c search_path=auth',
 });
 
+const fifteenMinutesInMs = 900000;
+
 export const authOptions: AuthOptions = {
   adapter: PostgresAdapter(pool),
   providers: [
@@ -52,12 +54,14 @@ export const authOptions: AuthOptions = {
         },
       },
       from: process.env.SEND_EMAILS_FROM,
+      maxAge: fifteenMinutesInMs,
     }),
   ],
   pages: {
     signIn: Routes.Auth.signIn(),
     error: Routes.Auth.unauthorized(),
     signOut: Routes.Auth.signOut(),
+    verifyRequest: Routes.Auth.verifyRequest(),
   },
   session: {
     strategy: 'jwt',
