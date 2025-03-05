@@ -2,9 +2,7 @@ import { getWhereClause } from '@potentiel-infrastructure/pg-projections';
 import { Entity, WhereOptions } from '@potentiel-domain/entity';
 import { executeQuery } from '@potentiel-libraries/pg-helpers';
 
-import { getUpdateClause } from './updateOneProjection';
-
-type AtLeastOne<T, U = { [K in keyof T]: Pick<T, K> }> = Partial<T> & U[keyof U];
+import { getUpdateClause, AtLeastOne } from './updateOneProjection';
 
 /** */
 export const updateManyProjections = async <TEntity extends Entity>(

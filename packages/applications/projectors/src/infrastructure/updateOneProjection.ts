@@ -6,7 +6,8 @@ import { executeQuery } from '@potentiel-libraries/pg-helpers';
 import { getLogger } from '@potentiel-libraries/monitoring';
 import { getWhereClause } from '@potentiel-infrastructure/pg-projections';
 
-type AtLeastOne<T, U = { [K in keyof T]: Pick<T, K> }> = Partial<T> & U[keyof U];
+type DeepPartial<T> = T extends object ? { [P in keyof T]?: DeepPartial<T[P]> } : T;
+export type AtLeastOne<T, U = { [K in keyof T]: Pick<T, K> }> = DeepPartial<T> & U[keyof U];
 
 /** */
 export const updateOneProjection = async <TProjection extends Entity>(
