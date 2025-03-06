@@ -76,29 +76,16 @@ export const CorrigerCandidaturePage: React.FC<CorrigerCandidaturePageProps> = (
             />
             {estLauréat && (
               <Alert
-                severity="info"
+                severity="warning"
                 small
                 description={
-                  <div className="flex flex-col gap-2 text-justify">
-                    <span>
-                      Cette candidature étant déjà notifiée, la modification des champs suivants{' '}
-                      <span className="font-semibold">ne mettra pas à jour le projet</span> :
-                      <ul className="p-4 list-disc">
-                        <li>Nom du projet</li>
-                        <li>Localité (adresse, commune, code postal, département, région)</li>
-                        <li>Actionnaire (société mère)</li>
-                        <li>Nom du représentant légal</li>
-                        <li>Puissance</li>
-                      </ul>
-                    </span>
-                    <span>
-                      Pour les modifier <b>après notification</b>, utilisez le{' '}
-                      <a href={Routes.Lauréat.modifier(identifiantProjet.formatter())}>
-                        formulaire de modification
-                      </a>{' '}
-                      du projet.
-                    </span>
-                  </div>
+                  <span>
+                    Cette candidature étant déjà notifiée, veuillez utiliser la{' '}
+                    <Link href={Routes.Lauréat.modifier(identifiantProjet.formatter())}>
+                      page de correction du projet et de la candidature
+                    </Link>
+                    .
+                  </span>
                 }
               />
             )}
