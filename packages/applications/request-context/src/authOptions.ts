@@ -9,6 +9,7 @@ import { Option } from '@potentiel-libraries/monads';
 import { Routes } from '@potentiel-applications/routes';
 import { IdentifiantUtilisateur, Role } from '@potentiel-domain/utilisateur';
 import { mapToPlainObject } from '@potentiel-domain/core';
+import { sendEmail } from '@potentiel-infrastructure/email';
 
 import { getProviderConfiguration } from './getProviderConfiguration';
 import { refreshToken } from './refreshToken';
@@ -48,9 +49,15 @@ export const authOptions: AuthOptions = {
     EmailProvider({
       from: process.env.SEND_EMAILS_FROM,
       maxAge: fifteenMinutesInSeconds,
-      sendVerificationRequest: (args) => {
-        console.log(JSON.stringify(args));
-        sendEmail();
+      sendVerificationRequest: ({ identifier, url }) => {
+        sendEmail({
+          templateId: 6785365,
+          messageSubject: 'Connexion à Potentiel',
+          recipients: [{ email: identifier, fullName: '' }],
+          variables: {
+            url,
+          },
+        });
       },
     }),
   ],
