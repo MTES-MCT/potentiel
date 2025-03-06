@@ -1,7 +1,7 @@
 import React from 'react';
 import routes from '../../../../routes';
 
-import { Link } from '../..';
+import { ExternalLinkIcon, Link } from '../..';
 
 import { UtilisateurReadModel } from '../../../../modules/utilisateur/récupérer/UtilisateurReadModel';
 import { Routes } from '@potentiel-applications/routes';
@@ -9,6 +9,10 @@ import { Routes } from '@potentiel-applications/routes';
 type FooterProps = {
   user?: UtilisateurReadModel;
 };
+
+const IconNouvelOnglet = () => (
+  <ExternalLinkIcon className="text-base ml-1 -mb-1" title="(ouvrir dans un nouvel onglet)" />
+);
 
 const Footer: React.FC<FooterProps> = ({ user }) => (
   <div className="print:hidden mt-auto">
@@ -79,32 +83,40 @@ const Footer: React.FC<FooterProps> = ({ user }) => (
               <a
                 className="text-grey-425-base no-underline hover:text-grey-425-base hover:underline focus:text-grey-425-base visited:text-grey-425-base"
                 href="https://docs.potentiel.beta.gouv.fr/declaration-daccessibilite"
+                target="_blank"
               >
                 Accessibilité: non conforme
+                <IconNouvelOnglet />
               </a>
             </li>
             <li className="text-xs ml-1 md:ml-3 before:inline-block before:content-[''] before:align-middle before:w-[1px] before:h-[16px] before:bg-grey-925-base before:mr-3">
               <a
                 className="text-grey-425-base no-underline hover:text-grey-425-base hover:underline focus:text-grey-425-base visited:text-grey-425-base"
                 href="https://docs.potentiel.beta.gouv.fr/info/cgu"
+                target="_blank"
               >
                 Mentions légales
+                <IconNouvelOnglet />
               </a>
             </li>
             <li className="text-xs ml-1 md:ml-3 before:inline-block before:content-[''] before:align-middle before:w-[1px] before:h-[16px] before:bg-grey-925-base before:mr-3">
               <a
                 className="text-grey-425-base no-underline hover:text-grey-425-base hover:underline focus:text-grey-425-base visited:text-grey-425-base"
                 href="https://docs.potentiel.beta.gouv.fr/info/conditions-generales-dutilisation"
+                target="_blank"
               >
                 Conditions générales d'utilisation
+                <IconNouvelOnglet />
               </a>
             </li>
             <li className="text-xs ml-1 md:ml-3 before:inline-block before:content-[''] before:align-middle before:w-[1px] before:h-[16px] before:bg-grey-925-base before:mr-3">
               <a
                 className="text-grey-425-base no-underline hover:text-grey-425-base hover:underline focus:text-grey-425-base visited:text-grey-425-base"
                 href="https://docs.potentiel.beta.gouv.fr/info/vie-privee-et-politique-de-confidentialite"
+                target="_blank"
               >
                 Politique de confidentialité
+                <IconNouvelOnglet />
               </a>
             </li>
             <li className="text-xs ml-1 md:ml-3 before:inline-block before:content-[''] before:align-middle before:w-[1px] before:h-[16px] before:bg-grey-925-base before:mr-3">
@@ -115,8 +127,10 @@ const Footer: React.FC<FooterProps> = ({ user }) => (
                     ? 'https://potentiel.gitbook.io/guide-potentiel-dreal/ '
                     : 'https://docs.potentiel.beta.gouv.fr/'
                 }
+                target="_blank"
               >
                 Guide d'utilisation
+                <IconNouvelOnglet />
               </a>
             </li>
             <li className="text-xs ml-1 md:ml-3 before:inline-block before:content-[''] before:align-middle before:w-[1px] before:h-[16px] before:bg-grey-925-base before:mr-3">
@@ -136,6 +150,7 @@ const Footer: React.FC<FooterProps> = ({ user }) => (
               className="text-grey-425-base underline hover:text-grey-425-base hover:underline focus:text-grey-425-base visited:text-grey-425-base"
             >
               licence etalab-2.0
+              <IconNouvelOnglet />
             </a>
           </p>
         </div>
