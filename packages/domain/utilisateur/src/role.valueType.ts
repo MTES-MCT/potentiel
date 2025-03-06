@@ -319,12 +319,14 @@ const référencielPermissions = {
         demander: 'Éliminé.Recours.UseCase.DemanderRecours',
         accorder: 'Éliminé.Recours.UseCase.AccorderRecours',
         rejeter: 'Éliminé.Recours.UseCase.RejeterRecours',
+        passerEnInstruction: 'Éliminé.Recours.UseCase.PasserRecoursEnInstruction',
       },
       command: {
         annuler: 'Éliminé.Recours.Command.AnnulerRecours',
         demander: 'Éliminé.Recours.Command.DemanderRecours',
         accorder: 'Éliminé.Recours.Command.AccorderRecours',
         rejeter: 'Éliminé.Recours.Command.RejeterRecours',
+        passerEnInstruction: 'Éliminé.Recours.Command.PasserRecoursEnInstruction',
       },
     },
   },
@@ -570,6 +572,10 @@ const policies = {
       référencielPermissions.utilisateur.query.consulter,
       référencielPermissions.éliminé.recours.usecase.rejeter,
       référencielPermissions.éliminé.recours.command.rejeter,
+    ],
+    'passer-en-instruction': [
+      référencielPermissions.éliminé.recours.usecase.passerEnInstruction,
+      référencielPermissions.éliminé.recours.command.passerEnInstruction,
     ],
   },
   tâche: {
@@ -1036,6 +1042,7 @@ const adminPolicies: ReadonlyArray<Policy> = [
   'recours.consulter.liste',
   'recours.accorder',
   'recours.rejeter',
+  'recours.passer-en-instruction',
 
   // Gestionnaire réseau
   'réseau.gestionnaire.lister',

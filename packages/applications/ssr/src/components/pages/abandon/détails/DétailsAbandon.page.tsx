@@ -25,7 +25,7 @@ import {
   TransmettrePreuveRecandidature,
   TransmettrePreuveRecandidatureFormProps,
 } from './transmettrePreuveRecandidature/TransmettrePreuveRecandidature';
-import { PasserAbandonEnInstruction } from './passerEnInstruction/PasserAbandonEnInstruction';
+import { PasserAbandonEnInstruction } from './passerEnInstruction/PasserAbandonEnInstruction.form';
 
 type AvailableActions = Array<
   | 'demander-confirmation'
