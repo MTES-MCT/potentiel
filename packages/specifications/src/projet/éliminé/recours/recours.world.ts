@@ -6,6 +6,7 @@ import { AccorderRecoursFixture } from './fixtures/accorderRecours.fixture';
 import { AnnulerRecoursFixture } from './fixtures/annulerRecours.fixture';
 import { DemanderRecoursFixture } from './fixtures/demanderRecours.fixture';
 import { RejeterRecoursFixture } from './fixtures/rejeterRecours.fixture';
+import { PasserRecoursEnInstructionFixture } from './fixtures/passerRecoursEnInstruction.fixture';
 
 export class RecoursWord {
   #accorderRecoursFixture: AccorderRecoursFixture;
@@ -32,10 +33,17 @@ export class RecoursWord {
     return this.#demanderRecoursFixture;
   }
 
+  #passerRecoursEnInstructionFixture: PasserRecoursEnInstructionFixture;
+
+  get passerRecoursEnInstructionFixture() {
+    return this.#passerRecoursEnInstructionFixture;
+  }
+
   reinitialiserEnDemande() {
     this.#accorderRecoursFixture = new AccorderRecoursFixture();
     this.#annulerRecoursFixture = new AnnulerRecoursFixture();
     this.#rejeterRecoursFixture = new RejeterRecoursFixture();
+    this.#passerRecoursEnInstructionFixture = new PasserRecoursEnInstructionFixture();
   }
 
   constructor() {
@@ -43,6 +51,7 @@ export class RecoursWord {
     this.#annulerRecoursFixture = new AnnulerRecoursFixture();
     this.#rejeterRecoursFixture = new RejeterRecoursFixture();
     this.#demanderRecoursFixture = new DemanderRecoursFixture();
+    this.#passerRecoursEnInstructionFixture = new PasserRecoursEnInstructionFixture();
   }
 
   mapToExpected(
@@ -68,6 +77,18 @@ export class RecoursWord {
         ),
       },
     };
+
+    // Instruction
+    if (this.#passerRecoursEnInstructionFixture.aÉtéCréé) {
+      expected.demande.instruction = {
+        passéEnInstructionLe: DateTime.convertirEnValueType(
+          this.#passerRecoursEnInstructionFixture.passéEnInstructionLe,
+        ),
+        passéEnInstructionPar: Email.convertirEnValueType(
+          this.#passerRecoursEnInstructionFixture.passéEnInstructionPar,
+        ),
+      };
+    }
 
     // Accord
     if (this.#accorderRecoursFixture.aÉtéCréé) {

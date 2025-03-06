@@ -1,5 +1,4 @@
 # language: fr
-@select
 Fonctionnalité: Passer le recours d'un projet éliminé en instruction
 
     Contexte:

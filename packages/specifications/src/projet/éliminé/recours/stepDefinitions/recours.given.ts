@@ -5,12 +5,9 @@ import { Recours } from '@potentiel-domain/elimine';
 
 import { PotentielWorld } from '../../../../potentiel.world';
 
-EtantDonné(
-  /une demande de recours en cours pour le projet éliminé/,
-  async function (this: PotentielWorld) {
-    await créerDemandeRecours.call(this);
-  },
-);
+EtantDonné(/un recours en cours pour le projet éliminé/, async function (this: PotentielWorld) {
+  await créerDemandeRecours.call(this);
+});
 
 EtantDonné(/un recours accordé pour le projet éliminé/, async function (this: PotentielWorld) {
   await créerDemandeRecours.call(this);
@@ -21,6 +18,14 @@ EtantDonné(/un recours rejeté pour le projet éliminé/, async function (this:
   await créerDemandeRecours.call(this);
   await créerRejetRecours.call(this);
 });
+
+EtantDonné(
+  `une demande de recours en instruction pour le projet éliminé`,
+  async function (this: PotentielWorld) {
+    await créerDemandeRecours.call(this);
+    await passerDemandeRecoursEnInstruction.call(this);
+  },
+);
 
 async function créerDemandeRecours(this: PotentielWorld) {
   const identifiantProjet = this.eliminéWorld.identifiantProjet.formatter();
@@ -81,6 +86,24 @@ async function créerRejetRecours(this: PotentielWorld) {
       réponseSignéeValue: réponseSignée,
       dateRejetValue: rejetéeLe,
       identifiantUtilisateurValue: rejetéePar,
+    },
+  });
+}
+
+async function passerDemandeRecoursEnInstruction(this: PotentielWorld) {
+  const identifiantProjet = this.eliminéWorld.identifiantProjet.formatter();
+
+  const { passéEnInstructionLe, passéEnInstructionPar } =
+    this.eliminéWorld.recoursWorld.passerRecoursEnInstructionFixture.créer({
+      passéEnInstructionPar: this.utilisateurWorld.adminFixture.email,
+    });
+
+  await mediator.send<Recours.RecoursUseCase>({
+    type: 'Éliminé.Recours.UseCase.PasserRecoursEnInstruction',
+    data: {
+      identifiantProjetValue: identifiantProjet,
+      dateInstructionValue: passéEnInstructionLe,
+      identifiantUtilisateurValue: passéEnInstructionPar,
     },
   });
 }

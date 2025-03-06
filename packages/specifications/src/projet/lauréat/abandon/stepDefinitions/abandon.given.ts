@@ -66,7 +66,7 @@ EtantDonné(
   /une demande d'abandon en instruction(.*)pour le projet lauréat/,
   async function (this: PotentielWorld, etat: string) {
     await créerDemandeAbandon.call(this, etat);
-    await instruireAbandon.call(this);
+    await passerDemandeAbandonEnInstruction.call(this);
   },
 );
 
@@ -183,7 +183,7 @@ async function créerConfirmationAbandon(this: PotentielWorld) {
   });
 }
 
-async function instruireAbandon(this: PotentielWorld) {
+async function passerDemandeAbandonEnInstruction(this: PotentielWorld) {
   const identifiantProjet = this.lauréatWorld.identifiantProjet.formatter();
   const { passéEnInstructionLe, passéEnInstructionPar } =
     this.lauréatWorld.abandonWorld.passerEnInstructionAbandonFixture.créer();

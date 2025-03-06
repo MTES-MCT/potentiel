@@ -8,7 +8,6 @@ export const statuts = [
   'en-instruction',
   'inconnu',
 ] as const;
-
 export type RawType = (typeof statuts)[number];
 
 export type ValueType = ReadonlyValueType<{

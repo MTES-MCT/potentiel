@@ -59,6 +59,19 @@ Alors(`le recours du projet éliminé devrait être accordé`, async function (t
   );
 });
 
+Alors(
+  `la demande de recours du projet éliminé devrait être en instruction`,
+  async function (this: PotentielWorld) {
+    await waitForExpect(async () =>
+      vérifierRecours.call(
+        this,
+        this.eliminéWorld.identifiantProjet,
+        Recours.StatutRecours.enInstruction,
+      ),
+    );
+  },
+);
+
 async function vérifierRecours(
   this: PotentielWorld,
   identifiantProjet: IdentifiantProjet.ValueType,

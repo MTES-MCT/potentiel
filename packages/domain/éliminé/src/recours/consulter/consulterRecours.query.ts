@@ -17,6 +17,10 @@ export type ConsulterRecoursReadModel = {
     pièceJustificative: DocumentProjet.ValueType;
     demandéLe: DateTime.ValueType;
     demandéPar: Email.ValueType;
+    instruction?: {
+      passéEnInstructionLe: DateTime.ValueType;
+      passéEnInstructionPar: Email.ValueType;
+    };
     accord?: {
       accordéLe: DateTime.ValueType;
       accordéPar: Email.ValueType;
@@ -64,6 +68,16 @@ const mapToReadModel = (result: RecoursEntity) => {
         DateTime.convertirEnValueType(result.demande.demandéLe).formatter(),
         result.demande.pièceJustificative?.format,
       ),
+      instruction: result.demande.instruction
+        ? {
+            passéEnInstructionLe: DateTime.convertirEnValueType(
+              result.demande.instruction.passéEnInstructionLe,
+            ),
+            passéEnInstructionPar: Email.convertirEnValueType(
+              result.demande.instruction.passéEnInstructionPar,
+            ),
+          }
+        : undefined,
       accord: result.demande.accord
         ? {
             accordéLe: DateTime.convertirEnValueType(result.demande.accord.accordéLe),

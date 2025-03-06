@@ -125,3 +125,28 @@ Quand(
     }
   },
 );
+
+Quand(
+  `l'administrateur passe en instruction le recours pour le projet éliminé`,
+  async function (this: PotentielWorld) {
+    try {
+      const identifiantProjet = this.eliminéWorld.identifiantProjet.formatter();
+
+      const { passéEnInstructionLe, passéEnInstructionPar } =
+        this.eliminéWorld.recoursWorld.passerRecoursEnInstructionFixture.créer({
+          passéEnInstructionPar: this.utilisateurWorld.adminFixture.email,
+        });
+
+      await mediator.send<Recours.RecoursUseCase>({
+        type: 'Éliminé.Recours.UseCase.PasserRecoursEnInstruction',
+        data: {
+          identifiantProjetValue: identifiantProjet,
+          dateInstructionValue: passéEnInstructionLe,
+          identifiantUtilisateurValue: passéEnInstructionPar,
+        },
+      });
+    } catch (error) {
+      this.error = error as Error;
+    }
+  },
+);
