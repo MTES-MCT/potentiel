@@ -6,5 +6,5 @@ type Heading4Props = {
   className?: string;
 };
 export const Heading4 = ({ children, className }: Heading4Props) => (
-  <h4 className={clsx(`text-lg font-bold`, className)}>{children}</h4>
+  <h4 className={clsx(`text-xl font-bold`, className)}>{children}</h4>
 );

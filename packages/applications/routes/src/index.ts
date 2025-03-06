@@ -16,7 +16,6 @@ import { Tache } from './tâche';
 import { Période } from './période';
 import { Auth } from './auth';
 import { StatistiquesPubliques } from './statistiques-publiques';
-import { Accessibilité } from './accessibiité';
 
 export const Routes = {
   Abandon,
@@ -35,5 +34,4 @@ export const Routes = {
   Actionnaire,
   Lauréat,
   StatistiquesPubliques,
-  Accessibilité,
 };
