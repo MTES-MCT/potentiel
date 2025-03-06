@@ -5,9 +5,12 @@ import { Recours } from '@potentiel-domain/elimine';
 
 import { PotentielWorld } from '../../../../potentiel.world';
 
-EtantDonné(/un recours en cours pour le projet éliminé/, async function (this: PotentielWorld) {
-  await créerDemandeRecours.call(this);
-});
+EtantDonné(
+  /une demande de recours en cours pour le projet éliminé/,
+  async function (this: PotentielWorld) {
+    await créerDemandeRecours.call(this);
+  },
+);
 
 EtantDonné(/un recours accordé pour le projet éliminé/, async function (this: PotentielWorld) {
   await créerDemandeRecours.call(this);
