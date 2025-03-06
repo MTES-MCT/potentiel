@@ -23,7 +23,6 @@ import {
   ProjetsÀRéclamer,
   LienInvitationPérimé,
   AccèsNonAutorisé,
-  DéclarationAccessibilité,
   AcheteurObligeStatistiques,
   CreStatistiques,
   DetailsDemandeDelai,
@@ -139,15 +138,6 @@ export const ModificationRequestListPage = (props: Parameters<typeof Modificatio
     Component: ModificationRequestList,
     props,
     title: 'Demandes de modification',
-  });
-
-export const DéclarationAccessibilitéPage = (
-  props: Parameters<typeof DéclarationAccessibilité>[0],
-) =>
-  makeHtml({
-    Component: DéclarationAccessibilité,
-    props,
-    title: `Déclaration d'accessibilité`,
   });
 
 export const UploadLegacyModificationFilesPage = (
