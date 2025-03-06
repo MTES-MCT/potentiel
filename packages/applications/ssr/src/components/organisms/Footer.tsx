@@ -8,7 +8,8 @@ export const Footer = () => (
     brandTop={<>Gouvernement</>}
     accessibility="partially compliant"
     accessibilityLinkProps={{
-      href: '/accessibilite.html',
+      href: `https://docs.potentiel.beta.gouv.fr/declaration-daccessibilite`,
+      target: '_blank',
     }}
     contentDescription={
       <>
@@ -19,24 +20,28 @@ export const Footer = () => (
     }
     termsLinkProps={{
       href: 'https://docs.potentiel.beta.gouv.fr/info/cgu',
+      target: '_blank',
     }}
     bottomItems={[
       {
         text: "Conditions générales d'utilisation",
         linkProps: {
           href: 'https://docs.potentiel.beta.gouv.fr/info/conditions-generales-dutilisation',
+          target: '_blank',
         },
       },
       {
         text: 'Politique de confidentialité',
         linkProps: {
           href: 'https://docs.potentiel.beta.gouv.fr/info/vie-privee-et-politique-de-confidentialite',
+          target: '_blank',
         },
       },
       {
         text: "Guide d'utilisation",
         linkProps: {
           href: 'https://docs.potentiel.beta.gouv.fr/',
+          target: '_blank',
         },
       },
       {
