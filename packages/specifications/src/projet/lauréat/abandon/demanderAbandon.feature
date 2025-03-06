@@ -14,8 +14,13 @@ Fonctionnalité: Demander l'abandon d'un projet lauréat
         Quand le porteur demande l'abandon pour le projet lauréat
         Alors l'abandon du projet lauréat devrait être de nouveau demandé
 
-    Scénario: Impossible de demander l'abandon d'un projet si l'abandon est déjà en cours
+    Scénario: Impossible de demander l'abandon d'un projet si l'abandon est déjà en cours (demandé)
         Etant donné une demande d'abandon en cours pour le projet lauréat
+        Quand le porteur demande l'abandon pour le projet lauréat
+        Alors le porteur devrait être informé que "Une demande d'abandon est déjà en cours"
+
+    Scénario: Impossible de demander l'abandon d'un projet si l'abandon est déjà en cours (en instruction)
+        Etant donné une demande d'abandon en instruction pour le projet lauréat
         Quand le porteur demande l'abandon pour le projet lauréat
         Alors le porteur devrait être informé que "Une demande d'abandon est déjà en cours"
 

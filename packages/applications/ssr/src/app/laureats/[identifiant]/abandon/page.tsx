@@ -159,11 +159,8 @@ const mapToActions = ({
       if (statut.estEnCours()) {
         actions.push(recandidature ? 'accorder-avec-recandidature' : 'accorder-sans-recandidature');
         actions.push('rejeter');
+        // TODO: on pourra reprendre l'instruction donc ça fait sens
         actions.push('passer-en-instruction');
-      }
-      if (statut.estEnInstruction()) {
-        actions.push(recandidature ? 'accorder-avec-recandidature' : 'accorder-sans-recandidature');
-        actions.push('rejeter');
       }
       break;
 
@@ -172,7 +169,7 @@ const mapToActions = ({
         actions.push('confirmer');
       }
 
-      if ((statut.estEnCours() || statut.estEnInstruction()) && !statut.estConfirmé()) {
+      if (statut.estEnCours() && !statut.estConfirmé()) {
         actions.push('annuler');
       }
 

@@ -14,8 +14,13 @@ Fonctionnalité: Demander le recours d'un projet éliminé
         Quand le porteur demande le recours pour le projet éliminé
         Alors le recours du projet éliminé devrait être de nouveau demandé
 
-    Scénario: Impossible de demander un recours pour un projet si le recours est déjà en cours
+    Scénario: Impossible de demander un recours pour un projet si le recours est déjà demandé
         Etant donné une demande de recours en cours pour le projet éliminé
+        Quand le porteur demande le recours pour le projet éliminé
+        Alors le porteur devrait être informé que "Un recours est déjà en cours"
+
+    Scénario: Impossible de demander un recours pour un projet si le recours est déjà en instruction
+        Etant donné une demande de recours en instruction pour le projet éliminé
         Quand le porteur demande le recours pour le projet éliminé
         Alors le porteur devrait être informé que "Un recours est déjà en cours"
 
