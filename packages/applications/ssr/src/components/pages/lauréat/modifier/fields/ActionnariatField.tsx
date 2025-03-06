@@ -48,8 +48,6 @@ export const ActionnariatField = ({
             ...typesActionnariat.map((type) => ({
               label: getActionnariatTypeLabel(type),
               value: type,
-              // TODO: remove https://github.com/codegouvfr/react-dsfr/issues/387
-              selected: type === candidatureValue,
             })),
           ]}
         />

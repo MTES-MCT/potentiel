@@ -42,8 +42,6 @@ export const GestionnaireRéseauSelect = ({
       label: `${raisonSociale} (code EIC ou gestionnaire : ${identifiantGestionnaireRéseau.codeEIC})`,
       value: identifiantGestionnaireRéseau.codeEIC,
       key: identifiantGestionnaireRéseau.codeEIC,
-      // TODO remove https://github.com/codegouvfr/react-dsfr/issues/387
-      selected: identifiantGestionnaireRéseau.codeEIC === defaultValue,
     }),
   );
 
