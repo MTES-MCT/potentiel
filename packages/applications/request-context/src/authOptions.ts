@@ -63,7 +63,7 @@ export const authOptions: AuthOptions = {
   ],
   pages: {
     signIn: Routes.Auth.signIn(),
-    error: Routes.Auth.unauthorized(),
+    error: Routes.Auth.error(),
     signOut: Routes.Auth.signOut(),
     verifyRequest: Routes.Auth.verifyRequest(),
   },
