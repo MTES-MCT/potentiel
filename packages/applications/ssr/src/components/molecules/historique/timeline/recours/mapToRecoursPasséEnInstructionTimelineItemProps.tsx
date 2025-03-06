@@ -11,7 +11,7 @@ export const mapToRecoursPasséEnInstructionTimelineItemProp = (
     date: passéEnInstructionLe,
     title: (
       <div>
-        Recours passé en instruction par{' '}
+        Demande de recours passée en instruction par{' '}
         {<span className="font-semibold">{passéEnInstructionPar}</span>}
       </div>
     ),

@@ -79,7 +79,7 @@ export const InfoGenerales = ({
         <div className="print:hidden">
           <Heading3 className="m-0">Recours</Heading3>
           <Link href={Routes.Recours.détail(formattedIdentifiantProjet)}>
-            Recours {demandeRecours.statut}
+            Recours {demandeRecours.statut.split('-').join(' ')}
           </Link>
         </div>
       )}

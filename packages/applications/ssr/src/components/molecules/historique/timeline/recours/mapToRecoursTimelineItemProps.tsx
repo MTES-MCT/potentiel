@@ -40,7 +40,7 @@ export const mapToRecoursTimelineItemProps = (record: HistoryRecord) => {
     )
     .with(
       {
-        type: 'RecoursEnInstruction-V1',
+        type: 'RecoursPasséEnInstruction-V1',
       },
       mapToRecoursPasséEnInstructionTimelineItemProp,
     )

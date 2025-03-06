@@ -146,6 +146,10 @@ const mapToActions = ({
         actions.push('rejeter');
         actions.push('passer-en-instruction');
       }
+      if (statut.estEnInstruction() && !recandidature) {
+        actions.push('accorder-sans-recandidature');
+        actions.push('rejeter');
+      }
       break;
 
     case 'dgec-validateur':
@@ -157,6 +161,10 @@ const mapToActions = ({
         actions.push('rejeter');
         actions.push('passer-en-instruction');
       }
+      if (statut.estEnInstruction()) {
+        actions.push(recandidature ? 'accorder-avec-recandidature' : 'accorder-sans-recandidature');
+        actions.push('rejeter');
+      }
       break;
 
     case 'porteur-projet':
@@ -164,7 +172,7 @@ const mapToActions = ({
         actions.push('confirmer');
       }
 
-      if (statut.estEnCours() && !statut.estConfirmé()) {
+      if ((statut.estEnCours() || statut.estEnInstruction()) && !statut.estConfirmé()) {
         actions.push('annuler');
       }
 
