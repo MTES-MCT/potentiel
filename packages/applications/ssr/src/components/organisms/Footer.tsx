@@ -8,7 +8,7 @@ export const Footer = () => (
     brandTop={<>Gouvernement</>}
     accessibility="partially compliant"
     accessibilityLinkProps={{
-      href: '/accessibilite.html',
+      href: Routes.Accessibilité.consulter,
     }}
     contentDescription={
       <>
