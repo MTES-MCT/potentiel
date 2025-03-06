@@ -43,5 +43,5 @@ export const signOut = (options?: {
 };
 
 export const redirectToDashboard = () => `/go-to-user-dashboard`;
-export const unauthorized = () => `/auth/unauthorized`;
+export const error = () => `/auth/error`;
 export const verifyRequest = () => `/auth/verifyRequest`;
