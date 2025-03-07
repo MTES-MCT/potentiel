@@ -8,7 +8,7 @@ import { loadUtilisateurFactory } from '../utilisateur.aggregate';
 export type InviterPorteurCommand = Message<
   'Utilisateur.Command.InviterPorteur',
   {
-    identifiantProjet: IdentifiantProjet.ValueType;
+    identifiantsProjet: IdentifiantProjet.ValueType[];
     identifiantUtilisateur: Email.ValueType;
     invitéPar: Email.ValueType;
     invitéLe: DateTime.ValueType;
@@ -18,7 +18,7 @@ export type InviterPorteurCommand = Message<
 export const registerInviterPorteurCommand = (loadAggregate: LoadAggregate) => {
   const loadUtilisateur = loadUtilisateurFactory(loadAggregate);
   const handler: MessageHandler<InviterPorteurCommand> = async ({
-    identifiantProjet,
+    identifiantsProjet,
     identifiantUtilisateur,
     invitéLe,
     invitéPar,
@@ -26,7 +26,7 @@ export const registerInviterPorteurCommand = (loadAggregate: LoadAggregate) => {
     const utilisateur = await loadUtilisateur(identifiantUtilisateur, false);
 
     await utilisateur.inviterPorteur({
-      identifiantProjet,
+      identifiantsProjet,
       identifiantUtilisateur,
       invitéLe,
       invitéPar,

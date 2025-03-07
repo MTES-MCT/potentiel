@@ -95,18 +95,15 @@ export default class Migrer extends Command {
     }
 
     for (const porteur of porteurs) {
-      console.log({ porteur }, porteur.identifiantsProjet?.length || 'AUCUN!', 'projet(s)');
-      for (const projet of porteur.identifiantsProjet ?? []) {
-        await mediator.send<InviterPorteurUseCase>({
-          type: 'Utilisateur.UseCase.InviterPorteur',
-          data: {
-            identifiantUtilisateurValue: porteur.email,
-            identifiantProjetValue: projet,
-            invitéLeValue: DateTime.convertirEnValueType(porteur.createdAt).formatter(),
-            invitéParValue: Email.system().formatter(),
-          },
-        });
-      }
+      await mediator.send<InviterPorteurUseCase>({
+        type: 'Utilisateur.UseCase.InviterPorteur',
+        data: {
+          identifiantUtilisateurValue: porteur.email,
+          identifiantsProjetValues: porteur.identifiantsProjet ?? [],
+          invitéLeValue: DateTime.convertirEnValueType(porteur.createdAt).formatter(),
+          invitéParValue: Email.system().formatter(),
+        },
+      });
     }
   }
 }

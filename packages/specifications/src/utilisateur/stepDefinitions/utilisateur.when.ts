@@ -28,7 +28,7 @@ Quand(
       await mediator.send<InviterPorteurUseCase>({
         type: 'Utilisateur.UseCase.InviterPorteur',
         data: {
-          identifiantProjetValue: identifiantProjet,
+          identifiantsProjetValues: [identifiantProjet],
           identifiantUtilisateurValue: porteurInvité,
           invitéLeValue: DateTime.now().formatter(),
           invitéParValue: porteurExistant,

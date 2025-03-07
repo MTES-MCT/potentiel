@@ -25,7 +25,7 @@ const action: FormAction<FormState, typeof schema> = async (
     await mediator.send<InviterPorteurUseCase>({
       type: 'Utilisateur.UseCase.InviterPorteur',
       data: {
-        identifiantProjetValue: identifiantProjet,
+        identifiantsProjetValues: [identifiantProjet],
         identifiantUtilisateurValue: identifiantUtilisateurInvite,
         invitéLeValue: DateTime.now().formatter(),
         invitéParValue: utilisateur.identifiantUtilisateur.formatter(),

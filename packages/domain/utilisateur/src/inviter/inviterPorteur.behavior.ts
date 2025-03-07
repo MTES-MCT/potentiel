@@ -2,20 +2,22 @@ import { DomainEvent } from '@potentiel-domain/core';
 import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
 
 import { UtilisateurAggregate } from '../utilisateur.aggregate';
-import { AccèsProjetDéjàAutorisé } from '../errors';
+import { AccèsProjetDéjàAutoriséError, AuMoinsUnProjetRequisError } from '../errors';
 
-export type PorteurInvitéEvent = DomainEvent<
-  'PorteurInvité-V1',
+export type AccèsAuProjetAutoriséEvent = DomainEvent<
+  'AccèsAuProjetAutorisé-V1',
   {
-    identifiantProjet: IdentifiantProjet.RawType;
     identifiantUtilisateur: Email.RawType;
-    invitéPar: Email.RawType;
-    invitéLe: DateTime.RawType;
+    identifiantsProjet: IdentifiantProjet.RawType[];
+    autoriséLe: DateTime.RawType;
+    autoriséPar: Email.RawType;
+    source: 'invitation' | 'réclamation' | 'candidature';
+    nouvelUtilisateur?: true;
   }
 >;
 
 export type InviterPorteurOptions = {
-  identifiantProjet: IdentifiantProjet.ValueType;
+  identifiantsProjet: IdentifiantProjet.ValueType[];
   identifiantUtilisateur: Email.ValueType;
   invitéPar: Email.ValueType;
   invitéLe: DateTime.ValueType;
@@ -23,29 +25,41 @@ export type InviterPorteurOptions = {
 
 export async function inviterPorteur(
   this: UtilisateurAggregate,
-  { identifiantProjet, identifiantUtilisateur, invitéLe, invitéPar }: InviterPorteurOptions,
+  { identifiantsProjet, identifiantUtilisateur, invitéLe, invitéPar }: InviterPorteurOptions,
 ) {
-  if (this.existe && this.aAccèsAuProjet(identifiantProjet)) {
-    throw new AccèsProjetDéjàAutorisé();
+  if (identifiantsProjet.length === 0) {
+    throw new AuMoinsUnProjetRequisError();
+  }
+  const nouveauxIdentifiantsProjet = identifiantsProjet.filter(
+    (identifiantProjet) => !this.aAccèsAuProjet(identifiantProjet),
+  );
+  if (this.existe && nouveauxIdentifiantsProjet.length === 0) {
+    throw new AccèsProjetDéjàAutoriséError();
   }
 
-  const event: PorteurInvitéEvent = {
-    type: 'PorteurInvité-V1',
+  const event: AccèsAuProjetAutoriséEvent = {
+    type: 'AccèsAuProjetAutorisé-V1',
     payload: {
-      identifiantProjet: identifiantProjet.formatter(),
+      identifiantsProjet: nouveauxIdentifiantsProjet.map((identifiantProjet) =>
+        identifiantProjet.formatter(),
+      ),
       identifiantUtilisateur: identifiantUtilisateur.formatter(),
-      invitéLe: invitéLe.formatter(),
-      invitéPar: invitéPar.formatter(),
+      autoriséLe: invitéLe.formatter(),
+      autoriséPar: invitéPar.formatter(),
+      source: 'invitation',
+      nouvelUtilisateur: this.existe ? undefined : true,
     },
   };
 
   await this.publish(event);
 }
 
-export function applyPorteurInvité(
+export function applyAccèsAuProjetAutorisé(
   this: UtilisateurAggregate,
-  { payload: { identifiantProjet } }: PorteurInvitéEvent,
+  { payload: { identifiantsProjet } }: AccèsAuProjetAutoriséEvent,
 ) {
   this.existe = true;
-  this.projets.add(identifiantProjet);
+  for (const identifiantProjet of identifiantsProjet) {
+    this.projets.add(identifiantProjet);
+  }
 }

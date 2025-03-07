@@ -8,7 +8,7 @@ export type InviterPorteurUseCase = Message<
   'Utilisateur.UseCase.InviterPorteur',
   {
     identifiantUtilisateurValue: string;
-    identifiantProjetValue: string;
+    identifiantsProjetValues: string[];
     invitéLeValue: string;
     invitéParValue: string;
   }
@@ -17,12 +17,12 @@ export type InviterPorteurUseCase = Message<
 export const registerInviterPorteurUseCase = () => {
   const runner: MessageHandler<InviterPorteurUseCase> = async ({
     identifiantUtilisateurValue,
-    identifiantProjetValue,
+    identifiantsProjetValues,
     invitéLeValue,
     invitéParValue,
   }) => {
     const identifiantUtilisateur = Email.convertirEnValueType(identifiantUtilisateurValue);
-    const identifiantProjet = IdentifiantProjet.convertirEnValueType(identifiantProjetValue);
+    const identifiantsProjet = identifiantsProjetValues.map(IdentifiantProjet.convertirEnValueType);
     const invitéPar = Email.convertirEnValueType(invitéParValue);
     const invitéLe = DateTime.convertirEnValueType(invitéLeValue);
 
@@ -30,7 +30,7 @@ export const registerInviterPorteurUseCase = () => {
       type: 'Utilisateur.Command.InviterPorteur',
       data: {
         identifiantUtilisateur,
-        identifiantProjet,
+        identifiantsProjet,
         invitéLe,
         invitéPar,
       },

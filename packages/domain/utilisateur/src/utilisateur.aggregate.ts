@@ -4,8 +4,8 @@ import { Aggregate, GetDefaultAggregateState, LoadAggregate } from '@potentiel-d
 import { Email, IdentifiantProjet } from '@potentiel-domain/common';
 
 import {
-  PorteurInvitéEvent,
-  applyPorteurInvité,
+  AccèsAuProjetAutoriséEvent,
+  applyAccèsAuProjetAutorisé,
   inviterPorteur,
 } from './inviter/inviterPorteur.behavior';
 import { UtilisateurInconnuError } from './utilisateurInconnu.error';
@@ -15,7 +15,7 @@ import {
   UtilisateurInvitéEvent,
 } from './inviter/inviter.behavior';
 
-export type UtilisateurEvent = PorteurInvitéEvent | UtilisateurInvitéEvent;
+export type UtilisateurEvent = AccèsAuProjetAutoriséEvent | UtilisateurInvitéEvent;
 export type UtilisateurAggregate = Aggregate<UtilisateurEvent> & {
   readonly inviterPorteur: typeof inviterPorteur;
   readonly inviter: typeof inviter;
@@ -40,7 +40,7 @@ export const getDefaultUtilisateurAggregate: GetDefaultAggregateState<
 
 function apply(this: UtilisateurAggregate, event: UtilisateurEvent) {
   match(event)
-    .with({ type: 'PorteurInvité-V1' }, applyPorteurInvité.bind(this))
+    .with({ type: 'AccèsAuProjetAutorisé-V1' }, applyAccèsAuProjetAutorisé.bind(this))
     .with({ type: 'UtilisateurInvité-V1' }, applyUtilisateurInvité.bind(this))
     .exhaustive();
 }
