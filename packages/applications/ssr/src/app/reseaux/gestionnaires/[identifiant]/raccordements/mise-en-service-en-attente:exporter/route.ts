@@ -3,7 +3,7 @@ import { mediator } from 'mediateur';
 
 import { Option } from '@potentiel-libraries/monads';
 import { GestionnaireRéseau } from '@potentiel-domain/reseau';
-import { Groupe, Role, Utilisateur } from '@potentiel-domain/utilisateur';
+import { Role, Utilisateur } from '@potentiel-domain/utilisateur';
 import { OperationRejectedError } from '@potentiel-domain/core';
 import { Raccordement } from '@potentiel-domain/laureat';
 
@@ -98,10 +98,8 @@ function vérifierAccèsAuGestionnaireRéseau(
 ) {
   if (!utilisateur.role.estÉgaleÀ(Role.grd)) return;
   if (
-    Option.isSome(utilisateur.groupe) &&
-    utilisateur.groupe.estÉgaleÀ(
-      Groupe.convertirEnValueType(`/GestionnairesRéseau/${identifiantGestionnaireRéseau}`),
-    )
+    Option.isSome(utilisateur.identifiantGestionnaireRéseau) &&
+    utilisateur.identifiantGestionnaireRéseau === identifiantGestionnaireRéseau
   ) {
     return;
   }

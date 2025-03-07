@@ -402,6 +402,15 @@ const référencielPermissions = {
   utilisateur: {
     query: {
       consulter: 'Utilisateur.Query.ConsulterUtilisateur',
+      lister: 'Utilisateur.Query.ListerUtilisateurs',
+    },
+    command: {
+      inviter: 'Utilisateur.Command.InviterUtilisateur',
+      inviterPorteur: 'Utilisateur.Command.InviterPorteur',
+    },
+    usecase: {
+      inviter: 'Utilisateur.UseCase.InviterUtilisateur',
+      inviterPorteur: 'Utilisateur.UseCase.InviterPorteur',
     },
   },
   tâche: {
@@ -980,6 +989,18 @@ const policies = {
       référencielPermissions.lauréat.command.modifier,
     ],
   },
+  utilisateur: {
+    lister: [référencielPermissions.utilisateur.query.lister],
+    inviter: [
+      référencielPermissions.utilisateur.command.inviter,
+      référencielPermissions.utilisateur.usecase.inviter,
+      référencielPermissions.réseau.gestionnaire.query.lister,
+    ],
+    inviterPorteur: [
+      référencielPermissions.utilisateur.command.inviterPorteur,
+      référencielPermissions.utilisateur.usecase.inviterPorteur,
+    ],
+  },
 } as const;
 
 /**
@@ -1112,6 +1133,11 @@ const adminPolicies: ReadonlyArray<Policy> = [
 
   // Lauréat
   'lauréat.modifier',
+
+  // Utilisateur
+  'utilisateur.lister',
+  'utilisateur.inviter',
+  'utilisateur.inviterPorteur',
 ];
 
 const dgecValidateurPolicies: ReadonlyArray<Policy> = [
@@ -1214,6 +1240,9 @@ const drealPolicies: ReadonlyArray<Policy> = [
   'actionnaire.listerChangement',
   'actionnaire.accorderChangement',
   'actionnaire.rejeterChangement',
+
+  // Utilisateur
+  'utilisateur.inviterPorteur',
 ];
 
 const porteurProjetPolicies: ReadonlyArray<Policy> = [
@@ -1282,6 +1311,9 @@ const porteurProjetPolicies: ReadonlyArray<Policy> = [
   'actionnaire.demanderChangement',
   'actionnaire.annulerChangement',
   'actionnaire.listerChangement',
+
+  // Utilisateur
+  'utilisateur.inviterPorteur',
 ];
 
 const acheteurObligéPolicies: ReadonlyArray<Policy> = [

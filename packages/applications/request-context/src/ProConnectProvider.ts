@@ -14,6 +14,7 @@ export type ProConnectProfile = {
   email: string;
   given_name: string;
   usual_name: string;
+  job: string;
   uid: string;
   siret: string;
   utilisateur: PlainType<Utilisateur.ValueType>;
@@ -30,7 +31,7 @@ export default function ProConnect<P extends ProConnectProfile>(
     wellKnown: `${options.issuer}/.well-known/openid-configuration`,
     authorization: {
       params: {
-        scope: 'openid uid given_name usual_name email siret',
+        scope: 'openid uid given_name usual_name profile email siret',
         acr_values: 'eidas1',
         nonce: randomUUID(),
         state: randomUUID(),
@@ -66,15 +67,19 @@ export default function ProConnect<P extends ProConnectProfile>(
         return {
           id: Option.none.type,
           nom: '',
-          groupe: Option.none,
           role: Role.porteur,
+          fonction: Option.none,
           identifiantUtilisateur: IdentifiantUtilisateur.unknownUser,
+          région: Option.none,
+          identifiantGestionnaireRéseau: Option.none,
         };
       }
 
       return {
         id: profile.uid,
         ...mapToPlainObject(utilisateur),
+        nom: profile.usual_name,
+        fonction: profile.job ?? Option.none,
       };
     },
     options,

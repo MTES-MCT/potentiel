@@ -8,7 +8,7 @@ import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { Candidature } from '@potentiel-domain/candidature';
 import { IdentifiantProjet } from '@potentiel-domain/common';
 import { Abandon } from '@potentiel-domain/laureat';
-import { ConsulterUtilisateurQuery } from '@potentiel-domain/utilisateur';
+import { Utilisateur } from '@potentiel-domain/utilisateur';
 import { buildDocument, DonnéesDocument } from '@potentiel-applications/document-builder';
 import { Option } from '@potentiel-libraries/monads';
 import { Routes } from '@potentiel-applications/routes';
@@ -36,10 +36,7 @@ const action: FormAction<FormState, typeof schema> = async (
       return notFound();
     }
 
-    const réponseSignéeValue = await buildReponseSignee(
-      abandon,
-      utilisateur.identifiantUtilisateur.formatter(),
-    );
+    const réponseSignéeValue = await buildReponseSignee(abandon, utilisateur);
 
     await mediator.send<Abandon.AbandonUseCase>({
       type: 'Lauréat.Abandon.UseCase.AccorderAbandon',
@@ -64,7 +61,7 @@ export const accorderAbandonAvecRecandidatureAction = formAction(action, schema)
 
 const buildReponseSignee = async (
   abandon: Abandon.ConsulterAbandonReadModel,
-  identifiantUtilisateur: string,
+  utilisateur: Utilisateur.ValueType,
 ): Promise<Abandon.AccorderAbandonUseCase['data']['réponseSignéeValue']> => {
   const candidature = await mediator.send<Candidature.ConsulterProjetQuery>({
     data: { identifiantProjet: abandon.identifiantProjet.formatter() },
@@ -83,17 +80,6 @@ const buildReponseSignee = async (
   });
 
   if (Option.isNone(appelOffre)) {
-    return notFound();
-  }
-
-  const utilisateur = await mediator.send<ConsulterUtilisateurQuery>({
-    type: 'Utilisateur.Query.ConsulterUtilisateur',
-    data: {
-      identifiantUtilisateur,
-    },
-  });
-
-  if (Option.isNone(utilisateur)) {
     return notFound();
   }
 
@@ -126,8 +112,8 @@ const buildReponseSignee = async (
     demandeAbandon: {
       date: abandon.demande.demandéLe.date.toISOString(),
       instructeur: {
-        nom: utilisateur.nomComplet,
-        fonction: utilisateur.fonction,
+        nom: utilisateur.nom,
+        fonction: '', // TODO
       },
     },
   };
