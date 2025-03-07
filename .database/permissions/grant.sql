@@ -18,6 +18,12 @@ GRANT SELECT, INSERT ON event_store.event_stream TO potentiel;
 GRANT SELECT, INSERT, UPDATE, DELETE ON event_store.subscriber TO potentiel;
 GRANT SELECT, INSERT, UPDATE, DELETE ON event_store.pending_acknowledgement TO potentiel;
 
+-- Auth schema
+GRANT USAGE ON SCHEMA auth TO potentiel;
+GRANT SELECT, INSERT, UPDATE, DELETE ON ALL TABLES IN SCHEMA auth TO potentiel;
+GRANT USAGE, SELECT ON ALL SEQUENCES IN SCHEMA auth TO potentiel;
+ALTER DEFAULT PRIVILEGES IN SCHEMA auth GRANT SELECT, INSERT, UPDATE, DELETE ON TABLES TO potentiel;
+
 -- Domain Views
 GRANT USAGE ON SCHEMA domain_views TO potentiel;
 GRANT SELECT, INSERT, UPDATE, DELETE ON ALL TABLES IN SCHEMA domain_views TO potentiel;
