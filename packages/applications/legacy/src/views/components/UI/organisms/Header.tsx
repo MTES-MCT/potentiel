@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import Badge from '@mui/material/Badge';
 
 import routes from '../../../../routes';
 
@@ -313,15 +314,25 @@ const CentreDesTâches = () => {
   }
 
   return (
-    <Link
-      href={Routes.Tache.lister}
-      className={`no-underline hover:no-underline flex flex-row items-center px-2 md:px-3 lg:border-0 lg:border-r lg:border-slate-200 lg:border-solid text-blue-france-sun-base`}
+    <Badge
+      sx={{
+        '& .MuiBadge-badge': {
+          color: 'white',
+          backgroundColor: '#000091',
+        },
+      }}
+      badgeContent={nombreTâches}
+      max={99}
+      overlap="circular"
     >
-      <TasksToDo aria-hidden />
-      <span className="hidden lg:block mx-1 text-blue-france-sun-base">
-        Tâches ({!showNombreDeTâches ? 'chargement en cours...' : nombreTâches})
-      </span>
-    </Link>
+      <Link
+        href={Routes.Tache.lister}
+        className={`no-underline hover:no-underline flex flex-row items-center px-2 md:px-3 lg:border-0 lg:border-r lg:border-slate-200 lg:border-solid text-blue-france-sun-base`}
+      >
+        <TasksToDo aria-hidden />
+        <span className="hidden lg:block mx-1 text-blue-france-sun-base mr-4">Tâches</span>
+      </Link>
+    </Badge>
   );
 };
 
