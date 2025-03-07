@@ -127,10 +127,15 @@ Quand(
 );
 
 Quand(
-  `l'administrateur passe en instruction le recours pour le projet éliminé`,
-  async function (this: PotentielWorld) {
+  /(.*)administrateur passe en instruction le recours pour le projet éliminé/,
+  async function (this: PotentielWorld, estLeMêmeOuNouvelAdmin: string) {
     try {
       const identifiantProjet = this.eliminéWorld.identifiantProjet.formatter();
+
+      const estUnNouvelAdmin = estLeMêmeOuNouvelAdmin?.includes('un nouvel');
+      if (estUnNouvelAdmin) {
+        this.utilisateurWorld.adminFixture.créer();
+      }
 
       const { passéEnInstructionLe, passéEnInstructionPar } =
         this.eliminéWorld.recoursWorld.passerRecoursEnInstructionFixture.créer({

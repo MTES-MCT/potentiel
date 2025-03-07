@@ -10,6 +10,11 @@ Fonctionnalité: Passer le recours d'un projet éliminé en instruction
         Quand l'administrateur passe en instruction le recours pour le projet éliminé
         Alors la demande de recours du projet éliminé devrait être en instruction
 
+    Scénario: Un administrateur reprend l'instruction du recours du projet éliminé
+        Etant donné une demande de recours en instruction pour le projet éliminé
+        Quand un nouvel administrateur passe en instruction le recours pour le projet éliminé
+        Alors la demande de recours du projet éliminé devrait être en instruction
+
     Scénario: Impossible de passer le recours d'un projet éliminé en instruction si le recours a déjà été accordé
         Etant donné un recours accordé pour le projet éliminé
         Quand l'administrateur passe en instruction le recours pour le projet éliminé
@@ -23,3 +28,8 @@ Fonctionnalité: Passer le recours d'un projet éliminé en instruction
     Scénario: Impossible de passer le recours d'un projet éliminé en instruction si aucun recours n'a été demandé
         Quand l'administrateur passe en instruction le recours pour le projet éliminé
         Alors le DGEC validateur devrait être informé que "Aucun recours n'est en cours"
+
+    Scénario: Impossible de reprendre le recours d'un projet éliminé en instruction si on instruit déjà le recours
+        Etant donné une demande de recours en instruction pour le projet éliminé
+        Quand le même administrateur passe en instruction le recours pour le projet éliminé
+        Alors le DGEC validateur devrait être informé que "Le recours est déjà en instruction avec le même administrateur"
