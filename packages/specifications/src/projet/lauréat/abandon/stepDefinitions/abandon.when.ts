@@ -161,10 +161,15 @@ Quand(
 );
 
 Quand(
-  `l'administrateur passe en instruction l'abandon pour le projet lauréat`,
-  async function (this: PotentielWorld) {
+  /(.*)administrateur passe en instruction l'abandon pour le projet lauréat/,
+  async function (this: PotentielWorld, estLeMêmeOuNouvelAdmin: string) {
     try {
       const identifiantProjet = this.lauréatWorld.identifiantProjet.formatter();
+
+      const estUnNouvelAdmin = estLeMêmeOuNouvelAdmin?.includes('un nouvel');
+      if (estUnNouvelAdmin) {
+        this.utilisateurWorld.adminFixture.créer();
+      }
 
       const { passéEnInstructionLe, passéEnInstructionPar } =
         this.lauréatWorld.abandonWorld.passerEnInstructionAbandonFixture.créer({
