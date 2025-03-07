@@ -14,7 +14,7 @@ import {
   VérifierAccèsProjetPort,
 } from './vérifierAccèsProjet/vérifierAccèsProjet.query';
 import { InviterPorteurUseCase } from './inviter/inviterPorteur.usecase';
-import { PorteurInvitéEvent } from './inviter/inviterPorteur.behavior';
+import { AccèsAuProjetAutoriséEvent } from './inviter/inviterPorteur.behavior';
 import { UtilisateurInvitéEvent } from './inviter/inviter.behavior';
 import { InviterUtilisateurUseCase } from './inviter/inviter.usecase';
 
@@ -43,7 +43,7 @@ export { InviterUtilisateurUseCase, InviterPorteurUseCase };
 
 // Events
 export { UtilisateurEvent } from './utilisateur.aggregate';
-export { PorteurInvitéEvent, UtilisateurInvitéEvent };
+export { AccèsAuProjetAutoriséEvent, UtilisateurInvitéEvent };
 
 // Register
 export * from './register';

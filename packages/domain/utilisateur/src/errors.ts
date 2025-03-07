@@ -24,8 +24,14 @@ export class GroupeRefuséError extends OperationRejectedError {
   }
 }
 
-export class AccèsProjetDéjàAutorisé extends OperationRejectedError {
+export class AccèsProjetDéjàAutoriséError extends OperationRejectedError {
   constructor() {
     super(`L'utilisateur a déjà accès à ce projet`);
+  }
+}
+
+export class AuMoinsUnProjetRequisError extends OperationRejectedError {
+  constructor() {
+    super('Au moins un projet doit être spécifié');
   }
 }
