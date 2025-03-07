@@ -1,5 +1,6 @@
-import { HeaderQuickAccessItem } from '@codegouvfr/react-dsfr/Header';
 import { mediator } from 'mediateur';
+import { HeaderQuickAccessItem } from '@codegouvfr/react-dsfr/Header';
+import Badge from '@mui/material/Badge';
 
 import { ConsulterNombreTâchesQuery } from '@potentiel-domain/tache';
 import { Role, Utilisateur } from '@potentiel-domain/utilisateur';
@@ -101,16 +102,18 @@ async function getTâcheHeaderQuickAccessItem(utilisateur: Utilisateur.ValueType
     }
 
     return (
-      <HeaderQuickAccessItem
-        quickAccessItem={{
-          iconId: nombreTâches > 0 ? 'ri-mail-unread-line' : 'ri-mail-check-line',
-          linkProps: {
-            href: Routes.Tache.lister,
-            prefetch: false,
-          },
-          text: `Tâches (${nombreTâches})`,
-        }}
-      />
+      <Badge badgeContent={nombreTâches} max={99} color="primary" overlap="circular">
+        <HeaderQuickAccessItem
+          quickAccessItem={{
+            iconId: 'fr-icon-list-ordered',
+            linkProps: {
+              href: Routes.Tache.lister,
+              prefetch: false,
+            },
+            text: <div className="mr-3">Tâches</div>,
+          }}
+        />
+      </Badge>
     );
   }
 }
