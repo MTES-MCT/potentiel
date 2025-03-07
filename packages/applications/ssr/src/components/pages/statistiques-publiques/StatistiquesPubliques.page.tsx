@@ -17,7 +17,6 @@ export function StatistiquesPubliquesPage({
   return (
     <PageTemplate>
       <Heading1>Potentiel en chiffres</Heading1>
-      <div>Au service des porteurs de projet</div>
       <div className="mt-20 min-h-screen">
         <IframeResizer
           license="GPLv3"
