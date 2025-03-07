@@ -8,19 +8,24 @@ export type StatutRecoursBadgeProps = {
   small?: true;
 };
 
-const convertStatutRecoursToBadgeSeverity: Record<
+const convertStatutRecoursToBadgeSeverityAndLabel: Record<
   Recours.StatutRecours.RawType,
-  BadgeProps['severity'] | undefined
+  { badgeSeverity: BadgeProps['severity'] | undefined; label: string }
 > = {
-  demandé: 'new',
-  accordé: 'success',
-  rejeté: 'warning',
-  annulé: 'warning',
-  inconnu: undefined,
+  demandé: { badgeSeverity: 'new', label: 'Demandé' },
+  accordé: { badgeSeverity: 'success', label: 'Accordé' },
+  rejeté: { badgeSeverity: 'warning', label: 'Rejeté' },
+  annulé: { badgeSeverity: 'warning', label: 'Annulé' },
+  'en-instruction': { badgeSeverity: 'info', label: 'En instruction' },
+  inconnu: { badgeSeverity: undefined, label: 'Inconnu' },
 };
 
 export const StatutRecoursBadge: FC<StatutRecoursBadgeProps> = ({ statut, small }) => (
-  <Badge noIcon severity={convertStatutRecoursToBadgeSeverity[statut]} small={small}>
-    {statut}
+  <Badge
+    noIcon
+    severity={convertStatutRecoursToBadgeSeverityAndLabel[statut].badgeSeverity}
+    small={small}
+  >
+    {convertStatutRecoursToBadgeSeverityAndLabel[statut].label}
   </Badge>
 );

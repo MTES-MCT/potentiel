@@ -1,8 +1,17 @@
 import { InvalidOperationError, ReadonlyValueType } from '@potentiel-domain/core';
 
-export const statuts = ['accordé', 'annulé', 'demandé', 'rejeté', 'inconnu'] as const;
+export const statuts = [
+  'accordé',
+  'annulé',
+  'demandé',
+  'rejeté',
+  'en-instruction',
+  'inconnu',
+] as const;
 
 export type RawType = (typeof statuts)[number];
+
+const statutsEnCours: Array<RawType> = ['demandé', 'en-instruction'];
 
 export type ValueType = ReadonlyValueType<{
   value: RawType;
@@ -10,6 +19,8 @@ export type ValueType = ReadonlyValueType<{
   estRejeté: () => boolean;
   estAnnulé: () => boolean;
   estDemandé: () => boolean;
+  estEnCours: () => boolean;
+  estEnInstruction: () => boolean;
   vérifierQueLeChangementDeStatutEstPossibleEn: (nouveauStatut: ValueType) => void;
 }>;
 
@@ -30,6 +41,12 @@ export const convertirEnValueType = (value: string): ValueType => {
     },
     estDemandé() {
       return this.value === 'demandé';
+    },
+    estEnInstruction() {
+      return this.value === 'en-instruction';
+    },
+    estEnCours() {
+      return statutsEnCours.includes(this.value);
     },
     estÉgaleÀ(valueType) {
       return this.value === valueType.value;
@@ -55,10 +72,18 @@ export const convertirEnValueType = (value: string): ValueType => {
           throw new RecoursDéjàAccordéError();
         }
 
-        if (this.estDemandé()) {
+        if (this.estEnCours()) {
           throw new RecoursEnCoursErreur();
         }
       } else if (nouveauStatut.estRejeté()) {
+        if (this.estAccordé()) {
+          throw new RecoursDéjàAccordéError();
+        }
+
+        if (this.estRejeté()) {
+          throw new RecoursDéjàRejetéError();
+        }
+      } else if (nouveauStatut.estEnInstruction()) {
         if (this.estAccordé()) {
           throw new RecoursDéjàAccordéError();
         }
@@ -83,6 +108,7 @@ export const accordé = convertirEnValueType('accordé');
 export const annulé = convertirEnValueType('annulé');
 export const demandé = convertirEnValueType('demandé');
 export const rejeté = convertirEnValueType('rejeté');
+export const enInstruction = convertirEnValueType('en-instruction');
 export const inconnu = convertirEnValueType('inconnu');
 
 class StatutRecoursInvalideError extends InvalidOperationError {

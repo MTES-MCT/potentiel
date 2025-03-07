@@ -21,12 +21,18 @@ import {
   applyRecoursAccordé,
 } from './accorder/accorderRecours.behavior';
 import { RecoursAnnuléEvent, annuler, applyRecoursAnnulé } from './annuler/annulerRecours.behavior';
+import {
+  applyRecoursPasséEnInstruction,
+  passerEnInstruction,
+  RecoursPasséEnInstructionEvent,
+} from './instruire/passerRecoursEnInstruction.behavior';
 
 export type RecoursEvent =
   | RecoursDemandéEvent
   | RecoursAnnuléEvent
   | RecoursRejetéEvent
-  | RecoursAccordéEvent;
+  | RecoursAccordéEvent
+  | RecoursPasséEnInstructionEvent;
 
 export type RecoursAggregate = Aggregate<RecoursEvent> & {
   statut: StatutRecours.ValueType;
@@ -53,6 +59,7 @@ export type RecoursAggregate = Aggregate<RecoursEvent> & {
   readonly annuler: typeof annuler;
   readonly demander: typeof demander;
   readonly rejeter: typeof rejeter;
+  readonly passerEnInstruction: typeof passerEnInstruction;
 };
 
 export const getDefaultRecoursAggregate: GetDefaultAggregateState<
@@ -71,6 +78,7 @@ export const getDefaultRecoursAggregate: GetDefaultAggregateState<
   annuler,
   demander,
   rejeter,
+  passerEnInstruction,
 });
 
 function apply(this: RecoursAggregate, event: RecoursEvent) {
@@ -86,6 +94,9 @@ function apply(this: RecoursAggregate, event: RecoursEvent) {
       break;
     case 'RecoursRejeté-V1':
       applyRecoursRejeté.bind(this)(event);
+      break;
+    case 'RecoursPasséEnInstruction-V1':
+      applyRecoursPasséEnInstruction.bind(this)();
       break;
   }
 }

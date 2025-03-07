@@ -16,8 +16,9 @@ import { StatutRecoursBadge } from '../StatutRecoursBadge';
 import { AccorderRecours } from './accorder/AccorderRecours.form';
 import { RejeterRecours } from './rejeter/RejeterRecours.form';
 import { AnnulerRecours } from './annuler/AnnulerRecours.form';
+import { PasserRecoursEnInstruction } from './passerEnInstruction/PasserRecoursEnInstruction.form';
 
-export type AvailableRecoursAction = 'accorder' | 'rejeter' | 'annuler';
+export type AvailableRecoursAction = 'accorder' | 'rejeter' | 'annuler' | 'passer-en-instruction';
 
 export type DétailsRecoursPageProps = {
   identifiantProjet: string;
@@ -90,9 +91,11 @@ const mapToActionComponents = ({ actions, identifiantProjet }: MapToActionsCompo
   actions.length ? (
     <div className="flex flex-col gap-4">
       <Heading2>Actions</Heading2>
-
       {actions.includes('accorder') && <AccorderRecours identifiantProjet={identifiantProjet} />}
       {actions.includes('rejeter') && <RejeterRecours identifiantProjet={identifiantProjet} />}
       {actions.includes('annuler') && <AnnulerRecours identifiantProjet={identifiantProjet} />}
+      {actions.includes('passer-en-instruction') && (
+        <PasserRecoursEnInstruction identifiantProjet={identifiantProjet} />
+      )}
     </div>
   ) : null;

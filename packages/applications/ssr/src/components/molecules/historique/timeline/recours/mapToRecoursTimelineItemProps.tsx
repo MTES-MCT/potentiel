@@ -9,6 +9,7 @@ import { mapToRecoursDemandéTimelineItemProps } from './mapToRecoursDemandéTim
 import { mapToRecoursAnnuléTimelineItemProps } from './mapToRecoursAnnuléTimelineItemProps';
 import { mapToRecoursRejetéTimelineItemProps } from './mapToRecoursRejetéTimelineItemProps';
 import { mapToRecoursAccordéTimelineItemProps } from './mapToRecoursAccordéTimelineItemProps';
+import { mapToRecoursPasséEnInstructionTimelineItemProp } from './mapToRecoursPasséEnInstructionTimelineItemProps';
 
 export const mapToRecoursTimelineItemProps = (record: HistoryRecord) => {
   return match(record)
@@ -36,6 +37,12 @@ export const mapToRecoursTimelineItemProps = (record: HistoryRecord) => {
         type: 'RecoursRejeté-V1',
       },
       mapToRecoursRejetéTimelineItemProps,
+    )
+    .with(
+      {
+        type: 'RecoursPasséEnInstruction-V1',
+      },
+      mapToRecoursPasséEnInstructionTimelineItemProp,
     )
     .otherwise(() => ({
       date: record.createdAt as DateTime.RawType,

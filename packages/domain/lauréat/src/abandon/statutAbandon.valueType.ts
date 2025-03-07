@@ -13,7 +13,12 @@ export const statuts = [
 
 export type RawType = (typeof statuts)[number];
 
-const statutsEnCours: Array<RawType> = ['confirmation-demandée', 'confirmé', 'demandé'];
+const statutsEnCours: Array<RawType> = [
+  'confirmation-demandée',
+  'confirmé',
+  'demandé',
+  'en-instruction',
+];
 
 export type ValueType = ReadonlyValueType<{
   statut: RawType;

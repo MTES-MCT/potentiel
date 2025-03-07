@@ -1,5 +1,5 @@
 import { mediator } from 'mediateur';
-import type { Metadata } from 'next';
+import type { Metadata, ResolvingMetadata } from 'next';
 import { notFound } from 'next/navigation';
 
 import { Abandon } from '@potentiel-domain/laureat';
@@ -8,6 +8,7 @@ import { Option } from '@potentiel-libraries/monads';
 import { mapToPlainObject } from '@potentiel-domain/core';
 import { Candidature } from '@potentiel-domain/candidature';
 import { Historique } from '@potentiel-domain/historique';
+import { Lauréat } from '@potentiel-domain/laureat';
 
 import {
   DétailsAbandonPage,
@@ -20,14 +21,28 @@ import { withUtilisateur } from '@/utils/withUtilisateur';
 
 type PageProps = IdentifiantParameter;
 
-/**
- *
- * @todo afficher le nom du projet dans le title de la page
- */
-export const metadata: Metadata = {
-  title: 'Détail abandon projet - Potentiel',
-  description: "Détail de l'abandon d'un projet",
-};
+export async function generateMetadata(
+  { params }: IdentifiantParameter,
+  _: ResolvingMetadata,
+): Promise<Metadata> {
+  const identifiantProjet = decodeParameter(params.identifiant);
+
+  const lauréat = await mediator.send<Lauréat.ConsulterLauréatQuery>({
+    type: 'Lauréat.Query.ConsulterLauréat',
+    data: {
+      identifiantProjet,
+    },
+  });
+
+  if (Option.isNone(lauréat)) {
+    return notFound();
+  }
+
+  return {
+    title: `Détail abandon du projet ${lauréat.nomProjet} - Potentiel`,
+    description: "Détail de l'abandon d'un projet",
+  };
+}
 
 export default async function Page({ params: { identifiant } }: PageProps) {
   return PageWithErrorHandling(async () =>
@@ -131,6 +146,10 @@ const mapToActions = ({
         actions.push('rejeter');
         actions.push('passer-en-instruction');
       }
+      if (statut.estEnInstruction() && !recandidature) {
+        actions.push('accorder-sans-recandidature');
+        actions.push('rejeter');
+      }
       break;
 
     case 'dgec-validateur':
@@ -140,6 +159,7 @@ const mapToActions = ({
       if (statut.estEnCours()) {
         actions.push(recandidature ? 'accorder-avec-recandidature' : 'accorder-sans-recandidature');
         actions.push('rejeter');
+        // TODO: on pourra reprendre l'instruction donc ça fait sens
         actions.push('passer-en-instruction');
       }
       break;

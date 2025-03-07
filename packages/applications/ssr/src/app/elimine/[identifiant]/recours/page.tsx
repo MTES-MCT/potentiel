@@ -1,5 +1,5 @@
 import { mediator } from 'mediateur';
-import type { Metadata } from 'next';
+import type { Metadata, ResolvingMetadata } from 'next';
 import { notFound } from 'next/navigation';
 import { match } from 'ts-pattern';
 
@@ -18,16 +18,22 @@ import {
   DétailsRecoursPage,
 } from '@/components/pages/recours/détails/DétailsRecours.page';
 
+import { getCandidature } from '../../../candidatures/_helpers/getCandidature';
+
 type PageProps = IdentifiantParameter;
 
-/**
- *
- * @todo afficher le nom du projet dans le title de la page
- */
-export const metadata: Metadata = {
-  title: 'Détail recours projet - Potentiel',
-  description: "Détail du recours d'un projet",
-};
+export async function generateMetadata(
+  { params }: IdentifiantParameter,
+  _: ResolvingMetadata,
+): Promise<Metadata> {
+  const identifiantProjet = decodeParameter(params.identifiant);
+  const candidature = await getCandidature(identifiantProjet);
+
+  return {
+    title: `Détails du recours du projet ${candidature.nomProjet} - Potentiel`,
+    description: "Détail du recours d'un projet",
+  };
+}
 
 export default async function Page({ params: { identifiant } }: PageProps) {
   return PageWithErrorHandling(async () =>
@@ -81,12 +87,20 @@ const mapToActions = (props: MapToActionsProps) =>
         role: 'admin',
         statut: 'demandé',
       },
-      () => ['accorder', 'rejeter'],
-    )
-    .with(
       {
         role: 'dgec-validateur',
         statut: 'demandé',
+      },
+      () => ['accorder', 'rejeter', 'passer-en-instruction'],
+    )
+    .with(
+      {
+        role: 'admin',
+        statut: 'en-instruction',
+      },
+      {
+        role: 'dgec-validateur',
+        statut: 'en-instruction',
       },
       () => ['accorder', 'rejeter'],
     )
@@ -94,6 +108,10 @@ const mapToActions = (props: MapToActionsProps) =>
       {
         role: 'porteur-projet',
         statut: 'demandé',
+      },
+      {
+        role: 'porteur-projet',
+        statut: 'en-instruction',
       },
       () => ['annuler'],
     )

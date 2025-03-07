@@ -5,7 +5,7 @@ export * as RaccordementProjector from './subscribers/réseau/raccordement.proje
 export * as TâcheProjector from './subscribers/tâche/tâche';
 export * as TâchePlanifiéeProjector from './subscribers/tâche/tâchePlanifiée';
 export * as GarantiesFinancièreProjector from './subscribers/lauréat/garantiesFinancières.projector';
-export * as RecoursProjector from './subscribers/éliminé/recours.projector';
+export * as RecoursProjector from './subscribers/éliminé/recours';
 export * as AchèvementProjector from './subscribers/lauréat/achèvement';
 export * as CandidatureProjector from './subscribers/candidature/candidature.projector';
 export * as LauréatProjector from './subscribers/lauréat/lauréat.projector';
