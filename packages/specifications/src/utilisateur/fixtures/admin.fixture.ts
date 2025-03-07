@@ -26,6 +26,8 @@ export class AdminFixture extends AbstractUtilisateur implements Admin, Fixture<
     };
 
     this.#aÉtéCréé = true;
+    this.email = utilisateur.email;
+
     return admin;
   }
 }
