@@ -168,6 +168,7 @@ const mapToActionComponents = ({
             href: Routes.ReprésentantLégal.changement.corriger(identifiantProjet, dateDemande),
             prefetch: false,
           }}
+          className="block w-1/2 text-center"
         >
           Corriger
         </Button>
