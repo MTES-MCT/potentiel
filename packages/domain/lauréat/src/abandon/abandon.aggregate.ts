@@ -74,7 +74,7 @@ export type AbandonAggregate = Aggregate<AbandonEvent> & {
     demandéPar: IdentifiantUtilisateur.ValueType;
     instruction?: {
       démarréLe: DateTime.ValueType;
-      par: Email.ValueType;
+      instruitPar: Email.ValueType;
     };
     confirmation?: {
       réponseSignée: {

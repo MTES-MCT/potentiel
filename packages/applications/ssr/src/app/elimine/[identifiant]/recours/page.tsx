@@ -91,6 +91,14 @@ const mapToActions = (props: MapToActionsProps) =>
         role: 'dgec-validateur',
         statut: 'demandé',
       },
+      {
+        role: 'admin',
+        statut: 'en-instruction',
+      },
+      {
+        role: 'dgec-validateur',
+        statut: 'en-instruction',
+      },
       () => ['accorder', 'rejeter', 'passer-en-instruction'],
     )
     .with(
@@ -102,7 +110,7 @@ const mapToActions = (props: MapToActionsProps) =>
         role: 'dgec-validateur',
         statut: 'en-instruction',
       },
-      () => ['accorder', 'rejeter'],
+      () => ['accorder', 'rejeter', 'reprendre-instruction'],
     )
     .with(
       {

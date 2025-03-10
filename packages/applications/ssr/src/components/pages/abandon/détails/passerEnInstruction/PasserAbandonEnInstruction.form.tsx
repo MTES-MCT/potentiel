@@ -9,12 +9,17 @@ import { passerAbandonEnInstructionAction } from './passerAbandonEnInstruction.a
 
 type PasserAbandonEnInstructionFormProps = {
   identifiantProjet: string;
+  estUneReprise: boolean;
 };
 
 export const PasserAbandonEnInstruction = ({
   identifiantProjet,
+  estUneReprise,
 }: PasserAbandonEnInstructionFormProps) => {
   const [isOpen, setIsOpen] = useState(false);
+  const label = estUneReprise
+    ? "Êtes-vous sûr de vouloir reprendre l'instruction de l'abandon ?"
+    : 'Êtes-vous sûr de vouloir passer cet abandon en instruction ?';
 
   return (
     <>
@@ -39,7 +44,7 @@ export const PasserAbandonEnInstruction = ({
           omitMandatoryFieldsLegend: true,
           children: (
             <>
-              <p className="mt-3">Êtes-vous sûr de vouloir passer cet abandon en instruction ?</p>
+              <p className="mt-3">{label}</p>
               <input type={'hidden'} value={identifiantProjet} name="identifiantProjet" />
             </>
           ),

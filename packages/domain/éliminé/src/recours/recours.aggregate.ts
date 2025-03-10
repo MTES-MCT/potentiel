@@ -44,7 +44,7 @@ export type RecoursAggregate = Aggregate<RecoursEvent> & {
     demandéPar: IdentifiantUtilisateur.ValueType;
     instruction?: {
       démarréLe: DateTime.ValueType;
-      par: Email.ValueType;
+      instruitPar: Email.ValueType;
     };
   };
   rejet?: {

@@ -25,7 +25,7 @@ export async function passerEnInstruction(
 ) {
   this.statut.vérifierQueLeChangementDeStatutEstPossibleEn(StatutRecours.enInstruction);
 
-  if (this.demande.instruction?.par.estÉgaleÀ(identifiantUtilisateur)) {
+  if (this.demande.instruction?.instruitPar.estÉgaleÀ(identifiantUtilisateur)) {
     throw new RecoursDéjàEnInstructionAvecLeMêmeAdministrateurError();
   }
 
@@ -49,7 +49,7 @@ export function applyRecoursPasséEnInstruction(
   this.demande.instruction = {
     démarréLe:
       this.demande.instruction?.démarréLe ?? DateTime.convertirEnValueType(passéEnInstructionLe),
-    par: Email.convertirEnValueType(passéEnInstructionPar),
+    instruitPar: Email.convertirEnValueType(passéEnInstructionPar),
   };
 }
 

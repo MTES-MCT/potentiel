@@ -144,11 +144,11 @@ const mapToActions = ({
       if (statut.estEnCours() && !recandidature) {
         actions.push('accorder-sans-recandidature');
         actions.push('rejeter');
-        actions.push('passer-en-instruction');
-      }
-      if (statut.estEnInstruction() && !recandidature) {
-        actions.push('accorder-sans-recandidature');
-        actions.push('rejeter');
+        if (statut.estEnInstruction()) {
+          actions.push('reprendre-instruction');
+        } else {
+          actions.push('passer-en-instruction');
+        }
       }
       break;
 
@@ -159,8 +159,11 @@ const mapToActions = ({
       if (statut.estEnCours()) {
         actions.push(recandidature ? 'accorder-avec-recandidature' : 'accorder-sans-recandidature');
         actions.push('rejeter');
-        // TODO: on pourra reprendre l'instruction donc ça fait sens
-        actions.push('passer-en-instruction');
+        if (statut.estEnInstruction()) {
+          actions.push('reprendre-instruction');
+        } else {
+          actions.push('passer-en-instruction');
+        }
       }
       break;
 
