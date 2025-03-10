@@ -17,15 +17,11 @@ export interface PotentielSession {
   provider?: string;
 }
 
-export interface PotentielUtilisateur {
-  utilisateur?: PlainType<Utilisateur.ValueType>;
-}
-
 declare module 'next-auth/jwt' {
   interface JWT extends PotentielJWT {}
 }
 
 declare module 'next-auth' {
-  interface User extends PotentielUtilisateur {}
+  interface User extends PlainType<Utilisateur.ValueType> {}
   interface Session extends PotentielSession {}
 }
