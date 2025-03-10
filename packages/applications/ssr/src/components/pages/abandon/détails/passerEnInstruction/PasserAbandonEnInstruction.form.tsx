@@ -20,6 +20,7 @@ export const PasserAbandonEnInstruction = ({
   const label = estUneReprise
     ? "Êtes-vous sûr de vouloir reprendre l'instruction de l'abandon ?"
     : 'Êtes-vous sûr de vouloir passer cet abandon en instruction ?';
+  const acceptButtonLabel = estUneReprise ? "Reprendre l'instruction" : 'Instruire';
 
   return (
     <>
@@ -28,7 +29,7 @@ export const PasserAbandonEnInstruction = ({
         onClick={() => setIsOpen(true)}
         className="block w-1/2 text-center"
       >
-        Instruire
+        {acceptButtonLabel}
       </Button>
 
       <ModalWithForm

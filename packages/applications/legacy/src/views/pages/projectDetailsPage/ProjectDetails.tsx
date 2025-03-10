@@ -14,6 +14,7 @@ import {
   Heading2,
   InfoBox,
 } from '../../components';
+import { AbandonInfoBox } from './sections/AbandonInfoBox';
 import { afficherDate, hydrateOnClient } from '../../helpers';
 import {
   EtapesProjet,
@@ -30,7 +31,7 @@ import { ProjectHeader } from './components';
 import { Routes } from '@potentiel-applications/routes';
 import { formatProjectDataToIdentifiantProjetValueType } from '../../../helpers/dataToValueTypes';
 import { Role } from '@potentiel-domain/utilisateur';
-import { Raccordement } from '@potentiel-domain/laureat';
+import { Abandon, Raccordement } from '@potentiel-domain/laureat';
 import { Option } from '@potentiel-libraries/monads';
 
 export type AlerteRaccordement =
@@ -43,9 +44,7 @@ type ProjectDetailsProps = {
   raccordement: Option.Type<Raccordement.ConsulterRaccordementReadModel>;
   projectEventList?: ProjectEventListDTO;
   alertesRaccordement: AlerteRaccordement[];
-  abandon?: {
-    statut: string;
-  };
+  abandon?: { statut: string };
   demandeRecours: ProjectDataForProjectPage['demandeRecours'];
   garantiesFinancières?: GarantiesFinancièresProjetProps['garantiesFinancières'];
   représentantLégal?: ContactProps['représentantLégal'];
@@ -78,7 +77,10 @@ export const ProjectDetails = ({
     numeroCRE: project.numeroCRE,
   }).formatter();
 
-  const abandonEnCours = !!abandon && abandon.statut !== 'rejeté';
+  const abandonEnCoursOuAccordé =
+    !!abandon &&
+    (Abandon.StatutAbandon.convertirEnValueType(abandon.statut).estEnCours() ||
+      Abandon.StatutAbandon.convertirEnValueType(abandon.statut).estAccordé());
 
   return (
     <LegacyPageTemplate user={request.user} currentPage="list-projects">
@@ -90,7 +92,7 @@ export const ProjectDetails = ({
       <ProjectHeader
         user={user}
         project={project}
-        abandonEnCours={abandonEnCours}
+        abandonEnCoursOuAccordé={abandonEnCoursOuAccordé}
         modificationsNonPermisesParLeCDCActuel={modificationsNonPermisesParLeCDCActuel}
         hasAttestationConformité={hasAttestationConformité}
         demandeRecours={demandeRecours}
@@ -105,11 +107,7 @@ export const ProjectDetails = ({
       </div>
       <div className="flex flex-col gap-3 mt-5">
         <div className="print:hidden flex flex-col gap-3">
-          {abandon && (
-            <AlertBox title={`Abandon ${abandon.statut}`}>
-              <a href={Routes.Abandon.détail(identifiantProjet)}>Voir les détails de l'abandon</a>
-            </AlertBox>
-          )}
+          {abandon && <AbandonInfoBox abandon={abandon} identifiantProjet={identifiantProjet} />}
           {user.role === Role.porteur.nom && modificationsNonPermisesParLeCDCActuel && (
             <InfoBox>
               Votre cahier des charges actuel ne vous permet pas d'accéder aux fonctionnalités

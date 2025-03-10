@@ -20,6 +20,7 @@ export const PasserRecoursEnInstruction = ({
   const label = estUneReprise
     ? "Êtes-vous sûr de vouloir reprendre l'instruction du recours ?"
     : 'Êtes-vous sûr de vouloir passer ce recours en instruction ?';
+  const acceptButtonLabel = estUneReprise ? "Reprendre l'instruction" : 'Instruire';
 
   return (
     <>
@@ -28,7 +29,7 @@ export const PasserRecoursEnInstruction = ({
         onClick={() => setIsOpen(true)}
         className="block w-1/2 text-center"
       >
-        Instruire
+        {acceptButtonLabel}
       </Button>
 
       <ModalWithForm
