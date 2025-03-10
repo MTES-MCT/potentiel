@@ -8,9 +8,9 @@ export * as GarantiesFinancièreProjector from './subscribers/lauréat/garanties
 export * as RecoursProjector from './subscribers/éliminé/recours';
 export * as AchèvementProjector from './subscribers/lauréat/achèvement';
 export * as CandidatureProjector from './subscribers/candidature/candidature.projector';
-export * as LauréatProjector from './subscribers/lauréat/lauréat.projector';
-export * as ÉliminéProjector from './subscribers/éliminé/éliminé.projector';
-export * as PériodeProjector from './subscribers/période/période.projector';
+export * as LauréatProjector from './subscribers/lauréat/lauréat';
+export * as ÉliminéProjector from './subscribers/éliminé/éliminé';
+export * as PériodeProjector from './subscribers/période';
 export * as ReprésentantLégalProjector from './subscribers/lauréat/représentant-légal';
 export * as HistoriqueProjector from './subscribers/historique/historique.projector';
 export * as ActionnaireProjector from './subscribers/lauréat/actionnaire';

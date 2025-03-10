@@ -17,7 +17,7 @@ import { SendEmail } from '../../sendEmail';
 
 export type SubscriptionEvent = Recours.RecoursEvent & Event;
 
-export type Execute = Message<'System.Notification.Éliminé.Recours', SubscriptionEvent>;
+export type Execute = Message<'System.Notification.Eliminé.Recours', SubscriptionEvent>;
 
 const templateId = {
   changementStatutRecours: 6310637,
@@ -96,5 +96,5 @@ export const register = ({ sendEmail }: RegisterRecoursNotificationDependencies)
     }
   };
 
-  mediator.register('System.Notification.Éliminé.Recours', handler);
+  mediator.register('System.Notification.Eliminé.Recours', handler);
 };
