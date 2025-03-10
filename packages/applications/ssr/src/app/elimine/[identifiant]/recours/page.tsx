@@ -79,7 +79,7 @@ type MapToActionsProps = {
   statut: Recours.StatutRecours.RawType;
 };
 
-const mapToActions = (props: MapToActionsProps): AvailableRecoursAction[] =>
+const mapToActions = (props: MapToActionsProps) =>
   match(props)
     .returnType<ReadonlyArray<AvailableRecoursAction>>()
     .with(
