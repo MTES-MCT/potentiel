@@ -348,7 +348,6 @@ const référencielPermissions = {
       listerProjetsPreuveRecandidature:
         'Candidature.Query.ListerProjetsEligiblesPreuveRecandidature',
       listerCandidatures: 'Candidature.Query.ListerCandidatures',
-      listerProjets: 'Candidature.Query.ListerProjets',
     },
     usecase: {
       importer: 'Candidature.UseCase.ImporterCandidature',
@@ -748,7 +747,6 @@ const policies = {
     ],
     lister: [
       référencielPermissions.candidature.query.listerCandidatures,
-      référencielPermissions.candidature.query.listerProjets,
       référencielPermissions.appelOffre.query.lister,
     ],
     attestation: {

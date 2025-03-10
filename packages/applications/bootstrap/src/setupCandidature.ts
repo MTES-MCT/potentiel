@@ -20,7 +20,6 @@ export const setupCandidature = async ({ sendEmail }: SetupCandidatureDependenci
     récupérerProjet: CandidatureAdapter.récupérerProjetAdapter,
     récupérerProjetsEligiblesPreuveRecanditure:
       CandidatureAdapter.récupérerProjetsEligiblesPreuveRecanditureAdapter,
-    récupérerProjets: CandidatureAdapter.récupérerProjetsAdapter,
     list: listProjection,
   });
 

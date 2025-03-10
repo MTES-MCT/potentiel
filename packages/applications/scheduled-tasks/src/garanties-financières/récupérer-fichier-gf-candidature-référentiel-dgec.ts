@@ -47,7 +47,6 @@ Candidature.registerCandidatureQueries({
   find: findProjection,
   list: listProjection,
   récupérerProjet: CandidatureAdapter.récupérerProjetAdapter,
-  récupérerProjets: CandidatureAdapter.récupérerProjetsAdapter,
   récupérerProjetsEligiblesPreuveRecanditure:
     CandidatureAdapter.récupérerProjetsEligiblesPreuveRecanditureAdapter,
 });
