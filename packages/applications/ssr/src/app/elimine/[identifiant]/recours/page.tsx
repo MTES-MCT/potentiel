@@ -79,7 +79,7 @@ type MapToActionsProps = {
   statut: Recours.StatutRecours.RawType;
 };
 
-const mapToActions = (props: MapToActionsProps) =>
+const mapToActions = (props: MapToActionsProps): AvailableRecoursAction[] =>
   match(props)
     .returnType<ReadonlyArray<AvailableRecoursAction>>()
     .with(
@@ -90,14 +90,6 @@ const mapToActions = (props: MapToActionsProps) =>
       {
         role: 'dgec-validateur',
         statut: 'demandé',
-      },
-      {
-        role: 'admin',
-        statut: 'en-instruction',
-      },
-      {
-        role: 'dgec-validateur',
-        statut: 'en-instruction',
       },
       () => ['accorder', 'rejeter', 'passer-en-instruction'],
     )
