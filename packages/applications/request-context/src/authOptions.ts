@@ -45,10 +45,10 @@ export const authOptions: AuthOptions = {
   events: {
     signIn: ({ user, account }) => {
       if (
-        user?.identifiantUtilisateur &&
-        !IdentifiantUtilisateur.bind(user.identifiantUtilisateur).estInconnu()
+        user?.utilisateur?.identifiantUtilisateur &&
+        !IdentifiantUtilisateur.bind(user.utilisateur.identifiantUtilisateur).estInconnu()
       ) {
-        ajouterStatistiqueConnexion(user, account?.provider ?? '');
+        ajouterStatistiqueConnexion(user.utilisateur, account?.provider ?? '');
       }
     },
   },
@@ -56,8 +56,8 @@ export const authOptions: AuthOptions = {
     signIn({ account, user }) {
       const logger = getLogger('Auth');
       if (
-        user?.identifiantUtilisateur &&
-        IdentifiantUtilisateur.bind(user.identifiantUtilisateur).estInconnu()
+        user?.utilisateur?.identifiantUtilisateur &&
+        IdentifiantUtilisateur.bind(user.utilisateur.identifiantUtilisateur).estInconnu()
       ) {
         logger.info(`User tries to connect with ProConnect but is not registered yet`, {
           user,
@@ -67,7 +67,11 @@ export const authOptions: AuthOptions = {
           idToken: account?.id_token,
         });
       }
-      if (account?.provider === 'proconnect' && !canConnectWithProConnect(user.role)) {
+      if (
+        account?.provider === 'proconnect' &&
+        user.utilisateur &&
+        !canConnectWithProConnect(user.utilisateur.role)
+      ) {
         logger.info(`User tries to connect with ProConnect but is not authorized yet`, {
           user,
         });
@@ -82,8 +86,8 @@ export const authOptions: AuthOptions = {
     },
     jwt({ token, trigger, account, user }) {
       if (
-        user?.identifiantUtilisateur &&
-        IdentifiantUtilisateur.bind(user.identifiantUtilisateur).estInconnu()
+        user?.utilisateur?.identifiantUtilisateur &&
+        IdentifiantUtilisateur.bind(user.utilisateur.identifiantUtilisateur).estInconnu()
       ) {
         return {};
       }
