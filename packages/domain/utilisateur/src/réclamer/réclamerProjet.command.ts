@@ -30,7 +30,7 @@ export const registerRéclamerProjetCommand = (loadAggregate: LoadAggregate) => 
     await utilisateur.réclamer({
       identifiantProjet,
       identifiantUtilisateur,
-      aLeMêmeEmailQueLaCandidature: candidature.emailContact === identifiantUtilisateur,
+      aLeMêmeEmailQueLaCandidature: candidature.emailContact.estÉgaleÀ(identifiantUtilisateur),
       réclaméLe,
     });
   };
