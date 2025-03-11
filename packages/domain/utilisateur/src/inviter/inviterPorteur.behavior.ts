@@ -4,14 +4,13 @@ import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
 import { UtilisateurAggregate } from '../utilisateur.aggregate';
 import { AccèsProjetDéjàAutoriséError, AuMoinsUnProjetRequisError } from '../errors';
 
-export type AccèsAuProjetAutoriséEvent = DomainEvent<
-  'AccèsAuProjetAutorisé-V1',
+export type PorteurInvitéEvent = DomainEvent<
+  'PorteurInvité-V1',
   {
     identifiantUtilisateur: Email.RawType;
     identifiantsProjet: IdentifiantProjet.RawType[];
     autoriséLe: DateTime.RawType;
     autoriséPar: Email.RawType;
-    source: 'invitation' | 'réclamation' | 'candidature';
     nouvelUtilisateur?: true;
   }
 >;
@@ -37,8 +36,8 @@ export async function inviterPorteur(
     throw new AccèsProjetDéjàAutoriséError();
   }
 
-  const event: AccèsAuProjetAutoriséEvent = {
-    type: 'AccèsAuProjetAutorisé-V1',
+  const event: PorteurInvitéEvent = {
+    type: 'PorteurInvité-V1',
     payload: {
       identifiantsProjet: nouveauxIdentifiantsProjet.map((identifiantProjet) =>
         identifiantProjet.formatter(),
@@ -46,7 +45,6 @@ export async function inviterPorteur(
       identifiantUtilisateur: identifiantUtilisateur.formatter(),
       autoriséLe: invitéLe.formatter(),
       autoriséPar: invitéPar.formatter(),
-      source: 'invitation',
       nouvelUtilisateur: this.existe ? undefined : true,
     },
   };
@@ -54,9 +52,9 @@ export async function inviterPorteur(
   await this.publish(event);
 }
 
-export function applyAccèsAuProjetAutorisé(
+export function applyPorteurInvité(
   this: UtilisateurAggregate,
-  { payload: { identifiantsProjet } }: AccèsAuProjetAutoriséEvent,
+  { payload: { identifiantsProjet } }: PorteurInvitéEvent,
 ) {
   this.existe = true;
   for (const identifiantProjet of identifiantsProjet) {

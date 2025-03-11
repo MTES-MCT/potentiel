@@ -5,7 +5,7 @@ import { RebuildTriggered, Event } from '@potentiel-infrastructure/pg-event-sour
 import { UtilisateurEvent } from '@potentiel-domain/utilisateur';
 
 import { utilisateurRebuildTriggered } from './utilisateurRebuildTriggered.projector';
-import { accèsAuProjetAutoriséProjector } from './accèsAuProjetAutorisé.projector';
+import { PorteurInvitéProjector } from './porteurInvité.projector';
 import { utilisateurInvitéProjector } from './utilisateurInvité.projector';
 import { projetRéclaméProjector } from './projetRéclamé.projector';
 
@@ -18,7 +18,7 @@ export const register = () => {
     match(event)
       .with({ type: 'RebuildTriggered' }, utilisateurRebuildTriggered)
       .with({ type: 'UtilisateurInvité-V1' }, utilisateurInvitéProjector)
-      .with({ type: 'AccèsAuProjetAutorisé-V1' }, accèsAuProjetAutoriséProjector)
+      .with({ type: 'PorteurInvité-V1' }, PorteurInvitéProjector)
       .with({ type: 'ProjetRéclamé-V1' }, projetRéclaméProjector)
       .exhaustive();
 

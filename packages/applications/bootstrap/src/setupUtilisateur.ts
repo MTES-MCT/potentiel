@@ -23,12 +23,7 @@ export const setupUtilisateur = async () => {
 
   const unsubscribeUtilisateurProjector = await subscribe<UtilisateurProjector.SubscriptionEvent>({
     name: 'projector',
-    eventType: [
-      'RebuildTriggered',
-      'UtilisateurInvité-V1',
-      'AccèsAuProjetAutorisé-V1',
-      'ProjetRéclamé-V1',
-    ],
+    eventType: ['RebuildTriggered', 'UtilisateurInvité-V1', 'PorteurInvité-V1', 'ProjetRéclamé-V1'],
     eventHandler: async (event) => {
       await mediator.send<UtilisateurProjector.Execute>({
         type: 'System.Projector.Utilisateur',
