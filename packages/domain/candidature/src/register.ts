@@ -4,7 +4,6 @@ import {
   ConsulterProjetDependencies,
   registerConsulterProjetQuery,
 } from './consulter/consulterProjet.query';
-import { ListerProjetsDependencies, registerProjetsQuery } from './lister/listerProjets.query';
 import {
   ListerProjetsEligiblesPreuveRecanditureDependencies,
   registerProjetsEligiblesPreuveRecanditureQuery,
@@ -26,7 +25,6 @@ import { registerNotifierCandidatureUseCase } from './notifier/notifierCandidatu
 
 type CandidatureQueryDependencies = ConsulterProjetDependencies &
   ListerProjetsEligiblesPreuveRecanditureDependencies &
-  ListerProjetsDependencies &
   ConsulterCandidatureDependencies &
   ListerCandidaturesQueryDependencies;
 
@@ -36,7 +34,6 @@ type CandiatureUseCasesDependencies = {
 
 export const registerCandidatureQueries = (dependencies: CandidatureQueryDependencies) => {
   registerConsulterProjetQuery(dependencies);
-  registerProjetsQuery(dependencies);
   registerProjetsEligiblesPreuveRecanditureQuery(dependencies);
   registerConsulterCandidatureQuery(dependencies);
   registerListerCandidaturesQuery(dependencies);

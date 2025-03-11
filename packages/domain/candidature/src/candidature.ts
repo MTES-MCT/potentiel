@@ -8,12 +8,6 @@ import {
   RécupérerProjetsEligiblesPreuveRecanditurePort,
   ListerProjetsEligiblesPreuveRecanditureReadModel,
 } from './lister/listerProjetsEligiblesPreuveRecanditure.query';
-import {
-  RécupérerProjetsPort,
-  ListerProjetsQuery,
-  ListerProjetsReadModel,
-  ListerProjetsListItemReadModel,
-} from './lister/listerProjets.query';
 import { ImporterCandidatureUseCase } from './importer/importerCandidature.usecase';
 import type { CandidatureImportéeEvent } from './importer/importerCandidature.behavior';
 import {
@@ -37,13 +31,11 @@ export type CandidatureQuery =
   | ConsulterProjetQuery
   | ListerCandidaturesQuery
   | ListerProjetsEligiblesPreuveRecanditureQuery
-  | ListerProjetsQuery
   | ConsulterCandidatureQuery;
 
 export {
   ConsulterProjetQuery,
   ListerProjetsEligiblesPreuveRecanditureQuery,
-  ListerProjetsQuery,
   ListerCandidaturesQuery,
   ConsulterCandidatureQuery,
 };
@@ -52,8 +44,6 @@ export {
 export {
   ConsulterProjetReadModel,
   ListerProjetsEligiblesPreuveRecanditureReadModel,
-  ListerProjetsListItemReadModel,
-  ListerProjetsReadModel,
   ListerCandidaturesReadModel,
   ConsulterCandidatureReadModel,
 };
@@ -83,11 +73,7 @@ export {
 export * from './register';
 
 // Port
-export {
-  RécupérerProjetPort,
-  RécupérerProjetsEligiblesPreuveRecanditurePort,
-  RécupérerProjetsPort,
-};
+export { RécupérerProjetPort, RécupérerProjetsEligiblesPreuveRecanditurePort };
 
 // Entity
 export * from './projet.entity';

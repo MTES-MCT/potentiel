@@ -13,7 +13,6 @@
     "@potentiel-domain/common": "*",
     "@potentiel-domain/core": "*",
     "@potentiel-domain/entity": "*",
-    "@potentiel-domain/utilisateur": "*",
     "@potentiel-domain/appel-offre": "*",
     "mediateur": "^0.3.0"
   },

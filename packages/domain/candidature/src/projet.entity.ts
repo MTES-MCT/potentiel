@@ -1,5 +1,4 @@
-import { DateTime, StatutProjet } from '@potentiel-domain/common';
-import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
+import { DateTime, Email, StatutProjet } from '@potentiel-domain/common';
 
 export type ProjetEntity = {
   appelOffre: string;
@@ -16,9 +15,9 @@ export type ProjetEntity = {
     codePostal: string;
   };
   potentielIdentifier: string;
-  nomReprésentantLégal: IdentifiantUtilisateur.RawType;
+  nomReprésentantLégal: string;
   nomCandidat: string;
-  email: IdentifiantUtilisateur.RawType;
+  email: Email.RawType;
   dateDésignation: DateTime.RawType;
   puissance: number;
   cahierDesCharges: string;
