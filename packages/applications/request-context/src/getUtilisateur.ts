@@ -36,7 +36,7 @@ async function getUserSession(req: IncomingMessage, res: ServerResponse) {
 
     return {
       ...utilisateur,
-      accountUrl: provider !== 'email' ? getProviderAccountUrl(provider ?? '') : '',
+      accountUrl: getProviderAccountUrl(provider ?? ''),
     };
   }
 }
