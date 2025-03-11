@@ -6,6 +6,7 @@ import { DateTime, Email } from '@potentiel-domain/common';
 import {
   InviterPorteurUseCase,
   InviterUtilisateurUseCase,
+  RetirerAccèsProjetUseCase,
   Role,
   RéclamerProjetUseCase,
 } from '@potentiel-domain/utilisateur';
@@ -155,13 +156,15 @@ Quand(
   async function (this: PotentielWorld) {
     const identifiantProjet = this.lauréatWorld.identifiantProjet.formatter();
     try {
-      // await mediator.send<RetirerAccèsProjetUseCase>({
-      //   type: 'Utilisateur.UseCase.RetirerAccèsProjet',
-      //   data: {
-      //     identifiantProjet,
-      //     identifiantUtilisateur: this.utilisateurWorld.porteurFixture.email,
-      //   },
-      // });
+      await mediator.send<RetirerAccèsProjetUseCase>({
+        type: 'Utilisateur.UseCase.RetirerAccèsProjet',
+        data: {
+          identifiantProjet,
+          identifiantUtilisateur: this.utilisateurWorld.porteurFixture.email,
+          retiréLe: DateTime.now().formatter(),
+          retiréPar: this.utilisateurWorld.adminFixture.email,
+        },
+      });
     } catch (error) {
       this.error = error as Error;
     }

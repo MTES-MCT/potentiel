@@ -19,12 +19,22 @@ import {
   ProjetRéclaméEvent,
   applyProjetRéclamé,
 } from './réclamer/réclamerProjet.behavior';
+import {
+  applyAccèsProjetRetiré,
+  AccèsProjetRetiréEvent,
+} from './retirer/retirerAccèsProjet.behavior';
+import { retirerAccèsProjet } from './retirer/retirerAccèsProjet.behavior';
 
-export type UtilisateurEvent = PorteurInvitéEvent | UtilisateurInvitéEvent | ProjetRéclaméEvent;
+export type UtilisateurEvent =
+  | PorteurInvitéEvent
+  | UtilisateurInvitéEvent
+  | ProjetRéclaméEvent
+  | AccèsProjetRetiréEvent;
 export type UtilisateurAggregate = Aggregate<UtilisateurEvent> & {
   readonly inviterPorteur: typeof inviterPorteur;
   readonly inviter: typeof inviter;
   readonly réclamer: typeof réclamer;
+  readonly retirerAccèsProjet: typeof retirerAccèsProjet;
   aAccèsAuProjet: (identifiantProjet: IdentifiantProjet.ValueType) => boolean;
   projets: Set<IdentifiantProjet.RawType>;
   existe: boolean;
@@ -38,6 +48,7 @@ export const getDefaultUtilisateurAggregate: GetDefaultAggregateState<
   inviterPorteur,
   inviter,
   réclamer,
+  retirerAccèsProjet,
   projets: new Set(),
   existe: false,
   aAccèsAuProjet(identifiantProjet) {
@@ -50,6 +61,7 @@ function apply(this: UtilisateurAggregate, event: UtilisateurEvent) {
     .with({ type: 'PorteurInvité-V1' }, applyPorteurInvité.bind(this))
     .with({ type: 'UtilisateurInvité-V1' }, applyUtilisateurInvité.bind(this))
     .with({ type: 'ProjetRéclamé-V1' }, applyProjetRéclamé.bind(this))
+    .with({ type: 'AccèsProjetRetiré-V1' }, applyAccèsProjetRetiré.bind(this))
     .exhaustive();
 }
 
