@@ -1,7 +1,7 @@
 // FIXME the import should be node:crypto but this breaks NextJS
 import { createHash } from 'crypto';
 
-import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
+import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
 import { Aggregate, GetDefaultAggregateState, LoadAggregate } from '@potentiel-domain/core';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 
@@ -67,6 +67,8 @@ export type CandidatureAggregate = Aggregate<CandidatureEvent> &
       région: string;
       département: string;
     };
+    emailContact: Email.ValueType;
+    prixRéférence: number;
     importer: typeof importer;
     corriger: typeof corriger;
     notifier: typeof notifier;
@@ -109,6 +111,8 @@ export const getDefaultCandidatureAggregate: GetDefaultAggregateState<
     région: '',
     département: '',
   },
+  emailContact: Email.inconnu,
+  prixRéférence: 0,
   nomReprésentantLégal: '',
   sociétéMère: '',
   estNotifiée: false,

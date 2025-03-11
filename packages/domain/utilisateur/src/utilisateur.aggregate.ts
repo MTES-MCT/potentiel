@@ -14,7 +14,11 @@ import {
   inviter,
   UtilisateurInvitéEvent,
 } from './inviter/inviter.behavior';
-import { réclamer, ProjetRéclaméEvent, applyProjetRéclamé } from './réclamer/réclamer.behavior';
+import {
+  réclamer,
+  ProjetRéclaméEvent,
+  applyProjetRéclamé,
+} from './réclamer/réclamerProjet.behavior';
 
 export type UtilisateurEvent =
   | AccèsAuProjetAutoriséEvent

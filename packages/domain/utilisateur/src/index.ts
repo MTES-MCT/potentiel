@@ -17,8 +17,8 @@ import { InviterPorteurUseCase } from './inviter/inviterPorteur.usecase';
 import { AccèsAuProjetAutoriséEvent } from './inviter/inviterPorteur.behavior';
 import { UtilisateurInvitéEvent } from './inviter/inviter.behavior';
 import { InviterUtilisateurUseCase } from './inviter/inviter.usecase';
-import { RéclamerProjetUseCase } from './réclamer/réclamer.usecase';
-import { ProjetRéclaméEvent } from './réclamer/réclamer.behavior';
+import { ProjetRéclaméEvent } from './réclamer/réclamerProjet.behavior';
+import { RéclamerProjetUseCase } from './réclamer/réclamerProjet.usecase';
 
 export * as IdentifiantUtilisateur from './identifiantUtilisateur.valueType';
 export * as Utilisateur from './utilisateur.valueType';

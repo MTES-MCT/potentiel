@@ -181,6 +181,8 @@ export function applyCandidatureImportée(
   this.typeActionnariat = payload.actionnariat
     ? TypeActionnariat.convertirEnValueType(payload.actionnariat)
     : undefined;
+  this.emailContact = Email.convertirEnValueType(payload.emailContact);
+  this.prixRéférence = payload.prixReference;
 }
 
 export const mapToEventPayload = (candidature: ImporterCandidatureBehaviorCommonOptions) => ({

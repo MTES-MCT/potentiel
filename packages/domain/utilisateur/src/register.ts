@@ -20,8 +20,8 @@ import {
 } from './vérifierAccèsProjet/vérifierAccèsProjet.query';
 import { registerInviterUseCase } from './inviter/inviter.usecase';
 import { registerInviterCommand } from './inviter/inviter.command';
-import { registerRéclamerProjetCommand } from './réclamer/réclamer.command';
-import { registerRéclamerProjetUseCase } from './réclamer/réclamer.usecase';
+import { registerRéclamerProjetCommand } from './réclamer/réclamerProjet.command';
+import { registerRéclamerProjetUseCase } from './réclamer/réclamerProjet.usecase';
 
 type UtilisateurQueryDependencies = ConsulterUtilisateurDependencies &
   ListerUtilisateursDependencies &

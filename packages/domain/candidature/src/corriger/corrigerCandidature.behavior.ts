@@ -145,6 +145,8 @@ export function applyCandidatureCorrigée(
   this.typeActionnariat = payload.actionnariat
     ? TypeActionnariat.convertirEnValueType(payload.actionnariat)
     : undefined;
+  this.emailContact = Email.convertirEnValueType(payload.emailContact);
+  this.prixRéférence = payload.prixReference;
 }
 
 class StatutNonModifiableAprèsNotificationError extends InvalidOperationError {

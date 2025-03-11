@@ -1,5 +1,5 @@
 import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
-import { DomainEvent } from '@potentiel-domain/core';
+import { DomainEvent, InvalidOperationError } from '@potentiel-domain/core';
 
 import { UtilisateurAggregate } from '../utilisateur.aggregate';
 
@@ -16,12 +16,22 @@ type RéclamerProjetOptions = {
   identifiantProjet: IdentifiantProjet.ValueType;
   identifiantUtilisateur: Email.ValueType;
   réclaméLe: DateTime.ValueType;
+  aLeMêmeEmailQueLaCandidature: boolean;
 };
 
 export async function réclamer(
   this: UtilisateurAggregate,
-  { identifiantProjet, identifiantUtilisateur, réclaméLe }: RéclamerProjetOptions,
+  {
+    identifiantProjet,
+    identifiantUtilisateur,
+    réclaméLe,
+    aLeMêmeEmailQueLaCandidature,
+  }: RéclamerProjetOptions,
 ) {
+  if (!aLeMêmeEmailQueLaCandidature) {
+    throw new EmailNonCorrespondantError();
+  }
+
   const event: ProjetRéclaméEvent = {
     type: 'ProjetRéclamé-V1',
     payload: {
@@ -38,4 +48,10 @@ export function applyProjetRéclamé(
   { payload: { identifiantProjet } }: ProjetRéclaméEvent,
 ) {
   this.projets.add(identifiantProjet);
+}
+
+class EmailNonCorrespondantError extends InvalidOperationError {
+  constructor() {
+    super("L'email du porteur ne correspond pas à l'email de la candidature");
+  }
 }
