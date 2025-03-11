@@ -71,10 +71,10 @@ export const registerListerTâchesQuery = ({
         where: {
           appelOffre: cycle
             ? cycle === 'PPE2'
-              ? Where.contains('PPE2')
+              ? Where.contain('PPE2')
               : Where.notContains('PPE2')
             : Where.equal(appelOffre),
-          nomProjet: Where.contains(nomProjet),
+          nomProjet: Where.contain(nomProjet),
         },
       },
     });

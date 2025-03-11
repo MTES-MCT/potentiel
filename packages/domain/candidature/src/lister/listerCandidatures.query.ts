@@ -77,7 +77,7 @@ export const registerListerCandidaturesQuery = ({ list }: ListerCandidaturesQuer
       where: {
         appelOffre: Where.equal(appelOffre),
         période: Where.equal(période),
-        nomProjet: Where.contains(nomProjet),
+        nomProjet: Where.contain(nomProjet),
         statut: Where.equal(statut),
         estNotifiée: Where.equal(estNotifiée),
         identifiantProjet: Where.matchAny(identifiantProjets),

@@ -45,7 +45,7 @@ export const registerListerGestionnaireRéseauQuery = ({
         raisonSociale: 'ascending',
       },
       where: {
-        raisonSociale: Where.contains(raisonSociale),
+        raisonSociale: Where.contain(raisonSociale),
       },
       range,
     });

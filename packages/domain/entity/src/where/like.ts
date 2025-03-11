@@ -22,7 +22,7 @@ export const endWith = (value: string | undefined): WhereCondition<string> | und
   } satisfies LikeWhereCondition;
 };
 
-export const contains = (value: string | undefined): WhereCondition<string> | undefined => {
+export const contain = (value: string | undefined): WhereCondition<string> | undefined => {
   if (value === undefined) {
     return undefined;
   }
