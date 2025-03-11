@@ -17,6 +17,7 @@ type RéclamerProjetOptions = {
   identifiantUtilisateur: Email.ValueType;
   réclaméLe: DateTime.ValueType;
   aLeMêmeEmailQueLaCandidature: boolean;
+  connaîtLePrixEtNuméroCRE?: boolean;
 };
 
 export async function réclamer(
@@ -26,9 +27,13 @@ export async function réclamer(
     identifiantUtilisateur,
     réclaméLe,
     aLeMêmeEmailQueLaCandidature,
+    connaîtLePrixEtNuméroCRE,
   }: RéclamerProjetOptions,
 ) {
-  if (!aLeMêmeEmailQueLaCandidature) {
+  if (connaîtLePrixEtNuméroCRE === false) {
+    throw new PrixEtNuméroCRENonCorrespondantError();
+  }
+  if (!aLeMêmeEmailQueLaCandidature && !connaîtLePrixEtNuméroCRE) {
     throw new EmailNonCorrespondantError();
   }
 
@@ -53,5 +58,11 @@ export function applyProjetRéclamé(
 class EmailNonCorrespondantError extends InvalidOperationError {
   constructor() {
     super("L'email du porteur ne correspond pas à l'email de la candidature");
+  }
+}
+
+class PrixEtNuméroCRENonCorrespondantError extends InvalidOperationError {
+  constructor() {
+    super('Le prix et le numéro CRE spécifiés ne correspondent pas à ceux de la candidature');
   }
 }

@@ -12,6 +12,9 @@ export type RéclamerProjetCommand = Message<
     identifiantProjet: IdentifiantProjet.ValueType;
     identifiantUtilisateur: Email.ValueType;
     réclaméLe: DateTime.ValueType;
+
+    prixRéférence?: number;
+    numéroCRE?: string;
   }
 >;
 
@@ -23,6 +26,8 @@ export const registerRéclamerProjetCommand = (loadAggregate: LoadAggregate) => 
     identifiantProjet,
     identifiantUtilisateur,
     réclaméLe,
+    prixRéférence,
+    numéroCRE,
   }) => {
     const utilisateur = await loadUtilisateur(identifiantUtilisateur, false);
     const candidature = await loadCandidature(identifiantProjet);
@@ -30,8 +35,12 @@ export const registerRéclamerProjetCommand = (loadAggregate: LoadAggregate) => 
     await utilisateur.réclamer({
       identifiantProjet,
       identifiantUtilisateur,
-      aLeMêmeEmailQueLaCandidature: candidature.emailContact.estÉgaleÀ(identifiantUtilisateur),
       réclaméLe,
+      aLeMêmeEmailQueLaCandidature: candidature.emailContact.estÉgaleÀ(identifiantUtilisateur),
+      connaîtLePrixEtNuméroCRE:
+        prixRéférence !== undefined && numéroCRE !== undefined
+          ? candidature.prixRéférence === prixRéférence && identifiantProjet.numéroCRE === numéroCRE
+          : undefined,
     });
   };
   mediator.register('Utilisateur.Command.RéclamerProjet', handler);
