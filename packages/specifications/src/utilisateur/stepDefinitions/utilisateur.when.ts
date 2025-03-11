@@ -98,14 +98,19 @@ Quand(
       identifiantProjet,
       email: porteur.email,
     });
-    await mediator.send<RéclamerProjetUseCase>({
-      type: 'Utilisateur.UseCase.RéclamerProjet',
-      data: {
-        identifiantProjet,
-        identifiantUtilisateur: email,
-        réclaméLe: DateTime.now().formatter(),
-      },
-    });
+
+    try {
+      await mediator.send<RéclamerProjetUseCase>({
+        type: 'Utilisateur.UseCase.RéclamerProjet',
+        data: {
+          identifiantProjet,
+          identifiantUtilisateur: email,
+          réclaméLe: DateTime.now().formatter(),
+        },
+      });
+    } catch (error) {
+      this.error = error as Error;
+    }
   },
 );
 
@@ -117,23 +122,24 @@ Quand(
         ? this.eliminéWorld.identifiantProjet.formatter()
         : this.lauréatWorld.identifiantProjet.formatter();
 
-    const { emailContactValue: emailCandidature } =
-      this.candidatureWorld.importerCandidature.values;
-    const porteur = this.utilisateurWorld.porteurFixture.créer({
-      email: emailCandidature,
-    });
+    const porteur = this.utilisateurWorld.porteurFixture.créer({});
     const { email } = this.utilisateurWorld.réclamerProjet.créer({
       identifiantProjet,
       email: porteur.email,
     });
-    await mediator.send<RéclamerProjetUseCase>({
-      type: 'Utilisateur.UseCase.RéclamerProjet',
-      data: {
-        identifiantProjet,
-        identifiantUtilisateur: email,
-        réclaméLe: DateTime.now().formatter(),
-      },
-    });
+
+    try {
+      await mediator.send<RéclamerProjetUseCase>({
+        type: 'Utilisateur.UseCase.RéclamerProjet',
+        data: {
+          identifiantProjet,
+          identifiantUtilisateur: email,
+          réclaméLe: DateTime.now().formatter(),
+        },
+      });
+    } catch (error) {
+      this.error = error as Error;
+    }
   },
 );
 

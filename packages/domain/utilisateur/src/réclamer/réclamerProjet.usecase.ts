@@ -2,7 +2,7 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
 
-import { RéclamerProjetCommand } from './réclamer.command';
+import { RéclamerProjetCommand } from './réclamerProjet.command';
 
 export type RéclamerProjetUseCase = Message<
   'Utilisateur.UseCase.RéclamerProjet',
