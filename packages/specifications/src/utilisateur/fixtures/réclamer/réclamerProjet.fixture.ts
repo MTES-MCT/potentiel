@@ -9,6 +9,8 @@ import { Fixture } from '../../../fixture';
 interface RéclamerProjet {
   readonly email: string;
   readonly identifiantProjet: string;
+  readonly prixRéférence?: number;
+  readonly numéroCRE?: string;
 }
 
 export class RéclamerProjetFixture implements RéclamerProjet, Fixture<RéclamerProjet> {
@@ -28,6 +30,16 @@ export class RéclamerProjetFixture implements RéclamerProjet, Fixture<Réclame
     return this.#identifiantProjet;
   }
 
+  #prixRéférence?: number;
+  get prixRéférence(): number | undefined {
+    return this.#prixRéférence;
+  }
+
+  #numéroCRE?: string;
+  get numéroCRE(): string | undefined {
+    return this.#numéroCRE;
+  }
+
   créer(
     partialFixture: Partial<Readonly<RéclamerProjet>> & {
       identifiantProjet: string;
@@ -39,6 +51,8 @@ export class RéclamerProjetFixture implements RéclamerProjet, Fixture<Réclame
     };
     this.#email = fixture.email;
     this.#identifiantProjet = fixture.identifiantProjet;
+    this.#prixRéférence = fixture.prixRéférence;
+    this.#numéroCRE = fixture.numéroCRE;
 
     this.#aÉtéCréé = true;
     return fixture;
