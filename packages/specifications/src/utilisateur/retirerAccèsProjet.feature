@@ -1,7 +1,6 @@
 # language: fr
 Fonctionnalité: Retirer les accès d'un utilisateur à un projet
 
-    @select
     Scénario: Retirer les accès d'un utilisateur à un projet
         Etant donné le projet lauréat "Du boulodrome de Marseille"
         Et le porteur invité sur le projet lauréat
