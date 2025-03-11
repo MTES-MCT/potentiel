@@ -11,7 +11,6 @@ export type ProConnectProfile = {
   usual_name: string;
   uid: string;
   siret: string;
-  // utilisateur: PlainType<Utilisateur.ValueType>;
 };
 
 export default function ProConnect<P extends ProConnectProfile>(
