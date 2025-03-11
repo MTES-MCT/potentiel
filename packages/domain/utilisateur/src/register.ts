@@ -20,6 +20,8 @@ import {
 } from './vérifierAccèsProjet/vérifierAccèsProjet.query';
 import { registerInviterUseCase } from './inviter/inviter.usecase';
 import { registerInviterCommand } from './inviter/inviter.command';
+import { registerRéclamerProjetCommand } from './réclamer/réclamer.command';
+import { registerRéclamerProjetUseCase } from './réclamer/réclamer.usecase';
 
 type UtilisateurQueryDependencies = ConsulterUtilisateurDependencies &
   ListerUtilisateursDependencies &
@@ -40,7 +42,9 @@ export type UtilisateurCommandDependencies = {
 export const registerUtiliseurUseCases = ({ loadAggregate }: UtilisateurCommandDependencies) => {
   registerInviterUseCase();
   registerInviterPorteurUseCase();
+  registerRéclamerProjetUseCase();
 
   registerInviterCommand(loadAggregate);
   registerInviterPorteurCommand(loadAggregate);
+  registerRéclamerProjetCommand(loadAggregate);
 };

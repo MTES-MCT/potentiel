@@ -6,6 +6,7 @@ import {
   InviterPorteurUseCase,
   InviterUtilisateurUseCase,
   Role,
+  RéclamerProjetUseCase,
 } from '@potentiel-domain/utilisateur';
 
 import { PotentielWorld } from '../../potentiel.world';
@@ -76,6 +77,62 @@ Quand(
     await inviterUtilisateur.call(this, {
       rôle: Role.grd.nom,
       identifiantGestionnaireRéseau: this.raccordementWorld.identifiantGestionnaireRéseau,
+    });
+  },
+);
+
+Quand(
+  `un porteur réclame le projet {lauréat-éliminé} avec le même email que celui de la candidature`,
+  async function (this: PotentielWorld, statutProjet: 'lauréat' | 'éliminé') {
+    const identifiantProjet =
+      statutProjet === 'éliminé'
+        ? this.eliminéWorld.identifiantProjet.formatter()
+        : this.lauréatWorld.identifiantProjet.formatter();
+
+    const { emailContactValue: emailCandidature } =
+      this.candidatureWorld.importerCandidature.values;
+    const porteur = this.utilisateurWorld.porteurFixture.créer({
+      email: emailCandidature,
+    });
+    const { email } = this.utilisateurWorld.réclamerProjet.créer({
+      identifiantProjet,
+      email: porteur.email,
+    });
+    await mediator.send<RéclamerProjetUseCase>({
+      type: 'Utilisateur.UseCase.RéclamerProjet',
+      data: {
+        identifiantProjet,
+        identifiantUtilisateur: email,
+        réclaméLe: DateTime.now().formatter(),
+      },
+    });
+  },
+);
+
+Quand(
+  `un porteur réclame le projet {lauréat-éliminé} avec un email différent de celui de la candidature`,
+  async function (this: PotentielWorld, statutProjet: 'lauréat' | 'éliminé') {
+    const identifiantProjet =
+      statutProjet === 'éliminé'
+        ? this.eliminéWorld.identifiantProjet.formatter()
+        : this.lauréatWorld.identifiantProjet.formatter();
+
+    const { emailContactValue: emailCandidature } =
+      this.candidatureWorld.importerCandidature.values;
+    const porteur = this.utilisateurWorld.porteurFixture.créer({
+      email: emailCandidature,
+    });
+    const { email } = this.utilisateurWorld.réclamerProjet.créer({
+      identifiantProjet,
+      email: porteur.email,
+    });
+    await mediator.send<RéclamerProjetUseCase>({
+      type: 'Utilisateur.UseCase.RéclamerProjet',
+      data: {
+        identifiantProjet,
+        identifiantUtilisateur: email,
+        réclaméLe: DateTime.now().formatter(),
+      },
     });
   },
 );
