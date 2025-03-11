@@ -88,7 +88,7 @@ export const authOptions: AuthOptions = {
       const utilisateur = await getUtilisateurFromEmail(user?.email ?? '');
 
       if (Option.isNone(utilisateur)) {
-        logger.info(`User tries to connect with ProConnect but is not registered yet`, {
+        logger.info(`User tries to connect but is not registered yet`, {
           user,
         });
         return Routes.Auth.signOut({
