@@ -60,24 +60,6 @@ export default function ProConnect<P extends ProConnectProfile>(
         email: profile.email,
         name: profile.given_name,
       };
-      // const utilisateur = await getUtilisateurFromEmail(profile.email);
-
-      // if (Option.isNone(utilisateur)) {
-      //   return {
-      //     id: Option.none.type,
-      //     utilisateur: {
-      //       nom: '',
-      //       groupe: Option.none,
-      //       role: Role.porteur,
-      //       identifiantUtilisateur: IdentifiantUtilisateur.unknownUser,
-      //     },
-      //   };
-      // }
-
-      // return {
-      //   id: profile.uid,
-      //   utilisateur: mapToPlainObject(utilisateur),
-      // };
     },
     options,
   };
