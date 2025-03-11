@@ -2,15 +2,23 @@
 
 import { useSearchParams } from 'next/navigation';
 
-import { CustomErrorPage, ErrorType } from '@/components/pages/custom-error/CustomError.page';
+import {
+  CustomErrorPage,
+  CustomErrorProps,
+  ErrorType,
+} from '@/components/pages/custom-error/CustomError.page';
 
 export default function Unauthorized() {
   const params = useSearchParams();
   const error = getError(params.get('error') ?? '');
-  return <CustomErrorPage statusCode="403" type={error.type} message={error.message} />;
+  return (
+    <CustomErrorPage statusCode={error.statusCode} type={error.type} message={error.message} />
+  );
 }
 
-const getError = (error: string): { type: ErrorType; message: string; statusCode: string } => {
+const getError = (
+  error: string,
+): { type: ErrorType; message: string; statusCode: CustomErrorProps['statusCode'] } => {
   switch (error) {
     case 'Verification':
       return {
