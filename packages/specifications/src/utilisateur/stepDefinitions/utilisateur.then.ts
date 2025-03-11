@@ -5,23 +5,23 @@ import { expect } from 'chai';
 
 import { mapToPlainObject } from '@potentiel-domain/core';
 import {
-  Role,
   TrouverUtilisateurQuery,
   Utilisateur,
   VérifierAccèsProjetQuery,
 } from '@potentiel-domain/utilisateur';
-import { Option } from '@potentiel-libraries/monads';
-import { Email } from '@potentiel-domain/common';
 
 import { PotentielWorld } from '../../potentiel.world';
 
 Alors(
-  `l'utilisateur invité a accès au projet {lauréat-éliminé}`,
+  `le nouveau porteur a accès au projet {lauréat-éliminé}`,
   async function (this: PotentielWorld, statutProjet: 'lauréat' | 'éliminé') {
     const identifiantProjet =
       statutProjet === 'éliminé'
         ? this.eliminéWorld.identifiantProjet.formatter()
         : this.lauréatWorld.identifiantProjet.formatter();
+
+    const { rôle, identifiantGestionnaireRéseau, identifiantUtilisateur, région } =
+      this.utilisateurWorld.mapToExpected();
 
     await waitForExpect(() =>
       mediator.send<VérifierAccèsProjetQuery>({
@@ -29,13 +29,10 @@ Alors(
         data: {
           identifiantProjetValue: identifiantProjet,
           utilisateur: Utilisateur.bind({
-            identifiantUtilisateur: Email.convertirEnValueType(
-              this.utilisateurWorld.inviterUtilisateur.email,
-            ),
-            role: Role.convertirEnValueType(this.utilisateurWorld.inviterUtilisateur.rôle),
-            identifiantGestionnaireRéseau:
-              this.utilisateurWorld.inviterUtilisateur.identifiantGestionnaireRéseau ?? Option.none,
-            région: this.utilisateurWorld.inviterUtilisateur.région ?? Option.none,
+            identifiantUtilisateur,
+            role: rôle,
+            identifiantGestionnaireRéseau,
+            région,
             nom: '',
             fonction: '',
           }),
@@ -45,12 +42,14 @@ Alors(
   },
 );
 
-Alors(`l'utilisateur doit être invité`, async function (this: PotentielWorld) {
+Alors(`l'utilisateur doit être créé`, async function (this: PotentielWorld) {
   await waitForExpect(async () => {
     const utilisateur = await mediator.send<TrouverUtilisateurQuery>({
       type: 'System.Utilisateur.Query.TrouverUtilisateur',
       data: {
-        identifiantUtilisateur: this.utilisateurWorld.inviterUtilisateur.email,
+        identifiantUtilisateur: this.utilisateurWorld.réclamerProjet.aÉtéCréé
+          ? this.utilisateurWorld.réclamerProjet.email
+          : this.utilisateurWorld.inviterUtilisateur.email,
       },
     });
 

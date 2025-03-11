@@ -1,7 +1,3 @@
-import { Role } from '@potentiel-domain/utilisateur';
-import { Option } from '@potentiel-libraries/monads';
-import { Email } from '@potentiel-domain/common';
-
 import { PorteurFixture } from './fixtures/porteur.fixture';
 import { ValidateurFixture } from './fixtures/validateur.fixture';
 import { DREALFixture } from './fixtures/dreal.fixture';
@@ -9,6 +5,7 @@ import { AdminFixture } from './fixtures/admin.fixture';
 import { SystemFixture } from './fixtures/system.fixture';
 import { GRDFixture } from './fixtures/grd.fixture';
 import { InviterUtilisateurFixture } from './fixtures/inviter/inviter.fixture';
+import { RéclamerProjetFixture } from './fixtures/réclamer/réclamerProjet.fixture';
 
 export class UtilisateurWorld {
   #porteurFixture: PorteurFixture;
@@ -90,13 +87,9 @@ export class UtilisateurWorld {
   }
 
   mapToExpected() {
-    const email = Email.convertirEnValueType(this.inviterUtilisateur.email);
-    return {
-      identifiantUtilisateur: email,
-      rôle: Role.convertirEnValueType(this.inviterUtilisateur.rôle),
-      région: this.inviterUtilisateur.région ?? Option.none,
-      identifiantGestionnaireRéseau:
-        this.inviterUtilisateur.identifiantGestionnaireRéseau ?? Option.none,
-    };
+    if (this.réclamerProjet.aÉtéCréé) {
+      return this.réclamerProjet.mapToExpected();
+    }
+    return this.inviterUtilisateur.mapToExpected();
   }
 }
