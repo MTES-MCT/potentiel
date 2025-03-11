@@ -3,8 +3,8 @@ import { findProjection } from '@potentiel-infrastructure/pg-projection-read';
 import { upsertProjection } from '@potentiel-infrastructure/pg-projection-write';
 import { Option } from '@potentiel-libraries/monads';
 
-export const porteurInvitéProjector = async ({
-  payload: { identifiantProjet, identifiantUtilisateur, invitéLe, invitéPar },
+export const PorteurInvitéProjector = async ({
+  payload: { identifiantsProjet, identifiantUtilisateur, autoriséLe, autoriséPar },
 }: PorteurInvitéEvent) => {
   const porteur = await findProjection<UtilisateurEntity>(`utilisateur|${identifiantUtilisateur}`);
 
