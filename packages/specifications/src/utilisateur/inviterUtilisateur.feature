@@ -3,7 +3,7 @@ Fonctionnalité: Inviter un utilisateur en tant qu'admin
 
     Plan du scénario: Inviter un utilisateur avec accès global
         Quand un administrateur invite un utilisateur avec le rôle "<Rôle>"
-        Alors l'utilisateur doit être invité
+        Alors l'utilisateur doit être créé
 
         Exemples:
             | Rôle              |
@@ -15,20 +15,20 @@ Fonctionnalité: Inviter un utilisateur en tant qu'admin
 
     Scénario: Inviter un DGEC validateur
         Quand un administrateur invite un dgec validateur
-        Alors l'utilisateur doit être invité
+        Alors l'utilisateur doit être créé
 
     Scénario: Inviter une dreal
         Etant donné le projet lauréat "Du boulodrome de Marseille"
         Quand un administrateur invite une dreal pour la région du projet
-        Alors l'utilisateur doit être invité
-        Alors l'utilisateur invité a accès au projet lauréat
+        Alors l'utilisateur doit être créé
+        Alors le nouveau porteur a accès au projet lauréat
 
     Scénario: Inviter un gestionnaire de réseau
         Etant donné le gestionnaire de réseau "Enedis"
         Et le projet lauréat "Du boulodrome de Marseille"
         Et le gestionnaire de réseau "Enedis" attribué au raccordement du projet lauréat
         Quand un administrateur invite un gestionnaire de réseau attribué au raccordement du projet lauréat
-        Alors l'utilisateur invité a accès au projet lauréat
+        Alors le nouveau porteur a accès au projet lauréat
 
     Scénario: Impossible d'inviter un utilisateur déjà invité
         Quand un administrateur invite un utilisateur avec le rôle "admin"

@@ -1,5 +1,9 @@
 import { faker } from '@faker-js/faker';
 
+import { Email } from '@potentiel-domain/common';
+import { Role } from '@potentiel-domain/utilisateur';
+import { Option } from '@potentiel-libraries/monads';
+
 import { Fixture } from '../../../fixture';
 
 interface InviterPorteur {
@@ -50,5 +54,15 @@ export class InviterUtilisateurFixture implements InviterPorteur, Fixture<Invite
 
     this.#aÉtéCréé = true;
     return fixture;
+  }
+
+  mapToExpected() {
+    const email = Email.convertirEnValueType(this.email);
+    return {
+      identifiantUtilisateur: email,
+      rôle: Role.convertirEnValueType(this.rôle),
+      région: this.région ?? Option.none,
+      identifiantGestionnaireRéseau: this.identifiantGestionnaireRéseau ?? Option.none,
+    };
   }
 }

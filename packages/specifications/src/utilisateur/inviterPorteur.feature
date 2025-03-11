@@ -1,13 +1,12 @@
 # language: fr
-@select
 Fonctionnalité: Inviter un porteur sur un projet
 
     Plan du scénario: Inviter un porteur
         Etant donné le projet <Statut> "Du boulodrome de Marseille"
         Et le porteur "Marcel Patoulatchi" ayant accés au projet <Statut> "Du boulodrome de Marseille"
         Quand le porteur invite un autre porteur sur le projet <Statut>
-        Alors l'utilisateur doit être invité
-        Et l'utilisateur invité a accès au projet <Statut>
+        Alors l'utilisateur doit être créé
+        Et le nouveau porteur a accès au projet <Statut>
 
         Exemples:
             | Statut  |
