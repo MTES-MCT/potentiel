@@ -10,7 +10,16 @@ export type RéclamerProjetUseCase = Message<
     identifiantProjet: string;
     identifiantUtilisateur: string;
     réclaméLe: string;
-  }
+  } & (
+    | {
+        prixRéférence: number;
+        numéroCRE: string;
+      }
+    | {
+        prixRéférence?: undefined;
+        numéroCRE?: undefined;
+      }
+  )
 >;
 
 export const registerRéclamerProjetUseCase = () => {
@@ -18,6 +27,8 @@ export const registerRéclamerProjetUseCase = () => {
     identifiantProjet,
     identifiantUtilisateur,
     réclaméLe,
+    prixRéférence,
+    numéroCRE,
   }) => {
     await mediator.send<RéclamerProjetCommand>({
       type: 'Utilisateur.Command.RéclamerProjet',
@@ -25,6 +36,8 @@ export const registerRéclamerProjetUseCase = () => {
         identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
         identifiantUtilisateur: Email.convertirEnValueType(identifiantUtilisateur),
         réclaméLe: DateTime.convertirEnValueType(réclaméLe),
+        prixRéférence: prixRéférence,
+        numéroCRE: numéroCRE,
       },
     });
   };

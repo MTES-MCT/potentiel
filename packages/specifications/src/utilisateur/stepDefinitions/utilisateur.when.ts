@@ -1,5 +1,6 @@
 import { When as Quand } from '@cucumber/cucumber';
 import { mediator } from 'mediateur';
+import { faker } from '@faker-js/faker';
 
 import { DateTime } from '@potentiel-domain/common';
 import {
@@ -106,6 +107,70 @@ Quand(
           identifiantProjet,
           identifiantUtilisateur: email,
           réclaméLe: DateTime.now().formatter(),
+        },
+      });
+    } catch (error) {
+      this.error = error as Error;
+    }
+  },
+);
+
+Quand(
+  `un porteur réclame le projet {lauréat-éliminé} en connaissant le prix et le numéro CRE`,
+  async function (this: PotentielWorld, statutProjet: 'lauréat' | 'éliminé') {
+    const identifiantProjet =
+      statutProjet === 'éliminé'
+        ? this.eliminéWorld.identifiantProjet.formatter()
+        : this.lauréatWorld.identifiantProjet.formatter();
+
+    const { prixReferenceValue, numéroCREValue } = this.candidatureWorld.importerCandidature.values;
+
+    const porteur = this.utilisateurWorld.porteurFixture.créer({});
+    const { email } = this.utilisateurWorld.réclamerProjet.créer({
+      identifiantProjet,
+      email: porteur.email,
+    });
+
+    try {
+      await mediator.send<RéclamerProjetUseCase>({
+        type: 'Utilisateur.UseCase.RéclamerProjet',
+        data: {
+          identifiantProjet,
+          identifiantUtilisateur: email,
+          réclaméLe: DateTime.now().formatter(),
+          prixRéférence: prixReferenceValue,
+          numéroCRE: numéroCREValue,
+        },
+      });
+    } catch (error) {
+      this.error = error as Error;
+    }
+  },
+);
+
+Quand(
+  `un porteur réclame le projet {lauréat-éliminé} sans connaître le prix et le numéro CRE`,
+  async function (this: PotentielWorld, statutProjet: 'lauréat' | 'éliminé') {
+    const identifiantProjet =
+      statutProjet === 'éliminé'
+        ? this.eliminéWorld.identifiantProjet.formatter()
+        : this.lauréatWorld.identifiantProjet.formatter();
+
+    const porteur = this.utilisateurWorld.porteurFixture.créer({});
+    const { email } = this.utilisateurWorld.réclamerProjet.créer({
+      identifiantProjet,
+      email: porteur.email,
+    });
+
+    try {
+      await mediator.send<RéclamerProjetUseCase>({
+        type: 'Utilisateur.UseCase.RéclamerProjet',
+        data: {
+          identifiantProjet,
+          identifiantUtilisateur: email,
+          réclaméLe: DateTime.now().formatter(),
+          prixRéférence: faker.number.float(),
+          numéroCRE: faker.string.alphanumeric(),
         },
       });
     } catch (error) {
