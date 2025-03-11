@@ -1,12 +1,14 @@
 import { Pool } from 'pg';
 import { AuthOptions } from 'next-auth';
 import KeycloakProvider from 'next-auth/providers/keycloak';
+import EmailProvider from 'next-auth/providers/email';
 
 import { getLogger } from '@potentiel-libraries/monitoring';
 import { Routes } from '@potentiel-applications/routes';
 import { PostgresAdapter } from '@potentiel-libraries/auth-pg-adapter';
 import { Option } from '@potentiel-libraries/monads';
 import { mapToPlainObject } from '@potentiel-domain/core';
+import { sendEmail } from '@potentiel-infrastructure/email';
 
 import { getProviderConfiguration } from './getProviderConfiguration';
 import { refreshToken } from './refreshToken';
@@ -14,8 +16,10 @@ import ProConnectProvider from './ProConnectProvider';
 import { getUtilisateurFromEmail } from './getUtilisateur';
 import { canConnectWithProConnect } from './canConnectWithProConnect';
 import { ajouterStatistiqueConnexion } from './ajouterStatistiqueConnexion';
+import { canConnectWithMagicLink } from './canConnectWithMagicLink';
 
 const OneHourInSeconds = 60 * 60;
+const fifteenMinutesInSeconds = 15 * 60;
 
 const pool = new Pool({
   connectionString: process.env.DATABASE_CONNECTION_STRING,
@@ -39,11 +43,26 @@ export const authOptions: AuthOptions = {
       },
     }),
     ProConnectProvider(getProviderConfiguration('proconnect')),
+    EmailProvider({
+      from: process.env.SEND_EMAILS_FROM,
+      maxAge: fifteenMinutesInSeconds,
+      sendVerificationRequest: ({ identifier, url }) => {
+        sendEmail({
+          templateId: 6785365,
+          messageSubject: 'Connexion à Potentiel',
+          recipients: [{ email: identifier, fullName: '' }],
+          variables: {
+            url,
+          },
+        });
+      },
+    }),
   ],
   pages: {
     signIn: Routes.Auth.signIn(),
     error: Routes.Auth.error(),
     signOut: Routes.Auth.signOut(),
+    verifyRequest: Routes.Auth.verifyRequest(),
   },
   session: {
     strategy: 'jwt',
@@ -78,6 +97,13 @@ export const authOptions: AuthOptions = {
         });
       }
 
+      if (account?.provider === 'email' && !canConnectWithMagicLink(utilisateur.role)) {
+        getLogger('Auth').info(`User tries to connect with Magic Link but is not authorized`, {
+          utilisateur,
+        });
+        return Routes.Auth.signIn({ error: 'Unauthorized' });
+      }
+
       if (account?.provider === 'proconnect' && !canConnectWithProConnect(utilisateur.role)) {
         logger.info(`User tries to connect with ProConnect but is not authorized yet`, {
           user,
@@ -107,7 +133,11 @@ export const authOptions: AuthOptions = {
         };
       }
 
-      return refreshToken(token);
+      if (token.provider !== 'email') {
+        return refreshToken(token);
+      }
+
+      return token;
     },
     async session({ session, token }) {
       {
