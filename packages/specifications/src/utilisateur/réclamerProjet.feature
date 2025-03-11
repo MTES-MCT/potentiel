@@ -1,6 +1,7 @@
 # language: fr
 Fonctionnalité: Réclamer un projet en tant que porteur
 
+    @select
     Plan du scénario: Réclamer un projet avec le même email que celui de la candidature
         Etant donné le projet <Statut> "Du boulodrome de Marseille"
         Quand un porteur réclame le projet <Statut> avec le même email que celui de la candidature
