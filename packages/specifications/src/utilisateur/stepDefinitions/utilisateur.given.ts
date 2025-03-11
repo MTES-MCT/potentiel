@@ -7,7 +7,7 @@ import { Role } from '@potentiel-domain/utilisateur';
 
 import { PotentielWorld } from '../../potentiel.world';
 
-import { inviterUtilisateur } from './utilisateur.when';
+import { inviterPorteur, inviterUtilisateur } from './utilisateur.when';
 
 EtantDonné('le porteur {string}', async function (this: PotentielWorld, porteurNom: string) {
   const porteur = this.utilisateurWorld.porteurFixture.créer({
@@ -17,6 +17,7 @@ EtantDonné('le porteur {string}', async function (this: PotentielWorld, porteur
   await insérerUtilisateur(porteur);
 });
 
+/** @deprecated Ceci utilise la table legacy Users et UserProjects */
 EtantDonné(
   'le porteur {string} ayant accés au projet {lauréat-éliminé} {string}',
   async function (
@@ -45,6 +46,25 @@ EtantDonné(
     const projets = await récupérerProjets(identifiantProjet);
 
     await associerProjetAuPorteur(porteur.id, projets);
+  },
+);
+
+EtantDonné(
+  'le porteur invité sur le projet {lauréat-éliminé}',
+  async function (this: PotentielWorld, typeProjet: 'lauréat' | 'éliminé') {
+    const identifiantProjet = match(typeProjet)
+      .with('lauréat', () => this.lauréatWorld.identifiantProjet)
+      .with('éliminé', () => this.eliminéWorld.identifiantProjet)
+      .exhaustive();
+
+    const porteur = this.utilisateurWorld.porteurFixture.aÉtéCréé
+      ? this.utilisateurWorld.porteurFixture
+      : this.utilisateurWorld.porteurFixture.créer({});
+
+    await inviterPorteur.call(this, {
+      identifiantsProjet: [identifiantProjet.formatter()],
+      identifiantUtilisateur: porteur.email,
+    });
   },
 );
 

@@ -5,10 +5,13 @@ import { expect } from 'chai';
 
 import { mapToPlainObject } from '@potentiel-domain/core';
 import {
+  Role,
   TrouverUtilisateurQuery,
   Utilisateur,
   VérifierAccèsProjetQuery,
 } from '@potentiel-domain/utilisateur';
+import { Option } from '@potentiel-libraries/monads';
+import { Email } from '@potentiel-domain/common';
 
 import { PotentielWorld } from '../../potentiel.world';
 
@@ -39,6 +42,41 @@ Alors(
         },
       }),
     );
+  },
+);
+
+Alors(
+  `le porteur ne doit plus avoir accès au projet {lauréat-éliminé}`,
+  async function (this: PotentielWorld, statutProjet: 'lauréat' | 'éliminé') {
+    const identifiantProjet =
+      statutProjet === 'éliminé'
+        ? this.eliminéWorld.identifiantProjet.formatter()
+        : this.lauréatWorld.identifiantProjet.formatter();
+
+    const porteur = this.utilisateurWorld.porteurFixture;
+
+    await waitForExpect(async () => {
+      try {
+        await mediator.send<VérifierAccèsProjetQuery>({
+          type: 'System.Authorization.VérifierAccèsProjet',
+          data: {
+            identifiantProjetValue: identifiantProjet,
+            utilisateur: Utilisateur.bind({
+              identifiantUtilisateur: Email.convertirEnValueType(porteur.email),
+              role: Role.convertirEnValueType(porteur.role),
+              identifiantGestionnaireRéseau: Option.none,
+              région: Option.none,
+              fonction: Option.none,
+              nom: '',
+            }),
+          },
+        });
+
+        expect.fail("L'utilisateur ne devrait pas avoir accès au projet");
+      } catch (error) {
+        expect((error as Error).message).to.equal("Vous n'avez pas accès à ce projet");
+      }
+    });
   },
 );
 

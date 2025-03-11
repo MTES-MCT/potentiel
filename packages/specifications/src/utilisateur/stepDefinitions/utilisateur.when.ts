@@ -2,7 +2,7 @@ import { When as Quand } from '@cucumber/cucumber';
 import { mediator } from 'mediateur';
 import { faker } from '@faker-js/faker';
 
-import { DateTime } from '@potentiel-domain/common';
+import { DateTime, Email } from '@potentiel-domain/common';
 import {
   InviterPorteurUseCase,
   InviterUtilisateurUseCase,
@@ -17,7 +17,6 @@ import { RéclamerProjetFixture } from '../fixtures/réclamer/réclamerProjet.fi
 Quand(
   'le porteur invite un autre porteur sur le projet {lauréat-éliminé}',
   async function (this: PotentielWorld, statutProjet: 'lauréat' | 'éliminé') {
-    const porteurExistant = this.utilisateurWorld.porteurFixture.email;
     const { email: porteurInvité } = this.utilisateurWorld.inviterUtilisateur.aÉtéCréé
       ? this.utilisateurWorld.inviterUtilisateur
       : this.utilisateurWorld.inviterUtilisateur.créer({
@@ -27,19 +26,10 @@ Quand(
       statutProjet === 'éliminé'
         ? this.eliminéWorld.identifiantProjet.formatter()
         : this.lauréatWorld.identifiantProjet.formatter();
-    try {
-      await mediator.send<InviterPorteurUseCase>({
-        type: 'Utilisateur.UseCase.InviterPorteur',
-        data: {
-          identifiantsProjetValues: [identifiantProjet],
-          identifiantUtilisateurValue: porteurInvité,
-          invitéLeValue: DateTime.now().formatter(),
-          invitéParValue: porteurExistant,
-        },
-      });
-    } catch (error) {
-      this.error = error as Error;
-    }
+    await inviterPorteur.call(this, {
+      identifiantsProjet: [identifiantProjet],
+      identifiantUtilisateur: porteurInvité,
+    });
   },
 );
 
@@ -159,6 +149,51 @@ Quand(
     });
   },
 );
+
+Quand(
+  "un administrateur retire l'accès de l'utilisateur au projet lauréat",
+  async function (this: PotentielWorld) {
+    const identifiantProjet = this.lauréatWorld.identifiantProjet.formatter();
+    try {
+      // await mediator.send<RetirerAccèsProjetUseCase>({
+      //   type: 'Utilisateur.UseCase.RetirerAccèsProjet',
+      //   data: {
+      //     identifiantProjet,
+      //     identifiantUtilisateur: this.utilisateurWorld.porteurFixture.email,
+      //   },
+      // });
+    } catch (error) {
+      this.error = error as Error;
+    }
+  },
+);
+
+export async function inviterPorteur(
+  this: PotentielWorld,
+  {
+    identifiantsProjet,
+    identifiantUtilisateur,
+  }: {
+    identifiantsProjet: string[];
+    identifiantUtilisateur: string;
+  },
+) {
+  try {
+    await mediator.send<InviterPorteurUseCase>({
+      type: 'Utilisateur.UseCase.InviterPorteur',
+      data: {
+        identifiantsProjetValues: identifiantsProjet,
+        identifiantUtilisateurValue: identifiantUtilisateur,
+        invitéLeValue: DateTime.now().formatter(),
+        invitéParValue: this.utilisateurWorld.porteurFixture.aÉtéCréé
+          ? this.utilisateurWorld.porteurFixture.email
+          : Email.system().formatter(),
+      },
+    });
+  } catch (error) {
+    this.error = error as Error;
+  }
+}
 
 export async function inviterUtilisateur(
   this: PotentielWorld,
