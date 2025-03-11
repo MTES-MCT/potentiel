@@ -6,7 +6,6 @@ export interface PotentielJWT {
   idToken?: string;
   refreshToken?: string;
   expiresAt?: number;
-  utilisateur?: PlainType<Utilisateur.ValueType>;
   provider?: string;
 }
 
@@ -17,15 +16,10 @@ export interface PotentielSession {
   provider?: string;
 }
 
-export interface PotentielUtilisateur {
-  utilisateur?: PlainType<Utilisateur.ValueType>;
-}
-
 declare module 'next-auth/jwt' {
   interface JWT extends PotentielJWT {}
 }
 
 declare module 'next-auth' {
-  interface User extends PotentielUtilisateur {}
   interface Session extends PotentielSession {}
 }

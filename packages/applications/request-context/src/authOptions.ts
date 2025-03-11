@@ -1,29 +1,40 @@
+import { Pool } from 'pg';
 import { AuthOptions } from 'next-auth';
 import KeycloakProvider from 'next-auth/providers/keycloak';
 
 import { getLogger } from '@potentiel-libraries/monitoring';
 import { Routes } from '@potentiel-applications/routes';
-import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
+import { PostgresAdapter } from '@potentiel-libraries/auth-pg-adapter';
+import { Option } from '@potentiel-libraries/monads';
+import { mapToPlainObject } from '@potentiel-domain/core';
 
 import { getProviderConfiguration } from './getProviderConfiguration';
 import { refreshToken } from './refreshToken';
 import ProConnectProvider from './ProConnectProvider';
-import { ajouterStatistiqueConnexion } from './ajouterStatistiqueConnexion';
-import { getUtilisateurFromAccessToken } from './getUtilisateur';
+import { getUtilisateurFromEmail } from './getUtilisateur';
 import { canConnectWithProConnect } from './canConnectWithProConnect';
+import { ajouterStatistiqueConnexion } from './ajouterStatistiqueConnexion';
 
 const OneHourInSeconds = 60 * 60;
 
+const pool = new Pool({
+  connectionString: process.env.DATABASE_CONNECTION_STRING,
+  max: 5,
+  idleTimeoutMillis: 30000,
+  connectionTimeoutMillis: 2000,
+  options: '-c search_path=auth',
+});
+
 export const authOptions: AuthOptions = {
+  adapter: PostgresAdapter(pool),
   providers: [
     KeycloakProvider({
       ...getProviderConfiguration('keycloak'),
-      profile: async (profile, tokens) => {
-        const utilisateur = await getUtilisateurFromAccessToken(tokens.access_token ?? '');
-
+      profile: async (profile) => {
         return {
           id: profile.sub,
-          ...utilisateur,
+          email: profile.email,
+          name: profile.name,
         };
       },
     }),
@@ -43,22 +54,21 @@ export const authOptions: AuthOptions = {
     maxAge: parseInt(process.env.SESSION_MAX_AGE ?? String(OneHourInSeconds)),
   },
   events: {
-    signIn: ({ user, account }) => {
-      if (
-        user?.utilisateur?.identifiantUtilisateur &&
-        !IdentifiantUtilisateur.bind(user.utilisateur.identifiantUtilisateur).estInconnu()
-      ) {
-        ajouterStatistiqueConnexion(user.utilisateur, account?.provider ?? '');
+    signIn: async ({ user, account }) => {
+      const utilisateur = await getUtilisateurFromEmail(user?.email ?? '');
+
+      if (Option.isSome(utilisateur)) {
+        ajouterStatistiqueConnexion(utilisateur, account?.provider ?? '');
       }
     },
   },
   callbacks: {
-    signIn({ account, user }) {
+    async signIn({ account, user }) {
       const logger = getLogger('Auth');
-      if (
-        user?.utilisateur?.identifiantUtilisateur &&
-        IdentifiantUtilisateur.bind(user.utilisateur.identifiantUtilisateur).estInconnu()
-      ) {
+
+      const utilisateur = await getUtilisateurFromEmail(user?.email ?? '');
+
+      if (Option.isNone(utilisateur)) {
         logger.info(`User tries to connect with ProConnect but is not registered yet`, {
           user,
         });
@@ -67,11 +77,8 @@ export const authOptions: AuthOptions = {
           idToken: account?.id_token,
         });
       }
-      if (
-        account?.provider === 'proconnect' &&
-        user.utilisateur &&
-        !canConnectWithProConnect(user.utilisateur.role)
-      ) {
+
+      if (account?.provider === 'proconnect' && !canConnectWithProConnect(utilisateur.role)) {
         logger.info(`User tries to connect with ProConnect but is not authorized yet`, {
           user,
         });
@@ -85,12 +92,6 @@ export const authOptions: AuthOptions = {
       return true;
     },
     jwt({ token, trigger, account, user }) {
-      if (
-        user?.utilisateur?.identifiantUtilisateur &&
-        IdentifiantUtilisateur.bind(user.utilisateur.identifiantUtilisateur).estInconnu()
-      ) {
-        return {};
-      }
       if (trigger === 'signIn' && account && user) {
         const { sub, expires_at = 0, provider } = account;
         const expiresAtInMs = expires_at * 1000;
@@ -103,16 +104,16 @@ export const authOptions: AuthOptions = {
           idToken: account.id_token,
           expiresAt: expiresAtInMs,
           refreshToken: account.refresh_token,
-          utilisateur: user,
         };
       }
 
       return refreshToken(token);
     },
-    session({ session, token }) {
+    async session({ session, token }) {
       {
-        if (token.utilisateur) {
-          session.utilisateur = token.utilisateur;
+        const utilisateur = await getUtilisateurFromEmail(session.user?.email ?? '');
+        if (Option.isSome(utilisateur)) {
+          session.utilisateur = mapToPlainObject(utilisateur);
         }
 
         if (token.provider) {
