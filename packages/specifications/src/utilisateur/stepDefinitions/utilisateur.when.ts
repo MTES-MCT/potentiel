@@ -12,6 +12,7 @@ import {
 
 import { PotentielWorld } from '../../potentiel.world';
 import { InviterUtilisateurFixture } from '../fixtures/inviter/inviter.fixture';
+import { RéclamerProjetFixture } from '../fixtures/réclamer/réclamerProjet.fixture';
 
 Quand(
   'le porteur invite un autre porteur sur le projet {lauréat-éliminé}',
@@ -95,23 +96,11 @@ Quand(
     const porteur = this.utilisateurWorld.porteurFixture.créer({
       email: emailCandidature,
     });
-    const { email } = this.utilisateurWorld.réclamerProjet.créer({
+
+    await réclamerProjet.call(this, {
       identifiantProjet,
       email: porteur.email,
     });
-
-    try {
-      await mediator.send<RéclamerProjetUseCase>({
-        type: 'Utilisateur.UseCase.RéclamerProjet',
-        data: {
-          identifiantProjet,
-          identifiantUtilisateur: email,
-          réclaméLe: DateTime.now().formatter(),
-        },
-      });
-    } catch (error) {
-      this.error = error as Error;
-    }
   },
 );
 
@@ -126,25 +115,13 @@ Quand(
     const { prixReferenceValue, numéroCREValue } = this.candidatureWorld.importerCandidature.values;
 
     const porteur = this.utilisateurWorld.porteurFixture.créer({});
-    const { email } = this.utilisateurWorld.réclamerProjet.créer({
+
+    await réclamerProjet.call(this, {
       identifiantProjet,
       email: porteur.email,
+      prixRéférence: prixReferenceValue,
+      numéroCRE: numéroCREValue,
     });
-
-    try {
-      await mediator.send<RéclamerProjetUseCase>({
-        type: 'Utilisateur.UseCase.RéclamerProjet',
-        data: {
-          identifiantProjet,
-          identifiantUtilisateur: email,
-          réclaméLe: DateTime.now().formatter(),
-          prixRéférence: prixReferenceValue,
-          numéroCRE: numéroCREValue,
-        },
-      });
-    } catch (error) {
-      this.error = error as Error;
-    }
   },
 );
 
@@ -157,25 +134,12 @@ Quand(
         : this.lauréatWorld.identifiantProjet.formatter();
 
     const porteur = this.utilisateurWorld.porteurFixture.créer({});
-    const { email } = this.utilisateurWorld.réclamerProjet.créer({
+    await réclamerProjet.call(this, {
       identifiantProjet,
       email: porteur.email,
+      prixRéférence: faker.number.float(),
+      numéroCRE: faker.string.alphanumeric(),
     });
-
-    try {
-      await mediator.send<RéclamerProjetUseCase>({
-        type: 'Utilisateur.UseCase.RéclamerProjet',
-        data: {
-          identifiantProjet,
-          identifiantUtilisateur: email,
-          réclaméLe: DateTime.now().formatter(),
-          prixRéférence: faker.number.float(),
-          numéroCRE: faker.string.alphanumeric(),
-        },
-      });
-    } catch (error) {
-      this.error = error as Error;
-    }
   },
 );
 
@@ -188,23 +152,11 @@ Quand(
         : this.lauréatWorld.identifiantProjet.formatter();
 
     const porteur = this.utilisateurWorld.porteurFixture.créer({});
-    const { email } = this.utilisateurWorld.réclamerProjet.créer({
+
+    await réclamerProjet.call(this, {
       identifiantProjet,
       email: porteur.email,
     });
-
-    try {
-      await mediator.send<RéclamerProjetUseCase>({
-        type: 'Utilisateur.UseCase.RéclamerProjet',
-        data: {
-          identifiantProjet,
-          identifiantUtilisateur: email,
-          réclaméLe: DateTime.now().formatter(),
-        },
-      });
-    } catch (error) {
-      this.error = error as Error;
-    }
   },
 );
 
@@ -228,6 +180,29 @@ export async function inviterUtilisateur(
         rôleValue,
         région,
         identifiantGestionnaireRéseau,
+      },
+    });
+  } catch (error) {
+    this.error = error as Error;
+  }
+}
+
+async function réclamerProjet(
+  this: PotentielWorld,
+  fixtureProps: Parameters<typeof RéclamerProjetFixture.prototype.créer>[0],
+) {
+  const { identifiantProjet, email, numéroCRE, prixRéférence } =
+    this.utilisateurWorld.réclamerProjet.créer(fixtureProps);
+
+  try {
+    await mediator.send<RéclamerProjetUseCase>({
+      type: 'Utilisateur.UseCase.RéclamerProjet',
+      data: {
+        identifiantProjet,
+        identifiantUtilisateur: email,
+        réclaméLe: DateTime.now().formatter(),
+        numéroCRE,
+        prixRéférence,
       },
     });
   } catch (error) {

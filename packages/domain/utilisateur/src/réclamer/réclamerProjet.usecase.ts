@@ -10,16 +10,9 @@ export type RéclamerProjetUseCase = Message<
     identifiantProjet: string;
     identifiantUtilisateur: string;
     réclaméLe: string;
-  } & (
-    | {
-        prixRéférence: number;
-        numéroCRE: string;
-      }
-    | {
-        prixRéférence?: undefined;
-        numéroCRE?: undefined;
-      }
-  )
+    prixRéférence?: number;
+    numéroCRE?: string;
+  }
 >;
 
 export const registerRéclamerProjetUseCase = () => {
