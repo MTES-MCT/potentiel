@@ -86,8 +86,6 @@ export default class Migrer extends Command {
           identifiantUtilisateurValue: user.email,
           rôleValue: user.role,
           région: user.dreal,
-          fonction: user.fonction,
-          nomComplet: user.fullName,
           invitéLeValue: DateTime.convertirEnValueType(user.createdAt).formatter(),
           invitéParValue: Email.system().formatter(),
         },
