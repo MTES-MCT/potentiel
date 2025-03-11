@@ -14,11 +14,16 @@ import {
   inviter,
   UtilisateurInvitéEvent,
 } from './inviter/inviter.behavior';
+import { réclamer, ProjetRéclaméEvent, applyProjetRéclamé } from './réclamer/réclamer.behavior';
 
-export type UtilisateurEvent = AccèsAuProjetAutoriséEvent | UtilisateurInvitéEvent;
+export type UtilisateurEvent =
+  | AccèsAuProjetAutoriséEvent
+  | UtilisateurInvitéEvent
+  | ProjetRéclaméEvent;
 export type UtilisateurAggregate = Aggregate<UtilisateurEvent> & {
   readonly inviterPorteur: typeof inviterPorteur;
   readonly inviter: typeof inviter;
+  readonly réclamer: typeof réclamer;
   aAccèsAuProjet: (identifiantProjet: IdentifiantProjet.ValueType) => boolean;
   projets: Set<IdentifiantProjet.RawType>;
   existe: boolean;
@@ -31,6 +36,7 @@ export const getDefaultUtilisateurAggregate: GetDefaultAggregateState<
   apply,
   inviterPorteur,
   inviter,
+  réclamer,
   projets: new Set(),
   existe: false,
   aAccèsAuProjet(identifiantProjet) {
@@ -42,6 +48,7 @@ function apply(this: UtilisateurAggregate, event: UtilisateurEvent) {
   match(event)
     .with({ type: 'AccèsAuProjetAutorisé-V1' }, applyAccèsAuProjetAutorisé.bind(this))
     .with({ type: 'UtilisateurInvité-V1' }, applyUtilisateurInvité.bind(this))
+    .with({ type: 'ProjetRéclamé-V1' }, applyProjetRéclamé.bind(this))
     .exhaustive();
 }
 

@@ -17,6 +17,8 @@ import { InviterPorteurUseCase } from './inviter/inviterPorteur.usecase';
 import { AccèsAuProjetAutoriséEvent } from './inviter/inviterPorteur.behavior';
 import { UtilisateurInvitéEvent } from './inviter/inviter.behavior';
 import { InviterUtilisateurUseCase } from './inviter/inviter.usecase';
+import { RéclamerProjetUseCase } from './réclamer/réclamer.usecase';
+import { ProjetRéclaméEvent } from './réclamer/réclamer.behavior';
 
 export * as IdentifiantUtilisateur from './identifiantUtilisateur.valueType';
 export * as Utilisateur from './utilisateur.valueType';
@@ -38,12 +40,16 @@ export {
 };
 
 // UseCases
-export type UtilisateurUseCase = InviterUtilisateurUseCase | InviterPorteurUseCase;
-export { InviterUtilisateurUseCase, InviterPorteurUseCase };
+export type UtilisateurUseCase =
+  | InviterUtilisateurUseCase
+  | InviterPorteurUseCase
+  | RéclamerProjetUseCase;
+
+export { InviterUtilisateurUseCase, InviterPorteurUseCase, RéclamerProjetUseCase };
 
 // Events
 export { UtilisateurEvent } from './utilisateur.aggregate';
-export { AccèsAuProjetAutoriséEvent, UtilisateurInvitéEvent };
+export { AccèsAuProjetAutoriséEvent, UtilisateurInvitéEvent, ProjetRéclaméEvent };
 
 // Register
 export * from './register';

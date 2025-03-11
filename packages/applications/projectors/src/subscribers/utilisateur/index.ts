@@ -7,6 +7,7 @@ import { UtilisateurEvent } from '@potentiel-domain/utilisateur';
 import { utilisateurRebuildTriggered } from './utilisateurRebuildTriggered.projector';
 import { accèsAuProjetAutoriséProjector } from './accèsAuProjetAutorisé.projector';
 import { utilisateurInvitéProjector } from './utilisateurInvité.projector';
+import { projetRéclaméProjector } from './projetRéclamé.projector';
 
 export type SubscriptionEvent = (UtilisateurEvent & Event) | RebuildTriggered;
 
@@ -18,6 +19,7 @@ export const register = () => {
       .with({ type: 'RebuildTriggered' }, utilisateurRebuildTriggered)
       .with({ type: 'UtilisateurInvité-V1' }, utilisateurInvitéProjector)
       .with({ type: 'AccèsAuProjetAutorisé-V1' }, accèsAuProjetAutoriséProjector)
+      .with({ type: 'ProjetRéclamé-V1' }, projetRéclaméProjector)
       .exhaustive();
 
   mediator.register('System.Projector.Utilisateur', handler);

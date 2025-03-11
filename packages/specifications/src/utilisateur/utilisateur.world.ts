@@ -52,6 +52,12 @@ export class UtilisateurWorld {
     return this.#inviterUtilisateur;
   }
 
+  #réclamerProjet: RéclamerProjetFixture;
+
+  get réclamerProjet() {
+    return this.#réclamerProjet;
+  }
+
   constructor() {
     this.#porteurFixture = new PorteurFixture();
     this.#validateurFixture = new ValidateurFixture();
@@ -60,6 +66,7 @@ export class UtilisateurWorld {
     this.#adminFixture = new AdminFixture();
     this.#systemFixture = new SystemFixture();
     this.#inviterUtilisateur = new InviterUtilisateurFixture();
+    this.#réclamerProjet = new RéclamerProjetFixture();
   }
 
   récupérerEmailSelonRôle(role: string): string {
