@@ -103,7 +103,7 @@ export const registerListerDossierRaccordementQuery = ({
       'gestionnaire-réseau',
       {
         where: {
-          codeEIC: Where.in(identifiantsGestionnaireRéseau),
+          codeEIC: Where.matchAny(identifiantsGestionnaireRéseau),
         },
       },
     );

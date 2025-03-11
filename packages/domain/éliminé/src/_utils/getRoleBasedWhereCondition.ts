@@ -21,7 +21,7 @@ export const getRoleBasedWhereCondition = async (
       utilisateur.identifiantUtilisateur,
     );
 
-    return { identifiantProjet: Where.in(identifiantProjets) };
+    return { identifiantProjet: Where.matchAny(identifiantProjets) };
   }
   if (rôleValueType.estÉgaleÀ(Role.dreal)) {
     return { régionProjet: Where.equal(utilisateur.régionDreal ?? 'non-trouvée') };

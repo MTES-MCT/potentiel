@@ -59,7 +59,7 @@ export const registerListerTâchesQuery = ({
       total,
     } = await list<TâcheEntity, Lauréat.LauréatEntity>('tâche', {
       where: {
-        identifiantProjet: Where.in(identifiants),
+        identifiantProjet: Where.matchAny(identifiants),
         typeTâche: Where.startWith(catégorieTâche ? `${catégorieTâche}.` : undefined),
       },
       range,

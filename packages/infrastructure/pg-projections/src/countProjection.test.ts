@@ -165,7 +165,7 @@ describe('countProjection', () => {
     const actual = await countProjection<FakeProjection>(category, {
       where: {
         data: {
-          name: Where.in(valuesArray),
+          name: Where.matchAny(valuesArray),
         },
       },
     });
@@ -181,7 +181,7 @@ describe('countProjection', () => {
     const actual = await countProjection<FakeProjection>(category, {
       where: {
         data: {
-          name: Where.notIn(valuesArray),
+          name: Where.notMatchAny(valuesArray),
         },
       },
     });

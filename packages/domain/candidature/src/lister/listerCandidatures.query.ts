@@ -80,7 +80,7 @@ export const registerListerCandidaturesQuery = ({ list }: ListerCandidaturesQuer
         nomProjet: Where.contains(nomProjet),
         statut: Where.equal(statut),
         estNotifiée: Where.equal(estNotifiée),
-        identifiantProjet: Where.in(identifiantProjets),
+        identifiantProjet: Where.matchAny(identifiantProjets),
       },
       range,
     });

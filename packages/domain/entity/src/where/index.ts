@@ -1,8 +1,8 @@
 export * from './equal';
-export { in_ as in } from './in';
+export * from './matchAny';
 export * from './like';
 export * from './notEqual';
-export * from './notIn';
+export * from './notMatchAny';
 export * from './notLike';
 export * from './equalNull';
 export * from './notEqualNull';
