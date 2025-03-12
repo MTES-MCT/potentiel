@@ -25,10 +25,6 @@ export type ListerUtilisateursQuery = Message<
   ListerUtilisateursReadModel
 >;
 
-export type ListerUtilisateursPort = (
-  roles?: Array<string>,
-) => Promise<ReadonlyArray<UtilisateurEntity>>;
-
 export type ListerUtilisateursDependencies = {
   list: List;
 };
