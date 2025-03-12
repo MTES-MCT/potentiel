@@ -21,7 +21,10 @@ import { ProjetRéclaméEvent } from './réclamer/réclamerProjet.behavior';
 import { RéclamerProjetUseCase } from './réclamer/réclamerProjet.usecase';
 import { AccèsProjetRetiréEvent } from './retirer/retirerAccèsProjet.behavior';
 import { RetirerAccèsProjetUseCase } from './retirer/retirerAccèsProjet.usecase';
-import { ListerProjetsÀRéclamerQuery } from './lister/listerProjetsÀRéclamer.query';
+import {
+  ListerProjetsÀRéclamerQuery,
+  ListerProjetsÀRéclamerReadModel,
+} from './lister/listerProjetsÀRéclamer.query';
 
 export * as IdentifiantUtilisateur from './identifiantUtilisateur.valueType';
 export * as Utilisateur from './utilisateur.valueType';
@@ -73,4 +76,8 @@ export * from './utilisateur.port';
 export * from './utilisateur.entity';
 
 // readmodel
-export { ConsulterUtilisateurReadModel, ListerUtilisateursReadModel };
+export {
+  ConsulterUtilisateurReadModel,
+  ListerUtilisateursReadModel,
+  ListerProjetsÀRéclamerReadModel,
+};

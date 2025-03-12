@@ -402,14 +402,17 @@ const référencielPermissions = {
     query: {
       consulter: 'Utilisateur.Query.ConsulterUtilisateur',
       lister: 'Utilisateur.Query.ListerUtilisateurs',
+      listerProjetsÀRéclamer: 'Utilisateur.Query.ListerProjetsÀRéclamer',
     },
     command: {
       inviter: 'Utilisateur.Command.InviterUtilisateur',
       inviterPorteur: 'Utilisateur.Command.InviterPorteur',
+      réclamerProjet: 'Utilisateur.Command.RéclamerProjet',
     },
     usecase: {
       inviter: 'Utilisateur.UseCase.InviterUtilisateur',
       inviterPorteur: 'Utilisateur.UseCase.InviterPorteur',
+      réclamerProjet: 'Utilisateur.UseCase.RéclamerProjet',
     },
   },
   tâche: {
@@ -998,6 +1001,11 @@ const policies = {
       référencielPermissions.utilisateur.command.inviterPorteur,
       référencielPermissions.utilisateur.usecase.inviterPorteur,
     ],
+    réclamerProjet: [
+      référencielPermissions.utilisateur.command.réclamerProjet,
+      référencielPermissions.utilisateur.usecase.réclamerProjet,
+      référencielPermissions.utilisateur.query.listerProjetsÀRéclamer,
+    ],
   },
 } as const;
 
@@ -1312,6 +1320,7 @@ const porteurProjetPolicies: ReadonlyArray<Policy> = [
 
   // Utilisateur
   'utilisateur.inviterPorteur',
+  'utilisateur.réclamerProjet',
 ];
 
 const acheteurObligéPolicies: ReadonlyArray<Policy> = [

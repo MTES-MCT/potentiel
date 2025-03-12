@@ -11,6 +11,7 @@ export type ProjetÀRéclamerReadModel = {
   nomProjet: string;
   puissance: number;
   région: string;
+  emailContact: string;
 };
 
 export type ListerProjetsÀRéclamerReadModel = {
@@ -25,6 +26,7 @@ export type ListerProjetsÀRéclamerQuery = Message<
     appelOffre?: string;
     nomProjet?: string;
     nomCandidat?: string;
+    statut?: Candidature.StatutCandidature.RawType;
     range?: RangeOptions;
   },
   ListerProjetsÀRéclamerReadModel
@@ -41,6 +43,7 @@ export const registerListerProjetsÀRéclamerQuery = ({
     appelOffre,
     nomProjet,
     nomCandidat,
+    statut,
     range,
   }) => {
     const utilisateurs = await list<UtilisateurEntity>('utilisateur', {
@@ -59,6 +62,7 @@ export const registerListerProjetsÀRéclamerQuery = ({
         appelOffre: Where.equal(appelOffre),
         nomProjet: Where.contains(nomProjet),
         nomCandidat: Where.contains(nomCandidat),
+        statut: Where.equal(statut),
         identifiantProjet: Where.notInclude(identifiantsProjets),
       },
       range,
@@ -79,9 +83,11 @@ const mapToReadModel = ({
   nomProjet,
   puissanceProductionAnnuelle,
   localité,
+  emailContact,
 }: Candidature.CandidatureEntity): ProjetÀRéclamerReadModel => ({
   identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
   nomProjet,
   puissance: puissanceProductionAnnuelle,
   région: localité.région,
+  emailContact,
 });
