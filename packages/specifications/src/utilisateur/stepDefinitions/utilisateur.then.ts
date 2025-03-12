@@ -12,6 +12,7 @@ import {
 } from '@potentiel-domain/utilisateur';
 import { Option } from '@potentiel-libraries/monads';
 import { Email } from '@potentiel-domain/common';
+import { ListerProjetsÀRéclamerQuery } from '@potentiel-domain/utilisateur';
 
 import { PotentielWorld } from '../../potentiel.world';
 
@@ -97,3 +98,41 @@ Alors(`l'utilisateur doit être créé`, async function (this: PotentielWorld) {
     expect(actual).to.deep.equal(expected);
   });
 });
+
+Alors(
+  'le projet {lauréat-éliminé} est consultable dans la liste des projets à réclamer',
+  async function (this: PotentielWorld, statutProjet: 'lauréat' | 'éliminé') {
+    const identifiantProjet =
+      statutProjet === 'éliminé'
+        ? this.eliminéWorld.identifiantProjet
+        : this.lauréatWorld.identifiantProjet;
+
+    await waitForExpect(async () => {
+      const projets = await mediator.send<ListerProjetsÀRéclamerQuery>({
+        type: 'Utilisateur.Query.ListerProjetsÀRéclamer',
+        data: {},
+      });
+      expect(projets.items.find((item) => item.identifiantProjet.estÉgaleÀ(identifiantProjet))).not
+        .to.be.undefined;
+    });
+  },
+);
+
+Alors(
+  `le projet {lauréat-éliminé} n'est plus consultable dans la liste des projets à réclamer`,
+  async function (this: PotentielWorld, statutProjet: 'lauréat' | 'éliminé') {
+    const identifiantProjet =
+      statutProjet === 'éliminé'
+        ? this.eliminéWorld.identifiantProjet
+        : this.lauréatWorld.identifiantProjet;
+
+    await waitForExpect(async () => {
+      const projets = await mediator.send<ListerProjetsÀRéclamerQuery>({
+        type: 'Utilisateur.Query.ListerProjetsÀRéclamer',
+        data: {},
+      });
+      expect(projets.items.find((item) => item.identifiantProjet.estÉgaleÀ(identifiantProjet))).to
+        .be.undefined;
+    });
+  },
+);

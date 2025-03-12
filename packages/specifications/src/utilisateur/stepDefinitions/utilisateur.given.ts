@@ -7,7 +7,7 @@ import { Role } from '@potentiel-domain/utilisateur';
 
 import { PotentielWorld } from '../../potentiel.world';
 
-import { inviterPorteur, inviterUtilisateur } from './utilisateur.when';
+import { inviterPorteur, inviterUtilisateur, retirerAccèsProjet } from './utilisateur.when';
 
 EtantDonné('le porteur {string}', async function (this: PotentielWorld, porteurNom: string) {
   const porteur = this.utilisateurWorld.porteurFixture.créer({
@@ -104,6 +104,19 @@ EtantDonné('le DGEC Validateur sans nom', async function (this: PotentielWorld)
 
   await insérerUtilisateur(validateur);
 });
+
+EtantDonné(
+  `l'accès retiré au projet {lauréat-éliminé}`,
+  async function (this: PotentielWorld, statutProjet: 'lauréat' | 'éliminé') {
+    const { identifiantProjet } =
+      statutProjet === 'lauréat' ? this.lauréatWorld : this.eliminéWorld;
+
+    await retirerAccèsProjet.call(this, {
+      identifiantProjet: identifiantProjet.formatter(),
+      identifiantUtilisateur: this.utilisateurWorld.porteurFixture.email,
+    });
+  },
+);
 
 async function récupérerProjets(identifiantProjet: IdentifiantProjet.ValueType) {
   return executeSelect<{

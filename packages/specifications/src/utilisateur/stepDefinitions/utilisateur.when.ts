@@ -158,19 +158,10 @@ Quand(
       statutProjet === 'éliminé'
         ? this.eliminéWorld.identifiantProjet.formatter()
         : this.lauréatWorld.identifiantProjet.formatter();
-    try {
-      await mediator.send<RetirerAccèsProjetUseCase>({
-        type: 'Utilisateur.UseCase.RetirerAccèsProjet',
-        data: {
-          identifiantProjet,
-          identifiantUtilisateur: this.utilisateurWorld.porteurFixture.email,
-          retiréLe: DateTime.now().formatter(),
-          retiréPar: this.utilisateurWorld.adminFixture.email,
-        },
-      });
-    } catch (error) {
-      this.error = error as Error;
-    }
+    await retirerAccèsProjet.call(this, {
+      identifiantProjet,
+      identifiantUtilisateur: this.utilisateurWorld.porteurFixture.email,
+    });
   },
 );
 
@@ -221,6 +212,28 @@ export async function inviterUtilisateur(
         rôleValue,
         région,
         identifiantGestionnaireRéseau,
+      },
+    });
+  } catch (error) {
+    this.error = error as Error;
+  }
+}
+
+export async function retirerAccèsProjet(
+  this: PotentielWorld,
+  {
+    identifiantProjet,
+    identifiantUtilisateur,
+  }: { identifiantProjet: string; identifiantUtilisateur: string },
+) {
+  try {
+    await mediator.send<RetirerAccèsProjetUseCase>({
+      type: 'Utilisateur.UseCase.RetirerAccèsProjet',
+      data: {
+        identifiantProjet,
+        identifiantUtilisateur,
+        retiréLe: DateTime.now().formatter(),
+        retiréPar: this.utilisateurWorld.adminFixture.email,
       },
     });
   } catch (error) {
