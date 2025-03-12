@@ -28,11 +28,21 @@ describe('listProjection', () => {
         value: string;
         name: string;
         testNull?: string;
+        testArray?: string[];
       };
     }
   >;
 
   let fakeData: Array<Omit<FakeProjection, 'type'>> = [];
+
+  const insertFakeData = (fake: Omit<FakeProjection, 'type'>) => {
+    fakeData.push(fake);
+    return executeQuery(
+      `insert into domain_views.projection values ($1, $2)`,
+      `${category}|${fake.data.value}`,
+      flatten(fake),
+    );
+  };
 
   type FakeProjection2 = Entity<
     typeof category2,
@@ -58,7 +68,7 @@ describe('listProjection', () => {
     fakeData = [];
 
     for (let time = 0; time <= Math.random() * 100 + 10; time++) {
-      fakeData.push({
+      await insertFakeData({
         data: {
           value: `value${time}`,
           name: `name${time}`,
@@ -73,18 +83,6 @@ describe('listProjection', () => {
       values ($1, $2)`,
       `${category2}|${fakeData[0].data.value}`,
       flatten(joinProjectionFakeData),
-    );
-
-    await Promise.all(
-      fakeData.map((fake) =>
-        executeQuery(
-          `insert
-        into domain_views.projection
-        values ($1, $2)`,
-          `${category}|${fake.data.value}`,
-          flatten(fake),
-        ),
-      ),
     );
   });
 
@@ -276,15 +274,7 @@ describe('listProjection', () => {
       },
     };
 
-    fakeData.push(insensitiveCaseFakeData);
-
-    await executeQuery(
-      `insert
-        into domain_views.projection
-        values ($1, $2)`,
-      `${category}|${insensitiveCaseFakeData.data.value}`,
-      flatten(insensitiveCaseFakeData),
-    );
+    await insertFakeData(insensitiveCaseFakeData);
 
     const actual = await listProjection<FakeProjection>(category, {
       where: {
@@ -311,15 +301,7 @@ describe('listProjection', () => {
       },
     };
 
-    fakeData.push(insensitiveCaseFakeData);
-
-    await executeQuery(
-      `insert
-        into domain_views.projection
-        values ($1, $2)`,
-      `${category}|${insensitiveCaseFakeData.data.value}`,
-      flatten(insensitiveCaseFakeData),
-    );
+    await insertFakeData(insensitiveCaseFakeData);
 
     const actual = await listProjection<FakeProjection>(category, {
       where: {
@@ -338,7 +320,7 @@ describe('listProjection', () => {
     actual.items.should.have.deep.members(expected.items);
   });
 
-  it('should find projections by their key and filter them according to a include condition option', async () => {
+  it('should find projections by their key and filter them according to a matchAny condition option', async () => {
     const valuesArray = ['1', '2'];
 
     const actual = await listProjection<FakeProjection>(category, {
@@ -358,7 +340,7 @@ describe('listProjection', () => {
     actual.items.should.have.deep.members(expected.items);
   });
 
-  it('should find projections by their key and filter them according to a not include condition option', async () => {
+  it('should find projections by their key and filter them according to a not matchAny condition option', async () => {
     const valuesArray = ['1', '2'];
 
     const actual = await listProjection<FakeProjection>(category, {
@@ -386,15 +368,7 @@ describe('listProjection', () => {
       },
     };
 
-    fakeData.push(nullCaseFakeData);
-
-    await executeQuery(
-      `insert
-        into domain_views.projection
-        values ($1, $2)`,
-      `${category}|${nullCaseFakeData.data.value}`,
-      flatten(nullCaseFakeData),
-    );
+    await insertFakeData(nullCaseFakeData);
 
     const actual = await listProjection<FakeProjection>(category, {
       where: {
@@ -426,16 +400,8 @@ describe('listProjection', () => {
       },
     };
 
-    fakeData.push(greaterThanCaseFakeData);
-    fakeData.push(greaterThanCaseFakeDataExcluded);
-
-    await executeQuery(
-      `insert
-        into domain_views.projection
-        values ($1, $2)`,
-      `${category}|${greaterThanCaseFakeData.data.value}`,
-      flatten(greaterThanCaseFakeData),
-    );
+    await insertFakeData(greaterThanCaseFakeData);
+    await insertFakeData(greaterThanCaseFakeDataExcluded);
 
     const actual = await listProjection<FakeProjection>(category, {
       where: {
@@ -468,16 +434,8 @@ describe('listProjection', () => {
       },
     };
 
-    fakeData.push(lessThanCaseFakeData);
-    fakeData.push(lessThanCaseFakeDataExcluded);
-
-    await executeQuery(
-      `insert
-        into domain_views.projection
-        values ($1, $2)`,
-      `${category}|${lessThanCaseFakeData.data.value}`,
-      flatten(lessThanCaseFakeData),
-    );
+    await insertFakeData(lessThanCaseFakeData);
+    await insertFakeData(lessThanCaseFakeDataExcluded);
 
     const actual = await listProjection<FakeProjection>(category, {
       where: {
@@ -510,24 +468,8 @@ describe('listProjection', () => {
       },
     };
 
-    fakeData.push(greaterThanCaseFakeData);
-    fakeData.push(greaterThanCaseFakeDataExcluded);
-
-    await executeQuery(
-      `insert
-        into domain_views.projection
-        values ($1, $2)`,
-      `${category}|${greaterThanCaseFakeData.data.value}`,
-      flatten(greaterThanCaseFakeData),
-    );
-
-    await executeQuery(
-      `insert
-        into domain_views.projection
-        values ($1, $2)`,
-      `${category}|${greaterThanCaseFakeDataExcluded.data.value}`,
-      flatten(greaterThanCaseFakeDataExcluded),
-    );
+    await insertFakeData(greaterThanCaseFakeData);
+    await insertFakeData(greaterThanCaseFakeDataExcluded);
 
     const actual = await listProjection<FakeProjection>(category, {
       where: {
@@ -555,15 +497,7 @@ describe('listProjection', () => {
       },
     };
 
-    fakeData.push(nullCaseFakeData);
-
-    await executeQuery(
-      `insert
-        into domain_views.projection
-        values ($1, $2)`,
-      `${category}|${nullCaseFakeData.data.value}`,
-      flatten(nullCaseFakeData),
-    );
+    await insertFakeData(nullCaseFakeData);
 
     const actual = await listProjection<FakeProjection>(category, {
       where: {
@@ -574,6 +508,92 @@ describe('listProjection', () => {
     });
 
     const expected = mapToListResultItems(fakeData.filter(({ data }) => !!data.testNull));
+
+    actual.should.have.all.keys(Object.keys(expected));
+
+    actual.items.should.have.deep.members(expected.items);
+  });
+
+  it('should find projections by their key and filter them according to a include condition option', async () => {
+    const arrayCaseFakeData1 = {
+      data: {
+        testArray: ['1', '2'],
+        value: 'array case1',
+        name: 'array case1',
+      },
+    };
+    const arrayCaseFakeData2 = {
+      data: {
+        testArray: ['2', '3'],
+        value: 'array case2',
+        name: 'array case2',
+      },
+    };
+
+    await insertFakeData(arrayCaseFakeData1);
+    await insertFakeData(arrayCaseFakeData2);
+
+    const actual = await listProjection<FakeProjection>(category, {
+      where: {
+        data: {
+          testArray: Where.include('1'),
+        },
+      },
+    });
+
+    const expected = mapToListResultItems([arrayCaseFakeData1]);
+
+    actual.items.should.have.lengthOf(1);
+    actual.items.should.have.deep.members(expected.items);
+  });
+
+  it('should find projections by their key and filter them according to a not include condition option', async () => {
+    const arrayCaseFakeData1 = {
+      data: {
+        testArray: ['1', '2'],
+        value: 'array case1',
+        name: 'array case1',
+      },
+    };
+    const arrayCaseFakeData2 = {
+      data: {
+        testArray: ['2', '3'],
+        value: 'array case2',
+        name: 'array case2',
+      },
+    };
+
+    await insertFakeData(arrayCaseFakeData1);
+    await insertFakeData(arrayCaseFakeData2);
+
+    const actual = await listProjection<FakeProjection>(category, {
+      where: {
+        data: {
+          testArray: Where.notInclude('3'),
+        },
+      },
+    });
+
+    const expected = mapToListResultItems([arrayCaseFakeData1]);
+
+    actual.items.should.have.lengthOf(1);
+    actual.items.should.have.deep.members(expected.items);
+  });
+
+  it('should find projections by their key and filter them according to a not matchAny condition option', async () => {
+    const valuesArray = ['1', '2'];
+
+    const actual = await listProjection<FakeProjection>(category, {
+      where: {
+        data: {
+          name: Where.notMatchAny(valuesArray),
+        },
+      },
+    });
+
+    const expected = mapToListResultItems(
+      fakeData.filter(({ data }) => !valuesArray.includes(data.name)),
+    );
 
     actual.should.have.all.keys(Object.keys(expected));
 
