@@ -10,6 +10,7 @@ import { GarantiesFinancières, Lauréat } from '@potentiel-domain/laureat';
 import { Éliminé } from '@potentiel-domain/elimine';
 import { Candidature } from '@potentiel-domain/candidature';
 import { ConsulterDocumentProjetQuery } from '@potentiel-domain/document';
+import { TrouverUtilisateurQuery } from '@potentiel-domain/utilisateur';
 
 import { PotentielWorld } from '../../potentiel.world';
 import { convertReadableStreamToString } from '../../helpers/convertReadableToString';
@@ -80,6 +81,30 @@ Alors(
     }
   },
 );
+
+// déplacer dans utilisateur.then.ts ?
+Alors(`les porteurs doivent être créés`, async function (this: PotentielWorld) {
+  const { identifiantPériode } = this.périodeWorld;
+  const candidatures = await mediator.send<Candidature.ListerCandidaturesQuery>({
+    type: 'Candidature.Query.ListerCandidatures',
+    data: {
+      appelOffre: identifiantPériode.appelOffre,
+      période: identifiantPériode.période,
+    },
+  });
+  await waitForExpect(async () => {
+    for (const candidature of candidatures.items) {
+      const utilisateur = await mediator.send<TrouverUtilisateurQuery>({
+        type: 'System.Utilisateur.Query.TrouverUtilisateur',
+        data: {
+          identifiantUtilisateur: candidature.emailContact.email,
+        },
+      });
+
+      expect(utilisateur).to.exist;
+    }
+  });
+});
 
 async function vérifierPériode(
   this: PotentielWorld,

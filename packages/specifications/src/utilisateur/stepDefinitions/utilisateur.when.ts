@@ -152,9 +152,12 @@ Quand(
 );
 
 Quand(
-  "un administrateur retire l'accès de l'utilisateur au projet lauréat",
-  async function (this: PotentielWorld) {
-    const identifiantProjet = this.lauréatWorld.identifiantProjet.formatter();
+  "un administrateur retire l'accès de l'utilisateur au projet {lauréat-éliminé}",
+  async function (this: PotentielWorld, statutProjet: 'lauréat' | 'éliminé') {
+    const identifiantProjet =
+      statutProjet === 'éliminé'
+        ? this.eliminéWorld.identifiantProjet.formatter()
+        : this.lauréatWorld.identifiantProjet.formatter();
     try {
       await mediator.send<RetirerAccèsProjetUseCase>({
         type: 'Utilisateur.UseCase.RetirerAccèsProjet',
