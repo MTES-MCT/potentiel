@@ -24,17 +24,24 @@ import { registerRéclamerProjetCommand } from './réclamer/réclamerProjet.comm
 import { registerRéclamerProjetUseCase } from './réclamer/réclamerProjet.usecase';
 import { registerRetirerAccèsProjetCommand } from './retirer/retirerAccèsProjet.command';
 import { registerRetirerAccèsProjetUseCase } from './retirer/retirerAccèsProjet.usecase';
+import {
+  ListerProjetsÀRéclamerDependencies,
+  registerListerProjetsÀRéclamerQuery,
+} from './lister/listerProjetsÀRéclamer.query';
 
 type UtilisateurQueryDependencies = ConsulterUtilisateurDependencies &
   ListerUtilisateursDependencies &
   VérifierAccèsProjetDependencies &
-  TrouverUtilisateurDependencies;
+  TrouverUtilisateurDependencies &
+  ListerProjetsÀRéclamerDependencies;
 
 export const registerUtilisateurQueries = (dependencies: UtilisateurQueryDependencies) => {
   registerConsulterUtilisateurQuery(dependencies);
   registerListerUtilisateursQuery(dependencies);
   registerTrouverUtilisateurQuery(dependencies);
   registerVérifierAccèsProjetQuery(dependencies);
+
+  registerListerProjetsÀRéclamerQuery(dependencies);
 };
 
 export type UtilisateurCommandDependencies = {

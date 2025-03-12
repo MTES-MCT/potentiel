@@ -21,6 +21,7 @@ import { ProjetRéclaméEvent } from './réclamer/réclamerProjet.behavior';
 import { RéclamerProjetUseCase } from './réclamer/réclamerProjet.usecase';
 import { AccèsProjetRetiréEvent } from './retirer/retirerAccèsProjet.behavior';
 import { RetirerAccèsProjetUseCase } from './retirer/retirerAccèsProjet.usecase';
+import { ListerProjetsÀRéclamerQuery } from './lister/listerProjetsÀRéclamer.query';
 
 export * as IdentifiantUtilisateur from './identifiantUtilisateur.valueType';
 export * as Utilisateur from './utilisateur.valueType';
@@ -32,13 +33,15 @@ export type UtilisateurQuery =
   | ConsulterUtilisateurQuery
   | ListerUtilisateursQuery
   | TrouverUtilisateurQuery
-  | VérifierAccèsProjetQuery;
+  | VérifierAccèsProjetQuery
+  | ListerProjetsÀRéclamerQuery;
 
 export {
   ConsulterUtilisateurQuery,
   ListerUtilisateursQuery,
   TrouverUtilisateurQuery,
   VérifierAccèsProjetQuery,
+  ListerProjetsÀRéclamerQuery,
 };
 
 // UseCases

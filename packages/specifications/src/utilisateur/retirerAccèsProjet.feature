@@ -3,9 +3,9 @@ Fonctionnalité: Retirer les accès d'un utilisateur à un projet
 
     Scénario: Retirer les accès d'un utilisateur à un projet
         Etant donné le projet <Statut> "Du boulodrome de Marseille"
-        Et le porteur invité sur le projet <Statut>
         Quand un administrateur retire l'accès de l'utilisateur au projet <Statut>
         Alors le porteur ne doit plus avoir accès au projet <Statut>
+        Et le projet <Statut> est consultable dans la liste des projets à réclamer
 
         Exemples:
             | Statut  |
