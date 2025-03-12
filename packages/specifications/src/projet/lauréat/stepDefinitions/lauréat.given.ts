@@ -4,8 +4,9 @@ import { DataTable, Given as EtantDonné } from '@cucumber/cucumber';
 import { mediator } from 'mediateur';
 
 import { executeQuery } from '@potentiel-libraries/pg-helpers';
-import { IdentifiantProjet } from '@potentiel-domain/common';
+import { Email, IdentifiantProjet } from '@potentiel-domain/common';
 import { Lauréat } from '@potentiel-domain/laureat';
+import { InviterPorteurUseCase } from '@potentiel-domain/utilisateur';
 
 import { PotentielWorld } from '../../../potentiel.world';
 import { importerCandidature } from '../../../candidature/stepDefinitions/candidature.given';
@@ -131,6 +132,18 @@ export async function notifierLauréat(this: PotentielWorld, dateDésignation: s
   await mediator.send<Lauréat.NotifierLauréatUseCase>({
     type: 'Lauréat.UseCase.NotifierLauréat',
     data,
+  });
+
+  // L'invitation du porteur est normalement faite lors de la notification de la période
+  // Ce cas n'est utile que pour les tests
+  await mediator.send<InviterPorteurUseCase>({
+    type: 'Utilisateur.UseCase.InviterPorteur',
+    data: {
+      identifiantUtilisateurValue: candidature.values.emailContactValue,
+      identifiantsProjetValues: [identifiantProjetValue.formatter()],
+      invitéLeValue: dateDésignation,
+      invitéParValue: Email.system().formatter(),
+    },
   });
 }
 
