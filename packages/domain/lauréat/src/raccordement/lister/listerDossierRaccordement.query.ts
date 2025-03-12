@@ -68,7 +68,7 @@ export const registerListerDossierRaccordementQuery = ({
       total,
     } = await list<DossierRaccordementEntity, LauréatEntity>('dossier-raccordement', {
       where: {
-        référence: Where.contains(référenceDossier),
+        référence: Where.contain(référenceDossier),
         identifiantGestionnaireRéseau: Where.equal(identifiantGestionnaireRéseau),
         miseEnService: {
           dateMiseEnService:
@@ -103,7 +103,7 @@ export const registerListerDossierRaccordementQuery = ({
       'gestionnaire-réseau',
       {
         where: {
-          codeEIC: Where.include(identifiantsGestionnaireRéseau),
+          codeEIC: Where.matchAny(identifiantsGestionnaireRéseau),
         },
       },
     );

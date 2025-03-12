@@ -212,7 +212,10 @@ export const registerExempleQuery = ({ find }: ExempleDependencies) => {
 
 > Si une query n'arrive pas à récupérer des données elle doit retourner une Option. Le symbol `none` permet de préciser qu'il n'y a aucune Option correspondante aux paramètres de la query lors de la récupération des données. Toutefois, si le retour de la query est une liste il faut retourner un tableau vide à la place d'une Option.
 
-Bonne pratique : préférer avoir des projections au plus proche du besoin afin de limiter au maximum la logique métier dans cette partie
+Bonnes pratiques :
+
+- préférer avoir des projections au plus proche du besoin afin de limiter au maximum la logique métier dans cette partie
+- limiter les tableaux dans les projections aux types primitifs (string...). Pour les types complexes, il faut généralement créer une projection spécifique.
 
 ### <a id="usecases"></a>Usecases
 

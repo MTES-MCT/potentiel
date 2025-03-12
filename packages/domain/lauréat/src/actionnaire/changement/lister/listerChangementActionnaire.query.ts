@@ -73,7 +73,7 @@ export const registerListerChangementActionnaireQuery = ({
           on: 'identifiantProjet',
           where: {
             appelOffre: Where.equal(appelOffre),
-            nomProjet: Where.contains(nomProjet),
+            nomProjet: Where.contain(nomProjet),
             localité: {
               région: régionProjet,
             },

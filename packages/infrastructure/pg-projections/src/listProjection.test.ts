@@ -344,7 +344,7 @@ describe('listProjection', () => {
     const actual = await listProjection<FakeProjection>(category, {
       where: {
         data: {
-          name: Where.include(valuesArray),
+          name: Where.matchAny(valuesArray),
         },
       },
     });
@@ -364,7 +364,7 @@ describe('listProjection', () => {
     const actual = await listProjection<FakeProjection>(category, {
       where: {
         data: {
-          name: Where.notInclude(valuesArray),
+          name: Where.notMatchAny(valuesArray),
         },
       },
     });

@@ -1,8 +1,8 @@
 export type EqualWhereCondition<T> = { operator: 'equal'; value: T };
 export type NotEqualWhereCondition<T> = { operator: 'notEqual'; value: T };
 
-export type IncludeWhereCondition<T> = { operator: 'include'; value: Array<T> };
-export type NotIncludeWhereCondition<T> = { operator: 'notInclude'; value: Array<T> };
+export type MatchAnyWhereCondition<T> = { operator: 'matchAny'; value: Array<T> };
+export type NotMatchAnyWhereCondition<T> = { operator: 'notMatchAny'; value: Array<T> };
 
 export type LikeWhereCondition = {
   operator: 'like';
@@ -25,8 +25,8 @@ export type WhereCondition<T = {}> =
   | NotEqualWhereCondition<T>
   | LikeWhereCondition
   | NotLikeWhereCondition
-  | IncludeWhereCondition<T>
-  | NotIncludeWhereCondition<T>
+  | MatchAnyWhereCondition<T>
+  | NotMatchAnyWhereCondition<T>
   | EqualNullWhereCondition
   | NotEqualNullWhereCondition
   | LessOrEqualCondition<T>

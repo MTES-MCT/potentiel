@@ -36,7 +36,7 @@ export const registerRechercherDossierRaccordementQuery = ({
     const results = await list<DossierRaccordementEntity>('dossier-raccordement', {
       where: {
         identifiantProjet: Where.endWith(numéroCRE ? `#${numéroCRE}` : undefined),
-        référence: Where.contains(référenceDossierRaccordement),
+        référence: Where.contain(référenceDossierRaccordement),
       },
     });
 

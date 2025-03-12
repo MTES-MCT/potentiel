@@ -31,7 +31,7 @@ export const registerConsulterNombreTâchesQuery = ({
 
     const nombreTâches = await count<TâcheEntity>('tâche', {
       where: {
-        identifiantProjet: Where.include(identifiants),
+        identifiantProjet: Where.matchAny(identifiants),
       },
     });
 
