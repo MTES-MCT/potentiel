@@ -60,10 +60,10 @@ export const registerListerProjetsÀRéclamerQuery = ({
     const candidatures = await list<Candidature.CandidatureEntity>('candidature', {
       where: {
         appelOffre: Where.equal(appelOffre),
-        nomProjet: Where.contains(nomProjet),
-        nomCandidat: Where.contains(nomCandidat),
+        nomProjet: Where.contain(nomProjet),
+        nomCandidat: Where.contain(nomCandidat),
         statut: Where.equal(statut),
-        identifiantProjet: Where.notInclude(identifiantsProjets),
+        identifiantProjet: Where.notMatchAny(identifiantsProjets),
       },
       range,
     });

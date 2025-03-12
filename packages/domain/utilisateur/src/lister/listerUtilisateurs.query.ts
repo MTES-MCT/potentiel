@@ -42,9 +42,9 @@ export const registerListerUtilisateursQuery = ({ list }: ListerUtilisateursDepe
     const utilisateurs = await list<UtilisateurEntity>('utilisateur', {
       where: {
         rôle: roles
-          ? Where.include(roles.map((role) => Role.convertirEnValueType(role).nom))
+          ? Where.matchAny(roles.map((role) => Role.convertirEnValueType(role).nom))
           : undefined,
-        identifiantUtilisateur: Where.contains(identifiantUtilisateur),
+        identifiantUtilisateur: Where.contain(identifiantUtilisateur),
       },
       orderBy: {
         invitéLe: 'descending',
