@@ -5,6 +5,7 @@ import { expect } from 'chai';
 
 import { mapToPlainObject } from '@potentiel-domain/core';
 import {
+  ListerPorteursQuery,
   Role,
   TrouverUtilisateurQuery,
   Utilisateur,
@@ -43,6 +44,36 @@ Alors(
         },
       }),
     );
+  },
+);
+
+Alors(
+  'la liste des porteurs du projet {lauréat-éliminé} est mise à jour',
+  async function (this: PotentielWorld, statutProjet: 'lauréat' | 'éliminé') {
+    const identifiantProjet =
+      statutProjet === 'éliminé'
+        ? this.eliminéWorld.identifiantProjet.formatter()
+        : this.lauréatWorld.identifiantProjet.formatter();
+
+    const expectedPorteurs = [this.utilisateurWorld.porteurFixture.email];
+    if (this.utilisateurWorld.inviterUtilisateur.aÉtéCréé) {
+      expectedPorteurs.push(this.utilisateurWorld.inviterUtilisateur.email);
+    }
+
+    await waitForExpect(async () => {
+      const porteurs = await mediator.send<ListerPorteursQuery>({
+        type: 'Utilisateur.Query.ListerPorteurs',
+        data: {
+          identifiantProjet,
+        },
+      });
+
+      for (const email of expectedPorteurs) {
+        const expected = Email.convertirEnValueType(email);
+        expect(porteurs.items.find((item) => item.identifiantUtilisateur.estÉgaleÀ(expected))).not
+          .to.be.undefined;
+      }
+    });
   },
 );
 

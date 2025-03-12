@@ -28,6 +28,7 @@ import {
   ListerProjetsÀRéclamerDependencies,
   registerListerProjetsÀRéclamerQuery,
 } from './lister/listerProjetsÀRéclamer.query';
+import { registerListerPorteursQuery } from './lister/listerPorteurs.query';
 
 type UtilisateurQueryDependencies = ConsulterUtilisateurDependencies &
   ListerUtilisateursDependencies &
@@ -40,8 +41,8 @@ export const registerUtilisateurQueries = (dependencies: UtilisateurQueryDepende
   registerListerUtilisateursQuery(dependencies);
   registerTrouverUtilisateurQuery(dependencies);
   registerVérifierAccèsProjetQuery(dependencies);
-
   registerListerProjetsÀRéclamerQuery(dependencies);
+  registerListerPorteursQuery(dependencies);
 };
 
 export type UtilisateurCommandDependencies = {

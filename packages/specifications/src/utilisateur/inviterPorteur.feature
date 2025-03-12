@@ -6,6 +6,7 @@ Fonctionnalité: Inviter un porteur sur un projet
         Quand le porteur invite un autre porteur sur le projet <Statut>
         Alors l'utilisateur doit être créé
         Et le nouveau porteur a accès au projet <Statut>
+        Et la liste des porteurs du projet <Statut> est mise à jour
 
         Exemples:
             | Statut  |
