@@ -8,3 +8,5 @@ export * from './equalNull';
 export * from './notEqualNull';
 export * from './lessOrEqual';
 export * from './greaterOrEqual';
+export * from './include';
+export * from './notInclude';

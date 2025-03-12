@@ -98,6 +98,7 @@ const mapOperatorToSqlCondition = (
   projection: string,
 ): [clause: string, variableIndex: number] => {
   const baseCondition = format('and %I.value->>%%L', projection);
+  const baseConditionObject = format('and %I.value->%%L', projection);
   return match(operator)
     .returnType<[clause: string, variableIndex: number]>()
     .with('equal', () => [`${baseCondition} = $${index}`, index + 1])
@@ -110,5 +111,7 @@ const mapOperatorToSqlCondition = (
     .with('greaterOrEqual', () => [`${baseCondition} >= $${index}`, index + 1])
     .with('equalNull', () => [`${baseCondition} IS NULL`, index])
     .with('notEqualNull', () => [`${baseCondition} IS NOT NULL`, index])
+    .with('include', () => [`${baseConditionObject} ? $${index}`, index])
+    .with('notInclude', () => [`${baseConditionObject} ? $${index} `, index + 1])
     .exhaustive();
 };
