@@ -19,7 +19,6 @@ import {
   DeleteObjectsCommand,
   ListObjectsV2Command,
 } from '@aws-sdk/client-s3';
-import waitForExpect from 'wait-for-expect';
 
 import { executeQuery, killPool } from '@potentiel-libraries/pg-helpers';
 import { getClient } from '@potentiel-libraries/file-storage';
@@ -39,7 +38,6 @@ import { waitForSagasNotificationsAndProjectionsToFinish } from './helpers/waitF
 should();
 setWorldConstructor(PotentielWorld);
 setDefaultTimeout(5000);
-waitForExpect.defaults.timeout = 1000;
 
 declare module '@faker-js/faker' {
   interface Faker {
