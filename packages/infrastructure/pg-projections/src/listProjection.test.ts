@@ -515,16 +515,23 @@ describe('listProjection', () => {
   });
 
   it('should find projections by their key and filter them according to a include condition option', async () => {
-    const arrayCaseFakeData: FakeProjection = {
-      type: category,
+    const arrayCaseFakeData1 = {
       data: {
         testArray: ['1', '2'],
-        value: 'array case',
-        name: 'array case',
+        value: 'array case1',
+        name: 'array case1',
+      },
+    };
+    const arrayCaseFakeData2 = {
+      data: {
+        testArray: ['2', '3'],
+        value: 'array case2',
+        name: 'array case2',
       },
     };
 
-    await insertFakeData(arrayCaseFakeData);
+    await insertFakeData(arrayCaseFakeData1);
+    await insertFakeData(arrayCaseFakeData2);
 
     const actual = await listProjection<FakeProjection>(category, {
       where: {
@@ -534,9 +541,43 @@ describe('listProjection', () => {
       },
     });
 
-    const expected = [arrayCaseFakeData];
+    const expected = mapToListResultItems([arrayCaseFakeData1]);
 
-    actual.items.should.have.deep.members(expected);
+    actual.items.should.have.lengthOf(1);
+    actual.items.should.have.deep.members(expected.items);
+  });
+
+  it('should find projections by their key and filter them according to a not include condition option', async () => {
+    const arrayCaseFakeData1 = {
+      data: {
+        testArray: ['1', '2'],
+        value: 'array case1',
+        name: 'array case1',
+      },
+    };
+    const arrayCaseFakeData2 = {
+      data: {
+        testArray: ['2', '3'],
+        value: 'array case2',
+        name: 'array case2',
+      },
+    };
+
+    await insertFakeData(arrayCaseFakeData1);
+    await insertFakeData(arrayCaseFakeData2);
+
+    const actual = await listProjection<FakeProjection>(category, {
+      where: {
+        data: {
+          testArray: Where.notInclude('3'),
+        },
+      },
+    });
+
+    const expected = mapToListResultItems([arrayCaseFakeData1]);
+
+    actual.items.should.have.lengthOf(1);
+    actual.items.should.have.deep.members(expected.items);
   });
 
   it('should find projections by their key and filter them according to a not matchAny condition option', async () => {

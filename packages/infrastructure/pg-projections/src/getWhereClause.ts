@@ -55,7 +55,7 @@ const buildWhereClause = <TEntity extends Entity>(
       const [newSql, newIndex] = mapOperatorToSqlCondition(operator, prevIndex, projection);
       // format the query to safely pass the parameter name (%L)
       const formattedNewSql = format(newSql, name);
-      return [prevSql.concat(' ', formattedNewSql), newIndex] as [string, number];
+      return [prevSql.concat(' and ', formattedNewSql), newIndex] as [string, number];
     },
     // we offset by 2 the index of the sql variable to account for:
     // - the index starting at 1 and not 0
@@ -97,8 +97,8 @@ const mapOperatorToSqlCondition = (
   index: number,
   projection: string,
 ): [clause: string, variableIndex: number] => {
-  const baseCondition = format('and %I.value->>%%L', projection);
-  const baseConditionObject = format('and %I.value->%%L', projection);
+  const baseCondition = format('%I.value->>%%L', projection);
+  const baseConditionObject = format('%I.value->%%L', projection);
   return match(operator)
     .returnType<[clause: string, variableIndex: number]>()
     .with('equal', () => [`${baseCondition} = $${index}`, index + 1])
@@ -112,6 +112,6 @@ const mapOperatorToSqlCondition = (
     .with('equalNull', () => [`${baseCondition} IS NULL`, index])
     .with('notEqualNull', () => [`${baseCondition} IS NOT NULL`, index])
     .with('include', () => [`${baseConditionObject} ? $${index}`, index])
-    .with('notInclude', () => [`${baseConditionObject} ? $${index} `, index + 1])
+    .with('notInclude', () => [`NOT ${baseConditionObject} ? $${index} `, index + 1])
     .exhaustive();
 };
