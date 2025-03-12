@@ -1,4 +1,5 @@
 # language: fr
+@select
 Fonctionnalité: Réclamer un projet en tant que porteur
 
     Plan du scénario: Réclamer un projet avec le même email que celui de la candidature
@@ -17,6 +18,11 @@ Fonctionnalité: Réclamer un projet en tant que porteur
         Quand un porteur réclame le projet lauréat en connaissant le prix et le numéro CRE
         Alors l'utilisateur doit être créé
         Et le nouveau porteur a accès au projet lauréat
+
+    Scénario: Impossible de réclamer un projet auquel au moins un porteur a déjà accès
+        Etant donné le projet lauréat "Du boulodrome de Marseille"
+        Quand un porteur réclame le projet lauréat avec le même email que celui de la candidature
+        Alors l'utilisateur devrait être informé que "Au moins un porteur a déjà accès à ce projet"
 
     Scénario: Impossible de réclamer un projet avec un email différent de celui de la candidature
         Etant donné le projet lauréat "Du boulodrome de Marseille"

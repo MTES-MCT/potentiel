@@ -30,6 +30,7 @@ export async function réclamer(
     connaîtLePrixEtNuméroCRE,
   }: RéclamerProjetOptions,
 ) {
+  // TODO: vérifier ici que le projet n'a pas d'utilisateur
   if (connaîtLePrixEtNuméroCRE === false) {
     throw new PrixEtNuméroCRENonCorrespondantError();
   }
