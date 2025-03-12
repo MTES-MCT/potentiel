@@ -10,7 +10,7 @@ import { GarantiesFinancières, Lauréat } from '@potentiel-domain/laureat';
 import { Éliminé } from '@potentiel-domain/elimine';
 import { Candidature } from '@potentiel-domain/candidature';
 import { ConsulterDocumentProjetQuery } from '@potentiel-domain/document';
-import { TrouverUtilisateurQuery } from '@potentiel-domain/utilisateur';
+import { Role, Utilisateur, VérifierAccèsProjetQuery } from '@potentiel-domain/utilisateur';
 
 import { PotentielWorld } from '../../potentiel.world';
 import { convertReadableStreamToString } from '../../helpers/convertReadableToString';
@@ -82,8 +82,7 @@ Alors(
   },
 );
 
-// déplacer dans utilisateur.then.ts ?
-Alors(`les porteurs doivent être créés`, async function (this: PotentielWorld) {
+Alors(`les porteurs doivent avoir accès à leur projet`, async function (this: PotentielWorld) {
   const { identifiantPériode } = this.périodeWorld;
   const candidatures = await mediator.send<Candidature.ListerCandidaturesQuery>({
     type: 'Candidature.Query.ListerCandidatures',
@@ -94,14 +93,20 @@ Alors(`les porteurs doivent être créés`, async function (this: PotentielWorld
   });
   await waitForExpect(async () => {
     for (const candidature of candidatures.items) {
-      const utilisateur = await mediator.send<TrouverUtilisateurQuery>({
-        type: 'System.Utilisateur.Query.TrouverUtilisateur',
+      await mediator.send<VérifierAccèsProjetQuery>({
+        type: 'System.Authorization.VérifierAccèsProjet',
         data: {
-          identifiantUtilisateur: candidature.emailContact.email,
+          identifiantProjetValue: candidature.identifiantProjet.formatter(),
+          utilisateur: Utilisateur.bind({
+            identifiantUtilisateur: candidature.emailContact,
+            role: Role.porteur,
+            identifiantGestionnaireRéseau: Option.none,
+            région: Option.none,
+            nom: '',
+            fonction: Option.none,
+          }),
         },
       });
-
-      expect(utilisateur).to.exist;
     }
   });
 });
