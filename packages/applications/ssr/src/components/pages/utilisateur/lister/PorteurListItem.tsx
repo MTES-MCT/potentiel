@@ -7,7 +7,6 @@ import { IdentifiantProjet } from '@potentiel-domain/common';
 
 import { Heading3 } from '@/components/atoms/headings';
 import { ModalWithForm } from '@/components/molecules/ModalWithForm';
-import { Tile } from '@/components/organisms/Tile';
 import { CopyButton } from '@/components/molecules/CopyButton';
 
 import { retirerAccèsProjetAction } from '../retirerAccès/retirerAccèsProjet.action';
@@ -21,12 +20,44 @@ export const PorteurListItem: FC<PorteurListItem> = ({
   identifiantProjet,
   identifiantUtilisateur,
 }) => {
-  const [isOpen, setIsOpen] = useState(false);
   return (
-    <Tile className="flex w-full justify-between">
-      <CopyButton textToCopy={identifiantUtilisateur}>
+    <>
+      <div className="flex flex-row items-center justify-between border-b-dsfr-border-default-grey-default border-b-2 pb-2 pt-1">
         <Heading3>{identifiantUtilisateur}</Heading3>
-      </CopyButton>
+        <div className="flex flex-row gap-3">
+          <CopyButton textToCopy={identifiantUtilisateur}>
+            <></>
+          </CopyButton>
+          <RetirerAccèsProjetButton
+            identifiantProjet={identifiantProjet}
+            identifiantUtilisateur={identifiantUtilisateur}
+          />
+        </div>
+      </div>
+      <div className="flex flex-row items-center justify-between border-b-dsfr-border-default-grey-default border-b-2 pb-2 pt-1">
+        <Heading3>{identifiantUtilisateur}</Heading3>
+        <div className="flex flex-row gap-3">
+          <CopyButton textToCopy={identifiantUtilisateur}>
+            <></>
+          </CopyButton>
+          <RetirerAccèsProjetButton
+            identifiantProjet={identifiantProjet}
+            identifiantUtilisateur={identifiantUtilisateur}
+          />
+        </div>
+      </div>
+    </>
+  );
+};
+
+const RetirerAccèsProjetButton: FC<{
+  identifiantProjet: IdentifiantProjet.RawType;
+  identifiantUtilisateur: Email.RawType;
+}> = ({ identifiantProjet, identifiantUtilisateur }) => {
+  const [isOpen, setIsOpen] = useState(false);
+
+  return (
+    <div>
       <Button size="small" priority="primary" onClick={() => setIsOpen(true)}>
         Retirer l'accès
       </Button>
@@ -56,6 +87,6 @@ export const PorteurListItem: FC<PorteurListItem> = ({
           ),
         }}
       />
-    </Tile>
+    </div>
   );
 };
