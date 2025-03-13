@@ -58,7 +58,7 @@ export default function SignIn() {
               className="md:w-2/3"
               severity="error"
               small
-              description={getErrorDescription(error)}
+              description="Une erreur est survenue. Si le problème persiste vous pouvez nous contacter"
               closable
             />
           )}
@@ -121,14 +121,3 @@ export default function SignIn() {
     </PageTemplate>
   );
 }
-
-const getErrorDescription = (error: string): string => {
-  switch (error) {
-    case 'EmailSignin':
-      return "Le lien de connexion n'a pas pu être envoyé. Si le problème persiste vous pouvez nous contacter";
-    case 'Unauthorized':
-      return "Vous n'êtes pas autorisé à utiliser ce mode de connexion";
-    default:
-      return 'Une erreur est survenue';
-  }
-};

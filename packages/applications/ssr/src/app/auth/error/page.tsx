@@ -31,7 +31,7 @@ const getError = (
       return {
         statusCode: '403',
         type: 'InvalidOperationError',
-        message: `Vous n'êtes pas autorisé à vous connecter`,
+        message: 'Une erreur est survenue. Si le problème persiste vous pouvez nous contacter',
       };
 
     default:
