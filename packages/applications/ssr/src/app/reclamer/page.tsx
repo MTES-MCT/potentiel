@@ -8,6 +8,10 @@ import {
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 
 import { ListFilterItem } from '@/components/molecules/ListFilters';
+import {
+  chiffrerIdentifiantProjet,
+  generateIV,
+} from '@/components/pages/réclamer-projets/_utils/chiffrement';
 
 import { PageWithErrorHandling } from '../../utils/PageWithErrorHandling';
 import { withUtilisateur } from '../../utils/withUtilisateur';
@@ -77,12 +81,15 @@ export default async function Page({ searchParams }: PageProps) {
         },
       ];
 
+      const iv = generateIV();
+
       return (
         <RéclamerProjetsListPage
           filters={filters}
           projets={mapToProps(
             projetsÀRéclamer.items,
             utilisateur.identifiantUtilisateur.formatter(),
+            iv,
           )}
           range={projetsÀRéclamer.range}
           total={projetsÀRéclamer.total}
@@ -95,11 +102,19 @@ export default async function Page({ searchParams }: PageProps) {
 const mapToProps = (
   projets: ListerProjetsÀRéclamerReadModel['items'],
   emailUtilisateur: string,
+  iv: string,
 ): Array<RéclamerProjetsListItemProps> =>
-  projets.map((projet) => ({
-    identifiantProjet: projet.identifiantProjet.formatter(),
-    nomProjet: projet.nomProjet,
-    userHasSameEmail: projet.emailContact === emailUtilisateur,
-    puissance: projet.puissance,
-    région: projet.région,
-  }));
+  projets.map((projet) => {
+    const identifiantProjetChiffré = chiffrerIdentifiantProjet(
+      projet.identifiantProjet.formatter(),
+      iv,
+    );
+    return {
+      identifiantProjet: identifiantProjetChiffré,
+      nomProjet: projet.nomProjet,
+      userHasSameEmail: projet.emailContact === emailUtilisateur,
+      puissance: projet.puissance,
+      région: projet.région,
+      iv,
+    };
+  });
