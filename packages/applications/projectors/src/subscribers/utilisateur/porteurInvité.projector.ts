@@ -4,7 +4,7 @@ import { upsertProjection } from '@potentiel-infrastructure/pg-projection-write'
 import { Option } from '@potentiel-libraries/monads';
 
 export const PorteurInvitéProjector = async ({
-  payload: { identifiantsProjet, identifiantUtilisateur, autoriséLe, autoriséPar },
+  payload: { identifiantsProjet, identifiantUtilisateur, invitéLe, invitéPar },
 }: PorteurInvitéEvent) => {
   const porteur = await findProjection<UtilisateurEntity>(`utilisateur|${identifiantUtilisateur}`);
 
@@ -18,10 +18,10 @@ export const PorteurInvitéProjector = async ({
     projets: [...projets, ...identifiantsProjet],
     invitéPar: Option.match(porteur)
       .some((porteur) => porteur.invitéPar)
-      .none(() => autoriséPar),
+      .none(() => invitéPar),
     invitéLe: Option.match(porteur)
       .some((porteur) => porteur.invitéLe)
-      .none(() => autoriséLe),
+      .none(() => invitéLe),
   };
 
   await upsertProjection<UtilisateurEntity>(
