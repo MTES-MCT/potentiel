@@ -21,17 +21,12 @@ const getError = (
 ): { type: ErrorType; message: string; statusCode: CustomErrorProps['statusCode'] } => {
   switch (error) {
     case 'Verification':
-      return {
-        statusCode: '403',
-        type: 'InvalidOperationError',
-        message: 'La vérification du lien de connexion à échouée',
-      };
-
     case 'AccessDenied':
       return {
         statusCode: '403',
         type: 'InvalidOperationError',
-        message: 'Une erreur est survenue. Si le problème persiste vous pouvez nous contacter',
+        message:
+          'La vérification du lien de connexion à échouée. Si le problème persiste vous pouvez nous contacter',
       };
 
     default:
