@@ -10,6 +10,7 @@ import {
 import { Option } from '@potentiel-libraries/monads';
 import { GestionnaireRéseau } from '@potentiel-domain/reseau';
 import { mapToPlainObject } from '@potentiel-domain/core';
+import { GeoApiClient } from '@potentiel-infrastructure/geo-api-client';
 
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { mapToPagination, mapToRangeOptions } from '@/utils/pagination';
@@ -18,6 +19,7 @@ import {
   UtilisateurListPageProps,
 } from '@/components/pages/utilisateur/lister/UtilisateurList.page';
 import { listeDesRoles } from '@/utils/utilisateur/format-role';
+import { ListFilterItem } from '@/components/molecules/ListFilters';
 
 export const metadata: Metadata = {
   title: 'Utilisateurs - Potentiel',
@@ -32,11 +34,14 @@ const paramsSchema = z.object({
   page: z.coerce.number().int().optional().default(1),
   role: z.string().optional(),
   identifiantUtilisateur: z.string().optional(),
+  identifiantGestionnaireReseau: z.string().optional(),
+  region: z.string().optional(),
 });
 
 export default async function Page({ searchParams }: PageProps) {
   return PageWithErrorHandling(async () => {
-    const { page, identifiantUtilisateur, role } = paramsSchema.parse(searchParams);
+    const { page, identifiantUtilisateur, role, identifiantGestionnaireReseau, region } =
+      paramsSchema.parse(searchParams);
 
     const utilisateurs = await mediator.send<ListerUtilisateursQuery>({
       type: 'Utilisateur.Query.ListerUtilisateurs',
@@ -44,15 +49,50 @@ export default async function Page({ searchParams }: PageProps) {
         roles: role ? [Role.convertirEnValueType(role).nom] : undefined,
         identifiantUtilisateur,
         range: mapToRangeOptions({ currentPage: page, itemsPerPage: 10 }),
+        identifiantGestionnaireRéseau: identifiantGestionnaireReseau,
+        région: region,
       },
     });
-    const filters = [
+    const filters: ListFilterItem<keyof z.infer<typeof paramsSchema>>[] = [
       {
         label: 'Rôle',
         searchParamKey: 'role',
         options: listeDesRoles,
+        affects: ['identifiantGestionnaireReseau', 'region'],
       },
     ];
+
+    if (role === Role.grd.nom) {
+      const gestionnairesRéseau =
+        await mediator.send<GestionnaireRéseau.ListerGestionnaireRéseauQuery>({
+          type: 'Réseau.Gestionnaire.Query.ListerGestionnaireRéseau',
+          data: {},
+        });
+      filters.push({
+        label: 'Gestionnaire Réseau',
+        searchParamKey: 'identifiantGestionnaireReseau',
+        options: gestionnairesRéseau.items.map(
+          ({ raisonSociale, identifiantGestionnaireRéseau: { codeEIC } }) => ({
+            label: raisonSociale,
+            value: codeEIC,
+          }),
+        ),
+      });
+    }
+    if (role === Role.dreal.nom) {
+      const geoApiClient = GeoApiClient(process.env.NEXT_PUBLIC_GEO_API_URL || '');
+      const régions = await geoApiClient.fetchRegions();
+      filters.push({
+        label: 'Région',
+        searchParamKey: 'region',
+        options: régions
+          .map(({ nom }) => ({
+            label: nom,
+            value: nom,
+          }))
+          .sort((a, b) => a.label.localeCompare(b.label)),
+      });
+    }
 
     const identifiantsGestionnaireRéseau = new Set(
       utilisateurs.items.map((u) => u.identifiantGestionnaireRéseau).filter(Option.isSome),

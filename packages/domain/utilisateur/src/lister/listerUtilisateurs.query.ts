@@ -1,6 +1,6 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
-import { List, RangeOptions, Where } from '@potentiel-domain/entity';
+import { List, RangeOptions, Where, WhereOptions } from '@potentiel-domain/entity';
 
 import { UtilisateurEntity } from '../utilisateur.entity';
 import {
@@ -18,12 +18,18 @@ export type ListerUtilisateursReadModel = {
 export type ListerUtilisateursQuery = Message<
   'Utilisateur.Query.ListerUtilisateurs',
   {
-    roles?: Array<string>;
-    identifiantUtilisateur?: string;
     range?: RangeOptions;
+    identifiantUtilisateur?: string;
+    roles?: Array<string>;
+    identifiantGestionnaireRéseau?: string;
+    région?: string;
   },
   ListerUtilisateursReadModel
 >;
+
+export type ListerUtilisateursPort = (
+  roles?: Array<string>,
+) => Promise<ReadonlyArray<UtilisateurEntity>>;
 
 export type ListerUtilisateursDependencies = {
   list: List;
@@ -34,14 +40,29 @@ export const registerListerUtilisateursQuery = ({ list }: ListerUtilisateursDepe
     roles,
     range,
     identifiantUtilisateur,
+    identifiantGestionnaireRéseau,
+    région,
   }) => {
+    const where: WhereOptions<UtilisateurEntity> = région
+      ? {
+          rôle: Where.equal('dreal'),
+          région: Where.equal(région),
+        }
+      : identifiantGestionnaireRéseau
+        ? {
+            rôle: Where.equal('dreal'),
+            identifiantGestionnaireRéseau: Where.equal(identifiantGestionnaireRéseau),
+          }
+        : {
+            rôle: (roles
+              ? Where.matchAny(roles.map((role) => Role.convertirEnValueType(role).nom))
+              : // Typescript is lost with the union type :/
+                // eslint-disable-next-line @typescript-eslint/no-explicit-any
+                undefined) as any,
+            identifiantUtilisateur: Where.contain(identifiantUtilisateur),
+          };
     const utilisateurs = await list<UtilisateurEntity>('utilisateur', {
-      where: {
-        rôle: roles
-          ? Where.matchAny(roles.map((role) => Role.convertirEnValueType(role).nom))
-          : undefined,
-        identifiantUtilisateur: Where.contain(identifiantUtilisateur),
-      },
+      where,
       orderBy: {
         invitéLe: 'descending',
       },
