@@ -31,8 +31,8 @@ export const GestionnaireRéseauListPage: FC<GestionnaireRéseauListPageProps> =
       heading="Gestionnaires réseaux"
       actions={[
         {
-          name: 'Ajouter un gestionnaire',
-          link: Routes.Gestionnaire.ajouter,
+          label: 'Ajouter un gestionnaire',
+          href: Routes.Gestionnaire.ajouter,
         },
       ]}
       items={gestionnaireRéseaux.map((gestionnaireRéseaux) => ({

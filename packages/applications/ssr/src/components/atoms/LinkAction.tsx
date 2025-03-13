@@ -1,24 +1,19 @@
+import { FrIconClassName, RiIconClassName } from '@codegouvfr/react-dsfr';
 import Link from 'next/link';
 import React, { FC } from 'react';
 
-type LinkActionProps = {
+export type LinkActionProps = {
   label: string;
   href: string;
-  key?: string;
-  className?: string;
+  iconId?: FrIconClassName | RiIconClassName;
 };
 
 export const LinkAction: FC<LinkActionProps> = ({
   label,
   href,
-  key = undefined,
-  className = undefined,
+  iconId = 'fr-icon-arrow-right-line',
 }) => (
-  <Link
-    href={href}
-    key={key ?? undefined}
-    className={`w-fit fr-link fr-icon-arrow-right-line fr-link--icon-right ${className}`}
-  >
+  <Link href={href} className={`w-fit fr-link fr-link--icon-right ${iconId}`}>
     {label}
   </Link>
 );

@@ -1,6 +1,6 @@
 import { FC } from 'react';
 
-import { LinkAction } from '../atoms/LinkAction';
+import { LinkAction, LinkActionProps } from '../atoms/LinkAction';
 import { Heading1 } from '../atoms/headings';
 import { Search, SearchProps } from '../molecules/Search';
 import { List } from '../organisms/List';
@@ -13,10 +13,7 @@ import { PageTemplate } from './Page.template';
 export type ListPageTemplateProps<TItem> = {
   heading: string;
   filters: ListFiltersProps['filters'];
-  actions: Array<{
-    name: string;
-    link: string;
-  }>;
+  actions: Array<LinkActionProps>;
   currentPage: number;
   totalItems: number;
   itemsPerPage: number;
@@ -44,12 +41,7 @@ export const ListPageTemplate = <TItem,>({
         {actions.length ? (
           <>
             {actions.map((a) => (
-              <LinkAction
-                label={a.name}
-                href={a.link}
-                key={a.link}
-                className="w-fit fr-link fr-icon-arrow-right-line fr-link--icon-right"
-              />
+              <LinkAction key={a.href} label={a.label} href={a.href} iconId={a.iconId} />
             ))}
           </>
         ) : null}
