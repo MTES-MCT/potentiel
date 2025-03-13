@@ -20,7 +20,6 @@ import {
   SuccèsOuErreur,
   InvitationsCandidatsEnAttente,
   EmailsEnErreur,
-  ProjetsÀRéclamer,
   LienInvitationPérimé,
   AccèsNonAutorisé,
   AcheteurObligeStatistiques,
@@ -199,13 +198,6 @@ export const EmailsEnErreurPage = (props: Parameters<typeof EmailsEnErreur>[0]) 
     Component: EmailsEnErreur,
     props,
     title: 'Emails en erreur',
-  });
-
-export const ProjetsÀRéclamerPage = (props: Parameters<typeof ProjetsÀRéclamer>[0]) =>
-  makeHtml({
-    Component: ProjetsÀRéclamer,
-    props,
-    title: 'Projets à réclamer',
   });
 
 export const LienInvitationPériméPage = (props: Parameters<typeof LienInvitationPérimé>[0]) =>
