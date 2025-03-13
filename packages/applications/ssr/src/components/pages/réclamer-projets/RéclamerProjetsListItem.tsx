@@ -104,11 +104,6 @@ type RéclamerProjetAvecPrixEtNuméroCREButtonProps = {
   nomProjet: string;
 };
 
-// TODO:
-// ajouter un tooltip, c'est plus joli
-// ajouter l'image pour le numero CRE
-// changer la route du bouton
-
 const RéclamerProjetAvecPrixEtNuméroCREButton: FC<RéclamerProjetAvecPrixEtNuméroCREButtonProps> = ({
   identifiantProjet,
   nomProjet,
@@ -117,6 +112,7 @@ const RéclamerProjetAvecPrixEtNuméroCREButton: FC<RéclamerProjetAvecPrixEtNum
   const [validationErrors, setValidationErrors] = useState<
     ValidationErrors<RéclamerProjetsFormKeys>
   >({});
+
   return (
     <>
       <Button priority="primary" onClick={() => setIsOpen(true)}>
@@ -175,14 +171,15 @@ const RéclamerProjetAvecPrixEtNuméroCREButton: FC<RéclamerProjetAvecPrixEtNum
                   name: 'prixReference',
                   required: true,
                   'aria-required': true,
+                  defaultValue: '',
                 }}
               />
               <Input
                 nativeInputProps={{
                   name: 'numeroCRE',
                   required: true,
-                  type: 'text',
                   'aria-required': true,
+                  defaultValue: '',
                 }}
                 label="Numéro CRE"
                 state={validationErrors['numeroCRE'] ? 'error' : 'default'}
