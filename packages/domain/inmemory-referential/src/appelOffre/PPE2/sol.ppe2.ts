@@ -332,7 +332,7 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
       id: '7',
       title: 'septième',
       certificateTemplate: 'ppe2.v2',
-      logo: 'MCE',
+      logo: 'Gouvernement',
       cahierDesCharges: {
         référence: '2021/S 146-385911',
       },
