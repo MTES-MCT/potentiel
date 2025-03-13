@@ -6,7 +6,6 @@ import {
   ListerProjetsÀRéclamerReadModel,
 } from '@potentiel-domain/utilisateur';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
-import { Candidature } from '@potentiel-domain/candidature';
 
 import { ListFilterItem } from '@/components/molecules/ListFilters';
 
@@ -16,7 +15,7 @@ import { mapToRangeOptions } from '../../utils/pagination';
 import { RéclamerProjetsListItemProps } from '../../components/pages/réclamer-projets/RéclamerProjetsListItem';
 import { RéclamerProjetsListPage } from '../../components/pages/réclamer-projets/RéclamerProjetList.page';
 
-type SearchParams = 'page' | 'appelOffre' | 'statut' | 'nomProjet';
+type SearchParams = 'page' | 'appelOffre' | 'periode' | 'nomProjet';
 
 type PageProps = {
   searchParams?: Partial<Record<SearchParams, string>>;
@@ -32,18 +31,14 @@ export default async function Page({ searchParams }: PageProps) {
     withUtilisateur(async (utilisateur) => {
       const page = searchParams?.page ? parseInt(searchParams.page) : 1;
       const appelOffre = searchParams?.appelOffre ?? undefined;
-      const statut = searchParams?.statut
-        ? Candidature.StatutCandidature.convertirEnValueType(searchParams?.statut).statut
-        : undefined;
       const nomProjet = searchParams?.nomProjet ?? undefined;
+      const période = searchParams?.periode ?? undefined;
 
       const projetsÀRéclamer = await mediator.send<ListerProjetsÀRéclamerQuery>({
         type: 'Utilisateur.Query.ListerProjetsÀRéclamer',
         data: {
           appelOffre,
-          statut: statut
-            ? Candidature.StatutCandidature.convertirEnValueType(statut).statut
-            : undefined,
+          période,
           nomProjet,
           range: mapToRangeOptions({
             currentPage: page,
@@ -57,6 +52,14 @@ export default async function Page({ searchParams }: PageProps) {
         data: {},
       });
 
+      const périodesOption =
+        appelOffres.items
+          .find((appelOffresItem) => appelOffresItem.id === appelOffre)
+          ?.periodes.map((p) => ({
+            label: p.title,
+            value: p.id,
+          })) ?? [];
+
       const filters: ListFilterItem<SearchParams>[] = [
         {
           label: `Appel d'offres`,
@@ -65,20 +68,12 @@ export default async function Page({ searchParams }: PageProps) {
             label: appelOffre.id,
             value: appelOffre.id,
           })),
+          affects: ['periode'],
         },
         {
-          label: 'Statut',
-          searchParamKey: 'statut',
-          options: [
-            {
-              label: 'Classé',
-              value: Candidature.StatutCandidature.classé.statut,
-            },
-            {
-              label: 'Éliminé',
-              value: Candidature.StatutCandidature.éliminé.statut,
-            },
-          ],
+          label: `Période`,
+          searchParamKey: 'periode',
+          options: périodesOption,
         },
       ];
 
