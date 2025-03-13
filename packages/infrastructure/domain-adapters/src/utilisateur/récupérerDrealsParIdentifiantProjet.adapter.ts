@@ -6,7 +6,7 @@ const selectDrealsProjectQuery = `
 select 
     json_build_object   
     (
-      'email', "email", 
+      'email', "email"
     ) 
   as value
 from 
