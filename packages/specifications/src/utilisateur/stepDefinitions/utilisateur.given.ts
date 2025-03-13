@@ -3,7 +3,6 @@ import { match } from 'ts-pattern';
 
 import { executeQuery, executeSelect } from '@potentiel-libraries/pg-helpers';
 import { IdentifiantProjet } from '@potentiel-domain/common';
-import { Role } from '@potentiel-domain/utilisateur';
 
 import { PotentielWorld } from '../../potentiel.world';
 
@@ -71,16 +70,19 @@ EtantDonné(
 EtantDonné(
   'la dreal {string} associée à la région du projet',
   async function (this: PotentielWorld, drealNom: string) {
+    const { région } = this.candidatureWorld.importerCandidature.values.localitéValue;
     const dreal = this.utilisateurWorld.drealFixture.créer({
       nom: drealNom,
-    });
-
-    const { région } = this.candidatureWorld.importerCandidature.values.localitéValue;
-    await inviterUtilisateur.call(this, {
-      rôle: Role.dreal.nom,
       région,
     });
 
+    await inviterUtilisateur.call(this, {
+      rôle: dreal.role,
+      région: dreal.région,
+    });
+
+    // Compatibilité Legacy
+    await insérerUtilisateur(dreal);
     await associerUtilisateurÀSaDreal(dreal.id, région);
   },
 );
