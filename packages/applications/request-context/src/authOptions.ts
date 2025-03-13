@@ -14,9 +14,8 @@ import { getProviderConfiguration } from './getProviderConfiguration';
 import { refreshToken } from './refreshToken';
 import ProConnectProvider from './ProConnectProvider';
 import { getUtilisateurFromEmail } from './getUtilisateur';
-import { canConnectWithProConnect } from './canConnectWithProConnect';
 import { ajouterStatistiqueConnexion } from './ajouterStatistiqueConnexion';
-import { canConnectWithMagicLink } from './canConnectWithMagicLink';
+import { canConnectWithProvider } from './canConnectWithProvider';
 
 const OneHourInSeconds = 60 * 60;
 const fifteenMinutesInSeconds = 15 * 60;
@@ -88,14 +87,17 @@ export const authOptions: AuthOptions = {
         });
       }
 
-      if (account?.provider === 'email' && !canConnectWithMagicLink(utilisateur.role)) {
+      if (account?.provider === 'email' && !canConnectWithProvider('email', utilisateur.role)) {
         getLogger('Auth').info(`User tries to connect with Magic Link but is not authorized`, {
           utilisateur,
         });
         return Routes.Auth.signIn({ error: 'Unauthorized' });
       }
 
-      if (account?.provider === 'proconnect' && !canConnectWithProConnect(utilisateur.role)) {
+      if (
+        account?.provider === 'proconnect' &&
+        !canConnectWithProvider('proconnect', utilisateur.role)
+      ) {
         logger.info(`User tries to connect with ProConnect but is not authorized yet`, {
           user,
         });
