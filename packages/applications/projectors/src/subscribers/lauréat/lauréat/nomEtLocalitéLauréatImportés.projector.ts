@@ -1,6 +1,6 @@
 import { Lauréat } from '@potentiel-domain/laureat';
 
-import { updateOneProjection } from '../../infrastructure';
+import { updateOneProjection } from '../../../infrastructure';
 
 export const nomEtLocalitéLauréatImportésProjector = async ({
   payload: { identifiantProjet, nomProjet, localité },

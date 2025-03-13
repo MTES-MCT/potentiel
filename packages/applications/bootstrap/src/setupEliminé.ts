@@ -51,7 +51,7 @@ export const setupEliminé = async ({ sendEmail }: SetupÉliminéDependencies) =
     eventType: ['RecoursDemandé-V1', 'RecoursAnnulé-V1', 'RecoursAccordé-V1', 'RecoursRejeté-V1'],
     eventHandler: async (event) => {
       await mediator.publish<RecoursNotification.Execute>({
-        type: 'System.Notification.Éliminé.Recours',
+        type: 'System.Notification.Eliminé.Recours',
         data: event,
       });
     },
@@ -63,7 +63,7 @@ export const setupEliminé = async ({ sendEmail }: SetupÉliminéDependencies) =
     eventType: ['ÉliminéNotifié-V1', 'ÉliminéArchivé-V1', 'RebuildTriggered'],
     eventHandler: async (event) => {
       await mediator.send<ÉliminéProjector.Execute>({
-        type: 'System.Projector.Éliminé',
+        type: 'System.Projector.Eliminé',
         data: event,
       });
     },

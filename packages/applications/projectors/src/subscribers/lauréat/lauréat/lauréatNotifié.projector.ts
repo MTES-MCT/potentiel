@@ -1,7 +1,7 @@
 import { Lauréat } from '@potentiel-domain/laureat';
 import { IdentifiantProjet } from '@potentiel-domain/common';
 
-import { upsertProjection } from '../../infrastructure';
+import { upsertProjection } from '../../../infrastructure';
 
 export const lauréatNotifiéV1Projector = async ({
   payload: { identifiantProjet, notifiéLe, notifiéPar },
