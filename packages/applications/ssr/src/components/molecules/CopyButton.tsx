@@ -6,9 +6,10 @@ import { useState } from 'react';
 export type CopyButtonProps = {
   textToCopy: string;
   timeoutInMs?: number;
+  children?: React.ReactNode;
 };
 
-export const CopyButton = ({ textToCopy, timeoutInMs = 2000 }: CopyButtonProps) => {
+export const CopyButton = ({ textToCopy, children, timeoutInMs = 2000 }: CopyButtonProps) => {
   const [hasCopied, setHasCopied] = useState<boolean>(false);
 
   const copyLink = () => {
@@ -21,7 +22,7 @@ export const CopyButton = ({ textToCopy, timeoutInMs = 2000 }: CopyButtonProps) 
 
   return (
     <div className="flex flex-row gap-3 items-center">
-      <span className="italic">{textToCopy}</span>{' '}
+      {children ? children : <span className="italic">{textToCopy}</span>}{' '}
       <Button
         iconId="ri-clipboard-line"
         aria-label="copier-coller"
