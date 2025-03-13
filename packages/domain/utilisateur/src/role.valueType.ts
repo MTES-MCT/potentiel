@@ -402,16 +402,19 @@ const référencielPermissions = {
     query: {
       consulter: 'Utilisateur.Query.ConsulterUtilisateur',
       lister: 'Utilisateur.Query.ListerUtilisateurs',
+      listerPorteurs: 'Utilisateur.Query.ListerPorteurs',
       listerProjetsÀRéclamer: 'Utilisateur.Query.ListerProjetsÀRéclamer',
     },
     command: {
       inviter: 'Utilisateur.Command.InviterUtilisateur',
       inviterPorteur: 'Utilisateur.Command.InviterPorteur',
+      retirerAccèsProjet: 'Utilisateur.Command.RetirerAccèsProjet',
       réclamerProjet: 'Utilisateur.Command.RéclamerProjet',
     },
     usecase: {
       inviter: 'Utilisateur.UseCase.InviterUtilisateur',
       inviterPorteur: 'Utilisateur.UseCase.InviterPorteur',
+      retirerAccèsProjet: 'Utilisateur.UseCase.RetirerAccèsProjet',
       réclamerProjet: 'Utilisateur.UseCase.RéclamerProjet',
     },
   },
@@ -992,6 +995,7 @@ const policies = {
   },
   utilisateur: {
     lister: [référencielPermissions.utilisateur.query.lister],
+    listerPorteurs: [référencielPermissions.utilisateur.query.listerPorteurs],
     inviter: [
       référencielPermissions.utilisateur.command.inviter,
       référencielPermissions.utilisateur.usecase.inviter,
@@ -1000,6 +1004,10 @@ const policies = {
     inviterPorteur: [
       référencielPermissions.utilisateur.command.inviterPorteur,
       référencielPermissions.utilisateur.usecase.inviterPorteur,
+    ],
+    retirerAccèsProjet: [
+      référencielPermissions.utilisateur.command.retirerAccèsProjet,
+      référencielPermissions.utilisateur.usecase.retirerAccèsProjet,
     ],
     réclamerProjet: [
       référencielPermissions.utilisateur.command.réclamerProjet,
@@ -1143,7 +1151,9 @@ const adminPolicies: ReadonlyArray<Policy> = [
   // Utilisateur
   'utilisateur.lister',
   'utilisateur.inviter',
+  'utilisateur.listerPorteurs',
   'utilisateur.inviterPorteur',
+  'utilisateur.retirerAccèsProjet',
 ];
 
 const dgecValidateurPolicies: ReadonlyArray<Policy> = [
@@ -1249,6 +1259,8 @@ const drealPolicies: ReadonlyArray<Policy> = [
 
   // Utilisateur
   'utilisateur.inviterPorteur',
+  'utilisateur.listerPorteurs',
+  'utilisateur.retirerAccèsProjet',
 ];
 
 const porteurProjetPolicies: ReadonlyArray<Policy> = [
@@ -1320,7 +1332,9 @@ const porteurProjetPolicies: ReadonlyArray<Policy> = [
 
   // Utilisateur
   'utilisateur.inviterPorteur',
+  'utilisateur.listerPorteurs',
   'utilisateur.réclamerProjet',
+  'utilisateur.retirerAccèsProjet',
 ];
 
 const acheteurObligéPolicies: ReadonlyArray<Policy> = [

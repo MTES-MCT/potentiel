@@ -1,70 +1,66 @@
 'use client';
 
 import { FC, useState } from 'react';
-import Button from '@codegouvfr/react-dsfr/Button';
 import Input from '@codegouvfr/react-dsfr/Input';
+import Button from '@codegouvfr/react-dsfr/Button';
 
-import { Routes } from '@potentiel-applications/routes';
 import { IdentifiantProjet } from '@potentiel-domain/common';
-import { PlainType } from '@potentiel-domain/core';
 
-import { Form } from '@/components/atoms/form/Form';
-import { SubmitButton } from '@/components/atoms/form/SubmitButton';
 import { ValidationErrors } from '@/utils/formAction';
+import { ModalWithForm } from '@/components/molecules/ModalWithForm';
 
 import { inviterPorteurAction, InviterPorteurFormKeys } from './inviterPorteur.action';
 
 export type InviterPorteurFormProps = {
-  identifiantProjet: PlainType<IdentifiantProjet.ValueType>;
+  identifiantProjet: IdentifiantProjet.RawType;
 };
 
 export const InviterPorteurForm: FC<InviterPorteurFormProps> = ({ identifiantProjet }) => {
+  const [isOpen, setIsOpen] = useState(false);
   const [validationErrors, setValidationErrors] = useState<
     ValidationErrors<InviterPorteurFormKeys>
   >({});
 
   return (
-    <Form
-      action={inviterPorteurAction}
-      onValidationError={(validationErrors) => setValidationErrors(validationErrors)}
-      heading="Inviter un utilisateur"
-      actions={
-        <>
-          <Button
-            priority="secondary"
-            linkProps={{
-              href: Routes.Projet.details(IdentifiantProjet.bind(identifiantProjet).formatter()),
-              prefetch: false,
-            }}
-            iconId="fr-icon-arrow-left-line"
-          >
-            Retour au projet
-          </Button>
-          <SubmitButton>Inviter</SubmitButton>
-        </>
-      }
-    >
-      <input
-        name="identifiantProjet"
-        type="hidden"
-        value={IdentifiantProjet.bind(identifiantProjet).formatter()}
-      />
+    <>
+      <Button iconId="fr-icon-user-line" onClick={() => setIsOpen(true)}>
+        Inviter
+      </Button>
+      <ModalWithForm
+        id="inviter-porteur-form"
+        title=""
+        acceptButtonLabel="Inviter"
+        rejectButtonLabel="Annuler"
+        isOpen={isOpen}
+        onClose={() => setIsOpen(false)}
+        form={{
+          omitMandatoryFieldsLegend: true,
+          heading: 'Inviter un porteur de projet',
+          action: inviterPorteurAction,
+          onValidationError: (validationErrors) => setValidationErrors(validationErrors),
+          children: (
+            <>
+              <input name="identifiantProjet" type="hidden" value={identifiantProjet} />
 
-      <div className="flex flex-col gap-5">
-        <div>
-          <Input
-            nativeInputProps={{
-              name: 'identifiantUtilisateurInvite',
-              required: true,
-              type: 'email',
-              'aria-required': true,
-            }}
-            label="Courrier électronique de la personne habilitée à suivre ce projet"
-            state={validationErrors['identifiantUtilisateurInvite'] ? 'error' : 'default'}
-            stateRelatedMessage={validationErrors['identifiantUtilisateurInvite']}
-          />
-        </div>
-      </div>
-    </Form>
+              <div className="flex flex-col gap-5">
+                <div>
+                  <Input
+                    nativeInputProps={{
+                      name: 'identifiantUtilisateurInvite',
+                      required: true,
+                      type: 'email',
+                      'aria-required': true,
+                    }}
+                    label="Courrier électronique de la personne habilitée à suivre ce projet"
+                    state={validationErrors['identifiantUtilisateurInvite'] ? 'error' : 'default'}
+                    stateRelatedMessage={validationErrors['identifiantUtilisateurInvite']}
+                  />
+                </div>
+              </div>
+            </>
+          ),
+        }}
+      />
+    </>
   );
 };
