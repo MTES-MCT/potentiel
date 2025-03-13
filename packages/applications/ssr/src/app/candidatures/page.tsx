@@ -72,7 +72,7 @@ export default async function Page({ searchParams }: PageProps) {
           label: appelOffre.id,
           value: appelOffre.id,
         })),
-        affects: 'periode',
+        affects: ['periode'],
       },
       {
         label: `Période`,

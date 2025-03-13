@@ -10,7 +10,7 @@ export type ListHeaderProps = {
   totalCount: number;
 };
 
-type TagFilter = { label: string; searchParamKey: string; affects?: string };
+type TagFilter = { label: string; searchParamKey: string; affects?: string[] };
 
 export const ListHeader: FC<ListHeaderProps> = ({ filters, totalCount }) => {
   const searchParams = useSearchParams();
@@ -32,7 +32,7 @@ export const ListHeader: FC<ListHeaderProps> = ({ filters, totalCount }) => {
     ];
   }, [] as TagFilter[]);
 
-  const onClick = (tagName: string, affects?: string) => {
+  const onClick = (tagName: string, affects: string[]) => {
     const newSearchParams = tagFilters.reduce((urlSearchParams, { searchParamKey }) => {
       if (searchParams.has(searchParamKey)) {
         urlSearchParams.set(searchParamKey, searchParams.get(searchParamKey) ?? '');
@@ -40,9 +40,7 @@ export const ListHeader: FC<ListHeaderProps> = ({ filters, totalCount }) => {
       return urlSearchParams;
     }, new URLSearchParams());
     newSearchParams.delete(tagName);
-    if (affects) {
-      newSearchParams.delete(affects);
-    }
+    affects.forEach((affected) => newSearchParams.delete(affected));
     const url = `${pathname}${newSearchParams.size > 0 ? `?${newSearchParams.toString()}` : ''}`;
     router.push(url);
   };
@@ -56,7 +54,7 @@ export const ListHeader: FC<ListHeaderProps> = ({ filters, totalCount }) => {
               <Tag
                 dismissible
                 nativeButtonProps={{
-                  onClick: () => onClick(searchParamKey, affects),
+                  onClick: () => onClick(searchParamKey, affects ?? []),
                 }}
               >
                 {label}
