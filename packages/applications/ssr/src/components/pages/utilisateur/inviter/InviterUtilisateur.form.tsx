@@ -68,30 +68,30 @@ export const InviterUtilisateurForm: FC<InviterUtilisateurFormProps> = ({
           />
 
           {match(role)
-            .with('dgec-validateur', () => (
-              <>
-                <Input
-                  label="Nom Complet"
-                  state={validationErrors['nomComplet'] ? 'error' : 'default'}
-                  stateRelatedMessage={validationErrors['nomComplet']}
-                  nativeInputProps={{
-                    name: 'nomComplet',
-                    required: true,
-                    'aria-required': true,
-                  }}
-                />
-                <Input
-                  label="Fonction"
-                  state={validationErrors['fonction'] ? 'error' : 'default'}
-                  stateRelatedMessage={validationErrors['fonction']}
-                  nativeInputProps={{
-                    name: 'fonction',
-                    required: true,
-                    'aria-required': true,
-                  }}
-                />
-              </>
-            ))
+            // .with('dgec-validateur', () => (
+            //   <>
+            //     <Input
+            //       label="Nom Complet"
+            //       state={validationErrors['nomComplet'] ? 'error' : 'default'}
+            //       stateRelatedMessage={validationErrors['nomComplet']}
+            //       nativeInputProps={{
+            //         name: 'nomComplet',
+            //         required: true,
+            //         'aria-required': true,
+            //       }}
+            //     />
+            //     <Input
+            //       label="Fonction"
+            //       state={validationErrors['fonction'] ? 'error' : 'default'}
+            //       stateRelatedMessage={validationErrors['fonction']}
+            //       nativeInputProps={{
+            //         name: 'fonction',
+            //         required: true,
+            //         'aria-required': true,
+            //       }}
+            //     />
+            //   </>
+            // ))
             .with('dreal', () => (
               <Select
                 label="Région"

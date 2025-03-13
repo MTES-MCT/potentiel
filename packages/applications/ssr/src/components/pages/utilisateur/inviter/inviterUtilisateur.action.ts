@@ -13,8 +13,6 @@ import { withUtilisateur } from '@/utils/withUtilisateur';
 const schema = zod.object({
   role: zod.string(),
   identifiantUtilisateurInvite: zod.string().min(1, { message: 'Champ obligatoire' }),
-  fonction: zod.string().optional(),
-  nomComplet: zod.string().optional(),
   region: zod.string().optional(),
   identifiantGestionnaireReseau: zod.string().optional(),
 });
@@ -23,14 +21,7 @@ export type InviterUtilisateurFormKeys = keyof zod.infer<typeof schema>;
 
 const action: FormAction<FormState, typeof schema> = async (
   _,
-  {
-    role,
-    identifiantUtilisateurInvite,
-    fonction,
-    identifiantGestionnaireReseau,
-    nomComplet,
-    region,
-  },
+  { role, identifiantUtilisateurInvite, identifiantGestionnaireReseau, region },
 ) =>
   withUtilisateur(async (utilisateur) => {
     await mediator.send<InviterUtilisateurUseCase>({
@@ -38,8 +29,6 @@ const action: FormAction<FormState, typeof schema> = async (
       data: {
         identifiantUtilisateurValue: identifiantUtilisateurInvite,
         rôleValue: role,
-        fonction: fonction,
-        nomComplet: nomComplet,
         région: region,
         identifiantGestionnaireRéseau: identifiantGestionnaireReseau,
         invitéLeValue: DateTime.now().formatter(),
