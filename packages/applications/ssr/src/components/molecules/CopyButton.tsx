@@ -22,7 +22,7 @@ export const CopyButton = ({ textToCopy, children, timeoutInMs = 2000 }: CopyBut
 
   return (
     <div className="flex flex-row gap-3 items-center">
-      {children ? children : <span className="italic">{textToCopy}</span>}{' '}
+      {children ? children : <span className="italic">{textToCopy}</span>}
       <Button
         iconId="ri-clipboard-line"
         aria-label="copier-coller"

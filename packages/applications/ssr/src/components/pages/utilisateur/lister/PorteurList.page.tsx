@@ -47,20 +47,27 @@ export const PorteurListPage: FC<PorteurListPageProps> = ({ identifiantProjet, i
         ),
       }}
       rightColumn={{
-        children: (
-          <div className="flex flex-col gap-4">
-            <Heading2>Actions</Heading2>
-            <InviterPorteurForm identifiantProjet={identifiantProjet} />
-            <Button
-              iconId="fr-icon-mail-line"
-              linkProps={{ href: `mailto:${items.map((item) => item.email).join(',')}` }}
-              priority="secondary"
-            >
-              Contacter tous
-            </Button>
-          </div>
-        ),
+        children: <PorteurListActions identifiantProjet={identifiantProjet} items={items} />,
       }}
     />
+  );
+};
+
+const PorteurListActions: FC<{
+  identifiantProjet: IdentifiantProjet.RawType;
+  items: PlainType<ConsulterUtilisateurReadModel>[];
+}> = ({ identifiantProjet, items }) => {
+  return (
+    <div className="flex flex-col gap-4 pl-10">
+      <Heading2>Actions</Heading2>
+      <InviterPorteurForm identifiantProjet={identifiantProjet} />
+      <Button
+        iconId="fr-icon-mail-line"
+        priority="secondary"
+        linkProps={{ href: `mailto:${items.map((item) => item.email).join(',')}` }}
+      >
+        Contacter tous les utilisateurs
+      </Button>
+    </div>
   );
 };
