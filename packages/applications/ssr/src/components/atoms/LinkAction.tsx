@@ -13,10 +13,7 @@ export const LinkAction: FC<LinkActionProps> = ({
   href,
   iconId = 'fr-icon-arrow-right-line',
 }) => (
-  <Link
-    href={href}
-    className={`w-fit fr-link fr-icon-arrow-right-line fr-link--icon-right ${iconId}`}
-  >
+  <Link href={href} className={`w-fit fr-link fr-link--icon-right ${iconId}`}>
     {label}
   </Link>
 );
