@@ -8,7 +8,7 @@ import { ProjectHeaderBadge } from './ProjectHeaderBadge';
 type ProjectHeaderProps = {
   project: ProjectDataForProjectPage;
   user: User;
-  abandonEnCours: boolean;
+  abandonEnCoursOuAccordé: boolean;
   demandeRecours: ProjectDataForProjectPage['demandeRecours'];
   modificationsNonPermisesParLeCDCActuel: boolean;
   hasAttestationConformité: boolean;
@@ -22,7 +22,7 @@ type ProjectHeaderProps = {
 export const ProjectHeader = ({
   project,
   user,
-  abandonEnCours,
+  abandonEnCoursOuAccordé,
   demandeRecours,
   modificationsNonPermisesParLeCDCActuel,
   hasAttestationConformité,
@@ -55,7 +55,7 @@ export const ProjectHeader = ({
       <ProjectActions
         project={project}
         user={user}
-        abandonEnCours={abandonEnCours}
+        abandonEnCoursOuAccordé={abandonEnCoursOuAccordé}
         demandeRecours={demandeRecours}
         modificationsNonPermisesParLeCDCActuel={modificationsNonPermisesParLeCDCActuel}
         hasAttestationConformité={hasAttestationConformité}

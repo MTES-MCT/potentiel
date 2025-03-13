@@ -24,17 +24,11 @@ export const getAbandonStatut: GetAbandonStatut = async (
 
     const { statut } = abandon;
 
-    switch (statut.statut) {
-      case 'demandé':
-      case 'confirmé':
-      case 'accordé':
-      case 'rejeté':
-        return { statut: statut.statut };
-      case 'confirmation-demandée':
-        return { statut: 'à confirmer' };
-      default:
-        return undefined;
+    if (statut.estEnCours() || statut.estRejeté() || statut.estAccordé()) {
+      return { statut: statut.statut };
     }
+
+    return undefined;
   } catch (error) {
     getLogger('Legacy|getProjectPage|getAbandonStatut').error(`Impossible de consulter l'abandon`, {
       identifiantProjet: identifiantProjet.formatter(),

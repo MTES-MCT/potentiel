@@ -186,7 +186,9 @@ async function créerConfirmationAbandon(this: PotentielWorld) {
 async function passerDemandeAbandonEnInstruction(this: PotentielWorld) {
   const identifiantProjet = this.lauréatWorld.identifiantProjet.formatter();
   const { passéEnInstructionLe, passéEnInstructionPar } =
-    this.lauréatWorld.abandonWorld.passerEnInstructionAbandonFixture.créer();
+    this.lauréatWorld.abandonWorld.passerEnInstructionAbandonFixture.créer({
+      passéEnInstructionPar: this.utilisateurWorld.adminFixture.email,
+    });
 
   await mediator.send<Abandon.AbandonUseCase>({
     type: 'Lauréat.Abandon.UseCase.PasserAbandonEnInstruction',

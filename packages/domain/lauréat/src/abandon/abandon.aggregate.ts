@@ -4,7 +4,7 @@ import {
   GetDefaultAggregateState,
   LoadAggregate,
 } from '@potentiel-domain/core';
-import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
+import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
 import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
 import { DocumentProjet } from '@potentiel-domain/document';
 
@@ -72,6 +72,10 @@ export type AbandonAggregate = Aggregate<AbandonEvent> & {
     preuveRecandidatureTransmisePar?: IdentifiantUtilisateur.ValueType;
     demandéLe: DateTime.ValueType;
     demandéPar: IdentifiantUtilisateur.ValueType;
+    instruction?: {
+      démarréLe: DateTime.ValueType;
+      instruitPar: Email.ValueType;
+    };
     confirmation?: {
       réponseSignée: {
         format: string;
@@ -116,6 +120,7 @@ export const getDefaultAbandonAggregate: GetDefaultAggregateState<
     demandéPar: IdentifiantUtilisateur.unknownUser,
     recandidature: false,
     demandéLe: DateTime.convertirEnValueType(new Date()),
+    passéEnInstructionPar: IdentifiantUtilisateur.unknownUser,
   },
   accorder,
   annuler,
@@ -150,7 +155,7 @@ function apply(this: AbandonAggregate, event: AbandonEvent) {
       applyAbandonRejeté.bind(this)(event);
       break;
     case 'AbandonPasséEnInstruction-V1':
-      applyAbandonPasséEnInstruction.bind(this)();
+      applyAbandonPasséEnInstruction.bind(this)(event);
       break;
     case 'ConfirmationAbandonDemandée-V1':
       applyConfirmationAbandonDemandée.bind(this)(event);

@@ -1,5 +1,5 @@
 import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
-import { DomainEvent } from '@potentiel-domain/core';
+import { DomainEvent, InvalidOperationError } from '@potentiel-domain/core';
 
 import { AbandonAggregate } from '../abandon.aggregate';
 import * as StatutAbandon from '../statutAbandon.valueType';
@@ -25,6 +25,10 @@ export async function passerEnInstruction(
 ) {
   this.statut.vérifierQueLeChangementDeStatutEstPossibleEn(StatutAbandon.enInstruction);
 
+  if (this.demande.instruction?.instruitPar.estÉgaleÀ(identifiantUtilisateur)) {
+    throw new AbandonDéjàEnInstructionAvecLeMêmeAdministrateurError();
+  }
+
   const event: AbandonPasséEnInstructionEvent = {
     type: 'AbandonPasséEnInstruction-V1',
     payload: {
@@ -37,6 +41,20 @@ export async function passerEnInstruction(
   await this.publish(event);
 }
 
-export function applyAbandonPasséEnInstruction(this: AbandonAggregate) {
+export function applyAbandonPasséEnInstruction(
+  this: AbandonAggregate,
+  { payload: { passéEnInstructionLe, passéEnInstructionPar } }: AbandonPasséEnInstructionEvent,
+) {
   this.statut = StatutAbandon.enInstruction;
+  this.demande.instruction = {
+    démarréLe:
+      this.demande.instruction?.démarréLe ?? DateTime.convertirEnValueType(passéEnInstructionLe),
+    instruitPar: Email.convertirEnValueType(passéEnInstructionPar),
+  };
+}
+
+class AbandonDéjàEnInstructionAvecLeMêmeAdministrateurError extends InvalidOperationError {
+  constructor() {
+    super("L'abandon est déjà en instruction avec le même administrateur");
+  }
 }

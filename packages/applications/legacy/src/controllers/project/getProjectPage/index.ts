@@ -139,6 +139,7 @@ v1Router.get(
       }
 
       const abandon = await getAbandonStatut(identifiantProjetValueType);
+
       const raccordement = await getRaccordement({
         role,
         identifiantProjet: identifiantProjetValueType,

@@ -36,6 +36,7 @@ type AvailableActions = Array<
   | 'rejeter'
   | 'transmettre-preuve-recandidature'
   | 'passer-en-instruction'
+  | 'reprendre-instruction'
 >;
 
 type AvailableInformation = 'demande-de-mainlevée' | 'demande-abandon-pour-recandidature';
@@ -145,8 +146,11 @@ const mapToActionComponents = ({
       {actions.includes('rejeter') && <RejeterAbandon identifiantProjet={identifiantProjet} />}
       {actions.includes('confirmer') && <ConfirmerAbandon identifiantProjet={identifiantProjet} />}
       {actions.includes('annuler') && <AnnulerAbandon identifiantProjet={identifiantProjet} />}
-      {actions.includes('passer-en-instruction') && (
-        <PasserAbandonEnInstruction identifiantProjet={identifiantProjet} />
+      {(actions.includes('passer-en-instruction') || actions.includes('reprendre-instruction')) && (
+        <PasserAbandonEnInstruction
+          identifiantProjet={identifiantProjet}
+          estUneReprise={actions.includes('reprendre-instruction')}
+        />
       )}
       {actions.includes('transmettre-preuve-recandidature') && (
         <TransmettrePreuveRecandidature

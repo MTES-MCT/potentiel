@@ -33,7 +33,7 @@ const EnregistrerUneModification = ({ projectId }: EnregistrerUneModificationPro
 
 type PorteurProjetActionsProps = {
   project: ProjectDataForProjectPage;
-  abandonEnCours: boolean;
+  abandonEnCoursOuAccordé: boolean;
   demandeRecours: ProjectDataForProjectPage['demandeRecours'];
   modificationsNonPermisesParLeCDCActuel: boolean;
   hasAttestationConformité: boolean;
@@ -46,7 +46,7 @@ type PorteurProjetActionsProps = {
 
 const PorteurProjetActions = ({
   project,
-  abandonEnCours,
+  abandonEnCoursOuAccordé,
   demandeRecours,
   modificationsNonPermisesParLeCDCActuel,
   hasAttestationConformité,
@@ -59,7 +59,7 @@ const PorteurProjetActions = ({
     familleId: project.familleId,
     numeroCRE: project.numeroCRE,
   }).formatter();
-  const peutDemanderAbandon = !abandonEnCours && !hasAttestationConformité;
+  const peutDemanderAbandon = !abandonEnCoursOuAccordé && !hasAttestationConformité;
 
   return (
     <div className="flex flex-col gap-3">
@@ -220,7 +220,7 @@ const DrealActions = ({ project }: DrealActionsProps) => {
 type ProjectActionsProps = {
   project: ProjectDataForProjectPage;
   user: User;
-  abandonEnCours: boolean;
+  abandonEnCoursOuAccordé: boolean;
   demandeRecours: ProjectDataForProjectPage['demandeRecours'];
   modificationsNonPermisesParLeCDCActuel: boolean;
   hasAttestationConformité: boolean;
@@ -235,7 +235,7 @@ type ProjectActionsProps = {
 export const ProjectActions = ({
   project,
   user,
-  abandonEnCours,
+  abandonEnCoursOuAccordé,
   demandeRecours,
   modificationsNonPermisesParLeCDCActuel,
   hasAttestationConformité,
@@ -247,7 +247,7 @@ export const ProjectActions = ({
     {userIs(['porteur-projet'])(user) && (
       <PorteurProjetActions
         project={project}
-        abandonEnCours={abandonEnCours}
+        abandonEnCoursOuAccordé={abandonEnCoursOuAccordé}
         demandeRecours={demandeRecours}
         modificationsNonPermisesParLeCDCActuel={modificationsNonPermisesParLeCDCActuel}
         hasAttestationConformité={hasAttestationConformité}

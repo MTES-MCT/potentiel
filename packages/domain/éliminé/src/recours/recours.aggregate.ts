@@ -7,6 +7,7 @@ import {
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
 import { DocumentProjet } from '@potentiel-domain/document';
+import { Email } from '@potentiel-domain/common';
 
 import * as StatutRecours from './statutRecours.valueType';
 import {
@@ -41,6 +42,10 @@ export type RecoursAggregate = Aggregate<RecoursEvent> & {
     pièceJustificative?: DocumentProjet.ValueType;
     demandéLe: DateTime.ValueType;
     demandéPar: IdentifiantUtilisateur.ValueType;
+    instruction?: {
+      démarréLe: DateTime.ValueType;
+      instruitPar: Email.ValueType;
+    };
   };
   rejet?: {
     rejetéLe: DateTime.ValueType;
@@ -71,7 +76,6 @@ export const getDefaultRecoursAggregate: GetDefaultAggregateState<
   demande: {
     raison: '',
     demandéPar: IdentifiantUtilisateur.unknownUser,
-    recandidature: false,
     demandéLe: DateTime.convertirEnValueType(new Date()),
   },
   accorder,
@@ -96,7 +100,7 @@ function apply(this: RecoursAggregate, event: RecoursEvent) {
       applyRecoursRejeté.bind(this)(event);
       break;
     case 'RecoursPasséEnInstruction-V1':
-      applyRecoursPasséEnInstruction.bind(this)();
+      applyRecoursPasséEnInstruction.bind(this)(event);
       break;
   }
 }

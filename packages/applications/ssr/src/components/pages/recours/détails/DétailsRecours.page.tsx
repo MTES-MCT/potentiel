@@ -18,7 +18,12 @@ import { RejeterRecours } from './rejeter/RejeterRecours.form';
 import { AnnulerRecours } from './annuler/AnnulerRecours.form';
 import { PasserRecoursEnInstruction } from './passerEnInstruction/PasserRecoursEnInstruction.form';
 
-export type AvailableRecoursAction = 'accorder' | 'rejeter' | 'annuler' | 'passer-en-instruction';
+export type AvailableRecoursAction =
+  | 'accorder'
+  | 'rejeter'
+  | 'annuler'
+  | 'passer-en-instruction'
+  | 'reprendre-instruction';
 
 export type DétailsRecoursPageProps = {
   identifiantProjet: string;
@@ -94,8 +99,11 @@ const mapToActionComponents = ({ actions, identifiantProjet }: MapToActionsCompo
       {actions.includes('accorder') && <AccorderRecours identifiantProjet={identifiantProjet} />}
       {actions.includes('rejeter') && <RejeterRecours identifiantProjet={identifiantProjet} />}
       {actions.includes('annuler') && <AnnulerRecours identifiantProjet={identifiantProjet} />}
-      {actions.includes('passer-en-instruction') && (
-        <PasserRecoursEnInstruction identifiantProjet={identifiantProjet} />
+      {(actions.includes('passer-en-instruction') || actions.includes('reprendre-instruction')) && (
+        <PasserRecoursEnInstruction
+          identifiantProjet={identifiantProjet}
+          estUneReprise={actions.includes('reprendre-instruction')}
+        />
       )}
     </div>
   ) : null;
