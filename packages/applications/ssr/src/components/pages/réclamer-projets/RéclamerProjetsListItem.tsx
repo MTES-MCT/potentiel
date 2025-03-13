@@ -1,9 +1,11 @@
 'use client';
 
 import { FC, useState } from 'react';
+import Image from 'next/image';
 import Button from '@codegouvfr/react-dsfr/Button';
 import Input from '@codegouvfr/react-dsfr/Input';
 import Alert from '@codegouvfr/react-dsfr/Alert';
+import Tooltip from '@codegouvfr/react-dsfr/Tooltip';
 
 import { ModalWithForm } from '@/components/molecules/ModalWithForm';
 
@@ -138,25 +140,42 @@ const RéclamerProjetAvecPrixEtNuméroCREButton: FC<RéclamerProjetAvecPrixEtNum
               <Alert
                 severity="info"
                 small
-                className="mb-4"
+                className="my-4"
                 description={
-                  <p>
-                    Veuillez saisir le prix de référence tel qu'il figure dans votre attestation de
-                    désignation, ainsi que le numéro CRE puis téléversez l’attestation de
-                    désignation.
-                  </p>
+                  <>
+                    <p>
+                      Veuillez saisir le prix de référence tel qu'il figure dans votre attestation
+                      de désignation, ainsi que le numéro CRE.
+                      <Tooltip
+                        kind="hover"
+                        className="ml-1"
+                        title={
+                          <>
+                            <span>
+                              Où trouver mon numéro CRE sur mon attestation de désignation ?
+                            </span>
+                            <Image
+                              alt="Capture d'un exemple d'attestation de désignation indiquant où trouver le numéro CRE dans les référence du document."
+                              src="/images/numeroCRE_tooltip.jpg"
+                              width={700}
+                              height={700}
+                            />
+                          </>
+                        }
+                      />
+                    </p>
+                  </>
                 }
               />
               <Input
+                state={validationErrors['prixReference'] ? 'error' : 'default'}
+                stateRelatedMessage={validationErrors['prixReference']}
+                label="Prix de référence"
                 nativeInputProps={{
                   name: 'prixReference',
                   required: true,
-                  type: 'number',
                   'aria-required': true,
                 }}
-                label="Prix référence"
-                state={validationErrors['prixReference'] ? 'error' : 'default'}
-                stateRelatedMessage={validationErrors['prixReference']}
               />
               <Input
                 nativeInputProps={{

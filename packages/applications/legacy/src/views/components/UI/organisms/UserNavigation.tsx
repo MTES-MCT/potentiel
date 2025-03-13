@@ -229,7 +229,7 @@ const MenuPorteurProjet = (currentPage?: string) => (
     </DropdownMenu>
     <MenuGarantiesFinancières currentPage={currentPage} />
     <Header.MenuItem
-      href={routes.USER_LIST_MISSING_OWNER_PROJECTS}
+      href={Routes.Utilisateur.réclamerProjet}
       {...(currentPage === 'list-missing-owner-projects' && { isCurrent: true })}
     >
       Projets à réclamer
