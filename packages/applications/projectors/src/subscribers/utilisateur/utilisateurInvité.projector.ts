@@ -8,9 +8,6 @@ export const utilisateurInvitéProjector = async ({ payload }: UtilisateurInvit�
   const { identifiantUtilisateur, invitéLe, invitéPar } = payload;
 
   const porteurToUpsert = match(payload)
-    .with({ rôle: 'dgec-validateur' }, ({ rôle }) => ({
-      rôle,
-    }))
     .with({ rôle: 'dreal' }, ({ rôle, région }) => ({
       rôle,
       région,
