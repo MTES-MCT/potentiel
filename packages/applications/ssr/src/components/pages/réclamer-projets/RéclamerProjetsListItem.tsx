@@ -17,6 +17,7 @@ export type RéclamerProjetsListItemProps = {
   userHasSameEmail: boolean;
   puissance: number;
   région: string;
+  iv: string;
 };
 
 export const RéclamerProjetsListItem: FC<RéclamerProjetsListItemProps> = ({
@@ -25,6 +26,7 @@ export const RéclamerProjetsListItem: FC<RéclamerProjetsListItemProps> = ({
   userHasSameEmail,
   puissance,
   région,
+  iv,
 }) => (
   <div className={`relative  md:pb-0 flex flex-1 flex-col gap-6`}>
     <div className={`flex flex-col`}>
@@ -45,11 +47,16 @@ export const RéclamerProjetsListItem: FC<RéclamerProjetsListItemProps> = ({
 
         <div className="absolute bottom-0 md:relative md:flex items-center ml-auto gap-4">
           {userHasSameEmail ? (
-            <RéclamerProjetForm identifiantProjet={identifiantProjet} nomProjet={nomProjet} />
+            <RéclamerProjetForm
+              identifiantProjet={identifiantProjet}
+              nomProjet={nomProjet}
+              iv={iv}
+            />
           ) : (
             <RéclamerProjetAvecPrixEtNuméroCREForm
               identifiantProjet={identifiantProjet}
               nomProjet={nomProjet}
+              iv={iv}
             />
           )}
         </div>
@@ -61,9 +68,10 @@ export const RéclamerProjetsListItem: FC<RéclamerProjetsListItemProps> = ({
 type RéclamerProjetFormProps = {
   identifiantProjet: string;
   nomProjet: string;
+  iv: string;
 };
 
-const RéclamerProjetForm: FC<RéclamerProjetFormProps> = ({ identifiantProjet, nomProjet }) => {
+const RéclamerProjetForm: FC<RéclamerProjetFormProps> = ({ identifiantProjet, nomProjet, iv }) => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
@@ -86,6 +94,7 @@ const RéclamerProjetForm: FC<RéclamerProjetFormProps> = ({ identifiantProjet, 
           children: (
             <>
               <p className="mt-3">Êtes-vous sûr de vouloir réclamer le projet {nomProjet} ?</p>
+              <input type={'hidden'} value={iv} name="iv" />
               <input type={'hidden'} value={identifiantProjet} name="identifiantProjet" />
               <input type={'hidden'} value={nomProjet} name="nomProjet" />
               <input type={'hidden'} value={'true'} name="hasSameEmail" />
@@ -100,6 +109,7 @@ const RéclamerProjetForm: FC<RéclamerProjetFormProps> = ({ identifiantProjet, 
 const RéclamerProjetAvecPrixEtNuméroCREForm: FC<RéclamerProjetFormProps> = ({
   identifiantProjet,
   nomProjet,
+  iv,
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [showCREDocument, setShowCREDocument] = useState(false);
@@ -178,6 +188,7 @@ const RéclamerProjetAvecPrixEtNuméroCREForm: FC<RéclamerProjetFormProps> = ({
                 state={validationErrors['numeroCRE'] ? 'error' : 'default'}
                 stateRelatedMessage={validationErrors['numeroCRE']}
               />
+              <input type={'hidden'} value={iv} name="iv" />
               <input type={'hidden'} value={'false'} name="hasSameEmail" />
               <input type={'hidden'} value={identifiantProjet} name="identifiantProjet" />
               <input type={'hidden'} value={nomProjet} name="nomProjet" />

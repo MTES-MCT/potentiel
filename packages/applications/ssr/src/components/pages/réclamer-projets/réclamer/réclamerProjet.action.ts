@@ -14,9 +14,12 @@ import {
   numéroCRESchema,
   prixRéférenceSchema,
 } from '../../../../utils/zod/candidature/candidatureFields.schema';
+import { déchiffrerIdentifiantProjet } from '../_utils/chiffrement';
 
 const commonSchema = {
   identifiantProjet: zod.string().min(1),
+  // voir `generateIV` dans `../_utils/chiffrement.ts` pour plus d'informations
+  iv: zod.string(),
   nomProjet: zod.string().min(1),
 };
 
@@ -39,12 +42,15 @@ export type RéclamerProjetsFormKeys = keyof zod.infer<typeof prixReferenceEtNum
 
 const action: FormAction<FormState, typeof schema> = async (_, body) => {
   return withUtilisateur(async (utilisateur) => {
+    const { identifiantProjet: identifiantProjetChiffré, iv } = body;
+
+    const identifiantProjetValue = déchiffrerIdentifiantProjet(identifiantProjetChiffré, iv);
+    const identifiantProjet = IdentifiantProjet.convertirEnValueType(identifiantProjetValue);
+
     await mediator.send<RéclamerProjetUseCase>({
       type: 'Utilisateur.UseCase.RéclamerProjet',
       data: {
-        identifiantProjet: IdentifiantProjet.convertirEnValueType(
-          body.identifiantProjet,
-        ).formatter(),
+        identifiantProjet: identifiantProjet.formatter(),
         identifiantUtilisateur: utilisateur.identifiantUtilisateur.formatter(),
         réclaméLe: DateTime.now().formatter(),
         prixRéférence: body.hasSameEmail === 'true' ? undefined : body.prixReference,
