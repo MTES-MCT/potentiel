@@ -96,13 +96,14 @@ const ListComptesAvecAcces = ({ user, project }: ListComptesAvecAccesProps) => (
     <Heading3 className="mt-4 mb-1">Comptes ayant accès à ce projet</Heading3>
     <ul className="my-1">
       {project.users.map(({ id, fullName, email }) => (
-        <>
-          <li key={'project_user_' + id}>
+        <div key={'project_user_' + id}>
+          <li>
             {fullName && `${fullName} - `}
             {email}
           </li>
           {id !== user.id && (
             <Link
+              key={'project_user_' + id}
               href={ROUTES.REVOKE_USER_RIGHTS_TO_PROJECT_ACTION({
                 projectId: project.id,
                 userId: id,
@@ -116,7 +117,7 @@ const ListComptesAvecAcces = ({ user, project }: ListComptesAvecAccesProps) => (
               retirer les droits de {fullName || email}
             </Link>
           )}
-        </>
+        </div>
       ))}
       {!project.users.length && <li>Aucun utilisateur n'a accès à ce projet pour le moment.</li>}
     </ul>

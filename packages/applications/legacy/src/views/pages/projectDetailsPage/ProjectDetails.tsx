@@ -14,7 +14,6 @@ import {
   Heading2,
   InfoBox,
 } from '../../components';
-import { AbandonInfoBox } from './sections/AbandonInfoBox';
 import { afficherDate, hydrateOnClient } from '../../helpers';
 import {
   EtapesProjet,
@@ -31,8 +30,9 @@ import { ProjectHeader } from './components';
 import { Routes } from '@potentiel-applications/routes';
 import { formatProjectDataToIdentifiantProjetValueType } from '../../../helpers/dataToValueTypes';
 import { Role } from '@potentiel-domain/utilisateur';
-import { Abandon, Raccordement } from '@potentiel-domain/laureat';
+import { Raccordement } from '@potentiel-domain/laureat';
 import { Option } from '@potentiel-libraries/monads';
+import { AbandonInfoBox } from './sections/AbandonInfoBox';
 
 export type AlerteRaccordement =
   | 'référenceDossierManquantePourDélaiCDC2022'
@@ -77,10 +77,7 @@ export const ProjectDetails = ({
     numeroCRE: project.numeroCRE,
   }).formatter();
 
-  const abandonEnCoursOuAccordé =
-    !!abandon &&
-    (Abandon.StatutAbandon.convertirEnValueType(abandon.statut).estEnCours() ||
-      Abandon.StatutAbandon.convertirEnValueType(abandon.statut).estAccordé());
+  const abandonEnCoursOuAccordé = !!abandon && abandon.statut !== 'rejeté';
 
   return (
     <LegacyPageTemplate user={request.user} currentPage="list-projects">
