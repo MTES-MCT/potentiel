@@ -244,7 +244,7 @@ const getNavigationItemsBasedOnRole = (utilisateur: Utilisateur.ValueType) => {
       {
         text: 'Projets à réclamer',
         linkProps: {
-          href: '/projets-a-reclamer.html',
+          href: Routes.Utilisateur.réclamerProjet,
         },
       },
     ])

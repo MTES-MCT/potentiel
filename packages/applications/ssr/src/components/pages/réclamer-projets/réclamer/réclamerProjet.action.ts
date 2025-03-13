@@ -4,8 +4,8 @@ import * as zod from 'zod';
 import { mediator } from 'mediateur';
 
 import { Routes } from '@potentiel-applications/routes';
+import { IdentifiantProjet, DateTime } from '@potentiel-domain/common';
 import { RéclamerProjetUseCase } from '@potentiel-domain/utilisateur';
-import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 
 import { FormAction, formAction, FormState } from '@/utils/formAction';
 import { withUtilisateur } from '@/utils/withUtilisateur';
@@ -15,19 +15,23 @@ import {
   prixRéférenceSchema,
 } from '../../../../utils/zod/candidature/candidatureFields.schema';
 
-const prixReferenceEtNumeroCRESchema = zod.object({
+const commonSchema = {
   identifiantProjet: zod.string().min(1),
   nomProjet: zod.string().min(1),
+};
+
+const prixReferenceEtNumeroCRESchema = zod.object({
+  ...commonSchema,
   prixReference: prixRéférenceSchema,
   numeroCRE: numéroCRESchema,
-  hasSameEmail: zod.literal(true),
+  hasSameEmail: zod.literal('false'),
 });
-const schema = zod.union([
+
+const schema = zod.discriminatedUnion('hasSameEmail', [
   prixReferenceEtNumeroCRESchema,
   zod.object({
-    identifiantProjet: zod.string().min(1),
-    nomProjet: zod.string().min(1),
-    hasSameEmail: zod.literal(false),
+    ...commonSchema,
+    hasSameEmail: zod.literal('true'),
   }),
 ]);
 
@@ -43,8 +47,8 @@ const action: FormAction<FormState, typeof schema> = async (_, body) => {
         ).formatter(),
         identifiantUtilisateur: utilisateur.identifiantUtilisateur.formatter(),
         réclaméLe: DateTime.now().formatter(),
-        prixRéférence: body.hasSameEmail ? body.prixReference : undefined,
-        numéroCRE: body.hasSameEmail ? body.numeroCRE : undefined,
+        prixRéférence: body.hasSameEmail === 'true' ? undefined : body.prixReference,
+        numéroCRE: body.hasSameEmail === 'true' ? undefined : body.numeroCRE,
       },
     });
 
