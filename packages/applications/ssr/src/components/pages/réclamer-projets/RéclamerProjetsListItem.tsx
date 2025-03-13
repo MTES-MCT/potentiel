@@ -1,14 +1,12 @@
 'use client';
 
 import { FC, useState } from 'react';
-import Image from 'next/image';
 import Button from '@codegouvfr/react-dsfr/Button';
-import Input from '@codegouvfr/react-dsfr/Input';
 import Alert from '@codegouvfr/react-dsfr/Alert';
-import Tooltip from '@codegouvfr/react-dsfr/Tooltip';
+import Input from '@codegouvfr/react-dsfr/Input';
+import Image from 'next/image';
 
-import { ModalWithForm } from '@/components/molecules/ModalWithForm';
-
+import { ModalWithForm } from '../../molecules/ModalWithForm';
 import { ValidationErrors } from '../../../utils/formAction';
 
 import { réclamerProjetAction, RéclamerProjetsFormKeys } from './réclamer/réclamerProjet.action';
@@ -47,9 +45,9 @@ export const RéclamerProjetsListItem: FC<RéclamerProjetsListItemProps> = ({
 
         <div className="absolute bottom-0 md:relative md:flex items-center ml-auto gap-4">
           {userHasSameEmail ? (
-            <RéclamerProjetButton identifiantProjet={identifiantProjet} nomProjet={nomProjet} />
+            <RéclamerProjetForm identifiantProjet={identifiantProjet} nomProjet={nomProjet} />
           ) : (
-            <RéclamerProjetAvecPrixEtNuméroCREButton
+            <RéclamerProjetAvecPrixEtNuméroCREForm
               identifiantProjet={identifiantProjet}
               nomProjet={nomProjet}
             />
@@ -60,12 +58,12 @@ export const RéclamerProjetsListItem: FC<RéclamerProjetsListItemProps> = ({
   </div>
 );
 
-type RéclamerProjetButtonProps = {
+type RéclamerProjetFormProps = {
   identifiantProjet: string;
   nomProjet: string;
 };
 
-const RéclamerProjetButton: FC<RéclamerProjetButtonProps> = ({ identifiantProjet, nomProjet }) => {
+const RéclamerProjetForm: FC<RéclamerProjetFormProps> = ({ identifiantProjet, nomProjet }) => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
@@ -99,16 +97,12 @@ const RéclamerProjetButton: FC<RéclamerProjetButtonProps> = ({ identifiantProj
   );
 };
 
-type RéclamerProjetAvecPrixEtNuméroCREButtonProps = {
-  identifiantProjet: string;
-  nomProjet: string;
-};
-
-const RéclamerProjetAvecPrixEtNuméroCREButton: FC<RéclamerProjetAvecPrixEtNuméroCREButtonProps> = ({
+const RéclamerProjetAvecPrixEtNuméroCREForm: FC<RéclamerProjetFormProps> = ({
   identifiantProjet,
   nomProjet,
 }) => {
   const [isOpen, setIsOpen] = useState(false);
+  const [showCREDocument, setShowCREDocument] = useState(false);
   const [validationErrors, setValidationErrors] = useState<
     ValidationErrors<RéclamerProjetsFormKeys>
   >({});
@@ -118,7 +112,6 @@ const RéclamerProjetAvecPrixEtNuméroCREButton: FC<RéclamerProjetAvecPrixEtNum
       <Button priority="primary" onClick={() => setIsOpen(true)}>
         {'Réclamer le projet'}
       </Button>
-
       <ModalWithForm
         id={`réclamer-projet-${identifiantProjet}`}
         title="Réclamer le projet"
@@ -136,31 +129,33 @@ const RéclamerProjetAvecPrixEtNuméroCREButton: FC<RéclamerProjetAvecPrixEtNum
               <Alert
                 severity="info"
                 small
-                className="my-4"
+                className="my-4 pr-2"
                 description={
-                  <>
+                  <div className="flex flex-col gap-2">
                     <p>
                       Veuillez saisir le prix de référence tel qu'il figure dans votre attestation
                       de désignation, ainsi que le numéro CRE.
-                      <Tooltip
-                        kind="hover"
-                        className="ml-1"
-                        title={
-                          <>
-                            <span>
-                              Où trouver mon numéro CRE sur mon attestation de désignation ?
-                            </span>
-                            <Image
-                              alt="Capture d'un exemple d'attestation de désignation indiquant où trouver le numéro CRE dans les référence du document."
-                              src="/images/numeroCRE_tooltip.jpg"
-                              width={700}
-                              height={700}
-                            />
-                          </>
-                        }
-                      />
                     </p>
-                  </>
+                    <Button
+                      iconId="fr-icon-checkbox-circle-line"
+                      onClick={() => setShowCREDocument(!showCREDocument)}
+                      priority="tertiary no outline"
+                      size="small"
+                    >
+                      {showCREDocument ? 'Masquer' : 'Où trouver mon numéro CRE ?'}
+                    </Button>
+                    {showCREDocument && (
+                      <div className="px-4 py-2 w-full">
+                        <Image
+                          src="/images/numeroCRE_tooltip.jpg"
+                          alt="Capture d'un exemple d'attestation de désignation indiquant où trouver le numéro CRE dans les référence du document."
+                          className="w-full"
+                          width={700}
+                          height={700}
+                        />
+                      </div>
+                    )}
+                  </div>
                 }
               />
               <Input
@@ -171,7 +166,6 @@ const RéclamerProjetAvecPrixEtNuméroCREButton: FC<RéclamerProjetAvecPrixEtNum
                   name: 'prixReference',
                   required: true,
                   'aria-required': true,
-                  defaultValue: '',
                 }}
               />
               <Input
@@ -179,7 +173,6 @@ const RéclamerProjetAvecPrixEtNuméroCREButton: FC<RéclamerProjetAvecPrixEtNum
                   name: 'numeroCRE',
                   required: true,
                   'aria-required': true,
-                  defaultValue: '',
                 }}
                 label="Numéro CRE"
                 state={validationErrors['numeroCRE'] ? 'error' : 'default'}

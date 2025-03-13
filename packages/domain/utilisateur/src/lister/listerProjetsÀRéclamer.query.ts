@@ -24,9 +24,9 @@ export type ListerProjetsÀRéclamerQuery = Message<
   'Utilisateur.Query.ListerProjetsÀRéclamer',
   {
     appelOffre?: string;
+    période?: string;
     nomProjet?: string;
     nomCandidat?: string;
-    statut?: Candidature.StatutCandidature.RawType;
     range?: RangeOptions;
   },
   ListerProjetsÀRéclamerReadModel
@@ -41,9 +41,9 @@ export const registerListerProjetsÀRéclamerQuery = ({
 }: ListerProjetsÀRéclamerDependencies) => {
   const handler: MessageHandler<ListerProjetsÀRéclamerQuery> = async ({
     appelOffre,
+    période,
     nomProjet,
     nomCandidat,
-    statut,
     range,
   }) => {
     const utilisateurs = await list<UtilisateurEntity>('utilisateur', {
@@ -60,9 +60,9 @@ export const registerListerProjetsÀRéclamerQuery = ({
     const candidatures = await list<Candidature.CandidatureEntity>('candidature', {
       where: {
         appelOffre: Where.equal(appelOffre),
+        période: Where.equal(période),
         nomProjet: Where.contain(nomProjet),
         nomCandidat: Where.contain(nomCandidat),
-        statut: Where.equal(statut),
         identifiantProjet: Where.notMatchAny(identifiantsProjets),
       },
       range,
