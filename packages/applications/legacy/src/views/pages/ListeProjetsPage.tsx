@@ -295,61 +295,20 @@ export const ListeProjets = ({
         {projects.items.length === 0 ? (
           <ListeVide titre="Aucun projet à lister" />
         ) : (
-          <>
-            {userIs(['admin', 'dgec-validateur', 'porteur-projet', 'dreal'])(utilisateur) && (
-              <Dropdown
-                design="link"
-                isOpen={displaySelection}
-                changeOpenState={(isOpen) => setDisplaySelection(isOpen)}
-                text="Donner accès à un autre utilisateur"
-                className={`mb-4 ${(success || error) && 'mt-4'}`}
-              >
-                <Form
-                  action={routes.INVITE_USER_TO_PROJECT_ACTION}
-                  method="POST"
-                  name="form"
-                  className="m-0"
-                >
-                  <select name="projectId" multiple hidden>
-                    {selectedProjectIds.map((projectId) => (
-                      <option selected key={projectId} value={projectId}>
-                        {projectId}
-                      </option>
-                    ))}
-                  </select>
-                  <Label htmlFor="email" className="text-sm mt-2">
-                    Merci de sélectionner les projets concernés et de renseigner le courrier
-                    électronique de la personne habilitée à suivre les projets selectionnés
-                  </Label>
-                  <Input required type="email" name="email" id="email" className="!mt-0" />
-                  <PrimaryButton
-                    type="submit"
-                    name="submit"
-                    id="submit"
-                    disabled={!selectedProjectIds.length}
-                  >
-                    Accorder les droits sur {selectedProjectIds.length}{' '}
-                    {selectedProjectIds.length > 1 ? 'projets' : 'projet'}
-                  </PrimaryButton>
-                </Form>
-              </Dropdown>
-            )}
-
-            <ProjectList
-              displaySelection={displaySelection}
-              selectedIds={selectedProjectIds}
-              currentUrl={currentUrl}
-              onSelectedIdsChanged={setSelectedProjectIds}
-              projects={projects}
-              role={utilisateur.role}
-              exportListe={{
-                title: 'Télécharger un export (document csv)',
-                url: `${routes.EXPORTER_LISTE_PROJETS_CSV}?${querystring.stringify(
-                  request.query as any,
-                )}`,
-              }}
-            />
-          </>
+          <ProjectList
+            displaySelection={displaySelection}
+            selectedIds={selectedProjectIds}
+            currentUrl={currentUrl}
+            onSelectedIdsChanged={setSelectedProjectIds}
+            projects={projects}
+            role={utilisateur.role}
+            exportListe={{
+              title: 'Télécharger un export (document csv)',
+              url: `${routes.EXPORTER_LISTE_PROJETS_CSV}?${querystring.stringify(
+                request.query as any,
+              )}`,
+            }}
+          />
         )}
       </PageListeTemplate.List>
     </PageListeTemplate>

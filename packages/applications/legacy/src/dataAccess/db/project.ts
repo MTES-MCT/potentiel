@@ -62,7 +62,6 @@ export const makeProjectRepo: MakeProjectRepo = ({ sequelizeInstance, getProject
     searchForRegions,
     findAllForRegions,
     searchAll,
-    searchAllMissingOwner,
   });
 
   async function addAppelOffreToProject(project: Project): Promise<Project> {
@@ -306,52 +305,6 @@ export const makeProjectRepo: MakeProjectRepo = ({ sequelizeInstance, getProject
       const opts = _makeSelectorsForQuery(filters);
 
       opts.where[Op.or] = { ...getFullTextSearchOptions(terms) };
-
-      return _findAndBuildProjectList(opts, pagination);
-    } catch (error) {
-      if (CONFIG.logDbErrors) logger.error(error);
-      return makePaginatedList([], 0, pagination);
-    }
-  }
-
-  async function searchAllMissingOwner(
-    userEmail: string,
-    userId: string,
-    terms?: string,
-    filters?: ProjectFilters,
-    pagination?: Pagination,
-  ): Promise<PaginatedList<Project>> {
-    await _isDbReady;
-    try {
-      const opts = _makeSelectorsForQuery(filters);
-
-      opts.where.id = {
-        [Op.and]: [
-          { [Op.notIn]: literal(`(SELECT "projectId" FROM "UserProjects")`) },
-          {
-            [Op.notIn]: literal(
-              `(SELECT "projectId" FROM "userProjectClaims" WHERE "userId" = '${userId}' and "failedAttempts" >= 3)`,
-            ),
-          },
-        ],
-      };
-
-      // Order by Projets pré-affectés then the rest ordered by nomProjet
-      opts.order = [
-        [literal(`CASE "Project"."email" WHEN '${userEmail}' THEN 1 ELSE 2 END`)],
-        ['nomProjet'],
-      ];
-
-      const customSearchedProjectsColumns = [
-        'nomCandidat',
-        'nomProjet',
-        'regionProjet',
-        'appelOffreId',
-        'periodeId',
-      ];
-
-      if (terms)
-        opts.where[Op.or] = { ...getFullTextSearchOptions(terms, customSearchedProjectsColumns) };
 
       return _findAndBuildProjectList(opts, pagination);
     } catch (error) {

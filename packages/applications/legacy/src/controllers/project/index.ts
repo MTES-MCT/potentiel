@@ -6,7 +6,5 @@ export * from './getProjectPage';
 export * from './postAttacherFichier';
 export * from './postChoisirCahierDesCharges';
 export * from './postCorrectProjectData';
-export * from './postInviteUserToProject';
 export * from './postRetirerFichier';
-export * from './postRevokeUserRightsToProject';
 export * from './postSignalerDemandeDelai';

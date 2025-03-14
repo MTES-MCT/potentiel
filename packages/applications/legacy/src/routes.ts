@@ -99,7 +99,6 @@ class routes {
 
   static LISTE_PROJETS = '/projets.html';
 
-  static USER_CLAIM_PROJECTS = '/reclamer-propriete-projets.html';
   static USER_LIST_REQUESTS = '/mes-demandes.html';
   static DEMANDE_GENERIQUE = '/demande-modification.html';
 
@@ -172,8 +171,6 @@ class routes {
 
   static POST_CORRIGER_DELAI_ACCORDE = '/corriger-delai-accorde.html';
 
-  static INVITE_USER_TO_PROJECT_ACTION = '/invite-user-to-project';
-
   static TELECHARGER_MODELE_REPONSE = (
     project?: { potentielIdentifier: string; id: string },
     modificationRequestId?: string,
@@ -185,11 +182,6 @@ class routes {
         .replace(':modificationRequestId', modificationRequestId);
     } else return route;
   };
-
-  static REVOKE_USER_RIGHTS_TO_PROJECT_ACTION = withParams<{
-    projectId: string;
-    userId: string;
-  }>('/retirer-droits');
 
   static ATTACHER_FICHIER_AU_PROJET_ACTION = '/attacher-fichier-au-projet';
   static RETIRER_FICHIER_DU_PROJET_ACTION = '/retirer-fichier-du-projet';
