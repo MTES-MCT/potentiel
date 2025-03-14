@@ -12,10 +12,10 @@
     "@potentiel-applications/routes": "*",
     "@potentiel-domain/common": "*",
     "@potentiel-domain/utilisateur": "*",
-    "@potentiel-libraries/monads": "*",
     "@potentiel-libraries/auth-pg-adapter": "*",
+    "@potentiel-libraries/monads": "*",
     "mediateur": "^0.3.0",
-    "next-auth": "^4.24.5",
+    "next-auth": "^4.24.11",
     "pg": "^8.13.3"
   },
   "devDependencies": {
