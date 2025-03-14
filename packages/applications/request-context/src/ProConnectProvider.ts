@@ -25,7 +25,7 @@ export default function ProConnect<P extends ProConnectProfile>(
     wellKnown: `${options.issuer}/.well-known/openid-configuration`,
     authorization: {
       params: {
-        scope: 'openid uid given_name usual_name profile email siret',
+        scope: 'openid uid given_name usual_name job position email siret',
         acr_values: 'eidas1',
         nonce: randomUUID(),
         state: randomUUID(),
@@ -58,7 +58,7 @@ export default function ProConnect<P extends ProConnectProfile>(
       return {
         id: profile.uid,
         email: profile.email,
-        name: profile.given_name,
+        name: profile.given_name + ' ' + profile.usual_name,
         job: profile.job,
       };
     },
