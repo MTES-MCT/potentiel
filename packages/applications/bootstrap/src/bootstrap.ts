@@ -54,7 +54,7 @@ export const bootstrap = async ({
     const unsetupHistorique = await setupHistorique();
 
     setupStatistiques();
-    const unsetupUtilisateur = await setupUtilisateur();
+    const unsetupUtilisateur = await setupUtilisateur(allDependencies);
     await setupAppelOffre();
     setupDocumentProjet();
     const unsetupCandidature = await setupCandidature(allDependencies);

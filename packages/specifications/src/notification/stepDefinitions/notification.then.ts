@@ -4,7 +4,7 @@ import waitForExpect from 'wait-for-expect';
 
 import { PotentielWorld } from '../../potentiel.world';
 
-async function vérifierEmailEnvoyé(this: PotentielWorld, email: string, data: DataTable) {
+export async function vérifierEmailEnvoyé(this: PotentielWorld, email: string, data: DataTable) {
   await waitForExpect(async () => {
     const exemple = data.rowsHash();
     const notification = this.notificationWorld.récupérerNotification(email, exemple.sujet);
