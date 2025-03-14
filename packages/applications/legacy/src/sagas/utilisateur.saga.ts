@@ -8,6 +8,7 @@ import { getUserByEmail } from '../infra/sequelize/queries/users/getUserByEmail'
 import { Role, UtilisateurEvent } from '@potentiel-domain/utilisateur';
 import {
   DrealUserInvited,
+  ToutAccèsAuProjetRevoqué,
   UserInvitedToProject,
   UserRightsToProjectRevoked,
 } from '../modules/authZ';
@@ -79,7 +80,7 @@ export const register = () => {
         break;
       }
       case 'AccèsProjetRetiré-V1': {
-        const { identifiantProjet, identifiantUtilisateur, retiréPar } = payload;
+        const { identifiantProjet, identifiantUtilisateur, retiréPar, cause } = payload;
         const porteurId = await getOrCreateUser(identifiantUtilisateur, 'porteur-projet');
         const retiréParUserId = await getUserIdByEmail(retiréPar);
 
@@ -91,15 +92,26 @@ export const register = () => {
           logger.warning('Project not found', { event, context: 'Legacy Utilisateur Saga' });
           break;
         }
-        await eventStore.publish(
-          new UserRightsToProjectRevoked({
-            payload: {
-              projectId: project.id,
-              userId: porteurId,
-              revokedBy: retiréParUserId,
-            },
-          }),
-        );
+        if (cause === 'changement-producteur') {
+          await eventStore.publish(
+            new ToutAccèsAuProjetRevoqué({
+              payload: {
+                projetId: project.id,
+                cause: 'changement producteur',
+              },
+            }),
+          );
+        } else {
+          await eventStore.publish(
+            new UserRightsToProjectRevoked({
+              payload: {
+                projectId: project.id,
+                userId: porteurId,
+                revokedBy: retiréParUserId,
+              },
+            }),
+          );
+        }
         break;
       }
       case 'UtilisateurInvité-V1': {

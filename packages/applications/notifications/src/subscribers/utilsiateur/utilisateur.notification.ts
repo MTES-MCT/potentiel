@@ -61,7 +61,7 @@ export const register = ({ sendEmail }: RegisterUtilisateurNotificationDependenc
       )
       .with(
         { type: 'AccèsProjetRetiré-V1' },
-        async ({ payload: { identifiantProjet, identifiantUtilisateur } }) => {
+        async ({ payload: { identifiantProjet, identifiantUtilisateur, cause } }) => {
           const nomProjet = await récupérerNomProjet(identifiantProjet);
 
           return [
@@ -72,6 +72,10 @@ export const register = ({ sendEmail }: RegisterUtilisateurNotificationDependenc
               variables: {
                 nom_projet: nomProjet,
                 mes_projets_url: urlPageProjets,
+                cause:
+                  cause === 'changement-producteur'
+                    ? 'Cela fait suite à un changement de producteur déclaré sur Potentiel.'
+                    : '',
               },
             },
           ];
