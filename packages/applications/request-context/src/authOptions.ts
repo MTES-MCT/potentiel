@@ -1,5 +1,6 @@
 import { Pool } from 'pg';
 import { AuthOptions } from 'next-auth';
+import { Provider } from 'next-auth/providers';
 import KeycloakProvider from 'next-auth/providers/keycloak';
 import EmailProvider from 'next-auth/providers/email';
 
@@ -28,32 +29,51 @@ const pool = new Pool({
   options: '-c search_path=auth',
 });
 
-export const authOptions: AuthOptions = {
-  adapter: PostgresAdapter(pool),
-  providers: [
-    KeycloakProvider({
-      ...getProviderConfiguration('keycloak'),
-      allowDangerousEmailAccountLinking: true,
-    }),
+const getAuthProviders = () => {
+  const providers: Array<Provider> = [];
+  const configuredProviders = process.env.NEXTAUTH_PROVIDERS?.split(',') ?? [];
+
+  if (configuredProviders.includes('keycloak')) {
+    providers.push(
+      KeycloakProvider({
+        ...getProviderConfiguration('keycloak'),
+        allowDangerousEmailAccountLinking: true,
+      }),
+    );
+  }
+
+  if (configuredProviders.includes('proconnect')) {
     ProConnectProvider({
       ...getProviderConfiguration('proconnect'),
       allowDangerousEmailAccountLinking: true,
-    }),
-    EmailProvider({
-      from: process.env.SEND_EMAILS_FROM,
-      maxAge: fifteenMinutesInSeconds,
-      sendVerificationRequest: ({ identifier, url }) => {
-        sendEmail({
-          templateId: 6785365,
-          messageSubject: 'Connexion à Potentiel',
-          recipients: [{ email: identifier, fullName: '' }],
-          variables: {
-            url,
-          },
-        });
-      },
-    }),
-  ],
+    });
+  }
+
+  if (configuredProviders.includes('email')) {
+    providers.push(
+      EmailProvider({
+        from: process.env.SEND_EMAILS_FROM,
+        maxAge: fifteenMinutesInSeconds,
+        sendVerificationRequest: ({ identifier, url }) => {
+          sendEmail({
+            templateId: 6785365,
+            messageSubject: 'Connexion à Potentiel',
+            recipients: [{ email: identifier, fullName: '' }],
+            variables: {
+              url,
+            },
+          });
+        },
+      }),
+    );
+  }
+
+  return providers;
+};
+
+export const authOptions: AuthOptions = {
+  adapter: PostgresAdapter(pool),
+  providers: getAuthProviders(),
   pages: {
     signIn: Routes.Auth.signIn(),
     error: Routes.Auth.error(),
