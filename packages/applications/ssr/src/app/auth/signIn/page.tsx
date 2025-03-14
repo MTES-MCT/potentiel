@@ -74,7 +74,7 @@ export default function SignIn() {
             description="Connectez-vous facilement sans mot de passe à l'aide d'un lien magique qui sera envoyé sur votre adresse de courriel"
           >
             <form
-              className="md:mx-24"
+              className="md:mx-24 w-full lg:w-8/12"
               action="javascript:void(0);"
               onSubmit={() => signIn('email', { callbackUrl, email })}
             >
