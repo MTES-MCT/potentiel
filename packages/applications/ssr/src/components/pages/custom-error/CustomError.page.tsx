@@ -6,7 +6,7 @@ import { Heading1 } from '@/components/atoms/headings';
 
 import { DefaultError } from './DefaultError';
 
-type ErrorType =
+export type ErrorType =
   | 'NotFoundError'
   | 'InvalidOperationError'
   | 'OperationRejectedError'

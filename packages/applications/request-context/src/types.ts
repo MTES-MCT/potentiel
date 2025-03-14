@@ -6,7 +6,6 @@ export interface PotentielJWT {
   idToken?: string;
   refreshToken?: string;
   expiresAt?: number;
-  utilisateur?: PlainType<Utilisateur.ValueType>;
   provider?: string;
 }
 
@@ -22,6 +21,5 @@ declare module 'next-auth/jwt' {
 }
 
 declare module 'next-auth' {
-  interface User extends PlainType<Utilisateur.ValueType> {}
   interface Session extends PotentielSession {}
 }

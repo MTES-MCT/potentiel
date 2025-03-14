@@ -3,12 +3,7 @@ import { randomUUID } from 'node:crypto';
 import { jwtVerify } from 'jose';
 import { OAuthConfig, OAuthUserConfig } from 'next-auth/providers';
 
-import { mapToPlainObject, PlainType } from '@potentiel-domain/core';
-import { IdentifiantUtilisateur, Role, Utilisateur } from '@potentiel-domain/utilisateur';
-import { Option } from '@potentiel-libraries/monads';
-
 import { getJwks } from './openid';
-import { getUtilisateurFromEmail } from './getUtilisateur';
 
 export type ProConnectProfile = {
   email: string;
@@ -16,7 +11,6 @@ export type ProConnectProfile = {
   usual_name: string;
   uid: string;
   siret: string;
-  utilisateur: PlainType<Utilisateur.ValueType>;
 };
 
 export default function ProConnect<P extends ProConnectProfile>(
@@ -60,21 +54,10 @@ export default function ProConnect<P extends ProConnectProfile>(
       },
     },
     profile: async (profile) => {
-      const utilisateur = await getUtilisateurFromEmail(profile.email);
-
-      if (Option.isNone(utilisateur)) {
-        return {
-          id: Option.none.type,
-          nom: '',
-          groupe: Option.none,
-          role: Role.porteur,
-          identifiantUtilisateur: IdentifiantUtilisateur.unknownUser,
-        };
-      }
-
       return {
         id: profile.uid,
-        ...mapToPlainObject(utilisateur),
+        email: profile.email,
+        name: profile.given_name,
       };
     },
     options,

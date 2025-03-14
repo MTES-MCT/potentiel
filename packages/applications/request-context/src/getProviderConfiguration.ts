@@ -21,6 +21,10 @@ export function getProviderConfiguration(provider: string): {
 }
 
 export function getProviderAccountUrl(provider: string) {
+  if (provider === 'email') {
+    return '';
+  }
+
   const { issuer } = getProviderConfiguration(provider);
   const accountUrlTemplate =
     provider === 'keycloak'
