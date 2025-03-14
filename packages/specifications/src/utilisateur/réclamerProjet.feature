@@ -33,3 +33,11 @@ Fonctionnalité: Réclamer un projet en tant que porteur
         Et l'accès retiré au projet lauréat
         Quand un porteur réclame le projet lauréat sans connaître le prix et le numéro CRE
         Alors l'utilisateur devrait être informé que "Le prix et le numéro CRE spécifiés ne correspondent pas à ceux de la candidature"
+
+    # Ce scénario n'est pas implémenté pour le moment car les specs ne testent pas les permissions,
+    # et cette règle est implémentée dans le middelware des permissions
+    @NotImplemented
+    Scénario: Impossible de réclamer un projet déjà assigné à un porteur
+        Etant donné le projet lauréat "Du boulodrome de Marseille"
+        Quand un porteur réclame le projet lauréat en connaissant le prix et le numéro CRE
+        Alors l'utilisateur devrait être informé que "Le projet est déjà assigné à un porteur"
