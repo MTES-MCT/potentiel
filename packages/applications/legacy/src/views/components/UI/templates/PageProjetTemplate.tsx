@@ -3,7 +3,7 @@ import React, { FC, ReactNode } from 'react';
 import { UtilisateurReadModel } from '../../../../modules/utilisateur/récupérer/UtilisateurReadModel';
 import { Badge, BadgeType, Heading1, KeyIcon, Link, MapPinIcon, PageTemplate } from '../..';
 import routes from '../../../../routes';
-import { Candidature } from '@potentiel-domain/candidature';
+import type { Candidature } from '@potentiel-domain/candidature';
 import { formatProjectDataToIdentifiantProjetValueType } from '../../../../helpers/dataToValueTypes';
 
 export const PageProjetTemplate: FC<{

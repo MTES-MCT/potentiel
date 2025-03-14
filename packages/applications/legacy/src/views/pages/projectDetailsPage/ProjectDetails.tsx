@@ -29,7 +29,9 @@ import {
 import { ProjectHeader } from './components';
 import { Routes } from '@potentiel-applications/routes';
 import { formatProjectDataToIdentifiantProjetValueType } from '../../../helpers/dataToValueTypes';
-import { Role } from '@potentiel-domain/utilisateur';
+// This is a hack to avoid importing the entire Utilisateur package,
+// which in turn imports Candidature and breaks the JS due to the crypto dependency.
+import * as Role from '@potentiel-domain/utilisateur/dist/role.valueType';
 import { Raccordement } from '@potentiel-domain/laureat';
 import { Option } from '@potentiel-libraries/monads';
 import { AbandonInfoBox } from './sections/AbandonInfoBox';
@@ -105,7 +107,7 @@ export const ProjectDetails = ({
       <div className="flex flex-col gap-3 mt-5">
         <div className="print:hidden flex flex-col gap-3">
           {abandon && <AbandonInfoBox abandon={abandon} identifiantProjet={identifiantProjet} />}
-          {user.role === Role.porteur.nom && modificationsNonPermisesParLeCDCActuel && (
+          {user.role === 'porteur-projet' && modificationsNonPermisesParLeCDCActuel && (
             <InfoBox>
               Votre cahier des charges actuel ne vous permet pas d'accéder aux fonctionnalités
               dématérialisées d'information au Préfet et de modification de votre projet (abandon,
