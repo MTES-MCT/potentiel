@@ -4,6 +4,7 @@ import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
 import { DocumentProjet, EnregistrerDocumentProjetCommand } from '@potentiel-domain/document';
 
 import { TypeDocumentRéponseDemandeMainlevée } from '../..';
+import { AnnulerTâchesPlanifiéesGarantiesFinancièresCommand } from '../../tâches-planifiées/annuler/annuler.command';
 
 import { AccorderDemandeMainlevéeGarantiesFinancièresCommand } from './accorderDemandeMainlevéeGarantiesFinancières.command';
 
@@ -52,6 +53,13 @@ export const registerAccorderDemandeMainlevéeGarantiesFinancièresUseCase = () 
         accordéPar,
         identifiantProjet,
         réponseSignée,
+      },
+    });
+
+    await mediator.send<AnnulerTâchesPlanifiéesGarantiesFinancièresCommand>({
+      type: 'Lauréat.GarantiesFinancières.Command.AnnulerTâchesPlanifiées',
+      data: {
+        identifiantProjet,
       },
     });
   };
