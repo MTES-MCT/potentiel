@@ -5,7 +5,6 @@ import { signIn, useSession } from 'next-auth/react';
 import { useEffect, useState } from 'react';
 import Button from '@codegouvfr/react-dsfr/Button';
 import ProConnectButton from '@codegouvfr/react-dsfr/ProConnectButton';
-import Tile from '@codegouvfr/react-dsfr/Tile';
 import Input from '@codegouvfr/react-dsfr/Input';
 import Alert from '@codegouvfr/react-dsfr/Alert';
 
@@ -13,6 +12,7 @@ import { Routes } from '@potentiel-applications/routes';
 
 import { PageTemplate } from '@/components/templates/Page.template';
 import { Heading1 } from '@/components/atoms/headings';
+import { LoginMethodTile } from '@/components/organisms/auth/LoginMethodTile';
 
 export default function SignIn() {
   const params = useSearchParams();
@@ -62,58 +62,45 @@ export default function SignIn() {
               closable
             />
           )}
-          <Tile
-            className="md:w-2/3"
+
+          <LoginMethodTile
             title="ProConnect"
-            detail={
-              <div className="flex flex-col gap-4">
-                <p>Connectez-vous facilement à l'aide de votre adresse professionnelle</p>
-                <ProConnectButton onClick={() => signIn('proconnect', { callbackUrl })} />
-              </div>
-            }
-          />
-          <Tile
-            className="md:w-2/3"
+            description="Connectez-vous facilement à l'aide de votre adresse professionnelle"
+          >
+            <ProConnectButton onClick={() => signIn('proconnect', { callbackUrl })} />
+          </LoginMethodTile>
+          <LoginMethodTile
             title="Lien magique"
-            detail={
-              <div className="flex flex-col gap-4">
-                <p>
-                  Connectez-vous facilement sans mot de passe à l'aide d'un lien magique qui sera
-                  envoyé sur votre adresse de courriel
-                </p>
-                <form
-                  className="md:mx-24"
-                  action="javascript:void(0);"
-                  onSubmit={() => signIn('email', { callbackUrl, email })}
-                >
-                  <Input
-                    label="Email"
-                    nativeInputProps={{
-                      type: 'email',
-                      name: 'email',
-                      required: true,
-                      onChange: (e) => setEmail(e.target.value),
-                    }}
-                  />
-                  <Button type="submit" className="mx-auto">
-                    Envoyer le lien magique
-                  </Button>
-                </form>
-              </div>
-            }
-          />
-          <Tile
-            className="md:w-2/3"
+            description="Connectez-vous facilement sans mot de passe à l'aide d'un lien magique qui sera envoyé sur votre adresse de courriel"
+          >
+            <form
+              className="md:mx-24"
+              action="javascript:void(0);"
+              onSubmit={() => signIn('email', { callbackUrl, email })}
+            >
+              <Input
+                label="Email"
+                nativeInputProps={{
+                  type: 'email',
+                  name: 'email',
+                  required: true,
+                  onChange: (e) => setEmail(e.target.value),
+                }}
+              />
+              <Button type="submit" className="mx-auto">
+                Envoyer le lien magique
+              </Button>
+            </form>
+          </LoginMethodTile>
+
+          <LoginMethodTile
             title="Mot de passe"
-            detail={
-              <div className="flex flex-col gap-4">
-                <p>Vous pouvez toujours vous connecter à l'aide de vos identifiants classiques</p>
-                <Button className="mx-auto" onClick={() => signIn('keycloak', { callbackUrl })}>
-                  Connexion avec mot de passe
-                </Button>
-              </div>
-            }
-          />
+            description="Vous pouvez toujours vous connecter à l'aide de vos identifiants classiques"
+          >
+            <Button className="mx-auto" onClick={() => signIn('keycloak', { callbackUrl })}>
+              Connexion avec mot de passe
+            </Button>
+          </LoginMethodTile>
         </div>
       ) : (
         <div className="font-bold text-2xl">Authentification en cours ...</div>
