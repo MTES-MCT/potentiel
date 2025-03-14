@@ -14,17 +14,7 @@ export async function UserHeaderQuickAccessItem() {
     return (
       <>
         {await getTâcheHeaderQuickAccessItem(utilisateur)}
-        {utilisateur.role.estÉgaleÀ(Role.porteur) || !utilisateur.accountUrl ? (
-          <HeaderQuickAccessItem
-            quickAccessItem={{
-              iconId: 'ri-user-line',
-              buttonProps: {
-                disabled: true,
-              },
-              text: utilisateur.nom,
-            }}
-          />
-        ) : (
+        {utilisateur.accountUrl ? (
           <HeaderQuickAccessItem
             quickAccessItem={{
               iconId: 'ri-user-line',
@@ -32,7 +22,17 @@ export async function UserHeaderQuickAccessItem() {
                 href: utilisateur.accountUrl,
                 prefetch: false,
               },
-              text: utilisateur.nom,
+              text: utilisateur.nom || utilisateur.identifiantUtilisateur.email,
+            }}
+          />
+        ) : (
+          <HeaderQuickAccessItem
+            quickAccessItem={{
+              iconId: 'ri-user-line',
+              buttonProps: {
+                disabled: true,
+              },
+              text: utilisateur.nom || utilisateur.identifiantUtilisateur.email,
             }}
           />
         )}

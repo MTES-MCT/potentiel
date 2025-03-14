@@ -110,7 +110,7 @@ export const authOptions: AuthOptions = {
 
       return true;
     },
-    jwt({ token, trigger, account, user }) {
+    jwt({ token, trigger, account, user, profile }) {
       if (trigger === 'signIn' && account && user) {
         const { sub, expires_at = 0, provider } = account;
         const expiresAtInMs = expires_at * 1000;
@@ -119,10 +119,12 @@ export const authOptions: AuthOptions = {
 
         return {
           ...token,
+          name: profile ? profile.given_name + ' ' + profile.usual_name : token.name,
           provider,
           idToken: account.id_token,
           expiresAt: expiresAtInMs,
           refreshToken: account.refresh_token,
+          job: profile?.job,
         };
       }
 
@@ -136,7 +138,11 @@ export const authOptions: AuthOptions = {
       {
         const utilisateur = await getUtilisateurFromEmail(session.user?.email ?? '');
         if (Option.isSome(utilisateur)) {
-          session.utilisateur = mapToPlainObject(utilisateur);
+          session.utilisateur = {
+            ...mapToPlainObject(utilisateur),
+            nom: token.name ?? utilisateur.nom,
+            fonction: token.job ?? utilisateur.fonction,
+          };
         }
 
         if (token.provider) {

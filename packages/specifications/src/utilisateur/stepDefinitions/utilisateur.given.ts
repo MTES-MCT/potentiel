@@ -6,6 +6,17 @@ import { IdentifiantProjet } from '@potentiel-domain/common';
 
 import { PotentielWorld } from '../../potentiel.world';
 
+import { inviterPorteur, inviterUtilisateur, retirerAccèsProjet } from './utilisateur.when';
+
+EtantDonné('le porteur {string}', async function (this: PotentielWorld, porteurNom: string) {
+  const porteur = this.utilisateurWorld.porteurFixture.créer({
+    nom: porteurNom,
+  });
+
+  await insérerUtilisateur(porteur);
+});
+
+/** @deprecated Ceci utilise la table legacy Users et UserProjects */
 EtantDonné(
   'le porteur {string} ayant accés au projet {lauréat-éliminé} {string}',
   async function (
@@ -38,16 +49,40 @@ EtantDonné(
 );
 
 EtantDonné(
+  'le porteur invité sur le projet {lauréat-éliminé}',
+  async function (this: PotentielWorld, typeProjet: 'lauréat' | 'éliminé') {
+    const identifiantProjet = match(typeProjet)
+      .with('lauréat', () => this.lauréatWorld.identifiantProjet)
+      .with('éliminé', () => this.eliminéWorld.identifiantProjet)
+      .exhaustive();
+
+    const porteur = this.utilisateurWorld.porteurFixture.aÉtéCréé
+      ? this.utilisateurWorld.porteurFixture
+      : this.utilisateurWorld.porteurFixture.créer({});
+
+    await inviterPorteur.call(this, {
+      identifiantsProjet: [identifiantProjet.formatter()],
+      identifiantUtilisateur: porteur.email,
+    });
+  },
+);
+
+EtantDonné(
   'la dreal {string} associée à la région du projet',
   async function (this: PotentielWorld, drealNom: string) {
+    const { région } = this.candidatureWorld.importerCandidature.values.localitéValue;
     const dreal = this.utilisateurWorld.drealFixture.créer({
       nom: drealNom,
+      région,
     });
 
+    await inviterUtilisateur.call(this, {
+      rôle: dreal.role,
+      région: dreal.région,
+    });
+
+    // Compatibilité Legacy
     await insérerUtilisateur(dreal);
-
-    const { région } = this.candidatureWorld.importerCandidature.values.localitéValue;
-
     await associerUtilisateurÀSaDreal(dreal.id, région);
   },
 );
@@ -71,6 +106,19 @@ EtantDonné('le DGEC Validateur sans nom', async function (this: PotentielWorld)
 
   await insérerUtilisateur(validateur);
 });
+
+EtantDonné(
+  `l'accès retiré au projet {lauréat-éliminé}`,
+  async function (this: PotentielWorld, statutProjet: 'lauréat' | 'éliminé') {
+    const { identifiantProjet } =
+      statutProjet === 'lauréat' ? this.lauréatWorld : this.eliminéWorld;
+
+    await retirerAccèsProjet.call(this, {
+      identifiantProjet: identifiantProjet.formatter(),
+      identifiantUtilisateur: this.utilisateurWorld.porteurFixture.email,
+    });
+  },
+);
 
 async function récupérerProjets(identifiantProjet: IdentifiantProjet.ValueType) {
   return executeSelect<{

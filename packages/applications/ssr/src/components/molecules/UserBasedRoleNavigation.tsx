@@ -161,6 +161,18 @@ const getNavigationItemsBasedOnRole = (utilisateur: Utilisateur.ValueType) => {
         text: 'Gestion des accès',
         menuLinks: [
           {
+            text: 'Utilisateurs',
+            linkProps: {
+              href: Routes.Utilisateur.lister,
+            },
+          },
+          {
+            text: 'Inviter un utilisateur',
+            linkProps: {
+              href: Routes.Utilisateur.inviter,
+            },
+          },
+          {
             text: 'Candidats en attente',
             linkProps: {
               href: '/admin/invitations.html',
@@ -232,7 +244,7 @@ const getNavigationItemsBasedOnRole = (utilisateur: Utilisateur.ValueType) => {
       {
         text: 'Projets à réclamer',
         linkProps: {
-          href: '/projets-a-reclamer.html',
+          href: Routes.Utilisateur.réclamerProjet,
         },
       },
     ])

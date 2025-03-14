@@ -4,7 +4,7 @@ import waitForExpect from 'wait-for-expect';
 
 import { PotentielWorld } from '../../potentiel.world';
 
-async function vérifierEmailEnvoyé(this: PotentielWorld, email: string, data: DataTable) {
+export async function vérifierEmailEnvoyé(this: PotentielWorld, email: string, data: DataTable) {
   await waitForExpect(async () => {
     const exemple = data.rowsHash();
     const notification = this.notificationWorld.récupérerNotification(email, exemple.sujet);
@@ -21,10 +21,16 @@ async function vérifierEmailEnvoyé(this: PotentielWorld, email: string, data: 
   });
 }
 
-Alors('un email a été envoyé au porteur avec :', function (this: PotentielWorld, data: DataTable) {
-  vérifierEmailEnvoyé.call(this, this.utilisateurWorld.porteurFixture.email, data);
-});
+Alors(
+  'un email a été envoyé au porteur avec :',
+  async function (this: PotentielWorld, data: DataTable) {
+    await vérifierEmailEnvoyé.call(this, this.utilisateurWorld.porteurFixture.email, data);
+  },
+);
 
-Alors('un email a été envoyé à la dreal avec :', function (this: PotentielWorld, data: DataTable) {
-  vérifierEmailEnvoyé.call(this, this.utilisateurWorld.drealFixture.email, data);
-});
+Alors(
+  'un email a été envoyé à la dreal avec :',
+  async function (this: PotentielWorld, data: DataTable) {
+    await vérifierEmailEnvoyé.call(this, this.utilisateurWorld.drealFixture.email, data);
+  },
+);

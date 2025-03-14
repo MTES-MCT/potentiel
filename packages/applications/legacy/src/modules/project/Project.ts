@@ -145,6 +145,7 @@ export interface Project extends EventStoreAggregate {
   readonly délaiCDC2022appliqué: boolean;
   readonly dcrDueOn?: Date;
   readonly notifiedOn: number;
+  readonly identifiantProjet: string;
 }
 
 export interface ProjectDataProps {
@@ -198,6 +199,7 @@ export interface ProjectProps {
   dateFileAttente: Date | undefined;
   délaiCDC2022appliqué: boolean;
   dcrDueOn: Date | undefined;
+  identifiantProjet: string;
 }
 
 const projectValidator = makePropertyValidator({
@@ -240,6 +242,7 @@ export const makeProject = (args: {
     dateFileAttente: undefined,
     délaiCDC2022appliqué: false,
     dcrDueOn: undefined,
+    identifiantProjet: '',
   };
 
   // Initialize aggregate by processing each event in history
@@ -645,6 +648,9 @@ export const makeProject = (args: {
     get id() {
       return projectId;
     },
+    get identifiantProjet() {
+      return props.identifiantProjet;
+    },
     get data() {
       return props.data;
     },
@@ -750,9 +756,12 @@ export const makeProject = (args: {
         props.puissanceInitiale = event.payload.data.puissance;
         props.potentielIdentifier = event.payload.potentielIdentifier;
         _updateClasse(event.payload.data.classe);
-        props.appelOffreId = event.payload.appelOffreId;
-        props.periodeId = event.payload.periodeId;
-        props.familleId = event.payload.familleId;
+
+        const { appelOffreId, periodeId, familleId, numeroCRE } = event.payload.data;
+        props.identifiantProjet = `${appelOffreId}#${periodeId}#${familleId}#${numeroCRE}`;
+        props.appelOffreId = appelOffreId;
+        props.periodeId = periodeId;
+        props.familleId = familleId;
         break;
       case ProjectReimported.type:
         props.data = { ...props.data, ...event.payload.data };
@@ -882,10 +891,6 @@ export const makeProject = (args: {
     return !!props.notifiedOn;
   }
 
-  function _periodeHasCertificate() {
-    return !!props.appelOffre?.periode.certificateTemplate;
-  }
-
   function _updateAppelOffre(args: {
     appelOffreId?: string;
     periodeId?: string;
@@ -920,10 +925,6 @@ export const makeProject = (args: {
 
   function _removePendingEventsOfType(type: DomainEvent['type']) {
     remove(pendingEvents, (event) => event.type === type);
-  }
-
-  function _hasPendingEventOfType(type: DomainEvent['type']) {
-    return pendingEvents.some((event) => event.type === type);
   }
 
   function _updateDCRDate(appelOffre: ProjectAppelOffre) {
