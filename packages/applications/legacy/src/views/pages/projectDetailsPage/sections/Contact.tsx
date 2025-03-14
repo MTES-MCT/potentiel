@@ -82,7 +82,7 @@ export const Contact = ({
       )}
 
     {userIs(['admin', 'dgec-validateur', 'porteur-projet', 'dreal'])(user) && (
-      <InvitationForm project={project} />
+      <Link href={Routes.Utilisateur.listerPorteurs(identifiantProjet)}>Gérer les accès</Link>
     )}
   </Section>
 );
@@ -101,72 +101,9 @@ const ListComptesAvecAcces = ({ user, project }: ListComptesAvecAccesProps) => (
             {fullName && `${fullName} - `}
             {email}
           </li>
-          {id !== user.id && (
-            <Link
-              key={'project_user_' + id}
-              href={ROUTES.REVOKE_USER_RIGHTS_TO_PROJECT_ACTION({
-                projectId: project.id,
-                userId: id,
-              })}
-              aria-label={`Retirer les droits sur le projet à ${fullName || email}`}
-              className="ml-1"
-              confirmation={`Êtes-vous sûr de vouloir retirer les droits de ce projet à ${
-                fullName || email
-              } ?`}
-            >
-              retirer les droits de {fullName || email}
-            </Link>
-          )}
         </div>
       ))}
       {!project.users.length && <li>Aucun utilisateur n'a accès à ce projet pour le moment.</li>}
     </ul>
   </div>
 );
-
-type InvitationFormProps = {
-  project: ProjectDataForProjectPage;
-};
-const InvitationForm = ({ project }: InvitationFormProps) => {
-  const [displayForm, showForm] = useState(false);
-  return (
-    <Dropdown
-      design="link"
-      text={`Donner accès à un autre utilisateur`}
-      isOpen={displayForm}
-      changeOpenState={(isOpen) => showForm(isOpen)}
-      className="mt-4"
-    >
-      <Form
-        action={ROUTES.INVITE_USER_TO_PROJECT_ACTION}
-        method="post"
-        name="form"
-        className="invitationForm"
-      >
-        <Heading3 className="mb-1 mt-2">Gestion des accès à ce projet</Heading3>
-        <ChampsObligatoiresLégende />
-        <input type="hidden" name="projectId" id="projectId" value={project.id} />
-        <div>
-          <Label htmlFor="email">
-            Courrier électronique de la personne habilitée à suivre ce projet
-          </Label>
-          <Input type="email" name="email" id="email" required aria-required="true" />
-        </div>
-        <div className="flex flex-col md:flex-row gap-4 mx-auto items-center">
-          <PrimaryButton className="mt-2 mr-3" type="submit" name="submit" id="submit">
-            Accorder les droits sur ce projet
-          </PrimaryButton>
-          <Link
-            onClick={(e) => {
-              e.preventDefault();
-              showForm(false);
-            }}
-            className="cursor-pointer"
-          >
-            Annuler
-          </Link>
-        </div>
-      </Form>
-    </Dropdown>
-  );
-};

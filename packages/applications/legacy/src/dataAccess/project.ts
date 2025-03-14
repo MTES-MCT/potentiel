@@ -63,16 +63,7 @@ export type ProjectRepo = {
     filters?: ProjectFilters,
     pagination?: Pagination,
   ): Promise<PaginatedList<Project>>;
-  /**
-   * @deprecated
-   */
-  searchAllMissingOwner(
-    email: string,
-    id: string,
-    terms?: string,
-    filters?: ProjectFilters,
-    pagination?: Pagination,
-  ): Promise<PaginatedList<Project>>;
+
   /**
    * @deprecated
    */

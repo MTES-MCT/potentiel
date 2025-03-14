@@ -1,4 +1,4 @@
-import { BaseShouldUserAccessProject, makeRevokeRightsToProject } from '../modules/authZ';
+import { BaseShouldUserAccessProject } from '../modules/authZ';
 import {
   makeAccorderDemandeDélai,
   makeAnnulerDemandeDélai,
@@ -34,7 +34,7 @@ import {
   makeChoisirCahierDesCharges,
 } from '../modules/project';
 import { makeClaimProject } from '../modules/projectClaim';
-import { makeCreateUser, makeInviteUserToProject, makeRelanceInvitation } from '../modules/users';
+import { makeCreateUser, makeRelanceInvitation } from '../modules/users';
 import { resendInvitationEmail } from './credentials.config';
 import { eventStore } from './eventStore.config';
 import {
@@ -103,11 +103,6 @@ export const confirmRequest = makeConfirmRequest({
   shouldUserAccessProject: shouldUserAccessProject.check.bind(shouldUserAccessProject),
 });
 
-export const revokeUserRightsToProject = makeRevokeRightsToProject({
-  eventBus: eventStore,
-  shouldUserAccessProject: shouldUserAccessProject.check.bind(shouldUserAccessProject),
-});
-
 export const demanderChangementDePuissance = makeDemanderChangementDePuissance({
   eventBus: eventStore,
   shouldUserAccessProject: shouldUserAccessProject.check.bind(shouldUserAccessProject),
@@ -137,13 +132,6 @@ export const requestFournisseurModification = makeRequestFournisseursModificatio
 
 export const createUser = makeCreateUser({
   userRepo,
-});
-
-export const inviteUserToProject = makeInviteUserToProject({
-  getUserByEmail,
-  shouldUserAccessProject: shouldUserAccessProject.check.bind(shouldUserAccessProject),
-  eventBus: eventStore,
-  createUser,
 });
 
 export const relanceInvitation = makeRelanceInvitation({
@@ -252,10 +240,12 @@ export const notifierPorteurChangementStatutDemande = makeNotifierPorteurChangem
   sendNotification,
 });
 
+// TODO remove
 export const notifierPorteurRévocationAccèsProjet = makeNotifierPorteurRévocationAccèsProjet({
   sendNotification,
 });
 
+// TODO remove after signup managed in new app
 export const créerProfilUtilisateur = makeCréerProfilUtilisateur({
   utilisateurRepo,
   publishToEventStore,
