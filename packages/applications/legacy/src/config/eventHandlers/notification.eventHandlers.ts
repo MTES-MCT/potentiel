@@ -16,7 +16,6 @@ import {
   handleModificationRequested,
   handleModificationRequestStatusChanged,
   onCahierDesChargesChoisi,
-  handleUserInvitedToProject,
   makeOnProjectCompletionDueDateSet,
 } from '../../modules/notification';
 import { CahierDesChargesChoisi, ProjectCompletionDueDateSet } from '../../modules/project';
@@ -78,15 +77,6 @@ eventStore.subscribe(
     findUsersForDreal: oldUserRepo.findUsersForDreal,
     getProjectInfoForModificationReceivedNotification,
     getProjectAppelOffres: getProjectAppelOffre,
-  }),
-);
-
-eventStore.subscribe(
-  UserInvitedToProject.type,
-  handleUserInvitedToProject({
-    sendNotification,
-    findUserById: oldUserRepo.findById,
-    findProjectById: oldProjectRepo.findById,
   }),
 );
 
