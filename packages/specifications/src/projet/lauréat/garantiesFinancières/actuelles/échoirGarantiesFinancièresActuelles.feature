@@ -30,6 +30,19 @@ Fonctionnalité: Échoir les garanties financières actuelles d'un projet
         Alors l'abandon du projet lauréat devrait être accordé
         Et une tâche "échoir les garanties financières" n'est plus planifiée pour le projet "Du boulodrome de Marseille"
 
+    @select
+    Scénario: Un DGEC validateur accorde la demande de mainlevée d'un projet lauréat avec garanties financières à échoir
+        Etant donné un abandon accordé pour le projet lauréat "Du boulodrome de Marseille"
+        Etant donné des garanties financières actuelles pour le projet "Du boulodrome de Marseille" avec :
+            | type GF         | avec-date-échéance |
+            | date d'échéance | 2024-10-01         |
+        Et une demande de mainlevée de garanties financières pour le projet "Du boulodrome de Marseille" avec :
+            | motif | projet-abandonné |
+        Quand un utilisateur Dreal accorde la demande de mainlevée des garanties financières du projet "Du boulodrome de Marseille"
+        Alors une tâche "échoir les garanties financières" n'est plus planifiée pour le projet "Du boulodrome de Marseille"
+        Et une tâche "rappel échéance garanties financières à un mois" n'est plus planifiée pour le projet "Du boulodrome de Marseille"
+        Et une tâche "rappel échéance garanties financières à deux mois" n'est plus planifiée pour le projet "Du boulodrome de Marseille"
+
     @NotImplemented
     Scénario: Impossible d'échoir les garanties financières actuelles d'un projet si il n'y a pas de garanties financières actuelles pour ce projet
         Quand un admin échoie les garanties financières actuelles pour le projet "Du boulodrome de Marseille" avec :
