@@ -10,6 +10,7 @@ export type AccèsProjetRetiréEvent = DomainEvent<
     identifiantUtilisateur: Email.RawType;
     retiréLe: DateTime.RawType;
     retiréPar: Email.RawType;
+    cause?: 'changement-producteur';
   }
 >;
 
@@ -18,11 +19,18 @@ type RetirerAccèsProjetOptions = {
   identifiantUtilisateur: Email.ValueType;
   retiréLe: DateTime.ValueType;
   retiréPar: Email.ValueType;
+  cause?: 'changement-producteur';
 };
 
 export async function retirerAccèsProjet(
   this: UtilisateurAggregate,
-  { identifiantProjet, identifiantUtilisateur, retiréLe, retiréPar }: RetirerAccèsProjetOptions,
+  {
+    identifiantProjet,
+    identifiantUtilisateur,
+    retiréLe,
+    retiréPar,
+    cause,
+  }: RetirerAccèsProjetOptions,
 ) {
   const event: AccèsProjetRetiréEvent = {
     type: 'AccèsProjetRetiré-V1',
@@ -31,6 +39,7 @@ export async function retirerAccèsProjet(
       identifiantUtilisateur: identifiantUtilisateur.formatter(),
       retiréLe: retiréLe.formatter(),
       retiréPar: retiréPar.formatter(),
+      cause,
     },
   };
   await this.publish(event);

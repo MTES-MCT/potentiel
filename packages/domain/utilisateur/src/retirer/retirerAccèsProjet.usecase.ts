@@ -10,6 +10,7 @@ export type RetirerAccèsProjetUseCase = Message<
     identifiantUtilisateur: string;
     retiréLe: string;
     retiréPar: string;
+    cause?: 'changement-producteur';
   }
 >;
 
@@ -19,6 +20,7 @@ export const registerRetirerAccèsProjetUseCase = () => {
     identifiantUtilisateur,
     retiréLe,
     retiréPar,
+    cause,
   }) => {
     await mediator.send<RetirerAccèsProjetCommand>({
       type: 'Utilisateur.Command.RetirerAccèsProjet',
@@ -27,6 +29,7 @@ export const registerRetirerAccèsProjetUseCase = () => {
         identifiantUtilisateur: Email.convertirEnValueType(identifiantUtilisateur),
         retiréLe: DateTime.convertirEnValueType(retiréLe),
         retiréPar: Email.convertirEnValueType(retiréPar),
+        cause,
       },
     });
   };

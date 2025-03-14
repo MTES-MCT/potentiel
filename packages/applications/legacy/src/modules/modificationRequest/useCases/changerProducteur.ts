@@ -4,7 +4,7 @@ import {
   TransactionalRepository,
   UniqueEntityID,
 } from '../../../core/domain';
-import { errAsync, okAsync, wrapInfra } from '../../../core/utils';
+import { errAsync, okAsync, ResultAsync, wrapInfra } from '../../../core/utils';
 import { User, formatCahierDesChargesRéférence } from '../../../entities';
 import { FileContents, FileObject, makeFileObject } from '../../file';
 import { Project } from '../../project/Project';
@@ -12,7 +12,9 @@ import { UnauthorizedError } from '../../shared';
 import { ModificationReceived } from '../events';
 import { AppelOffreRepo } from '../../../dataAccess';
 import { NouveauCahierDesChargesNonChoisiError } from '../../demandeModification';
-import { ToutAccèsAuProjetRevoqué } from '../../authZ';
+import { RetirerAccèsProjetUseCase } from '@potentiel-domain/utilisateur';
+import { mediator } from 'mediateur';
+import { DateTime } from '@potentiel-domain/common';
 
 type ChangerProducteurDeps = {
   eventBus: EventBus;
@@ -91,13 +93,22 @@ export const makeChangerProducteur =
               );
             })
             .andThen(() => {
-              return eventBus.publish(
-                new ToutAccèsAuProjetRevoqué({
-                  payload: {
-                    projetId: projetId,
-                    cause: 'changement producteur',
+              return ResultAsync.fromPromise(
+                mediator.send<RetirerAccèsProjetUseCase>({
+                  type: 'Utilisateur.UseCase.RetirerAccèsProjet',
+                  data: {
+                    identifiantProjet: projet.identifiantProjet,
+                    identifiantUtilisateur: porteur.email,
+                    retiréLe: DateTime.now().formatter(),
+                    retiréPar: porteur.email,
+                    cause: 'changement-producteur',
                   },
                 }),
+                (e) => {
+                  return new Error('Erreur lors de la révocation des accès au projet', {
+                    cause: e,
+                  });
+                },
               );
             });
         });

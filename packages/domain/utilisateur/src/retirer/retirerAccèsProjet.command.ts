@@ -12,6 +12,7 @@ export type RetirerAccèsProjetCommand = Message<
     identifiantUtilisateur: Email.ValueType;
     retiréLe: DateTime.ValueType;
     retiréPar: Email.ValueType;
+    cause?: 'changement-producteur';
   }
 >;
 
@@ -23,6 +24,7 @@ export const registerRetirerAccèsProjetCommand = (loadAggregate: LoadAggregate)
     identifiantUtilisateur,
     retiréLe,
     retiréPar,
+    cause,
   }) => {
     const utilisateur = await loadUtilisateur(identifiantUtilisateur);
 
@@ -31,6 +33,7 @@ export const registerRetirerAccèsProjetCommand = (loadAggregate: LoadAggregate)
       identifiantUtilisateur,
       retiréLe,
       retiréPar,
+      cause,
     });
   };
   mediator.register('Utilisateur.Command.RetirerAccèsProjet', handler);

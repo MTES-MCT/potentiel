@@ -1,5 +1,4 @@
 # language: fr
-@select
 Fonctionnalité: Inviter un utilisateur en tant qu'admin
 
     Plan du scénario: Inviter un utilisateur avec accès global
