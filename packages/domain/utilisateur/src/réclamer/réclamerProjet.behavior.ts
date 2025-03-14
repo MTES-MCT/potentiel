@@ -30,7 +30,9 @@ export async function réclamer(
     connaîtLePrixEtNuméroCRE,
   }: RéclamerProjetOptions,
 ) {
-  // TODO: vérifier ici que le projet n'a pas d'utilisateur
+  // NB : on ne vérifie pas ici que le projet n'est pas déjà assigné à un Porteur
+  // Cette vérification est effectuée au niveau du middleware des permissions
+
   if (connaîtLePrixEtNuméroCRE === false) {
     throw new PrixEtNuméroCRENonCorrespondantError();
   }
