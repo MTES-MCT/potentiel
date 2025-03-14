@@ -1,4 +1,4 @@
-import { Then as Alors } from '@cucumber/cucumber';
+import { Then as Alors, DataTable } from '@cucumber/cucumber';
 import { mediator } from 'mediateur';
 import waitForExpect from 'wait-for-expect';
 import { expect } from 'chai';
@@ -16,6 +16,7 @@ import { Email } from '@potentiel-domain/common';
 import { ListerProjetsÀRéclamerQuery } from '@potentiel-domain/utilisateur';
 
 import { PotentielWorld } from '../../potentiel.world';
+import { vérifierEmailEnvoyé } from '../../notification/stepDefinitions/notification.then';
 
 Alors(
   `le nouveau porteur a accès au projet {lauréat-éliminé}`,
@@ -44,6 +45,13 @@ Alors(
         },
       }),
     );
+  },
+);
+
+Alors(
+  /un email a été envoyé au (nouvel utilisateur|nouveau porteur) avec :/,
+  async function (this: PotentielWorld, _: string, data: DataTable) {
+    await vérifierEmailEnvoyé.call(this, this.utilisateurWorld.inviterUtilisateur.email, data);
   },
 );
 

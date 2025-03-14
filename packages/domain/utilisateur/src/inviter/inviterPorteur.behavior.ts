@@ -11,7 +11,6 @@ export type PorteurInvitéEvent = DomainEvent<
     identifiantsProjet: IdentifiantProjet.RawType[];
     invitéLe: DateTime.RawType;
     invitéPar: Email.RawType;
-    nouvelUtilisateur?: true;
   }
 >;
 
@@ -45,7 +44,6 @@ export async function inviterPorteur(
       identifiantUtilisateur: identifiantUtilisateur.formatter(),
       invitéLe: invitéLe.formatter(),
       invitéPar: invitéPar.formatter(),
-      nouvelUtilisateur: this.existe ? undefined : true,
     },
   };
 

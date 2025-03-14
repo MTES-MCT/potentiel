@@ -6,6 +6,11 @@ Fonctionnalité: Retirer les accès d'un utilisateur à un projet
         Quand un administrateur retire l'accès de l'utilisateur au projet <Statut>
         Alors le porteur ne doit plus avoir accès au projet <Statut>
         Et le projet <Statut> est consultable dans la liste des projets à réclamer
+        Et un email a été envoyé au porteur avec :
+            | sujet           | Révocation de vos accès pour le projet Du boulodrome de Marseille |
+            | nom_projet      | Du boulodrome de Marseille                                        |
+            | mes_projets_url | https://potentiel.beta.gouv.fr/projets.html                       |
+            | cause           |                                                                   |
 
         Exemples:
             | Statut  |
