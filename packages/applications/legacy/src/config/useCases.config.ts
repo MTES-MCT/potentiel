@@ -43,7 +43,6 @@ import {
   getProjectAppelOffreId,
   getProjectDataForProjectClaim,
   getPuissanceProjet,
-  getUserByEmail,
 } from './queries.config';
 import {
   demandeDélaiRepo,
@@ -58,10 +57,7 @@ import {
   utilisateurRepo,
 } from './repos.config';
 import { sendNotification } from './emails.config';
-import {
-  makeNotifierPorteurChangementStatutDemande,
-  makeNotifierPorteurRévocationAccèsProjet,
-} from '../modules/notification';
+import { makeNotifierPorteurChangementStatutDemande } from '../modules/notification';
 
 import { makeCréerProfilUtilisateur } from '../modules/utilisateur';
 import { getProjectAppelOffre } from './queryProjectAO.config';
@@ -237,11 +233,6 @@ export const annulerRejetChangementDePuissance = makeAnnulerRejetChangementDePui
 });
 
 export const notifierPorteurChangementStatutDemande = makeNotifierPorteurChangementStatutDemande({
-  sendNotification,
-});
-
-// TODO remove
-export const notifierPorteurRévocationAccèsProjet = makeNotifierPorteurRévocationAccèsProjet({
   sendNotification,
 });
 
