@@ -8,9 +8,9 @@ import {
   ListerPorteursReadModel,
   Role,
 } from '@potentiel-domain/utilisateur';
-import { mapToPlainObject } from '@potentiel-domain/core';
 import { IdentifiantProjet } from '@potentiel-domain/common';
 import { Option } from '@potentiel-libraries/monads';
+import { mapToPlainObject } from '@potentiel-domain/core';
 
 import { PorteurListPage } from '@/components/pages/utilisateur/lister/PorteurList.page';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
@@ -67,9 +67,11 @@ const mapToProps = (
   utilisateurs: ListerPorteursReadModel['items'],
   utilisateurQuiInvite: ConsulterUtilisateurReadModel,
 ) =>
-  mapToPlainObject(utilisateurs).map((utilisateur) => ({
-    ...utilisateur,
-    peutRetirerAccès:
-      utilisateur.identifiantUtilisateur.email !==
-      utilisateurQuiInvite.identifiantUtilisateur.formatter(),
-  }));
+  mapToPlainObject(
+    utilisateurs.map((utilisateur) => ({
+      ...utilisateur,
+      peutRetirerAccès: utilisateur.identifiantUtilisateur.estÉgaleÀ(
+        utilisateurQuiInvite.identifiantUtilisateur,
+      ),
+    })),
+  );
