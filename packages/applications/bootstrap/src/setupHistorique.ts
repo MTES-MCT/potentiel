@@ -3,7 +3,7 @@ import { mediator } from 'mediateur';
 import { Historique } from '@potentiel-domain/historique';
 import { HistoriqueProjector } from '@potentiel-applications/projectors';
 import { subscribe } from '@potentiel-infrastructure/pg-event-sourcing';
-import { listHistoryProjection } from '@potentiel-infrastructure/pg-projections';
+import { listHistoryProjection } from '@potentiel-infrastructure/pg-projection-read';
 
 export const setupHistorique = async () => {
   Historique.registerHistoriqueProjetQuery({

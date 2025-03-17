@@ -1,6 +1,5 @@
 import { Recours } from '@potentiel-domain/elimine';
-
-import { updateOneProjection } from '../../../infrastructure';
+import { updateOneProjection } from '@potentiel-infrastructure/pg-projection-write';
 
 export const recoursPasséEnInstructionProjector = async ({
   payload: { identifiantProjet, passéEnInstructionLe, passéEnInstructionPar },

@@ -1,9 +1,8 @@
 import { TypeTâche, TâcheEntity, TâcheRenouvelléeEvent } from '@potentiel-domain/tache';
 import { DateTime } from '@potentiel-domain/common';
-import { findProjection } from '@potentiel-infrastructure/pg-projections';
+import { findProjection } from '@potentiel-infrastructure/pg-projection-read';
+import { upsertProjection } from '@potentiel-infrastructure/pg-projection-write';
 import { Option } from '@potentiel-libraries/monads';
-
-import { upsertProjection } from '../../../infrastructure';
 
 export const tâcheRenouvelléeProjector = async ({
   payload: { identifiantProjet, typeTâche, ajoutéeLe },

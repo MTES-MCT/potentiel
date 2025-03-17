@@ -8,7 +8,7 @@ import {
   countProjection,
   findProjection,
   listProjection,
-} from '@potentiel-infrastructure/pg-projections';
+} from '@potentiel-infrastructure/pg-projection-read';
 import { registerLauréatQueries } from '@potentiel-domain/laureat';
 import {
   consulterCahierDesChargesChoisiAdapter,

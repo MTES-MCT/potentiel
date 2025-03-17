@@ -1,8 +1,7 @@
 import { match } from 'ts-pattern';
 
 import { Abandon } from '@potentiel-domain/laureat';
-
-import { upsertProjection } from '../../../infrastructure';
+import { upsertProjection } from '@potentiel-infrastructure/pg-projection-write';
 
 export const abandonDemandéProjector = async (
   event: Abandon.AbandonDemandéEvent | Abandon.AbandonDemandéEventV1,

@@ -6,7 +6,7 @@ import { expect } from 'chai';
 import { Entity } from '@potentiel-domain/entity';
 import { executeQuery, killPool } from '@potentiel-libraries/pg-helpers';
 import { flatten } from '@potentiel-libraries/flat';
-import { listProjection } from '@potentiel-infrastructure/pg-projections';
+import { listProjection } from '@potentiel-infrastructure/pg-projection-read';
 
 import { updateOneProjection } from './updateOneProjection';
 

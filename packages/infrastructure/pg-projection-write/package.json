@@ -1,0 +1,23 @@
+{
+  "name": "@potentiel-infrastructure/pg-projection-write",
+  "version": "0.0.0",
+  "description": "PostgreSQL projection wirte engine",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "private": true,
+  "scripts": {
+    "build": "tsc",
+    "test": "node --test"
+  },
+  "dependencies": {
+    "@potentiel-domain/entity": "*",
+    "@potentiel-libraries/pg-helpers": "*",
+    "@potentiel-libraries/flat": "*",
+    "@potentiel-infrastructure/pg-projection-read": "*",
+    "pg-format": "^1.0.4"
+  },
+  "devDependencies": {
+    "@potentiel-config/tsconfig": "*",
+    "@types/pg-format": "^1.0.5"
+  }
+}

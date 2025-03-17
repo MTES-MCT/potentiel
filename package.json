@@ -30,7 +30,7 @@
     "down:test": "./.docker-scripts/down-test.sh",
     "pretest": "npm run down:test && npm run up:test",
     "pretest:libraries": "turbo run build --filter=@potentiel-libraries/* --filter=@potentiel-infrastructure/* --filter=@potentiel-applications/projectors && npm run pretest",
-    "test:libraries": "turbo run test --filter=@potentiel-libraries/* --filter=@potentiel-infrastructure/* --filter=@potentiel-applications/projectors",
+    "test:libraries": "turbo run test --filter=@potentiel-libraries/* --filter=@potentiel-infrastructure/*",
     "prespecs": "turbo run build --filter=@potentiel/specifications && npm run pretest",
     "specs": "npm run test -w @potentiel/specifications",
     "prespecs:select": "npm run prespecs",

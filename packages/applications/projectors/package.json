@@ -6,8 +6,7 @@
   "types": "dist/index.d.ts",
   "private": true,
   "scripts": {
-    "build": "tsc",
-    "test": "tsx --test src/**/*.test.ts"
+    "build": "tsc"
   },
   "dependencies": {
     "@potentiel-domain/entity": "*",
@@ -19,11 +18,11 @@
     "@potentiel-domain/tache": "*",
     "@potentiel-domain/tache-planifiee": "*",
     "@potentiel-infrastructure/pg-event-sourcing": "*",
-    "@potentiel-infrastructure/pg-projections": "*",
+    "@potentiel-infrastructure/pg-projection-read": "*",
+    "@potentiel-infrastructure/pg-projection-write": "*",
     "@potentiel-infrastructure/domain-adapters": "*",
     "@potentiel-libraries/pg-helpers": "*",
     "@potentiel-libraries/flat": "*",
-    "flat": "^6.0.1",
     "mediateur": "^0.3.0"
   },
   "devDependencies": {

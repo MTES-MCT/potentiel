@@ -3,17 +3,18 @@ import { match, P } from 'ts-pattern';
 
 import { Event, RebuildTriggered } from '@potentiel-infrastructure/pg-event-sourcing';
 import { GestionnaireRéseau } from '@potentiel-domain/reseau';
-import { findProjection } from '@potentiel-infrastructure/pg-projections';
+import { findProjection } from '@potentiel-infrastructure/pg-projection-read';
+import {
+  removeProjection,
+  upsertProjection,
+  updateManyProjections,
+} from '@potentiel-infrastructure/pg-projection-write';
 import { Option } from '@potentiel-libraries/monads';
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 import { getLogger } from '@potentiel-libraries/monitoring';
 import { Where } from '@potentiel-domain/entity';
 import { Candidature } from '@potentiel-domain/candidature';
 import { Raccordement } from '@potentiel-domain/laureat';
-
-import { removeProjection } from '../../infrastructure/removeProjection';
-import { upsertProjection } from '../../infrastructure/upsertProjection';
-import { updateManyProjections } from '../../infrastructure/updateManyProjections';
 
 export type SubscriptionEvent = (Raccordement.RaccordementEvent & Event) | RebuildTriggered;
 

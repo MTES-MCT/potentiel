@@ -6,7 +6,7 @@ import {
 } from '@potentiel-applications/projectors';
 import { registerRéseauQueries, registerRéseauUseCases } from '@potentiel-domain/reseau';
 import { loadAggregate, subscribe } from '@potentiel-infrastructure/pg-event-sourcing';
-import { findProjection, listProjection } from '@potentiel-infrastructure/pg-projections';
+import { findProjection, listProjection } from '@potentiel-infrastructure/pg-projection-read';
 
 export const setupRéseau = async () => {
   registerRéseauUseCases({

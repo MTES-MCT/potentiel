@@ -3,10 +3,8 @@ import { Pattern, match } from 'ts-pattern';
 
 import { GestionnaireRéseau } from '@potentiel-domain/reseau';
 import { Event, RebuildTriggered } from '@potentiel-infrastructure/pg-event-sourcing';
+import { removeProjection, upsertProjection } from '@potentiel-infrastructure/pg-projection-write';
 import { ExpressionRegulière } from '@potentiel-domain/common';
-
-import { removeProjection } from '../../infrastructure/removeProjection';
-import { upsertProjection } from '../../infrastructure/upsertProjection';
 
 export type SubscriptionEvent =
   | (GestionnaireRéseau.GestionnaireRéseauEvent & Event)

@@ -8,7 +8,7 @@ import { mediator } from 'mediateur';
 import { Option } from '@potentiel-libraries/monads';
 import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
 import { GarantiesFinancières, Lauréat } from '@potentiel-domain/laureat';
-import { findProjection, listProjection } from '@potentiel-infrastructure/pg-projections';
+import { findProjection, listProjection } from '@potentiel-infrastructure/pg-projection-read';
 import { loadAggregate } from '@potentiel-infrastructure/pg-event-sourcing';
 import {
   registerDocumentProjetCommand,

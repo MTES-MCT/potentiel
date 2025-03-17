@@ -2,7 +2,7 @@ import { mediator } from 'mediateur';
 
 import { loadAggregate, subscribe } from '@potentiel-infrastructure/pg-event-sourcing';
 import { TâchePlanifiéeProjector } from '@potentiel-applications/projectors';
-import { listProjection } from '@potentiel-infrastructure/pg-projections';
+import { listProjection } from '@potentiel-infrastructure/pg-projection-read';
 import {
   registerTâchePlanifiéeUseCases,
   registerTâchePlanifiéeQuery,

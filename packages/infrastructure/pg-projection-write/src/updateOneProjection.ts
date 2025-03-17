@@ -4,7 +4,7 @@ import { Entity } from '@potentiel-domain/entity';
 import { flatten } from '@potentiel-libraries/flat';
 import { executeQuery } from '@potentiel-libraries/pg-helpers';
 import { getLogger } from '@potentiel-libraries/monitoring';
-import { getWhereClause } from '@potentiel-infrastructure/pg-projections';
+import { getWhereClause } from '@potentiel-infrastructure/pg-projection-read';
 
 export type DeepPartial<T> = T extends object ? { [P in keyof T]?: DeepPartial<T[P]> } : T;
 

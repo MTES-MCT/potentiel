@@ -1,9 +1,8 @@
 import { Candidature } from '@potentiel-domain/candidature';
 import { IdentifiantProjet, DateTime } from '@potentiel-domain/common';
 import { Option } from '@potentiel-libraries/monads';
-import { findProjection } from '@potentiel-infrastructure/pg-projections';
-
-import { upsertProjection } from '../../infrastructure';
+import { findProjection } from '@potentiel-infrastructure/pg-projection-read';
+import { upsertProjection } from '@potentiel-infrastructure/pg-projection-write';
 
 export const candidatureCorrigéeProjector = async ({
   payload,

@@ -2,7 +2,7 @@ import { mediator } from 'mediateur';
 
 import { registerEliminéQueries, registerEliminéUseCases } from '@potentiel-domain/elimine';
 import { loadAggregate, subscribe } from '@potentiel-infrastructure/pg-event-sourcing';
-import { findProjection, listProjection } from '@potentiel-infrastructure/pg-projections';
+import { findProjection, listProjection } from '@potentiel-infrastructure/pg-projection-read';
 import { récupérerIdentifiantsProjetParEmailPorteurAdapter } from '@potentiel-infrastructure/domain-adapters';
 import { RecoursProjector, ÉliminéProjector } from '@potentiel-applications/projectors';
 import { RecoursNotification, SendEmail } from '@potentiel-applications/notifications';

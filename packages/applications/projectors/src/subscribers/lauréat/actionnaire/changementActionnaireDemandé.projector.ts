@@ -1,9 +1,8 @@
 import { Actionnaire } from '@potentiel-domain/laureat';
 import { Option } from '@potentiel-libraries/monads';
-import { findProjection } from '@potentiel-infrastructure/pg-projections';
+import { findProjection } from '@potentiel-infrastructure/pg-projection-read';
+import { upsertProjection } from '@potentiel-infrastructure/pg-projection-write';
 import { getLogger } from '@potentiel-libraries/monitoring';
-
-import { upsertProjection } from '../../../infrastructure';
 
 export const changementActionnaireDemandéProjector = async ({
   payload: {

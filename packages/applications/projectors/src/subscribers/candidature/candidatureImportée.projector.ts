@@ -1,7 +1,6 @@
 import { Candidature } from '@potentiel-domain/candidature';
 import { IdentifiantProjet, DateTime } from '@potentiel-domain/common';
-
-import { upsertProjection } from '../../infrastructure';
+import { upsertProjection } from '@potentiel-infrastructure/pg-projection-write';
 
 export const candidatureImportéeProjector = async ({
   payload,

@@ -1,6 +1,6 @@
 import { IdentifiantProjet } from '@potentiel-domain/common';
 import { Abandon } from '@potentiel-domain/laureat';
-import { findProjection } from '@potentiel-infrastructure/pg-projections';
+import { findProjection } from '@potentiel-infrastructure/pg-projection-read';
 import { Option } from '@potentiel-libraries/monads';
 
 export const getInfosAbandon = async (

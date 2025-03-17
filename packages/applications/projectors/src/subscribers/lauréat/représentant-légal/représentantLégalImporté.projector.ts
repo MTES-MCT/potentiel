@@ -1,6 +1,5 @@
 import { ReprésentantLégal } from '@potentiel-domain/laureat';
-
-import { createProjection } from '../../../infrastructure';
+import { createProjection } from '@potentiel-infrastructure/pg-projection-write';
 
 export const représentantLégalImportéProjector = async ({
   payload: { identifiantProjet, nomReprésentantLégal },

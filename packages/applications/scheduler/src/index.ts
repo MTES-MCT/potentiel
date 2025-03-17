@@ -8,7 +8,7 @@ import {
 } from '@potentiel-domain/tache-planifiee';
 import { DateTime } from '@potentiel-domain/common';
 import { getLogger } from '@potentiel-libraries/monitoring';
-import { listProjection } from '@potentiel-infrastructure/pg-projections';
+import { listProjection } from '@potentiel-infrastructure/pg-projection-read';
 import { loadAggregate } from '@potentiel-infrastructure/pg-event-sourcing';
 
 registerTâchePlanifiéeQuery({

@@ -1,6 +1,8 @@
 import { Actionnaire } from '@potentiel-domain/laureat';
-
-import { updateOneProjection, upsertProjection } from '../../../infrastructure';
+import {
+  updateOneProjection,
+  upsertProjection,
+} from '@potentiel-infrastructure/pg-projection-write';
 
 export const changementActionnaireEnregistréProjector = async ({
   payload: {
