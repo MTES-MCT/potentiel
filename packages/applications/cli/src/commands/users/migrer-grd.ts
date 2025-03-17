@@ -9,6 +9,7 @@ import {
 import { DateTime, Email } from '@potentiel-domain/common';
 import { loadAggregate } from '@potentiel-infrastructure/pg-event-sourcing';
 import { getKeycloakAdminClient } from '@potentiel-libraries/keycloak-cjs';
+import { killPool } from '@potentiel-libraries/pg-helpers';
 
 export default class Migrer extends Command {
   static override description = 'migration utilisateur';
@@ -20,6 +21,10 @@ export default class Migrer extends Command {
 
   protected async init() {
     registerUtiliseurUseCases({ loadAggregate });
+  }
+
+  protected async finally(_: Error | undefined) {
+    await killPool();
   }
 
   public async run() {
