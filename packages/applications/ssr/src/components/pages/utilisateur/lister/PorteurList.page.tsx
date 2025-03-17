@@ -15,10 +15,15 @@ import { PorteurListItem } from './PorteurListItem';
 
 export type PorteurListPageProps = {
   identifiantProjet: IdentifiantProjet.RawType;
+  nombreDeProjets: number;
   items: PlainType<ConsulterUtilisateurReadModel>[];
 };
 
-export const PorteurListPage: FC<PorteurListPageProps> = ({ identifiantProjet, items }) => {
+export const PorteurListPage: FC<PorteurListPageProps> = ({
+  identifiantProjet,
+  items,
+  nombreDeProjets,
+}) => {
   return (
     <ColumnPageTemplate
       banner={<ProjetBanner identifiantProjet={identifiantProjet} />}
@@ -47,7 +52,13 @@ export const PorteurListPage: FC<PorteurListPageProps> = ({ identifiantProjet, i
         ),
       }}
       rightColumn={{
-        children: <PorteurListActions identifiantProjet={identifiantProjet} items={items} />,
+        children: (
+          <PorteurListActions
+            identifiantProjet={identifiantProjet}
+            items={items}
+            nombreDeProjets={nombreDeProjets}
+          />
+        ),
       }}
     />
   );
@@ -56,11 +67,12 @@ export const PorteurListPage: FC<PorteurListPageProps> = ({ identifiantProjet, i
 const PorteurListActions: FC<{
   identifiantProjet: IdentifiantProjet.RawType;
   items: PlainType<ConsulterUtilisateurReadModel>[];
-}> = ({ identifiantProjet, items }) => {
+  nombreDeProjets: number;
+}> = ({ identifiantProjet, items, nombreDeProjets }) => {
   return (
     <div className="flex flex-col gap-4 pl-10">
       <Heading2>Actions</Heading2>
-      <InviterPorteurForm identifiantProjet={identifiantProjet} />
+      <InviterPorteurForm identifiantProjet={identifiantProjet} nombreDeProjets={nombreDeProjets} />
       <Button
         iconId="fr-icon-mail-line"
         priority="secondary"

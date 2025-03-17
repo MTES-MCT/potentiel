@@ -13,13 +13,14 @@ import { withUtilisateur } from '@/utils/withUtilisateur';
 const schema = zod.object({
   identifiantProjet: zod.string().min(1),
   identifiantUtilisateurInvite: zod.string().min(1, { message: 'Champ obligatoire' }),
+  inviterATousSesProjets: zod.literal('true').optional(),
 });
 
 export type InviterPorteurFormKeys = keyof zod.infer<typeof schema>;
 
 const action: FormAction<FormState, typeof schema> = async (
   _,
-  { identifiantProjet, identifiantUtilisateurInvite },
+  { identifiantProjet, identifiantUtilisateurInvite, inviterATousSesProjets },
 ) =>
   withUtilisateur(async (utilisateur) => {
     await mediator.send<InviterPorteurUseCase>({
@@ -29,6 +30,7 @@ const action: FormAction<FormState, typeof schema> = async (
         identifiantUtilisateurValue: identifiantUtilisateurInvite,
         invitéLeValue: DateTime.now().formatter(),
         invitéParValue: utilisateur.identifiantUtilisateur.formatter(),
+        inviteATousSesProjetsValue: inviterATousSesProjets === 'true',
       },
     });
 

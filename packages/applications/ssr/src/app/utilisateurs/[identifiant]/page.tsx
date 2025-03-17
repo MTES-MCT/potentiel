@@ -1,32 +1,55 @@
 import { mediator } from 'mediateur';
+import { notFound } from 'next/navigation';
 
-import { ListerPorteursQuery } from '@potentiel-domain/utilisateur';
+import { ConsulterUtilisateurQuery, ListerPorteursQuery } from '@potentiel-domain/utilisateur';
 import { mapToPlainObject } from '@potentiel-domain/core';
 import { IdentifiantProjet } from '@potentiel-domain/common';
+import { Option } from '@potentiel-libraries/monads';
 
 import { PorteurListPage } from '@/components/pages/utilisateur/lister/PorteurList.page';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { decodeParameter } from '@/utils/decodeParameter';
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
 
+import { withUtilisateur } from '../../../utils/withUtilisateur';
+
 type PageProps = IdentifiantParameter;
 
 export default async function Page({ params: { identifiant } }: PageProps) {
-  return PageWithErrorHandling(async () => {
-    const identifiantProjet = IdentifiantProjet.convertirEnValueType(decodeParameter(identifiant));
+  return PageWithErrorHandling(async () =>
+    withUtilisateur(async (utilisateur) => {
+      const identifiantProjet = IdentifiantProjet.convertirEnValueType(
+        decodeParameter(identifiant),
+      );
 
-    const utilisateurs = await mediator.send<ListerPorteursQuery>({
-      type: 'Utilisateur.Query.ListerPorteurs',
-      data: {
-        identifiantProjet: identifiantProjet.formatter(),
-      },
-    });
+      const utilisateurQuiInvite = await mediator.send<ConsulterUtilisateurQuery>({
+        type: 'Utilisateur.Query.ConsulterUtilisateur',
+        data: {
+          identifiantUtilisateur: utilisateur.identifiantUtilisateur.formatter(),
+        },
+      });
 
-    return (
-      <PorteurListPage
-        identifiantProjet={identifiantProjet.formatter()}
-        items={mapToPlainObject(utilisateurs.items)}
-      />
-    );
-  });
+      if (
+        Option.isNone(utilisateurQuiInvite) ||
+        Option.isNone(utilisateurQuiInvite.nombreDeProjets)
+      ) {
+        return notFound();
+      }
+
+      const utilisateurs = await mediator.send<ListerPorteursQuery>({
+        type: 'Utilisateur.Query.ListerPorteurs',
+        data: {
+          identifiantProjet: identifiantProjet.formatter(),
+        },
+      });
+
+      return (
+        <PorteurListPage
+          identifiantProjet={identifiantProjet.formatter()}
+          nombreDeProjets={utilisateurQuiInvite.nombreDeProjets}
+          items={mapToPlainObject(utilisateurs.items)}
+        />
+      );
+    }),
+  );
 }

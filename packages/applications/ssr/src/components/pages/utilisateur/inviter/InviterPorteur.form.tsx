@@ -3,6 +3,7 @@
 import { FC, useState } from 'react';
 import Input from '@codegouvfr/react-dsfr/Input';
 import Button from '@codegouvfr/react-dsfr/Button';
+import Checkbox from '@codegouvfr/react-dsfr/Checkbox';
 
 import { IdentifiantProjet } from '@potentiel-domain/common';
 
@@ -13,9 +14,13 @@ import { inviterPorteurAction, InviterPorteurFormKeys } from './inviterPorteur.a
 
 export type InviterPorteurFormProps = {
   identifiantProjet: IdentifiantProjet.RawType;
+  nombreDeProjets: number;
 };
 
-export const InviterPorteurForm: FC<InviterPorteurFormProps> = ({ identifiantProjet }) => {
+export const InviterPorteurForm: FC<InviterPorteurFormProps> = ({
+  identifiantProjet,
+  nombreDeProjets,
+}) => {
   const [isOpen, setIsOpen] = useState(false);
   const [validationErrors, setValidationErrors] = useState<
     ValidationErrors<InviterPorteurFormKeys>
@@ -55,6 +60,22 @@ export const InviterPorteurForm: FC<InviterPorteurFormProps> = ({ identifiantPro
                     state={validationErrors['identifiantUtilisateurInvite'] ? 'error' : 'default'}
                     stateRelatedMessage={validationErrors['identifiantUtilisateurInvite']}
                   />
+                  {nombreDeProjets > 1 && (
+                    <Checkbox
+                      id="inviterATousSesProjets"
+                      state={validationErrors['inviterATousSesProjets'] ? 'error' : 'default'}
+                      stateRelatedMessage={validationErrors['inviterATousSesProjets']}
+                      options={[
+                        {
+                          label: `Je souhaite inviter l'utilisateur à tous mes projets (${nombreDeProjets} projets)`,
+                          nativeInputProps: {
+                            name: 'inviterATousSesProjets',
+                            value: 'true',
+                          },
+                        },
+                      ]}
+                    />
+                  )}
                 </div>
               </div>
             </>

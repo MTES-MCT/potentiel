@@ -28,9 +28,11 @@ export async function inviterPorteur(
   if (identifiantsProjet.length === 0) {
     throw new AuMoinsUnProjetRequisError();
   }
+
   const nouveauxIdentifiantsProjet = identifiantsProjet.filter(
     (identifiantProjet) => !this.aAccèsAuProjet(identifiantProjet),
   );
+
   if (this.existe && nouveauxIdentifiantsProjet.length === 0) {
     throw new AccèsProjetDéjàAutoriséError();
   }

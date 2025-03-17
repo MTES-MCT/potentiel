@@ -12,6 +12,7 @@ export type InviterPorteurCommand = Message<
     identifiantUtilisateur: Email.ValueType;
     invitéPar: Email.ValueType;
     invitéLe: DateTime.ValueType;
+    inviteATousSesProjets: boolean;
   }
 >;
 
@@ -22,11 +23,16 @@ export const registerInviterPorteurCommand = (loadAggregate: LoadAggregate) => {
     identifiantUtilisateur,
     invitéLe,
     invitéPar,
+    inviteATousSesProjets,
   }) => {
     const utilisateur = await loadUtilisateur(identifiantUtilisateur, false);
+    const utilisateurQuiInvite = await loadUtilisateur(invitéPar, false);
+    const identifiantsProjetInvités = inviteATousSesProjets
+      ? Array.from(utilisateurQuiInvite.projets).map(IdentifiantProjet.convertirEnValueType)
+      : identifiantsProjet;
 
     await utilisateur.inviterPorteur({
-      identifiantsProjet,
+      identifiantsProjet: identifiantsProjetInvités,
       identifiantUtilisateur,
       invitéLe,
       invitéPar,
