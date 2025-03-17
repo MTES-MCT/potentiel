@@ -3,7 +3,7 @@ import { Fixture } from '../../fixture';
 import { Utilisateur, AbstractUtilisateur } from './utilisateur';
 
 interface System extends Utilisateur {
-  readonly role: 'system';
+  readonly role: 'admin';
 }
 
 export class SystemFixture extends AbstractUtilisateur implements System, Fixture<System> {
@@ -13,8 +13,8 @@ export class SystemFixture extends AbstractUtilisateur implements System, Fixtur
     return this.#aÉtéCréé;
   }
 
-  get role(): 'system' {
-    return 'system';
+  get role(): 'admin' {
+    return 'admin';
   }
 
   créer(): Readonly<System> {
@@ -24,7 +24,7 @@ export class SystemFixture extends AbstractUtilisateur implements System, Fixtur
     });
 
     const system: System = {
-      role: 'system',
+      role: 'admin',
       ...utilisateur,
     };
 

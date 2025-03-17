@@ -23,6 +23,11 @@ Fonctionnalité: Inviter un porteur sur un projet
         Et le porteur invite un autre porteur sur le projet lauréat
         Alors l'utilisateur devrait être informé que "L'utilisateur a déjà accès à ce projet"
 
+    Scénario: Impossible d'inviter un compte non-porteur existant
+        Etant donné le projet lauréat "Du boulodrome de Marseille"
+        Quand le porteur invite l'administrateur sur le projet lauréat
+        Alors l'utilisateur devrait être informé que "L'utilisateur ne peut être invité sur ce projet"
+
     @NotImplemented
     Scénario: Inviter un porteur désactivé
 

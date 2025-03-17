@@ -18,8 +18,8 @@ import {
   VérifierAccèsProjetDependencies,
   registerVérifierAccèsProjetQuery,
 } from './vérifierAccèsProjet/vérifierAccèsProjet.query';
-import { registerInviterUseCase } from './inviter/inviter.usecase';
-import { registerInviterCommand } from './inviter/inviter.command';
+import { registerInviterUseCase } from './inviter/inviterUtilisateur.usecase';
+import { registerInviterCommand } from './inviter/inviterUtilisateur.command';
 import { registerRéclamerProjetCommand } from './réclamer/réclamerProjet.command';
 import { registerRéclamerProjetUseCase } from './réclamer/réclamerProjet.usecase';
 import { registerRetirerAccèsProjetCommand } from './retirer/retirerAccèsProjet.command';

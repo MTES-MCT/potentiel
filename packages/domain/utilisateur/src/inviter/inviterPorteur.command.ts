@@ -25,13 +25,13 @@ export const registerInviterPorteurCommand = (loadAggregate: LoadAggregate) => {
     invitéPar,
     inviteATousSesProjets,
   }) => {
-    const utilisateur = await loadUtilisateur(identifiantUtilisateur, false);
+    const utilisateurInvité = await loadUtilisateur(identifiantUtilisateur, false);
     const utilisateurQuiInvite = await loadUtilisateur(invitéPar, false);
     const identifiantsProjetInvités = inviteATousSesProjets
       ? Array.from(utilisateurQuiInvite.projets).map(IdentifiantProjet.convertirEnValueType)
       : identifiantsProjet;
 
-    await utilisateur.inviterPorteur({
+    await utilisateurInvité.inviterPorteur({
       identifiantsProjet: identifiantsProjetInvités,
       identifiantUtilisateur,
       invitéLe,

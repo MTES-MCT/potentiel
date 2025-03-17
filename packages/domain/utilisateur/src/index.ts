@@ -14,8 +14,8 @@ import {
 } from './vérifierAccèsProjet/vérifierAccèsProjet.query';
 import { InviterPorteurUseCase } from './inviter/inviterPorteur.usecase';
 import { PorteurInvitéEvent } from './inviter/inviterPorteur.behavior';
-import { UtilisateurInvitéEvent } from './inviter/inviter.behavior';
-import { InviterUtilisateurUseCase } from './inviter/inviter.usecase';
+import { UtilisateurInvitéEvent } from './inviter/inviterUtilisateur.behavior';
+import { InviterUtilisateurUseCase } from './inviter/inviterUtilisateur.usecase';
 import { ProjetRéclaméEvent } from './réclamer/réclamerProjet.behavior';
 import { RéclamerProjetUseCase } from './réclamer/réclamerProjet.usecase';
 import { AccèsProjetRetiréEvent } from './retirer/retirerAccèsProjet.behavior';

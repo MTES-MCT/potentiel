@@ -2,7 +2,12 @@ import { DomainEvent } from '@potentiel-domain/core';
 import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
 
 import { UtilisateurAggregate } from '../utilisateur.aggregate';
-import { AccèsProjetDéjàAutoriséError, AuMoinsUnProjetRequisError } from '../errors';
+import {
+  AccèsProjetDéjàAutoriséError,
+  AuMoinsUnProjetRequisError,
+  UtilisateurNonPorteurError,
+} from '../errors';
+import { Role } from '..';
 
 export type PorteurInvitéEvent = DomainEvent<
   'PorteurInvité-V1',
@@ -37,6 +42,10 @@ export async function inviterPorteur(
     throw new AccèsProjetDéjàAutoriséError();
   }
 
+  if (this.existe && !this.rôle.estÉgaleÀ(Role.porteur)) {
+    throw new UtilisateurNonPorteurError();
+  }
+
   const event: PorteurInvitéEvent = {
     type: 'PorteurInvité-V1',
     payload: {
@@ -57,6 +66,9 @@ export function applyPorteurInvité(
   { payload: { identifiantsProjet } }: PorteurInvitéEvent,
 ) {
   this.existe = true;
+  if (this.existe) {
+    this.rôle = Role.porteur;
+  }
   for (const identifiantProjet of identifiantsProjet) {
     this.projets.add(identifiantProjet);
   }

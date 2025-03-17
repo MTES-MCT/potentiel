@@ -3,6 +3,8 @@ import { match } from 'ts-pattern';
 import { Aggregate, GetDefaultAggregateState, LoadAggregate } from '@potentiel-domain/core';
 import { Email, IdentifiantProjet } from '@potentiel-domain/common';
 
+import { Role } from '.';
+
 import {
   PorteurInvitéEvent,
   applyPorteurInvité,
@@ -13,7 +15,7 @@ import {
   applyUtilisateurInvité,
   inviter,
   UtilisateurInvitéEvent,
-} from './inviter/inviter.behavior';
+} from './inviter/inviterUtilisateur.behavior';
 import {
   réclamer,
   ProjetRéclaméEvent,
@@ -37,8 +39,15 @@ export type UtilisateurAggregate = Aggregate<UtilisateurEvent> & {
   readonly retirerAccèsProjet: typeof retirerAccèsProjet;
   aAccèsAuProjet: (identifiantProjet: IdentifiantProjet.ValueType) => boolean;
   projets: Set<IdentifiantProjet.RawType>;
-  existe: boolean;
-};
+} & (
+    | {
+        existe: false;
+      }
+    | {
+        existe: true;
+        rôle: Role.ValueType;
+      }
+  );
 
 export const getDefaultUtilisateurAggregate: GetDefaultAggregateState<
   UtilisateurAggregate,

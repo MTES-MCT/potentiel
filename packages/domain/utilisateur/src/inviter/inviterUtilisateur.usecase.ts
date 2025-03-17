@@ -4,7 +4,7 @@ import { Email, DateTime } from '@potentiel-domain/common';
 
 import { Role } from '..';
 
-import { InviterUtilisateurCommand } from './inviter.command';
+import { InviterUtilisateurCommand } from './inviterUtilisateur.command';
 
 export type InviterUtilisateurUseCase = Message<
   'Utilisateur.UseCase.InviterUtilisateur',

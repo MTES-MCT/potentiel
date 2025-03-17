@@ -70,7 +70,7 @@ const mapToProps = (
   mapToPlainObject(
     utilisateurs.map((utilisateur) => ({
       ...utilisateur,
-      peutRetirerAccès: utilisateur.identifiantUtilisateur.estÉgaleÀ(
+      peutRetirerAccès: !utilisateur.identifiantUtilisateur.estÉgaleÀ(
         utilisateurQuiInvite.identifiantUtilisateur,
       ),
     })),

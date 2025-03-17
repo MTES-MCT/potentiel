@@ -1,10 +1,18 @@
 import { match } from 'ts-pattern';
 
-import { DomainEvent, InvalidOperationError } from '@potentiel-domain/core';
+import { DomainEvent } from '@potentiel-domain/core';
 import { DateTime, Email } from '@potentiel-domain/common';
 
 import { UtilisateurAggregate } from '../utilisateur.aggregate';
 import { Role } from '..';
+import {
+  UtilisateurDéjàExistant,
+  FonctionManquanteError,
+  NomCompletManquantError,
+  RégionManquanteError,
+  IdentifiantGestionnaireRéseauManquantError,
+  PorteurInvitéSansProjetErreur,
+} from '../errors';
 
 export type UtilisateurInvitéEvent = DomainEvent<
   'UtilisateurInvité-V1',
@@ -116,42 +124,12 @@ export async function inviter(
   await this.publish(event);
 }
 
-export function applyUtilisateurInvité(this: UtilisateurAggregate, _: UtilisateurInvitéEvent) {
+export function applyUtilisateurInvité(
+  this: UtilisateurAggregate,
+  { payload: { rôle } }: UtilisateurInvitéEvent,
+) {
   this.existe = true;
-}
-
-export class UtilisateurDéjàExistant extends InvalidOperationError {
-  constructor() {
-    super("L'utilisateur existe déjà");
-  }
-}
-
-export class PorteurInvitéSansProjetErreur extends InvalidOperationError {
-  constructor() {
-    super(`Il est impossible d'inviter un porteur sans projet`);
-  }
-}
-
-export class FonctionManquanteError extends InvalidOperationError {
-  constructor() {
-    super('La fonction est obligatoire pour un utilisateur dgec-validateur');
-  }
-}
-
-export class NomCompletManquantError extends InvalidOperationError {
-  constructor() {
-    super('Le nom complet est obligatoire pour un utilisateur dgec-validateur');
-  }
-}
-
-export class RégionManquanteError extends InvalidOperationError {
-  constructor() {
-    super('La région est obligatoire pour un utilisateur dreal');
-  }
-}
-
-export class IdentifiantGestionnaireRéseauManquantError extends InvalidOperationError {
-  constructor() {
-    super(`L'identifiant du gestionnaire de réseau est obligatoire pour un utilisateur grd`);
+  if (this.existe) {
+    this.rôle = Role.convertirEnValueType(rôle);
   }
 }

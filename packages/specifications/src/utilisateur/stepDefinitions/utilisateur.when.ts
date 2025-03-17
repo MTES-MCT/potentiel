@@ -16,13 +16,20 @@ import { InviterUtilisateurFixture } from '../fixtures/inviter/inviter.fixture';
 import { RéclamerProjetFixture } from '../fixtures/réclamer/réclamerProjet.fixture';
 
 Quand(
-  'le porteur invite un autre porteur sur le projet {lauréat-éliminé}',
-  async function (this: PotentielWorld, statutProjet: 'lauréat' | 'éliminé') {
-    const { email: porteurInvité } = this.utilisateurWorld.inviterUtilisateur.aÉtéCréé
-      ? this.utilisateurWorld.inviterUtilisateur
-      : this.utilisateurWorld.inviterUtilisateur.créer({
-          rôle: Role.porteur.nom,
-        });
+  /le porteur invite (un autre porteur|l'administrateur) sur le projet (lauréat|éliminé)/,
+  async function (
+    this: PotentielWorld,
+    utilisteurInvité: 'un autre porteur' | "l'administrateur",
+    statutProjet: 'lauréat' | 'éliminé',
+  ) {
+    const { email: porteurInvité } =
+      utilisteurInvité === "l'administrateur"
+        ? this.utilisateurWorld.adminFixture
+        : this.utilisateurWorld.inviterUtilisateur.aÉtéCréé
+          ? this.utilisateurWorld.inviterUtilisateur
+          : this.utilisateurWorld.inviterUtilisateur.créer({
+              rôle: Role.porteur.nom,
+            });
     const identifiantProjet =
       statutProjet === 'éliminé'
         ? this.eliminéWorld.identifiantProjet.formatter()
