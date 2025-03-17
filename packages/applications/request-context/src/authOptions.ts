@@ -104,6 +104,7 @@ export const authOptions: AuthOptions = {
 
       const utilisateur = await getUtilisateurFromEmail(user?.email ?? '');
 
+      // TODO handle signup
       if (Option.isNone(utilisateur)) {
         logger.info(`User tries to connect but is not registered yet`, {
           user,
@@ -114,25 +115,12 @@ export const authOptions: AuthOptions = {
         });
       }
 
-      if (account?.provider === 'email' && !canConnectWithProvider('email', utilisateur.role)) {
-        getLogger('Auth').info(`User tries to connect with Magic Link but is not authorized`, {
-          utilisateur,
-        });
+      if (account?.provider && !canConnectWithProvider(account?.provider, utilisateur.role.nom)) {
+        getLogger('Auth').info(
+          `User tries to connect with '${account.provider}' but is not authorized`,
+          { utilisateur },
+        );
         return Routes.Auth.signIn({ error: 'Unauthorized' });
-      }
-
-      if (
-        account?.provider === 'proconnect' &&
-        !canConnectWithProvider('proconnect', utilisateur.role)
-      ) {
-        logger.info(`User tries to connect with ProConnect but is not authorized yet`, {
-          user,
-        });
-
-        return Routes.Auth.signOut({
-          proConnectNotAvailableForUser: true,
-          idToken: account?.id_token,
-        });
       }
 
       return true;
