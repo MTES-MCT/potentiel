@@ -30,7 +30,6 @@ Fonctionnalité: Échoir les garanties financières actuelles d'un projet
         Alors l'abandon du projet lauréat devrait être accordé
         Et une tâche "échoir les garanties financières" n'est plus planifiée pour le projet "Du boulodrome de Marseille"
 
-    @select
     Scénario: Un DGEC validateur accorde la demande de mainlevée d'un projet lauréat avec garanties financières à échoir
         Etant donné un abandon accordé pour le projet lauréat "Du boulodrome de Marseille"
         Etant donné des garanties financières actuelles pour le projet "Du boulodrome de Marseille" avec :
