@@ -33,6 +33,8 @@ export default async function Page({ params: { identifiant } }: PageProps) {
         },
       });
 
+      console.log('utilisateurQuiInvite', utilisateurQuiInvite);
+
       if (Option.isNone(utilisateurQuiInvite)) {
         return notFound();
       }

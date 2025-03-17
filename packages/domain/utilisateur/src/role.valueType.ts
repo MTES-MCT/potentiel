@@ -1003,6 +1003,7 @@ const policies = {
     ],
     inviterPorteur: [
       référencielPermissions.utilisateur.command.inviterPorteur,
+      référencielPermissions.utilisateur.query.consulter,
       référencielPermissions.utilisateur.usecase.inviterPorteur,
     ],
     retirerAccèsProjet: [
