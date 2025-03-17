@@ -31,8 +31,14 @@ const pool = new Pool({
 export const authOptions: AuthOptions = {
   adapter: PostgresAdapter(pool),
   providers: [
-    KeycloakProvider(getProviderConfiguration('keycloak')),
-    ProConnectProvider(getProviderConfiguration('proconnect')),
+    KeycloakProvider({
+      ...getProviderConfiguration('keycloak'),
+      allowDangerousEmailAccountLinking: true,
+    }),
+    ProConnectProvider({
+      ...getProviderConfiguration('proconnect'),
+      allowDangerousEmailAccountLinking: true,
+    }),
     EmailProvider({
       from: process.env.SEND_EMAILS_FROM,
       maxAge: fifteenMinutesInSeconds,
