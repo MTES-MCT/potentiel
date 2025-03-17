@@ -10,6 +10,7 @@ import { Role } from '..';
 export type TrouverUtilisateurReadModel = {
   identifiantUtilisateur: Email.ValueType;
   rôle: Role.ValueType;
+  fonction: Option.Type<string>;
   région: Option.Type<string>;
   identifiantGestionnaireRéseau: Option.Type<string>;
 };
@@ -44,6 +45,7 @@ export const registerTrouverUtilisateurQuery = ({ find }: TrouverUtilisateurDepe
 export const mapToReadModel = (utilisateur: UtilisateurEntity): TrouverUtilisateurReadModel => ({
   identifiantUtilisateur: Email.convertirEnValueType(utilisateur.identifiantUtilisateur),
   rôle: Role.convertirEnValueType(utilisateur.rôle),
+  fonction: utilisateur.rôle === 'dgec-validateur' ? utilisateur.fonction : Option.none,
   région: utilisateur.rôle === 'dreal' ? utilisateur.région : Option.none,
   identifiantGestionnaireRéseau:
     utilisateur.rôle === 'grd' ? utilisateur.identifiantGestionnaireRéseau : Option.none,

@@ -54,7 +54,7 @@ export default class Migrer extends Command {
           data: {
             identifiantUtilisateurValue: user.email!,
             rôleValue: Role.grd.nom,
-            identifiantGestionnaireRéseau: group.name!,
+            identifiantGestionnaireRéseauValue: group.name!,
             invitéLeValue: DateTime.now().formatter(), // TODO
             invitéParValue: Email.system().formatter(), // TODO
           },

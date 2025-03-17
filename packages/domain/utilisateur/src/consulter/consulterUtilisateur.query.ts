@@ -11,7 +11,9 @@ import * as Role from '../role.valueType';
 export type ConsulterUtilisateurReadModel = {
   identifiantUtilisateur: IdentifiantUtilisateur.ValueType;
   email: string;
+  nomComplet: Option.Type<string>;
   rôle: Role.ValueType;
+  fonction: Option.Type<string>;
   région: Option.Type<string>;
   identifiantGestionnaireRéseau: Option.Type<string>;
   nombreDeProjets: Option.Type<number>;
@@ -54,6 +56,8 @@ export const mapToReadModel = (utilisateur: UtilisateurEntity): ConsulterUtilisa
   identifiantUtilisateur: Email.convertirEnValueType(utilisateur.identifiantUtilisateur),
   rôle: Role.convertirEnValueType(utilisateur.rôle),
   email: utilisateur.identifiantUtilisateur,
+  nomComplet: utilisateur.rôle === 'dgec-validateur' ? utilisateur.nomComplet : Option.none,
+  fonction: utilisateur.rôle === 'dgec-validateur' ? utilisateur.fonction : Option.none,
   région: utilisateur.rôle === 'dreal' ? utilisateur.région : Option.none,
   identifiantGestionnaireRéseau:
     utilisateur.rôle === 'grd' ? utilisateur.identifiantGestionnaireRéseau : Option.none,

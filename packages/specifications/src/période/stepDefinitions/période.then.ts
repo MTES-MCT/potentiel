@@ -103,7 +103,6 @@ Alors(`les porteurs doivent avoir accès à leur projet`, async function (this: 
             identifiantGestionnaireRéseau: Option.none,
             région: Option.none,
             nom: '',
-            fonction: Option.none,
           }),
         },
       });

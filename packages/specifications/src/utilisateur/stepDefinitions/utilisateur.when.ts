@@ -201,6 +201,8 @@ export async function inviterUtilisateur(
     rôle: rôleValue,
     région,
     identifiantGestionnaireRéseau,
+    fonction,
+    nomComplet,
   } = this.utilisateurWorld.inviterUtilisateur.créer(props);
   try {
     await mediator.send<InviterUtilisateurUseCase>({
@@ -210,8 +212,10 @@ export async function inviterUtilisateur(
         invitéLeValue: DateTime.now().formatter(),
         invitéParValue: this.utilisateurWorld.adminFixture.email,
         rôleValue,
-        région,
-        identifiantGestionnaireRéseau,
+        régionValue: région,
+        identifiantGestionnaireRéseauValue: identifiantGestionnaireRéseau,
+        fonctionValue: fonction,
+        nomCompletValue: nomComplet,
       },
     });
   } catch (error) {

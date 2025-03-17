@@ -8,7 +8,13 @@ type Common = {
 };
 
 type UtilisateurGénérique = {
-  rôle: 'admin' | 'dgec-validateur' | 'acheteur-obligé' | 'ademe' | 'caisse-des-dépôts' | 'cre';
+  rôle: 'admin' | 'acheteur-obligé' | 'ademe' | 'caisse-des-dépôts' | 'cre';
+};
+
+type UtilisateurDgecValidateur = {
+  rôle: 'dgec-validateur';
+  fonction: string;
+  nomComplet: string;
 };
 
 type UtilisateurDreal = {
@@ -29,5 +35,11 @@ type UtilisateurPorteur = {
 export type UtilisateurEntity = Entity<
   'utilisateur',
   Common &
-    (UtilisateurGénérique | UtilisateurDreal | UtilisateurPorteur | UtilisateurGestionnaireRéseau)
+    (
+      | UtilisateurGénérique
+      | UtilisateurDreal
+      | UtilisateurPorteur
+      | UtilisateurDgecValidateur
+      | UtilisateurGestionnaireRéseau
+    )
 >;

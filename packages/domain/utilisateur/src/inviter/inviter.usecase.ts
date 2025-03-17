@@ -14,8 +14,10 @@ export type InviterUtilisateurUseCase = Message<
     invitéLeValue: string;
     invitéParValue: string;
 
-    région?: string;
-    identifiantGestionnaireRéseau?: string;
+    fonctionValue?: string;
+    nomCompletValue?: string;
+    régionValue?: string;
+    identifiantGestionnaireRéseauValue?: string;
   }
 >;
 
@@ -25,8 +27,10 @@ export const registerInviterUseCase = () => {
     rôleValue,
     invitéLeValue,
     invitéParValue,
-    région,
-    identifiantGestionnaireRéseau,
+    fonctionValue: fonction,
+    nomCompletValue: nomComplet,
+    régionValue: région,
+    identifiantGestionnaireRéseauValue: identifiantGestionnaireRéseau,
   }) => {
     const identifiantUtilisateur = Email.convertirEnValueType(identifiantUtilisateurValue);
     const rôle = Role.convertirEnValueType(rôleValue);
@@ -40,8 +44,9 @@ export const registerInviterUseCase = () => {
         rôle,
         invitéLe,
         invitéPar,
+        fonction,
+        nomComplet,
         région,
-        // TODO value type?
         identifiantGestionnaireRéseau,
       },
     });

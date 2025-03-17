@@ -65,6 +65,7 @@ export class RéclamerProjetFixture implements RéclamerProjet, Fixture<Réclame
       rôle: Role.porteur,
       région: Option.none,
       identifiantGestionnaireRéseau: Option.none,
+      fonction: Option.none,
     };
   }
 }

@@ -21,7 +21,16 @@ export type UtilisateurListItemProps = {
 };
 
 export const UtilisateurListItem: FC<UtilisateurListItemProps> = ({
-  utilisateur: { identifiantUtilisateur, rôle, région, nombreDeProjets, invitéLe, invitéPar },
+  utilisateur: {
+    identifiantUtilisateur,
+    rôle,
+    région,
+    fonction,
+    nomComplet,
+    nombreDeProjets,
+    invitéLe,
+    invitéPar,
+  },
   gestionnaireRéseau,
 }) => (
   <ListItem
@@ -50,6 +59,8 @@ export const UtilisateurListItem: FC<UtilisateurListItemProps> = ({
     <RoleBadge role={rôle.nom} />
     <ul className="mt-3 text-sm">
       <OptionalElement label="Région" value={région} render={renderText} />
+      <OptionalElement label="Fonction" value={fonction} render={renderText} />
+      <OptionalElement label="Nom Complet" value={nomComplet} render={renderText} />
       <OptionalElement label="Nombre de projets" value={nombreDeProjets} render={renderText} />
       <OptionalElement
         label="Gestionnaire Réseau"

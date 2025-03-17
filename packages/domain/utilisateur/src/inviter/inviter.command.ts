@@ -13,6 +13,8 @@ export type InviterUtilisateurCommand = Message<
     rôle: Role.ValueType;
     invitéLe: DateTime.ValueType;
     invitéPar: Email.ValueType;
+    fonction?: string;
+    nomComplet?: string;
     région?: string;
     identifiantGestionnaireRéseau?: string;
   }
@@ -25,6 +27,8 @@ export const registerInviterCommand = (loadAggregate: LoadAggregate) => {
     invitéLe,
     invitéPar,
     rôle,
+    fonction,
+    nomComplet,
     région,
     identifiantGestionnaireRéseau,
   }) => {
@@ -35,6 +39,8 @@ export const registerInviterCommand = (loadAggregate: LoadAggregate) => {
       rôle,
       invitéLe,
       invitéPar,
+      fonction,
+      nomComplet,
       région,
       identifiantGestionnaireRéseau,
     });
