@@ -43,10 +43,12 @@ const getAuthProviders = () => {
   }
 
   if (configuredProviders.includes('proconnect')) {
-    ProConnectProvider({
-      ...getProviderConfiguration('proconnect'),
-      allowDangerousEmailAccountLinking: true,
-    });
+    providers.push(
+      ProConnectProvider({
+        ...getProviderConfiguration('proconnect'),
+        allowDangerousEmailAccountLinking: true,
+      }),
+    );
   }
 
   if (configuredProviders.includes('email')) {
@@ -54,7 +56,7 @@ const getAuthProviders = () => {
       EmailProvider({
         from: process.env.SEND_EMAILS_FROM,
         maxAge: fifteenMinutesInSeconds,
-        sendVerificationRequest: ({ identifier, url }) => {
+        sendVerificationRequest: ({ identifier, url }) =>
           sendEmail({
             templateId: 6785365,
             messageSubject: 'Connexion à Potentiel',
@@ -62,8 +64,7 @@ const getAuthProviders = () => {
             variables: {
               url,
             },
-          });
-        },
+          }),
       }),
     );
   }
