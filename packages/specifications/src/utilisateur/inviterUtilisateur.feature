@@ -1,6 +1,9 @@
 # language: fr
 Fonctionnalité: Inviter un utilisateur en tant qu'admin
 
+    Contexte:
+        Etant donné le projet lauréat "Du boulodrome de Marseille"
+
     Plan du scénario: Inviter un utilisateur avec accès global
         Quand un administrateur invite un utilisateur avec le rôle "<Rôle>"
         Alors l'utilisateur doit être créé
@@ -15,23 +18,28 @@ Fonctionnalité: Inviter un utilisateur en tant qu'admin
             | ademe             |
             | caisse-des-dépôts |
             | cre               |
-            | dgec-validateur   |
+
+    Scénario: Inviter un DGEC validateur
+        Quand un administrateur invite un dgec validateur
+        Alors l'utilisateur doit être créé
+        Et l'utilisateur invité a accès au projet lauréat
+        Et un email a été envoyé au nouvel utilisateur avec :
+            | sujet           | Invitation à suivre les projets sur Potentiel |
+            | invitation_link | https://potentiel.beta.gouv.fr/projets.html   |
 
     Scénario: Inviter une dreal
-        Etant donné le projet lauréat "Du boulodrome de Marseille"
         Quand un administrateur invite une dreal pour la région du projet
         Alors l'utilisateur doit être créé
-        Alors le nouveau porteur a accès au projet lauréat
+        Et l'utilisateur invité a accès au projet lauréat
         Et un email a été envoyé au nouvel utilisateur avec :
             | sujet           | Invitation à suivre les projets sur Potentiel |
             | invitation_link | https://potentiel.beta.gouv.fr/projets.html   |
 
     Scénario: Inviter un gestionnaire de réseau
         Etant donné le gestionnaire de réseau "Enedis"
-        Et le projet lauréat "Du boulodrome de Marseille"
         Et le gestionnaire de réseau "Enedis" attribué au raccordement du projet lauréat
         Quand un administrateur invite un gestionnaire de réseau attribué au raccordement du projet lauréat
-        Alors le nouveau porteur a accès au projet lauréat
+        Alors l'utilisateur invité a accès au projet lauréat
         Et un email a été envoyé au nouvel utilisateur avec :
             | sujet           | Invitation à suivre les projets sur Potentiel |
             | invitation_link | https://potentiel.beta.gouv.fr/projets.html   |

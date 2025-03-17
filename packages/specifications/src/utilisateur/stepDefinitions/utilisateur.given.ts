@@ -6,7 +6,7 @@ import { IdentifiantProjet } from '@potentiel-domain/common';
 
 import { PotentielWorld } from '../../potentiel.world';
 
-import { inviterPorteur, inviterUtilisateur, retirerAccèsProjet } from './utilisateur.when';
+import { inviterUtilisateur, retirerAccèsProjet } from './utilisateur.when';
 
 EtantDonné('le porteur {string}', async function (this: PotentielWorld, porteurNom: string) {
   const porteur = this.utilisateurWorld.porteurFixture.créer({
@@ -47,26 +47,6 @@ EtantDonné(
     await associerProjetAuPorteur(porteur.id, projets);
   },
 );
-
-EtantDonné(
-  'le porteur invité sur le projet {lauréat-éliminé}',
-  async function (this: PotentielWorld, typeProjet: 'lauréat' | 'éliminé') {
-    const identifiantProjet = match(typeProjet)
-      .with('lauréat', () => this.lauréatWorld.identifiantProjet)
-      .with('éliminé', () => this.eliminéWorld.identifiantProjet)
-      .exhaustive();
-
-    const porteur = this.utilisateurWorld.porteurFixture.aÉtéCréé
-      ? this.utilisateurWorld.porteurFixture
-      : this.utilisateurWorld.porteurFixture.créer({});
-
-    await inviterPorteur.call(this, {
-      identifiantsProjet: [identifiantProjet.formatter()],
-      identifiantUtilisateur: porteur.email,
-    });
-  },
-);
-
 EtantDonné(
   'la dreal {string} associée à la région du projet',
   async function (this: PotentielWorld, drealNom: string) {

@@ -19,7 +19,7 @@ import { PotentielWorld } from '../../potentiel.world';
 import { vérifierEmailEnvoyé } from '../../notification/stepDefinitions/notification.then';
 
 Alors(
-  `le nouveau porteur a accès au projet {lauréat-éliminé}`,
+  "l'utilisateur invité a accès au projet {lauréat-éliminé}",
   async function (this: PotentielWorld, statutProjet: 'lauréat' | 'éliminé') {
     const identifiantProjet =
       statutProjet === 'éliminé'

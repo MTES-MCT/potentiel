@@ -6,7 +6,7 @@ Fonctionnalité: Réclamer un projet en tant que porteur
         Et l'accès retiré au projet <Statut>
         Quand un porteur réclame le projet <Statut> avec le même email que celui de la candidature
         Alors l'utilisateur doit être créé
-        Et le nouveau porteur a accès au projet <Statut>
+        Et l'utilisateur invité a accès au projet <Statut>
         Et le projet lauréat n'est plus consultable dans la liste des projets à réclamer
 
         Exemples:
@@ -19,7 +19,7 @@ Fonctionnalité: Réclamer un projet en tant que porteur
         Et l'accès retiré au projet lauréat
         Quand un porteur réclame le projet lauréat en connaissant le prix et le numéro CRE
         Alors l'utilisateur doit être créé
-        Et le nouveau porteur a accès au projet lauréat
+        Et l'utilisateur invité a accès au projet lauréat
         Alors le projet lauréat n'est plus consultable dans la liste des projets à réclamer
 
     Scénario: Impossible de réclamer un projet avec un email différent de celui de la candidature
