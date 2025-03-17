@@ -25,7 +25,8 @@ Quand(
     const { email: porteurInvité } =
       utilisteurInvité === "l'administrateur"
         ? this.utilisateurWorld.adminFixture
-        : this.utilisateurWorld.inviterUtilisateur.aÉtéCréé
+        : this.utilisateurWorld.inviterUtilisateur.aÉtéCréé &&
+            this.utilisateurWorld.inviterUtilisateur.rôle === Role.porteur.nom
           ? this.utilisateurWorld.inviterUtilisateur
           : this.utilisateurWorld.inviterUtilisateur.créer({
               rôle: Role.porteur.nom,

@@ -205,7 +205,6 @@ async function insérerUtilisateur({
 
 export async function initialiserUtilisateursTests(this: PotentielWorld) {
   const validateur = this.utilisateurWorld.validateurFixture.créer();
-  const system = this.utilisateurWorld.systemFixture.créer();
   const admin = this.utilisateurWorld.adminFixture.créer();
 
   await inviterUtilisateur.call(this, {
@@ -214,11 +213,9 @@ export async function initialiserUtilisateursTests(this: PotentielWorld) {
     fonction: validateur.fonction,
     nomComplet: validateur.nom,
   });
-  await inviterUtilisateur.call(this, { rôle: system.role, email: system.email });
   await inviterUtilisateur.call(this, { rôle: admin.role, email: admin.email });
 
   await insérerUtilisateur(validateur);
-  await insérerUtilisateur(system);
   await insérerUtilisateur(admin);
 }
 
