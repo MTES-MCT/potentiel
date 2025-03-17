@@ -14,11 +14,13 @@ import { retirerAccèsProjetAction } from '../retirerAccès/retirerAccèsProjet.
 type PorteurListItem = {
   identifiantProjet: IdentifiantProjet.RawType;
   identifiantUtilisateur: Email.RawType;
+  peutRetirerAccès: boolean;
 };
 
 export const PorteurListItem: FC<PorteurListItem> = ({
   identifiantProjet,
   identifiantUtilisateur,
+  peutRetirerAccès,
 }) => {
   return (
     <div className="flex flex-row items-center justify-between border-b-dsfr-border-default-grey-default border-b-2 pb-2 pt-1">
@@ -30,6 +32,7 @@ export const PorteurListItem: FC<PorteurListItem> = ({
         <RetirerAccèsProjetButton
           identifiantProjet={identifiantProjet}
           identifiantUtilisateur={identifiantUtilisateur}
+          peutRetirerAccès={peutRetirerAccès}
         />
       </div>
     </div>
@@ -39,12 +42,18 @@ export const PorteurListItem: FC<PorteurListItem> = ({
 const RetirerAccèsProjetButton: FC<{
   identifiantProjet: IdentifiantProjet.RawType;
   identifiantUtilisateur: Email.RawType;
-}> = ({ identifiantProjet, identifiantUtilisateur }) => {
+  peutRetirerAccès: boolean;
+}> = ({ identifiantProjet, identifiantUtilisateur, peutRetirerAccès }) => {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
     <div>
-      <Button size="small" priority="primary" onClick={() => setIsOpen(true)}>
+      <Button
+        size="small"
+        priority="primary"
+        onClick={() => setIsOpen(true)}
+        disabled={!peutRetirerAccès}
+      >
         Retirer l'accès
       </Button>
       <ModalWithForm

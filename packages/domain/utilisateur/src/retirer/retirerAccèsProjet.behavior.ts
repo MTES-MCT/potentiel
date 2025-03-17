@@ -20,7 +20,6 @@ type RetirerAccèsProjetOptions = {
   retiréLe: DateTime.ValueType;
   retiréPar: Email.ValueType;
   cause?: 'changement-producteur';
-  estLeMêmeUtilisateur: boolean;
   utilisateurNAPasAccèsAuProjet: boolean;
 };
 
@@ -32,11 +31,10 @@ export async function retirerAccèsProjet(
     retiréLe,
     retiréPar,
     cause,
-    estLeMêmeUtilisateur,
     utilisateurNAPasAccèsAuProjet,
   }: RetirerAccèsProjetOptions,
 ) {
-  if (estLeMêmeUtilisateur) {
+  if (retiréPar.estÉgaleÀ(identifiantUtilisateur)) {
     throw new RetraitDeSesAccèsProjetError();
   }
 

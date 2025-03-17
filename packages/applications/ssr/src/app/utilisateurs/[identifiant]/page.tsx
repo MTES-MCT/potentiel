@@ -3,7 +3,9 @@ import { notFound } from 'next/navigation';
 
 import {
   ConsulterUtilisateurQuery,
+  ConsulterUtilisateurReadModel,
   ListerPorteursQuery,
+  ListerPorteursReadModel,
   Role,
 } from '@potentiel-domain/utilisateur';
 import { mapToPlainObject } from '@potentiel-domain/core';
@@ -54,9 +56,20 @@ export default async function Page({ params: { identifiant } }: PageProps) {
         <PorteurListPage
           identifiantProjet={identifiantProjet.formatter()}
           nombreDeProjets={nombreDeProjets}
-          items={mapToPlainObject(utilisateurs.items)}
+          items={mapToProps(utilisateurs.items, utilisateurQuiInvite)}
         />
       );
     }),
   );
 }
+
+const mapToProps = (
+  utilisateurs: ListerPorteursReadModel['items'],
+  utilisateurQuiInvite: ConsulterUtilisateurReadModel,
+) =>
+  mapToPlainObject(utilisateurs).map((utilisateur) => ({
+    ...utilisateur,
+    peutRetirerAccès:
+      utilisateur.identifiantUtilisateur.email !==
+      utilisateurQuiInvite.identifiantUtilisateur.formatter(),
+  }));

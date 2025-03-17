@@ -24,7 +24,7 @@ import {
   ListerProjetsÀRéclamerQuery,
   ListerProjetsÀRéclamerReadModel,
 } from './lister/listerProjetsÀRéclamer.query';
-import { ListerPorteursQuery } from './lister/listerPorteurs.query';
+import { ListerPorteursQuery, ListerPorteursReadModel } from './lister/listerPorteurs.query';
 export * as IdentifiantUtilisateur from './identifiantUtilisateur.valueType';
 export * as Utilisateur from './utilisateur.valueType';
 export * as Role from './role.valueType';
@@ -81,4 +81,5 @@ export {
   ConsulterUtilisateurReadModel,
   ListerUtilisateursReadModel,
   ListerProjetsÀRéclamerReadModel,
+  ListerPorteursReadModel,
 };

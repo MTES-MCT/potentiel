@@ -15,7 +15,7 @@ import { PorteurListItem } from './PorteurListItem';
 
 export type PorteurListPageProps = {
   identifiantProjet: IdentifiantProjet.RawType;
-  items: PlainType<ConsulterUtilisateurReadModel>[];
+  items: PlainType<ConsulterUtilisateurReadModel & { peutRetirerAccès: boolean }>[];
   nombreDeProjets?: number;
 };
 
@@ -38,11 +38,12 @@ export const PorteurListPage: FC<PorteurListPageProps> = ({
             ) : (
               <div>
                 <div className="flex flex-col gap-4 mt-4">
-                  {items.map(({ email }) => (
+                  {items.map(({ email, peutRetirerAccès }) => (
                     <PorteurListItem
                       key={email}
                       identifiantProjet={identifiantProjet}
                       identifiantUtilisateur={email}
+                      peutRetirerAccès={peutRetirerAccès}
                     />
                   ))}
                 </div>
