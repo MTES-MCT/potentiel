@@ -14,7 +14,7 @@ import { inviterPorteurAction, InviterPorteurFormKeys } from './inviterPorteur.a
 
 export type InviterPorteurFormProps = {
   identifiantProjet: IdentifiantProjet.RawType;
-  nombreDeProjets: number;
+  nombreDeProjets?: number;
 };
 
 export const InviterPorteurForm: FC<InviterPorteurFormProps> = ({
@@ -60,7 +60,7 @@ export const InviterPorteurForm: FC<InviterPorteurFormProps> = ({
                     state={validationErrors['identifiantUtilisateurInvite'] ? 'error' : 'default'}
                     stateRelatedMessage={validationErrors['identifiantUtilisateurInvite']}
                   />
-                  {nombreDeProjets > 1 && (
+                  {nombreDeProjets && nombreDeProjets > 1 && (
                     <Checkbox
                       id="inviterATousSesProjets"
                       state={validationErrors['inviterATousSesProjets'] ? 'error' : 'default'}

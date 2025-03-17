@@ -1,7 +1,11 @@
 import { mediator } from 'mediateur';
 import { notFound } from 'next/navigation';
 
-import { ConsulterUtilisateurQuery, ListerPorteursQuery } from '@potentiel-domain/utilisateur';
+import {
+  ConsulterUtilisateurQuery,
+  ListerPorteursQuery,
+  Role,
+} from '@potentiel-domain/utilisateur';
 import { mapToPlainObject } from '@potentiel-domain/core';
 import { IdentifiantProjet } from '@potentiel-domain/common';
 import { Option } from '@potentiel-libraries/monads';
@@ -29,12 +33,15 @@ export default async function Page({ params: { identifiant } }: PageProps) {
         },
       });
 
-      if (
-        Option.isNone(utilisateurQuiInvite) ||
-        Option.isNone(utilisateurQuiInvite.nombreDeProjets)
-      ) {
+      if (Option.isNone(utilisateurQuiInvite)) {
         return notFound();
       }
+
+      const nombreDeProjets =
+        utilisateurQuiInvite.rôle.estÉgaleÀ(Role.porteur) &&
+        Option.isSome(utilisateurQuiInvite.nombreDeProjets)
+          ? utilisateurQuiInvite.nombreDeProjets
+          : undefined;
 
       const utilisateurs = await mediator.send<ListerPorteursQuery>({
         type: 'Utilisateur.Query.ListerPorteurs',
@@ -46,7 +53,7 @@ export default async function Page({ params: { identifiant } }: PageProps) {
       return (
         <PorteurListPage
           identifiantProjet={identifiantProjet.formatter()}
-          nombreDeProjets={utilisateurQuiInvite.nombreDeProjets}
+          nombreDeProjets={nombreDeProjets}
           items={mapToPlainObject(utilisateurs.items)}
         />
       );

@@ -15,8 +15,8 @@ import { PorteurListItem } from './PorteurListItem';
 
 export type PorteurListPageProps = {
   identifiantProjet: IdentifiantProjet.RawType;
-  nombreDeProjets: number;
   items: PlainType<ConsulterUtilisateurReadModel>[];
+  nombreDeProjets?: number;
 };
 
 export const PorteurListPage: FC<PorteurListPageProps> = ({
@@ -67,7 +67,7 @@ export const PorteurListPage: FC<PorteurListPageProps> = ({
 const PorteurListActions: FC<{
   identifiantProjet: IdentifiantProjet.RawType;
   items: PlainType<ConsulterUtilisateurReadModel>[];
-  nombreDeProjets: number;
+  nombreDeProjets?: number;
 }> = ({ identifiantProjet, items, nombreDeProjets }) => {
   return (
     <div className="flex flex-col gap-4 pl-10">
