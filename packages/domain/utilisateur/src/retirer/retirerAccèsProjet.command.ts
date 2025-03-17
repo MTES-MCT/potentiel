@@ -27,6 +27,8 @@ export const registerRetirerAccèsProjetCommand = (loadAggregate: LoadAggregate)
     cause,
   }) => {
     const utilisateur = await loadUtilisateur(identifiantUtilisateur);
+    const estLeMêmeUtilisateur = retiréPar.estÉgaleÀ(identifiantUtilisateur);
+    const utilisateurNAPasAccèsAuProjet = !utilisateur.projets.has(identifiantProjet.formatter());
 
     await utilisateur.retirerAccèsProjet({
       identifiantProjet,
@@ -34,6 +36,8 @@ export const registerRetirerAccèsProjetCommand = (loadAggregate: LoadAggregate)
       retiréLe,
       retiréPar,
       cause,
+      estLeMêmeUtilisateur,
+      utilisateurNAPasAccèsAuProjet,
     });
   };
   mediator.register('Utilisateur.Command.RetirerAccèsProjet', handler);

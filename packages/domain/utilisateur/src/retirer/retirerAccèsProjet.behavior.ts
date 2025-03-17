@@ -1,5 +1,5 @@
 import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
-import { DomainEvent } from '@potentiel-domain/core';
+import { DomainEvent, InvalidOperationError } from '@potentiel-domain/core';
 
 import { UtilisateurAggregate } from '../utilisateur.aggregate';
 
@@ -20,6 +20,8 @@ type RetirerAccèsProjetOptions = {
   retiréLe: DateTime.ValueType;
   retiréPar: Email.ValueType;
   cause?: 'changement-producteur';
+  estLeMêmeUtilisateur: boolean;
+  utilisateurNAPasAccèsAuProjet: boolean;
 };
 
 export async function retirerAccèsProjet(
@@ -30,8 +32,18 @@ export async function retirerAccèsProjet(
     retiréLe,
     retiréPar,
     cause,
+    estLeMêmeUtilisateur,
+    utilisateurNAPasAccèsAuProjet,
   }: RetirerAccèsProjetOptions,
 ) {
+  if (estLeMêmeUtilisateur) {
+    throw new RetraitDeSesAccèsProjetError();
+  }
+
+  if (utilisateurNAPasAccèsAuProjet) {
+    throw new UtilisateurAPasAccèsAuProjetError();
+  }
+
   const event: AccèsProjetRetiréEvent = {
     type: 'AccèsProjetRetiré-V1',
     payload: {
@@ -50,4 +62,16 @@ export function applyAccèsProjetRetiré(
   { payload: { identifiantProjet } }: AccèsProjetRetiréEvent,
 ) {
   this.projets.delete(identifiantProjet);
+}
+
+export class RetraitDeSesAccèsProjetError extends InvalidOperationError {
+  constructor() {
+    super('Vous ne pouvez pas retirer vos accès à ce projet');
+  }
+}
+
+export class UtilisateurAPasAccèsAuProjetError extends InvalidOperationError {
+  constructor() {
+    super("L'utilisateur n'a pas accès au projet");
+  }
 }

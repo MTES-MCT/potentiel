@@ -165,6 +165,14 @@ Quand(
   },
 );
 
+Quand('un porteur retire ses accès au projet lauréat', async function (this: PotentielWorld) {
+  await retirerAccèsProjet.call(this, {
+    identifiantProjet: this.lauréatWorld.identifiantProjet.formatter(),
+    identifiantUtilisateur: this.utilisateurWorld.porteurFixture.email,
+    retiréPar: this.utilisateurWorld.porteurFixture.email,
+  });
+});
+
 export async function inviterPorteur(
   this: PotentielWorld,
   {
@@ -228,7 +236,8 @@ export async function retirerAccèsProjet(
   {
     identifiantProjet,
     identifiantUtilisateur,
-  }: { identifiantProjet: string; identifiantUtilisateur: string },
+    retiréPar,
+  }: { identifiantProjet: string; identifiantUtilisateur: string; retiréPar?: string },
 ) {
   try {
     await mediator.send<RetirerAccèsProjetUseCase>({
@@ -237,7 +246,7 @@ export async function retirerAccèsProjet(
         identifiantProjet,
         identifiantUtilisateur,
         retiréLe: DateTime.now().formatter(),
-        retiréPar: this.utilisateurWorld.adminFixture.email,
+        retiréPar: retiréPar ?? this.utilisateurWorld.adminFixture.email,
       },
     });
   } catch (error) {
