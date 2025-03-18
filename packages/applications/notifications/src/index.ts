@@ -16,6 +16,6 @@ export * as RecoursNotification from './subscribers/éliminé/recours.notificati
 export * as PériodeNotification from './subscribers/période/période.notification';
 
 // Utilisateur
-export * as UtilisateurNotification from './subscribers/utilsiateur/utilisateur.notification';
+export * as UtilisateurNotification from './subscribers/utilisateur/utilisateur.notification';
 
 export { SendEmail, EmailPayload } from './sendEmail';
