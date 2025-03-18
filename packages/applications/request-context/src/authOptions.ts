@@ -109,7 +109,7 @@ export const authOptions: AuthOptions = {
           user,
         });
         return Routes.Auth.signOut({
-          proConnectNotAvailableForUser: true,
+          proConnectNotAvailableForUser: account?.provider === 'proconnect' ? true : false,
           idToken: account?.id_token,
         });
       }
