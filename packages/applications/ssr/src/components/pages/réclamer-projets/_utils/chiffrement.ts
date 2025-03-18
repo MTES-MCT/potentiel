@@ -5,7 +5,7 @@ import crypto from 'node:crypto';
  * It ensures that the same plaintext encrypted multiple times will result in different ciphertexts.
  * This is crucial for security as it prevents patterns that could be exploited by attackers.
  *
- * It can be exposed the the client
+ * It can be exposed to the client
  */
 export const generateIV = () => {
   return crypto.randomBytes(16).toString('hex');
