@@ -1,11 +1,12 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { RebuildTriggered, Event } from '@potentiel-infrastructure/pg-event-sourcing';
+import {
+  createHistoryProjection,
+  removeHistoryProjection,
+} from '@potentiel-infrastructure/pg-projection-write';
 import { Abandon, Actionnaire } from '@potentiel-domain/laureat';
 import { Recours } from '@potentiel-domain/elimine';
-
-import { createHistoryProjection } from '../../infrastructure/createHistoryProjection';
-import { removeHistoryProjection } from '../../infrastructure/removeHistoryProjection';
 
 export type SubscriptionEvent =
   | (Abandon.AbandonEvent & Event)

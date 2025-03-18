@@ -1,9 +1,8 @@
 import { ReprésentantLégal } from '@potentiel-domain/laureat';
 import { RebuildTriggered } from '@potentiel-infrastructure/pg-event-sourcing';
-import { listProjection } from '@potentiel-infrastructure/pg-projections';
+import { listProjection } from '@potentiel-infrastructure/pg-projection-read';
 import { Where } from '@potentiel-domain/entity';
-
-import { removeProjection } from '../../../infrastructure';
+import { removeProjection } from '@potentiel-infrastructure/pg-projection-write';
 
 export const rebuildTriggeredProjector = async ({ payload: { id } }: RebuildTriggered) => {
   await removeProjection<ReprésentantLégal.ReprésentantLégalEntity>(`représentant-légal|${id}`);

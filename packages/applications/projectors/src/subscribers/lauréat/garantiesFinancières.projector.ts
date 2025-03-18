@@ -3,13 +3,11 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 import { Option } from '@potentiel-libraries/monads';
 import { GarantiesFinancières } from '@potentiel-domain/laureat';
 import { RebuildTriggered, Event } from '@potentiel-infrastructure/pg-event-sourcing';
-import { findProjection, listProjection } from '@potentiel-infrastructure/pg-projections';
+import { findProjection, listProjection } from '@potentiel-infrastructure/pg-projection-read';
 import { getLogger } from '@potentiel-libraries/monitoring';
 import { IdentifiantProjet } from '@potentiel-domain/common';
 import { Where } from '@potentiel-domain/entity';
-
-import { removeProjection } from '../../infrastructure/removeProjection';
-import { upsertProjection } from '../../infrastructure/upsertProjection';
+import { removeProjection, upsertProjection } from '@potentiel-infrastructure/pg-projection-write';
 
 export type SubscriptionEvent =
   | (GarantiesFinancières.GarantiesFinancièresEvent & Event)

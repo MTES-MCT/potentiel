@@ -1,7 +1,6 @@
 import { RebuildTriggered } from '@potentiel-infrastructure/pg-event-sourcing';
+import { removeProjection } from '@potentiel-infrastructure/pg-projection-write';
 import { Abandon } from '@potentiel-domain/laureat';
-
-import { removeProjection } from '../../../infrastructure';
 
 export const abandonRebuildTriggered = async ({ payload: { id } }: RebuildTriggered) => {
   await removeProjection<Abandon.AbandonEntity>(`abandon|${id}`);

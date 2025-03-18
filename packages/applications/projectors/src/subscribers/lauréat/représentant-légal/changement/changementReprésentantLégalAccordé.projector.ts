@@ -1,6 +1,5 @@
 import { ReprésentantLégal } from '@potentiel-domain/laureat';
-
-import { upsertProjection } from '../../../../infrastructure';
+import { upsertProjection } from '@potentiel-infrastructure/pg-projection-write';
 
 import { getInfosReprésentantLégal } from './_utils/getInfosReprésentantLégal';
 

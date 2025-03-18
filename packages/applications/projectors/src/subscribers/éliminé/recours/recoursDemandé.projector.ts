@@ -1,6 +1,5 @@
 import { Recours } from '@potentiel-domain/elimine';
-
-import { upsertProjection } from '../../../infrastructure';
+import { upsertProjection } from '@potentiel-infrastructure/pg-projection-write';
 
 export const recoursDemandéProjector = async ({
   payload: { identifiantProjet, demandéLe, demandéPar, raison, pièceJustificative },

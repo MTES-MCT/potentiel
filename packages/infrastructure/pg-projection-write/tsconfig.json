@@ -6,16 +6,16 @@
   },
   "references": [
     {
-      "path": "../../libraries/monitoring"
+      "path": "../../domain/entity"
     },
     {
-      "path": "../../domain/common"
+      "path": "../../libraries/pg-helpers"
     },
     {
-      "path": "../../domain/tâche-planifiée"
+      "path": "../../libraries/flat"
     },
     {
-      "path": "../../infrastructure/pg-projection-read"
+      "path": "../pg-projection-read"
     }
   ]
 }

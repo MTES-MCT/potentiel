@@ -7,7 +7,7 @@ import {
   countProjection,
   findProjection,
   listProjection,
-} from '@potentiel-infrastructure/pg-projections';
+} from '@potentiel-infrastructure/pg-projection-read';
 import { sendEmail } from '@potentiel-infrastructure/email';
 import { Routes } from '@potentiel-applications/routes';
 import { DateTime } from '@potentiel-domain/common';

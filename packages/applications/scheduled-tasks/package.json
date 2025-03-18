@@ -22,7 +22,7 @@
     "@potentiel-infrastructure/domain-adapters": "*",
     "@potentiel-infrastructure/email": "*",
     "@potentiel-infrastructure/pg-event-sourcing": "*",
-    "@potentiel-infrastructure/pg-projections": "*",
+    "@potentiel-infrastructure/pg-projection-read": "*",
     "@potentiel-libraries/file-storage": "*",
     "@potentiel-libraries/monads": "*",
     "@potentiel-libraries/monitoring": "*",

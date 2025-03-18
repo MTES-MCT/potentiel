@@ -21,7 +21,7 @@
       "path": "../../infrastructure/pg-event-sourcing"
     },
     {
-      "path": "../../infrastructure/pg-projections"
+      "path": "../../infrastructure/pg-projection-read"
     },
     {
       "path": "../../infrastructure/domain-adapters"

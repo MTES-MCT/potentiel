@@ -10,7 +10,8 @@
   "dependencies": {
     "@potentiel-libraries/monitoring": "*",
     "@potentiel-domain/common": "*",
-    "@potentiel-domain/tache-planifiee": "*"
+    "@potentiel-domain/tache-planifiee": "*",
+    "@potentiel-infrastructure/pg-projection-read": "*"
   },
   "devDependencies": {
     "@potentiel-config/tsconfig": "*"

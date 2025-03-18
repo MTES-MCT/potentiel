@@ -1,7 +1,7 @@
 import { IdentifiantProjet } from '@potentiel-domain/common';
 import { Raccordement } from '@potentiel-domain/laureat';
 import { Groupe, Role, VérifierAccèsProjetPort } from '@potentiel-domain/utilisateur';
-import { findProjection } from '@potentiel-infrastructure/pg-projections';
+import { findProjection } from '@potentiel-infrastructure/pg-projection-read';
 import { Option } from '@potentiel-libraries/monads';
 import { executeSelect } from '@potentiel-libraries/pg-helpers';
 

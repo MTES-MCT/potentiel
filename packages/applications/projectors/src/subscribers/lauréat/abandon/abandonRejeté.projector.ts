@@ -1,6 +1,5 @@
 import { Abandon } from '@potentiel-domain/laureat';
-
-import { updateOneProjection } from '../../../infrastructure';
+import { updateOneProjection } from '@potentiel-infrastructure/pg-projection-write';
 
 export const abandonRejetéProjector = async ({
   payload: { identifiantProjet, rejetéLe, rejetéPar, réponseSignée },

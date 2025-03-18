@@ -1,7 +1,7 @@
 import { IdentifiantProjet } from '@potentiel-domain/common';
 import { ReprésentantLégal } from '@potentiel-domain/laureat';
 import { Option } from '@potentiel-libraries/monads';
-import { findProjection } from '@potentiel-infrastructure/pg-projections';
+import { findProjection } from '@potentiel-infrastructure/pg-projection-read';
 import { getLogger } from '@potentiel-libraries/monitoring';
 
 export const getInfosReprésentantLégal = async (identifiantProjet: IdentifiantProjet.RawType) => {

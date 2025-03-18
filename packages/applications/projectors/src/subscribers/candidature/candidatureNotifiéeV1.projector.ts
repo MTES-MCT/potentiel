@@ -1,6 +1,5 @@
 import { Candidature } from '@potentiel-domain/candidature';
-
-import { updateOneProjection } from '../../infrastructure/updateOneProjection';
+import { updateOneProjection } from '@potentiel-infrastructure/pg-projection-write';
 
 export const candidatureNotifiéeV1Projector = async ({
   payload,

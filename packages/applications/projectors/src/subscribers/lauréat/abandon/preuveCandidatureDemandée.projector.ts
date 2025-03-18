@@ -1,7 +1,6 @@
 import { Abandon } from '@potentiel-domain/laureat';
 import { getLogger } from '@potentiel-libraries/monitoring';
-
-import { upsertProjection } from '../../../infrastructure';
+import { upsertProjection } from '@potentiel-infrastructure/pg-projection-write';
 
 import { getInfosAbandon } from './utils/getInfosAbandon';
 

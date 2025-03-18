@@ -4,7 +4,7 @@ import { Candidature } from '@potentiel-domain/candidature';
 import { CandidatureAdapter } from '@potentiel-infrastructure/domain-adapters';
 import { Event, loadAggregate, subscribe } from '@potentiel-infrastructure/pg-event-sourcing';
 import { CandidatureProjector } from '@potentiel-applications/projectors';
-import { findProjection, listProjection } from '@potentiel-infrastructure/pg-projections';
+import { findProjection, listProjection } from '@potentiel-infrastructure/pg-projection-read';
 import { AttestationSaga } from '@potentiel-applications/document-builder';
 import { CandidatureNotification, SendEmail } from '@potentiel-applications/notifications';
 

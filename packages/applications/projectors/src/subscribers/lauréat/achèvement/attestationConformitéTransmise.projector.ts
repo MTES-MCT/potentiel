@@ -1,6 +1,5 @@
 import { Achèvement } from '@potentiel-domain/laureat';
-
-import { upsertProjection } from '../../../infrastructure';
+import { upsertProjection } from '@potentiel-infrastructure/pg-projection-write';
 
 export const attestationConformitéTransmiseProjector = async ({
   payload: {
