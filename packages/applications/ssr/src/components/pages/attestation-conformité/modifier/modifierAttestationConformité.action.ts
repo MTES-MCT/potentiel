@@ -8,11 +8,14 @@ import { Routes } from '@potentiel-applications/routes';
 
 import { FormAction, FormState, formAction } from '@/utils/formAction';
 import { withUtilisateur } from '@/utils/withUtilisateur';
-import { keepOrUpdateSingleDocument } from '@/utils/zod/document/keepOrUpdateDocument';
+import {
+  keepOrUpdateManyDocuments,
+  keepOrUpdateSingleDocument,
+} from '@/utils/zod/document/keepOrUpdateDocument';
 
 const schema = zod.object({
   identifiantProjet: zod.string().min(1),
-  attestation: keepOrUpdateSingleDocument({ acceptedFileTypes: ['application/pdf'] }),
+  attestation: keepOrUpdateManyDocuments({ acceptedFileTypes: ['application/pdf'] }),
   preuveTransmissionAuCocontractant: keepOrUpdateSingleDocument({
     acceptedFileTypes: ['application/pdf'],
   }),
@@ -35,7 +38,7 @@ const action: FormAction<FormState, typeof schema> = async (
       type: 'Lauréat.Achèvement.AttestationConformité.UseCase.ModifierAttestationConformité',
       data: {
         identifiantProjetValue: identifiantProjet,
-        attestationValue: attestation,
+        attestationValue: attestation[0],
         preuveTransmissionAuCocontractantValue: preuveTransmissionAuCocontractant,
         dateTransmissionAuCocontractantValue: new Date(
           dateTransmissionAuCocontractant,
