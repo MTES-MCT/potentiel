@@ -89,12 +89,11 @@ async function getEmailPayloads(
       const { BASE_URL } = process.env;
 
       return [
-        ...usersOthersThanDGECOrPorteur.items.map(({ email, nomComplet }) => ({
+        ...usersOthersThanDGECOrPorteur.items.map(({ email }) => ({
           templateId: templateId.notifierDrealAcheteurObligéAdemeCaisseDesDépôtsCRE,
           recipients: [
             {
               email,
-              fullName: nomComplet,
             },
           ],
           messageSubject: `Potentiel - Notification de la période ${période.id} de l'appel d'offres ${appelOffre.id}`,

@@ -7,6 +7,7 @@ import { Candidature } from '@potentiel-domain/candidature';
 import { Lauréat } from '@potentiel-domain/laureat';
 import { Éliminé } from '@potentiel-domain/elimine';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
+import { InviterPorteurUseCase } from '@potentiel-domain/utilisateur';
 
 import { loadPériodeFactory } from '../période.aggregate';
 import * as IdentifiantPériode from '../identifiantPériode.valueType';
@@ -35,6 +36,8 @@ export const registerNotifierPériodeCommand = (loadAggregate: LoadAggregate) =>
   }) => {
     const identifiantLauréats: Array<IdentifiantProjet.ValueType> = [];
     const identifiantÉliminés: Array<IdentifiantProjet.ValueType> = [];
+
+    const porteursAInviter: Record<Email.RawType, IdentifiantProjet.RawType[]> = {};
 
     let nbError = 0;
     for (const identifiantCandidature of identifiantCandidatures) {
@@ -76,6 +79,9 @@ export const registerNotifierPériodeCommand = (loadAggregate: LoadAggregate) =>
 
           identifiantÉliminés.push(identifiantCandidature);
         }
+        const emailPorteur = candidature.emailContact.formatter();
+        porteursAInviter[emailPorteur] ??= [];
+        porteursAInviter[emailPorteur].push(identifiantCandidature.formatter());
       } catch (error) {
         nbError++;
         if (nbError === identifiantCandidatures.length) {
@@ -83,6 +89,18 @@ export const registerNotifierPériodeCommand = (loadAggregate: LoadAggregate) =>
         }
         getLogger().error(error as Error, { identifiantCandidature });
       }
+    }
+
+    for (const [email, projets] of Object.entries(porteursAInviter)) {
+      await mediator.send<InviterPorteurUseCase>({
+        type: 'Utilisateur.UseCase.InviterPorteur',
+        data: {
+          identifiantUtilisateurValue: email,
+          identifiantsProjetValues: projets,
+          invitéLeValue: notifiéeLe.formatter(),
+          invitéParValue: Email.system().formatter(),
+        },
+      });
     }
 
     const période = await loadPériode(identifiantPériode, false);

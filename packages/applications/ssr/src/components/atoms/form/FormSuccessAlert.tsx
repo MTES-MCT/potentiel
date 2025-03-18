@@ -1,12 +1,15 @@
 import Alert from '@codegouvfr/react-dsfr/Alert';
+import Link from 'next/link';
 import { useRouter, useSearchParams } from 'next/navigation';
 import { FC, useEffect } from 'react';
 
 type Props = {
   message: string;
+  linkUrl: string | null;
+  linkUrlLabel: string | null;
 };
 
-export const FormSuccessAlert: FC<Props> = ({ message }) => {
+export const FormSuccessAlert: FC<Props> = ({ message, linkUrl, linkUrlLabel }) => {
   useEffect(() => {
     window.scrollTo({
       top: 0,
@@ -20,6 +23,8 @@ export const FormSuccessAlert: FC<Props> = ({ message }) => {
   const handleRemoveQueryParam = () => {
     const params = new URLSearchParams(searchParams.toString());
     params.delete('success');
+    params.delete('linkUrl');
+    params.delete('linkUrlLabel');
 
     const newUrl = `${window.location.pathname}?${params.toString()}`;
     router.replace(newUrl, { scroll: false });
@@ -32,7 +37,16 @@ export const FormSuccessAlert: FC<Props> = ({ message }) => {
         closable
         severity="success"
         onClose={handleRemoveQueryParam}
-        description={<p>{message}</p>}
+        description={
+          <>
+            <p>{message}</p>
+            {linkUrl && linkUrlLabel && (
+              <Link target="_blank" rel="noopener noreferrer" href={linkUrl}>
+                {linkUrlLabel}
+              </Link>
+            )}
+          </>
+        }
         className="min-h-10"
       />
     </div>

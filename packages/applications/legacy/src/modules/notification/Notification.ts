@@ -1,7 +1,6 @@
 import { Optional } from 'utility-types';
 import { AggregateRoot, DomainError, DomainEvent, UniqueEntityID } from '../../core/domain';
 import { ok, Result } from '../../core/utils';
-import { Région } from '../dreal/région';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 
 type BaseNotification = {
@@ -22,37 +21,6 @@ type Designation = {
     appelOffreId: string;
     periodeId: string;
   };
-  variables: {
-    invitation_link: string;
-  };
-};
-
-type ProjectInvitation = {
-  type: 'project-invitation';
-  context: {
-    userId?: string;
-    projectIds: string[];
-  };
-  variables: {
-    invitation_link: string;
-    nomProjet: string;
-  };
-};
-
-type DrealInvitation = {
-  type: 'dreal-invitation';
-  context: {
-    projectAdmissionKeyId: string;
-    dreal: Région;
-  };
-  variables: {
-    invitation_link: string;
-  };
-};
-
-type UserInvitation = {
-  type: 'user-invitation';
-  context: {};
   variables: {
     invitation_link: string;
   };
@@ -322,9 +290,6 @@ type NouvellePériodeNotifiée = {
 
 type NotificationVariants =
   | Designation
-  | ProjectInvitation
-  | DrealInvitation
-  | UserInvitation
   | PP_GF_Notification
   | DREAL_GF_déposée_Notification
   | DREAL_GF_enregistrée_Notification

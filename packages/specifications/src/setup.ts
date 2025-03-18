@@ -111,8 +111,6 @@ Before<PotentielWorld>(async function (this: PotentielWorld) {
   await executeQuery(`delete from "UserProjects"`);
   await executeQuery(`delete from "users"`);
 
-  await initialiserUtilisateursTests.call(this);
-
   await getClient().send(
     new CreateBucketCommand({
       Bucket: bucketName,
@@ -128,6 +126,8 @@ Before<PotentielWorld>(async function (this: PotentielWorld) {
       récupérerGRDParVille: mockRécupérerGRDParVilleAdapter.bind(this),
     },
   });
+
+  await initialiserUtilisateursTests.call(this);
 });
 
 After(async () => {

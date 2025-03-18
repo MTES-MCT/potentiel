@@ -1,6 +1,6 @@
 export type Recipient = {
   email: string;
-  fullName: string;
+  fullName?: string;
 };
 
 export type EmailPayload = {

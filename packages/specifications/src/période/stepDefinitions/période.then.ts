@@ -10,6 +10,7 @@ import { GarantiesFinancières, Lauréat } from '@potentiel-domain/laureat';
 import { Éliminé } from '@potentiel-domain/elimine';
 import { Candidature } from '@potentiel-domain/candidature';
 import { ConsulterDocumentProjetQuery } from '@potentiel-domain/document';
+import { Role, Utilisateur, VérifierAccèsProjetQuery } from '@potentiel-domain/utilisateur';
 
 import { PotentielWorld } from '../../potentiel.world';
 import { convertReadableStreamToString } from '../../helpers/convertReadableToString';
@@ -80,6 +81,34 @@ Alors(
     }
   },
 );
+
+Alors(`les porteurs doivent avoir accès à leur projet`, async function (this: PotentielWorld) {
+  const { identifiantPériode } = this.périodeWorld;
+  const candidatures = await mediator.send<Candidature.ListerCandidaturesQuery>({
+    type: 'Candidature.Query.ListerCandidatures',
+    data: {
+      appelOffre: identifiantPériode.appelOffre,
+      période: identifiantPériode.période,
+    },
+  });
+  await waitForExpect(async () => {
+    for (const candidature of candidatures.items) {
+      await mediator.send<VérifierAccèsProjetQuery>({
+        type: 'System.Authorization.VérifierAccèsProjet',
+        data: {
+          identifiantProjetValue: candidature.identifiantProjet.formatter(),
+          utilisateur: Utilisateur.bind({
+            identifiantUtilisateur: candidature.emailContact,
+            role: Role.porteur,
+            identifiantGestionnaireRéseau: Option.none,
+            région: Option.none,
+            nom: '',
+          }),
+        },
+      });
+    }
+  });
+});
 
 async function vérifierPériode(
   this: PotentielWorld,

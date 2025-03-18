@@ -6,6 +6,17 @@ import { IdentifiantProjet } from '@potentiel-domain/common';
 
 import { PotentielWorld } from '../../potentiel.world';
 
+import { inviterUtilisateur, retirerAccèsProjet } from './utilisateur.when';
+
+EtantDonné('le porteur {string}', async function (this: PotentielWorld, porteurNom: string) {
+  const porteur = this.utilisateurWorld.porteurFixture.créer({
+    nom: porteurNom,
+  });
+
+  await insérerUtilisateur(porteur);
+});
+
+/** @deprecated Ceci utilise la table legacy Users et UserProjects */
 EtantDonné(
   'le porteur {string} ayant accés au projet {lauréat-éliminé} {string}',
   async function (
@@ -36,18 +47,22 @@ EtantDonné(
     await associerProjetAuPorteur(porteur.id, projets);
   },
 );
-
 EtantDonné(
   'la dreal {string} associée à la région du projet',
   async function (this: PotentielWorld, drealNom: string) {
+    const { région } = this.candidatureWorld.importerCandidature.values.localitéValue;
     const dreal = this.utilisateurWorld.drealFixture.créer({
       nom: drealNom,
+      région,
     });
 
+    await inviterUtilisateur.call(this, {
+      rôle: dreal.role,
+      région: dreal.région,
+    });
+
+    // Compatibilité Legacy
     await insérerUtilisateur(dreal);
-
-    const { région } = this.candidatureWorld.importerCandidature.values.localitéValue;
-
     await associerUtilisateurÀSaDreal(dreal.id, région);
   },
 );
@@ -71,6 +86,19 @@ EtantDonné('le DGEC Validateur sans nom', async function (this: PotentielWorld)
 
   await insérerUtilisateur(validateur);
 });
+
+EtantDonné(
+  `l'accès retiré au projet {lauréat-éliminé}`,
+  async function (this: PotentielWorld, statutProjet: 'lauréat' | 'éliminé') {
+    const { identifiantProjet } =
+      statutProjet === 'lauréat' ? this.lauréatWorld : this.eliminéWorld;
+
+    await retirerAccèsProjet.call(this, {
+      identifiantProjet: identifiantProjet.formatter(),
+      identifiantUtilisateur: this.utilisateurWorld.porteurFixture.email,
+    });
+  },
+);
 
 async function récupérerProjets(identifiantProjet: IdentifiantProjet.ValueType) {
   return executeSelect<{
@@ -177,11 +205,17 @@ async function insérerUtilisateur({
 
 export async function initialiserUtilisateursTests(this: PotentielWorld) {
   const validateur = this.utilisateurWorld.validateurFixture.créer();
-  const system = this.utilisateurWorld.systemFixture.créer();
   const admin = this.utilisateurWorld.adminFixture.créer();
 
+  await inviterUtilisateur.call(this, {
+    rôle: validateur.role,
+    email: validateur.email,
+    fonction: validateur.fonction,
+    nomComplet: validateur.nom,
+  });
+  await inviterUtilisateur.call(this, { rôle: admin.role, email: admin.email });
+
   await insérerUtilisateur(validateur);
-  await insérerUtilisateur(system);
   await insérerUtilisateur(admin);
 }
 

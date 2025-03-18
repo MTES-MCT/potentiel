@@ -163,6 +163,12 @@ const MenuAdmin = (currentPage?: string) => (
       </DropdownMenu.DropdownItem>
     </DropdownMenu>
     <DropdownMenu buttonChildren={'Gestion des accès'}>
+      <DropdownMenu.DropdownItem href={Routes.Utilisateur.lister}>
+        Utilisateurs
+      </DropdownMenu.DropdownItem>
+      <DropdownMenu.DropdownItem href={Routes.Utilisateur.inviter}>
+        Inviter un utilisateur
+      </DropdownMenu.DropdownItem>
       <DropdownMenu.DropdownItem
         href={routes.ADMIN_INVITATION_LIST}
         {...(currentPage === 'list-invitations' && { isCurrent: true })}
@@ -223,7 +229,7 @@ const MenuPorteurProjet = (currentPage?: string) => (
     </DropdownMenu>
     <MenuGarantiesFinancières currentPage={currentPage} />
     <Header.MenuItem
-      href={routes.USER_LIST_MISSING_OWNER_PROJECTS}
+      href={Routes.Utilisateur.réclamerProjet}
       {...(currentPage === 'list-missing-owner-projects' && { isCurrent: true })}
     >
       Projets à réclamer

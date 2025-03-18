@@ -1,36 +1,39 @@
 import { PlainType, ReadonlyValueType } from '@potentiel-domain/core';
-import { Option } from '@potentiel-libraries/monads';
 import { Email } from '@potentiel-domain/common';
+import { Option } from '@potentiel-libraries/monads';
 
 import * as Role from './role.valueType';
-import * as Groupe from './groupe.valueType';
 
 export type ValueType = ReadonlyValueType<{
   nom: string;
   identifiantUtilisateur: Email.ValueType;
   role: Role.ValueType;
-  groupe: Option.Type<Groupe.ValueType>;
+  région: Option.Type<string>;
+  identifiantGestionnaireRéseau: Option.Type<string>;
 }>;
 
 export const bind = ({
   nom,
-  identifiantUtilisateur,
-  groupe,
+  identifiantUtilisateur: { email },
   role,
+  région,
+  identifiantGestionnaireRéseau,
 }: PlainType<ValueType>): ValueType => {
-  const _identifiantUtilisateur = Email.bind(identifiantUtilisateur);
+  const identifiantUtilisateur = Email.convertirEnValueType(email);
   return {
     nom,
     role: Role.bind(role),
-    identifiantUtilisateur: _identifiantUtilisateur,
-    groupe: Option.isSome(groupe) ? Groupe.bind(groupe) : Option.none,
+    identifiantUtilisateur,
+    région,
+    identifiantGestionnaireRéseau,
     estÉgaleÀ(valueType) {
-      return this.nom === valueType.nom &&
-        this.identifiantUtilisateur.estÉgaleÀ(_identifiantUtilisateur) &&
-        this.role.estÉgaleÀ(valueType.role) &&
-        Option.isSome(this.groupe)
-        ? Option.isSome(valueType.groupe) && this.groupe.estÉgaleÀ(valueType.groupe)
-        : Option.isNone(valueType.groupe);
+      return (
+        this.nom === valueType.nom &&
+        this.région === valueType.région &&
+        this.identifiantGestionnaireRéseau === valueType.identifiantGestionnaireRéseau &&
+        this.identifiantUtilisateur.estÉgaleÀ(identifiantUtilisateur) &&
+        this.role.estÉgaleÀ(valueType.role)
+      );
     },
   };
 };

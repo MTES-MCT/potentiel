@@ -104,6 +104,7 @@ export const authOptions: AuthOptions = {
 
       const utilisateur = await getUtilisateurFromEmail(user?.email ?? '');
 
+      // TODO handle signup
       if (Option.isNone(utilisateur)) {
         logger.info(`User tries to connect but is not registered yet`, {
           user,
@@ -114,30 +115,17 @@ export const authOptions: AuthOptions = {
         });
       }
 
-      if (account?.provider === 'email' && !canConnectWithProvider('email', utilisateur.role)) {
-        getLogger('Auth').info(`User tries to connect with Magic Link but is not authorized`, {
-          utilisateur,
-        });
+      if (account?.provider && !canConnectWithProvider(account?.provider, utilisateur.role.nom)) {
+        getLogger('Auth').info(
+          `User tries to connect with '${account.provider}' but is not authorized`,
+          { utilisateur },
+        );
         return Routes.Auth.signIn({ error: 'Unauthorized' });
-      }
-
-      if (
-        account?.provider === 'proconnect' &&
-        !canConnectWithProvider('proconnect', utilisateur.role)
-      ) {
-        logger.info(`User tries to connect with ProConnect but is not authorized yet`, {
-          user,
-        });
-
-        return Routes.Auth.signOut({
-          proConnectNotAvailableForUser: true,
-          idToken: account?.id_token,
-        });
       }
 
       return true;
     },
-    jwt({ token, trigger, account }) {
+    jwt({ token, trigger, account, profile }) {
       if (['signIn', 'signUp'].includes(trigger ?? '') && account) {
         const { sub, expires_at = 0, provider } = account;
         const expiresAtInMs = expires_at * 1000;
@@ -146,10 +134,12 @@ export const authOptions: AuthOptions = {
 
         return {
           ...token,
+          name: profile?.name ?? token.name,
           provider,
           idToken: account.id_token,
           expiresAt: expiresAtInMs,
           refreshToken: account.refresh_token,
+          job: profile?.job,
         };
       }
 
@@ -164,7 +154,10 @@ export const authOptions: AuthOptions = {
         if (session.user?.email) {
           const utilisateur = await getUtilisateurFromEmail(session.user?.email);
           if (Option.isSome(utilisateur)) {
-            session.utilisateur = mapToPlainObject(utilisateur);
+            session.utilisateur = {
+              ...mapToPlainObject(utilisateur),
+              nom: token.name ?? utilisateur.nom,
+            };
           }
         }
 

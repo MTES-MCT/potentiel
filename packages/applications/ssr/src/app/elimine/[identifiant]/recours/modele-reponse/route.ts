@@ -5,7 +5,6 @@ import { Recours } from '@potentiel-domain/elimine';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { Candidature } from '@potentiel-domain/candidature';
 import { DateTime } from '@potentiel-domain/common';
-import { ConsulterUtilisateurQuery } from '@potentiel-domain/utilisateur';
 import {
   formatDateForDocument,
   ModèleRéponseSignée,
@@ -20,19 +19,6 @@ import { formatIdentifiantProjetForDocument } from '@/utils/modèle-document/for
 export const GET = async (_: Request, { params: { identifiant } }: IdentifiantParameter) =>
   withUtilisateur(async (utilisateur) => {
     const identifiantProjet = decodeParameter(identifiant);
-
-    const utilisateurDétails = await mediator.send<ConsulterUtilisateurQuery>({
-      type: 'Utilisateur.Query.ConsulterUtilisateur',
-      data: {
-        identifiantUtilisateur: utilisateur.identifiantUtilisateur.formatter(),
-      },
-    });
-
-    if (Option.isNone(utilisateurDétails)) {
-      return notFound();
-    }
-
-    const { nomComplet } = utilisateurDétails;
 
     const candidature = await mediator.send<Candidature.ConsulterProjetQuery>({
       type: 'Candidature.Query.ConsulterProjet',
@@ -85,7 +71,7 @@ export const GET = async (_: Request, { params: { identifiant } }: IdentifiantPa
         puissance: candidature.puissance.toString(),
         refPotentiel: formatIdentifiantProjetForDocument(identifiantProjet),
         status: recours.statut.value,
-        suiviPar: nomComplet,
+        suiviPar: utilisateur.nom,
         suiviParEmail: appelOffre.dossierSuiviPar,
         titreAppelOffre: appelOffre.title,
         titreFamille: candidature.famille || '',

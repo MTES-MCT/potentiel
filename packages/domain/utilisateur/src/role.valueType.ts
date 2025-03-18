@@ -401,6 +401,21 @@ const référencielPermissions = {
   utilisateur: {
     query: {
       consulter: 'Utilisateur.Query.ConsulterUtilisateur',
+      lister: 'Utilisateur.Query.ListerUtilisateurs',
+      listerPorteurs: 'Utilisateur.Query.ListerPorteurs',
+      listerProjetsÀRéclamer: 'Utilisateur.Query.ListerProjetsÀRéclamer',
+    },
+    command: {
+      inviter: 'Utilisateur.Command.InviterUtilisateur',
+      inviterPorteur: 'Utilisateur.Command.InviterPorteur',
+      retirerAccèsProjet: 'Utilisateur.Command.RetirerAccèsProjet',
+      réclamerProjet: 'Utilisateur.Command.RéclamerProjet',
+    },
+    usecase: {
+      inviter: 'Utilisateur.UseCase.InviterUtilisateur',
+      inviterPorteur: 'Utilisateur.UseCase.InviterPorteur',
+      retirerAccèsProjet: 'Utilisateur.UseCase.RetirerAccèsProjet',
+      réclamerProjet: 'Utilisateur.UseCase.RéclamerProjet',
     },
   },
   tâche: {
@@ -978,6 +993,29 @@ const policies = {
       référencielPermissions.lauréat.command.modifier,
     ],
   },
+  utilisateur: {
+    lister: [référencielPermissions.utilisateur.query.lister],
+    listerPorteurs: [référencielPermissions.utilisateur.query.listerPorteurs],
+    inviter: [
+      référencielPermissions.utilisateur.command.inviter,
+      référencielPermissions.utilisateur.usecase.inviter,
+      référencielPermissions.réseau.gestionnaire.query.lister,
+    ],
+    inviterPorteur: [
+      référencielPermissions.utilisateur.command.inviterPorteur,
+      référencielPermissions.utilisateur.query.consulter,
+      référencielPermissions.utilisateur.usecase.inviterPorteur,
+    ],
+    retirerAccèsProjet: [
+      référencielPermissions.utilisateur.command.retirerAccèsProjet,
+      référencielPermissions.utilisateur.usecase.retirerAccèsProjet,
+    ],
+    réclamerProjet: [
+      référencielPermissions.utilisateur.command.réclamerProjet,
+      référencielPermissions.utilisateur.usecase.réclamerProjet,
+      référencielPermissions.utilisateur.query.listerProjetsÀRéclamer,
+    ],
+  },
 } as const;
 
 /**
@@ -1110,6 +1148,13 @@ const adminPolicies: ReadonlyArray<Policy> = [
 
   // Lauréat
   'lauréat.modifier',
+
+  // Utilisateur
+  'utilisateur.lister',
+  'utilisateur.inviter',
+  'utilisateur.listerPorteurs',
+  'utilisateur.inviterPorteur',
+  'utilisateur.retirerAccèsProjet',
 ];
 
 const dgecValidateurPolicies: ReadonlyArray<Policy> = [
@@ -1212,6 +1257,11 @@ const drealPolicies: ReadonlyArray<Policy> = [
   'actionnaire.listerChangement',
   'actionnaire.accorderChangement',
   'actionnaire.rejeterChangement',
+
+  // Utilisateur
+  'utilisateur.inviterPorteur',
+  'utilisateur.listerPorteurs',
+  'utilisateur.retirerAccèsProjet',
 ];
 
 const porteurProjetPolicies: ReadonlyArray<Policy> = [
@@ -1280,6 +1330,12 @@ const porteurProjetPolicies: ReadonlyArray<Policy> = [
   'actionnaire.demanderChangement',
   'actionnaire.annulerChangement',
   'actionnaire.listerChangement',
+
+  // Utilisateur
+  'utilisateur.inviterPorteur',
+  'utilisateur.listerPorteurs',
+  'utilisateur.réclamerProjet',
+  'utilisateur.retirerAccèsProjet',
 ];
 
 const acheteurObligéPolicies: ReadonlyArray<Policy> = [

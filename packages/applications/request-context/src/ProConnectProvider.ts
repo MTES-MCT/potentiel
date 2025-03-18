@@ -50,16 +50,23 @@ export default function ProConnect<P extends ProConnectProfile>(
         const jwks = await getJwks('proconnect');
         const { payload } = await jwtVerify(userInfo, jwks);
 
-        return payload;
+        return {
+          ...payload,
+          name: getName(payload as ProConnectProfile),
+        };
       },
     },
     profile: async (profile) => {
       return {
         id: profile.uid,
         email: profile.email,
-        name: profile.given_name,
+        name: getName(profile),
       };
     },
     options,
   };
 }
+
+const getName = ({ given_name, usual_name }: ProConnectProfile) => {
+  return given_name && usual_name ? `${given_name} ${usual_name}` : (usual_name ?? given_name);
+};

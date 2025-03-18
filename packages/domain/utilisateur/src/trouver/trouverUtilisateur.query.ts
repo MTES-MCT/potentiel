@@ -1,15 +1,18 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { Option } from '@potentiel-libraries/monads';
+import { Find } from '@potentiel-domain/entity';
+import { Email } from '@potentiel-domain/common';
 
 import { UtilisateurEntity } from '../utilisateur.entity';
-import * as IdentifiantUtilisateur from '../identifiantUtilisateur.valueType';
-import { Role, RécupérerUtilisateurPort } from '..';
+import { Role } from '..';
 
 export type TrouverUtilisateurReadModel = {
-  identifiantUtilisateur: IdentifiantUtilisateur.ValueType;
-  nomComplet: string;
+  identifiantUtilisateur: Email.ValueType;
   rôle: Role.ValueType;
+  fonction: Option.Type<string>;
+  région: Option.Type<string>;
+  identifiantGestionnaireRéseau: Option.Type<string>;
 };
 
 export type TrouverUtilisateurQuery = Message<
@@ -21,14 +24,13 @@ export type TrouverUtilisateurQuery = Message<
 >;
 
 export type TrouverUtilisateurDependencies = {
-  récupérerUtilisateur: RécupérerUtilisateurPort;
+  find: Find;
 };
 
-export const registerTrouverUtilisateurQuery = ({
-  récupérerUtilisateur,
-}: TrouverUtilisateurDependencies) => {
+export const registerTrouverUtilisateurQuery = ({ find }: TrouverUtilisateurDependencies) => {
   const handler: MessageHandler<TrouverUtilisateurQuery> = async ({ identifiantUtilisateur }) => {
-    const result = await récupérerUtilisateur(identifiantUtilisateur);
+    const email = Email.convertirEnValueType(identifiantUtilisateur);
+    const result = await find<UtilisateurEntity>(`utilisateur|${email.formatter()}`);
 
     if (Option.isNone(result)) {
       return result;
@@ -40,12 +42,11 @@ export const registerTrouverUtilisateurQuery = ({
   mediator.register('System.Utilisateur.Query.TrouverUtilisateur', handler);
 };
 
-export const mapToReadModel = ({
-  identifiantUtilisateur,
-  nomComplet,
-  rôle,
-}: UtilisateurEntity): TrouverUtilisateurReadModel => ({
-  identifiantUtilisateur: IdentifiantUtilisateur.convertirEnValueType(identifiantUtilisateur),
-  nomComplet,
-  rôle: Role.convertirEnValueType(rôle),
+export const mapToReadModel = (utilisateur: UtilisateurEntity): TrouverUtilisateurReadModel => ({
+  identifiantUtilisateur: Email.convertirEnValueType(utilisateur.identifiantUtilisateur),
+  rôle: Role.convertirEnValueType(utilisateur.rôle),
+  fonction: utilisateur.rôle === 'dgec-validateur' ? utilisateur.fonction : Option.none,
+  région: utilisateur.rôle === 'dreal' ? utilisateur.région : Option.none,
+  identifiantGestionnaireRéseau:
+    utilisateur.rôle === 'grd' ? utilisateur.identifiantGestionnaireRéseau : Option.none,
 });

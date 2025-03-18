@@ -39,6 +39,7 @@ export type FormState =
       redirection?: {
         url: string;
         message?: string;
+        linkUrl?: { url: string; label: string };
       };
     }
   | {
@@ -101,12 +102,17 @@ export const formAction =
 
       if (result.status === 'success' && result.redirection) {
         revalidatePath(result.redirection.url);
-        redirect(
-          applySearchParams(
-            result.redirection.url,
-            result.redirection.message ? { success: result.redirection.message } : {},
-          ),
-        );
+
+        const searchParams: Record<string, string> = {};
+        if (result.redirection.message) {
+          searchParams.success = result.redirection.message;
+        }
+        if (result.redirection.linkUrl) {
+          searchParams.linkUrl = result.redirection.linkUrl.url;
+          searchParams.linkUrlLabel = result.redirection.linkUrl.label;
+        }
+
+        redirect(applySearchParams(result.redirection.url, searchParams));
       }
 
       return result;

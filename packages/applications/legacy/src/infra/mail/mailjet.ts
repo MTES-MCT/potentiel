@@ -9,14 +9,11 @@ import Mailjet from 'node-mailjet';
 
 const TEMPLATE_ID_BY_TYPE: Record<NotificationProps['type'], number> = {
   designation: 1350523,
-  'project-invitation': 1402576,
-  'dreal-invitation': 1436254,
   'pp-gf-notification': 1463065,
   'dreal-gf-déposée-notification': 1528696,
   'dreal-gf-enregistrée-notification': 5685924,
   'modification-request-status-update': 2046625,
   'pp-délai-accordé-corrigé': 4554290,
-  'user-invitation': 2814281,
   'modification-request-confirmed': 2807220,
   'modification-request-cancelled': 6450441,
   'dreal-modification-received': 2857027,
