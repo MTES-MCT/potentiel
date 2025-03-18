@@ -60,8 +60,8 @@ export default class Migrer extends Command {
             identifiantUtilisateurValue: user.email!,
             rôleValue: Role.grd.nom,
             identifiantGestionnaireRéseauValue: group.name!,
-            invitéLeValue: DateTime.now().formatter(), // TODO
-            invitéParValue: Email.system().formatter(), // TODO
+            invitéLeValue: DateTime.now().formatter(),
+            invitéParValue: Email.system().formatter(),
           },
         });
       }
