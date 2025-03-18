@@ -23,6 +23,8 @@ export const FormSuccessAlert: FC<Props> = ({ message, linkUrl, linkUrlLabel }) 
   const handleRemoveQueryParam = () => {
     const params = new URLSearchParams(searchParams.toString());
     params.delete('success');
+    params.delete('linkUrl');
+    params.delete('linkUrlLabel');
 
     const newUrl = `${window.location.pathname}?${params.toString()}`;
     router.replace(newUrl, { scroll: false });
