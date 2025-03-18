@@ -102,7 +102,7 @@ async function getEmailPayloads(
             appel_offre: appelOffre.id,
             periode: période.id,
             date_notification: new Date(event.payload.notifiéeLe).toLocaleDateString('fr-FR'),
-            modification_request_url: `${BASE_URL}/projets.html`,
+            url: `${BASE_URL}/projets.html`,
           },
         })),
         ...porteurs.map(({ email, fullName }) => ({
