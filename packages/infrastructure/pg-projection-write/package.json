@@ -1,7 +1,7 @@
 {
   "name": "@potentiel-infrastructure/pg-projection-write",
   "version": "0.0.0",
-  "description": "PostgreSQL projection wirte engine",
+  "description": "PostgreSQL projection write engine",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
   "private": true,
