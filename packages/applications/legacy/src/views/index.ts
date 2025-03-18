@@ -11,16 +11,12 @@ import {
   ProjectDetails,
   SignalerDemandeDelai,
   Signup,
-  UploadLegacyModificationFiles,
   ChangerProducteur,
   DemanderChangementPuissance,
   ChoisirCahierDesCharges,
   ChangerFournisseur,
   ListeProjets,
   SuccèsOuErreur,
-  InvitationsCandidatsEnAttente,
-  EmailsEnErreur,
-  LienInvitationPérimé,
   AccèsNonAutorisé,
   AcheteurObligeStatistiques,
   CreStatistiques,
@@ -139,15 +135,6 @@ export const ModificationRequestListPage = (props: Parameters<typeof Modificatio
     title: 'Demandes de modification',
   });
 
-export const UploadLegacyModificationFilesPage = (
-  props: Parameters<typeof UploadLegacyModificationFiles>[0],
-) =>
-  makeHtml({
-    Component: UploadLegacyModificationFiles,
-    props,
-    title: 'Importer courriers historiques',
-  });
-
 export const SignalerDemandeDelaiPage = (props: Parameters<typeof SignalerDemandeDelai>[0]) =>
   makeHtml({
     Component: SignalerDemandeDelai,
@@ -182,29 +169,6 @@ export const SuccèsOuErreurPage = (props: Parameters<typeof SuccèsOuErreur>[0]
   makeHtml({
     Component: SuccèsOuErreur,
     props,
-  });
-
-export const InvitationsCandidatsEnAttentePage = (
-  props: Parameters<typeof InvitationsCandidatsEnAttente>[0],
-) =>
-  makeHtml({
-    Component: InvitationsCandidatsEnAttente,
-    props,
-    title: 'Invitations en attente',
-  });
-
-export const EmailsEnErreurPage = (props: Parameters<typeof EmailsEnErreur>[0]) =>
-  makeHtml({
-    Component: EmailsEnErreur,
-    props,
-    title: 'Emails en erreur',
-  });
-
-export const LienInvitationPériméPage = (props: Parameters<typeof LienInvitationPérimé>[0]) =>
-  makeHtml({
-    Component: LienInvitationPérimé,
-    props,
-    title: 'Lien invitation périmé',
   });
 
 export const AccèsNonAutoriséPage = (props: Parameters<typeof AccèsNonAutorisé>[0]) =>

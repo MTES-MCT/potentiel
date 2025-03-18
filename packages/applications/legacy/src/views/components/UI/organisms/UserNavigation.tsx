@@ -154,32 +154,12 @@ const MenuAdmin = (currentPage?: string) => (
         Corriger des références dossier
       </DropdownMenu.DropdownItem>
     </DropdownMenu>
-    <DropdownMenu buttonChildren={'Imports'}>
-      <DropdownMenu.DropdownItem
-        href={routes.UPLOAD_LEGACY_MODIFICATION_FILES}
-        {...(currentPage === 'admin-upload-legacy-modification-files' && { isCurrent: true })}
-      >
-        Courriers historiques
-      </DropdownMenu.DropdownItem>
-    </DropdownMenu>
     <DropdownMenu buttonChildren={'Gestion des accès'}>
       <DropdownMenu.DropdownItem href={Routes.Utilisateur.lister}>
         Utilisateurs
       </DropdownMenu.DropdownItem>
       <DropdownMenu.DropdownItem href={Routes.Utilisateur.inviter}>
         Inviter un utilisateur
-      </DropdownMenu.DropdownItem>
-      <DropdownMenu.DropdownItem
-        href={routes.ADMIN_INVITATION_LIST}
-        {...(currentPage === 'list-invitations' && { isCurrent: true })}
-      >
-        Candidats en attente
-      </DropdownMenu.DropdownItem>
-      <DropdownMenu.DropdownItem
-        href={routes.ADMIN_NOTIFICATION_LIST}
-        {...(currentPage === 'list-notifications' && { isCurrent: true })}
-      >
-        Emails en erreur
       </DropdownMenu.DropdownItem>
     </DropdownMenu>
 
