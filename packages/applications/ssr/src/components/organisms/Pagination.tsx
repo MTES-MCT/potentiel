@@ -1,4 +1,4 @@
-import React, { ComponentProps, FC } from 'react';
+import { ComponentProps, FC } from 'react';
 
 import { Icon } from '../atoms/Icon';
 
@@ -13,55 +13,58 @@ type PaginationProps = {
  * sur le composant `Pagination` du package @codegouvfr/react-dsfr ne sera pas résolue
  */
 export const Pagination: FC<PaginationProps> = ({ pageCount, currentPage, getPageUrl }) => {
+  const shouldSuivantBeHidden = currentPage === pageCount;
+  const shouldPrecedentBeHidden = currentPage === 1;
+
   return (
     <nav role="navigation" aria-label="Pagination navigation">
       <ul className="flex list-none gap-3 m-0 my-0 mt-6 p-0">
-        <li>
-          <PageLink href={getPageUrl(1)} title="Première page" disabled={currentPage === 1}>
-            <Icon id="fr-icon-arrow-left-s-first-line" />
-          </PageLink>
-        </li>
-        <li className="mr-auto">
-          <PageLink
-            href={getPageUrl(currentPage - 1)}
-            title="Page précédente"
-            disabled={currentPage - 1 <= 0}
-          >
-            <Icon id="fr-icon-arrow-left-s-line" />
-            <span className="hidden md:block">Précédent</span>
-          </PageLink>
-        </li>
+        {shouldPrecedentBeHidden ? (
+          <div className="mr-auto"></div>
+        ) : (
+          <>
+            <li>
+              <PageLink href={getPageUrl(1)} title="Première page">
+                <Icon id="fr-icon-arrow-left-s-first-line" />
+              </PageLink>
+            </li>
+            <li className="mr-auto">
+              <PageLink href={getPageUrl(currentPage - 1)} title="Page précédente">
+                <Icon id="fr-icon-arrow-left-s-line" />
+                <span className="hidden md:block">Précédent</span>
+              </PageLink>
+            </li>
+          </>
+        )}
 
         <li>
           <CurrentPageLink pageNumber={currentPage} /> / {pageCount}
         </li>
 
-        <li className="ml-auto">
-          <PageLink
-            href={getPageUrl(currentPage + 1)}
-            title="Page suivante"
-            disabled={currentPage + 1 > pageCount}
-          >
-            <span className="hidden md:block">Suivant</span>
-            <Icon id="fr-icon-arrow-right-s-line" />
-          </PageLink>
-        </li>
-        <li>
-          <PageLink
-            href={getPageUrl(pageCount)}
-            title="Dernière page"
-            disabled={currentPage === pageCount}
-          >
-            <Icon id="fr-icon-arrow-right-s-last-line" />
-          </PageLink>
-        </li>
+        {shouldSuivantBeHidden ? (
+          <div className="ml-auto"></div>
+        ) : (
+          <>
+            <li className="ml-auto">
+              <PageLink href={getPageUrl(currentPage + 1)} title="Page suivante">
+                <span className="hidden md:block">Suivant</span>
+                <Icon id="fr-icon-arrow-right-s-line" />
+              </PageLink>
+            </li>
+            <li>
+              <PageLink href={getPageUrl(pageCount)} title="Dernière page">
+                <Icon id="fr-icon-arrow-right-s-last-line" />
+              </PageLink>
+            </li>
+          </>
+        )}
       </ul>
     </nav>
   );
 };
 
 type PageLinkProps = ComponentProps<'a'> & {
-  disabled: boolean;
+  disabled?: boolean;
 };
 
 const PageLink: FC<PageLinkProps> = ({ href, title, disabled, children }) => (
