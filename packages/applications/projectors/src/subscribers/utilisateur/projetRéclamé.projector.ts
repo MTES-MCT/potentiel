@@ -13,16 +13,18 @@ export const projetRéclaméProjector = async ({
     .some((p) => (p.rôle === 'porteur-projet' ? p.projets : []))
     .none(() => []);
 
+  // Si c'est son premier projet, la réclamation est considérée
+  // comme la première invitation du porteur sur Potentiel
+  const { invitéLe, invitéPar } = Option.isSome(porteur)
+    ? porteur
+    : { invitéPar: identifiantUtilisateur, invitéLe: réclaméLe };
+
   const newUtilisateur = {
     rôle: 'porteur-projet' as const,
     identifiantUtilisateur,
     projets: [...projets, identifiantProjet],
-    invitéPar: Option.match(porteur)
-      .some((porteur) => porteur.invitéPar)
-      .none(() => identifiantUtilisateur),
-    invitéLe: Option.match(porteur)
-      .some((porteur) => porteur.invitéLe)
-      .none(() => réclaméLe),
+    invitéPar,
+    invitéLe,
   };
 
   await upsertProjection<UtilisateurEntity>(
