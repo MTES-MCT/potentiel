@@ -66,7 +66,7 @@ export const registerListerRecoursQuery = ({
         statut: Where.equal(statut),
         projet: {
           appelOffre: Where.equal(appelOffre),
-          nom: Where.contains(nomProjet),
+          nom: Where.contain(nomProjet),
           région: régionProjet,
         },
       },
