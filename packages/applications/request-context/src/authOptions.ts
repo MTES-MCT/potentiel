@@ -134,10 +134,7 @@ export const authOptions: AuthOptions = {
 
         return {
           ...token,
-          name:
-            profile?.given_name || profile?.usual_name
-              ? (profile.given_name ?? '') + ' ' + (profile.usual_name ?? '')
-              : token.name,
+          name: profile?.name ?? token.name,
           provider,
           idToken: account.id_token,
           expiresAt: expiresAtInMs,
