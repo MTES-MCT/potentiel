@@ -16,6 +16,12 @@
     },
     {
       "path": "../common"
+    },
+    {
+      "path": "../candidature"
+    },
+    {
+      "path": "../appel-offre"
     }
   ]
 }

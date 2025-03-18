@@ -1,6 +1,6 @@
 import { match } from 'ts-pattern';
 
-import { AbstractAggregate, LoadAggregateV2 } from '@potentiel-domain/core';
+import { AbstractAggregate, AggregateType, LoadAggregateV2 } from '@potentiel-domain/core';
 
 import { ProjetAggregateRoot } from '../projet.aggregateRoot';
 
@@ -9,6 +9,7 @@ import { ÉliminéArchivéEvent } from './archiver/éliminéArchivé.event';
 import { NotifierÉliminéOptions } from './notifier/notifierÉliminé.option';
 import { ArchiverÉliminéOptions } from './archiver/archiverÉliminé.options';
 import { ÉliminéNotifiéEvent } from './notifier/éliminéNotifié.event';
+import { RecoursAggregate } from './recours/recours.aggregate';
 
 export class ÉliminéAggregate extends AbstractAggregate<ÉliminéEvent> {
   #projet!: ProjetAggregateRoot;
@@ -17,14 +18,24 @@ export class ÉliminéAggregate extends AbstractAggregate<ÉliminéEvent> {
     return this.#projet;
   }
 
+  #recours!: AggregateType<RecoursAggregate>;
+
+  get recours() {
+    return this.#recours;
+  }
+
   #estArchivé: boolean = false;
 
   get estArchivé() {
     return this.#estArchivé;
   }
 
-  async init(projet: ProjetAggregateRoot, _loadAggregate: LoadAggregateV2) {
+  async init(projet: ProjetAggregateRoot, loadAggregate: LoadAggregateV2) {
     this.#projet = projet;
+    this.#recours = await loadAggregate(
+      `recours|${this.projet.identifiantProjet.formatter()}`,
+      RecoursAggregate,
+    );
   }
 
   async archiver({ dateArchive, identifiantUtilisateur }: ArchiverÉliminéOptions) {
