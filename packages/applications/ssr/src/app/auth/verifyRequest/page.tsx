@@ -33,7 +33,10 @@ export default function VerifyRequest() {
           retourner sur la page de connexion en cliquant sur le bouton ci dessous.
         </p>
 
-        <p>Si malheureusement le problème persiste, n'hésitez pas à nous contacter.</p>
+        <p>
+          Si malheureusement le problème persiste, n'hésitez pas à nous contacter à l'adresse
+          contact@potentiel.beta.gouv.fr.
+        </p>
 
         <Button linkProps={{ href: Routes.Auth.signIn() }}>Retour au choix de connexion</Button>
       </div>
