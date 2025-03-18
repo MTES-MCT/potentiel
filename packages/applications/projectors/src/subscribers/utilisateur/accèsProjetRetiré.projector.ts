@@ -1,8 +1,7 @@
 import { AccèsProjetRetiréEvent, UtilisateurEntity } from '@potentiel-domain/utilisateur';
-import { findProjection } from '@potentiel-infrastructure/pg-projections';
+import { findProjection } from '@potentiel-infrastructure/pg-projection-read';
+import { upsertProjection } from '@potentiel-infrastructure/pg-projection-write';
 import { Option } from '@potentiel-libraries/monads';
-
-import { upsertProjection } from '../../infrastructure';
 
 export const accèsProjetRetiréProjector = async ({
   payload: { identifiantProjet, identifiantUtilisateur },

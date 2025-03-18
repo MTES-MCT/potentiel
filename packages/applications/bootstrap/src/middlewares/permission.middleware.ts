@@ -4,9 +4,9 @@ import { IdentifiantProjet } from '@potentiel-domain/common';
 import { getContext } from '@potentiel-applications/request-context';
 import { UtilisateurEntity, VérifierAccèsProjetQuery } from '@potentiel-domain/utilisateur';
 import { getLogger } from '@potentiel-libraries/monitoring';
-import { listProjection } from '@potentiel-infrastructure/pg-projections';
 import { Where, WhereOptions } from '@potentiel-domain/entity';
 import { OperationRejectedError } from '@potentiel-domain/core';
+import { listProjection } from '@potentiel-infrastructure/pg-projection-read';
 
 export const permissionMiddleware: Middleware = async (message, next) => {
   if (isSystemProcess(message)) {
