@@ -2,7 +2,7 @@ import { mediator } from 'mediateur';
 
 import {
   registerUtilisateurQueries,
-  registerUtiliseurUseCases,
+  registerUtilisateurUseCases,
 } from '@potentiel-domain/utilisateur';
 import { loadAggregate, subscribe } from '@potentiel-infrastructure/pg-event-sourcing';
 import { findProjection, listProjection } from '@potentiel-infrastructure/pg-projection-read';
@@ -22,7 +22,7 @@ export const setupUtilisateur = async ({ sendEmail }: SetupUtilisateurDependenci
     vérifierAccèsProjet: vérifierAccèsProjetAdapter,
   });
 
-  registerUtiliseurUseCases({ loadAggregate });
+  registerUtilisateurUseCases({ loadAggregate });
 
   UtilisateurProjector.register();
   UtilisateurNotification.register({ sendEmail });

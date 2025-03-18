@@ -4,7 +4,7 @@ import { mediator } from 'mediateur';
 import {
   InviterPorteurUseCase,
   InviterUtilisateurUseCase,
-  registerUtiliseurUseCases,
+  registerUtilisateurUseCases,
   Role,
 } from '@potentiel-domain/utilisateur';
 import { DateTime, Email } from '@potentiel-domain/common';
@@ -20,7 +20,7 @@ export default class Migrer extends Command {
   static override flags = {};
 
   protected async init() {
-    registerUtiliseurUseCases({ loadAggregate });
+    registerUtilisateurUseCases({ loadAggregate });
   }
 
   protected async finally(_: Error | undefined) {

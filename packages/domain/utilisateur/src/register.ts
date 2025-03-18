@@ -49,7 +49,7 @@ export type UtilisateurCommandDependencies = {
   loadAggregate: LoadAggregate;
 };
 
-export const registerUtiliseurUseCases = ({ loadAggregate }: UtilisateurCommandDependencies) => {
+export const registerUtilisateurUseCases = ({ loadAggregate }: UtilisateurCommandDependencies) => {
   registerInviterUseCase();
   registerInviterPorteurUseCase();
   registerRéclamerProjetUseCase();
