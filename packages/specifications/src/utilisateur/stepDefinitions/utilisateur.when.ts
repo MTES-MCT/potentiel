@@ -19,11 +19,11 @@ Quand(
   /le porteur invite (un autre porteur|l'administrateur) sur le projet (lauréat|éliminé)/,
   async function (
     this: PotentielWorld,
-    utilisteurInvité: 'un autre porteur' | "l'administrateur",
+    utilisateurInvité: 'un autre porteur' | "l'administrateur",
     statutProjet: 'lauréat' | 'éliminé',
   ) {
     const { email: porteurInvité } =
-      utilisteurInvité === "l'administrateur"
+      utilisateurInvité === "l'administrateur"
         ? this.utilisateurWorld.adminFixture
         : this.utilisateurWorld.inviterUtilisateur.aÉtéCréé &&
             this.utilisateurWorld.inviterUtilisateur.rôle === Role.porteur.nom
