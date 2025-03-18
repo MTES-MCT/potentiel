@@ -12,7 +12,9 @@
     "@potentiel-libraries/monads": "*",
     "@potentiel-domain/common": "*",
     "@potentiel-domain/core": "*",
-    "@potentiel-domain/entity": "*"
+    "@potentiel-domain/entity": "*",
+    "@potentiel-domain/candidature": "*",
+    "@potentiel-domain/appel-offre": "*"
   },
   "devDependencies": {
     "@potentiel-config/tsconfig": "*"
