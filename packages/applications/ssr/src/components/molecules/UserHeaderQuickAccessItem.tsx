@@ -57,7 +57,7 @@ export async function UserHeaderQuickAccessItem() {
         quickAccessItem={{
           iconId: 'ri-account-circle-line',
           linkProps: {
-            href: '/signup.html',
+            href: Routes.Auth.signUp(),
             prefetch: false,
           },
           text: "M'inscrire",

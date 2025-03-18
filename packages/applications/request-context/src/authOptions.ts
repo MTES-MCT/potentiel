@@ -10,6 +10,8 @@ import { PostgresAdapter } from '@potentiel-libraries/auth-pg-adapter';
 import { Option } from '@potentiel-libraries/monads';
 import { mapToPlainObject } from '@potentiel-domain/core';
 import { sendEmail } from '@potentiel-infrastructure/email';
+import { Role } from '@potentiel-domain/utilisateur';
+import { Email } from '@potentiel-domain/common';
 
 import { getProviderConfiguration } from './getProviderConfiguration';
 import { refreshToken } from './refreshToken';
@@ -104,15 +106,13 @@ export const authOptions: AuthOptions = {
 
       const utilisateur = await getUtilisateurFromEmail(user?.email ?? '');
 
-      // TODO handle signup
+      // Un utilisateur non existant aura le rôle porteur afin de pouvoir réclamer un projet
       if (Option.isNone(utilisateur)) {
         logger.info(`User tries to connect but is not registered yet`, {
           user,
+          provider: account?.provider,
         });
-        return Routes.Auth.signOut({
-          proConnectNotAvailableForUser: account?.provider === 'proconnect' ? true : false,
-          idToken: account?.id_token,
-        });
+        return true;
       }
 
       if (account?.provider && !canConnectWithProvider(account?.provider, utilisateur.role.nom)) {
@@ -130,7 +130,11 @@ export const authOptions: AuthOptions = {
         const { sub, expires_at = 0, provider } = account;
         const expiresAtInMs = expires_at * 1000;
 
-        getLogger('Auth').debug(`User logged in`, { sub, expiresAt: new Date(expiresAtInMs) });
+        getLogger('Auth').debug(`User logged in`, {
+          sub,
+          expiresAt: new Date(expiresAtInMs),
+          provider,
+        });
 
         return {
           ...token,
@@ -157,6 +161,14 @@ export const authOptions: AuthOptions = {
             session.utilisateur = {
               ...mapToPlainObject(utilisateur),
               nom: token.name ?? utilisateur.nom,
+            };
+          } else {
+            session.utilisateur = {
+              role: Role.porteur,
+              identifiantUtilisateur: Email.convertirEnValueType(session.user.email),
+              nom: '',
+              région: Option.none,
+              identifiantGestionnaireRéseau: Option.none,
             };
           }
         }

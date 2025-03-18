@@ -66,6 +66,10 @@ const makeAttachUserToRequestMiddleware =
         accountUrl,
       } = utilisateur;
 
+      // Ceci couvre le cas où l'utilisateur s'inscrit spontanément sur Potentiel
+      // L'utilisateur n'existe alors pas sur la nouvelle app, mais existe dans le legacy
+      // En cas d'invitation sur un projet, ou de réclamation d'un projet,
+      // l'utilisateur est créé sur la nouvelle app.
       const getOrCreateUser = async () => {
         const createUserArgs = { email, role, fullName };
         const user = await promisify(getUserByEmail(email));

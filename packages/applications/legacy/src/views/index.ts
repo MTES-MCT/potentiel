@@ -10,7 +10,6 @@ import {
   NewModificationRequest,
   ProjectDetails,
   SignalerDemandeDelai,
-  Signup,
   ChangerProducteur,
   DemanderChangementPuissance,
   ChoisirCahierDesCharges,
@@ -140,13 +139,6 @@ export const SignalerDemandeDelaiPage = (props: Parameters<typeof SignalerDemand
     Component: SignalerDemandeDelai,
     props,
     title: 'Signaler demande de délai',
-  });
-
-export const SignupPage = (props: Parameters<typeof Signup>[0]) =>
-  makeHtml({
-    Component: Signup,
-    props,
-    title: 'Inscription',
   });
 
 export const AbonnementLettreInformationPage = (

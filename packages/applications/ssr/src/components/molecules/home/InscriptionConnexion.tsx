@@ -51,7 +51,7 @@ export const InscriptionConnexion = () => (
                 tabIndex={0}
               >
                 <Button
-                  linkProps={{ href: '/signup.html' }}
+                  linkProps={{ href: Routes.Auth.signUp() }}
                   priority="secondary"
                   className="inline-flex items-center mx-auto my-2"
                   iconId="ri-lock-line"

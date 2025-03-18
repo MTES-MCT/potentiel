@@ -26,8 +26,6 @@ export { withParams };
 class routes {
   static ABONNEMENT_LETTRE_INFORMATION = '/abonnement-lettre-information.html';
   static POST_SINSCRIRE_LETTRE_INFORMATION = '/s-inscrire-a-la-lettre-d-information';
-  static SIGNUP = '/signup.html';
-  static POST_SIGNUP = '/signup';
 
   static ADMIN_GARANTIES_FINANCIERES = '/admin/garanties-financieres.html';
 

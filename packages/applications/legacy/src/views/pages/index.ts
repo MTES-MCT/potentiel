@@ -16,5 +16,4 @@ export * from './AdminStatistiquesPage';
 export * from './CreStatistiquesPage';
 export * from './Error';
 export * from './ListeProjetsPage';
-export * from './Signup';
 export * from './SuccèsOuErreurPage';
