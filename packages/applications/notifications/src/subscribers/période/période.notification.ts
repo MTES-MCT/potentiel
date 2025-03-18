@@ -102,7 +102,7 @@ async function getEmailPayloads(
             appel_offre: appelOffre.id,
             periode: période.id,
             date_notification: new Date(event.payload.notifiéeLe).toLocaleDateString('fr-FR'),
-            url: `${BASE_URL}/projets.html`,
+            redirect_url: `${BASE_URL}/projets.html`,
           },
         })),
         ...porteurs.map(({ email, fullName }) => ({
@@ -115,7 +115,7 @@ async function getEmailPayloads(
           ],
           messageSubject: `Résultats de la ${période.title} période de l'appel d'offres ${appelOffre.id}`,
           variables: {
-            invitation_link: `${BASE_URL}/projets.html`,
+            redirect_url: `${BASE_URL}/projets.html`,
           },
         })),
       ];

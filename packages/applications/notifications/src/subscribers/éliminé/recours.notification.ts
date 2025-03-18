@@ -89,7 +89,7 @@ export const register = ({ sendEmail }: RegisterRecoursNotificationDependencies)
           recipients,
           variables: {
             nom_projet: nomProjet,
-            recours_url: `${BASE_URL}${Routes.Recours.détail(identifiantProjet.formatter())}`,
+            redirect_url: `${BASE_URL}${Routes.Recours.détail(identifiantProjet.formatter())}`,
           },
         });
       }
