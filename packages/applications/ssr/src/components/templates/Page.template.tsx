@@ -13,6 +13,8 @@ type PageTemplateProps = {
 export const PageTemplate: FC<PageTemplateProps> = ({ banner, children }) => {
   const searchParams = useSearchParams();
   const successMessage = searchParams.get('success');
+  const linkUrl = searchParams.get('linkUrl');
+  const linkUrlLabel = searchParams.get('linkUrlLabel');
 
   return (
     <>
@@ -22,7 +24,13 @@ export const PageTemplate: FC<PageTemplateProps> = ({ banner, children }) => {
         </div>
       )}
       <div className="fr-container my-10">
-        {successMessage && <FormSuccessAlert message={successMessage} />}
+        {successMessage && (
+          <FormSuccessAlert
+            message={successMessage}
+            linkUrl={linkUrl}
+            linkUrlLabel={linkUrlLabel}
+          />
+        )}
         {children}
       </div>
     </>

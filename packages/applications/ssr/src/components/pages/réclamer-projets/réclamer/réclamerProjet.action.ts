@@ -63,6 +63,10 @@ const action: FormAction<FormState, typeof schema> = async (_, body) => {
       redirection: {
         url: Routes.Utilisateur.réclamerProjet,
         message: `Vous avez désormais accès au projet ${body.nomProjet}`,
+        linkUrl: {
+          url: Routes.Projet.details(identifiantProjet.formatter()),
+          label: 'Consulter le projet',
+        },
       },
     };
   });
