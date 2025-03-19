@@ -36,6 +36,7 @@ export class ÉliminéAggregate extends AbstractAggregate<ÉliminéEvent> {
       `recours|${this.projet.identifiantProjet.formatter()}`,
       RecoursAggregate,
     );
+    await this.#recours.init(this);
   }
 
   async archiver({ dateArchive, identifiantUtilisateur }: ArchiverÉliminéOptions) {
