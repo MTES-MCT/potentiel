@@ -21,7 +21,10 @@ import { RejeterOptions } from './rejeter/rejeterRecours.options';
 import { RecoursRejetéEvent } from './rejeter/rejeterRecours.event';
 import { InstruireOptions } from './instruire/passerRecoursEnInstruction.options';
 import { RecoursPasséEnInstructionEvent } from './instruire/passerRecoursEnInstruction.event';
-import { RecoursDéjàEnInstructionAvecLeMêmeAdministrateurError } from './recours.error';
+import {
+  AucunRecoursEnCours,
+  RecoursDéjàEnInstructionAvecLeMêmeAdministrateurError,
+} from './recours.error';
 
 export class RecoursAggregate extends AbstractAggregate<RecoursEvent> {
   #éliminé!: ÉliminéAggregate;
@@ -68,6 +71,10 @@ export class RecoursAggregate extends AbstractAggregate<RecoursEvent> {
   }
 
   async accorder({ dateAccord, identifiantUtilisateur, réponseSignée }: AccorderOptions) {
+    if (!this.exists) {
+      throw new AucunRecoursEnCours();
+    }
+
     this.statut.vérifierQueLeChangementDeStatutEstPossibleEn(StatutRecours.accordé);
 
     const event: RecoursAccordéEvent = {
@@ -86,6 +93,10 @@ export class RecoursAggregate extends AbstractAggregate<RecoursEvent> {
   }
 
   async annuler({ dateAnnulation, identifiantUtilisateur }: AnnulerOptions) {
+    if (!this.exists) {
+      throw new AucunRecoursEnCours();
+    }
+
     this.statut.vérifierQueLeChangementDeStatutEstPossibleEn(StatutRecours.annulé);
 
     const event: RecoursAnnuléEvent = {
@@ -125,6 +136,10 @@ export class RecoursAggregate extends AbstractAggregate<RecoursEvent> {
   }
 
   async rejeter({ identifiantUtilisateur, dateRejet, réponseSignée }: RejeterOptions) {
+    if (!this.exists) {
+      throw new AucunRecoursEnCours();
+    }
+
     this.statut.vérifierQueLeChangementDeStatutEstPossibleEn(StatutRecours.rejeté);
 
     const event: RecoursRejetéEvent = {
@@ -143,6 +158,10 @@ export class RecoursAggregate extends AbstractAggregate<RecoursEvent> {
   }
 
   async passerEnInstruction({ dateInstruction, identifiantUtilisateur }: InstruireOptions) {
+    if (!this.exists) {
+      throw new AucunRecoursEnCours();
+    }
+
     this.statut.vérifierQueLeChangementDeStatutEstPossibleEn(StatutRecours.enInstruction);
 
     if (this.demande.instruction?.instruitPar.estÉgaleÀ(identifiantUtilisateur)) {
