@@ -22,9 +22,10 @@ import { NouveauCahierDesChargesNonChoisiError } from '../../../modules/demandeM
 import safeAsyncHandler from '../../helpers/safeAsyncHandler';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { Project } from '../../../infra/sequelize';
-import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
+import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
 import { mediator } from 'mediateur';
 import { GarantiesFinancières } from '@potentiel-domain/laureat';
+import { ListerPorteursQuery, RetirerAccèsProjetUseCase } from '@potentiel-domain/utilisateur';
 
 const schema = yup.object({
   body: yup.object({
@@ -80,9 +81,9 @@ v1Router.post(
         if (!projet) {
           return notFoundResponse({ request, response });
         }
-        const identifiantProjetValue = IdentifiantProjet.convertirEnValueType(
+        const identifiantProjet = IdentifiantProjet.convertirEnValueType(
           `${projet.appelOffreId}#${projet.periodeId}#${projet.familleId}#${projet.numeroCRE}`,
-        ).formatter();
+        );
 
         const appelOffre = await mediator.send<AppelOffre.ConsulterAppelOffreQuery>({
           type: 'AppelOffre.Query.ConsulterAppelOffre',
@@ -93,47 +94,8 @@ v1Router.post(
           return notFoundResponse({ request, response, ressourceTitle: 'Demande' });
         }
 
-        if (
-          isSoumisAuxGF({
-            appelOffres: appelOffre,
-            famille: projet.familleId,
-            période: projet.periodeId,
-          })
-        ) {
-          const dateActuelle = DateTime.now().date;
-
-          const garantiesFinancières =
-            await mediator.send<GarantiesFinancières.ConsulterGarantiesFinancièresQuery>({
-              type: 'Lauréat.GarantiesFinancières.Query.ConsulterGarantiesFinancières',
-              data: {
-                identifiantProjetValue,
-              },
-            });
-
-          if (Option.isSome(garantiesFinancières)) {
-            await mediator.send<GarantiesFinancières.EffacerHistoriqueGarantiesFinancièresUseCase>({
-              type: 'Lauréat.GarantiesFinancières.UseCase.EffacerHistoriqueGarantiesFinancières',
-              data: {
-                identifiantProjetValue,
-                effacéLeValue: dateActuelle.toISOString(),
-                effacéParValue: user.email,
-              },
-            });
-          }
-
-          await mediator.send<GarantiesFinancières.DemanderGarantiesFinancièresUseCase>({
-            type: 'Lauréat.GarantiesFinancières.UseCase.DemanderGarantiesFinancières',
-            data: {
-              demandéLeValue: dateActuelle.toISOString(),
-              identifiantProjetValue,
-              dateLimiteSoumissionValue: new Date(
-                dateActuelle.setMonth(dateActuelle.getMonth() + 2),
-              ).toISOString(),
-              motifValue:
-                GarantiesFinancières.MotifDemandeGarantiesFinancières.changementProducteur.motif,
-            },
-          });
-        }
+        await renouvelerGarantiesFinancières(identifiantProjet, appelOffre, user.email);
+        await retirerTousAccès(identifiantProjet.formatter());
 
         return response.redirect(
           routes.SUCCESS_OR_ERROR_PAGE({
@@ -169,3 +131,81 @@ v1Router.post(
     },
   ),
 );
+
+/** Si le projet est soumis aux GF, effacer les eventuelles GF existantes et en redemander */
+const renouvelerGarantiesFinancières = async (
+  identifiantProjet: IdentifiantProjet.ValueType,
+  appelOffre: AppelOffre.ConsulterAppelOffreReadModel,
+  identifiantUtilisateur: string,
+) => {
+  if (
+    !isSoumisAuxGF({
+      appelOffres: appelOffre,
+      famille: identifiantProjet.famille,
+      période: identifiantProjet.période,
+    })
+  ) {
+    logger.info("Le projet n'est pas soumis aux Garanties Financières");
+    return;
+  }
+  const dateActuelle = DateTime.now().date;
+
+  const garantiesFinancières =
+    await mediator.send<GarantiesFinancières.ConsulterGarantiesFinancièresQuery>({
+      type: 'Lauréat.GarantiesFinancières.Query.ConsulterGarantiesFinancières',
+      data: {
+        identifiantProjetValue: identifiantProjet.formatter(),
+      },
+    });
+
+  if (Option.isSome(garantiesFinancières)) {
+    await mediator.send<GarantiesFinancières.EffacerHistoriqueGarantiesFinancièresUseCase>({
+      type: 'Lauréat.GarantiesFinancières.UseCase.EffacerHistoriqueGarantiesFinancières',
+      data: {
+        identifiantProjetValue: identifiantProjet.formatter(),
+        effacéLeValue: dateActuelle.toISOString(),
+        effacéParValue: identifiantUtilisateur,
+      },
+    });
+  }
+
+  await mediator.send<GarantiesFinancières.DemanderGarantiesFinancièresUseCase>({
+    type: 'Lauréat.GarantiesFinancières.UseCase.DemanderGarantiesFinancières',
+    data: {
+      demandéLeValue: dateActuelle.toISOString(),
+      identifiantProjetValue: identifiantProjet.formatter(),
+      dateLimiteSoumissionValue: new Date(
+        dateActuelle.setMonth(dateActuelle.getMonth() + 2),
+      ).toISOString(),
+      motifValue: GarantiesFinancières.MotifDemandeGarantiesFinancières.changementProducteur.motif,
+    },
+  });
+};
+
+/** Retirer les accès de tous les porteurs ayant accès au projet */
+const retirerTousAccès = async (identifiantProjet: string) => {
+  try {
+    const porteurs = await mediator.send<ListerPorteursQuery>({
+      type: 'Utilisateur.Query.ListerPorteurs',
+      data: { identifiantProjet },
+    });
+    for (const porteur of porteurs.items) {
+      await mediator.send<RetirerAccèsProjetUseCase>({
+        type: 'Utilisateur.UseCase.RetirerAccèsProjet',
+        data: {
+          identifiantProjet: identifiantProjet,
+          identifiantUtilisateur: porteur.email,
+          retiréLe: DateTime.now().formatter(),
+          retiréPar: Email.system().formatter(),
+          cause: 'changement-producteur',
+        },
+      });
+    }
+  } catch (error) {
+    logger.error(
+      new Error('Impossible de retirer les accès aux porteurs suite au changement de producteur', {
+        cause: error,
+      }),
+    );
+  }
+};
