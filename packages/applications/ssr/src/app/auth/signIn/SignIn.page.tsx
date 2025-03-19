@@ -50,7 +50,9 @@ export default function SignInPage({ providers }: SignInPageProps) {
   }, [status, callbackUrl, data]);
 
   const [email, setEmail] = useState('');
-  const [userProfile, setUserProfile] = useState<'administration' | 'other' | undefined>(undefined);
+  const [typeConnexion, setTypeConnexion] = useState<'administration' | 'other' | undefined>(
+    undefined,
+  );
   return (
     <PageTemplate>
       {onlyKeycloak ? (
@@ -69,10 +71,11 @@ export default function SignInPage({ providers }: SignInPageProps) {
             />
           )}
 
-          {!userProfile ? (
+          {!typeConnexion ? (
             <div className="flex items-stretch gap-6">
               <div className="container w-[360px] md:w-1/2">
                 <Tile
+                  className="min-h-[300px]"
                   title="Vous travaillez dans l'administration ?"
                   titleAs="h2"
                   desc="Connectez-vous facilement à l'aide de votre adresse professionnelle en utilisant votre compte ProConnect"
@@ -88,7 +91,12 @@ export default function SignInPage({ providers }: SignInPageProps) {
                   }
                   detail={
                     providers.includes('proconnect') ? (
-                      <ProConnectButton onClick={() => signIn('proconnect', { callbackUrl })} />
+                      <ProConnectButton
+                        onClick={() => {
+                          setTypeConnexion('administration');
+                          signIn('proconnect', { callbackUrl });
+                        }}
+                      />
                     ) : (
                       <div>ProConnect non disponible</div>
                     )
@@ -98,6 +106,7 @@ export default function SignInPage({ providers }: SignInPageProps) {
               </div>
               <div className="container w-[360px] md:w-1/2">
                 <Tile
+                  className="min-h-[300px]"
                   title="Autres utilisateurs"
                   titleAs="h2"
                   desc="Connectez-vous facilement sur Potentiel en utilisant les différentes méthodes de connexion disponibles"
@@ -118,20 +127,30 @@ export default function SignInPage({ providers }: SignInPageProps) {
                       ))}
                     </div>
                   }
-                  linkProps={{
-                    href: '#',
-                    onClick: (event) => {
-                      event.preventDefault();
-                      setUserProfile('other');
-                    },
-                  }}
-                  enlargeLinkOrButton
+                  detail={
+                    <Button
+                      onClick={(e) => {
+                        e.preventDefault();
+                        setTypeConnexion('other');
+                      }}
+                    >
+                      Voir les différentes méthodes de connexion
+                    </Button>
+                  }
                   orientation="horizontal"
                 />
               </div>
             </div>
           ) : (
             <>
+              <Button
+                iconId="fr-icon-arrow-left-line"
+                onClick={() => setTypeConnexion(undefined)}
+                priority="secondary"
+              >
+                Revenir en arrière
+              </Button>
+
               {providers.includes('proconnect') && (
                 <LoginMethodTile
                   title="ProConnect"
