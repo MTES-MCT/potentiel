@@ -15,6 +15,7 @@ import {
 } from '../../../components';
 import { match } from 'ts-pattern';
 import { IdentifiantProjet } from '@potentiel-domain/common';
+import { formatProjectDataToIdentifiantProjetValueType } from '../../../../helpers/dataToValueTypes';
 
 type EnregistrerUneModificationProps = {
   projectId: ProjectDataForProjectPage['id'];
@@ -222,7 +223,6 @@ const DrealActions = ({ project, identifiantProjet }: DrealActionsProps) => {
 };
 
 type ProjectActionsProps = {
-  identifiantProjet: IdentifiantProjet.RawType;
   project: ProjectDataForProjectPage;
   user: User;
   abandonEnCoursOuAccordé: boolean;
@@ -238,7 +238,6 @@ type ProjectActionsProps = {
 };
 
 export const ProjectActions = ({
-  identifiantProjet,
   project,
   user,
   abandonEnCoursOuAccordé,
@@ -248,6 +247,13 @@ export const ProjectActions = ({
   peutFaireDemandeChangementReprésentantLégal,
   actionnaireMenu,
 }: ProjectActionsProps) => {
+  const identifiantProjet = formatProjectDataToIdentifiantProjetValueType({
+    appelOffreId: project.appelOffreId,
+    periodeId: project.periodeId,
+    familleId: project.familleId,
+    numeroCRE: project.numeroCRE,
+  }).formatter();
+
   return (
     <div className="print:hidden whitespace-nowrap">
       {userIs(['admin', 'dgec-validateur'])(user) && (
