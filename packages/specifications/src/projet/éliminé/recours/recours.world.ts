@@ -1,5 +1,5 @@
 import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
-import { Recours } from '@potentiel-domain/elimine';
+import { Éliminé } from '@potentiel-domain/projet';
 import { DocumentProjet } from '@potentiel-domain/document';
 
 import { AccorderRecoursFixture } from './fixtures/accorderRecours.fixture';
@@ -56,13 +56,13 @@ export class RecoursWord {
 
   mapToExpected(
     identifiantProjet: IdentifiantProjet.ValueType,
-    statut: Recours.StatutRecours.ValueType,
-  ): Recours.ConsulterRecoursReadModel {
+    statut: Éliminé.Recours.StatutRecours.ValueType,
+  ): Éliminé.Recours.ConsulterRecoursReadModel {
     if (!this.#demanderRecoursFixture.aÉtéCréé) {
       throw new Error(`Aucune demande de recours n'a été créée dans RecoursWorld`);
     }
 
-    const expected: Recours.ConsulterRecoursReadModel = {
+    const expected: Éliminé.Recours.ConsulterRecoursReadModel = {
       statut,
       identifiantProjet,
       demande: {
@@ -71,7 +71,7 @@ export class RecoursWord {
         raison: this.#demanderRecoursFixture.raison,
         pièceJustificative: DocumentProjet.convertirEnValueType(
           identifiantProjet.formatter(),
-          Recours.TypeDocumentRecours.pièceJustificative.formatter(),
+          Éliminé.Recours.TypeDocumentRecours.pièceJustificative.formatter(),
           this.#demanderRecoursFixture.demandéLe,
           this.#demanderRecoursFixture.pièceJustificative.format,
         ),
@@ -97,7 +97,7 @@ export class RecoursWord {
         accordéPar: Email.convertirEnValueType(this.#accorderRecoursFixture.accordéPar),
         réponseSignée: DocumentProjet.convertirEnValueType(
           identifiantProjet.formatter(),
-          Recours.TypeDocumentRecours.recoursAccordé.formatter(),
+          Éliminé.Recours.TypeDocumentRecours.recoursAccordé.formatter(),
           this.#accorderRecoursFixture.accordéLe,
           this.#accorderRecoursFixture.réponseSignée.format,
         ),
@@ -111,7 +111,7 @@ export class RecoursWord {
         rejetéPar: Email.convertirEnValueType(this.#rejeterRecoursFixture.rejetéPar),
         réponseSignée: DocumentProjet.convertirEnValueType(
           identifiantProjet.formatter(),
-          Recours.TypeDocumentRecours.recoursRejeté.formatter(),
+          Éliminé.Recours.TypeDocumentRecours.recoursRejeté.formatter(),
           this.#rejeterRecoursFixture.rejetéLe,
           this.#rejeterRecoursFixture.réponseSignée.format,
         ),

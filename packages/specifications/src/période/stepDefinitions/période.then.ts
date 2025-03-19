@@ -7,7 +7,7 @@ import { Option } from '@potentiel-libraries/monads';
 import { mapToPlainObject } from '@potentiel-domain/core';
 import { Période } from '@potentiel-domain/periode';
 import { GarantiesFinancières, Lauréat } from '@potentiel-domain/laureat';
-import { Éliminé } from '@potentiel-domain/elimine';
+import { Éliminé } from '@potentiel-domain/projet';
 import { Candidature } from '@potentiel-domain/candidature';
 import { ConsulterDocumentProjetQuery } from '@potentiel-domain/document';
 import { Role, Utilisateur, VérifierAccèsProjetQuery } from '@potentiel-domain/utilisateur';

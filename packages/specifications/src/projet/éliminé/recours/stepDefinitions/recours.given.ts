@@ -1,7 +1,7 @@
 import { Given as EtantDonné } from '@cucumber/cucumber';
 import { mediator } from 'mediateur';
 
-import { Recours } from '@potentiel-domain/elimine';
+import { Éliminé } from '@potentiel-domain/projet';
 
 import { PotentielWorld } from '../../../../potentiel.world';
 
@@ -38,7 +38,7 @@ async function créerDemandeRecours(this: PotentielWorld) {
       demandéPar: this.utilisateurWorld.porteurFixture.email,
     });
 
-  await mediator.send<Recours.RecoursUseCase>({
+  await mediator.send<Éliminé.Recours.RecoursUseCase>({
     type: 'Éliminé.Recours.UseCase.DemanderRecours',
     data: {
       identifiantProjetValue: identifiantProjet,
@@ -61,7 +61,7 @@ async function créerAccordRecours(this: PotentielWorld) {
     accordéPar: this.utilisateurWorld.validateurFixture.email,
   });
 
-  await mediator.send<Recours.RecoursUseCase>({
+  await mediator.send<Éliminé.Recours.RecoursUseCase>({
     type: 'Éliminé.Recours.UseCase.AccorderRecours',
     data: {
       identifiantProjetValue: identifiantProjet,
@@ -82,7 +82,7 @@ async function créerRejetRecours(this: PotentielWorld) {
     rejetéPar: this.utilisateurWorld.validateurFixture.email,
   });
 
-  await mediator.send<Recours.RecoursUseCase>({
+  await mediator.send<Éliminé.Recours.RecoursUseCase>({
     type: 'Éliminé.Recours.UseCase.RejeterRecours',
     data: {
       identifiantProjetValue: identifiantProjet,
@@ -101,7 +101,7 @@ async function passerDemandeRecoursEnInstruction(this: PotentielWorld) {
       passéEnInstructionPar: this.utilisateurWorld.adminFixture.email,
     });
 
-  await mediator.send<Recours.RecoursUseCase>({
+  await mediator.send<Éliminé.Recours.RecoursUseCase>({
     type: 'Éliminé.Recours.UseCase.PasserRecoursEnInstruction',
     data: {
       identifiantProjetValue: identifiantProjet,
