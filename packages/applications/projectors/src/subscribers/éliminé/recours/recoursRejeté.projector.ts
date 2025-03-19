@@ -1,4 +1,4 @@
-import { Recours } from '@potentiel-domain/elimine';
+import { Éliminé } from '@potentiel-domain/projet';
 import { updateOneProjection } from '@potentiel-infrastructure/pg-projection-write';
 
 export const recoursRejetéProjector = async ({
@@ -8,8 +8,8 @@ export const recoursRejetéProjector = async ({
     rejetéPar,
     réponseSignée: { format },
   },
-}: Recours.RecoursRejetéEvent) => {
-  await updateOneProjection<Recours.RecoursEntity>(`recours|${identifiantProjet}`, {
+}: Éliminé.Recours.RecoursRejetéEvent) => {
+  await updateOneProjection<Éliminé.Recours.RecoursEntity>(`recours|${identifiantProjet}`, {
     demande: {
       rejet: {
         rejetéLe: rejetéLe,
@@ -19,7 +19,7 @@ export const recoursRejetéProjector = async ({
         },
       },
     },
-    statut: Recours.StatutRecours.rejeté.value,
+    statut: Éliminé.Recours.StatutRecours.rejeté.value,
     misÀJourLe: rejetéLe,
   });
 };

@@ -4,7 +4,7 @@ import { notFound } from 'next/navigation';
 
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { Option } from '@potentiel-libraries/monads';
-import { Éliminé } from '@potentiel-domain/elimine/';
+import { Éliminé } from '@potentiel-domain/projet';
 import { InvalidOperationError } from '@potentiel-domain/core';
 
 import { DemanderRecoursPage } from '@/components/pages/recours/demander/DemanderRecours.page';
