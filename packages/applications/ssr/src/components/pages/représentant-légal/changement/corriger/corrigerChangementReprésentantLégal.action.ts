@@ -43,7 +43,7 @@ const action: FormAction<FormState, typeof schema> = async (
         identifiantProjetValue: identifiantProjet,
         typeReprésentantLégalValue: typeRepresentantLegal,
         nomReprésentantLégalValue: nomRepresentantLegal,
-        pièceJustificativeValue: piecesJustificatives[0],
+        pièceJustificativeValue: piecesJustificatives,
         identifiantUtilisateurValue: utilisateur.identifiantUtilisateur.formatter(),
         dateDemandeValue: dateDemande,
         dateCorrectionValue: new Date().toISOString(),

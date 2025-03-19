@@ -5,6 +5,7 @@ import { ConsulterDocumentProjetQuery } from '@potentiel-domain/document';
 
 import { FileTypes } from '../blob';
 
+import { manyDocuments } from './manyDocuments';
 import { singleDocument } from './singleDocument';
 
 const existingDocument = zod
@@ -30,6 +31,4 @@ export const keepOrUpdateSingleDocument = (options?: CommonOptions) =>
   existingDocument.or(singleDocument(options));
 
 export const keepOrUpdateManyDocuments = (options?: CommonOptions) =>
-  keepOrUpdateSingleDocument(options)
-    .transform((document) => [document])
-    .or(zod.array(keepOrUpdateSingleDocument(options)).min(1, 'Champ obligatoire'));
+  existingDocument.or(manyDocuments(options));
