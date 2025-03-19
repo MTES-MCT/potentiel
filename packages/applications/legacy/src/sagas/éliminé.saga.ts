@@ -1,6 +1,6 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 import { Event } from '@potentiel-infrastructure/pg-event-sourcing';
-import { Éliminé } from '@potentiel-domain/elimine';
+import { Éliminé } from '@potentiel-domain/projet';
 import { eventStore } from '../config/eventStore.config';
 import { ProjectNotified } from '../modules/project';
 import { IdentifiantProjet } from '@potentiel-domain/common';

@@ -21,6 +21,10 @@ export abstract class AbstractAggregate<TDomainEvent extends DomainEvent> {
 
   #publish: Publish;
 
+  get exists() {
+    return this.version > 0;
+  }
+
   constructor(aggregateId: string, version: number, publish: Publish) {
     this.#aggregateId = aggregateId;
     this.#version = version;
