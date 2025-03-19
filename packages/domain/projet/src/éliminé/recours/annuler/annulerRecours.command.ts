@@ -24,7 +24,6 @@ export const registerAnnulerRecoursCommand = (getProjetAggregateRoot: GetProjetA
 
     await projet.éliminé.recours.annuler({
       dateAnnulation,
-      identifiantProjet,
       identifiantUtilisateur,
     });
   };

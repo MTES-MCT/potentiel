@@ -28,7 +28,6 @@ export const registerDemanderRecoursCommand = (getProjetAggregateRoot: GetProjet
     const projet = await getProjetAggregateRoot(identifiantProjet);
 
     await projet.éliminé.recours.demander({
-      identifiantProjet,
       pièceJustificative,
       raison,
       identifiantUtilisateur,

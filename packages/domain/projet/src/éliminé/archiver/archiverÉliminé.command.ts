@@ -1,7 +1,6 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
-import { DateTime } from '@potentiel-domain/common';
-import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
+import { DateTime, Email } from '@potentiel-domain/common';
 
 import { GetProjetAggregateRoot } from '../../getProjetAggregateRoot.port';
 import { IdentifiantProjet } from '../..';
@@ -10,7 +9,7 @@ export type ArchiverÉliminéCommand = Message<
   'Éliminé.Recours.Command.ArchiverÉliminé',
   {
     dateArchive: DateTime.ValueType;
-    identifiantUtilisateur: IdentifiantUtilisateur.ValueType;
+    identifiantUtilisateur: Email.ValueType;
     identifiantProjet: IdentifiantProjet.ValueType;
   }
 >;

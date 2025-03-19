@@ -27,7 +27,6 @@ export const registerPasserRecoursEnInstructionCommand = (
     await projet.éliminé.recours.passerEnInstruction({
       dateInstruction,
       identifiantUtilisateur,
-      identifiantProjet,
     });
   };
   mediator.register('Éliminé.Recours.Command.PasserRecoursEnInstruction', handler);
