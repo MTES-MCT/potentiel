@@ -2,25 +2,29 @@ import asyncHandler from '../helpers/asyncHandler';
 import os from 'os';
 import path from 'path';
 import sanitize from 'sanitize-filename';
-import {
-  dgecEmail,
-  eventStore,
-  getModificationRequestDataForResponseTemplate,
-  oldUserRepo,
-  ensureRole,
-} from '../../config';
+import { oldUserRepo, ensureRole, getIdentifiantProjetByLegacyId } from '../../config';
 import { User } from '../../entities';
 import { fillDocxTemplate } from '../../helpers/fillDocxTemplate';
-import {
-  ModificationRequestDataForResponseTemplateDTO,
-  ResponseTemplateDownloaded,
-} from '../../modules/modificationRequest';
-import { EntityNotFoundError } from '../../modules/shared';
+import { ModificationRequestDataForResponseTemplateDTO } from '../../modules/modificationRequest';
+import { Readable } from 'stream';
 import routes from '../../routes';
 import { shouldUserAccessProject } from '../../useCases';
 import { v1Router } from '../v1Router';
 import { validateUniqueId } from '../../helpers/validateUniqueId';
-import { errorResponse, notFoundResponse, unauthorizedResponse } from '../helpers';
+import { notFoundResponse, unauthorizedResponse } from '../helpers';
+
+import { ModèleRéponseSignée } from '@potentiel-applications/document-builder';
+import { ModificationRequest, Project } from '../../infra/sequelize';
+import { mediator } from 'mediateur';
+import { CahierDesCharges, Lauréat, ReprésentantLégal } from '@potentiel-domain/laureat';
+import { IdentifiantProjet } from '@potentiel-domain/common';
+import { Option } from '@potentiel-libraries/monads';
+import { AppelOffre } from '@potentiel-domain/appel-offre';
+import { Candidature } from '@potentiel-domain/candidature';
+import { mapToPuissanceModèleRéponseProps } from './_utils/modèles/puissance';
+import { logger } from '../../core/utils';
+import { downloadFile } from './_utils/downloadFile';
+import { ReadableStream } from 'stream/web';
 
 v1Router.get(
   routes.TELECHARGER_MODELE_REPONSE(),
@@ -37,109 +41,84 @@ v1Router.get(
       return unauthorizedResponse({ request, response });
     }
 
-    await getModificationRequestDataForResponseTemplate(
-      modificationRequestId,
-      request.user,
-      dgecEmail,
-    ).match(
-      async (
-        data: ModificationRequestDataForResponseTemplateDTO & {
-          appelOffreId: string;
-          periodeId: string;
+    const identifiantProjetValue = await getIdentifiantProjetByLegacyId(projectId);
+    const modificationRequest = await ModificationRequest.findByPk(modificationRequestId, {
+      include: [
+        {
+          model: Project,
+          as: 'project',
         },
-      ) => {
-        if (data.status === 'envoyée' && data.type !== 'delai') {
-          await eventStore.publish(
-            new ResponseTemplateDownloaded({
-              payload: {
-                modificationRequestId,
-                downloadedBy: request.user.id,
-              },
-            }),
-          );
-        }
+      ],
+    });
 
-        return response.download(
-          path.resolve(process.cwd(), await makeResponseTemplate(data, request.user)),
-        );
-      },
-      async (err): Promise<any> => {
-        if (err instanceof EntityNotFoundError) {
-          return notFoundResponse({ request, response, ressourceTitle: 'Demande' });
-        } else {
-          return errorResponse({ request, response });
-        }
-      },
-    );
+    if (!identifiantProjetValue || !modificationRequest) {
+      return notFoundResponse({ request, response, ressourceTitle: 'Demande' });
+    }
+    const identifiantProjet = IdentifiantProjet.bind(identifiantProjetValue);
+
+    const lauréat = await mediator.send<Lauréat.ConsulterLauréatQuery>({
+      type: 'Lauréat.Query.ConsulterLauréat',
+      data: { identifiantProjet: identifiantProjet.formatter() },
+    });
+
+    const appelOffres = await mediator.send<AppelOffre.ConsulterAppelOffreQuery>({
+      type: 'AppelOffre.Query.ConsulterAppelOffre',
+      data: { identifiantAppelOffre: identifiantProjet.appelOffre },
+    });
+
+    const candidature = await mediator.send<Candidature.ConsulterCandidatureQuery>({
+      type: 'Candidature.Query.ConsulterCandidature',
+      data: { identifiantProjet: identifiantProjet.formatter() },
+    });
+    const cahierDesChargesChoisi =
+      await mediator.send<CahierDesCharges.ConsulterCahierDesChargesChoisiQuery>({
+        type: 'Lauréat.CahierDesCharges.Query.ConsulterCahierDesChargesChoisi',
+        data: { identifiantProjet: identifiantProjet.formatter() },
+      });
+
+    const représentantLégal =
+      await mediator.send<ReprésentantLégal.ConsulterReprésentantLégalQuery>({
+        type: 'Lauréat.ReprésentantLégal.Query.ConsulterReprésentantLégal',
+        data: {
+          identifiantProjet: identifiantProjet.formatter(),
+        },
+      });
+
+    if (
+      Option.isNone(lauréat) ||
+      Option.isNone(appelOffres) ||
+      Option.isNone(candidature) ||
+      Option.isNone(cahierDesChargesChoisi)
+    ) {
+      return notFoundResponse({ request, response, ressourceTitle: 'Demande' });
+    }
+
+    if (modificationRequest.type === 'puissance') {
+      const content = await ModèleRéponseSignée.générerModèleRéponseAdapter({
+        type: 'puissance',
+        data: mapToPuissanceModèleRéponseProps({
+          identifiantProjet,
+          lauréat,
+          appelOffres,
+          candidature,
+          cahierDesChargesChoisi,
+          représentantLégal,
+          dateDemande: new Date(modificationRequest.requestedOn),
+          justification: modificationRequest.justification ?? '',
+          nouvellePuissance: modificationRequest.puissance!,
+          puissanceActuelle: modificationRequest.project.puissance,
+          utilisateur: { nom: request.user.fullName },
+        }),
+      });
+
+      return downloadFile(response, {
+        filename: `réponse-changement-puissance-${lauréat.nomProjet.replaceAll(' ', '_')}.docx`,
+        content: content as ReadableStream<any>,
+        contentType: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+      });
+    }
+
+    logger.warning(`Modèle de documents inexistant pour ${modificationRequest.type}`);
+    return notFoundResponse({ request, response, ressourceTitle: 'Demande' });
   }),
 );
-
-const getTemplate = ({
-  type,
-  status,
-}: {
-  type: ModificationRequestDataForResponseTemplateDTO['type'];
-  status: ModificationRequestDataForResponseTemplateDTO['status'];
-}) => {
-  switch (type) {
-    case 'delai':
-      return 'Modèle réponse Prolongation de délai - dynamique.docx';
-    case 'producteur':
-      return 'Modèle réponse Changement Producteur - dynamique.docx';
-    case 'puissance':
-      return 'Modèle réponse Puissance - dynamique.docx';
-    default:
-      return '';
-  }
-};
-
-async function makeResponseTemplate(
-  data: ModificationRequestDataForResponseTemplateDTO & { appelOffreId: string; periodeId: string },
-  user: User,
-): Promise<string> {
-  const { appelOffreId, periodeId, ...données } = data;
-
-  const initials = user.fullName
-    .split(' ')
-    .map((n) => n.slice(0, 1))
-    .join('')
-    .toUpperCase();
-  const type = données.type.charAt(0).toUpperCase() + données.type.slice(1);
-
-  const nomDeFichier = `${new Date().getFullYear()}-XXX - ${initials} - ${type} ${appelOffreId.toUpperCase()} T${periodeId.toUpperCase()} - ${données.nomCandidat.toUpperCase()} - ${données.nomProjet.toUpperCase()}.docx`;
-
-  const filepath = path.join(os.tmpdir(), sanitize(nomDeFichier));
-
-  const templatePath = path.resolve(
-    __dirname,
-    '..',
-    '..',
-    'views',
-    'template',
-    getTemplate({
-      type: données.type,
-      status: données.status,
-    }),
-  );
-
-  let imageToInject = '';
-  if (user.role === 'dreal') {
-    const userDreals = await oldUserRepo.findDrealsForUser(user.id);
-    if (userDreals.length) {
-      const [dreal] = userDreals;
-      imageToInject = path.resolve(__dirname, '../../public/images/dreals', `${dreal}.png`);
-      données.suiviParEmail = user.email;
-      données.dreal = dreal;
-    }
-  }
-
-  // If there are multiple, use the first to coincide with the project
-  await fillDocxTemplate({
-    templatePath,
-    outputPath: filepath,
-    injectImage: imageToInject,
-    variables: données,
-  });
-
-  return filepath;
-}

@@ -51,6 +51,7 @@ const getAuthority = (authority: 'dreal' | 'dgec') => {
   }
 };
 
+/** @deprecated */
 export const getModificationRequestDataForResponseTemplate: GetModificationRequestDateForResponseTemplate =
   (modificationRequestId, user, dgecEmail) => {
     if (!ModificationRequest || !Project || !File || !User) {
