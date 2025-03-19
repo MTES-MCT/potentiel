@@ -2,8 +2,7 @@
 
 import { usePathname, useSearchParams } from 'next/navigation';
 import { FC } from 'react';
-
-import { Pagination } from './Pagination';
+import { Pagination } from '@codegouvfr/react-dsfr/Pagination';
 
 type ListPaginationProps = {
   currentPage: number;
@@ -21,10 +20,18 @@ export const ListPagination: FC<ListPaginationProps> = ({
   const pageCount = Math.ceil(totalItems / itemsPerPage);
 
   const getPageUrl = (pageToGo: number): string => {
-    const urlSearchParams = new URLSearchParams(searchParams);
-    urlSearchParams.set('page', pageToGo.toString());
-    return `${pathname}${urlSearchParams.size > 0 ? `?${urlSearchParams.toString()}` : ''}`;
+    const params = new URLSearchParams(searchParams);
+    params.set('page', pageToGo.toString());
+    return `${pathname}${params.size > 0 ? `?${params.toString()}` : ''}`;
   };
 
-  return <Pagination getPageUrl={getPageUrl} currentPage={currentPage} pageCount={pageCount} />;
+  const getPageLinkProps = (pageToGo: number) => ({
+    href: getPageUrl(pageToGo),
+  });
+
+  return (
+    <div className="w-full flex flex-row justify-center">
+      <Pagination count={pageCount} defaultPage={currentPage} getPageLinkProps={getPageLinkProps} />
+    </div>
+  );
 };
