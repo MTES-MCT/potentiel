@@ -1,13 +1,14 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { DateTime } from '@potentiel-domain/common';
-import { List, RangeOptions, Where } from '@potentiel-domain/entity';
+import { Joined, List, RangeOptions, Where } from '@potentiel-domain/entity';
 import { RécupérerIdentifiantsProjetParEmailPorteurPort } from '@potentiel-domain/utilisateur';
+import { Candidature } from '@potentiel-domain/candidature';
 
-import { IdentifiantProjet } from '../../..';
 import { StatutRecours } from '..';
 import { RecoursEntity } from '../recours.entity';
 import { getRoleBasedWhereCondition, Utilisateur } from '../../_utils/getRoleBasedWhereCondition';
+import { IdentifiantProjet } from '../../..';
 
 type RecoursListItemReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
@@ -58,16 +59,22 @@ export const registerListerRecoursQuery = ({
       récupérerIdentifiantsProjetParEmailPorteur,
     );
 
-    const recours = await list<RecoursEntity>('recours', {
+    const recours = await list<RecoursEntity, Candidature.CandidatureEntity>('recours', {
       orderBy: { misÀJourLe: 'descending' },
       range,
       where: {
         identifiantProjet,
         statut: Where.equal(statut),
-        projet: {
+      },
+      join: {
+        entity: 'candidature',
+        on: 'identifiantProjet',
+        where: {
           appelOffre: Where.equal(appelOffre),
-          nom: Where.contain(nomProjet),
-          région: régionProjet,
+          nomProjet: Where.contain(nomProjet),
+          localité: {
+            région: régionProjet,
+          },
         },
       },
     });
@@ -81,12 +88,18 @@ export const registerListerRecoursQuery = ({
   mediator.register('Éliminé.Recours.Query.ListerRecours', handler);
 };
 
-const mapToReadModel = (entity: RecoursEntity): RecoursListItemReadModel => {
+const mapToReadModel = (
+  entity: RecoursEntity & Joined<Candidature.CandidatureEntity>,
+): RecoursListItemReadModel => {
+  const { appelOffre, période, famille } = IdentifiantProjet.convertirEnValueType(
+    entity.identifiantProjet,
+  );
+
   return {
-    appelOffre: entity.projet?.appelOffre ?? 'N/A',
-    nomProjet: entity.projet?.nom ?? 'N/A',
-    période: entity.projet?.période ?? 'N/A',
-    famille: entity.projet?.famille,
+    appelOffre,
+    période,
+    famille,
+    nomProjet: entity.candidature?.nomProjet ?? 'N/A',
     statut: StatutRecours.convertirEnValueType(entity.statut),
     misÀJourLe: DateTime.convertirEnValueType(entity.misÀJourLe),
     identifiantProjet: IdentifiantProjet.convertirEnValueType(entity.identifiantProjet),
