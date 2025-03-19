@@ -4,7 +4,7 @@ import {
   TransactionalRepository,
   UniqueEntityID,
 } from '../../../core/domain';
-import { errAsync, okAsync, ResultAsync, wrapInfra } from '../../../core/utils';
+import { errAsync, logger, okAsync, ResultAsync, wrapInfra } from '../../../core/utils';
 import { User, formatCahierDesChargesRéférence } from '../../../entities';
 import { FileContents, FileObject, makeFileObject } from '../../file';
 import { Project } from '../../project/Project';
@@ -12,9 +12,9 @@ import { UnauthorizedError } from '../../shared';
 import { ModificationReceived } from '../events';
 import { AppelOffreRepo } from '../../../dataAccess';
 import { NouveauCahierDesChargesNonChoisiError } from '../../demandeModification';
-import { RetirerAccèsProjetUseCase } from '@potentiel-domain/utilisateur';
+import { ListerPorteursQuery, RetirerAccèsProjetUseCase } from '@potentiel-domain/utilisateur';
 import { mediator } from 'mediateur';
-import { DateTime } from '@potentiel-domain/common';
+import { DateTime, Email } from '@potentiel-domain/common';
 
 type ChangerProducteurDeps = {
   eventBus: EventBus;
@@ -93,25 +93,40 @@ export const makeChangerProducteur =
               );
             })
             .andThen(() => {
-              return ResultAsync.fromPromise(
-                mediator.send<RetirerAccèsProjetUseCase>({
-                  type: 'Utilisateur.UseCase.RetirerAccèsProjet',
-                  data: {
-                    identifiantProjet: projet.identifiantProjet,
-                    identifiantUtilisateur: porteur.email,
-                    retiréLe: DateTime.now().formatter(),
-                    retiréPar: porteur.email,
-                    cause: 'changement-producteur',
-                  },
-                }),
-                (e) => {
-                  return new Error('Erreur lors de la révocation des accès au projet', {
-                    cause: e,
-                  });
-                },
-              );
+              return ResultAsync.fromPromise(retirerTousAccès(projet.identifiantProjet), (e) => {
+                return new Error('Erreur lors de la révocation des accès au projet', {
+                  cause: e,
+                });
+              });
             });
         });
       },
     );
   };
+
+const retirerTousAccès = async (identifiantProjet: string) => {
+  try {
+    const porteurs = await mediator.send<ListerPorteursQuery>({
+      type: 'Utilisateur.Query.ListerPorteurs',
+      data: { identifiantProjet },
+    });
+    for (const porteur of porteurs.items) {
+      await mediator.send<RetirerAccèsProjetUseCase>({
+        type: 'Utilisateur.UseCase.RetirerAccèsProjet',
+        data: {
+          identifiantProjet: identifiantProjet,
+          identifiantUtilisateur: porteur.email,
+          retiréLe: DateTime.now().formatter(),
+          retiréPar: Email.system().formatter(),
+          cause: 'changement-producteur',
+        },
+      });
+    }
+  } catch (error) {
+    logger.error(
+      new Error('Impossible de retirer les accès aux porteurs suite au changement de producteur', {
+        cause: error,
+      }),
+    );
+  }
+};
