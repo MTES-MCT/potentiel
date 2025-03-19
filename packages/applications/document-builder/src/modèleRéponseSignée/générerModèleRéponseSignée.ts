@@ -27,6 +27,10 @@ import {
   ModèleRéponseActionnaire,
   modèleRéponseActionnaireFileName,
 } from './actionnaire/modèleRéponseSignéeActionnaire';
+import {
+  ModèleRéponsePuissance,
+  modèleRéponsePuissanceFileName,
+} from './puissance/modèleRéponseSignéePuissance';
 
 export type GénérerModèleRéponseOptions = { logo?: string } & (
   | ModèleRéponseAbandon
@@ -34,6 +38,7 @@ export type GénérerModèleRéponseOptions = { logo?: string } & (
   | ModèleMiseEnDemeure
   | ModèleRéponseMainlevée
   | ModèleRéponseActionnaire
+  | ModèleRéponsePuissance
 );
 
 export type GénérerModèleRéponsePort = (
@@ -90,5 +95,6 @@ const getModèleRéponseFilePath = (type: GénérerModèleRéponseOptions['type'
     .with('actionnaire', () =>
       path.resolve(assets.docxFolderPath, modèleRéponseActionnaireFileName),
     )
+    .with('puissance', () => path.resolve(assets.docxFolderPath, modèleRéponsePuissanceFileName))
     .exhaustive();
 };
