@@ -3,7 +3,7 @@ import { ProjectAppelOffre, User } from '../../../entities';
 import { Permission } from '../../authN';
 import { InfraNotAvailableError, EntityNotFoundError } from '../../shared';
 import { Actionnariat, DésignationCatégorie } from '../types';
-import { Recours } from '@potentiel-domain/elimine';
+import { Éliminé } from '@potentiel-domain/projet';
 
 export const PermissionConsulterProjet: Permission = {
   nom: 'consulter-projet',
@@ -72,7 +72,7 @@ export type ProjectDataForProjectPage = {
 
   updatedAt?: Date;
   demandeRecours?: {
-    statut: Recours.StatutRecours.RawType;
+    statut: Éliminé.Recours.StatutRecours.RawType;
   };
 } & (IsNotified | IsNotNotified) &
   (IsClasse | IsElimine | IsAbandoned);
