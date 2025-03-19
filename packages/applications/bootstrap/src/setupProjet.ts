@@ -7,15 +7,15 @@ import { récupérerIdentifiantsProjetParEmailPorteurAdapter } from '@potentiel-
 import { RecoursProjector, ÉliminéProjector } from '@potentiel-applications/projectors';
 import { RecoursNotification, SendEmail } from '@potentiel-applications/notifications';
 
+import { getProjetAggregateRootAdapter } from './adapters/getProjetAggregateRoot.adapter';
+
 type SetupProjetDependencies = {
   sendEmail: SendEmail;
 };
 
 export const setupProjet = async ({ sendEmail }: SetupProjetDependencies) => {
   registerProjetUseCases({
-    getProjetAggregateRoot: async () => {
-      throw new Error();
-    }, // todo
+    getProjetAggregateRoot: getProjetAggregateRootAdapter,
   });
 
   registerProjetQueries({
