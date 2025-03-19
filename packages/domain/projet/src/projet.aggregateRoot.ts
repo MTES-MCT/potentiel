@@ -43,7 +43,8 @@ export class ProjetAggregateRoot {
     { loadAggregate }: ProjetAggregateRootDependencies,
   ) {
     const root = new ProjetAggregateRoot(identifiantProjet, loadAggregate);
-    return root.init();
+    await root.init();
+    return root;
   }
 
   private async init() {
