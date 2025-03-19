@@ -67,18 +67,13 @@ export class RecoursAggregate extends AbstractAggregate<RecoursEvent> {
     this.#éliminé = éliminé;
   }
 
-  async accorder({
-    dateAccord,
-    identifiantUtilisateur,
-    identifiantProjet,
-    réponseSignée,
-  }: AccorderOptions) {
+  async accorder({ dateAccord, identifiantUtilisateur, réponseSignée }: AccorderOptions) {
     this.statut.vérifierQueLeChangementDeStatutEstPossibleEn(StatutRecours.accordé);
 
     const event: RecoursAccordéEvent = {
       type: 'RecoursAccordé-V1',
       payload: {
-        identifiantProjet: identifiantProjet.formatter(),
+        identifiantProjet: this.éliminé.projet.identifiantProjet.formatter(),
         réponseSignée: {
           format: réponseSignée.format,
         },
@@ -90,13 +85,13 @@ export class RecoursAggregate extends AbstractAggregate<RecoursEvent> {
     await this.publish(event);
   }
 
-  async annuler({ dateAnnulation, identifiantUtilisateur, identifiantProjet }: AnnulerOptions) {
+  async annuler({ dateAnnulation, identifiantUtilisateur }: AnnulerOptions) {
     this.statut.vérifierQueLeChangementDeStatutEstPossibleEn(StatutRecours.annulé);
 
     const event: RecoursAnnuléEvent = {
       type: 'RecoursAnnulé-V1',
       payload: {
-        identifiantProjet: identifiantProjet.formatter(),
+        identifiantProjet: this.éliminé.projet.identifiantProjet.formatter(),
         annuléLe: dateAnnulation.formatter(),
         annuléPar: identifiantUtilisateur.formatter(),
       },
@@ -108,7 +103,6 @@ export class RecoursAggregate extends AbstractAggregate<RecoursEvent> {
   async demander({
     identifiantUtilisateur,
     dateDemande,
-    identifiantProjet,
     pièceJustificative,
     raison,
   }: DemanderOptions) {
@@ -117,7 +111,7 @@ export class RecoursAggregate extends AbstractAggregate<RecoursEvent> {
     const event: RecoursDemandéEvent = {
       type: 'RecoursDemandé-V1',
       payload: {
-        identifiantProjet: identifiantProjet.formatter(),
+        identifiantProjet: this.éliminé.projet.identifiantProjet.formatter(),
         pièceJustificative: {
           format: pièceJustificative.format,
         },
@@ -130,18 +124,13 @@ export class RecoursAggregate extends AbstractAggregate<RecoursEvent> {
     await this.publish(event);
   }
 
-  async rejeter({
-    identifiantUtilisateur,
-    dateRejet,
-    identifiantProjet,
-    réponseSignée,
-  }: RejeterOptions) {
+  async rejeter({ identifiantUtilisateur, dateRejet, réponseSignée }: RejeterOptions) {
     this.statut.vérifierQueLeChangementDeStatutEstPossibleEn(StatutRecours.rejeté);
 
     const event: RecoursRejetéEvent = {
       type: 'RecoursRejeté-V1',
       payload: {
-        identifiantProjet: identifiantProjet.formatter(),
+        identifiantProjet: this.éliminé.projet.identifiantProjet.formatter(),
         réponseSignée: {
           format: réponseSignée.format,
         },
@@ -153,11 +142,7 @@ export class RecoursAggregate extends AbstractAggregate<RecoursEvent> {
     await this.publish(event);
   }
 
-  async passerEnInstruction({
-    dateInstruction,
-    identifiantUtilisateur,
-    identifiantProjet,
-  }: InstruireOptions) {
+  async passerEnInstruction({ dateInstruction, identifiantUtilisateur }: InstruireOptions) {
     this.statut.vérifierQueLeChangementDeStatutEstPossibleEn(StatutRecours.enInstruction);
 
     if (this.demande.instruction?.instruitPar.estÉgaleÀ(identifiantUtilisateur)) {
@@ -167,7 +152,7 @@ export class RecoursAggregate extends AbstractAggregate<RecoursEvent> {
     const event: RecoursPasséEnInstructionEvent = {
       type: 'RecoursPasséEnInstruction-V1',
       payload: {
-        identifiantProjet: identifiantProjet.formatter(),
+        identifiantProjet: this.éliminé.projet.identifiantProjet.formatter(),
         passéEnInstructionLe: dateInstruction.formatter(),
         passéEnInstructionPar: identifiantUtilisateur.formatter(),
       },

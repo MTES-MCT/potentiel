@@ -31,7 +31,6 @@ export const registerAccorderRecoursCommand = (getProjetAggregateRoot: GetProjet
     await projet.éliminé.recours.accorder({
       dateAccord,
       identifiantUtilisateur,
-      identifiantProjet,
       réponseSignée,
     });
   };

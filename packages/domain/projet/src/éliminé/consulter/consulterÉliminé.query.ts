@@ -2,9 +2,10 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { Option } from '@potentiel-libraries/monads';
 import { Find } from '@potentiel-domain/entity';
-import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
+import { DateTime, Email } from '@potentiel-domain/common';
 
 import { ÉliminéEntity } from '../éliminé.entity';
+import { IdentifiantProjet } from '../..';
 
 export type ConsulterÉliminéReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;

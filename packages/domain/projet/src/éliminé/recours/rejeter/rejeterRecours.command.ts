@@ -27,7 +27,6 @@ export const registerRejeterRecoursCommand = (getProjetAggregateRoot: GetProjetA
 
     await projet.éliminé.recours.rejeter({
       dateRejet,
-      identifiantProjet,
       identifiantUtilisateur,
       réponseSignée,
     });
