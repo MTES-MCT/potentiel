@@ -1,22 +1,24 @@
 import { mediator } from 'mediateur';
 
-import { registerEliminéQueries, registerEliminéUseCases } from '@potentiel-domain/elimine';
-import { loadAggregate, subscribe } from '@potentiel-infrastructure/pg-event-sourcing';
+import { registerProjetUseCases, registerProjetQueries } from '@potentiel-domain/projet';
+import { subscribe } from '@potentiel-infrastructure/pg-event-sourcing';
 import { findProjection, listProjection } from '@potentiel-infrastructure/pg-projection-read';
 import { récupérerIdentifiantsProjetParEmailPorteurAdapter } from '@potentiel-infrastructure/domain-adapters';
 import { RecoursProjector, ÉliminéProjector } from '@potentiel-applications/projectors';
 import { RecoursNotification, SendEmail } from '@potentiel-applications/notifications';
 
-type SetupÉliminéDependencies = {
+type SetupProjetDependencies = {
   sendEmail: SendEmail;
 };
 
-export const setupEliminé = async ({ sendEmail }: SetupÉliminéDependencies) => {
-  registerEliminéUseCases({
-    loadAggregate,
+export const setupProjet = async ({ sendEmail }: SetupProjetDependencies) => {
+  registerProjetUseCases({
+    getProjetAggregateRoot: async () => {
+      throw new Error();
+    }, // todo
   });
 
-  registerEliminéQueries({
+  registerProjetQueries({
     find: findProjection,
     list: listProjection,
     récupérerIdentifiantsProjetParEmailPorteur: récupérerIdentifiantsProjetParEmailPorteurAdapter,
@@ -73,7 +75,6 @@ export const setupEliminé = async ({ sendEmail }: SetupÉliminéDependencies) =
   return async () => {
     await unsubscribeRecoursProjector();
     await unsubscribeRecoursNotification();
-
     await unsubscribeÉliminéProjector();
   };
 };

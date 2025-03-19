@@ -13,7 +13,7 @@ import { setupTâche } from './setupTâche';
 import { setupUtilisateur } from './setupUtilisateur';
 import { setupRéseau } from './setupRéseau';
 import { logMiddleware } from './middlewares/log.middleware';
-import { setupEliminé } from './setupEliminé';
+import { setupProjet } from './setupProjet';
 import { setupTâchePlanifiée } from './setupTâchePlanifiée';
 import { setupPériode } from './setupPériode';
 import { setupHistorique } from './setupHistorique';
@@ -63,7 +63,7 @@ export const bootstrap = async ({
     const unsetupTâche = await setupTâche();
     const unsetupTâchePlanifiée = await setupTâchePlanifiée(allDependencies);
 
-    const unsetupEliminé = await setupEliminé(allDependencies);
+    const unsetupEliminé = await setupProjet(allDependencies);
     const unsetupLauréat = await setupLauréat(allDependencies);
     const unsetupGestionnaireRéseau = await setupRéseau();
 

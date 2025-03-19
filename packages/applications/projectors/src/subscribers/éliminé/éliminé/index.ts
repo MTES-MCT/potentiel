@@ -2,7 +2,7 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 import { match } from 'ts-pattern';
 
 import { RebuildTriggered, Event } from '@potentiel-infrastructure/pg-event-sourcing';
-import { Éliminé } from '@potentiel-domain/elimine';
+import { Éliminé } from '@potentiel-domain/projet';
 
 import { éliminéRebuildTriggeredProjector } from './éliminéRebuildTriggered.projector';
 import { éliminéNotifiéProjector } from './éliminéNotifié.projector';

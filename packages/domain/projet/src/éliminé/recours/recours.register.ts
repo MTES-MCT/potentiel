@@ -1,4 +1,4 @@
-import { LoadAggregate } from '@potentiel-domain/core';
+import { GetProjetAggregateRoot } from '../../getProjetAggregateRoot.port';
 
 import { registerAccorderRecoursCommand } from './accorder/accorderRecours.command';
 import { registerAccorderRecoursUseCase } from './accorder/accorderRecours.usecase';
@@ -21,15 +21,15 @@ import { registerPasserRecoursEnInstructionCommand } from './instruire/passerRec
 
 export type RecoursQueryDependencies = ConsulterRecoursDependencies & ListerRecoursDependencies;
 export type RecoursCommandDependencies = {
-  loadAggregate: LoadAggregate;
+  getProjetAggregateRoot: GetProjetAggregateRoot;
 };
 
-export const registerRecoursUseCases = ({ loadAggregate }: RecoursCommandDependencies) => {
-  registerDemanderRecoursCommand(loadAggregate);
-  registerAccorderRecoursCommand(loadAggregate);
-  registerRejeterRecoursCommand(loadAggregate);
-  registerAnnulerRecoursCommand(loadAggregate);
-  registerPasserRecoursEnInstructionCommand(loadAggregate);
+export const registerRecoursUseCases = ({ getProjetAggregateRoot }: RecoursCommandDependencies) => {
+  registerDemanderRecoursCommand(getProjetAggregateRoot);
+  registerAccorderRecoursCommand(getProjetAggregateRoot);
+  registerRejeterRecoursCommand(getProjetAggregateRoot);
+  registerAnnulerRecoursCommand(getProjetAggregateRoot);
+  registerPasserRecoursEnInstructionCommand(getProjetAggregateRoot);
 
   registerDemanderRecoursUseCase();
   registerAccorderRecoursUseCase();

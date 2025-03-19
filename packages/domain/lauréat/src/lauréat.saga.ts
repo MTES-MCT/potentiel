@@ -1,7 +1,7 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
-import { Recours } from '@potentiel-domain/elimine';
+import { Éliminé } from '@potentiel-domain/projet';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { Option } from '@potentiel-libraries/monads';
 
@@ -10,10 +10,19 @@ import { DemanderGarantiesFinancièresCommand } from './garantiesFinancières/de
 import { MotifDemandeGarantiesFinancières } from './garantiesFinancières';
 import { appelOffreSoumisAuxGarantiesFinancières } from './garantiesFinancières/_utils/appelOffreSoumisAuxGarantiesFinancières';
 
-export type SubscriptionEvent = Recours.RecoursAccordéEvent;
+/**
+ * @deprecated
+ */
+export type SubscriptionEvent = Éliminé.Recours.RecoursAccordéEvent;
 
+/**
+ * @deprecated
+ */
 export type Execute = Message<'System.Lauréat.Saga.Execute', SubscriptionEvent>;
 
+/**
+ * @deprecated
+ */
 export const register = () => {
   const handler: MessageHandler<Execute> = async (event) => {
     const {

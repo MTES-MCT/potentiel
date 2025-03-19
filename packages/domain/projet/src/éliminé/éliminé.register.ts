@@ -13,8 +13,8 @@ export type EliminéQueryDependencies = RecoursQueryDependencies;
 export type EliminéCommandDependencies = RecoursCommandDependencies;
 
 export const registerEliminéUseCases = (dependencies: EliminéCommandDependencies) => {
-  registerArchiverÉliminéCommand(dependencies.loadAggregate);
-  registerNotifierÉliminéCommand(dependencies.loadAggregate);
+  registerArchiverÉliminéCommand(dependencies.getProjetAggregateRoot);
+  registerNotifierÉliminéCommand(dependencies.getProjetAggregateRoot);
   registerNotifierÉliminéUseCase();
 
   registerRecoursUseCases(dependencies);

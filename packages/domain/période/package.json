@@ -13,7 +13,7 @@
     "@potentiel-domain/common": "*",
     "@potentiel-domain/core": "*",
     "@potentiel-domain/laureat": "*",
-    "@potentiel-domain/elimine": "*",
+    "@potentiel-domain/projet": "*",
     "@potentiel-domain/candidature": "*"
   },
   "devDependencies": {

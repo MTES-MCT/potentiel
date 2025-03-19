@@ -44,6 +44,9 @@
       "path": "../../domain/candidature"
     },
     {
+      "path": "../../domain/projet"
+    },
+    {
       "path": "../../domain/document"
     },
     {

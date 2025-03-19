@@ -1,10 +1,10 @@
-import { Recours } from '@potentiel-domain/elimine';
+import { Éliminé } from '@potentiel-domain/projet';
 import { upsertProjection } from '@potentiel-infrastructure/pg-projection-write';
 
 export const recoursDemandéProjector = async ({
   payload: { identifiantProjet, demandéLe, demandéPar, raison, pièceJustificative },
-}: Recours.RecoursDemandéEvent) => {
-  await upsertProjection<Recours.RecoursEntity>(`recours|${identifiantProjet}`, {
+}: Éliminé.Recours.RecoursDemandéEvent) => {
+  await upsertProjection<Éliminé.Recours.RecoursEntity>(`recours|${identifiantProjet}`, {
     identifiantProjet,
     demande: {
       demandéLe,
@@ -12,7 +12,7 @@ export const recoursDemandéProjector = async ({
       raison,
       pièceJustificative,
     },
-    statut: Recours.StatutRecours.demandé.value,
+    statut: Éliminé.Recours.StatutRecours.demandé.value,
     misÀJourLe: demandéLe,
   });
 };

@@ -1,4 +1,4 @@
-import { Éliminé } from '@potentiel-domain/elimine';
+import { Éliminé } from '@potentiel-domain/projet';
 import { upsertProjection } from '@potentiel-infrastructure/pg-projection-write';
 
 export const éliminéNotifiéProjector = async (event: Éliminé.ÉliminéNotifiéEvent) => {

@@ -6,11 +6,11 @@ import {
   removeHistoryProjection,
 } from '@potentiel-infrastructure/pg-projection-write';
 import { Abandon, Actionnaire } from '@potentiel-domain/laureat';
-import { Recours } from '@potentiel-domain/elimine';
+import { Éliminé } from '@potentiel-domain/projet';
 
 export type SubscriptionEvent =
   | (Abandon.AbandonEvent & Event)
-  | (Recours.RecoursEvent & Event)
+  | (Éliminé.Recours.RecoursEvent & Event)
   | (Actionnaire.ActionnaireEvent & Event)
   | RebuildTriggered;
 
