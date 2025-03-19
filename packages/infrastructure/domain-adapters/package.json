@@ -14,7 +14,7 @@
     "@potentiel-domain/document": "^0.0.0",
     "@potentiel-domain/utilisateur": "^0.0.0",
     "@potentiel-domain/laureat": "^0.0.0",
-    "@potentiel-domain/elimine": "^0.0.0",
+    "@potentiel-domain/projet": "^0.0.0",
     "@potentiel-domain/reseau": "^0.0.0",
     "@potentiel-libraries/file-storage": "^0.0.0",
     "@potentiel-libraries/monitoring": "^0.0.0",
