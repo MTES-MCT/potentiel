@@ -5,15 +5,6 @@ export type RecoursEntity = Entity<
   {
     identifiantProjet: string;
 
-    projet?: {
-      nom: string;
-      appelOffre: string;
-      période: string;
-      famille?: string;
-      numéroCRE: string;
-      région: string;
-    };
-
     statut: string;
     misÀJourLe: string;
 
@@ -23,6 +14,11 @@ export type RecoursEntity = Entity<
       raison: string;
       pièceJustificative: {
         format: string;
+      };
+
+      instruction?: {
+        passéEnInstructionLe: string;
+        passéEnInstructionPar: string;
       };
 
       accord?: {
