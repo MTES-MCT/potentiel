@@ -1,12 +1,10 @@
 import { Repository } from '../../core/domain';
 import { logger } from '../../core/utils';
 import { Notification, NotificationArgs } from './Notification';
-import { GetFailedNotificationsForRetry } from './queries';
 import { SendEmail } from './SendEmail';
 
 export interface NotificationService {
   sendNotification(args: NotificationArgs): Promise<null>;
-  retryFailedNotifications(): Promise<number>;
 }
 
 interface NotificationServiceDeps {
@@ -14,12 +12,10 @@ interface NotificationServiceDeps {
   emailSenderAddress: string;
   emailSenderName: string;
   notificationRepo: Repository<Notification>;
-  getFailedNotificationsForRetry: GetFailedNotificationsForRetry;
 }
 export const makeNotificationService = (deps: NotificationServiceDeps): NotificationService => {
   return {
     sendNotification,
-    retryFailedNotifications,
   };
 
   async function sendNotification(args: NotificationArgs): Promise<null> {
@@ -34,57 +30,6 @@ export const makeNotificationService = (deps: NotificationServiceDeps): Notifica
 
     await _send(notification);
     return null;
-  }
-
-  async function retryFailedNotifications(): Promise<number> {
-    const failedNotificationsResult = await deps.getFailedNotificationsForRetry();
-
-    if (failedNotificationsResult.isErr()) {
-      logger.error(failedNotificationsResult.error);
-      return 0;
-    }
-
-    const failedNotifications = failedNotificationsResult.value;
-
-    let retriedNotificationCount = 0;
-
-    for (const { id, isObsolete } of failedNotifications) {
-      const failedNotificationResult = await deps.notificationRepo.load(id);
-
-      if (failedNotificationResult.isErr()) {
-        logger.error(
-          `NotificationService.retryFailedNotifications found a failed notification but could not load it. Id : ${id}`,
-        );
-        continue;
-      }
-
-      const failedNotification = failedNotificationResult.value;
-
-      if (!isObsolete) {
-        // Create a clone of the failed notification and send it
-        const retryNotification = Notification.clone(failedNotification);
-        await _send(retryNotification);
-
-        // Update the status of the failed notification to retried
-        failedNotification.retried();
-        retriedNotificationCount++;
-      } else {
-        // The failed notification is now obsolete
-        // Mark it as cancelled
-        failedNotification.cancelled();
-      }
-
-      const saveResult = await deps.notificationRepo.save(failedNotification);
-      if (saveResult.isErr()) {
-        logger.error(saveResult.error);
-        logger.info(
-          'ERROR: NotificationService.retryFailedNotification failed to save retried notification',
-          failedNotification,
-        );
-      }
-    }
-
-    return retriedNotificationCount;
   }
 
   async function _send(notification: Notification) {

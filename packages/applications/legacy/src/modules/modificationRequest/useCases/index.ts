@@ -1,5 +1,4 @@
 export * from './acceptModificationRequest';
-export * from './attachLegacyModificationFile';
 export * from './cancelModificationRequest';
 export * from './confirmRequest';
 export * from './rejectModificationRequest';

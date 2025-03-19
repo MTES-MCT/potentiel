@@ -3,7 +3,6 @@ import { fakeSendEmail, makeSendEmailFromMailjet } from '../infra/mail';
 import { makeNotificationService, SendEmail } from '../modules/notification';
 import { isProdEnv, isStagingEnv } from './env.config';
 import { notificationRepo } from './repos.config';
-import { getFailedNotificationsForRetry } from './queries.config';
 
 let sendEmail: SendEmail = fakeSendEmail;
 
@@ -43,10 +42,9 @@ if (!process.env.SEND_EMAILS_FROM_NAME) {
   process.exit(1);
 }
 
-export const { sendNotification, retryFailedNotifications } = makeNotificationService({
+export const { sendNotification } = makeNotificationService({
   sendEmail,
   emailSenderAddress: process.env.SEND_EMAILS_FROM,
   emailSenderName: process.env.SEND_EMAILS_FROM_NAME,
   notificationRepo,
-  getFailedNotificationsForRetry,
 });

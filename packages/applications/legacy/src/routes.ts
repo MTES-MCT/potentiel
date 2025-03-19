@@ -31,8 +31,6 @@ class routes {
 
   static ADMIN_GARANTIES_FINANCIERES = '/admin/garanties-financieres.html';
 
-  static UPLOAD_LEGACY_MODIFICATION_FILES = '/admin/importer-documents-historiques';
-
   static ADMIN_STATISTIQUES = '/admin/statistiques.html';
   static ADEME_STATISTIQUES = '/ademe/statistiques.html';
   static ACHETEUR_OBLIGE_STATISTIQUES = '/acheteur-oblige/statistiques.html';
@@ -69,11 +67,6 @@ class routes {
 
   static ADMIN_ANNULER_CHANGEMENT_DE_PUISSANCE_REJETE =
     '/admin/demande/annuler-rejet-demande-changement-de-puissance';
-
-  static ADMIN_INVITATION_LIST = '/admin/invitations.html';
-  static ADMIN_INVITATION_RELANCE_ACTION = '/admin/relanceInvitations';
-  static ADMIN_NOTIFICATION_LIST = '/admin/notifications.html';
-  static ADMIN_NOTIFICATION_RETRY_ACTION = '/admin/retryNotifications';
 
   static ADMIN_SIGNALER_DEMANDE_DELAI_PAGE = (projectId?: Project['id']) => {
     const route = '/admin/projet/:projectId/signalerDemandeDelai.html';

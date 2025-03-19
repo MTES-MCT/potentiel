@@ -19,7 +19,6 @@ import {
 import { makeLoadFileForUser } from '../modules/file';
 import {
   makeAcceptModificationRequest,
-  makeAttachLegacyModificationFile,
   makeCancelModificationRequest,
   makeConfirmRequest,
   makeRejectModificationRequest,
@@ -34,7 +33,7 @@ import {
   makeChoisirCahierDesCharges,
 } from '../modules/project';
 import { makeClaimProject } from '../modules/projectClaim';
-import { makeCreateUser, makeRelanceInvitation } from '../modules/users';
+import { makeCreateUser } from '../modules/users';
 import { resendInvitationEmail } from './credentials.config';
 import { eventStore } from './eventStore.config';
 import {
@@ -130,11 +129,6 @@ export const createUser = makeCreateUser({
   userRepo,
 });
 
-export const relanceInvitation = makeRelanceInvitation({
-  eventBus: eventStore,
-  resendInvitationEmail,
-});
-
 export const cancelModificationRequest = makeCancelModificationRequest({
   shouldUserAccessProject: shouldUserAccessProject.check.bind(shouldUserAccessProject),
   modificationRequestRepo,
@@ -157,12 +151,6 @@ export const claimProject = makeClaimProject({
   fileRepo,
   getProjectDataForProjectClaim,
   eventBus: eventStore,
-});
-
-export const attachLegacyModificationFile = makeAttachLegacyModificationFile({
-  eventBus: eventStore,
-  getLegacyModificationByFilename,
-  fileRepo,
 });
 
 export const signalerDemandeDelai = makeSignalerDemandeDelai({

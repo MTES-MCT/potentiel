@@ -147,17 +147,6 @@ const getNavigationItemsBasedOnRole = (utilisateur: Utilisateur.ValueType) => {
         ],
       },
       {
-        text: 'Imports',
-        menuLinks: [
-          {
-            text: 'Courriers historiques',
-            linkProps: {
-              href: '/admin/importer-documents-historiques',
-            },
-          },
-        ],
-      },
-      {
         text: 'Gestion des accès',
         menuLinks: [
           {
@@ -170,18 +159,6 @@ const getNavigationItemsBasedOnRole = (utilisateur: Utilisateur.ValueType) => {
             text: 'Inviter un utilisateur',
             linkProps: {
               href: Routes.Utilisateur.inviter,
-            },
-          },
-          {
-            text: 'Candidats en attente',
-            linkProps: {
-              href: '/admin/invitations.html',
-            },
-          },
-          {
-            text: 'Emails en erreur',
-            linkProps: {
-              href: '/admin/notifications.html',
             },
           },
         ],
