@@ -1,7 +1,7 @@
 import { Routes } from '@potentiel-applications/routes';
 import { DocumentProjet } from '@potentiel-domain/document';
 import { Historique } from '@potentiel-domain/historique';
-import { Recours } from '@potentiel-domain/elimine';
+import { Éliminé } from '@potentiel-domain/projet';
 
 import { DownloadDocument } from '@/components/atoms/form/document/DownloadDocument';
 
@@ -13,11 +13,11 @@ export const mapToRecoursDemandéTimelineItemProps = (
     demandéPar,
     identifiantProjet,
     pièceJustificative: { format },
-  } = recoursDemandé.payload as Recours.RecoursDemandéEvent['payload'];
+  } = recoursDemandé.payload as Éliminé.Recours.RecoursDemandéEvent['payload'];
 
   const pièceJustificative = DocumentProjet.convertirEnValueType(
     identifiantProjet,
-    Recours.TypeDocumentRecours.pièceJustificative.formatter(),
+    Éliminé.Recours.TypeDocumentRecours.pièceJustificative.formatter(),
     demandéLe,
     format,
   ).formatter();

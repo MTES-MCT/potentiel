@@ -1,7 +1,7 @@
 import { When as Quand } from '@cucumber/cucumber';
 import { mediator } from 'mediateur';
 
-import { Recours } from '@potentiel-domain/elimine';
+import { Éliminé } from '@potentiel-domain/projet';
 
 import { PotentielWorld } from '../../../../potentiel.world';
 
@@ -19,7 +19,7 @@ Quand(
           demandéPar: this.utilisateurWorld.porteurFixture.email,
         });
 
-      await mediator.send<Recours.RecoursUseCase>({
+      await mediator.send<Éliminé.Recours.RecoursUseCase>({
         type: 'Éliminé.Recours.UseCase.DemanderRecours',
         data: {
           identifiantProjetValue: identifiantProjet,
@@ -44,7 +44,7 @@ Quand(`le porteur annule le recours pour le projet éliminé`, async function (t
         annuléPar: this.utilisateurWorld.porteurFixture.email,
       });
 
-    await mediator.send<Recours.RecoursUseCase>({
+    await mediator.send<Éliminé.Recours.RecoursUseCase>({
       type: 'Éliminé.Recours.UseCase.AnnulerRecours',
       data: {
         identifiantProjetValue: identifiantProjet,
@@ -71,7 +71,7 @@ Quand(
         rejetéPar: this.utilisateurWorld.validateurFixture.email,
       });
 
-      await mediator.send<Recours.RecoursUseCase>({
+      await mediator.send<Éliminé.Recours.RecoursUseCase>({
         type: 'Éliminé.Recours.UseCase.RejeterRecours',
         data: {
           identifiantProjetValue: identifiantProjet,
@@ -111,7 +111,7 @@ Quand(
 
       this.lauréatWorld.identifiantProjet = identifiantProjet;
 
-      await mediator.send<Recours.RecoursUseCase>({
+      await mediator.send<Éliminé.Recours.RecoursUseCase>({
         type: 'Éliminé.Recours.UseCase.AccorderRecours',
         data: {
           identifiantProjetValue: identifiantProjet.formatter(),
@@ -142,7 +142,7 @@ Quand(
           passéEnInstructionPar: this.utilisateurWorld.adminFixture.email,
         });
 
-      await mediator.send<Recours.RecoursUseCase>({
+      await mediator.send<Éliminé.Recours.RecoursUseCase>({
         type: 'Éliminé.Recours.UseCase.PasserRecoursEnInstruction',
         data: {
           identifiantProjetValue: identifiantProjet,

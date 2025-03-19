@@ -3,7 +3,7 @@
 import { mediator } from 'mediateur';
 import * as zod from 'zod';
 
-import { Recours } from '@potentiel-domain/elimine';
+import { Éliminé } from '@potentiel-domain/projet';
 import { Routes } from '@potentiel-applications/routes';
 
 import { FormAction, formAction, FormState } from '@/utils/formAction';
@@ -23,7 +23,7 @@ const action: FormAction<FormState, typeof schema> = async (
   { identifiantProjet, pieceJustificative, raison },
 ) => {
   return withUtilisateur(async (utilisateur) => {
-    await mediator.send<Recours.RecoursUseCase>({
+    await mediator.send<Éliminé.Recours.RecoursUseCase>({
       type: 'Éliminé.Recours.UseCase.DemanderRecours',
       data: {
         identifiantProjetValue: identifiantProjet,

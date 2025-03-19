@@ -2,14 +2,14 @@ import { FC } from 'react';
 
 import { IdentifiantProjet } from '@potentiel-domain/common';
 import { PlainType } from '@potentiel-domain/core';
-import { Recours } from '@potentiel-domain/elimine';
+import { Éliminé } from '@potentiel-domain/projet';
 
 import { RecoursListItem } from '@/components/pages/recours/lister/RecoursListItem';
 import { ListPageTemplate, ListPageTemplateProps } from '@/components/templates/ListPage.template';
 import { Pagination } from '@/utils/pagination';
 
 export type RecoursListPageProps = {
-  items: PlainType<Recours.ListerRecoursReadModel['items']>;
+  items: PlainType<Éliminé.Recours.ListerRecoursReadModel['items']>;
   pagination: Pagination;
   total: number;
   filters: ListPageTemplateProps<typeof RecoursListItem>['filters'];

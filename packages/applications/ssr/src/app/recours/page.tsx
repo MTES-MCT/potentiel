@@ -3,7 +3,7 @@ import type { Metadata } from 'next';
 import { z } from 'zod';
 
 import { AppelOffre } from '@potentiel-domain/appel-offre';
-import { Recours } from '@potentiel-domain/elimine';
+import { Éliminé } from '@potentiel-domain/projet';
 import { mapToPlainObject } from '@potentiel-domain/core';
 
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
@@ -25,7 +25,7 @@ const paramsSchema = z.object({
   page: z.coerce.number().int().optional().default(1),
   nomProjet: z.string().optional(),
   appelOffre: z.string().optional(),
-  statut: z.enum(Recours.StatutRecours.statuts).optional(),
+  statut: z.enum(Éliminé.Recours.StatutRecours.statuts).optional(),
 });
 
 export default async function Page({ searchParams }: PageProps) {
@@ -35,7 +35,7 @@ export default async function Page({ searchParams }: PageProps) {
 
       const régionDreal = await getRégionUtilisateur(utilisateur);
 
-      const { items, range, total } = await mediator.send<Recours.ListerRecoursQuery>({
+      const { items, range, total } = await mediator.send<Éliminé.Recours.ListerRecoursQuery>({
         type: 'Éliminé.Recours.Query.ListerRecours',
         data: {
           utilisateur: {
@@ -70,7 +70,7 @@ export default async function Page({ searchParams }: PageProps) {
         {
           label: 'Statut',
           searchParamKey: 'statut',
-          options: Recours.StatutRecours.statuts
+          options: Éliminé.Recours.StatutRecours.statuts
             .filter((statut) => statut !== 'inconnu' && statut !== 'annulé')
             .map((statut) => ({
               label: statut.replace('-', ' ').toLocaleLowerCase(),
