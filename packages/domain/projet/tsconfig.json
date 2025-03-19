@@ -21,6 +21,9 @@
       "path": "../candidature"
     },
     {
+      "path": "../utilisateur"
+    },
+    {
       "path": "../appel-offre"
     }
   ]
