@@ -8,15 +8,12 @@ import { getLogger } from '@potentiel-libraries/monitoring';
 import { Routes } from '@potentiel-applications/routes';
 import { PostgresAdapter } from '@potentiel-libraries/auth-pg-adapter';
 import { Option } from '@potentiel-libraries/monads';
-import { mapToPlainObject } from '@potentiel-domain/core';
 import { sendEmail } from '@potentiel-infrastructure/email';
-import { Role } from '@potentiel-domain/utilisateur';
-import { Email } from '@potentiel-domain/common';
 
 import { getProviderConfiguration } from './getProviderConfiguration';
 import { refreshToken } from './refreshToken';
 import ProConnectProvider from './ProConnectProvider';
-import { getUtilisateurFromEmail } from './getUtilisateur';
+import { getSessionUtilisateurFromEmail, getUtilisateurFromEmail } from './getUtilisateur';
 import { ajouterStatistiqueConnexion } from './ajouterStatistiqueConnexion';
 import { canConnectWithProvider } from './canConnectWithProvider';
 
@@ -92,11 +89,10 @@ export const authOptions: AuthOptions = {
     maxAge: parseInt(process.env.SESSION_MAX_AGE ?? String(OneHourInSeconds)),
   },
   events: {
-    signIn: async ({ user, account }) => {
-      const utilisateur = await getUtilisateurFromEmail(user?.email ?? '');
-
-      if (Option.isSome(utilisateur)) {
-        ajouterStatistiqueConnexion(utilisateur, account?.provider ?? '');
+    signIn: async ({ account, user }) => {
+      if (user?.email) {
+        const utilisateur = await getSessionUtilisateurFromEmail(user.email);
+        await ajouterStatistiqueConnexion(utilisateur, account?.provider ?? '');
       }
     },
   },
@@ -156,21 +152,10 @@ export const authOptions: AuthOptions = {
     async session({ session, token }) {
       {
         if (session.user?.email) {
-          const utilisateur = await getUtilisateurFromEmail(session.user?.email);
-          if (Option.isSome(utilisateur)) {
-            session.utilisateur = {
-              ...mapToPlainObject(utilisateur),
-              nom: token.name ?? utilisateur.nom,
-            };
-          } else {
-            session.utilisateur = {
-              role: Role.porteur,
-              identifiantUtilisateur: Email.convertirEnValueType(session.user.email),
-              nom: '',
-              région: Option.none,
-              identifiantGestionnaireRéseau: Option.none,
-            };
-          }
+          session.utilisateur = await getSessionUtilisateurFromEmail(
+            session.user.email,
+            token?.name ?? undefined,
+          );
         }
 
         if (token.provider) {

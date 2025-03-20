@@ -9,7 +9,7 @@ import { getServerSession } from 'next-auth';
 import { Role, Utilisateur, TrouverUtilisateurQuery } from '@potentiel-domain/utilisateur';
 import { getLogger } from '@potentiel-libraries/monitoring';
 import { Email } from '@potentiel-domain/common';
-import { PlainType } from '@potentiel-domain/core';
+import { mapToPlainObject, PlainType } from '@potentiel-domain/core';
 import { Option } from '@potentiel-libraries/monads';
 
 import { authOptions } from './authOptions';
@@ -126,5 +126,29 @@ export const getUtilisateurFromEmail = async (
     identifiantUtilisateur: Email.convertirEnValueType(email),
     identifiantGestionnaireRéseau: utilisateur.identifiantGestionnaireRéseau,
     région: utilisateur.région,
+  };
+};
+
+/**
+ * Returns the logged-in user, formatted for session.
+ * If the user does not exist, a default role (porteur) is assigned
+ **/
+export const getSessionUtilisateurFromEmail = async (
+  email: string,
+  name?: string,
+): Promise<PlainType<Utilisateur.ValueType>> => {
+  const utilisateur = await getUtilisateurFromEmail(email);
+  if (Option.isSome(utilisateur)) {
+    return {
+      ...mapToPlainObject(utilisateur),
+      nom: name ?? utilisateur.nom,
+    };
+  }
+  return {
+    role: Role.porteur,
+    identifiantUtilisateur: Email.convertirEnValueType(email),
+    nom: '',
+    région: Option.none,
+    identifiantGestionnaireRéseau: Option.none,
   };
 };
