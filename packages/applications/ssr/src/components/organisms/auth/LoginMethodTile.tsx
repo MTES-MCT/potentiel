@@ -21,7 +21,7 @@ export const LoginMethodTile = ({
     className={`${fr.cx('fr-tile')} flex flex-col justify-between gap-4 lg:w-2/3 text-center py-6 ${className}`}
   >
     <div className={`${fr.cx('fr-tile__body')}`}>
-      <div className={`${fr.cx('fr-tile__content')}`}>
+      <div className={`${fr.cx('fr-tile__content')} justify-between`}>
         <div className="flex flex-col items-center gap-2">
           <div className={`${fr.cx('fr-tile__title')}`}>{title}</div>
           <p className={`${fr.cx('fr-tile__desc')} max-w-lg xl:max-w-2xl text-center"`}>
