@@ -77,9 +77,11 @@ export const AttestationConformitéForm: FC<AttestationConformitéFormProps> = (
       <div className="flex flex-col gap-6">
         <UploadNewOrModifyExistingDocument
           name="attestation"
+          multiple
           required
           documentKeys={donnéesActuelles && [donnéesActuelles.attestation]}
-          label="Attestation de conformité (dossier complet)"
+          label="Attestation de conformité et rapport associé"
+          hintText="Joindre l'attestation de conformité et le rapport associé, en un ou plusieurs fichier(s)"
           state={validationErrors['attestation'] ? 'error' : 'default'}
           stateRelatedMessage={validationErrors['attestation']}
           formats={['pdf']}
