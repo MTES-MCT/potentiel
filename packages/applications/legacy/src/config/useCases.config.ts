@@ -53,12 +53,10 @@ import {
   projectClaimRepo,
   projectRepo,
   userRepo,
-  utilisateurRepo,
 } from './repos.config';
 import { sendNotification } from './emails.config';
 import { makeNotifierPorteurChangementStatutDemande } from '../modules/notification';
 
-import { makeCréerProfilUtilisateur } from '../modules/utilisateur';
 import { getProjectAppelOffre } from './queryProjectAO.config';
 
 const publishToEventStore = eventStore.publish.bind(eventStore);
@@ -222,10 +220,4 @@ export const annulerRejetChangementDePuissance = makeAnnulerRejetChangementDePui
 
 export const notifierPorteurChangementStatutDemande = makeNotifierPorteurChangementStatutDemande({
   sendNotification,
-});
-
-// TODO remove after signup managed in new app
-export const créerProfilUtilisateur = makeCréerProfilUtilisateur({
-  utilisateurRepo,
-  publishToEventStore,
 });

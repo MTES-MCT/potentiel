@@ -27,18 +27,12 @@ export const signIn = (options?: {
   return `${route}?${params}`;
 };
 
+export const signUp = () => `/auth/signUp`;
+
 // The signout page, where the user is redirected after federeated logout
-export const signOut = (options?: {
-  callbackUrl?: string;
-  idToken?: string;
-  proConnectNotAvailableForUser?: boolean;
-}) => {
+export const signOut = (options?: { callbackUrl?: string; idToken?: string }) => {
   const route = `/auth/signOut`;
-  const { proConnectNotAvailableForUser, ...stringOptions } = options ?? {};
-  const params = new URLSearchParams(stringOptions);
-  if (proConnectNotAvailableForUser) {
-    params.set('proConnectNotAvailableForUser', 'true');
-  }
+  const params = new URLSearchParams(options ?? {});
   return params.size > 0 ? `${route}?${params}` : route;
 };
 

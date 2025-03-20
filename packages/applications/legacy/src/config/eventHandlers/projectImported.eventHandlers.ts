@@ -12,4 +12,3 @@ eventStore.subscribe(ProjectImported.type, projectImportedHandler);
 eventStore.subscribe(ProjectReimported.type, projectImportedHandler);
 
 console.log('Legacy Candidate Notification Event Handlers Initialized');
-export const legacyCandidateNotificationHandlersOk = true;

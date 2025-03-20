@@ -14,7 +14,7 @@ export async function UserHeaderQuickAccessItem() {
     return (
       <>
         {await getTâcheHeaderQuickAccessItem(utilisateur)}
-        {utilisateur.accountUrl ? (
+        {utilisateur.accountUrl && !utilisateur.role.estÉgaleÀ(Role.porteur) ? (
           <HeaderQuickAccessItem
             quickAccessItem={{
               iconId: 'ri-user-line',
@@ -57,7 +57,7 @@ export async function UserHeaderQuickAccessItem() {
         quickAccessItem={{
           iconId: 'ri-account-circle-line',
           linkProps: {
-            href: '/signup.html',
+            href: Routes.Auth.signUp(),
             prefetch: false,
           },
           text: "M'inscrire",

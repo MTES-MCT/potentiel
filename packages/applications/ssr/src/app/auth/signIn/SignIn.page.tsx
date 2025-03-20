@@ -2,10 +2,9 @@
 
 import { redirect, useSearchParams } from 'next/navigation';
 import { signIn, useSession } from 'next-auth/react';
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import Button from '@codegouvfr/react-dsfr/Button';
 import ProConnectButton from '@codegouvfr/react-dsfr/ProConnectButton';
-import Input from '@codegouvfr/react-dsfr/Input';
 import Alert from '@codegouvfr/react-dsfr/Alert';
 
 import { Routes } from '@potentiel-applications/routes';
@@ -13,6 +12,7 @@ import { Routes } from '@potentiel-applications/routes';
 import { PageTemplate } from '@/components/templates/Page.template';
 import { Heading1 } from '@/components/atoms/headings';
 import { LoginMethodTile } from '@/components/organisms/auth/LoginMethodTile';
+import { MagicLinkForm } from '@/components/organisms/auth/MagicLinkForm';
 
 type SignInPageProps = {
   providers: Array<string>;
@@ -48,14 +48,12 @@ export default function SignInPage({ providers }: SignInPageProps) {
     }
   }, [status, callbackUrl, data]);
 
-  const [email, setEmail] = useState('');
-
   return (
     <PageTemplate>
       {onlyKeycloak ? (
         <div className="font-bold text-2xl">Authentification en cours ...</div>
       ) : (
-        <div className="flex flex-col items-center gap-6 mt-12 md:mt-20">
+        <div className="flex flex-col items-center gap-6">
           <Heading1>Identifiez-vous</Heading1>
 
           {error && (
@@ -67,41 +65,25 @@ export default function SignInPage({ providers }: SignInPageProps) {
               closable
             />
           )}
-          {providers.includes('proconnect') && (
-            <LoginMethodTile
-              title="ProConnect"
-              description="Connectez-vous facilement à l'aide de votre adresse professionnelle"
-            >
-              <ProConnectButton onClick={() => signIn('proconnect', { callbackUrl })} />
-            </LoginMethodTile>
-          )}
-
-          {providers.includes('email') && (
-            <LoginMethodTile
-              title="Lien magique"
-              description="Connectez-vous facilement sans mot de passe à l'aide d'un lien magique qui sera envoyé sur votre adresse de courriel"
-            >
-              <form
-                className="md:mx-24 w-full lg:w-8/12"
-                action="javascript:void(0);"
-                onSubmit={() => signIn('email', { callbackUrl, email })}
+          <div className="flex flex-col items-center lg:flex-row  lg:items-stretch gap-6 h-full">
+            {providers.includes('proconnect') && (
+              <LoginMethodTile
+                title="ProConnect"
+                description="Inscrivez-vous facilement à l'aide de votre adresse professionnelle"
               >
-                <Input
-                  label="Email"
-                  nativeInputProps={{
-                    type: 'email',
-                    name: 'email',
-                    required: true,
-                    onChange: (e) => setEmail(e.target.value),
-                  }}
-                />
-                <Button type="submit" className="mx-auto">
-                  Envoyer le lien magique
-                </Button>
-              </form>
-            </LoginMethodTile>
-          )}
+                <ProConnectButton onClick={() => signIn('proconnect', { callbackUrl })} />
+              </LoginMethodTile>
+            )}
 
+            {providers.includes('email') && (
+              <LoginMethodTile
+                title="Lien magique"
+                description="Inscrivez-vous facilement sans mot de passe à l'aide d'un lien magique qui sera envoyé sur votre adresse de courriel"
+              >
+                <MagicLinkForm onSubmit={(email) => signIn('email', { callbackUrl, email })} />
+              </LoginMethodTile>
+            )}
+          </div>
           {providers.includes('keycloak') && (
             <LoginMethodTile
               title="Mot de passe"

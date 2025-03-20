@@ -10,7 +10,6 @@ import {
   ModificationRequestRejected,
 } from '../../modules/modificationRequest';
 import {
-  handleLegacyCandidateNotified,
   handleModificationReceived,
   handleModificationRequestCancelled,
   handleModificationRequested,
@@ -86,13 +85,6 @@ eventStore.subscribe(
     sendNotification,
     findUserById: oldUserRepo.findById,
     findProjectById: oldProjectRepo.findById,
-  }),
-);
-
-eventStore.subscribe(
-  LegacyCandidateNotified.type,
-  handleLegacyCandidateNotified({
-    sendNotification,
   }),
 );
 
