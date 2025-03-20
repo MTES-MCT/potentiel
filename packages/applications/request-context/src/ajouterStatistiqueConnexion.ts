@@ -12,6 +12,10 @@ type AjouterStatistique = Message<
     données: {
       utilisateur: {
         role: Role.RawType;
+        /**
+         * @deprecated Cette information est stockée temporairement à des fins d'audit.
+         * Une fois la migration keycloak terminée, on retirera on supprimera la donnée.
+         */
         email: Email.RawType;
       };
       provider: string;
