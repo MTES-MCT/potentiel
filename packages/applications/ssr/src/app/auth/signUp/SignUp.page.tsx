@@ -45,13 +45,12 @@ export default function SignUpPage({ providers }: SignUpPageProps) {
         <div className="flex flex-col items-center gap-1">
           <Heading1>Inscrivez-vous</Heading1>
 
-          <p>
-            <div>
-              L'inscription n'est possible qu'en tant que Porteur de Projet. Vous êtes Partenaire ?
-              <Link href="mailto:contact@potentiel.beta.gouv.fr" className="ml-2">
-                Contactez-nous
-              </Link>
-            </div>
+          <p className="text-center">
+            L'inscription autonome n'est possible qu'en tant que Porteur de Projet. Vous êtes
+            Partenaire ?
+            <Link href="mailto:contact@potentiel.beta.gouv.fr" className="ml-2">
+              Contactez-nous
+            </Link>
           </p>
         </div>
 
