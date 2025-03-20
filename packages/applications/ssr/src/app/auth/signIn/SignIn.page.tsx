@@ -6,6 +6,7 @@ import { useEffect } from 'react';
 import Button from '@codegouvfr/react-dsfr/Button';
 import ProConnectButton from '@codegouvfr/react-dsfr/ProConnectButton';
 import Alert from '@codegouvfr/react-dsfr/Alert';
+import { createModal } from '@codegouvfr/react-dsfr/Modal';
 
 import { Routes } from '@potentiel-applications/routes';
 
@@ -19,6 +20,11 @@ type SignInPageProps = {
 };
 
 export default function SignInPage({ providers }: SignInPageProps) {
+  const modal = createModal({
+    id: `form-modal-email-not-available`,
+    isOpenedByDefault: false,
+  });
+
   const { status, data } = useSession();
 
   const params = useSearchParams();
@@ -53,23 +59,22 @@ export default function SignInPage({ providers }: SignInPageProps) {
       {onlyKeycloak ? (
         <div className="font-bold text-2xl">Authentification en cours ...</div>
       ) : (
-        <div className="flex flex-col items-center gap-6">
+        <>
           <Heading1>Identifiez-vous</Heading1>
-
-          {error && (
-            <Alert
-              className="md:w-2/3"
-              severity="error"
-              small
-              description="Une erreur est survenue. Si le problème persiste vous pouvez nous contacter"
-              closable
-            />
-          )}
-          <div className="flex flex-col items-center lg:flex-row  lg:items-stretch gap-6 h-full">
+          <div className="flex flex-col md:flex-row gap-5 mt-12 md:mt-20">
+            {error && (
+              <Alert
+                className="md:w-2/3"
+                severity="error"
+                small
+                description="Une erreur est survenue. Si le problème persiste vous pouvez nous contacter"
+                closable
+              />
+            )}
             {providers.includes('proconnect') && (
               <LoginMethodTile
                 title="ProConnect"
-                description="Inscrivez-vous facilement à l'aide de votre adresse professionnelle"
+                description="Connectez-vous facilement à l'aide de votre adresse professionnelle"
               >
                 <ProConnectButton onClick={() => signIn('proconnect', { callbackUrl })} />
               </LoginMethodTile>
@@ -78,23 +83,42 @@ export default function SignInPage({ providers }: SignInPageProps) {
             {providers.includes('email') && (
               <LoginMethodTile
                 title="Lien magique"
-                description="Inscrivez-vous facilement sans mot de passe à l'aide d'un lien magique qui sera envoyé sur votre adresse de courriel"
+                description="Connectez-vous facilement sans mot de passe à l'aide d'un lien magique qui sera envoyé sur votre adresse de courriel"
               >
-                <MagicLinkForm onSubmit={(email) => signIn('email', { callbackUrl, email })} />
+                <modal.Component title="Vous êtes agent ?">
+                  <div className="flex flex-col mt-4 gap-5">
+                    <p>
+                      En tant qu'agent vous ne pouvez pas vous connecter à l'aide d'un lien magique.
+                      Veuillez-vous connecter avec ProCOnnect.
+                    </p>
+                    <ProConnectButton onClick={() => signIn('proconnect', { callbackUrl })} />
+                  </div>
+                </modal.Component>
+
+                <MagicLinkForm
+                  onSubmit={(email) => {
+                    if (email.endsWith('@developpement-durable.gouv.fr')) {
+                      modal.open();
+                    } else {
+                      signIn('email', { callbackUrl, email });
+                    }
+                  }}
+                />
+              </LoginMethodTile>
+            )}
+
+            {providers.includes('keycloak') && (
+              <LoginMethodTile
+                title="Mot de passe"
+                description="Vous pouvez toujours vous connecter à l'aide de vos identifiants classiques"
+              >
+                <Button className="mx-auto" onClick={() => signIn('keycloak', { callbackUrl })}>
+                  Connexion avec mot de passe
+                </Button>
               </LoginMethodTile>
             )}
           </div>
-          {providers.includes('keycloak') && (
-            <LoginMethodTile
-              title="Mot de passe"
-              description="Vous pouvez toujours vous connecter à l'aide de vos identifiants classiques"
-            >
-              <Button className="mx-auto" onClick={() => signIn('keycloak', { callbackUrl })}>
-                Connexion avec mot de passe
-              </Button>
-            </LoginMethodTile>
-          )}
-        </div>
+        </>
       )}
     </PageTemplate>
   );
