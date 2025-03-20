@@ -6,7 +6,6 @@ import { useEffect } from 'react';
 import Button from '@codegouvfr/react-dsfr/Button';
 import ProConnectButton from '@codegouvfr/react-dsfr/ProConnectButton';
 import Alert from '@codegouvfr/react-dsfr/Alert';
-import { createModal } from '@codegouvfr/react-dsfr/Modal';
 
 import { Routes } from '@potentiel-applications/routes';
 
@@ -20,11 +19,6 @@ type SignInPageProps = {
 };
 
 export default function SignInPage({ providers }: SignInPageProps) {
-  const modal = createModal({
-    id: `form-modal-email-not-available`,
-    isOpenedByDefault: false,
-  });
-
   const { status, data } = useSession();
 
   const params = useSearchParams();
@@ -83,29 +77,7 @@ export default function SignInPage({ providers }: SignInPageProps) {
               <LoginMethodTile
                 title="Lien magique"
                 description="Connectez-vous facilement sans mot de passe à l'aide d'un lien magique qui sera envoyé sur votre adresse de courriel"
-                détail={
-                  <>
-                    <modal.Component title="Vous êtes agent ?">
-                      <div className="flex flex-col mt-4 gap-5">
-                        <p>
-                          En tant qu'agent vous ne pouvez pas vous connecter à l'aide d'un lien
-                          magique. Veuillez-vous connecter avec ProCOnnect.
-                        </p>
-                        <ProConnectButton onClick={() => signIn('proconnect', { callbackUrl })} />
-                      </div>
-                    </modal.Component>
-
-                    <MagicLinkForm
-                      onSubmit={(email) => {
-                        if (email.endsWith('@developpement-durable.gouv.fr')) {
-                          modal.open();
-                        } else {
-                          signIn('email', { callbackUrl, email });
-                        }
-                      }}
-                    />
-                  </>
-                }
+                détail={<MagicLinkForm callbackUrl={callbackUrl} />}
               />
             )}
 

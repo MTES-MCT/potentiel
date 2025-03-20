@@ -76,9 +76,7 @@ export default function SignUpPage({ providers }: SignUpPageProps) {
             <LoginMethodTile
               title="Lien magique"
               description="Inscrivez-vous facilement sans mot de passe à l'aide d'un lien magique qui sera envoyé sur votre adresse de courriel"
-              détail={
-                <MagicLinkForm onSubmit={(email) => signIn('email', { callbackUrl, email })} />
-              }
+              détail={<MagicLinkForm callbackUrl={callbackUrl} />}
             />
           )}
         </div>
