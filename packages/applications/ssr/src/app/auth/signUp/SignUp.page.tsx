@@ -68,20 +68,18 @@ export default function SignUpPage({ providers }: SignUpPageProps) {
             <LoginMethodTile
               title="ProConnect"
               description="Inscrivez-vous facilement à l'aide de votre adresse professionnelle"
-              className="flex-1"
-            >
-              <ProConnectButton onClick={() => signIn('proconnect', { callbackUrl })} />
-            </LoginMethodTile>
+              détail={<ProConnectButton onClick={() => signIn('proconnect', { callbackUrl })} />}
+            />
           )}
 
           {providers.includes('email') && (
             <LoginMethodTile
               title="Lien magique"
               description="Inscrivez-vous facilement sans mot de passe à l'aide d'un lien magique qui sera envoyé sur votre adresse de courriel"
-              className="flex-1"
-            >
-              <MagicLinkForm onSubmit={(email) => signIn('email', { callbackUrl, email })} />
-            </LoginMethodTile>
+              détail={
+                <MagicLinkForm onSubmit={(email) => signIn('email', { callbackUrl, email })} />
+              }
+            />
           )}
         </div>
       </div>

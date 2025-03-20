@@ -75,47 +75,50 @@ export default function SignInPage({ providers }: SignInPageProps) {
               <LoginMethodTile
                 title="ProConnect"
                 description="Connectez-vous facilement à l'aide de votre adresse professionnelle"
-              >
-                <ProConnectButton onClick={() => signIn('proconnect', { callbackUrl })} />
-              </LoginMethodTile>
+                détail={<ProConnectButton onClick={() => signIn('proconnect', { callbackUrl })} />}
+              />
             )}
 
             {providers.includes('email') && (
               <LoginMethodTile
                 title="Lien magique"
                 description="Connectez-vous facilement sans mot de passe à l'aide d'un lien magique qui sera envoyé sur votre adresse de courriel"
-              >
-                <modal.Component title="Vous êtes agent ?">
-                  <div className="flex flex-col mt-4 gap-5">
-                    <p>
-                      En tant qu'agent vous ne pouvez pas vous connecter à l'aide d'un lien magique.
-                      Veuillez-vous connecter avec ProCOnnect.
-                    </p>
-                    <ProConnectButton onClick={() => signIn('proconnect', { callbackUrl })} />
-                  </div>
-                </modal.Component>
+                détail={
+                  <>
+                    <modal.Component title="Vous êtes agent ?">
+                      <div className="flex flex-col mt-4 gap-5">
+                        <p>
+                          En tant qu'agent vous ne pouvez pas vous connecter à l'aide d'un lien
+                          magique. Veuillez-vous connecter avec ProCOnnect.
+                        </p>
+                        <ProConnectButton onClick={() => signIn('proconnect', { callbackUrl })} />
+                      </div>
+                    </modal.Component>
 
-                <MagicLinkForm
-                  onSubmit={(email) => {
-                    if (email.endsWith('@developpement-durable.gouv.fr')) {
-                      modal.open();
-                    } else {
-                      signIn('email', { callbackUrl, email });
-                    }
-                  }}
-                />
-              </LoginMethodTile>
+                    <MagicLinkForm
+                      onSubmit={(email) => {
+                        if (email.endsWith('@developpement-durable.gouv.fr')) {
+                          modal.open();
+                        } else {
+                          signIn('email', { callbackUrl, email });
+                        }
+                      }}
+                    />
+                  </>
+                }
+              />
             )}
 
             {providers.includes('keycloak') && (
               <LoginMethodTile
                 title="Mot de passe"
                 description="Vous pouvez toujours vous connecter à l'aide de vos identifiants classiques"
-              >
-                <Button className="mx-auto" onClick={() => signIn('keycloak', { callbackUrl })}>
-                  Connexion avec mot de passe
-                </Button>
-              </LoginMethodTile>
+                détail={
+                  <Button className="mx-auto" onClick={() => signIn('keycloak', { callbackUrl })}>
+                    Connexion avec mot de passe
+                  </Button>
+                }
+              />
             )}
           </div>
         </>
