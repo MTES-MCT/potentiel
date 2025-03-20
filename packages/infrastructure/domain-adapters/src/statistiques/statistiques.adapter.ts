@@ -1,11 +1,13 @@
 import { executeQuery } from '@potentiel-libraries/pg-helpers';
 import { Role } from '@potentiel-domain/utilisateur';
+import { Email } from '@potentiel-domain/common';
 
 type StatistiqueConnexion = {
   type: 'connexionUtilisateur';
   données: {
     utilisateur: {
       role: Role.RawType;
+      email: Email.RawType;
     };
   };
 };
