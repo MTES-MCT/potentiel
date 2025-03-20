@@ -14,7 +14,7 @@ export async function UserHeaderQuickAccessItem() {
     return (
       <>
         {await getTâcheHeaderQuickAccessItem(utilisateur)}
-        {utilisateur.accountUrl ? (
+        {utilisateur.accountUrl && !utilisateur.role.estÉgaleÀ(Role.porteur) ? (
           <HeaderQuickAccessItem
             quickAccessItem={{
               iconId: 'ri-user-line',
