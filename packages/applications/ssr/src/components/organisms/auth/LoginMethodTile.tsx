@@ -10,6 +10,7 @@ type LoginMethodTileProps = {
 /**
  * @description Ce composant a été volontairement créer car auj le composant <Tile> du dsfr (https://components.react-dsfr.codegouv.studio/?path=/docs/components-tile--default)
  * englobe le params `detail` dans un <p>, ce qui nous empêche la flexibilité de pouvoir mettre d'autres tag html (comme un autre paragrage, un formulaire, etc)
+ * Voici l'issue correspondante créée https://github.com/codegouvfr/react-dsfr/issues/393
  */
 export const LoginMethodTile = ({
   title,
