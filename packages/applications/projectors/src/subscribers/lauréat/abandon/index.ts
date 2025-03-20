@@ -20,8 +20,8 @@ export type SubscriptionEvent = (Abandon.AbandonEvent & Event) | RebuildTriggere
 export type Execute = Message<'System.Projector.Lauréat.Abandon', SubscriptionEvent>;
 
 export const register = () => {
-  const handler: MessageHandler<Execute> = async (event) =>
-    match(event)
+  const handler: MessageHandler<Execute> = async (event) => {
+    await match(event)
       .with({ type: 'RebuildTriggered' }, abandonRebuildTriggered)
       .with({ type: 'AbandonDemandé-V1' }, abandonDemandéProjector)
       .with({ type: 'AbandonDemandé-V2' }, abandonDemandéProjector)
@@ -34,6 +34,7 @@ export const register = () => {
       .with({ type: 'PreuveRecandidatureDemandée-V1' }, preuveCandidatureDemandéeProjector)
       .with({ type: 'PreuveRecandidatureTransmise-V1' }, preuveCandidatureTransmiseProjector)
       .exhaustive();
+  };
 
   mediator.register('System.Projector.Lauréat.Abandon', handler);
 };

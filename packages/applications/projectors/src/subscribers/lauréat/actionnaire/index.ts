@@ -19,8 +19,8 @@ export type SubscriptionEvent = (Actionnaire.ActionnaireEvent & Event) | Rebuild
 export type Execute = Message<'System.Projector.Lauréat.Actionnaire', SubscriptionEvent>;
 
 export const register = () => {
-  const handler: MessageHandler<Execute> = async (event) =>
-    match(event)
+  const handler: MessageHandler<Execute> = async (event) => {
+    await match(event)
       .with({ type: 'RebuildTriggered' }, actionnaireRebuilTriggered)
       .with({ type: 'ActionnaireImporté-V1' }, actionnaireImportéProjector)
       .with({ type: 'ActionnaireModifié-V1' }, actionnaireModifiéProjector)
@@ -34,6 +34,7 @@ export const register = () => {
         changementActionnaireEnregistréProjector,
       )
       .exhaustive();
+  };
 
   mediator.register('System.Projector.Lauréat.Actionnaire', handler);
 };
