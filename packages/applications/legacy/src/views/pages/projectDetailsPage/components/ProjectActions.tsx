@@ -1,7 +1,6 @@
 import { Routes } from '@potentiel-applications/routes';
 import React from 'react';
 import { User } from '../../../../entities';
-import { formatProjectDataToIdentifiantProjetValueType } from '../../../../helpers/dataToValueTypes';
 import { ProjectDataForProjectPage } from '../../../../modules/project';
 import { userIs } from '../../../../modules/users';
 import routes from '../../../../routes';
@@ -15,12 +14,18 @@ import {
   LinkButton,
 } from '../../../components';
 import { match } from 'ts-pattern';
+import { IdentifiantProjet } from '@potentiel-domain/common';
+import { formatProjectDataToIdentifiantProjetValueType } from '../../../../helpers/dataToValueTypes';
 
 type EnregistrerUneModificationProps = {
   projectId: ProjectDataForProjectPage['id'];
+  identifiantProjet: IdentifiantProjet.RawType;
 };
 
-const EnregistrerUneModification = ({ projectId }: EnregistrerUneModificationProps) => (
+const EnregistrerUneModification = ({
+  projectId,
+  identifiantProjet,
+}: EnregistrerUneModificationProps) => (
   <DropdownMenuSecondaryButton buttonChildren="Enregistrer une modification">
     <></>
     <DropdownMenuSecondaryButton.DropdownItem
@@ -28,10 +33,19 @@ const EnregistrerUneModification = ({ projectId }: EnregistrerUneModificationPro
     >
       <span>Demande de délai</span>
     </DropdownMenuSecondaryButton.DropdownItem>
+    <DropdownMenuSecondaryButton.DropdownItem href={Routes.Actionnaire.modifier(identifiantProjet)}>
+      <span>Modifier l'actionnaire(s)</span>
+    </DropdownMenuSecondaryButton.DropdownItem>
+    <DropdownMenuSecondaryButton.DropdownItem
+      href={Routes.ReprésentantLégal.modifier(identifiantProjet)}
+    >
+      <span>Modifier le représentant légal</span>
+    </DropdownMenuSecondaryButton.DropdownItem>
   </DropdownMenuSecondaryButton>
 );
 
 type PorteurProjetActionsProps = {
+  identifiantProjet: IdentifiantProjet.RawType;
   project: ProjectDataForProjectPage;
   abandonEnCoursOuAccordé: boolean;
   demandeRecours: ProjectDataForProjectPage['demandeRecours'];
@@ -45,6 +59,7 @@ type PorteurProjetActionsProps = {
 };
 
 const PorteurProjetActions = ({
+  identifiantProjet,
   project,
   abandonEnCoursOuAccordé,
   demandeRecours,
@@ -53,12 +68,6 @@ const PorteurProjetActions = ({
   peutFaireDemandeChangementReprésentantLégal,
   actionnaireMenu,
 }: PorteurProjetActionsProps) => {
-  const identifiantProjet = formatProjectDataToIdentifiantProjetValueType({
-    appelOffreId: project.appelOffreId,
-    periodeId: project.periodeId,
-    familleId: project.familleId,
-    numeroCRE: project.numeroCRE,
-  }).formatter();
   const peutDemanderAbandon = !abandonEnCoursOuAccordé && !hasAttestationConformité;
 
   return (
@@ -150,20 +159,15 @@ const PorteurProjetActions = ({
 
 type AdminActionsProps = {
   project: ProjectDataForProjectPage;
+  identifiantProjet: IdentifiantProjet.RawType;
 };
 const AdminActions = ({
-  project: { appelOffreId, periodeId, familleId, numeroCRE, id, notifiedOn, isLegacy, isClasse },
+  project: { id, notifiedOn, isLegacy, isClasse },
+  identifiantProjet,
 }: AdminActionsProps) => {
-  const identifiantProjet = formatProjectDataToIdentifiantProjetValueType({
-    appelOffreId: appelOffreId,
-    periodeId: periodeId,
-    familleId: familleId,
-    numeroCRE: numeroCRE,
-  }).formatter();
-
   return (
     <div className="flex flex-col md:flex-row gap-2">
-      <EnregistrerUneModification projectId={id} />
+      <EnregistrerUneModification projectId={id} identifiantProjet={identifiantProjet} />
       {notifiedOn && isClasse ? (
         <LinkButton href={Routes.Lauréat.modifier(identifiantProjet)}>
           Modifier le projet
@@ -204,11 +208,12 @@ const AdminActions = ({
 
 type DrealActionsProps = {
   project: ProjectDataForProjectPage;
+  identifiantProjet: IdentifiantProjet.RawType;
 };
-const DrealActions = ({ project }: DrealActionsProps) => {
+const DrealActions = ({ project, identifiantProjet }: DrealActionsProps) => {
   return (
     <div className="flex flex-col md:flex-row gap-2">
-      <EnregistrerUneModification projectId={project.id} />
+      <EnregistrerUneModification projectId={project.id} identifiantProjet={identifiantProjet} />
       <PrimaryButton onClick={() => window.print()}>
         <PrintIcon className="text-white mr-2" aria-hidden />
         Imprimer la page
@@ -241,23 +246,37 @@ export const ProjectActions = ({
   hasAttestationConformité,
   peutFaireDemandeChangementReprésentantLégal,
   actionnaireMenu,
-}: ProjectActionsProps) => (
-  <div className="print:hidden whitespace-nowrap">
-    {userIs(['admin', 'dgec-validateur'])(user) && <AdminActions {...{ project }} />}
-    {userIs(['porteur-projet'])(user) && (
-      <PorteurProjetActions
-        project={project}
-        abandonEnCoursOuAccordé={abandonEnCoursOuAccordé}
-        demandeRecours={demandeRecours}
-        modificationsNonPermisesParLeCDCActuel={modificationsNonPermisesParLeCDCActuel}
-        hasAttestationConformité={hasAttestationConformité}
-        peutFaireDemandeChangementReprésentantLégal={peutFaireDemandeChangementReprésentantLégal}
-        actionnaireMenu={actionnaireMenu}
-      />
-    )}
-    {userIs(['dreal'])(user) && <DrealActions project={project} />}
-  </div>
-);
+}: ProjectActionsProps) => {
+  const identifiantProjet = formatProjectDataToIdentifiantProjetValueType({
+    appelOffreId: project.appelOffreId,
+    periodeId: project.periodeId,
+    familleId: project.familleId,
+    numeroCRE: project.numeroCRE,
+  }).formatter();
+
+  return (
+    <div className="print:hidden whitespace-nowrap">
+      {userIs(['admin', 'dgec-validateur'])(user) && (
+        <AdminActions project={project} identifiantProjet={identifiantProjet} />
+      )}
+      {userIs(['porteur-projet'])(user) && (
+        <PorteurProjetActions
+          project={project}
+          abandonEnCoursOuAccordé={abandonEnCoursOuAccordé}
+          demandeRecours={demandeRecours}
+          modificationsNonPermisesParLeCDCActuel={modificationsNonPermisesParLeCDCActuel}
+          hasAttestationConformité={hasAttestationConformité}
+          peutFaireDemandeChangementReprésentantLégal={peutFaireDemandeChangementReprésentantLégal}
+          actionnaireMenu={actionnaireMenu}
+          identifiantProjet={identifiantProjet}
+        />
+      )}
+      {userIs(['dreal'])(user) && (
+        <DrealActions project={project} identifiantProjet={identifiantProjet} />
+      )}
+    </div>
+  );
+};
 
 type ProjectStatus = 'non-notifié' | 'abandonné' | 'lauréat' | 'éliminé';
 const getProjectStatus = (project: ProjectDataForProjectPage): ProjectStatus =>
