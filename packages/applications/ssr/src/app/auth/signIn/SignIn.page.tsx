@@ -75,67 +75,68 @@ export default function SignInPage({ providers }: SignInPageProps) {
             <div className="flex items-stretch gap-6">
               <div className="container w-[360px] md:w-1/2">
                 <Tile
-                  className="min-h-[300px]"
+                  className="min-h-[310px]"
                   title="Vous travaillez dans l'administration ?"
                   titleAs="h2"
                   desc="Connectez-vous facilement à l'aide de votre adresse professionnelle en utilisant votre compte ProConnect"
-                  start={
-                    <div className="flex items-center gap-2">
-                      <Badge noIcon severity="info">
-                        DGEC
-                      </Badge>
-                      <Badge noIcon severity="info">
-                        DREAL
-                      </Badge>
-                    </div>
-                  }
                   detail={
-                    providers.includes('proconnect') ? (
-                      <ProConnectButton
-                        onClick={() => {
-                          setTypeConnexion('administration');
-                          signIn('proconnect', { callbackUrl });
-                        }}
-                      />
-                    ) : (
-                      <div>ProConnect non disponible</div>
-                    )
+                    <div className="flex flex-col gap-5">
+                      <div className="flex items-center gap-2">
+                        <Badge noIcon severity="info">
+                          DGEC
+                        </Badge>
+                        <Badge noIcon severity="info">
+                          DREAL
+                        </Badge>
+                      </div>
+                      {providers.includes('proconnect') ? (
+                        <ProConnectButton
+                          onClick={(e) => {
+                            e.preventDefault();
+                            signIn('proconnect', { callbackUrl });
+                          }}
+                        />
+                      ) : (
+                        <div>ProConnect non disponible</div>
+                      )}
+                    </div>
                   }
                   orientation="horizontal"
                 />
               </div>
               <div className="container w-[360px] md:w-1/2">
                 <Tile
-                  className="min-h-[300px]"
+                  className="min-h-[310px]"
                   title="Autres utilisateurs"
                   titleAs="h2"
                   desc="Connectez-vous facilement sur Potentiel en utilisant les différentes méthodes de connexion disponibles"
-                  start={
-                    <div className="flex flex-wrap   items-center gap-2">
-                      {[
-                        'Porteur de projet',
-                        'Acheteur obligé',
-                        'ADEME',
-                        'DREAL',
-                        'CAISSE DES DEPOTS',
-                        'CRE',
-                        'GRD',
-                      ].map((role) => (
-                        <Badge noIcon severity="info" key={role}>
-                          {role}
-                        </Badge>
-                      ))}
-                    </div>
-                  }
                   detail={
-                    <Button
-                      onClick={(e) => {
-                        e.preventDefault();
-                        setTypeConnexion('other');
-                      }}
-                    >
-                      Voir les différentes méthodes de connexion
-                    </Button>
+                    <div className="flex flex-col gap-5">
+                      <div className="flex flex-wrap   items-center gap-2">
+                        {[
+                          'Porteur de projet',
+                          'Acheteur obligé',
+                          'ADEME',
+                          'DREAL',
+                          'CAISSE DES DEPOTS',
+                          'CRE',
+                          'GRD',
+                        ].map((role) => (
+                          <Badge noIcon severity="info" key={role}>
+                            {role}
+                          </Badge>
+                        ))}
+                      </div>
+
+                      <Button
+                        onClick={(e) => {
+                          e.preventDefault();
+                          setTypeConnexion('other');
+                        }}
+                      >
+                        Voir les différentes méthodes de connexion
+                      </Button>
+                    </div>
                   }
                   orientation="horizontal"
                 />
