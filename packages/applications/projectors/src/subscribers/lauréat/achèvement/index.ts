@@ -14,7 +14,7 @@ export type Execute = Message<'System.Projector.Lauréat.Achèvement', Subscript
 
 export const register = () => {
   const handler: MessageHandler<Execute> = async (event) => {
-    match(event)
+    await match(event)
       .with({ type: 'RebuildTriggered' }, achèvementRebuildTriggered)
       .with({ type: 'AttestationConformitéTransmise-V1' }, attestationConformitéTransmiseProjector)
       .with({ type: 'AttestationConformitéModifiée-V1' }, attestationConformitéModifiéeProjector)
