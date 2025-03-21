@@ -36,10 +36,20 @@ export default eslintTs.config(
       },
     },
   },
+
+  {
+    files: ['**/*.ts'],
+    languageOptions: {
+      parserOptions: {
+        project: true,
+      },
+    },
+  },
   { files: ['**/*.js'], languageOptions: { sourceType: 'script' } },
   { languageOptions: { globals: globals.browser } },
   {
     rules: {
+      '@typescript-eslint/no-floating-promises': 'error',
       '@typescript-eslint/ban-types': 'off',
       '@typescript-eslint/no-empty-object-type': 'off',
       '@typescript-eslint/no-unused-vars': ['error', { argsIgnorePattern: '^_' }],
