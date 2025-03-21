@@ -43,7 +43,7 @@ export default function SignUpPage({ providers }: SignUpPageProps) {
     <PageTemplate>
       <Heading1>Inscrivez-vous</Heading1>
       <div className="flex flex-col">
-        <p className="text-center mb-6">
+        <p className="mb-6">
           L'inscription autonome n'est possible qu'en tant que Porteur de Projet. Vous êtes
           partenaire ?
           <Link href="mailto:contact@potentiel.beta.gouv.fr" className="ml-2">
