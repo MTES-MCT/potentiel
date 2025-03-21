@@ -45,7 +45,7 @@ export const candidatureSchema = z
     commune: communeSchema,
     departement: départementSchema,
     region: régionSchema,
-    statut: statutSchema,
+    statut: statutSchema.optional(), // plus modifiable une fois notifiée
     puissanceALaPointe: puissanceALaPointeSchema,
     evaluationCarboneSimplifiee: évaluationCarboneSimplifiéeSchema,
     actionnariat: actionnariatSchema,

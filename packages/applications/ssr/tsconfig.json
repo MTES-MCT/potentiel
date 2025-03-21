@@ -62,11 +62,15 @@
       "path": "../../libraries/monitoring"
     },
     {
+      "path": "../../infrastructure/ds-api-client"
+    },
+    {
       "path": "../../infrastructure/filigrane-facile-client"
     },
     {
       "path": "../../infrastructure/geo-api-client"
     },
+
     {
       "path": "../api-documentation"
     },
