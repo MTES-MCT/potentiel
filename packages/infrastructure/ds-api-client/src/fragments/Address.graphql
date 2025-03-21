@@ -1,0 +1,11 @@
+fragment AddressFragment on Address {
+  label
+  type
+  streetAddress
+  streetNumber
+  streetName
+  postalCode
+  cityName
+  departmentName
+  regionName
+}
