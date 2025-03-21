@@ -18,8 +18,6 @@ export const computeUtilisateurCréation = async () => {
           DATE_TRUNC('month', "public"."users"."createdAt") AS "createdAt"
         FROM
           "public"."users"
-        WHERE
-          "public"."users"."role" = 'porteur-projet'
       ) AS "source"
     WHERE
       "source"."createdAt" IS NOT NULL
