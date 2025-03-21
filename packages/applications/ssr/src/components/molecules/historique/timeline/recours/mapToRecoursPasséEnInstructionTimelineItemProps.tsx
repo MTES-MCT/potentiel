@@ -1,11 +1,11 @@
 import { Historique } from '@potentiel-domain/historique';
-import { Recours } from '@potentiel-domain/elimine';
+import { Éliminé } from '@potentiel-domain/projet';
 
 export const mapToRecoursPasséEnInstructionTimelineItemProp = (
   recoursPasséEnInstruction: Historique.ListerHistoriqueProjetReadModel['items'][number],
 ) => {
   const { passéEnInstructionLe, passéEnInstructionPar } =
-    recoursPasséEnInstruction.payload as Recours.RecoursPasséEnInstructionEvent['payload'];
+    recoursPasséEnInstruction.payload as Éliminé.Recours.RecoursPasséEnInstructionEvent['payload'];
 
   return {
     date: passéEnInstructionLe,

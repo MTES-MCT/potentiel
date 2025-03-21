@@ -5,8 +5,8 @@ import { mediator } from 'mediateur';
 
 import { executeQuery } from '@potentiel-libraries/pg-helpers';
 import { Email, IdentifiantProjet } from '@potentiel-domain/common';
-import { Éliminé } from '@potentiel-domain/elimine';
 import { InviterPorteurUseCase } from '@potentiel-domain/utilisateur';
+import { Éliminé } from '@potentiel-domain/projet';
 
 import { PotentielWorld } from '../../../potentiel.world';
 import { importerCandidature } from '../../../candidature/stepDefinitions/candidature.given';

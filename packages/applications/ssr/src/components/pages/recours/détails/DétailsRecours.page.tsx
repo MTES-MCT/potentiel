@@ -1,7 +1,7 @@
 import { FC } from 'react';
 
 import { PlainType } from '@potentiel-domain/core';
-import { Recours } from '@potentiel-domain/elimine';
+import { Éliminé } from '@potentiel-domain/projet';
 import { DateTime, Email } from '@potentiel-domain/common';
 import { Historique } from '@potentiel-domain/historique';
 
@@ -27,7 +27,7 @@ export type AvailableRecoursAction =
 
 export type DétailsRecoursPageProps = {
   identifiantProjet: string;
-  recours: PlainType<Recours.ConsulterRecoursReadModel>;
+  recours: PlainType<Éliminé.Recours.ConsulterRecoursReadModel>;
   historique: PlainType<Historique.ListerHistoriqueProjetReadModel>;
   actions: ReadonlyArray<AvailableRecoursAction>;
 };

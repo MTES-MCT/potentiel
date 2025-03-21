@@ -3,7 +3,7 @@ import Link from 'next/link';
 
 import { Routes } from '@potentiel-applications/routes';
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
-import { Recours } from '@potentiel-domain/elimine';
+import { Éliminé } from '@potentiel-domain/projet';
 import { PlainType } from '@potentiel-domain/core';
 
 import { ProjectListItemHeading } from '@/components/molecules/projet/ProjectListItemHeading';
@@ -11,7 +11,9 @@ import { ListItem } from '@/components/molecules/ListItem';
 
 import { StatutRecoursBadge } from '../StatutRecoursBadge';
 
-export type RecoursListItemProps = PlainType<Recours.ListerRecoursReadModel['items'][number]>;
+export type RecoursListItemProps = PlainType<
+  Éliminé.Recours.ListerRecoursReadModel['items'][number]
+>;
 
 export const RecoursListItem: FC<RecoursListItemProps> = ({
   identifiantProjet,

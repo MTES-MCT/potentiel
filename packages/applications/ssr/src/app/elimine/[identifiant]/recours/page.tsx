@@ -5,7 +5,7 @@ import { match } from 'ts-pattern';
 
 import { Option } from '@potentiel-libraries/monads';
 import { mapToPlainObject } from '@potentiel-domain/core';
-import { Recours } from '@potentiel-domain/elimine';
+import { Éliminé } from '@potentiel-domain/projet';
 import { Role } from '@potentiel-domain/utilisateur';
 import { Historique } from '@potentiel-domain/historique';
 
@@ -40,7 +40,7 @@ export default async function Page({ params: { identifiant } }: PageProps) {
     withUtilisateur(async (utilisateur) => {
       const identifiantProjet = decodeParameter(identifiant);
 
-      const recours = await mediator.send<Recours.ConsulterRecoursQuery>({
+      const recours = await mediator.send<Éliminé.Recours.ConsulterRecoursQuery>({
         type: 'Éliminé.Recours.Query.ConsulterRecours',
         data: {
           identifiantProjetValue: identifiantProjet,
@@ -76,7 +76,7 @@ export default async function Page({ params: { identifiant } }: PageProps) {
 
 type MapToActionsProps = {
   role: Role.RawType;
-  statut: Recours.StatutRecours.RawType;
+  statut: Éliminé.Recours.StatutRecours.RawType;
 };
 
 const mapToActions = (props: MapToActionsProps) =>

@@ -4,7 +4,7 @@ import waitForExpect from 'wait-for-expect';
 import { expect } from 'chai';
 
 import { Option } from '@potentiel-libraries/monads';
-import { Recours } from '@potentiel-domain/elimine';
+import { Éliminé } from '@potentiel-domain/projet';
 import { IdentifiantProjet } from '@potentiel-domain/common';
 import { mapToPlainObject } from '@potentiel-domain/core';
 import { ConsulterDocumentProjetQuery } from '@potentiel-domain/document';
@@ -23,7 +23,7 @@ Alors(
       vérifierRecours.call(
         this,
         this.eliminéWorld.identifiantProjet,
-        Recours.StatutRecours.demandé,
+        Éliminé.Recours.StatutRecours.demandé,
       ),
     );
   },
@@ -35,7 +35,7 @@ Alors(
     const identifiantProjet = this.eliminéWorld.identifiantProjet.formatter();
 
     await waitForExpect(async () => {
-      const result = await mediator.send<Recours.ConsulterRecoursQuery>({
+      const result = await mediator.send<Éliminé.Recours.ConsulterRecoursQuery>({
         type: 'Éliminé.Recours.Query.ConsulterRecours',
         data: {
           identifiantProjetValue: identifiantProjet,
@@ -49,13 +49,21 @@ Alors(
 
 Alors(`le recours du projet éliminé devrait être rejeté`, async function (this: PotentielWorld) {
   await waitForExpect(async () =>
-    vérifierRecours.call(this, this.eliminéWorld.identifiantProjet, Recours.StatutRecours.rejeté),
+    vérifierRecours.call(
+      this,
+      this.eliminéWorld.identifiantProjet,
+      Éliminé.Recours.StatutRecours.rejeté,
+    ),
   );
 });
 
 Alors(`le recours du projet éliminé devrait être accordé`, async function (this: PotentielWorld) {
   await waitForExpect(async () =>
-    vérifierRecours.call(this, this.eliminéWorld.identifiantProjet, Recours.StatutRecours.accordé),
+    vérifierRecours.call(
+      this,
+      this.eliminéWorld.identifiantProjet,
+      Éliminé.Recours.StatutRecours.accordé,
+    ),
   );
 });
 
@@ -66,7 +74,7 @@ Alors(
       vérifierRecours.call(
         this,
         this.eliminéWorld.identifiantProjet,
-        Recours.StatutRecours.enInstruction,
+        Éliminé.Recours.StatutRecours.enInstruction,
       ),
     );
   },
@@ -75,9 +83,9 @@ Alors(
 async function vérifierRecours(
   this: PotentielWorld,
   identifiantProjet: IdentifiantProjet.ValueType,
-  statut: Recours.StatutRecours.ValueType,
+  statut: Éliminé.Recours.StatutRecours.ValueType,
 ) {
-  const recours = await mediator.send<Recours.ConsulterRecoursQuery>({
+  const recours = await mediator.send<Éliminé.Recours.ConsulterRecoursQuery>({
     type: 'Éliminé.Recours.Query.ConsulterRecours',
     data: {
       identifiantProjetValue: identifiantProjet.formatter(),

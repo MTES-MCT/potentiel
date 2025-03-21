@@ -1,7 +1,7 @@
 import { Routes } from '@potentiel-applications/routes';
 import { DocumentProjet } from '@potentiel-domain/document';
 import { Historique } from '@potentiel-domain/historique';
-import { Recours } from '@potentiel-domain/elimine';
+import { Éliminé } from '@potentiel-domain/projet';
 
 import { DownloadDocument } from '@/components/atoms/form/document/DownloadDocument';
 
@@ -13,11 +13,11 @@ export const mapToRecoursAccordéTimelineItemProps = (
     accordéPar,
     identifiantProjet,
     réponseSignée: { format },
-  } = recoursAccordé.payload as Recours.RecoursAccordéEvent['payload'];
+  } = recoursAccordé.payload as Éliminé.Recours.RecoursAccordéEvent['payload'];
 
   const réponseSignée = DocumentProjet.convertirEnValueType(
     identifiantProjet,
-    Recours.TypeDocumentRecours.recoursAccordé.formatter(),
+    Éliminé.Recours.TypeDocumentRecours.recoursAccordé.formatter(),
     accordéLe,
     format,
   ).formatter();

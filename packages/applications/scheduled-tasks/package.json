@@ -17,7 +17,7 @@
     "@potentiel-applications/routes": "*",
     "@potentiel-statistiques/statistiques-publiques": "*",
     "@potentiel-domain/common": "*",
-    "@potentiel-domain/elimine": "*",
+    "@potentiel-domain/projet": "*",
     "@potentiel-domain/laureat": "*",
     "@potentiel-infrastructure/domain-adapters": "*",
     "@potentiel-infrastructure/email": "*",
