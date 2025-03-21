@@ -6,12 +6,12 @@ import { useEffect } from 'react';
 import ProConnectButton from '@codegouvfr/react-dsfr/ProConnectButton';
 import Alert from '@codegouvfr/react-dsfr/Alert';
 import Link from 'next/link';
+import Tile from '@codegouvfr/react-dsfr/Tile';
 
 import { Routes } from '@potentiel-applications/routes';
 
 import { PageTemplate } from '@/components/templates/Page.template';
 import { Heading1 } from '@/components/atoms/headings';
-import { LoginMethodTile } from '@/components/organisms/auth/LoginMethodTile';
 import { MagicLinkForm } from '@/components/organisms/auth/MagicLinkForm';
 
 type SignUpPageProps = {
@@ -41,18 +41,15 @@ export default function SignUpPage({ providers }: SignUpPageProps) {
 
   return (
     <PageTemplate>
-      <div className="flex flex-col items-center gap-6">
-        <div className="flex flex-col items-center gap-1">
-          <Heading1>Inscrivez-vous</Heading1>
-
-          <p className="text-center">
-            L'inscription autonome n'est possible qu'en tant que Porteur de Projet. Vous êtes
-            Partenaire ?
-            <Link href="mailto:contact@potentiel.beta.gouv.fr" className="ml-2">
-              Contactez-nous
-            </Link>
-          </p>
-        </div>
+      <Heading1>Inscrivez-vous</Heading1>
+      <div className="flex flex-col">
+        <p className="mb-6">
+          L'inscription autonome n'est possible qu'en tant que Porteur de Projet. Vous êtes
+          partenaire ?
+          <Link href="mailto:contact@potentiel.beta.gouv.fr" className="ml-2">
+            Contactez-nous
+          </Link>
+        </p>
 
         {error && (
           <Alert
@@ -65,18 +62,20 @@ export default function SignUpPage({ providers }: SignUpPageProps) {
         )}
         <div className="flex flex-col items-center lg:flex-row  lg:items-stretch gap-6 h-full">
           {providers.includes('proconnect') && (
-            <LoginMethodTile
+            <Tile
               title="ProConnect"
-              description="Inscrivez-vous facilement à l'aide de votre adresse professionnelle"
-              détail={<ProConnectButton onClick={() => signIn('proconnect', { callbackUrl })} />}
+              desc="Inscrivez-vous facilement à l'aide de votre adresse professionnelle"
+              detail={<ProConnectButton onClick={() => signIn('proconnect', { callbackUrl })} />}
+              className="flex-1"
             />
           )}
 
           {providers.includes('email') && (
-            <LoginMethodTile
+            <Tile
               title="Lien magique"
-              description="Inscrivez-vous facilement sans mot de passe à l'aide d'un lien magique qui sera envoyé sur votre adresse de courriel"
-              détail={<MagicLinkForm callbackUrl={callbackUrl} />}
+              desc="Inscrivez-vous facilement sans mot de passe à l'aide d'un lien magique qui sera envoyé sur votre adresse de courriel"
+              detail={<MagicLinkForm callbackUrl={callbackUrl} />}
+              className="flex-1"
             />
           )}
         </div>

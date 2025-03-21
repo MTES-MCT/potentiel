@@ -25,7 +25,7 @@ export const MagicLinkForm: FC<MagicLinkFormProps> = ({ callbackUrl }) => {
         <div className="flex flex-col mt-4 gap-5">
           <p>
             En tant qu'agent vous ne pouvez pas vous connecter à l'aide d'un lien magique.
-            Veuillez-vous connecter avec ProCOnnect.
+            Veuillez-vous connecter avec ProConnect.
           </p>
           <ProConnectButton onClick={() => signIn('proconnect', { callbackUrl })} />
         </div>

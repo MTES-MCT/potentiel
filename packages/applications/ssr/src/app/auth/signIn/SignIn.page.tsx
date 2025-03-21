@@ -6,12 +6,12 @@ import { useEffect } from 'react';
 import Button from '@codegouvfr/react-dsfr/Button';
 import ProConnectButton from '@codegouvfr/react-dsfr/ProConnectButton';
 import Alert from '@codegouvfr/react-dsfr/Alert';
+import Tile from '@codegouvfr/react-dsfr/Tile';
 
 import { Routes } from '@potentiel-applications/routes';
 
 import { PageTemplate } from '@/components/templates/Page.template';
 import { Heading1 } from '@/components/atoms/headings';
-import { LoginMethodTile } from '@/components/organisms/auth/LoginMethodTile';
 import { MagicLinkForm } from '@/components/organisms/auth/MagicLinkForm';
 
 type SignInPageProps = {
@@ -55,7 +55,7 @@ export default function SignInPage({ providers }: SignInPageProps) {
       ) : (
         <>
           <Heading1>Identifiez-vous</Heading1>
-          <div className="flex flex-col md:flex-row gap-5 mt-12 md:mt-20">
+          <div className="flex flex-col mt-12 gap-6 items-center">
             {error && (
               <Alert
                 className="md:w-2/3"
@@ -65,33 +65,40 @@ export default function SignInPage({ providers }: SignInPageProps) {
                 closable
               />
             )}
-            {providers.includes('proconnect') && (
-              <LoginMethodTile
-                title="ProConnect"
-                description="Connectez-vous facilement à l'aide de votre adresse professionnelle"
-                détail={<ProConnectButton onClick={() => signIn('proconnect', { callbackUrl })} />}
-              />
-            )}
+            <div className="flex flex-col md:flex-row gap-5">
+              {providers.includes('proconnect') && (
+                <Tile
+                  title="ProConnect"
+                  desc="Connectez-vous facilement à l'aide de votre adresse professionnelle"
+                  detail={
+                    <ProConnectButton onClick={() => signIn('proconnect', { callbackUrl })} />
+                  }
+                  className="flex-1"
+                />
+              )}
 
-            {providers.includes('email') && (
-              <LoginMethodTile
-                title="Lien magique"
-                description="Connectez-vous facilement sans mot de passe à l'aide d'un lien magique qui sera envoyé sur votre adresse de courriel"
-                détail={<MagicLinkForm callbackUrl={callbackUrl} />}
-              />
-            )}
+              {providers.includes('email') && (
+                <Tile
+                  title="Lien magique"
+                  desc="Connectez-vous facilement sans mot de passe à l'aide d'un lien magique qui sera envoyé sur votre adresse de courriel"
+                  detail={<MagicLinkForm callbackUrl={callbackUrl} />}
+                  className="flex-1"
+                />
+              )}
 
-            {providers.includes('keycloak') && (
-              <LoginMethodTile
-                title="Mot de passe"
-                description="Vous pouvez toujours vous connecter à l'aide de vos identifiants classiques"
-                détail={
-                  <Button className="mx-auto" onClick={() => signIn('keycloak', { callbackUrl })}>
-                    Connexion avec mot de passe
-                  </Button>
-                }
-              />
-            )}
+              {providers.includes('keycloak') && (
+                <Tile
+                  title="Mot de passe"
+                  desc="Vous pouvez toujours vous connecter à l'aide de vos identifiants classiques"
+                  detail={
+                    <Button className="mx-auto" onClick={() => signIn('keycloak', { callbackUrl })}>
+                      Connexion avec mot de passe
+                    </Button>
+                  }
+                  className="flex-1"
+                />
+              )}
+            </div>
           </div>
         </>
       )}
