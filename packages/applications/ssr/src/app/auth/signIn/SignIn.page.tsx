@@ -53,48 +53,47 @@ export default function SignInPage({ providers }: SignInPageProps) {
       {onlyKeycloak ? (
         <div className="font-bold text-2xl">Authentification en cours ...</div>
       ) : (
-        <div className="flex flex-col items-center gap-6">
+        <>
           <Heading1>Identifiez-vous</Heading1>
-
-          {error && (
-            <Alert
-              className="md:w-2/3"
-              severity="error"
-              small
-              description="Une erreur est survenue. Si le problème persiste vous pouvez nous contacter"
-              closable
-            />
-          )}
-          <div className="flex flex-col items-center lg:flex-row  lg:items-stretch gap-6 h-full">
+          <div className="flex flex-col md:flex-row gap-5 mt-12 md:mt-20">
+            {error && (
+              <Alert
+                className="md:w-2/3"
+                severity="error"
+                small
+                description="Une erreur est survenue. Si le problème persiste vous pouvez nous contacter"
+                closable
+              />
+            )}
             {providers.includes('proconnect') && (
               <LoginMethodTile
                 title="ProConnect"
-                description="Inscrivez-vous facilement à l'aide de votre adresse professionnelle"
-              >
-                <ProConnectButton onClick={() => signIn('proconnect', { callbackUrl })} />
-              </LoginMethodTile>
+                description="Connectez-vous facilement à l'aide de votre adresse professionnelle"
+                détail={<ProConnectButton onClick={() => signIn('proconnect', { callbackUrl })} />}
+              />
             )}
 
             {providers.includes('email') && (
               <LoginMethodTile
                 title="Lien magique"
-                description="Inscrivez-vous facilement sans mot de passe à l'aide d'un lien magique qui sera envoyé sur votre adresse de courriel"
-              >
-                <MagicLinkForm onSubmit={(email) => signIn('email', { callbackUrl, email })} />
-              </LoginMethodTile>
+                description="Connectez-vous facilement sans mot de passe à l'aide d'un lien magique qui sera envoyé sur votre adresse de courriel"
+                détail={<MagicLinkForm callbackUrl={callbackUrl} />}
+              />
+            )}
+
+            {providers.includes('keycloak') && (
+              <LoginMethodTile
+                title="Mot de passe"
+                description="Vous pouvez toujours vous connecter à l'aide de vos identifiants classiques"
+                détail={
+                  <Button className="mx-auto" onClick={() => signIn('keycloak', { callbackUrl })}>
+                    Connexion avec mot de passe
+                  </Button>
+                }
+              />
             )}
           </div>
-          {providers.includes('keycloak') && (
-            <LoginMethodTile
-              title="Mot de passe"
-              description="Vous pouvez toujours vous connecter à l'aide de vos identifiants classiques"
-            >
-              <Button className="mx-auto" onClick={() => signIn('keycloak', { callbackUrl })}>
-                Connexion avec mot de passe
-              </Button>
-            </LoginMethodTile>
-          )}
-        </div>
+        </>
       )}
     </PageTemplate>
   );
