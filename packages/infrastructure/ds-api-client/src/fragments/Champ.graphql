@@ -1,0 +1,28 @@
+fragment ChampFragment on Champ {
+  id
+  champDescriptorId
+  __typename
+  label
+  stringValue
+  updatedAt
+  prefilled
+  ... on DateChamp {
+    date
+  }
+  ... on DecimalNumberChamp {
+    decimalNumber: value
+  }
+  ... on IntegerNumberChamp {
+    integerNumber: value
+  }
+  ... on PieceJustificativeChamp {
+    files {
+      ...FileFragment
+    }
+  }
+  ... on AddressChamp {
+    address {
+      ...AddressFragment
+    }
+  }
+}
