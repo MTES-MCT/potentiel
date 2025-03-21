@@ -2,9 +2,7 @@ import { FC } from 'react';
 
 import { ReprésentantLégal } from '@potentiel-domain/laureat';
 import { PlainType } from '@potentiel-domain/core';
-import { IdentifiantProjet } from '@potentiel-domain/common';
 
-import { ProjetBanner } from '@/components/molecules/projet/ProjetBanner';
 import { Heading1 } from '@/components/atoms/headings';
 import { PageTemplate } from '@/components/templates/Page.template';
 
@@ -17,11 +15,7 @@ export const ModifierReprésentantLégalPage: FC<ModifierReprésentantLégalPage
   nomReprésentantLégal,
   typeReprésentantLégal,
 }) => (
-  <PageTemplate
-    banner={
-      <ProjetBanner identifiantProjet={IdentifiantProjet.bind(identifiantProjet).formatter()} />
-    }
-  >
+  <PageTemplate>
     <Heading1>Modifier le représentant légal</Heading1>
     <ModifierReprésentantLégalForm
       identifiantProjet={identifiantProjet}

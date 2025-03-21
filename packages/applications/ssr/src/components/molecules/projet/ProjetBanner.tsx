@@ -2,7 +2,6 @@
 
 import { FC } from 'react';
 import { mediator } from 'mediateur';
-import { notFound } from 'next/navigation';
 
 import { Routes } from '@potentiel-applications/routes';
 import { Candidature } from '@potentiel-domain/candidature';
@@ -13,6 +12,7 @@ import { Abandon, Lauréat } from '@potentiel-domain/laureat';
 
 import { StatutProjetBadge } from '@/components/molecules/projet/StatutProjetBadge';
 import { withUtilisateur } from '@/utils/withUtilisateur';
+import { getCandidature } from '@/app/candidatures/_helpers/getCandidature';
 
 import { ProjetBannerTemplate } from './ProjetBanner.template';
 
@@ -23,9 +23,7 @@ export type ProjetBannerProps = {
 export const ProjetBanner: FC<ProjetBannerProps> = async ({ identifiantProjet }) => {
   return withUtilisateur(async ({ role }) => {
     const projet = await getProjet(identifiantProjet);
-    if (!projet) {
-      return notFound();
-    }
+
     const { nomProjet, localité, notifiéLe, statut } = projet;
 
     return (
@@ -46,15 +44,12 @@ export const ProjetBanner: FC<ProjetBannerProps> = async ({ identifiantProjet })
 
 const getProjet = async (
   identifiantProjet: string,
-): Promise<
-  | {
-      nomProjet: string;
-      localité: Candidature.ConsulterCandidatureReadModel['localité'];
-      notifiéLe: Option.Type<DateTime.RawType>;
-      statut: StatutProjet.RawType;
-    }
-  | undefined
-> => {
+): Promise<{
+  nomProjet: string;
+  localité: Candidature.ConsulterCandidatureReadModel['localité'];
+  notifiéLe: Option.Type<DateTime.RawType>;
+  statut: StatutProjet.RawType;
+}> => {
   const lauréat = await mediator.send<Lauréat.ConsulterLauréatQuery>({
     type: 'Lauréat.Query.ConsulterLauréat',
     data: {
@@ -80,20 +75,12 @@ const getProjet = async (
     };
   }
 
-  const candidature = await mediator.send<Candidature.ConsulterCandidatureQuery>({
-    type: 'Candidature.Query.ConsulterCandidature',
-    data: {
-      identifiantProjet,
-    },
-  });
+  const candidature = await getCandidature(identifiantProjet);
 
-  if (Option.isSome(candidature)) {
-    return {
-      nomProjet: candidature.nomProjet,
-      localité: candidature.localité,
-      notifiéLe: candidature.notification?.notifiéeLe.formatter() ?? Option.none,
-      statut: candidature.statut.formatter(),
-    };
-  }
-  return;
+  return {
+    nomProjet: candidature.nomProjet,
+    localité: candidature.localité,
+    notifiéLe: candidature.notification?.notifiéeLe.formatter() ?? Option.none,
+    statut: candidature.statut.formatter(),
+  };
 };

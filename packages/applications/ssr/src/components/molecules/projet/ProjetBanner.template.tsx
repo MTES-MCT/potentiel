@@ -1,5 +1,3 @@
-'use server';
-
 import React, { FC } from 'react';
 
 import { IdentifiantProjet } from '@potentiel-domain/common';

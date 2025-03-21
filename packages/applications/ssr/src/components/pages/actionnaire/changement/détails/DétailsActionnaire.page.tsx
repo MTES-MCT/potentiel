@@ -8,8 +8,7 @@ import { Routes } from '@potentiel-applications/routes';
 import { Historique } from '@potentiel-domain/historique';
 
 import { Heading2 } from '@/components/atoms/headings';
-import { ProjetBanner } from '@/components/molecules/projet/ProjetBanner';
-import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
+import { ColumnTemplate } from '@/components/templates/Column.template';
 
 import { HistoriqueTimeline } from '../../../../molecules/historique/HistoriqueTimeline';
 
@@ -36,10 +35,7 @@ export const DétailsActionnairePage: FC<DétailsActionnairePageProps> = ({
   historique,
   demandeEnCoursDate,
 }) => (
-  <ColumnPageTemplate
-    banner={
-      <ProjetBanner identifiantProjet={IdentifiantProjet.bind(identifiantProjet).formatter()} />
-    }
+  <ColumnTemplate
     leftColumn={{
       children: (
         <div className="flex flex-col gap-8">

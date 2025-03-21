@@ -6,8 +6,7 @@ import { PlainType } from '@potentiel-domain/core';
 import { IdentifiantProjet } from '@potentiel-domain/common';
 
 import { Heading2 } from '@/components/atoms/headings';
-import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
-import { ProjetBanner } from '@/components/molecules/projet/ProjetBanner';
+import { ColumnTemplate } from '@/components/templates/Column.template';
 
 import { InviterPorteurForm } from '../inviter/InviterPorteur.form';
 
@@ -25,8 +24,7 @@ export const PorteurListPage: FC<PorteurListPageProps> = ({
   nombreDeProjets,
 }) => {
   return (
-    <ColumnPageTemplate
-      banner={<ProjetBanner identifiantProjet={identifiantProjet} />}
+    <ColumnTemplate
       leftColumn={{
         children: (
           <div className="flex flex-col">

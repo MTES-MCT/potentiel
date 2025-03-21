@@ -11,9 +11,6 @@ import { PlainType } from '@potentiel-domain/core';
 import { IdentifiantProjet } from '@potentiel-domain/common';
 import { Raccordement } from '@potentiel-domain/laureat';
 
-import { ProjetBanner } from '@/components/molecules/projet/ProjetBanner';
-import { PageTemplate } from '@/components/templates/Page.template';
-
 import { TitrePageRaccordement } from '../TitrePageRaccordement';
 
 import { DossierRaccordement, DossierRaccordementProps } from './components/DossierRaccordement';
@@ -41,7 +38,7 @@ export const DétailsRaccordementPage: FC<DétailsRaccordementPageProps> = ({
 }) => {
   const identifiantProjetValue = IdentifiantProjet.bind(identifiantProjet).formatter();
   return (
-    <PageTemplate banner={<ProjetBanner identifiantProjet={identifiantProjetValue} />}>
+    <>
       <TitrePageRaccordement />
       <div className="my-2 md:my-4">
         <div className="flex flex-col md:flex-row items-start justify-between">
@@ -115,6 +112,6 @@ export const DétailsRaccordementPage: FC<DétailsRaccordementPageProps> = ({
       >
         {label}
       </Button>
-    </PageTemplate>
+    </>
   );
 };

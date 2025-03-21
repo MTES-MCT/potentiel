@@ -5,8 +5,7 @@ import { Recours } from '@potentiel-domain/elimine';
 import { DateTime, Email } from '@potentiel-domain/common';
 import { Historique } from '@potentiel-domain/historique';
 
-import { ProjetBanner } from '@/components/molecules/projet/ProjetBanner';
-import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
+import { ColumnTemplate } from '@/components/templates/Column.template';
 import { Heading1, Heading2 } from '@/components/atoms/headings';
 import { FormattedDate } from '@/components/atoms/FormattedDate';
 import { HistoriqueTimeline } from '@/components/molecules/historique/HistoriqueTimeline';
@@ -41,8 +40,7 @@ export const DétailsRecoursPage: FC<DétailsRecoursPageProps> = ({
   const demandéLe = DateTime.bind(recours.demande.demandéLe).formatter();
   const demandéPar = Email.bind(recours.demande.demandéPar).formatter();
   return (
-    <ColumnPageTemplate
-      banner={<ProjetBanner identifiantProjet={identifiantProjet} />}
+    <ColumnTemplate
       heading={<Heading1>Détail du recours</Heading1>}
       leftColumn={{
         children: (

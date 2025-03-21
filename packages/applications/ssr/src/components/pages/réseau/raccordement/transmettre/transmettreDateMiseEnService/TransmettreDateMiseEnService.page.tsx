@@ -4,8 +4,7 @@ import { Iso8601DateTime } from '@potentiel-libraries/iso8601-datetime';
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 
 import { FormattedDate } from '@/components/atoms/FormattedDate';
-import { ProjetBanner } from '@/components/molecules/projet/ProjetBanner';
-import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
+import { ColumnTemplate } from '@/components/templates/Column.template';
 
 import { TitrePageRaccordement } from '../../TitrePageRaccordement';
 
@@ -27,8 +26,7 @@ export const TransmettreDateMiseEnServicePage = ({
   dossierRaccordement,
   intervalleDatesMeSDélaiCDC2022,
 }: TransmettreDateMiseEnServicePageProps) => (
-  <ColumnPageTemplate
-    banner={<ProjetBanner identifiantProjet={identifiantProjet} />}
+  <ColumnTemplate
     heading={<TitrePageRaccordement />}
     leftColumn={{
       children: (

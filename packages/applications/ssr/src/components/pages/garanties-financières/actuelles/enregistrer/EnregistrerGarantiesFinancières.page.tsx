@@ -1,8 +1,5 @@
 import { FC } from 'react';
 
-import { PageTemplate } from '@/components/templates/Page.template';
-import { ProjetBanner } from '@/components/molecules/projet/ProjetBanner';
-
 import { TitrePageGarantiesFinancières } from '../../TitrePageGarantiesFinancières';
 import {
   GarantiesFinancièresForm,
@@ -20,7 +17,7 @@ export const EnregistrerGarantiesFinancièresPage: FC<EnregistrerGarantiesFinanc
   identifiantProjet,
   typesGarantiesFinancières,
 }) => (
-  <PageTemplate banner={<ProjetBanner identifiantProjet={identifiantProjet} />}>
+  <>
     <TitrePageGarantiesFinancières title="Enregistrer des garanties financières" />
 
     <GarantiesFinancièresForm
@@ -29,5 +26,5 @@ export const EnregistrerGarantiesFinancièresPage: FC<EnregistrerGarantiesFinanc
       submitButtonLabel="Enregistrer"
       typesGarantiesFinancières={typesGarantiesFinancières}
     />
-  </PageTemplate>
+  </>
 );

@@ -7,8 +7,7 @@ import { DateTime, Email } from '@potentiel-domain/common';
 import { Historique } from '@potentiel-domain/historique';
 
 import { StatutAbandonBadge } from '@/components/pages/abandon/StatutAbandonBadge';
-import { ProjetBanner } from '@/components/molecules/projet/ProjetBanner';
-import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
+import { ColumnTemplate } from '@/components/templates/Column.template';
 import { Heading1, Heading2 } from '@/components/atoms/headings';
 import { FormattedDate } from '@/components/atoms/FormattedDate';
 import { HistoriqueTimeline } from '@/components/molecules/historique/HistoriqueTimeline';
@@ -62,8 +61,7 @@ export const DétailsAbandonPage: FC<DétailsAbandonPageProps> = ({
   const demandéPar = Email.bind(abandon.demande.demandéPar).formatter();
 
   return (
-    <ColumnPageTemplate
-      banner={<ProjetBanner identifiantProjet={identifiantProjet} />}
+    <ColumnTemplate
       heading={<Heading1>Détail de l'abandon</Heading1>}
       leftColumn={{
         children: (

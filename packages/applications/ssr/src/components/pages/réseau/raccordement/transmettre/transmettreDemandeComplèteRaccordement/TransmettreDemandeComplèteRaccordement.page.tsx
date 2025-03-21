@@ -3,8 +3,7 @@ import { FC } from 'react';
 
 import { IdentifiantProjet } from '@potentiel-domain/common';
 
-import { ProjetBanner } from '@/components/molecules/projet/ProjetBanner';
-import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
+import { ColumnTemplate } from '@/components/templates/Column.template';
 
 import {
   InformationDemandeComplèteRaccordement,
@@ -35,10 +34,7 @@ export const TransmettreDemandeComplèteRaccordementPage: FC<
   delaiDemandeDeRaccordementEnMois,
   aDéjàTransmisUneDemandeComplèteDeRaccordement,
 }) => (
-  <ColumnPageTemplate
-    banner={
-      <ProjetBanner identifiantProjet={IdentifiantProjet.bind(identifiantProjet).formatter()} />
-    }
+  <ColumnTemplate
     heading={
       <>
         <TitrePageRaccordement />

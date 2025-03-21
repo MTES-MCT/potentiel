@@ -1,8 +1,7 @@
 import React, { FC } from 'react';
 import { Alert } from '@codegouvfr/react-dsfr/Alert';
 
-import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
-import { ProjetBanner } from '@/components/molecules/projet/ProjetBanner';
+import { ColumnTemplate } from '@/components/templates/Column.template';
 
 import { TitrePageRaccordement } from '../../TitrePageRaccordement';
 
@@ -18,8 +17,7 @@ export const ModifierPropositionTechniqueEtFinancièrePage: FC<
   ModifierPropositionTechniqueEtFinancièrePageProps
 > = ({ identifiantProjet, raccordement }: ModifierPropositionTechniqueEtFinancièrePageProps) => {
   return (
-    <ColumnPageTemplate
-      banner={<ProjetBanner identifiantProjet={identifiantProjet} />}
+    <ColumnTemplate
       heading={<TitrePageRaccordement />}
       leftColumn={{
         children: (

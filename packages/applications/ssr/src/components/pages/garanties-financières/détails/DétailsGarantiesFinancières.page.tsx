@@ -2,8 +2,6 @@ import { FC } from 'react';
 
 import { Iso8601DateTime } from '@potentiel-libraries/iso8601-datetime';
 
-import { PageTemplate } from '@/components/templates/Page.template';
-import { ProjetBanner } from '@/components/molecules/projet/ProjetBanner';
 import {
   GarantiesFinancières,
   GarantiesFinancièresProps,
@@ -55,7 +53,7 @@ export const DétailsGarantiesFinancièresPage: FC<DétailsGarantiesFinancières
   contactPorteurs,
   archivesGarantiesFinancières,
 }) => (
-  <PageTemplate banner={<ProjetBanner identifiantProjet={identifiantProjet} />}>
+  <>
     <TitrePageGarantiesFinancières title="Détail des garanties financières" />
     <>
       <div className="flex flex-col lg:flex-row gap-4">
@@ -101,5 +99,5 @@ export const DétailsGarantiesFinancièresPage: FC<DétailsGarantiesFinancières
         <InfoBoxSoumettreGarantiesFinancières identifiantProjet={identifiantProjet} />
       )}
     </>
-  </PageTemplate>
+  </>
 );

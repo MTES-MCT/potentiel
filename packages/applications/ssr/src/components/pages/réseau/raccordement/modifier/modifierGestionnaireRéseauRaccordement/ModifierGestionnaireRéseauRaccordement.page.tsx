@@ -1,10 +1,7 @@
 import Alert from '@codegouvfr/react-dsfr/Alert';
 import { FC } from 'react';
 
-import { IdentifiantProjet } from '@potentiel-domain/common';
-
-import { ProjetBanner } from '@/components/molecules/projet/ProjetBanner';
-import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
+import { ColumnTemplate } from '@/components/templates/Column.template';
 
 import { TitrePageRaccordement } from '../../TitrePageRaccordement';
 
@@ -22,10 +19,7 @@ export type ModifierGestionnaireRéseauRaccordementPageProps = {
 export const ModifierGestionnaireRéseauRaccordementPage: FC<
   ModifierGestionnaireRéseauRaccordementPageProps
 > = ({ identifiantProjet, gestionnaireRéseauActuel, listeGestionnairesRéseau }) => (
-  <ColumnPageTemplate
-    banner={
-      <ProjetBanner identifiantProjet={IdentifiantProjet.bind(identifiantProjet).formatter()} />
-    }
+  <ColumnTemplate
     heading={<TitrePageRaccordement />}
     leftColumn={{
       children: (
