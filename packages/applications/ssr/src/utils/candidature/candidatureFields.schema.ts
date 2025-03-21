@@ -59,7 +59,7 @@ export const motifEliminationSchema = optionalStringSchema.transform((val) => va
 export const typeGarantiesFinancieresSchema = optionalEnum(
   z.enum(Candidature.TypeGarantiesFinancières.types),
 );
-export const statutSchema = z.enum(Candidature.StatutCandidature.statuts).optional(); // plus modifiable une fois notifiée
+export const statutSchema = z.enum(Candidature.StatutCandidature.statuts);
 export const puissanceALaPointeSchema = booleanSchema;
 export const évaluationCarboneSimplifiéeSchema = strictlyPositiveNumberSchema;
 

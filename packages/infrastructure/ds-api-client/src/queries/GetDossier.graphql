@@ -1,0 +1,14 @@
+query GetDossier($dossier: Int!) {
+  dossier(number: $dossier) {
+    number
+    champs {
+      ...ChampFragment
+    }
+    annotations {
+      ...ChampFragment
+    }
+    usager {
+      email
+    }
+  }
+}
