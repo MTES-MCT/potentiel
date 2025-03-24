@@ -12,12 +12,11 @@ export type SubscriptionEvent = (Période.PériodeNotifiéeEvent & Event) | Rebu
 export type Execute = Message<'System.Projector.Periode', SubscriptionEvent>;
 
 export const register = () => {
-  const handler: MessageHandler<Execute> = (event) => {
-    return match(event)
+  const handler: MessageHandler<Execute> = (event) =>
+    match(event)
       .with({ type: 'RebuildTriggered' }, périodeRebuildTriggered)
       .with({ type: 'PériodeNotifiée-V1' }, périodeNotifiéeProjector)
       .exhaustive();
-  };
 
   mediator.register('System.Projector.Periode', handler);
 };
