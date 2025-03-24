@@ -36,6 +36,20 @@ export default eslintTs.config(
       },
     },
   },
+
+  {
+    files: ['**/*.ts'],
+    ignores: ['.github/**/*', '**/*.test*.ts', '**/*.integration.ts', '**/*.spec*.ts'],
+    languageOptions: {
+      parserOptions: {
+        project: true,
+      },
+    },
+    rules: {
+      '@typescript-eslint/no-floating-promises': 'error',
+    },
+  },
+
   { files: ['**/*.js'], languageOptions: { sourceType: 'script' } },
   { languageOptions: { globals: globals.browser } },
   {

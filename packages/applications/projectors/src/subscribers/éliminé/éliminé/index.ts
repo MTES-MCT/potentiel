@@ -13,13 +13,12 @@ export type SubscriptionEvent = (Éliminé.ÉliminéEvent & Event) | RebuildTrig
 export type Execute = Message<'System.Projector.Eliminé', SubscriptionEvent>;
 
 export const register = () => {
-  const handler: MessageHandler<Execute> = async (event) => {
-    await match(event)
+  const handler: MessageHandler<Execute> = (event) =>
+    match(event)
       .with({ type: 'RebuildTriggered' }, éliminéRebuildTriggeredProjector)
       .with({ type: 'ÉliminéNotifié-V1' }, éliminéNotifiéProjector)
       .with({ type: 'ÉliminéArchivé-V1' }, éliminéArchivéProjector)
       .exhaustive();
-  };
 
   mediator.register('System.Projector.Eliminé', handler);
 };

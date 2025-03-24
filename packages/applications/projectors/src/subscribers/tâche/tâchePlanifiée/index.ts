@@ -14,14 +14,13 @@ export type SubscriptionEvent = (TâchePlanifiéeEvent & Event) | RebuildTrigger
 export type Execute = Message<'System.Projector.TâchePlanifiée', SubscriptionEvent>;
 
 export const register = () => {
-  const handler: MessageHandler<Execute> = async (event) => {
+  const handler: MessageHandler<Execute> = (event) =>
     match(event)
       .with({ type: 'RebuildTriggered' }, tâchePlanifiéeRebuilTriggered)
       .with({ type: 'TâchePlanifiéeAjoutée-V1' }, tâchePlanifiéeAjoutéeProjector)
       .with({ type: 'TâchePlanifiéeAnnulée-V1' }, tâchePlanifiéeAnnuléeProjector)
       .with({ type: 'TâchePlanifiéeExecutée-V1' }, tâchePlanifiéeExecutéeProjector)
       .exhaustive();
-  };
 
   mediator.register('System.Projector.TâchePlanifiée', handler);
 };

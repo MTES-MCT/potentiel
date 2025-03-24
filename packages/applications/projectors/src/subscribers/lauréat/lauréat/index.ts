@@ -14,15 +14,14 @@ export type SubscriptionEvent = (Lauréat.LauréatEvent & Event) | RebuildTrigge
 export type Execute = Message<'System.Projector.Lauréat', SubscriptionEvent>;
 
 export const register = () => {
-  const handler: MessageHandler<Execute> = async (event) => {
-    await match(event)
+  const handler: MessageHandler<Execute> = (event) =>
+    match(event)
       .with({ type: 'RebuildTriggered' }, rebuildTriggeredProjector)
       .with({ type: 'LauréatNotifié-V1' }, lauréatNotifiéV1Projector)
       .with({ type: 'NomEtLocalitéLauréatImportés-V1' }, nomEtLocalitéLauréatImportésProjector)
       .with({ type: 'LauréatNotifié-V2' }, lauréatNotifiéProjector)
       .with({ type: 'LauréatModifié-V1' }, lauréatModifiéProjector)
       .exhaustive();
-  };
 
   mediator.register('System.Projector.Lauréat', handler);
 };

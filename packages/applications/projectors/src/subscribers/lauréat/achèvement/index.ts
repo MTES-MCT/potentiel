@@ -13,13 +13,12 @@ export type SubscriptionEvent = (Achèvement.AchèvementEvent & Event) | Rebuild
 export type Execute = Message<'System.Projector.Lauréat.Achèvement', SubscriptionEvent>;
 
 export const register = () => {
-  const handler: MessageHandler<Execute> = async (event) => {
-    await match(event)
+  const handler: MessageHandler<Execute> = (event) =>
+    match(event)
       .with({ type: 'RebuildTriggered' }, achèvementRebuildTriggered)
       .with({ type: 'AttestationConformitéTransmise-V1' }, attestationConformitéTransmiseProjector)
       .with({ type: 'AttestationConformitéModifiée-V1' }, attestationConformitéModifiéeProjector)
       .exhaustive();
-  };
 
   mediator.register('System.Projector.Lauréat.Achèvement', handler);
 };

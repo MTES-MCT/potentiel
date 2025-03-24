@@ -15,15 +15,14 @@ export type SubscriptionEvent = (Candidature.CandidatureEvent & Event) | Rebuild
 export type Execute = Message<'System.Projector.Candidature', SubscriptionEvent>;
 
 export const register = () => {
-  const handler: MessageHandler<Execute> = async (event) => {
-    await match(event)
+  const handler: MessageHandler<Execute> = (event) =>
+    match(event)
       .with({ type: 'RebuildTriggered' }, candidatureRebuildTriggeredProjector)
       .with({ type: 'CandidatureImportée-V1' }, candidatureImportéeProjector)
       .with({ type: 'CandidatureCorrigée-V1' }, candidatureCorrigéeProjector)
       .with({ type: 'CandidatureNotifiée-V1' }, candidatureNotifiéeV1Projector)
       .with({ type: 'CandidatureNotifiée-V2' }, candidatureNotifiéeV2Projector)
       .exhaustive();
-  };
 
   mediator.register('System.Projector.Candidature', handler);
 };

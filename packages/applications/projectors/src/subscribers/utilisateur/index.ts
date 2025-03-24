@@ -14,7 +14,7 @@ export type SubscriptionEvent = (UtilisateurEvent & Event) | RebuildTriggered;
 export type Execute = Message<'System.Projector.Utilisateur', SubscriptionEvent>;
 
 export const register = () => {
-  const handler: MessageHandler<Execute> = async (event) =>
+  const handler: MessageHandler<Execute> = (event) =>
     match(event)
       .with({ type: 'RebuildTriggered' }, utilisateurRebuildTriggered)
       .with({ type: 'UtilisateurInvité-V1' }, utilisateurInvitéProjector)

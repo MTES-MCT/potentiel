@@ -31,7 +31,7 @@ registerLauréatQueries({
 });
 
 // Envoyer un email de notification aux GRDs ayant des dossiers de raccordement en attente de MES, pour les projets notifiés depuis 12 mois
-(async () => {
+void (async () => {
   const logger = getLogger();
 
   logger.info('Lancement du script...');

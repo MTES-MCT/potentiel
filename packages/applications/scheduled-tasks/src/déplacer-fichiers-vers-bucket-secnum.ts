@@ -102,7 +102,7 @@ const vérifierLesVariablesDEnvironnement = () => {
   }
 };
 
-(async () => {
+void (async () => {
   vérifierLesVariablesDEnvironnement();
 
   getLogger().info('🏁 Moving production files to secnum S3 bucket');

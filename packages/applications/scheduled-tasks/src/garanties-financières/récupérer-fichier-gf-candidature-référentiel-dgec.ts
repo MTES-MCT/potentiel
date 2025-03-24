@@ -90,7 +90,7 @@ const detectAndConvertEncoding = (fileName: string) => {
 
 const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
 
-(async () => {
+void (async () => {
   const directoryPath = process.env.DIRECTORY_PATH!;
   const dirrents = await readdir(directoryPath, {
     withFileTypes: true,

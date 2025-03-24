@@ -14,7 +14,7 @@ import { unflatten } from '@potentiel-libraries/flat';
 
 import { applySearchParams } from '../app/_helpers';
 
-i18next.init({
+void i18next.init({
   lng: 'fr',
   resources: {
     fr: { zod: translation },
