@@ -3,15 +3,24 @@ import * as path from 'path';
 import { Stream } from 'stream';
 
 import { Command, Flags } from '@oclif/core';
-import { fakerFR as faker } from '@faker-js/faker';
+import type { Faker } from '@faker-js/faker';
 
 import { ModèleRéponseSignée } from '@potentiel-applications/document-builder';
 import { appelsOffreData } from '@potentiel-domain/inmemory-referential';
 
-const types = ['abandon', 'recours', 'mainlevée', 'mise-en-demeure', 'actionnaire'] as const;
+const types = [
+  'abandon',
+  'recours',
+  'mainlevée',
+  'mise-en-demeure',
+  'actionnaire',
+  'puissance',
+] as const;
 export type TypeDocument = ModèleRéponseSignée.GénérerModèleRéponseOptions['type'];
 
 export default class GénérerDocument extends Command {
+  #faker!: Faker;
+
   static override description = 'Modifier GRD depuis un CSV';
 
   static override flags = {
@@ -19,16 +28,22 @@ export default class GénérerDocument extends Command {
     logo: Flags.string(),
   };
 
+  protected async init() {
+    // Faker est importé dynamiquement car c'est une dev dependency, et n'est pas dispo en env de prod
+    const { fakerFR } = await import('@faker-js/faker');
+    this.#faker = fakerFR;
+  }
+
   public async run(): Promise<void> {
     console.info('Lancement du script...');
     const { flags } = await this.parse(GénérerDocument);
 
     const readableStream = await ModèleRéponseSignée.générerModèleRéponseAdapter({
       logo: flags.logo,
-      ...getData(flags.type),
+      ...getData(flags.type, this.#faker),
     });
 
-    const outputPath = path.join(__dirname, `${flags.type}.docx`);
+    const outputPath = path.join(process.cwd(), `${flags.type}.docx`);
     const writableStream = fs.createWriteStream(outputPath);
 
     const nodeReadableStream = Stream.Readable.from(readableStream);
@@ -40,7 +55,10 @@ export default class GénérerDocument extends Command {
   }
 }
 
-const getData = (type: TypeDocument): ModèleRéponseSignée.GénérerModèleRéponseOptions => {
+function getData(
+  type: TypeDocument,
+  faker: Faker,
+): ModèleRéponseSignée.GénérerModèleRéponseOptions {
   const appelOffre = faker.helpers.arrayElement(appelsOffreData);
   const common = {
     suiviPar: faker.person.fullName(), // user qui édite le document
@@ -83,8 +101,6 @@ const getData = (type: TypeDocument): ModèleRéponseSignée.GénérerModèleRé
           dateConfirmation: faker.date.recent().toLocaleDateString('fr-FR'),
         },
       };
-    default:
-      throw new Error('Modèle non supporté');
     case 'recours':
       return {
         type,
@@ -138,7 +154,6 @@ const getData = (type: TypeDocument): ModèleRéponseSignée.GénérerModèleRé
           dateMainlevée: '',
         },
       };
-
     case 'mise-en-demeure':
       return {
         type,
@@ -174,5 +189,23 @@ const getData = (type: TypeDocument): ModèleRéponseSignée.GénérerModèleRé
           enCopies: [],
         },
       };
+    case 'puissance':
+      return {
+        type,
+        data: {
+          ...common,
+          puissanceInitiale: faker.number.float({ fractionDigits: 3 }).toString(),
+          nouvellePuissance: faker.number.float({ fractionDigits: 3 }).toString(),
+          puissanceActuelle: faker.number.float({ fractionDigits: 3 }).toString(),
+          referenceParagraphePuissance:
+            appelOffre.donnéesCourriersRéponse.texteChangementDePuissance?.référenceParagraphe ??
+            '!!!MANQUANT!!!',
+          contenuParagraphePuissance:
+            appelOffre.donnéesCourriersRéponse.texteChangementDePuissance?.dispositions ??
+            '!!!MANQUANT!!!',
+        },
+      };
+    default:
+      throw new Error('Modèle non supporté');
   }
-};
+}
