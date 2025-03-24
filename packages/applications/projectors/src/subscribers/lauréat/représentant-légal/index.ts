@@ -21,8 +21,8 @@ export type SubscriptionEvent =
 export type Execute = Message<'System.Projector.Lauréat.ReprésentantLégal', SubscriptionEvent>;
 
 export const register = () => {
-  const handler: MessageHandler<Execute> = async (event) => {
-    await match(event)
+  const handler: MessageHandler<Execute> = (event) => {
+    return match(event)
       .with({ type: 'RebuildTriggered' }, rebuildTriggeredProjector)
       .with({ type: 'ReprésentantLégalImporté-V1' }, représentantLégalImportéProjector)
       .with({ type: 'ReprésentantLégalModifié-V1' }, représentantLégalModifiéProjector)

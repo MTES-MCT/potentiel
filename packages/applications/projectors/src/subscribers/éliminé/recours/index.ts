@@ -16,8 +16,8 @@ export type SubscriptionEvent = (Recours.RecoursEvent & Event) | RebuildTriggere
 export type Execute = Message<'System.Projector.Eliminé.Recours', SubscriptionEvent>;
 
 export const register = () => {
-  const handler: MessageHandler<Execute> = async (event) => {
-    await match(event)
+  const handler: MessageHandler<Execute> = (event) => {
+    return match(event)
       .with({ type: 'RebuildTriggered' }, recoursRebuildTriggeredProjector)
       .with({ type: 'RecoursDemandé-V1' }, recoursDemandéProjector)
       .with({ type: 'RecoursAccordé-V1' }, recoursAccordéProjector)

@@ -15,8 +15,8 @@ export type SubscriptionEvent = (Candidature.CandidatureEvent & Event) | Rebuild
 export type Execute = Message<'System.Projector.Candidature', SubscriptionEvent>;
 
 export const register = () => {
-  const handler: MessageHandler<Execute> = async (event) => {
-    await match(event)
+  const handler: MessageHandler<Execute> = (event) => {
+    return match(event)
       .with({ type: 'RebuildTriggered' }, candidatureRebuildTriggeredProjector)
       .with({ type: 'CandidatureImportée-V1' }, candidatureImportéeProjector)
       .with({ type: 'CandidatureCorrigée-V1' }, candidatureCorrigéeProjector)

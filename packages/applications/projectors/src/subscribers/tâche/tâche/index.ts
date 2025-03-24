@@ -15,8 +15,8 @@ export type SubscriptionEvent = (TâcheEvent & Event) | RebuildTriggered;
 export type Execute = Message<'System.Projector.Tâche', SubscriptionEvent>;
 
 export const register = () => {
-  const handler: MessageHandler<Execute> = async (event) => {
-    await match(event)
+  const handler: MessageHandler<Execute> = (event) => {
+    return match(event)
       .with({ type: 'RebuildTriggered' }, tâcheRebuilTriggered)
       .with({ type: 'TâcheAjoutée-V1' }, tâcheAjoutéeProjector)
       .with({ type: 'TâcheRenouvellée-V1' }, tâcheRenouvelléeProjector)

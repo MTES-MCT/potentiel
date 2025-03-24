@@ -20,8 +20,8 @@ export type SubscriptionEvent = (Abandon.AbandonEvent & Event) | RebuildTriggere
 export type Execute = Message<'System.Projector.Lauréat.Abandon', SubscriptionEvent>;
 
 export const register = () => {
-  const handler: MessageHandler<Execute> = async (event) => {
-    await match(event)
+  const handler: MessageHandler<Execute> = (event) => {
+    return match(event)
       .with({ type: 'RebuildTriggered' }, abandonRebuildTriggered)
       .with({ type: 'AbandonDemandé-V1' }, abandonDemandéProjector)
       .with({ type: 'AbandonDemandé-V2' }, abandonDemandéProjector)
