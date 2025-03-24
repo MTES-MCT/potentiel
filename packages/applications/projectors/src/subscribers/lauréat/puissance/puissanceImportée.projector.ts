@@ -1,7 +1,7 @@
 import { Puissance } from '@potentiel-domain/laureat';
 import { upsertProjection } from '@potentiel-infrastructure/pg-projection-write';
 
-export const puissanceImportéProjector = async ({
+export const puissanceImportéeProjector = async ({
   payload: { identifiantProjet, puissance, importéeLe },
 }: Puissance.PuissanceImportéeEvent) =>
   await upsertProjection<Puissance.PuissanceEntity>(`puissance|${identifiantProjet}`, {

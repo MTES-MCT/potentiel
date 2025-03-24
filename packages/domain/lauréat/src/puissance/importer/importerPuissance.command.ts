@@ -26,13 +26,13 @@ export const registerImporterPuissanceCommand = (loadAggregate: LoadAggregate) =
   }) => {
     await loadLauréat(identifiantProjet);
 
-    const { puissance } = await loadCandidature(identifiantProjet);
+    const { puissance: puissanceFromCandidature } = await loadCandidature(identifiantProjet);
 
     const puissance = await loadPuissance(identifiantProjet, false);
 
     await puissance.importer({
       identifiantProjet,
-      puissance,
+      puissance: puissanceFromCandidature,
       importéeLe,
     });
   };
