@@ -63,7 +63,7 @@ export class SentryTransport extends TransportStream {
   }
 
   end(...args: any[]) {
-    Sentry.flush().then(() => {
+    void Sentry.flush().then(() => {
       super.end(...args);
     });
     return this;

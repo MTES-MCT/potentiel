@@ -19,7 +19,7 @@ registerTâchePlanifiéeUseCases({
   loadAggregate,
 });
 
-(async () => {
+void (async () => {
   const logger = getLogger('Scheduler');
   logger.info('Lancement du script...');
   const today = DateTime.now().formatter();

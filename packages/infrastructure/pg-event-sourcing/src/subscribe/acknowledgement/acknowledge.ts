@@ -21,7 +21,7 @@ const upateAcknowledgementErrorQuery = `
         created_at = $5 and 
         version = $6`;
 
-export const acknowledge = async ({
+export const acknowledge = ({
   subscriber_name,
   stream_category,
   stream_id,
@@ -37,10 +37,10 @@ export const acknowledge = async ({
     version,
   );
 
-export const acknowledgeError = async (
+export const acknowledgeError = (
   { subscriber_name, stream_category, stream_id, created_at, version }: Acknowledgement,
   { message }: Error,
-) => {
+) =>
   executeQuery(
     upateAcknowledgementErrorQuery,
     message,
@@ -50,4 +50,3 @@ export const acknowledgeError = async (
     created_at,
     version,
   );
-};

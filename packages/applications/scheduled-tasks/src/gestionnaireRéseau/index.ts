@@ -23,7 +23,7 @@ registerRéseauQueries({
   find: findProjection,
 });
 
-(async () => {
+void (async () => {
   getLogger().info('Lancement du script...');
 
   try {

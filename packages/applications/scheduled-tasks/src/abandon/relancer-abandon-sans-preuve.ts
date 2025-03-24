@@ -32,7 +32,7 @@ registerLauréatUseCases({
   supprimerDocumentProjetSensible: DocumentAdapter.remplacerDocumentProjetSensible,
 });
 
-(async () => {
+void (async () => {
   const abandonsÀRelancer =
     await mediator.send<Abandon.ListerAbandonsAvecRecandidatureÀRelancerQuery>({
       type: 'Lauréat.Abandon.Query.ListerAbandonsAvecRecandidatureÀRelancer',
