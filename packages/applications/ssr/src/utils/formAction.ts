@@ -63,8 +63,6 @@ export type FormAction<TState, TSchema extends zod.ZodType = zod.AnyZodObject> =
   data: zod.infer<TSchema>,
 ) => Promise<TState>;
 
-const TWO_SECONDS = 2000;
-
 export const formAction =
   <TSchema extends zod.ZodType, TState extends FormState>(
     action: FormAction<TState, TSchema>,
@@ -97,8 +95,6 @@ export const formAction =
         : unflatten(dataReduced);
 
       const result = await action(previousState, data);
-
-      await waitFor(TWO_SECONDS);
 
       if (result.status === 'success' && result.redirection) {
         revalidatePath(result.redirection.url);
@@ -154,5 +150,3 @@ export const formAction =
       };
     }
   };
-
-const waitFor = (timeInMs: number) => new Promise((resolve) => setTimeout(resolve, timeInMs));
