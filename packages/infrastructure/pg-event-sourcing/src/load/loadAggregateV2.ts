@@ -15,7 +15,7 @@ export const loadAggregateV2: LoadAggregateV2 = async <
   TAggregate extends AbstractAggregate<TDomainEvent>,
 >(
   aggregateId: AggregateId,
-  ctor: new (aggregateId: string, version: number, publish: Publish) => TAggregate,
+  ctor: new (aggregateId: AggregateId, version: number, publish: Publish) => TAggregate,
 ) => {
   const events = await loadFromStream({
     streamId: aggregateId,

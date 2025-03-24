@@ -71,9 +71,7 @@ export class RecoursAggregate extends AbstractAggregate<RecoursEvent> {
   }
 
   async accorder({ dateAccord, identifiantUtilisateur, réponseSignée }: AccorderOptions) {
-    if (!this.exists) {
-      throw new AucunRecoursEnCours();
-    }
+    this.assertExists();
 
     this.statut.vérifierQueLeChangementDeStatutEstPossibleEn(StatutRecours.accordé);
 
@@ -93,9 +91,7 @@ export class RecoursAggregate extends AbstractAggregate<RecoursEvent> {
   }
 
   async annuler({ dateAnnulation, identifiantUtilisateur }: AnnulerOptions) {
-    if (!this.exists) {
-      throw new AucunRecoursEnCours();
-    }
+    this.assertExists();
 
     this.statut.vérifierQueLeChangementDeStatutEstPossibleEn(StatutRecours.annulé);
 
@@ -136,9 +132,7 @@ export class RecoursAggregate extends AbstractAggregate<RecoursEvent> {
   }
 
   async rejeter({ identifiantUtilisateur, dateRejet, réponseSignée }: RejeterOptions) {
-    if (!this.exists) {
-      throw new AucunRecoursEnCours();
-    }
+    this.assertExists();
 
     this.statut.vérifierQueLeChangementDeStatutEstPossibleEn(StatutRecours.rejeté);
 
@@ -158,9 +152,7 @@ export class RecoursAggregate extends AbstractAggregate<RecoursEvent> {
   }
 
   async passerEnInstruction({ dateInstruction, identifiantUtilisateur }: InstruireOptions) {
-    if (!this.exists) {
-      throw new AucunRecoursEnCours();
-    }
+    this.assertExists();
 
     this.statut.vérifierQueLeChangementDeStatutEstPossibleEn(StatutRecours.enInstruction);
 
@@ -273,5 +265,11 @@ export class RecoursAggregate extends AbstractAggregate<RecoursEvent> {
         this.demande.instruction?.démarréLe ?? DateTime.convertirEnValueType(passéEnInstructionLe),
       instruitPar: Email.convertirEnValueType(passéEnInstructionPar),
     };
+  }
+
+  private assertExists() {
+    if (!this.exists) {
+      throw new AucunRecoursEnCours();
+    }
   }
 }

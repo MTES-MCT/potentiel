@@ -13,6 +13,12 @@ export abstract class AbstractAggregate<TDomainEvent extends DomainEvent> {
     return this.#aggregateId;
   }
 
+  readonly #category: string;
+
+  get category() {
+    return this.#category;
+  }
+
   #version: number;
 
   get version() {
@@ -25,10 +31,11 @@ export abstract class AbstractAggregate<TDomainEvent extends DomainEvent> {
     return this.version > 0;
   }
 
-  constructor(aggregateId: string, version: number, publish: Publish) {
+  constructor(aggregateId: AggregateId, version: number, publish: Publish) {
     this.#aggregateId = aggregateId;
     this.#version = version;
     this.#publish = publish;
+    this.#category = aggregateId.split('|')[0];
   }
 
   abstract apply(event: TDomainEvent): void;
@@ -50,5 +57,5 @@ export type LoadAggregateV2 = <
   TAggregate extends AbstractAggregate<TDomainEvent>,
 >(
   aggregateId: AggregateId,
-  ctor: new (aggregateId: string, version: number, publish: Publish) => TAggregate,
+  ctor: new (aggregateId: AggregateId, version: number, publish: Publish) => TAggregate,
 ) => Promise<AggregateType<TAggregate>>;
