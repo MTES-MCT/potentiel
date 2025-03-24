@@ -49,7 +49,7 @@
     "morgan": "^1.10.0",
     "multer": "^1.4.5-lts.1",
     "neverthrow": "^6.2.2",
-    "next": "^14.2.21",
+    "next": "^14.2.25",
     "node-mailjet": "^6.0.8",
     "pg-connection-string": "^2.7.0",
     "pizzip": "^3.1.7",
