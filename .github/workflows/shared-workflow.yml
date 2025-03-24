@@ -15,7 +15,7 @@ jobs:
           cache: 'npm'
       - run: npm ci
       - run: |
-          export NODE_OPTIONS="--max-old-space-size=16384" 
+          export NODE_OPTIONS="--max-old-space-size=10240" 
           npm run lint
 
   build:
