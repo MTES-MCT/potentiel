@@ -10,7 +10,7 @@ Fonctionnalité: Demander le changement de puissance d'un projet lauréat
     # pour la fixture
     # pour la demande de changement, la raison et la pièce justificative sont obligatoires
     Scénario: Demander le changement de puissance d'un projet lauréat avec un ratio à la baisse
-        Quand le porteur demande le changement de puissance pour le projet lauréat avec un ratio à la baisse
+        Quand le porteur demande le changement de puissance à la baisse pour le projet lauréat
         Alors la demande de changement de puissance devrait être consultable avec la dreal en autorité compétente
         Et un email a été envoyé à la dreal avec :
             | sujet      | Potentiel - Demande de changement de puissance pour le projet Du boulodrome de Marseille dans le département(.*) |
@@ -18,7 +18,7 @@ Fonctionnalité: Demander le changement de puissance d'un projet lauréat
             | url        | https://potentiel.beta.gouv.fr/laureats/.*/puissance                                                             |
 
     Scénario: Demander le changement de puissance d'un projet lauréat avec un ratio à la hausse
-        Quand le porteur demande le changement de puissance pour le projet lauréat avec un ratio à la hausse
+        Quand le porteur demande le changement de puissance à la hausse pour le projet lauréat
         Alors la demande de changement de puissance devrait être consultable avec la dgec en autorité compétente
         Et un email a été envoyé à la dgec avec :
             | sujet      | Potentiel - Demande de changement de puissance pour le projet Du boulodrome de Marseille dans le département(.*) |
