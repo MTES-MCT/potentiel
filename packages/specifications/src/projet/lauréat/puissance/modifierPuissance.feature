@@ -5,7 +5,7 @@ Fonctionnalité: Modifier la puissance d'un projet lauréat
     Contexte:
         Etant donné le projet lauréat "Du boulodrome de Marseille"
         Et le porteur "Marcel Patoulatchi" ayant accés au projet lauréat "Du boulodrome de Marseille"
-        Et la dreal "DREAL" associée à la région du projet
+        Et la dreal "Dreal du sud" associée à la région du projet
 
     # pour la fixture
     # pour la modification, la raison est optionnelle et il n'y a pas besoin de pièce justificative
@@ -82,8 +82,6 @@ Fonctionnalité: Modifier la puissance d'un projet lauréat
         Alors l'utilisateur devrait être informé que "La puissance n'existe pas"
 
     Scénario: Impossible de modifier la puissance d'un projet lauréat alors qu'un changement de puissance est en cours
-        Etant donné le projet lauréat "Du boulodrome de Marseille"
-        Et la dreal "DREAL" associée à la région du projet
-        Et une demande de changement de puissance en cours pour le projet lauréat
-        Quand le DGEC validateur modifie la puissance pour le projet lauréat
+        Etant donné une demande de changement de puissance à la baisse en cours pour le projet lauréat
+        Quand la DREAL modifie la puissance pour le projet lauréat
         Alors l'utilisateur devrait être informé que "Une demande de changement est déjà en cours"

@@ -5,7 +5,7 @@ Fonctionnalité: Enregistrer un changement de puissance d'un projet lauréat
     Contexte:
         Etant donné le projet lauréat "Du boulodrome de Marseille"
         Et le porteur "Marcel Patoulatchi" ayant accés au projet lauréat "Du boulodrome de Marseille"
-        Et la dreal "DREAL" associée à la région du projet
+        Et la dreal "Dreal du sud" associée à la région du projet
 
     # pour la fixture
     # pour l'information enregistrée, la raison est optionnelle et il n'y a pas besoin de pièce justificative
@@ -28,7 +28,7 @@ Fonctionnalité: Enregistrer un changement de puissance d'un projet lauréat
         Alors l'utilisateur devrait être informé que "la puissance n'existe pas"
 
     Scénario: Impossible d'enregistrer un changement de puissance alors qu'un changement de puissance est en cours
-        Etant donné une demande de changement de puissance en cours pour le projet lauréat
+        Etant donné une demande de changement de puissance à la hausse en cours pour le projet lauréat
         Quand le porteur enregistre un changement de puissance pour le projet lauréat
         Alors l'utilisateur devrait être informé que "Une demande de changement est déjà en cours"
 

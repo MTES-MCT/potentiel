@@ -5,7 +5,7 @@ Fonctionnalité: Demander le changement de puissance d'un projet lauréat
     Contexte:
         Etant donné le projet lauréat "Du boulodrome de Marseille"
         Et le porteur "Marcel Patoulatchi" ayant accés au projet lauréat "Du boulodrome de Marseille"
-        Et la dreal "DREAL" associée à la région du projet
+        Et la dreal "Dreal du sud" associée à la région du projet
 
     # pour la fixture
     # pour la demande de changement, la raison et la pièce justificative sont obligatoires
@@ -60,7 +60,7 @@ Fonctionnalité: Demander le changement de puissance d'un projet lauréat
         Alors l'utilisateur devrait être informé que "La puissance dépasse le volume réservé de votre appel d'offre"
 
     Scénario: Impossible de demander le changement de puissance si une demande existe déjà
-        Etant donné une demande de changement de puissance en cours pour le projet lauréat
+        Etant donné une demande de changement de puissance à la baisse en cours pour le projet lauréat
         Quand le porteur demande le changement de puissance pour le projet lauréat
         Alors l'utilisateur devrait être informé que "Une demande de changement est déjà en cours"
 

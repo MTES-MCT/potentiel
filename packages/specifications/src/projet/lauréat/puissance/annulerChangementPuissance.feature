@@ -5,10 +5,10 @@ Fonctionnalité: Annuler la demande changement de puissance d'un projet lauréat
     Contexte:
         Etant donné le projet lauréat "Du boulodrome de Marseille"
         Et le porteur "Marcel Patoulatchi" ayant accés au projet lauréat "Du boulodrome de Marseille"
-        Et la dreal "DREAL" associée à la région du projet
+        Et la dreal "Dreal du sud" associée à la région du projet
 
     Scénario: Annuler la demande de changement de puissance d'un projet lauréat
-        Etant donné une demande de changement de puissance en cours pour le projet lauréat
+        Etant donné une demande de changement de puissance à la baisse en cours pour le projet lauréat
         Quand le porteur annule la demande de changement de puissance pour le projet lauréat
         Alors la demande de changement de puissance ne devrait plus être consultable
         Et un email a été envoyé à la dreal avec :
