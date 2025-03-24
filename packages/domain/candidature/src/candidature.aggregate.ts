@@ -57,6 +57,7 @@ export type CandidatureAggregate = Aggregate<CandidatureEvent> &
     payloadHash: string;
     nomReprésentantLégal: string;
     sociétéMère: string;
+    puissance: number;
     typeActionnariat?: TypeActionnariat.ValueType;
     nomProjet: string;
     localité: {
@@ -113,6 +114,7 @@ export const getDefaultCandidatureAggregate: GetDefaultAggregateState<
   },
   emailContact: Email.inconnu,
   prixRéférence: 0,
+  puissance: 0,
   nomReprésentantLégal: '',
   sociétéMère: '',
   estNotifiée: false,

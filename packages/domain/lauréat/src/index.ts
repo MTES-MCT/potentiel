@@ -7,3 +7,4 @@ export * as ReprésentantLégal from './représentantLégal';
 export * as Lauréat from './lauréat';
 export * as Actionnaire from './actionnaire';
 export * as Raccordement from './raccordement';
+export * as Puissance from './puissance';
