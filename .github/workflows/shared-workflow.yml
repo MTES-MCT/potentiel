@@ -14,9 +14,9 @@ jobs:
           node-version: 20.x
           cache: 'npm'
       - run: npm ci
-      - run: |
-          export NODE_OPTIONS="--max-old-space-size=10240" 
-          npm run lint
+      - run: npm run lint
+        env:
+          NODE_OPTIONS: "--max-old-space-size=10240"
 
   build:
     runs-on: ubuntu-latest
