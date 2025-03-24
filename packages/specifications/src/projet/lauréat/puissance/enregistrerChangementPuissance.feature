@@ -8,7 +8,7 @@ Fonctionnalité: Enregistrer un changement de puissance d'un projet lauréat
         Et la dreal "DREAL" associée à la région du projet
 
     # pour la fixture
-    # pour la modification, la raison est optionnelle et il n'y a pas besoin de pièce justificative
+    # pour l'information enregistrée, la raison est optionnelle et il n'y a pas besoin de pièce justificative
     Scénario: Enregistrer un changement de puissance d'un projet lauréat
         Quand le porteur enregistre un changement de puissance pour le projet lauréat
         Alors la puissance du projet lauréat devrait être mis à jour

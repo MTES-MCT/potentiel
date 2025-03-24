@@ -44,6 +44,21 @@ Fonctionnalité: Demander le changement de puissance d'un projet lauréat
             | 0     |
             | -1    |
 
+    Scénario: Impossible de demander le changement de puissance si la nouvelle puissance dépasse la puissance max par famille
+        Quand le porteur demande le changement de puissance pour le projet lauréat avec :
+            | nouvelle puissance |  |
+            | appel d'offre      |  |
+            | période            |  |
+            | famille            |  |
+
+        Alors l'utilisateur devrait être informé que "La puissance dépasse la puissance maximale de la famille de votre appel d'offre"
+
+    Scénario: Impossible de demander le changement de puissance si la nouvelle puissance dépasse le volume réservé de l'appel d'offre
+        Quand le porteur demande le changement de puissance pour le projet lauréat avec :
+            | nouvelle puissance |  |
+            | appel d'offre      |  |
+        Alors l'utilisateur devrait être informé que "La puissance dépasse le volume réservé de votre appel d'offre"
+
     Scénario: Impossible de demander le changement de puissance si une demande existe déjà
         Etant donné une demande de changement de puissance en cours pour le projet lauréat
         Quand le porteur demande le changement de puissance pour le projet lauréat
