@@ -1,7 +1,7 @@
 import { mediator } from 'mediateur';
 import { notFound } from 'next/navigation';
 
-import { Recours } from '@potentiel-domain/elimine';
+import { Éliminé } from '@potentiel-domain/projet';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { Candidature } from '@potentiel-domain/candidature';
 import { DateTime } from '@potentiel-domain/common';
@@ -31,7 +31,7 @@ export const GET = async (_: Request, { params: { identifiant } }: IdentifiantPa
       return notFound();
     }
 
-    const recours = await mediator.send<Recours.ConsulterRecoursQuery>({
+    const recours = await mediator.send<Éliminé.Recours.ConsulterRecoursQuery>({
       type: 'Éliminé.Recours.Query.ConsulterRecours',
       data: {
         identifiantProjetValue: identifiantProjet,

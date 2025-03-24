@@ -1,15 +1,15 @@
 import Badge, { BadgeProps } from '@codegouvfr/react-dsfr/Badge';
 import { FC } from 'react';
 
-import { Recours } from '@potentiel-domain/elimine';
+import { Éliminé } from '@potentiel-domain/projet';
 
 export type StatutRecoursBadgeProps = {
-  statut: Recours.StatutRecours.RawType;
+  statut: Éliminé.Recours.StatutRecours.RawType;
   small?: true;
 };
 
 const convertStatutRecoursToBadgeSeverityAndLabel: Record<
-  Recours.StatutRecours.RawType,
+  Éliminé.Recours.StatutRecours.RawType,
   { badgeSeverity: BadgeProps['severity'] | undefined; label: string }
 > = {
   demandé: { badgeSeverity: 'new', label: 'Demandé' },

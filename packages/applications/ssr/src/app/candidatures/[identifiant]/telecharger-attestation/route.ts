@@ -5,7 +5,7 @@ import { notFound } from 'next/navigation';
 import { Option } from '@potentiel-libraries/monads';
 import { getLogger } from '@potentiel-libraries/monitoring';
 import { ConsulterDocumentProjetQuery, DocumentProjet } from '@potentiel-domain/document';
-import { Recours } from '@potentiel-domain/elimine';
+import { Éliminé } from '@potentiel-domain/projet';
 import { Candidature } from '@potentiel-domain/candidature';
 
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
@@ -69,7 +69,7 @@ const getDocumentKey = async (
   }
 
   if (candidature.statut.estÉliminé()) {
-    const recours = await mediator.send<Recours.ConsulterRecoursQuery>({
+    const recours = await mediator.send<Éliminé.Recours.ConsulterRecoursQuery>({
       type: 'Éliminé.Recours.Query.ConsulterRecours',
       data: {
         identifiantProjetValue: identifiantProjet,

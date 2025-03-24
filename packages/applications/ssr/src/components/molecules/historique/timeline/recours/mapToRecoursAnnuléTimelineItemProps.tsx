@@ -1,10 +1,11 @@
-import { Recours } from '@potentiel-domain/elimine';
+import { Éliminé } from '@potentiel-domain/projet';
 import { Historique } from '@potentiel-domain/historique';
 
 export const mapToRecoursAnnuléTimelineItemProps = (
   recoursAnnulé: Historique.ListerHistoriqueProjetReadModel['items'][number],
 ) => {
-  const { annuléLe, annuléPar } = recoursAnnulé.payload as Recours.RecoursAnnuléEvent['payload'];
+  const { annuléLe, annuléPar } =
+    recoursAnnulé.payload as Éliminé.Recours.RecoursAnnuléEvent['payload'];
 
   return {
     date: annuléLe,

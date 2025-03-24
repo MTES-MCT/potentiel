@@ -1,9 +1,9 @@
-import type { Recours } from '@potentiel-domain/elimine';
+import type { Éliminé } from '@potentiel-domain/projet';
 
 import { encodeParameter } from '../encodeParameter';
 
 type ListerFilters = {
-  statut?: Recours.StatutRecours.RawType;
+  statut?: Éliminé.Recours.StatutRecours.RawType;
 };
 
 export const lister = (filters: ListerFilters = {}) => {

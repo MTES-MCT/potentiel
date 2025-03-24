@@ -1,6 +1,6 @@
 import { mediator } from 'mediateur';
 import { IdentifiantProjet } from '@potentiel-domain/common';
-import { Recours } from '@potentiel-domain/elimine';
+import { Éliminé } from '@potentiel-domain/projet';
 
 import { Option } from '@potentiel-libraries/monads';
 import { ProjectDataForProjectPage } from '../../../../modules/project';
@@ -10,7 +10,7 @@ export const getRecours = async (
   identifiantProjet: IdentifiantProjet.ValueType,
 ): Promise<ProjectDataForProjectPage['demandeRecours']> => {
   try {
-    const recours = await mediator.send<Recours.ConsulterRecoursQuery>({
+    const recours = await mediator.send<Éliminé.Recours.ConsulterRecoursQuery>({
       type: 'Éliminé.Recours.Query.ConsulterRecours',
       data: { identifiantProjetValue: identifiantProjet.formatter() },
     });

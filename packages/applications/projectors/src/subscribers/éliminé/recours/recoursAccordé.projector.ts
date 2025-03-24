@@ -1,4 +1,4 @@
-import { Recours } from '@potentiel-domain/elimine';
+import { Éliminé } from '@potentiel-domain/projet';
 import { updateOneProjection } from '@potentiel-infrastructure/pg-projection-write';
 
 export const recoursAccordéProjector = async ({
@@ -8,8 +8,8 @@ export const recoursAccordéProjector = async ({
     accordéPar,
     réponseSignée: { format },
   },
-}: Recours.RecoursAccordéEvent) => {
-  await updateOneProjection<Recours.RecoursEntity>(`recours|${identifiantProjet}`, {
+}: Éliminé.Recours.RecoursAccordéEvent) => {
+  await updateOneProjection<Éliminé.Recours.RecoursEntity>(`recours|${identifiantProjet}`, {
     demande: {
       accord: {
         accordéLe: accordéLe,
@@ -19,7 +19,7 @@ export const recoursAccordéProjector = async ({
         },
       },
     },
-    statut: Recours.StatutRecours.accordé.value,
+    statut: Éliminé.Recours.StatutRecours.accordé.value,
     misÀJourLe: accordéLe,
   });
 };

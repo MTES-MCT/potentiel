@@ -26,6 +26,7 @@
     "@potentiel-applications/request-context": "*",
     "@potentiel-applications/routes": "*",
     "@potentiel-domain/appel-offre": "*",
+    "@potentiel-domain/projet": "*",
     "@potentiel-domain/candidature": "*",
     "@potentiel-domain/document": "*",
     "@potentiel-domain/entity": "*",
