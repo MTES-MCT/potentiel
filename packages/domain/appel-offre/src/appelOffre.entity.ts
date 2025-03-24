@@ -200,6 +200,9 @@ export type Periode = {
       typeTâchePlanifiée: 'accord-automatique' | 'rejet-automatique';
     };
   };
+  // Permet un ajout personalisé dans le paragraphe Évaluation Carbone.
+  // nécessite que affichageParagrapheECS soit true dans l'appel d'offre
+  addendumParagrapheECS?: string;
 } & (NotifiedPeriode | NotYetNotifiedPeriode | LegacyPeriode);
 
 // Territoire

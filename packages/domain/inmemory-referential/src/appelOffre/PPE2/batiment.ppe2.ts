@@ -27,6 +27,10 @@ Des délais supplémentaires pour l’Achèvement ou, pour ce qui concerne l’�
   },
 };
 
+// Cet addendum doit-être ajouté pour PPE2 bâtiment P8 et suivantes
+const addendumParagrapheECSPériode8EtSuivantes =
+  "Pour rappel, la méthodologie d'évaluation carbone repose désormais uniquement sur les valeurs d'émissions de gaz à effet de serre par pays données aux tableaux 3 et, le cas échéant, 3 bis de l'annexe 2 du cahier des charges.";
+
 export const batimentPPE2: AppelOffre.AppelOffreReadModel = {
   id: 'PPE2 - Bâtiment',
   typeAppelOffre: 'batiment',
@@ -404,6 +408,8 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
           typeTâchePlanifiée: 'accord-automatique',
         },
       },
+
+      addendumParagrapheECS: addendumParagrapheECSPériode8EtSuivantes,
     },
     {
       id: '9',
@@ -442,6 +448,9 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
           typeTâchePlanifiée: 'accord-automatique',
         },
       },
+      // Cet addendum doit-être ajouté pour PPE2 bâtiment P8 et suivantes
+      addendumParagrapheECS:
+        "Pour rappel, la méthodologie d'évaluation carbone repose désormais uniquement sur les valeurs d'émissions de gaz à effet de serre par pays données aux tableaux 3 et, le cas échéant, 3 bis de l'annexe 2 du cahier des charges.\n",
     },
   ],
 };

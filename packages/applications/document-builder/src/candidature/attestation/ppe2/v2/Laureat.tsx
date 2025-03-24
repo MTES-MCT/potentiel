@@ -51,9 +51,7 @@ export const buildLauréat = ({ project }: LaureatProps) => {
               formatNumber(project.evaluationCarbone) +
               ' kg eq CO2/kWc. '
             : ' '}
-          {casParticulierPPE2BatimentPériode8 &&
-            `Pour rappel, la méthodologie d'évaluation carbone repose désormais uniquement sur les valeurs d'émissions de gaz à effet de serre par pays données aux tableaux 3 et, le cas échéant, 3 bis de l'annexe 2 du cahier des charges.
-              `}
+          {période.addendumParagrapheECS ? période.addendumParagrapheECS : null}
           {project.actionnariat === 'gouvernance-partagée' && (
             <Text>
               Vous vous êtes engagés à la gouvernance partagée jusqu’à dix ans minimum après la Date
