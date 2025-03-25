@@ -1,6 +1,9 @@
-import { response, Response } from 'express';
+import { Response } from 'express';
 import { Readable } from 'stream';
 import { ReadableStream } from 'stream/web';
+
+export const docxContentType =
+  'application/vnd.openxmlformats-officedocument.wordprocessingml.document';
 
 export const downloadFile = (
   response: Response,
