@@ -44,6 +44,7 @@ Fonctionnalité: Demander le changement de puissance d'un projet lauréat
             | 0     |
             | -1    |
 
+    # faut il vérifier que le ratio dépasse bien ceux de l'AO ?
     Scénario: Impossible de demander le changement de puissance si la nouvelle puissance dépasse la puissance max par famille
         Quand le porteur demande le changement de puissance pour le projet lauréat avec :
             | nouvelle puissance |  |
