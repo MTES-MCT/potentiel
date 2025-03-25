@@ -23,3 +23,6 @@ export type { PuissanceImportéeEvent } from './importer/importerPuissance.behav
 
 // Entities
 export * from './puissance.entity';
+
+// Saga
+export * as PuissanceSaga from './saga';
