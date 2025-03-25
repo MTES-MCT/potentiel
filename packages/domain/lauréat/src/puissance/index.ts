@@ -1,8 +1,15 @@
+import {
+  ConsulterPuissanceQuery,
+  ConsulterPuissanceReadModel,
+} from './consulter/consulterPuissance.query';
 import { ImporterPuissanceCommand } from './importer/importerPuissance.command';
 
 // Query
+export type PuissanceQuery = ConsulterPuissanceQuery;
+export type { ConsulterPuissanceQuery };
 
 // ReadModel
+export type { ConsulterPuissanceReadModel };
 
 // UseCase
 

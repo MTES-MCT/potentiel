@@ -76,6 +76,7 @@ export const getReprésentantLégalInfos = async ({ identifiantProjet }: Props) 
   return représentantLégal;
 };
 
+// TODO: changer l'origine de puissance ici
 const getPuissanceInfos = async ({ identifiantProjet }: Props) => {
   const projet = await mediator.send<Candidature.ConsulterProjetQuery>({
     type: 'Candidature.Query.ConsulterProjet',
