@@ -18,9 +18,9 @@ Fonctionnalité: Enregistrer un changement de puissance d'un projet lauréat
             | nom_projet | Du boulodrome de Marseille                                                                                                |
             | url        | https://potentiel.beta.gouv.fr/projet/.*/details.html                                                                     |
 
-    Scénario: Enregistrer un changement de puissance avec une valeur identique
+    Scénario: Impossible de demander le changement de puissance d'un projet lauréat avec une valeur identique
         Quand le porteur enregistre un changement de puissance avec la même valeur pour le projet lauréat
-        Alors le changement enregistré de la puissance devrait être consultable
+        Alors l'utilisateur devrait être informé que "La puissance doit avoir une valeur différente"
 
     Scénario: Impossible d'enregistrer un changement de puissance si la puissance est inexistant
         Etant donné le projet éliminé "Du boulodrome de Lyon"
