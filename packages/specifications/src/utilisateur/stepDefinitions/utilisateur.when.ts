@@ -159,6 +159,20 @@ Quand(
   },
 );
 
+Quand(`un porteur réclame la candidature lauréate`, async function (this: PotentielWorld) {
+  const {
+    identifiantProjet,
+    values: { emailContactValue },
+  } = this.candidatureWorld.importerCandidature;
+
+  const porteur = this.utilisateurWorld.porteurFixture.créer({ email: emailContactValue });
+
+  await réclamerProjet.call(this, {
+    identifiantProjet,
+    email: porteur.email,
+  });
+});
+
 Quand(
   "un administrateur retire l'accès de l'utilisateur au projet {lauréat-éliminé}",
   async function (this: PotentielWorld, statutProjet: 'lauréat' | 'éliminé') {

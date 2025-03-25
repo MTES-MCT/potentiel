@@ -1,4 +1,4 @@
-import { Command } from '@oclif/core';
+import { Command, Flags } from '@oclif/core';
 import { mediator } from 'mediateur';
 
 import {
@@ -17,7 +17,9 @@ export default class Migrer extends Command {
 
   static override args = {};
 
-  static override flags = {};
+  static override flags = {
+    dryRun: Flags.boolean(),
+  };
 
   protected async init() {
     registerUtilisateurUseCases({ loadAggregate });
@@ -28,6 +30,16 @@ export default class Migrer extends Command {
   }
 
   public async run() {
+    const { flags } = await this.parse(Migrer);
+
+    const subscriberCount = await executeSelect<{ count: number }>(
+      "select count(*) as count from event_store.subscriber where stream_category='utilisateur'",
+    );
+    if (subscriberCount[0].count > 0 && !flags.dryRun) {
+      console.warn("Il existe des subscribers pour 'utilisateur'");
+      process.exit(1);
+    }
+
     const users = await executeSelect<{
       email: string;
       role: Role.RawType;
@@ -80,30 +92,68 @@ export default class Migrer extends Command {
 
     for (const user of usersSaufPorteurs) {
       console.log({ user });
-      await mediator.send<InviterUtilisateurUseCase>({
-        type: 'Utilisateur.UseCase.InviterUtilisateur',
-        data: {
-          identifiantUtilisateurValue: user.email,
-          rôleValue: user.role,
-          régionValue: user.dreal,
-          invitéLeValue: DateTime.convertirEnValueType(user.createdAt).formatter(),
-          invitéParValue: Email.system().formatter(),
-          fonctionValue: user.fonction,
-          nomCompletValue: user.fullName,
-        },
-      });
+      const data = {
+        identifiantUtilisateurValue: user.email,
+        rôleValue: user.role,
+        régionValue: user.dreal,
+        invitéLeValue: DateTime.convertirEnValueType(user.createdAt).formatter(),
+        invitéParValue: Email.system().formatter(),
+        fonctionValue: user.fonction,
+        nomCompletValue: user.fullName,
+      };
+
+      if (flags.dryRun) {
+        console.log('[DRY-RUN]', data);
+      } else {
+        await mediator.send<InviterUtilisateurUseCase>({
+          type: 'Utilisateur.UseCase.InviterUtilisateur',
+          data,
+        });
+      }
     }
 
-    for (const porteur of porteurs) {
-      await mediator.send<InviterPorteurUseCase>({
-        type: 'Utilisateur.UseCase.InviterPorteur',
-        data: {
-          identifiantUtilisateurValue: porteur.email,
-          identifiantsProjetValues: porteur.identifiantsProjet ?? [],
-          invitéLeValue: DateTime.convertirEnValueType(porteur.createdAt).formatter(),
-          invitéParValue: Email.system().formatter(),
-        },
-      });
+    console.log('Utilisateurs non porteurs migrés');
+
+    let skipped = 0;
+
+    const uniquePorteurs = Array.from(
+      new Set(porteurs.map((user) => user.email.toLowerCase())),
+    ).map((email) => {
+      return {
+        ...porteurs.find((user) => user.email.toLowerCase() === email),
+        identifiantsProjet: porteurs
+          .filter((user) => user.email.toLowerCase() === email)
+          .map((user) => user.identifiantsProjet)
+          .flat()
+          .filter((value, index, self) => self.indexOf(value) === index && !!value),
+      };
+    }) as typeof porteurs;
+
+    for (const porteur of uniquePorteurs) {
+      if (!porteur.identifiantsProjet?.length) {
+        console.warn('SKIPPING porteur without projects', porteur.email);
+        skipped++;
+        continue;
+      }
+
+      console.log({ porteur });
+
+      const data = {
+        identifiantUtilisateurValue: porteur.email,
+        identifiantsProjetValues: porteur.identifiantsProjet ?? [],
+        invitéLeValue: DateTime.convertirEnValueType(porteur.createdAt).formatter(),
+        invitéParValue: Email.system().formatter(),
+      };
+      if (flags.dryRun) {
+        console.log('[DRY-RUN]', data);
+      } else {
+        await mediator.send<InviterPorteurUseCase>({
+          type: 'Utilisateur.UseCase.InviterPorteur',
+          data,
+        });
+      }
     }
+
+    console.log(`Finished. Skipped: ${skipped}`);
   }
 }

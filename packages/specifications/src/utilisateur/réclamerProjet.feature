@@ -34,6 +34,11 @@ Fonctionnalité: Réclamer un projet en tant que porteur
         Quand un porteur réclame le projet lauréat sans connaître le prix et le numéro CRE
         Alors l'utilisateur devrait être informé que "Le prix et le numéro CRE spécifiés ne correspondent pas à ceux de la candidature"
 
+    Scénario: Impossible de réclamer un projet non notifié
+        Etant donné la candidature lauréate "Du boulodrome de Marseille"
+        Quand un porteur réclame la candidature lauréate
+        Alors l'utilisateur devrait être informé que "Le projet n'est pas notifié"
+
     # Ce scénario n'est pas implémenté pour le moment car les specs ne testent pas les permissions,
     # et cette règle est implémentée dans le middelware des permissions
     @NotImplemented

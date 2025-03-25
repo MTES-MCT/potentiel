@@ -81,9 +81,10 @@ export const Contact = ({
         <ListComptesAvecAcces user={user} project={project} />
       )}
 
-    {userIs(['admin', 'dgec-validateur', 'porteur-projet', 'dreal'])(user) && (
-      <Link href={Routes.Utilisateur.listerPorteurs(identifiantProjet)}>Gérer les accès</Link>
-    )}
+    {project.notifiedOn &&
+      userIs(['admin', 'dgec-validateur', 'porteur-projet', 'dreal'])(user) && (
+        <Link href={Routes.Utilisateur.listerPorteurs(identifiantProjet)}>Gérer les accès</Link>
+      )}
   </Section>
 );
 
