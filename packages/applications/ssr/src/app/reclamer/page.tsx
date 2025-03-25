@@ -111,6 +111,9 @@ const mapToProps = (
     );
     return {
       identifiantProjet: identifiantProjetChiffré,
+      appelOffre: projet.identifiantProjet.appelOffre,
+      période: projet.identifiantProjet.période,
+      famille: projet.identifiantProjet.famille,
       nomProjet: projet.nomProjet,
       userHasSameEmail: projet.emailContact === emailUtilisateur,
       puissance: projet.puissance,
