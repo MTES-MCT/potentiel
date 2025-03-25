@@ -6,6 +6,7 @@ import * as Sentry from '@sentry/nextjs';
 
 import { bootstrap, permissionMiddleware } from '@potentiel-applications/bootstrap';
 import { getContext, runWithContext } from '@potentiel-applications/request-context';
+import { executeSubscribersRetry } from '@potentiel-infrastructure/pg-event-sourcing';
 
 import { setupLogger } from './setupLogger';
 
@@ -23,6 +24,7 @@ async function main() {
   await app.prepare();
 
   await bootstrap({ middlewares: [permissionMiddleware] });
+  await executeSubscribersRetry();
 
   // remove bootstrap messages from sentry's breadcrumbs
   Sentry.getCurrentScope().clearBreadcrumbs();
