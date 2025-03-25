@@ -18,9 +18,6 @@
       "path": "../entity"
     },
     {
-      "path": "../utilisateur"
-    },
-    {
       "path": "../appel-offre"
     }
   ]

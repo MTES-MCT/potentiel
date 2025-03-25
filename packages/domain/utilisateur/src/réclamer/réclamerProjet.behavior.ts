@@ -18,6 +18,7 @@ type RéclamerProjetOptions = {
   réclaméLe: DateTime.ValueType;
   aLeMêmeEmailQueLaCandidature: boolean;
   connaîtLePrixEtNuméroCRE?: boolean;
+  estNotifié: boolean;
 };
 
 export async function réclamer(
@@ -28,10 +29,15 @@ export async function réclamer(
     réclaméLe,
     aLeMêmeEmailQueLaCandidature,
     connaîtLePrixEtNuméroCRE,
+    estNotifié,
   }: RéclamerProjetOptions,
 ) {
   // NB : on ne vérifie pas ici que le projet n'est pas déjà assigné à un Porteur
   // Cette vérification est effectuée au niveau du middleware des permissions
+
+  if (!estNotifié) {
+    throw new ProjetNonNotiféError();
+  }
 
   if (connaîtLePrixEtNuméroCRE === false) {
     throw new PrixEtNuméroCRENonCorrespondantError();
@@ -67,5 +73,11 @@ class EmailNonCorrespondantError extends InvalidOperationError {
 class PrixEtNuméroCRENonCorrespondantError extends InvalidOperationError {
   constructor() {
     super('Le prix et le numéro CRE spécifiés ne correspondent pas à ceux de la candidature');
+  }
+}
+
+class ProjetNonNotiféError extends InvalidOperationError {
+  constructor() {
+    super("Le projet n'est pas notifié");
   }
 }
