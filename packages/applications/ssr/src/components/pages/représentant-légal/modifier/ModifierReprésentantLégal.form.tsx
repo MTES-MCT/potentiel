@@ -11,6 +11,7 @@ import { ValidationErrors } from '@/utils/formAction';
 import { Step, Steps } from '@/components/molecules/step/Steps';
 
 import { SaisieNomStep, SaisieTypeStep, ValidationStep } from '../_utils/steps';
+import { TypeSociété } from '../_utils/steps/SaisieTypeSociété.step';
 
 import {
   modifierReprésentantLégalAction,
@@ -31,7 +32,10 @@ export const ModifierReprésentantLégalForm: FC<ModifierReprésentantLégalForm
 
   const [currentStep, setCurrentStep] = useState(1);
 
-  const [type, setType] = useState(typeReprésentantLégal.type);
+  const [stateTypeReprésentantLégal, setStateTypeReprésentantLégal] = useState(
+    typeReprésentantLégal.type,
+  );
+  const [typeSociété, setTypeSociété] = useState<TypeSociété>('non renseignée');
   const [nom, setNom] = useState('');
 
   const steps: Array<Step> = [
@@ -47,8 +51,12 @@ export const ModifierReprésentantLégalForm: FC<ModifierReprésentantLégalForm
           </p>
           <SaisieTypeStep
             contexte="modifier"
-            typeReprésentantLégal={type}
-            onChange={(nouveauType) => setType(nouveauType)}
+            typeReprésentantLégal={stateTypeReprésentantLégal}
+            typeSociété={typeSociété}
+            onChange={({ type, typeSociété }) => {
+              setStateTypeReprésentantLégal(type);
+              setTypeSociété(typeSociété);
+            }}
             validationErrors={validationErrors}
           />
         </div>
@@ -56,7 +64,12 @@ export const ModifierReprésentantLégalForm: FC<ModifierReprésentantLégalForm
       nextStep: {
         type: 'link',
         name: 'Commencer',
-        disabled: !type || ReprésentantLégal.TypeReprésentantLégal.bind({ type }).estInconnu(),
+        disabled:
+          !stateTypeReprésentantLégal ||
+          (stateTypeReprésentantLégal === 'personne-morale' && typeSociété === 'non renseignée') ||
+          ReprésentantLégal.TypeReprésentantLégal.bind({
+            type: stateTypeReprésentantLégal,
+          }).estInconnu(),
       },
     },
     {
@@ -65,7 +78,7 @@ export const ModifierReprésentantLégalForm: FC<ModifierReprésentantLégalForm
       children: (
         <SaisieNomStep
           nomReprésentantLégal={nom}
-          typeReprésentantLégal={type}
+          typeReprésentantLégal={stateTypeReprésentantLégal}
           validationErrors={validationErrors}
           onChange={(nouveauNom) => setNom(nouveauNom)}
         />
@@ -82,7 +95,8 @@ export const ModifierReprésentantLégalForm: FC<ModifierReprésentantLégalForm
       name: `Confirmer la modification`,
       children: (
         <ValidationStep
-          typeReprésentantLégal={type}
+          typeReprésentantLégal={stateTypeReprésentantLégal}
+          typeSociété={typeSociété}
           nomReprésentantLégal={nom}
           piècesJustificatives={[]}
           message={`Vous êtes sur le point de modifier le représentant légal du projet. Veuillez vérifier l'ensemble des informations saisies et confirmer si tout est correct`}
@@ -92,7 +106,7 @@ export const ModifierReprésentantLégalForm: FC<ModifierReprésentantLégalForm
       nextStep: {
         type: 'submit',
         name: 'Modifier le représentant légal',
-        disabled: !type || !nom,
+        disabled: !stateTypeReprésentantLégal || !nom,
       },
     },
   ];

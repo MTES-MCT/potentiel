@@ -10,6 +10,11 @@ export const mergePdfDocuments = async (documents: Array<Blob>): Promise<Blob> =
   for (const document of documents) {
     const pdfBytes = await document.arrayBuffer();
     const pdf = await PDFDocument.load(pdfBytes);
+
+    if (pdf.isEncrypted) {
+      throw new Error('Cannot merge encrypted PDFs');
+    }
+
     const copiedPages = await pdfDoc.copyPages(pdf, pdf.getPageIndices());
 
     copiedPages.forEach((page) => {

@@ -17,6 +17,7 @@ import {
   SaisieTypeStep,
   ValidationStep,
 } from '../../_utils/steps';
+import { TypeSociété } from '../../_utils/steps/SaisieTypeSociété.step';
 
 import {
   demanderChangementReprésentantLégalAction,
@@ -36,12 +37,17 @@ export const DemanderChangementReprésentantLégalForm: FC<
 
   const [currentStep, setCurrentStep] = useState(1);
 
-  const [type, setType] = useState<ReprésentantLégal.TypeReprésentantLégal.RawType>('inconnu');
+  const [typeReprésentantLégal, setTypeReprésentantLégal] =
+    useState<ReprésentantLégal.TypeReprésentantLégal.RawType>('inconnu');
+  const [typeSociété, setTypeSociété] = useState<TypeSociété>('non renseignée');
   const [nom, setNom] = useState('');
   const [piècesJustificatives, setPiècesJustificatives] = useState<Array<string>>([]);
 
   const disableCondition =
-    !type || !nom || !piècesJustificatives.length || Object.keys(validationErrors).length > 0;
+    !typeReprésentantLégal ||
+    !nom ||
+    !piècesJustificatives.length ||
+    Object.keys(validationErrors).length > 0;
 
   const steps: Array<Step> = [
     {
@@ -85,16 +91,25 @@ export const DemanderChangementReprésentantLégalForm: FC<
           </p>
           <SaisieTypeStep
             contexte="demander"
-            typeReprésentantLégal={type}
+            typeReprésentantLégal={typeReprésentantLégal}
+            typeSociété={typeSociété}
             validationErrors={validationErrors}
-            onChange={(nouveauType) => setType(nouveauType)}
+            onChange={({ type, typeSociété }) => {
+              setTypeReprésentantLégal(type);
+              setTypeSociété(typeSociété);
+            }}
           />
         </div>
       ),
       nextStep: {
         type: 'link',
         name: 'Commencer',
-        disabled: !type || ReprésentantLégal.TypeReprésentantLégal.bind({ type }).estInconnu(),
+        disabled:
+          !typeReprésentantLégal ||
+          (typeReprésentantLégal === 'personne-morale' && typeSociété === 'non renseignée') ||
+          ReprésentantLégal.TypeReprésentantLégal.bind({
+            type: typeReprésentantLégal,
+          }).estInconnu(),
       },
     },
     {
@@ -103,13 +118,14 @@ export const DemanderChangementReprésentantLégalForm: FC<
       children: (
         <>
           <SaisieNomStep
-            typeReprésentantLégal={type}
+            typeReprésentantLégal={typeReprésentantLégal}
             nomReprésentantLégal={nom}
             validationErrors={validationErrors}
             onChange={(nouveauNom) => setNom(nouveauNom)}
           />
           <SaisiePièceJustificativeStep
-            typeReprésentantLégal={type}
+            typeReprésentantLégal={typeReprésentantLégal}
+            typeSociété={typeSociété}
             validationErrors={validationErrors}
             onChange={(nouvellesPiècesJustificatives) =>
               setPiècesJustificatives([...nouvellesPiècesJustificatives])
@@ -129,7 +145,8 @@ export const DemanderChangementReprésentantLégalForm: FC<
       name: `Confirmer la demande de changement`,
       children: (
         <ValidationStep
-          typeReprésentantLégal={type}
+          typeReprésentantLégal={typeReprésentantLégal}
+          typeSociété={typeSociété}
           nomReprésentantLégal={nom}
           piècesJustificatives={piècesJustificatives}
           message={`Vous êtes sur le point de demander le changement du représentant légal du projet. Veuillez vérifier l'ensemble des informations saisies et confirmer si tout est correct`}
