@@ -16,6 +16,7 @@
     "@potentiel-domain/laureat": "^0.0.0",
     "@potentiel-domain/projet": "^0.0.0",
     "@potentiel-domain/reseau": "^0.0.0",
+    "@potentiel-domain/inmemory-referential": "^0.0.0",
     "@potentiel-libraries/file-storage": "^0.0.0",
     "@potentiel-libraries/monitoring": "^0.0.0",
     "@potentiel-libraries/pg-helpers": "^0.0.0",

@@ -1,4 +1,5 @@
 import { AggregateType, LoadAggregateV2 } from '@potentiel-domain/core';
+import { AppelOffreAggregate, LoadAppelOffreAggregatePort } from '@potentiel-domain/appel-offre';
 
 import { IdentifiantProjet } from '.';
 
@@ -6,6 +7,7 @@ import { ÉliminéAggregate } from './éliminé/éliminé.aggregate';
 
 interface ProjetAggregateRootDependencies {
   loadAggregate: LoadAggregateV2;
+  loadAppelOffreAggregate: LoadAppelOffreAggregatePort;
 }
 
 class ProjetAggregateRootAlreadyInitialized extends Error {
@@ -17,6 +19,7 @@ class ProjetAggregateRootAlreadyInitialized extends Error {
 export class ProjetAggregateRoot {
   #initialized: boolean = false;
   #loadAggregate: LoadAggregateV2;
+  #loadAppelOffreAggregate: LoadAppelOffreAggregatePort;
 
   #identifiantProjet: IdentifiantProjet.ValueType;
 
@@ -30,19 +33,27 @@ export class ProjetAggregateRoot {
     return this.#éliminé;
   }
 
+  #appelOffre!: AppelOffreAggregate;
+
+  get appelOffre() {
+    return this.#appelOffre;
+  }
+
   private constructor(
     identifiantProjet: IdentifiantProjet.ValueType,
     loadAggregate: LoadAggregateV2,
+    loadAppelOffreAggregate: LoadAppelOffreAggregatePort,
   ) {
     this.#identifiantProjet = identifiantProjet;
     this.#loadAggregate = loadAggregate;
+    this.#loadAppelOffreAggregate = loadAppelOffreAggregate;
   }
 
   static async get(
     identifiantProjet: IdentifiantProjet.ValueType,
-    { loadAggregate }: ProjetAggregateRootDependencies,
+    { loadAggregate, loadAppelOffreAggregate }: ProjetAggregateRootDependencies,
   ) {
-    const root = new ProjetAggregateRoot(identifiantProjet, loadAggregate);
+    const root = new ProjetAggregateRoot(identifiantProjet, loadAggregate, loadAppelOffreAggregate);
     await root.init();
     return root;
   }
@@ -57,6 +68,8 @@ export class ProjetAggregateRoot {
       ÉliminéAggregate,
     );
     await this.#éliminé.init(this, this.#loadAggregate);
+
+    this.#appelOffre = await this.#loadAppelOffreAggregate(this.#identifiantProjet.appelOffre);
 
     this.#initialized = true;
   }
