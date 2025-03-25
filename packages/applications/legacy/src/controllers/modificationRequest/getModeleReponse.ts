@@ -1,12 +1,5 @@
 import asyncHandler from '../helpers/asyncHandler';
-import os from 'os';
-import path from 'path';
-import sanitize from 'sanitize-filename';
-import { oldUserRepo, ensureRole, getIdentifiantProjetByLegacyId } from '../../config';
-import { User } from '../../entities';
-import { fillDocxTemplate } from '../../helpers/fillDocxTemplate';
-import { ModificationRequestDataForResponseTemplateDTO } from '../../modules/modificationRequest';
-import { Readable } from 'stream';
+import { ensureRole, getIdentifiantProjetByLegacyId } from '../../config';
 import routes from '../../routes';
 import { shouldUserAccessProject } from '../../useCases';
 import { v1Router } from '../v1Router';
@@ -17,14 +10,16 @@ import { ModèleRéponseSignée } from '@potentiel-applications/document-builder
 import { ModificationRequest, Project } from '../../infra/sequelize';
 import { mediator } from 'mediateur';
 import { CahierDesCharges, Lauréat, ReprésentantLégal } from '@potentiel-domain/laureat';
-import { IdentifiantProjet } from '@potentiel-domain/common';
+import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 import { Option } from '@potentiel-libraries/monads';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { Candidature } from '@potentiel-domain/candidature';
 import { mapToPuissanceModèleRéponseProps } from './_utils/modèles/puissance';
 import { logger } from '../../core/utils';
-import { downloadFile } from './_utils/downloadFile';
+import { docxContentType, downloadFile } from './_utils/downloadFile';
 import { ReadableStream } from 'stream/web';
+import { mapToDélaiModèleRéponseProps, DemandePrécédente } from './_utils/modèles/délai';
+import { getDelaiDeRealisation } from '../../modules/projectAppelOffre';
 
 v1Router.get(
   routes.TELECHARGER_MODELE_REPONSE(),
@@ -114,7 +109,58 @@ v1Router.get(
       return downloadFile(response, {
         filename: `réponse-changement-puissance-${lauréat.nomProjet.replaceAll(' ', '_')}.docx`,
         content: content as ReadableStream<any>,
-        contentType: 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+        contentType: docxContentType,
+      });
+    } else if (modificationRequest.type === 'delai') {
+      const previousRequest = await ModificationRequest.findOne({
+        where: {
+          projectId,
+          status: 'acceptée',
+          type: 'delai',
+        },
+      });
+      const completionDueOn = new Date(modificationRequest.project.completionDueOn);
+      const notifiedOn = new Date(modificationRequest.project.notifiedOn);
+      const délaiAO = getDelaiDeRealisation(
+        appelOffres,
+        modificationRequest.project.technologie ?? 'N/A',
+      );
+      const dateLimiteAchevementInitiale = DateTime.convertirEnValueType(
+        notifiedOn,
+      ).ajouterNombreDeMois(délaiAO ?? 0).date;
+
+      // NB toutes les modificationRequests ont une `dateAchèvementDemandée` depuis 2022,
+      // mais il reste des demandes avec statut "demandé" qui n'en ont pas.
+      const dateAchèvementDemandée = modificationRequest.dateAchèvementDemandée
+        ? modificationRequest.dateAchèvementDemandée
+        : DateTime.convertirEnValueType(completionDueOn).ajouterNombreDeMois(
+            modificationRequest.delayInMonths ?? 0,
+          ).date;
+
+      const content = await ModèleRéponseSignée.générerModèleRéponseAdapter({
+        type: 'délai',
+        data: mapToDélaiModèleRéponseProps({
+          identifiantProjet,
+          lauréat,
+          appelOffres,
+          candidature,
+          cahierDesChargesChoisi,
+          représentantLégal,
+          dateDemande: new Date(modificationRequest.requestedOn),
+          justification: modificationRequest.justification ?? '',
+          puissanceActuelle: modificationRequest.project.puissance,
+          utilisateur: { nom: request.user.fullName },
+          dateAchèvementDemandée,
+          dateLimiteAchevementActuelle: completionDueOn,
+          dateLimiteAchevementInitiale,
+          demandePrécédente: getDemandePrécédente(previousRequest),
+        }),
+      });
+
+      return downloadFile(response, {
+        filename: `réponse-délai-${lauréat.nomProjet.replaceAll(' ', '_')}.docx`,
+        content: content as ReadableStream<any>,
+        contentType: docxContentType,
       });
     }
 
@@ -122,3 +168,51 @@ v1Router.get(
     return notFoundResponse({ request, response, ressourceTitle: 'Demande' });
   }),
 );
+
+const getDemandePrécédente = (
+  previousRequest: ModificationRequest | null,
+): DemandePrécédente | undefined => {
+  if (!previousRequest) return undefined;
+
+  const { dateAchèvementDemandée, delayInMonths, requestedOn, acceptanceParams, respondedOn } =
+    previousRequest;
+
+  if (!acceptanceParams || !respondedOn) return undefined;
+
+  if (dateAchèvementDemandée) {
+    const dateAchevementAccordéeEstCelleDemandée =
+      dateAchèvementDemandée.toString() === String(acceptanceParams.dateAchèvementAccordée);
+    return {
+      dateDepotDemandePrecedente: new Date(requestedOn),
+      dateReponseDemandePrecedente: new Date(respondedOn),
+      dateDemandePrecedenteDemandée: new Date(dateAchèvementDemandée),
+      dateDemandePrecedenteAccordée: new Date(acceptanceParams.dateAchèvementAccordée),
+      demandeEnDate: true,
+      autreDelaiDemandePrecedenteAccorde: !dateAchevementAccordéeEstCelleDemandée,
+    };
+  }
+
+  if (delayInMonths) {
+    if (acceptanceParams.delayInMonths) {
+      return {
+        dateDepotDemandePrecedente: new Date(requestedOn),
+        dateReponseDemandePrecedente: new Date(respondedOn),
+        demandeEnMois: true,
+        dureeDelaiDemandePrecedenteEnMois: delayInMonths,
+        delaiDemandePrecedenteAccordeEnMois: Number(acceptanceParams.delayInMonths),
+        autreDelaiDemandePrecedenteAccorde: delayInMonths !== acceptanceParams.delayInMonths,
+      };
+    }
+    if (acceptanceParams.dateAchèvementAccordée) {
+      return {
+        dateDepotDemandePrecedente: new Date(requestedOn),
+        dateReponseDemandePrecedente: new Date(respondedOn),
+        demandeEnMois: true,
+        dureeDelaiDemandePrecedenteEnMois: delayInMonths,
+        demandeEnMoisAccordéeEnDate: true,
+        dateDemandePrecedenteAccordée: new Date(acceptanceParams.dateAchèvementAccordée),
+        autreDelaiDemandePrecedenteAccorde: true,
+      };
+    }
+  }
+};

@@ -210,12 +210,10 @@ export const getModificationRequestDataForResponseTemplate: GetModificationReque
             isDrealAuthority,
           };
 
-          const {
-            texteChangementDeProducteur,
-            texteChangementDePuissance,
-            texteDélaisDAchèvement,
-            texteIdentitéDuProducteur,
-          } = getDonnéesCourriersRéponse(cahierDesChargesActuel, appelOffre);
+          const { texteDélaisDAchèvement } = getDonnéesCourriersRéponse(
+            cahierDesChargesActuel,
+            appelOffre,
+          );
           switch (type) {
             case 'delai':
               return ok({
@@ -235,35 +233,6 @@ export const getModificationRequestDataForResponseTemplate: GetModificationReque
                   : formatDate(Number(moment(completionDueOn).add(delayInMonths, 'months'))),
                 dateLimiteAchevementActuelle: formatDate(completionDueOn),
                 ..._makePreviousDelaiFromPreviousRequest(previousRequest),
-              } as ModificationRequestDataForResponseTemplateDTO);
-
-            case 'puissance':
-              const { puissance: puissanceActuelle } = modificationRequest.project;
-              const {
-                project: { puissanceInitiale },
-                puissance: nouvellePuissance,
-              } = modificationRequest;
-
-              return ok({
-                ...commonData,
-                puissanceInitiale:
-                  puissanceInitiale !== puissanceActuelle ? puissanceInitiale : undefined,
-                nouvellePuissance,
-                puissanceActuelle,
-                referenceParagraphePuissance: texteChangementDePuissance.référenceParagraphe,
-                contenuParagraphePuissance: texteChangementDePuissance.dispositions,
-              } as ModificationRequestDataForResponseTemplateDTO);
-
-            case 'producteur':
-              return ok({
-                ...commonData,
-                nouveauProducteur: producteur,
-                referenceParagrapheIdentiteProducteur:
-                  texteIdentitéDuProducteur.référenceParagraphe,
-                contenuParagrapheIdentiteProducteur: texteIdentitéDuProducteur.dispositions,
-                referenceParagrapheChangementProducteur:
-                  texteChangementDeProducteur.référenceParagraphe,
-                contenuParagrapheChangementProducteur: texteChangementDeProducteur.dispositions,
               } as ModificationRequestDataForResponseTemplateDTO);
           }
 

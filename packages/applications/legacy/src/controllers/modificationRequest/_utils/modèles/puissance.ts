@@ -3,7 +3,8 @@ import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { Candidature } from '@potentiel-domain/candidature';
 import { IdentifiantProjet } from '@potentiel-domain/common';
 import { CahierDesCharges, Lauréat, ReprésentantLégal } from '@potentiel-domain/laureat';
-import { formatIdentifiantProjetForDocument } from './formatIdentifiantProjetForDocument';
+import { formatIdentifiantProjetForDocument } from '../formatIdentifiantProjetForDocument';
+import { getEnCopies } from '../getEnCopies';
 import { Option } from '@potentiel-libraries/monads';
 import { Utilisateur } from '@potentiel-domain/utilisateur';
 
@@ -86,28 +87,6 @@ export const mapToPuissanceModèleRéponseProps = ({
   };
 };
 
-const getEnCopies = (region: string): Array<string> => {
-  if (!region) {
-    return ['DREAL concernée', 'CRE'];
-  }
-
-  const enCopie: string[] = [];
-
-  if (['Guadeloupe', 'Guyane', 'Martinique', 'Corse', 'La Réunion', 'Mayotte'].includes(region)) {
-    enCopie.push('EDF OA');
-  }
-
-  if (['Guadeloupe', 'Guyane', 'Martinique', 'Corse', 'La Réunion'].includes(region)) {
-    enCopie.push('EDF SEI');
-  }
-
-  if (['Mayotte'].includes(region)) {
-    enCopie.push('EDN');
-  }
-
-  return [...enCopie, `DREAL ${region}`];
-};
-
 const getDonnéesCourriersRéponse = ({
   appelOffres,
   période,
@@ -116,7 +95,7 @@ const getDonnéesCourriersRéponse = ({
   appelOffres: AppelOffre.AppelOffreReadModel;
   période: string;
   cahierDesChargesChoisi: CahierDesCharges.ConsulterCahierDesChargesChoisiReadmodel;
-}): AppelOffre.DonnéesCourriersRéponse['texteChangementDActionnariat'] => {
+}): AppelOffre.DonnéesCourriersRéponse['texteChangementDePuissance'] => {
   const périodeDetails = appelOffres.periodes.find((periode) => periode.id === période);
 
   return {

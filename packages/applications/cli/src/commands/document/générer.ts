@@ -15,6 +15,7 @@ const types = [
   'mise-en-demeure',
   'actionnaire',
   'puissance',
+  'délai',
 ] as const;
 export type TypeDocument = ModèleRéponseSignée.GénérerModèleRéponseOptions['type'];
 
@@ -203,6 +204,33 @@ function getData(
           contenuParagraphePuissance:
             appelOffre.donnéesCourriersRéponse.texteChangementDePuissance?.dispositions ??
             '!!!MANQUANT!!!',
+        },
+      };
+    case 'délai':
+      return {
+        type,
+        data: {
+          ...common,
+          referenceParagrapheAchevement:
+            appelOffre.donnéesCourriersRéponse.texteDélaisDAchèvement?.référenceParagraphe ??
+            '!!!MANQUANT!!!',
+          contenuParagrapheAchevement:
+            appelOffre.donnéesCourriersRéponse.texteDélaisDAchèvement?.dispositions ??
+            '!!!MANQUANT!!!',
+          dateLimiteAchevementInitiale: faker.date.recent().toLocaleDateString('fr-FR'),
+          dateAchèvementDemandée: faker.date.recent().toLocaleDateString('fr-FR'),
+          dateLimiteAchevementActuelle: faker.date.recent().toLocaleDateString('fr-FR'),
+
+          demandePrecedente: 'yes',
+          dateDepotDemandePrecedente: faker.date.recent().toLocaleDateString('fr-FR'),
+          dateReponseDemandePrecedente: faker.date.recent().toLocaleDateString('fr-FR'),
+          autreDelaiDemandePrecedenteAccorde: '',
+
+          demandeEnDate: 'yes',
+          dateDemandePrecedenteDemandée: faker.date.recent().toLocaleDateString('fr-FR'),
+          dateDemandePrecedenteAccordée: faker.date.recent().toLocaleDateString('fr-FR'),
+
+          enCopies: [],
         },
       };
     default:
