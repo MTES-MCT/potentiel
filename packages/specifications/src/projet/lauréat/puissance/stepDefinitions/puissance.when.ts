@@ -16,13 +16,9 @@ Quand('la puissance est importée pour le projet', async function (this: Potenti
 
 async function importerPuissance(this: PotentielWorld) {
   const identifiantProjet = this.candidatureWorld.importerCandidature.identifiantProjet;
-  const { importéeLe, puissance } = this.lauréatWorld.puissanceWorld.importerPuissanceFixture.créer(
-    {
-      puissance: this.candidatureWorld.importerCandidature.values.puissanceProductionAnnuelleValue,
-    },
-  );
-
-  this.lauréatWorld.puissanceWorld.puissance = puissance;
+  const { importéeLe } = this.lauréatWorld.puissanceWorld.importerPuissanceFixture.créer({
+    puissance: this.candidatureWorld.importerCandidature.values.puissanceProductionAnnuelleValue,
+  });
 
   await mediator.send<Puissance.PuissanceCommand>({
     type: 'Lauréat.Puissance.Command.ImporterPuissance',

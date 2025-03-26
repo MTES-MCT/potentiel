@@ -5,31 +5,23 @@ import { ImporterPuissanceFixture } from './fixture/importerPuissance.fixture';
 
 export class PuissanceWorld {
   #importerPuissanceFixture: ImporterPuissanceFixture;
-  #puissance: number;
 
   get importerPuissanceFixture() {
     return this.#importerPuissanceFixture;
   }
 
-  get puissance() {
-    return this.#puissance;
-  }
-
-  set puissance(value: number) {
-    this.#puissance = value;
-  }
-
   constructor() {
     this.#importerPuissanceFixture = new ImporterPuissanceFixture();
-    this.#puissance = 0;
   }
 
   mapToExpected(
     identifiantProjet: IdentifiantProjet.ValueType,
   ): Puissance.ConsulterPuissanceReadModel {
-    return {
+    const expected = {
       identifiantProjet,
-      puissance: this.#puissance,
+      puissance: this.#importerPuissanceFixture.puissance,
     };
+
+    return expected;
   }
 }

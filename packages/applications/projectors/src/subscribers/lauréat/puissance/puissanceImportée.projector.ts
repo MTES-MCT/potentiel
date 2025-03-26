@@ -6,8 +6,6 @@ export const puissanceImportéeProjector = async ({
 }: Puissance.PuissanceImportéeEvent) =>
   await upsertProjection<Puissance.PuissanceEntity>(`puissance|${identifiantProjet}`, {
     identifiantProjet,
-    puissance: {
-      valeur: puissance,
-      miseÀJourLe: importéeLe,
-    },
+    puissance,
+    miseÀJourLe: importéeLe,
   });
