@@ -1,52 +1,12 @@
-import {
-  ConsulterProjetQuery,
-  RécupérerProjetPort,
-  ConsulterProjetReadModel,
-} from './consulter/consulterProjet.query';
-import {
-  ListerProjetsEligiblesPreuveRecanditureQuery,
-  RécupérerProjetsEligiblesPreuveRecanditurePort,
-  ListerProjetsEligiblesPreuveRecanditureReadModel,
-} from './lister/listerProjetsEligiblesPreuveRecanditure.query';
 import { ImporterCandidatureUseCase } from './importer/importerCandidature.usecase';
 import type { CandidatureImportéeEvent } from './importer/importerCandidature.behavior';
-import {
-  ConsulterCandidatureQuery,
-  ConsulterCandidatureReadModel,
-} from './consulter/consulterCandidature.query';
 import { CorrigerCandidatureUseCase } from './corriger/corrigerCandidature.usecase';
 import type { CandidatureCorrigéeEvent } from './corriger/corrigerCandidature.behavior';
-import {
-  ListerCandidaturesQuery,
-  ListerCandidaturesReadModel,
-} from './lister/listerCandidatures.query';
 import { NotifierCandidatureUseCase } from './notifier/notifierCandidature.usecase';
 import {
   CandidatureNotifiéeEvent,
   CandidatureNotifiéeEventV1,
 } from './notifier/notifierCandidature.behavior';
-
-// Query
-export type CandidatureQuery =
-  | ConsulterProjetQuery
-  | ListerCandidaturesQuery
-  | ListerProjetsEligiblesPreuveRecanditureQuery
-  | ConsulterCandidatureQuery;
-
-export {
-  ConsulterProjetQuery,
-  ListerProjetsEligiblesPreuveRecanditureQuery,
-  ListerCandidaturesQuery,
-  ConsulterCandidatureQuery,
-};
-
-// ReadModel
-export {
-  ConsulterProjetReadModel,
-  ListerProjetsEligiblesPreuveRecanditureReadModel,
-  ListerCandidaturesReadModel,
-  ConsulterCandidatureReadModel,
-};
 
 // UseCases
 export type CandidatureUseCase =
@@ -71,9 +31,6 @@ export {
 
 // Register
 export * from './register';
-
-// Port
-export { RécupérerProjetPort, RécupérerProjetsEligiblesPreuveRecanditurePort };
 
 // Entity
 export * from './projet.entity';

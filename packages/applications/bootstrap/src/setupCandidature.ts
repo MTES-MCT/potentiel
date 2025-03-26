@@ -1,6 +1,7 @@
 import { mediator } from 'mediateur';
 
-import { Candidature } from '@potentiel-domain/candidature';
+import { Candidature } from '@potentiel-domain/projet';
+import { Candidature as TmpCandidature } from '@potentiel-domain/candidature';
 import { CandidatureAdapter } from '@potentiel-infrastructure/domain-adapters';
 import { Event, loadAggregate, subscribe } from '@potentiel-infrastructure/pg-event-sourcing';
 import { CandidatureProjector } from '@potentiel-applications/projectors';
@@ -13,7 +14,7 @@ type SetupCandidatureDependencies = {
 };
 
 export const setupCandidature = async ({ sendEmail }: SetupCandidatureDependencies) => {
-  Candidature.registerCandidaturesUseCases({ loadAggregate });
+  TmpCandidature.registerCandidaturesUseCases({ loadAggregate });
 
   Candidature.registerCandidatureQueries({
     find: findProjection,

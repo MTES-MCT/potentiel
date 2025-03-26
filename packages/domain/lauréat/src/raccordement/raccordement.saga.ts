@@ -1,7 +1,7 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { IdentifiantProjet } from '@potentiel-domain/common';
-import { Candidature } from '@potentiel-domain/candidature';
+import { Candidature } from '@potentiel-domain/projet';
 import { Option } from '@potentiel-libraries/monads';
 import { GestionnaireRéseau } from '@potentiel-domain/reseau';
 

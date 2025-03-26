@@ -82,6 +82,11 @@ export const registerListerCandidaturesQuery = ({ list }: ListerCandidaturesQuer
         identifiantProjet: Where.matchAny(identifiantProjets),
       },
       range,
+      orderBy: {
+        appelOffre: 'ascending',
+        période: 'ascending',
+        nomProjet: 'ascending',
+      },
     });
 
     return {

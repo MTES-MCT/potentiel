@@ -1,7 +1,7 @@
 import { Metadata } from 'next';
 
-import { Candidature } from '@potentiel-domain/candidature';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
+import { Candidature } from '@potentiel-domain/projet';
 
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';

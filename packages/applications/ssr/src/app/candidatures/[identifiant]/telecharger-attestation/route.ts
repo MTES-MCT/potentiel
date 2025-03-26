@@ -6,7 +6,7 @@ import { Option } from '@potentiel-libraries/monads';
 import { getLogger } from '@potentiel-libraries/monitoring';
 import { ConsulterDocumentProjetQuery, DocumentProjet } from '@potentiel-domain/document';
 import { Éliminé } from '@potentiel-domain/projet';
-import { Candidature } from '@potentiel-domain/candidature';
+import { Candidature } from '@potentiel-domain/projet';
 
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { decodeParameter } from '@/utils/decodeParameter';

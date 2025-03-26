@@ -2,16 +2,17 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { DocumentProjet, EnregistrerDocumentProjetCommand } from '@potentiel-domain/document';
 import { getLogger } from '@potentiel-libraries/monitoring';
-import { Candidature } from '@potentiel-domain/candidature';
 import { Option } from '@potentiel-libraries/monads';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { Email, IdentifiantProjet } from '@potentiel-domain/common';
+import { Candidature as TmpCandidature } from '@potentiel-domain/candidature';
+import { Candidature } from '@potentiel-domain/projet';
 
 import { buildCertificate, BuildCertificateProps } from './buildCertificate';
 
 export type SubscriptionEvent =
-  | Candidature.CandidatureNotifiéeEvent
-  | Candidature.CandidatureCorrigéeEvent;
+  | TmpCandidature.CandidatureNotifiéeEvent
+  | TmpCandidature.CandidatureCorrigéeEvent;
 
 export type Execute = Message<'System.Candidature.Attestation.Saga.Execute', SubscriptionEvent>;
 
@@ -168,7 +169,7 @@ export const register = () => {
 };
 
 const mapCorrectionToCandidature = (
-  payload: Candidature.CandidatureCorrigéeEvent['payload'],
+  payload: TmpCandidature.CandidatureCorrigéeEvent['payload'],
 ): BuildCertificateProps['candidature'] => ({
   emailContact: Email.convertirEnValueType(payload.emailContact),
   evaluationCarboneSimplifiée: payload.evaluationCarboneSimplifiée,
@@ -182,10 +183,10 @@ const mapCorrectionToCandidature = (
   puissanceProductionAnnuelle: payload.puissanceProductionAnnuelle,
   motifÉlimination: payload.motifÉlimination,
   identifiantProjet: IdentifiantProjet.convertirEnValueType(payload.identifiantProjet),
-  statut: Candidature.StatutCandidature.convertirEnValueType(payload.statut),
-  technologie: Candidature.TypeTechnologie.convertirEnValueType(payload.technologie),
+  statut: TmpCandidature.StatutCandidature.convertirEnValueType(payload.statut),
+  technologie: TmpCandidature.TypeTechnologie.convertirEnValueType(payload.technologie),
   actionnariat: payload.actionnariat
-    ? Candidature.TypeActionnariat.convertirEnValueType(payload.actionnariat)
+    ? TmpCandidature.TypeActionnariat.convertirEnValueType(payload.actionnariat)
     : undefined,
   coefficientKChoisi: payload.coefficientKChoisi,
 });
