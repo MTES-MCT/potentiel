@@ -1,7 +1,7 @@
 # language: fr
-@NotImplemented
 Fonctionnalité: Importer la puissance lors de la désignation d'une candidature lauréate
 
+    @select
     Scénario: Importer la puissance lors de la désignation d'une candidature lauréate
         Etant donné le projet lauréat "Du boulodrome de Marseille"
         Alors la puissance du projet lauréat devrait être consultable
@@ -24,4 +24,4 @@ Fonctionnalité: Importer la puissance lors de la désignation d'une candidature
     Scénario: Impossible d'importer la puissance si celle-ci a déjà été importé
         Etant donné la candidature lauréate notifiée "Du boulodrome de Marseille"
         Quand la puissance est importée pour le projet
-        Alors l'utilisateur devrait être informé que "la puissance a déjà été importé"
+        Alors l'utilisateur devrait être informé que "la puissance a déjà été importée"

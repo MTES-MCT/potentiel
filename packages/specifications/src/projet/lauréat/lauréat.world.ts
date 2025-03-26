@@ -6,6 +6,7 @@ import { ActionnaireWorld } from './actionnaire/actionnaire.world';
 import { AchèvementWorld } from './achèvement/attestationConformité/achèvement.world';
 import { ModifierLauréatFixture } from './fixtures/modifierLauréat.fixture';
 import { NotifierLauréatFixture } from './fixtures/notifierLauréat.fixture';
+import { PuissanceWorld } from './puissance/puissance.world';
 
 type LauréatFixture = {
   nom: string;
@@ -70,6 +71,12 @@ export class LauréatWorld {
     return this.#actionnaireWorld;
   }
 
+  #puissanceWorld!: PuissanceWorld;
+
+  get puissanceWorld() {
+    return this.#puissanceWorld;
+  }
+
   #achèvementWorld!: AchèvementWorld;
 
   get achèvementWorld() {
@@ -86,6 +93,7 @@ export class LauréatWorld {
     this.#abandonWorld = new AbandonWord();
     this.#représentantLégalWorld = new ReprésentantLégalWorld();
     this.#actionnaireWorld = new ActionnaireWorld();
+    this.#puissanceWorld = new PuissanceWorld();
     this.#achèvementWorld = new AchèvementWorld();
 
     this.#notifierLauréatFixture = new NotifierLauréatFixture();

@@ -48,6 +48,6 @@ export function applyPuissanceImportée(
 
 class PuissanceDéjàImportéeError extends DomainError {
   constructor() {
-    super("L'puissance a déjà été importée");
+    super('la puissance a déjà été importée');
   }
 }
