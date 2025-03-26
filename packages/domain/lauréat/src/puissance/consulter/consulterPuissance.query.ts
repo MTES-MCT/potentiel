@@ -30,7 +30,6 @@ export const registerConsulterPuissanceQuery = ({ find }: ConsulterPuissanceDepe
 
     const puissance = await find<PuissanceEntity>(
       `puissance|${identifiantProjetValueType.formatter()}`,
-      { select: ['identifiantProjet', 'puissance.valeur', 'dateDemandeEnCours'] },
     );
 
     return Option.match(puissance).some(mapToReadModel).none();

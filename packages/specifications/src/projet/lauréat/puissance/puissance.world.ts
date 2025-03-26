@@ -27,7 +27,6 @@ export class PuissanceWorld {
   mapToExpected(
     identifiantProjet: IdentifiantProjet.ValueType,
   ): Puissance.ConsulterPuissanceReadModel {
-    console.log(this.#puissance);
     return {
       identifiantProjet,
       puissance: this.#puissance,

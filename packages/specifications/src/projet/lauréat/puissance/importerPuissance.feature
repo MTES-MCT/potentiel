@@ -1,7 +1,6 @@
 # language: fr
 Fonctionnalité: Importer la puissance lors de la désignation d'une candidature lauréate
 
-    @select
     Scénario: Importer la puissance lors de la désignation d'une candidature lauréate
         Etant donné le projet lauréat "Du boulodrome de Marseille"
         Alors la puissance du projet lauréat devrait être consultable
