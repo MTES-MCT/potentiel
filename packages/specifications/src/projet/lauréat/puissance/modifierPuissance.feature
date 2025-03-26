@@ -26,7 +26,6 @@ Fonctionnalité: Modifier la puissance d'un projet lauréat
         Quand le DGEC validateur modifie la puissance avec la même valeur pour le projet lauréat
         Alors l'utilisateur devrait être informé que "La puissance doit avoir une valeur différente"
 
-    @select
     Scénario: Impossible de modifier la puissance si la nouvelle valeur est nulle ou négative
         Quand le DGEC validateur modifie la puissance pour le projet lauréat avec :
             | ratio puissance | <Ratio> |
