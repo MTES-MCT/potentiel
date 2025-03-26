@@ -49,6 +49,11 @@ export const DemanderChangementReprésentantLégalForm: FC<
     !piècesJustificatives.length ||
     Object.keys(validationErrors).length > 0;
 
+  const conditionDésactivationÉtape1 =
+    !typeReprésentantLégal ||
+    (typeReprésentantLégal === 'personne-morale' && typeSociété === 'non renseignée') ||
+    typeReprésentantLégal === 'inconnu';
+
   const steps: Array<Step> = [
     {
       index: 1,
@@ -94,8 +99,8 @@ export const DemanderChangementReprésentantLégalForm: FC<
             typeReprésentantLégal={typeReprésentantLégal}
             typeSociété={typeSociété}
             validationErrors={validationErrors}
-            onChange={({ type, typeSociété }) => {
-              setTypeReprésentantLégal(type);
+            onChange={({ typeReprésentantLégal, typeSociété }) => {
+              setTypeReprésentantLégal(typeReprésentantLégal);
               setTypeSociété(typeSociété);
             }}
           />
@@ -104,12 +109,7 @@ export const DemanderChangementReprésentantLégalForm: FC<
       nextStep: {
         type: 'link',
         name: 'Commencer',
-        disabled:
-          !typeReprésentantLégal ||
-          (typeReprésentantLégal === 'personne-morale' && typeSociété === 'non renseignée') ||
-          ReprésentantLégal.TypeReprésentantLégal.bind({
-            type: typeReprésentantLégal,
-          }).estInconnu(),
+        disabled: conditionDésactivationÉtape1,
       },
     },
     {
@@ -156,7 +156,7 @@ export const DemanderChangementReprésentantLégalForm: FC<
       nextStep: {
         type: 'submit',
         name: 'Confirmer la demande',
-        disabled: disableCondition && !validationErrors,
+        disabled: disableCondition && Object.keys(validationErrors).length === 0,
       },
     },
   ];

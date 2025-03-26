@@ -4,7 +4,6 @@ import { FC, useState } from 'react';
 import Stepper from '@codegouvfr/react-dsfr/Stepper';
 
 import { IdentifiantProjet } from '@potentiel-domain/common';
-import { ReprésentantLégal } from '@potentiel-domain/laureat';
 
 import { Form } from '@/components/atoms/form/Form';
 import { ValidationErrors } from '@/utils/formAction';
@@ -38,6 +37,15 @@ export const ModifierReprésentantLégalForm: FC<ModifierReprésentantLégalForm
   const [typeSociété, setTypeSociété] = useState<TypeSociété>('non renseignée');
   const [nom, setNom] = useState('');
 
+  const conditionDésactivationÉtape1 =
+    !stateTypeReprésentantLégal ||
+    (stateTypeReprésentantLégal === 'personne-morale' && typeSociété === 'non renseignée') ||
+    stateTypeReprésentantLégal === 'inconnu';
+
+  const conditionDésactivationÉtape2 = !nom || nom === nomReprésentantLégal;
+
+  const conditionDésactivationÉtape3 = !stateTypeReprésentantLégal || !nom;
+
   const steps: Array<Step> = [
     {
       index: 1,
@@ -53,8 +61,8 @@ export const ModifierReprésentantLégalForm: FC<ModifierReprésentantLégalForm
             contexte="modifier"
             typeReprésentantLégal={stateTypeReprésentantLégal}
             typeSociété={typeSociété}
-            onChange={({ type, typeSociété }) => {
-              setStateTypeReprésentantLégal(type);
+            onChange={({ typeReprésentantLégal, typeSociété }) => {
+              setStateTypeReprésentantLégal(typeReprésentantLégal);
               setTypeSociété(typeSociété);
             }}
             validationErrors={validationErrors}
@@ -64,12 +72,7 @@ export const ModifierReprésentantLégalForm: FC<ModifierReprésentantLégalForm
       nextStep: {
         type: 'link',
         name: 'Commencer',
-        disabled:
-          !stateTypeReprésentantLégal ||
-          (stateTypeReprésentantLégal === 'personne-morale' && typeSociété === 'non renseignée') ||
-          ReprésentantLégal.TypeReprésentantLégal.bind({
-            type: stateTypeReprésentantLégal,
-          }).estInconnu(),
+        disabled: conditionDésactivationÉtape1,
       },
     },
     {
@@ -87,7 +90,7 @@ export const ModifierReprésentantLégalForm: FC<ModifierReprésentantLégalForm
       nextStep: {
         type: 'link',
         name: 'Suivant',
-        disabled: !nom || nom === nomReprésentantLégal,
+        disabled: conditionDésactivationÉtape2,
       },
     },
     {
@@ -106,7 +109,7 @@ export const ModifierReprésentantLégalForm: FC<ModifierReprésentantLégalForm
       nextStep: {
         type: 'submit',
         name: 'Modifier le représentant légal',
-        disabled: !stateTypeReprésentantLégal || !nom,
+        disabled: conditionDésactivationÉtape3,
       },
     },
   ];

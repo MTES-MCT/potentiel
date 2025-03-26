@@ -28,7 +28,6 @@ const schema = zod.discriminatedUnion('typeSociete', [
     ...commonSchema.shape,
     typeSociete: zod.literal('constituée', {
       invalid_type_error: 'Le type de société légal est invalide',
-      required_error: 'Champ obligatoire',
     }),
     piecesJustificatives: keepOrUpdateSingleDocument({
       acceptedFileTypes: ['application/pdf'],

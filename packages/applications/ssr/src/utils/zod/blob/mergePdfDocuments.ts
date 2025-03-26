@@ -12,7 +12,7 @@ export const mergePdfDocuments = async (documents: Array<Blob>): Promise<Blob> =
     const pdf = await PDFDocument.load(pdfBytes);
 
     if (pdf.isEncrypted) {
-      throw new Error('Cannot merge encrypted PDFs');
+      throw new Error('Impossible de fusionner des PDF chiffrés');
     }
 
     const copiedPages = await pdfDoc.copyPages(pdf, pdf.getPageIndices());

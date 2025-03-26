@@ -32,7 +32,7 @@ export const SaisieTypeSociétéStep: FC<SaisieTypeSociétéStepProps> = ({ onCh
         onChange && onChange(e.currentTarget.value as TypeSociété);
       },
     }}
-    placeholder="Sélectionnez le type du société"
+    placeholder="Sélectionnez le type de société"
     options={typesSociétéOptions}
   />
 );

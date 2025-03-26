@@ -1,6 +1,6 @@
 'use client';
 import { FC } from 'react';
-import { match } from 'ts-pattern';
+import { match, P } from 'ts-pattern';
 
 import { ReprésentantLégal } from '@potentiel-domain/laureat';
 
@@ -27,17 +27,27 @@ export const SaisiePièceJustificativeStep: FC<SaisiePièceJustificativeProps> =
   onChange,
 }) => {
   const getPièceJustificativeHintText = () =>
-    match(typeReprésentantLégal)
+    match({ typeReprésentantLégal, typeSociété })
       .with(
-        'personne-physique',
+        { typeReprésentantLégal: 'personne-physique' },
         () => `Une copie de titre d'identité (carte d'identité ou passeport) en cours de validité`,
       )
-      .with('personne-morale', () =>
-        typeSociété === 'constituée'
-          ? 'Un extrait Kbis'
-          : `une copie des statuts de la société en cours de constitution, une attestation de récépissé de dépôt de fonds pour constitution de capital social et une copie de l’acte désignant le représentant légal de la société`,
+      .with(
+        { typeReprésentantLégal: 'personne-morale', typeSociété: 'constituée' },
+        () => `Un extrait Kbis`,
       )
-      .with('collectivité', () => `Un extrait de délibération portant sur le projet`)
+      .with(
+        {
+          typeReprésentantLégal: 'personne-morale',
+          typeSociété: P.union('en cours de constitution', 'non renseignée'),
+        },
+        () =>
+          `Une copie des statuts de la société en cours de constitution, une attestation de récépissé de dépôt de fonds pour constitution de capital social et une copie de l’acte désignant le représentant légal de la société`,
+      )
+      .with(
+        { typeReprésentantLégal: 'collectivité' },
+        () => `Un extrait de délibération portant sur le projet`,
+      )
       .otherwise(
         () =>
           `Tout document officiel permettant d'attester de l'existence juridique de l'organisme`,
