@@ -41,16 +41,10 @@ export const mapToReadModel = ({
   identifiantProjet,
   puissance,
   dateDemandeEnCours,
-}: PuissanceEntity) => {
-  if (!puissance) {
-    return Option.none;
-  }
-
-  return {
-    identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
-    puissance: puissance.valeur,
-    dateDemandeEnCours: dateDemandeEnCours
-      ? DateTime.convertirEnValueType(dateDemandeEnCours)
-      : undefined,
-  };
-};
+}: PuissanceEntity) => ({
+  identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
+  puissance: puissance.valeur,
+  dateDemandeEnCours: dateDemandeEnCours
+    ? DateTime.convertirEnValueType(dateDemandeEnCours)
+    : undefined,
+});
