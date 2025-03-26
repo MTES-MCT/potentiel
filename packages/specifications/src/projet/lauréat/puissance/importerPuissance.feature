@@ -23,4 +23,4 @@ Fonctionnalité: Importer la puissance lors de la désignation d'une candidature
     Scénario: Impossible d'importer la puissance si celle-ci a déjà été importé
         Etant donné la candidature lauréate notifiée "Du boulodrome de Marseille"
         Quand la puissance est importée pour le projet
-        Alors l'utilisateur devrait être informé que "la puissance a déjà été importée"
+        Alors l'utilisateur devrait être informé que "La puissance a déjà été importée"

@@ -1,3 +1,5 @@
+import { match } from 'ts-pattern';
+
 import { IdentifiantProjet } from '@potentiel-domain/common';
 import {
   Aggregate,
@@ -28,11 +30,9 @@ export const getDefaultPuissanceAggregate: GetDefaultAggregateState<
 });
 
 function apply(this: PuissanceAggregate, event: PuissanceEvent) {
-  switch (event.type) {
-    case 'PuissanceImportée-V1':
-      applyPuissanceImportée.bind(this)(event);
-      break;
-  }
+  match(event)
+    .with({ type: 'PuissanceImportée-V1' }, applyPuissanceImportée.bind(this))
+    .exhaustive();
 }
 
 export const loadPuissanceFactory =
