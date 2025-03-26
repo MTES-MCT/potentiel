@@ -1,38 +1,36 @@
 # language: fr
-@select
 Fonctionnalité: Modifier la puissance d'un projet lauréat
 
     Contexte:
         Etant donné le projet lauréat "Du boulodrome de Marseille"
         Et le porteur "Marcel Patoulatchi" ayant accés au projet lauréat "Du boulodrome de Marseille"
 
-    # pour la fixture
-    # pour la modification, la raison est optionnelle et il n'y a pas besoin de pièce justificative
     # TODO: notifications
     Scénario: Modifier la puissance d'un projet lauréat par un admin
         Quand le DGEC validateur modifie la puissance pour le projet lauréat
-        Alors la puissance du projet lauréat devrait être mis à jour
+        Alors la puissance du projet lauréat devrait être mise à jour
 
     # TODO: notifications
     Scénario: Modifier la puissance d'un projet lauréat achevé par un admin
         Etant donné un abandon accordé pour le projet lauréat
         Quand le DGEC validateur modifie la puissance pour le projet lauréat
-        Alors la puissance du projet lauréat devrait être mis à jour
+        Alors la puissance du projet lauréat devrait être mise à jour
 
     # TODO: notifications
     Scénario: Modifier la puissance d'un projet lauréat abandonné par un admin
         Etant donné une attestation de conformité transmise pour le projet lauréat
         Quand le DGEC validateur modifie la puissance pour le projet lauréat
-        Alors la puissance du projet lauréat devrait être mis à jour
+        Alors la puissance du projet lauréat devrait être mise à jour
 
     Scénario: Impossible de modifier la puissance avec une valeur identique
         Quand le DGEC validateur modifie la puissance avec la même valeur pour le projet lauréat
         Alors l'utilisateur devrait être informé que "La puissance doit avoir une valeur différente"
 
+    @select
     Scénario: Impossible de modifier la puissance si la nouvelle valeur est nulle ou négative
-        Quand le DGEC validateur demande le changement de puissance pour le projet lauréat avec :
+        Quand le DGEC validateur modifie la puissance pour le projet lauréat avec :
             | ratio puissance | <Ratio> |
-        Alors l'utilisateur devrait être informé que "La puissance d'un projet doit être une valeur positive"
+        Alors l'utilisateur devrait être informé que "La puissance d'un projet doit avoir une valeur positive"
 
         Exemples:
             | Ratio |
@@ -44,6 +42,7 @@ Fonctionnalité: Modifier la puissance d'un projet lauréat
         Quand le DGEC validateur modifie la puissance pour le projet éliminé
         Alors l'utilisateur devrait être informé que "La puissance n'existe pas"
 
+    @NotImplemented
     Scénario: Impossible de modifier la puissance d'un projet lauréat alors qu'un changement de puissance est en cours
         Etant donné une demande de changement de puissance à la baisse en cours pour le projet lauréat
         Quand la DREAL modifie la puissance pour le projet lauréat

@@ -11,6 +11,7 @@ export type ModifierPuissanceUseCase = Message<
     identifiantUtilisateurValue: string;
     puissanceValue: number;
     dateModificationValue: string;
+    raisonValue?: string;
   }
 >;
 
@@ -20,6 +21,7 @@ export const registerModifierPuissanceUseCase = () => {
     identifiantUtilisateurValue,
     puissanceValue,
     dateModificationValue,
+    raisonValue,
   }) => {
     await mediator.send<ModifierPuissanceCommand>({
       type: 'Lauréat.Puissance.Command.ModifierPuissance',
@@ -28,6 +30,7 @@ export const registerModifierPuissanceUseCase = () => {
         identifiantUtilisateur: Email.convertirEnValueType(identifiantUtilisateurValue),
         puissance: puissanceValue,
         dateModification: DateTime.convertirEnValueType(dateModificationValue),
+        raison: raisonValue,
       },
     });
   };

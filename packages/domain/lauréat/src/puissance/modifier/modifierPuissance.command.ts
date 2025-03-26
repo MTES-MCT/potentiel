@@ -12,6 +12,7 @@ export type ModifierPuissanceCommand = Message<
     identifiantUtilisateur: Email.ValueType;
     puissance: number;
     dateModification: DateTime.ValueType;
+    raison?: string;
   }
 >;
 
@@ -23,6 +24,7 @@ export const registerModifierPuissanceCommand = (loadAggregate: LoadAggregate) =
     identifiantUtilisateur,
     puissance,
     dateModification,
+    raison,
   }) => {
     const puissanceAggrégat = await loadPuissance(identifiantProjet);
 
@@ -31,6 +33,7 @@ export const registerModifierPuissanceCommand = (loadAggregate: LoadAggregate) =
       identifiantUtilisateur,
       puissance,
       dateModification,
+      raison,
     });
   };
   mediator.register('Lauréat.Puissance.Command.ModifierPuissance', handler);
