@@ -1,6 +1,6 @@
 import { Metadata } from 'next';
 
-import { Candidature } from '@potentiel-domain/candidature';
+import { Candidature } from '@potentiel-domain/projet';
 import { IdentifiantProjet } from '@potentiel-domain/common';
 
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
