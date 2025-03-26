@@ -119,10 +119,6 @@ export async function notifierLauréat(this: PotentielWorld, dateDésignation: s
     puissance: candidature.values.puissanceProductionAnnuelleValue,
   });
 
-  // TODO: delete this, use mapToExpected instead
-  // this is mocking import of candidature values into lauréat
-  this.lauréatWorld.actionnaireWorld.actionnaire = candidature.values.sociétéMèreValue;
-
   const data = {
     identifiantProjetValue: identifiantProjetValue.formatter(),
     notifiéLeValue: dateDésignation,

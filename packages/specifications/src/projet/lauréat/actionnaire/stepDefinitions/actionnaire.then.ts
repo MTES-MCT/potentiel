@@ -54,6 +54,8 @@ Alors(
       this,
       this.candidatureWorld.importerCandidature.identifiantProjet,
       Actionnaire.StatutChangementActionnaire.informationEnregistrée,
+      false,
+      true,
     );
   },
 );
@@ -166,12 +168,15 @@ async function vérifierChangementActionnaire(
   identifiantProjet: string,
   statut: Actionnaire.StatutChangementActionnaire.ValueType,
   estUneNouvelleDemande?: boolean,
+  estUneInformationEnregistrée?: boolean,
 ) {
   const demandeEnCours = await mediator.send<Actionnaire.ConsulterChangementActionnaireQuery>({
     type: 'Lauréat.Actionnaire.Query.ConsulterChangementActionnaire',
     data: {
       identifiantProjet: identifiantProjet,
-      demandéLe: this.lauréatWorld.actionnaireWorld.demanderChangementActionnaireFixture.demandéLe,
+      demandéLe: estUneInformationEnregistrée
+        ? this.lauréatWorld.actionnaireWorld.enregistrerChangementActionnaireFixture.demandéLe
+        : this.lauréatWorld.actionnaireWorld.demanderChangementActionnaireFixture.demandéLe,
     },
   });
 
@@ -182,6 +187,7 @@ async function vérifierChangementActionnaire(
       IdentifiantProjet.convertirEnValueType(identifiantProjet),
       statut,
       estUneNouvelleDemande,
+      estUneInformationEnregistrée,
     ),
   );
 
