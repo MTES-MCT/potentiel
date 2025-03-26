@@ -13,6 +13,7 @@ export const usePoolClient = async <TResult extends Record<string, unknown>>(
       connectionString: getConnectionString(),
       min: 0,
       idleTimeoutMillis: FIVE_MINUTES,
+      application_name: 'potentiel',
     });
   }
 

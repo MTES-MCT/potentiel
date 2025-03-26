@@ -25,6 +25,7 @@ const pool = new Pool({
   max: 5,
   idleTimeoutMillis: 30000,
   connectionTimeoutMillis: 2000,
+  application_name: 'potentiel_auth',
   options: '-c search_path=auth',
 });
 
