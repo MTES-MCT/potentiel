@@ -2,7 +2,7 @@ import { mediator } from 'mediateur';
 import { notFound } from 'next/navigation';
 
 import { IdentifiantProjet, Éliminé } from '@potentiel-domain/projet';
-import { Candidature } from '@potentiel-domain/candidature';
+import { Candidature } from '@potentiel-domain/projet';
 import { DateTime } from '@potentiel-domain/common';
 import {
   formatDateForDocument,

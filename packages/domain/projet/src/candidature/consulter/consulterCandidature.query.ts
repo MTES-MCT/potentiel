@@ -42,6 +42,7 @@ export type ConsulterCandidatureReadModel = {
   actionnariat?: TypeActionnariat.ValueType;
   dateÉchéanceGf?: DateTime.ValueType;
   territoireProjet: string;
+  coefficientKChoisi?: boolean;
   misÀJourLe: DateTime.ValueType;
 
   détailsImport: DocumentProjet.ValueType;
@@ -101,6 +102,7 @@ export const mapToReadModel = ({
   evaluationCarboneSimplifiée,
   actionnariat,
   territoireProjet,
+  coefficientKChoisi,
   misÀJourLe,
   détailsMisÀJourLe,
   notification,
@@ -128,6 +130,7 @@ export const mapToReadModel = ({
   evaluationCarboneSimplifiée,
   actionnariat: actionnariat ? TypeActionnariat.convertirEnValueType(actionnariat) : undefined,
   territoireProjet,
+  coefficientKChoisi,
   détailsImport: DocumentProjet.convertirEnValueType(
     identifiantProjet,
     'candidature/import',

@@ -6,7 +6,7 @@ import { Abandon } from '@potentiel-domain/laureat';
 import { Role, Utilisateur } from '@potentiel-domain/utilisateur';
 import { Option } from '@potentiel-libraries/monads';
 import { mapToPlainObject } from '@potentiel-domain/core';
-import { Candidature } from '@potentiel-domain/candidature';
+import { Candidature } from '@potentiel-domain/projet';
 import { Historique } from '@potentiel-domain/historique';
 import { Lauréat } from '@potentiel-domain/laureat';
 

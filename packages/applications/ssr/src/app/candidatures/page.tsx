@@ -1,7 +1,8 @@
 import { mediator } from 'mediateur';
 import { Metadata } from 'next';
 
-import { Candidature } from '@potentiel-domain/candidature';
+import { Candidature } from '@potentiel-domain/projet';
+import { Candidature as TmpCandidature } from '@potentiel-domain/candidature';
 import { mapToPlainObject } from '@potentiel-domain/core';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { getLogger } from '@potentiel-libraries/monitoring';
@@ -45,7 +46,7 @@ export default async function Page({ searchParams }: PageProps) {
         appelOffre: appelOffreParams,
         période: périodeParams,
         statut: statut
-          ? Candidature.StatutCandidature.convertirEnValueType(statut).statut
+          ? TmpCandidature.StatutCandidature.convertirEnValueType(statut).statut
           : undefined,
         estNotifiée,
       },
@@ -85,11 +86,11 @@ export default async function Page({ searchParams }: PageProps) {
         options: [
           {
             label: 'Classé',
-            value: Candidature.StatutCandidature.classé.statut,
+            value: TmpCandidature.StatutCandidature.classé.statut,
           },
           {
             label: 'Éliminé',
-            value: Candidature.StatutCandidature.éliminé.statut,
+            value: TmpCandidature.StatutCandidature.éliminé.statut,
           },
         ],
       },
