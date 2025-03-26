@@ -4,6 +4,7 @@ import { AppelOffreAggregate, LoadAppelOffreAggregatePort } from '@potentiel-dom
 import { IdentifiantProjet } from '.';
 
 import { ÉliminéAggregate } from './éliminé/éliminé.aggregate';
+import { FamilleInexistanteError, PériodeInexistanteError } from './appelOffre.error';
 
 interface ProjetAggregateRootDependencies {
   loadAggregate: LoadAggregateV2;
@@ -37,6 +38,36 @@ export class ProjetAggregateRoot {
 
   get appelOffre() {
     return this.#appelOffre;
+  }
+
+  get période() {
+    const période = this.appelOffre.periodes.find((x) => x.id === this.identifiantProjet.période);
+
+    if (!période) {
+      throw new PériodeInexistanteError(
+        this.#identifiantProjet.appelOffre,
+        this.identifiantProjet.période,
+      );
+    }
+
+    return période;
+  }
+
+  get famille() {
+    if (!this.identifiantProjet.famille) {
+      return undefined;
+    }
+
+    const famille = this.période.familles.find((x) => x.id === this.identifiantProjet.famille);
+    if (!famille) {
+      throw new FamilleInexistanteError(
+        this.#identifiantProjet.appelOffre,
+        this.identifiantProjet.période,
+        this.identifiantProjet.famille,
+      );
+    }
+
+    return famille;
   }
 
   private constructor(
