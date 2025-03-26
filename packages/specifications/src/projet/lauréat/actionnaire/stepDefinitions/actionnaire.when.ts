@@ -3,10 +3,9 @@ import { mediator } from 'mediateur';
 import { match } from 'ts-pattern';
 
 import { Actionnaire } from '@potentiel-domain/laureat';
+import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 
 import { PotentielWorld } from '../../../../potentiel.world';
-
-import { importerActionnaire } from './actionnaire.given';
 
 Quand("l'actionnaire est importé pour le projet", async function (this: PotentielWorld) {
   try {
@@ -302,6 +301,21 @@ async function enregistrerChangementActionnaire(
       dateChangementValue: demandéLe,
       pièceJustificativeValue: pièceJustificative,
       raisonValue: raison,
+    },
+  });
+}
+
+async function importerActionnaire(this: PotentielWorld) {
+  const identifiantProjet = this.candidatureWorld.importerCandidature.identifiantProjet;
+  const { importéLe, actionnaire } = this.lauréatWorld.actionnaireWorld.importerActionnaireFixture;
+
+  this.lauréatWorld.actionnaireWorld.actionnaire = actionnaire;
+
+  await mediator.send<Actionnaire.ActionnaireCommand>({
+    type: 'Lauréat.Actionnaire.Command.ImporterActionnaire',
+    data: {
+      identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
+      importéLe: DateTime.convertirEnValueType(importéLe),
     },
   });
 }

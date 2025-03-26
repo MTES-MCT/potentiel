@@ -178,6 +178,7 @@ export function applyCandidatureImportée(
 
   this.nomReprésentantLégal = payload.nomReprésentantLégal;
   this.sociétéMère = payload.sociétéMère;
+  this.puissance = payload.puissanceProductionAnnuelle;
   this.typeActionnariat = payload.actionnariat
     ? TypeActionnariat.convertirEnValueType(payload.actionnariat)
     : undefined;

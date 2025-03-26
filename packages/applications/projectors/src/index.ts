@@ -15,3 +15,4 @@ export * as ReprésentantLégalProjector from './subscribers/lauréat/représent
 export * as HistoriqueProjector from './subscribers/historique/historique.projector';
 export * as ActionnaireProjector from './subscribers/lauréat/actionnaire';
 export * as UtilisateurProjector from './subscribers/utilisateur';
+export * as PuissanceProjector from './subscribers/lauréat/puissance';

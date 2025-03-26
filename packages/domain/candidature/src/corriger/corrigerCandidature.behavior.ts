@@ -149,6 +149,7 @@ export function applyCandidatureCorrigée(
   this.prixRéférence = payload.prixReference;
   this.sociétéMère = payload.sociétéMère;
   this.nomReprésentantLégal = payload.nomReprésentantLégal;
+  this.puissance = payload.puissanceProductionAnnuelle;
 }
 
 class StatutNonModifiableAprèsNotificationError extends InvalidOperationError {

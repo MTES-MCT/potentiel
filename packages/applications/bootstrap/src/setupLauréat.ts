@@ -8,6 +8,7 @@ import {
   ReprésentantLégal,
   Actionnaire,
   Raccordement,
+  Puissance,
 } from '@potentiel-domain/laureat';
 import { Event, loadAggregate, subscribe } from '@potentiel-infrastructure/pg-event-sourcing';
 import {
@@ -29,6 +30,7 @@ import {
   LauréatProjector,
   ReprésentantLégalProjector,
   ActionnaireProjector,
+  PuissanceProjector,
 } from '@potentiel-applications/projectors';
 import {
   consulterCahierDesChargesChoisiAdapter,
@@ -66,6 +68,7 @@ export const setupLauréat = async ({
   AchèvementProjector.register();
   ReprésentantLégalProjector.register();
   ActionnaireProjector.register();
+  PuissanceProjector.register();
 
   // Notifications
   AbandonNotification.register({ sendEmail });
@@ -83,6 +86,7 @@ export const setupLauréat = async ({
   Raccordement.RaccordementSaga.register({
     récupérerGRDParVille,
   });
+  Puissance.PuissanceSaga.register();
 
   const unsubscribeLauréatProjector = await subscribe<LauréatProjector.SubscriptionEvent>({
     name: 'projector',
@@ -119,6 +123,18 @@ export const setupLauréat = async ({
     eventHandler: async (event) => {
       await mediator.send<ActionnaireProjector.Execute>({
         type: 'System.Projector.Lauréat.Actionnaire',
+        data: event,
+      });
+    },
+  });
+
+  const unsubscribePuissanceProjector = await subscribe<PuissanceProjector.SubscriptionEvent>({
+    name: 'projector',
+    streamCategory: 'puissance',
+    eventType: ['RebuildTriggered', 'PuissanceImportée-V1'],
+    eventHandler: async (event) => {
+      await mediator.send<PuissanceProjector.Execute>({
+        type: 'System.Projector.Lauréat.Puissance',
         data: event,
       });
     },
@@ -344,6 +360,19 @@ export const setupLauréat = async ({
       }),
   });
 
+  const unsubscribePuissanceSaga = await subscribe<
+    Puissance.PuissanceSaga.SubscriptionEvent & Event
+  >({
+    name: 'puissance-laureat-saga',
+    streamCategory: 'lauréat',
+    eventType: ['LauréatNotifié-V2'],
+    eventHandler: async (event) =>
+      mediator.publish<Puissance.PuissanceSaga.Execute>({
+        type: 'System.Lauréat.Puissance.Saga.Execute',
+        data: event,
+      }),
+  });
+
   const unsubscribeActionnaireSaga = await subscribe<
     Actionnaire.ActionnaireSaga.SubscriptionEvent & Event
   >({
@@ -457,6 +486,7 @@ export const setupLauréat = async ({
     await unsubscribeAchèvementProjector();
     await unsubscribeReprésentantLégalProjector();
     await unsubscribeActionnaireProjector();
+    await unsubscribePuissanceProjector();
     // notifications
     await unsubscribeAbandonNotification();
     await unsubscribeGarantiesFinancièresNotification();
@@ -474,5 +504,6 @@ export const setupLauréat = async ({
     await unsubscribeActionnaireSagaAbandon();
     await unsubscribeRaccordementAbandonSaga();
     await unsubscribeRaccordementLauréatSaga();
+    await unsubscribePuissanceSaga();
   };
 };

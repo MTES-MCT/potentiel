@@ -114,6 +114,13 @@ export async function notifierLauréat(this: PotentielWorld, dateDésignation: s
     actionnaire: candidature.values.sociétéMèreValue,
   });
 
+  this.lauréatWorld.puissanceWorld.importerPuissanceFixture.créer({
+    importéeLe: dateDésignation,
+    puissance: candidature.values.puissanceProductionAnnuelleValue,
+  });
+
+  // TODO: delete this, use mapToExpected instead
+  // this is mocking import of candidature values into lauréat
   this.lauréatWorld.actionnaireWorld.actionnaire = candidature.values.sociétéMèreValue;
 
   const data = {
