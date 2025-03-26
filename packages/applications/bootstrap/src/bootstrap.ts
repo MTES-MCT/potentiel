@@ -2,7 +2,6 @@ import { Middleware, mediator } from 'mediateur';
 
 import { getLogger } from '@potentiel-libraries/monitoring';
 import { sendEmail } from '@potentiel-infrastructure/email';
-import { executeSubscribersRetry } from '@potentiel-infrastructure/pg-event-sourcing';
 import { récupérerGRDParVille } from '@potentiel-infrastructure/ore-client';
 
 import { setupLauréat } from './setupLauréat';
@@ -81,8 +80,6 @@ export const bootstrap = async ({
       await unsetupUtilisateur();
       unsubscribe = undefined;
     };
-
-    await executeSubscribersRetry();
   }
   if (resolveMutex) {
     resolveMutex();

@@ -17,6 +17,7 @@ import crypto from 'node:crypto';
 import { MulterError } from 'multer';
 import { runWithContext } from '@potentiel-applications/request-context';
 import { setupLogger } from './setupLogger';
+import { executeSubscribersRetry } from '@potentiel-infrastructure/pg-event-sourcing';
 
 setDefaultOptions({ locale: LOCALE.fr });
 dotenv.config();
@@ -148,6 +149,7 @@ export async function makeServer(port: number) {
 
     await bootstrap({ middlewares: [permissionMiddleware] });
     await registerSagas();
+    await executeSubscribersRetry();
 
     if (!process.env.MAINTENANCE_MODE) {
       app.listen(port, () => {

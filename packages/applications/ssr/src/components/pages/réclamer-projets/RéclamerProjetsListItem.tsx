@@ -6,6 +6,9 @@ import Alert from '@codegouvfr/react-dsfr/Alert';
 import Input from '@codegouvfr/react-dsfr/Input';
 import Image from 'next/image';
 
+import { ListItem } from '@/components/molecules/ListItem';
+import { ProjectListItemHeading } from '@/components/molecules/projet/ProjectListItemHeading';
+
 import { ModalWithForm } from '../../molecules/ModalWithForm';
 import { ValidationErrors } from '../../../utils/formAction';
 
@@ -13,6 +16,9 @@ import { réclamerProjetAction, RéclamerProjetsFormKeys } from './réclamer/ré
 
 export type RéclamerProjetsListItemProps = {
   identifiantProjet: string;
+  appelOffre: string;
+  période: string;
+  famille: string;
   nomProjet: string;
   userHasSameEmail: boolean;
   puissance: number;
@@ -22,47 +28,44 @@ export type RéclamerProjetsListItemProps = {
 
 export const RéclamerProjetsListItem: FC<RéclamerProjetsListItemProps> = ({
   identifiantProjet,
+  appelOffre,
+  période,
+  famille,
   nomProjet,
   userHasSameEmail,
   puissance,
   région,
   iv,
 }) => (
-  <div className={`relative  md:pb-0 flex flex-1 flex-col gap-6`}>
-    <div className={`flex flex-col`}>
-      <div className="flex items-center">
-        <div className="flex flex-col gap-4">
-          <h2 className="leading-5">
-            Projet <span className="font-bold">{nomProjet}</span>
-          </h2>
-          <div className="text-sm flex flex-col">
-            <div>
-              Puissance : <span className="font-semibold">{puissance}</span>
-            </div>
-            <div>
-              Région : <span className="font-semibold">{région}</span>
-            </div>
-          </div>
-        </div>
-
-        <div className="absolute bottom-0 md:relative md:flex items-center ml-auto gap-4">
-          {userHasSameEmail ? (
-            <RéclamerProjetForm
-              identifiantProjet={identifiantProjet}
-              nomProjet={nomProjet}
-              iv={iv}
-            />
-          ) : (
-            <RéclamerProjetAvecPrixEtNuméroCREForm
-              identifiantProjet={identifiantProjet}
-              nomProjet={nomProjet}
-              iv={iv}
-            />
-          )}
-        </div>
+  <ListItem
+    heading={
+      <ProjectListItemHeading
+        nomProjet={nomProjet}
+        identifiantProjet={{ appelOffre, période, famille, numéroCRE: 'xxx' }}
+        prefix="Réclamer le projet"
+      />
+    }
+    actions={
+      <div className="absolute bottom-0 md:relative md:flex items-center ml-auto gap-4">
+        {userHasSameEmail ? (
+          <RéclamerProjetForm identifiantProjet={identifiantProjet} nomProjet={nomProjet} iv={iv} />
+        ) : (
+          <RéclamerProjetAvecPrixEtNuméroCREForm
+            identifiantProjet={identifiantProjet}
+            nomProjet={nomProjet}
+            iv={iv}
+          />
+        )}
       </div>
+    }
+  >
+    <div>
+      Puissance : <span className="font-semibold">{puissance}</span>
     </div>
-  </div>
+    <div>
+      Région : <span className="font-semibold">{région}</span>
+    </div>
+  </ListItem>
 );
 
 type RéclamerProjetFormProps = {

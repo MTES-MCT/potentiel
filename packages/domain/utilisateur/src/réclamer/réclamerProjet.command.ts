@@ -41,6 +41,7 @@ export const registerRéclamerProjetCommand = (loadAggregate: LoadAggregate) => 
         prixRéférence !== undefined && numéroCRE !== undefined
           ? candidature.prixRéférence === prixRéférence && identifiantProjet.numéroCRE === numéroCRE
           : undefined,
+      estNotifié: candidature.estNotifiée,
     });
   };
   mediator.register('Utilisateur.Command.RéclamerProjet', handler);
