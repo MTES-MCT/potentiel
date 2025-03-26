@@ -304,9 +304,7 @@ async function enregistrerChangementActionnaire(
 
 async function importerActionnaire(this: PotentielWorld) {
   const identifiantProjet = this.candidatureWorld.importerCandidature.identifiantProjet;
-  const { importéLe, actionnaire } = this.lauréatWorld.actionnaireWorld.importerActionnaireFixture;
-
-  this.lauréatWorld.actionnaireWorld.actionnaire = actionnaire;
+  const { importéLe } = this.lauréatWorld.actionnaireWorld.importerActionnaireFixture;
 
   await mediator.send<Actionnaire.ActionnaireCommand>({
     type: 'Lauréat.Actionnaire.Command.ImporterActionnaire',
