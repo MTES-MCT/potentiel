@@ -5,6 +5,8 @@ import {
   ConsulterPuissanceDependencies,
   registerConsulterPuissanceQuery,
 } from './consulter/consulterPuissance.query';
+import { registerModifierPuissanceCommand } from './modifier/modifierPuissance.command';
+import { registerModifierPuissanceUseCase } from './modifier/modifierPuissance.usecase';
 
 export type PuissanceQueryDependencies = ConsulterPuissanceDependencies;
 
@@ -13,7 +15,10 @@ export type PuissanceCommandDependencies = {
 };
 
 export const registerPuissanceUseCases = ({ loadAggregate }: PuissanceCommandDependencies) => {
+  registerModifierPuissanceUseCase();
+
   registerImporterPuissanceCommand(loadAggregate);
+  registerModifierPuissanceCommand(loadAggregate);
 };
 
 export const registerPuissanceQueries = (dependencies: PuissanceQueryDependencies) => {

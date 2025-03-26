@@ -1,7 +1,8 @@
-import { DomainError, DomainEvent } from '@potentiel-domain/core';
+import { DomainEvent } from '@potentiel-domain/core';
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 
 import { PuissanceAggregate } from '../puissance.aggregate';
+import { PuissanceDéjàImportéeError } from '../errors';
 
 export type PuissanceImportéeEvent = DomainEvent<
   'PuissanceImportée-V1',
@@ -44,10 +45,4 @@ export function applyPuissanceImportée(
 ) {
   this.identifiantProjet = IdentifiantProjet.convertirEnValueType(identifiantProjet);
   this.puissance = puissance;
-}
-
-class PuissanceDéjàImportéeError extends DomainError {
-  constructor() {
-    super('La puissance a déjà été importée');
-  }
 }
