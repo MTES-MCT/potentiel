@@ -51,6 +51,7 @@ type ProjectDetailsProps = {
   garantiesFinancières?: GarantiesFinancièresProjetProps['garantiesFinancières'];
   représentantLégal?: ContactProps['représentantLégal'];
   actionnaire?: InfoGeneralesProps['actionnaire'];
+  puissance?: InfoGeneralesProps['puissance'];
   hasAttestationConformité: boolean;
   modificationsNonPermisesParLeCDCActuel: boolean;
 };
@@ -67,6 +68,7 @@ export const ProjectDetails = ({
   représentantLégal,
   actionnaire,
   garantiesFinancières,
+  puissance,
   modificationsNonPermisesParLeCDCActuel,
 }: ProjectDetailsProps) => {
   const { user } = request;
@@ -139,6 +141,7 @@ export const ProjectDetails = ({
               demandeRecours={demandeRecours}
               garantiesFinancières={garantiesFinancières}
               actionnaire={actionnaire}
+              puissance={puissance}
               modificationsNonPermisesParLeCDCActuel={modificationsNonPermisesParLeCDCActuel}
             />
             <Contact

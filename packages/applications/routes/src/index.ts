@@ -5,6 +5,7 @@ import {
   ReprésentantLégal,
   Actionnaire,
   Lauréat,
+  Puissance,
 } from './lauréat';
 import { Candidature } from './candidature';
 import { Document } from './document';
@@ -36,4 +37,5 @@ export const Routes = {
   Lauréat,
   StatistiquesPubliques,
   Utilisateur,
+  Puissance,
 };

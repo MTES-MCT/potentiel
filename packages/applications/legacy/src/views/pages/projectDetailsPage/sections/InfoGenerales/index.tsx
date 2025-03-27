@@ -13,7 +13,9 @@ import { Raccordement } from '@potentiel-domain/laureat';
 import { Option } from '@potentiel-libraries/monads';
 import { IdentifiantProjet } from '@potentiel-domain/common';
 import { InfoActionnaire } from './InfoActionnaire';
+import { InfoPuissance } from './InfoPuissance';
 import { GetActionnaireForProjectPage } from '../../../../../controllers/project/getProjectPage/_utils';
+import { GetPuissanceForProjectPage } from '../../../../../controllers/project/getProjectPage/_utils/getPuissance';
 
 export type InfoGeneralesProps = {
   project: ProjectDataForProjectPage;
@@ -21,7 +23,8 @@ export type InfoGeneralesProps = {
   raccordement: Option.Type<Raccordement.ConsulterRaccordementReadModel>;
   demandeRecours: ProjectDataForProjectPage['demandeRecours'];
   garantiesFinancières?: GarantiesFinancièresProjetProps['garantiesFinancières'];
-  actionnaire: GetActionnaireForProjectPage | undefined;
+  actionnaire?: GetActionnaireForProjectPage;
+  puissance?: GetPuissanceForProjectPage;
   modificationsNonPermisesParLeCDCActuel: boolean;
 };
 
@@ -32,7 +35,7 @@ export const InfoGenerales = ({
     familleId,
     numeroCRE,
     appelOffre,
-    puissance,
+    puissance: legacyPuissance,
     isClasse,
     désignationCatégorie,
     codePostalProjet,
@@ -48,10 +51,11 @@ export const InfoGenerales = ({
   demandeRecours,
   actionnaire,
   modificationsNonPermisesParLeCDCActuel,
+  puissance,
 }: InfoGeneralesProps) => {
   const puissanceInférieurePuissanceMaxVolRéservé =
     appelOffre.periode.noteThresholdBy === 'category' &&
-    puissance < appelOffre.periode.noteThreshold.volumeReserve.puissanceMax;
+    legacyPuissance < appelOffre.periode.noteThreshold.volumeReserve.puissanceMax;
 
   const identifiantProjet = formatProjectDataToIdentifiantProjetValueType({
     appelOffreId,
@@ -115,21 +119,35 @@ export const InfoGenerales = ({
             <div>Aucun raccordement pour ce projet</div>
           ))}
       </div>
-      <div>
-        <Heading3 className="m-0">Performances</Heading3>
-        <p className="m-0">
-          Puissance installée : {puissance} {appelOffre?.unitePuissance}
-        </p>
-        {désignationCatégorie === 'volume-réservé' && (
-          <p className="mb-0 mt-1">Ce projet fait partie du volume réservé de la période.</p>
-        )}
-        {désignationCatégorie === 'hors-volume-réservé' &&
-          puissanceInférieurePuissanceMaxVolRéservé && (
-            <p className="mb-0 mt-1">
-              Ce projet ne fait pas partie du volume réservé de la période.
-            </p>
+      {puissance ? (
+        <InfoPuissance
+          puissance={puissance}
+          modificationsNonPermisesParLeCDCActuel={modificationsNonPermisesParLeCDCActuel}
+          unitePuissance={appelOffre.unitePuissance}
+          désignationCatégorie={désignationCatégorie}
+          puissanceInférieurePuissanceMaxVolRéservé={
+            appelOffre.periode.noteThresholdBy === 'category' &&
+            puissance.puissance < appelOffre.periode.noteThreshold.volumeReserve.puissanceMax
+          }
+          legacyPuissance={legacyPuissance}
+        />
+      ) : (
+        <div>
+          <Heading3 className="m-0">Performances</Heading3>
+          <p className="m-0">
+            Puissance installée : {legacyPuissance} {appelOffre.unitePuissance}
+          </p>
+          {désignationCatégorie === 'volume-réservé' && (
+            <p className="mb-0 mt-1">Ce projet fait partie du volume réservé de la période.</p>
           )}
-      </div>
+          {désignationCatégorie === 'hors-volume-réservé' &&
+            puissanceInférieurePuissanceMaxVolRéservé && (
+              <p className="mb-0 mt-1">
+                Ce projet ne fait pas partie du volume réservé de la période.
+              </p>
+            )}
+        </div>
+      )}
       <div>
         <Heading3 className="m-0">Site de production</Heading3>
         <p className="m-0">{adresseProjet}</p>

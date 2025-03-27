@@ -292,6 +292,17 @@ const référencielPermissions = {
         annulerChangement: 'Lauréat.Actionnaire.Command.AnnulerDemandeChangement',
       },
     },
+    puissance: {
+      query: {
+        consulter: 'Lauréat.Puissance.Query.ConsulterPuissance',
+      },
+      usecase: {
+        modifier: 'Lauréat.Puissance.UseCase.ModifierPuissance',
+      },
+      command: {
+        modifier: 'Lauréat.Puissance.Command.ModifierPuissance',
+      },
+    },
     usecase: {
       notifier: 'Lauréat.UseCase.NotifierLauréat',
       modifier: 'Lauréat.UseCase.ModifierLauréat',
@@ -985,6 +996,17 @@ const policies = {
       référencielPermissions.lauréat.actionnaire.query.listerChangement,
     ],
   },
+  puissance: {
+    consulter: [
+      référencielPermissions.candidature.query.consulterProjet,
+      référencielPermissions.lauréat.puissance.query.consulter,
+    ],
+    modifier: [
+      référencielPermissions.candidature.query.consulterProjet,
+      référencielPermissions.lauréat.puissance.usecase.modifier,
+      référencielPermissions.lauréat.puissance.command.modifier,
+    ],
+  },
   lauréat: {
     consulter: [référencielPermissions.lauréat.query.consulter],
     modifier: [
@@ -1062,6 +1084,9 @@ const pageProjetPolicies: Policy[] = [
   // Actionnaire
   'actionnaire.consulter',
   'actionnaire.consulterChangement',
+
+  // Puisssance
+  'puissance.consulter',
 ];
 
 const adminPolicies: ReadonlyArray<Policy> = [
@@ -1155,6 +1180,9 @@ const adminPolicies: ReadonlyArray<Policy> = [
   'utilisateur.listerPorteurs',
   'utilisateur.inviterPorteur',
   'utilisateur.retirerAccèsProjet',
+
+  // Puissance
+  'puissance.modifier',
 ];
 
 const dgecValidateurPolicies: ReadonlyArray<Policy> = [
