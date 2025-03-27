@@ -27,7 +27,7 @@ export async function retryPendingAcknowledgement<TEvent extends Event = Event>(
         version,
       });
     } catch (e) {
-      logger.error(new Error('Retry failed', { cause: e as Error }));
+      logger.error(new Error('Retry failed', { cause: e as Error }), { event });
     }
   }
 }
