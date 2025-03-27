@@ -84,7 +84,7 @@ describe('acknowledgement', () => {
   it(`
     Etant donnée des acknowledgements en attente correspondant à plusieurs événements
     Quand un subscriber tente de rejouer les événements en attente avec un event handler ne permettant pas d'en traiter certains
-    Alors les acknowledgements sont en attente pour les événements à partir de celui n'ayant pas pu être traité
+    Alors les acknowledgements ayant échoués sont toujours en attente
   `, async () => {
     // Arrange
 
@@ -128,13 +128,11 @@ describe('acknowledgement', () => {
 
     // Act
     const actual = await getEventsWithPendingAcknowledgement(streamCategory, subscriberName);
-    actual.length.should.be.equal(2);
-    const [actual1, actual2] = actual;
+    actual.length.should.be.equal(1);
+    const [actual1] = actual;
 
     // Assert
     actual1.type.should.be.equal(event2.type);
-    actual2.type.should.be.equal(event4.type);
     actual1.payload.should.be.deep.equal(event2.payload);
-    actual2.payload.should.be.deep.equal(event4.payload);
   });
 });

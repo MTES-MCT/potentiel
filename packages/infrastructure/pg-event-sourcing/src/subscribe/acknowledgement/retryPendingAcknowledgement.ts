@@ -13,8 +13,9 @@ export async function retryPendingAcknowledgement<TEvent extends Event = Event>(
 }: Subscriber<TEvent>) {
   const events = await getEventsWithPendingAcknowledgement(streamCategory, name);
 
-  try {
-    for (const event of events) {
+  const logger = getLogger(`Subscriber.Retry.${streamCategory}.${name}`);
+  for (const event of events) {
+    try {
       await eventHandler(event as TEvent);
 
       const { created_at, stream_id, version } = event;
@@ -25,8 +26,8 @@ export async function retryPendingAcknowledgement<TEvent extends Event = Event>(
         created_at,
         version,
       });
+    } catch (e) {
+      logger.error(new Error('Retry failed', { cause: e as Error }), { event });
     }
-  } catch (e) {
-    getLogger().error(e as Error);
   }
 }
