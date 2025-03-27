@@ -87,7 +87,11 @@ export const registerSagas = async () => {
 
   const unsubscribeActionnaire = await subscribe<ActionnaireSaga.SubscriptionEvent>({
     name: 'legacy-saga',
-    eventType: ['ActionnaireModifié-V1', 'ChangementActionnaireAccordé-V1'],
+    eventType: [
+      'ActionnaireModifié-V1',
+      'ChangementActionnaireAccordé-V1',
+      'ChangementActionnaireEnregistré-V1',
+    ],
     eventHandler: async (event) => {
       await mediator.send<ActionnaireSaga.Execute>({
         type: 'System.Saga.Actionnaire',
