@@ -39,8 +39,6 @@ export class PendingAcknowlegement extends Command {
       from 
         event_store.pending_acknowledgement
       where
-        created_at > (now() - interval '1 week')::text
-      and
         created_at < (now() - interval '10 minutes')::text;`,
     );
 
