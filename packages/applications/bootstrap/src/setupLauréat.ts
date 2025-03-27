@@ -131,7 +131,7 @@ export const setupLauréat = async ({
   const unsubscribePuissanceProjector = await subscribe<PuissanceProjector.SubscriptionEvent>({
     name: 'projector',
     streamCategory: 'puissance',
-    eventType: ['RebuildTriggered', 'PuissanceImportée-V1'],
+    eventType: ['RebuildTriggered', 'PuissanceImportée-V1', 'PuissanceModifiée-V1'],
     eventHandler: async (event) => {
       await mediator.send<PuissanceProjector.Execute>({
         type: 'System.Projector.Lauréat.Puissance',

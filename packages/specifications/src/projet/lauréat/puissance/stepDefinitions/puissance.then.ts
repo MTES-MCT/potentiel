@@ -32,3 +32,28 @@ Alors(
     });
   },
 );
+
+Alors(
+  'la puissance du projet lauréat devrait être mise à jour',
+  async function (this: PotentielWorld) {
+    return waitForExpect(async () => {
+      const identifiantProjet = IdentifiantProjet.convertirEnValueType(
+        this.candidatureWorld.importerCandidature.identifiantProjet,
+      );
+
+      const puissance = await mediator.send<Puissance.PuissanceQuery>({
+        type: 'Lauréat.Puissance.Query.ConsulterPuissance',
+        data: {
+          identifiantProjet: identifiantProjet.formatter(),
+        },
+      });
+
+      const actual = mapToPlainObject(puissance);
+      const expected = mapToPlainObject(
+        this.lauréatWorld.puissanceWorld.mapToExpected(identifiantProjet),
+      );
+
+      actual.should.be.deep.equal(expected);
+    });
+  },
+);

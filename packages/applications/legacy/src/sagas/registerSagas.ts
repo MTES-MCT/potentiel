@@ -6,6 +6,7 @@ import * as LauréatSaga from './lauréat.saga';
 import * as ÉliminéSaga from './éliminé.saga';
 import * as ActionnaireSaga from './actionnaire.saga';
 import * as UtilisateurSaga from './utilisateur.saga';
+import * as PuissanceSaga from './puissance.saga';
 import { mediator } from 'mediateur';
 
 /**
@@ -19,6 +20,7 @@ export const registerSagas = async () => {
   ÉliminéSaga.register();
   ActionnaireSaga.register();
   UtilisateurSaga.register();
+  PuissanceSaga.register();
   const unsubscribeRaccordement = await subscribe<RaccordementSaga.SubscriptionEvent>({
     name: 'legacy-saga',
     eventType: [
@@ -112,6 +114,18 @@ export const registerSagas = async () => {
     streamCategory: 'utilisateur',
   });
 
+  const unsubscribePuissance = await subscribe<PuissanceSaga.SubscriptionEvent>({
+    name: 'legacy-saga',
+    eventType: ['PuissanceModifiée-V1'],
+    eventHandler: async (event) => {
+      await mediator.send<PuissanceSaga.Execute>({
+        type: 'System.Saga.Puissance',
+        data: event,
+      });
+    },
+    streamCategory: 'puissance',
+  });
+
   return async () => {
     await unsubscribeRaccordement();
     await unsubscribeAbandon();
@@ -120,5 +134,6 @@ export const registerSagas = async () => {
     await unsubscribeÉliminé();
     await unsubscribeActionnaire();
     await unsubscribeUtilisateur();
+    await unsubscribePuissance();
   };
 };
