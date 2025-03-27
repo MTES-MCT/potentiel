@@ -32,6 +32,10 @@ export class EventStreamEmitter extends EventEmitter {
     this.#setupListener();
   }
 
+  public get subscriber(): Subscriber {
+    return this.#subscriber;
+  }
+
   async unlisten() {
     await this.#client.query(
       format(`unlisten "${this.#subscriber.streamCategory}|${this.#subscriber.name}"`),
