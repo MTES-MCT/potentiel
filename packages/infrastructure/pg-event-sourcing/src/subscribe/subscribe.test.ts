@@ -547,12 +547,7 @@ describe(`subscribe`, () => {
     };
 
     // Act
-    await executeQuery(`
-      SELECT pg_terminate_backend(pid) 
-      FROM pg_stat_activity 
-      WHERE usename = 'potentiel'
-      AND   query LIKE 'listen%'`);
-
+    await disconnectAllSubscriberClients();
     await publish(`${streamCategory}|${id}`, event1);
 
     await waitForExpect(async () => {
@@ -569,3 +564,10 @@ describe(`subscribe`, () => {
     });
   });
 });
+
+const disconnectAllSubscriberClients = () =>
+  executeQuery(`
+  SELECT pg_terminate_backend(pid) 
+  FROM pg_stat_activity 
+  WHERE usename = 'potentiel'
+  AND   query LIKE 'listen%'`);

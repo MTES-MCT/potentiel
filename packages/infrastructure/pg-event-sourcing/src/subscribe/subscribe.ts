@@ -43,7 +43,7 @@ export const subscribe = async <TEvent extends Event = Event>(
     await eventStreamEmitter.unlisten();
 
     eventStreamEmitters.delete(eventStreamEmitterId);
-    client?.setMaxListeners(eventStreamEmitters.size);
+    client?.setMaxListeners(eventStreamEmitters.size + 1);
 
     if (eventStreamEmitters.size === 0) {
       await disconnect();
