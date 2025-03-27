@@ -30,20 +30,17 @@ export class PendingAcknowlegement extends Command {
     const pendingAcknowledgements = await executeSelect<{
       stream_category: string;
       subscriber_name: string;
-      stream_id: string;
-      created_at: string;
-      version: number;
       error?: string;
     }>(
       `select  
         stream_category,
-        subscriber_name,
-        stream_id,
-        created_at,
-        version 
+        subscriber_name,       
+        error
       from 
         event_store.pending_acknowledgement
       where
+        created_at > (now() - interval '1 week')::text
+      and
         created_at < (now() - interval '10 minutes')::text;`,
     );
 
