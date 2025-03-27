@@ -77,12 +77,8 @@ export class EventStreamEmitter extends EventEmitter {
   async updateClient(client: Client) {
     this.#client = client;
 
-    this.removeAllListeners('domain-event' satisfies ChannelName);
-    this.removeAllListeners('unknown-event' satisfies ChannelName);
-    this.removeAllListeners('rebuild' satisfies ChannelName);
-
+    await this.unlisten();
     this.#setupListener();
-
     await this.listen();
   }
 

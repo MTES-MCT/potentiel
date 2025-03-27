@@ -72,11 +72,10 @@ const disconnect = async () => {
 };
 
 const handleClientError = async (error: Error) => {
-  const logger = getLogger('EventSourcing Subscribe');
-
-  logger.warn(`An error occurred from subscribe Postgresql client`, { error });
-
   if (!isReconnecting) {
+    const logger = getLogger('EventSourcing Subscribe');
+
+    logger.warn(`An error occurred from subscribe Postgresql client`, { error });
     logger.info(`Trying to reconnect subscribe Postgresql client...`);
 
     isReconnecting = true;
