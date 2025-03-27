@@ -76,20 +76,17 @@ export class ActionnaireWorld {
   mapDemandeToExpected(
     identifiantProjet: IdentifiantProjet.ValueType,
     statut: Actionnaire.StatutChangementActionnaire.ValueType,
-    estUneNouvelleDemande?: boolean,
-    estUneInformationEnregistrée?: boolean,
   ): Option.Type<Actionnaire.ConsulterChangementActionnaireReadModel> {
-    if (estUneInformationEnregistrée && !this.enregistrerChangementActionnaireFixture.aÉtéCréé) {
-      throw new Error(`Aucune information enregistrée n'a été créée dans ActionnaireWorld`);
-    }
-
-    if (!estUneInformationEnregistrée && !this.demanderChangementActionnaireFixture.aÉtéCréé) {
+    if (
+      !this.enregistrerChangementActionnaireFixture.aÉtéCréé &&
+      !this.demanderChangementActionnaireFixture.aÉtéCréé
+    ) {
       throw new Error(
-        `Aucune demande de changement d'actionnaire n'a été créée dans ActionnaireWorld`,
+        `Aucune information enregistrée ou demande n'a été créée dans ActionnaireWorld`,
       );
     }
 
-    const baseFixture = estUneInformationEnregistrée
+    const baseFixture = this.#enregistrerChangementActionnaireFixture.aÉtéCréé
       ? this.#enregistrerChangementActionnaireFixture
       : this.#demanderChangementActionnaireFixture;
 
@@ -109,47 +106,45 @@ export class ActionnaireWorld {
           baseFixture.pièceJustificative.format,
         ),
 
-        accord:
-          this.#accorderChangementActionnaireFixture.aÉtéCréé && !estUneNouvelleDemande
-            ? {
-                accordéeLe: DateTime.convertirEnValueType(
+        accord: this.#accorderChangementActionnaireFixture.aÉtéCréé
+          ? {
+              accordéeLe: DateTime.convertirEnValueType(
+                this.#accorderChangementActionnaireFixture.accordéeLe,
+              ),
+              accordéePar: Email.convertirEnValueType(
+                this.#accorderChangementActionnaireFixture.accordéePar,
+              ),
+
+              réponseSignée: DocumentProjet.convertirEnValueType(
+                identifiantProjet.formatter(),
+                Actionnaire.TypeDocumentActionnaire.changementAccordé.formatter(),
+                DateTime.convertirEnValueType(
                   this.#accorderChangementActionnaireFixture.accordéeLe,
-                ),
-                accordéePar: Email.convertirEnValueType(
-                  this.#accorderChangementActionnaireFixture.accordéePar,
-                ),
+                ).formatter(),
+                this.#accorderChangementActionnaireFixture.réponseSignée.format,
+              ),
+            }
+          : undefined,
 
-                réponseSignée: DocumentProjet.convertirEnValueType(
-                  identifiantProjet.formatter(),
-                  Actionnaire.TypeDocumentActionnaire.changementAccordé.formatter(),
-                  DateTime.convertirEnValueType(
-                    this.#accorderChangementActionnaireFixture.accordéeLe,
-                  ).formatter(),
-                  this.#accorderChangementActionnaireFixture.réponseSignée.format,
-                ),
-              }
-            : undefined,
+        rejet: this.#rejeterChangementActionnaireFixture.aÉtéCréé
+          ? {
+              rejetéeLe: DateTime.convertirEnValueType(
+                this.#rejeterChangementActionnaireFixture.rejetéeLe,
+              ),
+              rejetéePar: Email.convertirEnValueType(
+                this.#rejeterChangementActionnaireFixture.rejetéePar,
+              ),
 
-        rejet:
-          this.#rejeterChangementActionnaireFixture.aÉtéCréé && !estUneNouvelleDemande
-            ? {
-                rejetéeLe: DateTime.convertirEnValueType(
+              réponseSignée: DocumentProjet.convertirEnValueType(
+                identifiantProjet.formatter(),
+                Actionnaire.TypeDocumentActionnaire.changementRejeté.formatter(),
+                DateTime.convertirEnValueType(
                   this.#rejeterChangementActionnaireFixture.rejetéeLe,
-                ),
-                rejetéePar: Email.convertirEnValueType(
-                  this.#rejeterChangementActionnaireFixture.rejetéePar,
-                ),
-
-                réponseSignée: DocumentProjet.convertirEnValueType(
-                  identifiantProjet.formatter(),
-                  Actionnaire.TypeDocumentActionnaire.changementRejeté.formatter(),
-                  DateTime.convertirEnValueType(
-                    this.#rejeterChangementActionnaireFixture.rejetéeLe,
-                  ).formatter(),
-                  this.#rejeterChangementActionnaireFixture.réponseSignée.format,
-                ),
-              }
-            : undefined,
+                ).formatter(),
+                this.#rejeterChangementActionnaireFixture.réponseSignée.format,
+              ),
+            }
+          : undefined,
       },
     };
   }

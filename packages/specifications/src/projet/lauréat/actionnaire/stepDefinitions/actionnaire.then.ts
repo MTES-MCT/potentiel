@@ -54,20 +54,6 @@ Alors(
       this,
       this.candidatureWorld.importerCandidature.identifiantProjet,
       Actionnaire.StatutChangementActionnaire.informationEnregistrée,
-      false,
-      true,
-    );
-  },
-);
-
-Alors(
-  "la nouvelle demande de changement de l'actionnaire devrait être consultable",
-  async function (this: PotentielWorld) {
-    await vérifierChangementActionnaire.call(
-      this,
-      this.candidatureWorld.importerCandidature.identifiantProjet,
-      Actionnaire.StatutChangementActionnaire.demandé,
-      true,
     );
   },
 );
@@ -166,14 +152,12 @@ async function vérifierChangementActionnaire(
   this: PotentielWorld,
   identifiantProjet: string,
   statut: Actionnaire.StatutChangementActionnaire.ValueType,
-  estUneNouvelleDemande?: boolean,
-  estUneInformationEnregistrée?: boolean,
 ) {
   const demandeEnCours = await mediator.send<Actionnaire.ConsulterChangementActionnaireQuery>({
     type: 'Lauréat.Actionnaire.Query.ConsulterChangementActionnaire',
     data: {
       identifiantProjet: identifiantProjet,
-      demandéLe: estUneInformationEnregistrée
+      demandéLe: this.lauréatWorld.actionnaireWorld.enregistrerChangementActionnaireFixture.aÉtéCréé
         ? this.lauréatWorld.actionnaireWorld.enregistrerChangementActionnaireFixture.demandéLe
         : this.lauréatWorld.actionnaireWorld.demanderChangementActionnaireFixture.demandéLe,
     },
@@ -185,8 +169,6 @@ async function vérifierChangementActionnaire(
     this.lauréatWorld.actionnaireWorld.mapDemandeToExpected(
       IdentifiantProjet.convertirEnValueType(identifiantProjet),
       statut,
-      estUneNouvelleDemande,
-      estUneInformationEnregistrée,
     ),
   );
 
@@ -205,10 +187,7 @@ async function vérifierChangementActionnaire(
     expect(Option.isSome(actionnaire) && actionnaire.dateDemandeEnCours).to.be.undefined;
   }
 
-  if (
-    this.lauréatWorld.actionnaireWorld.accorderChangementActionnaireFixture.aÉtéCréé &&
-    !estUneNouvelleDemande
-  ) {
+  if (this.lauréatWorld.actionnaireWorld.accorderChangementActionnaireFixture.aÉtéCréé) {
     const result = await mediator.send<ConsulterDocumentProjetQuery>({
       type: 'Document.Query.ConsulterDocumentProjet',
       data: {
@@ -226,10 +205,7 @@ async function vérifierChangementActionnaire(
     expect(actualContent).to.be.equal(expectedContent);
   }
 
-  if (
-    this.lauréatWorld.actionnaireWorld.rejeterChangementActionnaireFixture.aÉtéCréé &&
-    !estUneNouvelleDemande
-  ) {
+  if (this.lauréatWorld.actionnaireWorld.rejeterChangementActionnaireFixture.aÉtéCréé) {
     const result = await mediator.send<ConsulterDocumentProjetQuery>({
       type: 'Document.Query.ConsulterDocumentProjet',
       data: {
