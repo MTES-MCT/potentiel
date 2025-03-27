@@ -1,4 +1,5 @@
 import { Client } from 'pg';
+import { retry, ExponentialBackoff, handleAll } from 'cockatiel';
 
 import { getConnectionString } from '@potentiel-libraries/pg-helpers';
 
@@ -9,8 +10,12 @@ import { EventStreamEmitter } from './eventStreamEmitter';
 import { Subscriber, Unsubscribe } from './subscriber/subscriber';
 import { retryPendingAcknowledgement } from './acknowledgement/retryPendingAcknowledgement';
 
+let isReconnecting = false;
 let client: Client | undefined;
-const subscribers = new Map<string, Subscriber>();
+const subscribers = new Map<
+  string,
+  { subscriber: Subscriber; eventStreamEmitter: EventStreamEmitter }
+>();
 
 export const subscribe = async <TEvent extends Event = Event>(
   subscriber: Subscriber<TEvent>,
@@ -19,11 +24,7 @@ export const subscribe = async <TEvent extends Event = Event>(
     client = await connect();
   }
 
-  subscribers.set(
-    `${subscriber.streamCategory}-${subscriber.name}`,
-    subscriber as unknown as Subscriber<Event>,
-  );
-  client.setMaxListeners(subscribers.size);
+  client.setMaxListeners(subscribers.size + 1);
 
   await registerSubscriber(subscriber);
 
@@ -35,6 +36,11 @@ export const subscribe = async <TEvent extends Event = Event>(
   } as Subscriber);
 
   await eventStreamEmitter.listen();
+
+  subscribers.set(`${subscriber.streamCategory}-${subscriber.name}`, {
+    subscriber: subscriber as unknown as Subscriber<Event>,
+    eventStreamEmitter,
+  });
 
   return async () => {
     await eventStreamEmitter.unlisten();
@@ -49,14 +55,24 @@ export const subscribe = async <TEvent extends Event = Event>(
 };
 
 export const executeSubscribersRetry = async () => {
-  for (const subscriber of subscribers.values()) {
+  for (const { subscriber } of subscribers.values()) {
     await retryPendingAcknowledgement(subscriber);
   }
 };
 
 const connect = async () => {
   const client = new Client(getConnectionString());
+
   await client.connect();
+
+  client.on('error', async () => {
+    if (!isReconnecting) {
+      isReconnecting = true;
+      await Reconnect();
+      isReconnecting = false;
+    }
+  });
+
   return client;
 };
 
@@ -64,3 +80,19 @@ const disconnect = async () => {
   await client?.end();
   client = undefined;
 };
+
+async function Reconnect() {
+  await retry(handleAll, {
+    maxAttempts: 5,
+    backoff: new ExponentialBackoff(),
+  }).execute(async () => {
+    client = await connect();
+  });
+
+  if (client) {
+    for (const [, { subscriber, eventStreamEmitter }] of subscribers) {
+      await eventStreamEmitter.updateClient(client);
+      await retryPendingAcknowledgement(subscriber);
+    }
+  }
+}
