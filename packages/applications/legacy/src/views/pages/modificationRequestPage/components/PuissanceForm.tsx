@@ -36,8 +36,6 @@ export const PuissanceForm = ({ modificationRequest }: PuissanceFormProps) => {
     project.cahierDesChargesActuel,
   );
 
-  const textPuissance = 'Puissance';
-
   return (
     <>
       <UploadResponseFile
