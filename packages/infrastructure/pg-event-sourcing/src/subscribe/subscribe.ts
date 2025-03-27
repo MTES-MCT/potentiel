@@ -91,6 +91,8 @@ const handleClientError = async (error: Error) => {
 
     await retryPolicy.execute(async () => {
       client = await connect();
+      client.setMaxListeners(eventStreamEmitters.size + 1);
+
       logger.info(`Subscribe Postgresql client reconnection succeeds !`);
     });
 
