@@ -41,10 +41,10 @@ export const InfoPuissance = ({
       {!modificationsNonPermisesParLeCDCActuel && puissance.affichage && (
         <Link
           href={puissance.affichage.url}
-          aria-label={puissance.affichage.label}
+          aria-label={puissance.affichage.labelPageProjet}
           className="mt-1"
         >
-          {puissance.affichage.label}
+          {puissance.affichage.labelPageProjet}
         </Link>
       )}
     </div>

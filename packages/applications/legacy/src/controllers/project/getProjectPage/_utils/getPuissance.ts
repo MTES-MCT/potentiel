@@ -11,10 +11,7 @@ import { IdentifiantProjet } from '@potentiel-domain/common';
 export type GetPuissanceForProjectPage = {
   puissance: number;
   affichage?: {
-    // label dans la page projet
-    label: string;
-    // action dans le menu déroulant page projet
-    action?: string;
+    labelPageProjet: string;
     url: string;
   };
 };
@@ -48,7 +45,7 @@ export const getPuissance = async ({
           puissance: puissance.puissance,
           affichage: {
             url: Routes.Puissance.modifier(identifiantProjet.formatter()),
-            label: 'Modifier',
+            labelPageProjet: 'Modifier',
           },
         };
       }
@@ -71,7 +68,7 @@ export const getPuissance = async ({
         affichage: role.aLaPermission('candidature.corriger')
           ? {
               url: Routes.Candidature.corriger(identifiantProjet.formatter()),
-              label: 'Modifier la candidature',
+              labelPageProjet: 'Modifier la candidature',
             }
           : undefined,
       };
