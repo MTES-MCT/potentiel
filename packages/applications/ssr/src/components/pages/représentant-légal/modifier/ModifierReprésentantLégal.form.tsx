@@ -1,6 +1,6 @@
 'use client';
 
-import { FC, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 import Stepper from '@codegouvfr/react-dsfr/Stepper';
 
 import { IdentifiantProjet } from '@potentiel-domain/common';
@@ -26,7 +26,6 @@ type ModifierReprésentantLégalState = {
   typeReprésentantLégal: ReprésentantLégal.TypeReprésentantLégal.RawType;
   typeSociété: TypeSociété;
   nomReprésentantLégal: string;
-  validationErrors: ValidationErrors<ModifierReprésentantLégalFormKeys>;
 };
 
 export const ModifierReprésentantLégalForm: FC<ModifierReprésentantLégalFormProps> = ({
@@ -34,12 +33,15 @@ export const ModifierReprésentantLégalForm: FC<ModifierReprésentantLégalForm
   nomReprésentantLégal,
   typeReprésentantLégal,
 }) => {
+  const [validationErrors, setValidationErrors] = useState<
+    ValidationErrors<ModifierReprésentantLégalFormKeys>
+  >({});
+
   const [state, setState] = useState<ModifierReprésentantLégalState>({
     step: 1,
     nomReprésentantLégal,
     typeReprésentantLégal: typeReprésentantLégal.type,
     typeSociété: 'non renseignée',
-    validationErrors: {},
   });
 
   const conditionDésactivationÉtape1 =
@@ -59,9 +61,9 @@ export const ModifierReprésentantLégalForm: FC<ModifierReprésentantLégalForm
       children: (
         <div className="flex flex-col gap-4">
           <p>
-            Pour effectuer une modification du représentant légal vous devez tout d'abord
-            sélectionner le type du nouveau représentant légal pour connaître les documents
-            obligatoires nécessaires à la modification.
+            Pour effectuer une modification du représentant légal, vous devez tout d'abord
+            sélectionner le type du nouveau représentant légal pour prendre connaissance des
+            documents à fournir.
           </p>
           <SaisieTypeStep
             contexte="modifier"
@@ -70,7 +72,7 @@ export const ModifierReprésentantLégalForm: FC<ModifierReprésentantLégalForm
             onChange={({ typeReprésentantLégal, typeSociété }) =>
               setState((state) => ({ ...state, typeReprésentantLégal, typeSociété }))
             }
-            validationErrors={state.validationErrors}
+            validationErrors={validationErrors}
           />
         </div>
       ),
@@ -87,10 +89,10 @@ export const ModifierReprésentantLégalForm: FC<ModifierReprésentantLégalForm
         <SaisieNomStep
           nomReprésentantLégal={state.nomReprésentantLégal}
           typeReprésentantLégal={state.typeReprésentantLégal}
-          validationErrors={state.validationErrors}
           onChange={(nomReprésentantLégal) =>
             setState((state) => ({ ...state, nomReprésentantLégal }))
           }
+          validationErrors={validationErrors}
         />
       ),
       previousStep: { name: 'Précédent' },
@@ -121,24 +123,15 @@ export const ModifierReprésentantLégalForm: FC<ModifierReprésentantLégalForm
     },
   ];
 
-  const handleOnValidationError = (
-    vErrors: ValidationErrors<ModifierReprésentantLégalFormKeys>,
-  ) => {
-    if (Object.keys(state.validationErrors).length) {
-      return;
+  useEffect(() => {
+    if (validationErrors['typeRepresentantLegal']) {
+      setState((state) => ({ ...state, step: 1 }));
     }
 
-    vErrors.typeRepresentantLegal && setState((state) => ({ ...state, step: 1 }));
-    vErrors.nomRepresentantLegal && setState((state) => ({ ...state, step: 2 }));
-
-    setState((state) => ({
-      ...state,
-      validationErrors: {
-        ...state.validationErrors,
-        ...vErrors,
-      },
-    }));
-  };
+    if (validationErrors['nomRepresentantLegal']) {
+      setState((state) => ({ ...state, step: 2 }));
+    }
+  }, [validationErrors]);
 
   return (
     <>
@@ -154,7 +147,7 @@ export const ModifierReprésentantLégalForm: FC<ModifierReprésentantLégalForm
         action={modifierReprésentantLégalAction}
         onInvalid={() => setState((state) => ({ ...state, step: 1 }))}
         onError={() => setState((state) => ({ ...state, step: 1 }))}
-        onValidationError={(vErrors) => handleOnValidationError(vErrors)}
+        onValidationError={(validationErrors) => setValidationErrors(validationErrors)}
         actions={null}
         omitMandatoryFieldsLegend={state.step === 3 ? undefined : true}
       >

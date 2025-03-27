@@ -1,6 +1,6 @@
 'use client';
 
-import { FC, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 import { Stepper } from '@codegouvfr/react-dsfr/Stepper';
 import Alert from '@codegouvfr/react-dsfr/Alert';
 import Link from 'next/link';
@@ -34,31 +34,43 @@ type DemanderChangementReprésentantLégalState = {
   typeSociété: TypeSociété;
   nomReprésentantLégal: string;
   piècesJustificatives: Array<string>;
-  validationErrors: ValidationErrors<DemanderChangementReprésentantLégalFormKeys>;
 };
 
 export const DemanderChangementReprésentantLégalForm: FC<
   DemanderChangementReprésentantLégalFormProps
 > = ({ identifiantProjet }) => {
+  const [validationErrors, setValidationErrors] = useState<
+    ValidationErrors<DemanderChangementReprésentantLégalFormKeys>
+  >({});
+
   const [state, setState] = useState<DemanderChangementReprésentantLégalState>({
     step: 1,
     typeReprésentantLégal: 'inconnu',
     typeSociété: 'non renseignée',
     nomReprésentantLégal: '',
     piècesJustificatives: [],
-    validationErrors: {},
   });
 
   const disableCondition =
     !state.typeReprésentantLégal ||
     !state.nomReprésentantLégal ||
     !state.piècesJustificatives.length ||
-    Object.keys(state.validationErrors).length > 0;
+    Object.keys(validationErrors).length > 0;
 
   const conditionDésactivationÉtape1 =
     !state.typeReprésentantLégal ||
     (state.typeReprésentantLégal === 'personne-morale' && state.typeSociété === 'non renseignée') ||
     state.typeReprésentantLégal === 'inconnu';
+
+  useEffect(() => {
+    if (validationErrors['typeRepresentantLegal']) {
+      setState((state) => ({ ...state, step: 1 }));
+    }
+
+    if (validationErrors['nomRepresentantLegal'] || validationErrors['piecesJustificatives']) {
+      setState((state) => ({ ...state, step: 2 }));
+    }
+  }, [validationErrors]);
 
   const steps: Array<Step> = [
     {
@@ -73,8 +85,8 @@ export const DemanderChangementReprésentantLégalForm: FC<
           </p>
 
           <p>
-            Pour ce faire vous allez devoir remplir une demande en ligne avec des éléments selon la
-            situation du nouveau représentant légal du projet.
+            Pour ce faire vous allez devoir remplir une demande en ligne avec des pièces
+            justificatives à fournir selon la situation du nouveau représentant légal du projet.
           </p>
           <Alert
             severity="info"
@@ -83,28 +95,28 @@ export const DemanderChangementReprésentantLégalForm: FC<
               <ul className="p-4 list-disc">
                 <li>
                   Un filigrane sera automatiquement appliqué sur l'ensemble des pièces
-                  justificatives transmises (nous utilisons l'API de la plateforme d'état{' '}
+                  justificatives transmises (nous utilisons le service de la plateforme d'état{' '}
                   <Link href="https://filigrane.beta.gouv.fr/" target="_blank">
                     filigrane.beta.gouv.fr
-                  </Link>{' '}
-                  )
+                  </Link>
+                  . )
                 </li>
                 <li>
-                  Les pièces seront automatiquement supprimées après traitement de votre demande
+                  Les pièces seront automatiquement supprimées après traitement de votre demande.
                 </li>
               </ul>
             }
           />
           <p>
-            Ensuite votre demande sera instruite par le service de l'état en région de votre projet.
-            À défaut de réponse, votre demande sera réputée accordée ou rejetée conformément aux
-            règles du cahier des charges en vigueur sur votre projet.
+            Votre demande sera alors instruite par le service de l'état en région de votre projet. À
+            défaut de réponse, votre demande sera réputée accordée ou rejetée conformément aux
+            règles du cahier des charges en vigueur de votre projet.
           </p>
           <SaisieTypeStep
             contexte="demander"
             typeReprésentantLégal={state.typeReprésentantLégal}
             typeSociété={state.typeSociété}
-            validationErrors={state.validationErrors}
+            validationErrors={validationErrors}
             onChange={({ typeReprésentantLégal, typeSociété }) => {
               setState((state) => ({
                 ...state,
@@ -129,13 +141,13 @@ export const DemanderChangementReprésentantLégalForm: FC<
           <SaisieNomStep
             typeReprésentantLégal={state.typeReprésentantLégal}
             nomReprésentantLégal={state.nomReprésentantLégal}
-            validationErrors={state.validationErrors}
+            validationErrors={validationErrors}
             onChange={(nomReprésentantLégal) => setState({ ...state, nomReprésentantLégal })}
           />
           <SaisiePièceJustificativeStep
             typeReprésentantLégal={state.typeReprésentantLégal}
             typeSociété={state.typeSociété}
-            validationErrors={state.validationErrors}
+            validationErrors={validationErrors}
             onChange={(piècesJustificatives) =>
               setState((state) => ({ ...state, piècesJustificatives }))
             }
@@ -165,7 +177,7 @@ export const DemanderChangementReprésentantLégalForm: FC<
       nextStep: {
         type: 'submit',
         name: 'Confirmer la demande',
-        disabled: disableCondition && Object.keys(state.validationErrors).length === 0,
+        disabled: disableCondition && !validationErrors,
       },
     },
   ];
@@ -184,16 +196,8 @@ export const DemanderChangementReprésentantLégalForm: FC<
         action={demanderChangementReprésentantLégalAction}
         onInvalid={() => setState((state) => ({ ...state, step: 2 }))}
         onValidationError={(validationErrors) => {
-          setState((state) => ({ ...state, validationErrors }));
-
-          if (validationErrors['typeRepresentantLegal']) {
-            setState((state) => ({ ...state, step: 1 }));
-          }
-          if (validationErrors['nom'] || validationErrors['piecesJustificatives']) {
-            setState((state) => ({ ...state, step: 2 }));
-          }
+          setValidationErrors(validationErrors);
         }}
-        onError={() => setState((state) => ({ ...state, step: 2 }))}
         actions={null}
         omitMandatoryFieldsLegend={state.step !== 2 ? true : undefined}
       >

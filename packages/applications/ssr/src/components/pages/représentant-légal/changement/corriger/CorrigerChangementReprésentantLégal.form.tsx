@@ -1,6 +1,6 @@
 'use client';
 
-import { FC, useState } from 'react';
+import { FC, useEffect, useState } from 'react';
 import { Stepper } from '@codegouvfr/react-dsfr/Stepper';
 import Alert from '@codegouvfr/react-dsfr/Alert';
 import Link from 'next/link';
@@ -41,7 +41,6 @@ type CorrigerChangementReprésentantLégalState = {
   typeSociété: TypeSociété;
   nomReprésentantLégal: string;
   piècesJustificatives: Array<string>;
-  validationErrors: ValidationErrors<CorrigerChangementReprésentantLégalFormKeys>;
 };
 
 export const CorrigerChangementReprésentantLégalForm: FC<
@@ -53,25 +52,36 @@ export const CorrigerChangementReprésentantLégalForm: FC<
   pièceJustificative,
   dateDemande,
 }) => {
+  const [validationErrors, setValidationErrors] = useState<
+    ValidationErrors<CorrigerChangementReprésentantLégalFormKeys>
+  >({});
   const [state, setState] = useState<CorrigerChangementReprésentantLégalState>({
     step: 1,
     nomReprésentantLégal,
     typeReprésentantLégal: typeReprésentantLégal.type,
     typeSociété: 'non renseignée',
     piècesJustificatives: [DocumentProjet.bind(pièceJustificative).formatter()],
-    validationErrors: {},
   });
 
   const disableCondition =
     !state.typeReprésentantLégal ||
     !state.nomReprésentantLégal ||
     !state.piècesJustificatives.length ||
-    Object.keys(state.validationErrors).length > 0;
+    Object.keys(validationErrors).length > 0;
 
   const conditionDésactivationÉtape1 =
     !state.typeReprésentantLégal ||
     state.typeReprésentantLégal === 'inconnu' ||
     (state.typeReprésentantLégal === 'personne-morale' && state.typeSociété === 'non renseignée');
+
+  useEffect(() => {
+    if (validationErrors['typeRepresentantLegal']) {
+      setState((state) => ({ ...state, step: 1 }));
+    }
+    if (validationErrors['nomRepresentantLegal'] || validationErrors['piecesJustificatives']) {
+      setState((state) => ({ ...state, step: 2 }));
+    }
+  }, [validationErrors]);
 
   const steps: Array<Step> = [
     {
@@ -117,7 +127,7 @@ export const CorrigerChangementReprésentantLégalForm: FC<
             contexte="corriger"
             typeReprésentantLégal={state.typeReprésentantLégal}
             typeSociété={state.typeSociété}
-            validationErrors={state.validationErrors}
+            validationErrors={validationErrors}
             onChange={({ typeReprésentantLégal, typeSociété }) =>
               setState((state) => ({
                 ...state,
@@ -142,7 +152,7 @@ export const CorrigerChangementReprésentantLégalForm: FC<
           <SaisieNomStep
             typeReprésentantLégal={state.typeReprésentantLégal}
             nomReprésentantLégal={state.nomReprésentantLégal}
-            validationErrors={state.validationErrors}
+            validationErrors={validationErrors}
             onChange={(nouveauNom) =>
               setState((state) => ({
                 ...state,
@@ -154,7 +164,7 @@ export const CorrigerChangementReprésentantLégalForm: FC<
             typeReprésentantLégal={state.typeReprésentantLégal}
             typeSociété={state.typeSociété}
             pièceJustificative={state.piècesJustificatives}
-            validationErrors={state.validationErrors}
+            validationErrors={validationErrors}
             onChange={(nouvellesPiècesJustificatives) =>
               setState((state) => ({
                 ...state,
@@ -187,7 +197,7 @@ export const CorrigerChangementReprésentantLégalForm: FC<
       nextStep: {
         type: 'submit',
         name: 'Confirmer la correction',
-        disabled: disableCondition && Object.keys(state.validationErrors).length === 0,
+        disabled: disableCondition && Object.keys(validationErrors).length === 0,
       },
     },
   ];
@@ -206,16 +216,8 @@ export const CorrigerChangementReprésentantLégalForm: FC<
         action={corrigerChangementReprésentantLégalAction}
         onInvalid={() => setState((state) => ({ ...state, step: 2 }))}
         onValidationError={(validationErrors) => {
-          setState((state) => ({ ...state, validationErrors }));
-
-          if (validationErrors['typeRepresentantLegal']) {
-            setState((state) => ({ ...state, step: 1 }));
-          }
-          if (validationErrors['nom'] || validationErrors['piecesJustificatives']) {
-            setState((state) => ({ ...state, step: 2 }));
-          }
+          setValidationErrors(validationErrors);
         }}
-        onError={() => setState((state) => ({ ...state, step: 2 }))}
         actions={null}
         omitMandatoryFieldsLegend={state.step !== 2 ? true : undefined}
       >
