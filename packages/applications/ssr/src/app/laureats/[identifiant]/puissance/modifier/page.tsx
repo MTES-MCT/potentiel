@@ -19,6 +19,12 @@ export const metadata: Metadata = {
 
 export default async function Page({ params: { identifiant } }: IdentifiantParameter) {
   return PageWithErrorHandling(async () => {
+    const showPuissance = process.env.SHOW_PUISSANCE === 'true';
+
+    if (!showPuissance) {
+      return notFound();
+    }
+
     const identifiantProjet = IdentifiantProjet.convertirEnValueType(decodeParameter(identifiant));
 
     const puissanceActuelle = await mediator.send<Puissance.ConsulterPuissanceQuery>({
