@@ -499,4 +499,73 @@ describe(`subscribe`, () => {
       actual1.payload.should.be.deep.equal(event.payload);
     });
   });
+
+  it(`
+    Étant donné un event handler en attente du traitement d'un type d'événement
+    Lorsque la connexion au client est interronmpue
+    Et qu'on émet un événement correspondant au type
+    Alors l'event handler est exécuté
+    Et il reçoit l'événement en paramétre
+    Et il n'y a pas d'acknowledgement en attente pour cet événement après son traitement
+  `, async () => {
+    // Arrange
+    const eventType = 'event-1';
+    const payload = {
+      propriété: 'propriété',
+    };
+
+    let eventHandler1HasBeenCalled = false;
+    let eventHandler2HasBeenCalled = false;
+    const eventHandler1 = async () => {
+      eventHandler1HasBeenCalled = true;
+      return Promise.resolve();
+    };
+    const eventHandler2 = async () => {
+      eventHandler2HasBeenCalled = true;
+      return Promise.resolve();
+    };
+
+    const unsubscribe1 = await subscribe({
+      name: subscriberName1,
+      eventType: eventType,
+      eventHandler: eventHandler1,
+      streamCategory,
+    });
+    unsubscribes.push(unsubscribe1);
+
+    const unsubscribe2 = await subscribe({
+      name: subscriberName2,
+      eventType: eventType,
+      eventHandler: eventHandler2,
+      streamCategory,
+    });
+    unsubscribes.push(unsubscribe2);
+
+    const event1 = {
+      type: eventType,
+      payload,
+    };
+
+    // Act
+    await executeQuery(`
+      SELECT pg_terminate_backend(pid) 
+      FROM pg_stat_activity 
+      WHERE usename = 'potentiel'
+      AND   query LIKE 'listen%'`);
+
+    await publish(`${streamCategory}|${id}`, event1);
+
+    await waitForExpect(async () => {
+      // Assert
+      eventHandler1HasBeenCalled.should.be.true;
+      eventHandler2HasBeenCalled.should.be.true;
+
+      const actuals = [
+        ...(await getPendingAcknowledgements(streamCategory, subscriberName1)),
+        ...(await getPendingAcknowledgements(streamCategory, subscriberName2)),
+      ];
+
+      actuals.length.should.be.equal(0);
+    });
+  });
 });
