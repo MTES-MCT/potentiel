@@ -502,7 +502,7 @@ describe(`subscribe`, () => {
 
   it(`
     Étant donné un event handler en attente du traitement d'un type d'événement
-    Lorsque la connexion au client est interronmpue
+    Lorsque la connexion au client est interrompue
     Et qu'on émet un événement correspondant au type
     Alors l'event handler est exécuté
     Et il reçoit l'événement en paramétre
