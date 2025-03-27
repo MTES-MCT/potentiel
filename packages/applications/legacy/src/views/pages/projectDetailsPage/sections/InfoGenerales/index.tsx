@@ -17,7 +17,6 @@ import { InfoPuissance } from './InfoPuissance';
 import { GetActionnaireForProjectPage } from '../../../../../controllers/project/getProjectPage/_utils';
 import { GetPuissanceForProjectPage } from '../../../../../controllers/project/getProjectPage/_utils/getPuissance';
 
-// viovio
 export type InfoGeneralesProps = {
   project: ProjectDataForProjectPage;
   role: Role.ValueType;

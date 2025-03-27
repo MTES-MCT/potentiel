@@ -37,17 +37,15 @@ export const getPuissance = async ({
 
     const role = Role.convertirEnValueType(rôle);
 
-    const puissanceModel = await mediator.send<Puissance.ConsulterPuissanceQuery>({
+    const puissance = await mediator.send<Puissance.ConsulterPuissanceQuery>({
       type: 'Lauréat.Puissance.Query.ConsulterPuissance',
       data: { identifiantProjet: identifiantProjet.formatter() },
     });
 
-    if (Option.isSome(puissanceModel)) {
-      const { puissance } = puissanceModel;
-
+    if (Option.isSome(puissance)) {
       if (role.aLaPermission('puissance.modifier')) {
         return {
-          puissance,
+          puissance: puissance.puissance,
           affichage: {
             url: Routes.Puissance.modifier(identifiantProjet.formatter()),
             label: 'Modifier',
@@ -56,7 +54,7 @@ export const getPuissance = async ({
       }
 
       return {
-        puissance,
+        puissance: puissance.puissance,
       };
     }
 
@@ -79,9 +77,7 @@ export const getPuissance = async ({
       };
     }
 
-    return {
-      puissance: 1,
-    };
+    return undefined;
   } catch (error) {
     getLogger().error(error);
     return undefined;
