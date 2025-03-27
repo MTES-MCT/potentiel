@@ -133,7 +133,7 @@ export const SaisieTypeStep: FC<SaisieTypeStepProps> = ({
         onTypeReprésentantLégalSelected={(typeReprésentantLégal) => {
           delete validationErrors.typeRepresentantLegal;
           onChange && onChange({ typeReprésentantLégal, typeSociété: state.typeSociété });
-          setState({ ...state, typeReprésentantLégal });
+          setState((state) => ({ ...state, typeReprésentantLégal }));
         }}
       />
       {component}

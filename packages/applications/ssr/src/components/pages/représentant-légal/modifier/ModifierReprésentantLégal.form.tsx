@@ -4,6 +4,7 @@ import { FC, useState } from 'react';
 import Stepper from '@codegouvfr/react-dsfr/Stepper';
 
 import { IdentifiantProjet } from '@potentiel-domain/common';
+import { ReprésentantLégal } from '@potentiel-domain/laureat';
 
 import { Form } from '@/components/atoms/form/Form';
 import { ValidationErrors } from '@/utils/formAction';
@@ -20,31 +21,36 @@ import { ModifierReprésentantLégalPageProps } from './ModifierReprésentantLé
 
 export type ModifierReprésentantLégalFormProps = ModifierReprésentantLégalPageProps;
 
+type ModifierReprésentantLégalState = {
+  step: number;
+  typeReprésentantLégal: ReprésentantLégal.TypeReprésentantLégal.RawType;
+  typeSociété: TypeSociété;
+  nomReprésentantLégal: string;
+  validationErrors: ValidationErrors<ModifierReprésentantLégalFormKeys>;
+};
+
 export const ModifierReprésentantLégalForm: FC<ModifierReprésentantLégalFormProps> = ({
   identifiantProjet,
   nomReprésentantLégal,
   typeReprésentantLégal,
 }) => {
-  const [validationErrors, setValidationErrors] = useState<
-    ValidationErrors<ModifierReprésentantLégalFormKeys>
-  >({});
-
-  const [currentStep, setCurrentStep] = useState(1);
-
-  const [stateTypeReprésentantLégal, setStateTypeReprésentantLégal] = useState(
-    typeReprésentantLégal.type,
-  );
-  const [typeSociété, setTypeSociété] = useState<TypeSociété>('non renseignée');
-  const [nom, setNom] = useState('');
+  const [state, setState] = useState<ModifierReprésentantLégalState>({
+    step: 1,
+    nomReprésentantLégal,
+    typeReprésentantLégal: typeReprésentantLégal.type,
+    typeSociété: 'non renseignée',
+    validationErrors: {},
+  });
 
   const conditionDésactivationÉtape1 =
-    !stateTypeReprésentantLégal ||
-    (stateTypeReprésentantLégal === 'personne-morale' && typeSociété === 'non renseignée') ||
-    stateTypeReprésentantLégal === 'inconnu';
+    !state.typeReprésentantLégal ||
+    (state.typeReprésentantLégal === 'personne-morale' && state.typeSociété === 'non renseignée') ||
+    state.typeReprésentantLégal === 'inconnu';
 
-  const conditionDésactivationÉtape2 = !nom || nom === nomReprésentantLégal;
+  const conditionDésactivationÉtape2 =
+    !state.nomReprésentantLégal || state.nomReprésentantLégal === nomReprésentantLégal;
 
-  const conditionDésactivationÉtape3 = !stateTypeReprésentantLégal || !nom;
+  const conditionDésactivationÉtape3 = !state.typeReprésentantLégal || !state.nomReprésentantLégal;
 
   const steps: Array<Step> = [
     {
@@ -59,13 +65,12 @@ export const ModifierReprésentantLégalForm: FC<ModifierReprésentantLégalForm
           </p>
           <SaisieTypeStep
             contexte="modifier"
-            typeReprésentantLégal={stateTypeReprésentantLégal}
-            typeSociété={typeSociété}
-            onChange={({ typeReprésentantLégal, typeSociété }) => {
-              setStateTypeReprésentantLégal(typeReprésentantLégal);
-              setTypeSociété(typeSociété);
-            }}
-            validationErrors={validationErrors}
+            typeReprésentantLégal={state.typeReprésentantLégal}
+            typeSociété={state.typeSociété}
+            onChange={({ typeReprésentantLégal, typeSociété }) =>
+              setState((state) => ({ ...state, typeReprésentantLégal, typeSociété }))
+            }
+            validationErrors={state.validationErrors}
           />
         </div>
       ),
@@ -80,10 +85,12 @@ export const ModifierReprésentantLégalForm: FC<ModifierReprésentantLégalForm
       name: `Renseigner les informations concernant le changement`,
       children: (
         <SaisieNomStep
-          nomReprésentantLégal={nom}
-          typeReprésentantLégal={stateTypeReprésentantLégal}
-          validationErrors={validationErrors}
-          onChange={(nouveauNom) => setNom(nouveauNom)}
+          nomReprésentantLégal={state.nomReprésentantLégal}
+          typeReprésentantLégal={state.typeReprésentantLégal}
+          validationErrors={state.validationErrors}
+          onChange={(nomReprésentantLégal) =>
+            setState((state) => ({ ...state, nomReprésentantLégal }))
+          }
         />
       ),
       previousStep: { name: 'Précédent' },
@@ -98,9 +105,9 @@ export const ModifierReprésentantLégalForm: FC<ModifierReprésentantLégalForm
       name: `Confirmer la modification`,
       children: (
         <ValidationStep
-          typeReprésentantLégal={stateTypeReprésentantLégal}
-          typeSociété={typeSociété}
-          nomReprésentantLégal={nom}
+          typeReprésentantLégal={state.typeReprésentantLégal}
+          typeSociété={state.typeSociété}
+          nomReprésentantLégal={state.nomReprésentantLégal}
           piècesJustificatives={[]}
           message={`Vous êtes sur le point de modifier le représentant légal du projet. Veuillez vérifier l'ensemble des informations saisies et confirmer si tout est correct`}
         />
@@ -117,33 +124,39 @@ export const ModifierReprésentantLégalForm: FC<ModifierReprésentantLégalForm
   const handleOnValidationError = (
     vErrors: ValidationErrors<ModifierReprésentantLégalFormKeys>,
   ) => {
-    if (Object.keys(validationErrors).length) {
+    if (Object.keys(state.validationErrors).length) {
       return;
     }
 
-    vErrors.typeRepresentantLegal && setCurrentStep(1);
-    vErrors.nomRepresentantLegal && setCurrentStep(2);
+    vErrors.typeRepresentantLegal && setState((state) => ({ ...state, step: 1 }));
+    vErrors.nomRepresentantLegal && setState((state) => ({ ...state, step: 2 }));
 
-    setValidationErrors(vErrors);
+    setState((state) => ({
+      ...state,
+      validationErrors: {
+        ...state.validationErrors,
+        ...vErrors,
+      },
+    }));
   };
 
   return (
     <>
       <Stepper
         className="my-10"
-        currentStep={currentStep}
-        nextTitle={currentStep < steps.length && steps[currentStep].name}
+        currentStep={state.step}
+        nextTitle={state.step < steps.length && steps[state.step].name}
         stepCount={steps.length}
-        title={steps[currentStep - 1].name}
+        title={steps[state.step - 1].name}
       />
 
       <Form
         action={modifierReprésentantLégalAction}
-        onInvalid={() => setCurrentStep(1)}
-        onError={() => setCurrentStep(1)}
+        onInvalid={() => setState((state) => ({ ...state, step: 1 }))}
+        onError={() => setState((state) => ({ ...state, step: 1 }))}
         onValidationError={(vErrors) => handleOnValidationError(vErrors)}
         actions={null}
-        omitMandatoryFieldsLegend={currentStep === 3 ? undefined : true}
+        omitMandatoryFieldsLegend={state.step === 3 ? undefined : true}
       >
         <input
           type={'hidden'}
@@ -152,8 +165,8 @@ export const ModifierReprésentantLégalForm: FC<ModifierReprésentantLégalForm
         />
         <Steps
           steps={steps}
-          currentStep={currentStep}
-          onStepSelected={(stepIndex) => setCurrentStep(stepIndex)}
+          currentStep={state.step}
+          onStepSelected={(step) => setState((state) => ({ ...state, step }))}
         />
       </Form>
     </>
