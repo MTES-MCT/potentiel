@@ -214,7 +214,6 @@ v1Router.get(
           puissance: await getPuissance({
             identifiantProjet: identifiantProjetValueType,
             rôle: user.role,
-            demandeNécessiteInstruction: demandeNécessiteInstructionPourActionnaire,
           }),
           hasAttestationConformité: !!attestationConformité,
           modificationsNonPermisesParLeCDCActuel:

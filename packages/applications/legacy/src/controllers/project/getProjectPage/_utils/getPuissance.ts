@@ -22,7 +22,6 @@ export type GetPuissanceForProjectPage = {
 type Props = {
   identifiantProjet: IdentifiantProjet.ValueType;
   rôle: string;
-  demandeNécessiteInstruction: boolean;
 };
 
 export const getPuissance = async ({
@@ -30,6 +29,12 @@ export const getPuissance = async ({
   rôle,
 }: Props): Promise<GetPuissanceForProjectPage | undefined> => {
   try {
+    const showPuissance = process.env.SHOW_PUISSANCE === 'true';
+
+    if (!showPuissance) {
+      return undefined;
+    }
+
     const role = Role.convertirEnValueType(rôle);
 
     const puissanceModel = await mediator.send<Puissance.ConsulterPuissanceQuery>({
@@ -75,7 +80,7 @@ export const getPuissance = async ({
     }
 
     return {
-      puissance: '',
+      puissance: 1,
     };
   } catch (error) {
     getLogger().error(error);

@@ -68,6 +68,7 @@ export const ProjectDetails = ({
   représentantLégal,
   actionnaire,
   garantiesFinancières,
+  puissance,
   modificationsNonPermisesParLeCDCActuel,
 }: ProjectDetailsProps) => {
   const { user } = request;
@@ -140,6 +141,7 @@ export const ProjectDetails = ({
               demandeRecours={demandeRecours}
               garantiesFinancières={garantiesFinancières}
               actionnaire={actionnaire}
+              puissance={puissance}
               modificationsNonPermisesParLeCDCActuel={modificationsNonPermisesParLeCDCActuel}
             />
             <Contact
