@@ -3,23 +3,19 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
 import { DocumentProjet, EnregistrerDocumentProjetCommand } from '@potentiel-domain/document';
 
-import {
-  ImporterCandidatureUseCaseCommonPayload,
-  mapPayloadForCommand,
-} from '../importer/importerCandidature.usecase';
+import { ImporterCandidatureUseCase } from '../importer/importerCandidature.usecase';
+import { mapToCommonCandidatureUseCaseData } from '../candidature.mapper';
 
 import { CorrigerCandidatureCommand } from './corrigerCandidature.command';
 
-type CorrigerCandidatureUseCasePayload = ImporterCandidatureUseCaseCommonPayload & {
-  corrigéLe: string;
-  corrigéPar: string;
-  doitRégénérerAttestation?: true;
-  détailsValue?: Record<string, string>;
-};
-
 export type CorrigerCandidatureUseCase = Message<
   'Candidature.UseCase.CorrigerCandidature',
-  CorrigerCandidatureUseCasePayload
+  Omit<ImporterCandidatureUseCase['data'], 'importéLe' | 'importéPar'> & {
+    corrigéLe: string;
+    corrigéPar: string;
+    doitRégénérerAttestation?: true;
+    détailsValue?: Record<string, string>;
+  }
 >;
 
 export const registerCorrigerCandidatureUseCase = () => {
@@ -52,7 +48,7 @@ export const registerCorrigerCandidatureUseCase = () => {
       type: 'Candidature.Command.CorrigerCandidature',
       data: {
         identifiantProjet,
-        ...mapPayloadForCommand(payload),
+        ...mapToCommonCandidatureUseCaseData(payload),
         corrigéLe: DateTime.convertirEnValueType(payload.corrigéLe),
         corrigéPar: Email.convertirEnValueType(payload.corrigéPar),
         doitRégénérerAttestation: payload.doitRégénérerAttestation,

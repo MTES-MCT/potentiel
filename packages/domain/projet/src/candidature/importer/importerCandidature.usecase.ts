@@ -3,12 +3,8 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 import { DateTime, Email } from '@potentiel-domain/common';
 import { DocumentProjet, EnregistrerDocumentProjetCommand } from '@potentiel-domain/document';
 
-import * as TypeGarantiesFinancières from '../typeGarantiesFinancières.valueType';
-import * as StatutCandidature from '../statutCandidature.valueType';
-import * as TypeTechnologie from '../typeTechnologie.valueType';
-import * as TypeActionnariat from '../typeActionnariat.valueType';
-import * as HistoriqueAbandon from '../historiqueAbandon.valueType';
 import { IdentifiantProjet } from '../..';
+import { mapToCommonCandidatureUseCaseData } from '../candidature.mapper';
 
 import { ImporterCandidatureCommand } from './importerCandidature.command';
 
@@ -52,13 +48,13 @@ export type ImporterCandidatureUseCase = Message<
 >;
 
 export const registerImporterCandidatureUseCase = () => {
-  const handler: MessageHandler<ImporterCandidatureUseCase> = async (payload) => {
+  const handler: MessageHandler<ImporterCandidatureUseCase> = async (message) => {
     const identifiantProjet = IdentifiantProjet.convertirEnValueType(
-      `${payload.appelOffreValue}#${payload.périodeValue}#${payload.familleValue}#${payload.numéroCREValue}`,
+      `${message.appelOffreValue}#${message.périodeValue}#${message.familleValue}#${message.numéroCREValue}`,
     );
-    const importéLe = DateTime.convertirEnValueType(payload.importéLe);
+    const importéLe = DateTime.convertirEnValueType(message.importéLe);
 
-    const buf = Buffer.from(JSON.stringify(payload.détailsValue));
+    const buf = Buffer.from(JSON.stringify(message.détailsValue));
     const blob = new Blob([buf]);
     await mediator.send<EnregistrerDocumentProjetCommand>({
       type: 'Document.Command.EnregistrerDocumentProjet',
@@ -72,44 +68,17 @@ export const registerImporterCandidatureUseCase = () => {
         ),
       },
     });
+
     await mediator.send<ImporterCandidatureCommand>({
       type: 'Candidature.Command.ImporterCandidature',
       data: {
         identifiantProjet,
-        ...mapToCommand(payload),
+        ...mapToCommonCandidatureUseCaseData(message),
         importéLe,
-        importéPar: Email.convertirEnValueType(payload.importéPar),
+        importéPar: Email.convertirEnValueType(message.importéPar),
       },
     });
   };
 
   mediator.register('Candidature.UseCase.ImporterCandidature', handler);
 };
-
-export const mapToCommand = (payload: ImporterCandidatureUseCase['data']) => ({
-  statut: StatutCandidature.convertirEnValueType(payload.statutValue),
-  dateÉchéanceGf: payload.dateÉchéanceGfValue
-    ? DateTime.convertirEnValueType(payload.dateÉchéanceGfValue)
-    : undefined,
-  technologie: TypeTechnologie.convertirEnValueType(payload.technologieValue),
-  typeGarantiesFinancières: payload.typeGarantiesFinancièresValue
-    ? TypeGarantiesFinancières.convertirEnValueType(payload.typeGarantiesFinancièresValue)
-    : undefined,
-  actionnariat: payload.actionnariatValue
-    ? TypeActionnariat.convertirEnValueType(payload.actionnariatValue)
-    : undefined,
-  historiqueAbandon: HistoriqueAbandon.convertirEnValueType(payload.historiqueAbandonValue),
-  nomProjet: payload.nomProjetValue,
-  localité: payload.localitéValue,
-  emailContact: Email.convertirEnValueType(payload.emailContactValue),
-  evaluationCarboneSimplifiée: payload.evaluationCarboneSimplifiéeValue,
-  nomCandidat: payload.nomCandidatValue,
-  nomReprésentantLégal: payload.nomReprésentantLégalValue,
-  noteTotale: payload.noteTotaleValue,
-  prixReference: payload.prixReferenceValue,
-  puissanceProductionAnnuelle: payload.puissanceProductionAnnuelleValue,
-  motifÉlimination: payload.motifÉliminationValue,
-  puissanceALaPointe: payload.puissanceALaPointeValue,
-  sociétéMère: payload.sociétéMèreValue,
-  territoireProjet: payload.territoireProjetValue,
-});
