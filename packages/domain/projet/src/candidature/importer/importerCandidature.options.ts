@@ -5,10 +5,8 @@ import * as TypeGarantiesFinancières from '../typeGarantiesFinancières.valueTy
 import * as TypeTechnologie from '../typeTechnologie.valueType';
 import * as TypeActionnariat from '../typeActionnariat.valueType';
 import * as HistoriqueAbandon from '../historiqueAbandon.valueType';
-import { IdentifiantProjet } from '../..';
 
 export type ImporterCandidatureOptions = {
-  identifiantProjet: IdentifiantProjet.ValueType;
   statut: StatutCandidature.ValueType;
   typeGarantiesFinancières?: TypeGarantiesFinancières.ValueType;
   historiqueAbandon: HistoriqueAbandon.ValueType;
@@ -16,7 +14,7 @@ export type ImporterCandidatureOptions = {
   sociétéMère: string;
   nomCandidat: string;
   puissanceProductionAnnuelle: number;
-  prixReference: number;
+  prixRéférence: number;
   noteTotale: number;
   nomReprésentantLégal: string;
   emailContact: Email.ValueType;

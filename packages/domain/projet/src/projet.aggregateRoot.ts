@@ -5,6 +5,7 @@ import { IdentifiantProjet } from '.';
 
 import { ÉliminéAggregate } from './éliminé/éliminé.aggregate';
 import { FamilleInexistanteError, PériodeInexistanteError } from './appelOffre.error';
+import { CandidatureAggregate } from './candidature/candidature.aggregate';
 
 interface ProjetAggregateRootDependencies {
   loadAggregate: LoadAggregateV2;
@@ -38,6 +39,12 @@ export class ProjetAggregateRoot {
 
   get appelOffre() {
     return this.#appelOffre;
+  }
+
+  #candidature!: AggregateType<CandidatureAggregate>;
+
+  get candidature() {
+    return this.#candidature;
   }
 
   get période() {
@@ -93,6 +100,12 @@ export class ProjetAggregateRoot {
     if (this.#initialized) {
       throw new ProjetAggregateRootAlreadyInitialized();
     }
+
+    this.#candidature = await this.#loadAggregate(
+      `candidature|${this.identifiantProjet.formatter()}`,
+      CandidatureAggregate,
+    );
+    await this.#candidature.init(this);
 
     this.#éliminé = await this.#loadAggregate(
       `éliminé|${this.identifiantProjet.formatter()}`,

@@ -11,6 +11,8 @@ import { ImporterCandidatureOptions } from './importer/importerCandidature.optio
 import * as StatutCandidature from './statutCandidature.valueType';
 import * as TypeGarantiesFinancières from './typeGarantiesFinancières.valueType';
 import * as TypeActionnariat from './typeActionnariat.valueType';
+import * as HistoriqueAbandon from './historiqueAbandon.valueType';
+import * as TypeTechnologie from './typeTechnologie.valueType';
 import {
   AttestationNonGénéréeError,
   CandidatureDéjàImportéeError,
@@ -25,6 +27,7 @@ import {
 } from './candidature.error';
 import { CorrigerCandidatureOptions } from './corriger/corrigerCandidature.options';
 import { CandidatureCorrigéeEvent } from './corriger/candidatureCorrigée.event';
+import * as Localité from './localité.valueType';
 
 type CandidatureBehaviorOptions = CorrigerCandidatureOptions | ImporterCandidatureOptions;
 
@@ -35,41 +38,37 @@ export class CandidatureAggregate extends AbstractAggregate<CandidatureEvent> {
     return this.#projet;
   }
 
-  statut: StatutCandidature.ValueType = StatutCandidature.inconnu;
-  estNotifiée: boolean = false;
-  notifiéeLe?: DateTime.ValueType;
-  garantiesFinancières?: {
+  #statut?: StatutCandidature.ValueType;
+  #estNotifiée: boolean = false;
+  #notifiéeLe?: DateTime.ValueType;
+  #garantiesFinancières?: {
     type: TypeGarantiesFinancières.ValueType;
     dateEchéance?: DateTime.ValueType;
   };
-  nomReprésentantLégal: string = '';
-  sociétéMère: string = '';
-  puissance: number = 0;
-  typeActionnariat?: TypeActionnariat.ValueType;
-  nomProjet: string = '';
-  localité: {
-    adresse1: string;
-    adresse2: string;
-    codePostal: string;
-    commune: string;
-    région: string;
-    département: string;
-  } = {
-    adresse1: '',
-    adresse2: '',
-    codePostal: '',
-    commune: '',
-    département: '',
-    région: '',
-  };
-  emailContact: Email.ValueType = Email.inconnu;
-  prixRéférence: number = 0;
+  #nomCandidat: string = '';
+  #nomReprésentantLégal: string = '';
+  #sociétéMère: string = '';
+  #noteTotale: number = 0;
+  #actionnariat?: TypeActionnariat.ValueType;
+  #nomProjet: string = '';
+  #localité?: Localité.ValueType;
+  #emailContact: Email.ValueType = Email.inconnu;
+  #prixRéférence: number = 0;
+  #evaluationCarboneSimplifiée: number = 0;
+  #historiqueAbandon?: HistoriqueAbandon.ValueType;
+  #typeGarantiesFinancières?: TypeGarantiesFinancières.ValueType;
+  #motifÉlimination?: string;
+  #technologie?: TypeTechnologie.ValueType;
+  #dateÉchéanceGf?: DateTime.ValueType;
+  #puissanceALaPointe?: boolean;
+  #puissanceProductionAnnuelle: number = 0;
+  #territoireProjet: string = '';
 
   async init(projet: ProjetAggregateRoot) {
     this.#projet = projet;
   }
 
-  async importer(this: CandidatureAggregate, candidature: ImporterCandidatureOptions) {
+  async importer(candidature: ImporterCandidatureOptions) {
     this.vérifierQueLaCandidatureADéjàÉtéImportée();
     this.vérifierQueLaPériodeEstValide();
     this.vérifierQueLesGarantiesFinancièresSontRequisesPourAppelOffre(candidature);
@@ -88,7 +87,7 @@ export class CandidatureAggregate extends AbstractAggregate<CandidatureEvent> {
     await this.publish(event);
   }
 
-  async corriger(this: CandidatureAggregate, candidature: CorrigerCandidatureOptions) {
+  async corriger(candidature: CorrigerCandidatureOptions) {
     this.vérifierQueLaCandidatureExiste();
     this.vérifierQueLesGarantiesFinancièresSontRequisesPourAppelOffre(candidature);
     this.vérifierQueLaDateÉchéanceGarantiesFinancièresEstRequise(candidature);
@@ -96,7 +95,7 @@ export class CandidatureAggregate extends AbstractAggregate<CandidatureEvent> {
     this.vérifierQueLeStatutEstNonModifiableAprésNotification(candidature);
     this.vérifierQueLeTypeDesGarantiesFinancièresEstNonModifiableAprésNotification(candidature);
     this.vérifierQueLaRégénérationDeLAttestionEstPossible(candidature);
-    this.vérifierQueLaCorrectionEstApplicable(candidature);
+    this.vérifierQueLaCorrectionEstJustifiée(candidature);
 
     const event: CandidatureCorrigéeEvent = {
       type: 'CandidatureCorrigée-V1',
@@ -109,21 +108,21 @@ export class CandidatureAggregate extends AbstractAggregate<CandidatureEvent> {
       },
     };
 
-    await this.publish(event); // check type ?
+    await this.publish(event);
   }
 
   private vérifierQueLeTypeDesGarantiesFinancièresEstNonModifiableAprésNotification(
     candidature: CorrigerCandidatureOptions,
   ) {
-    if (this.estNotifiée) {
+    if (this.#estNotifiée) {
       if (candidature.typeGarantiesFinancières) {
         if (
-          !this.garantiesFinancières?.type ||
-          !this.garantiesFinancières?.type.estÉgaleÀ(candidature.typeGarantiesFinancières)
+          !this.#garantiesFinancières?.type ||
+          !this.#garantiesFinancières?.type.estÉgaleÀ(candidature.typeGarantiesFinancières)
         ) {
           throw new TypeGarantiesFinancièresNonModifiableAprèsNotificationError();
         }
-      } else if (this.garantiesFinancières?.type) {
+      } else if (this.#garantiesFinancières?.type) {
         throw new TypeGarantiesFinancièresNonModifiableAprèsNotificationError();
       }
     }
@@ -132,22 +131,70 @@ export class CandidatureAggregate extends AbstractAggregate<CandidatureEvent> {
   private vérifierQueLeStatutEstNonModifiableAprésNotification(
     candidature: CorrigerCandidatureOptions,
   ) {
-    if (this.estNotifiée && !candidature.statut.estÉgaleÀ(this.statut)) {
+    if (this.#estNotifiée && this.#statut && !candidature.statut.estÉgaleÀ(this.#statut)) {
       throw new StatutNonModifiableAprèsNotificationError();
     }
   }
 
-  private vérifierQueLaCorrectionEstApplicable(candidature: CorrigerCandidatureOptions) {
-    if (this.estIdentiqueÀ(event.payload)) {
-      // todo réimpl à faire
-      throw new CandidatureNonModifiéeError(candidature.nomProjet);
+  private vérifierQueLaCorrectionEstJustifiée({
+    corrigéLe: _corrigéLe,
+    corrigéPar: _corrigéPar,
+    doitRégénérerAttestation: _doitRégénérerAttestation,
+    détailsMisÀJour: _détailsMisÀJour,
+    ...otherData
+  }: CorrigerCandidatureOptions) {
+    const {
+      emailContact,
+      evaluationCarboneSimplifiée,
+      historiqueAbandon,
+      localité,
+      nomCandidat,
+      nomProjet,
+      nomReprésentantLégal,
+      noteTotale,
+      prixRéférence,
+      puissanceALaPointe,
+      puissanceProductionAnnuelle,
+      sociétéMère,
+      statut,
+      technologie,
+      territoireProjet,
+      actionnariat,
+      dateÉchéanceGf,
+      motifÉlimination,
+      typeGarantiesFinancières,
+    } = otherData;
+
+    const nEstPasJustifiée =
+      this.#emailContact === emailContact &&
+      this.#evaluationCarboneSimplifiée === evaluationCarboneSimplifiée &&
+      this.#historiqueAbandon?.estÉgaleÀ(historiqueAbandon) &&
+      this.#localité?.estÉgaleÀ(Localité.bind(localité)) &&
+      this.#nomCandidat === nomCandidat &&
+      this.#nomProjet === nomProjet &&
+      this.#nomReprésentantLégal === nomReprésentantLégal &&
+      this.#noteTotale === noteTotale &&
+      this.#prixRéférence === prixRéférence &&
+      this.#puissanceALaPointe === puissanceALaPointe &&
+      this.#puissanceProductionAnnuelle === puissanceProductionAnnuelle &&
+      this.#sociétéMère === sociétéMère &&
+      this.#statut === statut &&
+      this.#technologie === technologie &&
+      this.#territoireProjet === territoireProjet &&
+      this.#actionnariat === actionnariat &&
+      this.#dateÉchéanceGf === dateÉchéanceGf &&
+      this.#motifÉlimination === motifÉlimination &&
+      this.#typeGarantiesFinancières === typeGarantiesFinancières;
+
+    if (!nEstPasJustifiée) {
+      throw new CandidatureNonModifiéeError(otherData.nomProjet);
     }
   }
 
   private vérifierQueLaRégénérationDeLAttestionEstPossible(
     candidature: CorrigerCandidatureOptions,
   ) {
-    if (!this.estNotifiée && candidature.doitRégénérerAttestation) {
+    if (!this.#estNotifiée && candidature.doitRégénérerAttestation) {
       throw new AttestationNonGénéréeError();
     }
   }
@@ -183,7 +230,7 @@ export class CandidatureAggregate extends AbstractAggregate<CandidatureEvent> {
   }
 
   private vérifierQueLaCandidatureADéjàÉtéImportée() {
-    if (!this.statut.estÉgaleÀ(StatutCandidature.inconnu)) {
+    if (this.#statut) {
       throw new CandidatureDéjàImportéeError();
     }
   }
@@ -213,39 +260,81 @@ export class CandidatureAggregate extends AbstractAggregate<CandidatureEvent> {
   }
 
   apply(event: CandidatureEvent): void {
-    match(event).with(
-      {
-        type: 'CandidatureImportée-V1',
-      },
-      (event) => this.applyCandidatureImportéeV1(event),
-    );
+    match(event)
+      .with(
+        {
+          type: 'CandidatureImportée-V1',
+        },
+        (event) => this.applyCandidatureImportéeV1(event),
+      )
+      .with(
+        {
+          type: 'CandidatureCorrigée-V1',
+        },
+        (event) => this.applyCandidatureCorrigée(event),
+      );
   }
 
   private applyCandidatureImportéeV1({ payload }: CandidatureImportéeEvent) {
-    this.statut = StatutCandidature.convertirEnValueType(payload.statut);
-    this.nomProjet = payload.nomProjet;
-    this.localité = payload.localité;
-    this.garantiesFinancières = payload.typeGarantiesFinancières
-      ? {
-          type: TypeGarantiesFinancières.convertirEnValueType(payload.typeGarantiesFinancières),
-          dateEchéance:
-            payload.dateÉchéanceGf && DateTime.convertirEnValueType(payload.dateÉchéanceGf),
-        }
+    this.applyCommonEventPayload(payload);
+  }
+
+  private applyCandidatureCorrigée({ payload }: CandidatureCorrigéeEvent) {
+    this.applyCommonEventPayload(payload);
+  }
+
+  private applyCommonEventPayload({
+    emailContact,
+    evaluationCarboneSimplifiée,
+    historiqueAbandon,
+    localité,
+    nomCandidat,
+    nomProjet,
+    nomReprésentantLégal,
+    noteTotale,
+    prixReference,
+    puissanceALaPointe,
+    puissanceProductionAnnuelle,
+    sociétéMère,
+    statut,
+    technologie,
+    territoireProjet,
+    actionnariat,
+    dateÉchéanceGf,
+    motifÉlimination,
+    typeGarantiesFinancières,
+  }: CandidatureCorrigéeEvent['payload'] | CandidatureImportéeEvent['payload']) {
+    this.#statut = StatutCandidature.convertirEnValueType(statut);
+    this.#nomProjet = nomProjet;
+    this.#localité = Localité.bind(localité);
+    if (typeGarantiesFinancières) {
+      this.#garantiesFinancières = {
+        type: TypeGarantiesFinancières.convertirEnValueType(typeGarantiesFinancières),
+        dateEchéance: dateÉchéanceGf ? DateTime.convertirEnValueType(dateÉchéanceGf) : undefined,
+      };
+    }
+    this.#actionnariat = actionnariat
+      ? TypeActionnariat.convertirEnValueType(actionnariat)
       : undefined;
-    this.nomReprésentantLégal = payload.nomReprésentantLégal;
-    this.sociétéMère = payload.sociétéMère;
-    this.puissance = payload.puissanceProductionAnnuelle;
-    this.typeActionnariat = payload.actionnariat
-      ? TypeActionnariat.convertirEnValueType(payload.actionnariat)
-      : undefined;
-    this.emailContact = Email.convertirEnValueType(payload.emailContact);
-    this.prixRéférence = payload.prixReference;
+    this.#emailContact = Email.convertirEnValueType(emailContact);
+    this.#prixRéférence = prixReference;
+    this.#sociétéMère = sociétéMère;
+    this.#nomReprésentantLégal = nomReprésentantLégal;
+    this.#puissanceProductionAnnuelle = puissanceProductionAnnuelle;
+    this.#evaluationCarboneSimplifiée = evaluationCarboneSimplifiée;
+    this.#historiqueAbandon = HistoriqueAbandon.convertirEnValueType(historiqueAbandon);
+    this.#nomCandidat = nomCandidat;
+    this.#noteTotale = noteTotale;
+    this.#puissanceALaPointe = puissanceALaPointe;
+    this.#technologie = TypeTechnologie.convertirEnValueType(technologie);
+    this.#territoireProjet = territoireProjet;
+    this.#motifÉlimination = motifÉlimination;
   }
 
   private mapToEventPayload = (
     candidature: ImporterCandidatureOptions | CorrigerCandidatureOptions,
   ) => ({
-    identifiantProjet: candidature.identifiantProjet.formatter(),
+    identifiantProjet: this.projet.identifiantProjet.formatter(),
     statut: candidature.statut.statut,
     technologie: candidature.technologie.type,
     dateÉchéanceGf: candidature.dateÉchéanceGf?.formatter(),
@@ -255,7 +344,7 @@ export class CandidatureAggregate extends AbstractAggregate<CandidatureEvent> {
     sociétéMère: candidature.sociétéMère,
     nomCandidat: candidature.nomCandidat,
     puissanceProductionAnnuelle: candidature.puissanceProductionAnnuelle,
-    prixReference: candidature.prixReference,
+    prixReference: candidature.prixRéférence,
     noteTotale: candidature.noteTotale,
     nomReprésentantLégal: candidature.nomReprésentantLégal,
     emailContact: candidature.emailContact.formatter(),
