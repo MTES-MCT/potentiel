@@ -29,13 +29,15 @@ export const register = () => {
       case 'PorteurInvité-V1': {
         const { identifiantUtilisateur, identifiantsProjet, invitéPar } = payload;
 
-        const projects = await Promise.all(
-          identifiantsProjet.map(async (identifiantProjet) =>
-            getLegacyProjetByIdentifiantProjet(
-              IdentifiantProjet.convertirEnValueType(identifiantProjet),
-            ),
-          ),
-        );
+        const projectIds: string[] = [];
+        for (const identifiantProjet of identifiantsProjet) {
+          const project = await getLegacyProjetByIdentifiantProjet(
+            IdentifiantProjet.convertirEnValueType(identifiantProjet),
+          );
+          if (project) {
+            projectIds.push(project.id);
+          }
+        }
 
         const userId = await getOrCreateUser(identifiantUtilisateur, 'porteur-projet');
 
@@ -45,7 +47,7 @@ export const register = () => {
           new UserInvitedToProject({
             payload: {
               userId: userId,
-              projectIds: projects.map((project) => project?.id).filter(Boolean) as string[],
+              projectIds,
               invitedBy: invitéParUserId,
             },
           }),
