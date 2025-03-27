@@ -10,7 +10,7 @@ import {
 
 import { CorrigerCandidatureCommand } from './corrigerCandidature.command';
 
-type CorrigerCandidatureUseCasePayload = ImporterCandidatureUseCaseCommonPayload & {
+type CorrigerCandidatureUseCaseData = ImporterCandidatureUseCaseCommonPayload & {
   corrigéLe: string;
   corrigéPar: string;
   doitRégénérerAttestation?: true;
@@ -19,7 +19,7 @@ type CorrigerCandidatureUseCasePayload = ImporterCandidatureUseCaseCommonPayload
 
 export type CorrigerCandidatureUseCase = Message<
   'Candidature.UseCase.CorrigerCandidature',
-  CorrigerCandidatureUseCasePayload
+  CorrigerCandidatureUseCaseData
 >;
 
 export const registerCorrigerCandidatureUseCase = () => {

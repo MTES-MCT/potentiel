@@ -1,4 +1,5 @@
 import { DateTime, Email } from '@potentiel-domain/common';
+import { PlainType } from '@potentiel-domain/core';
 import { Entity } from '@potentiel-domain/entity';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 
@@ -8,6 +9,7 @@ import * as TypeGarantiesFinancières from './typeGarantiesFinancières.valueTyp
 import * as TypeTechnologie from './typeTechnologie.valueType';
 import * as TypeActionnariat from './typeActionnariat.valueType';
 import * as HistoriqueAbandon from './historiqueAbandon.valueType';
+import * as Localité from './localité.valueType';
 
 type CandidatureNonNotifiée = {
   estNotifiée: false;
@@ -37,14 +39,7 @@ export type CandidatureEntity = Entity<
     nomProjet: string;
     typeGarantiesFinancières?: TypeGarantiesFinancières.RawType;
     historiqueAbandon: HistoriqueAbandon.RawType;
-    localité: {
-      adresse1: string;
-      adresse2: string;
-      codePostal: string;
-      commune: string;
-      département: string;
-      région: string;
-    };
+    localité: PlainType<Localité.ValueType>;
     nomCandidat: string;
     nomReprésentantLégal: string;
     emailContact: string;
