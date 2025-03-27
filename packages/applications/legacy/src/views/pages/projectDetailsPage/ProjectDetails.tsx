@@ -51,6 +51,7 @@ type ProjectDetailsProps = {
   garantiesFinancières?: GarantiesFinancièresProjetProps['garantiesFinancières'];
   représentantLégal?: ContactProps['représentantLégal'];
   actionnaire?: InfoGeneralesProps['actionnaire'];
+  puissance?: InfoGeneralesProps['puissance'];
   hasAttestationConformité: boolean;
   modificationsNonPermisesParLeCDCActuel: boolean;
 };

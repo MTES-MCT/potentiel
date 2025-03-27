@@ -14,14 +14,17 @@ import { Option } from '@potentiel-libraries/monads';
 import { IdentifiantProjet } from '@potentiel-domain/common';
 import { InfoActionnaire } from './InfoActionnaire';
 import { GetActionnaireForProjectPage } from '../../../../../controllers/project/getProjectPage/_utils';
+import { GetPuissanceForProjectPage } from '../../../../../controllers/project/getProjectPage/_utils/getPuissance';
 
+// viovio
 export type InfoGeneralesProps = {
   project: ProjectDataForProjectPage;
   role: Role.ValueType;
   raccordement: Option.Type<Raccordement.ConsulterRaccordementReadModel>;
   demandeRecours: ProjectDataForProjectPage['demandeRecours'];
   garantiesFinancières?: GarantiesFinancièresProjetProps['garantiesFinancières'];
-  actionnaire: GetActionnaireForProjectPage | undefined;
+  actionnaire?: GetActionnaireForProjectPage;
+  puissance?: GetPuissanceForProjectPage;
   modificationsNonPermisesParLeCDCActuel: boolean;
 };
 

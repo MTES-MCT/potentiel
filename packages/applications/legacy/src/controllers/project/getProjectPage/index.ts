@@ -31,6 +31,7 @@ import {
   getActionnaire,
 } from './_utils';
 import { Role } from '@potentiel-domain/utilisateur';
+import { getPuissance } from './_utils/getPuissance';
 
 const schema = yup.object({
   params: yup.object({ projectId: yup.string().required() }),
@@ -206,6 +207,11 @@ v1Router.get(
           représentantLégal: await getReprésentantLégal(identifiantProjetValueType, user.role),
           demandeRecours: await getRecours(identifiantProjetValueType),
           actionnaire: await getActionnaire({
+            identifiantProjet: identifiantProjetValueType,
+            rôle: user.role,
+            demandeNécessiteInstruction: demandeNécessiteInstructionPourActionnaire,
+          }),
+          puissance: await getPuissance({
             identifiantProjet: identifiantProjetValueType,
             rôle: user.role,
             demandeNécessiteInstruction: demandeNécessiteInstructionPourActionnaire,
