@@ -1,6 +1,10 @@
 {
   "jobs": [
     {
+      "command": "0 7-18 * * 1-5 potentiel-cli monitoring pending-acknowledgement",
+      "size": "S"
+    },
+    {
       "command": "0 8 * * 0 ./packages/applications/scheduled-tasks/mettre-à-jour-gestionnaire-réseau.sh",
       "size": "M"
     },
