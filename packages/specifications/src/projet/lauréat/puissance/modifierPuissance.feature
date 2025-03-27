@@ -11,13 +11,13 @@ Fonctionnalité: Modifier la puissance d'un projet lauréat
         Alors la puissance du projet lauréat devrait être mise à jour
 
     # TODO: notifications
-    Scénario: Modifier la puissance d'un projet lauréat achevé par un admin
+    Scénario: Modifier la puissance d'un projet lauréat abandonné par un admin
         Etant donné un abandon accordé pour le projet lauréat
         Quand le DGEC validateur modifie la puissance pour le projet lauréat
         Alors la puissance du projet lauréat devrait être mise à jour
 
     # TODO: notifications
-    Scénario: Modifier la puissance d'un projet lauréat abandonné par un admin
+    Scénario: Modifier la puissance d'un projet lauréat achevé par un admin
         Etant donné une attestation de conformité transmise pour le projet lauréat
         Quand le DGEC validateur modifie la puissance pour le projet lauréat
         Alors la puissance du projet lauréat devrait être mise à jour

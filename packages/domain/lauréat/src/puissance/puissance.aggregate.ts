@@ -11,7 +11,7 @@ import {
 import { applyPuissanceImportée, importer } from './importer/importerPuissance.behavior';
 import { PuissanceImportéeEvent } from './importer/importerPuissance.behavior';
 import {
-  applypuissanceModifiée,
+  applyPuissanceModifiée,
   modifier,
   PuissanceModifiéeEvent,
 } from './modifier/modifierPuissance.behavior';
@@ -39,7 +39,7 @@ export const getDefaultPuissanceAggregate: GetDefaultAggregateState<
 function apply(this: PuissanceAggregate, event: PuissanceEvent) {
   match(event)
     .with({ type: 'PuissanceImportée-V1' }, applyPuissanceImportée.bind(this))
-    .with({ type: 'PuissanceModifiée-V1' }, applypuissanceModifiée.bind(this))
+    .with({ type: 'PuissanceModifiée-V1' }, applyPuissanceModifiée.bind(this))
     .exhaustive();
 }
 

@@ -63,7 +63,7 @@ export async function modifier(
   await this.publish(event);
 }
 
-export function applypuissanceModifiée(
+export function applyPuissanceModifiée(
   this: PuissanceAggregate,
   { payload: { puissance } }: PuissanceModifiéeEvent,
 ) {
