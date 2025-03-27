@@ -59,18 +59,6 @@ Alors(
 );
 
 Alors(
-  "la nouvelle demande de changement de l'actionnaire devrait être consultable",
-  async function (this: PotentielWorld) {
-    await vérifierChangementActionnaire.call(
-      this,
-      this.candidatureWorld.importerCandidature.identifiantProjet,
-      Actionnaire.StatutChangementActionnaire.demandé,
-      true,
-    );
-  },
-);
-
-Alors(
   "la demande de changement de l'actionnaire devrait être accordée",
   async function (this: PotentielWorld) {
     await vérifierChangementActionnaire.call(
@@ -128,7 +116,6 @@ Alors(
       });
 
       const actual = mapToPlainObject(actionnaire);
-
       const expected = mapToPlainObject(
         this.lauréatWorld.actionnaireWorld.mapToExpected(identifiantProjet),
       );
@@ -165,13 +152,14 @@ async function vérifierChangementActionnaire(
   this: PotentielWorld,
   identifiantProjet: string,
   statut: Actionnaire.StatutChangementActionnaire.ValueType,
-  estUneNouvelleDemande?: boolean,
 ) {
   const demandeEnCours = await mediator.send<Actionnaire.ConsulterChangementActionnaireQuery>({
     type: 'Lauréat.Actionnaire.Query.ConsulterChangementActionnaire',
     data: {
       identifiantProjet: identifiantProjet,
-      demandéLe: this.lauréatWorld.actionnaireWorld.demanderChangementActionnaireFixture.demandéLe,
+      demandéLe: this.lauréatWorld.actionnaireWorld.enregistrerChangementActionnaireFixture.aÉtéCréé
+        ? this.lauréatWorld.actionnaireWorld.enregistrerChangementActionnaireFixture.demandéLe
+        : this.lauréatWorld.actionnaireWorld.demanderChangementActionnaireFixture.demandéLe,
     },
   });
 
@@ -181,7 +169,6 @@ async function vérifierChangementActionnaire(
     this.lauréatWorld.actionnaireWorld.mapDemandeToExpected(
       IdentifiantProjet.convertirEnValueType(identifiantProjet),
       statut,
-      estUneNouvelleDemande,
     ),
   );
 
@@ -200,10 +187,7 @@ async function vérifierChangementActionnaire(
     expect(Option.isSome(actionnaire) && actionnaire.dateDemandeEnCours).to.be.undefined;
   }
 
-  if (
-    this.lauréatWorld.actionnaireWorld.accorderChangementActionnaireFixture.aÉtéCréé &&
-    !estUneNouvelleDemande
-  ) {
+  if (this.lauréatWorld.actionnaireWorld.accorderChangementActionnaireFixture.aÉtéCréé) {
     const result = await mediator.send<ConsulterDocumentProjetQuery>({
       type: 'Document.Query.ConsulterDocumentProjet',
       data: {
@@ -221,10 +205,7 @@ async function vérifierChangementActionnaire(
     expect(actualContent).to.be.equal(expectedContent);
   }
 
-  if (
-    this.lauréatWorld.actionnaireWorld.rejeterChangementActionnaireFixture.aÉtéCréé &&
-    !estUneNouvelleDemande
-  ) {
+  if (this.lauréatWorld.actionnaireWorld.rejeterChangementActionnaireFixture.aÉtéCréé) {
     const result = await mediator.send<ConsulterDocumentProjetQuery>({
       type: 'Document.Query.ConsulterDocumentProjet',
       data: {

@@ -9,6 +9,7 @@ import { DemanderChangementActionnaireFixture } from './fixtures/demanderChangem
 import { AnnulerChangementActionnaireFixture } from './fixtures/annulerChangementActionnaire.fixture';
 import { AccorderChangementActionnaireFixture } from './fixtures/accorderChangementActionnaire.fixture';
 import { RejeterChangementActionnaireFixture } from './fixtures/rejeterChangementActionnaire.fixture';
+import { EnregistrerChangementActionnaireFixture } from './fixtures/enregistrerChangementActionnaire.fixture';
 
 export class ActionnaireWorld {
   #importerActionnaireFixture: ImporterActionnaireFixture;
@@ -17,7 +18,7 @@ export class ActionnaireWorld {
   #annulerChangementActionnaireFixture: AnnulerChangementActionnaireFixture;
   #accorderChangementActionnaireFixture: AccorderChangementActionnaireFixture;
   #rejeterChangementActionnaireFixture: RejeterChangementActionnaireFixture;
-  #actionnaire: string;
+  #enregistrerChangementActionnaireFixture: EnregistrerChangementActionnaireFixture;
 
   get importerActionnaireFixture() {
     return this.#importerActionnaireFixture;
@@ -29,6 +30,10 @@ export class ActionnaireWorld {
 
   get demanderChangementActionnaireFixture() {
     return this.#demanderChangementActionnaireFixture;
+  }
+
+  get enregistrerChangementActionnaireFixture() {
+    return this.#enregistrerChangementActionnaireFixture;
   }
 
   get annulerChangementActionnaireFixture() {
@@ -43,22 +48,14 @@ export class ActionnaireWorld {
     return this.#rejeterChangementActionnaireFixture;
   }
 
-  get actionnaire() {
-    return this.#actionnaire;
-  }
-
-  set actionnaire(value: string) {
-    this.#actionnaire = value;
-  }
-
   constructor() {
     this.#importerActionnaireFixture = new ImporterActionnaireFixture();
     this.#modifierActionnaireFixture = new ModifierActionnaireFixture();
     this.#demanderChangementActionnaireFixture = new DemanderChangementActionnaireFixture();
+    this.#enregistrerChangementActionnaireFixture = new EnregistrerChangementActionnaireFixture();
     this.#annulerChangementActionnaireFixture = new AnnulerChangementActionnaireFixture();
     this.#accorderChangementActionnaireFixture = new AccorderChangementActionnaireFixture();
     this.#rejeterChangementActionnaireFixture = new RejeterChangementActionnaireFixture();
-    this.#actionnaire = '';
   }
 
   mapToExpected(
@@ -66,84 +63,88 @@ export class ActionnaireWorld {
   ): Actionnaire.ConsulterActionnaireReadModel {
     return {
       identifiantProjet,
-      actionnaire: this.#actionnaire,
+      actionnaire: this.accorderChangementActionnaireFixture.aÉtéCréé
+        ? this.#demanderChangementActionnaireFixture.actionnaire
+        : this.#enregistrerChangementActionnaireFixture.aÉtéCréé
+          ? this.#enregistrerChangementActionnaireFixture.actionnaire
+          : this.#modifierActionnaireFixture.aÉtéCréé
+            ? this.#modifierActionnaireFixture.actionnaire
+            : this.#importerActionnaireFixture.actionnaire,
     };
   }
 
   mapDemandeToExpected(
     identifiantProjet: IdentifiantProjet.ValueType,
     statut: Actionnaire.StatutChangementActionnaire.ValueType,
-    estUneNouvelleDemande?: boolean,
   ): Option.Type<Actionnaire.ConsulterChangementActionnaireReadModel> {
-    if (!this.demanderChangementActionnaireFixture.aÉtéCréé) {
+    if (
+      !this.enregistrerChangementActionnaireFixture.aÉtéCréé &&
+      !this.demanderChangementActionnaireFixture.aÉtéCréé
+    ) {
       throw new Error(
-        `Aucune demande de changement d'actionnaire n'a été créée dans ActionnaireWorld`,
+        `Aucune information enregistrée ou demande n'a été créée dans ActionnaireWorld`,
       );
     }
+
+    const baseFixture = this.#enregistrerChangementActionnaireFixture.aÉtéCréé
+      ? this.#enregistrerChangementActionnaireFixture
+      : this.#demanderChangementActionnaireFixture;
 
     return {
       identifiantProjet,
 
       demande: {
-        nouvelActionnaire: this.#demanderChangementActionnaireFixture.actionnaire,
+        nouvelActionnaire: baseFixture.actionnaire,
         statut,
-        demandéeLe: DateTime.convertirEnValueType(
-          this.#demanderChangementActionnaireFixture.demandéLe,
-        ),
-        demandéePar: Email.convertirEnValueType(
-          this.#demanderChangementActionnaireFixture.demandéPar,
-        ),
-        raison: this.#demanderChangementActionnaireFixture.raison,
+        demandéeLe: DateTime.convertirEnValueType(baseFixture.demandéLe),
+        demandéePar: Email.convertirEnValueType(baseFixture.demandéPar),
+        raison: baseFixture.raison,
         pièceJustificative: DocumentProjet.convertirEnValueType(
           identifiantProjet.formatter(),
           Actionnaire.TypeDocumentActionnaire.pièceJustificative.formatter(),
-          DateTime.convertirEnValueType(
-            this.#demanderChangementActionnaireFixture.demandéLe,
-          ).formatter(),
-          this.#demanderChangementActionnaireFixture.pièceJustificative.format,
+          DateTime.convertirEnValueType(baseFixture.demandéLe).formatter(),
+          baseFixture.pièceJustificative.format,
         ),
 
-        accord:
-          this.#accorderChangementActionnaireFixture.aÉtéCréé && !estUneNouvelleDemande
-            ? {
-                accordéeLe: DateTime.convertirEnValueType(
+        accord: this.#accorderChangementActionnaireFixture.aÉtéCréé
+          ? {
+              accordéeLe: DateTime.convertirEnValueType(
+                this.#accorderChangementActionnaireFixture.accordéeLe,
+              ),
+              accordéePar: Email.convertirEnValueType(
+                this.#accorderChangementActionnaireFixture.accordéePar,
+              ),
+
+              réponseSignée: DocumentProjet.convertirEnValueType(
+                identifiantProjet.formatter(),
+                Actionnaire.TypeDocumentActionnaire.changementAccordé.formatter(),
+                DateTime.convertirEnValueType(
                   this.#accorderChangementActionnaireFixture.accordéeLe,
-                ),
-                accordéePar: Email.convertirEnValueType(
-                  this.#accorderChangementActionnaireFixture.accordéePar,
-                ),
+                ).formatter(),
+                this.#accorderChangementActionnaireFixture.réponseSignée.format,
+              ),
+            }
+          : undefined,
 
-                réponseSignée: DocumentProjet.convertirEnValueType(
-                  identifiantProjet.formatter(),
-                  Actionnaire.TypeDocumentActionnaire.changementAccordé.formatter(),
-                  DateTime.convertirEnValueType(
-                    this.#accorderChangementActionnaireFixture.accordéeLe,
-                  ).formatter(),
-                  this.#accorderChangementActionnaireFixture.réponseSignée.format,
-                ),
-              }
-            : undefined,
+        rejet: this.#rejeterChangementActionnaireFixture.aÉtéCréé
+          ? {
+              rejetéeLe: DateTime.convertirEnValueType(
+                this.#rejeterChangementActionnaireFixture.rejetéeLe,
+              ),
+              rejetéePar: Email.convertirEnValueType(
+                this.#rejeterChangementActionnaireFixture.rejetéePar,
+              ),
 
-        rejet:
-          this.#rejeterChangementActionnaireFixture.aÉtéCréé && !estUneNouvelleDemande
-            ? {
-                rejetéeLe: DateTime.convertirEnValueType(
+              réponseSignée: DocumentProjet.convertirEnValueType(
+                identifiantProjet.formatter(),
+                Actionnaire.TypeDocumentActionnaire.changementRejeté.formatter(),
+                DateTime.convertirEnValueType(
                   this.#rejeterChangementActionnaireFixture.rejetéeLe,
-                ),
-                rejetéePar: Email.convertirEnValueType(
-                  this.#rejeterChangementActionnaireFixture.rejetéePar,
-                ),
-
-                réponseSignée: DocumentProjet.convertirEnValueType(
-                  identifiantProjet.formatter(),
-                  Actionnaire.TypeDocumentActionnaire.changementRejeté.formatter(),
-                  DateTime.convertirEnValueType(
-                    this.#rejeterChangementActionnaireFixture.rejetéeLe,
-                  ).formatter(),
-                  this.#rejeterChangementActionnaireFixture.réponseSignée.format,
-                ),
-              }
-            : undefined,
+                ).formatter(),
+                this.#rejeterChangementActionnaireFixture.réponseSignée.format,
+              ),
+            }
+          : undefined,
       },
     };
   }
