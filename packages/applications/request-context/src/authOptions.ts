@@ -23,7 +23,7 @@ const fifteenMinutesInSeconds = 15 * 60;
 
 const pool = new Pool({
   connectionString: getConnectionString(),
-  max: Number(process.env.DATABASE_AUTH_POOL_MAX) ?? 5,
+  max: Number(process.env.DATABASE_AUTH_POOL_MAX) || 5,
   idleTimeoutMillis: 30000,
   connectionTimeoutMillis: 2000,
   options: '-c search_path=auth',

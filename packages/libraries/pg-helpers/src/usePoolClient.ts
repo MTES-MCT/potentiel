@@ -12,7 +12,7 @@ export const usePoolClient = async <TResult extends Record<string, unknown>>(
   if (!pool) {
     pool = new Pool({
       connectionString: getConnectionString(),
-      max: Number(process.env.DATABASE_POOL_MAX) ?? 5,
+      max: Number(process.env.DATABASE_POOL_MAX) || 5,
       min: 0,
       idleTimeoutMillis: FIVE_MINUTES,
     });

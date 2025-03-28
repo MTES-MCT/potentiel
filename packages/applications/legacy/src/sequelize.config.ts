@@ -29,7 +29,7 @@ const databaseOptions: Options = {
   dialect: 'postgres',
   ...options,
   pool: {
-    max: Number(DATABASE_SEQUELIZE_POOL_MAX) ?? 5,
+    max: Number(DATABASE_SEQUELIZE_POOL_MAX) || 5,
     min: 0,
   },
   logging: false,
