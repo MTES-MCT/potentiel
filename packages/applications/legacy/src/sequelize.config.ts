@@ -22,14 +22,15 @@ const getOptionsFromUrl = (url): Options => {
   };
 };
 
-const { POSTGRESQL_POOL_MAX, DATABASE_CONNECTION_STRING } = process.env;
+const { DATABASE_SEQUELIZE_POOL_MAX, DATABASE_CONNECTION_STRING } = process.env;
 const options = getOptionsFromUrl(DATABASE_CONNECTION_STRING);
 
 const databaseOptions: Options = {
   dialect: 'postgres',
   ...options,
   pool: {
-    max: Number(POSTGRESQL_POOL_MAX),
+    max: Number(DATABASE_SEQUELIZE_POOL_MAX) ?? 5,
+    min: 0,
   },
   logging: false,
 };

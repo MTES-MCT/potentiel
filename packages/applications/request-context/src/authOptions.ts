@@ -4,6 +4,7 @@ import { Provider } from 'next-auth/providers';
 import KeycloakProvider from 'next-auth/providers/keycloak';
 import EmailProvider from 'next-auth/providers/email';
 
+import { getConnectionString } from '@potentiel-libraries/pg-helpers';
 import { getLogger } from '@potentiel-libraries/monitoring';
 import { Routes } from '@potentiel-applications/routes';
 import { PostgresAdapter } from '@potentiel-libraries/auth-pg-adapter';
@@ -21,8 +22,8 @@ const OneHourInSeconds = 60 * 60;
 const fifteenMinutesInSeconds = 15 * 60;
 
 const pool = new Pool({
-  connectionString: process.env.DATABASE_CONNECTION_STRING,
-  max: 5,
+  connectionString: getConnectionString(),
+  max: Number(process.env.DATABASE_AUTH_POOL_MAX) ?? 5,
   idleTimeoutMillis: 30000,
   connectionTimeoutMillis: 2000,
   options: '-c search_path=auth',
