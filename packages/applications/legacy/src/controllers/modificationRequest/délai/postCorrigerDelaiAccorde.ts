@@ -20,7 +20,7 @@ import { logger } from '../../../core/utils';
 import { DomainError } from '../../../core/domain';
 import { mediator } from 'mediateur';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
-import { Candidature } from '@potentiel-domain/candidature';
+import { Candidature } from '@potentiel-domain/projet';
 import { getDelaiDeRealisation } from '../../../modules/projectAppelOffre';
 import { add, sub } from 'date-fns';
 import { ModificationRequest } from '../../../infra/sequelize/projectionsNext';
