@@ -1,6 +1,6 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
-import { List } from '@potentiel-domain/entity';
+import { List, Where } from '@potentiel-domain/entity';
 
 import { AppelOffreEntity } from '../appelOffre.entity';
 
@@ -12,7 +12,9 @@ export type ListerAppelOffreReadModel = {
 
 export type ListerAppelOffreQuery = Message<
   'AppelOffre.Query.ListerAppelOffre',
-  {},
+  {
+    cycle?: AppelOffreEntity['cycleAppelOffre'];
+  },
   ListerAppelOffreReadModel
 >;
 
@@ -21,8 +23,11 @@ export type ListerAppelOffreDependencies = {
 };
 
 export const registerListerAppelOffreQuery = ({ list }: ListerAppelOffreDependencies) => {
-  const handler: MessageHandler<ListerAppelOffreQuery> = async () => {
+  const handler: MessageHandler<ListerAppelOffreQuery> = async ({ cycle }) => {
     const result = await list<AppelOffreEntity>('appel-offre', {
+      where: {
+        cycleAppelOffre: Where.equal(cycle),
+      },
       orderBy: {
         id: 'ascending',
       },
