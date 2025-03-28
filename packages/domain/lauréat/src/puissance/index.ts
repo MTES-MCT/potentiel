@@ -28,6 +28,10 @@ export type { PuissanceModifiéeEvent } from './modifier/modifierPuissance.behav
 
 // Entities
 export * from './puissance.entity';
+export * from './changement/changementPuissance.entity';
+
+// ValueType
+export * as StatutChangementPuissance from './statutChangementPuissance.valueType';
 
 // Saga
 export * as PuissanceSaga from './saga';
