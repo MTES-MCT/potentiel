@@ -18,9 +18,12 @@ export type CorrigerCandidatureCommand = Message<
 export const registerCorrigerCandidatureCommand = (
   getProjetAggregateRoot: GetProjetAggregateRoot,
 ) => {
-  const handler: MessageHandler<CorrigerCandidatureCommand> = async (message) => {
-    const projet = await getProjetAggregateRoot(message.identifiantProjet);
-    return projet.candidature.corriger(message);
+  const handler: MessageHandler<CorrigerCandidatureCommand> = async ({
+    identifiantProjet,
+    ...options
+  }) => {
+    const projet = await getProjetAggregateRoot(identifiantProjet);
+    return projet.candidature.corriger(options);
   };
 
   mediator.register('Candidature.Command.CorrigerCandidature', handler);
