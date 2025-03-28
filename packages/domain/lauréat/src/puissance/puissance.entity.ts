@@ -7,5 +7,6 @@ export type PuissanceEntity = Entity<
     identifiantProjet: string;
     puissance: number;
     miseÀJourLe: DateTime.RawType;
+    dateDemandeEnCours?: DateTime.RawType;
   }
 >;

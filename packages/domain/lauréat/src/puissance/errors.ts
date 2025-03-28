@@ -23,3 +23,23 @@ export class PuissanceNulleOuNégativeError extends DomainError {
     super("La puissance d'un projet doit avoir une valeur positive");
   }
 }
+
+export class ProjetAbandonnéError extends DomainError {
+  constructor() {
+    super("Impossible de demander le changement d'actionnaire pour un projet abandonné");
+  }
+}
+
+export class ProjetAvecDemandeAbandonEnCoursError extends DomainError {
+  constructor() {
+    super(
+      "Impossible de demander le changement d'actionnaire car une demande d'abandon est en cours pour le projet",
+    );
+  }
+}
+
+export class ProjetAchevéError extends DomainError {
+  constructor() {
+    super("Impossible de demander le changement d'actionnaire pour un projet achevé");
+  }
+}
