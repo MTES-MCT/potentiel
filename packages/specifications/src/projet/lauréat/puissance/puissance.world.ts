@@ -3,10 +3,12 @@ import { Puissance } from '@potentiel-domain/laureat';
 
 import { ImporterPuissanceFixture } from './fixture/importerPuissance.fixture';
 import { ModifierPuissanceFixture } from './fixture/modifierPuissance.fixture';
+import { DemanderChangementPuissanceFixture } from './fixture/demanderChangementPuissance.fixture';
 
 export class PuissanceWorld {
   #importerPuissanceFixture: ImporterPuissanceFixture;
   #modifierPuissanceFixture: ModifierPuissanceFixture;
+  #demanderChangementPuissanceFixture: DemanderChangementPuissanceFixture;
 
   get importerPuissanceFixture() {
     return this.#importerPuissanceFixture;
@@ -16,9 +18,14 @@ export class PuissanceWorld {
     return this.#modifierPuissanceFixture;
   }
 
+  get demanderChangementPuissanceFixture() {
+    return this.#demanderChangementPuissanceFixture;
+  }
+
   constructor() {
     this.#importerPuissanceFixture = new ImporterPuissanceFixture();
     this.#modifierPuissanceFixture = new ModifierPuissanceFixture();
+    this.#demanderChangementPuissanceFixture = new DemanderChangementPuissanceFixture();
   }
 
   mapToExpected(

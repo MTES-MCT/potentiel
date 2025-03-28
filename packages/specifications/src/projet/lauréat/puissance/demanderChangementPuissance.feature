@@ -1,5 +1,5 @@
 # language: fr
-@NotImplemented
+@select
 Fonctionnalité: Demander le changement de puissance d'un projet lauréat
 
     Contexte:
@@ -7,8 +7,6 @@ Fonctionnalité: Demander le changement de puissance d'un projet lauréat
         Et le porteur "Marcel Patoulatchi" ayant accés au projet lauréat "Du boulodrome de Marseille"
         Et la dreal "Dreal du sud" associée à la région du projet
 
-    # pour la fixture
-    # pour la demande de changement, la raison et la pièce justificative sont obligatoires
     Scénario: Demander le changement de puissance d'un projet lauréat avec un ratio à la baisse
         Quand le porteur demande le changement de puissance à la baisse pour le projet lauréat
         Alors la demande de changement de puissance devrait être consultable avec la dreal en autorité compétente
@@ -44,7 +42,7 @@ Fonctionnalité: Demander le changement de puissance d'un projet lauréat
             | 0     |
             | -1    |
 
-    # faut il vérifier que le ratio dépasse bien ceux de l'AO ?
+    @NotImplemented
     Scénario: Impossible de demander le changement de puissance si la nouvelle puissance dépasse la puissance max par famille
         Quand le porteur demande le changement de puissance pour le projet lauréat avec :
             | nouvelle puissance |  |
@@ -54,6 +52,7 @@ Fonctionnalité: Demander le changement de puissance d'un projet lauréat
 
         Alors l'utilisateur devrait être informé que "La puissance dépasse la puissance maximale de la famille de votre appel d'offre"
 
+    @NotImplemented
     Scénario: Impossible de demander le changement de puissance si la nouvelle puissance dépasse le volume réservé de l'appel d'offre
         Quand le porteur demande le changement de puissance pour le projet lauréat avec :
             | nouvelle puissance |  |
