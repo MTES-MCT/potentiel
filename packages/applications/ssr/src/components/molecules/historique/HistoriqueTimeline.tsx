@@ -2,16 +2,16 @@ import { FC } from 'react';
 import { match } from 'ts-pattern';
 
 import { PlainType } from '@potentiel-domain/core';
-import { DateTime } from '@potentiel-domain/common';
 import { Historique } from '@potentiel-domain/historique';
 import { HistoryRecord } from '@potentiel-domain/entity';
 
 import { Timeline, TimelineItemProps } from '@/components/organisms/Timeline';
 
-import { mapToAbandonTimelineItemProps } from './timeline/abandon/mapToAbandonTimelineItemProps';
-import { mapToRecoursTimelineItemProps } from './timeline/recours/mapToRecoursTimelineItemProps';
-import { mapToActionnaireTimelineItemProps } from './timeline/actionnaire/mapToActionnaireTimelineItemProps';
+import { mapToAbandonTimelineItemProps } from './timeline/abandon';
+import { mapToRecoursTimelineItemProps } from './timeline/recours';
+import { mapToActionnaireTimelineItemProps } from './timeline/actionnaire';
 import { mapToReprésentantLégalTimelineItemProps } from './timeline/représentant-légal';
+import { mapToÉtapeInconnueOuIgnoréeTimelineItemProps } from './timeline/mapToÉtapeInconnueOuIgnoréeTimelineItemProps';
 
 export type HistoriqueTimelineProps = {
   historique: PlainType<Historique.ListerHistoriqueProjetReadModel>;
@@ -28,17 +28,16 @@ const mapToTimelineItemProps = (record: HistoryRecord) =>
       {
         category: 'abandon',
       },
-      mapToAbandonTimelineItemProps,
+      (record) => mapToAbandonTimelineItemProps(record),
     )
     .with(
       {
         category: 'recours',
       },
-      mapToRecoursTimelineItemProps,
+      (record) => mapToRecoursTimelineItemProps(record),
     )
-    .with({ category: 'actionnaire' }, mapToActionnaireTimelineItemProps)
-    .with({ category: 'représentant-légal' }, mapToReprésentantLégalTimelineItemProps)
-    .otherwise(() => ({
-      date: record.createdAt as DateTime.RawType,
-      title: 'Étape inconnue',
-    }));
+    .with({ category: 'actionnaire' }, (record) => mapToActionnaireTimelineItemProps(record))
+    .with({ category: 'représentant-légal' }, (record) =>
+      mapToReprésentantLégalTimelineItemProps(record),
+    )
+    .otherwise((record) => mapToÉtapeInconnueOuIgnoréeTimelineItemProps(record));

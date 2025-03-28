@@ -1,9 +1,11 @@
 import { match } from 'ts-pattern';
 
 import { HistoryRecord } from '@potentiel-domain/entity';
-import { DateTime } from '@potentiel-domain/common';
+import { Actionnaire } from '@potentiel-domain/laureat';
 
 import { TimelineItemProps } from '@/components/organisms/Timeline';
+
+import { mapToÉtapeInconnueOuIgnoréeTimelineItemProps } from '../mapToÉtapeInconnueOuIgnoréeTimelineItemProps';
 
 import { mapToChangementActionnaireAccordéTimelineItemProps } from './mapToChangementActionnaireAccordéTimelineItemProps';
 import { mapToChangementActionnaireRejetéTimelineItemProps } from './mapToChangementActionnaireRejetéTimelineItemProps';
@@ -13,8 +15,13 @@ import { mapToChangementActionnaireDemandéTimelineItemProps } from './mapToChan
 import { mapToActionnaireImportéTimelineItemProps } from './mapToActionnaireImportéTimelineItemsProps';
 import { mapToChangementActionnaireEnregistréTimelineItemProps } from './mapToChangementActionnaireEnregistréTimelineItemProps';
 
-export const mapToActionnaireTimelineItemProps = (record: HistoryRecord) => {
-  return match(record)
+export const mapToActionnaireTimelineItemProps = (record: HistoryRecord) =>
+  match(
+    record as HistoryRecord<
+      Actionnaire.ActionnaireEvent['type'],
+      Actionnaire.ActionnaireEvent['payload']
+    >,
+  )
     .returnType<TimelineItemProps>()
     .with(
       {
@@ -58,8 +65,10 @@ export const mapToActionnaireTimelineItemProps = (record: HistoryRecord) => {
       },
       mapToChangementActionnaireAnnuléTimelineItemProps,
     )
-    .otherwise(() => ({
-      date: record.createdAt as DateTime.RawType,
-      title: 'Étape inconnue',
-    }));
-};
+    .with(
+      {
+        type: 'ChangementActionnaireSupprimé-V1',
+      },
+      mapToÉtapeInconnueOuIgnoréeTimelineItemProps,
+    )
+    .exhaustive();
