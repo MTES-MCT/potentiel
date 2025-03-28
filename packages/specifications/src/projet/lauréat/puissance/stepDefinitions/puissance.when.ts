@@ -58,6 +58,7 @@ Quand(
   },
 );
 
+// implem à la baisse / à la hausse
 Quand(
   'le porteur demande le changement de puissance pour le projet {lauréat-éliminé}',
   async function (this: PotentielWorld, statutProjet: 'lauréat' | 'éliminé') {
@@ -129,8 +130,8 @@ export async function demanderChangementPuissance(
 ) {
   const identifiantProjet =
     statutProjet === 'lauréat'
-      ? this.lauréatWorld.identifiantProjet.formatter()
-      : this.eliminéWorld.identifiantProjet.formatter();
+      ? this.lauréatWorld.identifiantProjet
+      : this.eliminéWorld.identifiantProjet;
 
   const { pièceJustificative, demandéLe, demandéPar, raison, ratio } =
     this.lauréatWorld.puissanceWorld.demanderChangementPuissanceFixture.créer({
@@ -138,18 +139,17 @@ export async function demanderChangementPuissance(
       ...(ratioValue && { ratio: ratioValue }),
     });
 
-  const puissanceActuelle = this.lauréatWorld.puissanceWorld.mapToExpected(
-    this.lauréatWorld.identifiantProjet,
-  ).puissance;
+  const puissanceValue =
+    ratio * this.lauréatWorld.puissanceWorld.mapToExpected(identifiantProjet).puissance;
 
   await mediator.send<Puissance.PuissanceUseCase>({
     type: 'Lauréat.Puissance.UseCase.DemanderChangement',
     data: {
       raisonValue: raison,
-      puissanceValue: ratio * puissanceActuelle,
+      puissanceValue,
       dateDemandeValue: demandéLe,
       identifiantUtilisateurValue: demandéPar,
-      identifiantProjetValue: identifiantProjet,
+      identifiantProjetValue: identifiantProjet.formatter(),
       pièceJustificativeValue: pièceJustificative,
     },
   });
