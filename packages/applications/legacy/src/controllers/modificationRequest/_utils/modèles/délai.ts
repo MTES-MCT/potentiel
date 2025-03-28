@@ -65,7 +65,7 @@ export const mapToDélaiModèleRéponseProps = ({
   dateLimiteAchevementActuelle: Date;
   dateLimiteAchevementInitiale: Date;
   justification: string;
-  utilisateur: Pick<Utilisateur.ValueType, 'nom'>;
+  utilisateur: Pick<Utilisateur.ValueType, 'nom' | 'région'>;
   dateDemande: Date;
   demandePrécédente?: DemandePrécédente;
 }): ModèleRéponseSignée.ModèleRéponseDélai['data'] => {
@@ -75,6 +75,8 @@ export const mapToDélaiModèleRéponseProps = ({
     période: identifiantProjet.période,
     cahierDesChargesChoisi,
   });
+
+  const régionDreal = Option.isSome(utilisateur.région) ? utilisateur.région : '';
 
   const donnéesDélai: ModèleRéponseSignée.ModèleRéponseDélai['data'] = {
     // Données projet
@@ -89,7 +91,7 @@ export const mapToDélaiModèleRéponseProps = ({
     communeProjet: lauréat.localité.commune,
     dateNotification: formatDateForDocument(lauréat.notifiéLe.date),
     familles: identifiantProjet.famille ? ('yes' as const) : ('' as const),
-    dreal: candidature.localité.région,
+    dreal: régionDreal,
     email: candidature.emailContact.formatter(),
     nomCandidat: candidature.nomCandidat,
     nomProjet: lauréat.nomProjet,
@@ -99,7 +101,7 @@ export const mapToDélaiModèleRéponseProps = ({
     refPotentiel: formatIdentifiantProjetForDocument(identifiantProjet),
     titreAppelOffre: appelOffres.title,
     titreFamille:
-      période?.familles.find((famille) => famille.id === identifiantProjet.famille)?.title || '',
+      période?.familles.find((famille) => famille.id === identifiantProjet.famille)?.id || '',
     titrePeriode: période?.title || '',
     puissance: puissanceActuelle.toString(),
     unitePuissance: appelOffres.unitePuissance,

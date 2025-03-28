@@ -88,9 +88,11 @@ v1Router.get(
       return notFoundResponse({ request, response, ressourceTitle: 'Demande' });
     }
 
+    const régionDreal = Option.isSome(request.user.région) ? request.user.région : undefined;
     if (modificationRequest.type === 'puissance') {
       const content = await ModèleRéponseSignée.générerModèleRéponseAdapter({
         type: 'puissance',
+        logo: régionDreal,
         data: mapToPuissanceModèleRéponseProps({
           identifiantProjet,
           lauréat,
@@ -102,7 +104,7 @@ v1Router.get(
           justification: modificationRequest.justification ?? '',
           nouvellePuissance: modificationRequest.puissance!,
           puissanceActuelle: modificationRequest.project.puissance,
-          utilisateur: { nom: request.user.fullName },
+          utilisateur: { nom: request.user.fullName, région: request.user.région },
         }),
       });
 
@@ -138,8 +140,10 @@ v1Router.get(
             modificationRequest.delayInMonths ?? 0,
           ).date;
 
+      const régionDreal = Option.isSome(request.user.région) ? request.user.région : undefined;
       const content = await ModèleRéponseSignée.générerModèleRéponseAdapter({
         type: 'délai',
+        logo: régionDreal,
         data: mapToDélaiModèleRéponseProps({
           identifiantProjet,
           lauréat,
@@ -150,7 +154,7 @@ v1Router.get(
           dateDemande: new Date(modificationRequest.requestedOn),
           justification: modificationRequest.justification ?? '',
           puissanceActuelle: modificationRequest.project.puissance,
-          utilisateur: { nom: request.user.fullName },
+          utilisateur: { nom: request.user.fullName, région: request.user.région },
           dateAchèvementDemandée,
           dateLimiteAchevementActuelle: completionDueOn,
           dateLimiteAchevementInitiale,
