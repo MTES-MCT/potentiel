@@ -47,9 +47,12 @@ export type ImporterCandidatureCommand = Message<
 export const registerImporterCandidatureCommand = (
   getProjetAggregateRoot: GetProjetAggregateRoot,
 ) => {
-  const handler: MessageHandler<ImporterCandidatureCommand> = async (message) => {
-    const projet = await getProjetAggregateRoot(message.identifiantProjet);
-    return projet.candidature.importer(message);
+  const handler: MessageHandler<ImporterCandidatureCommand> = async ({
+    identifiantProjet,
+    ...options
+  }) => {
+    const projet = await getProjetAggregateRoot(identifiantProjet);
+    return projet.candidature.importer(options);
   };
 
   mediator.register('Candidature.Command.ImporterCandidature', handler);
