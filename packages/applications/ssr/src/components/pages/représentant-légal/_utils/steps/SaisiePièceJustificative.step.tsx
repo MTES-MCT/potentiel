@@ -1,6 +1,6 @@
 'use client';
 import { FC } from 'react';
-import { match } from 'ts-pattern';
+import { match, P } from 'ts-pattern';
 
 import { ReprésentantLégal } from '@potentiel-domain/laureat';
 
@@ -9,8 +9,11 @@ import { UploadNewOrModifyExistingDocument } from '@/components/atoms/form/docum
 
 import { DemanderChangementReprésentantLégalFormKeys } from '../../changement/demander/demanderChangementReprésentantLégal.action';
 
+import { TypeSociété } from './SaisieTypeSociété.step';
+
 export type SaisiePièceJustificativeProps = {
   typeReprésentantLégal: ReprésentantLégal.TypeReprésentantLégal.RawType;
+  typeSociété?: TypeSociété;
   pièceJustificative?: Array<string>;
   onChange?: (piècesJustificative: Array<string>) => void;
   validationErrors: ValidationErrors<DemanderChangementReprésentantLégalFormKeys>;
@@ -18,23 +21,33 @@ export type SaisiePièceJustificativeProps = {
 
 export const SaisiePièceJustificativeStep: FC<SaisiePièceJustificativeProps> = ({
   typeReprésentantLégal,
+  typeSociété,
   pièceJustificative,
   validationErrors,
   onChange,
 }) => {
   const getPièceJustificativeHintText = () =>
-    match(typeReprésentantLégal)
-      .returnType<string>()
+    match({ typeReprésentantLégal, typeSociété })
       .with(
-        'personne-physique',
+        { typeReprésentantLégal: 'personne-physique' },
         () => `Une copie de titre d'identité (carte d'identité ou passeport) en cours de validité`,
       )
       .with(
-        'personne-morale',
-        () =>
-          'Un extrait Kbis, pour les sociétés en cours de constitution une copie des statuts de la société en cours de constitution, une attestation de récépissé de dépôt de fonds pour constitution de capital social et une copie de l’acte désignant le représentant légal de la société',
+        { typeReprésentantLégal: 'personne-morale', typeSociété: 'constituée' },
+        () => `Un extrait Kbis`,
       )
-      .with('collectivité', () => `Un extrait de délibération portant sur le projet`)
+      .with(
+        {
+          typeReprésentantLégal: 'personne-morale',
+          typeSociété: P.union('en cours de constitution', 'non renseignée'),
+        },
+        () =>
+          `Une copie des statuts de la société en cours de constitution, une attestation de récépissé de dépôt de fonds pour constitution de capital social et une copie de l’acte désignant le représentant légal de la société`,
+      )
+      .with(
+        { typeReprésentantLégal: 'collectivité' },
+        () => `Un extrait de délibération portant sur le projet`,
+      )
       .otherwise(
         () =>
           `Tout document officiel permettant d'attester de l'existence juridique de l'organisme`,
@@ -47,7 +60,7 @@ export const SaisiePièceJustificativeStep: FC<SaisiePièceJustificativeProps> =
       hintText={getPièceJustificativeHintText()}
       required
       formats={['pdf']}
-      multiple
+      multiple={typeSociété !== 'constituée' ? true : undefined}
       state={validationErrors['piecesJustificatives'] ? 'error' : 'default'}
       stateRelatedMessage={validationErrors['piecesJustificatives']}
       onChange={(piècesJustificatives) => {

@@ -1,7 +1,7 @@
 import { match } from 'ts-pattern';
 
-import { HistoryRecord } from '@potentiel-domain/entity';
 import { DateTime } from '@potentiel-domain/common';
+import { ReprésentantLégal } from '@potentiel-domain/laureat';
 
 import { TimelineItemProps } from '@/components/organisms/Timeline';
 
@@ -10,7 +10,16 @@ import { mapToChangementReprésentantLégalRejetéTimelineItemProps } from './ma
 import { mapToChangementReprésentantLégalAnnuléTimelineItemProps } from './mapToChangementReprésentantLégalAnnuléTimelineItemProps';
 import { mapToReprésentantLégalModifiéTimelineItemProps } from './mapToReprésentantLégalModifiéTimelineItemsProps';
 import { mapToChangementReprésentantLégalDemandéTimelineItemProps } from './mapToChangementReprésentantLégalDemandéTimelineItemProps';
+import { mapToChangementReprésentantLégalCorrigéTimelineItemProps } from './mapToChangementReprésentantLégalCorrigéTimelineItemProps';
 import { mapToReprésentantLégalImportéTimelineItemProps } from './mapToReprésentantLégalImportéTimelineItemsProps';
+
+type HistoryRecord = {
+  category: 'représentant-légal';
+  id: string;
+  createdAt: string;
+  type: ReprésentantLégal.ReprésentantLégalEvent['type'];
+  payload: ReprésentantLégal.ReprésentantLégalEvent['payload'];
+};
 
 export const mapToReprésentantLégalTimelineItemProps = (record: HistoryRecord) => {
   return match(record)
@@ -32,6 +41,12 @@ export const mapToReprésentantLégalTimelineItemProps = (record: HistoryRecord)
         type: 'ChangementReprésentantLégalDemandé-V1',
       },
       mapToChangementReprésentantLégalDemandéTimelineItemProps,
+    )
+    .with(
+      {
+        type: 'ChangementReprésentantLégalCorrigé-V1',
+      },
+      mapToChangementReprésentantLégalCorrigéTimelineItemProps,
     )
     .with(
       {

@@ -5,14 +5,18 @@ import { match } from 'ts-pattern';
 
 import { ReprésentantLégal } from '@potentiel-domain/laureat';
 
+import { TypeSociété } from './SaisieTypeSociété.step';
+
 type ValidationStepProps = {
   typeReprésentantLégal: ReprésentantLégal.TypeReprésentantLégal.RawType;
+  typeSociété?: TypeSociété;
   nomReprésentantLégal: string;
   piècesJustificatives: ReadonlyArray<string>;
   message: string;
 };
 export const ValidationStep: FC<ValidationStepProps> = ({
   typeReprésentantLégal,
+  typeSociété,
   nomReprésentantLégal,
   piècesJustificatives,
   message,
@@ -35,6 +39,12 @@ export const ValidationStep: FC<ValidationStepProps> = ({
             <div className="font-semibold">Type :</div>
             <blockquote>{type}</blockquote>
           </div>
+          {typeSociété && (
+            <div className="flex gap-2">
+              <div className="font-semibold">Type :</div>
+              <blockquote>{typeSociété}</blockquote>
+            </div>
+          )}
           <div className="flex gap-2">
             <div className="font-semibold">Nom représentant légal :</div>
             <blockquote>{nomReprésentantLégal}</blockquote>

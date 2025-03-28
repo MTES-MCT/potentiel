@@ -1,4 +1,5 @@
 import { PDFDocument } from 'pdf-lib';
+import { ZodError } from 'zod';
 
 export const mergePdfDocuments = async (documents: Array<Blob>): Promise<Blob> => {
   if (documents.length === 1) {
@@ -9,7 +10,18 @@ export const mergePdfDocuments = async (documents: Array<Blob>): Promise<Blob> =
 
   for (const document of documents) {
     const pdfBytes = await document.arrayBuffer();
-    const pdf = await PDFDocument.load(pdfBytes);
+    const pdf = await PDFDocument.load(pdfBytes, { ignoreEncryption: true });
+
+    if (pdf.isEncrypted) {
+      throw new ZodError([
+        {
+          code: 'custom',
+          path: ['piecesJustificatives'],
+          message: `Impossible de fusionner des PDF chiffrés`,
+        },
+      ]);
+    }
+
     const copiedPages = await pdfDoc.copyPages(pdf, pdf.getPageIndices());
 
     copiedPages.forEach((page) => {

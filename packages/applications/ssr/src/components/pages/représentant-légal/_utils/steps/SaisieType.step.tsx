@@ -11,24 +11,41 @@ import { Heading3 } from '@/components/atoms/headings';
 import { ModifierReprésentantLégalFormKeys } from '../../modifier/modifierReprésentantLégal.action';
 import { TypeReprésentantLégalSelect } from '../../TypeReprésentantLégalSelect';
 
+import { SaisieTypeSociétéStep, TypeSociété } from './SaisieTypeSociété.step';
+
 type Contexte = 'demander' | 'modifier' | 'corriger';
+
+type OnChangeProps = {
+  typeReprésentantLégal: ReprésentantLégal.TypeReprésentantLégal.RawType;
+  typeSociété: TypeSociété;
+};
 
 export type SaisieTypeStepProps = {
   contexte: Contexte;
   typeReprésentantLégal: ReprésentantLégal.TypeReprésentantLégal.RawType;
-  onChange?: (nouveauType: ReprésentantLégal.TypeReprésentantLégal.RawType) => void;
+  typeSociété: TypeSociété;
+  onChange?: ({ typeReprésentantLégal, typeSociété }: OnChangeProps) => void;
   validationErrors: ValidationErrors<ModifierReprésentantLégalFormKeys>;
+};
+
+type SaisieTypeState = {
+  typeReprésentantLégal: ReprésentantLégal.TypeReprésentantLégal.RawType;
+  typeSociété: TypeSociété;
 };
 
 export const SaisieTypeStep: FC<SaisieTypeStepProps> = ({
   contexte,
   typeReprésentantLégal,
+  typeSociété,
   onChange,
   validationErrors,
 }) => {
-  const [selectedTypePersonne, setSelectedTypePersonne] = useState(typeReprésentantLégal);
+  const [state, setState] = useState<SaisieTypeState>({
+    typeReprésentantLégal,
+    typeSociété,
+  });
 
-  const component = match(selectedTypePersonne)
+  const component = match(state.typeReprésentantLégal)
     .returnType<ReactNode | null>()
     .with('personne-physique', () => (
       <Situation
@@ -43,20 +60,24 @@ export const SaisieTypeStep: FC<SaisieTypeStepProps> = ({
       />
     ))
     .with('personne-morale', () => (
-      <Situation
-        contexte={contexte}
-        nom="Une personne morale"
-        informationÀRemplir="le nom de la société"
-        piècesJustificatives={
-          <>
-            <li>
-              Pour les sociétés constituées :
-              <ul className="mt-2 ml-4 list-disc">
-                <li>un extrait Kbis</li>
-              </ul>
-            </li>
-            <li>
-              Pour les sociétés en cours de constitution :
+      <>
+        <SaisieTypeSociétéStep
+          onChange={(typeSociété) => {
+            onChange &&
+              onChange({
+                typeReprésentantLégal: state.typeReprésentantLégal,
+                typeSociété,
+              });
+            setState({ ...state, typeSociété });
+          }}
+        />
+        <Situation
+          contexte={contexte}
+          nom="Une personne morale"
+          informationÀRemplir="le nom de la société"
+          piècesJustificatives={match(state.typeSociété)
+            .with('constituée', () => <li>un extrait Kbis</li>)
+            .with('en cours de constitution', () => (
               <ul className="mt-2 ml-4 list-disc">
                 <li>une copie des statuts de la société</li>
                 <li>
@@ -64,10 +85,16 @@ export const SaisieTypeStep: FC<SaisieTypeStepProps> = ({
                 </li>
                 <li>une copie de l’acte désignant le représentant légal de la société</li>
               </ul>
-            </li>
-          </>
-        }
-      />
+            ))
+            .with('non renseignée', () => (
+              <li className="italic">
+                Veuillez sélectionner le type de société pour voir les pièces justificatives à
+                fournir
+              </li>
+            ))
+            .exhaustive()}
+        />
+      </>
     ))
     .with('collectivité', () => (
       <Situation
@@ -102,13 +129,18 @@ export const SaisieTypeStep: FC<SaisieTypeStepProps> = ({
         label="Choisir le type de représentant légal"
         state={validationErrors.typeRepresentantLegal ? 'error' : 'default'}
         stateRelatedMessage="Le type de personne pour le représentant légal est obligatoire"
-        typeReprésentantLégalActuel={selectedTypePersonne}
-        onTypeReprésentantLégalSelected={(type) => {
+        typeReprésentantLégalActuel={state.typeReprésentantLégal}
+        onTypeReprésentantLégalSelected={(typeReprésentantLégal) => {
           delete validationErrors.typeRepresentantLegal;
-          setSelectedTypePersonne(type);
-          onChange && onChange(type);
+          onChange && onChange({ typeReprésentantLégal, typeSociété: state.typeSociété });
+          setState((state) => ({ ...state, typeReprésentantLégal }));
         }}
       />
+
+      {state.typeSociété === 'non renseignée' && (
+        <input type={'hidden'} value={'non renseignée'} name="typeSociete" />
+      )}
+
       {component}
     </>
   );
