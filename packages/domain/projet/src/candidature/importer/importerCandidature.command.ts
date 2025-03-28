@@ -19,7 +19,7 @@ export type ImporterCandidatureCommand = Message<
     sociétéMère: string;
     nomCandidat: string;
     puissanceProductionAnnuelle: number;
-    prixReference: number;
+    prixRéférence: number;
     noteTotale: number;
     nomReprésentantLégal: string;
     emailContact: Email.ValueType;

@@ -30,7 +30,7 @@ export const mapToCommonCandidatureUseCaseData = (
   nomCandidat: payload.nomCandidatValue,
   nomReprésentantLégal: payload.nomReprésentantLégalValue,
   noteTotale: payload.noteTotaleValue,
-  prixReference: payload.prixReferenceValue,
+  prixRéférence: payload.prixRéférenceValue,
   puissanceProductionAnnuelle: payload.puissanceProductionAnnuelleValue,
   motifÉlimination: payload.motifÉliminationValue,
   puissanceALaPointe: payload.puissanceALaPointeValue,
