@@ -230,7 +230,7 @@ export const CorrigerChangementReprésentantLégalForm: FC<
         />
 
         {state.typeSociété === 'non renseignée' && (
-          <input type="hidden" value={'non renseignée'} name="typeSociete" />
+          <input type="hidden" value={state.typeSociété} name="typeSociete" />
         )}
 
         <Steps
