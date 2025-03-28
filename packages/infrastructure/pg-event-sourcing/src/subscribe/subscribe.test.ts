@@ -75,12 +75,12 @@ describe(`subscribe`, () => {
 
     let eventHandler1HasBeenCalled = false;
     let eventHandler2HasBeenCalled = false;
-    const eventHandler1 = async () => {
-      eventHandler1HasBeenCalled = true;
+    const eventHandler1 = async (event: { type: string }) => {
+      eventHandler1HasBeenCalled = event.type === eventType;
       return Promise.resolve();
     };
-    const eventHandler2 = async () => {
-      eventHandler2HasBeenCalled = true;
+    const eventHandler2 = async (event: { type: string }) => {
+      eventHandler2HasBeenCalled = event.type === eventType;
       return Promise.resolve();
     };
 
@@ -186,8 +186,8 @@ describe(`subscribe`, () => {
     };
 
     let eventHandlerHasBeenCalled = false;
-    const eventHandler = async () => {
-      eventHandlerHasBeenCalled = true;
+    const eventHandler = async (event: { type: string }) => {
+      eventHandlerHasBeenCalled = event.type === eventType;
       return Promise.resolve();
     };
 
@@ -516,12 +516,12 @@ describe(`subscribe`, () => {
 
     let eventHandler1HasBeenCalled = false;
     let eventHandler2HasBeenCalled = false;
-    const eventHandler1 = async () => {
-      eventHandler1HasBeenCalled = true;
+    const eventHandler1 = async (event: { type: string }) => {
+      eventHandler1HasBeenCalled = event.type === eventType;
       return Promise.resolve();
     };
-    const eventHandler2 = async () => {
-      eventHandler2HasBeenCalled = true;
+    const eventHandler2 = async (event: { type: string }) => {
+      eventHandler2HasBeenCalled = event.type === eventType;
       return Promise.resolve();
     };
 
