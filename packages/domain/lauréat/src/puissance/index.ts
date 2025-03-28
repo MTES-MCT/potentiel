@@ -1,10 +1,9 @@
-import { DemanderChangementUseCase } from '../actionnaire';
-
 import {
   ConsulterPuissanceQuery,
   ConsulterPuissanceReadModel,
 } from './consulter/consulterPuissance.query';
 import { DemanderChangementCommand } from './demander/demanderChangementPuissance.command';
+import { DemanderChangementUseCase } from './demander/demanderChangementPuissance.usecase';
 import { ImporterPuissanceCommand } from './importer/importerPuissance.command';
 import { ModifierPuissanceCommand } from './modifier/modifierPuissance.command';
 import { ModifierPuissanceUseCase } from './modifier/modifierPuissance.usecase';
