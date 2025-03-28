@@ -21,7 +21,7 @@ export type ImporterCandidatureUseCase = Message<
     sociétéMèreValue: string;
     nomCandidatValue: string;
     puissanceProductionAnnuelleValue: number;
-    prixReferenceValue: number;
+    prixRéférenceValue: number;
     noteTotaleValue: number;
     nomReprésentantLégalValue: string;
     emailContactValue: string;
