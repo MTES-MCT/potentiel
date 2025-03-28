@@ -7,12 +7,10 @@ export type ChangementPuissanceEntity = Entity<
     identifiantProjet: string;
 
     demande: {
-      nouvelPuissance: string;
+      nouvellePuissance: string;
       statut: string;
       demandéePar: string;
       demandéeLe: DateTime.RawType;
-      // serait utilisé pour enregistré et la demande
-      // d'où l'optionnel
       raison?: string;
       pièceJustificative?: {
         format: string;
