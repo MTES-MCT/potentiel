@@ -1,11 +1,11 @@
 import { RangeOptions } from './rangeOptions';
 
-export type HistoryRecord = {
+export type HistoryRecord<TType = string, TPayload = Record<string, unknown>> = {
   category: string;
   id: string;
   createdAt: string;
-  type: string;
-  payload: Record<string, unknown>;
+  type: TType;
+  payload: TPayload;
 };
 
 export type ListHistoryOptions = {
