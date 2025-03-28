@@ -229,10 +229,6 @@ export const CorrigerChangementReprésentantLégalForm: FC<
           name="identifiantProjet"
         />
 
-        {state.typeSociété === 'non renseignée' && (
-          <input type="hidden" value={state.typeSociété} name="typeSociete" />
-        )}
-
         <Steps
           steps={steps}
           currentStep={state.step}

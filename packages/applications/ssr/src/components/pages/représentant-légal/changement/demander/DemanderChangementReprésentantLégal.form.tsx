@@ -203,10 +203,6 @@ export const DemanderChangementReprésentantLégalForm: FC<
       >
         <input type={'hidden'} value={identifiantProjet} name="identifiantProjet" />
 
-        {state.typeSociété === 'non renseignée' && (
-          <input type={'hidden'} value={state.typeSociété} name="typeSociete" />
-        )}
-
         <Steps
           steps={steps}
           currentStep={state.step}
