@@ -32,6 +32,10 @@ export class EventStreamEmitter extends EventEmitter {
     this.#setupListener();
   }
 
+  public get subscriber(): Subscriber {
+    return this.#subscriber;
+  }
+
   async unlisten() {
     await this.#client.query(
       format(`unlisten "${this.#subscriber.streamCategory}|${this.#subscriber.name}"`),
@@ -68,6 +72,14 @@ export class EventStreamEmitter extends EventEmitter {
     await this.#client.query(
       format(`listen "${this.#subscriber.streamCategory}|${this.#subscriber.name}"`),
     );
+  }
+
+  async updateClient(client: Client) {
+    this.#client = client;
+
+    await this.unlisten();
+    this.#setupListener();
+    await this.listen();
   }
 
   #getChannelName(eventType: string): ChannelName {
