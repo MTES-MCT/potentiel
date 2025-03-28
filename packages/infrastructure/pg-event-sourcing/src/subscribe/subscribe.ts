@@ -1,6 +1,8 @@
 import { Client } from 'pg';
+import { retry, ExponentialBackoff, handleAll, FailureReason } from 'cockatiel';
 
 import { getConnectionString } from '@potentiel-libraries/pg-helpers';
+import { getLogger } from '@potentiel-libraries/monitoring';
 
 import { Event } from '../event';
 
@@ -9,8 +11,10 @@ import { EventStreamEmitter } from './eventStreamEmitter';
 import { Subscriber, Unsubscribe } from './subscriber/subscriber';
 import { retryPendingAcknowledgement } from './acknowledgement/retryPendingAcknowledgement';
 
+let isReconnecting = false;
 let client: Client | undefined;
-const subscribers = new Map<string, Subscriber>();
+
+const eventStreamEmitters = new Map<string, EventStreamEmitter>();
 
 export const subscribe = async <TEvent extends Event = Event>(
   subscriber: Subscriber<TEvent>,
@@ -19,11 +23,7 @@ export const subscribe = async <TEvent extends Event = Event>(
     client = await connect();
   }
 
-  subscribers.set(
-    `${subscriber.streamCategory}-${subscriber.name}`,
-    subscriber as unknown as Subscriber<Event>,
-  );
-  client.setMaxListeners(subscribers.size);
+  client.setMaxListeners(eventStreamEmitters.size + 1);
 
   await registerSubscriber(subscriber);
 
@@ -36,27 +36,33 @@ export const subscribe = async <TEvent extends Event = Event>(
 
   await eventStreamEmitter.listen();
 
+  const eventStreamEmitterId = `${subscriber.streamCategory}-${subscriber.name}`;
+  eventStreamEmitters.set(eventStreamEmitterId, eventStreamEmitter);
+
   return async () => {
     await eventStreamEmitter.unlisten();
 
-    subscribers.delete(`${subscriber.streamCategory}-${subscriber.name}`);
-    client?.setMaxListeners(subscribers.size);
+    eventStreamEmitters.delete(eventStreamEmitterId);
+    client?.setMaxListeners(eventStreamEmitters.size + 1);
 
-    if (subscribers.size === 0) {
+    if (eventStreamEmitters.size === 0) {
       await disconnect();
     }
   };
 };
 
 export const executeSubscribersRetry = async () => {
-  for (const subscriber of subscribers.values()) {
-    await retryPendingAcknowledgement(subscriber);
+  for (const eventStreamEmitter of eventStreamEmitters.values()) {
+    await retryPendingAcknowledgement(eventStreamEmitter.subscriber);
   }
 };
 
 const connect = async () => {
   const client = new Client(getConnectionString());
+
   await client.connect();
+  client.on('error', handleClientError);
+
   return client;
 };
 
@@ -64,3 +70,49 @@ const disconnect = async () => {
   await client?.end();
   client = undefined;
 };
+
+const handleClientError = async (error: Error) => {
+  if (!isReconnecting) {
+    const logger = getLogger('EventSourcing Subscribe');
+
+    logger.warn(`An error occurred from subscribe Postgresql client`, { error });
+    logger.info(`Trying to reconnect subscribe Postgresql client...`);
+
+    isReconnecting = true;
+
+    const retryPolicy = retry(handleAll, {
+      maxAttempts: 10,
+      backoff: new ExponentialBackoff(),
+    });
+
+    retryPolicy.onGiveUp((failureReason) => {
+      logger.error(new SubscribeClientReconnectionError(failureReason));
+    });
+
+    await retryPolicy.execute(async () => {
+      client = await connect();
+      client.setMaxListeners(eventStreamEmitters.size + 1);
+
+      logger.info(`Subscribe Postgresql client reconnection succeeds !`);
+    });
+
+    if (client) {
+      for (const eventStreamEmitter of eventStreamEmitters.values()) {
+        await eventStreamEmitter.updateClient(client);
+      }
+
+      await executeSubscribersRetry();
+    }
+
+    isReconnecting = false;
+  }
+};
+
+class SubscribeClientReconnectionError extends Error {
+  /**
+   *
+   */
+  constructor(public failureReason: FailureReason<unknown>) {
+    super(`Subscribe Postrgesql client failed to reconnect after 10 retries`);
+  }
+}
