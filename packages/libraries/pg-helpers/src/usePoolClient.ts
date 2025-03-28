@@ -3,6 +3,7 @@ import { QueryResult, Pool, PoolClient } from 'pg';
 import { getConnectionString } from './getConnectionString';
 
 const FIVE_MINUTES = 5 * 60 * 1000;
+
 let pool: Pool | undefined;
 
 export const usePoolClient = async <TResult extends Record<string, unknown>>(
@@ -11,6 +12,7 @@ export const usePoolClient = async <TResult extends Record<string, unknown>>(
   if (!pool) {
     pool = new Pool({
       connectionString: getConnectionString(),
+      max: Number(process.env.DATABASE_POOL_MAX) || 5,
       min: 0,
       idleTimeoutMillis: FIVE_MINUTES,
     });
