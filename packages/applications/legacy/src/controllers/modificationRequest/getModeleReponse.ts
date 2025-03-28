@@ -125,9 +125,10 @@ v1Router.get(
         appelOffres,
         modificationRequest.project.technologie ?? 'N/A',
       );
-      const dateLimiteAchevementInitiale = DateTime.convertirEnValueType(
-        notifiedOn,
-      ).ajouterNombreDeMois(délaiAO ?? 0).date;
+
+      const dateLimiteAchevementInitiale = DateTime.convertirEnValueType(notifiedOn)
+        .ajouterNombreDeMois(délaiAO ?? 0)
+        .retirerNombreDeJours(1).date;
 
       // NB toutes les modificationRequests ont une `dateAchèvementDemandée` depuis 2022,
       // mais il reste des demandes avec statut "demandé" qui n'en ont pas.
@@ -199,6 +200,7 @@ const getDemandePrécédente = (
         dateReponseDemandePrecedente: new Date(respondedOn),
         demandeEnMois: true,
         dureeDelaiDemandePrecedenteEnMois: delayInMonths,
+
         delaiDemandePrecedenteAccordeEnMois: Number(acceptanceParams.delayInMonths),
         autreDelaiDemandePrecedenteAccorde: delayInMonths !== acceptanceParams.delayInMonths,
       };
@@ -209,6 +211,7 @@ const getDemandePrécédente = (
         dateReponseDemandePrecedente: new Date(respondedOn),
         demandeEnMois: true,
         dureeDelaiDemandePrecedenteEnMois: delayInMonths,
+
         demandeEnMoisAccordéeEnDate: true,
         dateDemandePrecedenteAccordée: new Date(acceptanceParams.dateAchèvementAccordée),
         autreDelaiDemandePrecedenteAccorde: true,

@@ -1,5 +1,4 @@
 export * from './getModificationRequestAuthority';
-export * from './getModificationRequestDataForResponseTemplate';
 export * from './getModificationRequestDetails';
 export * from './getModificationRequestInfoForStatusNotification';
 export * from './getModificationRequestListForAdmin';
