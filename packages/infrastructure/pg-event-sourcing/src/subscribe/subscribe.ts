@@ -58,8 +58,10 @@ export const executeSubscribersRetry = async () => {
 };
 
 const connect = async () => {
-  const client = new Client(getConnectionString());
-
+  const client = new Client({
+    connectionString: getConnectionString(),
+    application_name: 'potentiel_subscribers',
+  });
   await client.connect();
   client.on('error', handleClientError);
 

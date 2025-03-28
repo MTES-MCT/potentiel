@@ -19,6 +19,9 @@ const getOptionsFromUrl = (url): Options => {
     password,
     database: database ?? undefined,
     port: port ? +port : undefined,
+    dialectOptions: {
+      application_name: 'potentiel_legacy',
+    },
   };
 };
 
