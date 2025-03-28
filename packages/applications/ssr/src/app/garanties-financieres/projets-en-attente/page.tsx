@@ -1,10 +1,13 @@
 import { mediator } from 'mediateur';
 import type { Metadata } from 'next';
+import { z } from 'zod';
+import { redirect, RedirectType } from 'next/navigation';
 
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { GarantiesFinancières } from '@potentiel-domain/laureat';
 import { Role } from '@potentiel-domain/utilisateur';
 import { DateTime } from '@potentiel-domain/common';
+import { Routes } from '@potentiel-applications/routes';
 
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
@@ -14,9 +17,17 @@ import {
 } from '@/components/pages/garanties-financières/en-attente/lister/ListerProjetsAvecGarantiesFinancièresEnAttente.page';
 import { getGarantiesFinancièresMotifLabel } from '@/components/pages/garanties-financières/getGarantiesFinancièresMotifLabel';
 import { mapToRangeOptions, mapToPagination } from '@/utils/pagination';
-import { ListPageTemplateProps } from '@/components/templates/ListPage.template';
-import { ListItemProjetAvecGarantiesFinancièresEnAttenteProps } from '@/components/pages/garanties-financières/en-attente/lister/ListItemProjetAvecGarantiesFinancièresEnAttente';
 import { getRégionUtilisateur } from '@/utils/getRégionUtilisateur';
+import { ListFilterItem } from '@/components/molecules/ListFilters';
+
+const searchParamsSchema = z.object({
+  page: z.coerce.number().default(1),
+  appelOffre: z.string().optional(),
+  cycle: z.enum(['CRE4', 'PPE2']).optional(),
+  motif: z.string().optional(),
+});
+
+type SearchParams = keyof z.infer<typeof searchParamsSchema>;
 
 type PageProps = {
   searchParams?: Record<string, string>;
@@ -30,10 +41,7 @@ export const metadata: Metadata = {
 export default async function Page({ searchParams }: PageProps) {
   return PageWithErrorHandling(async () =>
     withUtilisateur(async (utilisateur) => {
-      const page = searchParams?.page ? parseInt(searchParams.page) : 1;
-      const appelOffre = searchParams?.appelOffre;
-      const motif = searchParams?.motif;
-      const cycle = searchParams?.cycle;
+      const { page, appelOffre, cycle, motif } = searchParamsSchema.parse(searchParams);
 
       const régionDreal = await getRégionUtilisateur(utilisateur);
 
@@ -57,36 +65,45 @@ export default async function Page({ searchParams }: PageProps) {
 
       const appelOffres = await mediator.send<AppelOffre.ListerAppelOffreQuery>({
         type: 'AppelOffre.Query.ListerAppelOffre',
-        data: {},
+        data: { cycle },
       });
 
-      const filters: ListPageTemplateProps<ListItemProjetAvecGarantiesFinancièresEnAttenteProps>['filters'] =
-        [
-          {
-            label: "Cycle d'appels d'offres",
-            searchParamKey: 'cycle',
-            options: [
-              { label: 'PPE2', value: 'PPE2' },
-              { label: 'CRE4', value: 'CRE4' },
-            ],
-          },
-          {
-            label: `Appel d'offres`,
-            searchParamKey: 'appelOffre',
-            options: appelOffres.items.map((appelOffre) => ({
-              label: appelOffre.id,
-              value: appelOffre.id,
-            })),
-          },
-          {
-            label: 'Motif',
-            searchParamKey: 'motif',
-            options: GarantiesFinancières.MotifDemandeGarantiesFinancières.motifs.map((motif) => ({
-              label: getGarantiesFinancièresMotifLabel(motif),
-              value: motif,
-            })),
-          },
-        ];
+      const filters: ListFilterItem<SearchParams>[] = [
+        {
+          label: "Cycle d'appels d'offres",
+          searchParamKey: 'cycle',
+          options: [
+            { label: 'PPE2', value: 'PPE2' },
+            { label: 'CRE4', value: 'CRE4' },
+          ],
+        },
+        {
+          label: `Appel d'offres`,
+          searchParamKey: 'appelOffre',
+          options: appelOffres.items.map((appelOffre) => ({
+            label: appelOffre.id,
+            value: appelOffre.id,
+          })),
+        },
+        {
+          label: 'Motif',
+          searchParamKey: 'motif',
+          options: GarantiesFinancières.MotifDemandeGarantiesFinancières.motifs.map((motif) => ({
+            label: getGarantiesFinancièresMotifLabel(motif),
+            value: motif,
+          })),
+        },
+      ];
+
+      // on retire le searchParam "appelOffre" si l'AO ne fait pas partie du cycle passé en searchParam
+      if (appelOffre && cycle && !appelOffres.items.find((ao) => ao.id === appelOffre)) {
+        const newSearchParams = new URLSearchParams(searchParams);
+        newSearchParams.delete('appelOffre');
+        redirect(
+          `${Routes.GarantiesFinancières.enAttente.lister}?${newSearchParams}`,
+          RedirectType.replace,
+        );
+      }
 
       return (
         <ListProjetsAvecGarantiesFinancièresEnAttentePage
