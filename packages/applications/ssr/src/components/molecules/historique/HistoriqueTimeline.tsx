@@ -11,18 +11,18 @@ import { Timeline, TimelineItemProps } from '@/components/organisms/Timeline';
 import { mapToAbandonTimelineItemProps } from './timeline/abandon/mapToAbandonTimelineItemProps';
 import { mapToRecoursTimelineItemProps } from './timeline/recours/mapToRecoursTimelineItemProps';
 import { mapToActionnaireTimelineItemProps } from './timeline/actionnaire/mapToActionnaireTimelineItemProps';
-import { mapToReprésentantLégalTimelineItemProps } from './timeline/représentant-légal/mapToReprésentantLégalTimelineItemProps';
+import { mapToReprésentantLégalTimelineItemProps } from './timeline/représentant-légal';
 
 export type HistoriqueTimelineProps = {
   historique: PlainType<Historique.ListerHistoriqueProjetReadModel>;
 };
 
-export const HistoriqueTimeline: FC<HistoriqueTimelineProps> = ({ historique }) => {
-  return <Timeline items={historique.items.map((item) => mapToTimelineItemProps(item))} />;
-};
+export const HistoriqueTimeline: FC<HistoriqueTimelineProps> = ({ historique }) => (
+  <Timeline items={historique.items.map((item) => mapToTimelineItemProps(item))} />
+);
 
-const mapToTimelineItemProps = (record: HistoryRecord) => {
-  return match(record)
+const mapToTimelineItemProps = (record: HistoryRecord) =>
+  match(record)
     .returnType<TimelineItemProps>()
     .with(
       {
@@ -42,4 +42,3 @@ const mapToTimelineItemProps = (record: HistoryRecord) => {
       date: record.createdAt as DateTime.RawType,
       title: 'Étape inconnue',
     }));
-};
