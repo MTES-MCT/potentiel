@@ -58,6 +58,22 @@ Quand(
   },
 );
 
+Quand(
+  'le porteur demande le changement de puissance pour le projet {lauréat-éliminé}',
+  async function (this: PotentielWorld, statutProjet: 'lauréat' | 'éliminé') {
+    try {
+      await demanderChangementPuissance.call(
+        this,
+        statutProjet,
+        this.lauréatWorld.puissanceWorld.demanderChangementPuissanceFixture.ratio,
+        this.utilisateurWorld.porteurFixture.email,
+      );
+    } catch (error) {
+      this.error = error as Error;
+    }
+  },
+);
+
 async function importerPuissance(this: PotentielWorld) {
   const identifiantProjet = this.candidatureWorld.importerCandidature.identifiantProjet;
   const { importéeLe } = this.lauréatWorld.puissanceWorld.importerPuissanceFixture.créer({
@@ -101,6 +117,40 @@ async function modifierPuissance(
       puissanceValue: puissance,
       dateModificationValue: dateModification,
       raisonValue: raison,
+    },
+  });
+}
+
+export async function demanderChangementPuissance(
+  this: PotentielWorld,
+  statutProjet: 'lauréat' | 'éliminé',
+  ratioValue?: number,
+  utilisateur?: string,
+) {
+  const identifiantProjet =
+    statutProjet === 'lauréat'
+      ? this.lauréatWorld.identifiantProjet.formatter()
+      : this.eliminéWorld.identifiantProjet.formatter();
+
+  const { pièceJustificative, demandéLe, demandéPar, raison, ratio } =
+    this.lauréatWorld.puissanceWorld.demanderChangementPuissanceFixture.créer({
+      demandéPar: utilisateur,
+      ...(ratioValue && { ratio: ratioValue }),
+    });
+
+  const puissanceActuelle = this.lauréatWorld.puissanceWorld.mapToExpected(
+    this.lauréatWorld.identifiantProjet,
+  ).puissance;
+
+  await mediator.send<Puissance.PuissanceUseCase>({
+    type: 'Lauréat.Puissance.UseCase.DemanderChangement',
+    data: {
+      raisonValue: raison,
+      puissanceValue: ratio * puissanceActuelle,
+      dateDemandeValue: demandéLe,
+      identifiantUtilisateurValue: demandéPar,
+      identifiantProjetValue: identifiantProjet,
+      pièceJustificativeValue: pièceJustificative,
     },
   });
 }
