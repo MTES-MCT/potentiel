@@ -32,7 +32,7 @@ export default class GénérerDocument extends Command {
   protected async init() {
     // Faker est importé dynamiquement car c'est une dev dependency, et n'est pas dispo en env de prod
     const { fakerFR } = await import('@faker-js/faker');
-    this.#faker = fakerFR;
+    this.#faker = fakerFR as unknown as Faker;
   }
 
   public async run(): Promise<void> {

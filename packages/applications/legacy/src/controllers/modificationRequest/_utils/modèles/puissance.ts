@@ -30,7 +30,7 @@ export const mapToPuissanceModèleRéponseProps = ({
   nouvellePuissance: number;
   puissanceActuelle: number;
   justification: string;
-  utilisateur: Pick<Utilisateur.ValueType, 'nom'>;
+  utilisateur: Pick<Utilisateur.ValueType, 'nom' | 'région'>;
   dateDemande: Date;
 }) => {
   const période = appelOffres.periodes.find((période) => période.id === identifiantProjet.période);
@@ -39,6 +39,8 @@ export const mapToPuissanceModèleRéponseProps = ({
     période: identifiantProjet.période,
     cahierDesChargesChoisi,
   });
+
+  const régionDreal = Option.isSome(utilisateur.région) ? utilisateur.région : '';
 
   return {
     // Données projet
@@ -53,7 +55,7 @@ export const mapToPuissanceModèleRéponseProps = ({
     communeProjet: lauréat.localité.commune,
     dateNotification: formatDateForDocument(lauréat.notifiéLe.date),
     familles: identifiantProjet.famille ? ('yes' as const) : ('' as const),
-    dreal: candidature.localité.région,
+    dreal: régionDreal,
     email: candidature.emailContact.formatter(),
     nomCandidat: candidature.nomCandidat,
     nomProjet: lauréat.nomProjet,
