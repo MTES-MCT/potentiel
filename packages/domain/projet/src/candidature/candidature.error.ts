@@ -1,5 +1,7 @@
 import { AggregateNotFoundError, InvalidOperationError } from '@potentiel-domain/core';
 
+import { IdentifiantProjet } from '..';
+
 export class AttestationNonGénéréeError extends InvalidOperationError {
   constructor() {
     super(`L'attestation d'une candidature non notifiée ne peut pas être régénérée`);
@@ -62,5 +64,23 @@ export class TypeGarantiesFinancièresNonModifiableAprèsNotificationError exten
     super(
       `Le type de garanties financières d'une candidature ne peut être modifié après la notification`,
     );
+  }
+}
+
+export class CandidatureDéjàNotifiéeError extends InvalidOperationError {
+  constructor(identifiantProjet: IdentifiantProjet.ValueType) {
+    super(`La candidature est déjà notifiée`, { identifiantProjet });
+  }
+}
+
+export class FonctionManquanteError extends InvalidOperationError {
+  constructor() {
+    super(`La fonction de l'utilisateur doit être précisée pour cette opération`);
+  }
+}
+
+export class NomManquantError extends InvalidOperationError {
+  constructor() {
+    super(`Le nom de l'utilisateur doit être précisé pour cette opération`);
   }
 }

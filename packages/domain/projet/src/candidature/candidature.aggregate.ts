@@ -16,11 +16,14 @@ import * as TypeTechnologie from './typeTechnologie.valueType';
 import {
   AttestationNonGénéréeError,
   CandidatureDéjàImportéeError,
+  CandidatureDéjàNotifiéeError,
   CandidatureNonModifiéeError,
   CandidatureNonTrouvéeError,
   DateÉchéanceGarantiesFinancièresRequiseError,
   DateÉchéanceNonAttendueError,
+  FonctionManquanteError,
   GarantiesFinancièresRequisesPourAppelOffreError,
+  NomManquantError,
   PériodeAppelOffreLegacyError,
   StatutNonModifiableAprèsNotificationError,
   TypeGarantiesFinancièresNonModifiableAprèsNotificationError,
@@ -28,6 +31,11 @@ import {
 import { CorrigerCandidatureOptions } from './corriger/corrigerCandidature.options';
 import { CandidatureCorrigéeEvent } from './corriger/candidatureCorrigée.event';
 import * as Localité from './localité.valueType';
+import { NotifierOptions } from './notifier/notifierCandidature.options';
+import {
+  CandidatureNotifiéeEvent,
+  CandidatureNotifiéeEventV1,
+} from './notifier/candidatureNotifiée.event';
 
 type CandidatureBehaviorOptions = CorrigerCandidatureOptions | ImporterCandidatureOptions;
 
@@ -105,6 +113,39 @@ export class CandidatureAggregate extends AbstractAggregate<CandidatureEvent> {
         corrigéPar: candidature.corrigéPar.formatter(),
         doitRégénérerAttestation: candidature.doitRégénérerAttestation,
         détailsMisÀJour: candidature.détailsMisÀJour,
+      },
+    };
+
+    await this.publish(event);
+  }
+
+  async notifier({
+    notifiéeLe,
+    notifiéePar,
+    validateur,
+    attestation: { format },
+  }: NotifierOptions) {
+    if (this.#estNotifiée) {
+      throw new CandidatureDéjàNotifiéeError(this.projet.identifiantProjet);
+    }
+
+    if (!validateur.fonction) {
+      throw new FonctionManquanteError();
+    }
+    if (!validateur.nomComplet) {
+      throw new NomManquantError();
+    }
+
+    const event: CandidatureNotifiéeEvent = {
+      type: 'CandidatureNotifiée-V2',
+      payload: {
+        identifiantProjet: this.projet.identifiantProjet.formatter(),
+        notifiéeLe: notifiéeLe.formatter(),
+        notifiéePar: notifiéePar.formatter(),
+        validateur,
+        attestation: {
+          format,
+        },
       },
     };
 
@@ -272,7 +313,20 @@ export class CandidatureAggregate extends AbstractAggregate<CandidatureEvent> {
           type: 'CandidatureCorrigée-V1',
         },
         (event) => this.applyCandidatureCorrigée(event),
-      );
+      )
+      .with(
+        {
+          type: 'CandidatureNotifiée-V1',
+        },
+        (event) => this.applyCandidatureNotifiée(event),
+      )
+      .with(
+        {
+          type: 'CandidatureNotifiée-V2',
+        },
+        (event) => this.applyCandidatureNotifiée(event),
+      )
+      .exhaustive();
   }
 
   private applyCandidatureImportéeV1({ payload }: CandidatureImportéeEvent) {
@@ -281,6 +335,14 @@ export class CandidatureAggregate extends AbstractAggregate<CandidatureEvent> {
 
   private applyCandidatureCorrigée({ payload }: CandidatureCorrigéeEvent) {
     this.applyCommonEventPayload(payload);
+  }
+
+  private applyCandidatureNotifiée(
+    this: CandidatureAggregate,
+    event: CandidatureNotifiéeEvent | CandidatureNotifiéeEventV1,
+  ) {
+    this.#estNotifiée = true;
+    this.#notifiéeLe = DateTime.convertirEnValueType(event.payload.notifiéeLe);
   }
 
   private applyCommonEventPayload({
@@ -295,14 +357,14 @@ export class CandidatureAggregate extends AbstractAggregate<CandidatureEvent> {
     prixReference,
     puissanceALaPointe,
     puissanceProductionAnnuelle,
-    sociétéMère,
-    statut,
     technologie,
     territoireProjet,
     actionnariat,
     dateÉchéanceGf,
     motifÉlimination,
     typeGarantiesFinancières,
+    sociétéMère,
+    statut,
   }: CandidatureCorrigéeEvent['payload'] | CandidatureImportéeEvent['payload']) {
     this.#statut = StatutCandidature.convertirEnValueType(statut);
     this.#nomProjet = nomProjet;
