@@ -234,8 +234,8 @@ Quand(
 
       const { demandéeLe } =
         this.lauréatWorld.abandonWorld.demanderPreuveCandidatureAbandonFixture.créer({
-          demandéeLe: dateLimite.includes('01/04/2025')
-            ? new Date('2025-04-01').toISOString()
+          demandéeLe: dateLimite.includes('01/07/2025')
+            ? new Date('2025-07-01').toISOString()
             : new Date().toISOString(),
         });
 
