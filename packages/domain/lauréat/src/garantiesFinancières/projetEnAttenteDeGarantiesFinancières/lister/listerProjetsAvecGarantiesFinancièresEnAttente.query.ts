@@ -79,11 +79,13 @@ export const registerListerProjetsAvecGarantiesFinancièresEnAttenteQuery = ({
           entity: 'lauréat',
           on: 'identifiantProjet',
           where: {
-            appelOffre: cycle
-              ? cycle === 'PPE2'
-                ? Where.contain('PPE2')
-                : Where.notContains('PPE2')
-              : Where.equal(appelOffre),
+            appelOffre: appelOffre
+              ? Where.equal(appelOffre)
+              : cycle
+                ? cycle === 'PPE2'
+                  ? Where.contain('PPE2')
+                  : Where.notContains('PPE2')
+                : undefined,
             localité: {
               région: régionProjet,
             },
