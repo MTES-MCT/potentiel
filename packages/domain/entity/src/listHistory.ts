@@ -24,6 +24,6 @@ export type ListHistoryResult<TRecord extends HistoryRecord = HistoryRecord> = {
   range: RangeOptions;
 };
 
-export type ListHistory = <TRecord extends HistoryRecord = HistoryRecord>(
+export type ListHistory<TRecord extends HistoryRecord = HistoryRecord> = (
   options?: ListHistoryOptions,
 ) => Promise<ListHistoryResult<TRecord>>;

@@ -14,7 +14,7 @@ export type ListerHistoriqueProjetQuery<TRecord extends HistoryRecord = HistoryR
   'Historique.Query.ListerHistoriqueProjet',
   {
     identifiantProjet: string;
-    category?: 'abandon' | 'recours' | 'actionnaire' | 'représentant-légal';
+    category?: TRecord['category'];
     range?: RangeOptions;
   },
   ListerHistoriqueProjetReadModel<TRecord>
@@ -32,7 +32,7 @@ export const registerListerHistoriqueProjetQuery = ({
     category,
     range,
   }) =>
-    listHistory<HistoryRecord>({
+    listHistory({
       id: identifiantProjet,
       category,
       range,

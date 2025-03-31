@@ -16,6 +16,7 @@ import {
   ChangementActionnaireActions,
   DétailsActionnairePage,
 } from '@/components/pages/actionnaire/changement/détails/DétailsActionnaire.page';
+import { ActionnaireHistoryRecord } from '@/components/molecules/historique/timeline/actionnaire';
 
 export const metadata: Metadata = {
   title: "Détail de l'actionnariat du projet - Potentiel",
@@ -61,7 +62,9 @@ export default async function Page({ params: { identifiant, date } }: PageProps)
         return notFound();
       }
 
-      const historique = await mediator.send<Historique.ListerHistoriqueProjetQuery>({
+      const historique = await mediator.send<
+        Historique.ListerHistoriqueProjetQuery<ActionnaireHistoryRecord>
+      >({
         type: 'Historique.Query.ListerHistoriqueProjet',
         data: {
           identifiantProjet: identifiantProjet.formatter(),
