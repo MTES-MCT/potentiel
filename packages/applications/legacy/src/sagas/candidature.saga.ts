@@ -329,7 +329,7 @@ const fetchDétails = async (
 
   const result = await Option.match(détailsImport)
     .some(async ({ content }) => await convertReadableStreamToString(content))
-    .none(() => Promise.resolve(''));
+    .none(() => Promise.resolve('{}'));
 
   return JSON.parse(result) as Record<string, string>;
 };
