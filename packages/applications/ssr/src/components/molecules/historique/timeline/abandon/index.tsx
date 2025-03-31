@@ -15,8 +15,13 @@ import { mapToConfirmationAbandonDemandéeTimelineItemProps } from './mapToConfi
 import { mapToPreuveRecandidatureTransmiseTimelineItemProps } from './mapToPreuveRecandidatureTransmiseTimelineItemProps';
 import { mapToAbandonPasséEnInstructionTimelineItemProps } from './mapToAbandonPasséEnInstructionTimelineItemProps';
 
-export const mapToAbandonTimelineItemProps = (record: HistoryRecord) =>
-  match(record as HistoryRecord<Abandon.AbandonEvent['type'], Abandon.AbandonEvent['payload']>)
+export type AbandonHistoryRecord = HistoryRecord<Abandon.AbandonEvent['payload']> & {
+  type: Abandon.AbandonEvent['type'];
+  category: 'abandon';
+};
+
+export const mapToAbandonTimelineItemProps = (record: AbandonHistoryRecord) =>
+  match(record)
     .returnType<TimelineItemProps>()
     .with(
       {

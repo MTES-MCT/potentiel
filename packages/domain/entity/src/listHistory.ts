@@ -1,10 +1,10 @@
 import { RangeOptions } from './rangeOptions';
 
-export type HistoryRecord<TType = string, TPayload = Record<string, unknown>> = {
+export type HistoryRecord<TPayload = Record<string, unknown>> = {
   category: string;
   id: string;
   createdAt: string;
-  type: TType;
+  type: string;
   payload: TPayload;
 };
 
@@ -14,10 +14,12 @@ export type ListHistoryOptions = {
   range?: RangeOptions;
 };
 
-export type ListHistoryResult = {
+export type ListHistoryResult<TRecord extends HistoryRecord = HistoryRecord> = {
   total: number;
-  items: ReadonlyArray<HistoryRecord>;
+  items: ReadonlyArray<TRecord>;
   range: RangeOptions;
 };
 
-export type ListHistory = (options?: ListHistoryOptions) => Promise<ListHistoryResult>;
+export type ListHistory = <TRecord extends HistoryRecord = HistoryRecord>(
+  options?: ListHistoryOptions,
+) => Promise<ListHistoryResult<TRecord>>;

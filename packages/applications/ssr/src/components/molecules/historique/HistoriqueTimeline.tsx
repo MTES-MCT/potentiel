@@ -7,21 +7,29 @@ import { HistoryRecord } from '@potentiel-domain/entity';
 
 import { Timeline, TimelineItemProps } from '@/components/organisms/Timeline';
 
-import { mapToAbandonTimelineItemProps } from './timeline/abandon';
+import { AbandonHistoryRecord, mapToAbandonTimelineItemProps } from './timeline/abandon';
 import { mapToRecoursTimelineItemProps } from './timeline/recours';
 import { mapToActionnaireTimelineItemProps } from './timeline/actionnaire';
 import { mapToReprésentantLégalTimelineItemProps } from './timeline/représentant-légal';
 import { mapToÉtapeInconnueOuIgnoréeTimelineItemProps } from './timeline/mapToÉtapeInconnueOuIgnoréeTimelineItemProps';
 
 export type HistoriqueTimelineProps = {
-  historique: PlainType<Historique.ListerHistoriqueProjetReadModel>;
+  historique: PlainType<Historique.ListerHistoriqueProjetReadModel<HistoryReadModel>>;
 };
+
+export type RecoursHistoryRecord = HistoryRecord & {
+  type: 'xx';
+  payload: {};
+  category: 'recours';
+};
+
+type HistoryReadModel = AbandonHistoryRecord | RecoursHistoryRecord;
 
 export const HistoriqueTimeline: FC<HistoriqueTimelineProps> = ({ historique }) => (
   <Timeline items={historique.items.map((item) => mapToTimelineItemProps(item))} />
 );
 
-const mapToTimelineItemProps = (record: HistoryRecord) =>
+const mapToTimelineItemProps = (record: HistoryReadModel) =>
   match(record)
     .returnType<TimelineItemProps>()
     .with(

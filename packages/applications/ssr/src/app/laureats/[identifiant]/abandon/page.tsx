@@ -18,6 +18,7 @@ import { decodeParameter } from '@/utils/decodeParameter';
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
+import { AbandonHistoryRecord } from '@/components/molecules/historique/timeline/abandon';
 
 type PageProps = IdentifiantParameter;
 
@@ -60,7 +61,9 @@ export default async function Page({ params: { identifiant } }: PageProps) {
         return notFound();
       }
 
-      const historique = await mediator.send<Historique.ListerHistoriqueProjetQuery>({
+      const historique = await mediator.send<
+        Historique.ListerHistoriqueProjetQuery<AbandonHistoryRecord>
+      >({
         type: 'Historique.Query.ListerHistoriqueProjet',
         data: {
           identifiantProjet,

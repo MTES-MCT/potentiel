@@ -1,17 +1,23 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
-import { ListHistory, ListHistoryResult, RangeOptions } from '@potentiel-domain/entity';
+import {
+  HistoryRecord,
+  ListHistory,
+  ListHistoryResult,
+  RangeOptions,
+} from '@potentiel-domain/entity';
 
-export type ListerHistoriqueProjetReadModel = ListHistoryResult;
+export type ListerHistoriqueProjetReadModel<TRecord extends HistoryRecord = HistoryRecord> =
+  ListHistoryResult<TRecord>;
 
-export type ListerHistoriqueProjetQuery = Message<
+export type ListerHistoriqueProjetQuery<TRecord extends HistoryRecord = HistoryRecord> = Message<
   'Historique.Query.ListerHistoriqueProjet',
   {
     identifiantProjet: string;
     category?: 'abandon' | 'recours' | 'actionnaire' | 'représentant-légal';
     range?: RangeOptions;
   },
-  ListerHistoriqueProjetReadModel
+  ListerHistoriqueProjetReadModel<TRecord>
 >;
 
 export type ListerHistoriqueProjetDependencies = {
@@ -26,7 +32,7 @@ export const registerListerHistoriqueProjetQuery = ({
     category,
     range,
   }) =>
-    listHistory({
+    listHistory<HistoryRecord>({
       id: identifiantProjet,
       category,
       range,
