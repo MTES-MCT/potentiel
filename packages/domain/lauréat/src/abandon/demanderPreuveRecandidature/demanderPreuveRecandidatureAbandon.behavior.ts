@@ -4,7 +4,7 @@ import { DomainEvent, InvalidOperationError } from '@potentiel-domain/core';
 import { AbandonAggregate } from '../abandon.aggregate';
 
 const dateLégaleMaxTransimissionPreuveRecandidature = DateTime.convertirEnValueType(
-  new Date('2025-03-31'),
+  new Date('2025-06-30'),
 );
 
 export type PreuveRecandidatureDemandéeEvent = DomainEvent<
@@ -17,9 +17,7 @@ export type PreuveRecandidatureDemandéeEvent = DomainEvent<
 
 class DateLégaleTransmissionPreuveRecandidatureDépasséeError extends InvalidOperationError {
   constructor() {
-    super(
-      'Impossible de demander la preuve de recandidature au porteur après la date légale du 31/03/2025',
-    );
+    super('Impossible de demander la preuve de recandidature au porteur après le 30/06/2025');
   }
 }
 
