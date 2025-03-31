@@ -15,13 +15,14 @@ import { mapToChangementReprésentantLégalDemandéTimelineItemProps } from './m
 import { mapToChangementReprésentantLégalCorrigéTimelineItemProps } from './mapToChangementReprésentantLégalCorrigéTimelineItemProps';
 import { mapToReprésentantLégalImportéTimelineItemProps } from './mapToReprésentantLégalImportéTimelineItemsProps';
 
-export const mapToReprésentantLégalTimelineItemProps = (record: HistoryRecord) =>
-  match(
-    record as HistoryRecord<
-      ReprésentantLégal.ReprésentantLégalEvent['type'],
-      ReprésentantLégal.ReprésentantLégalEvent['payload']
-    >,
-  )
+export type ReprésentantLégalHistoryRecord = HistoryRecord<
+  'représentant-légal',
+  ReprésentantLégal.ReprésentantLégalEvent['type'],
+  ReprésentantLégal.ReprésentantLégalEvent['payload']
+>;
+
+export const mapToReprésentantLégalTimelineItemProps = (record: ReprésentantLégalHistoryRecord) =>
+  match(record)
     .returnType<TimelineItemProps>()
     .with(
       {

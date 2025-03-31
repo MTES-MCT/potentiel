@@ -15,13 +15,14 @@ import { mapToChangementActionnaireDemandéTimelineItemProps } from './mapToChan
 import { mapToActionnaireImportéTimelineItemProps } from './mapToActionnaireImportéTimelineItemsProps';
 import { mapToChangementActionnaireEnregistréTimelineItemProps } from './mapToChangementActionnaireEnregistréTimelineItemProps';
 
-export const mapToActionnaireTimelineItemProps = (record: HistoryRecord) =>
-  match(
-    record as HistoryRecord<
-      Actionnaire.ActionnaireEvent['type'],
-      Actionnaire.ActionnaireEvent['payload']
-    >,
-  )
+export type ActionnaireHistoryRecord = HistoryRecord<
+  'actionnaire',
+  Actionnaire.ActionnaireEvent['type'],
+  Actionnaire.ActionnaireEvent['payload']
+>;
+
+export const mapToActionnaireTimelineItemProps = (record: ActionnaireHistoryRecord) =>
+  match(record)
     .returnType<TimelineItemProps>()
     .with(
       {

@@ -3,27 +3,30 @@ import { match } from 'ts-pattern';
 
 import { PlainType } from '@potentiel-domain/core';
 import { Historique } from '@potentiel-domain/historique';
-import { HistoryRecord } from '@potentiel-domain/entity';
 
 import { Timeline, TimelineItemProps } from '@/components/organisms/Timeline';
 
 import { AbandonHistoryRecord, mapToAbandonTimelineItemProps } from './timeline/abandon';
-import { mapToRecoursTimelineItemProps } from './timeline/recours';
-import { mapToActionnaireTimelineItemProps } from './timeline/actionnaire';
-import { mapToReprésentantLégalTimelineItemProps } from './timeline/représentant-légal';
+import { mapToRecoursTimelineItemProps, RecoursHistoryRecord } from './timeline/recours';
+import {
+  ActionnaireHistoryRecord,
+  mapToActionnaireTimelineItemProps,
+} from './timeline/actionnaire';
+import {
+  mapToReprésentantLégalTimelineItemProps,
+  ReprésentantLégalHistoryRecord,
+} from './timeline/représentant-légal';
 import { mapToÉtapeInconnueOuIgnoréeTimelineItemProps } from './timeline/mapToÉtapeInconnueOuIgnoréeTimelineItemProps';
 
 export type HistoriqueTimelineProps = {
   historique: PlainType<Historique.ListerHistoriqueProjetReadModel<HistoryReadModel>>;
 };
 
-export type RecoursHistoryRecord = HistoryRecord & {
-  type: 'xx';
-  payload: {};
-  category: 'recours';
-};
-
-type HistoryReadModel = AbandonHistoryRecord | RecoursHistoryRecord;
+type HistoryReadModel =
+  | AbandonHistoryRecord
+  | ActionnaireHistoryRecord
+  | RecoursHistoryRecord
+  | ReprésentantLégalHistoryRecord;
 
 export const HistoriqueTimeline: FC<HistoriqueTimelineProps> = ({ historique }) => (
   <Timeline items={historique.items.map((item) => mapToTimelineItemProps(item))} />

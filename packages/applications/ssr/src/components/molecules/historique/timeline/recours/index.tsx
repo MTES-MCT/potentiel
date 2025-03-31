@@ -11,13 +11,14 @@ import { mapToRecoursRejetéTimelineItemProps } from './mapToRecoursRejetéTimel
 import { mapToRecoursAccordéTimelineItemProps } from './mapToRecoursAccordéTimelineItemProps';
 import { mapToRecoursPasséEnInstructionTimelineItemProp } from './mapToRecoursPasséEnInstructionTimelineItemProps';
 
-export const mapToRecoursTimelineItemProps = (record: HistoryRecord) =>
-  match(
-    record as HistoryRecord<
-      Éliminé.Recours.RecoursEvent['type'],
-      Éliminé.Recours.RecoursEvent['payload']
-    >,
-  )
+export type RecoursHistoryRecord = HistoryRecord<
+  'recours',
+  Éliminé.Recours.RecoursEvent['type'],
+  Éliminé.Recours.RecoursEvent['payload']
+>;
+
+export const mapToRecoursTimelineItemProps = (record: RecoursHistoryRecord) =>
+  match(record)
     .returnType<TimelineItemProps>()
     .with(
       {
