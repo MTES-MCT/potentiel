@@ -92,7 +92,7 @@ const selectProjetsEligiblesPreuveRecanditureQuery = `
   from "projects" p
   inner join "UserProjects" up on p.id = up."projectId"
   inner join "users" u on up."userId" = u.id
-  where p."notifiedOn" > 1702598400000 and p."abandonedOn" = 0 and u."email" = $1
+  where p."notifiedOn" > 1702598400000 and p."notifiedOn"< 1743379200000 and p."abandonedOn" = 0 and u."email" = $1
   order by "nomProjet"
 `;
 

@@ -15,7 +15,7 @@ Fonctionnalité: demander un porteur pour qu'il transmette une preuve de recandi
         Quand le DGEC validateur demande au porteur du projet de transmettre une preuve de recandidature
         Alors le DGEC validateur devrait être informé que "La preuve de recandidature a déjà été transmise"
 
-    Scénario: Impossible de demander à un porteur de projet si la date de demande dépasse le 31/03/2025
+    Scénario: Impossible de demander à un porteur de projet si la date de demande dépasse le 30/06/2025
         Etant donné un abandon accordé avec recandidature sans preuve transmise pour le projet lauréat
-        Quand le DGEC validateur demande au porteur du projet de transmettre une preuve de recandidature à la date du 01/04/2025
-        Alors le DGEC validateur devrait être informé que "Impossible de demander la preuve de recandidature au porteur après la date légale du 31/03/2025"
+        Quand le DGEC validateur demande au porteur du projet de transmettre une preuve de recandidature à la date du 01/07/2025
+        Alors le DGEC validateur devrait être informé que "Impossible de demander la preuve de recandidature au porteur après le 30/06/2025"
