@@ -1,7 +1,7 @@
 import { Then as Alors } from '@cucumber/cucumber';
 import { mediator } from 'mediateur';
 import waitForExpect from 'wait-for-expect';
-import { expect } from 'chai';
+import { assert, expect } from 'chai';
 
 import { Option } from '@potentiel-libraries/monads';
 import { Éliminé } from '@potentiel-domain/projet';
@@ -110,6 +110,8 @@ async function vérifierRecours(
     },
   });
 
+  assert(Option.isSome(pièceJustificative), `Pièce justificative non trouvée !`);
+
   const actualPièceJustificativeContent = await convertReadableStreamToString(
     pièceJustificative.content,
   );
@@ -129,6 +131,8 @@ async function vérifierRecours(
       },
     });
 
+    assert(Option.isSome(result), `Réponse signée non trouvée !`);
+
     const actualContent = await convertReadableStreamToString(result.content);
     const expectedContent = await convertReadableStreamToString(
       this.eliminéWorld.recoursWorld.accorderRecoursFixture.réponseSignée?.content ??
@@ -146,6 +150,8 @@ async function vérifierRecours(
           .none(() => ''),
       },
     });
+
+    assert(Option.isSome(result), `Réponse signée non trouvée !`);
 
     const actualContent = await convertReadableStreamToString(result.content);
     const expectedContent = await convertReadableStreamToString(

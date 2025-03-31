@@ -42,6 +42,8 @@ Alors(`la candidature devrait être consultable`, async function (this: Potentie
       },
     });
 
+    assert(Option.isSome(result), `Détails d'import non trouvé`);
+
     const actualContent = await convertReadableStreamToString(result.content);
     expect(actualContent).to.equal(JSON.stringify(expectedDétails));
   });
@@ -112,15 +114,16 @@ export const vérifierAttestationDeDésignation = async (identifiantProjet: stri
     expect(candidature.notification, "La candidature n'a pas d'attestation").not.to.be.undefined;
 
     if (candidature.notification?.attestation) {
-      const { content, format } = await mediator.send<ConsulterDocumentProjetQuery>({
+      const attestation = await mediator.send<ConsulterDocumentProjetQuery>({
         type: 'Document.Query.ConsulterDocumentProjet',
         data: {
           documentKey: candidature.notification.attestation.formatter(),
         },
       });
+      assert(Option.isSome(attestation), 'Attestation non trouvée');
 
-      expect(await convertReadableStreamToString(content)).to.have.length.gt(1);
-      format.should.be.equal('application/pdf');
+      expect(await convertReadableStreamToString(attestation.content)).to.have.length.gt(1);
+      attestation.format.should.be.equal('application/pdf');
     }
   }, 1000);
 };

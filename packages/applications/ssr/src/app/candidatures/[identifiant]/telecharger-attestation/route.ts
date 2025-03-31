@@ -34,6 +34,9 @@ export const GET = async (_: Request, { params: { identifiant } }: IdentifiantPa
       documentKey: documentProjet.formatter(),
     },
   });
+  if (Option.isNone(result)) {
+    return notFound();
+  }
 
   const candidature = await mediator.send<Candidature.ConsulterCandidatureQuery>({
     type: 'Candidature.Query.ConsulterCandidature',

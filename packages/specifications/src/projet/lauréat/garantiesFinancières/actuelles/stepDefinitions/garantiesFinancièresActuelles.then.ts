@@ -75,6 +75,8 @@ Alors(
           },
         });
 
+        assert(Option.isSome(file), `Attestation non trouvée !`);
+
         expect(actualReadModel.garantiesFinancières.attestation.format).to.be.equal(format);
         const actualContent = await convertReadableStreamToString(file.content);
         actualContent.should.be.equal(contenu);
@@ -205,6 +207,8 @@ Alors(
                 actualArchivesGarantiesFinancièresReadModel.archives[0].attestation.formatter(),
             },
           });
+
+          assert(Option.isSome(file), `Attestation non trouvée !`);
 
           expect(
             actualArchivesGarantiesFinancièresReadModel.archives[0].attestation.format,

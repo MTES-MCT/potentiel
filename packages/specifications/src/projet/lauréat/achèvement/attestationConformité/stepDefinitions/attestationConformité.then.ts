@@ -1,7 +1,7 @@
 import { Then as Alors } from '@cucumber/cucumber';
 import { mediator } from 'mediateur';
 import waitForExpect from 'wait-for-expect';
-import { expect } from 'chai';
+import { assert, expect } from 'chai';
 
 import { Achèvement } from '@potentiel-domain/laureat';
 import { mapToPlainObject } from '@potentiel-domain/core';
@@ -40,6 +40,8 @@ Alors(
         },
       });
 
+      assert(Option.isSome(attestation), `Attestation de conformité non trouvée !`);
+
       const actualAttestationContent = await convertReadableStreamToString(attestation.content);
       const expectedAttestationContent = await convertReadableStreamToString(
         this.lauréatWorld.achèvementWorld.transmettreOuModifierAttestationConformitéFixture
@@ -56,6 +58,8 @@ Alors(
             .none(() => ''),
         },
       });
+
+      assert(Option.isSome(preuve), `Preuve d'attestation de conformité non trouvée !`);
 
       const actualPreuveContent = await convertReadableStreamToString(preuve.content);
       const expectedPreuveContent = await convertReadableStreamToString(
