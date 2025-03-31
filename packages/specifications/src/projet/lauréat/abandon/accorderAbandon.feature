@@ -15,8 +15,6 @@ Fonctionnalité: Accorder l'abandon d'un projet lauréat
         Quand le DGEC validateur accorde l'abandon pour le projet lauréat
         Alors l'abandon du projet lauréat devrait être accordé
 
-    # En attente de clarification - les tests failent à cause du dépassement de la date du 31/03/25
-    @NotImplemented
     Scénario: Le porteur reçoit une demande de preuve de recandidature quand l'abandon avec recandidature d'un projet lauréat a été accordé
         Etant donné une demande d'abandon en cours avec recandidature pour le projet lauréat
         Quand le DGEC validateur accorde l'abandon pour le projet lauréat
