@@ -2,43 +2,53 @@ import { FC } from 'react';
 import { match } from 'ts-pattern';
 
 import { PlainType } from '@potentiel-domain/core';
-import { DateTime } from '@potentiel-domain/common';
 import { Historique } from '@potentiel-domain/historique';
-import { HistoryRecord } from '@potentiel-domain/entity';
 
 import { Timeline, TimelineItemProps } from '@/components/organisms/Timeline';
 
-import { mapToAbandonTimelineItemProps } from './timeline/abandon/mapToAbandonTimelineItemProps';
-import { mapToRecoursTimelineItemProps } from './timeline/recours/mapToRecoursTimelineItemProps';
-import { mapToActionnaireTimelineItemProps } from './timeline/actionnaire/mapToActionnaireTimelineItemProps';
-import { mapToReprésentantLégalTimelineItemProps } from './timeline/représentant-légal';
+import { AbandonHistoryRecord, mapToAbandonTimelineItemProps } from './timeline/abandon';
+import { mapToRecoursTimelineItemProps, RecoursHistoryRecord } from './timeline/recours';
+import {
+  ActionnaireHistoryRecord,
+  mapToActionnaireTimelineItemProps,
+} from './timeline/actionnaire';
+import {
+  mapToReprésentantLégalTimelineItemProps,
+  ReprésentantLégalHistoryRecord,
+} from './timeline/représentant-légal';
+import { mapToÉtapeInconnueOuIgnoréeTimelineItemProps } from './timeline/mapToÉtapeInconnueOuIgnoréeTimelineItemProps';
 
 export type HistoriqueTimelineProps = {
-  historique: PlainType<Historique.ListerHistoriqueProjetReadModel>;
+  historique: PlainType<Historique.ListerHistoriqueProjetReadModel<HistoryReadModel>>;
 };
+
+type HistoryReadModel =
+  | AbandonHistoryRecord
+  | ActionnaireHistoryRecord
+  | RecoursHistoryRecord
+  | ReprésentantLégalHistoryRecord;
 
 export const HistoriqueTimeline: FC<HistoriqueTimelineProps> = ({ historique }) => (
   <Timeline items={historique.items.map((item) => mapToTimelineItemProps(item))} />
 );
 
-const mapToTimelineItemProps = (record: HistoryRecord) =>
+const mapToTimelineItemProps = (record: HistoryReadModel) =>
   match(record)
     .returnType<TimelineItemProps>()
     .with(
       {
         category: 'abandon',
       },
-      mapToAbandonTimelineItemProps,
+      (record) => mapToAbandonTimelineItemProps(record),
     )
     .with(
       {
         category: 'recours',
       },
-      mapToRecoursTimelineItemProps,
+      (record) => mapToRecoursTimelineItemProps(record),
     )
-    .with({ category: 'actionnaire' }, mapToActionnaireTimelineItemProps)
-    .with({ category: 'représentant-légal' }, mapToReprésentantLégalTimelineItemProps)
-    .otherwise(() => ({
-      date: record.createdAt as DateTime.RawType,
-      title: 'Étape inconnue',
-    }));
+    .with({ category: 'actionnaire' }, (record) => mapToActionnaireTimelineItemProps(record))
+    .with({ category: 'représentant-légal' }, (record) =>
+      mapToReprésentantLégalTimelineItemProps(record),
+    )
+    .otherwise((record) => mapToÉtapeInconnueOuIgnoréeTimelineItemProps(record));

@@ -8,16 +8,15 @@ import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
 import { DocumentProjet } from '@potentiel-domain/document';
 import { Routes } from '@potentiel-applications/routes';
 import { ReprésentantLégal } from '@potentiel-domain/laureat';
+import { Historique } from '@potentiel-domain/historique';
 
 import { ProjetBanner } from '@/components/molecules/projet/ProjetBanner';
 import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
 import { Heading1, Heading2 } from '@/components/atoms/headings';
 import { FormattedDate } from '@/components/atoms/FormattedDate';
 import { DownloadDocument } from '@/components/atoms/form/document/DownloadDocument';
-import {
-  HistoriqueTimeline,
-  HistoriqueTimelineProps,
-} from '@/components/molecules/historique/HistoriqueTimeline';
+import { HistoriqueTimeline } from '@/components/molecules/historique/HistoriqueTimeline';
+import { ReprésentantLégalHistoryRecord } from '@/components/molecules/historique/timeline/représentant-légal';
 
 import { StatutChangementReprésentantLégalBadge } from '../../StatutChangementReprésentantLégalBadge';
 
@@ -37,7 +36,9 @@ export type DétailsChangementReprésentantLégalPageProps =
     identifiantProjet: PlainType<IdentifiantProjet.ValueType>;
     role: PlainType<Role.ValueType>;
     actions: ReadonlyArray<AvailableChangementReprésentantLégalAction>;
-    historique: HistoriqueTimelineProps['historique'];
+    historique: PlainType<
+      Historique.ListerHistoriqueProjetReadModel<ReprésentantLégalHistoryRecord>
+    >;
     dateDemandeEnCoursPourLien?: string;
   };
 

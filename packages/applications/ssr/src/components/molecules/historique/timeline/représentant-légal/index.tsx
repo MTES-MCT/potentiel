@@ -1,9 +1,11 @@
 import { match } from 'ts-pattern';
 
-import { DateTime } from '@potentiel-domain/common';
 import { ReprésentantLégal } from '@potentiel-domain/laureat';
+import { HistoryRecord } from '@potentiel-domain/entity';
 
 import { TimelineItemProps } from '@/components/organisms/Timeline';
+
+import { mapToÉtapeInconnueOuIgnoréeTimelineItemProps } from '../mapToÉtapeInconnueOuIgnoréeTimelineItemProps';
 
 import { mapToChangementReprésentantLégalAccordéTimelineItemProps } from './mapToChangementReprésentantLégalAccordéTimelineItemProps';
 import { mapToChangementReprésentantLégalRejetéTimelineItemProps } from './mapToChangementReprésentantLégalRejetéTimelineItemProps';
@@ -13,16 +15,14 @@ import { mapToChangementReprésentantLégalDemandéTimelineItemProps } from './m
 import { mapToChangementReprésentantLégalCorrigéTimelineItemProps } from './mapToChangementReprésentantLégalCorrigéTimelineItemProps';
 import { mapToReprésentantLégalImportéTimelineItemProps } from './mapToReprésentantLégalImportéTimelineItemsProps';
 
-type HistoryRecord = {
-  category: 'représentant-légal';
-  id: string;
-  createdAt: string;
-  type: ReprésentantLégal.ReprésentantLégalEvent['type'];
-  payload: ReprésentantLégal.ReprésentantLégalEvent['payload'];
-};
+export type ReprésentantLégalHistoryRecord = HistoryRecord<
+  'représentant-légal',
+  ReprésentantLégal.ReprésentantLégalEvent['type'],
+  ReprésentantLégal.ReprésentantLégalEvent['payload']
+>;
 
-export const mapToReprésentantLégalTimelineItemProps = (record: HistoryRecord) => {
-  return match(record)
+export const mapToReprésentantLégalTimelineItemProps = (record: ReprésentantLégalHistoryRecord) =>
+  match(record)
     .returnType<TimelineItemProps>()
     .with(
       {
@@ -66,8 +66,10 @@ export const mapToReprésentantLégalTimelineItemProps = (record: HistoryRecord)
       },
       mapToChangementReprésentantLégalAnnuléTimelineItemProps,
     )
-    .otherwise(() => ({
-      date: record.createdAt as DateTime.RawType,
-      title: 'Étape inconnue',
-    }));
-};
+    .with(
+      {
+        type: 'ChangementReprésentantLégalSupprimé-V1',
+      },
+      mapToÉtapeInconnueOuIgnoréeTimelineItemProps,
+    )
+    .exhaustive();

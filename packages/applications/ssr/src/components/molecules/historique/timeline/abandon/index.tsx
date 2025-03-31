@@ -1,7 +1,7 @@
 import { match, P } from 'ts-pattern';
 
 import { HistoryRecord } from '@potentiel-domain/entity';
-import { DateTime } from '@potentiel-domain/common';
+import { Abandon } from '@potentiel-domain/laureat';
 
 import { TimelineItemProps } from '@/components/organisms/Timeline';
 
@@ -15,8 +15,14 @@ import { mapToConfirmationAbandonDemandéeTimelineItemProps } from './mapToConfi
 import { mapToPreuveRecandidatureTransmiseTimelineItemProps } from './mapToPreuveRecandidatureTransmiseTimelineItemProps';
 import { mapToAbandonPasséEnInstructionTimelineItemProps } from './mapToAbandonPasséEnInstructionTimelineItemProps';
 
-export const mapToAbandonTimelineItemProps = (record: HistoryRecord) => {
-  return match(record)
+export type AbandonHistoryRecord = HistoryRecord<
+  'abandon',
+  Abandon.AbandonEvent['type'],
+  Abandon.AbandonEvent['payload']
+>;
+
+export const mapToAbandonTimelineItemProps = (record: AbandonHistoryRecord) =>
+  match(record)
     .returnType<TimelineItemProps>()
     .with(
       {
@@ -72,8 +78,4 @@ export const mapToAbandonTimelineItemProps = (record: HistoryRecord) => {
       },
       mapToAbandonPasséEnInstructionTimelineItemProps,
     )
-    .otherwise(() => ({
-      date: record.createdAt as DateTime.RawType,
-      title: 'Étape inconnue',
-    }));
-};
+    .exhaustive();

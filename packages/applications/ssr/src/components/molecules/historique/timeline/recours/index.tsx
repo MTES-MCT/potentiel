@@ -1,7 +1,7 @@
 import { match } from 'ts-pattern';
 
 import { HistoryRecord } from '@potentiel-domain/entity';
-import { DateTime } from '@potentiel-domain/common';
+import { Éliminé } from '@potentiel-domain/projet';
 
 import { TimelineItemProps } from '@/components/organisms/Timeline';
 
@@ -11,8 +11,14 @@ import { mapToRecoursRejetéTimelineItemProps } from './mapToRecoursRejetéTimel
 import { mapToRecoursAccordéTimelineItemProps } from './mapToRecoursAccordéTimelineItemProps';
 import { mapToRecoursPasséEnInstructionTimelineItemProp } from './mapToRecoursPasséEnInstructionTimelineItemProps';
 
-export const mapToRecoursTimelineItemProps = (record: HistoryRecord) => {
-  return match(record)
+export type RecoursHistoryRecord = HistoryRecord<
+  'recours',
+  Éliminé.Recours.RecoursEvent['type'],
+  Éliminé.Recours.RecoursEvent['payload']
+>;
+
+export const mapToRecoursTimelineItemProps = (record: RecoursHistoryRecord) =>
+  match(record)
     .returnType<TimelineItemProps>()
     .with(
       {
@@ -44,8 +50,4 @@ export const mapToRecoursTimelineItemProps = (record: HistoryRecord) => {
       },
       mapToRecoursPasséEnInstructionTimelineItemProp,
     )
-    .otherwise(() => ({
-      date: record.createdAt as DateTime.RawType,
-      title: 'Étape inconnue',
-    }));
-};
+    .exhaustive();

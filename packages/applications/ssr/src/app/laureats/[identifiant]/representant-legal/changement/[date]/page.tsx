@@ -16,6 +16,7 @@ import {
   AvailableChangementReprésentantLégalAction,
   DétailsChangementReprésentantLégalPage,
 } from '@/components/pages/représentant-légal/changement/détails/DétailsChangementReprésentantLégal.page';
+import { ReprésentantLégalHistoryRecord } from '@/components/molecules/historique/timeline/représentant-légal';
 
 export const metadata: Metadata = {
   title: 'Détail du représentant légal du projet - Potentiel',
@@ -58,7 +59,9 @@ export default async function Page({ params: { identifiant, date } }: PageProps)
           },
         });
 
-      const historique = await mediator.send<Historique.ListerHistoriqueProjetQuery>({
+      const historique = await mediator.send<
+        Historique.ListerHistoriqueProjetQuery<ReprésentantLégalHistoryRecord>
+      >({
         type: 'Historique.Query.ListerHistoriqueProjet',
         data: {
           identifiantProjet: identifiantProjet.formatter(),
