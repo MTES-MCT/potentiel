@@ -16,33 +16,12 @@ export function UserBasedRoleNavigation() {
   return <NavLinks items={navigationItems} />;
 }
 
-const menuLinks = {
-  listerGarantiesFinancières: [
-    {
-      text: 'Garanties financières à traiter',
-      linkProps: {
-        href: Routes.GarantiesFinancières.dépôt.lister,
-      },
-    },
-    {
-      text: 'Projets avec garanties financières en attente',
-      linkProps: {
-        href: Routes.GarantiesFinancières.enAttente.lister,
-      },
-    },
-    {
-      text: 'Demandes de mainlevée en cours',
-      linkProps: {
-        href: Routes.GarantiesFinancières.demandeMainlevée.lister,
-      },
-    },
-  ],
-};
+const toutesLesDemandesWording = 'Toutes les demandes';
 
 const getNavigationItemsBasedOnRole = (utilisateur: Utilisateur.ValueType) => {
   const demandesMenuLinks: Array<MenuProps.Link> = [
     {
-      text: 'Toutes les demandes',
+      text: toutesLesDemandesWording,
       linkProps: {
         href: utilisateur.role.estÉgaleÀ(Role.porteur)
           ? '/mes-demandes.html'
@@ -50,7 +29,7 @@ const getNavigationItemsBasedOnRole = (utilisateur: Utilisateur.ValueType) => {
       },
     },
     {
-      text: 'Abandons',
+      text: 'Abandon',
       linkProps: {
         href: Routes.Abandon.lister({ statut: 'demandé' }),
       },
@@ -68,9 +47,30 @@ const getNavigationItemsBasedOnRole = (utilisateur: Utilisateur.ValueType) => {
       },
     },
     {
-      text: 'Actionnaire(s)',
+      text: 'Actionnaire',
       linkProps: {
         href: Routes.Actionnaire.changement.lister({ statut: 'demandé' }),
+      },
+    },
+  ];
+
+  const garantiesFinancièresMenuLinks: Array<MenuProps.Link> = [
+    {
+      text: 'Garanties financières à traiter',
+      linkProps: {
+        href: Routes.GarantiesFinancières.dépôt.lister,
+      },
+    },
+    {
+      text: 'Projets avec garanties financières en attente',
+      linkProps: {
+        href: Routes.GarantiesFinancières.enAttente.lister,
+      },
+    },
+    {
+      text: 'Demandes de mainlevée en cours',
+      linkProps: {
+        href: Routes.GarantiesFinancières.demandeMainlevée.lister,
       },
     },
   ];
@@ -90,7 +90,7 @@ const getNavigationItemsBasedOnRole = (utilisateur: Utilisateur.ValueType) => {
       },
       {
         text: 'Garanties Financières',
-        menuLinks: menuLinks.listerGarantiesFinancières,
+        menuLinks: garantiesFinancièresMenuLinks,
       },
       {
         text: 'Candidatures',
@@ -194,7 +194,7 @@ const getNavigationItemsBasedOnRole = (utilisateur: Utilisateur.ValueType) => {
       },
       {
         text: 'Garanties Financières',
-        menuLinks: [...menuLinks.listerGarantiesFinancières],
+        menuLinks: garantiesFinancièresMenuLinks,
       },
       {
         text: 'Raccordements',
@@ -216,7 +216,7 @@ const getNavigationItemsBasedOnRole = (utilisateur: Utilisateur.ValueType) => {
       },
       {
         text: 'Garanties Financières',
-        menuLinks: menuLinks.listerGarantiesFinancières,
+        menuLinks: garantiesFinancièresMenuLinks,
       },
       {
         text: 'Projets à réclamer',
@@ -242,32 +242,7 @@ const getNavigationItemsBasedOnRole = (utilisateur: Utilisateur.ValueType) => {
       },
       {
         text: 'Demandes',
-        menuLinks: [
-          {
-            text: 'Abandons',
-            linkProps: {
-              href: Routes.Abandon.lister({ statut: 'demandé' }),
-            },
-          },
-          {
-            text: 'Recours',
-            linkProps: {
-              href: Routes.Recours.lister({ statut: 'demandé' }),
-            },
-          },
-          {
-            text: 'Représentant légal',
-            linkProps: {
-              href: Routes.ReprésentantLégal.changement.lister({ statut: 'demandé' }),
-            },
-          },
-          {
-            text: 'Actionnaire(s)',
-            linkProps: {
-              href: Routes.Actionnaire.changement.lister({ statut: 'demandé' }),
-            },
-          },
-        ],
+        menuLinks: demandesMenuLinks.filter((link) => link.text !== toutesLesDemandesWording),
       },
       {
         text: 'Raccordements',

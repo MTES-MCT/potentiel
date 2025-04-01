@@ -22,7 +22,7 @@ export const AbandonListPage: FC<AbandonListPageProps> = ({
 }) => {
   return (
     <ListPageTemplate
-      heading="Abandons"
+      heading="Abandon"
       actions={[]}
       items={abandons.map((abandon) => ({
         ...abandon,
