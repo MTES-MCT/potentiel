@@ -54,6 +54,7 @@ export const candidatureCorrigéeProjector = async ({
       ? DateTime.convertirEnValueType(payload.dateÉchéanceGf).formatter()
       : undefined,
     technologie: Candidature.TypeTechnologie.convertirEnValueType(payload.technologie).type,
+    coefficientKChoisi: payload.coefficientKChoisi,
     estNotifiée: Option.isSome(candidature) ? candidature.estNotifiée : false,
     notification,
     misÀJourLe: payload.corrigéLe,
