@@ -16,7 +16,7 @@ import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { decodeParameter } from '@/utils/decodeParameter';
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { withUtilisateur } from '@/utils/withUtilisateur';
-import { récupérerLauréatNonAbandonné } from '@/app/_helpers';
+import { getPériodeAppelOffres } from '@/app/_helpers/getPériodeAppelOffres';
 
 export const metadata: Metadata = {
   title: 'Modifier un dossier de raccordement - Potentiel',
@@ -37,18 +37,9 @@ export default async function Page({ params: { identifiant, reference } }: PageP
         decodeParameter(identifiant),
       );
 
-      const projet = await récupérerLauréatNonAbandonné(identifiantProjet.formatter());
-
       const referenceDossierRaccordement = decodeParameter(reference);
 
-      const appelOffre = await mediator.send<AppelOffre.ConsulterAppelOffreQuery>({
-        type: 'AppelOffre.Query.ConsulterAppelOffre',
-        data: { identifiantAppelOffre: projet.identifiantProjet.appelOffre },
-      });
-
-      if (Option.isNone(appelOffre)) {
-        return notFound();
-      }
+      const { période } = await getPériodeAppelOffres(identifiantProjet);
 
       const gestionnaireRéseau =
         await mediator.send<Raccordement.ConsulterGestionnaireRéseauRaccordementQuery>({
@@ -75,7 +66,7 @@ export default async function Page({ params: { identifiant, reference } }: PageP
 
       const props = mapToProps({
         role: utilisateur.role,
-        appelOffre,
+        période,
         gestionnaireRéseau,
         identifiantProjet,
         dossierRaccordement,
@@ -94,7 +85,7 @@ export default async function Page({ params: { identifiant, reference } }: PageP
 }
 
 type MapToProps = (args: {
-  appelOffre: AppelOffre.ConsulterAppelOffreReadModel;
+  période: AppelOffre.Periode;
   role: Role.ValueType;
   gestionnaireRéseau: Raccordement.ConsulterGestionnaireRéseauRaccordementReadModel;
   dossierRaccordement: Raccordement.ConsulterDossierRaccordementReadModel;
@@ -103,7 +94,7 @@ type MapToProps = (args: {
 
 const mapToProps: MapToProps = ({
   role,
-  appelOffre,
+  période,
   gestionnaireRéseau: {
     aideSaisieRéférenceDossierRaccordement: { expressionReguliere, format, légende },
     identifiantGestionnaireRéseau,
@@ -133,9 +124,7 @@ const mapToProps: MapToProps = ({
           dossierRaccordement.demandeComplèteRaccordement.accuséRéception?.formatter(),
       },
     },
-    delaiDemandeDeRaccordementEnMois: appelOffre.periodes.find(
-      (periode) => periode.id === identifiantProjet.période,
-    )!.delaiDcrEnMois,
+    delaiDemandeDeRaccordementEnMois: période.delaiDcrEnMois,
     gestionnaireRéseauActuel: {
       identifiantGestionnaireRéseau: identifiantGestionnaireRéseau.formatter(),
       raisonSociale: raisonSociale,

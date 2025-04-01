@@ -1,6 +1,5 @@
 import { Metadata, ResolvingMetadata } from 'next';
 import { mediator } from 'mediateur';
-import { notFound } from 'next/navigation';
 
 import { Candidature } from '@potentiel-domain/candidature';
 import { Lauréat } from '@potentiel-domain/laureat';
@@ -14,6 +13,7 @@ import {
   CorrigerCandidaturePage,
   CorrigerCandidaturePageProps,
 } from '@/components/pages/candidature/corriger/CorrigerCandidature.page';
+import { getPériodeAppelOffres } from '@/app/_helpers/getPériodeAppelOffres';
 
 import { getCandidature } from '../../_helpers/getCandidature';
 
@@ -42,21 +42,9 @@ export default async function Page({ params }: PageProps) {
         identifiantProjet,
       },
     });
-    const appelOffre = await mediator.send<AppelOffre.ConsulterAppelOffreQuery>({
-      type: 'AppelOffre.Query.ConsulterAppelOffre',
-      data: {
-        identifiantAppelOffre: candidature.identifiantProjet.appelOffre,
-      },
-    });
-    if (Option.isNone(appelOffre)) {
-      return notFound();
-    }
-    const période = appelOffre.periodes.find((p) => p.id === candidature.identifiantProjet.période);
-    if (!période) {
-      return notFound();
-    }
 
-    const props = mapToProps(candidature, lauréat, appelOffre, période);
+    const { appelOffres, période } = await getPériodeAppelOffres(candidature.identifiantProjet);
+    const props = mapToProps(candidature, lauréat, appelOffres, période);
 
     return (
       <CorrigerCandidaturePage
@@ -72,11 +60,11 @@ export default async function Page({ params }: PageProps) {
 type MapToProps = (
   candidature: Candidature.ConsulterCandidatureReadModel,
   lauréat: Option.Type<Lauréat.ConsulterLauréatReadModel>,
-  appelOffre: AppelOffre.AppelOffreReadModel,
+  appelOffres: AppelOffre.AppelOffreReadModel,
   période: AppelOffre.Periode,
 ) => CorrigerCandidaturePageProps;
 
-const mapToProps: MapToProps = (candidature, lauréat, appelOffre, période) => ({
+const mapToProps: MapToProps = (candidature, lauréat, appelOffres, période) => ({
   candidature: {
     identifiantProjet: candidature.identifiantProjet.formatter(),
     statut: candidature.statut.formatter(),
@@ -108,6 +96,6 @@ const mapToProps: MapToProps = (candidature, lauréat, appelOffre, période) => 
   estLauréat: Option.isSome(lauréat),
   champsSpéciaux: {
     coefficientKChoisi: période.choixCoefficientKDisponible ?? false,
-    puissanceALaPointe: appelOffre.puissanceALaPointeDisponible ?? false,
+    puissanceALaPointe: appelOffres.puissanceALaPointeDisponible ?? false,
   },
 });

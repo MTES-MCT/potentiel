@@ -1,8 +1,6 @@
 import { mediator } from 'mediateur';
 import { Metadata } from 'next';
-import { notFound } from 'next/navigation';
 
-import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { Option } from '@potentiel-libraries/monads';
 import { Éliminé } from '@potentiel-domain/projet';
 import { InvalidOperationError } from '@potentiel-domain/core';
@@ -32,23 +30,6 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
       throw new InvalidOperationError(
         "Vous ne pouvez pas demander le recours d'un projet non éliminé",
       );
-    }
-
-    const projetAppelOffre = await mediator.send<AppelOffre.ConsulterAppelOffreQuery>({
-      type: 'AppelOffre.Query.ConsulterAppelOffre',
-      data: { identifiantAppelOffre: éliminé.identifiantProjet.appelOffre },
-    });
-
-    if (Option.isNone(projetAppelOffre)) {
-      return notFound();
-    }
-
-    const projetPériode = projetAppelOffre.periodes.find(
-      (p) => p.id === éliminé.identifiantProjet.période,
-    );
-
-    if (!projetPériode) {
-      return notFound();
     }
 
     return <DemanderRecoursPage identifiantProjet={identifiantProjet} />;

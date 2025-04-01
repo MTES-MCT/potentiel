@@ -27,24 +27,22 @@ export const metadata: Metadata = {
 export default async function Page({ params: { identifiant } }: IdentifiantParameter) {
   return PageWithErrorHandling(async () =>
     withUtilisateur(async (utilisateur) => {
-      const identifiantProjet = decodeParameter(identifiant);
-      const { appelOffre, famille, période } =
-        IdentifiantProjet.convertirEnValueType(identifiantProjet);
+      const identifiantProjetValue = decodeParameter(identifiant);
+      const identifiantProjet = IdentifiantProjet.convertirEnValueType(identifiantProjetValue);
 
-      const soumisAuxGarantiesFinancières = await projetSoumisAuxGarantiesFinancières({
-        appelOffre,
-        famille,
-        periode: période,
-      });
+      const soumisAuxGarantiesFinancières =
+        await projetSoumisAuxGarantiesFinancières(identifiantProjet);
 
       if (!soumisAuxGarantiesFinancières) {
-        return <ProjetNonSoumisAuxGarantiesFinancièresPage identifiantProjet={identifiantProjet} />;
+        return (
+          <ProjetNonSoumisAuxGarantiesFinancièresPage identifiantProjet={identifiantProjetValue} />
+        );
       }
 
       const dépôt =
         await mediator.send<GarantiesFinancières.ConsulterDépôtEnCoursGarantiesFinancièresQuery>({
           type: 'Lauréat.GarantiesFinancières.Query.ConsulterDépôtEnCoursGarantiesFinancières',
-          data: { identifiantProjetValue: identifiantProjet },
+          data: { identifiantProjetValue: identifiantProjetValue },
         });
 
       if (Option.isNone(dépôt)) {
@@ -55,7 +53,7 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
 
       return (
         <ModifierDépôtEnCoursGarantiesFinancièresPage
-          identifiantProjet={identifiantProjet}
+          identifiantProjet={identifiantProjetValue}
           typesGarantiesFinancières={props.typesGarantiesFinancières}
           dépôtEnCours={props.dépôtEnCours}
           showWarning={props.showWarning}

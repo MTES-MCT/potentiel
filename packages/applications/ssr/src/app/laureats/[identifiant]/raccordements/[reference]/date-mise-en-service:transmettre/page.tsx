@@ -18,6 +18,7 @@ import {
   TransmettreDateMiseEnServicePageProps,
 } from '@/components/pages/réseau/raccordement/transmettre/transmettreDateMiseEnService/TransmettreDateMiseEnService.page';
 import { récupérerLauréatNonAbandonné } from '@/app/_helpers';
+import { getPériodeAppelOffres } from '@/app/_helpers/getPériodeAppelOffres';
 
 type PageProps = {
   params: {
@@ -52,22 +53,13 @@ export default async function Page({ params: { identifiant, reference } }: PageP
         return notFound();
       }
 
-      const appelOffre = await mediator.send<AppelOffre.ConsulterAppelOffreQuery>({
-        type: 'AppelOffre.Query.ConsulterAppelOffre',
-        data: {
-          identifiantAppelOffre: lauréat.identifiantProjet.appelOffre,
-        },
-      });
-
-      if (Option.isNone(appelOffre)) {
-        return notFound();
-      }
+      const { période } = await getPériodeAppelOffres(dossierRaccordement.identifiantProjet);
 
       const props = mapToProps({
         utilisateur,
         referenceDossierRaccordement,
         lauréat,
-        appelOffre,
+        période,
         dossierRaccordement,
       });
 
@@ -87,7 +79,7 @@ type MapToProps = (params: {
   utilisateur: Utilisateur.ValueType;
   referenceDossierRaccordement: string;
   lauréat: Lauréat.ConsulterLauréatReadModel;
-  appelOffre: AppelOffre.ConsulterAppelOffreReadModel;
+  période: AppelOffre.Periode;
   dossierRaccordement: Raccordement.ConsulterDossierRaccordementReadModel;
 }) => TransmettreDateMiseEnServicePageProps;
 
@@ -95,14 +87,12 @@ const mapToProps: MapToProps = ({
   utilisateur,
   referenceDossierRaccordement,
   lauréat,
-  appelOffre,
+  période,
   dossierRaccordement,
 }) => {
-  const intervalleDatesMeSDélaiCDC2022 = appelOffre.periodes
-    .find((p) => p.id === lauréat.identifiantProjet.période)
-    ?.cahiersDesChargesModifiésDisponibles.find(
-      (cdc) => cdc.type === 'modifié' && cdc.paruLe === '30/08/2022',
-    )?.délaiApplicable?.intervaleDateMiseEnService;
+  const intervalleDatesMeSDélaiCDC2022 = période.cahiersDesChargesModifiésDisponibles.find(
+    (cdc) => cdc.type === 'modifié' && cdc.paruLe === '30/08/2022',
+  )?.délaiApplicable?.intervaleDateMiseEnService;
 
   return {
     identifiantProjet: lauréat.identifiantProjet.formatter(),

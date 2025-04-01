@@ -4,7 +4,7 @@ import { notFound } from 'next/navigation';
 
 import { GarantiesFinancières } from '@potentiel-domain/laureat';
 import { Option } from '@potentiel-libraries/monads';
-import { IdentifiantProjet } from '@potentiel-domain/common';
+import { IdentifiantProjet } from '@potentiel-domain/projet';
 
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { decodeParameter } from '@/utils/decodeParameter';
@@ -24,24 +24,22 @@ export const metadata: Metadata = {
 
 export default async function Page({ params: { identifiant } }: IdentifiantParameter) {
   return PageWithErrorHandling(async () => {
-    const identifiantProjet = decodeParameter(identifiant);
-    const { appelOffre, famille, période } =
-      IdentifiantProjet.convertirEnValueType(identifiantProjet);
+    const identifiantProjetValue = decodeParameter(identifiant);
+    const identifiantProjet = IdentifiantProjet.convertirEnValueType(identifiantProjetValue);
 
-    const soumisAuxGarantiesFinancières = await projetSoumisAuxGarantiesFinancières({
-      appelOffre,
-      famille,
-      periode: période,
-    });
+    const soumisAuxGarantiesFinancières =
+      await projetSoumisAuxGarantiesFinancières(identifiantProjet);
 
     if (!soumisAuxGarantiesFinancières) {
-      return <ProjetNonSoumisAuxGarantiesFinancièresPage identifiantProjet={identifiantProjet} />;
+      return (
+        <ProjetNonSoumisAuxGarantiesFinancièresPage identifiantProjet={identifiantProjetValue} />
+      );
     }
 
     const garantiesFinancières =
       await mediator.send<GarantiesFinancières.ConsulterGarantiesFinancièresQuery>({
         type: 'Lauréat.GarantiesFinancières.Query.ConsulterGarantiesFinancières',
-        data: { identifiantProjetValue: identifiantProjet },
+        data: { identifiantProjetValue: identifiantProjetValue },
       });
 
     if (Option.isNone(garantiesFinancières)) {
@@ -52,7 +50,7 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
 
     return (
       <ModifierGarantiesFinancièresActuellesPage
-        identifiantProjet={identifiantProjet}
+        identifiantProjet={identifiantProjetValue}
         typesGarantiesFinancières={props.typesGarantiesFinancières}
         actuelles={props.actuelles}
       />

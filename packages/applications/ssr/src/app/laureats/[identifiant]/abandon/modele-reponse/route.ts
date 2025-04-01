@@ -4,7 +4,7 @@ import { notFound } from 'next/navigation';
 import { Abandon, CahierDesCharges } from '@potentiel-domain/laureat';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { Candidature } from '@potentiel-domain/candidature';
-import { DateTime } from '@potentiel-domain/common';
+import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 import {
   formatDateForDocument,
   ModèleRéponseSignée,
@@ -15,6 +15,7 @@ import { decodeParameter } from '@/utils/decodeParameter';
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 import { formatIdentifiantProjetForDocument } from '@/utils/modèle-document/formatIdentifiantProjetForDocument';
+import { getPériodeAppelOffres } from '@/app/_helpers/getPériodeAppelOffres';
 
 export const GET = async (_: Request, { params: { identifiant } }: IdentifiantParameter) =>
   withUtilisateur(async (utilisateur) => {
@@ -42,14 +43,9 @@ export const GET = async (_: Request, { params: { identifiant } }: IdentifiantPa
       return notFound();
     }
 
-    const appelOffres = await mediator.send<AppelOffre.ConsulterAppelOffreQuery>({
-      type: 'AppelOffre.Query.ConsulterAppelOffre',
-      data: { identifiantAppelOffre: candidature.appelOffre },
-    });
-
-    if (Option.isNone(appelOffres)) {
-      return notFound();
-    }
+    const { appelOffres, période } = await getPériodeAppelOffres(
+      IdentifiantProjet.convertirEnValueType(identifiantProjet),
+    );
 
     const cahierDesChargesChoisi =
       await mediator.send<CahierDesCharges.ConsulterCahierDesChargesChoisiQuery>({
@@ -63,7 +59,7 @@ export const GET = async (_: Request, { params: { identifiant } }: IdentifiantPa
 
     const dispositionCDC = getCDCAbandonRefs({
       appelOffres,
-      période: candidature.période,
+      période,
       cahierDesChargesChoisi,
     });
 
@@ -98,8 +94,7 @@ export const GET = async (_: Request, { params: { identifiant } }: IdentifiantPa
         suiviParEmail: appelOffres.dossierSuiviPar,
         titreAppelOffre: appelOffres.title,
         titreFamille: candidature.famille || '',
-        titrePeriode:
-          appelOffres.periodes.find((période) => période.id === candidature.période)?.title || '',
+        titrePeriode: période.title || '',
         unitePuissance: appelOffres.unitePuissance,
         enCopies: getEnCopies(candidature.localité.région),
       },
@@ -140,13 +135,12 @@ const getCDCAbandonRefs = ({
   cahierDesChargesChoisi,
 }: {
   appelOffres: AppelOffre.AppelOffreReadModel;
-  période: string;
+  période: AppelOffre.Periode;
   cahierDesChargesChoisi: CahierDesCharges.ConsulterCahierDesChargesChoisiReadmodel;
 }) => {
-  const périodeDetails = appelOffres.periodes.find((periode) => periode.id === période);
   const cahierDesChargesModifié =
     cahierDesChargesChoisi.type === 'modifié' &&
-    périodeDetails?.cahiersDesChargesModifiésDisponibles.find(
+    période?.cahiersDesChargesModifiésDisponibles.find(
       (c) =>
         c.paruLe === cahierDesChargesChoisi.paruLe &&
         c.alternatif === cahierDesChargesChoisi.alternatif,
@@ -156,7 +150,7 @@ const getCDCAbandonRefs = ({
     référenceParagraphe: '!!!REFERENCE NON DISPONIBLE!!!',
     dispositions: '!!!CONTENU NON DISPONIBLE!!!',
     ...appelOffres.donnéesCourriersRéponse.texteEngagementRéalisationEtModalitésAbandon,
-    ...périodeDetails?.donnéesCourriersRéponse?.texteEngagementRéalisationEtModalitésAbandon,
+    ...période?.donnéesCourriersRéponse?.texteEngagementRéalisationEtModalitésAbandon,
     ...(cahierDesChargesModifié &&
       cahierDesChargesModifié.donnéesCourriersRéponse
         ?.texteEngagementRéalisationEtModalitésAbandon),

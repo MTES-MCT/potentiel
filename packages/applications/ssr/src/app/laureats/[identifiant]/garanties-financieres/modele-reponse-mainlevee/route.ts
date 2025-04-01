@@ -4,19 +4,20 @@ import { notFound } from 'next/navigation';
 
 import { Abandon, Achèvement, GarantiesFinancières } from '@potentiel-domain/laureat';
 import { Option } from '@potentiel-libraries/monads';
-import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { Candidature } from '@potentiel-domain/candidature';
-import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
+import { DateTime } from '@potentiel-domain/common';
 import {
   formatDateForDocument,
   ModèleRéponseSignée,
 } from '@potentiel-applications/document-builder';
+import { IdentifiantProjet } from '@potentiel-domain/projet';
 
 import { decodeParameter } from '@/utils/decodeParameter';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 import { formatIdentifiantProjetForDocument } from '@/utils/modèle-document/formatIdentifiantProjetForDocument';
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { getRégionUtilisateur } from '@/utils/getRégionUtilisateur';
+import { getPériodeAppelOffres } from '@/app/_helpers/getPériodeAppelOffres';
 
 export const GET = async (
   request: NextRequest,
@@ -24,6 +25,7 @@ export const GET = async (
 ) =>
   withUtilisateur(async (utilisateur) => {
     const identifiantProjetValue = decodeParameter(identifiant);
+    const identifiantProjet = IdentifiantProjet.convertirEnValueType(identifiantProjetValue);
     const estAccordée = request.nextUrl.searchParams.get('estAccordée') === 'true';
 
     const candidature = await mediator.send<Candidature.ConsulterProjetQuery>({
@@ -37,17 +39,7 @@ export const GET = async (
       return notFound();
     }
 
-    const appelOffres = await mediator.send<AppelOffre.ConsulterAppelOffreQuery>({
-      type: 'AppelOffre.Query.ConsulterAppelOffre',
-      data: { identifiantAppelOffre: candidature.appelOffre },
-    });
-
-    if (Option.isNone(appelOffres)) {
-      return notFound();
-    }
-    const détailPériode = appelOffres.periodes.find(
-      (période) => période.id === candidature.période,
-    );
+    const { appelOffres, période } = await getPériodeAppelOffres(identifiantProjet);
 
     const gf = await mediator.send<GarantiesFinancières.ConsulterGarantiesFinancièresQuery>({
       type: 'Lauréat.GarantiesFinancières.Query.ConsulterGarantiesFinancières',
@@ -60,8 +52,7 @@ export const GET = async (
       await mediator.send<GarantiesFinancières.ListerMainlevéesQuery>({
         type: 'Lauréat.GarantiesFinancières.Mainlevée.Query.Lister',
         data: {
-          identifiantProjet:
-            IdentifiantProjet.convertirEnValueType(identifiantProjetValue).formatter(),
+          identifiantProjet: identifiantProjet.formatter(),
           estEnCours: true,
         },
       })
@@ -97,8 +88,8 @@ export const GET = async (
         dateCourrier: formatDateForDocument(DateTime.now().date),
         referenceProjet: formatIdentifiantProjetForDocument(identifiantProjetValue),
 
-        titreAppelOffre: `${détailPériode?.cahierDesCharges.référence ?? '!!! Cahier des charges non disponible !!!'} ${appelOffres.title}`,
-        titrePeriode: détailPériode?.title ?? '!!! Titre de période non disponible !!!',
+        titreAppelOffre: `${période.cahierDesCharges.référence ?? '!!! Cahier des charges non disponible !!!'} ${appelOffres.title}`,
+        titrePeriode: période.title,
 
         nomProjet: candidature.nom,
         nomRepresentantLegal: candidature.candidat.nom,
