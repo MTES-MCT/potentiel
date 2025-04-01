@@ -1,6 +1,4 @@
-# En attente de clarification - les tests failent à cause du dépassement de la date du 31/03/25
 # language: fr
-@NotImplemented
 Fonctionnalité: demander un porteur pour qu'il transmette une preuve de recandidature
 
     Contexte:
