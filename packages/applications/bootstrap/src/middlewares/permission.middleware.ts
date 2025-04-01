@@ -8,6 +8,8 @@ import { Where, WhereOptions } from '@potentiel-domain/entity';
 import { OperationRejectedError } from '@potentiel-domain/core';
 import { listProjection } from '@potentiel-infrastructure/pg-projection-read';
 
+import { AuthenticationError } from '../errors';
+
 export const permissionMiddleware: Middleware = async (message, next) => {
   if (isSystemProcess(message)) {
     return await next();
@@ -49,12 +51,6 @@ export const permissionMiddleware: Middleware = async (message, next) => {
 
   return await next();
 };
-
-class AuthenticationError extends Error {
-  constructor(cause?: Error) {
-    super(`Authentification obligatoire`, { cause });
-  }
-}
 
 const isSystemProcess = (message: Message<string, Record<string, unknown>, void>) =>
   message.type.startsWith('System.');
