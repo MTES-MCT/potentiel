@@ -268,6 +268,8 @@ export type AppelOffreReadModel = {
   donnéesCourriersRéponse: Partial<DonnéesCourriersRéponse>;
   doitPouvoirChoisirCDCInitial?: true;
   autoritéCompétenteDemandesDélai: 'dgec' | 'dreal';
+  /** Indique que le champs booléen "puissanceALaPointe" est disponible pour cet AO */
+  puissanceALaPointeDisponible?: true;
 } & DelaiRealisation &
   GarantiesFinancièresAppelOffre;
 

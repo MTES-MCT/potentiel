@@ -20,6 +20,7 @@ import {
   sociétéMèreSchema,
   technologieSchema,
   évaluationCarboneSimplifiéeSchema,
+  choixCoefficientKSchema,
 } from './candidatureFields.schema';
 
 const localitéSchema = z.object({
@@ -46,6 +47,7 @@ export const candidatureNotifiéeSchema = z
     puissanceALaPointe: puissanceALaPointeSchema,
     puissanceProductionAnnuelle: puissanceProductionAnnuelleSchema,
     doitRegenererAttestation: doitRegenererAttestationSchema,
+    coefficientKChoisi: choixCoefficientKSchema,
   })
   .merge(localitéSchema);
 

@@ -81,6 +81,7 @@ const mapBodyToUseCaseData = (
     dateÉchéanceGfValue: data.dateEcheanceGf
       ? DateTime.convertirEnValueType(data.dateEcheanceGf).formatter()
       : undefined,
+    coefficientKChoisiValue: data.coefficientKChoisi,
 
     // non-editable fields
     territoireProjetValue: previous.territoireProjet,

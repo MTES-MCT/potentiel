@@ -95,6 +95,11 @@ export const DétailsCandidaturePage: FC<DétailsCandidaturePageProps> = ({
                   <span>{getTechnologieTypeLabel(candidature.technologie.type)}</span>
                 </Field>
               )}
+              {candidature.coefficientKChoisi !== undefined && (
+                <Field name="Coefficient K choisi">
+                  <span>{candidature.coefficientKChoisi ? 'Oui' : 'Non'}</span>
+                </Field>
+              )}
               {candidature.actionnariat && (
                 <Field name="Actionnariat">
                   <span>{getActionnariatTypeLabel(candidature.actionnariat.type)}</span>

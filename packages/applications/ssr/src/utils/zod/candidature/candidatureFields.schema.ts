@@ -10,6 +10,7 @@ import {
   numberSchema,
   optionalEnum,
   optionalOuiNonSchema,
+  optionalOuiNonVideSchema,
   optionalStringSchema,
   ouiNonSchema,
   requiredStringSchema,
@@ -59,6 +60,8 @@ export const dateEchéanceGfSchema = z
   .optional();
 export const territoireProjetSchema = optionalStringSchema;
 
+export const choixCoefficientKSchema = booleanSchema.optional();
+
 // champs spécifiques au Csv
 export const puissanceALaPointeCsvSchema = optionalOuiNonSchema;
 export const évaluationCarboneSimplifiéeCsvSchema = z
@@ -81,3 +84,4 @@ export const typeGarantiesFinancieresCsvSchema = optionalEnum(z.enum(['1', '2', 
 export const notifiedOnCsvSchema = z.undefined({
   invalid_type_error: 'Le champs notifiedOn ne peut pas être présent',
 });
+export const choixCoefficientKCsvSchema = optionalOuiNonVideSchema;
