@@ -307,5 +307,23 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
         },
       },
     },
+    {
+      id: '9',
+      title: 'neuvième',
+      certificateTemplate: 'ppe2.v2',
+      logo: 'Gouvernement',
+      noteThreshold: 19.42,
+      cahierDesCharges: {
+        référence: '2025/S 10841-2025',
+      },
+      delaiDcrEnMois: { valeur: 3, texte: 'trois' },
+      familles: [],
+      cahiersDesChargesModifiésDisponibles: [],
+      changement: {
+        représentantLégal: {
+          typeTâchePlanifiée: 'accord-automatique',
+        },
+      },
+    },
   ],
 };
