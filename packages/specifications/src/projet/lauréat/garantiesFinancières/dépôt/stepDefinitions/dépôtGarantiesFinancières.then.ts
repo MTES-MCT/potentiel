@@ -58,6 +58,8 @@ Alors(
           },
         });
 
+        assert(Option.isSome(file), `Attestation non trouvée !`);
+
         const actualContent = await convertReadableStreamToString(file.content);
         actualContent.should.be.equal(contenu);
       }

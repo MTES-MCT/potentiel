@@ -2,6 +2,7 @@ import { mediator } from 'mediateur';
 import * as zod from 'zod';
 
 import { ConsulterDocumentProjetQuery } from '@potentiel-domain/document';
+import { Option } from '@potentiel-libraries/monads';
 
 import { FileTypes } from '../blob';
 
@@ -18,6 +19,10 @@ const existingDocument = zod
         documentKey,
       },
     });
+
+    if (Option.isNone(document)) {
+      throw new Error(`Aucun document n'a été transmis`);
+    }
 
     return document;
   });

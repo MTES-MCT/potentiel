@@ -1,7 +1,9 @@
 import { mediator } from 'mediateur';
+import { notFound } from 'next/navigation';
 
 import { ConsulterDocumentProjetQuery } from '@potentiel-domain/document';
 import { VérifierAccèsProjetQuery } from '@potentiel-domain/utilisateur';
+import { Option } from '@potentiel-libraries/monads';
 
 import { withUtilisateur } from '@/utils/withUtilisateur';
 
@@ -28,6 +30,10 @@ export const GET = (_: Request, { params: { documentKey } }: DocumentKeyParamete
         documentKey,
       },
     });
+
+    if (Option.isNone(result)) {
+      return notFound();
+    }
 
     return new Response(result.content, {
       headers: {

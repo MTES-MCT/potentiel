@@ -50,15 +50,17 @@ Alors(
       expect(candidature.attestation, "La candidature n'a pas d'attestation").not.to.be.undefined;
       await waitForExpect(async () => {
         if (candidature.attestation) {
-          const { content, format } = await mediator.send<ConsulterDocumentProjetQuery>({
+          const result = await mediator.send<ConsulterDocumentProjetQuery>({
             type: 'Document.Query.ConsulterDocumentProjet',
             data: {
               documentKey: candidature.attestation.formatter(),
             },
           });
 
-          expect(await convertReadableStreamToString(content)).to.have.length.gt(1);
-          format.should.be.equal('application/pdf');
+          assert(Option.isSome(result), `Attestation non trouvée !`);
+
+          expect(await convertReadableStreamToString(result.content)).to.have.length.gt(1);
+          result.format.should.be.equal('application/pdf');
         }
       });
     }

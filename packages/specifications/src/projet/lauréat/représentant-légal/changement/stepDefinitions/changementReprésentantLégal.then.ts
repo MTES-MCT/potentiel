@@ -121,6 +121,8 @@ async function vérifierDemande(this: PotentielWorld, statut: 'demande' | 'corre
         },
       });
 
+      assert(Option.isSome(result), `Pièce justificative non trouvée !`);
+
       const actualContent = await convertReadableStreamToString(result.content);
 
       const expectedContent = await convertReadableStreamToString(
@@ -147,6 +149,8 @@ async function vérifierDemande(this: PotentielWorld, statut: 'demande' | 'corre
             .none(() => ''),
         },
       });
+
+      assert(Option.isSome(result), `Pièce justificative non trouvée !`);
 
       const actualContent = await convertReadableStreamToString(result.content);
       const expectedContent = await convertReadableStreamToString(

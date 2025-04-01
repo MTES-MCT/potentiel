@@ -1,7 +1,7 @@
 import { Then as Alors } from '@cucumber/cucumber';
 import { mediator } from 'mediateur';
 import waitForExpect from 'wait-for-expect';
-import { expect } from 'chai';
+import { assert, expect } from 'chai';
 
 import { mapToPlainObject } from '@potentiel-domain/core';
 import { Actionnaire } from '@potentiel-domain/laureat';
@@ -197,6 +197,8 @@ async function vérifierChangementActionnaire(
       },
     });
 
+    assert(Option.isSome(result), `Réponse signée non trouvée !`);
+
     const actualContent = await convertReadableStreamToString(result.content);
     const expectedContent = await convertReadableStreamToString(
       this.lauréatWorld.actionnaireWorld.accorderChangementActionnaireFixture.réponseSignée
@@ -214,6 +216,8 @@ async function vérifierChangementActionnaire(
           .none(() => ''),
       },
     });
+
+    assert(Option.isSome(result), `Réponse signée non trouvée !`);
 
     const actualContent = await convertReadableStreamToString(result.content);
     const expectedContent = await convertReadableStreamToString(

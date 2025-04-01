@@ -47,6 +47,8 @@ Alors(
         },
       });
 
+      assert(Option.isSome(result), `Proposition technique et financière signée non trouvée !`);
+
       const actualContent = await convertReadableStreamToString(result.content);
       const expectedContent = await convertReadableStreamToString(
         propositionTechniqueEtFinancièreSignée.content,

@@ -1,7 +1,7 @@
 import { Then as Alors } from '@cucumber/cucumber';
 import { mediator } from 'mediateur';
 import waitForExpect from 'wait-for-expect';
-import { expect } from 'chai';
+import { assert, expect } from 'chai';
 
 import { mapToPlainObject } from '@potentiel-domain/core';
 import { ConsulterDocumentProjetQuery } from '@potentiel-domain/document';
@@ -156,6 +156,8 @@ async function vérifierAbandon(
       },
     });
 
+    assert(Option.isSome(result), `Pièce justificative non trouvée !`);
+
     const actualContent = await convertReadableStreamToString(result.content);
     const expectedContent = await convertReadableStreamToString(
       this.lauréatWorld.abandonWorld.demanderAbandonFixture.pièceJustificative?.content ??
@@ -173,6 +175,8 @@ async function vérifierAbandon(
           .none(() => ''),
       },
     });
+
+    assert(Option.isSome(result), `Réponse signée non trouvée !`);
 
     const actualContent = await convertReadableStreamToString(result.content);
     const expectedContent = await convertReadableStreamToString(
@@ -192,6 +196,8 @@ async function vérifierAbandon(
       },
     });
 
+    assert(Option.isSome(result), `Réponse signée non trouvée !`);
+
     const actualContent = await convertReadableStreamToString(result.content);
     const expectedContent = await convertReadableStreamToString(
       this.lauréatWorld.abandonWorld.rejeterAbandonFixture.réponseSignée?.content ??
@@ -209,6 +215,8 @@ async function vérifierAbandon(
           .none(() => ''),
       },
     });
+
+    assert(Option.isSome(result), `Réponse signée non trouvée !`);
 
     const actualContent = await convertReadableStreamToString(result.content);
     const expectedContent = await convertReadableStreamToString(

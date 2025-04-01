@@ -1,5 +1,5 @@
 import { Then as Alors, DataTable } from '@cucumber/cucumber';
-import { expect } from 'chai';
+import { assert, expect } from 'chai';
 import { mediator } from 'mediateur';
 import waitForExpect from 'wait-for-expect';
 
@@ -181,6 +181,9 @@ Alors(
             type: 'Document.Query.ConsulterDocumentProjet',
             data: { documentKey: mainlevée.accord?.courrierAccord.formatter() },
           });
+
+          assert(Option.isSome(actualFile), `Courrier accord non trouvé !`);
+
           const actualContent = await convertReadableStreamToString(actualFile.content);
           actualContent.should.be.equal(content);
         }
@@ -254,6 +257,8 @@ Alors(
             type: 'Document.Query.ConsulterDocumentProjet',
             data: { documentKey: mainlevée.rejet.courrierRejet.formatter() },
           });
+
+          assert(Option.isSome(actualFile), `Courrier rejet non trouvé !`);
 
           const actualContent = await convertReadableStreamToString(actualFile.content);
           actualContent.should.be.equal(contenuFichierRéponse);

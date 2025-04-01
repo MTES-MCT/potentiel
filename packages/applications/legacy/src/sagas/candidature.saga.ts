@@ -315,7 +315,7 @@ const fetchDétails = async (
   identifiantProjet: IdentifiantProjet.ValueType,
   date: DateTime.ValueType,
 ) => {
-  const { content } = await mediator.send<ConsulterDocumentProjetQuery>({
+  const détailsImport = await mediator.send<ConsulterDocumentProjetQuery>({
     type: 'Document.Query.ConsulterDocumentProjet',
     data: {
       documentKey: DocumentProjet.convertirEnValueType(
@@ -327,7 +327,10 @@ const fetchDétails = async (
     },
   });
 
-  const result = await convertReadableStreamToString(content);
+  const result = await Option.match(détailsImport)
+    .some(async ({ content }) => await convertReadableStreamToString(content))
+    .none(() => Promise.resolve('{}'));
+
   return JSON.parse(result) as Record<string, string>;
 };
 
