@@ -21,6 +21,10 @@ import { AttestationNonGénéréeError } from '../attestationNonGénérée.error
 import { CandidatureNonTrouvéeError } from '../candidatureNonTrouvée.error';
 import * as TypeGarantiesFinancières from '../typeGarantiesFinancières.valueType';
 import { TypeActionnariat } from '../candidature';
+import {
+  ChoixCoefficientKNonAttenduError,
+  ChoixCoefficientKRequisError,
+} from '../choixCoefficientK.error';
 
 type CandidatureCorrigéePayload = CandidatureImportéeEventCommonPayload & {
   corrigéLe: DateTime.RawType;
@@ -85,6 +89,13 @@ export async function corriger(
     candidature.dateÉchéanceGf
   ) {
     throw new DateÉchéanceNonAttendueError();
+  }
+  const période = this.récupererPériodeAO(appelOffre, candidature.identifiantProjet.période);
+  if (période.choixCoefficientKDisponible && candidature.coefficientKChoisi === undefined) {
+    throw new ChoixCoefficientKRequisError();
+  }
+  if (!période.choixCoefficientKDisponible && candidature.coefficientKChoisi !== undefined) {
+    throw new ChoixCoefficientKNonAttenduError();
   }
 
   if (this.estNotifiée) {

@@ -107,3 +107,25 @@ Fonctionnalité: Corriger une candidature
         Quand le DGEC validateur corrige la candidature avec :
             | type GF | six-mois-après-achèvement |
         Alors l'administrateur devrait être informé que "Le type de garanties financières d'une candidature ne peut être modifié après la notification"
+
+    Scénario: Impossible de corriger une candidature avec choix du coefficient K si la période ne le propose pas
+        Etant donné la candidature lauréate "Du boulodrome de Marseille" avec :
+            | statut        | classé          |
+            | appel d'offre | PPE2 - Bâtiment |
+            | période       | 9               |
+            | famille       |                 |
+        Quand le DGEC validateur corrige la candidature avec :
+            | coefficient K choisi | oui |
+        Alors l'administrateur devrait être informé que "Le choix du coefficient K ne peut être renseigné pour cette période"
+
+    # TODO activer ce test lors de l'ouverture de PPE2 - Bâtiment 10
+    @NotImplemented
+    Scénario: Impossible de corriger une candidature sans choix du coefficient K si la période le propose
+        Etant donné la candidature lauréate "Du boulodrome de Marseille" avec :
+            | statut        | classé          |
+            | appel d'offre | PPE2 - Bâtiment |
+            | période       | 10              |
+            | famille       |                 |
+        Quand le DGEC validateur corrige la candidature avec :
+            | coefficient K choisi |  |
+        Alors l'administrateur devrait être informé que "Le choix du coefficient K est requis pour cette période"

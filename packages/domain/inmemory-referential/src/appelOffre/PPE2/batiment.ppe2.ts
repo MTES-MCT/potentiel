@@ -454,6 +454,7 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
     // Période ajoutée en anticipation afin de pouvoir tester la fonctionalité Coefficient K
     // à l'ouverture de cette période:
     // - activer le test concerné dans "importer candidature"
+    // - activer le test concerné dans "corriger candidature"
     // - mettre à jour la période en fonction des valeurs désirées
     // {
     //   id: '10',
