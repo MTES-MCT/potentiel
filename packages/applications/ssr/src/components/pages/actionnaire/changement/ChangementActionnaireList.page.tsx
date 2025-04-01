@@ -27,7 +27,7 @@ export const ChangementActionnaireListPage: FC<ChangementActionnaireListPageProp
   filters,
 }) => (
   <ListPageTemplate
-    heading="Demandes de changement d'actionnaire"
+    heading="Actionnaire"
     actions={[]}
     items={items.map((item) => ({
       ...item,

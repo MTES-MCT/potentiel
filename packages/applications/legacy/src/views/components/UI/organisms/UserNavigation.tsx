@@ -5,7 +5,7 @@ import { DropdownMenu } from '../molecules/dropdowns/DropdownMenu';
 import { UtilisateurReadModel } from '../../../../modules/utilisateur/récupérer/UtilisateurReadModel';
 import { Routes } from '@potentiel-applications/routes';
 
-const MenuGarantiesFinancières = ({ currentPage }: { currentPage?: string }) => (
+const MenuGarantiesFinancières = () => (
   <DropdownMenu buttonChildren={'Garanties financières'}>
     <DropdownMenu.DropdownItem href={Routes.GarantiesFinancières.dépôt.lister}>
       Garanties financières à traiter
@@ -19,13 +19,11 @@ const MenuGarantiesFinancières = ({ currentPage }: { currentPage?: string }) =>
   </DropdownMenu>
 );
 
-export const UserNavigation = ({
-  user,
-  currentPage,
-}: {
+type UserNavigationProps = {
   user: UtilisateurReadModel;
   currentPage?: string;
-}) => {
+};
+export const UserNavigation = ({ user, currentPage }: UserNavigationProps) => {
   switch (user.role) {
     case 'porteur-projet':
       return MenuPorteurProjet(currentPage);
@@ -66,7 +64,7 @@ const MenuCre = (currentPage?: string) => (
     </Header.MenuItem>
     <DropdownMenu buttonChildren={'Demandes'}>
       <DropdownMenu.DropdownItem href={Routes.Abandon.lister({ statut: 'demandé' })}>
-        Abandons
+        Abandon
       </DropdownMenu.DropdownItem>
       <DropdownMenu.DropdownItem href={Routes.Recours.lister({ statut: 'demandé' })}>
         Recours
@@ -77,7 +75,7 @@ const MenuCre = (currentPage?: string) => (
         Représentant légal
       </DropdownMenu.DropdownItem>
       <DropdownMenu.DropdownItem href={Routes.Actionnaire.changement.lister({ statut: 'demandé' })}>
-        Actionnaire(s)
+        Actionnaire
       </DropdownMenu.DropdownItem>
     </DropdownMenu>
     <Header.MenuItem href={Routes.Raccordement.lister}>Raccordements</Header.MenuItem>
@@ -106,7 +104,7 @@ const MenuAdmin = (currentPage?: string) => (
         Toutes les demandes
       </DropdownMenu.DropdownItem>
       <DropdownMenu.DropdownItem href={Routes.Abandon.lister({ statut: 'demandé' })}>
-        Abandons
+        Abandon
       </DropdownMenu.DropdownItem>
       <DropdownMenu.DropdownItem href={Routes.Recours.lister({ statut: 'demandé' })}>
         Recours
@@ -117,10 +115,10 @@ const MenuAdmin = (currentPage?: string) => (
         Représentant légal
       </DropdownMenu.DropdownItem>
       <DropdownMenu.DropdownItem href={Routes.Actionnaire.changement.lister({ statut: 'demandé' })}>
-        Actionnaire(s)
+        Actionnaire
       </DropdownMenu.DropdownItem>
     </DropdownMenu>
-    <MenuGarantiesFinancières currentPage={currentPage} />
+    <MenuGarantiesFinancières />
     <DropdownMenu buttonChildren={'Candidatures'}>
       <DropdownMenu.DropdownItem href={Routes.Candidature.importer}>
         Nouveaux candidats
@@ -193,7 +191,7 @@ const MenuPorteurProjet = (currentPage?: string) => (
         Mes demandes
       </DropdownMenu.DropdownItem>
       <DropdownMenu.DropdownItem href={Routes.Abandon.lister({ statut: 'demandé' })}>
-        Abandons
+        Abandon
       </DropdownMenu.DropdownItem>
       <DropdownMenu.DropdownItem href={Routes.Recours.lister({ statut: 'demandé' })}>
         Recours
@@ -204,10 +202,10 @@ const MenuPorteurProjet = (currentPage?: string) => (
         Représentant légal
       </DropdownMenu.DropdownItem>
       <DropdownMenu.DropdownItem href={Routes.Actionnaire.changement.lister({ statut: 'demandé' })}>
-        Actionnaire(s)
+        Actionnaire
       </DropdownMenu.DropdownItem>
     </DropdownMenu>
-    <MenuGarantiesFinancières currentPage={currentPage} />
+    <MenuGarantiesFinancières />
     <Header.MenuItem
       href={Routes.Utilisateur.réclamerProjet}
       {...(currentPage === 'list-missing-owner-projects' && { isCurrent: true })}
@@ -232,7 +230,7 @@ const MenuAcheteurObligé = (currentPage?: string) => (
         Représentant légal
       </DropdownMenu.DropdownItem>
       <DropdownMenu.DropdownItem href={Routes.Actionnaire.changement.lister({ statut: 'demandé' })}>
-        Actionnaire(s)
+        Actionnaire
       </DropdownMenu.DropdownItem>
     </DropdownMenu>
     <Header.MenuItem
@@ -277,7 +275,7 @@ const MenuDreal = (currentPage?: string) => (
         Toutes les demandes
       </DropdownMenu.DropdownItem>
       <DropdownMenu.DropdownItem href={Routes.Abandon.lister({ statut: 'demandé' })}>
-        Abandons
+        Abandon
       </DropdownMenu.DropdownItem>
       <DropdownMenu.DropdownItem href={Routes.Recours.lister({ statut: 'demandé' })}>
         Recours
@@ -288,10 +286,10 @@ const MenuDreal = (currentPage?: string) => (
         Représentant légal
       </DropdownMenu.DropdownItem>
       <DropdownMenu.DropdownItem href={Routes.Actionnaire.changement.lister({ statut: 'demandé' })}>
-        Actionnaire(s)
+        Actionnaire
       </DropdownMenu.DropdownItem>
     </DropdownMenu>
-    <MenuGarantiesFinancières currentPage={currentPage} />
+    <MenuGarantiesFinancières />
     <Header.MenuItem href={Routes.Raccordement.lister}>Raccordements</Header.MenuItem>
   </>
 );
