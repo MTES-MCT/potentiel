@@ -42,6 +42,7 @@ export type ImporterCandidatureUseCaseCommonPayload = {
   actionnariatValue?: string;
   dateÉchéanceGfValue?: string;
   territoireProjetValue: string;
+  coefficientKChoisiValue?: boolean;
 };
 
 type ImporterCandidatureUseCasePayload = ImporterCandidatureUseCaseCommonPayload & {
@@ -116,4 +117,5 @@ export const mapPayloadForCommand = (payload: ImporterCandidatureUseCaseCommonPa
   puissanceALaPointe: payload.puissanceALaPointeValue,
   sociétéMère: payload.sociétéMèreValue,
   territoireProjet: payload.territoireProjetValue,
+  coefficientKChoisi: payload.coefficientKChoisiValue,
 });

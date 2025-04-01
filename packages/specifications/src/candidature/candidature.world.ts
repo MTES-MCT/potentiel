@@ -36,6 +36,8 @@ export class CandidatureWorld {
         Object.entries(obj).filter(([, val]) => typeof val !== 'undefined'),
       ) as Partial<T>;
     const mapBoolean = (val: string) => (val ? val === 'oui' : undefined);
+    const mapOptionalBoolean = (val: string) =>
+      val === 'oui' ? true : val === 'non' ? false : undefined;
     const mapNumber = (val: string) => (val ? Number(val) : undefined);
     const mapDate = (val: string) => (val ? new Date(val).toISOString() : undefined);
 
@@ -47,7 +49,7 @@ export class CandidatureWorld {
       région: exemple['région'],
       département: exemple['département'],
     });
-    return removeEmptyValues({
+    const clearedValues = removeEmptyValues({
       appelOffreValue: exemple["appel d'offre"],
       périodeValue: exemple['période'],
       familleValue: exemple['famille'],
@@ -72,6 +74,14 @@ export class CandidatureWorld {
       doitRégénérerAttestation: mapBoolean(exemple['doit régénérer attestation']),
       statutValue: exemple['statut'],
     });
+    // gérer coefficient K choisi qui, s'il est renseigné, peut être oui, non ou vide
+    if (exemple['coefficient K choisi'] != undefined) {
+      return {
+        ...clearedValues,
+        coefficientKChoisiValue: mapOptionalBoolean(exemple['coefficient K choisi']),
+      };
+    }
+    return clearedValues;
   }
 
   mapToExpected() {

@@ -153,5 +153,6 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
         },
       },
     },
+    // ℹ️ penser à mettre à jour le logo pour la prochaine période
   ],
 };

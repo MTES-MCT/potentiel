@@ -39,6 +39,7 @@ export type ImporterCandidatureCommandCommonOptions = {
   actionnariat?: TypeActionnariat.ValueType;
   dateÉchéanceGf?: DateTime.ValueType;
   territoireProjet: string;
+  coefficientKChoisi?: boolean;
 };
 
 type ImporterCandidatureCommandOptions = ImporterCandidatureCommandCommonOptions & {

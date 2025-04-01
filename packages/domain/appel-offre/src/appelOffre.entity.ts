@@ -200,9 +200,16 @@ export type Periode = {
       typeTâchePlanifiée: 'accord-automatique' | 'rejet-automatique';
     };
   };
-  // Permet un ajout personalisé dans le paragraphe Évaluation Carbone.
-  // nécessite que affichageParagrapheECS soit true dans l'appel d'offre
+  /**
+   * Permet un ajout personalisé dans le paragraphe Évaluation Carbone.
+   * nécessite que affichageParagrapheECS soit true dans l'appel d'offre
+   */
   addendumParagrapheECS?: string;
+  /**
+   * Active la possibilité pour le porteur de choisir ou non d'avoir un tarif indexé sur l'inflation.
+   * Cette information est utilisée par le co-contractant.
+   */
+  choixCoefficientKDisponible?: true;
 } & (NotifiedPeriode | NotYetNotifiedPeriode | LegacyPeriode);
 
 // Territoire

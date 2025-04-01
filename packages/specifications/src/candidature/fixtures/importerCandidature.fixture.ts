@@ -92,6 +92,18 @@ export class ImporterCandidatureFixture
       },
       localitéValue,
     };
+
+    const référentielPériode = appelsOffreData
+      .find((ao) => ao.id === appelOffre)
+      ?.periodes.find((p) => p.id === période);
+
+    if (
+      référentielPériode?.choixCoefficientKDisponible === true &&
+      !('coefficientKChoisiValue' in values)
+    ) {
+      fixture.coefficientKChoisiValue = faker.datatype.boolean();
+    }
+
     this.#values = fixture;
 
     this.aÉtéCréé = true;
