@@ -2,8 +2,6 @@
 
 import { FC, useEffect, useState } from 'react';
 import { Stepper } from '@codegouvfr/react-dsfr/Stepper';
-import Alert from '@codegouvfr/react-dsfr/Alert';
-import Link from 'next/link';
 
 import { ReprésentantLégal } from '@potentiel-domain/laureat';
 
@@ -88,30 +86,7 @@ export const DemanderChangementReprésentantLégalForm: FC<
             Pour ce faire vous allez devoir remplir une demande en ligne avec des pièces
             justificatives à fournir selon la situation du nouveau représentant légal du projet.
           </p>
-          <Alert
-            severity="info"
-            title="Concernant la sécurité de vos données"
-            description={
-              <ul className="p-4 list-disc">
-                <li>
-                  Un filigrane sera automatiquement appliqué sur l'ensemble des pièces
-                  justificatives transmises (nous utilisons le service de la plateforme d'état{' '}
-                  <Link href="https://filigrane.beta.gouv.fr/" target="_blank">
-                    filigrane.beta.gouv.fr
-                  </Link>
-                  . )
-                </li>
-                <li>
-                  Les pièces seront automatiquement supprimées après traitement de votre demande.
-                </li>
-              </ul>
-            }
-          />
-          <p>
-            Votre demande sera alors instruite par le service de l'état en région de votre projet. À
-            défaut de réponse, votre demande sera réputée accordée ou rejetée conformément aux
-            règles du cahier des charges en vigueur de votre projet.
-          </p>
+
           <SaisieTypeStep
             contexte="demander"
             typeReprésentantLégal={state.typeReprésentantLégal}
@@ -170,7 +145,12 @@ export const DemanderChangementReprésentantLégalForm: FC<
           typeSociété={state.typeSociété}
           nomReprésentantLégal={state.nomReprésentantLégal}
           piècesJustificatives={state.piècesJustificatives}
-          message={`Vous êtes sur le point de demander le changement du représentant légal du projet. Veuillez vérifier l'ensemble des informations saisies et confirmer si tout est correct`}
+          message={`
+            Vous êtes sur le point de demander le changement du représentant légal du projet. 
+            Veuillez vérifier l'ensemble des informations saisies et confirmer si tout est correct. 
+            Ensuite votre demande sera alors instruite par le service de l'état en région de votre projet. 
+            À défaut de réponse, votre demande sera réputée accordée ou rejetée conformément aux
+            règles du cahier des charges en vigueur de votre projet.`}
         />
       ),
       previousStep: { name: 'Corriger' },

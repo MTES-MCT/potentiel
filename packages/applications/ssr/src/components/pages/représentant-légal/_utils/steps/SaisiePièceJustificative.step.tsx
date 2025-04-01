@@ -1,6 +1,8 @@
 'use client';
 import { FC } from 'react';
 import { match, P } from 'ts-pattern';
+import Alert from '@codegouvfr/react-dsfr/Alert';
+import Link from 'next/link';
 
 import { ReprésentantLégal } from '@potentiel-domain/laureat';
 
@@ -54,20 +56,39 @@ export const SaisiePièceJustificativeStep: FC<SaisiePièceJustificativeProps> =
       );
 
   return (
-    <UploadNewOrModifyExistingDocument
-      label={'Pièce justificative'}
-      name="piecesJustificatives"
-      hintText={getPièceJustificativeHintText()}
-      required
-      formats={['pdf']}
-      multiple={typeSociété !== 'constituée' ? true : undefined}
-      state={validationErrors['piecesJustificatives'] ? 'error' : 'default'}
-      stateRelatedMessage={validationErrors['piecesJustificatives']}
-      onChange={(piècesJustificatives) => {
-        delete validationErrors['piecesJustificatives'];
-        onChange && onChange(piècesJustificatives);
-      }}
-      documentKeys={pièceJustificative}
-    />
+    <>
+      <UploadNewOrModifyExistingDocument
+        label={'Pièce justificative'}
+        name="piecesJustificatives"
+        hintText={getPièceJustificativeHintText()}
+        required
+        formats={['pdf']}
+        multiple={typeSociété !== 'constituée' ? true : undefined}
+        state={validationErrors['piecesJustificatives'] ? 'error' : 'default'}
+        stateRelatedMessage={validationErrors['piecesJustificatives']}
+        onChange={(piècesJustificatives) => {
+          delete validationErrors['piecesJustificatives'];
+          onChange && onChange(piècesJustificatives);
+        }}
+        documentKeys={pièceJustificative}
+      />
+      <Alert
+        severity="info"
+        title="Concernant la sécurité de vos données"
+        description={
+          <ul className="p-4 list-disc">
+            <li>
+              Un filigrane sera automatiquement appliqué sur l'ensemble des pièces justificatives
+              transmises (nous utilisons le service de la plateforme d'état{' '}
+              <Link href="https://filigrane.beta.gouv.fr/" target="_blank">
+                filigrane.beta.gouv.fr
+              </Link>
+              . )
+            </li>
+            <li>Les pièces seront automatiquement supprimées après traitement de votre demande.</li>
+          </ul>
+        }
+      />
+    </>
   );
 };
