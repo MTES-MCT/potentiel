@@ -35,6 +35,7 @@ export const candidatureImportéeProjector = async ({
     dateÉchéanceGf: payload.dateÉchéanceGf
       ? DateTime.convertirEnValueType(payload.dateÉchéanceGf).formatter()
       : undefined,
+    coefficientKChoisi: payload.coefficientKChoisi,
     technologie: Candidature.TypeTechnologie.convertirEnValueType(payload.technologie).type,
     estNotifiée: false,
     notification: undefined,

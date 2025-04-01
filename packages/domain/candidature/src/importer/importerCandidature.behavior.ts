@@ -17,6 +17,10 @@ import {
   GarantiesFinancièresRequisesPourAppelOffreError,
 } from '../garantiesFinancières.error';
 import * as TypeGarantiesFinancières from '../typeGarantiesFinancières.valueType';
+import {
+  ChoixCoefficientKNonAttenduError,
+  ChoixCoefficientKRequisError,
+} from '../choixCoefficientK.error';
 
 export type CandidatureImportéeEventCommonPayload = {
   identifiantProjet: IdentifiantProjet.RawType;
@@ -46,6 +50,7 @@ export type CandidatureImportéeEventCommonPayload = {
   actionnariat?: TypeActionnariat.RawType;
   dateÉchéanceGf?: DateTime.RawType;
   territoireProjet: string;
+  coefficientKChoisi?: boolean;
 };
 
 type CandidatureImportéeEventPayload = CandidatureImportéeEventCommonPayload & {
@@ -86,6 +91,7 @@ export type ImporterCandidatureBehaviorCommonOptions = {
   actionnariat?: TypeActionnariat.ValueType;
   dateÉchéanceGf?: DateTime.ValueType;
   territoireProjet: string;
+  coefficientKChoisi?: boolean;
 };
 
 type ImporterCandidatureBehaviorOptions = ImporterCandidatureBehaviorCommonOptions & {
@@ -148,6 +154,13 @@ export async function importer(
     throw new DateÉchéanceNonAttendueError();
   }
 
+  if (période.choixCoefficientKDisponible && candidature.coefficientKChoisi === undefined) {
+    throw new ChoixCoefficientKRequisError();
+  }
+  if (!période.choixCoefficientKDisponible && candidature.coefficientKChoisi !== undefined) {
+    throw new ChoixCoefficientKNonAttenduError();
+  }
+
   const event: CandidatureImportéeEvent = {
     type: 'CandidatureImportée-V1',
     payload: {
@@ -207,4 +220,5 @@ export const mapToEventPayload = (candidature: ImporterCandidatureBehaviorCommon
   evaluationCarboneSimplifiée: candidature.evaluationCarboneSimplifiée,
   actionnariat: candidature.actionnariat?.formatter(),
   territoireProjet: candidature.territoireProjet,
+  coefficientKChoisi: candidature.coefficientKChoisi,
 });

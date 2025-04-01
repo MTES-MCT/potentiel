@@ -161,5 +161,7 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
         },
       },
     },
+    // ℹ️ penser à mettre à jour le logo pour la prochaine période
+    // à partir de la P4, penser à activer choixCoefficientKDisponible
   ],
 };

@@ -72,3 +72,23 @@ Fonctionnalité: Importer une candidature
             | période       | 1                           |
             | famille       |                             |
         Alors l'administrateur devrait être informé que "Cette période est obsolète et ne peut être importée"
+
+    Scénario: Impossible d'importer une candidature avec choix du coefficient K si la période ne le propose pas
+        Quand le DGEC validateur importe la candidature "Du boulodrome de Marseille" avec :
+            | statut               | classé          |
+            | appel d'offre        | PPE2 - Bâtiment |
+            | période              | 9               |
+            | famille              |                 |
+            | coefficient K choisi | oui             |
+        Alors l'administrateur devrait être informé que "Le choix du coefficient K ne peut être renseigné pour cette période"
+
+    # TODO activer ce test lors de l'ouverture de PPE2 - Bâtiment 10
+    @NotImplemented
+    Scénario: Impossible d'importer une candidature sans choix du coefficient K si la période le propose
+        Quand le DGEC validateur importe la candidature "Du boulodrome de Marseille" avec :
+            | statut               | classé          |
+            | appel d'offre        | PPE2 - Bâtiment |
+            | période              | 10              |
+            | famille              |                 |
+            | coefficient K choisi |                 |
+        Alors l'administrateur devrait être informé que "Le choix du coefficient K est requis pour cette période"
