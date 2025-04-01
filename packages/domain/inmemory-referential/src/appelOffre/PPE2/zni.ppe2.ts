@@ -134,5 +134,42 @@ du paragraphe 2.6.`,
         },
       },
     },
+    {
+      id: '3',
+      title: 'troisème',
+      certificateTemplate: 'ppe2.v2',
+      logo: 'Gouvernement',
+      cahierDesCharges: {
+        référence: '2023/S 183-570186',
+      },
+      delaiDcrEnMois: { valeur: 3, texte: 'trois' },
+      familles: [
+        {
+          id: '1',
+          title: `Installations sur bâtiments, ombrières, ombrières agrivoltaïques et serres agrivoltaïques au sens du paragraphe 1.4, de puissance strictement supérieure à 500 kWc.`,
+          soumisAuxGarantiesFinancieres: 'à la candidature',
+        },
+        {
+          id: '2',
+          title: `Installations au sol de puissance strictement supérieure à 500 kWc et inférieure
+ou égale à 12 MWc pour les projets sur terrains correspondant aux cas 1 et 2 du paragraphe
+2.6 et strictement supérieure à 500 kWc pour les projets sur terrains correspondant en totalité au cas 3
+du paragraphe 2.6.`,
+          soumisAuxGarantiesFinancieres: 'à la candidature',
+        },
+      ],
+      noteThresholdBy: 'family',
+      noteThreshold: [
+        { familleId: '1', territoire: 'Corse', noteThreshold: 52.43 },
+        { familleId: '1 ', territoire: 'Guyane', noteThreshold: 45.05 },
+        { familleId: '1', territoire: 'La Réunion', noteThreshold: 64.81 },
+      ],
+      cahiersDesChargesModifiésDisponibles: [],
+      changement: {
+        représentantLégal: {
+          typeTâchePlanifiée: 'accord-automatique',
+        },
+      },
+    },
   ],
 };
