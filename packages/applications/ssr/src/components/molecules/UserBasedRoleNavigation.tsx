@@ -16,10 +16,12 @@ export function UserBasedRoleNavigation() {
   return <NavLinks items={navigationItems} />;
 }
 
+const toutesLesDemandesWording = 'Toutes les demandes';
+
 const getNavigationItemsBasedOnRole = (utilisateur: Utilisateur.ValueType) => {
   const demandesMenuLinks: Array<MenuProps.Link> = [
     {
-      text: 'Toutes les demandes',
+      text: toutesLesDemandesWording,
       linkProps: {
         href: utilisateur.role.estÉgaleÀ(Role.porteur)
           ? '/mes-demandes.html'
@@ -240,7 +242,7 @@ const getNavigationItemsBasedOnRole = (utilisateur: Utilisateur.ValueType) => {
       },
       {
         text: 'Demandes',
-        menuLinks: demandesMenuLinks,
+        menuLinks: demandesMenuLinks.filter((link) => link.text !== toutesLesDemandesWording),
       },
       {
         text: 'Raccordements',
