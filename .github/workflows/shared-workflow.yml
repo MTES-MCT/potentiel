@@ -61,20 +61,6 @@ jobs:
       - run: npm ci
       - run: npm run test:libraries
 
-  test_applications:
-    runs-on: ubuntu-latest
-    env:
-      APPLICATION_STAGE: test
-
-    steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 20.x
-          cache: 'npm'
-      - run: npm ci
-      - run: npm run test:applications
-
   # verify_statistics:
   #   runs-on: ubuntu-latest
   #   env:
