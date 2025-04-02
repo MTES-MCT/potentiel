@@ -4,8 +4,6 @@ import { mediator } from 'mediateur';
 import * as zod from 'zod';
 import { notFound } from 'next/navigation';
 
-import { AppelOffre } from '@potentiel-domain/appel-offre';
-import { Candidature } from '@potentiel-domain/projet';
 import { IdentifiantProjet } from '@potentiel-domain/common';
 import { Abandon } from '@potentiel-domain/laureat';
 import { Utilisateur } from '@potentiel-domain/utilisateur';
@@ -15,6 +13,9 @@ import { Routes } from '@potentiel-applications/routes';
 
 import { FormAction, formAction, FormState } from '@/utils/formAction';
 import { withUtilisateur } from '@/utils/withUtilisateur';
+import { getLauréat } from '@/app/laureats/[identifiant]/_helpers/getLauréat';
+import { getPériodeAppelOffres } from '@/app/_helpers/getPériodeAppelOffres';
+import { getCandidature } from '@/app/candidatures/_helpers/getCandidature';
 
 const schema = zod.object({
   identifiantProjet: zod.string().min(1),
@@ -63,47 +64,32 @@ const buildReponseSignee = async (
   abandon: Abandon.ConsulterAbandonReadModel,
   utilisateur: Utilisateur.ValueType,
 ): Promise<Abandon.AccorderAbandonUseCase['data']['réponseSignéeValue']> => {
-  const candidature = await mediator.send<Candidature.ConsulterProjetQuery>({
-    data: { identifiantProjet: abandon.identifiantProjet.formatter() },
-    type: 'Candidature.Query.ConsulterProjet',
+  const identifiantProjet = abandon.identifiantProjet;
+  const candidature = await getCandidature(identifiantProjet.formatter());
+  const { lauréat, représentantLégal, puissance } = await getLauréat({
+    identifiantProjet: identifiantProjet.formatter(),
   });
-
-  if (Option.isNone(candidature)) {
-    return notFound();
-  }
-
-  const appelOffre = await mediator.send<AppelOffre.ConsulterAppelOffreQuery>({
-    type: 'AppelOffre.Query.ConsulterAppelOffre',
-    data: {
-      identifiantAppelOffre: candidature.appelOffre,
-    },
-  });
-
-  if (Option.isNone(appelOffre)) {
-    return notFound();
-  }
-
-  const période = appelOffre.periodes.find((p) => p.id === candidature.période);
+  const { appelOffres, période } = await getPériodeAppelOffres(identifiantProjet);
 
   const props: DonnéesDocument = {
     dateCourrier: new Date().toISOString(),
     projet: {
       identifiantProjet: formatIdentifiantProjetForDocument(abandon.identifiantProjet),
-      nomReprésentantLégal: candidature.candidat.représentantLégal,
-      nomCandidat: candidature.candidat.nom,
-      email: candidature.candidat.contact,
-      nom: candidature.nom,
+      nomReprésentantLégal: représentantLégal.nomReprésentantLégal,
+      nomCandidat: candidature.nomCandidat,
+      email: candidature.emailContact.formatter(),
+      nom: lauréat.nomProjet,
       commune: candidature.localité.commune,
       codePostal: candidature.localité.codePostal,
-      dateDésignation: candidature.dateDésignation,
-      puissance: candidature.puissance,
+      dateDésignation: lauréat.notifiéLe.formatter(),
+      puissance: puissance.puissance,
     },
     appelOffre: {
-      nom: appelOffre.shortTitle,
-      description: appelOffre.title,
-      période: période?.title ?? candidature.période,
-      unitéPuissance: appelOffre.unitePuissance,
-      texteEngagementRéalisationEtModalitésAbandon: appelOffre.donnéesCourriersRéponse
+      nom: appelOffres.shortTitle,
+      description: appelOffres.title,
+      période: période.title,
+      unitéPuissance: appelOffres.unitePuissance,
+      texteEngagementRéalisationEtModalitésAbandon: appelOffres.donnéesCourriersRéponse
         .texteEngagementRéalisationEtModalitésAbandon ?? {
         référenceParagraphe: '!!!REFERENCE NON DISPONIBLE!!!',
         dispositions: '!!!CONTENU NON DISPONIBLE!!!',

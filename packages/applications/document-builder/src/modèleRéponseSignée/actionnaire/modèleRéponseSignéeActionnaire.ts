@@ -5,6 +5,9 @@ export const modèleRéponseActionnaireFileName = 'actionnaire-modèle-réponse.
 export type ModèleRéponseActionnaire = ModèleRéponse & {
   type: 'actionnaire';
   data: {
+    dateDemande: string;
+    justificationDemande: string;
+
     nouvelActionnaire: string;
     referenceParagrapheActionnaire: string;
     contenuParagrapheActionnaire: string;

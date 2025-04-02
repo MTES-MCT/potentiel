@@ -1,10 +1,8 @@
 import { mediator } from 'mediateur';
 import { NextRequest, NextResponse } from 'next/server';
-import { notFound } from 'next/navigation';
 
 import { GarantiesFinancières } from '@potentiel-domain/laureat';
 import { Option } from '@potentiel-libraries/monads';
-import { Candidature } from '@potentiel-domain/projet';
 import { DateTime } from '@potentiel-domain/common';
 import {
   ModèleRéponseSignée,
@@ -16,29 +14,22 @@ import { apiAction } from '@/utils/apiAction';
 import { decodeParameter } from '@/utils/decodeParameter';
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { withUtilisateur } from '@/utils/withUtilisateur';
-import { formatIdentifiantProjetForDocument } from '@/utils/modèle-document/formatIdentifiantProjetForDocument';
-import { getRégionUtilisateur } from '@/utils/getRégionUtilisateur';
 import { getPériodeAppelOffres } from '@/app/_helpers/getPériodeAppelOffres';
 import { getDocxDocumentHeader } from '@/utils/modèle-document/getDocxDocumentHeader';
+import { getCandidature } from '@/app/candidatures/_helpers/getCandidature';
+import { mapToModelePayload } from '@/utils/modèle-document/mapToModelePayload';
 
-export const GET = async (
-  request: NextRequest,
-  { params: { identifiant } }: IdentifiantParameter,
-) =>
+import { getLauréat } from '../../_helpers/getLauréat';
+
+export const GET = async (_: NextRequest, { params: { identifiant } }: IdentifiantParameter) =>
   apiAction(() =>
     withUtilisateur(async (utilisateur) => {
       const identifiantProjetValue = decodeParameter(identifiant);
 
-      const candidature = await mediator.send<Candidature.ConsulterProjetQuery>({
-        type: 'Candidature.Query.ConsulterProjet',
-        data: {
-          identifiantProjet: identifiantProjetValue,
-        },
+      const { lauréat, puissance, représentantLégal } = await getLauréat({
+        identifiantProjet: identifiantProjetValue,
       });
-
-      if (Option.isNone(candidature)) {
-        return notFound();
-      }
+      const candidature = await getCandidature(identifiantProjetValue);
 
       const { appelOffres, période, famille } = await getPériodeAppelOffres(
         IdentifiantProjet.convertirEnValueType(identifiantProjetValue),
@@ -52,8 +43,6 @@ export const GET = async (
           },
         );
 
-      const régionDreal = await getRégionUtilisateur(utilisateur);
-
       const garantieFinanciereEnMoisNumber =
         famille && famille?.soumisAuxGarantiesFinancieres === 'après candidature'
           ? famille.garantieFinanciereEnMois
@@ -61,35 +50,38 @@ export const GET = async (
             ? appelOffres.garantieFinanciereEnMois
             : undefined;
 
+      const { logo, data } = mapToModelePayload({
+        identifiantProjet: identifiantProjetValue,
+        lauréat,
+        puissance,
+        représentantLégal,
+        candidature,
+        appelOffres,
+        période,
+        famille,
+        utilisateur,
+      });
       const type = 'mise-en-demeure';
       const content = await ModèleRéponseSignée.générerModèleRéponseAdapter({
         type,
-        logo: régionDreal ?? 'none',
+        logo,
         data: {
-          dreal: régionDreal ?? '!!! Région non disponible !!!',
+          ...data,
           dateMiseEnDemeure: formatDateForDocument(DateTime.now().date),
           contactDreal: utilisateur.identifiantUtilisateur.email,
-          referenceProjet: formatIdentifiantProjetForDocument(identifiantProjetValue),
-          titreAppelOffre: `${période?.cahierDesCharges.référence ?? '!!! Cahier des charges non disponible !!!'} ${appelOffres.title}`,
+          referenceProjet: data.refPotentiel,
           // Attention, launchDate est au format "Avril 2017"
           dateLancementAppelOffre: formatDateForDocument(new Date(appelOffres.launchDate)),
-          nomProjet: candidature.nom,
-          adresseCompleteProjet: `${candidature.localité.adresse} ${candidature.localité.codePostal} ${candidature.localité.commune}`,
-          puissanceProjet: candidature.puissance.toString(),
-          unitePuissance: appelOffres.unitePuissance,
-          titrePeriode: période.title,
-          dateNotification: formatDateForDocument(
-            DateTime.convertirEnValueType(candidature.dateDésignation).date,
-          ),
+
+          adresseCompleteProjet: data.adresseCandidat,
+          puissanceProjet: data.puissance,
           paragrapheGF: appelOffres.renvoiRetraitDesignationGarantieFinancieres,
           garantieFinanciereEnMois: garantieFinanciereEnMoisNumber
             ? garantieFinanciereEnMoisNumber.toString()
             : '!!! garantieFinanciereEnMois non disponible !!!',
           dateFinGarantieFinanciere: garantieFinanciereEnMoisNumber
             ? formatDateForDocument(
-                DateTime.convertirEnValueType(candidature.dateDésignation).ajouterNombreDeMois(
-                  garantieFinanciereEnMoisNumber,
-                ).date,
+                lauréat.notifiéLe.ajouterNombreDeMois(garantieFinanciereEnMoisNumber).date,
               )
             : '!!! dateFinGarantieFinanciere non disponible !!!',
           dateLimiteDepotGF: formatDateForDocument(
@@ -97,18 +89,16 @@ export const GET = async (
               ? projetAvecGarantiesFinancièresEnAttente.dateLimiteSoumission.date
               : undefined,
           ),
-          nomRepresentantLegal: candidature.candidat.nom,
-          adresseProjet: candidature.candidat.adressePostale,
-          codePostalProjet: candidature.localité.codePostal,
-          communeProjet: candidature.localité.commune,
-          emailProjet: candidature.candidat.contact,
+          // TODO vérifer
+          adresseProjet: data.adresseCandidat,
+          emailProjet: data.email,
         },
       });
 
       return new NextResponse(content, {
         headers: getDocxDocumentHeader({
           identifiantProjet: identifiantProjetValue,
-          nomProjet: candidature.nom,
+          nomProjet: lauréat.nomProjet,
           type,
         }),
       });

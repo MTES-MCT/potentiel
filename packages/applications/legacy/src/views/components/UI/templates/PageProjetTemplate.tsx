@@ -5,10 +5,21 @@ import { Badge, BadgeType, Heading1, KeyIcon, Link, MapPinIcon, PageTemplate } f
 import routes from '../../../../routes';
 import type { Candidature } from '@potentiel-domain/projet';
 import { formatProjectDataToIdentifiantProjetValueType } from '../../../../helpers/dataToValueTypes';
+import { StatutProjet } from '@potentiel-domain/common';
+
+export type RésuméProjet = {
+  appelOffre: string;
+  période: string;
+  famille: string;
+  numéroCRE: string;
+  statut: StatutProjet.RawType;
+  nom: string;
+  localité: Candidature.ConsulterCandidatureReadModel['localité'];
+};
 
 export const PageProjetTemplate: FC<{
   user: UtilisateurReadModel;
-  résuméProjet: Candidature.ConsulterProjetReadModel;
+  résuméProjet: RésuméProjet;
   titre: ReactNode;
   children: ReactNode;
 }> = ({ user, résuméProjet, titre, children }) => (
@@ -18,7 +29,7 @@ export const PageProjetTemplate: FC<{
   </PageTemplate>
 );
 
-const EntêteProjet: FC<Candidature.ConsulterProjetReadModel> = ({
+const EntêteProjet: FC<RésuméProjet> = ({
   appelOffre,
   période,
   famille,
@@ -44,7 +55,7 @@ const EntêteProjet: FC<Candidature.ConsulterProjetReadModel> = ({
         >
           <div className="text-3xl font-bold !text-white">{nom}</div>
         </Link>
-        <StatutProjet statut={statut} />
+        <StatutProjetBadge statut={statut} />
       </div>
       <div className="text-xs italic">
         <KeyIcon className="mr-1" />
@@ -77,7 +88,7 @@ const getBadgeLabel = (statut: Candidature.ConsulterProjetReadModel['statut']): 
   return statut;
 };
 
-const StatutProjet: FC<{
+const StatutProjetBadge: FC<{
   statut: Candidature.ConsulterProjetReadModel['statut'];
 }> = ({ statut }) => (
   <Badge type={getBadgeType(statut)} className="ml-2 self-center">

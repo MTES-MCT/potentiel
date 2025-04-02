@@ -1,2 +1,2 @@
 export * from './générerModèleRéponseSignée';
-export type { ModèleRéponseDélai } from './délai/modèleRéponseSignéeDélai';
+export { ModèleRéponse } from './modèleRéponseSignée';

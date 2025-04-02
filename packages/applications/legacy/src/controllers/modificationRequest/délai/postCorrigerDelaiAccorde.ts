@@ -101,31 +101,34 @@ v1Router.post(
         return notFoundResponse({ request, response, ressourceTitle: 'Demande' });
       }
 
-      const résuméProjet = await mediator.send<Candidature.ConsulterProjetQuery>({
-        type: 'Candidature.Query.ConsulterProjet',
+      const candidature = await mediator.send<Candidature.ConsulterCandidatureQuery>({
+        type: 'Candidature.Query.ConsulterCandidature',
         data: { identifiantProjet: identifiantProjet.identifiantProjetValue },
       });
 
-      if (Option.isNone(résuméProjet)) {
+      if (Option.isNone(candidature)) {
         return notFoundResponse({ request, response, ressourceTitle: 'Demande' });
       }
 
       const appelOffre = await mediator.send<AppelOffre.ConsulterAppelOffreQuery>({
         type: 'AppelOffre.Query.ConsulterAppelOffre',
-        data: { identifiantAppelOffre: résuméProjet.appelOffre },
+        data: { identifiantAppelOffre: identifiantProjet.appelOffre },
       });
 
       if (Option.isNone(appelOffre)) {
         return notFoundResponse({ request, response, ressourceTitle: 'Demande' });
       }
 
-      const delaiRealisationEnMois = getDelaiDeRealisation(appelOffre, résuméProjet.technologie);
+      const delaiRealisationEnMois = getDelaiDeRealisation(
+        appelOffre,
+        candidature.technologie.type,
+      );
       if (!delaiRealisationEnMois) {
         return notFoundResponse({ request, response, ressourceTitle: 'Demande' });
       }
 
       const dateAchèvementProjetInitiale = sub(
-        add(new Date(résuméProjet.dateDésignation), {
+        add(candidature.notification!.notifiéeLe.date, {
           months: delaiRealisationEnMois,
         }),
         {

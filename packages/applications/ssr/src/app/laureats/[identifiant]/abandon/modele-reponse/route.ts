@@ -3,8 +3,7 @@ import { notFound } from 'next/navigation';
 
 import { Abandon } from '@potentiel-domain/laureat';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
-import { Candidature, IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
-import { DateTime } from '@potentiel-domain/common';
+import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import {
   formatDateForDocument,
   ModèleRéponseSignée,
@@ -15,26 +14,21 @@ import { apiAction } from '@/utils/apiAction';
 import { decodeParameter } from '@/utils/decodeParameter';
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { withUtilisateur } from '@/utils/withUtilisateur';
-import { formatIdentifiantProjetForDocument } from '@/utils/modèle-document/formatIdentifiantProjetForDocument';
 import { getPériodeAppelOffres } from '@/app/_helpers/getPériodeAppelOffres';
+import { mapToModelePayload } from '@/utils/modèle-document/mapToModelePayload';
+import { getCandidature } from '@/app/candidatures/_helpers/getCandidature';
 import { getEnCopies } from '@/utils/modèle-document/getEnCopies';
 import { getDocxDocumentHeader } from '@/utils/modèle-document/getDocxDocumentHeader';
+
+import { getLauréat } from '../../_helpers/getLauréat';
 
 export const GET = async (_: Request, { params: { identifiant } }: IdentifiantParameter) =>
   apiAction(() =>
     withUtilisateur(async (utilisateur) => {
       const identifiantProjet = decodeParameter(identifiant);
 
-      const candidature = await mediator.send<Candidature.ConsulterProjetQuery>({
-        type: 'Candidature.Query.ConsulterProjet',
-        data: {
-          identifiantProjet,
-        },
-      });
-
-      if (Option.isNone(candidature)) {
-        return notFound();
-      }
+      const { lauréat, puissance, représentantLégal } = await getLauréat({ identifiantProjet });
+      const candidature = await getCandidature(identifiantProjet);
 
       const abandon = await mediator.send<Abandon.ConsulterAbandonQuery>({
         type: 'Lauréat.Abandon.Query.ConsulterAbandon',
@@ -47,7 +41,7 @@ export const GET = async (_: Request, { params: { identifiant } }: IdentifiantPa
         return notFound();
       }
 
-      const { appelOffres, période } = await getPériodeAppelOffres(
+      const { appelOffres, période, famille } = await getPériodeAppelOffres(
         IdentifiantProjet.convertirEnValueType(identifiantProjet),
       );
 
@@ -61,6 +55,18 @@ export const GET = async (_: Request, { params: { identifiant } }: IdentifiantPa
         return notFound();
       }
 
+      const { logo, data } = mapToModelePayload({
+        identifiantProjet,
+        lauréat,
+        puissance,
+        représentantLégal,
+        candidature,
+        appelOffres,
+        période,
+        famille,
+        utilisateur,
+      });
+
       const dispositionCDC = getCDCAbandonRefs({
         appelOffres,
         période,
@@ -68,46 +74,28 @@ export const GET = async (_: Request, { params: { identifiant } }: IdentifiantPa
       });
 
       const type = 'abandon';
-
       const content = await ModèleRéponseSignée.générerModèleRéponseAdapter({
         type,
+        logo,
         data: {
+          ...data,
+          dateDemande: formatDateForDocument(abandon.demande.demandéLe.date),
+          justificationDemande: abandon.demande.raison,
           aprèsConfirmation: abandon.demande.confirmation?.confirméLe ? true : false,
-          adresseCandidat: candidature.candidat.adressePostale,
-          codePostalProjet: candidature.localité.codePostal,
-          communeProjet: candidature.localité.commune,
           contenuParagrapheAbandon: dispositionCDC.dispositions,
           dateConfirmation: formatDateForDocument(abandon.demande.confirmation?.confirméLe?.date),
-          dateDemande: formatDateForDocument(abandon.demande.demandéLe.date),
           dateDemandeConfirmation: formatDateForDocument(
             abandon.demande.confirmation?.demandéeLe.date,
           ),
-          dateNotification: formatDateForDocument(
-            DateTime.convertirEnValueType(candidature.dateDésignation).date,
-          ),
-          dreal: candidature.localité.région,
-          email: '',
-          familles: candidature.famille ? 'yes' : '',
-          justificationDemande: abandon.demande.raison,
-          nomCandidat: candidature.candidat.nom,
-          nomProjet: candidature.nom,
-          nomRepresentantLegal: candidature.candidat.représentantLégal,
-          puissance: candidature.puissance.toString(),
+
           referenceParagrapheAbandon: dispositionCDC.référenceParagraphe,
-          refPotentiel: formatIdentifiantProjetForDocument(identifiantProjet),
           status: abandon.statut.statut,
-          suiviPar: utilisateur.nom,
-          suiviParEmail: appelOffres.dossierSuiviPar,
-          titreAppelOffre: appelOffres.title,
-          titreFamille: candidature.famille || '',
-          titrePeriode: période.title || '',
-          unitePuissance: appelOffres.unitePuissance,
           enCopies: getEnCopies(candidature.localité.région),
         },
       });
 
       return new Response(content, {
-        headers: getDocxDocumentHeader({ identifiantProjet, nomProjet: candidature.nom, type }),
+        headers: getDocxDocumentHeader({ identifiantProjet, nomProjet: lauréat.nomProjet, type }),
       });
     }),
   );

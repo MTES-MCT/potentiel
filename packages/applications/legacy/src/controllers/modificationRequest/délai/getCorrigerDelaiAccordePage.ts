@@ -63,17 +63,18 @@ v1Router.get(
     if (!identifiantProjet) {
       return notFoundResponse({ request, response, ressourceTitle: 'Demande' });
     }
-
-    const résuméProjet = await mediator.send<Candidature.ConsulterProjetQuery>({
-      type: 'Candidature.Query.ConsulterProjet',
+    const candidature = await mediator.send<Candidature.ConsulterCandidatureQuery>({
+      type: 'Candidature.Query.ConsulterCandidature',
       data: { identifiantProjet: identifiantProjet.identifiantProjetValue },
     });
 
-    if (Option.isNone(résuméProjet)) {
+    if (Option.isNone(candidature)) {
       return notFoundResponse({ request, response, ressourceTitle: 'Demande' });
     }
 
-    if (résuméProjet.statut !== 'classé') {
+    const { notification, statut, technologie } = candidature;
+
+    if (!statut.estClassé() || !notification) {
       return response.redirect(
         addQueryParams(routes.GET_DETAILS_DEMANDE_DELAI_PAGE(request.body.demandeDelaiId), {
           error:
@@ -84,26 +85,22 @@ v1Router.get(
 
     const appelOffre = await mediator.send<AppelOffre.ConsulterAppelOffreQuery>({
       type: 'AppelOffre.Query.ConsulterAppelOffre',
-      data: { identifiantAppelOffre: résuméProjet.appelOffre },
+      data: { identifiantAppelOffre: identifiantProjet.appelOffre },
     });
 
     if (Option.isNone(appelOffre)) {
       return notFoundResponse({ request, response, ressourceTitle: 'Demande' });
     }
 
-    const delaiRealisationEnMois = getDelaiDeRealisation(appelOffre, résuméProjet.technologie);
+    const delaiRealisationEnMois = getDelaiDeRealisation(appelOffre, technologie.type);
 
     if (!delaiRealisationEnMois) {
       return notFoundResponse({ request, response, ressourceTitle: 'Demande' });
     }
 
     const dateAchèvementInitiale = sub(
-      add(new Date(résuméProjet.dateDésignation), {
-        months: delaiRealisationEnMois,
-      }),
-      {
-        days: 1,
-      },
+      add(notification.notifiéeLe.date, { months: delaiRealisationEnMois }),
+      { days: 1 },
     ).getTime();
 
     const dateAchèvementActuelle = await Project.findOne({
@@ -125,7 +122,12 @@ v1Router.get(
         return response.send(
           CorrigerDelaiAccordePage({
             demandeDélai: modificationRequest,
-            résuméProjet,
+            résuméProjet: {
+              ...identifiantProjet,
+              nom: candidature.nomProjet,
+              localité: candidature.localité,
+              statut: candidature.statut.statut,
+            },
             utilisateur: user,
             dateAchèvementInitiale: new Date(dateAchèvementInitiale).toISOString(),
             dateAchèvementActuelle: new Date(

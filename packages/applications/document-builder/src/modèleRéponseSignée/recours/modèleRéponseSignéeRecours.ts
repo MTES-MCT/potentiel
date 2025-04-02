@@ -5,6 +5,8 @@ export const modèleRéponseRecoursFileName = 'recours-modèle-réponse.docx';
 export type ModèleRéponseRecours = ModèleRéponse & {
   type: 'recours';
   data: {
+    dateDemande: string;
+    justificationDemande: string;
     status: string;
     prixReference: string;
     evaluationCarbone: string;
