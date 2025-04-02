@@ -62,17 +62,16 @@ export const getReprésentantLégal: GetReprésentantLégal = async (identifiant
       };
     }
 
-    const demandeEnCours =
-      await mediator.send<ReprésentantLégal.ConsulterChangementReprésentantLégalEnCoursQuery>({
-        type: 'Lauréat.ReprésentantLégal.Query.ConsulterChangementReprésentantLégalEnCours',
-        data: {
-          identifiantProjet: identifiantProjet.formatter(),
-        },
-      });
+    const demandeEnCours = utilisateur.aLaPermission('représentantLégal.consulterChangement')
+      ? await mediator.send<ReprésentantLégal.ConsulterChangementReprésentantLégalEnCoursQuery>({
+          type: 'Lauréat.ReprésentantLégal.Query.ConsulterChangementReprésentantLégalEnCours',
+          data: {
+            identifiantProjet: identifiantProjet.formatter(),
+          },
+        })
+      : Option.none;
 
-    const demandeChangementExistante =
-      utilisateur.aLaPermission('représentantLégal.consulterChangement') &&
-      Option.isSome(demandeEnCours);
+    const demandeChangementExistante = Option.isSome(demandeEnCours);
 
     const statutAbandon = await getAbandonStatut(identifiantProjet);
     const abandonAccordé = statutAbandon?.statut === 'accordé';
