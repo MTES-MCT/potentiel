@@ -7,6 +7,7 @@ import {
   ProjetAchevéError,
   ProjetAvecDemandeAbandonEnCoursError,
   PuissanceIdentiqueError,
+  PuissanceNulleOuNégativeError,
 } from '../errors';
 import { StatutChangementPuissance } from '..';
 import { PuissanceAggregate } from '../puissance.aggregate';
@@ -53,6 +54,10 @@ export async function demanderChangement(
 ) {
   if (this.puissance === puissance) {
     throw new PuissanceIdentiqueError();
+  }
+
+  if (puissance <= 0) {
+    throw new PuissanceNulleOuNégativeError();
   }
 
   if (this.demande) {

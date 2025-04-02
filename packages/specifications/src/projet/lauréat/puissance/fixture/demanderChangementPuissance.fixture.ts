@@ -60,7 +60,7 @@ export class DemanderChangementPuissanceFixture
         format: faker.potentiel.fileFormat(),
         content: convertStringToReadableStream(content),
       },
-      ratio: faker.number.float({ min: 2, max: 3 }),
+      ratio: faker.number.float({ min: 0.5, max: 0.8 }),
       ...partialData,
     };
 

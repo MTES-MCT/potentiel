@@ -58,17 +58,47 @@ Quand(
   },
 );
 
-// implem à la baisse / à la hausse
 Quand(
-  'le porteur demande le changement de puissance pour le projet {lauréat-éliminé}',
+  'le porteur demande le changement de puissance avec la même valeur pour le projet lauréat',
+  async function (this: PotentielWorld) {
+    try {
+      await demanderChangementPuissance.call(this, 'lauréat', 1);
+    } catch (error) {
+      this.error = error as Error;
+    }
+  },
+);
+
+Quand(
+  'le porteur demande le changement de puissance à la baisse pour le projet {lauréat-éliminé}',
   async function (this: PotentielWorld, statutProjet: 'lauréat' | 'éliminé') {
     try {
-      await demanderChangementPuissance.call(
-        this,
-        statutProjet,
-        this.lauréatWorld.puissanceWorld.demanderChangementPuissanceFixture.ratio,
-        this.utilisateurWorld.porteurFixture.email,
-      );
+      await demanderChangementPuissance.call(this, statutProjet, undefined);
+    } catch (error) {
+      this.error = error as Error;
+    }
+  },
+);
+
+Quand(
+  'le porteur demande le changement de puissance à la hausse pour le projet lauréat',
+  async function (this: PotentielWorld) {
+    const ratioALaHausse = 1.5;
+    try {
+      await demanderChangementPuissance.call(this, 'lauréat', ratioALaHausse);
+    } catch (error) {
+      this.error = error as Error;
+    }
+  },
+);
+
+Quand(
+  'le porteur demande le changement de puissance pour le projet lauréat avec :',
+  async function (this: PotentielWorld, dataTable: DataTable) {
+    const exemple = dataTable.rowsHash();
+
+    try {
+      await demanderChangementPuissance.call(this, 'lauréat', Number(exemple['ratio puissance']));
     } catch (error) {
       this.error = error as Error;
     }
@@ -126,7 +156,6 @@ export async function demanderChangementPuissance(
   this: PotentielWorld,
   statutProjet: 'lauréat' | 'éliminé',
   ratioValue?: number,
-  utilisateur?: string,
 ) {
   const identifiantProjet =
     statutProjet === 'lauréat'
@@ -135,8 +164,8 @@ export async function demanderChangementPuissance(
 
   const { pièceJustificative, demandéLe, demandéPar, raison, ratio } =
     this.lauréatWorld.puissanceWorld.demanderChangementPuissanceFixture.créer({
-      demandéPar: utilisateur,
-      ...(ratioValue && { ratio: ratioValue }),
+      demandéPar: this.utilisateurWorld.porteurFixture.email,
+      ...(ratioValue !== undefined && { ratio: ratioValue }),
     });
 
   const puissanceValue =
