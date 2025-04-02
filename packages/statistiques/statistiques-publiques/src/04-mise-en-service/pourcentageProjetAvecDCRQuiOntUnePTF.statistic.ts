@@ -1,8 +1,8 @@
 import { executeQuery } from '@potentiel-libraries/pg-helpers';
 
-const statisticType = 'pourcentageProjetAvecDCREtPTF';
+const statisticType = 'pourcentageProjetAvecDCRQuiOntUnePTF';
 
-export const computePourcentageProjetAvecDCREtPTF = () =>
+export const computepourcentageProjetAvecDCRQuiOntUnePTF = () =>
   executeQuery(
     `
     insert
@@ -28,9 +28,9 @@ export const computePourcentageProjetAvecDCREtPTF = () =>
               domain_views.projection p
             WHERE
               p.key LIKE 'dossier-raccordement|%'
-          )::decimal
-      ) * 100
+              AND p.value ->> 'demandeComplèteRaccordement.accuséRéception.format' IS NOT NULL
+          )::decimal * 100
     )
-    `,
+  )`,
     statisticType,
   );

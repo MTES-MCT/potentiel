@@ -48,6 +48,7 @@ const fakeProject: AttestationCRE4Options = {
   puissance: 42,
   potentielId: 'potentielId',
   technologie: 'N/A',
+  coefficientKChoisi: undefined,
 };
 
 export const ElimineAuDessusDePcible: Story = {

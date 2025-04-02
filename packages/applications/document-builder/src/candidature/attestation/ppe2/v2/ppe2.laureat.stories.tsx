@@ -52,6 +52,7 @@ const fakeProject = {
   puissance: 42,
   potentielId: 'potentielId',
   technologie: 'pv',
+  coefficientKChoisi: undefined,
 } satisfies Omit<AttestationPPE2V2Options, 'période' | 'appelOffre'>;
 
 export const LaureatPPE2AutoconsommationMétropoleFinancementCollectif: Story = {
@@ -108,7 +109,7 @@ export const LaureatPPE2Innovation: Story = {
   },
 };
 
-export const LaureatPPE2Neutr: Story = {
+export const LaureatPPE2Neutre: Story = {
   args: {
     projet: {
       ...fakeProject,
@@ -124,6 +125,18 @@ export const LaureatPPE2Sol: Story = {
       ...fakeProject,
       appelOffre: solPPE2,
       période: solPPE2.periodes[0],
+    },
+  },
+};
+
+export const LaureatPPE2BatimentAvecCoefficientK: Story = {
+  args: {
+    projet: {
+      ...fakeProject,
+      appelOffre: batimentPPE2,
+      période: batimentPPE2.periodes[8],
+      actionnariat: 'gouvernance-partagée',
+      coefficientKChoisi: true,
     },
   },
 };

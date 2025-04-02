@@ -1,5 +1,7 @@
 import { executeQuery } from '@potentiel-libraries/pg-helpers';
 
+import { getCountProjetsLauréatsNonAbandonnés } from '../_utils/getCountProjetsLauréatsNonAbandonnés';
+
 const statisticType = 'pourcentagePTFDéposées';
 
 export const computePourcentagePTFDéposées = () =>
@@ -21,12 +23,7 @@ export const computePourcentagePTFDéposées = () =>
               p.key LIKE 'dossier-raccordement|%'
               AND p.value ->> 'propositionTechniqueEtFinancière.propositionTechniqueEtFinancièreSignée.format' IS NOT NULL
           )::decimal / (
-            SELECT
-              count(p.key)
-            FROM
-              domain_views.projection p
-            WHERE
-              p.key LIKE 'dossier-raccordement|%'
+            ${getCountProjetsLauréatsNonAbandonnés}
           )::decimal * 100
       )
     )
