@@ -8,8 +8,7 @@
     "lint": "next lint",
     "lint:fix": "next lint --fix",
     "predev": "only-include-used-icons --silent",
-    "prebuild": "only-include-used-icons --silent",
-    "pretest": "npm run build"
+    "prebuild": "only-include-used-icons --silent"
   },
   "dependencies": {
     "@codegouvfr/react-dsfr": "^1.20.4",
