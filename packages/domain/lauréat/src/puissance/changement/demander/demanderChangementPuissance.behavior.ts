@@ -9,7 +9,7 @@ import {
   PuissanceIdentiqueError,
   PuissanceNulleOuNégativeError,
 } from '../../errors';
-import { RèglesRatioPuissance, StatutChangementPuissance } from '../..';
+import { RatioChangementPuissance, StatutChangementPuissance } from '../..';
 import { PuissanceAggregate } from '../../puissance.aggregate';
 
 export type ChangementPuissanceDemandéEvent = DomainEvent<
@@ -17,7 +17,7 @@ export type ChangementPuissanceDemandéEvent = DomainEvent<
   {
     identifiantProjet: IdentifiantProjet.RawType;
     puissance: number;
-    autoritéCompétente: RèglesRatioPuissance.AutoritésCompétentes;
+    autoritéCompétente: RatioChangementPuissance.AutoritéCompétente;
     raison: string;
     demandéLe: DateTime.RawType;
     demandéPar: Email.RawType;
@@ -87,7 +87,7 @@ export async function demanderChangement(
     payload: {
       identifiantProjet: identifiantProjet.formatter(),
       puissance,
-      autoritéCompétente: RèglesRatioPuissance.bind({ ratio }).getAutoritéCompétente(),
+      autoritéCompétente: RatioChangementPuissance.bind({ ratio }).getAutoritéCompétente(),
       pièceJustificative: {
         format: pièceJustificative.format,
       },

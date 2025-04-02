@@ -58,7 +58,7 @@ export class PuissanceWorld {
 
       demande: {
         nouvellePuissance: baseFixture.ratio * this.#importerPuissanceFixture.puissance,
-        autoritéCompétente: Puissance.RèglesRatioPuissance.bind({
+        autoritéCompétente: Puissance.RatioChangementPuissance.bind({
           ratio: baseFixture.ratio,
         }).getAutoritéCompétente(),
         statut,

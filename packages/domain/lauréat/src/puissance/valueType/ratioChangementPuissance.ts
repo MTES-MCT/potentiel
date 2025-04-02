@@ -5,13 +5,13 @@ import { PlainType, ReadonlyValueType } from '@potentiel-domain/core';
 // ainsi que pour la règle liée à l'autorité compétente
 export const autoritéCompétentes = ['dreal', 'dgec'] as const;
 
-export type AutoritésCompétentes = (typeof autoritéCompétentes)[number];
+export type AutoritéCompétente = (typeof autoritéCompétentes)[number];
 
 export type RawType = number;
 
 export type ValueType = ReadonlyValueType<{
   ratio: number;
-  getAutoritéCompétente: () => AutoritésCompétentes;
+  getAutoritéCompétente: () => AutoritéCompétente;
 }>;
 
 export const bind = ({ ratio }: PlainType<ValueType>): ValueType => {
@@ -22,7 +22,7 @@ export const bind = ({ ratio }: PlainType<ValueType>): ValueType => {
     estÉgaleÀ(valueType) {
       return this.ratio === valueType.ratio;
     },
-    getAutoritéCompétente(): AutoritésCompétentes {
+    getAutoritéCompétente(): AutoritéCompétente {
       return ratio < 1 ? 'dreal' : 'dgec';
     },
   };

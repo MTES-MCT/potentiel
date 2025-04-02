@@ -7,7 +7,7 @@ import { DocumentProjet } from '@potentiel-domain/document';
 
 import {
   ChangementPuissanceEntity,
-  RèglesRatioPuissance,
+  RatioChangementPuissance,
   StatutChangementPuissance,
   TypeDocumentPuissance,
 } from '../..';
@@ -18,7 +18,7 @@ export type ConsulterChangementPuissanceReadModel = {
   demande: {
     nouvellePuissance: number;
     statut: StatutChangementPuissance.ValueType;
-    autoritéCompétente: RèglesRatioPuissance.AutoritésCompétentes;
+    autoritéCompétente: RatioChangementPuissance.AutoritéCompétente;
 
     demandéePar: Email.ValueType;
     demandéeLe: DateTime.ValueType;
