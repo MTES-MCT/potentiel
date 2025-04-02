@@ -11,7 +11,7 @@ export type RawType = number;
 
 export type ValueType = ReadonlyValueType<{
   ratio: number;
-  déterminerAutoritéCompétente: () => AutoritésCompétentes;
+  getAutoritéCompétente: () => AutoritésCompétentes;
 }>;
 
 export const bind = ({ ratio }: PlainType<ValueType>): ValueType => {
@@ -22,7 +22,7 @@ export const bind = ({ ratio }: PlainType<ValueType>): ValueType => {
     estÉgaleÀ(valueType) {
       return this.ratio === valueType.ratio;
     },
-    déterminerAutoritéCompétente(): AutoritésCompétentes {
+    getAutoritéCompétente(): AutoritésCompétentes {
       return ratio < 1 ? 'dreal' : 'dgec';
     },
   };

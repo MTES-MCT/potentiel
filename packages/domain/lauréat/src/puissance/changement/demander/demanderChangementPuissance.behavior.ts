@@ -68,7 +68,7 @@ export async function demanderChangement(
   }
 
   // TODO: on ajoutera des règles pour valider le ratios ici
-  const ratio = this.puissance / puissance;
+  const ratio = puissance / this.puissance;
 
   if (estAbandonné) {
     throw new ProjetAbandonnéError();
@@ -87,7 +87,7 @@ export async function demanderChangement(
     payload: {
       identifiantProjet: identifiantProjet.formatter(),
       puissance,
-      autoritéCompétente: RèglesRatioPuissance.bind({ ratio }).déterminerAutoritéCompétente(),
+      autoritéCompétente: RèglesRatioPuissance.bind({ ratio }).getAutoritéCompétente(),
       pièceJustificative: {
         format: pièceJustificative.format,
       },

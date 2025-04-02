@@ -2,13 +2,14 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { Option } from '@potentiel-libraries/monads';
 import { Find } from '@potentiel-domain/entity';
-import { IdentifiantProjet } from '@potentiel-domain/common';
+import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 
 import { PuissanceEntity } from '..';
 
 export type ConsulterPuissanceReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
   puissance: number;
+  dateDemandeEnCours?: DateTime.ValueType;
 };
 
 export type ConsulterPuissanceQuery = Message<
@@ -36,7 +37,14 @@ export const registerConsulterPuissanceQuery = ({ find }: ConsulterPuissanceDepe
   mediator.register('Lauréat.Puissance.Query.ConsulterPuissance', handler);
 };
 
-export const mapToReadModel = ({ identifiantProjet, puissance }: PuissanceEntity) => ({
+export const mapToReadModel = ({
+  identifiantProjet,
+  puissance,
+  dateDemandeEnCours,
+}: PuissanceEntity) => ({
   identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
   puissance,
+  dateDemandeEnCours: dateDemandeEnCours
+    ? DateTime.convertirEnValueType(dateDemandeEnCours)
+    : undefined,
 });

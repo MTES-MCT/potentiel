@@ -32,7 +32,7 @@ export class ModifierPuissanceFixture
 
   créer(partialFixture?: Partial<Readonly<ModifierPuissance>>): Readonly<ModifierPuissance> {
     const fixture = {
-      puissance: faker.number.float({ min: 0.1, max: 3 }),
+      puissance: faker.number.float({ min: 0.1, max: 3, multipleOf: 0.01 }),
       dateModification: faker.date.recent().toISOString(),
       raison: faker.company.catchPhrase(),
       ...partialFixture,

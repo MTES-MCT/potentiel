@@ -7,13 +7,17 @@ import { DemanderChangementUseCase } from './changement/demander/demanderChangem
 import { ImporterPuissanceCommand } from './importer/importerPuissance.command';
 import { ModifierPuissanceCommand } from './modifier/modifierPuissance.command';
 import { ModifierPuissanceUseCase } from './modifier/modifierPuissance.usecase';
+import {
+  ConsulterChangementPuissanceQuery,
+  ConsulterChangementPuissanceReadModel,
+} from './changement/consulter/consulterChangementPuissance.query';
 
 // Query
-export type PuissanceQuery = ConsulterPuissanceQuery;
-export type { ConsulterPuissanceQuery };
+export type PuissanceQuery = ConsulterPuissanceQuery | ConsulterChangementPuissanceQuery;
+export type { ConsulterPuissanceQuery, ConsulterChangementPuissanceQuery };
 
 // ReadModel
-export type { ConsulterPuissanceReadModel };
+export type { ConsulterPuissanceReadModel, ConsulterChangementPuissanceReadModel };
 
 // UseCase
 export type PuissanceUseCase = ModifierPuissanceUseCase | DemanderChangementUseCase;
