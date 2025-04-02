@@ -26,6 +26,7 @@ type ProjectFieldProps<T> = FieldProps<T> & { validationErrors: FieldValidationE
 export type CandidatureFieldProps<T> = {
   candidature: T;
   name: keyof ModifierCandidatureNotifiéeFormEntries;
+  inputType: 'text' | 'number';
 } & { validationErrors: FieldValidationErrors } & Pick<InputProps, 'label'>;
 
 export const ProjectField = <T extends string | number>({
@@ -115,8 +116,14 @@ export const CandidatureField = <T extends string | number>({
   label,
   name,
   validationErrors,
+  inputType,
 }: CandidatureFieldProps<T>) => {
   const [candidatureValue, setCandidatureValue] = useState(candidature);
+
+  const inputTypeProps: InputProps['nativeInputProps'] =
+    inputType === 'number'
+      ? { type: 'number', inputMode: 'decimal', pattern: '[0-9]+([.][0-9]+)?', step: 'any' }
+      : { type: 'text' };
 
   return (
     <div className="flex flex-row items-center gap-4 w-full">
@@ -138,6 +145,7 @@ export const CandidatureField = <T extends string | number>({
             onChange: (ev) => {
               setCandidatureValue(ev.target.value as T);
             },
+            ...inputTypeProps,
           }}
         />
       </div>
@@ -150,6 +158,7 @@ export const CandidatureField = <T extends string | number>({
           stateRelatedMessage={validationErrors[`candidature.${name}`]}
           nativeInputProps={{
             value: candidatureValue,
+            ...inputTypeProps,
           }}
           addon={<LinkedValuesButton isLocked />}
         />

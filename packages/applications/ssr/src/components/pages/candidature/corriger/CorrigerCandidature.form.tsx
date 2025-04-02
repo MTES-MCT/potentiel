@@ -271,6 +271,10 @@ export const CorrigerCandidatureForm: React.FC<CorrigerCandidatureFormProps> = (
           defaultValue: candidature.prixReference,
           required: true,
           'aria-required': true,
+          type: 'number',
+          inputMode: 'decimal',
+          pattern: '[0-9]+([.][0-9]+)?',
+          step: 'any',
         }}
       />
       <Input
@@ -282,6 +286,10 @@ export const CorrigerCandidatureForm: React.FC<CorrigerCandidatureFormProps> = (
           defaultValue: candidature.puissanceProductionAnnuelle,
           required: true,
           'aria-required': true,
+          type: 'number',
+          inputMode: 'decimal',
+          pattern: '[0-9]+([.][0-9]+)?',
+          step: 'any',
         }}
       />
       {isCRE4ZNI && (
@@ -310,6 +318,10 @@ export const CorrigerCandidatureForm: React.FC<CorrigerCandidatureFormProps> = (
           defaultValue: candidature.evaluationCarboneSimplifiee,
           required: true,
           'aria-required': true,
+          type: 'number',
+          inputMode: 'decimal',
+          pattern: '[0-9]+([.][0-9]+)?',
+          step: 'any',
         }}
       />
       <Input
@@ -321,6 +333,10 @@ export const CorrigerCandidatureForm: React.FC<CorrigerCandidatureFormProps> = (
           defaultValue: candidature.noteTotale,
           required: true,
           'aria-required': true,
+          type: 'number',
+          inputMode: 'decimal',
+          pattern: '[0-9]+([.][0-9]+)?',
+          step: 'any',
         }}
       />
       {!estNotifiée && !estÉliminé ? (
