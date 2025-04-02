@@ -11,18 +11,36 @@ export const computePourcentageAttestationTéléchargée = () =>
     values(
       $1, 
       (
-        select(
-          select(
-            count(distinct(concat(
-                (c.données->'projet')->>'appelOffreId','|',
-                (c.données->'projet')->>'periodeId','|',
-                (c.données->'projet')->>'numeroCRE','|',
-                (c.données->'projet')->>'familleId'
-          ))))
-          from "statistiquesUtilisation" c 
-          where type = 'attestationTéléchargée'
-        ) * 100
-        / (select count("id") from "projects" where DATE(TO_TIMESTAMP("notifiedOn" / 1000)) >= DATE('2020-04-15'))
+        SELECT
+          (
+            SELECT
+              (
+                count(
+                  DISTINCT (
+                    concat(
+                      (c.données -> 'projet') ->> 'appelOffreId',
+                      '|',
+                      (c.données -> 'projet') ->> 'periodeId',
+                      '|',
+                      (c.données -> 'projet') ->> 'numeroCRE',
+                      '|',
+                      (c.données -> 'projet') ->> 'familleId'
+                    )
+                  )
+                )::decimal
+              )
+            FROM
+              "statistiquesUtilisation" c
+            WHERE
+              type = 'attestationTéléchargée'
+          ) * 100 / (
+            SELECT
+              count("id")::decimal
+            FROM
+              "projects"
+            WHERE
+              DATE (TO_TIMESTAMP("notifiedOn" / 1000)) >= DATE ('2020-04-15')
+          )
       )
     )
     `,

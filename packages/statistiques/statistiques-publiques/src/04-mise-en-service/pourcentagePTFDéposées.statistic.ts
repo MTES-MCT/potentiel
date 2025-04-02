@@ -11,21 +11,22 @@ export const computePourcentagePTFDéposées = () =>
     values(
       $1, 
       (
-        select 
-          (select 
+        SELECT
+          (
+            SELECT
               count(p.key)
-          from domain_views.projection p
-          where 
-              p.key like 'dossier-raccordement|%'
-              and p.value->>'propositionTechniqueEtFinancière.propositionTechniqueEtFinancièreSignée.format' is not null
-          )::decimal
-        /        
-          (select 
-              count(p.key)
-          from
+            FROM
               domain_views.projection p
-          where 
-              p.key like 'dossier-raccordement|%'
+            WHERE
+              p.key LIKE 'dossier-raccordement|%'
+              AND p.value ->> 'propositionTechniqueEtFinancière.propositionTechniqueEtFinancièreSignée.format' IS NOT NULL
+          )::decimal / (
+            SELECT
+              count(p.key)
+            FROM
+              domain_views.projection p
+            WHERE
+              p.key LIKE 'dossier-raccordement|%'
           )::decimal * 100
       )
     )

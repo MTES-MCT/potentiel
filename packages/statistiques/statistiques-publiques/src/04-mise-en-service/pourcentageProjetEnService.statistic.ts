@@ -11,32 +11,33 @@ export const computePourcentageProjetEnService = () =>
     values(
       $1, 
       (
-        select 
-          ((
-            select 
-              count(distinct p.value->>'identifiantProjet')
-            from
-              domain_views.projection p
-              where 
-                p.key like 'dossier-raccordement|%'
-                and p.value->>'miseEnService.dateMiseEnService' is not null
-          )::decimal
-        /        
+        SELECT
           (
-            select
-              count(distinct(es.stream_id))
-            from
-              event_store.event_stream es
-            where 
-              es.type like 'LauréatNotifié-V%' and 
-              es.payload->>'identifiantProjet' not in (
-                select
-                  distinct(payload->>'identifiantProjet')
-                from
-                  event_store.event_stream es
-                where es.type like 'AbandonAccordé-V%'
-              )
-          )::decimal) * 100
+            (
+              SELECT
+                count(DISTINCT p.value ->> 'identifiantProjet')
+              FROM
+                domain_views.projection p
+              WHERE
+                p.key LIKE 'dossier-raccordement|%'
+                AND p.value ->> 'miseEnService.dateMiseEnService' IS NOT NULL
+            )::decimal / (
+              SELECT
+                count(DISTINCT (es.stream_id))
+              FROM
+                event_store.event_stream es
+              WHERE
+                es.type LIKE 'LauréatNotifié-V%'
+                AND es.payload ->> 'identifiantProjet' NOT IN (
+                  SELECT DISTINCT
+                    (payload ->> 'identifiantProjet')
+                  FROM
+                    event_store.event_stream es
+                  WHERE
+                    es.type LIKE 'AbandonAccordé-V%'
+                )
+            )::decimal
+          ) * 100
       )
     )
     `,

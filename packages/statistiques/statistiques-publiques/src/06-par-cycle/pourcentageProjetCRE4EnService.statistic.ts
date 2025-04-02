@@ -11,37 +11,36 @@ export const computePourcentageProjetCRE4EnService = () =>
     values(
       $1, 
       (
-        select 
-          ((
-            select 
-              count(distinct p1.value->>'identifiantProjet')
-            from
-              domain_views.projection p1
-            join 
-              domain_views.projection p2 
-                on split_part(p1.value->>'identifiantProjet', '#', 1) = p2.value->>'id' 
-                and p2.key like 'appel-offre|%'
-            where 
-                p1.key like 'dossier-raccordement|%' 
-                and p1.value->>'miseEnService.dateMiseEnService' is not null
-                and p2."value"->>'cycleAppelOffre' = 'CRE4'
-          )::decimal
-        /        
+        SELECT
           (
-            select
-              count(distinct(es.stream_id))
-            from
-              event_store.event_stream es
-            where 
-              es.type like 'LauréatNotifié-V%' and 
-              es.payload->>'identifiantProjet' not in (
-                select
-                  distinct(payload->>'identifiantProjet')
-                from
-                  event_store.event_stream es
-                where es.type like 'AbandonAccordé-V%'
-              )
-          )::decimal) * 100
+            (
+              SELECT
+                count(DISTINCT p1.value ->> 'identifiantProjet')
+              FROM
+                domain_views.projection p1
+                JOIN domain_views.projection p2 ON split_part(p1.value ->> 'identifiantProjet', '#', 1) = p2.value ->> 'id'
+                AND p2.key LIKE 'appel-offre|%'
+              WHERE
+                p1.key LIKE 'dossier-raccordement|%'
+                AND p1.value ->> 'miseEnService.dateMiseEnService' IS NOT NULL
+                AND p2."value" ->> 'cycleAppelOffre' = 'CRE4'
+            )::decimal / (
+              SELECT
+                count(DISTINCT (es.stream_id))
+              FROM
+                event_store.event_stream es
+              WHERE
+                es.type LIKE 'LauréatNotifié-V%'
+                AND es.payload ->> 'identifiantProjet' NOT IN (
+                  SELECT DISTINCT
+                    (payload ->> 'identifiantProjet')
+                  FROM
+                    event_store.event_stream es
+                  WHERE
+                    es.type LIKE 'AbandonAccordé-V%'
+                )
+            )::decimal
+          ) * 100
       )
     )
     `,
