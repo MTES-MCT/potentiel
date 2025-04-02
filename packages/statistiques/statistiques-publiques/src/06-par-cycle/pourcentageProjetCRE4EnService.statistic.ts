@@ -1,5 +1,7 @@
 import { executeQuery } from '@potentiel-libraries/pg-helpers';
 
+import { getCountProjetsLauréatsNonAbandonnés } from '../_utils/getCountProjetsLauréatsNonAbandonnés';
+
 const statisticType = 'pourcentageProjetCRE4EnService';
 
 export const computePourcentageProjetCRE4EnService = () =>
@@ -25,20 +27,7 @@ export const computePourcentageProjetCRE4EnService = () =>
                 AND p1.value ->> 'miseEnService.dateMiseEnService' IS NOT NULL
                 AND p2."value" ->> 'cycleAppelOffre' = 'CRE4'
             )::decimal / (
-              SELECT
-                count(DISTINCT (es.stream_id))
-              FROM
-                event_store.event_stream es
-              WHERE
-                es.type LIKE 'LauréatNotifié-V%'
-                AND es.payload ->> 'identifiantProjet' NOT IN (
-                  SELECT DISTINCT
-                    (payload ->> 'identifiantProjet')
-                  FROM
-                    event_store.event_stream es
-                  WHERE
-                    es.type LIKE 'AbandonAccordé-V%'
-                )
+              ${getCountProjetsLauréatsNonAbandonnés}
             )::decimal
           ) * 100
       )
