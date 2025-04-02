@@ -72,7 +72,7 @@ export const candidatureSchema = z
     if (
       obj.statut === 'classé' &&
       obj.typeGarantiesFinancieres === 'avec-date-échéance' &&
-      !obj.motifElimination
+      !obj.dateEcheanceGf
     ) {
       ctx.addIssue(
         conditionalRequiredError(
