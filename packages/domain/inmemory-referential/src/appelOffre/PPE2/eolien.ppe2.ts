@@ -28,6 +28,16 @@ Des délais supplémentaires pour l’Achèvement ou, pour ce qui concerne l’�
   },
 };
 
+const texteEngagementRéalisationEtModalitésAbandonAPartirDeP4 = {
+  référenceParagraphe: '6.2',
+  dispositions: `Le Candidat dont l’offre a été retenue réalise l’Installation dans les conditions du présent cahier des charges et conformément aux éléments du dossier de candidature (les possibilités et modalités de modification sont indiquées au 5.2).
+Par exception, le Candidat est délié de cette obligation :
+- en cas de retrait de l’autorisation environnementale par l’autorité compétente ou d’annulation de cette autorisation à la suite d’un contentieux. Les retraits gracieux sur demande du candidat ne sont pas concernés.
+- en cas de non obtention ou de retrait de toute autre autorisation administrative ou dérogation nécessaire à la réalisation du projet.
+Il en informe dans ce cas le Préfet en joignant les pièces justificatives. La garantie financière est alors levée.
+Le Candidat peut également être délié de cette obligation selon l’appréciation du ministre chargé de l’énergie à la suite d’une demande dûment justifiée. L’État peut toutefois prélever la totalité ou une partie de la garantie financière dans les conditions du paragraphe 5.1. Ni l’accord du Ministre, ni les conditions imposées, ni le prélèvement de la garantie financière ne limitent la possibilité de recours de l’État aux sanctions du 7.8.`,
+};
+
 export const eolienPPE2: AppelOffre.AppelOffreReadModel = {
   id: 'PPE2 - Eolien',
   typeAppelOffre: 'eolien',
@@ -200,6 +210,7 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
         },
       },
       cahiersDesChargesModifiésDisponibles: [],
+      paragrapheEngagementIPFPGPFC: '3.3.8, 4.3 et 6.5.2',
       changement: {
         représentantLégal: {
           typeTâchePlanifiée: 'rejet-automatique',
@@ -218,17 +229,11 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
       delaiDcrEnMois: { valeur: 3, texte: 'trois' },
       familles: [],
       donnéesCourriersRéponse: {
-        texteEngagementRéalisationEtModalitésAbandon: {
-          référenceParagraphe: '6.2',
-          dispositions: `Le Candidat dont l’offre a été retenue réalise l’Installation dans les conditions du présent cahier des charges et conformément aux éléments du dossier de candidature (les possibilités et modalités de modification sont indiquées au 5.2).
-Par exception, le Candidat est délié de cette obligation :
-- en cas de retrait de l’autorisation environnementale par l’autorité compétente ou d’annulation de cette autorisation à la suite d’un contentieux. Les retraits gracieux sur demande du candidat ne sont pas concernés.
-- en cas de non obtention ou de retrait de toute autre autorisation administrative ou dérogation nécessaire à la réalisation du projet.
-Il en informe dans ce cas le Préfet en joignant les pièces justificatives. La garantie financière est alors levée.
-Le Candidat peut également être délié de cette obligation selon l’appréciation du ministre chargé de l’énergie à la suite d’une demande dûment justifiée. L’État peut toutefois prélever la totalité ou une partie de la garantie financière dans les conditions du paragraphe 5.1. Ni l’accord du Ministre, ni les conditions imposées, ni le prélèvement de la garantie financière ne limitent la possibilité de recours de l’État aux sanctions du 7.8.`,
-        },
+        texteEngagementRéalisationEtModalitésAbandon:
+          texteEngagementRéalisationEtModalitésAbandonAPartirDeP4,
       },
       cahiersDesChargesModifiésDisponibles: [],
+      paragrapheEngagementIPFPGPFC: '3.3.8, 4.3 et 6.5.2',
       changement: {
         représentantLégal: {
           typeTâchePlanifiée: 'rejet-automatique',
@@ -246,7 +251,12 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
       },
       delaiDcrEnMois: { valeur: 3, texte: 'trois' },
       familles: [],
+      donnéesCourriersRéponse: {
+        texteEngagementRéalisationEtModalitésAbandon:
+          texteEngagementRéalisationEtModalitésAbandonAPartirDeP4,
+      },
       cahiersDesChargesModifiésDisponibles: [],
+      paragrapheEngagementIPFPGPFC: '3.3.8, 4.3 et 6.5.2',
       changement: {
         représentantLégal: {
           typeTâchePlanifiée: 'rejet-automatique',
@@ -264,7 +274,12 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
       },
       delaiDcrEnMois: { valeur: 3, texte: 'trois' },
       familles: [],
+      donnéesCourriersRéponse: {
+        texteEngagementRéalisationEtModalitésAbandon:
+          texteEngagementRéalisationEtModalitésAbandonAPartirDeP4,
+      },
       cahiersDesChargesModifiésDisponibles: [],
+      paragrapheEngagementIPFPGPFC: '3.3.8, 4.3 et 6.5.2',
       changement: {
         représentantLégal: {
           typeTâchePlanifiée: 'rejet-automatique',
@@ -282,7 +297,12 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
       },
       delaiDcrEnMois: { valeur: 3, texte: 'trois' },
       familles: [],
+      donnéesCourriersRéponse: {
+        texteEngagementRéalisationEtModalitésAbandon:
+          texteEngagementRéalisationEtModalitésAbandonAPartirDeP4,
+      },
       cahiersDesChargesModifiésDisponibles: [],
+      paragrapheEngagementIPFPGPFC: '3.3.8, 4.3 et 6.5.2',
       changement: {
         représentantLégal: {
           typeTâchePlanifiée: 'rejet-automatique',
@@ -300,7 +320,12 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
       },
       delaiDcrEnMois: { valeur: 3, texte: 'trois' },
       familles: [],
+      donnéesCourriersRéponse: {
+        texteEngagementRéalisationEtModalitésAbandon:
+          texteEngagementRéalisationEtModalitésAbandonAPartirDeP4,
+      },
       cahiersDesChargesModifiésDisponibles: [],
+      paragrapheEngagementIPFPGPFC: '3.3.8, 4.3 et 6.5.2',
       changement: {
         représentantLégal: {
           typeTâchePlanifiée: 'rejet-automatique',
@@ -318,7 +343,12 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
       },
       delaiDcrEnMois: { valeur: 3, texte: 'trois' },
       familles: [],
+      donnéesCourriersRéponse: {
+        texteEngagementRéalisationEtModalitésAbandon:
+          texteEngagementRéalisationEtModalitésAbandonAPartirDeP4,
+      },
       cahiersDesChargesModifiésDisponibles: [],
+      paragrapheEngagementIPFPGPFC: '3.3.8, 4.3 et 6.5.2',
       changement: {
         représentantLégal: {
           typeTâchePlanifiée: 'accord-automatique',

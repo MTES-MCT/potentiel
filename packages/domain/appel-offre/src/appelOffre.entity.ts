@@ -184,6 +184,11 @@ export type Periode = {
   id: string;
   title: string;
   donnéesCourriersRéponse?: Partial<DonnéesCourriersRéponse>;
+  /**
+   * Permet de modifier le paragraphe engagement IPFPGPFC, configuré dans l'AO
+   * IPFPGPFC = Investissement Participatif/ Financement Partagé / Gouvernance Partagée / Finacement Collectif
+   **/
+  paragrapheEngagementIPFPGPFC?: string;
   cahierDesCharges: CahierDesCharges;
   delaiDcrEnMois: {
     valeur: number;

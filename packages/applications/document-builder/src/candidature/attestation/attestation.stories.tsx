@@ -2,15 +2,17 @@ import type { Meta, StoryObj } from '@storybook/react';
 
 import { appelsOffreData } from '@potentiel-domain/inmemory-referential';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
+import { Candidature } from '@potentiel-domain/candidature';
 
 import { AttestationCandidatureOptions } from './AttestationCandidatureOptions';
 import { makeCertificate } from './makeCertificate';
 
 const meta = {
   title: 'Attestations PDF',
-  component: ({ appelOffre, isClasse, periode }) => {
+  component: ({ appelOffre, isClasse, periode, typeActionnariat }) => {
     const data = {
       ...fakeProject(appelOffre, periode),
+      actionnariat: typeActionnariat,
       isClasse,
     };
     return makeCertificate({
@@ -28,11 +30,16 @@ const meta = {
       control: 'select',
       options: [...new Set(appelsOffreData.map((x) => x.periodes.map((p) => p.id)).flat())],
     },
+    typeActionnariat: {
+      control: 'select',
+      options: Candidature.TypeActionnariat.types,
+    },
   },
 } satisfies Meta<{
   appelOffre: string;
   periode?: string;
   isClasse: boolean;
+  typeActionnariat?: Candidature.TypeActionnariat.RawType;
 }>;
 
 export default meta;
@@ -90,5 +97,6 @@ export const Générique: Story = {
     appelOffre: 'PPE2 - Eolien',
     isClasse: true,
     periode: undefined,
+    typeActionnariat: undefined,
   },
 };

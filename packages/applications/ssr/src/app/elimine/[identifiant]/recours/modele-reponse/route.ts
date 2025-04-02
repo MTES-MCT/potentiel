@@ -51,6 +51,11 @@ export const GET = async (_: Request, { params: { identifiant } }: IdentifiantPa
       return notFound();
     }
 
+    const période = appelOffre.periodes.find((période) => période.id === candidature.période);
+    if (!période) {
+      return notFound();
+    }
+
     const content = await ModèleRéponseSignée.générerModèleRéponseAdapter({
       type: 'recours',
       data: {
@@ -75,8 +80,7 @@ export const GET = async (_: Request, { params: { identifiant } }: IdentifiantPa
         suiviParEmail: appelOffre.dossierSuiviPar,
         titreAppelOffre: appelOffre.title,
         titreFamille: candidature.famille || '',
-        titrePeriode:
-          appelOffre.periodes.find((période) => période.id === candidature.période)?.title || '',
+        titrePeriode: période.title || '',
         unitePuissance: appelOffre.unitePuissance,
 
         affichageParagrapheECS: appelOffre.affichageParagrapheECS ? 'yes' : '',
@@ -100,7 +104,8 @@ export const GET = async (_: Request, { params: { identifiant } }: IdentifiantPa
           : '',
         paragrapheAttestationConformite: appelOffre.paragrapheAttestationConformite,
         paragrapheDelaiDerogatoire: appelOffre.paragrapheDelaiDerogatoire,
-        paragrapheEngagementIPFPGPFC: appelOffre.paragrapheEngagementIPFPGPFC,
+        paragrapheEngagementIPFPGPFC:
+          période.paragrapheEngagementIPFPGPFC ?? appelOffre.paragrapheEngagementIPFPGPFC,
         paragraphePrixReference: appelOffre.paragraphePrixReference,
         prixReference: candidature.prixReference.toString(),
         renvoiDemandeCompleteRaccordement: appelOffre.renvoiDemandeCompleteRaccordement,
