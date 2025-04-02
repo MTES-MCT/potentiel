@@ -15,6 +15,9 @@ export const buildLauréat = ({ project }: LaureatProps) => {
   const casParticulierPPE2BatimentPériode8 =
     appelOffre.id === 'PPE2 - Bâtiment' && période.id === '8';
 
+  const paragrapheEngagementIPFPGPFC =
+    période.paragrapheEngagementIPFPGPFC ?? appelOffre.paragrapheEngagementIPFPGPFC;
+
   return {
     objet: `Désignation des lauréats de la ${période.title} période de l'appel d'offres ${période.cahierDesCharges.référence} ${appelOffre.title}`,
     content: (
@@ -155,7 +158,7 @@ export const buildLauréat = ({ project }: LaureatProps) => {
               }}
             >
               - respecter les engagements pris conformément aux paragraphes{' '}
-              {appelOffre.paragrapheEngagementIPFPGPFC} concernant la gouvernance partagée;
+              {paragrapheEngagementIPFPGPFC} concernant la gouvernance partagée;
             </Text>
           )}
 
@@ -166,7 +169,7 @@ export const buildLauréat = ({ project }: LaureatProps) => {
               }}
             >
               - respecter les engagements pris conformément aux paragraphes{' '}
-              {appelOffre.paragrapheEngagementIPFPGPFC} concernant le financement collectif;
+              {paragrapheEngagementIPFPGPFC} concernant le financement collectif;
             </Text>
           )}
         </View>
