@@ -28,8 +28,12 @@ Des délais supplémentaires pour l’Achèvement ou, pour ce qui concerne l’�
 };
 
 // Cet addendum doit-être ajouté pour PPE2 bâtiment P8 et suivantes
-const addendumParagrapheECSPériode8EtSuivantes =
-  "Pour rappel, la méthodologie d'évaluation carbone repose désormais uniquement sur les valeurs d'émissions de gaz à effet de serre par pays données aux tableaux 3 et, le cas échéant, 3 bis de l'annexe 2 du cahier des charges.";
+const addendumPériode8EtSuivantes = {
+  paragrapheECS:
+    "Pour rappel, le respect du bilan carbone déclaré dans l’offre, arrondi au multiple de 10 le plus proche conformément au cahier des charges, fait l’objet d’une vérification pour la délivrance de l’attestation de conformité qui est obligatoire pour la prise d'effet du contrat",
+  paragraphePrix:
+    "Pour rappel, la méthodologie d'évaluation carbone repose désormais uniquement sur les valeurs d'émissions de gaz à effet de serre par pays données aux tableaux 3 et, le cas échéant, 3 bis de l'annexe 2 du cahier des charges.",
+};
 
 export const batimentPPE2: AppelOffre.AppelOffreReadModel = {
   id: 'PPE2 - Bâtiment',
@@ -409,7 +413,7 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
         },
       },
       // Cet addendum doit-être ajouté pour PPE2 bâtiment P8 et suivantes
-      addendumParagrapheECS: addendumParagrapheECSPériode8EtSuivantes,
+      addendums: addendumPériode8EtSuivantes,
     },
     {
       id: '9',
@@ -448,8 +452,7 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
           typeTâchePlanifiée: 'accord-automatique',
         },
       },
-      addendumParagrapheECS:
-        "Pour rappel, la méthodologie d'évaluation carbone repose désormais uniquement sur les valeurs d'émissions de gaz à effet de serre par pays données aux tableaux 3 et, le cas échéant, 3 bis de l'annexe 2 du cahier des charges.\n",
+      addendums: addendumPériode8EtSuivantes,
     },
     // Période ajoutée en anticipation afin de pouvoir tester la fonctionalité Coefficient K
     // à l'ouverture de cette période:
@@ -496,8 +499,8 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
     //       typeTâchePlanifiée: 'accord-automatique',
     //     },
     //   },
-    //   addendumParagrapheECS:
-    //     "Pour rappel, la méthodologie d'évaluation carbone repose désormais uniquement sur les valeurs d'émissions de gaz à effet de serre par pays données aux tableaux 3 et, le cas échéant, 3 bis de l'annexe 2 du cahier des charges.\n",
+    //   addendums: addendumPériode8EtSuivantes,
+    //   // NOUVEAU période 10
     //   choixCoefficientKDisponible: true,
     // },
   ],

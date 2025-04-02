@@ -57,6 +57,7 @@ export type BuildCertificateProps = {
     puissanceALaPointe: boolean;
     evaluationCarboneSimplifiée: number;
     actionnariat?: Candidature.TypeActionnariat.ValueType;
+    coefficientKChoisi?: boolean;
   };
   notifiéLe: DateTime.RawType;
 };
@@ -147,6 +148,7 @@ const mapToCertificateData = ({
         note: candidature.noteTotale,
         periodeDetails: période,
       }),
+      coefficientKChoisi: candidature.coefficientKChoisi,
 
       ...financementEtTemplate,
     },

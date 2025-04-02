@@ -50,6 +50,7 @@ const fakeProject: AttestationPPE2Options = {
   puissance: 42,
   potentielId: 'potentielId',
   technologie: 'N/A',
+  coefficientKChoisi: undefined,
 };
 
 export const EliminePPE2AuDessusDePcible: Story = {
