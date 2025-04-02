@@ -31,7 +31,7 @@ import {
   dateEchéanceGfCsvSchema,
   territoireProjetSchema,
   notifiedOnCsvSchema,
-  codePostalCsvSchema,
+  codePostalSchema,
 } from './candidatureFields.schema';
 
 // Order matters! the CSV uses "1"/"2"/"3"
@@ -112,7 +112,9 @@ const candidatureCsvRowSchema = z
     [colonnes.emailContact]: emailContactSchema,
     [colonnes.adresse1]: adresse1CsvSchema,
     [colonnes.adresse2]: adresse2Schema, // see refine below
-    [colonnes.codePostaux]: codePostalCsvSchema,
+    [colonnes.codePostaux]: codePostalSchema.transform((val) =>
+      val.split('/').map((str) => str.trim()),
+    ),
     [colonnes.commune]: communeSchema,
     [colonnes.statut]: statutCsvSchema,
     [colonnes.puissanceÀLaPointe]: puissanceALaPointeCsvSchema,

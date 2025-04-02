@@ -30,13 +30,14 @@ export const nomReprésentantLégalSchema = requiredStringSchema;
 export const emailContactSchema = requiredStringSchema.email();
 export const adresse1Schema = requiredStringSchema;
 export const adresse2Schema = optionalStringSchema;
-export const codePostalSchema = requiredStringSchema
-  .transform((val) => val.split('/').map((str) => str.trim()))
-  .refine(
-    (val) => val.every(getRégionAndDépartementFromCodePostal),
-    'Le code postal ne correspond à aucune région / département',
-  )
-  .transform((val) => val.join(' / '));
+export const codePostalSchema = requiredStringSchema.refine(
+  (val) =>
+    val
+      .split('/')
+      .map((str) => str.trim())
+      .every(getRégionAndDépartementFromCodePostal),
+  'Le code postal ne correspond à aucune région / département',
+);
 
 export const communeSchema = requiredStringSchema;
 export const départementSchema = requiredStringSchema;
@@ -80,9 +81,3 @@ export const typeGarantiesFinancieresCsvSchema = optionalEnum(z.enum(['1', '2', 
 export const notifiedOnCsvSchema = z.undefined({
   invalid_type_error: 'Le champs notifiedOn ne peut pas être présent',
 });
-export const codePostalCsvSchema = requiredStringSchema
-  .transform((val) => val.split('/').map((str) => str.trim()))
-  .refine(
-    (val) => val.every(getRégionAndDépartementFromCodePostal),
-    'Le code postal ne correspond à aucune région / département',
-  );
