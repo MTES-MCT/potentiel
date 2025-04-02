@@ -517,6 +517,29 @@ describe('Schema candidature', () => {
           message: 'Le code postal ne correspond à aucune région / département',
         });
       });
+
+      test("n'accepte pas un code postal vide", () => {
+        const result = candidatureCsvSchema.safeParse({
+          ...minimumValuesClassé,
+          CP: '',
+        });
+
+        assert(!result.success, 'should be error');
+        expect(result.error.errors[0]).to.deep.eq({
+          code: 'too_small',
+          minimum: 1,
+          type: 'string',
+          inclusive: true,
+          exact: false,
+          path: ['CP'],
+          message: 'String must contain at least 1 character(s)',
+        });
+        expect(result.error.errors[1]).to.deep.eq({
+          code: 'custom',
+          path: ['CP'],
+          message: 'Le code postal ne correspond à aucune région / département',
+        });
+      });
     });
     describe('Adresse', () => {
       test('au minimum un champs doit être spécifiée', () => {
