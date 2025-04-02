@@ -12,9 +12,6 @@ export const buildLauréat = ({ project }: LaureatProps) => {
   const { soumisAuxGarantiesFinancieres } = appelOffre || {};
   const { delaiDcrEnMois } = période;
 
-  const casParticulierPPE2BatimentPériode8 =
-    appelOffre.id === 'PPE2 - Bâtiment' && période.id === '8';
-
   const paragrapheEngagementIPFPGPFC =
     période.paragrapheEngagementIPFPGPFC ?? appelOffre.paragrapheEngagementIPFPGPFC;
 
@@ -49,22 +46,35 @@ export const buildLauréat = ({ project }: LaureatProps) => {
           {appelOffre.tarifOuPrimeRetenue} en application des dispositions du chapitre{' '}
           {appelOffre.paragraphePrixReference} du cahier des charges est de{' '}
           {formatNumber(project.prixReference)} €/MWh.
+          {project.coefficientKChoisi && (
+            <Text style={{ fontWeight: 'bold' }}>
+              {' '}
+              Conformément à votre choix dans le formulaire de candidature, ce prix de référence T
+              est indexé par l'application du coefficient k défini dans ce même paragraphe.{' '}
+            </Text>
+          )}
+        </Text>
+        <Text style={{ marginTop: 10 }}>
           {appelOffre.affichageParagrapheECS && project.evaluationCarbone > 0
-            ? ' La valeur de l’évaluation carbone des modules est de ' +
+            ? 'La valeur de l’évaluation carbone des modules est de ' +
               formatNumber(project.evaluationCarbone) +
-              ' kg eq CO2/kWc. '
+              ' kg eq CO2/kWc.'
             : ' '}
-          {période.addendumParagrapheECS ? période.addendumParagrapheECS : null}
+          {période.addendums?.paragraphePrix ? (
+            <Text> {période.addendums.paragraphePrix}</Text>
+          ) : null}
           {project.actionnariat === 'gouvernance-partagée' && (
             <Text>
+              {' '}
               Vous vous êtes engagés à la gouvernance partagée jusqu’à dix ans minimum après la Date
-              d’Achèvement de l’Installation.
+              d’Achèvement de l’Installation.{' '}
             </Text>
           )}
           {project.actionnariat === 'financement-collectif' && (
             <Text>
+              {' '}
               Vous vous êtes engagés au financement collectif jusqu’à trois ans minimum après la
-              Date d’Achèvement de l’Installation.
+              Date d’Achèvement de l’Installation.{' '}
             </Text>
           )}
         </Text>
@@ -190,17 +200,12 @@ export const buildLauréat = ({ project }: LaureatProps) => {
                   }}
                 >
                   {appelOffre.typeAppelOffre === 'eolien'
-                    ? ' Les changements conduisant à une remise en cause de l’autorisation mentionnée au 3.3.3 ne seront pas acceptés'
-                    : ' Les changements conduisant à une diminution de la notation d’un ou plusieurs critères d’évaluations de l’offre, notamment par un bilan carbone moins performant, ne seront pas acceptés'}
+                    ? 'Les changements conduisant à une remise en cause de l’autorisation mentionnée au 3.3.3 ne seront pas acceptés.'
+                    : 'Les changements conduisant à une diminution de la notation d’un ou plusieurs critères d’évaluations de l’offre, notamment par un bilan carbone moins performant, ne seront pas acceptés.'}
                 </Text>
 
-                {casParticulierPPE2BatimentPériode8 && (
-                  <Text>
-                    `Pour rappel, le respect du bilan carbone déclaré dans l’offre, arrondi au
-                    multiple de 10 le plus procheconformément au cahier des charges, fait l’objet
-                    d’une vérification pour la délivrance de l’attestation de conformité qui est
-                    obligatoire pour la prise d'effet du contrat
-                  </Text>
+                {période.addendums?.paragrapheECS && (
+                  <Text> {période.addendums.paragrapheECS}</Text>
                 )}
               </>
             )}
@@ -216,7 +221,7 @@ export const buildLauréat = ({ project }: LaureatProps) => {
                 </Text>
               </>
             )}
-            ;
+            .
           </Text>
         )}
       </>

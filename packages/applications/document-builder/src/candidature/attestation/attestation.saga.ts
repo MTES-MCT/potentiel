@@ -187,4 +187,5 @@ const mapCorrectionToCandidature = (
   actionnariat: payload.actionnariat
     ? Candidature.TypeActionnariat.convertirEnValueType(payload.actionnariat)
     : undefined,
+  coefficientKChoisi: payload.coefficientKChoisi,
 });

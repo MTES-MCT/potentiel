@@ -73,6 +73,7 @@ const fakeProject = (appelOffreId: string, périodeId?: string): AttestationCand
     puissance: 42,
     potentielId: 'potentielId',
     technologie: 'N/A',
+    coefficientKChoisi: undefined,
   } satisfies Partial<AttestationCandidatureOptions>;
   if (!période.certificateTemplate || période.certificateTemplate === 'ppe2.v2') {
     return {

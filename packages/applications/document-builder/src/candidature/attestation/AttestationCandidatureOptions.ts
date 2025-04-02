@@ -22,6 +22,7 @@ export type Common = {
   potentielId: string;
   technologie: AppelOffre.Technologie;
   désignationCatégorie?: 'volume-réservé' | 'hors-volume-réservé';
+  coefficientKChoisi: boolean | undefined;
 };
 
 export type AttestationCRE4Options = Common & {
