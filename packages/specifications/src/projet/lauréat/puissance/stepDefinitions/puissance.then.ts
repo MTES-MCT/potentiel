@@ -57,3 +57,27 @@ Alors(
     });
   },
 );
+
+// avec la dreal en autorité compétente
+Alors(
+  'la demande de changement de puissance devrait être consultable',
+  async function (this: PotentielWorld) {
+    return waitForExpect(async () => {
+      const identifiantProjet = this.lauréatWorld.identifiantProjet;
+
+      const puissance = await mediator.send<Puissance.PuissanceQuery>({
+        type: 'Lauréat.Puissance.Query.ConsulterPuissance',
+        data: {
+          identifiantProjet: identifiantProjet.formatter(),
+        },
+      });
+
+      const actual = mapToPlainObject(puissance);
+      const expected = mapToPlainObject(
+        this.lauréatWorld.puissanceWorld.mapToExpected(identifiantProjet),
+      );
+
+      actual.should.be.deep.equal(expected);
+    });
+  },
+);

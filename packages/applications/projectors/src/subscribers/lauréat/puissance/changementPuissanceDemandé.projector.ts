@@ -7,6 +7,7 @@ import { getLogger } from '@potentiel-libraries/monitoring';
 export const changementPuissanceDemandéProjector = async ({
   payload: {
     puissance,
+    autoritéCompétente,
     identifiantProjet,
     demandéLe,
     demandéPar,
@@ -34,6 +35,7 @@ export const changementPuissanceDemandéProjector = async ({
       identifiantProjet,
       demande: {
         statut: Puissance.StatutChangementPuissance.demandé.statut,
+        autoritéCompétente,
         nouvellePuissance: puissance,
         demandéePar: demandéPar,
         demandéeLe: demandéLe,

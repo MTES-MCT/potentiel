@@ -21,7 +21,7 @@ import {
   applyChangementPuissanceDemandé,
   ChangementPuissanceDemandéEvent,
   demanderChangement,
-} from './demander/demanderChangementPuissance.behavior';
+} from './changement/demander/demanderChangementPuissance.behavior';
 
 export type PuissanceEvent =
   | PuissanceImportéeEvent

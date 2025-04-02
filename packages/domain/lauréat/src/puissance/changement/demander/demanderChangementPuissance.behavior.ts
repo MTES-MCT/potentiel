@@ -8,15 +8,16 @@ import {
   ProjetAvecDemandeAbandonEnCoursError,
   PuissanceIdentiqueError,
   PuissanceNulleOuNégativeError,
-} from '../errors';
-import { StatutChangementPuissance } from '..';
-import { PuissanceAggregate } from '../puissance.aggregate';
+} from '../../errors';
+import { RèglesRatioPuissance, StatutChangementPuissance } from '../..';
+import { PuissanceAggregate } from '../../puissance.aggregate';
 
 export type ChangementPuissanceDemandéEvent = DomainEvent<
   'ChangementPuissanceDemandé-V1',
   {
     identifiantProjet: IdentifiantProjet.RawType;
     puissance: number;
+    autoritéCompétente: RèglesRatioPuissance.AutoritésCompétentes;
     raison: string;
     demandéLe: DateTime.RawType;
     demandéPar: Email.RawType;
@@ -66,6 +67,9 @@ export async function demanderChangement(
     );
   }
 
+  // TODO: on ajoutera des règles pour valider le ratios ici
+  const ratio = this.puissance / puissance;
+
   if (estAbandonné) {
     throw new ProjetAbandonnéError();
   }
@@ -83,6 +87,7 @@ export async function demanderChangement(
     payload: {
       identifiantProjet: identifiantProjet.formatter(),
       puissance,
+      autoritéCompétente: RèglesRatioPuissance.bind({ ratio }).déterminerAutoritéCompétente(),
       pièceJustificative: {
         format: pièceJustificative.format,
       },

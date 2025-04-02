@@ -10,12 +10,12 @@ Fonctionnalité: Demander le changement de puissance d'un projet lauréat
     #ajouter notification
     Scénario: Demander le changement de puissance d'un projet lauréat avec un ratio à la baisse
         Quand le porteur demande le changement de puissance à la baisse pour le projet lauréat
-        Alors la demande de changement de puissance devrait être consultable avec la dreal en autorité compétente
+        Alors la demande de changement de puissance devrait être consultable
 
     #ajouter notification
     Scénario: Demander le changement de puissance d'un projet lauréat avec un ratio à la hausse
         Quand le porteur demande le changement de puissance à la hausse pour le projet lauréat
-        Alors la demande de changement de puissance devrait être consultable avec la dgec en autorité compétente
+        Alors la demande de changement de puissance devrait être consultable
 
     Scénario: Impossible de demander le changement de puissance si la puissance est inexistante
         Etant donné le projet éliminé "Du boulodrome de Lyon"

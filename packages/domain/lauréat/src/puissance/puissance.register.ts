@@ -7,8 +7,8 @@ import {
 } from './consulter/consulterPuissance.query';
 import { registerModifierPuissanceCommand } from './modifier/modifierPuissance.command';
 import { registerModifierPuissanceUseCase } from './modifier/modifierPuissance.usecase';
-import { registerDemanderChangementPuissanceCommand } from './demander/demanderChangementPuissance.command';
-import { registerDemanderChangementPuissanceUseCase } from './demander/demanderChangementPuissance.usecase';
+import { registerDemanderChangementPuissanceCommand } from './changement/demander/demanderChangementPuissance.command';
+import { registerDemanderChangementPuissanceUseCase } from './changement/demander/demanderChangementPuissance.usecase';
 
 export type PuissanceQueryDependencies = ConsulterPuissanceDependencies;
 

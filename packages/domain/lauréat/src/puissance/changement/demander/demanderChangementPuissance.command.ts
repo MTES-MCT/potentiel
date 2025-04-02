@@ -4,9 +4,9 @@ import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
 import { DocumentProjet } from '@potentiel-domain/document';
 import { LoadAggregate } from '@potentiel-domain/core';
 
-import { loadAbandonFactory } from '../../abandon';
-import { loadAchèvementFactory } from '../../achèvement/achèvement.aggregate';
-import { loadPuissanceFactory } from '../puissance.aggregate';
+import { loadAbandonFactory } from '../../../abandon';
+import { loadAchèvementFactory } from '../../../achèvement/achèvement.aggregate';
+import { loadPuissanceFactory } from '../../puissance.aggregate';
 
 export type DemanderChangementCommand = Message<
   'Lauréat.Puissance.Command.DemanderChangement',

@@ -3,7 +3,7 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 import { DocumentProjet, EnregistrerDocumentProjetCommand } from '@potentiel-domain/document';
 import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
 
-import { TypeDocumentPuissance } from '..';
+import { TypeDocumentPuissance } from '../..';
 
 import { DemanderChangementCommand } from './demanderChangementPuissance.command';
 
