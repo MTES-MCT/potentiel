@@ -29,6 +29,7 @@ import {
   getRecours,
   getRaccordement,
   getActionnaire,
+  getCoefficientKChoisi,
 } from './_utils';
 import { Role } from '@potentiel-domain/utilisateur';
 import { getPuissance } from './_utils/getPuissance';
@@ -219,6 +220,10 @@ v1Router.get(
           modificationsNonPermisesParLeCDCActuel:
             project.cahierDesChargesActuel.type === 'initial' &&
             !!project.appelOffre.periode.choisirNouveauCahierDesCharges,
+          coefficientKChoisi: await getCoefficientKChoisi(
+            identifiantProjetValueType,
+            project.appelOffre.periode,
+          ),
         }),
       );
     },

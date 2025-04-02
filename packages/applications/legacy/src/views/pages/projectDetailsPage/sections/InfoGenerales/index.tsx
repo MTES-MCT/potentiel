@@ -26,6 +26,7 @@ export type InfoGeneralesProps = {
   actionnaire?: GetActionnaireForProjectPage;
   puissance?: GetPuissanceForProjectPage;
   modificationsNonPermisesParLeCDCActuel: boolean;
+  coefficientKChoisi: boolean | undefined;
 };
 
 export const InfoGenerales = ({
@@ -52,6 +53,7 @@ export const InfoGenerales = ({
   actionnaire,
   modificationsNonPermisesParLeCDCActuel,
   puissance,
+  coefficientKChoisi,
 }: InfoGeneralesProps) => {
   const puissanceInférieurePuissanceMaxVolRéservé =
     appelOffre.periode.noteThresholdBy === 'category' &&
@@ -165,6 +167,12 @@ export const InfoGenerales = ({
           modificationsNonPermisesParLeCDCActuel={modificationsNonPermisesParLeCDCActuel}
         />
       )}
+      {coefficientKChoisi !== undefined ? (
+        <div>
+          <Heading3 className="m-0">Coefficient K choisi</Heading3>
+          <p className="m-0">{coefficientKChoisi ? 'Oui' : 'Non'}</p>
+        </div>
+      ) : null}
     </Section>
   );
 };
