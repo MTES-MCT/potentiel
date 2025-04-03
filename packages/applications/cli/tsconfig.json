@@ -8,7 +8,6 @@
   },
   "references": [
     { "path": "../../libraries/csv" },
-    { "path": "../../libraries/keycloak-cjs" },
     { "path": "../../libraries/file-storage" },
     { "path": "../../applications/bootstrap" },
     { "path": "../../domain/réseau" },
