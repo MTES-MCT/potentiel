@@ -38,6 +38,23 @@ export type DemandePrécédente = {
     ))
 );
 
+type MapToDélaiModèleRéponseProps = {
+  identifiantProjet: IdentifiantProjet.ValueType;
+  lauréat: Lauréat.ConsulterLauréatReadModel;
+  appelOffres: AppelOffre.ConsulterAppelOffreReadModel;
+  candidature: Candidature.ConsulterCandidatureReadModel;
+  cahierDesChargesChoisi: CahierDesCharges.ConsulterCahierDesChargesChoisiReadmodel;
+  représentantLégal: Option.Type<ReprésentantLégal.ConsulterReprésentantLégalReadModel>;
+  puissanceActuelle: number;
+  dateAchèvementDemandée: Date;
+  dateLimiteAchevementActuelle: Date;
+  dateLimiteAchevementInitiale: Date;
+  justification: string;
+  utilisateur: Pick<Utilisateur.ValueType, 'nom' | 'région'>;
+  dateDemande: Date;
+  demandePrécédente?: DemandePrécédente;
+};
+
 export const mapToDélaiModèleRéponseProps = ({
   identifiantProjet,
   lauréat,
@@ -53,22 +70,7 @@ export const mapToDélaiModèleRéponseProps = ({
   dateLimiteAchevementActuelle,
   dateLimiteAchevementInitiale,
   demandePrécédente,
-}: {
-  identifiantProjet: IdentifiantProjet.ValueType;
-  lauréat: Lauréat.ConsulterLauréatReadModel;
-  appelOffres: AppelOffre.ConsulterAppelOffreReadModel;
-  candidature: Candidature.ConsulterCandidatureReadModel;
-  cahierDesChargesChoisi: CahierDesCharges.ConsulterCahierDesChargesChoisiReadmodel;
-  représentantLégal: Option.Type<ReprésentantLégal.ConsulterReprésentantLégalReadModel>;
-  puissanceActuelle: number;
-  dateAchèvementDemandée: Date;
-  dateLimiteAchevementActuelle: Date;
-  dateLimiteAchevementInitiale: Date;
-  justification: string;
-  utilisateur: Pick<Utilisateur.ValueType, 'nom' | 'région'>;
-  dateDemande: Date;
-  demandePrécédente?: DemandePrécédente;
-}): ModèleRéponseSignée.ModèleRéponseDélai['data'] => {
+}: MapToDélaiModèleRéponseProps): ModèleRéponseSignée.ModèleRéponseDélai['data'] => {
   const période = appelOffres.periodes.find((période) => période.id === identifiantProjet.période);
   const paragraphe = getDonnéesCourriersRéponse({
     appelOffres,

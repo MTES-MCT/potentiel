@@ -8,6 +8,20 @@ import { getEnCopies } from '../getEnCopies';
 import { Option } from '@potentiel-libraries/monads';
 import { Utilisateur } from '@potentiel-domain/utilisateur';
 
+type MapToPuissanceModèleRéponseProps = {
+  identifiantProjet: IdentifiantProjet.ValueType;
+  lauréat: Lauréat.ConsulterLauréatReadModel;
+  appelOffres: AppelOffre.ConsulterAppelOffreReadModel;
+  candidature: Candidature.ConsulterCandidatureReadModel;
+  cahierDesChargesChoisi: CahierDesCharges.ConsulterCahierDesChargesChoisiReadmodel;
+  représentantLégal: Option.Type<ReprésentantLégal.ConsulterReprésentantLégalReadModel>;
+  nouvellePuissance: number;
+  puissanceActuelle: number;
+  justification: string;
+  utilisateur: Pick<Utilisateur.ValueType, 'nom' | 'région'>;
+  dateDemande: Date;
+};
+
 export const mapToPuissanceModèleRéponseProps = ({
   identifiantProjet,
   lauréat,
@@ -20,19 +34,7 @@ export const mapToPuissanceModèleRéponseProps = ({
   représentantLégal,
   utilisateur,
   dateDemande,
-}: {
-  identifiantProjet: IdentifiantProjet.ValueType;
-  lauréat: Lauréat.ConsulterLauréatReadModel;
-  appelOffres: AppelOffre.ConsulterAppelOffreReadModel;
-  candidature: Candidature.ConsulterCandidatureReadModel;
-  cahierDesChargesChoisi: CahierDesCharges.ConsulterCahierDesChargesChoisiReadmodel;
-  représentantLégal: Option.Type<ReprésentantLégal.ConsulterReprésentantLégalReadModel>;
-  nouvellePuissance: number;
-  puissanceActuelle: number;
-  justification: string;
-  utilisateur: Pick<Utilisateur.ValueType, 'nom' | 'région'>;
-  dateDemande: Date;
-}) => {
+}: MapToPuissanceModèleRéponseProps) => {
   const période = appelOffres.periodes.find((période) => période.id === identifiantProjet.période);
   const paragraphe = getDonnéesCourriersRéponse({
     appelOffres,

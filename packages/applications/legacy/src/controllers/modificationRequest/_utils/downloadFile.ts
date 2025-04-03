@@ -5,13 +5,14 @@ import { ReadableStream } from 'stream/web';
 export const docxContentType =
   'application/vnd.openxmlformats-officedocument.wordprocessingml.document';
 
+type DownloadFileProps = {
+  filename: string;
+  content: ReadableStream;
+  contentType: string;
+};
 export const downloadFile = (
   response: Response,
-  {
-    content,
-    contentType,
-    filename,
-  }: { filename: string; content: ReadableStream; contentType: string },
+  { content, contentType, filename }: DownloadFileProps,
 ) => {
   response.setHeader('Content-Disposition', `attachment; filename=${filename}`);
   response.setHeader('Content-Type', contentType);
