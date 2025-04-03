@@ -10,7 +10,7 @@ import { AnnulerChangementPuissanceFixture } from './fixture/annulerChangementPu
 type MapToDemandeExpectedProps = {
   identifiantProjet: IdentifiantProjet.ValueType;
   statut: Puissance.StatutChangementPuissance.ValueType;
-  puissanceImportée: number;
+  puissanceActuelle: number;
 };
 
 export class ChangementPuissanceWorld {
@@ -33,7 +33,7 @@ export class ChangementPuissanceWorld {
   mapToDemandeExpected({
     identifiantProjet,
     statut,
-    puissanceImportée,
+    puissanceActuelle,
   }: MapToDemandeExpectedProps): Option.Type<Puissance.ConsulterChangementPuissanceReadModel> {
     if (!this.demanderChangementPuissanceFixture.aÉtéCréé) {
       throw new Error(`Aucune demande n'a été créée dans PuissanceWorld`);
@@ -45,7 +45,7 @@ export class ChangementPuissanceWorld {
       identifiantProjet,
 
       demande: {
-        nouvellePuissance: baseFixture.ratio * puissanceImportée,
+        nouvellePuissance: baseFixture.ratio * puissanceActuelle,
         autoritéCompétente: Puissance.RatioChangementPuissance.bind({
           ratio: baseFixture.ratio,
         }).getAutoritéCompétente(),

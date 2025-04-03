@@ -74,10 +74,12 @@ export async function demanderChangementPuissance(
       : this.eliminéWorld.identifiantProjet;
 
   const { pièceJustificative, demandéLe, demandéPar, raison, ratio } =
-    this.lauréatWorld.puissanceWorld.demanderChangementPuissanceFixture.créer({
-      demandéPar: this.utilisateurWorld.porteurFixture.email,
-      ...(ratioValue !== undefined && { ratio: ratioValue }),
-    });
+    this.lauréatWorld.puissanceWorld.changementPuissanceWorld.demanderChangementPuissanceFixture.créer(
+      {
+        demandéPar: this.utilisateurWorld.porteurFixture.email,
+        ...(ratioValue !== undefined && { ratio: ratioValue }),
+      },
+    );
 
   const puissanceValue =
     ratio * this.lauréatWorld.puissanceWorld.mapToExpected(identifiantProjet).puissance;
@@ -99,9 +101,11 @@ export async function annulerChangementPuissance(this: PotentielWorld) {
   const identifiantProjet = this.lauréatWorld.identifiantProjet.formatter();
 
   const { annuléeLe, annuléePar } =
-    this.lauréatWorld.puissanceWorld.annulerChangementPuissanceFixture.créer({
-      annuléePar: this.utilisateurWorld.porteurFixture.email,
-    });
+    this.lauréatWorld.puissanceWorld.changementPuissanceWorld.annulerChangementPuissanceFixture.créer(
+      {
+        annuléePar: this.utilisateurWorld.porteurFixture.email,
+      },
+    );
 
   await mediator.send<Puissance.PuissanceUseCase>({
     type: 'Lauréat.Puissance.UseCase.AnnulerDemandeChangement',
