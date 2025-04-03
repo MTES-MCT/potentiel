@@ -1,14 +1,21 @@
 import Checkbox from '@codegouvfr/react-dsfr/Checkbox';
 import { useState } from 'react';
 
-import { CandidatureFieldProps, LinkedValuesButton } from './ModifierLauréatFields';
+import { LinkedValuesButton } from '../LinkedValuesButton';
+
+type PuissanceALaPointeFieldProps = {
+  candidature: boolean;
+  name: 'puissanceALaPointe';
+  label: string;
+  validationErrors: Record<string, string>;
+};
 
 export const PuissanceALaPointeField = ({
   candidature,
   validationErrors,
   name,
   label,
-}: CandidatureFieldProps<boolean>) => {
+}: PuissanceALaPointeFieldProps) => {
   const [candidatureValue, setCandidatureValue] = useState(candidature);
 
   return (

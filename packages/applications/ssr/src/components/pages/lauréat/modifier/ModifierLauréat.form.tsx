@@ -18,12 +18,13 @@ import { FormAlertError } from '../../../atoms/form/FormAlertError';
 
 import { modifierLauréatAction } from './modifierLauréat.action';
 import { ModifierLauréatPageProps } from './ModifierLauréat.page';
-import { CandidatureField, ProjectField } from './fields/ModifierLauréatFields';
-import { TechnologieField } from './fields/TechnologieField';
-import { ActionnariatField } from './fields/ActionnariatField';
-import { LocalitéField } from './fields/LocalitéField';
-import { PuissanceALaPointeField } from './fields/PuissanceALaPointeField ';
-import { AttestationField } from './fields/AttestationField';
+import { ProjectField } from './components/fields/ProjectField';
+import { TechnologieField } from './components/fields/TechnologieField';
+import { ActionnariatField } from './components/fields/ActionnariatField';
+import { LocalitéField } from './components/fields/LocalitéField';
+import { PuissanceALaPointeField } from './components/fields/PuissanceALaPointeField ';
+import { AttestationField } from './components/fields/AttestationField';
+import { CandidatureField } from './components/fields/CandidatureField';
 
 export type ModifierLauréatFormProps = ModifierLauréatPageProps;
 export type FieldValidationErrors =
@@ -93,7 +94,6 @@ export const ModifierLauréatForm: React.FC<ModifierLauréatFormProps> = ({
             candidature={candidature.nomCandidat}
             label="Nom du candidat"
             name="nomCandidat"
-            inputType="text"
             validationErrors={validationErrors}
           />
         </FormRow>
@@ -102,7 +102,6 @@ export const ModifierLauréatForm: React.FC<ModifierLauréatFormProps> = ({
             candidature={candidature.emailContact}
             label="Email de contact"
             name="emailContact"
-            inputType="text"
             validationErrors={validationErrors}
           />
         </FormRow>
@@ -122,7 +121,6 @@ export const ModifierLauréatForm: React.FC<ModifierLauréatFormProps> = ({
             label="Type d'actionnariat (optionnel)"
             name="actionnariat"
             isPPE2={projet.isPPE2}
-            inputType="text"
             validationErrors={validationErrors}
           />
         </FormRow>
@@ -146,7 +144,6 @@ export const ModifierLauréatForm: React.FC<ModifierLauréatFormProps> = ({
             candidature={candidature.technologie}
             name="technologie"
             label="Technologie"
-            inputType="text"
             validationErrors={validationErrors}
           />
         </FormRow>
@@ -154,7 +151,6 @@ export const ModifierLauréatForm: React.FC<ModifierLauréatFormProps> = ({
           <CandidatureField
             candidature={candidature.prixReference}
             label="Prix de référence"
-            inputType="number"
             name="prixReference"
             validationErrors={validationErrors}
           />
@@ -190,7 +186,6 @@ export const ModifierLauréatForm: React.FC<ModifierLauréatFormProps> = ({
               candidature={candidature.puissanceALaPointe}
               name="puissanceALaPointe"
               label="Engagement de puissance à la pointe"
-              inputType="number"
               validationErrors={validationErrors}
             />
           </FormRow>
@@ -200,7 +195,6 @@ export const ModifierLauréatForm: React.FC<ModifierLauréatFormProps> = ({
             candidature={candidature.evaluationCarboneSimplifiee}
             label="Evaluation carbone"
             name="evaluationCarboneSimplifiee"
-            inputType="number"
             validationErrors={validationErrors}
           />
         </FormRow>
@@ -209,7 +203,6 @@ export const ModifierLauréatForm: React.FC<ModifierLauréatFormProps> = ({
             candidature={candidature.noteTotale}
             label="Note"
             name="noteTotale"
-            inputType="number"
             validationErrors={validationErrors}
           />
         </FormRow>

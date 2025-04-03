@@ -4,18 +4,19 @@ import Input from '@codegouvfr/react-dsfr/Input';
 import { CommunePicker } from '@/components/molecules/CommunePicker';
 import { FormRow } from '@/components/atoms/form/FormRow';
 
-import { ModifierLauréatPageProps } from '../ModifierLauréat.page';
-import { FieldValidationErrors } from '../ModifierLauréat.form';
+import { ModifierLauréatPageProps } from '../../ModifierLauréat.page';
+import { FieldValidationErrors } from '../../ModifierLauréat.form';
+import { LinkedValuesButton } from '../LinkedValuesButton';
 
-import { LinkedValuesButton, ProjectField } from './ModifierLauréatFields';
+import { ProjectField } from './ProjectField';
 
-type LocalitéField = {
+type LocalitéFieldProps = {
   candidature: ModifierLauréatPageProps['candidature'];
   lauréat: ModifierLauréatPageProps['lauréat'];
   validationErrors: FieldValidationErrors;
 };
 
-export const LocalitéField = ({ candidature, lauréat, validationErrors }: LocalitéField) => {
+export const LocalitéField = ({ candidature, lauréat, validationErrors }: LocalitéFieldProps) => {
   return (
     <div className="flex flex-col w-full mt-0">
       <FormRow>
@@ -49,7 +50,7 @@ export const LocalitéField = ({ candidature, lauréat, validationErrors }: Loca
   );
 };
 
-const CommuneField = ({ candidature, lauréat, validationErrors }: LocalitéField) => {
+const CommuneField = ({ candidature, lauréat, validationErrors }: LocalitéFieldProps) => {
   const [candidatureCommune, setCandidatureCommune] = useState({
     commune: candidature.commune,
     codePostal: candidature.codePostal,

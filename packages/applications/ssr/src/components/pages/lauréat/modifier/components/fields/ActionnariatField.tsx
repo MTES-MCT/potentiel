@@ -4,17 +4,28 @@ import Input from '@codegouvfr/react-dsfr/Input';
 
 import { Candidature } from '@potentiel-domain/candidature';
 
-import { getTechnologieTypeLabel } from '../../../candidature/helpers';
+import { getActionnariatTypeLabel } from '../../../../candidature/helpers/getActionnariatTypeLabel';
+import { LinkedValuesButton } from '../LinkedValuesButton';
 
-import { CandidatureFieldProps, LinkedValuesButton } from './ModifierLauréatFields';
+type ActionnariatFieldProps = {
+  candidature: string;
+  name: 'actionnariat';
+  label: string;
+  validationErrors: Record<string, string>;
+  isPPE2: boolean;
+};
 
-export const TechnologieField = ({
+export const ActionnariatField = ({
   candidature,
+  isPPE2,
   name,
-  label,
   validationErrors,
-}: CandidatureFieldProps<string>) => {
+  label,
+}: ActionnariatFieldProps) => {
   const [candidatureValue, setCandidatureValue] = useState(candidature);
+  const typesActionnariat = isPPE2
+    ? Candidature.TypeActionnariat.ppe2Types
+    : Candidature.TypeActionnariat.cre4Types;
 
   return (
     <div className="flex flex-row items-center gap-4 w-full">
@@ -33,16 +44,17 @@ export const TechnologieField = ({
           stateRelatedMessage={validationErrors[`candidature.${name}`]}
           nativeSelectProps={{
             defaultValue: candidature,
-            required: true,
-            'aria-required': true,
             onChange: (ev) => {
               setCandidatureValue(ev.target.value);
             },
           }}
-          options={Candidature.TypeTechnologie.types.map((type) => ({
-            value: type,
-            label: getTechnologieTypeLabel(type),
-          }))}
+          options={[
+            { label: 'Aucun', value: '' },
+            ...typesActionnariat.map((type) => ({
+              label: getActionnariatTypeLabel(type),
+              value: type,
+            })),
+          ]}
         />
       </div>
       <div className="flex-[2] flex px-2">
@@ -55,8 +67,8 @@ export const TechnologieField = ({
           nativeInputProps={{
             value:
               candidatureValue &&
-              getTechnologieTypeLabel(
-                Candidature.TypeTechnologie.convertirEnValueType(candidatureValue).type,
+              getActionnariatTypeLabel(
+                Candidature.TypeActionnariat.convertirEnValueType(candidatureValue).type,
               ),
           }}
           addon={<LinkedValuesButton isLocked />}
