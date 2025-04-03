@@ -1,17 +1,15 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
-import { IdentifiantProjet } from '@potentiel-domain/common';
+import { IdentifiantProjet } from '@potentiel-domain/projet';
 import { Option } from '@potentiel-libraries/monads';
 import { Event } from '@potentiel-infrastructure/pg-event-sourcing';
-import {
-  CandidatureAdapter,
-  récupérerDrealsParIdentifiantProjetAdapter,
-  récupérerPorteursParIdentifiantProjetAdapter,
-} from '@potentiel-infrastructure/domain-adapters';
+import { CandidatureAdapter } from '@potentiel-infrastructure/domain-adapters';
 import { Achèvement } from '@potentiel-domain/laureat';
 import { Routes } from '@potentiel-applications/routes';
 
 import { EmailPayload, SendEmail } from '../../sendEmail';
+import { listerPorteursRecipients } from '../../helpers/listerPorteursRecipients';
+import { listerDrealsRecipients } from '../../helpers/listerDrealsRecipients';
 
 export type SubscriptionEvent = Achèvement.AchèvementEvent & Event;
 
@@ -33,8 +31,8 @@ async function getEmailPayload(event: SubscriptionEvent): Promise<EmailPayload[]
     return [];
   }
 
-  const porteurs = await récupérerPorteursParIdentifiantProjetAdapter(identifiantProjet);
-  const dreals = await récupérerDrealsParIdentifiantProjetAdapter(identifiantProjet);
+  const porteurs = await listerPorteursRecipients(identifiantProjet);
+  const dreals = await listerDrealsRecipients(projet.localité.région);
   const nomProjet = projet.nom;
   const départementProjet = projet.localité.département;
   const { BASE_URL } = process.env;

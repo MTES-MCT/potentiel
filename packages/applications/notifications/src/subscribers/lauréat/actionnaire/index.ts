@@ -1,7 +1,7 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 import { match } from 'ts-pattern';
 
-import { IdentifiantProjet } from '@potentiel-domain/common';
+import { IdentifiantProjet } from '@potentiel-domain/projet';
 import { Option } from '@potentiel-libraries/monads';
 import { Event } from '@potentiel-infrastructure/pg-event-sourcing';
 import { CandidatureAdapter } from '@potentiel-infrastructure/domain-adapters';
@@ -56,6 +56,7 @@ export const register = ({ sendEmail }: RegisterActionnaireNotificationDependenc
     const projet = {
       nom: détailsProjet.nom,
       département: détailsProjet.localité.département,
+      région: détailsProjet.localité.région,
     };
 
     return match(event)
