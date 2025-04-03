@@ -5,11 +5,11 @@ import { DocumentProjet } from '@potentiel-domain/document';
 import { ActionnaireAggregate } from '../../actionnaire.aggregate';
 import {
   ActionnaireNePeutPasÊtreModifiéDirectement,
-  DemandeDeChangementEnCoursError,
   ProjetAbandonnéError,
   ProjetAvecDemandeAbandonEnCoursError,
   ProjetAchevéError,
 } from '../../errors';
+import { StatutChangementActionnaire } from '../..';
 
 export type ChangementActionnaireEnregistréEvent = DomainEvent<
   'ChangementActionnaireEnregistré-V1',
@@ -68,8 +68,10 @@ export async function enregistrerChangement(
     throw new ActionnaireNePeutPasÊtreModifiéDirectement();
   }
 
-  if (this.demande?.statut.estDemandé()) {
-    throw new DemandeDeChangementEnCoursError();
+  if (this.demande) {
+    this.demande.statut.vérifierQueLeChangementDeStatutEstPossibleEn(
+      StatutChangementActionnaire.informationEnregistrée,
+    );
   }
 
   if (estAbandonné) {
