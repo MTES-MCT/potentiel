@@ -105,6 +105,17 @@ Quand(
   },
 );
 
+Quand(
+  'le porteur annule la demande de changement de puissance pour le projet lauréat',
+  async function (this: PotentielWorld) {
+    try {
+      await annulerChangementPuissance.call(this);
+    } catch (error) {
+      this.error = error as Error;
+    }
+  },
+);
+
 async function importerPuissance(this: PotentielWorld) {
   const identifiantProjet = this.candidatureWorld.importerCandidature.identifiantProjet;
   const { importéeLe } = this.lauréatWorld.puissanceWorld.importerPuissanceFixture.créer({
@@ -180,6 +191,24 @@ export async function demanderChangementPuissance(
       identifiantUtilisateurValue: demandéPar,
       identifiantProjetValue: identifiantProjet.formatter(),
       pièceJustificativeValue: pièceJustificative,
+    },
+  });
+}
+
+export async function annulerChangementPuissance(this: PotentielWorld) {
+  const identifiantProjet = this.lauréatWorld.identifiantProjet.formatter();
+
+  const { annuléeLe, annuléePar } =
+    this.lauréatWorld.puissanceWorld.annulerChangementPuissanceFixture.créer({
+      annuléePar: this.utilisateurWorld.porteurFixture.email,
+    });
+
+  await mediator.send<Puissance.PuissanceUseCase>({
+    type: 'Lauréat.Puissance.UseCase.AnnulerDemandeChangement',
+    data: {
+      dateAnnulationValue: annuléeLe,
+      identifiantUtilisateurValue: annuléePar,
+      identifiantProjetValue: identifiantProjet,
     },
   });
 }
