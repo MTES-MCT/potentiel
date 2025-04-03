@@ -1,40 +1,30 @@
-import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
+import { IdentifiantProjet } from '@potentiel-domain/common';
 import { Puissance } from '@potentiel-domain/laureat';
-import { Option } from '@potentiel-libraries/monads';
-import { DocumentProjet } from '@potentiel-domain/document';
 
 import { ImporterPuissanceFixture } from './fixture/importerPuissance.fixture';
 import { ModifierPuissanceFixture } from './fixture/modifierPuissance.fixture';
-import { DemanderChangementPuissanceFixture } from './fixture/demanderChangementPuissance.fixture';
-import { AnnulerChangementPuissanceFixture } from './fixture/annulerChangementPuissance.fixture';
+import { ChangementPuissanceWorld } from './changement/changementPuissance.world';
 
 export class PuissanceWorld {
-  #importerPuissanceFixture: ImporterPuissanceFixture;
-  #modifierPuissanceFixture: ModifierPuissanceFixture;
-  #demanderChangementPuissanceFixture: DemanderChangementPuissanceFixture;
-  #annulerChangementPuissanceFixture: AnnulerChangementPuissanceFixture;
+  #changementPuissanceWorld!: ChangementPuissanceWorld;
+  get changementPuissanceWorld() {
+    return this.#changementPuissanceWorld;
+  }
 
+  #importerPuissanceFixture: ImporterPuissanceFixture;
   get importerPuissanceFixture() {
     return this.#importerPuissanceFixture;
   }
 
+  #modifierPuissanceFixture: ModifierPuissanceFixture;
   get modifierPuissanceFixture() {
     return this.#modifierPuissanceFixture;
-  }
-
-  get demanderChangementPuissanceFixture() {
-    return this.#demanderChangementPuissanceFixture;
-  }
-
-  get annulerChangementPuissanceFixture() {
-    return this.#annulerChangementPuissanceFixture;
   }
 
   constructor() {
     this.#importerPuissanceFixture = new ImporterPuissanceFixture();
     this.#modifierPuissanceFixture = new ModifierPuissanceFixture();
-    this.#demanderChangementPuissanceFixture = new DemanderChangementPuissanceFixture();
-    this.#annulerChangementPuissanceFixture = new AnnulerChangementPuissanceFixture();
+    this.#changementPuissanceWorld = new ChangementPuissanceWorld();
   }
 
   mapToExpected(
@@ -48,41 +38,5 @@ export class PuissanceWorld {
     };
 
     return expected;
-  }
-
-  mapDemandeToExpected(
-    identifiantProjet: IdentifiantProjet.ValueType,
-    statut: Puissance.StatutChangementPuissance.ValueType,
-  ): Option.Type<Puissance.ConsulterChangementPuissanceReadModel> {
-    if (!this.demanderChangementPuissanceFixture.aÉtéCréé) {
-      throw new Error(`Aucune demande n'a été créée dans PuissanceWorld`);
-    }
-
-    const baseFixture = this.#demanderChangementPuissanceFixture;
-
-    return {
-      identifiantProjet,
-
-      demande: {
-        nouvellePuissance: baseFixture.ratio * this.#importerPuissanceFixture.puissance,
-        autoritéCompétente: Puissance.RatioChangementPuissance.bind({
-          ratio: baseFixture.ratio,
-        }).getAutoritéCompétente(),
-        statut,
-        demandéeLe: DateTime.convertirEnValueType(baseFixture.demandéLe),
-        demandéePar: Email.convertirEnValueType(baseFixture.demandéPar),
-        raison: baseFixture.raison,
-        pièceJustificative: DocumentProjet.convertirEnValueType(
-          identifiantProjet.formatter(),
-          Puissance.TypeDocumentPuissance.pièceJustificative.formatter(),
-          DateTime.convertirEnValueType(baseFixture.demandéLe).formatter(),
-          baseFixture.pièceJustificative.format,
-        ),
-
-        accord: undefined,
-
-        rejet: undefined,
-      },
-    };
   }
 }
