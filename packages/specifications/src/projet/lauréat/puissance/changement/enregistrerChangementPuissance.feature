@@ -8,16 +8,17 @@ Fonctionnalité: Enregistrer un changement de puissance d'un projet lauréat
         Et la dreal "Dreal du sud" associée à la région du projet
 
     # pour la fixture
-    # pour l'information enregistrée, la raison est optionnelle et il n'y a pas besoin de pièce justificative
+    # pour l'information enregistrée, la raison et la pj est optionnelle
+    # ajouter la notification
     Scénario: Enregistrer un changement de puissance d'un projet lauréat
         Quand le porteur enregistre un changement de puissance pour le projet lauréat
         Alors la puissance du projet lauréat devrait être mis à jour
         Et le changement enregistré de la puissance devrait être consultable
-        Et un email a été envoyé à la dreal avec :
-            | sujet      | Potentiel - Enregistrement d'un changement de puissance pour le projet Du boulodrome de Marseille dans le département(.*) |
-            | nom_projet | Du boulodrome de Marseille                                                                                                |
-            | url        | https://potentiel.beta.gouv.fr/projet/.*/details.html                                                                     |
 
+    # Et un email a été envoyé à la dreal avec :
+    #     | sujet      | Potentiel - Enregistrement d'un changement de puissance pour le projet Du boulodrome de Marseille dans le département(.*) |
+    #     | nom_projet | Du boulodrome de Marseille                                                                                                |
+    #     | url        | https://potentiel.beta.gouv.fr/projet/.*/details.html                                                                     |
     Scénario: Impossible de demander le changement de puissance d'un projet lauréat avec une valeur identique
         Quand le porteur enregistre un changement de puissance avec la même valeur pour le projet lauréat
         Alors l'utilisateur devrait être informé que "La puissance doit avoir une valeur différente"
@@ -47,12 +48,13 @@ Fonctionnalité: Enregistrer un changement de puissance d'un projet lauréat
         Quand le porteur enregistre un changement de puissance pour le projet lauréat
         Alors le porteur devrait être informé que "Impossible de demander le changement de puissance pour un projet achevé"
 
+    @NotImplemented
     Scénario: Impossible pour le porteur d'enregistrer un changement de puissance si elle est inférieure au ratio min
         Etant donné le projet lauréat "Du bouchon de Lyon le retour" avec :
             | appel d'offre   | <Appel d'offre> |
             | ratio puissance | <Ratio>         |
         Quand le porteur enregistre un changement de puissance pour le projet lauréat
-        Alors le porteur devrait être informé que "Impossible de modifier directement la puissance dans ces conditions"
+        Alors le porteur devrait être informé que "La puissance dépasse la puissance maximale autorisée par l'appel d'offres"
 
         Exemples:
             | Appel d'offre     | Ratio |
@@ -60,12 +62,13 @@ Fonctionnalité: Enregistrer un changement de puissance d'un projet lauréat
             | CRE4 - Bâtiment   | 0.85  |
             | CRE4 - Innovation | 0.65  |
 
+    @NotImplemented
     Scénario: Impossible pour le porteur d'enregistrer un changement de puissance si elle est supérieure au ratio max
         Etant donné le projet lauréat "Du bouchon de Lyon" avec :
             | appel d'offre   | <Appel d'offre> |
             | ratio puissance | <Ratio>         |
         Quand le porteur enregistre un changement de puissance pour le projet lauréat
-        Alors le porteur devrait être informé que "Impossible de modifier directement la puissance dans ces conditions"
+        Alors le porteur devrait être informé que "La puissance est en deça de la puissance minimale autorisée par l'appel d'offres"
 
         Exemples:
             | Appel d'offre     | Ratio |
@@ -73,6 +76,7 @@ Fonctionnalité: Enregistrer un changement de puissance d'un projet lauréat
             | CRE4 - Bâtiment   | 1.55  |
             | CRE4 - Innovation | 1.15  |
 
+    @NotImplemented
     Scénario: Impossible pour le porteur d'enregistrer un changement de puissance si elle dépasse la puissance max par famille
         Quand le porteur demande le changement de puissance pour le projet lauréat avec :
             | nouvelle puissance |  |
@@ -82,6 +86,7 @@ Fonctionnalité: Enregistrer un changement de puissance d'un projet lauréat
 
         Alors l'utilisateur devrait être informé que "La puissance dépasse la puissance maximale de la famille de votre appel d'offre"
 
+    @NotImplemented
     Scénario: Scénario: Impossible pour le porteur d'enregistrer un changement de puissance si elle dépasse le volume réservé de l'appel d'offre
         Quand le porteur demande le changement de puissance pour le projet lauréat avec :
             | nouvelle puissance |  |
