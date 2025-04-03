@@ -6,12 +6,7 @@ import {
   LoadAggregate,
 } from '@potentiel-domain/core';
 
-import {
-  ChangementActionnaireDemandéEvent,
-  ChangementActionnaireAccordéEvent,
-  ChangementActionnaireRejetéEvent,
-  StatutChangementActionnaire,
-} from '.';
+import { StatutChangementActionnaire } from '.';
 
 import {
   ActionnaireImportéEvent,
@@ -25,6 +20,7 @@ import {
 } from './modifier/modifierActionnaire.behavior';
 import {
   accorderChangementActionnaire,
+  ChangementActionnaireAccordéEvent,
   applyChangementActionnaireAccordé,
 } from './changement/accorder/accorderChangementActionnaire.behavior';
 import {
@@ -35,21 +31,23 @@ import {
 import {
   demanderChangement,
   applyChangementActionnaireDemandé,
+  ChangementActionnaireDemandéEvent,
 } from './changement/demander/demanderChangementActionnaire.behavior';
 import {
   applyChangementActionnaireRejeté,
+  ChangementActionnaireRejetéEvent,
   rejeterChangementActionnaire,
 } from './changement/rejeter/rejeterChangementActionnaire.behavior';
-import {
-  applyChangementActionnaireSupprimé,
-  ChangementActionnaireSuppriméEvent,
-  supprimer,
-} from './changement/supprimer/supprimerChangementActionnaire.behavior';
 import {
   applyChangementActionnaireEnregistré,
   ChangementActionnaireEnregistréEvent,
   enregistrerChangement,
 } from './changement/enregistrerChangement/enregistrerChangement.behavior';
+import {
+  supprimerDemandeChangement,
+  ChangementActionnaireSuppriméEvent,
+  applyChangementActionnaireSupprimé,
+} from './changement/supprimer/supprimerChangementActionnaire.behavior';
 
 export type ActionnaireEvent =
   | ActionnaireImportéEvent
@@ -75,7 +73,7 @@ export type ActionnaireAggregate = Aggregate<ActionnaireEvent> & {
   annulerDemandeChangement: typeof annulerDemandeChangement;
   accorderChangementActionnaire: typeof accorderChangementActionnaire;
   rejeterChangementActionnaire: typeof rejeterChangementActionnaire;
-  supprimer: typeof supprimer;
+  supprimerDemandeChangement: typeof supprimerDemandeChangement;
 };
 
 export const getDefaultActionnaireAggregate: GetDefaultAggregateState<
@@ -92,7 +90,7 @@ export const getDefaultActionnaireAggregate: GetDefaultAggregateState<
   annulerDemandeChangement,
   accorderChangementActionnaire,
   rejeterChangementActionnaire,
-  supprimer,
+  supprimerDemandeChangement,
 });
 
 function apply(this: ActionnaireAggregate, event: ActionnaireEvent) {

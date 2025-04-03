@@ -23,7 +23,7 @@ export const registerSupprimerChangementActionnaireCommand = (loadAggregate: Loa
   }) => {
     const actionnaire = await load(identifiantProjet, false);
 
-    await actionnaire.supprimer({
+    await actionnaire.supprimerDemandeChangement({
       identifiantProjet,
       identifiantUtilisateur,
       dateSuppression,

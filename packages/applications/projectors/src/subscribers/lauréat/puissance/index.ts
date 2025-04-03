@@ -9,6 +9,7 @@ import { puissanceRebuilTriggeredProjector } from './puissanceRebuildTrigerred.p
 import { puissanceModifiéeProjector } from './puissanceModifiée.projector';
 import { changementPuissanceDemandéProjector } from './changementPuissanceDemandé.projector';
 import { changementPuissanceAnnuléProjector } from './changementPuissanceAnnulé.projector';
+import { changementPuissanceSuppriméProjector } from './changementPuissanceSupprimé.projector';
 
 export type SubscriptionEvent = (Puissance.PuissanceEvent & Event) | RebuildTriggered;
 
@@ -22,6 +23,7 @@ export const register = () => {
       .with({ type: 'PuissanceModifiée-V1' }, puissanceModifiéeProjector)
       .with({ type: 'ChangementPuissanceDemandé-V1' }, changementPuissanceDemandéProjector)
       .with({ type: 'ChangementPuissanceAnnulé-V1' }, changementPuissanceAnnuléProjector)
+      .with({ type: 'ChangementPuissanceSupprimé-V1' }, changementPuissanceSuppriméProjector)
       .exhaustive();
 
   mediator.register('System.Projector.Lauréat.Puissance', handler);
