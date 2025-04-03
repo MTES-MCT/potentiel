@@ -8,7 +8,8 @@
     "lint": "next lint",
     "lint:fix": "next lint --fix",
     "predev": "only-include-used-icons --silent",
-    "prebuild": "only-include-used-icons --silent"
+    "prebuild": "only-include-used-icons --silent",
+    "test": "find . -name \"*.test.ts\" -exec tsx --test {} ';'"
   },
   "dependencies": {
     "@codegouvfr/react-dsfr": "^1.20.4",

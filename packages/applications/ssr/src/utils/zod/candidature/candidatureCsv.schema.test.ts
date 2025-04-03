@@ -551,7 +551,7 @@ describe('Schema candidature', () => {
         expect(result.error.errors[0]).to.deep.eq({
           code: 'custom',
           path: ['N°, voie, lieu-dit 1', 'N°, voie, lieu-dit 2'],
-          message: `Au moins l'une des deux colonnes "N°, voie, lieu-dit 1" et "N°, voie, lieu-dit 2" doit être renseignée`,
+          message: `L'une des deux colonnes "N°, voie, lieu-dit 1" et "N°, voie, lieu-dit 2" doit être renseignée`,
         });
       });
       test('soit adresse 1 soit adresse 2 peut être spécifiée', () => {

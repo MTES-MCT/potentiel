@@ -24,6 +24,7 @@
     "@potentiel-infrastructure/pg-event-sourcing": "*",
     "@potentiel-infrastructure/pg-projection-read": "*",
     "@potentiel-libraries/file-storage": "*",
+    "@potentiel-libraries/keycloak-cjs": "*",
     "@potentiel-libraries/monads": "*",
     "@potentiel-libraries/monitoring": "*",
     "chardet": "^2.0.0",

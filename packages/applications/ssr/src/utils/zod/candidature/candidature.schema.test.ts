@@ -18,12 +18,12 @@ const minimumValues = {
   adresse2: 'Adresse 2',
   codePostal: '75001',
   commune: 'Paris',
+  departement: 'Département',
+  region: 'Région',
   statut: 'classé',
-  puissanceALaPointe: 'Oui',
+  puissanceALaPointe: 'true',
   evaluationCarboneSimplifiee: '10',
-  actionnariat: 'Public',
-  dotestRegenererAttestation: 'Non',
-  technologie: 'Eolien',
+  technologie: 'eolien',
   typeGarantiesFinancieres: 'avec-date-échéance',
   dateEcheanceGf: '01/01/2025',
 };
@@ -39,7 +39,7 @@ describe('candidatureSchema', () => {
       noteTotale: 80,
       puissanceALaPointe: true,
       evaluationCarboneSimplifiee: 10,
-      dotestRegenererAttestation: false,
+      dateEcheanceGf: new Date(minimumValues.dateEcheanceGf),
     });
   });
 
@@ -52,12 +52,14 @@ describe('candidatureSchema', () => {
     assert(result.success);
     expect(result.data).to.deep.equal({
       ...minimumValues,
+      statut: 'éliminé',
       puissanceProductionAnnuelle: 100,
       prixReference: 50,
       noteTotale: 80,
       puissanceALaPointe: true,
       evaluationCarboneSimplifiee: 10,
-      dotestRegenererAttestation: false,
+      motifElimination: 'Motif',
+      dateEcheanceGf: new Date(minimumValues.dateEcheanceGf),
     });
   });
 
