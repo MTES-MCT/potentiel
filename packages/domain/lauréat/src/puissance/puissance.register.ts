@@ -10,6 +10,8 @@ import { registerModifierPuissanceUseCase } from './modifier/modifierPuissance.u
 import { registerDemanderChangementPuissanceCommand } from './changement/demander/demanderChangementPuissance.command';
 import { registerDemanderChangementPuissanceUseCase } from './changement/demander/demanderChangementPuissance.usecase';
 import { registerConsulterChangementPuissanceQuery } from './changement/consulter/consulterChangementPuissance.query';
+import { registerAnnulerChangementPuissanceCommand } from './changement/annuler/annulerChangementPuissance.command';
+import { registerAnnulerChangementPuissanceUseCase } from './changement/annuler/annulerChangementPuissance.usecase';
 
 export type PuissanceQueryDependencies = ConsulterPuissanceDependencies;
 
@@ -20,10 +22,12 @@ export type PuissanceCommandDependencies = {
 export const registerPuissanceUseCases = ({ loadAggregate }: PuissanceCommandDependencies) => {
   registerModifierPuissanceUseCase();
   registerDemanderChangementPuissanceUseCase();
+  registerAnnulerChangementPuissanceUseCase();
 
   registerImporterPuissanceCommand(loadAggregate);
   registerModifierPuissanceCommand(loadAggregate);
   registerDemanderChangementPuissanceCommand(loadAggregate);
+  registerAnnulerChangementPuissanceCommand(loadAggregate);
 };
 
 export const registerPuissanceQueries = (dependencies: PuissanceQueryDependencies) => {

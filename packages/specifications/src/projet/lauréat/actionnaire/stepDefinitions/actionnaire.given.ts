@@ -40,7 +40,7 @@ EtantDonné(
       'lauréat',
       this.utilisateurWorld.adminFixture.email,
     );
-    await annulerChangementActionnaire.call(this, this.utilisateurWorld.drealFixture.email);
+    await annulerChangementActionnaire.call(this);
   },
 );
 

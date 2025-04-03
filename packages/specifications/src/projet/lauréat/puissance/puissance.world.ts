@@ -6,11 +6,13 @@ import { DocumentProjet } from '@potentiel-domain/document';
 import { ImporterPuissanceFixture } from './fixture/importerPuissance.fixture';
 import { ModifierPuissanceFixture } from './fixture/modifierPuissance.fixture';
 import { DemanderChangementPuissanceFixture } from './fixture/demanderChangementPuissance.fixture';
+import { AnnulerChangementPuissanceFixture } from './fixture/annulerChangementPuissance.fixture';
 
 export class PuissanceWorld {
   #importerPuissanceFixture: ImporterPuissanceFixture;
   #modifierPuissanceFixture: ModifierPuissanceFixture;
   #demanderChangementPuissanceFixture: DemanderChangementPuissanceFixture;
+  #annulerChangementPuissanceFixture: AnnulerChangementPuissanceFixture;
 
   get importerPuissanceFixture() {
     return this.#importerPuissanceFixture;
@@ -24,10 +26,15 @@ export class PuissanceWorld {
     return this.#demanderChangementPuissanceFixture;
   }
 
+  get annulerChangementPuissanceFixture() {
+    return this.#annulerChangementPuissanceFixture;
+  }
+
   constructor() {
     this.#importerPuissanceFixture = new ImporterPuissanceFixture();
     this.#modifierPuissanceFixture = new ModifierPuissanceFixture();
     this.#demanderChangementPuissanceFixture = new DemanderChangementPuissanceFixture();
+    this.#annulerChangementPuissanceFixture = new AnnulerChangementPuissanceFixture();
   }
 
   mapToExpected(

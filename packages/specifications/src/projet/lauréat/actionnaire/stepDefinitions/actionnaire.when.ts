@@ -111,7 +111,7 @@ Quand(
   "le porteur annule la demande de changement de l'actionnaire pour le projet lauréat",
   async function (this: PotentielWorld) {
     try {
-      await annulerChangementActionnaire.call(this, this.utilisateurWorld.porteurFixture.email);
+      await annulerChangementActionnaire.call(this);
     } catch (error) {
       this.error = error as Error;
     }
@@ -170,12 +170,12 @@ export async function demanderChangementActionnaire(
   });
 }
 
-export async function annulerChangementActionnaire(this: PotentielWorld, utilisateur?: string) {
+export async function annulerChangementActionnaire(this: PotentielWorld) {
   const identifiantProjet = this.lauréatWorld.identifiantProjet.formatter();
 
   const { annuléeLe, annuléePar } =
     this.lauréatWorld.actionnaireWorld.annulerChangementActionnaireFixture.créer({
-      annuléePar: utilisateur,
+      annuléePar: this.utilisateurWorld.porteurFixture.email,
     });
 
   await mediator.send<Actionnaire.ActionnaireUseCase>({

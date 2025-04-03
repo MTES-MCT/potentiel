@@ -136,6 +136,7 @@ export const setupLauréat = async ({
       'PuissanceImportée-V1',
       'PuissanceModifiée-V1',
       'ChangementPuissanceDemandé-V1',
+      'ChangementPuissanceAnnulé-V1',
     ],
     eventHandler: async (event) => {
       await mediator.send<PuissanceProjector.Execute>({

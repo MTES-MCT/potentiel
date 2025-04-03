@@ -11,6 +11,8 @@ import {
   ConsulterChangementPuissanceQuery,
   ConsulterChangementPuissanceReadModel,
 } from './changement/consulter/consulterChangementPuissance.query';
+import { AnnulerChangementPuissanceUseCase } from './changement/annuler/annulerChangementPuissance.usecase';
+import { AnnulerChangementPuissanceCommand } from './changement/annuler/annulerChangementPuissance.command';
 
 // Query
 export type PuissanceQuery = ConsulterPuissanceQuery | ConsulterChangementPuissanceQuery;
@@ -20,21 +22,35 @@ export type { ConsulterPuissanceQuery, ConsulterChangementPuissanceQuery };
 export type { ConsulterPuissanceReadModel, ConsulterChangementPuissanceReadModel };
 
 // UseCase
-export type PuissanceUseCase = ModifierPuissanceUseCase | DemanderChangementUseCase;
-export type { ModifierPuissanceUseCase, DemanderChangementUseCase };
+export type PuissanceUseCase =
+  | ModifierPuissanceUseCase
+  | DemanderChangementUseCase
+  | AnnulerChangementPuissanceUseCase;
+export type {
+  ModifierPuissanceUseCase,
+  DemanderChangementUseCase,
+  AnnulerChangementPuissanceUseCase,
+};
 
 // Command
 export type PuissanceCommand =
   | ImporterPuissanceCommand
   | ModifierPuissanceCommand
-  | DemanderChangementCommand;
-export type { ImporterPuissanceCommand, ModifierPuissanceCommand, DemanderChangementCommand };
+  | DemanderChangementCommand
+  | AnnulerChangementPuissanceCommand;
+export type {
+  ImporterPuissanceCommand,
+  ModifierPuissanceCommand,
+  DemanderChangementCommand,
+  AnnulerChangementPuissanceCommand,
+};
 
 // Event
 export type { PuissanceEvent } from './puissance.aggregate';
 export type { PuissanceImportéeEvent } from './importer/importerPuissance.behavior';
 export type { PuissanceModifiéeEvent } from './modifier/modifierPuissance.behavior';
 export type { ChangementPuissanceDemandéEvent } from './changement/demander/demanderChangementPuissance.behavior';
+export type { ChangementPuissanceAnnuléEvent } from './changement/annuler/annulerChangementPuissance.behavior';
 
 // Entities
 export * from './puissance.entity';
