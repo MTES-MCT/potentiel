@@ -93,6 +93,26 @@ Alors(
   },
 );
 
+Alors(
+  'la demande de changement de puissance ne devrait plus être consultable',
+  async function (this: PotentielWorld) {
+    return waitForExpect(async () => {
+      const identifiantProjet = IdentifiantProjet.convertirEnValueType(
+        this.candidatureWorld.importerCandidature.identifiantProjet,
+      );
+
+      const actual = await mediator.send<Puissance.ConsulterPuissanceQuery>({
+        type: 'Lauréat.Puissance.Query.ConsulterPuissance',
+        data: {
+          identifiantProjet: identifiantProjet.formatter(),
+        },
+      });
+
+      expect(Option.isSome(actual) && actual.dateDemandeEnCours).to.be.undefined;
+    });
+  },
+);
+
 async function vérifierChangementPuissance(
   this: PotentielWorld,
   identifiantProjet: string,

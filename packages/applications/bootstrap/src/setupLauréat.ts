@@ -367,12 +367,25 @@ export const setupLauréat = async ({
       }),
   });
 
-  const unsubscribePuissanceSaga = await subscribe<
+  const unsubscribePuissanceSagaLauréat = await subscribe<
     Puissance.PuissanceSaga.SubscriptionEvent & Event
   >({
     name: 'puissance-laureat-saga',
     streamCategory: 'lauréat',
     eventType: ['LauréatNotifié-V2'],
+    eventHandler: async (event) =>
+      mediator.publish<Puissance.PuissanceSaga.Execute>({
+        type: 'System.Lauréat.Puissance.Saga.Execute',
+        data: event,
+      }),
+  });
+
+  const unsubscribePuissanceSagaAbandon = await subscribe<
+    Puissance.PuissanceSaga.SubscriptionEvent & Event
+  >({
+    name: 'puissance-abandon-saga',
+    streamCategory: 'abandon',
+    eventType: ['AbandonAccordé-V1'],
     eventHandler: async (event) =>
       mediator.publish<Puissance.PuissanceSaga.Execute>({
         type: 'System.Lauréat.Puissance.Saga.Execute',
@@ -511,6 +524,7 @@ export const setupLauréat = async ({
     await unsubscribeActionnaireSagaAbandon();
     await unsubscribeRaccordementAbandonSaga();
     await unsubscribeRaccordementLauréatSaga();
-    await unsubscribePuissanceSaga();
+    await unsubscribePuissanceSagaLauréat();
+    await unsubscribePuissanceSagaAbandon();
   };
 };
