@@ -25,6 +25,7 @@ import {
   communeSchema,
   départementSchema,
   régionSchema,
+  choixCoefficientKSchema,
 } from './candidatureFields.schema';
 
 /** Schema simplifié pour utilisation sans données Csv */
@@ -54,6 +55,7 @@ export const candidatureSchema = z
     technologie: technologieSchema,
     typeGarantiesFinancieres: typeGarantiesFinancieresSchema, // see refine below
     dateEcheanceGf: dateEchéanceGfSchema, // see refine below
+    coefficientKChoisi: choixCoefficientKSchema,
   })
   // le motif d'élimination est obligatoire si la candidature est éliminée
   .superRefine((obj, ctx) => {

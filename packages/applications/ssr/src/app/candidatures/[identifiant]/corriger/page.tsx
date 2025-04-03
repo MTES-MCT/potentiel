@@ -1,9 +1,11 @@
 import { Metadata, ResolvingMetadata } from 'next';
 import { mediator } from 'mediateur';
+import { notFound } from 'next/navigation';
 
 import { Candidature } from '@potentiel-domain/candidature';
 import { Lauréat } from '@potentiel-domain/laureat';
 import { Option } from '@potentiel-libraries/monads';
+import { AppelOffre } from '@potentiel-domain/appel-offre';
 
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
@@ -40,8 +42,21 @@ export default async function Page({ params }: PageProps) {
         identifiantProjet,
       },
     });
+    const appelOffre = await mediator.send<AppelOffre.ConsulterAppelOffreQuery>({
+      type: 'AppelOffre.Query.ConsulterAppelOffre',
+      data: {
+        identifiantAppelOffre: candidature.identifiantProjet.appelOffre,
+      },
+    });
+    if (Option.isNone(appelOffre)) {
+      return notFound();
+    }
+    const période = appelOffre.periodes.find((p) => p.id === candidature.identifiantProjet.période);
+    if (!période) {
+      return notFound();
+    }
 
-    const props = mapToProps(candidature, lauréat);
+    const props = mapToProps(candidature, lauréat, appelOffre, période);
 
     return (
       <CorrigerCandidaturePage
@@ -49,7 +64,7 @@ export default async function Page({ params }: PageProps) {
         aUneAttestation={props.aUneAttestation}
         estNotifiée={props.estNotifiée}
         estLauréat={props.estLauréat}
-        isCRE4ZNI={props.isCRE4ZNI}
+        champsSpéciaux={props.champsSpéciaux}
       />
     );
   });
@@ -57,9 +72,11 @@ export default async function Page({ params }: PageProps) {
 type MapToProps = (
   candidature: Candidature.ConsulterCandidatureReadModel,
   lauréat: Option.Type<Lauréat.ConsulterLauréatReadModel>,
+  appelOffre: AppelOffre.AppelOffreReadModel,
+  période: AppelOffre.Periode,
 ) => CorrigerCandidaturePageProps;
 
-const mapToProps: MapToProps = (candidature, lauréat) => ({
+const mapToProps: MapToProps = (candidature, lauréat, appelOffre, période) => ({
   candidature: {
     identifiantProjet: candidature.identifiantProjet.formatter(),
     statut: candidature.statut.formatter(),
@@ -84,9 +101,13 @@ const mapToProps: MapToProps = (candidature, lauréat) => ({
     technologie: candidature.technologie.formatter(),
     typeGarantiesFinancieres: candidature.typeGarantiesFinancières?.type,
     dateEcheanceGf: candidature.dateÉchéanceGf?.date,
+    coefficientKChoisi: candidature.coefficientKChoisi,
   },
   estNotifiée: !!candidature.notification,
   aUneAttestation: !!candidature.notification?.attestation,
   estLauréat: Option.isSome(lauréat),
-  isCRE4ZNI: candidature.identifiantProjet.appelOffre.startsWith('CRE4 - ZNI'),
+  champsSpéciaux: {
+    coefficientKChoisi: période.choixCoefficientKDisponible ?? false,
+    puissanceALaPointe: appelOffre.puissanceALaPointeDisponible ?? false,
+  },
 });

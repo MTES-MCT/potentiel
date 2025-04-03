@@ -54,6 +54,7 @@ type ProjectDetailsProps = {
   puissance?: InfoGeneralesProps['puissance'];
   hasAttestationConformité: boolean;
   modificationsNonPermisesParLeCDCActuel: boolean;
+  coefficientKChoisi: boolean | undefined;
 };
 
 export const ProjectDetails = ({
@@ -70,6 +71,7 @@ export const ProjectDetails = ({
   garantiesFinancières,
   puissance,
   modificationsNonPermisesParLeCDCActuel,
+  coefficientKChoisi,
 }: ProjectDetailsProps) => {
   const { user } = request;
   const { error, success } = (request.query as any) || {};
@@ -143,6 +145,7 @@ export const ProjectDetails = ({
               actionnaire={actionnaire}
               puissance={puissance}
               modificationsNonPermisesParLeCDCActuel={modificationsNonPermisesParLeCDCActuel}
+              coefficientKChoisi={coefficientKChoisi}
             />
             <Contact
               identifiantProjet={identifiantProjet}

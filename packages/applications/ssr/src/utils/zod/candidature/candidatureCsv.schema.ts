@@ -32,6 +32,7 @@ import {
   territoireProjetSchema,
   notifiedOnCsvSchema,
   codePostalSchema,
+  choixCoefficientKCsvSchema,
 } from './candidatureFields.schema';
 
 // Order matters! the CSV uses "1"/"2"/"3"
@@ -94,6 +95,7 @@ const colonnes = {
   historiqueAbandon:
     "1. Lauréat d'aucun AO\n2. Abandon classique\n3. Abandon avec recandidature\n4. Lauréat d'un AO",
   territoireProjet: 'Territoire\n(AO ZNI)',
+  coefficientKChoisi: 'indexation_k',
 } as const;
 
 const candidatureCsvRowSchema = z
@@ -128,6 +130,7 @@ const candidatureCsvRowSchema = z
     [colonnes.typeGf]: typeGarantiesFinancieresCsvSchema, // see refine below
     [colonnes.dateÉchéanceGf]: dateEchéanceGfCsvSchema, // see refine below
     [colonnes.territoireProjet]: territoireProjetSchema, // see refines below
+    [colonnes.coefficientKChoisi]: choixCoefficientKCsvSchema,
     notifiedOn: notifiedOnCsvSchema,
   })
   // le motif d'élimination est obligatoire si la candidature est éliminée

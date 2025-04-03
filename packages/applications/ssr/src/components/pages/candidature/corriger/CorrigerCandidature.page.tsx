@@ -15,7 +15,6 @@ import { CorrigerCandidatureForm, CorrigerCandidatureFormProps } from './Corrige
 export type CorrigerCandidaturePageProps = CorrigerCandidatureFormProps & {
   estNotifiée: boolean;
   estLauréat: boolean;
-  isCRE4ZNI: boolean;
 };
 
 export const CorrigerCandidaturePage: React.FC<CorrigerCandidaturePageProps> = ({
@@ -23,7 +22,7 @@ export const CorrigerCandidaturePage: React.FC<CorrigerCandidaturePageProps> = (
   estNotifiée,
   aUneAttestation,
   estLauréat,
-  isCRE4ZNI,
+  champsSpéciaux,
 }) => {
   const identifiantProjet = IdentifiantProjet.convertirEnValueType(candidature.identifiantProjet);
 
@@ -49,7 +48,7 @@ export const CorrigerCandidaturePage: React.FC<CorrigerCandidaturePageProps> = (
             candidature={candidature}
             estNotifiée={estNotifiée}
             aUneAttestation={aUneAttestation}
-            isCRE4ZNI={isCRE4ZNI}
+            champsSpéciaux={champsSpéciaux}
           />
         ),
       }}

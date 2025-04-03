@@ -31,6 +31,7 @@ export const ouiNonSchema = z
   .pipe(z.enum(['oui', 'non']))
   .transform((val) => val === 'oui');
 
+/** Retourne false en l'absence de valeur */
 export const optionalOuiNonSchema = z
   .string()
   .transform((str) => str.toLowerCase())
@@ -38,6 +39,15 @@ export const optionalOuiNonSchema = z
   .transform((val) => val ?? undefined)
   .optional()
   .transform((val) => val === 'oui');
+
+/** Retourne undefined en l'absence de valeur */
+export const optionalOuiNonVideSchema = z
+  .string()
+  .transform((str) => str.toLowerCase())
+  .pipe(z.enum(['oui', 'non', '']))
+  .transform((val) => val ?? undefined)
+  .optional()
+  .transform((val) => (val === 'oui' ? true : val === 'non' ? false : undefined));
 
 export const dateSchema = z
   .string()

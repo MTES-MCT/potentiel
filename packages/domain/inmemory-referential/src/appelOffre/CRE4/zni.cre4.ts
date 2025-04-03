@@ -153,6 +153,7 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
 `,
     },
   },
+  puissanceALaPointeDisponible: true,
   periodes: [
     {
       id: '1',

@@ -1,7 +1,10 @@
 import { Metadata } from 'next';
+import { mediator } from 'mediateur';
+import { notFound } from 'next/navigation';
 
 import { Candidature } from '@potentiel-domain/candidature';
-import { IdentifiantProjet } from '@potentiel-domain/common';
+import { AppelOffre } from '@potentiel-domain/appel-offre';
+import { Option } from '@potentiel-libraries/monads';
 
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
@@ -25,17 +28,30 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
     withUtilisateur(async () => {
       const identifiantProjet = decodeParameter(identifiant);
       const candidature = await getCandidature(identifiantProjet);
-      const lauréat = await getLauréat({
-        identifiantProjet,
+      const lauréat = await getLauréat({ identifiantProjet });
+      const appelOffres = await mediator.send<AppelOffre.ConsulterAppelOffreQuery>({
+        type: 'AppelOffre.Query.ConsulterAppelOffre',
+        data: {
+          identifiantAppelOffre: candidature.identifiantProjet.appelOffre,
+        },
       });
-
-      const props = mapToProps(candidature, lauréat, identifiantProjet);
+      if (Option.isNone(appelOffres)) {
+        return notFound();
+      }
+      const période = appelOffres.periodes.find(
+        (p) => p.id === candidature.identifiantProjet.période,
+      );
+      if (!période) {
+        return notFound();
+      }
+      const props = mapToProps(candidature, lauréat, appelOffres, période);
 
       return (
         <ModifierLauréatPage
           candidature={props.candidature}
           lauréat={props.lauréat}
           projet={props.projet}
+          champsSpéciaux={props.champsSpéciaux}
         />
       );
     }),
@@ -45,10 +61,11 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
 type MapToProps = (
   candidature: Candidature.ConsulterCandidatureReadModel,
   lauréat: GetLauréat,
-  identifiantProjet: string,
+  appelOffres: AppelOffre.AppelOffreReadModel,
+  période: AppelOffre.Periode,
 ) => ModifierLauréatPageProps;
 
-const mapToProps: MapToProps = (candidature, lauréat, identifiantProjet) => ({
+const mapToProps: MapToProps = (candidature, lauréat, appelOffres, période) => ({
   candidature: {
     actionnaire: candidature.sociétéMère,
     nomRepresentantLegal: candidature.nomReprésentantLégal,
@@ -68,6 +85,7 @@ const mapToProps: MapToProps = (candidature, lauréat, identifiantProjet) => ({
     actionnariat: candidature.actionnariat?.type,
     puissanceALaPointe: candidature.puissanceALaPointe,
     puissanceProductionAnnuelle: candidature.puissanceProductionAnnuelle,
+    coefficientKChoisi: candidature.coefficientKChoisi,
   },
   lauréat: {
     actionnaire: {
@@ -115,9 +133,11 @@ const mapToProps: MapToProps = (candidature, lauréat, identifiantProjet) => ({
   },
   projet: {
     nomProjet: candidature.nomProjet,
-    identifiantProjet,
-    isCRE4ZNI:
-      IdentifiantProjet.convertirEnValueType(identifiantProjet).appelOffre.startsWith('CRE4 - ZNI'),
-    isPPE2: IdentifiantProjet.convertirEnValueType(identifiantProjet).appelOffre.startsWith('PPE2'),
+    identifiantProjet: candidature.identifiantProjet.formatter(),
+    isPPE2: appelOffres.cycleAppelOffre === 'PPE2',
+  },
+  champsSpéciaux: {
+    coefficientKChoisi: période.choixCoefficientKDisponible ?? false,
+    puissanceALaPointe: appelOffres.puissanceALaPointeDisponible ?? false,
   },
 });

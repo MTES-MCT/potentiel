@@ -11,13 +11,17 @@ import { Form } from '@/components/atoms/form/Form';
 import { SubmitButton } from '@/components/atoms/form/SubmitButton';
 import { FormRow } from '@/components/atoms/form/FormRow';
 import { Heading3 } from '@/components/atoms/headings';
-import { ModifierLauréatEtCandidatureNotifiéeFormEntries } from '@/utils/zod/candidature';
+import {
+  ModifierCandidatureNotifiéeFormEntries,
+  ModifierLauréatEtCandidatureNotifiéeFormEntries,
+  ModifierLauréatKeys,
+  ModifierLauréatValueFormEntries,
+} from '@/utils/zod/candidature';
 
 import { ValidationErrors } from '../../../../utils/formAction';
 import { FormAlertError } from '../../../atoms/form/FormAlertError';
 
 import { modifierLauréatAction } from './modifierLauréat.action';
-import { ModifierLauréatPageProps } from './ModifierLauréat.page';
 import { ProjectField } from './components/fields/ProjectField';
 import { TechnologieField } from './components/fields/TechnologieField';
 import { ActionnariatField } from './components/fields/ActionnariatField';
@@ -25,8 +29,28 @@ import { LocalitéField } from './components/fields/LocalitéField';
 import { PuissanceALaPointeField } from './components/fields/PuissanceALaPointeField ';
 import { AttestationField } from './components/fields/AttestationField';
 import { CandidatureField } from './components/fields/CandidatureField';
+import { CoefficientKField } from './components/fields/CoefficientKField';
 
-export type ModifierLauréatFormProps = ModifierLauréatPageProps;
+type ModifierLauréatFormEntries = {
+  [K in ModifierLauréatKeys]: {
+    currentValue: ModifierLauréatValueFormEntries[K];
+    estEnCoursDeModification: boolean;
+  };
+};
+
+export type ModifierLauréatFormProps = {
+  candidature: ModifierCandidatureNotifiéeFormEntries;
+  lauréat: ModifierLauréatFormEntries;
+  projet: {
+    identifiantProjet: string;
+    nomProjet: string;
+    isPPE2: boolean;
+  };
+  champsSpéciaux: {
+    puissanceALaPointe: boolean;
+    coefficientKChoisi: boolean;
+  };
+};
 export type FieldValidationErrors =
   ValidationErrors<ModifierLauréatEtCandidatureNotifiéeFormEntries>;
 
@@ -34,6 +58,7 @@ export const ModifierLauréatForm: React.FC<ModifierLauréatFormProps> = ({
   candidature,
   lauréat,
   projet,
+  champsSpéciaux,
 }) => {
   const [validationErrors, setValidationErrors] = useState<FieldValidationErrors>({});
 
@@ -183,7 +208,7 @@ export const ModifierLauréatForm: React.FC<ModifierLauréatFormProps> = ({
             />
           </div>
         </FormRow>
-        {projet.isCRE4ZNI && (
+        {champsSpéciaux.puissanceALaPointe && (
           <FormRow>
             <PuissanceALaPointeField
               candidature={candidature.puissanceALaPointe}
@@ -193,6 +218,18 @@ export const ModifierLauréatForm: React.FC<ModifierLauréatFormProps> = ({
             />
           </FormRow>
         )}
+
+        {champsSpéciaux.coefficientKChoisi && (
+          <FormRow>
+            <CoefficientKField
+              candidature={candidature.coefficientKChoisi ?? false}
+              label="Choix du coefficient K"
+              name="coefficientKChoisi"
+              validationErrors={validationErrors}
+            />
+          </FormRow>
+        )}
+
         <FormRow>
           <CandidatureField
             candidature={candidature.evaluationCarboneSimplifiee}

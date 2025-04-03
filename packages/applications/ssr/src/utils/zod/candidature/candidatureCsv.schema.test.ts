@@ -84,6 +84,7 @@ describe('Schema candidature', () => {
       dateÉchéanceGf: undefined,
       historiqueAbandon: 'première-candidature',
       territoireProjet: '',
+      coefficientKChoisi: undefined,
     });
   });
 
@@ -122,6 +123,7 @@ describe('Schema candidature', () => {
       dateÉchéanceGf: new Date('2024-12-01T00:00:00.000Z'),
       historiqueAbandon: 'première-candidature',
       territoireProjet: '',
+      coefficientKChoisi: undefined,
     });
   });
 
@@ -270,6 +272,22 @@ describe('Schema candidature', () => {
         path: ['Gouvernance partagée (Oui/Non)'],
         message: "Invalid enum value. Expected 'oui' | 'non', received 'peut-être'",
       });
+    });
+
+    test('oui/non/undefined avec valeur', () => {
+      const result = candidatureCsvSchema.safeParse({
+        ...minimumValuesEliminé,
+        indexation_k: 'oui',
+      });
+      expect(result.data?.coefficientKChoisi).to.equal(true);
+    });
+
+    test('oui/non/undefined sans valeur', () => {
+      const result = candidatureCsvSchema.safeParse({
+        ...minimumValuesEliminé,
+        indexation_k: '',
+      });
+      expect(result.data?.coefficientKChoisi).to.equal(undefined);
     });
 
     test('Enum avec valeur invalide', () => {
@@ -542,7 +560,7 @@ describe('Schema candidature', () => {
       });
     });
     describe('Adresse', () => {
-      test('au minimum un champs doit être spécifiée', () => {
+      test('au minimum un champs doit être spécifié', () => {
         const result = candidatureCsvSchema.safeParse({
           ...minimumValuesClassé,
           'N°, voie, lieu-dit 1': undefined,

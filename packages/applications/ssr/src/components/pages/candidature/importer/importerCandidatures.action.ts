@@ -124,5 +124,6 @@ const mapLineToUseCaseData = (
       : undefined,
   dateÉchéanceGfValue: line.dateÉchéanceGf?.toISOString(),
   territoireProjetValue: line.territoireProjet,
+  coefficientKChoisiValue: line.coefficientKChoisi,
   détailsValue: removeEmptyValues(rawLine),
 });

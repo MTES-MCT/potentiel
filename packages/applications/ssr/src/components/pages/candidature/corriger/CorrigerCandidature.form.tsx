@@ -30,14 +30,17 @@ export type CorrigerCandidatureFormProps = {
   candidature: CorrigerCandidatureFormEntries;
   estNotifiée: boolean;
   aUneAttestation: boolean;
-  isCRE4ZNI: boolean;
+  champsSpéciaux: {
+    puissanceALaPointe: boolean;
+    coefficientKChoisi: boolean;
+  };
 };
 
 export const CorrigerCandidatureForm: React.FC<CorrigerCandidatureFormProps> = ({
   candidature,
   estNotifiée,
   aUneAttestation,
-  isCRE4ZNI,
+  champsSpéciaux,
 }) => {
   const [validationErrors, setValidationErrors] = useState<
     ValidationErrors<keyof CorrigerCandidatureFormEntries>
@@ -292,7 +295,7 @@ export const CorrigerCandidatureForm: React.FC<CorrigerCandidatureFormProps> = (
           step: 0.1,
         }}
       />
-      {isCRE4ZNI && (
+      {champsSpéciaux.puissanceALaPointe && (
         <Checkbox
           state={validationErrors['puissanceALaPointe'] ? 'error' : 'default'}
           stateRelatedMessage={validationErrors['puissanceALaPointe']}
@@ -392,6 +395,25 @@ export const CorrigerCandidatureForm: React.FC<CorrigerCandidatureFormProps> = (
           />
         </>
       )}
+      {champsSpéciaux.coefficientKChoisi && (
+        <Select
+          state={validationErrors['coefficientKChoisi'] ? 'error' : 'default'}
+          stateRelatedMessage={validationErrors['coefficientKChoisi']}
+          id="coefficientKChoisi"
+          label={'Choix du coefficient K'}
+          nativeSelectProps={{
+            name: 'coefficientKChoisi',
+            defaultValue: candidature.coefficientKChoisi ? 'true' : 'false',
+            required: true,
+            'aria-required': true,
+          }}
+          options={[
+            { label: 'Oui', value: 'true' },
+            { label: 'Non', value: 'false' },
+          ]}
+        />
+      )}
+
       <RadioButtons
         state={validationErrors['doitRegenererAttestation'] ? 'error' : 'default'}
         stateRelatedMessage={validationErrors['doitRegenererAttestation']}

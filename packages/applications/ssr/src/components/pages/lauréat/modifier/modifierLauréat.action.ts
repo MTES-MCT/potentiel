@@ -143,6 +143,7 @@ const mapBodyToCandidatureUsecaseData = (
       data.evaluationCarboneSimplifiee ?? previous.evaluationCarboneSimplifiée,
     actionnariatValue: data.actionnariat ?? previous.actionnariat?.formatter(),
     doitRégénérerAttestation: data.doitRegenererAttestation ? true : undefined,
+    coefficientKChoisiValue: data.coefficientKChoisi ?? previous.coefficientKChoisi,
     // non-editable fields
     motifÉliminationValue: previous.motifÉlimination,
     statutValue: previous.statut.formatter(),
