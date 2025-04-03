@@ -3,7 +3,6 @@ Fonctionnalité: Passer le recours d'un projet éliminé en instruction
 
     Contexte:
         Etant donné le projet éliminé "Du boulodrome de Marseille"
-        Et le porteur "Marcel Patoulatchi" ayant accés au projet éliminé "Du boulodrome de Marseille"
 
     Scénario: Un administrateur passe le recours d'un projet éliminé en instruction
         Etant donné une demande de recours en cours pour le projet éliminé

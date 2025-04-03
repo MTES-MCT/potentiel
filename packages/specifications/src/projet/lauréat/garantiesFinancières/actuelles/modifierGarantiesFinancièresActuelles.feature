@@ -3,7 +3,6 @@ Fonctionnalité: Modifier des garanties financières actuelles
 
     Contexte:
         Etant donné le projet lauréat "Du boulodrome de Marseille"
-        Et le porteur "Marcel Patoulatchi" ayant accés au projet lauréat "Du boulodrome de Marseille"
 
     Plan du Scénario: Un admin modifie des garanties financières actuelles
         Etant donné des garanties financières actuelles pour le projet "Du boulodrome de Marseille" avec :

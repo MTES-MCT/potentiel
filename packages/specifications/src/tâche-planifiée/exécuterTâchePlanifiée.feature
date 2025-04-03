@@ -6,8 +6,6 @@ Fonctionnalité: Exécuter une tâche planifiée
             | type GF         | avec-date-échéance |
             | date d'échéance | 2024-01-01         |
 
-        Et le porteur "Marcel Patoulatchi" ayant accés au projet lauréat "Du boulodrome de Marseille"
-
     Scénario: Une tâche planifiée est exécutée
         Etant donné une tâche "planifiée" pour le projet "Du boulodrome de Marseille" avec :
             | type             | échoir les garanties financières |

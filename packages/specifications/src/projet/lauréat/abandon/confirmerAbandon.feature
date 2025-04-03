@@ -3,7 +3,6 @@ Fonctionnalité: Conformer l'abandon d'un projet lauréat
 
     Contexte:
         Etant donné le projet lauréat "Du boulodrome de Marseille"
-        Et le porteur "Marcel Patoulatchi" ayant accés au projet lauréat "Du boulodrome de Marseille"
 
     Scénario: Un porteur confirme l'abandon d'un projet lauréat
         Etant donné une confirmation d'abandon demandée pour le projet lauréat

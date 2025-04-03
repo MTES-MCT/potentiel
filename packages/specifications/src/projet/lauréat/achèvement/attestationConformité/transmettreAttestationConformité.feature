@@ -3,7 +3,6 @@ Fonctionnalité: Transmettre une attestation de conformité
 
     Contexte:
         Etant donné le projet lauréat "Du boulodrome de Marseille"
-        Et le porteur "Marcel Patoulatchi" ayant accés au projet lauréat "Du boulodrome de Marseille"
         Et la dreal "Dreal du sud" associée à la région du projet
 
     Scénario: le porteur transmet une attestation de conformité pour le projet lauréat

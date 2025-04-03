@@ -3,7 +3,6 @@ Fonctionnalité: Passer un abandon d'un projet lauréat en instruction
 
     Contexte:
         Etant donné le projet lauréat "Du boulodrome de Marseille"
-        Et le porteur "Marcel Patoulatchi" ayant accés au projet lauréat "Du boulodrome de Marseille"
 
     Scénario: Un administrateur passe l'abandon d'un projet lauréat en instruction
         Etant donné une demande d'abandon en cours pour le projet lauréat

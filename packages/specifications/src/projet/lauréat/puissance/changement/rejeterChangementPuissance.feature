@@ -5,7 +5,6 @@ Fonctionnalité: Rejeter la demande de changement de puissance d'un projet laur�
         Etant donné le projet lauréat "Du boulodrome de Marseille" avec :
             | appel d'offre | PPE2 - Eolien |
             | période       | 1             |
-        Et le porteur "Marcel Patoulatchi" ayant accés au projet lauréat "Du boulodrome de Marseille"
         Et la dreal "Dreal du sud" associée à la région du projet
 
     Scénario: la DREAL associée au projet rejette le changement de puissance d'un projet lauréat
