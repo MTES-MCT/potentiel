@@ -25,7 +25,7 @@ export class ImporterPuissanceFixture
 
   créer(partialFixture?: Partial<Readonly<ImporterPuissance>>): Readonly<ImporterPuissance> {
     const fixture = {
-      puissance: faker.number.float({ min: 0.1, max: 3 }),
+      puissance: faker.number.float({ min: 0.1, max: 3, multipleOf: 0.01 }),
       importéeLe: faker.date.recent().toISOString(),
       ...partialFixture,
     };

@@ -1,7 +1,7 @@
 import { DateTime } from '@potentiel-domain/common';
 import { Entity } from '@potentiel-domain/entity';
 
-import { StatutChangementPuissance } from '..';
+import { RatioChangementPuissance, StatutChangementPuissance } from '..';
 
 export type ChangementPuissanceEntity = Entity<
   'changement-puissance',
@@ -10,11 +10,12 @@ export type ChangementPuissanceEntity = Entity<
 
     demande: {
       nouvellePuissance: number;
+      autoritéCompétente: RatioChangementPuissance.AutoritéCompétente;
       statut: StatutChangementPuissance.RawType;
       demandéePar: string;
       demandéeLe: DateTime.RawType;
-      raison?: string;
-      pièceJustificative?: {
+      raison: string;
+      pièceJustificative: {
         format: string;
       };
 

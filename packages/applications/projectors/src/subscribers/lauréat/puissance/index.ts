@@ -7,6 +7,7 @@ import { Puissance } from '@potentiel-domain/laureat';
 import { puissanceImportéeProjector } from './puissanceImportée.projector';
 import { puissanceRebuilTriggeredProjector } from './puissanceRebuildTrigerred.projector';
 import { puissanceModifiéeProjector } from './puissanceModifiée.projector';
+import { changementPuissanceDemandéProjector } from './changementPuissanceDemandé.projector';
 
 export type SubscriptionEvent = (Puissance.PuissanceEvent & Event) | RebuildTriggered;
 
@@ -18,6 +19,7 @@ export const register = () => {
       .with({ type: 'RebuildTriggered' }, puissanceRebuilTriggeredProjector)
       .with({ type: 'PuissanceImportée-V1' }, puissanceImportéeProjector)
       .with({ type: 'PuissanceModifiée-V1' }, puissanceModifiéeProjector)
+      .with({ type: 'ChangementPuissanceDemandé-V1' }, changementPuissanceDemandéProjector)
       .exhaustive();
 
   mediator.register('System.Projector.Lauréat.Puissance', handler);
