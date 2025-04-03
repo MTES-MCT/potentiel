@@ -2,15 +2,14 @@ import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
 import { DomainEvent } from '@potentiel-domain/core';
 import { DocumentProjet } from '@potentiel-domain/document';
 
-import {
-  ProjetAbandonnéError,
-  ProjetAchevéError,
-  ProjetAvecDemandeAbandonEnCoursError,
-  PuissanceIdentiqueError,
-  PuissanceNulleOuNégativeError,
-} from '../../errors';
+import { PuissanceIdentiqueError, PuissanceNulleOuNégativeError } from '../../errors';
 import { RatioChangementPuissance, StatutChangementPuissance } from '../..';
 import { PuissanceAggregate } from '../../puissance.aggregate';
+import {
+  ProjetAbandonnéError,
+  ProjetAvecDemandeAbandonEnCoursError,
+  ProjetAchevéError,
+} from '../errors';
 
 export type ChangementPuissanceDemandéEvent = DomainEvent<
   'ChangementPuissanceDemandé-V1',
