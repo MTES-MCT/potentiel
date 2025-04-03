@@ -3,7 +3,6 @@ Fonctionnalité: Échoir les garanties financières actuelles d'un projet
 
     Contexte:
         Etant donné le projet lauréat "Du boulodrome de Marseille"
-        Et le porteur "Marcel Patoulatchi" ayant accés au projet lauréat "Du boulodrome de Marseille"
         Et la dreal "Dreal du sud" associée à la région du projet
 
     Scénario: Échoir les garanties financières actuelles d'un projet à J+1 après la date d'échéance

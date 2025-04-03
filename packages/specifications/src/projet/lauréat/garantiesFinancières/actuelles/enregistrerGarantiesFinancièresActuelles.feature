@@ -3,7 +3,6 @@ Fonctionnalité: Enregistrer des garanties financières actuelles
 
     Contexte:
         Etant donné le projet lauréat sans garanties financières importées "Du boulodrome de Marseille"
-        Et le porteur "Marcel Patoulatchi" ayant accés au projet lauréat "Du boulodrome de Marseille"
 
     Plan du Scénario: Un admin enregistre des garanties financières actuelles pour un projet ayant des garanties financières en attente
         Etant donné des garanties financières en attente pour le projet "Du boulodrome de Marseille" avec :
