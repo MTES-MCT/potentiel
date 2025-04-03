@@ -1,8 +1,9 @@
-import { récupérerDrealsParIdentifiantProjetAdapter } from '@potentiel-infrastructure/domain-adapters';
-import { IdentifiantProjet } from '@potentiel-domain/common';
+import { IdentifiantProjet } from '@potentiel-domain/projet';
 import { getLogger } from '@potentiel-libraries/monitoring';
 import { Routes } from '@potentiel-applications/routes';
 import { Actionnaire } from '@potentiel-domain/laureat';
+
+import { listerDrealsRecipients } from '../../../helpers/listerDrealsRecipients';
 
 import { RegisterActionnaireNotificationDependencies } from '.';
 
@@ -13,6 +14,7 @@ type ChangementActionnaireEnregistréNotificationsProps = {
   event: Actionnaire.ChangementActionnaireEnregistréEvent;
   projet: {
     nom: string;
+    région: string;
     département: string;
   };
   baseUrl: string;
@@ -25,7 +27,7 @@ export const changementActionnaireEnregistréNotifications = async ({
   baseUrl,
 }: ChangementActionnaireEnregistréNotificationsProps) => {
   const identifiantProjet = IdentifiantProjet.convertirEnValueType(event.payload.identifiantProjet);
-  const dreals = await récupérerDrealsParIdentifiantProjetAdapter(identifiantProjet);
+  const dreals = await listerDrealsRecipients(projet.région);
 
   if (dreals.length === 0) {
     getLogger().error('Aucune dreal trouvé(e)', {
