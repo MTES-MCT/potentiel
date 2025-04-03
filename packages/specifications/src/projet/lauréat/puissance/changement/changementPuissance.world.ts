@@ -30,7 +30,7 @@ export class ChangementPuissanceWorld {
     this.#annulerChangementPuissanceFixture = new AnnulerChangementPuissanceFixture();
   }
 
-  mapToDemandeExpected({
+  mapToExpected({
     identifiantProjet,
     statut,
     puissanceActuelle,

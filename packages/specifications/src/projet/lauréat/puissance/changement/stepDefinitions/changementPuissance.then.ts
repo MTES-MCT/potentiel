@@ -61,7 +61,7 @@ async function vérifierChangementPuissance(
   const actual = mapToPlainObject(demandeEnCours);
 
   const expected = mapToPlainObject(
-    this.lauréatWorld.puissanceWorld.changementPuissanceWorld.mapToDemandeExpected({
+    this.lauréatWorld.puissanceWorld.changementPuissanceWorld.mapToExpected({
       identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
       puissanceActuelle: this.lauréatWorld.puissanceWorld.importerPuissanceFixture.puissance,
       statut,
