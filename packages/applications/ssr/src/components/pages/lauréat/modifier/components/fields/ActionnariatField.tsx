@@ -4,11 +4,17 @@ import Input from '@codegouvfr/react-dsfr/Input';
 
 import { Candidature } from '@potentiel-domain/candidature';
 
-import { getActionnariatTypeLabel } from '../../../candidature/helpers/getActionnariatTypeLabel';
+import { getActionnariatTypeLabel } from '../../../../candidature/helpers/getActionnariatTypeLabel';
+import { LinkedValuesButton } from '../LinkedValuesButton';
+import { FieldValidationErrors } from '../../ModifierLauréat.form';
 
-import { CandidatureFieldProps, LinkedValuesButton } from './ModifierLauréatFields';
-
-type Props = CandidatureFieldProps<string> & { isPPE2: boolean };
+type ActionnariatFieldProps = {
+  candidature: string;
+  name: 'actionnariat';
+  label: string;
+  validationErrors: FieldValidationErrors;
+  isPPE2: boolean;
+};
 
 export const ActionnariatField = ({
   candidature,
@@ -16,7 +22,7 @@ export const ActionnariatField = ({
   name,
   validationErrors,
   label,
-}: Props) => {
+}: ActionnariatFieldProps) => {
   const [candidatureValue, setCandidatureValue] = useState(candidature);
   const typesActionnariat = isPPE2
     ? Candidature.TypeActionnariat.ppe2Types

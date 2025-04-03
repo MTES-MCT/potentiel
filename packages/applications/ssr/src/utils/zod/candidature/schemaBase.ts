@@ -15,11 +15,15 @@ export const _numberSchemaBase = z
 
 export const numberSchema = _numberSchemaBase
   // transform to number
-  .pipe(z.number());
+  .pipe(
+    z.number({
+      invalid_type_error: 'Le champ doit être un nombre',
+    }),
+  );
 
 export const strictlyPositiveNumberSchema = _numberSchemaBase
   // transform to number and validate
-  .pipe(z.number().gt(0));
+  .pipe(z.number().gt(0, { message: 'Le champ doit être un nombre positif' }));
 
 export const ouiNonSchema = z
   .string()

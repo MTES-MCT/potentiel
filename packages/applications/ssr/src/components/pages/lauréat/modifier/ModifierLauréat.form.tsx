@@ -18,12 +18,13 @@ import { FormAlertError } from '../../../atoms/form/FormAlertError';
 
 import { modifierLauréatAction } from './modifierLauréat.action';
 import { ModifierLauréatPageProps } from './ModifierLauréat.page';
-import { CandidatureField, ProjectField } from './fields/ModifierLauréatFields';
-import { TechnologieField } from './fields/TechnologieField';
-import { ActionnariatField } from './fields/ActionnariatField';
-import { LocalitéField } from './fields/LocalitéField';
-import { PuissanceALaPointeField } from './fields/PuissanceALaPointeField ';
-import { AttestationField } from './fields/AttestationField';
+import { ProjectField } from './components/fields/ProjectField';
+import { TechnologieField } from './components/fields/TechnologieField';
+import { ActionnariatField } from './components/fields/ActionnariatField';
+import { LocalitéField } from './components/fields/LocalitéField';
+import { PuissanceALaPointeField } from './components/fields/PuissanceALaPointeField ';
+import { AttestationField } from './components/fields/AttestationField';
+import { CandidatureField } from './components/fields/CandidatureField';
 
 export type ModifierLauréatFormProps = ModifierLauréatPageProps;
 export type FieldValidationErrors =
@@ -165,6 +166,9 @@ export const ModifierLauréatForm: React.FC<ModifierLauréatFormProps> = ({
               label="Puissance (en MWc)"
               name="puissanceProductionAnnuelle"
               validationErrors={validationErrors}
+              nativeInputProps={{
+                step: 0.1,
+              }}
             />
             <Alert
               className="md:ml-64 md:mr-2"

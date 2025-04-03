@@ -1,12 +1,12 @@
 import RadioButtons from '@codegouvfr/react-dsfr/RadioButtons';
 
-import { FieldValidationErrors } from '../ModifierLauréat.form';
+import { FieldValidationErrors } from '../../ModifierLauréat.form';
 
-type Props = {
+type AttestationFieldProps = {
   validationErrors: FieldValidationErrors;
 };
 
-export const AttestationField = ({ validationErrors }: Props) => (
+export const AttestationField = ({ validationErrors }: AttestationFieldProps) => (
   <div className="flex flex-col">
     <div className="flex-1 flex flex-row gap-1">
       <span className="font-semibold">Attestation de désignation</span>

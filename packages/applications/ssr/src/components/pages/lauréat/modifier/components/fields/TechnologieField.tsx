@@ -4,16 +4,23 @@ import Input from '@codegouvfr/react-dsfr/Input';
 
 import { Candidature } from '@potentiel-domain/candidature';
 
-import { getTechnologieTypeLabel } from '../../../candidature/helpers';
+import { getTechnologieTypeLabel } from '../../../../candidature/helpers';
+import { LinkedValuesButton } from '../LinkedValuesButton';
+import { FieldValidationErrors } from '../../ModifierLauréat.form';
 
-import { CandidatureFieldProps, LinkedValuesButton } from './ModifierLauréatFields';
+type TechnologieFieldProps = {
+  candidature: string;
+  name: 'technologie';
+  label: string;
+  validationErrors: FieldValidationErrors;
+};
 
 export const TechnologieField = ({
   candidature,
   name,
   label,
   validationErrors,
-}: CandidatureFieldProps<string>) => {
+}: TechnologieFieldProps) => {
   const [candidatureValue, setCandidatureValue] = useState(candidature);
 
   return (
