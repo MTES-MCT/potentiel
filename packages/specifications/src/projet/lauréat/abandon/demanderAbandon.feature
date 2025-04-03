@@ -3,7 +3,6 @@ Fonctionnalité: Demander l'abandon d'un projet lauréat
 
     Contexte:
         Etant donné le projet lauréat "Du boulodrome de Marseille"
-        Et le porteur "Marcel Patoulatchi" ayant accés au projet lauréat "Du boulodrome de Marseille"
 
     Scénario: Un porteur demande l'abandon d'un projet lauréat
         Quand le porteur demande l'abandon pour le projet lauréat

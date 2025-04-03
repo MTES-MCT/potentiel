@@ -3,7 +3,6 @@ Fonctionnalité: Annuler la demande changement de puissance d'un projet lauréat
 
     Contexte:
         Etant donné le projet lauréat "Du boulodrome de Marseille"
-        Et le porteur "Marcel Patoulatchi" ayant accés au projet lauréat "Du boulodrome de Marseille"
         Et la dreal "Dreal du sud" associée à la région du projet
 
     Scénario: Annuler la demande de changement de puissance d'un projet lauréat

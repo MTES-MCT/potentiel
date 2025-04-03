@@ -3,7 +3,6 @@ Fonctionnalité: Annuler la demande de changement de représentant légal d'un p
 
     Contexte:
         Etant donné le projet lauréat "Du boulodrome de Marseille"
-        Et le porteur "Marcel Patoulatchi" ayant accés au projet lauréat "Du boulodrome de Marseille"
         Et la dreal "Dreal du sud-ouest" associée à la région du projet
 
     Scénario: Un porteur annule la demande de changement de représentant légal d'un projet lauréat

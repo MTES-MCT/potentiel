@@ -59,6 +59,7 @@ EtantDonné(
     await inviterUtilisateur.call(this, {
       rôle: dreal.role,
       région: dreal.région,
+      email: dreal.email,
     });
 
     // Compatibilité Legacy
