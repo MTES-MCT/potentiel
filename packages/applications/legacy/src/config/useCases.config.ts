@@ -34,7 +34,6 @@ import {
 } from '../modules/project';
 import { makeClaimProject } from '../modules/projectClaim';
 import { makeCreateUser } from '../modules/users';
-import { resendInvitationEmail } from './credentials.config';
 import { eventStore } from './eventStore.config';
 import {
   getFileProject,
