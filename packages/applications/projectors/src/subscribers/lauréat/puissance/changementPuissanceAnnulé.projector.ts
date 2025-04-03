@@ -12,7 +12,7 @@ export const changementPuissanceAnnuléProjector = async ({
   );
 
   if (Option.isNone(projectionToUpsert)) {
-    getLogger().error(`Puissance non trouvée`, {
+    getLogger().error('Puissance non trouvée', {
       identifiantProjet,
       fonction: 'changementPuissanceAnnuléProjector',
     });
@@ -20,7 +20,7 @@ export const changementPuissanceAnnuléProjector = async ({
   }
 
   if (!projectionToUpsert.dateDemandeEnCours) {
-    getLogger().error(`Demande puissance non trouvée`, {
+    getLogger().error('Demande de changement de puissance non trouvée', {
       identifiantProjet,
       fonction: 'changementPuissanceAnnuléProjector',
     });

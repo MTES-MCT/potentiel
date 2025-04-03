@@ -20,7 +20,7 @@ export const changementActionnaireAnnuléProjector = async ({
   }
 
   if (!projectionToUpsert.dateDemandeEnCours) {
-    getLogger().error(`Demande actionnaire non trouvée`, {
+    getLogger().error(`Demande de changement d'actionnaire non trouvée`, {
       identifiantProjet,
       fonction: 'changementActionnaireAnnuléProjector',
     });
