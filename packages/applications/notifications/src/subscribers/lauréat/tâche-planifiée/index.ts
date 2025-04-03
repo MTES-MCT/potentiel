@@ -3,7 +3,7 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { Event } from '@potentiel-infrastructure/pg-event-sourcing';
 import { TâchePlanifiéeExecutéeEvent } from '@potentiel-domain/tache-planifiee';
-import { IdentifiantProjet } from '@potentiel-domain/common';
+import { IdentifiantProjet } from '@potentiel-domain/projet';
 import { getLogger } from '@potentiel-libraries/monitoring';
 import { Option } from '@potentiel-libraries/monads';
 import { CandidatureAdapter } from '@potentiel-infrastructure/domain-adapters';
