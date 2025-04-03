@@ -7,7 +7,7 @@ import { ModifierLauréatValueFormEntries } from '@/utils/zod/candidature';
 
 import { FieldValidationErrors } from '../../ModifierLauréat.form';
 import { LinkedValuesButton } from '../LinkedValuesButton';
-import { getAllInputNativeProps } from '../../_utils/getAllInputNativeProps';
+import { getInputTypeNativeProps } from '../../_utils/getInputTypeNativeProps';
 
 type ProjectFieldProps<T> = {
   candidature: T;
@@ -54,7 +54,8 @@ export const ProjectField = <T extends string | number>({
           state={validationErrors[`candidature.${name}`] ? 'error' : 'default'}
           stateRelatedMessage={validationErrors[`candidature.${name}`]}
           nativeInputProps={{
-            ...getAllInputNativeProps(candidature, nativeInputProps),
+            ...getInputTypeNativeProps(candidature),
+            ...nativeInputProps,
             value: candidatureValue,
             onChange: (ev) => {
               setCandidatureValue(ev.target.value as T);
@@ -79,7 +80,8 @@ export const ProjectField = <T extends string | number>({
           state={validationErrors[`laureat.${name}`] ? 'error' : 'default'}
           stateRelatedMessage={validationErrors[`laureat.${name}`]}
           nativeInputProps={{
-            ...getAllInputNativeProps(candidature, nativeInputProps),
+            ...getInputTypeNativeProps(candidature),
+            ...nativeInputProps,
             value: lauréatValue,
             onChange: (ev) => {
               setLauréatValue(ev.target.value as T);

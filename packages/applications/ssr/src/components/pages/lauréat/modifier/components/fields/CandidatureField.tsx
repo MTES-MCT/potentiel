@@ -7,7 +7,7 @@ import { ModifierCandidatureNotifiéeFormEntries } from '@/utils/zod/candidature
 
 import { FieldValidationErrors } from '../../ModifierLauréat.form';
 import { LinkedValuesButton } from '../LinkedValuesButton';
-import { getAllInputNativeProps } from '../../_utils/getAllInputNativeProps';
+import { getInputTypeNativeProps } from '../../_utils/getInputTypeNativeProps';
 
 export type CandidatureFieldProps<T> = {
   candidature: T;
@@ -44,7 +44,7 @@ export const CandidatureField = <T extends string | number>({
             onChange: (ev) => {
               setCandidatureValue(ev.target.value as T);
             },
-            ...getAllInputNativeProps(candidature),
+            ...getInputTypeNativeProps(candidature),
           }}
         />
       </div>
@@ -57,7 +57,7 @@ export const CandidatureField = <T extends string | number>({
           stateRelatedMessage={validationErrors[`candidature.${name}`]}
           nativeInputProps={{
             value: candidatureValue,
-            ...getAllInputNativeProps(candidature),
+            ...getInputTypeNativeProps(candidature),
           }}
           addon={<LinkedValuesButton isLocked />}
         />

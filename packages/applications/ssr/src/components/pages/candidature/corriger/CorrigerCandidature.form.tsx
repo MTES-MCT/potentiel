@@ -289,7 +289,7 @@ export const CorrigerCandidatureForm: React.FC<CorrigerCandidatureFormProps> = (
           type: 'number',
           inputMode: 'decimal',
           pattern: '[0-9]+([.][0-9]+)?',
-          step: 'any',
+          step: 0.1,
         }}
       />
       {isCRE4ZNI && (

@@ -166,6 +166,9 @@ export const ModifierLauréatForm: React.FC<ModifierLauréatFormProps> = ({
               label="Puissance (en MWc)"
               name="puissanceProductionAnnuelle"
               validationErrors={validationErrors}
+              nativeInputProps={{
+                step: 0.1,
+              }}
             />
             <Alert
               className="md:ml-64 md:mr-2"
