@@ -6,13 +6,7 @@ import {
   LoadAggregate,
 } from '@potentiel-domain/core';
 
-import {
-  ChangementActionnaireDemandéEvent,
-  ChangementActionnaireAccordéEvent,
-  ChangementActionnaireRejetéEvent,
-  StatutChangementActionnaire,
-  ChangementActionnaireSuppriméEvent,
-} from '.';
+import { StatutChangementActionnaire } from '.';
 
 import {
   ActionnaireImportéEvent,
@@ -26,6 +20,7 @@ import {
 } from './modifier/modifierActionnaire.behavior';
 import {
   accorderChangementActionnaire,
+  ChangementActionnaireAccordéEvent,
   applyChangementActionnaireAccordé,
 } from './changement/accorder/accorderChangementActionnaire.behavior';
 import {
@@ -36,9 +31,11 @@ import {
 import {
   demanderChangement,
   applyChangementActionnaireDemandé,
+  ChangementActionnaireDemandéEvent,
 } from './changement/demander/demanderChangementActionnaire.behavior';
 import {
   applyChangementActionnaireRejeté,
+  ChangementActionnaireRejetéEvent,
   rejeterChangementActionnaire,
 } from './changement/rejeter/rejeterChangementActionnaire.behavior';
 import {
@@ -48,6 +45,7 @@ import {
 } from './changement/enregistrerChangement/enregistrerChangement.behavior';
 import {
   supprimerDemandeChangement,
+  ChangementActionnaireSuppriméEvent,
   applyChangementActionnaireSupprimé,
 } from './changement/supprimer/supprimerChangementActionnaire.behavior';
 
