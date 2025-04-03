@@ -12,6 +12,7 @@
     "@potentiel-libraries/monads": "*",
     "@potentiel-domain/common": "*",
     "@potentiel-domain/core": "*",
+    "@potentiel-domain/document": "*",
     "@potentiel-domain/entity": "*",
     "@potentiel-domain/appel-offre": "*",
     "mediateur": "^0.3.0"
