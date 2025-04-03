@@ -1,10 +1,10 @@
 import { DomainEvent } from '@potentiel-domain/core';
 import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
 
-import { ActionnaireAggregate } from '../../actionnaire.aggregate';
+import { PuissanceAggregate } from '../../puissance.aggregate';
 
-export type ChangementActionnaireSuppriméEvent = DomainEvent<
-  'ChangementActionnaireSupprimé-V1',
+export type ChangementPuissanceSuppriméEvent = DomainEvent<
+  'ChangementPuissanceSupprimé-V1',
   {
     identifiantProjet: IdentifiantProjet.RawType;
     suppriméLe: DateTime.RawType;
@@ -19,15 +19,15 @@ export type SupprimerOptions = {
 };
 
 export async function supprimerDemandeChangement(
-  this: ActionnaireAggregate,
+  this: PuissanceAggregate,
   { identifiantProjet, identifiantUtilisateur, dateSuppression }: SupprimerOptions,
 ) {
   if (!this.demande) {
     return;
   }
 
-  const event: ChangementActionnaireSuppriméEvent = {
-    type: 'ChangementActionnaireSupprimé-V1',
+  const event: ChangementPuissanceSuppriméEvent = {
+    type: 'ChangementPuissanceSupprimé-V1',
     payload: {
       identifiantProjet: identifiantProjet.formatter(),
       suppriméLe: dateSuppression.formatter(),
@@ -38,9 +38,9 @@ export async function supprimerDemandeChangement(
   await this.publish(event);
 }
 
-export function applyChangementActionnaireSupprimé(
-  this: ActionnaireAggregate,
-  _: ChangementActionnaireSuppriméEvent,
+export function applyChangementPuissanceSupprimé(
+  this: PuissanceAggregate,
+  _: ChangementPuissanceSuppriméEvent,
 ) {
   this.demande = undefined;
 }

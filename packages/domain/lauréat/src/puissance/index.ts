@@ -51,6 +51,7 @@ export type { PuissanceImportéeEvent } from './importer/importerPuissance.behav
 export type { PuissanceModifiéeEvent } from './modifier/modifierPuissance.behavior';
 export type { ChangementPuissanceDemandéEvent } from './changement/demander/demanderChangementPuissance.behavior';
 export type { ChangementPuissanceAnnuléEvent } from './changement/annuler/annulerChangementPuissance.behavior';
+export type { ChangementPuissanceSuppriméEvent } from './changement/supprimer/supprimerChangementPuissance.behavior';
 
 // Entities
 export * from './puissance.entity';

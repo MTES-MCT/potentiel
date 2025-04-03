@@ -27,12 +27,18 @@ import {
   applyChangementPuissanceAnnulé,
   ChangementPuissanceAnnuléEvent,
 } from './changement/annuler/annulerChangementPuissance.behavior';
+import {
+  supprimerDemandeChangement,
+  applyChangementPuissanceSupprimé,
+  ChangementPuissanceSuppriméEvent,
+} from './changement/supprimer/supprimerChangementPuissance.behavior';
 
 export type PuissanceEvent =
   | PuissanceImportéeEvent
   | PuissanceModifiéeEvent
   | ChangementPuissanceDemandéEvent
-  | ChangementPuissanceAnnuléEvent;
+  | ChangementPuissanceAnnuléEvent
+  | ChangementPuissanceSuppriméEvent;
 
 export type PuissanceAggregate = Aggregate<PuissanceEvent> & {
   identifiantProjet: IdentifiantProjet.ValueType;
@@ -45,6 +51,7 @@ export type PuissanceAggregate = Aggregate<PuissanceEvent> & {
   modifier: typeof modifier;
   demanderChangement: typeof demanderChangement;
   annulerDemandeChangement: typeof annulerDemandeChangement;
+  supprimerDemandeChangement: typeof supprimerDemandeChangement;
 };
 
 export const getDefaultPuissanceAggregate: GetDefaultAggregateState<
@@ -58,6 +65,7 @@ export const getDefaultPuissanceAggregate: GetDefaultAggregateState<
   modifier,
   demanderChangement,
   annulerDemandeChangement,
+  supprimerDemandeChangement,
 });
 
 function apply(this: PuissanceAggregate, event: PuissanceEvent) {
@@ -66,6 +74,7 @@ function apply(this: PuissanceAggregate, event: PuissanceEvent) {
     .with({ type: 'PuissanceModifiée-V1' }, applyPuissanceModifiée.bind(this))
     .with({ type: 'ChangementPuissanceDemandé-V1' }, applyChangementPuissanceDemandé.bind(this))
     .with({ type: 'ChangementPuissanceAnnulé-V1' }, applyChangementPuissanceAnnulé.bind(this))
+    .with({ type: 'ChangementPuissanceSupprimé-V1' }, applyChangementPuissanceSupprimé.bind(this))
     .exhaustive();
 }
 
