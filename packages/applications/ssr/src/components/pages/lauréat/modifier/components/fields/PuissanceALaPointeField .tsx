@@ -2,12 +2,13 @@ import Checkbox from '@codegouvfr/react-dsfr/Checkbox';
 import { useState } from 'react';
 
 import { LinkedValuesButton } from '../LinkedValuesButton';
+import { FieldValidationErrors } from '../../ModifierLauréat.form';
 
 type PuissanceALaPointeFieldProps = {
   candidature: boolean;
   name: 'puissanceALaPointe';
   label: string;
-  validationErrors: Record<string, string>;
+  validationErrors: FieldValidationErrors;
 };
 
 export const PuissanceALaPointeField = ({

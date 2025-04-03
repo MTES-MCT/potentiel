@@ -6,12 +6,13 @@ import { Candidature } from '@potentiel-domain/candidature';
 
 import { getActionnariatTypeLabel } from '../../../../candidature/helpers/getActionnariatTypeLabel';
 import { LinkedValuesButton } from '../LinkedValuesButton';
+import { FieldValidationErrors } from '../../ModifierLauréat.form';
 
 type ActionnariatFieldProps = {
   candidature: string;
   name: 'actionnariat';
   label: string;
-  validationErrors: Record<string, string>;
+  validationErrors: FieldValidationErrors;
   isPPE2: boolean;
 };
 

@@ -6,12 +6,13 @@ import { Candidature } from '@potentiel-domain/candidature';
 
 import { getTechnologieTypeLabel } from '../../../../candidature/helpers';
 import { LinkedValuesButton } from '../LinkedValuesButton';
+import { FieldValidationErrors } from '../../ModifierLauréat.form';
 
 type TechnologieFieldProps = {
   candidature: string;
   name: 'technologie';
   label: string;
-  validationErrors: Record<string, string>;
+  validationErrors: FieldValidationErrors;
 };
 
 export const TechnologieField = ({
