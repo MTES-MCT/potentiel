@@ -1,10 +1,7 @@
 import { Metadata } from 'next';
-import { mediator } from 'mediateur';
-import { notFound } from 'next/navigation';
 
 import { Candidature } from '@potentiel-domain/candidature';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
-import { Option } from '@potentiel-libraries/monads';
 
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
@@ -14,6 +11,7 @@ import {
   ModifierLauréatPage,
   ModifierLauréatPageProps,
 } from '@/components/pages/lauréat/modifier/ModifierLauréat.page';
+import { getPériodeAppelOffres } from '@/app/_helpers/getPériodeAppelOffres';
 
 import { getCandidature } from '../../../candidatures/_helpers/getCandidature';
 import { GetLauréat, getLauréat } from '../_helpers/getLauréat';
@@ -29,21 +27,8 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
       const identifiantProjet = decodeParameter(identifiant);
       const candidature = await getCandidature(identifiantProjet);
       const lauréat = await getLauréat({ identifiantProjet });
-      const appelOffres = await mediator.send<AppelOffre.ConsulterAppelOffreQuery>({
-        type: 'AppelOffre.Query.ConsulterAppelOffre',
-        data: {
-          identifiantAppelOffre: candidature.identifiantProjet.appelOffre,
-        },
-      });
-      if (Option.isNone(appelOffres)) {
-        return notFound();
-      }
-      const période = appelOffres.periodes.find(
-        (p) => p.id === candidature.identifiantProjet.période,
-      );
-      if (!période) {
-        return notFound();
-      }
+      const { appelOffres, période } = await getPériodeAppelOffres(candidature.identifiantProjet);
+
       const props = mapToProps(candidature, lauréat, appelOffres, période);
 
       return (

@@ -2,7 +2,6 @@ import { mediator } from 'mediateur';
 import { Metadata } from 'next';
 import { notFound, redirect } from 'next/navigation';
 
-import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { CahierDesCharges } from '@potentiel-domain/laureat';
 import { Routes } from '@potentiel-applications/routes';
 import { Option } from '@potentiel-libraries/monads';
@@ -12,6 +11,7 @@ import { decodeParameter } from '@/utils/decodeParameter';
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { récupérerLauréatNonAbandonné } from '@/app/_helpers';
+import { getPériodeAppelOffres } from '@/app/_helpers/getPériodeAppelOffres';
 
 export const metadata: Metadata = {
   title: "Demander l'abandon du projet - Potentiel",
@@ -23,16 +23,7 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
     const identifiantProjet = decodeParameter(identifiant);
 
     const lauréat = await récupérerLauréatNonAbandonné(identifiantProjet);
-    const { appelOffre, période } = lauréat.identifiantProjet;
-
-    const projetAppelOffre = await mediator.send<AppelOffre.ConsulterAppelOffreQuery>({
-      type: 'AppelOffre.Query.ConsulterAppelOffre',
-      data: { identifiantAppelOffre: appelOffre },
-    });
-
-    if (Option.isNone(projetAppelOffre)) {
-      return notFound();
-    }
+    const { période } = await getPériodeAppelOffres(lauréat.identifiantProjet);
 
     const cahierDesChargesChoisi =
       await mediator.send<CahierDesCharges.ConsulterCahierDesChargesChoisiQuery>({
@@ -46,10 +37,7 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
       return notFound();
     }
 
-    if (
-      projetAppelOffre.periodes.find(({ id }) => id === période)?.choisirNouveauCahierDesCharges &&
-      cahierDesChargesChoisi.type === 'initial'
-    ) {
+    if (période?.choisirNouveauCahierDesCharges && cahierDesChargesChoisi.type === 'initial') {
       redirect(Routes.Projet.details(identifiantProjet));
     }
 

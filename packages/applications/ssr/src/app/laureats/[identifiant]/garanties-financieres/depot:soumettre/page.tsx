@@ -22,33 +22,31 @@ export const metadata: Metadata = {
 
 export default async function Page({ params: { identifiant } }: IdentifiantParameter) {
   return PageWithErrorHandling(async () => {
-    const identifiantProjet = decodeParameter(identifiant);
-    const { appelOffre, famille, période } =
-      IdentifiantProjet.convertirEnValueType(identifiantProjet);
+    const identifiantProjetValue = decodeParameter(identifiant);
+    const identifiantProjet = IdentifiantProjet.convertirEnValueType(identifiantProjetValue);
 
-    await récupérerLauréat(identifiantProjet);
+    await récupérerLauréat(identifiantProjetValue);
 
-    const soumisAuxGarantiesFinancières = await projetSoumisAuxGarantiesFinancières({
-      appelOffre,
-      famille,
-      periode: période,
-    });
+    const soumisAuxGarantiesFinancières =
+      await projetSoumisAuxGarantiesFinancières(identifiantProjet);
 
     if (!soumisAuxGarantiesFinancières) {
-      return <ProjetNonSoumisAuxGarantiesFinancièresPage identifiantProjet={identifiantProjet} />;
+      return (
+        <ProjetNonSoumisAuxGarantiesFinancièresPage identifiantProjet={identifiantProjetValue} />
+      );
     }
 
     const dépôtGarantiesFinancières =
       await mediator.send<GarantiesFinancières.ConsulterDépôtEnCoursGarantiesFinancièresQuery>({
         type: 'Lauréat.GarantiesFinancières.Query.ConsulterDépôtEnCoursGarantiesFinancières',
-        data: { identifiantProjetValue: identifiantProjet },
+        data: { identifiantProjetValue: identifiantProjetValue },
       });
 
     return Option.match(dépôtGarantiesFinancières)
-      .some(() => <ProjetADéjàUnDépôtEnCoursPage identifiantProjet={identifiantProjet} />)
+      .some(() => <ProjetADéjàUnDépôtEnCoursPage identifiantProjet={identifiantProjetValue} />)
       .none(() => (
         <SoumettreGarantiesFinancièresPage
-          identifiantProjet={identifiantProjet}
+          identifiantProjet={identifiantProjetValue}
           typesGarantiesFinancières={typesGarantiesFinancièresSansInconnuPourFormulaire}
         />
       ));

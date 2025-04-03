@@ -1,32 +1,13 @@
-import { mediator } from 'mediateur';
-import { notFound } from 'next/navigation';
+import { IdentifiantProjet } from '@potentiel-domain/projet';
 
-import { AppelOffre } from '@potentiel-domain/appel-offre';
-import { Option } from '@potentiel-libraries/monads';
+import { getPériodeAppelOffres } from '@/app/_helpers/getPériodeAppelOffres';
 
-export const projetSoumisAuxGarantiesFinancières = async ({
-  appelOffre,
-  periode,
-  famille,
-}: {
-  appelOffre: string;
-  periode: string;
-  famille?: string;
-}) => {
-  const détailsAppelOffre = await mediator.send<AppelOffre.ConsulterAppelOffreQuery>({
-    type: 'AppelOffre.Query.ConsulterAppelOffre',
-    data: { identifiantAppelOffre: appelOffre },
-  });
-
-  if (Option.isNone(détailsAppelOffre)) {
-    return notFound();
-  }
-
-  const familleDétails = détailsAppelOffre.periodes
-    .find((p) => p.id === periode)
-    ?.familles.find((f) => f.id === famille);
+export const projetSoumisAuxGarantiesFinancières = async (
+  identifiantProjet: IdentifiantProjet.ValueType,
+) => {
+  const { appelOffres, famille } = await getPériodeAppelOffres(identifiantProjet);
 
   return famille
-    ? familleDétails?.soumisAuxGarantiesFinancieres !== 'non soumis'
-    : détailsAppelOffre.soumisAuxGarantiesFinancieres !== 'non soumis';
+    ? famille.soumisAuxGarantiesFinancieres !== 'non soumis'
+    : appelOffres.soumisAuxGarantiesFinancieres !== 'non soumis';
 };

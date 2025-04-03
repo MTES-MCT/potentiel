@@ -11,11 +11,13 @@ import {
 } from '@potentiel-applications/document-builder';
 import { Option } from '@potentiel-libraries/monads';
 import { Actionnaire, CahierDesCharges } from '@potentiel-domain/laureat';
+import { IdentifiantProjet } from '@potentiel-domain/projet';
 
 import { decodeParameter } from '@/utils/decodeParameter';
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 import { formatIdentifiantProjetForDocument } from '@/utils/modèle-document/formatIdentifiantProjetForDocument';
+import { getPériodeAppelOffres } from '@/app/_helpers/getPériodeAppelOffres';
 
 export const GET = async (
   request: NextRequest,
@@ -31,17 +33,11 @@ export const GET = async (
         identifiantProjet,
       },
     });
+    const { appelOffres, période } = await getPériodeAppelOffres(
+      IdentifiantProjet.convertirEnValueType(identifiantProjet),
+    );
 
     if (Option.isNone(candidature)) {
-      return notFound();
-    }
-
-    const appelOffres = await mediator.send<AppelOffre.ConsulterAppelOffreQuery>({
-      type: 'AppelOffre.Query.ConsulterAppelOffre',
-      data: { identifiantAppelOffre: candidature.appelOffre },
-    });
-
-    if (Option.isNone(appelOffres)) {
       return notFound();
     }
 
@@ -77,7 +73,7 @@ export const GET = async (
     const texteChangementDActionnariat = getDonnéesCourriersRéponse({
       appelOffres,
       cahierDesChargesChoisi,
-      période: candidature.période,
+      période,
     });
 
     const régionDreal = Option.isSome(utilisateur.région) ? utilisateur.région : undefined;
@@ -107,8 +103,7 @@ export const GET = async (
         suiviParEmail: appelOffres.dossierSuiviPar,
         titreAppelOffre: appelOffres.title,
         titreFamille: candidature.famille || '',
-        titrePeriode:
-          appelOffres.periodes.find((période) => période.id === candidature.période)?.title || '',
+        titrePeriode: période.title || '',
         unitePuissance: appelOffres.unitePuissance,
         enCopies: getEnCopies(candidature.localité.région),
         nouvelActionnaire: demandeDeChangement.demande.nouvelActionnaire,
@@ -156,16 +151,14 @@ const getDonnéesCourriersRéponse = ({
   cahierDesChargesChoisi,
 }: {
   appelOffres: AppelOffre.AppelOffreReadModel;
-  période: string;
+  période: AppelOffre.Periode;
   cahierDesChargesChoisi: CahierDesCharges.ConsulterCahierDesChargesChoisiReadmodel;
 }): AppelOffre.DonnéesCourriersRéponse['texteChangementDActionnariat'] => {
-  const périodeDetails = appelOffres.periodes.find((periode) => periode.id === période);
-
   return {
     référenceParagraphe: '!!!REFERENCE NON DISPONIBLE!!!',
     dispositions: '!!!CONTENU NON DISPONIBLE!!!',
     ...appelOffres.donnéesCourriersRéponse.texteChangementDActionnariat,
-    ...périodeDetails?.donnéesCourriersRéponse?.texteChangementDActionnariat,
+    ...période?.donnéesCourriersRéponse?.texteChangementDActionnariat,
     ...(cahierDesChargesChoisi.type === 'initial'
       ? {}
       : cahierDesChargesChoisi.donnéesCourriersRéponse?.texteChangementDActionnariat),

@@ -1,8 +1,6 @@
 import { mediator } from 'mediateur';
 import { Metadata } from 'next';
-import { notFound } from 'next/navigation';
 
-import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { GestionnaireRéseau } from '@potentiel-domain/reseau';
 import { Option } from '@potentiel-libraries/monads';
 import { IdentifiantProjet } from '@potentiel-domain/common';
@@ -14,6 +12,7 @@ import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { decodeParameter } from '@/utils/decodeParameter';
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { récupérerLauréatNonAbandonné } from '@/app/_helpers';
+import { getPériodeAppelOffres } from '@/app/_helpers/getPériodeAppelOffres';
 
 export const metadata: Metadata = {
   title: 'Ajouter un dossier de raccordement - Potentiel',
@@ -28,20 +27,7 @@ export default async function Page({ params: { identifiant } }: PageProps) {
 
     await récupérerLauréatNonAbandonné(identifiantProjet.formatter());
 
-    const appelOffre = await mediator.send<AppelOffre.ConsulterAppelOffreQuery>({
-      type: 'AppelOffre.Query.ConsulterAppelOffre',
-      data: { identifiantAppelOffre: identifiantProjet.appelOffre },
-    });
-
-    if (Option.isNone(appelOffre)) {
-      return notFound();
-    }
-    const période = appelOffre.periodes.find(
-      (appelOffre) => appelOffre.id === identifiantProjet.période,
-    );
-    if (!période) {
-      return notFound();
-    }
+    const { période } = await getPériodeAppelOffres(identifiantProjet);
 
     const gestionnairesRéseau =
       await mediator.send<GestionnaireRéseau.ListerGestionnaireRéseauQuery>({

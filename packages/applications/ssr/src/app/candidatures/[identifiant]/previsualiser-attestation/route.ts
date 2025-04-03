@@ -7,13 +7,13 @@ import {
 } from '@potentiel-domain/utilisateur';
 import { buildCertificate } from '@potentiel-applications/document-builder';
 import { Option } from '@potentiel-libraries/monads';
-import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { getLogger } from '@potentiel-libraries/monitoring';
 import { DateTime } from '@potentiel-domain/common';
 
 import { withUtilisateur } from '@/utils/withUtilisateur';
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { decodeParameter } from '@/utils/decodeParameter';
+import { getPériodeAppelOffres } from '@/app/_helpers/getPériodeAppelOffres';
 
 import { getCandidature } from '../../_helpers/getCandidature';
 
@@ -41,24 +41,7 @@ export const GET = async (_: Request, { params: { identifiant } }: IdentifiantPa
     const notifiéLe = candidature.notification?.notifiéeLe ?? DateTime.now();
     const notifiéPar = candidature.notification?.notifiéePar ?? utilisateur.identifiantUtilisateur;
 
-    const appelOffres = await mediator.send<AppelOffre.ConsulterAppelOffreQuery>({
-      type: 'AppelOffre.Query.ConsulterAppelOffre',
-      data: { identifiantAppelOffre: candidature.identifiantProjet.appelOffre },
-    });
-
-    if (Option.isNone(appelOffres)) {
-      logger.warn(`Appel d'offres non trouvé`, { identifiantProjet });
-      return notFound();
-    }
-
-    const période = appelOffres.periodes.find(
-      (x) => x.id === candidature.identifiantProjet.période,
-    );
-
-    if (!période) {
-      logger.warn(`Période non trouvée`, { identifiantProjet });
-      return notFound();
-    }
+    const { appelOffres, période } = await getPériodeAppelOffres(candidature.identifiantProjet);
 
     const modèleAttestationNonDisponible = période.type === 'legacy';
 

@@ -1,6 +1,5 @@
 import { Metadata } from 'next';
 import { mediator } from 'mediateur';
-import { notFound } from 'next/navigation';
 
 import { Option } from '@potentiel-libraries/monads';
 import { Abandon, Achèvement, GarantiesFinancières } from '@potentiel-domain/laureat';
@@ -21,6 +20,7 @@ import {
 import { projetSoumisAuxGarantiesFinancières } from '@/utils/garanties-financières/vérifierAppelOffreSoumisAuxGarantiesFinancières';
 import { ProjetNonSoumisAuxGarantiesFinancièresPage } from '@/components/pages/garanties-financières/ProjetNonSoumisAuxGarantiesFinancières.page';
 import { récupérerLauréat } from '@/app/_helpers';
+import { getPériodeAppelOffres } from '@/app/_helpers/getPériodeAppelOffres';
 
 import { getHistoriqueMainlevéeRejetéesActions } from './helpers/getHistoriqueMainlevéeRejetéesActions';
 import { getMainlevéeActions } from './helpers/getMainlevéeActions';
@@ -41,20 +41,9 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
 
       await récupérerLauréat(identifiantProjet.formatter());
 
-      const appelOffreDetails = await mediator.send<AppelOffre.ConsulterAppelOffreQuery>({
-        type: 'AppelOffre.Query.ConsulterAppelOffre',
-        data: { identifiantAppelOffre: identifiantProjet.appelOffre },
-      });
-
-      if (Option.isNone(appelOffreDetails)) {
-        return notFound();
-      }
-
-      const soumisAuxGarantiesFinancières = await projetSoumisAuxGarantiesFinancières({
-        appelOffre: identifiantProjet.appelOffre,
-        famille: identifiantProjet.famille,
-        periode: identifiantProjet.période,
-      });
+      const { appelOffres } = await getPériodeAppelOffres(identifiantProjet);
+      const soumisAuxGarantiesFinancières =
+        await projetSoumisAuxGarantiesFinancières(identifiantProjet);
 
       if (!soumisAuxGarantiesFinancières) {
         return (
@@ -117,7 +106,7 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
         garantiesFinancièresActuelles,
         dépôtEnCoursGarantiesFinancières,
         achèvement,
-        appelOffreDetails,
+        appelOffres,
         mainlevée: mainlevéesList.items.filter(
           (item) =>
             !item.statut.estÉgaleÀ(GarantiesFinancières.StatutMainlevéeGarantiesFinancières.rejeté),
@@ -157,7 +146,7 @@ type MapToProps = (params: {
   dépôtEnCoursGarantiesFinancières: Option.Type<GarantiesFinancières.ConsulterDépôtEnCoursGarantiesFinancièresReadModel>;
   achèvement: Option.Type<Achèvement.ConsulterAttestationConformitéReadModel>;
   mainlevée: GarantiesFinancières.ListerMainlevéesReadModel['items'];
-  appelOffreDetails: AppelOffre.AppelOffreReadModel;
+  appelOffres: AppelOffre.AppelOffreReadModel;
   historiqueMainlevée: GarantiesFinancières.ListerMainlevéesReadModel['items'];
   estAbandonné: boolean;
   archivesGarantiesFinancières: Option.Type<GarantiesFinancières.ConsulterArchivesGarantiesFinancièresReadModel>;
@@ -171,7 +160,7 @@ const mapToProps: MapToProps = ({
   dépôtEnCoursGarantiesFinancières,
   achèvement,
   mainlevée,
-  appelOffreDetails,
+  appelOffres,
   historiqueMainlevée,
   estAbandonné,
   archivesGarantiesFinancières,
@@ -302,7 +291,7 @@ const mapToProps: MapToProps = ({
             par: mainlevéeEnCours.dernièreMiseÀJour.par.formatter(),
           },
           actions: actions.mainlevée,
-          urlAppelOffre: appelOffreDetails.cahiersDesChargesUrl,
+          urlAppelOffre: appelOffres.cahiersDesChargesUrl,
         }
       : undefined,
     historiqueMainlevée: historiqueMainlevéeExistant
