@@ -36,9 +36,10 @@ import {
 import {
   consulterCahierDesChargesChoisiAdapter,
   DocumentAdapter,
-  récupérerIdentifiantsProjetParEmailPorteurAdapter,
 } from '@potentiel-infrastructure/domain-adapters';
 import { SendEmail } from '@potentiel-applications/notifications';
+
+import { récupererProjetsPorteurAdapter } from './authorization/récupérerIdentifiantsProjetParPorteur';
 
 type SetupLauréatDependencies = {
   sendEmail: SendEmail;
@@ -58,7 +59,7 @@ export const setupLauréat = async ({
     find: findProjection,
     list: listProjection,
     count: countProjection,
-    récupérerIdentifiantsProjetParEmailPorteur: récupérerIdentifiantsProjetParEmailPorteurAdapter,
+    récupérerIdentifiantsProjetParEmailPorteur: récupererProjetsPorteurAdapter,
     consulterCahierDesChargesAdapter: consulterCahierDesChargesChoisiAdapter,
   });
 

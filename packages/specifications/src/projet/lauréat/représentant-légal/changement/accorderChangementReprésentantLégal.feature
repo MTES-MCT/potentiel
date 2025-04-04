@@ -38,7 +38,6 @@ Fonctionnalité: Accorder la demande de changement de représentant légal d'un 
 
     Scénario: Accord automatique de la demande de changement de représentant légal d'un projet lauréat
         Etant donné le projet lauréat "Du boulodrome de Bordeaux" sur une période d'appel d'offre avec accord automatique du changement de représentant légal
-        Et le porteur "Tom Bombadil" ayant accés au projet lauréat "Du boulodrome de Bordeaux"
         Et la dreal "Dreal du sud-ouest" associée à la région du projet
         Et une demande de changement de représentant légal en cours pour le projet lauréat
         Quand le système accorde automatiquement la demande de changement de représentant légal pour le projet lauréat

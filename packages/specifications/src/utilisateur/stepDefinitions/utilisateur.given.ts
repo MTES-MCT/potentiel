@@ -1,52 +1,13 @@
 import { Given as EtantDonné } from '@cucumber/cucumber';
-import { match } from 'ts-pattern';
 
-import { executeQuery, executeSelect } from '@potentiel-libraries/pg-helpers';
-import { IdentifiantProjet } from '@potentiel-domain/common';
+import { DateTime, Email } from '@potentiel-domain/common';
+import { publish } from '@potentiel-infrastructure/pg-event-sourcing';
+import { UtilisateurInvitéEvent } from '@potentiel-domain/utilisateur';
 
 import { PotentielWorld } from '../../potentiel.world';
 
 import { inviterUtilisateur, retirerAccèsProjet } from './utilisateur.when';
 
-EtantDonné('le porteur {string}', async function (this: PotentielWorld, porteurNom: string) {
-  const porteur = this.utilisateurWorld.porteurFixture.créer({
-    nom: porteurNom,
-  });
-
-  await insérerUtilisateur(porteur);
-});
-
-/** @deprecated Ceci utilise la table legacy Users et UserProjects */
-EtantDonné(
-  'le porteur {string} ayant accés au projet {lauréat-éliminé} {string}',
-  async function (
-    this: PotentielWorld,
-    porteurNom: string,
-    typeProjet: 'lauréat' | 'éliminé',
-    nomProjet: string,
-  ) {
-    const identifiantProjet = match(typeProjet)
-      .with(
-        'lauréat',
-        () => this.lauréatWorld.rechercherLauréatFixture(nomProjet).identifiantProjet,
-      )
-      .with(
-        'éliminé',
-        () => this.eliminéWorld.rechercherÉliminéFixture(nomProjet).identifiantProjet,
-      )
-      .exhaustive();
-
-    const porteur = this.utilisateurWorld.porteurFixture.créer({
-      nom: porteurNom,
-    });
-
-    await insérerUtilisateur(porteur);
-
-    const projets = await récupérerProjets(identifiantProjet);
-
-    await associerProjetAuPorteur(porteur.id, projets);
-  },
-);
 EtantDonné(
   'la dreal {string} associée à la région du projet',
   async function (this: PotentielWorld, drealNom: string) {
@@ -61,32 +22,30 @@ EtantDonné(
       région: dreal.région,
       email: dreal.email,
     });
-
-    // Compatibilité Legacy
-    await insérerUtilisateur(dreal);
-    await associerUtilisateurÀSaDreal(dreal.id, région);
   },
 );
 
 EtantDonné(
-  'le DGEC Validateur sans fonction {string}',
-  async function (this: PotentielWorld, nom: string) {
-    const validateur = this.utilisateurWorld.validateurFixture.créer({
-      nom,
-      fonction: undefined,
-    });
+  /le DGEC Validateur sans (.*)/,
+  async function (this: PotentielWorld, informationManquante: string) {
+    const validateur = this.utilisateurWorld.validateurFixture.créer(
+      informationManquante === 'nom' ? { nom: '' } : { fonction: undefined },
+    );
 
-    await insérerUtilisateur(validateur);
+    const event: UtilisateurInvitéEvent = {
+      type: 'UtilisateurInvité-V1',
+      payload: {
+        fonction: validateur.fonction,
+        identifiantUtilisateur: validateur.email,
+        invitéLe: DateTime.now().formatter(),
+        invitéPar: Email.system().formatter(),
+        nomComplet: validateur.nom,
+        rôle: 'dgec-validateur',
+      },
+    };
+    await publish(`utilisateur|${validateur.email}`, event);
   },
 );
-
-EtantDonné('le DGEC Validateur sans nom', async function (this: PotentielWorld) {
-  const validateur = this.utilisateurWorld.validateurFixture.créer({
-    nom: '',
-  });
-
-  await insérerUtilisateur(validateur);
-});
 
 EtantDonné(
   `l'accès retiré au projet {lauréat-éliminé}`,
@@ -101,109 +60,6 @@ EtantDonné(
   },
 );
 
-async function récupérerProjets(identifiantProjet: IdentifiantProjet.ValueType) {
-  return executeSelect<{
-    id: string;
-  }>(
-    `
-    select "id" from "projects"
-    where "appelOffreId" = $1
-    and "periodeId" = $2
-    and "familleId" = $3
-    and "numeroCRE" = $4
-  `,
-    identifiantProjet.appelOffre,
-    identifiantProjet.période,
-    identifiantProjet.famille,
-    identifiantProjet.numéroCRE,
-  );
-}
-
-async function associerProjetAuPorteur(userId: string, projets: { id: string }[]) {
-  await executeQuery(
-    `
-      insert into "UserProjects" (
-        "userId",
-        "projectId",
-        "createdAt",
-        "updatedAt"
-      )
-      values (
-        $1,
-        $2,
-        $3,
-        $4
-      )
-    `,
-    userId,
-    projets[0].id,
-    new Date().toISOString(),
-    new Date().toISOString(),
-  );
-}
-
-async function associerUtilisateurÀSaDreal(userId: string, régionProjet: string) {
-  await executeQuery(
-    `
-      insert into "userDreals" (
-        "dreal",
-        "userId",
-        "createdAt",
-        "updatedAt"
-      )
-      values (
-        $1,
-        $2,
-        $3,
-        $4
-      )
-    `,
-    régionProjet,
-    userId,
-    new Date().toISOString(),
-    new Date().toISOString(),
-  );
-}
-
-async function insérerUtilisateur({
-  id,
-  nom,
-  email,
-  role,
-}: {
-  id: string;
-  nom: string;
-  email: string;
-  role: string;
-}) {
-  await executeQuery(
-    `
-      insert into "users" (
-        "id",
-        "fullName",
-        "email",
-        "role",
-        "createdAt",
-        "updatedAt"
-      )
-      values (
-        $1,
-        $2,
-        $3,
-        $4,
-        $5,
-        $6
-      )
-    `,
-    id,
-    nom,
-    email,
-    role,
-    new Date().toISOString(),
-    new Date().toISOString(),
-  );
-}
-
 export async function initialiserUtilisateursTests(this: PotentielWorld) {
   const validateur = this.utilisateurWorld.validateurFixture.créer();
   const admin = this.utilisateurWorld.adminFixture.créer({
@@ -217,21 +73,4 @@ export async function initialiserUtilisateursTests(this: PotentielWorld) {
     nomComplet: validateur.nom,
   });
   await inviterUtilisateur.call(this, { rôle: admin.role, email: admin.email });
-
-  await insérerUtilisateur(validateur);
-  await insérerUtilisateur(admin);
-}
-
-export async function insérerPorteurCandidature(this: PotentielWorld) {
-  const {
-    values: { emailContactValue },
-    identifiantProjet,
-  } = this.candidatureWorld.importerCandidature;
-
-  const porteur = this.utilisateurWorld.porteurFixture.créer({ email: emailContactValue });
-  await insérerUtilisateur(porteur);
-
-  const projets = await récupérerProjets(IdentifiantProjet.convertirEnValueType(identifiantProjet));
-
-  await associerProjetAuPorteur(porteur.id, projets);
 }

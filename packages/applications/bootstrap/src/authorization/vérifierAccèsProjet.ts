@@ -1,11 +1,13 @@
 import { match } from 'ts-pattern';
 
-import { UtilisateurEntity, VérifierAccèsProjetPort } from '@potentiel-domain/utilisateur';
+import { VérifierAccèsProjetPort } from '@potentiel-domain/utilisateur';
 import { Lauréat, Raccordement } from '@potentiel-domain/laureat';
 import { findProjection } from '@potentiel-infrastructure/pg-projection-read';
-import { Email, IdentifiantProjet } from '@potentiel-domain/common';
+import { IdentifiantProjet } from '@potentiel-domain/common';
 import { Option } from '@potentiel-libraries/monads';
 import { Candidature } from '@potentiel-domain/candidature';
+
+import { récupererProjetsPorteurAdapter } from './récupérerIdentifiantsProjetParPorteur';
 
 const récuperérRégionProjet = async (identifiantProjet: IdentifiantProjet.ValueType) => {
   const lauréat = await findProjection<Lauréat.LauréatEntity>(
@@ -38,16 +40,6 @@ const récupérerIdentifiantGestionnaireRéseauProjet = async (
   return '__AUCUN RACCORDEMENT__';
 };
 
-const récupererProjetsPorteur = async (identifiantUtilisateur: Email.ValueType) => {
-  const utilisateur = await findProjection<UtilisateurEntity>(
-    `utilisateur|${identifiantUtilisateur.formatter()}`,
-  );
-  if (Option.isSome(utilisateur) && utilisateur.rôle === 'porteur-projet') {
-    return utilisateur.projets;
-  }
-  return [];
-};
-
 export const vérifierAccèsProjetAdapter: VérifierAccèsProjetPort = async ({
   identifiantProjetValue,
   utilisateur,
@@ -76,7 +68,9 @@ export const vérifierAccèsProjetAdapter: VérifierAccèsProjetPort = async ({
       return false;
     })
     .with({ role: { nom: 'porteur-projet' } }, async (utilisateur) => {
-      const projets = await récupererProjetsPorteur(utilisateur.identifiantUtilisateur);
+      const projets = await récupererProjetsPorteurAdapter(
+        utilisateur.identifiantUtilisateur.formatter(),
+      );
       return projets.includes(identifiantProjet.formatter());
     })
     .exhaustive();

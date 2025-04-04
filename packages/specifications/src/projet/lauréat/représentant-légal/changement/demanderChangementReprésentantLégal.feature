@@ -46,7 +46,6 @@ Fonctionnalité: Demander le changement de représentant légal d'un projet laur
     # Tâches planifiées
     Scénario: Relance automatique pour l'instruction de la demande de changement de représentant légal d'un projet lauréat disposant d'un accord automatique
         Etant donné le projet lauréat "Du boulodrome de Bordeaux" sur une période d'appel d'offre avec accord automatique du changement de représentant légal
-        Et le porteur "Tom Bombadil" ayant accés au projet lauréat "Du boulodrome de Bordeaux"
         Et la dreal "Dreal du sud-ouest" associée à la région du projet
         Et une demande de changement de représentant légal en cours pour le projet lauréat
         Quand le système relance automatiquement la dreal pour faire l'accord de la demande de changement de représentant légal pour le projet lauréat
@@ -58,7 +57,6 @@ Fonctionnalité: Demander le changement de représentant légal d'un projet laur
 
     Scénario: Relance automatique pour l'instruction de la demande de changement de représentant légal d'un projet lauréat disposant d'un rejet automatique
         Etant donné le projet lauréat "Du boulodrome de Bordeaux" sur une période d'appel d'offre avec rejet automatique du changement de représentant légal
-        Et le porteur "Tom Bombadil" ayant accés au projet lauréat "Du boulodrome de Bordeaux"
         Et la dreal "Dreal du sud-ouest" associée à la région du projet
         Et une demande de changement de représentant légal en cours pour le projet lauréat
         Quand le système relance automatiquement la dreal pour faire le rejet de la demande de changement de représentant légal pour le projet lauréat
