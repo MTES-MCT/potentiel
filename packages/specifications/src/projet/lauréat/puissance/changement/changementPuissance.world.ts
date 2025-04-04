@@ -55,31 +55,37 @@ export class ChangementPuissanceWorld {
       ? this.#enregistrerChangementPuissanceFixture
       : this.#demanderChangementPuissanceFixture;
 
+    const commonDemande = {
+      nouvellePuissance: baseFixture.ratio * puissanceActuelle,
+      demandéeLe: DateTime.convertirEnValueType(baseFixture.demandéLe),
+      demandéePar: Email.convertirEnValueType(baseFixture.demandéPar),
+      raison: baseFixture.raison,
+      pièceJustificative: DocumentProjet.convertirEnValueType(
+        identifiantProjet.formatter(),
+        Puissance.TypeDocumentPuissance.pièceJustificative.formatter(),
+        DateTime.convertirEnValueType(baseFixture.demandéLe).formatter(),
+        baseFixture.pièceJustificative.format,
+      ),
+      statut,
+    };
+
     return {
       identifiantProjet,
 
-      demande: {
-        nouvellePuissance: baseFixture.ratio * puissanceActuelle,
-        autoritéCompétente: this.#enregistrerChangementPuissanceFixture.aÉtéCréé
-          ? undefined
-          : Puissance.RatioChangementPuissance.bind({
+      demande: this.#enregistrerChangementPuissanceFixture.aÉtéCréé
+        ? {
+            ...commonDemande,
+            isInformationEnregistrée: true,
+          }
+        : {
+            ...commonDemande,
+            isInformationEnregistrée: false,
+            autoritéCompétente: Puissance.RatioChangementPuissance.bind({
               ratio: baseFixture.ratio,
             }).getAutoritéCompétente(),
-        statut,
-        demandéeLe: DateTime.convertirEnValueType(baseFixture.demandéLe),
-        demandéePar: Email.convertirEnValueType(baseFixture.demandéPar),
-        raison: baseFixture.raison,
-        pièceJustificative: DocumentProjet.convertirEnValueType(
-          identifiantProjet.formatter(),
-          Puissance.TypeDocumentPuissance.pièceJustificative.formatter(),
-          DateTime.convertirEnValueType(baseFixture.demandéLe).formatter(),
-          baseFixture.pièceJustificative.format,
-        ),
-
-        accord: undefined,
-
-        rejet: undefined,
-      },
+            accord: undefined,
+            rejet: undefined,
+          },
     };
   }
 }
