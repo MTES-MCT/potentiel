@@ -53,6 +53,45 @@ Quand(
 );
 
 Quand(
+  'le porteur enregistre un changement de puissance pour le projet {lauréat-éliminé}',
+  async function (this: PotentielWorld, statutProjet: 'lauréat' | 'éliminé') {
+    try {
+      await enregistrerChangementPuissance.call(this, statutProjet, undefined);
+    } catch (error) {
+      this.error = error as Error;
+    }
+  },
+);
+
+Quand(
+  'le porteur enregistre un changement de puissance avec la même valeur pour le projet lauréat',
+  async function (this: PotentielWorld) {
+    try {
+      await enregistrerChangementPuissance.call(this, 'lauréat', 1);
+    } catch (error) {
+      this.error = error as Error;
+    }
+  },
+);
+
+Quand(
+  'le porteur enregistre le changement de puissance pour le projet lauréat avec :',
+  async function (this: PotentielWorld, dataTable: DataTable) {
+    const exemple = dataTable.rowsHash();
+
+    try {
+      await enregistrerChangementPuissance.call(
+        this,
+        'lauréat',
+        Number(exemple['ratio puissance']),
+      );
+    } catch (error) {
+      this.error = error as Error;
+    }
+  },
+);
+
+Quand(
   'le porteur annule la demande de changement de puissance pour le projet lauréat',
   async function (this: PotentielWorld) {
     try {
@@ -84,12 +123,46 @@ export async function demanderChangementPuissance(
   const puissanceValue =
     ratio * this.lauréatWorld.puissanceWorld.mapToExpected(identifiantProjet).puissance;
 
-  await mediator.send<Puissance.PuissanceUseCase>({
+  await mediator.send<Puissance.DemanderChangementUseCase>({
     type: 'Lauréat.Puissance.UseCase.DemanderChangement',
     data: {
       raisonValue: raison,
       puissanceValue,
       dateDemandeValue: demandéLe,
+      identifiantUtilisateurValue: demandéPar,
+      identifiantProjetValue: identifiantProjet.formatter(),
+      pièceJustificativeValue: pièceJustificative,
+    },
+  });
+}
+
+export async function enregistrerChangementPuissance(
+  this: PotentielWorld,
+  statutProjet: 'lauréat' | 'éliminé',
+  ratioValue?: number,
+) {
+  const identifiantProjet =
+    statutProjet === 'lauréat'
+      ? this.lauréatWorld.identifiantProjet
+      : this.eliminéWorld.identifiantProjet;
+
+  const { pièceJustificative, demandéLe, demandéPar, raison, ratio } =
+    this.lauréatWorld.puissanceWorld.changementPuissanceWorld.enregistrerChangementPuissanceFixture.créer(
+      {
+        demandéPar: this.utilisateurWorld.porteurFixture.email,
+        ...(ratioValue !== undefined && { ratio: ratioValue }),
+      },
+    );
+
+  const puissanceValue =
+    ratio * this.lauréatWorld.puissanceWorld.importerPuissanceFixture.puissance;
+
+  await mediator.send<Puissance.EnregistrerChangementPuissanceUseCase>({
+    type: 'Lauréat.Puissance.UseCase.EnregistrerChangement',
+    data: {
+      raisonValue: raison,
+      puissanceValue,
+      dateChangementValue: demandéLe,
       identifiantUtilisateurValue: demandéPar,
       identifiantProjetValue: identifiantProjet.formatter(),
       pièceJustificativeValue: pièceJustificative,

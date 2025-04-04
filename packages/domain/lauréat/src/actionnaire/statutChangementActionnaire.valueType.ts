@@ -2,6 +2,8 @@ import { match } from 'ts-pattern';
 
 import { InvalidOperationError, PlainType, ReadonlyValueType } from '@potentiel-domain/core';
 
+import { DemandeDeChangementEnCoursError } from './errors';
+
 export const statuts = [
   'accordé',
   'annulé',
@@ -54,7 +56,9 @@ export const bind = ({ statut }: PlainType<ValueType>): ValueType => {
         if (nouveauStatut.statut === 'demandé') {
           throw new ChangementActionnaireDéjàEnCoursErreur();
         }
-        return;
+        if (nouveauStatut.statut === 'information-enregistrée') {
+          throw new DemandeDeChangementEnCoursError();
+        }
       } else if (nouveauStatut.statut !== 'demandé') {
         const error = match(this.statut)
           .with('accordé', () => new ChangementActionnaireDéjàAccordéeErreur())
