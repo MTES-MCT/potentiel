@@ -9,6 +9,7 @@ const getIdentifiantsProjetParEmailUtilisateurQuery = `
   where p."notifiedOn" > 0 and u."email" = $1 and u."disabled" is not true
 `;
 
+/** @deprecated use récupererProjetsPorteurAdapter */
 export const récupérerIdentifiantsProjetParEmailPorteurAdapter: RécupérerIdentifiantsProjetParEmailPorteurPort =
   async (email) => {
     const results = await executeSelect<{

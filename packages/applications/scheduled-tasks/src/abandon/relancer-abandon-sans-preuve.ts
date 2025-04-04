@@ -9,7 +9,6 @@ import {
 import {
   consulterCahierDesChargesChoisiAdapter,
   DocumentAdapter,
-  récupérerIdentifiantsProjetParEmailPorteurAdapter,
 } from '@potentiel-infrastructure/domain-adapters';
 import { loadAggregate } from '@potentiel-infrastructure/pg-event-sourcing';
 import {
@@ -22,7 +21,9 @@ import { getLogger } from '@potentiel-libraries/monitoring';
 registerLauréatQueries({
   find: findProjection,
   list: listProjection,
-  récupérerIdentifiantsProjetParEmailPorteur: récupérerIdentifiantsProjetParEmailPorteurAdapter,
+  récupérerIdentifiantsProjetParEmailPorteur: () => {
+    throw new Error('récupérerIdentifiantsProjetParEmailPorteur not implemented');
+  },
   consulterCahierDesChargesAdapter: consulterCahierDesChargesChoisiAdapter,
   count: countProjection,
 });

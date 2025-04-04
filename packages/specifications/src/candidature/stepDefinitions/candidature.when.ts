@@ -9,7 +9,6 @@ import {
   insérerProjetAvecDonnéesCandidature,
   notifierLauréat,
 } from '../../projet/lauréat/stepDefinitions/lauréat.given';
-import { insérerPorteurCandidature } from '../../utilisateur/stepDefinitions/utilisateur.given';
 
 Quand(
   `le DGEC validateur importe la candidature {string} avec :`,
@@ -57,7 +56,6 @@ Quand('le DGEC validateur notifie la candidature lauréate', async function (thi
   const dateDésignation = DateTime.now().formatter();
   await notifierLauréat.call(this, dateDésignation);
   await insérerProjetAvecDonnéesCandidature.call(this, dateDésignation, 'lauréat');
-  await insérerPorteurCandidature.call(this);
 });
 
 export async function corrigerCandidature(this: PotentielWorld, exemple?: Record<string, string>) {

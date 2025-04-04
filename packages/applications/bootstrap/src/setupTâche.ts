@@ -9,8 +9,9 @@ import {
 } from '@potentiel-domain/tache';
 import { Event, loadAggregate, subscribe } from '@potentiel-infrastructure/pg-event-sourcing';
 import { TâcheProjector } from '@potentiel-applications/projectors';
-import { récupérerIdentifiantsProjetParEmailPorteurAdapter } from '@potentiel-infrastructure/domain-adapters';
 import { countProjection, listProjection } from '@potentiel-infrastructure/pg-projection-read';
+
+import { récupererProjetsPorteurAdapter } from './authorization/récupérerIdentifiantsProjetParPorteur';
 
 export const setupTâche = async () => {
   const unsubscribeTâcheProjector = await registerTâcheProjector();
@@ -34,7 +35,7 @@ const registerTâcheProjector = async () => {
 
   registerTâcheQuery({
     count: countProjection,
-    récupérerIdentifiantsProjetParEmailPorteur: récupérerIdentifiantsProjetParEmailPorteurAdapter,
+    récupérerIdentifiantsProjetParEmailPorteur: récupererProjetsPorteurAdapter,
     list: listProjection,
   });
   TâcheProjector.register();
