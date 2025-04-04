@@ -6,10 +6,7 @@ Fonctionnalité: Enregistrer un changement de puissance d'un projet lauréat
         Et le porteur "Marcel Patoulatchi" ayant accés au projet lauréat "Du boulodrome de Marseille"
         Et la dreal "Dreal du sud" associée à la région du projet
 
-    # pour la fixture
-    # pour l'information enregistrée, la raison et la pj est optionnelle
     # ajouter la notification
-    @select
     Scénario: Enregistrer un changement de puissance d'un projet lauréat
         Quand le porteur enregistre un changement de puissance pour le projet lauréat
         Alors la puissance du projet lauréat devrait être mise à jour

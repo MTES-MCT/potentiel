@@ -25,9 +25,3 @@ export class DemandeDeChangementInexistanteError extends DomainError {
     super("Aucune demande de changement de puissance n'est en cours");
   }
 }
-
-export class PuissanceNePeutPasÊtreModifiéeDirectementError extends DomainError {
-  constructor() {
-    super('La demande de changement de puissance a déjà été accordée');
-  }
-}
