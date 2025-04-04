@@ -7,6 +7,7 @@ import { AchèvementWorld } from './achèvement/attestationConformité/achèveme
 import { ModifierLauréatFixture } from './fixtures/modifierLauréat.fixture';
 import { NotifierLauréatFixture } from './fixtures/notifierLauréat.fixture';
 import { PuissanceWorld } from './puissance/puissance.world';
+import { ModifierCahierDesChargesFixture } from './fixtures/modifierCahierDesCharges.fixture';
 
 type LauréatFixture = {
   nom: string;
@@ -30,6 +31,11 @@ export class LauréatWorld {
   #modifierLauréatFixture: ModifierLauréatFixture;
   get modifierLauréatFixture() {
     return this.#modifierLauréatFixture;
+  }
+
+  #modifierCahierDesChargesFixture: ModifierCahierDesChargesFixture;
+  get modifierCahierDesChargesFixture() {
+    return this.#modifierCahierDesChargesFixture;
   }
 
   /** @deprecated use `identifiantProjet` */
@@ -98,6 +104,7 @@ export class LauréatWorld {
 
     this.#notifierLauréatFixture = new NotifierLauréatFixture();
     this.#modifierLauréatFixture = new ModifierLauréatFixture();
+    this.#modifierCahierDesChargesFixture = new ModifierCahierDesChargesFixture();
 
     this.#identifiantProjet = IdentifiantProjet.convertirEnValueType(`PPE2 - Eolien#1##23`);
     this.#dateDésignation = new Date('2022-10-27').toISOString();

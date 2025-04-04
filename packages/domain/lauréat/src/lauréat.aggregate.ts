@@ -7,6 +7,7 @@ import {
   GetDefaultAggregateState,
   LoadAggregate,
 } from '@potentiel-domain/core';
+import { AppelOffre } from '@potentiel-domain/appel-offre';
 
 import {
   LauréatNotifiéEvent,
@@ -22,12 +23,18 @@ import {
   modifier,
   applyLauréatModifié,
 } from './modifier/modifierLauréat.behavior';
+import {
+  CahierDesChargesModifiéEvent,
+  modifierCahierDesCharges,
+  applyCahierDesChargesModifié,
+} from './modifier/modifierCahierDesCharges.behavior';
 
 export type LauréatEvent =
   | LauréatNotifiéEvent
   | LauréatNotifiéV1Event
   | NomEtLocalitéLauréatImportésEvent
-  | LauréatModifiéEvent;
+  | LauréatModifiéEvent
+  | CahierDesChargesModifiéEvent;
 
 export type LauréatAggregate = Aggregate<LauréatEvent> & {
   identifiantProjet: IdentifiantProjet.ValueType;
@@ -41,8 +48,10 @@ export type LauréatAggregate = Aggregate<LauréatEvent> & {
     département: string;
     région: string;
   };
+  cahierDesCharges: AppelOffre.CahierDesChargesRéférence;
   notifier: typeof notifier;
   modifier: typeof modifier;
+  modifierCahierDesCharges: typeof modifierCahierDesCharges;
 };
 
 export const getDefaultLauréatAggregate: GetDefaultAggregateState<
@@ -60,9 +69,11 @@ export const getDefaultLauréatAggregate: GetDefaultAggregateState<
     département: '',
     région: '',
   },
+  cahierDesCharges: 'initial',
   apply,
   notifier,
   modifier,
+  modifierCahierDesCharges,
 });
 
 function apply(this: LauréatAggregate, event: LauréatEvent) {
@@ -71,6 +82,7 @@ function apply(this: LauréatAggregate, event: LauréatEvent) {
     .with({ type: 'NomEtLocalitéLauréatImportés-V1' }, applyNomEtlocalitéLauréatImportés.bind(this))
     .with({ type: 'LauréatNotifié-V2' }, applyLauréatNotifié.bind(this))
     .with({ type: 'LauréatModifié-V1' }, applyLauréatModifié.bind(this))
+    .with({ type: 'CahierDesChargesModifié-V1' }, applyCahierDesChargesModifié.bind(this))
     .exhaustive();
 }
 

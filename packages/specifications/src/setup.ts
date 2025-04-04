@@ -95,6 +95,9 @@ BeforeAll(async () => {
   process.env.BASE_URL = 'https://potentiel.beta.gouv.fr';
   process.env.DGEC_EMAIL = 'dgec@fake.email';
 
+  // Features
+  process.env.MIGRATION_CDC = 'true';
+
   disableNodeMaxListenerWarning();
 
   await executeQuery(

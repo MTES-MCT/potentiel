@@ -47,6 +47,8 @@ import {
   registerPuissanceQueries,
   registerPuissanceUseCases,
 } from './puissance/puissance.register';
+import { registerModifierCahierDesChargesUseCase } from './modifier/modifierCahierDesCharges.usecase';
+import { registerModifierCahierDesChargesCommand } from './modifier/modifierCahierDesCharges.command';
 
 export type LauréatQueryDependencies = AbandonQueryDependencies &
   CahierDesChargesChoisiQueryDependencies &
@@ -67,6 +69,7 @@ export const registerLauréatUseCases = (dependencies: LauréatCommandDependenci
   // Commands
   registerNotifierLauréatCommand(dependencies.loadAggregate);
   registerModifierLauréatCommand(dependencies.loadAggregate);
+  registerModifierCahierDesChargesCommand(dependencies.loadAggregate);
 
   // Use cases
   registerAbandonUseCases(dependencies);
@@ -74,6 +77,7 @@ export const registerLauréatUseCases = (dependencies: LauréatCommandDependenci
   registerAchèvementUseCases(dependencies);
   registerNotifierLauréatUseCase();
   registerModifierLauréatUseCase();
+  registerModifierCahierDesChargesUseCase();
   registerReprésentantLégalUseCases(dependencies);
   registerActionnaireUseCases(dependencies);
   registerRaccordementUseCases(dependencies);

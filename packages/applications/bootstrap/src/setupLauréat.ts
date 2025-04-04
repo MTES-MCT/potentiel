@@ -98,6 +98,7 @@ export const setupLauréat = async ({
       'NomEtLocalitéLauréatImportés-V1',
       'LauréatNotifié-V2',
       'LauréatModifié-V1',
+      'CahierDesChargesModifié-V1',
       'RebuildTriggered',
     ],
     eventHandler: async (event) => {

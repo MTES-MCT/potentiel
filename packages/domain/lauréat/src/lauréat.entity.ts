@@ -1,3 +1,4 @@
+import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
 import { Entity } from '@potentiel-domain/entity';
 
@@ -19,5 +20,7 @@ export type LauréatEntity = Entity<
       région: string;
       département: string;
     };
+
+    cahierDesCharges: AppelOffre.CahierDesChargesRéférence;
   }
 >;
