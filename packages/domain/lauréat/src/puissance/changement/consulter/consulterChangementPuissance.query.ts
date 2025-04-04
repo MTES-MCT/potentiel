@@ -82,7 +82,7 @@ export const mapToReadModel = (result: ChangementPuissanceEntity) => {
       nouvellePuissance: result.demande.nouvellePuissance,
       statut: StatutChangementPuissance.convertirEnValueType(result.demande.statut),
       autoritéCompétente:
-        result.demande.statut === 'information-enregistrée'
+        result.demande.statut === StatutChangementPuissance.informationEnregistrée.statut
           ? undefined
           : result.demande.autoritéCompétente,
       demandéeLe: DateTime.convertirEnValueType(result.demande.demandéeLe),
@@ -97,7 +97,8 @@ export const mapToReadModel = (result: ChangementPuissanceEntity) => {
           )
         : undefined,
       accord:
-        result.demande.statut !== 'information-enregistrée' && result.demande.accord
+        result.demande.statut !== StatutChangementPuissance.informationEnregistrée.statut &&
+        result.demande.accord
           ? {
               accordéeLe: DateTime.convertirEnValueType(result.demande.accord.accordéeLe),
               accordéePar: Email.convertirEnValueType(result.demande.accord.accordéePar),
@@ -110,7 +111,8 @@ export const mapToReadModel = (result: ChangementPuissanceEntity) => {
             }
           : undefined,
       rejet:
-        result.demande.statut !== 'information-enregistrée' && result.demande.rejet
+        result.demande.statut !== StatutChangementPuissance.informationEnregistrée.statut &&
+        result.demande.rejet
           ? {
               rejetéeLe: DateTime.convertirEnValueType(result.demande.rejet.rejetéeLe),
               rejetéePar: Email.convertirEnValueType(result.demande.rejet.rejetéePar),

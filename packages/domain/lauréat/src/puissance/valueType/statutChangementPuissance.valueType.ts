@@ -1,6 +1,6 @@
 import { match } from 'ts-pattern';
 
-import { InvalidOperationError, PlainType, ReadonlyValueType } from '@potentiel-domain/core';
+import { InvalidOperationError, ReadonlyValueType } from '@potentiel-domain/core';
 
 export const statuts = [
   'accordé',
@@ -12,8 +12,8 @@ export const statuts = [
 
 export type RawType = (typeof statuts)[number];
 
-export type ValueType = ReadonlyValueType<{
-  statut: RawType;
+export type ValueType<T extends RawType = RawType> = ReadonlyValueType<{
+  statut: T;
   estAccordé: () => boolean;
   estRejeté: () => boolean;
   estAnnulé: () => boolean;
@@ -22,11 +22,11 @@ export type ValueType = ReadonlyValueType<{
   vérifierQueLeChangementDeStatutEstPossibleEn: (nouveauStatut: ValueType) => void;
 }>;
 
-export const bind = ({ statut }: PlainType<ValueType>): ValueType => {
-  estValide(statut);
+export const bind = <T extends RawType = RawType>(value: string): ValueType<T> => {
+  estValide(value);
   return {
     get statut() {
-      return statut;
+      return value as T;
     },
     estAccordé() {
       return this.statut === 'accordé';
@@ -59,11 +59,11 @@ export const bind = ({ statut }: PlainType<ValueType>): ValueType => {
         }
         return;
       } else if (nouveauStatut.statut !== 'demandé') {
-        const error = match(this.statut)
+        const error = match<RawType>(this.statut)
           .with('accordé', () => new ChangementPuissanceDéjàAccordéeErreur())
           .with('annulé', () => new ChangementPuissanceDéjàAnnuléeErreur())
           .with('rejeté', () => new ChangementPuissanceDéjàRejetéeErreur())
-          .exhaustive();
+          .otherwise(() => {});
         throw error;
       }
       return;
@@ -71,9 +71,9 @@ export const bind = ({ statut }: PlainType<ValueType>): ValueType => {
   };
 };
 
-export const convertirEnValueType = (value: string): ValueType => {
+export const convertirEnValueType = <T extends RawType = RawType>(value: string): ValueType<T> => {
   estValide(value);
-  return bind({ statut: value });
+  return bind(value);
 };
 
 function estValide(value: string): asserts value is RawType {
@@ -84,11 +84,12 @@ function estValide(value: string): asserts value is RawType {
   }
 }
 
-export const accordé = convertirEnValueType('accordé');
-export const annulé = convertirEnValueType('annulé');
-export const demandé = convertirEnValueType('demandé');
-export const rejeté = convertirEnValueType('rejeté');
-export const informationEnregistrée = convertirEnValueType('information-enregistrée');
+export const accordé = convertirEnValueType<'accordé'>('accordé');
+export const annulé = convertirEnValueType<'annulé'>('annulé');
+export const demandé = convertirEnValueType<'demandé'>('demandé');
+export const rejeté = convertirEnValueType<'rejeté'>('rejeté');
+export const informationEnregistrée =
+  convertirEnValueType<'information-enregistrée'>('information-enregistrée');
 
 class StatutChangementPuissanceInvalideError extends InvalidOperationError {
   constructor(value: string) {
