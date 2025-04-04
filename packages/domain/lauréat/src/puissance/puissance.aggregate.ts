@@ -8,7 +8,7 @@ import {
   LoadAggregate,
 } from '@potentiel-domain/core';
 
-import { StatutChangementPuissance } from '.';
+import { RatioChangementPuissance, StatutChangementPuissance } from '.';
 
 import { applyPuissanceImportée, importer } from './importer/importerPuissance.behavior';
 import { PuissanceImportéeEvent } from './importer/importerPuissance.behavior';
@@ -52,6 +52,7 @@ export type PuissanceAggregate = Aggregate<PuissanceEvent> & {
   demande?: {
     statut: StatutChangementPuissance.ValueType;
     nouvellePuissance: number;
+    autoritéCompétente?: RatioChangementPuissance.AutoritéCompétente;
   };
 
   readonly importer: typeof importer;

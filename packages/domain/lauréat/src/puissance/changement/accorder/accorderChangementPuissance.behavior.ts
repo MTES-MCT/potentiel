@@ -2,10 +2,15 @@ import { DateTime, Email } from '@potentiel-domain/common';
 import { DomainEvent } from '@potentiel-domain/core';
 import { DocumentProjet } from '@potentiel-domain/document';
 import { IdentifiantProjet } from '@potentiel-domain/projet';
+import { Role } from '@potentiel-domain/utilisateur';
 
 import { StatutChangementPuissance } from '../..';
 import { PuissanceAggregate } from '../../puissance.aggregate';
-import { DemandeDeChangementInexistanteError } from '../errors';
+import {
+  DemandeDeChangementInexistanteError,
+  DemandeDoitÊtreInstruiteParDGECError,
+  DemandeDoitÊtreInstruiteParDREALError,
+} from '../errors';
 
 export type ChangementPuissanceAccordéEvent = DomainEvent<
   'ChangementPuissanceAccordé-V1',
@@ -25,14 +30,26 @@ type Options = {
   accordéLe: DateTime.ValueType;
   accordéPar: Email.ValueType;
   réponseSignée: DocumentProjet.ValueType;
+  rôleUtilisateur: Role.ValueType;
 };
 
 export async function accorderDemandeChangement(
   this: PuissanceAggregate,
-  { identifiantProjet, accordéLe, accordéPar, réponseSignée }: Options,
+  { identifiantProjet, accordéLe, accordéPar, réponseSignée, rôleUtilisateur }: Options,
 ) {
   if (!this.demande) {
     throw new DemandeDeChangementInexistanteError();
+  }
+
+  if (this.demande.autoritéCompétente === 'dgec' && rôleUtilisateur.nom === 'dreal') {
+    throw new DemandeDoitÊtreInstruiteParDGECError();
+  }
+
+  if (
+    this.demande.autoritéCompétente === 'dreal' &&
+    (rôleUtilisateur.nom === 'admin' || rôleUtilisateur.nom === 'dgec-validateur')
+  ) {
+    throw new DemandeDoitÊtreInstruiteParDREALError();
   }
 
   this.demande.statut.vérifierQueLeChangementDeStatutEstPossibleEn(

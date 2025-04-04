@@ -3,6 +3,7 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 import { DateTime, Email } from '@potentiel-domain/common';
 import { DocumentProjet, EnregistrerDocumentProjetCommand } from '@potentiel-domain/document';
 import { IdentifiantProjet } from '@potentiel-domain/projet';
+import { Role } from '@potentiel-domain/utilisateur';
 
 import { TypeDocumentPuissance } from '../..';
 
@@ -18,6 +19,7 @@ export type AccorderChangementPuissanceUseCase = Message<
       content: ReadableStream;
       format: string;
     };
+    rôleUtilisateurValue: string;
   }
 >;
 
@@ -27,6 +29,7 @@ export const registerAccorderChangementPuissanceUseCase = () => {
     accordéLeValue,
     accordéParValue,
     réponseSignéeValue: { format, content },
+    rôleUtilisateurValue,
   }) => {
     const identifiantProjet = IdentifiantProjet.convertirEnValueType(identifiantProjetValue);
     const accordéLe = DateTime.convertirEnValueType(accordéLeValue);
@@ -37,14 +40,7 @@ export const registerAccorderChangementPuissanceUseCase = () => {
       accordéLe.formatter(),
       format,
     );
-
-    await mediator.send<EnregistrerDocumentProjetCommand>({
-      type: 'Document.Command.EnregistrerDocumentProjet',
-      data: {
-        content,
-        documentProjet: réponseSignée,
-      },
-    });
+    const rôleUtilisateur = Role.convertirEnValueType(rôleUtilisateurValue);
 
     await mediator.send<AccorderChangementPuissanceCommand>({
       type: 'Lauréat.Puissance.Command.AccorderChangement',
@@ -53,6 +49,15 @@ export const registerAccorderChangementPuissanceUseCase = () => {
         accordéPar,
         identifiantProjet,
         réponseSignée,
+        rôleUtilisateur,
+      },
+    });
+
+    await mediator.send<EnregistrerDocumentProjetCommand>({
+      type: 'Document.Command.EnregistrerDocumentProjet',
+      data: {
+        content,
+        documentProjet: réponseSignée,
       },
     });
   };

@@ -25,3 +25,14 @@ export class DemandeDeChangementInexistanteError extends DomainError {
     super("Aucune demande de changement de puissance n'est en cours");
   }
 }
+
+export class DemandeDoitÊtreInstruiteParDGECError extends DomainError {
+  constructor() {
+    super('Une demande de changement de puissance à la hausse doit être instruite par la DGEC');
+  }
+}
+export class DemandeDoitÊtreInstruiteParDREALError extends DomainError {
+  constructor() {
+    super('Une demande de changement de puissance à la baisse doit être instruite par la DREAL');
+  }
+}

@@ -64,10 +64,43 @@ Quand(
 );
 
 Quand(
-  `la DREAL associée au projet accorde le changement de puissance à la baisse pour le projet lauréat`,
+  'la DREAL associée au projet accorde le changement de puissance à la baisse pour le projet lauréat',
   async function (this: PotentielWorld) {
     try {
-      await accorderChangementPuissance.call(this);
+      await accorderChangementPuissance.call(this, this.utilisateurWorld.drealFixture.role);
+    } catch (error) {
+      this.error = error as Error;
+    }
+  },
+);
+
+Quand(
+  'la DREAL associée au projet accorde le changement de puissance à la hausse pour le projet lauréat',
+  async function (this: PotentielWorld) {
+    try {
+      await accorderChangementPuissance.call(this, this.utilisateurWorld.drealFixture.role);
+    } catch (error) {
+      this.error = error as Error;
+    }
+  },
+);
+
+Quand(
+  'le DGEC validateur accorde le changement de puissance à la baisse pour le projet lauréat',
+  async function (this: PotentielWorld) {
+    try {
+      await accorderChangementPuissance.call(this, this.utilisateurWorld.adminFixture.role);
+    } catch (error) {
+      this.error = error as Error;
+    }
+  },
+);
+
+Quand(
+  'le DGEC validateur accorde le changement de puissance à la hausse pour le projet lauréat',
+  async function (this: PotentielWorld) {
+    try {
+      await accorderChangementPuissance.call(this, this.utilisateurWorld.adminFixture.role);
     } catch (error) {
       this.error = error as Error;
     }
@@ -128,7 +161,10 @@ export async function annulerChangementPuissance(this: PotentielWorld) {
   });
 }
 
-async function accorderChangementPuissance(this: PotentielWorld) {
+async function accorderChangementPuissance(
+  this: PotentielWorld,
+  rôleUtilisateurValue: 'dreal' | 'admin',
+) {
   const identifiantProjet = this.lauréatWorld.identifiantProjet.formatter();
 
   const { accordéeLe, accordéePar, réponseSignée } =
@@ -148,6 +184,7 @@ async function accorderChangementPuissance(this: PotentielWorld) {
         content: réponseSignée.content,
         format: réponseSignée.format,
       },
+      rôleUtilisateurValue,
     },
   });
 }

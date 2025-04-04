@@ -14,3 +14,14 @@ EtantDonné(
     }
   },
 );
+
+EtantDonné(
+  'une demande de changement de puissance à la hausse pour le projet lauréat',
+  async function (this: PotentielWorld) {
+    try {
+      await demanderChangementPuissance.call(this, 'lauréat', 1.2);
+    } catch (error) {
+      this.error = error as Error;
+    }
+  },
+);
