@@ -49,14 +49,7 @@ export class DemanderChangementPuissanceFixture
     return this.#ratio;
   }
 
-  #puissanceActuelle!: number;
-  get puissanceActuelle(): number {
-    return this.#puissanceActuelle;
-  }
-
-  créer(
-    partialData?: Omit<Partial<DemanderChangementPuissance>, 'puissanceActuelle'>,
-  ): Readonly<DemanderChangementPuissance> {
+  créer(partialData?: Partial<DemanderChangementPuissance>): Readonly<DemanderChangementPuissance> {
     const content = faker.word.words();
 
     const fixture = {

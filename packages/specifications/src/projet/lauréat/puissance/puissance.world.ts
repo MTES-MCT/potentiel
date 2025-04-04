@@ -1,5 +1,6 @@
 import { Puissance } from '@potentiel-domain/laureat';
 import { IdentifiantProjet } from '@potentiel-domain/projet';
+import { DateTime } from '@potentiel-domain/common';
 
 import { ImporterPuissanceFixture } from './fixture/importerPuissance.fixture';
 import { ModifierPuissanceFixture } from './fixture/modifierPuissance.fixture';
@@ -27,20 +28,29 @@ export class PuissanceWorld {
     this.#changementPuissanceWorld = new ChangementPuissanceWorld();
   }
 
-  mapToExpected(
-    identifiantProjet: IdentifiantProjet.ValueType,
-  ): Puissance.ConsulterPuissanceReadModel {
-    const expected = {
+  mapToExpected(identifiantProjet: IdentifiantProjet.ValueType) {
+    const expected: Puissance.ConsulterPuissanceReadModel = {
       identifiantProjet,
-      puissance: this.#modifierPuissanceFixture.aÉtéCréé
-        ? this.#modifierPuissanceFixture.puissance
-        : this.#importerPuissanceFixture.puissance,
+      puissance: this.#importerPuissanceFixture.puissance,
     };
 
-    if (this.#changementPuissanceWorld.accorderChangementPuissanceFixture.aÉtéCréé) {
-      expected.puissance =
-        this.#changementPuissanceWorld.demanderChangementPuissanceFixture.ratio *
-        expected.puissance;
+    if (this.#modifierPuissanceFixture.aÉtéCréé) {
+      expected.puissance = this.#modifierPuissanceFixture.puissance;
+    }
+
+    if (this.#changementPuissanceWorld.demanderChangementPuissanceFixture.aÉtéCréé) {
+      expected.dateDemandeEnCours = DateTime.convertirEnValueType(
+        this.#changementPuissanceWorld.demanderChangementPuissanceFixture.demandéLe,
+      );
+
+      if (this.#changementPuissanceWorld.accorderChangementPuissanceFixture.aÉtéCréé) {
+        expected.puissance = this.#changementPuissanceWorld.mapToExpected({
+          identifiantProjet,
+          statut: Puissance.StatutChangementPuissance.accordé,
+          puissanceActuelle: expected.puissance,
+        }).demande.nouvellePuissance;
+        expected.dateDemandeEnCours = undefined;
+      }
     }
 
     return expected;

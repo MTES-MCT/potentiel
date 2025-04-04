@@ -68,9 +68,7 @@ Quand(
   async function (this: PotentielWorld) {
     try {
       await accorderChangementPuissance.call(this);
-      console.log('😧🫠🫠🫠accord réussi');
     } catch (error) {
-      console.log('😧🫠🫠🫠accord failed', error);
       this.error = error as Error;
     }
   },
@@ -95,7 +93,7 @@ export async function demanderChangementPuissance(
     );
 
   const puissanceValue =
-    ratio * this.lauréatWorld.puissanceWorld.mapToExpected(identifiantProjet).puissance;
+    ratio * this.lauréatWorld.puissanceWorld.importerPuissanceFixture.puissance;
 
   await mediator.send<Puissance.PuissanceUseCase>({
     type: 'Lauréat.Puissance.UseCase.DemanderChangement',

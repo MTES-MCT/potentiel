@@ -2,7 +2,6 @@ import { Puissance } from '@potentiel-domain/laureat';
 import { IdentifiantProjet } from '@potentiel-domain/projet';
 import { DateTime, Email } from '@potentiel-domain/common';
 import { DocumentProjet } from '@potentiel-domain/document';
-import { Option } from '@potentiel-libraries/monads';
 
 import { DemanderChangementPuissanceFixture } from './fixture/demanderChangementPuissance.fixture';
 import { AnnulerChangementPuissanceFixture } from './fixture/annulerChangementPuissance.fixture';
@@ -40,11 +39,7 @@ export class ChangementPuissanceWorld {
     identifiantProjet,
     statut,
     puissanceActuelle,
-  }: MapToDemandeExpectedProps): Option.Type<Puissance.ConsulterChangementPuissanceReadModel> {
-    if (!this.demanderChangementPuissanceFixture.aÉtéCréé) {
-      throw new Error(`Aucune demande n'a été créée dans PuissanceWorld`);
-    }
-
+  }: MapToDemandeExpectedProps): Puissance.ConsulterChangementPuissanceReadModel {
     const baseFixture = this.#demanderChangementPuissanceFixture;
 
     return {

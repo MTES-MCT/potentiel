@@ -36,7 +36,7 @@ export const changementPuissanceAccordéNotification = async ({
 
   return sendEmail({
     templateId: 6873755,
-    messageSubject: `Potentiel - La demande de changement de puissance pour le ${projet.nom} dans le département ${projet.département} a été accordée`,
+    messageSubject: `Potentiel - La demande de changement de puissance pour le projet ${projet.nom} dans le département ${projet.département} a été accordée`,
     recipients: porteurs,
     variables: {
       type: 'accord',

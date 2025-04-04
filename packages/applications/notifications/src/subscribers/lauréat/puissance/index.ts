@@ -22,8 +22,6 @@ export type RegisterPuissanceNotificationDependencies = {
 
 export const register = ({ sendEmail }: RegisterPuissanceNotificationDependencies) => {
   const handler: MessageHandler<Execute> = async (event) => {
-    console.log('YOOOOOOOOOOO👹👹👹👹👹👹👹👹👹👹👹👹👹👹👹👹', event);
-
     const identifiantProjet = IdentifiantProjet.convertirEnValueType(
       event.payload.identifiantProjet,
     );

@@ -60,9 +60,5 @@ export function applyChangementPuissanceAccordé(
   { payload: { nouvellePuissance } }: ChangementPuissanceAccordéEvent,
 ) {
   this.puissance = nouvellePuissance;
-
-  if (this.demande) {
-    this.demande.statut = StatutChangementPuissance.accordé;
-    this.demande.nouvellePuissance = nouvellePuissance;
-  }
+  this.demande = undefined;
 }

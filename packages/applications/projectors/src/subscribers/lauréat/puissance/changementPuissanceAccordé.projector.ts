@@ -59,7 +59,7 @@ export const changementPuissanceAccordéProjector = async ({
   );
 
   await upsertProjection<Puissance.PuissanceEntity>(`puissance|${identifiantProjet}`, {
-    identifiantProjet,
+    ...projectionPuissance,
     miseÀJourLe: accordéLe,
     puissance: nouvellePuissance,
     dateDemandeEnCours: undefined,
