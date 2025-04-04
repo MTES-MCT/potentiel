@@ -10,10 +10,7 @@ import {
   listProjection,
 } from '@potentiel-infrastructure/pg-projection-read';
 import { registerLauréatQueries } from '@potentiel-domain/laureat';
-import {
-  consulterCahierDesChargesChoisiAdapter,
-  récupérerIdentifiantsProjetParEmailPorteurAdapter,
-} from '@potentiel-infrastructure/domain-adapters';
+import { consulterCahierDesChargesChoisiAdapter } from '@potentiel-infrastructure/domain-adapters';
 
 const configSchema = z.object({
   KEYCLOAK_SERVER: z.string().url(),
@@ -44,7 +41,9 @@ export default class SyncKeycloakGroups extends Command {
       find: findProjection,
       list: listProjection,
       count: countProjection,
-      récupérerIdentifiantsProjetParEmailPorteur: récupérerIdentifiantsProjetParEmailPorteurAdapter,
+      récupérerIdentifiantsProjetParEmailPorteur: () => {
+        throw new Error('récupérerIdentifiantsProjetParEmailPorteur not implemented');
+      },
       consulterCahierDesChargesAdapter: consulterCahierDesChargesChoisiAdapter,
     });
   }

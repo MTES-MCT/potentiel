@@ -5,7 +5,6 @@ Fonctionnalité: Transmettre une demande complète de raccordement
         Etant donné le gestionnaire de réseau "Enedis"
         Et le projet lauréat "Du boulodrome de Marseille"
         Et le gestionnaire de réseau "Enedis" attribué au raccordement du projet lauréat
-        Et le porteur "Marcel Patoulatchi" ayant accés au projet lauréat "Du boulodrome de Marseille"
 
     Scénario: Un porteur de projet transmet une demande complète de raccordement pour son projet
         Quand le porteur transmet une demande complète de raccordement pour le projet lauréat
