@@ -4,6 +4,7 @@ import { Entity } from '@potentiel-domain/entity';
 import { RatioChangementPuissance, StatutChangementPuissance } from '..';
 
 type DemandeChangementPuissanceEnregistré = {
+  statut: Extract<StatutChangementPuissance.RawType, 'information-enregistrée'>;
   raison?: string;
   pièceJustificative?: {
     format: string;
@@ -11,6 +12,7 @@ type DemandeChangementPuissanceEnregistré = {
 };
 
 type DemandeChangementPuissance = {
+  statut: Exclude<StatutChangementPuissance.RawType, 'information-enregistrée'>;
   autoritéCompétente: RatioChangementPuissance.AutoritéCompétente;
   raison: string;
   pièceJustificative: {

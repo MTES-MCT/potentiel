@@ -6,6 +6,7 @@ import { Option } from '@potentiel-libraries/monads';
 
 import { DemanderChangementPuissanceFixture } from './fixture/demanderChangementPuissance.fixture';
 import { AnnulerChangementPuissanceFixture } from './fixture/annulerChangementPuissance.fixture';
+import { EnregistrerChangementPuissanceFixture } from './fixture/enregistrerChangementPuissance.fixture';
 
 type MapToDemandeExpectedProps = {
   identifiantProjet: IdentifiantProjet.ValueType;
@@ -25,9 +26,15 @@ export class ChangementPuissanceWorld {
     return this.#annulerChangementPuissanceFixture;
   }
 
+  #enregistrerChangementPuissanceFixture: EnregistrerChangementPuissanceFixture;
+  get enregistrerChangementPuissanceFixture() {
+    return this.#enregistrerChangementPuissanceFixture;
+  }
+
   constructor() {
     this.#demanderChangementPuissanceFixture = new DemanderChangementPuissanceFixture();
     this.#annulerChangementPuissanceFixture = new AnnulerChangementPuissanceFixture();
+    this.#enregistrerChangementPuissanceFixture = new EnregistrerChangementPuissanceFixture();
   }
 
   mapToExpected({
@@ -35,11 +42,18 @@ export class ChangementPuissanceWorld {
     statut,
     puissanceActuelle,
   }: MapToDemandeExpectedProps): Option.Type<Puissance.ConsulterChangementPuissanceReadModel> {
-    if (!this.demanderChangementPuissanceFixture.aÉtéCréé) {
-      throw new Error(`Aucune demande n'a été créée dans PuissanceWorld`);
+    if (
+      !this.demanderChangementPuissanceFixture.aÉtéCréé &&
+      !this.#enregistrerChangementPuissanceFixture.aÉtéCréé
+    ) {
+      throw new Error(
+        `Aucune demande ou d'information enregistrée n'a été créée dans PuissanceWorld`,
+      );
     }
 
-    const baseFixture = this.#demanderChangementPuissanceFixture;
+    const baseFixture = this.#enregistrerChangementPuissanceFixture.aÉtéCréé
+      ? this.#enregistrerChangementPuissanceFixture
+      : this.#demanderChangementPuissanceFixture;
 
     return {
       identifiantProjet,
