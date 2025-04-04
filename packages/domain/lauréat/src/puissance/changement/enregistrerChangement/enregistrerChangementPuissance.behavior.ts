@@ -18,8 +18,8 @@ export type ChangementPuissanceEnregistréEvent = DomainEvent<
     puissance: number;
     enregistréLe: DateTime.RawType;
     enregistréPar: Email.RawType;
-    raison: string;
-    pièceJustificative: {
+    raison?: string;
+    pièceJustificative?: {
       format: string;
     };
   }
@@ -30,8 +30,8 @@ export type EnregistrerChangementOptions = {
   identifiantUtilisateur: Email.ValueType;
   puissance: number;
   dateChangement: DateTime.ValueType;
-  pièceJustificative: DocumentProjet.ValueType;
-  raison: string;
+  pièceJustificative?: DocumentProjet.ValueType;
+  raison?: string;
   estAbandonné: boolean;
   estAchevé: boolean;
   demandeAbandonEnCours: boolean;
@@ -85,9 +85,7 @@ export async function enregistrerChangement(
       enregistréLe: dateChangement.formatter(),
       enregistréPar: identifiantUtilisateur.formatter(),
       raison,
-      pièceJustificative: {
-        format: pièceJustificative.format,
-      },
+      pièceJustificative: pièceJustificative ?? undefined,
     },
   };
 

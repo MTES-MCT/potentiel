@@ -51,7 +51,10 @@ export const bind = ({ statut }: PlainType<ValueType>): ValueType => {
         throw new AucuneDemandeDeChangementEnCoursErreur();
       }
       if (this.statut === 'demandé') {
-        if (nouveauStatut.statut === 'demandé') {
+        if (
+          nouveauStatut.statut === 'demandé' ||
+          nouveauStatut.statut === 'information-enregistrée'
+        ) {
           throw new ChangementPuissanceDéjàEnCoursErreur();
         }
         return;

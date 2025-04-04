@@ -1,5 +1,4 @@
 # language: fr
-@select
 Fonctionnalité: Enregistrer un changement de puissance d'un projet lauréat
 
     Contexte:
@@ -10,10 +9,11 @@ Fonctionnalité: Enregistrer un changement de puissance d'un projet lauréat
     # pour la fixture
     # pour l'information enregistrée, la raison et la pj est optionnelle
     # ajouter la notification
+    @select
     Scénario: Enregistrer un changement de puissance d'un projet lauréat
         Quand le porteur enregistre un changement de puissance pour le projet lauréat
-        Alors la puissance du projet lauréat devrait être mis à jour
-        Et le changement enregistré de la puissance devrait être consultable
+        Alors la puissance du projet lauréat devrait être mise à jour
+        Et le changement enregistré de puissance devrait être consultable
 
     # Et un email a été envoyé à la dreal avec :
     #     | sujet      | Potentiel - Enregistrement d'un changement de puissance pour le projet Du boulodrome de Marseille dans le département(.*) |
@@ -29,7 +29,7 @@ Fonctionnalité: Enregistrer un changement de puissance d'un projet lauréat
         Alors l'utilisateur devrait être informé que "La puissance n'existe pas"
 
     Scénario: Impossible d'enregistrer un changement de puissance alors qu'un changement de puissance est en cours
-        Etant donné une demande de changement de puissance à la hausse en cours pour le projet lauréat
+        Etant donné une demande de changement de puissance à la baisse pour le projet lauréat
         Quand le porteur enregistre un changement de puissance pour le projet lauréat
         Alors l'utilisateur devrait être informé que "Une demande de changement est déjà en cours"
 

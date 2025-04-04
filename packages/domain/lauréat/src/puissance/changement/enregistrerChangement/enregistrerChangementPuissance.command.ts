@@ -15,8 +15,8 @@ export type EnregistrerChangementPuissanceCommand = Message<
     identifiantUtilisateur: Email.ValueType;
     puissance: number;
     dateChangement: DateTime.ValueType;
-    pièceJustificative: DocumentProjet.ValueType;
-    raison: string;
+    pièceJustificative?: DocumentProjet.ValueType;
+    raison?: string;
   }
 >;
 

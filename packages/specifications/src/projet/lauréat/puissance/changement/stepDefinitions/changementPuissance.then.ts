@@ -43,6 +43,17 @@ Alors(
   },
 );
 
+Alors(
+  'le changement enregistré de puissance devrait être consultable',
+  async function (this: PotentielWorld) {
+    await vérifierChangementPuissance.call(
+      this,
+      this.candidatureWorld.importerCandidature.identifiantProjet,
+      Puissance.StatutChangementPuissance.informationEnregistrée,
+    );
+  },
+);
+
 async function vérifierChangementPuissance(
   this: PotentielWorld,
   identifiantProjet: string,
@@ -52,9 +63,12 @@ async function vérifierChangementPuissance(
     type: 'Lauréat.Puissance.Query.ConsulterChangementPuissance',
     data: {
       identifiantProjet: identifiantProjet,
-      demandéLe:
-        this.lauréatWorld.puissanceWorld.changementPuissanceWorld.demanderChangementPuissanceFixture
-          .demandéLe,
+      demandéLe: this.lauréatWorld.puissanceWorld.changementPuissanceWorld
+        .demanderChangementPuissanceFixture.aÉtéCréé
+        ? this.lauréatWorld.puissanceWorld.changementPuissanceWorld
+            .demanderChangementPuissanceFixture.demandéLe
+        : this.lauréatWorld.puissanceWorld.changementPuissanceWorld
+            .enregistrerChangementPuissanceFixture.demandéLe,
     },
   });
 

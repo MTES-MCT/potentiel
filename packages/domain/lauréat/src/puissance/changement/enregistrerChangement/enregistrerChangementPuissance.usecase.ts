@@ -14,8 +14,8 @@ export type EnregistrerChangementPuissanceUseCase = Message<
     identifiantUtilisateurValue: string;
     puissanceValue: number;
     dateChangementValue: string;
-    raisonValue: string;
-    pièceJustificativeValue: {
+    raisonValue?: string;
+    pièceJustificativeValue?: {
       content: ReadableStream;
       format: string;
     };
@@ -31,20 +31,24 @@ export const registerEnregistrerChangementPuissanceUseCase = () => {
     pièceJustificativeValue,
     raisonValue,
   }) => {
-    const pièceJustificative = DocumentProjet.convertirEnValueType(
-      identifiantProjetValue,
-      TypeDocumentPuissance.pièceJustificative.formatter(),
-      dateChangementValue,
-      pièceJustificativeValue.format,
-    );
+    const pièceJustificative = pièceJustificativeValue
+      ? DocumentProjet.convertirEnValueType(
+          identifiantProjetValue,
+          TypeDocumentPuissance.pièceJustificative.formatter(),
+          dateChangementValue,
+          pièceJustificativeValue.format,
+        )
+      : undefined;
 
-    await mediator.send<EnregistrerDocumentProjetCommand>({
-      type: 'Document.Command.EnregistrerDocumentProjet',
-      data: {
-        content: pièceJustificativeValue!.content,
-        documentProjet: pièceJustificative,
-      },
-    });
+    if (pièceJustificative) {
+      await mediator.send<EnregistrerDocumentProjetCommand>({
+        type: 'Document.Command.EnregistrerDocumentProjet',
+        data: {
+          content: pièceJustificativeValue!.content,
+          documentProjet: pièceJustificative,
+        },
+      });
+    }
 
     await mediator.send<EnregistrerChangementPuissanceCommand>({
       type: 'Lauréat.Puissance.Command.EnregistrerChangement',

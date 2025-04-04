@@ -155,7 +155,7 @@ export async function enregistrerChangementPuissance(
     );
 
   const puissanceValue =
-    ratio * this.lauréatWorld.puissanceWorld.mapToExpected(identifiantProjet).puissance;
+    ratio * this.lauréatWorld.puissanceWorld.importerPuissanceFixture.puissance;
 
   await mediator.send<Puissance.EnregistrerChangementPuissanceUseCase>({
     type: 'Lauréat.Puissance.UseCase.EnregistrerChangement',

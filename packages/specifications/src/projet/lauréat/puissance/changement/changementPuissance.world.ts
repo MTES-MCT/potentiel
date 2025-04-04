@@ -60,9 +60,11 @@ export class ChangementPuissanceWorld {
 
       demande: {
         nouvellePuissance: baseFixture.ratio * puissanceActuelle,
-        autoritéCompétente: Puissance.RatioChangementPuissance.bind({
-          ratio: baseFixture.ratio,
-        }).getAutoritéCompétente(),
+        autoritéCompétente: this.#enregistrerChangementPuissanceFixture.aÉtéCréé
+          ? undefined
+          : Puissance.RatioChangementPuissance.bind({
+              ratio: baseFixture.ratio,
+            }).getAutoritéCompétente(),
         statut,
         demandéeLe: DateTime.convertirEnValueType(baseFixture.demandéLe),
         demandéePar: Email.convertirEnValueType(baseFixture.demandéPar),
