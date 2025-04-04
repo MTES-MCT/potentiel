@@ -16,6 +16,7 @@ import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 import { formatIdentifiantProjetForDocument } from '@/utils/modèle-document/formatIdentifiantProjetForDocument';
 import { getPériodeAppelOffres } from '@/app/_helpers/getPériodeAppelOffres';
+import { getEnCopies } from '@/utils/modèle-document/getEnCopies';
 
 export const GET = async (_: Request, { params: { identifiant } }: IdentifiantParameter) =>
   withUtilisateur(async (utilisateur) => {
@@ -106,28 +107,6 @@ export const GET = async (_: Request, { params: { identifiant } }: IdentifiantPa
       },
     });
   });
-
-const getEnCopies = (region: string): Array<string> => {
-  if (!region) {
-    return ['DREAL concernée', 'CRE'];
-  }
-
-  const enCopie = [];
-
-  if (['Guadeloupe', 'Guyane', 'Martinique', 'Corse', 'La Réunion', 'Mayotte'].includes(region)) {
-    enCopie.push('EDF OA');
-  }
-
-  if (['Guadeloupe', 'Guyane', 'Martinique', 'Corse', 'La Réunion'].includes(region)) {
-    enCopie.push('EDF SEI');
-  }
-
-  if (['Mayotte'].includes(region)) {
-    enCopie.push('EDN');
-  }
-
-  return [...enCopie, `DREAL ${region}`, 'CRE'];
-};
 
 const getCDCAbandonRefs = ({
   appelOffres,
