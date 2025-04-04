@@ -26,7 +26,7 @@ Fonctionnalité: Enregistrer un changement de puissance d'un projet lauréat
     Scénario: Impossible d'enregistrer un changement de puissance si la puissance est inexistant
         Etant donné le projet éliminé "Du boulodrome de Lyon"
         Quand le porteur enregistre un changement de puissance pour le projet éliminé
-        Alors l'utilisateur devrait être informé que "la puissance n'existe pas"
+        Alors l'utilisateur devrait être informé que "La puissance n'existe pas"
 
     Scénario: Impossible d'enregistrer un changement de puissance alors qu'un changement de puissance est en cours
         Etant donné une demande de changement de puissance à la hausse en cours pour le projet lauréat

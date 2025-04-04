@@ -25,7 +25,7 @@ export const changementPuissanceEnregistréProjector = async ({
       identifiantProjet,
       demande: {
         nouvellePuissance: puissance,
-        statut: Puissance.StatutChangementPuissance.informationEnregistrée.statut,
+        statut: 'information-enregistrée',
         demandéePar: enregistréPar,
         demandéeLe: enregistréLe,
         raison,

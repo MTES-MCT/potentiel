@@ -1,12 +1,7 @@
 import { match } from 'ts-pattern';
 
 import { IdentifiantProjet } from '@potentiel-domain/common';
-import {
-  Aggregate,
-  AggregateNotFoundError,
-  GetDefaultAggregateState,
-  LoadAggregate,
-} from '@potentiel-domain/core';
+import { Aggregate, GetDefaultAggregateState, LoadAggregate } from '@potentiel-domain/core';
 
 import { ChangementPuissanceEnregistréEvent, StatutChangementPuissance } from '.';
 
@@ -36,6 +31,7 @@ import {
   applyChangementPuissanceEnregistré,
   enregistrerChangement,
 } from './changement/enregistrerChangement/enregistrerChangementPuissance.behavior';
+import { PuissanceIntrouvableError } from './errors';
 
 export type PuissanceEvent =
   | PuissanceImportéeEvent
@@ -97,14 +93,8 @@ export const loadPuissanceFactory =
       getDefaultAggregate: getDefaultPuissanceAggregate,
       onNone: throwOnNone
         ? () => {
-            throw new PuissanceNonTrouvéeError();
+            throw new PuissanceIntrouvableError();
           }
         : undefined,
     });
   };
-
-class PuissanceNonTrouvéeError extends AggregateNotFoundError {
-  constructor() {
-    super(`La puissance n'existe pas`);
-  }
-}
