@@ -40,7 +40,9 @@ const makeAttachUserToRequestMiddleware =
   }: AttachUserToRequestMiddlewareDependencies) =>
   async (request: Request, response: Response, next: NextFunction) => {
     if (
-      // Theses paths should be prefixed with /static in the future
+      request.path.startsWith('/api') ||
+      request.path.startsWith('/csrf') ||
+      request.path.startsWith('/auth') ||
       request.path.startsWith('/fonts') ||
       request.path.startsWith('/css') ||
       request.path.startsWith('/images') ||
@@ -48,7 +50,8 @@ const makeAttachUserToRequestMiddleware =
       request.path.startsWith('/main') ||
       request.path.startsWith('/illustrations') ||
       request.path.startsWith('/js') ||
-      request.path.startsWith('/dsfr')
+      request.path.startsWith('/dsfr') ||
+      request.path.startsWith('/_next')
     ) {
       next();
       return;
