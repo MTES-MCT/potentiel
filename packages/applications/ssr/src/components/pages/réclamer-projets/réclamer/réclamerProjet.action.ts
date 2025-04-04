@@ -9,6 +9,7 @@ import { RéclamerProjetUseCase } from '@potentiel-domain/utilisateur';
 
 import { FormAction, formAction, FormState } from '@/utils/formAction';
 import { withUtilisateur } from '@/utils/withUtilisateur';
+import { withRateLimit } from '@/utils/withRateLimit';
 import {
   numéroCRESchema,
   prixRéférenceSchema,
@@ -72,4 +73,13 @@ const action: FormAction<FormState, typeof schema> = async (_, body) => {
   });
 };
 
-export const réclamerProjetAction = formAction(action, schema);
+export const réclamerProjetAction = formAction(
+  withRateLimit(action, {
+    keyPrefix: 'réclamer-projet',
+    message: 'Trop de tentatives, veuillez réessayer plus tard',
+    points: 10, // 10 requests
+    duration: 5 * 60, // per 5 minutes
+    blockDuration: 60 * 60, // block 1 hour
+  }),
+  schema,
+);
