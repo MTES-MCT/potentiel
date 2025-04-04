@@ -3,9 +3,10 @@ import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 
 import { Option } from '@potentiel-libraries/monads';
-import { CahierDesCharges, Puissance } from '@potentiel-domain/laureat';
+import { Puissance } from '@potentiel-domain/laureat';
 import { IdentifiantProjet } from '@potentiel-domain/common';
 import { mapToPlainObject } from '@potentiel-domain/core';
+import { Lauréat } from '@potentiel-domain/projet';
 
 import { decodeParameter } from '@/utils/decodeParameter';
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
@@ -39,7 +40,7 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
     const { appelOffres, période } = await getPériodeAppelOffres(candidature.identifiantProjet);
 
     const cahierDesChargesChoisi =
-      await mediator.send<CahierDesCharges.ConsulterCahierDesChargesChoisiQuery>({
+      await mediator.send<Lauréat.ConsulterCahierDesChargesChoisiQuery>({
         type: 'Lauréat.CahierDesCharges.Query.ConsulterCahierDesChargesChoisi',
         data: {
           identifiantProjet: identifiantProjet.formatter(),

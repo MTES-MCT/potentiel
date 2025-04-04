@@ -17,6 +17,7 @@ import {
 } from '@potentiel-applications/notifications';
 import {
   CandidatureAdapter,
+  consulterCahierDesChargesChoisiAdapter,
   getProjetUtilisateurScopeAdapter,
 } from '@potentiel-infrastructure/domain-adapters';
 import { AttestationSaga } from '@potentiel-applications/document-builder';
@@ -40,6 +41,7 @@ export const setupProjet = async ({ sendEmail }: SetupProjetDependencies) => {
     récupérerProjet: CandidatureAdapter.récupérerProjetAdapter,
     récupérerProjetsEligiblesPreuveRecanditure:
       CandidatureAdapter.récupérerProjetsEligiblesPreuveRecanditureAdapter,
+    consulterCahierDesChargesAdapter: consulterCahierDesChargesChoisiAdapter,
   });
 
   LauréatProjector.register();
@@ -56,6 +58,7 @@ export const setupProjet = async ({ sendEmail }: SetupProjetDependencies) => {
       'NomEtLocalitéLauréatImportés-V1',
       'LauréatNotifié-V2',
       'LauréatModifié-V1',
+      'CahierDesChargesChoisi-V1',
       'RebuildTriggered',
     ],
     eventHandler: async (event) => {

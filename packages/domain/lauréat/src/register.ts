@@ -11,10 +11,6 @@ import {
   registerAchèvementUseCases,
 } from './achèvement/achèvement.register';
 import {
-  CahierDesChargesChoisiQueryDependencies,
-  registerCahierDesChargesChoisiQueries,
-} from './cahierDesChargesChoisi/cahierDesChargesChoisi.register';
-import {
   GarantiesFinancièresCommandDependencies,
   GarantiesFinancièresQueryDependencies,
   registerGarantiesFinancièresQueries,
@@ -44,7 +40,6 @@ import {
 } from './puissance/puissance.register';
 
 export type LauréatQueryDependencies = AbandonQueryDependencies &
-  CahierDesChargesChoisiQueryDependencies &
   GarantiesFinancièresQueryDependencies &
   AchèvementQueryDependencies &
   ReprésentantLégalQueryDependencies &
@@ -70,7 +65,6 @@ export const registerLauréatUseCases = (dependencies: LauréatCommandDependenci
 
 export const registerLauréatQueries = (dependencies: LauréatQueryDependencies) => {
   registerAbandonQueries(dependencies);
-  registerCahierDesChargesChoisiQueries(dependencies);
   registerGarantiesFinancièresQueries(dependencies);
   registerAchèvementQueries(dependencies);
   registerReprésentantLégalQueries(dependencies);

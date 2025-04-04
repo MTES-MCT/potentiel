@@ -1,7 +1,7 @@
 import { DomainEvent } from '@potentiel-domain/core';
 import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
 import { DocumentProjet } from '@potentiel-domain/document';
-import { Candidature } from '@potentiel-domain/projet';
+import { Candidature, Lauréat } from '@potentiel-domain/projet';
 import { Option } from '@potentiel-libraries/monads';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 
@@ -16,7 +16,6 @@ import {
   PériodeInexistanteError,
 } from '../errors';
 import { PuissanceIdentiqueError } from '../../errors';
-import { ConsulterCahierDesChargesChoisiReadmodel } from '../../../cahierDesChargesChoisi';
 
 export type ChangementPuissanceEnregistréEvent = DomainEvent<
   'ChangementPuissanceEnregistré-V1',
@@ -45,7 +44,7 @@ export type EnregistrerChangementOptions = {
   demandeAbandonEnCours: boolean;
   appelOffre: Option.Type<AppelOffre.ConsulterAppelOffreReadModel>;
   technologie: Candidature.TypeTechnologie.ValueType;
-  cahierDesCharges: Option.Type<ConsulterCahierDesChargesChoisiReadmodel>;
+  cahierDesCharges: Option.Type<Lauréat.ConsulterCahierDesChargesChoisiReadmodel>;
   note: number;
 };
 

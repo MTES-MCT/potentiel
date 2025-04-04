@@ -1,3 +1,8 @@
+import { ChoisirCahierDesChargesUseCase } from './choisir/choisirCahierDesCharges.usecase';
+import {
+  ConsulterCahierDesChargesChoisiQuery,
+  ConsulterCahierDesChargesChoisiReadmodel,
+} from './consulter/consulterCahierDesChargesChoisi.query';
 import {
   ConsulterLauréatQuery,
   ConsulterLauréatReadModel,
@@ -6,17 +11,21 @@ import { ModifierLauréatUseCase } from './modifier/modifierLauréat.usecase';
 import { NotifierLauréatUseCase } from './notifier/notifierLauréat.usecase';
 
 // Query
-export type LauréatQuery = ConsulterLauréatQuery;
-export { ConsulterLauréatQuery };
+export type LauréatQuery = ConsulterLauréatQuery | ConsulterCahierDesChargesChoisiQuery;
+export { ConsulterLauréatQuery, ConsulterCahierDesChargesChoisiQuery };
 
 // ReadModel
-export { ConsulterLauréatReadModel };
+export { ConsulterLauréatReadModel, ConsulterCahierDesChargesChoisiReadmodel };
 
 // Port
+export { ConsulterCahierDesChargesChoisiPort } from './consulter/consulterCahierDesChargesChoisi.query';
 
 // UseCases
-export type LauréatUseCase = NotifierLauréatUseCase | ModifierLauréatUseCase;
-export { NotifierLauréatUseCase, ModifierLauréatUseCase };
+export type LauréatUseCase =
+  | NotifierLauréatUseCase
+  | ModifierLauréatUseCase
+  | ChoisirCahierDesChargesUseCase;
+export { NotifierLauréatUseCase, ModifierLauréatUseCase, ChoisirCahierDesChargesUseCase };
 
 // Events
 export { LauréatEvent } from './lauréat.event';
@@ -26,6 +35,7 @@ export {
   NomEtLocalitéLauréatImportésEvent,
 } from './notifier/lauréatNotifié.event';
 export { LauréatModifiéEvent } from './modifier/lauréatModifié.event';
+export { CahierDesChargesChoisiEvent } from './choisir/cahierDesChargesChoisi.event';
 
 // Register
 export { registerLauréatQueries, registerLauréatUseCases } from './lauréat.register';

@@ -3,14 +3,14 @@ import { notFound } from 'next/navigation';
 import { NextRequest } from 'next/server';
 
 import { AppelOffre } from '@potentiel-domain/appel-offre';
-import { Candidature } from '@potentiel-domain/projet';
+import { Candidature, Lauréat } from '@potentiel-domain/projet';
 import { DateTime } from '@potentiel-domain/common';
 import {
   formatDateForDocument,
   ModèleRéponseSignée,
 } from '@potentiel-applications/document-builder';
 import { Option } from '@potentiel-libraries/monads';
-import { Actionnaire, CahierDesCharges } from '@potentiel-domain/laureat';
+import { Actionnaire } from '@potentiel-domain/laureat';
 import { IdentifiantProjet } from '@potentiel-domain/projet';
 
 import { apiAction } from '@/utils/apiAction';
@@ -46,7 +46,7 @@ export const GET = async (
       }
 
       const cahierDesChargesChoisi =
-        await mediator.send<CahierDesCharges.ConsulterCahierDesChargesChoisiQuery>({
+        await mediator.send<Lauréat.ConsulterCahierDesChargesChoisiQuery>({
           type: 'Lauréat.CahierDesCharges.Query.ConsulterCahierDesChargesChoisi',
           data: { identifiantProjet },
         });
@@ -131,7 +131,7 @@ const getDonnéesCourriersRéponse = ({
 }: {
   appelOffres: AppelOffre.AppelOffreReadModel;
   période: AppelOffre.Periode;
-  cahierDesChargesChoisi: CahierDesCharges.ConsulterCahierDesChargesChoisiReadmodel;
+  cahierDesChargesChoisi: Lauréat.ConsulterCahierDesChargesChoisiReadmodel;
 }): AppelOffre.DonnéesCourriersRéponse['texteChangementDActionnariat'] => {
   return {
     référenceParagraphe: '!!!REFERENCE NON DISPONIBLE!!!',

@@ -1,15 +1,13 @@
-import { Candidature } from '@potentiel-domain/projet';
+import { Candidature, Lauréat } from '@potentiel-domain/projet';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { PlainType } from '@potentiel-domain/core';
-
-import { ConsulterCahierDesChargesChoisiReadmodel } from '../../../cahierDesChargesChoisi';
 
 const PUISSANCE_DEFAULT_RATIOS = { min: 0.9, max: 1.1 };
 
 type GetRatiosChangementPuissanceProps = {
   appelOffre: Pick<AppelOffre.ConsulterAppelOffreReadModel, 'changementPuissance'>;
   technologie: Candidature.TypeTechnologie.RawType;
-  cahierDesCharges: PlainType<ConsulterCahierDesChargesChoisiReadmodel>;
+  cahierDesCharges: PlainType<Lauréat.ConsulterCahierDesChargesChoisiReadmodel>;
 };
 
 export const getRatiosChangementPuissance = ({

@@ -1,6 +1,6 @@
 import { executeSelect } from '@potentiel-libraries/pg-helpers';
 import { Option } from '@potentiel-libraries/monads';
-import { CahierDesCharges } from '@potentiel-domain/laureat';
+import { Lauréat } from '@potentiel-domain/projet';
 
 const selectProjectQuery = `
   select json_build_object(
@@ -10,7 +10,7 @@ const selectProjectQuery = `
   where "appelOffreId" = $1 and "periodeId" = $2 and "numeroCRE" = $3 and "familleId" = $4
 `;
 
-export const consulterCahierDesChargesChoisiAdapter: CahierDesCharges.ConsulterCahierDesChargesChoisiPort =
+export const consulterCahierDesChargesChoisiAdapter: Lauréat.ConsulterCahierDesChargesChoisiPort =
   async ({ appelOffre, période, famille, numéroCRE }) => {
     const projets = await executeSelect<{
       value: {

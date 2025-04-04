@@ -1,8 +1,6 @@
 import { DomainError, PlainType, ReadonlyValueType } from '@potentiel-domain/core';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
-import { Candidature } from '@potentiel-domain/projet';
-
-import { ConsulterCahierDesChargesChoisiReadmodel } from '../../cahierDesChargesChoisi';
+import { Candidature, Lauréat } from '@potentiel-domain/projet';
 
 import {
   dépassePuissanceMaxDuVolumeRéservé,
@@ -18,7 +16,7 @@ export type ValueType = ReadonlyValueType<{
   ratio: number;
   appelOffre: PlainType<AppelOffre.ConsulterAppelOffreReadModel>;
   technologie: Candidature.TypeTechnologie.RawType;
-  cahierDesCharges: PlainType<ConsulterCahierDesChargesChoisiReadmodel>;
+  cahierDesCharges: PlainType<Lauréat.ConsulterCahierDesChargesChoisiReadmodel>;
   période: PlainType<AppelOffre.Periode>;
   nouvellePuissance: number;
   famille?: AppelOffre.Famille;

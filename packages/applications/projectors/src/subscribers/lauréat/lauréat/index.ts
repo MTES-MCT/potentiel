@@ -8,6 +8,7 @@ import { rebuildTriggeredProjector } from './rebuildTriggered.projector';
 import { lauréatNotifiéProjector, lauréatNotifiéV1Projector } from './lauréatNotifié.projector';
 import { lauréatModifiéProjector } from './lauréatModifié.projector';
 import { nomEtLocalitéLauréatImportésProjector } from './nomEtLocalitéLauréatImportés.projector';
+import { cahierDesChargesChoisiProjector } from './cahierDesChargesChoisi.projector';
 
 export type SubscriptionEvent = (Lauréat.LauréatEvent & Event) | RebuildTriggered;
 
@@ -21,6 +22,7 @@ export const register = () => {
       .with({ type: 'NomEtLocalitéLauréatImportés-V1' }, nomEtLocalitéLauréatImportésProjector)
       .with({ type: 'LauréatNotifié-V2' }, lauréatNotifiéProjector)
       .with({ type: 'LauréatModifié-V1' }, lauréatModifiéProjector)
+      .with({ type: 'CahierDesChargesChoisi-V1' }, cahierDesChargesChoisiProjector)
       .exhaustive();
 
   mediator.register('System.Projector.Lauréat', handler);

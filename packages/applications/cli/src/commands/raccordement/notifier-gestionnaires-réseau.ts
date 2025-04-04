@@ -7,10 +7,7 @@ import {
   findProjection,
   listProjection,
 } from '@potentiel-infrastructure/pg-projection-read';
-import {
-  consulterCahierDesChargesChoisiAdapter,
-  récupérerIdentifiantsProjetParEmailPorteurAdapter,
-} from '@potentiel-infrastructure/domain-adapters';
+import { récupérerIdentifiantsProjetParEmailPorteurAdapter } from '@potentiel-infrastructure/domain-adapters';
 import { sendEmail } from '@potentiel-infrastructure/email';
 import { killPool } from '@potentiel-libraries/pg-helpers';
 import { getLogger } from '@potentiel-libraries/monitoring';
@@ -34,7 +31,6 @@ export class NotifierGestionnaireRéseau extends Command {
     });
 
     registerLauréatQueries({
-      consulterCahierDesChargesAdapter: consulterCahierDesChargesChoisiAdapter,
       count: countProjection,
       find: findProjection,
       list: listProjection,

@@ -11,6 +11,8 @@ import { InviterPorteurUseCase } from '@potentiel-domain/utilisateur';
 import { PotentielWorld } from '../../../potentiel.world';
 import { importerCandidature } from '../../../candidature/stepDefinitions/candidature.given';
 
+import { choisirCahierDesCharges } from './lauréat.when';
+
 EtantDonné('le projet lauréat {string}', async function (this: PotentielWorld, nomProjet: string) {
   await importerCandidature.call(this, nomProjet, 'classé');
 
@@ -76,6 +78,13 @@ EtantDonné(
     await notifierLauréat.call(this, dateDésignation);
 
     await insérerProjetAvecDonnéesCandidature.call(this, dateDésignation, 'lauréat');
+  },
+);
+
+EtantDonné(
+  'le cahier des charges {string} choisi pour le projet lauréat',
+  async function (this: PotentielWorld, cdcChoisi: string) {
+    await choisirCahierDesCharges.call(this, cdcChoisi);
   },
 );
 

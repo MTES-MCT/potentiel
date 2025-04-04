@@ -8,7 +8,6 @@ import {
 } from '@potentiel-domain/laureat';
 import {
   AppelOffreAdapter,
-  consulterCahierDesChargesChoisiAdapter,
   DocumentAdapter,
   récupérerIdentifiantsProjetParEmailPorteurAdapter,
 } from '@potentiel-infrastructure/domain-adapters';
@@ -25,7 +24,6 @@ registerLauréatQueries({
   find: findProjection,
   list: listProjection,
   récupérerIdentifiantsProjetParEmailPorteur: récupérerIdentifiantsProjetParEmailPorteurAdapter,
-  consulterCahierDesChargesAdapter: consulterCahierDesChargesChoisiAdapter,
   count: countProjection,
 });
 

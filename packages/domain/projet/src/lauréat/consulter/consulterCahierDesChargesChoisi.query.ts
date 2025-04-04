@@ -5,6 +5,8 @@ import { IdentifiantProjet } from '@potentiel-domain/common';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { Find } from '@potentiel-domain/entity';
 
+import { LauréatEntity } from '../lauréat.entity';
+
 export type ConsulterCahierDesChargesChoisiReadmodel =
   | AppelOffre.CahierDesChargesModifié
   | { type: 'initial' };
@@ -35,9 +37,15 @@ export const registerConsulterCahierDesChargesChoisiQuery = ({
   }) => {
     const identifiantProjetValueType = IdentifiantProjet.convertirEnValueType(identifiantProjet);
     const { appelOffre, période } = identifiantProjetValueType;
-    const cahierDesChargesChoisiValue = await consulterCahierDesChargesAdapter(
-      identifiantProjetValueType,
-    );
+
+    const cahierDesChargesChoisiValue =
+      process.env.MIGRATION_CDC === 'true'
+        ? await find<LauréatEntity>(`lauréat|${identifiantProjet}`).then((lauréat) =>
+            Option.match(lauréat)
+              .some((lauréat) => lauréat.cahierDesCharges)
+              .none(),
+          )
+        : await consulterCahierDesChargesAdapter(identifiantProjetValueType);
 
     if (Option.isNone(cahierDesChargesChoisiValue)) {
       return Option.none;
