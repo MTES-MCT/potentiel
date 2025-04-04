@@ -75,7 +75,7 @@ Quand(
 );
 
 Quand(
-  'le porteur enregsitre le changement de puissance pour le projet lauréat avec :',
+  'le porteur enregistre le changement de puissance pour le projet lauréat avec :',
   async function (this: PotentielWorld, dataTable: DataTable) {
     const exemple = dataTable.rowsHash();
 
