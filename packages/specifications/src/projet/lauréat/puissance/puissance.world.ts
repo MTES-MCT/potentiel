@@ -1,5 +1,5 @@
-import { IdentifiantProjet } from '@potentiel-domain/common';
 import { Puissance } from '@potentiel-domain/laureat';
+import { IdentifiantProjet } from '@potentiel-domain/projet';
 
 import { ImporterPuissanceFixture } from './fixture/importerPuissance.fixture';
 import { ModifierPuissanceFixture } from './fixture/modifierPuissance.fixture';
@@ -36,6 +36,12 @@ export class PuissanceWorld {
         ? this.#modifierPuissanceFixture.puissance
         : this.#importerPuissanceFixture.puissance,
     };
+
+    if (this.#changementPuissanceWorld.accorderChangementPuissanceFixture.aÉtéCréé) {
+      expected.puissance =
+        this.#changementPuissanceWorld.demanderChangementPuissanceFixture.ratio *
+        expected.puissance;
+    }
 
     return expected;
   }

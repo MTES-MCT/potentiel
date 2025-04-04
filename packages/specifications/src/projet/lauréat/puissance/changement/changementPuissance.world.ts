@@ -6,6 +6,7 @@ import { Option } from '@potentiel-libraries/monads';
 
 import { DemanderChangementPuissanceFixture } from './fixture/demanderChangementPuissance.fixture';
 import { AnnulerChangementPuissanceFixture } from './fixture/annulerChangementPuissance.fixture';
+import { AccorderChangementPuissanceFixture } from './fixture/accorderChangementPuissance.fixture';
 
 type MapToDemandeExpectedProps = {
   identifiantProjet: IdentifiantProjet.ValueType;
@@ -15,7 +16,6 @@ type MapToDemandeExpectedProps = {
 
 export class ChangementPuissanceWorld {
   #demanderChangementPuissanceFixture: DemanderChangementPuissanceFixture;
-
   get demanderChangementPuissanceFixture() {
     return this.#demanderChangementPuissanceFixture;
   }
@@ -25,9 +25,15 @@ export class ChangementPuissanceWorld {
     return this.#annulerChangementPuissanceFixture;
   }
 
+  #accorderChangementPuissanceFixture: AccorderChangementPuissanceFixture;
+  get accorderChangementPuissanceFixture() {
+    return this.#accorderChangementPuissanceFixture;
+  }
+
   constructor() {
     this.#demanderChangementPuissanceFixture = new DemanderChangementPuissanceFixture();
     this.#annulerChangementPuissanceFixture = new AnnulerChangementPuissanceFixture();
+    this.#accorderChangementPuissanceFixture = new AccorderChangementPuissanceFixture();
   }
 
   mapToExpected({

@@ -63,6 +63,19 @@ Quand(
   },
 );
 
+Quand(
+  `la DREAL associée au projet accorde le changement de puissance à la baisse pour le projet lauréat`,
+  async function (this: PotentielWorld) {
+    try {
+      await accorderChangementPuissance.call(this);
+      console.log('😧🫠🫠🫠accord réussi');
+    } catch (error) {
+      console.log('😧🫠🫠🫠accord failed', error);
+      this.error = error as Error;
+    }
+  },
+);
+
 export async function demanderChangementPuissance(
   this: PotentielWorld,
   statutProjet: 'lauréat' | 'éliminé',
@@ -113,6 +126,30 @@ export async function annulerChangementPuissance(this: PotentielWorld) {
       dateAnnulationValue: annuléeLe,
       identifiantUtilisateurValue: annuléePar,
       identifiantProjetValue: identifiantProjet,
+    },
+  });
+}
+
+async function accorderChangementPuissance(this: PotentielWorld) {
+  const identifiantProjet = this.lauréatWorld.identifiantProjet.formatter();
+
+  const { accordéeLe, accordéePar, réponseSignée } =
+    this.lauréatWorld.puissanceWorld.changementPuissanceWorld.accorderChangementPuissanceFixture.créer(
+      {
+        accordéePar: this.utilisateurWorld.drealFixture.email,
+      },
+    );
+
+  await mediator.send<Puissance.PuissanceUseCase>({
+    type: 'Lauréat.Puissance.UseCase.AccorderDemandeChangement',
+    data: {
+      identifiantProjetValue: identifiantProjet,
+      accordéLeValue: accordéeLe,
+      accordéParValue: accordéePar,
+      réponseSignéeValue: {
+        content: réponseSignée.content,
+        format: réponseSignée.format,
+      },
     },
   });
 }

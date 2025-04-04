@@ -4,6 +4,7 @@ import {
 } from './consulter/consulterPuissance.query';
 import { DemanderChangementCommand } from './changement/demander/demanderChangementPuissance.command';
 import { DemanderChangementUseCase } from './changement/demander/demanderChangementPuissance.usecase';
+import { AccorderChangementPuissanceUseCase } from './changement/accorder/accorderChangementPuissance.usecase';
 import { ImporterPuissanceCommand } from './importer/importerPuissance.command';
 import { ModifierPuissanceCommand } from './modifier/modifierPuissance.command';
 import { ModifierPuissanceUseCase } from './modifier/modifierPuissance.usecase';
@@ -13,6 +14,7 @@ import {
 } from './changement/consulter/consulterChangementPuissance.query';
 import { AnnulerChangementPuissanceUseCase } from './changement/annuler/annulerChangementPuissance.usecase';
 import { AnnulerChangementPuissanceCommand } from './changement/annuler/annulerChangementPuissance.command';
+import { AccorderChangementPuissanceCommand } from './changement/accorder/accorderChangementPuissance.command';
 
 // Query
 export type PuissanceQuery = ConsulterPuissanceQuery | ConsulterChangementPuissanceQuery;
@@ -25,11 +27,14 @@ export type { ConsulterPuissanceReadModel, ConsulterChangementPuissanceReadModel
 export type PuissanceUseCase =
   | ModifierPuissanceUseCase
   | DemanderChangementUseCase
-  | AnnulerChangementPuissanceUseCase;
+  | AnnulerChangementPuissanceUseCase
+  | AccorderChangementPuissanceUseCase;
+
 export type {
   ModifierPuissanceUseCase,
   DemanderChangementUseCase,
   AnnulerChangementPuissanceUseCase,
+  AccorderChangementPuissanceUseCase,
 };
 
 // Command
@@ -37,12 +42,15 @@ export type PuissanceCommand =
   | ImporterPuissanceCommand
   | ModifierPuissanceCommand
   | DemanderChangementCommand
-  | AnnulerChangementPuissanceCommand;
+  | AnnulerChangementPuissanceCommand
+  | AccorderChangementPuissanceCommand;
+
 export type {
   ImporterPuissanceCommand,
   ModifierPuissanceCommand,
   DemanderChangementCommand,
   AnnulerChangementPuissanceCommand,
+  AccorderChangementPuissanceCommand,
 };
 
 // Event
@@ -52,6 +60,7 @@ export type { PuissanceModifiéeEvent } from './modifier/modifierPuissance.behav
 export type { ChangementPuissanceDemandéEvent } from './changement/demander/demanderChangementPuissance.behavior';
 export type { ChangementPuissanceAnnuléEvent } from './changement/annuler/annulerChangementPuissance.behavior';
 export type { ChangementPuissanceSuppriméEvent } from './changement/supprimer/supprimerChangementPuissance.behavior';
+export type { ChangementPuissanceAccordéEvent } from './changement/accorder/accorderChangementPuissance.behavior';
 
 // Entities
 export * from './puissance.entity';

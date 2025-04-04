@@ -49,7 +49,14 @@ export class DemanderChangementPuissanceFixture
     return this.#ratio;
   }
 
-  créer(partialData?: Partial<DemanderChangementPuissance>): Readonly<DemanderChangementPuissance> {
+  #puissanceActuelle!: number;
+  get puissanceActuelle(): number {
+    return this.#puissanceActuelle;
+  }
+
+  créer(
+    partialData?: Omit<Partial<DemanderChangementPuissance>, 'puissanceActuelle'>,
+  ): Readonly<DemanderChangementPuissance> {
     const content = faker.word.words();
 
     const fixture = {
@@ -72,6 +79,7 @@ export class DemanderChangementPuissanceFixture
     this.#ratio = fixture.ratio;
 
     this.aÉtéCréé = true;
+
     return fixture;
   }
 }

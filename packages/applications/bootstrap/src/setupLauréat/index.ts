@@ -21,6 +21,7 @@ import {
   AchèvementNotification,
   ActionnaireNotification,
   GarantiesFinancièresNotification,
+  PuissanceNotification,
   ReprésentantLégalNotification,
 } from '@potentiel-applications/notifications';
 import {
@@ -30,7 +31,7 @@ import {
   LauréatProjector,
   ReprésentantLégalProjector,
   ActionnaireProjector,
-  PuissanceProjector,
+  // PuissanceProjector,
 } from '@potentiel-applications/projectors';
 import {
   consulterCahierDesChargesChoisiAdapter,
@@ -68,7 +69,7 @@ export const setupLauréat = async ({
   AchèvementProjector.register();
   ReprésentantLégalProjector.register();
   ActionnaireProjector.register();
-  PuissanceProjector.register();
+  // PuissanceProjector.register();
 
   // Notifications
   AbandonNotification.register({ sendEmail });
@@ -76,6 +77,7 @@ export const setupLauréat = async ({
   AchèvementNotification.register({ sendEmail });
   ReprésentantLégalNotification.register({ sendEmail });
   ActionnaireNotification.register({ sendEmail });
+  PuissanceNotification.register({ sendEmail });
 
   // Sagas
   GarantiesFinancières.GarantiesFinancièresSaga.register();
@@ -123,25 +125,6 @@ export const setupLauréat = async ({
     eventHandler: async (event) => {
       await mediator.send<ActionnaireProjector.Execute>({
         type: 'System.Projector.Lauréat.Actionnaire',
-        data: event,
-      });
-    },
-  });
-
-  const unsubscribePuissanceProjector = await subscribe<PuissanceProjector.SubscriptionEvent>({
-    name: 'projector',
-    streamCategory: 'puissance',
-    eventType: [
-      'RebuildTriggered',
-      'PuissanceImportée-V1',
-      'PuissanceModifiée-V1',
-      'ChangementPuissanceDemandé-V1',
-      'ChangementPuissanceAnnulé-V1',
-      'ChangementPuissanceSupprimé-V1',
-    ],
-    eventHandler: async (event) => {
-      await mediator.send<PuissanceProjector.Execute>({
-        type: 'System.Projector.Lauréat.Puissance',
         data: event,
       });
     },
@@ -367,32 +350,6 @@ export const setupLauréat = async ({
       }),
   });
 
-  const unsubscribePuissanceSagaLauréat = await subscribe<
-    Puissance.PuissanceSaga.SubscriptionEvent & Event
-  >({
-    name: 'puissance-laureat-saga',
-    streamCategory: 'lauréat',
-    eventType: ['LauréatNotifié-V2'],
-    eventHandler: async (event) =>
-      mediator.publish<Puissance.PuissanceSaga.Execute>({
-        type: 'System.Lauréat.Puissance.Saga.Execute',
-        data: event,
-      }),
-  });
-
-  const unsubscribePuissanceSagaAbandon = await subscribe<
-    Puissance.PuissanceSaga.SubscriptionEvent & Event
-  >({
-    name: 'puissance-abandon-saga',
-    streamCategory: 'abandon',
-    eventType: ['AbandonAccordé-V1'],
-    eventHandler: async (event) =>
-      mediator.publish<Puissance.PuissanceSaga.Execute>({
-        type: 'System.Lauréat.Puissance.Saga.Execute',
-        data: event,
-      }),
-  });
-
   const unsubscribeActionnaireSaga = await subscribe<
     Actionnaire.ActionnaireSaga.SubscriptionEvent & Event
   >({
@@ -498,6 +455,73 @@ export const setupLauréat = async ({
     },
   });
 
+  const unsubscribePuissanceSagaLauréat = await subscribe<
+    Puissance.PuissanceSaga.SubscriptionEvent & Event
+  >({
+    name: 'puissance-laureat-saga',
+    streamCategory: 'lauréat',
+    eventType: ['LauréatNotifié-V2'],
+    eventHandler: async (event) =>
+      mediator.publish<Puissance.PuissanceSaga.Execute>({
+        type: 'System.Lauréat.Puissance.Saga.Execute',
+        data: event,
+      }),
+  });
+
+  const unsubscribePuissanceSagaAbandon = await subscribe<
+    Puissance.PuissanceSaga.SubscriptionEvent & Event
+  >({
+    name: 'puissance-abandon-saga',
+    streamCategory: 'abandon',
+    eventType: ['AbandonAccordé-V1'],
+    eventHandler: async (event) =>
+      mediator.publish<Puissance.PuissanceSaga.Execute>({
+        type: 'System.Lauréat.Puissance.Saga.Execute',
+        data: event,
+      }),
+  });
+
+  const unsubscribePuissanceNotification = await subscribe<PuissanceNotification.SubscriptionEvent>(
+    {
+      name: 'notifications',
+      streamCategory: 'puissance',
+      eventType: [
+        'PuissanceImportée-V1',
+        'PuissanceModifiée-V1',
+        'ChangementPuissanceDemandé-V1',
+        'ChangementPuissanceAnnulé-V1',
+        'ChangementPuissanceSupprimé-V1',
+        'ChangementPuissanceAccordé-V1',
+      ],
+      eventHandler: async (event) => {
+        await mediator.publish<PuissanceNotification.Execute>({
+          type: 'System.Notification.Lauréat.Puissance',
+          data: event,
+        });
+      },
+    },
+  );
+
+  // const unsubscribePuissanceProjector = await subscribe<PuissanceProjector.SubscriptionEvent>({
+  //   name: 'projector',
+  //   streamCategory: 'puissance',
+  //   eventType: [
+  //     'RebuildTriggered',
+  //     'PuissanceImportée-V1',
+  //     'PuissanceModifiée-V1',
+  //     'ChangementPuissanceDemandé-V1',
+  //     'ChangementPuissanceAnnulé-V1',
+  //     'ChangementPuissanceSupprimé-V1',
+  //     'ChangementPuissanceAccordé-V1',
+  //   ],
+  //   eventHandler: async (event) => {
+  //     await mediator.send<PuissanceProjector.Execute>({
+  //       type: 'System.Projector.Lauréat.Puissance',
+  //       data: event,
+  //     });
+  //   },
+  // });
+
   return async () => {
     // projectors
     await unsubscribeLauréatProjector();
@@ -506,13 +530,14 @@ export const setupLauréat = async ({
     await unsubscribeAchèvementProjector();
     await unsubscribeReprésentantLégalProjector();
     await unsubscribeActionnaireProjector();
-    await unsubscribePuissanceProjector();
+    // await unsubscribePuissanceProjector();
     // notifications
     await unsubscribeAbandonNotification();
     await unsubscribeGarantiesFinancièresNotification();
     await unsubscribeAchèvementNotification();
     await unsubscribeReprésentantLégalNotification();
     await unsubscribeActionnaireNotification();
+    await unsubscribePuissanceNotification();
     // sagas
     await unsubscribeGarantiesFinancièresSaga();
     await unsubscribeTypeGarantiesFinancièresSaga();

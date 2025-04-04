@@ -22,7 +22,6 @@ Alors(
     });
   },
 );
-
 Alors(
   'la demande de changement de puissance ne devrait plus être consultable',
   async function (this: PotentielWorld) {
@@ -43,6 +42,17 @@ Alors(
   },
 );
 
+Alors(
+  `la demande de changement de la puissance devrait être accordée`,
+  async function (this: PotentielWorld) {
+    await vérifierChangementPuissance.bind(
+      this,
+      this.candidatureWorld.importerCandidature.identifiantProjet,
+      Puissance.StatutChangementPuissance.accordé,
+    );
+  },
+);
+
 async function vérifierChangementPuissance(
   this: PotentielWorld,
   identifiantProjet: string,
@@ -51,7 +61,7 @@ async function vérifierChangementPuissance(
   const demandeEnCours = await mediator.send<Puissance.ConsulterChangementPuissanceQuery>({
     type: 'Lauréat.Puissance.Query.ConsulterChangementPuissance',
     data: {
-      identifiantProjet: identifiantProjet,
+      identifiantProjet,
       demandéLe:
         this.lauréatWorld.puissanceWorld.changementPuissanceWorld.demanderChangementPuissanceFixture
           .demandéLe,
