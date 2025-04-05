@@ -50,7 +50,7 @@ export const registerListerUtilisateursQuery = ({ list }: ListerUtilisateursDepe
         }
       : identifiantGestionnaireRéseau
         ? {
-            rôle: Where.equal('dreal'),
+            rôle: Where.equal('grd'),
             identifiantGestionnaireRéseau: Where.equal(identifiantGestionnaireRéseau),
           }
         : {
