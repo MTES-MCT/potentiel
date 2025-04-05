@@ -3,7 +3,6 @@ Fonctionnalité: Accorder le changement d'actionnaire d'un projet lauréat
 
     Contexte:
         Etant donné le projet lauréat "Du boulodrome de Marseille"
-        Et le porteur "Marcel Patoulatchi" ayant accés au projet lauréat "Du boulodrome de Marseille"
         Et la dreal "Dreal du sud" associée à la région du projet
 
     Scénario: la DREAL associée au projet accorde le changement d'actionnaire d'un projet lauréat

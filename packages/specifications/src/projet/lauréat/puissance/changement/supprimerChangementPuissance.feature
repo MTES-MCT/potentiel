@@ -3,7 +3,6 @@ Fonctionnalité: Supprimer la demande de changement de puissance
 
     Contexte:
         Etant donné le projet lauréat "Du boulodrome de Marseille"
-        Et le porteur "Marcel Patoulatchi" ayant accés au projet lauréat "Du boulodrome de Marseille"
 
     Scénario: Le système supprime la demande de changement de puissance si le projet est abandonné
         Etant donné une demande de changement de puissance à la baisse pour le projet lauréat

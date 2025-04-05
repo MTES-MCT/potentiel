@@ -3,7 +3,6 @@ Fonctionnalité: Transmettre une preuve de recandidature
 
     Contexte:
         Etant donné le projet lauréat "Du boulodrome de Marseille"
-        Et le porteur "Marcel Patoulatchi" ayant accés au projet lauréat "Du boulodrome de Marseille"
 
     Scénario: Le porteur du projet transmet comme preuve de recandidature un projet lauréat
         Etant donné un abandon accordé avec recandidature pour le projet lauréat

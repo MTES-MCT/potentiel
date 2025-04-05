@@ -3,7 +3,6 @@ Fonctionnalité: Rejeter le recours d'un projet éliminé
 
     Contexte:
         Etant donné le projet éliminé "Du boulodrome de Marseille"
-        Et le porteur "Marcel Patoulatchi" ayant accés au projet éliminé "Du boulodrome de Marseille"
 
     Scénario: Un DGEC validateur rejette le recours d'un projet éliminé
         Etant donné une demande de recours en cours pour le projet éliminé

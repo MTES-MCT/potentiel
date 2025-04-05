@@ -1,11 +1,10 @@
-import {
-  récupérerDrealsParIdentifiantProjetAdapter,
-  récupérerPorteursParIdentifiantProjetAdapter,
-} from '@potentiel-infrastructure/domain-adapters';
-import { IdentifiantProjet } from '@potentiel-domain/common';
+import { IdentifiantProjet } from '@potentiel-domain/projet';
 import { getLogger } from '@potentiel-libraries/monitoring';
 import { Routes } from '@potentiel-applications/routes';
 import { ReprésentantLégal } from '@potentiel-domain/laureat';
+
+import { listerPorteursRecipients } from '../../../helpers/listerPorteursRecipients';
+import { listerDrealsRecipients } from '../../../helpers/listerDrealsRecipients';
 
 import { RegisterReprésentantLégalNotificationDependencies } from '.';
 
@@ -15,6 +14,7 @@ type ChangementReprésentantLégalAccordéNotificationProps = {
   projet: {
     nom: string;
     département: string;
+    région: string;
   };
   baseUrl: string;
 };
@@ -26,7 +26,7 @@ export const changementReprésentantLégalAccordéNotification = async ({
   baseUrl,
 }: ChangementReprésentantLégalAccordéNotificationProps) => {
   const identifiantProjet = IdentifiantProjet.convertirEnValueType(event.payload.identifiantProjet);
-  const porteurs = await récupérerPorteursParIdentifiantProjetAdapter(identifiantProjet);
+  const porteurs = await listerPorteursRecipients(identifiantProjet);
 
   if (porteurs.length === 0) {
     getLogger().error('Aucun porteur trouvé', {
@@ -50,7 +50,7 @@ export const changementReprésentantLégalAccordéNotification = async ({
       },
     });
 
-    const dreals = await récupérerDrealsParIdentifiantProjetAdapter(identifiantProjet);
+    const dreals = await listerDrealsRecipients(projet.région);
 
     if (dreals.length === 0) {
       getLogger().error('Aucune dreal trouvée', {

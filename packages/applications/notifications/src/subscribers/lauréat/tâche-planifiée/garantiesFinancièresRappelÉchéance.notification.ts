@@ -1,11 +1,10 @@
-import {
-  récupérerDrealsParIdentifiantProjetAdapter,
-  récupérerPorteursParIdentifiantProjetAdapter,
-} from '@potentiel-infrastructure/domain-adapters';
-import { IdentifiantProjet } from '@potentiel-domain/common';
+import { IdentifiantProjet } from '@potentiel-domain/projet';
 import { Routes } from '@potentiel-applications/routes';
 import { TâchePlanifiéeExecutéeEvent } from '@potentiel-domain/tache-planifiee';
 import { getLogger } from '@potentiel-libraries/monitoring';
+
+import { listerPorteursRecipients } from '../../../helpers/listerPorteursRecipients';
+import { listerDrealsRecipients } from '../../../helpers/listerDrealsRecipients';
 
 import { RegisterTâchePlanifiéeNotificationDependencies } from '.';
 
@@ -16,6 +15,7 @@ type GarantiesFinancièresRappelÉchéanceNotificationProps = {
   projet: {
     nom: string;
     département: string;
+    région: string;
   };
   baseUrl: string;
 };
@@ -24,10 +24,10 @@ export const garantiesFinancièresRappelÉchéanceNotification = async ({
   sendEmail,
   identifiantProjet,
   event,
-  projet: { nom, département },
+  projet: { nom, région, département },
   baseUrl,
 }: GarantiesFinancièresRappelÉchéanceNotificationProps) => {
-  const porteurs = await récupérerPorteursParIdentifiantProjetAdapter(identifiantProjet);
+  const porteurs = await listerPorteursRecipients(identifiantProjet);
 
   if (porteurs.length === 0) {
     getLogger().error('Aucun porteur trouvé', {
@@ -38,7 +38,7 @@ export const garantiesFinancièresRappelÉchéanceNotification = async ({
     return;
   }
 
-  const dreals = await récupérerDrealsParIdentifiantProjetAdapter(identifiantProjet);
+  const dreals = await listerDrealsRecipients(région);
 
   if (dreals.length === 0) {
     getLogger().error('Aucune dreal trouvée', {

@@ -1,8 +1,9 @@
-import { récupérerDrealsParIdentifiantProjetAdapter } from '@potentiel-infrastructure/domain-adapters';
-import { IdentifiantProjet } from '@potentiel-domain/common';
+import { IdentifiantProjet } from '@potentiel-domain/projet';
 import { getLogger } from '@potentiel-libraries/monitoring';
 import { Routes } from '@potentiel-applications/routes';
 import { ReprésentantLégal } from '@potentiel-domain/laureat';
+
+import { listerDrealsRecipients } from '../../../helpers/listerDrealsRecipients';
 
 import { RegisterReprésentantLégalNotificationDependencies } from '.';
 
@@ -12,6 +13,7 @@ type ChangementReprésentantLégalDemandéNotificationProps = {
   projet: {
     nom: string;
     département: string;
+    région: string;
   };
   baseUrl: string;
 };
@@ -23,7 +25,7 @@ export const changementReprésentantLégalDemandéNotification = async ({
   baseUrl,
 }: ChangementReprésentantLégalDemandéNotificationProps) => {
   const identifiantProjet = IdentifiantProjet.convertirEnValueType(event.payload.identifiantProjet);
-  const dreals = await récupérerDrealsParIdentifiantProjetAdapter(identifiantProjet);
+  const dreals = await listerDrealsRecipients(projet.région);
 
   if (dreals.length === 0) {
     getLogger().error('Aucune dreal trouvée', {
