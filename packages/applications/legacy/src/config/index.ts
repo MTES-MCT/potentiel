@@ -1,6 +1,5 @@
 export * from './eventHandlers';
 export * from './authN.config';
-export * from './credentials.config';
 export * from './crypto.config';
 export * from './emails.config';
 export * from './env.config';
