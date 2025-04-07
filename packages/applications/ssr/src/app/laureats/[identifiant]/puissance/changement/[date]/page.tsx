@@ -64,7 +64,12 @@ export default async function Page({ params: { identifiant, date } }: PageProps)
         <DétailsPuissancePage
           identifiantProjet={mapToPlainObject(identifiantProjet)}
           demande={mapToPlainObject(changement.demande)}
-          actions={mapToActions(changement.demande.statut, utilisateur.role)}
+          actions={mapToActions(
+            changement.demande.statut,
+            utilisateur.role,
+            !changement.demande.isInformationEnregistrée &&
+              changement.demande.autoritéCompétente === utilisateur.role.nom,
+          )}
           demandeEnCoursDate={
             puissance.dateDemandeEnCours ? puissance.dateDemandeEnCours.formatter() : undefined
           }
@@ -77,11 +82,12 @@ export default async function Page({ params: { identifiant, date } }: PageProps)
 const mapToActions = (
   statut: Puissance.StatutChangementPuissance.ValueType,
   rôle: Role.ValueType,
+  estAutoritéCompétente: boolean,
 ): Array<ChangementPuissanceActions> => {
   const actions: Array<ChangementPuissanceActions> = [];
 
   if (statut.estDemandé()) {
-    if (rôle.aLaPermission('puissance.accorderChangement')) {
+    if (rôle.aLaPermission('puissance.accorderChangement') && estAutoritéCompétente) {
       actions.push('accorder');
     }
     // if (rôle.aLaPermission('puissance.rejeterChangement')) {
