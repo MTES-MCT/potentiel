@@ -32,9 +32,12 @@ export class PuissanceWorld {
   ): Puissance.ConsulterPuissanceReadModel {
     const expected = {
       identifiantProjet,
-      puissance: this.#modifierPuissanceFixture.aÉtéCréé
-        ? this.#modifierPuissanceFixture.puissance
-        : this.#importerPuissanceFixture.puissance,
+      puissance: this.#changementPuissanceWorld.enregistrerChangementPuissanceFixture.aÉtéCréé
+        ? this.#changementPuissanceWorld.enregistrerChangementPuissanceFixture.ratio *
+          this.#importerPuissanceFixture.puissance
+        : this.#modifierPuissanceFixture.aÉtéCréé
+          ? this.#modifierPuissanceFixture.puissance
+          : this.#importerPuissanceFixture.puissance,
     };
 
     return expected;

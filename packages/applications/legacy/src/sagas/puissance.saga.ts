@@ -33,10 +33,15 @@ export const register = () => {
 
     switch (type) {
       case 'PuissanceModifiée-V1':
+      case 'ChangementPuissanceEnregistré-V1':
         const { identifiantUtilisateur, puissance } = match(event)
           .with({ type: 'PuissanceModifiée-V1' }, ({ payload }) => ({
             puissance: payload.puissance,
             identifiantUtilisateur: payload.modifiéePar,
+          }))
+          .with({ type: 'ChangementPuissanceEnregistré-V1' }, ({ payload }) => ({
+            puissance: payload.puissance,
+            identifiantUtilisateur: payload.enregistréPar,
           }))
           .exhaustive();
 

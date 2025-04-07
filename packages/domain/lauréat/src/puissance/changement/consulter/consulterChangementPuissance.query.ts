@@ -12,31 +12,41 @@ import {
   TypeDocumentPuissance,
 } from '../..';
 
+type DétailsInformationEnregistréePuissance = {
+  raison?: string;
+  pièceJustificative?: DocumentProjet.ValueType;
+  isInformationEnregistrée: true;
+};
+
+type DétailsDemandeChangementPuissance = {
+  isInformationEnregistrée: false;
+  autoritéCompétente: RatioChangementPuissance.AutoritéCompétente;
+  raison: string;
+  pièceJustificative: DocumentProjet.ValueType;
+
+  accord?: {
+    réponseSignée: DocumentProjet.ValueType;
+    accordéePar: Email.ValueType;
+    accordéeLe: DateTime.ValueType;
+  };
+
+  rejet?: {
+    réponseSignée: DocumentProjet.ValueType;
+    rejetéePar: Email.ValueType;
+    rejetéeLe: DateTime.ValueType;
+  };
+};
+
 export type ConsulterChangementPuissanceReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
 
   demande: {
     nouvellePuissance: number;
     statut: StatutChangementPuissance.ValueType;
-    autoritéCompétente: RatioChangementPuissance.AutoritéCompétente;
 
     demandéePar: Email.ValueType;
     demandéeLe: DateTime.ValueType;
-    raison: string;
-    pièceJustificative: DocumentProjet.ValueType;
-
-    accord?: {
-      réponseSignée: DocumentProjet.ValueType;
-      accordéePar: Email.ValueType;
-      accordéeLe: DateTime.ValueType;
-    };
-
-    rejet?: {
-      réponseSignée: DocumentProjet.ValueType;
-      rejetéePar: Email.ValueType;
-      rejetéeLe: DateTime.ValueType;
-    };
-  };
+  } & (DétailsInformationEnregistréePuissance | DétailsDemandeChangementPuissance);
 };
 
 export type ConsulterChangementPuissanceQuery = Message<
@@ -75,46 +85,66 @@ export const mapToReadModel = (result: ChangementPuissanceEntity) => {
     return Option.none;
   }
 
+  const commonDemande = {
+    nouvellePuissance: result.demande.nouvellePuissance,
+    demandéeLe: DateTime.convertirEnValueType(result.demande.demandéeLe),
+    demandéePar: Email.convertirEnValueType(result.demande.demandéePar),
+    statut: StatutChangementPuissance.convertirEnValueType(result.demande.statut),
+  };
+
   return {
     identifiantProjet: IdentifiantProjet.convertirEnValueType(result.identifiantProjet),
 
-    demande: {
-      nouvellePuissance: result.demande.nouvellePuissance,
-      statut: StatutChangementPuissance.convertirEnValueType(result.demande.statut),
-      autoritéCompétente: result.demande.autoritéCompétente,
-      demandéeLe: DateTime.convertirEnValueType(result.demande.demandéeLe),
-      demandéePar: Email.convertirEnValueType(result.demande.demandéePar),
-      raison: result.demande.raison,
-      pièceJustificative: DocumentProjet.convertirEnValueType(
-        result.identifiantProjet,
-        TypeDocumentPuissance.pièceJustificative.formatter(),
-        DateTime.convertirEnValueType(result.demande.demandéeLe).formatter(),
-        result.demande.pièceJustificative?.format,
-      ),
-      accord: result.demande.accord
+    demande:
+      result.demande.statut === StatutChangementPuissance.informationEnregistrée.statut
         ? {
-            accordéeLe: DateTime.convertirEnValueType(result.demande.accord.accordéeLe),
-            accordéePar: Email.convertirEnValueType(result.demande.accord.accordéePar),
-            réponseSignée: DocumentProjet.convertirEnValueType(
-              result.identifiantProjet,
-              TypeDocumentPuissance.changementAccordé.formatter(),
-              DateTime.convertirEnValueType(result.demande.accord.accordéeLe).formatter(),
-              result.demande.accord.réponseSignée.format,
-            ),
+            ...commonDemande,
+            isInformationEnregistrée: true,
+            raison: result.demande.raison,
+            pièceJustificative: result.demande.pièceJustificative
+              ? DocumentProjet.convertirEnValueType(
+                  result.identifiantProjet,
+                  TypeDocumentPuissance.pièceJustificative.formatter(),
+                  DateTime.convertirEnValueType(result.demande.demandéeLe).formatter(),
+                  result.demande.pièceJustificative?.format,
+                )
+              : undefined,
           }
-        : undefined,
-      rejet: result.demande.rejet
-        ? {
-            rejetéeLe: DateTime.convertirEnValueType(result.demande.rejet.rejetéeLe),
-            rejetéePar: Email.convertirEnValueType(result.demande.rejet.rejetéePar),
-            réponseSignée: DocumentProjet.convertirEnValueType(
+        : {
+            ...commonDemande,
+            isInformationEnregistrée: false,
+            autoritéCompétente: result.demande.autoritéCompétente,
+            raison: result.demande.raison,
+            pièceJustificative: DocumentProjet.convertirEnValueType(
               result.identifiantProjet,
-              TypeDocumentPuissance.changementRejeté.formatter(),
-              DateTime.convertirEnValueType(result.demande.rejet.rejetéeLe).formatter(),
-              result.demande.rejet.réponseSignée.format,
+              TypeDocumentPuissance.pièceJustificative.formatter(),
+              DateTime.convertirEnValueType(result.demande.demandéeLe).formatter(),
+              result.demande.pièceJustificative?.format,
             ),
-          }
-        : undefined,
-    },
+            accord: result.demande.accord
+              ? {
+                  accordéeLe: DateTime.convertirEnValueType(result.demande.accord.accordéeLe),
+                  accordéePar: Email.convertirEnValueType(result.demande.accord.accordéePar),
+                  réponseSignée: DocumentProjet.convertirEnValueType(
+                    result.identifiantProjet,
+                    TypeDocumentPuissance.changementAccordé.formatter(),
+                    DateTime.convertirEnValueType(result.demande.accord.accordéeLe).formatter(),
+                    result.demande.accord.réponseSignée.format,
+                  ),
+                }
+              : undefined,
+            rejet: result.demande.rejet
+              ? {
+                  rejetéeLe: DateTime.convertirEnValueType(result.demande.rejet.rejetéeLe),
+                  rejetéePar: Email.convertirEnValueType(result.demande.rejet.rejetéePar),
+                  réponseSignée: DocumentProjet.convertirEnValueType(
+                    result.identifiantProjet,
+                    TypeDocumentPuissance.changementRejeté.formatter(),
+                    DateTime.convertirEnValueType(result.demande.rejet.rejetéeLe).formatter(),
+                    result.demande.rejet.réponseSignée.format,
+                  ),
+                }
+              : undefined,
+          },
   } satisfies ConsulterChangementPuissanceReadModel;
 };
