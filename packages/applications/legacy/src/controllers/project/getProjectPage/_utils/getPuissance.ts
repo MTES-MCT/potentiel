@@ -46,12 +46,12 @@ export const getPuissance = async ({
     const { estAchevéOuAbandonné } = await checkAbandonAndAchèvement(identifiantProjet, rôle);
 
     if (Option.isSome(puissanceProjection)) {
-      const { puissance, dateDemandeEnCours } = puissanceProjection; ;
+      const { puissance, dateDemandeEnCours } = puissanceProjection;
 
       if (dateDemandeEnCours) {
         return {
           puissance,
-          demandeEnCours: role.aLaPermission('actionnaire.consulterChangement')
+          demandeEnCours: role.aLaPermission('puissance.consulterChangement')
             ? {
                 demandéeLe: dateDemandeEnCours.formatter(),
               }
