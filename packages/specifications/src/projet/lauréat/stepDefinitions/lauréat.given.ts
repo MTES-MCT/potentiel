@@ -220,7 +220,7 @@ export async function insérerProjetAvecDonnéesCandidature(
     candidature.nomCandidatValue,
     candidature.nomProjetValue,
     candidature.puissanceProductionAnnuelleValue,
-    candidature.prixReferenceValue,
+    candidature.prixRéférenceValue,
     candidature.evaluationCarboneSimplifiéeValue,
     candidature.noteTotaleValue,
     candidature.nomReprésentantLégalValue,

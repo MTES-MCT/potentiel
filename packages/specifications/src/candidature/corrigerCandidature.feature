@@ -4,9 +4,7 @@ Fonctionnalité: Corriger une candidature
     Contexte:
         Etant donné la candidature lauréate "Du boulodrome de Marseille"
 
-    Scénario: Corriger une candidature non notifiée
-        Quand le DGEC validateur corrige la candidature avec :
-            | nom candidat | abcd |
+    Scénario: Impossible de corriger une candidature sans modifications candidat | abcd |
         Alors la candidature devrait être consultable
         Et le porteur n'a pas été prévenu que son attestation a été modifiée
 
@@ -49,7 +47,7 @@ Fonctionnalité: Corriger une candidature
     Scénario: Impossible de changer l'AO d'une candidature
         Quand le DGEC validateur corrige la candidature avec :
             | appel d'offre | x |
-        Alors l'administrateur devrait être informé que "La candidature n'existe pas"
+        Alors l'administrateur devrait être informé que "L'appel d'offre spécifié n'existe pas"
 
     Scénario: Impossible de changer la période d'une candidature
         Quand le DGEC validateur corrige la candidature avec :
@@ -86,6 +84,7 @@ Fonctionnalité: Corriger une candidature
             | date d'échéance | 2024-01-01                |
         Alors l'administrateur devrait être informé que "La date d'échéance pour ce type de garanties financières ne peut être renseignée"
 
+    @select
     Scénario: Impossible de corriger une candidature sans modifications
         Quand le DGEC validateur corrige la candidature sans modification
         Alors l'administrateur devrait être informé que "La candidature ne contient aucune modification"

@@ -1,9 +1,8 @@
 import { faker } from '@faker-js/faker';
 
-import { Candidature } from '@potentiel-domain/candidature';
+import { Candidature, IdentifiantProjet } from '@potentiel-domain/projet';
 import { appelsOffreData } from '@potentiel-domain/inmemory-referential';
 import { PlainType } from '@potentiel-domain/core';
-import { IdentifiantProjet } from '@potentiel-domain/projet';
 
 import { AbstractFixture, DeepPartial } from '../../fixture';
 import { getFakeLocation } from '../../helpers/getFakeLocation';
@@ -71,7 +70,7 @@ export class ImporterCandidatureFixture
         : '',
       historiqueAbandonValue: faker.helpers.arrayElement(Candidature.HistoriqueAbandon.types),
       puissanceProductionAnnuelleValue: faker.number.float({ min: 0.1, max: 3 }),
-      prixReferenceValue: faker.number.float({ min: 0.1, max: 3 }),
+      prixRéférenceValue: faker.number.float({ min: 0.1, max: 3 }),
       noteTotaleValue: faker.number.int({ min: 0, max: 5 }),
       nomReprésentantLégalValue: faker.person.fullName(),
       evaluationCarboneSimplifiéeValue: faker.number.float({ min: 0.1, max: 3 }),

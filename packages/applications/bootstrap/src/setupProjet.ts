@@ -1,11 +1,24 @@
 import { mediator } from 'mediateur';
 
+import { Event } from '@potentiel-infrastructure/pg-event-sourcing';
 import { registerProjetUseCases, registerProjetQueries } from '@potentiel-domain/projet';
 import { subscribe } from '@potentiel-infrastructure/pg-event-sourcing';
 import { findProjection, listProjection } from '@potentiel-infrastructure/pg-projection-read';
-import { RecoursProjector, ÉliminéProjector } from '@potentiel-applications/projectors';
-import { RecoursNotification, SendEmail } from '@potentiel-applications/notifications';
-import { getScopeProjetUtilisateurAdapter } from '@potentiel-infrastructure/domain-adapters';
+import {
+  CandidatureProjector,
+  RecoursProjector,
+  ÉliminéProjector,
+} from '@potentiel-applications/projectors';
+import {
+  CandidatureNotification,
+  RecoursNotification,
+  SendEmail,
+} from '@potentiel-applications/notifications';
+import {
+  CandidatureAdapter,
+  getScopeProjetUtilisateurAdapter,
+} from '@potentiel-infrastructure/domain-adapters';
+import { AttestationSaga } from '@potentiel-applications/document-builder';
 
 import { getProjetAggregateRootAdapter } from './adapters/getProjetAggregateRoot.adapter';
 
@@ -22,6 +35,9 @@ export const setupProjet = async ({ sendEmail }: SetupProjetDependencies) => {
     find: findProjection,
     list: listProjection,
     getScopeProjetUtilisateur: getScopeProjetUtilisateurAdapter,
+    récupérerProjet: CandidatureAdapter.récupérerProjetAdapter,
+    récupérerProjetsEligiblesPreuveRecanditure:
+      CandidatureAdapter.récupérerProjetsEligiblesPreuveRecanditureAdapter,
   });
 
   ÉliminéProjector.register();
@@ -72,9 +88,61 @@ export const setupProjet = async ({ sendEmail }: SetupProjetDependencies) => {
     streamCategory: 'éliminé',
   });
 
+  CandidatureProjector.register();
+
+  CandidatureNotification.register({ sendEmail });
+
+  AttestationSaga.register();
+
+  const unsubscribeCandidatureProjector = await subscribe<CandidatureProjector.SubscriptionEvent>({
+    name: 'projector',
+    eventType: [
+      'RebuildTriggered',
+      'CandidatureImportée-V1',
+      'CandidatureCorrigée-V1',
+      'CandidatureNotifiée-V1',
+      'CandidatureNotifiée-V2',
+    ],
+    eventHandler: async (event) => {
+      await mediator.send<CandidatureProjector.Execute>({
+        type: 'System.Projector.Candidature',
+        data: event,
+      });
+    },
+    streamCategory: 'candidature',
+  });
+
+  const unsubscribeCandidatureNotification =
+    await subscribe<CandidatureNotification.SubscriptionEvent>({
+      name: 'notifications',
+      streamCategory: 'candidature',
+      eventType: ['CandidatureCorrigée-V1'],
+      eventHandler: async (event) => {
+        await mediator.publish<CandidatureNotification.Execute>({
+          type: 'System.Notification.Candidature',
+          data: event,
+        });
+      },
+    });
+
+  const unsubscribeAttestationSaga = await subscribe<AttestationSaga.SubscriptionEvent & Event>({
+    name: 'attestation-saga',
+    streamCategory: 'candidature',
+    eventType: ['CandidatureNotifiée-V2', 'CandidatureCorrigée-V1'],
+    eventHandler: async (event) => {
+      await mediator.publish<AttestationSaga.Execute>({
+        type: 'System.Candidature.Attestation.Saga.Execute',
+        data: event,
+      });
+    },
+  });
+
   return async () => {
     await unsubscribeRecoursProjector();
     await unsubscribeRecoursNotification();
     await unsubscribeÉliminéProjector();
+    await unsubscribeCandidatureProjector();
+    await unsubscribeAttestationSaga();
+    await unsubscribeCandidatureNotification();
   };
 };

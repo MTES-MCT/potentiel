@@ -4,7 +4,6 @@ import * as zod from 'zod';
 import { mediator } from 'mediateur';
 
 import { Candidature } from '@potentiel-domain/projet';
-import { Candidature as TmpCandidature } from '@potentiel-domain/candidature';
 import { Routes } from '@potentiel-applications/routes';
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 
@@ -23,7 +22,7 @@ const action: FormAction<FormState, typeof schema> = async (_, body) =>
   withUtilisateur(async (utilisateur) => {
     const candidature = await getCandidature(body.identifiantProjet);
 
-    await mediator.send<TmpCandidature.CorrigerCandidatureUseCase>({
+    await mediator.send<Candidature.CorrigerCandidatureUseCase>({
       type: 'Candidature.UseCase.CorrigerCandidature',
       data: {
         ...mapBodyToUseCaseData(body, candidature),
@@ -46,7 +45,7 @@ export const corrigerCandidatureAction = formAction(action, schema);
 const mapBodyToUseCaseData = (
   data: zod.infer<typeof schema>,
   previous: Candidature.ConsulterCandidatureReadModel,
-): Omit<TmpCandidature.CorrigerCandidatureUseCase['data'], 'corrigéLe' | 'corrigéPar'> => {
+): Omit<Candidature.CorrigerCandidatureUseCase['data'], 'corrigéLe' | 'corrigéPar'> => {
   const { appelOffre, période, famille, numéroCRE } = IdentifiantProjet.convertirEnValueType(
     data.identifiantProjet,
   );
@@ -59,7 +58,7 @@ const mapBodyToUseCaseData = (
     sociétéMèreValue: data.societeMere,
     nomCandidatValue: data.nomCandidat,
     puissanceProductionAnnuelleValue: data.puissanceProductionAnnuelle,
-    prixReferenceValue: data.prixReference,
+    prixRéférenceValue: data.prixReference,
     noteTotaleValue: data.noteTotale,
     nomReprésentantLégalValue: data.nomRepresentantLegal,
     emailContactValue: data.emailContact,

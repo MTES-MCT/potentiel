@@ -1,5 +1,5 @@
 import { IdentifiantProjet } from '@potentiel-domain/common';
-import { Candidature } from '@potentiel-domain/candidature';
+import { Candidature } from '@potentiel-domain/projet';
 import { mediator } from 'mediateur';
 import { Option } from '@potentiel-libraries/monads';
 import { getLogger } from '@potentiel-libraries/monitoring';

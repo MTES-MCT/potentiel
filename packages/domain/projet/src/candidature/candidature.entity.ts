@@ -55,6 +55,7 @@ export type CandidatureEntity = Entity<
     dateÉchéanceGf?: DateTime.RawType;
     territoireProjet: string;
     misÀJourLe: DateTime.RawType;
+    coefficientKChoisi?: boolean;
     détailsMisÀJourLe: DateTime.RawType;
   } & (CandidatureNonNotifiée | CandidatureNotifiée)
 >;

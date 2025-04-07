@@ -2,7 +2,7 @@ import Select from '@codegouvfr/react-dsfr/SelectNext';
 import { useState } from 'react';
 import Input from '@codegouvfr/react-dsfr/Input';
 
-import { Candidature } from '@potentiel-domain/candidature';
+import { Candidature } from '@potentiel-domain/projet';
 
 import { getActionnariatTypeLabel } from '../../../../candidature/helpers/getActionnariatTypeLabel';
 import { LinkedValuesButton } from '../LinkedValuesButton';

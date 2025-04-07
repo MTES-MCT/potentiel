@@ -111,7 +111,8 @@ Quand(
         ? this.eliminéWorld.identifiantProjet.formatter()
         : this.lauréatWorld.identifiantProjet.formatter();
 
-    const { prixReferenceValue, numéroCREValue } = this.candidatureWorld.importerCandidature.values;
+    const { prixRéférenceValue: prixReferenceValue, numéroCREValue } =
+      this.candidatureWorld.importerCandidature.values;
 
     const porteur = this.utilisateurWorld.porteurFixture.créer({});
 

@@ -1,10 +1,15 @@
+import { Option } from '@potentiel-libraries/monads';
 import { AggregateType, LoadAggregateV2 } from '@potentiel-domain/core';
 import { AppelOffreAggregate, LoadAppelOffreAggregatePort } from '@potentiel-domain/appel-offre';
 
 import { IdentifiantProjet } from '.';
 
 import { ÉliminéAggregate } from './éliminé/éliminé.aggregate';
-import { FamilleInexistanteError, PériodeInexistanteError } from './appelOffre.error';
+import {
+  AppelOffreInexistantError,
+  FamilleInexistanteError,
+  PériodeInexistanteError,
+} from './appelOffre.error';
 import { CandidatureAggregate } from './candidature/candidature.aggregate';
 
 interface ProjetAggregateRootDependencies {
@@ -113,7 +118,12 @@ export class ProjetAggregateRoot {
     );
     await this.#éliminé.init(this, this.#loadAggregate);
 
-    this.#appelOffre = await this.#loadAppelOffreAggregate(this.#identifiantProjet.appelOffre);
+    const appelOffre = await this.#loadAppelOffreAggregate(this.#identifiantProjet.appelOffre);
+
+    if (Option.isNone(appelOffre)) {
+      throw new AppelOffreInexistantError(this.#identifiantProjet.appelOffre);
+    }
+    this.#appelOffre = appelOffre;
 
     this.#initialized = true;
   }

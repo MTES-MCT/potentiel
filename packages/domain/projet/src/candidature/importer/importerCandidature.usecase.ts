@@ -41,7 +41,8 @@ export type ImporterCandidatureUseCase = Message<
     actionnariatValue?: string;
     dateÉchéanceGfValue?: string;
     territoireProjetValue: string;
-    détailsValue: Record<string, string>;
+    coefficientKChoisiValue?: boolean;
+    détailsValue?: Record<string, string>;
     importéLe: string;
     importéPar: string;
   }

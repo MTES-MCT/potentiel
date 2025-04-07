@@ -4,7 +4,7 @@ import * as zod from 'zod';
 import { mediator } from 'mediateur';
 
 import { DomainError } from '@potentiel-domain/core';
-import { Candidature } from '@potentiel-domain/candidature';
+import { Candidature } from '@potentiel-domain/projet';
 import { parseCsv } from '@potentiel-libraries/csv';
 import { DateTime } from '@potentiel-domain/common';
 
@@ -91,7 +91,7 @@ const mapLineToUseCaseData = (
   sociétéMèreValue: line.sociétéMère,
   nomCandidatValue: line.nomCandidat,
   puissanceProductionAnnuelleValue: line.puissanceProductionAnnuelle,
-  prixReferenceValue: line.prixRéférence,
+  prixRéférenceValue: line.prixRéférence,
   noteTotaleValue: line.noteTotale,
   nomReprésentantLégalValue: line.nomReprésentantLégal,
   emailContactValue: line.emailContact,

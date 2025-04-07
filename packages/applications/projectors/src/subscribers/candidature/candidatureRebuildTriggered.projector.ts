@@ -1,5 +1,5 @@
 import { RebuildTriggered } from '@potentiel-infrastructure/pg-event-sourcing';
-import { Candidature } from '@potentiel-domain/candidature';
+import { Candidature } from '@potentiel-domain/projet';
 import { removeProjection } from '@potentiel-infrastructure/pg-projection-write';
 
 export const candidatureRebuildTriggeredProjector = async ({ payload }: RebuildTriggered) => {

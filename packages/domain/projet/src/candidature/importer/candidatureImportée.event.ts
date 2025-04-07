@@ -36,6 +36,7 @@ type CandidatureImportéeEventPayload = {
   actionnariat?: TypeActionnariat.RawType;
   dateÉchéanceGf?: DateTime.RawType;
   territoireProjet: string;
+  coefficientKChoisi?: boolean;
   importéLe: DateTime.RawType;
   importéPar: Email.RawType;
 };

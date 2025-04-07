@@ -9,7 +9,6 @@
     "build": "tsc"
   },
   "dependencies": {
-    "@potentiel-domain/candidature": "^0.0.0",
     "@potentiel-domain/tache": "^0.0.0",
     "@potentiel-domain/document": "^0.0.0",
     "@potentiel-domain/utilisateur": "^0.0.0",

@@ -19,7 +19,6 @@ import {
   DocumentAdapter,
   récupérerIdentifiantsProjetParEmailPorteurAdapter,
 } from '@potentiel-infrastructure/domain-adapters';
-import { Candidature as TmpCandidature } from '@potentiel-domain/candidature';
 import { Candidature } from '@potentiel-domain/projet';
 import { Période } from '@potentiel-domain/periode';
 
@@ -261,7 +260,7 @@ void (async () => {
         type: 'Lauréat.GarantiesFinancières.UseCase.EnregistrerGarantiesFinancières',
         data: {
           identifiantProjetValue: identifiantProjet.formatter(),
-          typeValue: TmpCandidature.TypeGarantiesFinancières.typeInconnu.type,
+          typeValue: Candidature.TypeGarantiesFinancières.typeInconnu.type,
           dateConstitutionValue: période.notifiéeLe.formatter(),
           attestationValue: {
             content,
