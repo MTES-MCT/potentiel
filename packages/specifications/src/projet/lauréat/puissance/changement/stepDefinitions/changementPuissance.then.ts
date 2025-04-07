@@ -113,17 +113,15 @@ async function vérifierChangementPuissance(
 
   if (
     this.lauréatWorld.puissanceWorld.changementPuissanceWorld.accorderChangementPuissanceFixture
-      .aÉtéCréé
+      .aÉtéCréé &&
+    !demandeEnCours.demande.isInformationEnregistrée
   ) {
-    const documentKey =
-      demandeEnCours.demande.isInformationEnregistrée === false && demandeEnCours.demande.accord
-        ? demandeEnCours.demande.accord.réponseSignée.formatter()
-        : '';
-
     const result = await mediator.send<ConsulterDocumentProjetQuery>({
       type: 'Document.Query.ConsulterDocumentProjet',
       data: {
-        documentKey,
+        documentKey: demandeEnCours.demande.accord
+          ? demandeEnCours.demande.accord.réponseSignée.formatter()
+          : '',
       },
     });
 
