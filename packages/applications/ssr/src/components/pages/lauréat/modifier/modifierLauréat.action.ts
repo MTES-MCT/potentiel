@@ -3,7 +3,6 @@
 import { mediator } from 'mediateur';
 
 import { Candidature } from '@potentiel-domain/projet';
-import { Candidature as TmpCandidature } from '@potentiel-domain/candidature';
 import { Routes } from '@potentiel-applications/routes';
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 import { Actionnaire, Lauréat, Puissance, ReprésentantLégal } from '@potentiel-domain/laureat';
@@ -33,7 +32,7 @@ const action: FormAction<FormState, typeof schema> = async (_, body) =>
     if (candidature) {
       const candidatureACorriger = await getCandidature(identifiantProjet);
 
-      await mediator.send<TmpCandidature.CorrigerCandidatureUseCase>({
+      await mediator.send<Candidature.CorrigerCandidatureUseCase>({
         type: 'Candidature.UseCase.CorrigerCandidature',
         data: {
           ...mapBodyToCandidatureUsecaseData(identifiantProjet, candidature, candidatureACorriger),
@@ -122,7 +121,7 @@ const mapBodyToCandidatureUsecaseData = (
   identifiantProjet: string,
   data: PartialModifierCandidatureNotifiéeFormEntries,
   previous: Candidature.ConsulterCandidatureReadModel,
-): Omit<TmpCandidature.CorrigerCandidatureUseCase['data'], 'corrigéLe' | 'corrigéPar'> => {
+): Omit<Candidature.CorrigerCandidatureUseCase['data'], 'corrigéLe' | 'corrigéPar'> => {
   const { appelOffre, période, famille, numéroCRE } =
     IdentifiantProjet.convertirEnValueType(identifiantProjet);
 
@@ -147,7 +146,7 @@ const mapBodyToCandidatureUsecaseData = (
     nomCandidatValue: data.nomCandidat ?? previous.nomCandidat,
     puissanceProductionAnnuelleValue:
       data.puissanceProductionAnnuelle ?? previous.puissanceProductionAnnuelle,
-    prixReferenceValue: data.prixReference ?? previous.prixReference,
+    prixRéférenceValue: data.prixReference ?? previous.prixReference,
     noteTotaleValue: data.noteTotale ?? previous.noteTotale,
     emailContactValue: data.emailContact ?? previous.emailContact.formatter(),
     localitéValue,

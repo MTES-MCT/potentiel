@@ -2,7 +2,7 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 import { match } from 'ts-pattern';
 
 import { RebuildTriggered, Event } from '@potentiel-infrastructure/pg-event-sourcing';
-import { Candidature } from '@potentiel-domain/candidature';
+import { Candidature } from '@potentiel-domain/projet';
 
 import { candidatureNotifiéeV2Projector } from './candidatureNotifiéeV2.projector';
 import { candidatureCorrigéeProjector } from './candidatureCorrigée.projector';

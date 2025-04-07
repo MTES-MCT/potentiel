@@ -1,19 +1,9 @@
-import { ImporterCandidatureUseCase } from './importer/importerCandidature.usecase';
 import type { CandidatureImportéeEvent } from './importer/importerCandidature.behavior';
-import { CorrigerCandidatureUseCase } from './corriger/corrigerCandidature.usecase';
 import type { CandidatureCorrigéeEvent } from './corriger/corrigerCandidature.behavior';
-import { NotifierCandidatureUseCase } from './notifier/notifierCandidature.usecase';
 import {
   CandidatureNotifiéeEvent,
   CandidatureNotifiéeEventV1,
 } from './notifier/notifierCandidature.behavior';
-
-// UseCases
-export type CandidatureUseCase =
-  | ImporterCandidatureUseCase
-  | CorrigerCandidatureUseCase
-  | NotifierCandidatureUseCase;
-export { ImporterCandidatureUseCase, CorrigerCandidatureUseCase, NotifierCandidatureUseCase };
 
 // Events
 export type CandidatureEvent =
@@ -28,9 +18,6 @@ export {
   CandidatureNotifiéeEvent,
   CandidatureNotifiéeEventV1,
 };
-
-// Register
-export * from './register';
 
 // Entity
 export * from './projet.entity';

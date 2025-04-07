@@ -84,3 +84,15 @@ export class NomManquantError extends InvalidOperationError {
     super(`Le nom de l'utilisateur doit être précisé pour cette opération`);
   }
 }
+
+export class ChoixCoefficientKRequisError extends InvalidOperationError {
+  constructor() {
+    super(`Le choix du coefficient K est requis pour cette période`);
+  }
+}
+
+export class ChoixCoefficientKNonAttenduError extends InvalidOperationError {
+  constructor() {
+    super(`Le choix du coefficient K ne peut être renseigné pour cette période`);
+  }
+}

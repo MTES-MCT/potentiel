@@ -1,6 +1,6 @@
 import { match } from 'ts-pattern';
 
-import { Candidature } from '@potentiel-domain/candidature';
+import { Candidature } from '@potentiel-domain/projet';
 
 export const getActionnariatTypeLabel = (type: Candidature.TypeActionnariat.RawType): string =>
   match(type)

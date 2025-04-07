@@ -5,7 +5,7 @@ import { Lauréat, Raccordement } from '@potentiel-domain/laureat';
 import { findProjection } from '@potentiel-infrastructure/pg-projection-read';
 import { IdentifiantProjet } from '@potentiel-domain/common';
 import { Option } from '@potentiel-libraries/monads';
-import { Candidature } from '@potentiel-domain/candidature';
+import { Candidature } from '@potentiel-domain/projet';
 
 import { récupérerIdentifiantsProjetParEmailPorteurAdapter } from './récupérerIdentifiantsProjetParEmailPorteur.adapter';
 

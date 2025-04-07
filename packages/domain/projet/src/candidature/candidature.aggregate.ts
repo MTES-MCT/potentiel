@@ -19,6 +19,8 @@ import {
   CandidatureDéjàNotifiéeError,
   CandidatureNonModifiéeError,
   CandidatureNonTrouvéeError,
+  ChoixCoefficientKNonAttenduError,
+  ChoixCoefficientKRequisError,
   DateÉchéanceGarantiesFinancièresRequiseError,
   DateÉchéanceNonAttendueError,
   FonctionManquanteError,
@@ -49,10 +51,6 @@ export class CandidatureAggregate extends AbstractAggregate<CandidatureEvent> {
   #statut?: StatutCandidature.ValueType;
   #estNotifiée: boolean = false;
   #notifiéeLe?: DateTime.ValueType;
-  #garantiesFinancières?: {
-    type: TypeGarantiesFinancières.ValueType;
-    dateEchéance?: DateTime.ValueType;
-  };
   #nomCandidat: string = '';
   #nomReprésentantLégal: string = '';
   #sociétéMère: string = '';
@@ -71,6 +69,7 @@ export class CandidatureAggregate extends AbstractAggregate<CandidatureEvent> {
   #puissanceALaPointe?: boolean;
   #puissanceProductionAnnuelle: number = 0;
   #territoireProjet: string = '';
+  #coefficientKChoisi?: boolean;
 
   async init(projet: ProjetAggregateRoot) {
     this.#projet = projet;
@@ -82,6 +81,7 @@ export class CandidatureAggregate extends AbstractAggregate<CandidatureEvent> {
     this.vérifierQueLesGarantiesFinancièresSontRequisesPourAppelOffre(candidature);
     this.vérifierQueLaDateÉchéanceGarantiesFinancièresEstRequise(candidature);
     this.vérifierQueLaDateÉchéanceNEstPasAttendue(candidature);
+    this.vérifierCoefficientKChoisi(candidature);
 
     const event: CandidatureImportéeEvent = {
       type: 'CandidatureImportée-V1',
@@ -103,6 +103,7 @@ export class CandidatureAggregate extends AbstractAggregate<CandidatureEvent> {
     this.vérifierQueLeStatutEstNonModifiableAprésNotification(candidature);
     this.vérifierQueLeTypeDesGarantiesFinancièresEstNonModifiableAprésNotification(candidature);
     this.vérifierQueLaRégénérationDeLAttestionEstPossible(candidature);
+    this.vérifierCoefficientKChoisi(candidature);
     this.vérifierQueLaCorrectionEstJustifiée(candidature);
 
     const event: CandidatureCorrigéeEvent = {
@@ -158,12 +159,12 @@ export class CandidatureAggregate extends AbstractAggregate<CandidatureEvent> {
     if (this.#estNotifiée) {
       if (candidature.typeGarantiesFinancières) {
         if (
-          !this.#garantiesFinancières?.type ||
-          !this.#garantiesFinancières?.type.estÉgaleÀ(candidature.typeGarantiesFinancières)
+          !this.#typeGarantiesFinancières?.type ||
+          !this.#typeGarantiesFinancières?.estÉgaleÀ(candidature.typeGarantiesFinancières)
         ) {
           throw new TypeGarantiesFinancièresNonModifiableAprèsNotificationError();
         }
-      } else if (this.#garantiesFinancières?.type) {
+      } else if (this.#typeGarantiesFinancières?.type) {
         throw new TypeGarantiesFinancièresNonModifiableAprèsNotificationError();
       }
     }
@@ -200,14 +201,15 @@ export class CandidatureAggregate extends AbstractAggregate<CandidatureEvent> {
       statut,
       technologie,
       territoireProjet,
+      coefficientKChoisi,
       actionnariat,
       dateÉchéanceGf,
       motifÉlimination,
       typeGarantiesFinancières,
     } = otherData;
 
-    const nEstPasJustifiée =
-      this.#emailContact === emailContact &&
+    const dépôtEstÉgale =
+      this.#emailContact.estÉgaleÀ(emailContact) &&
       this.#evaluationCarboneSimplifiée === evaluationCarboneSimplifiée &&
       this.#historiqueAbandon?.estÉgaleÀ(historiqueAbandon) &&
       this.#localité?.estÉgaleÀ(Localité.bind(localité)) &&
@@ -219,15 +221,22 @@ export class CandidatureAggregate extends AbstractAggregate<CandidatureEvent> {
       this.#puissanceALaPointe === puissanceALaPointe &&
       this.#puissanceProductionAnnuelle === puissanceProductionAnnuelle &&
       this.#sociétéMère === sociétéMère &&
-      this.#statut === statut &&
-      this.#technologie === technologie &&
+      this.#statut?.estÉgaleÀ(statut) &&
+      this.#technologie?.estÉgaleÀ(technologie) &&
       this.#territoireProjet === territoireProjet &&
-      this.#actionnariat === actionnariat &&
-      this.#dateÉchéanceGf === dateÉchéanceGf &&
+      this.#coefficientKChoisi === coefficientKChoisi &&
+      (actionnariat === undefined
+        ? this.#actionnariat === undefined
+        : this.#actionnariat?.estÉgaleÀ(actionnariat)) &&
+      (dateÉchéanceGf === undefined
+        ? this.#dateÉchéanceGf === undefined
+        : this.#dateÉchéanceGf?.estÉgaleÀ(dateÉchéanceGf)) &&
       this.#motifÉlimination === motifÉlimination &&
-      this.#typeGarantiesFinancières === typeGarantiesFinancières;
+      (typeGarantiesFinancières === undefined
+        ? this.#typeGarantiesFinancières === undefined
+        : this.#typeGarantiesFinancières?.estÉgaleÀ(typeGarantiesFinancières));
 
-    if (!nEstPasJustifiée) {
+    if (dépôtEstÉgale) {
       throw new CandidatureNonModifiéeError(otherData.nomProjet);
     }
   }
@@ -300,6 +309,21 @@ export class CandidatureAggregate extends AbstractAggregate<CandidatureEvent> {
     }
   }
 
+  private vérifierCoefficientKChoisi(candidature: CandidatureBehaviorOptions) {
+    if (
+      this.projet.période.choixCoefficientKDisponible &&
+      candidature.coefficientKChoisi === undefined
+    ) {
+      throw new ChoixCoefficientKRequisError();
+    }
+    if (
+      !this.projet.période.choixCoefficientKDisponible &&
+      candidature.coefficientKChoisi !== undefined
+    ) {
+      throw new ChoixCoefficientKNonAttenduError();
+    }
+  }
+
   apply(event: CandidatureEvent): void {
     match(event)
       .with(
@@ -359,6 +383,7 @@ export class CandidatureAggregate extends AbstractAggregate<CandidatureEvent> {
     puissanceProductionAnnuelle,
     technologie,
     territoireProjet,
+    coefficientKChoisi,
     actionnariat,
     dateÉchéanceGf,
     motifÉlimination,
@@ -369,12 +394,14 @@ export class CandidatureAggregate extends AbstractAggregate<CandidatureEvent> {
     this.#statut = StatutCandidature.convertirEnValueType(statut);
     this.#nomProjet = nomProjet;
     this.#localité = Localité.bind(localité);
-    if (typeGarantiesFinancières) {
-      this.#garantiesFinancières = {
-        type: TypeGarantiesFinancières.convertirEnValueType(typeGarantiesFinancières),
-        dateEchéance: dateÉchéanceGf ? DateTime.convertirEnValueType(dateÉchéanceGf) : undefined,
-      };
-    }
+    this.#typeGarantiesFinancières = typeGarantiesFinancières
+      ? TypeGarantiesFinancières.convertirEnValueType(typeGarantiesFinancières)
+      : undefined;
+
+    this.#dateÉchéanceGf = dateÉchéanceGf
+      ? DateTime.convertirEnValueType(dateÉchéanceGf)
+      : undefined;
+
     this.#actionnariat = actionnariat
       ? TypeActionnariat.convertirEnValueType(actionnariat)
       : undefined;
@@ -390,6 +417,7 @@ export class CandidatureAggregate extends AbstractAggregate<CandidatureEvent> {
     this.#puissanceALaPointe = puissanceALaPointe;
     this.#technologie = TypeTechnologie.convertirEnValueType(technologie);
     this.#territoireProjet = territoireProjet;
+    this.#coefficientKChoisi = coefficientKChoisi;
     this.#motifÉlimination = motifÉlimination;
   }
 
@@ -416,5 +444,6 @@ export class CandidatureAggregate extends AbstractAggregate<CandidatureEvent> {
     evaluationCarboneSimplifiée: candidature.evaluationCarboneSimplifiée,
     actionnariat: candidature.actionnariat?.formatter(),
     territoireProjet: candidature.territoireProjet,
+    coefficientKChoisi: candidature.coefficientKChoisi,
   });
 }

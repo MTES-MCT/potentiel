@@ -36,4 +36,5 @@ export const mapToCommonCandidatureUseCaseData = (
   puissanceALaPointe: payload.puissanceALaPointeValue,
   sociétéMère: payload.sociétéMèreValue,
   territoireProjet: payload.territoireProjetValue,
+  coefficientKChoisi: payload.coefficientKChoisiValue,
 });

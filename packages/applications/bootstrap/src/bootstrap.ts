@@ -5,7 +5,6 @@ import { sendEmail } from '@potentiel-infrastructure/email';
 import { récupérerGRDParVille } from '@potentiel-infrastructure/ore-client';
 
 import { setupLauréat } from './setupLauréat';
-import { setupCandidature } from './setupCandidature';
 import { setupDocumentProjet } from './setupDocumentProjet';
 import { setupAppelOffre } from './setupAppelOffre';
 import { setupTâche } from './setupTâche';
@@ -56,13 +55,12 @@ export const bootstrap = async ({
     const unsetupUtilisateur = await setupUtilisateur(allDependencies);
     await setupAppelOffre();
     setupDocumentProjet();
-    const unsetupCandidature = await setupCandidature(allDependencies);
     const unsetupPériode = await setupPériode(allDependencies);
 
     const unsetupTâche = await setupTâche();
     const unsetupTâchePlanifiée = await setupTâchePlanifiée(allDependencies);
 
-    const unsetupEliminé = await setupProjet(allDependencies);
+    const unsetupProjet = await setupProjet(allDependencies);
     const unsetupLauréat = await setupLauréat(allDependencies);
     const unsetupGestionnaireRéseau = await setupRéseau();
 
@@ -70,12 +68,11 @@ export const bootstrap = async ({
 
     unsubscribe = async () => {
       await unsetupHistorique();
-      await unsetupEliminé();
+      await unsetupProjet();
       await unsetupLauréat();
       await unsetupGestionnaireRéseau();
       await unsetupTâche();
       await unsetupTâchePlanifiée();
-      await unsetupCandidature();
       await unsetupPériode();
       await unsetupUtilisateur();
       unsubscribe = undefined;

@@ -7,7 +7,7 @@ import { Routes } from '@potentiel-applications/routes';
 import { match } from 'ts-pattern';
 
 import { GarantiesFinancières } from '@potentiel-domain/laureat';
-import type { Candidature } from '@potentiel-domain/candidature';
+import type { Candidature } from '@potentiel-domain/projet';
 import type { Role } from '@potentiel-domain/utilisateur';
 import { Raccordement } from '@potentiel-domain/laureat';
 import { Option } from '@potentiel-libraries/monads';

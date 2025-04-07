@@ -3,29 +3,21 @@ import { createHash } from 'crypto';
 
 import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
 import { Aggregate, GetDefaultAggregateState, LoadAggregate } from '@potentiel-domain/core';
-import { AppelOffre } from '@potentiel-domain/appel-offre';
 
 import * as StatutCandidature from './statutCandidature.valueType';
 import * as TypeGarantiesFinancières from './typeGarantiesFinancières.valueType';
 import {
   CandidatureImportéeEvent,
   applyCandidatureImportée,
-  importer,
 } from './importer/importerCandidature.behavior';
 import {
   CandidatureCorrigéeEvent,
   applyCandidatureCorrigée,
-  corriger,
 } from './corriger/corrigerCandidature.behavior';
-import {
-  FamillePériodeAppelOffreInexistanteError,
-  PériodeAppelOffreInexistanteError,
-} from './appelOffreInexistant.error';
 import {
   applyCandidatureNotifiée,
   CandidatureNotifiéeEvent,
   CandidatureNotifiéeEventV1,
-  notifier,
 } from './notifier/notifierCandidature.behavior';
 import { CandidatureNonTrouvéeError } from './candidatureNonTrouvée.error';
 import { TypeActionnariat, TypeTechnologie } from './candidature';
@@ -72,21 +64,7 @@ export type CandidatureAggregate = Aggregate<CandidatureEvent> &
     prixRéférence: number;
     technologie: TypeTechnologie.ValueType;
     note: number;
-    importer: typeof importer;
-    corriger: typeof corriger;
-    notifier: typeof notifier;
     calculerHash(payload: CandidatureEvent['payload']): string;
-    estIdentiqueÀ(payload: CandidatureEvent['payload']): boolean;
-
-    récupererPériodeAO(
-      appelOffre: AppelOffre.AppelOffreReadModel,
-      idPériode: string,
-    ): AppelOffre.Periode;
-    récupererFamilleAO(
-      appelOffre: AppelOffre.AppelOffreReadModel,
-      idPériode: string,
-      idFamille?: string,
-    ): AppelOffre.Famille | undefined;
   };
 
 const getDeepKeys = (obj: object): string[] => {
@@ -123,9 +101,6 @@ export const getDefaultCandidatureAggregate: GetDefaultAggregateState<
   note: 0,
   technologie: TypeTechnologie.nonApplicable,
   apply,
-  importer,
-  corriger,
-  notifier,
   calculerHash(payload) {
     const copy = { ...payload } as Partial<
       CandidatureImportéeEvent['payload'] & CandidatureCorrigéeEvent['payload']
@@ -140,26 +115,6 @@ export const getDefaultCandidatureAggregate: GetDefaultAggregateState<
     return createHash('md5')
       .update(JSON.stringify(copy, getDeepKeys(copy).sort()))
       .digest('hex');
-  },
-  estIdentiqueÀ(payload) {
-    return this.calculerHash(payload) === this.payloadHash;
-  },
-  récupererPériodeAO(appelOffre, idPériode) {
-    const période = appelOffre.periodes.find((x) => x.id === idPériode);
-    if (!période) {
-      throw new PériodeAppelOffreInexistanteError(appelOffre.id, idPériode);
-    }
-    return période;
-  },
-  récupererFamilleAO(appelOffre, idPériode, idFamille) {
-    if (!idFamille) {
-      return undefined;
-    }
-    const période = this.récupererPériodeAO(appelOffre, idPériode);
-    const famille = période.familles.find((x) => x.id === idFamille);
-    if (!famille) {
-      throw new FamillePériodeAppelOffreInexistanteError(appelOffre.id, idPériode, idFamille);
-    }
   },
 });
 

@@ -1,3 +1,5 @@
+import { GetProjetAggregateRoot } from '../getProjetAggregateRoot.port';
+
 import {
   ConsulterProjetDependencies,
   registerConsulterProjetQuery,
@@ -14,8 +16,18 @@ import {
   ListerCandidaturesQueryDependencies,
   registerListerCandidaturesQuery,
 } from './lister/listerCandidatures.query';
+import { registerImporterCandidatureCommand } from './importer/importerCandidature.command';
+import { registerCorrigerCandidatureCommand } from './corriger/corrigerCandidature.command';
+import { registerCorrigerCandidatureUseCase } from './corriger/corrigerCandidature.usecase';
+import { registerImporterCandidatureUseCase } from './importer/importerCandidature.usecase';
+import { registerNotifierCandidatureCommand } from './notifier/notifierCandidature.command';
+import { registerNotifierCandidatureUseCase } from './notifier/notifierCandidature.usecase';
 
-type CandidatureQueryDependencies = ConsulterProjetDependencies &
+export type CandiatureCommandDependencies = {
+  getProjetAggregateRoot: GetProjetAggregateRoot;
+};
+
+export type CandidatureQueryDependencies = ConsulterProjetDependencies &
   ListerProjetsEligiblesPreuveRecanditureDependencies &
   ConsulterCandidatureDependencies &
   ListerCandidaturesQueryDependencies;
@@ -25,4 +37,16 @@ export const registerCandidatureQueries = (dependencies: CandidatureQueryDepende
   registerProjetsEligiblesPreuveRecanditureQuery(dependencies);
   registerConsulterCandidatureQuery(dependencies);
   registerListerCandidaturesQuery(dependencies);
+};
+
+export const registerCandidaturesUseCases = ({
+  getProjetAggregateRoot,
+}: CandiatureCommandDependencies) => {
+  registerImporterCandidatureCommand(getProjetAggregateRoot);
+  registerCorrigerCandidatureCommand(getProjetAggregateRoot);
+  registerNotifierCandidatureCommand(getProjetAggregateRoot);
+
+  registerImporterCandidatureUseCase();
+  registerCorrigerCandidatureUseCase();
+  registerNotifierCandidatureUseCase();
 };

@@ -33,6 +33,7 @@ export type ImporterCandidatureOptions = {
   actionnariat?: TypeActionnariat.ValueType;
   dateÉchéanceGf?: DateTime.ValueType;
   territoireProjet: string;
+  coefficientKChoisi?: boolean;
   importéLe: DateTime.ValueType;
   importéPar: Email.ValueType;
 };
