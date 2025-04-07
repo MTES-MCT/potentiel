@@ -42,11 +42,10 @@ Fonctionnalité: Accorder le changement de puissance d'un projet lauréat
         Quand la DREAL associée au projet accorde le changement de puissance à la baisse pour le projet lauréat
         Alors l'utilisateur DREAL devrait être informé que "Aucune demande de changement de puissance n'est en cours"
 
-    @NotImplemented
     Scénario: Impossible d'accorder le changement de puissance d'un projet lauréat si la demande a déjà été accordée
         Etant donné une demande de changement de puissance à la baisse accordée pour le projet lauréat
         Quand la DREAL associée au projet accorde le changement de puissance à la baisse pour le projet lauréat
-        Alors l'utilisateur DREAL devrait être informé que "La demande de changement de puissance a déjà été accordée"
+        Alors l'utilisateur DREAL devrait être informé que "Aucune demande de changement de puissance n'est en cours"
 
     @NotImplemented
     Scénario: Impossible d'accorder le changement de puissance d'un projet lauréat si la demande a déjà été annulée

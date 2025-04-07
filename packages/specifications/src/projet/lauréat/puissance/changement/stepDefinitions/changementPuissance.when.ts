@@ -161,7 +161,7 @@ export async function annulerChangementPuissance(this: PotentielWorld) {
   });
 }
 
-async function accorderChangementPuissance(
+export async function accorderChangementPuissance(
   this: PotentielWorld,
   rôleUtilisateurValue: 'dreal' | 'admin',
 ) {
