@@ -47,7 +47,6 @@ Fonctionnalité: Rejeter la demande de changement de puissance d'un projet laur�
         Quand la DREAL associée au projet rejette le changement de puissance à la baisse pour le projet lauréat
         Alors l'utilisateur DREAL devrait être informé que "Aucune demande de changement de puissance n'est en cours"
 
-    @NotImplemented
     Scénario: Impossible de rejeter le changement de puissance d'un projet lauréat si la demande a déjà été annulée
         Etant donné une demande de changement de puissance à la baisse annulée pour le projet lauréat
         Quand la DREAL associée au projet rejette le changement de puissance à la baisse pour le projet lauréat
