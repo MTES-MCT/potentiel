@@ -9,7 +9,6 @@ import { Heading1 } from '@/components/atoms/headings';
 import { PageTemplate } from '@/components/templates/Page.template';
 
 import { DemanderChangementPuissanceForm } from './DemanderChangementPuissance.form';
-import { InfoBoxDemandePuissance } from './InfoxBoxDemandePuissance';
 
 export type DemanderChangementPuissancePageProps = PlainType<Puissance.ConsulterPuissanceReadModel>;
 
@@ -23,7 +22,6 @@ export const DemanderChangementPuissancePage: FC<DemanderChangementPuissancePage
     }
   >
     <Heading1>Demander un changement de puissance</Heading1>
-    <InfoBoxDemandePuissance />
     <DemanderChangementPuissanceForm identifiantProjet={identifiantProjet} puissance={puissance} />
   </PageTemplate>
 );

@@ -17,6 +17,7 @@ import {
   DemanderChangementPuissanceFormKeys,
 } from './demanderChangementPuissance.action';
 import { DemanderChangementPuissancePageProps } from './DemanderChangementPuissance.page';
+import { InfoBoxDemandePuissance } from './InfoxBoxDemandePuissance';
 
 export type DemanderChangementPuissanceFormProps = DemanderChangementPuissancePageProps;
 
@@ -30,11 +31,9 @@ export const DemanderChangementPuissanceForm: FC<DemanderChangementPuissanceForm
   const [piècesJustificatives, setPiècesJustificatives] = useState<Array<string>>([]);
   const [nouvellePuissance, setNouvellePuissance] = useState<number>(puissance);
 
-  // ce boolean servira à calculter si le ratio dépasse les minima de l'AO
-  // à voir si ça render bien dès que le ratio change ou si useeffect
+  // ce boolean servira à calculer si le ratio dépasse les minima de l'AO
   const ratio = nouvellePuissance / puissance;
-  console.log(ratio);
-  const isInformationEnregitree = true;
+  const dépasseLesRatioDeAppelOffres = ratio > 1.2 || ratio < 0.8;
 
   return (
     <Form
@@ -63,9 +62,9 @@ export const DemanderChangementPuissanceForm: FC<DemanderChangementPuissanceForm
       }
     >
       <input
-        name="isInformationEnregitree"
+        name="isInformationEnregistree"
         type="hidden"
-        value={isInformationEnregitree ? 'true' : 'false'}
+        value={dépasseLesRatioDeAppelOffres ? 'false' : 'true'}
       />
 
       <input
@@ -91,6 +90,8 @@ export const DemanderChangementPuissanceForm: FC<DemanderChangementPuissanceForm
             onChange: (e) => setNouvellePuissance(parseFloat(e.target.value)),
           }}
         />
+        {dépasseLesRatioDeAppelOffres && <InfoBoxDemandePuissance />}
+
         <Input
           textArea
           label="Raison"
@@ -98,7 +99,7 @@ export const DemanderChangementPuissanceForm: FC<DemanderChangementPuissanceForm
           hintText="Pour faciliter le traitement de votre demande, veuillez détailler les raisons ayant conduit au changement de puissance."
           nativeTextAreaProps={{
             name: 'raison',
-            required: !isInformationEnregitree,
+            required: dépasseLesRatioDeAppelOffres,
             'aria-required': true,
           }}
           state={validationErrors['raison'] ? 'error' : 'default'}
@@ -108,7 +109,7 @@ export const DemanderChangementPuissanceForm: FC<DemanderChangementPuissanceForm
           label="Pièce(s) justificative(s)"
           name="piecesJustificatives"
           hintText="Joindre votre justificatif"
-          required={!isInformationEnregitree}
+          required={dépasseLesRatioDeAppelOffres}
           formats={['pdf']}
           multiple
           state={validationErrors['piecesJustificatives'] ? 'error' : 'default'}

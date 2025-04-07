@@ -19,7 +19,7 @@ const demanderChangementPuissanceSchema = zod.object({
   piecesJustificatives: singleDocument({
     acceptedFileTypes: ['application/pdf'],
   }),
-  isInformationEnregitree: zod.literal(false),
+  isInformationEnregistree: zod.literal('false'),
 });
 
 const enregistrerChangementPuissanceSchema = zod.object({
@@ -29,7 +29,7 @@ const enregistrerChangementPuissanceSchema = zod.object({
   piecesJustificatives: singleDocument({
     acceptedFileTypes: ['application/pdf'],
   }).optional(),
-  isInformationEnregitree: zod.literal(true),
+  isInformationEnregistree: zod.literal('true'),
 });
 
 const schema = zod.union([demanderChangementPuissanceSchema, enregistrerChangementPuissanceSchema]);
@@ -38,11 +38,11 @@ export type DemanderChangementPuissanceFormKeys = keyof zod.infer<typeof schema>
 
 const action: FormAction<FormState, typeof schema> = async (
   _,
-  { identifiantProjet, puissance, piecesJustificatives, raison, isInformationEnregitree },
+  { identifiantProjet, puissance, piecesJustificatives, raison, isInformationEnregistree },
 ) =>
   withUtilisateur(async (utilisateur) => {
     const date = new Date().toISOString();
-    if (isInformationEnregitree) {
+    if (isInformationEnregistree) {
       await mediator.send<Puissance.EnregistrerChangementPuissanceUseCase>({
         type: 'Lauréat.Puissance.UseCase.EnregistrerChangement',
         data: {
