@@ -29,7 +29,7 @@ export const changementPuissanceAccordéNotification = async ({
     getLogger().error('Aucun porteur trouvé', {
       identifiantProjet: identifiantProjet.formatter(),
       application: 'notifications',
-      fonction: 'changementReprésentantLégalAccordéNotification',
+      fonction: 'changementPuissanceAccordéNotification',
     });
     return;
   }

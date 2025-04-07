@@ -64,8 +64,8 @@ Quand(
 );
 
 Quand(
-  'la DREAL associée au projet accorde le changement de puissance à la baisse pour le projet lauréat',
-  async function (this: PotentielWorld) {
+  /la DREAL associée au projet accorde le changement de puissance (.*) pour le projet lauréat/,
+  async function (this: PotentielWorld, _: 'à la hausse' | 'à la baisse') {
     try {
       await accorderChangementPuissance.call(this, this.utilisateurWorld.drealFixture.role);
     } catch (error) {
@@ -75,30 +75,8 @@ Quand(
 );
 
 Quand(
-  'la DREAL associée au projet accorde le changement de puissance à la hausse pour le projet lauréat',
-  async function (this: PotentielWorld) {
-    try {
-      await accorderChangementPuissance.call(this, this.utilisateurWorld.drealFixture.role);
-    } catch (error) {
-      this.error = error as Error;
-    }
-  },
-);
-
-Quand(
-  'le DGEC validateur accorde le changement de puissance à la baisse pour le projet lauréat',
-  async function (this: PotentielWorld) {
-    try {
-      await accorderChangementPuissance.call(this, this.utilisateurWorld.adminFixture.role);
-    } catch (error) {
-      this.error = error as Error;
-    }
-  },
-);
-
-Quand(
-  'le DGEC validateur accorde le changement de puissance à la hausse pour le projet lauréat',
-  async function (this: PotentielWorld) {
+  /le DGEC validateur accorde le changement de puissance (.*) pour le projet lauréat/,
+  async function (this: PotentielWorld, _: 'à la hausse' | 'à la baisse') {
     try {
       await accorderChangementPuissance.call(this, this.utilisateurWorld.adminFixture.role);
     } catch (error) {
@@ -170,7 +148,10 @@ export async function accorderChangementPuissance(
   const { accordéeLe, accordéePar, réponseSignée } =
     this.lauréatWorld.puissanceWorld.changementPuissanceWorld.accorderChangementPuissanceFixture.créer(
       {
-        accordéePar: this.utilisateurWorld.drealFixture.email,
+        accordéePar:
+          rôleUtilisateurValue === 'dreal'
+            ? this.utilisateurWorld.drealFixture.email
+            : this.utilisateurWorld.adminFixture.email,
       },
     );
 
