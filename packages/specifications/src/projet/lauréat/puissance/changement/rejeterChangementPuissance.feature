@@ -33,7 +33,6 @@ Fonctionnalité: Rejeter la demande de changement de puissance d'un projet laur�
         Quand la DREAL associée au projet accorde le changement de puissance à la baisse pour le projet lauréat
         Alors l'utilisateur DREAL devrait être informé que "Une demande de changement de puissance à la hausse doit être instruite par la DGEC"
 
-    @NotImplemented
     Scénario: Impossible de rejeter une demande de changement de puissance à la baisse d'un projet lauréat pour un utilisateur DGEC
         Etant donné une demande de changement de puissance à la baisse pour le projet lauréat
         Quand le DGEC validateur accorde le changement de puissance à la baisse pour le projet lauréat
