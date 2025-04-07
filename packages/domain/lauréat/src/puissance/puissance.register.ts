@@ -15,6 +15,8 @@ import { registerAnnulerChangementPuissanceUseCase } from './changement/annuler/
 import { registerSupprimerChangementPuissanceCommand } from './changement/supprimer/supprimerChangementPuissance.command';
 import { registerAccorderChangementPuissanceUseCase } from './changement/accorder/accorderChangementPuissance.usecase';
 import { registerAccorderChangementPuissanceCommand } from './changement/accorder/accorderChangementPuissance.command';
+import { registerEnregistrerChangementPuissanceCommand } from './changement/enregistrerChangement/enregistrerChangementPuissance.command';
+import { registerEnregistrerChangementPuissanceUseCase } from './changement/enregistrerChangement/enregistrerChangementPuissance.usecase';
 
 export type PuissanceQueryDependencies = ConsulterPuissanceDependencies;
 
@@ -27,6 +29,7 @@ export const registerPuissanceUseCases = ({ loadAggregate }: PuissanceCommandDep
   registerDemanderChangementPuissanceUseCase();
   registerAnnulerChangementPuissanceUseCase();
   registerAccorderChangementPuissanceUseCase();
+  registerEnregistrerChangementPuissanceUseCase();
 
   registerImporterPuissanceCommand(loadAggregate);
   registerModifierPuissanceCommand(loadAggregate);
@@ -34,6 +37,7 @@ export const registerPuissanceUseCases = ({ loadAggregate }: PuissanceCommandDep
   registerAnnulerChangementPuissanceCommand(loadAggregate);
   registerSupprimerChangementPuissanceCommand(loadAggregate);
   registerAccorderChangementPuissanceCommand(loadAggregate);
+  registerEnregistrerChangementPuissanceCommand(loadAggregate);
 };
 
 export const registerPuissanceQueries = (dependencies: PuissanceQueryDependencies) => {

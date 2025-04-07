@@ -3,7 +3,6 @@ import path from 'path';
 
 import PizZip from 'pizzip';
 import Docxtemplater from 'docxtemplater';
-import { match } from 'ts-pattern';
 
 import { assets } from '../assets';
 
@@ -27,6 +26,11 @@ import {
   ModèleRéponseActionnaire,
   modèleRéponseActionnaireFileName,
 } from './actionnaire/modèleRéponseSignéeActionnaire';
+import {
+  ModèleRéponsePuissance,
+  modèleRéponsePuissanceFileName,
+} from './puissance/modèleRéponseSignéePuissance';
+import { ModèleRéponseDélai, modèleRéponseDélaiFileName } from './délai/modèleRéponseSignéeDélai';
 
 export type GénérerModèleRéponseOptions = { logo?: string } & (
   | ModèleRéponseAbandon
@@ -34,6 +38,8 @@ export type GénérerModèleRéponseOptions = { logo?: string } & (
   | ModèleMiseEnDemeure
   | ModèleRéponseMainlevée
   | ModèleRéponseActionnaire
+  | ModèleRéponsePuissance
+  | ModèleRéponseDélai
 );
 
 export type GénérerModèleRéponsePort = (
@@ -80,15 +86,17 @@ export const générerModèleRéponseAdapter: GénérerModèleRéponsePort = asy
 };
 
 const getModèleRéponseFilePath = (type: GénérerModèleRéponseOptions['type']) => {
-  return match(type)
-    .with('abandon', () => path.resolve(assets.docxFolderPath, modèleRéponseAbandonFileName))
-    .with('recours', () => path.resolve(assets.docxFolderPath, modèleRéponseRecoursFileName))
-    .with('mainlevée', () => path.resolve(assets.docxFolderPath, modèleRéponseMainlevéeFileName))
-    .with('mise-en-demeure', () =>
-      path.resolve(assets.docxFolderPath, modèleRéponseMiseEnDemeureFileName),
-    )
-    .with('actionnaire', () =>
-      path.resolve(assets.docxFolderPath, modèleRéponseActionnaireFileName),
-    )
-    .exhaustive();
+  const modèles: Record<GénérerModèleRéponseOptions['type'], string> = {
+    abandon: modèleRéponseAbandonFileName,
+    recours: modèleRéponseRecoursFileName,
+    mainlevée: modèleRéponseMainlevéeFileName,
+    'mise-en-demeure': modèleRéponseMiseEnDemeureFileName,
+    actionnaire: modèleRéponseActionnaireFileName,
+    puissance: modèleRéponsePuissanceFileName,
+    délai: modèleRéponseDélaiFileName,
+  };
+  if (!modèles[type]) {
+    throw new Error(`Modèle Inconnu : ${type}`);
+  }
+  return path.resolve(assets.docxFolderPath, modèles[type]);
 };

@@ -465,6 +465,7 @@ export const setupLauréat = async ({
       'ChangementPuissanceDemandé-V1',
       'ChangementPuissanceAnnulé-V1',
       'ChangementPuissanceSupprimé-V1',
+      'ChangementPuissanceEnregistré-V1',
       'ChangementPuissanceAccordé-V1',
     ],
     eventHandler: async (event) => {

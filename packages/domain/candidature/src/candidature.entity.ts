@@ -9,6 +9,7 @@ type CandidatureNonNotifiée = {
   estNotifiée: false;
   notification?: undefined;
 };
+
 type CandidatureNotifiée = {
   estNotifiée: true;
   notification: {

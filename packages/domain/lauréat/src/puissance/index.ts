@@ -15,6 +15,8 @@ import {
 import { AnnulerChangementPuissanceUseCase } from './changement/annuler/annulerChangementPuissance.usecase';
 import { AnnulerChangementPuissanceCommand } from './changement/annuler/annulerChangementPuissance.command';
 import { AccorderChangementPuissanceCommand } from './changement/accorder/accorderChangementPuissance.command';
+import { EnregistrerChangementPuissanceCommand } from './changement/enregistrerChangement/enregistrerChangementPuissance.command';
+import { EnregistrerChangementPuissanceUseCase } from './changement/enregistrerChangement/enregistrerChangementPuissance.usecase';
 
 // Query
 export type PuissanceQuery = ConsulterPuissanceQuery | ConsulterChangementPuissanceQuery;
@@ -28,13 +30,15 @@ export type PuissanceUseCase =
   | ModifierPuissanceUseCase
   | DemanderChangementUseCase
   | AnnulerChangementPuissanceUseCase
-  | AccorderChangementPuissanceUseCase;
+  | AccorderChangementPuissanceUseCase
+  | EnregistrerChangementPuissanceUseCase;
 
 export type {
   ModifierPuissanceUseCase,
   DemanderChangementUseCase,
   AnnulerChangementPuissanceUseCase,
   AccorderChangementPuissanceUseCase,
+  EnregistrerChangementPuissanceUseCase,
 };
 
 // Command
@@ -43,7 +47,8 @@ export type PuissanceCommand =
   | ModifierPuissanceCommand
   | DemanderChangementCommand
   | AnnulerChangementPuissanceCommand
-  | AccorderChangementPuissanceCommand;
+  | AccorderChangementPuissanceCommand
+  | EnregistrerChangementPuissanceCommand;
 
 export type {
   ImporterPuissanceCommand,
@@ -51,6 +56,7 @@ export type {
   DemanderChangementCommand,
   AnnulerChangementPuissanceCommand,
   AccorderChangementPuissanceCommand,
+  EnregistrerChangementPuissanceCommand,
 };
 
 // Event
@@ -61,6 +67,7 @@ export type { ChangementPuissanceDemandéEvent } from './changement/demander/dem
 export type { ChangementPuissanceAnnuléEvent } from './changement/annuler/annulerChangementPuissance.behavior';
 export type { ChangementPuissanceSuppriméEvent } from './changement/supprimer/supprimerChangementPuissance.behavior';
 export type { ChangementPuissanceAccordéEvent } from './changement/accorder/accorderChangementPuissance.behavior';
+export type { ChangementPuissanceEnregistréEvent } from './changement/enregistrerChangement/enregistrerChangementPuissance.behavior';
 
 // Entities
 export * from './puissance.entity';

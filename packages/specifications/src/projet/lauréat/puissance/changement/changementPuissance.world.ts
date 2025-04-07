@@ -6,6 +6,7 @@ import { DocumentProjet } from '@potentiel-domain/document';
 import { DemanderChangementPuissanceFixture } from './fixture/demanderChangementPuissance.fixture';
 import { AnnulerChangementPuissanceFixture } from './fixture/annulerChangementPuissance.fixture';
 import { AccorderChangementPuissanceFixture } from './fixture/accorderChangementPuissance.fixture';
+import { EnregistrerChangementPuissanceFixture } from './fixture/enregistrerChangementPuissance.fixture';
 
 type MapToDemandeExpectedProps = {
   identifiantProjet: IdentifiantProjet.ValueType;
@@ -29,10 +30,16 @@ export class ChangementPuissanceWorld {
     return this.#accorderChangementPuissanceFixture;
   }
 
+  #enregistrerChangementPuissanceFixture: EnregistrerChangementPuissanceFixture;
+  get enregistrerChangementPuissanceFixture() {
+    return this.#enregistrerChangementPuissanceFixture;
+  }
+
   constructor() {
     this.#demanderChangementPuissanceFixture = new DemanderChangementPuissanceFixture();
     this.#annulerChangementPuissanceFixture = new AnnulerChangementPuissanceFixture();
     this.#accorderChangementPuissanceFixture = new AccorderChangementPuissanceFixture();
+    this.#enregistrerChangementPuissanceFixture = new EnregistrerChangementPuissanceFixture();
   }
 
   mapToExpected({
@@ -40,31 +47,50 @@ export class ChangementPuissanceWorld {
     statut,
     puissanceActuelle,
   }: MapToDemandeExpectedProps): Puissance.ConsulterChangementPuissanceReadModel {
-    const baseFixture = this.#demanderChangementPuissanceFixture;
+    if (
+      !this.demanderChangementPuissanceFixture.aÉtéCréé &&
+      !this.#enregistrerChangementPuissanceFixture.aÉtéCréé
+    ) {
+      throw new Error(
+        `Aucune demande ou d'information enregistrée n'a été créée dans PuissanceWorld`,
+      );
+    }
+
+    const baseFixture = this.#enregistrerChangementPuissanceFixture.aÉtéCréé
+      ? this.#enregistrerChangementPuissanceFixture
+      : this.#demanderChangementPuissanceFixture;
+
+    const commonDemande = {
+      nouvellePuissance: baseFixture.ratio * puissanceActuelle,
+      demandéeLe: DateTime.convertirEnValueType(baseFixture.demandéLe),
+      demandéePar: Email.convertirEnValueType(baseFixture.demandéPar),
+      raison: baseFixture.raison,
+      pièceJustificative: DocumentProjet.convertirEnValueType(
+        identifiantProjet.formatter(),
+        Puissance.TypeDocumentPuissance.pièceJustificative.formatter(),
+        DateTime.convertirEnValueType(baseFixture.demandéLe).formatter(),
+        baseFixture.pièceJustificative.format,
+      ),
+      statut,
+    };
 
     return {
       identifiantProjet,
 
-      demande: {
-        nouvellePuissance: baseFixture.ratio * puissanceActuelle,
-        autoritéCompétente: Puissance.RatioChangementPuissance.bind({
-          ratio: baseFixture.ratio,
-        }).getAutoritéCompétente(),
-        statut,
-        demandéeLe: DateTime.convertirEnValueType(baseFixture.demandéLe),
-        demandéePar: Email.convertirEnValueType(baseFixture.demandéPar),
-        raison: baseFixture.raison,
-        pièceJustificative: DocumentProjet.convertirEnValueType(
-          identifiantProjet.formatter(),
-          Puissance.TypeDocumentPuissance.pièceJustificative.formatter(),
-          DateTime.convertirEnValueType(baseFixture.demandéLe).formatter(),
-          baseFixture.pièceJustificative.format,
-        ),
-
-        accord: undefined,
-
-        rejet: undefined,
-      },
+      demande: this.#enregistrerChangementPuissanceFixture.aÉtéCréé
+        ? {
+            ...commonDemande,
+            isInformationEnregistrée: true,
+          }
+        : {
+            ...commonDemande,
+            isInformationEnregistrée: false,
+            autoritéCompétente: Puissance.RatioChangementPuissance.bind({
+              ratio: baseFixture.ratio,
+            }).getAutoritéCompétente(),
+            accord: undefined,
+            rejet: undefined,
+          },
     };
   }
 }

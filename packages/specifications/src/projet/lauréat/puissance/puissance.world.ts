@@ -31,7 +31,12 @@ export class PuissanceWorld {
   mapToExpected(identifiantProjet: IdentifiantProjet.ValueType) {
     const expected: Puissance.ConsulterPuissanceReadModel = {
       identifiantProjet,
-      puissance: this.#importerPuissanceFixture.puissance,
+      puissance: this.#changementPuissanceWorld.enregistrerChangementPuissanceFixture.aÉtéCréé
+        ? this.#changementPuissanceWorld.enregistrerChangementPuissanceFixture.ratio *
+          this.#importerPuissanceFixture.puissance
+        : this.#modifierPuissanceFixture.aÉtéCréé
+          ? this.#modifierPuissanceFixture.puissance
+          : this.#importerPuissanceFixture.puissance,
     };
 
     if (this.#modifierPuissanceFixture.aÉtéCréé) {
@@ -47,7 +52,7 @@ export class PuissanceWorld {
         expected.puissance = this.#changementPuissanceWorld.mapToExpected({
           identifiantProjet,
           statut: Puissance.StatutChangementPuissance.accordé,
-          puissanceActuelle: expected.puissance,
+          puissanceActuelle: this.#importerPuissanceFixture.puissance,
         }).demande.nouvellePuissance;
         expected.dateDemandeEnCours = undefined;
       }

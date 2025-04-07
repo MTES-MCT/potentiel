@@ -4,6 +4,7 @@ import { CreateUser, GetUserByEmail } from '../../modules/users';
 import { getPermissions, Permission } from '../../modules/authN';
 import { Role, Utilisateur } from '@potentiel-domain/utilisateur';
 import { getContext } from '@potentiel-applications/request-context';
+import { Option } from '@potentiel-libraries/monads';
 
 type AttachUserToRequestMiddlewareDependencies = {
   getUserByEmail: GetUserByEmail;
@@ -20,6 +21,7 @@ declare module 'express-serve-static-core' {
       id: string;
       accountUrl: string;
       permissions: Permission[];
+      région: Option.Type<string>;
     };
     errorFileSizeLimit?: string;
   }
@@ -38,7 +40,9 @@ const makeAttachUserToRequestMiddleware =
   }: AttachUserToRequestMiddlewareDependencies) =>
   async (request: Request, response: Response, next: NextFunction) => {
     if (
-      // Theses paths should be prefixed with /static in the future
+      request.path.startsWith('/api') ||
+      request.path.startsWith('/csrf') ||
+      request.path.startsWith('/auth') ||
       request.path.startsWith('/fonts') ||
       request.path.startsWith('/css') ||
       request.path.startsWith('/images') ||
@@ -46,7 +50,8 @@ const makeAttachUserToRequestMiddleware =
       request.path.startsWith('/main') ||
       request.path.startsWith('/illustrations') ||
       request.path.startsWith('/js') ||
-      request.path.startsWith('/dsfr')
+      request.path.startsWith('/dsfr') ||
+      request.path.startsWith('/_next')
     ) {
       next();
       return;
@@ -64,6 +69,7 @@ const makeAttachUserToRequestMiddleware =
         role: { nom: role },
         nom: fullName,
         accountUrl,
+        région,
       } = utilisateur;
 
       // Ceci couvre le cas où l'utilisateur s'inscrit spontanément sur Potentiel
@@ -84,6 +90,7 @@ const makeAttachUserToRequestMiddleware =
         ...user,
         accountUrl,
         permissions: getPermissions(user),
+        région,
       };
     } catch (e) {
       logger.error('Auth failed');
