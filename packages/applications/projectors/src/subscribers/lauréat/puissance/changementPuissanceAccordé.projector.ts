@@ -40,6 +40,17 @@ export const changementPuissanceAccordéProjector = async ({
     return;
   }
 
+  if (projectionDemandeChangementPuissance.demande.statut === 'information-enregistrée') {
+    getLogger().error(
+      `Demande non instruite car l'information a déjà été enregistrée automatiquement`,
+      {
+        identifiantProjet,
+        fonction: 'changementPuissanceAccordéProjector',
+      },
+    );
+    return;
+  }
+
   await upsertProjection<Puissance.ChangementPuissanceEntity>(
     `changement-puissance|${identifiantProjet}#${projectionPuissance.dateDemandeEnCours}`,
     {

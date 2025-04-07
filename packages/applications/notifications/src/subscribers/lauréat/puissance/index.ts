@@ -67,6 +67,7 @@ export const register = ({ sendEmail }: RegisterPuissanceNotificationDependencie
             'ChangementPuissanceDemandé-V1',
             'ChangementPuissanceAnnulé-V1',
             'ChangementPuissanceSupprimé-V1',
+            'ChangementPuissanceEnregistré-V1',
             'PuissanceImportée-V1',
             'PuissanceModifiée-V1',
           ),
