@@ -42,7 +42,7 @@ export const getActionnaire = async ({
       data: { identifiantProjet: identifiantProjet.formatter() },
     });
 
-    const estAbandonnéOuAchevé = await checkAbandonAndAchèvement(identifiantProjet, rôle);
+    const { estAchevéOuAbandonné } = await checkAbandonAndAchèvement(identifiantProjet, rôle);
 
     if (Option.isSome(actionnaire)) {
       const { actionnaire: nom, dateDemandeEnCours } = actionnaire;
@@ -62,12 +62,12 @@ export const getActionnaire = async ({
       const peutFaireUneDemandeDeChangement =
         demandeNécessiteInstruction &&
         role.aLaPermission('actionnaire.demanderChangement') &&
-        !estAbandonnéOuAchevé;
+        !estAchevéOuAbandonné;
 
       const peutEnregistrerChangement =
         !demandeNécessiteInstruction &&
         role.aLaPermission('actionnaire.enregistrerChangement') &&
-        !estAbandonnéOuAchevé;
+        !estAchevéOuAbandonné;
 
       if (peutModifier) {
         return {

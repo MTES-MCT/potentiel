@@ -40,7 +40,7 @@ export const getPuissance = async ({
       data: { identifiantProjet: identifiantProjet.formatter() },
     });
 
-    const estAbandonnéOuAchevé = await checkAbandonAndAchèvement(identifiantProjet, rôle);
+    const { estAchevéOuAbandonné } = await checkAbandonAndAchèvement(identifiantProjet, rôle);
 
     if (Option.isSome(puissance)) {
       if (role.aLaPermission('puissance.modifier')) {
@@ -53,7 +53,7 @@ export const getPuissance = async ({
         };
       }
 
-      if (role.aLaPermission('puissance.demanderChangement') && !estAbandonnéOuAchevé) {
+      if (role.aLaPermission('puissance.demanderChangement') && !estAchevéOuAbandonné) {
         return {
           puissance: puissance.puissance,
           affichage: {

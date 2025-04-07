@@ -6,14 +6,22 @@ import { getLogger } from '@potentiel-libraries/monitoring';
 import { IdentifiantProjet } from '@potentiel-domain/common';
 import { getAttestationDeConformité } from './getAttestationDeConformité';
 
+type CheckAbandonAndAchèvement = {
+  estAbandonné: boolean;
+  estAchevéOuAbandonné: boolean;
+};
+
 export const checkAbandonAndAchèvement = async (
   identifiantProjet: IdentifiantProjet.ValueType,
   rôle: string,
-) => {
+): Promise<CheckAbandonAndAchèvement> => {
   const attestationConformitéExistante = await getAttestationDeConformité(identifiantProjet, rôle);
 
   if (attestationConformitéExistante) {
-    return true;
+    return {
+      estAbandonné: false,
+      estAchevéOuAbandonné: true,
+    };
   }
 
   try {
@@ -21,13 +29,23 @@ export const checkAbandonAndAchèvement = async (
       type: 'Lauréat.Abandon.Query.ConsulterAbandon',
       data: { identifiantProjetValue: identifiantProjet.formatter() },
     });
-    if (Option.isNone(abandon)) return false;
-    return abandon.statut.estAccordé() || abandon.statut.estEnCours();
+
+    const aAbandonEnCours = Option.isSome(abandon) && abandon.statut.estEnCours();
+    const estAbandonné = Option.isSome(abandon) && abandon.statut.estAccordé();
+
+    return {
+      estAbandonné,
+      estAchevéOuAbandonné: aAbandonEnCours || estAbandonné,
+    };
   } catch (e) {
-    getLogger('getActionnaire.checkActionnaire').warn("Impossible de récupérer l'abandon", {
+    getLogger('checkAbandonAndAchèvement').warn("Impossible de récupérer l'abandon", {
       error: (e as Error)?.message,
       identifiantProjet: identifiantProjet.formatter(),
     });
-    return false;
+
+    return {
+      estAbandonné: false,
+      estAchevéOuAbandonné: false,
+    };
   }
 };
