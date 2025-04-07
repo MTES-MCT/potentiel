@@ -4,6 +4,7 @@ import { mediator } from 'mediateur';
 import { Puissance } from '@potentiel-domain/laureat';
 
 import { PotentielWorld } from '../../../../../potentiel.world';
+import { UtilisateurWorld } from '../../../../../utilisateur/utilisateur.world';
 
 Quand(
   'le porteur demande le changement de puissance avec la même valeur pour le projet lauréat',
@@ -236,7 +237,9 @@ export async function annulerChangementPuissance(this: PotentielWorld) {
 
 export async function accorderChangementPuissance(
   this: PotentielWorld,
-  rôleUtilisateurValue: 'dreal' | 'admin',
+  rôleUtilisateurValue:
+    | UtilisateurWorld['drealFixture']['role']
+    | UtilisateurWorld['adminFixture']['role'],
 ) {
   const identifiantProjet = this.lauréatWorld.identifiantProjet.formatter();
 
@@ -267,7 +270,9 @@ export async function accorderChangementPuissance(
 
 export async function rejeterChangementPuissance(
   this: PotentielWorld,
-  rôleUtilisateurValue: 'dreal' | 'admin',
+  rôleUtilisateurValue:
+    | UtilisateurWorld['drealFixture']['role']
+    | UtilisateurWorld['adminFixture']['role'],
 ) {
   const identifiantProjet = this.lauréatWorld.identifiantProjet.formatter();
 

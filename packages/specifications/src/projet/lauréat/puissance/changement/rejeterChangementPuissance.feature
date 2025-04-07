@@ -17,9 +17,8 @@ Fonctionnalité: Rejeter la demande de changement de puissance d'un projet laur�
             | url        | https://potentiel.beta.gouv.fr/projet/.*/details.html                                                                             |
             | type       | rejet                                                                                                                             |
 
-    @NotImplemented
     Scénario: le DGEC validateur rejette le changement de puissance d'un projet lauréat
-        Etant donné une demande de changement de puissance à la baisse pour le projet lauréat
+        Etant donné une demande de changement de puissance à la hausse pour le projet lauréat
         Quand le DGEC validateur rejette le changement de puissance à la hausse pour le projet lauréat
         Alors la demande de changement de la puissance devrait être rejetée
         Et la puissance du projet lauréat ne devrait pas être mise à jour
