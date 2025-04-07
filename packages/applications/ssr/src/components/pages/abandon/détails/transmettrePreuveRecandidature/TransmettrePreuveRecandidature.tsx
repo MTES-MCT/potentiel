@@ -41,9 +41,6 @@ export const TransmettrePreuveRecandidature = ({
   const [validationErrors, setValidationErrors] = useState<
     ValidationErrors<TransmettrePreuveRecandidatureFormKeys>
   >({});
-  const [projetSélectionné, setProjetSélectionné] = useState<{
-    identifiantProjet: ProjetÀSélectionner['identifiantProjet'];
-  }>();
 
   const getProjectLabel = (projet: ProjetÀSélectionner) =>
     `${projet.nom} | ${projet.appelOffre}-P${projet.période}${
@@ -82,9 +79,7 @@ export const TransmettrePreuveRecandidature = ({
               <Button priority="secondary" onClick={closeModal} type="button">
                 Annuler
               </Button>
-              <SubmitButton disabledCondition={() => !projetSélectionné}>
-                Transmettre la preuve
-              </SubmitButton>
+              <SubmitButton>Transmettre la preuve</SubmitButton>
             </>
           }
         >
@@ -94,17 +89,9 @@ export const TransmettrePreuveRecandidature = ({
             state={validationErrors['preuveRecandidature'] ? 'error' : 'default'}
             stateRelatedMessage="La sélection du projet est obligatoire"
             nativeSelectProps={{
-              onChange: ({ currentTarget: { value } }) => {
-                const projet = projetsÀSélectionner.find(
-                  (projet) => projet.identifiantProjet === value,
-                );
-
-                if (projet) {
-                  setProjetSélectionné({
-                    identifiantProjet: projet.identifiantProjet,
-                  });
-                }
-              },
+              name: 'preuveRecandidature',
+              required: true,
+              'aria-required': true,
             }}
             options={projetsÀSélectionner.map((projet) => ({
               label: getProjectLabel(projet),
@@ -113,15 +100,6 @@ export const TransmettrePreuveRecandidature = ({
           />
 
           <input type={'hidden'} value={identifiantProjet} name="identifiantProjet" />
-          {projetSélectionné && (
-            <>
-              <input
-                type={'hidden'}
-                value={projetSélectionné.identifiantProjet}
-                name="preuveRecandidature"
-              />
-            </>
-          )}
         </Form>
       </modal.Component>
     </>
