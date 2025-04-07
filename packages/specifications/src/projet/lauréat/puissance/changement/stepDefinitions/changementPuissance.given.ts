@@ -5,6 +5,7 @@ import { PotentielWorld } from '../../../../../potentiel.world';
 import {
   demanderChangementPuissance,
   accorderChangementPuissance,
+  annulerChangementPuissance,
 } from './changementPuissance.when';
 
 EtantDonné(
@@ -24,6 +25,18 @@ EtantDonné(
     try {
       await demanderChangementPuissance.call(this, 'lauréat');
       await accorderChangementPuissance.call(this, this.utilisateurWorld.drealFixture.role);
+    } catch (error) {
+      this.error = error as Error;
+    }
+  },
+);
+
+EtantDonné(
+  'une demande de changement de puissance à la baisse annulée pour le projet lauréat',
+  async function (this: PotentielWorld) {
+    try {
+      await demanderChangementPuissance.call(this, 'lauréat');
+      await annulerChangementPuissance.call(this);
     } catch (error) {
       this.error = error as Error;
     }

@@ -41,6 +41,10 @@ export async function accorderDemandeChangement(
     throw new DemandeDeChangementInexistanteError();
   }
 
+  this.demande.statut.vérifierQueLeChangementDeStatutEstPossibleEn(
+    StatutChangementPuissance.accordé,
+  );
+
   if (this.demande.autoritéCompétente === 'dgec' && rôleUtilisateur.nom === 'dreal') {
     throw new DemandeDoitÊtreInstruiteParDGECError();
   }
@@ -51,10 +55,6 @@ export async function accorderDemandeChangement(
   ) {
     throw new DemandeDoitÊtreInstruiteParDREALError();
   }
-
-  this.demande.statut.vérifierQueLeChangementDeStatutEstPossibleEn(
-    StatutChangementPuissance.accordé,
-  );
 
   const event: ChangementPuissanceAccordéEvent = {
     type: 'ChangementPuissanceAccordé-V1',
