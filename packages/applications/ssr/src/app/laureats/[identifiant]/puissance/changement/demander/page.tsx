@@ -10,7 +10,7 @@ import { mapToPlainObject } from '@potentiel-domain/core';
 import { decodeParameter } from '@/utils/decodeParameter';
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
-import { DemanderChangementPuissancePage } from '@/components/pages/puissance/demanderChangement/DemanderChangementPuissance.page';
+import { DemanderChangementPuissancePage } from '@/components/pages/puissance/changement/demander/DemanderChangementPuissance.page';
 
 export const metadata: Metadata = {
   title: "Demander un changement d'puissance(s) d'un projet - Potentiel",

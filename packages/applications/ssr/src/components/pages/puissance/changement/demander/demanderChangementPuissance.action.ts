@@ -9,8 +9,8 @@ import { Routes } from '@potentiel-applications/routes';
 import { FormAction, formAction, FormState } from '@/utils/formAction';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 
-import { strictlyPositiveNumberSchema } from '../../../../utils/zod/candidature/schemaBase';
-import { singleDocument } from '../../../../utils/zod/document/singleDocument';
+import { strictlyPositiveNumberSchema } from '../../../../../utils/zod/candidature/schemaBase';
+import { singleDocument } from '../../../../../utils/zod/document/singleDocument';
 
 const demanderChangementPuissanceSchema = zod.object({
   identifiantProjet: zod.string().min(1),
