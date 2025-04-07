@@ -1,4 +1,4 @@
-import { match } from 'ts-pattern';
+import { match, P } from 'ts-pattern';
 
 import { InvalidOperationError, ReadonlyValueType } from '@potentiel-domain/core';
 
@@ -47,26 +47,49 @@ export const bind = <T extends RawType = RawType>(value: string): ValueType<T> =
       return this.statut === valueType.statut;
     },
     vérifierQueLeChangementDeStatutEstPossibleEn(nouveauStatut: ValueType) {
-      if (this.statut === 'information-enregistrée') {
-        throw new AucuneDemandeDeChangementEnCoursErreur();
-      }
-      if (this.statut === 'demandé') {
-        if (
-          nouveauStatut.statut === 'demandé' ||
-          nouveauStatut.statut === 'information-enregistrée'
-        ) {
-          throw new ChangementPuissanceDéjàEnCoursErreur();
-        }
-        return;
-      } else if (nouveauStatut.statut !== 'demandé') {
-        const error = match<RawType>(this.statut)
-          .with('accordé', () => new ChangementPuissanceDéjàAccordéeErreur())
-          .with('annulé', () => new ChangementPuissanceDéjàAnnuléeErreur())
-          .with('rejeté', () => new ChangementPuissanceDéjàRejetéeErreur())
-          .otherwise(() => {});
-        throw error;
-      }
-      return;
+      return match<{ statutActuel: RawType; nouveauStatut: RawType }>({
+        statutActuel: this.statut,
+        nouveauStatut: nouveauStatut.statut,
+      })
+        .with({ statutActuel: 'information-enregistrée', nouveauStatut: P.any }, () => {
+          throw new AucuneDemandeDeChangementEnCoursErreur();
+        })
+        .with(
+          {
+            statutActuel: 'demandé',
+            nouveauStatut: P.union('demandé', 'information-enregistrée'),
+          },
+          () => {
+            throw new ChangementPuissanceDéjàEnCoursErreur();
+          },
+        )
+        .with(
+          {
+            statutActuel: 'accordé',
+            nouveauStatut: P.not('demandé'),
+          },
+          () => {
+            throw new ChangementPuissanceDéjàAccordéeErreur();
+          },
+        )
+        .with(
+          {
+            statutActuel: 'annulé',
+            nouveauStatut: P.not('demandé'),
+          },
+          () => {
+            throw new ChangementPuissanceDéjàAnnuléeErreur();
+          },
+        )
+        .with(
+          {
+            statutActuel: 'rejeté',
+            nouveauStatut: P.not('demandé'),
+          },
+          () => {
+            throw new ChangementPuissanceDéjàRejetéeErreur();
+          },
+        );
     },
   };
 };
