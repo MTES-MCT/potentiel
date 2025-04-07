@@ -5,7 +5,9 @@ export const modifier = (identifiantProjet: string) =>
 
 export const changement = {
   demander: (identifiantProjet: string) =>
-    `/laureats/${encodeParameter(identifiantProjet)}/actionnaire/changement/demander`,
+    `/laureats/${encodeParameter(identifiantProjet)}/puissance/changement/demander`,
   enregistrer: (identifiantProjet: string) =>
-    `/laureats/${encodeParameter(identifiantProjet)}/actionnaire/changement/enregistrer`,
+    `/laureats/${encodeParameter(identifiantProjet)}/puissance/changement/enregistrer`,
+  détails: (identifiantProjet: string, demandéLe: string) =>
+    `/laureats/${encodeParameter(identifiantProjet)}/puissance/changement/${demandéLe}`,
 };

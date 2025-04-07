@@ -1,4 +1,3 @@
-import { mediator } from 'mediateur';
 import { Puissance } from '@potentiel-domain/laureat';
 
 import { Option } from '@potentiel-libraries/monads';
@@ -7,6 +6,8 @@ import { Routes } from '@potentiel-applications/routes';
 import { Role } from '@potentiel-domain/utilisateur';
 import { getLogger } from '@potentiel-libraries/monitoring';
 import { IdentifiantProjet } from '@potentiel-domain/common';
+import { checkAbandonAndAchèvement } from './checkAbandonAndAchèvement';
+import { mediator } from 'mediateur';
 
 export type GetPuissanceForProjectPage = {
   puissance: number;
@@ -39,6 +40,8 @@ export const getPuissance = async ({
       data: { identifiantProjet: identifiantProjet.formatter() },
     });
 
+    const estAbandonnéOuAchevé = await checkAbandonAndAchèvement(identifiantProjet, rôle);
+
     if (Option.isSome(puissance)) {
       if (role.aLaPermission('puissance.modifier')) {
         return {
@@ -46,6 +49,16 @@ export const getPuissance = async ({
           affichage: {
             url: Routes.Puissance.modifier(identifiantProjet.formatter()),
             labelPageProjet: 'Modifier',
+          },
+        };
+      }
+
+      if (role.aLaPermission('puissance.demanderChangement') && !estAbandonnéOuAchevé) {
+        return {
+          puissance: puissance.puissance,
+          affichage: {
+            url: Routes.Puissance.changement.demander(identifiantProjet.formatter()),
+            labelPageProjet: 'Demander Changement',
           },
         };
       }

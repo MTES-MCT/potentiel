@@ -41,27 +41,26 @@ const action: FormAction<FormState, typeof schema> = async (
   { identifiantProjet, puissance, piecesJustificatives, raison, isInformationEnregitree },
 ) =>
   withUtilisateur(async (utilisateur) => {
-    const dateDemandeValue = new Date().toISOString();
-
+    const date = new Date().toISOString();
     if (isInformationEnregitree) {
-      await mediator.send<Puissance.PuissanceUseCase.EnregistrerChangement>({
+      await mediator.send<Puissance.EnregistrerChangementPuissanceUseCase>({
         type: 'Lauréat.Puissance.UseCase.EnregistrerChangement',
         data: {
           identifiantProjetValue: identifiantProjet,
           identifiantUtilisateurValue: utilisateur.identifiantUtilisateur.formatter(),
-          dateDemandeValue,
+          dateChangementValue: date,
           pièceJustificativeValue: piecesJustificatives,
           puissanceValue: puissance,
           raisonValue: raison,
         },
       });
     } else {
-      await mediator.send<Puissance.PuissanceUseCase>({
+      await mediator.send<Puissance.DemanderChangementUseCase>({
         type: 'Lauréat.Puissance.UseCase.DemanderChangement',
         data: {
           identifiantProjetValue: identifiantProjet,
           identifiantUtilisateurValue: utilisateur.identifiantUtilisateur.formatter(),
-          dateDemandeValue,
+          dateDemandeValue: date,
           pièceJustificativeValue: piecesJustificatives,
           puissanceValue: puissance,
           raisonValue: raison,
@@ -72,7 +71,7 @@ const action: FormAction<FormState, typeof schema> = async (
     return {
       status: 'success',
       redirection: {
-        url: Routes.Puissance.changement.détails(identifiantProjet, dateDemandeValue),
+        url: Routes.Puissance.changement.détails(identifiantProjet, date),
         message: 'La demande de changement de puissance a bien été enregistrée',
       },
     };
