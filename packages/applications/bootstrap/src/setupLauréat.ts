@@ -467,6 +467,7 @@ export const setupLauréat = async ({
       'ChangementPuissanceSupprimé-V1',
       'ChangementPuissanceEnregistré-V1',
       'ChangementPuissanceAccordé-V1',
+      'ChangementPuissanceRejeté-V1',
     ],
     eventHandler: async (event) => {
       await mediator.send<PuissanceProjector.Execute>({
@@ -487,6 +488,8 @@ export const setupLauréat = async ({
         'ChangementPuissanceAnnulé-V1',
         'ChangementPuissanceSupprimé-V1',
         'ChangementPuissanceAccordé-V1',
+        'ChangementPuissanceRejeté-V1',
+        'ChangementPuissanceEnregistré-V1',
       ],
       eventHandler: async (event) => {
         await mediator.publish<PuissanceNotification.Execute>({

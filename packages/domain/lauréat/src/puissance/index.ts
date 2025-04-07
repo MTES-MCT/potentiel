@@ -17,6 +17,8 @@ import { AnnulerChangementPuissanceCommand } from './changement/annuler/annulerC
 import { AccorderChangementPuissanceCommand } from './changement/accorder/accorderChangementPuissance.command';
 import { EnregistrerChangementPuissanceCommand } from './changement/enregistrerChangement/enregistrerChangementPuissance.command';
 import { EnregistrerChangementPuissanceUseCase } from './changement/enregistrerChangement/enregistrerChangementPuissance.usecase';
+import { RejeterChangementPuissanceUseCase } from './changement/rejeter/rejeterChangementPuissance.usecase';
+import { RejeterChangementPuissanceCommand } from './changement/rejeter/rejeterChangementPuissance.command';
 
 // Query
 export type PuissanceQuery = ConsulterPuissanceQuery | ConsulterChangementPuissanceQuery;
@@ -30,8 +32,9 @@ export type PuissanceUseCase =
   | ModifierPuissanceUseCase
   | DemanderChangementUseCase
   | AnnulerChangementPuissanceUseCase
+  | EnregistrerChangementPuissanceUseCase
   | AccorderChangementPuissanceUseCase
-  | EnregistrerChangementPuissanceUseCase;
+  | RejeterChangementPuissanceUseCase;
 
 export type {
   ModifierPuissanceUseCase,
@@ -39,6 +42,7 @@ export type {
   AnnulerChangementPuissanceUseCase,
   AccorderChangementPuissanceUseCase,
   EnregistrerChangementPuissanceUseCase,
+  RejeterChangementPuissanceUseCase,
 };
 
 // Command
@@ -48,7 +52,8 @@ export type PuissanceCommand =
   | DemanderChangementCommand
   | AnnulerChangementPuissanceCommand
   | AccorderChangementPuissanceCommand
-  | EnregistrerChangementPuissanceCommand;
+  | EnregistrerChangementPuissanceCommand
+  | RejeterChangementPuissanceCommand;
 
 export type {
   ImporterPuissanceCommand,
@@ -57,6 +62,7 @@ export type {
   AnnulerChangementPuissanceCommand,
   AccorderChangementPuissanceCommand,
   EnregistrerChangementPuissanceCommand,
+  RejeterChangementPuissanceCommand,
 };
 
 // Event
@@ -66,8 +72,9 @@ export type { PuissanceModifiéeEvent } from './modifier/modifierPuissance.behav
 export type { ChangementPuissanceDemandéEvent } from './changement/demander/demanderChangementPuissance.behavior';
 export type { ChangementPuissanceAnnuléEvent } from './changement/annuler/annulerChangementPuissance.behavior';
 export type { ChangementPuissanceSuppriméEvent } from './changement/supprimer/supprimerChangementPuissance.behavior';
-export type { ChangementPuissanceAccordéEvent } from './changement/accorder/accorderChangementPuissance.behavior';
 export type { ChangementPuissanceEnregistréEvent } from './changement/enregistrerChangement/enregistrerChangementPuissance.behavior';
+export type { ChangementPuissanceAccordéEvent } from './changement/accorder/accorderChangementPuissance.behavior';
+export type { ChangementPuissanceRejetéEvent } from './changement/rejeter/rejeterChangementPuissance.behavior';
 
 // Entities
 export * from './puissance.entity';

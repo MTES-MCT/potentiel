@@ -7,6 +7,7 @@ import { DemanderChangementPuissanceFixture } from './fixture/demanderChangement
 import { AnnulerChangementPuissanceFixture } from './fixture/annulerChangementPuissance.fixture';
 import { AccorderChangementPuissanceFixture } from './fixture/accorderChangementPuissance.fixture';
 import { EnregistrerChangementPuissanceFixture } from './fixture/enregistrerChangementPuissance.fixture';
+import { RejeterChangementPuissanceFixture } from './fixture/rejeterChangementPuissance.fixture';
 
 type MapToDemandeExpectedProps = {
   identifiantProjet: IdentifiantProjet.ValueType;
@@ -25,21 +26,27 @@ export class ChangementPuissanceWorld {
     return this.#annulerChangementPuissanceFixture;
   }
 
-  #accorderChangementPuissanceFixture: AccorderChangementPuissanceFixture;
-  get accorderChangementPuissanceFixture() {
-    return this.#accorderChangementPuissanceFixture;
-  }
-
   #enregistrerChangementPuissanceFixture: EnregistrerChangementPuissanceFixture;
   get enregistrerChangementPuissanceFixture() {
     return this.#enregistrerChangementPuissanceFixture;
   }
 
+  #accorderChangementPuissanceFixture: AccorderChangementPuissanceFixture;
+  get accorderChangementPuissanceFixture() {
+    return this.#accorderChangementPuissanceFixture;
+  }
+
+  #rejeterChangementPuissanceFixture: RejeterChangementPuissanceFixture;
+  get rejeterChangementPuissanceFixture() {
+    return this.#rejeterChangementPuissanceFixture;
+  }
+
   constructor() {
     this.#demanderChangementPuissanceFixture = new DemanderChangementPuissanceFixture();
     this.#annulerChangementPuissanceFixture = new AnnulerChangementPuissanceFixture();
-    this.#accorderChangementPuissanceFixture = new AccorderChangementPuissanceFixture();
     this.#enregistrerChangementPuissanceFixture = new EnregistrerChangementPuissanceFixture();
+    this.#accorderChangementPuissanceFixture = new AccorderChangementPuissanceFixture();
+    this.#rejeterChangementPuissanceFixture = new RejeterChangementPuissanceFixture();
   }
 
   mapToExpected({

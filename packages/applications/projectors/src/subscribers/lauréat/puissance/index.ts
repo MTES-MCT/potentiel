@@ -12,6 +12,7 @@ import { changementPuissanceAnnuléProjector } from './changementPuissanceAnnul�
 import { changementPuissanceSuppriméProjector } from './changementPuissanceSupprimé.projector';
 import { changementPuissanceAccordéProjector } from './changementPuissanceAccordé.projector';
 import { changementPuissanceEnregistréProjector } from './changementPuissanceEnregistré.projector';
+import { changementPuissanceRejetéProjector } from './changementPuissanceRejeté.projector';
 
 export type SubscriptionEvent = (Puissance.PuissanceEvent & Event) | RebuildTriggered;
 
@@ -26,8 +27,9 @@ export const register = () => {
       .with({ type: 'ChangementPuissanceDemandé-V1' }, changementPuissanceDemandéProjector)
       .with({ type: 'ChangementPuissanceAnnulé-V1' }, changementPuissanceAnnuléProjector)
       .with({ type: 'ChangementPuissanceSupprimé-V1' }, changementPuissanceSuppriméProjector)
-      .with({ type: 'ChangementPuissanceAccordé-V1' }, changementPuissanceAccordéProjector)
       .with({ type: 'ChangementPuissanceEnregistré-V1' }, changementPuissanceEnregistréProjector)
+      .with({ type: 'ChangementPuissanceAccordé-V1' }, changementPuissanceAccordéProjector)
+      .with({ type: 'ChangementPuissanceRejeté-V1' }, changementPuissanceRejetéProjector)
       .exhaustive();
 
   mediator.register('System.Projector.Lauréat.Puissance', handler);

@@ -124,6 +124,28 @@ Quand(
   },
 );
 
+Quand(
+  /la DREAL associée au projet rejette le changement de puissance (.*) pour le projet lauréat/,
+  async function (this: PotentielWorld, _: 'à la hausse' | 'à la baisse') {
+    try {
+      await rejeterChangementPuissance.call(this, this.utilisateurWorld.drealFixture.role);
+    } catch (error) {
+      this.error = error as Error;
+    }
+  },
+);
+
+Quand(
+  /le DGEC validateur rejette le changement de puissance (.*) pour le projet lauréat/,
+  async function (this: PotentielWorld, _: 'à la hausse' | 'à la baisse') {
+    try {
+      await rejeterChangementPuissance.call(this, this.utilisateurWorld.adminFixture.role);
+    } catch (error) {
+      this.error = error as Error;
+    }
+  },
+);
+
 export async function demanderChangementPuissance(
   this: PotentielWorld,
   statutProjet: 'lauréat' | 'éliminé',
@@ -234,6 +256,37 @@ export async function accorderChangementPuissance(
       identifiantProjetValue: identifiantProjet,
       accordéLeValue: accordéeLe,
       accordéParValue: accordéePar,
+      réponseSignéeValue: {
+        content: réponseSignée.content,
+        format: réponseSignée.format,
+      },
+      rôleUtilisateurValue,
+    },
+  });
+}
+
+export async function rejeterChangementPuissance(
+  this: PotentielWorld,
+  rôleUtilisateurValue: 'dreal' | 'admin',
+) {
+  const identifiantProjet = this.lauréatWorld.identifiantProjet.formatter();
+
+  const { rejetetéeLe, rejetetéePar, réponseSignée } =
+    this.lauréatWorld.puissanceWorld.changementPuissanceWorld.rejeterChangementPuissanceFixture.créer(
+      {
+        rejetetéePar:
+          rôleUtilisateurValue === 'dreal'
+            ? this.utilisateurWorld.drealFixture.email
+            : this.utilisateurWorld.adminFixture.email,
+      },
+    );
+
+  await mediator.send<Puissance.PuissanceUseCase>({
+    type: 'Lauréat.Puissance.UseCase.RejeterDemandeChangement',
+    data: {
+      identifiantProjetValue: identifiantProjet,
+      rejetéLeValue: rejetetéeLe,
+      rejetéParValue: rejetetéePar,
       réponseSignéeValue: {
         content: réponseSignée.content,
         format: réponseSignée.format,
