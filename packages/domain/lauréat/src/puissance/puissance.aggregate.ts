@@ -3,7 +3,7 @@ import { match } from 'ts-pattern';
 import { IdentifiantProjet } from '@potentiel-domain/common';
 import { Aggregate, GetDefaultAggregateState, LoadAggregate } from '@potentiel-domain/core';
 
-import { ChangementPuissanceEnregistréEvent, StatutChangementPuissance } from '.';
+import { RatioChangementPuissance, StatutChangementPuissance } from '.';
 
 import { applyPuissanceImportée, importer } from './importer/importerPuissance.behavior';
 import { PuissanceImportéeEvent } from './importer/importerPuissance.behavior';
@@ -28,7 +28,13 @@ import {
   ChangementPuissanceSuppriméEvent,
 } from './changement/supprimer/supprimerChangementPuissance.behavior';
 import {
+  accorderDemandeChangement,
+  applyChangementPuissanceAccordé,
+  ChangementPuissanceAccordéEvent,
+} from './changement/accorder/accorderChangementPuissance.behavior';
+import {
   applyChangementPuissanceEnregistré,
+  ChangementPuissanceEnregistréEvent,
   enregistrerChangement,
 } from './changement/enregistrerChangement/enregistrerChangementPuissance.behavior';
 import { PuissanceIntrouvableError } from './errors';
@@ -39,6 +45,7 @@ export type PuissanceEvent =
   | ChangementPuissanceDemandéEvent
   | ChangementPuissanceAnnuléEvent
   | ChangementPuissanceSuppriméEvent
+  | ChangementPuissanceAccordéEvent
   | ChangementPuissanceEnregistréEvent;
 
 export type PuissanceAggregate = Aggregate<PuissanceEvent> & {
@@ -47,13 +54,16 @@ export type PuissanceAggregate = Aggregate<PuissanceEvent> & {
   demande?: {
     statut: StatutChangementPuissance.ValueType;
     nouvellePuissance: number;
+    autoritéCompétente?: RatioChangementPuissance.AutoritéCompétente;
   };
-  importer: typeof importer;
-  modifier: typeof modifier;
-  demanderChangement: typeof demanderChangement;
-  annulerDemandeChangement: typeof annulerDemandeChangement;
-  supprimerDemandeChangement: typeof supprimerDemandeChangement;
-  enregistrerChangement: typeof enregistrerChangement;
+
+  readonly importer: typeof importer;
+  readonly modifier: typeof modifier;
+  readonly demanderChangement: typeof demanderChangement;
+  readonly annulerDemandeChangement: typeof annulerDemandeChangement;
+  readonly supprimerDemandeChangement: typeof supprimerDemandeChangement;
+  readonly accorderDemandeChangement: typeof accorderDemandeChangement;
+  readonly enregistrerChangement: typeof enregistrerChangement;
 };
 
 export const getDefaultPuissanceAggregate: GetDefaultAggregateState<
@@ -68,6 +78,7 @@ export const getDefaultPuissanceAggregate: GetDefaultAggregateState<
   demanderChangement,
   annulerDemandeChangement,
   supprimerDemandeChangement,
+  accorderDemandeChangement,
   enregistrerChangement,
 });
 
@@ -78,6 +89,7 @@ function apply(this: PuissanceAggregate, event: PuissanceEvent) {
     .with({ type: 'ChangementPuissanceDemandé-V1' }, applyChangementPuissanceDemandé.bind(this))
     .with({ type: 'ChangementPuissanceAnnulé-V1' }, applyChangementPuissanceAnnulé.bind(this))
     .with({ type: 'ChangementPuissanceSupprimé-V1' }, applyChangementPuissanceSupprimé.bind(this))
+    .with({ type: 'ChangementPuissanceAccordé-V1' }, applyChangementPuissanceAccordé.bind(this))
     .with(
       { type: 'ChangementPuissanceEnregistré-V1' },
       applyChangementPuissanceEnregistré.bind(this),

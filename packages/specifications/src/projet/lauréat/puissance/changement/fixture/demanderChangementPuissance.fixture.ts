@@ -72,6 +72,7 @@ export class DemanderChangementPuissanceFixture
     this.#ratio = fixture.ratio;
 
     this.aÉtéCréé = true;
+
     return fixture;
   }
 }

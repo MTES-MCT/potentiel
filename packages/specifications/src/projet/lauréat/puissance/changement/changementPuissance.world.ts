@@ -2,10 +2,10 @@ import { Puissance } from '@potentiel-domain/laureat';
 import { IdentifiantProjet } from '@potentiel-domain/projet';
 import { DateTime, Email } from '@potentiel-domain/common';
 import { DocumentProjet } from '@potentiel-domain/document';
-import { Option } from '@potentiel-libraries/monads';
 
 import { DemanderChangementPuissanceFixture } from './fixture/demanderChangementPuissance.fixture';
 import { AnnulerChangementPuissanceFixture } from './fixture/annulerChangementPuissance.fixture';
+import { AccorderChangementPuissanceFixture } from './fixture/accorderChangementPuissance.fixture';
 import { EnregistrerChangementPuissanceFixture } from './fixture/enregistrerChangementPuissance.fixture';
 
 type MapToDemandeExpectedProps = {
@@ -16,7 +16,6 @@ type MapToDemandeExpectedProps = {
 
 export class ChangementPuissanceWorld {
   #demanderChangementPuissanceFixture: DemanderChangementPuissanceFixture;
-
   get demanderChangementPuissanceFixture() {
     return this.#demanderChangementPuissanceFixture;
   }
@@ -24,6 +23,11 @@ export class ChangementPuissanceWorld {
   #annulerChangementPuissanceFixture: AnnulerChangementPuissanceFixture;
   get annulerChangementPuissanceFixture() {
     return this.#annulerChangementPuissanceFixture;
+  }
+
+  #accorderChangementPuissanceFixture: AccorderChangementPuissanceFixture;
+  get accorderChangementPuissanceFixture() {
+    return this.#accorderChangementPuissanceFixture;
   }
 
   #enregistrerChangementPuissanceFixture: EnregistrerChangementPuissanceFixture;
@@ -34,6 +38,7 @@ export class ChangementPuissanceWorld {
   constructor() {
     this.#demanderChangementPuissanceFixture = new DemanderChangementPuissanceFixture();
     this.#annulerChangementPuissanceFixture = new AnnulerChangementPuissanceFixture();
+    this.#accorderChangementPuissanceFixture = new AccorderChangementPuissanceFixture();
     this.#enregistrerChangementPuissanceFixture = new EnregistrerChangementPuissanceFixture();
   }
 
@@ -41,7 +46,7 @@ export class ChangementPuissanceWorld {
     identifiantProjet,
     statut,
     puissanceActuelle,
-  }: MapToDemandeExpectedProps): Option.Type<Puissance.ConsulterChangementPuissanceReadModel> {
+  }: MapToDemandeExpectedProps): Puissance.ConsulterChangementPuissanceReadModel {
     if (
       !this.demanderChangementPuissanceFixture.aÉtéCréé &&
       !this.#enregistrerChangementPuissanceFixture.aÉtéCréé

@@ -66,7 +66,7 @@ export async function demanderChangement(
     );
   }
 
-  // TODO: on ajoutera des règles pour valider le ratios ici
+  // TODO: on ajoutera des règles pour valider le ratios ici (cf changement-puissance.flowchart.drawio.svg)
   const ratio = puissance / this.puissance;
 
   if (estAbandonné) {
@@ -101,10 +101,11 @@ export async function demanderChangement(
 
 export function applyChangementPuissanceDemandé(
   this: PuissanceAggregate,
-  { payload: { puissance } }: ChangementPuissanceDemandéEvent,
+  { payload: { puissance, autoritéCompétente } }: ChangementPuissanceDemandéEvent,
 ) {
   this.demande = {
     statut: StatutChangementPuissance.demandé,
     nouvellePuissance: puissance,
+    autoritéCompétente,
   };
 }

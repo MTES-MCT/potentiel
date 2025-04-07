@@ -1,14 +1,16 @@
 import { Then as Alors } from '@cucumber/cucumber';
 import { mediator } from 'mediateur';
 import waitForExpect from 'wait-for-expect';
-import { expect } from 'chai';
+import { assert, expect } from 'chai';
 
 import { mapToPlainObject } from '@potentiel-domain/core';
 import { Puissance } from '@potentiel-domain/laureat';
 import { Option } from '@potentiel-libraries/monads';
 import { IdentifiantProjet } from '@potentiel-domain/projet';
+import { ConsulterDocumentProjetQuery } from '@potentiel-domain/document';
 
 import { PotentielWorld } from '../../../../../potentiel.world';
+import { convertReadableStreamToString } from '../../../../../helpers/convertReadableToString';
 
 Alors(
   'la demande de changement de puissance devrait être consultable',
@@ -22,7 +24,6 @@ Alors(
     });
   },
 );
-
 Alors(
   'la demande de changement de puissance ne devrait plus être consultable',
   async function (this: PotentielWorld) {
@@ -40,6 +41,17 @@ Alors(
 
       expect(Option.isSome(actual) && actual.dateDemandeEnCours).to.be.undefined;
     });
+  },
+);
+
+Alors(
+  `la demande de changement de la puissance devrait être accordée`,
+  async function (this: PotentielWorld) {
+    await vérifierChangementPuissance.bind(
+      this,
+      this.candidatureWorld.importerCandidature.identifiantProjet,
+      Puissance.StatutChangementPuissance.accordé,
+    );
   },
 );
 
@@ -72,6 +84,8 @@ async function vérifierChangementPuissance(
     },
   });
 
+  assert(Option.isSome(demandeEnCours), 'Demande de changement de puissance non trouvée !');
+
   const actual = mapToPlainObject(demandeEnCours);
 
   const expected = mapToPlainObject(
@@ -91,9 +105,33 @@ async function vérifierChangementPuissance(
     },
   });
 
+  assert(Option.isSome(puissance), 'Puissance non trouvée !');
+
   if (statut.estDemandé()) {
     expect(Option.isSome(puissance) && puissance.dateDemandeEnCours).to.be.not.undefined;
-  } else {
-    expect(Option.isSome(puissance) && puissance.dateDemandeEnCours).to.be.undefined;
+  }
+
+  if (
+    this.lauréatWorld.puissanceWorld.changementPuissanceWorld.accorderChangementPuissanceFixture
+      .aÉtéCréé &&
+    !demandeEnCours.demande.isInformationEnregistrée
+  ) {
+    const result = await mediator.send<ConsulterDocumentProjetQuery>({
+      type: 'Document.Query.ConsulterDocumentProjet',
+      data: {
+        documentKey: demandeEnCours.demande.accord
+          ? demandeEnCours.demande.accord.réponseSignée.formatter()
+          : '',
+      },
+    });
+
+    assert(Option.isSome(result), `Réponse signée non trouvée !`);
+
+    const actualContent = await convertReadableStreamToString(result.content);
+    const expectedContent = await convertReadableStreamToString(
+      this.lauréatWorld.puissanceWorld.changementPuissanceWorld.accorderChangementPuissanceFixture
+        .réponseSignée?.content ?? new ReadableStream(),
+    );
+    expect(actualContent).to.be.equal(expectedContent);
   }
 }

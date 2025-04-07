@@ -102,6 +102,28 @@ Quand(
   },
 );
 
+Quand(
+  /la DREAL associée au projet accorde le changement de puissance (.*) pour le projet lauréat/,
+  async function (this: PotentielWorld, _: 'à la hausse' | 'à la baisse') {
+    try {
+      await accorderChangementPuissance.call(this, this.utilisateurWorld.drealFixture.role);
+    } catch (error) {
+      this.error = error as Error;
+    }
+  },
+);
+
+Quand(
+  /le DGEC validateur accorde le changement de puissance (.*) pour le projet lauréat/,
+  async function (this: PotentielWorld, _: 'à la hausse' | 'à la baisse') {
+    try {
+      await accorderChangementPuissance.call(this, this.utilisateurWorld.adminFixture.role);
+    } catch (error) {
+      this.error = error as Error;
+    }
+  },
+);
+
 export async function demanderChangementPuissance(
   this: PotentielWorld,
   statutProjet: 'lauréat' | 'éliminé',
@@ -121,7 +143,7 @@ export async function demanderChangementPuissance(
     );
 
   const puissanceValue =
-    ratio * this.lauréatWorld.puissanceWorld.mapToExpected(identifiantProjet).puissance;
+    ratio * this.lauréatWorld.puissanceWorld.importerPuissanceFixture.puissance;
 
   await mediator.send<Puissance.DemanderChangementUseCase>({
     type: 'Lauréat.Puissance.UseCase.DemanderChangement',
@@ -186,6 +208,37 @@ export async function annulerChangementPuissance(this: PotentielWorld) {
       dateAnnulationValue: annuléeLe,
       identifiantUtilisateurValue: annuléePar,
       identifiantProjetValue: identifiantProjet,
+    },
+  });
+}
+
+export async function accorderChangementPuissance(
+  this: PotentielWorld,
+  rôleUtilisateurValue: 'dreal' | 'admin',
+) {
+  const identifiantProjet = this.lauréatWorld.identifiantProjet.formatter();
+
+  const { accordéeLe, accordéePar, réponseSignée } =
+    this.lauréatWorld.puissanceWorld.changementPuissanceWorld.accorderChangementPuissanceFixture.créer(
+      {
+        accordéePar:
+          rôleUtilisateurValue === 'dreal'
+            ? this.utilisateurWorld.drealFixture.email
+            : this.utilisateurWorld.adminFixture.email,
+      },
+    );
+
+  await mediator.send<Puissance.PuissanceUseCase>({
+    type: 'Lauréat.Puissance.UseCase.AccorderDemandeChangement',
+    data: {
+      identifiantProjetValue: identifiantProjet,
+      accordéLeValue: accordéeLe,
+      accordéParValue: accordéePar,
+      réponseSignéeValue: {
+        content: réponseSignée.content,
+        format: réponseSignée.format,
+      },
+      rôleUtilisateurValue,
     },
   });
 }

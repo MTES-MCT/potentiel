@@ -8,6 +8,7 @@ export * as AchèvementNotification from './subscribers/lauréat/achèvement.not
 export * as TâchePlanifiéeNotification from './subscribers/lauréat/tâche-planifiée';
 export * as ReprésentantLégalNotification from './subscribers/lauréat/représentant-légal';
 export * as ActionnaireNotification from './subscribers/lauréat/actionnaire';
+export * as PuissanceNotification from './subscribers/lauréat/puissance';
 
 // Éliminé
 export * as RecoursNotification from './subscribers/éliminé/recours.notification';

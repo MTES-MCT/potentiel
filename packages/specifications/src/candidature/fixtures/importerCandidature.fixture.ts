@@ -1,9 +1,9 @@
 import { faker } from '@faker-js/faker';
 
 import { Candidature } from '@potentiel-domain/candidature';
-import { IdentifiantProjet } from '@potentiel-domain/common';
 import { appelsOffreData } from '@potentiel-domain/inmemory-referential';
 import { PlainType } from '@potentiel-domain/core';
+import { IdentifiantProjet } from '@potentiel-domain/projet';
 
 import { AbstractFixture, DeepPartial } from '../../fixture';
 import { getFakeLocation } from '../../helpers/getFakeLocation';

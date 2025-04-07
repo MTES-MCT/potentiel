@@ -14,8 +14,8 @@ export async function vérifierEmailEnvoyé(this: PotentielWorld, email: string,
         expect(notification.messageSubject).to.match(new RegExp(value));
         continue;
       }
-
       const variable = notification.variables[key];
+
       expect(variable).to.match(new RegExp(value));
     }
   });
