@@ -6,6 +6,7 @@ import {
   demanderChangementPuissance,
   accorderChangementPuissance,
   annulerChangementPuissance,
+  rejeterChangementPuissance,
 } from './changementPuissance.when';
 
 EtantDonné(
@@ -25,6 +26,17 @@ EtantDonné(
     try {
       await demanderChangementPuissance.call(this, 'lauréat');
       await accorderChangementPuissance.call(this, this.utilisateurWorld.drealFixture.role);
+    } catch (error) {
+      this.error = error as Error;
+    }
+  },
+);
+EtantDonné(
+  'une demande de changement de puissance à la baisse rejetée pour le projet lauréat',
+  async function (this: PotentielWorld) {
+    try {
+      await demanderChangementPuissance.call(this, 'lauréat');
+      await rejeterChangementPuissance.call(this, this.utilisateurWorld.drealFixture.role);
     } catch (error) {
       this.error = error as Error;
     }
