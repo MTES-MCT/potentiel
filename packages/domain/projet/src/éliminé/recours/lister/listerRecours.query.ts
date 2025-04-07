@@ -1,14 +1,12 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
-import { DateTime } from '@potentiel-domain/common';
+import { DateTime, Email } from '@potentiel-domain/common';
 import { Joined, List, RangeOptions, Where } from '@potentiel-domain/entity';
-import { RécupérerIdentifiantsProjetParEmailPorteurPort } from '@potentiel-domain/utilisateur';
-import { Candidature } from '@potentiel-domain/candidature';
 
 import { StatutRecours } from '..';
 import { RecoursEntity } from '../recours.entity';
-import { getRoleBasedWhereCondition, Utilisateur } from '../../_utils/getRoleBasedWhereCondition';
-import { IdentifiantProjet } from '../../..';
+import { Candidature, IdentifiantProjet } from '../../..';
+import { GetScopeProjetUtilisateur } from '../../../getScopeProjetUtilisateur.port';
 
 type RecoursListItemReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
@@ -29,7 +27,7 @@ export type ListerRecoursReadModel = {
 export type ListerRecoursQuery = Message<
   'Éliminé.Recours.Query.ListerRecours',
   {
-    utilisateur: Utilisateur;
+    utilisateur: Email.RawType;
     statut?: StatutRecours.RawType;
     appelOffre?: string;
     nomProjet?: string;
@@ -40,12 +38,12 @@ export type ListerRecoursQuery = Message<
 
 export type ListerRecoursDependencies = {
   list: List;
-  récupérerIdentifiantsProjetParEmailPorteur: RécupérerIdentifiantsProjetParEmailPorteurPort;
+  getScopeProjetUtilisateur: GetScopeProjetUtilisateur;
 };
 
 export const registerListerRecoursQuery = ({
   list,
-  récupérerIdentifiantsProjetParEmailPorteur,
+  getScopeProjetUtilisateur,
 }: ListerRecoursDependencies) => {
   const handler: MessageHandler<ListerRecoursQuery> = async ({
     statut,
@@ -54,16 +52,14 @@ export const registerListerRecoursQuery = ({
     utilisateur,
     range,
   }) => {
-    const { identifiantProjet, régionProjet } = await getRoleBasedWhereCondition(
-      utilisateur,
-      récupérerIdentifiantsProjetParEmailPorteur,
-    );
+    const scope = await getScopeProjetUtilisateur(Email.convertirEnValueType(utilisateur));
 
     const recours = await list<RecoursEntity, Candidature.CandidatureEntity>('recours', {
       orderBy: { misÀJourLe: 'descending' },
       range,
       where: {
-        identifiantProjet,
+        identifiantProjet:
+          scope.type === 'porteur' ? Where.matchAny(scope.identifiantProjets) : undefined,
         statut: Where.equal(statut),
       },
       join: {
@@ -73,7 +69,7 @@ export const registerListerRecoursQuery = ({
           appelOffre: Where.equal(appelOffre),
           nomProjet: Where.contain(nomProjet),
           localité: {
-            région: régionProjet,
+            région: scope.type === 'dreal' ? Where.equal(scope.region) : undefined,
           },
         },
       },

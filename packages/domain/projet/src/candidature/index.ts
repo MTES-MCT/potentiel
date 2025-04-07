@@ -7,6 +7,10 @@ import {
   ConsulterProjetReadModel,
   RécupérerProjetPort,
 } from './consulter/consulterProjet.query';
+import { CandidatureCorrigéeEvent } from './corriger/candidatureCorrigée.event';
+import { CorrigerCandidatureUseCase } from './corriger/corrigerCandidature.usecase';
+import { CandidatureImportéeEvent } from './importer/candidatureImportée.event';
+import { ImporterCandidatureUseCase } from './importer/importerCandidature.usecase';
 import {
   ListerCandidaturesQuery,
   ListerCandidaturesReadModel,
@@ -16,6 +20,11 @@ import {
   ListerProjetsEligiblesPreuveRecanditureReadModel,
   RécupérerProjetsEligiblesPreuveRecanditurePort,
 } from './lister/listerProjetsEligiblesPreuveRecanditure.query';
+import {
+  CandidatureNotifiéeEvent,
+  CandidatureNotifiéeEventV1,
+} from './notifier/candidatureNotifiée.event';
+import { NotifierCandidatureUseCase } from './notifier/notifierCandidature.usecase';
 
 // Query
 export type CandidatureQuery =
@@ -41,6 +50,27 @@ export {
 
 // Port
 export { RécupérerProjetPort, RécupérerProjetsEligiblesPreuveRecanditurePort };
+
+// UseCases
+export type CandidatureUseCase =
+  | ImporterCandidatureUseCase
+  | CorrigerCandidatureUseCase
+  | NotifierCandidatureUseCase;
+export { ImporterCandidatureUseCase, CorrigerCandidatureUseCase, NotifierCandidatureUseCase };
+
+// Events
+export type CandidatureEvent =
+  | CandidatureImportéeEvent
+  | CandidatureCorrigéeEvent
+  | CandidatureNotifiéeEvent
+  | CandidatureNotifiéeEventV1;
+
+export {
+  CandidatureImportéeEvent,
+  CandidatureCorrigéeEvent,
+  CandidatureNotifiéeEvent,
+  CandidatureNotifiéeEventV1,
+};
 
 // Register
 export * from './candidature.register';

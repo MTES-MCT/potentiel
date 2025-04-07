@@ -3,9 +3,9 @@ import { mediator } from 'mediateur';
 import { registerProjetUseCases, registerProjetQueries } from '@potentiel-domain/projet';
 import { subscribe } from '@potentiel-infrastructure/pg-event-sourcing';
 import { findProjection, listProjection } from '@potentiel-infrastructure/pg-projection-read';
-import { récupérerIdentifiantsProjetParEmailPorteurAdapter } from '@potentiel-infrastructure/domain-adapters';
 import { RecoursProjector, ÉliminéProjector } from '@potentiel-applications/projectors';
 import { RecoursNotification, SendEmail } from '@potentiel-applications/notifications';
+import { getScopeProjetUtilisateurAdapter } from '@potentiel-infrastructure/domain-adapters';
 
 import { getProjetAggregateRootAdapter } from './adapters/getProjetAggregateRoot.adapter';
 
@@ -21,7 +21,7 @@ export const setupProjet = async ({ sendEmail }: SetupProjetDependencies) => {
   registerProjetQueries({
     find: findProjection,
     list: listProjection,
-    récupérerIdentifiantsProjetParEmailPorteur: récupérerIdentifiantsProjetParEmailPorteurAdapter,
+    getScopeProjetUtilisateur: getScopeProjetUtilisateurAdapter,
   });
 
   ÉliminéProjector.register();

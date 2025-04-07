@@ -3,7 +3,6 @@ import { match } from 'ts-pattern';
 import { AbstractAggregate } from '@potentiel-domain/core';
 import { DateTime, Email } from '@potentiel-domain/common';
 import { DocumentProjet } from '@potentiel-domain/document';
-import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
 
 import { ÉliminéAggregate } from '../éliminé.aggregate';
 
@@ -42,7 +41,7 @@ export class RecoursAggregate extends AbstractAggregate<RecoursEvent> {
     };
   } = {
     raison: '',
-    demandéPar: IdentifiantUtilisateur.unknownUser,
+    demandéPar: Email.unknownUser,
     demandéLe: DateTime.convertirEnValueType(new Date()),
   };
 

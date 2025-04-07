@@ -13,8 +13,6 @@
     "@potentiel-domain/common": "*",
     "@potentiel-domain/core": "*",
     "@potentiel-domain/entity": "*",
-    "@potentiel-domain/candidature": "*",
-    "@potentiel-domain/utilisateur": "*",
     "@potentiel-domain/appel-offre": "*"
   },
   "devDependencies": {

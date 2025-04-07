@@ -5,14 +5,13 @@ import { getLogger } from '@potentiel-libraries/monitoring';
 import { Option } from '@potentiel-libraries/monads';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { Email, IdentifiantProjet } from '@potentiel-domain/common';
-import { Candidature as TmpCandidature } from '@potentiel-domain/candidature';
 import { Candidature } from '@potentiel-domain/projet';
 
 import { buildCertificate, BuildCertificateProps } from './buildCertificate';
 
 export type SubscriptionEvent =
-  | TmpCandidature.CandidatureNotifiéeEvent
-  | TmpCandidature.CandidatureCorrigéeEvent;
+  | Candidature.CandidatureNotifiéeEvent
+  | Candidature.CandidatureCorrigéeEvent;
 
 export type Execute = Message<'System.Candidature.Attestation.Saga.Execute', SubscriptionEvent>;
 
@@ -169,7 +168,7 @@ export const register = () => {
 };
 
 const mapCorrectionToCandidature = (
-  payload: TmpCandidature.CandidatureCorrigéeEvent['payload'],
+  payload: Candidature.CandidatureCorrigéeEvent['payload'],
 ): BuildCertificateProps['candidature'] => ({
   emailContact: Email.convertirEnValueType(payload.emailContact),
   evaluationCarboneSimplifiée: payload.evaluationCarboneSimplifiée,
@@ -183,10 +182,10 @@ const mapCorrectionToCandidature = (
   puissanceProductionAnnuelle: payload.puissanceProductionAnnuelle,
   motifÉlimination: payload.motifÉlimination,
   identifiantProjet: IdentifiantProjet.convertirEnValueType(payload.identifiantProjet),
-  statut: TmpCandidature.StatutCandidature.convertirEnValueType(payload.statut),
-  technologie: TmpCandidature.TypeTechnologie.convertirEnValueType(payload.technologie),
+  statut: Candidature.StatutCandidature.convertirEnValueType(payload.statut),
+  technologie: Candidature.TypeTechnologie.convertirEnValueType(payload.technologie),
   actionnariat: payload.actionnariat
-    ? TmpCandidature.TypeActionnariat.convertirEnValueType(payload.actionnariat)
+    ? Candidature.TypeActionnariat.convertirEnValueType(payload.actionnariat)
     : undefined,
   coefficientKChoisi: payload.coefficientKChoisi,
 });

@@ -1,8 +1,9 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
-import { Candidature } from '@potentiel-domain/candidature';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
+
+import { Candidature } from '../..';
 
 import { NotifierÉliminéCommand } from './notifierÉliminé.command';
 

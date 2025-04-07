@@ -9,7 +9,6 @@ import { mapToPlainObject } from '@potentiel-domain/core';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 import { mapToPagination, mapToRangeOptions } from '@/utils/pagination';
-import { getRégionUtilisateur } from '@/utils/getRégionUtilisateur';
 import { RecoursListPage } from '@/components/pages/recours/lister/RecoursList.page';
 
 type PageProps = {
@@ -33,16 +32,10 @@ export default async function Page({ searchParams }: PageProps) {
     withUtilisateur(async (utilisateur) => {
       const { page, nomProjet, appelOffre, statut } = paramsSchema.parse(searchParams);
 
-      const régionDreal = await getRégionUtilisateur(utilisateur);
-
       const { items, range, total } = await mediator.send<Éliminé.Recours.ListerRecoursQuery>({
         type: 'Éliminé.Recours.Query.ListerRecours',
         data: {
-          utilisateur: {
-            identifiantUtilisateur: utilisateur.identifiantUtilisateur.email,
-            rôle: utilisateur.role.nom,
-            régionDreal,
-          },
+          utilisateur: utilisateur.identifiantUtilisateur.email,
           range: mapToRangeOptions({
             currentPage: page,
             itemsPerPage: 10,
