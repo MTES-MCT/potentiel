@@ -302,12 +302,14 @@ const référencielPermissions = {
         enregistrerChangement: 'Lauréat.Puissance.UseCase.EnregistrerChangement',
         demanderChangement: 'Lauréat.Puissance.UseCase.DemanderChangement',
         annulerChangement: 'Lauréat.Puissance.UseCase.AnnulerDemandeChangement',
+        accorderChangement: 'Lauréat.Puissance.UseCase.AccorderChangement',
       },
       command: {
         modifier: 'Lauréat.Puissance.Command.ModifierPuissance',
         enregistrerChangement: 'Lauréat.Puissance.Command.EnregistrerChangement',
         demanderChangement: 'Lauréat.Puissance.Command.DemanderChangement',
         annulerChangement: 'Lauréat.Puissance.Command.AnnulerDemandeChangement',
+        accorderChangement: 'Lauréat.Puissance.Command.AccorderChangement',
       },
     },
     usecase: {
@@ -1029,6 +1031,10 @@ const policies = {
       référencielPermissions.lauréat.puissance.usecase.annulerChangement,
       référencielPermissions.lauréat.puissance.command.annulerChangement,
     ],
+    accorderChangement: [
+      référencielPermissions.lauréat.puissance.usecase.accorderChangement,
+      référencielPermissions.lauréat.puissance.command.accorderChangement,
+    ],
   },
   lauréat: {
     consulter: [référencielPermissions.lauréat.query.consulter],
@@ -1209,6 +1215,7 @@ const adminPolicies: ReadonlyArray<Policy> = [
   'puissance.modifier',
   'puissance.consulter',
   'puissance.consulterChangement',
+  'puissance.accorderChangement',
 ];
 
 const dgecValidateurPolicies: ReadonlyArray<Policy> = [
@@ -1316,6 +1323,7 @@ const drealPolicies: ReadonlyArray<Policy> = [
   'puissance.consulter',
   'puissance.modifier',
   'puissance.consulterChangement',
+  'puissance.accorderChangement',
 
   // Utilisateur
   'utilisateur.inviterPorteur',

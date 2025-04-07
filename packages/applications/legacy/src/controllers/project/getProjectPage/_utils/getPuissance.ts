@@ -15,6 +15,9 @@ export type GetPuissanceForProjectPage = {
     labelPageProjet: string;
     url: string;
   };
+  demandeEnCours?: {
+    demandéeLe: string;
+  };
 };
 
 type Props = {
@@ -35,17 +38,30 @@ export const getPuissance = async ({
 
     const role = Role.convertirEnValueType(rôle);
 
-    const puissance = await mediator.send<Puissance.ConsulterPuissanceQuery>({
+    const puissanceProjection = await mediator.send<Puissance.ConsulterPuissanceQuery>({
       type: 'Lauréat.Puissance.Query.ConsulterPuissance',
       data: { identifiantProjet: identifiantProjet.formatter() },
     });
 
     const { estAchevéOuAbandonné } = await checkAbandonAndAchèvement(identifiantProjet, rôle);
 
-    if (Option.isSome(puissance)) {
+    if (Option.isSome(puissanceProjection)) {
+      const { puissance, dateDemandeEnCours } = puissanceProjection; ;
+
+      if (dateDemandeEnCours) {
+        return {
+          puissance,
+          demandeEnCours: role.aLaPermission('actionnaire.consulterChangement')
+            ? {
+                demandéeLe: dateDemandeEnCours.formatter(),
+              }
+            : undefined,
+        };
+      }
+
       if (role.aLaPermission('puissance.modifier')) {
         return {
-          puissance: puissance.puissance,
+          puissance,
           affichage: {
             url: Routes.Puissance.modifier(identifiantProjet.formatter()),
             labelPageProjet: 'Modifier',
@@ -55,7 +71,7 @@ export const getPuissance = async ({
 
       if (role.aLaPermission('puissance.demanderChangement') && !estAchevéOuAbandonné) {
         return {
-          puissance: puissance.puissance,
+          puissance: puissance,
           affichage: {
             url: Routes.Puissance.changement.demander(identifiantProjet.formatter()),
             labelPageProjet: 'Demander changement',
@@ -64,7 +80,7 @@ export const getPuissance = async ({
       }
 
       return {
-        puissance: puissance.puissance,
+        puissance: puissance,
       };
     }
 

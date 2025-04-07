@@ -31,6 +31,13 @@ export const DétailsChangementPuissance: FC<DétailsChangementPuissanceProps> =
       <>
         <div className="flex flex-col gap-4">
           <div className="flex flex-col gap-2">
+            {!demande.isInformationEnregistrée && demande.accord && (
+              <ChangementAccordé
+                accordéeLe={demande.accord.accordéeLe}
+                accordéePar={demande.accord.accordéePar}
+                réponseSignée={demande.accord.réponseSignée}
+              />
+            )}
             {Puissance.StatutChangementPuissance.bind(demande.statut.statut).estDemandé() && (
               <ChangementDemandé
                 demandéeLe={demande.demandéeLe}
@@ -115,6 +122,37 @@ const ChangementDemandé: FC<ChangementDemandéProps> = ({ demandéeLe, demandé
     <div className="flex gap-2">
       <div className="font-semibold">Statut :</div>{' '}
       <StatutChangementPuissanceBadge statut={Puissance.StatutChangementPuissance.demandé.statut} />
+    </div>
+  </>
+);
+
+type ChangementAccordéProps = NonNullable<
+  PlainType<Puissance.DétailsDemandeChangementPuissance['accord']>
+>;
+
+const ChangementAccordé: FC<ChangementAccordéProps> = ({
+  accordéeLe,
+  accordéePar,
+  réponseSignée,
+}) => (
+  <>
+    <div className="text-xs italic">
+      Accordée le{' '}
+      <FormattedDate className="font-semibold" date={DateTime.bind(accordéeLe).formatter()} /> par{' '}
+      <span className="font-semibold">{Email.bind(accordéePar).formatter()}</span>
+    </div>
+    <div className="flex gap-2">
+      <div className="font-semibold">Statut :</div>{' '}
+      <StatutChangementPuissanceBadge statut={Puissance.StatutChangementPuissance.accordé.statut} />
+    </div>
+    <div className="flex gap-2">
+      <div className="font-semibold whitespace-nowrap">Réponse signée :</div>
+      <DownloadDocument
+        className="mb-0"
+        label="Télécharger la réponse signée"
+        format={réponseSignée.format}
+        url={Routes.Document.télécharger(DocumentProjet.bind(réponseSignée).formatter())}
+      />
     </div>
   </>
 );

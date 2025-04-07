@@ -13,8 +13,9 @@ import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
 import { InfoBoxDemandeEnCours } from './InfoBoxDemandeEnCours';
 import { AnnulerChangementPuissance } from './annuler/AnnulerChangementPuissance.form';
 import { DétailsChangementPuissance } from './DétailsChangementPuissance';
+import { AccorderChangementPuissance } from './accorder/AccorderChangementPuissance.form';
 
-export type ChangementPuissanceActions = 'annuler' | 'demander';
+export type ChangementPuissanceActions = 'annuler' | 'demander' | 'accorder';
 
 export type DétailsPuissancePageProps = {
   identifiantProjet: PlainType<IdentifiantProjet.ValueType>;
@@ -73,6 +74,9 @@ const mapToActionComponents = ({ actions, identifiantProjet }: MapToActionsCompo
 
       {actions.includes('annuler') && (
         <AnnulerChangementPuissance identifiantProjet={identifiantProjet} />
+      )}
+      {actions.includes('accorder') && (
+        <AccorderChangementPuissance identifiantProjet={identifiantProjet} />
       )}
       {actions.includes('demander') && (
         <Button

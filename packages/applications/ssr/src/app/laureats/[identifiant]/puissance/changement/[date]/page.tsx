@@ -81,9 +81,9 @@ const mapToActions = (
   const actions: Array<ChangementPuissanceActions> = [];
 
   if (statut.estDemandé()) {
-    // if (rôle.aLaPermission('puissance.accorderChangement')) {
-    //   actions.push('accorder');
-    // }
+    if (rôle.aLaPermission('puissance.accorderChangement')) {
+      actions.push('accorder');
+    }
     // if (rôle.aLaPermission('puissance.rejeterChangement')) {
     //   actions.push('rejeter');
     // }

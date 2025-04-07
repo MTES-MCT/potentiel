@@ -18,7 +18,7 @@ type DétailsInformationEnregistréePuissance = {
   isInformationEnregistrée: true;
 };
 
-type DétailsDemandeChangementPuissance = {
+export type DétailsDemandeChangementPuissance = {
   isInformationEnregistrée: false;
   autoritéCompétente: RatioChangementPuissance.AutoritéCompétente;
   raison: string;

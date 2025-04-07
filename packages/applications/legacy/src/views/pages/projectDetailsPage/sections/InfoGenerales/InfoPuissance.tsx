@@ -3,8 +3,11 @@ import { Heading3, Link } from '../../../../components';
 
 import { GetPuissanceForProjectPage } from '../../../../../controllers/project/getProjectPage/_utils/getPuissance';
 import { DésignationCatégorie } from '../../../../../modules/project';
+import { Routes } from '@potentiel-applications/routes';
+import { IdentifiantProjet } from '@potentiel-domain/common';
 
 export type InfoPuissanceProps = {
+  identifiantProjet: IdentifiantProjet.ValueType;
   puissance: GetPuissanceForProjectPage;
   modificationsNonPermisesParLeCDCActuel: boolean;
   unitePuissance: string;
@@ -14,6 +17,7 @@ export type InfoPuissanceProps = {
 };
 
 export const InfoPuissance = ({
+  identifiantProjet,
   puissance,
   modificationsNonPermisesParLeCDCActuel,
   unitePuissance,
@@ -45,6 +49,18 @@ export const InfoPuissance = ({
           className="mt-1"
         >
           {puissance.affichage.labelPageProjet}
+        </Link>
+      )}
+      {puissance?.demandeEnCours && (
+        <Link
+          href={Routes.Puissance.changement.détails(
+            identifiantProjet.formatter(),
+            puissance.demandeEnCours.demandéeLe,
+          )}
+          aria-label="Voir la demande de modification en cours de puissance"
+          className="block"
+        >
+          Voir la demande de modification
         </Link>
       )}
     </div>

@@ -42,7 +42,7 @@ const action: FormAction<FormState, typeof schema> = async (
 ) =>
   withUtilisateur(async (utilisateur) => {
     const date = new Date().toISOString();
-    if (isInformationEnregistree) {
+    if (isInformationEnregistree === 'true') {
       await mediator.send<Puissance.EnregistrerChangementPuissanceUseCase>({
         type: 'Lauréat.Puissance.UseCase.EnregistrerChangement',
         data: {
