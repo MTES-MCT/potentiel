@@ -73,10 +73,12 @@ const Changement: FC<ChangementProps> = ({ nouvellePuissance, pièceJustificativ
       <div className="font-semibold whitespace-nowrap">Puissance</div>
       <div>{nouvellePuissance}</div>
     </div>
-    <div className="flex gap-2">
-      <div className="font-semibold whitespace-nowrap">Raison du changement :</div>
-      <div>{raison}</div>
-    </div>
+    {raison && (
+      <div className="flex gap-2">
+        <div className="font-semibold whitespace-nowrap">Raison du changement :</div>
+        <div>{raison}</div>
+      </div>
+    )}
     {pièceJustificative && (
       <div className="flex gap-2">
         <div className="font-semibold whitespace-nowrap">Pièce(s) justificative(s) :</div>

@@ -19,7 +19,7 @@ export const AnnulerChangementPuissance = ({
   return (
     <>
       <Button onClick={() => setIsOpen(true)} className="block text-center">
-        Annuler
+        Annuler ce changement de puissance
       </Button>
 
       <ModalWithForm

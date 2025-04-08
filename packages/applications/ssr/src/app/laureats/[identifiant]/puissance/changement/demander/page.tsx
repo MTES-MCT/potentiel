@@ -13,8 +13,8 @@ import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { DemanderChangementPuissancePage } from '@/components/pages/puissance/changement/demander/DemanderChangementPuissance.page';
 
 export const metadata: Metadata = {
-  title: "Demander un changement d'puissance(s) d'un projet - Potentiel",
-  description: "Formulaire de demande de changement d'puissance(s) d'un projet",
+  title: 'Demander le changement de puissance du projet - Potentiel',
+  description: 'Formulaire de demande de changement de puissance du projet',
 };
 
 export default async function Page({ params: { identifiant } }: IdentifiantParameter) {
