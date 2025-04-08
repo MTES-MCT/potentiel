@@ -7,6 +7,7 @@ import { Role, Utilisateur } from '@potentiel-domain/utilisateur';
 import { OperationRejectedError } from '@potentiel-domain/core';
 import { Raccordement } from '@potentiel-domain/laureat';
 
+import { apiAction } from '@/utils/apiAction';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 import { decodeParameter } from '@/utils/decodeParameter';
 
@@ -17,80 +18,84 @@ type ExporterRaccordementParameter = {
 };
 
 export const GET = async (_: Request, { params: { identifiant } }: ExporterRaccordementParameter) =>
-  withUtilisateur(async (utilisateur) => {
-    const identifiantGestionnaireRéseau = decodeParameter(identifiant);
-    vérifierAccèsAuGestionnaireRéseau(utilisateur, identifiantGestionnaireRéseau);
+  apiAction(() =>
+    withUtilisateur(async (utilisateur) => {
+      const identifiantGestionnaireRéseau = decodeParameter(identifiant);
+      vérifierAccèsAuGestionnaireRéseau(utilisateur, identifiantGestionnaireRéseau);
 
-    const dossiers =
-      await mediator.send<Raccordement.ListerDossierRaccordementEnAttenteMiseEnServiceQuery>({
-        type: 'Lauréat.Raccordement.Query.ListerDossierRaccordementEnAttenteMiseEnServiceQuery',
-        data: {
-          identifiantGestionnaireRéseau,
+      const dossiers =
+        await mediator.send<Raccordement.ListerDossierRaccordementEnAttenteMiseEnServiceQuery>({
+          type: 'Lauréat.Raccordement.Query.ListerDossierRaccordementEnAttenteMiseEnServiceQuery',
+          data: {
+            identifiantGestionnaireRéseau,
+          },
+        });
+
+      const fields = [
+        'nomProjet',
+        'identifiantProjet',
+        'appelOffre',
+        'periode',
+        'famille',
+        'numeroCRE',
+        'commune',
+        'codePostal',
+        'referenceDossier',
+        'statutDGEC',
+        'dateMiseEnService',
+      ];
+
+      const csvParser = new Parser({ fields, delimiter: ';', withBOM: true });
+
+      const csv = csvParser.parse(
+        dossiers.items.map(
+          ({
+            appelOffre,
+            codePostal,
+            commune,
+            famille,
+            identifiantProjet,
+            nomProjet,
+            numéroCRE,
+            période,
+            référenceDossier,
+            statutDGEC,
+          }) => ({
+            nomProjet,
+            identifiantProjet: identifiantProjet.formatter(),
+            appelOffre,
+            periode: période,
+            famille,
+            numeroCRE: numéroCRE,
+            commune,
+            codePostal,
+            referenceDossier: référenceDossier.formatter(),
+            statutDGEC,
+          }),
+        ),
+      );
+
+      const gestionnaire = await mediator.send<GestionnaireRéseau.ConsulterGestionnaireRéseauQuery>(
+        {
+          type: 'Réseau.Gestionnaire.Query.ConsulterGestionnaireRéseau',
+          data: {
+            identifiantGestionnaireRéseau: identifiant,
+          },
+        },
+      );
+
+      const fileName = `export_raccordement_en_attente_mise_en_service-${Option.match(gestionnaire)
+        .some(({ raisonSociale }) => raisonSociale)
+        .none(() => '')}`;
+
+      return new Response(csv, {
+        headers: {
+          'content-type': 'text/csv',
+          'content-disposition': `attachment; filename=${fileName}.csv`,
         },
       });
-
-    const fields = [
-      'nomProjet',
-      'identifiantProjet',
-      'appelOffre',
-      'periode',
-      'famille',
-      'numeroCRE',
-      'commune',
-      'codePostal',
-      'referenceDossier',
-      'statutDGEC',
-      'dateMiseEnService',
-    ];
-
-    const csvParser = new Parser({ fields, delimiter: ';', withBOM: true });
-
-    const csv = csvParser.parse(
-      dossiers.items.map(
-        ({
-          appelOffre,
-          codePostal,
-          commune,
-          famille,
-          identifiantProjet,
-          nomProjet,
-          numéroCRE,
-          période,
-          référenceDossier,
-          statutDGEC,
-        }) => ({
-          nomProjet,
-          identifiantProjet: identifiantProjet.formatter(),
-          appelOffre,
-          periode: période,
-          famille,
-          numeroCRE: numéroCRE,
-          commune,
-          codePostal,
-          referenceDossier: référenceDossier.formatter(),
-          statutDGEC,
-        }),
-      ),
-    );
-
-    const gestionnaire = await mediator.send<GestionnaireRéseau.ConsulterGestionnaireRéseauQuery>({
-      type: 'Réseau.Gestionnaire.Query.ConsulterGestionnaireRéseau',
-      data: {
-        identifiantGestionnaireRéseau: identifiant,
-      },
-    });
-
-    const fileName = `export_raccordement_en_attente_mise_en_service-${Option.match(gestionnaire)
-      .some(({ raisonSociale }) => raisonSociale)
-      .none(() => '')}`;
-
-    return new Response(csv, {
-      headers: {
-        'content-type': 'text/csv',
-        'content-disposition': `attachment; filename=${fileName}.csv`,
-      },
-    });
-  });
+    }),
+  );
 
 function vérifierAccèsAuGestionnaireRéseau(
   utilisateur: Utilisateur.ValueType,

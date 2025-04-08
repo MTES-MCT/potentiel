@@ -11,6 +11,7 @@ import {
 } from '@potentiel-applications/document-builder';
 import { Option } from '@potentiel-libraries/monads';
 
+import { apiAction } from '@/utils/apiAction';
 import { decodeParameter } from '@/utils/decodeParameter';
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { withUtilisateur } from '@/utils/withUtilisateur';
@@ -19,94 +20,96 @@ import { getPériodeAppelOffres } from '@/app/_helpers/getPériodeAppelOffres';
 import { getEnCopies } from '@/utils/modèle-document/getEnCopies';
 
 export const GET = async (_: Request, { params: { identifiant } }: IdentifiantParameter) =>
-  withUtilisateur(async (utilisateur) => {
-    const identifiantProjet = decodeParameter(identifiant);
+  apiAction(() =>
+    withUtilisateur(async (utilisateur) => {
+      const identifiantProjet = decodeParameter(identifiant);
 
-    const candidature = await mediator.send<Candidature.ConsulterProjetQuery>({
-      type: 'Candidature.Query.ConsulterProjet',
-      data: {
-        identifiantProjet,
-      },
-    });
-
-    if (Option.isNone(candidature)) {
-      return notFound();
-    }
-
-    const abandon = await mediator.send<Abandon.ConsulterAbandonQuery>({
-      type: 'Lauréat.Abandon.Query.ConsulterAbandon',
-      data: {
-        identifiantProjetValue: identifiantProjet,
-      },
-    });
-
-    if (Option.isNone(abandon)) {
-      return notFound();
-    }
-
-    const { appelOffres, période } = await getPériodeAppelOffres(
-      IdentifiantProjet.convertirEnValueType(identifiantProjet),
-    );
-
-    const cahierDesChargesChoisi =
-      await mediator.send<CahierDesCharges.ConsulterCahierDesChargesChoisiQuery>({
-        type: 'Lauréat.CahierDesCharges.Query.ConsulterCahierDesChargesChoisi',
-        data: { identifiantProjet },
+      const candidature = await mediator.send<Candidature.ConsulterProjetQuery>({
+        type: 'Candidature.Query.ConsulterProjet',
+        data: {
+          identifiantProjet,
+        },
       });
 
-    if (Option.isNone(cahierDesChargesChoisi)) {
-      return notFound();
-    }
+      if (Option.isNone(candidature)) {
+        return notFound();
+      }
 
-    const dispositionCDC = getCDCAbandonRefs({
-      appelOffres,
-      période,
-      cahierDesChargesChoisi,
-    });
+      const abandon = await mediator.send<Abandon.ConsulterAbandonQuery>({
+        type: 'Lauréat.Abandon.Query.ConsulterAbandon',
+        data: {
+          identifiantProjetValue: identifiantProjet,
+        },
+      });
 
-    const content = await ModèleRéponseSignée.générerModèleRéponseAdapter({
-      type: 'abandon',
-      data: {
-        aprèsConfirmation: abandon.demande.confirmation?.confirméLe ? true : false,
-        adresseCandidat: candidature.candidat.adressePostale,
-        codePostalProjet: candidature.localité.codePostal,
-        communeProjet: candidature.localité.commune,
-        contenuParagrapheAbandon: dispositionCDC.dispositions,
-        dateConfirmation: formatDateForDocument(abandon.demande.confirmation?.confirméLe?.date),
-        dateDemande: formatDateForDocument(abandon.demande.demandéLe.date),
-        dateDemandeConfirmation: formatDateForDocument(
-          abandon.demande.confirmation?.demandéeLe.date,
-        ),
-        dateNotification: formatDateForDocument(
-          DateTime.convertirEnValueType(candidature.dateDésignation).date,
-        ),
-        dreal: candidature.localité.région,
-        email: '',
-        familles: candidature.famille ? 'yes' : '',
-        justificationDemande: abandon.demande.raison,
-        nomCandidat: candidature.candidat.nom,
-        nomProjet: candidature.nom,
-        nomRepresentantLegal: candidature.candidat.représentantLégal,
-        puissance: candidature.puissance.toString(),
-        referenceParagrapheAbandon: dispositionCDC.référenceParagraphe,
-        refPotentiel: formatIdentifiantProjetForDocument(identifiantProjet),
-        status: abandon.statut.statut,
-        suiviPar: utilisateur.nom,
-        suiviParEmail: appelOffres.dossierSuiviPar,
-        titreAppelOffre: appelOffres.title,
-        titreFamille: candidature.famille || '',
-        titrePeriode: période.title || '',
-        unitePuissance: appelOffres.unitePuissance,
-        enCopies: getEnCopies(candidature.localité.région),
-      },
-    });
+      if (Option.isNone(abandon)) {
+        return notFound();
+      }
 
-    return new Response(content, {
-      headers: {
-        'content-type': 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-      },
-    });
-  });
+      const { appelOffres, période } = await getPériodeAppelOffres(
+        IdentifiantProjet.convertirEnValueType(identifiantProjet),
+      );
+
+      const cahierDesChargesChoisi =
+        await mediator.send<CahierDesCharges.ConsulterCahierDesChargesChoisiQuery>({
+          type: 'Lauréat.CahierDesCharges.Query.ConsulterCahierDesChargesChoisi',
+          data: { identifiantProjet },
+        });
+
+      if (Option.isNone(cahierDesChargesChoisi)) {
+        return notFound();
+      }
+
+      const dispositionCDC = getCDCAbandonRefs({
+        appelOffres,
+        période,
+        cahierDesChargesChoisi,
+      });
+
+      const content = await ModèleRéponseSignée.générerModèleRéponseAdapter({
+        type: 'abandon',
+        data: {
+          aprèsConfirmation: abandon.demande.confirmation?.confirméLe ? true : false,
+          adresseCandidat: candidature.candidat.adressePostale,
+          codePostalProjet: candidature.localité.codePostal,
+          communeProjet: candidature.localité.commune,
+          contenuParagrapheAbandon: dispositionCDC.dispositions,
+          dateConfirmation: formatDateForDocument(abandon.demande.confirmation?.confirméLe?.date),
+          dateDemande: formatDateForDocument(abandon.demande.demandéLe.date),
+          dateDemandeConfirmation: formatDateForDocument(
+            abandon.demande.confirmation?.demandéeLe.date,
+          ),
+          dateNotification: formatDateForDocument(
+            DateTime.convertirEnValueType(candidature.dateDésignation).date,
+          ),
+          dreal: candidature.localité.région,
+          email: '',
+          familles: candidature.famille ? 'yes' : '',
+          justificationDemande: abandon.demande.raison,
+          nomCandidat: candidature.candidat.nom,
+          nomProjet: candidature.nom,
+          nomRepresentantLegal: candidature.candidat.représentantLégal,
+          puissance: candidature.puissance.toString(),
+          referenceParagrapheAbandon: dispositionCDC.référenceParagraphe,
+          refPotentiel: formatIdentifiantProjetForDocument(identifiantProjet),
+          status: abandon.statut.statut,
+          suiviPar: utilisateur.nom,
+          suiviParEmail: appelOffres.dossierSuiviPar,
+          titreAppelOffre: appelOffres.title,
+          titreFamille: candidature.famille || '',
+          titrePeriode: période.title || '',
+          unitePuissance: appelOffres.unitePuissance,
+          enCopies: getEnCopies(candidature.localité.région),
+        },
+      });
+
+      return new Response(content, {
+        headers: {
+          'content-type': 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+        },
+      });
+    }),
+  );
 
 const getCDCAbandonRefs = ({
   appelOffres,
