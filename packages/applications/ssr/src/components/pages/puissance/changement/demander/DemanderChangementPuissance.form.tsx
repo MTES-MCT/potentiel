@@ -85,7 +85,7 @@ export const DemanderChangementPuissanceForm: FC<DemanderChangementPuissanceForm
             'aria-required': true,
             inputMode: 'decimal',
             pattern: '[0-9]+([.][0-9]+)?',
-            step: 'any',
+            step: 0.1,
             type: 'number',
             onChange: (e) => setNouvellePuissance(parseFloat(e.target.value)),
           }}

@@ -72,7 +72,7 @@ export const getReprésentantLégal: GetReprésentantLégal = async (identifiant
 
     const demandeChangementExistante = Option.isSome(demandeEnCours);
 
-    const { estAbandonné, estAchevéOuAbandonné } = await checkAbandonAndAchèvement(
+    const { aUnAbandonEnCours, estAbandonné, estAchevé } = await checkAbandonAndAchèvement(
       identifiantProjet,
       rôle,
     );
@@ -82,7 +82,9 @@ export const getReprésentantLégal: GetReprésentantLégal = async (identifiant
     const peutFaireUneDemande =
       utilisateur.aLaPermission('représentantLégal.demanderChangement') &&
       !demandeChangementExistante &&
-      !estAchevéOuAbandonné;
+      !aUnAbandonEnCours &&
+      !estAbandonné &&
+      !estAchevé;
 
     const peutModifier =
       utilisateur.aLaPermission('représentantLégal.modifier') && !demandeChangementExistante;

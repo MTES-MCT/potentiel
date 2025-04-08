@@ -8,7 +8,8 @@ import { getAttestationDeConformité } from './getAttestationDeConformité';
 
 type CheckAbandonAndAchèvement = {
   estAbandonné: boolean;
-  estAchevéOuAbandonné: boolean;
+  aUnAbandonEnCours: boolean;
+  estAchevé: boolean;
 };
 
 export const checkAbandonAndAchèvement = async (
@@ -20,7 +21,8 @@ export const checkAbandonAndAchèvement = async (
   if (attestationConformitéExistante) {
     return {
       estAbandonné: false,
-      estAchevéOuAbandonné: true,
+      aUnAbandonEnCours: false,
+      estAchevé: true,
     };
   }
 
@@ -30,12 +32,10 @@ export const checkAbandonAndAchèvement = async (
       data: { identifiantProjetValue: identifiantProjet.formatter() },
     });
 
-    const aAbandonEnCours = Option.isSome(abandon) && abandon.statut.estEnCours();
-    const estAbandonné = Option.isSome(abandon) && abandon.statut.estAccordé();
-
     return {
-      estAbandonné,
-      estAchevéOuAbandonné: aAbandonEnCours || estAbandonné,
+      estAbandonné: Option.isSome(abandon) && abandon.statut.estAccordé(),
+      aUnAbandonEnCours: Option.isSome(abandon) && abandon.statut.estEnCours(),
+      estAchevé: false,
     };
   } catch (e) {
     getLogger('checkAbandonAndAchèvement').warn("Impossible de récupérer l'abandon", {
@@ -45,7 +45,8 @@ export const checkAbandonAndAchèvement = async (
 
     return {
       estAbandonné: false,
-      estAchevéOuAbandonné: false,
+      aUnAbandonEnCours: false,
+      estAchevé: false,
     };
   }
 };

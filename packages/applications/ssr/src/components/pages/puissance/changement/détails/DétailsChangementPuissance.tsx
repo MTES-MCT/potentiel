@@ -17,14 +17,12 @@ import { DétailsPuissancePageProps } from './DétailsPuissance.page';
 export type DétailsChangementPuissanceProps = Pick<DétailsPuissancePageProps, 'demande'>;
 
 export const DétailsChangementPuissance: FC<DétailsChangementPuissanceProps> = ({ demande }) => {
-  const estUneInformationEnregistrée = Puissance.StatutChangementPuissance.bind(
-    demande.statut.statut,
-  ).estInformationEnregistrée();
+  const statut = Puissance.StatutChangementPuissance.bind(demande.statut.statut);
 
   return (
     <div className="flex flex-col gap-4">
       <Heading2>
-        {estUneInformationEnregistrée
+        {statut.estInformationEnregistrée()
           ? 'Changement de puissance'
           : 'Demande de changement de puissance'}
       </Heading2>
@@ -38,13 +36,13 @@ export const DétailsChangementPuissance: FC<DétailsChangementPuissanceProps> =
                 réponseSignée={demande.accord.réponseSignée}
               />
             )}
-            {Puissance.StatutChangementPuissance.bind(demande.statut.statut).estDemandé() && (
+            {statut.estDemandé() && (
               <ChangementDemandé
                 demandéeLe={demande.demandéeLe}
                 demandéePar={demande.demandéePar}
               />
             )}
-            {estUneInformationEnregistrée && (
+            {statut.estInformationEnregistrée() && (
               <InformationEnregistrée
                 demandéeLe={demande.demandéeLe}
                 demandéePar={demande.demandéePar}

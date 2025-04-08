@@ -41,7 +41,9 @@ const action: FormAction<FormState, typeof schema> = async (
 ) =>
   withUtilisateur(async (utilisateur) => {
     const date = new Date().toISOString();
-    if (isInformationEnregistree === 'true') {
+    const estUneInformationEnregistrée = isInformationEnregistree === 'true';
+
+    if (estUneInformationEnregistrée) {
       await mediator.send<Puissance.EnregistrerChangementPuissanceUseCase>({
         type: 'Lauréat.Puissance.UseCase.EnregistrerChangement',
         data: {
@@ -71,7 +73,9 @@ const action: FormAction<FormState, typeof schema> = async (
       status: 'success',
       redirection: {
         url: Routes.Puissance.changement.détails(identifiantProjet, date),
-        message: 'La demande de changement de puissance a bien été enregistrée',
+        message: estUneInformationEnregistrée
+          ? 'Le changement de puissance a bien été enregistré'
+          : 'La demande de changement de puissance a bien été enregistrée',
       },
     };
   });
