@@ -14,14 +14,14 @@ import { convertReadableStreamToString } from '../../../../../helpers/convertRea
 Alors(
   /une demande de changement de représentant légal du projet lauréat devrait être consultable/,
   async function (this: PotentielWorld) {
-    await vérifierDemande.bind(this, 'demande');
+    await vérifierDemande.call(this, 'demande');
   },
 );
 
 Alors(
   /la demande corrigée de changement de représentant légal du projet lauréat devrait être consultable/,
   async function (this: PotentielWorld) {
-    await vérifierDemande.bind(this, 'correction');
+    await vérifierDemande.call(this, 'correction');
   },
 );
 
@@ -50,7 +50,7 @@ Alors(
 Alors(
   'la demande de changement de représentant légal du projet lauréat devrait être accordée',
   async function (this: PotentielWorld) {
-    await vérifierInstructionDemande.bind(
+    await vérifierInstructionDemande.call(
       this,
       ReprésentantLégal.StatutChangementReprésentantLégal.accordé,
     );
@@ -60,7 +60,7 @@ Alors(
 Alors(
   'la demande de changement de représentant légal du projet lauréat devrait être rejetée',
   async function (this: PotentielWorld) {
-    await vérifierInstructionDemande.bind(
+    await vérifierInstructionDemande.call(
       this,
       ReprésentantLégal.StatutChangementReprésentantLégal.rejeté,
     );
@@ -70,14 +70,14 @@ Alors(
 Alors(
   'la demande de changement de représentant légal du projet lauréat devrait être rejetée automatiquement',
   async function (this: PotentielWorld) {
-    await vérifierInstructionAutomatiqueDemande.bind(this, 'rejet');
+    await vérifierInstructionAutomatiqueDemande.call(this, 'rejet');
   },
 );
 
 Alors(
   'la demande de changement de représentant légal du projet lauréat devrait être accordée automatiquement',
   async function (this: PotentielWorld) {
-    await vérifierInstructionAutomatiqueDemande.bind(this, 'rejet');
+    await vérifierInstructionAutomatiqueDemande.call(this, 'rejet');
   },
 );
 
