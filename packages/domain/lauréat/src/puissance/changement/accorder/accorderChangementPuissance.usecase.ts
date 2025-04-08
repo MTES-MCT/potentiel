@@ -43,7 +43,7 @@ export const registerAccorderChangementPuissanceUseCase = () => {
     const rôleUtilisateur = Role.convertirEnValueType(rôleUtilisateurValue);
 
     await mediator.send<AccorderChangementPuissanceCommand>({
-      type: 'Lauréat.Puissance.Command.AccorderChangement',
+      type: 'Lauréat.Puissance.Command.AccorderDemandeChangement',
       data: {
         accordéLe,
         accordéPar,

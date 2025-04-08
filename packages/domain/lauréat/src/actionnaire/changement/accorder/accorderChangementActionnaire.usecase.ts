@@ -8,7 +8,7 @@ import { TypeDocumentActionnaire } from '../..';
 import { AccorderChangementActionnaireCommand } from './accorderChangementActionnairet.command';
 
 export type AccorderChangementActionnaireUseCase = Message<
-  'Lauréat.Actionnaire.UseCase.AccorderChangement',
+  'Lauréat.Actionnaire.UseCase.AccorderDemandeChangement',
   {
     identifiantProjetValue: string;
     accordéLeValue: string;
@@ -46,7 +46,7 @@ export const registerAccorderChangementActionnaireUseCase = () => {
     });
 
     await mediator.send<AccorderChangementActionnaireCommand>({
-      type: 'Lauréat.Actionnaire.Command.AccorderChangement',
+      type: 'Lauréat.Actionnaire.Command.AccorderDemandeChangement',
       data: {
         accordéLe,
         accordéPar,
@@ -55,5 +55,5 @@ export const registerAccorderChangementActionnaireUseCase = () => {
       },
     });
   };
-  mediator.register('Lauréat.Actionnaire.UseCase.AccorderChangement', runner);
+  mediator.register('Lauréat.Actionnaire.UseCase.AccorderDemandeChangement', runner);
 };
