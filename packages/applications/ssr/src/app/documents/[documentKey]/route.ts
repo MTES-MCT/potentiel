@@ -6,6 +6,7 @@ import { VérifierAccèsProjetQuery } from '@potentiel-domain/utilisateur';
 import { Option } from '@potentiel-libraries/monads';
 
 import { withUtilisateur } from '@/utils/withUtilisateur';
+import { apiAction } from '@/utils/apiAction';
 
 type DocumentKeyParameter = {
   params: {
@@ -14,30 +15,32 @@ type DocumentKeyParameter = {
 };
 
 export const GET = (_: Request, { params: { documentKey } }: DocumentKeyParameter) =>
-  withUtilisateur(async (utilisateur) => {
-    const [identifiantProjet] = documentKey.split('/');
+  apiAction(() =>
+    withUtilisateur(async (utilisateur) => {
+      const [identifiantProjet] = documentKey.split('/');
 
-    await mediator.send<VérifierAccèsProjetQuery>({
-      type: 'System.Authorization.VérifierAccèsProjet',
-      data: {
-        identifiantProjetValue: decodeURIComponent(identifiantProjet),
-        utilisateur,
-      },
-    });
-    const result = await mediator.send<ConsulterDocumentProjetQuery>({
-      type: 'Document.Query.ConsulterDocumentProjet',
-      data: {
-        documentKey,
-      },
-    });
+      await mediator.send<VérifierAccèsProjetQuery>({
+        type: 'System.Authorization.VérifierAccèsProjet',
+        data: {
+          identifiantProjetValue: decodeURIComponent(identifiantProjet),
+          utilisateur,
+        },
+      });
+      const result = await mediator.send<ConsulterDocumentProjetQuery>({
+        type: 'Document.Query.ConsulterDocumentProjet',
+        data: {
+          documentKey,
+        },
+      });
 
-    if (Option.isNone(result)) {
-      return notFound();
-    }
+      if (Option.isNone(result)) {
+        return notFound();
+      }
 
-    return new Response(result.content, {
-      headers: {
-        'content-type': result.format,
-      },
-    });
-  });
+      return new Response(result.content, {
+        headers: {
+          'content-type': result.format,
+        },
+      });
+    }),
+  );

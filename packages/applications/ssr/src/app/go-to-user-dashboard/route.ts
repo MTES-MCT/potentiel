@@ -4,15 +4,18 @@ import { Routes } from '@potentiel-applications/routes';
 import { Role } from '@potentiel-domain/utilisateur';
 import { getContext } from '@potentiel-applications/request-context';
 
-export const GET = async () => {
-  const utilisateur = getContext()?.utilisateur;
-  if (utilisateur) {
-    const redirectTo = utilisateur.role.estÉgaleÀ(Role.grd)
-      ? Routes.Raccordement.lister
-      : Routes.Projet.lister();
-    redirect(redirectTo);
-  }
-  redirect(Routes.Auth.signIn());
-};
+import { apiAction } from '@/utils/apiAction';
+
+export const GET = async () =>
+  apiAction(() => {
+    const utilisateur = getContext()?.utilisateur;
+    if (utilisateur) {
+      const redirectTo = utilisateur.role.estÉgaleÀ(Role.grd)
+        ? Routes.Raccordement.lister
+        : Routes.Projet.lister();
+      redirect(redirectTo);
+    }
+    redirect(Routes.Auth.signIn());
+  });
 
 export const dynamic = 'force-dynamic';

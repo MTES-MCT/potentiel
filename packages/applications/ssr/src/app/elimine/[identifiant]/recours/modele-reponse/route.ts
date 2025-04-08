@@ -10,6 +10,7 @@ import {
 } from '@potentiel-applications/document-builder';
 import { Option } from '@potentiel-libraries/monads';
 
+import { apiAction } from '@/utils/apiAction';
 import { decodeParameter } from '@/utils/decodeParameter';
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { withUtilisateur } from '@/utils/withUtilisateur';
@@ -17,103 +18,106 @@ import { formatIdentifiantProjetForDocument } from '@/utils/modèle-document/for
 import { getPériodeAppelOffres } from '@/app/_helpers/getPériodeAppelOffres';
 
 export const GET = async (_: Request, { params: { identifiant } }: IdentifiantParameter) =>
-  withUtilisateur(async (utilisateur) => {
-    const identifiantProjet = decodeParameter(identifiant);
+  apiAction(() =>
+    withUtilisateur(async (utilisateur) => {
+      const identifiantProjet = decodeParameter(identifiant);
 
-    const candidature = await mediator.send<Candidature.ConsulterProjetQuery>({
-      type: 'Candidature.Query.ConsulterProjet',
-      data: {
-        identifiantProjet,
-      },
-    });
+      const candidature = await mediator.send<Candidature.ConsulterProjetQuery>({
+        type: 'Candidature.Query.ConsulterProjet',
+        data: {
+          identifiantProjet,
+        },
+      });
 
-    if (Option.isNone(candidature)) {
-      return notFound();
-    }
+      if (Option.isNone(candidature)) {
+        return notFound();
+      }
 
-    const recours = await mediator.send<Éliminé.Recours.ConsulterRecoursQuery>({
-      type: 'Éliminé.Recours.Query.ConsulterRecours',
-      data: {
-        identifiantProjetValue: identifiantProjet,
-      },
-    });
+      const recours = await mediator.send<Éliminé.Recours.ConsulterRecoursQuery>({
+        type: 'Éliminé.Recours.Query.ConsulterRecours',
+        data: {
+          identifiantProjetValue: identifiantProjet,
+        },
+      });
 
-    if (Option.isNone(recours)) {
-      return notFound();
-    }
-    const { appelOffres, période } = await getPériodeAppelOffres(
-      IdentifiantProjet.convertirEnValueType(identifiantProjet),
-    );
+      if (Option.isNone(recours)) {
+        return notFound();
+      }
+      const { appelOffres, période } = await getPériodeAppelOffres(
+        IdentifiantProjet.convertirEnValueType(identifiantProjet),
+      );
 
-    const content = await ModèleRéponseSignée.générerModèleRéponseAdapter({
-      type: 'recours',
-      data: {
-        adresseCandidat: candidature.candidat.adressePostale,
-        codePostalProjet: candidature.localité.codePostal,
-        communeProjet: candidature.localité.commune,
-        dateDemande: formatDateForDocument(recours.demande.demandéLe.date),
-        dateNotification: formatDateForDocument(
-          DateTime.convertirEnValueType(candidature.dateDésignation).date,
-        ),
-        dreal: candidature.localité.région,
-        email: '',
-        familles: candidature.famille ? 'yes' : '',
-        justificationDemande: recours.demande.raison,
-        nomCandidat: candidature.candidat.nom,
-        nomProjet: candidature.nom,
-        nomRepresentantLegal: candidature.candidat.représentantLégal,
-        puissance: candidature.puissance.toString(),
-        refPotentiel: formatIdentifiantProjetForDocument(identifiantProjet),
-        status: recours.statut.value,
-        suiviPar: utilisateur.nom,
-        suiviParEmail: appelOffres.dossierSuiviPar,
-        titreAppelOffre: appelOffres.title,
-        titreFamille: candidature.famille || '',
-        titrePeriode: période.title || '',
-        unitePuissance: appelOffres.unitePuissance,
+      const content = await ModèleRéponseSignée.générerModèleRéponseAdapter({
+        type: 'recours',
+        data: {
+          adresseCandidat: candidature.candidat.adressePostale,
+          codePostalProjet: candidature.localité.codePostal,
+          communeProjet: candidature.localité.commune,
+          dateDemande: formatDateForDocument(recours.demande.demandéLe.date),
+          dateNotification: formatDateForDocument(
+            DateTime.convertirEnValueType(candidature.dateDésignation).date,
+          ),
+          dreal: candidature.localité.région,
+          email: '',
+          familles: candidature.famille ? 'yes' : '',
+          justificationDemande: recours.demande.raison,
+          nomCandidat: candidature.candidat.nom,
+          nomProjet: candidature.nom,
+          nomRepresentantLegal: candidature.candidat.représentantLégal,
+          puissance: candidature.puissance.toString(),
+          refPotentiel: formatIdentifiantProjetForDocument(identifiantProjet),
+          status: recours.statut.value,
+          suiviPar: utilisateur.nom,
+          suiviParEmail: appelOffres.dossierSuiviPar,
+          titreAppelOffre: appelOffres.title,
+          titreFamille: candidature.famille || '',
+          titrePeriode: période.title || '',
+          unitePuissance: appelOffres.unitePuissance,
 
-        affichageParagrapheECS: appelOffres.affichageParagrapheECS ? 'yes' : '',
-        AOInnovation: appelOffres.typeAppelOffre === 'innovation' ? 'yes' : '',
-        delaiRealisationTexte: appelOffres.delaiRealisationTexte,
-        eolien: appelOffres.typeAppelOffre === 'eolien' ? 'yes' : '',
-        isInvestissementParticipatif: candidature.isInvestissementParticipatif ? 'yes' : '',
-        isEngagementParticipatif:
-          candidature.isFinancementParticipatif || candidature.isInvestissementParticipatif
+          affichageParagrapheECS: appelOffres.affichageParagrapheECS ? 'yes' : '',
+          AOInnovation: appelOffres.typeAppelOffre === 'innovation' ? 'yes' : '',
+          delaiRealisationTexte: appelOffres.delaiRealisationTexte,
+          eolien: appelOffres.typeAppelOffre === 'eolien' ? 'yes' : '',
+          isInvestissementParticipatif: candidature.isInvestissementParticipatif ? 'yes' : '',
+          isEngagementParticipatif:
+            candidature.isFinancementParticipatif || candidature.isInvestissementParticipatif
+              ? 'yes'
+              : '',
+          isFinancementCollectif: candidature.actionnariat === 'financement-collectif' ? 'yes' : '',
+          isFinancementParticipatif: candidature.isFinancementParticipatif ? 'yes' : '',
+          isGouvernancePartagée: candidature.actionnariat === 'gouvernance-partagee' ? 'yes' : '',
+          evaluationCarbone: candidature.evaluationCarbone.toString(),
+          engagementFournitureDePuissanceAlaPointe:
+            candidature.engagementFournitureDePuissanceAlaPointe ? 'yes' : '',
+          motifsElimination: candidature.motifsElimination,
+          nonInstruit: candidature.motifsElimination.toLowerCase().includes('non instruit')
             ? 'yes'
             : '',
-        isFinancementCollectif: candidature.actionnariat === 'financement-collectif' ? 'yes' : '',
-        isFinancementParticipatif: candidature.isFinancementParticipatif ? 'yes' : '',
-        isGouvernancePartagée: candidature.actionnariat === 'gouvernance-partagee' ? 'yes' : '',
-        evaluationCarbone: candidature.evaluationCarbone.toString(),
-        engagementFournitureDePuissanceAlaPointe:
-          candidature.engagementFournitureDePuissanceAlaPointe ? 'yes' : '',
-        motifsElimination: candidature.motifsElimination,
-        nonInstruit: candidature.motifsElimination.toLowerCase().includes('non instruit')
-          ? 'yes'
-          : '',
-        paragrapheAttestationConformite: appelOffres.paragrapheAttestationConformite,
-        paragrapheDelaiDerogatoire: appelOffres.paragrapheDelaiDerogatoire,
-        paragrapheEngagementIPFPGPFC:
-          période.paragrapheEngagementIPFPGPFC ?? appelOffres.paragrapheEngagementIPFPGPFC,
-        paragraphePrixReference: appelOffres.paragraphePrixReference,
-        prixReference: candidature.prixReference.toString(),
-        renvoiDemandeCompleteRaccordement: appelOffres.renvoiDemandeCompleteRaccordement,
-        renvoiModification: appelOffres.renvoiModification,
-        renvoiRetraitDesignationGarantieFinancieres:
-          appelOffres.renvoiRetraitDesignationGarantieFinancieres,
-        renvoiSoumisAuxGarantiesFinancieres: appelOffres.renvoiSoumisAuxGarantiesFinancieres ?? '',
-        soumisGF:
-          appelOffres.soumisAuxGarantiesFinancieres === 'à la candidature' ||
-          appelOffres.soumisAuxGarantiesFinancieres === 'après candidature'
-            ? 'yes'
-            : '',
-        tarifOuPrimeRetenue: appelOffres.tarifOuPrimeRetenue,
-      },
-    });
+          paragrapheAttestationConformite: appelOffres.paragrapheAttestationConformite,
+          paragrapheDelaiDerogatoire: appelOffres.paragrapheDelaiDerogatoire,
+          paragrapheEngagementIPFPGPFC:
+            période.paragrapheEngagementIPFPGPFC ?? appelOffres.paragrapheEngagementIPFPGPFC,
+          paragraphePrixReference: appelOffres.paragraphePrixReference,
+          prixReference: candidature.prixReference.toString(),
+          renvoiDemandeCompleteRaccordement: appelOffres.renvoiDemandeCompleteRaccordement,
+          renvoiModification: appelOffres.renvoiModification,
+          renvoiRetraitDesignationGarantieFinancieres:
+            appelOffres.renvoiRetraitDesignationGarantieFinancieres,
+          renvoiSoumisAuxGarantiesFinancieres:
+            appelOffres.renvoiSoumisAuxGarantiesFinancieres ?? '',
+          soumisGF:
+            appelOffres.soumisAuxGarantiesFinancieres === 'à la candidature' ||
+            appelOffres.soumisAuxGarantiesFinancieres === 'après candidature'
+              ? 'yes'
+              : '',
+          tarifOuPrimeRetenue: appelOffres.tarifOuPrimeRetenue,
+        },
+      });
 
-    return new Response(content, {
-      headers: {
-        'content-type': 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-      },
-    });
-  });
+      return new Response(content, {
+        headers: {
+          'content-type': 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+        },
+      });
+    }),
+  );
