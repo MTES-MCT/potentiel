@@ -14,14 +14,14 @@ import { convertReadableStreamToString } from '../../../../../helpers/convertRea
 Alors(
   /une demande de changement de représentant légal du projet lauréat devrait être consultable/,
   async function (this: PotentielWorld) {
-    await vérifierDemande.call(this, 'demande');
+    await vérifierDemande.call(this);
   },
 );
 
 Alors(
   /la demande corrigée de changement de représentant légal du projet lauréat devrait être consultable/,
   async function (this: PotentielWorld) {
-    await vérifierDemande.call(this, 'correction');
+    await vérifierDemande.call(this);
   },
 );
 
@@ -77,11 +77,11 @@ Alors(
 Alors(
   'la demande de changement de représentant légal du projet lauréat devrait être accordée automatiquement',
   async function (this: PotentielWorld) {
-    await vérifierInstructionAutomatiqueDemande.call(this, 'rejet');
+    await vérifierInstructionAutomatiqueDemande.call(this, 'accord');
   },
 );
 
-async function vérifierDemande(this: PotentielWorld, statut: 'demande' | 'correction') {
+async function vérifierDemande(this: PotentielWorld) {
   await waitForExpect(async () => {
     const { identifiantProjet } = this.lauréatWorld;
 
@@ -105,19 +105,11 @@ async function vérifierDemande(this: PotentielWorld, statut: 'demande' | 'corre
 
     actual.should.be.deep.equal(expected);
 
-    if (
-      statut === 'demande' &&
-      this.lauréatWorld.représentantLégalWorld.changementReprésentantLégalWorld
-        .demanderChangementReprésentantLégalFixture.aÉtéCréé
-    ) {
+    if (Option.isSome(demande)) {
       const result = await mediator.send<ConsulterDocumentProjetQuery>({
         type: 'Document.Query.ConsulterDocumentProjet',
         data: {
-          documentKey: Option.match(demande)
-            .some(({ demande }) => {
-              return demande.pièceJustificative.formatter() ?? '';
-            })
-            .none(() => ''),
+          documentKey: demande.demande.pièceJustificative.formatter(),
         },
       });
 
@@ -127,36 +119,11 @@ async function vérifierDemande(this: PotentielWorld, statut: 'demande' | 'corre
 
       const expectedContent = await convertReadableStreamToString(
         this.lauréatWorld.représentantLégalWorld.changementReprésentantLégalWorld
-          .demanderChangementReprésentantLégalFixture.pièceJustificative?.content ??
-          new ReadableStream(),
-      );
-
-      actualContent.should.be.equal(expectedContent);
-    }
-
-    if (
-      statut === 'correction' &&
-      this.lauréatWorld.représentantLégalWorld.changementReprésentantLégalWorld
-        .corrigerChangementReprésentantLégalFixture.aÉtéCréé
-    ) {
-      const result = await mediator.send<ConsulterDocumentProjetQuery>({
-        type: 'Document.Query.ConsulterDocumentProjet',
-        data: {
-          documentKey: Option.match(demande)
-            .some(({ demande }) => {
-              return demande.pièceJustificative.formatter() ?? '';
-            })
-            .none(() => ''),
-        },
-      });
-
-      assert(Option.isSome(result), `Pièce justificative non trouvée !`);
-
-      const actualContent = await convertReadableStreamToString(result.content);
-      const expectedContent = await convertReadableStreamToString(
-        this.lauréatWorld.représentantLégalWorld.changementReprésentantLégalWorld
-          .corrigerChangementReprésentantLégalFixture.pièceJustificative?.content ??
-          new ReadableStream(),
+          .corrigerChangementReprésentantLégalFixture.aÉtéCréé
+          ? this.lauréatWorld.représentantLégalWorld.changementReprésentantLégalWorld
+              .corrigerChangementReprésentantLégalFixture.pièceJustificative.content
+          : this.lauréatWorld.représentantLégalWorld.changementReprésentantLégalWorld
+              .demanderChangementReprésentantLégalFixture.pièceJustificative.content,
       );
 
       actualContent.should.be.equal(expectedContent);

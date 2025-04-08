@@ -81,7 +81,7 @@ export class ChangementReprésentantLégalWorld {
       expected.demande.pièceJustificative = DocumentProjet.convertirEnValueType(
         identifiantProjet.formatter(),
         ReprésentantLégal.TypeDocumentChangementReprésentantLégal.pièceJustificative.formatter(),
-        this.#corrigerChangementReprésentantLégalFixture.corrigéLe,
+        this.#demanderChangementReprésentantLégalFixture.demandéLe,
         this.#corrigerChangementReprésentantLégalFixture.pièceJustificative!.format,
       );
     }
