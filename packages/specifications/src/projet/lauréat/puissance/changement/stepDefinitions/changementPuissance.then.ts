@@ -47,7 +47,7 @@ Alors(
 Alors(
   `la demande de changement de la puissance devrait être accordée`,
   async function (this: PotentielWorld) {
-    await vérifierChangementPuissance.bind(
+    await vérifierChangementPuissance.call(
       this,
       this.candidatureWorld.importerCandidature.identifiantProjet,
       Puissance.StatutChangementPuissance.accordé,

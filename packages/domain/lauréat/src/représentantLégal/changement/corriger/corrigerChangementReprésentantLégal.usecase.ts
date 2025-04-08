@@ -44,7 +44,7 @@ export const registerCorrigerChangementReprésentantLégalUseCase = () => {
     const pièceJustificative = DocumentProjet.convertirEnValueType(
       identifiantProjetValue,
       TypeDocumentChangementReprésentantLégal.pièceJustificative.formatter(),
-      dateCorrectionValue,
+      dateDemandeValue,
       pièceJustificativeValue.format,
     );
 
@@ -64,12 +64,7 @@ export const registerCorrigerChangementReprésentantLégalUseCase = () => {
       type: 'Document.Command.CorrigerDocumentProjet',
       data: {
         content: pièceJustificativeValue.content,
-        documentProjetKey: DocumentProjet.convertirEnValueType(
-          identifiantProjetValue,
-          TypeDocumentChangementReprésentantLégal.pièceJustificative.formatter(),
-          dateDemandeValue,
-          pièceJustificativeValue.format,
-        ).formatter(),
+        documentProjetKey: pièceJustificative.formatter(),
       },
     });
   };

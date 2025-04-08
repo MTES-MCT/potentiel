@@ -48,6 +48,8 @@ export class AccorderChangementPuissanceFixture
 
     this.#accordéeLe = fixture.accordéeLe;
     this.#accordéePar = fixture.accordéePar;
+    this.#format = fixture.réponseSignée.format;
+    this.#content = content;
 
     this.aÉtéCréé = true;
     return fixture;
