@@ -117,13 +117,15 @@ async function vérifierDemande(this: PotentielWorld) {
 
       const actualContent = await convertReadableStreamToString(result.content);
 
+      const {
+        demanderChangementReprésentantLégalFixture,
+        corrigerChangementReprésentantLégalFixture,
+      } = this.lauréatWorld.représentantLégalWorld.changementReprésentantLégalWorld;
+
       const expectedContent = await convertReadableStreamToString(
-        this.lauréatWorld.représentantLégalWorld.changementReprésentantLégalWorld
-          .corrigerChangementReprésentantLégalFixture.aÉtéCréé
-          ? this.lauréatWorld.représentantLégalWorld.changementReprésentantLégalWorld
-              .corrigerChangementReprésentantLégalFixture.pièceJustificative.content
-          : this.lauréatWorld.représentantLégalWorld.changementReprésentantLégalWorld
-              .demanderChangementReprésentantLégalFixture.pièceJustificative.content,
+        corrigerChangementReprésentantLégalFixture.aÉtéCréé
+          ? corrigerChangementReprésentantLégalFixture.pièceJustificative.content
+          : demanderChangementReprésentantLégalFixture.pièceJustificative.content,
       );
 
       actualContent.should.be.equal(expectedContent);
