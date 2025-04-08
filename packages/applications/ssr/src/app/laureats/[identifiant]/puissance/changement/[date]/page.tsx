@@ -67,8 +67,9 @@ export default async function Page({ params: { identifiant, date } }: PageProps)
           actions={mapToActions(
             changement.demande.statut,
             utilisateur.role,
-            !changement.demande.isInformationEnregistrée &&
-              changement.demande.autoritéCompétente === utilisateur.role.nom,
+            !changement.demande.isInformationEnregistrée
+              ? changement.demande.autoritéCompétente
+              : undefined,
           )}
           demandeEnCoursDate={
             puissance.dateDemandeEnCours ? puissance.dateDemandeEnCours.formatter() : undefined
@@ -82,11 +83,15 @@ export default async function Page({ params: { identifiant, date } }: PageProps)
 const mapToActions = (
   statut: Puissance.StatutChangementPuissance.ValueType,
   rôle: Role.ValueType,
-  estAutoritéCompétente: boolean,
+  autoritéCompétente?: Puissance.RatioChangementPuissance.AutoritéCompétente,
 ): Array<ChangementPuissanceActions> => {
   const actions: Array<ChangementPuissanceActions> = [];
 
   if (statut.estDemandé()) {
+    const estAutoritéCompétente =
+      autoritéCompétente === rôle.nom ||
+      (autoritéCompétente === 'dgec-validateur' && rôle.nom === 'admin');
+
     if (rôle.aLaPermission('puissance.accorderChangement') && estAutoritéCompétente) {
       actions.push('accorder');
     }
