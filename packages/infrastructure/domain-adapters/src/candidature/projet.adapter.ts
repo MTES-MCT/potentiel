@@ -92,7 +92,16 @@ const selectProjetsEligiblesPreuveRecanditureQuery = `
   from "projects" p
   inner join "UserProjects" up on p.id = up."projectId"
   inner join "users" u on up."userId" = u.id
-  where p."notifiedOn" > 1702598400000 and p."notifiedOn"< 1743379200000 and p."abandonedOn" = 0 and u."email" = $1
+  left join domain_views.projection recandidature on 
+    recandidature.key like 'abandon|%' 
+    and recandidature.value->>'demande.recandidature.preuve.identifiantProjet' 
+      = format('%s#%s#%s#%s',p."appelOffreId",p."periodeId",p."familleId",p."numeroCRE")
+  where 
+        p."notifiedOn" > 1702598400000 
+    and p."notifiedOn"< 1743379200000 
+    and p."abandonedOn" = 0 
+    and u."email" = $1
+    and recandidature.key is null
   order by "nomProjet"
 `;
 
