@@ -20,7 +20,6 @@
     "@oclif/core": "^4.0.28",
     "@potentiel-libraries/csv": "*",
     "@potentiel-libraries/file-storage": "*",
-    "@potentiel-libraries/keycloak-cjs": "*",
     "@potentiel-domain/reseau": "*",
     "@potentiel-applications/bootstrap": "*",
     "@potentiel-infrastructure/domain-adapters": "*",
