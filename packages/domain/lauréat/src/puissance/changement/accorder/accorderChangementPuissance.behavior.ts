@@ -44,7 +44,7 @@ export async function accorderDemandeChangement(
     StatutChangementPuissance.accordé,
   );
 
-  if (this.demande.autoritéCompétente === 'dgec-validateur' && rôleUtilisateur.nom === 'dreal') {
+  if (this.demande.autoritéCompétente === 'admin' && rôleUtilisateur.nom === 'dreal') {
     throw new DemandeDoitÊtreInstruiteParDGECError();
   }
 

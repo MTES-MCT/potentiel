@@ -3,7 +3,7 @@ import { PlainType, ReadonlyValueType } from '@potentiel-domain/core';
 // work in progress
 // ce value type sera utilisé pour vérifier les règles de ratios de puissance
 // ainsi que pour la règle liée à l'autorité compétente
-export const autoritéCompétentes = ['dreal', 'dgec-validateur'] as const;
+export const autoritéCompétentes = ['dreal', 'admin'] as const;
 
 export type AutoritéCompétente = (typeof autoritéCompétentes)[number];
 
@@ -23,7 +23,7 @@ export const bind = ({ ratio }: PlainType<ValueType>): ValueType => {
       return this.ratio === valueType.ratio;
     },
     getAutoritéCompétente(): AutoritéCompétente {
-      return ratio < 1 ? 'dreal' : 'dgec-validateur';
+      return ratio < 1 ? 'dreal' : 'admin';
     },
   };
 };
