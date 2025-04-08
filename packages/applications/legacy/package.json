@@ -61,6 +61,7 @@
     "utility-types": "^3.11.0",
     "uuid": "^9.0.1",
     "vm-browserify": "^1.1.2",
+    "winston-elasticsearch": "0.16.0",
     "yup": "^0.32.11"
   },
   "devDependencies": {
