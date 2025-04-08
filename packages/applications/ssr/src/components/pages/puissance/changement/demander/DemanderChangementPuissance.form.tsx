@@ -90,8 +90,7 @@ export const DemanderChangementPuissanceForm: FC<DemanderChangementPuissanceForm
             onChange: (e) => setNouvellePuissance(parseFloat(e.target.value)),
           }}
         />
-        {dépasseLesRatioDeAppelOffres && <InfoBoxDemandePuissance />}
-
+        {dépasseLesRatioDeAppelOffres && <InfoBoxDemandePuissance min={0.8} max={1.2} />}
         <Input
           textArea
           label="Raison"
