@@ -1,8 +1,9 @@
-import { récupérerPorteursParIdentifiantProjetAdapter } from '@potentiel-infrastructure/domain-adapters';
 import { getLogger } from '@potentiel-libraries/monitoring';
 import { Routes } from '@potentiel-applications/routes';
 import { Puissance } from '@potentiel-domain/laureat';
 import { IdentifiantProjet } from '@potentiel-domain/projet';
+
+import { listerPorteursRecipients } from '../../../helpers/listerPorteursRecipients';
 
 import { RegisterPuissanceNotificationDependencies } from '.';
 
@@ -23,7 +24,7 @@ export const puissanceModifiéeNotification = async ({
   baseUrl,
 }: PuissanceModifiéeNotificationProps) => {
   const identifiantProjet = IdentifiantProjet.convertirEnValueType(event.payload.identifiantProjet);
-  const porteurs = await récupérerPorteursParIdentifiantProjetAdapter(identifiantProjet);
+  const porteurs = await listerPorteursRecipients(identifiantProjet);
 
   if (porteurs.length === 0) {
     getLogger().error('Aucun porteur trouvé', {
