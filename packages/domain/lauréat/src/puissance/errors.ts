@@ -23,3 +23,9 @@ export class PuissanceNulleOuNégativeError extends DomainError {
     super("La puissance d'un projet doit être une valeur positive");
   }
 }
+
+export class DemandeDeChangementPuissanceEnCoursError extends DomainError {
+  constructor() {
+    super('Une demande de changement de puissance est déjà en cours');
+  }
+}

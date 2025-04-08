@@ -3,6 +3,7 @@ import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
 
 import { PuissanceAggregate } from '../puissance.aggregate';
 import {
+  DemandeDeChangementPuissanceEnCoursError,
   PuissanceIdentiqueError,
   PuissanceIntrouvableError,
   PuissanceNulleOuNégativeError,
@@ -47,6 +48,10 @@ export async function modifier(
 
   if (puissance <= 0) {
     throw new PuissanceNulleOuNégativeError();
+  }
+
+  if (this.demande?.statut.estDemandé()) {
+    throw new DemandeDeChangementPuissanceEnCoursError();
   }
 
   const event: PuissanceModifiéeEvent = {
