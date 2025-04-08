@@ -1658,27 +1658,6 @@ export type ExplicationChampDescriptor = ChampDescriptor & {
   type: TypeDeChamp;
 };
 
-export type ExpressionReguliereChampDescriptor = ChampDescriptor & {
-  __typename?: 'ExpressionReguliereChampDescriptor';
-  /**
-   * Description des champs d’un bloc répétable.
-   * @deprecated Utilisez le champ `RepetitionChampDescriptor.champ_descriptors` à la place.
-   */
-  champDescriptors?: Maybe<Array<ChampDescriptor>>;
-  /** Description du champ. */
-  description?: Maybe<Scalars['String']['output']>;
-  id: Scalars['ID']['output'];
-  /** Libellé du champ. */
-  label: Scalars['String']['output'];
-  /** Est-ce que le champ est obligatoire ? */
-  required: Scalars['Boolean']['output'];
-  /**
-   * Type de la valeur du champ.
-   * @deprecated Utilisez le champ `__typename` à la place.
-   */
-  type: TypeDeChamp;
-};
-
 export type File = {
   __typename?: 'File';
   /** @deprecated Utilisez le champ `byteSizeBigInt` à la place. */
@@ -2965,8 +2944,6 @@ export type TypeDeChamp =
   | 'epci'
   /** Explication */
   | 'explication'
-  /** Expression régulière */
-  | 'expression_reguliere'
   /** Champ formaté */
   | 'formatted'
   /** Titre de section */
@@ -3920,6 +3897,22 @@ export type GetDossierQuery = {
   };
 };
 
+export type GetDemarcheQueryVariables = Exact<{
+  demarche: Scalars['Int']['input'];
+}>;
+
+export type GetDemarcheQuery = {
+  __typename?: 'Query';
+  demarche: {
+    __typename?: 'Demarche';
+    number: number;
+    dossiers: {
+      __typename?: 'DossierConnection';
+      nodes?: Array<{ __typename?: 'Dossier'; number: number; state: DossierState } | null> | null;
+    };
+  };
+};
+
 //#endregion
 
 //#region graphql-request
@@ -3996,6 +3989,19 @@ export const GetDossierDocument = gql`
   }
   ${ChampFragmentFragmentDoc}
 `;
+export const GetDemarcheDocument = gql`
+  query GetDemarche($demarche: Int!) {
+    demarche(number: $demarche) {
+      number
+      dossiers {
+        nodes {
+          number
+          state
+        }
+      }
+    }
+  }
+`;
 
 export type SdkFunctionWrapper = <T>(
   action: (requestHeaders?: Record<string, string>) => Promise<T>,
@@ -4020,6 +4026,21 @@ export function getSdk(client: GraphQLClient, withWrapper: SdkFunctionWrapper = 
             ...wrappedRequestHeaders,
           }),
         'GetDossier',
+        'query',
+        variables,
+      );
+    },
+    GetDemarche(
+      variables: GetDemarcheQueryVariables,
+      requestHeaders?: GraphQLClientRequestHeaders,
+    ): Promise<GetDemarcheQuery> {
+      return withWrapper(
+        (wrappedRequestHeaders) =>
+          client.request<GetDemarcheQuery>(GetDemarcheDocument, variables, {
+            ...requestHeaders,
+            ...wrappedRequestHeaders,
+          }),
+        'GetDemarche',
         'query',
         variables,
       );

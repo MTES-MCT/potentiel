@@ -7,7 +7,7 @@ import { match } from 'ts-pattern';
 import { DomainError } from '@potentiel-domain/core';
 import { Candidature } from '@potentiel-domain/candidature';
 import { DateTime } from '@potentiel-domain/common';
-import { getDossier } from '@potentiel-infrastructure/ds-api-client';
+import { getDossier, getDossiersDemarche } from '@potentiel-infrastructure/ds-api-client';
 
 import { ActionResult, FormAction, formAction, FormState } from '@/utils/formAction';
 import { withUtilisateur } from '@/utils/withUtilisateur';
@@ -23,62 +23,66 @@ const schema = zod.object({
   periode: zod.coerce.number(),
   famille: zod.coerce.number().optional(),
 
-  dossierId: zod.coerce.number(),
+  demarcheId: zod.coerce.number(),
 });
 
 export type ImporterDémarchesFormKeys = keyof zod.infer<typeof schema>;
 
 const action: FormAction<FormState, typeof schema> = async (
   _,
-  { appelOffre, periode, famille, dossierId },
+  { appelOffre, periode, famille, demarcheId },
 ) => {
   return withUtilisateur(async (utilisateur) => {
     let success: number = 0;
     const errors: ActionResult['errors'] = [];
 
-    let key = `Dossier ${dossierId}`;
+    const dossierIds = await getDossiersDemarche(demarcheId);
 
-    try {
-      const dossier = await getDossier(dossierId);
-      key += ` - ${dossier.numéroCRE} - ${dossier.nomProjet}`;
-      const parsed = dossierSchema.parse(dossier);
+    for (const dossierId of dossierIds) {
+      let key = `Dossier ${dossierId}`;
 
-      // const projectRawLine = rawData.find((data) => data['Nom projet'] === line.nomProjet) ?? {};
-      await mediator.send<Candidature.ImporterCandidatureUseCase>({
-        type: 'Candidature.UseCase.ImporterCandidature',
-        data: {
-          appelOffreValue: appelOffre.toString(),
-          périodeValue: periode.toString(),
-          familleValue: famille?.toString() ?? '',
-          ...mapLineToUseCaseData(parsed),
-          détailsValue: {
-            pièceJustificativeGf: parsed.pièceJustificativeGf ?? '',
+      try {
+        const dossier = await getDossier(dossierId);
+        key += ` - ${dossier.numéroCRE} - ${dossier.nomProjet}`;
+        const parsed = dossierSchema.parse(dossier);
+
+        // const projectRawLine = rawData.find((data) => data['Nom projet'] === line.nomProjet) ?? {};
+        await mediator.send<Candidature.ImporterCandidatureUseCase>({
+          type: 'Candidature.UseCase.ImporterCandidature',
+          data: {
+            appelOffreValue: appelOffre.toString(),
+            périodeValue: periode.toString(),
+            familleValue: famille?.toString() ?? '',
+            ...mapLineToUseCaseData(parsed),
+            détailsValue: {
+              pièceJustificativeGf: parsed.pièceJustificativeGf ?? '',
+            },
+            importéLe: DateTime.now().formatter(),
+            importéPar: utilisateur.identifiantUtilisateur.formatter(),
           },
-          importéLe: DateTime.now().formatter(),
-          importéPar: utilisateur.identifiantUtilisateur.formatter(),
-        },
-      });
-
-      success++;
-    } catch (error) {
-      console.log(error);
-      if (error instanceof DomainError) {
-        errors.push({
-          key,
-          reason: error.message,
         });
-      } else if (error instanceof zod.ZodError) {
-        error.errors.forEach((error) => {
+
+        success++;
+      } catch (error) {
+        console.log(error);
+        if (error instanceof DomainError) {
           errors.push({
             key,
-            reason: `${error.path.join('.')} : ${error.message}`,
+            reason: error.message,
           });
-        });
-      } else {
-        errors.push({
-          key,
-          reason: `Une erreur inconnue empêche l'import des candidatures`,
-        });
+        } else if (error instanceof zod.ZodError) {
+          error.errors.forEach((error) => {
+            errors.push({
+              key,
+              reason: `${error.path.join('.')} : ${error.message}`,
+            });
+          });
+        } else {
+          errors.push({
+            key,
+            reason: `Une erreur inconnue empêche l'import des candidatures`,
+          });
+        }
       }
     }
 
@@ -135,6 +139,8 @@ const dossierSchema = zod.object({
   note: zod.number(),
   statut: zod.string().toLowerCase().pipe(statutSchema),
   email: emailContactSchema,
+
+  motifElimination: zod.string().optional(),
 });
 
 const mapLineToUseCaseData = (dossier: zod.infer<typeof dossierSchema>) => ({
@@ -152,7 +158,7 @@ const mapLineToUseCaseData = (dossier: zod.infer<typeof dossierSchema>) => ({
   emailContactValue: dossier.email,
   localitéValue: { ...dossier.localité, adresse2: '' },
   statutValue: dossier.statut,
-  motifÉliminationValue: 'TODO',
+  motifÉliminationValue: dossier.motifElimination,
   // TODO
   puissanceALaPointeValue: false,
   evaluationCarboneSimplifiéeValue: dossier.evaluationCarbone,

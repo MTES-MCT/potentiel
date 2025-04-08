@@ -15,6 +15,15 @@ export const getDossier = async (dossierNumber: number) => {
   return mapApiResponseToReadModel(dossier);
 };
 
+export const getDossiersDemarche = async (démarcheNumber: number) => {
+  const sdk = getDSApiClient();
+  const { demarche } = await sdk.GetDemarche({ demarche: démarcheNumber });
+  if (!demarche.dossiers.nodes) return [];
+  return demarche.dossiers.nodes
+    .filter((node) => node && node.state !== 'sans_suite')
+    .map((node) => node!.number);
+};
+
 const mapApiResponseToReadModel = ({ champs, annotations, usager }: GetDossierQuery['dossier']) => {
   const { streetAddress, departmentName, regionName, cityName, postalCode } =
     getChampValue(champs, 'Adresse', 'AddressChamp')?.address ?? {};
@@ -44,6 +53,8 @@ const mapApiResponseToReadModel = ({ champs, annotations, usager }: GetDossierQu
     statut: getStringValue(annotations, 'Statut'),
     // numéro CRE should be a number, but the graphql API returns a string
     numéroCRE: +getChampValue(annotations, 'Numéro CRE', 'IntegerNumberChamp')?.integerNumber,
+
+    motifElimination: getChampValue(annotations, "Motif d'élimination", 'TextChamp')?.stringValue,
 
     email: usager.email,
   };
