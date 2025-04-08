@@ -88,7 +88,25 @@ export class ChangementPuissanceWorld {
             autoritéCompétente: Puissance.RatioChangementPuissance.bind({
               ratio: baseFixture.ratio,
             }).getAutoritéCompétente(),
-            accord: undefined,
+            accord: this.#accorderChangementPuissanceFixture.aÉtéCréé
+              ? {
+                  accordéeLe: DateTime.convertirEnValueType(
+                    this.#accorderChangementPuissanceFixture.accordéeLe,
+                  ),
+                  accordéePar: Email.convertirEnValueType(
+                    this.#accorderChangementPuissanceFixture.accordéePar,
+                  ),
+
+                  réponseSignée: DocumentProjet.convertirEnValueType(
+                    identifiantProjet.formatter(),
+                    Puissance.TypeDocumentPuissance.changementAccordé.formatter(),
+                    DateTime.convertirEnValueType(
+                      this.#accorderChangementPuissanceFixture.accordéeLe,
+                    ).formatter(),
+                    this.#accorderChangementPuissanceFixture.réponseSignée.format,
+                  ),
+                }
+              : undefined,
             rejet: undefined,
           },
     };
