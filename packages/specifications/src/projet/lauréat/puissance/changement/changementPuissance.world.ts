@@ -114,7 +114,25 @@ export class ChangementPuissanceWorld {
                   ),
                 }
               : undefined,
-            rejet: undefined,
+            rejet: this.#rejeterChangementPuissanceFixture.aÉtéCréé
+              ? {
+                  rejetéeLe: DateTime.convertirEnValueType(
+                    this.#rejeterChangementPuissanceFixture.rejetéeLe,
+                  ),
+                  rejetéePar: Email.convertirEnValueType(
+                    this.#rejeterChangementPuissanceFixture.rejetéePar,
+                  ),
+
+                  réponseSignée: DocumentProjet.convertirEnValueType(
+                    identifiantProjet.formatter(),
+                    Puissance.TypeDocumentPuissance.changementRejeté.formatter(),
+                    DateTime.convertirEnValueType(
+                      this.#rejeterChangementPuissanceFixture.rejetéeLe,
+                    ).formatter(),
+                    this.#rejeterChangementPuissanceFixture.réponseSignée.format,
+                  ),
+                }
+              : undefined,
           },
     };
   }

@@ -5,8 +5,8 @@ import { convertStringToReadableStream } from '../../../../../helpers/convertStr
 
 interface RejeterChangementPuissance {
   readonly réponseSignée: { format: string; content: ReadableStream };
-  readonly rejetetéeLe: string;
-  readonly rejetetéePar: string;
+  readonly rejetéeLe: string;
+  readonly rejetéePar: string;
 }
 
 export class RejeterChangementPuissanceFixture
@@ -23,14 +23,14 @@ export class RejeterChangementPuissanceFixture
     };
   }
 
-  #rejetetéeLe!: string;
-  get rejetetéeLe(): string {
-    return this.#rejetetéeLe;
+  #rejetéeLe!: string;
+  get rejetéeLe(): string {
+    return this.#rejetéeLe;
   }
 
-  #rejetetéePar!: string;
-  get rejetetéePar(): string {
-    return this.#rejetetéePar;
+  #rejetéePar!: string;
+  get rejetéePar(): string {
+    return this.#rejetéePar;
   }
 
   créer(partialData?: Partial<RejeterChangementPuissance>): Readonly<RejeterChangementPuissance> {
@@ -41,13 +41,15 @@ export class RejeterChangementPuissanceFixture
         format: faker.potentiel.fileFormat(),
         content: convertStringToReadableStream(content),
       },
-      rejetetéeLe: faker.date.recent().toISOString(),
-      rejetetéePar: faker.internet.email(),
+      rejetéeLe: faker.date.recent().toISOString(),
+      rejetéePar: faker.internet.email(),
       ...partialData,
     };
 
-    this.#rejetetéeLe = fixture.rejetetéeLe;
-    this.#rejetetéePar = fixture.rejetetéePar;
+    this.#rejetéeLe = fixture.rejetéeLe;
+    this.#rejetéePar = fixture.rejetéePar;
+    this.#format = fixture.réponseSignée.format;
+    this.#content = content;
 
     this.aÉtéCréé = true;
     return fixture;

@@ -276,10 +276,10 @@ export async function rejeterChangementPuissance(
 ) {
   const identifiantProjet = this.lauréatWorld.identifiantProjet.formatter();
 
-  const { rejetetéeLe, rejetetéePar, réponseSignée } =
+  const { rejetéeLe, rejetéePar, réponseSignée } =
     this.lauréatWorld.puissanceWorld.changementPuissanceWorld.rejeterChangementPuissanceFixture.créer(
       {
-        rejetetéePar:
+        rejetéePar:
           rôleUtilisateurValue === 'dreal'
             ? this.utilisateurWorld.drealFixture.email
             : this.utilisateurWorld.adminFixture.email,
@@ -290,8 +290,8 @@ export async function rejeterChangementPuissance(
     type: 'Lauréat.Puissance.UseCase.RejeterDemandeChangement',
     data: {
       identifiantProjetValue: identifiantProjet,
-      rejetéLeValue: rejetetéeLe,
-      rejetéParValue: rejetetéePar,
+      rejetéLeValue: rejetéeLe,
+      rejetéParValue: rejetéePar,
       réponseSignéeValue: {
         content: réponseSignée.content,
         format: réponseSignée.format,
