@@ -104,10 +104,18 @@ Quand(
 );
 
 Quand(
-  /la DREAL associée au projet accorde le changement de puissance (.*) pour le projet lauréat/,
-  async function (this: PotentielWorld, _: 'à la hausse' | 'à la baisse') {
+  /(.*) accorde le changement de puissance pour le projet lauréat/,
+  async function (
+    this: PotentielWorld,
+    rôle: 'la DREAL associée au projet' | 'le DGEC validateur',
+  ) {
     try {
-      await accorderChangementPuissance.call(this, this.utilisateurWorld.drealFixture.role);
+      await accorderChangementPuissance.call(
+        this,
+        rôle === 'la DREAL associée au projet'
+          ? this.utilisateurWorld.drealFixture.role
+          : this.utilisateurWorld.adminFixture.role,
+      );
     } catch (error) {
       this.error = error as Error;
     }
@@ -115,32 +123,18 @@ Quand(
 );
 
 Quand(
-  /le DGEC validateur accorde le changement de puissance (.*) pour le projet lauréat/,
-  async function (this: PotentielWorld, _: 'à la hausse' | 'à la baisse') {
+  /(.*) rejette le changement de puissance pour le projet lauréat/,
+  async function (
+    this: PotentielWorld,
+    rôle: 'la DREAL associée au projet' | 'le DGEC validateur',
+  ) {
     try {
-      await accorderChangementPuissance.call(this, this.utilisateurWorld.adminFixture.role);
-    } catch (error) {
-      this.error = error as Error;
-    }
-  },
-);
-
-Quand(
-  /la DREAL associée au projet rejette le changement de puissance (.*) pour le projet lauréat/,
-  async function (this: PotentielWorld, _: 'à la hausse' | 'à la baisse') {
-    try {
-      await rejeterChangementPuissance.call(this, this.utilisateurWorld.drealFixture.role);
-    } catch (error) {
-      this.error = error as Error;
-    }
-  },
-);
-
-Quand(
-  /le DGEC validateur rejette le changement de puissance (.*) pour le projet lauréat/,
-  async function (this: PotentielWorld, _: 'à la hausse' | 'à la baisse') {
-    try {
-      await rejeterChangementPuissance.call(this, this.utilisateurWorld.adminFixture.role);
+      await rejeterChangementPuissance.call(
+        this,
+        rôle === 'la DREAL associée au projet'
+          ? this.utilisateurWorld.drealFixture.role
+          : this.utilisateurWorld.adminFixture.role,
+      );
     } catch (error) {
       this.error = error as Error;
     }
