@@ -58,7 +58,7 @@ Alors(
 Alors(
   `la demande de changement de la puissance devrait être rejetée`,
   async function (this: PotentielWorld) {
-    await vérifierChangementPuissance.bind(
+    await vérifierChangementPuissance.call(
       this,
       this.candidatureWorld.importerCandidature.identifiantProjet,
       Puissance.StatutChangementPuissance.rejeté,

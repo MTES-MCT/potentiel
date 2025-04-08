@@ -44,14 +44,16 @@ export async function rejeterDemandeChangement(
     StatutChangementPuissance.rejeté,
   );
 
-  if (this.demande.autoritéCompétente === 'dgec' && rôleUtilisateur.nom === 'dreal') {
+  const rôlesAutorisésPourDGEC: Array<Role.RawType> = ['admin', 'dgec-validateur'];
+
+  if (
+    this.demande.autoritéCompétente === 'dgec' &&
+    !rôlesAutorisésPourDGEC.includes(rôleUtilisateur.nom)
+  ) {
     throw new DemandeDoitÊtreInstruiteParDGECError();
   }
 
-  if (
-    this.demande.autoritéCompétente === 'dreal' &&
-    (rôleUtilisateur.nom === 'admin' || rôleUtilisateur.nom === 'dgec-validateur')
-  ) {
+  if (this.demande.autoritéCompétente === 'dreal' && rôleUtilisateur.nom !== 'dreal') {
     throw new DemandeDoitÊtreInstruiteParDREALError();
   }
 
