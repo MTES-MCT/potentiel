@@ -55,6 +55,7 @@ export const register = ({ sendEmail }: RegisterPuissanceNotificationDependencie
     const projet = {
       nom: candidature.nom,
       département: candidature.localité.département,
+      région: candidature.localité.région,
     };
 
     return match(event)

@@ -1,4 +1,3 @@
-import { récupérerDrealsParIdentifiantProjetAdapter } from '@potentiel-infrastructure/domain-adapters';
 import { getLogger } from '@potentiel-libraries/monitoring';
 import { Routes } from '@potentiel-applications/routes';
 import { Puissance } from '@potentiel-domain/laureat';
@@ -7,6 +6,7 @@ import { IdentifiantProjet } from '@potentiel-domain/projet';
 import { RegisterPuissanceNotificationDependencies } from '..';
 import { Recipient } from '../../../../sendEmail';
 import { getDgecRecipient } from '../../../../helpers/getDgecRecipient';
+import { listerDrealsRecipients } from '../../../../helpers/listerDrealsRecipients';
 
 type ChangementPuissanceDemandéNotificationProps = {
   sendEmail: RegisterPuissanceNotificationDependencies['sendEmail'];
@@ -14,6 +14,7 @@ type ChangementPuissanceDemandéNotificationProps = {
   projet: {
     nom: string;
     département: string;
+    région: string;
   };
   baseUrl: string;
 };
@@ -30,7 +31,7 @@ export const changementPuissanceDemandéNotification = async ({
   const recipients: Array<Recipient> = [];
 
   if (event.payload.autoritéCompétente === 'dreal') {
-    const dreals = await récupérerDrealsParIdentifiantProjetAdapter(identifiantProjet);
+    const dreals = await listerDrealsRecipients(projet.région);
 
     if (dreals.length === 0) {
       getLogger().error('Aucune dreal trouvée', {
