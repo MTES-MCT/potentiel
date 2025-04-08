@@ -9,7 +9,6 @@ import { PuissanceAggregate } from '../../puissance.aggregate';
 import {
   DemandeDeChangementInexistanteError,
   DemandeDoitÊtreInstruiteParDGECError,
-  DemandeDoitÊtreInstruiteParDREALError,
 } from '../errors';
 
 export type ChangementPuissanceRejetéEvent = DomainEvent<
@@ -51,10 +50,6 @@ export async function rejeterDemandeChangement(
     !rôlesAutorisésPourDGEC.includes(rôleUtilisateur.nom)
   ) {
     throw new DemandeDoitÊtreInstruiteParDGECError();
-  }
-
-  if (this.demande.autoritéCompétente === 'dreal' && rôleUtilisateur.nom !== 'dreal') {
-    throw new DemandeDoitÊtreInstruiteParDREALError();
   }
 
   const event: ChangementPuissanceRejetéEvent = {

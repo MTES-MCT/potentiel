@@ -9,7 +9,6 @@ import { PuissanceAggregate } from '../../puissance.aggregate';
 import {
   DemandeDeChangementInexistanteError,
   DemandeDoitÊtreInstruiteParDGECError,
-  DemandeDoitÊtreInstruiteParDREALError,
 } from '../errors';
 
 export type ChangementPuissanceAccordéEvent = DomainEvent<
@@ -47,13 +46,6 @@ export async function accorderDemandeChangement(
 
   if (this.demande.autoritéCompétente === 'dgec' && rôleUtilisateur.nom === 'dreal') {
     throw new DemandeDoitÊtreInstruiteParDGECError();
-  }
-
-  if (
-    this.demande.autoritéCompétente === 'dreal' &&
-    (rôleUtilisateur.nom === 'admin' || rôleUtilisateur.nom === 'dgec-validateur')
-  ) {
-    throw new DemandeDoitÊtreInstruiteParDREALError();
   }
 
   const event: ChangementPuissanceAccordéEvent = {
