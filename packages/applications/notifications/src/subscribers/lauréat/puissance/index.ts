@@ -11,6 +11,7 @@ import { IdentifiantProjet } from '@potentiel-domain/projet';
 import { SendEmail } from '../../../sendEmail';
 
 import { changementPuissanceAccordéNotification } from './changementPuissanceAccordé.notification';
+import { changementPuissanceRejetéNotification } from './changementPuissanceRejeté.notification';
 
 export type SubscriptionEvent = Puissance.PuissanceEvent & Event;
 
@@ -55,6 +56,14 @@ export const register = ({ sendEmail }: RegisterPuissanceNotificationDependencie
     return match(event)
       .with({ type: 'ChangementPuissanceAccordé-V1' }, async (event) =>
         changementPuissanceAccordéNotification({
+          sendEmail,
+          event,
+          projet,
+          baseUrl,
+        }),
+      )
+      .with({ type: 'ChangementPuissanceRejeté-V1' }, async (event) =>
+        changementPuissanceRejetéNotification({
           sendEmail,
           event,
           projet,

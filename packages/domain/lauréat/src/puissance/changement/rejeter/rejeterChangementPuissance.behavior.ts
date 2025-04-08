@@ -11,63 +11,65 @@ import {
   DemandeDoitÊtreInstruiteParDGECError,
 } from '../errors';
 
-export type ChangementPuissanceAccordéEvent = DomainEvent<
-  'ChangementPuissanceAccordé-V1',
+export type ChangementPuissanceRejetéEvent = DomainEvent<
+  'ChangementPuissanceRejeté-V1',
   {
     identifiantProjet: IdentifiantProjet.RawType;
-    accordéLe: DateTime.RawType;
-    accordéPar: Email.RawType;
+    rejetéLe: DateTime.RawType;
+    rejetéPar: Email.RawType;
     réponseSignée: {
       format: string;
     };
-    nouvellePuissance: number;
   }
 >;
 
 type Options = {
   identifiantProjet: IdentifiantProjet.ValueType;
-  accordéLe: DateTime.ValueType;
-  accordéPar: Email.ValueType;
+  rejetéLe: DateTime.ValueType;
+  rejetéPar: Email.ValueType;
   réponseSignée: DocumentProjet.ValueType;
   rôleUtilisateur: Role.ValueType;
 };
 
-export async function accorderDemandeChangement(
+export async function rejeterDemandeChangement(
   this: PuissanceAggregate,
-  { identifiantProjet, accordéLe, accordéPar, réponseSignée, rôleUtilisateur }: Options,
+  { identifiantProjet, rejetéLe, rejetéPar, réponseSignée, rôleUtilisateur }: Options,
 ) {
   if (!this.demande) {
     throw new DemandeDeChangementInexistanteError();
   }
 
   this.demande.statut.vérifierQueLeChangementDeStatutEstPossibleEn(
-    StatutChangementPuissance.accordé,
+    StatutChangementPuissance.rejeté,
   );
 
-  if (this.demande.autoritéCompétente === 'dgec' && rôleUtilisateur.nom === 'dreal') {
+  const rôlesAutorisésPourDGEC: Array<Role.RawType> = ['admin', 'dgec-validateur'];
+
+  if (
+    this.demande.autoritéCompétente === 'dgec' &&
+    !rôlesAutorisésPourDGEC.includes(rôleUtilisateur.nom)
+  ) {
     throw new DemandeDoitÊtreInstruiteParDGECError();
   }
 
-  const event: ChangementPuissanceAccordéEvent = {
-    type: 'ChangementPuissanceAccordé-V1',
+  const event: ChangementPuissanceRejetéEvent = {
+    type: 'ChangementPuissanceRejeté-V1',
     payload: {
       identifiantProjet: identifiantProjet.formatter(),
-      accordéLe: accordéLe.formatter(),
-      accordéPar: accordéPar.formatter(),
+      rejetéLe: rejetéLe.formatter(),
+      rejetéPar: rejetéPar.formatter(),
       réponseSignée: {
         format: réponseSignée.format,
       },
-      nouvellePuissance: this.demande.nouvellePuissance,
     },
   };
 
   await this.publish(event);
 }
 
-export function applyChangementPuissanceAccordé(
+export function applyChangementPuissanceRejeté(
   this: PuissanceAggregate,
-  { payload: { nouvellePuissance } }: ChangementPuissanceAccordéEvent,
+  _: ChangementPuissanceRejetéEvent,
 ) {
-  this.puissance = nouvellePuissance;
   this.demande = undefined;
 }

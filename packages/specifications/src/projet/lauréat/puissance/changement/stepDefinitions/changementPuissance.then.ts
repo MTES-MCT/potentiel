@@ -56,6 +56,17 @@ Alors(
 );
 
 Alors(
+  `la demande de changement de la puissance devrait être rejetée`,
+  async function (this: PotentielWorld) {
+    await vérifierChangementPuissance.call(
+      this,
+      this.candidatureWorld.importerCandidature.identifiantProjet,
+      Puissance.StatutChangementPuissance.rejeté,
+    );
+  },
+);
+
+Alors(
   'le changement enregistré de puissance devrait être consultable',
   async function (this: PotentielWorld) {
     await vérifierChangementPuissance.call(
@@ -130,6 +141,30 @@ async function vérifierChangementPuissance(
     const actualContent = await convertReadableStreamToString(result.content);
     const expectedContent = await convertReadableStreamToString(
       this.lauréatWorld.puissanceWorld.changementPuissanceWorld.accorderChangementPuissanceFixture
+        .réponseSignée?.content ?? new ReadableStream(),
+    );
+    expect(actualContent).to.be.equal(expectedContent);
+  }
+
+  if (
+    this.lauréatWorld.puissanceWorld.changementPuissanceWorld.rejeterChangementPuissanceFixture
+      .aÉtéCréé &&
+    !demandeEnCours.demande.isInformationEnregistrée
+  ) {
+    const result = await mediator.send<ConsulterDocumentProjetQuery>({
+      type: 'Document.Query.ConsulterDocumentProjet',
+      data: {
+        documentKey: demandeEnCours.demande.rejet
+          ? demandeEnCours.demande.rejet.réponseSignée.formatter()
+          : '',
+      },
+    });
+
+    assert(Option.isSome(result), `Réponse signée non trouvée !`);
+
+    const actualContent = await convertReadableStreamToString(result.content);
+    const expectedContent = await convertReadableStreamToString(
+      this.lauréatWorld.puissanceWorld.changementPuissanceWorld.rejeterChangementPuissanceFixture
         .réponseSignée?.content ?? new ReadableStream(),
     );
     expect(actualContent).to.be.equal(expectedContent);

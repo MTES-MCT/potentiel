@@ -38,6 +38,11 @@ import {
   enregistrerChangement,
 } from './changement/enregistrerChangement/enregistrerChangementPuissance.behavior';
 import { PuissanceIntrouvableError } from './errors';
+import {
+  applyChangementPuissanceRejeté,
+  ChangementPuissanceRejetéEvent,
+  rejeterDemandeChangement,
+} from './changement/rejeter/rejeterChangementPuissance.behavior';
 
 export type PuissanceEvent =
   | PuissanceImportéeEvent
@@ -45,8 +50,9 @@ export type PuissanceEvent =
   | ChangementPuissanceDemandéEvent
   | ChangementPuissanceAnnuléEvent
   | ChangementPuissanceSuppriméEvent
+  | ChangementPuissanceEnregistréEvent
   | ChangementPuissanceAccordéEvent
-  | ChangementPuissanceEnregistréEvent;
+  | ChangementPuissanceRejetéEvent;
 
 export type PuissanceAggregate = Aggregate<PuissanceEvent> & {
   identifiantProjet: IdentifiantProjet.ValueType;
@@ -63,6 +69,7 @@ export type PuissanceAggregate = Aggregate<PuissanceEvent> & {
   readonly annulerDemandeChangement: typeof annulerDemandeChangement;
   readonly supprimerDemandeChangement: typeof supprimerDemandeChangement;
   readonly accorderDemandeChangement: typeof accorderDemandeChangement;
+  readonly rejeterDemandeChangement: typeof rejeterDemandeChangement;
   readonly enregistrerChangement: typeof enregistrerChangement;
 };
 
@@ -80,6 +87,7 @@ export const getDefaultPuissanceAggregate: GetDefaultAggregateState<
   supprimerDemandeChangement,
   accorderDemandeChangement,
   enregistrerChangement,
+  rejeterDemandeChangement,
 });
 
 function apply(this: PuissanceAggregate, event: PuissanceEvent) {
@@ -89,11 +97,12 @@ function apply(this: PuissanceAggregate, event: PuissanceEvent) {
     .with({ type: 'ChangementPuissanceDemandé-V1' }, applyChangementPuissanceDemandé.bind(this))
     .with({ type: 'ChangementPuissanceAnnulé-V1' }, applyChangementPuissanceAnnulé.bind(this))
     .with({ type: 'ChangementPuissanceSupprimé-V1' }, applyChangementPuissanceSupprimé.bind(this))
-    .with({ type: 'ChangementPuissanceAccordé-V1' }, applyChangementPuissanceAccordé.bind(this))
     .with(
       { type: 'ChangementPuissanceEnregistré-V1' },
       applyChangementPuissanceEnregistré.bind(this),
     )
+    .with({ type: 'ChangementPuissanceAccordé-V1' }, applyChangementPuissanceAccordé.bind(this))
+    .with({ type: 'ChangementPuissanceRejeté-V1' }, applyChangementPuissanceRejeté.bind(this))
     .exhaustive();
 }
 

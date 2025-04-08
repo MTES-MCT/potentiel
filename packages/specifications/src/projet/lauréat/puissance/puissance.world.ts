@@ -56,6 +56,10 @@ export class PuissanceWorld {
         }).demande.nouvellePuissance;
         expected.dateDemandeEnCours = undefined;
       }
+
+      if (this.#changementPuissanceWorld.rejeterChangementPuissanceFixture.aÉtéCréé) {
+        expected.dateDemandeEnCours = undefined;
+      }
     }
 
     return expected;

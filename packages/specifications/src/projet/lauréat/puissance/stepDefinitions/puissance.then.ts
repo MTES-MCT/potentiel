@@ -4,7 +4,7 @@ import waitForExpect from 'wait-for-expect';
 
 import { mapToPlainObject } from '@potentiel-domain/core';
 import { Puissance } from '@potentiel-domain/laureat';
-import { IdentifiantProjet } from '@potentiel-domain/common';
+import { IdentifiantProjet } from '@potentiel-domain/projet';
 
 import { PotentielWorld } from '../../../../potentiel.world';
 
@@ -34,7 +34,7 @@ Alors(
 );
 
 Alors(
-  'la puissance du projet lauréat devrait être mise à jour',
+  'la puissance du projet lauréat( ne) devrait( pas) être mise à jour',
   async function (this: PotentielWorld) {
     return waitForExpect(async () => {
       const identifiantProjet = IdentifiantProjet.convertirEnValueType(
