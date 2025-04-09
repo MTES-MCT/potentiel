@@ -88,8 +88,8 @@ const Changement: FC<ChangementProps> = ({
     <Heading5>Détails de la demande initiale</Heading5>
     <div className="flex flex-col gap-2">
       <div className="flex gap-2">
-        <div className="font-semibold whitespace-nowrap">Puissance</div>
-        <div>{nouvellePuissance}</div>
+        <div className="font-semibold whitespace-nowrap">Puissance : </div>
+        <div>{nouvellePuissance} MW</div>
       </div>
       {autoritéCompétente && (
         <div className="flex gap-2">

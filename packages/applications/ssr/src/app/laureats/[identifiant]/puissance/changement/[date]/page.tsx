@@ -7,6 +7,7 @@ import { Puissance } from '@potentiel-domain/laureat';
 import { mapToPlainObject } from '@potentiel-domain/core';
 import { IdentifiantProjet } from '@potentiel-domain/common';
 import { Role } from '@potentiel-domain/utilisateur';
+import { Historique } from '@potentiel-domain/historique';
 
 import {
   ChangementPuissanceActions,
@@ -15,6 +16,7 @@ import {
 import { decodeParameter } from '@/utils/decodeParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
+import { PuissanceHistoryRecord } from '@/components/molecules/historique/timeline/puissance';
 
 export const metadata: Metadata = {
   title: 'Détail de la puissance du projet - Potentiel',
@@ -60,10 +62,21 @@ export default async function Page({ params: { identifiant, date } }: PageProps)
         return notFound();
       }
 
+      const historique = await mediator.send<
+        Historique.ListerHistoriqueProjetQuery<PuissanceHistoryRecord>
+      >({
+        type: 'Historique.Query.ListerHistoriqueProjet',
+        data: {
+          identifiantProjet: identifiantProjet.formatter(),
+          category: 'puissance',
+        },
+      });
+
       return (
         <DétailsPuissancePage
           identifiantProjet={mapToPlainObject(identifiantProjet)}
           demande={mapToPlainObject(changement.demande)}
+          historique={mapToPlainObject(historique)}
           actions={mapToActions(
             changement.demande.statut,
             utilisateur.role,
