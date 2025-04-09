@@ -19,6 +19,7 @@ import { formatIdentifiantProjetForDocument } from '@/utils/modèle-document/for
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { getRégionUtilisateur } from '@/utils/getRégionUtilisateur';
 import { getPériodeAppelOffres } from '@/app/_helpers/getPériodeAppelOffres';
+import { getDocumentHeader } from '@/utils/modèle-document/getDocumentHeader';
 
 export const GET = async (
   request: NextRequest,
@@ -79,9 +80,10 @@ export const GET = async (
       } catch {}
 
       const régionDreal = await getRégionUtilisateur(utilisateur);
+      const type = 'mainlevée';
 
       const content = await ModèleRéponseSignée.générerModèleRéponseAdapter({
-        type: 'mainlevée',
+        type,
         logo: régionDreal ?? '',
         data: {
           dreal: régionDreal ?? '!!! Région non disponible !!!',
@@ -119,9 +121,7 @@ export const GET = async (
       });
 
       return new NextResponse(content, {
-        headers: {
-          'content-type': 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-        },
+        headers: getDocumentHeader(identifiantProjetValue, candidature.nom, type),
       });
     }),
   );

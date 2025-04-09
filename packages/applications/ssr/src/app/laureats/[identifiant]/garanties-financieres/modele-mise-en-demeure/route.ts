@@ -19,6 +19,7 @@ import { withUtilisateur } from '@/utils/withUtilisateur';
 import { formatIdentifiantProjetForDocument } from '@/utils/modèle-document/formatIdentifiantProjetForDocument';
 import { getRégionUtilisateur } from '@/utils/getRégionUtilisateur';
 import { getPériodeAppelOffres } from '@/app/_helpers/getPériodeAppelOffres';
+import { getDocumentHeader } from '@/utils/modèle-document/getDocumentHeader';
 
 export const GET = async (
   request: NextRequest,
@@ -60,8 +61,9 @@ export const GET = async (
             ? appelOffres.garantieFinanciereEnMois
             : undefined;
 
+      const type = 'mise-en-demeure';
       const content = await ModèleRéponseSignée.générerModèleRéponseAdapter({
-        type: 'mise-en-demeure',
+        type,
         logo: régionDreal ?? 'none',
         data: {
           dreal: régionDreal ?? '!!! Région non disponible !!!',
@@ -104,9 +106,7 @@ export const GET = async (
       });
 
       return new NextResponse(content, {
-        headers: {
-          'content-type': 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-        },
+        headers: getDocumentHeader(identifiantProjetValue, candidature.nom, type),
       });
     }),
   );

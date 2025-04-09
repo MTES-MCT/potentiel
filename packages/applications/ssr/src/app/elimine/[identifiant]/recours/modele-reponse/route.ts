@@ -16,6 +16,7 @@ import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 import { formatIdentifiantProjetForDocument } from '@/utils/modèle-document/formatIdentifiantProjetForDocument';
 import { getPériodeAppelOffres } from '@/app/_helpers/getPériodeAppelOffres';
+import { getDocumentHeader } from '@/utils/modèle-document/getDocumentHeader';
 
 export const GET = async (_: Request, { params: { identifiant } }: IdentifiantParameter) =>
   apiAction(() =>
@@ -47,8 +48,10 @@ export const GET = async (_: Request, { params: { identifiant } }: IdentifiantPa
         IdentifiantProjet.convertirEnValueType(identifiantProjet),
       );
 
+      const type = 'recours';
+
       const content = await ModèleRéponseSignée.générerModèleRéponseAdapter({
-        type: 'recours',
+        type,
         data: {
           adresseCandidat: candidature.candidat.adressePostale,
           codePostalProjet: candidature.localité.codePostal,
@@ -115,9 +118,7 @@ export const GET = async (_: Request, { params: { identifiant } }: IdentifiantPa
       });
 
       return new Response(content, {
-        headers: {
-          'content-type': 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-        },
+        headers: getDocumentHeader(identifiantProjet, candidature.nom, type),
       });
     }),
   );

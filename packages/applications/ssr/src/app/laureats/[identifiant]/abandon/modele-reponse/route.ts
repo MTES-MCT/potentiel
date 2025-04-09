@@ -18,6 +18,7 @@ import { withUtilisateur } from '@/utils/withUtilisateur';
 import { formatIdentifiantProjetForDocument } from '@/utils/modèle-document/formatIdentifiantProjetForDocument';
 import { getPériodeAppelOffres } from '@/app/_helpers/getPériodeAppelOffres';
 import { getEnCopies } from '@/utils/modèle-document/getEnCopies';
+import { getDocumentHeader } from '@/utils/modèle-document/getDocumentHeader';
 
 export const GET = async (_: Request, { params: { identifiant } }: IdentifiantParameter) =>
   apiAction(() =>
@@ -66,8 +67,10 @@ export const GET = async (_: Request, { params: { identifiant } }: IdentifiantPa
         cahierDesChargesChoisi,
       });
 
+      const type = 'abandon';
+
       const content = await ModèleRéponseSignée.générerModèleRéponseAdapter({
-        type: 'abandon',
+        type,
         data: {
           aprèsConfirmation: abandon.demande.confirmation?.confirméLe ? true : false,
           adresseCandidat: candidature.candidat.adressePostale,
@@ -104,9 +107,7 @@ export const GET = async (_: Request, { params: { identifiant } }: IdentifiantPa
       });
 
       return new Response(content, {
-        headers: {
-          'content-type': 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-        },
+        headers: getDocumentHeader(identifiantProjet, candidature.nom, type),
       });
     }),
   );
