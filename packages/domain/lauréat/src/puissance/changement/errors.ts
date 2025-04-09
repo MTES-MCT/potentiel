@@ -31,3 +31,9 @@ export class DemandeDoitÊtreInstruiteParDGECError extends DomainError {
     super('Une demande de changement de puissance à la hausse doit être instruite par la DGEC');
   }
 }
+
+export class DemandeDoitÊtreInstruiteParDGECError extends DomainError {
+  constructor() {
+    super('Une demande de changement de puissance à la hausse doit être instruite par la DGEC');
+  }
+}

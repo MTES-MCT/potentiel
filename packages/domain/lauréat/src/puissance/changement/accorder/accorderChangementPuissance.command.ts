@@ -13,8 +13,9 @@ export type AccorderChangementPuissanceCommand = Message<
     identifiantProjet: IdentifiantProjet.ValueType;
     accordéLe: DateTime.ValueType;
     accordéPar: Email.ValueType;
-    réponseSignée: DocumentProjet.ValueType;
+    réponseSignée?: DocumentProjet.ValueType;
     rôleUtilisateur: Role.ValueType;
+    estUneDécisionDeEtat: boolean;
   }
 >;
 
@@ -27,6 +28,7 @@ export const registerAccorderChangementPuissanceCommand = (loadAggregate: LoadAg
     accordéPar,
     réponseSignée,
     rôleUtilisateur,
+    estUneDécisionDeEtat,
   }) => {
     const puissance = await loadPuissance(identifiantProjet);
 
@@ -36,6 +38,7 @@ export const registerAccorderChangementPuissanceCommand = (loadAggregate: LoadAg
       accordéPar,
       réponseSignée,
       rôleUtilisateur,
+      estUneDécisionDeEtat,
     });
   };
   mediator.register('Lauréat.Puissance.Command.AccorderDemandeChangement', handler);

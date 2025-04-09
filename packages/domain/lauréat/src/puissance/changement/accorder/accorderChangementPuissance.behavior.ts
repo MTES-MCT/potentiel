@@ -21,6 +21,7 @@ export type ChangementPuissanceAccordéEvent = DomainEvent<
       format: string;
     };
     nouvellePuissance: number;
+    estUneDécisionDeEtat: boolean;
   }
 >;
 
@@ -30,6 +31,7 @@ type Options = {
   accordéPar: Email.ValueType;
   réponseSignée: DocumentProjet.ValueType;
   rôleUtilisateur: Role.ValueType;
+  estUneDécisionDeEtat: boolean;
 };
 
 export async function accorderDemandeChangement(

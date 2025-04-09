@@ -15,12 +15,23 @@ export type AccorderChangementPuissanceUseCase = Message<
     identifiantProjetValue: string;
     accordéLeValue: string;
     accordéParValue: string;
-    réponseSignéeValue: {
-      content: ReadableStream;
-      format: string;
-    };
     rôleUtilisateurValue: string;
-  }
+  } & (
+    | {
+        réponseSignéeValue: {
+          content: ReadableStream;
+          format: string;
+        };
+        estUneDécisionDeEtatValue: false;
+      }
+    | {
+        réponseSignéeValue?: {
+          content: ReadableStream;
+          format: string;
+        };
+        estUneDécisionDeEtatValue: true;
+      }
+  )
 >;
 
 export const registerAccorderChangementPuissanceUseCase = () => {
@@ -28,18 +39,21 @@ export const registerAccorderChangementPuissanceUseCase = () => {
     identifiantProjetValue,
     accordéLeValue,
     accordéParValue,
-    réponseSignéeValue: { format, content },
+    réponseSignéeValue,
     rôleUtilisateurValue,
+    estUneDécisionDeEtatValue,
   }) => {
     const identifiantProjet = IdentifiantProjet.convertirEnValueType(identifiantProjetValue);
     const accordéLe = DateTime.convertirEnValueType(accordéLeValue);
     const accordéPar = Email.convertirEnValueType(accordéParValue);
-    const réponseSignée = DocumentProjet.convertirEnValueType(
-      identifiantProjetValue,
-      TypeDocumentPuissance.changementAccordé.formatter(),
-      accordéLe.formatter(),
-      format,
-    );
+    const réponseSignée = réponseSignéeValue
+      ? DocumentProjet.convertirEnValueType(
+          identifiantProjetValue,
+          TypeDocumentPuissance.changementAccordé.formatter(),
+          accordéLe.formatter(),
+          réponseSignéeValue.format,
+        )
+      : undefined;
     const rôleUtilisateur = Role.convertirEnValueType(rôleUtilisateurValue);
 
     await mediator.send<AccorderChangementPuissanceCommand>({
@@ -50,16 +64,19 @@ export const registerAccorderChangementPuissanceUseCase = () => {
         identifiantProjet,
         réponseSignée,
         rôleUtilisateur,
+        estUneDécisionDeEtat: estUneDécisionDeEtatValue,
       },
     });
 
-    await mediator.send<EnregistrerDocumentProjetCommand>({
-      type: 'Document.Command.EnregistrerDocumentProjet',
-      data: {
-        content,
-        documentProjet: réponseSignée,
-      },
-    });
+    if (réponseSignéeValue) {
+      await mediator.send<EnregistrerDocumentProjetCommand>({
+        type: 'Document.Command.EnregistrerDocumentProjet',
+        data: {
+          content: réponseSignéeValue.content,
+          documentProjet: réponseSignée,
+        },
+      });
+    }
   };
   mediator.register('Lauréat.Puissance.UseCase.AccorderDemandeChangement', runner);
 };

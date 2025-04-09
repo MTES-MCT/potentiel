@@ -28,6 +28,28 @@ Fonctionnalité: Accorder le changement de puissance d'un projet lauréat
             | url        | https://potentiel.beta.gouv.fr/projet/.*/details.html                                                                              |
             | type       | accord                                                                                                                             |
 
+    Scénario: la DREAL associée au projet accorde une demande de changement de puissance à la baisse d'un projet lauréat suite à une décision de l'état
+        Etant donné une demande de changement de puissance à la baisse pour le projet lauréat
+        Quand la DREAL associée au projet accorde le changement de puissance pour le projet lauréat suite à une décision de l'état
+        Alors la demande de changement de la puissance devrait être accordée
+        Et la puissance du projet lauréat devrait être mise à jour
+        Et un email a été envoyé au porteur avec :
+            | sujet      | Potentiel - La demande de changement de puissance pour le projet Du boulodrome de Marseille dans le département(.*) a été accordée |
+            | nom_projet | Du boulodrome de Marseille                                                                                                         |
+            | url        | https://potentiel.beta.gouv.fr/projet/.*/details.html                                                                              |
+            | type       | accord                                                                                                                             |
+
+    Scénario: le DGEC validateur accorde une demande de changement de puissance à la hausse d'un projet lauréat suite à une décision de l'état
+        Etant donné une demande de changement de puissance à la hausse pour le projet lauréat
+        Quand le DGEC validateur accorde le changement de puissance pour le projet lauréat suite à une décision de l'état
+        Alors la demande de changement de la puissance devrait être accordée
+        Et la puissance du projet lauréat devrait être mise à jour
+        Et un email a été envoyé au porteur avec :
+            | sujet      | Potentiel - La demande de changement de puissance pour le projet Du boulodrome de Marseille dans le département(.*) a été accordée |
+            | nom_projet | Du boulodrome de Marseille                                                                                                         |
+            | url        | https://potentiel.beta.gouv.fr/projet/.*/details.html                                                                              |
+            | type       | accord                                                                                                                             |
+
     Scénario: Impossible d'accorder une demande de changement de puissance à la hausse d'un projet lauréat pour un utilisateur DREAL
         Etant donné une demande de changement de puissance à la hausse pour le projet lauréat
         Quand la DREAL associée au projet accorde le changement de puissance pour le projet lauréat
