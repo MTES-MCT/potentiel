@@ -89,8 +89,9 @@ const mapToActions = (
 
   if (statut.estDemandé()) {
     const estAutoritéCompétente =
-      autoritéCompétente === rôle.nom ||
-      (autoritéCompétente === 'admin' && rôle.nom === 'dgec-validateur');
+      (autoritéCompétente === 'dreal' && rôle.nom === 'dreal') ||
+      (autoritéCompétente === 'dgec-admin' &&
+        (rôle.nom === 'dgec-validateur' || rôle.nom === 'admin'));
 
     if (rôle.aLaPermission('puissance.accorderChangement') && estAutoritéCompétente) {
       actions.push('accorder');

@@ -46,7 +46,7 @@ export async function rejeterDemandeChangement(
   const rôlesAutorisésPourDGEC: Array<Role.RawType> = ['admin', 'dgec-validateur'];
 
   if (
-    this.demande.autoritéCompétente === 'dgec' &&
+    this.demande.autoritéCompétente === 'dgec-admin' &&
     !rôlesAutorisésPourDGEC.includes(rôleUtilisateur.nom)
   ) {
     throw new DemandeDoitÊtreInstruiteParDGECError();
