@@ -1,6 +1,16 @@
 import { formatIdentifiantProjetForDocument } from './formatIdentifiantProjetForDocument';
 
-export const getDocumentHeader = (identifiantProjet: string, nomProjet: string, type: string) => {
+type GetDocxDocumentHeader = {
+  identifiantProjet: string;
+  nomProjet: string;
+  type: string;
+};
+
+export const getDocxDocumentHeader = ({
+  identifiantProjet,
+  nomProjet,
+  type,
+}: GetDocxDocumentHeader) => {
   const dateStr = new Intl.DateTimeFormat('fr').format(new Date()).replaceAll('/', '-');
   const refPotentiel = formatIdentifiantProjetForDocument(identifiantProjet);
 

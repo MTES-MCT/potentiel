@@ -19,7 +19,7 @@ import { withUtilisateur } from '@/utils/withUtilisateur';
 import { formatIdentifiantProjetForDocument } from '@/utils/modèle-document/formatIdentifiantProjetForDocument';
 import { getPériodeAppelOffres } from '@/app/_helpers/getPériodeAppelOffres';
 import { getEnCopies } from '@/utils/modèle-document/getEnCopies';
-import { getDocumentHeader } from '@/utils/modèle-document/getDocumentHeader';
+import { getDocxDocumentHeader } from '@/utils/modèle-document/getDocxDocumentHeader';
 
 export const GET = async (
   request: NextRequest,
@@ -115,7 +115,7 @@ export const GET = async (
     });
 
     return new Response(content, {
-      headers: getDocumentHeader(identifiantProjet, candidature.nom, type),
+      headers: getDocxDocumentHeader({ identifiantProjet, nomProjet: candidature.nom, type }),
     });
   });
 
