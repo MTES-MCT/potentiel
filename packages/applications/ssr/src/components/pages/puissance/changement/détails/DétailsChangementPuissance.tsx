@@ -134,7 +134,7 @@ const ChangementDemandé: FC<ChangementDemandéProps> = ({ demandéeLe, demandé
 );
 
 type ChangementAccordéProps = NonNullable<
-  PlainType<Puissance.DétailsDemandeChangementPuissance['accord']>
+  PlainType<Puissance.DétailsDemandeChangementPuissanceReadModel['accord']>
 >;
 
 const ChangementAccordé: FC<ChangementAccordéProps> = ({
@@ -165,7 +165,7 @@ const ChangementAccordé: FC<ChangementAccordéProps> = ({
 );
 
 type ChangementRejetéProps = NonNullable<
-  PlainType<Puissance.DétailsDemandeChangementPuissance['rejet']>
+  PlainType<Puissance.DétailsDemandeChangementPuissanceReadModel['rejet']>
 >;
 
 const ChangementRejeté: FC<ChangementRejetéProps> = ({ rejetéeLe, rejetéePar, réponseSignée }) => (

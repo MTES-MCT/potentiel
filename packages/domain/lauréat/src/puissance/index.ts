@@ -11,7 +11,7 @@ import { ModifierPuissanceUseCase } from './modifier/modifierPuissance.usecase';
 import {
   ConsulterChangementPuissanceQuery,
   ConsulterChangementPuissanceReadModel,
-  DétailsDemandeChangementPuissance,
+  DétailsDemandeChangementPuissanceReadModel,
 } from './changement/consulter/consulterChangementPuissance.query';
 import { AnnulerChangementPuissanceUseCase } from './changement/annuler/annulerChangementPuissance.usecase';
 import { AnnulerChangementPuissanceCommand } from './changement/annuler/annulerChangementPuissance.command';
@@ -29,7 +29,7 @@ export type { ConsulterPuissanceQuery, ConsulterChangementPuissanceQuery };
 export type {
   ConsulterPuissanceReadModel,
   ConsulterChangementPuissanceReadModel,
-  DétailsDemandeChangementPuissance,
+  DétailsDemandeChangementPuissanceReadModel,
 };
 
 // UseCase
