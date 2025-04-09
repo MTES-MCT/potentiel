@@ -9,15 +9,14 @@ import { getLogger } from '@potentiel-libraries/monitoring';
 import { IdentifiantProjet } from '@potentiel-domain/common';
 import { checkAbandonAndAchèvement } from './checkAbandonAndAchèvement';
 
+export type GetActionnaireAffichageForProjectPage = {
+  projectPageLabel: string;
+  porteurProjetActionLabel?: string;
+  url: string;
+};
 export type GetActionnaireForProjectPage = {
   nom: string;
-  affichage?: {
-    // label dans la page projet
-    label: string;
-    // action dans le menu déroulant page projet
-    action?: string;
-    url: string;
-  };
+  affichage?: GetActionnaireAffichageForProjectPage;
   demandeEnCours?: {
     demandéeLe: string;
   };
@@ -81,7 +80,7 @@ export const getActionnaire = async ({
           nom,
           affichage: {
             url: Routes.Actionnaire.modifier(identifiantProjet.formatter()),
-            label: 'Modifier',
+            projectPageLabel: 'Modifier',
           },
         };
       }
@@ -91,8 +90,8 @@ export const getActionnaire = async ({
           nom,
           affichage: {
             url: Routes.Actionnaire.changement.enregistrer(identifiantProjet.formatter()),
-            label: 'Faire un changement',
-            action: "Changer d'actionnaire(s)",
+            projectPageLabel: 'Faire un changement',
+            porteurProjetActionLabel: "Changer d'actionnaire(s)",
           },
         };
       }
@@ -102,8 +101,8 @@ export const getActionnaire = async ({
           nom,
           affichage: {
             url: Routes.Actionnaire.changement.demander(identifiantProjet.formatter()),
-            label: 'Faire une demande de changement',
-            action: 'Demander un changement d’actionnaire(s)',
+            projectPageLabel: 'Faire une demande de changement',
+            porteurProjetActionLabel: 'Demander un changement d’actionnaire(s)',
           },
         };
       }
@@ -125,7 +124,7 @@ export const getActionnaire = async ({
         affichage: role.aLaPermission('candidature.corriger')
           ? {
               url: Routes.Candidature.corriger(identifiantProjet.formatter()),
-              label: 'Modifier la candidature',
+              projectPageLabel: 'Modifier la candidature',
             }
           : undefined,
       };

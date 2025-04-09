@@ -4,8 +4,9 @@ import { ProjectDataForProjectPage } from '../../../../modules/project/queries';
 import { Heading1 } from '../../../components';
 import { ProjectActions } from './ProjectActions';
 import { ProjectHeaderBadge } from './ProjectHeaderBadge';
+import { GetActionnaireAffichageForProjectPage } from '../../../../controllers/project/getProjectPage/_utils';
 
-type ProjectHeaderProps = {
+export type ProjectHeaderProps = {
   project: ProjectDataForProjectPage;
   user: User;
   abandonEnCoursOuAccordé: boolean;
@@ -13,10 +14,8 @@ type ProjectHeaderProps = {
   modificationsNonPermisesParLeCDCActuel: boolean;
   hasAttestationConformité: boolean;
   peutFaireDemandeChangementReprésentantLégal: boolean;
-  actionnaireMenu?: {
-    label: string;
-    url: string;
-  };
+  actionnaireAffichage?: GetActionnaireAffichageForProjectPage;
+  peutDemanderChangementPuissanceV2: boolean;
 };
 
 export const ProjectHeader = ({
@@ -27,7 +26,8 @@ export const ProjectHeader = ({
   modificationsNonPermisesParLeCDCActuel,
   hasAttestationConformité,
   peutFaireDemandeChangementReprésentantLégal,
-  actionnaireMenu,
+  actionnaireAffichage,
+  peutDemanderChangementPuissanceV2,
 }: ProjectHeaderProps) => (
   <div className="w-full pt-3 md:pt-0 print:pt-0 lg:flex justify-between gap-2">
     <div className="pl-3 print:pl-0 mb-3 text-sm">
@@ -60,7 +60,8 @@ export const ProjectHeader = ({
         modificationsNonPermisesParLeCDCActuel={modificationsNonPermisesParLeCDCActuel}
         hasAttestationConformité={hasAttestationConformité}
         peutFaireDemandeChangementReprésentantLégal={peutFaireDemandeChangementReprésentantLégal}
-        actionnaireMenu={actionnaireMenu}
+        actionnaireAffichage={actionnaireAffichage}
+        peutDemanderChangementPuissanceV2={peutDemanderChangementPuissanceV2}
       />
     </div>
   </div>
