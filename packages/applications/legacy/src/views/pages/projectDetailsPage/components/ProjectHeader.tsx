@@ -5,7 +5,7 @@ import { Heading1 } from '../../../components';
 import { ProjectActions } from './ProjectActions';
 import { ProjectHeaderBadge } from './ProjectHeaderBadge';
 
-type ProjectHeaderProps = {
+export type ProjectHeaderProps = {
   project: ProjectDataForProjectPage;
   user: User;
   abandonEnCoursOuAccordé: boolean;
@@ -17,6 +17,7 @@ type ProjectHeaderProps = {
     label: string;
     url: string;
   };
+  peutDemanderChangementPuissanceV2: boolean
 };
 
 export const ProjectHeader = ({
@@ -28,6 +29,7 @@ export const ProjectHeader = ({
   hasAttestationConformité,
   peutFaireDemandeChangementReprésentantLégal,
   actionnaireMenu,
+  peutDemanderChangementPuissanceV2,
 }: ProjectHeaderProps) => (
   <div className="w-full pt-3 md:pt-0 print:pt-0 lg:flex justify-between gap-2">
     <div className="pl-3 print:pl-0 mb-3 text-sm">
@@ -61,6 +63,7 @@ export const ProjectHeader = ({
         hasAttestationConformité={hasAttestationConformité}
         peutFaireDemandeChangementReprésentantLégal={peutFaireDemandeChangementReprésentantLégal}
         actionnaireMenu={actionnaireMenu}
+        peutDemanderChangementPuissanceV2={peutDemanderChangementPuissanceV2}
       />
     </div>
   </div>

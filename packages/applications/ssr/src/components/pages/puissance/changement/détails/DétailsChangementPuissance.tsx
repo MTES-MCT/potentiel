@@ -1,4 +1,5 @@
 import { FC } from 'react';
+import { match } from 'ts-pattern';
 
 import { DateTime, Email } from '@potentiel-domain/common';
 import { Puissance } from '@potentiel-domain/laureat';
@@ -8,7 +9,7 @@ import { PlainType } from '@potentiel-domain/core';
 
 import { DownloadDocument } from '@/components/atoms/form/document/DownloadDocument';
 import { FormattedDate } from '@/components/atoms/FormattedDate';
-import { Heading2 } from '@/components/atoms/headings';
+import { Heading2, Heading5 } from '@/components/atoms/headings';
 
 import { StatutChangementPuissanceBadge } from '../StatutChangementPuissanceBadge';
 
@@ -61,6 +62,9 @@ export const DétailsChangementPuissance: FC<DétailsChangementPuissanceProps> =
           nouvellePuissance={demande.nouvellePuissance}
           raison={demande.raison}
           pièceJustificative={demande.pièceJustificative}
+          autoritéCompétente={
+            demande.isInformationEnregistrée ? undefined : demande.autoritéCompétente
+          }
         />
       </>
     </div>
@@ -70,31 +74,54 @@ export const DétailsChangementPuissance: FC<DétailsChangementPuissanceProps> =
 type ChangementProps = Pick<
   PlainType<Puissance.ConsulterChangementPuissanceReadModel['demande']>,
   'raison' | 'pièceJustificative' | 'nouvellePuissance'
->;
+> & {
+  autoritéCompétente?: Puissance.RatioChangementPuissance.AutoritéCompétente;
+};
 
-const Changement: FC<ChangementProps> = ({ nouvellePuissance, pièceJustificative, raison }) => (
+const Changement: FC<ChangementProps> = ({
+  nouvellePuissance,
+  pièceJustificative,
+  raison,
+  autoritéCompétente,
+}) => (
   <>
-    <div className="flex gap-2">
-      <div className="font-semibold whitespace-nowrap">Puissance</div>
-      <div>{nouvellePuissance}</div>
+    <Heading5>Détails de la demande initiale</Heading5>
+    <div className="flex flex-col gap-2">
+      <div className="flex gap-2">
+        <div className="font-semibold whitespace-nowrap">Puissance</div>
+        <div>{nouvellePuissance}</div>
+      </div>
+      {autoritéCompétente && (
+        <div className="flex gap-2">
+          <div className="font-semibold whitespace-nowrap">
+            Autorité compétente pour l'instruction :
+          </div>
+          <div>
+            {match(autoritéCompétente)
+              .with('dreal', () => 'DREAL')
+              .with('dgec-admin', () => 'DGEC')
+              .exhaustive()}
+          </div>
+        </div>
+      )}
+      {raison && (
+        <div className="flex gap-2">
+          <div className="font-semibold whitespace-nowrap">Raison du changement :</div>
+          <div>{raison}</div>
+        </div>
+      )}
+      {pièceJustificative && (
+        <div className="flex gap-2">
+          <div className="font-semibold whitespace-nowrap">Pièce(s) justificative(s) :</div>
+          <DownloadDocument
+            className="mb-0"
+            label="Télécharger la pièce justificative"
+            format={pièceJustificative.format}
+            url={Routes.Document.télécharger(DocumentProjet.bind(pièceJustificative).formatter())}
+          />
+        </div>
+      )}
     </div>
-    {raison && (
-      <div className="flex gap-2">
-        <div className="font-semibold whitespace-nowrap">Raison du changement :</div>
-        <div>{raison}</div>
-      </div>
-    )}
-    {pièceJustificative && (
-      <div className="flex gap-2">
-        <div className="font-semibold whitespace-nowrap">Pièce(s) justificative(s) :</div>
-        <DownloadDocument
-          className="mb-0"
-          label="Télécharger la pièce justificative"
-          format={pièceJustificative.format}
-          url={Routes.Document.télécharger(DocumentProjet.bind(pièceJustificative).formatter())}
-        />
-      </div>
-    )}
   </>
 );
 

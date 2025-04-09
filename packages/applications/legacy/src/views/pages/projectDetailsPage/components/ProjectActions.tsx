@@ -1,6 +1,5 @@
 import { Routes } from '@potentiel-applications/routes';
 import React from 'react';
-import { User } from '../../../../entities';
 import { ProjectDataForProjectPage } from '../../../../modules/project';
 import { userIs } from '../../../../modules/users';
 import routes from '../../../../routes';
@@ -16,6 +15,7 @@ import {
 import { match } from 'ts-pattern';
 import { IdentifiantProjet } from '@potentiel-domain/common';
 import { formatProjectDataToIdentifiantProjetValueType } from '../../../../helpers/dataToValueTypes';
+import { ProjectHeaderProps } from './ProjectHeader';
 
 type EnregistrerUneModificationProps = {
   projectId: ProjectDataForProjectPage['id'];
@@ -44,18 +44,8 @@ const EnregistrerUneModification = ({
   </DropdownMenuSecondaryButton>
 );
 
-type PorteurProjetActionsProps = {
+type PorteurProjetActionsProps = Omit<ProjectActionsProps, 'user'> & {
   identifiantProjet: IdentifiantProjet.RawType;
-  project: ProjectDataForProjectPage;
-  abandonEnCoursOuAccordé: boolean;
-  demandeRecours: ProjectDataForProjectPage['demandeRecours'];
-  modificationsNonPermisesParLeCDCActuel: boolean;
-  hasAttestationConformité: boolean;
-  peutFaireDemandeChangementReprésentantLégal: boolean;
-  actionnaireMenu?: {
-    action?: string;
-    url: string;
-  };
 };
 
 const PorteurProjetActions = ({
@@ -67,6 +57,7 @@ const PorteurProjetActions = ({
   hasAttestationConformité,
   peutFaireDemandeChangementReprésentantLégal,
   actionnaireMenu,
+  peutDemanderChangementPuissanceV2,
 }: PorteurProjetActionsProps) => {
   const peutDemanderAbandon = !abandonEnCoursOuAccordé && !hasAttestationConformité;
 
@@ -94,21 +85,29 @@ const PorteurProjetActions = ({
             <DropdownMenuSecondaryButton.DropdownItem href={routes.CHANGER_FOURNISSEUR(project.id)}>
               <span>Changer de fournisseur</span>
             </DropdownMenuSecondaryButton.DropdownItem>
-            {actionnaireMenu?.action ? (
+            {!!actionnaireMenu && (
               <DropdownMenuSecondaryButton.DropdownItem
                 href={actionnaireMenu.url}
                 disabled={modificationsNonPermisesParLeCDCActuel ? true : undefined}
               >
-                <span>{actionnaireMenu.action}</span>
+                <span>{actionnaireMenu.label}</span>
+              </DropdownMenuSecondaryButton.DropdownItem>
+            )}
+            {peutDemanderChangementPuissanceV2 ? (
+              <DropdownMenuSecondaryButton.DropdownItem
+                href={Routes.Puissance.changement.demander(identifiantProjet)}
+                disabled={modificationsNonPermisesParLeCDCActuel ? true : undefined}
+              >
+                <span>Demander un changement de puissance</span>
               </DropdownMenuSecondaryButton.DropdownItem>
             ) : (
-              <></>
+              <DropdownMenuSecondaryButton.DropdownItem
+                href={routes.DEMANDER_CHANGEMENT_PUISSANCE(project.id)}
+              >
+                <span>Changer de puissance</span>
+              </DropdownMenuSecondaryButton.DropdownItem>
             )}
-            <DropdownMenuSecondaryButton.DropdownItem
-              href={routes.DEMANDER_CHANGEMENT_PUISSANCE(project.id)}
-            >
-              <span>Changer de puissance</span>
-            </DropdownMenuSecondaryButton.DropdownItem>
+
             <DropdownMenuSecondaryButton.DropdownItem href={routes.DEMANDER_DELAI(project.id)}>
               <span>Demander un délai</span>
             </DropdownMenuSecondaryButton.DropdownItem>
@@ -222,20 +221,7 @@ const DrealActions = ({ project, identifiantProjet }: DrealActionsProps) => {
   );
 };
 
-type ProjectActionsProps = {
-  project: ProjectDataForProjectPage;
-  user: User;
-  abandonEnCoursOuAccordé: boolean;
-  demandeRecours: ProjectDataForProjectPage['demandeRecours'];
-  modificationsNonPermisesParLeCDCActuel: boolean;
-  hasAttestationConformité: boolean;
-  peutFaireDemandeChangementReprésentantLégal: boolean;
-  actionnaireMenu?: {
-    label: string;
-    action?: string;
-    url: string;
-  };
-};
+type ProjectActionsProps = ProjectHeaderProps;
 
 export const ProjectActions = ({
   project,
@@ -246,6 +232,7 @@ export const ProjectActions = ({
   hasAttestationConformité,
   peutFaireDemandeChangementReprésentantLégal,
   actionnaireMenu,
+  peutDemanderChangementPuissanceV2,
 }: ProjectActionsProps) => {
   const identifiantProjet = formatProjectDataToIdentifiantProjetValueType({
     appelOffreId: project.appelOffreId,
@@ -269,6 +256,7 @@ export const ProjectActions = ({
           peutFaireDemandeChangementReprésentantLégal={peutFaireDemandeChangementReprésentantLégal}
           actionnaireMenu={actionnaireMenu}
           identifiantProjet={identifiantProjet}
+          peutDemanderChangementPuissanceV2={peutDemanderChangementPuissanceV2}
         />
       )}
       {userIs(['dreal'])(user) && (
