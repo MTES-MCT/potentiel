@@ -25,7 +25,7 @@ export type ConsulterChangementPuissanceReadModel = {
     raison?: string;
     pièceJustificative?: DocumentProjet.ValueType;
     accord?: {
-      réponseSignée: DocumentProjet.ValueType;
+      réponseSignée?: DocumentProjet.ValueType;
       accordéePar: Email.ValueType;
       accordéeLe: DateTime.ValueType;
     };
@@ -114,8 +114,38 @@ export const mapToReadModel = (result: ChangementPuissanceEntity) => {
               DateTime.convertirEnValueType(result.demande.rejet.rejetéeLe).formatter(),
               result.demande.rejet.réponseSignée.format,
             ),
+<<<<<<< HEAD
           }
         : undefined,
     },
+=======
+            accord: result.demande.accord
+              ? {
+                  accordéeLe: DateTime.convertirEnValueType(result.demande.accord.accordéeLe),
+                  accordéePar: Email.convertirEnValueType(result.demande.accord.accordéePar),
+                  réponseSignée: result.demande.accord.réponseSignée
+                    ? DocumentProjet.convertirEnValueType(
+                        result.identifiantProjet,
+                        TypeDocumentPuissance.changementAccordé.formatter(),
+                        DateTime.convertirEnValueType(result.demande.accord.accordéeLe).formatter(),
+                        result.demande.accord.réponseSignée.format,
+                      )
+                    : undefined,
+                }
+              : undefined,
+            rejet: result.demande.rejet
+              ? {
+                  rejetéeLe: DateTime.convertirEnValueType(result.demande.rejet.rejetéeLe),
+                  rejetéePar: Email.convertirEnValueType(result.demande.rejet.rejetéePar),
+                  réponseSignée: DocumentProjet.convertirEnValueType(
+                    result.identifiantProjet,
+                    TypeDocumentPuissance.changementRejeté.formatter(),
+                    DateTime.convertirEnValueType(result.demande.rejet.rejetéeLe).formatter(),
+                    result.demande.rejet.réponseSignée.format,
+                  ),
+                }
+              : undefined,
+          },
+>>>>>>> 🎨 V1
   } satisfies ConsulterChangementPuissanceReadModel;
 };

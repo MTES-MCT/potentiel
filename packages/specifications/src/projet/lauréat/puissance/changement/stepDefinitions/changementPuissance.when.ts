@@ -237,7 +237,7 @@ export async function accorderChangementPuissance(
 ) {
   const identifiantProjet = this.lauréatWorld.identifiantProjet.formatter();
 
-  const { accordéeLe, accordéePar, réponseSignée } =
+  const { accordéeLe, accordéePar, réponseSignée, estUneDécisionDEtat } =
     this.lauréatWorld.puissanceWorld.changementPuissanceWorld.accorderChangementPuissanceFixture.créer(
       {
         accordéePar:
@@ -258,6 +258,7 @@ export async function accorderChangementPuissance(
         format: réponseSignée.format,
       },
       rôleUtilisateurValue,
+      estUneDécisionDEtatValue: estUneDécisionDEtat,
     },
   });
 }
@@ -270,7 +271,7 @@ export async function rejeterChangementPuissance(
 ) {
   const identifiantProjet = this.lauréatWorld.identifiantProjet.formatter();
 
-  const { rejetéeLe, rejetéePar, réponseSignée } =
+  const { rejetéeLe, rejetéePar, réponseSignée, estUneDécisionDEtat } =
     this.lauréatWorld.puissanceWorld.changementPuissanceWorld.rejeterChangementPuissanceFixture.créer(
       {
         rejetéePar:
@@ -291,6 +292,7 @@ export async function rejeterChangementPuissance(
         format: réponseSignée.format,
       },
       rôleUtilisateurValue,
+      estUneDécisionDEtatValue: estUneDécisionDEtat,
     },
   });
 }

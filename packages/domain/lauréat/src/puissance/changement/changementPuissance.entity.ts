@@ -19,7 +19,7 @@ export type ChangementPuissanceEntity = Entity<
         format: string;
       };
       accord?: {
-        réponseSignée: {
+        réponseSignée?: {
           format: string;
         };
         accordéePar: string;

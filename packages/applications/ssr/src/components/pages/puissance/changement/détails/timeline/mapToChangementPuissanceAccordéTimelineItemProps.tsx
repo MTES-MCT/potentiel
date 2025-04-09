@@ -10,20 +10,17 @@ export const mapToChangementPuissanceAccordéTimelineItemProps = (
   record: PuissanceHistoryRecord,
   unitéPuissance: HistoriquePuissanceTimelineProps['unitéPuissance'],
 ) => {
-  const {
-    accordéLe,
-    accordéPar,
-    identifiantProjet,
-    réponseSignée: { format },
-    nouvellePuissance,
-  } = record.payload as Puissance.ChangementPuissanceAccordéEvent['payload'];
+  const { accordéLe, accordéPar, identifiantProjet, réponseSignée, nouvellePuissance } =
+    record.payload as Puissance.ChangementPuissanceAccordéEvent['payload'];
 
-  const réponseSignée = DocumentProjet.convertirEnValueType(
-    identifiantProjet,
-    Puissance.TypeDocumentPuissance.changementAccordé.formatter(),
-    accordéLe,
-    format,
-  ).formatter();
+  const réponseSignéeDocument = réponseSignée
+    ? DocumentProjet.convertirEnValueType(
+        identifiantProjet,
+        Puissance.TypeDocumentPuissance.changementAccordé.formatter(),
+        accordéLe,
+        réponseSignée.format,
+      ).formatter()
+    : undefined;
 
   return {
     date: accordéLe,
@@ -40,12 +37,14 @@ export const mapToChangementPuissanceAccordéTimelineItemProps = (
             {nouvellePuissance} {unitéPuissance}
           </span>
         </div>
-        <DownloadDocument
-          className="mb-0"
-          label="Télécharger la réponse signée"
-          format="pdf"
-          url={Routes.Document.télécharger(réponseSignée)}
-        />
+        {réponseSignéeDocument && (
+          <DownloadDocument
+            className="mb-0"
+            label="Télécharger la réponse signée"
+            format="pdf"
+            url={Routes.Document.télécharger(réponseSignéeDocument)}
+          />
+        )}
       </div>
     ),
   };

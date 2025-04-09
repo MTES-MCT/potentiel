@@ -7,6 +7,7 @@ interface AccorderChangementPuissance {
   readonly réponseSignée: { format: string; content: ReadableStream };
   readonly accordéeLe: string;
   readonly accordéePar: string;
+  readonly estUneDécisionDEtat: boolean;
 }
 
 export class AccorderChangementPuissanceFixture
@@ -33,6 +34,11 @@ export class AccorderChangementPuissanceFixture
     return this.#accordéePar;
   }
 
+  #estUneDécisionDEtat!: boolean;
+  get estUneDécisionDEtat(): boolean {
+    return this.#estUneDécisionDEtat;
+  }
+
   créer(partialData?: Partial<AccorderChangementPuissance>): Readonly<AccorderChangementPuissance> {
     const content = faker.word.words();
 
@@ -43,6 +49,7 @@ export class AccorderChangementPuissanceFixture
       },
       accordéeLe: faker.date.recent().toISOString(),
       accordéePar: faker.internet.email(),
+      estUneDécisionDEtat: faker.datatype.boolean(),
       ...partialData,
     };
 
@@ -50,6 +57,7 @@ export class AccorderChangementPuissanceFixture
     this.#accordéePar = fixture.accordéePar;
     this.#format = fixture.réponseSignée.format;
     this.#content = content;
+    this.#estUneDécisionDEtat = fixture.estUneDécisionDEtat;
 
     this.aÉtéCréé = true;
     return fixture;

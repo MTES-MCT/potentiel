@@ -15,6 +15,7 @@ export type RejeterChangementPuissanceCommand = Message<
     rejetéPar: Email.ValueType;
     réponseSignée: DocumentProjet.ValueType;
     rôleUtilisateur: Role.ValueType;
+    estUneDécisionDEtat: boolean;
   }
 >;
 
@@ -27,6 +28,7 @@ export const registerRejeterChangementPuissanceCommand = (loadAggregate: LoadAgg
     rejetéPar,
     réponseSignée,
     rôleUtilisateur,
+    estUneDécisionDEtat,
   }) => {
     const puissance = await loadPuissance(identifiantProjet);
 
@@ -36,6 +38,7 @@ export const registerRejeterChangementPuissanceCommand = (loadAggregate: LoadAgg
       rejetéPar,
       réponseSignée,
       rôleUtilisateur,
+      estUneDécisionDEtat,
     });
   };
   mediator.register('Lauréat.Puissance.Command.RejeterDemandeChangement', handler);

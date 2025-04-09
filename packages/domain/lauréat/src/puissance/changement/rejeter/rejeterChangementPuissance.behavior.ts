@@ -20,6 +20,7 @@ export type ChangementPuissanceRejetéEvent = DomainEvent<
     réponseSignée: {
       format: string;
     };
+    estUneDécisionDEtat: boolean;
   }
 >;
 
@@ -29,11 +30,19 @@ type Options = {
   rejetéPar: Email.ValueType;
   réponseSignée: DocumentProjet.ValueType;
   rôleUtilisateur: Role.ValueType;
+  estUneDécisionDEtat: boolean;
 };
 
 export async function rejeterDemandeChangement(
   this: PuissanceAggregate,
-  { identifiantProjet, rejetéLe, rejetéPar, réponseSignée, rôleUtilisateur }: Options,
+  {
+    identifiantProjet,
+    rejetéLe,
+    rejetéPar,
+    réponseSignée,
+    rôleUtilisateur,
+    estUneDécisionDEtat,
+  }: Options,
 ) {
   if (!this.demande) {
     throw new DemandeDeChangementInexistanteError();
@@ -61,6 +70,7 @@ export async function rejeterDemandeChangement(
       réponseSignée: {
         format: réponseSignée.format,
       },
+      estUneDécisionDEtat,
     },
   };
 

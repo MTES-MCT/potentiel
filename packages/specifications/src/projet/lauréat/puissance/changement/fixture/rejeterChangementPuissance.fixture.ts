@@ -7,6 +7,7 @@ interface RejeterChangementPuissance {
   readonly réponseSignée: { format: string; content: ReadableStream };
   readonly rejetéeLe: string;
   readonly rejetéePar: string;
+  readonly estUneDécisionDEtat: boolean;
 }
 
 export class RejeterChangementPuissanceFixture
@@ -33,6 +34,11 @@ export class RejeterChangementPuissanceFixture
     return this.#rejetéePar;
   }
 
+  #estUneDécisionDEtat!: boolean;
+  get estUneDécisionDEtat(): boolean {
+    return this.#estUneDécisionDEtat;
+  }
+
   créer(partialData?: Partial<RejeterChangementPuissance>): Readonly<RejeterChangementPuissance> {
     const content = faker.word.words();
 
@@ -43,6 +49,7 @@ export class RejeterChangementPuissanceFixture
       },
       rejetéeLe: faker.date.recent().toISOString(),
       rejetéePar: faker.internet.email(),
+      estUneDécisionDEtat: faker.datatype.boolean(),
       ...partialData,
     };
 
@@ -50,6 +57,7 @@ export class RejeterChangementPuissanceFixture
     this.#rejetéePar = fixture.rejetéePar;
     this.#format = fixture.réponseSignée.format;
     this.#content = content;
+    this.#estUneDécisionDEtat = fixture.estUneDécisionDEtat;
 
     this.aÉtéCréé = true;
     return fixture;

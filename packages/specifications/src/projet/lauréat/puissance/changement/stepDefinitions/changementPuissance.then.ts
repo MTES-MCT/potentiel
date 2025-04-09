@@ -125,10 +125,12 @@ async function vérifierChangementPuissance(
       this.lauréatWorld.puissanceWorld.changementPuissanceWorld.accorderChangementPuissanceFixture
         .aÉtéCréé
     ) {
+      expect(demandeEnCours.demande.accord).to.be.not.undefined;
+
       const result = await mediator.send<ConsulterDocumentProjetQuery>({
         type: 'Document.Query.ConsulterDocumentProjet',
         data: {
-          documentKey: demandeEnCours.demande.accord
+          documentKey: demandeEnCours.demande.accord?.réponseSignée
             ? demandeEnCours.demande.accord.réponseSignée.formatter()
             : '',
         },
@@ -148,6 +150,8 @@ async function vérifierChangementPuissance(
       this.lauréatWorld.puissanceWorld.changementPuissanceWorld.rejeterChangementPuissanceFixture
         .aÉtéCréé
     ) {
+      expect(demandeEnCours.demande.rejet).to.be.not.undefined;
+
       const result = await mediator.send<ConsulterDocumentProjetQuery>({
         type: 'Document.Query.ConsulterDocumentProjet',
         data: {
