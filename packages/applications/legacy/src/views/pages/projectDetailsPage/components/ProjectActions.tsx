@@ -56,7 +56,7 @@ const PorteurProjetActions = ({
   modificationsNonPermisesParLeCDCActuel,
   hasAttestationConformité,
   peutFaireDemandeChangementReprésentantLégal,
-  actionnaireMenu,
+  actionnaireAffichage,
   peutDemanderChangementPuissanceV2,
 }: PorteurProjetActionsProps) => {
   const peutDemanderAbandon = !abandonEnCoursOuAccordé && !hasAttestationConformité;
@@ -85,12 +85,12 @@ const PorteurProjetActions = ({
             <DropdownMenuSecondaryButton.DropdownItem href={routes.CHANGER_FOURNISSEUR(project.id)}>
               <span>Changer de fournisseur</span>
             </DropdownMenuSecondaryButton.DropdownItem>
-            {!!actionnaireMenu && (
+            {!!actionnaireAffichage && (
               <DropdownMenuSecondaryButton.DropdownItem
-                href={actionnaireMenu.url}
+                href={actionnaireAffichage.url}
                 disabled={modificationsNonPermisesParLeCDCActuel ? true : undefined}
               >
-                <span>{actionnaireMenu.label}</span>
+                <span>{actionnaireAffichage.porteurProjetActionLabel}</span>
               </DropdownMenuSecondaryButton.DropdownItem>
             )}
             {peutDemanderChangementPuissanceV2 ? (
@@ -231,7 +231,7 @@ export const ProjectActions = ({
   modificationsNonPermisesParLeCDCActuel,
   hasAttestationConformité,
   peutFaireDemandeChangementReprésentantLégal,
-  actionnaireMenu,
+  actionnaireAffichage,
   peutDemanderChangementPuissanceV2,
 }: ProjectActionsProps) => {
   const identifiantProjet = formatProjectDataToIdentifiantProjetValueType({
@@ -254,7 +254,7 @@ export const ProjectActions = ({
           modificationsNonPermisesParLeCDCActuel={modificationsNonPermisesParLeCDCActuel}
           hasAttestationConformité={hasAttestationConformité}
           peutFaireDemandeChangementReprésentantLégal={peutFaireDemandeChangementReprésentantLégal}
-          actionnaireMenu={actionnaireMenu}
+          actionnaireAffichage={actionnaireAffichage}
           identifiantProjet={identifiantProjet}
           peutDemanderChangementPuissanceV2={peutDemanderChangementPuissanceV2}
         />

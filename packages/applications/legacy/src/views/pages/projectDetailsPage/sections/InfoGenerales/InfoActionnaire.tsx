@@ -22,7 +22,7 @@ export const InfoActionnaire = ({
       <p className="m-0">{actionnaire.nom || 'Non renseigné'}</p>
       {!modificationsNonPermisesParLeCDCActuel && actionnaire.affichage && (
         <Link href={actionnaire.affichage.url} aria-label="Modifier" className="mt-1">
-          {actionnaire.affichage.label}
+          {actionnaire.affichage.projectPageLabel}
         </Link>
       )}
       {actionnaire?.demandeEnCours && (
