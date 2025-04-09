@@ -26,14 +26,14 @@ export const metadata: Metadata = {
 };
 
 export default async function Page({ searchParams }: PageProps) {
-  const page = searchParams?.page ? parseInt(searchParams.page) : 1;
-  const appelOffre = searchParams?.appelOffre ?? undefined;
-
-  const estNotifiée =
-    searchParams?.statut === undefined ? undefined : searchParams.statut === 'notifiee';
-
   return PageWithErrorHandling(async () =>
     withUtilisateur(async (utilisateur) => {
+      const page = searchParams?.page ? parseInt(searchParams.page) : 1;
+      const appelOffre = searchParams?.appelOffre ?? undefined;
+
+      const estNotifiée =
+        searchParams?.statut === undefined ? undefined : searchParams.statut === 'notifiee';
+
       const périodes = await mediator.send<Période.ListerPériodesQuery>({
         type: 'Période.Query.ListerPériodes',
         data: {
