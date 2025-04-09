@@ -16,12 +16,22 @@ export type AccorderChangementPuissanceUseCase = Message<
     accordéLeValue: string;
     accordéParValue: string;
     rôleUtilisateurValue: string;
-    réponseSignéeValue?: {
-      content: ReadableStream;
-      format: string;
-    };
-    estUneDécisionDEtatValue: boolean;
-  }
+  } & (
+    | {
+        réponseSignéeValue?: {
+          content: ReadableStream;
+          format: string;
+        };
+        estUneDécisionDEtatValue: true;
+      }
+    | {
+        réponseSignéeValue: {
+          content: ReadableStream;
+          format: string;
+        };
+        estUneDécisionDEtatValue: false;
+      }
+  )
 >;
 
 export const registerAccorderChangementPuissanceUseCase = () => {
