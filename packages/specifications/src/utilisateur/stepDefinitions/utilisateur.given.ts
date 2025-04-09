@@ -205,7 +205,9 @@ async function insérerUtilisateur({
 
 export async function initialiserUtilisateursTests(this: PotentielWorld) {
   const validateur = this.utilisateurWorld.validateurFixture.créer();
-  const admin = this.utilisateurWorld.adminFixture.créer();
+  const admin = this.utilisateurWorld.adminFixture.créer({
+    email: process.env.DGEC_EMAIL,
+  });
 
   await inviterUtilisateur.call(this, {
     rôle: validateur.role,

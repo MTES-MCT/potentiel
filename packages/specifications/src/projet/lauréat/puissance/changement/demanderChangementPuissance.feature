@@ -14,10 +14,13 @@ Fonctionnalité: Demander le changement de puissance d'un projet lauréat
             | nom_projet | Du boulodrome de Marseille                                                                                    |
             | url        | https://potentiel.beta.gouv.fr/laureats/.*/puissance/changement/.*                                            |
 
-    #ajouter notification
     Scénario: Demander le changement de puissance d'un projet lauréat avec un ratio à la hausse
         Quand le porteur demande le changement de puissance à la hausse pour le projet lauréat
         Alors la demande de changement de puissance devrait être consultable
+        Et un email a été envoyé à la dgec avec :
+            | sujet      | Potentiel - changement de puissance pour le projet Du boulodrome de Marseille dans le département(.*) demandé |
+            | nom_projet | Du boulodrome de Marseille                                                                                    |
+            | url        | https://potentiel.beta.gouv.fr/laureats/.*/puissance/changement/.*                                            |
 
     Scénario: Impossible de demander le changement de puissance si la puissance est inexistante
         Etant donné le projet éliminé "Du boulodrome de Lyon"

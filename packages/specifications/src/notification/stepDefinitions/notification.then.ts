@@ -34,3 +34,10 @@ Alors(
     await vérifierEmailEnvoyé.call(this, this.utilisateurWorld.drealFixture.email, data);
   },
 );
+
+Alors(
+  'un email a été envoyé à la dgec avec :',
+  async function (this: PotentielWorld, data: DataTable) {
+    await vérifierEmailEnvoyé.call(this, this.utilisateurWorld.adminFixture.email, data);
+  },
+);
