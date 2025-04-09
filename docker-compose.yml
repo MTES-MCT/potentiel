@@ -1,7 +1,7 @@
 services:
   db:
     container_name: potentiel_db
-    image: postgres:13
+    image: postgres:16
     volumes:
       - .database/potentiel-dev.dump:/dump/potentiel-dev.dump
       - .database/metabase-dev.dump:/dump/metabase-dev.dump
@@ -88,7 +88,7 @@ services:
     profiles: ['app']
   db_test:
     container_name: potentiel_db_tests_integration
-    image: postgres:13
+    image: postgres:16
     volumes:
       - .database/potentiel-dev.dump:/dump/potentiel-dev.dump
       - .database/scripts/restore-dev-db.sh:/docker-entrypoint-initdb.d/restore-dev-db.sh
