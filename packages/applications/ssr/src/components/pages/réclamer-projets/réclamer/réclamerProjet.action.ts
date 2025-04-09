@@ -9,11 +9,11 @@ import { RéclamerProjetUseCase } from '@potentiel-domain/utilisateur';
 
 import { FormAction, formAction, FormState } from '@/utils/formAction';
 import { withUtilisateur } from '@/utils/withUtilisateur';
-
 import {
   numéroCRESchema,
   prixRéférenceSchema,
-} from '../../../../utils/zod/candidature/candidatureFields.schema';
+} from '@/utils/zod/candidature/candidatureFields.schema';
+
 import { déchiffrerIdentifiantProjet } from '../_utils/chiffrement';
 
 const commonSchema = {

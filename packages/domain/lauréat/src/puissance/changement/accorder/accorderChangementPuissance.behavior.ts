@@ -44,7 +44,7 @@ export async function accorderDemandeChangement(
     StatutChangementPuissance.accordé,
   );
 
-  if (this.demande.autoritéCompétente === 'dgec' && rôleUtilisateur.nom === 'dreal') {
+  if (this.demande.autoritéCompétente === 'dgec-admin' && rôleUtilisateur.nom === 'dreal') {
     throw new DemandeDoitÊtreInstruiteParDGECError();
   }
 

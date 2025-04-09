@@ -61,10 +61,10 @@ export const ModifierPuissanceForm: FC<ModifierPuissanceFormProps> = ({
             defaultValue: puissance,
             required: true,
             'aria-required': true,
+            type: 'number',
             inputMode: 'decimal',
             pattern: '[0-9]+([.][0-9]+)?',
             step: 'any',
-            type: 'number',
           }}
         />
         <Input

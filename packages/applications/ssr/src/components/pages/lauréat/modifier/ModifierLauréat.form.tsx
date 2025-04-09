@@ -17,8 +17,8 @@ import {
   ModifierLauréatKeys,
   ModifierLauréatValueFormEntries,
 } from '@/utils/zod/candidature';
+import { ValidationErrors } from '@/utils/formAction';
 
-import { ValidationErrors } from '../../../../utils/formAction';
 import { FormAlertError } from '../../../atoms/form/FormAlertError';
 
 import { modifierLauréatAction } from './modifierLauréat.action';

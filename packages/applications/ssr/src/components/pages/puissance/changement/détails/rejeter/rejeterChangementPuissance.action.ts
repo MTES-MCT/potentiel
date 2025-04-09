@@ -1,10 +1,9 @@
 'use server';
 
-import { mediator } from 'mediateur';
 import * as zod from 'zod';
+import { mediator } from 'mediateur';
 
-import { Actionnaire } from '@potentiel-domain/laureat';
-import { DateTime } from '@potentiel-domain/common';
+import { Puissance } from '@potentiel-domain/laureat';
 import { Routes } from '@potentiel-applications/routes';
 
 import { FormAction, formAction, FormState } from '@/utils/formAction';
@@ -16,20 +15,21 @@ const schema = zod.object({
   reponseSignee: singleDocument({ acceptedFileTypes: ['application/pdf'] }),
 });
 
-export type AccorderChangementActionnaireFormKeys = keyof zod.infer<typeof schema>;
+export type RejeterChangementPuissanceFormKeys = keyof zod.infer<typeof schema>;
 
 const action: FormAction<FormState, typeof schema> = async (
   _,
   { identifiantProjet, reponseSignee },
-) =>
-  withUtilisateur(async (utilisateur) => {
-    await mediator.send<Actionnaire.AccorderChangementActionnaireUseCase>({
-      type: 'Lauréat.Actionnaire.UseCase.AccorderDemandeChangement',
+) => {
+  return withUtilisateur(async (utilisateur) => {
+    await mediator.send<Puissance.RejeterChangementPuissanceUseCase>({
+      type: 'Lauréat.Puissance.UseCase.RejeterDemandeChangement',
       data: {
         identifiantProjetValue: identifiantProjet,
-        accordéParValue: utilisateur.identifiantUtilisateur.formatter(),
-        accordéLeValue: DateTime.now().formatter(),
+        rejetéParValue: utilisateur.identifiantUtilisateur.formatter(),
+        rejetéLeValue: new Date().toISOString(),
         réponseSignéeValue: reponseSignee,
+        rôleUtilisateurValue: utilisateur.role.nom,
       },
     });
 
@@ -37,9 +37,9 @@ const action: FormAction<FormState, typeof schema> = async (
       status: 'success',
       redirection: {
         url: Routes.Projet.details(identifiantProjet),
-        message: "Le changement d'actionnaire(s) a été pris en compte",
       },
     };
   });
+};
 
-export const accorderChangementActionnaireAction = formAction(action, schema);
+export const rejeterChangementPuissanceAction = formAction(action, schema);

@@ -8,7 +8,7 @@ import { Role } from '@potentiel-domain/utilisateur';
 import { loadPuissanceFactory } from '../../puissance.aggregate';
 
 export type RejeterChangementPuissanceCommand = Message<
-  'Lauréat.Puissance.Command.RejeterChangement',
+  'Lauréat.Puissance.Command.RejeterDemandeChangement',
   {
     identifiantProjet: IdentifiantProjet.ValueType;
     rejetéLe: DateTime.ValueType;
@@ -38,5 +38,5 @@ export const registerRejeterChangementPuissanceCommand = (loadAggregate: LoadAgg
       rôleUtilisateur,
     });
   };
-  mediator.register('Lauréat.Puissance.Command.RejeterChangement', handler);
+  mediator.register('Lauréat.Puissance.Command.RejeterDemandeChangement', handler);
 };

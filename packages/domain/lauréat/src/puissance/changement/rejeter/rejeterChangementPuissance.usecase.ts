@@ -43,7 +43,7 @@ export const registerRejeterChangementPuissanceUseCase = () => {
     const rôleUtilisateur = Role.convertirEnValueType(rôleUtilisateurValue);
 
     await mediator.send<RejeterChangementPuissanceCommand>({
-      type: 'Lauréat.Puissance.Command.RejeterChangement',
+      type: 'Lauréat.Puissance.Command.RejeterDemandeChangement',
       data: {
         rejetéLe,
         rejetéPar,

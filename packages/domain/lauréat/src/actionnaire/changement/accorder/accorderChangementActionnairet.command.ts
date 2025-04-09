@@ -7,7 +7,7 @@ import { DocumentProjet } from '@potentiel-domain/document';
 import { loadActionnaireFactory } from '../../actionnaire.aggregate';
 
 export type AccorderChangementActionnaireCommand = Message<
-  'Lauréat.Actionnaire.Command.AccorderChangement',
+  'Lauréat.Actionnaire.Command.AccorderDemandeChangement',
   {
     identifiantProjet: IdentifiantProjet.ValueType;
     accordéLe: DateTime.ValueType;
@@ -34,5 +34,5 @@ export const registerAccorderChangementActionnaireCommand = (loadAggregate: Load
       réponseSignée,
     });
   };
-  mediator.register('Lauréat.Actionnaire.Command.AccorderChangement', handler);
+  mediator.register('Lauréat.Actionnaire.Command.AccorderDemandeChangement', handler);
 };

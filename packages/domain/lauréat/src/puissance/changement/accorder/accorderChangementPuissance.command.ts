@@ -8,7 +8,7 @@ import { Role } from '@potentiel-domain/utilisateur';
 import { loadPuissanceFactory } from '../../puissance.aggregate';
 
 export type AccorderChangementPuissanceCommand = Message<
-  'Lauréat.Puissance.Command.AccorderChangement',
+  'Lauréat.Puissance.Command.AccorderDemandeChangement',
   {
     identifiantProjet: IdentifiantProjet.ValueType;
     accordéLe: DateTime.ValueType;
@@ -38,5 +38,5 @@ export const registerAccorderChangementPuissanceCommand = (loadAggregate: LoadAg
       rôleUtilisateur,
     });
   };
-  mediator.register('Lauréat.Puissance.Command.AccorderChangement', handler);
+  mediator.register('Lauréat.Puissance.Command.AccorderDemandeChangement', handler);
 };

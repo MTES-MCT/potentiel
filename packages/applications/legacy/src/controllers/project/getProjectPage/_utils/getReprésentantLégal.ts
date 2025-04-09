@@ -6,8 +6,7 @@ import { Candidature } from '@potentiel-domain/candidature';
 import { Routes } from '@potentiel-applications/routes';
 import { Role } from '@potentiel-domain/utilisateur';
 import { getLogger } from '@potentiel-libraries/monitoring';
-import { getAbandonStatut } from './getAbandon';
-import { getAttestationDeConformité } from './getAttestationDeConformité';
+import { checkAbandonAndAchèvement } from './checkAbandonAndAchèvement';
 
 export type GetReprésentantLégalForProjectPage =
   | {
@@ -73,26 +72,19 @@ export const getReprésentantLégal: GetReprésentantLégal = async (identifiant
 
     const demandeChangementExistante = Option.isSome(demandeEnCours);
 
-    const statutAbandon = await getAbandonStatut(identifiantProjet);
-    const abandonAccordé = statutAbandon?.statut === 'accordé';
-    const abandonEnCours = !!(
-      statutAbandon?.statut &&
-      ['demandé', 'confirmé', 'confirmation-demandée'].includes(statutAbandon.statut)
-    );
-
-    const attestationConformitéExistante = !!(await getAttestationDeConformité(
+    const { aUnAbandonEnCours, estAbandonné, estAchevé } = await checkAbandonAndAchèvement(
       identifiantProjet,
       rôle,
-    ));
+    );
 
-    const peutConsulterLaDemandeExistante = demandeChangementExistante && !abandonAccordé;
+    const peutConsulterLaDemandeExistante = demandeChangementExistante && !estAbandonné;
 
     const peutFaireUneDemande =
       utilisateur.aLaPermission('représentantLégal.demanderChangement') &&
       !demandeChangementExistante &&
-      !abandonAccordé &&
-      !abandonEnCours &&
-      !attestationConformitéExistante;
+      !aUnAbandonEnCours &&
+      !estAbandonné &&
+      !estAchevé;
 
     const peutModifier =
       utilisateur.aLaPermission('représentantLégal.modifier') && !demandeChangementExistante;

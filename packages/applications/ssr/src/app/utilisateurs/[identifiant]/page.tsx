@@ -16,8 +16,7 @@ import { PorteurListPage } from '@/components/pages/utilisateur/lister/PorteurLi
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { decodeParameter } from '@/utils/decodeParameter';
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
-
-import { withUtilisateur } from '../../../utils/withUtilisateur';
+import { withUtilisateur } from '@/utils/withUtilisateur';
 
 type PageProps = IdentifiantParameter;
 

@@ -279,7 +279,7 @@ const référencielPermissions = {
         modifier: 'Lauréat.Actionnaire.UseCase.ModifierActionnaire',
         enregistrerChangement: 'Lauréat.Actionnaire.UseCase.EnregistrerChangement',
         demanderChangement: 'Lauréat.Actionnaire.UseCase.DemanderChangement',
-        accorderChangement: 'Lauréat.Actionnaire.UseCase.AccorderChangement',
+        accorderChangement: 'Lauréat.Actionnaire.UseCase.AccorderDemandeChangement',
         rejeterChangement: 'Lauréat.Actionnaire.UseCase.RejeterDemandeChangement',
         annulerChangement: 'Lauréat.Actionnaire.UseCase.AnnulerDemandeChangement',
       },
@@ -287,7 +287,7 @@ const référencielPermissions = {
         modifier: 'Lauréat.Actionnaire.Command.ModifierActionnaire',
         enregistrerChangement: 'Lauréat.Actionnaire.Command.EnregistrerChangement',
         demanderChangement: 'Lauréat.Actionnaire.Command.DemanderChangement',
-        accorderChangement: 'Lauréat.Actionnaire.Command.AccorderChangement',
+        accorderChangement: 'Lauréat.Actionnaire.Command.AccorderDemandeChangement',
         rejeterChangement: 'Lauréat.Actionnaire.Command.RejeterDemandeChangement',
         annulerChangement: 'Lauréat.Actionnaire.Command.AnnulerDemandeChangement',
       },
@@ -295,12 +295,23 @@ const référencielPermissions = {
     puissance: {
       query: {
         consulter: 'Lauréat.Puissance.Query.ConsulterPuissance',
+        consulterChangement: 'Lauréat.Puissance.Query.ConsulterChangementPuissance',
       },
       usecase: {
         modifier: 'Lauréat.Puissance.UseCase.ModifierPuissance',
+        enregistrerChangement: 'Lauréat.Puissance.UseCase.EnregistrerChangement',
+        demanderChangement: 'Lauréat.Puissance.UseCase.DemanderChangement',
+        annulerChangement: 'Lauréat.Puissance.UseCase.AnnulerDemandeChangement',
+        accorderChangement: 'Lauréat.Puissance.UseCase.AccorderDemandeChangement',
+        rejeterChangement: 'Lauréat.Puissance.UseCase.RejeterDemandeChangement',
       },
       command: {
         modifier: 'Lauréat.Puissance.Command.ModifierPuissance',
+        enregistrerChangement: 'Lauréat.Puissance.Command.EnregistrerChangement',
+        demanderChangement: 'Lauréat.Puissance.Command.DemanderChangement',
+        annulerChangement: 'Lauréat.Puissance.Command.AnnulerDemandeChangement',
+        accorderChangement: 'Lauréat.Puissance.Command.AccorderDemandeChangement',
+        rejeterChangement: 'Lauréat.Puissance.Command.RejeterDemandeChangement',
       },
     },
     usecase: {
@@ -1006,6 +1017,30 @@ const policies = {
       référencielPermissions.lauréat.puissance.usecase.modifier,
       référencielPermissions.lauréat.puissance.command.modifier,
     ],
+    consulterChangement: [
+      référencielPermissions.lauréat.puissance.query.consulterChangement,
+      référencielPermissions.lauréat.puissance.query.consulter,
+    ],
+    enregistrerChangement: [
+      référencielPermissions.lauréat.puissance.usecase.enregistrerChangement,
+      référencielPermissions.lauréat.puissance.command.enregistrerChangement,
+    ],
+    demanderChangement: [
+      référencielPermissions.lauréat.puissance.usecase.demanderChangement,
+      référencielPermissions.lauréat.puissance.command.demanderChangement,
+    ],
+    annulerChangement: [
+      référencielPermissions.lauréat.puissance.usecase.annulerChangement,
+      référencielPermissions.lauréat.puissance.command.annulerChangement,
+    ],
+    accorderChangement: [
+      référencielPermissions.lauréat.puissance.usecase.accorderChangement,
+      référencielPermissions.lauréat.puissance.command.accorderChangement,
+    ],
+    rejeterChangement: [
+      référencielPermissions.lauréat.puissance.usecase.rejeterChangement,
+      référencielPermissions.lauréat.puissance.command.rejeterChangement,
+    ],
   },
   lauréat: {
     consulter: [référencielPermissions.lauréat.query.consulter],
@@ -1087,6 +1122,7 @@ const pageProjetPolicies: Policy[] = [
 
   // Puisssance
   'puissance.consulter',
+  'puissance.consulterChangement',
 ];
 
 const adminPolicies: ReadonlyArray<Policy> = [
@@ -1183,6 +1219,10 @@ const adminPolicies: ReadonlyArray<Policy> = [
 
   // Puissance
   'puissance.modifier',
+  'puissance.consulter',
+  'puissance.consulterChangement',
+  'puissance.accorderChangement',
+  'puissance.rejeterChangement',
 ];
 
 const dgecValidateurPolicies: ReadonlyArray<Policy> = [
@@ -1286,6 +1326,13 @@ const drealPolicies: ReadonlyArray<Policy> = [
   'actionnaire.accorderChangement',
   'actionnaire.rejeterChangement',
 
+  // Puissance
+  'puissance.consulter',
+  'puissance.modifier',
+  'puissance.consulterChangement',
+  'puissance.accorderChangement',
+  'puissance.rejeterChangement',
+
   // Utilisateur
   'utilisateur.inviterPorteur',
   'utilisateur.listerPorteurs',
@@ -1358,6 +1405,13 @@ const porteurProjetPolicies: ReadonlyArray<Policy> = [
   'actionnaire.demanderChangement',
   'actionnaire.annulerChangement',
   'actionnaire.listerChangement',
+
+  // Puissance
+  'puissance.consulter',
+  'puissance.consulterChangement',
+  'puissance.enregistrerChangement',
+  'puissance.demanderChangement',
+  'puissance.annulerChangement',
 
   // Utilisateur
   'utilisateur.inviterPorteur',

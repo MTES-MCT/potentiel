@@ -132,6 +132,7 @@ export const InfoGenerales = ({
             puissance.puissance < appelOffre.periode.noteThreshold.volumeReserve.puissanceMax
           }
           legacyPuissance={legacyPuissance}
+          identifiantProjet={identifiantProjet}
         />
       ) : (
         <div>

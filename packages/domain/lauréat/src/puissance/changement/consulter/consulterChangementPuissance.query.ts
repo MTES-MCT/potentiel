@@ -12,13 +12,13 @@ import {
   TypeDocumentPuissance,
 } from '../..';
 
-type DétailsInformationEnregistréePuissance = {
+type DétailsInformationEnregistréePuissanceReadModel = {
   raison?: string;
   pièceJustificative?: DocumentProjet.ValueType;
   isInformationEnregistrée: true;
 };
 
-type DétailsDemandeChangementPuissance = {
+export type DétailsDemandeChangementPuissanceReadModel = {
   isInformationEnregistrée: false;
   autoritéCompétente: RatioChangementPuissance.AutoritéCompétente;
   raison: string;
@@ -46,7 +46,10 @@ export type ConsulterChangementPuissanceReadModel = {
 
     demandéePar: Email.ValueType;
     demandéeLe: DateTime.ValueType;
-  } & (DétailsInformationEnregistréePuissance | DétailsDemandeChangementPuissance);
+  } & (
+    | DétailsInformationEnregistréePuissanceReadModel
+    | DétailsDemandeChangementPuissanceReadModel
+  );
 };
 
 export type ConsulterChangementPuissanceQuery = Message<

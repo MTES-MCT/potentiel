@@ -1,4 +1,3 @@
-import { mediator } from 'mediateur';
 import { Puissance } from '@potentiel-domain/laureat';
 
 import { Option } from '@potentiel-libraries/monads';
@@ -7,12 +6,17 @@ import { Routes } from '@potentiel-applications/routes';
 import { Role } from '@potentiel-domain/utilisateur';
 import { getLogger } from '@potentiel-libraries/monitoring';
 import { IdentifiantProjet } from '@potentiel-domain/common';
+import { checkAbandonAndAchèvement } from './checkAbandonAndAchèvement';
+import { mediator } from 'mediateur';
 
 export type GetPuissanceForProjectPage = {
   puissance: number;
   affichage?: {
     labelPageProjet: string;
     url: string;
+  };
+  demandeEnCours?: {
+    demandéeLe: string;
   };
 };
 
@@ -34,15 +38,33 @@ export const getPuissance = async ({
 
     const role = Role.convertirEnValueType(rôle);
 
-    const puissance = await mediator.send<Puissance.ConsulterPuissanceQuery>({
+    const puissanceProjection = await mediator.send<Puissance.ConsulterPuissanceQuery>({
       type: 'Lauréat.Puissance.Query.ConsulterPuissance',
       data: { identifiantProjet: identifiantProjet.formatter() },
     });
 
-    if (Option.isSome(puissance)) {
+    const { aUnAbandonEnCours, estAbandonné, estAchevé } = await checkAbandonAndAchèvement(
+      identifiantProjet,
+      rôle,
+    );
+
+    if (Option.isSome(puissanceProjection)) {
+      const { puissance, dateDemandeEnCours } = puissanceProjection;
+
+      if (dateDemandeEnCours) {
+        return {
+          puissance,
+          demandeEnCours: role.aLaPermission('puissance.consulterChangement')
+            ? {
+                demandéeLe: dateDemandeEnCours.formatter(),
+              }
+            : undefined,
+        };
+      }
+
       if (role.aLaPermission('puissance.modifier')) {
         return {
-          puissance: puissance.puissance,
+          puissance,
           affichage: {
             url: Routes.Puissance.modifier(identifiantProjet.formatter()),
             labelPageProjet: 'Modifier',
@@ -50,8 +72,23 @@ export const getPuissance = async ({
         };
       }
 
+      if (
+        role.aLaPermission('puissance.demanderChangement') &&
+        !aUnAbandonEnCours &&
+        !estAbandonné &&
+        !estAchevé
+      ) {
+        return {
+          puissance: puissance,
+          affichage: {
+            url: Routes.Puissance.changement.demander(identifiantProjet.formatter()),
+            labelPageProjet: 'Demander changement de puissance',
+          },
+        };
+      }
+
       return {
-        puissance: puissance.puissance,
+        puissance: puissance,
       };
     }
 

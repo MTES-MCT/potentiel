@@ -3,7 +3,7 @@
 import { mediator } from 'mediateur';
 import * as zod from 'zod';
 
-import { Actionnaire } from '@potentiel-domain/laureat';
+import { Puissance } from '@potentiel-domain/laureat';
 import { DateTime } from '@potentiel-domain/common';
 import { Routes } from '@potentiel-applications/routes';
 
@@ -16,20 +16,21 @@ const schema = zod.object({
   reponseSignee: singleDocument({ acceptedFileTypes: ['application/pdf'] }),
 });
 
-export type AccorderChangementActionnaireFormKeys = keyof zod.infer<typeof schema>;
+export type AccorderChangementPuissanceFormKeys = keyof zod.infer<typeof schema>;
 
 const action: FormAction<FormState, typeof schema> = async (
   _,
   { identifiantProjet, reponseSignee },
 ) =>
   withUtilisateur(async (utilisateur) => {
-    await mediator.send<Actionnaire.AccorderChangementActionnaireUseCase>({
-      type: 'Lauréat.Actionnaire.UseCase.AccorderDemandeChangement',
+    await mediator.send<Puissance.AccorderChangementPuissanceUseCase>({
+      type: 'Lauréat.Puissance.UseCase.AccorderDemandeChangement',
       data: {
         identifiantProjetValue: identifiantProjet,
         accordéParValue: utilisateur.identifiantUtilisateur.formatter(),
         accordéLeValue: DateTime.now().formatter(),
         réponseSignéeValue: reponseSignee,
+        rôleUtilisateurValue: utilisateur.role.nom,
       },
     });
 
@@ -37,9 +38,9 @@ const action: FormAction<FormState, typeof schema> = async (
       status: 'success',
       redirection: {
         url: Routes.Projet.details(identifiantProjet),
-        message: "Le changement d'actionnaire(s) a été pris en compte",
+        message: 'Le changement de puissance a été pris en compte',
       },
     };
   });
 
-export const accorderChangementActionnaireAction = formAction(action, schema);
+export const accorderChangementPuissanceAction = formAction(action, schema);
