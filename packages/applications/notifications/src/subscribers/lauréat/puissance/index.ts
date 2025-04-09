@@ -10,10 +10,11 @@ import { IdentifiantProjet } from '@potentiel-domain/projet';
 
 import { SendEmail } from '../../../sendEmail';
 
-import { demandeChangementPuissanceAccordéeNotification } from './demande/demandeChangementPuissanceAccordée.notification';
-import { demandeChangementPuissanceRejetéeNotification } from './demande/demandeChangementPuissanceRejetée.notification';
 import { puissanceModifiéeNotification } from './puissanceModifiée.notification';
-import { demandeChangementPuissanceAnnuléeNotification } from './demande/demandeChangementPuissanceAnnulée.notification';
+import { changementPuissanceAccordéNotification } from './changement/changementPuissanceAccordé.notification';
+import { changementPuissanceAnnuléNotification } from './changement/changementPuissanceAnnulé.notification';
+import { changementPuissanceRejetéNotification } from './changement/changementPuissanceRejeté.notification';
+import { changementPuissanceDemandéNotification } from './changement/changementPuissanceDemandé.notification';
 
 export type SubscriptionEvent = Puissance.PuissanceEvent & Event;
 
@@ -64,8 +65,16 @@ export const register = ({ sendEmail }: RegisterPuissanceNotificationDependencie
           baseUrl,
         }),
       )
+      .with({ type: 'ChangementPuissanceDemandé-V1' }, async (event) =>
+        changementPuissanceDemandéNotification({
+          sendEmail,
+          event,
+          projet,
+          baseUrl,
+        }),
+      )
       .with({ type: 'ChangementPuissanceAnnulé-V1' }, async (event) =>
-        demandeChangementPuissanceAnnuléeNotification({
+        changementPuissanceAnnuléNotification({
           sendEmail,
           event,
           projet,
@@ -73,7 +82,7 @@ export const register = ({ sendEmail }: RegisterPuissanceNotificationDependencie
         }),
       )
       .with({ type: 'ChangementPuissanceAccordé-V1' }, async (event) =>
-        demandeChangementPuissanceAccordéeNotification({
+        changementPuissanceAccordéNotification({
           sendEmail,
           event,
           projet,
@@ -81,7 +90,7 @@ export const register = ({ sendEmail }: RegisterPuissanceNotificationDependencie
         }),
       )
       .with({ type: 'ChangementPuissanceRejeté-V1' }, async (event) =>
-        demandeChangementPuissanceRejetéeNotification({
+        changementPuissanceRejetéNotification({
           sendEmail,
           event,
           projet,
@@ -91,7 +100,6 @@ export const register = ({ sendEmail }: RegisterPuissanceNotificationDependencie
       .with(
         {
           type: P.union(
-            'ChangementPuissanceDemandé-V1',
             'ChangementPuissanceSupprimé-V1',
             'ChangementPuissanceEnregistré-V1',
             'PuissanceImportée-V1',

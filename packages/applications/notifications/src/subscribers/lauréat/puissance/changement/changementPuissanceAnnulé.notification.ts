@@ -1,4 +1,4 @@
-import { récupérerPorteursParIdentifiantProjetAdapter } from '@potentiel-infrastructure/domain-adapters';
+import { récupérerDrealsParIdentifiantProjetAdapter } from '@potentiel-infrastructure/domain-adapters';
 import { getLogger } from '@potentiel-libraries/monitoring';
 import { Routes } from '@potentiel-applications/routes';
 import { Puissance } from '@potentiel-domain/laureat';
@@ -6,9 +6,9 @@ import { IdentifiantProjet } from '@potentiel-domain/projet';
 
 import { RegisterPuissanceNotificationDependencies } from '..';
 
-type DemandeChangementPuissanceAccordéeNotificationProps = {
+type ChangementPuissanceAnnuléNotificationProps = {
   sendEmail: RegisterPuissanceNotificationDependencies['sendEmail'];
-  event: Puissance.ChangementPuissanceAccordéEvent;
+  event: Puissance.ChangementPuissanceAnnuléEvent;
   projet: {
     nom: string;
     département: string;
@@ -16,30 +16,29 @@ type DemandeChangementPuissanceAccordéeNotificationProps = {
   baseUrl: string;
 };
 
-export const demandeChangementPuissanceAccordéeNotification = async ({
+export const changementPuissanceAnnuléNotification = async ({
   sendEmail,
   event,
   projet,
   baseUrl,
-}: DemandeChangementPuissanceAccordéeNotificationProps) => {
+}: ChangementPuissanceAnnuléNotificationProps) => {
   const identifiantProjet = IdentifiantProjet.convertirEnValueType(event.payload.identifiantProjet);
-  const porteurs = await récupérerPorteursParIdentifiantProjetAdapter(identifiantProjet);
+  const dreals = await récupérerDrealsParIdentifiantProjetAdapter(identifiantProjet);
 
-  if (porteurs.length === 0) {
-    getLogger().error('Aucun porteur trouvé', {
+  if (dreals.length === 0) {
+    getLogger().error('Aucune dreal trouvée', {
       identifiantProjet: identifiantProjet.formatter(),
       application: 'notifications',
-      fonction: 'changementPuissanceAccordéNotification',
+      fonction: 'demandeChangementPuissanceAnnuléeNotification',
     });
     return;
   }
 
   return sendEmail({
-    templateId: 6873755,
-    messageSubject: `Potentiel - La demande de changement de puissance pour le projet ${projet.nom} dans le département ${projet.département} a été accordée`,
-    recipients: porteurs,
+    templateId: 6887039,
+    messageSubject: `Potentiel - La demande de changement de puissance pour le projet ${projet.nom} dans le département ${projet.département} a été annulée`,
+    recipients: dreals,
     variables: {
-      type: 'accord',
       nom_projet: projet.nom,
       departement_projet: projet.département,
       url: `${baseUrl}${Routes.Projet.details(identifiantProjet.formatter())}`,

@@ -6,9 +6,9 @@ import { IdentifiantProjet } from '@potentiel-domain/projet';
 
 import { RegisterPuissanceNotificationDependencies } from '..';
 
-type DemandeChangementPuissanceAnnuléeNotificationProps = {
+type ChangementPuissanceDemandéNotificationProps = {
   sendEmail: RegisterPuissanceNotificationDependencies['sendEmail'];
-  event: Puissance.ChangementPuissanceAnnuléEvent;
+  event: Puissance.ChangementPuissanceDemandéEvent;
   projet: {
     nom: string;
     département: string;
@@ -16,12 +16,12 @@ type DemandeChangementPuissanceAnnuléeNotificationProps = {
   baseUrl: string;
 };
 
-export const demandeChangementPuissanceAnnuléeNotification = async ({
+export const changementPuissanceDemandéNotification = async ({
   sendEmail,
   event,
   projet,
   baseUrl,
-}: DemandeChangementPuissanceAnnuléeNotificationProps) => {
+}: ChangementPuissanceDemandéNotificationProps) => {
   const identifiantProjet = IdentifiantProjet.convertirEnValueType(event.payload.identifiantProjet);
   const dreals = await récupérerDrealsParIdentifiantProjetAdapter(identifiantProjet);
 
@@ -33,15 +33,14 @@ export const demandeChangementPuissanceAnnuléeNotification = async ({
     });
     return;
   }
-
   return sendEmail({
-    templateId: 6887039,
-    messageSubject: `Potentiel - La demande de changement de puissance pour le projet ${projet.nom} dans le département ${projet.département} a été annulée`,
+    templateId: 6887674,
+    messageSubject: `Potentiel - changement de puissance pour le projet ${projet.nom} dans le département ${projet.département} demandé`,
     recipients: dreals,
     variables: {
       nom_projet: projet.nom,
       departement_projet: projet.département,
-      url: `${baseUrl}${Routes.Projet.details(identifiantProjet.formatter())}`,
+      url: `${baseUrl}${Routes.Puissance.changement.détails(identifiantProjet.formatter(), event.payload.demandéLe)}`,
     },
   });
 };
