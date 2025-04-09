@@ -4,9 +4,9 @@ import { Routes } from '@potentiel-applications/routes';
 import { Puissance } from '@potentiel-domain/laureat';
 import { IdentifiantProjet } from '@potentiel-domain/projet';
 
-import { RegisterPuissanceNotificationDependencies } from '.';
+import { RegisterPuissanceNotificationDependencies } from '..';
 
-type ChangementPuissanceRejetéNotificationProps = {
+type DemandeChangementPuissanceRejetéeNotificationProps = {
   sendEmail: RegisterPuissanceNotificationDependencies['sendEmail'];
   event: Puissance.ChangementPuissanceRejetéEvent;
   projet: {
@@ -16,12 +16,12 @@ type ChangementPuissanceRejetéNotificationProps = {
   baseUrl: string;
 };
 
-export const changementPuissanceRejetéNotification = async ({
+export const demandeChangementPuissanceRejetéeNotification = async ({
   sendEmail,
   event,
   projet,
   baseUrl,
-}: ChangementPuissanceRejetéNotificationProps) => {
+}: DemandeChangementPuissanceRejetéeNotificationProps) => {
   const identifiantProjet = IdentifiantProjet.convertirEnValueType(event.payload.identifiantProjet);
   const porteurs = await récupérerPorteursParIdentifiantProjetAdapter(identifiantProjet);
 

@@ -10,9 +10,10 @@ import { IdentifiantProjet } from '@potentiel-domain/projet';
 
 import { SendEmail } from '../../../sendEmail';
 
-import { changementPuissanceAccordéNotification } from './changementPuissanceAccordé.notification';
-import { changementPuissanceRejetéNotification } from './changementPuissanceRejeté.notification';
+import { demandeChangementPuissanceAccordéeNotification } from './demande/demandeChangementPuissanceAccordée.notification';
+import { demandeChangementPuissanceRejetéeNotification } from './demande/demandeChangementPuissanceRejetée.notification';
 import { puissanceModifiéeNotification } from './puissanceModifiée.notification';
+import { demandeChangementPuissanceAnnuléeNotification } from './demande/demandeChangementPuissanceAnnulée.notification';
 
 export type SubscriptionEvent = Puissance.PuissanceEvent & Event;
 
@@ -63,8 +64,16 @@ export const register = ({ sendEmail }: RegisterPuissanceNotificationDependencie
           baseUrl,
         }),
       )
+      .with({ type: 'ChangementPuissanceAnnulé-V1' }, async (event) =>
+        demandeChangementPuissanceAnnuléeNotification({
+          sendEmail,
+          event,
+          projet,
+          baseUrl,
+        }),
+      )
       .with({ type: 'ChangementPuissanceAccordé-V1' }, async (event) =>
-        changementPuissanceAccordéNotification({
+        demandeChangementPuissanceAccordéeNotification({
           sendEmail,
           event,
           projet,
@@ -72,7 +81,7 @@ export const register = ({ sendEmail }: RegisterPuissanceNotificationDependencie
         }),
       )
       .with({ type: 'ChangementPuissanceRejeté-V1' }, async (event) =>
-        changementPuissanceRejetéNotification({
+        demandeChangementPuissanceRejetéeNotification({
           sendEmail,
           event,
           projet,
@@ -83,7 +92,6 @@ export const register = ({ sendEmail }: RegisterPuissanceNotificationDependencie
         {
           type: P.union(
             'ChangementPuissanceDemandé-V1',
-            'ChangementPuissanceAnnulé-V1',
             'ChangementPuissanceSupprimé-V1',
             'ChangementPuissanceEnregistré-V1',
             'PuissanceImportée-V1',
