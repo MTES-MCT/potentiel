@@ -19,6 +19,7 @@ import { withUtilisateur } from '@/utils/withUtilisateur';
 import { formatIdentifiantProjetForDocument } from '@/utils/modèle-document/formatIdentifiantProjetForDocument';
 import { getPériodeAppelOffres } from '@/app/_helpers/getPériodeAppelOffres';
 import { getEnCopies } from '@/utils/modèle-document/getEnCopies';
+import { getDocxDocumentHeader } from '@/utils/modèle-document/getDocxDocumentHeader';
 
 export const GET = async (
   request: NextRequest,
@@ -78,8 +79,9 @@ export const GET = async (
     const régionDreal = Option.isSome(utilisateur.région) ? utilisateur.région : undefined;
 
     const refPotentiel = formatIdentifiantProjetForDocument(identifiantProjet);
+    const type = 'puissance';
     const content = await ModèleRéponseSignée.générerModèleRéponseAdapter({
-      type: 'puissance',
+      type,
       logo: régionDreal,
       data: {
         adresseCandidat: candidature.candidat.adressePostale,
@@ -112,12 +114,8 @@ export const GET = async (
       },
     });
 
-    const dateStr = new Intl.DateTimeFormat('fr').format(new Date()).replaceAll('/', '-');
     return new Response(content, {
-      headers: {
-        'content-type': 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-        'content-disposition': `attachment; filename="${dateStr}_${refPotentiel}_${encodeURIComponent(candidature.nom)}.docx"`,
-      },
+      headers: getDocxDocumentHeader({ identifiantProjet, nomProjet: candidature.nom, type }),
     });
   });
 
