@@ -15,6 +15,7 @@ import { changementPuissanceAccordéNotification } from './changement/changement
 import { changementPuissanceAnnuléNotification } from './changement/changementPuissanceAnnulé.notification';
 import { changementPuissanceRejetéNotification } from './changement/changementPuissanceRejeté.notification';
 import { changementPuissanceDemandéNotification } from './changement/changementPuissanceDemandé.notification';
+import { changementPuissanceEnregistréNotification } from './changement/changementPuissanceEnregistré.notification';
 
 export type SubscriptionEvent = Puissance.PuissanceEvent & Event;
 
@@ -65,6 +66,14 @@ export const register = ({ sendEmail }: RegisterPuissanceNotificationDependencie
           baseUrl,
         }),
       )
+      .with({ type: 'ChangementPuissanceEnregistré-V1' }, async (event) =>
+        changementPuissanceEnregistréNotification({
+          sendEmail,
+          event,
+          projet,
+          baseUrl,
+        }),
+      )
       .with({ type: 'ChangementPuissanceDemandé-V1' }, async (event) =>
         changementPuissanceDemandéNotification({
           sendEmail,
@@ -99,11 +108,7 @@ export const register = ({ sendEmail }: RegisterPuissanceNotificationDependencie
       )
       .with(
         {
-          type: P.union(
-            'ChangementPuissanceSupprimé-V1',
-            'ChangementPuissanceEnregistré-V1',
-            'PuissanceImportée-V1',
-          ),
+          type: P.union('ChangementPuissanceSupprimé-V1', 'PuissanceImportée-V1'),
         },
         () => Promise.resolve(),
       )
