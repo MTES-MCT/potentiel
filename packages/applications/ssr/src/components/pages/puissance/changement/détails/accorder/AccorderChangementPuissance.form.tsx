@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import Button from '@codegouvfr/react-dsfr/Button';
+import Checkbox from '@codegouvfr/react-dsfr/Checkbox';
 
 import { Routes } from '@potentiel-applications/routes';
 
@@ -47,9 +48,7 @@ export const AccorderChangementPuissance = ({
           children: (
             <>
               <p className="mt-3">Êtes-vous sûr de vouloir accorder ce changement de puissance ?</p>
-
               <input type={'hidden'} value={identifiantProjet} name="identifiantProjet" />
-
               <UploadNewOrModifyExistingDocument
                 label="Réponse signée"
                 state={validationErrors['reponseSignee'] ? 'error' : 'default'}
@@ -59,13 +58,27 @@ export const AccorderChangementPuissance = ({
                 className="mb-4"
                 formats={['pdf']}
               />
-
               <DownloadDocument
                 className="mb-4"
                 url={Routes.Puissance.changement.téléchargerModèleRéponse(identifiantProjet)}
                 format="docx"
                 label="Télécharger le modèle de réponse"
               />
+              <input type={'hidden'} value={identifiantProjet} name="identifiantProjet" />
+              <Checkbox
+                state={validationErrors['estUneDecisionDEtat'] ? 'error' : 'default'}
+                stateRelatedMessage={validationErrors['estUneDecisionDEtat']}
+                hintText="En cochant cette case, vous devrez joindre un courrier uniquement en cas de refus."
+                options={[
+                  {
+                    label:
+                      "La demande de changement de puissance fait suite à une décision de l'État",
+                    nativeInputProps: {
+                      value: 'true',
+                    },
+                  },
+                ]}
+              />{' '}
             </>
           ),
         }}
