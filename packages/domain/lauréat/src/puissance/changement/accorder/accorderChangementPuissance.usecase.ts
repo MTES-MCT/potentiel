@@ -16,22 +16,12 @@ export type AccorderChangementPuissanceUseCase = Message<
     accordéLeValue: string;
     accordéParValue: string;
     rôleUtilisateurValue: string;
-  } & (
-    | {
-        réponseSignéeValue: {
-          content: ReadableStream;
-          format: string;
-        };
-        estUneDécisionDeEtatValue: false;
-      }
-    | {
-        réponseSignéeValue?: {
-          content: ReadableStream;
-          format: string;
-        };
-        estUneDécisionDeEtatValue: true;
-      }
-  )
+    réponseSignéeValue?: {
+      content: ReadableStream;
+      format: string;
+    };
+    estUneDécisionDEtatValue: boolean;
+  }
 >;
 
 export const registerAccorderChangementPuissanceUseCase = () => {
@@ -41,7 +31,7 @@ export const registerAccorderChangementPuissanceUseCase = () => {
     accordéParValue,
     réponseSignéeValue,
     rôleUtilisateurValue,
-    estUneDécisionDeEtatValue,
+    estUneDécisionDEtatValue,
   }) => {
     const identifiantProjet = IdentifiantProjet.convertirEnValueType(identifiantProjetValue);
     const accordéLe = DateTime.convertirEnValueType(accordéLeValue);
@@ -64,15 +54,15 @@ export const registerAccorderChangementPuissanceUseCase = () => {
         identifiantProjet,
         réponseSignée,
         rôleUtilisateur,
-        estUneDécisionDeEtat: estUneDécisionDeEtatValue,
+        estUneDécisionDEtat: estUneDécisionDEtatValue,
       },
     });
 
-    if (réponseSignéeValue) {
+    if (réponseSignée) {
       await mediator.send<EnregistrerDocumentProjetCommand>({
         type: 'Document.Command.EnregistrerDocumentProjet',
         data: {
-          content: réponseSignéeValue.content,
+          content: réponseSignéeValue!.content,
           documentProjet: réponseSignée,
         },
       });

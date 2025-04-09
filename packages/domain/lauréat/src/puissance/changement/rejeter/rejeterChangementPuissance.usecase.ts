@@ -20,6 +20,7 @@ export type RejeterChangementPuissanceUseCase = Message<
       format: string;
     };
     rôleUtilisateurValue: string;
+    estUneDécisionDEtatValue: boolean;
   }
 >;
 
@@ -30,6 +31,7 @@ export const registerRejeterChangementPuissanceUseCase = () => {
     rejetéParValue,
     réponseSignéeValue: { format, content },
     rôleUtilisateurValue,
+    estUneDécisionDEtatValue,
   }) => {
     const identifiantProjet = IdentifiantProjet.convertirEnValueType(identifiantProjetValue);
     const rejetéLe = DateTime.convertirEnValueType(rejetéLeValue);
@@ -50,6 +52,7 @@ export const registerRejeterChangementPuissanceUseCase = () => {
         identifiantProjet,
         réponseSignée,
         rôleUtilisateur,
+        estUneDécisionDEtat: estUneDécisionDEtatValue,
       },
     });
 

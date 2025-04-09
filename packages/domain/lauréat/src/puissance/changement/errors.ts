@@ -32,8 +32,8 @@ export class DemandeDoitÊtreInstruiteParDGECError extends DomainError {
   }
 }
 
-export class DemandeDoitÊtreInstruiteParDGECError extends DomainError {
+export class RéponseSignéeObligatoireSiAccordSansDécisionDeLEtatError extends DomainError {
   constructor() {
-    super('Une demande de changement de puissance à la hausse doit être instruite par la DGEC');
+    super("La réponse signée est obligatoire si l'accord n'est pas une décision de l'État");
   }
 }
