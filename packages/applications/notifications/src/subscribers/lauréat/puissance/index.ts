@@ -12,6 +12,7 @@ import { SendEmail } from '../../../sendEmail';
 
 import { changementPuissanceAccordéNotification } from './changementPuissanceAccordé.notification';
 import { changementPuissanceRejetéNotification } from './changementPuissanceRejeté.notification';
+import { puissanceModifiéeNotification } from './puissanceModifiée.notification';
 
 export type SubscriptionEvent = Puissance.PuissanceEvent & Event;
 
@@ -54,6 +55,14 @@ export const register = ({ sendEmail }: RegisterPuissanceNotificationDependencie
     };
 
     return match(event)
+      .with({ type: 'PuissanceModifiée-V1' }, async (event) =>
+        puissanceModifiéeNotification({
+          sendEmail,
+          event,
+          projet,
+          baseUrl,
+        }),
+      )
       .with({ type: 'ChangementPuissanceAccordé-V1' }, async (event) =>
         changementPuissanceAccordéNotification({
           sendEmail,
@@ -78,7 +87,6 @@ export const register = ({ sendEmail }: RegisterPuissanceNotificationDependencie
             'ChangementPuissanceSupprimé-V1',
             'ChangementPuissanceEnregistré-V1',
             'PuissanceImportée-V1',
-            'PuissanceModifiée-V1',
           ),
         },
         () => Promise.resolve(),
