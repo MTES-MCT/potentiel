@@ -303,6 +303,7 @@ const référencielPermissions = {
         demanderChangement: 'Lauréat.Puissance.UseCase.DemanderChangement',
         annulerChangement: 'Lauréat.Puissance.UseCase.AnnulerDemandeChangement',
         accorderChangement: 'Lauréat.Puissance.UseCase.AccorderDemandeChangement',
+        rejeterChangement: 'Lauréat.Puissance.UseCase.RejeterDemandeChangement',
       },
       command: {
         modifier: 'Lauréat.Puissance.Command.ModifierPuissance',
@@ -310,6 +311,7 @@ const référencielPermissions = {
         demanderChangement: 'Lauréat.Puissance.Command.DemanderChangement',
         annulerChangement: 'Lauréat.Puissance.Command.AnnulerDemandeChangement',
         accorderChangement: 'Lauréat.Puissance.Command.AccorderDemandeChangement',
+        rejeterChangement: 'Lauréat.Puissance.Command.RejeterDemandeChangement',
       },
     },
     usecase: {
@@ -1032,9 +1034,12 @@ const policies = {
       référencielPermissions.lauréat.puissance.command.annulerChangement,
     ],
     accorderChangement: [
-      référencielPermissions.appelOffre.cahierDesCharges.query.consulter,
       référencielPermissions.lauréat.puissance.usecase.accorderChangement,
       référencielPermissions.lauréat.puissance.command.accorderChangement,
+    ],
+    rejeterChangement: [
+      référencielPermissions.lauréat.puissance.usecase.rejeterChangement,
+      référencielPermissions.lauréat.puissance.command.rejeterChangement,
     ],
   },
   lauréat: {
@@ -1217,6 +1222,7 @@ const adminPolicies: ReadonlyArray<Policy> = [
   'puissance.consulter',
   'puissance.consulterChangement',
   'puissance.accorderChangement',
+  'puissance.rejeterChangement',
 ];
 
 const dgecValidateurPolicies: ReadonlyArray<Policy> = [
@@ -1325,6 +1331,7 @@ const drealPolicies: ReadonlyArray<Policy> = [
   'puissance.modifier',
   'puissance.consulterChangement',
   'puissance.accorderChangement',
+  'puissance.rejeterChangement',
 
   // Utilisateur
   'utilisateur.inviterPorteur',

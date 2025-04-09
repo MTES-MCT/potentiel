@@ -14,8 +14,9 @@ import { InfoBoxDemandeEnCours } from './InfoBoxDemandeEnCours';
 import { AnnulerChangementPuissance } from './annuler/AnnulerChangementPuissance.form';
 import { DétailsChangementPuissance } from './DétailsChangementPuissance';
 import { AccorderChangementPuissance } from './accorder/AccorderChangementPuissance.form';
+import { RejeterChangementPuissance } from './rejeter/RejeterChangementPuissance.form';
 
-export type ChangementPuissanceActions = 'annuler' | 'demander' | 'accorder';
+export type ChangementPuissanceActions = 'annuler' | 'demander' | 'accorder' | 'rejeter';
 
 export type DétailsPuissancePageProps = {
   identifiantProjet: PlainType<IdentifiantProjet.ValueType>;
@@ -77,6 +78,9 @@ const mapToActionComponents = ({ actions, identifiantProjet }: MapToActionsCompo
       )}
       {actions.includes('accorder') && (
         <AccorderChangementPuissance identifiantProjet={identifiantProjet} />
+      )}
+      {actions.includes('rejeter') && (
+        <RejeterChangementPuissance identifiantProjet={identifiantProjet} />
       )}
       {actions.includes('demander') && (
         <Button

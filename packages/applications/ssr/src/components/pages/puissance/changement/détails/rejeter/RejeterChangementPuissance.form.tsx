@@ -11,42 +11,42 @@ import { UploadNewOrModifyExistingDocument } from '@/components/atoms/form/docum
 import { DownloadDocument } from '@/components/atoms/form/document/DownloadDocument';
 
 import {
-  accorderChangementPuissanceAction,
-  AccorderChangementPuissanceFormKeys,
-} from './accorderChangementPuissance.action';
+  rejeterChangementPuissanceAction,
+  RejeterChangementPuissanceFormKeys,
+} from './rejeterChangementPuissance.action';
 
-type AccorderChangementPuissanceFormProps = {
+type RejeterChangementPuissanceFormProps = {
   identifiantProjet: string;
 };
 
-export const AccorderChangementPuissance = ({
+export const RejeterChangementPuissance = ({
   identifiantProjet,
-}: AccorderChangementPuissanceFormProps) => {
+}: RejeterChangementPuissanceFormProps) => {
   const [validationErrors, setValidationErrors] = useState<
-    ValidationErrors<AccorderChangementPuissanceFormKeys>
+    ValidationErrors<RejeterChangementPuissanceFormKeys>
   >({});
   const [isOpen, setIsOpen] = useState(false);
 
   return (
     <>
-      <Button onClick={() => setIsOpen(true)} className="block text-center">
-        Accorder
+      <Button priority="secondary" onClick={() => setIsOpen(true)} className="block text-center">
+        Rejeter
       </Button>
 
       <ModalWithForm
-        id="accorder-changement-puissance-modal"
-        title="Accorder le changement de puissance"
+        id="rejeter-changement-puissance-modal"
+        title="Rejeter la demande de changement de puissance"
         acceptButtonLabel="Oui"
         rejectButtonLabel="Non"
         isOpen={isOpen}
         onClose={() => setIsOpen(false)}
         form={{
-          action: accorderChangementPuissanceAction,
-          id: 'accorder-changement-puissance-form',
+          action: rejeterChangementPuissanceAction,
+          id: 'rejeter-changement-puissance-form',
           onValidationError: (validationErrors) => setValidationErrors(validationErrors),
           children: (
             <>
-              <p className="mt-3">Êtes-vous sûr de vouloir accorder ce changement de puissance ?</p>
+              <p className="mt-3">Êtes-vous sûr de vouloir rejeter ce changement de puissance ?</p>
 
               <input type={'hidden'} value={identifiantProjet} name="identifiantProjet" />
 
@@ -59,7 +59,6 @@ export const AccorderChangementPuissance = ({
                 className="mb-4"
                 formats={['pdf']}
               />
-
               <DownloadDocument
                 className="mb-4"
                 url={Routes.Puissance.changement.téléchargerModèleRéponse(identifiantProjet)}

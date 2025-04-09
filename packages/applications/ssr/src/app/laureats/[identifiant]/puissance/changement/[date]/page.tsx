@@ -96,6 +96,9 @@ const mapToActions = (
     if (rôle.aLaPermission('puissance.accorderChangement') && estAutoritéCompétente) {
       actions.push('accorder');
     }
+    if (rôle.aLaPermission('puissance.rejeterChangement') && estAutoritéCompétente) {
+      actions.push('rejeter');
+    }
     if (rôle.aLaPermission('puissance.annulerChangement')) {
       actions.push('annuler');
     }

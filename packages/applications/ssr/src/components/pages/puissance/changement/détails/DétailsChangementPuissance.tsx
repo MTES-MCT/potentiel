@@ -36,6 +36,13 @@ export const DétailsChangementPuissance: FC<DétailsChangementPuissanceProps> =
                 réponseSignée={demande.accord.réponseSignée}
               />
             )}
+            {!demande.isInformationEnregistrée && demande.rejet && (
+              <ChangementRejeté
+                rejetéeLe={demande.rejet.rejetéeLe}
+                rejetéePar={demande.rejet.rejetéePar}
+                réponseSignée={demande.rejet.réponseSignée}
+              />
+            )}
             {statut.estDemandé() && (
               <ChangementDemandé
                 demandéeLe={demande.demandéeLe}
@@ -144,6 +151,33 @@ const ChangementAccordé: FC<ChangementAccordéProps> = ({
     <div className="flex gap-2">
       <div className="font-semibold">Statut :</div>{' '}
       <StatutChangementPuissanceBadge statut={Puissance.StatutChangementPuissance.accordé.statut} />
+    </div>
+    <div className="flex gap-2">
+      <div className="font-semibold whitespace-nowrap">Réponse signée :</div>
+      <DownloadDocument
+        className="mb-0"
+        label="Télécharger la réponse signée"
+        format={réponseSignée.format}
+        url={Routes.Document.télécharger(DocumentProjet.bind(réponseSignée).formatter())}
+      />
+    </div>
+  </>
+);
+
+type ChangementRejetéProps = NonNullable<
+  PlainType<Puissance.DétailsDemandeChangementPuissance['rejet']>
+>;
+
+const ChangementRejeté: FC<ChangementRejetéProps> = ({ rejetéeLe, rejetéePar, réponseSignée }) => (
+  <>
+    <div className="text-xs italic">
+      Rejetée le{' '}
+      <FormattedDate className="font-semibold" date={DateTime.bind(rejetéeLe).formatter()} /> par{' '}
+      <span className="font-semibold">{Email.bind(rejetéePar).formatter()}</span>
+    </div>
+    <div className="flex gap-2">
+      <div className="font-semibold">Statut :</div>{' '}
+      <StatutChangementPuissanceBadge statut={Puissance.StatutChangementPuissance.rejeté.statut} />
     </div>
     <div className="flex gap-2">
       <div className="font-semibold whitespace-nowrap">Réponse signée :</div>

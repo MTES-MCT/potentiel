@@ -10,6 +10,6 @@ export const changement = {
     `/laureats/${encodeParameter(identifiantProjet)}/puissance/changement/enregistrer`,
   détails: (identifiantProjet: string, demandéLe: string) =>
     `/laureats/${encodeParameter(identifiantProjet)}/puissance/changement/${demandéLe}`,
-  téléchargerModèleRéponseAccordé: (identifiantProjet: string) =>
-    `/laureats/${encodeParameter(identifiantProjet)}/puissance/changement/modele-reponse?estAccordé=true`,
+  téléchargerModèleRéponse: (identifiantProjet: string) =>
+    `/laureats/${encodeParameter(identifiantProjet)}/puissance/changement/modele-reponse`,
 };
