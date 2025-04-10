@@ -40,17 +40,15 @@ const mapToTimelineItemProps = (record: HistoryReadModel) =>
       {
         category: 'abandon',
       },
-      (record) => mapToAbandonTimelineItemProps(record),
+      mapToAbandonTimelineItemProps,
     )
     .with(
       {
         category: 'recours',
       },
-      (record) => mapToRecoursTimelineItemProps(record),
+      mapToRecoursTimelineItemProps,
     )
-    .with({ category: 'actionnaire' }, (record) => mapToActionnaireTimelineItemProps(record))
-    .with({ category: 'représentant-légal' }, (record) =>
-      mapToReprésentantLégalTimelineItemProps(record),
-    )
+    .with({ category: 'actionnaire' }, mapToActionnaireTimelineItemProps)
+    .with({ category: 'représentant-légal' }, mapToReprésentantLégalTimelineItemProps)
     .with({ category: 'puissance' }, mapToPuissanceTimelineItemProps)
     .exhaustive();

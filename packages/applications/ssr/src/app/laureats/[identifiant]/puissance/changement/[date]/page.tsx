@@ -8,6 +8,7 @@ import { mapToPlainObject } from '@potentiel-domain/core';
 import { IdentifiantProjet } from '@potentiel-domain/common';
 import { Role } from '@potentiel-domain/utilisateur';
 import { Historique } from '@potentiel-domain/historique';
+import { AppelOffre } from '@potentiel-domain/appel-offre';
 
 import {
   ChangementPuissanceActions,
@@ -62,6 +63,17 @@ export default async function Page({ params: { identifiant, date } }: PageProps)
         return notFound();
       }
 
+      const appelOffre = await mediator.send<AppelOffre.ConsulterAppelOffreQuery>({
+        type: 'AppelOffre.Query.ConsulterAppelOffre',
+        data: {
+          identifiantAppelOffre: identifiantProjet.appelOffre,
+        },
+      });
+
+      if (Option.isNone(appelOffre)) {
+        return notFound();
+      }
+
       const historique = await mediator.send<
         Historique.ListerHistoriqueProjetQuery<PuissanceHistoryRecord>
       >({
@@ -72,11 +84,19 @@ export default async function Page({ params: { identifiant, date } }: PageProps)
         },
       });
 
+      const historiqueWithUnitePuissance = {
+        ...historique,
+        items: historique.items.map((historique) => ({
+          ...historique,
+          unitePuissance: appelOffre.unitePuissance,
+        })),
+      };
+
       return (
         <DétailsPuissancePage
           identifiantProjet={mapToPlainObject(identifiantProjet)}
           demande={mapToPlainObject(changement.demande)}
-          historique={mapToPlainObject(historique)}
+          historique={mapToPlainObject(historiqueWithUnitePuissance)}
           actions={mapToActions(
             changement.demande.statut,
             utilisateur.role,
@@ -87,6 +107,7 @@ export default async function Page({ params: { identifiant, date } }: PageProps)
           demandeEnCoursDate={
             puissance.dateDemandeEnCours ? puissance.dateDemandeEnCours.formatter() : undefined
           }
+          unitePuissance={appelOffre.unitePuissance}
         />
       );
     }),

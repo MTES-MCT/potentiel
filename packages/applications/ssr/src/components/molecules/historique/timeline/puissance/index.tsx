@@ -2,6 +2,7 @@ import { match } from 'ts-pattern';
 
 import { HistoryRecord } from '@potentiel-domain/entity';
 import { Puissance } from '@potentiel-domain/laureat';
+import { AppelOffre } from '@potentiel-domain/appel-offre';
 
 import { TimelineItemProps } from '@/components/organisms/Timeline';
 
@@ -19,7 +20,9 @@ export type PuissanceHistoryRecord = HistoryRecord<
   'puissance',
   Puissance.PuissanceEvent['type'],
   Puissance.PuissanceEvent['payload']
->;
+> & {
+  unitePuissance: AppelOffre.ConsulterAppelOffreReadModel['unitePuissance'];
+};
 
 export const mapToPuissanceTimelineItemProps = (record: PuissanceHistoryRecord) =>
   match(record)

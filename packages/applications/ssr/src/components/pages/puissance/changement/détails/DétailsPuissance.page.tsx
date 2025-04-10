@@ -6,6 +6,7 @@ import { PlainType } from '@potentiel-domain/core';
 import { Puissance } from '@potentiel-domain/laureat';
 import { Routes } from '@potentiel-applications/routes';
 import { Historique } from '@potentiel-domain/historique';
+import { AppelOffre } from '@potentiel-domain/appel-offre';
 
 import { Heading2 } from '@/components/atoms/headings';
 import { ProjetBanner } from '@/components/molecules/projet/ProjetBanner';
@@ -27,6 +28,7 @@ export type DétailsPuissancePageProps = {
   actions: Array<ChangementPuissanceActions>;
   demandeEnCoursDate?: string;
   historique: PlainType<Historique.ListerHistoriqueProjetReadModel<PuissanceHistoryRecord>>;
+  unitePuissance: AppelOffre.ConsulterAppelOffreReadModel['unitePuissance'];
 };
 
 export const DétailsPuissancePage: FC<DétailsPuissancePageProps> = ({
@@ -35,6 +37,7 @@ export const DétailsPuissancePage: FC<DétailsPuissancePageProps> = ({
   actions,
   demandeEnCoursDate,
   historique,
+  unitePuissance,
 }) => (
   <ColumnPageTemplate
     banner={
@@ -49,7 +52,7 @@ export const DétailsPuissancePage: FC<DétailsPuissancePageProps> = ({
               demandeEnCoursDate={demandeEnCoursDate}
             />
           )}
-          <DétailsChangementPuissance demande={demande} />
+          <DétailsChangementPuissance demande={demande} unitePuissance={unitePuissance} />
           <div className="mb-4">
             <Heading2>Historique</Heading2>
             <HistoriqueTimeline historique={historique} />
