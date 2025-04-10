@@ -1,34 +1,54 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
-import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
+import { PlainType } from '@potentiel-domain/core';
+import { DateTime, Email } from '@potentiel-domain/common';
 import { DocumentProjet, EnregistrerDocumentProjetCommand } from '@potentiel-domain/document';
 
-import { ImporterCandidatureUseCase } from '../importer/importerCandidature.usecase';
-import { mapToCommonCandidatureUseCaseData } from '../candidature.mapper';
+import { IdentifiantProjet } from '../..';
+import * as DépôtCandidature from '../dépôtCandidature.valueType';
+import * as InstructionCandidature from '../instructionCandidature.valueType';
 
 import { CorrigerCandidatureCommand } from './corrigerCandidature.command';
 
 export type CorrigerCandidatureUseCase = Message<
   'Candidature.UseCase.CorrigerCandidature',
-  Omit<ImporterCandidatureUseCase['data'], 'importéLe' | 'importéPar'> & {
-    corrigéLe: string;
-    corrigéPar: string;
-    doitRégénérerAttestation?: true;
+  {
+    appelOffreValue: string;
+    périodeValue: string;
+    familleValue: string;
+    numéroCREValue: string;
+    instructionCandidatureValue: PlainType<InstructionCandidature.ValueType>;
+    dépôtCandidatureValue: PlainType<DépôtCandidature.ValueType>;
+    corrigéLeValue: string;
+    corrigéParValue: string;
+    doitRégénérerAttestationValue?: true;
     détailsValue?: Record<string, string>;
   }
 >;
 
 export const registerCorrigerCandidatureUseCase = () => {
-  const handler: MessageHandler<CorrigerCandidatureUseCase> = async (payload) => {
+  const handler: MessageHandler<CorrigerCandidatureUseCase> = async ({
+    appelOffreValue,
+    familleValue,
+    numéroCREValue,
+    périodeValue,
+    dépôtCandidatureValue,
+    instructionCandidatureValue,
+    corrigéLeValue,
+    corrigéParValue,
+    doitRégénérerAttestationValue,
+    détailsValue,
+  }) => {
     const identifiantProjet = IdentifiantProjet.convertirEnValueType(
-      `${payload.appelOffreValue}#${payload.périodeValue}#${payload.familleValue}#${payload.numéroCREValue}`,
+      `${appelOffreValue}#${périodeValue}#${familleValue}#${numéroCREValue}`,
     );
-    const corrigéLe = DateTime.convertirEnValueType(payload.corrigéLe);
+    const corrigéLe = DateTime.convertirEnValueType(corrigéLeValue);
 
-    const détailsMisÀJour = payload.détailsValue && Object.keys(payload.détailsValue).length > 0;
+    // TODO : la conversion en Buffer ne devrait pas être dans le use case, les détails devrait être passer à la commande et via le ProjetAggregate il faudrait avoir accés au document projet et une fonction enregistrer qui permet de faire du JSON en plus du blob
+    const détailsMisÀJour = détailsValue && Object.keys(détailsValue).length > 0;
 
     if (détailsMisÀJour) {
-      const buf = Buffer.from(JSON.stringify(payload.détailsValue));
+      const buf = Buffer.from(JSON.stringify(détailsValue));
       const blob = new Blob([buf]);
       await mediator.send<EnregistrerDocumentProjetCommand>({
         type: 'Document.Command.EnregistrerDocumentProjet',
@@ -48,10 +68,11 @@ export const registerCorrigerCandidatureUseCase = () => {
       type: 'Candidature.Command.CorrigerCandidature',
       data: {
         identifiantProjet,
-        ...mapToCommonCandidatureUseCaseData(payload),
-        corrigéLe: DateTime.convertirEnValueType(payload.corrigéLe),
-        corrigéPar: Email.convertirEnValueType(payload.corrigéPar),
-        doitRégénérerAttestation: payload.doitRégénérerAttestation,
+        dépôtCandidature: DépôtCandidature.bind(dépôtCandidatureValue),
+        instructionCandidature: InstructionCandidature.bind(instructionCandidatureValue),
+        corrigéLe,
+        corrigéPar: Email.convertirEnValueType(corrigéParValue),
+        doitRégénérerAttestation: doitRégénérerAttestationValue,
         détailsMisÀJour: détailsMisÀJour || undefined,
       },
     });

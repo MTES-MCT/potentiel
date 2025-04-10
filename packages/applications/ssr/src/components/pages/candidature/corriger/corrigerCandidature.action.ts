@@ -3,9 +3,9 @@
 import * as zod from 'zod';
 import { mediator } from 'mediateur';
 
-import { Candidature } from '@potentiel-domain/projet';
+import { Candidature, IdentifiantProjet } from '@potentiel-domain/projet';
 import { Routes } from '@potentiel-applications/routes';
-import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
+import { DateTime } from '@potentiel-domain/common';
 
 import { FormAction, formAction, FormState } from '@/utils/formAction';
 import { withUtilisateur } from '@/utils/withUtilisateur';
@@ -26,8 +26,8 @@ const action: FormAction<FormState, typeof schema> = async (_, body) =>
       type: 'Candidature.UseCase.CorrigerCandidature',
       data: {
         ...mapBodyToUseCaseData(body, candidature),
-        corrigéLe: DateTime.now().formatter(),
-        corrigéPar: utilisateur.identifiantUtilisateur.formatter(),
+        corrigéLeValue: DateTime.now().formatter(),
+        corrigéParValue: utilisateur.identifiantUtilisateur.formatter(),
       },
     });
 
@@ -45,7 +45,7 @@ export const corrigerCandidatureAction = formAction(action, schema);
 const mapBodyToUseCaseData = (
   data: zod.infer<typeof schema>,
   previous: Candidature.ConsulterCandidatureReadModel,
-): Omit<Candidature.CorrigerCandidatureUseCase['data'], 'corrigéLe' | 'corrigéPar'> => {
+): Omit<Candidature.CorrigerCandidatureUseCase['data'], 'corrigéLeValue' | 'corrigéParValue'> => {
   const { appelOffre, période, famille, numéroCRE } = IdentifiantProjet.convertirEnValueType(
     data.identifiantProjet,
   );
@@ -54,39 +54,39 @@ const mapBodyToUseCaseData = (
     périodeValue: période,
     familleValue: famille,
     numéroCREValue: numéroCRE,
-    nomProjetValue: data.nomProjet,
-    sociétéMèreValue: data.societeMere,
-    nomCandidatValue: data.nomCandidat,
-    puissanceProductionAnnuelleValue: data.puissanceProductionAnnuelle,
-    prixRéférenceValue: data.prixReference,
-    noteTotaleValue: data.noteTotale,
-    nomReprésentantLégalValue: data.nomRepresentantLegal,
-    emailContactValue: data.emailContact,
-    localitéValue: {
-      codePostal: data.codePostal,
-      adresse1: data.adresse1,
-      adresse2: data.adresse2,
-      commune: data.commune,
-      département: data.departement,
-      région: data.region,
+    dépôtCandidatureValue: {
+      nomProjet: data.nomProjet,
+      sociétéMère: data.societeMere,
+      nomCandidat: data.nomCandidat,
+      puissanceProductionAnnuelle: data.puissanceProductionAnnuelle,
+      prixRéférence: data.prixReference,
+      nomReprésentantLégal: data.nomRepresentantLegal,
+      emailContact: { email: data.emailContact },
+      localité: {
+        codePostal: data.codePostal,
+        adresse1: data.adresse1,
+        adresse2: data.adresse2,
+        commune: data.commune,
+        département: data.departement,
+        région: data.region,
+      },
+      puissanceALaPointe: data.puissanceALaPointe,
+      evaluationCarboneSimplifiée: data.evaluationCarboneSimplifiee,
+      actionnariat: data.actionnariat ? { type: data.actionnariat } : undefined,
+      technologie: { type: data.technologie },
+      typeGarantiesFinancières: data.typeGarantiesFinancieres
+        ? { type: data.typeGarantiesFinancieres }
+        : undefined,
+      dateÉchéanceGf: data.dateEcheanceGf ? { date: data.dateEcheanceGf.toISOString() } : undefined,
+      coefficientKChoisi: data.coefficientKChoisi,
+      territoireProjet: previous.territoireProjet,
+      historiqueAbandon: previous.historiqueAbandon,
     },
-    motifÉliminationValue: data.motifElimination,
-    puissanceALaPointeValue: data.puissanceALaPointe,
-    evaluationCarboneSimplifiéeValue: data.evaluationCarboneSimplifiee,
-    actionnariatValue: data.actionnariat,
-    technologieValue: data.technologie,
-    statutValue: data.statut ?? previous.statut.formatter(),
-
-    typeGarantiesFinancièresValue: data.typeGarantiesFinancieres,
-    dateÉchéanceGfValue: data.dateEcheanceGf
-      ? DateTime.convertirEnValueType(data.dateEcheanceGf).formatter()
-      : undefined,
-    coefficientKChoisiValue: data.coefficientKChoisi,
-
-    // non-editable fields
-    territoireProjetValue: previous.territoireProjet,
-    historiqueAbandonValue: previous.historiqueAbandon.formatter(),
-
-    doitRégénérerAttestation: data.doitRegenererAttestation ? true : undefined,
+    instructionCandidatureValue: {
+      noteTotale: data.noteTotale,
+      statut: data.statut ? { statut: data.statut } : previous.statut,
+      motifÉlimination: data.motifElimination,
+    },
+    doitRégénérerAttestationValue: data.doitRegenererAttestation ? true : undefined,
   };
 };

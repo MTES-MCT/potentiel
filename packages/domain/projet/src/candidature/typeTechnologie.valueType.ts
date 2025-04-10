@@ -1,4 +1,4 @@
-import { InvalidOperationError, ReadonlyValueType } from '@potentiel-domain/core';
+import { InvalidOperationError, PlainType, ReadonlyValueType } from '@potentiel-domain/core';
 
 export const types = ['pv', 'eolien', 'hydraulique', 'N/A'] as const;
 export type RawType = (typeof types)[number];
@@ -7,6 +7,10 @@ export type ValueType = ReadonlyValueType<{
   type: RawType;
   formatter(): RawType;
 }>;
+
+export const bind = ({ type }: PlainType<ValueType>): ValueType => {
+  return convertirEnValueType(type);
+};
 
 export const convertirEnValueType = (type: string) => {
   estValide(type);

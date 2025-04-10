@@ -47,8 +47,8 @@ const action: FormAction<FormState, typeof schema> = async (_, { fichierImportCa
           type: 'Candidature.UseCase.ImporterCandidature',
           data: {
             ...mapLineToUseCaseData(line, projectRawLine),
-            importéLe: DateTime.now().formatter(),
-            importéPar: utilisateur.identifiantUtilisateur.formatter(),
+            importéLeValue: DateTime.now().formatter(),
+            importéParValue: utilisateur.identifiantUtilisateur.formatter(),
           },
         });
 
@@ -96,34 +96,51 @@ const removeEmptyValues = (projectRawLine: Record<string, string>) => {
 const mapLineToUseCaseData = (
   line: CandidatureShape,
   rawLine: Record<string, string>,
-): Omit<Candidature.ImporterCandidatureUseCase['data'], 'importéLe' | 'importéPar'> => ({
-  typeGarantiesFinancièresValue: line.typeGf,
-  historiqueAbandonValue: line.historiqueAbandon,
+): Omit<Candidature.ImporterCandidatureUseCase['data'], 'importéLeValue' | 'importéParValue'> => ({
   appelOffreValue: line.appelOffre,
   périodeValue: line.période,
   familleValue: line.famille,
   numéroCREValue: line.numéroCRE,
-  nomProjetValue: line.nomProjet,
-  sociétéMèreValue: line.sociétéMère,
-  nomCandidatValue: line.nomCandidat,
-  puissanceProductionAnnuelleValue: line.puissanceProductionAnnuelle,
-  prixRéférenceValue: line.prixRéférence,
-  noteTotaleValue: line.noteTotale,
-  nomReprésentantLégalValue: line.nomReprésentantLégal,
-  emailContactValue: line.emailContact,
-  localitéValue: getLocalité(line),
-  statutValue: line.statut,
-  motifÉliminationValue: line.motifÉlimination,
-  puissanceALaPointeValue: line.puissanceÀLaPointe,
-  evaluationCarboneSimplifiéeValue: line.evaluationCarboneSimplifiée,
-  technologieValue: line.technologie,
-  actionnariatValue: line.financementCollectif
-    ? Candidature.TypeActionnariat.financementCollectif.formatter()
-    : line.gouvernancePartagée
-      ? Candidature.TypeActionnariat.gouvernancePartagée.formatter()
+  dépôtCandidatureValue: {
+    nomProjet: line.nomProjet,
+    typeGarantiesFinancières: line.typeGf
+      ? {
+          type: line.typeGf,
+        }
       : undefined,
-  dateÉchéanceGfValue: line.dateÉchéanceGf?.toISOString(),
-  territoireProjetValue: line.territoireProjet,
-  coefficientKChoisiValue: line.coefficientKChoisi,
+    historiqueAbandon: {
+      type: line.historiqueAbandon,
+    },
+    sociétéMère: line.sociétéMère,
+    nomCandidat: line.nomCandidat,
+    puissanceProductionAnnuelle: line.puissanceProductionAnnuelle,
+    prixRéférence: line.prixRéférence,
+    nomReprésentantLégal: line.nomReprésentantLégal,
+    emailContact: {
+      email: line.emailContact,
+    },
+    localité: getLocalité(line),
+    puissanceALaPointe: line.puissanceÀLaPointe,
+    evaluationCarboneSimplifiée: line.evaluationCarboneSimplifiée,
+    technologie: {
+      type: line.technologie,
+    },
+    dateÉchéanceGf: line.dateÉchéanceGf ? { date: line.dateÉchéanceGf?.toISOString() } : undefined,
+    territoireProjet: line.territoireProjet,
+    coefficientKChoisi: line.coefficientKChoisi,
+    actionnariat: line.financementCollectif
+      ? Candidature.TypeActionnariat.financementCollectif
+      : line.gouvernancePartagée
+        ? Candidature.TypeActionnariat.gouvernancePartagée
+        : undefined,
+  },
+  instructionCandidatureValue: {
+    statut: {
+      statut: line.statut,
+    },
+    noteTotale: line.noteTotale,
+
+    motifÉlimination: line.motifÉlimination,
+  },
   détailsValue: removeEmptyValues(rawLine),
 });

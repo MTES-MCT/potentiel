@@ -85,3 +85,5 @@ export * as TypeActionnariat from './typeActionnariat.valueType';
 export * as HistoriqueAbandon from './historiqueAbandon.valueType';
 export * as StatutCandidature from './statutCandidature.valueType';
 export * as TypeGarantiesFinancières from './typeGarantiesFinancières.valueType';
+export * as DépôtCandidature from './dépôtCandidature.valueType';
+export * as Localité from './localité.valueType';

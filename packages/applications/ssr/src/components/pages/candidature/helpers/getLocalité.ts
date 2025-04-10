@@ -1,4 +1,5 @@
 import { Candidature } from '@potentiel-domain/projet';
+import { PlainType } from '@potentiel-domain/core';
 
 import { CandidatureShape } from '@/utils/zod/candidature';
 
@@ -15,7 +16,7 @@ export const getLocalité = ({
 }: Pick<
   CandidatureShape,
   'codePostaux' | 'adresse1' | 'adresse2' | 'commune'
->): Candidature.ImporterCandidatureUseCase['data']['localitéValue'] => {
+>): PlainType<Candidature.Localité.ValueType> => {
   const départementsRégions = codePostaux
     .map(getRégionAndDépartementFromCodePostal)
     .filter((dptRegion): dptRegion is DépartementRégion => !!dptRegion);
