@@ -1,9 +1,13 @@
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 
-export const getVolumeReserve = (
-  appelOffre: AppelOffre.ConsulterAppelOffreReadModel,
-  périodeId: string,
-): { noteThreshold: number; puissanceMax: number } | undefined => {
+type GetVolumeReserve = {
+  appelOffre: AppelOffre.ConsulterAppelOffreReadModel;
+  périodeId: string;
+};
+export const getVolumeReserve = ({
+  appelOffre,
+  périodeId,
+}: GetVolumeReserve): { noteThreshold: number; puissanceMax: number } | undefined => {
   const période = appelOffre.periodes.find((p) => p.id === périodeId);
 
   if (période?.type === 'notified') {

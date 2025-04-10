@@ -1,27 +1,25 @@
-import { ProjectAppelOffre } from '../../../../../entities';
+import { AppelOffre } from '@potentiel-domain/appel-offre';
 
-export type ExceedsPuissanceMaxFamille = (arg: {
-  project: {
-    appelOffre: ProjectAppelOffre;
-    familleId?: string;
-  };
+export type ExceedsPuissanceMaxFamille = {
+  période: AppelOffre.Periode;
+  familleId: string;
   nouvellePuissance: number;
-}) => boolean;
+};
 
-export const exceedsPuissanceMaxFamille: ExceedsPuissanceMaxFamille = ({
-  project: { appelOffre, familleId },
+export const exceedsPuissanceMaxFamille = ({
+  période,
+  familleId,
   nouvellePuissance,
-}) => {
+}: ExceedsPuissanceMaxFamille): boolean => {
   if (!familleId) {
     return false;
   }
 
-  const puissanceMaxFamille = appelOffre.periode.familles.find(
-    (f) => f.id === familleId,
-  )?.puissanceMax;
+  const puissanceMaxFamille = période.familles.find((f) => f.id === familleId)?.puissanceMax;
 
   if (!puissanceMaxFamille) {
     return false;
   }
+
   return nouvellePuissance > puissanceMaxFamille;
 };
