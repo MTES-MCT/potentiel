@@ -46,13 +46,13 @@ export const bind = ({
       return '';
     },
     get appelOffre() {
-      return appelOffre;
+      return appelOffre as AppelOffre.ConsulterAppelOffreReadModel;
     },
     get technologie() {
       return technologie;
     },
     get cahierDesCharges() {
-      return cahierDesCharges;
+      return cahierDesCharges as ConsulterCahierDesChargesChoisiReadmodel;
     },
     get périodeId() {
       return périodeId;
@@ -71,9 +71,9 @@ export const bind = ({
     },
     dépasseRatiosChangementPuissance(): boolean {
       const { min, max } = getRatiosChangementPuissance({
-        appelOffre,
+        appelOffre: this.appelOffre,
         technologie,
-        cahierDesCharges,
+        cahierDesCharges: this.cahierDesCharges,
         périodeId,
       });
       return dépasseRatiosChangementPuissance({
@@ -83,10 +83,20 @@ export const bind = ({
       });
     },
     dépassePuissanceMaxFamille(): boolean {
-      return dépassePuissanceMaxFamille({ appelOffre, périodeId, familleId, nouvellePuissance });
+      return dépassePuissanceMaxFamille({
+        appelOffre: this.appelOffre,
+        périodeId,
+        familleId,
+        nouvellePuissance,
+      });
     },
     dépassePuissanceMaxDuVolumeRéservé(): boolean {
-      return dépassePuissanceMaxDuVolumeRéservé({ note, périodeId, nouvellePuissance, appelOffre });
+      return dépassePuissanceMaxDuVolumeRéservé({
+        note,
+        périodeId,
+        nouvellePuissance,
+        appelOffre: this.appelOffre,
+      });
     },
   };
 };

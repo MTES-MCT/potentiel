@@ -1,4 +1,5 @@
 # language: fr
+@select
 Fonctionnalité: Enregistrer un changement de puissance d'un projet lauréat
 
     Contexte:
@@ -44,7 +45,6 @@ Fonctionnalité: Enregistrer un changement de puissance d'un projet lauréat
         Quand le porteur enregistre un changement de puissance pour le projet lauréat
         Alors le porteur devrait être informé que "Impossible de demander le changement de puissance pour un projet achevé"
 
-    @NotImplemented
     Scénario: Impossible pour le porteur d'enregistrer un changement de puissance si elle est inférieure au ratio min
         Etant donné le projet lauréat "Du bouchon de Lyon le retour" avec :
             | appel d'offre   | <Appel d'offre> |
@@ -53,12 +53,10 @@ Fonctionnalité: Enregistrer un changement de puissance d'un projet lauréat
         Alors le porteur devrait être informé que "La puissance dépasse la puissance maximale autorisée par l'appel d'offres"
 
         Exemples:
-            | Appel d'offre     | Ratio |
-            | PPE2 - Eolien     | 0.75  |
-            | CRE4 - Bâtiment   | 0.85  |
-            | CRE4 - Innovation | 0.65  |
+            | Appel d'offre   | Ratio |
+            | PPE2 - Eolien   | 0.75  |
+            | CRE4 - Bâtiment | 0.85  |
 
-    @NotImplemented
     Scénario: Impossible pour le porteur d'enregistrer un changement de puissance si elle est supérieure au ratio max
         Etant donné le projet lauréat "Du bouchon de Lyon" avec :
             | appel d'offre   | <Appel d'offre> |
@@ -67,10 +65,9 @@ Fonctionnalité: Enregistrer un changement de puissance d'un projet lauréat
         Alors le porteur devrait être informé que "La puissance est en deça de la puissance minimale autorisée par l'appel d'offres"
 
         Exemples:
-            | Appel d'offre     | Ratio |
-            | PPE2 - Eolien     | 1.25  |
-            | CRE4 - Bâtiment   | 1.55  |
-            | CRE4 - Innovation | 1.15  |
+            | Appel d'offre   | Ratio |
+            | PPE2 - Eolien   | 1.25  |
+            | CRE4 - Bâtiment | 1.55  |
 
     @NotImplemented
     Scénario: Impossible pour le porteur d'enregistrer un changement de puissance si elle dépasse la puissance max par famille

@@ -3,7 +3,7 @@ import { match } from 'ts-pattern';
 import { IdentifiantProjet } from '@potentiel-domain/common';
 import { Aggregate, GetDefaultAggregateState, LoadAggregate } from '@potentiel-domain/core';
 
-import { RatioChangementPuissance, StatutChangementPuissance } from '.';
+import { AutoritéCompétente, StatutChangementPuissance } from '.';
 
 import { applyPuissanceImportée, importer } from './importer/importerPuissance.behavior';
 import { PuissanceImportéeEvent } from './importer/importerPuissance.behavior';
@@ -60,7 +60,7 @@ export type PuissanceAggregate = Aggregate<PuissanceEvent> & {
   demande?: {
     statut: StatutChangementPuissance.ValueType;
     nouvellePuissance: number;
-    autoritéCompétente?: RatioChangementPuissance.AutoritéCompétente;
+    autoritéCompétente?: AutoritéCompétente.RawType;
   };
 
   readonly importer: typeof importer;
