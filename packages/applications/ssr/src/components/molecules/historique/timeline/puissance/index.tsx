@@ -1,4 +1,4 @@
-import { match, P } from 'ts-pattern';
+import { match } from 'ts-pattern';
 
 import { HistoryRecord } from '@potentiel-domain/entity';
 import { Puissance } from '@potentiel-domain/laureat';
@@ -13,6 +13,7 @@ import { mapToPuissanceModifiéeTimelineItemsProps } from './mapToPuissanceModif
 import { mapToChangementPuissanceEnregistréTimelineItemProps } from './mapToChangementPuissanceEnregistréTimelineItemProps';
 import { mapToChangementPuissanceAccordéTimelineItemProps } from './mapToChangementPuissanceAccordéTimelineItemProps';
 import { mapToChangementPuissanceRejetéTimelineItemProps } from './mapToChangementPuissanceRejetéTimelineItemProps';
+import { mapToChangementPuissanceAnnuléTimelineItemProps } from './mapToChangementPuissanceAnnuléTimelineItemProps';
 
 export type PuissanceHistoryRecord = HistoryRecord<
   'puissance',
@@ -32,6 +33,12 @@ export const mapToPuissanceTimelineItemProps = (record: PuissanceHistoryRecord) 
       mapToChangementPuissanceDemandéTimelineItemProps,
     )
     .with(
+      {
+        type: 'ChangementPuissanceAnnulé-V1',
+      },
+      mapToChangementPuissanceAnnuléTimelineItemProps,
+    )
+    .with(
       { type: 'ChangementPuissanceEnregistré-V1' },
       mapToChangementPuissanceEnregistréTimelineItemProps,
     )
@@ -47,8 +54,5 @@ export const mapToPuissanceTimelineItemProps = (record: PuissanceHistoryRecord) 
       },
       mapToChangementPuissanceRejetéTimelineItemProps,
     )
-    .with(
-      { type: P.union('ChangementPuissanceAnnulé-V1', 'ChangementPuissanceSupprimé-V1') },
-      mapToÉtapeInconnueOuIgnoréeTimelineItemProps,
-    )
+    .with({ type: 'ChangementPuissanceSupprimé-V1' }, mapToÉtapeInconnueOuIgnoréeTimelineItemProps)
     .exhaustive();
