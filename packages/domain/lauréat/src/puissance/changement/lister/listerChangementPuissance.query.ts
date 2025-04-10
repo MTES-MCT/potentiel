@@ -4,6 +4,7 @@ import { DateTime } from '@potentiel-domain/common';
 import { Joined, List, RangeOptions, Where } from '@potentiel-domain/entity';
 import { RécupérerIdentifiantsProjetParEmailPorteurPort } from '@potentiel-domain/utilisateur';
 import { IdentifiantProjet } from '@potentiel-domain/projet';
+import { AppelOffre } from '@potentiel-domain/appel-offre';
 
 import {
   getRoleBasedWhereCondition,
@@ -19,6 +20,7 @@ type ChangementPuissanceItemReadModel = {
   misÀJourLe: DateTime.ValueType;
   demandéLe: DateTime.ValueType;
   nouvellePuissance: number;
+  unitéPuissance: AppelOffre.ConsulterAppelOffreReadModel['unitePuissance'];
 };
 
 export type ListerChangementPuissanceReadModel = {
@@ -109,4 +111,5 @@ const mapToReadModel = (
   identifiantProjet: IdentifiantProjet.convertirEnValueType(entity.identifiantProjet),
   demandéLe: DateTime.convertirEnValueType(entity.demande.demandéeLe),
   nouvellePuissance: entity.demande.nouvellePuissance,
+  unitéPuissance: entity.demande.unitéPuissance,
 });

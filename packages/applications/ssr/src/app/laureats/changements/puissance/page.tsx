@@ -100,6 +100,7 @@ const mapToListProps = (
       misÀJourLe: mapToPlainObject(item.misÀJourLe),
       demandéLe: mapToPlainObject(item.demandéLe),
       nouvellePuissance: item.nouvellePuissance,
+      unitéPuissance: item.unitéPuissance,
     })),
     pagination,
     total: readModel.total,

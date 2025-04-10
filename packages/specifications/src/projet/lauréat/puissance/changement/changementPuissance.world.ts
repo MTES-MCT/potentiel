@@ -79,6 +79,7 @@ export class ChangementPuissanceWorld {
         baseFixture.pièceJustificative.format,
       ),
       statut,
+      unitéPuissance: baseFixture.unitéPuissance,
     };
 
     return {

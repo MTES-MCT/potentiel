@@ -24,6 +24,7 @@ export const ChangementPuissanceListItem: FC<ChangementPuissanceListItemProps> =
   misÀJourLe,
   demandéLe,
   nouvellePuissance,
+  unitéPuissance,
 }) => (
   <ListItem
     heading={
@@ -53,7 +54,10 @@ export const ChangementPuissanceListItem: FC<ChangementPuissanceListItemProps> =
     <ul className="mt-3 text-sm">
       <li>
         <span>
-          Nouvelle puissance : <span className="font-semibold">{nouvellePuissance}</span>
+          Nouvelle puissance :{' '}
+          <span className="font-semibold">
+            {nouvellePuissance} {unitéPuissance}
+          </span>
         </span>
       </li>
       <li>

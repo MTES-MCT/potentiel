@@ -15,13 +15,11 @@ import { convertReadableStreamToString } from '../../../../../helpers/convertRea
 Alors(
   'la demande de changement de puissance devrait être consultable',
   async function (this: PotentielWorld) {
-    return waitForExpect(async () => {
-      await vérifierChangementPuissance.call(
-        this,
-        this.candidatureWorld.importerCandidature.identifiantProjet,
-        Puissance.StatutChangementPuissance.demandé,
-      );
-    });
+    await vérifierChangementPuissance.call(
+      this,
+      this.candidatureWorld.importerCandidature.identifiantProjet,
+      Puissance.StatutChangementPuissance.demandé,
+    );
   },
 );
 Alors(
@@ -82,91 +80,93 @@ async function vérifierChangementPuissance(
   identifiantProjet: string,
   statut: Puissance.StatutChangementPuissance.ValueType,
 ) {
-  const demandeEnCours = await mediator.send<Puissance.ConsulterChangementPuissanceQuery>({
-    type: 'Lauréat.Puissance.Query.ConsulterChangementPuissance',
-    data: {
-      identifiantProjet: identifiantProjet,
-      demandéLe: this.lauréatWorld.puissanceWorld.changementPuissanceWorld
-        .demanderChangementPuissanceFixture.aÉtéCréé
-        ? this.lauréatWorld.puissanceWorld.changementPuissanceWorld
-            .demanderChangementPuissanceFixture.demandéLe
-        : this.lauréatWorld.puissanceWorld.changementPuissanceWorld
-            .enregistrerChangementPuissanceFixture.demandéLe,
-    },
-  });
-
-  assert(Option.isSome(demandeEnCours), 'Demande de changement de puissance non trouvée !');
-
-  const actual = mapToPlainObject(demandeEnCours);
-
-  const expected = mapToPlainObject(
-    this.lauréatWorld.puissanceWorld.changementPuissanceWorld.mapToExpected({
-      identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
-      puissanceActuelle: this.lauréatWorld.puissanceWorld.importerPuissanceFixture.puissance,
-      statut,
-    }),
-  );
-
-  actual.should.be.deep.equal(expected);
-
-  const puissance = await mediator.send<Puissance.ConsulterPuissanceQuery>({
-    type: 'Lauréat.Puissance.Query.ConsulterPuissance',
-    data: {
-      identifiantProjet: identifiantProjet,
-    },
-  });
-
-  assert(Option.isSome(puissance), 'Puissance non trouvée !');
-
-  if (statut.estDemandé()) {
-    expect(Option.isSome(puissance) && puissance.dateDemandeEnCours).to.be.not.undefined;
-  }
-
-  if (
-    this.lauréatWorld.puissanceWorld.changementPuissanceWorld.accorderChangementPuissanceFixture
-      .aÉtéCréé &&
-    !demandeEnCours.demande.isInformationEnregistrée
-  ) {
-    const result = await mediator.send<ConsulterDocumentProjetQuery>({
-      type: 'Document.Query.ConsulterDocumentProjet',
+  return waitForExpect(async () => {
+    const demandeEnCours = await mediator.send<Puissance.ConsulterChangementPuissanceQuery>({
+      type: 'Lauréat.Puissance.Query.ConsulterChangementPuissance',
       data: {
-        documentKey: demandeEnCours.demande.accord
-          ? demandeEnCours.demande.accord.réponseSignée.formatter()
-          : '',
+        identifiantProjet: identifiantProjet,
+        demandéLe: this.lauréatWorld.puissanceWorld.changementPuissanceWorld
+          .demanderChangementPuissanceFixture.aÉtéCréé
+          ? this.lauréatWorld.puissanceWorld.changementPuissanceWorld
+              .demanderChangementPuissanceFixture.demandéLe
+          : this.lauréatWorld.puissanceWorld.changementPuissanceWorld
+              .enregistrerChangementPuissanceFixture.demandéLe,
       },
     });
 
-    assert(Option.isSome(result), `Réponse signée non trouvée !`);
+    assert(Option.isSome(demandeEnCours), 'Demande de changement de puissance non trouvée !');
 
-    const actualContent = await convertReadableStreamToString(result.content);
-    const expectedContent = await convertReadableStreamToString(
+    const actual = mapToPlainObject(demandeEnCours);
+
+    const expected = mapToPlainObject(
+      this.lauréatWorld.puissanceWorld.changementPuissanceWorld.mapToExpected({
+        identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
+        puissanceActuelle: this.lauréatWorld.puissanceWorld.importerPuissanceFixture.puissance,
+        statut,
+      }),
+    );
+
+    actual.should.be.deep.equal(expected);
+
+    const puissance = await mediator.send<Puissance.ConsulterPuissanceQuery>({
+      type: 'Lauréat.Puissance.Query.ConsulterPuissance',
+      data: {
+        identifiantProjet: identifiantProjet,
+      },
+    });
+
+    assert(Option.isSome(puissance), 'Puissance non trouvée !');
+
+    if (statut.estDemandé()) {
+      expect(Option.isSome(puissance) && puissance.dateDemandeEnCours).to.be.not.undefined;
+    }
+
+    if (
       this.lauréatWorld.puissanceWorld.changementPuissanceWorld.accorderChangementPuissanceFixture
-        .réponseSignée?.content ?? new ReadableStream(),
-    );
-    expect(actualContent).to.be.equal(expectedContent);
-  }
+        .aÉtéCréé &&
+      !demandeEnCours.demande.isInformationEnregistrée
+    ) {
+      const result = await mediator.send<ConsulterDocumentProjetQuery>({
+        type: 'Document.Query.ConsulterDocumentProjet',
+        data: {
+          documentKey: demandeEnCours.demande.accord
+            ? demandeEnCours.demande.accord.réponseSignée.formatter()
+            : '',
+        },
+      });
 
-  if (
-    this.lauréatWorld.puissanceWorld.changementPuissanceWorld.rejeterChangementPuissanceFixture
-      .aÉtéCréé &&
-    !demandeEnCours.demande.isInformationEnregistrée
-  ) {
-    const result = await mediator.send<ConsulterDocumentProjetQuery>({
-      type: 'Document.Query.ConsulterDocumentProjet',
-      data: {
-        documentKey: demandeEnCours.demande.rejet
-          ? demandeEnCours.demande.rejet.réponseSignée.formatter()
-          : '',
-      },
-    });
+      assert(Option.isSome(result), `Réponse signée non trouvée !`);
 
-    assert(Option.isSome(result), `Réponse signée non trouvée !`);
+      const actualContent = await convertReadableStreamToString(result.content);
+      const expectedContent = await convertReadableStreamToString(
+        this.lauréatWorld.puissanceWorld.changementPuissanceWorld.accorderChangementPuissanceFixture
+          .réponseSignée?.content ?? new ReadableStream(),
+      );
+      expect(actualContent).to.be.equal(expectedContent);
+    }
 
-    const actualContent = await convertReadableStreamToString(result.content);
-    const expectedContent = await convertReadableStreamToString(
+    if (
       this.lauréatWorld.puissanceWorld.changementPuissanceWorld.rejeterChangementPuissanceFixture
-        .réponseSignée?.content ?? new ReadableStream(),
-    );
-    expect(actualContent).to.be.equal(expectedContent);
-  }
+        .aÉtéCréé &&
+      !demandeEnCours.demande.isInformationEnregistrée
+    ) {
+      const result = await mediator.send<ConsulterDocumentProjetQuery>({
+        type: 'Document.Query.ConsulterDocumentProjet',
+        data: {
+          documentKey: demandeEnCours.demande.rejet
+            ? demandeEnCours.demande.rejet.réponseSignée.formatter()
+            : '',
+        },
+      });
+
+      assert(Option.isSome(result), `Réponse signée non trouvée !`);
+
+      const actualContent = await convertReadableStreamToString(result.content);
+      const expectedContent = await convertReadableStreamToString(
+        this.lauréatWorld.puissanceWorld.changementPuissanceWorld.rejeterChangementPuissanceFixture
+          .réponseSignée?.content ?? new ReadableStream(),
+      );
+      expect(actualContent).to.be.equal(expectedContent);
+    }
+  });
 }

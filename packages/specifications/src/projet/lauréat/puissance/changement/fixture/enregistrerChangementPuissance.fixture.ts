@@ -9,6 +9,7 @@ interface EnregistrerChangementPuissance {
   readonly demandéPar: string;
   readonly raison: string;
   readonly ratio: number;
+  readonly unitéPuissance: string;
 }
 
 export class EnregistrerChangementPuissanceFixture
@@ -49,12 +50,18 @@ export class EnregistrerChangementPuissanceFixture
     return this.#ratio;
   }
 
+  #unitéPuissance!: string;
+
+  get unitéPuissance(): string {
+    return this.#unitéPuissance;
+  }
+
   créer(
     partialData?: Partial<EnregistrerChangementPuissance>,
   ): Readonly<EnregistrerChangementPuissance> {
     const content = faker.word.words();
 
-    const fixture = {
+    const fixture: EnregistrerChangementPuissance = {
       demandéLe: faker.date.recent().toISOString(),
       demandéPar: faker.internet.email(),
       raison: faker.company.catchPhrase(),
@@ -63,6 +70,7 @@ export class EnregistrerChangementPuissanceFixture
         content: convertStringToReadableStream(content),
       },
       ratio: faker.number.float({ min: 0.5, max: 0.8, multipleOf: 0.01 }),
+      unitéPuissance: 'MW',
       ...partialData,
     };
 
@@ -72,6 +80,7 @@ export class EnregistrerChangementPuissanceFixture
     this.#format = fixture.pièceJustificative.format;
     this.#content = content;
     this.#ratio = fixture.ratio;
+    this.#unitéPuissance = fixture.unitéPuissance;
 
     this.aÉtéCréé = true;
     return fixture;

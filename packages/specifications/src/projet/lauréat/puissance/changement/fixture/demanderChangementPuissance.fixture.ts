@@ -9,6 +9,7 @@ interface DemanderChangementPuissance {
   readonly demandéPar: string;
   readonly raison: string;
   readonly ratio: number;
+  readonly unitéPuissance: string;
 }
 
 export class DemanderChangementPuissanceFixture
@@ -49,10 +50,16 @@ export class DemanderChangementPuissanceFixture
     return this.#ratio;
   }
 
+  #unitéPuissance!: string;
+
+  get unitéPuissance(): string {
+    return this.#unitéPuissance;
+  }
+
   créer(partialData?: Partial<DemanderChangementPuissance>): Readonly<DemanderChangementPuissance> {
     const content = faker.word.words();
 
-    const fixture = {
+    const fixture: DemanderChangementPuissance = {
       demandéLe: faker.date.recent().toISOString(),
       demandéPar: faker.internet.email(),
       raison: faker.company.catchPhrase(),
@@ -61,6 +68,7 @@ export class DemanderChangementPuissanceFixture
         content: convertStringToReadableStream(content),
       },
       ratio: faker.number.float({ min: 0.5, max: 0.8, multipleOf: 0.01 }),
+      unitéPuissance: 'MW',
       ...partialData,
     };
 
@@ -70,6 +78,7 @@ export class DemanderChangementPuissanceFixture
     this.#format = fixture.pièceJustificative.format;
     this.#content = content;
     this.#ratio = fixture.ratio;
+    this.#unitéPuissance = fixture.unitéPuissance;
 
     this.aÉtéCréé = true;
 

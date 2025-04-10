@@ -17,13 +17,9 @@ import { DétailsPuissancePageProps } from './DétailsPuissance.page';
 
 export type DétailsChangementPuissanceProps = {
   demande: DétailsPuissancePageProps['demande'];
-  unitePuissance: DétailsPuissancePageProps['unitePuissance'];
 };
 
-export const DétailsChangementPuissance: FC<DétailsChangementPuissanceProps> = ({
-  demande,
-  unitePuissance,
-}) => {
+export const DétailsChangementPuissance: FC<DétailsChangementPuissanceProps> = ({ demande }) => {
   const statut = Puissance.StatutChangementPuissance.bind(demande.statut.statut);
 
   return (
@@ -71,7 +67,7 @@ export const DétailsChangementPuissance: FC<DétailsChangementPuissanceProps> =
           autoritéCompétente={
             demande.isInformationEnregistrée ? undefined : demande.autoritéCompétente
           }
-          unitePuissance={unitePuissance}
+          unitePuissance={demande.unitéPuissance}
         />
       </>
     </div>
@@ -82,7 +78,7 @@ type ChangementProps = {
   raison: DétailsChangementPuissanceProps['demande']['raison'];
   pièceJustificative: DétailsChangementPuissanceProps['demande']['pièceJustificative'];
   nouvellePuissance: DétailsChangementPuissanceProps['demande']['nouvellePuissance'];
-  unitePuissance: DétailsChangementPuissanceProps['unitePuissance'];
+  unitePuissance: DétailsChangementPuissanceProps['demande']['unitéPuissance'];
   autoritéCompétente?: Puissance.RatioChangementPuissance.AutoritéCompétente;
 };
 
