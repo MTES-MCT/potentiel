@@ -63,11 +63,17 @@ select format(
         'https://potentiel.beta.gouv.fr/projet/%s/details.html',
         p."id"
     ),
+    format(
+        '%s#%s#%s#%s',
+        p."appelOffreId",
+        p."periodeId",
+        p."familleId",
+        p."numeroCRE"
+    ) as "identifiantProjet",
     p.puissance,
     puiss.value->'puissance' "puissance migrée",
     p."abandonedOn",
-    es."createdAt",
-    es.payload
+    json_agg(es.*)
 from projects p
     left join domain_views.projection puiss on puiss.key = format(
         'puissance|%s#%s#%s#%s',
@@ -83,7 +89,9 @@ where p.classe = 'Classé'
     and (
         p.puissance::text <> (puiss.value->>'puissance')
         or puiss.key is null
-    );
+    )
+group by p.id,
+    puiss.key;
 
 
 
@@ -132,6 +140,14 @@ select p.id,
     ) as "identifiantProjet",
     es.payload->'correctedData'->>'puissance' as "puissance",
     p.puissance as "puissance actuelle",
+    (
+        select puissance
+        from "modificationRequests" mr
+        where mr."projectId" = p.id
+            and mr.status in ('acceptée', 'information validée')
+        order by mr."respondedOn" desc
+        limit 1
+    ) as "lastAcceptedModificationRequest",
     es.payload->'correctedData'->>'puissance'::text = p.puissance::text,
     u.email as "correctedBy",
     es."createdAt" as "correctedOn",
@@ -230,3 +246,72 @@ where (
 -- "https://potentiel.beta.gouv.fr/projet/d2276636-feb5-4685-9d82-d590c7e0a3f2/details.html",2.457,2.5839,"0"
 -- => erreur liée à candidature, OK
 --
+
+select format(
+        '%s#%s#%s#%s',
+        p."appelOffreId",
+        p."periodeId",
+        p."familleId",
+        p."numeroCRE"
+    ) as "identifiantProjet",
+    COALESCE(
+        es.payload->'correctedData'->>'puissance',
+        es.payload->>'puissance'
+    ) as "puissance",
+    es.payload->>'justification' as "justification",
+    es.payload->>'authority' as "authority",
+    es.type,
+    es."occurredAt" as "requestedOn",
+    requester.email as "requestedBy",
+    cancel."occurredAt" as "cancelledOn",
+    canceller.email as "cancelledBy",
+    accept."occurredAt" as "acceptedOn",
+    accepter.email as "acceptedBy",
+    reject."occurredAt" as "rejectedOn",
+    rejecter.email as "rejectedBy",
+    es."occurredAt" as "correctedOn",
+    correcter.email as "correctedBy",
+    mr.status "expectedStatus",
+    p."abandonedOn"
+from "eventStores" es
+    inner join projects p on p.id::text = es.payload->>'projectId'
+    left join users requester on requester.id::text = es.payload->>'requestedBy'
+    left join "eventStores" cancel on cancel.type = 'ModificationRequestCancelled'
+    and cancel.payload->>'modificationRequestId' = es.payload->>'modificationRequestId'
+    left join users canceller on canceller.id::text = cancel.payload->>'cancelledBy'
+    left join "eventStores" accept on accept.type = 'ModificationRequestAccepted'
+    and accept.payload->>'modificationRequestId' = es.payload->>'modificationRequestId'
+    left join users accepter on accepter.id::text = accept.payload->>'acceptedBy'
+    left join "eventStores" reject on reject.type = 'ModificationRequestRejected'
+    and reject.payload->>'modificationRequestId' = es.payload->>'modificationRequestId'
+    left join users rejecter on rejecter.id::text = reject.payload->>'rejectedBy'
+    left join "modificationRequests" mr on es.payload->>'modificationRequestId' is not null
+    and mr.id::text = es.payload->>'modificationRequestId'
+    left join users correcter on es.type = 'ProjectDataCorrected'
+    and correcter.id::text = es.payload->>'correctedBy'
+where (
+        (
+            es.type in ('ModificationRequested', 'ModificationReceived')
+            and es.payload->>'type' = 'puissance'
+            AND es.payload->>'modificationRequestId' not in (
+                'bc215b18-6c95-42be-b0eb-a2d7dde95162'
+            )
+        )
+        OR (
+            es.type = 'ProjectDataCorrected'
+            and es.payload->'correctedData'->>'puissance' is not null
+        )
+    )
+    and p.id = 'b0696dc0-8587-11ea-81a5-9d1e21fb9b29'
+order by es."occurredAt";
+
+
+select *
+from event_store.event_stream
+where stream_id = 'puissance|CRE4 - Sol#7#2#42';
+
+
+select *
+from "eventStores" es
+where 'b0696dc0-8587-11ea-81a5-9d1e21fb9b29' = ANY(es."aggregateId")
+order by "occurredAt"

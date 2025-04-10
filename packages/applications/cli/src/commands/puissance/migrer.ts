@@ -1,13 +1,15 @@
 import { extname } from 'node:path';
+import assert from 'node:assert';
 
 import { Command, Flags } from '@oclif/core';
 import { contentType } from 'mime-types';
 import { PDFDocument, StandardFonts } from 'pdf-lib';
+import { match } from 'ts-pattern';
 
 import { Puissance, Lauréat } from '@potentiel-domain/laureat';
 import { listProjection } from '@potentiel-infrastructure/pg-projection-read';
 import { Candidature } from '@potentiel-domain/candidature';
-import { executeSelect } from '@potentiel-libraries/pg-helpers';
+import { executeSelect, killPool } from '@potentiel-libraries/pg-helpers';
 import { DateTime, Email } from '@potentiel-domain/common';
 import { publish } from '@potentiel-infrastructure/pg-event-sourcing';
 import { upload, copyFile, fileExists } from '@potentiel-libraries/file-storage';
@@ -16,55 +18,37 @@ import { IdentifiantProjet } from '@potentiel-domain/projet';
 
 type ModificationRequest = {
   identifiantProjet: string;
-  status: 'en instruction' | 'acceptée' | 'rejetée' | 'envoyée' | 'annulée' | 'information validée';
   puissance: number;
-  justification: string;
-  requestedOn: number;
-  email: string;
-  cancelledOn: number;
-  cancelledBy: string;
-  respondedOn: number;
-  respondedBy: string;
-  requestFile: string;
-  responseFile: string;
-  abandonedOn: number;
-  authority: 'dreal' | 'dgec';
-};
+} & (
+  | {
+      type: 'ModificationRequested' | 'ModificationReceived';
+      justification: string;
+      authority: 'dreal' | 'dgec';
+      requestedOn: number;
+      requestedBy: string;
+      cancelledOn?: number;
+      cancelledBy?: string;
+      acceptedOn?: number;
+      acceptedBy?: string;
+      rejectedOn?: number;
+      rejectedBy?: string;
+      abandonedOn: number;
+      expectedStatus:
+        | 'en instruction'
+        | 'acceptée'
+        | 'rejetée'
+        | 'envoyée'
+        | 'annulée'
+        | 'information validée';
+    }
+  | {
+      type: 'ProjectDataCorrected';
+      correctedOn: number;
+      correctedBy: string;
+    }
+);
 
 const queryModifications = `
- select format(
-        '%s#%s#%s#%s',
-        p."appelOffreId",
-        p."periodeId",
-        p."familleId",
-        p."numeroCRE"
-    ) as "identifiantProjet",
-    mr.status,
-    mr.puissance,
-    mr.justification,
-    mr."requestedOn",
-    u.email,
-    mr."cancelledOn",
-    mr."respondedOn",
-    u_cancel.email as "cancelledBy",
-    u_respond.email as "respondedBy",
-    f."storedAt" as "requestFile",
-    fr."storedAt" as "responseFile",
-    p."abandonedOn",
-    mr.authority
-from "modificationRequests" mr
-    inner join projects p on p.id = mr."projectId"
-    left join users u on u.id = mr."userId"
-    left join users u_cancel on u_cancel.id = mr."cancelledBy"
-    left join users u_respond on u_respond.id = mr."respondedBy"
-    left join files f on f.id = mr."fileId"
-    left join files fr on fr.id = mr."responseFileId"
-where 
-        mr.type = 'puissance'
-order by mr."requestedOn";
-    `;
-
-const queryModificationEvent = `
 select format(
         '%s#%s#%s#%s',
         p."appelOffreId",
@@ -72,51 +56,72 @@ select format(
         p."familleId",
         p."numeroCRE"
     ) as "identifiantProjet",
-    es."occurredAt",
-    u.email as "requestedBy",
-    es.payload->'puissance' as "puissance",
-    es.payload->'fileId' as "fileId",
-    es.payload->'authority' as "authority"
+    COALESCE(
+        es.payload->'correctedData'->>'puissance',
+        es.payload->>'puissance'
+    ) as "puissance",
+    es.payload->>'justification' as "justification",
+    es.payload->>'authority' as "authority",
+    es.type,
+    es."occurredAt" as "requestedOn",
+    requester.email as "requestedBy",
+    cancel."occurredAt" as "cancelledOn",
+    canceller.email as "cancelledBy",
+    accept."occurredAt" as "acceptedOn",
+    accepter.email as "acceptedBy",
+    reject."occurredAt" as "rejectedOn",
+    rejecter.email as "rejectedBy",
+    es."occurredAt" as "correctedOn",
+    correcter.email as "correctedBy",
+    mr.status "expectedStatus",
+    p."abandonedOn"
 from "eventStores" es
-    inner join users u on u.id = (es."payload"->>'requestedBy')::uuid
-    inner join projects p on p.id = (es.payload->>'projectId')::uuid
-where es.type='ModificationReceived' and es.payload->>'type' = 'puissance'
-and p.id = 'b6f43d4b-5fcb-4b43-9659-51fb27c5fd7c';
-`;
-
-const queryCorrectionsAdminEvents = `
-select format(
-        '%s#%s#%s#%s',
-        p."appelOffreId",
-        p."periodeId",
-        p."familleId",
-        p."numeroCRE"
-    ) as "identifiantProjet",
-    es.payload->'correctedData'->>'puissance' as "puissance",
-    u.email as "correctedBy",
-    es."createdAt" as "correctedOn"
-from "eventStores" es
-    inner join users u on u.id = (es."payload"->>'correctedBy')::uuid
-    inner join projects p on p.id = (es.payload->>'projectId')::uuid
-where es.type = 'ProjectDataCorrected'
-    and es.payload->'correctedData'->>'puissance' is not null
-    and p.id IN 
-    (
-    -- TODO POURQUOI PAS PLUS ?? 
-    '4156905c-61ce-40d2-a4f0-9e826b083deb',
-    'b06e9de0-8587-11ea-81a5-9d1e21fb9b29', 
-    'b0696dc0-8587-11ea-81a5-9d1e21fb9b29', 
-    '8c0a5516-2828-48e2-97ae-a162c7cf984f', 
-    '870e2292-00f0-4629-8ba7-7c638620cec0', 
-    'dde11849-0d79-4a37-8774-35f341767990' 
+    inner join projects p on p.id::text = es.payload->>'projectId'
+    left join users requester on requester.id::text = es.payload->>'requestedBy'
+    
+    left join "eventStores" cancel on cancel.type = 'ModificationRequestCancelled'
+      and cancel.payload->>'modificationRequestId' = es.payload->>'modificationRequestId'
+    left join users canceller on canceller.id::text = cancel.payload->>'cancelledBy'
+    
+    left join "eventStores" accept on accept.type = 'ModificationRequestAccepted'
+      and accept.payload->>'modificationRequestId' = es.payload->>'modificationRequestId'
+    left join users accepter on accepter.id::text = accept.payload->>'acceptedBy'
+    
+    left join "eventStores" reject on reject.type = 'ModificationRequestRejected'
+      and reject.payload->>'modificationRequestId' = es.payload->>'modificationRequestId'
+    left join users rejecter on rejecter.id::text = reject.payload->>'rejectedBy'
+    
+    left join "modificationRequests" mr on es.payload->>'modificationRequestId' is not null
+      and mr.id::text = es.payload->>'modificationRequestId'
+    
+    left join users correcter on es.type = 'ProjectDataCorrected'
+      and correcter.id::text = es.payload->>'correctedBy'
+where ((
+        es.type in ('ModificationRequested', 'ModificationReceived')
+        and es.payload->>'type' = 'puissance'
+          -- ignore data inconsistency
+      AND es.payload->>'modificationRequestId' not in (
+          'bc215b18-6c95-42be-b0eb-a2d7dde95162',
+          '15db1d28-d9c7-4237-88fc-3fc00eb7cd65',
+          '65594616-ac86-4ddd-84ce-bad1d352fadc'
+      )
     )
-order by es."createdAt";
+    OR (
+        es.type = 'ProjectDataCorrected'
+        and es.payload->'correctedData'->>'puissance' is not null
+    ))  
+order by es."occurredAt";
 `;
 
 export class Migrer extends Command {
   static flags = {
     dryRun: Flags.boolean(),
+    projet: Flags.string(),
   };
+
+  async finally() {
+    await killPool();
+  }
 
   async run(): Promise<void> {
     const { flags } = await this.parse(Migrer);
@@ -169,165 +174,132 @@ export class Migrer extends Command {
         modification.identifiantProjet,
       ).formatter();
 
-      const requestedOn = DateTime.convertirEnValueType(
-        new Date(modification.requestedOn),
-      ).formatter();
-      const formatRequestFile =
-        modification.requestFile && contentType(extname(modification.requestFile));
-      const formatResponseFile =
-        modification.responseFile && contentType(extname(modification.responseFile));
+      if (modification.type === 'ProjectDataCorrected') {
+        const adminChange: Puissance.PuissanceModifiéeEvent = {
+          type: 'PuissanceModifiée-V1',
+          payload: {
+            identifiantProjet,
+            modifiéeLe: formatDate(modification.correctedOn),
+            modifiéePar: Email.convertirEnValueType(modification.correctedBy).formatter(),
+            puissance: Number(modification.puissance),
+          },
+        };
+        eventsPerProjet[modification.identifiantProjet].push(adminChange);
+        continue;
+      }
+
+      const requestedOn = formatDate(modification.requestedOn);
+
       const request: Puissance.ChangementPuissanceDemandéEvent = {
         type: 'ChangementPuissanceDemandé-V1',
         payload: {
-          puissance: modification.puissance,
+          puissance: Number(modification.puissance),
           demandéLe: requestedOn,
-          demandéPar: modification.email,
-          autoritéCompétente: modification.authority, //=== 'dgec' ? 'admin' : 'dreal',
+          demandéPar: Email.convertirEnValueType(modification.requestedBy).formatter(),
+          autoritéCompétente: modification.authority === 'dgec' ? 'dgec-admin' : 'dreal',
           identifiantProjet,
           raison: cleanInput(modification.justification),
-          pièceJustificative: { format: formatRequestFile || 'application/pdf' },
+          pièceJustificative: { format: 'application/pdf' }, // TODO
         },
       };
 
-      switch (modification.status) {
-        case 'acceptée':
-          const acceptation: Puissance.ChangementPuissanceAccordéEvent = {
-            type: 'ChangementPuissanceAccordé-V1',
-            payload: {
-              identifiantProjet,
-              accordéLe: DateTime.convertirEnValueType(
-                new Date(modification.respondedOn),
-              ).formatter(),
-              accordéPar: modification.respondedBy,
-              nouvellePuissance: modification.puissance,
-              réponseSignée: { format: formatResponseFile || 'application/pdf' }, // ?
-            },
-          };
-          eventsPerProjet[modification.identifiantProjet].push(request, acceptation);
-          break;
+      if (modification.type === 'ModificationReceived') {
+        if (modification.expectedStatus !== 'information validée') {
+          console.log('modification non enregistrée', modification);
+        }
+        const informationEnregistrée: Puissance.ChangementPuissanceEnregistréEvent = {
+          type: 'ChangementPuissanceEnregistré-V1',
+          payload: {
+            identifiantProjet,
+            puissance: Number(modification.puissance),
+            enregistréLe: requestedOn,
+            enregistréPar: Email.convertirEnValueType(modification.requestedBy).formatter(),
+            raison: cleanInput(modification.justification),
+            pièceJustificative: { format: 'application/pdf' }, // TODO
+          },
+        };
+        eventsPerProjet[modification.identifiantProjet].push(informationEnregistrée);
+      } else if (modification.acceptedBy && modification.acceptedOn) {
+        assert(modification.expectedStatus === 'acceptée', 'modification non acceptée');
 
-        case 'rejetée':
-          const rejet: Puissance.ChangementPuissanceRejetéEvent = {
-            type: 'ChangementPuissanceRejeté-V1',
-            payload: {
-              identifiantProjet,
-              rejetéLe: DateTime.convertirEnValueType(
-                new Date(modification.respondedOn),
-              ).formatter(),
-              rejetéPar: modification.respondedBy,
-              réponseSignée: {
-                format: formatResponseFile || 'application/pdf', // ?
-              },
+        const acceptation: Puissance.ChangementPuissanceAccordéEvent = {
+          type: 'ChangementPuissanceAccordé-V1',
+          payload: {
+            identifiantProjet,
+            accordéLe: formatDate(modification.acceptedOn),
+            accordéPar: Email.convertirEnValueType(modification.acceptedBy).formatter(),
+            nouvellePuissance: Number(modification.puissance),
+            réponseSignée: { format: 'application/pdf' }, // TODO
+          },
+        };
+        eventsPerProjet[modification.identifiantProjet].push(request, acceptation);
+      } else if (modification.rejectedBy && modification.rejectedOn) {
+        assert(modification.expectedStatus === 'rejetée', 'modification non rejetée');
+        const rejet: Puissance.ChangementPuissanceRejetéEvent = {
+          type: 'ChangementPuissanceRejeté-V1',
+          payload: {
+            identifiantProjet,
+            rejetéLe: formatDate(modification.rejectedOn),
+            rejetéPar: Email.convertirEnValueType(modification.rejectedBy).formatter(),
+            réponseSignée: {
+              format: 'application/pdf', // TODO
             },
-          };
-          eventsPerProjet[modification.identifiantProjet].push(request, rejet);
-          break;
+          },
+        };
+        eventsPerProjet[modification.identifiantProjet].push(request, rejet);
+      } else if (modification.cancelledBy && modification.cancelledOn) {
+        assert(modification.expectedStatus === 'annulée', 'modification non annulée');
+        eventsPerProjet[modification.identifiantProjet].push(request, {
+          type: 'ChangementPuissanceAnnulé-V1',
+          payload: {
+            identifiantProjet,
+            annuléLe: formatDate(modification.cancelledOn),
+            annuléPar: Email.convertirEnValueType(modification.cancelledBy).formatter(),
+          },
+        });
+      } else {
+        assert(
+          modification.expectedStatus === 'envoyée' ||
+            modification.expectedStatus === 'en instruction',
+          'modification non envoyé/en instruction',
+        );
+        eventsPerProjet[modification.identifiantProjet].push(request);
 
-        case 'annulée':
-          eventsPerProjet[modification.identifiantProjet].push(request, {
-            type: 'ChangementPuissanceAnnulé-V1',
+        if (modification.abandonedOn > 0) {
+          eventsPerProjet[modification.identifiantProjet].push({
+            type: 'ChangementPuissanceSupprimé-V1',
             payload: {
-              identifiantProjet,
-              annuléLe: DateTime.convertirEnValueType(
-                new Date(modification.cancelledOn),
+              identifiantProjet: IdentifiantProjet.convertirEnValueType(
+                modification.identifiantProjet,
               ).formatter(),
-              annuléPar: modification.cancelledBy,
+              suppriméLe: formatDate(modification.abandonedOn),
+              suppriméPar: Email.system().formatter(),
             },
           });
-          break;
-        case 'envoyée':
-        case 'en instruction':
-          eventsPerProjet[modification.identifiantProjet].push(request);
-
-          if (modification.abandonedOn > 0) {
-            eventsPerProjet[modification.identifiantProjet].push({
-              type: 'ChangementPuissanceSupprimé-V1',
-              payload: {
-                identifiantProjet: IdentifiantProjet.convertirEnValueType(
-                  modification.identifiantProjet,
-                ).formatter(),
-                suppriméLe: DateTime.convertirEnValueType(
-                  new Date(modification.abandonedOn),
-                ).formatter(),
-                suppriméPar: Email.system().formatter(),
-              },
-            });
-            console.log(`🚮 Demande automatiquement supprimée pour ${identifiantProjet}`);
-          }
-          break;
-        case 'information validée':
-          const informationEnregistrée: Puissance.ChangementPuissanceEnregistréEvent = {
-            type: 'ChangementPuissanceEnregistré-V1',
-            payload: {
-              identifiantProjet,
-              puissance: modification.puissance,
-              enregistréLe: requestedOn,
-              enregistréPar: modification.email,
-              raison: cleanInput(modification.justification),
-              pièceJustificative: { format: formatRequestFile || 'application/pdf' },
-            },
-          };
-          eventsPerProjet[modification.identifiantProjet].push(informationEnregistrée);
-          break;
-
-        default: {
-          throw new Error(`UNHANDLED STATUS ${modification.status}`);
+          console.log(`🚮 Demande automatiquement supprimée pour ${identifiantProjet}`);
         }
       }
     }
 
-    /**
-     * Cas particulier, events existants mais non répercutés dans la projection modificationRequests
-     */
-
-    const [modificationEvent] = await executeSelect<{
-      identifiantProjet: string;
-      occurredAt: string;
-      requestedBy: string;
-      puissance: number;
-    }>(queryModificationEvent);
-
-    eventsPerProjet[modificationEvent.identifiantProjet].push({
-      type: 'ChangementPuissanceEnregistré-V1',
-      payload: {
-        enregistréLe: DateTime.convertirEnValueType(modificationEvent.occurredAt).formatter(),
-        enregistréPar: Email.convertirEnValueType(modificationEvent.requestedBy).formatter(),
-        identifiantProjet: IdentifiantProjet.convertirEnValueType(
-          modificationEvent.identifiantProjet,
-        ).formatter(),
-        puissance: modificationEvent.puissance,
-      },
-    });
-
-    /** Changements par admin - cherry pick car la majorité des changements sont liés au bug de correction candidature */
-
-    const correctionEvents = await executeSelect<{
-      identifiantProjet: string;
-      correctedOn: string;
-      correctedBy: string;
-      puissance: number;
-    }>(queryCorrectionsAdminEvents);
-
-    for (const event of correctionEvents) {
-      eventsPerProjet[event.identifiantProjet].push({
-        type: 'PuissanceModifiée-V1',
-        payload: {
-          modifiéeLe: DateTime.convertirEnValueType(event.correctedOn).formatter(),
-          modifiéePar: Email.convertirEnValueType(event.correctedBy).formatter(),
-          identifiantProjet: IdentifiantProjet.convertirEnValueType(
-            event.identifiantProjet,
-          ).formatter(),
-          puissance: event.puissance,
-        },
-      });
+    if (flags.projet && flags.dryRun) {
+      console.log(
+        eventsPerProjet[flags.projet].sort((a, b) =>
+          getEventDate(a).localeCompare(getEventDate(b)),
+        ),
+      );
+      return;
     }
 
     const eventsStats: Record<string, number> = {};
 
     for (const [identifiantProjet, events] of Object.entries(eventsPerProjet)) {
+      console.log();
+      console.log(identifiantProjet);
       // console.log(identifiantProjet, events.map((ev) => ev.type).join(', '));
-      for (const event of events) {
-        if (!flags.dryRun) {
+      for (const event of events.sort((a, b) => getEventDate(a).localeCompare(getEventDate(b)))) {
+        if (flags.dryRun) {
+          console.log(event);
+        } else {
           await publish(`puissance|${identifiantProjet}`, event);
         }
         eventsStats[event.type] ??= 0;
@@ -377,11 +349,22 @@ export class Migrer extends Command {
     //     );
     //   }
     // }
-
-    process.exit(0);
   }
 }
 
+const getEventDate = (event: Puissance.PuissanceEvent) =>
+  match(event)
+    .with({ type: 'PuissanceImportée-V1' }, ({ payload }) => payload.importéeLe)
+    .with({ type: 'PuissanceModifiée-V1' }, ({ payload }) => payload.modifiéeLe)
+    .with({ type: 'ChangementPuissanceEnregistré-V1' }, ({ payload }) => payload.enregistréLe)
+    .with({ type: 'ChangementPuissanceDemandé-V1' }, ({ payload }) => payload.demandéLe)
+    .with({ type: 'ChangementPuissanceAnnulé-V1' }, ({ payload }) => payload.annuléLe)
+    .with({ type: 'ChangementPuissanceAccordé-V1' }, ({ payload }) => payload.accordéLe)
+    .with({ type: 'ChangementPuissanceRejeté-V1' }, ({ payload }) => payload.rejetéLe)
+    .with({ type: 'ChangementPuissanceSupprimé-V1' }, ({ payload }) => payload.suppriméLe)
+    .exhaustive();
+
+const formatDate = (date: number) => DateTime.convertirEnValueType(new Date(date)).formatter();
 const cleanInput = (str: string) =>
   str?.replaceAll(/\t/g, ' ').replaceAll(/\r\n/g, '\\n').replaceAll('"', '\\"');
 
