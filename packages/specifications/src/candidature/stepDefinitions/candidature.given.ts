@@ -1,7 +1,7 @@
 import { DataTable, Given as EtantDonné } from '@cucumber/cucumber';
 import { mediator } from 'mediateur';
 
-import { Candidature } from '@potentiel-domain/candidature';
+import { Candidature } from '@potentiel-domain/projet';
 
 import { PotentielWorld } from '../../potentiel.world';
 import { DeepPartial } from '../../fixture';

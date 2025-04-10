@@ -5,7 +5,7 @@ import { mediator } from 'mediateur';
 import { notFound } from 'next/navigation';
 
 import { DateTime } from '@potentiel-domain/common';
-import { Candidature } from '@potentiel-domain/candidature';
+import { Candidature } from '@potentiel-domain/projet';
 import { Période } from '@potentiel-domain/periode';
 import { IdentifiantPériode } from '@potentiel-domain/periode/dist/période';
 import { Routes } from '@potentiel-applications/routes';

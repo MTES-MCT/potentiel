@@ -3,9 +3,9 @@ import Button from '@codegouvfr/react-dsfr/Button';
 
 import { Routes } from '@potentiel-applications/routes';
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
-import { Candidature } from '@potentiel-domain/candidature';
 import { PlainType } from '@potentiel-domain/core';
 import { Option } from '@potentiel-libraries/monads';
+import { Candidature } from '@potentiel-domain/projet';
 
 import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
 import { Heading1, Heading2 } from '@/components/atoms/headings';

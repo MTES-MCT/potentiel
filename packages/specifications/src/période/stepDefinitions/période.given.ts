@@ -1,85 +1,118 @@
 import { Given as EtantDonné } from '@cucumber/cucumber';
 
 import { IdentifiantProjet } from '@potentiel-domain/common';
-import { Candidature } from '@potentiel-domain/candidature';
+import { Candidature } from '@potentiel-domain/projet';
 
 import { PotentielWorld } from '../../potentiel.world';
 import { importerCandidature } from '../../candidature/stepDefinitions/candidature.given';
+import { DeepPartial } from '../../fixture';
 
 import { notifierPériode } from './période.when';
 
 const candidats = [
   {
-    nomProjetValue: 'lauréat-1',
+    dépôtCandidatureValue: {
+      nomProjet: 'lauréat-1',
+      sociétéMère: 'BonneMère-1',
+    },
+    instructionCandidatureValue: {
+      statut: { statut: 'classé' },
+    },
     appelOffreValue: 'PPE2 - Eolien',
     périodeValue: '1',
     familleValue: '',
     numéroCREValue: 'lauréat-1',
-    statutValue: 'classé',
-    sociétéMèreValue: 'BonneMère-1',
   },
   {
-    nomProjetValue: 'lauréat-2',
+    dépôtCandidatureValue: {
+      nomProjet: 'lauréat-2',
+      sociétéMère: 'BonneMère-2',
+    },
+    instructionCandidatureValue: {
+      statut: { statut: 'classé' },
+    },
     appelOffreValue: 'PPE2 - Eolien',
     périodeValue: '1',
     familleValue: '',
     numéroCREValue: 'lauréat-2',
-    statutValue: 'classé',
-    sociétéMèreValue: 'BonneMère-2',
   },
   {
-    nomProjetValue: 'lauréat-3',
+    dépôtCandidatureValue: {
+      nomProjet: 'lauréat-3',
+      sociétéMère: 'BonneMère-3',
+    },
+    instructionCandidatureValue: {
+      statut: { statut: 'classé' },
+    },
     appelOffreValue: 'PPE2 - Eolien',
     périodeValue: '1',
     familleValue: '',
     numéroCREValue: 'lauréat-3',
-    statutValue: 'classé',
-    sociétéMèreValue: 'BonneMère-3',
   },
   {
-    nomProjetValue: 'lauréat-4',
+    dépôtCandidatureValue: {
+      nomProjet: 'lauréat-4',
+      sociétéMère: 'BonneMère-4',
+    },
+    instructionCandidatureValue: {
+      statut: { statut: 'classé' },
+    },
     appelOffreValue: 'PPE2 - Eolien',
     périodeValue: '1',
     familleValue: '',
     numéroCREValue: 'lauréat-4',
-    statutValue: 'classé',
-    sociétéMèreValue: 'BonneMère-4',
   },
   {
-    nomProjetValue: 'lauréat-5',
+    dépôtCandidatureValue: {
+      nomProjet: 'lauréat-5',
+      sociétéMère: 'BonneMère-5',
+    },
+    instructionCandidatureValue: {
+      statut: { statut: 'classé' },
+    },
     appelOffreValue: 'PPE2 - Eolien',
     périodeValue: '1',
     familleValue: '',
     numéroCREValue: 'lauréat-5',
-    statutValue: 'classé',
-    sociétéMèreValue: 'BonneMère-5',
   },
   {
-    nomProjetValue: 'éliminé-1',
+    dépôtCandidatureValue: {
+      nomProjet: 'éliminé-1',
+      sociétéMère: 'BonneMère-eliminé',
+    },
+    instructionCandidatureValue: {
+      statut: { statut: 'classé' },
+    },
     appelOffreValue: 'PPE2 - Eolien',
     périodeValue: '1',
     familleValue: '',
     numéroCREValue: 'éliminé-1',
-    statutValue: 'éliminé',
-    sociétéMèreValue: 'BonneMère-eliminé',
   },
   {
-    nomProjetValue: 'éliminé-2',
+    dépôtCandidatureValue: {
+      nomProjet: 'éliminé-2',
+    },
+    instructionCandidatureValue: {
+      statut: { statut: 'éliminé' },
+    },
     appelOffreValue: 'PPE2 - Eolien',
     périodeValue: '1',
     familleValue: '',
     numéroCREValue: 'éliminé-2',
-    statutValue: 'éliminé',
   },
   {
-    nomProjetValue: 'éliminé-3',
+    dépôtCandidatureValue: {
+      nomProjet: 'éliminé-3',
+    },
+    instructionCandidatureValue: {
+      statut: { statut: 'éliminé' },
+    },
     appelOffreValue: 'PPE2 - Eolien',
     périodeValue: '1',
     familleValue: '',
     numéroCREValue: 'éliminé-3',
-    statutValue: 'éliminé',
   },
-] satisfies Partial<Candidature.ImporterCandidatureUseCase['data']>[];
+] satisfies DeepPartial<Candidature.ImporterCandidatureUseCase['data']>[];
 
 EtantDonné(`une période avec des candidats importés`, async function (this: PotentielWorld) {
   await importerCandidatsPériode.call(this, candidats);
@@ -99,31 +132,43 @@ EtantDonné(
   async function (this: PotentielWorld) {
     const candidats = [
       {
-        nomProjetValue: 'lauréat-oublié-1',
         appelOffreValue: 'PPE2 - Eolien',
         périodeValue: '1',
         familleValue: '',
         numéroCREValue: 'lauréat-oublié-1',
-        statutValue: 'classé',
-        sociétéMèreValue: 'BonneMère',
+        dépôtCandidatureValue: {
+          nomProjet: 'lauréat-oublié-1',
+          sociétéMère: 'BonneMère',
+        },
+        instructionCandidatureValue: {
+          statut: { statut: 'classé' },
+        },
       },
       {
-        nomProjetValue: 'lauréat-oublié-2',
         appelOffreValue: 'PPE2 - Eolien',
         périodeValue: '1',
         familleValue: '',
         numéroCREValue: 'lauréat-oublié-2',
-        statutValue: 'classé',
+        dépôtCandidatureValue: {
+          nomProjet: 'lauréat-oublié-2',
+        },
+        instructionCandidatureValue: {
+          statut: { statut: 'classé' },
+        },
       },
       {
-        nomProjetValue: 'éliminé-oublié-3',
         appelOffreValue: 'PPE2 - Eolien',
         périodeValue: '1',
         familleValue: '',
         numéroCREValue: 'éliminé-oublié-3',
-        statutValue: 'éliminé',
+        dépôtCandidatureValue: {
+          nomProjet: 'éliminé-oublié-3',
+        },
+        instructionCandidatureValue: {
+          statut: { statut: 'éliminé' },
+        },
       },
-    ] satisfies Partial<Candidature.ImporterCandidatureUseCase['data']>[];
+    ] satisfies DeepPartial<Candidature.ImporterCandidatureUseCase['data']>[];
 
     await importerCandidatsPériode.call(this, candidats);
   },
@@ -131,21 +176,27 @@ EtantDonné(
 
 async function importerCandidatsPériode(
   this: PotentielWorld,
-  candidats: (Partial<Candidature.ImporterCandidatureUseCase['data']> & {
-    nomProjetValue: string;
+  candidats: (DeepPartial<Candidature.ImporterCandidatureUseCase['data']> & {
+    dépôtCandidatureValue: {
+      nomProjet: string;
+    };
   })[],
 ) {
-  for (const { nomProjetValue, statutValue, ...data } of candidats) {
+  for (const {
+    dépôtCandidatureValue: { nomProjet },
+    instructionCandidatureValue,
+    ...data
+  } of candidats) {
     await importerCandidature.call(
       this,
-      nomProjetValue,
-      statutValue as Candidature.StatutCandidature.RawType,
+      nomProjet,
+      instructionCandidatureValue?.statut?.statut as Candidature.StatutCandidature.RawType,
       data,
     );
   }
   this.périodeWorld.notifierPériodeFixture.ajouterCandidatsÀNotifier(
     candidats
-      .filter((c) => c.statutValue === 'classé')
+      .filter((c) => c.instructionCandidatureValue?.statut?.statut === 'classé')
       .map(
         (c) =>
           [c.appelOffreValue, c.périodeValue, c.familleValue, c.numéroCREValue].join(
@@ -153,7 +204,7 @@ async function importerCandidatsPériode(
           ) as IdentifiantProjet.RawType,
       ),
     candidats
-      .filter((c) => c.statutValue === 'éliminé')
+      .filter((c) => c.instructionCandidatureValue?.statut?.statut === 'éliminé')
       .map(
         (c) =>
           [c.appelOffreValue, c.périodeValue, c.familleValue, c.numéroCREValue].join(

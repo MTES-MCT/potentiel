@@ -50,7 +50,8 @@ EtantDonné(
 EtantDonné(
   'la dreal {string} associée à la région du projet',
   async function (this: PotentielWorld, drealNom: string) {
-    const { région } = this.candidatureWorld.importerCandidature.values.localitéValue;
+    const { région } =
+      this.candidatureWorld.importerCandidature.values.dépôtCandidatureValue.localité;
     const dreal = this.utilisateurWorld.drealFixture.créer({
       nom: drealNom,
       région,
@@ -223,11 +224,13 @@ export async function initialiserUtilisateursTests(this: PotentielWorld) {
 
 export async function insérerPorteurCandidature(this: PotentielWorld) {
   const {
-    values: { emailContactValue },
+    values: {
+      dépôtCandidatureValue: { emailContact },
+    },
     identifiantProjet,
   } = this.candidatureWorld.importerCandidature;
 
-  const porteur = this.utilisateurWorld.porteurFixture.créer({ email: emailContactValue });
+  const porteur = this.utilisateurWorld.porteurFixture.créer({ email: emailContact.email });
   await insérerUtilisateur(porteur);
 
   const projets = await récupérerProjets(IdentifiantProjet.convertirEnValueType(identifiantProjet));

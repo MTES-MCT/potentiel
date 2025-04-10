@@ -1,4 +1,4 @@
-import { Candidature } from '@potentiel-domain/candidature';
+import { Candidature } from '@potentiel-domain/projet';
 
 import { AbstractFixture } from '../../fixture';
 

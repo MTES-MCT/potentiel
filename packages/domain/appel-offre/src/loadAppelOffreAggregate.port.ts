@@ -1,3 +1,5 @@
+import { Option } from '@potentiel-libraries/monads';
+
 import { AppelOffreAggregate } from './appelOffre.aggregate';
 
 /**
@@ -5,4 +7,4 @@ import { AppelOffreAggregate } from './appelOffre.aggregate';
  */
 export type LoadAppelOffreAggregatePort = (
   identifiantAppelOffre: string,
-) => Promise<AppelOffreAggregate>;
+) => Promise<Option.Type<AppelOffreAggregate>>;

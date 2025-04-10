@@ -2,7 +2,7 @@ import { AlertProps } from '@codegouvfr/react-dsfr/Alert';
 import Badge from '@codegouvfr/react-dsfr/Badge';
 import { FC } from 'react';
 
-import { Candidature } from '@potentiel-domain/candidature';
+import { Candidature } from '@potentiel-domain/projet';
 import { StatutProjet } from '@potentiel-domain/common';
 
 const convertStatutProjetToBadgeSeverity: Record<StatutProjet.RawType, AlertProps.Severity> = {

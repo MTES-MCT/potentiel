@@ -1,8 +1,9 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
-import { DateTime, IdentifiantProjet, StatutProjet } from '@potentiel-domain/common';
+import { DateTime } from '@potentiel-domain/common';
 
 import { ProjetEntity } from '../projet.entity';
+import { StatutProjet, IdentifiantProjet } from '../..';
 
 export type ListerProjetsEligiblesPreuveRecanditureReadModel = Array<{
   identifiantProjet: IdentifiantProjet.ValueType;

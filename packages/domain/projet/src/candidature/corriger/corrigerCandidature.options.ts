@@ -1,0 +1,13 @@
+import { DateTime, Email } from '@potentiel-domain/common';
+
+import * as DépôtCandidature from '../dépôtCandidature.valueType';
+import * as InstructionCandidature from '../instructionCandidature.valueType';
+
+export type CorrigerCandidatureOptions = {
+  dépôtCandidature: DépôtCandidature.ValueType;
+  instructionCandidature: InstructionCandidature.ValueType;
+  doitRégénérerAttestation?: true;
+  détailsMisÀJour?: true;
+  corrigéLe: DateTime.ValueType;
+  corrigéPar: Email.ValueType;
+};

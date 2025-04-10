@@ -92,16 +92,16 @@ Alors(
     const { values } = this.candidatureWorld.importerCandidature;
 
     await waitForExpect(async () => {
-      if (values.typeGarantiesFinancièresValue) {
+      if (values.dépôtCandidatureValue.typeGarantiesFinancières?.type) {
         const actualReadModel = await getGarantiesFinancières(identifiantProjet);
         assert(actualReadModel.garantiesFinancières);
         expect(actualReadModel.garantiesFinancières.type.type).to.deep.equal(
-          values.typeGarantiesFinancièresValue,
+          values.dépôtCandidatureValue.typeGarantiesFinancières.type,
         );
 
-        if (values.dateÉchéanceGfValue) {
+        if (values.dépôtCandidatureValue.dateÉchéanceGf?.date) {
           expect(actualReadModel.garantiesFinancières.dateÉchéance?.date).to.deep.equal(
-            new Date(values.dateÉchéanceGfValue),
+            new Date(values.dépôtCandidatureValue.dateÉchéanceGf?.date),
           );
         }
       }

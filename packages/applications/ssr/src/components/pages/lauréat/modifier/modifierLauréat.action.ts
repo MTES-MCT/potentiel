@@ -2,7 +2,7 @@
 
 import { mediator } from 'mediateur';
 
-import { Candidature } from '@potentiel-domain/candidature';
+import { Candidature } from '@potentiel-domain/projet';
 import { Routes } from '@potentiel-applications/routes';
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 import { Actionnaire, Lauréat, ReprésentantLégal } from '@potentiel-domain/laureat';
@@ -36,8 +36,8 @@ const action: FormAction<FormState, typeof schema> = async (_, body) =>
         type: 'Candidature.UseCase.CorrigerCandidature',
         data: {
           ...mapBodyToCandidatureUsecaseData(identifiantProjet, candidature, candidatureACorriger),
-          corrigéLe: DateTime.now().formatter(),
-          corrigéPar: utilisateur.identifiantUtilisateur.formatter(),
+          corrigéLeValue: DateTime.now().formatter(),
+          corrigéParValue: utilisateur.identifiantUtilisateur.formatter(),
         },
       });
     }
@@ -109,11 +109,11 @@ const mapBodyToCandidatureUsecaseData = (
   identifiantProjet: string,
   data: PartialModifierCandidatureNotifiéeFormEntries,
   previous: Candidature.ConsulterCandidatureReadModel,
-): Omit<Candidature.CorrigerCandidatureUseCase['data'], 'corrigéLe' | 'corrigéPar'> => {
+): Omit<Candidature.CorrigerCandidatureUseCase['data'], 'corrigéLeValue' | 'corrigéParValue'> => {
   const { appelOffre, période, famille, numéroCRE } =
     IdentifiantProjet.convertirEnValueType(identifiantProjet);
 
-  const localitéValue = {
+  const localité = {
     adresse1: data.adresse1 ?? previous.localité.adresse1,
     adresse2: data.adresse2 ?? previous.localité.adresse2,
     codePostal: data.codePostal ?? previous.localité.codePostal,
@@ -127,30 +127,38 @@ const mapBodyToCandidatureUsecaseData = (
     périodeValue: période,
     familleValue: famille,
     numéroCREValue: numéroCRE,
-    nomProjetValue: data.nomProjet ?? previous.nomProjet,
-    sociétéMèreValue: data.actionnaire ?? previous.sociétéMère,
-    nomReprésentantLégalValue: data.nomRepresentantLegal ?? previous.nomReprésentantLégal,
-    technologieValue: data.technologie ?? previous.technologie.formatter(),
-    nomCandidatValue: data.nomCandidat ?? previous.nomCandidat,
-    puissanceProductionAnnuelleValue:
-      data.puissanceProductionAnnuelle ?? previous.puissanceProductionAnnuelle,
-    prixReferenceValue: data.prixReference ?? previous.prixReference,
-    noteTotaleValue: data.noteTotale ?? previous.noteTotale,
-    emailContactValue: data.emailContact ?? previous.emailContact.formatter(),
-    localitéValue,
-    puissanceALaPointeValue: data.puissanceALaPointe ?? previous.puissanceALaPointe,
-    evaluationCarboneSimplifiéeValue:
-      data.evaluationCarboneSimplifiee ?? previous.evaluationCarboneSimplifiée,
-    actionnariatValue: data.actionnariat ?? previous.actionnariat?.formatter(),
-    doitRégénérerAttestation: data.doitRegenererAttestation ? true : undefined,
-    coefficientKChoisiValue: data.coefficientKChoisi ?? previous.coefficientKChoisi,
-    // non-editable fields
-    motifÉliminationValue: previous.motifÉlimination,
-    statutValue: previous.statut.formatter(),
-    typeGarantiesFinancièresValue: previous.typeGarantiesFinancières?.type,
-    dateÉchéanceGfValue: previous.dateÉchéanceGf?.formatter(),
-    territoireProjetValue: previous.territoireProjet,
-    historiqueAbandonValue: previous.historiqueAbandon.formatter(),
+    dépôtCandidatureValue: {
+      nomProjet: data.nomProjet ?? previous.nomProjet,
+      sociétéMère: data.actionnaire ?? previous.sociétéMère,
+      nomReprésentantLégal: data.nomRepresentantLegal ?? previous.nomReprésentantLégal,
+      technologie: data.technologie ? { type: data.technologie } : previous.technologie,
+      nomCandidat: data.nomCandidat ?? previous.nomCandidat,
+      puissanceProductionAnnuelle:
+        data.puissanceProductionAnnuelle ?? previous.puissanceProductionAnnuelle,
+      prixRéférence: data.prixReference ?? previous.prixReference,
+      emailContact: data.emailContact ? { email: data.emailContact } : previous.emailContact,
+      localité,
+      puissanceALaPointe: data.puissanceALaPointe ?? previous.puissanceALaPointe,
+      evaluationCarboneSimplifiée:
+        data.evaluationCarboneSimplifiee ?? previous.evaluationCarboneSimplifiée,
+      actionnariat: data.actionnariat ? { type: data.actionnariat } : previous.actionnariat,
+      coefficientKChoisi: data.coefficientKChoisi ?? previous.coefficientKChoisi,
+      // non-editable fields
+      typeGarantiesFinancières: previous.typeGarantiesFinancières,
+      dateÉchéanceGf: previous.dateÉchéanceGf
+        ? {
+            date: previous.dateÉchéanceGf?.formatter(),
+          }
+        : undefined,
+      territoireProjet: previous.territoireProjet,
+      historiqueAbandon: previous.historiqueAbandon,
+    },
+    instructionCandidatureValue: {
+      statut: previous.statut,
+      noteTotale: data.noteTotale ?? previous.noteTotale,
+      motifÉlimination: previous.motifÉlimination,
+    },
+    doitRégénérerAttestationValue: data.doitRegenererAttestation ? true : undefined,
   };
 };
 

@@ -19,7 +19,7 @@ import {
   DocumentAdapter,
   récupérerIdentifiantsProjetParEmailPorteurAdapter,
 } from '@potentiel-infrastructure/domain-adapters';
-import { Candidature } from '@potentiel-domain/candidature';
+import { Candidature } from '@potentiel-domain/projet';
 import { Période } from '@potentiel-domain/periode';
 
 import { dgecEmail } from '../_utils/constant';

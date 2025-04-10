@@ -58,6 +58,9 @@ function estValide(value: string): asserts value is RawType {
   }
 }
 
+/**
+ * @deprecated Use potentiel-domain/common Email ValueType instead
+ */
 export const unknownUser = convertirEnValueType('unknown-user@unknown-email.com');
 
 /**

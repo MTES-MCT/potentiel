@@ -6,7 +6,7 @@ import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { Période } from '@potentiel-domain/periode';
 import { getLogger } from '@potentiel-libraries/monitoring';
 import { ListerUtilisateursQuery } from '@potentiel-domain/utilisateur';
-import { Candidature } from '@potentiel-domain/candidature';
+import { Candidature } from '@potentiel-domain/projet';
 
 import { EmailPayload, SendEmail } from '../../sendEmail';
 

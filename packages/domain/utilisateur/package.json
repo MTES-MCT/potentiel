@@ -13,7 +13,7 @@
     "@potentiel-domain/core": "*",
     "@potentiel-domain/entity": "*",
     "@potentiel-domain/common": "*",
-    "@potentiel-domain/candidature": "*"
+    "@potentiel-domain/projet": "*"
   },
   "devDependencies": {
     "@potentiel-config/tsconfig": "*"

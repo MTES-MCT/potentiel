@@ -4,7 +4,7 @@ import ReactPDF, { Font } from '@react-pdf/renderer';
 
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
-import { Candidature } from '@potentiel-domain/candidature';
+import { Candidature } from '@potentiel-domain/projet';
 
 import { fontsFolderPath, imagesFolderPath } from '../../assets';
 import { mapToReadableStream } from '../../mapToReadableStream';

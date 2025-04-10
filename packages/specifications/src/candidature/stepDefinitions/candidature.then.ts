@@ -3,7 +3,7 @@ import { mediator } from 'mediateur';
 import { assert, expect } from 'chai';
 import waitForExpect from 'wait-for-expect';
 
-import { Candidature } from '@potentiel-domain/candidature';
+import { Candidature } from '@potentiel-domain/projet';
 import { mapToPlainObject } from '@potentiel-domain/core';
 import { Option } from '@potentiel-libraries/monads';
 import { ConsulterDocumentProjetQuery } from '@potentiel-domain/document';

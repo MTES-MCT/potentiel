@@ -2,10 +2,10 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { DocumentProjet, EnregistrerDocumentProjetCommand } from '@potentiel-domain/document';
 import { getLogger } from '@potentiel-libraries/monitoring';
-import { Candidature } from '@potentiel-domain/candidature';
 import { Option } from '@potentiel-libraries/monads';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { Email, IdentifiantProjet } from '@potentiel-domain/common';
+import { Candidature } from '@potentiel-domain/projet';
 
 import { buildCertificate, BuildCertificateProps } from './buildCertificate';
 

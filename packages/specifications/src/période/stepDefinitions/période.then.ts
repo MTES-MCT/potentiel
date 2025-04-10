@@ -8,7 +8,7 @@ import { mapToPlainObject } from '@potentiel-domain/core';
 import { Période } from '@potentiel-domain/periode';
 import { GarantiesFinancières, Lauréat } from '@potentiel-domain/laureat';
 import { Éliminé } from '@potentiel-domain/projet';
-import { Candidature } from '@potentiel-domain/candidature';
+import { Candidature } from '@potentiel-domain/projet';
 import { ConsulterDocumentProjetQuery } from '@potentiel-domain/document';
 import { Role, Utilisateur, VérifierAccèsProjetQuery } from '@potentiel-domain/utilisateur';
 

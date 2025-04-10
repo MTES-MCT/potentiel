@@ -4,7 +4,7 @@ import { notFound } from 'next/navigation';
 
 import { Option } from '@potentiel-libraries/monads';
 import { Actionnaire, Lauréat, ReprésentantLégal } from '@potentiel-domain/laureat';
-import { Candidature } from '@potentiel-domain/candidature';
+import { Candidature } from '@potentiel-domain/projet';
 
 type Props = {
   identifiantProjet: string;
