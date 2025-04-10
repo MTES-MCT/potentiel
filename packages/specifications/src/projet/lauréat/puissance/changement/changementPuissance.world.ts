@@ -81,8 +81,9 @@ export class ChangementPuissanceWorld {
         ),
         raison: baseFixture.raison,
         statut,
+        // viovio
         autoritéCompétente: this.demanderChangementPuissanceFixture.aÉtéCréé
-          ? Puissance.RatioChangementPuissance.bind({
+          ? Puissance.AutoritéCompétente.bind({
               ratio: this.demanderChangementPuissanceFixture.ratio,
             }).getAutoritéCompétente()
           : undefined,

@@ -2,7 +2,10 @@
 Fonctionnalité: Accorder le changement de puissance d'un projet lauréat
 
     Contexte:
-        Etant donné le projet lauréat "Du boulodrome de Marseille"
+        # on est obligés de cibler un AO et une période spécifique pour simplifier les fixtures
+        Etant donné le projet lauréat "Du boulodrome de Marseille" avec :
+            | appel d'offre | PPE2 - Eolien |
+            | période       | 1             |
         Et le porteur "Marcel Patoulatchi" ayant accés au projet lauréat "Du boulodrome de Marseille"
         Et la dreal "Dreal du sud" associée à la région du projet
 

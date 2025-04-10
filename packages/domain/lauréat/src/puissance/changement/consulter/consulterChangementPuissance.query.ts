@@ -7,8 +7,8 @@ import { DocumentProjet } from '@potentiel-domain/document';
 import { IdentifiantProjet } from '@potentiel-domain/projet';
 
 import {
+  AutoritéCompétente,
   ChangementPuissanceEntity,
-  RatioChangementPuissance,
   StatutChangementPuissance,
   TypeDocumentPuissance,
 } from '../..';
@@ -21,7 +21,7 @@ export type ConsulterChangementPuissanceReadModel = {
     demandéeLe: DateTime.ValueType;
     nouvellePuissance: number;
     statut: StatutChangementPuissance.ValueType;
-    autoritéCompétente?: RatioChangementPuissance.AutoritéCompétente;
+    autoritéCompétente?: AutoritéCompétente.ValueType;
     raison?: string;
     pièceJustificative?: DocumentProjet.ValueType;
     accord?: {

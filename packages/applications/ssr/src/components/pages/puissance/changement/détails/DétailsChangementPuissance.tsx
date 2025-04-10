@@ -80,8 +80,8 @@ type ChangementProps = {
   raison: DétailsChangementPuissanceProps['demande']['raison'];
   pièceJustificative: DétailsChangementPuissanceProps['demande']['pièceJustificative'];
   nouvellePuissance: DétailsChangementPuissanceProps['demande']['nouvellePuissance'];
-  unitéPuissance: DétailsChangementPuissanceProps['unitéPuissance'];
-  autoritéCompétente?: Puissance.RatioChangementPuissance.AutoritéCompétente;
+  unitePuissance: DétailsChangementPuissanceProps['unitePuissance'];
+  autoritéCompétente?: Puissance.AutoritéCompétente.RawType;
 };
 
 const Changement: FC<ChangementProps> = ({

@@ -99,7 +99,7 @@ export default async function Page({ params: { identifiant, date } }: PageProps)
 const mapToActions = (
   statut: Puissance.StatutChangementPuissance.ValueType,
   rôle: Role.ValueType,
-  autoritéCompétente?: Puissance.RatioChangementPuissance.AutoritéCompétente,
+  autoritéCompétente?: Puissance.AutoritéCompétente.RawType,
 ): Array<ChangementPuissanceActions> => {
   const actions: Array<ChangementPuissanceActions> = [];
 

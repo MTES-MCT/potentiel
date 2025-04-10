@@ -1,4 +1,4 @@
-import { DomainError } from '@potentiel-domain/core';
+import { DomainError, InvalidOperationError } from '@potentiel-domain/core';
 
 export class ProjetAbandonnéError extends DomainError {
   constructor() {
