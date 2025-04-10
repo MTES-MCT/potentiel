@@ -51,7 +51,7 @@ export const AccorderChangementPuissance = ({
               <p className="mt-3">Êtes-vous sûr de vouloir accorder ce changement de puissance ?</p>
               <input type={'hidden'} value={identifiantProjet} name="identifiantProjet" />
               <UploadNewOrModifyExistingDocument
-                label="Réponse signée"
+                label={`Réponse signée${estUneDecisionDEtat ? ' (optionnel)' : ''}`}
                 state={validationErrors['reponseSignee'] ? 'error' : 'default'}
                 stateRelatedMessage={validationErrors['reponseSignee']}
                 name="reponseSignee"
