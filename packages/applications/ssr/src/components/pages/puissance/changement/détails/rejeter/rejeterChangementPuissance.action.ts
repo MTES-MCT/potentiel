@@ -39,6 +39,7 @@ const action: FormAction<FormState, typeof schema> = async (
       status: 'success',
       redirection: {
         url: Routes.Projet.details(identifiantProjet),
+        message: 'Le changement de puissance a bien été rejeté',
       },
     };
   });
