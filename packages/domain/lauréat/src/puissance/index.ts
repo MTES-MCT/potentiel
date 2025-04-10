@@ -20,16 +20,28 @@ import { EnregistrerChangementPuissanceCommand } from './changement/enregistrerC
 import { EnregistrerChangementPuissanceUseCase } from './changement/enregistrerChangement/enregistrerChangementPuissance.usecase';
 import { RejeterChangementPuissanceUseCase } from './changement/rejeter/rejeterChangementPuissance.usecase';
 import { RejeterChangementPuissanceCommand } from './changement/rejeter/rejeterChangementPuissance.command';
+import {
+  ListerChangementPuissanceQuery,
+  ListerChangementPuissanceReadModel,
+} from './changement/lister/listerChangementPuissance.query';
 
 // Query
-export type PuissanceQuery = ConsulterPuissanceQuery | ConsulterChangementPuissanceQuery;
-export type { ConsulterPuissanceQuery, ConsulterChangementPuissanceQuery };
+export type PuissanceQuery =
+  | ConsulterPuissanceQuery
+  | ConsulterChangementPuissanceQuery
+  | ListerChangementPuissanceQuery;
+export type {
+  ConsulterPuissanceQuery,
+  ConsulterChangementPuissanceQuery,
+  ListerChangementPuissanceQuery,
+};
 
 // ReadModel
 export type {
   ConsulterPuissanceReadModel,
   ConsulterChangementPuissanceReadModel,
   DétailsDemandeChangementPuissanceReadModel,
+  ListerChangementPuissanceReadModel,
 };
 
 // UseCase

@@ -3,7 +3,7 @@ import type { Metadata } from 'next';
 import { z } from 'zod';
 
 import { AppelOffre } from '@potentiel-domain/appel-offre';
-import { Actionnaire } from '@potentiel-domain/laureat';
+import { Puissance } from '@potentiel-domain/laureat';
 import { mapToPlainObject } from '@potentiel-domain/core';
 
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
@@ -11,24 +11,24 @@ import { withUtilisateur } from '@/utils/withUtilisateur';
 import { mapToPagination, mapToRangeOptions } from '@/utils/pagination';
 import { getRégionUtilisateur } from '@/utils/getRégionUtilisateur';
 import {
-  ChangementActionnaireListPage,
-  ChangementActionnaireListPageProps,
-} from '@/components/pages/actionnaire/changement/lister/ChangementActionnaireList.page';
+  ChangementPuissanceListPage,
+  ChangementPuissanceListPageProps,
+} from '@/components/pages/puissance/changement/lister/ChangementPuissanceList.page';
 
 type PageProps = {
   searchParams?: Record<string, string>;
 };
 
 export const metadata: Metadata = {
-  title: "Liste des demandes de changement d'actionnaire - Potentiel",
-  description: "Liste des demandes de changement d'actionnaire",
+  title: 'Liste des demandes de changement de puissance - Potentiel',
+  description: 'Liste des demandes de changement de puissance',
 };
 
 const paramsSchema = z.object({
   page: z.coerce.number().int().optional().default(1),
   nomProjet: z.string().optional(),
   appelOffre: z.string().optional(),
-  statut: z.enum(Actionnaire.StatutChangementActionnaire.statuts).optional(),
+  statut: z.enum(Puissance.StatutChangementPuissance.statuts).optional(),
 });
 
 export default async function Page({ searchParams }: PageProps) {
@@ -38,8 +38,8 @@ export default async function Page({ searchParams }: PageProps) {
 
       const régionDreal = await getRégionUtilisateur(utilisateur);
 
-      const changements = await mediator.send<Actionnaire.ListerChangementActionnaireQuery>({
-        type: 'Lauréat.Actionnaire.Query.ListerChangementActionnaire',
+      const changements = await mediator.send<Puissance.ListerChangementPuissanceQuery>({
+        type: 'Lauréat.Puissance.Query.ListerChangementPuissance',
         data: {
           utilisateur: {
             identifiantUtilisateur: utilisateur.identifiantUtilisateur.email,
@@ -73,7 +73,7 @@ export default async function Page({ searchParams }: PageProps) {
         {
           label: 'Statut',
           searchParamKey: 'statut',
-          options: Actionnaire.StatutChangementActionnaire.statuts
+          options: Puissance.StatutChangementPuissance.statuts
             .filter((s) => s !== 'annulé')
             .map((statut) => ({
               label: statut.replace('-', ' ').toLocaleLowerCase(),
@@ -82,14 +82,14 @@ export default async function Page({ searchParams }: PageProps) {
         },
       ];
 
-      return <ChangementActionnaireListPage list={mapToListProps(changements)} filters={filters} />;
+      return <ChangementPuissanceListPage list={mapToListProps(changements)} filters={filters} />;
     }),
   );
 }
 
 const mapToListProps = (
-  readModel: Actionnaire.ListerChangementActionnaireReadModel,
-): ChangementActionnaireListPageProps['list'] => {
+  readModel: Puissance.ListerChangementPuissanceReadModel,
+): ChangementPuissanceListPageProps['list'] => {
   const pagination = mapToPagination(readModel.range);
 
   return {
@@ -99,7 +99,7 @@ const mapToListProps = (
       statut: mapToPlainObject(item.statut),
       misÀJourLe: mapToPlainObject(item.misÀJourLe),
       demandéLe: mapToPlainObject(item.demandéLe),
-      nouvelActionnaire: item.nouvelActionnaire,
+      nouvellePuissance: item.nouvellePuissance,
     })),
     pagination,
     total: readModel.total,

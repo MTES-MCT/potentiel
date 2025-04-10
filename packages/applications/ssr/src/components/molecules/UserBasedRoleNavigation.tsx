@@ -52,6 +52,12 @@ const getNavigationItemsBasedOnRole = (utilisateur: Utilisateur.ValueType) => {
         href: Routes.Actionnaire.changement.lister({ statut: 'demandé' }),
       },
     },
+    {
+      text: 'Puissance',
+      linkProps: {
+        href: Routes.Puissance.changement.lister({ statut: 'demandé' }),
+      },
+    },
   ];
 
   const garantiesFinancièresMenuLinks: Array<MenuProps.Link> = [

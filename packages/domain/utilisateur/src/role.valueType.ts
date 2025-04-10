@@ -296,6 +296,7 @@ const référencielPermissions = {
       query: {
         consulter: 'Lauréat.Puissance.Query.ConsulterPuissance',
         consulterChangement: 'Lauréat.Puissance.Query.ConsulterChangementPuissance',
+        listerChangement: 'Lauréat.Puissance.Query.ListerChangementPuissance',
       },
       usecase: {
         modifier: 'Lauréat.Puissance.UseCase.ModifierPuissance',
@@ -1012,6 +1013,10 @@ const policies = {
       référencielPermissions.candidature.query.consulterProjet,
       référencielPermissions.lauréat.puissance.query.consulter,
     ],
+    listerChangement: [
+      référencielPermissions.appelOffre.query.lister,
+      référencielPermissions.lauréat.puissance.query.listerChangement,
+    ],
     modifier: [
       référencielPermissions.candidature.query.consulterProjet,
       référencielPermissions.lauréat.puissance.usecase.modifier,
@@ -1412,6 +1417,7 @@ const porteurProjetPolicies: ReadonlyArray<Policy> = [
   'puissance.enregistrerChangement',
   'puissance.demanderChangement',
   'puissance.annulerChangement',
+  'puissance.listerChangement',
 
   // Utilisateur
   'utilisateur.inviterPorteur',
@@ -1441,6 +1447,10 @@ const acheteurObligéPolicies: ReadonlyArray<Policy> = [
   // Représentant Légal
   'représentantLégal.consulterChangement',
   'représentantLégal.listerChangement',
+
+  // Puissance
+  'puissance.consulterChangement',
+  'puissance.listerChangement',
 ];
 
 const caisseDesDépôtsPolicies: ReadonlyArray<Policy> = [

@@ -204,6 +204,9 @@ const MenuPorteurProjet = (currentPage?: string) => (
       <DropdownMenu.DropdownItem href={Routes.Actionnaire.changement.lister({ statut: 'demandé' })}>
         Actionnaire
       </DropdownMenu.DropdownItem>
+      <DropdownMenu.DropdownItem href={Routes.Puissance.changement.lister({ statut: 'demandé' })}>
+        Puissance
+      </DropdownMenu.DropdownItem>
     </DropdownMenu>
     <MenuGarantiesFinancières />
     <Header.MenuItem
