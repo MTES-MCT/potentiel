@@ -5,19 +5,17 @@ import { ConsulterCahierDesChargesChoisiReadmodel } from '../../../cahierDesChar
 
 const defaultRatios = { min: 0.9, max: 1.1 };
 
-export type GetRatiosChangementPuissance = {
-  appelOffre: AppelOffre.ConsulterAppelOffreReadModel;
-  technologie: Candidature.TypeTechnologie.RawType;
-  cahierDesCharges: ConsulterCahierDesChargesChoisiReadmodel;
-  période: string;
-};
-
 export const getRatiosChangementPuissance = ({
   appelOffre,
   technologie,
   cahierDesCharges,
-  période,
-}: GetRatiosChangementPuissance): { min: number; max: number } => {
+  périodeId,
+}: {
+  appelOffre: AppelOffre.ConsulterAppelOffreReadModel;
+  technologie: Candidature.TypeTechnologie.RawType;
+  cahierDesCharges: ConsulterCahierDesChargesChoisiReadmodel;
+  périodeId: string;
+}): { min: number; max: number } => {
   if (!appelOffre) {
     return defaultRatios;
   }
@@ -25,7 +23,7 @@ export const getRatiosChangementPuissance = ({
   // prendre les ratios du CDC 2022 si existants
   if (cahierDesCharges.type === 'modifié' && cahierDesCharges.paruLe === '30/08/2022') {
     const détailCDC = appelOffre.periodes
-      .find((p) => p.id === période)
+      .find((p) => p.id === périodeId)
       ?.cahiersDesChargesModifiésDisponibles.find(
         (cdc) =>
           cdc.type === 'modifié' &&

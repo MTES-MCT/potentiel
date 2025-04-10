@@ -3,7 +3,7 @@ import { DomainEvent } from '@potentiel-domain/core';
 import { DocumentProjet } from '@potentiel-domain/document';
 
 import { PuissanceIdentiqueError, PuissanceNulleOuNégativeError } from '../../errors';
-import { RatioChangementPuissance, StatutChangementPuissance } from '../..';
+import { AutoritéCompétente, StatutChangementPuissance } from '../..';
 import { PuissanceAggregate } from '../../puissance.aggregate';
 import {
   ProjetAbandonnéError,
@@ -16,7 +16,7 @@ export type ChangementPuissanceDemandéEvent = DomainEvent<
   {
     identifiantProjet: IdentifiantProjet.RawType;
     puissance: number;
-    autoritéCompétente: RatioChangementPuissance.AutoritéCompétente;
+    autoritéCompétente: AutoritéCompétente.RawType;
     raison: string;
     demandéLe: DateTime.RawType;
     demandéPar: Email.RawType;
@@ -86,7 +86,7 @@ export async function demanderChangement(
     payload: {
       identifiantProjet: identifiantProjet.formatter(),
       puissance,
-      autoritéCompétente: RatioChangementPuissance.bind({ ratio }).getAutoritéCompétente(),
+      autoritéCompétente: AutoritéCompétente.bind({ ratio }).getAutoritéCompétente(),
       pièceJustificative: {
         format: pièceJustificative.format,
       },

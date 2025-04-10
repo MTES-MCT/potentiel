@@ -6,8 +6,8 @@ import { Find } from '@potentiel-domain/entity';
 import { DocumentProjet } from '@potentiel-domain/document';
 
 import {
+  AutoritéCompétente,
   ChangementPuissanceEntity,
-  RatioChangementPuissance,
   StatutChangementPuissance,
   TypeDocumentPuissance,
 } from '../..';
@@ -20,7 +20,7 @@ type DétailsInformationEnregistréePuissanceReadModel = {
 
 export type DétailsDemandeChangementPuissanceReadModel = {
   isInformationEnregistrée: false;
-  autoritéCompétente: RatioChangementPuissance.AutoritéCompétente;
+  autoritéCompétente: AutoritéCompétente.RawType;
   raison: string;
   pièceJustificative: DocumentProjet.ValueType;
 

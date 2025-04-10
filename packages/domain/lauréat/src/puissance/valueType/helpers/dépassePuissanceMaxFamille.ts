@@ -1,17 +1,19 @@
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 
-export type ExceedsPuissanceMaxFamille = {
-  période: AppelOffre.Periode;
-  familleId: string;
-  nouvellePuissance: number;
-};
-
-export const exceedsPuissanceMaxFamille = ({
-  période,
+export const dépassePuissanceMaxFamille = ({
+  appelOffre,
+  périodeId,
   familleId,
   nouvellePuissance,
-}: ExceedsPuissanceMaxFamille): boolean => {
-  if (!familleId) {
+}: {
+  appelOffre: AppelOffre.ConsulterAppelOffreReadModel;
+  périodeId: string;
+  familleId: string;
+  nouvellePuissance: number;
+}): boolean => {
+  const période = appelOffre.periodes.find((p) => p.id === périodeId);
+
+  if (!période || !familleId) {
     return false;
   }
 

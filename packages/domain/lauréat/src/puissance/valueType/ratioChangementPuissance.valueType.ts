@@ -1,29 +1,92 @@
 import { PlainType, ReadonlyValueType } from '@potentiel-domain/core';
+import { AppelOffre } from '@potentiel-domain/appel-offre';
+import { Candidature } from '@potentiel-domain/candidature';
 
-// work in progress
-// ce value type sera utilisé pour vérifier les règles de ratios de puissance
-// ainsi que pour la règle liée à l'autorité compétente
-export const autoritéCompétentes = ['dreal', 'dgec-admin'] as const;
+import { ConsulterCahierDesChargesChoisiReadmodel } from '../../cahierDesChargesChoisi';
 
-export type AutoritéCompétente = (typeof autoritéCompétentes)[number];
+import {
+  dépassePuissanceMaxDuVolumeRéservé,
+  dépassePuissanceMaxFamille,
+  dépasseRatiosChangementPuissance,
+  getRatiosChangementPuissance,
+} from './helpers';
 
 export type RawType = number;
 
 export type ValueType = ReadonlyValueType<{
   ratio: number;
-  getAutoritéCompétente: () => AutoritéCompétente;
+  identifiantProjet: string;
+  appelOffre: AppelOffre.ConsulterAppelOffreReadModel;
+  technologie: Candidature.TypeTechnologie.RawType;
+  cahierDesCharges: ConsulterCahierDesChargesChoisiReadmodel;
+  périodeId: string;
+  nouvellePuissance: number;
+  familleId: string;
+  note: number;
+  dépasseRatiosChangementPuissance: () => boolean;
+  dépassePuissanceMaxDuVolumeRéservé: () => boolean;
+  dépassePuissanceMaxFamille: () => boolean;
 }>;
 
-export const bind = ({ ratio }: PlainType<ValueType>): ValueType => {
+export const bind = ({
+  ratio,
+  appelOffre,
+  note,
+  périodeId,
+  nouvellePuissance,
+  familleId,
+  technologie,
+  cahierDesCharges,
+}: PlainType<ValueType>): ValueType => {
   return {
     get ratio() {
       return ratio;
     },
+    get identifiantProjet() {
+      return '';
+    },
+    get appelOffre() {
+      return appelOffre;
+    },
+    get technologie() {
+      return technologie;
+    },
+    get cahierDesCharges() {
+      return cahierDesCharges;
+    },
+    get périodeId() {
+      return périodeId;
+    },
+    get nouvellePuissance() {
+      return nouvellePuissance;
+    },
+    get familleId() {
+      return familleId;
+    },
+    get note() {
+      return note;
+    },
     estÉgaleÀ(valueType) {
       return this.ratio === valueType.ratio;
     },
-    getAutoritéCompétente(): AutoritéCompétente {
-      return ratio < 1 ? 'dreal' : 'dgec-admin';
+    dépasseRatiosChangementPuissance(): boolean {
+      const { min, max } = getRatiosChangementPuissance({
+        appelOffre,
+        technologie,
+        cahierDesCharges,
+        périodeId,
+      });
+      return dépasseRatiosChangementPuissance({
+        minRatio: min,
+        maxRatio: max,
+        ratio,
+      });
+    },
+    dépassePuissanceMaxFamille(): boolean {
+      return dépassePuissanceMaxFamille({ appelOffre, périodeId, familleId, nouvellePuissance });
+    },
+    dépassePuissanceMaxDuVolumeRéservé(): boolean {
+      return dépassePuissanceMaxDuVolumeRéservé({ note, périodeId, nouvellePuissance, appelOffre });
     },
   };
 };

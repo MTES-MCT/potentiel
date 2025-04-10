@@ -1,20 +1,20 @@
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 
 export const getDésignationCatégorie = ({
-  puissance,
+  nouvellePuissance,
   note,
-  periodeDetails,
+  période,
 }: {
-  puissance: number;
+  nouvellePuissance: number;
   note: number;
-  periodeDetails: AppelOffre.Periode;
+  période: AppelOffre.Periode;
 }) => {
-  if (periodeDetails.noteThresholdBy !== 'category') {
+  if (période.noteThresholdBy !== 'category') {
     return;
   }
 
-  return puissance <= periodeDetails.noteThreshold.volumeReserve.puissanceMax &&
-    note >= periodeDetails.noteThreshold.volumeReserve.noteThreshold
+  return nouvellePuissance <= période.noteThreshold.volumeReserve.puissanceMax &&
+    note >= période.noteThreshold.volumeReserve.noteThreshold
     ? 'volume-réservé'
     : 'hors-volume-réservé';
 };
