@@ -7,6 +7,8 @@ import { Puissance } from '@potentiel-domain/laureat';
 import { mapToPlainObject } from '@potentiel-domain/core';
 import { IdentifiantProjet } from '@potentiel-domain/common';
 import { Role } from '@potentiel-domain/utilisateur';
+import { Historique } from '@potentiel-domain/historique';
+import { AppelOffre } from '@potentiel-domain/appel-offre';
 
 import {
   ChangementPuissanceActions,
@@ -15,6 +17,7 @@ import {
 import { decodeParameter } from '@/utils/decodeParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
+import { PuissanceHistoryRecord } from '@/components/molecules/historique/timeline/puissance';
 
 export const metadata: Metadata = {
   title: 'Détail de la puissance du projet - Potentiel',
@@ -60,10 +63,40 @@ export default async function Page({ params: { identifiant, date } }: PageProps)
         return notFound();
       }
 
+      const appelOffre = await mediator.send<AppelOffre.ConsulterAppelOffreQuery>({
+        type: 'AppelOffre.Query.ConsulterAppelOffre',
+        data: {
+          identifiantAppelOffre: identifiantProjet.appelOffre,
+        },
+      });
+
+      if (Option.isNone(appelOffre)) {
+        return notFound();
+      }
+
+      const historique = await mediator.send<
+        Historique.ListerHistoriqueProjetQuery<PuissanceHistoryRecord>
+      >({
+        type: 'Historique.Query.ListerHistoriqueProjet',
+        data: {
+          identifiantProjet: identifiantProjet.formatter(),
+          category: 'puissance',
+        },
+      });
+
+      const historiqueWithUnitePuissance = {
+        ...historique,
+        items: historique.items.map((historique) => ({
+          ...historique,
+          unitePuissance: appelOffre.unitePuissance,
+        })),
+      };
+
       return (
         <DétailsPuissancePage
           identifiantProjet={mapToPlainObject(identifiantProjet)}
           demande={mapToPlainObject(changement.demande)}
+          historique={mapToPlainObject(historiqueWithUnitePuissance)}
           actions={mapToActions(
             changement.demande.statut,
             utilisateur.role,
@@ -74,6 +107,7 @@ export default async function Page({ params: { identifiant, date } }: PageProps)
           demandeEnCoursDate={
             puissance.dateDemandeEnCours ? puissance.dateDemandeEnCours.formatter() : undefined
           }
+          unitePuissance={appelOffre.unitePuissance}
         />
       );
     }),

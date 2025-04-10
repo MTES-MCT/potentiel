@@ -15,9 +15,15 @@ import { StatutChangementPuissanceBadge } from '../StatutChangementPuissanceBadg
 
 import { DétailsPuissancePageProps } from './DétailsPuissance.page';
 
-export type DétailsChangementPuissanceProps = Pick<DétailsPuissancePageProps, 'demande'>;
+export type DétailsChangementPuissanceProps = {
+  demande: DétailsPuissancePageProps['demande'];
+  unitePuissance: DétailsPuissancePageProps['unitePuissance'];
+};
 
-export const DétailsChangementPuissance: FC<DétailsChangementPuissanceProps> = ({ demande }) => {
+export const DétailsChangementPuissance: FC<DétailsChangementPuissanceProps> = ({
+  demande,
+  unitePuissance,
+}) => {
   const statut = Puissance.StatutChangementPuissance.bind(demande.statut.statut);
 
   return (
@@ -65,16 +71,18 @@ export const DétailsChangementPuissance: FC<DétailsChangementPuissanceProps> =
           autoritéCompétente={
             demande.isInformationEnregistrée ? undefined : demande.autoritéCompétente
           }
+          unitePuissance={unitePuissance}
         />
       </>
     </div>
   );
 };
 
-type ChangementProps = Pick<
-  PlainType<Puissance.ConsulterChangementPuissanceReadModel['demande']>,
-  'raison' | 'pièceJustificative' | 'nouvellePuissance'
-> & {
+type ChangementProps = {
+  raison: DétailsChangementPuissanceProps['demande']['raison'];
+  pièceJustificative: DétailsChangementPuissanceProps['demande']['pièceJustificative'];
+  nouvellePuissance: DétailsChangementPuissanceProps['demande']['nouvellePuissance'];
+  unitePuissance: DétailsChangementPuissanceProps['unitePuissance'];
   autoritéCompétente?: Puissance.RatioChangementPuissance.AutoritéCompétente;
 };
 
@@ -83,13 +91,16 @@ const Changement: FC<ChangementProps> = ({
   pièceJustificative,
   raison,
   autoritéCompétente,
+  unitePuissance,
 }) => (
   <>
     <Heading5>Détails de la demande initiale</Heading5>
     <div className="flex flex-col gap-2">
       <div className="flex gap-2">
-        <div className="font-semibold whitespace-nowrap">Puissance</div>
-        <div>{nouvellePuissance}</div>
+        <div className="font-semibold whitespace-nowrap">Puissance : </div>
+        <div>
+          {nouvellePuissance} {unitePuissance}
+        </div>
       </div>
       {autoritéCompétente && (
         <div className="flex gap-2">

@@ -64,10 +64,24 @@ export const setupHistorique = async () => {
       streamCategory: 'représentant-légal',
     });
 
+  const unsubscribePuissanceHistoriqueProjector =
+    await subscribe<HistoriqueProjector.SubscriptionEvent>({
+      name: 'history',
+      eventType: 'all',
+      eventHandler: async (event) => {
+        await mediator.send<HistoriqueProjector.Execute>({
+          type: 'System.Projector.Historique',
+          data: event,
+        });
+      },
+      streamCategory: 'puissance',
+    });
+
   return async () => {
     await unsubscribeAbandonHistoriqueProjector();
     await unsubscribeRecoursHistoriqueProjector();
     await unsubscribeActionnaireHistoriqueProjector();
     await unsubscribeReprésentantLégalHistoriqueProjector();
+    await unsubscribePuissanceHistoriqueProjector();
   };
 };
