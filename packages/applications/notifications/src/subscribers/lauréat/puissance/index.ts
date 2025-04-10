@@ -39,6 +39,7 @@ export const register = ({ sendEmail }: RegisterPuissanceNotificationDependencie
         identifiantProjet: identifiantProjet.formatter(),
         application: 'notifications',
         fonction: 'puissance',
+        eventType: event.type,
       });
       return;
     }
