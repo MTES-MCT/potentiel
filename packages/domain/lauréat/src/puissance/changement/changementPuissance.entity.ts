@@ -20,7 +20,7 @@ type DemandeChangementPuissance = {
   };
 
   accord?: {
-    réponseSignée: {
+    réponseSignée?: {
       format: string;
     };
     accordéePar: string;

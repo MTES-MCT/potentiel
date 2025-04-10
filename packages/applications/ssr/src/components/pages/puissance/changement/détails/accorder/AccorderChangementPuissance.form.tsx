@@ -27,6 +27,7 @@ export const AccorderChangementPuissance = ({
     ValidationErrors<AccorderChangementPuissanceFormKeys>
   >({});
   const [isOpen, setIsOpen] = useState(false);
+  const [estUneDecisionDEtat, setEstUneDecisionDEtat] = useState(false);
 
   return (
     <>
@@ -54,7 +55,7 @@ export const AccorderChangementPuissance = ({
                 state={validationErrors['reponseSignee'] ? 'error' : 'default'}
                 stateRelatedMessage={validationErrors['reponseSignee']}
                 name="reponseSignee"
-                required
+                required={estUneDecisionDEtat === false}
                 className="mb-4"
                 formats={['pdf']}
               />
@@ -64,7 +65,11 @@ export const AccorderChangementPuissance = ({
                 format="docx"
                 label="Télécharger le modèle de réponse"
               />
-              <input type={'hidden'} value={identifiantProjet} name="identifiantProjet" />
+              <input
+                type={'hidden'}
+                value={estUneDecisionDEtat ? 'true' : 'false'}
+                name="estUneDecisionDEtat"
+              />
               <Checkbox
                 state={validationErrors['estUneDecisionDEtat'] ? 'error' : 'default'}
                 stateRelatedMessage={validationErrors['estUneDecisionDEtat']}
@@ -74,11 +79,11 @@ export const AccorderChangementPuissance = ({
                     label:
                       "La demande de changement de puissance fait suite à une décision de l'État",
                     nativeInputProps: {
-                      value: 'true',
+                      onChange: (e) => setEstUneDecisionDEtat(e.target.checked),
                     },
                   },
                 ]}
-              />{' '}
+              />
             </>
           ),
         }}

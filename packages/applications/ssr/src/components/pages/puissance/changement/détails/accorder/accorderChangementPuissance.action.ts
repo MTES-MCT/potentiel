@@ -14,13 +14,16 @@ import { singleDocument } from '@/utils/zod/document/singleDocument';
 const schema = zod.union([
   zod.object({
     identifiantProjet: zod.string().min(1),
-    reponseSignee: singleDocument({ acceptedFileTypes: ['application/pdf'] }).optional(),
-    estUneDécisionDEtat: zod.literal('true'),
+    reponseSignee: singleDocument({
+      acceptedFileTypes: ['application/pdf'],
+      optional: true,
+    }),
+    estUneDecisionDEtat: zod.literal('true'),
   }),
   zod.object({
     identifiantProjet: zod.string().min(1),
     reponseSignee: singleDocument({ acceptedFileTypes: ['application/pdf'] }),
-    estUneDécisionDEtat: zod.literal('false'),
+    estUneDecisionDEtat: zod.literal('false'),
   }),
 ]);
 
@@ -28,7 +31,7 @@ export type AccorderChangementPuissanceFormKeys = keyof zod.infer<typeof schema>
 
 const action: FormAction<FormState, typeof schema> = async (
   _,
-  { identifiantProjet, reponseSignee, estUneDécisionDEtat },
+  { identifiantProjet, reponseSignee, estUneDecisionDEtat },
 ) =>
   withUtilisateur(async (utilisateur) => {
     await mediator.send<Puissance.AccorderChangementPuissanceUseCase>({
@@ -38,7 +41,7 @@ const action: FormAction<FormState, typeof schema> = async (
         accordéParValue: utilisateur.identifiantUtilisateur.formatter(),
         accordéLeValue: DateTime.now().formatter(),
         rôleUtilisateurValue: utilisateur.role.nom,
-        ...(estUneDécisionDEtat === 'true'
+        ...(estUneDecisionDEtat === 'true'
           ? {
               estUneDécisionDEtatValue: true,
               réponseSignéeValue: reponseSignee,
