@@ -4,8 +4,8 @@ import { getCountProjetsLauréatsNonAbandonnés } from '../_utils/getCountProjet
 
 const statisticType = 'pourcentageDCRDéposées';
 
-export const computePourcentageDCRDéposées = () =>
-  executeQuery(
+export const computePourcentageDCRDéposées = async () => {
+  await executeQuery(
     `
     insert
     into 
@@ -30,3 +30,4 @@ export const computePourcentageDCRDéposées = () =>
     `,
     statisticType,
   );
+};

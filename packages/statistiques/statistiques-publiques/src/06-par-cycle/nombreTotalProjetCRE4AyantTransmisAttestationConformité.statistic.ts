@@ -2,8 +2,8 @@ import { executeQuery } from '@potentiel-libraries/pg-helpers';
 
 const statisticType = 'nombreTotalProjetCRE4AyantTransmisAttestationConformité';
 
-export const computeNombreTotalProjetCRE4AyantTransmisAttestationConformité = () =>
-  executeQuery(
+export const computeNombreTotalProjetCRE4AyantTransmisAttestationConformité = async () => {
+  await executeQuery(
     `
     insert
     into 
@@ -24,3 +24,4 @@ export const computeNombreTotalProjetCRE4AyantTransmisAttestationConformité = (
     `,
     statisticType,
   );
+};
