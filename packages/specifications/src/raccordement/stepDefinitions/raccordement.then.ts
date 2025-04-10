@@ -54,7 +54,8 @@ Alors(
   async function (this: PotentielWorld) {
     const identifiantProjet = this.lauréatWorld.identifiantProjet;
 
-    const { commune, codePostal } = this.candidatureWorld.importerCandidature.values.localitéValue;
+    const { commune, codePostal } =
+      this.candidatureWorld.importerCandidature.values.dépôtCandidatureValue.localité;
     const codeEIC =
       this.gestionnaireRéseauWorld.rechercherOREParVille({ commune, codePostal })?.codeEIC ?? '';
 

@@ -67,7 +67,8 @@ Quand(
   async function (this: PotentielWorld) {
     await inviterUtilisateur.call(this, {
       rôle: Role.dreal.nom,
-      région: this.candidatureWorld.importerCandidature.values.localitéValue.région,
+      région:
+        this.candidatureWorld.importerCandidature.values.dépôtCandidatureValue.localité.région,
     });
   },
 );
@@ -90,8 +91,11 @@ Quand(
         ? this.eliminéWorld.identifiantProjet.formatter()
         : this.lauréatWorld.identifiantProjet.formatter();
 
-    const { emailContactValue: emailCandidature } =
-      this.candidatureWorld.importerCandidature.values;
+    const {
+      dépôtCandidatureValue: {
+        emailContact: { email: emailCandidature },
+      },
+    } = this.candidatureWorld.importerCandidature.values;
     const porteur = this.utilisateurWorld.porteurFixture.créer({
       email: emailCandidature,
     });
@@ -111,8 +115,10 @@ Quand(
         ? this.eliminéWorld.identifiantProjet.formatter()
         : this.lauréatWorld.identifiantProjet.formatter();
 
-    const { prixRéférenceValue: prixReferenceValue, numéroCREValue } =
-      this.candidatureWorld.importerCandidature.values;
+    const {
+      dépôtCandidatureValue: { prixRéférence: prixReferenceValue },
+      numéroCREValue,
+    } = this.candidatureWorld.importerCandidature.values;
 
     const porteur = this.utilisateurWorld.porteurFixture.créer({});
 
@@ -163,7 +169,11 @@ Quand(
 Quand(`un porteur réclame la candidature lauréate`, async function (this: PotentielWorld) {
   const {
     identifiantProjet,
-    values: { emailContactValue },
+    values: {
+      dépôtCandidatureValue: {
+        emailContact: { email: emailContactValue },
+      },
+    },
   } = this.candidatureWorld.importerCandidature;
 
   const porteur = this.utilisateurWorld.porteurFixture.créer({ email: emailContactValue });

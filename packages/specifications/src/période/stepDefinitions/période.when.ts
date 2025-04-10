@@ -22,7 +22,8 @@ export async function notifierPériode(this: PotentielWorld) {
     });
 
     this.utilisateurWorld.porteurFixture.créer({
-      email: this.candidatureWorld.importerCandidature.values.emailContactValue,
+      email:
+        this.candidatureWorld.importerCandidature.values.dépôtCandidatureValue.emailContact.email,
     });
 
     await mediator.send<Période.NotifierPériodeUseCase>({

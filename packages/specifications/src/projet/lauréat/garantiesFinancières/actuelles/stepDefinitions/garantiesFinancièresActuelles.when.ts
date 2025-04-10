@@ -26,7 +26,8 @@ Quand(
       // cela mettra à jour l'aggrégat candidature avec les bonnes données avant notification si nécessaire
       if (
         exemple['type GF'] !==
-        this.candidatureWorld.importerCandidature.values.typeGarantiesFinancièresValue
+        this.candidatureWorld.importerCandidature.values.dépôtCandidatureValue
+          .typeGarantiesFinancières?.type
       ) {
         await corrigerCandidature.call(this, exemple);
       }
