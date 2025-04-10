@@ -10,8 +10,12 @@ import { IdentifiantProjet } from '@potentiel-domain/projet';
 
 import { SendEmail } from '../../../sendEmail';
 
-import { changementPuissanceAccordéNotification } from './changementPuissanceAccordé.notification';
-import { changementPuissanceRejetéNotification } from './changementPuissanceRejeté.notification';
+import { puissanceModifiéeNotification } from './puissanceModifiée.notification';
+import { changementPuissanceAccordéNotification } from './changement/changementPuissanceAccordé.notification';
+import { changementPuissanceAnnuléNotification } from './changement/changementPuissanceAnnulé.notification';
+import { changementPuissanceRejetéNotification } from './changement/changementPuissanceRejeté.notification';
+import { changementPuissanceDemandéNotification } from './changement/changementPuissanceDemandé.notification';
+import { changementPuissanceEnregistréNotification } from './changement/changementPuissanceEnregistré.notification';
 
 export type SubscriptionEvent = Puissance.PuissanceEvent & Event;
 
@@ -54,6 +58,38 @@ export const register = ({ sendEmail }: RegisterPuissanceNotificationDependencie
     };
 
     return match(event)
+      .with({ type: 'PuissanceModifiée-V1' }, async (event) =>
+        puissanceModifiéeNotification({
+          sendEmail,
+          event,
+          projet,
+          baseUrl,
+        }),
+      )
+      .with({ type: 'ChangementPuissanceEnregistré-V1' }, async (event) =>
+        changementPuissanceEnregistréNotification({
+          sendEmail,
+          event,
+          projet,
+          baseUrl,
+        }),
+      )
+      .with({ type: 'ChangementPuissanceDemandé-V1' }, async (event) =>
+        changementPuissanceDemandéNotification({
+          sendEmail,
+          event,
+          projet,
+          baseUrl,
+        }),
+      )
+      .with({ type: 'ChangementPuissanceAnnulé-V1' }, async (event) =>
+        changementPuissanceAnnuléNotification({
+          sendEmail,
+          event,
+          projet,
+          baseUrl,
+        }),
+      )
       .with({ type: 'ChangementPuissanceAccordé-V1' }, async (event) =>
         changementPuissanceAccordéNotification({
           sendEmail,
@@ -72,14 +108,7 @@ export const register = ({ sendEmail }: RegisterPuissanceNotificationDependencie
       )
       .with(
         {
-          type: P.union(
-            'ChangementPuissanceDemandé-V1',
-            'ChangementPuissanceAnnulé-V1',
-            'ChangementPuissanceSupprimé-V1',
-            'ChangementPuissanceEnregistré-V1',
-            'PuissanceImportée-V1',
-            'PuissanceModifiée-V1',
-          ),
+          type: P.union('ChangementPuissanceSupprimé-V1', 'PuissanceImportée-V1'),
         },
         () => Promise.resolve(),
       )

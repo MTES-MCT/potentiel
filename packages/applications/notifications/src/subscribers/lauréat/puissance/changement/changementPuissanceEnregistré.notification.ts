@@ -1,14 +1,14 @@
-import { récupérerPorteursParIdentifiantProjetAdapter } from '@potentiel-infrastructure/domain-adapters';
+import { récupérerDrealsParIdentifiantProjetAdapter } from '@potentiel-infrastructure/domain-adapters';
 import { getLogger } from '@potentiel-libraries/monitoring';
 import { Routes } from '@potentiel-applications/routes';
 import { Puissance } from '@potentiel-domain/laureat';
 import { IdentifiantProjet } from '@potentiel-domain/projet';
 
-import { RegisterPuissanceNotificationDependencies } from '.';
+import { RegisterPuissanceNotificationDependencies } from '..';
 
-type ChangementPuissanceRejetéNotificationProps = {
+type ChangementPuissanceEnregistréNotificationProps = {
   sendEmail: RegisterPuissanceNotificationDependencies['sendEmail'];
-  event: Puissance.ChangementPuissanceRejetéEvent;
+  event: Puissance.ChangementPuissanceEnregistréEvent;
   projet: {
     nom: string;
     département: string;
@@ -16,30 +16,29 @@ type ChangementPuissanceRejetéNotificationProps = {
   baseUrl: string;
 };
 
-export const changementPuissanceRejetéNotification = async ({
+export const changementPuissanceEnregistréNotification = async ({
   sendEmail,
   event,
   projet,
   baseUrl,
-}: ChangementPuissanceRejetéNotificationProps) => {
+}: ChangementPuissanceEnregistréNotificationProps) => {
   const identifiantProjet = IdentifiantProjet.convertirEnValueType(event.payload.identifiantProjet);
-  const porteurs = await récupérerPorteursParIdentifiantProjetAdapter(identifiantProjet);
+  const dreals = await récupérerDrealsParIdentifiantProjetAdapter(identifiantProjet);
 
-  if (porteurs.length === 0) {
-    getLogger().error('Aucun porteur trouvé', {
+  if (dreals.length === 0) {
+    getLogger().error('Aucune dreal trouvée', {
       identifiantProjet: identifiantProjet.formatter(),
       application: 'notifications',
-      fonction: 'changementPuissanceRejetéNotification',
+      fonction: 'demandeChangementPuissanceEnregistréNotification',
     });
     return;
   }
 
   return sendEmail({
-    templateId: 6873755,
-    messageSubject: `Potentiel - La demande de changement de puissance pour le projet ${projet.nom} dans le département ${projet.département} a été rejetée`,
-    recipients: porteurs,
+    templateId: 6888190,
+    messageSubject: `Potentiel - Enregistrement d'un changement de puissance pour le projet ${projet.nom} dans le département ${projet.département}`,
+    recipients: dreals,
     variables: {
-      type: 'rejet',
       nom_projet: projet.nom,
       departement_projet: projet.département,
       url: `${baseUrl}${Routes.Projet.details(identifiantProjet.formatter())}`,

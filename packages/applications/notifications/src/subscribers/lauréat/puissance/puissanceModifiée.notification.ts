@@ -6,9 +6,9 @@ import { IdentifiantProjet } from '@potentiel-domain/projet';
 
 import { RegisterPuissanceNotificationDependencies } from '.';
 
-type ChangementPuissanceAccordéNotificationProps = {
+type PuissanceModifiéeNotificationProps = {
   sendEmail: RegisterPuissanceNotificationDependencies['sendEmail'];
-  event: Puissance.ChangementPuissanceAccordéEvent;
+  event: Puissance.PuissanceModifiéeEvent;
   projet: {
     nom: string;
     département: string;
@@ -16,12 +16,12 @@ type ChangementPuissanceAccordéNotificationProps = {
   baseUrl: string;
 };
 
-export const changementPuissanceAccordéNotification = async ({
+export const puissanceModifiéeNotification = async ({
   sendEmail,
   event,
   projet,
   baseUrl,
-}: ChangementPuissanceAccordéNotificationProps) => {
+}: PuissanceModifiéeNotificationProps) => {
   const identifiantProjet = IdentifiantProjet.convertirEnValueType(event.payload.identifiantProjet);
   const porteurs = await récupérerPorteursParIdentifiantProjetAdapter(identifiantProjet);
 
@@ -29,17 +29,16 @@ export const changementPuissanceAccordéNotification = async ({
     getLogger().error('Aucun porteur trouvé', {
       identifiantProjet: identifiantProjet.formatter(),
       application: 'notifications',
-      fonction: 'changementPuissanceAccordéNotification',
+      fonction: 'puissanceModifiéeNotification',
     });
     return;
   }
 
   return sendEmail({
-    templateId: 6873755,
-    messageSubject: `Potentiel - La demande de changement de puissance pour le projet ${projet.nom} dans le département ${projet.département} a été accordée`,
+    templateId: 6886963,
+    messageSubject: `Potentiel - La puissance pour le projet ${projet.nom} dans le département ${projet.département} a été modifiée`,
     recipients: porteurs,
     variables: {
-      type: 'accord',
       nom_projet: projet.nom,
       departement_projet: projet.département,
       url: `${baseUrl}${Routes.Projet.details(identifiantProjet.formatter())}`,
