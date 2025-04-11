@@ -10,6 +10,8 @@ export type ModèleRéponsePuissance = ModèleRéponse & {
     puissanceActuelle: string;
     referenceParagraphePuissance: string;
     contenuParagraphePuissance: string;
+    dateDemande: string;
+    justificationDemande: string;
 
     enCopies: Array<string>;
   };
