@@ -3,6 +3,7 @@ import { FC } from 'react';
 import { IdentifiantProjet } from '@potentiel-domain/projet';
 import { PlainType } from '@potentiel-domain/core';
 import { Puissance } from '@potentiel-domain/laureat';
+import { AppelOffre } from '@potentiel-domain/appel-offre';
 
 import { ListPageTemplate, ListPageTemplateProps } from '@/components/templates/ListPage.template';
 import { Pagination } from '@/utils/pagination';
@@ -11,10 +12,17 @@ import { ChangementPuissanceListItem } from './ChangementPuissanceListItem';
 
 export type ChangementPuissanceListPageProps = {
   list: {
-    items: PlainType<Puissance.ListerChangementPuissanceReadModel['items']>;
+    items: Array<
+      PlainType<
+        Puissance.ListerChangementPuissanceReadModel['items'][number] & {
+          unitéPuissance: AppelOffre.ConsulterAppelOffreReadModel['unitePuissance'];
+        }
+      >
+    >;
     pagination: Pagination;
     total: number;
   };
+  // appelOffres: string[];
   filters: ListPageTemplateProps<typeof ChangementPuissanceListItem>['filters'];
 };
 

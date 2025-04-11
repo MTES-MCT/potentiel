@@ -17,9 +17,13 @@ import { DétailsPuissancePageProps } from './DétailsPuissance.page';
 
 export type DétailsChangementPuissanceProps = {
   demande: DétailsPuissancePageProps['demande'];
+  unitéPuissance: DétailsPuissancePageProps['unitéPuissance'];
 };
 
-export const DétailsChangementPuissance: FC<DétailsChangementPuissanceProps> = ({ demande }) => {
+export const DétailsChangementPuissance: FC<DétailsChangementPuissanceProps> = ({
+  demande,
+  unitéPuissance,
+}) => {
   const statut = Puissance.StatutChangementPuissance.bind(demande.statut.statut);
 
   return (
@@ -67,7 +71,7 @@ export const DétailsChangementPuissance: FC<DétailsChangementPuissanceProps> =
           autoritéCompétente={
             demande.isInformationEnregistrée ? undefined : demande.autoritéCompétente
           }
-          unitePuissance={demande.unitéPuissance}
+          unitéPuissance={unitéPuissance}
         />
       </>
     </div>
@@ -78,7 +82,7 @@ type ChangementProps = {
   raison: DétailsChangementPuissanceProps['demande']['raison'];
   pièceJustificative: DétailsChangementPuissanceProps['demande']['pièceJustificative'];
   nouvellePuissance: DétailsChangementPuissanceProps['demande']['nouvellePuissance'];
-  unitePuissance: DétailsChangementPuissanceProps['demande']['unitéPuissance'];
+  unitéPuissance: DétailsChangementPuissanceProps['unitéPuissance'];
   autoritéCompétente?: Puissance.RatioChangementPuissance.AutoritéCompétente;
 };
 
@@ -87,7 +91,7 @@ const Changement: FC<ChangementProps> = ({
   pièceJustificative,
   raison,
   autoritéCompétente,
-  unitePuissance,
+  unitéPuissance,
 }) => (
   <>
     <Heading5>Détails de la demande initiale</Heading5>
@@ -95,7 +99,7 @@ const Changement: FC<ChangementProps> = ({
       <div className="flex gap-2">
         <div className="font-semibold whitespace-nowrap">Puissance : </div>
         <div>
-          {nouvellePuissance} {unitePuissance}
+          {nouvellePuissance} {unitéPuissance}
         </div>
       </div>
       {autoritéCompétente && (

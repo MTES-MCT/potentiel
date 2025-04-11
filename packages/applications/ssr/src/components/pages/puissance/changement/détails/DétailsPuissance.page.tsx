@@ -5,13 +5,15 @@ import { IdentifiantProjet } from '@potentiel-domain/common';
 import { PlainType } from '@potentiel-domain/core';
 import { Puissance } from '@potentiel-domain/laureat';
 import { Routes } from '@potentiel-applications/routes';
-import { Historique } from '@potentiel-domain/historique';
+import { AppelOffre } from '@potentiel-domain/appel-offre';
 
 import { Heading2 } from '@/components/atoms/headings';
 import { ProjetBanner } from '@/components/molecules/projet/ProjetBanner';
 import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
-import { HistoriqueTimeline } from '@/components/molecules/historique/HistoriqueTimeline';
-import { PuissanceHistoryRecord } from '@/components/molecules/historique/timeline/puissance';
+import {
+  HistoriquePuissanceTimeline,
+  HistoriquePuissanceTimelineProps,
+} from '@/components/pages/puissance/changement/détails/timeline';
 
 import { InfoBoxDemandeEnCours } from './InfoBoxDemandeEnCours';
 import { AnnulerChangementPuissance } from './annuler/AnnulerChangementPuissance.form';
@@ -24,14 +26,16 @@ export type ChangementPuissanceActions = 'annuler' | 'demander' | 'accorder' | '
 export type DétailsPuissancePageProps = {
   identifiantProjet: PlainType<IdentifiantProjet.ValueType>;
   demande: PlainType<Puissance.ConsulterChangementPuissanceReadModel['demande']>;
+  unitéPuissance: AppelOffre.ConsulterAppelOffreReadModel['unitePuissance'];
   actions: Array<ChangementPuissanceActions>;
   demandeEnCoursDate?: string;
-  historique: PlainType<Historique.ListerHistoriqueProjetReadModel<PuissanceHistoryRecord>>;
+  historique: HistoriquePuissanceTimelineProps['historique'];
 };
 
 export const DétailsPuissancePage: FC<DétailsPuissancePageProps> = ({
-  demande,
   identifiantProjet,
+  demande,
+  unitéPuissance,
   actions,
   demandeEnCoursDate,
   historique,
@@ -49,10 +53,10 @@ export const DétailsPuissancePage: FC<DétailsPuissancePageProps> = ({
               demandeEnCoursDate={demandeEnCoursDate}
             />
           )}
-          <DétailsChangementPuissance demande={demande} />
+          <DétailsChangementPuissance demande={demande} unitéPuissance={unitéPuissance} />
           <div className="mb-4">
             <Heading2>Historique</Heading2>
-            <HistoriqueTimeline historique={historique} />
+            <HistoriquePuissanceTimeline historique={historique} unitéPuissance={unitéPuissance} />
           </div>
         </div>
       ),

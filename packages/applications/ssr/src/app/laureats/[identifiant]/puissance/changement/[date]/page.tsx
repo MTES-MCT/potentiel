@@ -8,6 +8,7 @@ import { mapToPlainObject } from '@potentiel-domain/core';
 import { IdentifiantProjet } from '@potentiel-domain/common';
 import { Role } from '@potentiel-domain/utilisateur';
 import { Historique } from '@potentiel-domain/historique';
+import { AppelOffre } from '@potentiel-domain/appel-offre';
 
 import {
   ChangementPuissanceActions,
@@ -16,7 +17,7 @@ import {
 import { decodeParameter } from '@/utils/decodeParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
-import { PuissanceHistoryRecord } from '@/components/molecules/historique/timeline/puissance';
+import { PuissanceHistoryRecord } from '@/components/pages/puissance/changement/détails/timeline';
 
 export const metadata: Metadata = {
   title: 'Détail de la puissance du projet - Potentiel',
@@ -36,6 +37,17 @@ export default async function Page({ params: { identifiant, date } }: PageProps)
       const identifiantProjet = IdentifiantProjet.convertirEnValueType(
         decodeParameter(identifiant),
       );
+
+      const appelOffre = await mediator.send<AppelOffre.ConsulterAppelOffreQuery>({
+        type: 'AppelOffre.Query.ConsulterAppelOffre',
+        data: {
+          identifiantAppelOffre: identifiantProjet.appelOffre,
+        },
+      });
+
+      if (Option.isNone(appelOffre)) {
+        return notFound();
+      }
 
       const demandéLe = decodeParameter(date);
 
@@ -72,19 +84,12 @@ export default async function Page({ params: { identifiant, date } }: PageProps)
         },
       });
 
-      const historiqueWithUnitePuissance = {
-        ...historique,
-        items: historique.items.map((historique) => ({
-          ...historique,
-          unitePuissance: changement.demande.unitéPuissance,
-        })),
-      };
-
       return (
         <DétailsPuissancePage
           identifiantProjet={mapToPlainObject(identifiantProjet)}
           demande={mapToPlainObject(changement.demande)}
-          historique={mapToPlainObject(historiqueWithUnitePuissance)}
+          unitéPuissance={appelOffre.unitePuissance}
+          historique={mapToPlainObject(historique)}
           actions={mapToActions(
             changement.demande.statut,
             utilisateur.role,

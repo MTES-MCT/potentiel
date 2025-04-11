@@ -16,7 +16,6 @@ import {
   mapToReprésentantLégalTimelineItemProps,
   ReprésentantLégalHistoryRecord,
 } from './timeline/représentant-légal';
-import { mapToPuissanceTimelineItemProps, PuissanceHistoryRecord } from './timeline/puissance';
 
 export type HistoriqueTimelineProps = {
   historique: PlainType<Historique.ListerHistoriqueProjetReadModel<HistoryReadModel>>;
@@ -26,8 +25,7 @@ type HistoryReadModel =
   | AbandonHistoryRecord
   | ActionnaireHistoryRecord
   | RecoursHistoryRecord
-  | ReprésentantLégalHistoryRecord
-  | PuissanceHistoryRecord;
+  | ReprésentantLégalHistoryRecord;
 
 export const HistoriqueTimeline: FC<HistoriqueTimelineProps> = ({ historique }) => (
   <Timeline items={historique.items.map((item) => mapToTimelineItemProps(item))} />
@@ -50,5 +48,4 @@ const mapToTimelineItemProps = (record: HistoryReadModel) =>
     )
     .with({ category: 'actionnaire' }, mapToActionnaireTimelineItemProps)
     .with({ category: 'représentant-légal' }, mapToReprésentantLégalTimelineItemProps)
-    .with({ category: 'puissance' }, mapToPuissanceTimelineItemProps)
     .exhaustive();

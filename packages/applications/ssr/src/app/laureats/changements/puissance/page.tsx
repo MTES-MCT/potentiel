@@ -82,27 +82,35 @@ export default async function Page({ searchParams }: PageProps) {
         },
       ];
 
-      return <ChangementPuissanceListPage list={mapToListProps(changements)} filters={filters} />;
+      return (
+        <ChangementPuissanceListPage
+          list={mapToListProps(changements, appelOffres.items)}
+          filters={filters}
+        />
+      );
     }),
   );
 }
 
 const mapToListProps = (
-  readModel: Puissance.ListerChangementPuissanceReadModel,
+  changements: Puissance.ListerChangementPuissanceReadModel,
+  appelOffres: AppelOffre.ListerAppelOffreReadModel['items'],
 ): ChangementPuissanceListPageProps['list'] => {
-  const pagination = mapToPagination(readModel.range);
+  const pagination = mapToPagination(changements.range);
 
   return {
-    items: readModel.items.map((item) => ({
+    items: changements.items.map((item) => ({
       identifiantProjet: mapToPlainObject(item.identifiantProjet),
       nomProjet: item.nomProjet,
       statut: mapToPlainObject(item.statut),
       misÀJourLe: mapToPlainObject(item.misÀJourLe),
       demandéLe: mapToPlainObject(item.demandéLe),
       nouvellePuissance: item.nouvellePuissance,
-      unitéPuissance: item.unitéPuissance,
+      unitéPuissance:
+        appelOffres.find((ao) => ao.id === item.identifiantProjet.appelOffre)?.unitePuissance ??
+        'N/A',
     })),
     pagination,
-    total: readModel.total,
+    total: changements.total,
   };
 };

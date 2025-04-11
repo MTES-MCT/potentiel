@@ -3,8 +3,6 @@ import Link from 'next/link';
 
 import { IdentifiantProjet } from '@potentiel-domain/projet';
 import { DateTime } from '@potentiel-domain/common';
-import { PlainType } from '@potentiel-domain/core';
-import { Puissance } from '@potentiel-domain/laureat';
 import { Routes } from '@potentiel-applications/routes';
 
 import { ProjectListItemHeading } from '@/components/molecules/projet/ProjectListItemHeading';
@@ -13,9 +11,10 @@ import { FormattedDate } from '@/components/atoms/FormattedDate';
 
 import { StatutChangementPuissanceBadge } from '../StatutChangementPuissanceBadge';
 
-export type ChangementPuissanceListItemProps = PlainType<
-  Puissance.ListerChangementPuissanceReadModel['items'][number]
->;
+import { ChangementPuissanceListPageProps } from './ChangementPuissanceList.page';
+
+export type ChangementPuissanceListItemProps =
+  ChangementPuissanceListPageProps['list']['items'][number];
 
 export const ChangementPuissanceListItem: FC<ChangementPuissanceListItemProps> = ({
   identifiantProjet,
