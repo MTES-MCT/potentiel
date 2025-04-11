@@ -1,6 +1,5 @@
 {
   "name": "@potentiel-domain/utilisateur",
-  "version": "0.0.0",
   "description": "Domain Utilisateur",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -9,11 +8,11 @@
     "build": "tsc"
   },
   "dependencies": {
-    "@potentiel-libraries/monads": "*",
+    "@potentiel-domain/candidature": "*",
+    "@potentiel-domain/common": "*",
     "@potentiel-domain/core": "*",
     "@potentiel-domain/entity": "*",
-    "@potentiel-domain/common": "*",
-    "@potentiel-domain/candidature": "*"
+    "@potentiel-libraries/monads": "*"
   },
   "devDependencies": {
     "@potentiel-config/tsconfig": "*"

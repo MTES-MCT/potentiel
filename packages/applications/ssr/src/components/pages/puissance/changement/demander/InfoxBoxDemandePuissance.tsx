@@ -15,7 +15,7 @@ export const InfoBoxDemandePuissance: FC<Props> = ({ min, max }) => (
         Une autorisation est nécessaire si la modification de puissance est inférieure à{' '}
         {Math.round(min * 100)}% de la puissance initiale ou supérieure à {Math.round(max * 100)}%.
         Dans ce cas{' '}
-        <strong>il est nécessaire de joindre un justificatif et une raison à votre demande</strong>.{' '}
+        <strong>il est nécessaire de joindre un justificatif et une raison à votre demande</strong>.
       </div>
     }
   />

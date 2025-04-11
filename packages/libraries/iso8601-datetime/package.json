@@ -1,6 +1,5 @@
 {
   "name": "@potentiel-libraries/iso8601-datetime",
-  "version": "0.0.0",
   "description": "Basic ISO8601 Datetime utilities for the Potentiel project",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",

@@ -1,6 +1,5 @@
 {
   "name": "@potentiel-applications/projectors",
-  "version": "0.0.0",
   "description": "Potentiel projectors",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -11,18 +10,18 @@
   "dependencies": {
     "@potentiel-domain/entity": "*",
     "@potentiel-domain/inmemory-referential": "*",
-    "@potentiel-domain/periode": "*",
     "@potentiel-domain/laureat": "*",
+    "@potentiel-domain/periode": "*",
     "@potentiel-domain/projet": "*",
     "@potentiel-domain/reseau": "*",
     "@potentiel-domain/tache": "*",
     "@potentiel-domain/tache-planifiee": "*",
+    "@potentiel-infrastructure/domain-adapters": "*",
     "@potentiel-infrastructure/pg-event-sourcing": "*",
     "@potentiel-infrastructure/pg-projection-read": "*",
     "@potentiel-infrastructure/pg-projection-write": "*",
-    "@potentiel-infrastructure/domain-adapters": "*",
-    "@potentiel-libraries/pg-helpers": "*",
     "@potentiel-libraries/flat": "*",
+    "@potentiel-libraries/pg-helpers": "*",
     "mediateur": "^0.3.0"
   },
   "devDependencies": {

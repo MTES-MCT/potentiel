@@ -1,6 +1,5 @@
 {
   "name": "@potentiel-applications/request-context",
-  "version": "0.0.0",
   "description": "Potentiel HTTP request context, using asynclocalstorage",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -17,9 +16,11 @@
     "@potentiel-libraries/pg-helpers": "*",
     "mediateur": "^0.3.0",
     "next-auth": "^4.24.11",
-    "pg": "^8.13.3"
+    "nodemailer": "^6.10.0",
+    "pg": "^8.14.1"
   },
   "devDependencies": {
-    "@potentiel-config/tsconfig": "*"
+    "@potentiel-config/tsconfig": "*",
+    "@types/pg": "^8.11.11"
   }
 }

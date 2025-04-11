@@ -1,6 +1,5 @@
 {
   "name": "@potentiel-domain/core",
-  "version": "0.0.0",
   "description": "Core domain types and functions",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",

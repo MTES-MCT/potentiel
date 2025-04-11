@@ -4,8 +4,8 @@ import { getCountProjetsLauréatsNonAbandonnés } from '../_utils/getCountProjet
 
 const statisticType = 'pourcentageProjetPPE2EnService';
 
-export const computePourcentageProjetPPE2EnService = () =>
-  executeQuery(
+export const computePourcentageProjetPPE2EnService = async () => {
+  await executeQuery(
     `
     insert
     into 
@@ -35,3 +35,4 @@ export const computePourcentageProjetPPE2EnService = () =>
     `,
     statisticType,
   );
+};

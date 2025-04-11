@@ -1,6 +1,5 @@
 {
   "name": "potentiel-monorepo",
-  "version": "0.0.0",
   "description": "Monorepo du projet potentiel",
   "workspaces": [
     "./packages/config/*",
@@ -52,37 +51,37 @@
   },
   "homepage": "https://github.com/MTES-MCT/potentiel#readme",
   "devDependencies": {
-    "@eslint/compat": "^1.1.0",
-    "@eslint/js": "^8.57.0",
-    "@faker-js/faker": "^9.4.0",
-    "@next/eslint-plugin-next": "^14.2.15",
+    "@eslint/compat": "1.1.0",
+    "@eslint/js": "8.57.0",
+    "@faker-js/faker": "^9.6.0",
+    "@next/eslint-plugin-next": "^14.2.28",
     "@types/chai": "^4.3.20",
-    "chai": "^4.3.8",
-    "esbuild": "^0.25.0",
-    "eslint": "^8.57.0",
+    "chai": "^4.5.0",
+    "esbuild": "^0.25.2",
+    "eslint": "8.57.0",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-import": "^2.31.0",
     "eslint-plugin-monorepo-cop": "^1.0.2",
-    "eslint-plugin-prettier": "^5.1.3",
-    "eslint-plugin-react": "^7.37.2",
+    "eslint-plugin-prettier": "^5.2.6",
+    "eslint-plugin-react": "^7.37.5",
     "eslint-plugin-storybook": "^0.8.0",
-    "globals": "^15.11.0",
-    "husky": "^9.1.6",
-    "lint-staged": "^15.2.10",
-    "prettier": "^3.3.2",
-    "tsx": "^4.19.1",
-    "turbo": "^2.4.1",
-    "typescript": "^5.8.2",
-    "typescript-eslint": "^7.18.0",
+    "globals": "^15.15.0",
+    "husky": "^9.1.7",
+    "lint-staged": "^15.5.0",
+    "prettier": "^3.5.3",
+    "tsx": "^4.19.3",
+    "turbo": "^2.5.0",
+    "typescript": "^5.8.3",
+    "typescript-eslint": "7.18.0",
     "wait-for-expect": "^3.0.2"
   },
   "engines": {
     "node": "^20.0.0"
   },
   "dependencies": {
-    "isomorphic-dompurify": "^2.16.0",
-    "prettier-plugin-gherkin": "^2.3.0",
-    "ts-pattern": "^5.6.2"
+    "isomorphic-dompurify": "^2.23.0",
+    "prettier-plugin-gherkin": "^2.4.1",
+    "ts-pattern": "^5.7.0"
   },
   "packageManager": "npm@10.7.0"
 }

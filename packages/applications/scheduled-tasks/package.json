@@ -1,6 +1,5 @@
 {
   "name": "@potentiel-applications/scheduled-tasks",
-  "version": "0.0.0",
   "description": "Potentiel Scheduled Tasks",
   "private": true,
   "scripts": {
@@ -14,10 +13,9 @@
   },
   "dependencies": {
     "@potentiel-applications/routes": "*",
-    "@potentiel-statistiques/statistiques-publiques": "*",
     "@potentiel-domain/common": "*",
-    "@potentiel-domain/projet": "*",
     "@potentiel-domain/laureat": "*",
+    "@potentiel-domain/projet": "*",
     "@potentiel-infrastructure/domain-adapters": "*",
     "@potentiel-infrastructure/email": "*",
     "@potentiel-infrastructure/pg-event-sourcing": "*",
@@ -25,6 +23,7 @@
     "@potentiel-libraries/file-storage": "*",
     "@potentiel-libraries/monads": "*",
     "@potentiel-libraries/monitoring": "*",
+    "@potentiel-statistiques/statistiques-publiques": "*",
     "chardet": "^2.0.0",
     "iconv-lite": "^0.6.3"
   },

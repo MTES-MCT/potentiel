@@ -1,6 +1,5 @@
 {
   "name": "@potentiel-domain/reseau",
-  "version": "0.0.0",
   "description": "Domain Réseau",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -9,12 +8,12 @@
     "build": "tsc"
   },
   "dependencies": {
-    "@potentiel-libraries/monads": "*",
-    "@potentiel-libraries/monitoring": "*",
-    "@potentiel-domain/document": "*",
     "@potentiel-domain/common": "*",
     "@potentiel-domain/core": "*",
-    "@potentiel-domain/entity": "*"
+    "@potentiel-domain/document": "*",
+    "@potentiel-domain/entity": "*",
+    "@potentiel-libraries/monads": "*",
+    "@potentiel-libraries/monitoring": "*"
   },
   "devDependencies": {
     "@potentiel-config/tsconfig": "*"

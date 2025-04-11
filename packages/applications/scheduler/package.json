@@ -1,6 +1,5 @@
 {
   "name": "@potentiel-applications/scheduler",
-  "version": "0.0.0",
   "description": "Potentiel Scheduler",
   "private": true,
   "scripts": {
@@ -8,10 +7,10 @@
     "start": "node ./dist/index"
   },
   "dependencies": {
-    "@potentiel-libraries/monitoring": "*",
     "@potentiel-domain/common": "*",
     "@potentiel-domain/tache-planifiee": "*",
-    "@potentiel-infrastructure/pg-projection-read": "*"
+    "@potentiel-infrastructure/pg-projection-read": "*",
+    "@potentiel-libraries/monitoring": "*"
   },
   "devDependencies": {
     "@potentiel-config/tsconfig": "*"

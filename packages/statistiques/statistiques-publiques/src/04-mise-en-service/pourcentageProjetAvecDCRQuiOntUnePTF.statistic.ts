@@ -2,8 +2,8 @@ import { executeQuery } from '@potentiel-libraries/pg-helpers';
 
 const statisticType = 'pourcentageProjetAvecDCRQuiOntUnePTF';
 
-export const computepourcentageProjetAvecDCRQuiOntUnePTF = () =>
-  executeQuery(
+export const computepourcentageProjetAvecDCRQuiOntUnePTF = async () => {
+  await executeQuery(
     `
     insert
     into 
@@ -34,3 +34,4 @@ export const computepourcentageProjetAvecDCRQuiOntUnePTF = () =>
   )`,
     statisticType,
   );
+};

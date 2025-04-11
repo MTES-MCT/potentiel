@@ -1,6 +1,5 @@
 {
   "name": "@potentiel-infrastructure/pg-projection-read",
-  "version": "0.0.0",
   "description": "PostgreSQL projections engine",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -11,8 +10,8 @@
   },
   "dependencies": {
     "@potentiel-domain/entity": "*",
-    "@potentiel-libraries/pg-helpers": "*",
     "@potentiel-libraries/flat": "*",
+    "@potentiel-libraries/pg-helpers": "*",
     "pg-format": "^1.0.4"
   },
   "devDependencies": {

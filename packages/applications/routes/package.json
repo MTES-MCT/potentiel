@@ -1,6 +1,5 @@
 {
   "name": "@potentiel-applications/routes",
-  "version": "0.0.0",
   "description": "A simple routes repository",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",

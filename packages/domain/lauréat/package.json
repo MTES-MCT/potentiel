@@ -1,6 +1,5 @@
 {
   "name": "@potentiel-domain/laureat",
-  "version": "0.0.0",
   "description": "Domain Lauréat",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -9,17 +8,17 @@
     "build": "tsc"
   },
   "dependencies": {
-    "@potentiel-libraries/monads": "*",
-    "@potentiel-domain/core": "*",
-    "@potentiel-domain/entity": "*",
+    "@potentiel-domain/appel-offre": "*",
     "@potentiel-domain/candidature": "*",
+    "@potentiel-domain/common": "*",
+    "@potentiel-domain/core": "*",
+    "@potentiel-domain/document": "*",
+    "@potentiel-domain/entity": "*",
     "@potentiel-domain/projet": "*",
     "@potentiel-domain/reseau": "*",
-    "@potentiel-domain/common": "*",
-    "@potentiel-domain/document": "*",
-    "@potentiel-domain/appel-offre": "*",
     "@potentiel-domain/tache-planifiee": "*",
-    "@potentiel-domain/utilisateur": "*"
+    "@potentiel-domain/utilisateur": "*",
+    "@potentiel-libraries/monads": "*"
   },
   "devDependencies": {
     "@potentiel-config/tsconfig": "*"

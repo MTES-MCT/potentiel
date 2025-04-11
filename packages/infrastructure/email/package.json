@@ -1,6 +1,5 @@
 {
   "name": "@potentiel-infrastructure/email",
-  "version": "0.0.0",
   "description": "Email sending with mailjet",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -9,8 +8,8 @@
     "build": "tsc"
   },
   "dependencies": {
-    "@potentiel-libraries/monitoring": "^0.0.0",
-    "node-mailjet": "^6.0.6"
+    "@potentiel-libraries/monitoring": "*",
+    "node-mailjet": "^6.0.8"
   },
   "devDependencies": {
     "@potentiel-config/tsconfig": "*",

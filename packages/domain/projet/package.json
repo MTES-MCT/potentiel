@@ -1,6 +1,5 @@
 {
   "name": "@potentiel-domain/projet",
-  "version": "0.0.0",
   "description": "Domain projet",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -9,13 +8,13 @@
     "build": "tsc"
   },
   "dependencies": {
-    "@potentiel-libraries/monads": "*",
+    "@potentiel-domain/appel-offre": "*",
+    "@potentiel-domain/candidature": "*",
     "@potentiel-domain/common": "*",
     "@potentiel-domain/core": "*",
     "@potentiel-domain/entity": "*",
-    "@potentiel-domain/candidature": "*",
     "@potentiel-domain/utilisateur": "*",
-    "@potentiel-domain/appel-offre": "*"
+    "@potentiel-libraries/monads": "*"
   },
   "devDependencies": {
     "@potentiel-config/tsconfig": "*"

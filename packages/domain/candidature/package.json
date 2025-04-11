@@ -1,6 +1,5 @@
 {
   "name": "@potentiel-domain/candidature",
-  "version": "0.0.0",
   "description": "Domain candidature",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
@@ -9,12 +8,12 @@
     "build": "tsc"
   },
   "dependencies": {
-    "@potentiel-libraries/monads": "*",
+    "@potentiel-domain/appel-offre": "*",
     "@potentiel-domain/common": "*",
     "@potentiel-domain/core": "*",
     "@potentiel-domain/document": "*",
     "@potentiel-domain/entity": "*",
-    "@potentiel-domain/appel-offre": "*",
+    "@potentiel-libraries/monads": "*",
     "mediateur": "^0.3.0"
   },
   "devDependencies": {

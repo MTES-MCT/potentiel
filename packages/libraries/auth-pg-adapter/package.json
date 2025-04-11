@@ -1,6 +1,5 @@
 {
   "name": "@potentiel-libraries/auth-pg-adapter",
-  "version": "0.0.0",
   "description": "Potentiel custom @auth/pg-adapter librairies rebundle with CommonJS support",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",

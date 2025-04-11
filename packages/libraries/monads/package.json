@@ -1,6 +1,5 @@
 {
   "name": "@potentiel-libraries/monads",
-  "version": "0.0.0",
   "description": "Basic monads for the Potentiel project",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
