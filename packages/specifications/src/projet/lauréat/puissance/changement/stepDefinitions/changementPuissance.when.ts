@@ -5,7 +5,6 @@ import { Puissance } from '@potentiel-domain/laureat';
 
 import { PotentielWorld } from '../../../../../potentiel.world';
 import { UtilisateurWorld } from '../../../../../utilisateur/utilisateur.world';
-import { getApelOffreUnitéPuissance } from '../_utils/getAppelOffreUnitéPuissance';
 
 Quand(
   'le porteur demande le changement de puissance avec la même valeur pour le projet lauréat',
@@ -152,14 +151,11 @@ export async function demanderChangementPuissance(
       ? this.lauréatWorld.identifiantProjet
       : this.eliminéWorld.identifiantProjet;
 
-  const unitéPuissance = await getApelOffreUnitéPuissance(identifiantProjet.appelOffre);
-
   const { pièceJustificative, demandéLe, demandéPar, raison, ratio } =
     this.lauréatWorld.puissanceWorld.changementPuissanceWorld.demanderChangementPuissanceFixture.créer(
       {
         demandéPar: this.utilisateurWorld.porteurFixture.email,
         ...(ratioValue !== undefined && { ratio: ratioValue }),
-        unitéPuissance,
       },
     );
 
@@ -189,14 +185,11 @@ export async function enregistrerChangementPuissance(
       ? this.lauréatWorld.identifiantProjet
       : this.eliminéWorld.identifiantProjet;
 
-  const unitéPuissance = await getApelOffreUnitéPuissance(identifiantProjet.appelOffre);
-
   const { pièceJustificative, demandéLe, demandéPar, raison, ratio } =
     this.lauréatWorld.puissanceWorld.changementPuissanceWorld.enregistrerChangementPuissanceFixture.créer(
       {
         demandéPar: this.utilisateurWorld.porteurFixture.email,
         ...(ratioValue !== undefined && { ratio: ratioValue }),
-        unitéPuissance,
       },
     );
 

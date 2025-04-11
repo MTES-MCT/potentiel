@@ -123,8 +123,7 @@ async function vérifierChangementPuissance(
 
     if (
       this.lauréatWorld.puissanceWorld.changementPuissanceWorld.accorderChangementPuissanceFixture
-        .aÉtéCréé &&
-      !demandeEnCours.demande.isInformationEnregistrée
+        .aÉtéCréé
     ) {
       const result = await mediator.send<ConsulterDocumentProjetQuery>({
         type: 'Document.Query.ConsulterDocumentProjet',
@@ -147,8 +146,7 @@ async function vérifierChangementPuissance(
 
     if (
       this.lauréatWorld.puissanceWorld.changementPuissanceWorld.rejeterChangementPuissanceFixture
-        .aÉtéCréé &&
-      !demandeEnCours.demande.isInformationEnregistrée
+        .aÉtéCréé
     ) {
       const result = await mediator.send<ConsulterDocumentProjetQuery>({
         type: 'Document.Query.ConsulterDocumentProjet',

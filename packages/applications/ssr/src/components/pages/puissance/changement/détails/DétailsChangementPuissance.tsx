@@ -36,14 +36,14 @@ export const DétailsChangementPuissance: FC<DétailsChangementPuissanceProps> =
       <>
         <div className="flex flex-col gap-4">
           <div className="flex flex-col gap-2">
-            {!demande.isInformationEnregistrée && demande.accord && (
+            {demande.accord && (
               <ChangementAccordé
                 accordéeLe={demande.accord.accordéeLe}
                 accordéePar={demande.accord.accordéePar}
                 réponseSignée={demande.accord.réponseSignée}
               />
             )}
-            {!demande.isInformationEnregistrée && demande.rejet && (
+            {demande.rejet && (
               <ChangementRejeté
                 rejetéeLe={demande.rejet.rejetéeLe}
                 rejetéePar={demande.rejet.rejetéePar}
@@ -68,9 +68,7 @@ export const DétailsChangementPuissance: FC<DétailsChangementPuissanceProps> =
           nouvellePuissance={demande.nouvellePuissance}
           raison={demande.raison}
           pièceJustificative={demande.pièceJustificative}
-          autoritéCompétente={
-            demande.isInformationEnregistrée ? undefined : demande.autoritéCompétente
-          }
+          autoritéCompétente={demande.autoritéCompétente}
           unitéPuissance={unitéPuissance}
         />
       </>
@@ -172,7 +170,7 @@ const ChangementDemandé: FC<ChangementDemandéProps> = ({ demandéeLe, demandé
 );
 
 type ChangementAccordéProps = NonNullable<
-  PlainType<Puissance.DétailsDemandeChangementPuissanceReadModel['accord']>
+  PlainType<Puissance.ConsulterChangementPuissanceReadModel['demande']['accord']>
 >;
 
 const ChangementAccordé: FC<ChangementAccordéProps> = ({
@@ -203,7 +201,7 @@ const ChangementAccordé: FC<ChangementAccordéProps> = ({
 );
 
 type ChangementRejetéProps = NonNullable<
-  PlainType<Puissance.DétailsDemandeChangementPuissanceReadModel['rejet']>
+  PlainType<Puissance.ConsulterChangementPuissanceReadModel['demande']['rejet']>
 >;
 
 const ChangementRejeté: FC<ChangementRejetéProps> = ({ rejetéeLe, rejetéePar, réponseSignée }) => (
