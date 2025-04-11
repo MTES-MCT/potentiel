@@ -77,9 +77,10 @@ export const réclamerProjetAction = formAction(
   withRateLimit(action, {
     keyPrefix: 'réclamer-projet',
     message: 'Trop de tentatives, veuillez réessayer plus tard',
-    points: 10, // 10 requests
+    points: 5, // 5 requests
     duration: 5 * 60, // per 5 minutes
     blockDuration: 60 * 60, // block 1 hour
+    getKeySuffix: async (_, { identifiantProjet }) => identifiantProjet,
   }),
   schema,
 );

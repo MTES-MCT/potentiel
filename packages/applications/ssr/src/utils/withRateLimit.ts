@@ -7,7 +7,12 @@ import { getLogger } from '@potentiel-libraries/monitoring';
 /** Permet de limiter le nombre de requêtes par utilisateur et IP */
 export function withRateLimit<TResult, TArgs extends unknown[]>(
   action: (...args: TArgs) => Promise<TResult>,
-  rateLimiterOptions: IRateLimiterOptions & { keyPrefix: string; message: string },
+  rateLimiterOptions: IRateLimiterOptions & {
+    keyPrefix: string;
+    message: string;
+    /** Permet d'appliquer le rate limiter à un élement en particulier */
+    getKeySuffix?: (...args: TArgs) => Promise<string>;
+  },
 ): (...args: TArgs) => Promise<TResult> {
   const rateLimiter = new RateLimiterMemory(rateLimiterOptions);
   const logger = getLogger(`RateLimit.${rateLimiterOptions.keyPrefix}`);
@@ -16,11 +21,12 @@ export function withRateLimit<TResult, TArgs extends unknown[]>(
     const utilisateur = getContext()?.utilisateur;
     const ip = headers().get('x-forwarded-for');
     try {
+      const suffix = await rateLimiterOptions.getKeySuffix?.(...args);
       if (utilisateur) {
-        await rateLimiter.consume(utilisateur.identifiantUtilisateur.email);
+        await rateLimiter.consume(utilisateur.identifiantUtilisateur.email + suffix);
       }
       if (ip) {
-        await rateLimiter.consume(ip);
+        await rateLimiter.consume(ip + suffix);
       }
       if (!utilisateur && !ip) {
         logger.warn('No user or IP found');
