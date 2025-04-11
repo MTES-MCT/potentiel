@@ -63,51 +63,30 @@ export class ChangementPuissanceWorld {
       );
     }
 
+    const baseFixture = this.demanderChangementPuissanceFixture.aÉtéCréé
+      ? this.demanderChangementPuissanceFixture
+      : this.#enregistrerChangementPuissanceFixture;
+
     const expected: Puissance.ConsulterChangementPuissanceReadModel = {
       identifiantProjet,
-      demande: this.demanderChangementPuissanceFixture.aÉtéCréé
-        ? {
-            demandéeLe: DateTime.convertirEnValueType(
-              this.demanderChangementPuissanceFixture.demandéLe,
-            ),
-            demandéePar: Email.convertirEnValueType(
-              this.demanderChangementPuissanceFixture.demandéPar,
-            ),
-            nouvellePuissance: this.demanderChangementPuissanceFixture.ratio * puissanceActuelle,
-            pièceJustificative: DocumentProjet.convertirEnValueType(
-              identifiantProjet.formatter(),
-              Puissance.TypeDocumentPuissance.pièceJustificative.formatter(),
-              DateTime.convertirEnValueType(
-                this.demanderChangementPuissanceFixture.demandéLe,
-              ).formatter(),
-              this.demanderChangementPuissanceFixture.pièceJustificative.format,
-            ),
-            raison: this.demanderChangementPuissanceFixture.raison,
-            statut,
-            autoritéCompétente: Puissance.RatioChangementPuissance.bind({
+      demande: {
+        demandéeLe: DateTime.convertirEnValueType(baseFixture.demandéLe),
+        demandéePar: Email.convertirEnValueType(baseFixture.demandéPar),
+        nouvellePuissance: baseFixture.ratio * puissanceActuelle,
+        pièceJustificative: DocumentProjet.convertirEnValueType(
+          identifiantProjet.formatter(),
+          Puissance.TypeDocumentPuissance.pièceJustificative.formatter(),
+          DateTime.convertirEnValueType(baseFixture.demandéLe).formatter(),
+          baseFixture.pièceJustificative.format,
+        ),
+        raison: baseFixture.raison,
+        statut,
+        autoritéCompétente: this.demanderChangementPuissanceFixture.aÉtéCréé
+          ? Puissance.RatioChangementPuissance.bind({
               ratio: this.demanderChangementPuissanceFixture.ratio,
-            }).getAutoritéCompétente(),
-          }
-        : {
-            demandéeLe: DateTime.convertirEnValueType(
-              this.#enregistrerChangementPuissanceFixture.demandéLe,
-            ),
-            demandéePar: Email.convertirEnValueType(
-              this.#enregistrerChangementPuissanceFixture.demandéPar,
-            ),
-            nouvellePuissance:
-              this.#enregistrerChangementPuissanceFixture.ratio * puissanceActuelle,
-            pièceJustificative: DocumentProjet.convertirEnValueType(
-              identifiantProjet.formatter(),
-              Puissance.TypeDocumentPuissance.pièceJustificative.formatter(),
-              DateTime.convertirEnValueType(
-                this.#enregistrerChangementPuissanceFixture.demandéLe,
-              ).formatter(),
-              this.#enregistrerChangementPuissanceFixture.pièceJustificative.format,
-            ),
-            raison: this.#enregistrerChangementPuissanceFixture.raison,
-            statut,
-          },
+            }).getAutoritéCompétente()
+          : undefined,
+      },
     };
 
     if (this.#accorderChangementPuissanceFixture.aÉtéCréé) {
