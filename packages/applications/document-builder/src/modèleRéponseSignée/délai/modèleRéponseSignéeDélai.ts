@@ -44,6 +44,8 @@ export type ModèleRéponseDélai = ModèleRéponse & {
     dateLimiteAchevementInitiale: string;
     dateLimiteAchevementActuelle: string;
     dateAchèvementDemandée: string;
+    dateDemande: string;
+    justificationDemande: string;
 
     enCopies: Array<string>;
   } & ({ demandePrecedente: '' } | DemandePrécédente);
