@@ -10,6 +10,7 @@ export type ModèleRéponsePuissance = ModèleRéponse & {
     puissanceActuelle: string;
     referenceParagraphePuissance: string;
     contenuParagraphePuissance: string;
+    estAccordé: boolean;
 
     enCopies: Array<string>;
   };

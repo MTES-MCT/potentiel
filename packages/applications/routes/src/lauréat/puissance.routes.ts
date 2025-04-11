@@ -10,6 +10,8 @@ export const changement = {
     `/laureats/${encodeParameter(identifiantProjet)}/puissance/changement/enregistrer`,
   détails: (identifiantProjet: string, demandéLe: string) =>
     `/laureats/${encodeParameter(identifiantProjet)}/puissance/changement/${demandéLe}`,
-  téléchargerModèleRéponse: (identifiantProjet: string) =>
-    `/laureats/${encodeParameter(identifiantProjet)}/puissance/changement/modele-reponse`,
+  téléchargerModèleRéponseAccordé: (identifiantProjet: string) =>
+    `/laureats/${encodeParameter(identifiantProjet)}/puissance/changement/modele-reponse?estAccordé=true`,
+  téléchargerModèleRéponseRejeté: (identifiantProjet: string) =>
+    `/laureats/${encodeParameter(identifiantProjet)}/puissance/changement/modele-reponse?estAccordé=false`,
 };

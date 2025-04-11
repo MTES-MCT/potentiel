@@ -27,6 +27,7 @@ export const GET = async (
 ) =>
   withUtilisateur(async (utilisateur) => {
     const identifiantProjet = decodeParameter(identifiant);
+    const estAccordé = request.nextUrl.searchParams.get('estAccordé') === 'true';
 
     const candidature = await mediator.send<Candidature.ConsulterProjetQuery>({
       type: 'Candidature.Query.ConsulterProjet',
@@ -111,6 +112,7 @@ export const GET = async (
         referenceParagraphePuissance: texteChangementDePuissance.référenceParagraphe,
         contenuParagraphePuissance: texteChangementDePuissance?.dispositions,
         puissanceActuelle: puissance.puissance.toString(),
+        estAccordé,
       },
     });
 
@@ -127,14 +129,14 @@ const getDonnéesCourriersRéponse = ({
   appelOffres: AppelOffre.AppelOffreReadModel;
   période: AppelOffre.Periode;
   cahierDesChargesChoisi: CahierDesCharges.ConsulterCahierDesChargesChoisiReadmodel;
-}): AppelOffre.DonnéesCourriersRéponse['texteChangementDeProducteur'] => {
+}): AppelOffre.DonnéesCourriersRéponse['texteChangementDePuissance'] => {
   return {
     référenceParagraphe: '!!!REFERENCE NON DISPONIBLE!!!',
     dispositions: '!!!CONTENU NON DISPONIBLE!!!',
-    ...appelOffres.donnéesCourriersRéponse.texteChangementDeProducteur,
-    ...période?.donnéesCourriersRéponse?.texteChangementDeProducteur,
+    ...appelOffres.donnéesCourriersRéponse.texteChangementDePuissance,
+    ...période?.donnéesCourriersRéponse?.texteChangementDePuissance,
     ...(cahierDesChargesChoisi.type === 'initial'
       ? {}
-      : cahierDesChargesChoisi.donnéesCourriersRéponse?.texteChangementDeProducteur),
+      : cahierDesChargesChoisi.donnéesCourriersRéponse?.texteChangementDePuissance),
   };
 };
