@@ -8,7 +8,6 @@ import { mapToPlainObject } from '@potentiel-domain/core';
 import { IdentifiantProjet } from '@potentiel-domain/common';
 import { Role } from '@potentiel-domain/utilisateur';
 import { Historique } from '@potentiel-domain/historique';
-import { AppelOffre } from '@potentiel-domain/appel-offre';
 
 import {
   ChangementPuissanceActions,
@@ -18,6 +17,7 @@ import { decodeParameter } from '@/utils/decodeParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 import { PuissanceHistoryRecord } from '@/components/pages/puissance/changement/détails/timeline';
+import { getPériodeAppelOffres } from '@/app/_helpers/getPériodeAppelOffres';
 
 export const metadata: Metadata = {
   title: 'Détail de la puissance du projet - Potentiel',
@@ -37,17 +37,9 @@ export default async function Page({ params: { identifiant, date } }: PageProps)
       const identifiantProjet = IdentifiantProjet.convertirEnValueType(
         decodeParameter(identifiant),
       );
-
-      const appelOffre = await mediator.send<AppelOffre.ConsulterAppelOffreQuery>({
-        type: 'AppelOffre.Query.ConsulterAppelOffre',
-        data: {
-          identifiantAppelOffre: identifiantProjet.appelOffre,
-        },
-      });
-
-      if (Option.isNone(appelOffre)) {
-        return notFound();
-      }
+      const {
+        appelOffres: { unitePuissance },
+      } = await getPériodeAppelOffres(identifiantProjet);
 
       const demandéLe = decodeParameter(date);
 
@@ -88,7 +80,7 @@ export default async function Page({ params: { identifiant, date } }: PageProps)
         <DétailsPuissancePage
           identifiantProjet={mapToPlainObject(identifiantProjet)}
           demande={mapToPlainObject(changement.demande)}
-          unitéPuissance={appelOffre.unitePuissance}
+          unitéPuissance={unitePuissance}
           historique={mapToPlainObject(historique)}
           actions={mapToActions(
             changement.demande.statut,
