@@ -10,7 +10,11 @@ import {
   Utilisateur,
 } from '../../../_utils/getRoleBasedWhereCondition';
 import { Lauréat } from '../../..';
-import { ChangementPuissanceEntity, StatutChangementPuissance } from '../..';
+import {
+  ChangementPuissanceEntity,
+  RatioChangementPuissance,
+  StatutChangementPuissance,
+} from '../..';
 
 type ChangementPuissanceItemReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
@@ -34,6 +38,7 @@ export type ListerChangementPuissanceQuery = Message<
     statut?: StatutChangementPuissance.RawType;
     appelOffre?: string;
     nomProjet?: string;
+    autoriteInstructrice?: RatioChangementPuissance.AutoritéCompétente;
     range: RangeOptions;
   },
   ListerChangementPuissanceReadModel
@@ -53,6 +58,7 @@ export const registerListerChangementPuissanceQuery = ({
     appelOffre,
     nomProjet,
     utilisateur,
+    autoriteInstructrice,
     range,
   }) => {
     const { identifiantProjet, régionProjet } = await getRoleBasedWhereCondition(
@@ -85,6 +91,9 @@ export const registerListerChangementPuissanceQuery = ({
           demande: {
             statut: statut
               ? Where.equal(statut as ChangementPuissanceEntity['demande']['statut'])
+              : Where.notEqualNull(),
+            autoritéCompétente: autoriteInstructrice
+              ? Where.equal(autoriteInstructrice)
               : Where.notEqualNull(),
           },
         },

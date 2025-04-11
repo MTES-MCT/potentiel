@@ -9,7 +9,10 @@ import { registerModifierPuissanceCommand } from './modifier/modifierPuissance.c
 import { registerModifierPuissanceUseCase } from './modifier/modifierPuissance.usecase';
 import { registerDemanderChangementPuissanceCommand } from './changement/demander/demanderChangementPuissance.command';
 import { registerDemanderChangementPuissanceUseCase } from './changement/demander/demanderChangementPuissance.usecase';
-import { registerConsulterChangementPuissanceQuery } from './changement/consulter/consulterChangementPuissance.query';
+import {
+  ConsulterChangementPuissanceDependencies,
+  registerConsulterChangementPuissanceQuery,
+} from './changement/consulter/consulterChangementPuissance.query';
 import { registerAnnulerChangementPuissanceCommand } from './changement/annuler/annulerChangementPuissance.command';
 import { registerAnnulerChangementPuissanceUseCase } from './changement/annuler/annulerChangementPuissance.usecase';
 import { registerSupprimerChangementPuissanceCommand } from './changement/supprimer/supprimerChangementPuissance.command';
@@ -25,6 +28,7 @@ import {
 } from './changement/lister/listerChangementPuissance.query';
 
 export type PuissanceQueryDependencies = ConsulterPuissanceDependencies &
+  ConsulterChangementPuissanceDependencies &
   ListerChangementPuissanceDependencies;
 
 export type PuissanceCommandDependencies = {

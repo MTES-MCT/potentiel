@@ -1,6 +1,7 @@
 import { mediator } from 'mediateur';
 import type { Metadata } from 'next';
 import { z } from 'zod';
+import { match } from 'ts-pattern';
 
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { Puissance } from '@potentiel-domain/laureat';
@@ -28,13 +29,15 @@ const paramsSchema = z.object({
   page: z.coerce.number().int().optional().default(1),
   nomProjet: z.string().optional(),
   appelOffre: z.string().optional(),
+  autoriteInstructrice: z.enum(Puissance.RatioChangementPuissance.autoritéCompétentes).optional(),
   statut: z.enum(Puissance.StatutChangementPuissance.statuts).optional(),
 });
 
 export default async function Page({ searchParams }: PageProps) {
   return PageWithErrorHandling(async () =>
     withUtilisateur(async (utilisateur) => {
-      const { page, nomProjet, appelOffre, statut } = paramsSchema.parse(searchParams);
+      const { page, nomProjet, appelOffre, statut, autoriteInstructrice } =
+        paramsSchema.parse(searchParams);
 
       const régionDreal = await getRégionUtilisateur(utilisateur);
 
@@ -53,6 +56,7 @@ export default async function Page({ searchParams }: PageProps) {
           statut,
           appelOffre,
           nomProjet,
+          autoriteInstructrice,
         },
       });
 
@@ -81,6 +85,20 @@ export default async function Page({ searchParams }: PageProps) {
             })),
         },
       ];
+
+      if (utilisateur.role.nom === 'admin' || utilisateur.role.nom === 'dgec-validateur') {
+        filters.push({
+          label: 'Autorité instructrice',
+          searchParamKey: 'autoriteInstructrice',
+          options: Puissance.RatioChangementPuissance.autoritéCompétentes.map((autorité) => ({
+            label: match(autorité)
+              .with('dreal', () => 'DREAL')
+              .with('dgec-admin', () => 'DGEC')
+              .exhaustive(),
+            value: autorité,
+          })),
+        });
+      }
 
       return (
         <ChangementPuissanceListPage

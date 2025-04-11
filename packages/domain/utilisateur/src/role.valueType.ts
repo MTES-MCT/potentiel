@@ -30,6 +30,7 @@ export type ValueType = ReadonlyValueType<{
   libellé(): string;
   peutExécuterMessage(typeMessage: string): void;
   aLaPermission(value: Policy): boolean;
+  estDGEC(): boolean;
 }>;
 
 export const convertirEnValueType = (value: string): ValueType => {
@@ -52,6 +53,9 @@ export const convertirEnValueType = (value: string): ValueType => {
       if (!aLaPermission) {
         throw new AccèsFonctionnalitéRefuséError(typeMessage, this.nom);
       }
+    },
+    estDGEC() {
+      return this.nom === 'admin' || this.nom === 'dgec-validateur';
     },
   };
 };
@@ -1224,7 +1228,6 @@ const adminPolicies: ReadonlyArray<Policy> = [
 
   // Puissance
   'puissance.modifier',
-  'puissance.consulter',
   'puissance.consulterChangement',
   'puissance.accorderChangement',
   'puissance.rejeterChangement',
@@ -1270,6 +1273,10 @@ const crePolicies: ReadonlyArray<Policy> = [
   // Représentant Légal
   'représentantLégal.consulterChangement',
   'représentantLégal.listerChangement',
+
+  // Puissance
+  'puissance.consulterChangement',
+  'puissance.listerChangement',
 ];
 
 const drealPolicies: ReadonlyArray<Policy> = [

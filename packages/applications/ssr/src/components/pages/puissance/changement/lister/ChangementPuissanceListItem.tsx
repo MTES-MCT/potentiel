@@ -33,7 +33,7 @@ export const ChangementPuissanceListItem: FC<ChangementPuissanceListItemProps> =
         prefix={
           statut === 'information-enregistrée'
             ? 'Changement de puissance du projet'
-            : 'Demande de changement de puissance(s) du projet'
+            : 'Demande de changement de puissance du projet'
         }
         misÀJourLe={DateTime.bind(misÀJourLe).formatter()}
       />

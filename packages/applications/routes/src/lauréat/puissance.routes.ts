@@ -4,6 +4,7 @@ import { encodeParameter } from '../encodeParameter';
 
 type ListerFilters = {
   statut?: Puissance.StatutChangementPuissance.RawType;
+  autoriteInstructrice?: Puissance.RatioChangementPuissance.AutoritéCompétente;
 };
 
 export const modifier = (identifiantProjet: string) =>
@@ -25,6 +26,10 @@ export const changement = {
 
     if (filters?.statut) {
       searchParams.set('statut', filters.statut);
+    }
+
+    if (filters?.autoriteInstructrice) {
+      searchParams.set('autoriteInstructrice', filters.autoriteInstructrice);
     }
 
     return `/laureats/changements/puissance${searchParams.toString() ? `?${searchParams.toString()}` : ''}`;

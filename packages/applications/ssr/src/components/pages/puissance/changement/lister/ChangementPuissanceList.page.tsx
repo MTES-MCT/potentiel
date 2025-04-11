@@ -22,7 +22,6 @@ export type ChangementPuissanceListPageProps = {
     pagination: Pagination;
     total: number;
   };
-  // appelOffres: string[];
   filters: ListPageTemplateProps<typeof ChangementPuissanceListItem>['filters'];
 };
 
