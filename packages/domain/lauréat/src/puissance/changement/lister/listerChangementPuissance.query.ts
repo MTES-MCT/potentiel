@@ -49,7 +49,7 @@ export const registerListerChangementPuissanceQuery = ({
   récupérerIdentifiantsProjetParEmailPorteur,
 }: ListerChangementPuissanceDependencies) => {
   const handler: MessageHandler<ListerChangementPuissanceQuery> = async ({
-    // statut,
+    statut,
     appelOffre,
     nomProjet,
     utilisateur,
@@ -82,11 +82,11 @@ export const registerListerChangementPuissanceQuery = ({
         },
         where: {
           identifiantProjet,
-          // demande: {
-          //   statut: statut
-          //     ? Where.equal(statut as ChangementPuissanceEntity['demande']['statut'])
-          //     : Where.notEqualNull(),
-          // },
+          demande: {
+            statut: statut
+              ? Where.equal(statut as ChangementPuissanceEntity['demande']['statut'])
+              : Where.notEqualNull(),
+          },
         },
       },
     );
