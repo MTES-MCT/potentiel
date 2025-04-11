@@ -110,10 +110,8 @@ const mapToProps: MapToProps = (candidature, lauréat, appelOffres, période) =>
       estEnCoursDeModification: false,
     },
     puissanceProductionAnnuelle: {
-      currentValue: lauréat.puissance,
-      // TODO: à changer après la migration de puissance
-      // pour le moment cela permet de bloquer la mise à jour côté projet / lauréat
-      estEnCoursDeModification: true,
+      currentValue: lauréat.puissance.puissance,
+      estEnCoursDeModification: !!lauréat.puissance.dateDemandeEnCours,
     },
   },
   projet: {
