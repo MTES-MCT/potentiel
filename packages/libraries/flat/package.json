@@ -1,6 +1,5 @@
 {
   "name": "@potentiel-libraries/flat",
-  "version": "0.0.0",
   "description": "Potentiel custom flat rebundle with CommonJS support",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",

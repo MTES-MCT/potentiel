@@ -1,6 +1,5 @@
 {
   "name": "@potentiel-domain/utilisateur",
-  "version": "0.0.0",
   "description": "Domain Utilisateur",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",

@@ -1,6 +1,5 @@
 {
   "name": "@potentiel-domain/projet",
-  "version": "0.0.0",
   "description": "Domain projet",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",

@@ -1,6 +1,5 @@
 {
   "name": "@potentiel-domain/periode",
-  "version": "0.0.0",
   "description": "Domain période",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",

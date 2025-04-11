@@ -1,6 +1,5 @@
 {
   "name": "@potentiel-libraries/file-storage",
-  "version": "0.0.0",
   "description": "File storage for managing files",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",

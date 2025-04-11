@@ -1,6 +1,5 @@
 {
   "name": "@potentiel-applications/legacy",
-  "version": "0.0.0",
   "description": "Suivi des Projets d'Energies Renouvelables",
   "sideEffects": false,
   "main": "index.js",

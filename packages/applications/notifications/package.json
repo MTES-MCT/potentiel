@@ -1,6 +1,5 @@
 {
   "name": "@potentiel-applications/notifications",
-  "version": "0.0.0",
   "description": "Potentiel notifications",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",

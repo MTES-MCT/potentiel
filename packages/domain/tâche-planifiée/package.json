@@ -1,6 +1,5 @@
 {
   "name": "@potentiel-domain/tache-planifiee",
-  "version": "0.0.0",
   "description": "Domain Tâche Planifiée",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",

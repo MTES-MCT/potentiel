@@ -1,6 +1,5 @@
 {
   "name": "@potentiel-infrastructure/email",
-  "version": "0.0.0",
   "description": "Email sending with mailjet",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",

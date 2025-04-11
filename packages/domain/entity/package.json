@@ -1,6 +1,5 @@
 {
   "name": "@potentiel-domain/entity",
-  "version": "0.0.0",
   "description": "Domain entity types and functions",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",

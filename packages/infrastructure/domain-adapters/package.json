@@ -1,6 +1,5 @@
 {
   "name": "@potentiel-infrastructure/domain-adapters",
-  "version": "0.0.0",
   "description": "Domain adapters",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",

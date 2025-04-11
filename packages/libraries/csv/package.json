@@ -1,6 +1,5 @@
 {
   "name": "@potentiel-libraries/csv",
-  "version": "0.0.0",
   "description": "CSV parsing and validation",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",

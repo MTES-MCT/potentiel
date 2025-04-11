@@ -1,6 +1,5 @@
 {
   "name": "@potentiel-applications/bootstrap",
-  "version": "0.0.0",
   "description": "Potentiel projector",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",

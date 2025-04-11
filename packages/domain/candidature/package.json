@@ -1,6 +1,5 @@
 {
   "name": "@potentiel-domain/candidature",
-  "version": "0.0.0",
   "description": "Domain candidature",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",

@@ -1,6 +1,5 @@
 {
   "name": "@potentiel-libraries/http-client",
-  "version": "0.0.0",
   "description": "Http client",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",

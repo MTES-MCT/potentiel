@@ -1,6 +1,5 @@
 {
   "name": "@potentiel-domain/reseau",
-  "version": "0.0.0",
   "description": "Domain Réseau",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",

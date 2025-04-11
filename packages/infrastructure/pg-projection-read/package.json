@@ -1,6 +1,5 @@
 {
   "name": "@potentiel-infrastructure/pg-projection-read",
-  "version": "0.0.0",
   "description": "PostgreSQL projections engine",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",

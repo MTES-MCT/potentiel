@@ -1,6 +1,5 @@
 {
   "name": "@potentiel-domain/laureat",
-  "version": "0.0.0",
   "description": "Domain Lauréat",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",

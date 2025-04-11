@@ -1,6 +1,5 @@
 {
   "name": "potentiel-monorepo",
-  "version": "0.0.0",
   "description": "Monorepo du projet potentiel",
   "workspaces": [
     "./packages/config/*",

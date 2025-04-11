@@ -1,6 +1,5 @@
 {
   "name": "@potentiel-libraries/pg-helpers",
-  "version": "0.0.0",
   "description": "Fonction utilitaire pour PostgreSQL",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",

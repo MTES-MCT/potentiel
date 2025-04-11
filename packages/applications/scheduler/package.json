@@ -1,6 +1,5 @@
 {
   "name": "@potentiel-applications/scheduler",
-  "version": "0.0.0",
   "description": "Potentiel Scheduler",
   "private": true,
   "scripts": {

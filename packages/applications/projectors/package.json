@@ -1,6 +1,5 @@
 {
   "name": "@potentiel-applications/projectors",
-  "version": "0.0.0",
   "description": "Potentiel projectors",
   "main": "dist/index.js",
   "types": "dist/index.d.ts",
