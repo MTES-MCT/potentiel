@@ -39,6 +39,7 @@ export const register = ({ sendEmail }: RegisterPuissanceNotificationDependencie
         identifiantProjet: identifiantProjet.formatter(),
         application: 'notifications',
         fonction: 'puissance',
+        eventType: event.type,
       });
       return;
     }
@@ -55,6 +56,7 @@ export const register = ({ sendEmail }: RegisterPuissanceNotificationDependencie
     const projet = {
       nom: candidature.nom,
       département: candidature.localité.département,
+      région: candidature.localité.région,
     };
 
     return match(event)

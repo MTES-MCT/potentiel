@@ -1,11 +1,10 @@
-import {
-  récupérerDrealsParIdentifiantProjetAdapter,
-  récupérerPorteursParIdentifiantProjetAdapter,
-} from '@potentiel-infrastructure/domain-adapters';
-import { IdentifiantProjet } from '@potentiel-domain/common';
+import { IdentifiantProjet } from '@potentiel-domain/projet';
 import { getLogger } from '@potentiel-libraries/monitoring';
 import { Routes } from '@potentiel-applications/routes';
 import { Actionnaire } from '@potentiel-domain/laureat';
+
+import { listerPorteursRecipients } from '../../../helpers/listerPorteursRecipients';
+import { listerDrealsRecipients } from '../../../helpers/listerDrealsRecipients';
 
 import { RegisterActionnaireNotificationDependencies } from '.';
 
@@ -16,6 +15,7 @@ type ActionnaireModifiéNotificationsProps = {
   event: Actionnaire.ActionnaireModifiéEvent;
   projet: {
     nom: string;
+    région: string;
     département: string;
   };
   baseUrl: string;
@@ -28,8 +28,8 @@ export const actionnaireModifiéNotifications = async ({
   baseUrl,
 }: ActionnaireModifiéNotificationsProps) => {
   const identifiantProjet = IdentifiantProjet.convertirEnValueType(event.payload.identifiantProjet);
-  const porteurs = await récupérerPorteursParIdentifiantProjetAdapter(identifiantProjet);
-  const dreals = await récupérerDrealsParIdentifiantProjetAdapter(identifiantProjet);
+  const porteurs = await listerPorteursRecipients(identifiantProjet);
+  const dreals = await listerDrealsRecipients(projet.région);
 
   if (porteurs.length === 0 && dreals.length === 0) {
     getLogger().error('Aucun porteur ou dreal trouvé(e)', {

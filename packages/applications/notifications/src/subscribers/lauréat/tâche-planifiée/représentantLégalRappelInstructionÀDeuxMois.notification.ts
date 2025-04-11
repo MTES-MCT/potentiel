@@ -1,12 +1,13 @@
 import { mediator } from 'mediateur';
 
-import { récupérerDrealsParIdentifiantProjetAdapter } from '@potentiel-infrastructure/domain-adapters';
-import { IdentifiantProjet } from '@potentiel-domain/common';
+import { IdentifiantProjet } from '@potentiel-domain/projet';
 import { Routes } from '@potentiel-applications/routes';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { ReprésentantLégal } from '@potentiel-domain/laureat';
 import { Option } from '@potentiel-libraries/monads';
 import { getLogger } from '@potentiel-libraries/monitoring';
+
+import { listerDrealsRecipients } from '../../../helpers/listerDrealsRecipients';
 
 import { RegisterTâchePlanifiéeNotificationDependencies } from '.';
 
@@ -16,6 +17,7 @@ type HandleReprésentantLégalRappelInstructionÀDeuxMoisNotificationProps = {
   projet: {
     nom: string;
     département: string;
+    région: string;
   };
   baseUrl: string;
 };
@@ -23,10 +25,10 @@ type HandleReprésentantLégalRappelInstructionÀDeuxMoisNotificationProps = {
 export const représentantLégalRappelInstructionÀDeuxMoisNotification = async ({
   sendEmail,
   identifiantProjet,
-  projet: { nom, département },
+  projet: { nom, région, département },
   baseUrl,
 }: HandleReprésentantLégalRappelInstructionÀDeuxMoisNotificationProps) => {
-  const dreals = await récupérerDrealsParIdentifiantProjetAdapter(identifiantProjet);
+  const dreals = await listerDrealsRecipients(région);
 
   const appelOffre = await mediator.send<AppelOffre.ConsulterAppelOffreQuery>({
     type: 'AppelOffre.Query.ConsulterAppelOffre',

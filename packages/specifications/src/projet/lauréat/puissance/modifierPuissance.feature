@@ -3,7 +3,6 @@ Fonctionnalité: Modifier la puissance d'un projet lauréat
 
     Contexte:
         Etant donné le projet lauréat "Du boulodrome de Marseille"
-        Et le porteur "Marcel Patoulatchi" ayant accés au projet lauréat "Du boulodrome de Marseille"
 
     Scénario: Modifier la puissance d'un projet lauréat par un admin
         Quand le DGEC validateur modifie la puissance pour le projet lauréat
