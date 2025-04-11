@@ -3,8 +3,7 @@ import { cache } from 'react';
 import { notFound } from 'next/navigation';
 
 import { Option } from '@potentiel-libraries/monads';
-import { Actionnaire, Lauréat, ReprésentantLégal } from '@potentiel-domain/laureat';
-import { Candidature } from '@potentiel-domain/candidature';
+import { Actionnaire, Lauréat, Puissance, ReprésentantLégal } from '@potentiel-domain/laureat';
 
 type Props = {
   identifiantProjet: string;
@@ -13,7 +12,7 @@ type Props = {
 export type GetLauréat = {
   actionnaire: Actionnaire.ConsulterActionnaireReadModel;
   représentantLégal: ReprésentantLégal.ConsulterReprésentantLégalReadModel;
-  puissance: number;
+  puissance: Puissance.ConsulterPuissanceReadModel;
   lauréat: Lauréat.ConsulterLauréatReadModel;
 };
 
@@ -76,18 +75,17 @@ export const getReprésentantLégalInfos = async ({ identifiantProjet }: Props) 
   return représentantLégal;
 };
 
-// TODO: changer l'origine de puissance ici
 const getPuissanceInfos = async ({ identifiantProjet }: Props) => {
-  const projet = await mediator.send<Candidature.ConsulterProjetQuery>({
-    type: 'Candidature.Query.ConsulterProjet',
+  const puissance = await mediator.send<Puissance.ConsulterPuissanceQuery>({
+    type: 'Lauréat.Puissance.Query.ConsulterPuissance',
     data: {
       identifiantProjet,
     },
   });
 
-  if (Option.isNone(projet)) {
+  if (Option.isNone(puissance)) {
     return notFound();
   }
 
-  return projet.puissance;
+  return puissance;
 };
