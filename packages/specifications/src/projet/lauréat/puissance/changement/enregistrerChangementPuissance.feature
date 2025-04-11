@@ -20,7 +20,7 @@ Fonctionnalité: Enregistrer un changement de puissance d'un projet lauréat
         Alors l'utilisateur devrait être informé que "La puissance doit avoir une valeur différente"
 
     Scénario: Impossible d'enregistrer un changement de puissance si la puissance est inexistant
-        Etant donné le projet éliminé "Du boulodrome de Lyon"
+        Etant donné le projet éliminé "Du boulodrome lyonnais"
         Quand le porteur enregistre un changement de puissance pour le projet éliminé
         Alors l'utilisateur devrait être informé que "La puissance n'existe pas"
 
@@ -45,7 +45,7 @@ Fonctionnalité: Enregistrer un changement de puissance d'un projet lauréat
         Alors le porteur devrait être informé que "Impossible de demander le changement de puissance pour un projet achevé"
 
     Scénario: Impossible pour le porteur d'enregistrer un changement de puissance si elle est inférieure au ratio min autorisé par l'appel d'offres
-        Etant donné le projet lauréat "Du bouchon de Lyon le retour" avec :
+        Etant donné le projet lauréat "Du bouchon lyonnais" avec :
             | appel d'offre | <Appel d'offre> |
             | période       | <Période>       |
         Quand le porteur enregistre un changement de puissance pour le projet lauréat avec :
@@ -58,7 +58,7 @@ Fonctionnalité: Enregistrer un changement de puissance d'un projet lauréat
             | CRE4 - Sol    | 7       | 0.85  |
 
     Scénario: Impossible pour le porteur d'enregistrer un changement de puissance si elle est supérieure au ratio max autorisé par l'appel d'offres
-        Etant donné le projet lauréat "Du bouchon de Lyon" avec :
+        Etant donné le projet lauréat "Du bouchon lyonnais" avec :
             | appel d'offre | <Appel d'offre> |
             | période       | <Période>       |
         Quand le porteur enregistre un changement de puissance pour le projet lauréat avec :
@@ -71,7 +71,7 @@ Fonctionnalité: Enregistrer un changement de puissance d'un projet lauréat
             | CRE4 - Sol    | 7       | 1.15  |
 
     Scénario: Impossible pour le porteur d'enregistrer un changement de puissance si elle dépasse la puissance max par famille
-        Etant donné le projet lauréat "Du bouchon de Lyon" avec :
+        Etant donné le projet lauréat "Du bouchon lyonnais" avec :
             | appel d'offre | PPE2 - Innovation |
             | période       | 1                 |
             | famille       | 1                 |
@@ -79,9 +79,12 @@ Fonctionnalité: Enregistrer un changement de puissance d'un projet lauréat
             | nouvelle puissance | 3.1 |
         Alors l'utilisateur devrait être informé que "La puissance dépasse la puissance maximale de la famille de votre appel d'offre"
 
-    @NotImplemented
+    @select
     Scénario: Scénario: Impossible pour le porteur d'enregistrer un changement de puissance si elle dépasse le volume réservé de l'appel d'offre
+        Etant donné le projet lauréat "Du bouchon lyonnais" avec :
+            | appel d'offre | PPE2 - Innovation |
+            | période       | 1                 |
+            | famille       | 1                 |
         Quand le porteur enregistre un changement de puissance pour le projet lauréat avec :
-            | nouvelle puissance |  |
-            | appel d'offre      |  |
+            | nouvelle puissance | 3.1 |
         Alors l'utilisateur devrait être informé que "La puissance dépasse le volume réservé de votre appel d'offre"

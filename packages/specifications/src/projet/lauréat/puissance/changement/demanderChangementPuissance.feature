@@ -41,21 +41,24 @@ Fonctionnalité: Demander le changement de puissance d'un projet lauréat
             | 0     |
             | -1    |
 
-    @NotImplemented
-    Scénario: Impossible de demander le changement de puissance si la nouvelle puissance dépasse la puissance max par famille
+    @select
+    Scénario: Impossible pour le porteur d'enregistrer un changement de puissance si elle dépasse la puissance max par famille
+        Etant donné le projet lauréat "Du bouchon lyonnais" avec :
+            | appel d'offre | PPE2 - Innovation |
+            | période       | 1                 |
+            | famille       | 1                 |
         Quand le porteur demande le changement de puissance pour le projet lauréat avec :
-            | nouvelle puissance |  |
-            | appel d'offre      |  |
-            | période            |  |
-            | famille            |  |
-
+            | nouvelle puissance | 3.1 |
         Alors l'utilisateur devrait être informé que "La puissance dépasse la puissance maximale de la famille de votre appel d'offre"
 
-    @NotImplemented
-    Scénario: Impossible de demander le changement de puissance si la nouvelle puissance dépasse le volume réservé de l'appel d'offre
+    @select
+    Scénario: Scénario: Impossible pour le porteur d'enregistrer un changement de puissance si elle dépasse le volume réservé de l'appel d'offre
+        Etant donné le projet lauréat "Du bouchon lyonnais" avec :
+            | appel d'offre | PPE2 - Innovation |
+            | période       | 1                 |
+            | famille       | 1                 |
         Quand le porteur demande le changement de puissance pour le projet lauréat avec :
-            | nouvelle puissance |  |
-            | appel d'offre      |  |
+            | nouvelle puissance | 3.1 |
         Alors l'utilisateur devrait être informé que "La puissance dépasse le volume réservé de votre appel d'offre"
 
     Scénario: Impossible de demander le changement de puissance si une demande existe déjà

@@ -1,15 +1,23 @@
 import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
 import { DomainEvent } from '@potentiel-domain/core';
 import { DocumentProjet } from '@potentiel-domain/document';
+import { Option } from '@potentiel-libraries/monads';
+import { AppelOffre } from '@potentiel-domain/appel-offre';
+import { Candidature } from '@potentiel-domain/candidature';
 
 import { PuissanceIdentiqueError, PuissanceNulleOuNégativeError } from '../../errors';
-import { AutoritéCompétente, StatutChangementPuissance } from '../..';
+import { AutoritéCompétente, RatioChangementPuissance, StatutChangementPuissance } from '../..';
 import { PuissanceAggregate } from '../../puissance.aggregate';
 import {
   ProjetAbandonnéError,
   ProjetAvecDemandeAbandonEnCoursError,
   ProjetAchevéError,
+  PuissanceDépassePuissanceMaxFamille,
+  PuissanceDépasseVolumeRéservéAO,
+  AppelOffreInexistantError,
+  CahierDesChargesInexistantError,
 } from '../errors';
+import { ConsulterCahierDesChargesChoisiReadmodel } from '../../../cahierDesChargesChoisi';
 
 export type ChangementPuissanceDemandéEvent = DomainEvent<
   'ChangementPuissanceDemandé-V1',
@@ -36,6 +44,10 @@ export type DemanderOptions = {
   estAbandonné: boolean;
   demandeAbandonEnCours: boolean;
   estAchevé: boolean;
+  appelOffre: Option.Type<AppelOffre.ConsulterAppelOffreReadModel>;
+  technologie: Candidature.TypeTechnologie.ValueType;
+  cahierDesCharges: Option.Type<ConsulterCahierDesChargesChoisiReadmodel>;
+  note: number;
 };
 
 export async function demanderChangement(
@@ -50,6 +62,10 @@ export async function demanderChangement(
     estAbandonné,
     demandeAbandonEnCours,
     estAchevé,
+    appelOffre,
+    technologie,
+    cahierDesCharges,
+    note,
   }: DemanderOptions,
 ) {
   if (this.puissance === puissance) {
@@ -66,9 +82,6 @@ export async function demanderChangement(
     );
   }
 
-  // TODO: on ajoutera des règles pour valider le ratios ici (cf changement-puissance.flowchart.drawio.svg)
-  const ratio = puissance / this.puissance;
-
   if (estAbandonné) {
     throw new ProjetAbandonnéError();
   }
@@ -81,12 +94,43 @@ export async function demanderChangement(
     throw new ProjetAchevéError();
   }
 
+  if (Option.isNone(cahierDesCharges)) {
+    throw new CahierDesChargesInexistantError();
+  }
+
+  if (Option.isNone(appelOffre)) {
+    throw new AppelOffreInexistantError(identifiantProjet.appelOffre);
+  }
+
+  const ratioValueType = RatioChangementPuissance.bind({
+    ratio: puissance / this.puissance,
+    identifiantProjet: identifiantProjet.formatter(),
+    appelOffre,
+    technologie: technologie.type,
+    cahierDesCharges,
+    périodeId: identifiantProjet.période,
+    nouvellePuissance: puissance,
+    familleId: identifiantProjet.famille,
+    note,
+  });
+
+  // ordre des erreurs suit celui du legacy
+  if (ratioValueType.dépassePuissanceMaxFamille()) {
+    throw new PuissanceDépassePuissanceMaxFamille();
+  }
+
+  if (ratioValueType.dépassePuissanceMaxDuVolumeRéservé()) {
+    throw new PuissanceDépasseVolumeRéservéAO();
+  }
+
   const event: ChangementPuissanceDemandéEvent = {
     type: 'ChangementPuissanceDemandé-V1',
     payload: {
       identifiantProjet: identifiantProjet.formatter(),
       puissance,
-      autoritéCompétente: AutoritéCompétente.bind({ ratio }).getAutoritéCompétente(),
+      autoritéCompétente: AutoritéCompétente.bind({
+        ratio: puissance / this.puissance,
+      }).getAutoritéCompétente(),
       pièceJustificative: {
         format: pièceJustificative.format,
       },

@@ -44,9 +44,14 @@ Quand(
   'le porteur demande le changement de puissance pour le projet lauréat avec :',
   async function (this: PotentielWorld, dataTable: DataTable) {
     const exemple = dataTable.rowsHash();
+    const ratio =
+      exemple['nouvelle puissance'] !== undefined
+        ? Number(exemple['nouvelle puissance']) /
+          this.lauréatWorld.puissanceWorld.importerPuissanceFixture.puissance
+        : Number(exemple['ratio puissance']);
 
     try {
-      await demanderChangementPuissance.call(this, 'lauréat', Number(exemple['ratio puissance']));
+      await demanderChangementPuissance.call(this, 'lauréat', ratio);
     } catch (error) {
       this.error = error as Error;
     }
