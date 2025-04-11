@@ -5,12 +5,12 @@ import { DropdownMenu } from '../../molecules/dropdowns/DropdownMenu';
 import { Routes } from '@potentiel-applications/routes';
 import { MenuGarantiesFinancières } from './_utils/garantiesFinancières.menuLegacy';
 
-type MenuAdminProps = {
+type AdminMenuLegacyProps = {
   currentPage?: string;
   showPuissanceV2: boolean;
 };
 
-export const MenuAdmin = ({ currentPage, showPuissanceV2 }: MenuAdminProps) => (
+export const AdminMenuLegacy = ({ currentPage, showPuissanceV2 }: AdminMenuLegacyProps) => (
   <>
     <Header.MenuItem
       href={routes.LISTE_PROJETS}

@@ -4,7 +4,7 @@ import { Header } from '../Header';
 import { DropdownMenu } from '../../molecules/dropdowns/DropdownMenu';
 import { Routes } from '@potentiel-applications/routes';
 
-export const MenuAcheteurObligé = (currentPage?: string) => (
+export const AcheteurObligéMenuLegacy = (currentPage?: string) => (
   <>
     <Header.MenuItem
       href={routes.LISTE_PROJETS}

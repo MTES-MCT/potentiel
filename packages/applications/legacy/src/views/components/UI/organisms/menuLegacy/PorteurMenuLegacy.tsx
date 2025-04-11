@@ -5,11 +5,11 @@ import { DropdownMenu } from '../../molecules/dropdowns/DropdownMenu';
 import { Routes } from '@potentiel-applications/routes';
 import { MenuGarantiesFinancières } from './_utils/garantiesFinancières.menuLegacy';
 
-type MenuPorteurProjetProps = {
+type PorteurMenuLegacyProps = {
   currentPage?: string;
   showPuissanceV2: boolean;
 };
-export const MenuPorteurProjet = ({ currentPage, showPuissanceV2 }: MenuPorteurProjetProps) => (
+export const PorteurMenuLegacy = ({ currentPage, showPuissanceV2 }: PorteurMenuLegacyProps) => (
   <>
     <Header.MenuItem
       href={routes.LISTE_PROJETS}

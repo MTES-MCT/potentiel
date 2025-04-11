@@ -3,13 +3,13 @@ import routes from '../../../../../routes';
 import { Header } from '../Header';
 import { DropdownMenu } from '../../molecules/dropdowns/DropdownMenu';
 import { Routes } from '@potentiel-applications/routes';
-import { MenuGarantiesFinancières } from './_utils/garantiesFinancières.menuLegacy';
 
-type MenuDrealProps = {
+type CreMenuLegacyProps = {
   currentPage?: string;
   showPuissanceV2: boolean;
 };
-export const MenuDreal = ({ currentPage, showPuissanceV2 }: MenuDrealProps) => (
+
+export const CreMenuLegacy = ({ currentPage, showPuissanceV2 }: CreMenuLegacyProps) => (
   <>
     <Header.MenuItem
       href={routes.LISTE_PROJETS}
@@ -18,12 +18,6 @@ export const MenuDreal = ({ currentPage, showPuissanceV2 }: MenuDrealProps) => (
       Projets
     </Header.MenuItem>
     <DropdownMenu buttonChildren={'Demandes'}>
-      <DropdownMenu.DropdownItem
-        href={routes.ADMIN_LIST_REQUESTS}
-        {...(currentPage === 'list-requests' && { isCurrent: true })}
-      >
-        Toutes les demandes
-      </DropdownMenu.DropdownItem>
       <DropdownMenu.DropdownItem href={Routes.Abandon.lister({ statut: 'demandé' })}>
         Abandon
       </DropdownMenu.DropdownItem>
@@ -44,7 +38,12 @@ export const MenuDreal = ({ currentPage, showPuissanceV2 }: MenuDrealProps) => (
         </DropdownMenu.DropdownItem>
       )}
     </DropdownMenu>
-    <MenuGarantiesFinancières />
     <Header.MenuItem href={Routes.Raccordement.lister}>Raccordements</Header.MenuItem>
+    <Header.MenuItem
+      href={routes.GET_CRE_STATISTIQUES}
+      {...(currentPage === 'cre-statistiques' && { isCurrent: true })}
+    >
+      Tableau de bord
+    </Header.MenuItem>
   </>
 );

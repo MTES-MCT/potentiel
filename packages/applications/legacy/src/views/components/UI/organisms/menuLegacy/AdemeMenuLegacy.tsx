@@ -2,7 +2,7 @@ import React from 'react';
 import routes from '../../../../../routes';
 import { Header } from '../Header';
 
-export const MenuAdeme = (currentPage?: string) => (
+export const AdemeMenuLegacy = (currentPage?: string) => (
   <>
     <Header.MenuItem
       href={routes.LISTE_PROJETS}
