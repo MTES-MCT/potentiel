@@ -1,40 +1,27 @@
 import { AppelOffre } from '@potentiel-domain/appel-offre';
-
-import { getVolumeReserve } from './getVolumeReserve';
-import { getDésignationCatégorie } from './getDesignationCategorie';
+import { PlainType } from '@potentiel-domain/core';
 
 export const dépassePuissanceMaxDuVolumeRéservé = ({
-  note,
-  périodeId,
+  période,
   nouvellePuissance,
-  appelOffre,
+  note,
 }: {
   note: number;
   nouvellePuissance: number;
-  appelOffre: AppelOffre.ConsulterAppelOffreReadModel;
-  périodeId: string;
+  période: PlainType<AppelOffre.Periode>;
 }): boolean => {
-  const période = appelOffre.periodes.find((p) => p.id === périodeId);
+  if (période.noteThresholdBy !== 'category') return false;
+  const isVolumeReservé =
+    nouvellePuissance <= période.noteThreshold.volumeReserve.puissanceMax &&
+    note >= période.noteThreshold.volumeReserve.noteThreshold;
+  const {
+    noteThreshold: { volumeReserve },
+  } = période;
 
-  if (!période) {
-    return false;
-  }
-
-  const désignationCatégorie = getDésignationCatégorie({
-    nouvellePuissance,
-    note,
-    période,
-  });
-
-  if (!désignationCatégorie) {
-    return false;
-  }
-
-  const volumeReserve = appelOffre && getVolumeReserve({ appelOffre, périodeId });
   if (volumeReserve) {
     const { puissanceMax } = volumeReserve;
-    if (désignationCatégorie == 'volume-réservé' && nouvellePuissance > puissanceMax) {
-      return true;
+    if (isVolumeReservé) {
+      return nouvellePuissance > puissanceMax;
     }
   }
 

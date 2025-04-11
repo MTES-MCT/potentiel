@@ -62,6 +62,12 @@ export class AppelOffreInexistantError extends InvalidOperationError {
   }
 }
 
+export class PériodeInexistanteError extends InvalidOperationError {
+  constructor(période: string) {
+    super(`La période spécifiée n'existe pas`, { période });
+  }
+}
+
 export class CahierDesChargesInexistantError extends InvalidOperationError {
   constructor() {
     super(`Le cahier des charges spécifié n'existe pas`);

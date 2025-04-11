@@ -15,13 +15,12 @@ export type RawType = number;
 
 export type ValueType = ReadonlyValueType<{
   ratio: number;
-  identifiantProjet: string;
-  appelOffre: AppelOffre.ConsulterAppelOffreReadModel;
+  appelOffre: PlainType<AppelOffre.ConsulterAppelOffreReadModel>;
   technologie: Candidature.TypeTechnologie.RawType;
-  cahierDesCharges: ConsulterCahierDesChargesChoisiReadmodel;
-  périodeId: string;
+  cahierDesCharges: PlainType<ConsulterCahierDesChargesChoisiReadmodel>;
+  période: PlainType<AppelOffre.Periode>;
   nouvellePuissance: number;
-  familleId: string;
+  famille?: AppelOffre.Famille;
   note: number;
   dépasseRatiosChangementPuissance: () => { enDeçaDeMin: boolean; dépasseMax: boolean };
   dépassePuissanceMaxDuVolumeRéservé: () => boolean;
@@ -32,9 +31,9 @@ export const bind = ({
   ratio,
   appelOffre,
   note,
-  périodeId,
+  période,
   nouvellePuissance,
-  familleId,
+  famille,
   technologie,
   cahierDesCharges,
 }: PlainType<ValueType>): ValueType => {
@@ -42,26 +41,23 @@ export const bind = ({
     get ratio() {
       return ratio;
     },
-    get identifiantProjet() {
-      return '';
-    },
     get appelOffre() {
-      return appelOffre as AppelOffre.ConsulterAppelOffreReadModel;
+      return appelOffre;
     },
     get technologie() {
       return technologie;
     },
     get cahierDesCharges() {
-      return cahierDesCharges as ConsulterCahierDesChargesChoisiReadmodel;
+      return cahierDesCharges;
     },
-    get périodeId() {
-      return périodeId;
+    get période() {
+      return période;
     },
     get nouvellePuissance() {
       return nouvellePuissance;
     },
-    get familleId() {
-      return familleId;
+    get famille() {
+      return famille;
     },
     get note() {
       return note;
@@ -74,7 +70,6 @@ export const bind = ({
         appelOffre: this.appelOffre,
         technologie,
         cahierDesCharges: this.cahierDesCharges,
-        périodeId,
       });
       return dépasseRatiosChangementPuissance({
         minRatio: min,
@@ -84,18 +79,15 @@ export const bind = ({
     },
     dépassePuissanceMaxFamille(): boolean {
       return dépassePuissanceMaxFamille({
-        appelOffre: this.appelOffre,
-        périodeId,
-        familleId,
+        famille: this.famille,
         nouvellePuissance,
       });
     },
     dépassePuissanceMaxDuVolumeRéservé(): boolean {
       return dépassePuissanceMaxDuVolumeRéservé({
         note,
-        périodeId,
+        période,
         nouvellePuissance,
-        appelOffre: this.appelOffre,
       });
     },
   };

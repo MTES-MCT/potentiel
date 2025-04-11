@@ -17,6 +17,7 @@ import {
   PuissanceDépasseVolumeRéservéAO,
   AppelOffreInexistantError,
   CahierDesChargesInexistantError,
+  PériodeInexistanteError,
 } from '../errors';
 import { PuissanceIdentiqueError } from '../../errors';
 import { ConsulterCahierDesChargesChoisiReadmodel } from '../../../cahierDesChargesChoisi';
@@ -99,15 +100,20 @@ export async function enregistrerChangement(
     throw new AppelOffreInexistantError(identifiantProjet.appelOffre);
   }
 
+  const période = appelOffre.periodes.find((p) => p.id === identifiantProjet.période);
+  if (!période) {
+    throw new PériodeInexistanteError(identifiantProjet.période);
+  }
+  const famille = période.familles.find((f) => f.id === identifiantProjet.famille);
+
   const ratioValueType = RatioChangementPuissance.bind({
-    ratio: puissance / this.puissance,
-    identifiantProjet: identifiantProjet.formatter(),
     appelOffre,
-    technologie: technologie.type,
+    période,
+    famille,
     cahierDesCharges,
-    périodeId: identifiantProjet.période,
+    technologie: technologie.type,
+    ratio: puissance / this.puissance,
     nouvellePuissance: puissance,
-    familleId: identifiantProjet.famille,
     note,
   });
 

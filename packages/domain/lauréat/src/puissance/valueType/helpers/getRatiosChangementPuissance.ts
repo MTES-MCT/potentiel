@@ -1,5 +1,6 @@
 import { Candidature } from '@potentiel-domain/candidature';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
+import { PlainType } from '@potentiel-domain/core';
 
 import { ConsulterCahierDesChargesChoisiReadmodel } from '../../../cahierDesChargesChoisi';
 
@@ -9,29 +10,19 @@ export const getRatiosChangementPuissance = ({
   appelOffre,
   technologie,
   cahierDesCharges,
-  périodeId,
 }: {
-  appelOffre: AppelOffre.ConsulterAppelOffreReadModel;
+  appelOffre: Pick<AppelOffre.ConsulterAppelOffreReadModel, 'changementPuissance'>;
   technologie: Candidature.TypeTechnologie.RawType;
-  cahierDesCharges: ConsulterCahierDesChargesChoisiReadmodel;
-  périodeId: string;
+  cahierDesCharges: PlainType<ConsulterCahierDesChargesChoisiReadmodel>;
 }): { min: number; max: number } => {
   if (!appelOffre) {
     return defaultRatios;
   }
 
   // prendre les ratios du CDC 2022 si existants
+  // TODO vérifier si on doit garder la condition sur 30/08/2022
   if (cahierDesCharges.type === 'modifié' && cahierDesCharges.paruLe === '30/08/2022') {
-    const détailCDC = appelOffre.periodes
-      .find((p) => p.id === périodeId)
-      ?.cahiersDesChargesModifiésDisponibles.find(
-        (cdc) =>
-          cdc.type === 'modifié' &&
-          cdc.paruLe === '30/08/2022' &&
-          cdc.alternatif === cahierDesCharges.alternatif,
-      );
-
-    const seuilsCDC = détailCDC?.seuilSupplémentaireChangementPuissance;
+    const seuilsCDC = cahierDesCharges?.seuilSupplémentaireChangementPuissance;
 
     if (seuilsCDC?.changementByTechnologie) {
       if (technologie === 'N/A') {
