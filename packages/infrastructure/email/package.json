@@ -9,7 +9,7 @@
     "build": "tsc"
   },
   "dependencies": {
-    "@potentiel-libraries/monitoring": "^0.0.0",
+    "@potentiel-libraries/monitoring": "*",
     "node-mailjet": "^6.0.8"
   },
   "devDependencies": {

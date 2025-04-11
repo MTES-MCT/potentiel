@@ -18,12 +18,12 @@
   },
   "dependencies": {
     "@oclif/core": "^4.2.10",
-    "@potentiel-applications/bootstrap": "^0.0.0",
-    "@potentiel-domain/reseau": "^0.0.0",
-    "@potentiel-infrastructure/domain-adapters": "^0.0.0",
-    "@potentiel-libraries/csv": "^0.0.0",
-    "@potentiel-libraries/file-storage": "^0.0.0",
-    "@potentiel-statistiques/statistiques-publiques": "^0.0.0"
+    "@potentiel-applications/bootstrap": "*",
+    "@potentiel-domain/reseau": "*",
+    "@potentiel-infrastructure/domain-adapters": "*",
+    "@potentiel-libraries/csv": "*",
+    "@potentiel-libraries/file-storage": "*",
+    "@potentiel-statistiques/statistiques-publiques": "*"
   },
   "devDependencies": {
     "@potentiel-config/tsconfig": "*",

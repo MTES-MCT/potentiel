@@ -13,10 +13,10 @@
     "@potentiel-config/tsconfig": "*"
   },
   "dependencies": {
-    "@potentiel-domain/reseau": "^0.0.0",
-    "@potentiel-libraries/http-client": "^0.0.0",
-    "@potentiel-libraries/monads": "^0.0.0",
-    "@potentiel-libraries/monitoring": "^0.0.0",
+    "@potentiel-domain/reseau": "*",
+    "@potentiel-libraries/http-client": "*",
+    "@potentiel-libraries/monads": "*",
+    "@potentiel-libraries/monitoring": "*",
     "zod": "^3.24.2"
   }
 }

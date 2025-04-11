@@ -10,10 +10,10 @@
     "test": "node --test --test-concurrency=1"
   },
   "dependencies": {
-    "@potentiel-domain/core": "^0.0.0",
-    "@potentiel-libraries/monads": "^0.0.0",
-    "@potentiel-libraries/monitoring": "^0.0.0",
-    "@potentiel-libraries/pg-helpers": "^0.0.0",
+    "@potentiel-domain/core": "*",
+    "@potentiel-libraries/monads": "*",
+    "@potentiel-libraries/monitoring": "*",
+    "@potentiel-libraries/pg-helpers": "*",
     "pg": "^8.14.1"
   },
   "devDependencies": {

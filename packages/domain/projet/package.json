@@ -9,13 +9,13 @@
     "build": "tsc"
   },
   "dependencies": {
-    "@potentiel-domain/appel-offre": "^0.0.0",
-    "@potentiel-domain/candidature": "^0.0.0",
-    "@potentiel-domain/common": "^0.0.0",
-    "@potentiel-domain/core": "^0.0.0",
-    "@potentiel-domain/entity": "^0.0.0",
-    "@potentiel-domain/utilisateur": "^0.0.0",
-    "@potentiel-libraries/monads": "^0.0.0"
+    "@potentiel-domain/appel-offre": "*",
+    "@potentiel-domain/candidature": "*",
+    "@potentiel-domain/common": "*",
+    "@potentiel-domain/core": "*",
+    "@potentiel-domain/entity": "*",
+    "@potentiel-domain/utilisateur": "*",
+    "@potentiel-libraries/monads": "*"
   },
   "devDependencies": {
     "@potentiel-config/tsconfig": "*"

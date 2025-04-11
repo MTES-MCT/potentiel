@@ -8,10 +8,10 @@
     "start": "node ./dist/index"
   },
   "dependencies": {
-    "@potentiel-domain/common": "^0.0.0",
-    "@potentiel-domain/tache-planifiee": "^0.0.0",
-    "@potentiel-infrastructure/pg-projection-read": "^0.0.0",
-    "@potentiel-libraries/monitoring": "^0.0.0"
+    "@potentiel-domain/common": "*",
+    "@potentiel-domain/tache-planifiee": "*",
+    "@potentiel-infrastructure/pg-projection-read": "*",
+    "@potentiel-libraries/monitoring": "*"
   },
   "devDependencies": {
     "@potentiel-config/tsconfig": "*"

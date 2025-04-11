@@ -9,11 +9,11 @@
     "build": "tsc"
   },
   "dependencies": {
-    "@potentiel-domain/candidature": "^0.0.0",
-    "@potentiel-domain/common": "^0.0.0",
-    "@potentiel-domain/core": "^0.0.0",
-    "@potentiel-domain/entity": "^0.0.0",
-    "@potentiel-libraries/monads": "^0.0.0"
+    "@potentiel-domain/candidature": "*",
+    "@potentiel-domain/common": "*",
+    "@potentiel-domain/core": "*",
+    "@potentiel-domain/entity": "*",
+    "@potentiel-libraries/monads": "*"
   },
   "devDependencies": {
     "@potentiel-config/tsconfig": "*"

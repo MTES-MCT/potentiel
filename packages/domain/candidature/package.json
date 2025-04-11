@@ -9,12 +9,12 @@
     "build": "tsc"
   },
   "dependencies": {
-    "@potentiel-domain/appel-offre": "^0.0.0",
-    "@potentiel-domain/common": "^0.0.0",
-    "@potentiel-domain/core": "^0.0.0",
-    "@potentiel-domain/document": "^0.0.0",
-    "@potentiel-domain/entity": "^0.0.0",
-    "@potentiel-libraries/monads": "^0.0.0",
+    "@potentiel-domain/appel-offre": "*",
+    "@potentiel-domain/common": "*",
+    "@potentiel-domain/core": "*",
+    "@potentiel-domain/document": "*",
+    "@potentiel-domain/entity": "*",
+    "@potentiel-libraries/monads": "*",
     "mediateur": "^0.3.0"
   },
   "devDependencies": {

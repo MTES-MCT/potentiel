@@ -9,10 +9,10 @@
     "build": "tsc"
   },
   "dependencies": {
-    "@potentiel-domain/common": "^0.0.0",
-    "@potentiel-domain/core": "^0.0.0",
-    "@potentiel-domain/entity": "^0.0.0",
-    "@potentiel-domain/laureat": "^0.0.0"
+    "@potentiel-domain/common": "*",
+    "@potentiel-domain/core": "*",
+    "@potentiel-domain/entity": "*",
+    "@potentiel-domain/laureat": "*"
   },
   "devDependencies": {
     "@potentiel-config/tsconfig": "*"

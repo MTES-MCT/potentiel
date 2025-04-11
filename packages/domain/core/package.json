@@ -9,7 +9,7 @@
     "build": "tsc"
   },
   "dependencies": {
-    "@potentiel-libraries/monads": "^0.0.0",
+    "@potentiel-libraries/monads": "*",
     "mediateur": "^0.3.0"
   },
   "devDependencies": {

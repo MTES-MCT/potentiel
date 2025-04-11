@@ -9,12 +9,12 @@
     "build": "tsc"
   },
   "dependencies": {
-    "@potentiel-domain/common": "^0.0.0",
-    "@potentiel-domain/core": "^0.0.0",
-    "@potentiel-domain/document": "^0.0.0",
-    "@potentiel-domain/entity": "^0.0.0",
-    "@potentiel-libraries/monads": "^0.0.0",
-    "@potentiel-libraries/monitoring": "^0.0.0"
+    "@potentiel-domain/common": "*",
+    "@potentiel-domain/core": "*",
+    "@potentiel-domain/document": "*",
+    "@potentiel-domain/entity": "*",
+    "@potentiel-libraries/monads": "*",
+    "@potentiel-libraries/monitoring": "*"
   },
   "devDependencies": {
     "@potentiel-config/tsconfig": "*"
