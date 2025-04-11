@@ -81,6 +81,7 @@ export const mapToPuissanceModèleRéponseProps = ({
         : '',
     referenceParagraphePuissance: paragraphe.référenceParagraphe,
     contenuParagraphePuissance: paragraphe.dispositions,
+    estAccordé: true,
 
     // Demande
     dateDemande: formatDateForDocument(dateDemande),

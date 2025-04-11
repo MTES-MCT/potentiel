@@ -204,6 +204,7 @@ function getData(
           contenuParagraphePuissance:
             appelOffre.donnéesCourriersRéponse.texteChangementDePuissance?.dispositions ??
             '!!!MANQUANT!!!',
+          estAccordé: true,
         },
       };
     case 'délai':
