@@ -13,13 +13,14 @@ import { singleDocument } from '@/utils/zod/document/singleDocument';
 const schema = zod.object({
   identifiantProjet: zod.string().min(1),
   reponseSignee: singleDocument({ acceptedFileTypes: ['application/pdf'] }),
+  estUneDecisionDEtat: zod.literal('true').optional(),
 });
 
 export type RejeterChangementPuissanceFormKeys = keyof zod.infer<typeof schema>;
 
 const action: FormAction<FormState, typeof schema> = async (
   _,
-  { identifiantProjet, reponseSignee },
+  { identifiantProjet, reponseSignee, estUneDecisionDEtat },
 ) => {
   return withUtilisateur(async (utilisateur) => {
     await mediator.send<Puissance.RejeterChangementPuissanceUseCase>({
@@ -30,6 +31,7 @@ const action: FormAction<FormState, typeof schema> = async (
         rejetéLeValue: new Date().toISOString(),
         réponseSignéeValue: reponseSignee,
         rôleUtilisateurValue: utilisateur.role.nom,
+        estUneDécisionDEtatValue: estUneDecisionDEtat === 'true',
       },
     });
 
@@ -37,6 +39,7 @@ const action: FormAction<FormState, typeof schema> = async (
       status: 'success',
       redirection: {
         url: Routes.Projet.details(identifiantProjet),
+        message: 'Le changement de puissance a bien été rejeté',
       },
     };
   });

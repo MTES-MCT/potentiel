@@ -125,14 +125,13 @@ async function vérifierChangementPuissance(
   if (
     this.lauréatWorld.puissanceWorld.changementPuissanceWorld.accorderChangementPuissanceFixture
       .aÉtéCréé &&
-    !demandeEnCours.demande.isInformationEnregistrée
+    !demandeEnCours.demande.isInformationEnregistrée &&
+    demandeEnCours.demande.accord?.réponseSignée
   ) {
     const result = await mediator.send<ConsulterDocumentProjetQuery>({
       type: 'Document.Query.ConsulterDocumentProjet',
       data: {
-        documentKey: demandeEnCours.demande.accord
-          ? demandeEnCours.demande.accord.réponseSignée.formatter()
-          : '',
+        documentKey: demandeEnCours.demande.accord.réponseSignée.formatter(),
       },
     });
 
@@ -149,14 +148,13 @@ async function vérifierChangementPuissance(
   if (
     this.lauréatWorld.puissanceWorld.changementPuissanceWorld.rejeterChangementPuissanceFixture
       .aÉtéCréé &&
-    !demandeEnCours.demande.isInformationEnregistrée
+    !demandeEnCours.demande.isInformationEnregistrée &&
+    demandeEnCours.demande.rejet
   ) {
     const result = await mediator.send<ConsulterDocumentProjetQuery>({
       type: 'Document.Query.ConsulterDocumentProjet',
       data: {
-        documentKey: demandeEnCours.demande.rejet
-          ? demandeEnCours.demande.rejet.réponseSignée.formatter()
-          : '',
+        documentKey: demandeEnCours.demande.rejet.réponseSignée.formatter(),
       },
     });
 
