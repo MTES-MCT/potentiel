@@ -1228,6 +1228,7 @@ const adminPolicies: ReadonlyArray<Policy> = [
   'puissance.consulterChangement',
   'puissance.accorderChangement',
   'puissance.rejeterChangement',
+  'puissance.listerChangement',
 ];
 
 const dgecValidateurPolicies: ReadonlyArray<Policy> = [
@@ -1337,6 +1338,7 @@ const drealPolicies: ReadonlyArray<Policy> = [
   'puissance.consulterChangement',
   'puissance.accorderChangement',
   'puissance.rejeterChangement',
+  'puissance.listerChangement',
 
   // Utilisateur
   'utilisateur.inviterPorteur',
