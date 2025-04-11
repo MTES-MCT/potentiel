@@ -23,7 +23,6 @@ export type EnregistrerChangementPuissanceCommand = Message<
   }
 >;
 
-// adapter cahier des charges
 export const registerEnregistrerChangementPuissanceCommand = (loadAggregate: LoadAggregate) => {
   const loadPuissance = loadPuissanceFactory(loadAggregate);
   const loadAbandon = loadAbandonFactory(loadAggregate);
