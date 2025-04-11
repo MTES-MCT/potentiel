@@ -10,6 +10,6 @@
   },
   "devDependencies": {
     "@potentiel-config/tsconfig": "*",
-    "@potentiel-domain/laureat": "*"
+    "@potentiel-domain/laureat": "^0.0.0"
   }
 }

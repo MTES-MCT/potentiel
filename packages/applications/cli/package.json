@@ -17,18 +17,18 @@
     }
   },
   "dependencies": {
-    "@oclif/core": "^4.0.28",
-    "@potentiel-libraries/csv": "*",
-    "@potentiel-libraries/file-storage": "*",
-    "@potentiel-domain/reseau": "*",
-    "@potentiel-applications/bootstrap": "*",
-    "@potentiel-infrastructure/domain-adapters": "*",
-    "@potentiel-statistiques/statistiques-publiques": "*"
+    "@oclif/core": "^4.2.10",
+    "@potentiel-applications/bootstrap": "^0.0.0",
+    "@potentiel-domain/reseau": "^0.0.0",
+    "@potentiel-infrastructure/domain-adapters": "^0.0.0",
+    "@potentiel-libraries/csv": "^0.0.0",
+    "@potentiel-libraries/file-storage": "^0.0.0",
+    "@potentiel-statistiques/statistiques-publiques": "^0.0.0"
   },
   "devDependencies": {
     "@potentiel-config/tsconfig": "*",
     "@types/node": "^18.19.37",
-    "oclif": "^4.15.8",
+    "oclif": "^4.17.43",
     "ts-node": "^10.9.2"
   }
 }

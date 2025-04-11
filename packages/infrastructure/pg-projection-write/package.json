@@ -10,10 +10,10 @@
     "test": "node --test"
   },
   "dependencies": {
-    "@potentiel-domain/entity": "*",
-    "@potentiel-libraries/pg-helpers": "*",
-    "@potentiel-libraries/flat": "*",
-    "@potentiel-infrastructure/pg-projection-read": "*",
+    "@potentiel-domain/entity": "^0.0.0",
+    "@potentiel-infrastructure/pg-projection-read": "^0.0.0",
+    "@potentiel-libraries/flat": "^0.0.0",
+    "@potentiel-libraries/pg-helpers": "^0.0.0",
     "pg-format": "^1.0.4"
   },
   "devDependencies": {

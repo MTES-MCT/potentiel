@@ -9,15 +9,15 @@
     "build": "tsc"
   },
   "dependencies": {
-    "@potentiel-applications/routes": "*",
-    "@potentiel-domain/common": "*",
-    "@potentiel-domain/utilisateur": "*",
-    "@potentiel-libraries/auth-pg-adapter": "*",
-    "@potentiel-libraries/monads": "*",
-    "@potentiel-libraries/pg-helpers": "*",
+    "@potentiel-applications/routes": "^0.0.0",
+    "@potentiel-domain/common": "^0.0.0",
+    "@potentiel-domain/utilisateur": "^0.0.0",
+    "@potentiel-libraries/auth-pg-adapter": "^0.0.0",
+    "@potentiel-libraries/monads": "^0.0.0",
+    "@potentiel-libraries/pg-helpers": "^0.0.0",
     "mediateur": "^0.3.0",
     "next-auth": "^4.24.11",
-    "pg": "^8.13.3"
+    "pg": "^8.14.1"
   },
   "devDependencies": {
     "@potentiel-config/tsconfig": "*"

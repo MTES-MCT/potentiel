@@ -10,14 +10,14 @@
     "test": "node --test --test-concurrency=1"
   },
   "dependencies": {
-    "@potentiel-libraries/monitoring": "*",
-    "@potentiel-libraries/pg-helpers": "*",
-    "@potentiel-libraries/monads": "*",
-    "@potentiel-domain/core": "*",
-    "pg": "^8.13.0"
+    "@potentiel-domain/core": "^0.0.0",
+    "@potentiel-libraries/monads": "^0.0.0",
+    "@potentiel-libraries/monitoring": "^0.0.0",
+    "@potentiel-libraries/pg-helpers": "^0.0.0",
+    "pg": "^8.14.1"
   },
   "devDependencies": {
-    "@types/pg": "^8.11.10",
-    "@potentiel-config/tsconfig": "*"
+    "@potentiel-config/tsconfig": "*",
+    "@types/pg": "^8.11.10"
   }
 }

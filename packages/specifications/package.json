@@ -13,22 +13,22 @@
     "test:select": "cucumber-js --tags @select --tags \"not @NotImplemented\""
   },
   "dependencies": {
-    "@potentiel-applications/bootstrap": "*",
-    "@potentiel-domain/periode": "*",
-    "@potentiel-domain/laureat": "*",
-    "@potentiel-domain/tache": "*",
-    "@potentiel-domain/utilisateur": "*",
-    "@potentiel-domain/tache-planifiee": "*",
+    "@potentiel-applications/bootstrap": "^0.0.0",
     "@potentiel-domain/core": "^0.0.0",
-    "@potentiel-libraries/monads": "^0.0.0",
-    "@potentiel-libraries/file-storage": "^0.0.0",
+    "@potentiel-domain/laureat": "^0.0.0",
+    "@potentiel-domain/periode": "^0.0.0",
+    "@potentiel-domain/tache": "^0.0.0",
+    "@potentiel-domain/tache-planifiee": "^0.0.0",
+    "@potentiel-domain/utilisateur": "^0.0.0",
     "@potentiel-infrastructure/domain-adapters": "^0.0.0",
     "@potentiel-infrastructure/pg-event-sourcing": "^0.0.0",
+    "@potentiel-libraries/file-storage": "^0.0.0",
+    "@potentiel-libraries/monads": "^0.0.0",
     "@potentiel-libraries/pg-helpers": "^0.0.0",
     "mediateur": "^0.3.0"
   },
   "devDependencies": {
-    "@cucumber/cucumber": "^11.0.1",
+    "@cucumber/cucumber": "^11.2.0",
     "@cucumber/pretty-formatter": "^1.0.1",
     "@potentiel-config/tsconfig": "*"
   }

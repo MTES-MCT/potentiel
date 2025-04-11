@@ -9,15 +9,15 @@
     "build": "tsc"
   },
   "dependencies": {
-    "@potentiel-domain/utilisateur": "*",
-    "@potentiel-domain/periode": "*",
-    "@potentiel-domain/laureat": "*",
-    "@potentiel-domain/projet": "*",
-    "@potentiel-domain/tache-planifiee": "*",
-    "@potentiel-infrastructure/pg-event-sourcing": "*",
-    "@potentiel-infrastructure/domain-adapters": "*",
-    "@potentiel-applications/routes": "*",
-    "@potentiel-libraries/monitoring": "*",
+    "@potentiel-applications/routes": "^0.0.0",
+    "@potentiel-domain/laureat": "^0.0.0",
+    "@potentiel-domain/periode": "^0.0.0",
+    "@potentiel-domain/projet": "^0.0.0",
+    "@potentiel-domain/tache-planifiee": "^0.0.0",
+    "@potentiel-domain/utilisateur": "^0.0.0",
+    "@potentiel-infrastructure/domain-adapters": "^0.0.0",
+    "@potentiel-infrastructure/pg-event-sourcing": "^0.0.0",
+    "@potentiel-libraries/monitoring": "^0.0.0",
     "mediateur": "^0.3.0"
   },
   "devDependencies": {

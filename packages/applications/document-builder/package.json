@@ -10,18 +10,18 @@
     "storybook": "storybook dev -p 6006"
   },
   "dependencies": {
-    "@potentiel-domain/appel-offre": "*",
-    "@potentiel-domain/candidature": "*",
+    "@potentiel-domain/appel-offre": "^0.0.0",
+    "@potentiel-domain/candidature": "^0.0.0",
     "@react-pdf/renderer": "^3.4.5",
-    "docxtemplater": "^3.51.0",
-    "pizzip": "^3.1.7"
+    "docxtemplater": "^3.61.0",
+    "pizzip": "^3.1.8"
   },
   "devDependencies": {
     "@potentiel-config/tsconfig": "*",
-    "@storybook/addon-essentials": "^8.5.8",
-    "@storybook/addon-links": "^8.5.8",
-    "@storybook/addon-webpack5-compiler-swc": "^1.0.4",
-    "@storybook/react-webpack5": "^8.2.9",
+    "@storybook/addon-essentials": "^8.6.12",
+    "@storybook/addon-links": "^8.6.12",
+    "@storybook/addon-webpack5-compiler-swc": "^1.0.6",
+    "@storybook/react-webpack5": "^8.6.12",
     "@storybook/test": "^8.5.8",
     "copyfiles": "^2.4.1"
   }

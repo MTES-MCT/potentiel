@@ -9,9 +9,9 @@
     "build": "tsc"
   },
   "dependencies": {
-    "@potentiel-libraries/iso8601-datetime": "*",
-    "@potentiel-libraries/monads": "*",
-    "@potentiel-domain/core": "*"
+    "@potentiel-domain/core": "^0.0.0",
+    "@potentiel-libraries/iso8601-datetime": "^0.0.0",
+    "@potentiel-libraries/monads": "^0.0.0"
   },
   "devDependencies": {
     "@potentiel-config/tsconfig": "*"
