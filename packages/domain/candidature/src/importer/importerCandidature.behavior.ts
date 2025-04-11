@@ -197,6 +197,8 @@ export function applyCandidatureImportée(
     : undefined;
   this.emailContact = Email.convertirEnValueType(payload.emailContact);
   this.prixRéférence = payload.prixReference;
+  this.note = payload.noteTotale;
+  this.technologie = TypeTechnologie.convertirEnValueType(payload.technologie);
 }
 
 export const mapToEventPayload = (candidature: ImporterCandidatureBehaviorCommonOptions) => ({

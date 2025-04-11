@@ -23,7 +23,7 @@ export type ValueType = ReadonlyValueType<{
   nouvellePuissance: number;
   familleId: string;
   note: number;
-  dépasseRatiosChangementPuissance: () => boolean;
+  dépasseRatiosChangementPuissance: () => { enDeçaDeMin: boolean; dépasseMax: boolean };
   dépassePuissanceMaxDuVolumeRéservé: () => boolean;
   dépassePuissanceMaxFamille: () => boolean;
 }>;
@@ -69,7 +69,7 @@ export const bind = ({
     estÉgaleÀ(valueType) {
       return this.ratio === valueType.ratio;
     },
-    dépasseRatiosChangementPuissance(): boolean {
+    dépasseRatiosChangementPuissance(): { enDeçaDeMin: boolean; dépasseMax: boolean } {
       const { min, max } = getRatiosChangementPuissance({
         appelOffre: this.appelOffre,
         technologie,

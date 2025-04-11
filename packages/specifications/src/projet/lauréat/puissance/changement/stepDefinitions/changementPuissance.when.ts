@@ -57,7 +57,24 @@ Quand(
   'le porteur enregistre un changement de puissance pour le projet {lauréat-éliminé}',
   async function (this: PotentielWorld, statutProjet: 'lauréat' | 'éliminé') {
     try {
-      await enregistrerChangementPuissance.call(this, statutProjet, undefined);
+      await enregistrerChangementPuissance.call(this, statutProjet);
+    } catch (error) {
+      this.error = error as Error;
+    }
+  },
+);
+
+Quand(
+  'le porteur enregistre un changement de puissance pour le projet lauréat avec :',
+  async function (this: PotentielWorld, dataTable: DataTable) {
+    const exemple = dataTable.rowsHash();
+
+    try {
+      await enregistrerChangementPuissance.call(
+        this,
+        'lauréat',
+        Number(exemple['ratio puissance']),
+      );
     } catch (error) {
       this.error = error as Error;
     }

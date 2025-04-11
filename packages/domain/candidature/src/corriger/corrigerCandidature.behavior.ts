@@ -20,7 +20,7 @@ import {
 import { AttestationNonGénéréeError } from '../attestationNonGénérée.error';
 import { CandidatureNonTrouvéeError } from '../candidatureNonTrouvée.error';
 import * as TypeGarantiesFinancières from '../typeGarantiesFinancières.valueType';
-import { TypeActionnariat } from '../candidature';
+import { TypeActionnariat, TypeTechnologie } from '../candidature';
 import {
   ChoixCoefficientKNonAttenduError,
   ChoixCoefficientKRequisError,
@@ -161,6 +161,8 @@ export function applyCandidatureCorrigée(
   this.sociétéMère = payload.sociétéMère;
   this.nomReprésentantLégal = payload.nomReprésentantLégal;
   this.puissance = payload.puissanceProductionAnnuelle;
+  this.note = payload.noteTotale;
+  this.technologie = TypeTechnologie.convertirEnValueType(payload.technologie);
 }
 
 class StatutNonModifiableAprèsNotificationError extends InvalidOperationError {

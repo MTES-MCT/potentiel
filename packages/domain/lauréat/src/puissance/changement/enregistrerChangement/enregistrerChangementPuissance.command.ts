@@ -10,7 +10,6 @@ import { loadAbandonFactory } from '../../../abandon';
 import { loadAchèvementFactory } from '../../../achèvement/achèvement.aggregate';
 import { loadPuissanceFactory } from '../../puissance.aggregate';
 import { CahierDesCharges } from '../../..';
-import { RatioChangementPuissance } from '../..';
 
 export type EnregistrerChangementPuissanceCommand = Message<
   'Lauréat.Puissance.Command.EnregistrerChangement',
@@ -61,22 +60,13 @@ export const registerEnregistrerChangementPuissanceCommand = (loadAggregate: Loa
         },
       });
 
-      const test = RatioChangementPuissance.bind({
-        ratio: puissance /  puissanceAggrégat.puissance,
-        identifiantProjet: identifiantProjet.formatter(),
-        appelOffre;
-        technologie: candidature.tec;
-        cahierDesCharges: cahierDesChargesChoisi,;
-        périodeId: identifiantProjet.période;
-        nouvellePuissance: puissance;
-        familleId: identifiantProjet.famille;
-        note: number;
-      })
-
-
     await puissanceAggrégat.enregistrerChangement({
       identifiantProjet,
       identifiantUtilisateur,
+      appelOffre,
+      technologie: candidature.technologie,
+      cahierDesCharges: cahierDesChargesChoisi,
+      note: candidature.note,
       puissance,
       dateChangement,
       pièceJustificative,

@@ -1,5 +1,4 @@
 # language: fr
-@select
 Fonctionnalité: Enregistrer un changement de puissance d'un projet lauréat
 
     Contexte:
@@ -45,29 +44,32 @@ Fonctionnalité: Enregistrer un changement de puissance d'un projet lauréat
         Quand le porteur enregistre un changement de puissance pour le projet lauréat
         Alors le porteur devrait être informé que "Impossible de demander le changement de puissance pour un projet achevé"
 
-    Scénario: Impossible pour le porteur d'enregistrer un changement de puissance si elle est inférieure au ratio min
+    Scénario: Impossible pour le porteur d'enregistrer un changement de puissance si elle est inférieure au ratio min autorisé par l'appel d'offres
         Etant donné le projet lauréat "Du bouchon de Lyon le retour" avec :
-            | appel d'offre   | <Appel d'offre> |
-            | ratio puissance | <Ratio>         |
-        Quand le porteur enregistre un changement de puissance pour le projet lauréat
-        Alors le porteur devrait être informé que "La puissance dépasse la puissance maximale autorisée par l'appel d'offres"
-
-        Exemples:
-            | Appel d'offre   | Ratio |
-            | PPE2 - Eolien   | 0.75  |
-            | CRE4 - Bâtiment | 0.85  |
-
-    Scénario: Impossible pour le porteur d'enregistrer un changement de puissance si elle est supérieure au ratio max
-        Etant donné le projet lauréat "Du bouchon de Lyon" avec :
-            | appel d'offre   | <Appel d'offre> |
-            | ratio puissance | <Ratio>         |
-        Quand le porteur enregistre un changement de puissance pour le projet lauréat
+            | appel d'offre | <Appel d'offre> |
+            | période       | <Période>       |
+        Quand le porteur enregistre un changement de puissance pour le projet lauréat avec :
+            | ratio puissance | <Ratio> |
         Alors le porteur devrait être informé que "La puissance est en deça de la puissance minimale autorisée par l'appel d'offres"
 
         Exemples:
-            | Appel d'offre   | Ratio |
-            | PPE2 - Eolien   | 1.25  |
-            | CRE4 - Bâtiment | 1.55  |
+            | Appel d'offre | Période | Ratio |
+            | PPE2 - Eolien | 1       | 0.75  |
+            | CRE4 - Sol    | 7       | 0.85  |
+
+    @select
+    Scénario: Impossible pour le porteur d'enregistrer un changement de puissance si elle est supérieure au ratio max autorisé par l'appel d'offres
+        Etant donné le projet lauréat "Du bouchon de Lyon" avec :
+            | appel d'offre | <Appel d'offre> |
+            | période       | <Période>       |
+        Quand le porteur enregistre un changement de puissance pour le projet lauréat avec :
+            | ratio puissance | <Ratio> |
+        Alors le porteur devrait être informé que "La puissance dépasse la puissance maximale autorisée par l'appel d'offres"
+
+        Exemples:
+            | Appel d'offre | Période | Ratio |
+            | PPE2 - Eolien | 1       | 1.25  |
+            | CRE4 - Sol    | 7       | 1.15  |
 
     @NotImplemented
     Scénario: Impossible pour le porteur d'enregistrer un changement de puissance si elle dépasse la puissance max par famille

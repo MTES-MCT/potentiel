@@ -6,6 +6,4 @@ export const dépasseRatiosChangementPuissance = ({
   minRatio: number;
   maxRatio: number;
   ratio: number;
-}) => {
-  return !(ratio >= minRatio && ratio <= maxRatio);
-};
+}) => ({ enDeçaDeMin: ratio < minRatio, dépasseMax: ratio > maxRatio });

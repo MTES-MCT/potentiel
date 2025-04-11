@@ -1,15 +1,25 @@
 import { DomainEvent } from '@potentiel-domain/core';
 import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
 import { DocumentProjet } from '@potentiel-domain/document';
+import { Candidature } from '@potentiel-domain/candidature';
+import { Option } from '@potentiel-libraries/monads';
+import { AppelOffre } from '@potentiel-domain/appel-offre';
 
 import { PuissanceAggregate } from '../../puissance.aggregate';
-import { StatutChangementPuissance } from '../..';
+import { RatioChangementPuissance, StatutChangementPuissance } from '../..';
 import {
   ProjetAbandonnéError,
   ProjetAvecDemandeAbandonEnCoursError,
   ProjetAchevéError,
+  PuissanceDépassePuissanceMaxAO,
+  PuissanceEnDeçaPuissanceMinAO,
+  PuissanceDépassePuissanceMaxFamille,
+  PuissanceDépasseVolumeRéservéAO,
+  AppelOffreInexistantError,
+  CahierDesChargesInexistantError,
 } from '../errors';
 import { PuissanceIdentiqueError } from '../../errors';
+import { ConsulterCahierDesChargesChoisiReadmodel } from '../../../cahierDesChargesChoisi';
 
 export type ChangementPuissanceEnregistréEvent = DomainEvent<
   'ChangementPuissanceEnregistré-V1',
@@ -35,6 +45,10 @@ export type EnregistrerChangementOptions = {
   estAbandonné: boolean;
   estAchevé: boolean;
   demandeAbandonEnCours: boolean;
+  appelOffre: Option.Type<AppelOffre.ConsulterAppelOffreReadModel>;
+  technologie: Candidature.TypeTechnologie.ValueType;
+  cahierDesCharges: Option.Type<ConsulterCahierDesChargesChoisiReadmodel>;
+  note: number;
 };
 
 export async function enregistrerChangement(
@@ -49,15 +63,15 @@ export async function enregistrerChangement(
     estAbandonné,
     estAchevé,
     demandeAbandonEnCours,
+    appelOffre,
+    technologie,
+    cahierDesCharges,
+    note,
   }: EnregistrerChangementOptions,
 ) {
   if (this.puissance === puissance) {
     throw new PuissanceIdentiqueError();
   }
-
-  // TODO: on ajoutera des vraies règles pour valider le ratios ici à l'aide du value type
-  // const ratio = puissance / this.puissance;
-  // vérifierQueLeChangementDePuissanceEstPossibleAvecEn(this.puissance)
 
   if (this.demande) {
     this.demande.statut.vérifierQueLeChangementDeStatutEstPossibleEn(
@@ -75,6 +89,42 @@ export async function enregistrerChangement(
 
   if (estAchevé) {
     throw new ProjetAchevéError();
+  }
+
+  if (Option.isNone(cahierDesCharges)) {
+    throw new CahierDesChargesInexistantError();
+  }
+
+  if (Option.isNone(appelOffre)) {
+    throw new AppelOffreInexistantError(identifiantProjet.appelOffre);
+  }
+
+  const ratioValueType = RatioChangementPuissance.bind({
+    ratio: puissance / this.puissance,
+    identifiantProjet: identifiantProjet.formatter(),
+    appelOffre,
+    technologie: technologie.type,
+    cahierDesCharges,
+    périodeId: identifiantProjet.période,
+    nouvellePuissance: puissance,
+    familleId: identifiantProjet.famille,
+    note,
+  });
+
+  if (ratioValueType.dépasseRatiosChangementPuissance().dépasseMax) {
+    throw new PuissanceDépassePuissanceMaxAO();
+  }
+
+  if (ratioValueType.dépasseRatiosChangementPuissance().enDeçaDeMin) {
+    throw new PuissanceEnDeçaPuissanceMinAO();
+  }
+
+  if (ratioValueType.dépassePuissanceMaxFamille()) {
+    throw new PuissanceDépassePuissanceMaxFamille();
+  }
+
+  if (ratioValueType.dépassePuissanceMaxDuVolumeRéservé()) {
+    throw new PuissanceDépasseVolumeRéservéAO();
   }
 
   const event: ChangementPuissanceEnregistréEvent = {
