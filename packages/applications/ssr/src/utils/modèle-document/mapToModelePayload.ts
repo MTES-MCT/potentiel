@@ -2,11 +2,11 @@ import {
   formatDateForDocument,
   ModèleRéponseSignée,
 } from '@potentiel-applications/document-builder';
-import { Candidature } from '@potentiel-domain/candidature';
-import { Lauréat, Puissance, ReprésentantLégal } from '@potentiel-domain/laureat';
+import { Puissance, ReprésentantLégal } from '@potentiel-domain/laureat';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { Utilisateur } from '@potentiel-domain/utilisateur';
 import { Option } from '@potentiel-libraries/monads';
+import { Candidature, Lauréat } from '@potentiel-domain/projet';
 
 import { formatBoolean } from './formatBoolean';
 import { formatIdentifiantProjetForDocument } from './formatIdentifiantProjetForDocument';

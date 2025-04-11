@@ -100,7 +100,7 @@ export const GET = async (
     });
 
     return new Response(content, {
-      headers: getDocxDocumentHeader({ identifiantProjet, nomProjet: candidature.nom, type }),
+      headers: getDocxDocumentHeader({ identifiantProjet, nomProjet: lauréat.nomProjet, type }),
     });
   });
 

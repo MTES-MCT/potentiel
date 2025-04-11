@@ -4,7 +4,6 @@ import { NextRequest, NextResponse } from 'next/server';
 import { Abandon, Achèvement, GarantiesFinancières } from '@potentiel-domain/laureat';
 import { Option } from '@potentiel-libraries/monads';
 import { DateTime } from '@potentiel-domain/common';
-import { Candidature } from '@potentiel-domain/projet';
 import {
   formatDateForDocument,
   ModèleRéponseSignée,
