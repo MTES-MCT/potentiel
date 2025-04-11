@@ -14,6 +14,8 @@ import { unflatten } from '@potentiel-libraries/flat';
 
 import { applySearchParams } from '../app/_helpers';
 
+import { TooManyRequestsError } from './withRateLimit';
+
 void i18next.init({
   lng: 'fr',
   resources: {
@@ -45,6 +47,10 @@ export type FormState =
   | {
       status: 'validation-error';
       errors: ValidationErrors;
+    }
+  | {
+      status: 'rate-limit-error';
+      message: string;
     }
   | {
       status: 'domain-error';
@@ -133,6 +139,13 @@ export const formAction =
         return {
           status: 'validation-error' as const,
           errors,
+        };
+      }
+
+      if (e instanceof TooManyRequestsError) {
+        return {
+          status: 'rate-limit-error' as const,
+          message: e.message,
         };
       }
 
