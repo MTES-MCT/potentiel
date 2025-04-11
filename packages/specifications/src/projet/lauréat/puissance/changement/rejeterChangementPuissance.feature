@@ -9,7 +9,6 @@ Fonctionnalité: Rejeter la demande de changement de puissance d'un projet laur�
         Et le porteur "Marcel Patoulatchi" ayant accés au projet lauréat "Du boulodrome de Marseille"
         Et la dreal "Dreal du sud" associée à la région du projet
 
-    @select
     Scénario: la DREAL associée au projet rejette le changement de puissance d'un projet lauréat
         Etant donné une demande de changement de puissance à la baisse pour le projet lauréat
         Quand la DREAL associée au projet rejette le changement de puissance pour le projet lauréat
