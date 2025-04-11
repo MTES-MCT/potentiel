@@ -2,8 +2,6 @@
 
 import Button from '@codegouvfr/react-dsfr/Button';
 import React, { useState } from 'react';
-import Alert from '@codegouvfr/react-dsfr/Alert';
-import Link from 'next/link';
 
 import { Routes } from '@potentiel-applications/routes';
 
@@ -181,32 +179,17 @@ export const ModifierLauréatForm: React.FC<ModifierLauréatFormProps> = ({
           />
         </FormRow>
         <FormRow>
-          <div className="flex flex-col gap-2 w-full">
-            <ProjectField
-              candidature={candidature.puissanceProductionAnnuelle}
-              lauréat={lauréat.puissanceProductionAnnuelle.currentValue}
-              estEnCoursDeModification={
-                lauréat.puissanceProductionAnnuelle.estEnCoursDeModification
-              }
-              label="Puissance (en MWc)"
-              name="puissanceProductionAnnuelle"
-              validationErrors={validationErrors}
-              nativeInputProps={{
-                step: 0.1,
-              }}
-            />
-            <Alert
-              className="md:ml-64 md:mr-2"
-              severity="warning"
-              small
-              description={
-                <span>
-                  Pour un changement sur la puissance du projet, veuillez utiliser le formulaire{' '}
-                  <Link href={Routes.Projet.details(projet.identifiantProjet)}>dédié</Link>.
-                </span>
-              }
-            />
-          </div>
+          <ProjectField
+            candidature={candidature.puissanceProductionAnnuelle}
+            lauréat={lauréat.puissanceProductionAnnuelle.currentValue}
+            estEnCoursDeModification={lauréat.puissanceProductionAnnuelle.estEnCoursDeModification}
+            label="Puissance (en MWc)"
+            name="puissanceProductionAnnuelle"
+            validationErrors={validationErrors}
+            nativeInputProps={{
+              step: 0.1,
+            }}
+          />
         </FormRow>
         {champsSpéciaux.puissanceALaPointe && (
           <FormRow>
