@@ -111,20 +111,21 @@ export async function enregistrerChangement(
     note,
   });
 
-  if (ratioValueType.dépasseRatiosChangementPuissance().dépasseMax) {
-    throw new PuissanceDépassePuissanceMaxAO();
-  }
-
-  if (ratioValueType.dépasseRatiosChangementPuissance().enDeçaDeMin) {
-    throw new PuissanceEnDeçaPuissanceMinAO();
-  }
-
+  // ordre des erreurs suit celui du legacy
   if (ratioValueType.dépassePuissanceMaxFamille()) {
     throw new PuissanceDépassePuissanceMaxFamille();
   }
 
   if (ratioValueType.dépassePuissanceMaxDuVolumeRéservé()) {
     throw new PuissanceDépasseVolumeRéservéAO();
+  }
+
+  if (ratioValueType.dépasseRatiosChangementPuissance().dépasseMax) {
+    throw new PuissanceDépassePuissanceMaxAO();
+  }
+
+  if (ratioValueType.dépasseRatiosChangementPuissance().enDeçaDeMin) {
+    throw new PuissanceEnDeçaPuissanceMinAO();
   }
 
   const event: ChangementPuissanceEnregistréEvent = {

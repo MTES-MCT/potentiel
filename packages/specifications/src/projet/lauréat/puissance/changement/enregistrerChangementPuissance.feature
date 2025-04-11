@@ -57,7 +57,6 @@ Fonctionnalité: Enregistrer un changement de puissance d'un projet lauréat
             | PPE2 - Eolien | 1       | 0.75  |
             | CRE4 - Sol    | 7       | 0.85  |
 
-    @select
     Scénario: Impossible pour le porteur d'enregistrer un changement de puissance si elle est supérieure au ratio max autorisé par l'appel d'offres
         Etant donné le projet lauréat "Du bouchon de Lyon" avec :
             | appel d'offre | <Appel d'offre> |
@@ -71,19 +70,18 @@ Fonctionnalité: Enregistrer un changement de puissance d'un projet lauréat
             | PPE2 - Eolien | 1       | 1.25  |
             | CRE4 - Sol    | 7       | 1.15  |
 
-    @NotImplemented
     Scénario: Impossible pour le porteur d'enregistrer un changement de puissance si elle dépasse la puissance max par famille
-        Quand le porteur demande le changement de puissance pour le projet lauréat avec :
-            | nouvelle puissance |  |
-            | appel d'offre      |  |
-            | période            |  |
-            | famille            |  |
-
+        Etant donné le projet lauréat "Du bouchon de Lyon" avec :
+            | appel d'offre | PPE2 - Innovation |
+            | période       | 1                 |
+            | famille       | 1                 |
+        Quand le porteur enregistre un changement de puissance pour le projet lauréat avec :
+            | nouvelle puissance | 3.1 |
         Alors l'utilisateur devrait être informé que "La puissance dépasse la puissance maximale de la famille de votre appel d'offre"
 
     @NotImplemented
     Scénario: Scénario: Impossible pour le porteur d'enregistrer un changement de puissance si elle dépasse le volume réservé de l'appel d'offre
-        Quand le porteur demande le changement de puissance pour le projet lauréat avec :
+        Quand le porteur enregistre un changement de puissance pour le projet lauréat avec :
             | nouvelle puissance |  |
             | appel d'offre      |  |
         Alors l'utilisateur devrait être informé que "La puissance dépasse le volume réservé de votre appel d'offre"

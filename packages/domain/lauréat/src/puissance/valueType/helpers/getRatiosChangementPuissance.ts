@@ -53,6 +53,7 @@ export const getRatiosChangementPuissance = ({
 
     return changementPuissance.ratios[technologie];
   }
+
   // sinon prendre les ratios du CDC initial
   return changementPuissance.ratios;
 };
