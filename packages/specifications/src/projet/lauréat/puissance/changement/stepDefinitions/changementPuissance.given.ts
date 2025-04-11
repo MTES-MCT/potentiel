@@ -21,6 +21,18 @@ EtantDonné(
 );
 
 EtantDonné(
+  'une demande de changement de puissance à la hausse pour le projet lauréat',
+  async function (this: PotentielWorld) {
+    try {
+      // ce ratio est supérieur à celui de l'AO PPE2 - Eolien, Période 1 (1.4)
+      await demanderChangementPuissance.call(this, 'lauréat', 1.41);
+    } catch (error) {
+      this.error = error as Error;
+    }
+  },
+);
+
+EtantDonné(
   'une demande de changement de puissance à la baisse accordée pour le projet lauréat',
   async function (this: PotentielWorld) {
     try {
@@ -49,17 +61,6 @@ EtantDonné(
     try {
       await demanderChangementPuissance.call(this, 'lauréat');
       await annulerChangementPuissance.call(this);
-    } catch (error) {
-      this.error = error as Error;
-    }
-  },
-);
-
-EtantDonné(
-  'une demande de changement de puissance à la hausse pour le projet lauréat',
-  async function (this: PotentielWorld) {
-    try {
-      await demanderChangementPuissance.call(this, 'lauréat', 1.2);
     } catch (error) {
       this.error = error as Error;
     }

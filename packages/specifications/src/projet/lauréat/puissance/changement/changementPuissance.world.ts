@@ -92,7 +92,7 @@ export class ChangementPuissanceWorld {
         : {
             ...commonDemande,
             isInformationEnregistrée: false,
-            autoritéCompétente: Puissance.RatioChangementPuissance.bind({
+            autoritéCompétente: Puissance.AutoritéCompétente.bind({
               ratio: baseFixture.ratio,
             }).getAutoritéCompétente(),
             accord: this.#accorderChangementPuissanceFixture.aÉtéCréé

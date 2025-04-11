@@ -60,7 +60,8 @@ export class DemanderChangementPuissanceFixture
         format: faker.potentiel.fileFormat(),
         content: convertStringToReadableStream(content),
       },
-      ratio: faker.number.float({ min: 0.5, max: 0.8, multipleOf: 0.01 }),
+      // ce ratio est inférieur à celui de l'AO PPE2 - Eolien, Période 1 (0.8)
+      ratio: faker.number.float({ min: 0.7, max: 0.79, multipleOf: 0.01 }),
       ...partialData,
     };
 
