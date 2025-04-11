@@ -1,19 +1,18 @@
 import { Routes } from '@potentiel-applications/routes';
 import { DocumentProjet } from '@potentiel-domain/document';
-import { Historique } from '@potentiel-domain/historique';
 import { Puissance } from '@potentiel-domain/laureat';
 
 import { DownloadDocument } from '@/components/atoms/form/document/DownloadDocument';
 
-export const mapToChangementPuissanceRejetéTimelineItemProps = (
-  changementRejeté: Historique.ListerHistoriqueProjetReadModel['items'][number],
-) => {
+import { PuissanceHistoryRecord } from '.';
+
+export const mapToChangementPuissanceRejetéTimelineItemProps = (record: PuissanceHistoryRecord) => {
   const {
     rejetéLe,
     rejetéPar,
     identifiantProjet,
     réponseSignée: { format },
-  } = changementRejeté.payload as Puissance.ChangementPuissanceRejetéEvent['payload'];
+  } = record.payload as Puissance.ChangementPuissanceRejetéEvent['payload'];
 
   const réponseSignée = DocumentProjet.convertirEnValueType(
     identifiantProjet,

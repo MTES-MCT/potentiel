@@ -63,77 +63,68 @@ export class ChangementPuissanceWorld {
       );
     }
 
-    const baseFixture = this.#enregistrerChangementPuissanceFixture.aÉtéCréé
-      ? this.#enregistrerChangementPuissanceFixture
-      : this.#demanderChangementPuissanceFixture;
+    const baseFixture = this.demanderChangementPuissanceFixture.aÉtéCréé
+      ? this.demanderChangementPuissanceFixture
+      : this.#enregistrerChangementPuissanceFixture;
 
-    const commonDemande = {
-      nouvellePuissance: baseFixture.ratio * puissanceActuelle,
-      demandéeLe: DateTime.convertirEnValueType(baseFixture.demandéLe),
-      demandéePar: Email.convertirEnValueType(baseFixture.demandéPar),
-      raison: baseFixture.raison,
-      pièceJustificative: DocumentProjet.convertirEnValueType(
-        identifiantProjet.formatter(),
-        Puissance.TypeDocumentPuissance.pièceJustificative.formatter(),
-        DateTime.convertirEnValueType(baseFixture.demandéLe).formatter(),
-        baseFixture.pièceJustificative.format,
-      ),
-      statut,
-    };
-
-    return {
+    const expected: Puissance.ConsulterChangementPuissanceReadModel = {
       identifiantProjet,
-
-      demande: this.#enregistrerChangementPuissanceFixture.aÉtéCréé
-        ? {
-            ...commonDemande,
-            isInformationEnregistrée: true,
-          }
-        : {
-            ...commonDemande,
-            isInformationEnregistrée: false,
-            autoritéCompétente: Puissance.RatioChangementPuissance.bind({
-              ratio: baseFixture.ratio,
-            }).getAutoritéCompétente(),
-            accord: this.#accorderChangementPuissanceFixture.aÉtéCréé
-              ? {
-                  accordéeLe: DateTime.convertirEnValueType(
-                    this.#accorderChangementPuissanceFixture.accordéeLe,
-                  ),
-                  accordéePar: Email.convertirEnValueType(
-                    this.#accorderChangementPuissanceFixture.accordéePar,
-                  ),
-
-                  réponseSignée: DocumentProjet.convertirEnValueType(
-                    identifiantProjet.formatter(),
-                    Puissance.TypeDocumentPuissance.changementAccordé.formatter(),
-                    DateTime.convertirEnValueType(
-                      this.#accorderChangementPuissanceFixture.accordéeLe,
-                    ).formatter(),
-                    this.#accorderChangementPuissanceFixture.réponseSignée.format,
-                  ),
-                }
-              : undefined,
-            rejet: this.#rejeterChangementPuissanceFixture.aÉtéCréé
-              ? {
-                  rejetéeLe: DateTime.convertirEnValueType(
-                    this.#rejeterChangementPuissanceFixture.rejetéeLe,
-                  ),
-                  rejetéePar: Email.convertirEnValueType(
-                    this.#rejeterChangementPuissanceFixture.rejetéePar,
-                  ),
-
-                  réponseSignée: DocumentProjet.convertirEnValueType(
-                    identifiantProjet.formatter(),
-                    Puissance.TypeDocumentPuissance.changementRejeté.formatter(),
-                    DateTime.convertirEnValueType(
-                      this.#rejeterChangementPuissanceFixture.rejetéeLe,
-                    ).formatter(),
-                    this.#rejeterChangementPuissanceFixture.réponseSignée.format,
-                  ),
-                }
-              : undefined,
-          },
+      demande: {
+        demandéeLe: DateTime.convertirEnValueType(baseFixture.demandéLe),
+        demandéePar: Email.convertirEnValueType(baseFixture.demandéPar),
+        nouvellePuissance: baseFixture.ratio * puissanceActuelle,
+        pièceJustificative: DocumentProjet.convertirEnValueType(
+          identifiantProjet.formatter(),
+          Puissance.TypeDocumentPuissance.pièceJustificative.formatter(),
+          DateTime.convertirEnValueType(baseFixture.demandéLe).formatter(),
+          baseFixture.pièceJustificative.format,
+        ),
+        raison: baseFixture.raison,
+        statut,
+        autoritéCompétente: this.demanderChangementPuissanceFixture.aÉtéCréé
+          ? Puissance.RatioChangementPuissance.bind({
+              ratio: this.demanderChangementPuissanceFixture.ratio,
+            }).getAutoritéCompétente()
+          : undefined,
+      },
     };
+
+    if (this.#accorderChangementPuissanceFixture.aÉtéCréé) {
+      expected.demande.accord = {
+        accordéeLe: DateTime.convertirEnValueType(
+          this.#accorderChangementPuissanceFixture.accordéeLe,
+        ),
+        accordéePar: Email.convertirEnValueType(
+          this.#accorderChangementPuissanceFixture.accordéePar,
+        ),
+
+        réponseSignée: DocumentProjet.convertirEnValueType(
+          identifiantProjet.formatter(),
+          Puissance.TypeDocumentPuissance.changementAccordé.formatter(),
+          DateTime.convertirEnValueType(
+            this.#accorderChangementPuissanceFixture.accordéeLe,
+          ).formatter(),
+          this.#accorderChangementPuissanceFixture.réponseSignée.format,
+        ),
+      };
+    }
+
+    if (this.#rejeterChangementPuissanceFixture.aÉtéCréé) {
+      expected.demande.rejet = {
+        rejetéeLe: DateTime.convertirEnValueType(this.#rejeterChangementPuissanceFixture.rejetéeLe),
+        rejetéePar: Email.convertirEnValueType(this.#rejeterChangementPuissanceFixture.rejetéePar),
+
+        réponseSignée: DocumentProjet.convertirEnValueType(
+          identifiantProjet.formatter(),
+          Puissance.TypeDocumentPuissance.changementRejeté.formatter(),
+          DateTime.convertirEnValueType(
+            this.#rejeterChangementPuissanceFixture.rejetéeLe,
+          ).formatter(),
+          this.#rejeterChangementPuissanceFixture.réponseSignée.format,
+        ),
+      };
+    }
+
+    return expected;
   }
 }

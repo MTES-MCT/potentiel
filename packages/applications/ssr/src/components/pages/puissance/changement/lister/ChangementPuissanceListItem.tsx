@@ -1,28 +1,29 @@
 import { FC } from 'react';
 import Link from 'next/link';
 
-import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
-import { PlainType } from '@potentiel-domain/core';
-import { Actionnaire } from '@potentiel-domain/laureat';
+import { IdentifiantProjet } from '@potentiel-domain/projet';
+import { DateTime } from '@potentiel-domain/common';
 import { Routes } from '@potentiel-applications/routes';
 
 import { ProjectListItemHeading } from '@/components/molecules/projet/ProjectListItemHeading';
 import { ListItem } from '@/components/molecules/ListItem';
 import { FormattedDate } from '@/components/atoms/FormattedDate';
 
-import { StatutChangementActionnaireBadge } from './StatutChangementActionnaireBadge';
+import { StatutChangementPuissanceBadge } from '../StatutChangementPuissanceBadge';
 
-export type ChangementActionnaireListItemProps = PlainType<
-  Actionnaire.ListerChangementActionnaireReadModel['items'][number]
->;
+import { ChangementPuissanceListPageProps } from './ChangementPuissanceList.page';
 
-export const ChangementActionnaireListItem: FC<ChangementActionnaireListItemProps> = ({
+export type ChangementPuissanceListItemProps =
+  ChangementPuissanceListPageProps['list']['items'][number];
+
+export const ChangementPuissanceListItem: FC<ChangementPuissanceListItemProps> = ({
   identifiantProjet,
   nomProjet,
-  statut,
+  statut: { statut },
   misÀJourLe,
   demandéLe,
-  nouvelActionnaire,
+  nouvellePuissance,
+  unitéPuissance,
 }) => (
   <ListItem
     heading={
@@ -30,16 +31,16 @@ export const ChangementActionnaireListItem: FC<ChangementActionnaireListItemProp
         nomProjet={nomProjet}
         identifiantProjet={identifiantProjet}
         prefix={
-          statut.statut === 'information-enregistrée'
-            ? "Changement d'actionnaire(s) du projet"
-            : "Demande de changement d'actionnaire(s) du projet"
+          statut === 'information-enregistrée'
+            ? 'Changement de puissance du projet'
+            : 'Demande de changement de puissance du projet'
         }
         misÀJourLe={DateTime.bind(misÀJourLe).formatter()}
       />
     }
     actions={
       <Link
-        href={Routes.Actionnaire.changement.détails(
+        href={Routes.Puissance.changement.détails(
           IdentifiantProjet.bind(identifiantProjet).formatter(),
           demandéLe.date,
         )}
@@ -52,7 +53,10 @@ export const ChangementActionnaireListItem: FC<ChangementActionnaireListItemProp
     <ul className="mt-3 text-sm">
       <li>
         <span>
-          Nouvel actionnaire : <span className="font-semibold">{nouvelActionnaire}</span>
+          Nouvelle puissance :{' '}
+          <span className="font-semibold">
+            {nouvellePuissance} {unitéPuissance}
+          </span>
         </span>
       </li>
       <li>
@@ -62,9 +66,6 @@ export const ChangementActionnaireListItem: FC<ChangementActionnaireListItemProp
         </span>
       </li>
     </ul>
-    <StatutChangementActionnaireBadge
-      statut={Actionnaire.StatutChangementActionnaire.bind(statut).statut}
-      small
-    />
+    <StatutChangementPuissanceBadge statut={statut} small />
   </ListItem>
 );

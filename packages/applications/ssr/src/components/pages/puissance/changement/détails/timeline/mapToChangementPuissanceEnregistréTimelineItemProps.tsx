@@ -4,10 +4,11 @@ import { Puissance } from '@potentiel-domain/laureat';
 
 import { DownloadDocument } from '@/components/atoms/form/document/DownloadDocument';
 
-import { PuissanceHistoryRecord } from '.';
+import { HistoriquePuissanceTimelineProps, PuissanceHistoryRecord } from '.';
 
 export const mapToChangementPuissanceEnregistréTimelineItemProps = (
   record: PuissanceHistoryRecord,
+  unitéPuissance: HistoriquePuissanceTimelineProps['unitéPuissance'],
 ) => {
   const { enregistréLe, enregistréPar, identifiantProjet, pièceJustificative, puissance, raison } =
     record.payload as Puissance.ChangementPuissanceEnregistréEvent['payload'];
@@ -21,7 +22,7 @@ export const mapToChangementPuissanceEnregistréTimelineItemProps = (
         <div>
           Nouvelle puissance :{' '}
           <span className="font-semibold">
-            {puissance} {record.unitePuissance}
+            {puissance} {unitéPuissance}
           </span>
         </div>
         {raison && (

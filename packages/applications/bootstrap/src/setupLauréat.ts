@@ -482,7 +482,6 @@ export const setupLauréat = async ({
       name: 'notifications',
       streamCategory: 'puissance',
       eventType: [
-        'PuissanceImportée-V1',
         'PuissanceModifiée-V1',
         'ChangementPuissanceDemandé-V1',
         'ChangementPuissanceAnnulé-V1',

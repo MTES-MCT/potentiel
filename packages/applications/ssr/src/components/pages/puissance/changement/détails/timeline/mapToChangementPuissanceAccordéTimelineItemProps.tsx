@@ -4,10 +4,11 @@ import { Puissance } from '@potentiel-domain/laureat';
 
 import { DownloadDocument } from '@/components/atoms/form/document/DownloadDocument';
 
-import { PuissanceHistoryRecord } from '.';
+import { HistoriquePuissanceTimelineProps, PuissanceHistoryRecord } from '.';
 
 export const mapToChangementPuissanceAccordéTimelineItemProps = (
   record: PuissanceHistoryRecord,
+  unitéPuissance: HistoriquePuissanceTimelineProps['unitéPuissance'],
 ) => {
   const {
     accordéLe,
@@ -36,7 +37,7 @@ export const mapToChangementPuissanceAccordéTimelineItemProps = (
         <div>
           Nouvelle puissance :{' '}
           <span className="font-semibold">
-            {nouvellePuissance} {record.unitePuissance}
+            {nouvellePuissance} {unitéPuissance}
           </span>
         </div>
         <DownloadDocument

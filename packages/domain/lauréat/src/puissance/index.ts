@@ -11,7 +11,6 @@ import { ModifierPuissanceUseCase } from './modifier/modifierPuissance.usecase';
 import {
   ConsulterChangementPuissanceQuery,
   ConsulterChangementPuissanceReadModel,
-  DétailsDemandeChangementPuissanceReadModel,
 } from './changement/consulter/consulterChangementPuissance.query';
 import { AnnulerChangementPuissanceUseCase } from './changement/annuler/annulerChangementPuissance.usecase';
 import { AnnulerChangementPuissanceCommand } from './changement/annuler/annulerChangementPuissance.command';
@@ -20,16 +19,27 @@ import { EnregistrerChangementPuissanceCommand } from './changement/enregistrerC
 import { EnregistrerChangementPuissanceUseCase } from './changement/enregistrerChangement/enregistrerChangementPuissance.usecase';
 import { RejeterChangementPuissanceUseCase } from './changement/rejeter/rejeterChangementPuissance.usecase';
 import { RejeterChangementPuissanceCommand } from './changement/rejeter/rejeterChangementPuissance.command';
+import {
+  ListerChangementPuissanceQuery,
+  ListerChangementPuissanceReadModel,
+} from './changement/lister/listerChangementPuissance.query';
 
 // Query
-export type PuissanceQuery = ConsulterPuissanceQuery | ConsulterChangementPuissanceQuery;
-export type { ConsulterPuissanceQuery, ConsulterChangementPuissanceQuery };
+export type PuissanceQuery =
+  | ConsulterPuissanceQuery
+  | ConsulterChangementPuissanceQuery
+  | ListerChangementPuissanceQuery;
+export type {
+  ConsulterPuissanceQuery,
+  ConsulterChangementPuissanceQuery,
+  ListerChangementPuissanceQuery,
+};
 
 // ReadModel
 export type {
   ConsulterPuissanceReadModel,
   ConsulterChangementPuissanceReadModel,
-  DétailsDemandeChangementPuissanceReadModel,
+  ListerChangementPuissanceReadModel,
 };
 
 // UseCase

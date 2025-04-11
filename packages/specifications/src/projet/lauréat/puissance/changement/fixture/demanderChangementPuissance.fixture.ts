@@ -52,7 +52,7 @@ export class DemanderChangementPuissanceFixture
   créer(partialData?: Partial<DemanderChangementPuissance>): Readonly<DemanderChangementPuissance> {
     const content = faker.word.words();
 
-    const fixture = {
+    const fixture: DemanderChangementPuissance = {
       demandéLe: faker.date.recent().toISOString(),
       demandéPar: faker.internet.email(),
       raison: faker.company.catchPhrase(),
