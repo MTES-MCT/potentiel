@@ -88,6 +88,7 @@ export const bind = ({
         note,
         période,
         nouvellePuissance,
+        puissanceActuelle: nouvellePuissance / this.ratio,
       });
     },
   };

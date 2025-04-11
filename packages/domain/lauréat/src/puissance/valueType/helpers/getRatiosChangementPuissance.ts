@@ -20,7 +20,6 @@ export const getRatiosChangementPuissance = ({
   }
 
   // prendre les ratios du CDC 2022 si existants
-  // TODO vérifier si on doit garder la condition sur 30/08/2022
   if (cahierDesCharges.type === 'modifié' && cahierDesCharges.paruLe === '30/08/2022') {
     const seuilsCDC = cahierDesCharges?.seuilSupplémentaireChangementPuissance;
 

@@ -62,7 +62,7 @@ export class EnregistrerChangementPuissanceFixture
         format: faker.potentiel.fileFormat(),
         content: convertStringToReadableStream(content),
       },
-      ratio: faker.number.float({ min: 0.5, max: 0.8, multipleOf: 0.01 }),
+      ratio: faker.number.float({ min: 0.9, max: 0.99, multipleOf: 0.01 }),
       ...partialData,
     };
 
