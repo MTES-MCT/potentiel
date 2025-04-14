@@ -134,9 +134,8 @@ export async function demanderChangement(
     payload: {
       identifiantProjet: identifiantProjet.formatter(),
       puissance,
-      autoritéCompétente: AutoritéCompétente.bind({
-        ratio: puissance / this.puissance,
-      }).getAutoritéCompétente(),
+      autoritéCompétente: AutoritéCompétente.déterminer(puissance / this.puissance)
+        .autoritéCompétente,
       pièceJustificative: {
         format: pièceJustificative.format,
       },

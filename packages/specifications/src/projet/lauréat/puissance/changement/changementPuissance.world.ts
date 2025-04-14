@@ -83,9 +83,7 @@ export class ChangementPuissanceWorld {
         statut,
         // viovio
         autoritéCompétente: this.demanderChangementPuissanceFixture.aÉtéCréé
-          ? Puissance.AutoritéCompétente.bind({
-              ratio: this.demanderChangementPuissanceFixture.ratio,
-            }).getAutoritéCompétente()
+          ? Puissance.AutoritéCompétente.déterminer(baseFixture.ratio)
           : undefined,
       },
     };

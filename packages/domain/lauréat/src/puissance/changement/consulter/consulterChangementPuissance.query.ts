@@ -83,7 +83,9 @@ export const mapToReadModel = (result: ChangementPuissanceEntity) => {
       nouvellePuissance: result.demande.nouvellePuissance,
       statut,
       raison: result.demande.raison,
-      autoritéCompétente: result.demande.autoritéCompétente,
+      autoritéCompétente: result.demande.autoritéCompétente
+        ? AutoritéCompétente.convertirEnValueType(result.demande.autoritéCompétente)
+        : undefined,
       pièceJustificative: result.demande.pièceJustificative
         ? DocumentProjet.convertirEnValueType(
             result.identifiantProjet,

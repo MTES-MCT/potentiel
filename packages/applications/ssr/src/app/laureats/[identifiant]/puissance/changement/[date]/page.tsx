@@ -85,7 +85,7 @@ export default async function Page({ params: { identifiant, date } }: PageProps)
           actions={mapToActions(
             changement.demande.statut,
             utilisateur.role,
-            changement.demande.autoritéCompétente,
+            changement.demande.autoritéCompétente?.autoritéCompétente,
           )}
           demandeEnCoursDate={
             puissance.dateDemandeEnCours ? puissance.dateDemandeEnCours.formatter() : undefined
