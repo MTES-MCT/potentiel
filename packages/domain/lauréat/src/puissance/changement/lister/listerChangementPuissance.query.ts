@@ -89,12 +89,8 @@ export const registerListerChangementPuissanceQuery = ({
         where: {
           identifiantProjet,
           demande: {
-            statut: statut
-              ? Where.equal(statut as ChangementPuissanceEntity['demande']['statut'])
-              : Where.notEqualNull(),
-            autoritéCompétente: autoriteInstructrice
-              ? Where.equal(autoriteInstructrice)
-              : Where.notEqualNull(),
+            statut: Where.equal(statut),
+            autoritéCompétente: Where.equal(autoriteInstructrice),
           },
         },
       },
