@@ -81,7 +81,6 @@ export class ChangementPuissanceWorld {
         ),
         raison: baseFixture.raison,
         statut,
-        // viovio
         autoritéCompétente: this.demanderChangementPuissanceFixture.aÉtéCréé
           ? Puissance.AutoritéCompétente.déterminer(baseFixture.ratio)
           : undefined,

@@ -129,12 +129,12 @@ class PuissanceEnDeçaPuissanceMinAO extends DomainError {
 
 class PuissanceDépassePuissanceMaxFamille extends DomainError {
   constructor() {
-    super("La puissance dépasse la puissance maximale de la famille de votre appel d'offre");
+    super("La puissance dépasse la puissance maximale de la famille de l'appel d'offre");
   }
 }
 
 class PuissanceDépasseVolumeRéservéAO extends DomainError {
   constructor() {
-    super("La puissance dépasse le volume réservé de votre appel d'offre");
+    super("La puissance dépasse le volume réservé de l'appel d'offre");
   }
 }
