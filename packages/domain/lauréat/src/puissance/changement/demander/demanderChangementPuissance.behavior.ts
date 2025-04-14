@@ -12,8 +12,6 @@ import {
   ProjetAbandonnéError,
   ProjetAvecDemandeAbandonEnCoursError,
   ProjetAchevéError,
-  PuissanceDépassePuissanceMaxFamille,
-  PuissanceDépasseVolumeRéservéAO,
   AppelOffreInexistantError,
   CahierDesChargesInexistantError,
   PériodeInexistanteError,
@@ -109,7 +107,7 @@ export async function demanderChangement(
   }
   const famille = période.familles.find((f) => f.id === identifiantProjet.famille);
 
-  const ratioValueType = RatioChangementPuissance.bind({
+  RatioChangementPuissance.bind({
     appelOffre,
     période,
     famille,
@@ -118,16 +116,7 @@ export async function demanderChangement(
     technologie: technologie.type,
     nouvellePuissance: puissance,
     note,
-  });
-
-  // ordre des erreurs suit celui du legacy
-  if (ratioValueType.dépassePuissanceMaxFamille()) {
-    throw new PuissanceDépassePuissanceMaxFamille();
-  }
-
-  if (ratioValueType.dépassePuissanceMaxDuVolumeRéservé()) {
-    throw new PuissanceDépasseVolumeRéservéAO();
-  }
+  }).vérifierQueLaDemandeEstPossible('demande');
 
   const event: ChangementPuissanceDemandéEvent = {
     type: 'ChangementPuissanceDemandé-V1',

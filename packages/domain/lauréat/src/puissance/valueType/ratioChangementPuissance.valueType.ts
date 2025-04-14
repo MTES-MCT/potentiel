@@ -1,4 +1,4 @@
-import { PlainType, ReadonlyValueType } from '@potentiel-domain/core';
+import { DomainError, PlainType, ReadonlyValueType } from '@potentiel-domain/core';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { Candidature } from '@potentiel-domain/candidature';
 
@@ -22,6 +22,7 @@ export type ValueType = ReadonlyValueType<{
   nouvellePuissance: number;
   famille?: AppelOffre.Famille;
   note: number;
+  vérifierQueLaDemandeEstPossible: (typeDemande: 'demande' | 'information-enregistrée') => void;
   dépasseRatiosChangementPuissance: () => { enDeçaDeMin: boolean; dépasseMax: boolean };
   dépassePuissanceMaxDuVolumeRéservé: () => boolean;
   dépassePuissanceMaxFamille: () => boolean;
@@ -91,5 +92,49 @@ export const bind = ({
         puissanceActuelle: nouvellePuissance / this.ratio,
       });
     },
+    vérifierQueLaDemandeEstPossible(typeDemande: 'demande' | 'information-enregistrée') {
+      // ordre des erreurs suit celui du legacy
+      if (this.dépassePuissanceMaxFamille()) {
+        throw new PuissanceDépassePuissanceMaxFamille();
+      }
+
+      if (this.dépassePuissanceMaxDuVolumeRéservé()) {
+        throw new PuissanceDépasseVolumeRéservéAO();
+      }
+
+      if (typeDemande === 'information-enregistrée') {
+        if (this.dépasseRatiosChangementPuissance().dépasseMax) {
+          throw new PuissanceDépassePuissanceMaxAO();
+        }
+
+        if (this.dépasseRatiosChangementPuissance().enDeçaDeMin) {
+          throw new PuissanceEnDeçaPuissanceMinAO();
+        }
+      }
+    },
   };
 };
+
+class PuissanceDépassePuissanceMaxAO extends DomainError {
+  constructor() {
+    super("La puissance dépasse la puissance maximale autorisée par l'appel d'offres");
+  }
+}
+
+class PuissanceEnDeçaPuissanceMinAO extends DomainError {
+  constructor() {
+    super("La puissance est en deça de la puissance minimale autorisée par l'appel d'offres");
+  }
+}
+
+class PuissanceDépassePuissanceMaxFamille extends DomainError {
+  constructor() {
+    super("La puissance dépasse la puissance maximale de la famille de votre appel d'offre");
+  }
+}
+
+class PuissanceDépasseVolumeRéservéAO extends DomainError {
+  constructor() {
+    super("La puissance dépasse le volume réservé de votre appel d'offre");
+  }
+}

@@ -11,10 +11,6 @@ import {
   ProjetAbandonnéError,
   ProjetAvecDemandeAbandonEnCoursError,
   ProjetAchevéError,
-  PuissanceDépassePuissanceMaxAO,
-  PuissanceEnDeçaPuissanceMinAO,
-  PuissanceDépassePuissanceMaxFamille,
-  PuissanceDépasseVolumeRéservéAO,
   AppelOffreInexistantError,
   CahierDesChargesInexistantError,
   PériodeInexistanteError,
@@ -106,7 +102,7 @@ export async function enregistrerChangement(
   }
   const famille = période.familles.find((f) => f.id === identifiantProjet.famille);
 
-  const ratioValueType = RatioChangementPuissance.bind({
+  RatioChangementPuissance.bind({
     appelOffre,
     période,
     famille,
@@ -115,24 +111,7 @@ export async function enregistrerChangement(
     ratio: puissance / this.puissance,
     nouvellePuissance: puissance,
     note,
-  });
-
-  // ordre des erreurs suit celui du legacy
-  if (ratioValueType.dépassePuissanceMaxFamille()) {
-    throw new PuissanceDépassePuissanceMaxFamille();
-  }
-
-  if (ratioValueType.dépassePuissanceMaxDuVolumeRéservé()) {
-    throw new PuissanceDépasseVolumeRéservéAO();
-  }
-
-  if (ratioValueType.dépasseRatiosChangementPuissance().dépasseMax) {
-    throw new PuissanceDépassePuissanceMaxAO();
-  }
-
-  if (ratioValueType.dépasseRatiosChangementPuissance().enDeçaDeMin) {
-    throw new PuissanceEnDeçaPuissanceMinAO();
-  }
+  }).vérifierQueLaDemandeEstPossible('information-enregistrée');
 
   const event: ChangementPuissanceEnregistréEvent = {
     type: 'ChangementPuissanceEnregistré-V1',
