@@ -66,6 +66,7 @@ export const FormFeedback: FC<FormFeedbackProps> = ({ formState, successMessage 
 
       return <Alert closable small severity="success" description="L'opération est un succès" />;
 
+    case 'rate-limit-error':
     case 'domain-error':
       return <FormAlertError description={formState.message} />;
 

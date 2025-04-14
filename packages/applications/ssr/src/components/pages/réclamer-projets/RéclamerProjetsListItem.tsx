@@ -179,6 +179,10 @@ const RéclamerProjetAvecPrixEtNuméroCREForm: FC<RéclamerProjetFormProps> = ({
                   name: 'prixReference',
                   required: true,
                   'aria-required': true,
+                  type: 'number',
+                  inputMode: 'decimal',
+                  pattern: '[0-9]+([.][0-9]+)?',
+                  step: 'any',
                 }}
               />
               <Input
