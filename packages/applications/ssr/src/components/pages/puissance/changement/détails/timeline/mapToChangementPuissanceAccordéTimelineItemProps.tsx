@@ -10,8 +10,14 @@ export const mapToChangementPuissanceAccordéTimelineItemProps = (
   record: PuissanceHistoryRecord,
   unitéPuissance: HistoriquePuissanceTimelineProps['unitéPuissance'],
 ) => {
-  const { accordéLe, accordéPar, identifiantProjet, réponseSignée, nouvellePuissance } =
-    record.payload as Puissance.ChangementPuissanceAccordéEvent['payload'];
+  const {
+    accordéLe,
+    accordéPar,
+    identifiantProjet,
+    réponseSignée,
+    nouvellePuissance,
+    estUneDécisionDEtat,
+  } = record.payload as Puissance.ChangementPuissanceAccordéEvent['payload'];
 
   const réponseSignéeDocument = réponseSignée
     ? DocumentProjet.convertirEnValueType(
@@ -36,6 +42,10 @@ export const mapToChangementPuissanceAccordéTimelineItemProps = (
           <span className="font-semibold">
             {nouvellePuissance} {unitéPuissance}
           </span>
+        </div>
+        <div>
+          Fait suite à une décision de l'État :{' '}
+          <span className="font-semibold">{estUneDécisionDEtat ? 'Oui' : 'Non'}</span>
         </div>
         {réponseSignéeDocument && (
           <DownloadDocument

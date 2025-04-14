@@ -12,6 +12,7 @@ export const mapToChangementPuissanceRejetéTimelineItemProps = (record: Puissan
     rejetéPar,
     identifiantProjet,
     réponseSignée: { format },
+    estUneDécisionDEtat,
   } = record.payload as Puissance.ChangementPuissanceRejetéEvent['payload'];
 
   const réponseSignée = DocumentProjet.convertirEnValueType(
@@ -29,12 +30,18 @@ export const mapToChangementPuissanceRejetéTimelineItemProps = (record: Puissan
       </div>
     ),
     content: (
-      <DownloadDocument
-        className="mb-0"
-        label="Télécharger la réponse signée"
-        format="pdf"
-        url={Routes.Document.télécharger(réponseSignée)}
-      />
+      <div className="flex flex-col gap-2">
+        <div>
+          Fait suite à une décision de l'État :{' '}
+          <span className="font-semibold">{estUneDécisionDEtat ? 'Oui' : 'Non'}</span>
+        </div>
+        <DownloadDocument
+          className="mb-0"
+          label="Télécharger la réponse signée"
+          format="pdf"
+          url={Routes.Document.télécharger(réponseSignée)}
+        />
+      </div>
     ),
   };
 };
