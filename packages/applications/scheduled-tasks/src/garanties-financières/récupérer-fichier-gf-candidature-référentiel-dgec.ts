@@ -14,7 +14,11 @@ import {
   registerDocumentProjetCommand,
   registerDocumentProjetQueries,
 } from '@potentiel-domain/document';
-import { CandidatureAdapter, DocumentAdapter } from '@potentiel-infrastructure/domain-adapters';
+import {
+  CandidatureAdapter,
+  DocumentAdapter,
+  récupérerIdentifiantsProjetParEmailPorteurAdapter,
+} from '@potentiel-infrastructure/domain-adapters';
 import { Candidature } from '@potentiel-domain/candidature';
 import { Période } from '@potentiel-domain/periode';
 
@@ -54,9 +58,7 @@ GarantiesFinancières.registerGarantiesFinancièresUseCases({
 GarantiesFinancières.registerGarantiesFinancièresQueries({
   find: findProjection,
   list: listProjection,
-  récupérerIdentifiantsProjetParEmailPorteur: () => {
-    throw new Error('récupérerIdentifiantsProjetParEmailPorteur not implemented');
-  },
+  récupérerIdentifiantsProjetParEmailPorteur: récupérerIdentifiantsProjetParEmailPorteurAdapter,
 });
 
 registerDocumentProjetCommand({

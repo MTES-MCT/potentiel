@@ -7,7 +7,7 @@ import { IdentifiantProjet } from '@potentiel-domain/common';
 import { Option } from '@potentiel-libraries/monads';
 import { Candidature } from '@potentiel-domain/candidature';
 
-import { récupererProjetsPorteurAdapter } from './récupérerIdentifiantsProjetParPorteur';
+import { récupérerIdentifiantsProjetParEmailPorteurAdapter } from './récupérerIdentifiantsProjetParEmailPorteur.adapter';
 
 const récuperérRégionProjet = async (identifiantProjet: IdentifiantProjet.ValueType) => {
   const lauréat = await findProjection<Lauréat.LauréatEntity>(
@@ -68,7 +68,7 @@ export const vérifierAccèsProjetAdapter: VérifierAccèsProjetPort = async ({
       return false;
     })
     .with({ role: { nom: 'porteur-projet' } }, async (utilisateur) => {
-      const projets = await récupererProjetsPorteurAdapter(
+      const projets = await récupérerIdentifiantsProjetParEmailPorteurAdapter(
         utilisateur.identifiantUtilisateur.formatter(),
       );
       return projets.includes(identifiantProjet.formatter());

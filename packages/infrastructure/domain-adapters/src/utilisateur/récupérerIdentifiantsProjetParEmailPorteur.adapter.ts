@@ -6,7 +6,7 @@ import {
 import { findProjection } from '@potentiel-infrastructure/pg-projection-read';
 import { Option } from '@potentiel-libraries/monads';
 
-export const récupererProjetsPorteurAdapter: RécupérerIdentifiantsProjetParEmailPorteurPort =
+export const récupérerIdentifiantsProjetParEmailPorteurAdapter: RécupérerIdentifiantsProjetParEmailPorteurPort =
   async (email: string) => {
     const identifiantUtilisateur = Email.convertirEnValueType(email);
     const utilisateur = await findProjection<UtilisateurEntity>(
