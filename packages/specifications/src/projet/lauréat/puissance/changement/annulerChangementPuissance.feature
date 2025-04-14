@@ -33,7 +33,7 @@ Fonctionnalité: Annuler la demande changement de puissance d'un projet lauréat
         Alors l'utilisateur devrait être informé que "Aucune demande de changement de puissance n'est en cours"
 
     Scénario: Impossible d'annuler la demande de changement de puissance si la demande est acceptée
-        Etant donné une demande de changement de puissance accordée pour le projet lauréat
+        Etant donné une demande de changement de puissance accordée pour le projet lauréat avec :
             | ratio puissance | 0.75 |
         Quand le porteur annule la demande de changement de puissance pour le projet lauréat
         Alors l'utilisateur devrait être informé que "Aucune demande de changement de puissance n'est en cours"
