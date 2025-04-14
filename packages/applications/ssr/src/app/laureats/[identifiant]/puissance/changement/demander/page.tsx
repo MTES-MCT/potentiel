@@ -3,9 +3,11 @@ import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 
 import { Option } from '@potentiel-libraries/monads';
-import { Puissance } from '@potentiel-domain/laureat';
+import { CahierDesCharges, Puissance } from '@potentiel-domain/laureat';
 import { IdentifiantProjet } from '@potentiel-domain/common';
 import { mapToPlainObject } from '@potentiel-domain/core';
+import { AppelOffre } from '@potentiel-domain/appel-offre';
+import { Candidature } from '@potentiel-domain/candidature';
 
 import { decodeParameter } from '@/utils/decodeParameter';
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
@@ -32,10 +34,58 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
       return notFound();
     }
 
+    const candidature = await mediator.send<Candidature.ConsulterCandidatureQuery>({
+      type: 'Candidature.Query.ConsulterCandidature',
+      data: {
+        identifiantProjet: identifiantProjet.formatter(),
+      },
+    });
+
+    if (Option.isNone(candidature)) {
+      return notFound();
+    }
+
+    // Après migration aggregate root, à remplacer
+    const appelOffre = await mediator.send<AppelOffre.ConsulterAppelOffreQuery>({
+      type: 'AppelOffre.Query.ConsulterAppelOffre',
+      data: {
+        identifiantAppelOffre: identifiantProjet.appelOffre,
+      },
+    });
+
+    if (Option.isNone(appelOffre)) {
+      return notFound();
+    }
+
+    const période = appelOffre.periodes.find((p) => p.id === identifiantProjet.période);
+
+    if (!période) {
+      return notFound();
+    }
+
+    // Après migration cahier des charges, à remplacer
+    const cahierDesChargesChoisi =
+      await mediator.send<CahierDesCharges.ConsulterCahierDesChargesChoisiQuery>({
+        type: 'Lauréat.CahierDesCharges.Query.ConsulterCahierDesChargesChoisi',
+        data: {
+          identifiantProjet: identifiantProjet.formatter(),
+        },
+      });
+
+    if (Option.isNone(cahierDesChargesChoisi)) {
+      return notFound();
+    }
+
     return (
       <DemanderChangementPuissancePage
         identifiantProjet={mapToPlainObject(puissanceActuel.identifiantProjet)}
         puissance={puissanceActuel.puissance}
+        appelOffre={mapToPlainObject(appelOffre)}
+        période={mapToPlainObject(période)}
+        technologie={candidature.technologie.type}
+        famille={période.familles.find((f) => f.id === identifiantProjet.famille)}
+        cahierDesCharges={mapToPlainObject(cahierDesChargesChoisi)}
+        note={candidature.noteTotale}
       />
     );
   });
