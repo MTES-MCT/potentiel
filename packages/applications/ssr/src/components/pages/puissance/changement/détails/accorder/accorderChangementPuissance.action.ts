@@ -11,16 +11,27 @@ import { FormAction, formAction, FormState } from '@/utils/formAction';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 import { singleDocument } from '@/utils/zod/document/singleDocument';
 
-const schema = zod.object({
-  identifiantProjet: zod.string().min(1),
-  reponseSignee: singleDocument({ acceptedFileTypes: ['application/pdf'] }),
-});
+const schema = zod.union([
+  zod.object({
+    identifiantProjet: zod.string().min(1),
+    reponseSignee: singleDocument({
+      acceptedFileTypes: ['application/pdf'],
+      optional: true,
+    }),
+    estUneDecisionDEtat: zod.literal('true'),
+  }),
+  zod.object({
+    identifiantProjet: zod.string().min(1),
+    reponseSignee: singleDocument({ acceptedFileTypes: ['application/pdf'] }),
+    estUneDecisionDEtat: zod.literal('false'),
+  }),
+]);
 
 export type AccorderChangementPuissanceFormKeys = keyof zod.infer<typeof schema>;
 
 const action: FormAction<FormState, typeof schema> = async (
   _,
-  { identifiantProjet, reponseSignee },
+  { identifiantProjet, reponseSignee, estUneDecisionDEtat },
 ) =>
   withUtilisateur(async (utilisateur) => {
     await mediator.send<Puissance.AccorderChangementPuissanceUseCase>({
@@ -29,8 +40,16 @@ const action: FormAction<FormState, typeof schema> = async (
         identifiantProjetValue: identifiantProjet,
         accordéParValue: utilisateur.identifiantUtilisateur.formatter(),
         accordéLeValue: DateTime.now().formatter(),
-        réponseSignéeValue: reponseSignee,
         rôleUtilisateurValue: utilisateur.role.nom,
+        ...(estUneDecisionDEtat === 'true'
+          ? {
+              estUneDécisionDEtatValue: true,
+              réponseSignéeValue: reponseSignee,
+            }
+          : {
+              estUneDécisionDEtatValue: false,
+              réponseSignéeValue: reponseSignee,
+            }),
       },
     });
 

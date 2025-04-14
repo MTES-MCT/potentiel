@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import Button from '@codegouvfr/react-dsfr/Button';
+import Checkbox from '@codegouvfr/react-dsfr/Checkbox';
 
 import { Routes } from '@potentiel-applications/routes';
 
@@ -64,6 +65,20 @@ export const RejeterChangementPuissance = ({
                 url={Routes.Puissance.changement.téléchargerModèleRéponseRejeté(identifiantProjet)}
                 format="docx"
                 label="Télécharger le modèle de réponse"
+              />
+              <Checkbox
+                state={validationErrors['estUneDecisionDEtat'] ? 'error' : 'default'}
+                stateRelatedMessage={validationErrors['estUneDecisionDEtat']}
+                options={[
+                  {
+                    label:
+                      "La demande de changement de puissance fait suite à une décision de l'État",
+                    nativeInputProps: {
+                      value: 'true',
+                      name: 'estUneDecisionDEtat',
+                    },
+                  },
+                ]}
               />
             </>
           ),

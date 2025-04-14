@@ -188,15 +188,17 @@ const ChangementAccordé: FC<ChangementAccordéProps> = ({
       <div className="font-semibold">Statut :</div>{' '}
       <StatutChangementPuissanceBadge statut={Puissance.StatutChangementPuissance.accordé.statut} />
     </div>
-    <div className="flex gap-2">
-      <div className="font-semibold whitespace-nowrap">Réponse signée :</div>
-      <DownloadDocument
-        className="mb-0"
-        label="Télécharger la réponse signée"
-        format={réponseSignée.format}
-        url={Routes.Document.télécharger(DocumentProjet.bind(réponseSignée).formatter())}
-      />
-    </div>
+    {réponseSignée && (
+      <div className="flex gap-2">
+        <div className="font-semibold whitespace-nowrap">Réponse signée :</div>
+        <DownloadDocument
+          className="mb-0"
+          label="Télécharger la réponse signée"
+          format={réponseSignée.format}
+          url={Routes.Document.télécharger(DocumentProjet.bind(réponseSignée).formatter())}
+        />
+      </div>
+    )}
   </>
 );
 

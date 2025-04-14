@@ -25,7 +25,7 @@ export type ConsulterChangementPuissanceReadModel = {
     raison?: string;
     pièceJustificative?: DocumentProjet.ValueType;
     accord?: {
-      réponseSignée: DocumentProjet.ValueType;
+      réponseSignée?: DocumentProjet.ValueType;
       accordéePar: Email.ValueType;
       accordéeLe: DateTime.ValueType;
     };
@@ -96,12 +96,14 @@ export const mapToReadModel = (result: ChangementPuissanceEntity) => {
         ? {
             accordéeLe: DateTime.convertirEnValueType(result.demande.accord.accordéeLe),
             accordéePar: Email.convertirEnValueType(result.demande.accord.accordéePar),
-            réponseSignée: DocumentProjet.convertirEnValueType(
-              result.identifiantProjet,
-              TypeDocumentPuissance.changementAccordé.formatter(),
-              DateTime.convertirEnValueType(result.demande.accord.accordéeLe).formatter(),
-              result.demande.accord.réponseSignée.format,
-            ),
+            réponseSignée: result.demande.accord.réponseSignée
+              ? DocumentProjet.convertirEnValueType(
+                  result.identifiantProjet,
+                  TypeDocumentPuissance.changementAccordé.formatter(),
+                  DateTime.convertirEnValueType(result.demande.accord.accordéeLe).formatter(),
+                  result.demande.accord.réponseSignée.format,
+                )
+              : undefined,
           }
         : undefined,
       rejet: result.demande.rejet
