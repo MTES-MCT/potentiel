@@ -2,7 +2,6 @@
 Fonctionnalité: Enregistrer un changement de puissance d'un projet lauréat
 
     Contexte:
-        # on est obligés de cibler un AO et une période spécifique pour simplifier les fixtures
         Etant donné le projet lauréat "Du boulodrome de Marseille" avec :
             | appel d'offre | PPE2 - Eolien |
             | période       | 1             |
@@ -10,7 +9,8 @@ Fonctionnalité: Enregistrer un changement de puissance d'un projet lauréat
         Et la dreal "Dreal du sud" associée à la région du projet
 
     Scénario: Enregistrer un changement de puissance d'un projet lauréat
-        Quand le porteur enregistre un changement de puissance pour le projet lauréat
+        Quand le porteur enregistre un changement de puissance pour le projet lauréat avec :
+            | ratio puissance | 0.95 |
         Alors la puissance du projet lauréat devrait être mise à jour
         Et le changement enregistré de puissance devrait être consultable
         Et un email a été envoyé à la dreal avec :
@@ -19,32 +19,39 @@ Fonctionnalité: Enregistrer un changement de puissance d'un projet lauréat
             | url        | https://potentiel.beta.gouv.fr/projet/.*/details.html                                                                     |
 
     Scénario: Impossible de demander le changement de puissance d'un projet lauréat avec une valeur identique
-        Quand le porteur enregistre un changement de puissance avec la même valeur pour le projet lauréat
+        Quand le porteur enregistre un changement de puissance pour le projet lauréat avec :
+            | ratio puissance | 1 |
         Alors l'utilisateur devrait être informé que "La puissance doit avoir une valeur différente"
 
     Scénario: Impossible d'enregistrer un changement de puissance si la puissance est inexistant
         Etant donné le projet éliminé "Du boulodrome lyonnais"
-        Quand le porteur enregistre un changement de puissance pour le projet éliminé
+        Quand le porteur enregistre un changement de puissance pour le projet éliminé avec :
+            | ratio puissance | 0.95 |
         Alors l'utilisateur devrait être informé que "La puissance n'existe pas"
 
     Scénario: Impossible d'enregistrer un changement de puissance alors qu'un changement de puissance est en cours
-        Etant donné une demande de changement de puissance à la baisse pour le projet lauréat
-        Quand le porteur enregistre un changement de puissance pour le projet lauréat
+        Etant donné une demande de changement de puissance pour le projet lauréat avec :
+            | ratio puissance | 0.75 |
+        Quand le porteur enregistre un changement de puissance pour le projet lauréat avec :
+            | ratio puissance | 0.95 |
         Alors l'utilisateur devrait être informé que "Une demande de changement est déjà en cours"
 
     Scénario: Impossible pour le porteur d'enregistrer un changement de puissance d'un projet lauréat abandonné
         Etant donné un abandon accordé pour le projet lauréat
-        Quand le porteur enregistre un changement de puissance pour le projet lauréat
+        Quand le porteur enregistre un changement de puissance pour le projet lauréat avec :
+            | ratio puissance | 0.95 |
         Alors le porteur devrait être informé que "Impossible de demander le changement de puissance pour un projet abandonné"
 
     Scénario: Impossible pour le porteur d'enregistrer un changement de puissance si une demande d'abandon est en cours
         Etant donné une demande d'abandon en cours pour le projet lauréat
-        Quand le porteur enregistre un changement de puissance pour le projet lauréat
+        Quand le porteur enregistre un changement de puissance pour le projet lauréat avec :
+            | ratio puissance | 0.95 |
         Alors le porteur devrait être informé que "Impossible de demander le changement de puissance car une demande d'abandon est en cours pour le projet"
 
     Scénario: Impossible pour le porteur d'enregistrer un changement de puissance d'un projet achevé
         Etant donné une attestation de conformité transmise pour le projet lauréat
-        Quand le porteur enregistre un changement de puissance pour le projet lauréat
+        Quand le porteur enregistre un changement de puissance pour le projet lauréat avec :
+            | ratio puissance | 0.95 |
         Alors le porteur devrait être informé que "Impossible de demander le changement de puissance pour un projet achevé"
 
     Scénario: Impossible pour le porteur d'enregistrer un changement de puissance si elle est inférieure au ratio min autorisé par l'appel d'offres

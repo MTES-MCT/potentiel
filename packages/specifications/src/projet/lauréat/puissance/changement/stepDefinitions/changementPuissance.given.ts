@@ -1,4 +1,4 @@
-import { Given as EtantDonné } from '@cucumber/cucumber';
+import { DataTable, Given as EtantDonné } from '@cucumber/cucumber';
 
 import { PotentielWorld } from '../../../../../potentiel.world';
 
@@ -10,10 +10,11 @@ import {
 } from './changementPuissance.when';
 
 EtantDonné(
-  'une demande de changement de puissance à la baisse pour le projet lauréat',
-  async function (this: PotentielWorld) {
+  'une demande de changement de puissance pour le projet lauréat avec :',
+  async function (this: PotentielWorld, dataTable: DataTable) {
+    const exemple = dataTable.rowsHash();
     try {
-      await demanderChangementPuissance.call(this, 'lauréat');
+      await demanderChangementPuissance.call(this, 'lauréat', Number(exemple['ratio puissance']));
     } catch (error) {
       this.error = error as Error;
     }
@@ -21,22 +22,11 @@ EtantDonné(
 );
 
 EtantDonné(
-  'une demande de changement de puissance à la hausse pour le projet lauréat',
-  async function (this: PotentielWorld) {
+  'une demande de changement de puissance accordée pour le projet lauréat avec :',
+  async function (this: PotentielWorld, dataTable: DataTable) {
+    const exemple = dataTable.rowsHash();
     try {
-      // ce ratio est supérieur à celui de l'AO PPE2 - Eolien, Période 1 (1.4)
-      await demanderChangementPuissance.call(this, 'lauréat', 1.41);
-    } catch (error) {
-      this.error = error as Error;
-    }
-  },
-);
-
-EtantDonné(
-  'une demande de changement de puissance à la baisse accordée pour le projet lauréat',
-  async function (this: PotentielWorld) {
-    try {
-      await demanderChangementPuissance.call(this, 'lauréat');
+      await demanderChangementPuissance.call(this, 'lauréat', Number(exemple['ratio puissance']));
       await accorderChangementPuissance.call(this, this.utilisateurWorld.drealFixture.role);
     } catch (error) {
       this.error = error as Error;
@@ -44,10 +34,11 @@ EtantDonné(
   },
 );
 EtantDonné(
-  'une demande de changement de puissance à la baisse rejetée pour le projet lauréat',
-  async function (this: PotentielWorld) {
+  'une demande de changement de puissance rejetée pour le projet lauréat',
+  async function (this: PotentielWorld, dataTable: DataTable) {
+    const exemple = dataTable.rowsHash();
     try {
-      await demanderChangementPuissance.call(this, 'lauréat');
+      await demanderChangementPuissance.call(this, 'lauréat', Number(exemple['ratio puissance']));
       await rejeterChangementPuissance.call(this, this.utilisateurWorld.drealFixture.role);
     } catch (error) {
       this.error = error as Error;
@@ -56,10 +47,11 @@ EtantDonné(
 );
 
 EtantDonné(
-  'une demande de changement de puissance à la baisse annulée pour le projet lauréat',
-  async function (this: PotentielWorld) {
+  'une demande de changement de puissance annulée pour le projet lauréat',
+  async function (this: PotentielWorld, dataTable: DataTable) {
+    const exemple = dataTable.rowsHash();
     try {
-      await demanderChangementPuissance.call(this, 'lauréat');
+      await demanderChangementPuissance.call(this, 'lauréat', Number(exemple['ratio puissance']));
       await annulerChangementPuissance.call(this);
     } catch (error) {
       this.error = error as Error;
