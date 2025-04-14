@@ -1,16 +1,14 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
-import { IdentifiantProjet } from '@potentiel-domain/common';
+import { IdentifiantProjet } from '@potentiel-domain/projet';
 import { Option } from '@potentiel-libraries/monads';
 import { Event } from '@potentiel-infrastructure/pg-event-sourcing';
-import {
-  récupérerPorteursParIdentifiantProjetAdapter,
-  CandidatureAdapter,
-} from '@potentiel-infrastructure/domain-adapters';
+import { CandidatureAdapter } from '@potentiel-infrastructure/domain-adapters';
 import { Abandon } from '@potentiel-domain/laureat';
 import { Routes } from '@potentiel-applications/routes';
 
 import { EmailPayload, SendEmail } from '../../sendEmail';
+import { listerPorteursRecipients } from '../../helpers/listerPorteursRecipients';
 
 export type SubscriptionEvent = Abandon.AbandonEvent & Event;
 
@@ -78,7 +76,7 @@ const sendEmailAbandonChangementDeStatut = ({
 async function getEmailPayload(event: SubscriptionEvent): Promise<EmailPayload | undefined> {
   const identifiantProjet = IdentifiantProjet.convertirEnValueType(event.payload.identifiantProjet);
   const projet = await CandidatureAdapter.récupérerProjetAdapter(identifiantProjet.formatter());
-  const porteurs = await récupérerPorteursParIdentifiantProjetAdapter(identifiantProjet);
+  const porteurs = await listerPorteursRecipients(identifiantProjet);
 
   if (Option.isNone(projet) || porteurs.length === 0 || !process.env.DGEC_EMAIL) {
     return;

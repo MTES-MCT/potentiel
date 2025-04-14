@@ -3,7 +3,6 @@ Fonctionnalité: Corriger la demande de changement de représentant légal d'un 
 
     Contexte:
         Etant donné le projet lauréat "Du boulodrome de Marseille"
-        Et le porteur "Marcel Patoulatchi" ayant accés au projet lauréat "Du boulodrome de Marseille"
         Et la dreal "Dreal du sud-est" associée à la région du projet
 
     Scénario: Un porteur corrige sa demande de changement de représentant légal

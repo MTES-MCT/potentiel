@@ -56,6 +56,7 @@ export const register = ({ sendEmail }: RegisterTâchePlanifiéeNotificationDepe
     const projet = {
       nom: candidature.nom,
       département: candidature.localité.département,
+      région: candidature.localité.région,
     };
 
     return match(event.payload.typeTâchePlanifiée as TâchePlanifiée)

@@ -5,7 +5,6 @@ Fonctionnalité: Demander le changement de puissance d'un projet lauréat
         Etant donné le projet lauréat "Du boulodrome de Marseille" avec :
             | appel d'offre | PPE2 - Eolien |
             | période       | 1             |
-        Et le porteur "Marcel Patoulatchi" ayant accés au projet lauréat "Du boulodrome de Marseille"
         Et la dreal "Dreal du sud" associée à la région du projet
 
     Scénario: Demander le changement de puissance d'un projet lauréat avec un ratio à la baisse

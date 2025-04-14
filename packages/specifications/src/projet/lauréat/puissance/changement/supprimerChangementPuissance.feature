@@ -5,7 +5,6 @@ Fonctionnalité: Supprimer la demande de changement de puissance
         Etant donné le projet lauréat "Du boulodrome de Marseille" avec :
             | appel d'offre | PPE2 - Eolien |
             | période       | 1             |
-        Et le porteur "Marcel Patoulatchi" ayant accés au projet lauréat "Du boulodrome de Marseille"
 
     Scénario: Le système supprime la demande de changement de puissance si le projet est abandonné
         Etant donné une demande de changement de puissance pour le projet lauréat avec :

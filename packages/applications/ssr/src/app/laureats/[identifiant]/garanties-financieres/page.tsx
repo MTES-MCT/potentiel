@@ -3,10 +3,9 @@ import { mediator } from 'mediateur';
 
 import { Option } from '@potentiel-libraries/monads';
 import { Abandon, Achèvement, GarantiesFinancières } from '@potentiel-domain/laureat';
-import { Role, Utilisateur } from '@potentiel-domain/utilisateur';
+import { ListerPorteursQuery, Role, Utilisateur } from '@potentiel-domain/utilisateur';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { IdentifiantProjet } from '@potentiel-domain/common';
-import { récupérerPorteursParIdentifiantProjetAdapter } from '@potentiel-infrastructure/domain-adapters';
 
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { decodeParameter } from '@/utils/decodeParameter';
@@ -91,7 +90,10 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
         },
       });
 
-      const porteurs = await récupérerPorteursParIdentifiantProjetAdapter(identifiantProjet);
+      const porteurs = await mediator.send<ListerPorteursQuery>({
+        type: 'Utilisateur.Query.ListerPorteurs',
+        data: { identifiantProjet: identifiantProjet.formatter() },
+      });
 
       const abandon = await mediator.send<Abandon.ConsulterAbandonQuery>({
         type: 'Lauréat.Abandon.Query.ConsulterAbandon',
@@ -115,7 +117,7 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
           item.statut.estÉgaleÀ(GarantiesFinancières.StatutMainlevéeGarantiesFinancières.rejeté),
         ),
         estAbandonné: Option.isSome(abandon) && abandon.statut.estAccordé(),
-        contactPorteurs: porteurs.map((porteur) => porteur.email),
+        contactPorteurs: porteurs.items.map((porteur) => porteur.email),
         archivesGarantiesFinancières,
       });
 

@@ -4,15 +4,13 @@ import { match } from 'ts-pattern';
 import { Option } from '@potentiel-libraries/monads';
 import { Event } from '@potentiel-infrastructure/pg-event-sourcing';
 import { Éliminé } from '@potentiel-domain/projet';
-import { IdentifiantProjet } from '@potentiel-domain/common';
+import { IdentifiantProjet } from '@potentiel-domain/projet';
 import { Routes } from '@potentiel-applications/routes';
-import {
-  CandidatureAdapter,
-  récupérerPorteursParIdentifiantProjetAdapter,
-} from '@potentiel-infrastructure/domain-adapters';
+import { CandidatureAdapter } from '@potentiel-infrastructure/domain-adapters';
 import { ListerUtilisateursQuery, Role } from '@potentiel-domain/utilisateur';
 
 import { SendEmail } from '../../sendEmail';
+import { listerPorteursRecipients } from '../../helpers/listerPorteursRecipients';
 
 export type SubscriptionEvent = Éliminé.Recours.RecoursEvent & Event;
 
@@ -34,8 +32,7 @@ export const register = ({ sendEmail }: RegisterRecoursNotificationDependencies)
     );
 
     const projet = await CandidatureAdapter.récupérerProjetAdapter(identifiantProjet.formatter());
-    const porteurs = await récupérerPorteursParIdentifiantProjetAdapter(identifiantProjet);
-
+    const porteurs = await listerPorteursRecipients(identifiantProjet);
     if (Option.isNone(projet) || porteurs.length === 0 || !process.env.DGEC_EMAIL) {
       return;
     }

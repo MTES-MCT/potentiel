@@ -6,7 +6,6 @@ Fonctionnalité: Modifier le gestionnaire de réseau d'un raccordement
         Et le projet lauréat "Du boulodrome de Marseille"
         Et le gestionnaire de réseau "Enedis" attribué au raccordement du projet lauréat
         Et le gestionnaire de réseau "Arc Energies Maurienne"
-        Et le porteur "Marcel Patoulatchi" ayant accés au projet lauréat "Du boulodrome de Marseille"
 
     Scénario: Un porteur de projet modifie le gestionnaire de réseau d'un raccordement
         Quand le porteur modifie le gestionnaire de réseau du projet avec le gestionnaire "Arc Energies Maurienne"

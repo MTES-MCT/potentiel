@@ -1,4 +1,2 @@
-export * from './récupérerUtilisateurLegacy.adapter';
-export * from './récupérerPorteursParIdentifiantProjet.adapter';
-export * from './récupérerDrealsParIdentifiantProjet.adapter';
-export * from './récupérerIdentifiantsProjetParEmailPorteur.adapter';
+export { récupérerIdentifiantsProjetParEmailPorteurAdapter } from './récupérerIdentifiantsProjetParEmailPorteur.adapter';
+export { vérifierAccèsProjetAdapter } from './vérifierAccèsProjet.adapter';

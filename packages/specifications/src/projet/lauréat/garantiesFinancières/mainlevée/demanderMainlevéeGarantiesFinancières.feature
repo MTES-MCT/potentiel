@@ -3,7 +3,6 @@ Fonctionnalité: Demander la mainlevée des garanties financières d'un projet
 
     Contexte:
         Etant donné le projet lauréat sans garanties financières importées "Du boulodrome de Marseille"
-        Et le porteur "Marcel Patoulatchi" ayant accés au projet lauréat "Du boulodrome de Marseille"
 
     Scénario: Un porteur demande la levée des garanties financières de son projet abandonné
         Etant donnée un abandon accordé pour le projet lauréat "Du boulodrome de Marseille"

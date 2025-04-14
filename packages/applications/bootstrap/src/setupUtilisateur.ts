@@ -8,8 +8,7 @@ import { loadAggregate, subscribe } from '@potentiel-infrastructure/pg-event-sou
 import { findProjection, listProjection } from '@potentiel-infrastructure/pg-projection-read';
 import { UtilisateurProjector } from '@potentiel-applications/projectors';
 import { SendEmail, UtilisateurNotification } from '@potentiel-applications/notifications';
-
-import { vérifierAccèsProjetAdapter } from './authorization/vérifierAccèsProjet';
+import { vérifierAccèsProjetAdapter } from '@potentiel-infrastructure/domain-adapters';
 
 type SetupUtilisateurDependencies = {
   sendEmail: SendEmail;

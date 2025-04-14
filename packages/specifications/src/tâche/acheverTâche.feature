@@ -3,7 +3,6 @@ Fonctionnalité: Achever une tâche
 
     Contexte:
         Etant donné le projet lauréat sans garanties financières importées "Du boulodrome de Marseille"
-        Et le porteur "Marcel Patoulatchi" ayant accés au projet lauréat "Du boulodrome de Marseille"
 
     Scénario: Une tâche est achevée lorsqu'un dépot de garanties financières est soumis pour un projet en attente de garanties financières
         Etant donné des garanties financières en attente pour le projet "Du boulodrome de Marseille" avec :

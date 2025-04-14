@@ -22,7 +22,7 @@ Fonctionnalité: Notifier une période d'un appel d'offres
         Et les lauréats et éliminés devraient être consultables
 
     Scénario: Impossible de notifier une période sans fonction pour le validateur
-        Etant donné le DGEC Validateur sans fonction "Faustine Morel"
+        Etant donné le DGEC Validateur sans fonction
         Et une période avec un candidat importé
         Quand le DGEC validateur notifie la période d'un appel d'offres
         Alors le DGEC validateur devrait être informé que "La fonction de l'utilisateur doit être précisée pour cette opération"

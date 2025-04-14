@@ -1,19 +1,19 @@
-import { RécupérerIdentifiantsProjetParEmailPorteurPort } from '@potentiel-domain/utilisateur';
-import { executeSelect } from '@potentiel-libraries/pg-helpers';
-
-const getIdentifiantsProjetParEmailUtilisateurQuery = `
-  select p."appelOffreId" || '#' || p."periodeId" || '#' || p."familleId"  || '#' || p."numeroCRE" as "identifiantProjet"
-  from "projects" p
-  inner join "UserProjects" up on p.id = up."projectId"
-  inner join "users" u on up."userId" = u.id
-  where p."notifiedOn" > 0 and u."email" = $1 and u."disabled" is not true
-`;
+import { Email } from '@potentiel-domain/common';
+import {
+  RécupérerIdentifiantsProjetParEmailPorteurPort,
+  UtilisateurEntity,
+} from '@potentiel-domain/utilisateur';
+import { findProjection } from '@potentiel-infrastructure/pg-projection-read';
+import { Option } from '@potentiel-libraries/monads';
 
 export const récupérerIdentifiantsProjetParEmailPorteurAdapter: RécupérerIdentifiantsProjetParEmailPorteurPort =
-  async (email) => {
-    const results = await executeSelect<{
-      identifiantProjet: string;
-    }>(getIdentifiantsProjetParEmailUtilisateurQuery, email);
-
-    return results.map((result) => result.identifiantProjet);
+  async (email: string) => {
+    const identifiantUtilisateur = Email.convertirEnValueType(email);
+    const utilisateur = await findProjection<UtilisateurEntity>(
+      `utilisateur|${identifiantUtilisateur.formatter()}`,
+    );
+    if (Option.isSome(utilisateur) && utilisateur.rôle === 'porteur-projet') {
+      return utilisateur.projets;
+    }
+    return [];
   };

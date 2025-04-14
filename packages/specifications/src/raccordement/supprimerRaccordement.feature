@@ -5,7 +5,6 @@ Fonctionnalité: Supprimer le raccordement d'un projet
         Etant donné le gestionnaire de réseau "Arc Energies Maurienne"
         Et le référentiel ORE
         Et le projet lauréat "Du boulodrome de Marseille"
-        Et le porteur "Barbara Gordon" ayant accés au projet lauréat "Du boulodrome de Marseille"
 
     Scénario: Le système supprime le raccordement d'un projet si celui-ci a un abandon accordé
         Etant donné une demande complète de raccordement pour le projet lauréat

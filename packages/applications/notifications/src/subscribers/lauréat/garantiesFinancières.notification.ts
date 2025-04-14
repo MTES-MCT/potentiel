@@ -1,18 +1,16 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
-import { IdentifiantProjet } from '@potentiel-domain/common';
+import { IdentifiantProjet } from '@potentiel-domain/projet';
 import { Option } from '@potentiel-libraries/monads';
 import { Event } from '@potentiel-infrastructure/pg-event-sourcing';
-import {
-  récupérerPorteursParIdentifiantProjetAdapter,
-  CandidatureAdapter,
-  récupérerDrealsParIdentifiantProjetAdapter,
-} from '@potentiel-infrastructure/domain-adapters';
+import { CandidatureAdapter } from '@potentiel-infrastructure/domain-adapters';
 import { GarantiesFinancières } from '@potentiel-domain/laureat';
 import { Routes } from '@potentiel-applications/routes';
 
 import { formatDateForEmail } from '../../helpers/formatDateForEmail';
 import { EmailPayload, SendEmail } from '../../sendEmail';
+import { listerPorteursRecipients } from '../../helpers/listerPorteursRecipients';
+import { listerDrealsRecipients } from '../../helpers/listerDrealsRecipients';
 
 export type SubscriptionEvent = GarantiesFinancières.GarantiesFinancièresEvent & Event;
 
@@ -87,8 +85,8 @@ async function getEmailPayloads(event: SubscriptionEvent): Promise<(EmailPayload
     return [];
   }
 
-  const porteurs = await récupérerPorteursParIdentifiantProjetAdapter(identifiantProjet);
-  const dreals = await récupérerDrealsParIdentifiantProjetAdapter(identifiantProjet);
+  const porteurs = await listerPorteursRecipients(identifiantProjet);
+  const dreals = await listerDrealsRecipients(projet.localité.région);
 
   const nomProjet = projet.nom;
   const départementProjet = projet.localité.département;

@@ -1,7 +1,7 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 import { match } from 'ts-pattern';
 
-import { IdentifiantProjet } from '@potentiel-domain/common';
+import { IdentifiantProjet } from '@potentiel-domain/projet';
 import { Option } from '@potentiel-libraries/monads';
 import { Event } from '@potentiel-infrastructure/pg-event-sourcing';
 import { CandidatureAdapter } from '@potentiel-infrastructure/domain-adapters';
@@ -55,6 +55,7 @@ export const register = ({ sendEmail }: RegisterReprésentantLégalNotificationD
     const projet = {
       nom: candidature.nom,
       département: candidature.localité.département,
+      région: candidature.localité.région,
     };
 
     return match(event)
