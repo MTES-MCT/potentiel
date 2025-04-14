@@ -1,8 +1,8 @@
 import { Puissance } from '@potentiel-domain/laureat';
+import { getLogger } from '@potentiel-libraries/monitoring';
 import { Option } from '@potentiel-libraries/monads';
 import { findProjection } from '@potentiel-infrastructure/pg-projection-read';
 import { upsertProjection } from '@potentiel-infrastructure/pg-projection-write';
-import { getLogger } from '@potentiel-libraries/monitoring';
 
 export const changementPuissanceDemandéProjector = async ({
   payload: {

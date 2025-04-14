@@ -17,12 +17,12 @@ import { DétailsPuissancePageProps } from './DétailsPuissance.page';
 
 export type DétailsChangementPuissanceProps = {
   demande: DétailsPuissancePageProps['demande'];
-  unitePuissance: DétailsPuissancePageProps['unitePuissance'];
+  unitéPuissance: DétailsPuissancePageProps['unitéPuissance'];
 };
 
 export const DétailsChangementPuissance: FC<DétailsChangementPuissanceProps> = ({
   demande,
-  unitePuissance,
+  unitéPuissance,
 }) => {
   const statut = Puissance.StatutChangementPuissance.bind(demande.statut.statut);
 
@@ -36,14 +36,14 @@ export const DétailsChangementPuissance: FC<DétailsChangementPuissanceProps> =
       <>
         <div className="flex flex-col gap-4">
           <div className="flex flex-col gap-2">
-            {!demande.isInformationEnregistrée && demande.accord && (
+            {demande.accord && (
               <ChangementAccordé
                 accordéeLe={demande.accord.accordéeLe}
                 accordéePar={demande.accord.accordéePar}
                 réponseSignée={demande.accord.réponseSignée}
               />
             )}
-            {!demande.isInformationEnregistrée && demande.rejet && (
+            {demande.rejet && (
               <ChangementRejeté
                 rejetéeLe={demande.rejet.rejetéeLe}
                 rejetéePar={demande.rejet.rejetéePar}
@@ -68,10 +68,8 @@ export const DétailsChangementPuissance: FC<DétailsChangementPuissanceProps> =
           nouvellePuissance={demande.nouvellePuissance}
           raison={demande.raison}
           pièceJustificative={demande.pièceJustificative}
-          autoritéCompétente={
-            demande.isInformationEnregistrée ? undefined : demande.autoritéCompétente
-          }
-          unitePuissance={unitePuissance}
+          autoritéCompétente={demande.autoritéCompétente}
+          unitéPuissance={unitéPuissance}
         />
       </>
     </div>
@@ -82,7 +80,7 @@ type ChangementProps = {
   raison: DétailsChangementPuissanceProps['demande']['raison'];
   pièceJustificative: DétailsChangementPuissanceProps['demande']['pièceJustificative'];
   nouvellePuissance: DétailsChangementPuissanceProps['demande']['nouvellePuissance'];
-  unitePuissance: DétailsChangementPuissanceProps['unitePuissance'];
+  unitéPuissance: DétailsChangementPuissanceProps['unitéPuissance'];
   autoritéCompétente?: Puissance.RatioChangementPuissance.AutoritéCompétente;
 };
 
@@ -91,7 +89,7 @@ const Changement: FC<ChangementProps> = ({
   pièceJustificative,
   raison,
   autoritéCompétente,
-  unitePuissance,
+  unitéPuissance,
 }) => (
   <>
     <Heading5>Détails de la demande initiale</Heading5>
@@ -99,7 +97,7 @@ const Changement: FC<ChangementProps> = ({
       <div className="flex gap-2">
         <div className="font-semibold whitespace-nowrap">Puissance : </div>
         <div>
-          {nouvellePuissance} {unitePuissance}
+          {nouvellePuissance} {unitéPuissance}
         </div>
       </div>
       {autoritéCompétente && (
@@ -172,7 +170,7 @@ const ChangementDemandé: FC<ChangementDemandéProps> = ({ demandéeLe, demandé
 );
 
 type ChangementAccordéProps = NonNullable<
-  PlainType<Puissance.DétailsDemandeChangementPuissanceReadModel['accord']>
+  PlainType<Puissance.ConsulterChangementPuissanceReadModel['demande']['accord']>
 >;
 
 const ChangementAccordé: FC<ChangementAccordéProps> = ({
@@ -203,7 +201,7 @@ const ChangementAccordé: FC<ChangementAccordéProps> = ({
 );
 
 type ChangementRejetéProps = NonNullable<
-  PlainType<Puissance.DétailsDemandeChangementPuissanceReadModel['rejet']>
+  PlainType<Puissance.ConsulterChangementPuissanceReadModel['demande']['rejet']>
 >;
 
 const ChangementRejeté: FC<ChangementRejetéProps> = ({ rejetéeLe, rejetéePar, réponseSignée }) => (

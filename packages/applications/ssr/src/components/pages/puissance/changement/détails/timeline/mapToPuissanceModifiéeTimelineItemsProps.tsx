@@ -1,8 +1,11 @@
 import { Puissance } from '@potentiel-domain/laureat';
 
-import { PuissanceHistoryRecord } from '.';
+import { HistoriquePuissanceTimelineProps, PuissanceHistoryRecord } from '.';
 
-export const mapToPuissanceModifiéeTimelineItemsProps = (record: PuissanceHistoryRecord) => {
+export const mapToPuissanceModifiéeTimelineItemsProps = (
+  record: PuissanceHistoryRecord,
+  unitéPuissance: HistoriquePuissanceTimelineProps['unitéPuissance'],
+) => {
   const { modifiéeLe, modifiéePar, puissance, raison } =
     record.payload as Puissance.PuissanceModifiéeEvent['payload'];
 
@@ -14,7 +17,7 @@ export const mapToPuissanceModifiéeTimelineItemsProps = (record: PuissanceHisto
         <div>
           Nouvelle puissance :{' '}
           <span className="font-semibold">
-            {puissance} {record.unitePuissance}
+            {puissance} {unitéPuissance}
           </span>
         </div>
         {raison && (

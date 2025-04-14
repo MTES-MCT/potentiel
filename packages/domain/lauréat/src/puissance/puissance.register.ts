@@ -9,7 +9,10 @@ import { registerModifierPuissanceCommand } from './modifier/modifierPuissance.c
 import { registerModifierPuissanceUseCase } from './modifier/modifierPuissance.usecase';
 import { registerDemanderChangementPuissanceCommand } from './changement/demander/demanderChangementPuissance.command';
 import { registerDemanderChangementPuissanceUseCase } from './changement/demander/demanderChangementPuissance.usecase';
-import { registerConsulterChangementPuissanceQuery } from './changement/consulter/consulterChangementPuissance.query';
+import {
+  ConsulterChangementPuissanceDependencies,
+  registerConsulterChangementPuissanceQuery,
+} from './changement/consulter/consulterChangementPuissance.query';
 import { registerAnnulerChangementPuissanceCommand } from './changement/annuler/annulerChangementPuissance.command';
 import { registerAnnulerChangementPuissanceUseCase } from './changement/annuler/annulerChangementPuissance.usecase';
 import { registerSupprimerChangementPuissanceCommand } from './changement/supprimer/supprimerChangementPuissance.command';
@@ -19,8 +22,14 @@ import { registerEnregistrerChangementPuissanceCommand } from './changement/enre
 import { registerEnregistrerChangementPuissanceUseCase } from './changement/enregistrerChangement/enregistrerChangementPuissance.usecase';
 import { registerRejeterChangementPuissanceUseCase } from './changement/rejeter/rejeterChangementPuissance.usecase';
 import { registerRejeterChangementPuissanceCommand } from './changement/rejeter/rejeterChangementPuissance.command';
+import {
+  ListerChangementPuissanceDependencies,
+  registerListerChangementPuissanceQuery,
+} from './changement/lister/listerChangementPuissance.query';
 
-export type PuissanceQueryDependencies = ConsulterPuissanceDependencies;
+export type PuissanceQueryDependencies = ConsulterPuissanceDependencies &
+  ConsulterChangementPuissanceDependencies &
+  ListerChangementPuissanceDependencies;
 
 export type PuissanceCommandDependencies = {
   loadAggregate: LoadAggregate;
@@ -47,4 +56,5 @@ export const registerPuissanceUseCases = ({ loadAggregate }: PuissanceCommandDep
 export const registerPuissanceQueries = (dependencies: PuissanceQueryDependencies) => {
   registerConsulterPuissanceQuery(dependencies);
   registerConsulterChangementPuissanceQuery(dependencies);
+  registerListerChangementPuissanceQuery(dependencies);
 };

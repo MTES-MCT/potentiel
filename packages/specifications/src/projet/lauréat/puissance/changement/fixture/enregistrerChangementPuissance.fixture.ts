@@ -54,7 +54,7 @@ export class EnregistrerChangementPuissanceFixture
   ): Readonly<EnregistrerChangementPuissance> {
     const content = faker.word.words();
 
-    const fixture = {
+    const fixture: EnregistrerChangementPuissance = {
       demandéLe: faker.date.recent().toISOString(),
       demandéPar: faker.internet.email(),
       raison: faker.company.catchPhrase(),

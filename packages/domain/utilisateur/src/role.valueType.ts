@@ -30,6 +30,7 @@ export type ValueType = ReadonlyValueType<{
   libellé(): string;
   peutExécuterMessage(typeMessage: string): void;
   aLaPermission(value: Policy): boolean;
+  estDGEC(): boolean;
 }>;
 
 export const convertirEnValueType = (value: string): ValueType => {
@@ -52,6 +53,9 @@ export const convertirEnValueType = (value: string): ValueType => {
       if (!aLaPermission) {
         throw new AccèsFonctionnalitéRefuséError(typeMessage, this.nom);
       }
+    },
+    estDGEC() {
+      return this.nom === 'admin' || this.nom === 'dgec-validateur';
     },
   };
 };
@@ -296,6 +300,7 @@ const référencielPermissions = {
       query: {
         consulter: 'Lauréat.Puissance.Query.ConsulterPuissance',
         consulterChangement: 'Lauréat.Puissance.Query.ConsulterChangementPuissance',
+        listerChangement: 'Lauréat.Puissance.Query.ListerChangementPuissance',
       },
       usecase: {
         modifier: 'Lauréat.Puissance.UseCase.ModifierPuissance',
@@ -1012,6 +1017,10 @@ const policies = {
       référencielPermissions.candidature.query.consulterProjet,
       référencielPermissions.lauréat.puissance.query.consulter,
     ],
+    listerChangement: [
+      référencielPermissions.appelOffre.query.lister,
+      référencielPermissions.lauréat.puissance.query.listerChangement,
+    ],
     modifier: [
       référencielPermissions.candidature.query.consulterProjet,
       référencielPermissions.lauréat.puissance.usecase.modifier,
@@ -1219,10 +1228,10 @@ const adminPolicies: ReadonlyArray<Policy> = [
 
   // Puissance
   'puissance.modifier',
-  'puissance.consulter',
   'puissance.consulterChangement',
   'puissance.accorderChangement',
   'puissance.rejeterChangement',
+  'puissance.listerChangement',
 ];
 
 const dgecValidateurPolicies: ReadonlyArray<Policy> = [
@@ -1264,6 +1273,10 @@ const crePolicies: ReadonlyArray<Policy> = [
   // Représentant Légal
   'représentantLégal.consulterChangement',
   'représentantLégal.listerChangement',
+
+  // Puissance
+  'puissance.consulterChangement',
+  'puissance.listerChangement',
 ];
 
 const drealPolicies: ReadonlyArray<Policy> = [
@@ -1332,6 +1345,7 @@ const drealPolicies: ReadonlyArray<Policy> = [
   'puissance.consulterChangement',
   'puissance.accorderChangement',
   'puissance.rejeterChangement',
+  'puissance.listerChangement',
 
   // Utilisateur
   'utilisateur.inviterPorteur',
@@ -1412,6 +1426,7 @@ const porteurProjetPolicies: ReadonlyArray<Policy> = [
   'puissance.enregistrerChangement',
   'puissance.demanderChangement',
   'puissance.annulerChangement',
+  'puissance.listerChangement',
 
   // Utilisateur
   'utilisateur.inviterPorteur',
@@ -1441,6 +1456,10 @@ const acheteurObligéPolicies: ReadonlyArray<Policy> = [
   // Représentant Légal
   'représentantLégal.consulterChangement',
   'représentantLégal.listerChangement',
+
+  // Puissance
+  'puissance.consulterChangement',
+  'puissance.listerChangement',
 ];
 
 const caisseDesDépôtsPolicies: ReadonlyArray<Policy> = [
