@@ -92,6 +92,19 @@ export const bind = ({
         puissanceActuelle: nouvellePuissance / this.ratio,
       });
     },
+    récupérerRatiosChangementPuissance(): { minRatio: number; maxRatio: number } {
+      const { min, max } = getRatiosChangementPuissance({
+        appelOffre: this.appelOffre,
+        technologie,
+        cahierDesCharges: this.cahierDesCharges,
+      });
+      return { minRatio: min, maxRatio: max };
+    },
+    récupérerVolumeRéservé(): boolean {
+      return getVolumeRéservé({
+        période,
+        nouvellePuissanc;
+    },
     vérifierQueLaDemandeEstPossible(typeDemande: 'demande' | 'information-enregistrée') {
       // ordre des erreurs suit celui du legacy
       if (this.dépassePuissanceMaxFamille()) {

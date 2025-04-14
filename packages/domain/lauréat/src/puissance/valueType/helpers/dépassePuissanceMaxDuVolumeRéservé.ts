@@ -1,6 +1,8 @@
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { PlainType } from '@potentiel-domain/core';
 
+import { récupérerVolumeRéservé } from './récupérerVolumeRéservé';
+
 export const dépassePuissanceMaxDuVolumeRéservé = ({
   période,
   nouvellePuissance,
@@ -20,7 +22,7 @@ export const dépassePuissanceMaxDuVolumeRéservé = ({
       ? 'volume-réservé'
       : 'hors-volume-réservé';
 
-  const volumeReservé = période.noteThreshold.volumeReserve;
+  const volumeReservé = récupérerVolumeRéservé({ période });
 
   if (volumeReservé) {
     const { puissanceMax } = volumeReservé;
