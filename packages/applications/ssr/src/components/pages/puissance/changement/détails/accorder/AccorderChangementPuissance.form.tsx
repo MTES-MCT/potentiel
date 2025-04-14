@@ -73,7 +73,7 @@ export const AccorderChangementPuissance = ({
               <Checkbox
                 state={validationErrors['estUneDecisionDEtat'] ? 'error' : 'default'}
                 stateRelatedMessage={validationErrors['estUneDecisionDEtat']}
-                hintText="En cochant cette case, vous devrez joindre un courrier uniquement en cas de refus."
+                hintText="Si le changement de puissance fait suite à une décision de l'État, la réponse signée est optionnelle."
                 options={[
                   {
                     label:

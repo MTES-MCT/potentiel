@@ -61,7 +61,7 @@ export const changementPuissanceAccordéProjector = async ({
         accord: {
           accordéeLe: accordéLe,
           accordéePar: accordéPar,
-          réponseSignée: réponseSignée,
+          réponseSignée,
         },
       },
     },

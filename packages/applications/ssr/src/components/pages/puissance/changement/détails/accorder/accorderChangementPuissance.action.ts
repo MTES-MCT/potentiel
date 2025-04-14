@@ -48,7 +48,7 @@ const action: FormAction<FormState, typeof schema> = async (
             }
           : {
               estUneDécisionDEtatValue: false,
-              réponseSignéeValue: reponseSignee as { content: ReadableStream; format: string },
+              réponseSignéeValue: reponseSignee,
             }),
       },
     });

@@ -69,7 +69,6 @@ export const RejeterChangementPuissance = ({
               <Checkbox
                 state={validationErrors['estUneDecisionDEtat'] ? 'error' : 'default'}
                 stateRelatedMessage={validationErrors['estUneDecisionDEtat']}
-                hintText="En cochant cette case, vous devrez joindre un courrier uniquement en cas de refus."
                 options={[
                   {
                     label:
