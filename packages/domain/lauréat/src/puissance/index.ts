@@ -99,6 +99,7 @@ export * from './changement/changementPuissance.entity';
 export * as StatutChangementPuissance from './valueType/statutChangementPuissance.valueType';
 export * as TypeDocumentPuissance from './valueType/typeDocumentPuissance.valueType';
 export * as RatioChangementPuissance from './valueType/ratioChangementPuissance.valueType';
+export * as AutoritéCompétente from './valueType/autoritéCompétente.valueType';
 
 // Saga
 export * as PuissanceSaga from './saga';

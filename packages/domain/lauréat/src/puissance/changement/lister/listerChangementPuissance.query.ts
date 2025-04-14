@@ -10,11 +10,7 @@ import {
   Utilisateur,
 } from '../../../_utils/getRoleBasedWhereCondition';
 import { Lauréat } from '../../..';
-import {
-  ChangementPuissanceEntity,
-  RatioChangementPuissance,
-  StatutChangementPuissance,
-} from '../..';
+import { AutoritéCompétente, ChangementPuissanceEntity, StatutChangementPuissance } from '../..';
 
 type ChangementPuissanceItemReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
@@ -38,7 +34,7 @@ export type ListerChangementPuissanceQuery = Message<
     statut?: StatutChangementPuissance.RawType;
     appelOffre?: string;
     nomProjet?: string;
-    autoriteInstructrice?: RatioChangementPuissance.AutoritéCompétente;
+    autoriteInstructrice?: AutoritéCompétente.RawType;
     range: RangeOptions;
   },
   ListerChangementPuissanceReadModel

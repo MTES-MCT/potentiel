@@ -7,46 +7,17 @@ import { PotentielWorld } from '../../../../../potentiel.world';
 import { UtilisateurWorld } from '../../../../../utilisateur/utilisateur.world';
 
 Quand(
-  'le porteur demande le changement de puissance avec la même valeur pour le projet lauréat',
-  async function (this: PotentielWorld) {
-    try {
-      await demanderChangementPuissance.call(this, 'lauréat', 1);
-    } catch (error) {
-      this.error = error as Error;
-    }
-  },
-);
-
-Quand(
-  'le porteur demande le changement de puissance à la baisse pour le projet {lauréat-éliminé}',
-  async function (this: PotentielWorld, statutProjet: 'lauréat' | 'éliminé') {
-    try {
-      await demanderChangementPuissance.call(this, statutProjet, undefined);
-    } catch (error) {
-      this.error = error as Error;
-    }
-  },
-);
-
-Quand(
-  'le porteur demande le changement de puissance à la hausse pour le projet lauréat',
-  async function (this: PotentielWorld) {
-    const ratioALaHausse = 1.5;
-    try {
-      await demanderChangementPuissance.call(this, 'lauréat', ratioALaHausse);
-    } catch (error) {
-      this.error = error as Error;
-    }
-  },
-);
-
-Quand(
-  'le porteur demande le changement de puissance pour le projet lauréat avec :',
-  async function (this: PotentielWorld, dataTable: DataTable) {
+  'le porteur demande le changement de puissance pour le projet {lauréat-éliminé} avec :',
+  async function (this: PotentielWorld, statutProjet: 'lauréat' | 'éliminé', dataTable: DataTable) {
     const exemple = dataTable.rowsHash();
+    const ratio =
+      exemple['nouvelle puissance'] !== undefined
+        ? Number(exemple['nouvelle puissance']) /
+          this.lauréatWorld.puissanceWorld.importerPuissanceFixture.puissance
+        : Number(exemple['ratio puissance']);
 
     try {
-      await demanderChangementPuissance.call(this, 'lauréat', Number(exemple['ratio puissance']));
+      await demanderChangementPuissance.call(this, statutProjet, ratio);
     } catch (error) {
       this.error = error as Error;
     }
@@ -54,38 +25,17 @@ Quand(
 );
 
 Quand(
-  'le porteur enregistre un changement de puissance pour le projet {lauréat-éliminé}',
-  async function (this: PotentielWorld, statutProjet: 'lauréat' | 'éliminé') {
-    try {
-      await enregistrerChangementPuissance.call(this, statutProjet, undefined);
-    } catch (error) {
-      this.error = error as Error;
-    }
-  },
-);
-
-Quand(
-  'le porteur enregistre un changement de puissance avec la même valeur pour le projet lauréat',
-  async function (this: PotentielWorld) {
-    try {
-      await enregistrerChangementPuissance.call(this, 'lauréat', 1);
-    } catch (error) {
-      this.error = error as Error;
-    }
-  },
-);
-
-Quand(
-  'le porteur enregistre le changement de puissance pour le projet lauréat avec :',
-  async function (this: PotentielWorld, dataTable: DataTable) {
+  'le porteur enregistre un changement de puissance pour le projet {lauréat-éliminé} avec :',
+  async function (this: PotentielWorld, statutProjet: 'lauréat' | 'éliminé', dataTable: DataTable) {
     const exemple = dataTable.rowsHash();
+    const ratio =
+      exemple['nouvelle puissance'] !== undefined
+        ? Number(exemple['nouvelle puissance']) /
+          this.lauréatWorld.puissanceWorld.importerPuissanceFixture.puissance
+        : Number(exemple['ratio puissance']);
 
     try {
-      await enregistrerChangementPuissance.call(
-        this,
-        'lauréat',
-        Number(exemple['ratio puissance']),
-      );
+      await enregistrerChangementPuissance.call(this, statutProjet, ratio);
     } catch (error) {
       this.error = error as Error;
     }

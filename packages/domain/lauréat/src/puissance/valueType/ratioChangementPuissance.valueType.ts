@@ -1,29 +1,140 @@
-import { PlainType, ReadonlyValueType } from '@potentiel-domain/core';
+import { DomainError, PlainType, ReadonlyValueType } from '@potentiel-domain/core';
+import { AppelOffre } from '@potentiel-domain/appel-offre';
+import { Candidature } from '@potentiel-domain/candidature';
 
-// work in progress
-// ce value type sera utilisé pour vérifier les règles de ratios de puissance
-// ainsi que pour la règle liée à l'autorité compétente
-export const autoritéCompétentes = ['dreal', 'dgec-admin'] as const;
+import { ConsulterCahierDesChargesChoisiReadmodel } from '../../cahierDesChargesChoisi';
 
-export type AutoritéCompétente = (typeof autoritéCompétentes)[number];
+import {
+  dépassePuissanceMaxDuVolumeRéservé,
+  dépassePuissanceMaxFamille,
+  dépasseRatiosChangementPuissance,
+  getRatiosChangementPuissance,
+} from './helpers';
 
 export type RawType = number;
 
 export type ValueType = ReadonlyValueType<{
   ratio: number;
-  getAutoritéCompétente: () => AutoritéCompétente;
+  appelOffre: PlainType<AppelOffre.ConsulterAppelOffreReadModel>;
+  technologie: Candidature.TypeTechnologie.RawType;
+  cahierDesCharges: PlainType<ConsulterCahierDesChargesChoisiReadmodel>;
+  période: PlainType<AppelOffre.Periode>;
+  nouvellePuissance: number;
+  famille?: AppelOffre.Famille;
+  note: number;
+  vérifierQueLaDemandeEstPossible: (typeDemande: 'demande' | 'information-enregistrée') => void;
+  dépasseRatiosChangementPuissance: () => { enDeçaDeMin: boolean; dépasseMax: boolean };
+  dépassePuissanceMaxDuVolumeRéservé: () => boolean;
+  dépassePuissanceMaxFamille: () => boolean;
 }>;
 
-export const bind = ({ ratio }: PlainType<ValueType>): ValueType => {
+export const bind = ({
+  ratio,
+  appelOffre,
+  note,
+  période,
+  nouvellePuissance,
+  famille,
+  technologie,
+  cahierDesCharges,
+}: PlainType<ValueType>): ValueType => {
   return {
     get ratio() {
       return ratio;
     },
+    get appelOffre() {
+      return appelOffre;
+    },
+    get technologie() {
+      return technologie;
+    },
+    get cahierDesCharges() {
+      return cahierDesCharges;
+    },
+    get période() {
+      return période;
+    },
+    get nouvellePuissance() {
+      return nouvellePuissance;
+    },
+    get famille() {
+      return famille;
+    },
+    get note() {
+      return note;
+    },
     estÉgaleÀ(valueType) {
       return this.ratio === valueType.ratio;
     },
-    getAutoritéCompétente(): AutoritéCompétente {
-      return ratio < 1 ? 'dreal' : 'dgec-admin';
+    dépasseRatiosChangementPuissance(): { enDeçaDeMin: boolean; dépasseMax: boolean } {
+      const { min, max } = getRatiosChangementPuissance({
+        appelOffre: this.appelOffre,
+        technologie,
+        cahierDesCharges: this.cahierDesCharges,
+      });
+      return dépasseRatiosChangementPuissance({
+        minRatio: min,
+        maxRatio: max,
+        ratio,
+      });
+    },
+    dépassePuissanceMaxFamille(): boolean {
+      return dépassePuissanceMaxFamille({
+        famille: this.famille,
+        nouvellePuissance,
+      });
+    },
+    dépassePuissanceMaxDuVolumeRéservé(): boolean {
+      return dépassePuissanceMaxDuVolumeRéservé({
+        note,
+        période,
+        nouvellePuissance,
+        puissanceActuelle: nouvellePuissance / this.ratio,
+      });
+    },
+    vérifierQueLaDemandeEstPossible(typeDemande: 'demande' | 'information-enregistrée') {
+      // ordre des erreurs suit celui du legacy
+      if (this.dépassePuissanceMaxFamille()) {
+        throw new PuissanceDépassePuissanceMaxFamille();
+      }
+
+      if (this.dépassePuissanceMaxDuVolumeRéservé()) {
+        throw new PuissanceDépasseVolumeRéservéAO();
+      }
+
+      if (typeDemande === 'information-enregistrée') {
+        if (this.dépasseRatiosChangementPuissance().dépasseMax) {
+          throw new PuissanceDépassePuissanceMaxAO();
+        }
+
+        if (this.dépasseRatiosChangementPuissance().enDeçaDeMin) {
+          throw new PuissanceEnDeçaPuissanceMinAO();
+        }
+      }
     },
   };
 };
+
+class PuissanceDépassePuissanceMaxAO extends DomainError {
+  constructor() {
+    super("La puissance dépasse la puissance maximale autorisée par l'appel d'offres");
+  }
+}
+
+class PuissanceEnDeçaPuissanceMinAO extends DomainError {
+  constructor() {
+    super("La puissance est en deça de la puissance minimale autorisée par l'appel d'offres");
+  }
+}
+
+class PuissanceDépassePuissanceMaxFamille extends DomainError {
+  constructor() {
+    super("La puissance dépasse la puissance maximale de la famille de l'appel d'offre");
+  }
+}
+
+class PuissanceDépasseVolumeRéservéAO extends DomainError {
+  constructor() {
+    super("La puissance dépasse le volume réservé de l'appel d'offre");
+  }
+}

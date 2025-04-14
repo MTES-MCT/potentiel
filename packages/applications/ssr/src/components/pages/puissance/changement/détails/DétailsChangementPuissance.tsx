@@ -68,7 +68,7 @@ export const DétailsChangementPuissance: FC<DétailsChangementPuissanceProps> =
           nouvellePuissance={demande.nouvellePuissance}
           raison={demande.raison}
           pièceJustificative={demande.pièceJustificative}
-          autoritéCompétente={demande.autoritéCompétente}
+          autoritéCompétente={demande.autoritéCompétente?.autoritéCompétente}
           unitéPuissance={unitéPuissance}
         />
       </>
@@ -81,7 +81,7 @@ type ChangementProps = {
   pièceJustificative: DétailsChangementPuissanceProps['demande']['pièceJustificative'];
   nouvellePuissance: DétailsChangementPuissanceProps['demande']['nouvellePuissance'];
   unitéPuissance: DétailsChangementPuissanceProps['unitéPuissance'];
-  autoritéCompétente?: Puissance.RatioChangementPuissance.AutoritéCompétente;
+  autoritéCompétente?: Puissance.AutoritéCompétente.RawType;
 };
 
 const Changement: FC<ChangementProps> = ({

@@ -52,6 +52,7 @@ Fonctionnalité: Modifier la puissance d'un projet lauréat
         Alors l'utilisateur devrait être informé que "La puissance n'existe pas"
 
     Scénario: Impossible de modifier la puissance d'un projet lauréat alors qu'un changement de puissance est en cours
-        Etant donné une demande de changement de puissance à la baisse pour le projet lauréat
+        Etant donné une demande de changement de puissance pour le projet lauréat avec :
+            | ratio puissance | 0.75 |
         Quand le DGEC validateur modifie la puissance pour le projet lauréat
         Alors l'utilisateur devrait être informé que "Une demande de changement de puissance est déjà en cours"

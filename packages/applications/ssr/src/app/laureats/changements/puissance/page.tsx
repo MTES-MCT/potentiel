@@ -29,7 +29,7 @@ const paramsSchema = z.object({
   page: z.coerce.number().int().optional().default(1),
   nomProjet: z.string().optional(),
   appelOffre: z.string().optional(),
-  autoriteInstructrice: z.enum(Puissance.RatioChangementPuissance.autoritéCompétentes).optional(),
+  autoriteInstructrice: z.enum(Puissance.AutoritéCompétente.autoritéCompétentes).optional(),
   statut: z.enum(Puissance.StatutChangementPuissance.statuts).optional(),
 });
 
@@ -90,7 +90,7 @@ export default async function Page({ searchParams }: PageProps) {
         filters.push({
           label: 'Autorité instructrice',
           searchParamKey: 'autoriteInstructrice',
-          options: Puissance.RatioChangementPuissance.autoritéCompétentes.map((autorité) => ({
+          options: Puissance.AutoritéCompétente.autoritéCompétentes.map((autorité) => ({
             label: match(autorité)
               .with('dreal', () => 'DREAL')
               .with('dgec-admin', () => 'DGEC')

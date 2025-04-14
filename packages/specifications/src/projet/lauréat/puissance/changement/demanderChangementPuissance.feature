@@ -2,12 +2,15 @@
 Fonctionnalité: Demander le changement de puissance d'un projet lauréat
 
     Contexte:
-        Etant donné le projet lauréat "Du boulodrome de Marseille"
+        Etant donné le projet lauréat "Du boulodrome de Marseille" avec :
+            | appel d'offre | PPE2 - Eolien |
+            | période       | 1             |
         Et le porteur "Marcel Patoulatchi" ayant accés au projet lauréat "Du boulodrome de Marseille"
         Et la dreal "Dreal du sud" associée à la région du projet
 
     Scénario: Demander le changement de puissance d'un projet lauréat avec un ratio à la baisse
-        Quand le porteur demande le changement de puissance à la baisse pour le projet lauréat
+        Quand le porteur demande le changement de puissance pour le projet lauréat avec :
+            | ratio puissance | 0.75 |
         Alors la demande de changement de puissance devrait être consultable
         Et un email a été envoyé à la dreal avec :
             | sujet      | Potentiel - changement de puissance pour le projet Du boulodrome de Marseille dans le département(.*) demandé |
@@ -15,7 +18,8 @@ Fonctionnalité: Demander le changement de puissance d'un projet lauréat
             | url        | https://potentiel.beta.gouv.fr/laureats/.*/puissance/changement/.*                                            |
 
     Scénario: Demander le changement de puissance d'un projet lauréat avec un ratio à la hausse
-        Quand le porteur demande le changement de puissance à la hausse pour le projet lauréat
+        Quand le porteur demande le changement de puissance pour le projet lauréat avec :
+            | ratio puissance | 1.25 |
         Alors la demande de changement de puissance devrait être consultable
         Et un email a été envoyé à la dgec avec :
             | sujet      | Potentiel - changement de puissance pour le projet Du boulodrome de Marseille dans le département(.*) demandé |
@@ -24,11 +28,13 @@ Fonctionnalité: Demander le changement de puissance d'un projet lauréat
 
     Scénario: Impossible de demander le changement de puissance si la puissance est inexistante
         Etant donné le projet éliminé "Du boulodrome de Lyon"
-        Quand le porteur demande le changement de puissance à la baisse pour le projet éliminé
+        Quand le porteur demande le changement de puissance pour le projet éliminé avec :
+            | ratio puissance | 0.75 |
         Alors l'utilisateur devrait être informé que "La puissance n'existe pas"
 
     Scénario: Impossible de demander le changement de puissance d'un projet lauréat avec une valeur identique
-        Quand le porteur demande le changement de puissance avec la même valeur pour le projet lauréat
+        Quand le porteur demande le changement de puissance pour le projet lauréat avec :
+            | ratio puissance | 1 |
         Alors l'utilisateur devrait être informé que "La puissance doit avoir une valeur différente"
 
     Scénario: Impossible de demander le changement de puissance si la nouvelle valeur est nulle ou négative
@@ -41,39 +47,45 @@ Fonctionnalité: Demander le changement de puissance d'un projet lauréat
             | 0     |
             | -1    |
 
-    @NotImplemented
-    Scénario: Impossible de demander le changement de puissance si la nouvelle puissance dépasse la puissance max par famille
+    Scénario: Impossible pour le porteur d'enregistrer un changement de puissance si elle dépasse la puissance max par famille
+        Etant donné le projet lauréat "Du bouchon lyonnais" avec :
+            | appel d'offre | PPE2 - Innovation |
+            | période       | 1                 |
+            | famille       | 1                 |
         Quand le porteur demande le changement de puissance pour le projet lauréat avec :
-            | nouvelle puissance |  |
-            | appel d'offre      |  |
-            | période            |  |
-            | famille            |  |
+            | nouvelle puissance | 3.1 |
+        Alors l'utilisateur devrait être informé que "La puissance dépasse la puissance maximale de la famille de l'appel d'offre"
 
-        Alors l'utilisateur devrait être informé que "La puissance dépasse la puissance maximale de la famille de votre appel d'offre"
-
-    @NotImplemented
-    Scénario: Impossible de demander le changement de puissance si la nouvelle puissance dépasse le volume réservé de l'appel d'offre
+    Scénario: Scénario: Impossible pour le porteur de demander un changement de puissance si elle dépasse le volume réservé de l'appel d'offre
+        Etant donné le projet lauréat "Du bouchon lyonnais" avec :
+            | appel d'offre | PPE2 - Sol |
+            | période       | 3          |
+            | note totale   | 34         |
         Quand le porteur demande le changement de puissance pour le projet lauréat avec :
-            | nouvelle puissance |  |
-            | appel d'offre      |  |
-        Alors l'utilisateur devrait être informé que "La puissance dépasse le volume réservé de votre appel d'offre"
+            | nouvelle puissance | 6 |
+        Alors l'utilisateur devrait être informé que "La puissance dépasse le volume réservé de l'appel d'offre"
 
     Scénario: Impossible de demander le changement de puissance si une demande existe déjà
-        Etant donné une demande de changement de puissance à la baisse pour le projet lauréat
-        Quand le porteur demande le changement de puissance à la baisse pour le projet lauréat
+        Etant donné une demande de changement de puissance pour le projet lauréat avec :
+            | ratio puissance | 0.95 |
+        Quand le porteur demande le changement de puissance pour le projet lauréat avec :
+            | ratio puissance | 1.25 |
         Alors l'utilisateur devrait être informé que "Une demande de changement est déjà en cours"
 
     Scénario: Impossible de demander le changement de puissance d'un projet lauréat abandonné
         Etant donné un abandon accordé pour le projet lauréat
-        Quand le porteur demande le changement de puissance à la baisse pour le projet lauréat
+        Quand le porteur demande le changement de puissance pour le projet lauréat avec :
+            | ratio puissance | 1.25 |
         Alors le porteur devrait être informé que "Impossible de demander le changement de puissance pour un projet abandonné"
 
     Scénario: Impossible de demander le changement de puissance si une demande d'abandon est en cours
         Etant donné une demande d'abandon en cours pour le projet lauréat
-        Quand le porteur demande le changement de puissance à la baisse pour le projet lauréat
+        Quand le porteur demande le changement de puissance pour le projet lauréat avec :
+            | ratio puissance | 1.25 |
         Alors le porteur devrait être informé que "Impossible de demander le changement de puissance car une demande d'abandon est en cours pour le projet"
 
     Scénario: Impossible de demander le changement de puissance d'un projet achevé
         Etant donné une attestation de conformité transmise pour le projet lauréat
-        Quand le porteur demande le changement de puissance à la baisse pour le projet lauréat
+        Quand le porteur demande le changement de puissance pour le projet lauréat avec :
+            | ratio puissance | 1.25 |
         Alors le porteur devrait être informé que "Impossible de demander le changement de puissance pour un projet achevé"

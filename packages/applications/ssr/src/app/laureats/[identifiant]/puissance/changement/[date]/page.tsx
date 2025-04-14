@@ -85,7 +85,7 @@ export default async function Page({ params: { identifiant, date } }: PageProps)
           actions={mapToActions(
             changement.demande.statut,
             utilisateur.role,
-            changement.demande.autoritéCompétente,
+            changement.demande.autoritéCompétente?.autoritéCompétente,
           )}
           demandeEnCoursDate={
             puissance.dateDemandeEnCours ? puissance.dateDemandeEnCours.formatter() : undefined
@@ -99,7 +99,7 @@ export default async function Page({ params: { identifiant, date } }: PageProps)
 const mapToActions = (
   statut: Puissance.StatutChangementPuissance.ValueType,
   rôle: Role.ValueType,
-  autoritéCompétente?: Puissance.RatioChangementPuissance.AutoritéCompétente,
+  autoritéCompétente?: Puissance.AutoritéCompétente.RawType,
 ): Array<ChangementPuissanceActions> => {
   const actions: Array<ChangementPuissanceActions> = [];
 

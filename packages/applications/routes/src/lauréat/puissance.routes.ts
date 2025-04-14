@@ -4,7 +4,7 @@ import { encodeParameter } from '../encodeParameter';
 
 type ListerFilters = {
   statut?: Puissance.StatutChangementPuissance.RawType;
-  autoriteInstructrice?: Puissance.RatioChangementPuissance.AutoritéCompétente;
+  autoriteInstructrice?: Puissance.AutoritéCompétente.RawType;
 };
 
 export const modifier = (identifiantProjet: string) =>

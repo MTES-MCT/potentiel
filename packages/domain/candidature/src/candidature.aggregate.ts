@@ -28,7 +28,7 @@ import {
   notifier,
 } from './notifier/notifierCandidature.behavior';
 import { CandidatureNonTrouvéeError } from './candidatureNonTrouvée.error';
-import { TypeActionnariat } from './candidature';
+import { TypeActionnariat, TypeTechnologie } from './candidature';
 
 export type CandidatureEvent =
   | CandidatureImportéeEvent
@@ -70,6 +70,8 @@ export type CandidatureAggregate = Aggregate<CandidatureEvent> &
     };
     emailContact: Email.ValueType;
     prixRéférence: number;
+    technologie: TypeTechnologie.ValueType;
+    note: number;
     importer: typeof importer;
     corriger: typeof corriger;
     notifier: typeof notifier;
@@ -118,6 +120,8 @@ export const getDefaultCandidatureAggregate: GetDefaultAggregateState<
   nomReprésentantLégal: '',
   sociétéMère: '',
   estNotifiée: false,
+  note: 0,
+  technologie: TypeTechnologie.nonApplicable,
   apply,
   importer,
   corriger,

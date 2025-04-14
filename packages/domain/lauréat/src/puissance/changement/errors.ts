@@ -1,4 +1,4 @@
-import { DomainError } from '@potentiel-domain/core';
+import { DomainError, InvalidOperationError } from '@potentiel-domain/core';
 
 export class ProjetAbandonnéError extends DomainError {
   constructor() {
@@ -35,5 +35,23 @@ export class DemandeDoitÊtreInstruiteParDGECError extends DomainError {
 export class RéponseSignéeObligatoireSiAccordSansDécisionDeLEtatError extends DomainError {
   constructor() {
     super("La réponse signée est obligatoire si l'accord n'est pas une décision de l'État");
+  }
+}
+
+export class AppelOffreInexistantError extends InvalidOperationError {
+  constructor(appelOffre: string) {
+    super(`L'appel d'offre spécifié n'existe pas`, { appelOffre });
+  }
+}
+
+export class PériodeInexistanteError extends InvalidOperationError {
+  constructor(période: string) {
+    super(`La période spécifiée n'existe pas`, { période });
+  }
+}
+
+export class CahierDesChargesInexistantError extends InvalidOperationError {
+  constructor() {
+    super(`Le cahier des charges spécifié n'existe pas`);
   }
 }
