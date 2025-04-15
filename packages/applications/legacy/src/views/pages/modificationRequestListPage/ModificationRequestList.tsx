@@ -249,7 +249,6 @@ export const ModificationRequestList = ({
                 <option value="">Tous</option>
                 <option value="fournisseur">Fournisseur</option>
                 <option value="producteur">Producteur</option>
-                <option value="puissance">Puissance</option>
                 <option value="delai">Délai</option>
               </Select>
             </div>
