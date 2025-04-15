@@ -405,7 +405,7 @@ const getEventDate = (event: Puissance.PuissanceEvent) =>
 
 const formatDate = (date: number) => DateTime.convertirEnValueType(new Date(date)).formatter();
 const cleanInput = (str: string) =>
-  str?.replaceAll(/\t/g, ' ').replaceAll(/\r\n/g, '\\n').replaceAll('"', '\\"');
+  str?.replaceAll(/\t/g, ' ').replaceAll(/\r\n/g, '\n').replaceAll('"', '\\"');
 
 const getReplacementDoc = async (text: string) => {
   const pdfDoc = await PDFDocument.create();
