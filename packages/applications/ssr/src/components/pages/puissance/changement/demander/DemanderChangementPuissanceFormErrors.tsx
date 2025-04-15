@@ -4,6 +4,9 @@ type Props = {
   dépasseLesRatioDeAppelOffres: boolean;
   dépassePuissanceMaxDuVolumeRéservé: boolean;
   dépassePuissanceMaxFamille: boolean;
+  dépasseRatiosChangementPuissanceDuCahierDesChargesInitial: boolean;
+  aChoisiCDC2022: boolean;
+  fourchetteRatioInitialEtCDC2022AlertMessage?: string;
   ratioAppelOffre: {
     min: number;
     max: number;
@@ -17,54 +20,14 @@ export const DemanderChangementPuissanceFormErrors = ({
   dépasseLesRatioDeAppelOffres,
   dépassePuissanceMaxDuVolumeRéservé,
   dépassePuissanceMaxFamille,
+  aChoisiCDC2022,
+  dépasseRatiosChangementPuissanceDuCahierDesChargesInitial,
+  fourchetteRatioInitialEtCDC2022AlertMessage,
   unitéPuissance,
   puissanceMaxVoluméRéservé,
   puissanceMaxFamille,
   ratioAppelOffre: { min, max },
 }: Props) => {
-  // {
-  //   !puissanceMaxVolumeReservéDépassée &&
-  //     CDC2022choisi &&
-  //     displayAlertOnPuissancebetweenInitialAndCDC2022Ratios && (
-  //       <AlertePuissanceFourchetteRatioInitialEtCDC2022
-  //         {...{
-  //           project: {
-  //             appelOffre,
-  //             cahierDesCharges: parseCahierDesChargesRéférence(cahierDesChargesActuel),
-  //           },
-  //         }}
-  //       />
-  //     );
-  // }
-
-  //     setDisplayAlertOnPuissancebetweenInitialAndCDC2022Ratios(
-  //   exceedInitialCDCRatio && !exceedsActualCDCRatios,
-  // );
-
-  //   const CDC2022choisi = ['30/08/2022', '30/08/2022-alternatif'].includes(cahierDesChargesActuel);
-
-  // export const AlertePuissanceFourchetteRatioInitialEtCDC2022 = ({
-  //   project,
-  // }: AlertePuissanceFourchetteRatioInitialEtCDC2022Props) => {
-  //   const alerteMessage = project.appelOffre.periode.cahiersDesChargesModifiésDisponibles.find(
-  //     (cdc) =>
-  //       cdc.type === project.cahierDesCharges.type &&
-  //       cdc.paruLe === project.cahierDesCharges.paruLe &&
-  //       cdc.alternatif === project.cahierDesCharges.alternatif,
-  //   )?.seuilSupplémentaireChangementPuissance?.paragrapheAlerte;
-
-  //   return (
-  //     <AlertBox className="mt-4">
-  //       <span className="font-bold">
-  //         Si vous ne respectez pas les conditions suivantes, cela pourrait impacter la remise de
-  //         votre attestation de conformité.
-  //       </span>
-  //       <br />
-  //       {alerteMessage ? <span className="whitespace-pre-line">{alerteMessage}</span> : ''}
-  //     </AlertBox>
-  //   );
-  // };
-
   return (
     <div>
       {puissanceMaxFamille && dépassePuissanceMaxFamille && (
@@ -96,6 +59,30 @@ export const DemanderChangementPuissanceFormErrors = ({
             }
           />
         )}
+
+      {!dépassePuissanceMaxDuVolumeRéservé &&
+        aChoisiCDC2022 &&
+        !dépasseLesRatioDeAppelOffres &&
+        dépasseRatiosChangementPuissanceDuCahierDesChargesInitial &&
+        fourchetteRatioInitialEtCDC2022AlertMessage && (
+          <Alert
+            severity="error"
+            small
+            description={
+              <div>
+                <span className="font-bold">
+                  Si vous ne respectez pas les conditions suivantes, cela pourrait impacter la
+                  remise de votre attestation de conformité.
+                </span>
+                <br />
+                <span className="whitespace-pre-line">
+                  {fourchetteRatioInitialEtCDC2022AlertMessage}
+                </span>
+              </div>
+            }
+          />
+        )}
+
       {dépassePuissanceMaxDuVolumeRéservé && puissanceMaxVoluméRéservé !== undefined && (
         <Alert
           severity="error"

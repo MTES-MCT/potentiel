@@ -55,13 +55,17 @@ export const DemanderChangementPuissanceForm: FC<DemanderChangementPuissanceForm
     ratioValueType.dépasseRatiosChangementPuissance().enDeçaDeMin;
   const dépassePuissanceMaxDuVolumeRéservé = ratioValueType.dépassePuissanceMaxDuVolumeRéservé();
   const dépassePuissanceMaxFamille = ratioValueType.dépassePuissanceMaxFamille();
-  const alerteMessage = période.cahiersDesChargesModifiésDisponibles.find(
-    (cdc) =>
-      cdc.type === cahierDesCharges.type &&
-      cdc.paruLe === cahierDesCharges.paruLe &&
-      cdc.alternatif === cahierDesCharges.alternatif,
-  )?.seuilSupplémentaireChangementPuissance?.paragrapheAlerte;
-  const CDC2022choisi = ['30/08/2022', '30/08/2022-alternatif'].includes(cahierDesCharges);
+  const fourchetteRatioInitialEtCDC2022AlertMessage =
+    période.cahiersDesChargesModifiésDisponibles.find(
+      (cdc) =>
+        cdc.type === cahierDesCharges.type &&
+        cdc.paruLe === cahierDesCharges.paruLe &&
+        cdc.alternatif === cahierDesCharges.alternatif,
+    )?.seuilSupplémentaireChangementPuissance?.paragrapheAlerte;
+  const dépasseRatiosChangementPuissanceDuCahierDesChargesInitial =
+    ratioValueType.dépasseRatiosChangementPuissanceDuCahierDesChargesInitial();
+  const aChoisiCDC2022 =
+    cahierDesCharges.type === 'modifié' && cahierDesCharges.paruLe === '30/08/2022';
 
   return (
     <Form
@@ -126,6 +130,13 @@ export const DemanderChangementPuissanceForm: FC<DemanderChangementPuissanceForm
             dépasseLesRatioDeAppelOffres={dépasseLesRatioDeAppelOffres}
             dépassePuissanceMaxDuVolumeRéservé={dépassePuissanceMaxDuVolumeRéservé}
             dépassePuissanceMaxFamille={dépassePuissanceMaxFamille}
+            dépasseRatiosChangementPuissanceDuCahierDesChargesInitial={
+              dépasseRatiosChangementPuissanceDuCahierDesChargesInitial
+            }
+            aChoisiCDC2022={aChoisiCDC2022}
+            fourchetteRatioInitialEtCDC2022AlertMessage={
+              fourchetteRatioInitialEtCDC2022AlertMessage
+            }
             unitéPuissance={unitéPuissance}
             puissanceMaxVoluméRéservé={
               ratioValueType.récupérerVolumeRéservéPuissanceMax()?.puissanceMax

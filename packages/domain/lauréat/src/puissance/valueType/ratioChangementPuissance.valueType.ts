@@ -27,6 +27,7 @@ export type ValueType = ReadonlyValueType<{
   dépasseRatiosChangementPuissance: () => { enDeçaDeMin: boolean; dépasseMax: boolean };
   dépassePuissanceMaxDuVolumeRéservé: () => boolean;
   dépassePuissanceMaxFamille: () => boolean;
+  dépasseRatiosChangementPuissanceDuCahierDesChargesInitial: () => boolean;
   récupérerRatiosChangementPuissance: () => { minRatio: number; maxRatio: number };
   récupérerVolumeRéservéPuissanceMax: () =>
     | { noteThreshold: number; puissanceMax: number }
@@ -83,6 +84,19 @@ export const bind = ({
         maxRatio: max,
         ratio,
       });
+    },
+    dépasseRatiosChangementPuissanceDuCahierDesChargesInitial(): boolean {
+      const { min, max } = getRatiosChangementPuissance({
+        appelOffre: this.appelOffre,
+        technologie,
+        cahierDesCharges: { type: 'initial' },
+      });
+      const { dépasseMax, enDeçaDeMin } = dépasseRatiosChangementPuissance({
+        minRatio: min,
+        maxRatio: max,
+        ratio,
+      });
+      return dépasseMax || enDeçaDeMin;
     },
     dépassePuissanceMaxFamille(): boolean {
       return dépassePuissanceMaxFamille({
