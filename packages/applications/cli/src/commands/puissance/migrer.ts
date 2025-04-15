@@ -129,6 +129,7 @@ export class Migrer extends Command {
   static flags = {
     dryRun: Flags.boolean(),
     projet: Flags.string(),
+    dataOnly: Flags.boolean(),
   };
 
   async finally() {
@@ -342,7 +343,7 @@ export class Migrer extends Command {
         Puissance.TypeDocumentPuissance.pièceJustificative,
         formatDate(modification.requestedOn),
         modification.type === 'ModificationRequested', // créer un fichier bidon pour les demandes
-        flags.dryRun,
+        flags.dryRun || flags.dataOnly,
       );
       if (modification.acceptedOn) {
         await migrateFile(
@@ -351,7 +352,7 @@ export class Migrer extends Command {
           Puissance.TypeDocumentPuissance.changementAccordé,
           formatDate(modification.acceptedOn),
           !modification.isDecisionJustice, // ne pas créer de fichier bidon
-          flags.dryRun,
+          flags.dryRun || flags.dataOnly,
         );
       }
       if (modification.rejectedOn) {
@@ -361,7 +362,7 @@ export class Migrer extends Command {
           Puissance.TypeDocumentPuissance.changementRejeté,
           formatDate(modification.rejectedOn),
           true, // créer un fichier bidon
-          flags.dryRun,
+          flags.dryRun || flags.dataOnly,
         );
       }
     }
@@ -461,7 +462,7 @@ const migrateFile = async (
         );
       } catch (e) {
         console.warn(
-          `📁 La copie du fichier a échouée pour ${identifiantProjet} - ${typeDocument.formatter()}`,
+          `❗ La copie du fichier a échouée pour ${identifiantProjet} - ${typeDocument.formatter()}`,
         );
         nbErreurCopie++;
       }
@@ -469,7 +470,7 @@ const migrateFile = async (
   } else if (createOnMissing) {
     nbFichiersAttendus++;
     console.warn(
-      `📁 Pas de fichier trouvé pour ${identifiantProjet} - ${typeDocument.formatter()}`,
+      `🚫 Pas de fichier trouvé pour ${identifiantProjet} - ${typeDocument.formatter()}`,
     );
     fichiersCréés++;
     if (!dryRun) {
