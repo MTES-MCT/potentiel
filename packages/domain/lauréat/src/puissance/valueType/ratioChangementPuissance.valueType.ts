@@ -31,6 +31,7 @@ export type ValueType = ReadonlyValueType<{
   récupérerVolumeRéservéPuissanceMax: () =>
     | { noteThreshold: number; puissanceMax: number }
     | undefined;
+  récupérerPuissanceMaxFamille: () => number | undefined;
 }>;
 
 export const bind = ({
@@ -109,6 +110,9 @@ export const bind = ({
       | { noteThreshold: number; puissanceMax: number }
       | undefined {
       return récupérerVolumeRéservé({ période });
+    },
+    récupérerPuissanceMaxFamille(): number | undefined {
+      return famille?.puissanceMax;
     },
     vérifierQueLaDemandeEstPossible(typeDemande: 'demande' | 'information-enregistrée') {
       // ordre des erreurs suit celui du legacy

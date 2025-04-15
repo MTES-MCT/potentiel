@@ -55,6 +55,13 @@ export const DemanderChangementPuissanceForm: FC<DemanderChangementPuissanceForm
     ratioValueType.dépasseRatiosChangementPuissance().enDeçaDeMin;
   const dépassePuissanceMaxDuVolumeRéservé = ratioValueType.dépassePuissanceMaxDuVolumeRéservé();
   const dépassePuissanceMaxFamille = ratioValueType.dépassePuissanceMaxFamille();
+  const alerteMessage = période.cahiersDesChargesModifiésDisponibles.find(
+    (cdc) =>
+      cdc.type === cahierDesCharges.type &&
+      cdc.paruLe === cahierDesCharges.paruLe &&
+      cdc.alternatif === cahierDesCharges.alternatif,
+  )?.seuilSupplémentaireChangementPuissance?.paragrapheAlerte;
+  const CDC2022choisi = ['30/08/2022', '30/08/2022-alternatif'].includes(cahierDesCharges);
 
   return (
     <Form
@@ -98,35 +105,38 @@ export const DemanderChangementPuissanceForm: FC<DemanderChangementPuissanceForm
       />
 
       <div className="flex flex-col gap-6">
-        <Input
-          state={validationErrors['puissance'] ? 'error' : 'default'}
-          stateRelatedMessage={validationErrors['puissance']}
-          label="Puissance (en MWc)"
-          nativeInputProps={{
-            name: 'puissance',
-            defaultValue: puissance,
-            required: true,
-            'aria-required': true,
-            type: 'number',
-            inputMode: 'decimal',
-            pattern: '[0-9]+([.][0-9]+)?',
-            step: 'any',
-            onChange: (e) => setNouvellePuissance(parseFloat(e.target.value)),
-          }}
-        />
-        <DemanderChangementPuissanceFormErrors
-          dépasseLesRatioDeAppelOffres={dépasseLesRatioDeAppelOffres}
-          dépassePuissanceMaxDuVolumeRéservé={dépassePuissanceMaxDuVolumeRéservé}
-          dépassePuissanceMaxFamille={dépassePuissanceMaxFamille}
-          unitéPuissance={unitéPuissance}
-          puissanceMaxVoluméRéservé={
-            ratioValueType.récupérerVolumeRéservéPuissanceMax()?.puissanceMax
-          }
-          ratioAppelOffre={{
-            min: ratioValueType.récupérerRatiosChangementPuissance().minRatio,
-            max: ratioValueType.récupérerRatiosChangementPuissance().maxRatio,
-          }}
-        />
+        <div className="flex flex-col gap-2">
+          <Input
+            state={validationErrors['puissance'] ? 'error' : 'default'}
+            stateRelatedMessage={validationErrors['puissance']}
+            label="Puissance (en MWc)"
+            nativeInputProps={{
+              name: 'puissance',
+              defaultValue: puissance,
+              required: true,
+              'aria-required': true,
+              type: 'number',
+              inputMode: 'decimal',
+              pattern: '[0-9]+([.][0-9]+)?',
+              step: 'any',
+              onChange: (e) => setNouvellePuissance(parseFloat(e.target.value)),
+            }}
+          />
+          <DemanderChangementPuissanceFormErrors
+            dépasseLesRatioDeAppelOffres={dépasseLesRatioDeAppelOffres}
+            dépassePuissanceMaxDuVolumeRéservé={dépassePuissanceMaxDuVolumeRéservé}
+            dépassePuissanceMaxFamille={dépassePuissanceMaxFamille}
+            unitéPuissance={unitéPuissance}
+            puissanceMaxVoluméRéservé={
+              ratioValueType.récupérerVolumeRéservéPuissanceMax()?.puissanceMax
+            }
+            puissanceMaxFamille={ratioValueType.récupérerPuissanceMaxFamille()}
+            ratioAppelOffre={{
+              min: ratioValueType.récupérerRatiosChangementPuissance().minRatio,
+              max: ratioValueType.récupérerRatiosChangementPuissance().maxRatio,
+            }}
+          />
+        </div>
         <Input
           textArea
           label={`Raison ${dépasseLesRatioDeAppelOffres ? '' : '(optionnel)'}`}
