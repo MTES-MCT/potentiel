@@ -93,7 +93,7 @@ export const DemanderChangementPuissanceForm: FC<DemanderChangementPuissanceForm
         {dépasseLesRatioDeAppelOffres && <InfoBoxDemandePuissance min={0.8} max={1.2} />}
         <Input
           textArea
-          label="Raison"
+          label={`Raison ${dépasseLesRatioDeAppelOffres ? '(optionnel)' : ''}`}
           id="raison"
           hintText="Pour faciliter le traitement de votre demande, veuillez détailler les raisons ayant conduit au changement de puissance."
           nativeTextAreaProps={{
@@ -105,7 +105,7 @@ export const DemanderChangementPuissanceForm: FC<DemanderChangementPuissanceForm
           stateRelatedMessage={validationErrors['raison']}
         />
         <UploadNewOrModifyExistingDocument
-          label="Pièce(s) justificative(s)"
+          label={`Pièce justificative ${dépasseLesRatioDeAppelOffres ? '(optionnel)' : ''}`}
           name="piecesJustificatives"
           hintText="Joindre votre justificatif"
           required={dépasseLesRatioDeAppelOffres}
