@@ -27,7 +27,8 @@ const enregistrerChangementPuissanceSchema = zod.object({
   raison: zod.string().min(1, { message: 'Champ obligatoire' }).optional(),
   piecesJustificatives: singleDocument({
     acceptedFileTypes: ['application/pdf'],
-  }).optional(),
+    optional: true,
+  }),
   isInformationEnregistree: zod.literal('true'),
 });
 
