@@ -332,12 +332,19 @@ export class Migrer extends Command {
 
     let nbEvents = 0;
     for (const [identifiantProjet, events] of Object.entries(eventsPerProjet)) {
-      for (const event of events.sort((a, b) => getEventDate(a).localeCompare(getEventDate(b)))) {
+      const sortedEvents = events.sort((a, b) => getEventDate(a).localeCompare(getEventDate(b)));
+      for (let index = 0; index < sortedEvents.length; index++) {
+        const event = sortedEvents[index];
         nbEvents++;
         if (flags.dryRun) {
           console.log(event);
         } else {
           await publish(`puissance|${identifiantProjet}`, event);
+
+          // this is to have distinct timestamps on a stream
+          if (index + 1 < events.length) {
+            await new Promise((r) => setTimeout(r, 2));
+          }
         }
         eventsStats[event.type] ??= 0;
         eventsStats[event.type]++;
