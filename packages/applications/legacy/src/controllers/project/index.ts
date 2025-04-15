@@ -5,6 +5,5 @@ export * from './getProjectFile';
 export * from './getProjectPage';
 export * from './postAttacherFichier';
 export * from './postChoisirCahierDesCharges';
-export * from './postCorrectProjectData';
 export * from './postRetirerFichier';
 export * from './postSignalerDemandeDelai';

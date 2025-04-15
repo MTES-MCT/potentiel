@@ -17,7 +17,6 @@ import {
 import { afficherDate, hydrateOnClient } from '../../helpers';
 import {
   EtapesProjet,
-  EditProjectData,
   InfoGenerales,
   Contact,
   MaterielsEtTechnologies,
@@ -169,9 +168,6 @@ export const ProjectDetails = ({
             )}
           </div>
         </div>
-        {userIs(['admin', 'dgec-validateur'])(user) && project.notifiedOn && (
-          <EditProjectData project={project} />
-        )}
       </div>
     </LegacyPageTemplate>
   );

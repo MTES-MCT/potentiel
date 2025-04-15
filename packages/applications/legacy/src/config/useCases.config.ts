@@ -27,7 +27,6 @@ import {
   makeChangerProducteur,
 } from '../modules/modificationRequest';
 import {
-  makeCorrectProjectData,
   makeImportProjects,
   makeSignalerDemandeDelai,
   makeChoisirCahierDesCharges,
@@ -64,11 +63,6 @@ export const shouldUserAccessProject = new BaseShouldUserAccessProject(
   oldUserRepo,
   oldProjectRepo.findById,
 );
-
-export const correctProjectData = makeCorrectProjectData({
-  fileRepo,
-  projectRepo,
-});
 
 export const loadFileForUser = makeLoadFileForUser({
   fileRepo,

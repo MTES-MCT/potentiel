@@ -52,7 +52,6 @@ class routes {
   static ADMIN_DOWNLOAD_PROJECTS_LAUREATS_CSV = '/export-projets-laureats.csv';
   static ADMIN_LIST_REQUESTS = '/admin/demandes.html';
 
-  static ADMIN_CORRECT_PROJECT_DATA_ACTION = '/admin/correctProjectData';
   static ADMIN_REPLY_TO_MODIFICATION_REQUEST = '/admin/replyToModificationRequest';
   static ADMIN_REPONDRE_DEMANDE_DELAI = '/admin/repondre-demande-delai';
 
