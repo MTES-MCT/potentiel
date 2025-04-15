@@ -60,7 +60,7 @@ export const extractModificationRequestsItemProps = (
               latestEvent.type === 'ModificationRequestAccepted' && latestEvent.delayInMonthsGranted
                 ? latestEvent.delayInMonthsGranted
                 : requestEvent.delayInMonths,
-            detailsUrl: ROUTES.DEMANDE_PAGE_DETAILS(requestEvent.modificationRequestId),
+            detailsUrl,
           };
 
         case 'puissance':
