@@ -113,9 +113,23 @@ where ((
         and es.payload->>'type' = 'puissance'
           -- ignore data inconsistency
       AND es.payload->>'modificationRequestId' not in (
-          'bc215b18-6c95-42be-b0eb-a2d7dde95162',
+          -- une demande ouverte et une annulation, toutes deux redondantes avec l'acceptation CRE4 - Bâtiment#13#1#84
+          'bc215b18-6c95-42be-b0eb-a2d7dde95162',         
           '15db1d28-d9c7-4237-88fc-3fc00eb7cd65',
-          '65594616-ac86-4ddd-84ce-bad1d352fadc'
+
+          -- duplicate of 542d2401-8f7a-4f10-9d7e-5034cd74f703, CRE4 - Bâtiment#11#1#470
+          'efe4d627-1060-4c36-87d3-8ab0c95c6e58',
+          
+          -- l'annulation de la MR cause s'applique par erreur sur 5397ba89-ff53-4c51-a470-b101c508b9b8, projet CRE4 - ZNI#5#1b#22
+          '65594616-ac86-4ddd-84ce-bad1d352fadc',
+
+          -- duplicate of 7e752bbe-f3bb-4484-833d-5e8241ac541f for CRE4 - Bâtiment#10#2#13
+          '5c78620a-9333-4505-978b-379329fc56d8',
+          -- duplicate of 74ba60f5-b93b-48fc-8e93-45bd48127c2e for CRE4 - Bâtiment#9#1#250
+          'ca37b224-0b9e-403d-9359-aafc79d41237',
+          -- duplicate of df299c58-1ff9-45de-82e3-f9f9e986a25d for CRE4 - Bâtiment#13#1#91
+          '0335fd5f-3b8f-4102-8850-69d2bcfef2e3'
+
       )
     )
     OR (
