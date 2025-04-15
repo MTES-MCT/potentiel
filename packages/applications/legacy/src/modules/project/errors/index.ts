@@ -16,5 +16,4 @@ export * from './NouveauCahierDesChargesDéjàSouscrit';
 export * from './PasDeChangementDeCDCPourLaPériodeDeCetAOError';
 export * from './ProjectAlreadyNotifiedError';
 export * from './ProjectCannotBeUpdatedIfUnnotifiedError';
-export * from './ProjectHasBeenUpdatedSinceError';
 export * from './ProjectNotEligibileForCertificateError';

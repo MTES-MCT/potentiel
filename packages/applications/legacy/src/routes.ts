@@ -99,11 +99,6 @@ class routes {
     } else return route;
   };
 
-  static DEMANDER_CHANGEMENT_PUISSANCE = (projectId?: Project['id']) => {
-    const route = '/projet/:projectId/demander-changement-puissance.html';
-    return projectId ? route.replace(':projectId', projectId) : route;
-  };
-
   static GET_CHANGER_PRODUCTEUR = (projectId?: Project['id']) => {
     const route = '/projet/:projectId/changer-producteur.html';
     if (projectId) {
@@ -129,7 +124,6 @@ class routes {
 
   static POST_CHANGER_PRODUCTEUR = '/soumettre-changement-producteur';
   static CHANGEMENT_FOURNISSEUR_ACTION = '/soumettre-changement-fournisseur';
-  static CHANGEMENT_PUISSANCE_ACTION = '/soumettre-changement-puissance';
 
   static DOWNLOAD_PROJECT_FILE = (fileId?: string, filename?: string) => {
     const route = '/telechargement/:fileId/fichier/:filename';

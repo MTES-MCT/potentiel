@@ -11,7 +11,6 @@ import {
   ProjectDetails,
   SignalerDemandeDelai,
   ChangerProducteur,
-  DemanderChangementPuissance,
   ChoisirCahierDesCharges,
   ChangerFournisseur,
   ListeProjets,
@@ -102,15 +101,6 @@ export const DemanderDelaiPage = (props: Parameters<typeof DemanderDelai>[0]) =>
     Component: DemanderDelai,
     props,
     title: 'Demander délai',
-  });
-
-export const DemanderChangementPuissancePage = (
-  props: Parameters<typeof DemanderChangementPuissance>[0],
-) =>
-  makeHtml({
-    Component: DemanderChangementPuissance,
-    props,
-    title: 'Demander changement de puissance',
   });
 
 export const ChangerProducteurPage = (props: Parameters<typeof ChangerProducteur>[0]) =>

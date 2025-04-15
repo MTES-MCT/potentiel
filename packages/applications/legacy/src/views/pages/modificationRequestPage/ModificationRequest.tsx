@@ -19,7 +19,6 @@ import {
   DemandeDetails,
   DemandeStatus,
   ProducteurForm,
-  PuissanceForm,
   PuissanceALaHausseInfoBox,
 } from './components';
 
@@ -76,8 +75,6 @@ export const ModificationRequest = ({ request, modificationRequest }: Modificati
             <Heading2>Répondre à la demande</Heading2>
 
             <AdminResponseForm role={user.role} modificationRequest={modificationRequest}>
-              {type === 'puissance' && <PuissanceForm modificationRequest={modificationRequest} />}
-
               {type === 'producteur' && (
                 <ProducteurForm modificationRequest={modificationRequest} />
               )}

@@ -27,11 +27,13 @@ const EnregistrerUneModification = ({
   identifiantProjet,
 }: EnregistrerUneModificationProps) => (
   <DropdownMenuSecondaryButton buttonChildren="Enregistrer une modification">
-    <></>
     <DropdownMenuSecondaryButton.DropdownItem
       href={routes.ADMIN_SIGNALER_DEMANDE_DELAI_PAGE(projectId)}
     >
       <span>Demande de délai</span>
+    </DropdownMenuSecondaryButton.DropdownItem>
+    <DropdownMenuSecondaryButton.DropdownItem href={Routes.Puissance.modifier(identifiantProjet)}>
+      <span>Modifier la puissance</span>
     </DropdownMenuSecondaryButton.DropdownItem>
     <DropdownMenuSecondaryButton.DropdownItem href={Routes.Actionnaire.modifier(identifiantProjet)}>
       <span>Modifier l'actionnaire(s)</span>
@@ -93,18 +95,12 @@ const PorteurProjetActions = ({
                 <span>{actionnaireAffichage.porteurProjetActionLabel}</span>
               </DropdownMenuSecondaryButton.DropdownItem>
             )}
-            {peutDemanderChangementPuissanceV2 ? (
+            {peutDemanderChangementPuissanceV2 && (
               <DropdownMenuSecondaryButton.DropdownItem
                 href={Routes.Puissance.changement.demander(identifiantProjet)}
                 disabled={modificationsNonPermisesParLeCDCActuel ? true : undefined}
               >
                 <span>Demander un changement de puissance</span>
-              </DropdownMenuSecondaryButton.DropdownItem>
-            ) : (
-              <DropdownMenuSecondaryButton.DropdownItem
-                href={routes.DEMANDER_CHANGEMENT_PUISSANCE(project.id)}
-              >
-                <span>Changer de puissance</span>
               </DropdownMenuSecondaryButton.DropdownItem>
             )}
 
