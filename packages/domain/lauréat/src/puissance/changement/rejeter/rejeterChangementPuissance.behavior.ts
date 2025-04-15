@@ -20,7 +20,7 @@ export type ChangementPuissanceRejetéEvent = DomainEvent<
     réponseSignée: {
       format: string;
     };
-    estUneDécisionDEtat: boolean;
+    estUneDécisionDEtat?: true;
   }
 >;
 
@@ -70,7 +70,7 @@ export async function rejeterDemandeChangement(
       réponseSignée: {
         format: réponseSignée.format,
       },
-      estUneDécisionDEtat,
+      estUneDécisionDEtat: estUneDécisionDEtat ? true : undefined,
     },
   };
 

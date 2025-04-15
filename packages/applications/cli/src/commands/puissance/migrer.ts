@@ -26,12 +26,17 @@ type ModificationRequest = {
       authority: 'dreal' | 'dgec';
       requestedOn: number;
       requestedBy: string;
+      requestFile?: string;
       cancelledOn?: number;
       cancelledBy?: string;
       acceptedOn?: number;
       acceptedBy?: string;
+      acceptFile?: string;
+      // ceci devrait être un bool, mais les valeurs sont incohérentes
+      isDecisionJustice?: unknown;
       rejectedOn?: number;
       rejectedBy?: string;
+      rejectFile?: string;
       abandonedOn: number;
       expectedStatus:
         | 'en instruction'
@@ -65,12 +70,16 @@ select format(
     es.type,
     es."occurredAt" as "requestedOn",
     requester.email as "requestedBy",
+    requestFile."storedAt" as "requestFile",
     cancel."occurredAt" as "cancelledOn",
     canceller.email as "cancelledBy",
     accept."occurredAt" as "acceptedOn",
     accepter.email as "acceptedBy",
+    acceptFile."storedAt" as "acceptFile",
+    accept.payload->'params'->'isDecisionJustice' as "isDecisionJustice",
     reject."occurredAt" as "rejectedOn",
     rejecter.email as "rejectedBy",
+    rejectFile."storedAt" as "rejectFile",
     es."occurredAt" as "correctedOn",
     correcter.email as "correctedBy",
     mr.status "expectedStatus",
@@ -78,7 +87,8 @@ select format(
 from "eventStores" es
     inner join projects p on p.id::text = es.payload->>'projectId'
     left join users requester on requester.id::text = es.payload->>'requestedBy'
-    
+    left join files requestFile on requestFile.id::text = es.payload->>'fileId'
+
     left join "eventStores" cancel on cancel.type = 'ModificationRequestCancelled'
       and cancel.payload->>'modificationRequestId' = es.payload->>'modificationRequestId'
     left join users canceller on canceller.id::text = cancel.payload->>'cancelledBy'
@@ -86,11 +96,13 @@ from "eventStores" es
     left join "eventStores" accept on accept.type = 'ModificationRequestAccepted'
       and accept.payload->>'modificationRequestId' = es.payload->>'modificationRequestId'
     left join users accepter on accepter.id::text = accept.payload->>'acceptedBy'
+    left join files acceptFile on acceptFile.id::text = accept.payload->>'responseFileId'
     
     left join "eventStores" reject on reject.type = 'ModificationRequestRejected'
       and reject.payload->>'modificationRequestId' = es.payload->>'modificationRequestId'
     left join users rejecter on rejecter.id::text = reject.payload->>'rejectedBy'
-    
+    left join files rejectFile on rejectFile.id::text = reject.payload->>'responseFileId'
+
     left join "modificationRequests" mr on es.payload->>'modificationRequestId' is not null
       and mr.id::text = es.payload->>'modificationRequestId'
     
@@ -125,9 +137,15 @@ export class Migrer extends Command {
 
   async run(): Promise<void> {
     const { flags } = await this.parse(Migrer);
-    const { items: lauréats } = await listProjection<Lauréat.LauréatEntity>('lauréat');
-    const { items: candidatures } =
-      await listProjection<Candidature.CandidatureEntity>('candidature');
+    const { items: lauréats } = await listProjection<
+      Lauréat.LauréatEntity,
+      Candidature.CandidatureEntity
+    >('lauréat', {
+      join: {
+        entity: 'candidature',
+        on: 'identifiantProjet',
+      },
+    });
 
     const subscriberCount = await executeSelect<{ count: number }>(
       "select count(*) as count from event_store.subscriber where stream_category='puissance'",
@@ -139,27 +157,20 @@ export class Migrer extends Command {
       process.exit(1);
     }
 
-    console.log(`${candidatures.length} candidatures à importer`);
+    console.log(`${lauréats.length} lauréats à importer`);
 
     const eventsPerProjet: Record<string, Puissance.PuissanceEvent[]> = {};
 
     for (const lauréat of lauréats) {
-      const candidature = candidatures.find(
-        (candidature) => candidature.identifiantProjet === lauréat.identifiantProjet,
-      );
-      if (!candidature) {
-        console.warn('candidature non trouvée', lauréat.identifiantProjet);
-        continue;
-      }
       const puissanceImportée: Puissance.PuissanceImportéeEvent = {
         type: 'PuissanceImportée-V1',
         payload: {
-          puissance: candidature.puissanceProductionAnnuelle,
-          identifiantProjet: candidature.identifiantProjet,
-          importéeLe: candidature.notification!.notifiéeLe,
+          puissance: lauréat.candidature.puissanceProductionAnnuelle,
+          identifiantProjet: lauréat.identifiantProjet,
+          importéeLe: lauréat.notifiéLe,
         },
       };
-      eventsPerProjet[candidature.identifiantProjet] = [puissanceImportée];
+      eventsPerProjet[lauréat.identifiantProjet] = [puissanceImportée];
     }
 
     const modifications = await executeSelect<ModificationRequest>(queryModifications);
@@ -199,11 +210,15 @@ export class Migrer extends Command {
           autoritéCompétente: modification.authority === 'dgec' ? 'dgec-admin' : 'dreal',
           identifiantProjet,
           raison: cleanInput(modification.justification),
-          pièceJustificative: { format: 'application/pdf' }, // TODO
+          pièceJustificative: {
+            format:
+              (modification.requestFile && contentType(extname(modification.requestFile))) ||
+              'application/pdf',
+          },
         },
       };
 
-      if (modification.type === 'ModificationReceived') {
+      if (modification.type === 'ModificationReceived' && modification.requestedBy) {
         if (modification.expectedStatus !== 'information validée') {
           console.log('modification non enregistrée', modification);
         }
@@ -214,8 +229,10 @@ export class Migrer extends Command {
             puissance: Number(modification.puissance),
             enregistréLe: requestedOn,
             enregistréPar: Email.convertirEnValueType(modification.requestedBy).formatter(),
-            raison: cleanInput(modification.justification),
-            pièceJustificative: { format: 'application/pdf' }, // TODO
+            raison: cleanInput(modification.justification), // TODO vérifier les \n
+            pièceJustificative: modification.requestFile
+              ? { format: contentType(extname(modification.requestFile)) || 'application/pdf' }
+              : undefined,
           },
         };
         eventsPerProjet[modification.identifiantProjet].push(informationEnregistrée);
@@ -229,7 +246,10 @@ export class Migrer extends Command {
             accordéLe: formatDate(modification.acceptedOn),
             accordéPar: Email.convertirEnValueType(modification.acceptedBy).formatter(),
             nouvellePuissance: Number(modification.puissance),
-            réponseSignée: { format: 'application/pdf' }, // TODO
+            réponseSignée: modification.acceptFile
+              ? { format: contentType(extname(modification.acceptFile)) || 'application/pdf' }
+              : undefined,
+            estUneDécisionDEtat: modification.isDecisionJustice ? true : undefined,
           },
         };
         eventsPerProjet[modification.identifiantProjet].push(request, acceptation);
@@ -242,21 +262,24 @@ export class Migrer extends Command {
             rejetéLe: formatDate(modification.rejectedOn),
             rejetéPar: Email.convertirEnValueType(modification.rejectedBy).formatter(),
             réponseSignée: {
-              format: 'application/pdf', // TODO
+              format:
+                (modification.rejectFile && contentType(extname(modification.rejectFile))) ||
+                'application/pdf',
             },
           },
         };
         eventsPerProjet[modification.identifiantProjet].push(request, rejet);
       } else if (modification.cancelledBy && modification.cancelledOn) {
         assert(modification.expectedStatus === 'annulée', 'modification non annulée');
-        eventsPerProjet[modification.identifiantProjet].push(request, {
+        const cancel: Puissance.ChangementPuissanceAnnuléEvent = {
           type: 'ChangementPuissanceAnnulé-V1',
           payload: {
             identifiantProjet,
             annuléLe: formatDate(modification.cancelledOn),
             annuléPar: Email.convertirEnValueType(modification.cancelledBy).formatter(),
           },
-        });
+        };
+        eventsPerProjet[modification.identifiantProjet].push(request, cancel);
       } else {
         assert(
           modification.expectedStatus === 'envoyée' ||
@@ -292,11 +315,10 @@ export class Migrer extends Command {
 
     const eventsStats: Record<string, number> = {};
 
+    let nbEvents = 0;
     for (const [identifiantProjet, events] of Object.entries(eventsPerProjet)) {
-      console.log();
-      console.log(identifiantProjet);
-      // console.log(identifiantProjet, events.map((ev) => ev.type).join(', '));
       for (const event of events.sort((a, b) => getEventDate(a).localeCompare(getEventDate(b)))) {
+        nbEvents++;
         if (flags.dryRun) {
           console.log(event);
         } else {
@@ -308,47 +330,49 @@ export class Migrer extends Command {
     }
     console.log(eventsStats);
 
-    console.log('All events published.');
+    console.log('All events published.', nbEvents);
     console.log('Migrating files...');
 
-    // TODO décision de justice à migrer
+    for (const modification of modifications) {
+      if (modification.type === 'ProjectDataCorrected') continue;
 
-    // fichiers obligatoires:
-    // - refus toujours
-    // - accord obligatoire si pas une décision de justice
-    // - demander toujours obligatoire
+      await migrateFile(
+        modification.identifiantProjet,
+        modification.requestFile,
+        Puissance.TypeDocumentPuissance.pièceJustificative,
+        formatDate(modification.requestedOn),
+        modification.type === 'ModificationRequested', // créer un fichier bidon pour les demandes
+        flags.dryRun,
+      );
+      if (modification.acceptedOn) {
+        await migrateFile(
+          modification.identifiantProjet,
+          modification.acceptFile,
+          Puissance.TypeDocumentPuissance.changementAccordé,
+          formatDate(modification.acceptedOn),
+          !modification.isDecisionJustice, // ne pas créer de fichier bidon
+          flags.dryRun,
+        );
+      }
+      if (modification.rejectedOn) {
+        await migrateFile(
+          modification.identifiantProjet,
+          modification.rejectFile,
+          Puissance.TypeDocumentPuissance.changementRejeté,
+          formatDate(modification.rejectedOn),
+          true, // créer un fichier bidon
+          flags.dryRun,
+        );
+      }
+    }
 
-    // TODO migration fichiers
-    // for (const modification of modifications) {
-    //   await migrateFile(
-    //     modification.identifiantProjet,
-    //     modification.requestFile,
-    //     Puissance.TypeDocumentPuissance.pièceJustificative,
-    //     DateTime.convertirEnValueType(new Date(modification.requestedOn)),
-    //     modification.status !== 'information validée', // ?
-    //     flags.dryRun,
-    //   );
-    //   if (modification.status === 'acceptée') {
-    //     await migrateFile(
-    //       modification.identifiantProjet,
-    //       modification.responseFile,
-    //       Puissance.TypeDocumentPuissance.changementAccordé,
-    //       DateTime.convertirEnValueType(new Date(modification.respondedOn)),
-    //       true, // ?
-    //       flags.dryRun,
-    //     );
-    //   }
-    //   if (modification.status === 'rejetée') {
-    //     await migrateFile(
-    //       modification.identifiantProjet,
-    //       modification.responseFile,
-    //       Puissance.TypeDocumentPuissance.changementRejeté,
-    //       DateTime.convertirEnValueType(new Date(modification.respondedOn)),
-    //       true, // ?
-    //       flags.dryRun,
-    //     );
-    //   }
-    // }
+    console.log({
+      nbFichiersAttendus,
+      fichiersNonTrouvés,
+      fichiersCréés,
+      fichiersMigrés,
+      nbErreurCopie,
+    });
   }
 }
 
@@ -390,11 +414,17 @@ const getReplacementDoc = async (text: string) => {
   return new Blob([pdfBytes], { type: 'application/pdf' }).stream();
 };
 
+let nbFichiersAttendus = 0;
+let fichiersNonTrouvés = 0;
+let fichiersMigrés = 0;
+let fichiersCréés = 0;
+let nbErreurCopie = 0;
+
 const migrateFile = async (
   identifiantProjet: string,
   file: string | undefined,
   typeDocument: Puissance.TypeDocumentPuissance.ValueType,
-  date: DateTime.ValueType,
+  date: DateTime.RawType,
   createOnMissing: boolean,
   dryRun: boolean,
 ) => {
@@ -405,19 +435,23 @@ const migrateFile = async (
   const key = DocumentProjet.convertirEnValueType(
     identifiantProjet,
     typeDocument.formatter(),
-    date.formatter(),
+    date,
     format,
   ).formatter();
 
   if (file) {
+    nbFichiersAttendus++;
     if (dryRun) {
       const exists = await fileExists(
         file.replace('S3:potentiel-production:', '').replace('S3:production-potentiel:', ''),
       );
       if (!exists) {
+        fichiersNonTrouvés++;
         console.warn(
           `📁 Fichier non trouvé pour ${identifiantProjet} - ${typeDocument.formatter()}`,
         );
+      } else {
+        fichiersMigrés++;
       }
     } else {
       try {
@@ -429,12 +463,15 @@ const migrateFile = async (
         console.warn(
           `📁 La copie du fichier a échouée pour ${identifiantProjet} - ${typeDocument.formatter()}`,
         );
+        nbErreurCopie++;
       }
     }
   } else if (createOnMissing) {
+    nbFichiersAttendus++;
     console.warn(
       `📁 Pas de fichier trouvé pour ${identifiantProjet} - ${typeDocument.formatter()}`,
     );
+    fichiersCréés++;
     if (!dryRun) {
       await upload(
         key,
