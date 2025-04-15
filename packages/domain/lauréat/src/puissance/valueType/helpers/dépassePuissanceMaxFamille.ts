@@ -1,12 +1,14 @@
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 
+type DépassePuissanceMaxFamilleProps = {
+  famille?: Pick<AppelOffre.Famille, 'puissanceMax'>;
+  nouvellePuissance: number;
+};
+
 export const dépassePuissanceMaxFamille = ({
   famille,
   nouvellePuissance,
-}: {
-  famille: Pick<AppelOffre.Famille, 'puissanceMax'> | undefined;
-  nouvellePuissance: number;
-}): boolean => {
+}: DépassePuissanceMaxFamilleProps) => {
   const puissanceMaxFamille = famille?.puissanceMax;
 
   if (!puissanceMaxFamille) {

@@ -3,17 +3,19 @@ import { PlainType } from '@potentiel-domain/core';
 
 import { récupérerVolumeRéservé } from './récupérerVolumeRéservé';
 
+type DépassePuissanceMaxDuVolumeRéservéProps = {
+  note: number;
+  nouvellePuissance: number;
+  puissanceActuelle: number;
+  période: PlainType<AppelOffre.Periode>;
+};
+
 export const dépassePuissanceMaxDuVolumeRéservé = ({
   période,
   nouvellePuissance,
   puissanceActuelle,
   note,
-}: {
-  note: number;
-  nouvellePuissance: number;
-  puissanceActuelle: number;
-  période: PlainType<AppelOffre.Periode>;
-}): boolean => {
+}: DépassePuissanceMaxDuVolumeRéservéProps) => {
   if (période.noteThresholdBy !== 'category') return false;
 
   const désignationCatégorie =

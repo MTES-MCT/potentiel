@@ -1,16 +1,11 @@
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { PlainType } from '@potentiel-domain/core';
 
-export const récupérerVolumeRéservé = ({
-  période,
-}: {
+type RécupérerVolumeRéservéProps = {
   période: PlainType<AppelOffre.Periode>;
-}):
-  | {
-      noteThreshold: number;
-      puissanceMax: number;
-    }
-  | undefined => {
+};
+
+export const récupérerVolumeRéservé = ({ période }: RécupérerVolumeRéservéProps) => {
   if (période.noteThresholdBy === 'category') {
     const {
       noteThreshold: { volumeReserve },
@@ -18,4 +13,6 @@ export const récupérerVolumeRéservé = ({
 
     return volumeReserve;
   }
+
+  return undefined;
 };

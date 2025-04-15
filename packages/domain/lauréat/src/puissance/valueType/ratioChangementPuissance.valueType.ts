@@ -24,14 +24,12 @@ export type ValueType = ReadonlyValueType<{
   famille?: AppelOffre.Famille;
   note: number;
   vérifierQueLaDemandeEstPossible: (typeDemande: 'demande' | 'information-enregistrée') => void;
-  dépasseRatiosChangementPuissance: () => { enDeçaDeMin: boolean; dépasseMax: boolean };
-  dépassePuissanceMaxDuVolumeRéservé: () => boolean;
-  dépassePuissanceMaxFamille: () => boolean;
+  dépasseRatiosChangementPuissance: () => ReturnType<typeof dépasseRatiosChangementPuissance>;
+  dépassePuissanceMaxDuVolumeRéservé: () => ReturnType<typeof dépassePuissanceMaxDuVolumeRéservé>;
+  dépassePuissanceMaxFamille: () => ReturnType<typeof dépassePuissanceMaxFamille>;
   dépasseRatiosChangementPuissanceDuCahierDesChargesInitial: () => boolean;
   récupérerRatiosChangementPuissance: () => { minRatio: number; maxRatio: number };
-  récupérerVolumeRéservéPuissanceMax: () =>
-    | { noteThreshold: number; puissanceMax: number }
-    | undefined;
+  récupérerVolumeRéservéPuissanceMax: () => ReturnType<typeof récupérerVolumeRéservé>;
   récupérerPuissanceMaxFamille: () => number | undefined;
 }>;
 
@@ -73,7 +71,7 @@ export const bind = ({
     estÉgaleÀ(valueType) {
       return this.ratio === valueType.ratio;
     },
-    dépasseRatiosChangementPuissance(): { enDeçaDeMin: boolean; dépasseMax: boolean } {
+    dépasseRatiosChangementPuissance() {
       const { min, max } = getRatiosChangementPuissance({
         appelOffre: this.appelOffre,
         technologie,
@@ -85,7 +83,7 @@ export const bind = ({
         ratio,
       });
     },
-    dépasseRatiosChangementPuissanceDuCahierDesChargesInitial(): boolean {
+    dépasseRatiosChangementPuissanceDuCahierDesChargesInitial() {
       const { min, max } = getRatiosChangementPuissance({
         appelOffre: this.appelOffre,
         technologie,
@@ -98,13 +96,13 @@ export const bind = ({
       });
       return dépasseMax || enDeçaDeMin;
     },
-    dépassePuissanceMaxFamille(): boolean {
+    dépassePuissanceMaxFamille() {
       return dépassePuissanceMaxFamille({
         famille: this.famille,
         nouvellePuissance,
       });
     },
-    dépassePuissanceMaxDuVolumeRéservé(): boolean {
+    dépassePuissanceMaxDuVolumeRéservé() {
       return dépassePuissanceMaxDuVolumeRéservé({
         note,
         période,
@@ -112,7 +110,7 @@ export const bind = ({
         puissanceActuelle: nouvellePuissance / this.ratio,
       });
     },
-    récupérerRatiosChangementPuissance(): { minRatio: number; maxRatio: number } {
+    récupérerRatiosChangementPuissance() {
       const { min, max } = getRatiosChangementPuissance({
         appelOffre: this.appelOffre,
         technologie,
@@ -120,12 +118,10 @@ export const bind = ({
       });
       return { minRatio: min, maxRatio: max };
     },
-    récupérerVolumeRéservéPuissanceMax():
-      | { noteThreshold: number; puissanceMax: number }
-      | undefined {
+    récupérerVolumeRéservéPuissanceMax() {
       return récupérerVolumeRéservé({ période });
     },
-    récupérerPuissanceMaxFamille(): number | undefined {
+    récupérerPuissanceMaxFamille() {
       return famille?.puissanceMax;
     },
     vérifierQueLaDemandeEstPossible(typeDemande: 'demande' | 'information-enregistrée') {

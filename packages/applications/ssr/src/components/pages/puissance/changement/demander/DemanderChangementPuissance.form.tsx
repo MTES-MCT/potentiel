@@ -44,9 +44,9 @@ export const DemanderChangementPuissanceForm: FC<DemanderChangementPuissanceForm
     période,
     famille,
     cahierDesCharges,
-    technologie: technologie,
+    technologie,
     ratio: nouvellePuissance / puissance,
-    nouvellePuissance: nouvellePuissance,
+    nouvellePuissance,
     note,
   });
 
