@@ -20,7 +20,7 @@ export const UserNavigation = ({ user, currentPage }: UserNavigationProps) => {
     case 'porteur-projet':
       return PorteurMenuLegacy({ currentPage, showPuissanceV2 });
     case 'acheteur-obligé':
-      return AcheteurObligéMenuLegacy(currentPage);
+      return AcheteurObligéMenuLegacy({ currentPage, showPuissanceV2 });
     case 'ademe':
       return AdemeMenuLegacy(currentPage);
     case 'dreal':

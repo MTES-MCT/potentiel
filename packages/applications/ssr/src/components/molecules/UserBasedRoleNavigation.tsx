@@ -10,15 +10,21 @@ import { NavLinks } from './NavLinks';
 
 export function UserBasedRoleNavigation() {
   const utilisateur = getContext()?.utilisateur;
+  const showPuissanceV2 = !!process.env.SHOW_PUISSANCE;
 
-  const navigationItems = utilisateur ? getNavigationItemsBasedOnRole(utilisateur) : [];
+  const navigationItems = utilisateur
+    ? getNavigationItemsBasedOnRole(utilisateur, showPuissanceV2)
+    : [];
 
   return <NavLinks items={navigationItems} />;
 }
 
 const toutesLesDemandesWording = 'Toutes les demandes';
 
-const getNavigationItemsBasedOnRole = (utilisateur: Utilisateur.ValueType) => {
+const getNavigationItemsBasedOnRole = (
+  utilisateur: Utilisateur.ValueType,
+  showPuissanceV2: boolean,
+) => {
   const demandesMenuLinks: Array<MenuProps.Link> = [
     {
       text: toutesLesDemandesWording,
@@ -52,19 +58,23 @@ const getNavigationItemsBasedOnRole = (utilisateur: Utilisateur.ValueType) => {
         href: Routes.Actionnaire.changement.lister({ statut: 'demandé' }),
       },
     },
-    {
-      text: 'Puissance',
-      linkProps: {
-        href: utilisateur.role.estDGEC()
-          ? Routes.Puissance.changement.lister({
-              statut: 'demandé',
-              autoriteInstructrice: 'dgec-admin',
-            })
-          : Routes.Puissance.changement.lister({
-              statut: 'demandé',
-            }),
-      },
-    },
+    ...(showPuissanceV2
+      ? [
+          {
+            text: 'Puissance',
+            linkProps: {
+              href: utilisateur.role.estDGEC()
+                ? Routes.Puissance.changement.lister({
+                    statut: 'demandé',
+                    autoriteInstructrice: 'dgec-admin',
+                  })
+                : Routes.Puissance.changement.lister({
+                    statut: 'demandé',
+                  }),
+            },
+          },
+        ]
+      : []),
   ];
 
   const garantiesFinancièresMenuLinks: Array<MenuProps.Link> = [
@@ -306,6 +316,18 @@ const getNavigationItemsBasedOnRole = (utilisateur: Utilisateur.ValueType) => {
               href: Routes.Actionnaire.changement.lister({ statut: 'demandé' }),
             },
           },
+          ...(showPuissanceV2
+            ? [
+                {
+                  text: 'Puissance',
+                  linkProps: {
+                    href: Routes.Puissance.changement.lister({
+                      statut: 'demandé',
+                    }),
+                  },
+                },
+              ]
+            : []),
         ],
       },
       {

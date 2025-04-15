@@ -4,7 +4,15 @@ import { Header } from '../Header';
 import { DropdownMenu } from '../../molecules/dropdowns/DropdownMenu';
 import { Routes } from '@potentiel-applications/routes';
 
-export const AcheteurObligéMenuLegacy = (currentPage?: string) => (
+type AcheteurObligéMenuLegacyProps = {
+  currentPage?: string;
+  showPuissanceV2: boolean;
+};
+
+export const AcheteurObligéMenuLegacy = ({
+  showPuissanceV2,
+  currentPage,
+}: AcheteurObligéMenuLegacyProps) => (
   <>
     <Header.MenuItem
       href={routes.LISTE_PROJETS}
@@ -21,6 +29,11 @@ export const AcheteurObligéMenuLegacy = (currentPage?: string) => (
       <DropdownMenu.DropdownItem href={Routes.Actionnaire.changement.lister({ statut: 'demandé' })}>
         Actionnaire
       </DropdownMenu.DropdownItem>
+      {showPuissanceV2 && (
+        <DropdownMenu.DropdownItem href={Routes.Puissance.changement.lister({ statut: 'demandé' })}>
+          Puissance
+        </DropdownMenu.DropdownItem>
+      )}
     </DropdownMenu>
     <Header.MenuItem
       href={routes.ACHETEUR_OBLIGE_STATISTIQUES}
