@@ -135,6 +135,27 @@ where ((
     OR (
         es.type = 'ProjectDataCorrected'
         and es.payload->'correctedData'->>'puissance' is not null
+        -- ignorer les corrections de candidatures non souhaitées
+        and es.payload->>'projectId' not in (
+         'd8bfc6e4-555d-49b7-b89a-1a2ac6008587',
+        '7cdec126-664d-46da-9e75-752bc1bd65fe',
+        'a9695284-2401-4040-8def-4204b5f05710',
+        'f971df74-d150-4d6e-8357-904f965daefd',
+        '0a664e3c-8734-4cb9-a125-f0b65828bb75',
+        'de4be1e8-34f0-4698-9868-5d7bd648cfd7',
+        '4c423a5b-02b8-482e-9164-4d887934fc87',
+        'c0193b9a-0bc2-447d-a909-51a5e14d5850',
+        '03db7b6b-84d8-43f3-9d3e-372d084d60eb',
+        'd2276636-feb5-4685-9d82-d590c7e0a3f2',
+        'fd767cd4-a150-4a95-be65-c6ca7ac69bd1',
+        'ea615475-a026-11ea-b05c-11293d839ea9',
+        '0c6efcbf-bcb0-46ec-a0fd-2a1efd2f5369',
+        '31c7cd67-a138-4d81-adbe-dc8c94eb4d5f',
+        '50ec9b37-0afa-4ece-a70f-9d631f489507',
+        'df7b41a2-c897-46ca-93f3-adcea708c17a',
+        'e5ca5626-32b5-426c-9f92-83fb7a1d0674',
+        'd23530ae-5b14-4172-a97f-65ecdbddf81c'
+         )
     ))  
 order by es."occurredAt";
 `;
