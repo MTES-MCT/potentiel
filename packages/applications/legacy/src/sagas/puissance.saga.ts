@@ -5,7 +5,7 @@ import { getLegacyProjetByIdentifiantProjet } from '../infra/sequelize/queries/p
 import { logger, ok } from '../core/utils';
 import { Puissance } from '@potentiel-domain/laureat';
 import { eventStore } from '../config/eventStore.config';
-import { ProjectPuissanceUpdated } from '../modules/project';
+import { ProjectDataCorrected, ProjectPuissanceUpdated } from '../modules/project';
 import { getUserByEmail } from '../infra/sequelize/queries/users/getUserByEmail';
 import { ModificationReceived } from '../modules/modificationRequest';
 import { UniqueEntityID } from '../core/domain';
@@ -32,14 +32,9 @@ export const register = () => {
     }
 
     switch (type) {
-      case 'PuissanceModifiée-V1':
       case 'ChangementPuissanceEnregistré-V1':
       case 'ChangementPuissanceAccordé-V1':
         const { identifiantUtilisateur, puissance } = match(event)
-          .with({ type: 'PuissanceModifiée-V1' }, ({ payload }) => ({
-            puissance: payload.puissance,
-            identifiantUtilisateur: payload.modifiéePar,
-          }))
           .with({ type: 'ChangementPuissanceEnregistré-V1' }, ({ payload }) => ({
             puissance: payload.puissance,
             identifiantUtilisateur: payload.enregistréPar,
@@ -76,6 +71,27 @@ export const register = () => {
               projectId: projet.id,
               newPuissance: puissance,
               updatedBy: userId,
+            },
+          }),
+        );
+        break;
+
+      case 'PuissanceModifiée-V1':
+        const correctedBy = await new Promise<string>((r) =>
+          getUserByEmail(payload.modifiéePar).map((user) => {
+            r(user?.id ?? '');
+            return ok(user);
+          }),
+        );
+
+        await eventStore.publish(
+          new ProjectDataCorrected({
+            payload: {
+              correctedBy,
+              projectId: projet.id,
+              correctedData: {
+                puissance: payload.puissance,
+              },
             },
           }),
         );
