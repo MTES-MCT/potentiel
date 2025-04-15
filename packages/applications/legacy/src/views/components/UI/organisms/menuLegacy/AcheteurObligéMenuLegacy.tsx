@@ -6,13 +6,9 @@ import { Routes } from '@potentiel-applications/routes';
 
 type AcheteurObligéMenuLegacyProps = {
   currentPage?: string;
-  showPuissanceV2: boolean;
 };
 
-export const AcheteurObligéMenuLegacy = ({
-  showPuissanceV2,
-  currentPage,
-}: AcheteurObligéMenuLegacyProps) => (
+export const AcheteurObligéMenuLegacy = ({ currentPage }: AcheteurObligéMenuLegacyProps) => (
   <>
     <Header.MenuItem
       href={routes.LISTE_PROJETS}
@@ -29,11 +25,9 @@ export const AcheteurObligéMenuLegacy = ({
       <DropdownMenu.DropdownItem href={Routes.Actionnaire.changement.lister({ statut: 'demandé' })}>
         Actionnaire
       </DropdownMenu.DropdownItem>
-      {showPuissanceV2 && (
-        <DropdownMenu.DropdownItem href={Routes.Puissance.changement.lister({ statut: 'demandé' })}>
-          Puissance
-        </DropdownMenu.DropdownItem>
-      )}
+      <DropdownMenu.DropdownItem href={Routes.Puissance.changement.lister({ statut: 'demandé' })}>
+        Puissance
+      </DropdownMenu.DropdownItem>
     </DropdownMenu>
     <Header.MenuItem
       href={routes.ACHETEUR_OBLIGE_STATISTIQUES}

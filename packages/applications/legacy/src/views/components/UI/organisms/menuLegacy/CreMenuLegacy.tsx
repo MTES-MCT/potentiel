@@ -6,10 +6,9 @@ import { Routes } from '@potentiel-applications/routes';
 
 type CreMenuLegacyProps = {
   currentPage?: string;
-  showPuissanceV2: boolean;
 };
 
-export const CreMenuLegacy = ({ currentPage, showPuissanceV2 }: CreMenuLegacyProps) => (
+export const CreMenuLegacy = ({ currentPage }: CreMenuLegacyProps) => (
   <>
     <Header.MenuItem
       href={routes.LISTE_PROJETS}
@@ -32,11 +31,9 @@ export const CreMenuLegacy = ({ currentPage, showPuissanceV2 }: CreMenuLegacyPro
       <DropdownMenu.DropdownItem href={Routes.Actionnaire.changement.lister({ statut: 'demandé' })}>
         Actionnaire
       </DropdownMenu.DropdownItem>
-      {showPuissanceV2 && (
-        <DropdownMenu.DropdownItem href={Routes.Puissance.changement.lister({ statut: 'demandé' })}>
-          Puissance
-        </DropdownMenu.DropdownItem>
-      )}
+      <DropdownMenu.DropdownItem href={Routes.Puissance.changement.lister({ statut: 'demandé' })}>
+        Puissance
+      </DropdownMenu.DropdownItem>
     </DropdownMenu>
     <Header.MenuItem href={Routes.Raccordement.lister}>Raccordements</Header.MenuItem>
     <Header.MenuItem
