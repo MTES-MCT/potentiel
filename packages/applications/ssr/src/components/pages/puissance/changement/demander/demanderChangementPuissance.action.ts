@@ -24,7 +24,7 @@ const demanderChangementPuissanceSchema = zod.object({
 const enregistrerChangementPuissanceSchema = zod.object({
   identifiantProjet: zod.string().min(1),
   puissance: strictlyPositiveNumberSchema,
-  raison: zod.string().min(1, { message: 'Champ obligatoire' }).optional(),
+  raison: zod.string().optional(),
   piecesJustificatives: singleDocument({
     acceptedFileTypes: ['application/pdf'],
     optional: true,
