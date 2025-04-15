@@ -173,14 +173,15 @@ const Details = (
       )}
       {['admin', 'dgec-validateur', 'porteur-projet', 'cre', 'acheteur-obligé', 'dreal'].includes(
         role,
-      ) && (
-        <Link
-          href={detailsUrl}
-          aria-label={`Voir le détail de la demande de ${libelleTypeDemande[modificationType]} en statut "${libelleStatus[status]}"`}
-        >
-          Voir la demande
-        </Link>
-      )}
+      ) &&
+        modificationType !== 'puissance' && (
+          <Link
+            href={detailsUrl}
+            aria-label={`Voir le détail de la demande de ${libelleTypeDemande[modificationType]} en statut "${libelleStatus[status]}"`}
+          >
+            Voir la demande
+          </Link>
+        )}
     </>
   );
 };

@@ -40,7 +40,6 @@ export const extractModificationRequestsItemProps = (
     .map(([, events]): ModificationRequestItemProps => {
       const latestEvent = getLatestEvent(events);
       const requestEvent = getRequestEvent(events);
-
       const { date, variant: role } = latestEvent;
       const { authority, modificationType } = requestEvent;
       const status = getStatus(latestEvent);
@@ -61,7 +60,7 @@ export const extractModificationRequestsItemProps = (
               latestEvent.type === 'ModificationRequestAccepted' && latestEvent.delayInMonthsGranted
                 ? latestEvent.delayInMonthsGranted
                 : requestEvent.delayInMonths,
-            detailsUrl,
+            detailsUrl: ROUTES.DEMANDE_PAGE_DETAILS(requestEvent.modificationRequestId),
           };
 
         case 'puissance':
@@ -94,14 +93,17 @@ const isModificationRequestEvent = or(
 const getEventsGroupedByModificationRequestId = (
   modificationRequestedEvents: ModificationRequestDTO[],
 ) => {
-  return modificationRequestedEvents.reduce((modificationRequests, event) => {
-    if (modificationRequests[event.modificationRequestId]) {
-      modificationRequests[event.modificationRequestId].push(event);
-    } else {
-      modificationRequests[event.modificationRequestId] = [event];
-    }
-    return modificationRequests;
-  }, {} as Record<string, ModificationRequestDTO[]>);
+  return modificationRequestedEvents.reduce(
+    (modificationRequests, event) => {
+      if (modificationRequests[event.modificationRequestId]) {
+        modificationRequests[event.modificationRequestId].push(event);
+      } else {
+        modificationRequests[event.modificationRequestId] = [event];
+      }
+      return modificationRequests;
+    },
+    {} as Record<string, ModificationRequestDTO[]>,
+  );
 };
 
 const getLatestEvent = (events: ModificationRequestDTO[]) => {
