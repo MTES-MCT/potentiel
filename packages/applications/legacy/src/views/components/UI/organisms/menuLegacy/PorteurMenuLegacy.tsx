@@ -7,9 +7,8 @@ import { MenuGarantiesFinancières } from './_utils/garantiesFinancières.menuLe
 
 type PorteurMenuLegacyProps = {
   currentPage?: string;
-  showPuissanceV2: boolean;
 };
-export const PorteurMenuLegacy = ({ currentPage, showPuissanceV2 }: PorteurMenuLegacyProps) => (
+export const PorteurMenuLegacy = ({ currentPage }: PorteurMenuLegacyProps) => (
   <>
     <Header.MenuItem
       href={routes.LISTE_PROJETS}
@@ -38,11 +37,9 @@ export const PorteurMenuLegacy = ({ currentPage, showPuissanceV2 }: PorteurMenuL
       <DropdownMenu.DropdownItem href={Routes.Actionnaire.changement.lister({ statut: 'demandé' })}>
         Actionnaire
       </DropdownMenu.DropdownItem>
-      {showPuissanceV2 && (
-        <DropdownMenu.DropdownItem href={Routes.Puissance.changement.lister({ statut: 'demandé' })}>
-          Puissance
-        </DropdownMenu.DropdownItem>
-      )}
+      <DropdownMenu.DropdownItem href={Routes.Puissance.changement.lister({ statut: 'demandé' })}>
+        Puissance
+      </DropdownMenu.DropdownItem>
     </DropdownMenu>
     <MenuGarantiesFinancières />
     <Header.MenuItem

@@ -30,12 +30,6 @@ export const getPuissance = async ({
   rôle,
 }: Props): Promise<GetPuissanceForProjectPage | undefined> => {
   try {
-    const showPuissance = process.env.SHOW_PUISSANCE === 'true';
-
-    if (!showPuissance) {
-      return undefined;
-    }
-
     const role = Role.convertirEnValueType(rôle);
 
     const puissanceProjection = await mediator.send<Puissance.ConsulterPuissanceQuery>({

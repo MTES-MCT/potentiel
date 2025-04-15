@@ -15,21 +15,20 @@ type UserNavigationProps = {
   currentPage?: string;
 };
 export const UserNavigation = ({ user, currentPage }: UserNavigationProps) => {
-  const showPuissanceV2 = !!process.env.SHOW_PUISSANCE;
   switch (user.role) {
     case 'porteur-projet':
-      return PorteurMenuLegacy({ currentPage, showPuissanceV2 });
+      return PorteurMenuLegacy({ currentPage });
     case 'acheteur-obligé':
-      return AcheteurObligéMenuLegacy({ currentPage, showPuissanceV2 });
+      return AcheteurObligéMenuLegacy({ currentPage });
     case 'ademe':
       return AdemeMenuLegacy(currentPage);
     case 'dreal':
-      return DrealMenuLegacy({ currentPage, showPuissanceV2 });
+      return DrealMenuLegacy({ currentPage });
     case 'admin':
     case 'dgec-validateur':
-      return AdminMenuLegacy({ currentPage, showPuissanceV2 });
+      return AdminMenuLegacy({ currentPage });
     case 'cre':
-      return CreMenuLegacy({ currentPage, showPuissanceV2 });
+      return CreMenuLegacy({ currentPage });
     case 'caisse-des-dépôts':
       return CaisseDesDépôtsMenuLegacy(currentPage);
     case 'grd':

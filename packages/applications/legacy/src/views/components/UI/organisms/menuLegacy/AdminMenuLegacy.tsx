@@ -7,10 +7,9 @@ import { MenuGarantiesFinancières } from './_utils/garantiesFinancières.menuLe
 
 type AdminMenuLegacyProps = {
   currentPage?: string;
-  showPuissanceV2: boolean;
 };
 
-export const AdminMenuLegacy = ({ currentPage, showPuissanceV2 }: AdminMenuLegacyProps) => (
+export const AdminMenuLegacy = ({ currentPage }: AdminMenuLegacyProps) => (
   <>
     <Header.MenuItem
       href={routes.LISTE_PROJETS}
@@ -39,16 +38,14 @@ export const AdminMenuLegacy = ({ currentPage, showPuissanceV2 }: AdminMenuLegac
       <DropdownMenu.DropdownItem href={Routes.Actionnaire.changement.lister({ statut: 'demandé' })}>
         Actionnaire
       </DropdownMenu.DropdownItem>
-      {showPuissanceV2 && (
-        <DropdownMenu.DropdownItem
-          href={Routes.Puissance.changement.lister({
-            statut: 'demandé',
-            autoriteInstructrice: 'dgec-admin',
-          })}
-        >
-          Puissance
-        </DropdownMenu.DropdownItem>
-      )}
+      <DropdownMenu.DropdownItem
+        href={Routes.Puissance.changement.lister({
+          statut: 'demandé',
+          autoriteInstructrice: 'dgec-admin',
+        })}
+      >
+        Puissance
+      </DropdownMenu.DropdownItem>
     </DropdownMenu>
     <MenuGarantiesFinancières />
     <DropdownMenu buttonChildren={'Candidatures'}>
