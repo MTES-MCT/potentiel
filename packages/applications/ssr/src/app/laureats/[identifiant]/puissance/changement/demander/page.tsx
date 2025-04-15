@@ -69,6 +69,7 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
         famille={période.familles.find((f) => f.id === identifiantProjet.famille)}
         cahierDesCharges={mapToPlainObject(cahierDesChargesChoisi)}
         note={candidature.noteTotale}
+        unitéPuissance={appelOffres.unitePuissance}
       />
     );
   });

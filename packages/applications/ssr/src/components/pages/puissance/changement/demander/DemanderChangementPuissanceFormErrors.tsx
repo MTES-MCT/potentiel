@@ -4,22 +4,28 @@ type Props = {
   dépasseLesRatioDeAppelOffres: boolean;
   dépassePuissanceMaxDuVolumeRéservé: boolean;
   dépassePuissanceMaxFamille: boolean;
+  ratioAppelOffre: {
+    min: number;
+    max: number;
+  };
+  unitéPuissance: string;
+  puissanceMaxVoluméRéservé?: number;
 };
-
-// unitéPuissance
-// volumeRéservé
 
 export const DemanderChangementPuissanceFormErrors = ({
   dépasseLesRatioDeAppelOffres,
   dépassePuissanceMaxDuVolumeRéservé,
   dépassePuissanceMaxFamille,
+  unitéPuissance,
+  puissanceMaxVoluméRéservé,
+  ratioAppelOffre: { min, max },
 }: Props) => {
-  console.log(dépasseLesRatioDeAppelOffres);
-  console.log(dépassePuissanceMaxDuVolumeRéservé);
   console.log(dépassePuissanceMaxFamille);
+  console.log(puissanceMaxVoluméRéservé);
+
   return (
     <div>
-      {dépassePuissanceMaxDuVolumeRéservé && (
+      {dépassePuissanceMaxDuVolumeRéservé && puissanceMaxVoluméRéservé !== undefined && (
         <Alert
           className="mt-4"
           severity="error"
@@ -28,8 +34,8 @@ export const DemanderChangementPuissanceFormErrors = ({
             <span>
               Votre projet étant dans le volume réservé, les modifications de la Puissance installée
               ne peuvent pas dépasser le plafond de puissance de
-              {/* {reservedVolume.puissanceMax}{' '}
-          {appelOffre.unitePuissance} spécifié au paragraphe 1.2.2 du cahier des charges. */}
+              {puissanceMaxVoluméRéservé} {unitéPuissance} spécifié au paragraphe 1.2.2 du cahier
+              des charges.
             </span>
           }
         />

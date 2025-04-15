@@ -10,6 +10,7 @@ import {
   dépasseRatiosChangementPuissance,
   getRatiosChangementPuissance,
 } from './helpers';
+import { récupérerVolumeRéservé } from './helpers/récupérerVolumeRéservé';
 
 export type RawType = number;
 
@@ -26,6 +27,10 @@ export type ValueType = ReadonlyValueType<{
   dépasseRatiosChangementPuissance: () => { enDeçaDeMin: boolean; dépasseMax: boolean };
   dépassePuissanceMaxDuVolumeRéservé: () => boolean;
   dépassePuissanceMaxFamille: () => boolean;
+  récupérerRatiosChangementPuissance: () => { minRatio: number; maxRatio: number };
+  récupérerVolumeRéservéPuissanceMax: () =>
+    | { noteThreshold: number; puissanceMax: number }
+    | undefined;
 }>;
 
 export const bind = ({
@@ -100,10 +105,10 @@ export const bind = ({
       });
       return { minRatio: min, maxRatio: max };
     },
-    récupérerVolumeRéservé(): boolean {
-      return getVolumeRéservé({
-        période,
-        nouvellePuissanc;
+    récupérerVolumeRéservéPuissanceMax():
+      | { noteThreshold: number; puissanceMax: number }
+      | undefined {
+      return récupérerVolumeRéservé({ période });
     },
     vérifierQueLaDemandeEstPossible(typeDemande: 'demande' | 'information-enregistrée') {
       // ordre des erreurs suit celui du legacy

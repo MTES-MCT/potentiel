@@ -20,6 +20,7 @@ export type DemanderChangementPuissancePageProps = PlainType<
     famille?: AppelOffre.Famille;
     cahierDesCharges: PlainType<CahierDesCharges.ConsulterCahierDesChargesChoisiReadmodel>;
     note: number;
+    unitéPuissance: string;
   }
 >;
 
@@ -32,6 +33,7 @@ export const DemanderChangementPuissancePage: FC<DemanderChangementPuissancePage
   famille,
   cahierDesCharges,
   note,
+  unitéPuissance,
 }) => (
   <PageTemplate
     banner={
@@ -48,6 +50,7 @@ export const DemanderChangementPuissancePage: FC<DemanderChangementPuissancePage
       famille={famille}
       cahierDesCharges={cahierDesCharges}
       note={note}
+      unitéPuissance={unitéPuissance}
     />
   </PageTemplate>
 );

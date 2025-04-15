@@ -31,6 +31,7 @@ export const DemanderChangementPuissanceForm: FC<DemanderChangementPuissanceForm
   famille,
   cahierDesCharges,
   note,
+  unitéPuissance,
 }) => {
   const [validationErrors, setValidationErrors] = useState<
     ValidationErrors<DemanderChangementPuissanceFormKeys>
@@ -38,7 +39,6 @@ export const DemanderChangementPuissanceForm: FC<DemanderChangementPuissanceForm
   const [piècesJustificatives, setPiècesJustificatives] = useState<Array<string>>([]);
   const [nouvellePuissance, setNouvellePuissance] = useState<number>(puissance);
 
-  // implémentation des règles du ratios
   const ratioValueType = Puissance.RatioChangementPuissance.bind({
     appelOffre,
     période,
@@ -118,6 +118,14 @@ export const DemanderChangementPuissanceForm: FC<DemanderChangementPuissanceForm
           dépasseLesRatioDeAppelOffres={dépasseLesRatioDeAppelOffres}
           dépassePuissanceMaxDuVolumeRéservé={dépassePuissanceMaxDuVolumeRéservé}
           dépassePuissanceMaxFamille={dépassePuissanceMaxFamille}
+          unitéPuissance={unitéPuissance}
+          puissanceMaxVoluméRéservé={
+            ratioValueType.récupérerVolumeRéservéPuissanceMax()?.puissanceMax
+          }
+          ratioAppelOffre={{
+            min: ratioValueType.récupérerRatiosChangementPuissance().minRatio,
+            max: ratioValueType.récupérerRatiosChangementPuissance().maxRatio,
+          }}
         />
         <Input
           textArea
