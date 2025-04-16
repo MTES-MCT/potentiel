@@ -117,7 +117,6 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       },
       delaiDcrEnMois: { valeur: 3, texte: 'trois' },
       familles: [],
-      dossierSuiviPar: 'violaine.tarizzo@developpement-durable.gouv.fr',
       cahiersDesChargesModifiésDisponibles: [
         {
           ...CDCModifié30082022,
