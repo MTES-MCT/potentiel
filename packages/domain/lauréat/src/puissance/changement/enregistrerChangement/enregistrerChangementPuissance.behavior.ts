@@ -35,7 +35,8 @@ export type ChangementPuissanceEnregistréEvent = DomainEvent<
 export type EnregistrerChangementOptions = {
   identifiantProjet: IdentifiantProjet.ValueType;
   identifiantUtilisateur: Email.ValueType;
-  puissance: number;
+  nouvellePuissance: number;
+  puissanceInitiale: number;
   dateChangement: DateTime.ValueType;
   pièceJustificative?: DocumentProjet.ValueType;
   raison?: string;
@@ -52,7 +53,8 @@ export async function enregistrerChangement(
   this: PuissanceAggregate,
   {
     identifiantProjet,
-    puissance,
+    nouvellePuissance,
+    puissanceInitiale,
     dateChangement,
     identifiantUtilisateur,
     pièceJustificative,
@@ -66,7 +68,7 @@ export async function enregistrerChangement(
     note,
   }: EnregistrerChangementOptions,
 ) {
-  if (this.puissance === puissance) {
+  if (this.puissance === nouvellePuissance) {
     throw new PuissanceIdentiqueError();
   }
 
@@ -108,8 +110,8 @@ export async function enregistrerChangement(
     famille,
     cahierDesCharges,
     technologie: technologie.type,
-    ratio: puissance / this.puissance,
-    nouvellePuissance: puissance,
+    ratio: nouvellePuissance / puissanceInitiale,
+    nouvellePuissance,
     note,
   }).vérifierQueLaDemandeEstPossible('information-enregistrée');
 
@@ -117,7 +119,7 @@ export async function enregistrerChangement(
     type: 'ChangementPuissanceEnregistré-V1',
     payload: {
       identifiantProjet: identifiantProjet.formatter(),
-      puissance,
+      puissance: nouvellePuissance,
       enregistréLe: dateChangement.formatter(),
       enregistréPar: identifiantUtilisateur.formatter(),
       raison,

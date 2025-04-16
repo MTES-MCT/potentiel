@@ -21,6 +21,7 @@ export type DemanderChangementPuissancePageProps = PlainType<
     cahierDesCharges: PlainType<CahierDesCharges.ConsulterCahierDesChargesChoisiReadmodel>;
     note: number;
     unitéPuissance: string;
+    puissanceInitiale: number;
   }
 >;
 
@@ -34,6 +35,7 @@ export const DemanderChangementPuissancePage: FC<DemanderChangementPuissancePage
   cahierDesCharges,
   note,
   unitéPuissance,
+  puissanceInitiale,
 }) => (
   <PageTemplate
     banner={
@@ -51,6 +53,7 @@ export const DemanderChangementPuissancePage: FC<DemanderChangementPuissancePage
       cahierDesCharges={cahierDesCharges}
       note={note}
       unitéPuissance={unitéPuissance}
+      puissanceInitiale={puissanceInitiale}
     />
   </PageTemplate>
 );

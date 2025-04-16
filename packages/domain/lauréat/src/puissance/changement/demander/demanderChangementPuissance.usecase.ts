@@ -55,7 +55,7 @@ export const registerDemanderChangementPuissanceUseCase = () => {
       data: {
         dateDemande,
         raison: raisonValue,
-        puissance: puissanceValue,
+        nouvellePuissance: puissanceValue,
         identifiantProjet,
         identifiantUtilisateur,
         pièceJustificative,
