@@ -1,5 +1,6 @@
 import { FC } from 'react';
 import { match } from 'ts-pattern';
+import Tooltip from '@codegouvfr/react-dsfr/Tooltip';
 
 import { DateTime, Email } from '@potentiel-domain/common';
 import { Puissance } from '@potentiel-domain/laureat';
@@ -111,6 +112,14 @@ const Changement: FC<ChangementProps> = ({
               .with('dgec-admin', () => 'DGEC')
               .exhaustive()}
           </div>
+          {autoritéCompétente === 'dgec-admin' && (
+            <Tooltip
+              kind="hover"
+              title={
+                'Cette demande de changement de puissance à la hausse et en dehors de la fourchette prévue aux cahiers des charges est une demande dérogatoire qui n’est pas prévue par les cahiers des charges. Par conséquent, elle fait l’objet d’une instruction par la DGEC.'
+              }
+            />
+          )}
         </div>
       )}
       {raison && (
