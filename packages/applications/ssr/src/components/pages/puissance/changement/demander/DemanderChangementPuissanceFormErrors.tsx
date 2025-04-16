@@ -36,8 +36,11 @@ export const DemanderChangementPuissanceFormErrors = ({
           small
           description={
             <span>
-              Les modifications de la Puissance installée ne peuvent pas dépasser le plafond de
-              puissance de la famille du projet, soit {puissanceMaxFamille} {unitéPuissance}
+              Les modifications de la puissance installée ne peuvent pas dépasser le plafond de
+              puissance de la famille du projet, soit{' '}
+              <strong>
+                {puissanceMaxFamille} {unitéPuissance}
+              </strong>
             </span>
           }
         />
@@ -51,10 +54,9 @@ export const DemanderChangementPuissanceFormErrors = ({
             description={
               <span>
                 Une autorisation est nécessaire si la modification de puissance est inférieure à{' '}
-                {Math.round(min * 100)}% de la puissance initiale ou supérieure à{' '}
-                {Math.round(max * 100)}
-                %. Dans ces cas{' '}
-                <strong>il est nécessaire de joindre un justificatif à votre demande</strong>.
+                <strong>{Math.round(min * 100)}%</strong> de la puissance initiale ou supérieure à{' '}
+                <strong>{Math.round(max * 100)}%</strong>. Dans ces cas, il est nécessaire de
+                joindre un justificatif à votre demande.
               </span>
             }
           />
@@ -70,10 +72,10 @@ export const DemanderChangementPuissanceFormErrors = ({
             small
             description={
               <div>
-                <span className="font-bold">
+                <strong>
                   Si vous ne respectez pas les conditions suivantes, cela pourrait impacter la
                   remise de votre attestation de conformité.
-                </span>
+                </strong>
                 <br />
                 <span className="whitespace-pre-line">
                   {fourchetteRatioInitialEtCDC2022AlertMessage}
@@ -89,10 +91,12 @@ export const DemanderChangementPuissanceFormErrors = ({
           small
           description={
             <span>
-              Votre projet étant dans le volume réservé, les modifications de la Puissance installée
-              ne peuvent pas dépasser le plafond de puissance de
-              {puissanceMaxVoluméRéservé} {unitéPuissance} spécifié au paragraphe 1.2.2 du cahier
-              des charges.
+              Votre projet étant dans le volume réservé, les modifications de la puissance installée
+              ne peuvent pas dépasser le plafond de puissance de{' '}
+              <strong>
+                {puissanceMaxVoluméRéservé} {unitéPuissance}
+              </strong>{' '}
+              spécifié au paragraphe 1.2.2 du cahier des charges.
             </span>
           }
         />
