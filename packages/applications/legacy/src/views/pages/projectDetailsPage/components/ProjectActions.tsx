@@ -59,7 +59,6 @@ const PorteurProjetActions = ({
   hasAttestationConformité,
   peutFaireDemandeChangementReprésentantLégal,
   actionnaireAffichage,
-  peutDemanderChangementPuissanceV2,
 }: PorteurProjetActionsProps) => {
   const peutDemanderAbandon = !abandonEnCoursOuAccordé && !hasAttestationConformité;
 
@@ -95,14 +94,12 @@ const PorteurProjetActions = ({
                 <span>{actionnaireAffichage.porteurProjetActionLabel}</span>
               </DropdownMenuSecondaryButton.DropdownItem>
             )}
-            {peutDemanderChangementPuissanceV2 && (
-              <DropdownMenuSecondaryButton.DropdownItem
-                href={Routes.Puissance.changement.demander(identifiantProjet)}
-                disabled={modificationsNonPermisesParLeCDCActuel ? true : undefined}
-              >
-                <span>Demander un changement de puissance</span>
-              </DropdownMenuSecondaryButton.DropdownItem>
-            )}
+            <DropdownMenuSecondaryButton.DropdownItem
+              href={Routes.Puissance.changement.demander(identifiantProjet)}
+              disabled={modificationsNonPermisesParLeCDCActuel ? true : undefined}
+            >
+              <span>Demander un changement de puissance</span>
+            </DropdownMenuSecondaryButton.DropdownItem>
 
             <DropdownMenuSecondaryButton.DropdownItem href={routes.DEMANDER_DELAI(project.id)}>
               <span>Demander un délai</span>
@@ -228,7 +225,6 @@ export const ProjectActions = ({
   hasAttestationConformité,
   peutFaireDemandeChangementReprésentantLégal,
   actionnaireAffichage,
-  peutDemanderChangementPuissanceV2,
 }: ProjectActionsProps) => {
   const identifiantProjet = formatProjectDataToIdentifiantProjetValueType({
     appelOffreId: project.appelOffreId,
@@ -252,7 +248,6 @@ export const ProjectActions = ({
           peutFaireDemandeChangementReprésentantLégal={peutFaireDemandeChangementReprésentantLégal}
           actionnaireAffichage={actionnaireAffichage}
           identifiantProjet={identifiantProjet}
-          peutDemanderChangementPuissanceV2={peutDemanderChangementPuissanceV2}
         />
       )}
       {userIs(['dreal'])(user) && (
