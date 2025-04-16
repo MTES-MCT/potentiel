@@ -165,6 +165,7 @@ export class Migrer extends Command {
     dryRun: Flags.boolean(),
     projet: Flags.string(),
     dataOnly: Flags.boolean(),
+    filesOnly: Flags.boolean(),
   };
 
   async finally() {
@@ -352,28 +353,30 @@ export class Migrer extends Command {
     const eventsStats: Record<string, number> = {};
 
     let nbEvents = 0;
-    for (const [identifiantProjet, events] of Object.entries(eventsPerProjet)) {
-      const sortedEvents = events.sort((a, b) => getEventDate(a).localeCompare(getEventDate(b)));
-      for (let index = 0; index < sortedEvents.length; index++) {
-        const event = sortedEvents[index];
-        nbEvents++;
-        if (flags.dryRun) {
-          console.log(event);
-        } else {
-          await publish(`puissance|${identifiantProjet}`, event);
+    if (!flags.filesOnly) {
+      for (const [identifiantProjet, events] of Object.entries(eventsPerProjet)) {
+        const sortedEvents = events.sort((a, b) => getEventDate(a).localeCompare(getEventDate(b)));
+        for (let index = 0; index < sortedEvents.length; index++) {
+          const event = sortedEvents[index];
+          nbEvents++;
+          if (flags.dryRun) {
+            console.log(event);
+          } else {
+            await publish(`puissance|${identifiantProjet}`, event);
 
-          // this is to have distinct timestamps on a stream
-          if (index + 1 < events.length) {
-            await new Promise((r) => setTimeout(r, 2));
+            // this is to have distinct timestamps on a stream
+            if (index + 1 < events.length) {
+              await new Promise((r) => setTimeout(r, 2));
+            }
           }
+          eventsStats[event.type] ??= 0;
+          eventsStats[event.type]++;
         }
-        eventsStats[event.type] ??= 0;
-        eventsStats[event.type]++;
       }
-    }
-    console.log(eventsStats);
+      console.log(eventsStats);
 
-    console.log('All events published.', nbEvents);
+      console.log('All events published.', nbEvents);
+    }
     console.log('Migrating files...');
 
     for (const modification of modifications) {
@@ -502,6 +505,7 @@ const migrateFile = async (
           file.replace('S3:potentiel-production:', '').replace('S3:production-potentiel:', ''),
           key,
         );
+        fichiersMigrés++;
       } catch (e) {
         console.warn(
           `❗ La copie du fichier a échouée pour ${identifiantProjet} - ${typeDocument.formatter()}`,
