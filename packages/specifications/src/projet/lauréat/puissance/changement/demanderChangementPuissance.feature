@@ -20,6 +20,10 @@ Fonctionnalité: Demander le changement de puissance d'un projet lauréat
         Quand le porteur demande le changement de puissance pour le projet lauréat avec :
             | ratio puissance | 1.25 |
         Alors la demande de changement de puissance devrait être consultable
+        Et un email a été envoyé à la dreal avec :
+            | sujet      | Potentiel - changement de puissance pour le projet Du boulodrome de Marseille dans le département(.*) demandé |
+            | nom_projet | Du boulodrome de Marseille                                                                                    |
+            | url        | https://potentiel.beta.gouv.fr/laureats/.*/puissance/changement/.*                                            |
         Et un email a été envoyé à la dgec avec :
             | sujet      | Potentiel - changement de puissance pour le projet Du boulodrome de Marseille dans le département(.*) demandé |
             | nom_projet | Du boulodrome de Marseille                                                                                    |

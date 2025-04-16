@@ -27,24 +27,21 @@ export const changementPuissanceDemandéNotification = async ({
 }: ChangementPuissanceDemandéNotificationProps) => {
   const identifiantProjet = IdentifiantProjet.convertirEnValueType(event.payload.identifiantProjet);
   const templateId = 6887674;
+  const dreals = await listerDrealsRecipients(projet.région);
 
-  const recipients: Array<Recipient> = [];
+  const recipients: Array<Recipient> = [...dreals];
 
-  if (event.payload.autoritéCompétente === 'dreal') {
-    const dreals = await listerDrealsRecipients(projet.région);
+  if (event.payload.autoritéCompétente === 'dgec-admin') {
+    recipients.push(getDgecRecipient(identifiantProjet.appelOffre));
+  }
 
-    if (dreals.length === 0) {
-      getLogger().error('Aucune dreal trouvée', {
-        identifiantProjet: identifiantProjet.formatter(),
-        application: 'notifications',
-        fonction: 'demandeChangementPuissanceAnnuléeNotification',
-      });
-      return;
-    }
-
-    recipients.push(...dreals);
-  } else if (event.payload.autoritéCompétente === 'dgec-admin') {
-    recipients.push(getDgecRecipient());
+  if (recipients.length === 0) {
+    getLogger().error('Aucune dreal ou DGEC trouvée', {
+      identifiantProjet: identifiantProjet.formatter(),
+      application: 'notifications',
+      fonction: 'demandeChangementPuissanceAnnuléeNotification',
+    });
+    return;
   }
 
   return sendEmail({
