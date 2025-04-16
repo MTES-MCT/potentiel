@@ -39,14 +39,15 @@ export const DemanderChangementPuissanceForm: FC<DemanderChangementPuissanceForm
   >({});
   const [piècesJustificatives, setPiècesJustificatives] = useState<Array<string>>([]);
   const [nouvellePuissance, setNouvellePuissance] = useState<number>(puissance);
-  const ratio = nouvellePuissance / puissance;
+  const ratio = nouvellePuissance / puissanceInitiale;
+
   const ratioValueType = Puissance.RatioChangementPuissance.bind({
     appelOffre,
     période,
     famille,
     cahierDesCharges,
     technologie,
-    ratio: nouvellePuissance / puissanceInitiale,
+    ratio,
     nouvellePuissance,
     note,
   });
