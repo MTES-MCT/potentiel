@@ -1,5 +1,7 @@
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 
+import { emailDgecAoPv } from '../_utils/emailDGEC';
+
 const garantieFinanciereEnMois = 36;
 
 const CDCModifié30072021: AppelOffre.CahierDesChargesModifié = {
@@ -65,7 +67,7 @@ export const batiment: AppelOffre.AppelOffreReadModel = {
   tarifOuPrimeRetenueAlt: 'ce prix de référence',
   afficherValeurEvaluationCarbone: true,
   afficherPhraseRegionImplantation: false,
-  dossierSuiviPar: 'aopv.dgec@developpement-durable.gouv.fr',
+  dossierSuiviPar: emailDgecAoPv,
   renvoiSoumisAuxGarantiesFinancieres: `doit être au minimum de ${garantieFinanciereEnMois.toString()} mois`,
   changementPuissance: {
     ratios: {
