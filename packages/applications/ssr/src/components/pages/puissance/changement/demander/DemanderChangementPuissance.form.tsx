@@ -39,6 +39,7 @@ export const DemanderChangementPuissanceForm: FC<DemanderChangementPuissanceForm
   >({});
   const [piècesJustificatives, setPiècesJustificatives] = useState<Array<string>>([]);
   const [nouvellePuissance, setNouvellePuissance] = useState<number>(puissance);
+  const ratio = nouvellePuissance / puissanceInitiale;
 
   const ratioValueType = Puissance.RatioChangementPuissance.bind({
     appelOffre,
@@ -46,7 +47,7 @@ export const DemanderChangementPuissanceForm: FC<DemanderChangementPuissanceForm
     famille,
     cahierDesCharges,
     technologie,
-    ratio: nouvellePuissance / puissanceInitiale,
+    ratio,
     nouvellePuissance,
     note,
   });
@@ -64,6 +65,11 @@ export const DemanderChangementPuissanceForm: FC<DemanderChangementPuissanceForm
     ratioValueType.dépasseRatiosChangementPuissanceDuCahierDesChargesInitial();
   const aChoisiCDC2022 =
     cahierDesCharges.type === 'modifié' && cahierDesCharges.paruLe === '30/08/2022';
+
+  const ratioHintText =
+    ratio === 1
+      ? 'La valeur est identique à la puissance actuelle'
+      : `Ceci correspond à ${ratio > 1 ? 'une augmentation' : 'une diminution'} de ${Math.abs(100 - ratio * 100)}% par rapport à la puissance initiale du projet`;
 
   return (
     <Form
@@ -112,6 +118,7 @@ export const DemanderChangementPuissanceForm: FC<DemanderChangementPuissanceForm
             state={validationErrors['puissance'] ? 'error' : 'default'}
             stateRelatedMessage={validationErrors['puissance']}
             label="Puissance (en MWc)"
+            hintText={ratioHintText}
             nativeInputProps={{
               name: 'puissance',
               defaultValue: puissance,
