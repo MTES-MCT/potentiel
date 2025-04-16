@@ -19,11 +19,13 @@ import { DétailsPuissancePageProps } from './DétailsPuissance.page';
 export type DétailsChangementPuissanceProps = {
   demande: DétailsPuissancePageProps['demande'];
   unitéPuissance: DétailsPuissancePageProps['unitéPuissance'];
+  puissanceInitiale: DétailsPuissancePageProps['puissanceInitiale'];
 };
 
 export const DétailsChangementPuissance: FC<DétailsChangementPuissanceProps> = ({
   demande,
   unitéPuissance,
+  puissanceInitiale,
 }) => {
   const statut = Puissance.StatutChangementPuissance.bind(demande.statut.statut);
 
@@ -71,6 +73,7 @@ export const DétailsChangementPuissance: FC<DétailsChangementPuissanceProps> =
           pièceJustificative={demande.pièceJustificative}
           autoritéCompétente={demande.autoritéCompétente?.autoritéCompétente}
           unitéPuissance={unitéPuissance}
+          puissanceInitiale={puissanceInitiale}
         />
       </>
     </div>
@@ -82,6 +85,7 @@ type ChangementProps = {
   pièceJustificative: DétailsChangementPuissanceProps['demande']['pièceJustificative'];
   nouvellePuissance: DétailsChangementPuissanceProps['demande']['nouvellePuissance'];
   unitéPuissance: DétailsChangementPuissanceProps['unitéPuissance'];
+  puissanceInitiale: DétailsChangementPuissanceProps['puissanceInitiale'];
   autoritéCompétente?: Puissance.AutoritéCompétente.RawType;
 };
 
@@ -91,14 +95,20 @@ const Changement: FC<ChangementProps> = ({
   raison,
   autoritéCompétente,
   unitéPuissance,
+  puissanceInitiale,
 }) => (
   <>
     <Heading5>Détails de la demande initiale</Heading5>
     <div className="flex flex-col gap-2">
-      <div className="flex gap-2">
+      <div className="flex flex-col gap-2">
         <div className="font-semibold whitespace-nowrap">Puissance : </div>
-        <div>
-          {nouvellePuissance} {unitéPuissance}
+        <div className="flex flex-col gap-2">
+          <div>
+            Puissance demandée : {nouvellePuissance} {unitéPuissance}
+          </div>
+          <div>
+            Puissance initiale : {puissanceInitiale} {unitéPuissance}
+          </div>
         </div>
       </div>
       {autoritéCompétente && (
