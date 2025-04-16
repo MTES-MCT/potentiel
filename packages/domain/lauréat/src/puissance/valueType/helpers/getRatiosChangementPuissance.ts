@@ -6,15 +6,17 @@ import { ConsulterCahierDesChargesChoisiReadmodel } from '../../../cahierDesChar
 
 const defaultRatios = { min: 0.9, max: 1.1 };
 
+type GetRatiosChangementPuissanceProps = {
+  appelOffre: Pick<AppelOffre.ConsulterAppelOffreReadModel, 'changementPuissance'>;
+  technologie: Candidature.TypeTechnologie.RawType;
+  cahierDesCharges: PlainType<ConsulterCahierDesChargesChoisiReadmodel>;
+};
+
 export const getRatiosChangementPuissance = ({
   appelOffre,
   technologie,
   cahierDesCharges,
-}: {
-  appelOffre: Pick<AppelOffre.ConsulterAppelOffreReadModel, 'changementPuissance'>;
-  technologie: Candidature.TypeTechnologie.RawType;
-  cahierDesCharges: PlainType<ConsulterCahierDesChargesChoisiReadmodel>;
-}): { min: number; max: number } => {
+}: GetRatiosChangementPuissanceProps) => {
   if (!appelOffre) {
     return defaultRatios;
   }

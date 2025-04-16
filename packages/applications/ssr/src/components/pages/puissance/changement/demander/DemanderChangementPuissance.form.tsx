@@ -6,6 +6,7 @@ import Input from '@codegouvfr/react-dsfr/Input';
 
 import { Routes } from '@potentiel-applications/routes';
 import { IdentifiantProjet } from '@potentiel-domain/common';
+import { Puissance } from '@potentiel-domain/laureat';
 
 import { UploadNewOrModifyExistingDocument } from '@/components/atoms/form/document/UploadNewOrModifyExistingDocument';
 import { Form } from '@/components/atoms/form/Form';
@@ -17,13 +18,20 @@ import {
   DemanderChangementPuissanceFormKeys,
 } from './demanderChangementPuissance.action';
 import { DemanderChangementPuissancePageProps } from './DemanderChangementPuissance.page';
-import { InfoBoxDemandePuissance } from './InfoxBoxDemandePuissance';
+import { DemanderChangementPuissanceFormErrors } from './DemanderChangementPuissanceFormErrors';
 
 export type DemanderChangementPuissanceFormProps = DemanderChangementPuissancePageProps;
 
 export const DemanderChangementPuissanceForm: FC<DemanderChangementPuissanceFormProps> = ({
   identifiantProjet,
   puissance,
+  appelOffre,
+  période,
+  technologie,
+  famille,
+  cahierDesCharges,
+  note,
+  unitéPuissance,
 }) => {
   const [validationErrors, setValidationErrors] = useState<
     ValidationErrors<DemanderChangementPuissanceFormKeys>
@@ -31,9 +39,30 @@ export const DemanderChangementPuissanceForm: FC<DemanderChangementPuissanceForm
   const [piècesJustificatives, setPiècesJustificatives] = useState<Array<string>>([]);
   const [nouvellePuissance, setNouvellePuissance] = useState<number>(puissance);
 
-  // ce boolean servira à calculer si le ratio dépasse les minima de l'AO
-  const ratio = nouvellePuissance / puissance;
-  const dépasseLesRatioDeAppelOffres = ratio > 1.2 || ratio < 0.8;
+  const ratioValueType = Puissance.RatioChangementPuissance.bind({
+    appelOffre,
+    période,
+    famille,
+    cahierDesCharges,
+    technologie,
+    ratio: nouvellePuissance / puissance,
+    nouvellePuissance,
+    note,
+  });
+
+  const dépasseLesRatioDeAppelOffres =
+    ratioValueType.dépasseRatiosChangementPuissance().dépasseMax ||
+    ratioValueType.dépasseRatiosChangementPuissance().enDeçaDeMin;
+  const dépassePuissanceMaxDuVolumeRéservé = ratioValueType.dépassePuissanceMaxDuVolumeRéservé();
+  const dépassePuissanceMaxFamille = ratioValueType.dépassePuissanceMaxFamille();
+  const fourchetteRatioInitialEtCDC2022AlertMessage =
+    cahierDesCharges.type === 'modifié'
+      ? cahierDesCharges.seuilSupplémentaireChangementPuissance?.paragrapheAlerte
+      : undefined;
+  const dépasseRatiosChangementPuissanceDuCahierDesChargesInitial =
+    ratioValueType.dépasseRatiosChangementPuissanceDuCahierDesChargesInitial();
+  const aChoisiCDC2022 =
+    cahierDesCharges.type === 'modifié' && cahierDesCharges.paruLe === '30/08/2022';
 
   return (
     <Form
@@ -54,7 +83,9 @@ export const DemanderChangementPuissanceForm: FC<DemanderChangementPuissanceForm
           <SubmitButton
             disabledCondition={() =>
               (!piècesJustificatives.length && dépasseLesRatioDeAppelOffres) ||
-              Object.keys(validationErrors).length > 0
+              Object.keys(validationErrors).length > 0 ||
+              dépassePuissanceMaxDuVolumeRéservé ||
+              dépassePuissanceMaxFamille
             }
           >
             Confirmer la demande
@@ -75,23 +106,45 @@ export const DemanderChangementPuissanceForm: FC<DemanderChangementPuissanceForm
       />
 
       <div className="flex flex-col gap-6">
-        <Input
-          state={validationErrors['puissance'] ? 'error' : 'default'}
-          stateRelatedMessage={validationErrors['puissance']}
-          label="Puissance (en MWc)"
-          nativeInputProps={{
-            name: 'puissance',
-            defaultValue: puissance,
-            required: true,
-            'aria-required': true,
-            type: 'number',
-            inputMode: 'decimal',
-            pattern: '[0-9]+([.][0-9]+)?',
-            step: 'any',
-            onChange: (e) => setNouvellePuissance(parseFloat(e.target.value)),
-          }}
-        />
-        {dépasseLesRatioDeAppelOffres && <InfoBoxDemandePuissance min={0.8} max={1.2} />}
+        <div className="flex flex-col gap-2">
+          <Input
+            state={validationErrors['puissance'] ? 'error' : 'default'}
+            stateRelatedMessage={validationErrors['puissance']}
+            label="Puissance (en MWc)"
+            nativeInputProps={{
+              name: 'puissance',
+              defaultValue: puissance,
+              required: true,
+              'aria-required': true,
+              type: 'number',
+              inputMode: 'decimal',
+              pattern: '[0-9]+([.][0-9]+)?',
+              step: 'any',
+              onChange: (e) => setNouvellePuissance(parseFloat(e.target.value)),
+            }}
+          />
+          <DemanderChangementPuissanceFormErrors
+            dépasseLesRatioDeAppelOffres={dépasseLesRatioDeAppelOffres}
+            dépassePuissanceMaxDuVolumeRéservé={dépassePuissanceMaxDuVolumeRéservé}
+            dépassePuissanceMaxFamille={dépassePuissanceMaxFamille}
+            dépasseRatiosChangementPuissanceDuCahierDesChargesInitial={
+              dépasseRatiosChangementPuissanceDuCahierDesChargesInitial
+            }
+            aChoisiCDC2022={aChoisiCDC2022}
+            fourchetteRatioInitialEtCDC2022AlertMessage={
+              fourchetteRatioInitialEtCDC2022AlertMessage
+            }
+            unitéPuissance={unitéPuissance}
+            puissanceMaxVoluméRéservé={
+              ratioValueType.récupérerVolumeRéservéPuissanceMax()?.puissanceMax
+            }
+            puissanceMaxFamille={ratioValueType.récupérerPuissanceMaxFamille()}
+            ratioAppelOffre={{
+              min: ratioValueType.récupérerRatiosChangementPuissance().minRatio,
+              max: ratioValueType.récupérerRatiosChangementPuissance().maxRatio,
+            }}
+          />
+        </div>
         <Input
           textArea
           label={`Raison ${dépasseLesRatioDeAppelOffres ? '' : '(optionnel)'}`}
@@ -100,7 +153,7 @@ export const DemanderChangementPuissanceForm: FC<DemanderChangementPuissanceForm
           nativeTextAreaProps={{
             name: 'raison',
             required: dépasseLesRatioDeAppelOffres,
-            'aria-required': true,
+            'aria-required': dépasseLesRatioDeAppelOffres,
           }}
           state={validationErrors['raison'] ? 'error' : 'default'}
           stateRelatedMessage={validationErrors['raison']}

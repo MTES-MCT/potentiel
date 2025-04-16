@@ -1,9 +1,14 @@
+type DépasseRatiosChangementPuissanceProps = {
+  minRatio: number;
+  maxRatio: number;
+  ratio: number;
+};
+
 export const dépasseRatiosChangementPuissance = ({
   minRatio,
   maxRatio,
   ratio,
-}: {
-  minRatio: number;
-  maxRatio: number;
-  ratio: number;
-}) => ({ enDeçaDeMin: ratio < minRatio, dépasseMax: ratio > maxRatio });
+}: DépasseRatiosChangementPuissanceProps) => ({
+  enDeçaDeMin: ratio < minRatio,
+  dépasseMax: ratio > maxRatio,
+});

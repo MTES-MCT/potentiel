@@ -1,17 +1,21 @@
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { PlainType } from '@potentiel-domain/core';
 
+import { récupérerVolumeRéservé } from './récupérerVolumeRéservé';
+
+type DépassePuissanceMaxDuVolumeRéservéProps = {
+  note: number;
+  nouvellePuissance: number;
+  puissanceActuelle: number;
+  période: PlainType<AppelOffre.Periode>;
+};
+
 export const dépassePuissanceMaxDuVolumeRéservé = ({
   période,
   nouvellePuissance,
   puissanceActuelle,
   note,
-}: {
-  note: number;
-  nouvellePuissance: number;
-  puissanceActuelle: number;
-  période: PlainType<AppelOffre.Periode>;
-}): boolean => {
+}: DépassePuissanceMaxDuVolumeRéservéProps) => {
   if (période.noteThresholdBy !== 'category') return false;
 
   const désignationCatégorie =
@@ -20,7 +24,7 @@ export const dépassePuissanceMaxDuVolumeRéservé = ({
       ? 'volume-réservé'
       : 'hors-volume-réservé';
 
-  const volumeReservé = période.noteThreshold.volumeReserve;
+  const volumeReservé = récupérerVolumeRéservé({ période });
 
   if (volumeReservé) {
     const { puissanceMax } = volumeReservé;
