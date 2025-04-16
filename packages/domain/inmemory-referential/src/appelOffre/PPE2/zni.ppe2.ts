@@ -1,6 +1,6 @@
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 
-import { EMAIL_DGEC_AO_PV } from '../_utils/emailDGEC';
+import { EMAIL_DGEC_AO_PV } from '../_utils/email';
 
 export const zniPPE2: AppelOffre.AppelOffreReadModel = {
   id: 'PPE2 - ZNI',
