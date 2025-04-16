@@ -55,8 +55,8 @@ export const DemanderChangementPuissanceFormErrors = ({
               <span>
                 Une autorisation est nécessaire si la modification de puissance est inférieure à{' '}
                 <strong>{Math.round(min * 100)}%</strong> de la puissance initiale ou supérieure à{' '}
-                <strong>{Math.round(max * 100)}%</strong>. Dans ces cas, il est nécessaire de
-                joindre un justificatif à votre demande.
+                <strong>{Math.round(max * 100)}%</strong>. Dans ces cas, il est nécessaire de{' '}
+                <strong>joindre un justificatif à votre demande</strong>.
               </span>
             }
           />
