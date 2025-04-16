@@ -23,14 +23,14 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
   return PageWithErrorHandling(async () => {
     const identifiantProjet = IdentifiantProjet.convertirEnValueType(decodeParameter(identifiant));
 
-    const puissanceActuel = await mediator.send<Puissance.ConsulterPuissanceQuery>({
+    const puissanceActuelle = await mediator.send<Puissance.ConsulterPuissanceQuery>({
       type: 'Lauréat.Puissance.Query.ConsulterPuissance',
       data: {
         identifiantProjet: identifiantProjet.formatter(),
       },
     });
 
-    if (Option.isNone(puissanceActuel)) {
+    if (Option.isNone(puissanceActuelle)) {
       return notFound();
     }
 
@@ -52,8 +52,8 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
 
     return (
       <DemanderChangementPuissancePage
-        identifiantProjet={mapToPlainObject(puissanceActuel.identifiantProjet)}
-        puissance={puissanceActuel.puissance}
+        identifiantProjet={mapToPlainObject(puissanceActuelle.identifiantProjet)}
+        puissance={puissanceActuelle.puissance}
         appelOffre={mapToPlainObject(appelOffres)}
         période={mapToPlainObject(période)}
         technologie={candidature.technologie.type}
