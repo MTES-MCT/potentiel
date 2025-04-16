@@ -1,6 +1,6 @@
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 
-import { emailDgecAoPv } from '../_utils/emailDGEC';
+import { EMAIL_DGEC_AO_PV } from '../_utils/emailDGEC';
 
 const CDCModifié30072021: AppelOffre.CahierDesChargesModifié = {
   paruLe: '30/07/2021',
@@ -45,7 +45,7 @@ export const autoconsommationMetropole2016: AppelOffre.AppelOffreReadModel = {
   tarifOuPrimeRetenueAlt: 'cette prime',
   afficherValeurEvaluationCarbone: false,
   afficherPhraseRegionImplantation: false,
-  dossierSuiviPar: emailDgecAoPv,
+  dossierSuiviPar: EMAIL_DGEC_AO_PV,
   soumisAuxGarantiesFinancieres: 'non soumis',
   changementPuissance: {
     ratios: {

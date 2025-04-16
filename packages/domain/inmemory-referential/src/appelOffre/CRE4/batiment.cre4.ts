@@ -1,6 +1,6 @@
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 
-import { emailDgecAoPv } from '../_utils/emailDGEC';
+import { EMAIL_DGEC_AO_PV } from '../_utils/emailDGEC';
 
 const garantieFinanciereEnMois = 36;
 
@@ -67,7 +67,7 @@ export const batiment: AppelOffre.AppelOffreReadModel = {
   tarifOuPrimeRetenueAlt: 'ce prix de référence',
   afficherValeurEvaluationCarbone: true,
   afficherPhraseRegionImplantation: false,
-  dossierSuiviPar: emailDgecAoPv,
+  dossierSuiviPar: EMAIL_DGEC_AO_PV,
   renvoiSoumisAuxGarantiesFinancieres: `doit être au minimum de ${garantieFinanciereEnMois.toString()} mois`,
   changementPuissance: {
     ratios: {

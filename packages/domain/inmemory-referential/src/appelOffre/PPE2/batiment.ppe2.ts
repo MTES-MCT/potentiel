@@ -1,6 +1,6 @@
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 
-import { emailDgecAoPv } from '../_utils/emailDGEC';
+import { EMAIL_DGEC_AO_PV } from '../_utils/emailDGEC';
 
 const CDCModifié30082022: AppelOffre.CahierDesChargesModifié = {
   type: 'modifié',
@@ -68,7 +68,7 @@ export const batimentPPE2: AppelOffre.AppelOffreReadModel = {
   tarifOuPrimeRetenueAlt: 'ce prix de référence',
   afficherValeurEvaluationCarbone: true,
   afficherPhraseRegionImplantation: false,
-  dossierSuiviPar: emailDgecAoPv,
+  dossierSuiviPar: EMAIL_DGEC_AO_PV,
   doitPouvoirChoisirCDCInitial: true,
   changementPuissance: {
     ratios: {

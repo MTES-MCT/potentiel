@@ -1,6 +1,6 @@
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 
-import { emailDgecAoEolien } from '../_utils/emailDGEC';
+import { EMAIL_DGEC_AO_EOLIEN } from '../_utils/emailDGEC';
 
 const CDCModifié30082022: AppelOffre.CahierDesChargesModifié = {
   type: 'modifié',
@@ -30,7 +30,7 @@ export const eolien: AppelOffre.AppelOffreReadModel = {
   title:
     'portant sur la réalisation et l’exploitation d’Installations de production d’électricité à partir de l’énergie mécanique du vent implantées à terre',
   shortTitle: 'Eolien',
-  dossierSuiviPar: emailDgecAoEolien,
+  dossierSuiviPar: EMAIL_DGEC_AO_EOLIEN,
   launchDate: 'mai 2017',
   cahiersDesChargesUrl:
     'https://www.cre.fr/documents/Appels-d-offres/appel-d-offres-portant-sur-la-realisation-et-l-exploitation-d-installations-de-production-d-electricite-a-partir-de-l-energie-mecanique-du-vent-im',

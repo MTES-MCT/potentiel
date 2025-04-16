@@ -1,6 +1,6 @@
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 
-import { emailDgecAoPv } from '../_utils/emailDGEC';
+import { EMAIL_DGEC_AO_PV } from '../_utils/emailDGEC';
 
 const CDCModifié30072021: AppelOffre.CahierDesChargesModifié = {
   type: 'modifié',
@@ -91,7 +91,7 @@ export const innovation: AppelOffre.AppelOffreReadModel = {
   tarifOuPrimeRetenueAlt: 'ce prix de référence',
   afficherValeurEvaluationCarbone: false,
   afficherPhraseRegionImplantation: false,
-  dossierSuiviPar: emailDgecAoPv,
+  dossierSuiviPar: EMAIL_DGEC_AO_PV,
   changementPuissance: {
     ratios: {
       min: 0.7,

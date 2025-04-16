@@ -1,6 +1,6 @@
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 
-import { emailDgecAoPv } from '../_utils/emailDGEC';
+import { EMAIL_DGEC_AO_PV } from '../_utils/emailDGEC';
 
 const garantieFinanciereEnMois = 36;
 
@@ -75,7 +75,7 @@ export const pvEolien: AppelOffre.AppelOffreReadModel = {
   tarifOuPrimeRetenueAlt: '',
   afficherValeurEvaluationCarbone: false,
   afficherPhraseRegionImplantation: false,
-  dossierSuiviPar: emailDgecAoPv,
+  dossierSuiviPar: EMAIL_DGEC_AO_PV,
   soumisAuxGarantiesFinancieres: 'après candidature',
   garantieFinanciereEnMois: garantieFinanciereEnMois,
   renvoiSoumisAuxGarantiesFinancieres: `doit être au minimum de ${garantieFinanciereEnMois} mois`,
