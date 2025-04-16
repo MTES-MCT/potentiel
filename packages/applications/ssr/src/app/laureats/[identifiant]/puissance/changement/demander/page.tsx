@@ -6,13 +6,13 @@ import { Option } from '@potentiel-libraries/monads';
 import { CahierDesCharges, Puissance } from '@potentiel-domain/laureat';
 import { IdentifiantProjet } from '@potentiel-domain/common';
 import { mapToPlainObject } from '@potentiel-domain/core';
-import { Candidature } from '@potentiel-domain/candidature';
 
 import { decodeParameter } from '@/utils/decodeParameter';
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { DemanderChangementPuissancePage } from '@/components/pages/puissance/changement/demander/DemanderChangementPuissance.page';
 import { getPériodeAppelOffres } from '@/app/_helpers/getPériodeAppelOffres';
+import { getCandidature } from '@/app/candidatures/_helpers/getCandidature';
 
 export const metadata: Metadata = {
   title: 'Demander le changement de puissance du projet - Potentiel',
@@ -34,16 +34,7 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
       return notFound();
     }
 
-    const candidature = await mediator.send<Candidature.ConsulterCandidatureQuery>({
-      type: 'Candidature.Query.ConsulterCandidature',
-      data: {
-        identifiantProjet: identifiantProjet.formatter(),
-      },
-    });
-
-    if (Option.isNone(candidature)) {
-      return notFound();
-    }
+    const candidature = await getCandidature(identifiantProjet.formatter());
 
     const { appelOffres, période } = await getPériodeAppelOffres(candidature.identifiantProjet);
 

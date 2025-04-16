@@ -56,12 +56,9 @@ export const DemanderChangementPuissanceForm: FC<DemanderChangementPuissanceForm
   const dépassePuissanceMaxDuVolumeRéservé = ratioValueType.dépassePuissanceMaxDuVolumeRéservé();
   const dépassePuissanceMaxFamille = ratioValueType.dépassePuissanceMaxFamille();
   const fourchetteRatioInitialEtCDC2022AlertMessage =
-    période.cahiersDesChargesModifiésDisponibles.find(
-      (cdc) =>
-        cdc.type === cahierDesCharges.type &&
-        cdc.paruLe === cahierDesCharges.paruLe &&
-        cdc.alternatif === cahierDesCharges.alternatif,
-    )?.seuilSupplémentaireChangementPuissance?.paragrapheAlerte;
+    cahierDesCharges.type === 'modifié'
+      ? cahierDesCharges.seuilSupplémentaireChangementPuissance?.paragrapheAlerte
+      : undefined;
   const dépasseRatiosChangementPuissanceDuCahierDesChargesInitial =
     ratioValueType.dépasseRatiosChangementPuissanceDuCahierDesChargesInitial();
   const aChoisiCDC2022 =
