@@ -16,7 +16,7 @@ export type DemanderChangementCommand = Message<
   {
     identifiantProjet: IdentifiantProjet.ValueType;
     raison: string;
-    puissance: number;
+    nouvellePuissance: number;
     pièceJustificative: DocumentProjet.ValueType;
     identifiantUtilisateur: Email.ValueType;
     dateDemande: DateTime.ValueType;
@@ -32,7 +32,7 @@ export const registerDemanderChangementPuissanceCommand = (loadAggregate: LoadAg
     identifiantProjet,
     pièceJustificative,
     raison,
-    puissance,
+    nouvellePuissance,
     identifiantUtilisateur,
     dateDemande,
   }) => {
@@ -60,11 +60,12 @@ export const registerDemanderChangementPuissanceCommand = (loadAggregate: LoadAg
 
     await puissanceAggrégat.demanderChangement({
       identifiantProjet,
+      nouvellePuissance,
+      puissanceInitiale: candidature.puissance,
       pièceJustificative,
       raison,
       identifiantUtilisateur,
       dateDemande,
-      puissance,
       estAbandonné: abandon.statut.estAccordé(),
       demandeAbandonEnCours: abandon.statut.estEnCours(),
       estAchevé: achèvement.estAchevé(),

@@ -16,7 +16,7 @@ export type EnregistrerChangementPuissanceCommand = Message<
   {
     identifiantProjet: IdentifiantProjet.ValueType;
     identifiantUtilisateur: Email.ValueType;
-    puissance: number;
+    nouvellePuissance: number;
     dateChangement: DateTime.ValueType;
     pièceJustificative?: DocumentProjet.ValueType;
     raison?: string;
@@ -32,7 +32,7 @@ export const registerEnregistrerChangementPuissanceCommand = (loadAggregate: Loa
   const handler: MessageHandler<EnregistrerChangementPuissanceCommand> = async ({
     identifiantProjet,
     identifiantUtilisateur,
-    puissance,
+    nouvellePuissance,
     dateChangement,
     pièceJustificative,
     raison,
@@ -61,12 +61,13 @@ export const registerEnregistrerChangementPuissanceCommand = (loadAggregate: Loa
 
     await puissanceAggrégat.enregistrerChangement({
       identifiantProjet,
+      nouvellePuissance,
+      puissanceInitiale: candidature.puissance,
       identifiantUtilisateur,
       appelOffre,
       technologie: candidature.technologie,
       cahierDesCharges: cahierDesChargesChoisi,
       note: candidature.note,
-      puissance,
       dateChangement,
       pièceJustificative,
       raison,

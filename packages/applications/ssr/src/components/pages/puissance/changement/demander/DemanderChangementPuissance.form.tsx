@@ -32,6 +32,7 @@ export const DemanderChangementPuissanceForm: FC<DemanderChangementPuissanceForm
   cahierDesCharges,
   note,
   unitéPuissance,
+  puissanceInitiale,
 }) => {
   const [validationErrors, setValidationErrors] = useState<
     ValidationErrors<DemanderChangementPuissanceFormKeys>
@@ -45,7 +46,7 @@ export const DemanderChangementPuissanceForm: FC<DemanderChangementPuissanceForm
     famille,
     cahierDesCharges,
     technologie,
-    ratio: nouvellePuissance / puissance,
+    ratio: nouvellePuissance / puissanceInitiale,
     nouvellePuissance,
     note,
   });

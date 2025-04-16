@@ -61,6 +61,7 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
         cahierDesCharges={mapToPlainObject(cahierDesChargesChoisi)}
         note={candidature.noteTotale}
         unitéPuissance={appelOffres.unitePuissance}
+        puissanceInitiale={candidature.puissanceProductionAnnuelle}
       />
     );
   });
