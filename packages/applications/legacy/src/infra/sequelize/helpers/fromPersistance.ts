@@ -7,9 +7,7 @@ import * as ProjectEvents from '../../../modules/project/events';
 import * as ProjectClaimEvents from '../../../modules/projectClaim/events';
 import * as UserEvents from '../../../modules/users/events';
 import * as LegacyCandidateNotificationEvents from '../../../modules/legacyCandidateNotification/events';
-import * as DemandeRecoursModificationEvents from '../../../modules/demandeModification/demandeRecours/events';
 import * as DemandeDelaiEvents from '../../../modules/demandeModification/demandeDélai/events';
-import * as DemandeChangementDePuissanceEvents from '../../../modules/demandeModification/demandeChangementDePuissance/events';
 import * as UtilisateurEvents from '../../../modules/utilisateur/events';
 
 import { transformerISOStringEnDate } from '../../helpers';
@@ -35,9 +33,7 @@ const EventClassByType: Record<string, HasEventConstructor> = {
   ...ProjectClaimEvents,
   ...UserEvents,
   ...LegacyCandidateNotificationEvents,
-  ...DemandeRecoursModificationEvents,
   ...DemandeDelaiEvents,
-  ...DemandeChangementDePuissanceEvents,
   ...UtilisateurEvents,
 };
 

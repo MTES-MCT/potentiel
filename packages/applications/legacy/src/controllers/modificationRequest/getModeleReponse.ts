@@ -14,7 +14,6 @@ import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 import { Option } from '@potentiel-libraries/monads';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { Candidature } from '@potentiel-domain/candidature';
-import { mapToPuissanceModèleRéponseProps } from './_utils/modèles/puissance';
 import { logger } from '../../core/utils';
 import { docxContentType, downloadFile } from './_utils/downloadFile';
 import { ReadableStream } from 'stream/web';
@@ -89,31 +88,7 @@ v1Router.get(
     }
 
     const régionDreal = Option.isSome(request.user.région) ? request.user.région : undefined;
-    if (modificationRequest.type === 'puissance') {
-      const content = await ModèleRéponseSignée.générerModèleRéponseAdapter({
-        type: 'puissance',
-        logo: régionDreal,
-        data: mapToPuissanceModèleRéponseProps({
-          identifiantProjet,
-          lauréat,
-          appelOffres,
-          candidature,
-          cahierDesChargesChoisi,
-          représentantLégal,
-          dateDemande: new Date(modificationRequest.requestedOn),
-          justification: modificationRequest.justification ?? '',
-          nouvellePuissance: modificationRequest.puissance!,
-          puissanceActuelle: modificationRequest.project.puissance,
-          utilisateur: { nom: request.user.fullName, région: request.user.région },
-        }),
-      });
-
-      return downloadFile(response, {
-        filename: `réponse-changement-puissance-${lauréat.nomProjet.replaceAll(' ', '_')}.docx`,
-        content: content as ReadableStream<any>,
-        contentType: docxContentType,
-      });
-    } else if (modificationRequest.type === 'delai') {
+    if (modificationRequest.type === 'delai') {
       const previousRequest = await ModificationRequest.findOne({
         where: {
           projectId,

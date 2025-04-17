@@ -8,8 +8,6 @@ import {
   DélaiEnInstruction,
   DélaiRejeté,
   RejetDélaiAnnulé,
-  RejetRecoursAnnulé,
-  RejetChangementDePuissanceAnnulé,
 } from '../../../../../modules/demandeModification';
 import {
   ConfirmationRequested,
@@ -40,8 +38,6 @@ import { onModificationRequested } from './onModificationRequested';
 import { onModificationRequestInstructionStarted } from './onModificationRequestInstructionStarted';
 import { onModificationRequestRejected } from './onModificationRequestRejected';
 import { onModificationRequestStatusUpdated } from './onModificationRequestStatusUpdated';
-import { onRejetChangementDePuissanceAnnulé } from './onRejetChangementDePuissanceAnnulé';
-import { onRejetRecoursAnnulé } from './onRejetRecoursAnnulé';
 
 export const initModificationRequestProjections = (eventBus: EventBus, models) => {
   eventBus.subscribe(ModificationRequested.type, onModificationRequested);
@@ -66,8 +62,6 @@ export const initModificationRequestProjections = (eventBus: EventBus, models) =
   eventBus.subscribe(RejetDélaiAnnulé.type, onRejetDélaiAnnulé);
   eventBus.subscribe(DélaiEnInstruction.type, onDélaiEnInstruction);
 
-  eventBus.subscribe(RejetRecoursAnnulé.type, onRejetRecoursAnnulé);
-  eventBus.subscribe(RejetChangementDePuissanceAnnulé.type, onRejetChangementDePuissanceAnnulé);
   logger.info('Initialized ModificationRequest projections');
 };
 

@@ -27,11 +27,13 @@ const EnregistrerUneModification = ({
   identifiantProjet,
 }: EnregistrerUneModificationProps) => (
   <DropdownMenuSecondaryButton buttonChildren="Enregistrer une modification">
-    <></>
     <DropdownMenuSecondaryButton.DropdownItem
       href={routes.ADMIN_SIGNALER_DEMANDE_DELAI_PAGE(projectId)}
     >
       <span>Demande de délai</span>
+    </DropdownMenuSecondaryButton.DropdownItem>
+    <DropdownMenuSecondaryButton.DropdownItem href={Routes.Puissance.modifier(identifiantProjet)}>
+      <span>Modifier la puissance</span>
     </DropdownMenuSecondaryButton.DropdownItem>
     <DropdownMenuSecondaryButton.DropdownItem href={Routes.Actionnaire.modifier(identifiantProjet)}>
       <span>Modifier l'actionnaire(s)</span>
@@ -57,7 +59,6 @@ const PorteurProjetActions = ({
   hasAttestationConformité,
   peutFaireDemandeChangementReprésentantLégal,
   actionnaireAffichage,
-  peutDemanderChangementPuissanceV2,
 }: PorteurProjetActionsProps) => {
   const peutDemanderAbandon = !abandonEnCoursOuAccordé && !hasAttestationConformité;
 
@@ -93,20 +94,12 @@ const PorteurProjetActions = ({
                 <span>{actionnaireAffichage.porteurProjetActionLabel}</span>
               </DropdownMenuSecondaryButton.DropdownItem>
             )}
-            {peutDemanderChangementPuissanceV2 ? (
-              <DropdownMenuSecondaryButton.DropdownItem
-                href={Routes.Puissance.changement.demander(identifiantProjet)}
-                disabled={modificationsNonPermisesParLeCDCActuel ? true : undefined}
-              >
-                <span>Demander un changement de puissance</span>
-              </DropdownMenuSecondaryButton.DropdownItem>
-            ) : (
-              <DropdownMenuSecondaryButton.DropdownItem
-                href={routes.DEMANDER_CHANGEMENT_PUISSANCE(project.id)}
-              >
-                <span>Changer de puissance</span>
-              </DropdownMenuSecondaryButton.DropdownItem>
-            )}
+            <DropdownMenuSecondaryButton.DropdownItem
+              href={Routes.Puissance.changement.demander(identifiantProjet)}
+              disabled={modificationsNonPermisesParLeCDCActuel ? true : undefined}
+            >
+              <span>Demander un changement de puissance</span>
+            </DropdownMenuSecondaryButton.DropdownItem>
 
             <DropdownMenuSecondaryButton.DropdownItem href={routes.DEMANDER_DELAI(project.id)}>
               <span>Demander un délai</span>
@@ -232,7 +225,6 @@ export const ProjectActions = ({
   hasAttestationConformité,
   peutFaireDemandeChangementReprésentantLégal,
   actionnaireAffichage,
-  peutDemanderChangementPuissanceV2,
 }: ProjectActionsProps) => {
   const identifiantProjet = formatProjectDataToIdentifiantProjetValueType({
     appelOffreId: project.appelOffreId,
@@ -256,7 +248,6 @@ export const ProjectActions = ({
           peutFaireDemandeChangementReprésentantLégal={peutFaireDemandeChangementReprésentantLégal}
           actionnaireAffichage={actionnaireAffichage}
           identifiantProjet={identifiantProjet}
-          peutDemanderChangementPuissanceV2={peutDemanderChangementPuissanceV2}
         />
       )}
       {userIs(['dreal'])(user) && (

@@ -8,14 +8,7 @@ import {
   makePasserDemandeDélaiEnInstruction,
   makeCorrigerDélaiAccordé,
 } from '../modules/demandeModification/demandeDélai';
-import { makeAnnulerRejetRecours } from '../modules/demandeModification/demandeRecours';
-import {
-  makeAnnulerRejetChangementDePuissance,
-  makeDemanderChangementDePuissance,
-  exceedsPuissanceMaxDuVolumeReserve,
-  exceedsRatiosChangementPuissance,
-  exceedsPuissanceMaxFamille,
-} from '../modules/demandeModification/demandeChangementDePuissance';
+
 import { makeLoadFileForUser } from '../modules/file';
 import {
   makeAcceptModificationRequest,
@@ -87,18 +80,6 @@ export const requestConfirmation = makeRequestConfirmation({
 export const confirmRequest = makeConfirmRequest({
   modificationRequestRepo,
   shouldUserAccessProject: shouldUserAccessProject.check.bind(shouldUserAccessProject),
-});
-
-export const demanderChangementDePuissance = makeDemanderChangementDePuissance({
-  eventBus: eventStore,
-  shouldUserAccessProject: shouldUserAccessProject.check.bind(shouldUserAccessProject),
-  exceedsRatiosChangementPuissance,
-  exceedsPuissanceMaxDuVolumeReserve,
-  exceedsPuissanceMaxFamille,
-  projectRepo,
-  fileRepo,
-  getPuissanceProjet,
-  getProjectAppelOffre,
 });
 
 export const changerProducteur = makeChangerProducteur({
@@ -197,17 +178,6 @@ export const annulerRejetDélai = makeAnnulerRejetDélai({
 export const passerDemandeDélaiEnInstruction = makePasserDemandeDélaiEnInstruction({
   shouldUserAccessProject: shouldUserAccessProject.check.bind(shouldUserAccessProject),
   demandeDélaiRepo,
-  publishToEventStore,
-});
-
-export const annulerRejetRecours = makeAnnulerRejetRecours({
-  modificationRequestRepo,
-  publishToEventStore,
-});
-
-export const annulerRejetChangementDePuissance = makeAnnulerRejetChangementDePuissance({
-  shouldUserAccessProject: shouldUserAccessProject.check.bind(shouldUserAccessProject),
-  modificationRequestRepo,
   publishToEventStore,
 });
 
