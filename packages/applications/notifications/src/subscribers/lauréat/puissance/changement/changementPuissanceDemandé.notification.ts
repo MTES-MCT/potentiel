@@ -5,8 +5,8 @@ import { IdentifiantProjet } from '@potentiel-domain/projet';
 
 import { RegisterPuissanceNotificationDependencies } from '..';
 import { Recipient } from '../../../../sendEmail';
-import { getDgecRecipient } from '../../../../helpers/getDgecRecipient';
 import { listerDrealsRecipients } from '../../../../helpers/listerDrealsRecipients';
+import { listerDgecRecipients } from '../../../../helpers/listerDgecRecipients';
 
 type ChangementPuissanceDemandéNotificationProps = {
   sendEmail: RegisterPuissanceNotificationDependencies['sendEmail'];
@@ -31,7 +31,9 @@ export const changementPuissanceDemandéNotification = async ({
   const recipients: Array<Recipient> = [...dreals];
 
   if (event.payload.autoritéCompétente === 'dgec-admin') {
-    recipients.push(getDgecRecipient(identifiantProjet.appelOffre));
+    const dgecs = await listerDgecRecipients(identifiantProjet);
+
+    recipients.push(...dgecs);
   }
 
   if (recipients.length === 0) {
