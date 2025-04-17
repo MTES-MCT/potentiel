@@ -1,30 +1,18 @@
 import { AppelOffre } from '@potentiel-domain/appel-offre';
+import { PlainType } from '@potentiel-domain/core';
 
+/** @deprecated use  AppelOffre.RéférenceCahierDesCharges.ValueType */
 export type CahierDesChargesRéférenceParsed =
-  | { type: 'initial' }
-  | {
-      type: 'modifié';
-      paruLe: AppelOffre.DateParutionCahierDesChargesModifié;
-      alternatif?: true;
-    };
+  PlainType<AppelOffre.RéférenceCahierDesCharges.ValueType>;
 
+/** @deprecated use  AppelOffre.RéférenceCahierDesCharges.ValueType */
 export const parseCahierDesChargesRéférence = (
   référence: string,
-): CahierDesChargesRéférenceParsed => {
-  if (référence === 'initial') {
-    return { type: 'initial' };
-  }
+): CahierDesChargesRéférenceParsed =>
+  AppelOffre.RéférenceCahierDesCharges.convertirEnValueType(référence);
 
-  return {
-    type: 'modifié',
-    paruLe: référence.replace('-alternatif', '') as AppelOffre.DateParutionCahierDesChargesModifié,
-    alternatif: référence.search('-alternatif') === -1 ? undefined : true,
-  };
-};
-
+/** @deprecated use  AppelOffre.RéférenceCahierDesCharges.ValueType */
 export const formatCahierDesChargesRéférence = (
   cdc: CahierDesChargesRéférenceParsed,
 ): AppelOffre.CahierDesChargesRéférence =>
-  cdc.type === 'initial'
-    ? 'initial'
-    : (`${cdc.paruLe}${cdc.alternatif ? '-alternatif' : ''}` as AppelOffre.CahierDesChargesRéférence);
+  AppelOffre.RéférenceCahierDesCharges.bind(cdc).formatter();

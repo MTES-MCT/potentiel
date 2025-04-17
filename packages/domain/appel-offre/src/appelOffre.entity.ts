@@ -1,5 +1,7 @@
 import { Entity } from '@potentiel-domain/entity';
 
+import { DateParutionCahierDesChargesModifié } from './RéférenceCahierDesCharges.valueType';
+
 type AppelOffreTypes =
   | 'autoconso'
   | 'batiment'
@@ -74,22 +76,6 @@ export type DélaiApplicable = {
   délaiEnMois: number;
   intervaleDateMiseEnService: { min: string; max: string };
 };
-
-export const cahiersDesChargesRéférences = [
-  'initial',
-  '30/07/2021',
-  '30/08/2022',
-  '30/08/2022-alternatif',
-  '07/02/2023',
-  '07/02/2023-alternatif',
-] as const;
-
-export type CahierDesChargesRéférence = (typeof cahiersDesChargesRéférences)[number];
-
-const datesParutionCahiersDesChargesModifiés = ['30/07/2021', '30/08/2022', '07/02/2023'] as const;
-
-export type DateParutionCahierDesChargesModifié =
-  (typeof datesParutionCahiersDesChargesModifiés)[number];
 
 export type CahierDesChargesModifié = {
   type: 'modifié';

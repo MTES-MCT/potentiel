@@ -10,7 +10,7 @@ export type CahierDesChargesChoisiPayload = {
     }
   | {
       type: 'modifié';
-      paruLe: AppelOffre.DateParutionCahierDesChargesModifié;
+      paruLe: AppelOffre.RéférenceCahierDesCharges.DateParutionCahierDesChargesModifié;
       alternatif?: true;
     }
 );
