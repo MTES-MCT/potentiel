@@ -157,7 +157,6 @@ export type NotifiedPeriode = {
     }
   | {
       noteThresholdBy?: undefined;
-      noteThreshold: number;
     }
 ) &
   CertificateTemplateProps;

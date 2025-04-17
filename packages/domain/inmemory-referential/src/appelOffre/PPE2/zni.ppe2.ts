@@ -94,7 +94,6 @@ du paragraphe 2.6.`,
           soumisAuxGarantiesFinancieres: 'à la candidature',
         },
       ],
-      noteThreshold: 41.8253968253968,
       cahiersDesChargesModifiésDisponibles: [],
       changement: {
         représentantLégal: {
@@ -126,7 +125,6 @@ du paragraphe 2.6.`,
           soumisAuxGarantiesFinancieres: 'à la candidature',
         },
       ],
-      noteThreshold: 26.62,
       cahiersDesChargesModifiésDisponibles: [],
       changement: {
         représentantLégal: {
@@ -157,12 +155,6 @@ ou égale à 12 MWc pour les projets sur terrains correspondant aux cas 1 et 2 d
 du paragraphe 2.6.`,
           soumisAuxGarantiesFinancieres: 'à la candidature',
         },
-      ],
-      noteThresholdBy: 'family',
-      noteThreshold: [
-        { familleId: '1', territoire: 'Corse', noteThreshold: 52.43 },
-        { familleId: '1 ', territoire: 'Guyane', noteThreshold: 45.05 },
-        { familleId: '1', territoire: 'La Réunion', noteThreshold: 64.81 },
       ],
       cahiersDesChargesModifiésDisponibles: [],
       changement: {

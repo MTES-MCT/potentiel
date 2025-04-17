@@ -140,11 +140,6 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
           puissanceMax: 3,
         },
       ],
-      noteThresholdBy: 'family',
-      noteThreshold: [
-        { familleId: '1', noteThreshold: 65.05 },
-        { familleId: '2', noteThreshold: 61.76 },
-      ],
       cahiersDesChargesModifiésDisponibles: [CDCModifié30082022],
       abandonAvecRecandidature: true,
       changement: {
