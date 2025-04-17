@@ -75,10 +75,10 @@ export class CandidatureAggregate extends AbstractAggregate<CandidatureEvent> {
   }
 
   async importer(candidature: ImporterCandidatureOptions) {
-    this.vérifierQueLaCandidatureADéjàÉtéImportée();
+    this.vérifierSiLaCandidatureADéjàÉtéImportée();
     this.vérifierQueLaPériodeEstValide();
-    this.vérifierQueLesGarantiesFinancièresSontRequisesPourAppelOffre(candidature);
-    this.vérifierQueLaDateÉchéanceGarantiesFinancièresEstRequise(candidature);
+    this.vérifierSiLesGarantiesFinancièresSontRequisesPourAppelOffre(candidature);
+    this.vérifierSiLaDateÉchéanceGarantiesFinancièresEstRequise(candidature);
     this.vérifierQueLaDateÉchéanceNEstPasAttendue(candidature);
     this.vérifierCoefficientKChoisi(candidature);
 
@@ -96,8 +96,8 @@ export class CandidatureAggregate extends AbstractAggregate<CandidatureEvent> {
 
   async corriger(candidature: CorrigerCandidatureOptions) {
     this.vérifierQueLaCandidatureExiste();
-    this.vérifierQueLesGarantiesFinancièresSontRequisesPourAppelOffre(candidature);
-    this.vérifierQueLaDateÉchéanceGarantiesFinancièresEstRequise(candidature);
+    this.vérifierSiLesGarantiesFinancièresSontRequisesPourAppelOffre(candidature);
+    this.vérifierSiLaDateÉchéanceGarantiesFinancièresEstRequise(candidature);
     this.vérifierQueLaDateÉchéanceNEstPasAttendue(candidature);
     this.vérifierQueLeStatutEstNonModifiableAprésNotification(candidature);
     this.vérifierQueLeTypeDesGarantiesFinancièresEstNonModifiableAprésNotification(candidature);
@@ -254,7 +254,7 @@ export class CandidatureAggregate extends AbstractAggregate<CandidatureEvent> {
     }
   }
 
-  private vérifierQueLesGarantiesFinancièresSontRequisesPourAppelOffre(
+  private vérifierSiLesGarantiesFinancièresSontRequisesPourAppelOffre(
     candidature: CandidatureBehaviorOptions,
   ) {
     const soumisAuxGF =
@@ -278,13 +278,13 @@ export class CandidatureAggregate extends AbstractAggregate<CandidatureEvent> {
     }
   }
 
-  private vérifierQueLaCandidatureADéjàÉtéImportée() {
+  private vérifierSiLaCandidatureADéjàÉtéImportée() {
     if (this.#statut) {
       throw new CandidatureDéjàImportéeError();
     }
   }
 
-  private vérifierQueLaDateÉchéanceGarantiesFinancièresEstRequise(
+  private vérifierSiLaDateÉchéanceGarantiesFinancièresEstRequise(
     candidature: CandidatureBehaviorOptions,
   ) {
     if (
