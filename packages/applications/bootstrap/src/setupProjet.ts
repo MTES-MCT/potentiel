@@ -16,7 +16,7 @@ import {
 } from '@potentiel-applications/notifications';
 import {
   CandidatureAdapter,
-  getScopeProjetUtilisateurAdapter,
+  getProjetUtilisateurScopeAdapter,
 } from '@potentiel-infrastructure/domain-adapters';
 import { AttestationSaga } from '@potentiel-applications/document-builder';
 
@@ -34,7 +34,7 @@ export const setupProjet = async ({ sendEmail }: SetupProjetDependencies) => {
   registerProjetQueries({
     find: findProjection,
     list: listProjection,
-    getScopeProjetUtilisateur: getScopeProjetUtilisateurAdapter,
+    getScopeProjetUtilisateur: getProjetUtilisateurScopeAdapter,
     récupérerProjet: CandidatureAdapter.récupérerProjetAdapter,
     récupérerProjetsEligiblesPreuveRecanditure:
       CandidatureAdapter.récupérerProjetsEligiblesPreuveRecanditureAdapter,

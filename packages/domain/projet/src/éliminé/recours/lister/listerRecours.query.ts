@@ -6,7 +6,7 @@ import { Joined, List, RangeOptions, Where } from '@potentiel-domain/entity';
 import { StatutRecours } from '..';
 import { RecoursEntity } from '../recours.entity';
 import { Candidature, IdentifiantProjet } from '../../..';
-import { GetScopeProjetUtilisateur } from '../../../getScopeProjetUtilisateur.port';
+import { GetProjetUtilisateurScope } from '../../../getScopeProjetUtilisateur.port';
 
 type RecoursListItemReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
@@ -38,7 +38,7 @@ export type ListerRecoursQuery = Message<
 
 export type ListerRecoursDependencies = {
   list: List;
-  getScopeProjetUtilisateur: GetScopeProjetUtilisateur;
+  getScopeProjetUtilisateur: GetProjetUtilisateurScope;
 };
 
 export const registerListerRecoursQuery = ({
@@ -59,7 +59,7 @@ export const registerListerRecoursQuery = ({
       range,
       where: {
         identifiantProjet:
-          scope.type === 'porteur' ? Where.matchAny(scope.identifiantProjets) : undefined,
+          scope.type === 'projet' ? Where.matchAny(scope.identifiantProjets) : undefined,
         statut: Where.equal(statut),
       },
       join: {
@@ -69,7 +69,7 @@ export const registerListerRecoursQuery = ({
           appelOffre: Where.equal(appelOffre),
           nomProjet: Where.contain(nomProjet),
           localité: {
-            région: scope.type === 'dreal' ? Where.equal(scope.region) : undefined,
+            région: scope.type === 'region' ? Where.equal(scope.region) : undefined,
           },
         },
       },

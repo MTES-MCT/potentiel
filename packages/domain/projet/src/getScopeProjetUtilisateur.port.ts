@@ -2,20 +2,20 @@ import { Email } from '@potentiel-domain/common';
 
 import { IdentifiantProjet } from '.';
 
-type NoneScope = {
-  type: 'none';
+type AllScope = {
+  type: 'all';
 };
 
-type DrealScope = {
-  type: 'dreal';
+type RegionScope = {
+  type: 'region';
   region: string;
 };
 
-type PorteurScope = {
-  type: 'porteur';
+type ProjetScope = {
+  type: 'projet';
   identifiantProjets: Array<IdentifiantProjet.RawType>;
 };
 
-export type ScopeProjetUtilisateur = NoneScope | DrealScope | PorteurScope;
+export type ProjetUtilisateurScope = AllScope | RegionScope | ProjetScope;
 
-export type GetScopeProjetUtilisateur = (email: Email.ValueType) => Promise<ScopeProjetUtilisateur>;
+export type GetProjetUtilisateurScope = (email: Email.ValueType) => Promise<ProjetUtilisateurScope>;
