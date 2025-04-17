@@ -17,6 +17,7 @@ export const exceedsPuissanceMaxDuVolumeReserve: ExceedsPuissanceMaxDuVolumeRese
   if (!désignationCatégorie) {
     return false;
   }
+
   const volumeReserve = appelOffre && getVolumeReserve(appelOffre);
   if (volumeReserve) {
     const { puissanceMax } = volumeReserve;

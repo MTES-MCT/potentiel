@@ -59,7 +59,7 @@ Fonctionnalité: Enregistrer un changement de puissance d'un projet lauréat
             | période       | <Période>       |
         Quand le porteur enregistre un changement de puissance pour le projet lauréat avec :
             | ratio puissance | <Ratio> |
-        Alors le porteur devrait être informé que "La puissance est en deça de la puissance minimale autorisée par l'appel d'offres"
+        Alors le porteur devrait être informé que "La puissance ne peut être en deça de la puissance minimale autorisée par l'appel d'offre"
 
         Exemples:
             | Appel d'offre | Période | Ratio |
@@ -72,7 +72,7 @@ Fonctionnalité: Enregistrer un changement de puissance d'un projet lauréat
             | période       | <Période>       |
         Quand le porteur enregistre un changement de puissance pour le projet lauréat avec :
             | ratio puissance | <Ratio> |
-        Alors le porteur devrait être informé que "La puissance dépasse la puissance maximale autorisée par l'appel d'offres"
+        Alors le porteur devrait être informé que "La nouvelle puissance ne peut dépasser la puissance maximale autorisée par l'appel d'offre"
 
         Exemples:
             | Appel d'offre | Période | Ratio |
@@ -86,7 +86,7 @@ Fonctionnalité: Enregistrer un changement de puissance d'un projet lauréat
             | famille       | 1                 |
         Quand le porteur enregistre un changement de puissance pour le projet lauréat avec :
             | nouvelle puissance | 3.1 |
-        Alors l'utilisateur devrait être informé que "La puissance dépasse la puissance maximale de la famille de l'appel d'offre"
+        Alors l'utilisateur devrait être informé que "La nouvelle puissance ne peut pas dépasser la puissance maximale de la famille de l'appel d'offre"
 
     Scénario: Scénario: Impossible pour le porteur d'enregistrer un changement de puissance si elle dépasse le volume réservé de l'appel d'offre
         Etant donné le projet lauréat "Du bouchon lyonnais" avec :
@@ -95,4 +95,4 @@ Fonctionnalité: Enregistrer un changement de puissance d'un projet lauréat
             | note totale   | 34         |
         Quand le porteur enregistre un changement de puissance pour le projet lauréat avec :
             | nouvelle puissance | 6 |
-        Alors l'utilisateur devrait être informé que "La puissance dépasse le volume réservé de l'appel d'offre"
+        Alors l'utilisateur devrait être informé que "La nouvelle puissance ne peut pas dépasser la puissance maximale du volume réservé"
