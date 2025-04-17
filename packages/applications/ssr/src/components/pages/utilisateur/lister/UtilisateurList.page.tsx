@@ -15,7 +15,7 @@ export type UtilisateurListPageProps = {
     itemsPerPage: number;
   };
   filters: ListPageTemplateProps<typeof UtilisateurListItem>['filters'];
-  mailtoAction: LinkActionProps;
+  mailtoAction?: LinkActionProps;
 };
 
 export const UtilisateurListPage: FC<UtilisateurListPageProps> = ({
@@ -28,8 +28,11 @@ export const UtilisateurListPage: FC<UtilisateurListPageProps> = ({
       label: 'Inviter un utilisateur',
       href: Routes.Utilisateur.inviter,
     },
-    mailtoAction,
   ];
+
+  if (mailtoAction) {
+    actions.push(mailtoAction);
+  }
 
   return (
     <ListPageTemplate

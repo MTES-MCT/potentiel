@@ -108,20 +108,33 @@ export default async function Page({ searchParams }: PageProps) {
           })
         : { items: [] };
 
-    const { items: utilisateursÀContacter } = await mediator.send<ListerUtilisateursQuery>({
-      type: 'Utilisateur.Query.ListerUtilisateurs',
-      data: {
-        roles: role ? [Role.convertirEnValueType(role).nom] : undefined,
-        identifiantUtilisateur,
-        identifiantGestionnaireRéseau: identifiantGestionnaireReseau,
-        région: region,
-      },
-    });
-    const mailtoAction: UtilisateurListPageProps['mailtoAction'] = {
-      label: `Contacter ${utilisateursÀContacter.length} ${utilisateursÀContacter.length > 1 ? 'utilisateurs' : 'utilisateur'}`,
-      href: `mailto:${utilisateursÀContacter.map((item) => item.identifiantUtilisateur.email).join(',')}`,
-      iconId: 'fr-icon-mail-line',
-    };
+    let mailtoAction: UtilisateurListPageProps['mailtoAction'];
+    if (role) {
+      const isFilteredOnPorteur = role === Role.porteur.nom;
+      const isFilteredOnDreal = role === Role.dreal.nom;
+      const isFilteredOnRegion = region !== undefined;
+
+      if (
+        (!isFilteredOnPorteur && !isFilteredOnDreal) ||
+        (isFilteredOnDreal && isFilteredOnRegion)
+      ) {
+        const { items: utilisateursÀContacter } = await mediator.send<ListerUtilisateursQuery>({
+          type: 'Utilisateur.Query.ListerUtilisateurs',
+          data: {
+            roles: [Role.convertirEnValueType(role).nom],
+            identifiantUtilisateur,
+            identifiantGestionnaireRéseau: identifiantGestionnaireReseau,
+            région: region,
+          },
+        });
+
+        mailtoAction = {
+          label: `Contacter ${utilisateursÀContacter.length} ${utilisateursÀContacter.length > 1 ? 'utilisateurs' : 'utilisateur'}`,
+          href: `mailto:${utilisateursÀContacter.map((item) => item.identifiantUtilisateur.email).join(',')}`,
+          iconId: 'fr-icon-mail-line',
+        };
+      }
+    }
 
     return (
       <UtilisateurListPage
