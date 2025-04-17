@@ -17,6 +17,17 @@ export const exceedsPuissanceMaxDuVolumeReserve: ExceedsPuissanceMaxDuVolumeRese
   if (!désignationCatégorie) {
     return false;
   }
+
+  // if (isNotifiedPeriode(periode)) {
+  //   if (periode.noteThresholdBy === 'category') {
+  //     const {
+  //       noteThreshold: { volumeReserve },
+  //     } = periode;
+
+  //     return volumeReserve;
+  //   }
+  // }
+
   const volumeReserve = appelOffre && getVolumeReserve(appelOffre);
   if (volumeReserve) {
     const { puissanceMax } = volumeReserve;

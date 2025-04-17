@@ -136,9 +136,7 @@ export const DemanderChangementPuissanceForm: FC<DemanderChangementPuissanceForm
               fourchetteRatioInitialEtCDC2022AlertMessage
             }
             unitéPuissance={unitéPuissance}
-            puissanceMaxVoluméRéservé={
-              ratioValueType.récupérerVolumeRéservéPuissanceMax()?.puissanceMax
-            }
+            puissanceMaxVoluméRéservé={ratioValueType.récupérerPuissanceMaxVolumeRéservé()}
             puissanceMaxFamille={ratioValueType.récupérerPuissanceMaxFamille()}
             ratioAppelOffre={{
               min: ratioValueType.récupérerRatiosChangementPuissance().minRatio,
