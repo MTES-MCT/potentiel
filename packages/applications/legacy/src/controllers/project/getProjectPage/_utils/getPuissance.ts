@@ -15,9 +15,6 @@ export type GetPuissanceForProjectPage = {
     labelPageProjet: string;
     url: string;
   };
-  demandeEnCours?: {
-    demandéeLe: string;
-  };
 };
 
 type Props = {
@@ -48,9 +45,13 @@ export const getPuissance = async ({
       if (dateDemandeEnCours) {
         return {
           puissance,
-          demandeEnCours: role.aLaPermission('puissance.consulterChangement')
+          affichage: role.aLaPermission('puissance.consulterChangement')
             ? {
-                demandéeLe: dateDemandeEnCours.formatter(),
+                url: Routes.Puissance.changement.détails(
+                  identifiantProjet.formatter(),
+                  dateDemandeEnCours.formatter(),
+                ),
+                labelPageProjet: 'Voir la demande de modification',
               }
             : undefined,
         };
@@ -76,13 +77,13 @@ export const getPuissance = async ({
           puissance: puissance,
           affichage: {
             url: Routes.Puissance.changement.demander(identifiantProjet.formatter()),
-            labelPageProjet: 'Demander changement de puissance',
+            labelPageProjet: 'Demander un changement de puissance',
           },
         };
       }
 
       return {
-        puissance: puissance,
+        puissance,
       };
     }
 

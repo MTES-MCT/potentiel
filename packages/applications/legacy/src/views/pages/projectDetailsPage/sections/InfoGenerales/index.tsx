@@ -121,35 +121,15 @@ export const InfoGenerales = ({
             <div>Aucun raccordement pour ce projet</div>
           ))}
       </div>
-      {puissance ? (
+      {puissance !== undefined && (
         <InfoPuissance
           puissance={puissance}
-          modificationsNonPermisesParLeCDCActuel={modificationsNonPermisesParLeCDCActuel}
+          modificationsPermisesParLeCDCActuel={!modificationsNonPermisesParLeCDCActuel}
           unitePuissance={appelOffre.unitePuissance}
           désignationCatégorie={désignationCatégorie}
-          puissanceInférieurePuissanceMaxVolRéservé={
-            appelOffre.periode.noteThresholdBy === 'category' &&
-            puissance.puissance < appelOffre.periode.noteThreshold.volumeReserve.puissanceMax
-          }
+          puissanceInférieurePuissanceMaxVolRéservé={puissanceInférieurePuissanceMaxVolRéservé}
           legacyPuissance={legacyPuissance}
-          identifiantProjet={identifiantProjet}
         />
-      ) : (
-        <div>
-          <Heading3 className="m-0">Performances</Heading3>
-          <p className="m-0">
-            Puissance installée : {legacyPuissance} {appelOffre.unitePuissance}
-          </p>
-          {désignationCatégorie === 'volume-réservé' && (
-            <p className="mb-0 mt-1">Ce projet fait partie du volume réservé de la période.</p>
-          )}
-          {désignationCatégorie === 'hors-volume-réservé' &&
-            puissanceInférieurePuissanceMaxVolRéservé && (
-              <p className="mb-0 mt-1">
-                Ce projet ne fait pas partie du volume réservé de la période.
-              </p>
-            )}
-        </div>
       )}
       <div>
         <Heading3 className="m-0">Site de production</Heading3>
@@ -164,8 +144,7 @@ export const InfoGenerales = ({
       {actionnaire && (
         <InfoActionnaire
           actionnaire={actionnaire}
-          identifiantProjet={identifiantProjet}
-          modificationsNonPermisesParLeCDCActuel={modificationsNonPermisesParLeCDCActuel}
+          modificationsPermisesParLeCDCActuel={modificationsNonPermisesParLeCDCActuel}
         />
       )}
       {coefficientKChoisi !== undefined ? (
