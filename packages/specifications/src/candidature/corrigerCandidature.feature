@@ -84,7 +84,6 @@ Fonctionnalité: Corriger une candidature
             | date d'échéance | 2024-01-01                |
         Alors l'administrateur devrait être informé que "La date d'échéance pour ce type de garanties financières ne peut être renseignée"
 
-    @select
     Scénario: Impossible de corriger une candidature sans modifications
         Quand le DGEC validateur corrige la candidature sans modification
         Alors l'administrateur devrait être informé que "La candidature ne contient aucune modification"
