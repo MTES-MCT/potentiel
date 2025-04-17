@@ -22,7 +22,7 @@ export type ChangementPuissanceAccordéEvent = DomainEvent<
     réponseSignée?: {
       format: string;
     };
-    estUneDécisionDEtat: boolean;
+    estUneDécisionDEtat?: true;
   }
 >;
 
@@ -72,7 +72,7 @@ export async function accorderDemandeChangement(
         format: réponseSignée.format,
       },
       nouvellePuissance: this.demande.nouvellePuissance,
-      estUneDécisionDEtat,
+      estUneDécisionDEtat: estUneDécisionDEtat ? true : undefined,
     },
   };
 
