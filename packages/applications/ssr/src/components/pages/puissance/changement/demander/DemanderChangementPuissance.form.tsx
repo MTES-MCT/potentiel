@@ -57,14 +57,6 @@ export const DemanderChangementPuissanceForm: FC<DemanderChangementPuissanceForm
     ratioValueType.dépasseRatiosChangementPuissance().enDeçaDeMin;
   const dépassePuissanceMaxDuVolumeRéservé = ratioValueType.dépassePuissanceMaxDuVolumeRéservé();
   const dépassePuissanceMaxFamille = ratioValueType.dépassePuissanceMaxFamille();
-  const fourchetteRatioInitialEtCDC2022AlertMessage =
-    cahierDesCharges.type === 'modifié'
-      ? cahierDesCharges.seuilSupplémentaireChangementPuissance?.paragrapheAlerte
-      : undefined;
-  const dépasseRatiosChangementPuissanceDuCahierDesChargesInitial =
-    ratioValueType.dépasseRatiosChangementPuissanceDuCahierDesChargesInitial();
-  const aChoisiCDC2022 =
-    cahierDesCharges.type === 'modifié' && cahierDesCharges.paruLe === '30/08/2022';
 
   const ratioHintText = isNaN(nouvellePuissance)
     ? "Aucune valeur n'est encore renseignée"
@@ -136,12 +128,14 @@ export const DemanderChangementPuissanceForm: FC<DemanderChangementPuissanceForm
             dépasseLesRatioDeAppelOffres={dépasseLesRatioDeAppelOffres}
             dépassePuissanceMaxDuVolumeRéservé={dépassePuissanceMaxDuVolumeRéservé}
             dépassePuissanceMaxFamille={dépassePuissanceMaxFamille}
-            dépasseRatiosChangementPuissanceDuCahierDesChargesInitial={
-              dépasseRatiosChangementPuissanceDuCahierDesChargesInitial
+            dépasseRatiosChangementPuissanceDuCahierDesChargesInitial={ratioValueType.dépasseRatiosChangementPuissanceDuCahierDesChargesInitial()}
+            aChoisiCDC2022={
+              cahierDesCharges.type === 'modifié' && cahierDesCharges.paruLe === '30/08/2022'
             }
-            aChoisiCDC2022={aChoisiCDC2022}
             fourchetteRatioInitialEtCDC2022AlertMessage={
-              fourchetteRatioInitialEtCDC2022AlertMessage
+              cahierDesCharges.type === 'modifié'
+                ? cahierDesCharges.seuilSupplémentaireChangementPuissance?.paragrapheAlerte
+                : undefined
             }
             unitéPuissance={unitéPuissance}
             puissanceMaxVoluméRéservé={ratioValueType.récupérerPuissanceMaxVolumeRéservé()}
