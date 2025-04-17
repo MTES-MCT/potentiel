@@ -5,8 +5,8 @@ import { IdentifiantProjet } from '@potentiel-domain/projet';
 
 import { RegisterPuissanceNotificationDependencies } from '..';
 import { Recipient } from '../../../../sendEmail';
-import { getDgecRecipient } from '../../../../helpers/getDgecRecipient';
 import { listerDrealsRecipients } from '../../../../helpers/listerDrealsRecipients';
+import { listerDgecRecipients } from '../../../../helpers/listerDgecRecipients';
 
 type ChangementPuissanceDemandéNotificationProps = {
   sendEmail: RegisterPuissanceNotificationDependencies['sendEmail'];
@@ -26,29 +26,27 @@ export const changementPuissanceDemandéNotification = async ({
   baseUrl,
 }: ChangementPuissanceDemandéNotificationProps) => {
   const identifiantProjet = IdentifiantProjet.convertirEnValueType(event.payload.identifiantProjet);
-  const templateId = 6887674;
+  const dreals = await listerDrealsRecipients(projet.région);
 
-  const recipients: Array<Recipient> = [];
+  const recipients: Array<Recipient> = [...dreals];
 
-  if (event.payload.autoritéCompétente === 'dreal') {
-    const dreals = await listerDrealsRecipients(projet.région);
+  if (event.payload.autoritéCompétente === 'dgec-admin') {
+    const dgecs = await listerDgecRecipients(identifiantProjet);
 
-    if (dreals.length === 0) {
-      getLogger().error('Aucune dreal trouvée', {
-        identifiantProjet: identifiantProjet.formatter(),
-        application: 'notifications',
-        fonction: 'demandeChangementPuissanceAnnuléeNotification',
-      });
-      return;
-    }
+    recipients.push(...dgecs);
+  }
 
-    recipients.push(...dreals);
-  } else if (event.payload.autoritéCompétente === 'dgec-admin') {
-    recipients.push(getDgecRecipient());
+  if (recipients.length === 0) {
+    getLogger().error('Aucune dreal ou DGEC trouvée', {
+      identifiantProjet: identifiantProjet.formatter(),
+      application: 'notifications',
+      fonction: 'demandeChangementPuissanceAnnuléeNotification',
+    });
+    return;
   }
 
   return sendEmail({
-    templateId,
+    templateId: 6887674,
     messageSubject: `Potentiel - changement de puissance pour le projet ${projet.nom} dans le département ${projet.département} demandé`,
     recipients,
     variables: {

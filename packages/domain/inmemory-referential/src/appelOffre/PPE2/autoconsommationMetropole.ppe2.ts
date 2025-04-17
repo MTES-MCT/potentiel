@@ -93,7 +93,7 @@ export const autoconsommationMetropolePPE2: AppelOffre.AppelOffreReadModel = {
   tarifOuPrimeRetenueAlt: 'cette prime',
   afficherValeurEvaluationCarbone: false,
   afficherPhraseRegionImplantation: false,
-  dossierSuiviPar: 'violaine.tarizzo@developpement-durable.gouv.fr',
+  dossierSuiviPar: 'aopv.dgec@developpement-durable.gouv.fr',
   doitPouvoirChoisirCDCInitial: true,
   changementPuissance: {
     changementByTechnologie: true,
