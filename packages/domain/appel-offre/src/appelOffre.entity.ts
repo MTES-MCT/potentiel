@@ -1,7 +1,5 @@
 import { Entity } from '@potentiel-domain/entity';
 
-import { EmailDGEC } from '.';
-
 type AppelOffreTypes =
   | 'autoconso'
   | 'batiment'
@@ -16,6 +14,12 @@ type Ratios = {
   min: number;
   max: number;
 };
+
+const emailsDGEC = [
+  'aoeolien@developpement-durable.gouv.fr',
+  'aopv.dgec@developpement-durable.gouv.fr',
+] as const;
+type EmailDGEC = (typeof emailsDGEC)[number];
 
 type ChangementPuissance = { paragrapheAlerte?: string } & (
   | {
@@ -261,7 +265,7 @@ export type AppelOffreReadModel = {
   tarifOuPrimeRetenueAlt: string;
   afficherValeurEvaluationCarbone: boolean;
   afficherPhraseRegionImplantation: boolean;
-  dossierSuiviPar: EmailDGEC.RawType;
+  dossierSuiviPar: EmailDGEC;
   periodes: Periode[];
   renvoiSoumisAuxGarantiesFinancieres?: string;
   changementPuissance: ChangementPuissance;
