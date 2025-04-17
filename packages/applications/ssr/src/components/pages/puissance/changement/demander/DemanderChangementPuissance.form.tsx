@@ -40,7 +40,6 @@ export const DemanderChangementPuissanceForm: FC<DemanderChangementPuissanceForm
   const [piècesJustificatives, setPiècesJustificatives] = useState<Array<string>>([]);
   const [nouvellePuissance, setNouvellePuissance] = useState<number>(puissance);
   const ratio = nouvellePuissance / puissanceInitiale;
-  console.log(nouvellePuissance);
 
   const ratioValueType = Puissance.RatioChangementPuissance.bind({
     appelOffre,
@@ -119,7 +118,7 @@ export const DemanderChangementPuissanceForm: FC<DemanderChangementPuissanceForm
           <Input
             state={validationErrors['puissance'] ? 'error' : 'default'}
             stateRelatedMessage={validationErrors['puissance']}
-            label="Puissance (en MWc)"
+            label={`Puissance (en ${unitéPuissance})`}
             hintText={ratioHintText}
             nativeInputProps={{
               name: 'puissance',
