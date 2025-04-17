@@ -1,4 +1,5 @@
 import { LoadAggregate } from '@potentiel-domain/core';
+import { GetProjetAggregateRoot } from '@potentiel-domain/projet';
 
 import { registerTransmettreAttestationConformitéCommand } from './transmettre/transmettreAttestationConformité.command';
 import {
@@ -11,12 +12,16 @@ import { registerModifierAttestationConformitéUseCase } from './modifier/modifi
 
 export type AchèvementCommandDependencies = {
   loadAggregate: LoadAggregate;
+  getProjetAggregateRoot: GetProjetAggregateRoot;
 };
 
 export type AchèvementQueryDependencies = ConsulterAttestationConformitéDependencies;
 
-export const registerAchèvementUseCases = ({ loadAggregate }: AchèvementCommandDependencies) => {
-  registerTransmettreAttestationConformitéCommand(loadAggregate);
+export const registerAchèvementUseCases = ({
+  loadAggregate,
+  getProjetAggregateRoot,
+}: AchèvementCommandDependencies) => {
+  registerTransmettreAttestationConformitéCommand(loadAggregate, getProjetAggregateRoot);
   registerModifierAttestationConformitéCommand(loadAggregate);
 
   registerTransmettreAttestationConformitéUseCase();

@@ -2,7 +2,7 @@ import { Metadata, ResolvingMetadata } from 'next';
 import { mediator } from 'mediateur';
 
 import { Candidature } from '@potentiel-domain/projet';
-import { Lauréat } from '@potentiel-domain/laureat';
+import { Lauréat } from '@potentiel-domain/projet';
 import { Option } from '@potentiel-libraries/monads';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 

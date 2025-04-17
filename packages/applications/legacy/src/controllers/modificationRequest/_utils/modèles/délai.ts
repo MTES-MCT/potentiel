@@ -3,9 +3,9 @@ import {
   type ModèleRéponseSignée,
 } from '@potentiel-applications/document-builder';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
-import { Candidature } from '@potentiel-domain/projet';
+import { Candidature, Lauréat } from '@potentiel-domain/projet';
 import { IdentifiantProjet } from '@potentiel-domain/common';
-import { CahierDesCharges, Lauréat, ReprésentantLégal } from '@potentiel-domain/laureat';
+import { CahierDesCharges, ReprésentantLégal } from '@potentiel-domain/laureat';
 import { formatIdentifiantProjetForDocument } from '../formatIdentifiantProjetForDocument';
 import { Option } from '@potentiel-libraries/monads';
 import { Utilisateur } from '@potentiel-domain/utilisateur';

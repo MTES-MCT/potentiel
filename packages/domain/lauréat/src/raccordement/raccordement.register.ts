@@ -1,4 +1,5 @@
 import { LoadAggregate } from '@potentiel-domain/core';
+import { GetProjetAggregateRoot } from '@potentiel-domain/projet';
 
 import { registerModifierDemandeComplèteRaccordementUseCase } from './modifier/modifierDemandeComplèteRaccordement.usecase';
 import { registerModifierGestionnaireRéseauRaccordementUseCase } from './modifier/modifierGestionnaireRéseauRaccordement.usecase';
@@ -54,6 +55,7 @@ export type RaccordementQueryDependencies = ConsulterDossierRaccordementDependen
 
 export type RaccordementCommandDependencies = {
   loadAggregate: LoadAggregate;
+  getProjetAggregateRoot: GetProjetAggregateRoot;
 };
 
 export const registerRaccordementQueries = (dependencies: RaccordementQueryDependencies) => {
@@ -69,13 +71,14 @@ export const registerRaccordementQueries = (dependencies: RaccordementQueryDepen
 
 export const registerRaccordementUseCases = ({
   loadAggregate,
+  getProjetAggregateRoot,
 }: RaccordementCommandDependencies) => {
   registerModifierDemandeComplèteRaccordementCommand(loadAggregate);
   registerModifierGestionnaireRéseauProjetCommand(loadAggregate);
   registerModifierPropositionTechniqueEtFinancièreCommand(loadAggregate);
   registerModifierRéférenceDossierRaccordementCommand(loadAggregate);
-  registerTransmettreDateMiseEnServiceCommand(loadAggregate);
-  registerTransmettreDemandeComplèteRaccordementCommand(loadAggregate);
+  registerTransmettreDateMiseEnServiceCommand(loadAggregate, getProjetAggregateRoot);
+  registerTransmettreDemandeComplèteRaccordementCommand(loadAggregate, getProjetAggregateRoot);
   registerTransmettrePropositionTechniqueEtFinancièreCommand(loadAggregate);
   registerAttribuerGestionnaireCommand(loadAggregate);
   registerSupprimerDossierDuRaccordementCommand(loadAggregate);

@@ -1,4 +1,4 @@
-import { Lauréat } from '@potentiel-domain/laureat';
+import { Lauréat } from '@potentiel-domain/projet';
 import { IdentifiantProjet } from '@potentiel-domain/common';
 import { upsertProjection } from '@potentiel-infrastructure/pg-projection-write';
 

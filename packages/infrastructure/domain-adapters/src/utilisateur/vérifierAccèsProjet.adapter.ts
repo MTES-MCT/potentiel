@@ -1,11 +1,11 @@
 import { match } from 'ts-pattern';
 
 import { VérifierAccèsProjetPort } from '@potentiel-domain/utilisateur';
-import { Lauréat, Raccordement } from '@potentiel-domain/laureat';
+import { Raccordement } from '@potentiel-domain/laureat';
 import { findProjection } from '@potentiel-infrastructure/pg-projection-read';
 import { IdentifiantProjet } from '@potentiel-domain/common';
 import { Option } from '@potentiel-libraries/monads';
-import { Candidature } from '@potentiel-domain/projet';
+import { Candidature, Lauréat } from '@potentiel-domain/projet';
 
 import { récupérerIdentifiantsProjetParEmailPorteurAdapter } from './récupérerIdentifiantsProjetParEmailPorteur.adapter';
 

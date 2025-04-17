@@ -8,7 +8,6 @@
     "build": "tsc"
   },
   "dependencies": {
-    "@potentiel-domain/candidature": "*",
     "@potentiel-domain/document": "*",
     "@potentiel-domain/inmemory-referential": "*",
     "@potentiel-domain/laureat": "*",

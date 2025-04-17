@@ -8,7 +8,7 @@ import { Option } from '@potentiel-libraries/monads';
 import { mapToPlainObject } from '@potentiel-domain/core';
 import { Candidature } from '@potentiel-domain/projet';
 import { Historique } from '@potentiel-domain/historique';
-import { Lauréat } from '@potentiel-domain/laureat';
+import { Lauréat } from '@potentiel-domain/projet';
 
 import {
   DétailsAbandonPage,

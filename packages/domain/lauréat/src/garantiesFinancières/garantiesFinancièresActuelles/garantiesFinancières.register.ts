@@ -1,4 +1,5 @@
 import { LoadAggregate } from '@potentiel-domain/core';
+import { GetProjetAggregateRoot } from '@potentiel-domain/projet';
 
 import { registerDemanderGarantiesFinancièresCommand } from '../demander/demanderGarantiesFinancières.command';
 import { registerDemanderGarantiesFinancièresUseCase } from '../demander/demanderGarantiesFinancières.usecase';
@@ -16,10 +17,13 @@ import { registerModifierGarantiesFinancièresCommand } from './modifier/modifie
 import { registerModifierGarantiesFinancièresUseCase } from './modifier/modifierGarantiesFinancières.usecase';
 import { registerÉchoirGarantiesFinancièresCommand } from './échoir/échoirGarantiesFinancières.command';
 
-export const registerGarantiesFinancières = (loadAggregate: LoadAggregate) => {
+export const registerGarantiesFinancières = (
+  loadAggregate: LoadAggregate,
+  getProjetAggregateRoot: GetProjetAggregateRoot,
+) => {
   // commands
   registerDemanderGarantiesFinancièresCommand(loadAggregate);
-  registerImporterTypeGarantiesFinancièresCommand(loadAggregate);
+  registerImporterTypeGarantiesFinancièresCommand(loadAggregate, getProjetAggregateRoot);
   registerModifierGarantiesFinancièresCommand(loadAggregate);
   registerEnregistrerAttestationGarantiesFinancièresCommand(loadAggregate);
   registerEnregistrerGarantiesFinancièresCommand(loadAggregate);

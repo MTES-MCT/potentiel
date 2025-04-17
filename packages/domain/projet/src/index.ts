@@ -8,3 +8,4 @@ export * from './register';
 
 export * as Éliminé from './éliminé';
 export * as Candidature from './candidature';
+export * as Lauréat from './lauréat';

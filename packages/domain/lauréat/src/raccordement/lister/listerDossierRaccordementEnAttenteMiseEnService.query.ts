@@ -3,7 +3,7 @@ import { match } from 'ts-pattern';
 
 import { List, RangeOptions, Where } from '@potentiel-domain/entity';
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
-import { Candidature } from '@potentiel-domain/candidature';
+import { Candidature } from '@potentiel-domain/projet';
 
 import { RéférenceDossierRaccordement } from '..';
 import { DossierRaccordementEntity } from '../raccordement.entity';

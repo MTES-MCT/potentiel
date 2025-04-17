@@ -3,11 +3,11 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 import { LoadAggregate } from '@potentiel-domain/core';
 import { GestionnaireRéseau } from '@potentiel-domain/reseau';
+import { GetProjetAggregateRoot } from '@potentiel-domain/projet';
 
 import * as RéférenceDossierRaccordement from '../référenceDossierRaccordement.valueType';
 import { loadRaccordementAggregateFactory } from '../raccordement.aggregate';
 import { loadAbandonFactory } from '../../abandon';
-import { loadLauréatFactory } from '../../lauréat.aggregate';
 
 export type TransmettreDemandeComplèteRaccordementCommand = Message<
   'Lauréat.Raccordement.Command.TransmettreDemandeComplèteRaccordement',
@@ -21,11 +21,11 @@ export type TransmettreDemandeComplèteRaccordementCommand = Message<
 
 export const registerTransmettreDemandeComplèteRaccordementCommand = (
   loadAggregate: LoadAggregate,
+  getProjetAggregateRoot: GetProjetAggregateRoot,
 ) => {
   const loadAbandon = loadAbandonFactory(loadAggregate);
   const loadRaccordement = loadRaccordementAggregateFactory(loadAggregate);
   const loadGestionnaireRéseau = GestionnaireRéseau.loadGestionnaireRéseauFactory(loadAggregate);
-  const loadLauréat = loadLauréatFactory(loadAggregate);
 
   const handler: MessageHandler<TransmettreDemandeComplèteRaccordementCommand> = async ({
     identifiantProjet,
@@ -33,7 +33,8 @@ export const registerTransmettreDemandeComplèteRaccordementCommand = (
     référenceDossier,
     formatAccuséRéception,
   }) => {
-    await loadLauréat(identifiantProjet);
+    const projet = await getProjetAggregateRoot(identifiantProjet);
+    projet.lauréat.vérifierQueLeLauréatExiste();
 
     const abandon = await loadAbandon(identifiantProjet, false);
     const raccordement = await loadRaccordement(identifiantProjet);

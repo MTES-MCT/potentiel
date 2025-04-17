@@ -1,10 +1,10 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
-import { LauréatNotifiéEvent } from '../lauréat';
+import { Lauréat } from '@potentiel-domain/projet';
 
 import { ImporterTypeGarantiesFinancièresUseCase } from '.';
 
-export type SubscriptionEvent = LauréatNotifiéEvent;
+export type SubscriptionEvent = Lauréat.LauréatNotifiéEvent;
 
 export type Execute = Message<
   'System.Lauréat.TypeGarantiesFinancières.Saga.Execute',

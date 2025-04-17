@@ -40,6 +40,8 @@ import {
 } from '@potentiel-infrastructure/domain-adapters';
 import { SendEmail } from '@potentiel-applications/notifications';
 
+import { getProjetAggregateRootAdapter } from './adapters/getProjetAggregateRoot.adapter';
+
 type SetupLauréatDependencies = {
   sendEmail: SendEmail;
   récupérerGRDParVille: Raccordement.RécupererGRDParVillePort;
@@ -51,6 +53,7 @@ export const setupLauréat = async ({
 }: SetupLauréatDependencies) => {
   registerLauréatUseCases({
     loadAggregate,
+    getProjetAggregateRoot: getProjetAggregateRootAdapter,
     supprimerDocumentProjetSensible: DocumentAdapter.remplacerDocumentProjetSensible,
   });
 

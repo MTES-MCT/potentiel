@@ -3,7 +3,7 @@ import { mediator } from 'mediateur';
 import { expect } from 'chai';
 import waitForExpect from 'wait-for-expect';
 
-import { Lauréat } from '@potentiel-domain/laureat';
+import { Lauréat } from '@potentiel-domain/projet';
 import { mapToPlainObject } from '@potentiel-domain/core';
 
 import { PotentielWorld } from '../../../potentiel.world';

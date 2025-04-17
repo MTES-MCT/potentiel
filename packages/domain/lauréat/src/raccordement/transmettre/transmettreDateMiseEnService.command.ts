@@ -2,10 +2,10 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
 import { LoadAggregate } from '@potentiel-domain/core';
+import { GetProjetAggregateRoot } from '@potentiel-domain/projet';
 
 import * as RéférenceDossierRaccordement from '../référenceDossierRaccordement.valueType';
 import { loadRaccordementAggregateFactory } from '../raccordement.aggregate';
-import { loadLauréatFactory } from '../../lauréat.aggregate';
 
 export type TransmettreDateMiseEnServiceCommand = Message<
   'Lauréat.Raccordement.Command.TransmettreDateMiseEnService',
@@ -18,9 +18,11 @@ export type TransmettreDateMiseEnServiceCommand = Message<
   }
 >;
 
-export const registerTransmettreDateMiseEnServiceCommand = (loadAggregate: LoadAggregate) => {
+export const registerTransmettreDateMiseEnServiceCommand = (
+  loadAggregate: LoadAggregate,
+  getProjetAggregateRoot: GetProjetAggregateRoot,
+) => {
   const loadRaccordementAggregate = loadRaccordementAggregateFactory(loadAggregate);
-  const loadLauréatAggregate = loadLauréatFactory(loadAggregate);
 
   const handler: MessageHandler<TransmettreDateMiseEnServiceCommand> = async ({
     dateMiseEnService,
@@ -30,10 +32,11 @@ export const registerTransmettreDateMiseEnServiceCommand = (loadAggregate: LoadA
     transmisePar,
   }) => {
     const raccordement = await loadRaccordementAggregate(identifiantProjet);
-    const laureát = await loadLauréatAggregate(identifiantProjet);
+    const projet = await getProjetAggregateRoot(identifiantProjet);
+    projet.lauréat.vérifierQueLeLauréatExiste();
 
     await raccordement.transmettreDateMiseEnService({
-      dateDésignation: laureát.notifiéLe,
+      dateDésignation: projet.candidature.notifiéeLe,
       dateMiseEnService,
       identifiantProjet,
       référenceDossier,

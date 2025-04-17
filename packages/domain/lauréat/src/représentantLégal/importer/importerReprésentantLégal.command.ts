@@ -3,11 +3,10 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 
 // Workspaces
 import { IdentifiantProjet, DateTime, Email } from '@potentiel-domain/common';
-import { Candidature } from '@potentiel-domain/candidature';
 import { LoadAggregate } from '@potentiel-domain/core';
+import { GetProjetAggregateRoot } from '@potentiel-domain/projet';
 
 import { loadReprésentantLégalFactory } from '../représentantLégal.aggregate';
-import { Lauréat } from '../..';
 
 export type ImporterReprésentantLégalCommand = Message<
   'Lauréat.ReprésentantLégal.Command.ImporterReprésentantLégal',
@@ -18,18 +17,21 @@ export type ImporterReprésentantLégalCommand = Message<
   }
 >;
 
-export const registerImporterReprésentantLégalCommand = (loadAggregate: LoadAggregate) => {
+export const registerImporterReprésentantLégalCommand = (
+  loadAggregate: LoadAggregate,
+  getProjetAggregateRoot: GetProjetAggregateRoot,
+) => {
   const loadReprésentantLégal = loadReprésentantLégalFactory(loadAggregate);
-  const loadLauréat = Lauréat.loadLauréatFactory(loadAggregate);
-  const loadCandidature = Candidature.Aggregate.loadCandidatureFactory(loadAggregate);
+
   const handler: MessageHandler<ImporterReprésentantLégalCommand> = async ({
     identifiantProjet,
     importéLe,
     importéPar,
   }) => {
-    await loadLauréat(identifiantProjet);
+    const projet = await getProjetAggregateRoot(identifiantProjet);
+    projet.lauréat.vérifierQueLeLauréatExiste();
 
-    const { nomReprésentantLégal } = await loadCandidature(identifiantProjet);
+    const { nomReprésentantLégal } = projet.candidature;
 
     const représentantLégal = await loadReprésentantLégal(identifiantProjet, false);
 

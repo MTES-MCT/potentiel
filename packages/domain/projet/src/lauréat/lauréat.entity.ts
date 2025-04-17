@@ -1,7 +1,6 @@
 import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
 import { Entity } from '@potentiel-domain/entity';
 
-/** @deprecated Use Lauréat.LauréatEntity in @potentiel-domain/projet */
 export type LauréatEntity = Entity<
   'lauréat',
   {

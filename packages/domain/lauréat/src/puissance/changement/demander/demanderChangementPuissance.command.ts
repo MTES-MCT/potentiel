@@ -4,7 +4,7 @@ import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
 import { DocumentProjet } from '@potentiel-domain/document';
 import { LoadAggregate } from '@potentiel-domain/core';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
-import { Candidature } from '@potentiel-domain/candidature';
+import { GetProjetAggregateRoot } from '@potentiel-domain/projet';
 
 import { loadAbandonFactory } from '../../../abandon';
 import { loadAchèvementFactory } from '../../../achèvement/achèvement.aggregate';
@@ -23,11 +23,13 @@ export type DemanderChangementCommand = Message<
   }
 >;
 
-export const registerDemanderChangementPuissanceCommand = (loadAggregate: LoadAggregate) => {
+export const registerDemanderChangementPuissanceCommand = (
+  loadAggregate: LoadAggregate,
+  getProjetAggregateRoot: GetProjetAggregateRoot,
+) => {
   const loadPuissance = loadPuissanceFactory(loadAggregate);
   const loadAbandon = loadAbandonFactory(loadAggregate);
   const loadAchèvement = loadAchèvementFactory(loadAggregate);
-  const loadCandidature = Candidature.Aggregate.loadCandidatureFactory(loadAggregate);
   const handler: MessageHandler<DemanderChangementCommand> = async ({
     identifiantProjet,
     pièceJustificative,
@@ -39,7 +41,8 @@ export const registerDemanderChangementPuissanceCommand = (loadAggregate: LoadAg
     const puissanceAggrégat = await loadPuissance(identifiantProjet);
     const abandon = await loadAbandon(identifiantProjet, false);
     const achèvement = await loadAchèvement(identifiantProjet, false);
-    const candidature = await loadCandidature(identifiantProjet);
+    const candidature = (await getProjetAggregateRoot(identifiantProjet)).candidature;
+    candidature.vérifierQueLaCandidatureExiste();
 
     // Après migration aggregate root, à remplacer
     const appelOffre = await mediator.send<AppelOffre.ConsulterAppelOffreQuery>({
@@ -72,7 +75,7 @@ export const registerDemanderChangementPuissanceCommand = (loadAggregate: LoadAg
       appelOffre,
       technologie: candidature.technologie,
       cahierDesCharges: cahierDesChargesChoisi,
-      note: candidature.note,
+      note: candidature.noteTotale,
     });
   };
   mediator.register('Lauréat.Puissance.Command.DemanderChangement', handler);

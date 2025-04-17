@@ -4,10 +4,10 @@ import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 import { DocumentProjet } from '@potentiel-domain/document';
 import { LoadAggregate } from '@potentiel-domain/core';
 import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
+import { GetProjetAggregateRoot } from '@potentiel-domain/projet';
 
 import { loadAchèvementFactory } from '../achèvement.aggregate';
 import { Abandon } from '../..';
-import { loadLauréatFactory } from '../../lauréat.aggregate';
 
 export type TransmettreAttestationConformitéCommand = Message<
   'Lauréat.Achèvement.AttestationConformité.Command.TransmettreAttestationConformité',
@@ -21,9 +21,11 @@ export type TransmettreAttestationConformitéCommand = Message<
   }
 >;
 
-export const registerTransmettreAttestationConformitéCommand = (loadAggregate: LoadAggregate) => {
+export const registerTransmettreAttestationConformitéCommand = (
+  loadAggregate: LoadAggregate,
+  getProjetAggregateRoot: GetProjetAggregateRoot,
+) => {
   const loadAttestationConformitéAggregate = loadAchèvementFactory(loadAggregate);
-  const loadLauréat = loadLauréatFactory(loadAggregate);
   const loadAbandon = Abandon.loadAbandonFactory(loadAggregate);
 
   const handler: MessageHandler<TransmettreAttestationConformitéCommand> = async ({
@@ -34,12 +36,13 @@ export const registerTransmettreAttestationConformitéCommand = (loadAggregate: 
     date,
     utilisateur,
   }) => {
+    const projet = await getProjetAggregateRoot(identifiantProjet);
+    projet.lauréat.vérifierQueLeLauréatExiste();
+
     const attestationConformité = await loadAttestationConformitéAggregate(
       identifiantProjet,
       false,
     );
-
-    await loadLauréat(identifiantProjet);
 
     const abandon = await loadAbandon(identifiantProjet, false);
 

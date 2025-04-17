@@ -3,7 +3,7 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 import { RécupérerIdentifiantsProjetParEmailPorteurPort } from '@potentiel-domain/utilisateur';
 import { List, RangeOptions, Where, Joined } from '@potentiel-domain/entity';
-import { Lauréat } from '@potentiel-domain/laureat';
+import { Lauréat } from '@potentiel-domain/projet';
 
 import { TâcheEntity } from '../tâche.entity';
 import * as TypeTâche from '../typeTâche.valueType';

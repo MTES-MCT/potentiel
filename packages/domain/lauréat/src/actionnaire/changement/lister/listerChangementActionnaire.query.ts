@@ -3,13 +3,13 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 import { Joined, List, RangeOptions, Where } from '@potentiel-domain/entity';
 import { RécupérerIdentifiantsProjetParEmailPorteurPort } from '@potentiel-domain/utilisateur';
+import { Lauréat } from '@potentiel-domain/projet';
 
 import { ChangementActionnaireEntity, StatutChangementActionnaire } from '../..';
 import {
   getRoleBasedWhereCondition,
   Utilisateur,
 } from '../../../_utils/getRoleBasedWhereCondition';
-import { Lauréat } from '../../..';
 
 type ChangementActionnaireItemReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;

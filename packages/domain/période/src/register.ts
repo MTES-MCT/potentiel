@@ -1,4 +1,5 @@
 import { LoadAggregate } from '@potentiel-domain/core';
+import { GetProjetAggregateRoot } from '@potentiel-domain/projet';
 
 import {
   ConsulterPériodeDependencies,
@@ -13,14 +14,20 @@ import { registerNotifierPériodeUseCase } from './notifier/notifierPériode.use
 
 type PériodeQueryDependencies = ConsulterPériodeDependencies & ListerPériodesDependencies;
 
-type PériodeCommandDependencies = { loadAggregate: LoadAggregate };
+type PériodeCommandDependencies = {
+  loadAggregate: LoadAggregate;
+  getProjetAggregateRoot: GetProjetAggregateRoot;
+};
 
 export const registerPériodeQueries = (dependencies: PériodeQueryDependencies) => {
   registerConsulterPériodeQuery(dependencies);
   registerListerPériodesQuery(dependencies);
 };
 
-export const registerPériodeUseCases = ({ loadAggregate }: PériodeCommandDependencies) => {
+export const registerPériodeUseCases = ({
+  loadAggregate,
+  getProjetAggregateRoot,
+}: PériodeCommandDependencies) => {
   registerNotifierPériodeUseCase();
-  registerNotifierPériodeCommand(loadAggregate);
+  registerNotifierPériodeCommand(loadAggregate, getProjetAggregateRoot);
 };

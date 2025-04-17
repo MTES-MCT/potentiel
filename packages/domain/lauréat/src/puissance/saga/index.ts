@@ -1,13 +1,14 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 import { match } from 'ts-pattern';
 
-import { LauréatNotifiéEvent } from '../../lauréat';
+import { Lauréat } from '@potentiel-domain/projet';
+
 import { AbandonAccordéEvent } from '../../abandon';
 
 import { lauréatNotifiéSaga } from './lauréatNotifié.saga';
 import { abandonAccordéSaga } from './abandonAccordé.saga';
 
-export type SubscriptionEvent = LauréatNotifiéEvent | AbandonAccordéEvent;
+export type SubscriptionEvent = Lauréat.LauréatNotifiéEvent | AbandonAccordéEvent;
 
 export type Execute = Message<'System.Lauréat.Puissance.Saga.Execute', SubscriptionEvent>;
 

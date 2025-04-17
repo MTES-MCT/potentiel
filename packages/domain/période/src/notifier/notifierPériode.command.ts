@@ -3,9 +3,7 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 import { getLogger } from '@potentiel-libraries/monitoring';
 import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
 import { LoadAggregate } from '@potentiel-domain/core';
-import { Candidature } from '@potentiel-domain/candidature';
-import { Lauréat } from '@potentiel-domain/laureat';
-import { Éliminé } from '@potentiel-domain/projet';
+import { GetProjetAggregateRoot, Lauréat, Éliminé } from '@potentiel-domain/projet';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { InviterPorteurUseCase } from '@potentiel-domain/utilisateur';
 
@@ -23,9 +21,11 @@ export type NotifierPériodeCommand = Message<
   }
 >;
 
-export const registerNotifierPériodeCommand = (loadAggregate: LoadAggregate) => {
+export const registerNotifierPériodeCommand = (
+  loadAggregate: LoadAggregate,
+  getProjetAggregateRoot: GetProjetAggregateRoot,
+) => {
   const loadPériode = loadPériodeFactory(loadAggregate);
-  const loadCandidature = Candidature.Aggregate.loadCandidatureFactory(loadAggregate);
 
   const handler: MessageHandler<NotifierPériodeCommand> = async ({
     identifiantPériode,
@@ -41,7 +41,9 @@ export const registerNotifierPériodeCommand = (loadAggregate: LoadAggregate) =>
 
     let nbError = 0;
     for (const identifiantCandidature of identifiantCandidatures) {
-      const candidature = await loadCandidature(identifiantCandidature);
+      const candidature = (await getProjetAggregateRoot(identifiantCandidature)).candidature;
+
+      candidature.vérifierQueLaCandidatureExiste();
 
       try {
         if (candidature.statut?.estClassé()) {

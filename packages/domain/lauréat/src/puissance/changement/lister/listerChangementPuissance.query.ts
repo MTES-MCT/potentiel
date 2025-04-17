@@ -3,13 +3,12 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 import { DateTime } from '@potentiel-domain/common';
 import { Joined, List, RangeOptions, Where } from '@potentiel-domain/entity';
 import { RécupérerIdentifiantsProjetParEmailPorteurPort } from '@potentiel-domain/utilisateur';
-import { IdentifiantProjet } from '@potentiel-domain/projet';
+import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 
 import {
   getRoleBasedWhereCondition,
   Utilisateur,
 } from '../../../_utils/getRoleBasedWhereCondition';
-import { Lauréat } from '../../..';
 import { AutoritéCompétente, ChangementPuissanceEntity, StatutChangementPuissance } from '../..';
 
 type ChangementPuissanceItemReadModel = {

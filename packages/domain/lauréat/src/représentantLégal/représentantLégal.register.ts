@@ -1,4 +1,5 @@
 import { LoadAggregate } from '@potentiel-domain/core';
+import { GetProjetAggregateRoot } from '@potentiel-domain/projet';
 
 import { registerImporterReprésentantLégalCommand } from './importer/importerReprésentantLégal.command';
 import {
@@ -34,14 +35,16 @@ export type ReprésentantLégalQueryDependencies = ConsulterReprésentantLégalD
 
 export type ReprésentantLégalCommandDependencies = {
   loadAggregate: LoadAggregate;
+  getProjetAggregateRoot: GetProjetAggregateRoot;
 } & SupprimerDocumentProjetSensibleCommandDependencies;
 
 export const registerReprésentantLégalUseCases = ({
   loadAggregate,
   supprimerDocumentProjetSensible,
+  getProjetAggregateRoot,
 }: ReprésentantLégalCommandDependencies) => {
   // Commands
-  registerImporterReprésentantLégalCommand(loadAggregate);
+  registerImporterReprésentantLégalCommand(loadAggregate, getProjetAggregateRoot);
   registerModifierReprésentantLégalCommand(loadAggregate);
   registerDemanderChangementReprésentantLégalCommand(loadAggregate);
   registerAnnulerChangementReprésentantLégalCommand(loadAggregate);

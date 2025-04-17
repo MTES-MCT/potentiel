@@ -2,7 +2,7 @@ import { Metadata, ResolvingMetadata } from 'next';
 import { mediator } from 'mediateur';
 
 import { mapToPlainObject } from '@potentiel-domain/core';
-import { Lauréat } from '@potentiel-domain/laureat';
+import { Lauréat } from '@potentiel-domain/projet';
 import { Option } from '@potentiel-libraries/monads';
 
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
