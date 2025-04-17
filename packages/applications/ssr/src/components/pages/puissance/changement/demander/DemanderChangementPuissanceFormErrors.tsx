@@ -84,7 +84,6 @@ export const DemanderChangementPuissanceFormErrors = ({
             }
           />
         )}
-
       {dépassePuissanceMaxDuVolumeRéservé && puissanceMaxVoluméRéservé !== undefined && (
         <Alert
           severity="error"
