@@ -50,7 +50,6 @@ export class CandidatureAggregate extends AbstractAggregate<CandidatureEvent> {
 
   #statut?: StatutCandidature.ValueType;
   #estNotifiée: boolean = false;
-  #notifiéeLe?: DateTime.ValueType;
   #nomCandidat: string = '';
   #nomReprésentantLégal: string = '';
   #sociétéMère: string = '';
@@ -363,10 +362,9 @@ export class CandidatureAggregate extends AbstractAggregate<CandidatureEvent> {
 
   private applyCandidatureNotifiée(
     this: CandidatureAggregate,
-    event: CandidatureNotifiéeEvent | CandidatureNotifiéeEventV1,
+    _event: CandidatureNotifiéeEvent | CandidatureNotifiéeEventV1,
   ) {
     this.#estNotifiée = true;
-    this.#notifiéeLe = DateTime.convertirEnValueType(event.payload.notifiéeLe);
   }
 
   private applyCommonEventPayload({
