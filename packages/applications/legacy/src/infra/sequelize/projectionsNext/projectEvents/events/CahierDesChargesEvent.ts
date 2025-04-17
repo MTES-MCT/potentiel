@@ -11,7 +11,7 @@ export type CahierDesChargesEvent = ProjectEvent & {
       }
     | {
         type: 'modifié';
-        paruLe: AppelOffre.DateParutionCahierDesChargesModifié;
+        paruLe: AppelOffre.RéférenceCahierDesCharges.DateParutionCahierDesChargesModifié;
         alternatif?: true;
       }
   );

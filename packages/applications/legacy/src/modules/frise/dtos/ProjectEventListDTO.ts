@@ -383,7 +383,7 @@ export type CahierDesChargesChoisiDTO = {
     }
   | {
       cahierDesCharges: 'modifié';
-      paruLe: AppelOffre.DateParutionCahierDesChargesModifié;
+      paruLe: AppelOffre.RéférenceCahierDesCharges.DateParutionCahierDesChargesModifié;
       alternatif?: true;
     }
 );

@@ -35,16 +35,20 @@ export const registerConsulterCahierDesChargesChoisiQuery = ({
   }) => {
     const identifiantProjetValueType = IdentifiantProjet.convertirEnValueType(identifiantProjet);
     const { appelOffre, période } = identifiantProjetValueType;
-    const cahierDesChargesChoisi = await consulterCahierDesChargesAdapter(
+    const cahierDesChargesChoisiValue = await consulterCahierDesChargesAdapter(
       identifiantProjetValueType,
     );
 
-    if (Option.isNone(cahierDesChargesChoisi)) {
+    if (Option.isNone(cahierDesChargesChoisiValue)) {
       return Option.none;
     }
 
-    if (cahierDesChargesChoisi === 'initial') {
-      return { type: 'initial' };
+    const cahierDesChargesChoisi = AppelOffre.RéférenceCahierDesCharges.convertirEnValueType(
+      cahierDesChargesChoisiValue,
+    );
+
+    if (cahierDesChargesChoisi.type === 'initial') {
+      return cahierDesChargesChoisi;
     }
 
     const appelOffres = await find<AppelOffre.AppelOffreEntity>(`appel-offre|${appelOffre}`);
@@ -57,11 +61,8 @@ export const registerConsulterCahierDesChargesChoisiQuery = ({
       return Option.none;
     }
 
-    const paruLe = cahierDesChargesChoisi.replace('-alternatif', '');
-    const alternatif = cahierDesChargesChoisi.search('-alternatif') >= 0 ? true : undefined;
-
-    const cahierDesChargesModifié = périodeDetails.cahiersDesChargesModifiésDisponibles.find(
-      (c) => c.paruLe === paruLe && c.alternatif === alternatif,
+    const cahierDesChargesModifié = périodeDetails.cahiersDesChargesModifiésDisponibles.find((c) =>
+      cahierDesChargesChoisi.estÉgaleÀ(AppelOffre.RéférenceCahierDesCharges.bind(c)),
     );
 
     if (!cahierDesChargesModifié) {

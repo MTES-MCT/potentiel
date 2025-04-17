@@ -177,7 +177,7 @@ type PPCDCModifiéChoisi = {
   };
   variables: {
     nom_projet: string;
-    cdc_date: AppelOffre.DateParutionCahierDesChargesModifié;
+    cdc_date: AppelOffre.RéférenceCahierDesCharges.DateParutionCahierDesChargesModifié;
     cdc_alternatif: 'alternatif' | '';
     projet_url: string;
   };
