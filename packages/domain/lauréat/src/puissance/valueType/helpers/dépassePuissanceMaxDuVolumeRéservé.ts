@@ -17,7 +17,7 @@ export const dépassePuissanceMaxDuVolumeRéservé = ({
   note,
 }: DépassePuissanceMaxDuVolumeRéservéProps) => {
   const désignationCatégorie = getDésignationCatégorie({
-    puissance: puissanceActuelle,
+    puissanceActuelle,
     note,
     période,
   });
@@ -35,20 +35,21 @@ export const dépassePuissanceMaxDuVolumeRéservé = ({
   return nouvellePuissance > puissanceMaxVolumeReservé;
 };
 
+type GetDésignationCatégorieProps = Omit<
+  DépassePuissanceMaxDuVolumeRéservéProps,
+  'nouvellePuissance'
+>;
+
 export const getDésignationCatégorie = ({
-  puissance,
+  puissanceActuelle,
   note,
   période,
-}: {
-  puissance: number;
-  note: number;
-  période: PlainType<AppelOffre.Periode>;
-}) => {
+}: GetDésignationCatégorieProps) => {
   if (période.noteThresholdBy !== 'category') {
     return undefined;
   }
 
-  return puissance <= période.noteThreshold.volumeReserve.puissanceMax &&
+  return puissanceActuelle <= période.noteThreshold.volumeReserve.puissanceMax &&
     note >= période.noteThreshold.volumeReserve.noteThreshold
     ? 'volume-réservé'
     : 'hors-volume-réservé';
