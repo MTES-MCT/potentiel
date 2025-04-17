@@ -149,13 +149,17 @@ export const bind = ({
 
 class PuissanceDépassePuissanceMaxAO extends DomainError {
   constructor() {
-    super("La puissance dépasse la puissance maximale autorisée par l'appel d'offres");
+    super(
+      "La nouvelle puissance ne peut dépasser la puissance maximale autorisée par l'appel d'offre",
+    );
   }
 }
 
 class PuissanceEnDeçaPuissanceMinAO extends DomainError {
   constructor() {
-    super("La puissance est en deça de la puissance minimale autorisée par l'appel d'offres");
+    super(
+      "La puissance ne peut être en deça de la puissance minimale autorisée par l'appel d'offre",
+    );
   }
 }
 

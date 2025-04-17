@@ -59,7 +59,7 @@ Fonctionnalité: Enregistrer un changement de puissance d'un projet lauréat
             | période       | <Période>       |
         Quand le porteur enregistre un changement de puissance pour le projet lauréat avec :
             | ratio puissance | <Ratio> |
-        Alors le porteur devrait être informé que "La puissance est en deça de la puissance minimale autorisée par l'appel d'offres"
+        Alors le porteur devrait être informé que "La puissance ne peut être en deça de la puissance minimale autorisée par l'appel d'offre"
 
         Exemples:
             | Appel d'offre | Période | Ratio |
@@ -72,7 +72,7 @@ Fonctionnalité: Enregistrer un changement de puissance d'un projet lauréat
             | période       | <Période>       |
         Quand le porteur enregistre un changement de puissance pour le projet lauréat avec :
             | ratio puissance | <Ratio> |
-        Alors le porteur devrait être informé que "La puissance dépasse la puissance maximale autorisée par l'appel d'offres"
+        Alors le porteur devrait être informé que "La nouvelle puissance ne peut dépasser la puissance maximale autorisée par l'appel d'offre"
 
         Exemples:
             | Appel d'offre | Période | Ratio |

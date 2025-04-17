@@ -4,7 +4,7 @@ import { PlainType } from '@potentiel-domain/core';
 
 import { ConsulterCahierDesChargesChoisiReadmodel } from '../../../cahierDesChargesChoisi';
 
-const defaultRatios = { min: 0.9, max: 1.1 };
+const PUISSANCE_DEFAULT_RATIOS = { min: 0.9, max: 1.1 };
 
 type GetRatiosChangementPuissanceProps = {
   appelOffre: Pick<AppelOffre.ConsulterAppelOffreReadModel, 'changementPuissance'>;
@@ -18,7 +18,7 @@ export const getRatiosChangementPuissance = ({
   cahierDesCharges,
 }: GetRatiosChangementPuissanceProps) => {
   if (!appelOffre) {
-    return defaultRatios;
+    return PUISSANCE_DEFAULT_RATIOS;
   }
 
   // prendre les ratios du CDC 2022 si existants
@@ -27,7 +27,7 @@ export const getRatiosChangementPuissance = ({
 
     if (seuilsCDC?.changementByTechnologie) {
       if (technologie === 'N/A') {
-        return defaultRatios;
+        return PUISSANCE_DEFAULT_RATIOS;
       }
       return seuilsCDC.ratios[technologie];
     } else if (seuilsCDC) {
@@ -40,7 +40,7 @@ export const getRatiosChangementPuissance = ({
 
   if (changementPuissance.changementByTechnologie) {
     if (technologie === 'N/A') {
-      return defaultRatios;
+      return PUISSANCE_DEFAULT_RATIOS;
     }
 
     return changementPuissance.ratios[technologie];
