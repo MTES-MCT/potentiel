@@ -26,7 +26,6 @@ export const changementPuissanceDemandéNotification = async ({
   baseUrl,
 }: ChangementPuissanceDemandéNotificationProps) => {
   const identifiantProjet = IdentifiantProjet.convertirEnValueType(event.payload.identifiantProjet);
-  const templateId = 6887674;
   const dreals = await listerDrealsRecipients(projet.région);
 
   const recipients: Array<Recipient> = [...dreals];
@@ -45,7 +44,7 @@ export const changementPuissanceDemandéNotification = async ({
   }
 
   return sendEmail({
-    templateId,
+    templateId: 6887674,
     messageSubject: `Potentiel - changement de puissance pour le projet ${projet.nom} dans le département ${projet.département} demandé`,
     recipients,
     variables: {
