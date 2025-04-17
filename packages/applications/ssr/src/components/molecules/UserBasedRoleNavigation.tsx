@@ -191,6 +191,12 @@ const getNavigationItemsBasedOnRole = (utilisateur: Utilisateur.ValueType) => {
               href: Routes.Gestionnaire.lister,
             },
           },
+          {
+            text: 'Fonctionnalités activées',
+            linkProps: {
+              href: Routes.Fonctionnalité.lister,
+            },
+          },
         ],
       },
     ])
