@@ -1,13 +1,10 @@
 import { InvalidOperationError, ReadonlyValueType } from '@potentiel-domain/core';
 
-export type RawType =
-  | 'aopv.dgec@developpement-durable.gouv.fr'
-  | 'aoeolien@developpement-durable.gouv.fr';
-
-const emails: Array<RawType> = [
+const emails = [
   'aoeolien@developpement-durable.gouv.fr',
   'aopv.dgec@developpement-durable.gouv.fr',
-];
+] as const;
+export type RawType = (typeof emails)[number];
 export type ValueType = ReadonlyValueType<{
   email: RawType;
 }>;
@@ -25,7 +22,7 @@ export const convertirEnValueType = (value: string): ValueType => {
 };
 
 function estValide(value: string): asserts value is RawType {
-  const isValid = (emails as Array<string>).includes(value);
+  const isValid = emails.includes(value as RawType);
 
   if (!isValid) {
     throw new EmailDGECInvalideError(value);

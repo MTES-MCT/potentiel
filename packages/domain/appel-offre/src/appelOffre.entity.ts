@@ -196,7 +196,6 @@ export type Periode = {
     valeur: number;
     texte: string;
   };
-  dossierSuiviPar?: EmailDGEC.RawType;
   garantieFinanciereEnMoisSansAutorisationEnvironnementale?: number;
   cahiersDesChargesModifiésDisponibles: ReadonlyArray<CahierDesChargesModifié>;
   abandonAvecRecandidature?: true;
