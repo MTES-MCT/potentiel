@@ -20,7 +20,6 @@ export {
 };
 
 // Entity
-export * from './projet.entity';
 export * from './candidature.entity';
 
 // Value Types
