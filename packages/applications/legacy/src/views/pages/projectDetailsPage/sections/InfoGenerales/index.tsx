@@ -144,7 +144,7 @@ export const InfoGenerales = ({
       {actionnaire && (
         <InfoActionnaire
           actionnaire={actionnaire}
-          modificationsPermisesParLeCDCActuel={modificationsNonPermisesParLeCDCActuel}
+          modificationsPermisesParLeCDCActuel={!modificationsNonPermisesParLeCDCActuel}
         />
       )}
       {coefficientKChoisi !== undefined ? (
