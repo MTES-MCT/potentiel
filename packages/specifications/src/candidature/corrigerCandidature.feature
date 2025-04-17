@@ -4,7 +4,7 @@ Fonctionnalité: Corriger une candidature
     Contexte:
         Etant donné la candidature lauréate "Du boulodrome de Marseille"
 
-    Scénario: Impossible de corriger une candidature sans modifications candidat | abcd |
+    Scénario: Impossible de corriger une candidature sans modifications candidat
         Alors la candidature devrait être consultable
         Et le porteur n'a pas été prévenu que son attestation a été modifiée
 
