@@ -1,7 +1,5 @@
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 
-import { EMAIL_DGEC_AO_PV } from '../_utils/emailDGEC';
-
 const CDCModifié30082022: AppelOffre.CahierDesChargesModifié = {
   type: 'modifié',
   paruLe: '30/08/2022',
@@ -68,7 +66,7 @@ export const batimentPPE2: AppelOffre.AppelOffreReadModel = {
   tarifOuPrimeRetenueAlt: 'ce prix de référence',
   afficherValeurEvaluationCarbone: true,
   afficherPhraseRegionImplantation: false,
-  dossierSuiviPar: EMAIL_DGEC_AO_PV,
+  dossierSuiviPar: 'aopv.dgec@developpement-durable.gouv.fr',
   doitPouvoirChoisirCDCInitial: true,
   changementPuissance: {
     ratios: {

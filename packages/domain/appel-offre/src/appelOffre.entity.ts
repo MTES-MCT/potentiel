@@ -1,5 +1,7 @@
 import { Entity } from '@potentiel-domain/entity';
 
+import { EmailDGEC } from '.';
+
 type AppelOffreTypes =
   | 'autoconso'
   | 'batiment'
@@ -194,7 +196,7 @@ export type Periode = {
     valeur: number;
     texte: string;
   };
-  dossierSuiviPar?: string;
+  dossierSuiviPar?: EmailDGEC.RawType;
   garantieFinanciereEnMoisSansAutorisationEnvironnementale?: number;
   cahiersDesChargesModifiésDisponibles: ReadonlyArray<CahierDesChargesModifié>;
   abandonAvecRecandidature?: true;
@@ -260,7 +262,7 @@ export type AppelOffreReadModel = {
   tarifOuPrimeRetenueAlt: string;
   afficherValeurEvaluationCarbone: boolean;
   afficherPhraseRegionImplantation: boolean;
-  dossierSuiviPar: string;
+  dossierSuiviPar: EmailDGEC.RawType;
   periodes: Periode[];
   renvoiSoumisAuxGarantiesFinancieres?: string;
   changementPuissance: ChangementPuissance;

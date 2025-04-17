@@ -1,7 +1,5 @@
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 
-import { EMAIL_DGEC_AO_PV } from '../_utils/emailDGEC';
-
 export const neutrePPE2: AppelOffre.AppelOffreReadModel = {
   id: 'PPE2 - Neutre',
   typeAppelOffre: 'neutre',
@@ -9,7 +7,7 @@ export const neutrePPE2: AppelOffre.AppelOffreReadModel = {
   title:
     'portant sur la réalisation et l’exploitation d’Installations de production d’électricité à partir d’énergie solaire photovoltaïque, hydroélectrique ou éolienne situées en métropole continentale',
   shortTitle: 'PPE2 - Neutre',
-  dossierSuiviPar: EMAIL_DGEC_AO_PV,
+  dossierSuiviPar: 'aopv.dgec@developpement-durable.gouv.fr',
   launchDate: 'Août 2021',
   cahiersDesChargesUrl:
     'https://www.cre.fr/documents/Appels-d-offres/appel-d-offres-portant-sur-la-realisation-et-l-exploitation-d-installations-de-production-d-electricite-a-partir-d-energie-solaire-photovoltaique',

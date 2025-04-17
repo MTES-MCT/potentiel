@@ -1,6 +1,6 @@
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 
-import { EMAIL_DGEC_AO_EOLIEN } from '../_utils/emailDGEC';
+('aoeolien@developpement-durable.gouv.fr');
 
 const CDCModifié30082022: AppelOffre.CahierDesChargesModifié = {
   type: 'modifié',

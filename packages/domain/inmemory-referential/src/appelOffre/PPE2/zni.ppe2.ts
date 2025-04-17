@@ -1,7 +1,5 @@
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 
-import { EMAIL_DGEC_AO_PV } from '../_utils/emailDGEC';
-
 export const zniPPE2: AppelOffre.AppelOffreReadModel = {
   id: 'PPE2 - ZNI',
   typeAppelOffre: 'zni',
@@ -31,7 +29,7 @@ export const zniPPE2: AppelOffre.AppelOffreReadModel = {
   tarifOuPrimeRetenueAlt: 'ce prix de référence',
   afficherValeurEvaluationCarbone: true,
   afficherPhraseRegionImplantation: false,
-  dossierSuiviPar: EMAIL_DGEC_AO_PV,
+  dossierSuiviPar: 'aopv.dgec@developpement-durable.gouv.fr',
   doitPouvoirChoisirCDCInitial: true,
   changementPuissance: {
     ratios: {

@@ -94,8 +94,6 @@ BeforeAll(async () => {
   process.env.AWS_SECRET_ACCESS_KEY = 'minioadmin';
   process.env.BASE_URL = 'https://potentiel.beta.gouv.fr';
   process.env.DGEC_EMAIL = 'dgec@fake.email';
-  process.env.DGEC_EMAIL_AO_PV = 'dgec@fake.email';
-  process.env.DGEC_EMAIL_AO_EOLIEN = 'dgec@fake.email';
 
   disableNodeMaxListenerWarning();
 

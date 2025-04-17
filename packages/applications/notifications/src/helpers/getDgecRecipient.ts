@@ -1,4 +1,5 @@
 import { Email } from '@potentiel-domain/common';
+import { EmailDGEC } from '@potentiel-domain/appel-offre';
 
 import { Recipient } from '../sendEmail';
 
@@ -12,20 +13,12 @@ export const getDgecRecipient: GetDgecRecipient = (idAppelOffre) => {
   const ID_AO_EOLIEN = ['Eolien', 'PPE2 - Eolien'];
 
   if (ID_AO_EOLIEN.includes(idAppelOffre)) {
-    if (!process.env.DGEC_EMAIL_AO_EOLIEN) {
-      throw new Error("La variable d'environnement DGEC_EMAIL_AO_EOLIEN est manquante");
-    }
-
     return {
-      email: Email.convertirEnValueType(process.env.DGEC_EMAIL_AO_EOLIEN).formatter(),
+      email: Email.convertirEnValueType(EmailDGEC.EmailDgecAoEolien.email).formatter(),
     };
   }
 
-  if (!process.env.DGEC_EMAIL_AO_PV) {
-    throw new Error("La variable d'environnement DGEC_EMAIL_AO_PV est manquante");
-  }
-
   return {
-    email: Email.convertirEnValueType(process.env.DGEC_EMAIL_AO_PV).formatter(),
+    email: Email.convertirEnValueType(EmailDGEC.EmailDgecAoPv.email).formatter(),
   };
 };
