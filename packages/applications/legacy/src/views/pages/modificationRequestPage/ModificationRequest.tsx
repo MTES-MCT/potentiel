@@ -19,7 +19,6 @@ import {
   DemandeDetails,
   DemandeStatus,
   ProducteurForm,
-  PuissanceALaHausseInfoBox,
 } from './components';
 
 moment.locale('fr');
@@ -41,12 +40,6 @@ export const ModificationRequest = ({ request, modificationRequest }: Modificati
     !modificationRequest.cancelledOn &&
     status !== 'information validée';
 
-  const showPuissanceInfoBox =
-    type === 'puissance' &&
-    userIsDreal &&
-    modificationRequest.authority !== 'dreal' &&
-    isPendingModificationRequest;
-
   const showFormulaireAdministrateur =
     (userIsDgec || (userIsDreal && modificationRequest.authority === 'dreal')) &&
     isPendingModificationRequest;
@@ -67,8 +60,6 @@ export const ModificationRequest = ({ request, modificationRequest }: Modificati
 
         <DemandeDetails modificationRequest={modificationRequest} className="mb-5" />
         <DemandeStatus role={user.role} modificationRequest={modificationRequest} />
-
-        {showPuissanceInfoBox && <PuissanceALaHausseInfoBox />}
 
         {showFormulaireAdministrateur && (
           <div>

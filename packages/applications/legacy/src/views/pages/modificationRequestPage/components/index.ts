@@ -5,4 +5,3 @@ export * from './DemandeStatus';
 export * from './DownloadResponseTemplate';
 export * from './ProducteurForm';
 export * from './UploadResponseFile';
-export * from './PuissanceALaHausseInfoBox';
