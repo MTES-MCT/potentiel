@@ -1,6 +1,10 @@
 import { Then as Alors, DataTable } from '@cucumber/cucumber';
 import { expect } from 'chai';
 import waitForExpect from 'wait-for-expect';
+import { mediator } from 'mediateur';
+
+import { Option } from '@potentiel-libraries/monads';
+import { AppelOffre } from '@potentiel-domain/appel-offre';
 
 import { PotentielWorld } from '../../potentiel.world';
 
@@ -38,6 +42,20 @@ Alors(
 Alors(
   'un email a été envoyé à la dgec avec :',
   async function (this: PotentielWorld, data: DataTable) {
-    await vérifierEmailEnvoyé.call(this, this.utilisateurWorld.adminFixture.email, data);
+    const identifiantAppelOffre = this.lauréatWorld.identifiantProjet.appelOffre;
+
+    const ao = await mediator.send<AppelOffre.ConsulterAppelOffreQuery>({
+      type: 'AppelOffre.Query.ConsulterAppelOffre',
+
+      data: {
+        identifiantAppelOffre,
+      },
+    });
+
+    if (Option.isNone(ao)) {
+      throw new Error("L'appel d'offre n'existe pas");
+    }
+
+    await vérifierEmailEnvoyé.call(this, ao.dossierSuiviPar, data);
   },
 );
