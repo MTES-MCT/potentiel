@@ -13,8 +13,7 @@ export type ModifierCahierDesChargesCommand = Message<
     identifiantProjet: IdentifiantProjet.ValueType;
     modifiéLe: DateTime.ValueType;
     modifiéPar: Email.ValueType;
-    // TODO convert to valueType
-    cahierDesCharges: AppelOffre.CahierDesChargesRéférence;
+    cahierDesCharges: AppelOffre.RéférenceCahierDesCharges.ValueType;
   }
 >;
 

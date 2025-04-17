@@ -28,8 +28,8 @@ export const registerModifierCahierDesChargesUseCase = () => {
         identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjetValue),
         modifiéLe: DateTime.convertirEnValueType(modifiéLeValue),
         modifiéPar: Email.convertirEnValueType(modifiéParValue),
-        // TODO ValueType
-        cahierDesCharges: cahierDesChargesValue as AppelOffre.CahierDesChargesRéférence,
+        cahierDesCharges:
+          AppelOffre.RéférenceCahierDesCharges.convertirEnValueType(cahierDesChargesValue),
       },
     });
   };

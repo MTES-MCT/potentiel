@@ -44,7 +44,9 @@ export class ModifierCahierDesChargesFixture
     if (partialFixture.cahierDesCharges) {
       cahierDesCharges = nomCdcToRéférence[partialFixture.cahierDesCharges];
       if (!cahierDesCharges) {
-        throw new Error(`Cahier des charges inconnu: ${partialFixture.cahierDesCharges}`);
+        throw new Error(
+          `Cahier des charges inconnu dans la fixture: ${partialFixture.cahierDesCharges}`,
+        );
       }
     }
 

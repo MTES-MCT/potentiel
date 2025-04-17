@@ -48,7 +48,7 @@ export type LauréatAggregate = Aggregate<LauréatEvent> & {
     département: string;
     région: string;
   };
-  cahierDesCharges: AppelOffre.CahierDesChargesRéférence;
+  cahierDesCharges: AppelOffre.RéférenceCahierDesCharges.ValueType;
   notifier: typeof notifier;
   modifier: typeof modifier;
   modifierCahierDesCharges: typeof modifierCahierDesCharges;
@@ -69,7 +69,7 @@ export const getDefaultLauréatAggregate: GetDefaultAggregateState<
     département: '',
     région: '',
   },
-  cahierDesCharges: 'initial',
+  cahierDesCharges: AppelOffre.RéférenceCahierDesCharges.initial,
   apply,
   notifier,
   modifier,

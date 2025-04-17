@@ -11,7 +11,7 @@ export type CahierDesChargesModifiéEvent = DomainEvent<
     identifiantProjet: IdentifiantProjet.RawType;
     modifiéLe: DateTime.RawType;
     modifiéPar: Email.RawType;
-    cahierDesCharges: AppelOffre.CahierDesChargesRéférence;
+    cahierDesCharges: AppelOffre.RéférenceCahierDesCharges.RawType;
   }
 >;
 
@@ -19,16 +19,30 @@ export type ModifierCahierDesChargesOptions = {
   identifiantProjet: IdentifiantProjet.ValueType;
   modifiéLe: DateTime.ValueType;
   modifiéPar: Email.ValueType;
-  cahierDesCharges: AppelOffre.CahierDesChargesRéférence;
+  cahierDesCharges: AppelOffre.RéférenceCahierDesCharges.ValueType;
 };
 
 export async function modifierCahierDesCharges(
   this: LauréatAggregate,
   { identifiantProjet, modifiéLe, modifiéPar, cahierDesCharges }: ModifierCahierDesChargesOptions,
 ) {
-  if (this.cahierDesCharges === cahierDesCharges) {
-    throw new CahierDesChargesNonModifié();
+  if (this.cahierDesCharges.estÉgaleÀ(cahierDesCharges)) {
+    throw new CahierDesChargesNonModifiéError();
   }
+
+  //  TODO Pending aggregateRoot
+  // if (
+  //   cahierDesCharges.type === 'modifié' &&
+  //   this.période.cahiersDesChargesModifiésDisponibles.find((cdc) =>
+  //     AppelOffre.RéférenceCahierDesCharges.bind(cdc).estÉgaleÀ(cahierDesCharges),
+  //   )
+  // ) {
+  //   throw new CahierDesChargesIndisponibleError();
+  // }
+
+  // if (cahierDesCharges.type === 'initial' && !this.appelOffres.doitPouvoirChoisirCDCInitial) {
+  //   throw new RetourAuCahierDesChargesInitialImpossibleError();
+  // }
 
   const event: CahierDesChargesModifiéEvent = {
     type: 'CahierDesChargesModifié-V1',
@@ -36,7 +50,7 @@ export async function modifierCahierDesCharges(
       identifiantProjet: identifiantProjet.formatter(),
       modifiéLe: modifiéLe.formatter(),
       modifiéPar: modifiéPar.formatter(),
-      cahierDesCharges,
+      cahierDesCharges: cahierDesCharges.formatter(),
     },
   };
 
@@ -47,11 +61,24 @@ export function applyCahierDesChargesModifié(
   this: LauréatAggregate,
   { payload: { cahierDesCharges } }: CahierDesChargesModifiéEvent,
 ) {
-  this.cahierDesCharges = cahierDesCharges;
+  this.cahierDesCharges =
+    AppelOffre.RéférenceCahierDesCharges.convertirEnValueType(cahierDesCharges);
 }
 
-class CahierDesChargesNonModifié extends InvalidOperationError {
+class CahierDesChargesNonModifiéError extends InvalidOperationError {
   constructor() {
     super("Ce cahier des charges est identique à l'actuel");
   }
 }
+
+// class CahierDesChargesIndisponibleError extends InvalidOperationError {
+//   constructor() {
+//     super("Ce cahier des charges n'est pas disponible pour cette période");
+//   }
+// }
+
+// class RetourAuCahierDesChargesInitialImpossibleError extends InvalidOperationError {
+//   constructor() {
+//     super('Il est impossible de revenir au cahier de charges en vigueur à la candidature');
+//   }
+// }

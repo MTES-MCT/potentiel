@@ -1,11 +1,11 @@
 import { Then as Alors } from '@cucumber/cucumber';
 import { mediator } from 'mediateur';
-import { assert, expect } from 'chai';
+import { expect } from 'chai';
 import waitForExpect from 'wait-for-expect';
-import { match } from 'ts-pattern';
 
 import { CahierDesCharges, Lauréat } from '@potentiel-domain/laureat';
 import { mapToPlainObject } from '@potentiel-domain/core';
+import { AppelOffre } from '@potentiel-domain/appel-offre';
 
 import { PotentielWorld } from '../../../potentiel.world';
 
@@ -36,20 +36,13 @@ Alors('le cahier des charges devrait être modifié', async function (this: Pote
       });
 
     const actual = mapToPlainObject(cahierDesCharges);
-    const expected = this.lauréatWorld.modifierCahierDesChargesFixture.cahierDesCharges;
+    const expected = mapToPlainObject(
+      AppelOffre.RéférenceCahierDesCharges.convertirEnValueType(
+        this.lauréatWorld.modifierCahierDesChargesFixture.cahierDesCharges,
+      ),
+    );
 
-    if (expected === 'initial') {
-      expect(actual.type).to.eq('initial');
-    } else {
-      assert(actual.type === 'modifié');
-      const [expectedParuLe, expectedAlternatifStr] = expected.split('-');
-
-      const expectedAlternatif = match(expectedAlternatifStr)
-        .with('alternatif', () => true)
-        .otherwise(() => undefined);
-
-      expect(actual.paruLe === expectedParuLe);
-      expect(actual.alternatif === expectedAlternatif);
-    }
+    // expected is a subset of actual, which contains additional properties, irrelevan in the assertion
+    expect(actual).to.deep.contain(expected);
   });
 });
