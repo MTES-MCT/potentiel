@@ -35,7 +35,6 @@ export function applyCandidatureCorrigée(
         : undefined,
     };
   }
-  this.payloadHash = this.calculerHash(payload);
   this.typeActionnariat = payload.actionnariat
     ? TypeActionnariat.convertirEnValueType(payload.actionnariat)
     : undefined;

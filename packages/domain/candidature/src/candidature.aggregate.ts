@@ -1,6 +1,3 @@
-// FIXME the import should be node:crypto but this breaks NextJS
-import { createHash } from 'crypto';
-
 import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
 import { Aggregate, GetDefaultAggregateState, LoadAggregate } from '@potentiel-domain/core';
 
@@ -46,7 +43,6 @@ export type CandidatureAggregate = Aggregate<CandidatureEvent> &
       type: TypeGarantiesFinancières.ValueType;
       dateEchéance?: DateTime.ValueType;
     };
-    payloadHash: string;
     nomReprésentantLégal: string;
     sociétéMère: string;
     puissance: number;
@@ -64,25 +60,13 @@ export type CandidatureAggregate = Aggregate<CandidatureEvent> &
     prixRéférence: number;
     technologie: TypeTechnologie.ValueType;
     note: number;
-    calculerHash(payload: CandidatureEvent['payload']): string;
   };
-
-const getDeepKeys = (obj: object): string[] => {
-  return Object.entries(obj).reduce<string[]>((r, [key, value]) => {
-    r.push(key);
-    if (typeof value === 'object' && value !== null) {
-      r.push(...getDeepKeys(value));
-    }
-    return r;
-  }, []);
-};
 
 export const getDefaultCandidatureAggregate: GetDefaultAggregateState<
   CandidatureAggregate,
   CandidatureEvent
 > = () => ({
   identifiantProjet: IdentifiantProjet.inconnu,
-  payloadHash: '',
   nomProjet: '',
   localité: {
     adresse1: '',
@@ -101,21 +85,6 @@ export const getDefaultCandidatureAggregate: GetDefaultAggregateState<
   note: 0,
   technologie: TypeTechnologie.nonApplicable,
   apply,
-  calculerHash(payload) {
-    const copy = { ...payload } as Partial<
-      CandidatureImportéeEvent['payload'] & CandidatureCorrigéeEvent['payload']
-    >;
-    delete copy.corrigéLe;
-    delete copy.corrigéPar;
-    delete copy.importéLe;
-    delete copy.importéPar;
-    delete copy.doitRégénérerAttestation;
-    delete copy.détailsMisÀJour;
-
-    return createHash('md5')
-      .update(JSON.stringify(copy, getDeepKeys(copy).sort()))
-      .digest('hex');
-  },
 });
 
 function apply(this: CandidatureAggregate, event: CandidatureEvent) {

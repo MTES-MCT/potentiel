@@ -64,7 +64,6 @@ export function applyCandidatureImportée(
           payload.dateÉchéanceGf && DateTime.convertirEnValueType(payload.dateÉchéanceGf),
       }
     : undefined;
-  this.payloadHash = this.calculerHash(payload);
 
   this.nomReprésentantLégal = payload.nomReprésentantLégal;
   this.sociétéMère = payload.sociétéMère;
