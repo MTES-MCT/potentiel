@@ -4,7 +4,9 @@ Fonctionnalité: Corriger une candidature
     Contexte:
         Etant donné la candidature lauréate "Du boulodrome de Marseille"
 
-    Scénario: Impossible de corriger une candidature sans modifications candidat
+    Scénario: Corriger une candidature non notifiée
+        Quand le DGEC validateur corrige la candidature avec :
+            | nom candidat | abcd |
         Alors la candidature devrait être consultable
         Et le porteur n'a pas été prévenu que son attestation a été modifiée
 
