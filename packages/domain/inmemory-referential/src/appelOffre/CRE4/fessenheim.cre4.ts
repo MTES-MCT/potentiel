@@ -183,11 +183,6 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
     {
       id: '2',
       title: 'deuxième',
-      noteThresholdBy: 'family',
-      noteThreshold: [
-        { familleId: '1', noteThreshold: 69.34 },
-        { familleId: '3', noteThreshold: 1.52 },
-      ],
       certificateTemplate: 'cre4.v0',
       cahierDesCharges: {
         référence: '2019/S 019-040037',
@@ -233,12 +228,6 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
     {
       id: '3',
       title: 'troisième',
-      noteThresholdBy: 'family',
-      noteThreshold: [
-        { familleId: '1', noteThreshold: 21.15 },
-        { familleId: '2', noteThreshold: 89.09 },
-        { familleId: '3', noteThreshold: 18.43 },
-      ],
       certificateTemplate: 'cre4.v0',
       cahierDesCharges: {
         référence: '2019/S 019-040037',

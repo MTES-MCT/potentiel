@@ -73,7 +73,6 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
     {
       id: '1',
       title: 'première',
-      type: 'notified',
       certificateTemplate: 'ppe2.v2',
       logo: 'MEFSIN',
       cahierDesCharges: {
@@ -103,7 +102,6 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
     {
       id: '2',
       title: 'deuxième',
-      type: 'notified',
       certificateTemplate: 'ppe2.v2',
       logo: 'MEFSIN',
       cahierDesCharges: {
@@ -132,7 +130,6 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
     {
       id: '3',
       title: 'troisième',
-      type: 'notified',
       certificateTemplate: 'ppe2.v2',
       logo: 'MCE',
       cahierDesCharges: {

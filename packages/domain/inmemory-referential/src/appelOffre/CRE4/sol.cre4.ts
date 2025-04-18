@@ -521,12 +521,6 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
     {
       id: '7',
       title: 'septième',
-      noteThresholdBy: 'family',
-      noteThreshold: [
-        { familleId: '1', noteThreshold: 56.6 },
-        { familleId: '2', noteThreshold: 48.17 },
-        { familleId: '3', noteThreshold: 54.15 },
-      ],
       certificateTemplate: 'cre4.v0',
       cahierDesCharges: {
         référence: '2016/S 148-268152',
@@ -592,12 +586,6 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
     {
       id: '8',
       title: 'huitième',
-      noteThresholdBy: 'family',
-      noteThreshold: [
-        { familleId: '1', noteThreshold: 55.25 },
-        { familleId: '2', noteThreshold: 52.04 },
-        { familleId: '3', noteThreshold: 54.35 },
-      ],
       certificateTemplate: 'cre4.v1',
       cahierDesCharges: {
         référence: '2016/S 148-268152',
@@ -663,12 +651,6 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
     {
       id: '9',
       title: 'neuvième',
-      noteThresholdBy: 'family',
-      noteThreshold: [
-        { familleId: '1', noteThreshold: 48.6 },
-        { familleId: '2', noteThreshold: 45.49 },
-        { familleId: '3', noteThreshold: 36.02 },
-      ],
       certificateTemplate: 'cre4.v1',
       cahierDesCharges: {
         référence: '2016/S 148-268152',
@@ -734,12 +716,6 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
     {
       id: '10',
       title: 'dixième',
-      noteThresholdBy: 'family',
-      noteThreshold: [
-        { familleId: '1', noteThreshold: 46.86 },
-        { familleId: '2', noteThreshold: 43.96 },
-        { familleId: '3', noteThreshold: 23.94 },
-      ],
       certificateTemplate: 'cre4.v1',
       cahierDesCharges: {
         référence: '2016/S 148-268152',

@@ -122,13 +122,6 @@ export type Famille = {
   puissanceMax?: number;
 } & GarantiesFinancièresFamille;
 
-// Periode
-type NoteThresholdByFamily = {
-  familleId: string;
-  noteThreshold: number;
-  territoire?: Territoire;
-};
-
 type NoteThresholdByCategory = {
   volumeReserve: {
     noteThreshold: number;
@@ -144,13 +137,7 @@ export type Validateur = {
   fonction: string;
 };
 
-export type NotifiedPeriode = {
-  type?: 'notified';
-} & (
-  | {
-      noteThresholdBy: 'family';
-      noteThreshold: NoteThresholdByFamily[];
-    }
+export type NotifiedPeriode = (
   | {
       noteThresholdBy: 'category';
       noteThreshold: NoteThresholdByCategory;
@@ -161,14 +148,7 @@ export type NotifiedPeriode = {
 ) &
   CertificateTemplateProps;
 
-type NotYetNotifiedPeriode = {
-  type: 'not-yet-notified';
-  noteThresholdBy?: undefined;
-  noteThreshold?: undefined;
-} & CertificateTemplateProps;
-
 type LegacyPeriode = {
-  type: 'legacy';
   certificateTemplate?: undefined;
   noteThresholdBy?: undefined;
   noteThreshold?: undefined;
@@ -187,6 +167,7 @@ export type CertificateTemplate = CertificateTemplateProps['certificateTemplate'
 
 export type Periode = {
   id: string;
+  type?: 'legacy';
   title: string;
   donnéesCourriersRéponse?: Partial<DonnéesCourriersRéponse>;
   /**
@@ -225,7 +206,7 @@ export type Periode = {
    * Cette information est utilisée par le co-contractant.
    */
   choixCoefficientKDisponible?: true;
-} & (NotifiedPeriode | NotYetNotifiedPeriode | LegacyPeriode);
+} & (NotifiedPeriode | LegacyPeriode);
 
 // Territoire
 export const territoires = [
