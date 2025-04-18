@@ -3,7 +3,7 @@ import { mediator } from 'mediateur';
 import { IdentifiantProjet } from '@potentiel-domain/projet';
 import { Lauréat } from '@potentiel-domain/laureat';
 import { Option } from '@potentiel-libraries/monads';
-import { Candidature } from '@potentiel-domain/candidature';
+import { Candidature } from '@potentiel-domain/projet';
 
 export const récupérerNomProjet = async (identifiantProjet: IdentifiantProjet.RawType) => {
   const lauréat = await mediator.send<Lauréat.ConsulterLauréatQuery>({

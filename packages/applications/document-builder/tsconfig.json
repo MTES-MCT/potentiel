@@ -16,6 +16,9 @@
       "path": "../../domain/candidature"
     },
     {
+      "path": "../../domain/projet"
+    },
+    {
       "path": "../../libraries/monitoring"
     }
   ]

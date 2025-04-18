@@ -49,7 +49,7 @@ Fonctionnalité: Corriger une candidature
     Scénario: Impossible de changer l'AO d'une candidature
         Quand le DGEC validateur corrige la candidature avec :
             | appel d'offre | x |
-        Alors l'administrateur devrait être informé que "La candidature n'existe pas"
+        Alors l'administrateur devrait être informé que "L'appel d'offre spécifié n'existe pas"
 
     Scénario: Impossible de changer la période d'une candidature
         Quand le DGEC validateur corrige la candidature avec :

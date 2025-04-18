@@ -3,8 +3,8 @@ import { notFound } from 'next/navigation';
 
 import { Abandon, CahierDesCharges } from '@potentiel-domain/laureat';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
-import { Candidature } from '@potentiel-domain/candidature';
-import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
+import { Candidature, IdentifiantProjet } from '@potentiel-domain/projet';
+import { DateTime } from '@potentiel-domain/common';
 import {
   formatDateForDocument,
   ModèleRéponseSignée,

@@ -1,15 +1,18 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { Option } from '@potentiel-libraries/monads';
-import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
+import { DateTime, Email } from '@potentiel-domain/common';
 import { Find } from '@potentiel-domain/entity';
 import { DocumentProjet } from '@potentiel-domain/document';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 
-import * as StatutCandidature from '../statutCandidature.valueType';
 import { CandidatureEntity } from '../candidature.entity';
-import { HistoriqueAbandon, TypeActionnariat, TypeTechnologie } from '../candidature';
+import * as StatutCandidature from '../statutCandidature.valueType';
 import * as TypeGarantiesFinancières from '../typeGarantiesFinancières.valueType';
+import * as TypeTechnologie from '../typeTechnologie.valueType';
+import * as TypeActionnariat from '../typeActionnariat.valueType';
+import * as HistoriqueAbandon from '../historiqueAbandon.valueType';
+import { IdentifiantProjet } from '../..';
 
 export type ConsulterCandidatureReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;

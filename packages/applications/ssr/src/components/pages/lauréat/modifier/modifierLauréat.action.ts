@@ -2,7 +2,7 @@
 
 import { mediator } from 'mediateur';
 
-import { Candidature } from '@potentiel-domain/candidature';
+import { Candidature } from '@potentiel-domain/projet';
 import { Routes } from '@potentiel-applications/routes';
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 import { Actionnaire, Lauréat, Puissance, ReprésentantLégal } from '@potentiel-domain/laureat';
@@ -146,7 +146,7 @@ const mapBodyToCandidatureUsecaseData = (
     nomCandidatValue: data.nomCandidat ?? previous.nomCandidat,
     puissanceProductionAnnuelleValue:
       data.puissanceProductionAnnuelle ?? previous.puissanceProductionAnnuelle,
-    prixReferenceValue: data.prixReference ?? previous.prixReference,
+    prixRéférenceValue: data.prixReference ?? previous.prixReference,
     noteTotaleValue: data.noteTotale ?? previous.noteTotale,
     emailContactValue: data.emailContact ?? previous.emailContact.formatter(),
     localitéValue,

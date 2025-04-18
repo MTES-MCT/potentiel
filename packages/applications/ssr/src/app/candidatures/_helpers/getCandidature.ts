@@ -2,7 +2,7 @@ import { mediator } from 'mediateur';
 import { cache } from 'react';
 import { notFound } from 'next/navigation';
 
-import { Candidature } from '@potentiel-domain/candidature';
+import { Candidature } from '@potentiel-domain/projet';
 import { Option } from '@potentiel-libraries/monads';
 
 export const getCandidature = cache(async (identifiantProjet: string) => {

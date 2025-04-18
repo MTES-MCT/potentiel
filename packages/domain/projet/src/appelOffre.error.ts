@@ -6,13 +6,13 @@ export class AppelOffreInexistantError extends InvalidOperationError {
   }
 }
 
-export class PériodeAppelOffreInexistanteError extends InvalidOperationError {
+export class PériodeInexistanteError extends InvalidOperationError {
   constructor(appelOffre: string, période: string) {
     super(`La période d'appel d'offre spécifiée n'existe pas`, { appelOffre, période });
   }
 }
 
-export class FamillePériodeAppelOffreInexistanteError extends InvalidOperationError {
+export class FamilleInexistanteError extends InvalidOperationError {
   constructor(appelOffre: string, période: string, famille: string) {
     super(`La famille de période d'appel d'offre spécifiée n'existe pas`, {
       appelOffre,

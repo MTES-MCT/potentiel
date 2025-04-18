@@ -2,17 +2,16 @@ import type { Meta, StoryObj } from '@storybook/react';
 
 import { appelsOffreData } from '@potentiel-domain/inmemory-referential';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
-import { Candidature } from '@potentiel-domain/candidature';
+import { Candidature } from '@potentiel-domain/projet';
 
 import { AttestationCandidatureOptions } from './AttestationCandidatureOptions';
 import { makeCertificate } from './makeCertificate';
 
 const meta = {
   title: 'Attestations PDF',
-  component: ({ appelOffre, isClasse, periode, typeActionnariat }) => {
-    const data = {
+  component: ({ appelOffre, isClasse, periode }) => {
+    const data: AttestationCandidatureOptions = {
       ...fakeProject(appelOffre, periode),
-      actionnariat: typeActionnariat,
       isClasse,
     };
     return makeCertificate({

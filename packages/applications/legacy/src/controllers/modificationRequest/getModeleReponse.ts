@@ -13,7 +13,7 @@ import { CahierDesCharges, Lauréat, ReprésentantLégal } from '@potentiel-doma
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 import { Option } from '@potentiel-libraries/monads';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
-import { Candidature } from '@potentiel-domain/candidature';
+import { Candidature } from '@potentiel-domain/projet';
 import { logger } from '../../core/utils';
 import { docxContentType, downloadFile } from './_utils/downloadFile';
 import { ReadableStream } from 'stream/web';

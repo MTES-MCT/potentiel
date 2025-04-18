@@ -3,7 +3,7 @@ import Select from '@codegouvfr/react-dsfr/SelectNext';
 import Input from '@codegouvfr/react-dsfr/Input';
 
 import { Iso8601DateTime } from '@potentiel-libraries/iso8601-datetime';
-import { Candidature } from '@potentiel-domain/candidature';
+import { Candidature } from '@potentiel-domain/projet';
 
 import { ValidationErrors } from '@/utils/formAction';
 

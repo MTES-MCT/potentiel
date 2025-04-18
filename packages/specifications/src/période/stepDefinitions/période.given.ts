@@ -1,7 +1,7 @@
 import { Given as EtantDonné } from '@cucumber/cucumber';
 
 import { IdentifiantProjet } from '@potentiel-domain/common';
-import { Candidature } from '@potentiel-domain/candidature';
+import { Candidature } from '@potentiel-domain/projet';
 
 import { PotentielWorld } from '../../potentiel.world';
 import { importerCandidature } from '../../candidature/stepDefinitions/candidature.given';

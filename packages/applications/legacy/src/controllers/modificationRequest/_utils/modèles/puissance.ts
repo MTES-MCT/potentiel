@@ -1,6 +1,6 @@
 import { formatDateForDocument } from '@potentiel-applications/document-builder';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
-import { Candidature } from '@potentiel-domain/candidature';
+import { Candidature } from '@potentiel-domain/projet';
 import { IdentifiantProjet } from '@potentiel-domain/common';
 import { CahierDesCharges, Lauréat, ReprésentantLégal } from '@potentiel-domain/laureat';
 import { formatIdentifiantProjetForDocument } from '../formatIdentifiantProjetForDocument';

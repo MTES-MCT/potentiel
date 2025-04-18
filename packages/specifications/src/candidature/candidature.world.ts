@@ -1,4 +1,4 @@
-import { Candidature } from '@potentiel-domain/candidature';
+import { Candidature } from '@potentiel-domain/projet';
 import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
 import { DocumentProjet } from '@potentiel-domain/document';
 
@@ -114,7 +114,7 @@ export class CandidatureWorld {
       nomProjet: expectedValues.nomProjetValue,
       nomReprésentantLégal: expectedValues.nomReprésentantLégalValue,
       noteTotale: expectedValues.noteTotaleValue,
-      prixReference: expectedValues.prixReferenceValue,
+      prixReference: expectedValues.prixRéférenceValue,
       puissanceALaPointe: expectedValues.puissanceALaPointeValue,
       puissanceProductionAnnuelle: expectedValues.puissanceProductionAnnuelleValue,
       sociétéMère: expectedValues.sociétéMèreValue,

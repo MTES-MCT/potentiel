@@ -1,4 +1,4 @@
-import { LoadAggregate } from '@potentiel-domain/core';
+import { GetProjetAggregateRoot } from '../getProjetAggregateRoot.port';
 
 import {
   ConsulterProjetDependencies,
@@ -8,29 +8,29 @@ import {
   ListerProjetsEligiblesPreuveRecanditureDependencies,
   registerProjetsEligiblesPreuveRecanditureQuery,
 } from './lister/listerProjetsEligiblesPreuveRecanditure.query';
-import { registerImporterCandidatureUseCase } from './importer/importerCandidature.usecase';
-import { registerImporterCandidatureCommand } from './importer/importerCandidature.command';
 import {
   ConsulterCandidatureDependencies,
   registerConsulterCandidatureQuery,
 } from './consulter/consulterCandidature.query';
-import { registerCorrigerCandidatureCommand } from './corriger/corrigerCandidature.command';
-import { registerCorrigerCandidatureUseCase } from './corriger/corrigerCandidature.usecase';
 import {
   ListerCandidaturesQueryDependencies,
   registerListerCandidaturesQuery,
 } from './lister/listerCandidatures.query';
+import { registerImporterCandidatureCommand } from './importer/importerCandidature.command';
+import { registerCorrigerCandidatureCommand } from './corriger/corrigerCandidature.command';
+import { registerCorrigerCandidatureUseCase } from './corriger/corrigerCandidature.usecase';
+import { registerImporterCandidatureUseCase } from './importer/importerCandidature.usecase';
 import { registerNotifierCandidatureCommand } from './notifier/notifierCandidature.command';
 import { registerNotifierCandidatureUseCase } from './notifier/notifierCandidature.usecase';
 
-type CandidatureQueryDependencies = ConsulterProjetDependencies &
+export type CandiatureCommandDependencies = {
+  getProjetAggregateRoot: GetProjetAggregateRoot;
+};
+
+export type CandidatureQueryDependencies = ConsulterProjetDependencies &
   ListerProjetsEligiblesPreuveRecanditureDependencies &
   ConsulterCandidatureDependencies &
   ListerCandidaturesQueryDependencies;
-
-type CandiatureUseCasesDependencies = {
-  loadAggregate: LoadAggregate;
-};
 
 export const registerCandidatureQueries = (dependencies: CandidatureQueryDependencies) => {
   registerConsulterProjetQuery(dependencies);
@@ -39,10 +39,12 @@ export const registerCandidatureQueries = (dependencies: CandidatureQueryDepende
   registerListerCandidaturesQuery(dependencies);
 };
 
-export const registerCandidaturesUseCases = ({ loadAggregate }: CandiatureUseCasesDependencies) => {
-  registerImporterCandidatureCommand(loadAggregate);
-  registerCorrigerCandidatureCommand(loadAggregate);
-  registerNotifierCandidatureCommand(loadAggregate);
+export const registerCandidaturesUseCases = ({
+  getProjetAggregateRoot,
+}: CandiatureCommandDependencies) => {
+  registerImporterCandidatureCommand(getProjetAggregateRoot);
+  registerCorrigerCandidatureCommand(getProjetAggregateRoot);
+  registerNotifierCandidatureCommand(getProjetAggregateRoot);
 
   registerImporterCandidatureUseCase();
   registerCorrigerCandidatureUseCase();

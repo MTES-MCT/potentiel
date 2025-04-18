@@ -3,7 +3,7 @@
 import * as zod from 'zod';
 import { mediator } from 'mediateur';
 
-import { Candidature } from '@potentiel-domain/candidature';
+import { Candidature } from '@potentiel-domain/projet';
 import { Routes } from '@potentiel-applications/routes';
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 
@@ -58,7 +58,7 @@ const mapBodyToUseCaseData = (
     sociétéMèreValue: data.societeMere,
     nomCandidatValue: data.nomCandidat,
     puissanceProductionAnnuelleValue: data.puissanceProductionAnnuelle,
-    prixReferenceValue: data.prixReference,
+    prixRéférenceValue: data.prixReference,
     noteTotaleValue: data.noteTotale,
     nomReprésentantLégalValue: data.nomRepresentantLegal,
     emailContactValue: data.emailContact,

@@ -1,10 +1,11 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { Option } from '@potentiel-libraries/monads';
-import { DateTime, Email, StatutProjet } from '@potentiel-domain/common';
+import { DateTime, Email } from '@potentiel-domain/common';
 
 import { ProjetEntity } from '../projet.entity';
 import * as Technologie from '../typeTechnologie.valueType';
+import { StatutProjet } from '../..';
 
 export type ConsulterProjetReadModel = {
   appelOffre: string;
