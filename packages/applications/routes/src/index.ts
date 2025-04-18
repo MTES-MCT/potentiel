@@ -9,6 +9,7 @@ import {
 } from './lauréat';
 import { Candidature } from './candidature';
 import { Document } from './document';
+import { Fonctionnalité } from './fonctionnalité';
 import { GarantiesFinancières } from './garanties-financières';
 import { Gestionnaire } from './réseau';
 import { Projet } from './projet';
@@ -38,4 +39,5 @@ export const Routes = {
   StatistiquesPubliques,
   Utilisateur,
   Puissance,
+  Fonctionnalité,
 };
