@@ -5,6 +5,9 @@ export const modèleRéponseAbandonFileName = 'abandon-modèle-réponse.docx';
 export type ModèleRéponseAbandon = ModèleRéponse & {
   type: 'abandon';
   data: {
+    dateDemande: string;
+    justificationDemande: string;
+
     status: string;
 
     aprèsConfirmation: boolean;

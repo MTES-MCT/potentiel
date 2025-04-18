@@ -8,6 +8,10 @@ export type RawType = (typeof types)[number];
 export type ValueType = ReadonlyValueType<{
   type: RawType;
   formatter(): RawType;
+  estFinancementCollectif(): boolean;
+  estGouvernancePartagée(): boolean;
+  estFinancementParticipatif(): boolean;
+  estInvestissementParticipatif(): boolean;
 }>;
 
 export const convertirEnValueType = (type: string) => {
@@ -19,6 +23,18 @@ export const convertirEnValueType = (type: string) => {
     },
     estÉgaleÀ(type: ValueType) {
       return this.type === type.type;
+    },
+    estFinancementCollectif() {
+      return this.estÉgaleÀ(financementCollectif);
+    },
+    estGouvernancePartagée() {
+      return this.estÉgaleÀ(gouvernancePartagée);
+    },
+    estFinancementParticipatif() {
+      return this.estÉgaleÀ(financementParticipatif);
+    },
+    estInvestissementParticipatif() {
+      return this.estÉgaleÀ(investissementParticipatif);
     },
   };
 };

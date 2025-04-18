@@ -17,8 +17,6 @@ export type ModèleRéponse = {
     codePostalProjet: string;
     communeProjet: string;
     unitePuissance: string;
-    dateDemande: string;
-    justificationDemande: string;
     dateNotification: string;
   };
 };
