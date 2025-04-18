@@ -31,6 +31,16 @@ Quand(
   },
 );
 
+Quand(
+  `le Gestionnaire de réseau supprime la mise en service du dossier de raccordement`,
+  async function (this: PotentielWorld) {
+    const { identifiantProjet } = this.lauréatWorld;
+    const { référenceDossier } = this.raccordementWorld;
+
+    await supprimerDateMiseEnService.call(this, identifiantProjet, référenceDossier);
+  },
+);
+
 async function transmettreDateMiseEnService(
   this: PotentielWorld,
   identifiantProjet: IdentifiantProjet.ValueType,
@@ -52,6 +62,26 @@ async function transmettreDateMiseEnService(
         dateMiseEnServiceValue: dateMiseEnService,
         transmiseLeValue: DateTime.now().formatter(),
         transmiseParValue: this.utilisateurWorld.grdFixture.email,
+      },
+    });
+  } catch (e) {
+    this.error = e as Error;
+  }
+}
+
+async function supprimerDateMiseEnService(
+  this: PotentielWorld,
+  identifiantProjet: IdentifiantProjet.ValueType,
+  référence: string,
+) {
+  try {
+    await mediator.send<Raccordement.RaccordementUseCase>({
+      type: 'Lauréat.Raccordement.UseCase.SupprimerDateMiseEnService',
+      data: {
+        identifiantProjetValue: identifiantProjet.formatter(),
+        référenceDossierValue: référence,
+        suppriméeLeValue: DateTime.now().formatter(),
+        suppriméeParValue: this.utilisateurWorld.grdFixture.email,
       },
     });
   } catch (e) {

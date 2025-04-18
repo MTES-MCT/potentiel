@@ -79,6 +79,10 @@ import {
   RaccordementSuppriméEvent,
   supprimerRaccordement,
 } from './supprimer/supprimerRaccordement.behavior';
+import {
+  DateMiseEnServiceSuppriméeEvent,
+  supprimerDateMiseEnService,
+} from './supprimer/supprimerDateMiseEnService.behavior';
 
 export type DeprecateEvent =
   | DemandeComplèteRaccordementTransmiseEventV1
@@ -95,6 +99,7 @@ export type RaccordementEvent =
   | PropositionTechniqueEtFinancièreTransmiseEvent
   | DateMiseEnServiceTransmiseV1Event
   | DateMiseEnServiceTransmiseEvent
+  | DateMiseEnServiceSuppriméeEvent
   | DemandeComplèteRaccordementModifiéeEvent
   | RéférenceDossierRacordementModifiéeEvent
   | RéférenceDossierRacordementModifiéeEventV1
@@ -126,6 +131,7 @@ export type RaccordementAggregate = Aggregate<RaccordementEvent> & {
   identifiantGestionnaireRéseau: GestionnaireRéseau.IdentifiantGestionnaireRéseau.ValueType;
   readonly transmettreDemande: typeof transmettreDemande;
   readonly transmettreDateMiseEnService: typeof transmettreDateMiseEnService;
+  readonly supprimerDateMiseEnService: typeof supprimerDateMiseEnService;
   readonly transmettrePropositionTechniqueEtFinancière: typeof transmettrePropositionTechniqueEtFinancière;
   readonly modifierDemandeComplèteRaccordement: typeof modifierDemandeComplèteRaccordement;
   readonly modifierRéférenceDossierRacordement: typeof modifierRéférenceDossierRacordement;
@@ -161,6 +167,7 @@ export const getDefaultRaccordementAggregate: GetDefaultAggregateState<
   attribuerGestionnaireRéseau,
   supprimerDossier,
   supprimerRaccordement,
+  supprimerDateMiseEnService,
   contientLeDossier({ référence }) {
     return this.dossiers.has(référence);
   },
