@@ -108,39 +108,35 @@ export default async function Page({ searchParams }: PageProps) {
           })
         : { items: [] };
 
-    let mailtoAction: UtilisateurListPageProps['mailtoAction'];
-    if (role) {
-      const isFilteredOnPorteur = role === Role.porteur.nom;
-      const isFilteredOnDreal = role === Role.dreal.nom;
-      const isFilteredOnRegion = region !== undefined;
-
-      if (
-        (!isFilteredOnPorteur && !isFilteredOnDreal) ||
-        (isFilteredOnDreal && isFilteredOnRegion)
-      ) {
-        const { items: utilisateursÀContacter } = await mediator.send<ListerUtilisateursQuery>({
-          type: 'Utilisateur.Query.ListerUtilisateurs',
-          data: {
-            roles: [Role.convertirEnValueType(role).nom],
-            identifiantUtilisateur,
-            identifiantGestionnaireRéseau: identifiantGestionnaireReseau,
-            région: region,
-          },
-        });
-
-        mailtoAction = {
-          label: `Contacter ${utilisateursÀContacter.length} ${utilisateursÀContacter.length > 1 ? 'utilisateurs' : 'utilisateur'}`,
-          href: `mailto:${utilisateursÀContacter.map((item) => item.identifiantUtilisateur.email).join(',')}`,
-          iconId: 'fr-icon-mail-line',
-        };
+    const getMailToAction = async (): Promise<
+      UtilisateurListPageProps['mailtoAction'] | undefined
+    > => {
+      if (!role || role === Role.porteur.nom) {
+        return undefined;
       }
-    }
+
+      const { items: utilisateursÀContacter } = await mediator.send<ListerUtilisateursQuery>({
+        type: 'Utilisateur.Query.ListerUtilisateurs',
+        data: {
+          roles: [Role.convertirEnValueType(role).nom],
+          identifiantUtilisateur,
+          identifiantGestionnaireRéseau: identifiantGestionnaireReseau,
+          région: region,
+        },
+      });
+
+      return {
+        label: `Contacter ${utilisateursÀContacter.length} ${utilisateursÀContacter.length > 1 ? 'utilisateurs' : 'utilisateur'}`,
+        href: `mailto:${utilisateursÀContacter.map((item) => item.identifiantUtilisateur.email).join(',')}`,
+        iconId: 'fr-icon-mail-line',
+      };
+    };
 
     return (
       <UtilisateurListPage
         filters={filters}
         list={mapToListProps(utilisateurs, gestionnairesRéseau.items)}
-        mailtoAction={mailtoAction}
+        mailtoAction={await getMailToAction()}
       />
     );
   });
