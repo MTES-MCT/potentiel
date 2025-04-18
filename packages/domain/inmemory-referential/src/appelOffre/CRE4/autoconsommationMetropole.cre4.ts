@@ -319,7 +319,6 @@ Ils doivent faire l’objet d’une information au Préfet dans un délai d’un
     {
       id: '7',
       title: 'septième',
-      noteThreshold: 20.04,
       certificateTemplate: 'cre4.v0',
       cahierDesCharges: {
         référence: '2017/S 054-100223',
@@ -361,7 +360,6 @@ Ils doivent faire l’objet d’une information au Préfet dans un délai d’un
     {
       id: '8',
       title: 'huitième',
-      noteThreshold: 32.04,
       certificateTemplate: 'cre4.v1',
       cahierDesCharges: {
         référence: '2017/S 054-100223',
@@ -403,7 +401,6 @@ Ils doivent faire l’objet d’une information au Préfet dans un délai d’un
     {
       id: '9',
       title: 'neuvième',
-      noteThreshold: 9.9,
       certificateTemplate: 'cre4.v1',
       cahierDesCharges: {
         référence: '2017/S 054-100223',
@@ -445,7 +442,6 @@ Ils doivent faire l’objet d’une information au Préfet dans un délai d’un
     {
       id: '10',
       title: 'dixième',
-      noteThreshold: 44.9,
       certificateTemplate: 'cre4.v1',
       cahierDesCharges: {
         référence: '2017/S 054-100223',

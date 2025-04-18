@@ -156,7 +156,6 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       id: '1',
       title: 'première',
       certificateTemplate: 'ppe2.v1',
-      noteThreshold: 62.5,
       cahierDesCharges: {
         référence: '2021 S 176-457526',
       },
@@ -174,7 +173,6 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       id: '2',
       title: 'deuxième',
       certificateTemplate: 'ppe2.v1',
-      noteThreshold: 66.95,
       cahierDesCharges: {
         référence: '2022 S 038 098159',
       },
@@ -193,7 +191,6 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       title: 'troisième',
       certificateTemplate: 'ppe2.v2',
       logo: 'MEFSIN',
-      noteThreshold: 72.13,
       cahierDesCharges: {
         référence: '2022 S 150-427955',
       },
@@ -212,7 +209,6 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       title: 'quatrième',
       certificateTemplate: 'ppe2.v2',
       logo: 'MEFSIN',
-      noteThreshold: 76.25,
       cahierDesCharges: {
         référence: '2023/S 176-551607',
       },

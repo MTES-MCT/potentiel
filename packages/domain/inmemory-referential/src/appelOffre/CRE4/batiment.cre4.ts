@@ -632,11 +632,6 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
     {
       id: '10',
       title: 'dixième',
-      noteThresholdBy: 'family',
-      noteThreshold: [
-        { familleId: '1', noteThreshold: 27.91 },
-        { familleId: '2', noteThreshold: 25.62 },
-      ],
       certificateTemplate: 'cre4.v0',
       cahierDesCharges: {
         référence: '2016/S 174-312851',
@@ -694,11 +689,6 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
     {
       id: '11',
       title: 'onzième',
-      noteThresholdBy: 'family',
-      noteThreshold: [
-        { familleId: '1', noteThreshold: 30.82 },
-        { familleId: '2', noteThreshold: 29.85 },
-      ],
       certificateTemplate: 'cre4.v1',
       cahierDesCharges: {
         référence: '2016/S 174-312851',
@@ -756,11 +746,6 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
     {
       id: '12',
       title: 'douzième',
-      noteThresholdBy: 'family',
-      noteThreshold: [
-        { familleId: '1', noteThreshold: 33.77 },
-        { familleId: '2', noteThreshold: 32.8 },
-      ],
       certificateTemplate: 'cre4.v1',
       cahierDesCharges: {
         référence: '2016/S 174-312851',
@@ -818,11 +803,6 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
     {
       id: '13',
       title: 'treizième',
-      noteThresholdBy: 'family',
-      noteThreshold: [
-        { familleId: '1', noteThreshold: 22.59 },
-        { familleId: '2', noteThreshold: 26.91 },
-      ],
       certificateTemplate: 'cre4.v1',
       cahierDesCharges: {
         référence: '2016/S 174-312851',

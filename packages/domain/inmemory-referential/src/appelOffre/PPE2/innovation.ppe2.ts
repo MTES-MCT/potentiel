@@ -117,7 +117,6 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
     {
       id: '1',
       title: 'première',
-      type: 'notified',
       certificateTemplate: 'ppe2.v2',
       logo: 'MEFSIN',
       cahierDesCharges: {
@@ -139,11 +138,6 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
           soumisAuxGarantiesFinancieres: 'non soumis',
           puissanceMax: 3,
         },
-      ],
-      noteThresholdBy: 'family',
-      noteThreshold: [
-        { familleId: '1', noteThreshold: 65.05 },
-        { familleId: '2', noteThreshold: 61.76 },
       ],
       cahiersDesChargesModifiésDisponibles: [CDCModifié30082022],
       abandonAvecRecandidature: true,

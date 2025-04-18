@@ -135,7 +135,6 @@ Ces retards sont réputés autorisés sous réserve de pouvoir les justifier aup
       id: '2',
       title: 'deuxième',
       certificateTemplate: 'cre4.v1',
-      noteThreshold: 32.9,
       cahierDesCharges: {
         référence: '2019/S 113-276257',
       },

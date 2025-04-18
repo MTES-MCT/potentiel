@@ -163,25 +163,6 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
         référence: '2019/S 113-276264',
       },
       delaiDcrEnMois: { valeur: 2, texte: 'deux' },
-      noteThresholdBy: 'family',
-      noteThreshold: [
-        { familleId: '1a', territoire: 'Corse', noteThreshold: 53.4 },
-        { familleId: '1a', territoire: 'Guadeloupe', noteThreshold: 56.3 },
-        { familleId: '1a', territoire: 'La Réunion', noteThreshold: 30.6 },
-        { familleId: '1a', territoire: 'Mayotte', noteThreshold: 34.5 },
-        //
-        { familleId: '1b', territoire: 'Corse', noteThreshold: 47.2 },
-        { familleId: '1b', territoire: 'Guadeloupe', noteThreshold: 54.2 },
-        { familleId: '1b', territoire: 'La Réunion', noteThreshold: 61.9 },
-        { familleId: '1b', territoire: 'Mayotte', noteThreshold: 13.1 },
-        //
-        { familleId: '1c', territoire: 'Corse', noteThreshold: 58.2 },
-        { familleId: '1c', territoire: 'Guadeloupe', noteThreshold: 77.1 },
-        { familleId: '1c', territoire: 'Guyane', noteThreshold: 64.1 },
-        { familleId: '1c', territoire: 'La Réunion', noteThreshold: 65.7 },
-        { familleId: '1c', territoire: 'Martinique', noteThreshold: 75.9 },
-        { familleId: '1c', territoire: 'Mayotte', noteThreshold: 19.6 },
-      ],
       familles: [
         // 2017 ZNI avec stockage
         {
@@ -265,24 +246,6 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
         référence: '2019/S 113-276264',
       },
       delaiDcrEnMois: { valeur: 2, texte: 'deux' },
-      noteThresholdBy: 'family',
-      noteThreshold: [
-        { familleId: '2a', territoire: 'Corse', noteThreshold: 42.1 },
-        { familleId: '2a', territoire: 'Guadeloupe', noteThreshold: 47.2 },
-        { familleId: '2a', territoire: 'Guyane', noteThreshold: 18.4 },
-        { familleId: '2a', territoire: 'La Réunion', noteThreshold: 33.3 },
-        { familleId: '2a', territoire: 'Mayotte', noteThreshold: 16 },
-        //
-        { familleId: '2b', territoire: 'Guadeloupe', noteThreshold: 41.7 },
-        { familleId: '2b', territoire: 'Guyane', noteThreshold: 42.4 },
-        { familleId: '2b', territoire: 'La Réunion', noteThreshold: 14.3 },
-        { familleId: '2b', territoire: 'Mayotte', noteThreshold: 24.1 },
-        //
-        { familleId: '2c', territoire: 'Guadeloupe', noteThreshold: 70.4 },
-        { familleId: '2c', territoire: 'Guyane', noteThreshold: 57.6 },
-        { familleId: '2c', territoire: 'La Réunion', noteThreshold: 17.1 },
-        { familleId: '2c', territoire: 'Martinique', noteThreshold: 27.2 },
-      ],
       familles: [
         // 2017 ZNI avec stockage
         {
@@ -366,22 +329,6 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
         référence: '2019/S 113-276264',
       },
       delaiDcrEnMois: { valeur: 2, texte: 'deux' },
-      noteThresholdBy: 'family',
-      noteThreshold: [
-        { familleId: '1a', territoire: 'Corse', noteThreshold: 52.7 },
-        { familleId: '1a', territoire: 'Guadeloupe', noteThreshold: 30.6 },
-        { familleId: '1a', territoire: 'La Réunion', noteThreshold: 29.9 },
-        { familleId: '1a', territoire: 'Martinique', noteThreshold: 18.6 },
-        //
-        { familleId: '1b', territoire: 'Corse', noteThreshold: 40.4 },
-        { familleId: '1b', territoire: 'Guadeloupe', noteThreshold: 35.9 },
-        { familleId: '1b', territoire: 'La Réunion', noteThreshold: 42.9 },
-        { familleId: '1b', territoire: 'Martinique', noteThreshold: 35.9 },
-        //
-        { familleId: '1c', territoire: 'Corse', noteThreshold: 80.7 },
-        { familleId: '1c', territoire: 'Guadeloupe', noteThreshold: 64.1 },
-        { familleId: '1c', territoire: 'La Réunion', noteThreshold: 33.7 },
-      ],
       familles: [
         // 2017 ZNI avec stockage
         {
@@ -465,24 +412,6 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
         référence: '2019/S 113-276264',
       },
       delaiDcrEnMois: { valeur: 2, texte: 'deux' },
-      noteThresholdBy: 'family',
-      noteThreshold: [
-        { familleId: '2a', territoire: 'Corse', noteThreshold: 33.61 },
-        { familleId: '2a', territoire: 'Guadeloupe', noteThreshold: 40.48 },
-        { familleId: '2a', territoire: 'Guyane', noteThreshold: 30.53 },
-        { familleId: '2a', territoire: 'La Réunion', noteThreshold: 41.78 },
-        { familleId: '2a', territoire: 'Martinique', noteThreshold: 29.9 },
-        { familleId: '2a', territoire: 'Mayotte', noteThreshold: 22.65 },
-        //
-        { familleId: '2b', territoire: 'Corse', noteThreshold: 32.15 },
-        { familleId: '2b', territoire: 'Guyane', noteThreshold: 31.64 },
-        { familleId: '2b', territoire: 'La Réunion', noteThreshold: 23.48 },
-        { familleId: '2b', territoire: 'Martinique', noteThreshold: 25.94 },
-        //
-        { familleId: '2c', territoire: 'Guadeloupe', noteThreshold: 44.64 },
-        { familleId: '2c', territoire: 'Guyane', noteThreshold: 62.19 },
-        { familleId: '2c', territoire: 'La Réunion', noteThreshold: 19.93 },
-      ],
       familles: [
         // 2017 ZNI avec stockage
         {
@@ -565,18 +494,7 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
       cahierDesCharges: {
         référence: '2019/S 113-276264',
       },
-      noteThresholdBy: 'family',
       delaiDcrEnMois: { valeur: 2, texte: 'deux' },
-      noteThreshold: [
-        { familleId: '1a', territoire: 'Mayotte', noteThreshold: 49.99 },
-        { familleId: '1a', territoire: 'Guyane', noteThreshold: 30.64 },
-        //
-        { familleId: '1b', territoire: 'Mayotte', noteThreshold: 55.62 },
-        { familleId: '1b', territoire: 'Guyane', noteThreshold: 34.59 },
-        //
-        { familleId: '1c', territoire: 'Mayotte', noteThreshold: 21.4 },
-        { familleId: '1c', territoire: 'Guyane', noteThreshold: 65.52 },
-      ],
       familles: [
         // 2017 ZNI avec stockage
         {
@@ -659,25 +577,7 @@ Des délais supplémentaires, laissés à l’appréciation du Préfet, peuvent 
       cahierDesCharges: {
         référence: '2020/S 202-487521',
       },
-      noteThresholdBy: 'family',
       delaiDcrEnMois: { valeur: 2, texte: 'deux' }, // à confirmer si c'est bien deux mois ici
-      noteThreshold: [
-        { familleId: '2a', territoire: 'Corse', noteThreshold: 46.36 },
-        { familleId: '2b', territoire: 'Corse', noteThreshold: 49.7 },
-        { familleId: '2a ', territoire: 'Guadeloupe', noteThreshold: 45.22 },
-        { familleId: '2b', territoire: 'Guadeloupe', noteThreshold: 34.84 },
-        { familleId: '2a ', territoire: 'Guyane', noteThreshold: 40.29 },
-        { familleId: '2b', territoire: 'Guyane', noteThreshold: 29.38 },
-        { familleId: '2c', territoire: 'Guyane', noteThreshold: 40.45 },
-        { familleId: '2a', territoire: 'Martinique', noteThreshold: 18.6 },
-        { familleId: '2b', territoire: 'Martinique', noteThreshold: 15.24 },
-        { familleId: '2c', territoire: 'Martinique', noteThreshold: 54.18 },
-        { familleId: '2a', territoire: 'Mayotte', noteThreshold: 45.48 },
-        { familleId: '2b', territoire: 'Mayotte', noteThreshold: 45.21 },
-        { familleId: '2a', territoire: 'La Réunion', noteThreshold: 42.59 },
-        { familleId: '2b', territoire: 'La Réunion', noteThreshold: 32.6 },
-        { familleId: '2c', territoire: 'La Réunion', noteThreshold: 24.18 },
-      ],
       familles: [
         // 2017 ZNI avec stockage
         {
