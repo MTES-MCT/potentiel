@@ -35,7 +35,8 @@ export type ChangementPuissanceDemandéEvent = DomainEvent<
 
 export type DemanderOptions = {
   identifiantProjet: IdentifiantProjet.ValueType;
-  puissance: number;
+  nouvellePuissance: number;
+  puissanceInitiale: number;
   raison: string;
   pièceJustificative: DocumentProjet.ValueType;
   identifiantUtilisateur: Email.ValueType;
@@ -53,11 +54,12 @@ export async function demanderChangement(
   this: PuissanceAggregate,
   {
     identifiantUtilisateur,
+    nouvellePuissance,
+    puissanceInitiale,
     dateDemande,
     identifiantProjet,
     pièceJustificative,
     raison,
-    puissance,
     estAbandonné,
     demandeAbandonEnCours,
     estAchevé,
@@ -67,11 +69,11 @@ export async function demanderChangement(
     note,
   }: DemanderOptions,
 ) {
-  if (this.puissance === puissance) {
+  if (this.puissance === nouvellePuissance) {
     throw new PuissanceIdentiqueError();
   }
 
-  if (puissance <= 0) {
+  if (nouvellePuissance <= 0) {
     throw new PuissanceNulleOuNégativeError();
   }
 
@@ -107,14 +109,16 @@ export async function demanderChangement(
   }
   const famille = période.familles.find((f) => f.id === identifiantProjet.famille);
 
+  const ratio = nouvellePuissance / puissanceInitiale;
+
   RatioChangementPuissance.bind({
     appelOffre,
     période,
     famille,
     cahierDesCharges,
-    ratio: puissance / this.puissance,
+    ratio,
     technologie: technologie.type,
-    nouvellePuissance: puissance,
+    nouvellePuissance,
     note,
   }).vérifierQueLaDemandeEstPossible('demande');
 
@@ -122,9 +126,8 @@ export async function demanderChangement(
     type: 'ChangementPuissanceDemandé-V1',
     payload: {
       identifiantProjet: identifiantProjet.formatter(),
-      puissance,
-      autoritéCompétente: AutoritéCompétente.déterminer(puissance / this.puissance)
-        .autoritéCompétente,
+      puissance: nouvellePuissance,
+      autoritéCompétente: AutoritéCompétente.déterminer(ratio).autoritéCompétente,
       pièceJustificative: {
         format: pièceJustificative.format,
       },

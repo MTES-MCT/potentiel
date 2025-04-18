@@ -1,8 +1,9 @@
 import { DomainEvent } from '@potentiel-domain/core';
-import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
+import { DateTime, Email } from '@potentiel-domain/common';
+import { IdentifiantProjet } from '@potentiel-domain/projet';
 
 import { PuissanceAggregate } from '../../puissance.aggregate';
-import { StatutChangementPuissance } from '../..';
+import { AutoritéCompétente, StatutChangementPuissance } from '../..';
 import { DemandeDeChangementInexistanteError } from '../errors';
 
 export type ChangementPuissanceAnnuléEvent = DomainEvent<
@@ -11,6 +12,7 @@ export type ChangementPuissanceAnnuléEvent = DomainEvent<
     annuléLe: DateTime.RawType;
     annuléPar: Email.RawType;
     identifiantProjet: IdentifiantProjet.RawType;
+    autoritéCompétente?: AutoritéCompétente.RawType;
   }
 >;
 
@@ -18,6 +20,7 @@ export type AnnulerOptions = {
   dateAnnulation: DateTime.ValueType;
   identifiantUtilisateur: Email.ValueType;
   identifiantProjet: IdentifiantProjet.ValueType;
+  autoritéCompétente?: AutoritéCompétente.ValueType;
 };
 
 export async function annulerDemandeChangement(
@@ -38,6 +41,7 @@ export async function annulerDemandeChangement(
       identifiantProjet: identifiantProjet.formatter(),
       annuléLe: dateAnnulation.formatter(),
       annuléPar: identifiantUtilisateur.formatter(),
+      autoritéCompétente: this.demande.autoritéCompétente,
     },
   };
 

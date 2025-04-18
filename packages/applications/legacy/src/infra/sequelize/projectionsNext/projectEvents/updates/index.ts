@@ -22,5 +22,3 @@ export * from './onProjectImported';
 export * from './onProjectNotificationDateSet';
 export * from './onProjectNotified';
 export * from './onProjectReimported';
-export * from './onRejetChangementDePuissanceAnnulé';
-export * from './onRejetRecoursAnnulé';

@@ -1,5 +1,6 @@
 import { FC } from 'react';
 import { match } from 'ts-pattern';
+import Tooltip from '@codegouvfr/react-dsfr/Tooltip';
 
 import { DateTime, Email } from '@potentiel-domain/common';
 import { Puissance } from '@potentiel-domain/laureat';
@@ -18,11 +19,13 @@ import { DétailsPuissancePageProps } from './DétailsPuissance.page';
 export type DétailsChangementPuissanceProps = {
   demande: DétailsPuissancePageProps['demande'];
   unitéPuissance: DétailsPuissancePageProps['unitéPuissance'];
+  puissanceInitiale: DétailsPuissancePageProps['puissanceInitiale'];
 };
 
 export const DétailsChangementPuissance: FC<DétailsChangementPuissanceProps> = ({
   demande,
   unitéPuissance,
+  puissanceInitiale,
 }) => {
   const statut = Puissance.StatutChangementPuissance.bind(demande.statut.statut);
 
@@ -70,6 +73,7 @@ export const DétailsChangementPuissance: FC<DétailsChangementPuissanceProps> =
           pièceJustificative={demande.pièceJustificative}
           autoritéCompétente={demande.autoritéCompétente?.autoritéCompétente}
           unitéPuissance={unitéPuissance}
+          puissanceInitiale={puissanceInitiale}
         />
       </>
     </div>
@@ -81,6 +85,7 @@ type ChangementProps = {
   pièceJustificative: DétailsChangementPuissanceProps['demande']['pièceJustificative'];
   nouvellePuissance: DétailsChangementPuissanceProps['demande']['nouvellePuissance'];
   unitéPuissance: DétailsChangementPuissanceProps['unitéPuissance'];
+  puissanceInitiale: DétailsChangementPuissanceProps['puissanceInitiale'];
   autoritéCompétente?: Puissance.AutoritéCompétente.RawType;
 };
 
@@ -90,14 +95,20 @@ const Changement: FC<ChangementProps> = ({
   raison,
   autoritéCompétente,
   unitéPuissance,
+  puissanceInitiale,
 }) => (
   <>
     <Heading5>Détails de la demande initiale</Heading5>
     <div className="flex flex-col gap-2">
-      <div className="flex gap-2">
+      <div className="flex flex-col gap-2">
         <div className="font-semibold whitespace-nowrap">Puissance : </div>
-        <div>
-          {nouvellePuissance} {unitéPuissance}
+        <div className="flex flex-col gap-2">
+          <div>
+            Puissance demandée : {nouvellePuissance} {unitéPuissance}
+          </div>
+          <div>
+            Puissance initiale : {puissanceInitiale} {unitéPuissance}
+          </div>
         </div>
       </div>
       {autoritéCompétente && (
@@ -111,6 +122,14 @@ const Changement: FC<ChangementProps> = ({
               .with('dgec-admin', () => 'DGEC')
               .exhaustive()}
           </div>
+          {autoritéCompétente === 'dgec-admin' && (
+            <Tooltip
+              kind="hover"
+              title={
+                'Cette demande de changement de puissance à la hausse et en dehors de la fourchette prévue aux cahiers des charges est une demande dérogatoire qui n’est pas prévue par les cahiers des charges. Par conséquent, elle fait l’objet d’une instruction par la DGEC.'
+              }
+            />
+          )}
         </div>
       )}
       {raison && (

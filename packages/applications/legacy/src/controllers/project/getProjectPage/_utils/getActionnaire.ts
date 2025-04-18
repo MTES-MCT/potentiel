@@ -17,9 +17,6 @@ export type GetActionnaireAffichageForProjectPage = {
 export type GetActionnaireForProjectPage = {
   nom: string;
   affichage?: GetActionnaireAffichageForProjectPage;
-  demandeEnCours?: {
-    demandéeLe: string;
-  };
 };
 
 type Props = {
@@ -52,9 +49,13 @@ export const getActionnaire = async ({
       if (dateDemandeEnCours) {
         return {
           nom,
-          demandeEnCours: role.aLaPermission('actionnaire.consulterChangement')
+          affichage: role.aLaPermission('actionnaire.consulterChangement')
             ? {
-                demandéeLe: dateDemandeEnCours.formatter(),
+                url: Routes.Actionnaire.changement.détails(
+                  identifiantProjet.formatter(),
+                  dateDemandeEnCours.formatter(),
+                ),
+                projectPageLabel: 'Voir la demande de modification',
               }
             : undefined,
         };
@@ -130,9 +131,7 @@ export const getActionnaire = async ({
       };
     }
 
-    return {
-      nom: '',
-    };
+    return undefined;
   } catch (error) {
     getLogger().error(error);
     return undefined;

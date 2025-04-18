@@ -358,9 +358,7 @@ const Certificate = ({
           }}
         >
           <Text style={{ fontSize: 8 }}>Code Potentiel: {project.potentielId}</Text>
-          <Text style={{ fontSize: 8 }}>
-            Dossier suivi par : {période.dossierSuiviPar || appelOffre.dossierSuiviPar}
-          </Text>
+          <Text style={{ fontSize: 8 }}>Dossier suivi par : {appelOffre.dossierSuiviPar}</Text>
         </View>
         <View style={{ marginTop: 350, paddingHorizontal: 65, marginBottom: 50 }}>
           <Text style={{ fontSize: 10, textAlign: 'justify' }}>Objet : {objet}</Text>

@@ -1,4 +1,3 @@
-import { exceedsRatiosChangementPuissance } from '../../../demandeModification/demandeChangementDePuissance';
 import { NotificationService } from '../..';
 import { logger } from '../../../../core/utils';
 import { UserRepo } from '../../../../dataAccess';
@@ -7,7 +6,6 @@ import {
   GetProjectInfoForModificationReceivedNotification,
   ModificationReceived,
 } from '../../../modificationRequest';
-import { parseCahierDesChargesRéférence } from '../../../../entities';
 import { GetProjectAppelOffre } from '../../../projectAppelOffre';
 
 export const handleModificationReceived =
@@ -26,16 +24,10 @@ export const handleModificationReceived =
         nomProjet,
         porteursProjet,
         evaluationCarboneDeRéférence,
-        puissanceInitiale,
-        cahierDesChargesActuel,
-        technologie,
-        appelOffreId,
-        periodeId,
-        familleId,
       }) => {
         // la saga legacy continue d'émettre des modificationsreceived
         // pour maintenir la frise
-        if (type === 'actionnaire') {
+        if (type === 'actionnaire' || type === 'puissance') {
           return;
         }
 
@@ -96,63 +88,6 @@ export const handleModificationReceived =
               return;
             }
 
-            if (
-              type === 'puissance' &&
-              ['30/08/2022', '30/08/2022-alternatif'].includes(cahierDesChargesActuel)
-            ) {
-              const cahierDesCharges = parseCahierDesChargesRéférence(cahierDesChargesActuel);
-              const appelOffre = deps.getProjectAppelOffres({
-                appelOffreId,
-                periodeId,
-                familleId,
-              });
-              const ratioInitialDépassé = exceedsRatiosChangementPuissance({
-                project: {
-                  cahierDesCharges: { type: 'initial' },
-                  puissanceInitiale,
-                  technologie: technologie,
-                  appelOffre,
-                },
-                nouvellePuissance: event.payload.puissance,
-              });
-              const ratioCDC2022Dépassé = exceedsRatiosChangementPuissance({
-                project: {
-                  cahierDesCharges,
-                  puissanceInitiale,
-                  technologie: technologie,
-                  appelOffre,
-                },
-                nouvellePuissance: event.payload.puissance,
-              });
-
-              if (ratioInitialDépassé && !ratioCDC2022Dépassé) {
-                await Promise.all(
-                  drealUsers.map((drealUser) =>
-                    deps.sendNotification({
-                      type: 'dreal-modification-puissance-cdc-2022',
-                      message: {
-                        email: drealUser.email,
-                        name: drealUser.fullName,
-                        subject: `Potentiel - Nouvelle information de type ${type} enregistrée dans votre département ${departementProjet}`,
-                      },
-                      context: {
-                        modificationRequestId,
-                        projectId,
-                        dreal: region,
-                        userId: drealUser.id,
-                      },
-                      variables: {
-                        nom_projet: nomProjet,
-                        departement_projet: departementProjet,
-                        modification_request_url:
-                          routes.DEMANDE_PAGE_DETAILS(modificationRequestId),
-                      },
-                    }),
-                  ),
-                );
-                return;
-              }
-            }
             await Promise.all(
               drealUsers.map((drealUser) =>
                 deps.sendNotification({

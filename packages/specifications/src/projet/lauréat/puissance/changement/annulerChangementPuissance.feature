@@ -26,6 +26,10 @@ Fonctionnalité: Annuler la demande changement de puissance d'un projet lauréat
             | sujet      | Potentiel - La demande de changement de puissance pour le projet Du boulodrome de Marseille dans le département(.*) a été annulée |
             | nom_projet | Du boulodrome de Marseille                                                                                                        |
             | url        | https://potentiel.beta.gouv.fr/projet/.*/details.html                                                                             |
+        Et un email a été envoyé à la dgec avec :
+            | sujet      | Potentiel - La demande de changement de puissance pour le projet Du boulodrome de Marseille dans le département(.*) a été annulée |
+            | nom_projet | Du boulodrome de Marseille                                                                                                        |
+            | url        | https://potentiel.beta.gouv.fr/projet/.*/details.html                                                                             |
 
     Scénario: Impossible d'annuler la demande de changement de puissance si la demande est inexistante
         Quand le porteur annule la demande de changement de puissance pour le projet lauréat

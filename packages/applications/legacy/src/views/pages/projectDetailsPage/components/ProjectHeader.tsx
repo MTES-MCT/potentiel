@@ -15,7 +15,6 @@ export type ProjectHeaderProps = {
   hasAttestationConformité: boolean;
   peutFaireDemandeChangementReprésentantLégal: boolean;
   actionnaireAffichage?: GetActionnaireAffichageForProjectPage;
-  peutDemanderChangementPuissanceV2: boolean;
 };
 
 export const ProjectHeader = ({
@@ -27,7 +26,6 @@ export const ProjectHeader = ({
   hasAttestationConformité,
   peutFaireDemandeChangementReprésentantLégal,
   actionnaireAffichage,
-  peutDemanderChangementPuissanceV2,
 }: ProjectHeaderProps) => (
   <div className="w-full pt-3 md:pt-0 print:pt-0 lg:flex justify-between gap-2">
     <div className="pl-3 print:pl-0 mb-3 text-sm">
@@ -61,7 +59,6 @@ export const ProjectHeader = ({
         hasAttestationConformité={hasAttestationConformité}
         peutFaireDemandeChangementReprésentantLégal={peutFaireDemandeChangementReprésentantLégal}
         actionnaireAffichage={actionnaireAffichage}
-        peutDemanderChangementPuissanceV2={peutDemanderChangementPuissanceV2}
       />
     </div>
   </div>

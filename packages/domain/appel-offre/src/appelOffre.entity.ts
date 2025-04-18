@@ -1,5 +1,7 @@
 import { Entity } from '@potentiel-domain/entity';
 
+import { DateParutionCahierDesChargesModifié } from './RéférenceCahierDesCharges.valueType';
+
 type AppelOffreTypes =
   | 'autoconso'
   | 'batiment'
@@ -14,6 +16,12 @@ type Ratios = {
   min: number;
   max: number;
 };
+
+const emailsDGEC = [
+  'aoeolien@developpement-durable.gouv.fr',
+  'aopv.dgec@developpement-durable.gouv.fr',
+] as const;
+type EmailDGEC = (typeof emailsDGEC)[number];
 
 type ChangementPuissance = { paragrapheAlerte?: string } & (
   | {
@@ -68,22 +76,6 @@ export type DélaiApplicable = {
   délaiEnMois: number;
   intervaleDateMiseEnService: { min: string; max: string };
 };
-
-export const cahiersDesChargesRéférences = [
-  'initial',
-  '30/07/2021',
-  '30/08/2022',
-  '30/08/2022-alternatif',
-  '07/02/2023',
-  '07/02/2023-alternatif',
-] as const;
-
-export type CahierDesChargesRéférence = (typeof cahiersDesChargesRéférences)[number];
-
-const datesParutionCahiersDesChargesModifiés = ['30/07/2021', '30/08/2022', '07/02/2023'] as const;
-
-export type DateParutionCahierDesChargesModifié =
-  (typeof datesParutionCahiersDesChargesModifiés)[number];
 
 export type CahierDesChargesModifié = {
   type: 'modifié';
@@ -194,7 +186,6 @@ export type Periode = {
     valeur: number;
     texte: string;
   };
-  dossierSuiviPar?: string;
   garantieFinanciereEnMoisSansAutorisationEnvironnementale?: number;
   cahiersDesChargesModifiésDisponibles: ReadonlyArray<CahierDesChargesModifié>;
   abandonAvecRecandidature?: true;
@@ -260,7 +251,7 @@ export type AppelOffreReadModel = {
   tarifOuPrimeRetenueAlt: string;
   afficherValeurEvaluationCarbone: boolean;
   afficherPhraseRegionImplantation: boolean;
-  dossierSuiviPar: string;
+  dossierSuiviPar: EmailDGEC;
   periodes: Periode[];
   renvoiSoumisAuxGarantiesFinancieres?: string;
   changementPuissance: ChangementPuissance;

@@ -55,7 +55,7 @@ export const registerEnregistrerChangementPuissanceUseCase = () => {
       data: {
         identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjetValue),
         identifiantUtilisateur: Email.convertirEnValueType(identifiantUtilisateurValue),
-        puissance: puissanceValue,
+        nouvellePuissance: puissanceValue,
         dateChangement: DateTime.convertirEnValueType(dateChangementValue),
         pièceJustificative,
         raison: raisonValue,

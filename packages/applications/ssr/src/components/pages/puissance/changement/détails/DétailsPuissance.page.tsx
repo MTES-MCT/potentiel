@@ -26,6 +26,7 @@ export type ChangementPuissanceActions = 'annuler' | 'demander' | 'accorder' | '
 export type DétailsPuissancePageProps = {
   identifiantProjet: PlainType<IdentifiantProjet.ValueType>;
   demande: PlainType<Puissance.ConsulterChangementPuissanceReadModel['demande']>;
+  puissanceInitiale: number;
   unitéPuissance: AppelOffre.ConsulterAppelOffreReadModel['unitePuissance'];
   actions: Array<ChangementPuissanceActions>;
   demandeEnCoursDate?: string;
@@ -36,6 +37,7 @@ export const DétailsPuissancePage: FC<DétailsPuissancePageProps> = ({
   identifiantProjet,
   demande,
   unitéPuissance,
+  puissanceInitiale,
   actions,
   demandeEnCoursDate,
   historique,
@@ -53,7 +55,11 @@ export const DétailsPuissancePage: FC<DétailsPuissancePageProps> = ({
               demandeEnCoursDate={demandeEnCoursDate}
             />
           )}
-          <DétailsChangementPuissance demande={demande} unitéPuissance={unitéPuissance} />
+          <DétailsChangementPuissance
+            demande={demande}
+            unitéPuissance={unitéPuissance}
+            puissanceInitiale={puissanceInitiale}
+          />
           <div className="mb-4">
             <Heading2>Historique</Heading2>
             <HistoriquePuissanceTimeline historique={historique} unitéPuissance={unitéPuissance} />

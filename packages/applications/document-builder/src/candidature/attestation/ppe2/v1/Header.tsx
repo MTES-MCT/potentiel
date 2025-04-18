@@ -9,7 +9,7 @@ type HeaderProps = {
   imagesRootPath: string;
 };
 export const Header = ({ project, imagesRootPath }: HeaderProps) => {
-  const { appelOffre, période } = project;
+  const { appelOffre } = project;
 
   return (
     <>
@@ -38,7 +38,7 @@ export const Header = ({ project, imagesRootPath }: HeaderProps) => {
 
         <View style={{ fontSize: 8 }}>
           <Text>Code Potentiel: {project.potentielId}</Text>
-          <Text>Dossier suivi par : {période.dossierSuiviPar || appelOffre.dossierSuiviPar}</Text>
+          <Text>Dossier suivi par : {appelOffre.dossierSuiviPar}</Text>
         </View>
 
         <View style={{ textAlign: 'right', paddingTop: 20 }}>

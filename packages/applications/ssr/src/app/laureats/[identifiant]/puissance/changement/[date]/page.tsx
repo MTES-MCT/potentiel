@@ -18,6 +18,7 @@ import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 import { PuissanceHistoryRecord } from '@/components/pages/puissance/changement/détails/timeline';
 import { getPériodeAppelOffres } from '@/app/_helpers/getPériodeAppelOffres';
+import { getCandidature } from '@/app/candidatures/_helpers/getCandidature';
 
 export const metadata: Metadata = {
   title: 'Détail de la puissance du projet - Potentiel',
@@ -66,6 +67,8 @@ export default async function Page({ params: { identifiant, date } }: PageProps)
         return notFound();
       }
 
+      const candidature = await getCandidature(identifiantProjet.formatter());
+
       const historique = await mediator.send<
         Historique.ListerHistoriqueProjetQuery<PuissanceHistoryRecord>
       >({
@@ -80,6 +83,7 @@ export default async function Page({ params: { identifiant, date } }: PageProps)
         <DétailsPuissancePage
           identifiantProjet={mapToPlainObject(identifiantProjet)}
           demande={mapToPlainObject(changement.demande)}
+          puissanceInitiale={candidature.puissanceProductionAnnuelle}
           unitéPuissance={unitePuissance}
           historique={mapToPlainObject(historique)}
           actions={mapToActions(

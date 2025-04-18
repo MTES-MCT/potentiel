@@ -32,12 +32,14 @@ export const DemanderChangementPuissanceForm: FC<DemanderChangementPuissanceForm
   cahierDesCharges,
   note,
   unitéPuissance,
+  puissanceInitiale,
 }) => {
   const [validationErrors, setValidationErrors] = useState<
     ValidationErrors<DemanderChangementPuissanceFormKeys>
   >({});
   const [piècesJustificatives, setPiècesJustificatives] = useState<Array<string>>([]);
   const [nouvellePuissance, setNouvellePuissance] = useState<number>(puissance);
+  const ratio = nouvellePuissance / puissanceInitiale;
 
   const ratioValueType = Puissance.RatioChangementPuissance.bind({
     appelOffre,
@@ -45,7 +47,7 @@ export const DemanderChangementPuissanceForm: FC<DemanderChangementPuissanceForm
     famille,
     cahierDesCharges,
     technologie,
-    ratio: nouvellePuissance / puissance,
+    ratio,
     nouvellePuissance,
     note,
   });
@@ -55,14 +57,12 @@ export const DemanderChangementPuissanceForm: FC<DemanderChangementPuissanceForm
     ratioValueType.dépasseRatiosChangementPuissance().enDeçaDeMin;
   const dépassePuissanceMaxDuVolumeRéservé = ratioValueType.dépassePuissanceMaxDuVolumeRéservé();
   const dépassePuissanceMaxFamille = ratioValueType.dépassePuissanceMaxFamille();
-  const fourchetteRatioInitialEtCDC2022AlertMessage =
-    cahierDesCharges.type === 'modifié'
-      ? cahierDesCharges.seuilSupplémentaireChangementPuissance?.paragrapheAlerte
-      : undefined;
-  const dépasseRatiosChangementPuissanceDuCahierDesChargesInitial =
-    ratioValueType.dépasseRatiosChangementPuissanceDuCahierDesChargesInitial();
-  const aChoisiCDC2022 =
-    cahierDesCharges.type === 'modifié' && cahierDesCharges.paruLe === '30/08/2022';
+
+  const ratioHintText = isNaN(nouvellePuissance)
+    ? "Aucune valeur n'est encore renseignée"
+    : ratio === 1
+      ? 'La valeur est identique à la puissance actuelle'
+      : `Ceci correspond à ${ratio > 1 ? 'une augmentation' : 'une diminution'} de ${Math.round(Math.abs(100 - ratio * 100))}% par rapport à la puissance initiale du projet`;
 
   return (
     <Form
@@ -110,7 +110,8 @@ export const DemanderChangementPuissanceForm: FC<DemanderChangementPuissanceForm
           <Input
             state={validationErrors['puissance'] ? 'error' : 'default'}
             stateRelatedMessage={validationErrors['puissance']}
-            label="Puissance (en MWc)"
+            label={`Puissance (en ${unitéPuissance})`}
+            hintText={ratioHintText}
             nativeInputProps={{
               name: 'puissance',
               defaultValue: puissance,
@@ -127,17 +128,17 @@ export const DemanderChangementPuissanceForm: FC<DemanderChangementPuissanceForm
             dépasseLesRatioDeAppelOffres={dépasseLesRatioDeAppelOffres}
             dépassePuissanceMaxDuVolumeRéservé={dépassePuissanceMaxDuVolumeRéservé}
             dépassePuissanceMaxFamille={dépassePuissanceMaxFamille}
-            dépasseRatiosChangementPuissanceDuCahierDesChargesInitial={
-              dépasseRatiosChangementPuissanceDuCahierDesChargesInitial
+            dépasseRatiosChangementPuissanceDuCahierDesChargesInitial={ratioValueType.dépasseRatiosChangementPuissanceDuCahierDesChargesInitial()}
+            aChoisiCDC2022={
+              cahierDesCharges.type === 'modifié' && cahierDesCharges.paruLe === '30/08/2022'
             }
-            aChoisiCDC2022={aChoisiCDC2022}
             fourchetteRatioInitialEtCDC2022AlertMessage={
-              fourchetteRatioInitialEtCDC2022AlertMessage
+              cahierDesCharges.type === 'modifié'
+                ? cahierDesCharges.seuilSupplémentaireChangementPuissance?.paragrapheAlerte
+                : undefined
             }
             unitéPuissance={unitéPuissance}
-            puissanceMaxVoluméRéservé={
-              ratioValueType.récupérerVolumeRéservéPuissanceMax()?.puissanceMax
-            }
+            puissanceMaxVoluméRéservé={ratioValueType.récupérerPuissanceMaxVolumeRéservé()}
             puissanceMaxFamille={ratioValueType.récupérerPuissanceMaxFamille()}
             ratioAppelOffre={{
               min: ratioValueType.récupérerRatiosChangementPuissance().minRatio,

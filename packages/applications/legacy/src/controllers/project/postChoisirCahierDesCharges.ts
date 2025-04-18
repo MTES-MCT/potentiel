@@ -27,8 +27,8 @@ const schema = yup.object({
       .oneOf(['actionnaire', 'fournisseur', 'producteur', 'puissance', 'recours', 'delai'])
       .optional(),
     choixCDC: yup
-      .mixed<AppelOffre.CahierDesChargesRéférence>()
-      .oneOf(AppelOffre.cahiersDesChargesRéférences.slice())
+      .mixed<AppelOffre.RéférenceCahierDesCharges.RawType>()
+      .oneOf(AppelOffre.RéférenceCahierDesCharges.références.slice())
       .required(),
     identifiantGestionnaireRéseau: yup.string().optional(),
     codeEICGestionnaireRéseau: yup.string().optional(),

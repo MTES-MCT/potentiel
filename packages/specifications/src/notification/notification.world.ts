@@ -7,7 +7,13 @@ export class NotificationWorld {
   #notifications: EmailPayload[] = [];
 
   ajouterNotification(notification: EmailPayload) {
-    this.#notifications.push(notification);
+    for (const recipient of notification.recipients) {
+      const notificationToAdd = {
+        ...notification,
+        recipients: [recipient],
+      };
+      this.#notifications.push(notificationToAdd);
+    }
   }
 
   récupérerNotification(emailValue: string, sujet?: string) {

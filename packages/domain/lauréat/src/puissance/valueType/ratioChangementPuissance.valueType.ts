@@ -10,7 +10,7 @@ import {
   dépasseRatiosChangementPuissance,
   getRatiosChangementPuissance,
 } from './helpers';
-import { récupérerVolumeRéservé } from './helpers/récupérerVolumeRéservé';
+import { récupérerPuissanceMaxVolumeRéservé } from './helpers/récupérerPuissanceMaxVolumeRéservé';
 
 export type RawType = number;
 
@@ -29,7 +29,7 @@ export type ValueType = ReadonlyValueType<{
   dépassePuissanceMaxFamille: () => ReturnType<typeof dépassePuissanceMaxFamille>;
   dépasseRatiosChangementPuissanceDuCahierDesChargesInitial: () => boolean;
   récupérerRatiosChangementPuissance: () => { minRatio: number; maxRatio: number };
-  récupérerVolumeRéservéPuissanceMax: () => ReturnType<typeof récupérerVolumeRéservé>;
+  récupérerPuissanceMaxVolumeRéservé: () => ReturnType<typeof récupérerPuissanceMaxVolumeRéservé>;
   récupérerPuissanceMaxFamille: () => number | undefined;
 }>;
 
@@ -118,8 +118,8 @@ export const bind = ({
       });
       return { minRatio: min, maxRatio: max };
     },
-    récupérerVolumeRéservéPuissanceMax() {
-      return récupérerVolumeRéservé({ période });
+    récupérerPuissanceMaxVolumeRéservé() {
+      return récupérerPuissanceMaxVolumeRéservé({ période });
     },
     récupérerPuissanceMaxFamille() {
       return famille?.puissanceMax;
@@ -149,24 +149,30 @@ export const bind = ({
 
 class PuissanceDépassePuissanceMaxAO extends DomainError {
   constructor() {
-    super("La puissance dépasse la puissance maximale autorisée par l'appel d'offres");
+    super(
+      "La nouvelle puissance ne peut dépasser la puissance maximale autorisée par l'appel d'offre",
+    );
   }
 }
 
 class PuissanceEnDeçaPuissanceMinAO extends DomainError {
   constructor() {
-    super("La puissance est en deça de la puissance minimale autorisée par l'appel d'offres");
+    super(
+      "La puissance ne peut être en deça de la puissance minimale autorisée par l'appel d'offre",
+    );
   }
 }
 
 class PuissanceDépassePuissanceMaxFamille extends DomainError {
   constructor() {
-    super("La puissance dépasse la puissance maximale de la famille de l'appel d'offre");
+    super(
+      "La nouvelle puissance ne peut pas dépasser la puissance maximale de la famille de l'appel d'offre",
+    );
   }
 }
 
 class PuissanceDépasseVolumeRéservéAO extends DomainError {
   constructor() {
-    super("La puissance dépasse le volume réservé de l'appel d'offre");
+    super('La nouvelle puissance ne peut pas dépasser la puissance maximale du volume réservé');
   }
 }

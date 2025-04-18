@@ -4,6 +4,4 @@ export * from './DemandeDetails';
 export * from './DemandeStatus';
 export * from './DownloadResponseTemplate';
 export * from './ProducteurForm';
-export * from './PuissanceForm';
 export * from './UploadResponseFile';
-export * from './PuissanceALaHausseInfoBox';
