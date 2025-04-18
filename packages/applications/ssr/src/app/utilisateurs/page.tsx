@@ -108,10 +108,35 @@ export default async function Page({ searchParams }: PageProps) {
           })
         : { items: [] };
 
+    const getMailToAction = async (): Promise<
+      UtilisateurListPageProps['mailtoAction'] | undefined
+    > => {
+      if (!role || role === Role.porteur.nom) {
+        return undefined;
+      }
+
+      const { items: utilisateursÀContacter } = await mediator.send<ListerUtilisateursQuery>({
+        type: 'Utilisateur.Query.ListerUtilisateurs',
+        data: {
+          roles: [Role.convertirEnValueType(role).nom],
+          identifiantUtilisateur,
+          identifiantGestionnaireRéseau: identifiantGestionnaireReseau,
+          région: region,
+        },
+      });
+
+      return {
+        label: `Contacter ${utilisateursÀContacter.length} ${utilisateursÀContacter.length > 1 ? 'utilisateurs' : 'utilisateur'}`,
+        href: `mailto:${utilisateursÀContacter.map((item) => item.identifiantUtilisateur.email).join(',')}`,
+        iconId: 'fr-icon-mail-line',
+      };
+    };
+
     return (
       <UtilisateurListPage
         filters={filters}
         list={mapToListProps(utilisateurs, gestionnairesRéseau.items)}
+        mailtoAction={await getMailToAction()}
       />
     );
   });

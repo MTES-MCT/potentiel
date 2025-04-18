@@ -15,11 +15,13 @@ export type UtilisateurListPageProps = {
     itemsPerPage: number;
   };
   filters: ListPageTemplateProps<typeof UtilisateurListItem>['filters'];
+  mailtoAction?: LinkActionProps;
 };
 
 export const UtilisateurListPage: FC<UtilisateurListPageProps> = ({
   list: { items, currentPage, totalItems, itemsPerPage },
   filters,
+  mailtoAction,
 }) => {
   const actions: LinkActionProps[] = [
     {
@@ -27,13 +29,11 @@ export const UtilisateurListPage: FC<UtilisateurListPageProps> = ({
       href: Routes.Utilisateur.inviter,
     },
   ];
-  if (totalItems > 0 && totalItems < 30) {
-    actions.push({
-      label: `Contacter ${totalItems} ${totalItems > 1 ? 'utilisateurs' : 'utilisateur'}`,
-      href: `mailto:${items.map((item) => item.utilisateur.identifiantUtilisateur.email).join(',')}`,
-      iconId: 'fr-icon-mail-line',
-    });
+
+  if (mailtoAction) {
+    actions.push(mailtoAction);
   }
+
   return (
     <ListPageTemplate
       heading="Utilisateurs"
