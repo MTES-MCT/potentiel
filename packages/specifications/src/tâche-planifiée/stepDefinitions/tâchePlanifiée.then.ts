@@ -89,8 +89,6 @@ Alors(
 
       const actualTâche = await recupérerTâche(actualTypeTâche, identifiantProjet);
 
-      console.log(actualTypeTâche);
-
       expect(actualTâche).to.be.undefined;
     });
   },
