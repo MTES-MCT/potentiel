@@ -5,8 +5,9 @@ import { match } from 'ts-pattern';
 // Workspaces
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
+import { AnnulerTâchePlanifiéeCommand } from '@potentiel-domain/tache-planifiee';
 
-import { TypeReprésentantLégal } from '../..';
+import { TypeReprésentantLégal, TypeTâchePlanifiéeChangementReprésentantLégal } from '../..';
 import { SupprimerDocumentProjetSensibleCommand } from '../supprimerDocumentSensible/supprimerDocumentProjetSensible.command';
 
 import { AccorderChangementReprésentantLégalCommand } from './accorderChangementReprésentantLégal.command';
@@ -68,6 +69,24 @@ export const registerAccorderChangementReprésentantLégalUseCase = () => {
       data: {
         identifiantProjet,
         raison: 'Pièce justificative supprimée automatiquement après annulation',
+      },
+    });
+
+    await mediator.send<AnnulerTâchePlanifiéeCommand>({
+      type: 'System.TâchePlanifiée.Command.AnnulerTâchePlanifiée',
+      data: {
+        identifiantProjet,
+        typeTâchePlanifiée:
+          TypeTâchePlanifiéeChangementReprésentantLégal.gestionAutomatiqueDemandeChangement.type,
+      },
+    });
+
+    await mediator.send<AnnulerTâchePlanifiéeCommand>({
+      type: 'System.TâchePlanifiée.Command.AnnulerTâchePlanifiée',
+      data: {
+        identifiantProjet,
+        typeTâchePlanifiée:
+          TypeTâchePlanifiéeChangementReprésentantLégal.rappelInstructionÀDeuxMois.type,
       },
     });
   };

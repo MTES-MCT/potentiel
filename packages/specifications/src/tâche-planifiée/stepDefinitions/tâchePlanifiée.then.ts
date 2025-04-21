@@ -79,3 +79,19 @@ Alors(
     });
   },
 );
+
+Alors(
+  `une tâche {string} n'est plus planifiée pour le projet lauréat`,
+  async function (this: PotentielWorld, typeTâche: TypeTâchePlanifiée) {
+    await waitForExpect(async () => {
+      const actualTypeTâche = this.tâchePlanifiéeWorld.rechercherTypeTâchePlanifiée(typeTâche).type;
+      const { identifiantProjet } = this.lauréatWorld;
+
+      const actualTâche = await recupérerTâche(actualTypeTâche, identifiantProjet);
+
+      console.log(actualTypeTâche);
+
+      expect(actualTâche).to.be.undefined;
+    });
+  },
+);
