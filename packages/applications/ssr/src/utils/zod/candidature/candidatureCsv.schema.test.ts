@@ -224,7 +224,7 @@ describe('Schema candidature', () => {
         type: 'number',
         inclusive: false,
         exact: false,
-        message: 'Number must be greater than 0',
+        message: 'Le champ doit être un nombre positif',
         path: ['puissance_production_annuelle'],
       });
     });
