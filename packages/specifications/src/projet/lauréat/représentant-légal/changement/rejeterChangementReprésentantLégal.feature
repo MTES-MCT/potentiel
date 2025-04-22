@@ -15,6 +15,8 @@ Fonctionnalité: Rejeter la demande de changement de représentant légal d'un p
             | nom_projet | Du boulodrome de Marseille                                                                                                                   |
             | url        | https://potentiel.beta.gouv.fr/projet/.*/details.html                                                                                        |
             | type       | rejet                                                                                                                                        |
+        Et une tâche "gestion automatique de la demande de changement de représentant légal" n'est plus planifiée pour le projet lauréat
+        Et une tâche "rappel d'instruction de la demande de changement de représentant légal à deux mois" n'est plus planifiée pour le projet lauréat
 
         Exemples:
             | l'utilisateur autorisé      |
