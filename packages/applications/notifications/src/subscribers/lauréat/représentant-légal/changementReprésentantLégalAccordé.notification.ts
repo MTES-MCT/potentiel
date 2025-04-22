@@ -8,6 +8,8 @@ import { listerDrealsRecipients } from '../../../helpers/listerDrealsRecipients'
 
 import { RegisterReprésentantLégalNotificationDependencies } from '.';
 
+import { représentantLégalNotificationTemplateId } from './constant';
+
 type ChangementReprésentantLégalAccordéNotificationProps = {
   sendEmail: RegisterReprésentantLégalNotificationDependencies['sendEmail'];
   event: ReprésentantLégal.ChangementReprésentantLégalAccordéEvent;
@@ -37,19 +39,25 @@ export const changementReprésentantLégalAccordéNotification = async ({
     return;
   }
 
-  if (event.payload.accordAutomatique) {
-    await sendEmail({
-      templateId: 6582166,
-      messageSubject: `Potentiel - La demande de modification du représentant légal pour le projet ${projet.nom} dans le département ${projet.département} a été accordée`,
-      recipients: porteurs,
-      variables: {
-        type: 'accord',
-        nom_projet: projet.nom,
-        departement_projet: projet.département,
-        url: `${baseUrl}${Routes.Projet.details(identifiantProjet.formatter())}`,
-      },
-    });
+  const templateIdMailPorteur = event.payload.avecCorrection
+    ? représentantLégalNotificationTemplateId.changement.accord.avecCorrection
+    : représentantLégalNotificationTemplateId.changement.accord.sansCorrection;
+  const mailSubjectMailPorteur = event.payload.avecCorrection
+    ? `Potentiel - Correction et accord de la demande de modification du représentant légal pour le projet ${projet.nom} dans le département ${projet.département}`
+    : `Potentiel - La demande de modification du représentant légal pour le projet ${projet.nom} dans le département ${projet.département} a été accordée`;
 
+  await sendEmail({
+    templateId: templateIdMailPorteur,
+    messageSubject: mailSubjectMailPorteur,
+    recipients: porteurs,
+    variables: {
+      nom_projet: projet.nom,
+      departement_projet: projet.département,
+      url: `${baseUrl}${Routes.Projet.details(identifiantProjet.formatter())}`,
+    },
+  });
+
+  if (event.payload.accordAutomatique) {
     const dreals = await listerDrealsRecipients(projet.région);
 
     if (dreals.length === 0) {
@@ -62,7 +70,7 @@ export const changementReprésentantLégalAccordéNotification = async ({
     }
 
     return sendEmail({
-      templateId: 6611643,
+      templateId: représentantLégalNotificationTemplateId.changement.accordOuRejetAutomatique,
       messageSubject: `Potentiel - La demande de modification du représentant légal pour le projet ${projet.nom} dans le département ${projet.département} a été accordée automatiquement`,
       recipients: dreals,
       variables: {
@@ -73,29 +81,4 @@ export const changementReprésentantLégalAccordéNotification = async ({
       },
     });
   }
-
-  if (event.payload.avecCorrection) {
-    return sendEmail({
-      templateId: 6661131,
-      messageSubject: `Potentiel - Correction et accord de la demande de modification du représentant légal pour le projet ${projet.nom} dans le département ${projet.département}`,
-      recipients: porteurs,
-      variables: {
-        nom_projet: projet.nom,
-        departement_projet: projet.département,
-        url: `${baseUrl}${Routes.Projet.details(identifiantProjet.formatter())}`,
-      },
-    });
-  }
-
-  return sendEmail({
-    templateId: 6582166,
-    messageSubject: `Potentiel - La demande de modification du représentant légal pour le projet ${projet.nom} dans le département ${projet.département} a été accordée`,
-    recipients: porteurs,
-    variables: {
-      type: 'accord',
-      nom_projet: projet.nom,
-      departement_projet: projet.département,
-      url: `${baseUrl}${Routes.Projet.details(identifiantProjet.formatter())}`,
-    },
-  });
 };
