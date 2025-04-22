@@ -86,7 +86,7 @@ export default async function Page({ searchParams }: PageProps) {
         },
       ];
 
-      if (utilisateur.role.estDGEC()) {
+      if (utilisateur.role.estDGEC() || utilisateur.role.estDREAL()) {
         filters.push({
           label: 'Autorité instructrice',
           searchParamKey: 'autoriteInstructrice',
