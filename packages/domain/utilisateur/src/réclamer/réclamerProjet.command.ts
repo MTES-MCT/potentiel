@@ -32,7 +32,7 @@ export const registerRéclamerProjetCommand = (
     numéroCRE,
   }) => {
     const utilisateur = await loadUtilisateur(identifiantUtilisateur, false);
-    const candidature = (await getProjetAggregateRoot(identifiantProjet)).candidature;
+    const { candidature } = await getProjetAggregateRoot(identifiantProjet);
     candidature.vérifierQueLaCandidatureExiste();
 
     await utilisateur.réclamer({

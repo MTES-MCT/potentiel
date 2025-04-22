@@ -47,8 +47,7 @@ export const registerEnregistrerChangementActionnaireCommand = (
     // quickwin : nous passons ici par un appel à l'agrégat candidature au lieu de projet
     // cela devrait être repris quand les types d'actionnariat seront migrés dans l'aggregat Actionnaire
     // Par ailleurs les données sont les mêmes à date (janv 2025)
-    const projet = await getProjetAggregateRoot(identifiantProjet);
-    const candidature = projet.candidature;
+    const { candidature } = await getProjetAggregateRoot(identifiantProjet);
     candidature.vérifierQueLaCandidatureExiste();
 
     const estParticipatif =

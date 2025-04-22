@@ -42,8 +42,7 @@ export const registerEnregistrerChangementPuissanceCommand = (
     const puissanceAggrégat = await loadPuissance(identifiantProjet);
     const abandon = await loadAbandon(identifiantProjet, false);
     const achèvement = await loadAchèvement(identifiantProjet, false);
-    const projet = await getProjetAggregateRoot(identifiantProjet);
-    const candidature = projet.candidature;
+    const { candidature } = await getProjetAggregateRoot(identifiantProjet);
     candidature.vérifierQueLaCandidatureExiste();
 
     // Après migration aggregate root, à remplacer
