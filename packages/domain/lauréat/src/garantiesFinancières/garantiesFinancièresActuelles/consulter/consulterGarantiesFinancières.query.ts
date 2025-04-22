@@ -5,7 +5,7 @@ import { IdentifiantProjet, DateTime, Email } from '@potentiel-domain/common';
 import { DocumentProjet } from '@potentiel-domain/document';
 import { Find } from '@potentiel-domain/entity';
 import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
-import { Candidature } from '@potentiel-domain/candidature';
+import { Candidature } from '@potentiel-domain/projet';
 
 import { GarantiesFinancièresEntity } from '../garantiesFinancièresActuelles.entity';
 import { StatutGarantiesFinancières, TypeDocumentGarantiesFinancières } from '../..';

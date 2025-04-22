@@ -8,7 +8,7 @@ import { match } from 'ts-pattern';
 
 import { Puissance } from '@potentiel-domain/laureat';
 import { listProjection } from '@potentiel-infrastructure/pg-projection-read';
-import { Candidature } from '@potentiel-domain/candidature';
+import { Candidature } from '@potentiel-domain/projet';
 import { executeSelect, killPool } from '@potentiel-libraries/pg-helpers';
 import { DateTime, Email } from '@potentiel-domain/common';
 import { publish } from '@potentiel-infrastructure/pg-event-sourcing';

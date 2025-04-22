@@ -1,6 +1,6 @@
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 import { DomainEvent } from '@potentiel-domain/core';
-import { Candidature } from '@potentiel-domain/candidature';
+import { Candidature } from '@potentiel-domain/projet';
 import { TâchePlanifiéeAggregate } from '@potentiel-domain/tache-planifiee';
 
 import { StatutGarantiesFinancières } from '../..';

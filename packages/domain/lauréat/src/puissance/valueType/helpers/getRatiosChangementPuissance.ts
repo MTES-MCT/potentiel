@@ -1,4 +1,4 @@
-import { Candidature } from '@potentiel-domain/candidature';
+import { Candidature } from '@potentiel-domain/projet';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { PlainType } from '@potentiel-domain/core';
 

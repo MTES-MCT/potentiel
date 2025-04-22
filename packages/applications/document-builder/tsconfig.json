@@ -13,9 +13,6 @@
       "path": "../../domain/appel-offre"
     },
     {
-      "path": "../../domain/candidature"
-    },
-    {
       "path": "../../domain/projet"
     },
     {

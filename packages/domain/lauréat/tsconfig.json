@@ -9,9 +9,6 @@
       "path": "../../libraries/monads"
     },
     {
-      "path": "../candidature"
-    },
-    {
       "path": "../projet"
     },
     {
@@ -25,9 +22,6 @@
     },
     {
       "path": "../document"
-    },
-    {
-      "path": "../candidature"
     },
     {
       "path": "../réseau"

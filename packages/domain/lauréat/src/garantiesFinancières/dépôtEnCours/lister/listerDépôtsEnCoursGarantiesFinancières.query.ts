@@ -7,7 +7,7 @@ import {
   RécupérerIdentifiantsProjetParEmailPorteurPort,
 } from '@potentiel-domain/utilisateur';
 import { Joined, List, RangeOptions, Where } from '@potentiel-domain/entity';
-import { Candidature } from '@potentiel-domain/candidature';
+import { Candidature } from '@potentiel-domain/projet';
 
 import { DépôtEnCoursGarantiesFinancièresEntity, TypeDocumentGarantiesFinancières } from '../..';
 import {

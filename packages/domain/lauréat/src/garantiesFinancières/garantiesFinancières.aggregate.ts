@@ -5,7 +5,7 @@ import {
   LoadAggregate,
 } from '@potentiel-domain/core';
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
-import { Candidature } from '@potentiel-domain/candidature';
+import { Candidature } from '@potentiel-domain/projet';
 
 import {
   AttestationGarantiesFinancièresEnregistréeEvent,
