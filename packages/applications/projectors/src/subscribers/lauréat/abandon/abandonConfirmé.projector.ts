@@ -7,8 +7,8 @@ export const abandonConfirméProjector = async ({
   await updateOneProjection<Abandon.AbandonEntity>(`abandon|${identifiantProjet}`, {
     demande: {
       confirmation: {
-        confirméLe: confirméLe,
-        confirméPar: confirméPar,
+        confirméLe,
+        confirméPar,
       },
     },
     statut: Abandon.StatutAbandon.confirmé.statut,

@@ -104,7 +104,7 @@ export function applyDépôtGarantiesFinancièresEnCoursValidé(
     type: Candidature.TypeGarantiesFinancières.convertirEnValueType(type),
     dateÉchéance: dateÉchéance ? DateTime.convertirEnValueType(dateÉchéance) : undefined,
     dateConstitution: DateTime.convertirEnValueType(dateConstitution),
-    attestation: attestation,
+    attestation,
     validéLe: DateTime.convertirEnValueType(validéLe),
   };
 

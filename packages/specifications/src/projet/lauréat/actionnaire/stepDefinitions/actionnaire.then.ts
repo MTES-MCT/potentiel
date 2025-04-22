@@ -156,7 +156,7 @@ async function vérifierChangementActionnaire(
   const demandeEnCours = await mediator.send<Actionnaire.ConsulterChangementActionnaireQuery>({
     type: 'Lauréat.Actionnaire.Query.ConsulterChangementActionnaire',
     data: {
-      identifiantProjet: identifiantProjet,
+      identifiantProjet,
       demandéLe: this.lauréatWorld.actionnaireWorld.enregistrerChangementActionnaireFixture.aÉtéCréé
         ? this.lauréatWorld.actionnaireWorld.enregistrerChangementActionnaireFixture.demandéLe
         : this.lauréatWorld.actionnaireWorld.demanderChangementActionnaireFixture.demandéLe,
@@ -177,7 +177,7 @@ async function vérifierChangementActionnaire(
   const actionnaire = await mediator.send<Actionnaire.ConsulterActionnaireQuery>({
     type: 'Lauréat.Actionnaire.Query.ConsulterActionnaire',
     data: {
-      identifiantProjet: identifiantProjet,
+      identifiantProjet,
     },
   });
 

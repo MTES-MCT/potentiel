@@ -12,10 +12,10 @@ export const recoursAccordéProjector = async ({
   await updateOneProjection<Éliminé.Recours.RecoursEntity>(`recours|${identifiantProjet}`, {
     demande: {
       accord: {
-        accordéLe: accordéLe,
-        accordéPar: accordéPar,
+        accordéLe,
+        accordéPar,
         réponseSignée: {
-          format: format,
+          format,
         },
       },
     },

@@ -52,7 +52,7 @@ export async function modifier(
       identifiantProjet: identifiantProjet.formatter(),
       modifiéLe: modifiéLe.formatter(),
       modifiéPar: modifiéPar.formatter(),
-      nomProjet: nomProjet,
+      nomProjet,
       localité: {
         adresse1,
         adresse2,

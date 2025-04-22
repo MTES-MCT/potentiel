@@ -46,7 +46,7 @@ void (async () => {
         });
       } catch (e) {
         logger.warn(`Error lors de l'execution de la tâche planifiée`, {
-          typeTâchePlanifiée: typeTâchePlanifiée,
+          typeTâchePlanifiée,
           identifiantProjet: identifiantProjet.formatter(),
           error: (e as Error).message,
         });

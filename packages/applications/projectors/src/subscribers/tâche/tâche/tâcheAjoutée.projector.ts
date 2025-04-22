@@ -6,7 +6,7 @@ export const tâcheAjoutéeProjector = async ({
 }: TâcheAjoutéeEvent) => {
   await upsertProjection<TâcheEntity>(`tâche|${typeTâche}#${identifiantProjet}`, {
     identifiantProjet,
-    typeTâche: typeTâche,
+    typeTâche,
     misÀJourLe: ajoutéeLe,
   });
 };

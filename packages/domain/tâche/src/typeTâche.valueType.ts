@@ -18,7 +18,7 @@ export type ValueType = ReadonlyValueType<{
 export const bind = ({ type }: PlainType<ValueType>): ValueType => {
   return {
     type,
-    estÉgaleÀ: function ({ type }) {
+    estÉgaleÀ({ type }) {
       return this.type === type;
     },
   };

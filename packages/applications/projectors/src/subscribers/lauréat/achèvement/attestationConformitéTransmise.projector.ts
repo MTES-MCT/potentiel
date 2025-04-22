@@ -12,12 +12,12 @@ export const attestationConformitéTransmiseProjector = async ({
   },
 }: Achèvement.AttestationConformitéTransmiseEvent) => {
   await upsertProjection<Achèvement.AchèvementEntity>(`achevement|${identifiantProjet}`, {
-    identifiantProjet: identifiantProjet,
-    attestationConformité: { format: attestation.format, date: date },
+    identifiantProjet,
+    attestationConformité: { format: attestation.format, date },
     preuveTransmissionAuCocontractant: {
       format: preuveTransmissionAuCocontractant.format,
       date: dateTransmissionAuCocontractant,
     },
-    dernièreMiseÀJour: { date: date, utilisateur: utilisateur },
+    dernièreMiseÀJour: { date, utilisateur },
   });
 };

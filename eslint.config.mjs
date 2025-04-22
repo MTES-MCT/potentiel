@@ -47,6 +47,7 @@ export default eslintTs.config(
     },
     rules: {
       '@typescript-eslint/no-floating-promises': 'error',
+      'object-shorthand': 'error',
     },
   },
 

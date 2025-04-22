@@ -7,8 +7,8 @@ export const abandonAccordéProjector = async ({
   await updateOneProjection<Abandon.AbandonEntity>(`abandon|${identifiantProjet}`, {
     demande: {
       accord: {
-        accordéLe: accordéLe,
-        accordéPar: accordéPar,
+        accordéLe,
+        accordéPar,
         réponseSignée: {
           format: réponseSignée.format,
         },

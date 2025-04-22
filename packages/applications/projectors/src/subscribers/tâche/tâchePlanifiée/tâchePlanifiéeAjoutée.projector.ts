@@ -13,7 +13,7 @@ export const tâchePlanifiéeAjoutéeProjector = async ({
       identifiantProjet,
       typeTâche: typeTâchePlanifiée,
       misÀJourLe: ajoutéeLe,
-      àExécuterLe: àExécuterLe,
+      àExécuterLe,
     },
   );
 };

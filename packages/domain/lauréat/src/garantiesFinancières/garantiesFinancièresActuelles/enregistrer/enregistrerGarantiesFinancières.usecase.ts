@@ -67,8 +67,8 @@ export const registerEnregistrerGarantiesFinancièresUseCase = () => {
         identifiantProjet,
         type,
         dateÉchéance,
-        enregistréLe: enregistréLe,
-        enregistréPar: enregistréPar,
+        enregistréLe,
+        enregistréPar,
       },
     });
 

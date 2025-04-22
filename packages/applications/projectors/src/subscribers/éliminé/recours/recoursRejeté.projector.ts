@@ -12,10 +12,10 @@ export const recoursRejetéProjector = async ({
   await updateOneProjection<Éliminé.Recours.RecoursEntity>(`recours|${identifiantProjet}`, {
     demande: {
       rejet: {
-        rejetéLe: rejetéLe,
-        rejetéPar: rejetéPar,
+        rejetéLe,
+        rejetéPar,
         réponseSignée: {
-          format: format,
+          format,
         },
       },
     },

@@ -143,7 +143,7 @@ export const mapToReadModel = ({
     détailsMisÀJourLe,
     'application/json',
   ),
-  estNotifiée: estNotifiée,
+  estNotifiée,
   ...(estNotifiée &&
     notification.attestation && {
       attestation: DocumentProjet.convertirEnValueType(

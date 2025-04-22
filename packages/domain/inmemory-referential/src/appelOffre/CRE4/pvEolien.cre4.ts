@@ -75,7 +75,7 @@ export const pvEolien: AppelOffre.AppelOffreReadModel = {
   afficherPhraseRegionImplantation: false,
   dossierSuiviPar: 'aopv.dgec@developpement-durable.gouv.fr',
   soumisAuxGarantiesFinancieres: 'après candidature',
-  garantieFinanciereEnMois: garantieFinanciereEnMois,
+  garantieFinanciereEnMois,
   renvoiSoumisAuxGarantiesFinancieres: `doit être au minimum de ${garantieFinanciereEnMois} mois`,
   changementPuissance: { ratios: { min: 0.8, max: 1 } },
   changementProducteurPossibleAvantAchèvement: false,
