@@ -59,6 +59,7 @@ const PorteurProjetActions = ({
   hasAttestationConformité,
   peutFaireDemandeChangementReprésentantLégal,
   actionnaireAffichage,
+  puissanceAffichage,
 }: PorteurProjetActionsProps) => {
   const peutDemanderAbandon = !abandonEnCoursOuAccordé && !hasAttestationConformité;
 
@@ -94,13 +95,14 @@ const PorteurProjetActions = ({
                 <span>{actionnaireAffichage.porteurProjetActionLabel}</span>
               </DropdownMenuSecondaryButton.DropdownItem>
             )}
-            <DropdownMenuSecondaryButton.DropdownItem
-              href={Routes.Puissance.changement.demander(identifiantProjet)}
-              disabled={modificationsNonPermisesParLeCDCActuel ? true : undefined}
-            >
-              <span>Demander un changement de puissance</span>
-            </DropdownMenuSecondaryButton.DropdownItem>
-
+            {!!puissanceAffichage && (
+              <DropdownMenuSecondaryButton.DropdownItem
+                href={puissanceAffichage.url}
+                disabled={modificationsNonPermisesParLeCDCActuel ? true : undefined}
+              >
+                <span>{puissanceAffichage.label}</span>
+              </DropdownMenuSecondaryButton.DropdownItem>
+            )}
             <DropdownMenuSecondaryButton.DropdownItem href={routes.DEMANDER_DELAI(project.id)}>
               <span>Demander un délai</span>
             </DropdownMenuSecondaryButton.DropdownItem>
@@ -224,6 +226,7 @@ export const ProjectActions = ({
   modificationsNonPermisesParLeCDCActuel,
   hasAttestationConformité,
   peutFaireDemandeChangementReprésentantLégal,
+  puissanceAffichage,
   actionnaireAffichage,
 }: ProjectActionsProps) => {
   const identifiantProjet = formatProjectDataToIdentifiantProjetValueType({
@@ -246,6 +249,7 @@ export const ProjectActions = ({
           modificationsNonPermisesParLeCDCActuel={modificationsNonPermisesParLeCDCActuel}
           hasAttestationConformité={hasAttestationConformité}
           peutFaireDemandeChangementReprésentantLégal={peutFaireDemandeChangementReprésentantLégal}
+          puissanceAffichage={puissanceAffichage}
           actionnaireAffichage={actionnaireAffichage}
           identifiantProjet={identifiantProjet}
         />

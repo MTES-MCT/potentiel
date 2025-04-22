@@ -58,11 +58,20 @@ export const DemanderChangementPuissanceForm: FC<DemanderChangementPuissanceForm
   const dépassePuissanceMaxDuVolumeRéservé = ratioValueType.dépassePuissanceMaxDuVolumeRéservé();
   const dépassePuissanceMaxFamille = ratioValueType.dépassePuissanceMaxFamille();
 
-  const ratioHintText = isNaN(nouvellePuissance)
-    ? "Aucune valeur n'est encore renseignée"
-    : ratio === 1
-      ? 'La valeur est identique à la puissance actuelle'
-      : `Ceci correspond à ${ratio > 1 ? 'une augmentation' : 'une diminution'} de ${Math.round(Math.abs(100 - ratio * 100))}% par rapport à la puissance initiale du projet`;
+  const ratioHintText = isNaN(nouvellePuissance) ? (
+    "Aucune valeur n'est encore renseignée"
+  ) : ratio === 1 ? (
+    'La valeur est identique à la puissance actuelle'
+  ) : (
+    <span>
+      Ceci correspond à{' '}
+      <strong>
+        {ratio > 1 ? 'une augmentation' : 'une diminution'} de{' '}
+        {Math.round(Math.abs(100 - ratio * 100))}%
+      </strong>{' '}
+      de la puissance initiale du projet
+    </span>
+  );
 
   return (
     <Form
