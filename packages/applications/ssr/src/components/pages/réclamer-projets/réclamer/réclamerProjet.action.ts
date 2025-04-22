@@ -80,7 +80,8 @@ export const réclamerProjetAction = formAction(
     points: 5, // 5 requests
     duration: 5 * 60, // per 5 minutes
     blockDuration: 60 * 60, // block 1 hour
-    getKeySuffix: async (_, { identifiantProjet }) => identifiantProjet,
+    getKeySuffix: async (_, { identifiantProjet, iv }) =>
+      déchiffrerIdentifiantProjet(identifiantProjet, iv),
   }),
   schema,
 );
