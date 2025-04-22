@@ -28,7 +28,6 @@ export const EnregistrerChangementActionnaireForm: FC<
   const [validationErrors, setValidationErrors] = useState<
     ValidationErrors<ModifierActionnaireFormKeys>
   >({});
-  const [piècesJustificatives, setPiècesJustificatives] = useState<Array<string>>([]);
 
   return (
     <Form
@@ -46,13 +45,7 @@ export const EnregistrerChangementActionnaireForm: FC<
           >
             Retour à la page projet
           </Button>
-          <SubmitButton
-            disabledCondition={() =>
-              !piècesJustificatives.length || Object.keys(validationErrors).length > 0
-            }
-          >
-            Modifier
-          </SubmitButton>
+          <SubmitButton>Modifier</SubmitButton>
         </>
       }
     >
@@ -93,10 +86,9 @@ export const EnregistrerChangementActionnaireForm: FC<
           multiple
           state={validationErrors['piecesJustificatives'] ? 'error' : 'default'}
           stateRelatedMessage={validationErrors['piecesJustificatives']}
-          onChange={(piècesJustificatives) => {
-            delete validationErrors['piecesJustificatives'];
-            setPiècesJustificatives(piècesJustificatives);
-          }}
+          // onChange={() => {
+          //   delete validationErrors['piecesJustificatives'];
+          // }}
         />
       </div>
     </Form>

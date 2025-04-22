@@ -27,7 +27,6 @@ export const DemanderChangementActionnaireForm: FC<DemanderChangementActionnaire
   const [validationErrors, setValidationErrors] = useState<
     ValidationErrors<DemanderChangementActionnaireFormKeys>
   >({});
-  const [piècesJustificatives, setPiècesJustificatives] = useState<Array<string>>([]);
 
   return (
     <Form
@@ -45,13 +44,7 @@ export const DemanderChangementActionnaireForm: FC<DemanderChangementActionnaire
           >
             Retour à la page projet
           </Button>
-          <SubmitButton
-            disabledCondition={() =>
-              !piècesJustificatives.length || Object.keys(validationErrors).length > 0
-            }
-          >
-            Confirmer la demande
-          </SubmitButton>
+          <SubmitButton>Confirmer la demande</SubmitButton>
         </>
       }
     >
@@ -92,10 +85,9 @@ export const DemanderChangementActionnaireForm: FC<DemanderChangementActionnaire
           multiple
           state={validationErrors['piecesJustificatives'] ? 'error' : 'default'}
           stateRelatedMessage={validationErrors['piecesJustificatives']}
-          onChange={(piècesJustificatives) => {
-            delete validationErrors['piecesJustificatives'];
-            setPiècesJustificatives(piècesJustificatives);
-          }}
+          // onChange={(piècesJustificatives) => {
+          //   delete validationErrors['piecesJustificatives'];
+          // }}
         />
       </div>
     </Form>

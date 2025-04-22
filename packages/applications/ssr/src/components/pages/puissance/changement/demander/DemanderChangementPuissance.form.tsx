@@ -37,7 +37,6 @@ export const DemanderChangementPuissanceForm: FC<DemanderChangementPuissanceForm
   const [validationErrors, setValidationErrors] = useState<
     ValidationErrors<DemanderChangementPuissanceFormKeys>
   >({});
-  const [piècesJustificatives, setPiècesJustificatives] = useState<Array<string>>([]);
   const [nouvellePuissance, setNouvellePuissance] = useState<number>(puissance);
   const ratio = nouvellePuissance / puissanceInitiale;
 
@@ -51,6 +50,8 @@ export const DemanderChangementPuissanceForm: FC<DemanderChangementPuissanceForm
     nouvellePuissance,
     note,
   });
+
+  // viovio
 
   const dépasseLesRatioDeAppelOffres =
     ratioValueType.dépasseRatiosChangementPuissance().dépasseMax ||
@@ -89,16 +90,7 @@ export const DemanderChangementPuissanceForm: FC<DemanderChangementPuissanceForm
           >
             Retour à la page projet
           </Button>
-          <SubmitButton
-            disabledCondition={() =>
-              (!piècesJustificatives.length && dépasseLesRatioDeAppelOffres) ||
-              Object.keys(validationErrors).length > 0 ||
-              dépassePuissanceMaxDuVolumeRéservé ||
-              dépassePuissanceMaxFamille
-            }
-          >
-            Confirmer la demande
-          </SubmitButton>
+          <SubmitButton>Confirmer la demande</SubmitButton>
         </>
       }
     >
@@ -177,9 +169,8 @@ export const DemanderChangementPuissanceForm: FC<DemanderChangementPuissanceForm
           multiple
           state={validationErrors['piecesJustificatives'] ? 'error' : 'default'}
           stateRelatedMessage={validationErrors['piecesJustificatives']}
-          onChange={(piècesJustificatives) => {
+          onChange={() => {
             delete validationErrors['piecesJustificatives'];
-            setPiècesJustificatives(piècesJustificatives);
           }}
         />
       </div>
