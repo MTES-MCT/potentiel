@@ -51,6 +51,7 @@ export const changementPuissanceAnnuléNotification = async ({
     messageSubject: `Potentiel - La demande de changement de puissance pour le projet ${projet.nom} dans le département ${projet.département} a été annulée`,
     recipients,
     variables: {
+      type: 'annulation',
       nom_projet: projet.nom,
       departement_projet: projet.département,
       url: `${baseUrl}${Routes.Projet.details(identifiantProjet.formatter())}`,
