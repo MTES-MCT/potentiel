@@ -48,7 +48,6 @@ export const registerEnregistrerChangementActionnaireCommand = (
     // cela devrait être repris quand les types d'actionnariat seront migrés dans l'aggregat Actionnaire
     // Par ailleurs les données sont les mêmes à date (janv 2025)
     const { candidature } = await getProjetAggregateRoot(identifiantProjet);
-    candidature.vérifierQueLaCandidatureExiste();
 
     const estParticipatif =
       candidature.typeActionnariat?.type === 'financement-participatif' ||

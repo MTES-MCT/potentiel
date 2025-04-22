@@ -43,7 +43,6 @@ export const registerEnregistrerChangementPuissanceCommand = (
     const abandon = await loadAbandon(identifiantProjet, false);
     const achèvement = await loadAchèvement(identifiantProjet, false);
     const { candidature } = await getProjetAggregateRoot(identifiantProjet);
-    candidature.vérifierQueLaCandidatureExiste();
 
     // Après migration aggregate root, à remplacer
     const appelOffre = await mediator.send<AppelOffre.ConsulterAppelOffreQuery>({
