@@ -31,6 +31,7 @@ export type ValueType = ReadonlyValueType<{
   peutExécuterMessage(typeMessage: string): void;
   aLaPermission(value: Policy): boolean;
   estDGEC(): boolean;
+  estDreal(): boolean;
 }>;
 
 export const convertirEnValueType = (value: string): ValueType => {
@@ -56,6 +57,9 @@ export const convertirEnValueType = (value: string): ValueType => {
     },
     estDGEC() {
       return this.nom === 'admin' || this.nom === 'dgec-validateur';
+    },
+    estDreal() {
+      return this.nom === 'dreal';
     },
   };
 };

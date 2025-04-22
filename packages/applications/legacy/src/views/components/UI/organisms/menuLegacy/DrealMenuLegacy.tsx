@@ -37,7 +37,12 @@ export const DrealMenuLegacy = ({ currentPage }: DrealMenuLegacyProps) => (
       <DropdownMenu.DropdownItem href={Routes.Actionnaire.changement.lister({ statut: 'demandé' })}>
         Actionnaire
       </DropdownMenu.DropdownItem>
-      <DropdownMenu.DropdownItem href={Routes.Puissance.changement.lister({ statut: 'demandé' })}>
+      <DropdownMenu.DropdownItem
+        href={Routes.Puissance.changement.lister({
+          statut: 'demandé',
+          autoriteInstructrice: 'dreal',
+        })}
+      >
         Puissance
       </DropdownMenu.DropdownItem>
     </DropdownMenu>
