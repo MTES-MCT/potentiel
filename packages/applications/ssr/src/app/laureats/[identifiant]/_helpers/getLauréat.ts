@@ -26,7 +26,7 @@ export const getLauréat = cache(async ({ identifiantProjet }: Props): Promise<G
     actionnaire: actionnaireInfos,
     représentantLégal: représentantLégalInfos,
     puissance: puissanceInfos,
-    lauréat: lauréat,
+    lauréat,
   };
 });
 

@@ -24,7 +24,7 @@ export const bind = ({
     commune,
     département,
     région,
-    estÉgaleÀ: function ({ adresse1, adresse2, codePostal, commune, département, région }) {
+    estÉgaleÀ({ adresse1, adresse2, codePostal, commune, département, région }) {
       return (
         this.adresse1 === adresse1 &&
         this.adresse2 === adresse2 &&

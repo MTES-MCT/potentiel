@@ -7,8 +7,8 @@ export const abandonPasséEnInstructionProjector = async ({
   await updateOneProjection<Abandon.AbandonEntity>(`abandon|${identifiantProjet}`, {
     demande: {
       instruction: {
-        passéEnInstructionLe: passéEnInstructionLe,
-        passéEnInstructionPar: passéEnInstructionPar,
+        passéEnInstructionLe,
+        passéEnInstructionPar,
       },
     },
     statut: Abandon.StatutAbandon.enInstruction.statut,

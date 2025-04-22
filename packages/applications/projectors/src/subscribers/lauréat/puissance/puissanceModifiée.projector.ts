@@ -5,7 +5,7 @@ export const puissanceModifiéeProjector = async ({
   payload: { identifiantProjet, modifiéeLe, puissance },
 }: Puissance.PuissanceModifiéeEvent) => {
   await updateOneProjection<Puissance.PuissanceEntity>(`puissance|${identifiantProjet}`, {
-    puissance: puissance,
+    puissance,
     miseÀJourLe: modifiéeLe,
   });
 };

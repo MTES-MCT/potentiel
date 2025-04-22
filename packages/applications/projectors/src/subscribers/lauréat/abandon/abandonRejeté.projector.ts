@@ -7,8 +7,8 @@ export const abandonRejetéProjector = async ({
   await updateOneProjection<Abandon.AbandonEntity>(`abandon|${identifiantProjet}`, {
     demande: {
       rejet: {
-        rejetéLe: rejetéLe,
-        rejetéPar: rejetéPar,
+        rejetéLe,
+        rejetéPar,
         réponseSignée: {
           format: réponseSignée.format,
         },

@@ -20,7 +20,7 @@ export const bind = ({ statut }: PlainType<ValueType>): ValueType => {
   estValide(statut);
   return {
     statut,
-    estÉgaleÀ: function ({ statut }) {
+    estÉgaleÀ({ statut }) {
       return this.statut === statut;
     },
     formatter() {

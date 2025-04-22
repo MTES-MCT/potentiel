@@ -42,7 +42,7 @@ export const getDefaultTâchePlanifiéeAggregate = (
   apply,
   statut: StatutTâchePlanifiée.inconnu,
   identifiantProjet,
-  typeTâchePlanifiée: typeTâchePlanifiée,
+  typeTâchePlanifiée,
   àExécuterLe: DateTime.now(),
   ajouter,
   annuler,

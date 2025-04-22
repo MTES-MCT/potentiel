@@ -28,8 +28,8 @@ export const preuveCandidatureTransmiseProjector = async ({
           preuve: {
             ...abandonToUpsert.demande.recandidature.preuve,
             identifiantProjet: preuveRecandidature,
-            transmiseLe: transmiseLe,
-            transmisePar: transmisePar,
+            transmiseLe,
+            transmisePar,
           },
         },
       },

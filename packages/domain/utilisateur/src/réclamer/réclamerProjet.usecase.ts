@@ -29,8 +29,8 @@ export const registerRéclamerProjetUseCase = () => {
         identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
         identifiantUtilisateur: Email.convertirEnValueType(identifiantUtilisateur),
         réclaméLe: DateTime.convertirEnValueType(réclaméLe),
-        prixRéférence: prixRéférence,
-        numéroCRE: numéroCRE,
+        prixRéférence,
+        numéroCRE,
       },
     });
   };

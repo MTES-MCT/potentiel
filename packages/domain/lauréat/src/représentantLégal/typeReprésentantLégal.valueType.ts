@@ -20,7 +20,7 @@ export const bind = ({ type }: PlainType<ValueType>): ValueType => {
   estValide(type);
   return {
     type,
-    estÉgaleÀ: function ({ type }) {
+    estÉgaleÀ({ type }) {
       return this.type === type;
     },
     formatter() {

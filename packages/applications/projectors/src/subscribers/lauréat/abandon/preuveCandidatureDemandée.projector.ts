@@ -26,7 +26,7 @@ export const preuveCandidatureDemandéeProjector = async ({
           ...abandonToUpsert.demande.recandidature,
           statut: Abandon.StatutPreuveRecandidature.enAttente.statut,
           preuve: {
-            demandéeLe: demandéeLe,
+            demandéeLe,
           },
         },
       },

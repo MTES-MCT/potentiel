@@ -84,7 +84,7 @@ async function vérifierChangementPuissance(
     const demandeEnCours = await mediator.send<Puissance.ConsulterChangementPuissanceQuery>({
       type: 'Lauréat.Puissance.Query.ConsulterChangementPuissance',
       data: {
-        identifiantProjet: identifiantProjet,
+        identifiantProjet,
         demandéLe: this.lauréatWorld.puissanceWorld.changementPuissanceWorld
           .demanderChangementPuissanceFixture.aÉtéCréé
           ? this.lauréatWorld.puissanceWorld.changementPuissanceWorld
@@ -111,7 +111,7 @@ async function vérifierChangementPuissance(
     const puissance = await mediator.send<Puissance.ConsulterPuissanceQuery>({
       type: 'Lauréat.Puissance.Query.ConsulterPuissance',
       data: {
-        identifiantProjet: identifiantProjet,
+        identifiantProjet,
       },
     });
 

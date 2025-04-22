@@ -5,7 +5,7 @@ export const tâcheRelancéeProjector = async ({
   payload: { typeTâche, relancéeLe, identifiantProjet },
 }: TâcheRelancéeEvent) => {
   await updateOneProjection<TâcheEntity>(`tâche|${typeTâche}#${identifiantProjet}`, {
-    typeTâche: typeTâche,
+    typeTâche,
     misÀJourLe: relancéeLe,
   });
 };
