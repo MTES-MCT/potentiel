@@ -18,6 +18,7 @@ import {
   CandidatureDéjàImportéeError,
   CandidatureDéjàNotifiéeError,
   CandidatureNonModifiéeError,
+  CandidatureNonNotifiéeError,
   CandidatureNonTrouvéeError,
   ChoixCoefficientKNonAttenduError,
   ChoixCoefficientKRequisError,
@@ -77,34 +78,48 @@ export class CandidatureAggregate extends AbstractAggregate<CandidatureEvent> {
   }
 
   get notifiéeLe() {
-    return this.#notifiéeLe!;
+    if (!this.notifiéeLe) {
+      throw new CandidatureNonNotifiéeError();
+    }
+    return this.#notifiéeLe;
   }
+
   get notifiéePar() {
-    return this.#notifiéePar!;
+    if (!this.notifiéePar) {
+      throw new CandidatureNonNotifiéeError();
+    }
+    return this.#notifiéePar;
   }
+
   get statut() {
-    return this.#statut!;
+    if (!this.#statut) {
+      throw new CandidatureNonTrouvéeError();
+    }
+    return this.#statut;
   }
+
   get nomProjet() {
-    return this.#nomProjet!;
+    return this.#nomProjet;
   }
+
   get nomReprésentantLégal() {
-    return this.#nomReprésentantLégal!;
+    return this.#nomReprésentantLégal;
   }
+
   get emailContact() {
-    return this.#emailContact!;
+    return this.#emailContact;
   }
 
   get sociétéMère() {
-    return this.#sociétéMère!;
+    return this.#sociétéMère;
   }
 
   get puissanceProductionAnnuelle() {
-    return this.#puissanceProductionAnnuelle!;
+    return this.#puissanceProductionAnnuelle;
   }
 
   get prixRéférence() {
-    return this.#prixRéférence!;
+    return this.#prixRéférence;
   }
 
   get typeGarantiesFinancières() {

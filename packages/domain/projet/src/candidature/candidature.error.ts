@@ -67,6 +67,12 @@ export class TypeGarantiesFinancièresNonModifiableAprèsNotificationError exten
   }
 }
 
+export class CandidatureNonNotifiéeError extends InvalidOperationError {
+  constructor() {
+    super(`La candidature n'est pas notifiée`);
+  }
+}
+
 export class CandidatureDéjàNotifiéeError extends InvalidOperationError {
   constructor(identifiantProjet: IdentifiantProjet.ValueType) {
     super(`La candidature est déjà notifiée`, { identifiantProjet });
