@@ -27,7 +27,6 @@ export const AccorderChangementPuissance = ({
     ValidationErrors<AccorderChangementPuissanceFormKeys>
   >({});
   const [isOpen, setIsOpen] = useState(false);
-  const [réponseSignée, setRéponseSignée] = useState<Array<string>>([]);
   const [estUneDecisionDEtat, setEstUneDecisionDEtat] = useState(false);
 
   return (
@@ -41,10 +40,6 @@ export const AccorderChangementPuissance = ({
         title="Accorder le changement de puissance"
         acceptButtonLabel="Oui"
         rejectButtonLabel="Non"
-        disabledSubmitCondition={() =>
-          (!réponseSignée.length && !estUneDecisionDEtat) ||
-          Object.keys(validationErrors).length > 0
-        }
         isOpen={isOpen}
         onClose={() => setIsOpen(false)}
         form={{
@@ -63,10 +58,6 @@ export const AccorderChangementPuissance = ({
                 required={estUneDecisionDEtat === false}
                 className="mb-4"
                 formats={['pdf']}
-                onChange={(réponseSignée) => {
-                  delete validationErrors['reponseSignee'];
-                  setRéponseSignée(réponseSignée);
-                }}
               />
               <DownloadDocument
                 className="mb-4"

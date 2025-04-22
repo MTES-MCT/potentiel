@@ -27,7 +27,6 @@ export const RejeterChangementPuissance = ({
     ValidationErrors<RejeterChangementPuissanceFormKeys>
   >({});
   const [isOpen, setIsOpen] = useState(false);
-  const [réponseSignée, setRéponseSignée] = useState<Array<string>>([]);
 
   return (
     <>
@@ -42,9 +41,6 @@ export const RejeterChangementPuissance = ({
         rejectButtonLabel="Non"
         isOpen={isOpen}
         onClose={() => setIsOpen(false)}
-        disabledSubmitCondition={() =>
-          !réponseSignée.length || Object.keys(validationErrors).length > 0
-        }
         form={{
           action: rejeterChangementPuissanceAction,
           id: 'rejeter-changement-puissance-form',
@@ -63,10 +59,6 @@ export const RejeterChangementPuissance = ({
                 required
                 className="mb-4"
                 formats={['pdf']}
-                onChange={(réponseSignée) => {
-                  delete validationErrors['reponseSignee'];
-                  setRéponseSignée(réponseSignée);
-                }}
               />
               <DownloadDocument
                 className="mb-4"
