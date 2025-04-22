@@ -41,7 +41,8 @@ export const registerDemanderChangementPuissanceCommand = (
     const puissanceAggrégat = await loadPuissance(identifiantProjet);
     const abandon = await loadAbandon(identifiantProjet, false);
     const achèvement = await loadAchèvement(identifiantProjet, false);
-    const candidature = (await getProjetAggregateRoot(identifiantProjet)).candidature;
+    const projet = await getProjetAggregateRoot(identifiantProjet);
+    const candidature = projet.candidature;
     candidature.vérifierQueLaCandidatureExiste();
 
     // Après migration aggregate root, à remplacer
@@ -64,7 +65,7 @@ export const registerDemanderChangementPuissanceCommand = (
     await puissanceAggrégat.demanderChangement({
       identifiantProjet,
       nouvellePuissance,
-      puissanceInitiale: candidature.puissance,
+      puissanceInitiale: candidature.puissanceProductionAnnuelle,
       pièceJustificative,
       raison,
       identifiantUtilisateur,
