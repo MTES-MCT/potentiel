@@ -5,6 +5,7 @@ import { Heading1 } from '../../../components';
 import { ProjectActions } from './ProjectActions';
 import { ProjectHeaderBadge } from './ProjectHeaderBadge';
 import { GetActionnaireAffichageForProjectPage } from '../../../../controllers/project/getProjectPage/_utils';
+import { GetPuissanceForProjectPage } from '../../../../controllers/project/getProjectPage/_utils/getPuissance';
 
 export type ProjectHeaderProps = {
   project: ProjectDataForProjectPage;
@@ -14,6 +15,7 @@ export type ProjectHeaderProps = {
   modificationsNonPermisesParLeCDCActuel: boolean;
   hasAttestationConformité: boolean;
   peutFaireDemandeChangementReprésentantLégal: boolean;
+  puissanceAffichage?: GetPuissanceForProjectPage['affichage'];
   actionnaireAffichage?: GetActionnaireAffichageForProjectPage;
 };
 
@@ -25,6 +27,7 @@ export const ProjectHeader = ({
   modificationsNonPermisesParLeCDCActuel,
   hasAttestationConformité,
   peutFaireDemandeChangementReprésentantLégal,
+  puissanceAffichage,
   actionnaireAffichage,
 }: ProjectHeaderProps) => (
   <div className="w-full pt-3 md:pt-0 print:pt-0 lg:flex justify-between gap-2">
@@ -58,6 +61,7 @@ export const ProjectHeader = ({
         modificationsNonPermisesParLeCDCActuel={modificationsNonPermisesParLeCDCActuel}
         hasAttestationConformité={hasAttestationConformité}
         peutFaireDemandeChangementReprésentantLégal={peutFaireDemandeChangementReprésentantLégal}
+        puissanceAffichage={puissanceAffichage}
         actionnaireAffichage={actionnaireAffichage}
       />
     </div>
