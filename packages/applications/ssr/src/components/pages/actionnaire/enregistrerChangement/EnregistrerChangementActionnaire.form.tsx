@@ -86,9 +86,6 @@ export const EnregistrerChangementActionnaireForm: FC<
           multiple
           state={validationErrors['piecesJustificatives'] ? 'error' : 'default'}
           stateRelatedMessage={validationErrors['piecesJustificatives']}
-          // onChange={() => {
-          //   delete validationErrors['piecesJustificatives'];
-          // }}
         />
       </div>
     </Form>

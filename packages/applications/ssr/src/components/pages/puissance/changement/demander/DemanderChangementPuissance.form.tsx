@@ -169,9 +169,6 @@ export const DemanderChangementPuissanceForm: FC<DemanderChangementPuissanceForm
           multiple
           state={validationErrors['piecesJustificatives'] ? 'error' : 'default'}
           stateRelatedMessage={validationErrors['piecesJustificatives']}
-          onChange={() => {
-            delete validationErrors['piecesJustificatives'];
-          }}
         />
       </div>
     </Form>

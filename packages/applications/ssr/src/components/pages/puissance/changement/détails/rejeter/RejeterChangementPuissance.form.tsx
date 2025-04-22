@@ -59,9 +59,6 @@ export const RejeterChangementPuissance = ({
                 required
                 className="mb-4"
                 formats={['pdf']}
-                onChange={() => {
-                  delete validationErrors['reponseSignee'];
-                }}
               />
               <DownloadDocument
                 className="mb-4"

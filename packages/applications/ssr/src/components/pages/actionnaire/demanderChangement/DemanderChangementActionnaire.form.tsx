@@ -85,9 +85,6 @@ export const DemanderChangementActionnaireForm: FC<DemanderChangementActionnaire
           multiple
           state={validationErrors['piecesJustificatives'] ? 'error' : 'default'}
           stateRelatedMessage={validationErrors['piecesJustificatives']}
-          // onChange={(piècesJustificatives) => {
-          //   delete validationErrors['piecesJustificatives'];
-          // }}
         />
       </div>
     </Form>
