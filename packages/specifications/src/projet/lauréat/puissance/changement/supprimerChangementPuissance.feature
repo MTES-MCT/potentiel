@@ -5,6 +5,7 @@ Fonctionnalité: Supprimer la demande de changement de puissance
         Etant donné le projet lauréat "Du boulodrome de Marseille" avec :
             | appel d'offre | PPE2 - Eolien |
             | période       | 1             |
+        Et la dreal "Dreal du sud" associée à la région du projet
 
     Scénario: Le système supprime la demande de changement de puissance si le projet est abandonné
         Etant donné une demande de changement de puissance pour le projet lauréat avec :
