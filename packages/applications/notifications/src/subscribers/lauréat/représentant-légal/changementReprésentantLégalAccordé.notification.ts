@@ -45,6 +45,7 @@ export const changementReprésentantLégalAccordéNotification = async ({
   const mailSubjectMailPorteur = event.payload.avecCorrection
     ? `Potentiel - Correction et accord de la demande de modification du représentant légal pour le projet ${projet.nom} dans le département ${projet.département}`
     : `Potentiel - La demande de modification du représentant légal pour le projet ${projet.nom} dans le département ${projet.département} a été accordée`;
+  const typeEmailPorteur = event.payload.avecCorrection ? undefined : { type: 'accord' };
 
   await sendEmail({
     templateId: templateIdMailPorteur,
@@ -54,6 +55,7 @@ export const changementReprésentantLégalAccordéNotification = async ({
       nom_projet: projet.nom,
       departement_projet: projet.département,
       url: `${baseUrl}${Routes.Projet.details(identifiantProjet.formatter())}`,
+      ...typeEmailPorteur,
     },
   });
 
