@@ -10,7 +10,6 @@ export type InfoPuissanceProps = {
   unitePuissance: string;
   désignationCatégorie: DésignationCatégorie | undefined;
   puissanceInférieurePuissanceMaxVolRéservé: boolean;
-  legacyPuissance: number;
 };
 
 export const InfoPuissance = ({
@@ -19,17 +18,12 @@ export const InfoPuissance = ({
   unitePuissance,
   désignationCatégorie,
   puissanceInférieurePuissanceMaxVolRéservé,
-  legacyPuissance,
 }: InfoPuissanceProps) => {
   return (
     <div>
       <Heading3 className="m-0">Performances</Heading3>
       <p className="m-0">
         Puissance installée : {puissance.puissance} {unitePuissance}
-      </p>
-      {/* les deux coexistent pour le moment à des fins d'audit, à supprimer lors de la MEP */}
-      <p className="m-0">
-        Puissance legacy installée (à des fins d'audit) : {legacyPuissance} {unitePuissance}
       </p>
       {désignationCatégorie === 'volume-réservé' && (
         <p className="mb-0 mt-1">Ce projet fait partie du volume réservé de la période.</p>
