@@ -16,4 +16,4 @@ Fonctionnalité: Corriger le producteur d'une candidature
     @NotImplemented
     Scénario: Impossible de corriger le producteur d'une candidature inexistante
         Quand l'administrateur corrige le producteur de la candidature éliminée
-        Alors l'utilisateur devrait être informé que "La candidature n'existe pas"
+        Alors l'administrateur devrait être informé que "La candidature n'existe pas"

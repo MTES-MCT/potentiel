@@ -74,5 +74,5 @@ Fonctionnalité: Modifier le producteur d'un projet lauréat
     @NotImplemented
     Scénario: Impossible de modifier le producteur avec une valeur identique
         Etant donné le projet lauréat "Du boulodrome de Marseille"
-        Quand l'administrateur modifie le producteur avec la même valeur pour le projet lauréat
+        Quand l'administrateur modifie le producteur avec un nouveau producteur identifique pour le projet lauréat
         Alors l'utilisateur devrait être informé que "Le producteur est identique à celui déjà associé au projet"
