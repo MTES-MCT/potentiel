@@ -48,7 +48,7 @@ export const changementPuissanceDemandéNotification = async ({
 
   return sendEmail({
     templateId: puissanceNotificationTemplateId.changement.demander,
-    messageSubject: `Potentiel - Demande d'un changement de puissance pour le projet ${projet.nom} dans le département ${projet.département}`,
+    messageSubject: `Potentiel - Demande de changement de puissance pour le projet ${projet.nom} dans le département ${projet.département}`,
     recipients,
     variables: {
       nom_projet: projet.nom,
