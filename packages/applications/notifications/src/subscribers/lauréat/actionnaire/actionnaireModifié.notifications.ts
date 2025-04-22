@@ -43,7 +43,18 @@ export const actionnaireModifiéNotifications = async ({
   await sendEmail({
     templateId: actionnaireNotificationTemplateId.modifier,
     messageSubject: `Potentiel - Modification de l'actionnaire pour le projet ${projet.nom} dans le département ${projet.département}`,
-    recipients: [...porteurs, ...dreals],
+    recipients: dreals,
+    variables: {
+      nom_projet: projet.nom,
+      departement_projet: projet.département,
+      url: `${baseUrl}${Routes.Projet.details(identifiantProjet.formatter())}`,
+    },
+  });
+
+  await sendEmail({
+    templateId: actionnaireNotificationTemplateId.modifier,
+    messageSubject: `Potentiel - Modification de l'actionnaire pour le projet ${projet.nom} dans le département ${projet.département}`,
+    recipients: porteurs,
     variables: {
       nom_projet: projet.nom,
       departement_projet: projet.département,

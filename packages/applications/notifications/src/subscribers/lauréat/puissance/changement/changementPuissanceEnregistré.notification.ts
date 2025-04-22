@@ -38,10 +38,21 @@ export const changementPuissanceEnregistréNotification = async ({
     return;
   }
 
-  return sendEmail({
+  await sendEmail({
     templateId: puissanceNotificationTemplateId.changement.enregistrer,
     messageSubject: `Potentiel - Enregistrement d'un changement de puissance pour le projet ${projet.nom} dans le département ${projet.département}`,
-    recipients: [...dreals, ...porteurs],
+    recipients: dreals,
+    variables: {
+      nom_projet: projet.nom,
+      departement_projet: projet.département,
+      url: `${baseUrl}${Routes.Projet.details(identifiantProjet.formatter())}`,
+    },
+  });
+
+  await sendEmail({
+    templateId: puissanceNotificationTemplateId.changement.enregistrer,
+    messageSubject: `Potentiel - Enregistrement d'un changement de puissance pour le projet ${projet.nom} dans le département ${projet.département}`,
+    recipients: porteurs,
     variables: {
       nom_projet: projet.nom,
       departement_projet: projet.département,
