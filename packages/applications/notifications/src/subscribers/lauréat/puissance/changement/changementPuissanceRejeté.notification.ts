@@ -5,6 +5,7 @@ import { IdentifiantProjet } from '@potentiel-domain/projet';
 
 import { RegisterPuissanceNotificationDependencies } from '..';
 import { listerPorteursRecipients } from '../../../../helpers/listerPorteursRecipients';
+import { puissanceNotificationTemplateId } from '../constant';
 
 type ChangementPuissanceRejetéNotificationProps = {
   sendEmail: RegisterPuissanceNotificationDependencies['sendEmail'];
@@ -35,7 +36,7 @@ export const changementPuissanceRejetéNotification = async ({
   }
 
   return sendEmail({
-    templateId: 6873755,
+    templateId: puissanceNotificationTemplateId.changement.rejeter,
     messageSubject: `Potentiel - La demande de changement de puissance pour le projet ${projet.nom} dans le département ${projet.département} a été rejetée`,
     recipients: porteurs,
     variables: {

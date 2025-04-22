@@ -7,7 +7,7 @@ import { listerPorteursRecipients } from '../../../helpers/listerPorteursRecipie
 
 import { RegisterActionnaireNotificationDependencies } from '.';
 
-import { actionnaireNotificationTemplateId } from './templateIds';
+import { actionnaireNotificationTemplateId } from './constant';
 
 type ChangementActionnaireAccordéNotificationsProps = {
   sendEmail: RegisterActionnaireNotificationDependencies['sendEmail'];
@@ -37,7 +37,7 @@ export const changementActionnaireAccordéNotifications = async ({
   }
 
   await sendEmail({
-    templateId: actionnaireNotificationTemplateId.accorder,
+    templateId: actionnaireNotificationTemplateId.changement.accorder,
     messageSubject: `Potentiel - La demande de changement d'actionnaire pour le projet ${projet.nom} dans le département ${projet.département} a été accordée`,
     recipients: porteurs,
     variables: {

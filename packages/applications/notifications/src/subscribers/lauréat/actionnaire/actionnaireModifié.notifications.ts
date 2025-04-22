@@ -8,7 +8,7 @@ import { listerDrealsRecipients } from '../../../helpers/listerDrealsRecipients'
 
 import { RegisterActionnaireNotificationDependencies } from '.';
 
-import { actionnaireNotificationTemplateId } from './templateIds';
+import { actionnaireNotificationTemplateId } from './constant';
 
 type ActionnaireModifiéNotificationsProps = {
   sendEmail: RegisterActionnaireNotificationDependencies['sendEmail'];

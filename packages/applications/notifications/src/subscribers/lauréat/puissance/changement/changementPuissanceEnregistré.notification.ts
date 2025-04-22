@@ -5,6 +5,8 @@ import { IdentifiantProjet } from '@potentiel-domain/projet';
 
 import { RegisterPuissanceNotificationDependencies } from '..';
 import { listerDrealsRecipients } from '../../../../helpers/listerDrealsRecipients';
+import { puissanceNotificationTemplateId } from '../constant';
+import { listerPorteursRecipients } from '../../../../helpers/listerPorteursRecipients';
 
 type ChangementPuissanceEnregistréNotificationProps = {
   sendEmail: RegisterPuissanceNotificationDependencies['sendEmail'];
@@ -25,20 +27,21 @@ export const changementPuissanceEnregistréNotification = async ({
 }: ChangementPuissanceEnregistréNotificationProps) => {
   const identifiantProjet = IdentifiantProjet.convertirEnValueType(event.payload.identifiantProjet);
   const dreals = await listerDrealsRecipients(projet.région);
+  const porteurs = await listerPorteursRecipients(identifiantProjet);
 
-  if (dreals.length === 0) {
-    getLogger().error('Aucune dreal trouvée', {
+  if (dreals.length === 0 && porteurs.length === 0) {
+    getLogger().error('Aucune dreal ou porteur trouvée', {
       identifiantProjet: identifiantProjet.formatter(),
       application: 'notifications',
-      fonction: 'demandeChangementPuissanceEnregistréNotification',
+      fonction: 'changementActionnaireEnregistréNotifications',
     });
     return;
   }
 
   return sendEmail({
-    templateId: 6888190,
+    templateId: puissanceNotificationTemplateId.changement.enregistrer,
     messageSubject: `Potentiel - Enregistrement d'un changement de puissance pour le projet ${projet.nom} dans le département ${projet.département}`,
-    recipients: dreals,
+    recipients: [...dreals, ...porteurs],
     variables: {
       nom_projet: projet.nom,
       departement_projet: projet.département,

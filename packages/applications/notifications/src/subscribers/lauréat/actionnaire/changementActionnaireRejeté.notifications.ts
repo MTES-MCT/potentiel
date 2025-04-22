@@ -7,7 +7,7 @@ import { listerPorteursRecipients } from '../../../helpers/listerPorteursRecipie
 
 import { RegisterActionnaireNotificationDependencies } from '.';
 
-import { actionnaireNotificationTemplateId } from './templateIds';
+import { actionnaireNotificationTemplateId } from './constant';
 
 type changementActionnaireRejetéNotificationsProps = {
   sendEmail: RegisterActionnaireNotificationDependencies['sendEmail'];
@@ -37,7 +37,7 @@ export const changementActionnaireRejetéNotifications = async ({
   }
 
   await sendEmail({
-    templateId: actionnaireNotificationTemplateId.rejeter,
+    templateId: actionnaireNotificationTemplateId.changement.rejeter,
     messageSubject: `Potentiel - La demande de changement d'actionnaire pour le projet ${projet.nom} dans le département ${projet.département} a été rejetée`,
     recipients: porteurs,
     variables: {

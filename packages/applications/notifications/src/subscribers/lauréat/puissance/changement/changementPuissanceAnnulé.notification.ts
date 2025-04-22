@@ -7,6 +7,7 @@ import { RegisterPuissanceNotificationDependencies } from '..';
 import { listerDrealsRecipients } from '../../../../helpers/listerDrealsRecipients';
 import { Recipient } from '../../../../sendEmail';
 import { listerDgecRecipients } from '../../../../helpers/listerDgecRecipients';
+import { puissanceNotificationTemplateId } from '../constant';
 
 type ChangementPuissanceAnnuléNotificationProps = {
   sendEmail: RegisterPuissanceNotificationDependencies['sendEmail'];
@@ -46,7 +47,7 @@ export const changementPuissanceAnnuléNotification = async ({
   }
 
   return sendEmail({
-    templateId: 6887039,
+    templateId: puissanceNotificationTemplateId.changement.annuler,
     messageSubject: `Potentiel - La demande de changement de puissance pour le projet ${projet.nom} dans le département ${projet.département} a été annulée`,
     recipients,
     variables: {
