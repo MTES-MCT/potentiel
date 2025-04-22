@@ -54,8 +54,6 @@ export const DemanderChangementPuissanceForm: FC<DemanderChangementPuissanceForm
   const dépasseLesRatioDeAppelOffres =
     ratioValueType.dépasseRatiosChangementPuissance().dépasseMax ||
     ratioValueType.dépasseRatiosChangementPuissance().enDeçaDeMin;
-  const dépassePuissanceMaxDuVolumeRéservé = ratioValueType.dépassePuissanceMaxDuVolumeRéservé();
-  const dépassePuissanceMaxFamille = ratioValueType.dépassePuissanceMaxFamille();
 
   const ratioHintText = isNaN(nouvellePuissance) ? (
     "Aucune valeur n'est encore renseignée"
@@ -125,8 +123,8 @@ export const DemanderChangementPuissanceForm: FC<DemanderChangementPuissanceForm
           />
           <DemanderChangementPuissanceFormErrors
             dépasseLesRatioDeAppelOffres={dépasseLesRatioDeAppelOffres}
-            dépassePuissanceMaxDuVolumeRéservé={dépassePuissanceMaxDuVolumeRéservé}
-            dépassePuissanceMaxFamille={dépassePuissanceMaxFamille}
+            dépassePuissanceMaxDuVolumeRéservé={ratioValueType.dépassePuissanceMaxDuVolumeRéservé()}
+            dépassePuissanceMaxFamille={ratioValueType.dépassePuissanceMaxFamille()}
             dépasseRatiosChangementPuissanceDuCahierDesChargesInitial={ratioValueType.dépasseRatiosChangementPuissanceDuCahierDesChargesInitial()}
             aChoisiCDC2022={
               cahierDesCharges.type === 'modifié' && cahierDesCharges.paruLe === '30/08/2022'
