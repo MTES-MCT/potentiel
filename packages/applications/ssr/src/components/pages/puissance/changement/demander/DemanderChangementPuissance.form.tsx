@@ -51,8 +51,6 @@ export const DemanderChangementPuissanceForm: FC<DemanderChangementPuissanceForm
     note,
   });
 
-  // viovio
-
   const dépasseLesRatioDeAppelOffres =
     ratioValueType.dépasseRatiosChangementPuissance().dépasseMax ||
     ratioValueType.dépasseRatiosChangementPuissance().enDeçaDeMin;
