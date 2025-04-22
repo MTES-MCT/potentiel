@@ -45,7 +45,7 @@ export type DemanderOptions = {
   estAchevé: boolean;
   appelOffre: Option.Type<AppelOffre.ConsulterAppelOffreReadModel>;
   technologie: Candidature.TypeTechnologie.ValueType;
-  cahierDesCharges: Option.Type<Lauréat.ConsulterCahierDesChargesChoisiReadmodel>;
+  cahierDesCharges: Option.Type<Lauréat.ConsulterCahierDesChargesChoisiReadModel>;
   note: number;
 };
 

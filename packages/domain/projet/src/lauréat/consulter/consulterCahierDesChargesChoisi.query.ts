@@ -7,7 +7,7 @@ import { Find } from '@potentiel-domain/entity';
 
 import { LauréatEntity } from '../lauréat.entity';
 
-export type ConsulterCahierDesChargesChoisiReadmodel =
+export type ConsulterCahierDesChargesChoisiReadModel =
   | AppelOffre.CahierDesChargesModifié
   | { type: 'initial' };
 
@@ -16,7 +16,7 @@ export type ConsulterCahierDesChargesChoisiQuery = Message<
   {
     identifiantProjet: string;
   },
-  Option.Type<ConsulterCahierDesChargesChoisiReadmodel>
+  Option.Type<ConsulterCahierDesChargesChoisiReadModel>
 >;
 
 export type ConsulterCahierDesChargesChoisiPort = (

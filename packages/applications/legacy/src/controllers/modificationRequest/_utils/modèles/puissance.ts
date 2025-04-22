@@ -13,7 +13,7 @@ type MapToPuissanceModèleRéponseProps = {
   lauréat: Lauréat.ConsulterLauréatReadModel;
   appelOffres: AppelOffre.ConsulterAppelOffreReadModel;
   candidature: Candidature.ConsulterCandidatureReadModel;
-  cahierDesChargesChoisi: Lauréat.ConsulterCahierDesChargesChoisiReadmodel;
+  cahierDesChargesChoisi: Lauréat.ConsulterCahierDesChargesChoisiReadModel;
   représentantLégal: Option.Type<ReprésentantLégal.ConsulterReprésentantLégalReadModel>;
   nouvellePuissance: number;
   puissanceActuelle: number;
@@ -99,7 +99,7 @@ const getDonnéesCourriersRéponse = ({
 }: {
   appelOffres: AppelOffre.AppelOffreReadModel;
   période: string;
-  cahierDesChargesChoisi: Lauréat.ConsulterCahierDesChargesChoisiReadmodel;
+  cahierDesChargesChoisi: Lauréat.ConsulterCahierDesChargesChoisiReadModel;
 }): AppelOffre.DonnéesCourriersRéponse['texteChangementDePuissance'] => {
   const périodeDetails = appelOffres.periodes.find((periode) => periode.id === période);
 

@@ -1,7 +1,7 @@
 import { ChoisirCahierDesChargesUseCase } from './choisir/choisirCahierDesCharges.usecase';
 import {
   ConsulterCahierDesChargesChoisiQuery,
-  ConsulterCahierDesChargesChoisiReadmodel,
+  ConsulterCahierDesChargesChoisiReadModel,
 } from './consulter/consulterCahierDesChargesChoisi.query';
 import {
   ConsulterLauréatQuery,
@@ -15,7 +15,7 @@ export type LauréatQuery = ConsulterLauréatQuery | ConsulterCahierDesChargesCh
 export { ConsulterLauréatQuery, ConsulterCahierDesChargesChoisiQuery };
 
 // ReadModel
-export { ConsulterLauréatReadModel, ConsulterCahierDesChargesChoisiReadmodel };
+export { ConsulterLauréatReadModel, ConsulterCahierDesChargesChoisiReadModel };
 
 // Port
 export { ConsulterCahierDesChargesChoisiPort } from './consulter/consulterCahierDesChargesChoisi.query';

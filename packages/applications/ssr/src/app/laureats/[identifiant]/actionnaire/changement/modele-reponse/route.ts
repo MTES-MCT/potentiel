@@ -131,7 +131,7 @@ const getDonnéesCourriersRéponse = ({
 }: {
   appelOffres: AppelOffre.AppelOffreReadModel;
   période: AppelOffre.Periode;
-  cahierDesChargesChoisi: Lauréat.ConsulterCahierDesChargesChoisiReadmodel;
+  cahierDesChargesChoisi: Lauréat.ConsulterCahierDesChargesChoisiReadModel;
 }): AppelOffre.DonnéesCourriersRéponse['texteChangementDActionnariat'] => {
   return {
     référenceParagraphe: '!!!REFERENCE NON DISPONIBLE!!!',

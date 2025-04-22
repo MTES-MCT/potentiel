@@ -119,7 +119,7 @@ const getCDCAbandonRefs = ({
 }: {
   appelOffres: AppelOffre.AppelOffreReadModel;
   période: AppelOffre.Periode;
-  cahierDesChargesChoisi: Lauréat.ConsulterCahierDesChargesChoisiReadmodel;
+  cahierDesChargesChoisi: Lauréat.ConsulterCahierDesChargesChoisiReadModel;
 }) => {
   const cahierDesChargesModifié =
     cahierDesChargesChoisi.type === 'modifié' &&

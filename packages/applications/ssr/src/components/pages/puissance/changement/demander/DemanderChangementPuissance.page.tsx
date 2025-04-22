@@ -18,7 +18,7 @@ export type DemanderChangementPuissancePageProps = PlainType<
     période: AppelOffre.Periode;
     technologie: Candidature.TypeTechnologie.RawType;
     famille?: AppelOffre.Famille;
-    cahierDesCharges: PlainType<Lauréat.ConsulterCahierDesChargesChoisiReadmodel>;
+    cahierDesCharges: PlainType<Lauréat.ConsulterCahierDesChargesChoisiReadModel>;
     note: number;
     unitéPuissance: string;
     puissanceInitiale: number;

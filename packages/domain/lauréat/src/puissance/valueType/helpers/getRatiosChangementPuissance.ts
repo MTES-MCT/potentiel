@@ -7,7 +7,7 @@ const PUISSANCE_DEFAULT_RATIOS = { min: 0.9, max: 1.1 };
 type GetRatiosChangementPuissanceProps = {
   appelOffre: Pick<AppelOffre.ConsulterAppelOffreReadModel, 'changementPuissance'>;
   technologie: Candidature.TypeTechnologie.RawType;
-  cahierDesCharges: PlainType<Lauréat.ConsulterCahierDesChargesChoisiReadmodel>;
+  cahierDesCharges: PlainType<Lauréat.ConsulterCahierDesChargesChoisiReadModel>;
 };
 
 export const getRatiosChangementPuissance = ({

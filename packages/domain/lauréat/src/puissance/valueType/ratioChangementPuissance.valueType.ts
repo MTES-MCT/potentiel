@@ -16,7 +16,7 @@ export type ValueType = ReadonlyValueType<{
   ratio: number;
   appelOffre: PlainType<AppelOffre.ConsulterAppelOffreReadModel>;
   technologie: Candidature.TypeTechnologie.RawType;
-  cahierDesCharges: PlainType<Lauréat.ConsulterCahierDesChargesChoisiReadmodel>;
+  cahierDesCharges: PlainType<Lauréat.ConsulterCahierDesChargesChoisiReadModel>;
   période: PlainType<AppelOffre.Periode>;
   nouvellePuissance: number;
   famille?: AppelOffre.Famille;

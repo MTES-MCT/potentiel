@@ -43,7 +43,7 @@ type MapToDélaiModèleRéponseProps = {
   lauréat: Lauréat.ConsulterLauréatReadModel;
   appelOffres: AppelOffre.ConsulterAppelOffreReadModel;
   candidature: Candidature.ConsulterCandidatureReadModel;
-  cahierDesChargesChoisi: Lauréat.ConsulterCahierDesChargesChoisiReadmodel;
+  cahierDesChargesChoisi: Lauréat.ConsulterCahierDesChargesChoisiReadModel;
   représentantLégal: Option.Type<ReprésentantLégal.ConsulterReprésentantLégalReadModel>;
   puissanceActuelle: number;
   dateAchèvementDemandée: Date;
@@ -190,7 +190,7 @@ const getDonnéesCourriersRéponse = ({
 }: {
   appelOffres: AppelOffre.AppelOffreReadModel;
   période: string;
-  cahierDesChargesChoisi: Lauréat.ConsulterCahierDesChargesChoisiReadmodel;
+  cahierDesChargesChoisi: Lauréat.ConsulterCahierDesChargesChoisiReadModel;
 }): AppelOffre.DonnéesCourriersRéponse['texteDélaisDAchèvement'] => {
   const périodeDetails = appelOffres.periodes.find((periode) => periode.id === période);
 
