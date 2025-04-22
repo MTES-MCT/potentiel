@@ -38,7 +38,6 @@ import {
   registerRaccordementQueries,
   registerRaccordementUseCases,
 } from './raccordement/raccordement.register';
-// import { registerModifierLauréatCommand } from './modifier/modifierLauréat.command';
 import {
   registerPuissanceQueries,
   registerPuissanceUseCases,
@@ -60,9 +59,6 @@ export type LauréatCommandDependencies = AbandonCommandDependencies &
   RaccordementCommandDependencies;
 
 export const registerLauréatUseCases = (dependencies: LauréatCommandDependencies) => {
-  // Commands
-
-  // Use cases
   registerAbandonUseCases(dependencies);
   registerGarantiesFinancièresUseCases(dependencies);
   registerAchèvementUseCases(dependencies);

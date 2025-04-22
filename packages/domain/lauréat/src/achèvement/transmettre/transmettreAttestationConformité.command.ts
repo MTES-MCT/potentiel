@@ -36,13 +36,13 @@ export const registerTransmettreAttestationConformitéCommand = (
     date,
     utilisateur,
   }) => {
-    const projet = await getProjetAggregateRoot(identifiantProjet);
-    projet.lauréat.vérifierQueLeLauréatExiste();
-
     const attestationConformité = await loadAttestationConformitéAggregate(
       identifiantProjet,
       false,
     );
+
+    const projet = await getProjetAggregateRoot(identifiantProjet);
+    projet.lauréat.vérifierQueLeLauréatExiste();
 
     const abandon = await loadAbandon(identifiantProjet, false);
 

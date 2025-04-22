@@ -78,14 +78,14 @@ export class CandidatureAggregate extends AbstractAggregate<CandidatureEvent> {
   }
 
   get notifiéeLe() {
-    if (!this.notifiéeLe) {
+    if (!this.#notifiéeLe) {
       throw new CandidatureNonNotifiéeError();
     }
     return this.#notifiéeLe;
   }
 
   get notifiéePar() {
-    if (!this.notifiéePar) {
+    if (!this.#notifiéePar) {
       throw new CandidatureNonNotifiéeError();
     }
     return this.#notifiéePar;
