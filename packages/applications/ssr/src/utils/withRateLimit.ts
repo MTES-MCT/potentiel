@@ -21,13 +21,15 @@ export function withRateLimit<TResult, TArgs extends unknown[]>(
     const utilisateur = getContext()?.utilisateur;
     const ip = headers().get('x-forwarded-for');
     try {
-      const suffix = await rateLimiterOptions.getKeySuffix?.(...args);
-      if (utilisateur) {
-        await rateLimiter.consume(utilisateur.identifiantUtilisateur.email + suffix);
-      }
-      if (ip) {
-        await rateLimiter.consume(ip + suffix);
-      }
+      const consume = async (key: string | null | undefined) => {
+        if (!key) return;
+        const suffix = await rateLimiterOptions.getKeySuffix?.(...args);
+        return rateLimiter.consume(`${key}${suffix ? '#' : ''}${suffix}`);
+      };
+
+      await consume(utilisateur?.identifiantUtilisateur.email);
+      await consume(ip);
+
       if (!utilisateur && !ip) {
         logger.warn('No user or IP found');
       }
