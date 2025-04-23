@@ -37,7 +37,6 @@ export const DemanderChangementPuissanceForm: FC<DemanderChangementPuissanceForm
   const [validationErrors, setValidationErrors] = useState<
     ValidationErrors<DemanderChangementPuissanceFormKeys>
   >({});
-  const [piècesJustificatives, setPiècesJustificatives] = useState<Array<string>>([]);
   const [nouvellePuissance, setNouvellePuissance] = useState<number>(puissance);
   const ratio = nouvellePuissance / puissanceInitiale;
 
@@ -55,14 +54,21 @@ export const DemanderChangementPuissanceForm: FC<DemanderChangementPuissanceForm
   const dépasseLesRatioDeAppelOffres =
     ratioValueType.dépasseRatiosChangementPuissance().dépasseMax ||
     ratioValueType.dépasseRatiosChangementPuissance().enDeçaDeMin;
-  const dépassePuissanceMaxDuVolumeRéservé = ratioValueType.dépassePuissanceMaxDuVolumeRéservé();
-  const dépassePuissanceMaxFamille = ratioValueType.dépassePuissanceMaxFamille();
 
-  const ratioHintText = isNaN(nouvellePuissance)
-    ? "Aucune valeur n'est encore renseignée"
-    : ratio === 1
-      ? 'La valeur est identique à la puissance actuelle'
-      : `Ceci correspond à ${ratio > 1 ? 'une augmentation' : 'une diminution'} de ${Math.round(Math.abs(100 - ratio * 100))}% par rapport à la puissance initiale du projet`;
+  const ratioHintText = isNaN(nouvellePuissance) ? (
+    "Aucune valeur n'est encore renseignée"
+  ) : ratio === 1 ? (
+    'La valeur est identique à la puissance actuelle'
+  ) : (
+    <span>
+      Ceci correspond à{' '}
+      <strong>
+        {ratio > 1 ? 'une augmentation' : 'une diminution'} de{' '}
+        {Math.round(Math.abs(100 - ratio * 100))}%
+      </strong>{' '}
+      de la puissance initiale du projet
+    </span>
+  );
 
   return (
     <Form
@@ -80,16 +86,7 @@ export const DemanderChangementPuissanceForm: FC<DemanderChangementPuissanceForm
           >
             Retour à la page projet
           </Button>
-          <SubmitButton
-            disabledCondition={() =>
-              (!piècesJustificatives.length && dépasseLesRatioDeAppelOffres) ||
-              Object.keys(validationErrors).length > 0 ||
-              dépassePuissanceMaxDuVolumeRéservé ||
-              dépassePuissanceMaxFamille
-            }
-          >
-            Confirmer la demande
-          </SubmitButton>
+          <SubmitButton>Confirmer la demande</SubmitButton>
         </>
       }
     >
@@ -126,8 +123,8 @@ export const DemanderChangementPuissanceForm: FC<DemanderChangementPuissanceForm
           />
           <DemanderChangementPuissanceFormErrors
             dépasseLesRatioDeAppelOffres={dépasseLesRatioDeAppelOffres}
-            dépassePuissanceMaxDuVolumeRéservé={dépassePuissanceMaxDuVolumeRéservé}
-            dépassePuissanceMaxFamille={dépassePuissanceMaxFamille}
+            dépassePuissanceMaxDuVolumeRéservé={ratioValueType.dépassePuissanceMaxDuVolumeRéservé()}
+            dépassePuissanceMaxFamille={ratioValueType.dépassePuissanceMaxFamille()}
             dépasseRatiosChangementPuissanceDuCahierDesChargesInitial={ratioValueType.dépasseRatiosChangementPuissanceDuCahierDesChargesInitial()}
             aChoisiCDC2022={
               cahierDesCharges.type === 'modifié' && cahierDesCharges.paruLe === '30/08/2022'
@@ -168,10 +165,6 @@ export const DemanderChangementPuissanceForm: FC<DemanderChangementPuissanceForm
           multiple
           state={validationErrors['piecesJustificatives'] ? 'error' : 'default'}
           stateRelatedMessage={validationErrors['piecesJustificatives']}
-          onChange={(piècesJustificatives) => {
-            delete validationErrors['piecesJustificatives'];
-            setPiècesJustificatives(piècesJustificatives);
-          }}
         />
       </div>
     </Form>

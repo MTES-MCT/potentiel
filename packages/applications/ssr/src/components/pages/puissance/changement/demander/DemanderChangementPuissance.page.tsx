@@ -42,7 +42,7 @@ export const DemanderChangementPuissancePage: FC<DemanderChangementPuissancePage
       <ProjetBanner identifiantProjet={IdentifiantProjet.bind(identifiantProjet).formatter()} />
     }
   >
-    <Heading1>Demander un changement de puissance</Heading1>
+    <Heading1>Changer de puissance</Heading1>
     <DemanderChangementPuissanceForm
       identifiantProjet={identifiantProjet}
       puissance={puissance}

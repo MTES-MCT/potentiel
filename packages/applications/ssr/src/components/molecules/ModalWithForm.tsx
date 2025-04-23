@@ -6,12 +6,11 @@ import { useIsModalOpen } from '@codegouvfr/react-dsfr/Modal/useIsModalOpen';
 import { FC, useState } from 'react';
 
 import { Form, FormProps } from '../atoms/form/Form';
-import { SubmitButton, SubmitButtonProps } from '../atoms/form/SubmitButton';
+import { SubmitButton } from '../atoms/form/SubmitButton';
 
 export type ModalWithFormProps = {
   id: string;
   acceptButtonLabel: string;
-  disabledSubmitCondition?: SubmitButtonProps['disabledCondition'];
   form: Omit<FormProps, 'actions'>;
   isOpen: boolean;
   rejectButtonLabel: string;
@@ -22,7 +21,6 @@ export type ModalWithFormProps = {
 export const ModalWithForm: FC<ModalWithFormProps> = ({
   id,
   acceptButtonLabel,
-  disabledSubmitCondition,
   form,
   isOpen,
   rejectButtonLabel,
@@ -70,9 +68,7 @@ export const ModalWithForm: FC<ModalWithFormProps> = ({
             <Button priority="secondary" onClick={handleRejectClick} type="button">
               {rejectButtonLabel}
             </Button>
-            <SubmitButton disabledCondition={disabledSubmitCondition}>
-              {acceptButtonLabel}
-            </SubmitButton>
+            <SubmitButton>{acceptButtonLabel}</SubmitButton>
           </>
         }
       >

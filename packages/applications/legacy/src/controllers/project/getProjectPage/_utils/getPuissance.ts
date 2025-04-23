@@ -12,7 +12,7 @@ import { mediator } from 'mediateur';
 export type GetPuissanceForProjectPage = {
   puissance: number;
   affichage?: {
-    labelPageProjet: string;
+    label: string;
     url: string;
   };
 };
@@ -51,7 +51,7 @@ export const getPuissance = async ({
                   identifiantProjet.formatter(),
                   dateDemandeEnCours.formatter(),
                 ),
-                labelPageProjet: 'Voir la demande de modification',
+                label: 'Voir la demande de modification',
               }
             : undefined,
         };
@@ -62,7 +62,7 @@ export const getPuissance = async ({
           puissance,
           affichage: {
             url: Routes.Puissance.modifier(identifiantProjet.formatter()),
-            labelPageProjet: 'Modifier',
+            label: 'Modifier',
           },
         };
       }
@@ -77,7 +77,7 @@ export const getPuissance = async ({
           puissance: puissance,
           affichage: {
             url: Routes.Puissance.changement.demander(identifiantProjet.formatter()),
-            labelPageProjet: 'Demander un changement de puissance',
+            label: 'Changer de puissance',
           },
         };
       }
@@ -100,7 +100,7 @@ export const getPuissance = async ({
         affichage: role.aLaPermission('candidature.corriger')
           ? {
               url: Routes.Candidature.corriger(identifiantProjet.formatter()),
-              labelPageProjet: 'Modifier la candidature',
+              label: 'Modifier la candidature',
             }
           : undefined,
       };

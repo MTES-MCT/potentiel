@@ -101,6 +101,7 @@ export const ProjectDetails = ({
         peutFaireDemandeChangementReprésentantLégal={
           !!représentantLégal?.demandeDeModification?.peutFaireUneDemande
         }
+        puissanceAffichage={puissance?.affichage}
         actionnaireAffichage={actionnaire?.affichage}
       />
       <div className="print:hidden">
