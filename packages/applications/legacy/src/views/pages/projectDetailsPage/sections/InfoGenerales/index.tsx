@@ -128,7 +128,6 @@ export const InfoGenerales = ({
           unitePuissance={appelOffre.unitePuissance}
           désignationCatégorie={désignationCatégorie}
           puissanceInférieurePuissanceMaxVolRéservé={puissanceInférieurePuissanceMaxVolRéservé}
-          legacyPuissance={legacyPuissance}
         />
       )}
       <div>
