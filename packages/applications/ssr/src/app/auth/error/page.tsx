@@ -20,6 +20,13 @@ const getError = (
   error: string,
 ): { type: ErrorType; message: string; statusCode: CustomErrorProps['statusCode'] } => {
   switch (error) {
+    case 'ProviderUnauthorized':
+      return {
+        statusCode: '403',
+        type: 'ProviderUnauthorized',
+        message:
+          "Cette méthode d'authentification n'est pas disponible, veuillez vous déconnecter et en choisir une autre.",
+      };
     case 'Verification':
     case 'AccessDenied':
       return {

@@ -12,6 +12,12 @@ export function withNextAuth(middleware: CustomMiddleware) {
       return NextResponse.redirect(redirectUrl);
     }
 
+    if (token.providerAuthorized === false) {
+      const redirectUrl = new URL('/auth/error', request.url);
+      redirectUrl.searchParams.set('error', 'ProviderUnauthorized');
+      return NextResponse.redirect(redirectUrl);
+    }
+
     return middleware(request, event, NextResponse.next());
   };
 }

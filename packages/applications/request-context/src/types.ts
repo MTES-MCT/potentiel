@@ -7,6 +7,7 @@ export interface PotentielJWT {
   refreshToken?: string;
   expiresAt?: number;
   provider?: string;
+  providerAuthorized?: boolean;
   job?: string;
 }
 

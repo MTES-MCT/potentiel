@@ -2,6 +2,8 @@ import Image from 'next/image';
 import { FC } from 'react';
 import { fr } from '@codegouvfr/react-dsfr';
 
+import { Routes } from '@potentiel-applications/routes';
+
 import { Heading1 } from '@/components/atoms/headings';
 
 import { DefaultError } from './DefaultError';
@@ -10,7 +12,8 @@ export type ErrorType =
   | 'NotFoundError'
   | 'InvalidOperationError'
   | 'OperationRejectedError'
-  | 'ServerError';
+  | 'ServerError'
+  | 'ProviderUnauthorized';
 
 export type CustomErrorProps = {
   type: ErrorType;
@@ -19,7 +22,12 @@ export type CustomErrorProps = {
 };
 
 export const CustomErrorPage: FC<CustomErrorProps> = ({ type, statusCode, message }) => {
-  const title = type === 'NotFoundError' ? 'Page non trouvée' : 'Une erreur est survenue';
+  const title =
+    type === 'ProviderUnauthorized'
+      ? 'Connexion impossible'
+      : type === 'NotFoundError'
+        ? 'Page non trouvée'
+        : 'Une erreur est survenue';
   const description = getDescription(type, message);
 
   return (
@@ -41,9 +49,15 @@ export const CustomErrorPage: FC<CustomErrorProps> = ({ type, statusCode, messag
           {description}
           <ul className={fr.cx('fr-btns-group', 'fr-btns-group--inline-md')}>
             <li>
-              <a className={fr.cx('fr-btn')} href="/">
-                Page d'accueil
-              </a>
+              {type === 'ProviderUnauthorized' ? (
+                <a className={fr.cx('fr-btn')} href={Routes.Auth.signOut()}>
+                  Se déconnecter
+                </a>
+              ) : (
+                <a className={fr.cx('fr-btn')} href="/">
+                  Page d'accueil
+                </a>
+              )}
             </li>
           </ul>
         </div>
@@ -104,6 +118,7 @@ function getDescription(type: ErrorType, message?: CustomErrorProps['message']) 
         </>
       );
 
+    case 'ProviderUnauthorized':
     case 'InvalidOperationError':
       return message ? <p className={fr.cx('fr-text--lead')}>{message}</p> : <DefaultError />;
 

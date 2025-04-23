@@ -8,13 +8,12 @@ import { getConnectionString } from '@potentiel-libraries/pg-helpers';
 import { getLogger } from '@potentiel-libraries/monitoring';
 import { Routes } from '@potentiel-applications/routes';
 import { PostgresAdapter } from '@potentiel-libraries/auth-pg-adapter';
-import { Option } from '@potentiel-libraries/monads';
 import { sendEmail } from '@potentiel-infrastructure/email';
 
 import { getProviderConfiguration } from './getProviderConfiguration';
 import { refreshToken } from './refreshToken';
 import ProConnectProvider from './ProConnectProvider';
-import { getSessionUtilisateurFromEmail, getUtilisateurFromEmail } from './getUtilisateur';
+import { getSessionUtilisateurFromEmail } from './getUtilisateur';
 import { ajouterStatistiqueConnexion } from './ajouterStatistiqueConnexion';
 import { canConnectWithProvider } from './canConnectWithProvider';
 
@@ -99,31 +98,7 @@ export const authOptions: AuthOptions = {
     },
   },
   callbacks: {
-    async signIn({ account, user }) {
-      const logger = getLogger('Auth');
-
-      const utilisateur = await getUtilisateurFromEmail(user?.email ?? '');
-
-      // Un utilisateur non existant aura le rôle porteur afin de pouvoir réclamer un projet
-      if (Option.isNone(utilisateur)) {
-        logger.info(`User tries to connect but is not registered yet`, {
-          user,
-          provider: account?.provider,
-        });
-        return true;
-      }
-
-      if (account?.provider && !canConnectWithProvider(account?.provider, utilisateur.role.nom)) {
-        getLogger('Auth').info(
-          `User tries to connect with '${account.provider}' but is not authorized`,
-          { utilisateur },
-        );
-        return Routes.Auth.signIn({ error: 'Unauthorized' });
-      }
-
-      return true;
-    },
-    jwt({ token, trigger, account, profile }) {
+    async jwt({ token, trigger, account, profile }) {
       if (['signIn', 'signUp'].includes(trigger ?? '') && account) {
         const { sub, expires_at = 0, provider } = account;
         const expiresAtInMs = expires_at * 1000;
@@ -134,6 +109,8 @@ export const authOptions: AuthOptions = {
           provider,
         });
 
+        const { role } = await getSessionUtilisateurFromEmail(token?.email ?? '');
+
         return {
           ...token,
           name: profile?.name ?? token.name,
@@ -142,6 +119,8 @@ export const authOptions: AuthOptions = {
           expiresAt: expiresAtInMs,
           refreshToken: account.refresh_token,
           job: profile?.job,
+          // see middleware
+          providerAuthorized: canConnectWithProvider(provider, role.nom),
         };
       }
 
