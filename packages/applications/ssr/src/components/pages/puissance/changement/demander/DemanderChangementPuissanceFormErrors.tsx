@@ -36,8 +36,8 @@ export const DemanderChangementPuissanceFormErrors = ({
           small
           description={
             <span>
-              Les modifications de la puissance installée ne peuvent pas dépasser le plafond de
-              puissance de la famille du projet, soit{' '}
+              Les modifications de la puissance installée doivent être strictement inférieures au
+              plafond de puissance de la famille du projet, soit{' '}
               <strong>
                 {puissanceMaxFamille} {unitéPuissance}
               </strong>

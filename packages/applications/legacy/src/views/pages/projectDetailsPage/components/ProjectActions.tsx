@@ -100,7 +100,7 @@ const PorteurProjetActions = ({
                 href={puissanceAffichage.url}
                 disabled={modificationsNonPermisesParLeCDCActuel ? true : undefined}
               >
-                <span>{puissanceAffichage.label}</span>
+                <span>{puissanceAffichage.labelActions ?? puissanceAffichage.label}</span>
               </DropdownMenuSecondaryButton.DropdownItem>
             )}
             <DropdownMenuSecondaryButton.DropdownItem href={routes.DEMANDER_DELAI(project.id)}>
