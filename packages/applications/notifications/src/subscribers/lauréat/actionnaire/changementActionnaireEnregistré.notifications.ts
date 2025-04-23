@@ -4,10 +4,11 @@ import { Routes } from '@potentiel-applications/routes';
 import { Actionnaire } from '@potentiel-domain/laureat';
 
 import { listerDrealsRecipients } from '../../../helpers/listerDrealsRecipients';
+import { listerPorteursRecipients } from '../../../helpers/listerPorteursRecipients';
 
 import { RegisterActionnaireNotificationDependencies } from '.';
 
-import { actionnaireNotificationTemplateId } from './templateIds';
+import { actionnaireNotificationTemplateId } from './constant';
 
 type ChangementActionnaireEnregistréNotificationsProps = {
   sendEmail: RegisterActionnaireNotificationDependencies['sendEmail'];
@@ -28,9 +29,10 @@ export const changementActionnaireEnregistréNotifications = async ({
 }: ChangementActionnaireEnregistréNotificationsProps) => {
   const identifiantProjet = IdentifiantProjet.convertirEnValueType(event.payload.identifiantProjet);
   const dreals = await listerDrealsRecipients(projet.région);
+  const porteurs = await listerPorteursRecipients(identifiantProjet);
 
-  if (dreals.length === 0) {
-    getLogger().error('Aucune dreal trouvé(e)', {
+  if (dreals.length === 0 && porteurs.length === 0) {
+    getLogger().error('Aucune dreal ou porteur trouvée', {
       identifiantProjet: identifiantProjet.formatter(),
       application: 'notifications',
       fonction: 'changementActionnaireEnregistréNotifications',
@@ -39,9 +41,20 @@ export const changementActionnaireEnregistréNotifications = async ({
   }
 
   await sendEmail({
-    templateId: actionnaireNotificationTemplateId.modifier,
+    templateId: actionnaireNotificationTemplateId.changement.enregistrer,
     messageSubject: `Potentiel - Enregistrement d'un changement d'actionnaire pour le projet ${projet.nom} dans le département ${projet.département}`,
     recipients: dreals,
+    variables: {
+      nom_projet: projet.nom,
+      departement_projet: projet.département,
+      url: `${baseUrl}${Routes.Projet.details(identifiantProjet.formatter())}`,
+    },
+  });
+
+  await sendEmail({
+    templateId: actionnaireNotificationTemplateId.changement.enregistrer,
+    messageSubject: `Potentiel - Enregistrement d'un changement d'actionnaire pour le projet ${projet.nom} dans le département ${projet.département}`,
+    recipients: porteurs,
     variables: {
       nom_projet: projet.nom,
       departement_projet: projet.département,

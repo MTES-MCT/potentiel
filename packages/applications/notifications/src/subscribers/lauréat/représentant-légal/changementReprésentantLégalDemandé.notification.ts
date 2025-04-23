@@ -7,6 +7,8 @@ import { listerDrealsRecipients } from '../../../helpers/listerDrealsRecipients'
 
 import { RegisterReprésentantLégalNotificationDependencies } from '.';
 
+import { représentantLégalNotificationTemplateId } from './constant';
+
 type ChangementReprésentantLégalDemandéNotificationProps = {
   sendEmail: RegisterReprésentantLégalNotificationDependencies['sendEmail'];
   event: ReprésentantLégal.ChangementReprésentantLégalDemandéEvent;
@@ -37,7 +39,7 @@ export const changementReprésentantLégalDemandéNotification = async ({
   }
 
   return sendEmail({
-    templateId: 6553655,
+    templateId: représentantLégalNotificationTemplateId.changement.demander,
     messageSubject: `Potentiel - Demande de modification du représentant légal pour le projet ${projet.nom} dans le département ${projet.département}`,
     recipients: dreals,
     variables: {

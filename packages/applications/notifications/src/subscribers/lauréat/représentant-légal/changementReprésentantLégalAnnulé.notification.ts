@@ -7,6 +7,8 @@ import { listerDrealsRecipients } from '../../../helpers/listerDrealsRecipients'
 
 import { RegisterReprésentantLégalNotificationDependencies } from '.';
 
+import { représentantLégalNotificationTemplateId } from './constant';
+
 type ChangementReprésentantLégalAnnuléNotificationProps = {
   sendEmail: RegisterReprésentantLégalNotificationDependencies['sendEmail'];
   event: ReprésentantLégal.ChangementReprésentantLégalAnnuléEvent;
@@ -37,7 +39,7 @@ export const changementReprésentantLégalAnnuléNotification = async ({
   }
 
   return sendEmail({
-    templateId: 6640592,
+    templateId: représentantLégalNotificationTemplateId.changement.annuler,
     messageSubject: `Potentiel - Annulation de la demande de modification du représentant légal pour le projet ${projet.nom} situé dans le département ${projet.département}`,
     recipients: dreals,
     variables: {
