@@ -3,6 +3,7 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 import { Event } from '@potentiel-infrastructure/pg-event-sourcing';
 import { Lauréat } from '@potentiel-domain/projet';
 import {
+  CahierDesChargesChoisi,
   ProjectClasseGranted,
   ProjectCompletionDueDateSet,
   ProjectDataCorrected,
@@ -20,7 +21,12 @@ import { eventStore } from '../config/eventStore.config';
 import { getCompletionDate } from './_helpers/getCompletionDate';
 import { getUserByEmail } from '../config';
 
-export type SubscriptionEvent = (Lauréat.LauréatNotifiéEvent | Lauréat.LauréatModifiéEvent) & Event;
+export type SubscriptionEvent = (
+  | Lauréat.LauréatNotifiéEvent
+  | Lauréat.LauréatModifiéEvent
+  | Lauréat.CahierDesChargesChoisiEvent
+) &
+  Event;
 
 export type Execute = Message<'System.Saga.Lauréat', SubscriptionEvent>;
 
@@ -55,7 +61,7 @@ export const register = () => {
     }
 
     switch (type) {
-      case 'LauréatNotifié-V2':
+      case 'LauréatNotifié-V2': {
         const basePayload = {
           appelOffreId: identifiantProjet.appelOffre,
           periodeId: identifiantProjet.période,
@@ -116,7 +122,8 @@ export const register = () => {
           }),
         );
         return;
-      case 'LauréatModifié-V1':
+      }
+      case 'LauréatModifié-V1': {
         const userId = await new Promise<string>((r) =>
           getUserByEmail(event.payload.modifiéPar).map((user) => {
             r(user?.id ?? '');
@@ -141,6 +148,38 @@ export const register = () => {
             },
           }),
         );
+        return;
+      }
+      case 'CahierDesChargesChoisi-V1': {
+        const userId = await new Promise<string>((r) =>
+          getUserByEmail(event.payload.modifiéPar).map((user) => {
+            r(user?.id ?? '');
+            return ok(user);
+          }),
+        );
+        const cahierDesCharges = AppelOffre.RéférenceCahierDesCharges.convertirEnValueType(
+          event.payload.cahierDesCharges,
+        );
+        await eventStore.publish(
+          cahierDesCharges.type === 'initial'
+            ? new CahierDesChargesChoisi({
+                payload: {
+                  projetId: projet.id,
+                  choisiPar: userId,
+                  type: 'initial',
+                },
+              })
+            : new CahierDesChargesChoisi({
+                payload: {
+                  projetId: projet.id,
+                  choisiPar: userId,
+                  type: 'modifié',
+                  paruLe: cahierDesCharges.paruLe,
+                  alternatif: cahierDesCharges.alternatif,
+                },
+              }),
+        );
+      }
     }
   };
 
