@@ -3,7 +3,7 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
 import { LoadAggregate } from '@potentiel-domain/core';
-import { Candidature } from '@potentiel-domain/candidature';
+import { GetProjetAggregateRoot } from '@potentiel-domain/projet';
 
 import { loadAbandonFactory } from '../abandon.aggregate';
 
@@ -19,8 +19,8 @@ export type TransmettrePreuveRecandidatureCommand = Message<
 
 export const registerTransmettrePreuveRecandidatureAbandonCommand = (
   loadAggregate: LoadAggregate,
+  getProjetAggregateRoot: GetProjetAggregateRoot,
 ) => {
-  const loadCandidature = Candidature.Aggregate.loadCandidatureFactory(loadAggregate);
   const loadAbandon = loadAbandonFactory(loadAggregate);
 
   const handler: MessageHandler<TransmettrePreuveRecandidatureCommand> = async ({
@@ -29,12 +29,13 @@ export const registerTransmettrePreuveRecandidatureAbandonCommand = (
     identifiantUtilisateur,
     dateTransmissionPreuveRecandidature,
   }) => {
-    const preuve = await loadCandidature(preuveRecandidature);
+    const preuve = await getProjetAggregateRoot(preuveRecandidature);
+    preuve.candidature.vérifierQueLaCandidatureExiste();
     const abandon = await loadAbandon(identifiantProjet);
     await abandon.transmettrePreuveRecandidature({
       identifiantProjet,
       preuveRecandidature,
-      dateNotification: preuve.notifiéeLe,
+      dateNotification: preuve.candidature.notifiéeLe,
       identifiantUtilisateur,
       dateTransmissionPreuveRecandidature,
     });

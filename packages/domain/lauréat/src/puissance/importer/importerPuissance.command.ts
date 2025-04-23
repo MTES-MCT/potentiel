@@ -1,11 +1,10 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
-import { IdentifiantProjet, DateTime } from '@potentiel-domain/common';
-import { Candidature } from '@potentiel-domain/candidature';
+import { DateTime } from '@potentiel-domain/common';
 import { LoadAggregate } from '@potentiel-domain/core';
+import { GetProjetAggregateRoot, IdentifiantProjet } from '@potentiel-domain/projet';
 
 import { loadPuissanceFactory } from '../puissance.aggregate';
-import { Lauréat } from '../..';
 
 export type ImporterPuissanceCommand = Message<
   'Lauréat.Puissance.Command.ImporterPuissance',
@@ -15,18 +14,20 @@ export type ImporterPuissanceCommand = Message<
   }
 >;
 
-export const registerImporterPuissanceCommand = (loadAggregate: LoadAggregate) => {
+export const registerImporterPuissanceCommand = (
+  loadAggregate: LoadAggregate,
+  getProjetAggregateRoot: GetProjetAggregateRoot,
+) => {
   const loadPuissance = loadPuissanceFactory(loadAggregate);
-  const loadCandidature = Candidature.Aggregate.loadCandidatureFactory(loadAggregate);
-  const loadLauréat = Lauréat.loadLauréatFactory(loadAggregate);
 
   const handler: MessageHandler<ImporterPuissanceCommand> = async ({
     identifiantProjet,
     importéeLe,
   }) => {
-    await loadLauréat(identifiantProjet);
+    const projet = await getProjetAggregateRoot(identifiantProjet);
+    projet.lauréat.vérifierQueLeLauréatExiste();
 
-    const { puissance: puissanceFromCandidature } = await loadCandidature(identifiantProjet);
+    const { puissanceProductionAnnuelle: puissanceFromCandidature } = projet.candidature;
 
     const puissance = await loadPuissance(identifiantProjet, false);
 

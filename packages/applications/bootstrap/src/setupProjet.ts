@@ -6,6 +6,7 @@ import { subscribe } from '@potentiel-infrastructure/pg-event-sourcing';
 import { findProjection, listProjection } from '@potentiel-infrastructure/pg-projection-read';
 import {
   CandidatureProjector,
+  LauréatProjector,
   RecoursProjector,
   ÉliminéProjector,
 } from '@potentiel-applications/projectors';
@@ -19,6 +20,7 @@ import {
   getProjetUtilisateurScopeAdapter,
 } from '@potentiel-infrastructure/domain-adapters';
 import { AttestationSaga } from '@potentiel-applications/document-builder';
+import { LauréatSaga } from '@potentiel-domain/laureat';
 
 import { getProjetAggregateRootAdapter } from './adapters/getProjetAggregateRoot.adapter';
 
@@ -40,10 +42,40 @@ export const setupProjet = async ({ sendEmail }: SetupProjetDependencies) => {
       CandidatureAdapter.récupérerProjetsEligiblesPreuveRecanditureAdapter,
   });
 
+  LauréatProjector.register();
   ÉliminéProjector.register();
 
   RecoursProjector.register();
   RecoursNotification.register({ sendEmail });
+
+  const unsubscribeLauréatProjector = await subscribe<LauréatProjector.SubscriptionEvent>({
+    name: 'projector',
+    streamCategory: 'lauréat',
+    eventType: [
+      'LauréatNotifié-V1',
+      'NomEtLocalitéLauréatImportés-V1',
+      'LauréatNotifié-V2',
+      'LauréatModifié-V1',
+      'RebuildTriggered',
+    ],
+    eventHandler: async (event) => {
+      await mediator.send<LauréatProjector.Execute>({
+        type: 'System.Projector.Lauréat',
+        data: event,
+      });
+    },
+  });
+  const unsubscribeLauréatSaga = await subscribe<LauréatSaga.SubscriptionEvent & Event>({
+    name: 'laureat-saga',
+    streamCategory: 'recours',
+    eventType: ['RecoursAccordé-V1'],
+    eventHandler: async (event) => {
+      await mediator.publish<LauréatSaga.Execute>({
+        type: 'System.Lauréat.Saga.Execute',
+        data: event,
+      });
+    },
+  });
 
   const unsubscribeRecoursProjector = await subscribe<RecoursProjector.SubscriptionEvent>({
     name: 'projector',
@@ -92,6 +124,7 @@ export const setupProjet = async ({ sendEmail }: SetupProjetDependencies) => {
 
   CandidatureNotification.register({ sendEmail });
 
+  LauréatSaga.register();
   AttestationSaga.register();
 
   const unsubscribeCandidatureProjector = await subscribe<CandidatureProjector.SubscriptionEvent>({
@@ -138,9 +171,14 @@ export const setupProjet = async ({ sendEmail }: SetupProjetDependencies) => {
   });
 
   return async () => {
+    await unsubscribeLauréatProjector();
+    await unsubscribeLauréatSaga();
+
     await unsubscribeRecoursProjector();
     await unsubscribeRecoursNotification();
+
     await unsubscribeÉliminéProjector();
+
     await unsubscribeCandidatureProjector();
     await unsubscribeAttestationSaga();
     await unsubscribeCandidatureNotification();

@@ -7,17 +7,19 @@ import {
   registerLauréatUseCases,
 } from '@potentiel-domain/laureat';
 import {
+  AppelOffreAdapter,
   consulterCahierDesChargesChoisiAdapter,
   DocumentAdapter,
   récupérerIdentifiantsProjetParEmailPorteurAdapter,
 } from '@potentiel-infrastructure/domain-adapters';
-import { loadAggregate } from '@potentiel-infrastructure/pg-event-sourcing';
+import { loadAggregate, loadAggregateV2 } from '@potentiel-infrastructure/pg-event-sourcing';
 import {
   countProjection,
   findProjection,
   listProjection,
 } from '@potentiel-infrastructure/pg-projection-read';
 import { getLogger } from '@potentiel-libraries/monitoring';
+import { ProjetAggregateRoot } from '@potentiel-domain/projet';
 
 registerLauréatQueries({
   find: findProjection,
@@ -29,6 +31,11 @@ registerLauréatQueries({
 
 registerLauréatUseCases({
   loadAggregate,
+  getProjetAggregateRoot: (identifiantProjet) =>
+    ProjetAggregateRoot.get(identifiantProjet, {
+      loadAggregate: loadAggregateV2,
+      loadAppelOffreAggregate: AppelOffreAdapter.loadAppelOffreAggregateAdapter,
+    }),
   supprimerDocumentProjetSensible: DocumentAdapter.remplacerDocumentProjetSensible,
 });
 

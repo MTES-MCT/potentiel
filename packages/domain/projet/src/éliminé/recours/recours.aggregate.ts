@@ -87,6 +87,8 @@ export class RecoursAggregate extends AbstractAggregate<RecoursEvent> {
     };
 
     await this.publish(event);
+
+    await this.#éliminé.projet.lauréat.notifier({ attestation: { format: réponseSignée.format } });
   }
 
   async annuler({ dateAnnulation, identifiantUtilisateur }: AnnulerOptions) {

@@ -37,7 +37,7 @@ Fonctionnalité: Réclamer un projet en tant que porteur
     Scénario: Impossible de réclamer un projet non notifié
         Etant donné la candidature lauréate "Du boulodrome de Marseille"
         Quand un porteur réclame la candidature lauréate
-        Alors l'utilisateur devrait être informé que "Le projet n'est pas notifié"
+        Alors l'utilisateur devrait être informé que "La candidature n'est pas notifiée"
 
     # Ce scénario n'est pas implémenté pour le moment car les specs ne testent pas les permissions,
     # et cette règle est implémentée dans le middelware des permissions

@@ -4,7 +4,6 @@ import {
   registerLauréatQueries,
   registerLauréatUseCases,
   GarantiesFinancières,
-  Lauréat,
   ReprésentantLégal,
   Actionnaire,
   Raccordement,
@@ -28,7 +27,6 @@ import {
   AbandonProjector,
   AchèvementProjector,
   GarantiesFinancièreProjector,
-  LauréatProjector,
   ReprésentantLégalProjector,
   ActionnaireProjector,
   PuissanceProjector,
@@ -39,6 +37,8 @@ import {
   récupérerIdentifiantsProjetParEmailPorteurAdapter,
 } from '@potentiel-infrastructure/domain-adapters';
 import { SendEmail } from '@potentiel-applications/notifications';
+
+import { getProjetAggregateRootAdapter } from './adapters/getProjetAggregateRoot.adapter';
 
 type SetupLauréatDependencies = {
   sendEmail: SendEmail;
@@ -51,6 +51,7 @@ export const setupLauréat = async ({
 }: SetupLauréatDependencies) => {
   registerLauréatUseCases({
     loadAggregate,
+    getProjetAggregateRoot: getProjetAggregateRootAdapter,
     supprimerDocumentProjetSensible: DocumentAdapter.remplacerDocumentProjetSensible,
   });
 
@@ -63,7 +64,6 @@ export const setupLauréat = async ({
   });
 
   // Projectors
-  LauréatProjector.register();
   AbandonProjector.register();
   GarantiesFinancièreProjector.register();
   AchèvementProjector.register();
@@ -82,31 +82,12 @@ export const setupLauréat = async ({
   // Sagas
   GarantiesFinancières.GarantiesFinancièresSaga.register();
   GarantiesFinancières.TypeGarantiesFinancièresSaga.register();
-  Lauréat.LauréatSaga.register();
   ReprésentantLégal.ReprésentantLégalSaga.register();
   Actionnaire.ActionnaireSaga.register();
   Raccordement.RaccordementSaga.register({
     récupérerGRDParVille,
   });
   Puissance.PuissanceSaga.register();
-
-  const unsubscribeLauréatProjector = await subscribe<LauréatProjector.SubscriptionEvent>({
-    name: 'projector',
-    streamCategory: 'lauréat',
-    eventType: [
-      'LauréatNotifié-V1',
-      'NomEtLocalitéLauréatImportés-V1',
-      'LauréatNotifié-V2',
-      'LauréatModifié-V1',
-      'RebuildTriggered',
-    ],
-    eventHandler: async (event) => {
-      await mediator.send<LauréatProjector.Execute>({
-        type: 'System.Projector.Lauréat',
-        data: event,
-      });
-    },
-  });
 
   const unsubscribeActionnaireProjector = await subscribe<ActionnaireProjector.SubscriptionEvent>({
     name: 'projector',
@@ -125,18 +106,6 @@ export const setupLauréat = async ({
     eventHandler: async (event) => {
       await mediator.send<ActionnaireProjector.Execute>({
         type: 'System.Projector.Lauréat.Actionnaire',
-        data: event,
-      });
-    },
-  });
-
-  const unsubscribeLauréatSaga = await subscribe<Lauréat.LauréatSaga.SubscriptionEvent & Event>({
-    name: 'laureat-saga',
-    streamCategory: 'recours',
-    eventType: ['RecoursAccordé-V1'],
-    eventHandler: async (event) => {
-      await mediator.publish<Lauréat.LauréatSaga.Execute>({
-        type: 'System.Lauréat.Saga.Execute',
         data: event,
       });
     },
@@ -527,7 +496,6 @@ export const setupLauréat = async ({
 
   return async () => {
     // projectors
-    await unsubscribeLauréatProjector();
     await unsubscribeAbandonProjector();
     await unsubscribeGarantiesFinancièresProjector();
     await unsubscribeAchèvementProjector();
@@ -544,7 +512,6 @@ export const setupLauréat = async ({
     // sagas
     await unsubscribeGarantiesFinancièresSaga();
     await unsubscribeTypeGarantiesFinancièresSaga();
-    await unsubscribeLauréatSaga();
     await unsubscribeReprésentantLégalSagaLauréat();
     await unsubscribeReprésentantLégalSagaTâchePlanifiée();
     await unsubscribeReprésentantLégalSagaAbandon();

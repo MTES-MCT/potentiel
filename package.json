@@ -30,7 +30,7 @@
     "pretest": "npm run down:test && npm run up:test",
     "pretest:libraries": "npm run pretest && turbo run build --filter=@potentiel-libraries/* --filter=@potentiel-infrastructure/* --filter=@potentiel-applications/projectors",
     "test:libraries": "turbo run test --filter=@potentiel-libraries/* --filter=@potentiel-infrastructure/*",
-    "pretest:ssr": "turbo run build --filter=@potentiel-domain/candidature",
+    "pretest:ssr": "turbo run build --filter=@potentiel-domain/projet",
     "test:ssr": "turbo run test --filter=@potentiel-applications/ssr",
     "prespecs": "npm run pretest && turbo run build --filter=@potentiel/specifications",
     "specs": "npm run test -w @potentiel/specifications",

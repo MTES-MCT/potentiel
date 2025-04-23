@@ -18,6 +18,7 @@ import {
   CandidatureDéjàImportéeError,
   CandidatureDéjàNotifiéeError,
   CandidatureNonModifiéeError,
+  CandidatureNonNotifiéeError,
   CandidatureNonTrouvéeError,
   ChoixCoefficientKNonAttenduError,
   ChoixCoefficientKRequisError,
@@ -50,6 +51,8 @@ export class CandidatureAggregate extends AbstractAggregate<CandidatureEvent> {
 
   #statut?: StatutCandidature.ValueType;
   #estNotifiée: boolean = false;
+  #notifiéeLe?: DateTime.ValueType;
+  #notifiéePar?: Email.ValueType;
   #nomCandidat: string = '';
   #nomReprésentantLégal: string = '';
   #sociétéMère: string = '';
@@ -69,6 +72,79 @@ export class CandidatureAggregate extends AbstractAggregate<CandidatureEvent> {
   #puissanceProductionAnnuelle: number = 0;
   #territoireProjet: string = '';
   #coefficientKChoisi?: boolean;
+
+  get estNotifiée() {
+    return !!this.notifiéeLe;
+  }
+
+  get notifiéeLe() {
+    if (!this.#notifiéeLe) {
+      throw new CandidatureNonNotifiéeError();
+    }
+    return this.#notifiéeLe;
+  }
+
+  get notifiéePar() {
+    if (!this.#notifiéePar) {
+      throw new CandidatureNonNotifiéeError();
+    }
+    return this.#notifiéePar;
+  }
+
+  get statut() {
+    if (!this.#statut) {
+      throw new CandidatureNonTrouvéeError();
+    }
+    return this.#statut;
+  }
+
+  get nomProjet() {
+    return this.#nomProjet;
+  }
+
+  get nomReprésentantLégal() {
+    return this.#nomReprésentantLégal;
+  }
+
+  get emailContact() {
+    return this.#emailContact;
+  }
+
+  get sociétéMère() {
+    return this.#sociétéMère;
+  }
+
+  get puissanceProductionAnnuelle() {
+    return this.#puissanceProductionAnnuelle;
+  }
+
+  get prixRéférence() {
+    return this.#prixRéférence;
+  }
+
+  get typeGarantiesFinancières() {
+    return this.#typeGarantiesFinancières;
+  }
+
+  get dateÉchéanceGf() {
+    return this.#dateÉchéanceGf;
+  }
+
+  get typeActionnariat() {
+    return this.#actionnariat;
+  }
+
+  get technologie() {
+    return this.#technologie!;
+  }
+
+  get noteTotale() {
+    return this.#noteTotale;
+  }
+
+  get localité() {
+    return this.#localité!;
+  }
 
   async init(projet: ProjetAggregateRoot) {
     this.#projet = projet;
@@ -248,7 +324,7 @@ export class CandidatureAggregate extends AbstractAggregate<CandidatureEvent> {
     }
   }
 
-  private vérifierQueLaCandidatureExiste() {
+  vérifierQueLaCandidatureExiste() {
     if (!this.exists) {
       throw new CandidatureNonTrouvéeError();
     }
@@ -362,9 +438,11 @@ export class CandidatureAggregate extends AbstractAggregate<CandidatureEvent> {
 
   private applyCandidatureNotifiée(
     this: CandidatureAggregate,
-    _event: CandidatureNotifiéeEvent | CandidatureNotifiéeEventV1,
+    event: CandidatureNotifiéeEvent | CandidatureNotifiéeEventV1,
   ) {
     this.#estNotifiée = true;
+    this.#notifiéeLe = DateTime.convertirEnValueType(event.payload.notifiéeLe);
+    this.#notifiéePar = Email.convertirEnValueType(event.payload.notifiéePar);
   }
 
   private applyCommonEventPayload({

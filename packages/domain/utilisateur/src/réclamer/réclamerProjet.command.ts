@@ -2,7 +2,7 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
 import { LoadAggregate } from '@potentiel-domain/core';
-import { Candidature } from '@potentiel-domain/candidature';
+import { GetProjetAggregateRoot } from '@potentiel-domain/projet';
 
 import { loadUtilisateurFactory } from '../utilisateur.aggregate';
 
@@ -18,9 +18,11 @@ export type RéclamerProjetCommand = Message<
   }
 >;
 
-export const registerRéclamerProjetCommand = (loadAggregate: LoadAggregate) => {
+export const registerRéclamerProjetCommand = (
+  loadAggregate: LoadAggregate,
+  getProjetAggregateRoot: GetProjetAggregateRoot,
+) => {
   const loadUtilisateur = loadUtilisateurFactory(loadAggregate);
-  const loadCandidature = Candidature.Aggregate.loadCandidatureFactory(loadAggregate);
 
   const handler: MessageHandler<RéclamerProjetCommand> = async ({
     identifiantProjet,
@@ -30,7 +32,8 @@ export const registerRéclamerProjetCommand = (loadAggregate: LoadAggregate) => 
     numéroCRE,
   }) => {
     const utilisateur = await loadUtilisateur(identifiantUtilisateur, false);
-    const candidature = await loadCandidature(identifiantProjet);
+    const { candidature } = await getProjetAggregateRoot(identifiantProjet);
+    candidature.vérifierQueLaCandidatureExiste();
 
     await utilisateur.réclamer({
       identifiantProjet,

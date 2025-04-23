@@ -6,15 +6,15 @@ import { contentType } from 'mime-types';
 import { PDFDocument, StandardFonts } from 'pdf-lib';
 import { match } from 'ts-pattern';
 
-import { Puissance, Lauréat } from '@potentiel-domain/laureat';
+import { Puissance } from '@potentiel-domain/laureat';
 import { listProjection } from '@potentiel-infrastructure/pg-projection-read';
-import { Candidature } from '@potentiel-domain/candidature';
+import { Candidature } from '@potentiel-domain/projet';
 import { executeSelect, killPool } from '@potentiel-libraries/pg-helpers';
 import { DateTime, Email } from '@potentiel-domain/common';
 import { publish } from '@potentiel-infrastructure/pg-event-sourcing';
 import { upload, copyFile, fileExists } from '@potentiel-libraries/file-storage';
 import { DocumentProjet } from '@potentiel-domain/document';
-import { IdentifiantProjet } from '@potentiel-domain/projet';
+import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 
 type ModificationRequest = {
   identifiantProjet: string;

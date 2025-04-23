@@ -1,4 +1,5 @@
 import { LoadAggregate } from '@potentiel-domain/core';
+import { GetProjetAggregateRoot } from '@potentiel-domain/projet';
 
 import { registerImporterPuissanceCommand } from './importer/importerPuissance.command';
 import {
@@ -33,9 +34,13 @@ export type PuissanceQueryDependencies = ConsulterPuissanceDependencies &
 
 export type PuissanceCommandDependencies = {
   loadAggregate: LoadAggregate;
+  getProjetAggregateRoot: GetProjetAggregateRoot;
 };
 
-export const registerPuissanceUseCases = ({ loadAggregate }: PuissanceCommandDependencies) => {
+export const registerPuissanceUseCases = ({
+  loadAggregate,
+  getProjetAggregateRoot,
+}: PuissanceCommandDependencies) => {
   registerModifierPuissanceUseCase();
   registerDemanderChangementPuissanceUseCase();
   registerAnnulerChangementPuissanceUseCase();
@@ -43,12 +48,12 @@ export const registerPuissanceUseCases = ({ loadAggregate }: PuissanceCommandDep
   registerAccorderChangementPuissanceUseCase();
   registerRejeterChangementPuissanceUseCase();
 
-  registerImporterPuissanceCommand(loadAggregate);
+  registerImporterPuissanceCommand(loadAggregate, getProjetAggregateRoot);
   registerModifierPuissanceCommand(loadAggregate);
-  registerDemanderChangementPuissanceCommand(loadAggregate);
+  registerDemanderChangementPuissanceCommand(loadAggregate, getProjetAggregateRoot);
   registerAnnulerChangementPuissanceCommand(loadAggregate);
   registerSupprimerChangementPuissanceCommand(loadAggregate);
-  registerEnregistrerChangementPuissanceCommand(loadAggregate);
+  registerEnregistrerChangementPuissanceCommand(loadAggregate, getProjetAggregateRoot);
   registerAccorderChangementPuissanceCommand(loadAggregate);
   registerRejeterChangementPuissanceCommand(loadAggregate);
 };

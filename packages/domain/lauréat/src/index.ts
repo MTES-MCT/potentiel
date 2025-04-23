@@ -4,7 +4,7 @@ export * as CahierDesCharges from './cahierDesChargesChoisi';
 export * as GarantiesFinancières from './garantiesFinancières';
 export * as Achèvement from './achèvement';
 export * as ReprésentantLégal from './représentantLégal';
-export * as Lauréat from './lauréat';
+export * from './lauréat';
 export * as Actionnaire from './actionnaire';
 export * as Raccordement from './raccordement';
 export * as Puissance from './puissance';

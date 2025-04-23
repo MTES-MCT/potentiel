@@ -1,17 +1,16 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { IdentifiantProjet } from '@potentiel-domain/common';
-import { Candidature } from '@potentiel-domain/projet';
+import { Candidature, Lauréat } from '@potentiel-domain/projet';
 import { Option } from '@potentiel-libraries/monads';
 import { GestionnaireRéseau } from '@potentiel-domain/reseau';
 
 import { AbandonAccordéEvent } from '../abandon';
-import { LauréatNotifiéEvent } from '../lauréat';
 
 import { SupprimerRaccordementCommand } from './supprimer/supprimerRaccordement.command';
 import { AttribuerGestionnaireRéseauCommand } from './attribuer/attribuerGestionnaireRéseau.command';
 
-export type SubscriptionEvent = AbandonAccordéEvent | LauréatNotifiéEvent;
+export type SubscriptionEvent = AbandonAccordéEvent | Lauréat.LauréatNotifiéEvent;
 
 export type Execute = Message<'System.Lauréat.Raccordement.Saga.Execute', SubscriptionEvent>;
 

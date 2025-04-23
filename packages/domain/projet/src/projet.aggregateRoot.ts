@@ -11,6 +11,7 @@ import {
   PériodeInexistanteError,
 } from './appelOffre.error';
 import { CandidatureAggregate } from './candidature/candidature.aggregate';
+import { LauréatAggregate } from './lauréat/lauréat.aggregate';
 
 interface ProjetAggregateRootDependencies {
   loadAggregate: LoadAggregateV2;
@@ -38,6 +39,12 @@ export class ProjetAggregateRoot {
 
   get éliminé() {
     return this.#éliminé;
+  }
+
+  #lauréat!: AggregateType<LauréatAggregate>;
+
+  get lauréat() {
+    return this.#lauréat;
   }
 
   #appelOffre!: AppelOffreAggregate;
@@ -111,6 +118,12 @@ export class ProjetAggregateRoot {
       CandidatureAggregate,
     );
     await this.#candidature.init(this);
+
+    this.#lauréat = await this.#loadAggregate(
+      `lauréat|${this.identifiantProjet.formatter()}`,
+      LauréatAggregate,
+    );
+    await this.#lauréat.init(this, this.#loadAggregate);
 
     this.#éliminé = await this.#loadAggregate(
       `éliminé|${this.identifiantProjet.formatter()}`,

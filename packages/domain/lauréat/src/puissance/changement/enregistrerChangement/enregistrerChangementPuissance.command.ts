@@ -3,8 +3,8 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 import { IdentifiantProjet, DateTime, Email } from '@potentiel-domain/common';
 import { LoadAggregate } from '@potentiel-domain/core';
 import { DocumentProjet } from '@potentiel-domain/document';
-import { Candidature } from '@potentiel-domain/candidature';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
+import { GetProjetAggregateRoot } from '@potentiel-domain/projet';
 
 import { loadAbandonFactory } from '../../../abandon';
 import { loadAchèvementFactory } from '../../../achèvement/achèvement.aggregate';
@@ -23,11 +23,13 @@ export type EnregistrerChangementPuissanceCommand = Message<
   }
 >;
 
-export const registerEnregistrerChangementPuissanceCommand = (loadAggregate: LoadAggregate) => {
+export const registerEnregistrerChangementPuissanceCommand = (
+  loadAggregate: LoadAggregate,
+  getProjetAggregateRoot: GetProjetAggregateRoot,
+) => {
   const loadPuissance = loadPuissanceFactory(loadAggregate);
   const loadAbandon = loadAbandonFactory(loadAggregate);
   const loadAchèvement = loadAchèvementFactory(loadAggregate);
-  const loadCandidature = Candidature.Aggregate.loadCandidatureFactory(loadAggregate);
 
   const handler: MessageHandler<EnregistrerChangementPuissanceCommand> = async ({
     identifiantProjet,
@@ -40,7 +42,7 @@ export const registerEnregistrerChangementPuissanceCommand = (loadAggregate: Loa
     const puissanceAggrégat = await loadPuissance(identifiantProjet);
     const abandon = await loadAbandon(identifiantProjet, false);
     const achèvement = await loadAchèvement(identifiantProjet, false);
-    const candidature = await loadCandidature(identifiantProjet);
+    const { candidature } = await getProjetAggregateRoot(identifiantProjet);
 
     // Après migration aggregate root, à remplacer
     const appelOffre = await mediator.send<AppelOffre.ConsulterAppelOffreQuery>({
@@ -62,12 +64,12 @@ export const registerEnregistrerChangementPuissanceCommand = (loadAggregate: Loa
     await puissanceAggrégat.enregistrerChangement({
       identifiantProjet,
       nouvellePuissance,
-      puissanceInitiale: candidature.puissance,
+      puissanceInitiale: candidature.puissanceProductionAnnuelle,
       identifiantUtilisateur,
       appelOffre,
       technologie: candidature.technologie,
       cahierDesCharges: cahierDesChargesChoisi,
-      note: candidature.note,
+      note: candidature.noteTotale,
       dateChangement,
       pièceJustificative,
       raison,

@@ -1,7 +1,7 @@
 import { ok } from 'neverthrow';
 import { Message, MessageHandler, mediator } from 'mediateur';
 import { Event } from '@potentiel-infrastructure/pg-event-sourcing';
-import { Lauréat } from '@potentiel-domain/laureat';
+import { Lauréat } from '@potentiel-domain/projet';
 import {
   ProjectClasseGranted,
   ProjectCompletionDueDateSet,

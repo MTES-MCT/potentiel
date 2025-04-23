@@ -6,6 +6,8 @@ import { findProjection, listProjection } from '@potentiel-infrastructure/pg-pro
 import { loadAggregate, subscribe } from '@potentiel-infrastructure/pg-event-sourcing';
 import { PériodeNotification, SendEmail } from '@potentiel-applications/notifications';
 
+import { getProjetAggregateRootAdapter } from './adapters/getProjetAggregateRoot.adapter';
+
 type SetupPériodeDependencies = {
   sendEmail: SendEmail;
 };
@@ -15,7 +17,10 @@ export const setupPériode = async ({ sendEmail }: SetupPériodeDependencies) =>
     find: findProjection,
     list: listProjection,
   });
-  Période.registerPériodeUseCases({ loadAggregate });
+  Période.registerPériodeUseCases({
+    loadAggregate,
+    getProjetAggregateRoot: getProjetAggregateRootAdapter,
+  });
 
   PériodeProjector.register();
   PériodeNotification.register({ sendEmail });

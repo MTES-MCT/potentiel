@@ -2,7 +2,8 @@ import { mediator } from 'mediateur';
 import { notFound } from 'next/navigation';
 
 import { Option } from '@potentiel-libraries/monads';
-import { Abandon, Lauréat } from '@potentiel-domain/laureat';
+import { Abandon } from '@potentiel-domain/laureat';
+import { Lauréat } from '@potentiel-domain/projet';
 
 export const récupérerLauréat = async (identifiantProjet: string) => {
   const projet = await mediator.send<Lauréat.ConsulterLauréatQuery>({

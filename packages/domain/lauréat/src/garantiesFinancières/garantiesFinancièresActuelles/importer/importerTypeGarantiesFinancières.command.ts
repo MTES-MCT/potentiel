@@ -2,11 +2,10 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { IdentifiantProjet } from '@potentiel-domain/common';
 import { LoadAggregate } from '@potentiel-domain/core';
-import { Candidature } from '@potentiel-domain/candidature';
 import { loadTâchePlanifiéeAggregateFactory } from '@potentiel-domain/tache-planifiee';
+import { GetProjetAggregateRoot } from '@potentiel-domain/projet';
 
 import { loadGarantiesFinancièresFactory } from '../../garantiesFinancières.aggregate';
-import { loadLauréatFactory } from '../../../lauréat.aggregate';
 import { loadAchèvementFactory } from '../../../achèvement/achèvement.aggregate';
 import * as TypeTâchePlanifiéeGarantiesFinancières from '../../typeTâchePlanifiéeGarantiesFinancières.valueType';
 
@@ -17,10 +16,11 @@ export type ImporterTypeGarantiesFinancièresCommand = Message<
   }
 >;
 
-export const registerImporterTypeGarantiesFinancièresCommand = (loadAggregate: LoadAggregate) => {
+export const registerImporterTypeGarantiesFinancièresCommand = (
+  loadAggregate: LoadAggregate,
+  getProjetAggregateRoot: GetProjetAggregateRoot,
+) => {
   const loadGarantiesFinancières = loadGarantiesFinancièresFactory(loadAggregate);
-  const loadLauréat = loadLauréatFactory(loadAggregate);
-  const loadCandidature = Candidature.Aggregate.loadCandidatureFactory(loadAggregate);
   const loadAchèvement = loadAchèvementFactory(loadAggregate);
   const loadTâchePlanifiée = loadTâchePlanifiéeAggregateFactory(loadAggregate);
 
@@ -28,8 +28,9 @@ export const registerImporterTypeGarantiesFinancièresCommand = (loadAggregate: 
     identifiantProjet,
   }) => {
     const garantiesFinancières = await loadGarantiesFinancières(identifiantProjet, false);
-    const candidature = await loadCandidature(identifiantProjet, false);
-    const lauréat = await loadLauréat(identifiantProjet, false);
+    const projet = await getProjetAggregateRoot(identifiantProjet);
+    projet.lauréat.vérifierQueLeLauréatExiste();
+
     const achèvement = await loadAchèvement(identifiantProjet, false);
     const tâchePlanifiéeEchoir = await loadTâchePlanifiée(
       TypeTâchePlanifiéeGarantiesFinancières.échoir.type,
@@ -48,9 +49,9 @@ export const registerImporterTypeGarantiesFinancièresCommand = (loadAggregate: 
     );
     await garantiesFinancières.importerType({
       identifiantProjet,
-      importéLe: lauréat.notifiéLe,
-      type: candidature.garantiesFinancières?.type,
-      dateÉchéance: candidature.garantiesFinancières?.dateEchéance,
+      importéLe: projet.candidature.notifiéeLe,
+      type: projet.candidature.typeGarantiesFinancières,
+      dateÉchéance: projet.candidature.dateÉchéanceGf,
       estAchevé: achèvement.estAchevé(),
       tâchePlanifiéeEchoir,
       tâchePlanifiéeRappel1mois,

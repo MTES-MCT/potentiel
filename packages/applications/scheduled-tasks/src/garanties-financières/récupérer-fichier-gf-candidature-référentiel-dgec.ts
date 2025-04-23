@@ -7,19 +7,20 @@ import { mediator } from 'mediateur';
 
 import { Option } from '@potentiel-libraries/monads';
 import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
-import { GarantiesFinancières, Lauréat } from '@potentiel-domain/laureat';
+import { GarantiesFinancières } from '@potentiel-domain/laureat';
 import { findProjection, listProjection } from '@potentiel-infrastructure/pg-projection-read';
-import { loadAggregate } from '@potentiel-infrastructure/pg-event-sourcing';
+import { loadAggregate, loadAggregateV2 } from '@potentiel-infrastructure/pg-event-sourcing';
 import {
   registerDocumentProjetCommand,
   registerDocumentProjetQueries,
 } from '@potentiel-domain/document';
 import {
+  AppelOffreAdapter,
   CandidatureAdapter,
   DocumentAdapter,
   récupérerIdentifiantsProjetParEmailPorteurAdapter,
 } from '@potentiel-infrastructure/domain-adapters';
-import { Candidature } from '@potentiel-domain/projet';
+import { Candidature, Lauréat, ProjetAggregateRoot } from '@potentiel-domain/projet';
 import { Période } from '@potentiel-domain/periode';
 
 import { dgecEmail } from '../_utils/constant';
@@ -53,6 +54,11 @@ Candidature.registerCandidatureQueries({
 
 GarantiesFinancières.registerGarantiesFinancièresUseCases({
   loadAggregate,
+  getProjetAggregateRoot: (identifiantProjet) =>
+    ProjetAggregateRoot.get(identifiantProjet, {
+      loadAggregate: loadAggregateV2,
+      loadAppelOffreAggregate: AppelOffreAdapter.loadAppelOffreAggregateAdapter,
+    }),
 });
 
 GarantiesFinancières.registerGarantiesFinancièresQueries({

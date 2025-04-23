@@ -3,7 +3,7 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 import { IdentifiantProjet, DateTime, Email } from '@potentiel-domain/common';
 import { LoadAggregate } from '@potentiel-domain/core';
 import { DocumentProjet } from '@potentiel-domain/document';
-import { Candidature } from '@potentiel-domain/candidature';
+import { GetProjetAggregateRoot } from '@potentiel-domain/projet';
 
 import { loadAbandonFactory } from '../../../abandon';
 import { loadAchèvementFactory } from '../../../achèvement/achèvement.aggregate';
@@ -22,12 +22,14 @@ export type EnregistrerChangementActionnaireCommand = Message<
   }
 >;
 
-export const registerEnregistrerChangementActionnaireCommand = (loadAggregate: LoadAggregate) => {
+export const registerEnregistrerChangementActionnaireCommand = (
+  loadAggregate: LoadAggregate,
+  getProjetAggregateRoot: GetProjetAggregateRoot,
+) => {
   const loadActionnaire = loadActionnaireFactory(loadAggregate);
   const loadAbandon = loadAbandonFactory(loadAggregate);
   const loadAchèvement = loadAchèvementFactory(loadAggregate);
   const loadGarantiesFinancières = loadGarantiesFinancièresFactory(loadAggregate);
-  const loadCandidature = Candidature.Aggregate.loadCandidatureFactory(loadAggregate);
 
   const handler: MessageHandler<EnregistrerChangementActionnaireCommand> = async ({
     identifiantProjet,
@@ -45,7 +47,7 @@ export const registerEnregistrerChangementActionnaireCommand = (loadAggregate: L
     // quickwin : nous passons ici par un appel à l'agrégat candidature au lieu de projet
     // cela devrait être repris quand les types d'actionnariat seront migrés dans l'aggregat Actionnaire
     // Par ailleurs les données sont les mêmes à date (janv 2025)
-    const candidature = await loadCandidature(identifiantProjet);
+    const { candidature } = await getProjetAggregateRoot(identifiantProjet);
 
     const estParticipatif =
       candidature.typeActionnariat?.type === 'financement-participatif' ||

@@ -1,7 +1,7 @@
 import { Command, Flags } from '@oclif/core';
 
-import { Puissance, Lauréat } from '@potentiel-domain/laureat';
-import { Candidature } from '@potentiel-domain/projet';
+import { Puissance } from '@potentiel-domain/laureat';
+import { Candidature, Lauréat } from '@potentiel-domain/projet';
 import { executeSelect } from '@potentiel-libraries/pg-helpers';
 import { listProjection } from '@potentiel-infrastructure/pg-projection-read';
 import { publish } from '@potentiel-infrastructure/pg-event-sourcing';

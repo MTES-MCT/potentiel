@@ -1,4 +1,5 @@
 import { LoadAggregate } from '@potentiel-domain/core';
+import { GetProjetAggregateRoot } from '@potentiel-domain/projet';
 
 import { registerImporterActionnaireCommand } from './importer/importerActionnaire.command';
 import {
@@ -29,12 +30,16 @@ export type ActionnaireQueryDependencies = ConsulterActionnaireDependencies &
 
 export type ActionnaireCommandDependencies = {
   loadAggregate: LoadAggregate;
+  getProjetAggregateRoot: GetProjetAggregateRoot;
 };
 
-export const registerActionnaireUseCases = ({ loadAggregate }: ActionnaireCommandDependencies) => {
-  registerImporterActionnaireCommand(loadAggregate);
+export const registerActionnaireUseCases = ({
+  loadAggregate,
+  getProjetAggregateRoot,
+}: ActionnaireCommandDependencies) => {
+  registerImporterActionnaireCommand(loadAggregate, getProjetAggregateRoot);
   registerModifierActionnaireCommand(loadAggregate);
-  registerEnregistrerChangementActionnaireCommand(loadAggregate);
+  registerEnregistrerChangementActionnaireCommand(loadAggregate, getProjetAggregateRoot);
   registerDemanderChangementActionnaireCommand(loadAggregate);
   registerAnnulerDemandeChangementCommand(loadAggregate);
   registerAccorderChangementActionnaireCommand(loadAggregate);

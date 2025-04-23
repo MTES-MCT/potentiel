@@ -1,9 +1,8 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
-import { LoadAggregate } from '@potentiel-domain/core';
 import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
 
-import { loadLauréatFactory } from '../lauréat.aggregate';
+import { GetProjetAggregateRoot } from '../..';
 
 export type ModifierLauréatCommand = Message<
   'Lauréat.Command.ModifierLauréat',
@@ -23,13 +22,11 @@ export type ModifierLauréatCommand = Message<
   }
 >;
 
-export const registerModifierLauréatCommand = (loadAggregate: LoadAggregate) => {
-  const loadLauréatAggregate = loadLauréatFactory(loadAggregate);
-
+export const registerModifierLauréatCommand = (getProjetAggregateRoot: GetProjetAggregateRoot) => {
   const handler: MessageHandler<ModifierLauréatCommand> = async (payload) => {
-    const lauréat = await loadLauréatAggregate(payload.identifiantProjet, false);
+    const projet = await getProjetAggregateRoot(payload.identifiantProjet);
 
-    await lauréat.modifier(payload);
+    await projet.lauréat.modifier(payload);
   };
   mediator.register('Lauréat.Command.ModifierLauréat', handler);
 };

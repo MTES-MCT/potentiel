@@ -59,11 +59,7 @@ export type CandidatureUseCase =
 export { ImporterCandidatureUseCase, CorrigerCandidatureUseCase, NotifierCandidatureUseCase };
 
 // Events
-export type CandidatureEvent =
-  | CandidatureImportéeEvent
-  | CandidatureCorrigéeEvent
-  | CandidatureNotifiéeEvent
-  | CandidatureNotifiéeEventV1;
+export { CandidatureEvent } from './candidature.event';
 
 export {
   CandidatureImportéeEvent,
@@ -85,3 +81,4 @@ export * as TypeActionnariat from './typeActionnariat.valueType';
 export * as HistoriqueAbandon from './historiqueAbandon.valueType';
 export * as StatutCandidature from './statutCandidature.valueType';
 export * as TypeGarantiesFinancières from './typeGarantiesFinancières.valueType';
+export * as Localité from './localité.valueType';

@@ -3,7 +3,7 @@ import { DomainEvent } from '@potentiel-domain/core';
 import { DocumentProjet } from '@potentiel-domain/document';
 import { Option } from '@potentiel-libraries/monads';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
-import { Candidature } from '@potentiel-domain/candidature';
+import { Candidature } from '@potentiel-domain/projet';
 
 import { PuissanceIdentiqueError, PuissanceNulleOuNégativeError } from '../../errors';
 import { AutoritéCompétente, RatioChangementPuissance, StatutChangementPuissance } from '../..';

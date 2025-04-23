@@ -1,11 +1,10 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
-import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
+import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 import { Éliminé } from '@potentiel-domain/projet';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { Option } from '@potentiel-libraries/monads';
 
-import { NotifierLauréatCommand } from './notifier/notifierLauréat.command';
 import { DemanderGarantiesFinancièresCommand } from './garantiesFinancières/demander/demanderGarantiesFinancières.command';
 import { MotifDemandeGarantiesFinancières } from './garantiesFinancières';
 import { appelOffreSoumisAuxGarantiesFinancières } from './garantiesFinancières/_utils/appelOffreSoumisAuxGarantiesFinancières';
@@ -30,24 +29,10 @@ export const register = () => {
     } = event;
     switch (event.type) {
       case 'RecoursAccordé-V1':
-        const {
-          accordéLe,
-          accordéPar,
-          réponseSignée: { format },
-        } = event.payload;
+        const { accordéLe } = event.payload;
 
         const identifiantProjetValueType =
           IdentifiantProjet.convertirEnValueType(identifiantProjet);
-
-        await mediator.send<NotifierLauréatCommand>({
-          type: 'Lauréat.Command.NotifierLauréat',
-          data: {
-            identifiantProjet: identifiantProjetValueType,
-            notifiéLe: DateTime.convertirEnValueType(accordéLe),
-            notifiéPar: Email.convertirEnValueType(accordéPar),
-            attestation: { format },
-          },
-        });
 
         const appelOffre = await mediator.send<AppelOffre.ConsulterAppelOffreQuery>({
           type: 'AppelOffre.Query.ConsulterAppelOffre',

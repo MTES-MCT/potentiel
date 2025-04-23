@@ -1,6 +1,6 @@
 import { DomainError, PlainType, ReadonlyValueType } from '@potentiel-domain/core';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
-import { Candidature } from '@potentiel-domain/candidature';
+import { Candidature } from '@potentiel-domain/projet';
 
 import { ConsulterCahierDesChargesChoisiReadmodel } from '../../cahierDesChargesChoisi';
 

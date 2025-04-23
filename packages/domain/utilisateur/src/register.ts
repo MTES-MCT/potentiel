@@ -1,4 +1,5 @@
 import { LoadAggregate } from '@potentiel-domain/core';
+import { GetProjetAggregateRoot } from '@potentiel-domain/projet';
 
 import {
   ConsulterUtilisateurDependencies,
@@ -47,9 +48,13 @@ export const registerUtilisateurQueries = (dependencies: UtilisateurQueryDepende
 
 export type UtilisateurCommandDependencies = {
   loadAggregate: LoadAggregate;
+  getProjetAggregateRoot: GetProjetAggregateRoot;
 };
 
-export const registerUtilisateurUseCases = ({ loadAggregate }: UtilisateurCommandDependencies) => {
+export const registerUtilisateurUseCases = ({
+  loadAggregate,
+  getProjetAggregateRoot,
+}: UtilisateurCommandDependencies) => {
   registerInviterUseCase();
   registerInviterPorteurUseCase();
   registerRéclamerProjetUseCase();
@@ -57,6 +62,6 @@ export const registerUtilisateurUseCases = ({ loadAggregate }: UtilisateurComman
 
   registerInviterCommand(loadAggregate);
   registerInviterPorteurCommand(loadAggregate);
-  registerRéclamerProjetCommand(loadAggregate);
+  registerRéclamerProjetCommand(loadAggregate, getProjetAggregateRoot);
   registerRetirerAccèsProjetCommand(loadAggregate);
 };
