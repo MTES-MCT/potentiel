@@ -30,7 +30,7 @@ Fonctionnalité: Choisir un cahier des charges
         Quand le porteur choisit le cahier des charges "modifié paru le 30/08/2022"
         Alors l'utilisateur devrait être informé que "Ce cahier des charges est identique à l'actuel"
 
-    Scénario: Impossible de choisir un cahier des charges modifié inexistant
+    Scénario: Impossible de choisir un cahier des charges modifié non disponible
         Etant donné le projet lauréat "Du boulodrome de Marseille" avec :
             | appel d'offre | PPE2 - Eolien |
             | période       | 9             |
@@ -71,3 +71,8 @@ Fonctionnalité: Choisir un cahier des charges
         Quand le porteur choisit un cahier des charges pour le projet lauréat
         Alors le cahier des charges devrait être modifié
         Et la date d'achèvement n'a pas été modifiée
+
+    # à ajouter après la migration Délai
+    @NotImplemented
+    Scénario: Choisir le cahier des charges initial pour un projet ayant bénéficié du délai du cahier des charges du 30/08/2022 impacte la date d'achèvement
+

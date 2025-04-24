@@ -10,9 +10,13 @@ type OnCahierDesChargesChoisi = (dépendances: {
   findUserById: UserRepo['findById'];
 }) => (événement: CahierDesChargesChoisi) => Promise<void>;
 
+/** @deprecated à supprimer */
 export const onCahierDesChargesChoisi: OnCahierDesChargesChoisi =
   ({ sendNotification, findProjectById, findUserById }) =>
   async ({ payload }) => {
+    if (process.env.MIGRATION_CDC === 'true') {
+      return;
+    }
     const { projetId: projectId, choisiPar: optedInBy, type } = payload;
     const project = await findProjectById(projectId);
 
