@@ -39,6 +39,10 @@ export const DemanderChangementPuissanceForm: FC<DemanderChangementPuissanceForm
   >({});
   const [nouvellePuissance, setNouvellePuissance] = useState<number>(puissance);
   const ratio = nouvellePuissance / puissanceInitiale;
+  const ratioActuelleNouvelle = nouvellePuissance / puissance;
+
+  console.log(puissance);
+  console.log(nouvellePuissance);
 
   const ratioValueType = Puissance.RatioChangementPuissance.bind({
     appelOffre,
@@ -57,16 +61,21 @@ export const DemanderChangementPuissanceForm: FC<DemanderChangementPuissanceForm
 
   const ratioHintText = isNaN(nouvellePuissance) ? (
     "Aucune valeur n'est encore renseignée"
-  ) : ratio === 1 ? (
+  ) : ratioActuelleNouvelle === 1 ? (
     'La valeur est identique à la puissance actuelle'
   ) : (
     <span>
-      Ceci correspond à{' '}
+      Soit{' '}
       <strong>
         {ratio > 1 ? 'une augmentation' : 'une diminution'} de{' '}
         {Math.round(Math.abs(100 - ratio * 100))}%
       </strong>{' '}
-      de la puissance initiale du projet
+      de la puissance initiale, et{' '}
+      <strong>
+        {ratioActuelleNouvelle > 1 ? 'une augmentation' : 'une diminution'} de{' '}
+        {Math.round(Math.abs(100 - ratioActuelleNouvelle * 100))}%
+      </strong>{' '}
+      de la puissance actuelle du projet
     </span>
   );
 
