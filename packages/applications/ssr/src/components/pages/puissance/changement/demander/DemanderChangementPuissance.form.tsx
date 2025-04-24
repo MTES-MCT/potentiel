@@ -41,9 +41,6 @@ export const DemanderChangementPuissanceForm: FC<DemanderChangementPuissanceForm
   const ratio = nouvellePuissance / puissanceInitiale;
   const ratioActuelleNouvelle = nouvellePuissance / puissance;
 
-  console.log(puissance);
-  console.log(nouvellePuissance);
-
   const ratioValueType = Puissance.RatioChangementPuissance.bind({
     appelOffre,
     période,
@@ -67,13 +64,18 @@ export const DemanderChangementPuissanceForm: FC<DemanderChangementPuissanceForm
     <span>
       Soit{' '}
       <strong>
-        {ratio > 1 ? 'une augmentation' : 'une diminution'} de{' '}
-        {Math.round(Math.abs(100 - ratio * 100))}%
+        {ratio === 1
+          ? 'aucune modification'
+          : ratio > 1
+            ? `une augmentation de 
+        ${Math.round(Math.abs(100 - ratio * 100) * 10) / 10}%`
+            : `une diminution de 
+        ${Math.round(Math.abs(100 - ratio * 100) * 10) / 10}%`}
       </strong>{' '}
       de la puissance initiale, et{' '}
       <strong>
         {ratioActuelleNouvelle > 1 ? 'une augmentation' : 'une diminution'} de{' '}
-        {Math.round(Math.abs(100 - ratioActuelleNouvelle * 100))}%
+        {Math.round(Math.abs(100 - ratioActuelleNouvelle * 100) * 10) / 10}%
       </strong>{' '}
       de la puissance actuelle du projet
     </span>
