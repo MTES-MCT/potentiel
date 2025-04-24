@@ -12,22 +12,22 @@ Fonctionnalité: Demander le changement de puissance d'un projet lauréat
             | ratio puissance | 0.75 |
         Alors la demande de changement de puissance devrait être consultable
         Et un email a été envoyé à la dreal avec :
-            | sujet      | Potentiel - changement de puissance pour le projet Du boulodrome de Marseille dans le département(.*) demandé |
-            | nom_projet | Du boulodrome de Marseille                                                                                    |
-            | url        | https://potentiel.beta.gouv.fr/laureats/.*/puissance/changement/.*                                            |
+            | sujet      | Potentiel - Demande de changement de puissance pour le projet Du boulodrome de Marseille dans le département(.*) |
+            | nom_projet | Du boulodrome de Marseille                                                                                       |
+            | url        | https://potentiel.beta.gouv.fr/laureats/.*/puissance/changement/.*                                               |
 
     Scénario: Demander le changement de puissance d'un projet lauréat avec un ratio à la hausse
         Quand le porteur demande le changement de puissance pour le projet lauréat avec :
             | ratio puissance | 1.25 |
         Alors la demande de changement de puissance devrait être consultable
         Et un email a été envoyé à la dreal avec :
-            | sujet      | Potentiel - changement de puissance pour le projet Du boulodrome de Marseille dans le département(.*) demandé |
-            | nom_projet | Du boulodrome de Marseille                                                                                    |
-            | url        | https://potentiel.beta.gouv.fr/laureats/.*/puissance/changement/.*                                            |
+            | sujet      | Potentiel - Demande de changement de puissance pour le projet Du boulodrome de Marseille dans le département(.*) |
+            | nom_projet | Du boulodrome de Marseille                                                                                       |
+            | url        | https://potentiel.beta.gouv.fr/laureats/.*/puissance/changement/.*                                               |
         Et un email a été envoyé à la dgec avec :
-            | sujet      | Potentiel - changement de puissance pour le projet Du boulodrome de Marseille dans le département(.*) demandé |
-            | nom_projet | Du boulodrome de Marseille                                                                                    |
-            | url        | https://potentiel.beta.gouv.fr/laureats/.*/puissance/changement/.*                                            |
+            | sujet      | Potentiel - Demande de changement de puissance pour le projet Du boulodrome de Marseille dans le département(.*) |
+            | nom_projet | Du boulodrome de Marseille                                                                                       |
+            | url        | https://potentiel.beta.gouv.fr/laureats/.*/puissance/changement/.*                                               |
 
     Scénario: Impossible de demander le changement de puissance si la puissance est inexistante
         Etant donné le projet éliminé "Du boulodrome de Lyon"

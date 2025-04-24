@@ -12,6 +12,7 @@ import { mediator } from 'mediateur';
 export type GetPuissanceForProjectPage = {
   puissance: number;
   affichage?: {
+    labelActions?: string;
     label: string;
     url: string;
   };
@@ -52,6 +53,7 @@ export const getPuissance = async ({
                   dateDemandeEnCours.formatter(),
                 ),
                 label: 'Voir la demande de modification',
+                labelActions: 'Demande de modification de puissance',
               }
             : undefined,
         };

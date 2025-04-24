@@ -7,7 +7,7 @@ import { listerDrealsRecipients } from '../../../helpers/listerDrealsRecipients'
 
 import { RegisterActionnaireNotificationDependencies } from '.';
 
-import { actionnaireNotificationTemplateId } from './templateIds';
+import { actionnaireNotificationTemplateId } from './constant';
 
 type ChangementActionnaireAnnuléNotificationsProps = {
   sendEmail: RegisterActionnaireNotificationDependencies['sendEmail'];
@@ -39,7 +39,7 @@ export const changementActionnaireAnnuléNotifications = async ({
   }
 
   await sendEmail({
-    templateId: actionnaireNotificationTemplateId.annuler,
+    templateId: actionnaireNotificationTemplateId.changement.annuler,
     messageSubject: `Potentiel - La demande de changement d'actionnaire pour le projet ${projet.nom} dans le département ${projet.département} a été annulée`,
     recipients: dreals,
     variables: {

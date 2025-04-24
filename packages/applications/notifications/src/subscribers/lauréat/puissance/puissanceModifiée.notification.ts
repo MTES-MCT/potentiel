@@ -7,6 +7,8 @@ import { listerPorteursRecipients } from '../../../helpers/listerPorteursRecipie
 
 import { RegisterPuissanceNotificationDependencies } from '.';
 
+import { puissanceNotificationTemplateId } from './constant';
+
 type PuissanceModifiéeNotificationProps = {
   sendEmail: RegisterPuissanceNotificationDependencies['sendEmail'];
   event: Puissance.PuissanceModifiéeEvent;
@@ -36,8 +38,8 @@ export const puissanceModifiéeNotification = async ({
   }
 
   return sendEmail({
-    templateId: 6886963,
-    messageSubject: `Potentiel - La puissance pour le projet ${projet.nom} dans le département ${projet.département} a été modifiée`,
+    templateId: puissanceNotificationTemplateId.modifier,
+    messageSubject: `Potentiel - Modification de la puissance du projet ${projet.nom} dans le département ${projet.département}`,
     recipients: porteurs,
     variables: {
       nom_projet: projet.nom,

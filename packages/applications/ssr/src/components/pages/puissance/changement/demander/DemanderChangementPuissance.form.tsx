@@ -162,7 +162,6 @@ export const DemanderChangementPuissanceForm: FC<DemanderChangementPuissanceForm
           hintText="Joindre votre justificatif"
           required={dépasseLesRatioDeAppelOffres}
           formats={['pdf']}
-          multiple
           state={validationErrors['piecesJustificatives'] ? 'error' : 'default'}
           stateRelatedMessage={validationErrors['piecesJustificatives']}
         />

@@ -7,6 +7,8 @@ import { listerPorteursRecipients } from '../../../helpers/listerPorteursRecipie
 
 import { RegisterReprésentantLégalNotificationDependencies } from '.';
 
+import { représentantLégalNotificationTemplateId } from './constant';
+
 type ReprésentantLégalModifiéNotificationProps = {
   sendEmail: RegisterReprésentantLégalNotificationDependencies['sendEmail'];
   event: ReprésentantLégal.ReprésentantLégalModifiéEvent;
@@ -37,7 +39,7 @@ export const représentantLégalModifiéNotification = async ({
   }
 
   return sendEmail({
-    templateId: 6502927,
+    templateId: représentantLégalNotificationTemplateId.modifier,
     messageSubject: `Potentiel - Modification du représentant légal pour le projet ${projet.nom} dans le département ${projet.département}`,
     recipients: porteurs,
     variables: {

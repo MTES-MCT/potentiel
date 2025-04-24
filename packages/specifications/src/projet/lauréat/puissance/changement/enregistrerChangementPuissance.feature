@@ -16,6 +16,10 @@ Fonctionnalité: Enregistrer un changement de puissance d'un projet lauréat
             | sujet      | Potentiel - Enregistrement d'un changement de puissance pour le projet Du boulodrome de Marseille dans le département(.*) |
             | nom_projet | Du boulodrome de Marseille                                                                                                |
             | url        | https://potentiel.beta.gouv.fr/projet/.*/details.html                                                                     |
+        Et un email a été envoyé au porteur avec :
+            | sujet      | Potentiel - Enregistrement d'un changement de puissance pour le projet Du boulodrome de Marseille dans le département(.*) |
+            | nom_projet | Du boulodrome de Marseille                                                                                                |
+            | url        | https://potentiel.beta.gouv.fr/projet/.*/details.html                                                                     |
 
     Scénario: Impossible de demander le changement de puissance d'un projet lauréat avec une valeur identique
         Quand le porteur enregistre un changement de puissance pour le projet lauréat avec :

@@ -9,27 +9,27 @@ Fonctionnalité: Modifier la puissance d'un projet lauréat
         Quand le DGEC validateur modifie la puissance pour le projet lauréat
         Alors la puissance du projet lauréat devrait être mise à jour
         Et un email a été envoyé au porteur avec :
-            | sujet      | Potentiel - La puissance pour le projet Du boulodrome de Marseille dans le département(.*) a été modifiée |
-            | nom_projet | Du boulodrome de Marseille                                                                                |
-            | url        | https://potentiel.beta.gouv.fr/projet/.*/details.html                                                     |
+            | sujet      | Potentiel - Modification de la puissance du projet Du boulodrome de Marseille dans le département(.*) |
+            | nom_projet | Du boulodrome de Marseille                                                                            |
+            | url        | https://potentiel.beta.gouv.fr/projet/.*/details.html                                                 |
 
     Scénario: Modifier la puissance d'un projet lauréat abandonné par un admin
         Etant donné un abandon accordé pour le projet lauréat
         Quand le DGEC validateur modifie la puissance pour le projet lauréat
         Alors la puissance du projet lauréat devrait être mise à jour
         Et un email a été envoyé au porteur avec :
-            | sujet      | Potentiel - La puissance pour le projet Du boulodrome de Marseille dans le département(.*) a été modifiée |
-            | nom_projet | Du boulodrome de Marseille                                                                                |
-            | url        | https://potentiel.beta.gouv.fr/projet/.*/details.html                                                     |
+            | sujet      | Potentiel - Modification de la puissance du projet Du boulodrome de Marseille dans le département(.*) |
+            | nom_projet | Du boulodrome de Marseille                                                                            |
+            | url        | https://potentiel.beta.gouv.fr/projet/.*/details.html                                                 |
 
     Scénario: Modifier la puissance d'un projet lauréat achevé par un admin
         Etant donné une attestation de conformité transmise pour le projet lauréat
         Quand le DGEC validateur modifie la puissance pour le projet lauréat
         Alors la puissance du projet lauréat devrait être mise à jour
         Et un email a été envoyé au porteur avec :
-            | sujet      | Potentiel - La puissance pour le projet Du boulodrome de Marseille dans le département(.*) a été modifiée |
-            | nom_projet | Du boulodrome de Marseille                                                                                |
-            | url        | https://potentiel.beta.gouv.fr/projet/.*/details.html                                                     |
+            | sujet      | Potentiel - Modification de la puissance du projet Du boulodrome de Marseille dans le département(.*) |
+            | nom_projet | Du boulodrome de Marseille                                                                            |
+            | url        | https://potentiel.beta.gouv.fr/projet/.*/details.html                                                 |
 
     Scénario: Impossible de modifier la puissance avec une valeur identique
         Quand le DGEC validateur modifie la puissance avec la même valeur pour le projet lauréat

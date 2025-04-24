@@ -8,6 +8,8 @@ import { listerDrealsRecipients } from '../../../helpers/listerDrealsRecipients'
 
 import { RegisterReprésentantLégalNotificationDependencies } from '.';
 
+import { représentantLégalNotificationTemplateId } from './constant';
+
 type ChangementReprésentantLégalRejetéNotificationProps = {
   sendEmail: RegisterReprésentantLégalNotificationDependencies['sendEmail'];
   event: ReprésentantLégal.ChangementReprésentantLégalRejetéEvent;
@@ -37,7 +39,7 @@ export const changementReprésentantLégalRejetéNotification = async ({
   }
 
   await sendEmail({
-    templateId: 6582166,
+    templateId: représentantLégalNotificationTemplateId.changement.rejeter,
     messageSubject: `Potentiel - La demande de modification du représentant légal pour le projet ${projet.nom} dans le département ${projet.département} a été rejetée`,
     recipients: porteurs,
     variables: {
@@ -61,7 +63,7 @@ export const changementReprésentantLégalRejetéNotification = async ({
     }
 
     await sendEmail({
-      templateId: 6611643,
+      templateId: représentantLégalNotificationTemplateId.changement.accordOuRejetAutomatique,
       messageSubject: `Potentiel - La demande de modification du représentant légal pour le projet ${projet.nom} dans le département ${projet.département} a été rejetée automatiquement`,
       recipients: dreals,
       variables: {

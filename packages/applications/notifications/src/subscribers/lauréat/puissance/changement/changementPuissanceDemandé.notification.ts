@@ -7,6 +7,7 @@ import { RegisterPuissanceNotificationDependencies } from '..';
 import { Recipient } from '../../../../sendEmail';
 import { listerDrealsRecipients } from '../../../../helpers/listerDrealsRecipients';
 import { listerDgecRecipients } from '../../../../helpers/listerDgecRecipients';
+import { puissanceNotificationTemplateId } from '../constant';
 
 type ChangementPuissanceDemandéNotificationProps = {
   sendEmail: RegisterPuissanceNotificationDependencies['sendEmail'];
@@ -46,8 +47,8 @@ export const changementPuissanceDemandéNotification = async ({
   }
 
   return sendEmail({
-    templateId: 6887674,
-    messageSubject: `Potentiel - changement de puissance pour le projet ${projet.nom} dans le département ${projet.département} demandé`,
+    templateId: puissanceNotificationTemplateId.changement.demander,
+    messageSubject: `Potentiel - Demande de changement de puissance pour le projet ${projet.nom} dans le département ${projet.département}`,
     recipients,
     variables: {
       nom_projet: projet.nom,
