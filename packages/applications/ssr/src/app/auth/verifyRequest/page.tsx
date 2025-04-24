@@ -1,11 +1,8 @@
-'use client';
-
-import { useSession } from 'next-auth/react';
-import { useEffect } from 'react';
 import { redirect } from 'next/navigation';
 import Button from '@codegouvfr/react-dsfr/Button';
 
 import { Routes } from '@potentiel-applications/routes';
+import { getContext } from '@potentiel-applications/request-context';
 
 import { Heading1 } from '@/components/atoms/headings';
 import { PageTemplate } from '@/components/templates/Page.template';
@@ -13,13 +10,10 @@ import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 
 export default function VerifyRequest() {
   return PageWithErrorHandling(async () => {
-    const { status, data } = useSession();
-
-    useEffect(() => {
-      if (status === 'authenticated' && data.utilisateur) {
-        redirect(Routes.Auth.redirectToDashboard());
-      }
-    }, [status, data]);
+    const utilisateur = getContext()?.utilisateur;
+    if (utilisateur) {
+      redirect(Routes.Auth.redirectToDashboard());
+    }
 
     return (
       <PageTemplate>
