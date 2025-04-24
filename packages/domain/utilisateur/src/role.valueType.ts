@@ -323,6 +323,20 @@ const référencielPermissions = {
         rejeterChangement: 'Lauréat.Puissance.Command.RejeterDemandeChangement',
       },
     },
+    cahierDesCharges: {
+      query: {
+        consulter: 'Lauréat.CahierDesCharges.Query.ConsulterCahierDesChargesChoisi',
+      },
+      command: {
+        choisir: 'Lauréat.Command.ChoisirCahierDesCharges',
+      },
+      usecase: {
+        choisir: 'Lauréat.UseCase.ChoisirCahierDesCharges',
+      },
+    },
+    délai: {
+      query: { consulter: 'Lauréat.Délai.Query.ConsulterDélai' },
+    },
     usecase: {
       notifier: 'Lauréat.UseCase.NotifierLauréat',
       modifier: 'Lauréat.UseCase.ModifierLauréat',
@@ -362,11 +376,6 @@ const référencielPermissions = {
     },
   },
   appelOffre: {
-    cahierDesCharges: {
-      query: {
-        consulter: 'Lauréat.CahierDesCharges.Query.ConsulterCahierDesChargesChoisi',
-      },
-    },
     query: {
       consulter: 'AppelOffre.Query.ConsulterAppelOffre',
       lister: 'AppelOffre.Query.ListerAppelOffre',
@@ -497,7 +506,7 @@ const policies = {
     demander: [
       référencielPermissions.candidature.query.consulterProjet,
       référencielPermissions.appelOffre.query.consulter,
-      référencielPermissions.appelOffre.cahierDesCharges.query.consulter,
+      référencielPermissions.lauréat.cahierDesCharges.query.consulter,
       référencielPermissions.document.command.enregister,
       référencielPermissions.lauréat.abandon.usecase.demander,
       référencielPermissions.lauréat.abandon.command.demander,
@@ -518,7 +527,7 @@ const policies = {
       référencielPermissions.candidature.query.consulterProjet,
       référencielPermissions.appelOffre.query.consulter,
       référencielPermissions.utilisateur.query.consulter,
-      référencielPermissions.appelOffre.cahierDesCharges.query.consulter,
+      référencielPermissions.lauréat.cahierDesCharges.query.consulter,
       référencielPermissions.document.command.enregister,
       référencielPermissions.lauréat.abandon.query.consulter,
       référencielPermissions.lauréat.abandon.usecase.accorder,
@@ -529,7 +538,7 @@ const policies = {
       référencielPermissions.candidature.query.consulterProjet,
       référencielPermissions.appelOffre.query.consulter,
       référencielPermissions.lauréat.abandon.query.consulter,
-      référencielPermissions.appelOffre.cahierDesCharges.query.consulter,
+      référencielPermissions.lauréat.cahierDesCharges.query.consulter,
       référencielPermissions.document.command.enregister,
       référencielPermissions.utilisateur.query.consulter,
       référencielPermissions.lauréat.abandon.usecase.rejeter,
@@ -540,7 +549,7 @@ const policies = {
       référencielPermissions.appelOffre.query.consulter,
       référencielPermissions.utilisateur.query.consulter,
       référencielPermissions.lauréat.abandon.query.consulter,
-      référencielPermissions.appelOffre.cahierDesCharges.query.consulter,
+      référencielPermissions.lauréat.cahierDesCharges.query.consulter,
       référencielPermissions.document.command.enregister,
       référencielPermissions.lauréat.abandon.usecase.demanderConfirmation,
       référencielPermissions.lauréat.abandon.command.demanderConfirmation,
@@ -558,7 +567,7 @@ const policies = {
         référencielPermissions.appelOffre.query.consulter,
         référencielPermissions.utilisateur.query.consulter,
         référencielPermissions.utilisateur.query.consulter,
-        référencielPermissions.appelOffre.cahierDesCharges.query.consulter,
+        référencielPermissions.lauréat.cahierDesCharges.query.consulter,
         référencielPermissions.document.command.enregister,
         référencielPermissions.lauréat.abandon.query.consulter,
         référencielPermissions.lauréat.abandon.usecase.accorder,
@@ -586,7 +595,7 @@ const policies = {
     demander: [
       référencielPermissions.candidature.query.consulterProjet,
       référencielPermissions.appelOffre.query.consulter,
-      référencielPermissions.appelOffre.cahierDesCharges.query.consulter,
+      référencielPermissions.lauréat.cahierDesCharges.query.consulter,
       référencielPermissions.document.command.enregister,
       référencielPermissions.éliminé.recours.usecase.demander,
       référencielPermissions.éliminé.recours.command.demander,
@@ -601,7 +610,7 @@ const policies = {
       référencielPermissions.candidature.query.consulterProjet,
       référencielPermissions.appelOffre.query.consulter,
       référencielPermissions.utilisateur.query.consulter,
-      référencielPermissions.appelOffre.cahierDesCharges.query.consulter,
+      référencielPermissions.lauréat.cahierDesCharges.query.consulter,
       référencielPermissions.document.command.enregister,
       référencielPermissions.éliminé.recours.query.consulter,
       référencielPermissions.éliminé.recours.usecase.accorder,
@@ -612,7 +621,7 @@ const policies = {
       référencielPermissions.candidature.query.consulterProjet,
       référencielPermissions.appelOffre.query.consulter,
       référencielPermissions.éliminé.recours.query.consulter,
-      référencielPermissions.appelOffre.cahierDesCharges.query.consulter,
+      référencielPermissions.lauréat.cahierDesCharges.query.consulter,
       référencielPermissions.document.command.enregister,
       référencielPermissions.utilisateur.query.consulter,
       référencielPermissions.éliminé.recours.usecase.rejeter,
@@ -999,7 +1008,7 @@ const policies = {
       référencielPermissions.lauréat.actionnaire.command.demanderChangement,
     ],
     accorderChangement: [
-      référencielPermissions.appelOffre.cahierDesCharges.query.consulter,
+      référencielPermissions.lauréat.cahierDesCharges.query.consulter,
       référencielPermissions.lauréat.actionnaire.usecase.accorderChangement,
       référencielPermissions.lauréat.actionnaire.command.accorderChangement,
     ],
@@ -1084,6 +1093,14 @@ const policies = {
       référencielPermissions.utilisateur.command.réclamerProjet,
       référencielPermissions.utilisateur.usecase.réclamerProjet,
       référencielPermissions.utilisateur.query.listerProjetsÀRéclamer,
+    ],
+  },
+  cahierDesCharges: {
+    choisir: [
+      référencielPermissions.lauréat.délai.query.consulter,
+      référencielPermissions.lauréat.cahierDesCharges.query.consulter,
+      référencielPermissions.lauréat.cahierDesCharges.command.choisir,
+      référencielPermissions.lauréat.cahierDesCharges.usecase.choisir,
     ],
   },
 } as const;
@@ -1437,6 +1454,9 @@ const porteurProjetPolicies: ReadonlyArray<Policy> = [
   'utilisateur.listerPorteurs',
   'utilisateur.réclamerProjet',
   'utilisateur.retirerAccèsProjet',
+
+  // Cahier des charges
+  'cahierDesCharges.choisir',
 ];
 
 const acheteurObligéPolicies: ReadonlyArray<Policy> = [

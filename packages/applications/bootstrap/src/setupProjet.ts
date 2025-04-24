@@ -18,6 +18,7 @@ import {
 import {
   CandidatureAdapter,
   consulterCahierDesChargesChoisiAdapter,
+  DélaiAdapter,
   getProjetUtilisateurScopeAdapter,
 } from '@potentiel-infrastructure/domain-adapters';
 import { AttestationSaga } from '@potentiel-applications/document-builder';
@@ -41,6 +42,7 @@ export const setupProjet = async ({ sendEmail }: SetupProjetDependencies) => {
     récupérerProjetsEligiblesPreuveRecanditure:
       CandidatureAdapter.récupérerProjetsEligiblesPreuveRecanditureAdapter,
     consulterCahierDesChargesAdapter: consulterCahierDesChargesChoisiAdapter,
+    consulterABénéficiéDuDélaiCDC2022: DélaiAdapter.consulterABénéficiéDuDélaiCDC2022Adapter,
   });
 
   LauréatProjector.register();

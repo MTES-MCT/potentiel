@@ -29,6 +29,7 @@ export type Modifié = {
 export type ValueType = ReadonlyValueType<
   {
     formatter(): RawType;
+    estCDC2022(): boolean;
   } & (Initial | Modifié)
 >;
 
@@ -41,6 +42,9 @@ export const bind = (value: PlainType<ValueType>): ValueType => {
       },
       estÉgaleÀ(value: ValueType) {
         return value.type === 'initial';
+      },
+      estCDC2022() {
+        return false;
       },
     };
   }
@@ -60,6 +64,9 @@ export const bind = (value: PlainType<ValueType>): ValueType => {
         value.paruLe === this.paruLe &&
         this.alternatif === (value.alternatif || undefined)
       );
+    },
+    estCDC2022() {
+      return value.paruLe === '30/08/2022';
     },
   };
 };

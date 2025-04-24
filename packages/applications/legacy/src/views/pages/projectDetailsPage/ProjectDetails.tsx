@@ -54,6 +54,7 @@ type ProjectDetailsProps = {
   hasAttestationConformité: boolean;
   modificationsNonPermisesParLeCDCActuel: boolean;
   coefficientKChoisi: boolean | undefined;
+  cdcV2: boolean;
 };
 
 export const ProjectDetails = ({
@@ -71,6 +72,7 @@ export const ProjectDetails = ({
   puissance,
   modificationsNonPermisesParLeCDCActuel,
   coefficientKChoisi,
+  cdcV2,
 }: ProjectDetailsProps) => {
   const { user } = request;
   const { error, success } = (request.query as any) || {};
@@ -128,7 +130,15 @@ export const ProjectDetails = ({
             />
           )}
           <Callout>
-            <CDCInfo {...{ project, user }} />
+            <CDCInfo
+              cahierDesChargesActuel={project.cahierDesChargesActuel}
+              user={user}
+              urlChoixCdc={
+                cdcV2
+                  ? Routes.CahierDesCharges.choisir(identifiantProjet)
+                  : `/projet/${project.id}/choisir-cahier-des-charges.html`
+              }
+            />
           </Callout>
         </div>
         <div className="flex flex-col lg:flex-row gap-3">
@@ -173,12 +183,12 @@ export const ProjectDetails = ({
   );
 };
 
-type CDCInfoProps = {
-  project: ProjectDataForProjectPage;
+type CDCInfoProps = Pick<ProjectDataForProjectPage, 'cahierDesChargesActuel'> & {
   user: Request['user'];
+  urlChoixCdc: string;
 };
 
-const CDCInfo = ({ project: { id: projectId, cahierDesChargesActuel }, user }: CDCInfoProps) => (
+const CDCInfo = ({ cahierDesChargesActuel, user, urlChoixCdc }: CDCInfoProps) => (
   <>
     <Heading2 className="my-0 text-2xl">Cahier des charges</Heading2>{' '}
     <div>
@@ -196,7 +206,7 @@ const CDCInfo = ({ project: { id: projectId, cahierDesChargesActuel }, user }: C
       )}
       <br />
       {userIs('porteur-projet')(user) && (
-        <Link className="flex mt-4" href={`/projet/${projectId}/choisir-cahier-des-charges.html`}>
+        <Link className="flex mt-4" href={urlChoixCdc}>
           Accéder au choix du cahier des charges
         </Link>
       )}

@@ -44,3 +44,5 @@ export { registerLauréatQueries, registerLauréatUseCases } from './lauréat.re
 export { LauréatEntity } from './lauréat.entity';
 
 // ValueType
+
+export * as Délai from './délai';
