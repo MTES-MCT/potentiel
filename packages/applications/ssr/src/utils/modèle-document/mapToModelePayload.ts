@@ -58,12 +58,12 @@ export const mapToModelePayload = ({
       nomRepresentantLegal: représentantLégal.nomReprésentantLégal,
       puissance: puissance.puissance.toString(),
       refPotentiel: formatIdentifiantProjetForDocument(identifiantProjet),
+      suiviPar: utilisateur.nom,
       suiviParEmail: appelOffres.dossierSuiviPar,
       titreAppelOffre: appelOffres.title,
       titreFamille: famille?.id ?? '',
       titrePeriode: période.title || '',
       unitePuissance: appelOffres.unitePuissance,
-      suiviPar: utilisateur.identifiantUtilisateur.formatter(),
     },
   };
 };
