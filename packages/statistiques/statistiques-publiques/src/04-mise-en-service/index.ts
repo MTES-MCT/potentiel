@@ -1,5 +1,6 @@
 import { computeNombreTotalDCRDéposées } from './nombreTotalDCRDéposées.statistic';
 import { computeNombreTotalProjetEnService } from './nombreTotalProjetEnService.statistic';
+import { computeNombreTotalPTFDéposées } from './nombreTotalPTFDéposées.statistic';
 import { computePourcentageDCRDéposées } from './pourcentageDCRDéposées.statistic';
 import { computepourcentageProjetAvecDCRQuiOntUnePTF } from './pourcentageProjetAvecDCRQuiOntUnePTF.statistic';
 import { computePourcentageProjetEnService } from './pourcentageProjetEnService.statistic';
@@ -8,6 +9,7 @@ import { computePuissanceTotaleMiseEnService } from './puissanceTotaleMiseEnServ
 
 export const computeMiseEnService = async () => {
   await computeNombreTotalDCRDéposées();
+  await computeNombreTotalPTFDéposées();
   await computeNombreTotalProjetEnService();
   await computepourcentageProjetAvecDCRQuiOntUnePTF();
   await computePourcentageProjetEnService();
