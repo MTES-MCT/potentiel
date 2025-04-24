@@ -15,7 +15,7 @@ import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 import { getPériodeAppelOffres } from '@/app/_helpers/getPériodeAppelOffres';
 import { getCandidature } from '@/app/candidatures/_helpers/getCandidature';
-import { mapToModelePayload } from '@/utils/modèle-document/mapToModelePayload';
+import { mapLauréatToModelePayload } from '@/utils/modèle-document/mapToModelePayload';
 import { getDocxDocumentHeader } from '@/utils/modèle-document/getDocxDocumentHeader';
 import { getEnCopies } from '@/utils/modèle-document/getEnCopies';
 
@@ -72,7 +72,7 @@ export const GET = async (
         période,
       });
 
-      const { logo, data } = mapToModelePayload({
+      const { logo, data } = mapLauréatToModelePayload({
         identifiantProjet,
         lauréat,
         puissance,

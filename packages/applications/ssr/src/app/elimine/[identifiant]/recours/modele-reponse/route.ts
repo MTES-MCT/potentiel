@@ -15,9 +15,8 @@ import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 import { getPériodeAppelOffres } from '@/app/_helpers/getPériodeAppelOffres';
 import { getCandidature } from '@/app/candidatures/_helpers/getCandidature';
-import { getLauréat } from '@/app/laureats/[identifiant]/_helpers/getLauréat';
 import { formatBoolean } from '@/utils/modèle-document/formatBoolean';
-import { mapToModelePayload } from '@/utils/modèle-document/mapToModelePayload';
+import { mapCandidatureToModelePayload } from '@/utils/modèle-document/mapToModelePayload';
 import { getDocxDocumentHeader } from '@/utils/modèle-document/getDocxDocumentHeader';
 
 export const GET = async (_: Request, { params: { identifiant } }: IdentifiantParameter) =>
@@ -27,9 +26,6 @@ export const GET = async (_: Request, { params: { identifiant } }: IdentifiantPa
       const identifiantProjet = IdentifiantProjet.convertirEnValueType(identifiantProjetValue);
 
       const candidature = await getCandidature(identifiantProjetValue);
-      const { lauréat, puissance, représentantLégal } = await getLauréat({
-        identifiantProjet: identifiantProjetValue,
-      });
 
       const recours = await mediator.send<Éliminé.Recours.ConsulterRecoursQuery>({
         type: 'Éliminé.Recours.Query.ConsulterRecours',
@@ -43,11 +39,8 @@ export const GET = async (_: Request, { params: { identifiant } }: IdentifiantPa
       }
       const { appelOffres, période, famille } = await getPériodeAppelOffres(identifiantProjet);
 
-      const { logo, data } = mapToModelePayload({
+      const { logo, data } = mapCandidatureToModelePayload({
         identifiantProjet: identifiantProjetValue,
-        lauréat,
-        puissance,
-        représentantLégal,
         candidature,
         appelOffres,
         période,
@@ -116,7 +109,7 @@ export const GET = async (_: Request, { params: { identifiant } }: IdentifiantPa
       return new Response(content, {
         headers: getDocxDocumentHeader({
           identifiantProjet: identifiantProjetValue,
-          nomProjet: lauréat.nomProjet,
+          nomProjet: candidature.nomProjet,
           type,
         }),
       });

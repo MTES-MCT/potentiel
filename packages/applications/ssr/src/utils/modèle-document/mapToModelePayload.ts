@@ -7,56 +7,67 @@ import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { Utilisateur } from '@potentiel-domain/utilisateur';
 import { Option } from '@potentiel-libraries/monads';
 import { Candidature, Lauréat } from '@potentiel-domain/projet';
+import { DateTime, Email } from '@potentiel-domain/common';
 
 import { formatBoolean } from './formatBoolean';
 import { formatIdentifiantProjetForDocument } from './formatIdentifiantProjetForDocument';
 
-type FormatProjectDataProps = {
+type CommonProps = {
   identifiantProjet: string;
-  représentantLégal: ReprésentantLégal.ConsulterReprésentantLégalReadModel;
-  puissance: Puissance.ConsulterPuissanceReadModel;
-  lauréat: Lauréat.ConsulterLauréatReadModel;
-  candidature: Candidature.ConsulterCandidatureReadModel;
+
   appelOffres: AppelOffre.AppelOffreReadModel;
   période: AppelOffre.Periode;
   famille: AppelOffre.Famille | undefined;
   utilisateur: Utilisateur.ValueType;
 };
 
-export const mapToModelePayload = ({
+type MapToModelePayloadProps = CommonProps & {
+  nomReprésentantLégal: string;
+  puissance: number;
+  localité: Candidature.ConsulterCandidatureReadModel['localité'];
+  nomProjet: Candidature.ConsulterCandidatureReadModel['nomProjet'];
+  notifiéLe: DateTime.ValueType | undefined;
+  emailContact: Email.ValueType;
+  nomCandidat: string;
+};
+
+const mapToModelePayload = ({
   identifiantProjet,
-  lauréat,
+  localité,
+  nomProjet,
   puissance,
-  représentantLégal,
-  candidature,
+  nomReprésentantLégal,
+  nomCandidat,
+  emailContact,
+  notifiéLe,
   appelOffres,
   période,
   famille,
   utilisateur,
-}: FormatProjectDataProps): ModèleRéponseSignée.ModèleRéponse & { logo?: string } => {
+}: MapToModelePayloadProps): ModèleRéponseSignée.ModèleRéponse & { logo?: string } => {
   const régionDreal = Option.isSome(utilisateur.région) ? utilisateur.région : undefined;
 
   return {
     logo: régionDreal,
     data: {
       adresseCandidat: [
-        lauréat.localité.adresse1,
-        lauréat.localité.adresse2,
-        `${lauréat.localité.codePostal} ${lauréat.localité.commune}`,
+        localité.adresse1,
+        localité.adresse2,
+        `${localité.codePostal} ${localité.commune}`,
       ]
         .filter(Boolean)
         .join('\n'),
-      codePostalProjet: lauréat.localité.codePostal,
-      communeProjet: candidature.localité.commune,
+      codePostalProjet: localité.codePostal,
+      communeProjet: localité.commune,
 
-      dateNotification: formatDateForDocument(lauréat.notifiéLe.date),
+      dateNotification: notifiéLe ? formatDateForDocument(notifiéLe.date) : '',
       dreal: régionDreal ?? '',
-      email: candidature.emailContact.formatter(),
+      email: emailContact.formatter(),
       familles: formatBoolean(!!famille),
-      nomCandidat: candidature.nomCandidat,
-      nomProjet: lauréat.nomProjet,
-      nomRepresentantLegal: représentantLégal.nomReprésentantLégal,
-      puissance: puissance.puissance.toString(),
+      nomCandidat,
+      nomProjet,
+      nomRepresentantLegal: nomReprésentantLégal,
+      puissance: puissance.toString(),
       refPotentiel: formatIdentifiantProjetForDocument(identifiantProjet),
       suiviPar: utilisateur.nom,
       suiviParEmail: appelOffres.dossierSuiviPar,
@@ -67,3 +78,41 @@ export const mapToModelePayload = ({
     },
   };
 };
+
+type MapCandidatureToModelePayloadProps = CommonProps & {
+  candidature: Candidature.ConsulterCandidatureReadModel;
+};
+
+export const mapCandidatureToModelePayload = ({
+  candidature,
+  ...props
+}: MapCandidatureToModelePayloadProps) =>
+  mapToModelePayload({
+    ...props,
+    emailContact: candidature.emailContact,
+    localité: candidature.localité,
+    nomCandidat: candidature.nomCandidat,
+    nomProjet: candidature.nomProjet,
+    nomReprésentantLégal: candidature.nomReprésentantLégal,
+    puissance: candidature.puissanceProductionAnnuelle,
+    notifiéLe: candidature.notification?.notifiéeLe,
+  });
+
+type MapLauréatToModelePayloadProps = MapCandidatureToModelePayloadProps & {
+  puissance: Puissance.ConsulterPuissanceReadModel;
+  représentantLégal: ReprésentantLégal.ConsulterReprésentantLégalReadModel;
+  lauréat: Lauréat.ConsulterLauréatReadModel;
+};
+
+export const mapLauréatToModelePayload = ({
+  puissance,
+  représentantLégal,
+  lauréat,
+  ...props
+}: MapLauréatToModelePayloadProps) => ({
+  ...mapCandidatureToModelePayload(props),
+  localité: lauréat.localité,
+  nomProjet: lauréat.nomProjet,
+  nomReprésentantLégal: représentantLégal.nomReprésentantLégal,
+  puissance: puissance.puissance,
+});
