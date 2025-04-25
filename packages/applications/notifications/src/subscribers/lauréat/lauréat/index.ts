@@ -18,13 +18,11 @@ export type RegisterLauréatNotificationDependencies = {
 
 export const register = ({ sendEmail }: RegisterLauréatNotificationDependencies) => {
   const handler: MessageHandler<Execute> = async (event) => {
-    const emails = await match(event)
-      .with({ type: 'CahierDesChargesChoisi-V1' }, cahierDesChargesChoisiNotification)
+    return await match(event)
+      .with({ type: 'CahierDesChargesChoisi-V1' }, (event) =>
+        cahierDesChargesChoisiNotification({ event, sendEmail }),
+      )
       .otherwise(() => Promise.resolve([]));
-
-    for (const email of emails) {
-      await sendEmail(email);
-    }
   };
 
   mediator.register('System.Notification.Lauréat', handler);
