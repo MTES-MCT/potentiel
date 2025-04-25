@@ -47,7 +47,6 @@ Période.registerPériodeQueries({
 Candidature.registerCandidatureQueries({
   find: findProjection,
   list: listProjection,
-  récupérerProjet: CandidatureAdapter.récupérerProjetAdapter,
   récupérerProjetsEligiblesPreuveRecanditure:
     CandidatureAdapter.récupérerProjetsEligiblesPreuveRecanditureAdapter,
 });

@@ -38,7 +38,6 @@ export const setupProjet = async ({ sendEmail }: SetupProjetDependencies) => {
     find: findProjection,
     list: listProjection,
     getScopeProjetUtilisateur: getProjetUtilisateurScopeAdapter,
-    récupérerProjet: CandidatureAdapter.récupérerProjetAdapter,
     récupérerProjetsEligiblesPreuveRecanditure:
       CandidatureAdapter.récupérerProjetsEligiblesPreuveRecanditureAdapter,
     consulterCahierDesChargesAdapter: consulterCahierDesChargesChoisiAdapter,

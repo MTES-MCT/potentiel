@@ -2,11 +2,6 @@ import {
   ConsulterCandidatureQuery,
   ConsulterCandidatureReadModel,
 } from './consulter/consulterCandidature.query';
-import {
-  ConsulterProjetQuery,
-  ConsulterProjetReadModel,
-  RécupérerProjetPort,
-} from './consulter/consulterProjet.query';
 import { CandidatureCorrigéeEvent } from './corriger/candidatureCorrigée.event';
 import { CorrigerCandidatureUseCase } from './corriger/corrigerCandidature.usecase';
 import { CandidatureImportéeEvent } from './importer/candidatureImportée.event';
@@ -28,13 +23,11 @@ import { NotifierCandidatureUseCase } from './notifier/notifierCandidature.useca
 
 // Query
 export type CandidatureQuery =
-  | ConsulterProjetQuery
   | ListerCandidaturesQuery
   | ListerProjetsEligiblesPreuveRecanditureQuery
   | ConsulterCandidatureQuery;
 
 export {
-  ConsulterProjetQuery,
   ListerProjetsEligiblesPreuveRecanditureQuery,
   ListerCandidaturesQuery,
   ConsulterCandidatureQuery,
@@ -42,14 +35,13 @@ export {
 
 // ReadModel
 export {
-  ConsulterProjetReadModel,
   ListerProjetsEligiblesPreuveRecanditureReadModel,
   ListerCandidaturesReadModel,
   ConsulterCandidatureReadModel,
 };
 
 // Port
-export { RécupérerProjetPort, RécupérerProjetsEligiblesPreuveRecanditurePort };
+export { RécupérerProjetsEligiblesPreuveRecanditurePort };
 
 // UseCases
 export type CandidatureUseCase =

@@ -43,7 +43,7 @@ const selectProjetQuery = `
   where "appelOffreId" = $1 and "periodeId" = $2 and "numeroCRE" = $3 and "familleId" = $4
 `;
 
-export const récupérerProjetAdapter: Candidature.RécupérerProjetPort = async (identifiant) => {
+export const récupérerProjetAdapter = async (identifiant: string) => {
   const { appelOffre, famille, numéroCRE, période } =
     IdentifiantProjet.convertirEnValueType(identifiant);
   const result = await executeSelect<{ value: Candidature.ProjetEntity }>(
