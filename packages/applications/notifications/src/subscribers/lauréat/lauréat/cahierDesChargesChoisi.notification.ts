@@ -18,7 +18,7 @@ export const cahierDesChargesChoisiNotification = async ({
     payload.cahierDesCharges,
   );
 
-  const messageSubject = `Potentiel - Nouveau mode d'instruction choisi pour les demandes liées à votre projet ${lauréat.nomProjet}`;
+  const messageSubject = `Potentiel - Nouveau mode d'instruction choisi pour les demandes liées à votre projet ${lauréat.nom}`;
   return match(cahierDesCharges)
     .returnType<EmailPayload[]>()
     .with({ type: 'initial' }, () => [
@@ -27,7 +27,7 @@ export const cahierDesChargesChoisiNotification = async ({
         messageSubject,
         recipients,
         variables: {
-          nom_projet: lauréat.nomProjet,
+          nom_projet: lauréat.nom,
           projet_url: lauréat.url,
         },
       },
@@ -38,7 +38,7 @@ export const cahierDesChargesChoisiNotification = async ({
         messageSubject,
         recipients,
         variables: {
-          nom_projet: lauréat.nomProjet,
+          nom_projet: lauréat.nom,
           projet_url: lauréat.url,
           cdc_date: paruLe,
           cdc_alternatif: alternatif ? 'alternatif ' : '',

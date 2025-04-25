@@ -24,8 +24,9 @@ export const getLauréat = async (identifiantProjet: string) => {
   }
   return {
     identifiantProjet: lauréat.identifiantProjet,
-    nomProjet: lauréat.nomProjet,
-    localité: lauréat.localité,
+    nom: lauréat.nomProjet,
+    région: lauréat.localité.région,
+    département: lauréat.localité.département,
     url: getBaseUrl() + Routes.Projet.details(identifiantProjet),
   };
 };
