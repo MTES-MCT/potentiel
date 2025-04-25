@@ -30,7 +30,7 @@ Fonctionnalité: Choisir un cahier des charges
         Quand le porteur choisit le cahier des charges "modifié paru le 30/08/2022"
         Alors l'utilisateur devrait être informé que "Ce cahier des charges est identique à l'actuel"
 
-    Scénario: Impossible de choisir un cahier des charges modifié non disponible
+    Scénario: Impossible de choisir un cahier des charges modifié non disponible pour une période
         Etant donné le projet lauréat "Du boulodrome de Marseille" avec :
             | appel d'offre | PPE2 - Eolien |
             | période       | 9             |
