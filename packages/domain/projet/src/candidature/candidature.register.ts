@@ -1,10 +1,6 @@
 import { GetProjetAggregateRoot } from '../getProjetAggregateRoot.port';
 
 import {
-  ConsulterProjetDependencies,
-  registerConsulterProjetQuery,
-} from './consulter/consulterProjet.query';
-import {
   ListerProjetsEligiblesPreuveRecanditureDependencies,
   registerProjetsEligiblesPreuveRecanditureQuery,
 } from './lister/listerProjetsEligiblesPreuveRecanditure.query';
@@ -27,13 +23,11 @@ export type CandiatureCommandDependencies = {
   getProjetAggregateRoot: GetProjetAggregateRoot;
 };
 
-export type CandidatureQueryDependencies = ConsulterProjetDependencies &
-  ListerProjetsEligiblesPreuveRecanditureDependencies &
+export type CandidatureQueryDependencies = ListerProjetsEligiblesPreuveRecanditureDependencies &
   ConsulterCandidatureDependencies &
   ListerCandidaturesQueryDependencies;
 
 export const registerCandidatureQueries = (dependencies: CandidatureQueryDependencies) => {
-  registerConsulterProjetQuery(dependencies);
   registerProjetsEligiblesPreuveRecanditureQuery(dependencies);
   registerConsulterCandidatureQuery(dependencies);
   registerListerCandidaturesQuery(dependencies);

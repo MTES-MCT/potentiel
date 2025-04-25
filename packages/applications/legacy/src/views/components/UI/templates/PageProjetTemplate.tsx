@@ -5,10 +5,21 @@ import { Badge, BadgeType, Heading1, KeyIcon, Link, MapPinIcon, PageTemplate } f
 import routes from '../../../../routes';
 import type { Candidature } from '@potentiel-domain/projet';
 import { formatProjectDataToIdentifiantProjetValueType } from '../../../../helpers/dataToValueTypes';
+import { StatutProjet } from '@potentiel-domain/common';
+
+export type RésuméProjet = {
+  appelOffre: string;
+  période: string;
+  famille: string;
+  numéroCRE: string;
+  statut: StatutProjet.RawType;
+  nom: string;
+  localité: Candidature.ConsulterCandidatureReadModel['localité'];
+};
 
 export const PageProjetTemplate: FC<{
   user: UtilisateurReadModel;
-  résuméProjet: Candidature.ConsulterProjetReadModel;
+  résuméProjet: RésuméProjet;
   titre: ReactNode;
   children: ReactNode;
 }> = ({ user, résuméProjet, titre, children }) => (
@@ -18,7 +29,7 @@ export const PageProjetTemplate: FC<{
   </PageTemplate>
 );
 
-const EntêteProjet: FC<Candidature.ConsulterProjetReadModel> = ({
+const EntêteProjet: FC<RésuméProjet> = ({
   appelOffre,
   période,
   famille,
@@ -44,7 +55,7 @@ const EntêteProjet: FC<Candidature.ConsulterProjetReadModel> = ({
         >
           <div className="text-3xl font-bold !text-white">{nom}</div>
         </Link>
-        <StatutProjet statut={statut} />
+        <StatutProjetBadge statut={statut} />
       </div>
       <div className="text-xs italic">
         <KeyIcon className="mr-1" />
@@ -59,7 +70,7 @@ const EntêteProjet: FC<Candidature.ConsulterProjetReadModel> = ({
   </div>
 );
 
-const getBadgeType = (statut: Candidature.ConsulterProjetReadModel['statut']): BadgeType => {
+const getBadgeType = (statut: StatutProjet.RawType): BadgeType => {
   switch (statut) {
     case 'abandonné':
       return 'warning';
@@ -72,13 +83,13 @@ const getBadgeType = (statut: Candidature.ConsulterProjetReadModel['statut']): B
   }
 };
 
-const getBadgeLabel = (statut: Candidature.ConsulterProjetReadModel['statut']): string => {
+const getBadgeLabel = (statut: StatutProjet.RawType): string => {
   if (statut === 'non-notifié') return 'à notifier';
   return statut;
 };
 
-const StatutProjet: FC<{
-  statut: Candidature.ConsulterProjetReadModel['statut'];
+const StatutProjetBadge: FC<{
+  statut: StatutProjet.RawType;
 }> = ({ statut }) => (
   <Badge type={getBadgeType(statut)} className="ml-2 self-center">
     {getBadgeLabel(statut)}

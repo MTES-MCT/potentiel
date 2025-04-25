@@ -3,23 +3,24 @@ import { notFound } from 'next/navigation';
 import { NextRequest } from 'next/server';
 
 import { AppelOffre } from '@potentiel-domain/appel-offre';
-import { Candidature, Lauréat } from '@potentiel-domain/projet';
-import { DateTime } from '@potentiel-domain/common';
 import {
   formatDateForDocument,
   ModèleRéponseSignée,
 } from '@potentiel-applications/document-builder';
 import { Option } from '@potentiel-libraries/monads';
 import { Puissance } from '@potentiel-domain/laureat';
-import { IdentifiantProjet } from '@potentiel-domain/projet';
+import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 
 import { decodeParameter } from '@/utils/decodeParameter';
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { withUtilisateur } from '@/utils/withUtilisateur';
-import { formatIdentifiantProjetForDocument } from '@/utils/modèle-document/formatIdentifiantProjetForDocument';
 import { getPériodeAppelOffres } from '@/app/_helpers/getPériodeAppelOffres';
 import { getEnCopies } from '@/utils/modèle-document/getEnCopies';
 import { getDocxDocumentHeader } from '@/utils/modèle-document/getDocxDocumentHeader';
+import { getCandidature } from '@/app/candidatures/_helpers/getCandidature';
+import { mapLauréatToModèleRéponsePayload } from '@/utils/modèle-document/mapToModèleRéponsePayload';
+
+import { getLauréat } from '../../../_helpers/getLauréat';
 
 export const GET = async (
   request: NextRequest,
@@ -29,19 +30,11 @@ export const GET = async (
     const identifiantProjet = decodeParameter(identifiant);
     const estAccordé = request.nextUrl.searchParams.get('estAccordé') === 'true';
 
-    const candidature = await mediator.send<Candidature.ConsulterProjetQuery>({
-      type: 'Candidature.Query.ConsulterProjet',
-      data: {
-        identifiantProjet,
-      },
-    });
-    const { appelOffres, période } = await getPériodeAppelOffres(
+    const candidature = await getCandidature(identifiantProjet);
+    const { lauréat, représentantLégal } = await getLauréat({ identifiantProjet });
+    const { appelOffres, période, famille } = await getPériodeAppelOffres(
       IdentifiantProjet.convertirEnValueType(identifiantProjet),
     );
-
-    if (Option.isNone(candidature)) {
-      return notFound();
-    }
 
     const cahierDesChargesChoisi =
       await mediator.send<Lauréat.ConsulterCahierDesChargesChoisiQuery>({
@@ -77,36 +70,26 @@ export const GET = async (
       période,
     });
 
-    const régionDreal = Option.isSome(utilisateur.région) ? utilisateur.région : undefined;
+    const { logo, data } = mapLauréatToModèleRéponsePayload({
+      identifiantProjet,
+      lauréat,
+      puissance,
+      représentantLégal,
+      candidature,
+      appelOffres,
+      période,
+      famille,
+      utilisateur,
+    });
 
-    const refPotentiel = formatIdentifiantProjetForDocument(identifiantProjet);
     const type = 'puissance';
     const content = await ModèleRéponseSignée.générerModèleRéponseAdapter({
       type,
-      logo: régionDreal,
+      logo,
       data: {
-        adresseCandidat: candidature.candidat.adressePostale,
-        codePostalProjet: candidature.localité.codePostal,
-        communeProjet: candidature.localité.commune,
+        ...data,
         dateDemande: formatDateForDocument(demandeDeChangement.demande.demandéeLe.date),
-        dateNotification: formatDateForDocument(
-          DateTime.convertirEnValueType(candidature.dateDésignation).date,
-        ),
-        dreal: régionDreal ?? '',
-        email: candidature.candidat.contact,
-        familles: candidature.famille ? 'yes' : '',
         justificationDemande: demandeDeChangement.demande.raison ?? '',
-        nomCandidat: candidature.candidat.nom,
-        nomProjet: candidature.nom,
-        nomRepresentantLegal: candidature.candidat.représentantLégal,
-        puissance: candidature.puissance.toString(),
-        refPotentiel,
-        suiviPar: utilisateur.nom,
-        suiviParEmail: appelOffres.dossierSuiviPar,
-        titreAppelOffre: appelOffres.title,
-        titreFamille: candidature.famille || '',
-        titrePeriode: période.title || '',
-        unitePuissance: appelOffres.unitePuissance,
         enCopies: getEnCopies(candidature.localité.région),
         nouvellePuissance: demandeDeChangement.demande.nouvellePuissance.toString(),
         referenceParagraphePuissance: texteChangementDePuissance.référenceParagraphe,
@@ -117,7 +100,7 @@ export const GET = async (
     });
 
     return new Response(content, {
-      headers: getDocxDocumentHeader({ identifiantProjet, nomProjet: candidature.nom, type }),
+      headers: getDocxDocumentHeader({ identifiantProjet, nomProjet: lauréat.nomProjet, type }),
     });
   });
 

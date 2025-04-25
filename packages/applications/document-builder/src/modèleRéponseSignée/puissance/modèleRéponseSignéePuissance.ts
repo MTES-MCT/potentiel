@@ -11,6 +11,8 @@ export type ModèleRéponsePuissance = ModèleRéponse & {
     referenceParagraphePuissance: string;
     contenuParagraphePuissance: string;
     estAccordé: boolean;
+    dateDemande: string;
+    justificationDemande: string;
 
     enCopies: Array<string>;
   };

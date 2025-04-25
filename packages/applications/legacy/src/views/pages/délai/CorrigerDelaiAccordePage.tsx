@@ -11,10 +11,10 @@ import {
   Label,
   PageProjetTemplate,
   PrimaryButton,
+  RésuméProjet,
   SecondaryLinkButton,
 } from '../../components';
 import { DetailDemandeDelaiPageDTO } from '../../../modules/modificationRequest/dtos';
-import type { Candidature } from '@potentiel-domain/projet';
 import { UtilisateurReadModel } from '../../../modules/utilisateur/récupérer/UtilisateurReadModel';
 import { afficherDate, formatDateForInput, hydrateOnClient } from '../../helpers';
 import routes from '../../../routes';
@@ -22,7 +22,7 @@ import { DownloadResponseTemplate } from '../modificationRequestPage/components'
 
 type CorrigerDelaiAccordeProps = {
   demandeDélai: DetailDemandeDelaiPageDTO;
-  résuméProjet: Candidature.ConsulterProjetReadModel;
+  résuméProjet: RésuméProjet;
   dateAchèvementInitiale: string;
   dateAchèvementActuelle: string;
   utilisateur: UtilisateurReadModel;
