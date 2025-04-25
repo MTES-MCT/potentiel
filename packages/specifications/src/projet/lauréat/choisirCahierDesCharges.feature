@@ -1,19 +1,19 @@
 # language: fr
 Fonctionnalité: Choisir un cahier des charges
 
-    # TODO ajouter notifications
-    # Et un email a été envoyé au porteur avec :
-    #     | sujet      | Potentiel - Nouveau mode d'instruction choisi pour les demandes liées à votre projet Du boulodrome de Marseille |
-    #     | nom_projet | Du boulodrome de Marseille                                                                                      |
-    #     | url        | https://potentiel.beta.gouv.fr/projet/.*/details.html                                                           |
     Scénario: Choisir un cahier des charges modifié
         Etant donné le projet lauréat "Du boulodrome de Marseille" avec :
             | appel d'offre | PPE2 - Eolien |
             | période       | 1             |
         Quand le porteur choisit le cahier des charges "modifié paru le 30/08/2022"
         Alors le cahier des charges devrait être modifié
+        Et un email a été envoyé au porteur avec :
+            | sujet          | Potentiel - Nouveau mode d'instruction choisi pour les demandes liées à votre projet Du boulodrome de Marseille |
+            | nom_projet     | Du boulodrome de Marseille                                                                                      |
+            | projet_url     | https://potentiel.beta.gouv.fr/projet/.*/details.html                                                           |
+            | cdc_date       | 30/08/2022                                                                                                      |
+            | cdc_alternatif |                                                                                                                 |
 
-    # TODO ajouter notifications
     Scénario: Choisir le cahier des charges initial après avoir choisi un cahier des charges modifié
         Etant donné le projet lauréat "Du boulodrome de Marseille" avec :
             | appel d'offre | PPE2 - Eolien |
@@ -21,6 +21,10 @@ Fonctionnalité: Choisir un cahier des charges
         Et le cahier des charges "modifié paru le 30/08/2022" choisi pour le projet lauréat
         Quand le porteur choisit le cahier des charges "initial"
         Alors le cahier des charges devrait être modifié
+        Et un email a été envoyé au porteur avec :
+            | sujet      | Potentiel - Nouveau mode d'instruction choisi pour les demandes liées à votre projet Du boulodrome de Marseille |
+            | nom_projet | Du boulodrome de Marseille                                                                                      |
+            | projet_url | https://potentiel.beta.gouv.fr/projet/.*/details.html                                                           |
 
     Scénario: Impossible de choisir un cahier des charges identique au cahier des charges actuel
         Etant donné le projet lauréat "Du boulodrome de Marseille" avec :
@@ -45,7 +49,6 @@ Fonctionnalité: Choisir un cahier des charges
         Quand le porteur choisit le cahier des charges "initial"
         Alors l'utilisateur devrait être informé que "Il est impossible de revenir au cahier de charges en vigueur à la candidature"
 
-    # Et un email a été envoyé au porteur
     # à ajouter après la migration Délai
     @NotImplemented
     Scénario: Choisir le cahier des charges du 30/08/2022 pour un projet mis en service dans l'intervalle défini applique le délai

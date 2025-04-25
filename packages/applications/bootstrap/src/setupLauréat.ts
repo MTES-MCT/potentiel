@@ -20,6 +20,7 @@ import {
   AchèvementNotification,
   ActionnaireNotification,
   GarantiesFinancièresNotification,
+  LauréatNotification,
   PuissanceNotification,
   ReprésentantLégalNotification,
 } from '@potentiel-applications/notifications';
@@ -76,6 +77,7 @@ export const setupLauréat = async ({
   ReprésentantLégalNotification.register({ sendEmail });
   ActionnaireNotification.register({ sendEmail });
   PuissanceNotification.register({ sendEmail });
+  LauréatNotification.register({ sendEmail });
 
   // Sagas
   GarantiesFinancières.GarantiesFinancièresSaga.register();
@@ -86,6 +88,18 @@ export const setupLauréat = async ({
     récupérerGRDParVille,
   });
   Puissance.PuissanceSaga.register();
+
+  const unsubscribeLauréatNotifications = await subscribe<LauréatNotification.SubscriptionEvent>({
+    name: 'notifications',
+    streamCategory: 'lauréat',
+    eventType: ['CahierDesChargesChoisi-V1'],
+    eventHandler: async (event) => {
+      await mediator.send<LauréatNotification.Execute>({
+        type: 'System.Notification.Lauréat',
+        data: event,
+      });
+    },
+  });
 
   const unsubscribeActionnaireProjector = await subscribe<ActionnaireProjector.SubscriptionEvent>({
     name: 'projector',
@@ -501,6 +515,7 @@ export const setupLauréat = async ({
     await unsubscribeActionnaireProjector();
     await unsubscribePuissanceProjector();
     // notifications
+    await unsubscribeLauréatNotifications();
     await unsubscribeAbandonNotification();
     await unsubscribeGarantiesFinancièresNotification();
     await unsubscribeAchèvementNotification();
