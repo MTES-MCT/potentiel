@@ -31,54 +31,36 @@ export const NewModificationRequest = ({
 }: NewModificationRequestProps) => {
   const { action, error, success } = (request.query as any) || {};
 
-  const doitChoisirCahierDesCharges =
-    appelOffre.periode.choisirNouveauCahierDesCharges &&
-    project.cahierDesChargesActuel === 'initial';
-
   return (
     <LegacyPageTemplate user={request.user} currentPage="list-requests">
       <Heading1 className="mb-10">
         <ModificationRequestActionTitles action={action} />
       </Heading1>
-      {doitChoisirCahierDesCharges ? (
-        <ChoisirCahierDesChargesFormulaire
-          projet={{
-            id: project.id,
-            appelOffre,
-            cahierDesChargesActuel: 'initial',
-            identifiantGestionnaireRéseau: project.identifiantGestionnaire,
-          }}
-          redirectUrl={routes.LISTE_PROJETS}
-          type={action}
-          cahiersDesChargesUrl={project.cahiersDesChargesUrl}
-          formulaireModificationProjet={true}
-        />
-      ) : (
-        <Form
-          action={routes.DEMANDE_ACTION}
-          method="post"
-          encType="multipart/form-data"
-          className="mx-auto"
-        >
-          <input type="hidden" name="projectId" value={project.id} />
-          <input type="hidden" name="type" value={action} />
 
-          {success && <SuccessBox title={success} />}
-          {error && <ErrorBox title={error} />}
+      <Form
+        action={routes.DEMANDE_ACTION}
+        method="post"
+        encType="multipart/form-data"
+        className="mx-auto"
+      >
+        <input type="hidden" name="projectId" value={project.id} />
+        <input type="hidden" name="type" value={action} />
 
-          <div>
-            <div className="mb-2">Concernant le projet:</div>
-            <ProjectInfo project={project} />
-          </div>
+        {success && <SuccessBox title={success} />}
+        {error && <ErrorBox title={error} />}
 
-          <div className="mx-auto flex flex-col md:flex-row gap-4 items-center">
-            <PrimaryButton type="submit" id="submit">
-              Envoyer
-            </PrimaryButton>
-            <SecondaryLinkButton href={routes.LISTE_PROJETS}>Annuler</SecondaryLinkButton>
-          </div>
-        </Form>
-      )}
+        <div>
+          <div className="mb-2">Concernant le projet:</div>
+          <ProjectInfo project={project} />
+        </div>
+
+        <div className="mx-auto flex flex-col md:flex-row gap-4 items-center">
+          <PrimaryButton type="submit" id="submit">
+            Envoyer
+          </PrimaryButton>
+          <SecondaryLinkButton href={routes.LISTE_PROJETS}>Annuler</SecondaryLinkButton>
+        </div>
+      </Form>
     </LegacyPageTemplate>
   );
 };

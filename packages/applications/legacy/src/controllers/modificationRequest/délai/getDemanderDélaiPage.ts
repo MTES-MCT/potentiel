@@ -48,6 +48,18 @@ v1Router.get(
       return notFoundResponse({ request, response, ressourceTitle: 'AppelOffre' });
     }
 
+    const doitChoisirCahierDesCharges =
+      appelOffre.periode.choisirNouveauCahierDesCharges &&
+      project.cahierDesChargesActuel === 'initial';
+
+    if (doitChoisirCahierDesCharges) {
+      return unauthorizedResponse({
+        request,
+        response,
+        customMessage: `Vous devez d'abord choisir un nouveau cahier des charges.`,
+      });
+    }
+
     return response.send(
       DemanderDelaiPage({
         request,

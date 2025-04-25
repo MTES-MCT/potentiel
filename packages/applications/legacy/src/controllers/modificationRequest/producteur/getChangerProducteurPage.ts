@@ -59,6 +59,18 @@ v1Router.get(
       });
     }
 
+    const doitChoisirCahierDesCharges =
+      appelOffre.periode.choisirNouveauCahierDesCharges &&
+      project.cahierDesChargesActuel === 'initial';
+
+    if (doitChoisirCahierDesCharges) {
+      return unauthorizedResponse({
+        request,
+        response,
+        customMessage: `Vous devez d'abord choisir un nouveau cahier des charges.`,
+      });
+    }
+
     return response.send(
       ChangerProducteurPage({
         request,
