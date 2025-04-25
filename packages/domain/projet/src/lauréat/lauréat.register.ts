@@ -14,9 +14,11 @@ import { registerModifierLauréatCommand } from './modifier/modifierLauréat.com
 import { registerModifierLauréatUseCase } from './modifier/modifierLauréat.usecase';
 import { registerNotifierLauréatCommand } from './notifier/notifierLauréat.command';
 import { registerNotifierLauréatUseCase } from './notifier/notifierLauréat.usecase';
+import { DélaiQueryDependencies, registerDélaiQueries } from './délai';
 
 export type LauréatQueryDependencies = ConsulterLauréatDependencies &
-  ConsulterCahierDesChargesChoisiDependencies;
+  ConsulterCahierDesChargesChoisiDependencies &
+  DélaiQueryDependencies;
 
 export type LauréatCommandDependencies = {
   getProjetAggregateRoot: GetProjetAggregateRoot;
@@ -36,4 +38,6 @@ export const registerLauréatUseCases = (dependencies: LauréatCommandDependenci
 export const registerLauréatQueries = (dependencies: LauréatQueryDependencies) => {
   registerConsulterLauréatQuery(dependencies);
   registerConsulterCahierDesChargesChoisiQuery(dependencies);
+
+  registerDélaiQueries(dependencies);
 };

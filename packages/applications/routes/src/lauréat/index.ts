@@ -5,3 +5,4 @@ export * as ReprésentantLégal from './représentantLégal.routes';
 export * as Actionnaire from './actionnaire.routes';
 export * as Lauréat from './lauréat.routes';
 export * as Puissance from './puissance.routes';
+export * as CahierDesCharges from './cahierDesCharges.routes';
