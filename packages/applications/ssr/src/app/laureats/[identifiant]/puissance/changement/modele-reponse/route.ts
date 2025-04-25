@@ -18,7 +18,7 @@ import { getPériodeAppelOffres } from '@/app/_helpers/getPériodeAppelOffres';
 import { getEnCopies } from '@/utils/modèle-document/getEnCopies';
 import { getDocxDocumentHeader } from '@/utils/modèle-document/getDocxDocumentHeader';
 import { getCandidature } from '@/app/candidatures/_helpers/getCandidature';
-import { mapLauréatToModelePayload } from '@/utils/modèle-document/mapToModelePayload';
+import { mapLauréatToModèleRéponsePayload } from '@/utils/modèle-document/mapToModèleRéponsePayload';
 
 import { getLauréat } from '../../../_helpers/getLauréat';
 
@@ -70,7 +70,7 @@ export const GET = async (
       période,
     });
 
-    const { logo, data } = mapLauréatToModelePayload({
+    const { logo, data } = mapLauréatToModèleRéponsePayload({
       identifiantProjet,
       lauréat,
       puissance,

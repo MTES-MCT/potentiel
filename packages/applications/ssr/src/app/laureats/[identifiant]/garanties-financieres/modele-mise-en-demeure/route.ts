@@ -17,7 +17,7 @@ import { withUtilisateur } from '@/utils/withUtilisateur';
 import { getPériodeAppelOffres } from '@/app/_helpers/getPériodeAppelOffres';
 import { getDocxDocumentHeader } from '@/utils/modèle-document/getDocxDocumentHeader';
 import { getCandidature } from '@/app/candidatures/_helpers/getCandidature';
-import { mapLauréatToModelePayload } from '@/utils/modèle-document/mapToModelePayload';
+import { mapLauréatToModèleRéponsePayload } from '@/utils/modèle-document/mapToModèleRéponsePayload';
 
 import { getLauréat } from '../../_helpers/getLauréat';
 
@@ -50,7 +50,7 @@ export const GET = async (_: NextRequest, { params: { identifiant } }: Identifia
             ? appelOffres.garantieFinanciereEnMois
             : undefined;
 
-      const { logo, data } = mapLauréatToModelePayload({
+      const { logo, data } = mapLauréatToModèleRéponsePayload({
         identifiantProjet: identifiantProjetValue,
         lauréat,
         puissance,

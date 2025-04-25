@@ -16,7 +16,7 @@ import { withUtilisateur } from '@/utils/withUtilisateur';
 import { getPériodeAppelOffres } from '@/app/_helpers/getPériodeAppelOffres';
 import { getCandidature } from '@/app/candidatures/_helpers/getCandidature';
 import { formatBoolean } from '@/utils/modèle-document/formatBoolean';
-import { mapCandidatureToModelePayload } from '@/utils/modèle-document/mapToModelePayload';
+import { mapCandidatureToModèleRéponsePayload } from '@/utils/modèle-document/mapToModèleRéponsePayload';
 import { getDocxDocumentHeader } from '@/utils/modèle-document/getDocxDocumentHeader';
 
 export const GET = async (_: Request, { params: { identifiant } }: IdentifiantParameter) =>
@@ -39,7 +39,7 @@ export const GET = async (_: Request, { params: { identifiant } }: IdentifiantPa
       }
       const { appelOffres, période, famille } = await getPériodeAppelOffres(identifiantProjet);
 
-      const { logo, data } = mapCandidatureToModelePayload({
+      const { logo, data } = mapCandidatureToModèleRéponsePayload({
         identifiantProjet: identifiantProjetValue,
         candidature,
         appelOffres,

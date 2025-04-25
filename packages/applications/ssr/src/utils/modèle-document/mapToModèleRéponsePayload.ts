@@ -21,7 +21,7 @@ type CommonProps = {
   utilisateur: Utilisateur.ValueType;
 };
 
-type MapToModelePayloadProps = CommonProps & {
+type MapToModèlePayloadProps = CommonProps & {
   nomReprésentantLégal: string;
   puissance: number;
   localité: Candidature.ConsulterCandidatureReadModel['localité'];
@@ -31,7 +31,7 @@ type MapToModelePayloadProps = CommonProps & {
   nomCandidat: string;
 };
 
-const mapToModelePayload = ({
+const mapToModèleRéponsePayload = ({
   identifiantProjet,
   localité,
   nomProjet,
@@ -44,7 +44,7 @@ const mapToModelePayload = ({
   période,
   famille,
   utilisateur,
-}: MapToModelePayloadProps): ModèleRéponseSignée.ModèleRéponse & { logo?: string } => {
+}: MapToModèlePayloadProps): ModèleRéponseSignée.ModèleRéponse & { logo?: string } => {
   const régionDreal = Option.isSome(utilisateur.région) ? utilisateur.région : undefined;
 
   return {
@@ -79,15 +79,15 @@ const mapToModelePayload = ({
   };
 };
 
-type MapCandidatureToModelePayloadProps = CommonProps & {
+type MapCandidatureToModèleRéponsePayloadProps = CommonProps & {
   candidature: Candidature.ConsulterCandidatureReadModel;
 };
 
-export const mapCandidatureToModelePayload = ({
+export const mapCandidatureToModèleRéponsePayload = ({
   candidature,
   ...props
-}: MapCandidatureToModelePayloadProps) =>
-  mapToModelePayload({
+}: MapCandidatureToModèleRéponsePayloadProps) =>
+  mapToModèleRéponsePayload({
     ...props,
     emailContact: candidature.emailContact,
     localité: candidature.localité,
@@ -98,19 +98,19 @@ export const mapCandidatureToModelePayload = ({
     notifiéLe: candidature.notification?.notifiéeLe,
   });
 
-type MapLauréatToModelePayloadProps = MapCandidatureToModelePayloadProps & {
+type MapLauréatToModelePayloadProps = MapCandidatureToModèleRéponsePayloadProps & {
   puissance: Puissance.ConsulterPuissanceReadModel;
   représentantLégal: ReprésentantLégal.ConsulterReprésentantLégalReadModel;
   lauréat: Lauréat.ConsulterLauréatReadModel;
 };
 
-export const mapLauréatToModelePayload = ({
+export const mapLauréatToModèleRéponsePayload = ({
   puissance,
   représentantLégal,
   lauréat,
   ...props
 }: MapLauréatToModelePayloadProps) => ({
-  ...mapCandidatureToModelePayload(props),
+  ...mapCandidatureToModèleRéponsePayload(props),
   localité: lauréat.localité,
   nomProjet: lauréat.nomProjet,
   nomReprésentantLégal: représentantLégal.nomReprésentantLégal,

@@ -15,7 +15,7 @@ import { decodeParameter } from '@/utils/decodeParameter';
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 import { getPériodeAppelOffres } from '@/app/_helpers/getPériodeAppelOffres';
-import { mapLauréatToModelePayload } from '@/utils/modèle-document/mapToModelePayload';
+import { mapLauréatToModèleRéponsePayload } from '@/utils/modèle-document/mapToModèleRéponsePayload';
 import { getCandidature } from '@/app/candidatures/_helpers/getCandidature';
 import { getEnCopies } from '@/utils/modèle-document/getEnCopies';
 import { getDocxDocumentHeader } from '@/utils/modèle-document/getDocxDocumentHeader';
@@ -55,7 +55,7 @@ export const GET = async (_: Request, { params: { identifiant } }: IdentifiantPa
         return notFound();
       }
 
-      const { logo, data } = mapLauréatToModelePayload({
+      const { logo, data } = mapLauréatToModèleRéponsePayload({
         identifiantProjet,
         lauréat,
         puissance,
