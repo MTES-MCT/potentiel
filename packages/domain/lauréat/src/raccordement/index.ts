@@ -35,6 +35,7 @@ import {
   RechercherDossierRaccordementQuery,
   RechercherDossierRaccordementReadModel,
 } from './rechercher/rechercherDossierRaccordement.query';
+import { SupprimerDateMiseEnServiceUseCase } from './supprimer/supprimerDateMiseEnService.usecase';
 import { TransmettreDateMiseEnServiceUseCase } from './transmettre/transmettreDateMiseEnService.usecase';
 import { TransmettreDemandeComplèteRaccordementUseCase } from './transmettre/transmettreDemandeComplèteRaccordement.usecase';
 import { TransmettrePropositionTechniqueEtFinancièreUseCase } from './transmettre/transmettrePropositionTechniqueEtFinancière.usecase';
@@ -82,7 +83,8 @@ export type RaccordementUseCase =
   | TransmettreDateMiseEnServiceUseCase
   | TransmettreDemandeComplèteRaccordementUseCase
   | TransmettrePropositionTechniqueEtFinancièreUseCase
-  | SupprimerDossierDuRaccordementUseCase;
+  | SupprimerDossierDuRaccordementUseCase
+  | SupprimerDateMiseEnServiceUseCase;
 
 export type {
   ModifierDemandeComplèteRaccordementUseCase,
@@ -93,6 +95,7 @@ export type {
   TransmettreDemandeComplèteRaccordementUseCase,
   TransmettrePropositionTechniqueEtFinancièreUseCase,
   SupprimerDossierDuRaccordementUseCase,
+  SupprimerDateMiseEnServiceUseCase,
 };
 
 // Event
@@ -132,6 +135,7 @@ export type {
   GestionnaireRéseauAttribuéEvent,
   GestionnaireRéseauInconnuAttribuéEvent,
 } from './attribuer/attribuerGestionnaireRéseau.behavior';
+export type { DateMiseEnServiceSuppriméeEvent } from './supprimer/supprimerDateMiseEnService.behavior';
 export type { DossierDuRaccordementSuppriméEvent } from './dossier/supprimer/supprimerDossierDuRaccordement.behavior';
 export type { RaccordementSuppriméEvent } from './supprimer/supprimerRaccordement.behavior';
 

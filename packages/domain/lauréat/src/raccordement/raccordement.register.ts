@@ -45,6 +45,8 @@ import { registerSupprimerDossierDuRaccordementCommand } from './dossier/supprim
 import { registerSupprimerRaccordementCommand } from './supprimer/supprimerRaccordement.command';
 import { registerListerDossierRaccordementEnAttenteMiseEnServiceQuery } from './lister/listerDossierRaccordementEnAttenteMiseEnService.query';
 import { registerListerDossierRaccordementQuery } from './lister/listerDossierRaccordement.query';
+import { registerSupprimerDateMiseEnServiceUseCase } from './supprimer/supprimerDateMiseEnService.usecase';
+import { registerSupprimerDateMiseEnServiceCommand } from './supprimer/supprimerDateMiseEnService.command';
 
 export type RaccordementQueryDependencies = ConsulterDossierRaccordementDependencies &
   ConsulterGestionnaireRéseauRaccordementDependencies &
@@ -79,6 +81,7 @@ export const registerRaccordementUseCases = ({
   registerModifierRéférenceDossierRaccordementCommand(loadAggregate);
   registerTransmettreDateMiseEnServiceCommand(loadAggregate, getProjetAggregateRoot);
   registerTransmettreDemandeComplèteRaccordementCommand(loadAggregate, getProjetAggregateRoot);
+  registerSupprimerDateMiseEnServiceCommand(loadAggregate);
   registerTransmettrePropositionTechniqueEtFinancièreCommand(loadAggregate);
   registerAttribuerGestionnaireCommand(loadAggregate);
   registerSupprimerDossierDuRaccordementCommand(loadAggregate);
@@ -89,6 +92,7 @@ export const registerRaccordementUseCases = ({
   registerModifierPropositiontechniqueEtFinancièreUseCase();
   registerModifierRéférenceDossierRaccordementUseCase();
   registerTransmettreDateMiseEnServiceUseCase();
+  registerSupprimerDateMiseEnServiceUseCase();
   registerTransmettreDemandeComplèteRaccordementUseCase();
   registerTransmettrePropositionTechniqueEtFinancièreUseCase();
   registerSupprimerDossierDuRaccordementUseCase();
