@@ -3,7 +3,7 @@ import { DomainEvent } from '@potentiel-domain/core';
 import { DocumentProjet } from '@potentiel-domain/document';
 import { Option } from '@potentiel-libraries/monads';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
-import { Candidature } from '@potentiel-domain/projet';
+import { Candidature, Lauréat } from '@potentiel-domain/projet';
 
 import { PuissanceIdentiqueError, PuissanceNulleOuNégativeError } from '../../errors';
 import { AutoritéCompétente, RatioChangementPuissance, StatutChangementPuissance } from '../..';
@@ -16,7 +16,6 @@ import {
   CahierDesChargesInexistantError,
   PériodeInexistanteError,
 } from '../errors';
-import { ConsulterCahierDesChargesChoisiReadmodel } from '../../../cahierDesChargesChoisi';
 
 export type ChangementPuissanceDemandéEvent = DomainEvent<
   'ChangementPuissanceDemandé-V1',
@@ -46,7 +45,7 @@ export type DemanderOptions = {
   estAchevé: boolean;
   appelOffre: Option.Type<AppelOffre.ConsulterAppelOffreReadModel>;
   technologie: Candidature.TypeTechnologie.ValueType;
-  cahierDesCharges: Option.Type<ConsulterCahierDesChargesChoisiReadmodel>;
+  cahierDesCharges: Option.Type<Lauréat.ConsulterCahierDesChargesChoisiReadModel>;
   note: number;
 };
 

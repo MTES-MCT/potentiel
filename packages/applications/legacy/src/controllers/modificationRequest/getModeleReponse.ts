@@ -9,7 +9,7 @@ import { notFoundResponse, unauthorizedResponse } from '../helpers';
 import { ModèleRéponseSignée } from '@potentiel-applications/document-builder';
 import { ModificationRequest, Project } from '../../infra/sequelize';
 import { mediator } from 'mediateur';
-import { CahierDesCharges, ReprésentantLégal } from '@potentiel-domain/laureat';
+import { ReprésentantLégal } from '@potentiel-domain/laureat';
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 import { Option } from '@potentiel-libraries/monads';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
@@ -65,7 +65,7 @@ v1Router.get(
       data: { identifiantProjet: identifiantProjet.formatter() },
     });
     const cahierDesChargesChoisi =
-      await mediator.send<CahierDesCharges.ConsulterCahierDesChargesChoisiQuery>({
+      await mediator.send<Lauréat.ConsulterCahierDesChargesChoisiQuery>({
         type: 'Lauréat.CahierDesCharges.Query.ConsulterCahierDesChargesChoisi',
         data: { identifiantProjet: identifiantProjet.formatter() },
       });

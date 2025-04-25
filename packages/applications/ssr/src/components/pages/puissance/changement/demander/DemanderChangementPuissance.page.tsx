@@ -1,10 +1,10 @@
 import { FC } from 'react';
 
-import { CahierDesCharges, Puissance } from '@potentiel-domain/laureat';
+import { Puissance } from '@potentiel-domain/laureat';
 import { PlainType } from '@potentiel-domain/core';
 import { IdentifiantProjet } from '@potentiel-domain/common';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
-import { Candidature } from '@potentiel-domain/projet';
+import { Candidature, Lauréat } from '@potentiel-domain/projet';
 
 import { ProjetBanner } from '@/components/molecules/projet/ProjetBanner';
 import { Heading1 } from '@/components/atoms/headings';
@@ -18,7 +18,7 @@ export type DemanderChangementPuissancePageProps = PlainType<
     période: AppelOffre.Periode;
     technologie: Candidature.TypeTechnologie.RawType;
     famille?: AppelOffre.Famille;
-    cahierDesCharges: PlainType<CahierDesCharges.ConsulterCahierDesChargesChoisiReadmodel>;
+    cahierDesCharges: PlainType<Lauréat.ConsulterCahierDesChargesChoisiReadModel>;
     note: number;
     unitéPuissance: string;
     puissanceInitiale: number;

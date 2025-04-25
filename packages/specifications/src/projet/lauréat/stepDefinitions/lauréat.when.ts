@@ -26,3 +26,32 @@ Quand(/un administrateur modifie le projet lauréat/, async function (this: Pote
     this.error = e as Error;
   }
 });
+
+Quand(
+  'le porteur choisit le cahier des charges {string}',
+  async function (this: PotentielWorld, cdcChoisi: string) {
+    try {
+      await choisirCahierDesCharges.call(this, cdcChoisi);
+    } catch (e) {
+      this.error = e as Error;
+    }
+  },
+);
+
+export async function choisirCahierDesCharges(this: PotentielWorld, cdcChoisi: string) {
+  const { modifiéLe, modifiéPar, cahierDesCharges } =
+    this.lauréatWorld.choisirCahierDesChargesFixture.créer({
+      cahierDesCharges: cdcChoisi,
+      modifiéPar: this.utilisateurWorld.porteurFixture.email,
+    });
+
+  await mediator.send<Lauréat.ChoisirCahierDesChargesUseCase>({
+    type: 'Lauréat.UseCase.ChoisirCahierDesCharges',
+    data: {
+      identifiantProjetValue: this.lauréatWorld.identifiantProjet.formatter(),
+      modifiéParValue: modifiéPar,
+      modifiéLeValue: modifiéLe,
+      cahierDesChargesValue: cahierDesCharges,
+    },
+  });
+}

@@ -5,7 +5,7 @@ import {
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { Candidature, Lauréat } from '@potentiel-domain/projet';
 import { IdentifiantProjet } from '@potentiel-domain/common';
-import { CahierDesCharges, ReprésentantLégal } from '@potentiel-domain/laureat';
+import { ReprésentantLégal } from '@potentiel-domain/laureat';
 import { formatIdentifiantProjetForDocument } from '../formatIdentifiantProjetForDocument';
 import { Option } from '@potentiel-libraries/monads';
 import { Utilisateur } from '@potentiel-domain/utilisateur';
@@ -43,7 +43,7 @@ type MapToDélaiModèleRéponseProps = {
   lauréat: Lauréat.ConsulterLauréatReadModel;
   appelOffres: AppelOffre.ConsulterAppelOffreReadModel;
   candidature: Candidature.ConsulterCandidatureReadModel;
-  cahierDesChargesChoisi: CahierDesCharges.ConsulterCahierDesChargesChoisiReadmodel;
+  cahierDesChargesChoisi: Lauréat.ConsulterCahierDesChargesChoisiReadModel;
   représentantLégal: Option.Type<ReprésentantLégal.ConsulterReprésentantLégalReadModel>;
   puissanceActuelle: number;
   dateAchèvementDemandée: Date;
@@ -190,7 +190,7 @@ const getDonnéesCourriersRéponse = ({
 }: {
   appelOffres: AppelOffre.AppelOffreReadModel;
   période: string;
-  cahierDesChargesChoisi: CahierDesCharges.ConsulterCahierDesChargesChoisiReadmodel;
+  cahierDesChargesChoisi: Lauréat.ConsulterCahierDesChargesChoisiReadModel;
 }): AppelOffre.DonnéesCourriersRéponse['texteDélaisDAchèvement'] => {
   const périodeDetails = appelOffres.periodes.find((periode) => periode.id === période);
 

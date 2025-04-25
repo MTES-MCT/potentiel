@@ -2,9 +2,9 @@ import { mediator } from 'mediateur';
 import { Metadata } from 'next';
 import { notFound, redirect } from 'next/navigation';
 
-import { CahierDesCharges } from '@potentiel-domain/laureat';
 import { Routes } from '@potentiel-applications/routes';
 import { Option } from '@potentiel-libraries/monads';
+import { Lauréat } from '@potentiel-domain/projet';
 
 import { DemanderAbandonPage } from '@/components/pages/abandon/demander/DemanderAbandon.page';
 import { decodeParameter } from '@/utils/decodeParameter';
@@ -26,7 +26,7 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
     const { période } = await getPériodeAppelOffres(lauréat.identifiantProjet);
 
     const cahierDesChargesChoisi =
-      await mediator.send<CahierDesCharges.ConsulterCahierDesChargesChoisiQuery>({
+      await mediator.send<Lauréat.ConsulterCahierDesChargesChoisiQuery>({
         type: 'Lauréat.CahierDesCharges.Query.ConsulterCahierDesChargesChoisi',
         data: {
           identifiantProjet,

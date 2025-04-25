@@ -4,12 +4,11 @@ import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
 import { DocumentProjet } from '@potentiel-domain/document';
 import { LoadAggregate } from '@potentiel-domain/core';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
-import { GetProjetAggregateRoot } from '@potentiel-domain/projet';
+import { GetProjetAggregateRoot, Lauréat } from '@potentiel-domain/projet';
 
 import { loadAbandonFactory } from '../../../abandon';
 import { loadAchèvementFactory } from '../../../achèvement/achèvement.aggregate';
 import { loadPuissanceFactory } from '../../puissance.aggregate';
-import { CahierDesCharges } from '../../..';
 
 export type DemanderChangementCommand = Message<
   'Lauréat.Puissance.Command.DemanderChangement',
@@ -53,7 +52,7 @@ export const registerDemanderChangementPuissanceCommand = (
 
     // Après migration cahier des charges, à remplacer
     const cahierDesChargesChoisi =
-      await mediator.send<CahierDesCharges.ConsulterCahierDesChargesChoisiQuery>({
+      await mediator.send<Lauréat.ConsulterCahierDesChargesChoisiQuery>({
         type: 'Lauréat.CahierDesCharges.Query.ConsulterCahierDesChargesChoisi',
         data: {
           identifiantProjet: identifiantProjet.formatter(),

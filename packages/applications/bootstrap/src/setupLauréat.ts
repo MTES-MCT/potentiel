@@ -32,7 +32,6 @@ import {
   PuissanceProjector,
 } from '@potentiel-applications/projectors';
 import {
-  consulterCahierDesChargesChoisiAdapter,
   DocumentAdapter,
   récupérerIdentifiantsProjetParEmailPorteurAdapter,
 } from '@potentiel-infrastructure/domain-adapters';
@@ -60,7 +59,6 @@ export const setupLauréat = async ({
     list: listProjection,
     count: countProjection,
     récupérerIdentifiantsProjetParEmailPorteur: récupérerIdentifiantsProjetParEmailPorteurAdapter,
-    consulterCahierDesChargesAdapter: consulterCahierDesChargesChoisiAdapter,
   });
 
   // Projectors

@@ -3,14 +3,14 @@ import { notFound } from 'next/navigation';
 import { NextRequest } from 'next/server';
 
 import { AppelOffre } from '@potentiel-domain/appel-offre';
-import { Candidature } from '@potentiel-domain/projet';
+import { Candidature, Lauréat } from '@potentiel-domain/projet';
 import { DateTime } from '@potentiel-domain/common';
 import {
   formatDateForDocument,
   ModèleRéponseSignée,
 } from '@potentiel-applications/document-builder';
 import { Option } from '@potentiel-libraries/monads';
-import { Puissance, CahierDesCharges } from '@potentiel-domain/laureat';
+import { Puissance } from '@potentiel-domain/laureat';
 import { IdentifiantProjet } from '@potentiel-domain/projet';
 
 import { decodeParameter } from '@/utils/decodeParameter';
@@ -44,7 +44,7 @@ export const GET = async (
     }
 
     const cahierDesChargesChoisi =
-      await mediator.send<CahierDesCharges.ConsulterCahierDesChargesChoisiQuery>({
+      await mediator.send<Lauréat.ConsulterCahierDesChargesChoisiQuery>({
         type: 'Lauréat.CahierDesCharges.Query.ConsulterCahierDesChargesChoisi',
         data: { identifiantProjet },
       });
@@ -128,7 +128,7 @@ const getDonnéesCourriersRéponse = ({
 }: {
   appelOffres: AppelOffre.AppelOffreReadModel;
   période: AppelOffre.Periode;
-  cahierDesChargesChoisi: CahierDesCharges.ConsulterCahierDesChargesChoisiReadmodel;
+  cahierDesChargesChoisi: Lauréat.ConsulterCahierDesChargesChoisiReadModel;
 }): AppelOffre.DonnéesCourriersRéponse['texteChangementDePuissance'] => {
   return {
     référenceParagraphe: '!!!REFERENCE NON DISPONIBLE!!!',

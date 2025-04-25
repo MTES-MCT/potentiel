@@ -1,9 +1,9 @@
 import { mediator } from 'mediateur';
 import { notFound } from 'next/navigation';
 
-import { Abandon, CahierDesCharges } from '@potentiel-domain/laureat';
+import { Abandon } from '@potentiel-domain/laureat';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
-import { Candidature, IdentifiantProjet } from '@potentiel-domain/projet';
+import { Candidature, IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import { DateTime } from '@potentiel-domain/common';
 import {
   formatDateForDocument,
@@ -52,7 +52,7 @@ export const GET = async (_: Request, { params: { identifiant } }: IdentifiantPa
       );
 
       const cahierDesChargesChoisi =
-        await mediator.send<CahierDesCharges.ConsulterCahierDesChargesChoisiQuery>({
+        await mediator.send<Lauréat.ConsulterCahierDesChargesChoisiQuery>({
           type: 'Lauréat.CahierDesCharges.Query.ConsulterCahierDesChargesChoisi',
           data: { identifiantProjet },
         });
@@ -119,7 +119,7 @@ const getCDCAbandonRefs = ({
 }: {
   appelOffres: AppelOffre.AppelOffreReadModel;
   période: AppelOffre.Periode;
-  cahierDesChargesChoisi: CahierDesCharges.ConsulterCahierDesChargesChoisiReadmodel;
+  cahierDesChargesChoisi: Lauréat.ConsulterCahierDesChargesChoisiReadModel;
 }) => {
   const cahierDesChargesModifié =
     cahierDesChargesChoisi.type === 'modifié' &&
