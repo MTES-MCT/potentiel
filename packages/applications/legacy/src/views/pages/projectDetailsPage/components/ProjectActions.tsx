@@ -62,6 +62,7 @@ const PorteurProjetActions = ({
   puissanceAffichage,
 }: PorteurProjetActionsProps) => {
   const peutDemanderAbandon = !abandonEnCoursOuAccordé && !hasAttestationConformité;
+  const demandesDisabled = modificationsNonPermisesParLeCDCActuel ? true : undefined;
 
   return (
     <div className="flex flex-col gap-3">
@@ -69,7 +70,7 @@ const PorteurProjetActions = ({
         {!project.isClasse && !demandeRecours && (
           <SecondaryLinkButton
             href={Routes.Recours.demander(identifiantProjet)}
-            disabled={modificationsNonPermisesParLeCDCActuel ? true : undefined}
+            disabled={demandesDisabled}
           >
             Faire une demande de recours
           </SecondaryLinkButton>
@@ -80,17 +81,21 @@ const PorteurProjetActions = ({
             {project.appelOffre.changementProducteurPossibleAvantAchèvement && (
               <DropdownMenuSecondaryButton.DropdownItem
                 href={routes.GET_CHANGER_PRODUCTEUR(project.id)}
+                disabled={demandesDisabled}
               >
                 <span>Changer de producteur</span>
               </DropdownMenuSecondaryButton.DropdownItem>
             )}
-            <DropdownMenuSecondaryButton.DropdownItem href={routes.CHANGER_FOURNISSEUR(project.id)}>
+            <DropdownMenuSecondaryButton.DropdownItem
+              href={routes.CHANGER_FOURNISSEUR(project.id)}
+              disabled={demandesDisabled}
+            >
               <span>Changer de fournisseur</span>
             </DropdownMenuSecondaryButton.DropdownItem>
             {!!actionnaireAffichage && (
               <DropdownMenuSecondaryButton.DropdownItem
                 href={actionnaireAffichage.url}
-                disabled={modificationsNonPermisesParLeCDCActuel ? true : undefined}
+                disabled={demandesDisabled}
               >
                 <span>{actionnaireAffichage.porteurProjetActionLabel}</span>
               </DropdownMenuSecondaryButton.DropdownItem>
@@ -98,18 +103,21 @@ const PorteurProjetActions = ({
             {!!puissanceAffichage && (
               <DropdownMenuSecondaryButton.DropdownItem
                 href={puissanceAffichage.url}
-                disabled={modificationsNonPermisesParLeCDCActuel ? true : undefined}
+                disabled={demandesDisabled}
               >
                 <span>{puissanceAffichage.labelActions ?? puissanceAffichage.label}</span>
               </DropdownMenuSecondaryButton.DropdownItem>
             )}
-            <DropdownMenuSecondaryButton.DropdownItem href={routes.DEMANDER_DELAI(project.id)}>
+            <DropdownMenuSecondaryButton.DropdownItem
+              href={routes.DEMANDER_DELAI(project.id)}
+              disabled={demandesDisabled}
+            >
               <span>Demander un délai</span>
             </DropdownMenuSecondaryButton.DropdownItem>
             {peutFaireDemandeChangementReprésentantLégal && (
               <DropdownMenuSecondaryButton.DropdownItem
                 href={Routes.ReprésentantLégal.changement.demander(identifiantProjet)}
-                disabled={modificationsNonPermisesParLeCDCActuel ? true : undefined}
+                disabled={demandesDisabled}
               >
                 <span>Demander un changement de représentant légal</span>
               </DropdownMenuSecondaryButton.DropdownItem>
@@ -118,7 +126,7 @@ const PorteurProjetActions = ({
               <>
                 <DropdownMenuSecondaryButton.DropdownItem
                   href={Routes.Abandon.demander(identifiantProjet)}
-                  disabled={modificationsNonPermisesParLeCDCActuel ? true : undefined}
+                  disabled={demandesDisabled}
                 >
                   <span>Demander un abandon</span>
                 </DropdownMenuSecondaryButton.DropdownItem>

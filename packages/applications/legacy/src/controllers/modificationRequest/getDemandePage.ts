@@ -2,7 +2,7 @@ import { ensureRole, getProjectAppelOffre } from '../../config';
 import { NewModificationRequestPage } from '../../views';
 import { validateUniqueId } from '../../helpers/validateUniqueId';
 import routes from '../../routes';
-import { errorResponse, notFoundResponse } from '../helpers';
+import { errorResponse, notFoundResponse, unauthorizedResponse } from '../helpers';
 import asyncHandler from '../helpers/asyncHandler';
 import { v1Router } from '../v1Router';
 import { Project } from '../../infra/sequelize/projectionsNext';
@@ -34,6 +34,18 @@ v1Router.get(
     const appelOffre = getProjectAppelOffre({ appelOffreId, periodeId, familleId });
     if (!appelOffre) {
       return notFoundResponse({ request, response, ressourceTitle: 'AppelOffre' });
+    }
+
+    const doitChoisirCahierDesCharges =
+      appelOffre.periode.choisirNouveauCahierDesCharges &&
+      project.cahierDesChargesActuel === 'initial';
+
+    if (doitChoisirCahierDesCharges) {
+      return unauthorizedResponse({
+        request,
+        response,
+        customMessage: `Vous devez d'abord choisir un nouveau cahier des charges.`,
+      });
     }
 
     return response.send(
