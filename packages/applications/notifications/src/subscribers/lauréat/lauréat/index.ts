@@ -22,7 +22,7 @@ export const register = ({ sendEmail }: RegisterLauréatNotificationDependencies
       .with({ type: 'CahierDesChargesChoisi-V1' }, (event) =>
         cahierDesChargesChoisiNotification({ event, sendEmail }),
       )
-      .otherwise(() => Promise.resolve([]));
+      .otherwise(() => Promise.resolve());
   };
 
   mediator.register('System.Notification.Lauréat', handler);
