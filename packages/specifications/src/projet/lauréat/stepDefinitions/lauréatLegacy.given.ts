@@ -1,7 +1,7 @@
 import { DataTable, Given as EtantDonné } from '@cucumber/cucumber';
 
 import { PotentielWorld } from '../../../potentiel.world';
-import { importerCandidatureLegacy } from '../../../candidature/stepDefinitions/candidatureLegacy.given';
+import { importerCandidaturePériodeLegacy } from '../../../candidature/stepDefinitions/candidatureLegacy.given';
 
 import { insérerProjetAvecDonnéesCandidature, notifierLauréat } from './lauréat.given';
 
@@ -10,7 +10,7 @@ EtantDonné(
   async function (this: PotentielWorld, nomProjet: string, datatable: DataTable) {
     const exemple = datatable.rowsHash();
 
-    await importerCandidatureLegacy.call(
+    await importerCandidaturePériodeLegacy.call(
       this,
       nomProjet,
       'classé',

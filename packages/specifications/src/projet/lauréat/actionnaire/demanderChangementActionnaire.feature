@@ -6,7 +6,7 @@ Fonctionnalité: Demander le changement de l'actionnaire d'un projet lauréat CR
             | appel d'offre | Eolien |
         Et la dreal "DREAL" associée à la région du projet
 
-    Scénario: Demander le changement de l'actionnaire d'un projet lauréat legacy (CRE4 Eolien) sans garanties financières constituées
+    Scénario: Demander le changement de l'actionnaire d'un projet CRE4 Eolien sans garanties financières constituées
         Etant donné le projet lauréat legacy "Du boulodrome de Bordeaux" avec :
             | appel d'offre | Eolien |
             | type GF       |        |
@@ -30,7 +30,7 @@ Fonctionnalité: Demander le changement de l'actionnaire d'un projet lauréat CR
             | nom_projet | Du boulodrome de Bordeaux                                                                                           |
             | url        | https://potentiel.beta.gouv.fr/laureats/.*/actionnaire                                                              |
 
-    Scénario: Demander le changement de l'actionnaire d'un projet lauréat legacy (CRE4 Eolien) concerné par un financement participatif
+    Scénario: Demander le changement de l'actionnaire d'un projet CRE4 Eolien ayant comme actionnariat "financement-participatif"
         Etant donné le projet lauréat legacy "Du boulodrome de Bordeaux" avec :
             | appel d'offre | Eolien                   |
             | actionnariat  | financement-participatif |
@@ -43,7 +43,7 @@ Fonctionnalité: Demander le changement de l'actionnaire d'un projet lauréat CR
             | nom_projet | Du boulodrome de Bordeaux                                                                                           |
             | url        | https://potentiel.beta.gouv.fr/laureats/.*/actionnaire                                                              |
 
-    Scénario: Demander le changement de l'actionnaire d'un projet lauréat legacy (CRE4 Eolien) concerné par un investissement participatif
+    Scénario: Demander le changement de l'actionnaire d'un projet CRE4 Eolien ayant comme actionnariat "investissement-participatif"
         Etant donné le projet lauréat legacy "Du boulodrome de Bordeaux" avec :
             | appel d'offre | Eolien                      |
             | actionnariat  | investissement-participatif |

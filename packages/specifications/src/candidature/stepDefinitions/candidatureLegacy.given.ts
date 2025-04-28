@@ -11,7 +11,7 @@ EtantDonné(
   `la candidature lauréate legacy {string} avec :`,
   async function (this: PotentielWorld, nomProjet: string, datatable: DataTable) {
     const exemple = datatable.rowsHash();
-    await importerCandidatureLegacy.call(
+    await importerCandidaturePériodeLegacy.call(
       this,
       nomProjet,
       'classé',
@@ -24,7 +24,7 @@ EtantDonné(
   `la candidature éliminée legacy {string} avec :`,
   async function (this: PotentielWorld, nomProjet: string, datatable: DataTable) {
     const exemple = datatable.rowsHash();
-    await importerCandidatureLegacy.call(
+    await importerCandidaturePériodeLegacy.call(
       this,
       nomProjet,
       'éliminé',
@@ -33,7 +33,7 @@ EtantDonné(
   },
 );
 
-export async function importerCandidatureLegacy(
+export async function importerCandidaturePériodeLegacy(
   this: PotentielWorld,
   nomProjet: string,
   statut: Candidature.StatutCandidature.RawType,
