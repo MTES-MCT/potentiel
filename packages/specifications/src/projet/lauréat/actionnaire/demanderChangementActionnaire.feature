@@ -1,11 +1,13 @@
 # language: fr
-Fonctionnalité: Demander le changement de l'actionnaire d'un projet lauréat
+Fonctionnalité: Demander le changement de l'actionnaire d'un projet lauréat CRE4 Eolien
 
     Contexte:
-        Etant donné le projet lauréat "Du boulodrome de Marseille"
+        Etant donné le projet lauréat legacy "Du boulodrome de Marseille" avec :
+            | appel d'offre | Eolien |
+            | type GF       |        |
         Et la dreal "DREAL" associée à la région du projet
 
-    Scénario: Demander le changement de l'actionnaire d'un projet lauréat
+    Scénario: Demander le changement de l'actionnaire d'un projet CRE4 Eolien sans garanties financières constituées
         Quand le porteur demande le changement de l'actionnaire pour le projet lauréat
         Alors la demande de changement de l'actionnaire devrait être consultable
         Et un email a été envoyé à la dreal avec :
@@ -13,7 +15,43 @@ Fonctionnalité: Demander le changement de l'actionnaire d'un projet lauréat
             | nom_projet | Du boulodrome de Marseille                                                                                           |
             | url        | https://potentiel.beta.gouv.fr/laureats/.*/actionnaire                                                               |
 
-    Scénario: Demander le changement de l'actionnaire d'un projet lauréat si l'actionnaire a une valeur identique
+    Scénario: Demander le changement de l'actionnaire d'un projet lauréat legacy (CRE4 Eolien) avec un dépot de garanties financières en cours
+        Etant donné le projet lauréat legacy "Du boulodrome de Bordeaux" avec :
+            | appel d'offre | Eolien |
+        Et la dreal "DREAL" associée à la région du projet
+        Et un dépôt de garanties financières pour le projet "Du boulodrome de Bordeaux"
+        Quand le porteur demande le changement de l'actionnaire pour le projet lauréat
+        Alors la demande de changement de l'actionnaire devrait être consultable
+        Et un email a été envoyé à la dreal avec :
+            | sujet      | Potentiel - Demande de changement de l'actionnaire pour le projet Du boulodrome de Bordeaux dans le département(.*) |
+            | nom_projet | Du boulodrome de Bordeaux                                                                                           |
+            | url        | https://potentiel.beta.gouv.fr/laureats/.*/actionnaire                                                              |
+
+    Scénario: Demander le changement de l'actionnaire d'un projet CRE4 Eolien ayant comme actionnariat "financement-participatif"
+        Etant donné le projet lauréat legacy "Du boulodrome de Bordeaux" avec :
+            | appel d'offre | Eolien                   |
+            | actionnariat  | financement-participatif |
+        Et la dreal "DREAL" associée à la région du projet
+        Quand le porteur demande le changement de l'actionnaire pour le projet lauréat
+        Alors la demande de changement de l'actionnaire devrait être consultable
+        Et un email a été envoyé à la dreal avec :
+            | sujet      | Potentiel - Demande de changement de l'actionnaire pour le projet Du boulodrome de Bordeaux dans le département(.*) |
+            | nom_projet | Du boulodrome de Bordeaux                                                                                           |
+            | url        | https://potentiel.beta.gouv.fr/laureats/.*/actionnaire                                                              |
+
+    Scénario: Demander le changement de l'actionnaire d'un projet CRE4 Eolien ayant comme actionnariat "investissement-participatif"
+        Etant donné le projet lauréat legacy "Du boulodrome de Bordeaux" avec :
+            | appel d'offre | Eolien                      |
+            | actionnariat  | investissement-participatif |
+        Et la dreal "DREAL" associée à la région du projet
+        Quand le porteur demande le changement de l'actionnaire pour le projet lauréat
+        Alors la demande de changement de l'actionnaire devrait être consultable
+        Et un email a été envoyé à la dreal avec :
+            | sujet      | Potentiel - Demande de changement de l'actionnaire pour le projet Du boulodrome de Bordeaux dans le département(.*) |
+            | nom_projet | Du boulodrome de Bordeaux                                                                                           |
+            | url        | https://potentiel.beta.gouv.fr/laureats/.*/actionnaire                                                              |
+
+    Scénario: Demander le changement de l'actionnaire d'un projet lauréat legacy (CRE4 Eolien) si l'actionnaire a une valeur identique
         Quand le porteur demande le changement de l'actionnaire avec la même valeur pour le projet lauréat
         Alors la demande de changement de l'actionnaire devrait être consultable
 
