@@ -35,6 +35,7 @@ type DossierRaccordementApiResponse = {
   codePostal: string;
   referenceDossier: string;
   statutDGEC: string;
+  puissance: number;
 };
 
 type ApiResponse = {
@@ -94,5 +95,6 @@ const mapToApiResponse: MapToApiResponse = ({ items, range, total }) => ({
     codePostal: dossier.codePostal,
     statutDGEC: dossier.statutDGEC,
     referenceDossier: dossier.référenceDossier.formatter(),
+    puissance: dossier.puissance,
   })),
 });

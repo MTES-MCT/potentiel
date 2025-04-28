@@ -1,5 +1,5 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
-import { match } from 'ts-pattern';
+import { match, P } from 'ts-pattern';
 
 import { List, RangeOptions, Where } from '@potentiel-domain/entity';
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
@@ -8,6 +8,7 @@ import { Candidature } from '@potentiel-domain/projet';
 import { RéférenceDossierRaccordement } from '..';
 import { DossierRaccordementEntity } from '../raccordement.entity';
 import * as StatutLauréat from '../../statutLauréat.valueType';
+import { PuissanceEntity } from '../../puissance';
 
 type DossierRaccordementEnAttenteMiseEnService = {
   nomProjet: string;
@@ -20,6 +21,7 @@ type DossierRaccordementEnAttenteMiseEnService = {
   codePostal: string;
   référenceDossier: RéférenceDossierRaccordement.ValueType;
   statutDGEC: StatutLauréat.RawType;
+  puissance: number;
 };
 
 export type ListerDossierRaccordementEnAttenteMiseEnServiceReadModel = {
@@ -78,8 +80,14 @@ export const registerListerDossierRaccordementEnAttenteMiseEnServiceQuery = ({
       },
     });
 
+    const puissances = await list<PuissanceEntity>('puissance', {
+      where: {
+        identifiantProjet: Where.matchAny(identifiants),
+      },
+    });
+
     return {
-      items: items.map((item) => toReadModel(item, candidatures.items)),
+      items: items.map((item) => toReadModel(item, candidatures.items, puissances.items)),
       range: {
         endPosition,
         startPosition,
@@ -97,6 +105,7 @@ export const registerListerDossierRaccordementEnAttenteMiseEnServiceQuery = ({
 export const toReadModel = (
   { identifiantProjet, référence }: DossierRaccordementEntity,
   candidatures: ReadonlyArray<Candidature.CandidatureEntity>,
+  puissances: ReadonlyArray<PuissanceEntity>,
 ): DossierRaccordementEnAttenteMiseEnService => {
   const { appelOffre, famille, numéroCRE, période } =
     IdentifiantProjet.convertirEnValueType(identifiantProjet);
@@ -105,7 +114,7 @@ export const toReadModel = (
   );
 
   const { nomProjet, codePostal, commune } = match(candidature)
-    .with(undefined, () => ({
+    .with(P.nullish, () => ({
       codePostal: 'Code postal inconnu',
       commune: 'Commune inconnue',
       nomProjet: 'Nom projet inconnu',
@@ -115,6 +124,10 @@ export const toReadModel = (
       commune: value.localité.commune,
       nomProjet: value.nomProjet,
     }));
+
+  const puissance = puissances.find(
+    (puissance) => puissance.identifiantProjet === identifiantProjet,
+  );
 
   return {
     appelOffre,
@@ -127,5 +140,8 @@ export const toReadModel = (
     période,
     référenceDossier: RéférenceDossierRaccordement.convertirEnValueType(référence),
     statutDGEC: StatutLauréat.classé.formatter(),
+    puissance: match(puissance)
+      .with(P.nullish, () => 0)
+      .otherwise((value) => value.puissance),
   };
 };

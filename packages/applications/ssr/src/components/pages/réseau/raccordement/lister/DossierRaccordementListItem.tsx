@@ -27,6 +27,7 @@ export const DossierRaccordementListItem: FC<DossierRaccordementListItemProps> =
   statutDGEC,
   dateMiseEnService,
   raisonSocialeGestionnaireRéseau,
+  puissance,
 }) => (
   <ListItem
     heading={
@@ -57,6 +58,10 @@ export const DossierRaccordementListItem: FC<DossierRaccordementListItemProps> =
       <span className="italic">
         {codePostal} {commune}, {département}, {région}
       </span>
+      <div>
+        <Icon id="ri-flashlight-line" title="Puissance" size="sm" /> Puissance :{' '}
+        <span className="font-bold">{puissance}</span>
+      </div>
     </div>
     <div className="mt-4">
       <div>
@@ -67,6 +72,7 @@ export const DossierRaccordementListItem: FC<DossierRaccordementListItemProps> =
         <Icon id="ri-price-tag-3-line" title="Référence du dossier" size="sm" /> Référence du
         dossier : <span className="font-bold">{référenceDossier.référence}</span>
       </div>
+
       <div>
         <Icon id="fr-icon-calendar-line" title="Date de mise en service" size="sm" /> Date de mise
         en service :{' '}
