@@ -59,7 +59,7 @@ export const DossierRaccordementListItem: FC<DossierRaccordementListItemProps> =
         {codePostal} {commune}, {département}, {région}
       </span>
       <div>
-        <Icon id="ri-flashlight-line" title="Puissance" size="sm" /> Puissance :{' '}
+        <Icon id="fr-icon-flashlight-line" title="Puissance" size="sm" /> Puissance :{' '}
         <span className="font-bold">{puissance}</span>
       </div>
     </div>

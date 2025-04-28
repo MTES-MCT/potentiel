@@ -2,13 +2,13 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 import { match, P } from 'ts-pattern';
 
 import { Joined, List, RangeOptions, Where } from '@potentiel-domain/entity';
-import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
+import { DateTime } from '@potentiel-domain/common';
 import { GestionnaireRéseau } from '@potentiel-domain/reseau';
+import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 
 import { RéférenceDossierRaccordement } from '..';
 import { DossierRaccordementEntity } from '../raccordement.entity';
 import * as StatutLauréat from '../../statutLauréat.valueType';
-import { LauréatEntity } from '../../lauréat.entity';
 import { PuissanceEntity } from '../../puissance';
 
 type DossierRaccordement = {
@@ -68,7 +68,7 @@ export const registerListerDossierRaccordementQuery = ({
       items,
       range: { endPosition, startPosition },
       total,
-    } = await list<DossierRaccordementEntity, LauréatEntity>('dossier-raccordement', {
+    } = await list<DossierRaccordementEntity, Lauréat.LauréatEntity>('dossier-raccordement', {
       where: {
         référence: Where.contain(référenceDossier),
         identifiantGestionnaireRéseau: Where.equal(identifiantGestionnaireRéseau),
@@ -121,7 +121,13 @@ export const registerListerDossierRaccordementQuery = ({
     });
 
     return {
-      items: items.map((item) => toReadModel(item, gestionnairesRéseau.items, puissances.items)),
+      items: items.map((dossier) =>
+        mapToReadModel({
+          dossier,
+          gestionnairesRéseau: gestionnairesRéseau.items,
+          puissances: puissances.items,
+        }),
+      ),
       range: {
         endPosition,
         startPosition,
@@ -133,17 +139,17 @@ export const registerListerDossierRaccordementQuery = ({
   mediator.register('Lauréat.Raccordement.Query.ListerDossierRaccordementQuery', handler);
 };
 
-export const toReadModel = (
-  {
-    identifiantProjet,
-    référence,
-    miseEnService,
-    identifiantGestionnaireRéseau,
-    lauréat,
-  }: DossierRaccordementEntity & Joined<LauréatEntity>,
-  gestionnairesRéseau: ReadonlyArray<GestionnaireRéseau.GestionnaireRéseauEntity>,
-  puissances: ReadonlyArray<PuissanceEntity>,
-): DossierRaccordement => {
+type MapToReadModelProps = (args: {
+  dossier: DossierRaccordementEntity & Joined<Lauréat.LauréatEntity>;
+  gestionnairesRéseau: ReadonlyArray<GestionnaireRéseau.GestionnaireRéseauEntity>;
+  puissances: ReadonlyArray<PuissanceEntity>;
+}) => DossierRaccordement;
+
+export const mapToReadModel: MapToReadModelProps = ({
+  dossier: { identifiantProjet, identifiantGestionnaireRéseau, référence, miseEnService, lauréat },
+  gestionnairesRéseau,
+  puissances,
+}) => {
   const { appelOffre, famille, numéroCRE, période } =
     IdentifiantProjet.convertirEnValueType(identifiantProjet);
   const gestionnaire = gestionnairesRéseau.find(
