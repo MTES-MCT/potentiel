@@ -42,6 +42,7 @@ export const GET = async (_: Request, { params: { identifiant } }: ExporterRacco
         'codePostal',
         'referenceDossier',
         'statutDGEC',
+        'puissance',
         'dateMiseEnService',
       ];
 
@@ -60,6 +61,7 @@ export const GET = async (_: Request, { params: { identifiant } }: ExporterRacco
             période,
             référenceDossier,
             statutDGEC,
+            puissance,
           }) => ({
             nomProjet,
             identifiantProjet: identifiantProjet.formatter(),
@@ -71,6 +73,7 @@ export const GET = async (_: Request, { params: { identifiant } }: ExporterRacco
             codePostal,
             referenceDossier: référenceDossier.formatter(),
             statutDGEC,
+            puissance,
           }),
         ),
       );

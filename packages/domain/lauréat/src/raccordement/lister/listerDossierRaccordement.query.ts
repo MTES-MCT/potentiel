@@ -1,14 +1,16 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
-import { match } from 'ts-pattern';
+import { match, P } from 'ts-pattern';
 
 import { Joined, List, RangeOptions, Where } from '@potentiel-domain/entity';
-import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
+import { DateTime } from '@potentiel-domain/common';
 import { GestionnaireRéseau } from '@potentiel-domain/reseau';
+import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
+import { AppelOffre } from '@potentiel-domain/appel-offre';
 
 import { RéférenceDossierRaccordement } from '..';
 import { DossierRaccordementEntity } from '../raccordement.entity';
 import * as StatutLauréat from '../../statutLauréat.valueType';
-import { LauréatEntity } from '../../lauréat.entity';
+import { PuissanceEntity } from '../../puissance';
 
 type DossierRaccordement = {
   nomProjet: string;
@@ -26,6 +28,7 @@ type DossierRaccordement = {
   dateMiseEnService?: DateTime.ValueType;
   identifiantGestionnaireRéseau: GestionnaireRéseau.IdentifiantGestionnaireRéseau.ValueType;
   raisonSocialeGestionnaireRéseau: string;
+  puissance: string;
 };
 
 export type ListerDossierRaccordementReadModel = {
@@ -66,7 +69,7 @@ export const registerListerDossierRaccordementQuery = ({
       items,
       range: { endPosition, startPosition },
       total,
-    } = await list<DossierRaccordementEntity, LauréatEntity>('dossier-raccordement', {
+    } = await list<DossierRaccordementEntity, Lauréat.LauréatEntity>('dossier-raccordement', {
       where: {
         référence: Where.contain(référenceDossier),
         identifiantGestionnaireRéseau: Where.equal(identifiantGestionnaireRéseau),
@@ -108,8 +111,27 @@ export const registerListerDossierRaccordementQuery = ({
       },
     );
 
+    const identifiants = items.map(
+      (dossier) => dossier.identifiantProjet as IdentifiantProjet.RawType,
+    );
+
+    const puissances = await list<PuissanceEntity>('puissance', {
+      where: {
+        identifiantProjet: Where.matchAny(identifiants),
+      },
+    });
+
+    const appelOffres = await list<AppelOffre.AppelOffreEntity>('appel-offre', {});
+
     return {
-      items: items.map((item) => toReadModel(item, gestionnairesRéseau.items)),
+      items: items.map((dossier) =>
+        mapToReadModel({
+          dossier,
+          gestionnairesRéseau: gestionnairesRéseau.items,
+          puissances: puissances.items,
+          appelOffres: appelOffres.items,
+        }),
+      ),
       range: {
         endPosition,
         startPosition,
@@ -121,16 +143,19 @@ export const registerListerDossierRaccordementQuery = ({
   mediator.register('Lauréat.Raccordement.Query.ListerDossierRaccordementQuery', handler);
 };
 
-export const toReadModel = (
-  {
-    identifiantProjet,
-    référence,
-    miseEnService,
-    identifiantGestionnaireRéseau,
-    lauréat,
-  }: DossierRaccordementEntity & Joined<LauréatEntity>,
-  gestionnairesRéseau: ReadonlyArray<GestionnaireRéseau.GestionnaireRéseauEntity>,
-): DossierRaccordement => {
+type MapToReadModelProps = (args: {
+  dossier: DossierRaccordementEntity & Joined<Lauréat.LauréatEntity>;
+  gestionnairesRéseau: ReadonlyArray<GestionnaireRéseau.GestionnaireRéseauEntity>;
+  puissances: ReadonlyArray<PuissanceEntity>;
+  appelOffres: ReadonlyArray<AppelOffre.AppelOffreEntity>;
+}) => DossierRaccordement;
+
+export const mapToReadModel: MapToReadModelProps = ({
+  dossier: { identifiantProjet, identifiantGestionnaireRéseau, référence, miseEnService, lauréat },
+  gestionnairesRéseau,
+  puissances,
+  appelOffres,
+}) => {
   const { appelOffre, famille, numéroCRE, période } =
     IdentifiantProjet.convertirEnValueType(identifiantProjet);
   const gestionnaire = gestionnairesRéseau.find(
@@ -141,6 +166,16 @@ export const toReadModel = (
     nomProjet,
     localité: { codePostal, commune, département, région },
   } = lauréat;
+
+  const unitéPuissance = appelOffres.find((ao) => ao.id === appelOffre)?.unitePuissance ?? 'MWc';
+
+  const puissanceItem = puissances.find(
+    (puissance) => puissance.identifiantProjet === identifiantProjet,
+  );
+
+  const puissance = match(puissanceItem)
+    .with(P.nullish, () => `0 ${unitéPuissance}`)
+    .otherwise((value) => `${value.puissance} ${unitéPuissance}`);
 
   return {
     appelOffre,
@@ -165,5 +200,6 @@ export const toReadModel = (
     raisonSocialeGestionnaireRéseau: match(gestionnaire)
       .with(undefined, () => 'Gestionnaire réseau inconnu')
       .otherwise((value) => value.raisonSociale),
+    puissance,
   };
 };

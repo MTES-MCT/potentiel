@@ -1,13 +1,15 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
-import { match } from 'ts-pattern';
+import { match, P } from 'ts-pattern';
 
 import { List, RangeOptions, Where } from '@potentiel-domain/entity';
-import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
-import { Candidature } from '@potentiel-domain/projet';
+import { DateTime } from '@potentiel-domain/common';
+import { Candidature, IdentifiantProjet } from '@potentiel-domain/projet';
+import { AppelOffre } from '@potentiel-domain/appel-offre';
 
 import { RéférenceDossierRaccordement } from '..';
 import { DossierRaccordementEntity } from '../raccordement.entity';
 import * as StatutLauréat from '../../statutLauréat.valueType';
+import { PuissanceEntity } from '../../puissance';
 
 type DossierRaccordementEnAttenteMiseEnService = {
   nomProjet: string;
@@ -20,6 +22,7 @@ type DossierRaccordementEnAttenteMiseEnService = {
   codePostal: string;
   référenceDossier: RéférenceDossierRaccordement.ValueType;
   statutDGEC: StatutLauréat.RawType;
+  puissance: string;
 };
 
 export type ListerDossierRaccordementEnAttenteMiseEnServiceReadModel = {
@@ -78,8 +81,23 @@ export const registerListerDossierRaccordementEnAttenteMiseEnServiceQuery = ({
       },
     });
 
+    const puissances = await list<PuissanceEntity>('puissance', {
+      where: {
+        identifiantProjet: Where.matchAny(identifiants),
+      },
+    });
+
+    const appelOffres = await list<AppelOffre.AppelOffreEntity>('appel-offre', {});
+
     return {
-      items: items.map((item) => toReadModel(item, candidatures.items)),
+      items: items.map((dossier) =>
+        mapToReadModel({
+          dossier,
+          appelOffres: appelOffres.items,
+          candidatures: candidatures.items,
+          puissances: puissances.items,
+        }),
+      ),
       range: {
         endPosition,
         startPosition,
@@ -94,10 +112,19 @@ export const registerListerDossierRaccordementEnAttenteMiseEnServiceQuery = ({
   );
 };
 
-export const toReadModel = (
-  { identifiantProjet, référence }: DossierRaccordementEntity,
-  candidatures: ReadonlyArray<Candidature.CandidatureEntity>,
-): DossierRaccordementEnAttenteMiseEnService => {
+type MapToReadModelProps = (args: {
+  dossier: DossierRaccordementEntity;
+  candidatures: ReadonlyArray<Candidature.CandidatureEntity>;
+  puissances: ReadonlyArray<PuissanceEntity>;
+  appelOffres: ReadonlyArray<AppelOffre.AppelOffreEntity>;
+}) => DossierRaccordementEnAttenteMiseEnService;
+
+export const mapToReadModel: MapToReadModelProps = ({
+  dossier: { identifiantProjet, référence },
+  candidatures,
+  puissances,
+  appelOffres,
+}) => {
   const { appelOffre, famille, numéroCRE, période } =
     IdentifiantProjet.convertirEnValueType(identifiantProjet);
   const candidature = candidatures.find(
@@ -105,7 +132,7 @@ export const toReadModel = (
   );
 
   const { nomProjet, codePostal, commune } = match(candidature)
-    .with(undefined, () => ({
+    .with(P.nullish, () => ({
       codePostal: 'Code postal inconnu',
       commune: 'Commune inconnue',
       nomProjet: 'Nom projet inconnu',
@@ -115,6 +142,16 @@ export const toReadModel = (
       commune: value.localité.commune,
       nomProjet: value.nomProjet,
     }));
+
+  const puissanceItem = puissances.find(
+    (puissance) => puissance.identifiantProjet === identifiantProjet,
+  );
+
+  const puissance = match(puissanceItem)
+    .with(P.nullish, () => `0 ${unitéPuissance}`)
+    .otherwise((value) => `${value.puissance} ${unitéPuissance}`);
+
+  const unitéPuissance = appelOffres.find((ao) => ao.id === appelOffre)?.unitePuissance ?? 'MWc';
 
   return {
     appelOffre,
@@ -127,5 +164,6 @@ export const toReadModel = (
     période,
     référenceDossier: RéférenceDossierRaccordement.convertirEnValueType(référence),
     statutDGEC: StatutLauréat.classé.formatter(),
+    puissance,
   };
 };

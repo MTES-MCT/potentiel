@@ -27,6 +27,7 @@ export const DossierRaccordementListItem: FC<DossierRaccordementListItemProps> =
   statutDGEC,
   dateMiseEnService,
   raisonSocialeGestionnaireRéseau,
+  puissance,
 }) => (
   <ListItem
     heading={
@@ -59,6 +60,10 @@ export const DossierRaccordementListItem: FC<DossierRaccordementListItemProps> =
       </span>
     </div>
     <div className="mt-4">
+      <div>
+        <Icon id="fr-icon-flashlight-line" title="Puissance" size="sm" /> Puissance :{' '}
+        <span className="font-bold">{puissance}</span>
+      </div>
       <div>
         <Icon id="fr-icon-building-line" title="Gestionnaire Réseau" size="sm" /> Gestionnaire
         Réseau : <span className="font-bold">{raisonSocialeGestionnaireRéseau}</span>
