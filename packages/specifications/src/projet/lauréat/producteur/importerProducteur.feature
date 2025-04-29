@@ -25,7 +25,7 @@ Fonctionnalité: Importer le producteur lors de la désignation d'une candidatur
         Alors l'utilisateur devrait être informé que "Le projet lauréat n'existe pas"
 
     @NotImplemented
-    Scénario: Impossible d'importer le producteur si celle-ci a déjà été importé
+    Scénario: Impossible d'importer le producteur si celui-ci a déjà été importé
         Etant donné la candidature lauréate notifiée "Du boulodrome de Marseille"
         Quand le producteur est importé pour le projet
         Alors l'utilisateur devrait être informé que "Le producteur a déjà été importé"
