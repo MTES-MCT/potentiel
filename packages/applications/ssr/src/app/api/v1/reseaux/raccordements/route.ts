@@ -35,7 +35,7 @@ type DossierRaccordementApiResponse = {
   codePostal: string;
   referenceDossier: string;
   statutDGEC: string;
-  puissance: number;
+  puissance: string;
 };
 
 type ApiResponse = {

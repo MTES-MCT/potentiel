@@ -5,6 +5,7 @@ import { Joined, List, RangeOptions, Where } from '@potentiel-domain/entity';
 import { DateTime } from '@potentiel-domain/common';
 import { GestionnaireRéseau } from '@potentiel-domain/reseau';
 import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
+import { AppelOffre } from '@potentiel-domain/appel-offre';
 
 import { RéférenceDossierRaccordement } from '..';
 import { DossierRaccordementEntity } from '../raccordement.entity';
@@ -27,7 +28,7 @@ type DossierRaccordement = {
   dateMiseEnService?: DateTime.ValueType;
   identifiantGestionnaireRéseau: GestionnaireRéseau.IdentifiantGestionnaireRéseau.ValueType;
   raisonSocialeGestionnaireRéseau: string;
-  puissance: number;
+  puissance: string;
 };
 
 export type ListerDossierRaccordementReadModel = {
@@ -120,12 +121,15 @@ export const registerListerDossierRaccordementQuery = ({
       },
     });
 
+    const appelOffres = await list<AppelOffre.AppelOffreEntity>('appel-offre', {});
+
     return {
       items: items.map((dossier) =>
         mapToReadModel({
           dossier,
           gestionnairesRéseau: gestionnairesRéseau.items,
           puissances: puissances.items,
+          appelOffres: appelOffres.items,
         }),
       ),
       range: {
@@ -143,12 +147,14 @@ type MapToReadModelProps = (args: {
   dossier: DossierRaccordementEntity & Joined<Lauréat.LauréatEntity>;
   gestionnairesRéseau: ReadonlyArray<GestionnaireRéseau.GestionnaireRéseauEntity>;
   puissances: ReadonlyArray<PuissanceEntity>;
+  appelOffres: ReadonlyArray<AppelOffre.AppelOffreEntity>;
 }) => DossierRaccordement;
 
 export const mapToReadModel: MapToReadModelProps = ({
   dossier: { identifiantProjet, identifiantGestionnaireRéseau, référence, miseEnService, lauréat },
   gestionnairesRéseau,
   puissances,
+  appelOffres,
 }) => {
   const { appelOffre, famille, numéroCRE, période } =
     IdentifiantProjet.convertirEnValueType(identifiantProjet);
@@ -164,6 +170,8 @@ export const mapToReadModel: MapToReadModelProps = ({
   const puissance = puissances.find(
     (puissance) => puissance.identifiantProjet === identifiantProjet,
   );
+
+  const unitéPuissance = appelOffres.find((ao) => ao.id === appelOffre)?.unitePuissance ?? 'N/A';
 
   return {
     appelOffre,
@@ -189,7 +197,7 @@ export const mapToReadModel: MapToReadModelProps = ({
       .with(undefined, () => 'Gestionnaire réseau inconnu')
       .otherwise((value) => value.raisonSociale),
     puissance: match(puissance)
-      .with(P.nullish, () => 0)
-      .otherwise((value) => value.puissance),
+      .with(P.nullish, () => `0`)
+      .otherwise((value) => `${value.puissance} ${unitéPuissance}`),
   };
 };

@@ -2,8 +2,9 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 import { match, P } from 'ts-pattern';
 
 import { List, RangeOptions, Where } from '@potentiel-domain/entity';
-import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
-import { Candidature } from '@potentiel-domain/projet';
+import { DateTime } from '@potentiel-domain/common';
+import { Candidature, IdentifiantProjet } from '@potentiel-domain/projet';
+import { AppelOffre } from '@potentiel-domain/appel-offre';
 
 import { RéférenceDossierRaccordement } from '..';
 import { DossierRaccordementEntity } from '../raccordement.entity';
@@ -21,7 +22,7 @@ type DossierRaccordementEnAttenteMiseEnService = {
   codePostal: string;
   référenceDossier: RéférenceDossierRaccordement.ValueType;
   statutDGEC: StatutLauréat.RawType;
-  puissance: number;
+  puissance: string;
 };
 
 export type ListerDossierRaccordementEnAttenteMiseEnServiceReadModel = {
@@ -86,8 +87,17 @@ export const registerListerDossierRaccordementEnAttenteMiseEnServiceQuery = ({
       },
     });
 
+    const appelOffres = await list<AppelOffre.AppelOffreEntity>('appel-offre', {});
+
     return {
-      items: items.map((item) => toReadModel(item, candidatures.items, puissances.items)),
+      items: items.map((dossier) =>
+        mapToReadModel({
+          dossier,
+          appelOffres: appelOffres.items,
+          candidatures: candidatures.items,
+          puissances: puissances.items,
+        }),
+      ),
       range: {
         endPosition,
         startPosition,
@@ -102,11 +112,19 @@ export const registerListerDossierRaccordementEnAttenteMiseEnServiceQuery = ({
   );
 };
 
-export const toReadModel = (
-  { identifiantProjet, référence }: DossierRaccordementEntity,
-  candidatures: ReadonlyArray<Candidature.CandidatureEntity>,
-  puissances: ReadonlyArray<PuissanceEntity>,
-): DossierRaccordementEnAttenteMiseEnService => {
+type MapToReadModelProps = (args: {
+  dossier: DossierRaccordementEntity;
+  candidatures: ReadonlyArray<Candidature.CandidatureEntity>;
+  puissances: ReadonlyArray<PuissanceEntity>;
+  appelOffres: ReadonlyArray<AppelOffre.AppelOffreEntity>;
+}) => DossierRaccordementEnAttenteMiseEnService;
+
+export const mapToReadModel: MapToReadModelProps = ({
+  dossier: { identifiantProjet, référence },
+  candidatures,
+  puissances,
+  appelOffres,
+}) => {
   const { appelOffre, famille, numéroCRE, période } =
     IdentifiantProjet.convertirEnValueType(identifiantProjet);
   const candidature = candidatures.find(
@@ -129,6 +147,8 @@ export const toReadModel = (
     (puissance) => puissance.identifiantProjet === identifiantProjet,
   );
 
+  const unitéPuissance = appelOffres.find((ao) => ao.id === appelOffre)?.unitePuissance ?? 'N/A';
+
   return {
     appelOffre,
     codePostal,
@@ -141,7 +161,7 @@ export const toReadModel = (
     référenceDossier: RéférenceDossierRaccordement.convertirEnValueType(référence),
     statutDGEC: StatutLauréat.classé.formatter(),
     puissance: match(puissance)
-      .with(P.nullish, () => 0)
-      .otherwise((value) => value.puissance),
+      .with(P.nullish, () => `0`)
+      .otherwise((value) => `${value.puissance} ${unitéPuissance}`),
   };
 };

@@ -42,8 +42,8 @@ export const GET = async (_: Request, { params: { identifiant } }: ExporterRacco
         'codePostal',
         'referenceDossier',
         'statutDGEC',
-        'dateMiseEnService',
         'puissance',
+        'dateMiseEnService',
       ];
 
       const csvParser = new Parser({ fields, delimiter: ';', withBOM: true });
