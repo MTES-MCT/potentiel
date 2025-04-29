@@ -167,11 +167,15 @@ export const mapToReadModel: MapToReadModelProps = ({
     localité: { codePostal, commune, département, région },
   } = lauréat;
 
-  const puissance = puissances.find(
+  const unitéPuissance = appelOffres.find((ao) => ao.id === appelOffre)?.unitePuissance ?? 'MWc';
+
+  const puissanceItem = puissances.find(
     (puissance) => puissance.identifiantProjet === identifiantProjet,
   );
 
-  const unitéPuissance = appelOffres.find((ao) => ao.id === appelOffre)?.unitePuissance ?? 'N/A';
+  const puissance = match(puissanceItem)
+    .with(P.nullish, () => `0 ${unitéPuissance}`)
+    .otherwise((value) => `${value.puissance} ${unitéPuissance}`);
 
   return {
     appelOffre,
@@ -196,8 +200,6 @@ export const mapToReadModel: MapToReadModelProps = ({
     raisonSocialeGestionnaireRéseau: match(gestionnaire)
       .with(undefined, () => 'Gestionnaire réseau inconnu')
       .otherwise((value) => value.raisonSociale),
-    puissance: match(puissance)
-      .with(P.nullish, () => `0`)
-      .otherwise((value) => `${value.puissance} ${unitéPuissance}`),
+    puissance,
   };
 };

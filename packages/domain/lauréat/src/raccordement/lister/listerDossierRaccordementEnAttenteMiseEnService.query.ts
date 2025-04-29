@@ -143,11 +143,15 @@ export const mapToReadModel: MapToReadModelProps = ({
       nomProjet: value.nomProjet,
     }));
 
-  const puissance = puissances.find(
+  const puissanceItem = puissances.find(
     (puissance) => puissance.identifiantProjet === identifiantProjet,
   );
 
-  const unitéPuissance = appelOffres.find((ao) => ao.id === appelOffre)?.unitePuissance ?? 'N/A';
+  const puissance = match(puissanceItem)
+    .with(P.nullish, () => `0 ${unitéPuissance}`)
+    .otherwise((value) => `${value.puissance} ${unitéPuissance}`);
+
+  const unitéPuissance = appelOffres.find((ao) => ao.id === appelOffre)?.unitePuissance ?? 'MWc';
 
   return {
     appelOffre,
@@ -160,8 +164,6 @@ export const mapToReadModel: MapToReadModelProps = ({
     période,
     référenceDossier: RéférenceDossierRaccordement.convertirEnValueType(référence),
     statutDGEC: StatutLauréat.classé.formatter(),
-    puissance: match(puissance)
-      .with(P.nullish, () => `0`)
-      .otherwise((value) => `${value.puissance} ${unitéPuissance}`),
+    puissance,
   };
 };
