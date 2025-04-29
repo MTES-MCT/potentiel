@@ -1,8 +1,16 @@
+import {
+  ConsulterProducteurQuery,
+  ConsulterProducteurReadModel,
+} from './consulter/consulterProducteur.query';
 import { ImporterProducteurCommand } from './importer/importerProducteur.command';
 
 // Query
+export type ProducteurQuery = ConsulterProducteurQuery;
+
+export type { ConsulterProducteurQuery };
 
 // ReadModel
+export type { ConsulterProducteurReadModel };
 
 // UseCase
 
