@@ -8,6 +8,7 @@ import {
   Actionnaire,
   Raccordement,
   Puissance,
+  Producteur,
 } from '@potentiel-domain/laureat';
 import { Event, loadAggregate, subscribe } from '@potentiel-infrastructure/pg-event-sourcing';
 import {
@@ -31,6 +32,7 @@ import {
   ReprésentantLégalProjector,
   ActionnaireProjector,
   PuissanceProjector,
+  ProducteurProjector,
 } from '@potentiel-applications/projectors';
 import {
   DocumentAdapter,
@@ -69,6 +71,7 @@ export const setupLauréat = async ({
   ReprésentantLégalProjector.register();
   ActionnaireProjector.register();
   PuissanceProjector.register();
+  ProducteurProjector.register();
 
   // Notifications
   AbandonNotification.register({ sendEmail });
@@ -88,6 +91,7 @@ export const setupLauréat = async ({
     récupérerGRDParVille,
   });
   Puissance.PuissanceSaga.register();
+  Producteur.ProducteurSaga.register();
 
   const unsubscribeLauréatNotifications = await subscribe<LauréatNotification.SubscriptionEvent>({
     name: 'notifications',
@@ -166,6 +170,18 @@ export const setupLauréat = async ({
       });
     },
     streamCategory: 'abandon',
+  });
+
+  const unsubscribeProducteurProjector = await subscribe<ProducteurProjector.SubscriptionEvent>({
+    name: 'projector',
+    eventType: ['ProducteurImporté-V1'],
+    eventHandler: async (event) => {
+      await mediator.send<ProducteurProjector.Execute>({
+        type: 'System.Projector.Lauréat.Producteur',
+        data: event,
+      });
+    },
+    streamCategory: 'producteur',
   });
 
   const unsubscribeGarantiesFinancièresProjector =
@@ -506,6 +522,19 @@ export const setupLauréat = async ({
       }),
   });
 
+  const unsubscribeProducteurSagaLauréat = await subscribe<
+    Producteur.ProducteurSaga.SubscriptionEvent & Event
+  >({
+    name: 'producteur-laureat-saga',
+    streamCategory: 'lauréat',
+    eventType: ['LauréatNotifié-V2'],
+    eventHandler: async (event) =>
+      mediator.publish<Producteur.ProducteurSaga.Execute>({
+        type: 'System.Lauréat.Producteur.Saga.Execute',
+        data: event,
+      }),
+  });
+
   return async () => {
     // projectors
     await unsubscribeAbandonProjector();
@@ -514,6 +543,7 @@ export const setupLauréat = async ({
     await unsubscribeReprésentantLégalProjector();
     await unsubscribeActionnaireProjector();
     await unsubscribePuissanceProjector();
+    await unsubscribeProducteurProjector();
     // notifications
     await unsubscribeLauréatNotifications();
     await unsubscribeAbandonNotification();
@@ -534,5 +564,6 @@ export const setupLauréat = async ({
     await unsubscribeRaccordementLauréatSaga();
     await unsubscribePuissanceSagaLauréat();
     await unsubscribePuissanceSagaAbandon();
+    await unsubscribeProducteurSagaLauréat();
   };
 };

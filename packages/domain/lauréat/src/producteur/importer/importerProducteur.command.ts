@@ -26,13 +26,13 @@ export const registerImporterProducteurCommand = (
   }) => {
     const projet = await getProjetAggregateRoot(identifiantProjet);
     projet.lauréat.vérifierQueLeLauréatExiste();
-    const { sociétéMère } = projet.candidature;
+    const { nomCandidat } = projet.candidature;
 
     const producteur = await loadProducteur(identifiantProjet, false);
 
     await producteur.importer({
       identifiantProjet,
-      producteur: sociétéMère,
+      producteur: nomCandidat,
       importéLe,
     });
   };
