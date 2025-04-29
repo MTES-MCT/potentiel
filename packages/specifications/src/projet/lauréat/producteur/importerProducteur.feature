@@ -1,7 +1,6 @@
 # language: fr
 Fonctionnalité: Importer le producteur lors de la désignation d'une candidature lauréate
 
-    @select
     Scénario: Importer le producteur lors de la désignation d'une candidature lauréate
         Etant donné le projet lauréat "Du boulodrome de Marseille"
         Alors le producteur du projet lauréat devrait être consultable

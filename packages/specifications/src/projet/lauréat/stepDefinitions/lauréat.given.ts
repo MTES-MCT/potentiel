@@ -128,6 +128,11 @@ export async function notifierLauréat(this: PotentielWorld, dateDésignation: s
     puissance: candidature.values.puissanceProductionAnnuelleValue,
   });
 
+  this.lauréatWorld.producteurWorld.importerProducteurFixture.créer({
+    importéLe: dateDésignation,
+    producteur: candidature.values.nomCandidatValue,
+  });
+
   const data = {
     identifiantProjetValue: identifiantProjetValue.formatter(),
     notifiéLeValue: dateDésignation,
