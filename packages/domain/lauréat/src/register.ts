@@ -35,23 +35,35 @@ import {
   registerRaccordementUseCases,
 } from './raccordement/raccordement.register';
 import {
+  PuissanceCommandDependencies,
+  PuissanceQueryDependencies,
   registerPuissanceQueries,
   registerPuissanceUseCases,
 } from './puissance/puissance.register';
+import {
+  ProducteurCommandDependencies,
+  ProducteurQueryDependencies,
+  registerProducteurQueries,
+  registerProducteurUseCases,
+} from './producteur/producteur.register';
 
 export type LauréatQueryDependencies = AbandonQueryDependencies &
   GarantiesFinancièresQueryDependencies &
   AchèvementQueryDependencies &
   ReprésentantLégalQueryDependencies &
   ActionnaireQueryDependencies &
-  RaccordementQueryDependencies;
+  RaccordementQueryDependencies &
+  PuissanceQueryDependencies &
+  ProducteurQueryDependencies;
 
 export type LauréatCommandDependencies = AbandonCommandDependencies &
   GarantiesFinancièresCommandDependencies &
   AchèvementCommandDependencies &
   ReprésentantLégalCommandDependencies &
   ActionnaireCommandDependencies &
-  RaccordementCommandDependencies;
+  RaccordementCommandDependencies &
+  PuissanceCommandDependencies &
+  ProducteurCommandDependencies;
 
 export const registerLauréatUseCases = (dependencies: LauréatCommandDependencies) => {
   registerAbandonUseCases(dependencies);
@@ -61,6 +73,7 @@ export const registerLauréatUseCases = (dependencies: LauréatCommandDependenci
   registerActionnaireUseCases(dependencies);
   registerRaccordementUseCases(dependencies);
   registerPuissanceUseCases(dependencies);
+  registerProducteurUseCases(dependencies);
 };
 
 export const registerLauréatQueries = (dependencies: LauréatQueryDependencies) => {
@@ -71,4 +84,5 @@ export const registerLauréatQueries = (dependencies: LauréatQueryDependencies)
   registerActionnaireQueries(dependencies);
   registerRaccordementQueries(dependencies);
   registerPuissanceQueries(dependencies);
+  registerProducteurQueries(dependencies);
 };
