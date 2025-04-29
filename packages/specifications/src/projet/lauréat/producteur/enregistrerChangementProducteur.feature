@@ -31,7 +31,7 @@ Fonctionnalité: Enregistrer un changement de producteur d'un projet lauréat
 
     @NotImplemented
     Scénario: Impossible d'enregistrer un changement de producteur d'un projet lauréat avec un producteur identique
-        Quand le porteur enregistre un changement de producteur avec un producteur identique pour le projet lauréat
+        Quand le porteur enregistre un changement de producteur avec une valeur pour le projet lauréat
         Alors le porteur devrait être informé que "Le nouveau producteur est identique à celui associé au projet"
 
     @NotImplemented
@@ -51,3 +51,8 @@ Fonctionnalité: Enregistrer un changement de producteur d'un projet lauréat
         Etant donné une attestation de conformité transmise pour le projet lauréat
         Quand le porteur enregistre un changement de producteur pour le projet lauréat
         Alors le porteur devrait être informé que "Impossible d'enregistrer le changement de producteur pour un projet achevé"
+
+    @NotImplemented
+    Scénario: Impossible d'enregistrer un changement de producteur d'un projet lauréat inexistant
+        Quand le porteur enregistre un changement de producteur pour le projet lauréat
+        Alors le porteur devrait être informé que "Le projet lauréat n'existe pas"
