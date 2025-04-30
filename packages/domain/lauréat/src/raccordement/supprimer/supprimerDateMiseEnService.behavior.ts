@@ -6,7 +6,7 @@ import * as RéférenceDossierRaccordement from '../référenceDossierRaccordeme
 import { RaccordementAggregate } from '../raccordement.aggregate';
 
 export type DateMiseEnServiceSuppriméeEvent = DomainEvent<
-  'DateMiseEnServiceSupprimée-V2',
+  'DateMiseEnServiceSupprimée-V1',
   {
     référenceDossierRaccordement: RéférenceDossierRaccordement.RawType;
     identifiantProjet: IdentifiantProjet.RawType;
@@ -37,7 +37,7 @@ export async function supprimerDateMiseEnService(
   }
 
   const dateMiseEnServiceSupprimée: DateMiseEnServiceSuppriméeEvent = {
-    type: 'DateMiseEnServiceSupprimée-V2',
+    type: 'DateMiseEnServiceSupprimée-V1',
     payload: {
       identifiantProjet: identifiantProjet.formatter(),
       référenceDossierRaccordement: référenceDossier.formatter(),
