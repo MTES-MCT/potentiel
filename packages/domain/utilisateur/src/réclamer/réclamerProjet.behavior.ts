@@ -42,6 +42,7 @@ export async function réclamer(
   if (connaîtLePrixEtNuméroCRE === false) {
     throw new PrixEtNuméroCRENonCorrespondantError();
   }
+
   if (!aLeMêmeEmailQueLaCandidature && !connaîtLePrixEtNuméroCRE) {
     throw new EmailNonCorrespondantError();
   }

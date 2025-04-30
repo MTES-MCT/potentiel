@@ -146,6 +146,10 @@ export class CandidatureAggregate extends AbstractAggregate<CandidatureEvent> {
     return this.#localité!;
   }
 
+  get nomCandidat() {
+    return this.#nomCandidat;
+  }
+
   async init(projet: ProjetAggregateRoot) {
     this.#projet = projet;
   }

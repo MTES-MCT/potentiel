@@ -1,6 +1,6 @@
 import { Command, Flags } from '@oclif/core';
 
-import { Puissance } from '@potentiel-domain/laureat';
+import { Producteur } from '@potentiel-domain/laureat';
 import { Candidature, Lauréat } from '@potentiel-domain/projet';
 import { executeSelect } from '@potentiel-libraries/pg-helpers';
 import { listProjection } from '@potentiel-infrastructure/pg-projection-read';
@@ -18,18 +18,18 @@ export class Migrer extends Command {
       await listProjection<Candidature.CandidatureEntity>('candidature');
 
     const subscriberCount = await executeSelect<{ count: number }>(
-      "select count(*) as count from event_store.subscriber where stream_category='puissance'",
+      "select count(*) as count from event_store.subscriber where stream_category='producteur'",
     );
 
     if (subscriberCount[0].count > 0 && !flags.dryRun) {
-      console.warn("Il existe des subscribers pour 'puissance'");
+      console.warn("Il existe des subscribers pour 'producteur'");
       process.exit(1);
     }
 
     console.log(`${candidatures.length} candidatures à importer`);
     console.log(`${lauréats.length} lauréats à importer`);
 
-    const eventsPerProjet: Record<string, Puissance.PuissanceEvent[]> = {};
+    const eventsPerProjet: Record<string, Producteur.ProducteurEvent[]> = {};
 
     for (const lauréat of lauréats) {
       const candidature = candidatures.find(
@@ -39,15 +39,15 @@ export class Migrer extends Command {
         console.warn('candidature non trouvée', lauréat.identifiantProjet);
         continue;
       }
-      const puissanceImportée: Puissance.PuissanceImportéeEvent = {
-        type: 'PuissanceImportée-V1',
+      const producteurImporté: Producteur.ProducteurImportéEvent = {
+        type: 'ProducteurImporté-V1',
         payload: {
-          puissance: candidature.puissanceProductionAnnuelle,
+          producteur: candidature.nomCandidat,
           identifiantProjet: candidature.identifiantProjet,
-          importéeLe: candidature.notification!.notifiéeLe,
+          importéLe: candidature.notification!.notifiéeLe,
         },
       };
-      eventsPerProjet[candidature.identifiantProjet] = [puissanceImportée];
+      eventsPerProjet[candidature.identifiantProjet] = [producteurImporté];
     }
 
     const eventsStats: Record<string, number> = {};
@@ -55,7 +55,7 @@ export class Migrer extends Command {
     for (const [identifiantProjet, events] of Object.entries(eventsPerProjet)) {
       for (const event of events) {
         if (!flags.dryRun) {
-          await publish(`puissance|${identifiantProjet}`, event);
+          await publish(`producteur|${identifiantProjet}`, event);
         }
         eventsStats[event.type] ??= 0;
         eventsStats[event.type]++;
