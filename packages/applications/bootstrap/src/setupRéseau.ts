@@ -65,7 +65,7 @@ export const setupRéseau = async () => {
         'RéférenceDossierRacordementModifiée-V2',
         'GestionnaireRéseauAttribué-V1',
         'DossierDuRaccordementSupprimé-V1',
-        'DateMiseEnServiceSupprimée-V2',
+        'DateMiseEnServiceSupprimée-V1',
         'RaccordementSupprimé-V1',
       ],
       eventHandler: async (event) => {
