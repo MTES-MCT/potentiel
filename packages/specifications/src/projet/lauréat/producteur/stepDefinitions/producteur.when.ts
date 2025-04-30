@@ -68,7 +68,7 @@ export async function enregistrerChangementProducteur(
   const { pièceJustificative, demandéLe, demandéPar, producteur } =
     this.lauréatWorld.producteurWorld.enregistrerChangementProducteurFixture.créer({
       demandéPar: this.utilisateurWorld.porteurFixture.email,
-      ...(producteurValue !== undefined && { producteur: producteurValue }),
+      ...(producteurValue && { producteur: producteurValue }),
     });
 
   await mediator.send<Producteur.EnregistrerChangementProducteurUseCase>({

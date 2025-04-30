@@ -41,8 +41,6 @@ export const registerEnregistrerChangementProducteurCommand = (
     const projet = await getProjetAggregateRoot(identifiantProjet);
     projet.lauréat.vérifierQueLeLauréatExiste();
 
-    console.log('après');
-
     const producteurAggrégat = await loadProducteur(identifiantProjet);
     const abandon = await loadAbandon(identifiantProjet, false);
     const achèvement = await loadAchèvement(identifiantProjet, false);

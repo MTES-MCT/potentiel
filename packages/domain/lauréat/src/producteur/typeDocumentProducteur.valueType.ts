@@ -25,13 +25,13 @@ function estValide(value: string): asserts value is TypeDocument {
   const isValid = (typeDocument as Array<string>).includes(value);
 
   if (!isValid) {
-    throw new TypeDocumentPuissanceInvalideError(value);
+    throw new TypeDocumentProducteurInvalideError(value);
   }
 }
 
 export const pièceJustificative = convertirEnValueType('pièce-justificative');
 
-class TypeDocumentPuissanceInvalideError extends InvalidOperationError {
+class TypeDocumentProducteurInvalideError extends InvalidOperationError {
   constructor(value: string) {
     super(`Le type du document ne correspond à aucune valeur connue`, {
       value,
