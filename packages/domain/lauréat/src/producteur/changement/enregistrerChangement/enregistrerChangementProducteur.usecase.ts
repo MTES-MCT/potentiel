@@ -6,6 +6,8 @@ import { DocumentProjet, EnregistrerDocumentProjetCommand } from '@potentiel-dom
 import { TypeDocumentProducteur } from '../..';
 
 import { EnregistrerChangementProducteurCommand } from './enregistrerChangementProducteur.command';
+import { renouvelerGarantiesFinancières } from './helper/renouvelerGarantiesFinancières';
+import { retirerTousLesAccèsAuxPorteursDuProjet } from './helper/retirerTousLesAccèsAuxPorteursDuProjet';
 
 export type EnregistrerChangementProducteurUseCase = Message<
   'Lauréat.Producteur.UseCase.EnregistrerChangement',
@@ -31,6 +33,9 @@ export const registerEnregistrerChangementProducteurUseCase = () => {
     pièceJustificativeValue,
     raisonValue,
   }) => {
+    const identifiantProjet = IdentifiantProjet.convertirEnValueType(identifiantProjetValue);
+    const identifiantUtilisateur = Email.convertirEnValueType(identifiantUtilisateurValue);
+
     const pièceJustificative = DocumentProjet.convertirEnValueType(
       identifiantProjetValue,
       TypeDocumentProducteur.pièceJustificative.formatter(),
@@ -41,8 +46,8 @@ export const registerEnregistrerChangementProducteurUseCase = () => {
     await mediator.send<EnregistrerChangementProducteurCommand>({
       type: 'Lauréat.Producteur.Command.EnregistrerChangement',
       data: {
-        identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjetValue),
-        identifiantUtilisateur: Email.convertirEnValueType(identifiantUtilisateurValue),
+        identifiantProjet,
+        identifiantUtilisateur,
         producteur: producteurValue,
         dateChangement: DateTime.convertirEnValueType(dateChangementValue),
         pièceJustificative,
@@ -53,10 +58,16 @@ export const registerEnregistrerChangementProducteurUseCase = () => {
     await mediator.send<EnregistrerDocumentProjetCommand>({
       type: 'Document.Command.EnregistrerDocumentProjet',
       data: {
-        content: pièceJustificativeValue!.content,
+        content: pièceJustificativeValue.content,
         documentProjet: pièceJustificative,
       },
     });
+
+    await renouvelerGarantiesFinancières({
+      identifiantProjet,
+      identifiantUtilisateur: identifiantUtilisateur.formatter(),
+    });
+    await retirerTousLesAccèsAuxPorteursDuProjet(identifiantProjet.formatter());
   };
   mediator.register('Lauréat.Producteur.UseCase.EnregistrerChangement', runner);
 };

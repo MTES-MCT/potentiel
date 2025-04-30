@@ -4,6 +4,7 @@ import { IdentifiantProjet, DateTime, Email } from '@potentiel-domain/common';
 import { LoadAggregate } from '@potentiel-domain/core';
 import { DocumentProjet } from '@potentiel-domain/document';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
+import { GetProjetAggregateRoot } from '@potentiel-domain/projet';
 
 import { loadAbandonFactory } from '../../../abandon';
 import { loadAchèvementFactory } from '../../../achèvement/achèvement.aggregate';
@@ -21,7 +22,10 @@ export type EnregistrerChangementProducteurCommand = Message<
   }
 >;
 
-export const registerEnregistrerChangementProducteurCommand = (loadAggregate: LoadAggregate) => {
+export const registerEnregistrerChangementProducteurCommand = (
+  loadAggregate: LoadAggregate,
+  getProjetAggregateRoot: GetProjetAggregateRoot,
+) => {
   const loadProducteur = loadProducteurFactory(loadAggregate);
   const loadAbandon = loadAbandonFactory(loadAggregate);
   const loadAchèvement = loadAchèvementFactory(loadAggregate);
@@ -34,6 +38,11 @@ export const registerEnregistrerChangementProducteurCommand = (loadAggregate: Lo
     pièceJustificative,
     raison,
   }) => {
+    const projet = await getProjetAggregateRoot(identifiantProjet);
+    projet.lauréat.vérifierQueLeLauréatExiste();
+
+    console.log('après');
+
     const producteurAggrégat = await loadProducteur(identifiantProjet);
     const abandon = await loadAbandon(identifiantProjet, false);
     const achèvement = await loadAchèvement(identifiantProjet, false);

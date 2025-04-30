@@ -7,7 +7,6 @@ interface EnregistrerChangementProducteur {
   readonly pièceJustificative: { format: string; content: ReadableStream };
   readonly demandéLe: string;
   readonly demandéPar: string;
-  readonly raison: string;
   readonly producteur: string;
 }
 
@@ -37,12 +36,6 @@ export class EnregistrerChangementProducteurFixture
     return this.#demandéPar;
   }
 
-  #raison!: string;
-
-  get raison(): string {
-    return this.#raison;
-  }
-
   #producteur!: string;
 
   get producteur(): string {
@@ -57,7 +50,6 @@ export class EnregistrerChangementProducteurFixture
     const fixture: EnregistrerChangementProducteur = {
       demandéLe: faker.date.recent().toISOString(),
       demandéPar: faker.internet.email(),
-      raison: faker.company.catchPhrase(),
       pièceJustificative: {
         format: faker.potentiel.fileFormat(),
         content: convertStringToReadableStream(content),
@@ -68,7 +60,6 @@ export class EnregistrerChangementProducteurFixture
 
     this.#demandéLe = fixture.demandéLe;
     this.#demandéPar = fixture.demandéPar;
-    this.#raison = fixture.raison;
     this.#format = fixture.pièceJustificative.format;
     this.#content = content;
     this.#producteur = fixture.producteur;
