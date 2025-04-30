@@ -22,6 +22,7 @@ declare module 'express-serve-static-core' {
       accountUrl: string;
       permissions: Permission[];
       région: Option.Type<string>;
+      features: Array<string>;
     };
     errorFileSizeLimit?: string;
   }
@@ -91,6 +92,7 @@ const makeAttachUserToRequestMiddleware =
         accountUrl,
         permissions: getPermissions(user),
         région,
+        features: getContext()?.features || [],
       };
     } catch (e) {
       logger.error('Auth failed');
