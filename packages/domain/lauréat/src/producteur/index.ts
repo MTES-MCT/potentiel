@@ -8,15 +8,30 @@ import {
   ConsulterProducteurQuery,
   ConsulterProducteurReadModel,
 } from './consulter/consulterProducteur.query';
+import {
+  ListerChangementProducteurQuery,
+  ListerChangementProducteurReadModel,
+} from './changement/lister/listerChangementPuissance.query';
 import { ImporterProducteurCommand } from './importer/importerProducteur.command';
 
 // Query
-export type ProducteurQuery = ConsulterProducteurQuery | ConsulterChangementProducteurQuery;
+export type ProducteurQuery =
+  | ConsulterProducteurQuery
+  | ConsulterChangementProducteurQuery
+  | ListerChangementProducteurQuery;
 
-export type { ConsulterProducteurQuery, ConsulterChangementProducteurQuery };
+export type {
+  ConsulterProducteurQuery,
+  ConsulterChangementProducteurQuery,
+  ListerChangementProducteurQuery,
+};
 
 // ReadModel
-export type { ConsulterProducteurReadModel, ConsulterChangementProducteurReadModel };
+export type {
+  ConsulterProducteurReadModel,
+  ConsulterChangementProducteurReadModel,
+  ListerChangementProducteurReadModel,
+};
 
 // UseCase
 export type ProducteurUseCase = EnregistrerChangementProducteurUseCase;

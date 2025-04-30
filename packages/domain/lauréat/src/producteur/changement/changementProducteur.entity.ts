@@ -9,6 +9,7 @@ export type ChangementProducteurEntity = Entity<
     changement: {
       enregistréPar: string;
       enregistréLe: DateTime.RawType;
+      ancienProducteur: string;
       nouveauProducteur: string;
       raison?: string;
       pièceJustificative: {
