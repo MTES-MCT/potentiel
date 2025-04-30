@@ -303,7 +303,7 @@ export const register = () => {
                   référence: event.payload.nouvelleRéférenceDossierRaccordement,
                   misÀJourLe,
                 };
-              case 'DateMiseEnServiceSupprimée-V2':
+              case 'DateMiseEnServiceSupprimée-V1':
                 return {
                   ...dossier,
                   miseEnService: undefined,
