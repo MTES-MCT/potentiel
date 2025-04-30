@@ -7,9 +7,10 @@ import { Metadata } from 'next';
 import Link from 'next/link';
 import dynamicImport from 'next/dynamic';
 
+import { getContext } from '@potentiel-applications/request-context';
+
 import { Footer } from '@/components/organisms/Footer';
 import { Header } from '@/components/organisms/Header';
-import { fetchFeatures } from '@/utils/feature-flag/fetchFeatures';
 
 import { defaultColorScheme } from './defaultColorScheme';
 import Providers from './Providers';
@@ -29,6 +30,7 @@ type RootLayoutProps = {
 export default function RootLayout({ children }: RootLayoutProps) {
   const crispWebsiteId = process.env.CRISP_WEBSITE_ID;
   const CrispChat = dynamicImport(() => import('@/components/organisms/CrispChat'));
+  const features = getContext()?.features ?? [];
 
   return (
     // eslint-disable-next-line react/jsx-props-no-spreading
@@ -39,7 +41,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
       </head>
 
       <body className="flex flex-col min-h-screen">
-        <Providers features={fetchFeatures()}>
+        <Providers features={features}>
           <SkipLinks
             links={[
               {

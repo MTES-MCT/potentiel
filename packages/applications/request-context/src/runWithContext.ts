@@ -17,7 +17,7 @@ export function runWithContext({ req, res, callback }: RunWithAuthContextProps) 
     return callback();
   }
 
-  return requestContextStorage.run({ correlationId }, async () => {
+  return requestContextStorage.run({ correlationId, features: fetchFeatures() }, async () => {
     const utilisateur = await getUtilisateur(req, res);
     // we could set `utilisateur` in the `run` parameters, but we wouldn't have correlationId in the context
     requestContextStorage.getStore()!.utilisateur = utilisateur;
@@ -25,3 +25,9 @@ export function runWithContext({ req, res, callback }: RunWithAuthContextProps) 
     await callback();
   });
 }
+
+const fetchFeatures = () => {
+  const features = process.env.FEATURES?.split(',') ?? [];
+
+  return features;
+};
