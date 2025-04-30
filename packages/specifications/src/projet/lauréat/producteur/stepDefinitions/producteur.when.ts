@@ -14,6 +14,32 @@ Quand('le producteur est importé pour le projet', async function (this: Potenti
   }
 });
 
+Quand(
+  'le porteur enregistre un changement de producteur pour le projet {lauréat-éliminé}',
+  async function (this: PotentielWorld, statutProjet: 'lauréat' | 'éliminé') {
+    try {
+      await enregistrerChangementProducteur.call(this, statutProjet);
+    } catch (error) {
+      this.error = error as Error;
+    }
+  },
+);
+
+Quand(
+  'le porteur enregistre un changement de producteur avec une valeur identique pour le projet lauréat',
+  async function (this: PotentielWorld) {
+    try {
+      await enregistrerChangementProducteur.call(
+        this,
+        'lauréat',
+        this.lauréatWorld.producteurWorld.importerProducteurFixture.producteur,
+      );
+    } catch (error) {
+      this.error = error as Error;
+    }
+  },
+);
+
 async function importerProducteur(this: PotentielWorld) {
   const identifiantProjet = this.candidatureWorld.importerCandidature.identifiantProjet;
   const { importéLe } = this.lauréatWorld.producteurWorld.importerProducteurFixture.créer({
@@ -25,6 +51,35 @@ async function importerProducteur(this: PotentielWorld) {
     data: {
       identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
       importéLe: DateTime.convertirEnValueType(importéLe),
+    },
+  });
+}
+
+export async function enregistrerChangementProducteur(
+  this: PotentielWorld,
+  statutProjet: 'lauréat' | 'éliminé',
+  producteurValue?: string,
+) {
+  const identifiantProjet =
+    statutProjet === 'lauréat'
+      ? this.lauréatWorld.identifiantProjet
+      : this.eliminéWorld.identifiantProjet;
+
+  const { pièceJustificative, demandéLe, demandéPar, raison, producteur } =
+    this.lauréatWorld.producteurWorld.enregistrerChangementProducteurFixture.créer({
+      demandéPar: this.utilisateurWorld.porteurFixture.email,
+      ...(producteurValue !== undefined && { producteur: producteurValue }),
+    });
+
+  await mediator.send<Producteur.EnregistrerChangementProducteurUseCase>({
+    type: 'Lauréat.Producteur.UseCase.EnregistrerChangement',
+    data: {
+      raisonValue: raison,
+      producteurValue: producteur,
+      dateChangementValue: demandéLe,
+      identifiantUtilisateurValue: demandéPar,
+      identifiantProjetValue: identifiantProjet.formatter(),
+      pièceJustificativeValue: pièceJustificative,
     },
   });
 }
