@@ -9,6 +9,7 @@ import dynamicImport from 'next/dynamic';
 
 import { Footer } from '@/components/organisms/Footer';
 import { Header } from '@/components/organisms/Header';
+import { fetchFeatures } from '@/utils/feature-flag/fetchFeatures';
 
 import { defaultColorScheme } from './defaultColorScheme';
 import Providers from './Providers';
@@ -38,7 +39,7 @@ export default function RootLayout({ children }: RootLayoutProps) {
       </head>
 
       <body className="flex flex-col min-h-screen">
-        <Providers>
+        <Providers features={fetchFeatures()}>
           <SkipLinks
             links={[
               {

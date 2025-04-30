@@ -21,6 +21,7 @@ export type ListPageTemplateProps<TItem> = {
   ItemComponent: FC<Omit<TItem, 'key'>>;
   search?: SearchProps;
   legend?: ListLegendProps;
+  feature?: string;
 };
 
 export const ListPageTemplate = <TItem,>({
@@ -34,8 +35,12 @@ export const ListPageTemplate = <TItem,>({
   totalItems,
   search,
   legend = { symbols: [] },
+  feature,
 }: ListPageTemplateProps<TItem>) => (
-  <PageTemplate banner={<Heading1 className="text-theme-white">{heading}</Heading1>}>
+  <PageTemplate
+    feature={feature}
+    banner={<Heading1 className="text-theme-white">{heading}</Heading1>}
+  >
     <div className="flex flex-col md:flex-row gap-5 md:gap-10">
       <div className="flex flex-col gap-3 pb-2 md:w-1/4">
         {actions.length ? (
