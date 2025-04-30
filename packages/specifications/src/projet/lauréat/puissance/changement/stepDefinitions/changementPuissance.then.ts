@@ -22,6 +22,7 @@ Alors(
     );
   },
 );
+
 Alors(
   'la demande de changement de puissance ne devrait plus être consultable',
   async function (this: PotentielWorld) {

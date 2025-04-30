@@ -1,8 +1,10 @@
 import { Producteur } from '@potentiel-domain/laureat';
 import { IdentifiantProjet } from '@potentiel-domain/projet';
+import { DateTime, Email } from '@potentiel-domain/common';
+import { DocumentProjet } from '@potentiel-domain/document';
 
-import { ImporterProducteurFixture } from './fixture/importerProducteur.fixture';
 import { EnregistrerChangementProducteurFixture } from './fixture/enregistrerChangementProducteur.fixture';
+import { ImporterProducteurFixture } from './fixture/importerProducteur.fixture';
 
 export class ProducteurWorld {
   #importerProducteurFixture: ImporterProducteurFixture;
@@ -26,6 +28,36 @@ export class ProducteurWorld {
       producteur: this.#enregistrerChangementProducteurFixture.aÉtéCréé
         ? this.#enregistrerChangementProducteurFixture.producteur
         : this.#importerProducteurFixture.producteur,
+    };
+
+    return expected;
+  }
+
+  mapChangementToExpected(identifiantProjet: IdentifiantProjet.ValueType) {
+    if (!this.#enregistrerChangementProducteurFixture.aÉtéCréé) {
+      throw new Error(`Aucune information enregistrée n'a été créée dans ProducteurWorld`);
+    }
+
+    const expected: Producteur.ConsulterChangementProducteurReadModel = {
+      identifiantProjet,
+      demande: {
+        demandéeLe: DateTime.convertirEnValueType(
+          this.#enregistrerChangementProducteurFixture.demandéLe,
+        ),
+        demandéePar: Email.convertirEnValueType(
+          this.#enregistrerChangementProducteurFixture.demandéPar,
+        ),
+        nouveauProducteur: this.#enregistrerChangementProducteurFixture.producteur,
+        pièceJustificative: DocumentProjet.convertirEnValueType(
+          identifiantProjet.formatter(),
+          Producteur.TypeDocumentProducteur.pièceJustificative.formatter(),
+          DateTime.convertirEnValueType(
+            this.#enregistrerChangementProducteurFixture.demandéLe,
+          ).formatter(),
+          this.#enregistrerChangementProducteurFixture.pièceJustificative.format,
+        ),
+        raison: undefined,
+      },
     };
 
     return expected;
