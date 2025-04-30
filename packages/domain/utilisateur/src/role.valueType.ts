@@ -323,6 +323,11 @@ const référencielPermissions = {
         rejeterChangement: 'Lauréat.Puissance.Command.RejeterDemandeChangement',
       },
     },
+    producteur: {
+      query: {
+        listerChangement: 'Lauréat.Producteur.Query.ListerChangementProducteur',
+      },
+    },
     cahierDesCharges: {
       query: {
         consulter: 'Lauréat.CahierDesCharges.Query.ConsulterCahierDesChargesChoisi',
@@ -1064,6 +1069,9 @@ const policies = {
       référencielPermissions.lauréat.puissance.command.rejeterChangement,
     ],
   },
+  producteur: {
+    listerChangement: [référencielPermissions.lauréat.producteur.query.listerChangement],
+  },
   lauréat: {
     consulter: [référencielPermissions.lauréat.query.consulter],
     modifier: [
@@ -1253,6 +1261,9 @@ const adminPolicies: ReadonlyArray<Policy> = [
   'puissance.accorderChangement',
   'puissance.rejeterChangement',
   'puissance.listerChangement',
+
+  // Producteur
+  'producteur.listerChangement',
 ];
 
 const dgecValidateurPolicies: ReadonlyArray<Policy> = [
@@ -1372,6 +1383,9 @@ const drealPolicies: ReadonlyArray<Policy> = [
   'utilisateur.inviterPorteur',
   'utilisateur.listerPorteurs',
   'utilisateur.retirerAccèsProjet',
+
+  // Producteur
+  'producteur.listerChangement',
 ];
 
 const porteurProjetPolicies: ReadonlyArray<Policy> = [
@@ -1457,6 +1471,9 @@ const porteurProjetPolicies: ReadonlyArray<Policy> = [
 
   // Cahier des charges
   'cahierDesCharges.choisir',
+
+  // Producteur
+  'producteur.listerChangement',
 ];
 
 const acheteurObligéPolicies: ReadonlyArray<Policy> = [
@@ -1484,6 +1501,9 @@ const acheteurObligéPolicies: ReadonlyArray<Policy> = [
   // Puissance
   'puissance.consulterChangement',
   'puissance.listerChangement',
+
+  // Producteur
+  'producteur.listerChangement',
 ];
 
 const caisseDesDépôtsPolicies: ReadonlyArray<Policy> = [

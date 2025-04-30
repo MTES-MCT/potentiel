@@ -11,7 +11,7 @@ import {
 import {
   ListerChangementProducteurQuery,
   ListerChangementProducteurReadModel,
-} from './changement/lister/listerChangementPuissance.query';
+} from './changement/lister/listerChangementProducteur.query';
 import { ImporterProducteurCommand } from './importer/importerProducteur.command';
 
 // Query
