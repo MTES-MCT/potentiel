@@ -23,6 +23,7 @@ import { ok } from 'neverthrow';
 import { getCompletionDate } from './_helpers/getCompletionDate';
 import { getLogger } from '@potentiel-libraries/monitoring';
 import { Project } from '../infra/sequelize/projectionsNext';
+import { technologies } from '@potentiel-domain/appel-offre/dist/appelOffre.entity';
 
 export type SubscriptionEvent = (
   | Candidature.CandidatureImportéeEvent
@@ -156,7 +157,7 @@ const mapToLegacyEventPayload = (
   identifiantProjet: IdentifiantProjet.ValueType,
   payload: SubscriptionEvent['payload'],
   appelOffre: AppelOffre.AppelOffreReadModel,
-) => {
+): Omit<ProjectRawDataImported['payload']['data'], 'details'> => {
   const période = appelOffre.periodes.find((x) => x.id === identifiantProjet.période);
   if (!période) {
     throw new Error(
@@ -189,17 +190,9 @@ const mapToNotifiedCorrectedData = (
   payload: SubscriptionEvent['payload'],
   projet: Project,
 ): ProjectRawDataCorrected['payload']['correctedData'] => ({
-  // a un cycle de vie dans lauréat
-  nomProjet: projet.nomProjet,
   nomCandidat: payload.nomCandidat,
-  // a un cycle de vie dans lauréat
-  nomRepresentantLegal: projet.nomRepresentantLegal,
   email: payload.emailContact,
   motifsElimination: payload.motifÉlimination ?? '',
-  // a un cycle de vie dans lauréat
-  actionnaire: projet.actionnaire ?? '',
-  // a (bientôt) un cycle de vie dans lauréat et peut être modifié individuellement
-  puissance: projet.puissance,
   puissanceInitiale: payload.puissanceProductionAnnuelle,
   engagementFournitureDePuissanceAlaPointe: payload.puissanceALaPointe,
   prixReference: payload.prixReference,
@@ -214,15 +207,9 @@ const mapToNotifiedCorrectedData = (
   isFinancementParticipatif: payload.actionnariat === 'financement-participatif',
   isInvestissementParticipatif: payload.actionnariat === 'investissement-participatif',
   territoireProjet: payload.territoireProjet,
-  // la localité (adresse, code postal et commune) a un cycle de vie dans lauréat
-  adresseProjet: projet.adresseProjet,
-  codePostalProjet: projet.codePostalProjet,
-  communeProjet: projet.communeProjet,
 });
 
-const mapToCorrectedData = (
-  payload: SubscriptionEvent['payload'],
-): ProjectRawDataCorrected['payload']['correctedData'] => ({
+const mapToCorrectedData = (payload: SubscriptionEvent['payload']) => ({
   nomProjet: payload.nomProjet,
   nomCandidat: payload.nomCandidat,
   nomRepresentantLegal: payload.nomReprésentantLégal,
