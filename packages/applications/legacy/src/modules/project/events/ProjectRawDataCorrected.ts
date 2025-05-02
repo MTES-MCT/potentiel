@@ -6,24 +6,24 @@ export interface ProjectRawDataCorrectedPayload {
   projectId: string;
   correctedBy: string;
   correctedData: {
-    nomProjet: string;
+    nomProjet?: string;
     territoireProjet: string;
-    puissance: number;
+    puissance?: number;
     puissanceInitiale: number;
     prixReference: number;
     evaluationCarbone: number;
     note: number;
     nomCandidat: string;
-    nomRepresentantLegal: string;
+    nomRepresentantLegal?: string;
     email: string;
-    adresseProjet: string;
-    codePostalProjet: string;
-    communeProjet: string;
+    adresseProjet?: string;
+    codePostalProjet?: string;
+    communeProjet?: string;
     engagementFournitureDePuissanceAlaPointe: boolean;
     isFinancementParticipatif: boolean;
     isInvestissementParticipatif: boolean;
     motifsElimination: string;
-    actionnaire: string;
+    actionnaire?: string;
     actionnariat?: Actionnariat;
   };
 }
