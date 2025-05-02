@@ -23,6 +23,7 @@ import { ok } from 'neverthrow';
 import { getCompletionDate } from './_helpers/getCompletionDate';
 import { getLogger } from '@potentiel-libraries/monitoring';
 import { Project } from '../infra/sequelize/projectionsNext';
+import { technologies } from '@potentiel-domain/appel-offre/dist/appelOffre.entity';
 
 export type SubscriptionEvent = (
   | Candidature.CandidatureImportéeEvent
@@ -189,15 +190,9 @@ const mapToNotifiedCorrectedData = (
   payload: SubscriptionEvent['payload'],
   projet: Project,
 ): ProjectRawDataCorrected['payload']['correctedData'] => ({
-  // a un cycle de vie dans lauréat
-  nomProjet: projet.nomProjet,
   nomCandidat: payload.nomCandidat,
-  // a un cycle de vie dans lauréat
-  nomRepresentantLegal: projet.nomRepresentantLegal,
   email: payload.emailContact,
   motifsElimination: payload.motifÉlimination ?? '',
-  // a un cycle de vie dans lauréat
-  actionnaire: projet.actionnaire ?? '',
   puissanceInitiale: payload.puissanceProductionAnnuelle,
   engagementFournitureDePuissanceAlaPointe: payload.puissanceALaPointe,
   prixReference: payload.prixReference,
@@ -212,10 +207,6 @@ const mapToNotifiedCorrectedData = (
   isFinancementParticipatif: payload.actionnariat === 'financement-participatif',
   isInvestissementParticipatif: payload.actionnariat === 'investissement-participatif',
   territoireProjet: payload.territoireProjet,
-  // la localité (adresse, code postal et commune) a un cycle de vie dans lauréat
-  adresseProjet: projet.adresseProjet,
-  codePostalProjet: projet.codePostalProjet,
-  communeProjet: projet.communeProjet,
 });
 
 const mapToCorrectedData = (payload: SubscriptionEvent['payload']) => ({
