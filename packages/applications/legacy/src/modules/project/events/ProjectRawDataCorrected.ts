@@ -8,7 +8,7 @@ export interface ProjectRawDataCorrectedPayload {
   correctedData: {
     nomProjet: string;
     territoireProjet: string;
-    puissance: number;
+    puissance?: number;
     puissanceInitiale: number;
     prixReference: number;
     evaluationCarbone: number;
