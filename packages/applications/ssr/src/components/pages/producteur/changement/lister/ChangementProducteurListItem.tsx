@@ -32,7 +32,7 @@ export const ChangementProducteurListItem: FC<ChangementProducteurListItemProps>
     <ul className="mt-3 text-sm">
       <li>
         <span>
-          Ancien producteur : <span>{ancienProducteur}</span>
+          Ancien producteur : <span className="font-semibold">{ancienProducteur}</span>
         </span>
       </li>
       <li>
