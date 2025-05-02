@@ -96,5 +96,5 @@ const mapToReadModel = (
   nomProjet: entity.lauréat.nomProjet,
   enregistréLe: DateTime.convertirEnValueType(entity.enregistréLe),
   ancienProducteur: entity.ancienProducteur,
-  nouveauProducteur: entity.nouvelProducteur,
+  nouveauProducteur: entity.nouveauProducteur,
 });
