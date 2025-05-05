@@ -7,6 +7,7 @@ import {
   Lauréat,
   Puissance,
   CahierDesCharges,
+  Producteur,
 } from './lauréat';
 import { Candidature } from './candidature';
 import { Document } from './document';
@@ -40,4 +41,5 @@ export const Routes = {
   Utilisateur,
   Puissance,
   CahierDesCharges,
+  Producteur,
 };

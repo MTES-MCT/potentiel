@@ -12,9 +12,13 @@ import {
   ConsulterChangementProducteurDependencies,
   registerConsulterChangementProducteurQuery,
 } from './changement/consulter/consulterChangementProducteur.query';
-
 export type ProducteurQueryDependencies = ConsulterProducteurDependencies &
-  ConsulterChangementProducteurDependencies;
+  ConsulterChangementProducteurDependencies &
+  ListerChangementProducteurDependencies;
+import {
+  ListerChangementProducteurDependencies,
+  registerListerChangementProducteurQuery,
+} from './changement/lister/listerChangementProducteur.query';
 
 export type ProducteurCommandDependencies = {
   loadAggregate: LoadAggregate;
@@ -34,4 +38,5 @@ export const registerProducteurUseCases = ({
 export const registerProducteurQueries = (dependencies: ProducteurQueryDependencies) => {
   registerConsulterProducteurQuery(dependencies);
   registerConsulterChangementProducteurQuery(dependencies);
+  registerListerChangementProducteurQuery(dependencies);
 };

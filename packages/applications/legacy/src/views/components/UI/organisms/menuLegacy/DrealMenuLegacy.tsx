@@ -7,8 +7,10 @@ import { MenuGarantiesFinancières } from './_utils/garantiesFinancières.menuLe
 
 type DrealMenuLegacyProps = {
   currentPage?: string;
+  features: Array<string>;
 };
-export const DrealMenuLegacy = ({ currentPage }: DrealMenuLegacyProps) => (
+
+export const DrealMenuLegacy = ({ currentPage, features }: DrealMenuLegacyProps) => (
   <>
     <Header.MenuItem
       href={routes.LISTE_PROJETS}
@@ -45,6 +47,11 @@ export const DrealMenuLegacy = ({ currentPage }: DrealMenuLegacyProps) => (
       >
         Puissance
       </DropdownMenu.DropdownItem>
+      {features.includes('producteur') && (
+        <DropdownMenu.DropdownItem href={Routes.Producteur.changement.lister}>
+          Producteur
+        </DropdownMenu.DropdownItem>
+      )}
     </DropdownMenu>
     <MenuGarantiesFinancières />
     <Header.MenuItem href={Routes.Raccordement.lister}>Raccordements</Header.MenuItem>
