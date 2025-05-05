@@ -60,6 +60,7 @@ const PorteurProjetActions = ({
   peutFaireDemandeChangementReprésentantLégal,
   actionnaireAffichage,
   puissanceAffichage,
+  producteurAffichage,
 }: PorteurProjetActionsProps) => {
   const peutDemanderAbandon = !abandonEnCoursOuAccordé && !hasAttestationConformité;
   const demandesDisabled = modificationsNonPermisesParLeCDCActuel ? true : undefined;
@@ -78,14 +79,23 @@ const PorteurProjetActions = ({
 
         {project.isClasse && (
           <DropdownMenuSecondaryButton buttonChildren="Actions" className="w-fit">
-            {project.appelOffre.changementProducteurPossibleAvantAchèvement && (
+            {!!producteurAffichage && (
               <DropdownMenuSecondaryButton.DropdownItem
-                href={routes.GET_CHANGER_PRODUCTEUR(project.id)}
+                href={producteurAffichage.url}
                 disabled={demandesDisabled}
               >
-                <span>Changer de producteur</span>
+                <span>{producteurAffichage.labelActions}</span>
               </DropdownMenuSecondaryButton.DropdownItem>
             )}
+            {!producteurAffichage &&
+              project.appelOffre.changementProducteurPossibleAvantAchèvement && (
+                <DropdownMenuSecondaryButton.DropdownItem
+                  href={routes.GET_CHANGER_PRODUCTEUR(project.id)}
+                  disabled={demandesDisabled}
+                >
+                  <span>Changer de producteur</span>
+                </DropdownMenuSecondaryButton.DropdownItem>
+              )}
             <DropdownMenuSecondaryButton.DropdownItem
               href={routes.CHANGER_FOURNISSEUR(project.id)}
               disabled={demandesDisabled}
@@ -236,6 +246,7 @@ export const ProjectActions = ({
   peutFaireDemandeChangementReprésentantLégal,
   puissanceAffichage,
   actionnaireAffichage,
+  producteurAffichage,
 }: ProjectActionsProps) => {
   const identifiantProjet = formatProjectDataToIdentifiantProjetValueType({
     appelOffreId: project.appelOffreId,
@@ -259,6 +270,7 @@ export const ProjectActions = ({
           peutFaireDemandeChangementReprésentantLégal={peutFaireDemandeChangementReprésentantLégal}
           puissanceAffichage={puissanceAffichage}
           actionnaireAffichage={actionnaireAffichage}
+          producteurAffichage={producteurAffichage}
           identifiantProjet={identifiantProjet}
         />
       )}

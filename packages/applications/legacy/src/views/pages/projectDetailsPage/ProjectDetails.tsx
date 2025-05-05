@@ -12,7 +12,6 @@ import {
   ErrorBox,
   AlertBox,
   Heading2,
-  InfoBox,
 } from '../../components';
 import { afficherDate, hydrateOnClient } from '../../helpers';
 import {
@@ -51,6 +50,7 @@ type ProjectDetailsProps = {
   représentantLégal?: ContactProps['représentantLégal'];
   actionnaire?: InfoGeneralesProps['actionnaire'];
   puissance?: InfoGeneralesProps['puissance'];
+  producteur?: ContactProps['producteur'];
   hasAttestationConformité: boolean;
   modificationsNonPermisesParLeCDCActuel: boolean;
   coefficientKChoisi: boolean | undefined;
@@ -73,6 +73,7 @@ export const ProjectDetails = ({
   modificationsNonPermisesParLeCDCActuel,
   coefficientKChoisi,
   cdcV2,
+  producteur,
 }: ProjectDetailsProps) => {
   const { user } = request;
   const { error, success } = (request.query as any) || {};
@@ -105,6 +106,7 @@ export const ProjectDetails = ({
         }
         puissanceAffichage={puissance?.affichage}
         actionnaireAffichage={actionnaire?.affichage}
+        producteurAffichage={producteur?.affichage}
       />
       <div className="print:hidden">
         {success && <SuccessBox title={success} />}
@@ -162,6 +164,7 @@ export const ProjectDetails = ({
               project={project}
               user={user}
               représentantLégal={représentantLégal}
+              producteur={producteur}
               modificationsNonPermisesParLeCDCActuel={modificationsNonPermisesParLeCDCActuel}
             />
             <MaterielsEtTechnologies

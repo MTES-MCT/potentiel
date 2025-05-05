@@ -8,9 +8,10 @@ import { getLogger } from '@potentiel-libraries/monitoring';
 import { IdentifiantProjet } from '@potentiel-domain/common';
 import { checkAbandonAndAchèvement } from './checkAbandonAndAchèvement';
 import { mediator } from 'mediateur';
+import { getContext } from '@potentiel-applications/request-context';
 
 export type GetProducteurForProjectPage = {
-  producteur: number;
+  producteur: string;
   affichage?: {
     labelActions?: string;
     label: string;
@@ -21,13 +22,21 @@ export type GetProducteurForProjectPage = {
 type Props = {
   identifiantProjet: IdentifiantProjet.ValueType;
   rôle: string;
+  changementProducteurPossibleAvantAchèvement: boolean;
 };
 
 export const getProducteur = async ({
   identifiantProjet,
   rôle,
+  changementProducteurPossibleAvantAchèvement,
 }: Props): Promise<GetProducteurForProjectPage | undefined> => {
   try {
+    const features = getContext()?.features ?? [];
+
+    if (!features.includes('producteur')) {
+      return undefined;
+    }
+
     const role = Role.convertirEnValueType(rôle);
 
     const producteurProjection = await mediator.send<Producteur.ConsulterProducteurQuery>({
@@ -57,12 +66,13 @@ export const getProducteur = async ({
         role.aLaPermission('producteur.enregistrerChangement') &&
         !aUnAbandonEnCours &&
         !estAbandonné &&
-        !estAchevé
+        !estAchevé &&
+        changementProducteurPossibleAvantAchèvement
       ) {
         return {
           producteur: producteur,
           affichage: {
-            url: Routes.Producteur.changement.demander(identifiantProjet.formatter()),
+            url: Routes.Producteur.changement.enregistrer(identifiantProjet.formatter()),
             label: 'Changer de producteur',
           },
         };

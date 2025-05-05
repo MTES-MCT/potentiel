@@ -6,6 +6,7 @@ import { ProjectActions } from './ProjectActions';
 import { ProjectHeaderBadge } from './ProjectHeaderBadge';
 import { GetActionnaireAffichageForProjectPage } from '../../../../controllers/project/getProjectPage/_utils';
 import { GetPuissanceForProjectPage } from '../../../../controllers/project/getProjectPage/_utils/getPuissance';
+import { GetProducteurForProjectPage } from '../../../../controllers/project/getProjectPage/_utils/getProducteur';
 
 export type ProjectHeaderProps = {
   project: ProjectDataForProjectPage;
@@ -16,6 +17,7 @@ export type ProjectHeaderProps = {
   hasAttestationConformité: boolean;
   peutFaireDemandeChangementReprésentantLégal: boolean;
   puissanceAffichage?: GetPuissanceForProjectPage['affichage'];
+  producteurAffichage?: GetProducteurForProjectPage['affichage'];
   actionnaireAffichage?: GetActionnaireAffichageForProjectPage;
 };
 
@@ -29,6 +31,7 @@ export const ProjectHeader = ({
   peutFaireDemandeChangementReprésentantLégal,
   puissanceAffichage,
   actionnaireAffichage,
+  producteurAffichage,
 }: ProjectHeaderProps) => (
   <div className="w-full pt-3 md:pt-0 print:pt-0 lg:flex justify-between gap-2">
     <div className="pl-3 print:pl-0 mb-3 text-sm">
@@ -63,6 +66,7 @@ export const ProjectHeader = ({
         peutFaireDemandeChangementReprésentantLégal={peutFaireDemandeChangementReprésentantLégal}
         puissanceAffichage={puissanceAffichage}
         actionnaireAffichage={actionnaireAffichage}
+        producteurAffichage={producteurAffichage}
       />
     </div>
   </div>
