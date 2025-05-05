@@ -61,7 +61,7 @@ export const registerListerChangementProducteurQuery = ({
       {
         range,
         orderBy: {
-          enregistréLe: 'descending',
+          changement: { enregistréLe: 'descending' },
         },
         join: {
           entity: 'lauréat',
@@ -94,7 +94,7 @@ const mapToReadModel = (
 ): ChangementProducteurItemReadModel => ({
   identifiantProjet: IdentifiantProjet.convertirEnValueType(entity.identifiantProjet),
   nomProjet: entity.lauréat.nomProjet,
-  enregistréLe: DateTime.convertirEnValueType(entity.enregistréLe),
-  ancienProducteur: entity.ancienProducteur,
-  nouveauProducteur: entity.nouveauProducteur,
+  enregistréLe: DateTime.convertirEnValueType(entity.changement.enregistréLe),
+  ancienProducteur: entity.changement.ancienProducteur,
+  nouveauProducteur: entity.changement.nouveauProducteur,
 });
