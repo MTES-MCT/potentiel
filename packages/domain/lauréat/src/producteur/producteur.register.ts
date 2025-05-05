@@ -12,7 +12,6 @@ import {
   ConsulterChangementProducteurDependencies,
   registerConsulterChangementProducteurQuery,
 } from './changement/consulter/consulterChangementProducteur.query';
-
 export type ProducteurQueryDependencies = ConsulterProducteurDependencies &
   ConsulterChangementProducteurDependencies &
   ListerChangementProducteurDependencies;
