@@ -45,6 +45,29 @@ Alors(
   },
 );
 
+Alors(
+  'le producteur du projet lauréat devrait être mis à jour',
+  async function (this: PotentielWorld) {
+    return waitForExpect(async () => {
+      const { identifiantProjet } = this.lauréatWorld;
+
+      const producteur = await mediator.send<Producteur.ProducteurQuery>({
+        type: 'Lauréat.Producteur.Query.ConsulterProducteur',
+        data: {
+          identifiantProjet: identifiantProjet.formatter(),
+        },
+      });
+
+      const actual = mapToPlainObject(producteur);
+      const expected = mapToPlainObject(
+        this.lauréatWorld.producteurWorld.mapToExpected(identifiantProjet),
+      );
+
+      actual.should.be.deep.equal(expected);
+    });
+  },
+);
+
 async function vérifierChangementProducteur(this: PotentielWorld, identifiantProjet: string) {
   return waitForExpect(async () => {
     const demandeEnCours = await mediator.send<Producteur.ConsulterChangementProducteurQuery>({
