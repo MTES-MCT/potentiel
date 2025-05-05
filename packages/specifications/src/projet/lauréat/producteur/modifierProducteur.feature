@@ -71,6 +71,11 @@ Fonctionnalité: Modifier le producteur d'un projet lauréat
         Quand le DGEC validateur modifie le producteur avec une valeur identique pour le projet lauréat
         Alors l'utilisateur devrait être informé que "Le nouveau producteur est identique à celui associé au projet"
 
+    Scénario: Impossible de modifier le producteur d'un projet éliminé
+        Etant donné le projet éliminé "Du bouchon lyonnais"
+        Quand le DGEC validateur modifie le producteur du projet lauréat
+        Alors l'utilisateur devrait être informé que "Le projet lauréat n'existe pas"
+
     Scénario: Impossible de modifier le producteur d'un projet lauréat inexistant
         Quand le DGEC validateur modifie le producteur du projet lauréat
         Alors l'utilisateur devrait être informé que "Le projet lauréat n'existe pas"
