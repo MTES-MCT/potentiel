@@ -115,7 +115,7 @@ export const ModifierLauréatForm: React.FC<ModifierLauréatFormProps> = ({
         <FormRow>
           <CandidatureField
             candidature={candidature.nomCandidat}
-            label="Nom du candidat"
+            label="Nom du producteur"
             name="nomCandidat"
             validationErrors={validationErrors}
           />

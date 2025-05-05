@@ -143,7 +143,7 @@ export const CorrigerCandidatureForm: React.FC<CorrigerCandidatureFormProps> = (
       <Input
         state={validationErrors['nomCandidat'] ? 'error' : 'default'}
         stateRelatedMessage={validationErrors['nomCandidat']}
-        label="Nom du candidat"
+        label="Nom du producteur"
         nativeInputProps={{
           name: 'nomCandidat',
           defaultValue: candidature.nomCandidat,

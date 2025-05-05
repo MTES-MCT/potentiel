@@ -143,7 +143,7 @@ export const DétailsCandidaturePage: FC<DétailsCandidaturePageProps> = ({
               )}
             </FieldGroup>
             <FieldGroup name="Contact">
-              <Field name="Nom du candidat">{candidature.nomCandidat}</Field>
+              <Field name="Nom du producteur">{candidature.nomCandidat}</Field>
               <Field name="Nom du représentant légal">{candidature.nomReprésentantLégal}</Field>
               <Field name="Adresse email à la candidature">
                 <span>

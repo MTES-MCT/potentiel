@@ -189,7 +189,7 @@ export const ProjectList = ({
                   </div>
 
                   <div className="flex  items-center">
-                    <BuildingHouseIcon className="mr-2 shrink-0" title="Nom du candidat" />
+                    <BuildingHouseIcon className="mr-2 shrink-0" title="Nom du producteur" />
                     {project.nomCandidat}
                   </div>
                   <div className="flex items-center">
