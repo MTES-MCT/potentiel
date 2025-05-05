@@ -40,11 +40,11 @@ export class ProducteurWorld {
 
     const expected: Producteur.ConsulterChangementProducteurReadModel = {
       identifiantProjet,
-      demande: {
-        demandéeLe: DateTime.convertirEnValueType(
+      changement: {
+        enregistréLe: DateTime.convertirEnValueType(
           this.#enregistrerChangementProducteurFixture.demandéLe,
         ),
-        demandéePar: Email.convertirEnValueType(
+        enregistréPar: Email.convertirEnValueType(
           this.#enregistrerChangementProducteurFixture.demandéPar,
         ),
         nouveauProducteur: this.#enregistrerChangementProducteurFixture.producteur,

@@ -11,9 +11,9 @@ import { ChangementProducteurEntity, TypeDocumentProducteur } from '../..';
 export type ConsulterChangementProducteurReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
 
-  demande: {
-    demandéePar: Email.ValueType;
-    demandéeLe: DateTime.ValueType;
+  changement: {
+    enregistréPar: Email.ValueType;
+    enregistréLe: DateTime.ValueType;
     nouveauProducteur: string;
     raison?: string;
     pièceJustificative: DocumentProjet.ValueType;
@@ -59,16 +59,16 @@ export const mapToReadModel = (result: ChangementProducteurEntity) => {
   return {
     identifiantProjet: IdentifiantProjet.convertirEnValueType(result.identifiantProjet),
 
-    demande: {
-      demandéeLe: DateTime.convertirEnValueType(result.demande.demandéeLe),
-      demandéePar: Email.convertirEnValueType(result.demande.demandéePar),
-      nouveauProducteur: result.demande.nouveauProducteur,
-      raison: result.demande.raison,
+    changement: {
+      enregistréLe: DateTime.convertirEnValueType(result.changement.enregistréLe),
+      enregistréPar: Email.convertirEnValueType(result.changement.enregistréPar),
+      nouveauProducteur: result.changement.nouveauProducteur,
+      raison: result.changement.raison,
       pièceJustificative: DocumentProjet.convertirEnValueType(
         result.identifiantProjet,
         TypeDocumentProducteur.pièceJustificative.formatter(),
-        DateTime.convertirEnValueType(result.demande.demandéeLe).formatter(),
-        result.demande.pièceJustificative?.format,
+        DateTime.convertirEnValueType(result.changement.enregistréLe).formatter(),
+        result.changement.pièceJustificative?.format,
       ),
     },
   } satisfies ConsulterChangementProducteurReadModel;

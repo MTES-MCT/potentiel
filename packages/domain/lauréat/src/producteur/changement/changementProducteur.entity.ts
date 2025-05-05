@@ -6,9 +6,9 @@ export type ChangementProducteurEntity = Entity<
   {
     identifiantProjet: string;
 
-    demande: {
-      demandéePar: string;
-      demandéeLe: DateTime.RawType;
+    changement: {
+      enregistréPar: string;
+      enregistréLe: DateTime.RawType;
       nouveauProducteur: string;
       raison?: string;
       pièceJustificative: {

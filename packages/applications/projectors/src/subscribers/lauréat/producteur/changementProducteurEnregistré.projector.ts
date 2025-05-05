@@ -23,10 +23,10 @@ export const changementProducteurEnregistréProjector = async ({
     `changement-producteur|${identifiantProjet}#${enregistréLe}`,
     {
       identifiantProjet,
-      demande: {
+      changement: {
         nouveauProducteur: producteur,
-        demandéePar: enregistréPar,
-        demandéeLe: enregistréLe,
+        enregistréPar,
+        enregistréLe,
         raison,
         pièceJustificative,
       },
