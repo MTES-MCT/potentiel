@@ -1,7 +1,9 @@
 import { Then as Alors } from '@cucumber/cucumber';
 import { mediator } from 'mediateur';
 import waitForExpect from 'wait-for-expect';
+import { assert } from 'chai';
 
+import { Option } from '@potentiel-libraries/monads';
 import { mapToPlainObject } from '@potentiel-domain/core';
 import { Producteur } from '@potentiel-domain/laureat';
 import { IdentifiantProjet } from '@potentiel-domain/projet';
@@ -32,3 +34,47 @@ Alors(
     });
   },
 );
+
+Alors(
+  'le changement enregistré du producteur du projet lauréat devrait être consultable',
+  async function (this: PotentielWorld) {
+    await vérifierChangementProducteur.call(
+      this,
+      this.candidatureWorld.importerCandidature.identifiantProjet,
+    );
+  },
+);
+
+async function vérifierChangementProducteur(this: PotentielWorld, identifiantProjet: string) {
+  return waitForExpect(async () => {
+    const demandeEnCours = await mediator.send<Producteur.ConsulterChangementProducteurQuery>({
+      type: 'Lauréat.Producteur.Query.ConsulterChangementProducteur',
+      data: {
+        identifiantProjet,
+        demandéLe:
+          this.lauréatWorld.producteurWorld.enregistrerChangementProducteurFixture.demandéLe,
+      },
+    });
+
+    assert(Option.isSome(demandeEnCours), 'Demande de changement de producteur non trouvée !');
+
+    const actual = mapToPlainObject(demandeEnCours);
+
+    const expected = mapToPlainObject(
+      this.lauréatWorld.producteurWorld.mapChangementToExpected(
+        IdentifiantProjet.convertirEnValueType(identifiantProjet),
+      ),
+    );
+
+    actual.should.be.deep.equal(expected);
+
+    const producteur = await mediator.send<Producteur.ConsulterProducteurQuery>({
+      type: 'Lauréat.Producteur.Query.ConsulterProducteur',
+      data: {
+        identifiantProjet,
+      },
+    });
+
+    assert(Option.isSome(producteur), 'Producteur non trouvée !');
+  });
+}

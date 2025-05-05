@@ -43,6 +43,8 @@ import {
   ConsulterArchivesGarantiesFinancièresQuery,
   ConsulterArchivesGarantiesFinancièresReadModel,
 } from './garantiesFinancièresActuelles/consulterArchives/consulterArchivesGarantiesFinancières.query';
+import { EffacerHistoriqueGarantiesFinancièresCommand } from './effacerHistorique/effacerHistoriqueGarantiesFinancières.command';
+import { DemanderGarantiesFinancièresCommand } from './demander/demanderGarantiesFinancières.command';
 
 // Query
 export type GarantiesFinancièresQuery =
@@ -113,6 +115,9 @@ export type {
   RejeterDemandeMainlevéeGarantiesFinancièresUseCase,
   AccorderDemandeMainlevéeGarantiesFinancièresUseCase,
 };
+
+// Command
+export type { EffacerHistoriqueGarantiesFinancièresCommand, DemanderGarantiesFinancièresCommand };
 
 // Event
 export type { GarantiesFinancièresEvent } from './garantiesFinancières.aggregate';

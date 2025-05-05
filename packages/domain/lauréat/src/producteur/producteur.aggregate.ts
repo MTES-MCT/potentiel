@@ -1,3 +1,5 @@
+import { match } from 'ts-pattern';
+
 import { IdentifiantProjet } from '@potentiel-domain/common';
 import {
   Aggregate,
@@ -11,13 +13,19 @@ import {
   applyProducteurImporté,
   importer,
 } from './importer/importerProducteur.behavior';
+import {
+  applyChangementProducteurEnregistré,
+  ChangementProducteurEnregistréEvent,
+  enregistrerChangement,
+} from './changement/enregistrerChangement/enregistrerChangementProducteur.behavior';
 
-export type ProducteurEvent = ProducteurImportéEvent;
+export type ProducteurEvent = ProducteurImportéEvent | ChangementProducteurEnregistréEvent;
 
 export type ProducteurAggregate = Aggregate<ProducteurEvent> & {
   identifiantProjet: IdentifiantProjet.ValueType;
   producteur: string;
   importer: typeof importer;
+  enregistrerChangement: typeof enregistrerChangement;
 };
 
 export const getDefaultProducteurAggregate: GetDefaultAggregateState<
@@ -28,14 +36,17 @@ export const getDefaultProducteurAggregate: GetDefaultAggregateState<
   producteur: '',
   apply,
   importer,
+  enregistrerChangement,
 });
 
 function apply(this: ProducteurAggregate, event: ProducteurEvent) {
-  switch (event.type) {
-    case 'ProducteurImporté-V1':
-      applyProducteurImporté.bind(this)(event);
-      break;
-  }
+  match(event)
+    .with({ type: 'ProducteurImporté-V1' }, applyProducteurImporté.bind(this))
+    .with(
+      { type: 'ChangementProducteurEnregistré-V1' },
+      applyChangementProducteurEnregistré.bind(this),
+    )
+    .exhaustive();
 }
 
 export const loadProducteurFactory =
