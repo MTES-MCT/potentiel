@@ -9,6 +9,10 @@ import { GetProjetAggregateRoot } from '@potentiel-domain/projet';
 import { loadAbandonFactory } from '../../../abandon';
 import { loadAchèvementFactory } from '../../../achèvement/achèvement.aggregate';
 import { loadProducteurFactory } from '../../producteur.aggregate';
+import { loadGarantiesFinancièresFactory } from '../../../garantiesFinancières/garantiesFinancières.aggregate';
+
+import { renouvelerGarantiesFinancières } from './helper/renouvelerGarantiesFinancières';
+import { retirerTousLesAccèsAuxPorteursDuProjet } from './helper/retirerTousLesAccèsAuxPorteursDuProjet';
 
 export type EnregistrerChangementProducteurCommand = Message<
   'Lauréat.Producteur.Command.EnregistrerChangement',
@@ -29,6 +33,7 @@ export const registerEnregistrerChangementProducteurCommand = (
   const loadProducteur = loadProducteurFactory(loadAggregate);
   const loadAbandon = loadAbandonFactory(loadAggregate);
   const loadAchèvement = loadAchèvementFactory(loadAggregate);
+  const loadGFs = loadGarantiesFinancièresFactory(loadAggregate);
 
   const handler: MessageHandler<EnregistrerChangementProducteurCommand> = async ({
     identifiantProjet,
@@ -44,6 +49,7 @@ export const registerEnregistrerChangementProducteurCommand = (
     const producteurAggrégat = await loadProducteur(identifiantProjet);
     const abandon = await loadAbandon(identifiantProjet, false);
     const achèvement = await loadAchèvement(identifiantProjet, false);
+    const garantiesFinancières = await loadGFs(identifiantProjet, false);
 
     // Après migration aggregate root, à remplacer
     const appelOffre = await mediator.send<AppelOffre.ConsulterAppelOffreQuery>({
@@ -65,6 +71,14 @@ export const registerEnregistrerChangementProducteurCommand = (
       demandeAbandonEnCours: abandon.statut.estEnCours(),
       appelOffre,
     });
+
+    await renouvelerGarantiesFinancières({
+      identifiantProjet,
+      identifiantUtilisateur,
+      hasGarantiesFinancières: !!garantiesFinancières.actuelles,
+    });
+
+    await retirerTousLesAccèsAuxPorteursDuProjet(identifiantProjet);
   };
   mediator.register('Lauréat.Producteur.Command.EnregistrerChangement', handler);
 };

@@ -26,6 +26,7 @@ import {
 } from './lister/listerProjetsÀRéclamer.query';
 import { ListerPorteursQuery, ListerPorteursReadModel } from './lister/listerPorteurs.query';
 import { UtilisateurInconnuError } from './utilisateurInconnu.error';
+import { RetirerAccèsProjetCommand } from './retirer/retirerAccèsProjet.command';
 export * as IdentifiantUtilisateur from './identifiantUtilisateur.valueType';
 export * as Utilisateur from './utilisateur.valueType';
 export * as Role from './role.valueType';
@@ -63,6 +64,9 @@ export {
   RetirerAccèsProjetUseCase,
 };
 
+// Command
+export { RetirerAccèsProjetCommand };
+
 // Events
 export { UtilisateurEvent } from './utilisateur.aggregate';
 export { PorteurInvitéEvent, UtilisateurInvitéEvent, ProjetRéclaméEvent, AccèsProjetRetiréEvent };
@@ -84,5 +88,6 @@ export {
   ListerProjetsÀRéclamerReadModel,
   ListerPorteursReadModel,
 };
+
 // error
 export { UtilisateurInconnuError };

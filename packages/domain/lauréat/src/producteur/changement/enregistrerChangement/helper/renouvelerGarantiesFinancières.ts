@@ -1,7 +1,7 @@
 import { mediator } from 'mediateur';
 
 import { AppelOffre } from '@potentiel-domain/appel-offre';
-import { IdentifiantProjet, DateTime } from '@potentiel-domain/common';
+import { IdentifiantProjet, DateTime, Email } from '@potentiel-domain/common';
 import { Option } from '@potentiel-libraries/monads';
 
 import { GarantiesFinancières } from '../../../..';
@@ -10,9 +10,11 @@ import { appelOffreSoumisAuxGarantiesFinancières } from '../../../../garantiesF
 export const renouvelerGarantiesFinancières = async ({
   identifiantProjet,
   identifiantUtilisateur,
+  hasGarantiesFinancières,
 }: {
   identifiantProjet: IdentifiantProjet.ValueType;
-  identifiantUtilisateur: string;
+  identifiantUtilisateur: Email.ValueType;
+  hasGarantiesFinancières: boolean;
 }) => {
   const appelOffre = await mediator.send<AppelOffre.ConsulterAppelOffreQuery>({
     type: 'AppelOffre.Query.ConsulterAppelOffre',
@@ -29,37 +31,26 @@ export const renouvelerGarantiesFinancières = async ({
       période: identifiantProjet.période,
     })
   ) {
-    const dateActuelle = DateTime.now().date;
+    const dateActuelle = DateTime.now();
 
-    const garantiesFinancières =
-      await mediator.send<GarantiesFinancières.ConsulterGarantiesFinancièresQuery>({
-        type: 'Lauréat.GarantiesFinancières.Query.ConsulterGarantiesFinancières',
+    if (hasGarantiesFinancières) {
+      await mediator.send<GarantiesFinancières.EffacerHistoriqueGarantiesFinancièresCommand>({
+        type: 'Lauréat.GarantiesFinancières.Command.EffacerHistoriqueGarantiesFinancières',
         data: {
-          identifiantProjetValue: identifiantProjet.formatter(),
-        },
-      });
-
-    if (Option.isSome(garantiesFinancières)) {
-      await mediator.send<GarantiesFinancières.EffacerHistoriqueGarantiesFinancièresUseCase>({
-        type: 'Lauréat.GarantiesFinancières.UseCase.EffacerHistoriqueGarantiesFinancières',
-        data: {
-          identifiantProjetValue: identifiantProjet.formatter(),
-          effacéLeValue: dateActuelle.toISOString(),
-          effacéParValue: identifiantUtilisateur,
+          identifiantProjet,
+          effacéLe: dateActuelle,
+          effacéPar: identifiantUtilisateur,
         },
       });
     }
 
-    await mediator.send<GarantiesFinancières.DemanderGarantiesFinancièresUseCase>({
-      type: 'Lauréat.GarantiesFinancières.UseCase.DemanderGarantiesFinancières',
+    await mediator.send<GarantiesFinancières.DemanderGarantiesFinancièresCommand>({
+      type: 'Lauréat.GarantiesFinancières.Command.DemanderGarantiesFinancières',
       data: {
-        demandéLeValue: dateActuelle.toISOString(),
-        identifiantProjetValue: identifiantProjet.formatter(),
-        dateLimiteSoumissionValue: new Date(
-          dateActuelle.setMonth(dateActuelle.getMonth() + 2),
-        ).toISOString(),
-        motifValue:
-          GarantiesFinancières.MotifDemandeGarantiesFinancières.changementProducteur.motif,
+        demandéLe: dateActuelle,
+        identifiantProjet,
+        dateLimiteSoumission: dateActuelle.ajouterNombreDeMois(2),
+        motif: GarantiesFinancières.MotifDemandeGarantiesFinancières.changementProducteur,
       },
     });
   }

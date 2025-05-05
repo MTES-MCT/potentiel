@@ -6,8 +6,6 @@ import { DocumentProjet, EnregistrerDocumentProjetCommand } from '@potentiel-dom
 import { TypeDocumentProducteur } from '../..';
 
 import { EnregistrerChangementProducteurCommand } from './enregistrerChangementProducteur.command';
-import { renouvelerGarantiesFinancières } from './helper/renouvelerGarantiesFinancières';
-import { retirerTousLesAccèsAuxPorteursDuProjet } from './helper/retirerTousLesAccèsAuxPorteursDuProjet';
 
 export type EnregistrerChangementProducteurUseCase = Message<
   'Lauréat.Producteur.UseCase.EnregistrerChangement',
@@ -62,12 +60,6 @@ export const registerEnregistrerChangementProducteurUseCase = () => {
         documentProjet: pièceJustificative,
       },
     });
-
-    await renouvelerGarantiesFinancières({
-      identifiantProjet,
-      identifiantUtilisateur: identifiantUtilisateur.formatter(),
-    });
-    await retirerTousLesAccèsAuxPorteursDuProjet(identifiantProjet.formatter());
   };
   mediator.register('Lauréat.Producteur.UseCase.EnregistrerChangement', runner);
 };
