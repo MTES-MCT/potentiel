@@ -6,6 +6,7 @@ import {
   updateOneProjection,
   upsertProjection,
 } from '@potentiel-infrastructure/pg-projection-write';
+import { getLogger } from '@potentiel-libraries/monitoring';
 
 export const changementProducteurEnregistréProjector = async ({
   payload: {
@@ -23,6 +24,12 @@ export const changementProducteurEnregistréProjector = async ({
       identifiantProjet,
     },
   });
+
+  if (Option.isNone(producteurActuel)) {
+    getLogger('changementProducteurEnregistréProjector').error(`Producteur non trouvé !`, {
+      identifiantProjet,
+    });
+  }
 
   const ancienProducteur = Option.match(producteurActuel)
     .some((producteur) => producteur.producteur)
