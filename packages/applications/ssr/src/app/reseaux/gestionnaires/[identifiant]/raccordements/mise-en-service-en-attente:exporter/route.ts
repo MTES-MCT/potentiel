@@ -44,6 +44,11 @@ export const GET = async (_: Request, { params: { identifiant } }: ExporterRacco
         'statutDGEC',
         'puissance',
         'dateMiseEnService',
+        'nomCandidat',
+        'societeMere',
+        'emailContact',
+        'siteProduction',
+        'dateNotification',
       ];
 
       const csvParser = new Parser({ fields, delimiter: ';', withBOM: true });
@@ -62,6 +67,11 @@ export const GET = async (_: Request, { params: { identifiant } }: ExporterRacco
             référenceDossier,
             statutDGEC,
             puissance,
+            dateNotification,
+            emailContact,
+            nomCandidat,
+            siteProduction,
+            sociétéMère,
           }) => ({
             nomProjet,
             identifiantProjet: identifiantProjet.formatter(),
@@ -74,6 +84,11 @@ export const GET = async (_: Request, { params: { identifiant } }: ExporterRacco
             referenceDossier: référenceDossier.formatter(),
             statutDGEC,
             puissance,
+            nomCandidat,
+            societeMere: sociétéMère,
+            emailContact,
+            siteProduction,
+            dateNotification,
           }),
         ),
       );

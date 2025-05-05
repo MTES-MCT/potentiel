@@ -28,6 +28,12 @@ model DossierRaccordement {
   codePostal: string;
   referenceDossier: string;
   statutDGEC: string;
+  puissance: string;
+  nomCandidat: string;
+  societeMère: string;
+  emailContact: string;
+  siteProduction: string;
+  dateNotification: string;
 }
 
 model DossierRaccordementListResult {

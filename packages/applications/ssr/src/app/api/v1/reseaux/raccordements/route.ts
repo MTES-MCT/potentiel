@@ -36,6 +36,11 @@ type DossierRaccordementApiResponse = {
   referenceDossier: string;
   statutDGEC: string;
   puissance: string;
+  nomCandidat: string;
+  societeMère: string;
+  emailContact: string;
+  siteProduction: string;
+  dateNotification: string;
 };
 
 type ApiResponse = {
@@ -96,5 +101,10 @@ const mapToApiResponse: MapToApiResponse = ({ items, range, total }) => ({
     statutDGEC: dossier.statutDGEC,
     referenceDossier: dossier.référenceDossier.formatter(),
     puissance: dossier.puissance,
+    dateNotification: dossier.dateNotification,
+    emailContact: dossier.emailContact,
+    nomCandidat: dossier.nomCandidat,
+    siteProduction: dossier.siteProduction,
+    societeMère: dossier.sociétéMère,
   })),
 });

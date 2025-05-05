@@ -4,7 +4,7 @@ import { match, P } from 'ts-pattern';
 import { Joined, List, RangeOptions, Where } from '@potentiel-domain/entity';
 import { DateTime } from '@potentiel-domain/common';
 import { GestionnaireRéseau } from '@potentiel-domain/reseau';
-import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
+import { Candidature, IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 
 import { RéférenceDossierRaccordement } from '..';
@@ -29,6 +29,12 @@ type DossierRaccordement = {
   identifiantGestionnaireRéseau: GestionnaireRéseau.IdentifiantGestionnaireRéseau.ValueType;
   raisonSocialeGestionnaireRéseau: string;
   puissance: string;
+
+  nomCandidat: string;
+  sociétéMère: string;
+  emailContact: string;
+  siteProduction: string;
+  dateNotification: string;
 };
 
 export type ListerDossierRaccordementReadModel = {
@@ -121,6 +127,12 @@ export const registerListerDossierRaccordementQuery = ({
       },
     });
 
+    const candidatures = await list<Candidature.CandidatureEntity>('candidature', {
+      where: {
+        identifiantProjet: Where.matchAny(identifiants),
+      },
+    });
+
     const appelOffres = await list<AppelOffre.AppelOffreEntity>('appel-offre', {});
 
     return {
@@ -130,6 +142,7 @@ export const registerListerDossierRaccordementQuery = ({
           gestionnairesRéseau: gestionnairesRéseau.items,
           puissances: puissances.items,
           appelOffres: appelOffres.items,
+          candidatures: candidatures.items,
         }),
       ),
       range: {
@@ -148,6 +161,7 @@ type MapToReadModelProps = (args: {
   gestionnairesRéseau: ReadonlyArray<GestionnaireRéseau.GestionnaireRéseauEntity>;
   puissances: ReadonlyArray<PuissanceEntity>;
   appelOffres: ReadonlyArray<AppelOffre.AppelOffreEntity>;
+  candidatures: ReadonlyArray<Candidature.CandidatureEntity>;
 }) => DossierRaccordement;
 
 export const mapToReadModel: MapToReadModelProps = ({
@@ -155,6 +169,7 @@ export const mapToReadModel: MapToReadModelProps = ({
   gestionnairesRéseau,
   puissances,
   appelOffres,
+  candidatures,
 }) => {
   const { appelOffre, famille, numéroCRE, période } =
     IdentifiantProjet.convertirEnValueType(identifiantProjet);
@@ -164,7 +179,8 @@ export const mapToReadModel: MapToReadModelProps = ({
 
   const {
     nomProjet,
-    localité: { codePostal, commune, département, région },
+    localité: { codePostal, commune, département, région, adresse1, adresse2 },
+    notifiéLe,
   } = lauréat;
 
   const unitéPuissance = appelOffres.find((ao) => ao.id === appelOffre)?.unitePuissance ?? 'MWc';
@@ -176,6 +192,22 @@ export const mapToReadModel: MapToReadModelProps = ({
   const puissance = match(puissanceItem)
     .with(P.nullish, () => `0 ${unitéPuissance}`)
     .otherwise((value) => `${value.puissance} ${unitéPuissance}`);
+
+  const candidature = candidatures.find(
+    (candidature) => candidature.identifiantProjet === identifiantProjet,
+  );
+
+  const { emailContact, nomCandidat, sociétéMère } = match(candidature)
+    .with(P.nullish, () => ({
+      nomCandidat: 'Nom candidat inconnu',
+      sociétéMère: 'Société mère inconnue',
+      emailContact: 'Email contact inconnu',
+    }))
+    .otherwise((value) => ({
+      nomCandidat: value.nomCandidat,
+      sociétéMère: value.sociétéMère,
+      emailContact: value.emailContact,
+    }));
 
   return {
     appelOffre,
@@ -201,5 +233,11 @@ export const mapToReadModel: MapToReadModelProps = ({
       .with(undefined, () => 'Gestionnaire réseau inconnu')
       .otherwise((value) => value.raisonSociale),
     puissance,
+
+    dateNotification: notifiéLe,
+    emailContact,
+    nomCandidat,
+    siteProduction: `${adresse1} ${adresse2} ${codePostal} ${commune} (${département}, ${région})`,
+    sociétéMère,
   };
 };

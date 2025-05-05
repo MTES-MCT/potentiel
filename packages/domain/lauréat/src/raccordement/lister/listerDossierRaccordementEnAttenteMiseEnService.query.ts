@@ -23,6 +23,12 @@ type DossierRaccordementEnAttenteMiseEnService = {
   référenceDossier: RéférenceDossierRaccordement.ValueType;
   statutDGEC: StatutLauréat.RawType;
   puissance: string;
+
+  nomCandidat: string;
+  sociétéMère: string;
+  emailContact: string;
+  siteProduction: string;
+  dateNotification: string;
 };
 
 export type ListerDossierRaccordementEnAttenteMiseEnServiceReadModel = {
@@ -131,16 +137,36 @@ export const mapToReadModel: MapToReadModelProps = ({
     (candidature) => candidature.identifiantProjet === identifiantProjet,
   );
 
-  const { nomProjet, codePostal, commune } = match(candidature)
+  const {
+    nomProjet,
+    codePostal,
+    commune,
+    dateNotification,
+    emailContact,
+    nomCandidat,
+    siteProduction,
+    sociétéMère,
+  } = match(candidature)
     .with(P.nullish, () => ({
       codePostal: 'Code postal inconnu',
       commune: 'Commune inconnue',
       nomProjet: 'Nom projet inconnu',
+      nomCandidat: 'Nom candidat inconnu',
+      sociétéMère: 'Société mère inconnue',
+      emailContact: 'Email contact inconnu',
+      siteProduction: 'Site de production inconnu',
+      dateNotification: 'Date de notification inconnue',
     }))
     .otherwise((value) => ({
       codePostal: value.localité.codePostal,
       commune: value.localité.commune,
       nomProjet: value.nomProjet,
+
+      nomCandidat: value.nomCandidat,
+      sociétéMère: value.sociétéMère,
+      emailContact: value.emailContact,
+      siteProduction: `${value.localité.adresse1} ${value.localité.adresse2} ${value.localité.codePostal} ${value.localité.commune} (${value.localité.département}, ${value.localité.région})`,
+      dateNotification: value?.notification?.notifiéeLe || '',
     }));
 
   const puissanceItem = puissances.find(
@@ -165,5 +191,10 @@ export const mapToReadModel: MapToReadModelProps = ({
     référenceDossier: RéférenceDossierRaccordement.convertirEnValueType(référence),
     statutDGEC: StatutLauréat.classé.formatter(),
     puissance,
+    dateNotification,
+    emailContact,
+    nomCandidat,
+    siteProduction,
+    sociétéMère,
   };
 };
