@@ -53,12 +53,13 @@ export const candidatureNotifiéeSchema = z
 
 const partialCandidatureNotifiéeSchema = candidatureNotifiéeSchema.partial();
 
-export const lauréatSchema = z
+const lauréatSchema = z
   .object({
     actionnaire: sociétéMèreSchema,
     nomRepresentantLegal: nomReprésentantLégalSchema,
     nomProjet: nomProjetSchema,
     puissanceProductionAnnuelle: puissanceProductionAnnuelleSchema,
+    nomCandidat: nomCandidatSchema,
   })
   .merge(localitéSchema);
 

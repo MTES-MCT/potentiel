@@ -4,6 +4,7 @@ import Button from '@codegouvfr/react-dsfr/Button';
 import React, { useState } from 'react';
 
 import { Routes } from '@potentiel-applications/routes';
+import { getContext } from '@potentiel-applications/request-context';
 
 import { Form } from '@/components/atoms/form/Form';
 import { SubmitButton } from '@/components/atoms/form/SubmitButton';
@@ -59,6 +60,7 @@ export const ModifierLauréatForm: React.FC<ModifierLauréatFormProps> = ({
   champsSpéciaux,
 }) => {
   const [validationErrors, setValidationErrors] = useState<FieldValidationErrors>({});
+  const showProducteurV2 = getContext()?.features.includes('producteur');
 
   return (
     <Form
@@ -113,12 +115,22 @@ export const ModifierLauréatForm: React.FC<ModifierLauréatFormProps> = ({
           />
         </FormRow>
         <FormRow>
-          <CandidatureField
-            candidature={candidature.nomCandidat}
-            label="Nom du producteur"
-            name="nomCandidat"
-            validationErrors={validationErrors}
-          />
+          {showProducteurV2 ? (
+            <ProjectField
+              candidature={candidature.nomCandidat}
+              lauréat={lauréat.nomCandidat.currentValue}
+              label="Nom du producteur"
+              name="nomCandidat"
+              validationErrors={validationErrors}
+            />
+          ) : (
+            <CandidatureField
+              candidature={candidature.nomCandidat}
+              label="Nom du producteur"
+              name="nomCandidat"
+              validationErrors={validationErrors}
+            />
+          )}
         </FormRow>
         <FormRow>
           <CandidatureField
