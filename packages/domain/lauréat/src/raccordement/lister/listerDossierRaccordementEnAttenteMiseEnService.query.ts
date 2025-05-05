@@ -153,7 +153,7 @@ export const mapToReadModel: MapToReadModelProps = ({
       nomProjet: 'Nom projet inconnu',
       nomCandidat: 'Nom candidat inconnu',
       sociétéMère: 'Société mère inconnue',
-      emailContact: 'Email contactt inconnu',
+      emailContact: 'Email contact inconnu',
       siteProduction: 'Site de production inconnu',
       dateNotification: 'Date de notification inconnue',
     }))

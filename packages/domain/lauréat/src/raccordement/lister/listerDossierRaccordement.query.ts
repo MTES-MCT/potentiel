@@ -201,7 +201,7 @@ export const mapToReadModel: MapToReadModelProps = ({
     .with(P.nullish, () => ({
       nomCandidat: 'Nom candidat inconnu',
       sociétéMère: 'Société mère inconnue',
-      emailContact: 'Email contactt inconnu',
+      emailContact: 'Email contact inconnu',
     }))
     .otherwise((value) => ({
       nomCandidat: value.nomCandidat,
