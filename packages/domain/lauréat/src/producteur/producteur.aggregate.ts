@@ -18,14 +18,23 @@ import {
   ChangementProducteurEnregistréEvent,
   enregistrerChangement,
 } from './changement/enregistrerChangement/enregistrerChangementProducteur.behavior';
+import {
+  applyProducteurModifié,
+  modifier,
+  ProducteurModifiéEvent,
+} from './modifier/modifierProducteur.behavior';
 
-export type ProducteurEvent = ProducteurImportéEvent | ChangementProducteurEnregistréEvent;
+export type ProducteurEvent =
+  | ProducteurImportéEvent
+  | ChangementProducteurEnregistréEvent
+  | ProducteurModifiéEvent;
 
 export type ProducteurAggregate = Aggregate<ProducteurEvent> & {
   identifiantProjet: IdentifiantProjet.ValueType;
   producteur: string;
   importer: typeof importer;
   enregistrerChangement: typeof enregistrerChangement;
+  modifier: typeof modifier;
 };
 
 export const getDefaultProducteurAggregate: GetDefaultAggregateState<
@@ -37,6 +46,7 @@ export const getDefaultProducteurAggregate: GetDefaultAggregateState<
   apply,
   importer,
   enregistrerChangement,
+  modifier,
 });
 
 function apply(this: ProducteurAggregate, event: ProducteurEvent) {
@@ -46,6 +56,7 @@ function apply(this: ProducteurAggregate, event: ProducteurEvent) {
       { type: 'ChangementProducteurEnregistré-V1' },
       applyChangementProducteurEnregistré.bind(this),
     )
+    .with({ type: 'ProducteurModifié-V1' }, applyProducteurModifié.bind(this))
     .exhaustive();
 }
 

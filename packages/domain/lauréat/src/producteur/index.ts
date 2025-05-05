@@ -13,6 +13,8 @@ import {
   ListerChangementProducteurReadModel,
 } from './changement/lister/listerChangementProducteur.query';
 import { ImporterProducteurCommand } from './importer/importerProducteur.command';
+import { ModifierProducteurCommand } from './modifier/modifierProducteur.command';
+import { ModifierProducteurUseCase } from './modifier/modifierProducteur.usecase';
 
 // Query
 export type ProducteurQuery =
@@ -34,17 +36,25 @@ export type {
 };
 
 // UseCase
-export type ProducteurUseCase = EnregistrerChangementProducteurUseCase;
-export type { EnregistrerChangementProducteurUseCase };
+export type ProducteurUseCase = EnregistrerChangementProducteurUseCase | ModifierProducteurUseCase;
+export type { EnregistrerChangementProducteurUseCase, ModifierProducteurUseCase };
 
 // Command
-export type ProducteurCommand = ImporterProducteurCommand | EnregistrerChangementProducteurCommand;
-export type { ImporterProducteurCommand, EnregistrerChangementProducteurCommand };
+export type ProducteurCommand =
+  | ImporterProducteurCommand
+  | EnregistrerChangementProducteurCommand
+  | ModifierProducteurCommand;
+export type {
+  ImporterProducteurCommand,
+  EnregistrerChangementProducteurCommand,
+  ModifierProducteurCommand,
+};
 
 // Event
 export type { ProducteurEvent } from './producteur.aggregate';
 export type { ProducteurImportéEvent } from './importer/importerProducteur.behavior';
 export type { ChangementProducteurEnregistréEvent } from './changement/enregistrerChangement/enregistrerChangementProducteur.behavior';
+export type { ProducteurModifiéEvent } from './modifier/modifierProducteur.behavior';
 
 // Saga
 export * as ProducteurSaga from './saga';

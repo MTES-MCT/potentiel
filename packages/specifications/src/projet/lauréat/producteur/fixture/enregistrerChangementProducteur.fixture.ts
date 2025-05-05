@@ -5,8 +5,8 @@ import { convertStringToReadableStream } from '../../../../helpers/convertString
 
 interface EnregistrerChangementProducteur {
   readonly pièceJustificative: { format: string; content: ReadableStream };
-  readonly demandéLe: string;
-  readonly demandéPar: string;
+  readonly enregistréLe: string;
+  readonly enregistréPar: string;
   readonly producteur: string;
 }
 
@@ -24,16 +24,16 @@ export class EnregistrerChangementProducteurFixture
     };
   }
 
-  #demandéLe!: string;
+  #enregistréLe!: string;
 
-  get demandéLe(): string {
-    return this.#demandéLe;
+  get enregistréLe(): string {
+    return this.#enregistréLe;
   }
 
-  #demandéPar!: string;
+  #enregistréPar!: string;
 
-  get demandéPar(): string {
-    return this.#demandéPar;
+  get enregistréPar(): string {
+    return this.#enregistréPar;
   }
 
   #producteur!: string;
@@ -48,8 +48,8 @@ export class EnregistrerChangementProducteurFixture
     const content = faker.word.words();
 
     const fixture: EnregistrerChangementProducteur = {
-      demandéLe: faker.date.recent().toISOString(),
-      demandéPar: faker.internet.email(),
+      enregistréLe: faker.date.recent().toISOString(),
+      enregistréPar: faker.internet.email(),
       pièceJustificative: {
         format: faker.potentiel.fileFormat(),
         content: convertStringToReadableStream(content),
@@ -58,8 +58,8 @@ export class EnregistrerChangementProducteurFixture
       ...partialData,
     };
 
-    this.#demandéLe = fixture.demandéLe;
-    this.#demandéPar = fixture.demandéPar;
+    this.#enregistréLe = fixture.enregistréLe;
+    this.#enregistréPar = fixture.enregistréPar;
     this.#format = fixture.pièceJustificative.format;
     this.#content = content;
     this.#producteur = fixture.producteur;

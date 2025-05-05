@@ -12,13 +12,16 @@ import {
   ConsulterChangementProducteurDependencies,
   registerConsulterChangementProducteurQuery,
 } from './changement/consulter/consulterChangementProducteur.query';
-export type ProducteurQueryDependencies = ConsulterProducteurDependencies &
-  ConsulterChangementProducteurDependencies &
-  ListerChangementProducteurDependencies;
+import { registerModifierProducteurCommand } from './modifier/modifierProducteur.command';
+import { registerModifierProducteurUseCase } from './modifier/modifierProducteur.usecase';
 import {
   ListerChangementProducteurDependencies,
   registerListerChangementProducteurQuery,
 } from './changement/lister/listerChangementProducteur.query';
+
+export type ProducteurQueryDependencies = ConsulterProducteurDependencies &
+  ConsulterChangementProducteurDependencies &
+  ListerChangementProducteurDependencies;
 
 export type ProducteurCommandDependencies = {
   loadAggregate: LoadAggregate;
@@ -30,9 +33,11 @@ export const registerProducteurUseCases = ({
   getProjetAggregateRoot,
 }: ProducteurCommandDependencies) => {
   registerEnregistrerChangementProducteurUseCase();
+  registerModifierProducteurUseCase();
 
   registerImporterProducteurCommand(loadAggregate, getProjetAggregateRoot);
   registerEnregistrerChangementProducteurCommand(loadAggregate, getProjetAggregateRoot);
+  registerModifierProducteurCommand(loadAggregate, getProjetAggregateRoot);
 };
 
 export const registerProducteurQueries = (dependencies: ProducteurQueryDependencies) => {

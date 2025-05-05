@@ -51,8 +51,8 @@ async function vérifierChangementProducteur(this: PotentielWorld, identifiantPr
       type: 'Lauréat.Producteur.Query.ConsulterChangementProducteur',
       data: {
         identifiantProjet,
-        demandéLe:
-          this.lauréatWorld.producteurWorld.enregistrerChangementProducteurFixture.demandéLe,
+        enregistréLe:
+          this.lauréatWorld.producteurWorld.enregistrerChangementProducteurFixture.enregistréLe,
       },
     });
 
