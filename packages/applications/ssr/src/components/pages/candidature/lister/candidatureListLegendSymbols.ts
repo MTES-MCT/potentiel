@@ -7,7 +7,7 @@ const localité: SymbolProps = {
 
 const nomCandidat: SymbolProps = {
   iconId: 'fr-icon-building-line',
-  description: 'Nom du candidat',
+  description: 'Nom du producteur',
 };
 
 const représentantLégal: SymbolProps = {
