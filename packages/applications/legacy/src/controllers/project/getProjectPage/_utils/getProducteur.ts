@@ -58,6 +58,7 @@ export const getProducteur = async ({
           affichage: {
             url: Routes.Producteur.modifier(identifiantProjet.formatter()),
             label: 'Modifier',
+            labelActions: 'Modifier le producteur',
           },
         };
       }
@@ -74,6 +75,7 @@ export const getProducteur = async ({
           affichage: {
             url: Routes.Producteur.changement.enregistrer(identifiantProjet.formatter()),
             label: 'Changer de producteur',
+            labelActions: 'Changer de producteur',
           },
         };
       }

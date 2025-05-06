@@ -16,35 +16,47 @@ import { match } from 'ts-pattern';
 import { IdentifiantProjet } from '@potentiel-domain/common';
 import { formatProjectDataToIdentifiantProjetValueType } from '../../../../helpers/dataToValueTypes';
 import { ProjectHeaderProps } from './ProjectHeader';
+import { GetProducteurForProjectPage } from '../../../../controllers/project/getProjectPage/_utils/getProducteur';
 
 type EnregistrerUneModificationProps = {
   projectId: ProjectDataForProjectPage['id'];
   identifiantProjet: IdentifiantProjet.RawType;
+  producteurAffichage?: GetProducteurForProjectPage['affichage'];
 };
 
 const EnregistrerUneModification = ({
   projectId,
   identifiantProjet,
-}: EnregistrerUneModificationProps) => (
-  <DropdownMenuSecondaryButton buttonChildren="Enregistrer une modification">
-    <DropdownMenuSecondaryButton.DropdownItem
-      href={routes.ADMIN_SIGNALER_DEMANDE_DELAI_PAGE(projectId)}
-    >
-      <span>Demande de délai</span>
-    </DropdownMenuSecondaryButton.DropdownItem>
-    <DropdownMenuSecondaryButton.DropdownItem href={Routes.Puissance.modifier(identifiantProjet)}>
-      <span>Modifier la puissance</span>
-    </DropdownMenuSecondaryButton.DropdownItem>
-    <DropdownMenuSecondaryButton.DropdownItem href={Routes.Actionnaire.modifier(identifiantProjet)}>
-      <span>Modifier l'actionnaire(s)</span>
-    </DropdownMenuSecondaryButton.DropdownItem>
-    <DropdownMenuSecondaryButton.DropdownItem
-      href={Routes.ReprésentantLégal.modifier(identifiantProjet)}
-    >
-      <span>Modifier le représentant légal</span>
-    </DropdownMenuSecondaryButton.DropdownItem>
-  </DropdownMenuSecondaryButton>
-);
+  producteurAffichage,
+}: EnregistrerUneModificationProps) => {
+  return (
+    <DropdownMenuSecondaryButton buttonChildren="Enregistrer une modification">
+      <DropdownMenuSecondaryButton.DropdownItem
+        href={routes.ADMIN_SIGNALER_DEMANDE_DELAI_PAGE(projectId)}
+      >
+        <span>Demande de délai</span>
+      </DropdownMenuSecondaryButton.DropdownItem>
+      {!!producteurAffichage && (
+        <DropdownMenuSecondaryButton.DropdownItem href={producteurAffichage.url}>
+          <span>{producteurAffichage.labelActions}</span>
+        </DropdownMenuSecondaryButton.DropdownItem>
+      )}
+      <DropdownMenuSecondaryButton.DropdownItem href={Routes.Puissance.modifier(identifiantProjet)}>
+        <span>Modifier la puissance</span>
+      </DropdownMenuSecondaryButton.DropdownItem>
+      <DropdownMenuSecondaryButton.DropdownItem
+        href={Routes.Actionnaire.modifier(identifiantProjet)}
+      >
+        <span>Modifier l'actionnaire(s)</span>
+      </DropdownMenuSecondaryButton.DropdownItem>
+      <DropdownMenuSecondaryButton.DropdownItem
+        href={Routes.ReprésentantLégal.modifier(identifiantProjet)}
+      >
+        <span>Modifier le représentant légal</span>
+      </DropdownMenuSecondaryButton.DropdownItem>
+    </DropdownMenuSecondaryButton>
+  );
+};
 
 type PorteurProjetActionsProps = Omit<ProjectActionsProps, 'user'> & {
   identifiantProjet: IdentifiantProjet.RawType;
@@ -172,14 +184,21 @@ const PorteurProjetActions = ({
 type AdminActionsProps = {
   project: ProjectDataForProjectPage;
   identifiantProjet: IdentifiantProjet.RawType;
+  producteurAffichage?: GetProducteurForProjectPage['affichage'];
 };
+
 const AdminActions = ({
   project: { id, notifiedOn, isLegacy, isClasse },
   identifiantProjet,
+  producteurAffichage,
 }: AdminActionsProps) => {
   return (
     <div className="flex flex-col md:flex-row gap-2">
-      <EnregistrerUneModification projectId={id} identifiantProjet={identifiantProjet} />
+      <EnregistrerUneModification
+        projectId={id}
+        identifiantProjet={identifiantProjet}
+        producteurAffichage={producteurAffichage}
+      />
       {notifiedOn && isClasse ? (
         <LinkButton href={Routes.Lauréat.modifier(identifiantProjet)}>
           Modifier le projet
@@ -221,6 +240,7 @@ const AdminActions = ({
 type DrealActionsProps = {
   project: ProjectDataForProjectPage;
   identifiantProjet: IdentifiantProjet.RawType;
+  producteurAffichage?: GetProducteurForProjectPage['affichage'];
 };
 const DrealActions = ({ project, identifiantProjet }: DrealActionsProps) => {
   return (
@@ -258,7 +278,11 @@ export const ProjectActions = ({
   return (
     <div className="print:hidden whitespace-nowrap">
       {userIs(['admin', 'dgec-validateur'])(user) && (
-        <AdminActions project={project} identifiantProjet={identifiantProjet} />
+        <AdminActions
+          project={project}
+          identifiantProjet={identifiantProjet}
+          producteurAffichage={producteurAffichage}
+        />
       )}
       {userIs(['porteur-projet'])(user) && (
         <PorteurProjetActions
@@ -275,7 +299,11 @@ export const ProjectActions = ({
         />
       )}
       {userIs(['dreal'])(user) && (
-        <DrealActions project={project} identifiantProjet={identifiantProjet} />
+        <DrealActions
+          project={project}
+          identifiantProjet={identifiantProjet}
+          producteurAffichage={producteurAffichage}
+        />
       )}
     </div>
   );

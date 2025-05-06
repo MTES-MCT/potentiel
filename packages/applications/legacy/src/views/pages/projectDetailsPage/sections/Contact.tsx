@@ -28,13 +28,17 @@ export const Contact = ({
   modificationsNonPermisesParLeCDCActuel,
 }: ContactProps) => (
   <Section title="Contact" icon={<UserIcon />}>
-    {producteur && (
-      <InfoProducteur
-        producteur={producteur}
-        modificationsPermisesParLeCDCActuel={!modificationsNonPermisesParLeCDCActuel}
-      />
+    {producteur ? (
+      <>
+        <InfoProducteur
+          producteur={producteur}
+          modificationsPermisesParLeCDCActuel={!modificationsNonPermisesParLeCDCActuel}
+        />
+        <div className="mb-3">Valuer à titre d'audit : {project.nomCandidat}</div>
+      </>
+    ) : (
+      <div className="mb-3">{project.nomCandidat}</div>
     )}
-    <div className="mb-3">{project.nomCandidat}</div>
     <div>
       {représentantLégal && (
         <>
