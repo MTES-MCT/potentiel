@@ -1,5 +1,4 @@
 import { FC } from 'react';
-import Badge from '@codegouvfr/react-dsfr/Badge';
 
 import { Routes } from '@potentiel-applications/routes';
 import { DocumentProjet } from '@potentiel-domain/document';
@@ -8,6 +7,8 @@ import { DateTime, Email } from '@potentiel-domain/common';
 import { DownloadDocument } from '@/components/atoms/form/document/DownloadDocument';
 import { Heading2, Heading5 } from '@/components/atoms/headings';
 import { FormattedDate } from '@/components/atoms/FormattedDate';
+
+import { StatutChangementProducteurBadge } from '../StatutChangementProducteurBadge';
 
 import { DétailsProducteurPageProps } from './DétailsProducteur.page';
 
@@ -35,10 +36,7 @@ export const DétailsChangementProducteur: FC<DétailsChangementProducteurProps>
             </span>
           </div>
           <div className="flex gap-2">
-            <div className="font-semibold">Statut :</div>{' '}
-            <Badge noIcon severity="success" small>
-              information enregistrée
-            </Badge>
+            <div className="font-semibold">Statut :</div> <StatutChangementProducteurBadge />
           </div>
         </div>
         <>
