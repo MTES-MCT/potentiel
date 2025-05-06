@@ -1,8 +1,7 @@
 import { Option } from '@potentiel-libraries/monads';
 import { getLogger } from '@potentiel-libraries/monitoring';
-import { IdentifiantProjet } from '@potentiel-domain/common';
 import { mediator } from 'mediateur';
-import { Candidature } from '@potentiel-domain/projet';
+import { Candidature, IdentifiantProjet } from '@potentiel-domain/projet';
 
 export type GetCandidatureForProjectPage = {
   emailContact: string;
