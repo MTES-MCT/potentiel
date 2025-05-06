@@ -1,0 +1,92 @@
+import { Message, MessageHandler, mediator } from 'mediateur';
+import { Event } from '@potentiel-infrastructure/pg-event-sourcing';
+import { IdentifiantProjet } from '@potentiel-domain/common';
+import { getLegacyProjetByIdentifiantProjet } from '../infra/sequelize/queries/project';
+import { logger, ok } from '../core/utils';
+import { Producteur } from '@potentiel-domain/laureat';
+import { eventStore } from '../config/eventStore.config';
+import { ProjectDataCorrected, ProjectProducteurUpdated } from '../modules/project';
+import { getUserByEmail } from '../infra/sequelize/queries/users/getUserByEmail';
+import { ModificationReceived } from '../modules/modificationRequest';
+import { UniqueEntityID } from '../core/domain';
+
+export type SubscriptionEvent = Producteur.ProducteurEvent & Event;
+
+export type Execute = Message<'System.Saga.Producteur', SubscriptionEvent>;
+
+export const register = () => {
+  const handler: MessageHandler<Execute> = async (event) => {
+    const { payload, type } = event;
+
+    const identifiantProjet = IdentifiantProjet.convertirEnValueType(payload.identifiantProjet);
+
+    const projet = await getLegacyProjetByIdentifiantProjet(identifiantProjet);
+
+    if (!projet) {
+      logger.warning('Identifiant projet inconnu', {
+        saga: 'System.Saga.Producteur',
+        event,
+      });
+      return;
+    }
+
+    switch (type) {
+      case 'ChangementProducteurEnregistré-V1':
+        const updatedBy = await new Promise<string>((r) =>
+          getUserByEmail(payload.enregistréPar).map((user) => {
+            r(user?.id ?? '');
+            return ok(user);
+          }),
+        );
+        const { producteur } = payload;
+
+        await eventStore.publish(
+          new ModificationReceived({
+            payload: {
+              type: 'producteur',
+              producteur,
+              authority: 'dreal',
+              modificationRequestId: new UniqueEntityID().toString(),
+              projectId: projet.id,
+              requestedBy: updatedBy,
+            },
+          }),
+        );
+
+        await eventStore.publish(
+          new ProjectProducteurUpdated({
+            payload: {
+              projectId: projet.id,
+              newProducteur: producteur,
+              updatedBy: updatedBy,
+            },
+          }),
+        );
+        break;
+
+      case 'ProducteurModifié-V1':
+        const correctedBy = await new Promise<string>((r) =>
+          getUserByEmail(payload.modifiéPar).map((user) => {
+            r(user?.id ?? '');
+            return ok(user);
+          }),
+        );
+
+        await eventStore.publish(
+          new ProjectDataCorrected({
+            payload: {
+              correctedBy,
+              projectId: projet.id,
+              correctedData: {
+                nomCandidat: payload.producteur,
+              },
+            },
+          }),
+        );
+
+        break;
+    }
+  };
+
+  mediator.register('System.Saga.Producteur', handler);
+};

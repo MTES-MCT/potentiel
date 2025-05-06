@@ -24,7 +24,7 @@ export type ConsulterChangementProducteurQuery = Message<
   'Lauréat.Producteur.Query.ConsulterChangementProducteur',
   {
     identifiantProjet: string;
-    demandéLe: string;
+    enregistréLe: string;
   },
   Option.Type<ConsulterChangementProducteurReadModel>
 >;
@@ -38,12 +38,12 @@ export const registerConsulterChangementProducteurQuery = ({
 }: ConsulterChangementProducteurDependencies) => {
   const handler: MessageHandler<ConsulterChangementProducteurQuery> = async ({
     identifiantProjet,
-    demandéLe,
+    enregistréLe,
   }) => {
     const identifiantProjetValueType = IdentifiantProjet.convertirEnValueType(identifiantProjet);
 
     const demandeChangementProducteur = await find<ChangementProducteurEntity>(
-      `changement-producteur|${identifiantProjetValueType.formatter()}#${demandéLe}`,
+      `changement-producteur|${identifiantProjetValueType.formatter()}#${enregistréLe}`,
     );
 
     return Option.match(demandeChangementProducteur).some(mapToReadModel).none();

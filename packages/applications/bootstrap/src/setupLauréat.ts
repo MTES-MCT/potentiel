@@ -175,7 +175,12 @@ export const setupLauréat = async ({
   const unsubscribeProducteurProjector = await subscribe<ProducteurProjector.SubscriptionEvent>({
     name: 'projector',
     streamCategory: 'producteur',
-    eventType: ['RebuildTriggered', 'ProducteurImporté-V1', 'ChangementProducteurEnregistré-V1'],
+    eventType: [
+      'RebuildTriggered',
+      'ProducteurImporté-V1',
+      'ChangementProducteurEnregistré-V1',
+      'ProducteurModifié-V1',
+    ],
     eventHandler: async (event) => {
       await mediator.send<ProducteurProjector.Execute>({
         type: 'System.Projector.Lauréat.Producteur',

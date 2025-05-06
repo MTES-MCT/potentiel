@@ -40,6 +40,32 @@ Quand(
   },
 );
 
+Quand(
+  'le DGEC validateur modifie le producteur du projet {lauréat-éliminé}',
+  async function (this: PotentielWorld, statutProjet: 'lauréat' | 'éliminé') {
+    try {
+      await modifierProducteur.call(this, statutProjet);
+    } catch (error) {
+      this.error = error as Error;
+    }
+  },
+);
+
+Quand(
+  'le DGEC validateur modifie le producteur avec une valeur identique pour le projet lauréat',
+  async function (this: PotentielWorld) {
+    try {
+      await modifierProducteur.call(
+        this,
+        'lauréat',
+        this.lauréatWorld.producteurWorld.importerProducteurFixture.producteur,
+      );
+    } catch (error) {
+      this.error = error as Error;
+    }
+  },
+);
+
 async function importerProducteur(this: PotentielWorld) {
   const identifiantProjet = this.candidatureWorld.importerCandidature.identifiantProjet;
   const { importéLe } = this.lauréatWorld.producteurWorld.importerProducteurFixture.créer({
@@ -65,9 +91,9 @@ export async function enregistrerChangementProducteur(
       ? this.lauréatWorld.identifiantProjet
       : this.eliminéWorld.identifiantProjet;
 
-  const { pièceJustificative, demandéLe, demandéPar, producteur } =
+  const { pièceJustificative, enregistréLe, enregistréPar, producteur } =
     this.lauréatWorld.producteurWorld.enregistrerChangementProducteurFixture.créer({
-      demandéPar: this.utilisateurWorld.porteurFixture.email,
+      enregistréPar: this.utilisateurWorld.porteurFixture.email,
       ...(producteurValue && { producteur: producteurValue }),
     });
 
@@ -75,10 +101,37 @@ export async function enregistrerChangementProducteur(
     type: 'Lauréat.Producteur.UseCase.EnregistrerChangement',
     data: {
       producteurValue: producteur,
-      dateChangementValue: demandéLe,
-      identifiantUtilisateurValue: demandéPar,
+      dateChangementValue: enregistréLe,
+      identifiantUtilisateurValue: enregistréPar,
       identifiantProjetValue: identifiantProjet.formatter(),
       pièceJustificativeValue: pièceJustificative,
+    },
+  });
+}
+
+export async function modifierProducteur(
+  this: PotentielWorld,
+  statutProjet: 'lauréat' | 'éliminé',
+  producteurValue?: string,
+) {
+  const identifiantProjet =
+    statutProjet === 'lauréat'
+      ? this.lauréatWorld.identifiantProjet
+      : this.eliminéWorld.identifiantProjet;
+
+  const { modifiéLe, modifiéPar, producteur } =
+    this.lauréatWorld.producteurWorld.modifierProducteurFixture.créer({
+      modifiéPar: this.utilisateurWorld.adminFixture.email,
+      ...(producteurValue && { producteur: producteurValue }),
+    });
+
+  await mediator.send<Producteur.ModifierProducteurUseCase>({
+    type: 'Lauréat.Producteur.UseCase.ModifierProducteur',
+    data: {
+      producteurValue: producteur,
+      dateModificationValue: modifiéLe,
+      identifiantUtilisateurValue: modifiéPar,
+      identifiantProjetValue: identifiantProjet.formatter(),
     },
   });
 }
