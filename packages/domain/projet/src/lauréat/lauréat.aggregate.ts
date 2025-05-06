@@ -1,6 +1,11 @@
 import { match } from 'ts-pattern';
 
-import { AbstractAggregate, LoadAggregateV2, mapToPlainObject } from '@potentiel-domain/core';
+import {
+  AbstractAggregate,
+  AggregateType,
+  LoadAggregateV2,
+  mapToPlainObject,
+} from '@potentiel-domain/core';
 import { DateTime } from '@potentiel-domain/common';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 
@@ -24,6 +29,7 @@ import {
 } from './lauréat.error';
 import { CahierDesChargesChoisiEvent } from './choisir/cahierDesChargesChoisi.event';
 import { ChoisirCahierDesChargesOptions } from './choisir/choisirCahierDesCharges.option';
+import { ProducteurAggregate } from './producteur/producteur.aggregate';
 
 export class LauréatAggregate extends AbstractAggregate<LauréatEvent> {
   #projet!: ProjetAggregateRoot;
@@ -35,6 +41,12 @@ export class LauréatAggregate extends AbstractAggregate<LauréatEvent> {
 
   get projet() {
     return this.#projet;
+  }
+
+  #producteur!: AggregateType<ProducteurAggregate>;
+
+  get producteur() {
+    return this.#producteur;
   }
 
   async init(projet: ProjetAggregateRoot, _loadAggregate: LoadAggregateV2) {
