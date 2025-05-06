@@ -113,6 +113,10 @@ const mapToProps: MapToProps = (candidature, lauréat, appelOffres, période) =>
       currentValue: lauréat.puissance.puissance,
       estEnCoursDeModification: !!lauréat.puissance.dateDemandeEnCours,
     },
+    nomCandidat: {
+      currentValue: lauréat.producteur.producteur,
+      estEnCoursDeModification: false,
+    },
   },
   projet: {
     nomProjet: candidature.nomProjet,
