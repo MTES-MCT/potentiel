@@ -5,7 +5,6 @@ import { HistoriqueProjector } from '@potentiel-applications/projectors';
 import { subscribe } from '@potentiel-infrastructure/pg-event-sourcing';
 import { listHistoryProjection } from '@potentiel-infrastructure/pg-projection-read';
 
-// viovio
 export const setupHistorique = async () => {
   Historique.registerHistoriqueProjetQuery({
     listHistory: listHistoryProjection,
