@@ -45,8 +45,9 @@ const action: FormAction<FormState, typeof schema> = async (
     return {
       status: 'success',
       redirection: {
-        url: Routes.Producteur.changement.détails(identifiantProjet, date),
-        message: 'Le changement de producteur a bien été enregistré',
+        url: Routes.Projet.lister(),
+        message:
+          "Votre changement de producteur a bien été enregistré. Vous n'avez plus accès au projet sur Potentiel",
       },
     };
   });

@@ -14,7 +14,7 @@ export const mapToChangementProducteurEnregistréTimelineItemProps = (
   return {
     date: enregistréLe,
     title: (
-      <div>Producteur modifiée par {<span className="font-semibold">{enregistréPar}</span>}</div>
+      <div>Producteur modifié par {<span className="font-semibold">{enregistréPar}</span>}</div>
     ),
     content: (
       <div className="flex flex-col gap-2">

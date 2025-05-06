@@ -40,10 +40,10 @@ export const DétailsChangementProducteur: FC<DétailsChangementProducteurProps>
           </div>
         </div>
         <>
-          <Heading5>Détails de la demande initiale</Heading5>
+          <Heading5>Détails du changement</Heading5>
           <div className="flex flex-col gap-2">
             <div className="flex flex-col gap-2">
-              <div className="font-semibold whitespace-nowrap">Producteur : </div>
+              <div className="font-semibold whitespace-nowrap">Producteur</div>
               <div className="flex flex-col gap-2">
                 <div>Nouveau producteur : {changement.nouveauProducteur}</div>
                 <div>Producteur initial : {changement.ancienProducteur}</div>

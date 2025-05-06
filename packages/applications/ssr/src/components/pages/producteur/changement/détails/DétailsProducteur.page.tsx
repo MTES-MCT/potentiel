@@ -27,9 +27,11 @@ export const DétailsProducteurPage: FC<DétailsProducteurPageProps> = ({
   changement,
   historique,
 }) => (
-  <PageTemplate>
-    banner=
-    {<ProjetBanner identifiantProjet={IdentifiantProjet.bind(identifiantProjet).formatter()} />}
+  <PageTemplate
+    banner={
+      <ProjetBanner identifiantProjet={IdentifiantProjet.bind(identifiantProjet).formatter()} />
+    }
+  >
     <div className="flex flex-col gap-8">
       <DétailsChangementProducteur changement={changement} />
       <div className="mb-4">

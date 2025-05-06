@@ -9,6 +9,7 @@ import { Heading1 } from '@/components/atoms/headings';
 import { PageTemplate } from '@/components/templates/Page.template';
 
 import { EnregistrerChangementProducteurForm } from './EnregistrerChangementProducteur.form';
+import { InfoBoxRévocationDesDroits } from './InfoBoxRévocationDroits';
 
 export type EnregistrerChangementProducteurPageProps =
   PlainType<Producteur.ConsulterProducteurReadModel>;
@@ -23,6 +24,7 @@ export const EnregistrerChangementProducteurPage: FC<EnregistrerChangementProduc
     }
   >
     <Heading1>Changer de producteur</Heading1>
+    <InfoBoxRévocationDesDroits />
     <EnregistrerChangementProducteurForm
       identifiantProjet={identifiantProjet}
       producteur={producteur}

@@ -326,6 +326,7 @@ const référencielPermissions = {
     producteur: {
       query: {
         consulter: 'Lauréat.Producteur.Query.ConsulterProducteur',
+        consulterChangement: 'Lauréat.Producteur.Query.ConsulterChangementProducteur',
         listerChangement: 'Lauréat.Producteur.Query.ListerChangementProducteur',
       },
       usecase: {
@@ -1084,6 +1085,7 @@ const policies = {
       référencielPermissions.candidature.query.consulterProjet,
       référencielPermissions.lauréat.producteur.query.consulter,
     ],
+    consulterChangement: [référencielPermissions.lauréat.producteur.query.consulterChangement],
     modifier: [
       référencielPermissions.candidature.query.consulterProjet,
       référencielPermissions.lauréat.producteur.usecase.modifier,
@@ -1290,6 +1292,7 @@ const adminPolicies: ReadonlyArray<Policy> = [
 
   // Producteur
   'producteur.listerChangement',
+  'producteur.consulterChangement',
   'producteur.modifier',
 ];
 
@@ -1413,6 +1416,7 @@ const drealPolicies: ReadonlyArray<Policy> = [
 
   // Producteur
   'producteur.listerChangement',
+  'producteur.consulterChangement',
 ];
 
 const porteurProjetPolicies: ReadonlyArray<Policy> = [

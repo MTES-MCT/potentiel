@@ -44,7 +44,7 @@ export const EnregistrerChangementProducteurForm: FC<EnregistrerChangementProduc
           >
             Retour à la page projet
           </Button>
-          <SubmitButton>Confirmer la demande</SubmitButton>
+          <SubmitButton>Confirmer le changement</SubmitButton>
         </>
       }
     >
@@ -70,9 +70,9 @@ export const EnregistrerChangementProducteurForm: FC<EnregistrerChangementProduc
         </div>
         <Input
           textArea
-          label={'Raison (optionnel)'}
+          label="Raison (optionnel)"
           id="raison"
-          hintText="Pour faciliter le traitement de votre demande, veuillez détailler les raisons ayant conduit au changement de producteur."
+          hintText="Veuillez détailler les raisons ayant conduit au changement de producteur."
           nativeTextAreaProps={{
             name: 'raison',
             required: false,
@@ -84,7 +84,7 @@ export const EnregistrerChangementProducteurForm: FC<EnregistrerChangementProduc
         <UploadNewOrModifyExistingDocument
           label={'Pièce justificative'}
           name="piecesJustificatives"
-          hintText="Joindre votre justificatif"
+          hintText="Joindre les statuts mis à jour"
           required={true}
           formats={['pdf']}
           state={validationErrors['piecesJustificatives'] ? 'error' : 'default'}
