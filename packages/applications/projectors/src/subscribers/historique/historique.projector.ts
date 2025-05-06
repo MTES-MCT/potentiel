@@ -8,6 +8,8 @@ import {
 import { Abandon, Actionnaire } from '@potentiel-domain/laureat';
 import { Éliminé } from '@potentiel-domain/projet';
 
+// viovio
+// à quoi ça sert ça ?
 export type SubscriptionEvent =
   | (Abandon.AbandonEvent & Event)
   | (Éliminé.Recours.RecoursEvent & Event)

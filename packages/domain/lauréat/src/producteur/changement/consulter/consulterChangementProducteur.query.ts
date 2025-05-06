@@ -14,6 +14,7 @@ export type ConsulterChangementProducteurReadModel = {
   changement: {
     enregistréPar: Email.ValueType;
     enregistréLe: DateTime.ValueType;
+    ancienProducteur: string;
     nouveauProducteur: string;
     raison?: string;
     pièceJustificative: DocumentProjet.ValueType;
@@ -62,6 +63,7 @@ export const mapToReadModel = (result: ChangementProducteurEntity) => {
     changement: {
       enregistréLe: DateTime.convertirEnValueType(result.changement.enregistréLe),
       enregistréPar: Email.convertirEnValueType(result.changement.enregistréPar),
+      ancienProducteur: result.changement.ancienProducteur,
       nouveauProducteur: result.changement.nouveauProducteur,
       raison: result.changement.raison,
       pièceJustificative: DocumentProjet.convertirEnValueType(

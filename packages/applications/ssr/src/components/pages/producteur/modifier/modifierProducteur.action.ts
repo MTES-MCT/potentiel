@@ -19,7 +19,7 @@ export type ModifierProducteurFormKeys = keyof zod.infer<typeof schema>;
 
 const action: FormAction<FormState, typeof schema> = async (_, { identifiantProjet, producteur }) =>
   withUtilisateur(async (utilisateur) => {
-    await mediator.send<Producteur.ProducteurUseCase>({
+    await mediator.send<Producteur.ModifierProducteurUseCase>({
       type: 'Lauréat.Producteur.UseCase.ModifierProducteur',
       data: {
         identifiantProjetValue: identifiantProjet,
