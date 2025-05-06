@@ -1,6 +1,6 @@
 import path from 'path';
+import { access, constants, mkdir, rm } from 'fs/promises';
 
-import { PDFDocument, StandardFonts } from 'pdf-lib';
 import { mediator } from 'mediateur';
 import { Command, Flags } from '@oclif/core';
 import zod from 'zod';
@@ -11,14 +11,30 @@ import {
   findProjection,
   listProjection,
 } from '@potentiel-infrastructure/pg-projection-read';
-import { récupérerIdentifiantsProjetParEmailPorteurAdapter } from '@potentiel-infrastructure/domain-adapters';
+import {
+  AppelOffreAdapter,
+  DocumentAdapter,
+  récupérerIdentifiantsProjetParEmailPorteurAdapter,
+} from '@potentiel-infrastructure/domain-adapters';
 import { killPool } from '@potentiel-libraries/pg-helpers';
 import { getLogger } from '@potentiel-libraries/monitoring';
-import { Raccordement, registerLauréatQueries } from '@potentiel-domain/laureat';
+import {
+  Raccordement,
+  registerLauréatQueries,
+  registerLauréatUseCases,
+} from '@potentiel-domain/laureat';
 import { DateTime, Email } from '@potentiel-domain/common';
-import { ConsulterDocumentProjetQuery } from '@potentiel-domain/document';
+import {
+  ConsulterDocumentProjetQuery,
+  registerDocumentProjetCommand,
+} from '@potentiel-domain/document';
+import { loadAggregate, loadAggregateV2 } from '@potentiel-infrastructure/pg-event-sourcing';
+import { ProjetAggregateRoot } from '@potentiel-domain/projet';
 
 import { parseCsvFile } from '../../../helpers/parse-file';
+
+import { generateDocument, formatDateQualification, writeStatisticsToFiles } from './_utils';
+import { logStatistics } from './_utils/logStatistics';
 
 const envVariablesSchema = zod.object({
   // s3
@@ -29,9 +45,13 @@ const envVariablesSchema = zod.object({
   AWS_SECRET_ACCESS_KEY: zod.string({ message: 'AWS_SECRET_ACCESS_KEY is required' }),
   // Database
   DATABASE_CONNECTION_STRING: zod.string({ message: 'DATABASE_CONNECTION_STRING is required' }),
+  // File path
+  FILE_PATH: zod.string({
+    message: 'FILE_PATH is required',
+  }),
 });
 
-type Statistics = {
+export type Statistics = {
   total: number;
   ligneSansRéférenceDossier: Array<string>;
   projetSansRaccordement: Array<string>;
@@ -113,12 +133,28 @@ export class MajDossiersEnedis extends Command {
     "Lire le contenu d'un fichier CSV rempli par Enedis pour venir (en one shot) créer / mettre à jour les dossiers de raccordement ainsi que la date de mise en service. Cette opération est ponctuelle";
 
   async init() {
+    registerDocumentProjetCommand({
+      enregistrerDocumentProjet: DocumentAdapter.téléverserDocumentProjet,
+      déplacerDossierProjet: DocumentAdapter.déplacerDossierProjet,
+      archiverDocumentProjet: DocumentAdapter.archiverDocumentProjet,
+    });
     registerLauréatQueries({
       count: countProjection,
       find: findProjection,
       list: listProjection,
       récupérerIdentifiantsProjetParEmailPorteur: récupérerIdentifiantsProjetParEmailPorteurAdapter,
     });
+    registerLauréatUseCases({
+      loadAggregate,
+      getProjetAggregateRoot: (identifiantProjet) =>
+        ProjetAggregateRoot.get(identifiantProjet, {
+          loadAggregate: loadAggregateV2,
+          loadAppelOffreAggregate: AppelOffreAdapter.loadAppelOffreAggregateAdapter,
+        }),
+      supprimerDocumentProjetSensible: DocumentAdapter.remplacerDocumentProjetSensible,
+    });
+    await deleteFolderIfExists(path.resolve(__dirname, './logs'));
+    await mkdir(path.resolve(__dirname, './logs'), { recursive: true });
   }
 
   static flags = {
@@ -130,7 +166,7 @@ export class MajDossiersEnedis extends Command {
   }
 
   async run() {
-    envVariablesSchema.parse(process.env);
+    const { FILE_PATH } = envVariablesSchema.parse(process.env);
 
     const { flags } = await this.parse(MajDossiersEnedis);
     const logger = getLogger(MajDossiersEnedis.name);
@@ -147,14 +183,10 @@ export class MajDossiersEnedis extends Command {
       dateMiseEnService: zod.string().optional(),
     });
 
-    const { parsedData } = await parseCsvFile(
-      path.resolve(__dirname, './dossiers_raccordements_modifies_fake.csv'),
-      csvSchema,
-      {
-        delimiter: ',',
-        encoding: 'utf8',
-      },
-    );
+    const { parsedData } = await parseCsvFile(path.resolve(__dirname, FILE_PATH), csvSchema, {
+      delimiter: ',',
+      encoding: 'utf8',
+    });
 
     if (parsedData.length === 0) {
       logger.error('❌ Aucune donnée à traiter ❌');
@@ -226,6 +258,9 @@ export class MajDossiersEnedis extends Command {
        * Raccordement inexistant
        */
       if (Option.isNone(raccordement)) {
+        console.error(
+          `Aucun raccordement trouvé pour le projet ${identifiantProjet} (${ligne.referenceDossier})`,
+        );
         statistics.projetSansRaccordement.push(identifiantProjet);
         index++;
         continue;
@@ -285,6 +320,9 @@ export class MajDossiersEnedis extends Command {
               },
             );
           } catch (error) {
+            console.error(
+              `Erreur lors de la mise à jour de la référence du dossier de raccordement pour le projet ${identifiantProjet} : ${error}`,
+            );
             statistics.UnSeulDossierDeRaccordement.modifierRéférenceDossierRaccordement.total++;
             statistics.UnSeulDossierDeRaccordement.modifierRéférenceDossierRaccordement.erreurs.push(
               {
@@ -354,6 +392,9 @@ export class MajDossiersEnedis extends Command {
               },
             );
           } catch (error) {
+            console.error(
+              `Erreur lors de la mise à jour de la demande complète de raccordement pour le projet ${identifiantProjet} : ${error}`,
+            );
             statistics.UnSeulDossierDeRaccordement.modifierDemandeComplètementRaccordement.total++;
             statistics.UnSeulDossierDeRaccordement.modifierDemandeComplètementRaccordement.erreurs.push(
               {
@@ -396,6 +437,9 @@ export class MajDossiersEnedis extends Command {
               dateMiseEnService: ligne.dateMiseEnService,
             });
           } catch (error) {
+            console.error(
+              `Erreur lors de la mise à jour de la date de mise en service pour le projet ${identifiantProjet} : ${error}`,
+            );
             statistics.UnSeulDossierDeRaccordement.transmettreDateMiseEnService.total++;
             statistics.UnSeulDossierDeRaccordement.transmettreDateMiseEnService.erreurs.push({
               identifiantProjet,
@@ -433,7 +477,7 @@ export class MajDossiersEnedis extends Command {
               type: 'Lauréat.Raccordement.UseCase.TransmettreDemandeComplèteRaccordement',
               data: {
                 identifiantProjetValue: identifiantProjet,
-                dateQualificationValue: ligne.dateAccuseReception,
+                dateQualificationValue: formatDateQualification(ligne.dateAccuseReception),
                 accuséRéceptionValue,
                 référenceDossierValue: ligne.referenceDossier,
               },
@@ -448,6 +492,9 @@ export class MajDossiersEnedis extends Command {
             },
           );
         } catch (error) {
+          console.error(
+            `Erreur lors de la création du dossier de raccordement pour le projet ${identifiantProjet} : ${error}`,
+          );
           statistics.pasDeDossierDeRaccordement.transmettreDemandeComplètementRaccordement.total++;
           statistics.pasDeDossierDeRaccordement.transmettreDemandeComplètementRaccordement.erreurs.push(
             {
@@ -463,14 +510,12 @@ export class MajDossiersEnedis extends Command {
         if (ligne.dateMiseEnService) {
           try {
             if (!flags.dryRun) {
-              const dateMiseEnServiceValue = formatDateQualification(ligne.dateMiseEnService);
-
               await mediator.send<Raccordement.TransmettreDateMiseEnServiceUseCase>({
                 type: 'Lauréat.Raccordement.UseCase.TransmettreDateMiseEnService',
                 data: {
                   identifiantProjetValue: identifiantProjet,
                   référenceDossierValue: ligne.referenceDossier,
-                  dateMiseEnServiceValue,
+                  dateMiseEnServiceValue: formatDateQualification(ligne.dateMiseEnService),
                   transmiseLeValue: DateTime.now().formatter(),
                   transmiseParValue: Email.system().formatter(),
                 },
@@ -482,6 +527,9 @@ export class MajDossiersEnedis extends Command {
               });
             }
           } catch (error) {
+            console.error(
+              `Erreur lors de la mise à jour de la date de mise en service pour le projet ${identifiantProjet} : ${error}`,
+            );
             statistics.pasDeDossierDeRaccordement.transmettreDateMiseEnService.total++;
             statistics.pasDeDossierDeRaccordement.transmettreDateMiseEnService.erreurs.push({
               identifiantProjet,
@@ -493,93 +541,26 @@ export class MajDossiersEnedis extends Command {
           }
         }
       }
+
+      index++;
     }
 
-    /*
- const statistics: Statistics = {
-   total: parsedData.length,
-   ligneSansRéférenceDossier: [],
-   projetSansRaccordement: [],
-   plusieursDossiersDeRaccordement: [],
-   UnSeulDossierDeRaccordement: {
-     total: 0,
-     modifierRéférenceDossierRaccordement: {
-       total: 0,
-       succès: [],
-       erreurs: [],
-     },
-     modifierDemandeComplètementRaccordement: {
-       total: 0,
-       succès: [],
-       erreurs: [],
-     },
-     transmettreDateMiseEnService: {
-       total: 0,
-       succès: [],
-       erreurs: [],
-     },
-   },
-   pasDeDossierDeRaccordement: {
-     total: 0,
-     transmettreDemandeComplètementRaccordement: {
-       total: 0,
-       succès: [],
-       erreurs: [],
-     },
-     transmettreDateMiseEnService: {
-       total: 0,
-       succès: [],
-       erreurs: [],
-     },
-   },
- };
-
-*/
-
-    logger.info('📊 Statistiques de la mise à jour des dossiers de raccordement :');
-    logger.info(`Total : ${statistics.total} / ${parsedData.length}`);
-    logger.info(`Ligne sans référence de dossier : ${statistics.ligneSansRéférenceDossier.length}`);
-    logger.info(`Projet sans raccordement : ${statistics.projetSansRaccordement.length}`);
-    logger.info(
-      `Plusieurs dossiers de raccordement : ${statistics.plusieursDossiersDeRaccordement.length}`,
-    );
-    logger.info(
-      `Un seul dossier de raccordement : ${statistics.UnSeulDossierDeRaccordement.total}`,
-    );
-    logger.info(`Pas de dossier de raccordement : ${statistics.pasDeDossierDeRaccordement.total}`);
+    await writeStatisticsToFiles(statistics);
+    await logStatistics(statistics);
 
     process.exit(0);
   }
 }
 
-const generateDocument = async (text: string) => {
-  const pdfDoc = await PDFDocument.create();
-  const page = pdfDoc.addPage();
+async function deleteFolderIfExists(folderPath: string) {
+  try {
+    // Vérifie si le dossier existe
+    await access(folderPath, constants.F_OK);
 
-  const textSize = 24;
-
-  const helveticaFont = await pdfDoc.embedFont(StandardFonts.Helvetica);
-  const textWidth = helveticaFont.widthOfTextAtSize(text, textSize);
-  const textHeight = helveticaFont.heightAtSize(textSize);
-
-  const x = page.getWidth() / 2 - textWidth / 2;
-
-  page.drawText(text, {
-    x: x > 0 ? x : 0,
-    y: page.getHeight() / 2 - textHeight / 2,
-    size: textSize,
-    font: helveticaFont,
-    maxWidth: page.getWidth(),
-  });
-
-  const pdfBytes = await pdfDoc.save();
-
-  return {
-    format: 'application/pdf',
-    content: new Blob([pdfBytes], { type: 'application/pdf' }).stream(),
-  };
-};
-
-const formatDateQualification = (dateString: string) => {
-  return new Date(dateString.replace(/(\d{2})\/(\d{2})\/(\d{4})/, '$3-$2-$1')).toISOString();
-};
+    // Supprime le dossier et son contenu
+    await rm(folderPath, { recursive: true, force: true });
+    console.log(`Dossier supprimé : ${folderPath}`);
+  } catch (error) {
+    console.error(`Erreur lors de la suppression du dossier : ${error}`);
+  }
+}
