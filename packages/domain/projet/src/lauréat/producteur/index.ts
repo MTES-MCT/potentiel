@@ -1,26 +1,44 @@
 import {
+  ConsulterChangementProducteurQuery,
+  ConsulterChangementProducteurReadModel,
+} from './changement/consulter/consulterChangementProducteur.query';
+import { EnregistrerChangementProducteurUseCase } from './changement/enregistrerChangement/enregistrerChangement.usecase';
+import {
+  ListerChangementProducteurQuery,
+  ListerChangementProducteurReadModel,
+} from './changement/lister/listerChangementProducteur.query';
+import {
   ConsulterProducteurQuery,
   ConsulterProducteurReadModel,
 } from './consulter/consulterProducteur.query';
-import { DemanderProducteurUseCase } from './demander/demanderProducteur.usecase';
-import { ListerProducteurQuery, ListerProducteurReadModel } from './lister/listerProducteur.query';
 
 // Query
-export type ProducteurQuery = ConsulterProducteurQuery | ListerProducteurQuery;
+export type ProducteurQuery =
+  | ConsulterProducteurQuery
+  | ConsulterChangementProducteurQuery
+  | ListerChangementProducteurQuery;
 
-export { ConsulterProducteurQuery, ListerProducteurQuery };
+export {
+  ConsulterProducteurQuery,
+  ConsulterChangementProducteurQuery,
+  ListerChangementProducteurQuery,
+};
 
 // ReadModel
-export { ConsulterProducteurReadModel, ListerProducteurReadModel };
+export {
+  ConsulterProducteurReadModel,
+  ConsulterChangementProducteurReadModel,
+  ListerChangementProducteurReadModel,
+};
 
 // UseCases
-export type ProducteurUseCase = DemanderProducteurUseCase;
+export type ProducteurUseCase = EnregistrerChangementProducteurUseCase;
 
-export { DemanderProducteurUseCase };
+export { EnregistrerChangementProducteurUseCase };
 
 // Event
-// export { ProducteurEvent } from './producteur.event';
-export { ProducteurDemandéEvent } from './demander/demanderProducteur.event';
+export { ProducteurEvent } from './producteur.event';
+export { ChangementProducteurEnregistréEvent } from './changement/enregistrerChangement/enregistrerChangement.event';
 
 // Register
 export { registerProducteurQueries, registerProducteurUseCases } from './producteur.register';

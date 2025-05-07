@@ -40,12 +40,6 @@ import {
   registerPuissanceQueries,
   registerPuissanceUseCases,
 } from './puissance/puissance.register';
-import {
-  ProducteurCommandDependencies,
-  ProducteurQueryDependencies,
-  registerProducteurQueries,
-  registerProducteurUseCases,
-} from './producteur/producteur.register';
 
 export type LauréatQueryDependencies = AbandonQueryDependencies &
   GarantiesFinancièresQueryDependencies &
@@ -53,8 +47,7 @@ export type LauréatQueryDependencies = AbandonQueryDependencies &
   ReprésentantLégalQueryDependencies &
   ActionnaireQueryDependencies &
   RaccordementQueryDependencies &
-  PuissanceQueryDependencies &
-  ProducteurQueryDependencies;
+  PuissanceQueryDependencies;
 
 export type LauréatCommandDependencies = AbandonCommandDependencies &
   GarantiesFinancièresCommandDependencies &
@@ -62,8 +55,7 @@ export type LauréatCommandDependencies = AbandonCommandDependencies &
   ReprésentantLégalCommandDependencies &
   ActionnaireCommandDependencies &
   RaccordementCommandDependencies &
-  PuissanceCommandDependencies &
-  ProducteurCommandDependencies;
+  PuissanceCommandDependencies;
 
 export const registerLauréatUseCases = (dependencies: LauréatCommandDependencies) => {
   registerAbandonUseCases(dependencies);
@@ -73,7 +65,6 @@ export const registerLauréatUseCases = (dependencies: LauréatCommandDependenci
   registerActionnaireUseCases(dependencies);
   registerRaccordementUseCases(dependencies);
   registerPuissanceUseCases(dependencies);
-  registerProducteurUseCases(dependencies);
 };
 
 export const registerLauréatQueries = (dependencies: LauréatQueryDependencies) => {
@@ -84,5 +75,4 @@ export const registerLauréatQueries = (dependencies: LauréatQueryDependencies)
   registerActionnaireQueries(dependencies);
   registerRaccordementQueries(dependencies);
   registerPuissanceQueries(dependencies);
-  registerProducteurQueries(dependencies);
 };

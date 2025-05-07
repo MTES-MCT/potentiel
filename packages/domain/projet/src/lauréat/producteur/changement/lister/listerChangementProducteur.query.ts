@@ -1,15 +1,11 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
-import { DateTime } from '@potentiel-domain/common';
+import { DateTime, Email } from '@potentiel-domain/common';
 import { Joined, List, RangeOptions, Where } from '@potentiel-domain/entity';
-import { RécupérerIdentifiantsProjetParEmailPorteurPort } from '@potentiel-domain/utilisateur';
-import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 
-import {
-  getRoleBasedWhereCondition,
-  Utilisateur,
-} from '../../../_utils/getRoleBasedWhereCondition';
 import { ChangementProducteurEntity } from '../changementProducteur.entity';
+import { GetProjetUtilisateurScope } from '../../../../getScopeProjetUtilisateur.port';
+import { IdentifiantProjet, Lauréat } from '../../../..';
 
 type ChangementProducteurItemReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
@@ -28,7 +24,7 @@ export type ListerChangementProducteurReadModel = {
 export type ListerChangementProducteurQuery = Message<
   'Lauréat.Producteur.Query.ListerChangementProducteur',
   {
-    utilisateur: Utilisateur;
+    utilisateur: Email.RawType;
     appelOffre?: string;
     nomProjet?: string;
     range: RangeOptions;
@@ -38,12 +34,12 @@ export type ListerChangementProducteurQuery = Message<
 
 export type ListerChangementProducteurDependencies = {
   list: List;
-  récupérerIdentifiantsProjetParEmailPorteur: RécupérerIdentifiantsProjetParEmailPorteurPort;
+  getScopeProjetUtilisateur: GetProjetUtilisateurScope;
 };
 
 export const registerListerChangementProducteurQuery = ({
   list,
-  récupérerIdentifiantsProjetParEmailPorteur,
+  getScopeProjetUtilisateur,
 }: ListerChangementProducteurDependencies) => {
   const handler: MessageHandler<ListerChangementProducteurQuery> = async ({
     appelOffre,
@@ -51,10 +47,7 @@ export const registerListerChangementProducteurQuery = ({
     utilisateur,
     range,
   }) => {
-    const { identifiantProjet, régionProjet } = await getRoleBasedWhereCondition(
-      utilisateur,
-      récupérerIdentifiantsProjetParEmailPorteur,
-    );
+    const scope = await getScopeProjetUtilisateur(Email.convertirEnValueType(utilisateur));
 
     const demandes = await list<ChangementProducteurEntity, Lauréat.LauréatEntity>(
       'changement-producteur',
@@ -70,12 +63,13 @@ export const registerListerChangementProducteurQuery = ({
             appelOffre: Where.equal(appelOffre),
             nomProjet: Where.contain(nomProjet),
             localité: {
-              région: régionProjet,
+              région: scope.type === 'region' ? Where.equal(scope.region) : undefined,
             },
           },
         },
         where: {
-          identifiantProjet,
+          identifiantProjet:
+            scope.type === 'projet' ? Where.matchAny(scope.identifiantProjets) : undefined,
         },
       },
     );
