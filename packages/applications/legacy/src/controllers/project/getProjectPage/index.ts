@@ -34,6 +34,7 @@ import {
 import { Role } from '@potentiel-domain/utilisateur';
 import { getPuissance } from './_utils/getPuissance';
 import { getProducteur } from './_utils/getProducteur';
+import { getCandidature } from './_utils/getCandidature';
 
 const schema = yup.object({
   params: yup.object({ projectId: yup.string().required() }),
@@ -223,6 +224,7 @@ v1Router.get(
             changementProducteurPossibleAvantAchèvement:
               project.appelOffre.changementProducteurPossibleAvantAchèvement,
           }),
+          candidature: await getCandidature({ identifiantProjet: identifiantProjetValueType }),
           hasAttestationConformité: !!attestationConformité,
           modificationsNonPermisesParLeCDCActuel:
             project.cahierDesChargesActuel.type === 'initial' &&

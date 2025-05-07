@@ -55,6 +55,7 @@ type ProjectDetailsProps = {
   modificationsNonPermisesParLeCDCActuel: boolean;
   coefficientKChoisi: boolean | undefined;
   cdcV2: boolean;
+  candidature: ContactProps['candidature'];
 };
 
 export const ProjectDetails = ({
@@ -74,6 +75,7 @@ export const ProjectDetails = ({
   coefficientKChoisi,
   cdcV2,
   producteur,
+  candidature,
 }: ProjectDetailsProps) => {
   const { user } = request;
   const { error, success } = (request.query as any) || {};
@@ -166,6 +168,7 @@ export const ProjectDetails = ({
               représentantLégal={représentantLégal}
               producteur={producteur}
               modificationsNonPermisesParLeCDCActuel={modificationsNonPermisesParLeCDCActuel}
+              candidature={candidature}
             />
             <MaterielsEtTechnologies
               fournisseur={project.fournisseur}

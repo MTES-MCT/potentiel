@@ -1175,6 +1175,7 @@ const pageProjetPolicies: Policy[] = [
 
   // Candidature
   'candidature.attestation.télécharger',
+  'candidature.consulter',
 
   // Représentant légal
   'représentantLégal.consulter',
