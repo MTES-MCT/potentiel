@@ -46,3 +46,4 @@ export { LauréatEntity } from './lauréat.entity';
 // ValueType
 
 export * as Délai from './délai';
+export * as Producteur from './producteur';

@@ -3,13 +3,12 @@ import type { Metadata } from 'next';
 import { z } from 'zod';
 
 import { AppelOffre } from '@potentiel-domain/appel-offre';
-import { Producteur } from '@potentiel-domain/laureat';
+import { Lauréat } from '@potentiel-domain/projet';
 import { mapToPlainObject } from '@potentiel-domain/core';
 
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 import { mapToPagination, mapToRangeOptions } from '@/utils/pagination';
-import { getRégionUtilisateur } from '@/utils/getRégionUtilisateur';
 import {
   ChangementProducteurListPage,
   ChangementProducteurListPageProps,
@@ -35,16 +34,10 @@ export default async function Page({ searchParams }: PageProps) {
     withUtilisateur(async (utilisateur) => {
       const { page, nomProjet, appelOffre } = paramsSchema.parse(searchParams);
 
-      const régionDreal = await getRégionUtilisateur(utilisateur);
-
-      const changements = await mediator.send<Producteur.ListerChangementProducteurQuery>({
+      const changements = await mediator.send<Lauréat.Producteur.ListerChangementProducteurQuery>({
         type: 'Lauréat.Producteur.Query.ListerChangementProducteur',
         data: {
-          utilisateur: {
-            identifiantUtilisateur: utilisateur.identifiantUtilisateur.email,
-            rôle: utilisateur.role.nom,
-            régionDreal,
-          },
+          utilisateur: utilisateur.identifiantUtilisateur.email,
           range: mapToRangeOptions({
             currentPage: page,
             itemsPerPage: 10,
@@ -76,7 +69,7 @@ export default async function Page({ searchParams }: PageProps) {
 }
 
 const mapToListProps = (
-  changements: Producteur.ListerChangementProducteurReadModel,
+  changements: Lauréat.Producteur.ListerChangementProducteurReadModel,
 ): ChangementProducteurListPageProps['list'] => {
   const pagination = mapToPagination(changements.range);
 

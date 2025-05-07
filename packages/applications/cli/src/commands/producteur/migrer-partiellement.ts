@@ -1,6 +1,5 @@
 import { Command, Flags } from '@oclif/core';
 
-import { Producteur } from '@potentiel-domain/laureat';
 import { Candidature, Lauréat } from '@potentiel-domain/projet';
 import { executeSelect } from '@potentiel-libraries/pg-helpers';
 import { listProjection } from '@potentiel-infrastructure/pg-projection-read';
@@ -29,7 +28,7 @@ export class Migrer extends Command {
     console.log(`${candidatures.length} candidatures à importer`);
     console.log(`${lauréats.length} lauréats à importer`);
 
-    const eventsPerProjet: Record<string, Producteur.ProducteurEvent[]> = {};
+    const eventsPerProjet: Record<string, Lauréat.Producteur.ProducteurEvent[]> = {};
 
     for (const lauréat of lauréats) {
       const candidature = candidatures.find(
@@ -39,15 +38,15 @@ export class Migrer extends Command {
         console.warn('candidature non trouvée', lauréat.identifiantProjet);
         continue;
       }
-      const producteurImporté: Producteur.ProducteurImportéEvent = {
-        type: 'ProducteurImporté-V1',
-        payload: {
-          producteur: candidature.nomCandidat,
-          identifiantProjet: candidature.identifiantProjet,
-          importéLe: candidature.notification!.notifiéeLe,
-        },
-      };
-      eventsPerProjet[candidature.identifiantProjet] = [producteurImporté];
+      // const producteurImporté: Lauréat.Producteur.ProducteurImportéEvent = {
+      //   type: 'ProducteurImporté-V1',
+      //   payload: {
+      //     producteur: candidature.nomCandidat,
+      //     identifiantProjet: candidature.identifiantProjet,
+      //     importéLe: candidature.notification!.notifiéeLe,
+      //   },
+      // };
+      // eventsPerProjet[candidature.identifiantProjet] = [producteurImporté];
     }
 
     const eventsStats: Record<string, number> = {};

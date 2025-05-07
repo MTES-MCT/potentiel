@@ -5,7 +5,7 @@ import { assert } from 'chai';
 
 import { Option } from '@potentiel-libraries/monads';
 import { mapToPlainObject } from '@potentiel-domain/core';
-import { Producteur } from '@potentiel-domain/laureat';
+import { Lauréat } from '@potentiel-domain/projet';
 import { IdentifiantProjet } from '@potentiel-domain/projet';
 
 import { PotentielWorld } from '../../../../potentiel.world';
@@ -18,7 +18,7 @@ Alors(
         this.candidatureWorld.importerCandidature.identifiantProjet,
       );
 
-      const producteur = await mediator.send<Producteur.ProducteurQuery>({
+      const producteur = await mediator.send<Lauréat.Producteur.ProducteurQuery>({
         type: 'Lauréat.Producteur.Query.ConsulterProducteur',
         data: {
           identifiantProjet: identifiantProjet.formatter(),
@@ -51,7 +51,7 @@ Alors(
     return waitForExpect(async () => {
       const { identifiantProjet } = this.lauréatWorld;
 
-      const producteur = await mediator.send<Producteur.ProducteurQuery>({
+      const producteur = await mediator.send<Lauréat.Producteur.ProducteurQuery>({
         type: 'Lauréat.Producteur.Query.ConsulterProducteur',
         data: {
           identifiantProjet: identifiantProjet.formatter(),
@@ -70,14 +70,15 @@ Alors(
 
 async function vérifierChangementProducteur(this: PotentielWorld, identifiantProjet: string) {
   return waitForExpect(async () => {
-    const demandeEnCours = await mediator.send<Producteur.ConsulterChangementProducteurQuery>({
-      type: 'Lauréat.Producteur.Query.ConsulterChangementProducteur',
-      data: {
-        identifiantProjet,
-        enregistréLe:
-          this.lauréatWorld.producteurWorld.enregistrerChangementProducteurFixture.enregistréLe,
-      },
-    });
+    const demandeEnCours =
+      await mediator.send<Lauréat.Producteur.ConsulterChangementProducteurQuery>({
+        type: 'Lauréat.Producteur.Query.ConsulterChangementProducteur',
+        data: {
+          identifiantProjet,
+          enregistréLe:
+            this.lauréatWorld.producteurWorld.enregistrerChangementProducteurFixture.enregistréLe,
+        },
+      });
 
     assert(Option.isSome(demandeEnCours), 'Demande de changement de producteur non trouvée !');
 
@@ -91,7 +92,7 @@ async function vérifierChangementProducteur(this: PotentielWorld, identifiantPr
 
     actual.should.be.deep.equal(expected);
 
-    const producteur = await mediator.send<Producteur.ConsulterProducteurQuery>({
+    const producteur = await mediator.send<Lauréat.Producteur.ConsulterProducteurQuery>({
       type: 'Lauréat.Producteur.Query.ConsulterProducteur',
       data: {
         identifiantProjet,

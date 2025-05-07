@@ -1,4 +1,4 @@
-import { Producteur } from '@potentiel-domain/laureat';
+import { Lauréat } from '@potentiel-domain/projet';
 import { IdentifiantProjet } from '@potentiel-domain/projet';
 import { DateTime, Email } from '@potentiel-domain/common';
 import { DocumentProjet } from '@potentiel-domain/document';
@@ -30,7 +30,7 @@ export class ProducteurWorld {
   }
 
   mapToExpected(identifiantProjet: IdentifiantProjet.ValueType) {
-    const expected: Producteur.ConsulterProducteurReadModel = {
+    const expected: Lauréat.Producteur.ConsulterProducteurReadModel = {
       identifiantProjet,
       producteur: this.#modifierProducteurFixture.aÉtéCréé
         ? this.#modifierProducteurFixture.producteur
@@ -47,7 +47,7 @@ export class ProducteurWorld {
       throw new Error(`Aucune information enregistrée n'a été créée dans ProducteurWorld`);
     }
 
-    const expected: Producteur.ConsulterChangementProducteurReadModel = {
+    const expected: Lauréat.Producteur.ConsulterChangementProducteurReadModel = {
       identifiantProjet,
       changement: {
         enregistréLe: DateTime.convertirEnValueType(
@@ -60,7 +60,7 @@ export class ProducteurWorld {
         ancienProducteur: this.#importerProducteurFixture.producteur,
         pièceJustificative: DocumentProjet.convertirEnValueType(
           identifiantProjet.formatter(),
-          Producteur.TypeDocumentProducteur.pièceJustificative.formatter(),
+          Lauréat.Producteur.TypeDocumentProducteur.pièceJustificative.formatter(),
           DateTime.convertirEnValueType(
             this.#enregistrerChangementProducteurFixture.enregistréLe,
           ).formatter(),

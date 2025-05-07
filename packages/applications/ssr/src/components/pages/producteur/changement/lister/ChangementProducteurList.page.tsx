@@ -2,7 +2,7 @@ import { FC } from 'react';
 
 import { IdentifiantProjet } from '@potentiel-domain/projet';
 import { PlainType } from '@potentiel-domain/core';
-import { Producteur } from '@potentiel-domain/laureat';
+import { Lauréat } from '@potentiel-domain/projet';
 
 import { ListPageTemplate, ListPageTemplateProps } from '@/components/templates/ListPage.template';
 import { Pagination } from '@/utils/pagination';
@@ -11,7 +11,9 @@ import { ChangementProducteurListItem } from './ChangementProducteurListItem';
 
 export type ChangementProducteurListPageProps = {
   list: {
-    items: Array<PlainType<Producteur.ListerChangementProducteurReadModel['items'][number]>>;
+    items: Array<
+      PlainType<Lauréat.Producteur.ListerChangementProducteurReadModel['items'][number]>
+    >;
     pagination: Pagination;
     total: number;
   };

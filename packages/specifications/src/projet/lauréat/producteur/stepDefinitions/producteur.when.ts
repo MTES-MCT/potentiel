@@ -1,18 +1,9 @@
 import { When as Quand } from '@cucumber/cucumber';
 import { mediator } from 'mediateur';
 
-import { IdentifiantProjet, DateTime } from '@potentiel-domain/common';
-import { Producteur } from '@potentiel-domain/laureat';
+import { Lauréat } from '@potentiel-domain/projet';
 
 import { PotentielWorld } from '../../../../potentiel.world';
-
-Quand('le producteur est importé pour le projet', async function (this: PotentielWorld) {
-  try {
-    await importerProducteur.call(this);
-  } catch (error) {
-    this.error = error as Error;
-  }
-});
 
 Quand(
   'le porteur enregistre un changement de producteur pour le projet {lauréat-éliminé}',
@@ -66,21 +57,6 @@ Quand(
   },
 );
 
-async function importerProducteur(this: PotentielWorld) {
-  const identifiantProjet = this.candidatureWorld.importerCandidature.identifiantProjet;
-  const { importéLe } = this.lauréatWorld.producteurWorld.importerProducteurFixture.créer({
-    producteur: this.candidatureWorld.importerCandidature.values.nomCandidatValue,
-  });
-
-  await mediator.send<Producteur.ProducteurCommand>({
-    type: 'Lauréat.Producteur.Command.ImporterProducteur',
-    data: {
-      identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
-      importéLe: DateTime.convertirEnValueType(importéLe),
-    },
-  });
-}
-
 export async function enregistrerChangementProducteur(
   this: PotentielWorld,
   statutProjet: 'lauréat' | 'éliminé',
@@ -97,7 +73,7 @@ export async function enregistrerChangementProducteur(
       ...(producteurValue && { producteur: producteurValue }),
     });
 
-  await mediator.send<Producteur.EnregistrerChangementProducteurUseCase>({
+  await mediator.send<Lauréat.Producteur.EnregistrerChangementProducteurUseCase>({
     type: 'Lauréat.Producteur.UseCase.EnregistrerChangement',
     data: {
       producteurValue: producteur,
@@ -125,7 +101,7 @@ export async function modifierProducteur(
       ...(producteurValue && { producteur: producteurValue }),
     });
 
-  await mediator.send<Producteur.ModifierProducteurUseCase>({
+  await mediator.send<Lauréat.Producteur.ModifierProducteurUseCase>({
     type: 'Lauréat.Producteur.UseCase.ModifierProducteur',
     data: {
       producteurValue: producteur,

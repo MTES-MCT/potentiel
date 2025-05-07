@@ -11,6 +11,7 @@ import {
   ConsulterProducteurQuery,
   ConsulterProducteurReadModel,
 } from './consulter/consulterProducteur.query';
+import { ModifierProducteurUseCase } from './modifier/modifierProducteur.usecase';
 
 // Query
 export type ProducteurQuery =
@@ -32,13 +33,13 @@ export {
 };
 
 // UseCases
-export type ProducteurUseCase = EnregistrerChangementProducteurUseCase;
-
-export { EnregistrerChangementProducteurUseCase };
+export type ProducteurUseCase = EnregistrerChangementProducteurUseCase | ModifierProducteurUseCase;
+export { EnregistrerChangementProducteurUseCase, ModifierProducteurUseCase };
 
 // Event
 export { ProducteurEvent } from './producteur.event';
 export { ChangementProducteurEnregistréEvent } from './changement/enregistrerChangement/enregistrerChangement.event';
+export { ProducteurModifiéEvent } from './modifier/modifierProducteur.event';
 
 // Register
 export { registerProducteurQueries, registerProducteurUseCases } from './producteur.register';
@@ -48,3 +49,4 @@ export * as TypeDocumentProducteur from './typeDocumentProducteur.valueType';
 
 // Entities
 export * from './producteur.entity';
+export * from './changement/changementProducteur.entity';

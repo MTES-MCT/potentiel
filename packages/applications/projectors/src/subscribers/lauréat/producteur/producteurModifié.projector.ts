@@ -1,12 +1,15 @@
-import { Producteur } from '@potentiel-domain/laureat';
+import { Lauréat } from '@potentiel-domain/projet';
 import { updateOneProjection } from '@potentiel-infrastructure/pg-projection-write';
 
 export const producteurModifiéProjector = async ({
   payload: { identifiantProjet, producteur, modifiéLe },
-}: Producteur.ProducteurModifiéEvent) => {
-  await updateOneProjection<Producteur.ProducteurEntity>(`producteur|${identifiantProjet}`, {
-    identifiantProjet,
-    nom: producteur,
-    misÀJourLe: modifiéLe,
-  });
+}: Lauréat.Producteur.ProducteurModifiéEvent) => {
+  await updateOneProjection<Lauréat.Producteur.ProducteurEntity>(
+    `producteur|${identifiantProjet}`,
+    {
+      identifiantProjet,
+      nom: producteur,
+      misÀJourLe: modifiéLe,
+    },
+  );
 };
