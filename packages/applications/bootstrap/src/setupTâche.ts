@@ -1,12 +1,6 @@
 import { mediator } from 'mediateur';
 
-import {
-  TâcheAbandonSaga,
-  TâcheGarantiesFinancièresSaga,
-  TâcheRaccordementSaga,
-  registerTâcheCommand,
-  registerTâcheQuery,
-} from '@potentiel-domain/tache';
+import { Tâche, registerTâcheCommand, registerTâcheQuery } from '@potentiel-domain/tache';
 import { Event, loadAggregate, subscribe } from '@potentiel-infrastructure/pg-event-sourcing';
 import { TâcheProjector } from '@potentiel-applications/projectors';
 import { récupérerIdentifiantsProjetParEmailPorteurAdapter } from '@potentiel-infrastructure/domain-adapters';
@@ -60,9 +54,9 @@ const registerTâcheProjector = async () => {
 };
 
 const registerTâcheGarantiesFinancières = async () => {
-  TâcheGarantiesFinancièresSaga.register();
+  Tâche.TâcheGarantiesFinancièresSaga.register();
   const unsubscribeTâcheGarantiesFinancièresSaga = await subscribe<
-    TâcheGarantiesFinancièresSaga.SubscriptionEvent & Event
+    Tâche.TâcheGarantiesFinancièresSaga.SubscriptionEvent & Event
   >({
     name: 'tache-saga',
     streamCategory: 'garanties-financieres',
@@ -72,7 +66,7 @@ const registerTâcheGarantiesFinancières = async () => {
       'GarantiesFinancièresEnregistrées-V1',
     ],
     eventHandler: async (event) => {
-      await mediator.publish<TâcheGarantiesFinancièresSaga.Execute>({
+      await mediator.publish<Tâche.TâcheGarantiesFinancièresSaga.Execute>({
         type: 'System.Saga.TâcheGarantiesFinancières',
         data: event,
       });
@@ -82,9 +76,9 @@ const registerTâcheGarantiesFinancières = async () => {
 };
 
 const registerTâcheRaccordementSaga = async () => {
-  TâcheRaccordementSaga.register();
+  Tâche.TâcheRaccordementSaga.register();
   const unsubscribeTâcheRaccordementSaga = await subscribe<
-    TâcheRaccordementSaga.SubscriptionEvent & Event
+    Tâche.TâcheRaccordementSaga.SubscriptionEvent & Event
   >({
     name: 'tache-saga',
     streamCategory: 'raccordement',
@@ -96,7 +90,7 @@ const registerTâcheRaccordementSaga = async () => {
       'RaccordementSupprimé-V1',
     ],
     eventHandler: async (event) => {
-      await mediator.publish<TâcheRaccordementSaga.Execute>({
+      await mediator.publish<Tâche.TâcheRaccordementSaga.Execute>({
         type: 'System.Saga.TâcheRaccordement',
         data: event,
       });
@@ -106,8 +100,10 @@ const registerTâcheRaccordementSaga = async () => {
 };
 
 async function registerTâcheAbandonSaga() {
-  TâcheAbandonSaga.register();
-  const unsubscribeTâcheAbandonSaga = await subscribe<TâcheAbandonSaga.SubscriptionEvent & Event>({
+  Tâche.TâcheAbandonSaga.register();
+  const unsubscribeTâcheAbandonSaga = await subscribe<
+    Tâche.TâcheAbandonSaga.SubscriptionEvent & Event
+  >({
     name: 'tache-saga',
     streamCategory: 'abandon',
     eventType: [
@@ -119,7 +115,7 @@ async function registerTâcheAbandonSaga() {
       'PreuveRecandidatureTransmise-V1',
     ],
     eventHandler: async (event) => {
-      await mediator.publish<TâcheAbandonSaga.Execute>({
+      await mediator.publish<Tâche.TâcheAbandonSaga.Execute>({
         type: 'System.Saga.TâcheAbandon',
         data: event,
       });

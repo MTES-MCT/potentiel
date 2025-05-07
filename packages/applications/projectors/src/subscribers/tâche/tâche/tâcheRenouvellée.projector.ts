@@ -1,4 +1,4 @@
-import { TypeTâche, TâcheEntity, TâcheRenouvelléeEvent } from '@potentiel-domain/tache';
+import { Tâche } from '@potentiel-domain/tache';
 import { DateTime } from '@potentiel-domain/common';
 import { findProjection } from '@potentiel-infrastructure/pg-projection-read';
 import { upsertProjection } from '@potentiel-infrastructure/pg-projection-write';
@@ -6,10 +6,10 @@ import { Option } from '@potentiel-libraries/monads';
 
 export const tâcheRenouvelléeProjector = async ({
   payload: { identifiantProjet, typeTâche, ajoutéeLe },
-}: TâcheRenouvelléeEvent) => {
+}: Tâche.TâcheRenouvelléeEvent) => {
   const tâche = await récupérerTâche(typeTâche, identifiantProjet);
 
-  await upsertProjection<TâcheEntity>(`tâche|${typeTâche}#${identifiantProjet}`, {
+  await upsertProjection<Tâche.TâcheEntity>(`tâche|${typeTâche}#${identifiantProjet}`, {
     ...tâche,
     typeTâche,
     misÀJourLe: ajoutéeLe,
@@ -17,11 +17,13 @@ export const tâcheRenouvelléeProjector = async ({
 };
 
 const récupérerTâche = async (typeTâche: string, identifiantProjet: string) => {
-  const tâcheEntity = await findProjection<TâcheEntity>(`tâche|${typeTâche}#${identifiantProjet}`);
+  const tâcheEntity = await findProjection<Tâche.TâcheEntity>(
+    `tâche|${typeTâche}#${identifiantProjet}`,
+  );
 
-  const tâcheDefaultEntity: TâcheEntity = {
+  const tâcheDefaultEntity: Tâche.TâcheEntity = {
     identifiantProjet,
-    typeTâche: TypeTâche.inconnue.type,
+    typeTâche: Tâche.TypeTâche.inconnue.type,
     misÀJourLe: DateTime.now().formatter(),
     type: 'tâche',
   };

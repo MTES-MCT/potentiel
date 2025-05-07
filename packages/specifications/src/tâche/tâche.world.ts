@@ -1,27 +1,39 @@
-import { TypeTâche } from '@potentiel-domain/tache';
+import { match } from 'ts-pattern';
+
+import { Tâche } from '@potentiel-domain/tache';
 
 export type RechercherTypeTâche =
   | 'transmettre la preuve de recandidature'
   | 'confirmer un abandon'
   | 'transmettre les garanties financières'
   | 'mettre à jour le gestionnaire de réseau'
-  | 'transmettre une référence de raccordement';
+  | 'transmettre une référence de raccordement'
+  | "renseigner l'accusé de récéption de la demande complète de raccordement";
 
 export class TâcheWorld {
-  rechercherTypeTâche(value: RechercherTypeTâche): TypeTâche.ValueType {
-    switch (value) {
-      case 'transmettre la preuve de recandidature':
-        return TypeTâche.abandonTransmettrePreuveRecandidature;
-      case 'confirmer un abandon':
-        return TypeTâche.abandonConfirmer;
-      case 'transmettre les garanties financières':
-        return TypeTâche.garantiesFinancièresDemander;
-      case 'mettre à jour le gestionnaire de réseau':
-        return TypeTâche.raccordementGestionnaireRéseauInconnuAttribué;
-      case 'transmettre une référence de raccordement':
-        return TypeTâche.raccordementRéférenceNonTransmise;
-      default:
-        return TypeTâche.inconnue;
-    }
+  rechercherTypeTâche(value: RechercherTypeTâche): Tâche.TypeTâche.ValueType {
+    return match(value)
+      .with(
+        'transmettre la preuve de recandidature',
+        () => Tâche.TypeTâche.abandonTransmettrePreuveRecandidature,
+      )
+      .with('confirmer un abandon', () => Tâche.TypeTâche.abandonConfirmer)
+      .with(
+        'transmettre les garanties financières',
+        () => Tâche.TypeTâche.garantiesFinancièresDemander,
+      )
+      .with(
+        'mettre à jour le gestionnaire de réseau',
+        () => Tâche.TypeTâche.raccordementGestionnaireRéseauInconnuAttribué,
+      )
+      .with(
+        'transmettre une référence de raccordement',
+        () => Tâche.TypeTâche.raccordementRéférenceNonTransmise,
+      )
+      .with(
+        "renseigner l'accusé de récéption de la demande complète de raccordement",
+        () => Tâche.TypeTâche.raccordementRenseignerAccuséRéceptionDemandeComplèteRaccordement,
+      )
+      .exhaustive();
   }
 }

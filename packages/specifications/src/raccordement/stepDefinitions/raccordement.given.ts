@@ -4,7 +4,7 @@ import waitForExpect from 'wait-for-expect';
 import { expect } from 'chai';
 
 import { GestionnaireRéseau } from '@potentiel-domain/reseau';
-import { ListerTâchesQuery } from '@potentiel-domain/tache';
+import { Tâche } from '@potentiel-domain/tache';
 import { Raccordement } from '@potentiel-domain/laureat';
 
 import { PotentielWorld } from '../../potentiel.world';
@@ -61,7 +61,7 @@ EtantDonné(
     });
 
     await waitForExpect(async () => {
-      const tâches = await mediator.send<ListerTâchesQuery>({
+      const tâches = await mediator.send<Tâche.ListerTâchesQuery>({
         type: 'Tâche.Query.ListerTâches',
         data: {
           email: this.utilisateurWorld.porteurFixture.email,
