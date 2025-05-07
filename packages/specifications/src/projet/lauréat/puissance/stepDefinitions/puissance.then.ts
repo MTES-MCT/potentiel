@@ -5,6 +5,8 @@ import waitForExpect from 'wait-for-expect';
 import { mapToPlainObject } from '@potentiel-domain/core';
 import { Puissance } from '@potentiel-domain/laureat';
 import { IdentifiantProjet } from '@potentiel-domain/projet';
+import { AppelOffre } from '@potentiel-domain/appel-offre';
+import { Option } from '@potentiel-libraries/monads';
 
 import { PotentielWorld } from '../../../../potentiel.world';
 
@@ -23,9 +25,23 @@ Alors(
         },
       });
 
+      const appelOffre = await mediator.send<AppelOffre.ConsulterAppelOffreQuery>({
+        type: 'AppelOffre.Query.ConsulterAppelOffre',
+        data: {
+          identifiantAppelOffre: identifiantProjet.appelOffre,
+        },
+      });
+
+      if (Option.isNone(appelOffre)) {
+        throw new Error("L'appel d'offre n'existe pas");
+      }
+
       const actual = mapToPlainObject(puissance);
       const expected = mapToPlainObject(
-        this.lauréatWorld.puissanceWorld.mapToExpected(identifiantProjet),
+        this.lauréatWorld.puissanceWorld.mapToExpected(
+          identifiantProjet,
+          appelOffre.unitePuissance,
+        ),
       );
 
       actual.should.be.deep.equal(expected);
@@ -48,9 +64,23 @@ Alors(
         },
       });
 
+      const appelOffre = await mediator.send<AppelOffre.ConsulterAppelOffreQuery>({
+        type: 'AppelOffre.Query.ConsulterAppelOffre',
+        data: {
+          identifiantAppelOffre: identifiantProjet.appelOffre,
+        },
+      });
+
+      if (Option.isNone(appelOffre)) {
+        throw new Error("L'appel d'offre n'existe pas");
+      }
+
       const actual = mapToPlainObject(puissance);
       const expected = mapToPlainObject(
-        this.lauréatWorld.puissanceWorld.mapToExpected(identifiantProjet),
+        this.lauréatWorld.puissanceWorld.mapToExpected(
+          identifiantProjet,
+          appelOffre.unitePuissance,
+        ),
       );
 
       actual.should.be.deep.equal(expected);

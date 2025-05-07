@@ -17,7 +17,6 @@ import { decodeParameter } from '@/utils/decodeParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 import { PuissanceHistoryRecord } from '@/components/pages/puissance/changement/détails/timeline';
-import { getPériodeAppelOffres } from '@/app/_helpers/getPériodeAppelOffres';
 import { getCandidature } from '@/app/candidatures/_helpers/getCandidature';
 
 export const metadata: Metadata = {
@@ -38,9 +37,6 @@ export default async function Page({ params: { identifiant, date } }: PageProps)
       const identifiantProjet = IdentifiantProjet.convertirEnValueType(
         decodeParameter(identifiant),
       );
-      const {
-        appelOffres: { unitePuissance },
-      } = await getPériodeAppelOffres(identifiantProjet);
 
       const demandéLe = decodeParameter(date);
 
@@ -84,7 +80,7 @@ export default async function Page({ params: { identifiant, date } }: PageProps)
           identifiantProjet={mapToPlainObject(identifiantProjet)}
           demande={mapToPlainObject(changement.demande)}
           puissanceInitiale={candidature.puissanceProductionAnnuelle}
-          unitéPuissance={unitePuissance}
+          unitéPuissance={puissance.unitéPuissance}
           historique={mapToPlainObject(historique)}
           actions={mapToActions(
             changement.demande.statut,

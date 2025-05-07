@@ -55,13 +55,13 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
       <DemanderChangementPuissancePage
         identifiantProjet={mapToPlainObject(puissanceActuelle.identifiantProjet)}
         puissance={puissanceActuelle.puissance}
+        unitéPuissance={puissanceActuelle.unitéPuissance}
         appelOffre={mapToPlainObject(appelOffres)}
         période={mapToPlainObject(période)}
         technologie={candidature.technologie.type}
         famille={période.familles.find((f) => f.id === identifiantProjet.famille)}
         cahierDesCharges={mapToPlainObject(cahierDesChargesChoisi)}
         note={candidature.noteTotale}
-        unitéPuissance={appelOffres.unitePuissance}
         puissanceInitiale={candidature.puissanceProductionAnnuelle}
       />
     );
