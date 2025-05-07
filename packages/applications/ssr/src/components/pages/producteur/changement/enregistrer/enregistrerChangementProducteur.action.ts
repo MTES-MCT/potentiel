@@ -1,0 +1,55 @@
+'use server';
+
+import { mediator } from 'mediateur';
+import * as zod from 'zod';
+
+import { Producteur } from '@potentiel-domain/laureat';
+import { Routes } from '@potentiel-applications/routes';
+
+import { FormAction, formAction, FormState } from '@/utils/formAction';
+import { withUtilisateur } from '@/utils/withUtilisateur';
+import { singleDocument } from '@/utils/zod/document/singleDocument';
+
+import { nomCandidatSchema } from '../../../../../utils/zod/candidature/candidatureFields.schema';
+
+const schema = zod.object({
+  identifiantProjet: zod.string().min(1),
+  producteur: nomCandidatSchema,
+  raison: zod.string().optional(),
+  piecesJustificatives: singleDocument({
+    acceptedFileTypes: ['application/pdf'],
+  }),
+});
+
+export type EnregistrerChangementProducteurFormKeys = keyof zod.infer<typeof schema>;
+
+const action: FormAction<FormState, typeof schema> = async (
+  _,
+  { identifiantProjet, producteur, piecesJustificatives, raison },
+) =>
+  withUtilisateur(async (utilisateur) => {
+    const date = new Date().toISOString();
+
+    await mediator.send<Producteur.EnregistrerChangementProducteurUseCase>({
+      type: 'Lauréat.Producteur.UseCase.EnregistrerChangement',
+      data: {
+        identifiantProjetValue: identifiantProjet,
+        identifiantUtilisateurValue: utilisateur.identifiantUtilisateur.formatter(),
+        dateChangementValue: date,
+        pièceJustificativeValue: piecesJustificatives,
+        producteurValue: producteur,
+        raisonValue: raison,
+      },
+    });
+
+    return {
+      status: 'success',
+      redirection: {
+        url: Routes.Projet.lister(),
+        message:
+          "Votre changement de producteur a bien été enregistré. Vous n'avez plus accès au projet sur Potentiel",
+      },
+    };
+  });
+
+export const enregistrerChangementProducteurAction = formAction(action, schema);

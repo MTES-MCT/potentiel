@@ -1,30 +1,21 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Request } from 'express';
 
-import ROUTES from '../../../../routes';
-import {
-  PrimaryButton,
-  Heading3,
-  Input,
-  Label,
-  Link,
-  UserIcon,
-  Section,
-  Dropdown,
-  Form,
-  ChampsObligatoiresLégende,
-} from '../../../components';
+import { Heading3, Link, UserIcon, Section } from '../../../components';
 
 import { ProjectDataForProjectPage } from '../../../../modules/project';
 import { userIs } from '../../../../modules/users';
 import { GetReprésentantLégalForProjectPage } from '../../../../controllers/project/getProjectPage/_utils';
 import { Routes } from '@potentiel-applications/routes';
+import { GetProducteurForProjectPage } from '../../../../controllers/project/getProjectPage/_utils/getProducteur';
+import { InfoProducteur } from './InfoProducteur';
 
 export type ContactProps = {
   identifiantProjet: string;
   project: ProjectDataForProjectPage;
   user: Request['user'];
   représentantLégal: GetReprésentantLégalForProjectPage;
+  producteur?: GetProducteurForProjectPage;
   modificationsNonPermisesParLeCDCActuel: boolean;
 };
 
@@ -33,10 +24,21 @@ export const Contact = ({
   project,
   user,
   représentantLégal,
+  producteur,
   modificationsNonPermisesParLeCDCActuel,
 }: ContactProps) => (
   <Section title="Contact" icon={<UserIcon />}>
-    <div className="mb-3">{project.nomCandidat}</div>
+    {producteur ? (
+      <>
+        <InfoProducteur
+          producteur={producteur}
+          modificationsPermisesParLeCDCActuel={!modificationsNonPermisesParLeCDCActuel}
+        />
+        <div className="mb-3">Valeur à titre d'audit : {project.nomCandidat}</div>
+      </>
+    ) : (
+      <div className="mb-3">{project.nomCandidat}</div>
+    )}
     <div>
       {représentantLégal && (
         <>

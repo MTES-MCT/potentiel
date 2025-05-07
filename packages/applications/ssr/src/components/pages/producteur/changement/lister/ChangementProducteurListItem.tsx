@@ -1,10 +1,13 @@
 import { FC } from 'react';
-import Badge from '@codegouvfr/react-dsfr/Badge';
+import Link from 'next/link';
 
-import { DateTime } from '@potentiel-domain/common';
+import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
+import { Routes } from '@potentiel-applications/routes';
 
 import { ProjectListItemHeading } from '@/components/molecules/projet/ProjectListItemHeading';
 import { ListItem } from '@/components/molecules/ListItem';
+
+import { StatutChangementProducteurBadge } from '../StatutChangementProducteurBadge';
 
 import { ChangementProducteurListPageProps } from './ChangementProducteurList.page';
 
@@ -27,7 +30,17 @@ export const ChangementProducteurListItem: FC<ChangementProducteurListItemProps>
         misÀJourLe={DateTime.bind(enregistréLe).formatter()}
       />
     }
-    actions={[]}
+    actions={
+      <Link
+        href={Routes.Producteur.changement.détails(
+          IdentifiantProjet.bind(identifiantProjet).formatter(),
+          enregistréLe.date,
+        )}
+        aria-label="voir le détail du changement"
+      >
+        Voir le changement
+      </Link>
+    }
   >
     <ul className="mt-3 text-sm">
       <li>
@@ -41,8 +54,6 @@ export const ChangementProducteurListItem: FC<ChangementProducteurListItemProps>
         </span>
       </li>
     </ul>
-    <Badge noIcon severity="success" small>
-      information enregistrée
-    </Badge>
+    <StatutChangementProducteurBadge />
   </ListItem>
 );

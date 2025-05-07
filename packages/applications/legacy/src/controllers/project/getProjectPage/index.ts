@@ -33,6 +33,7 @@ import {
 } from './_utils';
 import { Role } from '@potentiel-domain/utilisateur';
 import { getPuissance } from './_utils/getPuissance';
+import { getProducteur } from './_utils/getProducteur';
 
 const schema = yup.object({
   params: yup.object({ projectId: yup.string().required() }),
@@ -215,6 +216,12 @@ v1Router.get(
           puissance: await getPuissance({
             identifiantProjet: identifiantProjetValueType,
             rôle: user.role,
+          }),
+          producteur: await getProducteur({
+            identifiantProjet: identifiantProjetValueType,
+            rôle: user.role,
+            changementProducteurPossibleAvantAchèvement:
+              project.appelOffre.changementProducteurPossibleAvantAchèvement,
           }),
           hasAttestationConformité: !!attestationConformité,
           modificationsNonPermisesParLeCDCActuel:

@@ -57,6 +57,7 @@ export class ProducteurWorld {
           this.#enregistrerChangementProducteurFixture.enregistréPar,
         ),
         nouveauProducteur: this.#enregistrerChangementProducteurFixture.producteur,
+        ancienProducteur: this.#importerProducteurFixture.producteur,
         pièceJustificative: DocumentProjet.convertirEnValueType(
           identifiantProjet.formatter(),
           Producteur.TypeDocumentProducteur.pièceJustificative.formatter(),

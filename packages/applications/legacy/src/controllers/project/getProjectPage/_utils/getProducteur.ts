@@ -1,0 +1,112 @@
+import { Producteur } from '@potentiel-domain/laureat';
+
+import { Option } from '@potentiel-libraries/monads';
+import { Candidature } from '@potentiel-domain/projet';
+import { Routes } from '@potentiel-applications/routes';
+import { Role } from '@potentiel-domain/utilisateur';
+import { getLogger } from '@potentiel-libraries/monitoring';
+import { IdentifiantProjet } from '@potentiel-domain/common';
+import { checkAbandonAndAchèvement } from './checkAbandonAndAchèvement';
+import { mediator } from 'mediateur';
+import { getContext } from '@potentiel-applications/request-context';
+
+export type GetProducteurForProjectPage = {
+  producteur: string;
+  affichage?: {
+    labelActions?: string;
+    label: string;
+    url: string;
+  };
+};
+
+type Props = {
+  identifiantProjet: IdentifiantProjet.ValueType;
+  rôle: string;
+  changementProducteurPossibleAvantAchèvement: boolean;
+};
+
+export const getProducteur = async ({
+  identifiantProjet,
+  rôle,
+  changementProducteurPossibleAvantAchèvement,
+}: Props): Promise<GetProducteurForProjectPage | undefined> => {
+  try {
+    const features = getContext()?.features ?? [];
+
+    if (!features.includes('producteur')) {
+      return undefined;
+    }
+
+    const role = Role.convertirEnValueType(rôle);
+
+    const producteurProjection = await mediator.send<Producteur.ConsulterProducteurQuery>({
+      type: 'Lauréat.Producteur.Query.ConsulterProducteur',
+      data: { identifiantProjet: identifiantProjet.formatter() },
+    });
+
+    const { aUnAbandonEnCours, estAbandonné, estAchevé } = await checkAbandonAndAchèvement(
+      identifiantProjet,
+      rôle,
+    );
+
+    if (Option.isSome(producteurProjection)) {
+      const { producteur } = producteurProjection;
+
+      if (role.aLaPermission('producteur.modifier')) {
+        return {
+          producteur,
+          affichage: {
+            url: Routes.Producteur.modifier(identifiantProjet.formatter()),
+            label: 'Modifier',
+            labelActions: 'Modifier le producteur',
+          },
+        };
+      }
+
+      if (
+        role.aLaPermission('producteur.enregistrerChangement') &&
+        !aUnAbandonEnCours &&
+        !estAbandonné &&
+        !estAchevé &&
+        changementProducteurPossibleAvantAchèvement
+      ) {
+        return {
+          producteur: producteur,
+          affichage: {
+            url: Routes.Producteur.changement.enregistrer(identifiantProjet.formatter()),
+            label: 'Changer de producteur',
+            labelActions: 'Changer de producteur',
+          },
+        };
+      }
+
+      return {
+        producteur,
+      };
+    }
+
+    const candidature = await mediator.send<Candidature.ConsulterCandidatureQuery>({
+      type: 'Candidature.Query.ConsulterCandidature',
+      data: {
+        identifiantProjet: identifiantProjet.formatter(),
+      },
+    });
+
+    if (Option.isSome(candidature)) {
+      return {
+        producteur: candidature.nomCandidat,
+        affichage: role.aLaPermission('candidature.corriger')
+          ? {
+              url: Routes.Candidature.corriger(identifiantProjet.formatter()),
+              label: 'Modifier la candidature',
+            }
+          : undefined,
+      };
+    }
+
+    return undefined;
+  } catch (error) {
+    getLogger().error(error);
+    return undefined;
+  }
+};

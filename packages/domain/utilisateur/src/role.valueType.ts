@@ -325,7 +325,17 @@ const référencielPermissions = {
     },
     producteur: {
       query: {
+        consulter: 'Lauréat.Producteur.Query.ConsulterProducteur',
+        consulterChangement: 'Lauréat.Producteur.Query.ConsulterChangementProducteur',
         listerChangement: 'Lauréat.Producteur.Query.ListerChangementProducteur',
+      },
+      usecase: {
+        modifier: 'Lauréat.Producteur.UseCase.ModifierProducteur',
+        enregistrerChangement: 'Lauréat.Producteur.UseCase.EnregistrerChangement',
+      },
+      command: {
+        modifier: 'Lauréat.Producteur.Command.ModifierProducteur',
+        enregistrerChangement: 'Lauréat.Producteur.Command.EnregistrerChangement',
       },
     },
     cahierDesCharges: {
@@ -1071,6 +1081,20 @@ const policies = {
   },
   producteur: {
     listerChangement: [référencielPermissions.lauréat.producteur.query.listerChangement],
+    consulter: [
+      référencielPermissions.candidature.query.consulterProjet,
+      référencielPermissions.lauréat.producteur.query.consulter,
+    ],
+    consulterChangement: [référencielPermissions.lauréat.producteur.query.consulterChangement],
+    modifier: [
+      référencielPermissions.candidature.query.consulterProjet,
+      référencielPermissions.lauréat.producteur.usecase.modifier,
+      référencielPermissions.lauréat.producteur.command.modifier,
+    ],
+    enregistrerChangement: [
+      référencielPermissions.lauréat.producteur.usecase.enregistrerChangement,
+      référencielPermissions.lauréat.producteur.command.enregistrerChangement,
+    ],
   },
   lauréat: {
     consulter: [référencielPermissions.lauréat.query.consulter],
@@ -1142,6 +1166,7 @@ const pageProjetPolicies: Policy[] = [
   ...commonPolicies,
   // Abandon
   'abandon.consulter.détail',
+
   // Recours
   'recours.consulter.détail',
 
@@ -1161,6 +1186,9 @@ const pageProjetPolicies: Policy[] = [
   // Puisssance
   'puissance.consulter',
   'puissance.consulterChangement',
+
+  // Producteur
+  'producteur.consulter',
 ];
 
 const adminPolicies: ReadonlyArray<Policy> = [
@@ -1264,6 +1292,8 @@ const adminPolicies: ReadonlyArray<Policy> = [
 
   // Producteur
   'producteur.listerChangement',
+  'producteur.consulterChangement',
+  'producteur.modifier',
 ];
 
 const dgecValidateurPolicies: ReadonlyArray<Policy> = [
@@ -1386,6 +1416,7 @@ const drealPolicies: ReadonlyArray<Policy> = [
 
   // Producteur
   'producteur.listerChangement',
+  'producteur.consulterChangement',
 ];
 
 const porteurProjetPolicies: ReadonlyArray<Policy> = [
@@ -1474,6 +1505,8 @@ const porteurProjetPolicies: ReadonlyArray<Policy> = [
 
   // Producteur
   'producteur.listerChangement',
+  'producteur.consulter',
+  'producteur.enregistrerChangement',
 ];
 
 const acheteurObligéPolicies: ReadonlyArray<Policy> = [
