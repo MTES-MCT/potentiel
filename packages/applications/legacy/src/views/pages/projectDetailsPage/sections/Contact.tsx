@@ -34,7 +34,7 @@ export const Contact = ({
           producteur={producteur}
           modificationsPermisesParLeCDCActuel={!modificationsNonPermisesParLeCDCActuel}
         />
-        <div className="mb-3">Valuer à titre d'audit : {project.nomCandidat}</div>
+        <div className="mb-3">Valeur à titre d'audit : {project.nomCandidat}</div>
       </>
     ) : (
       <div className="mb-3">{project.nomCandidat}</div>

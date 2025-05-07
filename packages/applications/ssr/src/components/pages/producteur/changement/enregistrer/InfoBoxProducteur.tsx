@@ -11,7 +11,7 @@ export const InfoBoxRévocationDesDroits: FC = () => (
     severity="warning"
     small
     description={
-      <div className="p-3">
+      <div className="p-1">
         <Heading6>Attention : révocation des droits sur le projet</Heading6>
         <span>
           Une fois ce changement confirmé, vous ne pourrez plus suivre ce projet sur Potentiel.
@@ -23,6 +23,19 @@ export const InfoBoxRévocationDesDroits: FC = () => (
           </Link>
           .
         </span>
+      </div>
+    }
+  />
+);
+
+export const InfoBoxAprèsAchèvement: FC = () => (
+  <Alert
+    severity="info"
+    small
+    description={
+      <div className="p-1">
+        Un changement de producteur après achèvement du projet doit être fait auprès du
+        cocontractant.
       </div>
     }
   />
