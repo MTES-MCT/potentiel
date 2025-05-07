@@ -30,6 +30,7 @@ import {
 import { CahierDesChargesChoisiEvent } from './choisir/cahierDesChargesChoisi.event';
 import { ChoisirCahierDesChargesOptions } from './choisir/choisirCahierDesCharges.option';
 import { AbandonAggregate } from './abandon/abandon.aggregate';
+import { AchèvementAggregate } from './achèvement/achèvement.aggregate';
 import { ProducteurAggregate } from './producteur/producteur.aggregate';
 
 export class LauréatAggregate extends AbstractAggregate<LauréatEvent> {
@@ -49,13 +50,16 @@ export class LauréatAggregate extends AbstractAggregate<LauréatEvent> {
   }
 
   #abandon!: AggregateType<AbandonAggregate>;
-
   get abandon() {
     return this.#abandon;
   }
 
-  #producteur!: AggregateType<ProducteurAggregate>;
+  #achèvement!: AggregateType<AchèvementAggregate>;
+  get achèvement() {
+    return this.#achèvement;
+  }
 
+  #producteur!: AggregateType<ProducteurAggregate>;
   get producteur() {
     return this.#producteur;
   }
@@ -68,6 +72,12 @@ export class LauréatAggregate extends AbstractAggregate<LauréatEvent> {
       AbandonAggregate,
     );
     await this.#abandon.init(this);
+
+    this.#achèvement = await loadAggregate(
+      `achèvement|${this.projet.identifiantProjet.formatter()}`,
+      AchèvementAggregate,
+    );
+    await this.#achèvement.init(this);
 
     this.#producteur = await loadAggregate(
       `producteur|${this.projet.identifiantProjet.formatter()}`,

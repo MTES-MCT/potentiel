@@ -65,7 +65,7 @@ export class ProjetAggregateRoot {
         return StatutProjet.abandonné;
       }
 
-      if (this.#lauréat.achèvement.statut.estAchevé()) {
+      if (this.#lauréat.achèvement.estAchevé) {
         return StatutProjet.achevé;
       }
 
