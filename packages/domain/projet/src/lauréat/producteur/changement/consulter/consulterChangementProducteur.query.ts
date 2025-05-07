@@ -6,7 +6,8 @@ import { Find } from '@potentiel-domain/entity';
 import { DocumentProjet } from '@potentiel-domain/document';
 import { IdentifiantProjet } from '@potentiel-domain/projet';
 
-import { ChangementProducteurEntity, TypeDocumentProducteur } from '../..';
+import { TypeDocumentProducteur } from '../..';
+import { ChangementProducteurEntity } from '../changementProducteur.entity';
 
 export type ConsulterChangementProducteurReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;

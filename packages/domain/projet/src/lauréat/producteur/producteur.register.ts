@@ -1,29 +1,37 @@
 import { GetProjetAggregateRoot } from '../../getProjetAggregateRoot.port';
 
 import {
-  ConsulterRecoursDependencies,
-  registerConsulterRecoursQuery,
-} from './consulter/consulterRecours.query';
-// import { registerDemanderRecoursCommand } from './demander/demanderRecours.command';
-// import { registerDemanderRecoursUseCase } from './demander/demanderRecours.usecase';
+  ConsulterChangementProducteurDependencies,
+  registerConsulterChangementProducteurQuery,
+} from './changement/consulter/consulterChangementProducteur.query';
+import { registerEnregistrerChangementProducteurCommand } from './changement/enregistrerChangement/enregistrerChangement.command';
+import { registerEnregistrerChangementProducteurUseCase } from './changement/enregistrerChangement/enregistrerChangement.usecase';
 import {
-  ListerRecoursDependencies,
-  registerListerRecoursQuery,
-} from './lister/listerRecours.query';
+  ListerChangementProducteurDependencies,
+  registerListerChangementProducteurQuery,
+} from './changement/lister/listerChangementProducteur.query';
+import {
+  ConsulterProducteurDependencies,
+  registerConsulterProducteurQuery,
+} from './consulter/consulterProducteur.query';
 
-export type RecoursQueryDependencies = ConsulterRecoursDependencies & ListerRecoursDependencies;
-export type RecoursCommandDependencies = {
+export type ProducteurQueryDependencies = ConsulterProducteurDependencies &
+  ConsulterChangementProducteurDependencies &
+  ListerChangementProducteurDependencies;
+
+export type ProducteurCommandDependencies = {
   getProjetAggregateRoot: GetProjetAggregateRoot;
 };
 
-export const registerRecoursUseCases = ({
-  getProjetAggregateRoot: _getProjetAggregateRoot,
-}: RecoursCommandDependencies) => {
-  // registerDemanderRecoursCommand(getProjetAggregateRoot);
-  // registerDemanderRecoursUseCase();
+export const registerProducteurUseCases = ({
+  getProjetAggregateRoot,
+}: ProducteurCommandDependencies) => {
+  registerEnregistrerChangementProducteurCommand(getProjetAggregateRoot);
+  registerEnregistrerChangementProducteurUseCase();
 };
 
-export const registerRecoursQueries = (dependencies: RecoursQueryDependencies) => {
-  registerConsulterRecoursQuery(dependencies);
-  registerListerRecoursQuery(dependencies);
+export const registerProducteurQueries = (dependencies: ProducteurQueryDependencies) => {
+  registerConsulterProducteurQuery(dependencies);
+  registerConsulterChangementProducteurQuery(dependencies);
+  registerListerChangementProducteurQuery(dependencies);
 };

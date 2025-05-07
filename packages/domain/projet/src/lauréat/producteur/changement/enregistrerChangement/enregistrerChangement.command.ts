@@ -17,7 +17,7 @@ export type EnregistrerChangementProducteurCommand = Message<
   }
 >;
 
-export const registerChoisirCahierDesChargesCommand = (
+export const registerEnregistrerChangementProducteurCommand = (
   getProjetAggregateRoot: GetProjetAggregateRoot,
 ) => {
   const handler: MessageHandler<EnregistrerChangementProducteurCommand> = async (payload) => {
