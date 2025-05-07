@@ -6,7 +6,7 @@ import Input from '@codegouvfr/react-dsfr/Input';
 
 import { Routes } from '@potentiel-applications/routes';
 import { IdentifiantProjet } from '@potentiel-domain/common';
-import { Producteur } from '@potentiel-domain/laureat';
+import { Lauréat } from '@potentiel-domain/projet';
 import { PlainType } from '@potentiel-domain/core';
 
 import { Form } from '@/components/atoms/form/Form';
@@ -15,7 +15,8 @@ import { ValidationErrors } from '@/utils/formAction';
 
 import { modifierProducteurAction, ModifierProducteurFormKeys } from './modifierProducteur.action';
 
-export type ModifierProducteurFormProps = PlainType<Producteur.ConsulterProducteurReadModel>;
+export type ModifierProducteurFormProps =
+  PlainType<Lauréat.Producteur.ConsulterProducteurReadModel>;
 
 export const ModifierProducteurForm: FC<ModifierProducteurFormProps> = ({
   identifiantProjet,

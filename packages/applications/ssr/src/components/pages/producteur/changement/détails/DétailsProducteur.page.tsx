@@ -2,7 +2,7 @@ import { FC } from 'react';
 
 import { IdentifiantProjet } from '@potentiel-domain/common';
 import { PlainType } from '@potentiel-domain/core';
-import { Producteur } from '@potentiel-domain/laureat';
+import { Lauréat } from '@potentiel-domain/projet';
 
 import { Heading2 } from '@/components/atoms/headings';
 import { ProjetBanner } from '@/components/molecules/projet/ProjetBanner';
@@ -18,7 +18,7 @@ export type ChangementProducteurActions = 'enregistrer-changement';
 
 export type DétailsProducteurPageProps = {
   identifiantProjet: PlainType<IdentifiantProjet.ValueType>;
-  changement: PlainType<Producteur.ConsulterChangementProducteurReadModel['changement']>;
+  changement: PlainType<Lauréat.Producteur.ConsulterChangementProducteurReadModel['changement']>;
   historique: HistoriqueProducteurTimelineProps['historique'];
 };
 

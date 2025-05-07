@@ -3,7 +3,7 @@ import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 
 import { Option } from '@potentiel-libraries/monads';
-import { Producteur } from '@potentiel-domain/laureat';
+import { Lauréat } from '@potentiel-domain/projet';
 import { mapToPlainObject } from '@potentiel-domain/core';
 import { IdentifiantProjet } from '@potentiel-domain/common';
 import { Historique } from '@potentiel-domain/historique';
@@ -30,7 +30,7 @@ export default async function Page({ params: { identifiant, date } }: PageProps)
     const identifiantProjet = IdentifiantProjet.convertirEnValueType(decodeParameter(identifiant));
     const enregistréLe = decodeParameter(date);
 
-    const changement = await mediator.send<Producteur.ConsulterChangementProducteurQuery>({
+    const changement = await mediator.send<Lauréat.Producteur.ConsulterChangementProducteurQuery>({
       type: 'Lauréat.Producteur.Query.ConsulterChangementProducteur',
       data: {
         identifiantProjet: identifiantProjet.formatter(),

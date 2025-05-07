@@ -2,14 +2,13 @@ import { match } from 'ts-pattern';
 import { FC } from 'react';
 
 import { HistoryRecord } from '@potentiel-domain/entity';
-import { Producteur } from '@potentiel-domain/laureat';
+import { Lauréat } from '@potentiel-domain/projet';
 import { PlainType } from '@potentiel-domain/core';
 import { Historique } from '@potentiel-domain/historique';
 
 import { Timeline, TimelineItemProps } from '@/components/organisms/Timeline';
 
 import { mapToChangementProducteurEnregistréTimelineItemProps } from './mapToChangementProducteurEnregistréTimelineItemProps';
-import { mapToProducteurImportéTimelineItemsProps } from './mapToProducteurImportéTimelineItemsProps';
 import { mapToProducteurModifiéTimelineItemsProps } from './mapToProducteurModifiéTimelineItemsProps';
 
 export type HistoriqueProducteurTimelineProps = {
@@ -21,16 +20,13 @@ export const HistoriqueProducteurTimeline: FC<HistoriqueProducteurTimelineProps>
 
 export type ProducteurHistoryRecord = HistoryRecord<
   'producteur',
-  Producteur.ProducteurEvent['type'],
-  Producteur.ProducteurEvent['payload']
+  Lauréat.Producteur.ProducteurEvent['type'],
+  Lauréat.Producteur.ProducteurEvent['payload']
 >;
 
 const mapToProducteurTimelineItemProps = (record: ProducteurHistoryRecord) =>
   match(record)
     .returnType<TimelineItemProps>()
-    .with({ type: 'ProducteurImporté-V1' }, (record) =>
-      mapToProducteurImportéTimelineItemsProps(record),
-    )
     .with({ type: 'ProducteurModifié-V1' }, (record) =>
       mapToProducteurModifiéTimelineItemsProps(record),
     )
