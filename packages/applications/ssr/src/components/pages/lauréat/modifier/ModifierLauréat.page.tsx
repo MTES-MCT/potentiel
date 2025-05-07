@@ -1,7 +1,6 @@
 import { IdentifiantProjet } from '@potentiel-domain/common';
 import { Routes } from '@potentiel-applications/routes';
 import { Option } from '@potentiel-libraries/monads';
-import { getContext } from '@potentiel-applications/request-context';
 
 import { NotificationBadge } from '@/components/molecules/candidature/NotificationBadge';
 import { ProjetBannerTemplate } from '@/components/molecules/projet/ProjetBanner.template';
@@ -20,7 +19,6 @@ export const ModifierLauréatPage: React.FC<ModifierLauréatPageProps> = ({
   champsSpéciaux,
 }) => {
   const identifiantProjet = IdentifiantProjet.convertirEnValueType(projet.identifiantProjet);
-  const features = getContext()?.features || [];
 
   return (
     <PageTemplate
@@ -44,7 +42,6 @@ export const ModifierLauréatPage: React.FC<ModifierLauréatPageProps> = ({
         lauréat={lauréat}
         projet={projet}
         champsSpéciaux={champsSpéciaux}
-        features={features}
       />
     </PageTemplate>
   );

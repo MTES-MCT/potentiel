@@ -18,6 +18,7 @@ import {
 import { ValidationErrors } from '@/utils/formAction';
 
 import { FormAlertError } from '../../../atoms/form/FormAlertError';
+import { useFeatures } from '../../../../utils/feature-flag/FeatureFlagContext';
 
 import { modifierLauréatAction } from './modifierLauréat.action';
 import { ProjectField } from './components/fields/ProjectField';
@@ -48,7 +49,6 @@ export type ModifierLauréatFormProps = {
     puissanceALaPointe: boolean;
     coefficientKChoisi: boolean;
   };
-  features: Array<string>;
 };
 export type FieldValidationErrors =
   ValidationErrors<ModifierLauréatEtCandidatureNotifiéeFormEntries>;
@@ -58,9 +58,9 @@ export const ModifierLauréatForm: React.FC<ModifierLauréatFormProps> = ({
   lauréat,
   projet,
   champsSpéciaux,
-  features,
 }) => {
   const [validationErrors, setValidationErrors] = useState<FieldValidationErrors>({});
+  const featuress = useFeatures();
 
   return (
     <Form
@@ -115,7 +115,7 @@ export const ModifierLauréatForm: React.FC<ModifierLauréatFormProps> = ({
           />
         </FormRow>
         <FormRow>
-          {features.includes('producteur') ? (
+          {featuress.includes('producteur') ? (
             <ProjectField
               candidature={candidature.nomCandidat}
               lauréat={lauréat.nomCandidat.currentValue}
