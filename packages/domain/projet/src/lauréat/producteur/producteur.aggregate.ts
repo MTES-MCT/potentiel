@@ -18,6 +18,8 @@ import {
   AOEmpêcheChangementProducteurError,
 } from './changement/errors';
 import { ProducteurEvent } from './producteur.event';
+import { ProducteurModifiéEvent } from './modifier/modifierProducteur.event';
+import { ModifierOptions } from './modifier/modifierProducteur.option';
 
 export class ProducteurAggregate extends AbstractAggregate<ProducteurEvent> {
   #lauréat!: LauréatAggregate;
@@ -91,6 +93,29 @@ export class ProducteurAggregate extends AbstractAggregate<ProducteurEvent> {
     await this.publish(event);
   }
 
+  async modifier({
+    identifiantProjet,
+    producteur,
+    dateModification,
+    identifiantUtilisateur,
+  }: ModifierOptions) {
+    if (this.producteur === producteur) {
+      throw new ProducteurIdentiqueError();
+    }
+
+    const event: ProducteurModifiéEvent = {
+      type: 'ProducteurModifié-V1',
+      payload: {
+        identifiantProjet: identifiantProjet.formatter(),
+        producteur,
+        modifiéLe: dateModification.formatter(),
+        modifiéPar: identifiantUtilisateur.formatter(),
+      },
+    };
+
+    await this.publish(event);
+  }
+
   apply(event: ProducteurEvent): void {
     match(event)
       .with(
@@ -98,6 +123,12 @@ export class ProducteurAggregate extends AbstractAggregate<ProducteurEvent> {
           type: 'ChangementProducteurEnregistré-V1',
         },
         (event) => this.applyChangementProducteurEnregistréV1(event),
+      )
+      .with(
+        {
+          type: 'ProducteurModifié-V1',
+        },
+        (event) => this.applyProducteurModifiéV1(event),
       )
       .exhaustive();
   }
@@ -129,6 +160,12 @@ export class ProducteurAggregate extends AbstractAggregate<ProducteurEvent> {
       ),
     });
 
+    this.producteur = nouveauProducteur;
+  }
+
+  private applyProducteurModifiéV1({
+    payload: { producteur: nouveauProducteur },
+  }: ProducteurModifiéEvent) {
     this.producteur = nouveauProducteur;
   }
 }
