@@ -10,7 +10,7 @@ import { PageTemplate } from '../../../templates/Page.template';
 
 import { ModifierLauréatForm, ModifierLauréatFormProps } from './ModifierLauréat.form';
 
-export type ModifierLauréatPageProps = Omit<ModifierLauréatFormProps, 'features'>;
+export type ModifierLauréatPageProps = ModifierLauréatFormProps;
 
 export const ModifierLauréatPage: React.FC<ModifierLauréatPageProps> = ({
   candidature,

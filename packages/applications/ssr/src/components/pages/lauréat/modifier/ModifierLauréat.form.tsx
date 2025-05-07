@@ -16,9 +16,9 @@ import {
   ModifierLauréatValueFormEntries,
 } from '@/utils/zod/candidature';
 import { ValidationErrors } from '@/utils/formAction';
+import { useFeatures } from '@/utils/feature-flag/FeatureFlagContext';
 
 import { FormAlertError } from '../../../atoms/form/FormAlertError';
-import { useFeatures } from '../../../../utils/feature-flag/FeatureFlagContext';
 
 import { modifierLauréatAction } from './modifierLauréat.action';
 import { ProjectField } from './components/fields/ProjectField';
@@ -60,7 +60,7 @@ export const ModifierLauréatForm: React.FC<ModifierLauréatFormProps> = ({
   champsSpéciaux,
 }) => {
   const [validationErrors, setValidationErrors] = useState<FieldValidationErrors>({});
-  const featuress = useFeatures();
+  const features = useFeatures();
 
   return (
     <Form
@@ -115,7 +115,7 @@ export const ModifierLauréatForm: React.FC<ModifierLauréatFormProps> = ({
           />
         </FormRow>
         <FormRow>
-          {featuress.includes('producteur') ? (
+          {features.includes('producteur') ? (
             <ProjectField
               candidature={candidature.nomCandidat}
               lauréat={lauréat.nomCandidat.currentValue}
