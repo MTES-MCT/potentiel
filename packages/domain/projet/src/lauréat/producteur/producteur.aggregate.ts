@@ -1,39 +1,42 @@
-// import { match } from 'ts-pattern';
+import { match } from 'ts-pattern';
 
 import { AbstractAggregate } from '@potentiel-domain/core';
 import { DateTime, Email } from '@potentiel-domain/common';
-// import { DocumentProjet } from '@potentiel-domain/document';
+import { DocumentProjet } from '@potentiel-domain/document';
 
 import { LauréatAggregate } from '../lauréat.aggregate';
 
+import { TypeDocumentProducteur } from '.';
+
 import { EnregistrerChangementProducteurOptions } from './changement/enregistrerChangement/enregistrerChangement.option';
 import { ChangementProducteurEnregistréEvent } from './changement/enregistrerChangement/enregistrerChangement.event';
-
-// import { TypeDocumentProducteur } from '.';
-
-// import { ProducteurEvent } from './producteur.event';
-// import { AucunProducteurEnCours } from './producteur.error';
+import {
+  ProducteurIdentiqueError,
+  ProjetAbandonnéError,
+  ProjetAvecDemandeAbandonEnCoursError,
+  ProjetAchevéError,
+  AOEmpêcheChangementProducteurError,
+} from './changement/errors';
+import { ProducteurEvent } from './producteur.event';
 
 export class ProducteurAggregate extends AbstractAggregate<ProducteurEvent> {
   #lauréat!: LauréatAggregate;
 
   producteur!: string;
 
-  changement: {
-    enregistréPar: Email.ValueType;
-    enregistréLe: DateTime.ValueType;
-    ancienProducteur: string;
-    nouveauProducteur: string;
-    raison?: string;
-    pièceJustificative?: {
-      format: string;
-    };
-  } = {
-    enregistréPar: Email.unknownUser,
-    enregistréLe: DateTime.convertirEnValueType(new Date()),
-    ancienProducteur: '',
-    nouveauProducteur: '',
-  };
+  changements: Map<
+    DateTime.RawType,
+    {
+      enregistréPar: Email.ValueType;
+      enregistréLe: DateTime.ValueType;
+      ancienProducteur: string;
+      nouveauProducteur: string;
+      raison?: string;
+      pièceJustificative?: {
+        format: string;
+      };
+    }
+  > = new Map();
 
   get lauréat() {
     return this.#lauréat;
@@ -57,15 +60,15 @@ export class ProducteurAggregate extends AbstractAggregate<ProducteurEvent> {
       throw new ProducteurIdentiqueError();
     }
 
-    if (estAbandonné) {
+    if (this.lauréat.projet.statut.estAbandonné()) {
       throw new ProjetAbandonnéError();
     }
 
-    if (demandeAbandonEnCours) {
+    if (this.lauréat.abandon.statut.estEnCours()) {
       throw new ProjetAvecDemandeAbandonEnCoursError();
     }
 
-    if (estAchevé) {
+    if (this.lauréat.projet.statut.estAchevé()) {
       throw new ProjetAchevéError();
     }
 
@@ -89,60 +92,43 @@ export class ProducteurAggregate extends AbstractAggregate<ProducteurEvent> {
   }
 
   apply(event: ProducteurEvent): void {
-    // match(event)
-    //   .with(
-    //     {
-    //       type: 'ProducteurAccordé-V1',
-    //     },
-    //     (event) => this.applyProducteurAccordéV1(event),
-    //   )
-    //   .with(
-    //     {
-    //       type: 'ProducteurAnnulé-V1',
-    //     },
-    //     (event) => this.applyProducteurAnnuléV1(event),
-    //   )
-    //   .with(
-    //     {
-    //       type: 'ProducteurImporté-V1',
-    //     },
-    //     (event) => this.applyProducteurImportéV1(event),
-    //   )
-    //   .with(
-    //     {
-    //       type: 'ProducteurRejeté-V1',
-    //     },
-    //     (event) => this.applyProducteurRejetéV1(event),
-    //   )
-    //   .with(
-    //     {
-    //       type: 'ProducteurPasséEnInstruction-V1',
-    //     },
-    //     (event) => this.applyProducteurPasséEnInstructionV1(event),
-    //   )
-    //   .exhaustive();
+    match(event)
+      .with(
+        {
+          type: 'ChangementProducteurEnregistré-V1',
+        },
+        (event) => this.applyChangementProducteurEnregistréV1(event),
+      )
+      .exhaustive();
   }
 
-  // private applyProducteurImportéV1({
-  //   payload: { identifiantProjet, demandéLe, demandéPar, raison, pièceJustificative },
-  // }: ProducteurImportéEvent) {
-  //   this.statut = StatutProducteur.demandé;
+  private applyChangementProducteurEnregistréV1({
+    payload: {
+      identifiantProjet,
+      enregistréLe,
+      enregistréPar,
+      producteur: nouveauProducteur,
+      raison,
+      pièceJustificative,
+    },
+  }: ChangementProducteurEnregistréEvent) {
+    const ancienProducteur = this.producteur;
+    const dateChangement = DateTime.convertirEnValueType(enregistréLe);
 
-  //   this.demande = {
-  //     pièceJustificative:
-  //       pièceJustificative &&
-  //       DocumentProjet.convertirEnValueType(
-  //         identifiantProjet,
-  //         TypeDocumentProducteur.pièceJustificative.formatter(),
-  //         demandéLe,
-  //         pièceJustificative?.format,
-  //       ),
-  //     raison,
-  //     demandéLe: DateTime.convertirEnValueType(demandéLe),
-  //     demandéPar: Email.convertirEnValueType(demandéPar),
-  //   };
-  //   this.rejet = undefined;
-  //   this.accord = undefined;
-  //   this.annuléLe = undefined;
-  // }
+    this.changements.set(dateChangement.formatter(), {
+      enregistréLe: dateChangement,
+      enregistréPar: Email.convertirEnValueType(enregistréPar),
+      ancienProducteur,
+      nouveauProducteur,
+      raison,
+      pièceJustificative: DocumentProjet.convertirEnValueType(
+        identifiantProjet,
+        TypeDocumentProducteur.pièceJustificative.formatter(),
+        enregistréLe,
+        pièceJustificative?.format,
+      ),
+    });
+
+    this.producteur = nouveauProducteur;
+  }
 }

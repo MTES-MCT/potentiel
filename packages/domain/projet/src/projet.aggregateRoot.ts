@@ -2,7 +2,7 @@ import { Option } from '@potentiel-libraries/monads';
 import { AggregateType, LoadAggregateV2 } from '@potentiel-domain/core';
 import { AppelOffreAggregate, LoadAppelOffreAggregatePort } from '@potentiel-domain/appel-offre';
 
-import { IdentifiantProjet } from '.';
+import { IdentifiantProjet, StatutProjet } from '.';
 
 import { ÉliminéAggregate } from './éliminé/éliminé.aggregate';
 import {
@@ -57,6 +57,26 @@ export class ProjetAggregateRoot {
 
   get candidature() {
     return this.#candidature;
+  }
+
+  get statut() {
+    if (this.#lauréat.exists) {
+      if (this.#lauréat.abandon.statut.estAccordé()) {
+        return StatutProjet.abandonné;
+      }
+
+      if (this.#lauréat.achèvement.statut.estAchevé()) {
+        return StatutProjet.achevé;
+      }
+
+      if (!this.#lauréat.estNotifié) {
+        return StatutProjet.nonNotifié;
+      }
+
+      return StatutProjet.classé;
+    }
+
+    return StatutProjet.éliminé;
   }
 
   get période() {

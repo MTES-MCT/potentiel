@@ -29,6 +29,7 @@ import {
 } from './lauréat.error';
 import { CahierDesChargesChoisiEvent } from './choisir/cahierDesChargesChoisi.event';
 import { ChoisirCahierDesChargesOptions } from './choisir/choisirCahierDesCharges.option';
+import { AbandonAggregate } from './abandon/abandon.aggregate';
 import { ProducteurAggregate } from './producteur/producteur.aggregate';
 
 export class LauréatAggregate extends AbstractAggregate<LauréatEvent> {
@@ -43,14 +44,36 @@ export class LauréatAggregate extends AbstractAggregate<LauréatEvent> {
     return this.#projet;
   }
 
+  get estNotifié() {
+    return !!this.#notifiéLe;
+  }
+
+  #abandon!: AggregateType<AbandonAggregate>;
+
+  get abandon() {
+    return this.#abandon;
+  }
+
   #producteur!: AggregateType<ProducteurAggregate>;
 
   get producteur() {
     return this.#producteur;
   }
 
-  async init(projet: ProjetAggregateRoot, _loadAggregate: LoadAggregateV2) {
+  async init(projet: ProjetAggregateRoot, loadAggregate: LoadAggregateV2) {
     this.#projet = projet;
+
+    this.#abandon = await loadAggregate(
+      `abandon|${this.projet.identifiantProjet.formatter()}`,
+      AbandonAggregate,
+    );
+    await this.#abandon.init(this);
+
+    this.#producteur = await loadAggregate(
+      `producteur|${this.projet.identifiantProjet.formatter()}`,
+      ProducteurAggregate,
+    );
+    await this.#producteur.init(this);
   }
 
   async notifier({ attestation: { format } }: { attestation: { format: string } }) {
