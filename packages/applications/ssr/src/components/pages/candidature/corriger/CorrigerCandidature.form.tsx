@@ -30,6 +30,7 @@ export type CorrigerCandidatureFormProps = {
   candidature: CorrigerCandidatureFormEntries;
   estNotifiée: boolean;
   aUneAttestation: boolean;
+  unitéPuissance: string;
   champsSpéciaux: {
     puissanceALaPointe: boolean;
     coefficientKChoisi: boolean;
@@ -40,6 +41,7 @@ export const CorrigerCandidatureForm: React.FC<CorrigerCandidatureFormProps> = (
   candidature,
   estNotifiée,
   aUneAttestation,
+  unitéPuissance,
   champsSpéciaux,
 }) => {
   const [validationErrors, setValidationErrors] = useState<
@@ -192,7 +194,7 @@ export const CorrigerCandidatureForm: React.FC<CorrigerCandidatureFormProps> = (
       <Input
         state={validationErrors['societeMere'] ? 'error' : 'default'}
         stateRelatedMessage={validationErrors['societeMere']}
-        label="Société Mère (optionnel)"
+        label="Société mère (optionnel)"
         nativeInputProps={{
           name: 'societeMere',
           defaultValue: candidature.societeMere,
@@ -283,7 +285,7 @@ export const CorrigerCandidatureForm: React.FC<CorrigerCandidatureFormProps> = (
       <Input
         state={validationErrors['puissanceProductionAnnuelle'] ? 'error' : 'default'}
         stateRelatedMessage={validationErrors['puissanceProductionAnnuelle']}
-        label="Puissance (en MWc)"
+        label={`Puissance (en ${unitéPuissance})`}
         nativeInputProps={{
           name: 'puissanceProductionAnnuelle',
           defaultValue: candidature.puissanceProductionAnnuelle,

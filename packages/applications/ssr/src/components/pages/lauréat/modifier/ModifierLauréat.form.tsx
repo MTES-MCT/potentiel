@@ -43,6 +43,7 @@ export type ModifierLauréatFormProps = {
     identifiantProjet: string;
     nomProjet: string;
     isPPE2: boolean;
+    unitéPuissance: string;
   };
   champsSpéciaux: {
     puissanceALaPointe: boolean;
@@ -183,7 +184,7 @@ export const ModifierLauréatForm: React.FC<ModifierLauréatFormProps> = ({
             candidature={candidature.puissanceProductionAnnuelle}
             lauréat={lauréat.puissanceProductionAnnuelle.currentValue}
             estEnCoursDeModification={lauréat.puissanceProductionAnnuelle.estEnCoursDeModification}
-            label="Puissance (en MWc)"
+            label={`Puissance (en ${projet.unitéPuissance})`}
             name="puissanceProductionAnnuelle"
             validationErrors={validationErrors}
             nativeInputProps={{

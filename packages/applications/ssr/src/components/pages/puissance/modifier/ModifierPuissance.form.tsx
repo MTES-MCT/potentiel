@@ -15,11 +15,14 @@ import { ValidationErrors } from '@/utils/formAction';
 
 import { modifierPuissanceAction, ModifierPuissanceFormKeys } from './modifierPuissance.action';
 
-export type ModifierPuissanceFormProps = PlainType<Puissance.ConsulterPuissanceReadModel>;
+export type ModifierPuissanceFormProps = PlainType<Puissance.ConsulterPuissanceReadModel> & {
+  unitéPuissance: string;
+};
 
 export const ModifierPuissanceForm: FC<ModifierPuissanceFormProps> = ({
   identifiantProjet,
   puissance,
+  unitéPuissance,
 }) => {
   const [validationErrors, setValidationErrors] = useState<
     ValidationErrors<ModifierPuissanceFormKeys>
@@ -55,7 +58,7 @@ export const ModifierPuissanceForm: FC<ModifierPuissanceFormProps> = ({
         <Input
           state={validationErrors['puissance'] ? 'error' : 'default'}
           stateRelatedMessage={validationErrors['puissance']}
-          label="Puissance (en MWc)"
+          label={`Puissance (en ${unitéPuissance})`}
           nativeInputProps={{
             name: 'puissance',
             defaultValue: puissance,
