@@ -61,12 +61,12 @@ export class ProjetAggregateRoot {
 
   get statut() {
     if (this.#lauréat.exists) {
-      if (this.#lauréat.abandon.statut.estAccordé()) {
-        return StatutProjet.abandonné;
-      }
-
       if (this.#lauréat.achèvement.estAchevé) {
         return StatutProjet.achevé;
+      }
+
+      if (this.#lauréat.abandon.statut.estAccordé()) {
+        return StatutProjet.abandonné;
       }
 
       if (!this.#lauréat.estNotifié) {

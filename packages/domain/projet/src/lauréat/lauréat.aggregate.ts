@@ -80,7 +80,7 @@ export class LauréatAggregate extends AbstractAggregate<LauréatEvent> {
     await this.#abandon.init(this);
 
     this.#achèvement = await loadAggregate(
-      `achèvement|${this.projet.identifiantProjet.formatter()}`,
+      `achevement|${this.projet.identifiantProjet.formatter()}`,
       AchèvementAggregate,
     );
     await this.#achèvement.init(this);
