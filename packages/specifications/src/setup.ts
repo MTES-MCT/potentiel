@@ -34,6 +34,7 @@ import { getFakeIdentifiantProjet } from './helpers/getFakeIdentifiantProjet';
 import { getFakeContent } from './helpers/getFakeContent';
 import { initialiserUtilisateursTests } from './utilisateur/stepDefinitions/utilisateur.given';
 import { waitForSagasNotificationsAndProjectionsToFinish } from './helpers/waitForSagasNotificationsAndProjectionsToFinish';
+import { createS3ClientWithMD5 } from './helpers/createS3ClientWithMD5';
 
 should();
 setWorldConstructor(PotentielWorld);
@@ -138,7 +139,7 @@ After(async () => {
   const objectsToDelete = await getClient().send(new ListObjectsV2Command({ Bucket: bucketName }));
 
   if (objectsToDelete.Contents?.length) {
-    await getClient().send(
+    await createS3ClientWithMD5().send(
       new DeleteObjectsCommand({
         Bucket: bucketName,
         Delete: { Objects: objectsToDelete.Contents.map((o) => ({ Key: o.Key })) },
