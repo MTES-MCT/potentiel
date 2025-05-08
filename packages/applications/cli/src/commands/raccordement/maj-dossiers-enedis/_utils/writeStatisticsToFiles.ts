@@ -137,6 +137,51 @@ export const writeStatisticsToFiles = async (statistics: Statistics) => {
       );
     }
 
+    /***
+     *  Pas de dossier de raccordement -> transmettre la demande complète de raccordement -> tâche renseigner accusé réception DCR
+     */
+    if (
+      statistics.pasDeDossierDeRaccordement.transmettreDemandeComplètementRaccordement
+        .tâcheRenseignerAccuséRéception.total > 0
+    ) {
+      if (
+        statistics.pasDeDossierDeRaccordement.transmettreDemandeComplètementRaccordement
+          .tâcheRenseignerAccuséRéception.erreurs.length > 0
+      ) {
+        await writeFile(
+          path.resolve(
+            __dirname,
+            '../logs/pasDeDossierDeRaccordement',
+            'tâcheRenseignerAccuséRéception_erreurs.json',
+          ),
+          JSON.stringify(
+            statistics.pasDeDossierDeRaccordement.transmettreDemandeComplètementRaccordement
+              .tâcheRenseignerAccuséRéception.erreurs,
+            null,
+            2,
+          ),
+        );
+      }
+      if (
+        statistics.pasDeDossierDeRaccordement.transmettreDemandeComplètementRaccordement
+          .tâcheRenseignerAccuséRéception.succès.length > 0
+      ) {
+        await writeFile(
+          path.resolve(
+            __dirname,
+            '../logs/pasDeDossierDeRaccordement',
+            'tâcheRenseignerAccuséRéception_succès.json',
+          ),
+          JSON.stringify(
+            statistics.pasDeDossierDeRaccordement.transmettreDemandeComplètementRaccordement
+              .tâcheRenseignerAccuséRéception.succès,
+            null,
+            2,
+          ),
+        );
+      }
+    }
+
     /**
      * Pas de dossier de raccordement : transmettre la date de mise en service
      */

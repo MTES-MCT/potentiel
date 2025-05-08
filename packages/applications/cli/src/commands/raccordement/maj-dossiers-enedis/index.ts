@@ -29,7 +29,8 @@ import {
   registerDocumentProjetCommand,
 } from '@potentiel-domain/document';
 import { loadAggregate, loadAggregateV2 } from '@potentiel-infrastructure/pg-event-sourcing';
-import { ProjetAggregateRoot } from '@potentiel-domain/projet';
+import { IdentifiantProjet, ProjetAggregateRoot } from '@potentiel-domain/projet';
+import { registerTâcheCommand, Tâche } from '@potentiel-domain/tache';
 
 import { parseCsvFile } from '../../../helpers/parse-file';
 
@@ -112,6 +113,18 @@ export type Statistics = {
         référenceDossier: string;
         erreur: string;
       }>;
+      tâcheRenseignerAccuséRéception: {
+        total: number;
+        succès: Array<{
+          identifiantProjet: string;
+          référenceDossier: string;
+        }>;
+        erreurs: Array<{
+          identifiantProjet: string;
+          référenceDossier: string;
+          erreur: string;
+        }>;
+      };
     };
     transmettreDateMiseEnService: {
       total: number;
@@ -152,6 +165,9 @@ export class MajDossiersEnedis extends Command {
           loadAppelOffreAggregate: AppelOffreAdapter.loadAppelOffreAggregateAdapter,
         }),
       supprimerDocumentProjetSensible: DocumentAdapter.remplacerDocumentProjetSensible,
+    });
+    registerTâcheCommand({
+      loadAggregate,
     });
     await deleteFolderIfExists(path.resolve(__dirname, './logs'));
     await mkdir(path.resolve(__dirname, './logs'), { recursive: true });
@@ -222,6 +238,11 @@ export class MajDossiersEnedis extends Command {
           total: 0,
           succès: [],
           erreurs: [],
+          tâcheRenseignerAccuséRéception: {
+            total: 0,
+            succès: [],
+            erreurs: [],
+          },
         },
         transmettreDateMiseEnService: {
           total: 0,
@@ -491,6 +512,40 @@ export class MajDossiersEnedis extends Command {
               référenceDossier: ligne.referenceDossier,
             },
           );
+
+          try {
+            await mediator.send<Tâche.AjouterTâcheCommand>({
+              type: 'System.Tâche.Command.AjouterTâche',
+              data: {
+                identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
+                typeTâche:
+                  Tâche.TypeTâche.raccordementRenseignerAccuséRéceptionDemandeComplèteRaccordement,
+              },
+            });
+            statistics.pasDeDossierDeRaccordement.transmettreDemandeComplètementRaccordement
+              .tâcheRenseignerAccuséRéception.total++;
+            statistics.pasDeDossierDeRaccordement.transmettreDemandeComplètementRaccordement.tâcheRenseignerAccuséRéception.succès.push(
+              {
+                identifiantProjet,
+                référenceDossier: ligne.referenceDossier,
+              },
+            );
+          } catch (error) {
+            console.error(
+              `Erreur lors de la création de la tâche pour renseigner l'accusé de réception de la demande complète de raccordement pour le projet ${identifiantProjet} : ${error}`,
+            );
+            statistics.pasDeDossierDeRaccordement.transmettreDemandeComplètementRaccordement
+              .tâcheRenseignerAccuséRéception.total++;
+            statistics.pasDeDossierDeRaccordement.transmettreDemandeComplètementRaccordement.tâcheRenseignerAccuséRéception.erreurs.push(
+              {
+                identifiantProjet,
+                référenceDossier: ligne.referenceDossier,
+                erreur: error as string,
+              },
+            );
+            index++;
+            continue;
+          }
         } catch (error) {
           console.error(
             `Erreur lors de la création du dossier de raccordement pour le projet ${identifiantProjet} : ${error}`,
@@ -543,6 +598,8 @@ export class MajDossiersEnedis extends Command {
       }
 
       index++;
+
+      await sleep(300);
     }
 
     await writeStatisticsToFiles(statistics);
@@ -552,7 +609,7 @@ export class MajDossiersEnedis extends Command {
   }
 }
 
-async function deleteFolderIfExists(folderPath: string) {
+const deleteFolderIfExists = async (folderPath: string) => {
   try {
     // Vérifie si le dossier existe
     await access(folderPath, constants.F_OK);
@@ -563,4 +620,8 @@ async function deleteFolderIfExists(folderPath: string) {
   } catch (error) {
     console.error(`Erreur lors de la suppression du dossier : ${error}`);
   }
-}
+};
+
+const sleep = async (ms: number) => {
+  await new Promise((resolve) => setTimeout(resolve, ms));
+};
