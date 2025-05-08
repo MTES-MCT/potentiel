@@ -9,11 +9,12 @@ Fonctionnalité: Enregistrer un changement de producteur d'un projet lauréat
             | période       | 1               |
         Et la dreal "Dreal du sud" associée à la région du projet
         Quand le porteur enregistre un changement de producteur pour le projet lauréat
-        Alors le porteur ne doit plus avoir accès au projet lauréat
+        Alors le producteur du projet lauréat devrait être mis à jour
+        Et le changement enregistré du producteur du projet lauréat devrait être consultable
+        Et le porteur ne doit plus avoir accès au projet lauréat
         Et le projet lauréat est consultable dans la liste des projets à réclamer
         Et il ne devrait pas y avoir de dépôt de garanties financières pour le projet "Du boulodrome de Marseille"
         Et il ne devrait pas y avoir de garanties financières actuelles pour le projet "Du boulodrome de Marseille"
-        Et le changement enregistré du producteur du projet lauréat devrait être consultable
 
     # Et un email a été envoyé au porteur avec :
     #     | sujet      | Potentiel - Déclaration de changement de producteur pour le projet Du boulodrome de Marseille dans le département(.*) |

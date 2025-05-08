@@ -2,17 +2,13 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 import { match } from 'ts-pattern';
 
 import { RebuildTriggered } from '@potentiel-infrastructure/pg-event-sourcing';
-import { Candidature, Lauréat } from '@potentiel-domain/projet';
+import { Lauréat } from '@potentiel-domain/projet';
 
 import { producteurRebuilTriggeredProjector } from './producteurRebuildTrigerred.projector';
 import { changementProducteurEnregistréProjector } from './changementProducteurEnregistré.projector';
 import { producteurModifiéProjector } from './producteurModifié.projector';
-import { candidatureImportéeProjector } from './candidatureImportée.projector';
 
-export type SubscriptionEvent =
-  | Candidature.CandidatureImportéeEvent
-  | Lauréat.Producteur.ProducteurEvent
-  | RebuildTriggered;
+export type SubscriptionEvent = Lauréat.Producteur.ProducteurEvent | RebuildTriggered;
 
 export type Execute = Message<'System.Projector.Lauréat.Producteur', SubscriptionEvent>;
 
@@ -20,7 +16,6 @@ export const register = () => {
   const handler: MessageHandler<Execute> = (event) =>
     match(event)
       .with({ type: 'RebuildTriggered' }, producteurRebuilTriggeredProjector)
-      .with({ type: 'CandidatureImportée-V1' }, candidatureImportéeProjector)
       .with({ type: 'ChangementProducteurEnregistré-V1' }, changementProducteurEnregistréProjector)
       .with({ type: 'ProducteurModifié-V1' }, producteurModifiéProjector)
       .exhaustive();

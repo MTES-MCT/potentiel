@@ -1,4 +1,4 @@
-import { Candidature } from '@potentiel-domain/projet';
+import { Candidature, Lauréat } from '@potentiel-domain/projet';
 import { IdentifiantProjet, DateTime } from '@potentiel-domain/common';
 import { upsertProjection } from '@potentiel-infrastructure/pg-projection-write';
 
@@ -46,5 +46,14 @@ export const candidatureImportéeProjector = async ({
   await upsertProjection<Candidature.CandidatureEntity>(
     `candidature|${payload.identifiantProjet}`,
     candidatureToUpsert,
+  );
+
+  await upsertProjection<Lauréat.Producteur.ProducteurEntity>(
+    `producteur|${payload.identifiantProjet}`,
+    {
+      identifiantProjet: payload.identifiantProjet,
+      nom: payload.nomCandidat,
+      misÀJourLe: payload.importéLe,
+    },
   );
 };

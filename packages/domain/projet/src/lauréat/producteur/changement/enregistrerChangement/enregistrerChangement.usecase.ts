@@ -5,6 +5,7 @@ import { DocumentProjet, EnregistrerDocumentProjetCommand } from '@potentiel-dom
 
 import { IdentifiantProjet, RetirerTousAccèsProjet } from '../../../..';
 import { TypeDocumentProducteur } from '../..';
+import { RenouvelerGarantiesFinancièresUseCase } from '../../../garanties-financières/renouveler/renouvelerGarantiesFinancières.usecase';
 
 import { EnregistrerChangementProducteurCommand } from './enregistrerChangement.command';
 
@@ -69,12 +70,13 @@ export const registerEnregistrerChangementProducteurUseCase = ({
       },
     });
 
-    // await mediator.send<RenouvelerGarantiesFinancières>({
-    //   type: 'GarantiesFinancières.Command.RenouvelerGarantiesFinancières',
-    //   data: {
-    //     identifiantProjet,
-    //   },
-    // });
+    await mediator.send<RenouvelerGarantiesFinancièresUseCase>({
+      type: 'Lauréat.GarantiesFinancières.UseCase.RenouvelerGarantiesFinancières',
+      data: {
+        identifiantProjetValue,
+        identifiantUtilisateurValue,
+      },
+    });
 
     await retirerTousAccèsProjet(identifiantProjet);
   };
