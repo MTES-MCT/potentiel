@@ -12,6 +12,7 @@
     "test:select": "cucumber-js --tags @select --tags \"not @NotImplemented\""
   },
   "dependencies": {
+    "@aws-sdk/client-s3": "^3.804.0",
     "@potentiel-applications/bootstrap": "*",
     "@potentiel-domain/core": "*",
     "@potentiel-domain/laureat": "*",
