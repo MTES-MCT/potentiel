@@ -3,7 +3,7 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 import { DateTime, Email } from '@potentiel-domain/common';
 import { DocumentProjet, EnregistrerDocumentProjetCommand } from '@potentiel-domain/document';
 
-import { IdentifiantProjet } from '../../../..';
+import { IdentifiantProjet, RetirerTousAccèsProjet } from '../../../..';
 import { TypeDocumentProducteur } from '../..';
 
 import { EnregistrerChangementProducteurCommand } from './enregistrerChangement.command';
@@ -23,7 +23,13 @@ export type EnregistrerChangementProducteurUseCase = Message<
   }
 >;
 
-export const registerEnregistrerChangementProducteurUseCase = () => {
+export type EnregistrerChangementProducteurUseCaseDependencies = {
+  retirerTousAccèsProjet: RetirerTousAccèsProjet;
+};
+
+export const registerEnregistrerChangementProducteurUseCase = ({
+  retirerTousAccèsProjet,
+}: EnregistrerChangementProducteurUseCaseDependencies) => {
   const handler: MessageHandler<EnregistrerChangementProducteurUseCase> = async ({
     identifiantProjetValue,
     identifiantUtilisateurValue,
@@ -46,7 +52,7 @@ export const registerEnregistrerChangementProducteurUseCase = () => {
     await mediator.send<EnregistrerChangementProducteurCommand>({
       type: 'Lauréat.Producteur.Command.EnregistrerChangement',
       data: {
-        identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantUtilisateurValue),
+        identifiantProjet,
         identifiantUtilisateur,
         producteur: producteurValue,
         dateChangement,
@@ -62,6 +68,15 @@ export const registerEnregistrerChangementProducteurUseCase = () => {
         documentProjet: pièceJustificative,
       },
     });
+
+    // await mediator.send<RenouvelerGarantiesFinancières>({
+    //   type: 'GarantiesFinancières.Command.RenouvelerGarantiesFinancières',
+    //   data: {
+    //     identifiantProjet,
+    //   },
+    // });
+
+    await retirerTousAccèsProjet(identifiantProjet);
   };
 
   mediator.register('Lauréat.Producteur.UseCase.EnregistrerChangement', handler);

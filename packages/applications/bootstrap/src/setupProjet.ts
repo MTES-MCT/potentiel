@@ -20,6 +20,7 @@ import {
   consulterCahierDesChargesChoisiAdapter,
   DélaiAdapter,
   getProjetUtilisateurScopeAdapter,
+  retirerTousAccèsProjet,
 } from '@potentiel-infrastructure/domain-adapters';
 import { AttestationSaga } from '@potentiel-applications/document-builder';
 import { LauréatSaga } from '@potentiel-domain/laureat';
@@ -33,6 +34,7 @@ type SetupProjetDependencies = {
 export const setupProjet = async ({ sendEmail }: SetupProjetDependencies) => {
   registerProjetUseCases({
     getProjetAggregateRoot: getProjetAggregateRootAdapter,
+    retirerTousAccèsProjet,
   });
 
   registerProjetQueries({

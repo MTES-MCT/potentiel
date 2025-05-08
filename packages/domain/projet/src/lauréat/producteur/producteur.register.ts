@@ -5,7 +5,10 @@ import {
   registerConsulterChangementProducteurQuery,
 } from './changement/consulter/consulterChangementProducteur.query';
 import { registerEnregistrerChangementProducteurCommand } from './changement/enregistrerChangement/enregistrerChangement.command';
-import { registerEnregistrerChangementProducteurUseCase } from './changement/enregistrerChangement/enregistrerChangement.usecase';
+import {
+  EnregistrerChangementProducteurUseCaseDependencies,
+  registerEnregistrerChangementProducteurUseCase,
+} from './changement/enregistrerChangement/enregistrerChangement.usecase';
 import {
   ListerChangementProducteurDependencies,
   registerListerChangementProducteurQuery,
@@ -21,13 +24,11 @@ export type ProducteurQueryDependencies = ConsulterProducteurDependencies &
 
 export type ProducteurCommandDependencies = {
   getProjetAggregateRoot: GetProjetAggregateRoot;
-};
+} & EnregistrerChangementProducteurUseCaseDependencies;
 
-export const registerProducteurUseCases = ({
-  getProjetAggregateRoot,
-}: ProducteurCommandDependencies) => {
-  registerEnregistrerChangementProducteurCommand(getProjetAggregateRoot);
-  registerEnregistrerChangementProducteurUseCase();
+export const registerProducteurUseCases = (dependencies: ProducteurCommandDependencies) => {
+  registerEnregistrerChangementProducteurCommand(dependencies.getProjetAggregateRoot);
+  registerEnregistrerChangementProducteurUseCase(dependencies);
 };
 
 export const registerProducteurQueries = (dependencies: ProducteurQueryDependencies) => {

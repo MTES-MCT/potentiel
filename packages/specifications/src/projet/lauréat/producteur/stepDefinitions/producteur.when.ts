@@ -6,10 +6,10 @@ import { Lauréat } from '@potentiel-domain/projet';
 import { PotentielWorld } from '../../../../potentiel.world';
 
 Quand(
-  'le porteur enregistre un changement de producteur pour le projet {lauréat-éliminé}',
-  async function (this: PotentielWorld, statutProjet: 'lauréat' | 'éliminé') {
+  'le porteur enregistre un changement de producteur pour le projet lauréat',
+  async function (this: PotentielWorld) {
     try {
-      await enregistrerChangementProducteur.call(this, statutProjet);
+      await enregistrerChangementProducteur.call(this);
     } catch (error) {
       this.error = error as Error;
     }
@@ -22,8 +22,7 @@ Quand(
     try {
       await enregistrerChangementProducteur.call(
         this,
-        'lauréat',
-        this.lauréatWorld.producteurWorld.importerProducteurFixture.producteur,
+        this.candidatureWorld.importerCandidature.values['nomCandidatValue'],
       );
     } catch (error) {
       this.error = error as Error;
@@ -32,10 +31,10 @@ Quand(
 );
 
 Quand(
-  'le DGEC validateur modifie le producteur du projet {lauréat-éliminé}',
-  async function (this: PotentielWorld, statutProjet: 'lauréat' | 'éliminé') {
+  'le DGEC validateur modifie le producteur du projet lauréat',
+  async function (this: PotentielWorld) {
     try {
-      await modifierProducteur.call(this, statutProjet);
+      await modifierProducteur.call(this);
     } catch (error) {
       this.error = error as Error;
     }
@@ -48,8 +47,7 @@ Quand(
     try {
       await modifierProducteur.call(
         this,
-        'lauréat',
-        this.lauréatWorld.producteurWorld.importerProducteurFixture.producteur,
+        this.candidatureWorld.importerCandidature.values['nomCandidatValue'],
       );
     } catch (error) {
       this.error = error as Error;
@@ -59,13 +57,9 @@ Quand(
 
 export async function enregistrerChangementProducteur(
   this: PotentielWorld,
-  statutProjet: 'lauréat' | 'éliminé',
   producteurValue?: string,
 ) {
-  const identifiantProjet =
-    statutProjet === 'lauréat'
-      ? this.lauréatWorld.identifiantProjet
-      : this.eliminéWorld.identifiantProjet;
+  const identifiantProjet = this.lauréatWorld.identifiantProjet;
 
   const { pièceJustificative, enregistréLe, enregistréPar, producteur } =
     this.lauréatWorld.producteurWorld.enregistrerChangementProducteurFixture.créer({
@@ -85,15 +79,8 @@ export async function enregistrerChangementProducteur(
   });
 }
 
-export async function modifierProducteur(
-  this: PotentielWorld,
-  statutProjet: 'lauréat' | 'éliminé',
-  producteurValue?: string,
-) {
-  const identifiantProjet =
-    statutProjet === 'lauréat'
-      ? this.lauréatWorld.identifiantProjet
-      : this.eliminéWorld.identifiantProjet;
+export async function modifierProducteur(this: PotentielWorld, producteurValue?: string) {
+  const identifiantProjet = this.lauréatWorld.identifiantProjet;
 
   const { modifiéLe, modifiéPar, producteur } =
     this.lauréatWorld.producteurWorld.modifierProducteurFixture.créer({

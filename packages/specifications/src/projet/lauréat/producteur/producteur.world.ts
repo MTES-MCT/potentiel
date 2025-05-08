@@ -4,15 +4,9 @@ import { DateTime, Email } from '@potentiel-domain/common';
 import { DocumentProjet } from '@potentiel-domain/document';
 
 import { EnregistrerChangementProducteurFixture } from './fixture/enregistrerChangementProducteur.fixture';
-import { ImporterProducteurFixture } from './fixture/importerProducteur.fixture';
 import { ModifierProducteurFixture } from './fixture/modifierProducteur.fixture';
 
 export class ProducteurWorld {
-  #importerProducteurFixture: ImporterProducteurFixture;
-  get importerProducteurFixture() {
-    return this.#importerProducteurFixture;
-  }
-
   #enregistrerChangementProducteurFixture: EnregistrerChangementProducteurFixture;
   get enregistrerChangementProducteurFixture() {
     return this.#enregistrerChangementProducteurFixture;
@@ -24,7 +18,6 @@ export class ProducteurWorld {
   }
 
   constructor() {
-    this.#importerProducteurFixture = new ImporterProducteurFixture();
     this.#enregistrerChangementProducteurFixture = new EnregistrerChangementProducteurFixture();
     this.#modifierProducteurFixture = new ModifierProducteurFixture();
   }
@@ -36,7 +29,7 @@ export class ProducteurWorld {
         ? this.#modifierProducteurFixture.producteur
         : this.#enregistrerChangementProducteurFixture.aÉtéCréé
           ? this.#enregistrerChangementProducteurFixture.producteur
-          : this.#importerProducteurFixture.producteur,
+          : '',
     };
 
     return expected;
@@ -57,7 +50,7 @@ export class ProducteurWorld {
           this.#enregistrerChangementProducteurFixture.enregistréPar,
         ),
         nouveauProducteur: this.#enregistrerChangementProducteurFixture.producteur,
-        ancienProducteur: this.#importerProducteurFixture.producteur,
+        ancienProducteur: '',
         pièceJustificative: DocumentProjet.convertirEnValueType(
           identifiantProjet.formatter(),
           Lauréat.Producteur.TypeDocumentProducteur.pièceJustificative.formatter(),

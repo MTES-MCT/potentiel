@@ -2,6 +2,7 @@
 Fonctionnalité: Enregistrer un changement de producteur d'un projet lauréat
 
     # ajouter les notifications
+    @select
     Scénario: Enregistrer un changement de producteur d'un projet lauréat
         Etant donné le projet lauréat "Du boulodrome de Marseille" avec :
             | appel d'offre | PPE2 - Bâtiment |
