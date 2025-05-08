@@ -2,7 +2,7 @@ import { mediator } from 'mediateur';
 import { HeaderQuickAccessItem } from '@codegouvfr/react-dsfr/Header';
 import Badge from '@mui/material/Badge';
 
-import { ConsulterNombreTâchesQuery } from '@potentiel-domain/tache';
+import { Tâche } from '@potentiel-domain/tache';
 import { Role, Utilisateur } from '@potentiel-domain/utilisateur';
 import { Routes } from '@potentiel-applications/routes';
 import { getContext } from '@potentiel-applications/request-context';
@@ -79,7 +79,7 @@ export async function UserHeaderQuickAccessItem() {
 
 async function getTâcheHeaderQuickAccessItem(utilisateur: Utilisateur.ValueType) {
   if (utilisateur.role.estÉgaleÀ(Role.porteur)) {
-    const { nombreTâches } = await mediator.send<ConsulterNombreTâchesQuery>({
+    const { nombreTâches } = await mediator.send<Tâche.ConsulterNombreTâchesQuery>({
       type: 'Tâche.Query.ConsulterNombreTâches',
       data: {
         email: utilisateur.identifiantUtilisateur.email,

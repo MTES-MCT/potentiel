@@ -4,7 +4,7 @@ import { z } from 'zod';
 import { redirect, RedirectType } from 'next/navigation';
 
 import { AppelOffre } from '@potentiel-domain/appel-offre';
-import { ListerTâchesQuery } from '@potentiel-domain/tache';
+import { Tâche } from '@potentiel-domain/tache';
 import { mapToPlainObject } from '@potentiel-domain/core';
 import { Routes } from '@potentiel-applications/routes';
 
@@ -51,7 +51,7 @@ export default async function Page({ searchParams }: IdentifiantParameter & Page
         data: { cycle },
       });
 
-      const tâches = await mediator.send<ListerTâchesQuery>({
+      const tâches = await mediator.send<Tâche.ListerTâchesQuery>({
         type: 'Tâche.Query.ListerTâches',
         data: {
           range: mapToRangeOptions({

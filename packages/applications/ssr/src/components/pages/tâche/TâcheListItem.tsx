@@ -4,13 +4,14 @@ import { match } from 'ts-pattern';
 
 import { Routes } from '@potentiel-applications/routes';
 import { PlainType } from '@potentiel-domain/core';
-import { ListerTâchesReadModel, TypeTâche } from '@potentiel-domain/tache';
-import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
+import { Tâche } from '@potentiel-domain/tache';
+import { DateTime } from '@potentiel-domain/common';
+import { IdentifiantProjet } from '@potentiel-domain/projet';
 
 import { ProjectListItemHeading } from '@/components/molecules/projet/ProjectListItemHeading';
 import { ListItem } from '@/components/molecules/ListItem';
 
-export type TâcheListItemProps = PlainType<ListerTâchesReadModel['items'][number]>;
+export type TâcheListItemProps = PlainType<Tâche.ListerTâchesReadModel['items'][number]>;
 
 export const TâcheListItem: FC<TâcheListItemProps> = ({
   identifiantProjet,
@@ -47,7 +48,7 @@ const getDescriptionTâche = (
   identifiantProjet: TâcheListItemProps['identifiantProjet'],
   nomProjet: string,
 ) => {
-  const type = TypeTâche.bind(typeTâche).type;
+  const type = Tâche.TypeTâche.bind(typeTâche).type;
   const identifiant = IdentifiantProjet.bind(identifiantProjet).formatter();
 
   return match(type)
@@ -83,6 +84,13 @@ const getDescriptionTâche = (
       titre: 'Garanties financières demandées',
       description: `Des garanties financières sont en attente pour ce projet`,
       lien: Routes.GarantiesFinancières.dépôt.soumettre(identifiant),
+      action: 'Soumettre les garanties financières',
+      ariaLabel: `Soumettre des garanties financières pour le projet ${nomProjet}`,
+    }))
+    .with('raccordement.renseigner-accusé-réception-demande-complète-raccordement', () => ({
+      titre: "Document d'accusé de récéption de la demande complète de raccordement manquant",
+      description: `Le document d'accusé de récéption de la demande complète de raccordement est manquant pour ce projet`,
+      lien: Routes.Raccordement.détail(identifiant),
       action: 'Soumettre les garanties financières',
       ariaLabel: `Soumettre des garanties financières pour le projet ${nomProjet}`,
     }))

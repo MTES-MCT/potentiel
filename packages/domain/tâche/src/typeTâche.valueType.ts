@@ -6,6 +6,7 @@ export const types = [
   'abandon.transmettre-preuve-recandidature',
   'raccordement.référence-non-transmise',
   'raccordement.gestionnaire-réseau-inconnu-attribué',
+  'raccordement.renseigner-accusé-réception-demande-complète-raccordement',
   'garanties-financières.demander',
 ] as const;
 
@@ -50,6 +51,8 @@ export const raccordementRéférenceNonTransmise = convertirEnValueType(
 export const raccordementGestionnaireRéseauInconnuAttribué = convertirEnValueType(
   'raccordement.gestionnaire-réseau-inconnu-attribué',
 );
+export const raccordementRenseignerAccuséRéceptionDemandeComplèteRaccordement =
+  convertirEnValueType('raccordement.renseigner-accusé-réception-demande-complète-raccordement');
 
 export const garantiesFinancièresDemander = convertirEnValueType('garanties-financières.demander');
 

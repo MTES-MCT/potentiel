@@ -1,6 +1,6 @@
 import { FC } from 'react';
 
-import { ListerTâchesReadModel } from '@potentiel-domain/tache';
+import { Tâche } from '@potentiel-domain/tache';
 import { PlainType } from '@potentiel-domain/core';
 import { IdentifiantProjet } from '@potentiel-domain/common';
 
@@ -9,7 +9,7 @@ import { ListPageTemplate, ListPageTemplateProps } from '@/components/templates/
 import { mapToPagination } from '@/utils/pagination';
 
 export type TâcheListPageProps = {
-  list: PlainType<ListerTâchesReadModel>;
+  list: PlainType<Tâche.ListerTâchesReadModel>;
   filters: ListPageTemplateProps<typeof TâcheListItem>['filters'];
 };
 
