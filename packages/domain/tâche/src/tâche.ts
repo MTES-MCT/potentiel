@@ -11,6 +11,9 @@ export { ConsulterNombreTâchesQuery, ListerTâchesQuery };
 // ReadModel
 export { ConsulterNombreTâchesReadModel, ListerTâchesReadModel };
 
+// Command
+export { AjouterTâcheCommand } from './ajouter/ajouterTâche.command';
+
 // Event
 export { TâcheEvent } from './tâche.aggregate';
 export type { TâcheAjoutéeEvent } from './ajouter/ajouterTâche.behavior';

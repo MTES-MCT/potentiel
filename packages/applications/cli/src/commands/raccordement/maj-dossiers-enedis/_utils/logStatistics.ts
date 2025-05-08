@@ -47,6 +47,15 @@ export const logStatistics = (stats: Statistics) => {
   console.log(
     `    Erreurs: ${pasDeDossier.transmettreDemandeComplètementRaccordement.erreurs.length}`,
   );
+  console.log(
+    `  Tâche renseigner accusé réception DCR - Total: ${pasDeDossier.transmettreDemandeComplètementRaccordement.tâcheRenseignerAccuséRéception.total}`,
+  );
+  console.log(
+    `    Succès: ${pasDeDossier.transmettreDemandeComplètementRaccordement.tâcheRenseignerAccuséRéception.succès.length}`,
+  );
+  console.log(
+    `    Erreurs: ${pasDeDossier.transmettreDemandeComplètementRaccordement.tâcheRenseignerAccuséRéception.erreurs.length}`,
+  );
 
   console.log(
     `  Transmettre Date Mise En Service - Total: ${pasDeDossier.transmettreDateMiseEnService.total}`,
