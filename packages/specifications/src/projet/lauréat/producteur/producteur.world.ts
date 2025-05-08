@@ -35,7 +35,10 @@ export class ProducteurWorld {
     return expected;
   }
 
-  mapChangementToExpected(identifiantProjet: IdentifiantProjet.ValueType) {
+  mapChangementToExpected(
+    identifiantProjet: IdentifiantProjet.ValueType,
+    ancienProducteur: string,
+  ) {
     if (!this.#enregistrerChangementProducteurFixture.aÉtéCréé) {
       throw new Error(`Aucune information enregistrée n'a été créée dans ProducteurWorld`);
     }
@@ -50,7 +53,7 @@ export class ProducteurWorld {
           this.#enregistrerChangementProducteurFixture.enregistréPar,
         ),
         nouveauProducteur: this.#enregistrerChangementProducteurFixture.producteur,
-        ancienProducteur: '',
+        ancienProducteur,
         pièceJustificative: DocumentProjet.convertirEnValueType(
           identifiantProjet.formatter(),
           Lauréat.Producteur.TypeDocumentProducteur.pièceJustificative.formatter(),

@@ -175,12 +175,7 @@ export const setupLauréat = async ({
   >({
     name: 'projector',
     streamCategory: 'producteur',
-    eventType: [
-      'RebuildTriggered',
-      'CandidatureImportée-V1',
-      'ChangementProducteurEnregistré-V1',
-      'ProducteurModifié-V1',
-    ],
+    eventType: ['RebuildTriggered', 'ChangementProducteurEnregistré-V1', 'ProducteurModifié-V1'],
     eventHandler: async (event) => {
       await mediator.send<ProducteurProjector.Execute>({
         type: 'System.Projector.Lauréat.Producteur',

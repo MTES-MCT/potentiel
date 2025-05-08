@@ -87,6 +87,7 @@ async function vérifierChangementProducteur(this: PotentielWorld, identifiantPr
     const expected = mapToPlainObject(
       this.lauréatWorld.producteurWorld.mapChangementToExpected(
         IdentifiantProjet.convertirEnValueType(identifiantProjet),
+        this.candidatureWorld.importerCandidature.values.nomCandidatValue,
       ),
     );
 
