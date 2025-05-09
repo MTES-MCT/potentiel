@@ -208,6 +208,7 @@ const référencielPermissions = {
           'Lauréat.GarantiesFinancières.Mainlevée.UseCase.AccorderDemandeMainlevée',
         rejeterDemandeMainlevée:
           'Lauréat.GarantiesFinancières.Mainlevée.UseCase.RejeterDemandeMainlevée',
+        renouveler: 'Lauréat.GarantiesFinancières.UseCase.RenouvelerGarantiesFinancières',
       },
       command: {
         demander: 'Lauréat.GarantiesFinancières.Command.DemanderGarantiesFinancières',
@@ -654,6 +655,10 @@ const policies = {
     ],
   },
   garantiesFinancières: {
+    renouveler: [
+      référencielPermissions.lauréat.garantiesFinancières.usecase.effacerHistorique,
+      référencielPermissions.lauréat.garantiesFinancières.usecase.demander,
+    ],
     effacerHistorique: [
       référencielPermissions.lauréat.garantiesFinancières.usecase.effacerHistorique,
       référencielPermissions.lauréat.garantiesFinancières.command.effacerHistorique,
@@ -1094,6 +1099,8 @@ const policies = {
     enregistrerChangement: [
       référencielPermissions.lauréat.producteur.usecase.enregistrerChangement,
       référencielPermissions.lauréat.producteur.command.enregistrerChangement,
+      référencielPermissions.lauréat.garantiesFinancières.usecase.renouveler,
+      référencielPermissions.utilisateur.command.retirerAccèsProjet,
     ],
   },
   lauréat: {
