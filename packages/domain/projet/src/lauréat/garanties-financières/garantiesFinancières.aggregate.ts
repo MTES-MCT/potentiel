@@ -57,6 +57,8 @@ export class GarantiesFinancièresAggregate extends AbstractAggregate<GarantiesF
         () => this.applyGarantiesFinancièresModifiéesV1(),
       )
       .otherwise(() => {});
+    // Provisoire le temps de déplacer toutes la logique métier du package lauréat à celui-ci.
+    // Si l'on reste en `exhaustive` on pourrait avoir des erreurs si des événements non listés ici serait présent dans le stream
     // .exhaustive();
   }
 

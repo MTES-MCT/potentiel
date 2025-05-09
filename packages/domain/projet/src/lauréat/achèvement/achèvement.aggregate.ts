@@ -30,7 +30,10 @@ export class AchèvementAggregate extends AbstractAggregate<AchèvementEvent> {
         },
         (event) => this.applyAttestationConformitéTransmiseV1(event),
       )
-      .exhaustive();
+      .otherwise(() => {});
+    // Provisoire le temps de déplacer toutes la logique métier du package lauréat à celui-ci.
+    // Si l'on reste en `exhaustive` on pourrait avoir des erreurs si des événements non listés ici serait présent dans le stream
+    // .exhaustive();
   }
 
   private applyAttestationConformitéTransmiseV1(_event: AttestationConformitéTransmiseEvent) {

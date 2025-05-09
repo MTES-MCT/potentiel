@@ -60,7 +60,10 @@ export class AbandonAggregate extends AbstractAggregate<AbandonEvent> {
         },
         (event) => this.applyAbandonAnnuléV1(event),
       )
-      .exhaustive();
+      .otherwise(() => {});
+    // Provisoire le temps de déplacer toutes la logique métier du package lauréat à celui-ci.
+    // Si l'on reste en `exhaustive` on pourrait avoir des erreurs si des événements non listés ici serait présent dans le stream
+    // .exhaustive();
   }
 
   private applyAbandonDemandéV1(_event: AbandonDemandéEventV1) {
