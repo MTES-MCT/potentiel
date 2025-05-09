@@ -48,4 +48,5 @@ export { LauréatEntity } from './lauréat.entity';
 export * as Abandon from './abandon';
 export * as Achèvement from './achèvement';
 export * as Délai from './délai';
+export * as GarantiesFinancières from './garanties-financières';
 export * as Producteur from './producteur';
