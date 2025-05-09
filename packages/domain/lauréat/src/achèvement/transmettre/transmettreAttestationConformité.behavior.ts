@@ -1,22 +1,11 @@
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
-import { DomainEvent, InvalidOperationError } from '@potentiel-domain/core';
+import { InvalidOperationError } from '@potentiel-domain/core';
 import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
 import { DocumentProjet } from '@potentiel-domain/document';
+import { Lauréat } from '@potentiel-domain/projet';
 
 import { AchèvementAggregate } from '../achèvement.aggregate';
 import { DateDeTransmissionAuCoContractantFuturError } from '../dateTransmissionAuCocontractantFutureError.error';
-
-export type AttestationConformitéTransmiseEvent = DomainEvent<
-  'AttestationConformitéTransmise-V1',
-  {
-    identifiantProjet: IdentifiantProjet.RawType;
-    attestation: { format: string };
-    dateTransmissionAuCocontractant: DateTime.RawType;
-    preuveTransmissionAuCocontractant: { format: string };
-    date: DateTime.RawType;
-    utilisateur: IdentifiantUtilisateur.RawType;
-  }
->;
 
 export type Options = {
   identifiantProjet: IdentifiantProjet.ValueType;
@@ -52,7 +41,7 @@ export async function transmettre(
     throw new AttestationDeConformitéDéjàTransmiseError();
   }
 
-  const event: AttestationConformitéTransmiseEvent = {
+  const event: Lauréat.Achèvement.AttestationConformitéTransmiseEvent = {
     type: 'AttestationConformitéTransmise-V1',
     payload: {
       identifiantProjet: identifiantProjet.formatter(),
@@ -77,7 +66,7 @@ export function applyAttestationConformitéTransmise(
       attestation,
       preuveTransmissionAuCocontractant,
     },
-  }: AttestationConformitéTransmiseEvent,
+  }: Lauréat.Achèvement.AttestationConformitéTransmiseEvent,
 ) {
   this.utilisateur = IdentifiantUtilisateur.convertirEnValueType(utilisateur);
   this.attestationConformité = {

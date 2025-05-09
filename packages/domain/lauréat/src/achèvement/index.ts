@@ -22,7 +22,6 @@ export { TransmettreAttestationConformitéUseCase, ModifierAttestationConformit�
 
 // Event
 export { AchèvementEvent } from './achèvement.aggregate';
-export { AttestationConformitéTransmiseEvent } from './transmettre/transmettreAttestationConformité.behavior';
 export { AttestationConformitéModifiéeEvent } from './modifier/modifierAttestationConformité.behavior';
 
 // Register
