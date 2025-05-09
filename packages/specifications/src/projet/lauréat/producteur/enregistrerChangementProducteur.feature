@@ -1,5 +1,4 @@
 # language: fr
-@select
 Fonctionnalité: Enregistrer un changement de producteur d'un projet lauréat
 
     # ajouter les notifications

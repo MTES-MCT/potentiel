@@ -1,5 +1,4 @@
 # language: fr
-@select
 Fonctionnalité: Modifier le producteur d'un projet lauréat
 
     # TODO : notifs
