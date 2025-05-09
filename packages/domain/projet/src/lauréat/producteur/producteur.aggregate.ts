@@ -99,6 +99,8 @@ export class ProducteurAggregate extends AbstractAggregate<ProducteurEvent> {
     dateModification,
     identifiantUtilisateur,
   }: ModifierOptions) {
+    this.lauréat.vérifierQueLeLauréatExiste();
+
     if (this.producteur === producteur) {
       throw new ProducteurIdentiqueError();
     }
