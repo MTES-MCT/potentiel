@@ -5,12 +5,10 @@ import { Candidature, Lauréat } from '@potentiel-domain/projet';
 import { Option } from '@potentiel-libraries/monads';
 import { GestionnaireRéseau } from '@potentiel-domain/reseau';
 
-import { AbandonAccordéEvent } from '../abandon';
-
 import { SupprimerRaccordementCommand } from './supprimer/supprimerRaccordement.command';
 import { AttribuerGestionnaireRéseauCommand } from './attribuer/attribuerGestionnaireRéseau.command';
 
-export type SubscriptionEvent = AbandonAccordéEvent | Lauréat.LauréatNotifiéEvent;
+export type SubscriptionEvent = Lauréat.Abandon.AbandonAccordéEvent | Lauréat.LauréatNotifiéEvent;
 
 export type Execute = Message<'System.Lauréat.Raccordement.Saga.Execute', SubscriptionEvent>;
 

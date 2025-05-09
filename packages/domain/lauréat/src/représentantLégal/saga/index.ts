@@ -4,8 +4,6 @@ import { match } from 'ts-pattern';
 import { TâchePlanifiéeExecutéeEvent } from '@potentiel-domain/tache-planifiee';
 import { Lauréat } from '@potentiel-domain/projet';
 
-import { AbandonAccordéEvent } from '../../abandon';
-
 import { lauréatNotifiéSaga } from './lauréatNotifié.saga';
 import { abandonAccordéSaga } from './abandonAccordé.saga';
 import { tâchePlanifiéeGestionAutomatiqueDemandeChangementExecutéeSaga } from './tâchePlanifiéeGestionAutomatiqueDemandeChangementExecutée.saga';
@@ -13,7 +11,7 @@ import { tâchePlanifiéeGestionAutomatiqueDemandeChangementExecutéeSaga } from
 export type SubscriptionEvent =
   | Lauréat.LauréatNotifiéEvent
   | TâchePlanifiéeExecutéeEvent
-  | AbandonAccordéEvent;
+  | Lauréat.Abandon.AbandonAccordéEvent;
 
 export type Execute = Message<'System.Lauréat.ReprésentantLégal.Saga.Execute', SubscriptionEvent>;
 

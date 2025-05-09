@@ -1,10 +1,11 @@
 import { match } from 'ts-pattern';
 
+import { Lauréat } from '@potentiel-domain/projet';
 import { Abandon } from '@potentiel-domain/laureat';
 import { upsertProjection } from '@potentiel-infrastructure/pg-projection-write';
 
 export const abandonDemandéProjector = async (
-  event: Abandon.AbandonDemandéEvent | Abandon.AbandonDemandéEventV1,
+  event: Lauréat.Abandon.AbandonDemandéEvent | Lauréat.Abandon.AbandonDemandéEventV1,
 ) => {
   const {
     payload: { identifiantProjet },

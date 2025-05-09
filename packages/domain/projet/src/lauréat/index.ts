@@ -45,5 +45,6 @@ export { LauréatEntity } from './lauréat.entity';
 
 // ValueType
 
+export * as Abandon from './abandon';
 export * as Délai from './délai';
 export * as Producteur from './producteur';

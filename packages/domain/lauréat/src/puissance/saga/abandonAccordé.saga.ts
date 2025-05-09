@@ -1,13 +1,13 @@
 import { mediator } from 'mediateur';
 
 import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
+import { Lauréat } from '@potentiel-domain/projet';
 
-import { AbandonAccordéEvent } from '../../abandon';
 import { SupprimerChangementPuissanceCommand } from '../changement/supprimer/supprimerChangementPuissance.command';
 
 export const abandonAccordéSaga = async ({
   payload: { identifiantProjet },
-}: AbandonAccordéEvent) => {
+}: Lauréat.Abandon.AbandonAccordéEvent) => {
   await mediator.send<SupprimerChangementPuissanceCommand>({
     type: 'Lauréat.Puissance.Command.SupprimerChangementPuissance',
     data: {

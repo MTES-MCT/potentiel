@@ -1,44 +1,14 @@
 import { match } from 'ts-pattern';
 
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
-import { DomainEvent, InvalidOperationError } from '@potentiel-domain/core';
+import { InvalidOperationError } from '@potentiel-domain/core';
 import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
 import { DocumentProjet } from '@potentiel-domain/document';
+import { Lauréat } from '@potentiel-domain/projet';
 
 import { AbandonAggregate } from '../abandon.aggregate';
 import * as StatutAbandon from '../statutAbandon.valueType';
 import { TypeDocumentAbandon } from '..';
-
-/**
- * @deprecated use AbandonDemandéEvent instead
- * Aucune demande avec recandidature n'est désormais possible
- */
-export type AbandonDemandéEventV1 = DomainEvent<
-  'AbandonDemandé-V1',
-  {
-    demandéLe: DateTime.RawType;
-    demandéPar: IdentifiantUtilisateur.RawType;
-    identifiantProjet: IdentifiantProjet.RawType;
-    raison: string;
-    recandidature: boolean;
-    pièceJustificative?: {
-      format: string;
-    };
-  }
->;
-
-export type AbandonDemandéEvent = DomainEvent<
-  'AbandonDemandé-V2',
-  {
-    demandéLe: DateTime.RawType;
-    demandéPar: IdentifiantUtilisateur.RawType;
-    identifiantProjet: IdentifiantProjet.RawType;
-    raison: string;
-    pièceJustificative: {
-      format: string;
-    };
-  }
->;
 
 export type DemanderOptions = {
   dateDemande: DateTime.ValueType;
@@ -69,7 +39,7 @@ export async function demander(
     throw new PièceJustificativeObligatoireError();
   }
 
-  const event: AbandonDemandéEvent = {
+  const event: Lauréat.Abandon.AbandonDemandéEvent = {
     type: 'AbandonDemandé-V2',
     payload: {
       identifiantProjet: identifiantProjet.formatter(),
@@ -87,7 +57,7 @@ export async function demander(
 
 export function applyAbandonDemandé(
   this: AbandonAggregate,
-  event: AbandonDemandéEventV1 | AbandonDemandéEvent,
+  event: Lauréat.Abandon.AbandonDemandéEventV1 | Lauréat.Abandon.AbandonDemandéEvent,
 ) {
   const { identifiantProjet, demandéLe, demandéPar, raison, pièceJustificative } = event.payload;
 

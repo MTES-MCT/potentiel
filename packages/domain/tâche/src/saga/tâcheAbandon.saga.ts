@@ -1,6 +1,7 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { Abandon } from '@potentiel-domain/laureat';
+import { Lauréat } from '@potentiel-domain/projet';
 import { IdentifiantProjet } from '@potentiel-domain/common';
 
 import { AjouterTâcheCommand } from '../ajouter/ajouterTâche.command';
@@ -8,9 +9,9 @@ import { AcheverTâcheCommand } from '../achever/acheverTâche.command';
 import * as Tâche from '../typeTâche.valueType';
 
 export type SubscriptionEvent =
-  | Abandon.AbandonAnnuléEvent
+  | Lauréat.Abandon.AbandonAnnuléEvent
   | Abandon.AbandonConfirméEvent
-  | Abandon.AbandonRejetéEvent
+  | Lauréat.Abandon.AbandonRejetéEvent
   | Abandon.ConfirmationAbandonDemandéeEvent
   | Abandon.PreuveRecandidatureDemandéeEvent
   | Abandon.PreuveRecandidatureTransmiseEvent;
