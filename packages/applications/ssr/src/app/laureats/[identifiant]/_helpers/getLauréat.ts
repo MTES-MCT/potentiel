@@ -3,7 +3,7 @@ import { cache } from 'react';
 import { notFound } from 'next/navigation';
 
 import { Option } from '@potentiel-libraries/monads';
-import { Actionnaire, Puissance, ReprésentantLégal } from '@potentiel-domain/laureat';
+import { Actionnaire, Producteur, Puissance, ReprésentantLégal } from '@potentiel-domain/laureat';
 import { Lauréat } from '@potentiel-domain/projet';
 
 type Props = {
@@ -14,6 +14,7 @@ export type GetLauréat = {
   actionnaire: Actionnaire.ConsulterActionnaireReadModel;
   représentantLégal: ReprésentantLégal.ConsulterReprésentantLégalReadModel;
   puissance: Puissance.ConsulterPuissanceReadModel;
+  producteur: Producteur.ConsulterProducteurReadModel;
   lauréat: Lauréat.ConsulterLauréatReadModel;
 };
 
@@ -22,11 +23,13 @@ export const getLauréat = cache(async ({ identifiantProjet }: Props): Promise<G
   const actionnaireInfos = await getActionnaireInfos({ identifiantProjet });
   const représentantLégalInfos = await getReprésentantLégalInfos({ identifiantProjet });
   const puissanceInfos = await getPuissanceInfos({ identifiantProjet });
+  const producteurInfos = await getProducteurInfos({ identifiantProjet });
 
   return {
     actionnaire: actionnaireInfos,
     représentantLégal: représentantLégalInfos,
     puissance: puissanceInfos,
+    producteur: producteurInfos,
     lauréat,
   };
 });
@@ -89,4 +92,19 @@ const getPuissanceInfos = async ({ identifiantProjet }: Props) => {
   }
 
   return puissance;
+};
+
+const getProducteurInfos = async ({ identifiantProjet }: Props) => {
+  const producteur = await mediator.send<Producteur.ConsulterProducteurQuery>({
+    type: 'Lauréat.Producteur.Query.ConsulterProducteur',
+    data: {
+      identifiantProjet,
+    },
+  });
+
+  if (Option.isNone(producteur)) {
+    return notFound();
+  }
+
+  return producteur;
 };

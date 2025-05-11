@@ -5,7 +5,7 @@ import { mediator } from 'mediateur';
 import { Candidature, Lauréat } from '@potentiel-domain/projet';
 import { Routes } from '@potentiel-applications/routes';
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
-import { Actionnaire, Puissance, ReprésentantLégal } from '@potentiel-domain/laureat';
+import { Actionnaire, Producteur, Puissance, ReprésentantLégal } from '@potentiel-domain/laureat';
 
 import { FormAction, formAction, FormState } from '@/utils/formAction';
 import { withUtilisateur } from '@/utils/withUtilisateur';
@@ -79,6 +79,18 @@ const action: FormAction<FormState, typeof schema> = async (_, body) =>
             identifiantUtilisateurValue: utilisateur.identifiantUtilisateur.formatter(),
             dateModificationValue: new Date().toISOString(),
             puissanceValue: laureat.puissanceProductionAnnuelle,
+          },
+        });
+      }
+
+      if (laureat.nomCandidat) {
+        await mediator.send<Producteur.ModifierProducteurUseCase>({
+          type: 'Lauréat.Producteur.UseCase.ModifierProducteur',
+          data: {
+            identifiantProjetValue: identifiantProjet,
+            identifiantUtilisateurValue: utilisateur.identifiantUtilisateur.formatter(),
+            dateModificationValue: new Date().toISOString(),
+            producteurValue: laureat.nomCandidat,
           },
         });
       }
