@@ -2,7 +2,6 @@ import React from 'react';
 import { Heading3, Link } from '../../../../components';
 
 import { GetActionnaireForProjectPage } from '../../../../../controllers/project/getProjectPage/_utils';
-import { IdentifiantProjet } from '@potentiel-domain/common';
 
 export type InfoActionnaireProps = {
   actionnaire: GetActionnaireForProjectPage;
@@ -20,10 +19,10 @@ export const InfoActionnaire = ({
       {modificationsPermisesParLeCDCActuel && actionnaire.affichage && (
         <Link
           href={actionnaire.affichage.url}
-          aria-label={actionnaire.affichage.projectPageLabel}
+          aria-label={actionnaire.affichage.label}
           className="mt-1"
         >
-          {actionnaire.affichage.projectPageLabel}
+          {actionnaire.affichage.label}
         </Link>
       )}
     </div>

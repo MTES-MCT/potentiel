@@ -17,17 +17,23 @@ import { IdentifiantProjet } from '@potentiel-domain/common';
 import { formatProjectDataToIdentifiantProjetValueType } from '../../../../helpers/dataToValueTypes';
 import { ProjectHeaderProps } from './ProjectHeader';
 import { GetProducteurForProjectPage } from '../../../../controllers/project/getProjectPage/_utils/getProducteur';
+import { GetPuissanceForProjectPage } from '../../../../controllers/project/getProjectPage/_utils/getPuissance';
+import { GetActionnaireForProjectPage } from '../../../../controllers/project/getProjectPage/_utils';
 
 type EnregistrerUneModificationProps = {
   projectId: ProjectDataForProjectPage['id'];
   identifiantProjet: IdentifiantProjet.RawType;
   producteurAffichage?: GetProducteurForProjectPage['affichage'];
+  puissanceAffichage?: GetPuissanceForProjectPage['affichage'];
+  actionnaireAffichage?: GetActionnaireForProjectPage['affichage'];
 };
 
 const EnregistrerUneModification = ({
   projectId,
   identifiantProjet,
   producteurAffichage,
+  puissanceAffichage,
+  actionnaireAffichage,
 }: EnregistrerUneModificationProps) => {
   return (
     <DropdownMenuSecondaryButton buttonChildren="Enregistrer une modification">
@@ -41,14 +47,16 @@ const EnregistrerUneModification = ({
           <span>{producteurAffichage.labelActions}</span>
         </DropdownMenuSecondaryButton.DropdownItem>
       )}
-      <DropdownMenuSecondaryButton.DropdownItem href={Routes.Puissance.modifier(identifiantProjet)}>
-        <span>Modifier la puissance</span>
-      </DropdownMenuSecondaryButton.DropdownItem>
-      <DropdownMenuSecondaryButton.DropdownItem
-        href={Routes.Actionnaire.modifier(identifiantProjet)}
-      >
-        <span>Modifier l'actionnaire(s)</span>
-      </DropdownMenuSecondaryButton.DropdownItem>
+      {!!puissanceAffichage && (
+        <DropdownMenuSecondaryButton.DropdownItem href={puissanceAffichage.url}>
+          <span>{puissanceAffichage.labelActions}</span>
+        </DropdownMenuSecondaryButton.DropdownItem>
+      )}
+      {!!actionnaireAffichage && (
+        <DropdownMenuSecondaryButton.DropdownItem href={actionnaireAffichage.url}>
+          <span>{actionnaireAffichage.labelActions}</span>
+        </DropdownMenuSecondaryButton.DropdownItem>
+      )}
       <DropdownMenuSecondaryButton.DropdownItem
         href={Routes.ReprésentantLégal.modifier(identifiantProjet)}
       >
@@ -110,7 +118,7 @@ const PorteurProjetActions = ({
                 href={actionnaireAffichage.url}
                 disabled={demandesDisabled}
               >
-                <span>{actionnaireAffichage.porteurProjetActionLabel}</span>
+                <span>{actionnaireAffichage.labelActions}</span>
               </DropdownMenuSecondaryButton.DropdownItem>
             )}
             {!!puissanceAffichage && (
