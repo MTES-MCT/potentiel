@@ -21,21 +21,22 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
   return PageWithErrorHandling(async () => {
     const identifiantProjet = IdentifiantProjet.convertirEnValueType(decodeParameter(identifiant));
 
-    const puissanceActuelle = await mediator.send<Puissance.ConsulterPuissanceQuery>({
+    const puissance = await mediator.send<Puissance.ConsulterPuissanceQuery>({
       type: 'Lauréat.Puissance.Query.ConsulterPuissance',
       data: {
         identifiantProjet: identifiantProjet.formatter(),
       },
     });
 
-    if (Option.isNone(puissanceActuelle)) {
+    if (Option.isNone(puissance)) {
       return notFound();
     }
 
     return (
       <ModifierPuissancePage
         identifiantProjet={mapToPlainObject(identifiantProjet)}
-        puissance={puissanceActuelle.puissance}
+        puissance={puissance.puissance}
+        unitéPuissance={puissance.unitéPuissance}
       />
     );
   });

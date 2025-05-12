@@ -28,7 +28,7 @@ export class PuissanceWorld {
     this.#changementPuissanceWorld = new ChangementPuissanceWorld();
   }
 
-  mapToExpected(identifiantProjet: IdentifiantProjet.ValueType) {
+  mapToExpected(identifiantProjet: IdentifiantProjet.ValueType, unitéPuissance: string) {
     const expected: Puissance.ConsulterPuissanceReadModel = {
       identifiantProjet,
       puissance: this.#changementPuissanceWorld.enregistrerChangementPuissanceFixture.aÉtéCréé
@@ -37,6 +37,7 @@ export class PuissanceWorld {
         : this.#modifierPuissanceFixture.aÉtéCréé
           ? this.#modifierPuissanceFixture.puissance
           : this.#importerPuissanceFixture.puissance,
+      unitéPuissance,
     };
 
     if (this.#modifierPuissanceFixture.aÉtéCréé) {

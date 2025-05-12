@@ -13,6 +13,7 @@ export type ModifierPuissancePageProps = ModifierPuissanceFormProps;
 export const ModifierPuissancePage: FC<ModifierPuissancePageProps> = ({
   identifiantProjet,
   puissance,
+  unitéPuissance,
 }) => (
   <PageTemplate
     banner={
@@ -20,6 +21,10 @@ export const ModifierPuissancePage: FC<ModifierPuissancePageProps> = ({
     }
   >
     <Heading1>Changer la puissance</Heading1>
-    <ModifierPuissanceForm identifiantProjet={identifiantProjet} puissance={puissance} />
+    <ModifierPuissanceForm
+      identifiantProjet={identifiantProjet}
+      puissance={puissance}
+      unitéPuissance={unitéPuissance}
+    />
   </PageTemplate>
 );

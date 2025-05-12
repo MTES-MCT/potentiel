@@ -53,6 +53,7 @@ export default async function Page({ params }: PageProps) {
         estNotifiée={props.estNotifiée}
         estLauréat={props.estLauréat}
         champsSpéciaux={props.champsSpéciaux}
+        unitéPuissance={props.unitéPuissance}
       />
     );
   });
@@ -94,6 +95,7 @@ const mapToProps: MapToProps = (candidature, lauréat, appelOffres, période) =>
   estNotifiée: !!candidature.notification,
   aUneAttestation: !!candidature.notification?.attestation,
   estLauréat: Option.isSome(lauréat),
+  unitéPuissance: appelOffres.unitePuissance,
   champsSpéciaux: {
     coefficientKChoisi: période.choixCoefficientKDisponible ?? false,
     puissanceALaPointe: appelOffres.puissanceALaPointeDisponible ?? false,
