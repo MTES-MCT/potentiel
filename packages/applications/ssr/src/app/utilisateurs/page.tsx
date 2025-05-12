@@ -6,11 +6,11 @@ import {
   ListerUtilisateursQuery,
   ListerUtilisateursReadModel,
   Role,
+  Région,
 } from '@potentiel-domain/utilisateur';
 import { Option } from '@potentiel-libraries/monads';
 import { GestionnaireRéseau } from '@potentiel-domain/reseau';
 import { mapToPlainObject } from '@potentiel-domain/core';
-import { GeoApiClient } from '@potentiel-infrastructure/geo-api-client';
 
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { mapToPagination, mapToRangeOptions } from '@/utils/pagination';
@@ -36,11 +36,15 @@ const paramsSchema = z.object({
   identifiantUtilisateur: z.string().optional(),
   identifiantGestionnaireReseau: z.string().optional(),
   region: z.string().optional(),
+  zni: z
+    .enum(['true', 'false'])
+    .optional()
+    .transform((zni) => (zni === 'true' ? true : zni === 'false' ? false : undefined)),
 });
 
 export default async function Page({ searchParams }: PageProps) {
   return PageWithErrorHandling(async () => {
-    const { page, identifiantUtilisateur, role, identifiantGestionnaireReseau, region } =
+    const { page, identifiantUtilisateur, role, identifiantGestionnaireReseau, region, zni } =
       paramsSchema.parse(searchParams);
 
     const utilisateurs = await mediator.send<ListerUtilisateursQuery>({
@@ -51,6 +55,7 @@ export default async function Page({ searchParams }: PageProps) {
         range: mapToRangeOptions({ currentPage: page, itemsPerPage: 10 }),
         identifiantGestionnaireRéseau: identifiantGestionnaireReseau,
         région: region,
+        zni,
       },
     });
     const filters: ListFilterItem<keyof z.infer<typeof paramsSchema>>[] = [
@@ -80,13 +85,26 @@ export default async function Page({ searchParams }: PageProps) {
       });
     }
     if (role === Role.dreal.nom) {
-      const geoApiClient = GeoApiClient(process.env.NEXT_PUBLIC_GEO_API_URL || '');
-      const régions = await geoApiClient.fetchRegions();
+      filters.push({
+        label: 'ZNI',
+        searchParamKey: 'zni',
+        options: [
+          { label: 'Oui', value: 'true' },
+          { label: 'Non', value: 'false' },
+        ],
+      });
+      const régions =
+        zni !== undefined
+          ? Région.régions
+              .map(Région.convertirEnValueType)
+              .filter((r) => zni === r.isZNI())
+              .map((r) => r.formatter())
+          : Région.régions;
       filters.push({
         label: 'Région',
         searchParamKey: 'region',
         options: régions
-          .map(({ nom }) => ({
+          .map((nom) => ({
             label: nom,
             value: nom,
           }))
