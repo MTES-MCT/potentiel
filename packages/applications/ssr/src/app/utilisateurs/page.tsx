@@ -140,6 +140,7 @@ export default async function Page({ searchParams }: PageProps) {
           identifiantUtilisateur,
           identifiantGestionnaireRéseau: identifiantGestionnaireReseau,
           région: region,
+          zni,
         },
       });
 
