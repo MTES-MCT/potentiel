@@ -1,8 +1,13 @@
+import { extname } from 'node:path';
+
+import { contentType } from 'mime-types';
 import { Command, Flags } from '@oclif/core';
 
 import { Lauréat } from '@potentiel-domain/projet';
 import { executeSelect } from '@potentiel-libraries/pg-helpers';
 import { publish } from '@potentiel-infrastructure/pg-event-sourcing';
+import { DocumentProjet } from '@potentiel-domain/document';
+import { copyFile } from '@potentiel-libraries/file-storage';
 
 export class Migrer extends Command {
   static flags = {
@@ -27,8 +32,7 @@ export class Migrer extends Command {
              (SELECT to_char (es."occurredAt" at time zone 'UTC', 'YYYY-MM-DD"T"HH24:MI:SS.MS"Z"')) as "enregistréLe",
              u."email" as "enregistréPar",
              es.payload->>'justification' as "raison",
-             json_build_object('format', 'pdf') as "pièceJustificative",
-             es.payload->>'fileId' as "fileId"
+             replace(f."storedAt", 'S3:potentiel-production:', '') as "filePath"
       from "eventStores" es
       inner join projects p on es.payload->>'projectId' = p.id::text
       inner join users u on es.payload->>'requestedBy' = u.id::text
@@ -36,19 +40,27 @@ export class Migrer extends Command {
       and   payload->>'type' = 'producteur'
       order by es."occurredAt" asc
     `;
-    const payloads =
-      await executeSelect<Lauréat.Producteur.ChangementProducteurEnregistréEvent['payload']>(
-        queryPayloads,
-      );
+    type Payload = Lauréat.Producteur.ChangementProducteurEnregistréEvent['payload'];
+
+    const payloads = await executeSelect<
+      Omit<Payload, 'pièceJustificative'> & { filePath: string }
+    >(queryPayloads);
 
     const eventsPerProjet: Map<string, Lauréat.Producteur.ChangementProducteurEnregistréEvent[]> =
-      payloads.reduce((eventsPerProjet, payload) => {
+      payloads.reduce((eventsPerProjet, { filePath, ...payload }) => {
+        const event: Lauréat.Producteur.ChangementProducteurEnregistréEvent = {
+          type: 'ChangementProducteurEnregistré-V1',
+          payload: {
+            ...payload,
+            pièceJustificative: {
+              format: contentType(extname(filePath)) || 'application/pdf',
+            },
+          },
+        };
+
         eventsPerProjet.set(payload.identifiantProjet, [
           ...(eventsPerProjet.get(payload.identifiantProjet) ?? []),
-          {
-            type: 'ChangementProducteurEnregistré-V1',
-            payload,
-          },
+          event,
         ]);
 
         return eventsPerProjet;
@@ -68,6 +80,41 @@ export class Migrer extends Command {
     console.log(eventsStats);
 
     console.log('All events published.');
+
+    const filesPerProjet: Map<
+      string,
+      Array<{ from: string; to: DocumentProjet.ValueType }>
+    > = payloads.reduce((filesPerProjet, { identifiantProjet, filePath, enregistréLe }) => {
+      filesPerProjet.set(identifiantProjet, [
+        ...(filesPerProjet.get(identifiantProjet) ?? []),
+        {
+          from: filePath,
+          to: DocumentProjet.convertirEnValueType(
+            identifiantProjet,
+            Lauréat.Producteur.TypeDocumentProducteur.pièceJustificative.formatter(),
+            enregistréLe,
+            contentType(extname(filePath)) || 'application/pdf',
+          ),
+        },
+      ]);
+
+      return filesPerProjet;
+    }, new Map());
+
+    const filesStats: Record<string, number> = {};
+
+    for (const [identifiantProjet, files] of filesPerProjet) {
+      for (const { from, to } of files) {
+        if (!flags.dryRun) {
+          await copyFile(from, to.formatter());
+        }
+        filesStats[identifiantProjet] ??= 0;
+        filesStats[identifiantProjet]++;
+      }
+    }
+    console.log(filesStats);
+
+    console.log('All files copied.');
 
     process.exit(0);
   }
