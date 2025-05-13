@@ -10,6 +10,7 @@ export * as ReprésentantLégalNotification from './subscribers/lauréat/représ
 export * as ActionnaireNotification from './subscribers/lauréat/actionnaire';
 export * as PuissanceNotification from './subscribers/lauréat/puissance';
 export * as LauréatNotification from './subscribers/lauréat/lauréat';
+export * as ProducteurNotification from './subscribers/lauréat/producteur';
 
 // Éliminé
 export * as RecoursNotification from './subscribers/éliminé/recours.notification';

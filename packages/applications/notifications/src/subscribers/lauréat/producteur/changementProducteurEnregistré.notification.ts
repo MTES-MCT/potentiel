@@ -1,16 +1,18 @@
 import { getLogger } from '@potentiel-libraries/monitoring';
 import { Routes } from '@potentiel-applications/routes';
-import { Puissance } from '@potentiel-domain/laureat';
+import { Producteur } from '@potentiel-domain/laureat';
 import { IdentifiantProjet } from '@potentiel-domain/projet';
 
-import { RegisterPuissanceNotificationDependencies } from '..';
-import { listerDrealsRecipients } from '../../../../helpers/listerDrealsRecipients';
-import { puissanceNotificationTemplateId } from '../constant';
-import { listerPorteursRecipients } from '../../../../helpers/listerPorteursRecipients';
+import { listerDrealsRecipients } from '../../../helpers/listerDrealsRecipients';
+import { listerPorteursRecipients } from '../../../helpers/listerPorteursRecipients';
 
-type ChangementPuissanceEnregistréNotificationProps = {
-  sendEmail: RegisterPuissanceNotificationDependencies['sendEmail'];
-  event: Puissance.ChangementPuissanceEnregistréEvent;
+import { RegisterProducteurNotificationDependencies } from '.';
+
+import { producteurNotificationTemplateId } from './constant';
+
+type ChangementProducteurEnregistréNotificationProps = {
+  sendEmail: RegisterProducteurNotificationDependencies['sendEmail'];
+  event: Producteur.ChangementProducteurEnregistréEvent;
   projet: {
     nom: string;
     département: string;
@@ -19,12 +21,12 @@ type ChangementPuissanceEnregistréNotificationProps = {
   baseUrl: string;
 };
 
-export const changementPuissanceEnregistréNotification = async ({
+export const changementProducteurEnregistréNotification = async ({
   sendEmail,
   event,
   projet,
   baseUrl,
-}: ChangementPuissanceEnregistréNotificationProps) => {
+}: ChangementProducteurEnregistréNotificationProps) => {
   const identifiantProjet = IdentifiantProjet.convertirEnValueType(event.payload.identifiantProjet);
   const dreals = await listerDrealsRecipients(projet.région);
   const porteurs = await listerPorteursRecipients(identifiantProjet);
@@ -33,14 +35,14 @@ export const changementPuissanceEnregistréNotification = async ({
     getLogger().error('Aucune dreal ou porteur trouvée', {
       identifiantProjet: identifiantProjet.formatter(),
       application: 'notifications',
-      fonction: 'changementPuissanceEnregistréNotifications',
+      fonction: 'changementActionnaireEnregistréNotifications',
     });
     return;
   }
 
   await sendEmail({
-    templateId: puissanceNotificationTemplateId.changement.enregistrer,
-    messageSubject: `Potentiel - Enregistrement d'un changement de puissance pour le projet ${projet.nom} dans le département ${projet.département}`,
+    templateId: producteurNotificationTemplateId.enregistrerChangement,
+    messageSubject: `Potentiel - Déclaration de changement de producteur pour le projet ${projet.nom} dans le département ${projet.département}`,
     recipients: dreals,
     variables: {
       nom_projet: projet.nom,
@@ -50,8 +52,8 @@ export const changementPuissanceEnregistréNotification = async ({
   });
 
   await sendEmail({
-    templateId: puissanceNotificationTemplateId.changement.enregistrer,
-    messageSubject: `Potentiel - Enregistrement d'un changement de puissance pour le projet ${projet.nom} dans le département ${projet.département}`,
+    templateId: producteurNotificationTemplateId.enregistrerChangement,
+    messageSubject: `Potentiel - Déclaration de changement de producteur pour le projet ${projet.nom} dans le département ${projet.département}`,
     recipients: porteurs,
     variables: {
       nom_projet: projet.nom,
