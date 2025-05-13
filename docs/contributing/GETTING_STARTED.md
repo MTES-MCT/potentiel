@@ -231,7 +231,7 @@ Pour se connecter à l'interface, il faut utiliser les credentials suivant :
 #### Mettre son metabase local en mode DGEC
 
 Il est possible d'avoir un metabase local qui reprend le contenu du metabase DGEC interne au ministère.
-Pour faire celà, merci de vous référer à la [documentation sécurisée](https://collab.din.developpement-durable.gouv.fr/sites/dgec-team-potentiel/Documents%20partages/60-Tech/Metabase%20public)
+Pour faire cela, merci de vous référer à la [documentation sécurisée](https://collab.din.developpement-durable.gouv.fr/sites/dgec-team-potentiel/Documents%20partages/60-Tech/Metabase%20public)
 
 ## <a id="restaurer-dump-db">Restaurer un dump de la base de donnée</a>
 
