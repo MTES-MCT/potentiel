@@ -2,6 +2,8 @@ import { BaseDomainEvent, DomainEvent } from '../../../core/domain';
 
 import { Actionnariat } from '../types';
 
+// les propriétés optionnelles de ce payload le sont
+// car ce sont des données qui ont un cycle de vie dans lauréat
 export interface ProjectRawDataCorrectedPayload {
   projectId: string;
   correctedBy: string;
@@ -13,7 +15,7 @@ export interface ProjectRawDataCorrectedPayload {
     prixReference: number;
     evaluationCarbone: number;
     note: number;
-    nomCandidat: string;
+    nomCandidat?: string;
     nomRepresentantLegal?: string;
     email: string;
     adresseProjet?: string;

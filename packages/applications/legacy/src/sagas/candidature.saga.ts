@@ -23,7 +23,6 @@ import { ok } from 'neverthrow';
 import { getCompletionDate } from './_helpers/getCompletionDate';
 import { getLogger } from '@potentiel-libraries/monitoring';
 import { Project } from '../infra/sequelize/projectionsNext';
-import { technologies } from '@potentiel-domain/appel-offre/dist/appelOffre.entity';
 
 export type SubscriptionEvent = (
   | Candidature.CandidatureImportéeEvent
@@ -190,7 +189,6 @@ const mapToNotifiedCorrectedData = (
   payload: SubscriptionEvent['payload'],
   projet: Project,
 ): ProjectRawDataCorrected['payload']['correctedData'] => ({
-  nomCandidat: payload.nomCandidat,
   email: payload.emailContact,
   motifsElimination: payload.motifÉlimination ?? '',
   puissanceInitiale: payload.puissanceProductionAnnuelle,
