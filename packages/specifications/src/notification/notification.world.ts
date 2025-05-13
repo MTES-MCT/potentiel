@@ -7,7 +7,6 @@ export class NotificationWorld {
   #notifications: EmailPayload[] = [];
 
   ajouterNotification(notification: EmailPayload) {
-    console.log(notification);
     for (const recipient of notification.recipients) {
       const notificationToAdd = {
         ...notification,
