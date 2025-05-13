@@ -15,7 +15,7 @@
     - [Specifications](#specifications)
   - [Metabase local](#metabase-local)
       - [Générer et consulter les données de statistique publique](#générer-et-consulter-les-données-de-statistique-publique)
-      - [Mettre son metabase local en mode "metabase publique"](#mettre-son-metabase-local-en-mode-metabase-publique)
+      - [Mettre son metabase local en mode DGEC](#mettre-son-metabase-local-en-mode-dgec)
   - [Restaurer un dump de la base de donnée](#restaurer-un-dump-de-la-base-de-donnée)
   - [Lancer des commandes CLI](#lancer-des-commandes-cli)
 
@@ -209,7 +209,7 @@ npm run specs:select
 
 ## <a id="metabase">Metabase local</a>
 
-Nous utilisons [Metabase](https://www.metabase.com/) pour faire afficher les [statistiques publiques](https://potentiel.beta.gouv.fr/stats.html) de Potentiel.  
+Nous utilisons [Metabase](https://www.metabase.com/) pour faire afficher les [statistiques publiques](https://potentiel.beta.gouv.fr/stats.html) de Potentiel.
 
 #### Générer et consulter les données de statistique publique
 
@@ -217,27 +217,27 @@ Un container docker local est disponible pour vérifier et générer des dashboa
 
 1. Générer les statistiques publiques
 
-- définir la variable `export DATABASE_CONNECTION_STRING=` (cf [.env.template](../../packages/applications/ssr/.env.template)) 
+- définir la variable `export DATABASE_CONNECTION_STRING=` (cf [.env.template](../../packages/applications/ssr/.env.template))
 - Lancer la commande depuis la racine du repo `npm exec potentiel-cli stats extraire`
 
 2. Consulter les statistiques publiques
-   
+
 Le container est monté lorsque la commande `up` est lancé (cf [scripts npm](./DEVELOPMENT_FLOW.md#scripts-npm)), et est disponible sur [cet url](http://localhost:3615).
-Pour se connecter à l'interface, il faut utiliser les credentials suivant : 
+Pour se connecter à l'interface, il faut utiliser les credentials suivant :
 
 - identifiant : `admin@test.test`
 - password: `test`
 
-#### Mettre son metabase local en mode "metabase publique"
+#### Mettre son metabase local en mode DGEC
 
-Il est possible d'avoir un metabase local qui reprend le contenu du metabase interne au ministère.
+Il est possible d'avoir un metabase local qui reprend le contenu du metabase DGEC interne au ministère.
 Pour faire celà, merci de vous référer à la [documentation sécurisée](https://collab.din.developpement-durable.gouv.fr/sites/dgec-team-potentiel/Documents%20partages/60-Tech/Metabase%20public)
 
 ## <a id="restaurer-dump-db">Restaurer un dump de la base de donnée</a>
 
 - Pour cette partie il vaut mieux préférer la méthode "one-off-container" en téléchargeant le dump directement sur les serveurs Scalingo.
 
-`scalingo --app [nom-de-l-application] run --file ./potentiel.dump bash`
+`scalingo --app [nom-de-l-application] run --file ./potentiel.dum p bash`
 
 - Il faut ensuite installer les outils postgres.
 
