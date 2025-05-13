@@ -4,6 +4,7 @@ import { z } from 'zod';
 
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { Abandon } from '@potentiel-domain/laureat';
+import { Lauréat } from '@potentiel-domain/projet';
 
 import {
   AbandonListPage,
@@ -31,7 +32,7 @@ const paramsSchema = z.object({
     .transform((v) => (v === 'true' ? true : v === 'false' ? false : undefined)),
   nomProjet: z.string().optional(),
   appelOffre: z.string().optional(),
-  statut: z.enum(Abandon.StatutAbandon.statuts).optional(),
+  statut: z.enum(Lauréat.Abandon.StatutAbandon.statuts).optional(),
   preuveRecandidatureStatut: z.enum(Abandon.StatutPreuveRecandidature.statuts).optional(),
 });
 
@@ -104,7 +105,7 @@ export default async function Page({ searchParams }: PageProps) {
         {
           label: 'Statut',
           searchParamKey: 'statut',
-          options: Abandon.StatutAbandon.statuts
+          options: Lauréat.Abandon.StatutAbandon.statuts
             .filter((s) => s !== 'inconnu' && s !== 'annulé')
             .map((statut) => ({
               label: statut.replace('-', ' ').toLocaleLowerCase(),

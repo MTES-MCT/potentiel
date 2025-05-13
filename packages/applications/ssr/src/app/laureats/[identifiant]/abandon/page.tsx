@@ -127,7 +127,7 @@ type MapToActionsProps = {
   utilisateur: Utilisateur.ValueType;
   recandidature: boolean;
   transmissionPreuveRecandidaturePossible: boolean;
-  statut: Abandon.StatutAbandon.ValueType;
+  statut: Lauréat.Abandon.StatutAbandon.ValueType;
 };
 
 const mapToActions = ({
@@ -193,7 +193,7 @@ type AvailableInformations = DétailsAbandonPageProps['informations'];
 type MapToInformationsProps = {
   utilisateur: Utilisateur.ValueType;
   recandidature: boolean;
-  statut: Abandon.StatutAbandon.ValueType;
+  statut: Lauréat.Abandon.StatutAbandon.ValueType;
 };
 
 const mapToInformations = ({ statut, utilisateur, recandidature }: MapToInformationsProps) => {

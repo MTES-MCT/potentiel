@@ -9,7 +9,6 @@ import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
 import { DocumentProjet } from '@potentiel-domain/document';
 import { Lauréat } from '@potentiel-domain/projet';
 
-import * as StatutAbandon from './statutAbandon.valueType';
 import { applyAbandonDemandé, demander } from './demander/demanderAbandon.behavior';
 import {
   ConfirmationAbandonDemandéeEvent,
@@ -53,7 +52,7 @@ export type AbandonEvent =
   | AbandonPasséEnInstructionEvent;
 
 export type AbandonAggregate = Aggregate<AbandonEvent> & {
-  statut: StatutAbandon.ValueType;
+  statut: Lauréat.Abandon.StatutAbandon.ValueType;
   demande: {
     raison: string;
     pièceJustificative?: DocumentProjet.ValueType;
@@ -106,7 +105,7 @@ export const getDefaultAbandonAggregate: GetDefaultAggregateState<
   AbandonEvent
 > = () => ({
   apply,
-  statut: StatutAbandon.convertirEnValueType('inconnu'),
+  statut: Lauréat.Abandon.StatutAbandon.convertirEnValueType('inconnu'),
   demande: {
     raison: '',
     demandéPar: IdentifiantUtilisateur.unknownUser,

@@ -1,4 +1,5 @@
 import { Abandon } from '@potentiel-domain/laureat';
+import { Lauréat } from '@potentiel-domain/projet';
 import { updateOneProjection } from '@potentiel-infrastructure/pg-projection-write';
 
 export const confirmationAbandonDemandéeProjector = async ({
@@ -14,7 +15,7 @@ export const confirmationAbandonDemandéeProjector = async ({
         },
       },
     },
-    statut: Abandon.StatutAbandon.confirmationDemandée.statut,
+    statut: Lauréat.Abandon.StatutAbandon.confirmationDemandée.statut,
     misÀJourLe: confirmationDemandéeLe,
   });
 };

@@ -1,15 +1,15 @@
 import Badge, { BadgeProps } from '@codegouvfr/react-dsfr/Badge';
 import { FC } from 'react';
 
-import { Abandon } from '@potentiel-domain/laureat';
+import { Lauréat } from '@potentiel-domain/projet';
 
 export type StatutAbandonBadgeProps = {
-  statut: Abandon.StatutAbandon.RawType;
+  statut: Lauréat.Abandon.StatutAbandon.RawType;
   small?: true;
 };
 
 const convertStatutAbandonToBadgeSeverityAndLabel: Record<
-  Abandon.StatutAbandon.RawType,
+  Lauréat.Abandon.StatutAbandon.RawType,
   { badgeSeverity: BadgeProps['severity'] | undefined; label: string }
 > = {
   demandé: { badgeSeverity: 'new', label: 'Demandé' },

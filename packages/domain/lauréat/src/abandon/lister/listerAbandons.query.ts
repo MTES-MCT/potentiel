@@ -3,8 +3,9 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 import { Joined, List, ListOptions, RangeOptions, Where } from '@potentiel-domain/entity';
 import { RécupérerIdentifiantsProjetParEmailPorteurPort } from '@potentiel-domain/utilisateur';
+import { Lauréat } from '@potentiel-domain/projet';
 
-import { StatutAbandon, StatutPreuveRecandidature } from '..';
+import { StatutPreuveRecandidature } from '..';
 import { AbandonEntity } from '../abandon.entity';
 import { getRoleBasedWhereCondition, Utilisateur } from '../../_utils/getRoleBasedWhereCondition';
 import { LauréatEntity } from '../../lauréat.entity';
@@ -12,7 +13,7 @@ import { LauréatEntity } from '../../lauréat.entity';
 type AbandonListItemReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
   nomProjet: string;
-  statut: StatutAbandon.ValueType;
+  statut: Lauréat.Abandon.StatutAbandon.ValueType;
   recandidature: boolean;
   preuveRecandidatureStatut: StatutPreuveRecandidature.ValueType;
   misÀJourLe: DateTime.ValueType;
@@ -29,7 +30,7 @@ export type ListerAbandonsQuery = Message<
   {
     utilisateur: Utilisateur;
     recandidature?: boolean;
-    statut?: StatutAbandon.RawType;
+    statut?: Lauréat.Abandon.StatutAbandon.RawType;
     appelOffre?: string;
     preuveRecandidatureStatut?: StatutPreuveRecandidature.RawType;
     nomProjet?: string;
@@ -102,7 +103,7 @@ const mapToReadModel = (
 ): AbandonListItemReadModel => {
   return {
     nomProjet: entity.lauréat.nomProjet,
-    statut: StatutAbandon.convertirEnValueType(entity.statut),
+    statut: Lauréat.Abandon.StatutAbandon.convertirEnValueType(entity.statut),
     recandidature: !!entity.demande.recandidature,
     misÀJourLe: DateTime.convertirEnValueType(entity.misÀJourLe),
     identifiantProjet: IdentifiantProjet.convertirEnValueType(entity.identifiantProjet),

@@ -1,9 +1,9 @@
-import { Abandon } from '@potentiel-domain/laureat';
+import { Lauréat } from '@potentiel-domain/projet';
 
 import { encodeParameter } from '../encodeParameter';
 
 type ListerFilters = {
-  statut?: Abandon.StatutAbandon.RawType;
+  statut?: Lauréat.Abandon.StatutAbandon.RawType;
 };
 
 export const lister = (filters: ListerFilters = {}) => {

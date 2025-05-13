@@ -3,7 +3,6 @@ import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
 
 import { AbandonAggregate } from '../abandon.aggregate';
-import * as StatutAbandon from '../statutAbandon.valueType';
 
 export type AnnulerOptions = {
   dateAnnulation: DateTime.ValueType;
@@ -15,7 +14,7 @@ export async function annuler(
   this: AbandonAggregate,
   { dateAnnulation, identifiantUtilisateur, identifiantProjet }: AnnulerOptions,
 ) {
-  this.statut.vérifierQueLeChangementDeStatutEstPossibleEn(StatutAbandon.annulé);
+  this.statut.vérifierQueLeChangementDeStatutEstPossibleEn(Lauréat.Abandon.StatutAbandon.annulé);
 
   const event: Lauréat.Abandon.AbandonAnnuléEvent = {
     type: 'AbandonAnnulé-V1',
@@ -33,7 +32,7 @@ export function applyAbandonAnnulé(
   this: AbandonAggregate,
   { payload: { annuléLe } }: Lauréat.Abandon.AbandonAnnuléEvent,
 ) {
-  this.statut = StatutAbandon.annulé;
+  this.statut = Lauréat.Abandon.StatutAbandon.annulé;
   this.annuléLe = DateTime.convertirEnValueType(annuléLe);
   this.demande.confirmation = undefined;
   this.accord = undefined;

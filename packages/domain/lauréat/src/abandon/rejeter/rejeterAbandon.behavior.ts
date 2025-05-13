@@ -4,7 +4,6 @@ import { DocumentProjet } from '@potentiel-domain/document';
 import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
 
 import { AbandonAggregate } from '../abandon.aggregate';
-import * as StatutAbandon from '../statutAbandon.valueType';
 
 export type RejeterOptions = {
   dateRejet: DateTime.ValueType;
@@ -17,7 +16,7 @@ export async function rejeter(
   this: AbandonAggregate,
   { identifiantUtilisateur, dateRejet, identifiantProjet, réponseSignée }: RejeterOptions,
 ) {
-  this.statut.vérifierQueLeChangementDeStatutEstPossibleEn(StatutAbandon.rejeté);
+  this.statut.vérifierQueLeChangementDeStatutEstPossibleEn(Lauréat.Abandon.StatutAbandon.rejeté);
 
   const event: Lauréat.Abandon.AbandonRejetéEvent = {
     type: 'AbandonRejeté-V1',
@@ -38,7 +37,7 @@ export function applyAbandonRejeté(
   this: AbandonAggregate,
   { payload: { rejetéLe, réponseSignée } }: Lauréat.Abandon.AbandonRejetéEvent,
 ) {
-  this.statut = StatutAbandon.rejeté;
+  this.statut = Lauréat.Abandon.StatutAbandon.rejeté;
 
   this.rejet = {
     rejetéLe: DateTime.convertirEnValueType(rejetéLe),

@@ -62,8 +62,6 @@ export type { AbandonPasséEnInstructionEvent } from './instruire/passerAbandonE
 // Register
 export { registerAbandonQueries, registerAbandonUseCases } from './abandon.register';
 
-// ValueTypes
-export * as StatutAbandon from './statutAbandon.valueType';
 export * as StatutPreuveRecandidature from './statutPreuveRecandidature.valueType';
 export * as TypeDocumentAbandon from './typeDocumentAbandon.valueType';
 

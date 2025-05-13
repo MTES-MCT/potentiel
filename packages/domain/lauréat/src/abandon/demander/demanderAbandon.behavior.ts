@@ -7,7 +7,6 @@ import { DocumentProjet } from '@potentiel-domain/document';
 import { Lauréat } from '@potentiel-domain/projet';
 
 import { AbandonAggregate } from '../abandon.aggregate';
-import * as StatutAbandon from '../statutAbandon.valueType';
 import { TypeDocumentAbandon } from '..';
 
 export type DemanderOptions = {
@@ -30,7 +29,7 @@ export async function demander(
     estAchevé,
   }: DemanderOptions,
 ) {
-  this.statut.vérifierQueLeChangementDeStatutEstPossibleEn(StatutAbandon.demandé);
+  this.statut.vérifierQueLeChangementDeStatutEstPossibleEn(Lauréat.Abandon.StatutAbandon.demandé);
   if (estAchevé) {
     throw new ProjetAchevéError(identifiantProjet);
   }
@@ -61,7 +60,7 @@ export function applyAbandonDemandé(
 ) {
   const { identifiantProjet, demandéLe, demandéPar, raison, pièceJustificative } = event.payload;
 
-  this.statut = StatutAbandon.demandé;
+  this.statut = Lauréat.Abandon.StatutAbandon.demandé;
 
   this.demande = {
     recandidature: match(event)

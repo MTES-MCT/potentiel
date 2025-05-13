@@ -8,7 +8,6 @@ import { DocumentProjet } from '@potentiel-domain/document';
 
 // Package
 import { AbandonAggregate } from '../abandon.aggregate';
-import * as StatutAbandon from '../statutAbandon.valueType';
 
 export type AccorderOptions = {
   dateAccord: DateTime.ValueType;
@@ -21,7 +20,7 @@ export async function accorder(
   this: AbandonAggregate,
   { dateAccord, identifiantUtilisateur, identifiantProjet, réponseSignée }: AccorderOptions,
 ) {
-  this.statut.vérifierQueLeChangementDeStatutEstPossibleEn(StatutAbandon.accordé);
+  this.statut.vérifierQueLeChangementDeStatutEstPossibleEn(Lauréat.Abandon.StatutAbandon.accordé);
 
   const event: Lauréat.Abandon.AbandonAccordéEvent = {
     type: 'AbandonAccordé-V1',
@@ -54,7 +53,7 @@ export function applyAbandonAccordé(
   this: AbandonAggregate,
   { payload: { accordéLe, réponseSignée } }: Lauréat.Abandon.AbandonAccordéEvent,
 ) {
-  this.statut = StatutAbandon.accordé;
+  this.statut = Lauréat.Abandon.StatutAbandon.accordé;
   this.rejet = undefined;
   this.accord = {
     accordéLe: DateTime.convertirEnValueType(accordéLe),

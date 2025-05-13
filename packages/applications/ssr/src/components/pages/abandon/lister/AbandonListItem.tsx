@@ -6,6 +6,7 @@ import { Abandon } from '@potentiel-domain/laureat';
 import { Routes } from '@potentiel-applications/routes';
 import { Iso8601DateTime } from '@potentiel-libraries/iso8601-datetime';
 import { IdentifiantProjet } from '@potentiel-domain/common';
+import { Lauréat } from '@potentiel-domain/projet';
 
 import { ProjectListItemHeading } from '@/components/molecules/projet/ProjectListItemHeading';
 import { ListItem } from '@/components/molecules/ListItem';
@@ -16,7 +17,7 @@ import { StatutPreuveRecandidatureBadge } from '../détails/PreuveRecandidatureS
 export type AbandonListItemProps = {
   identifiantProjet: string;
   nomProjet: string;
-  statut: Abandon.StatutAbandon.RawType;
+  statut: Lauréat.Abandon.StatutAbandon.RawType;
   recandidature: boolean;
   preuveRecandidatureStatut: Abandon.StatutPreuveRecandidature.RawType;
   misÀJourLe: Iso8601DateTime;

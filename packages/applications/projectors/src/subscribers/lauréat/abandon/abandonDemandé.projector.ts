@@ -29,7 +29,7 @@ export const abandonDemandéProjector = async (
           }
         : undefined,
     },
-    statut: Abandon.StatutAbandon.demandé.statut,
+    statut: Lauréat.Abandon.StatutAbandon.demandé.statut,
     misÀJourLe: event.payload.demandéLe,
   });
 };
