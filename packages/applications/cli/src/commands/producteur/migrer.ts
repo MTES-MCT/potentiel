@@ -36,6 +36,7 @@ export class Migrer extends Command {
       from "eventStores" es
       inner join projects p on es.payload->>'projectId' = p.id::text
       inner join users u on es.payload->>'requestedBy' = u.id::text
+      inner join files f on es.payload->>'fileId' = f.id::text
       where es.type like 'Modification%'
       and   payload->>'type' = 'producteur'
       order by es."occurredAt" asc
