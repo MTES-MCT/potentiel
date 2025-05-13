@@ -51,7 +51,11 @@ export type TimelineItemProps = {
 };
 
 const TimelineItem: FC<TimelineItemProps> = ({ status, date, title, content }) => (
-  <MuiTimelineItem>
+  <MuiTimelineItem
+    sx={{
+      minHeight: '0',
+    }}
+  >
     <TimelineOppositeContent className="w-">
       <span className="font-bold">
         {date === 'En attente' ? date : <FormattedDate date={date} />}
