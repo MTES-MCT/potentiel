@@ -91,22 +91,13 @@ const PorteurProjetActions = ({
 
         {project.isClasse && (
           <DropdownMenuSecondaryButton buttonChildren="Actions" className="w-fit">
-            {!!producteurAffichage ? (
+            {!!producteurAffichage && (
               <DropdownMenuSecondaryButton.DropdownItem
                 href={producteurAffichage.url}
                 disabled={demandesDisabled}
               >
                 <span>{producteurAffichage.labelActions}</span>
               </DropdownMenuSecondaryButton.DropdownItem>
-            ) : project.appelOffre.changementProducteurPossibleAvantAchèvement ? (
-              <DropdownMenuSecondaryButton.DropdownItem
-                href={routes.GET_CHANGER_PRODUCTEUR(project.id)}
-                disabled={demandesDisabled}
-              >
-                <span>Changer de producteur</span>
-              </DropdownMenuSecondaryButton.DropdownItem>
-            ) : (
-              <></>
             )}
             <DropdownMenuSecondaryButton.DropdownItem
               href={routes.CHANGER_FOURNISSEUR(project.id)}
