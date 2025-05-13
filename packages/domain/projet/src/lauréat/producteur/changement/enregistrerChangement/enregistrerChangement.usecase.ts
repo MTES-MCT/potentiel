@@ -70,6 +70,7 @@ export const registerEnregistrerChangementProducteurUseCase = ({
       },
     });
 
+    // Use case appelé provisoirement le temps de déplacer toutes la logique métier GF depuis la package lauréat
     await mediator.send<RenouvelerGarantiesFinancièresUseCase>({
       type: 'Lauréat.GarantiesFinancières.UseCase.RenouvelerGarantiesFinancières',
       data: {

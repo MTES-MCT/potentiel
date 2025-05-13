@@ -33,6 +33,7 @@ export type DemanderGarantiesFinancièresCommand = Message<
   }
 >;
 
+// Use case utilisé provisoirement le temps de déplacer toutes la logique métier GF depuis la package lauréat
 export const registerRenouvelerGarantiesFinancièresUseCase = (
   getProjetAggregateRoot: GetProjetAggregateRoot,
 ) => {
