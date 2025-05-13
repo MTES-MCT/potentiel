@@ -1506,8 +1506,9 @@ const porteurProjetPolicies: ReadonlyArray<Policy> = [
 
   // Producteur
   'producteur.listerChangement',
-  'producteur.consulter',
   'producteur.enregistrerChangement',
+  'producteur.consulterChangement',
+  'producteur.consulter',
 ];
 
 const acheteurObligéPolicies: ReadonlyArray<Policy> = [
