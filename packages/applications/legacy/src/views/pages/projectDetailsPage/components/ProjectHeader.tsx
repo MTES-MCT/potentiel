@@ -14,7 +14,7 @@ export type ProjectHeaderProps = {
   abandonEnCoursOuAccordé: boolean;
   demandeRecours: ProjectDataForProjectPage['demandeRecours'];
   modificationsNonPermisesParLeCDCActuel: boolean;
-  hasAttestationConformité: boolean;
+  estAchevé: boolean;
   peutFaireDemandeChangementReprésentantLégal: boolean;
   puissanceAffichage?: GetPuissanceForProjectPage['affichage'];
   producteurAffichage?: GetProducteurForProjectPage['affichage'];
@@ -27,7 +27,7 @@ export const ProjectHeader = ({
   abandonEnCoursOuAccordé,
   demandeRecours,
   modificationsNonPermisesParLeCDCActuel,
-  hasAttestationConformité,
+  estAchevé,
   peutFaireDemandeChangementReprésentantLégal,
   puissanceAffichage,
   actionnaireAffichage,
@@ -62,7 +62,7 @@ export const ProjectHeader = ({
         abandonEnCoursOuAccordé={abandonEnCoursOuAccordé}
         demandeRecours={demandeRecours}
         modificationsNonPermisesParLeCDCActuel={modificationsNonPermisesParLeCDCActuel}
-        hasAttestationConformité={hasAttestationConformité}
+        estAchevé={estAchevé}
         peutFaireDemandeChangementReprésentantLégal={peutFaireDemandeChangementReprésentantLégal}
         puissanceAffichage={puissanceAffichage}
         actionnaireAffichage={actionnaireAffichage}

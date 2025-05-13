@@ -68,13 +68,13 @@ const PorteurProjetActions = ({
   abandonEnCoursOuAccordé,
   demandeRecours,
   modificationsNonPermisesParLeCDCActuel,
-  hasAttestationConformité,
+  estAchevé,
   peutFaireDemandeChangementReprésentantLégal,
   actionnaireAffichage,
   puissanceAffichage,
   producteurAffichage,
 }: PorteurProjetActionsProps) => {
-  const peutDemanderAbandon = !abandonEnCoursOuAccordé && !hasAttestationConformité;
+  const peutDemanderAbandon = !abandonEnCoursOuAccordé && !estAchevé;
   const demandesDisabled = modificationsNonPermisesParLeCDCActuel ? true : undefined;
 
   return (
@@ -152,7 +152,7 @@ const PorteurProjetActions = ({
                 >
                   <span>Demander un abandon</span>
                 </DropdownMenuSecondaryButton.DropdownItem>
-                {!hasAttestationConformité && getProjectStatus(project) === 'lauréat' && (
+                {!estAchevé && getProjectStatus(project) === 'lauréat' && (
                   <DropdownMenuSecondaryButton.DropdownItem
                     href={Routes.Achèvement.transmettreAttestationConformité(identifiantProjet)}
                   >
@@ -262,7 +262,7 @@ export const ProjectActions = ({
   abandonEnCoursOuAccordé,
   demandeRecours,
   modificationsNonPermisesParLeCDCActuel,
-  hasAttestationConformité,
+  estAchevé,
   peutFaireDemandeChangementReprésentantLégal,
   puissanceAffichage,
   actionnaireAffichage,
@@ -290,7 +290,7 @@ export const ProjectActions = ({
           abandonEnCoursOuAccordé={abandonEnCoursOuAccordé}
           demandeRecours={demandeRecours}
           modificationsNonPermisesParLeCDCActuel={modificationsNonPermisesParLeCDCActuel}
-          hasAttestationConformité={hasAttestationConformité}
+          estAchevé={estAchevé}
           peutFaireDemandeChangementReprésentantLégal={peutFaireDemandeChangementReprésentantLégal}
           puissanceAffichage={puissanceAffichage}
           actionnaireAffichage={actionnaireAffichage}
