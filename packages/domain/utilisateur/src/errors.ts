@@ -1,5 +1,11 @@
 import { InvalidOperationError, OperationRejectedError } from '@potentiel-domain/core';
 
+export class UtilisateurInconnuError extends InvalidOperationError {
+  constructor() {
+    super(`L'utilisateur n'est pas référencé`);
+  }
+}
+
 export class RoleRefuséError extends OperationRejectedError {
   constructor(value: string) {
     super(`Le rôle ne correspond à aucune valeur connue`, {
@@ -45,12 +51,6 @@ export class UtilisateurNonPorteurError extends OperationRejectedError {
 export class UtilisateurDéjàExistantError extends InvalidOperationError {
   constructor() {
     super("L'utilisateur existe déjà");
-  }
-}
-
-export class UtilisateurInexistantError extends InvalidOperationError {
-  constructor() {
-    super("L'utilisateur n'existe pas");
   }
 }
 

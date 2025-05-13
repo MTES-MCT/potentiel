@@ -21,7 +21,7 @@ export const registerSupprimerCommand = (loadAggregate: LoadAggregate) => {
     suppriméPar,
     suppriméLe,
   }) => {
-    const utilisateur = await loadUtilisateur(identifiantUtilisateur, false);
+    const utilisateur = await loadUtilisateur(identifiantUtilisateur);
 
     await utilisateur.supprimer({
       identifiantUtilisateur,

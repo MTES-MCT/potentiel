@@ -2,7 +2,7 @@ import { DomainEvent } from '@potentiel-domain/core';
 import { DateTime, Email } from '@potentiel-domain/common';
 
 import { UtilisateurAggregate } from '../utilisateur.aggregate';
-import { SuppressionPropreCompteError, UtilisateurInexistantError } from '../errors';
+import { SuppressionPropreCompteError, UtilisateurInconnuError } from '../errors';
 
 export type UtilisateurSuppriméEvent = DomainEvent<
   'UtilisateurSupprimé-V1',
@@ -24,7 +24,7 @@ export async function supprimer(
   { identifiantUtilisateur, suppriméLe, suppriméPar }: SupprimerOptions,
 ) {
   if (!this.existe) {
-    throw new UtilisateurInexistantError();
+    throw new UtilisateurInconnuError();
   }
   if (identifiantUtilisateur.estÉgaleÀ(suppriméPar)) {
     throw new SuppressionPropreCompteError();

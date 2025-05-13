@@ -10,7 +10,6 @@ import {
   applyPorteurInvité,
   inviterPorteur,
 } from './inviter/inviterPorteur.behavior';
-import { UtilisateurInconnuError } from './utilisateurInconnu.error';
 import {
   applyUtilisateurInvité,
   inviter,
@@ -31,6 +30,7 @@ import {
   UtilisateurSuppriméEvent,
   supprimer,
 } from './supprimer/supprimerUtilisateur.behavior';
+import { UtilisateurInconnuError } from './errors';
 
 export type UtilisateurEvent =
   | PorteurInvitéEvent

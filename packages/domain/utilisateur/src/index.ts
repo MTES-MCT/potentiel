@@ -25,7 +25,6 @@ import {
   ListerProjetsÀRéclamerReadModel,
 } from './lister/listerProjetsÀRéclamer.query';
 import { ListerPorteursQuery, ListerPorteursReadModel } from './lister/listerPorteurs.query';
-import { UtilisateurInconnuError } from './utilisateurInconnu.error';
 import { RetirerAccèsProjetCommand } from './retirer/retirerAccèsProjet.command';
 import { SupprimerUtilisateurUseCase } from './supprimer/supprimerUtilisateur.usecase';
 import { UtilisateurSuppriméEvent } from './supprimer/supprimerUtilisateur.behavior';
@@ -33,7 +32,7 @@ export * as IdentifiantUtilisateur from './identifiantUtilisateur.valueType';
 export * as Utilisateur from './utilisateur.valueType';
 export * as Role from './role.valueType';
 export * as Région from './région.valueType';
-export { AccèsFonctionnalitéRefuséError } from './errors';
+export { UtilisateurInconnuError, AccèsFonctionnalitéRefuséError } from './errors';
 
 // Query
 export type UtilisateurQuery =
@@ -99,6 +98,3 @@ export {
   ListerProjetsÀRéclamerReadModel,
   ListerPorteursReadModel,
 };
-
-// error
-export { UtilisateurInconnuError };
