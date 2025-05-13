@@ -33,6 +33,10 @@ import * as Role from '@potentiel-domain/utilisateur/dist/role.valueType';
 import { Raccordement } from '@potentiel-domain/laureat';
 import { Option } from '@potentiel-libraries/monads';
 import { AbandonInfoBox } from './sections/AbandonInfoBox';
+import {
+  DemandeImpossibleSiAbandonEnCoursInfoBox,
+  DemandeImpossibleSiAchèvementInfoBox,
+} from './sections/DemandeImpossibleInfoBox';
 
 export type AlerteRaccordement =
   | 'référenceDossierManquantePourDélaiCDC2022'
@@ -51,7 +55,7 @@ type ProjectDetailsProps = {
   actionnaire?: InfoGeneralesProps['actionnaire'];
   puissance?: InfoGeneralesProps['puissance'];
   producteur?: ContactProps['producteur'];
-  hasAttestationConformité: boolean;
+  estAchevé: boolean;
   modificationsNonPermisesParLeCDCActuel: boolean;
   coefficientKChoisi: boolean | undefined;
   cdcV2: boolean;
@@ -66,7 +70,7 @@ export const ProjectDetails = ({
   alertesRaccordement,
   abandon,
   demandeRecours,
-  hasAttestationConformité,
+  estAchevé,
   représentantLégal,
   actionnaire,
   garantiesFinancières,
@@ -88,6 +92,7 @@ export const ProjectDetails = ({
   }).formatter();
 
   const abandonEnCoursOuAccordé = !!abandon && abandon.statut !== 'rejeté';
+  const abandonEnCours = abandonEnCoursOuAccordé && abandon.statut !== 'accordé';
 
   return (
     <LegacyPageTemplate user={request.user} currentPage="list-projects">
@@ -101,7 +106,7 @@ export const ProjectDetails = ({
         project={project}
         abandonEnCoursOuAccordé={abandonEnCoursOuAccordé}
         modificationsNonPermisesParLeCDCActuel={modificationsNonPermisesParLeCDCActuel}
-        hasAttestationConformité={hasAttestationConformité}
+        estAchevé={estAchevé}
         demandeRecours={demandeRecours}
         peutFaireDemandeChangementReprésentantLégal={
           !!représentantLégal?.demandeDeModification?.peutFaireUneDemande
@@ -117,6 +122,10 @@ export const ProjectDetails = ({
       <div className="flex flex-col gap-3 mt-5">
         <div className="print:hidden flex flex-col gap-3">
           {abandon && <AbandonInfoBox abandon={abandon} identifiantProjet={identifiantProjet} />}
+          {abandonEnCours && (
+            <DemandeImpossibleSiAbandonEnCoursInfoBox identifiantProjet={identifiantProjet} />
+          )}
+          {estAchevé && <DemandeImpossibleSiAchèvementInfoBox />}
           {user.role === 'porteur-projet' && modificationsNonPermisesParLeCDCActuel && (
             <AlertBox>
               Votre cahier des charges actuel ne vous permet pas d'accéder aux fonctionnalités
@@ -125,7 +134,6 @@ export const ProjectDetails = ({
               "Cahier des charges" ci-dessous).
             </AlertBox>
           )}
-
           {alertesRaccordement.length > 0 && (
             <AlerteBoxRaccordement
               dcrDueOn={project.dcrDueOn}

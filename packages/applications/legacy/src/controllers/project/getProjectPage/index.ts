@@ -225,7 +225,7 @@ v1Router.get(
               project.appelOffre.changementProducteurPossibleAvantAchèvement,
           }),
           candidature: await getCandidature({ identifiantProjet: identifiantProjetValueType }),
-          hasAttestationConformité: !!attestationConformité,
+          estAchevé: !!attestationConformité,
           modificationsNonPermisesParLeCDCActuel:
             project.cahierDesChargesActuel.type === 'initial' &&
             !!project.appelOffre.periode.choisirNouveauCahierDesCharges,
