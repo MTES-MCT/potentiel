@@ -8,6 +8,7 @@ import { GarantiesFinancières } from '@potentiel-domain/laureat';
 import { Role } from '@potentiel-domain/utilisateur';
 import { DateTime } from '@potentiel-domain/common';
 import { Routes } from '@potentiel-applications/routes';
+import { Lauréat } from '@potentiel-domain/projet';
 
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
@@ -88,10 +89,12 @@ export default async function Page({ searchParams }: PageProps) {
         {
           label: 'Motif',
           searchParamKey: 'motif',
-          options: GarantiesFinancières.MotifDemandeGarantiesFinancières.motifs.map((motif) => ({
-            label: getGarantiesFinancièresMotifLabel(motif),
-            value: motif,
-          })),
+          options: Lauréat.GarantiesFinancières.MotifDemandeGarantiesFinancières.motifs.map(
+            (motif) => ({
+              label: getGarantiesFinancièresMotifLabel(motif),
+              value: motif,
+            }),
+          ),
         },
       ];
 

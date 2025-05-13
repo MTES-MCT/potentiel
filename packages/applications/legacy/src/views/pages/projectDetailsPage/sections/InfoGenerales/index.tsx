@@ -7,7 +7,7 @@ import { Routes } from '@potentiel-applications/routes';
 import { match } from 'ts-pattern';
 
 import { GarantiesFinancières } from '@potentiel-domain/laureat';
-import type { Candidature } from '@potentiel-domain/projet';
+import type { Candidature, Lauréat } from '@potentiel-domain/projet';
 import type { Role } from '@potentiel-domain/utilisateur';
 import { Raccordement } from '@potentiel-domain/laureat';
 import { Option } from '@potentiel-libraries/monads';
@@ -158,7 +158,7 @@ export const InfoGenerales = ({
 
 export type GarantiesFinancièresProjetProps = {
   garantiesFinancières: {
-    motifGfEnAttente?: GarantiesFinancières.MotifDemandeGarantiesFinancières.RawType;
+    motifGfEnAttente?: Lauréat.GarantiesFinancières.MotifDemandeGarantiesFinancières.RawType;
     actuelles?: {
       type?: Candidature.TypeGarantiesFinancières.RawType;
       dateConstitution?: string;
@@ -280,7 +280,7 @@ const getGFLabel = (type?: Candidature.TypeGarantiesFinancières.RawType) => {
 };
 
 const getMotifGFEnAttente = (
-  motif?: GarantiesFinancières.MotifDemandeGarantiesFinancières.RawType,
+  motif?: Lauréat.GarantiesFinancières.MotifDemandeGarantiesFinancières.RawType,
 ) => {
   switch (motif) {
     case 'recours-accordé':

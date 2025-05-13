@@ -3,11 +3,9 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 import { Option } from '@potentiel-libraries/monads';
 import { IdentifiantProjet, DateTime } from '@potentiel-domain/common';
 import { Find } from '@potentiel-domain/entity';
+import { Lauréat } from '@potentiel-domain/projet';
 
-import {
-  MotifDemandeGarantiesFinancières,
-  ProjetAvecGarantiesFinancièresEnAttenteEntity,
-} from '../..';
+import { ProjetAvecGarantiesFinancièresEnAttenteEntity } from '../..';
 import { LauréatEntity } from '../../../lauréat.entity';
 
 export type ConsulterProjetAvecGarantiesFinancièresEnAttenteReadModel = {
@@ -17,7 +15,7 @@ export type ConsulterProjetAvecGarantiesFinancièresEnAttenteReadModel = {
   appelOffre: string;
   période: string;
   famille?: string;
-  motif: MotifDemandeGarantiesFinancières.ValueType;
+  motif: Lauréat.GarantiesFinancières.MotifDemandeGarantiesFinancières.ValueType;
   dateLimiteSoumission: DateTime.ValueType;
   dernièreMiseÀJour: {
     date: DateTime.ValueType;
@@ -77,7 +75,8 @@ const mapToReadModel = (
     appelOffre,
     période,
     famille,
-    motif: MotifDemandeGarantiesFinancières.convertirEnValueType(motif),
+    motif:
+      Lauréat.GarantiesFinancières.MotifDemandeGarantiesFinancières.convertirEnValueType(motif),
     dateLimiteSoumission: DateTime.convertirEnValueType(dateLimiteSoumission),
     dernièreMiseÀJour: {
       date: DateTime.convertirEnValueType(dernièreMiseÀJour.date),

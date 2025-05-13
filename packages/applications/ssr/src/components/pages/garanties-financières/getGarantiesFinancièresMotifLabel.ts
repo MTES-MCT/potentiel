@@ -1,9 +1,9 @@
 import { match } from 'ts-pattern';
 
-import { GarantiesFinancières } from '@potentiel-domain/laureat';
+import { Lauréat } from '@potentiel-domain/projet';
 
 export const getGarantiesFinancièresMotifLabel = (
-  type: GarantiesFinancières.MotifDemandeGarantiesFinancières.RawType,
+  type: Lauréat.GarantiesFinancières.MotifDemandeGarantiesFinancières.RawType,
 ) =>
   match(type)
     .with('changement-producteur', () => 'Changement de producteur')

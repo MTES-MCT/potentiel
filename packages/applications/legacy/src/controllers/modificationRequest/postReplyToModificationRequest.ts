@@ -1,6 +1,8 @@
 import fs from 'fs';
 import moment from 'moment';
+
 import { Option } from '@potentiel-libraries/monads';
+import { Lauréat } from '@potentiel-domain/projet';
 
 import {
   acceptModificationRequest,
@@ -211,8 +213,8 @@ v1Router.post(
                         dateActuelle.setMonth(dateActuelle.getMonth() + 2),
                       ).toISOString(),
                       motifValue:
-                        GarantiesFinancières.MotifDemandeGarantiesFinancières.changementProducteur
-                          .motif,
+                        Lauréat.GarantiesFinancières.MotifDemandeGarantiesFinancières
+                          .changementProducteur.motif,
                     },
                   });
                 } catch (error) {}

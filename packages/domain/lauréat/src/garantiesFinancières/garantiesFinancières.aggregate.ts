@@ -9,7 +9,6 @@ import { Candidature, Lauréat } from '@potentiel-domain/projet';
 
 import {
   AttestationGarantiesFinancièresEnregistréeEvent,
-  MotifDemandeGarantiesFinancières,
   StatutGarantiesFinancières,
   StatutMainlevéeGarantiesFinancières,
   TypeGarantiesFinancièresImportéEvent,
@@ -131,7 +130,7 @@ export type GarantiesFinancièresAggregate = Aggregate<GarantiesFinancièresEven
     soumisLe: DateTime.ValueType;
     attestation?: { format: string };
   };
-  motifDemandeGarantiesFinancières: MotifDemandeGarantiesFinancières.ValueType;
+  motifDemandeGarantiesFinancières: Lauréat.GarantiesFinancières.MotifDemandeGarantiesFinancières.ValueType;
   dateLimiteSoumission?: DateTime.ValueType;
   demandeMainlevéeEnCours?: {
     statut: StatutMainlevéeGarantiesFinancières.ValueType;
@@ -171,7 +170,8 @@ export const getDefaultGarantiesFinancièresAggregate: GetDefaultAggregateState<
   enregistrerAttestation,
   enregistrer,
   effacerHistorique,
-  motifDemandeGarantiesFinancières: MotifDemandeGarantiesFinancières.motifInconnu,
+  motifDemandeGarantiesFinancières:
+    Lauréat.GarantiesFinancières.MotifDemandeGarantiesFinancières.motifInconnu,
   demanderMainlevée,
   annulerDemandeMainlevée,
   démarrerInstructionDemandeMainlevée,

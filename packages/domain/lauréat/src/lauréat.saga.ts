@@ -1,12 +1,11 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
-import { Éliminé } from '@potentiel-domain/projet';
+import { Lauréat, Éliminé } from '@potentiel-domain/projet';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { Option } from '@potentiel-libraries/monads';
 
 import { DemanderGarantiesFinancièresCommand } from './garantiesFinancières/demander/demanderGarantiesFinancières.command';
-import { MotifDemandeGarantiesFinancières } from './garantiesFinancières';
 import { appelOffreSoumisAuxGarantiesFinancières } from './garantiesFinancières/_utils/appelOffreSoumisAuxGarantiesFinancières';
 
 /**
@@ -55,7 +54,7 @@ export const register = () => {
               demandéLe: DateTime.convertirEnValueType(accordéLe),
               identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
               dateLimiteSoumission: DateTime.convertirEnValueType(accordéLe).ajouterNombreDeMois(2),
-              motif: MotifDemandeGarantiesFinancières.recoursAccordé,
+              motif: Lauréat.GarantiesFinancières.MotifDemandeGarantiesFinancières.recoursAccordé,
             },
           });
         }

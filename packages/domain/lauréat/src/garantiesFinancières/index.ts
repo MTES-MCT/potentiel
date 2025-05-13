@@ -141,7 +141,6 @@ export {
 } from './garantiesFinancières.register';
 
 // ValueTypes
-export * as MotifDemandeGarantiesFinancières from './motifDemandeGarantiesFinancières.valueType';
 export * as TypeDocumentGarantiesFinancières from './typeDocumentGarantiesFinancières.valueType';
 export * as StatutMainlevéeGarantiesFinancières from './mainlevée/statutMainlevéeGarantiesFinancières.valueType';
 export * as MotifDemandeMainlevéeGarantiesFinancières from './mainlevée/motifDemandeMainlevéeGarantiesFinancières.valueType';
