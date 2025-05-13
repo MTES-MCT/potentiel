@@ -1,5 +1,4 @@
 # language: fr
-@select
 Fonctionnalité: Enregistrer un changement de producteur d'un projet lauréat
 
     Scénario: Enregistrer un changement de producteur d'un projet lauréat
@@ -17,6 +16,7 @@ Fonctionnalité: Enregistrer un changement de producteur d'un projet lauréat
         Et un email a été envoyé au porteur avec :
             | sujet      | Potentiel - Déclaration de changement de producteur pour le projet Du boulodrome de Marseille dans le département(.*) |
             | nom_projet | Du boulodrome de Marseille                                                                                            |
+            | url        | https://potentiel.beta.gouv.fr/laureats/.*/producteur/changement/.*                                                   |
         Et un email a été envoyé à la dreal avec :
             | sujet      | Potentiel - Déclaration de changement de producteur pour le projet Du boulodrome de Marseille dans le département(.*) |
             | nom_projet | Du boulodrome de Marseille                                                                                            |

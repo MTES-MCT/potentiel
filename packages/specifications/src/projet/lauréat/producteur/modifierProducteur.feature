@@ -1,11 +1,11 @@
 # language: fr
-@select
 Fonctionnalité: Modifier le producteur d'un projet lauréat
 
     Scénario: Modifier le producteur d'un projet lauréat en tant qu'admin
         Etant donné le projet lauréat "Du boulodrome de Marseille" avec :
             | appel d'offre | PPE2 - Bâtiment |
             | période       | 1               |
+        Et la dreal "Dreal du sud" associée à la région du projet
         Quand le DGEC validateur modifie le producteur du projet lauréat
         Alors le producteur du projet lauréat devrait être mis à jour
         Et un email a été envoyé au porteur avec :
@@ -21,6 +21,7 @@ Fonctionnalité: Modifier le producteur d'un projet lauréat
         Etant donné le projet lauréat "Du boulodrome de Marseille" avec :
             | appel d'offre | PPE2 - Bâtiment |
             | période       | 1               |
+        Et la dreal "Dreal du sud" associée à la région du projet
         Et un abandon accordé pour le projet lauréat
         Quand le DGEC validateur modifie le producteur du projet lauréat
         Alors le producteur du projet lauréat devrait être mis à jour
@@ -37,6 +38,7 @@ Fonctionnalité: Modifier le producteur d'un projet lauréat
         Etant donné le projet lauréat "Du boulodrome de Marseille" avec :
             | appel d'offre | PPE2 - Bâtiment |
             | période       | 1               |
+        Et la dreal "Dreal du sud" associée à la région du projet
         Et une attestation de conformité transmise pour le projet lauréat
         Quand le DGEC validateur modifie le producteur du projet lauréat
         Alors le producteur du projet lauréat devrait être mis à jour
@@ -50,9 +52,10 @@ Fonctionnalité: Modifier le producteur d'un projet lauréat
             | url        | https://potentiel.beta.gouv.fr/projet/.*/details.html                                                    |
 
     Scénario: Modifier le producteur d'un projet lauréat dont l'appel d'offre empêche un changement avant l'achèvement du projet
-        Etant donné le projet lauréat legacy "Du boulodrome de Bordeaux" avec :
+        Etant donné le projet lauréat legacy "Du boulodrome de Marseille" avec :
             | appel d'offre | Eolien |
             | période       | 1      |
+        Et la dreal "Dreal du sud" associée à la région du projet
         Quand le DGEC validateur modifie le producteur du projet lauréat
         Alors le producteur du projet lauréat devrait être mis à jour
         Et un email a été envoyé au porteur avec :
@@ -68,6 +71,7 @@ Fonctionnalité: Modifier le producteur d'un projet lauréat
         Etant donné le projet lauréat "Du boulodrome de Marseille" avec :
             | appel d'offre | PPE2 - Bâtiment |
             | période       | 1               |
+        Et la dreal "Dreal du sud" associée à la région du projet
         Quand le DGEC validateur modifie le producteur avec une valeur identique pour le projet lauréat
         Alors l'utilisateur devrait être informé que "Le nouveau producteur est identique à celui associé au projet"
 
