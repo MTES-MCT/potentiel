@@ -237,7 +237,7 @@ Pour faire celà, merci de vous référer à la [documentation sécurisée](http
 
 - Pour cette partie il vaut mieux préférer la méthode "one-off-container" en téléchargeant le dump directement sur les serveurs Scalingo.
 
-`scalingo --app [nom-de-l-application] run --file ./potentiel.dum p bash`
+`scalingo --app [nom-de-l-application] run --file ./potentiel.dump bash`
 
 - Il faut ensuite installer les outils postgres.
 
