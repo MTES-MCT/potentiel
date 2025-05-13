@@ -21,8 +21,13 @@ if [ -n "$POSTGRES_MULTIPLE_DATABASES" ]; then
 	echo "Multiple databases created"
 fi
 
+
+if [ -f "/dump/potentiel-dev.dump" ]; then
 pg_restore -U "$POSTGRES_USER" -d "potentiel" < /dump/potentiel-dev.dump
 echo "✨ Potentiel Database has been restored with potentiel-dev dump file✨"
+else
+	echo "❌ Potentiel database dump file not found"
+fi
 
 if [ -f "/dump/metabase-dev.dump" ]; then
 	pg_restore -U "$POSTGRES_USER" -d "metabase" < /dump/metabase-dev.dump

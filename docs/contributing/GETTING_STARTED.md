@@ -13,10 +13,9 @@
     - [Ajouter "à la main des projets dans Potentiel"](#ajouter-à-la-main-des-projets-dans-potentiel)
   - [Lancer les tests](#lancer-les-tests)
     - [Specifications](#specifications)
-  - [Metabase](#metabase)
-    - [Version local](#version-local)
-      - [Step 1 : extraire les données de statistique](#step-1--extraire-les-données-de-statistique)
-      - [Step 2 : se connecter à l'interface](#step-2--se-connecter-à-linterface)
+  - [Metabase local](#metabase-local)
+      - [Générer et consulter les données de statistique publique](#générer-et-consulter-les-données-de-statistique-publique)
+      - [Mettre son metabase local en mode "metabase publique"](#mettre-son-metabase-local-en-mode-metabase-publique)
   - [Restaurer un dump de la base de donnée](#restaurer-un-dump-de-la-base-de-donnée)
   - [Lancer des commandes CLI](#lancer-des-commandes-cli)
 
@@ -208,26 +207,31 @@ Utilisez ensuite le script npm **`specs:select`** :
 npm run specs:select
 ```
 
-## <a id="metabase">Metabase</a>
+## <a id="metabase">Metabase local</a>
 
-Nous utilisons [Metabase](https://www.metabase.com/) pour faire afficher les [statistiques publiques](https://potentiel.beta.gouv.fr/stats.html) du projet.  
+Nous utilisons [Metabase](https://www.metabase.com/) pour faire afficher les [statistiques publiques](https://potentiel.beta.gouv.fr/stats.html) de Potentiel.  
+
+#### Générer et consulter les données de statistique publique
+
 Un container docker local est disponible pour vérifier et générer des dashboard à partir des données de db local, sur le schéma `domain_public_statistic` lisible en **read-only**.
 
-### Version local
-
-
-#### Step 1 : extraire les données de statistique
+1. Générer les statistiques publiques
 
 - définir la variable `export DATABASE_CONNECTION_STRING=` (cf [.env.template](../../packages/applications/ssr/.env.template)) 
 - Lancer la commande depuis la racine du repo `npm exec potentiel-cli stats extraire`
 
-#### Step 2 : se connecter à l'interface
-
+2. Consulter les statistiques publiques
+   
 Le container est monté lorsque la commande `up` est lancé (cf [scripts npm](./DEVELOPMENT_FLOW.md#scripts-npm)), et est disponible sur [cet url](http://localhost:3615).
 Pour se connecter à l'interface, il faut utiliser les credentials suivant : 
 
 - identifiant : `admin@test.test`
 - password: `test`
+
+#### Mettre son metabase local en mode "metabase publique"
+
+Il est possible d'avoir un metabase local qui reprend le contenu du metabase interne au ministère.
+Pour faire celà, merci de vous référer à la [documentation sécurisée](https://collab.din.developpement-durable.gouv.fr/sites/dgec-team-potentiel/Documents%20partages/60-Tech/Metabase%20public)
 
 ## <a id="restaurer-dump-db">Restaurer un dump de la base de donnée</a>
 
