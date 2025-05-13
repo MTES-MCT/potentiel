@@ -30,6 +30,7 @@ import { RetirerAccèsProjetCommand } from './retirer/retirerAccèsProjet.comman
 export * as IdentifiantUtilisateur from './identifiantUtilisateur.valueType';
 export * as Utilisateur from './utilisateur.valueType';
 export * as Role from './role.valueType';
+export * as Région from './région.valueType';
 export { AccèsFonctionnalitéRefuséError } from './errors';
 
 // Query
