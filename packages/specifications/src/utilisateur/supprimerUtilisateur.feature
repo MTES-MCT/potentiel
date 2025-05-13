@@ -26,3 +26,9 @@ Fonctionnalité: Supprimer un utilisateur
         Etant donné un utilisateur invité avec le rôle "admin"
         Quand l'utilisateur supprime son compte
         Alors l'utilisateur devrait être informé que "Il est impossible de supprimer son propre compte"
+
+    Scénario: Impossible de supprimer un utilisateur déjà supprimé
+        Etant donné un utilisateur invité avec le rôle "admin"
+        Quand un administrateur supprime l'utilisateur
+        Et un administrateur supprime l'utilisateur
+        Alors l'utilisateur devrait être informé que "L'utilisateur n'est pas référencé"
