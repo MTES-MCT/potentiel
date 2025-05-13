@@ -116,6 +116,13 @@ export class LauréatAggregate extends AbstractAggregate<LauréatEvent> {
     };
 
     await this.publish(event);
+
+    await this.producteur.importer({
+      identifiantProjet: this.#projet.identifiantProjet,
+      dateImport: notifiéeLe,
+      identifiantUtilisateur: notifiéePar,
+      producteur: this.projet.candidature.nomCandidat,
+    });
   }
 
   async modifier({

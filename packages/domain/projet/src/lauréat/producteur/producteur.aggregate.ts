@@ -20,6 +20,8 @@ import {
 import { ProducteurEvent } from './producteur.event';
 import { ProducteurModifiéEvent } from './modifier/modifierProducteur.event';
 import { ModifierOptions } from './modifier/modifierProducteur.option';
+import { ImporterOptions } from './importer/importerProducteur.option';
+import { ProducteurImportéEvent } from './importer/importerProducteur.event';
 
 export class ProducteurAggregate extends AbstractAggregate<ProducteurEvent> {
   #lauréat!: LauréatAggregate;
@@ -46,8 +48,6 @@ export class ProducteurAggregate extends AbstractAggregate<ProducteurEvent> {
 
   async init(lauréat: LauréatAggregate) {
     this.#lauréat = lauréat;
-
-    this.producteur = this.lauréat.projet.candidature.nomCandidat;
   }
 
   async enregistrerChangement({
@@ -118,6 +118,25 @@ export class ProducteurAggregate extends AbstractAggregate<ProducteurEvent> {
     await this.publish(event);
   }
 
+  async importer({
+    identifiantProjet,
+    producteur,
+    dateImport,
+    identifiantUtilisateur,
+  }: ImporterOptions) {
+    const event: ProducteurImportéEvent = {
+      type: 'ProducteurImporté-V1',
+      payload: {
+        identifiantProjet: identifiantProjet.formatter(),
+        producteur,
+        importéLe: dateImport.formatter(),
+        importéPar: identifiantUtilisateur.formatter(),
+      },
+    };
+
+    await this.publish(event);
+  }
+
   apply(event: ProducteurEvent): void {
     match(event)
       .with(
@@ -131,6 +150,12 @@ export class ProducteurAggregate extends AbstractAggregate<ProducteurEvent> {
           type: 'ProducteurModifié-V1',
         },
         (event) => this.applyProducteurModifiéV1(event),
+      )
+      .with(
+        {
+          type: 'ProducteurImporté-V1',
+        },
+        (event) => this.applyProducteurImportéV1(event),
       )
       .exhaustive();
   }
@@ -169,5 +194,9 @@ export class ProducteurAggregate extends AbstractAggregate<ProducteurEvent> {
     payload: { producteur: nouveauProducteur },
   }: ProducteurModifiéEvent) {
     this.producteur = nouveauProducteur;
+  }
+
+  private applyProducteurImportéV1({ payload: { producteur } }: ProducteurImportéEvent) {
+    this.producteur = producteur;
   }
 }

@@ -40,6 +40,7 @@ export { EnregistrerChangementProducteurUseCase, ModifierProducteurUseCase };
 export { ProducteurEvent } from './producteur.event';
 export { ChangementProducteurEnregistréEvent } from './changement/enregistrerChangement/enregistrerChangement.event';
 export { ProducteurModifiéEvent } from './modifier/modifierProducteur.event';
+export { ProducteurImportéEvent } from './importer/importerProducteur.event';
 
 // Register
 export { registerProducteurQueries, registerProducteurUseCases } from './producteur.register';

@@ -10,6 +10,7 @@ import { Timeline, TimelineItemProps } from '@/components/organisms/Timeline';
 
 import { mapToChangementProducteurEnregistréTimelineItemProps } from './mapToChangementProducteurEnregistréTimelineItemProps';
 import { mapToProducteurModifiéTimelineItemsProps } from './mapToProducteurModifiéTimelineItemsProps';
+import { mapToProducteurImportéTimelineItemProps } from './mapToProducteurImportéTimelineItemProps';
 
 export type HistoriqueProducteurTimelineProps = {
   historique: PlainType<Historique.ListerHistoriqueProjetReadModel<ProducteurHistoryRecord>>;
@@ -27,6 +28,9 @@ export type ProducteurHistoryRecord = HistoryRecord<
 const mapToProducteurTimelineItemProps = (record: ProducteurHistoryRecord) =>
   match(record)
     .returnType<TimelineItemProps>()
+    .with({ type: 'ProducteurImporté-V1' }, (record) =>
+      mapToProducteurImportéTimelineItemProps(record),
+    )
     .with({ type: 'ProducteurModifié-V1' }, (record) =>
       mapToProducteurModifiéTimelineItemsProps(record),
     )
