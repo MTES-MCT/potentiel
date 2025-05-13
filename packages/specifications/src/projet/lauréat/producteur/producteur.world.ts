@@ -22,14 +22,14 @@ export class ProducteurWorld {
     this.#modifierProducteurFixture = new ModifierProducteurFixture();
   }
 
-  mapToExpected(identifiantProjet: IdentifiantProjet.ValueType) {
+  mapToExpected(identifiantProjet: IdentifiantProjet.ValueType, producteurÀLaCandidature: string) {
     const expected: Lauréat.Producteur.ConsulterProducteurReadModel = {
       identifiantProjet,
       producteur: this.#modifierProducteurFixture.aÉtéCréé
         ? this.#modifierProducteurFixture.producteur
         : this.#enregistrerChangementProducteurFixture.aÉtéCréé
           ? this.#enregistrerChangementProducteurFixture.producteur
-          : '',
+          : producteurÀLaCandidature,
     };
 
     return expected;

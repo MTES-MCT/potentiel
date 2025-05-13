@@ -27,7 +27,10 @@ Alors(
 
       const actual = mapToPlainObject(producteur);
       const expected = mapToPlainObject(
-        this.lauréatWorld.producteurWorld.mapToExpected(identifiantProjet),
+        this.lauréatWorld.producteurWorld.mapToExpected(
+          identifiantProjet,
+          this.candidatureWorld.importerCandidature.values.nomCandidatValue,
+        ),
       );
 
       actual.should.be.deep.equal(expected);
@@ -60,7 +63,10 @@ Alors(
 
       const actual = mapToPlainObject(producteur);
       const expected = mapToPlainObject(
-        this.lauréatWorld.producteurWorld.mapToExpected(identifiantProjet),
+        this.lauréatWorld.producteurWorld.mapToExpected(
+          identifiantProjet,
+          this.candidatureWorld.importerCandidature.values.nomCandidatValue,
+        ),
       );
 
       actual.should.be.deep.equal(expected);
