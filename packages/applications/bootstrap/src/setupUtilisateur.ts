@@ -39,6 +39,7 @@ export const setupUtilisateur = async ({ sendEmail }: SetupUtilisateurDependenci
       'PorteurInvité-V1',
       'ProjetRéclamé-V1',
       'AccèsProjetRetiré-V1',
+      'UtilisateurSupprimé-V1',
     ],
     eventHandler: async (event) => {
       await mediator.send<UtilisateurProjector.Execute>({

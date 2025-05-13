@@ -10,6 +10,7 @@ import {
   Role,
   RéclamerProjetUseCase,
 } from '@potentiel-domain/utilisateur';
+import { SupprimerUtilisateurUseCase } from '@potentiel-domain/utilisateur';
 
 import { PotentielWorld } from '../../potentiel.world';
 import { InviterUtilisateurFixture } from '../fixtures/inviter/inviter.fixture';
@@ -48,6 +49,27 @@ Quand(
     await inviterUtilisateur.call(this, { rôle });
   },
 );
+
+Quand(`un administrateur supprime l'utilisateur`, async function (this: PotentielWorld) {
+  try {
+    await supprimerUtilisateur.call(this, {
+      identifiantUtilisateur: this.utilisateurWorld.inviterUtilisateur.email,
+    });
+  } catch (error) {
+    this.error = error as Error;
+  }
+});
+
+Quand(`l'utilisateur supprime son compte`, async function (this: PotentielWorld) {
+  try {
+    await supprimerUtilisateur.call(this, {
+      identifiantUtilisateur: this.utilisateurWorld.inviterUtilisateur.email,
+      suppriméPar: this.utilisateurWorld.inviterUtilisateur.email,
+    });
+  } catch (error) {
+    this.error = error as Error;
+  }
+});
 
 Quand('un administrateur réinvite le même utilisateur', async function (this: PotentielWorld) {
   const { email, rôle } = this.utilisateurWorld.inviterUtilisateur;
@@ -252,6 +274,20 @@ export async function inviterUtilisateur(
   } catch (error) {
     this.error = error as Error;
   }
+}
+
+export async function supprimerUtilisateur(
+  this: PotentielWorld,
+  { identifiantUtilisateur, suppriméPar }: { identifiantUtilisateur: string; suppriméPar?: string },
+) {
+  await mediator.send<SupprimerUtilisateurUseCase>({
+    type: 'Utilisateur.UseCase.SupprimerUtilisateur',
+    data: {
+      identifiantUtilisateurValue: identifiantUtilisateur,
+      suppriméLeValue: DateTime.now().formatter(),
+      suppriméParValue: suppriméPar ?? this.utilisateurWorld.adminFixture.email,
+    },
+  });
 }
 
 export async function retirerAccèsProjet(

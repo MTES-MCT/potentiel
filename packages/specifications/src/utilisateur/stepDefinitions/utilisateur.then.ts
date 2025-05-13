@@ -5,6 +5,7 @@ import { expect } from 'chai';
 
 import { mapToPlainObject } from '@potentiel-domain/core';
 import {
+  ConsulterUtilisateurQuery,
   ListerPorteursQuery,
   Role,
   TrouverUtilisateurQuery,
@@ -46,6 +47,20 @@ Alors(
     );
   },
 );
+
+Alors("l'utilisateur n'existe plus", async function (this: PotentielWorld) {
+  const { identifiantUtilisateur } = this.utilisateurWorld.mapToExpected();
+
+  await waitForExpect(async () => {
+    const utilisateur = await mediator.send<ConsulterUtilisateurQuery>({
+      type: 'Utilisateur.Query.ConsulterUtilisateur',
+      data: {
+        identifiantUtilisateur: identifiantUtilisateur.email,
+      },
+    });
+    expect(Option.isNone(utilisateur)).to.be.true;
+  });
+});
 
 Alors(
   /un email a été envoyé au (nouvel utilisateur|nouveau porteur) avec :/,

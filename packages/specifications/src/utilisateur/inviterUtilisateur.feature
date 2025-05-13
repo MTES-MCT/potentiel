@@ -7,6 +7,7 @@ Fonctionnalité: Inviter un utilisateur en tant qu'admin
     Plan du scénario: Inviter un utilisateur avec accès global
         Quand un administrateur invite un utilisateur avec le rôle "<Rôle>"
         Alors l'utilisateur doit être créé
+        Et l'utilisateur invité a accès au projet lauréat
         Et un email a été envoyé au nouvel utilisateur avec :
             | sujet           | Invitation à suivre les projets sur Potentiel |
             | invitation_link | https://potentiel.beta.gouv.fr/projets.html   |

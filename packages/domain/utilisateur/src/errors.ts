@@ -42,13 +42,19 @@ export class UtilisateurNonPorteurError extends OperationRejectedError {
   }
 }
 
-export class UtilisateurDéjàExistant extends InvalidOperationError {
+export class UtilisateurDéjàExistantError extends InvalidOperationError {
   constructor() {
     super("L'utilisateur existe déjà");
   }
 }
 
-export class PorteurInvitéSansProjetErreur extends InvalidOperationError {
+export class UtilisateurInexistantError extends InvalidOperationError {
+  constructor() {
+    super("L'utilisateur n'existe pas");
+  }
+}
+
+export class PorteurInvitéSansProjetError extends InvalidOperationError {
   constructor() {
     super(`Il est impossible d'inviter un porteur sans projet`);
   }
@@ -75,5 +81,11 @@ export class RégionManquanteError extends InvalidOperationError {
 export class IdentifiantGestionnaireRéseauManquantError extends InvalidOperationError {
   constructor() {
     super(`L'identifiant du gestionnaire de réseau est obligatoire pour un utilisateur grd`);
+  }
+}
+
+export class SuppressionPropreCompteError extends InvalidOperationError {
+  constructor() {
+    super(`Il est impossible de supprimer son propre compte`);
   }
 }

@@ -1,8 +1,9 @@
 import { Given as EtantDonné } from '@cucumber/cucumber';
+import { match } from 'ts-pattern';
 
 import { DateTime, Email } from '@potentiel-domain/common';
 import { publish } from '@potentiel-infrastructure/pg-event-sourcing';
-import { UtilisateurInvitéEvent } from '@potentiel-domain/utilisateur';
+import { Role, UtilisateurInvitéEvent } from '@potentiel-domain/utilisateur';
 
 import { PotentielWorld } from '../../potentiel.world';
 
@@ -57,6 +58,28 @@ EtantDonné(
       identifiantProjet: identifiantProjet.formatter(),
       identifiantUtilisateur: this.utilisateurWorld.porteurFixture.email,
     });
+  },
+);
+
+EtantDonné(
+  'un utilisateur invité avec le rôle {string}',
+  async function (this: PotentielWorld, rôle: string) {
+    const payload = match(rôle)
+      .with(Role.dgecValidateur.nom, () => ({
+        rôle,
+        fonction: 'Fonction du DGEC Validateur',
+        nomComplet: 'Nom du DGEC Validateur',
+      }))
+      .with(Role.dreal.nom, () => ({
+        rôle,
+        région: this.candidatureWorld.importerCandidature.values.localitéValue.région,
+      }))
+      .with(Role.grd.nom, () => ({
+        rôle,
+        identifiantGestionnaireRéseau: this.raccordementWorld.identifiantGestionnaireRéseau,
+      }))
+      .otherwise(() => ({ rôle }));
+    await inviterUtilisateur.call(this, payload);
   },
 );
 
