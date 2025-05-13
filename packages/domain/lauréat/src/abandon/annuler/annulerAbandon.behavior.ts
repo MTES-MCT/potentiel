@@ -1,18 +1,8 @@
-import { DomainEvent } from '@potentiel-domain/core';
+import { Lauréat } from '@potentiel-domain/projet';
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
 
 import { AbandonAggregate } from '../abandon.aggregate';
-import * as StatutAbandon from '../statutAbandon.valueType';
-
-export type AbandonAnnuléEvent = DomainEvent<
-  'AbandonAnnulé-V1',
-  {
-    annuléLe: DateTime.RawType;
-    annuléPar: IdentifiantUtilisateur.RawType;
-    identifiantProjet: IdentifiantProjet.RawType;
-  }
->;
 
 export type AnnulerOptions = {
   dateAnnulation: DateTime.ValueType;
@@ -24,9 +14,9 @@ export async function annuler(
   this: AbandonAggregate,
   { dateAnnulation, identifiantUtilisateur, identifiantProjet }: AnnulerOptions,
 ) {
-  this.statut.vérifierQueLeChangementDeStatutEstPossibleEn(StatutAbandon.annulé);
+  this.statut.vérifierQueLeChangementDeStatutEstPossibleEn(Lauréat.Abandon.StatutAbandon.annulé);
 
-  const event: AbandonAnnuléEvent = {
+  const event: Lauréat.Abandon.AbandonAnnuléEvent = {
     type: 'AbandonAnnulé-V1',
     payload: {
       identifiantProjet: identifiantProjet.formatter(),
@@ -40,9 +30,9 @@ export async function annuler(
 
 export function applyAbandonAnnulé(
   this: AbandonAggregate,
-  { payload: { annuléLe } }: AbandonAnnuléEvent,
+  { payload: { annuléLe } }: Lauréat.Abandon.AbandonAnnuléEvent,
 ) {
-  this.statut = StatutAbandon.annulé;
+  this.statut = Lauréat.Abandon.StatutAbandon.annulé;
   this.annuléLe = DateTime.convertirEnValueType(annuléLe);
   this.demande.confirmation = undefined;
   this.accord = undefined;

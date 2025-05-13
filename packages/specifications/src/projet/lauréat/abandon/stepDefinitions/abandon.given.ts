@@ -3,6 +3,7 @@ import { mediator } from 'mediateur';
 import { faker } from '@faker-js/faker';
 
 import { DateTime } from '@potentiel-domain/common';
+import { Lauréat } from '@potentiel-domain/projet';
 import { Abandon } from '@potentiel-domain/laureat';
 import { publish } from '@potentiel-infrastructure/pg-event-sourcing';
 
@@ -116,7 +117,7 @@ async function créerDemandeAbandonAvecRecandidature(this: PotentielWorld) {
 
   // Comme il est désormais impossible de demander un abandon avec recandidature,
   // il faut publier manuellement l'event V1 afin de recréer le cas pour les use case accorder, rejeter et preuve de recandidature
-  const event: Abandon.AbandonDemandéEventV1 = {
+  const event: Lauréat.Abandon.AbandonDemandéEventV1 = {
     type: 'AbandonDemandé-V1',
     payload: {
       identifiantProjet,

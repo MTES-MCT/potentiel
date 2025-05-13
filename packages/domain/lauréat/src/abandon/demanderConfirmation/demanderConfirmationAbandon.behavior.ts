@@ -2,9 +2,9 @@ import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 import { DomainEvent } from '@potentiel-domain/core';
 import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
 import { DocumentProjet } from '@potentiel-domain/document';
+import { Lauréat } from '@potentiel-domain/projet';
 
 import { AbandonAggregate } from '../abandon.aggregate';
-import * as StatutAbandon from '../statutAbandon.valueType';
 
 export type ConfirmationAbandonDemandéeEvent = DomainEvent<
   'ConfirmationAbandonDemandée-V1',
@@ -34,7 +34,9 @@ export async function demanderConfirmation(
     réponseSignée,
   }: DemanderConfirmationOptions,
 ) {
-  this.statut.vérifierQueLeChangementDeStatutEstPossibleEn(StatutAbandon.confirmationDemandée);
+  this.statut.vérifierQueLeChangementDeStatutEstPossibleEn(
+    Lauréat.Abandon.StatutAbandon.confirmationDemandée,
+  );
 
   const event: ConfirmationAbandonDemandéeEvent = {
     type: 'ConfirmationAbandonDemandée-V1',
@@ -55,7 +57,7 @@ export function applyConfirmationAbandonDemandée(
   this: AbandonAggregate,
   { payload: { confirmationDemandéeLe, réponseSignée } }: ConfirmationAbandonDemandéeEvent,
 ) {
-  this.statut = StatutAbandon.confirmationDemandée;
+  this.statut = Lauréat.Abandon.StatutAbandon.confirmationDemandée;
 
   this.demande.confirmation = {
     demandéLe: DateTime.convertirEnValueType(confirmationDemandéeLe),

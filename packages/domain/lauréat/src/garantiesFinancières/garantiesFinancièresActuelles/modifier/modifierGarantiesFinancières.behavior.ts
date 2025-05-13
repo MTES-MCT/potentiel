@@ -1,5 +1,5 @@
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
-import { DomainEvent } from '@potentiel-domain/core';
+import { Lauréat } from '@potentiel-domain/projet';
 import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
 import { Candidature } from '@potentiel-domain/projet';
 
@@ -10,19 +10,6 @@ import { DateÉchéanceNonAttendueError } from '../../dateÉchéanceNonAttendue.
 import { GarantiesFinancièresAggregate } from '../../garantiesFinancières.aggregate';
 import { GarantiesFinancièresDéjàLevéesError } from '../../garantiesFinancièresDéjàLevées.error';
 import { AucunesGarantiesFinancièresActuellesError } from '../aucunesGarantiesFinancièresActuelles.error';
-
-export type GarantiesFinancièresModifiéesEvent = DomainEvent<
-  'GarantiesFinancièresModifiées-V1',
-  {
-    identifiantProjet: IdentifiantProjet.RawType;
-    type: Candidature.TypeGarantiesFinancières.RawType;
-    dateÉchéance?: DateTime.RawType;
-    attestation: { format: string };
-    dateConstitution: DateTime.RawType;
-    modifiéLe: DateTime.RawType;
-    modifiéPar: IdentifiantUtilisateur.RawType;
-  }
->;
 
 export type Options = {
   identifiantProjet: IdentifiantProjet.ValueType;
@@ -62,7 +49,7 @@ export async function modifier(
     throw new DateConstitutionDansLeFuturError();
   }
 
-  const event: GarantiesFinancièresModifiéesEvent = {
+  const event: Lauréat.GarantiesFinancières.GarantiesFinancièresModifiéesEvent = {
     type: 'GarantiesFinancièresModifiées-V1',
     payload: {
       attestation: { format: attestation.format },
@@ -82,7 +69,7 @@ export function applyModifierGarantiesFinancières(
   this: GarantiesFinancièresAggregate,
   {
     payload: { type, dateÉchéance, dateConstitution, attestation },
-  }: GarantiesFinancièresModifiéesEvent,
+  }: Lauréat.GarantiesFinancières.GarantiesFinancièresModifiéesEvent,
 ) {
   this.actuelles = {
     statut: StatutGarantiesFinancières.validé,

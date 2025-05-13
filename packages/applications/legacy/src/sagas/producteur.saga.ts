@@ -3,14 +3,14 @@ import { Event } from '@potentiel-infrastructure/pg-event-sourcing';
 import { IdentifiantProjet } from '@potentiel-domain/common';
 import { getLegacyProjetByIdentifiantProjet } from '../infra/sequelize/queries/project';
 import { logger, ok } from '../core/utils';
-import { Producteur } from '@potentiel-domain/laureat';
+import { Lauréat } from '@potentiel-domain/projet';
 import { eventStore } from '../config/eventStore.config';
 import { ProjectDataCorrected, ProjectProducteurUpdated } from '../modules/project';
 import { getUserByEmail } from '../infra/sequelize/queries/users/getUserByEmail';
 import { ModificationReceived } from '../modules/modificationRequest';
 import { UniqueEntityID } from '../core/domain';
 
-export type SubscriptionEvent = Producteur.ProducteurEvent & Event;
+export type SubscriptionEvent = Lauréat.Producteur.ProducteurEvent & Event;
 
 export type Execute = Message<'System.Saga.Producteur', SubscriptionEvent>;
 

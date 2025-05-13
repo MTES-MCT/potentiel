@@ -5,13 +5,10 @@ import {
   LoadAggregate,
 } from '@potentiel-domain/core';
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
-import { Candidature } from '@potentiel-domain/projet';
+import { Candidature, Lauréat } from '@potentiel-domain/projet';
 
 import {
   AttestationGarantiesFinancièresEnregistréeEvent,
-  GarantiesFinancièresEnregistréesEvent,
-  GarantiesFinancièresModifiéesEvent,
-  MotifDemandeGarantiesFinancières,
   StatutGarantiesFinancières,
   StatutMainlevéeGarantiesFinancières,
   TypeGarantiesFinancièresImportéEvent,
@@ -34,8 +31,6 @@ import {
   supprimerDépôtGarantiesFinancièresEnCours,
 } from './dépôtEnCours/supprimerDépôtEnCours/supprimerDépôtGarantiesFinancièresEnCours.behavior';
 import {
-  DépôtGarantiesFinancièresEnCoursValidéEvent,
-  DépôtGarantiesFinancièresEnCoursValidéEventV1,
   applyDépôtGarantiesFinancièresEnCoursValidé,
   applyDépôtGarantiesFinancièresEnCoursValidéV1,
   validerDépôtEnCours,
@@ -46,7 +41,6 @@ import {
   modifierDépôtGarantiesFinancièresEnCours,
 } from './dépôtEnCours/modifierDépôtEnCours/modifierDépôtGarantiesFinancièresEnCours.behavior';
 import {
-  HistoriqueGarantiesFinancièresEffacéEvent,
   applyEffacerHistoriqueGarantiesFinancières,
   effacerHistorique,
 } from './effacerHistorique/effacerHistoriqueGarantiesFinancières.behavior';
@@ -104,14 +98,14 @@ export type GarantiesFinancièresEvent =
   | GarantiesFinancièresDemandéesEvent
   | DépôtGarantiesFinancièresEnCoursSuppriméEventV1
   | DépôtGarantiesFinancièresEnCoursSuppriméEvent
-  | DépôtGarantiesFinancièresEnCoursValidéEventV1
-  | DépôtGarantiesFinancièresEnCoursValidéEvent
+  | Lauréat.GarantiesFinancières.DépôtGarantiesFinancièresEnCoursValidéEventV1
+  | Lauréat.GarantiesFinancières.DépôtGarantiesFinancièresEnCoursValidéEvent
   | DépôtGarantiesFinancièresEnCoursModifiéEvent
   | TypeGarantiesFinancièresImportéEvent
-  | GarantiesFinancièresModifiéesEvent
+  | Lauréat.GarantiesFinancières.GarantiesFinancièresModifiéesEvent
   | AttestationGarantiesFinancièresEnregistréeEvent
-  | GarantiesFinancièresEnregistréesEvent
-  | HistoriqueGarantiesFinancièresEffacéEvent
+  | Lauréat.GarantiesFinancières.GarantiesFinancièresEnregistréesEvent
+  | Lauréat.GarantiesFinancières.HistoriqueGarantiesFinancièresEffacéEvent
   | MainlevéeGarantiesFinancièresDemandéeEvent
   | DemandeMainlevéeGarantiesFinancièresAnnuléeEvent
   | InstructionDemandeMainlevéeGarantiesFinancièresDémarréeEvent
@@ -136,7 +130,7 @@ export type GarantiesFinancièresAggregate = Aggregate<GarantiesFinancièresEven
     soumisLe: DateTime.ValueType;
     attestation?: { format: string };
   };
-  motifDemandeGarantiesFinancières: MotifDemandeGarantiesFinancières.ValueType;
+  motifDemandeGarantiesFinancières: Lauréat.GarantiesFinancières.MotifDemandeGarantiesFinancières.ValueType;
   dateLimiteSoumission?: DateTime.ValueType;
   demandeMainlevéeEnCours?: {
     statut: StatutMainlevéeGarantiesFinancières.ValueType;
@@ -176,7 +170,8 @@ export const getDefaultGarantiesFinancièresAggregate: GetDefaultAggregateState<
   enregistrerAttestation,
   enregistrer,
   effacerHistorique,
-  motifDemandeGarantiesFinancières: MotifDemandeGarantiesFinancières.motifInconnu,
+  motifDemandeGarantiesFinancières:
+    Lauréat.GarantiesFinancières.MotifDemandeGarantiesFinancières.motifInconnu,
   demanderMainlevée,
   annulerDemandeMainlevée,
   démarrerInstructionDemandeMainlevée,

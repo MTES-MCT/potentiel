@@ -4,6 +4,7 @@ import { Routes } from '@potentiel-applications/routes';
 import { DocumentProjet } from '@potentiel-domain/document';
 import { Historique } from '@potentiel-domain/historique';
 import { Abandon } from '@potentiel-domain/laureat';
+import { Lauréat } from '@potentiel-domain/projet';
 import { DateTime } from '@potentiel-domain/common';
 
 import { DownloadDocument } from '@/components/atoms/form/document/DownloadDocument';
@@ -14,9 +15,12 @@ export const mapToAbandonDemandéTimelineItemProps = (
   const event = match(abandonDemandé)
     .with(
       { type: 'AbandonDemandé-V1' },
-      (event) => event as unknown as Abandon.AbandonDemandéEventV1,
+      (event) => event as unknown as Lauréat.Abandon.AbandonDemandéEventV1,
     )
-    .with({ type: 'AbandonDemandé-V2' }, (event) => event as unknown as Abandon.AbandonDemandéEvent)
+    .with(
+      { type: 'AbandonDemandé-V2' },
+      (event) => event as unknown as Lauréat.Abandon.AbandonDemandéEvent,
+    )
     .otherwise(() => undefined);
 
   if (!event) {

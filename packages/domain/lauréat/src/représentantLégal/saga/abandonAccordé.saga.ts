@@ -2,13 +2,13 @@ import { mediator } from 'mediateur';
 
 import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
 import { AnnulerTâchePlanifiéeCommand } from '@potentiel-domain/tache-planifiee';
+import { Lauréat } from '@potentiel-domain/projet';
 
-import { AbandonAccordéEvent } from '../../abandon';
 import { SupprimerChangementReprésentantLégalCommand } from '../changement/supprimer/supprimerChangementReprésentantLégal.command';
 import { TypeTâchePlanifiéeChangementReprésentantLégal } from '..';
 import { SupprimerDocumentProjetSensibleCommand } from '../changement/supprimerDocumentSensible/supprimerDocumentProjetSensible.command';
 
-export const abandonAccordéSaga = async ({ payload }: AbandonAccordéEvent) => {
+export const abandonAccordéSaga = async ({ payload }: Lauréat.Abandon.AbandonAccordéEvent) => {
   const identifiantProjet = IdentifiantProjet.convertirEnValueType(payload.identifiantProjet);
 
   await mediator.send<SupprimerChangementReprésentantLégalCommand>({

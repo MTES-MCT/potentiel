@@ -3,7 +3,7 @@ import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 
 import { Option } from '@potentiel-libraries/monads';
-import { Producteur } from '@potentiel-domain/laureat';
+import { Lauréat } from '@potentiel-domain/projet';
 import { IdentifiantProjet } from '@potentiel-domain/common';
 import { mapToPlainObject } from '@potentiel-domain/core';
 
@@ -22,7 +22,7 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
   return PageWithErrorHandling(async () => {
     const identifiantProjet = IdentifiantProjet.convertirEnValueType(decodeParameter(identifiant));
 
-    const producteurActuel = await mediator.send<Producteur.ConsulterProducteurQuery>({
+    const producteurActuel = await mediator.send<Lauréat.Producteur.ConsulterProducteurQuery>({
       type: 'Lauréat.Producteur.Query.ConsulterProducteur',
       data: {
         identifiantProjet: identifiantProjet.formatter(),

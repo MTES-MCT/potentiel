@@ -8,6 +8,7 @@ import { ConsulterDocumentProjetQuery } from '@potentiel-domain/document';
 import { Option } from '@potentiel-libraries/monads';
 import { Abandon } from '@potentiel-domain/laureat';
 import { IdentifiantProjet } from '@potentiel-domain/common';
+import { Lauréat } from '@potentiel-domain/projet';
 
 import { PotentielWorld } from '../../../../potentiel.world';
 import { convertReadableStreamToString } from '../../../../helpers/convertReadableToString';
@@ -23,7 +24,7 @@ Alors(
       vérifierAbandon.call(
         this,
         this.lauréatWorld.abandonWorld.demanderAbandonFixture.identifiantProjet,
-        Abandon.StatutAbandon.demandé,
+        Lauréat.Abandon.StatutAbandon.demandé,
       ),
     );
   },
@@ -47,7 +48,7 @@ Alors(`l'abandon du projet lauréat devrait être rejeté`, async function (this
     vérifierAbandon.call(
       this,
       this.lauréatWorld.abandonWorld.demanderAbandonFixture.identifiantProjet,
-      Abandon.StatutAbandon.rejeté,
+      Lauréat.Abandon.StatutAbandon.rejeté,
     ),
   );
 });
@@ -57,7 +58,7 @@ Alors(`l'abandon du projet lauréat devrait être accordé`, async function (thi
     vérifierAbandon.call(
       this,
       this.lauréatWorld.abandonWorld.demanderAbandonFixture.identifiantProjet,
-      Abandon.StatutAbandon.accordé,
+      Lauréat.Abandon.StatutAbandon.accordé,
     ),
   );
 });
@@ -69,7 +70,7 @@ Alors(
       vérifierAbandon.call(
         this,
         this.lauréatWorld.abandonWorld.demanderAbandonFixture.identifiantProjet,
-        Abandon.StatutAbandon.confirmationDemandée,
+        Lauréat.Abandon.StatutAbandon.confirmationDemandée,
       ),
     );
   },
@@ -80,7 +81,7 @@ Alors(`l'abandon du projet lauréat devrait être confirmé`, async function (th
     vérifierAbandon.call(
       this,
       this.lauréatWorld.abandonWorld.demanderAbandonFixture.identifiantProjet,
-      Abandon.StatutAbandon.confirmé,
+      Lauréat.Abandon.StatutAbandon.confirmé,
     ),
   );
 });
@@ -92,7 +93,7 @@ Alors(
       vérifierAbandon.call(
         this,
         this.lauréatWorld.abandonWorld.demanderAbandonFixture.identifiantProjet,
-        Abandon.StatutAbandon.accordé,
+        Lauréat.Abandon.StatutAbandon.accordé,
       ),
     );
   },
@@ -105,7 +106,7 @@ Alors(
       vérifierAbandon.call(
         this,
         this.lauréatWorld.abandonWorld.demanderAbandonFixture.identifiantProjet,
-        Abandon.StatutAbandon.accordé,
+        Lauréat.Abandon.StatutAbandon.accordé,
       ),
     );
   },
@@ -118,7 +119,7 @@ Alors(
       vérifierAbandon.call(
         this,
         this.lauréatWorld.abandonWorld.demanderAbandonFixture.identifiantProjet,
-        Abandon.StatutAbandon.enInstruction,
+        Lauréat.Abandon.StatutAbandon.enInstruction,
       ),
     );
   },
@@ -127,7 +128,7 @@ Alors(
 async function vérifierAbandon(
   this: PotentielWorld,
   identifiantProjet: string,
-  statut: Abandon.StatutAbandon.ValueType,
+  statut: Lauréat.Abandon.StatutAbandon.ValueType,
 ) {
   const abandon = await mediator.send<Abandon.ConsulterAbandonQuery>({
     type: 'Lauréat.Abandon.Query.ConsulterAbandon',

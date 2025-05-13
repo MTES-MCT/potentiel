@@ -1,6 +1,6 @@
 import { FC } from 'react';
 
-import { Producteur } from '@potentiel-domain/laureat';
+import { Lauréat } from '@potentiel-domain/projet';
 import { PlainType } from '@potentiel-domain/core';
 import { IdentifiantProjet } from '@potentiel-domain/common';
 
@@ -12,7 +12,7 @@ import { EnregistrerChangementProducteurForm } from './EnregistrerChangementProd
 import { InfoBoxAprèsAchèvement, InfoBoxRévocationDesDroits } from './InfoBoxProducteur';
 
 export type EnregistrerChangementProducteurPageProps =
-  PlainType<Producteur.ConsulterProducteurReadModel>;
+  PlainType<Lauréat.Producteur.ConsulterProducteurReadModel>;
 
 export const EnregistrerChangementProducteurPage: FC<EnregistrerChangementProducteurPageProps> = ({
   identifiantProjet,

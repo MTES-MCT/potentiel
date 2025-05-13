@@ -1,4 +1,4 @@
-import { Producteur } from '@potentiel-domain/laureat';
+import { Lauréat } from '@potentiel-domain/projet';
 
 import { Option } from '@potentiel-libraries/monads';
 import { Candidature } from '@potentiel-domain/projet';
@@ -39,7 +39,7 @@ export const getProducteur = async ({
 
     const role = Role.convertirEnValueType(rôle);
 
-    const producteurProjection = await mediator.send<Producteur.ConsulterProducteurQuery>({
+    const producteurProjection = await mediator.send<Lauréat.Producteur.ConsulterProducteurQuery>({
       type: 'Lauréat.Producteur.Query.ConsulterProducteur',
       data: { identifiantProjet: identifiantProjet.formatter() },
     });

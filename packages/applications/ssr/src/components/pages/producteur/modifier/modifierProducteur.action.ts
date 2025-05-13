@@ -3,7 +3,7 @@
 import { mediator } from 'mediateur';
 import * as zod from 'zod';
 
-import { Producteur } from '@potentiel-domain/laureat';
+import { Lauréat } from '@potentiel-domain/projet';
 import { Routes } from '@potentiel-applications/routes';
 
 import { FormAction, formAction, FormState } from '@/utils/formAction';
@@ -19,7 +19,7 @@ export type ModifierProducteurFormKeys = keyof zod.infer<typeof schema>;
 
 const action: FormAction<FormState, typeof schema> = async (_, { identifiantProjet, producteur }) =>
   withUtilisateur(async (utilisateur) => {
-    await mediator.send<Producteur.ModifierProducteurUseCase>({
+    await mediator.send<Lauréat.Producteur.ModifierProducteurUseCase>({
       type: 'Lauréat.Producteur.UseCase.ModifierProducteur',
       data: {
         identifiantProjetValue: identifiantProjet,

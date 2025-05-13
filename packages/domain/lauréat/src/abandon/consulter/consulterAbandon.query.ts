@@ -4,15 +4,15 @@ import { Option } from '@potentiel-libraries/monads';
 import { IdentifiantProjet, DateTime, Email } from '@potentiel-domain/common';
 import { DocumentProjet } from '@potentiel-domain/document';
 import { Find } from '@potentiel-domain/entity';
+import { Lauréat } from '@potentiel-domain/projet';
 
-import * as StatutAbandon from '../statutAbandon.valueType';
 import * as TypeDocumentAbandon from '../typeDocumentAbandon.valueType';
 import * as StatutPreuveRecandidature from '../statutPreuveRecandidature.valueType';
 import { AbandonEntity } from '../abandon.entity';
 
 export type ConsulterAbandonReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
-  statut: StatutAbandon.ValueType;
+  statut: Lauréat.Abandon.StatutAbandon.ValueType;
   demande: {
     demandéPar: Email.ValueType;
     demandéLe: DateTime.ValueType;
@@ -176,6 +176,6 @@ const mapToReadModel = (result: AbandonEntity) => {
         : undefined,
     },
     identifiantProjet: IdentifiantProjet.convertirEnValueType(result.identifiantProjet),
-    statut: StatutAbandon.convertirEnValueType(result.statut),
+    statut: Lauréat.Abandon.StatutAbandon.convertirEnValueType(result.statut),
   } satisfies ConsulterAbandonReadModel;
 };

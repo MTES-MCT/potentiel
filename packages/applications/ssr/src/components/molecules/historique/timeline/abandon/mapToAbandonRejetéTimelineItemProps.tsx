@@ -2,6 +2,7 @@ import { Routes } from '@potentiel-applications/routes';
 import { DocumentProjet } from '@potentiel-domain/document';
 import { Historique } from '@potentiel-domain/historique';
 import { Abandon } from '@potentiel-domain/laureat';
+import { Lauréat } from '@potentiel-domain/projet';
 
 import { DownloadDocument } from '@/components/atoms/form/document/DownloadDocument';
 
@@ -13,7 +14,7 @@ export const mapToAbandonRejetéTimelineItemProps = (
     rejetéPar,
     réponseSignée: { format },
     identifiantProjet,
-  } = abandonAnnulé.payload as Abandon.AbandonRejetéEvent['payload'];
+  } = abandonAnnulé.payload as Lauréat.Abandon.AbandonRejetéEvent['payload'];
 
   const réponseSignée = DocumentProjet.convertirEnValueType(
     identifiantProjet,

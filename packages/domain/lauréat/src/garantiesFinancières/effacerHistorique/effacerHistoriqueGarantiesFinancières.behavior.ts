@@ -1,17 +1,9 @@
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
-import { DomainEvent, InvalidOperationError } from '@potentiel-domain/core';
+import { InvalidOperationError } from '@potentiel-domain/core';
+import { Lauréat } from '@potentiel-domain/projet';
 import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
 
 import { GarantiesFinancièresAggregate } from '../garantiesFinancières.aggregate';
-
-export type HistoriqueGarantiesFinancièresEffacéEvent = DomainEvent<
-  'HistoriqueGarantiesFinancièresEffacé-V1',
-  {
-    identifiantProjet: IdentifiantProjet.RawType;
-    effacéLe: DateTime.RawType;
-    effacéPar: IdentifiantUtilisateur.RawType;
-  }
->;
 
 export type Options = {
   identifiantProjet: IdentifiantProjet.ValueType;
@@ -27,7 +19,7 @@ export async function effacerHistorique(
     throw new AucunHistoriqueÀEffacerError();
   }
 
-  const event: HistoriqueGarantiesFinancièresEffacéEvent = {
+  const event: Lauréat.GarantiesFinancières.HistoriqueGarantiesFinancièresEffacéEvent = {
     type: 'HistoriqueGarantiesFinancièresEffacé-V1',
     payload: {
       identifiantProjet: identifiantProjet.formatter(),
@@ -41,7 +33,7 @@ export async function effacerHistorique(
 
 export function applyEffacerHistoriqueGarantiesFinancières(
   this: GarantiesFinancièresAggregate,
-  _: HistoriqueGarantiesFinancièresEffacéEvent,
+  _: Lauréat.GarantiesFinancières.HistoriqueGarantiesFinancièresEffacéEvent,
 ) {
   this.actuelles = undefined;
   this.dépôtsEnCours = undefined;

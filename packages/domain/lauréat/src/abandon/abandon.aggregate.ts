@@ -7,26 +7,17 @@ import {
 import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
 import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
 import { DocumentProjet } from '@potentiel-domain/document';
+import { Lauréat } from '@potentiel-domain/projet';
 
-import * as StatutAbandon from './statutAbandon.valueType';
-import {
-  AbandonDemandéEvent,
-  AbandonDemandéEventV1,
-  applyAbandonDemandé,
-  demander,
-} from './demander/demanderAbandon.behavior';
+import { applyAbandonDemandé, demander } from './demander/demanderAbandon.behavior';
 import {
   ConfirmationAbandonDemandéeEvent,
   applyConfirmationAbandonDemandée,
   demanderConfirmation,
 } from './demanderConfirmation/demanderConfirmationAbandon.behavior';
-import { AbandonRejetéEvent, applyAbandonRejeté, rejeter } from './rejeter/rejeterAbandon.behavior';
-import {
-  AbandonAccordéEvent,
-  accorder,
-  applyAbandonAccordé,
-} from './accorder/accorderAbandon.behavior';
-import { AbandonAnnuléEvent, annuler, applyAbandonAnnulé } from './annuler/annulerAbandon.behavior';
+import { applyAbandonRejeté, rejeter } from './rejeter/rejeterAbandon.behavior';
+import { accorder, applyAbandonAccordé } from './accorder/accorderAbandon.behavior';
+import { annuler, applyAbandonAnnulé } from './annuler/annulerAbandon.behavior';
 import {
   AbandonConfirméEvent,
   applyAbandonConfirmé,
@@ -49,11 +40,11 @@ import {
 } from './instruire/passerAbandonEnInstruction.behavior';
 
 export type AbandonEvent =
-  | AbandonDemandéEventV1
-  | AbandonDemandéEvent
-  | AbandonAnnuléEvent
-  | AbandonRejetéEvent
-  | AbandonAccordéEvent
+  | Lauréat.Abandon.AbandonDemandéEventV1
+  | Lauréat.Abandon.AbandonDemandéEvent
+  | Lauréat.Abandon.AbandonAnnuléEvent
+  | Lauréat.Abandon.AbandonRejetéEvent
+  | Lauréat.Abandon.AbandonAccordéEvent
   | ConfirmationAbandonDemandéeEvent
   | AbandonConfirméEvent
   | PreuveRecandidatureTransmiseEvent
@@ -61,7 +52,7 @@ export type AbandonEvent =
   | AbandonPasséEnInstructionEvent;
 
 export type AbandonAggregate = Aggregate<AbandonEvent> & {
-  statut: StatutAbandon.ValueType;
+  statut: Lauréat.Abandon.StatutAbandon.ValueType;
   demande: {
     raison: string;
     pièceJustificative?: DocumentProjet.ValueType;
@@ -114,7 +105,7 @@ export const getDefaultAbandonAggregate: GetDefaultAggregateState<
   AbandonEvent
 > = () => ({
   apply,
-  statut: StatutAbandon.convertirEnValueType('inconnu'),
+  statut: Lauréat.Abandon.StatutAbandon.convertirEnValueType('inconnu'),
   demande: {
     raison: '',
     demandéPar: IdentifiantUtilisateur.unknownUser,

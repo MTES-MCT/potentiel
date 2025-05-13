@@ -15,14 +15,21 @@ import { registerModifierLauréatUseCase } from './modifier/modifierLauréat.use
 import { registerNotifierLauréatCommand } from './notifier/notifierLauréat.command';
 import { registerNotifierLauréatUseCase } from './notifier/notifierLauréat.usecase';
 import { DélaiQueryDependencies, registerDélaiQueries } from './délai';
+import { registerProducteurUseCases, registerProducteurQueries } from './producteur';
+import {
+  ProducteurCommandDependencies,
+  ProducteurQueryDependencies,
+} from './producteur/producteur.register';
+import { registerGarantiesFinancièresUseCases } from './garanties-financières/garantiesFinancières.register';
 
 export type LauréatQueryDependencies = ConsulterLauréatDependencies &
   ConsulterCahierDesChargesChoisiDependencies &
-  DélaiQueryDependencies;
+  DélaiQueryDependencies &
+  ProducteurQueryDependencies;
 
 export type LauréatCommandDependencies = {
   getProjetAggregateRoot: GetProjetAggregateRoot;
-};
+} & ProducteurCommandDependencies;
 
 export const registerLauréatUseCases = (dependencies: LauréatCommandDependencies) => {
   registerNotifierLauréatCommand(dependencies.getProjetAggregateRoot);
@@ -33,6 +40,9 @@ export const registerLauréatUseCases = (dependencies: LauréatCommandDependenci
 
   registerChoisirCahierDesChargesUseCase();
   registerChoisirCahierDesChargesCommand(dependencies.getProjetAggregateRoot);
+
+  registerProducteurUseCases(dependencies);
+  registerGarantiesFinancièresUseCases(dependencies);
 };
 
 export const registerLauréatQueries = (dependencies: LauréatQueryDependencies) => {
@@ -40,4 +50,5 @@ export const registerLauréatQueries = (dependencies: LauréatQueryDependencies)
   registerConsulterCahierDesChargesChoisiQuery(dependencies);
 
   registerDélaiQueries(dependencies);
+  registerProducteurQueries(dependencies);
 };

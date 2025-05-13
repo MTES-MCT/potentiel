@@ -3,12 +3,10 @@ import { match } from 'ts-pattern';
 
 import { Lauréat } from '@potentiel-domain/projet';
 
-import { AbandonAccordéEvent } from '../../abandon';
-
 import { lauréatNotifiéSaga } from './lauréatNotifié.saga';
 import { abandonAccordéSaga } from './abandonAccordé.saga';
 
-export type SubscriptionEvent = Lauréat.LauréatNotifiéEvent | AbandonAccordéEvent;
+export type SubscriptionEvent = Lauréat.LauréatNotifiéEvent | Lauréat.Abandon.AbandonAccordéEvent;
 
 export type Execute = Message<'System.Lauréat.Actionnaire.Saga.Execute', SubscriptionEvent>;
 

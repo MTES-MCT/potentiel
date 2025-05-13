@@ -1,8 +1,8 @@
 import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
 import { DomainEvent, InvalidOperationError } from '@potentiel-domain/core';
+import { Lauréat } from '@potentiel-domain/projet';
 
 import { AbandonAggregate } from '../abandon.aggregate';
-import * as StatutAbandon from '../statutAbandon.valueType';
 
 export type AbandonPasséEnInstructionEvent = DomainEvent<
   'AbandonPasséEnInstruction-V1',
@@ -23,7 +23,9 @@ export async function passerEnInstruction(
   this: AbandonAggregate,
   { dateInstruction, identifiantUtilisateur, identifiantProjet }: InstruireOptions,
 ) {
-  this.statut.vérifierQueLeChangementDeStatutEstPossibleEn(StatutAbandon.enInstruction);
+  this.statut.vérifierQueLeChangementDeStatutEstPossibleEn(
+    Lauréat.Abandon.StatutAbandon.enInstruction,
+  );
 
   if (this.demande.instruction?.instruitPar.estÉgaleÀ(identifiantUtilisateur)) {
     throw new AbandonDéjàEnInstructionAvecLeMêmeAdministrateurError();
@@ -45,7 +47,7 @@ export function applyAbandonPasséEnInstruction(
   this: AbandonAggregate,
   { payload: { passéEnInstructionLe, passéEnInstructionPar } }: AbandonPasséEnInstructionEvent,
 ) {
-  this.statut = StatutAbandon.enInstruction;
+  this.statut = Lauréat.Abandon.StatutAbandon.enInstruction;
   this.demande.instruction = {
     démarréLe:
       this.demande.instruction?.démarréLe ?? DateTime.convertirEnValueType(passéEnInstructionLe),

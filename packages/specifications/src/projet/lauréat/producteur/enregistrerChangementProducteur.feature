@@ -8,11 +8,12 @@ Fonctionnalité: Enregistrer un changement de producteur d'un projet lauréat
             | période       | 1               |
         Et la dreal "Dreal du sud" associée à la région du projet
         Quand le porteur enregistre un changement de producteur pour le projet lauréat
-        Alors le porteur ne doit plus avoir accès au projet lauréat
+        Alors le producteur du projet lauréat devrait être mis à jour
+        Et le changement enregistré du producteur du projet lauréat devrait être consultable
+        Et le porteur ne doit plus avoir accès au projet lauréat
         Et le projet lauréat est consultable dans la liste des projets à réclamer
         Et il ne devrait pas y avoir de dépôt de garanties financières pour le projet "Du boulodrome de Marseille"
         Et il ne devrait pas y avoir de garanties financières actuelles pour le projet "Du boulodrome de Marseille"
-        Et le changement enregistré du producteur du projet lauréat devrait être consultable
 
     # Et un email a été envoyé au porteur avec :
     #     | sujet      | Potentiel - Déclaration de changement de producteur pour le projet Du boulodrome de Marseille dans le département(.*) |
@@ -39,7 +40,7 @@ Fonctionnalité: Enregistrer un changement de producteur d'un projet lauréat
         Etant donné le projet lauréat "Du boulodrome de Marseille" avec :
             | appel d'offre | PPE2 - Bâtiment |
             | période       | 1               |
-        Etant donné un abandon accordé pour le projet lauréat
+        Et un abandon accordé pour le projet lauréat
         Quand le porteur enregistre un changement de producteur pour le projet lauréat
         Alors le porteur devrait être informé que "Impossible d'enregistrer un changement de producteur pour un projet abandonné"
 
@@ -47,7 +48,7 @@ Fonctionnalité: Enregistrer un changement de producteur d'un projet lauréat
         Etant donné le projet lauréat "Du boulodrome de Marseille" avec :
             | appel d'offre | PPE2 - Bâtiment |
             | période       | 1               |
-        Etant donné une demande d'abandon en cours pour le projet lauréat
+        Et une demande d'abandon en cours pour le projet lauréat
         Quand le porteur enregistre un changement de producteur pour le projet lauréat
         Alors le porteur devrait être informé que "Impossible d'enregistrer un changement de producteur car une demande d'abandon est en cours pour le projet"
 
@@ -55,6 +56,6 @@ Fonctionnalité: Enregistrer un changement de producteur d'un projet lauréat
         Etant donné le projet lauréat "Du boulodrome de Marseille" avec :
             | appel d'offre | PPE2 - Bâtiment |
             | période       | 1               |
-        Etant donné une attestation de conformité transmise pour le projet lauréat
+        Et une attestation de conformité transmise pour le projet lauréat
         Quand le porteur enregistre un changement de producteur pour le projet lauréat
         Alors le porteur devrait être informé que "Impossible d'enregistrer un changement de producteur pour un projet achevé"

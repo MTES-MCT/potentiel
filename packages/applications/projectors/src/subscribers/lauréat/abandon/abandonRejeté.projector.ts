@@ -1,9 +1,10 @@
+import { Lauréat } from '@potentiel-domain/projet';
 import { Abandon } from '@potentiel-domain/laureat';
 import { updateOneProjection } from '@potentiel-infrastructure/pg-projection-write';
 
 export const abandonRejetéProjector = async ({
   payload: { identifiantProjet, rejetéLe, rejetéPar, réponseSignée },
-}: Abandon.AbandonRejetéEvent) => {
+}: Lauréat.Abandon.AbandonRejetéEvent) => {
   await updateOneProjection<Abandon.AbandonEntity>(`abandon|${identifiantProjet}`, {
     demande: {
       rejet: {
@@ -14,7 +15,7 @@ export const abandonRejetéProjector = async ({
         },
       },
     },
-    statut: Abandon.StatutAbandon.rejeté.statut,
+    statut: Lauréat.Abandon.StatutAbandon.rejeté.statut,
     misÀJourLe: rejetéLe,
   });
 };

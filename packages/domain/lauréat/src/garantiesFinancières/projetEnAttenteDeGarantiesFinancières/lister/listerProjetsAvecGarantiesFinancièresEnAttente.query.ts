@@ -3,11 +3,9 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 import { RécupérerIdentifiantsProjetParEmailPorteurPort } from '@potentiel-domain/utilisateur';
 import { Where, List, RangeOptions, Joined } from '@potentiel-domain/entity';
+import { Lauréat } from '@potentiel-domain/projet';
 
-import {
-  MotifDemandeGarantiesFinancières,
-  ProjetAvecGarantiesFinancièresEnAttenteEntity,
-} from '../..';
+import { ProjetAvecGarantiesFinancièresEnAttenteEntity } from '../..';
 import {
   Utilisateur,
   getRoleBasedWhereCondition,
@@ -17,7 +15,7 @@ import { LauréatEntity } from '../../../lauréat.entity';
 type ProjetAvecGarantiesFinancièresEnAttenteListItemReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
   nomProjet: string;
-  motif: MotifDemandeGarantiesFinancières.ValueType;
+  motif: Lauréat.GarantiesFinancières.MotifDemandeGarantiesFinancières.ValueType;
   dateLimiteSoumission: DateTime.ValueType;
   dernièreMiseÀJour: {
     date: DateTime.ValueType;
@@ -117,7 +115,7 @@ const mapToReadModel = ({
   Joined<LauréatEntity>): ProjetAvecGarantiesFinancièresEnAttenteListItemReadModel => ({
   identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
   nomProjet,
-  motif: MotifDemandeGarantiesFinancières.convertirEnValueType(motif),
+  motif: Lauréat.GarantiesFinancières.MotifDemandeGarantiesFinancières.convertirEnValueType(motif),
   dateLimiteSoumission: DateTime.convertirEnValueType(dateLimiteSoumission),
   dernièreMiseÀJour: {
     date: DateTime.convertirEnValueType(date),

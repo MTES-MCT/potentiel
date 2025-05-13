@@ -1,6 +1,11 @@
 import { match } from 'ts-pattern';
 
-import { AbstractAggregate, LoadAggregateV2, mapToPlainObject } from '@potentiel-domain/core';
+import {
+  AbstractAggregate,
+  AggregateType,
+  LoadAggregateV2,
+  mapToPlainObject,
+} from '@potentiel-domain/core';
 import { DateTime } from '@potentiel-domain/common';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 
@@ -24,6 +29,10 @@ import {
 } from './lauréat.error';
 import { CahierDesChargesChoisiEvent } from './choisir/cahierDesChargesChoisi.event';
 import { ChoisirCahierDesChargesOptions } from './choisir/choisirCahierDesCharges.option';
+import { AbandonAggregate } from './abandon/abandon.aggregate';
+import { AchèvementAggregate } from './achèvement/achèvement.aggregate';
+import { ProducteurAggregate } from './producteur/producteur.aggregate';
+import { GarantiesFinancièresAggregate } from './garanties-financières/garantiesFinancières.aggregate';
 
 export class LauréatAggregate extends AbstractAggregate<LauréatEvent> {
   #projet!: ProjetAggregateRoot;
@@ -37,8 +46,56 @@ export class LauréatAggregate extends AbstractAggregate<LauréatEvent> {
     return this.#projet;
   }
 
-  async init(projet: ProjetAggregateRoot, _loadAggregate: LoadAggregateV2) {
+  get estNotifié() {
+    return !!this.#notifiéLe;
+  }
+
+  #abandon!: AggregateType<AbandonAggregate>;
+  get abandon() {
+    return this.#abandon;
+  }
+
+  #achèvement!: AggregateType<AchèvementAggregate>;
+  get achèvement() {
+    return this.#achèvement;
+  }
+
+  #producteur!: AggregateType<ProducteurAggregate>;
+  get producteur() {
+    return this.#producteur;
+  }
+
+  #garantiesFinancières!: AggregateType<GarantiesFinancièresAggregate>;
+  get garantiesFinancières() {
+    return this.#garantiesFinancières;
+  }
+
+  async init(projet: ProjetAggregateRoot, loadAggregate: LoadAggregateV2) {
     this.#projet = projet;
+
+    this.#abandon = await loadAggregate(
+      `abandon|${this.projet.identifiantProjet.formatter()}`,
+      AbandonAggregate,
+    );
+    await this.#abandon.init(this);
+
+    this.#achèvement = await loadAggregate(
+      `achevement|${this.projet.identifiantProjet.formatter()}`,
+      AchèvementAggregate,
+    );
+    await this.#achèvement.init(this);
+
+    this.#producteur = await loadAggregate(
+      `producteur|${this.projet.identifiantProjet.formatter()}`,
+      ProducteurAggregate,
+    );
+    await this.#producteur.init(this);
+
+    this.#garantiesFinancières = await loadAggregate(
+      `garanties-financieres|${this.projet.identifiantProjet.formatter()}`,
+      GarantiesFinancièresAggregate,
+    );
+    await this.#garantiesFinancières.init(this);
   }
 
   async notifier({ attestation: { format } }: { attestation: { format: string } }) {
@@ -59,6 +116,13 @@ export class LauréatAggregate extends AbstractAggregate<LauréatEvent> {
     };
 
     await this.publish(event);
+
+    await this.producteur.importer({
+      identifiantProjet: this.#projet.identifiantProjet,
+      dateImport: notifiéeLe,
+      identifiantUtilisateur: notifiéePar,
+      producteur: this.projet.candidature.nomCandidat,
+    });
   }
 
   async modifier({

@@ -8,7 +8,6 @@ import {
   Actionnaire,
   Raccordement,
   Puissance,
-  Producteur,
 } from '@potentiel-domain/laureat';
 import { Event, loadAggregate, subscribe } from '@potentiel-infrastructure/pg-event-sourcing';
 import {
@@ -91,7 +90,6 @@ export const setupLauréat = async ({
     récupérerGRDParVille,
   });
   Puissance.PuissanceSaga.register();
-  Producteur.ProducteurSaga.register();
 
   const unsubscribeLauréatNotifications = await subscribe<LauréatNotification.SubscriptionEvent>({
     name: 'notifications',
@@ -172,14 +170,16 @@ export const setupLauréat = async ({
     streamCategory: 'abandon',
   });
 
-  const unsubscribeProducteurProjector = await subscribe<ProducteurProjector.SubscriptionEvent>({
+  const unsubscribeProducteurProjector = await subscribe<
+    ProducteurProjector.SubscriptionEvent & Event
+  >({
     name: 'projector',
     streamCategory: 'producteur',
     eventType: [
       'RebuildTriggered',
       'ProducteurImporté-V1',
-      'ChangementProducteurEnregistré-V1',
       'ProducteurModifié-V1',
+      'ChangementProducteurEnregistré-V1',
     ],
     eventHandler: async (event) => {
       await mediator.send<ProducteurProjector.Execute>({
@@ -527,19 +527,6 @@ export const setupLauréat = async ({
       }),
   });
 
-  const unsubscribeProducteurSagaLauréat = await subscribe<
-    Producteur.ProducteurSaga.SubscriptionEvent & Event
-  >({
-    name: 'producteur-laureat-saga',
-    streamCategory: 'lauréat',
-    eventType: ['LauréatNotifié-V2'],
-    eventHandler: async (event) =>
-      mediator.publish<Producteur.ProducteurSaga.Execute>({
-        type: 'System.Lauréat.Producteur.Saga.Execute',
-        data: event,
-      }),
-  });
-
   return async () => {
     // projectors
     await unsubscribeAbandonProjector();
@@ -569,6 +556,5 @@ export const setupLauréat = async ({
     await unsubscribeRaccordementLauréatSaga();
     await unsubscribePuissanceSagaLauréat();
     await unsubscribePuissanceSagaAbandon();
-    await unsubscribeProducteurSagaLauréat();
   };
 };

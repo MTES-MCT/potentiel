@@ -5,11 +5,11 @@ import {
   LoadAggregate,
 } from '@potentiel-domain/core';
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
+import { Lauréat } from '@potentiel-domain/projet';
 import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
 import { Option } from '@potentiel-libraries/monads';
 
 import {
-  AttestationConformitéTransmiseEvent,
   applyAttestationConformitéTransmise,
   transmettre,
 } from './transmettre/transmettreAttestationConformité.behavior';
@@ -20,7 +20,7 @@ import {
 } from './modifier/modifierAttestationConformité.behavior';
 
 export type AchèvementEvent =
-  | AttestationConformitéTransmiseEvent
+  | Lauréat.Achèvement.AttestationConformitéTransmiseEvent
   | AttestationConformitéModifiéeEvent;
 
 export type AchèvementAggregate = Aggregate<AchèvementEvent> & {

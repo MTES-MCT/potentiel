@@ -53,15 +53,8 @@ export type {
 
 // Event
 export type { AbandonEvent } from './abandon.aggregate';
-export type { AbandonAnnuléEvent } from './annuler/annulerAbandon.behavior';
-export type {
-  AbandonDemandéEventV1,
-  AbandonDemandéEvent,
-} from './demander/demanderAbandon.behavior';
 export type { ConfirmationAbandonDemandéeEvent } from './demanderConfirmation/demanderConfirmationAbandon.behavior';
 export type { AbandonConfirméEvent } from './confirmer/confirmerAbandon.behavior';
-export type { AbandonRejetéEvent } from './rejeter/rejeterAbandon.behavior';
-export type { AbandonAccordéEvent } from './accorder/accorderAbandon.behavior';
 export type { PreuveRecandidatureDemandéeEvent } from './demanderPreuveRecandidature/demanderPreuveRecandidatureAbandon.behavior';
 export type { PreuveRecandidatureTransmiseEvent } from './transmettre/transmettrePreuveRecandidatureAbandon.behavior';
 export type { AbandonPasséEnInstructionEvent } from './instruire/passerAbandonEnInstruction.behavior';
@@ -69,8 +62,6 @@ export type { AbandonPasséEnInstructionEvent } from './instruire/passerAbandonE
 // Register
 export { registerAbandonQueries, registerAbandonUseCases } from './abandon.register';
 
-// ValueTypes
-export * as StatutAbandon from './statutAbandon.valueType';
 export * as StatutPreuveRecandidature from './statutPreuveRecandidature.valueType';
 export * as TypeDocumentAbandon from './typeDocumentAbandon.valueType';
 

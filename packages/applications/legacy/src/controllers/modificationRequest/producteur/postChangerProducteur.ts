@@ -26,6 +26,7 @@ import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
 import { mediator } from 'mediateur';
 import { GarantiesFinancières } from '@potentiel-domain/laureat';
 import { ListerPorteursQuery, RetirerAccèsProjetUseCase } from '@potentiel-domain/utilisateur';
+import { Lauréat } from '@potentiel-domain/projet';
 
 const schema = yup.object({
   body: yup.object({
@@ -177,7 +178,8 @@ const renouvelerGarantiesFinancières = async (
       dateLimiteSoumissionValue: new Date(
         dateActuelle.setMonth(dateActuelle.getMonth() + 2),
       ).toISOString(),
-      motifValue: GarantiesFinancières.MotifDemandeGarantiesFinancières.changementProducteur.motif,
+      motifValue:
+        Lauréat.GarantiesFinancières.MotifDemandeGarantiesFinancières.changementProducteur.motif,
     },
   });
 };

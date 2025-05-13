@@ -1,26 +1,13 @@
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
-import { DomainEvent, InvalidOperationError } from '@potentiel-domain/core';
+import { InvalidOperationError } from '@potentiel-domain/core';
 import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
-import { Candidature } from '@potentiel-domain/projet';
+import { Candidature, Lauréat } from '@potentiel-domain/projet';
 
 import { StatutGarantiesFinancières } from '../..';
 import { DateConstitutionDansLeFuturError } from '../../dateConstitutionDansLeFutur.error';
 import { DateÉchéanceManquanteError } from '../../dateÉchéanceManquante.error';
 import { DateÉchéanceNonAttendueError } from '../../dateÉchéanceNonAttendue.error';
 import { GarantiesFinancièresAggregate } from '../../garantiesFinancières.aggregate';
-
-export type GarantiesFinancièresEnregistréesEvent = DomainEvent<
-  'GarantiesFinancièresEnregistrées-V1',
-  {
-    identifiantProjet: IdentifiantProjet.RawType;
-    type: Candidature.TypeGarantiesFinancières.RawType;
-    dateÉchéance?: DateTime.RawType;
-    attestation: { format: string };
-    dateConstitution: DateTime.RawType;
-    enregistréLe: DateTime.RawType;
-    enregistréPar: IdentifiantUtilisateur.RawType;
-  }
->;
 
 export type Options = {
   identifiantProjet: IdentifiantProjet.ValueType;
@@ -57,7 +44,7 @@ export async function enregistrer(
     throw new DateConstitutionDansLeFuturError();
   }
 
-  const event: GarantiesFinancièresEnregistréesEvent = {
+  const event: Lauréat.GarantiesFinancières.GarantiesFinancièresEnregistréesEvent = {
     type: 'GarantiesFinancièresEnregistrées-V1',
     payload: {
       attestation: { format: attestation.format },
@@ -77,7 +64,7 @@ export function applyEnregistrerGarantiesFinancières(
   this: GarantiesFinancièresAggregate,
   {
     payload: { type, dateÉchéance, dateConstitution, attestation },
-  }: GarantiesFinancièresEnregistréesEvent,
+  }: Lauréat.GarantiesFinancières.GarantiesFinancièresEnregistréesEvent,
 ) {
   this.actuelles = {
     ...this.actuelles,
