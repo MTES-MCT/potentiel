@@ -1,7 +1,7 @@
 import { Given as EtantDonné } from '@cucumber/cucumber';
 import { mediator } from 'mediateur';
 
-import { Achèvement } from '@potentiel-domain/laureat';
+import { Lauréat } from '@potentiel-domain/projet';
 
 import { PotentielWorld } from '../../../../../potentiel.world';
 
@@ -13,7 +13,7 @@ EtantDonné(
     const { dateTransmissionAuCocontractant, date, utilisateur, attestation, preuve } =
       this.lauréatWorld.achèvementWorld.transmettreOuModifierAttestationConformitéFixture.créer({});
 
-    await mediator.send<Achèvement.TransmettreAttestationConformitéUseCase>({
+    await mediator.send<Lauréat.Achèvement.TransmettreAttestationConformitéUseCase>({
       type: 'Lauréat.Achèvement.AttestationConformité.UseCase.TransmettreAttestationConformité',
       data: {
         identifiantProjetValue: identifiantProjet.formatter(),
@@ -21,7 +21,7 @@ EtantDonné(
         dateTransmissionAuCocontractantValue: dateTransmissionAuCocontractant,
         dateValue: date,
         preuveTransmissionAuCocontractantValue: preuve,
-        utilisateurValue: utilisateur,
+        identifiantUtilisateurValue: utilisateur,
       },
     });
   },

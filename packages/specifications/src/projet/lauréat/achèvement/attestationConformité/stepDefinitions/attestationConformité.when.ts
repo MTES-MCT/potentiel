@@ -2,6 +2,7 @@ import { DataTable, When as Quand } from '@cucumber/cucumber';
 import { mediator } from 'mediateur';
 
 import { Achèvement } from '@potentiel-domain/laureat';
+import { Lauréat } from '@potentiel-domain/projet';
 
 import { PotentielWorld } from '../../../../../potentiel.world';
 
@@ -17,7 +18,7 @@ Quand(
           utilisateur: this.utilisateurWorld.porteurFixture.email,
         });
 
-      await mediator.send<Achèvement.TransmettreAttestationConformitéUseCase>({
+      await mediator.send<Lauréat.Achèvement.TransmettreAttestationConformitéUseCase>({
         type: 'Lauréat.Achèvement.AttestationConformité.UseCase.TransmettreAttestationConformité',
         data: {
           identifiantProjetValue: identifiantProjet.formatter(),
@@ -25,7 +26,7 @@ Quand(
           dateTransmissionAuCocontractantValue: dateTransmissionAuCocontractant,
           dateValue: date,
           preuveTransmissionAuCocontractantValue: preuve,
-          utilisateurValue: utilisateur,
+          identifiantUtilisateurValue: utilisateur,
         },
       });
     } catch (error) {
@@ -52,7 +53,7 @@ Quand(
           }),
         });
 
-      await mediator.send<Achèvement.TransmettreAttestationConformitéUseCase>({
+      await mediator.send<Lauréat.Achèvement.TransmettreAttestationConformitéUseCase>({
         type: 'Lauréat.Achèvement.AttestationConformité.UseCase.TransmettreAttestationConformité',
         data: {
           identifiantProjetValue: identifiantProjet.formatter(),
@@ -60,7 +61,7 @@ Quand(
           dateTransmissionAuCocontractantValue: dateTransmissionAuCocontractant,
           dateValue: date,
           preuveTransmissionAuCocontractantValue: preuve,
-          utilisateurValue: utilisateur,
+          identifiantUtilisateurValue: utilisateur,
         },
       });
     } catch (error) {

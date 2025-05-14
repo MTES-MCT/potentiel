@@ -2,9 +2,9 @@ import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 import { DomainEvent, InvalidOperationError } from '@potentiel-domain/core';
 import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
 import { DocumentProjet } from '@potentiel-domain/document';
+import { Lauréat } from '@potentiel-domain/projet';
 
 import { AchèvementAggregate } from '../achèvement.aggregate';
-import { DateDeTransmissionAuCoContractantFuturError } from '../dateTransmissionAuCocontractantFutureError.error';
 
 export type AttestationConformitéModifiéeEvent = DomainEvent<
   'AttestationConformitéModifiée-V1',
@@ -39,7 +39,7 @@ export async function modifier(
   }: Options,
 ) {
   if (dateTransmissionAuCocontractant.estDansLeFutur()) {
-    throw new DateDeTransmissionAuCoContractantFuturError();
+    throw new Lauréat.Achèvement.DateDeTransmissionAuCoContractantFuturError();
   }
 
   if (!this.attestationConformité?.format) {
