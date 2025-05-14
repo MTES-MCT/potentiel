@@ -1,6 +1,7 @@
 import { Option } from '@potentiel-libraries/monads';
-import { Achèvement, GarantiesFinancières } from '@potentiel-domain/laureat';
+import { GarantiesFinancières } from '@potentiel-domain/laureat';
 import { Role } from '@potentiel-domain/utilisateur';
+import { Lauréat } from '@potentiel-domain/projet';
 
 import { GarantiesFinancièresActuelles } from '@/components/organisms/garantiesFinancières/types';
 
@@ -9,7 +10,7 @@ type GetGarantiesFinancièresActuellesActions = {
   garantiesFinancières: GarantiesFinancières.ConsulterGarantiesFinancièresReadModel['garantiesFinancières'];
   dépôt: Option.Type<GarantiesFinancières.ConsulterDépôtEnCoursGarantiesFinancièresReadModel>;
   mainlevée?: GarantiesFinancières.ListerMainlevéeItemReadModel;
-  achèvement: Option.Type<Achèvement.ConsulterAttestationConformitéReadModel>;
+  achèvement: Option.Type<Lauréat.Achèvement.ConsulterAttestationConformitéReadModel>;
   estAbandonné: boolean;
 };
 export const getGarantiesFinancièresActuellesActions = ({

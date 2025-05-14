@@ -3,7 +3,7 @@ import { mediator } from 'mediateur';
 import waitForExpect from 'wait-for-expect';
 import { assert, expect } from 'chai';
 
-import { Achèvement } from '@potentiel-domain/laureat';
+import { Lauréat } from '@potentiel-domain/projet';
 import { mapToPlainObject } from '@potentiel-domain/core';
 import { ConsulterDocumentProjetQuery } from '@potentiel-domain/document';
 import { Option } from '@potentiel-libraries/monads';
@@ -17,12 +17,13 @@ Alors(
     return waitForExpect(async () => {
       const identifiantProjet = this.lauréatWorld.identifiantProjet;
 
-      const achèvement = await mediator.send<Achèvement.ConsulterAttestationConformitéQuery>({
-        type: 'Lauréat.Achèvement.AttestationConformité.Query.ConsulterAttestationConformité',
-        data: {
-          identifiantProjetValue: identifiantProjet.formatter(),
-        },
-      });
+      const achèvement =
+        await mediator.send<Lauréat.Achèvement.ConsulterAttestationConformitéQuery>({
+          type: 'Lauréat.Achèvement.AttestationConformité.Query.ConsulterAttestationConformité',
+          data: {
+            identifiantProjetValue: identifiantProjet.formatter(),
+          },
+        });
 
       const actual = mapToPlainObject(achèvement);
       const expected = mapToPlainObject(

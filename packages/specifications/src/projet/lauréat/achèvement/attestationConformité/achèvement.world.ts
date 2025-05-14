@@ -1,7 +1,7 @@
 import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
-import { Achèvement } from '@potentiel-domain/laureat';
 import { Option } from '@potentiel-libraries/monads';
 import { DocumentProjet } from '@potentiel-domain/document';
+import { Lauréat } from '@potentiel-domain/projet';
 
 import { TransmettreOuModifierAttestationConformitéFixture } from './fixture/transmettreOuModifierAttestationConformité.fixture';
 
@@ -19,7 +19,7 @@ export class AchèvementWorld {
 
   mapToExpected(
     identifiantProjet: IdentifiantProjet.ValueType,
-  ): Option.Type<Achèvement.ConsulterAttestationConformitéReadModel> {
+  ): Option.Type<Lauréat.Achèvement.ConsulterAttestationConformitéReadModel> {
     if (!this.transmettreOuModifierAttestationConformitéFixture.aÉtéCréé) {
       throw new Error(
         `Aucune transmission d'attestation de conformité n'a été crée dans AchèvementWorld`,
@@ -33,7 +33,7 @@ export class AchèvementWorld {
       identifiantProjet,
       attestation: DocumentProjet.convertirEnValueType(
         identifiantProjet.formatter(),
-        Achèvement.TypeDocumentAchèvement.attestationConformitéValueType.formatter(),
+        Lauréat.Achèvement.TypeDocumentAchèvement.attestationConformitéValueType.formatter(),
         DateTime.convertirEnValueType(date).formatter(),
         attestation.format,
       ),
@@ -42,7 +42,7 @@ export class AchèvementWorld {
       ),
       preuveTransmissionAuCocontractant: DocumentProjet.convertirEnValueType(
         identifiantProjet.formatter(),
-        Achèvement.TypeDocumentAchèvement.attestationConformitéPreuveTransmissionValueType.formatter(),
+        Lauréat.Achèvement.TypeDocumentAchèvement.attestationConformitéPreuveTransmissionValueType.formatter(),
         DateTime.convertirEnValueType(dateTransmissionAuCocontractant).formatter(),
         preuve.format,
       ),

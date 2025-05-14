@@ -1,10 +1,11 @@
 import { Achèvement } from '@potentiel-domain/laureat';
+import { Lauréat } from '@potentiel-domain/projet';
 import { updateOneProjection } from '@potentiel-infrastructure/pg-projection-write';
 
 export const attestationConformitéModifiéeProjector = async ({
   payload,
 }: Achèvement.AttestationConformitéModifiéeEvent) => {
-  await updateOneProjection<Achèvement.AchèvementEntity>(
+  await updateOneProjection<Lauréat.Achèvement.AchèvementEntity>(
     `achevement|${payload.identifiantProjet}`,
     {
       identifiantProjet: payload.identifiantProjet,

@@ -3,8 +3,8 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 import { DocumentProjet, EnregistrerDocumentProjetCommand } from '@potentiel-domain/document';
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
+import { Lauréat } from '@potentiel-domain/projet';
 
-import { TypeDocumentAchèvement } from '..';
 import { AnnulerTâchesPlanifiéesGarantiesFinancièresCommand } from '../../garantiesFinancières/tâches-planifiées/annuler/annuler.command';
 
 import { TransmettreAttestationConformitéCommand } from './transmettreAttestationConformité.command';
@@ -39,7 +39,7 @@ export const registerTransmettreAttestationConformitéUseCase = () => {
     const identifiantProjet = IdentifiantProjet.convertirEnValueType(identifiantProjetValue);
     const attestation = DocumentProjet.convertirEnValueType(
       identifiantProjetValue,
-      TypeDocumentAchèvement.attestationConformitéValueType.formatter(),
+      Lauréat.Achèvement.TypeDocumentAchèvement.attestationConformitéValueType.formatter(),
       dateValue,
       attestationValue.format,
     );
@@ -48,7 +48,7 @@ export const registerTransmettreAttestationConformitéUseCase = () => {
     );
     const preuveTransmissionAuCocontractant = DocumentProjet.convertirEnValueType(
       identifiantProjetValue,
-      TypeDocumentAchèvement.attestationConformitéPreuveTransmissionValueType.formatter(),
+      Lauréat.Achèvement.TypeDocumentAchèvement.attestationConformitéPreuveTransmissionValueType.formatter(),
       dateTransmissionAuCocontractantValue,
       preuveTransmissionAuCocontractantValue.format,
     );

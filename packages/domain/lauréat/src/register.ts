@@ -6,8 +6,6 @@ import {
 } from './abandon/abandon.register';
 import {
   AchèvementCommandDependencies,
-  AchèvementQueryDependencies,
-  registerAchèvementQueries,
   registerAchèvementUseCases,
 } from './achèvement/achèvement.register';
 import {
@@ -43,7 +41,6 @@ import {
 
 export type LauréatQueryDependencies = AbandonQueryDependencies &
   GarantiesFinancièresQueryDependencies &
-  AchèvementQueryDependencies &
   ReprésentantLégalQueryDependencies &
   ActionnaireQueryDependencies &
   RaccordementQueryDependencies &
@@ -70,7 +67,6 @@ export const registerLauréatUseCases = (dependencies: LauréatCommandDependenci
 export const registerLauréatQueries = (dependencies: LauréatQueryDependencies) => {
   registerAbandonQueries(dependencies);
   registerGarantiesFinancièresQueries(dependencies);
-  registerAchèvementQueries(dependencies);
   registerReprésentantLégalQueries(dependencies);
   registerActionnaireQueries(dependencies);
   registerRaccordementQueries(dependencies);

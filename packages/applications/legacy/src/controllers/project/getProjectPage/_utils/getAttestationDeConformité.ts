@@ -1,10 +1,9 @@
 import { mediator } from 'mediateur';
 import { IdentifiantProjet } from '@potentiel-domain/common';
-import { Achèvement } from '@potentiel-domain/laureat';
+import { Lauréat } from '@potentiel-domain/projet';
 
 import { Option } from '@potentiel-libraries/monads';
 import { AchèvementRéelDTO } from '../../../../modules/frise';
-import { User } from '../../../../entities';
 import { getLogger } from '@potentiel-libraries/monitoring';
 import { Role } from '@potentiel-domain/utilisateur';
 
@@ -16,7 +15,7 @@ export const getAttestationDeConformité = async (
     const utilisateur = Role.convertirEnValueType(rôle);
 
     const attestationConformité =
-      await mediator.send<Achèvement.ConsulterAttestationConformitéQuery>({
+      await mediator.send<Lauréat.Achèvement.ConsulterAttestationConformitéQuery>({
         type: 'Lauréat.Achèvement.AttestationConformité.Query.ConsulterAttestationConformité',
         data: { identifiantProjetValue: identifiantProjet.formatter() },
       });
