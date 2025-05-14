@@ -4,16 +4,15 @@ import { match, P } from 'ts-pattern';
 import { Option } from '@potentiel-libraries/monads';
 import { Event } from '@potentiel-infrastructure/pg-event-sourcing';
 import { CandidatureAdapter } from '@potentiel-infrastructure/domain-adapters';
-import { Producteur } from '@potentiel-domain/laureat';
 import { getLogger } from '@potentiel-libraries/monitoring';
-import { IdentifiantProjet } from '@potentiel-domain/projet';
+import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 
 import { SendEmail } from '../../../sendEmail';
 
 import { changementProducteurEnregistréNotification } from './changementProducteurEnregistré.notification';
 import { producteurModifiéNotification } from './producteurModifié.notification';
 
-export type SubscriptionEvent = Producteur.ProducteurEvent & Event;
+export type SubscriptionEvent = Lauréat.Producteur.ProducteurEvent & Event;
 
 export type Execute = Message<'System.Notification.Lauréat.Producteur', SubscriptionEvent>;
 

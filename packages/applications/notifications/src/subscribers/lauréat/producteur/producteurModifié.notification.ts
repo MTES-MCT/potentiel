@@ -1,7 +1,6 @@
 import { getLogger } from '@potentiel-libraries/monitoring';
 import { Routes } from '@potentiel-applications/routes';
-import { Producteur } from '@potentiel-domain/laureat';
-import { IdentifiantProjet } from '@potentiel-domain/projet';
+import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 
 import { listerPorteursRecipients } from '../../../helpers/listerPorteursRecipients';
 import { listerDrealsRecipients } from '../../../helpers/listerDrealsRecipients';
@@ -12,7 +11,7 @@ import { producteurNotificationTemplateId } from './constant';
 
 type ProducteurModifiéNotificationProps = {
   sendEmail: RegisterProducteurNotificationDependencies['sendEmail'];
-  event: Producteur.ProducteurModifiéEvent;
+  event: Lauréat.Producteur.ProducteurModifiéEvent;
   projet: {
     nom: string;
     département: string;

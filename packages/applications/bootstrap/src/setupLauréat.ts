@@ -204,19 +204,6 @@ export const setupLauréat = async ({
       },
     });
 
-  const unsubscribeProducteurSagaLauréat = await subscribe<
-    Producteur.ProducteurSaga.SubscriptionEvent & Event
-  >({
-    name: 'producteur-laureat-saga',
-    streamCategory: 'lauréat',
-    eventType: ['LauréatNotifié-V2'],
-    eventHandler: async (event) =>
-      mediator.publish<Producteur.ProducteurSaga.Execute>({
-        type: 'System.Lauréat.Producteur.Saga.Execute',
-        data: event,
-      }),
-  });
-
   const unsubscribeGarantiesFinancièresProjector =
     await subscribe<GarantiesFinancièreProjector.SubscriptionEvent>({
       name: 'projector',
