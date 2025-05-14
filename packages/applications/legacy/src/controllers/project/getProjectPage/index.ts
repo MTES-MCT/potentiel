@@ -207,7 +207,10 @@ v1Router.get(
           alertesRaccordement,
           abandon,
           garantiesFinancières,
-          représentantLégal: await getReprésentantLégal(identifiantProjetValueType, user.role),
+          représentantLégal: await getReprésentantLégal({
+            identifiantProjet: identifiantProjetValueType,
+            rôle: user.role,
+          }),
           demandeRecours: await getRecours(identifiantProjetValueType),
           actionnaire: await getActionnaire({
             identifiantProjet: identifiantProjetValueType,

@@ -32,6 +32,7 @@ export type ValueType = ReadonlyValueType<{
   aLaPermission(value: Policy): boolean;
   estDGEC(): boolean;
   estDreal(): boolean;
+  estPorteur(): boolean;
 }>;
 
 export const convertirEnValueType = (value: string): ValueType => {
@@ -60,6 +61,9 @@ export const convertirEnValueType = (value: string): ValueType => {
     },
     estDreal() {
       return this.nom === 'dreal';
+    },
+    estPorteur() {
+      return this.nom === 'porteur-projet';
     },
   };
 };

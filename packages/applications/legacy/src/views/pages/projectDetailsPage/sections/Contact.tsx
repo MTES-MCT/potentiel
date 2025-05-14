@@ -10,12 +10,14 @@ import { Routes } from '@potentiel-applications/routes';
 import { GetProducteurForProjectPage } from '../../../../controllers/project/getProjectPage/_utils/getProducteur';
 import { InfoProducteur } from './InfoProducteur';
 import { GetCandidatureForProjectPage } from '../../../../controllers/project/getProjectPage/_utils/getCandidature';
+import { InfoReprésentantLégal } from './InfoReprésentantLégal';
+import { Role } from '@potentiel-domain/utilisateur';
 
 export type ContactProps = {
   identifiantProjet: string;
   project: ProjectDataForProjectPage;
   user: Request['user'];
-  représentantLégal: GetReprésentantLégalForProjectPage;
+  représentantLégal?: GetReprésentantLégalForProjectPage;
   producteur?: GetProducteurForProjectPage;
   modificationsNonPermisesParLeCDCActuel: boolean;
   candidature: GetCandidatureForProjectPage;
@@ -35,46 +37,18 @@ export const Contact = ({
       <InfoProducteur
         producteur={producteur}
         modificationsPermisesParLeCDCActuel={!modificationsNonPermisesParLeCDCActuel}
+        role={Role.convertirEnValueType(user.role)}
       />
     )}
-    <div>
-      {représentantLégal && (
-        <>
-          <Heading3 className="mb-1">Représentant légal</Heading3>
-          <div>{représentantLégal.nom}</div>
-
-          {représentantLégal.modification && (
-            <Link href={représentantLégal.modification.url} aria-label="Modifier" className="mt-1">
-              Modifier {représentantLégal.modification.type === 'lauréat' ? '' : 'la candidature'}
-            </Link>
-          )}
-          {représentantLégal.demandeDeModification?.peutConsulterLaDemandeExistante && (
-            <Link
-              href={Routes.ReprésentantLégal.changement.détail(
-                identifiantProjet,
-                représentantLégal.demandeDeModification.demandéLe,
-              )}
-              aria-label="Voir la demande de changement en cours"
-              className="block"
-            >
-              Voir la demande de changement en cours
-            </Link>
-          )}
-          {représentantLégal.demandeDeModification?.peutFaireUneDemande &&
-            !modificationsNonPermisesParLeCDCActuel && (
-              <Link
-                href={Routes.ReprésentantLégal.changement.demander(identifiantProjet)}
-                aria-label="Demander un changement"
-                className="block"
-              >
-                Faire une demande de changement
-              </Link>
-            )}
-        </>
-      )}
-      <Heading3 className="mb-1">Adresse email de candidature</Heading3>
-      <div>{candidature.emailContact}</div>
-    </div>
+    {représentantLégal && (
+      <InfoReprésentantLégal
+        représentantLégal={représentantLégal}
+        modificationsPermisesParLeCDCActuel={!modificationsNonPermisesParLeCDCActuel}
+        role={Role.convertirEnValueType(user.role)}
+      />
+    )}
+    <Heading3 className="mb-1">Adresse email de candidature</Heading3>
+    <div>{candidature.emailContact}</div>
 
     {project.notifiedOn &&
       userIs(['admin', 'dgec-validateur', 'porteur-projet', 'dreal'])(user) && (

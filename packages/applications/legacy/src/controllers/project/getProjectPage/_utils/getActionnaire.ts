@@ -10,8 +10,8 @@ import { IdentifiantProjet } from '@potentiel-domain/common';
 import { checkAbandonAndAchèvement } from './checkAbandonAndAchèvement';
 
 export type GetActionnaireAffichageForProjectPage = {
-  projectPageLabel: string;
-  porteurProjetActionLabel?: string;
+  label: string;
+  labelActions: string;
   url: string;
 };
 export type GetActionnaireForProjectPage = {
@@ -55,7 +55,8 @@ export const getActionnaire = async ({
                   identifiantProjet.formatter(),
                   dateDemandeEnCours.formatter(),
                 ),
-                projectPageLabel: 'Voir la demande de modification',
+                label: 'Voir la demande de modification',
+                labelActions: 'Demande de modification d’actionnaire(s)',
               }
             : undefined,
         };
@@ -81,7 +82,8 @@ export const getActionnaire = async ({
           nom,
           affichage: {
             url: Routes.Actionnaire.modifier(identifiantProjet.formatter()),
-            projectPageLabel: 'Modifier',
+            label: 'Modifier',
+            labelActions: 'Modifier l’actionnaire(s)',
           },
         };
       }
@@ -91,8 +93,8 @@ export const getActionnaire = async ({
           nom,
           affichage: {
             url: Routes.Actionnaire.changement.enregistrer(identifiantProjet.formatter()),
-            projectPageLabel: 'Faire un changement',
-            porteurProjetActionLabel: "Changer d'actionnaire(s)",
+            label: 'Faire un changement',
+            labelActions: "Changer d'actionnaire(s)",
           },
         };
       }
@@ -102,8 +104,8 @@ export const getActionnaire = async ({
           nom,
           affichage: {
             url: Routes.Actionnaire.changement.demander(identifiantProjet.formatter()),
-            projectPageLabel: 'Faire une demande de changement',
-            porteurProjetActionLabel: 'Demander un changement d’actionnaire(s)',
+            label: 'Faire une demande de changement',
+            labelActions: 'Demander un changement d’actionnaire(s)',
           },
         };
       }
@@ -125,7 +127,8 @@ export const getActionnaire = async ({
         affichage: role.aLaPermission('candidature.corriger')
           ? {
               url: Routes.Candidature.corriger(identifiantProjet.formatter()),
-              projectPageLabel: 'Modifier la candidature',
+              label: 'Modifier la candidature',
+              labelActions: 'Modifier la candidature',
             }
           : undefined,
       };

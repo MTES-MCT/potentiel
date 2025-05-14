@@ -12,7 +12,7 @@ import { mediator } from 'mediateur';
 export type GetPuissanceForProjectPage = {
   puissance: number;
   affichage?: {
-    labelActions?: string;
+    labelActions: string;
     label: string;
     url: string;
   };
@@ -65,6 +65,7 @@ export const getPuissance = async ({
           affichage: {
             url: Routes.Puissance.modifier(identifiantProjet.formatter()),
             label: 'Modifier',
+            labelActions: 'Modifier la puissance',
           },
         };
       }
@@ -80,6 +81,7 @@ export const getPuissance = async ({
           affichage: {
             url: Routes.Puissance.changement.demander(identifiantProjet.formatter()),
             label: 'Changer de puissance',
+            labelActions: 'Changer de puissance',
           },
         };
       }
@@ -103,6 +105,7 @@ export const getPuissance = async ({
           ? {
               url: Routes.Candidature.corriger(identifiantProjet.formatter()),
               label: 'Modifier la candidature',
+              labelActions: 'Modifier la candidature',
             }
           : undefined,
       };
