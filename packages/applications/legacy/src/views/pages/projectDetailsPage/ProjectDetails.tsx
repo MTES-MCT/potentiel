@@ -122,10 +122,10 @@ export const ProjectDetails = ({
       <div className="flex flex-col gap-3 mt-5">
         <div className="print:hidden flex flex-col gap-3">
           {abandon && <AbandonInfoBox abandon={abandon} identifiantProjet={identifiantProjet} />}
-          {abandonEnCours && (
+          {abandonEnCours && user.role === 'porteur-projet' && (
             <DemandeImpossibleSiAbandonEnCoursInfoBox identifiantProjet={identifiantProjet} />
           )}
-          {estAchevé && <DemandeImpossibleSiAchèvementInfoBox />}
+          {estAchevé && user.role === 'porteur-projet' && <DemandeImpossibleSiAchèvementInfoBox />}
           {user.role === 'porteur-projet' && modificationsNonPermisesParLeCDCActuel && (
             <AlertBox>
               Votre cahier des charges actuel ne vous permet pas d'accéder aux fonctionnalités
