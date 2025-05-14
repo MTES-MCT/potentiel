@@ -39,7 +39,7 @@ export const computeNombreDeDemandeParCategorie = async () => {
         'actionnaire',
         (
           select count(*) from "event_store"."event_stream" 
-          where type like 'ChangementActionnaireDemandé-V%'
+          where type like 'ChangementActionnaireDemandé-V%' or type like 'ChangementActionnaireEnregistré-V%'
         )
       ),
       (
@@ -63,7 +63,7 @@ export const computeNombreDeDemandeParCategorie = async () => {
         'puissance',
         (
           select count(*) from "event_store"."event_stream" 
-          where type like 'ChangementPuissanceDemandé-V%'
+          where type like 'ChangementPuissanceDemandé-V%' or type like 'ChangementPuissanceEnregistré-V%'
         )
       )
     `,
