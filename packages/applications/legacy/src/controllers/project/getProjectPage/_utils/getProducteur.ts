@@ -13,7 +13,7 @@ import { getContext } from '@potentiel-applications/request-context';
 export type GetProducteurForProjectPage = {
   producteur: string;
   affichage?: {
-    labelActions?: string;
+    labelActions: string;
     label: string;
     url: string;
   };
@@ -99,6 +99,7 @@ export const getProducteur = async ({
           ? {
               url: Routes.Candidature.corriger(identifiantProjet.formatter()),
               label: 'Modifier la candidature',
+              labelActions: 'Modifier la candidature',
             }
           : undefined,
       };
