@@ -50,7 +50,7 @@ export const setupUtilisateur = async ({ sendEmail }: SetupUtilisateurDependenci
     streamCategory: 'utilisateur',
   });
 
-  const unsubscribeCandidatureNotification =
+  const unsubscribeUtilisateurNotification =
     await subscribe<UtilisateurNotification.SubscriptionEvent>({
       name: 'notifications',
       streamCategory: 'utilisateur',
@@ -65,6 +65,6 @@ export const setupUtilisateur = async ({ sendEmail }: SetupUtilisateurDependenci
 
   return async () => {
     await unsubscribeUtilisateurProjector();
-    await unsubscribeCandidatureNotification();
+    await unsubscribeUtilisateurNotification();
   };
 };
