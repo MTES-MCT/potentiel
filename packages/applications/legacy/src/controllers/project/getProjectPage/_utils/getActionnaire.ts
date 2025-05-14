@@ -56,7 +56,7 @@ export const getActionnaire = async ({
                   dateDemandeEnCours.formatter(),
                 ),
                 label: 'Voir la demande de modification',
-                labelActions: 'Demande de modification d’actionnaire',
+                labelActions: 'Demande de modification d’actionnaire(s)',
               }
             : undefined,
         };
@@ -83,7 +83,7 @@ export const getActionnaire = async ({
           affichage: {
             url: Routes.Actionnaire.modifier(identifiantProjet.formatter()),
             label: 'Modifier',
-            labelActions: 'Modifier l’actionnaire',
+            labelActions: 'Modifier l’actionnaire(s)',
           },
         };
       }
@@ -94,7 +94,7 @@ export const getActionnaire = async ({
           affichage: {
             url: Routes.Actionnaire.changement.enregistrer(identifiantProjet.formatter()),
             label: 'Faire un changement',
-            labelActions: "Changer d'actionnaire",
+            labelActions: "Changer d'actionnaire(s)",
           },
         };
       }
