@@ -49,7 +49,7 @@ export const DemanderChangementPuissanceFormErrors = ({
         !dépassePuissanceMaxFamille &&
         dépasseLesRatioDeAppelOffres && (
           <Alert
-            severity="error"
+            severity="warning"
             small
             description={
               <span>
@@ -69,7 +69,7 @@ export const DemanderChangementPuissanceFormErrors = ({
         dépasseRatiosChangementPuissanceDuCahierDesChargesInitial &&
         fourchetteRatioInitialEtCDC2022AlertMessage && (
           <Alert
-            severity="error"
+            severity="warning"
             small
             description={
               <div>

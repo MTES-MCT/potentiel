@@ -77,7 +77,7 @@ const PorteurProjetActions = ({
   demandeRecours,
   modificationsNonPermisesParLeCDCActuel,
   estAchevé,
-  peutFaireDemandeChangementReprésentantLégal,
+  représentantLégalAffichage,
   actionnaireAffichage,
   puissanceAffichage,
   producteurAffichage,
@@ -135,12 +135,12 @@ const PorteurProjetActions = ({
             >
               <span>Demander un délai</span>
             </DropdownMenuSecondaryButton.DropdownItem>
-            {peutFaireDemandeChangementReprésentantLégal && (
+            {!!représentantLégalAffichage && (
               <DropdownMenuSecondaryButton.DropdownItem
-                href={Routes.ReprésentantLégal.changement.demander(identifiantProjet)}
+                href={représentantLégalAffichage.url}
                 disabled={demandesDisabled}
               >
-                <span>Demander un changement de représentant légal</span>
+                <span>{représentantLégalAffichage.labelActions}</span>
               </DropdownMenuSecondaryButton.DropdownItem>
             )}
             {peutDemanderAbandon && (
@@ -262,7 +262,7 @@ export const ProjectActions = ({
   demandeRecours,
   modificationsNonPermisesParLeCDCActuel,
   estAchevé,
-  peutFaireDemandeChangementReprésentantLégal,
+  représentantLégalAffichage,
   puissanceAffichage,
   actionnaireAffichage,
   producteurAffichage,
@@ -290,7 +290,7 @@ export const ProjectActions = ({
           demandeRecours={demandeRecours}
           modificationsNonPermisesParLeCDCActuel={modificationsNonPermisesParLeCDCActuel}
           estAchevé={estAchevé}
-          peutFaireDemandeChangementReprésentantLégal={peutFaireDemandeChangementReprésentantLégal}
+          représentantLégalAffichage={représentantLégalAffichage}
           puissanceAffichage={puissanceAffichage}
           actionnaireAffichage={actionnaireAffichage}
           producteurAffichage={producteurAffichage}

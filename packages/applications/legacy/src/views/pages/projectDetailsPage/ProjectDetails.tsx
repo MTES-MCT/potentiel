@@ -108,9 +108,7 @@ export const ProjectDetails = ({
         modificationsNonPermisesParLeCDCActuel={modificationsNonPermisesParLeCDCActuel}
         estAchevé={estAchevé}
         demandeRecours={demandeRecours}
-        peutFaireDemandeChangementReprésentantLégal={
-          !!représentantLégal?.demandeDeModification?.peutFaireUneDemande
-        }
+        représentantLégalAffichage={représentantLégal?.affichage}
         puissanceAffichage={puissance?.affichage}
         actionnaireAffichage={actionnaire?.affichage}
         producteurAffichage={producteur?.affichage}

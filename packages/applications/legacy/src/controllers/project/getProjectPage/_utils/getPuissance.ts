@@ -81,6 +81,7 @@ export const getPuissance = async ({
           affichage: {
             url: Routes.Puissance.changement.demander(identifiantProjet.formatter()),
             label: 'Changer de puissance',
+            labelActions: 'Changer de puissance',
           },
         };
       }

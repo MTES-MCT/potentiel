@@ -4,7 +4,10 @@ import { ProjectDataForProjectPage } from '../../../../modules/project/queries';
 import { Heading1 } from '../../../components';
 import { ProjectActions } from './ProjectActions';
 import { ProjectHeaderBadge } from './ProjectHeaderBadge';
-import { GetActionnaireAffichageForProjectPage } from '../../../../controllers/project/getProjectPage/_utils';
+import {
+  GetActionnaireAffichageForProjectPage,
+  GetReprésentantLégalForProjectPage,
+} from '../../../../controllers/project/getProjectPage/_utils';
 import { GetPuissanceForProjectPage } from '../../../../controllers/project/getProjectPage/_utils/getPuissance';
 import { GetProducteurForProjectPage } from '../../../../controllers/project/getProjectPage/_utils/getProducteur';
 
@@ -15,7 +18,7 @@ export type ProjectHeaderProps = {
   demandeRecours: ProjectDataForProjectPage['demandeRecours'];
   modificationsNonPermisesParLeCDCActuel: boolean;
   estAchevé: boolean;
-  peutFaireDemandeChangementReprésentantLégal: boolean;
+  représentantLégalAffichage?: GetReprésentantLégalForProjectPage['affichage'];
   puissanceAffichage?: GetPuissanceForProjectPage['affichage'];
   producteurAffichage?: GetProducteurForProjectPage['affichage'];
   actionnaireAffichage?: GetActionnaireAffichageForProjectPage;
@@ -28,7 +31,7 @@ export const ProjectHeader = ({
   demandeRecours,
   modificationsNonPermisesParLeCDCActuel,
   estAchevé,
-  peutFaireDemandeChangementReprésentantLégal,
+  représentantLégalAffichage,
   puissanceAffichage,
   actionnaireAffichage,
   producteurAffichage,
@@ -63,7 +66,7 @@ export const ProjectHeader = ({
         demandeRecours={demandeRecours}
         modificationsNonPermisesParLeCDCActuel={modificationsNonPermisesParLeCDCActuel}
         estAchevé={estAchevé}
-        peutFaireDemandeChangementReprésentantLégal={peutFaireDemandeChangementReprésentantLégal}
+        représentantLégalAffichage={représentantLégalAffichage}
         puissanceAffichage={puissanceAffichage}
         actionnaireAffichage={actionnaireAffichage}
         producteurAffichage={producteurAffichage}
