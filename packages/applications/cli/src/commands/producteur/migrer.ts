@@ -3,11 +3,12 @@ import { extname } from 'node:path';
 import { contentType } from 'mime-types';
 import { Command, Flags } from '@oclif/core';
 
-import { Lauréat } from '@potentiel-domain/projet';
+import { Candidature, Lauréat } from '@potentiel-domain/projet';
 import { executeSelect } from '@potentiel-libraries/pg-helpers';
 import { publish } from '@potentiel-infrastructure/pg-event-sourcing';
 import { DocumentProjet } from '@potentiel-domain/document';
 import { copyFile } from '@potentiel-libraries/file-storage';
+import { listProjection } from '@potentiel-infrastructure/pg-projection-read';
 
 export class Migrer extends Command {
   static flags = {
@@ -26,6 +27,49 @@ export class Migrer extends Command {
       process.exit(1);
     }
 
+    const eventsPerProjet: Map<
+      string,
+      Array<
+        | Lauréat.Producteur.ChangementProducteurEnregistréEvent
+        | Lauréat.Producteur.ProducteurImportéEvent
+      >
+    > = new Map();
+
+    const { items: lauréats } = await listProjection<
+      Lauréat.LauréatEntity,
+      Candidature.CandidatureEntity
+    >('lauréat', {
+      join: {
+        entity: 'candidature',
+        on: 'identifiantProjet',
+      },
+    });
+
+    lauréats.reduce(
+      (
+        eventsPerProjet,
+        { identifiantProjet, candidature: { nomCandidat }, notifiéLe, notifiéPar },
+      ) => {
+        const producteurImporté: Lauréat.Producteur.ProducteurImportéEvent = {
+          type: 'ProducteurImporté-V1',
+          payload: {
+            producteur: nomCandidat,
+            identifiantProjet,
+            importéLe: notifiéLe,
+            importéPar: notifiéPar,
+          },
+        };
+
+        eventsPerProjet.set(identifiantProjet, [
+          ...(eventsPerProjet.get(identifiantProjet) ?? []),
+          producteurImporté,
+        ]);
+
+        return eventsPerProjet;
+      },
+      eventsPerProjet,
+    );
+
     const queryPayloads = `
       select concat(p."appelOffreId", '#', p."periodeId", '#', p."familleId", '#', p."numeroCRE") as "identifiantProjet",
              es.payload->>'producteur' as "producteur",
@@ -41,15 +85,16 @@ export class Migrer extends Command {
       and   payload->>'type' = 'producteur'
       order by es."occurredAt" asc
     `;
+
     type Payload = Lauréat.Producteur.ChangementProducteurEnregistréEvent['payload'];
 
     const payloads = await executeSelect<
       Omit<Payload, 'pièceJustificative'> & { filePath: string }
     >(queryPayloads);
 
-    const eventsPerProjet: Map<string, Lauréat.Producteur.ChangementProducteurEnregistréEvent[]> =
-      payloads.reduce((eventsPerProjet, { filePath, ...payload }) => {
-        const event: Lauréat.Producteur.ChangementProducteurEnregistréEvent = {
+    payloads.reduce((eventsPerProjet, { filePath, ...payload }) => {
+      const changementProducteurEnregistré: Lauréat.Producteur.ChangementProducteurEnregistréEvent =
+        {
           type: 'ChangementProducteurEnregistré-V1',
           payload: {
             ...payload,
@@ -59,13 +104,13 @@ export class Migrer extends Command {
           },
         };
 
-        eventsPerProjet.set(payload.identifiantProjet, [
-          ...(eventsPerProjet.get(payload.identifiantProjet) ?? []),
-          event,
-        ]);
+      eventsPerProjet.set(payload.identifiantProjet, [
+        ...(eventsPerProjet.get(payload.identifiantProjet) ?? []),
+        changementProducteurEnregistré,
+      ]);
 
-        return eventsPerProjet;
-      }, new Map());
+      return eventsPerProjet;
+    }, eventsPerProjet);
 
     const eventsStats: Record<string, number> = {};
 
