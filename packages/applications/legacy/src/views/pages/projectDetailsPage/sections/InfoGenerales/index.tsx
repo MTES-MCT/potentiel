@@ -6,7 +6,6 @@ import { afficherDate } from '../../../../helpers';
 import { Routes } from '@potentiel-applications/routes';
 import { match } from 'ts-pattern';
 
-import { GarantiesFinancières } from '@potentiel-domain/laureat';
 import type { Candidature, Lauréat } from '@potentiel-domain/projet';
 import type { Role } from '@potentiel-domain/utilisateur';
 import { Raccordement } from '@potentiel-domain/laureat';
@@ -128,6 +127,7 @@ export const InfoGenerales = ({
           unitePuissance={appelOffre.unitePuissance}
           désignationCatégorie={désignationCatégorie}
           puissanceInférieurePuissanceMaxVolRéservé={puissanceInférieurePuissanceMaxVolRéservé}
+          role={role}
         />
       )}
       <div>
@@ -144,6 +144,7 @@ export const InfoGenerales = ({
         <InfoActionnaire
           actionnaire={actionnaire}
           modificationsPermisesParLeCDCActuel={!modificationsNonPermisesParLeCDCActuel}
+          role={role}
         />
       )}
       {coefficientKChoisi !== undefined ? (

@@ -18,22 +18,25 @@ import { formatProjectDataToIdentifiantProjetValueType } from '../../../../helpe
 import { ProjectHeaderProps } from './ProjectHeader';
 import { GetProducteurForProjectPage } from '../../../../controllers/project/getProjectPage/_utils/getProducteur';
 import { GetPuissanceForProjectPage } from '../../../../controllers/project/getProjectPage/_utils/getPuissance';
-import { GetActionnaireForProjectPage } from '../../../../controllers/project/getProjectPage/_utils';
+import {
+  GetActionnaireForProjectPage,
+  GetReprésentantLégalForProjectPage,
+} from '../../../../controllers/project/getProjectPage/_utils';
 
 type EnregistrerUneModificationProps = {
   projectId: ProjectDataForProjectPage['id'];
-  identifiantProjet: IdentifiantProjet.RawType;
   producteurAffichage?: GetProducteurForProjectPage['affichage'];
   puissanceAffichage?: GetPuissanceForProjectPage['affichage'];
   actionnaireAffichage?: GetActionnaireForProjectPage['affichage'];
+  représentantLégalAffichage?: GetReprésentantLégalForProjectPage['affichage'];
 };
 
 const EnregistrerUneModification = ({
   projectId,
-  identifiantProjet,
   producteurAffichage,
   puissanceAffichage,
   actionnaireAffichage,
+  représentantLégalAffichage,
 }: EnregistrerUneModificationProps) => {
   return (
     <DropdownMenuSecondaryButton buttonChildren="Enregistrer une modification">
@@ -57,11 +60,11 @@ const EnregistrerUneModification = ({
           <span>{actionnaireAffichage.labelActions}</span>
         </DropdownMenuSecondaryButton.DropdownItem>
       )}
-      <DropdownMenuSecondaryButton.DropdownItem
-        href={Routes.ReprésentantLégal.modifier(identifiantProjet)}
-      >
-        <span>Modifier le représentant légal</span>
-      </DropdownMenuSecondaryButton.DropdownItem>
+      {!!représentantLégalAffichage && (
+        <DropdownMenuSecondaryButton.DropdownItem href={représentantLégalAffichage.url}>
+          <span>{représentantLégalAffichage.labelActions}</span>
+        </DropdownMenuSecondaryButton.DropdownItem>
+      )}
     </DropdownMenuSecondaryButton>
   );
 };
@@ -82,7 +85,7 @@ const PorteurProjetActions = ({
   puissanceAffichage,
   producteurAffichage,
 }: PorteurProjetActionsProps) => {
-  const peutDemanderAbandon = !abandonEnCoursOuAccordé && !estAchevé;
+  const peutDemanderAbandonOuAchèvement = !abandonEnCoursOuAccordé && !estAchevé;
   const demandesDisabled = modificationsNonPermisesParLeCDCActuel ? true : undefined;
 
   return (
@@ -129,12 +132,6 @@ const PorteurProjetActions = ({
                 <span>{puissanceAffichage.labelActions ?? puissanceAffichage.label}</span>
               </DropdownMenuSecondaryButton.DropdownItem>
             )}
-            <DropdownMenuSecondaryButton.DropdownItem
-              href={routes.DEMANDER_DELAI(project.id)}
-              disabled={demandesDisabled}
-            >
-              <span>Demander un délai</span>
-            </DropdownMenuSecondaryButton.DropdownItem>
             {!!représentantLégalAffichage && (
               <DropdownMenuSecondaryButton.DropdownItem
                 href={représentantLégalAffichage.url}
@@ -143,7 +140,13 @@ const PorteurProjetActions = ({
                 <span>{représentantLégalAffichage.labelActions}</span>
               </DropdownMenuSecondaryButton.DropdownItem>
             )}
-            {peutDemanderAbandon && (
+            <DropdownMenuSecondaryButton.DropdownItem
+              href={routes.DEMANDER_DELAI(project.id)}
+              disabled={demandesDisabled}
+            >
+              <span>Demander un délai</span>
+            </DropdownMenuSecondaryButton.DropdownItem>
+            {peutDemanderAbandonOuAchèvement && (
               <>
                 <DropdownMenuSecondaryButton.DropdownItem
                   href={Routes.Abandon.demander(identifiantProjet)}
@@ -184,19 +187,27 @@ type AdminActionsProps = {
   project: ProjectDataForProjectPage;
   identifiantProjet: IdentifiantProjet.RawType;
   producteurAffichage?: GetProducteurForProjectPage['affichage'];
+  puissanceAffichage?: GetPuissanceForProjectPage['affichage'];
+  actionnaireAffichage?: GetActionnaireForProjectPage['affichage'];
+  représentantLégalAffichage?: GetReprésentantLégalForProjectPage['affichage'];
 };
 
 const AdminActions = ({
   project: { id, notifiedOn, isLegacy, isClasse },
   identifiantProjet,
   producteurAffichage,
+  puissanceAffichage,
+  actionnaireAffichage,
+  représentantLégalAffichage,
 }: AdminActionsProps) => {
   return (
     <div className="flex flex-col md:flex-row gap-2">
       <EnregistrerUneModification
         projectId={id}
-        identifiantProjet={identifiantProjet}
         producteurAffichage={producteurAffichage}
+        puissanceAffichage={puissanceAffichage}
+        actionnaireAffichage={actionnaireAffichage}
+        représentantLégalAffichage={représentantLégalAffichage}
       />
       {notifiedOn && isClasse ? (
         <LinkButton href={Routes.Lauréat.modifier(identifiantProjet)}>
@@ -240,11 +251,26 @@ type DrealActionsProps = {
   project: ProjectDataForProjectPage;
   identifiantProjet: IdentifiantProjet.RawType;
   producteurAffichage?: GetProducteurForProjectPage['affichage'];
+  puissanceAffichage?: GetPuissanceForProjectPage['affichage'];
+  actionnaireAffichage?: GetActionnaireForProjectPage['affichage'];
+  représentantLégalAffichage?: GetReprésentantLégalForProjectPage['affichage'];
 };
-const DrealActions = ({ project, identifiantProjet }: DrealActionsProps) => {
+const DrealActions = ({
+  project,
+  représentantLégalAffichage,
+  puissanceAffichage,
+  actionnaireAffichage,
+  producteurAffichage,
+}: DrealActionsProps) => {
   return (
     <div className="flex flex-col md:flex-row gap-2">
-      <EnregistrerUneModification projectId={project.id} identifiantProjet={identifiantProjet} />
+      <EnregistrerUneModification
+        projectId={project.id}
+        producteurAffichage={producteurAffichage}
+        puissanceAffichage={puissanceAffichage}
+        actionnaireAffichage={actionnaireAffichage}
+        représentantLégalAffichage={représentantLégalAffichage}
+      />
       <PrimaryButton onClick={() => window.print()}>
         <PrintIcon className="text-white mr-2" aria-hidden />
         Imprimer la page
@@ -281,6 +307,9 @@ export const ProjectActions = ({
           project={project}
           identifiantProjet={identifiantProjet}
           producteurAffichage={producteurAffichage}
+          puissanceAffichage={puissanceAffichage}
+          actionnaireAffichage={actionnaireAffichage}
+          représentantLégalAffichage={représentantLégalAffichage}
         />
       )}
       {userIs(['porteur-projet'])(user) && (
@@ -302,6 +331,9 @@ export const ProjectActions = ({
           project={project}
           identifiantProjet={identifiantProjet}
           producteurAffichage={producteurAffichage}
+          puissanceAffichage={puissanceAffichage}
+          actionnaireAffichage={actionnaireAffichage}
+          représentantLégalAffichage={représentantLégalAffichage}
         />
       )}
     </div>
