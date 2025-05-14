@@ -21,6 +21,7 @@ import {
   ActionnaireNotification,
   GarantiesFinancièresNotification,
   LauréatNotification,
+  ProducteurNotification,
   PuissanceNotification,
   ReprésentantLégalNotification,
 } from '@potentiel-applications/notifications';
@@ -80,6 +81,7 @@ export const setupLauréat = async ({
   ActionnaireNotification.register({ sendEmail });
   PuissanceNotification.register({ sendEmail });
   LauréatNotification.register({ sendEmail });
+  ProducteurNotification.register({ sendEmail });
 
   // Sagas
   GarantiesFinancières.GarantiesFinancièresSaga.register();
@@ -188,6 +190,19 @@ export const setupLauréat = async ({
       });
     },
   });
+
+  const unsubscribeProducteurNotification =
+    await subscribe<ProducteurNotification.SubscriptionEvent>({
+      name: 'notifications',
+      streamCategory: 'producteur',
+      eventType: ['ProducteurModifié-V1', 'ChangementProducteurEnregistré-V1'],
+      eventHandler: async (event) => {
+        await mediator.publish<ProducteurNotification.Execute>({
+          type: 'System.Notification.Lauréat.Producteur',
+          data: event,
+        });
+      },
+    });
 
   const unsubscribeGarantiesFinancièresProjector =
     await subscribe<GarantiesFinancièreProjector.SubscriptionEvent>({
@@ -544,6 +559,7 @@ export const setupLauréat = async ({
     await unsubscribeReprésentantLégalNotification();
     await unsubscribeActionnaireNotification();
     await unsubscribePuissanceNotification();
+    await unsubscribeProducteurNotification();
     // sagas
     await unsubscribeGarantiesFinancièresSaga();
     await unsubscribeTypeGarantiesFinancièresSaga();
