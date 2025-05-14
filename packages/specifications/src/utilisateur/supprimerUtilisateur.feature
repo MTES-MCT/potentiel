@@ -22,6 +22,11 @@ Fonctionnalité: Supprimer un utilisateur
             | dgec-validateur   |
             | grd               |
 
+    Scénario: Impossible de supprimer un Porteur de projet
+        Etant donné un utilisateur invité avec le rôle "admin"
+        Quand un administrateur supprime le porteur du projet
+        Alors l'utilisateur devrait être informé que "Il est impossible de supprimer un utilisateur de type porteur"
+
     Scénario: Impossible de supprimer son propre compte
         Etant donné un utilisateur invité avec le rôle "admin"
         Quand l'utilisateur supprime son compte

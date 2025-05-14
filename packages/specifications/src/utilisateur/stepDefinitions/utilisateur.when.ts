@@ -51,24 +51,22 @@ Quand(
 );
 
 Quand(`un administrateur supprime l'utilisateur`, async function (this: PotentielWorld) {
-  try {
-    await supprimerUtilisateur.call(this, {
-      identifiantUtilisateur: this.utilisateurWorld.inviterUtilisateur.email,
-    });
-  } catch (error) {
-    this.error = error as Error;
-  }
+  await supprimerUtilisateur.call(this, {
+    identifiantUtilisateur: this.utilisateurWorld.inviterUtilisateur.email,
+  });
+});
+
+Quand(`un administrateur supprime le porteur du projet`, async function (this: PotentielWorld) {
+  await supprimerUtilisateur.call(this, {
+    identifiantUtilisateur: this.utilisateurWorld.porteurFixture.email,
+  });
 });
 
 Quand(`l'utilisateur supprime son compte`, async function (this: PotentielWorld) {
-  try {
-    await supprimerUtilisateur.call(this, {
-      identifiantUtilisateur: this.utilisateurWorld.inviterUtilisateur.email,
-      suppriméPar: this.utilisateurWorld.inviterUtilisateur.email,
-    });
-  } catch (error) {
-    this.error = error as Error;
-  }
+  await supprimerUtilisateur.call(this, {
+    identifiantUtilisateur: this.utilisateurWorld.inviterUtilisateur.email,
+    suppriméPar: this.utilisateurWorld.inviterUtilisateur.email,
+  });
 });
 
 Quand('un administrateur réinvite le même utilisateur', async function (this: PotentielWorld) {
@@ -280,14 +278,18 @@ export async function supprimerUtilisateur(
   this: PotentielWorld,
   { identifiantUtilisateur, suppriméPar }: { identifiantUtilisateur: string; suppriméPar?: string },
 ) {
-  await mediator.send<SupprimerUtilisateurUseCase>({
-    type: 'Utilisateur.UseCase.SupprimerUtilisateur',
-    data: {
-      identifiantUtilisateurValue: identifiantUtilisateur,
-      suppriméLeValue: DateTime.now().formatter(),
-      suppriméParValue: suppriméPar ?? this.utilisateurWorld.adminFixture.email,
-    },
-  });
+  try {
+    await mediator.send<SupprimerUtilisateurUseCase>({
+      type: 'Utilisateur.UseCase.SupprimerUtilisateur',
+      data: {
+        identifiantUtilisateurValue: identifiantUtilisateur,
+        suppriméLeValue: DateTime.now().formatter(),
+        suppriméParValue: suppriméPar ?? this.utilisateurWorld.adminFixture.email,
+      },
+    });
+  } catch (error) {
+    this.error = error as Error;
+  }
 }
 
 export async function retirerAccèsProjet(
