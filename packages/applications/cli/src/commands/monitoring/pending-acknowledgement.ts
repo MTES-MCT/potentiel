@@ -46,18 +46,17 @@ export class PendingAcknowlegement extends Command {
 
     if (pendingAcknowledgements.length === 0) {
       logger.info('No pending_acknowledgement found');
-      return;
+    } else {
+      logger.error(new DatabaseHasPendingAcknowledgements(), {
+        totalCount: pendingAcknowledgements.length,
+        errorCount: pendingAcknowledgements.filter((p) => !!p.error).length,
+        subscribers: [
+          ...new Set(
+            pendingAcknowledgements.map((pa) => `${pa.stream_category}|${pa.subscriber_name}`),
+          ),
+        ],
+      });
     }
-
-    logger.error(new DatabaseHasPendingAcknowledgements(), {
-      totalCount: pendingAcknowledgements.length,
-      errorCount: pendingAcknowledgements.filter((p) => !!p.error).length,
-      subscribers: [
-        ...new Set(
-          pendingAcknowledgements.map((pa) => `${pa.stream_category}|${pa.subscriber_name}`),
-        ),
-      ],
-    });
 
     await reportCronStatus('pending-acknowledgement', 'ok');
   }
