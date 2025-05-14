@@ -1,17 +1,5 @@
-import {
-  ConsulterAttestationConformitéQuery,
-  ConsulterAttestationConformitéReadModel,
-} from './consulter/consulterAttestationConformité.query';
 import { ModifierAttestationConformitéUseCase } from './modifier/modifierAttestationConformité.usecase';
 import { TransmettreAttestationConformitéUseCase } from './transmettre/transmettreAttestationConformité.usecase';
-
-// Query
-export type AttestationConformitéQuery = ConsulterAttestationConformitéQuery;
-
-export { ConsulterAttestationConformitéQuery };
-
-// ReadModel
-export { ConsulterAttestationConformitéReadModel };
 
 // UseCases
 export type AttestationConformitéUseCase =
@@ -26,9 +14,3 @@ export { AttestationConformitéModifiéeEvent } from './modifier/modifierAttesta
 
 // Register
 export { registerAchèvementUseCases } from './achèvement.register';
-
-// ValueTypes
-export * as TypeDocumentAchèvement from './typeDocumentAchèvement.valueType';
-
-// Entities
-export * from './achèvement.entity';
