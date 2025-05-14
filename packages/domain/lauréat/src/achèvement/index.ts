@@ -1,12 +1,9 @@
 import { ModifierAttestationConformitéUseCase } from './modifier/modifierAttestationConformité.usecase';
-import { TransmettreAttestationConformitéUseCase } from './transmettre/transmettreAttestationConformité.usecase';
 
 // UseCases
-export type AttestationConformitéUseCase =
-  | TransmettreAttestationConformitéUseCase
-  | ModifierAttestationConformitéUseCase;
+export type AttestationConformitéUseCase = ModifierAttestationConformitéUseCase;
 
-export { TransmettreAttestationConformitéUseCase, ModifierAttestationConformitéUseCase };
+export { ModifierAttestationConformitéUseCase };
 
 // Event
 export { AchèvementEvent } from './achèvement.aggregate';

@@ -10,10 +10,6 @@ import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
 import { Option } from '@potentiel-libraries/monads';
 
 import {
-  applyAttestationConformitéTransmise,
-  transmettre,
-} from './transmettre/transmettreAttestationConformité.behavior';
-import {
   AttestationConformitéModifiéeEvent,
   applyAttestationConformitéModifiée,
   modifier,
@@ -27,7 +23,6 @@ export type AchèvementAggregate = Aggregate<AchèvementEvent> & {
   utilisateur: IdentifiantUtilisateur.ValueType;
   attestationConformité?: { format: string; date: DateTime.ValueType };
   preuveTransmissionAuCocontractant?: { format: Option.Type<string>; date: DateTime.ValueType };
-  readonly transmettre: typeof transmettre;
   readonly modifier: typeof modifier;
   readonly estAchevé: () => boolean;
 };
@@ -38,7 +33,6 @@ export const getDefaultAchèvementAggregate: GetDefaultAggregateState<
 > = () => ({
   utilisateur: IdentifiantUtilisateur.unknownUser,
   apply,
-  transmettre,
   modifier,
   estAchevé() {
     return !!(this.attestationConformité && this.preuveTransmissionAuCocontractant);
@@ -47,9 +41,6 @@ export const getDefaultAchèvementAggregate: GetDefaultAggregateState<
 
 function apply(this: AchèvementAggregate, event: AchèvementEvent) {
   switch (event.type) {
-    case 'AttestationConformitéTransmise-V1':
-      applyAttestationConformitéTransmise.bind(this)(event);
-      break;
     case 'AttestationConformitéModifiée-V1':
       applyAttestationConformitéModifiée.bind(this)(event);
   }

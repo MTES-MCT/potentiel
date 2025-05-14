@@ -1,11 +1,11 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { DocumentProjet, EnregistrerDocumentProjetCommand } from '@potentiel-domain/document';
-import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
-import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
+import { DateTime, Email } from '@potentiel-domain/common';
 import { Lauréat } from '@potentiel-domain/projet';
 
-import { AnnulerTâchesPlanifiéesGarantiesFinancièresCommand } from '../../garantiesFinancières/tâches-planifiées/annuler/annuler.command';
+import { AnnulerTâchesPlanifiéesGarantiesFinancièresCommand } from '../../garanties-financières';
+import { IdentifiantProjet } from '../../..';
 
 import { TransmettreAttestationConformitéCommand } from './transmettreAttestationConformité.command';
 
@@ -13,6 +13,7 @@ export type TransmettreAttestationConformitéUseCase = Message<
   'Lauréat.Achèvement.AttestationConformité.UseCase.TransmettreAttestationConformité',
   {
     identifiantProjetValue: string;
+    identifiantUtilisateurValue: string;
     attestationValue: {
       content: ReadableStream;
       format: string;
@@ -23,7 +24,6 @@ export type TransmettreAttestationConformitéUseCase = Message<
       format: string;
     };
     dateValue: string;
-    utilisateurValue: string;
   }
 >;
 
@@ -34,7 +34,7 @@ export const registerTransmettreAttestationConformitéUseCase = () => {
     dateValue,
     preuveTransmissionAuCocontractantValue,
     dateTransmissionAuCocontractantValue,
-    utilisateurValue,
+    identifiantUtilisateurValue,
   }) => {
     const identifiantProjet = IdentifiantProjet.convertirEnValueType(identifiantProjetValue);
     const attestation = DocumentProjet.convertirEnValueType(
@@ -54,7 +54,7 @@ export const registerTransmettreAttestationConformitéUseCase = () => {
     );
     const date = DateTime.convertirEnValueType(dateValue);
 
-    const utilisateur = IdentifiantUtilisateur.convertirEnValueType(utilisateurValue);
+    const identifiantUtilisateur = Email.convertirEnValueType(identifiantUtilisateurValue);
 
     await mediator.send<EnregistrerDocumentProjetCommand>({
       type: 'Document.Command.EnregistrerDocumentProjet',
@@ -80,7 +80,7 @@ export const registerTransmettreAttestationConformitéUseCase = () => {
         date,
         preuveTransmissionAuCocontractant,
         dateTransmissionAuCocontractant,
-        utilisateur,
+        identifiantUtilisateur,
       },
     });
 
