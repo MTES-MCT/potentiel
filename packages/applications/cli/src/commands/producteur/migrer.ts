@@ -76,7 +76,7 @@ export class Migrer extends Command {
              (SELECT to_char (es."occurredAt" at time zone 'UTC', 'YYYY-MM-DD"T"HH24:MI:SS.MS"Z"')) as "enregistréLe",
              u."email" as "enregistréPar",
              es.payload->>'justification' as "raison",
-             replace(f."storedAt", 'S3:potentiel-production:', '') as "filePath"
+             replace(replace(f."storedAt", 'S3:potentiel-production:', ''), 'S3:production-potentiel:', '') as "filePath"
       from "eventStores" es
       inner join projects p on es.payload->>'projectId' = p.id::text
       inner join users u on es.payload->>'requestedBy' = u.id::text
@@ -152,7 +152,11 @@ export class Migrer extends Command {
     for (const [identifiantProjet, files] of filesPerProjet) {
       for (const { from, to } of files) {
         if (!flags.dryRun) {
-          await copyFile(from, to.formatter());
+          try {
+            await copyFile(from, to.formatter());
+          } catch (error) {
+            console.error(error);
+          }
         }
         filesStats[identifiantProjet] ??= 0;
         filesStats[identifiantProjet]++;
