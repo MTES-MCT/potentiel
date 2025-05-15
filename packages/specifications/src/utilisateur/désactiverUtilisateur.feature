@@ -1,5 +1,4 @@
 # language: fr
-@select
 Fonctionnalité: Désactiver un utilisateur
 
     Contexte:
