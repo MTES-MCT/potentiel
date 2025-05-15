@@ -2,7 +2,7 @@ import { faker } from '@faker-js/faker';
 
 import { DateTime } from '@potentiel-domain/common';
 
-import { AbstractFixture } from '../../fixture';
+import { AbstractFixture } from '../../../fixture';
 
 interface TransmettreDateDeMiseEnService {
   dateMiseEnService: string;

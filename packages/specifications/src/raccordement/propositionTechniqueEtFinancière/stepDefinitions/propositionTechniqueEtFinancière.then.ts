@@ -7,10 +7,9 @@ import { Raccordement } from '@potentiel-domain/laureat';
 import { Option } from '@potentiel-libraries/monads';
 import { ConsulterDocumentProjetQuery } from '@potentiel-domain/document';
 
-import { PotentielWorld } from '../../potentiel.world';
-import { convertReadableStreamToString } from '../../helpers/convertReadableToString';
-
-import { vérifierDossierRaccordement } from './raccordement.then';
+import { PotentielWorld } from '../../../potentiel.world';
+import { convertReadableStreamToString } from '../../../helpers/convertReadableToString';
+import { vérifierDossierRaccordement } from '../../dossierRaccordement/stepDefinitions/dossierRaccordement.then';
 
 Alors(
   `la proposition technique et financière signée devrait être consultable dans le dossier de raccordement du projet lauréat`,

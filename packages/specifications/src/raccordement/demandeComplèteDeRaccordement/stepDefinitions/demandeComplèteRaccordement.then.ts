@@ -9,10 +9,9 @@ import { ConsulterDocumentProjetQuery } from '@potentiel-domain/document';
 import { IdentifiantProjet } from '@potentiel-domain/common';
 import { mapToPlainObject } from '@potentiel-domain/core';
 
-import { PotentielWorld } from '../../potentiel.world';
-import { convertReadableStreamToString } from '../../helpers/convertReadableToString';
-
-import { vérifierDossierRaccordement } from './raccordement.then';
+import { PotentielWorld } from '../../../potentiel.world';
+import { convertReadableStreamToString } from '../../../helpers/convertReadableToString';
+import { vérifierDossierRaccordement } from '../../dossierRaccordement/stepDefinitions/dossierRaccordement.then';
 
 Alors(
   `la demande complète de raccordement devrait être consultable dans le dossier de raccordement du projet lauréat`,
