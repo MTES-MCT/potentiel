@@ -1,7 +1,6 @@
 import { DataTable, When as Quand } from '@cucumber/cucumber';
 import { mediator } from 'mediateur';
 
-import { Achèvement } from '@potentiel-domain/laureat';
 import { Lauréat } from '@potentiel-domain/projet';
 
 import { PotentielWorld } from '../../../../../potentiel.world';
@@ -81,7 +80,7 @@ Quand(
           utilisateur: this.utilisateurWorld.adminFixture.email,
         });
 
-      await mediator.send<Achèvement.ModifierAttestationConformitéUseCase>({
+      await mediator.send<Lauréat.Achèvement.ModifierAttestationConformitéUseCase>({
         type: 'Lauréat.Achèvement.AttestationConformité.UseCase.ModifierAttestationConformité',
         data: {
           identifiantProjetValue: identifiantProjet.formatter(),
@@ -115,7 +114,7 @@ Quand(
           }),
         });
 
-      await mediator.send<Achèvement.ModifierAttestationConformitéUseCase>({
+      await mediator.send<Lauréat.Achèvement.ModifierAttestationConformitéUseCase>({
         type: 'Lauréat.Achèvement.AttestationConformité.UseCase.ModifierAttestationConformité',
         data: {
           identifiantProjetValue: identifiantProjet.formatter(),

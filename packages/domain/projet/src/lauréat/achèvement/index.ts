@@ -21,6 +21,7 @@ export { ConsulterAttestationConformitéQuery };
 export { ConsulterAttestationConformitéReadModel };
 
 // Events
+export * from './achèvement.event';
 export * from './transmettre/transmettreAttestationConformité.event';
 export * from './modifier/modifierAttestationConformité.event';
 

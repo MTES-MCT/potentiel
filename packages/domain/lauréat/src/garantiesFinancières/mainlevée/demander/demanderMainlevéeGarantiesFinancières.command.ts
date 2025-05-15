@@ -2,11 +2,11 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
 import { LoadAggregate } from '@potentiel-domain/core';
+import { GetProjetAggregateRoot } from '@potentiel-domain/projet';
+import { Option } from '@potentiel-libraries/monads';
 
 import { loadGarantiesFinancièresFactory } from '../../garantiesFinancières.aggregate';
 import { MotifDemandeMainlevéeGarantiesFinancières } from '../..';
-import { loadAbandonFactory } from '../../../abandon/abandon.aggregate';
-import { loadAchèvementFactory } from '../../../achèvement/achèvement.aggregate';
 
 export type DemanderMainlevéeGarantiesFinancièresCommand = Message<
   'Lauréat.GarantiesFinancières.Mainlevée.Command.Demander',
@@ -20,29 +20,31 @@ export type DemanderMainlevéeGarantiesFinancièresCommand = Message<
 
 export const registerDemanderMainlevéeGarantiesFinancièresCommand = (
   loadAggregate: LoadAggregate,
+  getProjetAggregateRoot: GetProjetAggregateRoot,
 ) => {
   const loadGarantiesFinancières = loadGarantiesFinancièresFactory(loadAggregate);
-  const loadAbandon = loadAbandonFactory(loadAggregate);
-  const loadAchèvement = loadAchèvementFactory(loadAggregate);
+
   const handler: MessageHandler<DemanderMainlevéeGarantiesFinancièresCommand> = async ({
     identifiantProjet,
     demandéLe,
     demandéPar,
     motif,
   }) => {
+    const {
+      statut,
+      lauréat: {
+        achèvement: { preuveTransmissionAuCocontractant },
+      },
+    } = await getProjetAggregateRoot(identifiantProjet);
     const garantiesFinancières = await loadGarantiesFinancières(identifiantProjet, false);
-
-    const abandon = await loadAbandon(identifiantProjet, false);
-
-    const achèvement = await loadAchèvement(identifiantProjet, false);
 
     await garantiesFinancières.demanderMainlevée({
       identifiantProjet,
       demandéLe,
       demandéPar,
       motif,
-      statutAbandon: abandon.statut,
-      achèvement,
+      estAbandonné: statut.estAbandonné(),
+      aUnePreuveTransmissionAuCocontractant: Option.isSome(preuveTransmissionAuCocontractant),
     });
   };
   mediator.register('Lauréat.GarantiesFinancières.Mainlevée.Command.Demander', handler);

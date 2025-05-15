@@ -4,14 +4,14 @@ import { IdentifiantProjet } from '@potentiel-domain/projet';
 import { Option } from '@potentiel-libraries/monads';
 import { Event } from '@potentiel-infrastructure/pg-event-sourcing';
 import { CandidatureAdapter } from '@potentiel-infrastructure/domain-adapters';
-import { Achèvement } from '@potentiel-domain/laureat';
+import { Lauréat } from '@potentiel-domain/projet';
 import { Routes } from '@potentiel-applications/routes';
 
 import { EmailPayload, SendEmail } from '../../sendEmail';
 import { listerPorteursRecipients } from '../../helpers/listerPorteursRecipients';
 import { listerDrealsRecipients } from '../../helpers/listerDrealsRecipients';
 
-export type SubscriptionEvent = Achèvement.AchèvementEvent & Event;
+export type SubscriptionEvent = Lauréat.Achèvement.AchèvementEvent & Event;
 
 export type Execute = Message<
   'System.Notification.Lauréat.Achèvement.AttestationConformité',

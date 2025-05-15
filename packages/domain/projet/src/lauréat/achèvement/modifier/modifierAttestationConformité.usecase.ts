@@ -1,9 +1,9 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { DocumentProjet, EnregistrerDocumentProjetCommand } from '@potentiel-domain/document';
-import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
-import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
-import { Lauréat } from '@potentiel-domain/projet';
+import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
+
+import { TypeDocumentAchèvement } from '..';
 
 import { ModifierAttestationConformitéCommand } from './modifierAttestationConformité.command';
 
@@ -37,7 +37,7 @@ export const registerModifierAttestationConformitéUseCase = () => {
     const identifiantProjet = IdentifiantProjet.convertirEnValueType(identifiantProjetValue);
     const attestation = DocumentProjet.convertirEnValueType(
       identifiantProjetValue,
-      Lauréat.Achèvement.TypeDocumentAchèvement.attestationConformitéValueType.formatter(),
+      TypeDocumentAchèvement.attestationConformitéValueType.formatter(),
       dateValue,
       attestationValue.format,
     );
@@ -46,13 +46,13 @@ export const registerModifierAttestationConformitéUseCase = () => {
     );
     const preuveTransmissionAuCocontractant = DocumentProjet.convertirEnValueType(
       identifiantProjetValue,
-      Lauréat.Achèvement.TypeDocumentAchèvement.attestationConformitéPreuveTransmissionValueType.formatter(),
+      TypeDocumentAchèvement.attestationConformitéPreuveTransmissionValueType.formatter(),
       dateTransmissionAuCocontractantValue,
       preuveTransmissionAuCocontractantValue.format,
     );
     const date = DateTime.convertirEnValueType(dateValue);
 
-    const identifiantUtilisateur = IdentifiantUtilisateur.convertirEnValueType(utilisateurValue);
+    const identifiantUtilisateur = Email.convertirEnValueType(utilisateurValue);
 
     await mediator.send<EnregistrerDocumentProjetCommand>({
       type: 'Document.Command.EnregistrerDocumentProjet',
