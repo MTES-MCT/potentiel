@@ -2,7 +2,7 @@ import { match } from 'ts-pattern';
 
 import { Role } from '@potentiel-domain/utilisateur';
 
-import { DétailsCandidaturePageProps } from '../../../components/pages/candidature/détails/DétailsCandidature.page';
+import { DétailsCandidaturePageProps } from '@/components/pages/candidature/détails/DétailsCandidature.page';
 
 export const getCandidatureActions = (
   props: { estNotifiée: boolean; estLauréat: boolean; aUneAttestation: boolean },
