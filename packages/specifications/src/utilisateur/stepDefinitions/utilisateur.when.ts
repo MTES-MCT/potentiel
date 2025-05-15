@@ -10,7 +10,10 @@ import {
   Role,
   RéclamerProjetUseCase,
 } from '@potentiel-domain/utilisateur';
-import { DésactiverUtilisateurUseCase } from '@potentiel-domain/utilisateur';
+import {
+  DésactiverUtilisateurUseCase,
+  RéactiverUtilisateurUseCase,
+} from '@potentiel-domain/utilisateur';
 
 import { PotentielWorld } from '../../potentiel.world';
 import { InviterUtilisateurFixture } from '../fixtures/inviter/inviter.fixture';
@@ -66,6 +69,18 @@ Quand(`l'utilisateur désactive son compte`, async function (this: PotentielWorl
   await désactiverUtilisateur.call(this, {
     identifiantUtilisateur: this.utilisateurWorld.inviterUtilisateur.email,
     désactivéPar: this.utilisateurWorld.inviterUtilisateur.email,
+  });
+});
+
+Quand(`un administrateur réactive l'utilisateur`, async function (this: PotentielWorld) {
+  await réactiverUtilisateur.call(this, {
+    identifiantUtilisateur: this.utilisateurWorld.inviterUtilisateur.email,
+  });
+});
+
+Quand(`un administrateur réactive le porteur du projet`, async function (this: PotentielWorld) {
+  await réactiverUtilisateur.call(this, {
+    identifiantUtilisateur: this.utilisateurWorld.porteurFixture.email,
   });
 });
 
@@ -334,6 +349,24 @@ async function réclamerProjet(
         réclaméLe: DateTime.now().formatter(),
         numéroCRE,
         prixRéférence,
+      },
+    });
+  } catch (error) {
+    this.error = error as Error;
+  }
+}
+
+export async function réactiverUtilisateur(
+  this: PotentielWorld,
+  { identifiantUtilisateur }: { identifiantUtilisateur: string },
+) {
+  try {
+    await mediator.send<RéactiverUtilisateurUseCase>({
+      type: 'Utilisateur.UseCase.RéactiverUtilisateur',
+      data: {
+        identifiantUtilisateurValue: identifiantUtilisateur,
+        réactivéLeValue: DateTime.now().formatter(),
+        réactivéParValue: this.utilisateurWorld.adminFixture.email,
       },
     });
   } catch (error) {

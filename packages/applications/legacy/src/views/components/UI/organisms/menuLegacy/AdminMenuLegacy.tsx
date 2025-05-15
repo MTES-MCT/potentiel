@@ -88,7 +88,7 @@ export const AdminMenuLegacy = ({ currentPage, features }: AdminMenuLegacyProps)
       </DropdownMenu.DropdownItem>
     </DropdownMenu>
     <DropdownMenu buttonChildren={'Gestion des accès'}>
-      <DropdownMenu.DropdownItem href={Routes.Utilisateur.lister}>
+      <DropdownMenu.DropdownItem href={Routes.Utilisateur.lister()}>
         Utilisateurs
       </DropdownMenu.DropdownItem>
       <DropdownMenu.DropdownItem href={Routes.Utilisateur.inviter}>

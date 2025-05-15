@@ -28,6 +28,8 @@ import { ListerPorteursQuery, ListerPorteursReadModel } from './lister/listerPor
 import { RetirerAccèsProjetCommand } from './retirer/retirerAccèsProjet.command';
 import { DésactiverUtilisateurUseCase } from './désactiver/désactiverUtilisateur.usecase';
 import { UtilisateurDésactivéEvent } from './désactiver/désactiverUtilisateur.behavior';
+import { RéactiverUtilisateurUseCase } from './réactiver/réactiverUtilisateur.usecase';
+import { UtilisateurRéactivéEvent } from './réactiver/réactiverUtilisateur.behavior';
 export * as IdentifiantUtilisateur from './identifiantUtilisateur.valueType';
 export * as Utilisateur from './utilisateur.valueType';
 export * as Role from './role.valueType';
@@ -58,7 +60,8 @@ export type UtilisateurUseCase =
   | InviterPorteurUseCase
   | RéclamerProjetUseCase
   | RetirerAccèsProjetUseCase
-  | DésactiverUtilisateurUseCase;
+  | DésactiverUtilisateurUseCase
+  | RéactiverUtilisateurUseCase;
 
 export {
   InviterUtilisateurUseCase,
@@ -66,6 +69,7 @@ export {
   RéclamerProjetUseCase,
   RetirerAccèsProjetUseCase,
   DésactiverUtilisateurUseCase,
+  RéactiverUtilisateurUseCase,
 };
 
 // Command
@@ -79,6 +83,7 @@ export {
   ProjetRéclaméEvent,
   AccèsProjetRetiréEvent,
   UtilisateurDésactivéEvent,
+  UtilisateurRéactivéEvent,
 };
 
 // Register

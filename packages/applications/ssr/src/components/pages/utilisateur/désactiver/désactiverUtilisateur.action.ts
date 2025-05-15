@@ -2,6 +2,7 @@
 
 import { mediator } from 'mediateur';
 import * as zod from 'zod';
+import { headers } from 'next/headers';
 
 import { DésactiverUtilisateurUseCase } from '@potentiel-domain/utilisateur';
 import { DateTime } from '@potentiel-domain/common';
@@ -32,7 +33,10 @@ const action: FormAction<FormState, typeof schema> = async (
 
     return {
       status: 'success',
-      redirection: { url: Routes.Utilisateur.lister, message: "L'utilisateur a été désactivé" },
+      redirection: {
+        url: headers().get('referer') ?? Routes.Utilisateur.lister({ actif: false }),
+        message: "L'utilisateur a été désactivé",
+      },
     };
   });
 

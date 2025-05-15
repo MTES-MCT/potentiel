@@ -27,6 +27,7 @@ export const register = ({ sendEmail }: RegisterUtilisateurNotificationDependenc
       .with({ type: 'UtilisateurInvité-V1' }, utilisateurInvitéNotification)
       .with({ type: 'ProjetRéclamé-V1' }, async () => [])
       .with({ type: 'UtilisateurDésactivé-V1' }, async () => [])
+      .with({ type: 'UtilisateurRéactivé-V1' }, async () => [])
       .exhaustive();
 
     await Promise.all(emailPayloads.map(sendEmail));

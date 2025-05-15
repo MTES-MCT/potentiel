@@ -158,6 +158,20 @@ Alors(`l'utilisateur devrait être actif`, async function (this: PotentielWorld)
   });
 });
 
+Alors(`le porteur devrait être actif`, async function (this: PotentielWorld) {
+  await waitForExpect(async () => {
+    const utilisateur = await mediator.send<TrouverUtilisateurQuery>({
+      type: 'System.Utilisateur.Query.TrouverUtilisateur',
+      data: {
+        identifiantUtilisateur: this.utilisateurWorld.porteurFixture.email,
+      },
+    });
+
+    assert(Option.isSome(utilisateur), 'porteur non trouvé');
+    expect(utilisateur.désactivé).to.be.undefined;
+  });
+});
+
 Alors(
   'le projet {lauréat-éliminé} est consultable dans la liste des projets à réclamer',
   async function (this: PotentielWorld, statutProjet: 'lauréat' | 'éliminé') {
