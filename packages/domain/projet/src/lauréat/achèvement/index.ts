@@ -6,7 +6,7 @@ import { ModifierAttestationConformitéUseCase } from './modifier/modifierAttest
 import { TransmettreAttestationConformitéUseCase } from './transmettre/transmettreAttestationConformité.usecase';
 
 // UseCases
-export type AttestationConformitéUseCase =
+export type AchèvementUseCase =
   | TransmettreAttestationConformitéUseCase
   | ModifierAttestationConformitéUseCase;
 
