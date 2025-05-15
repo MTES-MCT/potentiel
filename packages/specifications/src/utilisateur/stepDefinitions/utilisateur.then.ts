@@ -1,7 +1,7 @@
 import { Then as Alors, DataTable } from '@cucumber/cucumber';
 import { mediator } from 'mediateur';
 import waitForExpect from 'wait-for-expect';
-import { expect } from 'chai';
+import { assert, expect } from 'chai';
 
 import { mapToPlainObject } from '@potentiel-domain/core';
 import {
@@ -48,7 +48,7 @@ Alors(
   },
 );
 
-Alors("l'utilisateur n'existe plus", async function (this: PotentielWorld) {
+Alors("l'utilisateur devrait être supprimé", async function (this: PotentielWorld) {
   const { identifiantUtilisateur } = this.utilisateurWorld.mapToExpected();
 
   await waitForExpect(async () => {
@@ -58,7 +58,8 @@ Alors("l'utilisateur n'existe plus", async function (this: PotentielWorld) {
         identifiantUtilisateur: identifiantUtilisateur.email,
       },
     });
-    expect(Option.isNone(utilisateur)).to.be.true;
+    assert(Option.isSome(utilisateur), 'Utilisateur non trouvé');
+    expect(utilisateur.supprimé).to.be.true;
   });
 });
 

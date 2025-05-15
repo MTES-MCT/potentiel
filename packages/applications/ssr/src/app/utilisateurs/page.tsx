@@ -3,6 +3,7 @@ import { mediator } from 'mediateur';
 import { z } from 'zod';
 
 import {
+  ConsulterUtilisateurReadModel,
   ListerUtilisateursQuery,
   ListerUtilisateursReadModel,
   Role,
@@ -22,6 +23,7 @@ import {
 import { listeDesRoles } from '@/utils/utilisateur/format-role';
 import { ListFilterItem } from '@/components/molecules/ListFilters';
 import { withUtilisateur } from '@/utils/withUtilisateur';
+import { UtilisateurListItemProps } from '@/components/pages/utilisateur/lister/UtilisateurListItem';
 
 export const metadata: Metadata = {
   title: 'Utilisateurs - Potentiel',
@@ -32,23 +34,33 @@ type PageProps = {
   searchParams?: Record<string, string>;
 };
 
+const optionalBoolean = z
+  .enum(['true', 'false'])
+  .optional()
+  .transform((val) => (val === 'true' ? true : val === 'false' ? false : undefined));
+
 const paramsSchema = z.object({
   page: z.coerce.number().int().optional().default(1),
   role: z.string().optional(),
   identifiantUtilisateur: z.string().optional(),
   identifiantGestionnaireReseau: z.string().optional(),
   region: z.string().optional(),
-  zni: z
-    .enum(['true', 'false'])
-    .optional()
-    .transform((zni) => (zni === 'true' ? true : zni === 'false' ? false : undefined)),
+  zni: optionalBoolean,
+  actif: optionalBoolean,
 });
 
 export default async function Page({ searchParams }: PageProps) {
   return PageWithErrorHandling(async () =>
     withUtilisateur(async (utilisateur) => {
-      const { page, identifiantUtilisateur, role, identifiantGestionnaireReseau, region, zni } =
-        paramsSchema.parse(searchParams);
+      const {
+        page,
+        identifiantUtilisateur,
+        role,
+        identifiantGestionnaireReseau,
+        region,
+        zni,
+        actif,
+      } = paramsSchema.parse(searchParams);
 
       const utilisateurs = await mediator.send<ListerUtilisateursQuery>({
         type: 'Utilisateur.Query.ListerUtilisateurs',
@@ -59,6 +71,7 @@ export default async function Page({ searchParams }: PageProps) {
           identifiantGestionnaireRéseau: identifiantGestionnaireReseau,
           région: region,
           zni,
+          actif,
         },
       });
       const filters: ListFilterItem<keyof z.infer<typeof paramsSchema>>[] = [
@@ -114,6 +127,14 @@ export default async function Page({ searchParams }: PageProps) {
             .sort((a, b) => a.label.localeCompare(b.label)),
         });
       }
+      filters.push({
+        label: 'Actif',
+        searchParamKey: 'actif',
+        options: [
+          { label: 'Oui', value: 'true' },
+          { label: 'Non', value: 'false' },
+        ],
+      });
 
       const identifiantsGestionnaireRéseau = new Set(
         utilisateurs.items.map((u) => u.identifiantGestionnaireRéseau).filter(Option.isSome),
@@ -174,14 +195,7 @@ const mapToListProps = (
     items: readModel.items.map((utilisateur) => ({
       utilisateur: {
         ...mapToPlainObject(utilisateur),
-        actions:
-          !utilisateurConnecté.identifiantUtilisateur.estÉgaleÀ(
-            utilisateur.identifiantUtilisateur,
-          ) &&
-          utilisateurConnecté.role.aLaPermission('utilisateur.supprimer') &&
-          !utilisateur.rôle.estÉgaleÀ(Role.porteur)
-            ? ['supprimer']
-            : [],
+        actions: mapToActions(utilisateur, utilisateurConnecté),
       },
       gestionnaireRéseau: mapToPlainObject(
         Option.match(utilisateur.identifiantGestionnaireRéseau)
@@ -198,4 +212,30 @@ const mapToListProps = (
     ...mapToPagination(readModel.range),
     totalItems: readModel.total,
   };
+};
+
+const mapToActions = (
+  utilisateur: ConsulterUtilisateurReadModel,
+  utilisateurConnecté: Utilisateur.ValueType,
+): UtilisateurListItemProps['utilisateur']['actions'] => {
+  if (utilisateurConnecté.identifiantUtilisateur.estÉgaleÀ(utilisateur.identifiantUtilisateur)) {
+    return [];
+  }
+
+  if (utilisateur.supprimé) {
+    if (utilisateurConnecté.role.aLaPermission('utilisateur.inviter')) {
+      // TODO réactiver
+      return [];
+    }
+    return [];
+  }
+
+  if (!utilisateurConnecté.role.aLaPermission('utilisateur.supprimer')) {
+    return [];
+  }
+  if (utilisateur.rôle.estÉgaleÀ(Role.porteur)) {
+    return [];
+  }
+
+  return ['supprimer'];
 };

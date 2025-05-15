@@ -9,7 +9,7 @@ Fonctionnalité: Supprimer un utilisateur
     Plan du scénario: Supprimer un utilisateur avec accès global
         Etant donné un utilisateur invité avec le rôle "<Rôle>"
         Quand un administrateur supprime l'utilisateur
-        Alors l'utilisateur n'existe plus
+        Alors l'utilisateur devrait être supprimé
 
         Exemples:
             | Rôle              |

@@ -120,6 +120,10 @@ export const getUtilisateurFromEmail = async (
     return utilisateur;
   }
 
+  if (utilisateur.supprimé) {
+    throw new Error('Utilisateur supprimé');
+  }
+
   return {
     role: utilisateur.rôle,
     nom: '',

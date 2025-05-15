@@ -13,6 +13,7 @@ export type TrouverUtilisateurReadModel = {
   fonction: Option.Type<string>;
   région: Option.Type<string>;
   identifiantGestionnaireRéseau: Option.Type<string>;
+  supprimé?: boolean;
 };
 
 export type TrouverUtilisateurQuery = Message<
@@ -49,4 +50,5 @@ export const mapToReadModel = (utilisateur: UtilisateurEntity): TrouverUtilisate
   région: utilisateur.rôle === 'dreal' ? utilisateur.région : Option.none,
   identifiantGestionnaireRéseau:
     utilisateur.rôle === 'grd' ? utilisateur.identifiantGestionnaireRéseau : Option.none,
+  supprimé: utilisateur.supprimé,
 });

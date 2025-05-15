@@ -3,6 +3,7 @@
 import { FC, useState } from 'react';
 import Link from 'next/link';
 import ButtonsGroup from '@codegouvfr/react-dsfr/ButtonsGroup';
+import Badge from '@codegouvfr/react-dsfr/Badge';
 
 import { ConsulterUtilisateurReadModel } from '@potentiel-domain/utilisateur';
 import { DateTime } from '@potentiel-domain/common';
@@ -40,6 +41,7 @@ export const UtilisateurListItem: FC<UtilisateurListItemProps> = ({
     nombreDeProjets,
     invitéLe,
     invitéPar,
+    supprimé,
     actions,
   },
   gestionnaireRéseau,
@@ -85,7 +87,14 @@ export const UtilisateurListItem: FC<UtilisateurListItemProps> = ({
           </div>
         }
       >
-        <RoleBadge role={rôle.nom} />
+        <div className="flex flex-row gap-2">
+          <RoleBadge role={rôle.nom} />
+          {supprimé && (
+            <Badge small noIcon severity="error">
+              Supprimé
+            </Badge>
+          )}
+        </div>
         <ul className="mt-3 text-sm">
           <OptionalElement label="Région" value={région} render={renderText} />
           <OptionalElement label="Fonction" value={fonction} render={renderText} />
