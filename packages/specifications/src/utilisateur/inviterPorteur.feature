@@ -4,7 +4,7 @@ Fonctionnalité: Inviter un porteur sur un projet
     Plan du scénario: Inviter un porteur
         Etant donné le projet <Statut> "Du boulodrome de Marseille"
         Quand le porteur invite un autre porteur sur le projet <Statut>
-        Alors l'utilisateur doit être créé
+        Alors l'utilisateur devrait être actif
         Et l'utilisateur invité a accès au projet <Statut>
         Et la liste des porteurs du projet <Statut> est mise à jour
         Et un email a été envoyé au nouveau porteur avec :

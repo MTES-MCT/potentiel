@@ -10,7 +10,6 @@ import {
   applyPorteurInvité,
   inviterPorteur,
 } from './inviter/inviterPorteur.behavior';
-import { UtilisateurInconnuError } from './utilisateurInconnu.error';
 import {
   applyUtilisateurInvité,
   inviter,
@@ -26,22 +25,33 @@ import {
   AccèsProjetRetiréEvent,
 } from './retirer/retirerAccèsProjet.behavior';
 import { retirerAccèsProjet } from './retirer/retirerAccèsProjet.behavior';
+import {
+  applyUtilisateurDésactivé,
+  UtilisateurDésactivéEvent,
+  désactiver,
+} from './désactiver/désactiverUtilisateur.behavior';
+import { UtilisateurInconnuError } from './errors';
 
 export type UtilisateurEvent =
   | PorteurInvitéEvent
   | UtilisateurInvitéEvent
   | ProjetRéclaméEvent
-  | AccèsProjetRetiréEvent;
+  | AccèsProjetRetiréEvent
+  | UtilisateurDésactivéEvent;
+
 export type UtilisateurAggregate = Aggregate<UtilisateurEvent> & {
   readonly inviterPorteur: typeof inviterPorteur;
   readonly inviter: typeof inviter;
   readonly réclamer: typeof réclamer;
   readonly retirerAccèsProjet: typeof retirerAccèsProjet;
+  readonly désactiver: typeof désactiver;
   aAccèsAuProjet: (identifiantProjet: IdentifiantProjet.ValueType) => boolean;
   projets: Set<IdentifiantProjet.RawType>;
+  actif: boolean;
 } & (
     | {
         existe: false;
+        rôle?: undefined;
       }
     | {
         existe: true;
@@ -58,8 +68,10 @@ export const getDefaultUtilisateurAggregate: GetDefaultAggregateState<
   inviter,
   réclamer,
   retirerAccèsProjet,
+  désactiver,
   projets: new Set(),
   existe: false,
+  actif: false,
   aAccèsAuProjet(identifiantProjet) {
     return this.projets.has(identifiantProjet.formatter());
   },
@@ -71,6 +83,7 @@ function apply(this: UtilisateurAggregate, event: UtilisateurEvent) {
     .with({ type: 'UtilisateurInvité-V1' }, applyUtilisateurInvité.bind(this))
     .with({ type: 'ProjetRéclamé-V1' }, applyProjetRéclamé.bind(this))
     .with({ type: 'AccèsProjetRetiré-V1' }, applyAccèsProjetRetiré.bind(this))
+    .with({ type: 'UtilisateurDésactivé-V1' }, applyUtilisateurDésactivé.bind(this))
     .exhaustive();
 }
 

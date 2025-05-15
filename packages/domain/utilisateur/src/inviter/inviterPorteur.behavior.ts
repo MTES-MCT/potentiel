@@ -66,6 +66,7 @@ export function applyPorteurInvité(
   { payload: { identifiantsProjet } }: PorteurInvitéEvent,
 ) {
   this.existe = true;
+  this.actif = true;
   if (this.existe) {
     this.rôle = Role.porteur;
   }

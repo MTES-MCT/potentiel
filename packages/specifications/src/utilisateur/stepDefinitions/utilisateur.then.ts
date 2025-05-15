@@ -1,10 +1,11 @@
 import { Then as Alors, DataTable } from '@cucumber/cucumber';
 import { mediator } from 'mediateur';
 import waitForExpect from 'wait-for-expect';
-import { expect } from 'chai';
+import { assert, expect } from 'chai';
 
 import { mapToPlainObject } from '@potentiel-domain/core';
 import {
+  ConsulterUtilisateurQuery,
   ListerPorteursQuery,
   Role,
   TrouverUtilisateurQuery,
@@ -44,6 +45,27 @@ Alors(
         },
       }),
     );
+  },
+);
+
+Alors(
+  /(l'utilisateur|le porteur) devrait être désactivé/,
+  async function (this: PotentielWorld, typeUtilisateur: "l'utilisateur" | 'le porteur') {
+    const { email: identifiantUtilisateur } =
+      typeUtilisateur === 'le porteur'
+        ? this.utilisateurWorld.porteurFixture
+        : this.utilisateurWorld.mapToExpected().identifiantUtilisateur;
+
+    await waitForExpect(async () => {
+      const utilisateur = await mediator.send<ConsulterUtilisateurQuery>({
+        type: 'Utilisateur.Query.ConsulterUtilisateur',
+        data: {
+          identifiantUtilisateur,
+        },
+      });
+      assert(Option.isSome(utilisateur), 'Utilisateur non trouvé');
+      expect(utilisateur.désactivé).to.be.true;
+    });
   },
 );
 
@@ -118,7 +140,7 @@ Alors(
   },
 );
 
-Alors(`l'utilisateur doit être créé`, async function (this: PotentielWorld) {
+Alors(`l'utilisateur devrait être actif`, async function (this: PotentielWorld) {
   await waitForExpect(async () => {
     const utilisateur = await mediator.send<TrouverUtilisateurQuery>({
       type: 'System.Utilisateur.Query.TrouverUtilisateur',

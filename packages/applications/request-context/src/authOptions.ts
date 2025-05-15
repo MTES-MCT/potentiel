@@ -113,6 +113,14 @@ export const authOptions: AuthOptions = {
         return true;
       }
 
+      if (utilisateur.désactivé) {
+        getLogger('Auth').info(
+          `User tries to connect with '${account?.provider}' but is disabled`,
+          { utilisateur },
+        );
+        return Routes.Auth.signIn({ error: 'Unauthorized' });
+      }
+
       if (account?.provider && !canConnectWithProvider(account?.provider, utilisateur.role.nom)) {
         getLogger('Auth').info(
           `User tries to connect with '${account.provider}' but is not authorized`,

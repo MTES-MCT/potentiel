@@ -10,6 +10,7 @@ import {
   Role,
   RéclamerProjetUseCase,
 } from '@potentiel-domain/utilisateur';
+import { DésactiverUtilisateurUseCase } from '@potentiel-domain/utilisateur';
 
 import { PotentielWorld } from '../../potentiel.world';
 import { InviterUtilisateurFixture } from '../fixtures/inviter/inviter.fixture';
@@ -48,6 +49,25 @@ Quand(
     await inviterUtilisateur.call(this, { rôle });
   },
 );
+
+Quand(`un administrateur désactive l'utilisateur`, async function (this: PotentielWorld) {
+  await désactiverUtilisateur.call(this, {
+    identifiantUtilisateur: this.utilisateurWorld.inviterUtilisateur.email,
+  });
+});
+
+Quand(`un administrateur désactive le porteur du projet`, async function (this: PotentielWorld) {
+  await désactiverUtilisateur.call(this, {
+    identifiantUtilisateur: this.utilisateurWorld.porteurFixture.email,
+  });
+});
+
+Quand(`l'utilisateur désactive son compte`, async function (this: PotentielWorld) {
+  await désactiverUtilisateur.call(this, {
+    identifiantUtilisateur: this.utilisateurWorld.inviterUtilisateur.email,
+    désactivéPar: this.utilisateurWorld.inviterUtilisateur.email,
+  });
+});
 
 Quand('un administrateur réinvite le même utilisateur', async function (this: PotentielWorld) {
   const { email, rôle } = this.utilisateurWorld.inviterUtilisateur;
@@ -247,6 +267,27 @@ export async function inviterUtilisateur(
         identifiantGestionnaireRéseauValue: identifiantGestionnaireRéseau,
         fonctionValue: fonction,
         nomCompletValue: nomComplet,
+      },
+    });
+  } catch (error) {
+    this.error = error as Error;
+  }
+}
+
+export async function désactiverUtilisateur(
+  this: PotentielWorld,
+  {
+    identifiantUtilisateur,
+    désactivéPar,
+  }: { identifiantUtilisateur: string; désactivéPar?: string },
+) {
+  try {
+    await mediator.send<DésactiverUtilisateurUseCase>({
+      type: 'Utilisateur.UseCase.DésactiverUtilisateur',
+      data: {
+        identifiantUtilisateurValue: identifiantUtilisateur,
+        désactivéLeValue: DateTime.now().formatter(),
+        désactivéParValue: désactivéPar ?? this.utilisateurWorld.adminFixture.email,
       },
     });
   } catch (error) {

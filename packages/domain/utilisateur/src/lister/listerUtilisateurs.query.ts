@@ -25,6 +25,7 @@ export type ListerUtilisateursQuery = Message<
     identifiantGestionnaireRéseau?: string;
     région?: string;
     zni?: boolean;
+    actif?: boolean;
   },
   ListerUtilisateursReadModel
 >;
@@ -45,8 +46,9 @@ export const registerListerUtilisateursQuery = ({ list }: ListerUtilisateursDepe
     identifiantGestionnaireRéseau,
     région,
     zni,
+    actif,
   }) => {
-    const where: WhereOptions<UtilisateurEntity> =
+    const roleWhereCondition: WhereOptions<UtilisateurEntity> =
       région !== undefined || zni !== undefined
         ? {
             rôle: Where.equal('dreal'),
@@ -73,7 +75,11 @@ export const registerListerUtilisateursQuery = ({ list }: ListerUtilisateursDepe
             };
 
     const utilisateurs = await list<UtilisateurEntity>('utilisateur', {
-      where,
+      where: {
+        ...roleWhereCondition,
+        désactivé:
+          actif === true ? Where.equalNull() : actif === false ? Where.equal(true) : undefined,
+      },
       orderBy: {
         invitéLe: 'descending',
       },

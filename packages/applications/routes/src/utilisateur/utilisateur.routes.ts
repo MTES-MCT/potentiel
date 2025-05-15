@@ -1,6 +1,6 @@
 import { encodeParameter } from '../encodeParameter';
 
-export const lister = `/utilisateurs`;
+export const lister = `/utilisateurs?actif=true`;
 export const inviter = `/utilisateurs/inviter`;
 export const réclamerProjet = `/reclamer`;
 

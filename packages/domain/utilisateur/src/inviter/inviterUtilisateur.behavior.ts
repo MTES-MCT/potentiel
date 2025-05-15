@@ -6,12 +6,12 @@ import { DateTime, Email } from '@potentiel-domain/common';
 import { UtilisateurAggregate } from '../utilisateur.aggregate';
 import { Role } from '..';
 import {
-  UtilisateurDéjàExistant,
+  UtilisateurDéjàExistantError,
   FonctionManquanteError,
   NomCompletManquantError,
   RégionManquanteError,
   IdentifiantGestionnaireRéseauManquantError,
-  PorteurInvitéSansProjetErreur,
+  PorteurInvitéSansProjetError,
 } from '../errors';
 
 export type UtilisateurInvitéEvent = DomainEvent<
@@ -66,7 +66,7 @@ export async function inviter(
   }: InviterOptions,
 ) {
   if (this.existe) {
-    throw new UtilisateurDéjàExistant();
+    throw new UtilisateurDéjàExistantError();
   }
 
   const basePayload = {
@@ -113,7 +113,7 @@ export async function inviter(
     })
     .with('porteur-projet', () => {
       // voir `inviterPorteur` behavior
-      throw new PorteurInvitéSansProjetErreur();
+      throw new PorteurInvitéSansProjetError();
     })
     .otherwise((rôle) => ({ ...basePayload, rôle }));
 
@@ -129,6 +129,7 @@ export function applyUtilisateurInvité(
   { payload: { rôle } }: UtilisateurInvitéEvent,
 ) {
   this.existe = true;
+  this.actif = true;
   if (this.existe) {
     this.rôle = Role.convertirEnValueType(rôle);
   }

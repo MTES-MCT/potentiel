@@ -30,6 +30,8 @@ import {
   registerListerProjetsÀRéclamerQuery,
 } from './lister/listerProjetsÀRéclamer.query';
 import { registerListerPorteursQuery } from './lister/listerPorteurs.query';
+import { registerDésactiverUseCase } from './désactiver/désactiverUtilisateur.usecase';
+import { registerDésactiverCommand } from './désactiver/désactiverUtilisateur.command';
 
 type UtilisateurQueryDependencies = ConsulterUtilisateurDependencies &
   ListerUtilisateursDependencies &
@@ -59,9 +61,11 @@ export const registerUtilisateurUseCases = ({
   registerInviterPorteurUseCase();
   registerRéclamerProjetUseCase();
   registerRetirerAccèsProjetUseCase();
+  registerDésactiverUseCase();
 
   registerInviterCommand(loadAggregate);
   registerInviterPorteurCommand(loadAggregate);
   registerRéclamerProjetCommand(loadAggregate, getProjetAggregateRoot);
   registerRetirerAccèsProjetCommand(loadAggregate);
+  registerDésactiverCommand(loadAggregate);
 };

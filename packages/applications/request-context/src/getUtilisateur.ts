@@ -9,7 +9,7 @@ import { getServerSession } from 'next-auth';
 import { Role, Utilisateur, TrouverUtilisateurQuery } from '@potentiel-domain/utilisateur';
 import { getLogger } from '@potentiel-libraries/monitoring';
 import { Email } from '@potentiel-domain/common';
-import { mapToPlainObject, PlainType } from '@potentiel-domain/core';
+import { mapToPlainObject, OperationRejectedError, PlainType } from '@potentiel-domain/core';
 import { Option } from '@potentiel-libraries/monads';
 
 import { authOptions } from './authOptions';
@@ -108,7 +108,15 @@ export const getUtilisateurFromAccessToken = async (
 
 export const getUtilisateurFromEmail = async (
   email: string,
-): Promise<Option.Type<PlainType<Utilisateur.ValueType>>> => {
+): Promise<
+  Option.Type<
+    PlainType<
+      Utilisateur.ValueType & {
+        désactivé?: true;
+      }
+    >
+  >
+> => {
   const utilisateur = await mediator.send<TrouverUtilisateurQuery>({
     type: 'System.Utilisateur.Query.TrouverUtilisateur',
     data: {
@@ -126,6 +134,7 @@ export const getUtilisateurFromEmail = async (
     identifiantUtilisateur: Email.convertirEnValueType(email),
     identifiantGestionnaireRéseau: utilisateur.identifiantGestionnaireRéseau,
     région: utilisateur.région,
+    désactivé: utilisateur.désactivé,
   };
 };
 
@@ -139,11 +148,15 @@ export const getSessionUtilisateurFromEmail = async (
 ): Promise<PlainType<Utilisateur.ValueType>> => {
   const utilisateur = await getUtilisateurFromEmail(email);
   if (Option.isSome(utilisateur)) {
+    if (utilisateur.désactivé) {
+      throw new OperationRejectedError(`Forbidden`);
+    }
     return {
       ...mapToPlainObject(utilisateur),
       nom: name ?? utilisateur.nom,
     };
   }
+
   return {
     role: Role.porteur,
     identifiantUtilisateur: Email.convertirEnValueType(email),
