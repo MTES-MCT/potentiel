@@ -108,7 +108,15 @@ export const getUtilisateurFromAccessToken = async (
 
 export const getUtilisateurFromEmail = async (
   email: string,
-): Promise<Option.Type<PlainType<Utilisateur.ValueType>>> => {
+): Promise<
+  Option.Type<
+    PlainType<
+      Utilisateur.ValueType & {
+        désactivé?: boolean;
+      }
+    >
+  >
+> => {
   const utilisateur = await mediator.send<TrouverUtilisateurQuery>({
     type: 'System.Utilisateur.Query.TrouverUtilisateur',
     data: {
@@ -120,16 +128,13 @@ export const getUtilisateurFromEmail = async (
     return utilisateur;
   }
 
-  if (utilisateur.désactivé) {
-    throw new OperationRejectedError(`Forbidden`);
-  }
-
   return {
     role: utilisateur.rôle,
     nom: '',
     identifiantUtilisateur: Email.convertirEnValueType(email),
     identifiantGestionnaireRéseau: utilisateur.identifiantGestionnaireRéseau,
     région: utilisateur.région,
+    désactivé: utilisateur.désactivé,
   };
 };
 
@@ -143,11 +148,15 @@ export const getSessionUtilisateurFromEmail = async (
 ): Promise<PlainType<Utilisateur.ValueType>> => {
   const utilisateur = await getUtilisateurFromEmail(email);
   if (Option.isSome(utilisateur)) {
+    if (utilisateur.désactivé) {
+      throw new OperationRejectedError(`Forbidden`);
+    }
     return {
       ...mapToPlainObject(utilisateur),
       nom: name ?? utilisateur.nom,
     };
   }
+
   return {
     role: Role.porteur,
     identifiantUtilisateur: Email.convertirEnValueType(email),
