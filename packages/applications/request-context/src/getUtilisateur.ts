@@ -112,7 +112,7 @@ export const getUtilisateurFromEmail = async (
   Option.Type<
     PlainType<
       Utilisateur.ValueType & {
-        désactivé?: boolean;
+        désactivé?: true;
       }
     >
   >

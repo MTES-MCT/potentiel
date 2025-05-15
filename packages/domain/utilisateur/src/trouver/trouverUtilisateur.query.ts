@@ -13,7 +13,7 @@ export type TrouverUtilisateurReadModel = {
   fonction: Option.Type<string>;
   région: Option.Type<string>;
   identifiantGestionnaireRéseau: Option.Type<string>;
-  désactivé?: boolean;
+  désactivé?: true;
 };
 
 export type TrouverUtilisateurQuery = Message<
