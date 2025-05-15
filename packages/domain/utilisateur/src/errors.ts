@@ -1,5 +1,11 @@
 import { InvalidOperationError, OperationRejectedError } from '@potentiel-domain/core';
 
+export class UtilisateurInconnuError extends InvalidOperationError {
+  constructor() {
+    super(`L'utilisateur n'est pas référencé`);
+  }
+}
+
 export class RoleRefuséError extends OperationRejectedError {
   constructor(value: string) {
     super(`Le rôle ne correspond à aucune valeur connue`, {
@@ -42,13 +48,13 @@ export class UtilisateurNonPorteurError extends OperationRejectedError {
   }
 }
 
-export class UtilisateurDéjàExistant extends InvalidOperationError {
+export class UtilisateurDéjàExistantError extends InvalidOperationError {
   constructor() {
     super("L'utilisateur existe déjà");
   }
 }
 
-export class PorteurInvitéSansProjetErreur extends InvalidOperationError {
+export class PorteurInvitéSansProjetError extends InvalidOperationError {
   constructor() {
     super(`Il est impossible d'inviter un porteur sans projet`);
   }
@@ -75,5 +81,23 @@ export class RégionManquanteError extends InvalidOperationError {
 export class IdentifiantGestionnaireRéseauManquantError extends InvalidOperationError {
   constructor() {
     super(`L'identifiant du gestionnaire de réseau est obligatoire pour un utilisateur grd`);
+  }
+}
+
+export class DésactivationPropreCompteError extends InvalidOperationError {
+  constructor() {
+    super(`Il est impossible de désactiver son propre compte`);
+  }
+}
+
+export class UtilisateurNonActifError extends InvalidOperationError {
+  constructor() {
+    super(`L'utilisateur n'est pas actif`);
+  }
+}
+
+export class UtilisateurDéjàActifError extends InvalidOperationError {
+  constructor() {
+    super(`L'utilisateur est déjà actif`);
   }
 }

@@ -5,6 +5,7 @@ type Common = {
   identifiantUtilisateur: Email.RawType;
   invitéLe: DateTime.RawType;
   invitéPar: Email.RawType;
+  désactivé?: true;
 };
 
 type UtilisateurGénérique = {

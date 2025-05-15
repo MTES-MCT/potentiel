@@ -39,6 +39,7 @@ export const setupUtilisateur = async ({ sendEmail }: SetupUtilisateurDependenci
       'PorteurInvité-V1',
       'ProjetRéclamé-V1',
       'AccèsProjetRetiré-V1',
+      'UtilisateurDésactivé-V1',
     ],
     eventHandler: async (event) => {
       await mediator.send<UtilisateurProjector.Execute>({
@@ -49,7 +50,7 @@ export const setupUtilisateur = async ({ sendEmail }: SetupUtilisateurDependenci
     streamCategory: 'utilisateur',
   });
 
-  const unsubscribeCandidatureNotification =
+  const unsubscribeUtilisateurNotification =
     await subscribe<UtilisateurNotification.SubscriptionEvent>({
       name: 'notifications',
       streamCategory: 'utilisateur',
@@ -64,6 +65,6 @@ export const setupUtilisateur = async ({ sendEmail }: SetupUtilisateurDependenci
 
   return async () => {
     await unsubscribeUtilisateurProjector();
-    await unsubscribeCandidatureNotification();
+    await unsubscribeUtilisateurNotification();
   };
 };

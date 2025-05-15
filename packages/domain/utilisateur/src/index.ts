@@ -25,13 +25,14 @@ import {
   ListerProjetsÀRéclamerReadModel,
 } from './lister/listerProjetsÀRéclamer.query';
 import { ListerPorteursQuery, ListerPorteursReadModel } from './lister/listerPorteurs.query';
-import { UtilisateurInconnuError } from './utilisateurInconnu.error';
 import { RetirerAccèsProjetCommand } from './retirer/retirerAccèsProjet.command';
+import { DésactiverUtilisateurUseCase } from './désactiver/désactiverUtilisateur.usecase';
+import { UtilisateurDésactivéEvent } from './désactiver/désactiverUtilisateur.behavior';
 export * as IdentifiantUtilisateur from './identifiantUtilisateur.valueType';
 export * as Utilisateur from './utilisateur.valueType';
 export * as Role from './role.valueType';
 export * as Région from './région.valueType';
-export { AccèsFonctionnalitéRefuséError } from './errors';
+export { UtilisateurInconnuError, AccèsFonctionnalitéRefuséError } from './errors';
 
 // Query
 export type UtilisateurQuery =
@@ -56,13 +57,15 @@ export type UtilisateurUseCase =
   | InviterUtilisateurUseCase
   | InviterPorteurUseCase
   | RéclamerProjetUseCase
-  | RetirerAccèsProjetUseCase;
+  | RetirerAccèsProjetUseCase
+  | DésactiverUtilisateurUseCase;
 
 export {
   InviterUtilisateurUseCase,
   InviterPorteurUseCase,
   RéclamerProjetUseCase,
   RetirerAccèsProjetUseCase,
+  DésactiverUtilisateurUseCase,
 };
 
 // Command
@@ -70,7 +73,13 @@ export { RetirerAccèsProjetCommand };
 
 // Events
 export { UtilisateurEvent } from './utilisateur.aggregate';
-export { PorteurInvitéEvent, UtilisateurInvitéEvent, ProjetRéclaméEvent, AccèsProjetRetiréEvent };
+export {
+  PorteurInvitéEvent,
+  UtilisateurInvitéEvent,
+  ProjetRéclaméEvent,
+  AccèsProjetRetiréEvent,
+  UtilisateurDésactivéEvent,
+};
 
 // Register
 export * from './register';
@@ -89,6 +98,3 @@ export {
   ListerProjetsÀRéclamerReadModel,
   ListerPorteursReadModel,
 };
-
-// error
-export { UtilisateurInconnuError };
