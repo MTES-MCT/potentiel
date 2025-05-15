@@ -11,7 +11,7 @@ import { checkAbandonAndAchèvement } from './checkAbandonAndAchèvement';
 export type GetReprésentantLégalForProjectPage = {
   nom: string;
   affichage?: {
-    labelActions: string;
+    labelActions?: string;
     label: string;
     url: string;
   };
@@ -52,7 +52,6 @@ export const getReprésentantLégal = async ({
         affichage: utilisateur.aLaPermission('candidature.corriger')
           ? {
               label: 'Modifier la candidature',
-              labelActions: 'Modifier la candidature',
               url: Routes.Candidature.corriger(identifiantProjet.formatter()),
             }
           : undefined,

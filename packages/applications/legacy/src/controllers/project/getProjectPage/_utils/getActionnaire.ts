@@ -11,7 +11,7 @@ import { checkAbandonAndAchèvement } from './checkAbandonAndAchèvement';
 
 export type GetActionnaireAffichageForProjectPage = {
   label: string;
-  labelActions: string;
+  labelActions?: string;
   url: string;
 };
 export type GetActionnaireForProjectPage = {
@@ -128,7 +128,6 @@ export const getActionnaire = async ({
           ? {
               url: Routes.Candidature.corriger(identifiantProjet.formatter()),
               label: 'Modifier la candidature',
-              labelActions: 'Modifier la candidature',
             }
           : undefined,
       };

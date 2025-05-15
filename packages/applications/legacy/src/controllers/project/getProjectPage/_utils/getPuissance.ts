@@ -12,7 +12,7 @@ import { mediator } from 'mediateur';
 export type GetPuissanceForProjectPage = {
   puissance: number;
   affichage?: {
-    labelActions: string;
+    labelActions?: string;
     label: string;
     url: string;
   };
@@ -105,7 +105,6 @@ export const getPuissance = async ({
           ? {
               url: Routes.Candidature.corriger(identifiantProjet.formatter()),
               label: 'Modifier la candidature',
-              labelActions: 'Modifier la candidature',
             }
           : undefined,
       };
