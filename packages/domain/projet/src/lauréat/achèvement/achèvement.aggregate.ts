@@ -13,9 +13,12 @@ import { AttestationConformitéTransmiseEvent } from './transmettre/transmettreA
 import { TransmettreAttestationConformitéOptions } from './transmettre/transmettreAttestationConformité.option';
 import {
   AttestationDeConformitéDéjàTransmiseError,
+  AucuneAttestationDeConformitéÀCorrigerError,
   DateDeTransmissionAuCoContractantFuturError,
   ImpossibleTransmettreAttestationDeConformitéProjetAbandonnéError,
 } from './achèvement.error';
+import { ModifierAttestationConformitéOptions } from './modifier/modifierAttestationConformité.option';
+import { AttestationConformitéModifiéeEvent } from './modifier/modifierAttestationConformité.event';
 
 export class AchèvementAggregate extends AbstractAggregate<AchèvementEvent> {
   #lauréat!: LauréatAggregate;
@@ -80,6 +83,37 @@ export class AchèvementAggregate extends AbstractAggregate<AchèvementEvent> {
     await this.publish(event);
   }
 
+  async modifierAttestationConformité({
+    identifiantProjet,
+    identifiantUtilisateur,
+    attestation,
+    date,
+    dateTransmissionAuCocontractant,
+    preuveTransmissionAuCocontractant,
+  }: ModifierAttestationConformitéOptions) {
+    if (dateTransmissionAuCocontractant.estDansLeFutur()) {
+      throw new DateDeTransmissionAuCoContractantFuturError();
+    }
+
+    if (Option.isNone(this.attestationConformité)) {
+      throw new AucuneAttestationDeConformitéÀCorrigerError();
+    }
+
+    const event: AttestationConformitéModifiéeEvent = {
+      type: 'AttestationConformitéModifiée-V1',
+      payload: {
+        identifiantProjet: identifiantProjet.formatter(),
+        attestation,
+        dateTransmissionAuCocontractant: dateTransmissionAuCocontractant.formatter(),
+        preuveTransmissionAuCocontractant,
+        date: date.formatter(),
+        utilisateur: identifiantUtilisateur.formatter(),
+      },
+    };
+
+    await this.publish(event);
+  }
+
   apply(event: AchèvementEvent): void {
     match(event)
       .with(
@@ -87,6 +121,12 @@ export class AchèvementAggregate extends AbstractAggregate<AchèvementEvent> {
           type: 'AttestationConformitéTransmise-V1',
         },
         (event) => this.applyAttestationConformitéTransmiseV1(event),
+      )
+      .with(
+        {
+          type: 'AttestationConformitéModifiée-V1',
+        },
+        (event) => this.applyAttestationConformitéModifiéeV1(event),
       )
       .exhaustive();
   }
@@ -102,6 +142,30 @@ export class AchèvementAggregate extends AbstractAggregate<AchèvementEvent> {
   }: AttestationConformitéTransmiseEvent) {
     this.#estAchevé = true;
 
+    this.#attestationConformité = DocumentProjet.convertirEnValueType(
+      identifiantProjet,
+      TypeDocumentAchèvement.attestationConformitéValueType.formatter(),
+      date,
+      attestation.format,
+    );
+
+    this.#preuveTransmissionAuCocontractant = DocumentProjet.convertirEnValueType(
+      identifiantProjet,
+      TypeDocumentAchèvement.attestationConformitéPreuveTransmissionValueType.formatter(),
+      dateTransmissionAuCocontractant,
+      preuveTransmissionAuCocontractant.format,
+    );
+  }
+
+  private applyAttestationConformitéModifiéeV1({
+    payload: {
+      identifiantProjet,
+      attestation,
+      date,
+      preuveTransmissionAuCocontractant,
+      dateTransmissionAuCocontractant,
+    },
+  }: AttestationConformitéModifiéeEvent) {
     this.#attestationConformité = DocumentProjet.convertirEnValueType(
       identifiantProjet,
       TypeDocumentAchèvement.attestationConformitéValueType.formatter(),

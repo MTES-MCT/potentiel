@@ -19,3 +19,9 @@ export class ImpossibleTransmettreAttestationDeConformitéProjetAbandonnéError 
     );
   }
 }
+
+export class AucuneAttestationDeConformitéÀCorrigerError extends InvalidOperationError {
+  constructor() {
+    super("Aucune attestation de conformité à modifier n'a été trouvée");
+  }
+}

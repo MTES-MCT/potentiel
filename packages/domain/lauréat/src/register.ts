@@ -5,10 +5,6 @@ import {
   registerAbandonUseCases,
 } from './abandon/abandon.register';
 import {
-  AchèvementCommandDependencies,
-  registerAchèvementUseCases,
-} from './achèvement/achèvement.register';
-import {
   GarantiesFinancièresCommandDependencies,
   GarantiesFinancièresQueryDependencies,
   registerGarantiesFinancièresQueries,
@@ -48,7 +44,6 @@ export type LauréatQueryDependencies = AbandonQueryDependencies &
 
 export type LauréatCommandDependencies = AbandonCommandDependencies &
   GarantiesFinancièresCommandDependencies &
-  AchèvementCommandDependencies &
   ReprésentantLégalCommandDependencies &
   ActionnaireCommandDependencies &
   RaccordementCommandDependencies &
@@ -57,7 +52,6 @@ export type LauréatCommandDependencies = AbandonCommandDependencies &
 export const registerLauréatUseCases = (dependencies: LauréatCommandDependencies) => {
   registerAbandonUseCases(dependencies);
   registerGarantiesFinancièresUseCases(dependencies);
-  registerAchèvementUseCases(dependencies);
   registerReprésentantLégalUseCases(dependencies);
   registerActionnaireUseCases(dependencies);
   registerRaccordementUseCases(dependencies);

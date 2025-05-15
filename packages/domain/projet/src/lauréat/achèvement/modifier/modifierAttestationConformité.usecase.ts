@@ -52,7 +52,7 @@ export const registerModifierAttestationConformitéUseCase = () => {
     );
     const date = DateTime.convertirEnValueType(dateValue);
 
-    const utilisateur = IdentifiantUtilisateur.convertirEnValueType(utilisateurValue);
+    const identifiantUtilisateur = IdentifiantUtilisateur.convertirEnValueType(utilisateurValue);
 
     await mediator.send<EnregistrerDocumentProjetCommand>({
       type: 'Document.Command.EnregistrerDocumentProjet',
@@ -78,7 +78,7 @@ export const registerModifierAttestationConformitéUseCase = () => {
         date,
         preuveTransmissionAuCocontractant,
         dateTransmissionAuCocontractant,
-        utilisateur,
+        identifiantUtilisateur,
       },
     });
   };
