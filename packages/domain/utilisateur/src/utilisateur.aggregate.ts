@@ -38,6 +38,7 @@ export type UtilisateurEvent =
   | ProjetRéclaméEvent
   | AccèsProjetRetiréEvent
   | UtilisateurDésactivéEvent;
+
 export type UtilisateurAggregate = Aggregate<UtilisateurEvent> & {
   readonly inviterPorteur: typeof inviterPorteur;
   readonly inviter: typeof inviter;
@@ -46,6 +47,7 @@ export type UtilisateurAggregate = Aggregate<UtilisateurEvent> & {
   readonly désactiver: typeof désactiver;
   aAccèsAuProjet: (identifiantProjet: IdentifiantProjet.ValueType) => boolean;
   projets: Set<IdentifiantProjet.RawType>;
+  actif: boolean;
 } & (
     | {
         existe: false;
@@ -69,6 +71,7 @@ export const getDefaultUtilisateurAggregate: GetDefaultAggregateState<
   désactiver,
   projets: new Set(),
   existe: false,
+  actif: false,
   aAccèsAuProjet(identifiantProjet) {
     return this.projets.has(identifiantProjet.formatter());
   },

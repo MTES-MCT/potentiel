@@ -2,7 +2,11 @@ import { DomainEvent } from '@potentiel-domain/core';
 import { DateTime, Email } from '@potentiel-domain/common';
 
 import { UtilisateurAggregate } from '../utilisateur.aggregate';
-import { DésactivationPropreCompteError, UtilisateurInconnuError } from '../errors';
+import {
+  DésactivationPropreCompteError,
+  UtilisateurInconnuError,
+  UtilisateurNonActifError,
+} from '../errors';
 
 export type UtilisateurDésactivéEvent = DomainEvent<
   'UtilisateurDésactivé-V1',
@@ -26,6 +30,9 @@ export async function désactiver(
   if (!this.existe) {
     throw new UtilisateurInconnuError();
   }
+  if (!this.actif) {
+    throw new UtilisateurNonActifError();
+  }
   if (identifiantUtilisateur.estÉgaleÀ(désactivéPar)) {
     throw new DésactivationPropreCompteError();
   }
@@ -45,8 +52,5 @@ export function applyUtilisateurDésactivé(
   this: UtilisateurAggregate,
   _: UtilisateurDésactivéEvent,
 ) {
-  this.existe = false;
-  if (!this.existe) {
-    this.rôle = undefined;
-  }
+  this.actif = false;
 }

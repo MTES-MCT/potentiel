@@ -48,20 +48,26 @@ Alors(
   },
 );
 
-Alors("l'utilisateur devrait être désactivé", async function (this: PotentielWorld) {
-  const { identifiantUtilisateur } = this.utilisateurWorld.mapToExpected();
+Alors(
+  /(l'utilisateur|le porteur) devrait être désactivé/,
+  async function (this: PotentielWorld, typeUtilisateur: "l'utilisateur" | 'le porteur') {
+    const { email: identifiantUtilisateur } =
+      typeUtilisateur === 'le porteur'
+        ? this.utilisateurWorld.porteurFixture
+        : this.utilisateurWorld.mapToExpected().identifiantUtilisateur;
 
-  await waitForExpect(async () => {
-    const utilisateur = await mediator.send<ConsulterUtilisateurQuery>({
-      type: 'Utilisateur.Query.ConsulterUtilisateur',
-      data: {
-        identifiantUtilisateur: identifiantUtilisateur.email,
-      },
+    await waitForExpect(async () => {
+      const utilisateur = await mediator.send<ConsulterUtilisateurQuery>({
+        type: 'Utilisateur.Query.ConsulterUtilisateur',
+        data: {
+          identifiantUtilisateur,
+        },
+      });
+      assert(Option.isSome(utilisateur), 'Utilisateur non trouvé');
+      expect(utilisateur.désactivé).to.be.true;
     });
-    assert(Option.isSome(utilisateur), 'Utilisateur non trouvé');
-    expect(utilisateur.désactivé).to.be.true;
-  });
-});
+  },
+);
 
 Alors(
   /un email a été envoyé au (nouvel utilisateur|nouveau porteur) avec :/,
@@ -134,7 +140,7 @@ Alors(
   },
 );
 
-Alors(`l'utilisateur doit être créé`, async function (this: PotentielWorld) {
+Alors(`l'utilisateur devrait être actif`, async function (this: PotentielWorld) {
   await waitForExpect(async () => {
     const utilisateur = await mediator.send<TrouverUtilisateurQuery>({
       type: 'System.Utilisateur.Query.TrouverUtilisateur',

@@ -89,3 +89,15 @@ export class DésactivationPropreCompteError extends InvalidOperationError {
     super(`Il est impossible de désactiver son propre compte`);
   }
 }
+
+export class UtilisateurNonActifError extends InvalidOperationError {
+  constructor() {
+    super(`L'utilisateur n'est pas actif`);
+  }
+}
+
+export class UtilisateurDéjàActifError extends InvalidOperationError {
+  constructor() {
+    super(`L'utilisateur est déjà actif`);
+  }
+}

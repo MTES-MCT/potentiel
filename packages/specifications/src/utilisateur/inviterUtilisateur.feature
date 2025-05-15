@@ -6,7 +6,7 @@ Fonctionnalité: Inviter un utilisateur en tant qu'admin
 
     Plan du scénario: Inviter un utilisateur avec accès global
         Quand un administrateur invite un utilisateur avec le rôle "<Rôle>"
-        Alors l'utilisateur doit être créé
+        Alors l'utilisateur devrait être actif
         Et l'utilisateur invité a accès au projet lauréat
         Et un email a été envoyé au nouvel utilisateur avec :
             | sujet           | Invitation à suivre les projets sur Potentiel |
@@ -22,7 +22,7 @@ Fonctionnalité: Inviter un utilisateur en tant qu'admin
 
     Scénario: Inviter un DGEC validateur
         Quand un administrateur invite un dgec validateur
-        Alors l'utilisateur doit être créé
+        Alors l'utilisateur devrait être actif
         Et l'utilisateur invité a accès au projet lauréat
         Et un email a été envoyé au nouvel utilisateur avec :
             | sujet           | Invitation à suivre les projets sur Potentiel |
@@ -30,7 +30,7 @@ Fonctionnalité: Inviter un utilisateur en tant qu'admin
 
     Scénario: Inviter une dreal
         Quand un administrateur invite une dreal pour la région du projet
-        Alors l'utilisateur doit être créé
+        Alors l'utilisateur devrait être actif
         Et l'utilisateur invité a accès au projet lauréat
         Et un email a été envoyé au nouvel utilisateur avec :
             | sujet           | Invitation à suivre les projets sur Potentiel |

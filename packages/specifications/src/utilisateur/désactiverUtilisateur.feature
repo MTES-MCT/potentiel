@@ -1,4 +1,5 @@
 # language: fr
+@select
 Fonctionnalité: Désactiver un utilisateur
 
     Contexte:
@@ -6,7 +7,7 @@ Fonctionnalité: Désactiver un utilisateur
         Et le projet lauréat "Du boulodrome de Marseille"
         Et le gestionnaire de réseau "Enedis" attribué au raccordement du projet lauréat
 
-    Plan du scénario: Désactiver un utilisateur avec accès global
+    Plan du scénario: Désactiver un utilisateur (hors Porteur de projet)
         Etant donné un utilisateur invité avec le rôle "<Rôle>"
         Quand un administrateur désactive l'utilisateur
         Alors l'utilisateur devrait être désactivé
@@ -22,6 +23,10 @@ Fonctionnalité: Désactiver un utilisateur
             | dgec-validateur   |
             | grd               |
 
+    Scénario: Désactiver un porteur de projet
+        Quand un administrateur désactive le porteur du projet
+        Alors le porteur devrait être désactivé
+
     Scénario: Impossible de désactiver son propre compte
         Etant donné un utilisateur invité avec le rôle "admin"
         Quand l'utilisateur désactive son compte
@@ -31,4 +36,4 @@ Fonctionnalité: Désactiver un utilisateur
         Etant donné un utilisateur invité avec le rôle "admin"
         Quand un administrateur désactive l'utilisateur
         Et un administrateur désactive l'utilisateur
-        Alors l'utilisateur devrait être informé que "L'utilisateur n'est pas référencé"
+        Alors l'utilisateur devrait être informé que "L'utilisateur n'est pas actif"

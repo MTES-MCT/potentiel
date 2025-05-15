@@ -129,6 +129,7 @@ export function applyUtilisateurInvité(
   { payload: { rôle } }: UtilisateurInvitéEvent,
 ) {
   this.existe = true;
+  this.actif = true;
   if (this.existe) {
     this.rôle = Role.convertirEnValueType(rôle);
   }
