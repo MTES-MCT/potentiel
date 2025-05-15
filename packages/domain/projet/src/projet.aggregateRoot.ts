@@ -12,6 +12,7 @@ import {
 } from './appelOffre.error';
 import { CandidatureAggregate } from './candidature/candidature.aggregate';
 import { LauréatAggregate } from './lauréat/lauréat.aggregate';
+import { AccèsAggregate } from './accès/accès.aggregate';
 
 interface ProjetAggregateRootDependencies {
   loadAggregate: LoadAggregateV2;
@@ -53,6 +54,11 @@ export class ProjetAggregateRoot {
     return this.#appelOffre;
   }
 
+  #accès!: AggregateType<AccèsAggregate>;
+  get accès() {
+    return this.#accès;
+  }
+
   #candidature!: AggregateType<CandidatureAggregate>;
 
   get candidature() {
@@ -69,8 +75,8 @@ export class ProjetAggregateRoot {
         return StatutProjet.abandonné;
       }
 
-      if (!this.#lauréat.estNotifié) {
-        return StatutProjet.nonNotifié;
+      if (this.#lauréat.estNotifié) {
+        return StatutProjet.notifié;
       }
 
       return StatutProjet.classé;
@@ -132,6 +138,12 @@ export class ProjetAggregateRoot {
     if (this.#initialized) {
       throw new ProjetAggregateRootAlreadyInitialized();
     }
+
+    this.#accès = await this.#loadAggregate(
+      `accès|${this.identifiantProjet.formatter()}`,
+      AccèsAggregate,
+    );
+    await this.#accès.init(this);
 
     this.#candidature = await this.#loadAggregate(
       `candidature|${this.identifiantProjet.formatter()}`,
