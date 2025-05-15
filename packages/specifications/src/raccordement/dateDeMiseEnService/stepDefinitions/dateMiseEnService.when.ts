@@ -4,7 +4,7 @@ import { mediator } from 'mediateur';
 import { Raccordement } from '@potentiel-domain/laureat';
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 
-import { PotentielWorld } from '../../potentiel.world';
+import { PotentielWorld } from '../../../potentiel.world';
 
 Quand(
   `le gestionnaire de réseau transmet la date de mise en service pour le dossier de raccordement du projet lauréat avec :`,

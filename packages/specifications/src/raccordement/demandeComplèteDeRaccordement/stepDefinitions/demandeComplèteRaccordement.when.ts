@@ -6,7 +6,7 @@ import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 import { Raccordement } from '@potentiel-domain/laureat';
 import { Role } from '@potentiel-domain/utilisateur';
 
-import { PotentielWorld } from '../../potentiel.world';
+import { PotentielWorld } from '../../../potentiel.world';
 
 Quand(
   'le porteur transmet une demande complète de raccordement pour le projet lauréat',

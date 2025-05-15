@@ -7,8 +7,8 @@ import { GestionnaireRéseau } from '@potentiel-domain/reseau';
 import { Tâche } from '@potentiel-domain/tache';
 import { Raccordement } from '@potentiel-domain/laureat';
 
-import { PotentielWorld } from '../../potentiel.world';
-import { RechercherTypeTâche } from '../../tâche/tâche.world';
+import { PotentielWorld } from '../../../potentiel.world';
+import { RechercherTypeTâche } from '../../../tâche/tâche.world';
 
 EtantDonné(
   'le gestionnaire de réseau {string} attribué au raccordement du projet lauréat',
