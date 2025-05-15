@@ -4,20 +4,20 @@ import { DocumentProjet } from '@potentiel-domain/document';
 import { Raccordement } from '@potentiel-domain/laureat';
 import { DateTime } from '@potentiel-domain/common';
 
-import { AbstractFixture } from '../../fixture';
-import { convertStringToReadableStream } from '../../helpers/convertStringToReadable';
+import { AbstractFixture } from '../../../fixture';
+import { convertStringToReadableStream } from '../../../helpers/convertStringToReadable';
 
 type PièceJustificative = { format: string; content: ReadableStream };
 
-interface TransmettreDemandeComplèteRaccordement {
+interface ModifierDemandeComplèteRaccordement {
   dateQualification: string;
   référenceDossier: string;
   accuséRéception: PièceJustificative;
 }
 
-export class TransmettreDemandeComplèteRaccordementFixture
-  extends AbstractFixture<TransmettreDemandeComplèteRaccordement>
-  implements TransmettreDemandeComplèteRaccordement
+export class ModifierDemandeComplèteRaccordementFixture
+  extends AbstractFixture<ModifierDemandeComplèteRaccordement>
+  implements ModifierDemandeComplèteRaccordement
 {
   #dateQualification!: string;
   get dateQualification(): string {
@@ -44,10 +44,10 @@ export class TransmettreDemandeComplèteRaccordementFixture
   }
 
   créer(
-    partialFixture: Partial<Readonly<TransmettreDemandeComplèteRaccordement>> & {
+    partialFixture: Partial<Readonly<ModifierDemandeComplèteRaccordement>> & {
       identifiantProjet: string;
     },
-  ): Readonly<TransmettreDemandeComplèteRaccordement> {
+  ): Readonly<ModifierDemandeComplèteRaccordement> {
     const content = faker.word.words();
     const fixture = {
       dateQualification: faker.date.recent().toISOString(),
@@ -66,19 +66,6 @@ export class TransmettreDemandeComplèteRaccordementFixture
     this.#identifiantProjet = fixture.identifiantProjet;
     this.aÉtéCréé = true;
     return fixture;
-  }
-
-  mapExempleToFixtureValues(exemple: Record<string, string>) {
-    const values: Partial<TransmettreDemandeComplèteRaccordement> = {};
-    const dateQualification = exemple['La date de qualification'];
-    const référenceDossier = exemple['La référence du dossier de raccordement'];
-    if (dateQualification) {
-      values.dateQualification = new Date(dateQualification).toISOString();
-    }
-    if (référenceDossier) {
-      values.référenceDossier = référenceDossier;
-    }
-    return values;
   }
 
   mapToExpected(référenceDossier?: string) {

@@ -3,7 +3,7 @@ import { mediator } from 'mediateur';
 
 import { Raccordement } from '@potentiel-domain/laureat';
 
-import { PotentielWorld } from '../../potentiel.world';
+import { PotentielWorld } from '../../../potentiel.world';
 
 EtantDonné(
   'une proposition technique et financière pour le dossier de raccordement du projet lauréat',

@@ -1,6 +1,6 @@
 import { DataTable, Given as EtantDonné } from '@cucumber/cucumber';
 
-import { PotentielWorld } from '../../potentiel.world';
+import { PotentielWorld } from '../../../potentiel.world';
 
 import { transmettreDemandeComplèteRaccordement } from './demandeComplèteRaccordement.when';
 

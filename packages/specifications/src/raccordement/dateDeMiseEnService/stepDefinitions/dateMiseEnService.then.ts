@@ -6,9 +6,8 @@ import { assert, expect } from 'chai';
 import { Option } from '@potentiel-libraries/monads';
 import { Raccordement } from '@potentiel-domain/laureat';
 
-import { PotentielWorld } from '../../potentiel.world';
-
-import { vérifierDossierRaccordement } from './raccordement.then';
+import { PotentielWorld } from '../../../potentiel.world';
+import { vérifierDossierRaccordement } from '../../dossierRaccordement/stepDefinitions/dossierRaccordement.then';
 
 Alors(
   `la date de mise en service devrait être consultable dans le dossier de raccordement du projet lauréat`,
