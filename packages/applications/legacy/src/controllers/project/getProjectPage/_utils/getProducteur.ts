@@ -8,7 +8,6 @@ import { getLogger } from '@potentiel-libraries/monitoring';
 import { IdentifiantProjet } from '@potentiel-domain/common';
 import { checkAbandonAndAchèvement } from './checkAbandonAndAchèvement';
 import { mediator } from 'mediateur';
-import { getContext } from '@potentiel-applications/request-context';
 
 export type GetProducteurForProjectPage = {
   producteur: string;
@@ -31,12 +30,6 @@ export const getProducteur = async ({
   changementProducteurPossibleAvantAchèvement,
 }: Props): Promise<GetProducteurForProjectPage | undefined> => {
   try {
-    const features = getContext()?.features ?? [];
-
-    if (!features.includes('producteur')) {
-      return undefined;
-    }
-
     const role = Role.convertirEnValueType(rôle);
 
     const producteurProjection = await mediator.send<Lauréat.Producteur.ConsulterProducteurQuery>({

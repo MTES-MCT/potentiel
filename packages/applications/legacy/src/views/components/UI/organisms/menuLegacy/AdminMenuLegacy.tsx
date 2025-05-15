@@ -7,10 +7,9 @@ import { MenuGarantiesFinancières } from './_utils/garantiesFinancières.menuLe
 
 type AdminMenuLegacyProps = {
   currentPage?: string;
-  features: Array<string>;
 };
 
-export const AdminMenuLegacy = ({ currentPage, features }: AdminMenuLegacyProps) => (
+export const AdminMenuLegacy = ({ currentPage }: AdminMenuLegacyProps) => (
   <>
     <Header.MenuItem
       href={routes.LISTE_PROJETS}
@@ -47,11 +46,9 @@ export const AdminMenuLegacy = ({ currentPage, features }: AdminMenuLegacyProps)
       >
         Puissance
       </DropdownMenu.DropdownItem>
-      {features.includes('producteur') && (
-        <DropdownMenu.DropdownItem href={Routes.Producteur.changement.lister}>
-          Producteur
-        </DropdownMenu.DropdownItem>
-      )}
+      <DropdownMenu.DropdownItem href={Routes.Producteur.changement.lister}>
+        Producteur
+      </DropdownMenu.DropdownItem>
     </DropdownMenu>
     <MenuGarantiesFinancières />
     <DropdownMenu buttonChildren={'Candidatures'}>
