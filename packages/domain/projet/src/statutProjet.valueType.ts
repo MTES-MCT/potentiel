@@ -1,12 +1,12 @@
 import { InvalidOperationError, ReadonlyValueType } from '@potentiel-domain/core';
 
-const statuts = ['non-notifié', 'abandonné', 'classé', 'éliminé', 'achevé'] as const;
+const statuts = ['notifié', 'abandonné', 'classé', 'éliminé', 'achevé'] as const;
 export type RawType = (typeof statuts)[number];
 
 export type ValueType = ReadonlyValueType<{
   statut: RawType;
   estAbandonné: () => boolean;
-  estNonNotifié: () => boolean;
+  estNotifié: () => boolean;
   estClassé: () => boolean;
   estÉliminé: () => boolean;
   estAchevé: () => boolean;
@@ -24,8 +24,8 @@ export const convertirEnValueType = (value: string): ValueType => {
     estClassé() {
       return this.statut === 'classé';
     },
-    estNonNotifié() {
-      return this.statut === 'non-notifié';
+    estNotifié() {
+      return this.statut === 'notifié';
     },
     estÉliminé() {
       return this.statut === 'éliminé';
@@ -49,7 +49,7 @@ function estValide(value: string): asserts value is RawType {
 
 export const abandonné = convertirEnValueType('abandonné');
 export const classé = convertirEnValueType('classé');
-export const nonNotifié = convertirEnValueType('non-notifié');
+export const notifié = convertirEnValueType('notifié');
 export const éliminé = convertirEnValueType('éliminé');
 export const achevé = convertirEnValueType('achevé');
 

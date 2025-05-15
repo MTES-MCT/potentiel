@@ -3,7 +3,7 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 import { DateTime, Email } from '@potentiel-domain/common';
 import { DocumentProjet, EnregistrerDocumentProjetCommand } from '@potentiel-domain/document';
 
-import { IdentifiantProjet, RetirerTousAccèsProjet } from '../../../..';
+import { IdentifiantProjet } from '../../../..';
 import { TypeDocumentProducteur } from '../..';
 import { RenouvelerGarantiesFinancièresUseCase } from '../../../garanties-financières/renouveler/renouvelerGarantiesFinancières.usecase';
 
@@ -24,13 +24,7 @@ export type EnregistrerChangementProducteurUseCase = Message<
   }
 >;
 
-export type EnregistrerChangementProducteurUseCaseDependencies = {
-  retirerTousAccèsProjet: RetirerTousAccèsProjet;
-};
-
-export const registerEnregistrerChangementProducteurUseCase = ({
-  retirerTousAccèsProjet,
-}: EnregistrerChangementProducteurUseCaseDependencies) => {
+export const registerEnregistrerChangementProducteurUseCase = () => {
   const handler: MessageHandler<EnregistrerChangementProducteurUseCase> = async ({
     identifiantProjetValue,
     identifiantUtilisateurValue,
@@ -78,8 +72,6 @@ export const registerEnregistrerChangementProducteurUseCase = ({
         identifiantUtilisateurValue,
       },
     });
-
-    await retirerTousAccèsProjet(identifiantProjet);
   };
 
   mediator.register('Lauréat.Producteur.UseCase.EnregistrerChangement', handler);
