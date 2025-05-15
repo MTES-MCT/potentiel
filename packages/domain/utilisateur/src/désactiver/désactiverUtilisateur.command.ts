@@ -5,29 +5,29 @@ import { LoadAggregate } from '@potentiel-domain/core';
 
 import { loadUtilisateurFactory } from '../utilisateur.aggregate';
 
-export type SupprimerUtilisateurCommand = Message<
-  'Utilisateur.Command.SupprimerUtilisateur',
+export type DésactiverUtilisateurCommand = Message<
+  'Utilisateur.Command.DésactiverUtilisateur',
   {
     identifiantUtilisateur: Email.ValueType;
-    suppriméPar: Email.ValueType;
-    suppriméLe: DateTime.ValueType;
+    désactivéPar: Email.ValueType;
+    désactivéLe: DateTime.ValueType;
   }
 >;
 
-export const registerSupprimerCommand = (loadAggregate: LoadAggregate) => {
+export const registerDésactiverCommand = (loadAggregate: LoadAggregate) => {
   const loadUtilisateur = loadUtilisateurFactory(loadAggregate);
-  const handler: MessageHandler<SupprimerUtilisateurCommand> = async ({
+  const handler: MessageHandler<DésactiverUtilisateurCommand> = async ({
     identifiantUtilisateur,
-    suppriméPar,
-    suppriméLe,
+    désactivéPar,
+    désactivéLe,
   }) => {
     const utilisateur = await loadUtilisateur(identifiantUtilisateur);
 
-    await utilisateur.supprimer({
+    await utilisateur.désactiver({
       identifiantUtilisateur,
-      suppriméPar,
-      suppriméLe,
+      désactivéPar,
+      désactivéLe,
     });
   };
-  mediator.register('Utilisateur.Command.SupprimerUtilisateur', handler);
+  mediator.register('Utilisateur.Command.DésactiverUtilisateur', handler);
 };

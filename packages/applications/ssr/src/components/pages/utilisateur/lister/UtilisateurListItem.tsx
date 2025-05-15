@@ -18,10 +18,10 @@ import { FormattedDate } from '@/components/atoms/FormattedDate';
 import { ModalWithForm } from '@/components/molecules/ModalWithForm';
 import { roleToLabel } from '@/utils/utilisateur/format-role';
 
-import { supprimerUtilisateurAction } from '../supprimer/supprimerUtilisateur.action';
+import { désactiverUtilisateurAction } from '../désactiver/désactiverUtilisateur.action';
 
 export type UtilisateurActions = {
-  actions: 'supprimer'[];
+  actions: 'désactiver'[];
 };
 
 export type UtilisateurListItemProps = {
@@ -41,7 +41,7 @@ export const UtilisateurListItem: FC<UtilisateurListItemProps> = ({
     nombreDeProjets,
     invitéLe,
     invitéPar,
-    supprimé,
+    désactivé,
     actions,
   },
   gestionnaireRéseau,
@@ -65,12 +65,12 @@ export const UtilisateurListItem: FC<UtilisateurListItemProps> = ({
                 style: { marginBottom: 0, marginTop: '1rem' },
               },
               {
-                children: 'Supprimer',
+                children: 'Désactiver',
                 iconId: 'fr-icon-delete-bin-line',
                 priority: 'primary',
                 onClick: () => setIsOpen(true),
                 style: { marginBottom: 0, marginTop: '1rem' },
-                disabled: !actions.includes('supprimer'),
+                disabled: !actions.includes('désactiver'),
               },
             ]}
           />
@@ -89,9 +89,9 @@ export const UtilisateurListItem: FC<UtilisateurListItemProps> = ({
       >
         <div className="flex flex-row gap-2">
           <RoleBadge role={rôle.nom} />
-          {supprimé && (
+          {désactivé && (
             <Badge small noIcon severity="error">
-              Supprimé
+              Inactif
             </Badge>
           )}
         </div>
@@ -120,22 +120,22 @@ export const UtilisateurListItem: FC<UtilisateurListItemProps> = ({
         onClose={() => setIsOpen(false)}
         acceptButtonLabel="Oui"
         rejectButtonLabel="Non"
-        title="Supprimer un utilisateur"
+        title="Désactiver un utilisateur"
         form={{
           id: 'delete-user-form',
-          action: supprimerUtilisateurAction,
+          action: désactiverUtilisateurAction,
           omitMandatoryFieldsLegend: true,
           children: (
             <>
               <p className="mt-3">
-                Êtes-vous sûr de vouloir supprimer l'utilisateur{' '}
+                Êtes-vous sûr de vouloir désactiver l'utilisateur{' '}
                 <b className="text-nowrap">{identifiantUtilisateur.email}</b>, ayant pour rôle{' '}
                 <b>{roleToLabel[rôle.nom]}</b> ?
               </p>
               <input
                 type={'hidden'}
                 value={identifiantUtilisateur.email}
-                name="identifiantUtilisateurSupprime"
+                name={'identifiantUtilisateurDesactive'}
               />
             </>
           ),

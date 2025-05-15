@@ -10,7 +10,7 @@ import {
   Role,
   RéclamerProjetUseCase,
 } from '@potentiel-domain/utilisateur';
-import { SupprimerUtilisateurUseCase } from '@potentiel-domain/utilisateur';
+import { DésactiverUtilisateurUseCase } from '@potentiel-domain/utilisateur';
 
 import { PotentielWorld } from '../../potentiel.world';
 import { InviterUtilisateurFixture } from '../fixtures/inviter/inviter.fixture';
@@ -50,22 +50,22 @@ Quand(
   },
 );
 
-Quand(`un administrateur supprime l'utilisateur`, async function (this: PotentielWorld) {
-  await supprimerUtilisateur.call(this, {
+Quand(`un administrateur désactive l'utilisateur`, async function (this: PotentielWorld) {
+  await désactiverUtilisateur.call(this, {
     identifiantUtilisateur: this.utilisateurWorld.inviterUtilisateur.email,
   });
 });
 
-Quand(`un administrateur supprime le porteur du projet`, async function (this: PotentielWorld) {
-  await supprimerUtilisateur.call(this, {
+Quand(`un administrateur désactive le porteur du projet`, async function (this: PotentielWorld) {
+  await désactiverUtilisateur.call(this, {
     identifiantUtilisateur: this.utilisateurWorld.porteurFixture.email,
   });
 });
 
-Quand(`l'utilisateur supprime son compte`, async function (this: PotentielWorld) {
-  await supprimerUtilisateur.call(this, {
+Quand(`l'utilisateur désactive son compte`, async function (this: PotentielWorld) {
+  await désactiverUtilisateur.call(this, {
     identifiantUtilisateur: this.utilisateurWorld.inviterUtilisateur.email,
-    suppriméPar: this.utilisateurWorld.inviterUtilisateur.email,
+    désactivéPar: this.utilisateurWorld.inviterUtilisateur.email,
   });
 });
 
@@ -274,17 +274,20 @@ export async function inviterUtilisateur(
   }
 }
 
-export async function supprimerUtilisateur(
+export async function désactiverUtilisateur(
   this: PotentielWorld,
-  { identifiantUtilisateur, suppriméPar }: { identifiantUtilisateur: string; suppriméPar?: string },
+  {
+    identifiantUtilisateur,
+    désactivéPar,
+  }: { identifiantUtilisateur: string; désactivéPar?: string },
 ) {
   try {
-    await mediator.send<SupprimerUtilisateurUseCase>({
-      type: 'Utilisateur.UseCase.SupprimerUtilisateur',
+    await mediator.send<DésactiverUtilisateurUseCase>({
+      type: 'Utilisateur.UseCase.DésactiverUtilisateur',
       data: {
         identifiantUtilisateurValue: identifiantUtilisateur,
-        suppriméLeValue: DateTime.now().formatter(),
-        suppriméParValue: suppriméPar ?? this.utilisateurWorld.adminFixture.email,
+        désactivéLeValue: DateTime.now().formatter(),
+        désactivéParValue: désactivéPar ?? this.utilisateurWorld.adminFixture.email,
       },
     });
   } catch (error) {

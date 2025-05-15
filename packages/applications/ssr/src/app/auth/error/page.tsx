@@ -20,6 +20,12 @@ const getError = (
   error: string,
 ): { type: ErrorType; message: string; statusCode: CustomErrorProps['statusCode'] } => {
   switch (error) {
+    case 'Forbidden':
+      return {
+        statusCode: '403',
+        type: 'InvalidOperationError',
+        message: `Vous n'avez pas accès à l'application`,
+      };
     case 'Verification':
     case 'AccessDenied':
       return {

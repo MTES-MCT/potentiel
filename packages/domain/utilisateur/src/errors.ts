@@ -84,14 +84,8 @@ export class IdentifiantGestionnaireRéseauManquantError extends InvalidOperatio
   }
 }
 
-export class SuppressionPorteurError extends InvalidOperationError {
+export class DésactivationPropreCompteError extends InvalidOperationError {
   constructor() {
-    super(`Il est impossible de supprimer un utilisateur de type porteur`);
-  }
-}
-
-export class SuppressionPropreCompteError extends InvalidOperationError {
-  constructor() {
-    super(`Il est impossible de supprimer son propre compte`);
+    super(`Il est impossible de désactiver son propre compte`);
   }
 }

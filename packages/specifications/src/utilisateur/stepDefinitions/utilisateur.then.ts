@@ -48,7 +48,7 @@ Alors(
   },
 );
 
-Alors("l'utilisateur devrait être supprimé", async function (this: PotentielWorld) {
+Alors("l'utilisateur devrait être desactivé", async function (this: PotentielWorld) {
   const { identifiantUtilisateur } = this.utilisateurWorld.mapToExpected();
 
   await waitForExpect(async () => {
@@ -59,7 +59,7 @@ Alors("l'utilisateur devrait être supprimé", async function (this: PotentielWo
       },
     });
     assert(Option.isSome(utilisateur), 'Utilisateur non trouvé');
-    expect(utilisateur.supprimé).to.be.true;
+    expect(utilisateur.désactivé).to.be.true;
   });
 });
 

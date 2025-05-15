@@ -1,10 +1,10 @@
-import { UtilisateurEntity, UtilisateurSuppriméEvent } from '@potentiel-domain/utilisateur';
+import { UtilisateurEntity, UtilisateurDésactivéEvent } from '@potentiel-domain/utilisateur';
 import { updateOneProjection } from '@potentiel-infrastructure/pg-projection-write';
 
-export const utilisateurSuppriméProjector = async ({
+export const utilisateurDésactivéProjector = async ({
   payload: { identifiantUtilisateur },
-}: UtilisateurSuppriméEvent) => {
+}: UtilisateurDésactivéEvent) => {
   await updateOneProjection<UtilisateurEntity>(`utilisateur|${identifiantUtilisateur}`, {
-    supprimé: true,
+    désactivé: true,
   });
 };

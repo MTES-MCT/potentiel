@@ -9,7 +9,7 @@ import { getServerSession } from 'next-auth';
 import { Role, Utilisateur, TrouverUtilisateurQuery } from '@potentiel-domain/utilisateur';
 import { getLogger } from '@potentiel-libraries/monitoring';
 import { Email } from '@potentiel-domain/common';
-import { mapToPlainObject, PlainType } from '@potentiel-domain/core';
+import { mapToPlainObject, OperationRejectedError, PlainType } from '@potentiel-domain/core';
 import { Option } from '@potentiel-libraries/monads';
 
 import { authOptions } from './authOptions';
@@ -120,8 +120,8 @@ export const getUtilisateurFromEmail = async (
     return utilisateur;
   }
 
-  if (utilisateur.supprimé) {
-    throw new Error('Utilisateur supprimé');
+  if (utilisateur.désactivé) {
+    throw new OperationRejectedError(`Forbidden`);
   }
 
   return {

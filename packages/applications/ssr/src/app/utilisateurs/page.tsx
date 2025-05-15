@@ -222,7 +222,7 @@ const mapToActions = (
     return [];
   }
 
-  if (utilisateur.supprimé) {
+  if (utilisateur.désactivé) {
     if (utilisateurConnecté.role.aLaPermission('utilisateur.inviter')) {
       // TODO réactiver
       return [];
@@ -230,12 +230,12 @@ const mapToActions = (
     return [];
   }
 
-  if (!utilisateurConnecté.role.aLaPermission('utilisateur.supprimer')) {
+  if (!utilisateurConnecté.role.aLaPermission('utilisateur.désactiver')) {
     return [];
   }
   if (utilisateur.rôle.estÉgaleÀ(Role.porteur)) {
     return [];
   }
 
-  return ['supprimer'];
+  return ['désactiver'];
 };

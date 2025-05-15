@@ -1,15 +1,16 @@
 # language: fr
-Fonctionnalité: Supprimer un utilisateur
+@select
+Fonctionnalité: Désactiver un utilisateur
 
     Contexte:
         Etant donné le gestionnaire de réseau "Enedis"
         Et le projet lauréat "Du boulodrome de Marseille"
         Et le gestionnaire de réseau "Enedis" attribué au raccordement du projet lauréat
 
-    Plan du scénario: Supprimer un utilisateur avec accès global
+    Plan du scénario: Désactiver un utilisateur avec accès global
         Etant donné un utilisateur invité avec le rôle "<Rôle>"
         Quand un administrateur supprime l'utilisateur
-        Alors l'utilisateur devrait être supprimé
+        Alors l'utilisateur devrait être désactivé
 
         Exemples:
             | Rôle              |
@@ -22,18 +23,18 @@ Fonctionnalité: Supprimer un utilisateur
             | dgec-validateur   |
             | grd               |
 
-    Scénario: Impossible de supprimer un Porteur de projet
+    Scénario: Impossible de désactiver un Porteur de projet
         Etant donné un utilisateur invité avec le rôle "admin"
-        Quand un administrateur supprime le porteur du projet
-        Alors l'utilisateur devrait être informé que "Il est impossible de supprimer un utilisateur de type porteur"
+        Quand un administrateur désactive le porteur du projet
+        Alors l'utilisateur devrait être informé que "Il est impossible de désactiver un utilisateur de type porteur"
 
-    Scénario: Impossible de supprimer son propre compte
+    Scénario: Impossible de désactiver son propre compte
         Etant donné un utilisateur invité avec le rôle "admin"
-        Quand l'utilisateur supprime son compte
-        Alors l'utilisateur devrait être informé que "Il est impossible de supprimer son propre compte"
+        Quand l'utilisateur désactive son compte
+        Alors l'utilisateur devrait être informé que "Il est impossible de désactiver son propre compte"
 
-    Scénario: Impossible de supprimer un utilisateur déjà supprimé
+    Scénario: Impossible de désactiver un utilisateur déjà désactivé
         Etant donné un utilisateur invité avec le rôle "admin"
-        Quand un administrateur supprime l'utilisateur
-        Et un administrateur supprime l'utilisateur
+        Quand un administrateur désactive l'utilisateur
+        Et un administrateur désactive l'utilisateur
         Alors l'utilisateur devrait être informé que "L'utilisateur n'est pas référencé"

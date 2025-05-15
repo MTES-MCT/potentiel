@@ -77,7 +77,7 @@ export const registerListerUtilisateursQuery = ({ list }: ListerUtilisateursDepe
     const utilisateurs = await list<UtilisateurEntity>('utilisateur', {
       where: {
         ...roleWhereCondition,
-        supprimé:
+        désactivé:
           actif === true ? Where.equalNull() : actif === false ? Where.equal(true) : undefined,
       },
       orderBy: {

@@ -19,7 +19,7 @@ export type ConsulterUtilisateurReadModel = {
   nombreDeProjets: Option.Type<number>;
   invitéLe: DateTime.ValueType;
   invitéPar: Email.ValueType;
-  supprimé?: true;
+  désactivé?: true;
 };
 
 export type ConsulterUtilisateurQuery = Message<
@@ -65,5 +65,5 @@ export const mapToReadModel = (utilisateur: UtilisateurEntity): ConsulterUtilisa
   nombreDeProjets: utilisateur.rôle === 'porteur-projet' ? utilisateur.projets.length : Option.none,
   invitéLe: DateTime.convertirEnValueType(utilisateur.invitéLe),
   invitéPar: Email.convertirEnValueType(utilisateur.invitéPar),
-  supprimé: utilisateur.supprimé,
+  désactivé: utilisateur.désactivé,
 });
