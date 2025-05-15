@@ -233,9 +233,6 @@ const mapToActions = (
   if (!utilisateurConnecté.role.aLaPermission('utilisateur.désactiver')) {
     return [];
   }
-  if (utilisateur.rôle.estÉgaleÀ(Role.porteur)) {
-    return [];
-  }
 
   return ['désactiver'];
 };

@@ -48,7 +48,7 @@ Alors(
   },
 );
 
-Alors("l'utilisateur devrait être desactivé", async function (this: PotentielWorld) {
+Alors("l'utilisateur devrait être désactivé", async function (this: PotentielWorld) {
   const { identifiantUtilisateur } = this.utilisateurWorld.mapToExpected();
 
   await waitForExpect(async () => {

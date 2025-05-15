@@ -1,5 +1,4 @@
 # language: fr
-@select
 Fonctionnalité: Désactiver un utilisateur
 
     Contexte:
@@ -9,7 +8,7 @@ Fonctionnalité: Désactiver un utilisateur
 
     Plan du scénario: Désactiver un utilisateur avec accès global
         Etant donné un utilisateur invité avec le rôle "<Rôle>"
-        Quand un administrateur supprime l'utilisateur
+        Quand un administrateur désactive l'utilisateur
         Alors l'utilisateur devrait être désactivé
 
         Exemples:
@@ -22,11 +21,6 @@ Fonctionnalité: Désactiver un utilisateur
             | dreal             |
             | dgec-validateur   |
             | grd               |
-
-    Scénario: Impossible de désactiver un Porteur de projet
-        Etant donné un utilisateur invité avec le rôle "admin"
-        Quand un administrateur désactive le porteur du projet
-        Alors l'utilisateur devrait être informé que "Il est impossible de désactiver un utilisateur de type porteur"
 
     Scénario: Impossible de désactiver son propre compte
         Etant donné un utilisateur invité avec le rôle "admin"

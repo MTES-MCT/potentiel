@@ -32,7 +32,7 @@ const action: FormAction<FormState, typeof schema> = async (
 
     return {
       status: 'success',
-      redirection: { url: Routes.Utilisateur.lister, message: "L'utilisateur a été supprimé" },
+      redirection: { url: Routes.Utilisateur.lister, message: "L'utilisateur a été désactivé" },
     };
   });
 
