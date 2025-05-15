@@ -53,6 +53,8 @@ export class AchèvementAggregate extends AbstractAggregate<AchèvementEvent> {
     dateTransmissionAuCocontractant,
     preuveTransmissionAuCocontractant,
   }: TransmettreAttestationConformitéOptions) {
+    this.lauréat.vérifierQueLeLauréatExiste();
+
     if (this.lauréat.projet.statut.estAbandonné()) {
       throw new ImpossibleTransmettreAttestationDeConformitéProjetAbandonnéError();
     }
