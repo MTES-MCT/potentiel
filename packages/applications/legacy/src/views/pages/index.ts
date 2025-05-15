@@ -1,7 +1,6 @@
 export * from './délai';
 export * from './authN';
 export * from './changerFournisseurPage';
-export * from './changerProducteurPage';
 export * from './choisirCahierDesChargesPage';
 export * from './modificationRequestListPage';
 export * from './modificationRequestPage';

@@ -10,8 +10,7 @@ import { mapToPlainObject } from '@potentiel-domain/core';
 import { decodeParameter } from '@/utils/decodeParameter';
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
-
-import { EnregistrerChangementProducteurPage } from '../../../../../../components/pages/producteur/changement/enregistrer/EnregistrerChangementProducteur.page';
+import { EnregistrerChangementProducteurPage } from '@/components/pages/producteur/changement/enregistrer/EnregistrerChangementProducteur.page';
 
 export const metadata: Metadata = {
   title: 'Changer le producteur du projet - Potentiel',
