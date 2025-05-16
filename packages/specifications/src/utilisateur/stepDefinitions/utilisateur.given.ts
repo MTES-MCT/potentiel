@@ -6,8 +6,9 @@ import { publish } from '@potentiel-infrastructure/pg-event-sourcing';
 import { Role, UtilisateurInvitéEvent } from '@potentiel-domain/utilisateur';
 
 import { PotentielWorld } from '../../potentiel.world';
+import { waitForSagasNotificationsAndProjectionsToFinish } from '../../helpers/waitForSagasNotificationsAndProjectionsToFinish';
 
-import { inviterUtilisateur, retirerAccèsProjet } from './utilisateur.when';
+import { désactiverUtilisateur, inviterUtilisateur, retirerAccèsProjet } from './utilisateur.when';
 
 EtantDonné(
   'la dreal {string} associée à la région du projet',
@@ -82,6 +83,38 @@ EtantDonné(
     await inviterUtilisateur.call(this, payload);
   },
 );
+
+EtantDonné(
+  'un utilisateur désactivé avec le rôle {string}',
+  async function (this: PotentielWorld, rôle: string) {
+    const payload = match(rôle)
+      .with(Role.dgecValidateur.nom, () => ({
+        rôle,
+        fonction: 'Fonction du DGEC Validateur',
+        nomComplet: 'Nom du DGEC Validateur',
+      }))
+      .with(Role.dreal.nom, () => ({
+        rôle,
+        région: this.candidatureWorld.importerCandidature.values.localitéValue.région,
+      }))
+      .with(Role.grd.nom, () => ({
+        rôle,
+        identifiantGestionnaireRéseau: this.raccordementWorld.identifiantGestionnaireRéseau,
+      }))
+      .otherwise(() => ({ rôle }));
+    await inviterUtilisateur.call(this, payload);
+    await waitForSagasNotificationsAndProjectionsToFinish();
+    await désactiverUtilisateur.call(this, {
+      identifiantUtilisateur: this.utilisateurWorld.inviterUtilisateur.email,
+    });
+  },
+);
+
+EtantDonné('le porteur du projet désactivé', async function (this: PotentielWorld) {
+  await désactiverUtilisateur.call(this, {
+    identifiantUtilisateur: this.utilisateurWorld.porteurFixture.email,
+  });
+});
 
 export async function initialiserUtilisateursTests(this: PotentielWorld) {
   const validateur = this.utilisateurWorld.validateurFixture.créer();

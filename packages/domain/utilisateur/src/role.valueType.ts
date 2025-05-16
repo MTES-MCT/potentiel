@@ -471,6 +471,7 @@ const référencielPermissions = {
       retirerAccèsProjet: 'Utilisateur.Command.RetirerAccèsProjet',
       réclamerProjet: 'Utilisateur.Command.RéclamerProjet',
       désactiver: 'Utilisateur.Command.DésactiverUtilisateur',
+      réactiver: 'Utilisateur.Command.RéactiverUtilisateur',
     },
     usecase: {
       inviter: 'Utilisateur.UseCase.InviterUtilisateur',
@@ -478,6 +479,7 @@ const référencielPermissions = {
       retirerAccèsProjet: 'Utilisateur.UseCase.RetirerAccèsProjet',
       réclamerProjet: 'Utilisateur.UseCase.RéclamerProjet',
       désactiver: 'Utilisateur.UseCase.DésactiverUtilisateur',
+      réactiver: 'Utilisateur.UseCase.RéactiverUtilisateur',
     },
   },
   tâche: {
@@ -1143,6 +1145,10 @@ const policies = {
       référencielPermissions.utilisateur.command.désactiver,
       référencielPermissions.utilisateur.usecase.désactiver,
     ],
+    réactiver: [
+      référencielPermissions.utilisateur.command.réactiver,
+      référencielPermissions.utilisateur.usecase.réactiver,
+    ],
   },
   cahierDesCharges: {
     choisir: [
@@ -1301,6 +1307,7 @@ const adminPolicies: ReadonlyArray<Policy> = [
   'utilisateur.inviterPorteur',
   'utilisateur.retirerAccèsProjet',
   'utilisateur.désactiver',
+  'utilisateur.réactiver',
 
   // Puissance
   'puissance.modifier',
