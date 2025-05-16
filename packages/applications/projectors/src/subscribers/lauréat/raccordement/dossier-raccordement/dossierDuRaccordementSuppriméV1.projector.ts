@@ -1,0 +1,26 @@
+import { Raccordement } from '@potentiel-domain/laureat';
+import { findProjection } from '@potentiel-infrastructure/pg-projection-read';
+import { removeProjection, upsertProjection } from '@potentiel-infrastructure/pg-projection-write';
+import { Option } from '@potentiel-libraries/monads';
+
+export const dossierDuRaccordementSuppriméV1Projector = async ({
+  payload: { identifiantProjet, référenceDossier },
+}: Raccordement.DossierDuRaccordementSuppriméEvent) => {
+  const raccordement = await findProjection<Raccordement.RaccordementEntity>(
+    `raccordement|${identifiantProjet}`,
+  );
+
+  if (Option.isSome(raccordement)) {
+    const dossiersMisÀJour = raccordement.dossiers.filter(
+      (dossier) => dossier.référence !== référenceDossier,
+    );
+
+    await upsertProjection<Raccordement.RaccordementEntity>(`raccordement|${identifiantProjet}`, {
+      ...raccordement,
+      dossiers: dossiersMisÀJour,
+    });
+    await removeProjection<Raccordement.DossierRaccordementEntity>(
+      `dossier-raccordement|${identifiantProjet}#${référenceDossier}`,
+    );
+  }
+};

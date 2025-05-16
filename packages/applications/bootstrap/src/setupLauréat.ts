@@ -33,6 +33,7 @@ import {
   ActionnaireProjector,
   PuissanceProjector,
   ProducteurProjector,
+  RaccordementProjector,
 } from '@potentiel-applications/projectors';
 import {
   DocumentAdapter,
@@ -542,6 +543,43 @@ export const setupLauréat = async ({
       }),
   });
 
+  const unsubscribeRaccordementProjector = await subscribe<RaccordementProjector.SubscriptionEvent>(
+    {
+      name: 'projector',
+      eventType: [
+        'RebuildTriggered',
+        'AccuséRéceptionDemandeComplèteRaccordementTransmis-V1',
+        'DateMiseEnServiceTransmise-V1',
+        'DateMiseEnServiceTransmise-V2',
+        'DemandeComplèteDeRaccordementTransmise-V1',
+        'DemandeComplèteDeRaccordementTransmise-V2',
+        'DemandeComplèteRaccordementModifiée-V1',
+        'DemandeComplèteRaccordementModifiée-V2',
+        'DemandeComplèteRaccordementModifiée-V3',
+        'GestionnaireRéseauRaccordementModifié-V1',
+        'GestionnaireRéseauInconnuAttribué-V1',
+        'PropositionTechniqueEtFinancièreModifiée-V1',
+        'PropositionTechniqueEtFinancièreModifiée-V2',
+        'PropositionTechniqueEtFinancièreSignéeTransmise-V1',
+        'PropositionTechniqueEtFinancièreTransmise-V1',
+        'PropositionTechniqueEtFinancièreTransmise-V2',
+        'RéférenceDossierRacordementModifiée-V1',
+        'RéférenceDossierRacordementModifiée-V2',
+        'GestionnaireRéseauAttribué-V1',
+        'DossierDuRaccordementSupprimé-V1',
+        'DateMiseEnServiceSupprimée-V1',
+        'RaccordementSupprimé-V1',
+      ],
+      eventHandler: async (event) => {
+        await mediator.send<RaccordementProjector.Execute>({
+          type: 'System.Projector.Lauréat.Raccordement',
+          data: event,
+        });
+      },
+      streamCategory: 'raccordement',
+    },
+  );
+
   return async () => {
     // projectors
     await unsubscribeAbandonProjector();
@@ -551,6 +589,7 @@ export const setupLauréat = async ({
     await unsubscribeActionnaireProjector();
     await unsubscribePuissanceProjector();
     await unsubscribeProducteurProjector();
+    await unsubscribeRaccordementProjector();
     // notifications
     await unsubscribeLauréatNotifications();
     await unsubscribeAbandonNotification();
