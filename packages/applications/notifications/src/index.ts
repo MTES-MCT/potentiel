@@ -1,3 +1,6 @@
+// Accès
+export * as AccèsNotification from './subscribers/accès';
+
 // Candidature
 export * as CandidatureNotification from './subscribers/candidature/candidature.notification';
 

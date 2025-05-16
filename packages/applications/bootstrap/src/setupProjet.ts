@@ -5,12 +5,14 @@ import { registerProjetUseCases, registerProjetQueries } from '@potentiel-domain
 import { subscribe } from '@potentiel-infrastructure/pg-event-sourcing';
 import { findProjection, listProjection } from '@potentiel-infrastructure/pg-projection-read';
 import {
+  AccèsProjector,
   CandidatureProjector,
   LauréatProjector,
   RecoursProjector,
   ÉliminéProjector,
 } from '@potentiel-applications/projectors';
 import {
+  AccèsNotification,
   CandidatureNotification,
   RecoursNotification,
   SendEmail,
@@ -125,8 +127,10 @@ export const setupProjet = async ({ sendEmail }: SetupProjetDependencies) => {
   });
 
   CandidatureProjector.register();
-
   CandidatureNotification.register({ sendEmail });
+
+  AccèsProjector.register();
+  AccèsNotification.register({ sendEmail });
 
   LauréatSaga.register();
   AttestationSaga.register();
