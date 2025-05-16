@@ -16,8 +16,6 @@ import {
 } from './trouver/trouverUtilisateur.query';
 import { registerInviterUseCase } from './inviter/inviterUtilisateur.usecase';
 import { registerInviterCommand } from './inviter/inviterUtilisateur.command';
-import { registerRetirerAccèsProjetCommand } from './retirer/retirerAccèsProjet.command';
-import { registerRetirerAccèsProjetUseCase } from './retirer/retirerAccèsProjet.usecase';
 import {
   ListerProjetsÀRéclamerDependencies,
   registerListerProjetsÀRéclamerQuery,
@@ -48,13 +46,11 @@ export type UtilisateurCommandDependencies = {
 export const registerUtilisateurUseCases = ({ loadAggregate }: UtilisateurCommandDependencies) => {
   registerInviterUseCase();
   registerInviterPorteurUseCase();
-  registerRetirerAccèsProjetUseCase();
   registerDésactiverUseCase();
   registerRéactiverUseCase();
 
   registerInviterCommand(loadAggregate);
   registerInviterPorteurCommand(loadAggregate);
-  registerRetirerAccèsProjetCommand(loadAggregate);
   registerDésactiverCommand(loadAggregate);
   registerRéactiverCommand(loadAggregate);
 };

@@ -1,11 +1,11 @@
-import { RéclamerAccèsProjetCommand } from './réclamer/réclamerAccèsProjet.command';
+import { RetirerAccèsProjetUseCase } from './retirer/retirerAccèsProjet.usecase';
 import { RéclamerAccèsProjetUseCase } from './réclamer/réclamerAccèsProjet.usecase';
 import { VérifierAccèsProjetQuery } from './vérifier/vérifierAccèsProjet.query';
 
 // UseCases
-export type AccèsUseCase = RéclamerAccèsProjetUseCase;
+export type AccèsUseCase = RéclamerAccèsProjetUseCase | RetirerAccèsProjetUseCase;
 
-export { RéclamerAccèsProjetUseCase, RéclamerAccèsProjetCommand };
+export { RéclamerAccèsProjetUseCase, RetirerAccèsProjetUseCase };
 
 // Query
 export type AttestationConformitéQuery = VérifierAccèsProjetQuery;

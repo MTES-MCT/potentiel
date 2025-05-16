@@ -25,8 +25,8 @@ import { Project } from '../../../infra/sequelize';
 import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
 import { mediator } from 'mediateur';
 import { GarantiesFinancières } from '@potentiel-domain/laureat';
-import { ListerPorteursQuery, RetirerAccèsProjetUseCase } from '@potentiel-domain/utilisateur';
-import { Lauréat } from '@potentiel-domain/projet';
+import { ListerPorteursQuery } from '@potentiel-domain/utilisateur';
+import { Accès, Lauréat } from '@potentiel-domain/projet';
 
 const schema = yup.object({
   body: yup.object({
@@ -192,13 +192,13 @@ const retirerTousAccès = async (identifiantProjet: string) => {
       data: { identifiantProjet },
     });
     for (const porteur of porteurs.items) {
-      await mediator.send<RetirerAccèsProjetUseCase>({
-        type: 'Utilisateur.UseCase.RetirerAccèsProjet',
+      await mediator.send<Accès.RetirerAccèsProjetUseCase>({
+        type: 'Projet.Accès.UseCase.RetirerAccèsProjet',
         data: {
-          identifiantProjet: identifiantProjet,
-          identifiantUtilisateur: porteur.email,
-          retiréLe: DateTime.now().formatter(),
-          retiréPar: Email.system().formatter(),
+          identifiantProjetValue: identifiantProjet,
+          identifiantUtilisateurValue: porteur.email,
+          retiréLeValue: DateTime.now().formatter(),
+          retiréParValue: Email.system().formatter(),
           cause: 'changement-producteur',
         },
       });

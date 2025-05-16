@@ -7,7 +7,6 @@ import { UtilisateurEvent } from '@potentiel-domain/utilisateur';
 import { EmailPayload, SendEmail } from '../../sendEmail';
 
 import { porteurInvitéNotification } from './porteurInvité.notification';
-import { accèsProjetRetiréNotification } from './accèsProjetRetiré.notification';
 import { utilisateurInvitéNotification } from './utilisateurInvité.notification';
 
 export type SubscriptionEvent = UtilisateurEvent & Event;
@@ -23,7 +22,6 @@ export const register = ({ sendEmail }: RegisterUtilisateurNotificationDependenc
     const emailPayloads = await match(event)
       .returnType<Promise<EmailPayload[]>>()
       .with({ type: 'PorteurInvité-V1' }, porteurInvitéNotification)
-      .with({ type: 'AccèsProjetRetiré-V1' }, accèsProjetRetiréNotification)
       .with({ type: 'UtilisateurInvité-V1' }, utilisateurInvitéNotification)
       .with({ type: 'UtilisateurDésactivé-V1' }, async () => [])
       .with({ type: 'UtilisateurRéactivé-V1' }, async () => [])
