@@ -20,6 +20,7 @@
     "@oclif/core": "^4.2.10",
     "@potentiel-applications/bootstrap": "*",
     "@potentiel-domain/reseau": "*",
+    "@potentiel-domain/tache": "*",
     "@potentiel-infrastructure/domain-adapters": "*",
     "@potentiel-libraries/csv": "*",
     "@potentiel-libraries/file-storage": "*",

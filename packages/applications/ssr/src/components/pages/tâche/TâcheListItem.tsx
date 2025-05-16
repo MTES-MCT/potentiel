@@ -91,8 +91,8 @@ const getDescriptionTâche = (
       titre: "Document d'accusé de récéption de la demande complète de raccordement manquant",
       description: `Le document d'accusé de récéption de la demande complète de raccordement est manquant pour ce projet`,
       lien: Routes.Raccordement.détail(identifiant),
-      action: 'Soumettre les garanties financières',
-      ariaLabel: `Soumettre des garanties financières pour le projet ${nomProjet}`,
+      action: 'Voir le raccordement',
+      ariaLabel: `Voir le raccordement du projet ${nomProjet}`,
     }))
     .with('inconnue', () => ({
       titre: '',

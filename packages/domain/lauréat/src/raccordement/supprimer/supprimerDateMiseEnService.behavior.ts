@@ -49,7 +49,7 @@ export async function supprimerDateMiseEnService(
   await this.publish(dateMiseEnServiceSupprimée);
 }
 
-export function applyDateMiseEnServiceTransmiseEventV1(
+export function applyDateMiseEnServiceSuppriméeEventV1(
   this: RaccordementAggregate,
   { payload: { référenceDossierRaccordement } }: DateMiseEnServiceSuppriméeEvent,
 ) {
