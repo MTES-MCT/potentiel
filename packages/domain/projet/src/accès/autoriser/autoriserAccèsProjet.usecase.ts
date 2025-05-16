@@ -1,13 +1,15 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
-import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
+import { DateTime, Email } from '@potentiel-domain/common';
+
+import { IdentifiantProjet } from '../..';
 
 import { AutoriserAccèsProjetCommand } from './autoriserAccèsProjet.command';
 
 export type AutoriserAccèsProjetUseCase = Message<
   'Projet.Accès.UseCase.AutoriserAccèsProjet',
   {
-    identifiantProjetValue: string;
+    identifiantProjetValues: Array<string>;
     identifiantUtilisateurValue: string;
     autoriséLeValue: string;
     autoriséParValue: string;
@@ -17,7 +19,7 @@ export type AutoriserAccèsProjetUseCase = Message<
 
 export const registerAutoriserAccèsProjetUseCase = () => {
   const runner: MessageHandler<AutoriserAccèsProjetUseCase> = async ({
-    identifiantProjetValue,
+    identifiantProjetValues,
     identifiantUtilisateurValue,
     autoriséLeValue,
     autoriséParValue,
@@ -26,7 +28,9 @@ export const registerAutoriserAccèsProjetUseCase = () => {
     await mediator.send<AutoriserAccèsProjetCommand>({
       type: 'Projet.Accès.Command.AutoriserAccèsProjet',
       data: {
-        identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjetValue),
+        identifiantProjets: identifiantProjetValues.map((identifiantProjetValue) =>
+          IdentifiantProjet.convertirEnValueType(identifiantProjetValue),
+        ),
         identifiantUtilisateur: Email.convertirEnValueType(identifiantUtilisateurValue),
         autoriséLe: DateTime.convertirEnValueType(autoriséLeValue),
         autoriséPar: Email.convertirEnValueType(autoriséParValue),

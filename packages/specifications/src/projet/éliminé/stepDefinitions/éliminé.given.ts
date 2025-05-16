@@ -6,7 +6,7 @@ import { mediator } from 'mediateur';
 import { executeQuery } from '@potentiel-libraries/pg-helpers';
 import { Email, IdentifiantProjet } from '@potentiel-domain/common';
 import { InviterPorteurUseCase } from '@potentiel-domain/utilisateur';
-import { Éliminé } from '@potentiel-domain/projet';
+import { Accès, Éliminé } from '@potentiel-domain/projet';
 
 import { PotentielWorld } from '../../../potentiel.world';
 import { importerCandidature } from '../../../candidature/stepDefinitions/candidature.given';
@@ -237,6 +237,17 @@ export async function notifierÉliminé(this: PotentielWorld, dateDésignation: 
       identifiantsProjetValues: [identifiantProjetValue.formatter()],
       invitéLeValue: dateDésignation,
       invitéParValue: Email.system().formatter(),
+    },
+  });
+
+  await mediator.send<Accès.AutoriserAccèsProjetUseCase>({
+    type: 'Projet.Accès.UseCase.AutoriserAccèsProjet',
+    data: {
+      identifiantProjetValues: [identifiantProjetValue.formatter()],
+      identifiantUtilisateurValue: candidature.values.emailContactValue,
+      autoriséLeValue: dateDésignation,
+      autoriséParValue: Email.system().formatter(),
+      raison: 'notification',
     },
   });
 }

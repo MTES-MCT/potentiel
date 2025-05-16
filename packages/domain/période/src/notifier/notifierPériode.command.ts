@@ -3,7 +3,7 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 import { getLogger } from '@potentiel-libraries/monitoring';
 import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
 import { LoadAggregate } from '@potentiel-domain/core';
-import { GetProjetAggregateRoot, Lauréat, Éliminé } from '@potentiel-domain/projet';
+import { Accès, GetProjetAggregateRoot, Lauréat, Éliminé } from '@potentiel-domain/projet';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { InviterPorteurUseCase } from '@potentiel-domain/utilisateur';
 
@@ -101,6 +101,17 @@ export const registerNotifierPériodeCommand = (
           identifiantsProjetValues: projets,
           invitéLeValue: notifiéeLe.formatter(),
           invitéParValue: Email.system().formatter(),
+        },
+      });
+
+      await mediator.send<Accès.AutoriserAccèsProjetUseCase>({
+        type: 'Projet.Accès.UseCase.AutoriserAccèsProjet',
+        data: {
+          identifiantProjetValues: projets,
+          identifiantUtilisateurValue: email,
+          autoriséLeValue: notifiéeLe.formatter(),
+          autoriséParValue: Email.system().formatter(),
+          raison: 'notification',
         },
       });
     }
