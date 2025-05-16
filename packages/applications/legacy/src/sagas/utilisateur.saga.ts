@@ -55,67 +55,6 @@ export const register = () => {
 
         break;
       }
-      case 'ProjetRéclamé-V1': {
-        const { identifiantProjet, identifiantUtilisateur } = payload;
-
-        const userId = await getOrCreateUser(identifiantUtilisateur, 'porteur-projet');
-
-        const project = await getLegacyProjetByIdentifiantProjet(
-          IdentifiantProjet.convertirEnValueType(identifiantProjet),
-        );
-
-        if (!project) {
-          logger.warning('Project not found', { event, context: 'Legacy Utilisateur Saga' });
-          break;
-        }
-
-        await eventStore.publish(
-          new ProjectClaimedByOwner({
-            payload: {
-              claimedBy: userId,
-              claimerEmail: identifiantUtilisateur,
-              projectId: project.id,
-            },
-          }),
-        );
-
-        break;
-      }
-      case 'AccèsProjetRetiré-V1': {
-        const { identifiantProjet, identifiantUtilisateur, retiréPar, cause } = payload;
-        const porteurId = await getOrCreateUser(identifiantUtilisateur, 'porteur-projet');
-        const retiréParUserId = await getUserIdByEmail(retiréPar);
-
-        const project = await getLegacyProjetByIdentifiantProjet(
-          IdentifiantProjet.convertirEnValueType(identifiantProjet),
-        );
-
-        if (!project) {
-          logger.warning('Project not found', { event, context: 'Legacy Utilisateur Saga' });
-          break;
-        }
-        if (cause === 'changement-producteur') {
-          await eventStore.publish(
-            new ToutAccèsAuProjetRevoqué({
-              payload: {
-                projetId: project.id,
-                cause: 'changement producteur',
-              },
-            }),
-          );
-        } else {
-          await eventStore.publish(
-            new UserRightsToProjectRevoked({
-              payload: {
-                projectId: project.id,
-                userId: porteurId,
-                revokedBy: retiréParUserId,
-              },
-            }),
-          );
-        }
-        break;
-      }
       case 'UtilisateurInvité-V1': {
         const { identifiantUtilisateur, rôle, invitéPar } = payload;
 

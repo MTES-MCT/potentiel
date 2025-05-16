@@ -16,11 +16,6 @@ import {
   UtilisateurInvitéEvent,
 } from './inviter/inviterUtilisateur.behavior';
 import {
-  applyAccèsProjetRetiré,
-  AccèsProjetRetiréEvent,
-} from './retirer/retirerAccèsProjet.behavior';
-import { retirerAccèsProjet } from './retirer/retirerAccèsProjet.behavior';
-import {
   applyUtilisateurDésactivé,
   UtilisateurDésactivéEvent,
   désactiver,
@@ -35,14 +30,12 @@ import { UtilisateurInconnuError } from './errors';
 export type UtilisateurEvent =
   | PorteurInvitéEvent
   | UtilisateurInvitéEvent
-  | AccèsProjetRetiréEvent
   | UtilisateurDésactivéEvent
   | UtilisateurRéactivéEvent;
 
 export type UtilisateurAggregate = Aggregate<UtilisateurEvent> & {
   readonly inviterPorteur: typeof inviterPorteur;
   readonly inviter: typeof inviter;
-  readonly retirerAccèsProjet: typeof retirerAccèsProjet;
   readonly désactiver: typeof désactiver;
   readonly réactiver: typeof réactiver;
   aAccèsAuProjet: (identifiantProjet: IdentifiantProjet.ValueType) => boolean;
@@ -66,7 +59,6 @@ export const getDefaultUtilisateurAggregate: GetDefaultAggregateState<
   apply,
   inviterPorteur,
   inviter,
-  retirerAccèsProjet,
   désactiver,
   réactiver,
   projets: new Set(),
@@ -81,7 +73,6 @@ function apply(this: UtilisateurAggregate, event: UtilisateurEvent) {
   match(event)
     .with({ type: 'PorteurInvité-V1' }, applyPorteurInvité.bind(this))
     .with({ type: 'UtilisateurInvité-V1' }, applyUtilisateurInvité.bind(this))
-    .with({ type: 'AccèsProjetRetiré-V1' }, applyAccèsProjetRetiré.bind(this))
     .with({ type: 'UtilisateurDésactivé-V1' }, applyUtilisateurDésactivé.bind(this))
     .with({ type: 'UtilisateurRéactivé-V1' }, applyUtilisateurRéactivé.bind(this))
     .exhaustive();

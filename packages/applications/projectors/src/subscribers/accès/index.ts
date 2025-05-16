@@ -5,11 +5,11 @@ import { RebuildTriggered, Event } from '@potentiel-infrastructure/pg-event-sour
 import { Accès } from '@potentiel-domain/projet';
 
 import { accèsRebuildTriggeredProjector } from './accèsRebuildTriggered.projector';
-import { accèsProjetRetiréProjector } from './accèsProjetRetiréProjector.projector';
+import { accèsProjetRetiréProjector } from './accèsProjetRetiré.projector';
 
 export type SubscriptionEvent = (Accès.AccèsEvent & Event) | RebuildTriggered;
 
-export type Execute = Message<'System.Projector.Utilisateur', SubscriptionEvent>;
+export type Execute = Message<'System.Projector.Accès', SubscriptionEvent>;
 
 export const register = () => {
   const handler: MessageHandler<Execute> = async (event) =>
@@ -19,5 +19,5 @@ export const register = () => {
       .with({ type: 'AccèsProjetRetiré-V1' }, accèsProjetRetiréProjector)
       .exhaustive();
 
-  mediator.register('System.Projector.Utilisateur', handler);
+  mediator.register('System.Projector.Accès', handler);
 };
