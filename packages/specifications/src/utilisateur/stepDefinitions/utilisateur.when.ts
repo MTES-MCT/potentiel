@@ -8,8 +8,8 @@ import {
   InviterUtilisateurUseCase,
   RetirerAccèsProjetUseCase,
   Role,
-  RéclamerProjetUseCase,
 } from '@potentiel-domain/utilisateur';
+import { Accès } from '@potentiel-domain/projet';
 
 import { PotentielWorld } from '../../potentiel.world';
 import { InviterUtilisateurFixture } from '../fixtures/inviter/inviter.fixture';
@@ -281,18 +281,22 @@ async function réclamerProjet(
   this: PotentielWorld,
   fixtureProps: Parameters<typeof RéclamerProjetFixture.prototype.créer>[0],
 ) {
-  const { identifiantProjet, email, numéroCRE, prixRéférence } =
-    this.utilisateurWorld.réclamerProjet.créer(fixtureProps);
+  const {
+    identifiantProjet,
+    email,
+    numéroCRE = '',
+    prixRéférence: prix = 0,
+  } = this.utilisateurWorld.réclamerProjet.créer(fixtureProps);
 
   try {
-    await mediator.send<RéclamerProjetUseCase>({
-      type: 'Utilisateur.UseCase.RéclamerProjet',
+    await mediator.send<Accès.RéclamerAccèsProjetUseCase>({
+      type: 'Projet.Accès.UseCase.RéclamerAccèsProjet',
       data: {
-        identifiantProjet,
-        identifiantUtilisateur: email,
-        réclaméLe: DateTime.now().formatter(),
+        identifiantProjetValue: identifiantProjet,
+        identifiantUtilisateurValue: email,
+        dateRéclamationValue: DateTime.now().formatter(),
         numéroCRE,
-        prixRéférence,
+        prix,
       },
     });
   } catch (error) {

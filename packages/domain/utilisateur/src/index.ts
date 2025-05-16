@@ -16,8 +16,6 @@ import { InviterPorteurUseCase } from './inviter/inviterPorteur.usecase';
 import { PorteurInvitéEvent } from './inviter/inviterPorteur.behavior';
 import { UtilisateurInvitéEvent } from './inviter/inviterUtilisateur.behavior';
 import { InviterUtilisateurUseCase } from './inviter/inviterUtilisateur.usecase';
-import { ProjetRéclaméEvent } from './réclamer/réclamerProjet.behavior';
-import { RéclamerProjetUseCase } from './réclamer/réclamerProjet.usecase';
 import { AccèsProjetRetiréEvent } from './retirer/retirerAccèsProjet.behavior';
 import { RetirerAccèsProjetUseCase } from './retirer/retirerAccèsProjet.usecase';
 import {
@@ -55,22 +53,16 @@ export {
 export type UtilisateurUseCase =
   | InviterUtilisateurUseCase
   | InviterPorteurUseCase
-  | RéclamerProjetUseCase
   | RetirerAccèsProjetUseCase;
 
-export {
-  InviterUtilisateurUseCase,
-  InviterPorteurUseCase,
-  RéclamerProjetUseCase,
-  RetirerAccèsProjetUseCase,
-};
+export { InviterUtilisateurUseCase, InviterPorteurUseCase, RetirerAccèsProjetUseCase };
 
 // Command
 export { RetirerAccèsProjetCommand };
 
 // Events
 export { UtilisateurEvent } from './utilisateur.aggregate';
-export { PorteurInvitéEvent, UtilisateurInvitéEvent, ProjetRéclaméEvent, AccèsProjetRetiréEvent };
+export { PorteurInvitéEvent, UtilisateurInvitéEvent, AccèsProjetRetiréEvent };
 
 // Register
 export * from './register';

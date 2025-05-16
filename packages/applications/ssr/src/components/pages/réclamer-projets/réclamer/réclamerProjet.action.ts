@@ -3,9 +3,9 @@
 import * as zod from 'zod';
 import { mediator } from 'mediateur';
 
+import { Accès } from '@potentiel-domain/projet';
 import { Routes } from '@potentiel-applications/routes';
 import { IdentifiantProjet, DateTime } from '@potentiel-domain/common';
-import { RéclamerProjetUseCase } from '@potentiel-domain/utilisateur';
 
 import { FormAction, formAction, FormState } from '@/utils/formAction';
 import { withUtilisateur } from '@/utils/withUtilisateur';
@@ -48,14 +48,14 @@ const action: FormAction<FormState, typeof schema> = async (_, body) => {
     const identifiantProjetValue = déchiffrerIdentifiantProjet(identifiantProjetChiffré, iv);
     const identifiantProjet = IdentifiantProjet.convertirEnValueType(identifiantProjetValue);
 
-    await mediator.send<RéclamerProjetUseCase>({
-      type: 'Utilisateur.UseCase.RéclamerProjet',
+    await mediator.send<Accès.RéclamerAccèsProjetUseCase>({
+      type: 'Projet.Accès.UseCase.RéclamerAccèsProjet',
       data: {
-        identifiantProjet: identifiantProjet.formatter(),
-        identifiantUtilisateur: utilisateur.identifiantUtilisateur.formatter(),
-        réclaméLe: DateTime.now().formatter(),
-        prixRéférence: body.hasSameEmail === 'true' ? undefined : body.prixReference,
-        numéroCRE: body.hasSameEmail === 'true' ? undefined : body.numeroCRE,
+        identifiantProjetValue: identifiantProjet.formatter(),
+        identifiantUtilisateurValue: utilisateur.identifiantUtilisateur.formatter(),
+        dateRéclamationValue: DateTime.now().formatter(),
+        prix: body.hasSameEmail === 'true' ? 0 : body.prixReference,
+        numéroCRE: body.hasSameEmail === 'true' ? '' : body.numeroCRE,
       },
     });
 

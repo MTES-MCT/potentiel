@@ -1,5 +1,4 @@
 import { LoadAggregate } from '@potentiel-domain/core';
-import { GetProjetAggregateRoot } from '@potentiel-domain/projet';
 
 import {
   ConsulterUtilisateurDependencies,
@@ -21,8 +20,6 @@ import {
 } from './vérifierAccèsProjet/vérifierAccèsProjet.query';
 import { registerInviterUseCase } from './inviter/inviterUtilisateur.usecase';
 import { registerInviterCommand } from './inviter/inviterUtilisateur.command';
-import { registerRéclamerProjetCommand } from './réclamer/réclamerProjet.command';
-import { registerRéclamerProjetUseCase } from './réclamer/réclamerProjet.usecase';
 import { registerRetirerAccèsProjetCommand } from './retirer/retirerAccèsProjet.command';
 import { registerRetirerAccèsProjetUseCase } from './retirer/retirerAccèsProjet.usecase';
 import {
@@ -48,20 +45,14 @@ export const registerUtilisateurQueries = (dependencies: UtilisateurQueryDepende
 
 export type UtilisateurCommandDependencies = {
   loadAggregate: LoadAggregate;
-  getProjetAggregateRoot: GetProjetAggregateRoot;
 };
 
-export const registerUtilisateurUseCases = ({
-  loadAggregate,
-  getProjetAggregateRoot,
-}: UtilisateurCommandDependencies) => {
+export const registerUtilisateurUseCases = ({ loadAggregate }: UtilisateurCommandDependencies) => {
   registerInviterUseCase();
   registerInviterPorteurUseCase();
-  registerRéclamerProjetUseCase();
   registerRetirerAccèsProjetUseCase();
 
   registerInviterCommand(loadAggregate);
   registerInviterPorteurCommand(loadAggregate);
-  registerRéclamerProjetCommand(loadAggregate, getProjetAggregateRoot);
   registerRetirerAccèsProjetCommand(loadAggregate);
 };
