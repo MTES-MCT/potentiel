@@ -7,10 +7,9 @@ import { Option } from '@potentiel-libraries/monads';
 import { mapToPlainObject } from '@potentiel-domain/core';
 import { Période } from '@potentiel-domain/periode';
 import { GarantiesFinancières } from '@potentiel-domain/laureat';
-import { Lauréat, Éliminé } from '@potentiel-domain/projet';
+import { Accès, Lauréat, Éliminé } from '@potentiel-domain/projet';
 import { Candidature } from '@potentiel-domain/projet';
 import { ConsulterDocumentProjetQuery } from '@potentiel-domain/document';
-import { Role, Utilisateur, VérifierAccèsProjetQuery } from '@potentiel-domain/utilisateur';
 
 import { PotentielWorld } from '../../potentiel.world';
 import { convertReadableStreamToString } from '../../helpers/convertReadableToString';
@@ -95,17 +94,11 @@ Alors(`les porteurs doivent avoir accès à leur projet`, async function (this: 
   });
   await waitForExpect(async () => {
     for (const candidature of candidatures.items) {
-      await mediator.send<VérifierAccèsProjetQuery>({
-        type: 'System.Authorization.VérifierAccèsProjet',
+      await mediator.send<Accès.VérifierAccèsProjetQuery>({
+        type: 'System.Projet.Accès.Query.VérifierAccèsProjet',
         data: {
           identifiantProjetValue: candidature.identifiantProjet.formatter(),
-          utilisateur: Utilisateur.bind({
-            identifiantUtilisateur: candidature.emailContact,
-            role: Role.porteur,
-            identifiantGestionnaireRéseau: Option.none,
-            région: Option.none,
-            nom: '',
-          }),
+          identifiantUtilisateurValue: candidature.emailContact.formatter(),
         },
       });
     }

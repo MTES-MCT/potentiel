@@ -1,3 +1,52 @@
+import { Message, MessageHandler, mediator } from 'mediateur';
+
+import { Find } from '@potentiel-domain/entity';
+import { OperationRejectedError } from '@potentiel-domain/core';
+import { Option } from '@potentiel-libraries/monads';
+
+import { AccèsEntity } from '../accès.entity';
+
+export type VérifierAccèsProjetQuery = Message<
+  'System.Projet.Accès.Query.VérifierAccèsProjet',
+  {
+    identifiantUtilisateurValue: string;
+    identifiantProjetValue: string;
+  },
+  void
+>;
+
+export type VérifierAccèsProjetDependencies = {
+  find: Find;
+};
+
+class ProjetInaccessibleError extends OperationRejectedError {
+  constructor() {
+    super(`Vous n'avez pas accès à ce projet`);
+  }
+}
+
+export const registerVérifierAccèsProjetQuery = ({ find }: VérifierAccèsProjetDependencies) => {
+  const handler: MessageHandler<VérifierAccèsProjetQuery> = async ({
+    identifiantUtilisateurValue,
+    identifiantProjetValue,
+  }) => {
+    const accès = await find<AccèsEntity>(`accès|${identifiantProjetValue}`);
+
+    Option.match(accès)
+      .some((a) => {
+        if (!a.utilisateursAyantAccès.includes(identifiantUtilisateurValue)) {
+          throw new ProjetInaccessibleError();
+        }
+      })
+      .none(() => {
+        throw new ProjetInaccessibleError();
+      });
+  };
+
+  mediator.register('System.Projet.Accès.Query.VérifierAccèsProjet', handler);
+};
+
+/*
 import { match } from 'ts-pattern';
 
 import { VérifierAccèsProjetPort } from '@potentiel-domain/utilisateur';
@@ -75,3 +124,4 @@ export const vérifierAccèsProjetAdapter: VérifierAccèsProjetPort = async ({
     })
     .exhaustive();
 };
+*/

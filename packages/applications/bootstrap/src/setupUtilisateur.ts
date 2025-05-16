@@ -8,7 +8,6 @@ import { loadAggregate, subscribe } from '@potentiel-infrastructure/pg-event-sou
 import { findProjection, listProjection } from '@potentiel-infrastructure/pg-projection-read';
 import { UtilisateurProjector } from '@potentiel-applications/projectors';
 import { SendEmail, UtilisateurNotification } from '@potentiel-applications/notifications';
-import { vérifierAccèsProjetAdapter } from '@potentiel-infrastructure/domain-adapters';
 
 type SetupUtilisateurDependencies = {
   sendEmail: SendEmail;
@@ -18,7 +17,6 @@ export const setupUtilisateur = async ({ sendEmail }: SetupUtilisateurDependenci
   registerUtilisateurQueries({
     find: findProjection,
     list: listProjection,
-    vérifierAccèsProjet: vérifierAccèsProjetAdapter,
   });
 
   registerUtilisateurUseCases({
