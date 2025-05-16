@@ -57,9 +57,6 @@ export {
   RéactiverUtilisateurUseCase,
 };
 
-// Command
-export { RetirerAccèsProjetCommand };
-
 // Events
 export { UtilisateurEvent } from './utilisateur.aggregate';
 export {
