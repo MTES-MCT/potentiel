@@ -2,11 +2,12 @@ import { Message, Middleware, mediator } from 'mediateur';
 
 import { IdentifiantProjet } from '@potentiel-domain/common';
 import { getContext } from '@potentiel-applications/request-context';
-import { UtilisateurEntity, VérifierAccèsProjetQuery } from '@potentiel-domain/utilisateur';
+import { UtilisateurEntity } from '@potentiel-domain/utilisateur';
 import { getLogger } from '@potentiel-libraries/monitoring';
 import { Where, WhereOptions } from '@potentiel-domain/entity';
 import { OperationRejectedError } from '@potentiel-domain/core';
 import { listProjection } from '@potentiel-infrastructure/pg-projection-read';
+import { Accès } from '@potentiel-domain/projet';
 
 import { AuthenticationError } from '../errors';
 
@@ -40,11 +41,11 @@ export const permissionMiddleware: Middleware = async (message, next) => {
       return await next();
     }
 
-    await mediator.send<VérifierAccèsProjetQuery>({
-      type: 'System.Authorization.VérifierAccèsProjet',
+    await mediator.send<Accès.VérifierAccèsProjetQuery>({
+      type: 'System.Projet.Accès.Query.VérifierAccèsProjet',
       data: {
         identifiantProjetValue,
-        utilisateur,
+        identifiantUtilisateurValue: utilisateur.identifiantUtilisateur.formatter(),
       },
     });
   }

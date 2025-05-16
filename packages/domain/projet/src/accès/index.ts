@@ -1,5 +1,6 @@
 import { RéclamerAccèsProjetCommand } from './réclamer/réclamerAccèsProjet.command';
 import { RéclamerAccèsProjetUseCase } from './réclamer/réclamerAccèsProjet.usecase';
+import { VérifierAccèsProjetQuery } from './vérifier/vérifierAccèsProjet.query';
 
 // UseCases
 export type AccèsUseCase = RéclamerAccèsProjetUseCase;
@@ -7,12 +8,9 @@ export type AccèsUseCase = RéclamerAccèsProjetUseCase;
 export { RéclamerAccèsProjetUseCase, RéclamerAccèsProjetCommand };
 
 // Query
-// export type AttestationConformitéQuery = ConsulterAttestationConformitéQuery;
+export type AttestationConformitéQuery = VérifierAccèsProjetQuery;
 
-// export { ConsulterAttestationConformitéQuery };
-
-// ReadModel
-// export { ConsulterAttestationConformitéReadModel };
+export { VérifierAccèsProjetQuery };
 
 // Events
 export * from './accès.event';

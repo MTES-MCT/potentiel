@@ -8,10 +8,6 @@ import {
   ListerUtilisateursReadModel,
 } from './lister/listerUtilisateurs.query';
 import { TrouverUtilisateurQuery } from './trouver/trouverUtilisateur.query';
-import {
-  VérifierAccèsProjetQuery,
-  VérifierAccèsProjetPort,
-} from './vérifierAccèsProjet/vérifierAccèsProjet.query';
 import { InviterPorteurUseCase } from './inviter/inviterPorteur.usecase';
 import { PorteurInvitéEvent } from './inviter/inviterPorteur.behavior';
 import { UtilisateurInvitéEvent } from './inviter/inviterUtilisateur.behavior';
@@ -36,7 +32,6 @@ export type UtilisateurQuery =
   | ConsulterUtilisateurQuery
   | ListerUtilisateursQuery
   | TrouverUtilisateurQuery
-  | VérifierAccèsProjetQuery
   | ListerProjetsÀRéclamerQuery
   | ListerPorteursQuery;
 
@@ -44,7 +39,6 @@ export {
   ConsulterUtilisateurQuery,
   ListerUtilisateursQuery,
   TrouverUtilisateurQuery,
-  VérifierAccèsProjetQuery,
   ListerProjetsÀRéclamerQuery,
   ListerPorteursQuery,
 };
@@ -68,7 +62,7 @@ export { PorteurInvitéEvent, UtilisateurInvitéEvent, AccèsProjetRetiréEvent 
 export * from './register';
 
 // Port
-export { RécupérerUtilisateurPort, VérifierAccèsProjetPort };
+export { RécupérerUtilisateurPort };
 export * from './utilisateur.port';
 
 // Entity
