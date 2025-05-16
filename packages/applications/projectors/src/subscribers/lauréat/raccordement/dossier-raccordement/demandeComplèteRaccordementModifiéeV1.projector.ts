@@ -3,8 +3,8 @@ import { removeProjection } from '@potentiel-infrastructure/pg-projection-write'
 import { Event } from '@potentiel-infrastructure/pg-event-sourcing';
 import { DateTime } from '@potentiel-domain/common';
 
-import { getDossierRaccordement } from './_utils/getDossierRaccordement';
-import { upsertDossierRaccordement } from './_utils/upsertDossierRaccordement';
+import { getDossierRaccordement } from '../_utils/getDossierRaccordement';
+import { upsertDossierRaccordement } from '../_utils/upsertDossierRaccordement';
 
 export const demandeComplèteRaccordementModifiéeV1Projector = async ({
   payload: { identifiantProjet, referenceActuelle, nouvelleReference, dateQualification },
