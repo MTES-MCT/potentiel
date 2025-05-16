@@ -2,8 +2,8 @@ import { mediator } from 'mediateur';
 import { notFound } from 'next/navigation';
 
 import { ConsulterDocumentProjetQuery } from '@potentiel-domain/document';
-import { VérifierAccèsProjetQuery } from '@potentiel-domain/utilisateur';
 import { Option } from '@potentiel-libraries/monads';
+import { Accès } from '@potentiel-domain/projet';
 
 import { withUtilisateur } from '@/utils/withUtilisateur';
 import { apiAction } from '@/utils/apiAction';
@@ -19,11 +19,11 @@ export const GET = (_: Request, { params: { documentKey } }: DocumentKeyParamete
     withUtilisateur(async (utilisateur) => {
       const [identifiantProjet] = documentKey.split('/');
 
-      await mediator.send<VérifierAccèsProjetQuery>({
-        type: 'System.Authorization.VérifierAccèsProjet',
+      await mediator.send<Accès.VérifierAccèsProjetQuery>({
+        type: 'System.Projet.Accès.Query.VérifierAccèsProjet',
         data: {
           identifiantProjetValue: decodeURIComponent(identifiantProjet),
-          utilisateur,
+          identifiantUtilisateurValue: utilisateur.identifiantUtilisateur.formatter(),
         },
       });
       const result = await mediator.send<ConsulterDocumentProjetQuery>({

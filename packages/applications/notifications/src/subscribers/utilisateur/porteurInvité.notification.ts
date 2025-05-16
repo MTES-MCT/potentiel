@@ -2,7 +2,7 @@ import { Email } from '@potentiel-domain/common';
 import { PorteurInvitéEvent } from '@potentiel-domain/utilisateur';
 import { Routes } from '@potentiel-applications/routes';
 
-import { récupérerNomProjet } from './_utils/récupérerNomProjet';
+import { récupérerNomProjet } from '../../_utils/récupérerNomProjet';
 
 export const porteurInvitéNotification = async ({
   payload: { identifiantsProjet, identifiantUtilisateur, invitéPar },

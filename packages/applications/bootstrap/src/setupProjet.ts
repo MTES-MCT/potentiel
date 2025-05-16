@@ -5,12 +5,14 @@ import { registerProjetUseCases, registerProjetQueries } from '@potentiel-domain
 import { subscribe } from '@potentiel-infrastructure/pg-event-sourcing';
 import { findProjection, listProjection } from '@potentiel-infrastructure/pg-projection-read';
 import {
+  AccèsProjector,
   CandidatureProjector,
   LauréatProjector,
   RecoursProjector,
   ÉliminéProjector,
 } from '@potentiel-applications/projectors';
 import {
+  AccèsNotification,
   CandidatureNotification,
   RecoursNotification,
   SendEmail,
@@ -20,7 +22,6 @@ import {
   consulterCahierDesChargesChoisiAdapter,
   DélaiAdapter,
   getProjetUtilisateurScopeAdapter,
-  retirerTousAccèsProjet,
 } from '@potentiel-infrastructure/domain-adapters';
 import { AttestationSaga } from '@potentiel-applications/document-builder';
 import { LauréatSaga } from '@potentiel-domain/laureat';
@@ -34,7 +35,6 @@ type SetupProjetDependencies = {
 export const setupProjet = async ({ sendEmail }: SetupProjetDependencies) => {
   registerProjetUseCases({
     getProjetAggregateRoot: getProjetAggregateRootAdapter,
-    retirerTousAccèsProjet,
   });
 
   registerProjetQueries({
@@ -127,11 +127,25 @@ export const setupProjet = async ({ sendEmail }: SetupProjetDependencies) => {
   });
 
   CandidatureProjector.register();
-
   CandidatureNotification.register({ sendEmail });
+
+  AccèsProjector.register();
+  AccèsNotification.register({ sendEmail });
 
   LauréatSaga.register();
   AttestationSaga.register();
+
+  const unsubscribeAccèsProjector = await subscribe<AccèsProjector.SubscriptionEvent>({
+    name: 'projector',
+    eventType: ['RebuildTriggered', 'AccèsProjetAutorisé-V1', 'AccèsProjetRetiré-V1'],
+    eventHandler: async (event) => {
+      await mediator.send<AccèsProjector.Execute>({
+        type: 'System.Projector.Accès',
+        data: event,
+      });
+    },
+    streamCategory: 'accès',
+  });
 
   const unsubscribeCandidatureProjector = await subscribe<CandidatureProjector.SubscriptionEvent>({
     name: 'projector',
@@ -188,5 +202,7 @@ export const setupProjet = async ({ sendEmail }: SetupProjetDependencies) => {
     await unsubscribeCandidatureProjector();
     await unsubscribeAttestationSaga();
     await unsubscribeCandidatureNotification();
+
+    await unsubscribeAccèsProjector();
   };
 };
