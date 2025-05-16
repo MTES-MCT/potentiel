@@ -7,7 +7,7 @@ import { GetProjetAggregateRoot, IdentifiantProjet } from '../..';
 export type AutoriserAccèsProjetCommand = Message<
   'Projet.Accès.Command.AutoriserAccèsProjet',
   {
-    identifiantProjet: IdentifiantProjet.ValueType;
+    identifiantProjets: Array<IdentifiantProjet.ValueType>;
     identifiantUtilisateur: Email.ValueType;
     autoriséLe: DateTime.ValueType;
     autoriséPar: Email.ValueType;
@@ -19,8 +19,10 @@ export const registerAutoriserAccèsProjetCommand = (
   getProjetAggregateRoot: GetProjetAggregateRoot,
 ) => {
   const handler: MessageHandler<AutoriserAccèsProjetCommand> = async (payload) => {
-    const projet = await getProjetAggregateRoot(payload.identifiantProjet);
-    await projet.accès.autoriser(payload);
+    for (const identifiantProjet of payload.identifiantProjets) {
+      const projet = await getProjetAggregateRoot(identifiantProjet);
+      await projet.accès.autoriser(payload);
+    }
   };
   mediator.register('Projet.Accès.Command.AutoriserAccèsProjet', handler);
 };

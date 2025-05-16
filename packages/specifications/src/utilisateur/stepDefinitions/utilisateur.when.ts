@@ -217,6 +217,19 @@ export async function inviterPorteur(
           : Email.system().formatter(),
       },
     });
+
+    await mediator.send<Accès.AutoriserAccèsProjetUseCase>({
+      type: 'Projet.Accès.UseCase.AutoriserAccèsProjet',
+      data: {
+        identifiantProjetValues: identifiantsProjet,
+        identifiantUtilisateurValue: identifiantUtilisateur,
+        autoriséLeValue: DateTime.now().formatter(),
+        autoriséParValue: this.utilisateurWorld.porteurFixture.aÉtéCréé
+          ? this.utilisateurWorld.porteurFixture.email
+          : Email.system().formatter(),
+        raison: 'invitation',
+      },
+    });
   } catch (error) {
     this.error = error as Error;
   }

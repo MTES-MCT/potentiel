@@ -6,6 +6,7 @@ import * as zod from 'zod';
 import { InviterPorteurUseCase } from '@potentiel-domain/utilisateur';
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 import { Routes } from '@potentiel-applications/routes';
+import { Accès } from '@potentiel-domain/projet';
 
 import { FormAction, FormState, formAction } from '@/utils/formAction';
 import { withUtilisateur } from '@/utils/withUtilisateur';
@@ -34,6 +35,21 @@ const action: FormAction<FormState, typeof schema> = async (
       },
     });
 
+    const identifiantProjetValues = inviterATousSesProjets
+      ? await récupérerTousLesProjets(utilisateur.identifiantUtilisateur.formatter())
+      : [identifiantProjet];
+
+    await mediator.send<Accès.AutoriserAccèsProjetUseCase>({
+      type: 'Projet.Accès.UseCase.AutoriserAccèsProjet',
+      data: {
+        identifiantProjetValues,
+        identifiantUtilisateurValue: identifiantUtilisateurInvite,
+        autoriséLeValue: DateTime.now().formatter(),
+        autoriséParValue: utilisateur.identifiantUtilisateur.formatter(),
+        raison: 'invitation',
+      },
+    });
+
     return {
       status: 'success',
       redirection: {
@@ -44,5 +60,16 @@ const action: FormAction<FormState, typeof schema> = async (
       },
     };
   });
+
+const récupérerTousLesProjets = async (identifiantUtilisateur: string) => {
+  const accès = await mediator.send<Accès.ListerAccèsQuery>({
+    type: 'Projet.Accès.Query.ListerAccès',
+    data: {
+      identifiantUtilisateur,
+    },
+  });
+
+  return accès.items.map((accès) => accès.identifiantProjet.formatter());
+};
 
 export const inviterPorteurAction = formAction(action, schema);
