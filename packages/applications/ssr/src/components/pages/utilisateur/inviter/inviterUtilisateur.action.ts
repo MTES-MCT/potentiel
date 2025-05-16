@@ -50,7 +50,7 @@ const action: FormAction<FormState, typeof schema> = async (
 
     return {
       status: 'success',
-      redirection: { url: Routes.Utilisateur.lister, message: "L'utilisateur a été invité" },
+      redirection: { url: Routes.Utilisateur.lister(), message: "L'utilisateur a été invité" },
     };
   });
 

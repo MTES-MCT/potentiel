@@ -19,9 +19,10 @@ import { ModalWithForm } from '@/components/molecules/ModalWithForm';
 import { roleToLabel } from '@/utils/utilisateur/format-role';
 
 import { désactiverUtilisateurAction } from '../désactiver/désactiverUtilisateur.action';
+import { réactiverUtilisateurAction } from '../réactiver/réactiverUtilisateur.action';
 
 export type UtilisateurActions = {
-  actions: 'désactiver'[];
+  actions: ('désactiver' | 'réactiver')[];
 };
 
 export type UtilisateurListItemProps = {
@@ -64,14 +65,23 @@ export const UtilisateurListItem: FC<UtilisateurListItemProps> = ({
                 linkProps: { href: `mailto:${identifiantUtilisateur.email}` },
                 style: { marginBottom: 0, marginTop: '1rem' },
               },
-              {
-                children: 'Désactiver',
-                iconId: 'fr-icon-delete-bin-line',
-                priority: 'primary',
-                onClick: () => setIsOpen(true),
-                style: { marginBottom: 0, marginTop: '1rem' },
-                disabled: !actions.includes('désactiver'),
-              },
+              désactivé
+                ? {
+                    children: 'Réactiver',
+                    iconId: 'ri-user-follow-line',
+                    priority: 'primary',
+                    onClick: () => setIsOpen(true),
+                    style: { marginBottom: 0, marginTop: '1rem' },
+                    disabled: !actions.includes('réactiver'),
+                  }
+                : {
+                    children: 'Désactiver',
+                    iconId: 'ri-user-forbid-line',
+                    priority: 'primary',
+                    onClick: () => setIsOpen(true),
+                    style: { marginBottom: 0, marginTop: '1rem' },
+                    disabled: !actions.includes('désactiver'),
+                  },
             ]}
           />
         }
@@ -114,33 +124,64 @@ export const UtilisateurListItem: FC<UtilisateurListItemProps> = ({
           />
         </ul>
       </ListItem>
-      <ModalWithForm
-        id={`delete-user-${identifiantUtilisateur.email}`}
-        isOpen={isOpen}
-        onClose={() => setIsOpen(false)}
-        acceptButtonLabel="Oui"
-        rejectButtonLabel="Non"
-        title="Désactiver un utilisateur"
-        form={{
-          id: 'delete-user-form',
-          action: désactiverUtilisateurAction,
-          omitMandatoryFieldsLegend: true,
-          children: (
-            <>
-              <p className="mt-3">
-                Êtes-vous sûr de vouloir désactiver l'utilisateur{' '}
-                <b className="text-nowrap">{identifiantUtilisateur.email}</b>, ayant pour rôle{' '}
-                <b>{roleToLabel[rôle.nom]}</b> ?
-              </p>
-              <input
-                type={'hidden'}
-                value={identifiantUtilisateur.email}
-                name={'identifiantUtilisateurDesactive'}
-              />
-            </>
-          ),
-        }}
-      />
+      {désactivé ? (
+        <ModalWithForm
+          id={`enable-user-${identifiantUtilisateur.email}`}
+          isOpen={isOpen}
+          onClose={() => setIsOpen(false)}
+          acceptButtonLabel="Oui"
+          rejectButtonLabel="Non"
+          title="Réactiver un utilisateur"
+          form={{
+            id: 'enable-user-form',
+            action: réactiverUtilisateurAction,
+            omitMandatoryFieldsLegend: true,
+            successMessage: 'Utilisateur réactivé TEST',
+            children: (
+              <>
+                <p className="mt-3">
+                  Êtes-vous sûr de vouloir réactiver l'utilisateur{' '}
+                  <b className="text-nowrap">{identifiantUtilisateur.email}</b>, ayant pour rôle{' '}
+                  <b>{roleToLabel[rôle.nom]}</b> ?
+                </p>
+                <input
+                  type={'hidden'}
+                  value={identifiantUtilisateur.email}
+                  name={'identifiantUtilisateurReactive'}
+                />
+              </>
+            ),
+          }}
+        />
+      ) : (
+        <ModalWithForm
+          id={`disable-user-${identifiantUtilisateur.email}`}
+          isOpen={isOpen}
+          onClose={() => setIsOpen(false)}
+          acceptButtonLabel="Oui"
+          rejectButtonLabel="Non"
+          title="Désactiver un utilisateur"
+          form={{
+            id: 'disable-user-form',
+            action: désactiverUtilisateurAction,
+            omitMandatoryFieldsLegend: true,
+            children: (
+              <>
+                <p className="mt-3">
+                  Êtes-vous sûr de vouloir désactiver l'utilisateur{' '}
+                  <b className="text-nowrap">{identifiantUtilisateur.email}</b>, ayant pour rôle{' '}
+                  <b>{roleToLabel[rôle.nom]}</b> ?
+                </p>
+                <input
+                  type={'hidden'}
+                  value={identifiantUtilisateur.email}
+                  name={'identifiantUtilisateurDesactive'}
+                />
+              </>
+            ),
+          }}
+        />
+      )}
     </>
   );
 };

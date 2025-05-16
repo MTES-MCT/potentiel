@@ -165,6 +165,7 @@ export default async function Page({ searchParams }: PageProps) {
             identifiantGestionnaireRéseau: identifiantGestionnaireReseau,
             région: region,
             zni,
+            actif,
           },
         });
 
@@ -223,11 +224,10 @@ const mapToActions = (
   }
 
   if (utilisateur.désactivé) {
-    if (utilisateurConnecté.role.aLaPermission('utilisateur.inviter')) {
-      // TODO réactiver
+    if (!utilisateurConnecté.role.aLaPermission('utilisateur.réactiver')) {
       return [];
     }
-    return [];
+    return ['réactiver'];
   }
 
   if (!utilisateurConnecté.role.aLaPermission('utilisateur.désactiver')) {
