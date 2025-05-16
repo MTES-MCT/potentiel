@@ -1,6 +1,8 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
-import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
+import { DateTime, Email } from '@potentiel-domain/common';
+
+import { IdentifiantProjet } from '../..';
 
 import { RéclamerAccèsProjetCommand } from './réclamerAccèsProjet.command';
 
@@ -9,10 +11,9 @@ export type RéclamerAccèsProjetUseCase = Message<
   {
     identifiantProjetValue: string;
     identifiantUtilisateurValue: string;
+    dateRéclamationValue: string;
     numéroCRE: string;
     prix: number;
-    réclaméLeValue: string;
-    réclaméParValue: string;
   }
 >;
 
@@ -22,8 +23,7 @@ export const registerRéclamerAccèsProjetUseCase = () => {
     identifiantUtilisateurValue,
     numéroCRE,
     prix,
-    réclaméLeValue,
-    réclaméParValue,
+    dateRéclamationValue,
   }) => {
     await mediator.send<RéclamerAccèsProjetCommand>({
       type: 'Projet.Accès.Command.RéclamerAccèsProjet',
@@ -32,8 +32,8 @@ export const registerRéclamerAccèsProjetUseCase = () => {
         identifiantUtilisateur: Email.convertirEnValueType(identifiantUtilisateurValue),
         numéroCRE,
         prix,
-        réclaméLe: DateTime.convertirEnValueType(réclaméLeValue),
-        réclaméPar: Email.convertirEnValueType(réclaméParValue),
+        réclaméLe: DateTime.convertirEnValueType(dateRéclamationValue),
+        réclaméPar: Email.convertirEnValueType(identifiantUtilisateurValue),
       },
     });
   };
