@@ -13,10 +13,10 @@ import { Option } from '@potentiel-libraries/monads';
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 import { getLogger } from '@potentiel-libraries/monitoring';
 import { Where } from '@potentiel-domain/entity';
-import { Candidature } from '@potentiel-domain/projet';
-import { Raccordement } from '@potentiel-domain/laureat';
+import { Candidature, Raccordement } from '@potentiel-domain/projet';
+import { Raccordement as RaccordementLauréat } from '@potentiel-domain/laureat';
 
-export type SubscriptionEvent = (Raccordement.RaccordementEvent & Event) | RebuildTriggered;
+export type SubscriptionEvent = (RaccordementLauréat.RaccordementEvent & Event) | RebuildTriggered;
 
 export type Execute = Message<'System.Projector.Réseau.Raccordement', SubscriptionEvent>;
 

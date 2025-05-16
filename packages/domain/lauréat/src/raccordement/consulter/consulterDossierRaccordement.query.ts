@@ -5,10 +5,10 @@ import { Find } from '@potentiel-domain/entity';
 import { Option } from '@potentiel-libraries/monads';
 import { DocumentProjet } from '@potentiel-domain/document';
 import { GestionnaireRéseau } from '@potentiel-domain/reseau';
+import { Raccordement } from '@potentiel-domain/projet';
 
 import * as RéférenceDossierRaccordement from '../référenceDossierRaccordement.valueType';
 import * as TypeDocumentRaccordement from '../typeDocumentRaccordement.valueType';
-import { DossierRaccordementEntity } from '../raccordement.entity';
 
 export type ConsulterDossierRaccordementReadModel = {
   identifiantGestionnaireRéseau: GestionnaireRéseau.IdentifiantGestionnaireRéseau.ValueType;
@@ -52,7 +52,7 @@ export const registerConsulterDossierRaccordementQuery = ({
       référenceDossierRaccordement,
     );
 
-    const result = await find<DossierRaccordementEntity>(
+    const result = await find<Raccordement.DossierRaccordementEntity>(
       `dossier-raccordement|${identifiantProjet.formatter()}#${référenceDossierRaccordement}`,
     );
 
@@ -74,7 +74,7 @@ const mapToResult = (
     demandeComplèteRaccordement,
     propositionTechniqueEtFinancière,
     miseEnService,
-  }: DossierRaccordementEntity,
+  }: Raccordement.DossierRaccordementEntity,
 ): ConsulterDossierRaccordementReadModel => {
   return {
     identifiantProjet,

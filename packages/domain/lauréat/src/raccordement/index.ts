@@ -143,9 +143,6 @@ export type { RaccordementSuppriméEvent } from './supprimer/supprimerRaccordeme
 export * as RéférenceDossierRaccordement from './référenceDossierRaccordement.valueType';
 export * as TypeDocumentRaccordement from './typeDocumentRaccordement.valueType';
 
-// Entities
-export * from './raccordement.entity';
-
 // Saga
 export * as RaccordementSaga from './raccordement.saga';
 export { RécupererGRDParVillePort } from './raccordement.saga';

@@ -22,6 +22,9 @@
     },
     {
       "path": "../appel-offre"
+    },
+    {
+      "path": "../utilisateur"
     }
   ]
 }
