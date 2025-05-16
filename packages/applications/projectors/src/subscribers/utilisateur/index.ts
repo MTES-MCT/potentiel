@@ -7,7 +7,6 @@ import { UtilisateurEvent } from '@potentiel-domain/utilisateur';
 import { utilisateurRebuildTriggered } from './utilisateurRebuildTriggered.projector';
 import { PorteurInvitéProjector } from './porteurInvité.projector';
 import { utilisateurInvitéProjector } from './utilisateurInvité.projector';
-import { projetRéclaméProjector } from './projetRéclamé.projector';
 import { accèsProjetRetiréProjector } from './accèsProjetRetiré.projector';
 import { utilisateurDésactivéProjector } from './utilisateurDésactivé.projector';
 import { utilisateurRéactivéProjector } from './utilisateurRéactivé.projector';
@@ -22,7 +21,6 @@ export const register = () => {
       .with({ type: 'RebuildTriggered' }, utilisateurRebuildTriggered)
       .with({ type: 'UtilisateurInvité-V1' }, utilisateurInvitéProjector)
       .with({ type: 'PorteurInvité-V1' }, PorteurInvitéProjector)
-      .with({ type: 'ProjetRéclamé-V1' }, projetRéclaméProjector)
       .with({ type: 'AccèsProjetRetiré-V1' }, accèsProjetRetiréProjector)
       .with({ type: 'UtilisateurDésactivé-V1' }, utilisateurDésactivéProjector)
       .with({ type: 'UtilisateurRéactivé-V1' }, utilisateurRéactivéProjector)

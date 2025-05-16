@@ -10,8 +10,6 @@ import { UtilisateurProjector } from '@potentiel-applications/projectors';
 import { SendEmail, UtilisateurNotification } from '@potentiel-applications/notifications';
 import { vérifierAccèsProjetAdapter } from '@potentiel-infrastructure/domain-adapters';
 
-import { getProjetAggregateRootAdapter } from './adapters/getProjetAggregateRoot.adapter';
-
 type SetupUtilisateurDependencies = {
   sendEmail: SendEmail;
 };
@@ -25,7 +23,6 @@ export const setupUtilisateur = async ({ sendEmail }: SetupUtilisateurDependenci
 
   registerUtilisateurUseCases({
     loadAggregate,
-    getProjetAggregateRoot: getProjetAggregateRootAdapter,
   });
 
   UtilisateurProjector.register();
@@ -37,8 +34,6 @@ export const setupUtilisateur = async ({ sendEmail }: SetupUtilisateurDependenci
       'RebuildTriggered',
       'UtilisateurInvité-V1',
       'PorteurInvité-V1',
-      'ProjetRéclamé-V1',
-      'AccèsProjetRetiré-V1',
       'UtilisateurDésactivé-V1',
       'UtilisateurRéactivé-V1',
     ],

@@ -6,6 +6,7 @@ export * from './getScopeProjetUtilisateur.port';
 export * from './projet.aggregateRoot';
 export * from './register';
 
-export * as Éliminé from './éliminé';
+export * as Accès from './accès';
 export * as Candidature from './candidature';
+export * as Éliminé from './éliminé';
 export * as Lauréat from './lauréat';

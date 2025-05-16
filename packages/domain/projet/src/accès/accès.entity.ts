@@ -1,6 +1,6 @@
 import { Entity } from '@potentiel-domain/entity';
 
-export type AchèvementEntity = Entity<
+export type AccèsEntity = Entity<
   'accès',
   {
     identifiantProjet: string;
