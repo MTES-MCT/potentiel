@@ -2,8 +2,8 @@ import { Raccordement } from '@potentiel-domain/laureat';
 import { DateTime } from '@potentiel-domain/common';
 import { Event } from '@potentiel-infrastructure/pg-event-sourcing';
 
-import { getDossierRaccordement } from './_utils/getDossierRaccordement';
-import { upsertDossierRaccordement } from './_utils/upsertDossierRaccordement';
+import { getDossierRaccordement } from '../_utils/getDossierRaccordement';
+import { upsertDossierRaccordement } from '../_utils/upsertDossierRaccordement';
 
 export const propositionTechniqueEtFinancièreModifiéeV2Projector = async ({
   payload: {
