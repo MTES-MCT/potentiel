@@ -12,10 +12,6 @@ import { InviterPorteurUseCase } from './inviter/inviterPorteur.usecase';
 import { PorteurInvitéEvent } from './inviter/inviterPorteur.behavior';
 import { UtilisateurInvitéEvent } from './inviter/inviterUtilisateur.behavior';
 import { InviterUtilisateurUseCase } from './inviter/inviterUtilisateur.usecase';
-import {
-  ListerProjetsÀRéclamerQuery,
-  ListerProjetsÀRéclamerReadModel,
-} from './lister/listerProjetsÀRéclamer.query';
 import { ListerPorteursQuery, ListerPorteursReadModel } from './lister/listerPorteurs.query';
 import { DésactiverUtilisateurUseCase } from './désactiver/désactiverUtilisateur.usecase';
 import { UtilisateurDésactivéEvent } from './désactiver/désactiverUtilisateur.behavior';
@@ -32,14 +28,12 @@ export type UtilisateurQuery =
   | ConsulterUtilisateurQuery
   | ListerUtilisateursQuery
   | TrouverUtilisateurQuery
-  | ListerProjetsÀRéclamerQuery
   | ListerPorteursQuery;
 
 export {
   ConsulterUtilisateurQuery,
   ListerUtilisateursQuery,
   TrouverUtilisateurQuery,
-  ListerProjetsÀRéclamerQuery,
   ListerPorteursQuery,
 };
 
@@ -77,9 +71,4 @@ export * from './utilisateur.port';
 export * from './utilisateur.entity';
 
 // readmodel
-export {
-  ConsulterUtilisateurReadModel,
-  ListerUtilisateursReadModel,
-  ListerProjetsÀRéclamerReadModel,
-  ListerPorteursReadModel,
-};
+export { ConsulterUtilisateurReadModel, ListerUtilisateursReadModel, ListerPorteursReadModel };

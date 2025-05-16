@@ -1,5 +1,9 @@
 import { AutoriserAccèsProjetUseCase } from './autoriser/autoriserAccèsProjet.usecase';
-import { ListerAccèsQuery } from './lister/listerAccès.query';
+import { ListerAccèsQuery, ListerAccèsReadModel } from './lister/listerAccès.query';
+import {
+  ListerProjetsÀRéclamerQuery,
+  ListerProjetsÀRéclamerReadModel,
+} from './lister/listerProjetsÀRéclamer.query';
 import { RetirerAccèsProjetUseCase } from './retirer/retirerAccèsProjet.usecase';
 import { RéclamerAccèsProjetUseCase } from './réclamer/réclamerAccèsProjet.usecase';
 import { VérifierAccèsProjetQuery } from './vérifier/vérifierAccèsProjet.query';
@@ -13,9 +17,15 @@ export type AccèsUseCase =
 export { AutoriserAccèsProjetUseCase, RéclamerAccèsProjetUseCase, RetirerAccèsProjetUseCase };
 
 // Query
-export type AttestationConformitéQuery = VérifierAccèsProjetQuery | ListerAccèsQuery;
+export type AttestationConformitéQuery =
+  | VérifierAccèsProjetQuery
+  | ListerAccèsQuery
+  | ListerProjetsÀRéclamerQuery;
 
-export { VérifierAccèsProjetQuery, ListerAccèsQuery };
+export { VérifierAccèsProjetQuery, ListerAccèsQuery, ListerProjetsÀRéclamerQuery };
+
+// Readmodels
+export { ListerAccèsReadModel, ListerProjetsÀRéclamerReadModel };
 
 // Events
 export * from './accès.event';
