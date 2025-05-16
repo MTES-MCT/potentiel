@@ -135,6 +135,18 @@ export const setupProjet = async ({ sendEmail }: SetupProjetDependencies) => {
   LauréatSaga.register();
   AttestationSaga.register();
 
+  const unsubscribeAccèsProjector = await subscribe<AccèsProjector.SubscriptionEvent>({
+    name: 'projector',
+    eventType: ['RebuildTriggered', 'AccèsProjetAutorisé-V1', 'AccèsProjetRetiré-V1'],
+    eventHandler: async (event) => {
+      await mediator.send<AccèsProjector.Execute>({
+        type: 'System.Projector.Accès',
+        data: event,
+      });
+    },
+    streamCategory: 'accès',
+  });
+
   const unsubscribeCandidatureProjector = await subscribe<CandidatureProjector.SubscriptionEvent>({
     name: 'projector',
     eventType: [
@@ -190,5 +202,7 @@ export const setupProjet = async ({ sendEmail }: SetupProjetDependencies) => {
     await unsubscribeCandidatureProjector();
     await unsubscribeAttestationSaga();
     await unsubscribeCandidatureNotification();
+
+    await unsubscribeAccèsProjector();
   };
 };

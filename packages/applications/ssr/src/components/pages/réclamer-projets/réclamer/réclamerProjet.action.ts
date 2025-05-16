@@ -54,8 +54,9 @@ const action: FormAction<FormState, typeof schema> = async (_, body) => {
         identifiantProjetValue: identifiantProjet.formatter(),
         identifiantUtilisateurValue: utilisateur.identifiantUtilisateur.formatter(),
         dateRéclamationValue: DateTime.now().formatter(),
-        prix: body.hasSameEmail === 'true' ? 0 : body.prixReference,
-        numéroCRE: body.hasSameEmail === 'true' ? '' : body.numeroCRE,
+        ...(body.hasSameEmail === 'true'
+          ? { type: 'même-email-candidature' }
+          : { type: 'avec-prix-numéro-cre', numéroCRE: body.numeroCRE, prix: body.prixReference }),
       },
     });
 

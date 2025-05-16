@@ -9,11 +9,17 @@ export type RéclamerAccèsProjetCommand = Message<
   {
     identifiantProjet: IdentifiantProjet.ValueType;
     identifiantUtilisateur: Email.ValueType;
-    numéroCRE: string;
-    prix: number;
-    réclaméLe: DateTime.ValueType;
-    réclaméPar: Email.ValueType;
-  }
+    dateRéclamation: DateTime.ValueType;
+  } & (
+    | {
+        type: 'avec-prix-numéro-cre';
+        numéroCRE: string;
+        prix: number;
+      }
+    | {
+        type: 'même-email-candidature';
+      }
+  )
 >;
 
 export const registerRéclamerAccèsProjetCommand = (
