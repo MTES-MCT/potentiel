@@ -11,7 +11,6 @@ import {
 } from '@potentiel-domain/utilisateur';
 import { Option } from '@potentiel-libraries/monads';
 import { Email } from '@potentiel-domain/common';
-import { ListerProjetsÀRéclamerQuery } from '@potentiel-domain/utilisateur';
 import { Accès } from '@potentiel-domain/projet';
 
 import { PotentielWorld } from '../../potentiel.world';
@@ -165,8 +164,8 @@ Alors(
         : this.lauréatWorld.identifiantProjet;
 
     await waitForExpect(async () => {
-      const projets = await mediator.send<ListerProjetsÀRéclamerQuery>({
-        type: 'Utilisateur.Query.ListerProjetsÀRéclamer',
+      const projets = await mediator.send<Accès.ListerProjetsÀRéclamerQuery>({
+        type: 'Projet.Accès.Query.ListerProjetsÀRéclamer',
         data: {},
       });
       expect(projets.items.find((item) => item.identifiantProjet.estÉgaleÀ(identifiantProjet))).not
@@ -184,8 +183,8 @@ Alors(
         : this.lauréatWorld.identifiantProjet;
 
     await waitForExpect(async () => {
-      const projets = await mediator.send<ListerProjetsÀRéclamerQuery>({
-        type: 'Utilisateur.Query.ListerProjetsÀRéclamer',
+      const projets = await mediator.send<Accès.ListerProjetsÀRéclamerQuery>({
+        type: 'Projet.Accès.Query.ListerProjetsÀRéclamer',
         data: {},
       });
       expect(projets.items.find((item) => item.identifiantProjet.estÉgaleÀ(identifiantProjet))).to

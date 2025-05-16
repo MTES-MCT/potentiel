@@ -1,10 +1,9 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { List, RangeOptions, Where } from '@potentiel-domain/entity';
-import { IdentifiantProjet } from '@potentiel-domain/common';
-import { Candidature } from '@potentiel-domain/projet';
 
-import { UtilisateurEntity } from '../utilisateur.entity';
+import { Candidature, IdentifiantProjet } from '../..';
+import { AccèsEntity } from '../accès.entity';
 
 export type ProjetÀRéclamerReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
@@ -21,7 +20,7 @@ export type ListerProjetsÀRéclamerReadModel = {
 };
 
 export type ListerProjetsÀRéclamerQuery = Message<
-  'Utilisateur.Query.ListerProjetsÀRéclamer',
+  'Projet.Accès.Query.ListerProjetsÀRéclamer',
   {
     appelOffre?: string;
     période?: string;
@@ -46,16 +45,11 @@ export const registerListerProjetsÀRéclamerQuery = ({
     nomCandidat,
     range,
   }) => {
-    const utilisateurs = await list<UtilisateurEntity>('utilisateur', {
-      where: {
-        rôle: Where.equal('porteur-projet'),
-      },
-    });
+    const accès = await list<AccèsEntity>('accès');
 
-    const identifiantsProjets = utilisateurs.items
-      .map((utilisateur) => (utilisateur.rôle === 'porteur-projet' ? utilisateur.projets : []))
-      .flat()
-      .filter((value, index, self) => self.indexOf(value) === index);
+    const identifiantsProjets = accès.items.map((accès) =>
+      IdentifiantProjet.convertirEnValueType(accès.identifiantProjet).formatter(),
+    );
 
     const candidatures = await list<Candidature.CandidatureEntity>('candidature', {
       where: {
@@ -76,7 +70,7 @@ export const registerListerProjetsÀRéclamerQuery = ({
     };
   };
 
-  mediator.register('Utilisateur.Query.ListerProjetsÀRéclamer', handler);
+  mediator.register('Projet.Accès.Query.ListerProjetsÀRéclamer', handler);
 };
 
 const mapToReadModel = ({
