@@ -40,9 +40,6 @@ export class NotifierGestionnaireRéseau extends Command {
     registerUtilisateurQueries({
       find: findProjection,
       list: listProjection,
-      vérifierAccèsProjet: () => {
-        throw new Error('vérifierAccèsProjet not implemented');
-      },
     });
   }
 

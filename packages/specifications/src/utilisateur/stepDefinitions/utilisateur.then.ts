@@ -7,14 +7,12 @@ import { mapToPlainObject } from '@potentiel-domain/core';
 import {
   ConsulterUtilisateurQuery,
   ListerPorteursQuery,
-  Role,
   TrouverUtilisateurQuery,
-  Utilisateur,
-  VérifierAccèsProjetQuery,
 } from '@potentiel-domain/utilisateur';
 import { Option } from '@potentiel-libraries/monads';
 import { Email } from '@potentiel-domain/common';
 import { ListerProjetsÀRéclamerQuery } from '@potentiel-domain/utilisateur';
+import { Accès } from '@potentiel-domain/projet';
 
 import { PotentielWorld } from '../../potentiel.world';
 import { vérifierEmailEnvoyé } from '../../notification/stepDefinitions/notification.then';
@@ -27,21 +25,14 @@ Alors(
         ? this.eliminéWorld.identifiantProjet.formatter()
         : this.lauréatWorld.identifiantProjet.formatter();
 
-    const { rôle, identifiantGestionnaireRéseau, identifiantUtilisateur, région } =
-      this.utilisateurWorld.mapToExpected();
+    const { identifiantUtilisateur } = this.utilisateurWorld.mapToExpected();
 
     await waitForExpect(() =>
-      mediator.send<VérifierAccèsProjetQuery>({
-        type: 'System.Authorization.VérifierAccèsProjet',
+      mediator.send<Accès.VérifierAccèsProjetQuery>({
+        type: 'System.Projet.Accès.Query.VérifierAccèsProjet',
         data: {
           identifiantProjetValue: identifiantProjet,
-          utilisateur: Utilisateur.bind({
-            identifiantUtilisateur,
-            role: rôle,
-            identifiantGestionnaireRéseau,
-            région,
-            nom: '',
-          }),
+          identifiantUtilisateurValue: identifiantUtilisateur.formatter(),
         },
       }),
     );
@@ -118,21 +109,14 @@ Alors(
 
     await waitForExpect(async () => {
       try {
-        await mediator.send<VérifierAccèsProjetQuery>({
-          type: 'System.Authorization.VérifierAccèsProjet',
+        await mediator.send<Accès.VérifierAccèsProjetQuery>({
+          type: 'System.Projet.Accès.Query.VérifierAccèsProjet',
           data: {
             identifiantProjetValue: identifiantProjet,
-            utilisateur: Utilisateur.bind({
-              identifiantUtilisateur: Email.convertirEnValueType(porteur.email),
-              role: Role.convertirEnValueType(porteur.role),
-              identifiantGestionnaireRéseau: Option.none,
-              région: Option.none,
-              nom: '',
-            }),
+            identifiantUtilisateurValue: porteur.email,
           },
-        });
-
-        expect.fail("L'utilisateur ne devrait pas avoir accès au projet");
+        }),
+          expect.fail("L'utilisateur ne devrait pas avoir accès au projet");
       } catch (error) {
         expect((error as Error).message).to.equal("Vous n'avez pas accès à ce projet");
       }

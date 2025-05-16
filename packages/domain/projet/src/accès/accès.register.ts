@@ -6,6 +6,10 @@ import { registerRetirerAccèsProjetCommand } from './retirer/retirerAccèsProje
 import { registerRetirerAccèsProjetUseCase } from './retirer/retirerAccèsProjet.usecase';
 import { registerRéclamerAccèsProjetCommand } from './réclamer/réclamerAccèsProjet.command';
 import { registerRéclamerAccèsProjetUseCase } from './réclamer/réclamerAccèsProjet.usecase';
+import {
+  registerVérifierAccèsProjetQuery,
+  VérifierAccèsProjetDependencies,
+} from './vérifier/vérifierAccèsProjet.query';
 
 export type AccèsCommandDependencies = {
   getProjetAggregateRoot: GetProjetAggregateRoot;
@@ -22,8 +26,8 @@ export const registerAccèsUseCases = (dependencies: AccèsCommandDependencies) 
   registerRetirerAccèsProjetUseCase();
 };
 
-// export type AccèsQueryDependencies = ConsulterAttestationConformitéDependencies;
+export type AccèsQueryDependencies = VérifierAccèsProjetDependencies;
 
-// export const registerAccèsQueries = (dependencies: AccèsQueryDependencies) => {
-//   // registerConsulterAttestationConformitéQuery(dependencies);
-// };
+export const registerAccèsQueries = (dependencies: AccèsQueryDependencies) => {
+  registerVérifierAccèsProjetQuery(dependencies);
+};
