@@ -13,13 +13,7 @@ import { Request } from 'express';
 import moment from 'moment';
 import React from 'react';
 import { hydrateOnClient } from '../../helpers';
-import {
-  AdminResponseForm,
-  CancelButton,
-  DemandeDetails,
-  DemandeStatus,
-  ProducteurForm,
-} from './components';
+import { AdminResponseForm, CancelButton, DemandeDetails } from './components';
 
 moment.locale('fr');
 
@@ -59,17 +53,15 @@ export const ModificationRequest = ({ request, modificationRequest }: Modificati
         </div>
 
         <DemandeDetails modificationRequest={modificationRequest} className="mb-5" />
-        <DemandeStatus role={user.role} modificationRequest={modificationRequest} />
 
         {showFormulaireAdministrateur && (
           <div>
             <Heading2>Répondre à la demande</Heading2>
 
-            <AdminResponseForm role={user.role} modificationRequest={modificationRequest}>
-              {type === 'producteur' && (
-                <ProducteurForm modificationRequest={modificationRequest} />
-              )}
-            </AdminResponseForm>
+            <AdminResponseForm
+              role={user.role}
+              modificationRequest={modificationRequest}
+            ></AdminResponseForm>
           </div>
         )}
 

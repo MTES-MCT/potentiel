@@ -10,7 +10,6 @@ import {
   NewModificationRequest,
   ProjectDetails,
   SignalerDemandeDelai,
-  ChangerProducteur,
   ChoisirCahierDesCharges,
   ChangerFournisseur,
   ListeProjets,
@@ -101,13 +100,6 @@ export const DemanderDelaiPage = (props: Parameters<typeof DemanderDelai>[0]) =>
     Component: DemanderDelai,
     props,
     title: 'Demander délai',
-  });
-
-export const ChangerProducteurPage = (props: Parameters<typeof ChangerProducteur>[0]) =>
-  makeHtml({
-    Component: ChangerProducteur,
-    props,
-    title: 'Changer producteur',
   });
 
 export const ChangerFournisseurPage = (props: Parameters<typeof ChangerFournisseur>[0]) =>

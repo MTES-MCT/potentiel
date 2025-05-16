@@ -10,19 +10,15 @@ import { NavLinks } from './NavLinks';
 
 export function UserBasedRoleNavigation() {
   const utilisateur = getContext()?.utilisateur;
-  const features = getContext()?.features ?? [];
 
-  const navigationItems = utilisateur ? getNavigationItemsBasedOnRole(utilisateur, features) : [];
+  const navigationItems = utilisateur ? getNavigationItemsBasedOnRole(utilisateur) : [];
 
   return <NavLinks items={navigationItems} />;
 }
 
 const toutesLesDemandesWording = 'Toutes les demandes';
 
-const getNavigationItemsBasedOnRole = (
-  utilisateur: Utilisateur.ValueType,
-  features: Array<string>,
-) => {
+const getNavigationItemsBasedOnRole = (utilisateur: Utilisateur.ValueType) => {
   const demandesMenuLinks: Array<MenuProps.Link> = [
     {
       text: toutesLesDemandesWording,
@@ -70,16 +66,13 @@ const getNavigationItemsBasedOnRole = (
         }),
       },
     },
-  ];
-
-  if (features.includes('producteur')) {
-    demandesMenuLinks.push({
+    {
       text: 'Producteur',
       linkProps: {
         href: Routes.Producteur.changement.lister,
       },
-    });
-  }
+    },
+  ];
 
   const garantiesFinancièresMenuLinks: Array<MenuProps.Link> = [
     {

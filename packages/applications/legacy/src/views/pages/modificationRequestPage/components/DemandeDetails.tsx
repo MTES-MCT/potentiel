@@ -60,81 +60,11 @@ interface DetailsByTypeProps {
 
 const DetailsByType = ({ modificationRequest }: DetailsByTypeProps) => {
   switch (modificationRequest.type) {
-    case 'puissance':
-      return <PuissanceDetails modificationRequest={modificationRequest} />;
-    case 'producteur':
-      return <ProducteurDetails modificationRequest={modificationRequest} />;
     case 'fournisseur':
       return <FournisseurDetails modificationRequest={modificationRequest} />;
     default:
       return null;
   }
-};
-
-interface PuissanceDetailsProps {
-  modificationRequest: ModificationRequestPageDTO & { type: 'puissance' };
-}
-const PuissanceDetails = ({ modificationRequest }: PuissanceDetailsProps) => {
-  const { project, status, puissanceAuMomentDuDepot } = modificationRequest;
-  const { puissance, puissanceInitiale, unitePuissance } = project;
-
-  const hasPuissanceChangedSinceDepot =
-    puissance !== (puissanceAuMomentDuDepot || puissanceInitiale);
-
-  return (
-    <div>
-      <Heading3 className="mb-2">Nouvelle puissance</Heading3>
-      <div>
-        Puissance à la notification :{' '}
-        <span className="font-bold">
-          {puissanceInitiale} {unitePuissance}
-        </span>
-      </div>
-
-      {puissanceAuMomentDuDepot && puissanceInitiale !== puissanceAuMomentDuDepot && (
-        <div>
-          Puissance au moment du dépôt :{' '}
-          <span className="font-bold">
-            {puissanceAuMomentDuDepot} {unitePuissance}
-          </span>
-        </div>
-      )}
-
-      {(status === 'en instruction' || status === 'envoyée') && (
-        <>
-          {hasPuissanceChangedSinceDepot && (
-            <div>
-              Puissance actuelle :{' '}
-              <span className="font-bold">
-                {project.puissance} {unitePuissance}
-              </span>
-            </div>
-          )}
-        </>
-      )}
-
-      <div>
-        Nouvelle puissance demandée :{' '}
-        <span className="font-bold">
-          {modificationRequest.puissance} {unitePuissance}
-        </span>
-      </div>
-    </div>
-  );
-};
-
-interface ProducteurDetailsProps {
-  modificationRequest: ModificationRequestPageDTO & { type: 'producteur' };
-}
-const ProducteurDetails = ({ modificationRequest }: ProducteurDetailsProps) => {
-  return (
-    <div>
-      <Heading3 className="mb-2">Nouveau producteur actionnaire</Heading3>
-      <div>
-        Nouveau producteur : <span className="font-bold">{modificationRequest.producteur}</span>
-      </div>
-    </div>
-  );
 };
 
 interface FournisseurDetailsProps {
