@@ -6,7 +6,6 @@ import { DateTime, Email } from '@potentiel-domain/common';
 import {
   InviterPorteurUseCase,
   InviterUtilisateurUseCase,
-  RetirerAccèsProjetUseCase,
   Role,
 } from '@potentiel-domain/utilisateur';
 import { Accès } from '@potentiel-domain/projet';
@@ -263,13 +262,13 @@ export async function retirerAccèsProjet(
   }: { identifiantProjet: string; identifiantUtilisateur: string; retiréPar?: string },
 ) {
   try {
-    await mediator.send<RetirerAccèsProjetUseCase>({
-      type: 'Utilisateur.UseCase.RetirerAccèsProjet',
+    await mediator.send<Accès.RetirerAccèsProjetUseCase>({
+      type: 'Projet.Accès.UseCase.RetirerAccèsProjet',
       data: {
-        identifiantProjet,
-        identifiantUtilisateur,
-        retiréLe: DateTime.now().formatter(),
-        retiréPar: retiréPar ?? this.utilisateurWorld.adminFixture.email,
+        identifiantProjetValue: identifiantProjet,
+        identifiantUtilisateurValue: identifiantUtilisateur,
+        retiréLeValue: DateTime.now().formatter(),
+        retiréParValue: retiréPar ?? this.utilisateurWorld.adminFixture.email,
       },
     });
   } catch (error) {

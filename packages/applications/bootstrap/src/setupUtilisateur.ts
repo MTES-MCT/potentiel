@@ -42,7 +42,7 @@ export const setupUtilisateur = async ({ sendEmail }: SetupUtilisateurDependenci
     await subscribe<UtilisateurNotification.SubscriptionEvent>({
       name: 'notifications',
       streamCategory: 'utilisateur',
-      eventType: ['PorteurInvité-V1', 'AccèsProjetRetiré-V1', 'UtilisateurInvité-V1'],
+      eventType: ['PorteurInvité-V1', 'UtilisateurInvité-V1'],
       eventHandler: async (event) => {
         await mediator.publish<UtilisateurNotification.Execute>({
           type: 'System.Notification.Utilisateur',
