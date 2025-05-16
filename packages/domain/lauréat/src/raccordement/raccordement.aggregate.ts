@@ -1,3 +1,5 @@
+import { match, P } from 'ts-pattern';
+
 import {
   Aggregate,
   AggregateNotFoundError,
@@ -5,8 +7,9 @@ import {
   LoadAggregate,
 } from '@potentiel-domain/core';
 import { Option } from '@potentiel-libraries/monads';
-import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
+import { DateTime } from '@potentiel-domain/common';
 import { GestionnaireRéseau } from '@potentiel-domain/reseau';
+import { IdentifiantProjet } from '@potentiel-domain/projet';
 
 import {
   AccuséRéceptionDemandeComplèteRaccordementTransmisEventV1,
@@ -80,6 +83,7 @@ import {
   supprimerRaccordement,
 } from './supprimer/supprimerRaccordement.behavior';
 import {
+  applyDateMiseEnServiceSuppriméeEventV1,
   DateMiseEnServiceSuppriméeEvent,
   supprimerDateMiseEnService,
 } from './supprimer/supprimerDateMiseEnService.behavior';
@@ -201,66 +205,74 @@ export const getDefaultRaccordementAggregate: GetDefaultAggregateState<
 });
 
 function apply(this: RaccordementAggregate, event: RaccordementEvent) {
-  switch (event.type) {
-    case 'DemandeComplèteDeRaccordementTransmise-V1':
-      applyDemandeComplèteDeRaccordementTransmiseEventV1.bind(this)(event);
-      break;
-    case 'DemandeComplèteDeRaccordementTransmise-V2':
-      applyDemandeComplèteDeRaccordementTransmiseEventV2.bind(this)(event);
-      break;
-    case 'AccuséRéceptionDemandeComplèteRaccordementTransmis-V1':
-      applyAccuséRéceptionDemandeComplèteRaccordementTransmisEventV1.bind(this)(event);
-      break;
-    case 'DemandeComplèteRaccordementModifiée-V1':
-      applyDemandeComplèteRaccordementModifiéeEventV1.bind(this)(event);
-      break;
-    case 'DemandeComplèteRaccordementModifiée-V2':
-      applyDemandeComplèteRaccordementModifiéeEventV2.bind(this)(event);
-      break;
-    case 'DemandeComplèteRaccordementModifiée-V3':
-      applyDemandeComplèteRaccordementModifiéeEventV3.bind(this)(event);
-      break;
-    case 'RéférenceDossierRacordementModifiée-V1':
-    case 'RéférenceDossierRacordementModifiée-V2':
-      applyRéférenceDossierRacordementModifiéeEvent.bind(this)(event);
-      break;
-    case 'PropositionTechniqueEtFinancièreTransmise-V1':
-      applyPropositionTechniqueEtFinancièreTransmiseEventV1.bind(this)(event);
-      break;
-    case 'PropositionTechniqueEtFinancièreSignéeTransmise-V1':
-      applyPropositionTechniqueEtFinancièreSignéeTransmiseEventV1.bind(this)(event);
-      break;
-    case 'PropositionTechniqueEtFinancièreTransmise-V2':
-      applyPropositionTechniqueEtFinancièreTransmiseEventV2.bind(this)(event);
-      break;
-    case 'PropositionTechniqueEtFinancièreModifiée-V1':
-      applyPropositionTechniqueEtFinancièreModifiéeEventV1.bind(this)(event);
-      break;
-    case 'PropositionTechniqueEtFinancièreModifiée-V2':
-      applyPropositionTechniqueEtFinancièreModifiéeEventV2.bind(this)(event);
-      break;
-    case 'DateMiseEnServiceTransmise-V1':
-      applyDateMiseEnServiceTransmiseEventV1.bind(this)(event);
-      break;
-    case 'DateMiseEnServiceTransmise-V2':
-      applyDateMiseEnServiceTransmiseEventV2.bind(this)(event);
-      break;
-    case 'GestionnaireRéseauRaccordementModifié-V1':
-      applyGestionnaireRéseauRaccordementModifiéEventV1.bind(this)(event);
-      break;
-    case 'GestionnaireRéseauInconnuAttribué-V1':
-      applyGestionnaireRéseauRaccordemenInconnuEventV1.bind(this)(event);
-      break;
-    case 'GestionnaireRéseauAttribué-V1':
-      applyAttribuerGestionnaireRéseauEventV1.bind(this)(event);
-      break;
-    case 'DossierDuRaccordementSupprimé-V1':
-      applyDossierDuRaccordementSuppriméEventV1.bind(this)(event);
-      break;
-    case 'RaccordementSupprimé-V1':
-      applyRaccordementSuppriméEventV1.bind(this)(event);
-      break;
-  }
+  return match(event)
+    .with({ type: 'AccuséRéceptionDemandeComplèteRaccordementTransmis-V1' }, (event) =>
+      applyAccuséRéceptionDemandeComplèteRaccordementTransmisEventV1.bind(this)(event),
+    )
+    .with({ type: 'DemandeComplèteDeRaccordementTransmise-V1' }, (event) =>
+      applyDemandeComplèteDeRaccordementTransmiseEventV1.bind(this)(event),
+    )
+    .with({ type: 'DemandeComplèteDeRaccordementTransmise-V2' }, (event) =>
+      applyDemandeComplèteDeRaccordementTransmiseEventV2.bind(this)(event),
+    )
+    .with({ type: 'DemandeComplèteRaccordementModifiée-V1' }, (event) =>
+      applyDemandeComplèteRaccordementModifiéeEventV1.bind(this)(event),
+    )
+    .with({ type: 'DemandeComplèteRaccordementModifiée-V2' }, (event) =>
+      applyDemandeComplèteRaccordementModifiéeEventV2.bind(this)(event),
+    )
+    .with({ type: 'DemandeComplèteRaccordementModifiée-V3' }, (event) =>
+      applyDemandeComplèteRaccordementModifiéeEventV3.bind(this)(event),
+    )
+    .with(
+      {
+        type: P.union(
+          'RéférenceDossierRacordementModifiée-V1',
+          'RéférenceDossierRacordementModifiée-V2',
+        ),
+      },
+      (event) => applyRéférenceDossierRacordementModifiéeEvent.bind(this)(event),
+    )
+    .with({ type: 'PropositionTechniqueEtFinancièreTransmise-V1' }, (event) =>
+      applyPropositionTechniqueEtFinancièreTransmiseEventV1.bind(this)(event),
+    )
+    .with({ type: 'PropositionTechniqueEtFinancièreSignéeTransmise-V1' }, (event) =>
+      applyPropositionTechniqueEtFinancièreSignéeTransmiseEventV1.bind(this)(event),
+    )
+    .with({ type: 'PropositionTechniqueEtFinancièreTransmise-V2' }, (event) =>
+      applyPropositionTechniqueEtFinancièreTransmiseEventV2.bind(this)(event),
+    )
+    .with({ type: 'PropositionTechniqueEtFinancièreModifiée-V1' }, (event) =>
+      applyPropositionTechniqueEtFinancièreModifiéeEventV1.bind(this)(event),
+    )
+    .with({ type: 'PropositionTechniqueEtFinancièreModifiée-V2' }, (event) =>
+      applyPropositionTechniqueEtFinancièreModifiéeEventV2.bind(this)(event),
+    )
+    .with({ type: 'DateMiseEnServiceTransmise-V1' }, (event) =>
+      applyDateMiseEnServiceTransmiseEventV1.bind(this)(event),
+    )
+    .with({ type: 'DateMiseEnServiceTransmise-V2' }, (event) =>
+      applyDateMiseEnServiceTransmiseEventV2.bind(this)(event),
+    )
+    .with({ type: 'GestionnaireRéseauRaccordementModifié-V1' }, (event) =>
+      applyGestionnaireRéseauRaccordementModifiéEventV1.bind(this)(event),
+    )
+    .with({ type: 'GestionnaireRéseauInconnuAttribué-V1' }, (event) =>
+      applyGestionnaireRéseauRaccordemenInconnuEventV1.bind(this)(event),
+    )
+    .with({ type: 'GestionnaireRéseauAttribué-V1' }, (event) =>
+      applyAttribuerGestionnaireRéseauEventV1.bind(this)(event),
+    )
+    .with({ type: 'DossierDuRaccordementSupprimé-V1' }, (event) =>
+      applyDossierDuRaccordementSuppriméEventV1.bind(this)(event),
+    )
+    .with({ type: 'RaccordementSupprimé-V1' }, (event) =>
+      applyRaccordementSuppriméEventV1.bind(this)(event),
+    )
+    .with({ type: 'DateMiseEnServiceSupprimée-V1' }, (event) =>
+      applyDateMiseEnServiceSuppriméeEventV1.bind(this)(event),
+    )
+    .exhaustive();
 }
 
 export const loadRaccordementAggregateFactory =
