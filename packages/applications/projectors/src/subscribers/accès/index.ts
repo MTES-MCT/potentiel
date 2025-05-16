@@ -6,6 +6,7 @@ import { Accès } from '@potentiel-domain/projet';
 
 import { accèsRebuildTriggeredProjector } from './accèsRebuildTriggered.projector';
 import { accèsProjetRetiréProjector } from './accèsProjetRetiré.projector';
+import { accèsProjetAutoriséProjector } from './accèsProjetAutorisé.projector';
 
 export type SubscriptionEvent = (Accès.AccèsEvent & Event) | RebuildTriggered;
 
@@ -15,7 +16,7 @@ export const register = () => {
   const handler: MessageHandler<Execute> = async (event) =>
     match(event)
       .with({ type: 'RebuildTriggered' }, accèsRebuildTriggeredProjector)
-      .with({ type: 'AccèsProjetAutorisé-V1' }, () => {})
+      .with({ type: 'AccèsProjetAutorisé-V1' }, accèsProjetAutoriséProjector)
       .with({ type: 'AccèsProjetRetiré-V1' }, accèsProjetRetiréProjector)
       .exhaustive();
 
