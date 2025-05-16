@@ -2,10 +2,11 @@ import { Metadata } from 'next';
 import { mediator } from 'mediateur';
 
 import { Option } from '@potentiel-libraries/monads';
-import { Abandon, Achèvement, GarantiesFinancières } from '@potentiel-domain/laureat';
+import { Abandon, GarantiesFinancières } from '@potentiel-domain/laureat';
 import { ListerPorteursQuery, Role, Utilisateur } from '@potentiel-domain/utilisateur';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { IdentifiantProjet } from '@potentiel-domain/common';
+import { Lauréat } from '@potentiel-domain/projet';
 
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { decodeParameter } from '@/utils/decodeParameter';
@@ -78,10 +79,11 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
           data: { identifiantProjetValue: identifiantProjet.formatter() },
         });
 
-      const achèvement = await mediator.send<Achèvement.ConsulterAttestationConformitéQuery>({
-        type: 'Lauréat.Achèvement.AttestationConformité.Query.ConsulterAttestationConformité',
-        data: { identifiantProjetValue: identifiantProjet.formatter() },
-      });
+      const achèvement =
+        await mediator.send<Lauréat.Achèvement.ConsulterAttestationConformitéQuery>({
+          type: 'Lauréat.Achèvement.AttestationConformité.Query.ConsulterAttestationConformité',
+          data: { identifiantProjetValue: identifiantProjet.formatter() },
+        });
 
       const mainlevéesList = await mediator.send<GarantiesFinancières.ListerMainlevéesQuery>({
         type: 'Lauréat.GarantiesFinancières.Mainlevée.Query.Lister',
@@ -146,7 +148,7 @@ type MapToProps = (params: {
   utilisateur: Utilisateur.ValueType;
   garantiesFinancièresActuelles: Option.Type<GarantiesFinancières.ConsulterGarantiesFinancièresReadModel>;
   dépôtEnCoursGarantiesFinancières: Option.Type<GarantiesFinancières.ConsulterDépôtEnCoursGarantiesFinancièresReadModel>;
-  achèvement: Option.Type<Achèvement.ConsulterAttestationConformitéReadModel>;
+  achèvement: Option.Type<Lauréat.Achèvement.ConsulterAttestationConformitéReadModel>;
   mainlevée: GarantiesFinancières.ListerMainlevéesReadModel['items'];
   appelOffres: AppelOffre.AppelOffreReadModel;
   historiqueMainlevée: GarantiesFinancières.ListerMainlevéesReadModel['items'];

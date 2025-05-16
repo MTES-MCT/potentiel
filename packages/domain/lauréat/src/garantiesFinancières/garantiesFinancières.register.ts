@@ -37,8 +37,8 @@ export const registerGarantiesFinancièresUseCases = ({
 }: GarantiesFinancièresCommandDependencies) => {
   registerDépôt(loadAggregate);
   registerGarantiesFinancières(loadAggregate, getProjetAggregateRoot);
-  registerMainlevée(loadAggregate);
-  registerTâchesPlanifiées(loadAggregate);
+  registerMainlevée(loadAggregate, getProjetAggregateRoot);
+  registerTâchesPlanifiées(loadAggregate, getProjetAggregateRoot);
 };
 
 export const registerGarantiesFinancièresQueries = (

@@ -3,10 +3,9 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 import { DocumentProjet, EnregistrerDocumentProjetCommand } from '@potentiel-domain/document';
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
-import { Candidature } from '@potentiel-domain/projet';
+import { Candidature, Lauréat } from '@potentiel-domain/projet';
 
 import { TypeDocumentGarantiesFinancières } from '../..';
-import { AnnulerTâchesPlanifiéesGarantiesFinancièresCommand } from '../../tâches-planifiées/annuler/annuler.command';
 
 import { SoumettreDépôtGarantiesFinancièresCommand } from './soumettreDépôtGarantiesFinancières.command';
 
@@ -73,12 +72,14 @@ export const registerSoumettreDépôtGarantiesFinancièresUseCase = () => {
       },
     });
 
-    await mediator.send<AnnulerTâchesPlanifiéesGarantiesFinancièresCommand>({
-      type: 'Lauréat.GarantiesFinancières.Command.AnnulerTâchesPlanifiées',
-      data: {
-        identifiantProjet,
+    await mediator.send<Lauréat.GarantiesFinancières.AnnulerTâchesPlanifiéesGarantiesFinancièresCommand>(
+      {
+        type: 'Lauréat.GarantiesFinancières.Command.AnnulerTâchesPlanifiées',
+        data: {
+          identifiantProjet,
+        },
       },
-    });
+    );
   };
   mediator.register(
     'Lauréat.GarantiesFinancières.UseCase.SoumettreDépôtGarantiesFinancières',

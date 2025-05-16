@@ -4,10 +4,11 @@ import * as zod from 'zod';
 import { mediator } from 'mediateur';
 
 import { Option } from '@potentiel-libraries/monads';
-import { Achèvement, GarantiesFinancières } from '@potentiel-domain/laureat';
+import { GarantiesFinancières } from '@potentiel-domain/laureat';
 import { DateTime } from '@potentiel-domain/common';
 import { Routes } from '@potentiel-applications/routes';
 import { Raccordement } from '@potentiel-domain/laureat';
+import { Lauréat } from '@potentiel-domain/projet';
 
 import { FormAction, FormState, formAction } from '@/utils/formAction';
 import { withUtilisateur } from '@/utils/withUtilisateur';
@@ -35,7 +36,7 @@ const action: FormAction<FormState, typeof schema> = async (
   },
 ) =>
   withUtilisateur(async (utilisateur) => {
-    await mediator.send<Achèvement.TransmettreAttestationConformitéUseCase>({
+    await mediator.send<Lauréat.Achèvement.TransmettreAttestationConformitéUseCase>({
       type: 'Lauréat.Achèvement.AttestationConformité.UseCase.TransmettreAttestationConformité',
       data: {
         identifiantProjetValue: identifiantProjet,
@@ -45,7 +46,7 @@ const action: FormAction<FormState, typeof schema> = async (
           dateTransmissionAuCocontractant,
         ).toISOString(),
         dateValue: new Date().toISOString(),
-        utilisateurValue: utilisateur.identifiantUtilisateur.formatter(),
+        identifiantUtilisateurValue: utilisateur.identifiantUtilisateur.formatter(),
       },
     });
 

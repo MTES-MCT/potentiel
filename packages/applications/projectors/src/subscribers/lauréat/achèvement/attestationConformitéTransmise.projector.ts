@@ -1,4 +1,3 @@
-import { Achèvement } from '@potentiel-domain/laureat';
 import { Lauréat } from '@potentiel-domain/projet';
 import { upsertProjection } from '@potentiel-infrastructure/pg-projection-write';
 
@@ -12,7 +11,7 @@ export const attestationConformitéTransmiseProjector = async ({
     utilisateur,
   },
 }: Lauréat.Achèvement.AttestationConformitéTransmiseEvent) => {
-  await upsertProjection<Achèvement.AchèvementEntity>(`achevement|${identifiantProjet}`, {
+  await upsertProjection<Lauréat.Achèvement.AchèvementEntity>(`achevement|${identifiantProjet}`, {
     identifiantProjet,
     attestationConformité: { format: attestation.format, date },
     preuveTransmissionAuCocontractant: {

@@ -6,8 +6,6 @@ import {
   StatutMainlevéeGarantiesFinancières,
 } from '../..';
 import { GarantiesFinancièresAggregate } from '../../garantiesFinancières.aggregate';
-import { AbandonAggregate } from '../../../abandon/abandon.aggregate';
-import { AchèvementAggregate } from '../../../achèvement/achèvement.aggregate';
 
 export type MainlevéeGarantiesFinancièresDemandéeEvent = DomainEvent<
   'MainlevéeGarantiesFinancièresDemandée-V1',
@@ -24,19 +22,26 @@ export type Options = {
   motif: MotifDemandeMainlevéeGarantiesFinancières.ValueType;
   demandéLe: DateTime.ValueType;
   demandéPar: Email.ValueType;
-  statutAbandon?: AbandonAggregate['statut'];
-  achèvement?: AchèvementAggregate;
+  aUnePreuveTransmissionAuCocontractant: boolean;
+  estAbandonné: boolean;
 };
 
 export async function demanderMainlevée(
   this: GarantiesFinancièresAggregate,
-  { identifiantProjet, motif, demandéLe, demandéPar, statutAbandon, achèvement }: Options,
+  {
+    identifiantProjet,
+    motif,
+    demandéLe,
+    demandéPar,
+    estAbandonné,
+    aUnePreuveTransmissionAuCocontractant,
+  }: Options,
 ) {
-  if (motif.estProjetAbandonné() && !statutAbandon?.estAccordé()) {
+  if (motif.estProjetAbandonné() && !estAbandonné) {
     throw new ProjetNonAbandonnéError();
   }
 
-  if (motif.estProjetAchevé() && !achèvement?.preuveTransmissionAuCocontractant?.format) {
+  if (motif.estProjetAchevé() && !aUnePreuveTransmissionAuCocontractant) {
     throw new ProjetNonAchevéError();
   }
 

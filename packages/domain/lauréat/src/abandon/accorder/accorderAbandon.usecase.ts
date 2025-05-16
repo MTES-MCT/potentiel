@@ -4,12 +4,11 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 // Workspaces
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
-// eslint-disable-next-line import/order
+import { Lauréat } from '@potentiel-domain/projet';
 import { DocumentProjet, EnregistrerDocumentProjetCommand } from '@potentiel-domain/document';
 
 // Package
 import * as TypeDocumentAbandon from '../typeDocumentAbandon.valueType';
-import { AnnulerTâchesPlanifiéesGarantiesFinancièresCommand } from '../../garantiesFinancières/tâches-planifiées/annuler/annuler.command';
 
 import { AccorderAbandonCommand } from './accorderAbandon.command';
 
@@ -64,12 +63,14 @@ export const registerAccorderAbandonUseCase = () => {
       },
     });
 
-    await mediator.send<AnnulerTâchesPlanifiéesGarantiesFinancièresCommand>({
-      type: 'Lauréat.GarantiesFinancières.Command.AnnulerTâchesPlanifiées',
-      data: {
-        identifiantProjet,
+    await mediator.send<Lauréat.GarantiesFinancières.AnnulerTâchesPlanifiéesGarantiesFinancièresCommand>(
+      {
+        type: 'Lauréat.GarantiesFinancières.Command.AnnulerTâchesPlanifiées',
+        data: {
+          identifiantProjet,
+        },
       },
-    });
+    );
   };
   mediator.register('Lauréat.Abandon.UseCase.AccorderAbandon', runner);
 };

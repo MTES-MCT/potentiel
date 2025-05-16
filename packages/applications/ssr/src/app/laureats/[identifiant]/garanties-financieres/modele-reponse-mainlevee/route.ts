@@ -1,14 +1,14 @@
 import { mediator } from 'mediateur';
 import { NextRequest, NextResponse } from 'next/server';
 
-import { Abandon, Achèvement, GarantiesFinancières } from '@potentiel-domain/laureat';
+import { Abandon, GarantiesFinancières } from '@potentiel-domain/laureat';
 import { Option } from '@potentiel-libraries/monads';
 import { DateTime } from '@potentiel-domain/common';
 import {
   formatDateForDocument,
   ModèleRéponseSignée,
 } from '@potentiel-applications/document-builder';
-import { IdentifiantProjet } from '@potentiel-domain/projet';
+import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 
 import { apiAction } from '@/utils/apiAction';
 import { decodeParameter } from '@/utils/decodeParameter';
@@ -55,12 +55,13 @@ export const GET = async (
         })
       ).items[0];
 
-      const achèvement = await mediator.send<Achèvement.ConsulterAttestationConformitéQuery>({
-        type: 'Lauréat.Achèvement.AttestationConformité.Query.ConsulterAttestationConformité',
-        data: {
-          identifiantProjetValue,
-        },
-      });
+      const achèvement =
+        await mediator.send<Lauréat.Achèvement.ConsulterAttestationConformitéQuery>({
+          type: 'Lauréat.Achèvement.AttestationConformité.Query.ConsulterAttestationConformité',
+          data: {
+            identifiantProjetValue,
+          },
+        });
 
       let abandon: Option.Type<Abandon.ConsulterAbandonReadModel> = Option.none;
 

@@ -6,8 +6,6 @@ import { LoadAggregate } from '@potentiel-domain/core';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { GetProjetAggregateRoot, Lauréat } from '@potentiel-domain/projet';
 
-import { loadAbandonFactory } from '../../../abandon';
-import { loadAchèvementFactory } from '../../../achèvement/achèvement.aggregate';
 import { loadPuissanceFactory } from '../../puissance.aggregate';
 
 export type DemanderChangementCommand = Message<
@@ -27,8 +25,7 @@ export const registerDemanderChangementPuissanceCommand = (
   getProjetAggregateRoot: GetProjetAggregateRoot,
 ) => {
   const loadPuissance = loadPuissanceFactory(loadAggregate);
-  const loadAbandon = loadAbandonFactory(loadAggregate);
-  const loadAchèvement = loadAchèvementFactory(loadAggregate);
+
   const handler: MessageHandler<DemanderChangementCommand> = async ({
     identifiantProjet,
     pièceJustificative,
@@ -38,9 +35,11 @@ export const registerDemanderChangementPuissanceCommand = (
     dateDemande,
   }) => {
     const puissanceAggrégat = await loadPuissance(identifiantProjet);
-    const abandon = await loadAbandon(identifiantProjet, false);
-    const achèvement = await loadAchèvement(identifiantProjet, false);
-    const { candidature } = await getProjetAggregateRoot(identifiantProjet);
+    const {
+      statut,
+      candidature,
+      lauréat: { abandon },
+    } = await getProjetAggregateRoot(identifiantProjet);
 
     // Après migration aggregate root, à remplacer
     const appelOffre = await mediator.send<AppelOffre.ConsulterAppelOffreQuery>({
@@ -67,9 +66,9 @@ export const registerDemanderChangementPuissanceCommand = (
       raison,
       identifiantUtilisateur,
       dateDemande,
-      estAbandonné: abandon.statut.estAccordé(),
+      estAbandonné: statut.estAbandonné(),
       demandeAbandonEnCours: abandon.statut.estEnCours(),
-      estAchevé: achèvement.estAchevé(),
+      estAchevé: statut.estAchevé(),
       appelOffre,
       technologie: candidature.technologie,
       cahierDesCharges: cahierDesChargesChoisi,

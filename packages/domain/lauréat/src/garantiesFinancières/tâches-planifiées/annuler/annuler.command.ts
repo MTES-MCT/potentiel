@@ -1,30 +1,19 @@
-import { Message, MessageHandler, mediator } from 'mediateur';
+import { MessageHandler, mediator } from 'mediateur';
 
-import { IdentifiantProjet } from '@potentiel-domain/common';
 import { LoadAggregate } from '@potentiel-domain/core';
 import { loadTâchePlanifiéeAggregateFactory } from '@potentiel-domain/tache-planifiee';
+import { Lauréat } from '@potentiel-domain/projet';
 
 import { loadGarantiesFinancièresFactory } from '../../garantiesFinancières.aggregate';
 import * as TypeTâchePlanifiéeGarantiesFinancières from '../../typeTâchePlanifiéeGarantiesFinancières.valueType';
-
-/**
- * @deprecated Cette commande est temporaire pour permettre l'appel au behavior,
- * qui à terme sera fait directement depuis le behavior appelant, via l'aggregate root.
- **/
-export type AnnulerTâchesPlanifiéesGarantiesFinancièresCommand = Message<
-  'Lauréat.GarantiesFinancières.Command.AnnulerTâchesPlanifiées',
-  {
-    identifiantProjet: IdentifiantProjet.ValueType;
-  }
->;
 
 /** @deprecated */
 export const registerAnnulerTâchesPlanifiéesCommand = (loadAggregate: LoadAggregate) => {
   const loadGarantiesFinancières = loadGarantiesFinancièresFactory(loadAggregate);
   const loadTâchePlanifiée = loadTâchePlanifiéeAggregateFactory(loadAggregate);
-  const handler: MessageHandler<AnnulerTâchesPlanifiéesGarantiesFinancièresCommand> = async ({
-    identifiantProjet,
-  }) => {
+  const handler: MessageHandler<
+    Lauréat.GarantiesFinancières.AnnulerTâchesPlanifiéesGarantiesFinancièresCommand
+  > = async ({ identifiantProjet }) => {
     const garantiesFinancières = await loadGarantiesFinancières(identifiantProjet, false);
     const tâchePlanifiéeEchoir = await loadTâchePlanifiée(
       TypeTâchePlanifiéeGarantiesFinancières.échoir.type,
