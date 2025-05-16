@@ -4,11 +4,10 @@ import { match, P } from 'ts-pattern';
 import { Joined, List, RangeOptions, Where } from '@potentiel-domain/entity';
 import { DateTime } from '@potentiel-domain/common';
 import { GestionnaireRéseau } from '@potentiel-domain/reseau';
-import { Candidature, IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
+import { Candidature, IdentifiantProjet, Lauréat, Raccordement } from '@potentiel-domain/projet';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 
 import { RéférenceDossierRaccordement } from '..';
-import { DossierRaccordementEntity } from '../raccordement.entity';
 import * as StatutLauréat from '../../statutLauréat.valueType';
 import { PuissanceEntity } from '../../puissance';
 
@@ -75,33 +74,36 @@ export const registerListerDossierRaccordementQuery = ({
       items,
       range: { endPosition, startPosition },
       total,
-    } = await list<DossierRaccordementEntity, Lauréat.LauréatEntity>('dossier-raccordement', {
-      where: {
-        référence: Where.contain(référenceDossier),
-        identifiantGestionnaireRéseau: Where.equal(identifiantGestionnaireRéseau),
-        miseEnService: {
-          dateMiseEnService:
-            avecDateMiseEnService === undefined
-              ? undefined
-              : avecDateMiseEnService
-                ? Where.notEqualNull()
-                : Where.equalNull(),
-        },
-      },
-      join: {
-        entity: 'lauréat',
-        on: 'identifiantProjet',
+    } = await list<Raccordement.DossierRaccordementEntity, Lauréat.LauréatEntity>(
+      'dossier-raccordement',
+      {
         where: {
-          appelOffre: Where.equal(appelOffre),
-          localité: { région: Where.equal(région) },
+          référence: Where.contain(référenceDossier),
+          identifiantGestionnaireRéseau: Where.equal(identifiantGestionnaireRéseau),
+          miseEnService: {
+            dateMiseEnService:
+              avecDateMiseEnService === undefined
+                ? undefined
+                : avecDateMiseEnService
+                  ? Where.notEqualNull()
+                  : Where.equalNull(),
+          },
         },
+        join: {
+          entity: 'lauréat',
+          on: 'identifiantProjet',
+          where: {
+            appelOffre: Where.equal(appelOffre),
+            localité: { région: Where.equal(région) },
+          },
+        },
+        orderBy: {
+          référence: 'ascending',
+          identifiantProjet: 'ascending',
+        },
+        range,
       },
-      orderBy: {
-        référence: 'ascending',
-        identifiantProjet: 'ascending',
-      },
-      range,
-    });
+    );
 
     const identifiantsGestionnaireRéseau = items.map(
       (dossier) =>
@@ -157,7 +159,7 @@ export const registerListerDossierRaccordementQuery = ({
 };
 
 type MapToReadModelProps = (args: {
-  dossier: DossierRaccordementEntity & Joined<Lauréat.LauréatEntity>;
+  dossier: Raccordement.DossierRaccordementEntity & Joined<Lauréat.LauréatEntity>;
   gestionnairesRéseau: ReadonlyArray<GestionnaireRéseau.GestionnaireRéseauEntity>;
   puissances: ReadonlyArray<PuissanceEntity>;
   appelOffres: ReadonlyArray<AppelOffre.AppelOffreEntity>;

@@ -1,8 +1,7 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { Count, Where } from '@potentiel-domain/entity';
-
-import { RaccordementEntity } from '..';
+import { Raccordement } from '@potentiel-domain/projet';
 
 export type ConsulterNombreDeRaccordementReadModel = {
   nombreRaccordements: number;
@@ -11,7 +10,7 @@ export type ConsulterNombreDeRaccordementReadModel = {
 export type ConsulterNombreDeRaccordementQuery = Message<
   'Lauréat.Raccordement.Query.ConsulterNombreDeRaccordement',
   {
-    identifiantGestionnaireRéseauValue: RaccordementEntity['identifiantGestionnaireRéseau'];
+    identifiantGestionnaireRéseauValue: Raccordement.RaccordementEntity['identifiantGestionnaireRéseau'];
   },
   ConsulterNombreDeRaccordementReadModel
 >;
@@ -26,7 +25,7 @@ export const registerConsulterNombreDeRaccordementQuery = ({
   const handler: MessageHandler<ConsulterNombreDeRaccordementQuery> = async ({
     identifiantGestionnaireRéseauValue,
   }) => {
-    const nombreRaccordements = await count<RaccordementEntity>('raccordement', {
+    const nombreRaccordements = await count<Raccordement.RaccordementEntity>('raccordement', {
       where: {
         identifiantGestionnaireRéseau: Where.equal(identifiantGestionnaireRéseauValue),
       },

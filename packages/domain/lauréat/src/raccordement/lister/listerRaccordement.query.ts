@@ -3,8 +3,7 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 import { IdentifiantProjet } from '@potentiel-domain/common';
 import { List, Where } from '@potentiel-domain/entity';
 import { GestionnaireRéseau } from '@potentiel-domain/reseau';
-
-import { RaccordementEntity } from '..';
+import { Raccordement } from '@potentiel-domain/projet';
 
 export type RaccordementReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
@@ -32,7 +31,7 @@ export const registerListerRaccordementQuery = ({ list }: ListerRaccordementQuer
   const handler: MessageHandler<ListerRaccordementQuery> = async ({
     identifiantGestionnaireRéseauValue,
   }) => {
-    const { items, total } = await list<RaccordementEntity>('raccordement', {
+    const { items, total } = await list<Raccordement.RaccordementEntity>('raccordement', {
       orderBy: {
         identifiantProjet: 'ascending',
       },
@@ -49,7 +48,7 @@ export const registerListerRaccordementQuery = ({ list }: ListerRaccordementQuer
   mediator.register('Lauréat.Raccordement.Query.ListerRaccordement', handler);
 };
 
-const mapToReadModel = (raccordement: RaccordementEntity): RaccordementReadModel => {
+const mapToReadModel = (raccordement: Raccordement.RaccordementEntity): RaccordementReadModel => {
   return {
     identifiantProjet: IdentifiantProjet.convertirEnValueType(raccordement.identifiantProjet),
     identifiantGestionnaireRéseau:

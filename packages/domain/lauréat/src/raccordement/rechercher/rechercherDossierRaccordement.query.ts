@@ -3,9 +3,9 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 import { IdentifiantProjet } from '@potentiel-domain/common';
 import { List, Where } from '@potentiel-domain/entity';
 import { GestionnaireRéseau } from '@potentiel-domain/reseau';
+import { Raccordement } from '@potentiel-domain/projet';
 
 import * as RéférenceDossierRaccordement from '../référenceDossierRaccordement.valueType';
-import { DossierRaccordementEntity } from '../raccordement.entity';
 
 export type RechercherDossierRaccordementReadModel = ReadonlyArray<{
   identifiantGestionnaireRéseau: GestionnaireRéseau.IdentifiantGestionnaireRéseau.ValueType;
@@ -33,7 +33,7 @@ export const registerRechercherDossierRaccordementQuery = ({
     numéroCRE,
     référenceDossierRaccordement,
   }) => {
-    const results = await list<DossierRaccordementEntity>('dossier-raccordement', {
+    const results = await list<Raccordement.DossierRaccordementEntity>('dossier-raccordement', {
       where: {
         identifiantProjet: Where.endWith(numéroCRE ? `#${numéroCRE}` : undefined),
         référence: Where.contain(référenceDossierRaccordement),
@@ -46,7 +46,7 @@ export const registerRechercherDossierRaccordementQuery = ({
   mediator.register('Lauréat.Raccordement.Query.RechercherDossierRaccordement', handler);
 };
 
-const mapToReadModel = (result: ReadonlyArray<DossierRaccordementEntity>) => {
+const mapToReadModel = (result: ReadonlyArray<Raccordement.DossierRaccordementEntity>) => {
   return result.map(({ identifiantGestionnaireRéseau, identifiantProjet, référence }) => ({
     identifiantGestionnaireRéseau:
       GestionnaireRéseau.IdentifiantGestionnaireRéseau.convertirEnValueType(

@@ -3,11 +3,10 @@ import { match, P } from 'ts-pattern';
 
 import { List, RangeOptions, Where } from '@potentiel-domain/entity';
 import { DateTime } from '@potentiel-domain/common';
-import { Candidature, IdentifiantProjet } from '@potentiel-domain/projet';
+import { Candidature, IdentifiantProjet, Raccordement } from '@potentiel-domain/projet';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 
 import { RéférenceDossierRaccordement } from '..';
-import { DossierRaccordementEntity } from '../raccordement.entity';
 import * as StatutLauréat from '../../statutLauréat.valueType';
 import { PuissanceEntity } from '../../puissance';
 
@@ -63,7 +62,7 @@ export const registerListerDossierRaccordementEnAttenteMiseEnServiceQuery = ({
       items,
       range: { endPosition, startPosition },
       total,
-    } = await list<DossierRaccordementEntity>('dossier-raccordement', {
+    } = await list<Raccordement.DossierRaccordementEntity>('dossier-raccordement', {
       where: {
         identifiantGestionnaireRéseau: Where.equal(identifiantGestionnaireRéseau),
         miseEnService: {
@@ -119,7 +118,7 @@ export const registerListerDossierRaccordementEnAttenteMiseEnServiceQuery = ({
 };
 
 type MapToReadModelProps = (args: {
-  dossier: DossierRaccordementEntity;
+  dossier: Raccordement.DossierRaccordementEntity;
   candidatures: ReadonlyArray<Candidature.CandidatureEntity>;
   puissances: ReadonlyArray<PuissanceEntity>;
   appelOffres: ReadonlyArray<AppelOffre.AppelOffreEntity>;
