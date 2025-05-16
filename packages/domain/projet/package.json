@@ -13,6 +13,7 @@
     "@potentiel-domain/document": "*",
     "@potentiel-domain/core": "*",
     "@potentiel-domain/entity": "*",
+    "@potentiel-domain/utilisateur": "*",
     "@potentiel-libraries/monads": "*"
   },
   "devDependencies": {

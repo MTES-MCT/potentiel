@@ -6,10 +6,10 @@ import { Option } from '@potentiel-libraries/monads';
 import { DocumentProjet } from '@potentiel-domain/document';
 import { GestionnaireRéseau } from '@potentiel-domain/reseau';
 import { IdentifiantProjet } from '@potentiel-domain/projet';
+import { Raccordement } from '@potentiel-domain/projet';
 
 import * as RéférenceDossierRaccordement from '../référenceDossierRaccordement.valueType';
 import * as TypeDocumentRaccordement from '../typeDocumentRaccordement.valueType';
-import { RaccordementEntity } from '../raccordement.entity';
 
 export type ConsulterRaccordementReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
@@ -49,7 +49,9 @@ export const registerConsulterRaccordementQuery = ({ find }: ConsulterRaccordeme
   }) => {
     const identifiantProjet = IdentifiantProjet.convertirEnValueType(identifiantProjetValue);
 
-    const result = await find<RaccordementEntity>(`raccordement|${identifiantProjet.formatter()}`);
+    const result = await find<Raccordement.RaccordementEntity>(
+      `raccordement|${identifiantProjet.formatter()}`,
+    );
 
     return Option.match(result).some(mapToReadModel).none();
   };
@@ -57,7 +59,9 @@ export const registerConsulterRaccordementQuery = ({ find }: ConsulterRaccordeme
   mediator.register('Lauréat.Raccordement.Query.ConsulterRaccordement', handler);
 };
 
-const mapToReadModel = (entity: RaccordementEntity): ConsulterRaccordementReadModel => {
+const mapToReadModel = (
+  entity: Raccordement.RaccordementEntity,
+): ConsulterRaccordementReadModel => {
   return {
     identifiantGestionnaireRéseau:
       GestionnaireRéseau.IdentifiantGestionnaireRéseau.convertirEnValueType(

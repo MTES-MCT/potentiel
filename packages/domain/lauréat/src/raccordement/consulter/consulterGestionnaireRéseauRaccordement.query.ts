@@ -6,8 +6,7 @@ import { Find } from '@potentiel-domain/entity';
 import { Option } from '@potentiel-libraries/monads';
 import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
 import { GestionnaireRéseau } from '@potentiel-domain/reseau';
-
-import { RaccordementEntity } from '../raccordement.entity';
+import { Raccordement } from '@potentiel-domain/projet';
 
 export type ConsulterGestionnaireRéseauRaccordementReadModel = {
   identifiantGestionnaireRéseau: GestionnaireRéseau.IdentifiantGestionnaireRéseau.ValueType;
@@ -40,7 +39,7 @@ export const registerConsulterGestionnaireRéseauRaccordementQuery = ({
   }) => {
     const identifiantProjet = IdentifiantProjet.convertirEnValueType(identifiantProjetValue);
 
-    const raccordementResult = await find<RaccordementEntity>(
+    const raccordementResult = await find<Raccordement.RaccordementEntity>(
       `raccordement|${identifiantProjet.formatter()}`,
     );
 
