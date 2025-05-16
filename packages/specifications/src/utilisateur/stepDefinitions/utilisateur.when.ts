@@ -350,19 +350,22 @@ async function réclamerProjet(
   const {
     identifiantProjet,
     email,
-    numéroCRE = '',
-    prixRéférence: prix = 0,
+    numéroCRE,
+    prixRéférence: prix,
   } = this.utilisateurWorld.réclamerProjet.créer(fixtureProps);
 
   try {
+    const avecPrixEtNuméroCRE = numéroCRE !== undefined && prix !== undefined;
+
     await mediator.send<Accès.RéclamerAccèsProjetUseCase>({
       type: 'Projet.Accès.UseCase.RéclamerAccèsProjet',
       data: {
         identifiantProjetValue: identifiantProjet,
         identifiantUtilisateurValue: email,
         dateRéclamationValue: DateTime.now().formatter(),
-        numéroCRE,
-        prix,
+        ...(avecPrixEtNuméroCRE
+          ? { type: 'avec-prix-numéro-cre', numéroCRE, prix }
+          : { type: 'même-email-candidature' }),
       },
     });
   } catch (error) {

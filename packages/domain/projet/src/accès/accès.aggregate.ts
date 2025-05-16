@@ -29,36 +29,38 @@ export class AccèsAggregate extends AbstractAggregate<AccèsEvent> {
     this.#projet = projet;
   }
 
-  async réclamer({
-    identifiantUtilisateur,
-    numéroCRE,
-    prix,
-    réclaméLe,
-    réclaméPar,
-  }: RéclamerAccèsProjetOptions) {
+  async réclamer(options: RéclamerAccèsProjetOptions) {
+    const { identifiantUtilisateur, dateRéclamation, type } = options;
+
     if (!this.projet.statut.estNotifié()) {
       throw new ProjetNonNotiféError();
     }
 
-    const aLeMêmeEmailQueLaCandidature =
-      this.#projet.candidature.emailContact.estÉgaleÀ(identifiantUtilisateur);
+    if (type === 'avec-prix-numéro-cre') {
+      const { numéroCRE, prix } = options;
 
-    if (!aLeMêmeEmailQueLaCandidature) {
-      throw new EmailNonCorrespondantError();
+      const connaîtLePrixEtNuméroCRE =
+        this.#projet.identifiantProjet.numéroCRE === numéroCRE &&
+        this.#projet.candidature.prixRéférence === prix;
+
+      if (!connaîtLePrixEtNuméroCRE) {
+        throw new PrixEtNuméroCRENonCorrespondantError();
+      }
     }
 
-    const connaîtLePrixEtNuméroCRE =
-      this.#projet.identifiantProjet.numéroCRE === numéroCRE &&
-      this.#projet.candidature.prixRéférence === prix;
+    if (type === 'même-email-candidature') {
+      const aLeMêmeEmailQueLaCandidature =
+        this.#projet.candidature.emailContact.estÉgaleÀ(identifiantUtilisateur);
 
-    if (!connaîtLePrixEtNuméroCRE) {
-      throw new PrixEtNuméroCRENonCorrespondantError();
+      if (!aLeMêmeEmailQueLaCandidature) {
+        throw new EmailNonCorrespondantError();
+      }
     }
 
     await this.autoriser({
       identifiantUtilisateur,
-      autoriséLe: réclaméLe,
-      autoriséPar: réclaméPar,
+      autoriséLe: dateRéclamation,
+      autoriséPar: Email.system(),
       raison: 'réclamation',
     });
   }
