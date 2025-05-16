@@ -12,28 +12,32 @@ export type RéclamerAccèsProjetUseCase = Message<
     identifiantProjetValue: string;
     identifiantUtilisateurValue: string;
     dateRéclamationValue: string;
-    numéroCRE: string;
-    prix: number;
-  }
+  } & (
+    | {
+        type: 'avec-prix-numéro-cre';
+        numéroCRE: string;
+        prix: number;
+      }
+    | {
+        type: 'même-email-candidature';
+      }
+  )
 >;
 
 export const registerRéclamerAccèsProjetUseCase = () => {
-  const runner: MessageHandler<RéclamerAccèsProjetUseCase> = async ({
-    identifiantProjetValue,
-    identifiantUtilisateurValue,
-    numéroCRE,
-    prix,
-    dateRéclamationValue,
-  }) => {
+  const runner: MessageHandler<RéclamerAccèsProjetUseCase> = async (payload) => {
+    const { identifiantProjetValue, identifiantUtilisateurValue, dateRéclamationValue, type } =
+      payload;
+
     await mediator.send<RéclamerAccèsProjetCommand>({
       type: 'Projet.Accès.Command.RéclamerAccèsProjet',
       data: {
         identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjetValue),
         identifiantUtilisateur: Email.convertirEnValueType(identifiantUtilisateurValue),
-        numéroCRE,
-        prix,
-        réclaméLe: DateTime.convertirEnValueType(dateRéclamationValue),
-        réclaméPar: Email.convertirEnValueType(identifiantUtilisateurValue),
+        dateRéclamation: DateTime.convertirEnValueType(dateRéclamationValue),
+        ...(type === 'avec-prix-numéro-cre'
+          ? { type, numéroCRE: payload.numéroCRE, prix: payload.prix }
+          : { type }),
       },
     });
   };

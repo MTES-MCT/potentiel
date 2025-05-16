@@ -2,12 +2,11 @@ import { Message, Middleware, mediator } from 'mediateur';
 
 import { IdentifiantProjet } from '@potentiel-domain/common';
 import { getContext } from '@potentiel-applications/request-context';
-import { UtilisateurEntity } from '@potentiel-domain/utilisateur';
 import { getLogger } from '@potentiel-libraries/monitoring';
-import { Where, WhereOptions } from '@potentiel-domain/entity';
 import { OperationRejectedError } from '@potentiel-domain/core';
-import { listProjection } from '@potentiel-infrastructure/pg-projection-read';
+import { findProjection } from '@potentiel-infrastructure/pg-projection-read';
 import { Accès } from '@potentiel-domain/projet';
+import { Option } from '@potentiel-libraries/monads';
 
 import { AuthenticationError } from '../errors';
 
@@ -34,8 +33,8 @@ export const permissionMiddleware: Middleware = async (message, next) => {
     // Le cas de RéclamerProjet est une exception,
     // car l'utilisateur n'a pas encore accès au projet.
     if (
-      message.type === 'Utilisateur.UseCase.RéclamerProjet' ||
-      message.type === 'Utilisateur.Command.RéclamerProjet'
+      message.type === 'Projet.Accès.UseCase.RéclamerAccèsProjet' ||
+      message.type === 'Projet.Accès.Command.RéclamerAccèsProjet'
     ) {
       await vérifierQueLeProjetEstÀRéclamer(identifiantProjetValue);
       return await next();
@@ -78,18 +77,9 @@ const getIdentifiantProjetValue = (message: Message<string, Record<string, unkno
 };
 
 const vérifierQueLeProjetEstÀRéclamer = async (identifiantProjet: IdentifiantProjet.RawType) => {
-  const where: WhereOptions<UtilisateurEntity> = {
-    rôle: Where.equal('porteur-projet'),
-    projets: Where.include(identifiantProjet),
-  };
-  const utilisateurs = await listProjection<UtilisateurEntity>('utilisateur', {
-    where,
-    range: {
-      startPosition: 0,
-      endPosition: 1,
-    },
-  });
-  if (utilisateurs.total > 0) {
+  const accès = await findProjection<Accès.AccèsEntity>(`accès|${identifiantProjet}`);
+
+  if (Option.isSome(accès)) {
     throw new ProjetNonRéclamableError();
   }
 };

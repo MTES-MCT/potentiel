@@ -82,6 +82,10 @@ export class ProjetAggregateRoot {
       return StatutProjet.classé;
     }
 
+    if (this.#éliminé.exists) {
+      return StatutProjet.notifié;
+    }
+
     return StatutProjet.éliminé;
   }
 
