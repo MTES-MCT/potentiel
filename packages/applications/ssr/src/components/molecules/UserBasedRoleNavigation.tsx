@@ -179,7 +179,7 @@ const getNavigationItemsBasedOnRole = (
           {
             text: 'Utilisateurs',
             linkProps: {
-              href: Routes.Utilisateur.lister(),
+              href: Routes.Utilisateur.lister({ actif: true }),
             },
           },
           {

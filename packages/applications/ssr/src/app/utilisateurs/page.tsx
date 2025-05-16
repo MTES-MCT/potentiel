@@ -165,6 +165,7 @@ export default async function Page({ searchParams }: PageProps) {
             identifiantGestionnaireRéseau: identifiantGestionnaireReseau,
             région: region,
             zni,
+            actif,
           },
         });
 
