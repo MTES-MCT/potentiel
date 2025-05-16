@@ -45,22 +45,22 @@ const EnregistrerUneModification = ({
       >
         <span>Demande de délai</span>
       </DropdownMenuSecondaryButton.DropdownItem>
-      {!!producteurAffichage && (
+      {!!producteurAffichage?.labelActions && (
         <DropdownMenuSecondaryButton.DropdownItem href={producteurAffichage.url}>
           <span>{producteurAffichage.labelActions}</span>
         </DropdownMenuSecondaryButton.DropdownItem>
       )}
-      {!!puissanceAffichage && (
+      {!!puissanceAffichage?.labelActions && (
         <DropdownMenuSecondaryButton.DropdownItem href={puissanceAffichage.url}>
           <span>{puissanceAffichage.labelActions}</span>
         </DropdownMenuSecondaryButton.DropdownItem>
       )}
-      {!!actionnaireAffichage && (
+      {!!actionnaireAffichage?.labelActions && (
         <DropdownMenuSecondaryButton.DropdownItem href={actionnaireAffichage.url}>
           <span>{actionnaireAffichage.labelActions}</span>
         </DropdownMenuSecondaryButton.DropdownItem>
       )}
-      {!!représentantLégalAffichage && (
+      {!!représentantLégalAffichage?.labelActions && (
         <DropdownMenuSecondaryButton.DropdownItem href={représentantLégalAffichage.url}>
           <span>{représentantLégalAffichage.labelActions}</span>
         </DropdownMenuSecondaryButton.DropdownItem>
