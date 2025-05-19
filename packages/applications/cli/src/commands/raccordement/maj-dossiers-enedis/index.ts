@@ -34,7 +34,7 @@ import { registerTâcheCommand, Tâche } from '@potentiel-domain/tache';
 
 import { parseCsvFile } from '../../../helpers/parse-file';
 
-import { generateDocument, formatDateQualification, writeStatisticsToFiles } from './_utils';
+import { formatDateQualification, writeStatisticsToFiles } from './_utils';
 import { logStatistics } from './_utils/logStatistics';
 
 const envVariablesSchema = zod.object({
@@ -184,7 +184,6 @@ export class MajDossiersEnedis extends Command {
   async run() {
     const { FILE_PATH } = envVariablesSchema.parse(process.env);
 
-    const { flags } = await this.parse(MajDossiersEnedis);
     const logger = getLogger(MajDossiersEnedis.name);
 
     logger.info('🏁 Début de la mise à jour des dossiers de raccordement');
@@ -319,20 +318,19 @@ export class MajDossiersEnedis extends Command {
           )
         ) {
           try {
-            if (!flags.dryRun) {
-              await mediator.send<Raccordement.ModifierRéférenceDossierRaccordementUseCase>({
-                type: 'Lauréat.Raccordement.UseCase.ModifierRéférenceDossierRaccordement',
-                data: {
-                  identifiantProjetValue: identifiantProjet,
-                  référenceDossierRaccordementActuelleValue:
-                    dossierRaccordement.référence.formatter(),
-                  nouvelleRéférenceDossierRaccordementValue: ligne.referenceDossier,
-                  rôleValue: 'admin',
-                  modifiéeLeValue: DateTime.now().formatter(),
-                  modifiéeParValue: Email.system().formatter(),
-                },
-              });
-            }
+            await mediator.send<Raccordement.ModifierRéférenceDossierRaccordementUseCase>({
+              type: 'Lauréat.Raccordement.UseCase.ModifierRéférenceDossierRaccordement',
+              data: {
+                identifiantProjetValue: identifiantProjet,
+                référenceDossierRaccordementActuelleValue:
+                  dossierRaccordement.référence.formatter(),
+                nouvelleRéférenceDossierRaccordementValue: ligne.referenceDossier,
+                rôleValue: 'admin',
+                modifiéeLeValue: DateTime.now().formatter(),
+                modifiéeParValue: Email.system().formatter(),
+              },
+            });
+
             statistics.UnSeulDossierDeRaccordement.modifierRéférenceDossierRaccordement.total++;
             statistics.UnSeulDossierDeRaccordement.modifierRéférenceDossierRaccordement.succès.push(
               {
@@ -368,42 +366,54 @@ export class MajDossiersEnedis extends Command {
           )
         ) {
           try {
-            if (!flags.dryRun) {
-              /**
-               * Par défaut, on génère un accusé de réception
-               */
-              let accuséRéceptionValue = await generateDocument(
-                `Accusé de réception de la demande complète de raccordement pour le dossier ${ligne.referenceDossier} du projet ${identifiantProjet}`,
-              );
-
-              /**
-               * Si l'accusé de réception est déjà présent, on le récupère
-               */
-              if (dossierRaccordement.demandeComplèteRaccordement.accuséRéception) {
-                const document = await mediator.send<ConsulterDocumentProjetQuery>({
-                  type: 'Document.Query.ConsulterDocumentProjet',
-                  data: {
-                    documentKey:
-                      dossierRaccordement.demandeComplèteRaccordement.accuséRéception.formatter(),
-                  },
-                });
-
-                if (Option.isSome(document)) {
-                  accuséRéceptionValue = document;
-                }
-              }
-
-              await mediator.send<Raccordement.ModifierDemandeComplèteRaccordementUseCase>({
-                type: 'Lauréat.Raccordement.UseCase.ModifierDemandeComplèteRaccordement',
-                data: {
-                  identifiantProjetValue: identifiantProjet,
-                  référenceDossierRaccordementValue: ligne.referenceDossier,
-                  dateQualificationValue: formatDateQualification(ligne.dateAccuseReception),
-                  accuséRéceptionValue,
-                  rôleValue: 'admin',
+            if (!dossierRaccordement.demandeComplèteRaccordement.accuséRéception) {
+              statistics.UnSeulDossierDeRaccordement.modifierDemandeComplètementRaccordement.erreurs.push(
+                {
+                  identifiantProjet,
+                  dateQualification:
+                    dossierRaccordement.demandeComplèteRaccordement.dateQualification.formatter(),
+                  erreur: `Le dossier de raccordement ne dispose pas d'accusé de réception`,
                 },
-              });
+              );
+              index++;
+              continue;
             }
+
+            /**
+             * On récupère le fichier (accusé de réception) de la DCR
+             */
+            const document = await mediator.send<ConsulterDocumentProjetQuery>({
+              type: 'Document.Query.ConsulterDocumentProjet',
+              data: {
+                documentKey:
+                  dossierRaccordement.demandeComplèteRaccordement.accuséRéception.formatter(),
+              },
+            });
+
+            if (Option.isNone(document)) {
+              statistics.UnSeulDossierDeRaccordement.modifierDemandeComplètementRaccordement.erreurs.push(
+                {
+                  identifiantProjet,
+                  dateQualification:
+                    dossierRaccordement.demandeComplèteRaccordement.dateQualification.formatter(),
+                  erreur: `Le dossier de raccordement ne dispose pas d'accusé de réception`,
+                },
+              );
+              index++;
+              continue;
+            }
+
+            await mediator.send<Raccordement.ModifierDemandeComplèteRaccordementUseCase>({
+              type: 'Lauréat.Raccordement.UseCase.ModifierDemandeComplèteRaccordement',
+              data: {
+                identifiantProjetValue: identifiantProjet,
+                référenceDossierRaccordementValue: ligne.referenceDossier,
+                dateQualificationValue: formatDateQualification(ligne.dateAccuseReception),
+                accuséRéceptionValue: document,
+                // TODO : pas sur de ça
+                rôleValue: 'admin',
+              },
+            });
 
             statistics.UnSeulDossierDeRaccordement.modifierDemandeComplètementRaccordement.total++;
             statistics.UnSeulDossierDeRaccordement.modifierDemandeComplètementRaccordement.succès.push(
@@ -428,49 +438,6 @@ export class MajDossiersEnedis extends Command {
             continue;
           }
         }
-
-        /***
-         * Si il y a une date de mise en service et qu'elle est différente de l'existant
-         */
-        if (
-          ligne.dateMiseEnService &&
-          dossierRaccordement.miseEnService?.dateMiseEnService &&
-          !dossierRaccordement.miseEnService.dateMiseEnService.estÉgaleÀ(
-            DateTime.convertirEnValueType(formatDateQualification(ligne.dateMiseEnService)),
-          )
-        ) {
-          try {
-            if (!flags.dryRun) {
-              await mediator.send<Raccordement.TransmettreDateMiseEnServiceUseCase>({
-                type: 'Lauréat.Raccordement.UseCase.TransmettreDateMiseEnService',
-                data: {
-                  identifiantProjetValue: identifiantProjet,
-                  référenceDossierValue: ligne.referenceDossier,
-                  dateMiseEnServiceValue: formatDateQualification(ligne.dateMiseEnService),
-                  transmiseLeValue: DateTime.now().formatter(),
-                  transmiseParValue: Email.system().formatter(),
-                },
-              });
-            }
-            statistics.UnSeulDossierDeRaccordement.transmettreDateMiseEnService.total++;
-            statistics.UnSeulDossierDeRaccordement.transmettreDateMiseEnService.succès.push({
-              identifiantProjet,
-              dateMiseEnService: ligne.dateMiseEnService,
-            });
-          } catch (error) {
-            console.error(
-              `Erreur lors de la mise à jour de la date de mise en service pour le projet ${identifiantProjet} : ${error}`,
-            );
-            statistics.UnSeulDossierDeRaccordement.transmettreDateMiseEnService.total++;
-            statistics.UnSeulDossierDeRaccordement.transmettreDateMiseEnService.erreurs.push({
-              identifiantProjet,
-              dateMiseEnService: ligne.dateMiseEnService,
-              erreur: error as string,
-            });
-            index++;
-            continue;
-          }
-        }
       }
 
       if (raccordement.dossiers.length === 0) {
@@ -489,21 +456,15 @@ export class MajDossiersEnedis extends Command {
         }
 
         try {
-          if (!flags.dryRun) {
-            const accuséRéceptionValue = await generateDocument(
-              `Accusé de réception de la demande complète de raccordement non transmis pour le dossier ${ligne.referenceDossier} du projet ${identifiantProjet}`,
-            );
-
-            await mediator.send<Raccordement.TransmettreDemandeComplèteRaccordementUseCase>({
-              type: 'Lauréat.Raccordement.UseCase.TransmettreDemandeComplèteRaccordement',
-              data: {
-                identifiantProjetValue: identifiantProjet,
-                dateQualificationValue: formatDateQualification(ligne.dateAccuseReception),
-                accuséRéceptionValue,
-                référenceDossierValue: ligne.referenceDossier,
-              },
-            });
-          }
+          await mediator.send<Raccordement.TransmettreDemandeComplèteRaccordementUseCase>({
+            type: 'Lauréat.Raccordement.UseCase.TransmettreDemandeComplèteRaccordement',
+            data: {
+              identifiantProjetValue: identifiantProjet,
+              dateQualificationValue: formatDateQualification(ligne.dateAccuseReception),
+              référenceDossierValue: ligne.referenceDossier,
+              transmiseParValue: Email.system().formatter(),
+            },
+          });
 
           statistics.pasDeDossierDeRaccordement.transmettreDemandeComplètementRaccordement.total++;
           statistics.pasDeDossierDeRaccordement.transmettreDemandeComplètementRaccordement.succès.push(
@@ -560,40 +521,6 @@ export class MajDossiersEnedis extends Command {
           );
           index++;
           continue;
-        }
-
-        if (ligne.dateMiseEnService) {
-          try {
-            if (!flags.dryRun) {
-              await mediator.send<Raccordement.TransmettreDateMiseEnServiceUseCase>({
-                type: 'Lauréat.Raccordement.UseCase.TransmettreDateMiseEnService',
-                data: {
-                  identifiantProjetValue: identifiantProjet,
-                  référenceDossierValue: ligne.referenceDossier,
-                  dateMiseEnServiceValue: formatDateQualification(ligne.dateMiseEnService),
-                  transmiseLeValue: DateTime.now().formatter(),
-                  transmiseParValue: Email.system().formatter(),
-                },
-              });
-              statistics.pasDeDossierDeRaccordement.transmettreDateMiseEnService.total++;
-              statistics.pasDeDossierDeRaccordement.transmettreDateMiseEnService.succès.push({
-                identifiantProjet,
-                dateMiseEnService: ligne.dateMiseEnService,
-              });
-            }
-          } catch (error) {
-            console.error(
-              `Erreur lors de la mise à jour de la date de mise en service pour le projet ${identifiantProjet} : ${error}`,
-            );
-            statistics.pasDeDossierDeRaccordement.transmettreDateMiseEnService.total++;
-            statistics.pasDeDossierDeRaccordement.transmettreDateMiseEnService.erreurs.push({
-              identifiantProjet,
-              dateMiseEnService: ligne.dateMiseEnService,
-              erreur: error as string,
-            });
-            index++;
-            continue;
-          }
         }
       }
 

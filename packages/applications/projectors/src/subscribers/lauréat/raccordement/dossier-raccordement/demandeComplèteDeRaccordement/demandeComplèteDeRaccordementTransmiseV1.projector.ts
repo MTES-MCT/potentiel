@@ -6,8 +6,8 @@ import { upsertProjection } from '@potentiel-infrastructure/pg-projection-write'
 import { DateTime } from '@potentiel-domain/common';
 import { Event } from '@potentiel-infrastructure/pg-event-sourcing';
 
-import { getRaccordement } from '../_utils/getRaccordement';
-import { DossierRaccordement } from '../_utils/upsertDossierRaccordement';
+import { getRaccordement } from '../../_utils/getRaccordement';
+import { DossierRaccordement } from '../../_utils/upsertDossierRaccordement';
 
 export const demandeComplèteDeRaccordementTransmiseV1Projector = async ({
   payload: {

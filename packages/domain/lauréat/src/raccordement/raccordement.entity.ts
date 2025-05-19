@@ -10,6 +10,8 @@ type DossierRaccordement = {
   demandeComplèteRaccordement?: {
     dateQualification?: DateTime.RawType;
     accuséRéception?: { format: string };
+    transmiseLe?: DateTime.RawType;
+    transmisePar?: Email.RawType;
   };
   propositionTechniqueEtFinancière?: {
     dateSignature: string;

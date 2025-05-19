@@ -122,9 +122,10 @@ export type {
   DateMiseEnServiceTransmiseV1Event,
 } from './transmettre/transmettreDateMiseEnService.behavior';
 export type {
-  DemandeComplèteRaccordementTransmiseEvent,
   AccuséRéceptionDemandeComplèteRaccordementTransmisEventV1,
   DemandeComplèteRaccordementTransmiseEventV1,
+  DemandeComplèteRaccordementTransmiseEventV2,
+  DemandeComplèteRaccordementTransmiseEvent,
 } from './transmettre/transmettreDemandeComplèteRaccordement.behavior';
 export type {
   PropositionTechniqueEtFinancièreTransmiseEvent,

@@ -12,8 +12,8 @@ Fonctionnalité: Transmettre une demande complète de raccordement
         Et la demande complète de raccordement devrait être consultable dans le dossier de raccordement du projet lauréat
         Et le projet devrait avoir un raccordement attribué au gestionnaire de réseau "Enedis"
 
-    Scénario: Le système transmet une demande complète de raccordement pour un projet
-        Quand le système transmet une demande complète de raccordement pour le projet lauréat
+    Scénario: Le système transmet une demande complète de raccordement sanss accusé de réception pour un projet lauréat
+        Quand le système transmet une demande complète de raccordement sans accusé de réception pour le projet lauréat
         Alors le dossier est consultable dans la liste des dossiers de raccordement du projet lauréat
         Et la demande complète de raccordement devrait être consultable dans le dossier de raccordement du projet lauréat
         Et le projet devrait avoir un raccordement attribué au gestionnaire de réseau "Enedis"

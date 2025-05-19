@@ -1,11 +1,11 @@
 import { Raccordement } from '@potentiel-domain/laureat';
-import { DateTime } from '@potentiel-domain/common';
 import { Event } from '@potentiel-infrastructure/pg-event-sourcing';
+import { DateTime } from '@potentiel-domain/common';
 
-import { getDossierRaccordement } from '../_utils/getDossierRaccordement';
-import { upsertDossierRaccordement } from '../_utils/upsertDossierRaccordement';
+import { getDossierRaccordement } from '../../_utils/getDossierRaccordement';
+import { upsertDossierRaccordement } from '../../_utils/upsertDossierRaccordement';
 
-export const propositionTechniqueEtFinancièreModifiéeV2Projector = async ({
+export const propositionTechniqueEtFinancièreTransmiseV2Projector = async ({
   payload: {
     identifiantProjet,
     référenceDossierRaccordement,
@@ -13,7 +13,7 @@ export const propositionTechniqueEtFinancièreModifiéeV2Projector = async ({
     propositionTechniqueEtFinancièreSignée: { format },
   },
   created_at,
-}: Raccordement.PropositionTechniqueEtFinancièreModifiéeEvent & Event) => {
+}: Raccordement.PropositionTechniqueEtFinancièreTransmiseEvent & Event) => {
   const { dossier, raccordement } = await getDossierRaccordement(
     identifiantProjet,
     référenceDossierRaccordement,

@@ -1,6 +1,6 @@
-import { IdentifiantProjet } from '@potentiel-domain/common';
 import { GestionnaireRéseau } from '@potentiel-domain/reseau';
 import { Raccordement } from '@potentiel-domain/laureat';
+import { IdentifiantProjet } from '@potentiel-domain/projet';
 
 import { TransmettreDateMiseEnServiceFixture } from './dateDeMiseEnService/fixtures/transmettreDateDeMiseEnService.fixture';
 import { ModifierRéférenceDossierRaccordementFixture } from './dossierRaccordement/fixtures/modifierRéférenceDossierRaccordement.fixture';
@@ -44,6 +44,7 @@ export class RaccordementWorld {
       propositionTechniqueEtFinancière:
         this.propositionTechniqueEtFinancière.mapToExpected(nouvelleRéférenceDossier),
     };
+
     const identifiantGestionnaireRéseau =
       GestionnaireRéseau.IdentifiantGestionnaireRéseau.convertirEnValueType(
         this.identifiantGestionnaireRéseau,

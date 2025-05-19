@@ -44,24 +44,29 @@ Alors(
         'demandeComplèteRaccordement is undefined',
       );
       const actualAccuséRéception = dossierRaccordement.demandeComplèteRaccordement.accuséRéception;
+
       const { accuséRéception: expectedAccuséRéception } = this.raccordementWorld
         .demandeComplèteDeRaccordement.modifierFixture.aÉtéCréé
         ? this.raccordementWorld.demandeComplèteDeRaccordement.modifierFixture
         : this.raccordementWorld.demandeComplèteDeRaccordement.transmettreFixture;
 
-      assert(actualAccuséRéception, 'actualAccuséRéception is not defined');
-      const result = await mediator.send<ConsulterDocumentProjetQuery>({
-        type: 'Document.Query.ConsulterDocumentProjet',
-        data: {
-          documentKey: actualAccuséRéception.formatter(),
-        },
-      });
+      if (actualAccuséRéception) {
+        assert(actualAccuséRéception, 'actualAccuséRéception is not defined');
+        const result = await mediator.send<ConsulterDocumentProjetQuery>({
+          type: 'Document.Query.ConsulterDocumentProjet',
+          data: {
+            documentKey: actualAccuséRéception.formatter(),
+          },
+        });
 
-      assert(Option.isSome(result), `Accusé de réception non trouvé !`);
+        assert(Option.isSome(result), `Accusé de réception non trouvé !`);
 
-      const actualContent = await convertReadableStreamToString(result.content);
-      const expectedContent = await convertReadableStreamToString(expectedAccuséRéception.content);
-      actualContent.should.be.equal(expectedContent);
+        const actualContent = await convertReadableStreamToString(result.content);
+        const expectedContent = await convertReadableStreamToString(
+          expectedAccuséRéception.content,
+        );
+        actualContent.should.be.equal(expectedContent);
+      }
     });
   },
 );

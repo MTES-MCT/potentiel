@@ -61,10 +61,13 @@ export class TransmettreDemandeComplèteRaccordementFixture
 
     this.#dateQualification = fixture.dateQualification;
     this.#référenceDossier = fixture.référenceDossier;
-    this.#format = fixture.accuséRéception.format;
-    this.#content = content;
+    if (fixture.accuséRéception) {
+      this.#format = fixture.accuséRéception.format;
+      this.#content = content;
+    }
     this.#identifiantProjet = fixture.identifiantProjet;
     this.aÉtéCréé = true;
+
     return fixture;
   }
 
@@ -83,15 +86,18 @@ export class TransmettreDemandeComplèteRaccordementFixture
 
   mapToExpected(référenceDossier?: string) {
     if (!this.aÉtéCréé) return;
+
     return {
-      accuséRéception: DocumentProjet.convertirEnValueType(
-        this.identifiantProjet,
-        Raccordement.TypeDocumentRaccordement.convertirEnAccuséRéceptionValueType(
-          référenceDossier ?? this.référenceDossier,
-        ).formatter(),
-        this.#dateQualification,
-        this.accuséRéception.format,
-      ),
+      accuséRéception: this.accuséRéception.format
+        ? DocumentProjet.convertirEnValueType(
+            this.identifiantProjet,
+            Raccordement.TypeDocumentRaccordement.convertirEnAccuséRéceptionValueType(
+              référenceDossier ?? this.référenceDossier,
+            ).formatter(),
+            this.#dateQualification,
+            this.accuséRéception.format,
+          )
+        : undefined,
       dateQualification: DateTime.convertirEnValueType(this.dateQualification),
     };
   }

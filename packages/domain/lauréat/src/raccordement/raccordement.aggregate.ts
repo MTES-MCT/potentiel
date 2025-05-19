@@ -15,9 +15,11 @@ import {
   AccuséRéceptionDemandeComplèteRaccordementTransmisEventV1,
   DemandeComplèteRaccordementTransmiseEvent,
   DemandeComplèteRaccordementTransmiseEventV1,
+  DemandeComplèteRaccordementTransmiseEventV2,
   applyAccuséRéceptionDemandeComplèteRaccordementTransmisEventV1,
   applyDemandeComplèteDeRaccordementTransmiseEventV1,
   applyDemandeComplèteDeRaccordementTransmiseEventV2,
+  applyDemandeComplèteDeRaccordementTransmiseEventV3,
   transmettreDemande,
 } from './transmettre/transmettreDemandeComplèteRaccordement.behavior';
 import * as RéférenceDossierRaccordement from './référenceDossierRaccordement.valueType';
@@ -90,6 +92,7 @@ import {
 
 export type DeprecateEvent =
   | DemandeComplèteRaccordementTransmiseEventV1
+  | DemandeComplèteRaccordementTransmiseEventV2
   | AccuséRéceptionDemandeComplèteRaccordementTransmisEventV1
   | PropositionTechniqueEtFinancièreTransmiseEventV1
   | PropositionTechniqueEtFinancièreSignéeTransmiseEventV1
@@ -214,6 +217,9 @@ function apply(this: RaccordementAggregate, event: RaccordementEvent) {
     )
     .with({ type: 'DemandeComplèteDeRaccordementTransmise-V2' }, (event) =>
       applyDemandeComplèteDeRaccordementTransmiseEventV2.bind(this)(event),
+    )
+    .with({ type: 'DemandeComplèteDeRaccordementTransmise-V3' }, (event) =>
+      applyDemandeComplèteDeRaccordementTransmiseEventV3.bind(this)(event),
     )
     .with({ type: 'DemandeComplèteRaccordementModifiée-V1' }, (event) =>
       applyDemandeComplèteRaccordementModifiéeEventV1.bind(this)(event),
