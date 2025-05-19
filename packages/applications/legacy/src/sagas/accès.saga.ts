@@ -7,7 +7,11 @@ import { logger, ok } from '../core/utils';
 import { eventStore } from '../config/eventStore.config';
 import { getUserByEmail } from '../infra/sequelize/queries/users/getUserByEmail';
 import { Role } from '@potentiel-domain/utilisateur';
-import { ToutAccèsAuProjetRevoqué, UserRightsToProjectRevoked } from '../modules/authZ';
+import {
+  ToutAccèsAuProjetRevoqué,
+  UserInvitedToProject,
+  UserRightsToProjectRevoked,
+} from '../modules/authZ';
 import { createUser } from '../config';
 
 export type SubscriptionEvent = Accès.AccèsEvent & Event;
@@ -19,61 +23,34 @@ export const register = () => {
     const { payload, type } = event;
 
     switch (type) {
-      // case 'AccèsProjetAutorisé-V1': {
-      //   const { identifiantUtilisateur, identifiantsProjet, invitéPar } = payload;
+      case 'AccèsProjetAutorisé-V1': {
+        const { identifiantUtilisateur, identifiantProjet, autoriséPar } = payload;
 
-      //   const projectIds: string[] = [];
-      //   for (const identifiantProjet of identifiantsProjet) {
-      //     const project = await getLegacyProjetByIdentifiantProjet(
-      //       IdentifiantProjet.convertirEnValueType(identifiantProjet),
-      //     );
-      //     if (project) {
-      //       projectIds.push(project.id);
-      //     }
-      //   }
+        const projectIds: string[] = [];
+        const project = await getLegacyProjetByIdentifiantProjet(
+          IdentifiantProjet.convertirEnValueType(identifiantProjet),
+        );
+        if (project) {
+          projectIds.push(project.id);
+        }
 
-      //   const userId = await getOrCreateUser(identifiantUtilisateur, 'porteur-projet');
+        const userId = await getOrCreateUser(identifiantUtilisateur, 'porteur-projet');
 
-      //   const invitéParUserId = await getUserIdByEmail(invitéPar);
+        const invitéParUserId = await getUserIdByEmail(autoriséPar);
 
-      //   await eventStore.publish(
-      //     new UserInvitedToProject({
-      //       payload: {
-      //         userId: userId,
-      //         projectIds,
-      //         invitedBy: invitéParUserId,
-      //       },
-      //     }),
-      //   );
+        await eventStore.publish(
+          new UserInvitedToProject({
+            payload: {
+              userId: userId,
+              projectIds,
+              invitedBy: invitéParUserId,
+            },
+          }),
+        );
 
-      //   break;
-      // }
-      // case 'ProjetRéclamé-V1': {
-      //   const { identifiantProjet, identifiantUtilisateur } = payload;
+        break;
+      }
 
-      //   const userId = await getOrCreateUser(identifiantUtilisateur, 'porteur-projet');
-
-      //   const project = await getLegacyProjetByIdentifiantProjet(
-      //     IdentifiantProjet.convertirEnValueType(identifiantProjet),
-      //   );
-
-      //   if (!project) {
-      //     logger.warning('Project not found', { event, context: 'Legacy Utilisateur Saga' });
-      //     break;
-      //   }
-
-      //   await eventStore.publish(
-      //     new ProjectClaimedByOwner({
-      //       payload: {
-      //         claimedBy: userId,
-      //         claimerEmail: identifiantUtilisateur,
-      //         projectId: project.id,
-      //       },
-      //     }),
-      //   );
-
-      //   break;
-      // }
       case 'AccèsProjetRetiré-V1': {
         const { identifiantProjet, identifiantUtilisateurs, retiréPar, cause } = payload;
 

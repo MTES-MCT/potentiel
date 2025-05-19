@@ -2,18 +2,12 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 import { Event } from '@potentiel-infrastructure/pg-event-sourcing';
 import { IdentifiantProjet } from '@potentiel-domain/common';
 import { getLegacyProjetByIdentifiantProjet } from '../infra/sequelize/queries/project';
-import { logger, ok } from '../core/utils';
+import { ok } from '../core/utils';
 import { eventStore } from '../config/eventStore.config';
 import { getUserByEmail } from '../infra/sequelize/queries/users/getUserByEmail';
 import { Role, UtilisateurEvent } from '@potentiel-domain/utilisateur';
-import {
-  DrealUserInvited,
-  ToutAccèsAuProjetRevoqué,
-  UserInvitedToProject,
-  UserRightsToProjectRevoked,
-} from '../modules/authZ';
+import { DrealUserInvited, UserInvitedToProject } from '../modules/authZ';
 import { createUser } from '../config';
-import { ProjectClaimedByOwner } from '../modules/projectClaim';
 import { UtilisateurInvité } from '../modules/utilisateur';
 import { Région } from '../modules/dreal/région';
 
