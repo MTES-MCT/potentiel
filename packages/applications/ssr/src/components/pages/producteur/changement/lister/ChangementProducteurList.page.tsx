@@ -29,7 +29,6 @@ export const ChangementProducteurListPage: FC<ChangementProducteurListPageProps>
   filters,
 }) => (
   <ListPageTemplate
-    feature="producteur"
     heading="Producteur"
     actions={[]}
     items={items.map((item) => ({

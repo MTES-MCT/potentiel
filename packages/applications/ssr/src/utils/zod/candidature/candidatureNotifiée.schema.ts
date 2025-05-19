@@ -22,7 +22,6 @@ import {
   évaluationCarboneSimplifiéeSchema,
   choixCoefficientKSchema,
 } from './candidatureFields.schema';
-
 const localitéSchema = z.object({
   adresse1: adresse1Schema,
   adresse2: adresse2Schema,
@@ -31,7 +30,6 @@ const localitéSchema = z.object({
   departement: départementSchema,
   region: régionSchema,
 });
-
 export const candidatureNotifiéeSchema = z
   .object({
     actionnaire: sociétéMèreSchema,
@@ -50,9 +48,7 @@ export const candidatureNotifiéeSchema = z
     coefficientKChoisi: choixCoefficientKSchema,
   })
   .merge(localitéSchema);
-
 const partialCandidatureNotifiéeSchema = candidatureNotifiéeSchema.partial();
-
 const lauréatSchema = z
   .object({
     actionnaire: sociétéMèreSchema,
@@ -62,11 +58,8 @@ const lauréatSchema = z
     nomCandidat: nomCandidatSchema,
   })
   .merge(localitéSchema);
-
 const partialLauréatSchema = lauréatSchema.partial();
-
 const identifiantProjetSchema = z.string().min(1);
-
 export const modifierLauréatEtCandidatureSchéma = z
   .object({
     identifiantProjet: identifiantProjetSchema,
@@ -84,7 +77,6 @@ export const modifierLauréatEtCandidatureSchéma = z
     path: ['identifiantProjet'],
     message: 'Le formulaire ne contient pas de modification',
   });
-
 // this is used for validations errors
 // the type won't work with the .optional() we need
 const modifierLauréatEtCandidatureValidationSchéma = z.object({
@@ -103,7 +95,6 @@ export type ModifierLauréatKeys = keyof ModifierLauréatValueFormEntries;
 export type ModifierLauréatEtCandidatureNotifiéeFormEntries = NestedKeys<
   z.infer<typeof modifierLauréatEtCandidatureValidationSchéma>
 >;
-
 // utils
 type NestedKeys<T> = T extends object
   ? {
