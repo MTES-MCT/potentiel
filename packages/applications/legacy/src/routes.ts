@@ -62,9 +62,6 @@ class routes {
     } else return route;
   };
 
-  static ADMIN_ANNULER_CHANGEMENT_DE_PUISSANCE_REJETE =
-    '/admin/demande/annuler-rejet-demande-changement-de-puissance';
-
   static ADMIN_SIGNALER_DEMANDE_DELAI_PAGE = (projectId?: Project['id']) => {
     const route = '/admin/projet/:projectId/signalerDemandeDelai.html';
     if (projectId) {
@@ -99,13 +96,6 @@ class routes {
     } else return route;
   };
 
-  static GET_CHANGER_PRODUCTEUR = (projectId?: Project['id']) => {
-    const route = '/projet/:projectId/changer-producteur.html';
-    if (projectId) {
-      return route.replace(':projectId', projectId);
-    } else return route;
-  };
-
   static CHANGER_FOURNISSEUR = (projectId?: Project['id']) => {
     const route = '/projet/:projectId/changer-fournisseur.html';
     if (projectId) {
@@ -122,7 +112,6 @@ class routes {
   static ANNULER_DEMANDE_ACTION = '/annuler-demande';
   static ANNULER_DEMANDE_DELAI = '/annuler-demande-delai';
 
-  static POST_CHANGER_PRODUCTEUR = '/soumettre-changement-producteur';
   static CHANGEMENT_FOURNISSEUR_ACTION = '/soumettre-changement-fournisseur';
 
   static DOWNLOAD_PROJECT_FILE = (fileId?: string, filename?: string) => {

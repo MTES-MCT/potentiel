@@ -1,6 +1,9 @@
 import { Request } from 'express';
 import React, { ChangeEvent, useState } from 'react';
-import { ModificationRequestListItemDTO } from '../../../modules/modificationRequest';
+import {
+  MODIFICATION_REQUEST_TYPES_V2,
+  ModificationRequestListItemDTO,
+} from '../../../modules/modificationRequest';
 import { PaginatedList } from '../../../modules/pagination';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 import {
@@ -81,6 +84,14 @@ export const ModificationRequestList = ({
       : routes.ADMIN_LIST_REQUESTS;
 
   const formActionRoute = `${targetRoute}?showOnlyDGEC=${isShowOnlyDGECChecked ? 'on' : 'off'}`;
+
+  const modificationTypesOptions = [
+    { value: '', label: 'Tous' },
+    ...MODIFICATION_REQUEST_TYPES_V2.filter((type) => type !== 'autre').map((type) => ({
+      value: type,
+      label: type.charAt(0).toUpperCase() + type.slice(1),
+    })),
+  ];
 
   return (
     <PageListeTemplate
@@ -243,13 +254,11 @@ export const ModificationRequestList = ({
                   })
                 }
               >
-                <option value="default" disabled hidden>
-                  Choisir un type de demande
-                </option>
-                <option value="">Tous</option>
-                <option value="fournisseur">Fournisseur</option>
-                <option value="producteur">Producteur</option>
-                <option value="delai">Délai</option>
+                {modificationTypesOptions.map((option) => (
+                  <option key={option.value} value={option.value}>
+                    {option.label}
+                  </option>
+                ))}
               </Select>
             </div>
           </Form>

@@ -4,6 +4,7 @@ import { UserRepo } from '../../../../dataAccess';
 import routes from '../../../../routes';
 import {
   GetProjectInfoForModificationReceivedNotification,
+  MODIFICATION_REQUEST_MIGRATED,
   ModificationReceived,
 } from '../../../modificationRequest';
 import { GetProjectAppelOffre } from '../../../projectAppelOffre';
@@ -27,7 +28,7 @@ export const handleModificationReceived =
       }) => {
         // la saga legacy continue d'émettre des modificationsreceived
         // pour maintenir la frise
-        if (type === 'actionnaire' || type === 'puissance') {
+        if (MODIFICATION_REQUEST_MIGRATED.includes(type)) {
           return;
         }
 
@@ -54,12 +55,6 @@ export const handleModificationReceived =
                 demande_action_pp: undefined as string | undefined,
               },
             };
-
-            if (type === 'producteur') {
-              notificationPayload.variables.button_url = routes.LISTE_PROJETS;
-              notificationPayload.variables.button_title = 'Voir mes projets';
-              notificationPayload.variables.button_instructions = `Pour consulter vos projets, connectez-vous à Potentiel.`;
-            }
 
             if (type === 'fournisseur' && event.payload.evaluationCarbone) {
               const newEvaluationCarbone = Number(event.payload.evaluationCarbone);
