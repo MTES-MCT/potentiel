@@ -17,7 +17,6 @@ import {
   makeRejectModificationRequest,
   makeRequestConfirmation,
   makeRequestFournisseursModification,
-  makeChangerProducteur,
 } from '../modules/modificationRequest';
 import {
   makeImportProjects,
@@ -29,10 +28,8 @@ import { makeCreateUser } from '../modules/users';
 import { eventStore } from './eventStore.config';
 import {
   getFileProject,
-  getLegacyModificationByFilename,
   getProjectAppelOffreId,
   getProjectDataForProjectClaim,
-  getPuissanceProjet,
 } from './queries.config';
 import {
   demandeDélaiRepo,
@@ -47,8 +44,6 @@ import {
 } from './repos.config';
 import { sendNotification } from './emails.config';
 import { makeNotifierPorteurChangementStatutDemande } from '../modules/notification';
-
-import { getProjectAppelOffre } from './queryProjectAO.config';
 
 const publishToEventStore = eventStore.publish.bind(eventStore);
 
@@ -80,14 +75,6 @@ export const requestConfirmation = makeRequestConfirmation({
 export const confirmRequest = makeConfirmRequest({
   modificationRequestRepo,
   shouldUserAccessProject: shouldUserAccessProject.check.bind(shouldUserAccessProject),
-});
-
-export const changerProducteur = makeChangerProducteur({
-  eventBus: eventStore,
-  shouldUserAccessProject: shouldUserAccessProject.check.bind(shouldUserAccessProject),
-  projectRepo,
-  fileRepo,
-  findAppelOffreById: oldAppelOffreRepo.findById,
 });
 
 export const requestFournisseurModification = makeRequestFournisseursModification({
