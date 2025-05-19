@@ -7,6 +7,7 @@ import { MenuGarantiesFinancières } from './_utils/garantiesFinancières.menuLe
 
 type PorteurMenuLegacyProps = {
   currentPage?: string;
+  features: Array<string>;
 };
 export const PorteurMenuLegacy = ({ currentPage }: PorteurMenuLegacyProps) => (
   <>

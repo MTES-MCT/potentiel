@@ -7,6 +7,7 @@ import { MenuGarantiesFinancières } from './_utils/garantiesFinancières.menuLe
 
 type DrealMenuLegacyProps = {
   currentPage?: string;
+  features: Array<string>;
 };
 
 export const DrealMenuLegacy = ({ currentPage }: DrealMenuLegacyProps) => (
