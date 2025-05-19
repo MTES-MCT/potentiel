@@ -147,6 +147,18 @@ export const setupProjet = async ({ sendEmail }: SetupProjetDependencies) => {
     streamCategory: 'accès',
   });
 
+  const unsubscribeAccèsNotification = await subscribe<AccèsNotification.SubscriptionEvent>({
+    name: 'notifications',
+    eventType: ['AccèsProjetRetiré-V1'],
+    eventHandler: async (event) => {
+      await mediator.send<AccèsNotification.Execute>({
+        type: 'System.Notification.Accès',
+        data: event,
+      });
+    },
+    streamCategory: 'accès',
+  });
+
   const unsubscribeCandidatureProjector = await subscribe<CandidatureProjector.SubscriptionEvent>({
     name: 'projector',
     eventType: [
@@ -204,5 +216,6 @@ export const setupProjet = async ({ sendEmail }: SetupProjetDependencies) => {
     await unsubscribeCandidatureNotification();
 
     await unsubscribeAccèsProjector();
+    await unsubscribeAccèsNotification();
   };
 };

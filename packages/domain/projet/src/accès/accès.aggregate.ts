@@ -93,20 +93,18 @@ export class AccèsAggregate extends AbstractAggregate<AccèsEvent> {
     retiréPar: retirerPar,
     cause,
   }: RetirerAccèsProjetOptions) {
-    if (this.#utilisateursAyantAccès.includes(identifiantUtilisateur)) {
-      const event: AccèsProjetRetiréEvent = {
-        type: 'AccèsProjetRetiré-V1',
-        payload: {
-          identifiantProjet: this.projet.identifiantProjet.formatter(),
-          identifiantUtilisateurs: [identifiantUtilisateur.formatter()],
-          retiréLe: retirerLe.formatter(),
-          retiréPar: retirerPar.formatter(),
-          cause,
-        },
-      };
+    const event: AccèsProjetRetiréEvent = {
+      type: 'AccèsProjetRetiré-V1',
+      payload: {
+        identifiantProjet: this.projet.identifiantProjet.formatter(),
+        identifiantUtilisateurs: [identifiantUtilisateur.formatter()],
+        retiréLe: retirerLe.formatter(),
+        retiréPar: retirerPar.formatter(),
+        cause,
+      },
+    };
 
-      await this.publish(event);
-    }
+    await this.publish(event);
   }
 
   async retirerTous({

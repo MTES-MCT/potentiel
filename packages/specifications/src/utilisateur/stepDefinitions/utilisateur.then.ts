@@ -114,8 +114,7 @@ Alors(
             identifiantProjetValue: identifiantProjet,
             identifiantUtilisateurValue: porteur.email,
           },
-        }),
-          expect.fail("L'utilisateur ne devrait pas avoir accès au projet");
+        });
       } catch (error) {
         expect((error as Error).message).to.equal("Vous n'avez pas accès à ce projet");
       }

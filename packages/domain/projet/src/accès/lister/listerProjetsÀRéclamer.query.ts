@@ -47,9 +47,9 @@ export const registerListerProjetsÀRéclamerQuery = ({
   }) => {
     const accès = await list<AccèsEntity>('accès');
 
-    const identifiantsProjets = accès.items.map((accès) =>
-      IdentifiantProjet.convertirEnValueType(accès.identifiantProjet).formatter(),
-    );
+    const identifiantsProjets = accès.items
+      .filter((accès) => accès.utilisateursAyantAccès.length > 0)
+      .map((accès) => IdentifiantProjet.convertirEnValueType(accès.identifiantProjet).formatter());
 
     const candidatures = await list<Candidature.CandidatureEntity>('candidature', {
       where: {
