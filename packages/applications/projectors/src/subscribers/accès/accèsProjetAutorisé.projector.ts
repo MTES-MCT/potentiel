@@ -9,12 +9,12 @@ export const accèsProjetAutoriséProjector = async ({
 }: Accès.AccèsProjetAutoriséEvent) => {
   const accèsProjetActuel = await findProjection<Accès.AccèsEntity>(`accès|${identifiantProjet}`);
 
-  if (Option.isSome(accèsProjetActuel))
-    await upsertProjection(`accès|${identifiantProjet}`, {
-      ...accèsProjetActuel,
-      utilisateursAyantAccès:
-        accèsProjetActuel.utilisateursAyantAccès.concat(identifiantUtilisateur),
-    });
+  await upsertProjection(`accès|${identifiantProjet}`, {
+    identifiantProjet,
+    utilisateursAyantAccès: Option.match(accèsProjetActuel)
+      .some(({ utilisateursAyantAccès }) => utilisateursAyantAccès.concat(identifiantUtilisateur))
+      .none(() => [identifiantUtilisateur]),
+  });
 
   const porteur = await findProjection<UtilisateurEntity>(`utilisateur|${identifiantUtilisateur}`);
 
