@@ -23,22 +23,11 @@ Quand(
 Quand(
   'le système transmet une demande complète de raccordement sans accusé de réception pour le projet lauréat',
   async function (this: PotentielWorld) {
-    const { dateQualification, référenceDossier, accuséRéception } =
-      this.raccordementWorld.demandeComplèteDeRaccordement.transmettreFixture.créer({
-        identifiantProjet: this.lauréatWorld.identifiantProjet.formatter(),
-        accuséRéception: undefined,
-      });
-
-    await mediator.send<Raccordement.TransmettreDemandeComplèteRaccordementUseCase>({
-      type: 'Lauréat.Raccordement.UseCase.TransmettreDemandeComplèteRaccordement',
-      data: {
-        dateQualificationValue: dateQualification,
-        identifiantProjetValue: this.lauréatWorld.identifiantProjet.formatter(),
-        référenceDossierValue: référenceDossier,
-        transmiseParValue: Email.system().formatter(),
-        accuséRéceptionValue: accuséRéception,
-      },
-    });
+    await transmettreDemandeComplèteRaccordementSansAccuséRéception.call(
+      this,
+      this.lauréatWorld.identifiantProjet,
+      Email.system(),
+    );
   },
 );
 
@@ -152,6 +141,29 @@ export async function transmettreDemandeComplèteRaccordement(
   } catch (e) {
     this.error = e as Error;
   }
+}
+
+export async function transmettreDemandeComplèteRaccordementSansAccuséRéception(
+  this: PotentielWorld,
+  identifiantProjet: IdentifiantProjet.ValueType,
+  transmisePar: Email.ValueType,
+) {
+  const { dateQualification, référenceDossier, accuséRéception } =
+    this.raccordementWorld.demandeComplèteDeRaccordement.transmettreFixture.créer({
+      identifiantProjet: identifiantProjet.formatter(),
+      accuséRéception: undefined,
+    });
+
+  await mediator.send<Raccordement.TransmettreDemandeComplèteRaccordementUseCase>({
+    type: 'Lauréat.Raccordement.UseCase.TransmettreDemandeComplèteRaccordement',
+    data: {
+      dateQualificationValue: dateQualification,
+      identifiantProjetValue: identifiantProjet.formatter(),
+      référenceDossierValue: référenceDossier,
+      transmiseParValue: transmisePar.formatter(),
+      accuséRéceptionValue: accuséRéception,
+    },
+  });
 }
 
 async function modifierDemandeComplèteRaccordement(

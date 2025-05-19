@@ -1,8 +1,9 @@
 import { mediator, MessageHandler, Message } from 'mediateur';
 
 import { DocumentProjet, EnregistrerDocumentProjetCommand } from '@potentiel-domain/document';
-import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
+import { DateTime } from '@potentiel-domain/common';
 import { Role } from '@potentiel-domain/utilisateur';
+import { IdentifiantProjet } from '@potentiel-domain/projet';
 
 import * as TypeDocumentRaccordement from '../typeDocumentRaccordement.valueType';
 import * as RéférenceDossierRaccordement from '../référenceDossierRaccordement.valueType';
