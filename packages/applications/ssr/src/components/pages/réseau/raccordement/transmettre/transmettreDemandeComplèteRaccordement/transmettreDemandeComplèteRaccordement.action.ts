@@ -48,6 +48,7 @@ const action: FormAction<FormState, typeof schema> = async (
         dateQualificationValue: new Date(dateQualification).toISOString(),
         référenceDossierValue: referenceDossier,
         accuséRéceptionValue: accuseReception,
+        transmiseParValue: utilisateur.identifiantUtilisateur.formatter(),
       },
     });
 
