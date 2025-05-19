@@ -28,7 +28,7 @@ export const registerGarantiesFinancières = (
   registerEnregistrerAttestationGarantiesFinancièresCommand(loadAggregate);
   registerEnregistrerGarantiesFinancièresCommand(loadAggregate);
   registerEffacerHistoriqueGarantiesFinancièresCommand(loadAggregate);
-  registerÉchoirGarantiesFinancièresCommand(loadAggregate);
+  registerÉchoirGarantiesFinancièresCommand(loadAggregate, getProjetAggregateRoot);
 
   // usecases
   registerDemanderGarantiesFinancièresUseCase();

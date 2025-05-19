@@ -40,7 +40,7 @@ export const registerActionnaireUseCases = ({
   registerImporterActionnaireCommand(loadAggregate, getProjetAggregateRoot);
   registerModifierActionnaireCommand(loadAggregate);
   registerEnregistrerChangementActionnaireCommand(loadAggregate, getProjetAggregateRoot);
-  registerDemanderChangementActionnaireCommand(loadAggregate);
+  registerDemanderChangementActionnaireCommand(loadAggregate, getProjetAggregateRoot);
   registerAnnulerDemandeChangementCommand(loadAggregate);
   registerAccorderChangementActionnaireCommand(loadAggregate);
   registerRejeterChangementActionnaireCommand(loadAggregate);

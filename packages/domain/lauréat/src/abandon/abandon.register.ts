@@ -45,7 +45,7 @@ export const registerAbandonUseCases = ({
   loadAggregate,
   getProjetAggregateRoot,
 }: AbandonCommandDependencies) => {
-  registerDemanderAbandonCommand(loadAggregate);
+  registerDemanderAbandonCommand(loadAggregate, getProjetAggregateRoot);
   registerAccorderAbandonCommand(loadAggregate);
   registerConfirmerAbandonCommand(loadAggregate);
   registerDemanderConfirmationAbandonCommand(loadAggregate);

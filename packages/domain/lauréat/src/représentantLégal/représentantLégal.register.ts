@@ -46,7 +46,7 @@ export const registerReprésentantLégalUseCases = ({
   // Commands
   registerImporterReprésentantLégalCommand(loadAggregate, getProjetAggregateRoot);
   registerModifierReprésentantLégalCommand(loadAggregate);
-  registerDemanderChangementReprésentantLégalCommand(loadAggregate);
+  registerDemanderChangementReprésentantLégalCommand(loadAggregate, getProjetAggregateRoot);
   registerAnnulerChangementReprésentantLégalCommand(loadAggregate);
   registerCorrigerChangementReprésentantLégalCommand(loadAggregate);
   registerAccorderChangementReprésentantLégalCommand(loadAggregate);

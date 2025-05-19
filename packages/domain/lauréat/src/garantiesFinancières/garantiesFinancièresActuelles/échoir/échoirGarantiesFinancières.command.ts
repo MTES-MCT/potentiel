@@ -2,9 +2,10 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { IdentifiantProjet } from '@potentiel-domain/common';
 import { LoadAggregate } from '@potentiel-domain/core';
+import { GetProjetAggregateRoot } from '@potentiel-domain/projet';
+import { Option } from '@potentiel-libraries/monads';
 
 import { loadGarantiesFinancièresFactory } from '../../garantiesFinancières.aggregate';
-import { loadAchèvementFactory } from '../../../achèvement/achèvement.aggregate';
 
 export type ÉchoirGarantiesFinancièresCommand = Message<
   'Lauréat.GarantiesFinancières.Command.ÉchoirGarantiesFinancières',
@@ -13,19 +14,25 @@ export type ÉchoirGarantiesFinancièresCommand = Message<
   }
 >;
 
-export const registerÉchoirGarantiesFinancièresCommand = (loadAggregate: LoadAggregate) => {
+export const registerÉchoirGarantiesFinancièresCommand = (
+  loadAggregate: LoadAggregate,
+  getProjetAggregateRoot: GetProjetAggregateRoot,
+) => {
   const loadGarantiesFinancières = loadGarantiesFinancièresFactory(loadAggregate);
-  const loadAchèvement = loadAchèvementFactory(loadAggregate);
 
   const handler: MessageHandler<ÉchoirGarantiesFinancièresCommand> = async ({
     identifiantProjet,
   }) => {
+    const {
+      lauréat: {
+        achèvement: { attestationConformité },
+      },
+    } = await getProjetAggregateRoot(identifiantProjet);
     const garantiesFinancières = await loadGarantiesFinancières(identifiantProjet, false);
-    const achèvement = await loadAchèvement(identifiantProjet, false);
 
     await garantiesFinancières.échoir({
       identifiantProjet,
-      aUneAttestationDeConformité: !!achèvement.attestationConformité?.format,
+      aUneAttestationDeConformité: Option.isSome(attestationConformité),
     });
   };
   mediator.register('Lauréat.GarantiesFinancières.Command.ÉchoirGarantiesFinancières', handler);
