@@ -12,6 +12,7 @@ import {
 import { ModificationRequestItemProps } from '../helpers/extractModificationRequestsItemProps';
 import { CancelledStepIcon } from './cancelledStepIcon';
 import { DownloadLink, Link } from '../..';
+import { MODIFICATION_REQUEST_MIGRATED } from '../../../../modules/modificationRequest';
 
 type ComponentProps = ModificationRequestItemProps & {
   projectStatus: ProjectStatus;
@@ -174,7 +175,7 @@ const Details = (
       {['admin', 'dgec-validateur', 'porteur-projet', 'cre', 'acheteur-obligé', 'dreal'].includes(
         role,
       ) &&
-        modificationType !== 'puissance' && (
+        !MODIFICATION_REQUEST_MIGRATED.includes(modificationType) && (
           <Link
             href={detailsUrl}
             aria-label={`Voir le détail de la demande de ${libelleTypeDemande[modificationType]} en statut "${libelleStatus[status]}"`}
