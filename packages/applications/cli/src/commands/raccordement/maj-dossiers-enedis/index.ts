@@ -1,5 +1,5 @@
 import path from 'path';
-import { access, constants, mkdir, rm } from 'fs/promises';
+import { access, constants, mkdir, rm, writeFile } from 'fs/promises';
 
 import { mediator } from 'mediateur';
 import { Command, Flags } from '@oclif/core';
@@ -27,15 +27,17 @@ import { DateTime, Email } from '@potentiel-domain/common';
 import {
   ConsulterDocumentProjetQuery,
   registerDocumentProjetCommand,
+  registerDocumentProjetQueries,
 } from '@potentiel-domain/document';
-import { loadAggregate, loadAggregateV2 } from '@potentiel-infrastructure/pg-event-sourcing';
+import {
+  loadAggregate,
+  loadAggregateV2,
+  publish,
+} from '@potentiel-infrastructure/pg-event-sourcing';
 import { IdentifiantProjet, ProjetAggregateRoot } from '@potentiel-domain/projet';
 import { registerTâcheCommand, Tâche } from '@potentiel-domain/tache';
 
 import { parseCsvFile } from '../../../helpers/parse-file';
-
-import { formatDateQualification, writeStatisticsToFiles } from './_utils';
-import { logStatistics } from './_utils/logStatistics';
 
 const envVariablesSchema = zod.object({
   // s3
@@ -52,95 +54,6 @@ const envVariablesSchema = zod.object({
   }),
 });
 
-export type Statistics = {
-  total: number;
-  ligneSansRéférenceDossier: Array<string>;
-  projetSansRaccordement: Array<string>;
-  plusieursDossiersDeRaccordement: Array<{
-    identifiantProjet: string;
-    référenceFichier: string;
-    référencesActuelles: string[];
-  }>;
-  UnSeulDossierDeRaccordement: {
-    total: number;
-    modifierRéférenceDossierRaccordement: {
-      total: number;
-      succès: Array<{
-        identifiantProjet: string;
-        référenceDossier: string;
-      }>;
-      erreurs: Array<{
-        identifiantProjet: string;
-        référenceDossier: string;
-        erreur: string;
-      }>;
-    };
-    modifierDemandeComplètementRaccordement: {
-      total: number;
-      succès: Array<{
-        identifiantProjet: string;
-        dateQualification: string;
-      }>;
-      erreurs: Array<{
-        identifiantProjet: string;
-        dateQualification: string;
-        erreur: string;
-      }>;
-    };
-    transmettreDateMiseEnService: {
-      total: number;
-      succès: Array<{
-        identifiantProjet: string;
-        dateMiseEnService: string;
-      }>;
-      erreurs: Array<{
-        identifiantProjet: string;
-        dateMiseEnService: string;
-        erreur: string;
-      }>;
-    };
-  };
-  pasDeDossierDeRaccordement: {
-    total: number;
-    transmettreDemandeComplètementRaccordement: {
-      total: number;
-      succès: Array<{
-        identifiantProjet: string;
-        référenceDossier: string;
-      }>;
-      erreurs: Array<{
-        identifiantProjet: string;
-        référenceDossier: string;
-        erreur: string;
-      }>;
-      tâcheRenseignerAccuséRéception: {
-        total: number;
-        succès: Array<{
-          identifiantProjet: string;
-          référenceDossier: string;
-        }>;
-        erreurs: Array<{
-          identifiantProjet: string;
-          référenceDossier: string;
-          erreur: string;
-        }>;
-      };
-    };
-    transmettreDateMiseEnService: {
-      total: number;
-      succès: Array<{
-        identifiantProjet: string;
-        dateMiseEnService: string;
-      }>;
-      erreurs: Array<{
-        identifiantProjet: string;
-        dateMiseEnService: string;
-        erreur: string;
-      }>;
-    };
-  };
-};
-
 export class MajDossiersEnedis extends Command {
   static description =
     "Lire le contenu d'un fichier CSV rempli par Enedis pour venir (en one shot) créer / mettre à jour les dossiers de raccordement ainsi que la date de mise en service. Cette opération est ponctuelle";
@@ -150,6 +63,9 @@ export class MajDossiersEnedis extends Command {
       enregistrerDocumentProjet: DocumentAdapter.téléverserDocumentProjet,
       déplacerDossierProjet: DocumentAdapter.déplacerDossierProjet,
       archiverDocumentProjet: DocumentAdapter.archiverDocumentProjet,
+    });
+    registerDocumentProjetQueries({
+      récupérerDocumentProjet: DocumentAdapter.téléchargerDocumentProjet,
     });
     registerLauréatQueries({
       count: countProjection,
@@ -208,48 +124,7 @@ export class MajDossiersEnedis extends Command {
       process.exit(1);
     }
 
-    const statistics: Statistics = {
-      total: parsedData.length,
-      ligneSansRéférenceDossier: [],
-      projetSansRaccordement: [],
-      plusieursDossiersDeRaccordement: [],
-      UnSeulDossierDeRaccordement: {
-        total: 0,
-        modifierRéférenceDossierRaccordement: {
-          total: 0,
-          succès: [],
-          erreurs: [],
-        },
-        modifierDemandeComplètementRaccordement: {
-          total: 0,
-          succès: [],
-          erreurs: [],
-        },
-        transmettreDateMiseEnService: {
-          total: 0,
-          succès: [],
-          erreurs: [],
-        },
-      },
-      pasDeDossierDeRaccordement: {
-        total: 0,
-        transmettreDemandeComplètementRaccordement: {
-          total: 0,
-          succès: [],
-          erreurs: [],
-          tâcheRenseignerAccuséRéception: {
-            total: 0,
-            succès: [],
-            erreurs: [],
-          },
-        },
-        transmettreDateMiseEnService: {
-          total: 0,
-          succès: [],
-          erreurs: [],
-        },
-      },
-    };
+    const statistics = getStatistics(parsedData.length);
 
     let index = 1;
 
@@ -365,19 +240,54 @@ export class MajDossiersEnedis extends Command {
             DateTime.convertirEnValueType(formatDateQualification(ligne.dateAccuseReception)),
           )
         ) {
-          try {
-            if (!dossierRaccordement.demandeComplèteRaccordement.accuséRéception) {
-              statistics.UnSeulDossierDeRaccordement.modifierDemandeComplètementRaccordement.erreurs.push(
+          if (!dossierRaccordement.demandeComplèteRaccordement.accuséRéception) {
+            const idProjet = IdentifiantProjet.convertirEnValueType(identifiantProjet).formatter();
+
+            statistics.UnSeulDossierDeRaccordement.modifierDemandeComplètementRaccordement
+              .sansAccuséRéception.total++;
+
+            try {
+              const event: Raccordement.DemandeComplèteRaccordementModifiéeEventV2 = {
+                type: 'DemandeComplèteRaccordementModifiée-V2',
+                payload: {
+                  identifiantProjet: idProjet,
+                  référenceDossierRaccordement: dossierRaccordement.référence.formatter(),
+                  dateQualification: DateTime.convertirEnValueType(
+                    formatDateQualification(ligne.dateAccuseReception),
+                  ).formatter(),
+                },
+              };
+
+              await publish(
+                `raccordement|${idProjet}#${dossierRaccordement.référence.formatter()}`,
+                event,
+              );
+
+              statistics.UnSeulDossierDeRaccordement.modifierDemandeComplètementRaccordement.sansAccuséRéception.succès.push(
                 {
-                  identifiantProjet,
-                  dateQualification:
-                    dossierRaccordement.demandeComplèteRaccordement.dateQualification.formatter(),
-                  erreur: `Le dossier de raccordement ne dispose pas d'accusé de réception`,
+                  identifiantProjet: idProjet,
+                  dateQualification: ligne.dateAccuseReception,
+                },
+              );
+
+              index++;
+              continue;
+            } catch (error) {
+              statistics.UnSeulDossierDeRaccordement.modifierDemandeComplètementRaccordement.sansAccuséRéception.erreurs.push(
+                {
+                  identifiantProjet: idProjet,
+                  dateQualification: ligne.dateAccuseReception,
+                  erreur: `Erreur lors de la modification du dossier de raccordement existant sans accusé de réception : ${error}`,
                 },
               );
               index++;
               continue;
             }
+          }
+
+          try {
+            statistics.UnSeulDossierDeRaccordement.modifierDemandeComplètementRaccordement
+              .avecAccuséRéception.total++;
 
             /**
              * On récupère le fichier (accusé de réception) de la DCR
@@ -391,7 +301,7 @@ export class MajDossiersEnedis extends Command {
             });
 
             if (Option.isNone(document)) {
-              statistics.UnSeulDossierDeRaccordement.modifierDemandeComplètementRaccordement.erreurs.push(
+              statistics.UnSeulDossierDeRaccordement.modifierDemandeComplètementRaccordement.avecAccuséRéception.erreurs.push(
                 {
                   identifiantProjet,
                   dateQualification:
@@ -415,8 +325,9 @@ export class MajDossiersEnedis extends Command {
               },
             });
 
-            statistics.UnSeulDossierDeRaccordement.modifierDemandeComplètementRaccordement.total++;
-            statistics.UnSeulDossierDeRaccordement.modifierDemandeComplètementRaccordement.succès.push(
+            statistics.UnSeulDossierDeRaccordement.modifierDemandeComplètementRaccordement
+              .avecAccuséRéception.total++;
+            statistics.UnSeulDossierDeRaccordement.modifierDemandeComplètementRaccordement.avecAccuséRéception.succès.push(
               {
                 identifiantProjet,
                 dateQualification: ligne.dateAccuseReception,
@@ -426,8 +337,9 @@ export class MajDossiersEnedis extends Command {
             console.error(
               `Erreur lors de la mise à jour de la demande complète de raccordement pour le projet ${identifiantProjet} : ${error}`,
             );
-            statistics.UnSeulDossierDeRaccordement.modifierDemandeComplètementRaccordement.total++;
-            statistics.UnSeulDossierDeRaccordement.modifierDemandeComplètementRaccordement.erreurs.push(
+            statistics.UnSeulDossierDeRaccordement.modifierDemandeComplètementRaccordement
+              .avecAccuséRéception.total++;
+            statistics.UnSeulDossierDeRaccordement.modifierDemandeComplètementRaccordement.avecAccuséRéception.erreurs.push(
               {
                 identifiantProjet,
                 dateQualification: ligne.dateAccuseReception,
@@ -492,31 +404,25 @@ export class MajDossiersEnedis extends Command {
               },
             );
           } catch (error) {
-            console.error(
-              `Erreur lors de la création de la tâche pour renseigner l'accusé de réception de la demande complète de raccordement pour le projet ${identifiantProjet} : ${error}`,
-            );
             statistics.pasDeDossierDeRaccordement.transmettreDemandeComplètementRaccordement
               .tâcheRenseignerAccuséRéception.total++;
             statistics.pasDeDossierDeRaccordement.transmettreDemandeComplètementRaccordement.tâcheRenseignerAccuséRéception.erreurs.push(
               {
                 identifiantProjet,
                 référenceDossier: ligne.referenceDossier,
-                erreur: error as string,
+                erreur: `Erreur lors de la création de la tâche pour renseigner l'accusé de réception de la demande complète de raccordement pour le projet ${identifiantProjet} : ${error}`,
               },
             );
             index++;
             continue;
           }
         } catch (error) {
-          console.error(
-            `Erreur lors de la création du dossier de raccordement pour le projet ${identifiantProjet} : ${error}`,
-          );
           statistics.pasDeDossierDeRaccordement.transmettreDemandeComplètementRaccordement.total++;
           statistics.pasDeDossierDeRaccordement.transmettreDemandeComplètementRaccordement.erreurs.push(
             {
               identifiantProjet,
               référenceDossier: ligne.referenceDossier,
-              erreur: error as string,
+              erreur: `Erreur lors de la création du dossier de raccordement pour le projet ${identifiantProjet} : ${error}`,
             },
           );
           index++;
@@ -551,4 +457,353 @@ const deleteFolderIfExists = async (folderPath: string) => {
 
 const sleep = async (ms: number) => {
   await new Promise((resolve) => setTimeout(resolve, ms));
+};
+
+const formatDateQualification = (dateString: string) =>
+  DateTime.convertirEnValueType(
+    new Date(dateString.replace(/(\d{2})\/(\d{2})\/(\d{4})/, '$3-$2-$1')),
+  ).formatter();
+
+type Statistics = {
+  total: number;
+  ligneSansRéférenceDossier: Array<string>;
+  projetSansRaccordement: Array<string>;
+  plusieursDossiersDeRaccordement: Array<{
+    identifiantProjet: string;
+    référenceFichier: string;
+    référencesActuelles: string[];
+  }>;
+  UnSeulDossierDeRaccordement: {
+    total: number;
+    modifierRéférenceDossierRaccordement: {
+      total: number;
+      succès: Array<{
+        identifiantProjet: string;
+        référenceDossier: string;
+      }>;
+      erreurs: Array<{
+        identifiantProjet: string;
+        référenceDossier: string;
+        erreur: string;
+      }>;
+    };
+    modifierDemandeComplètementRaccordement: {
+      total: number;
+      sansAccuséRéception: {
+        total: number;
+        succès: Array<{
+          identifiantProjet: string;
+          dateQualification: string;
+        }>;
+        erreurs: Array<{
+          identifiantProjet: string;
+          dateQualification: string;
+          erreur: string;
+        }>;
+      };
+      avecAccuséRéception: {
+        total: number;
+        succès: Array<{
+          identifiantProjet: string;
+          dateQualification: string;
+        }>;
+        erreurs: Array<{
+          identifiantProjet: string;
+          dateQualification: string;
+          erreur: string;
+        }>;
+      };
+    };
+  };
+  pasDeDossierDeRaccordement: {
+    total: number;
+    transmettreDemandeComplètementRaccordement: {
+      total: number;
+      succès: Array<{
+        identifiantProjet: string;
+        référenceDossier: string;
+      }>;
+      erreurs: Array<{
+        identifiantProjet: string;
+        référenceDossier: string;
+        erreur: string;
+      }>;
+      tâcheRenseignerAccuséRéception: {
+        total: number;
+        succès: Array<{
+          identifiantProjet: string;
+          référenceDossier: string;
+        }>;
+        erreurs: Array<{
+          identifiantProjet: string;
+          référenceDossier: string;
+          erreur: string;
+        }>;
+      };
+    };
+  };
+};
+
+const getStatistics = (total: number) => {
+  const statistics: Statistics = {
+    total,
+    ligneSansRéférenceDossier: [],
+    projetSansRaccordement: [],
+    plusieursDossiersDeRaccordement: [],
+    UnSeulDossierDeRaccordement: {
+      total: 0,
+      modifierRéférenceDossierRaccordement: {
+        total: 0,
+        succès: [],
+        erreurs: [],
+      },
+      modifierDemandeComplètementRaccordement: {
+        total: 0,
+        sansAccuséRéception: {
+          total: 0,
+          succès: [],
+          erreurs: [],
+        },
+        avecAccuséRéception: {
+          total: 0,
+
+          succès: [],
+          erreurs: [],
+        },
+      },
+    },
+    pasDeDossierDeRaccordement: {
+      total: 0,
+      transmettreDemandeComplètementRaccordement: {
+        total: 0,
+        succès: [],
+        erreurs: [],
+        tâcheRenseignerAccuséRéception: {
+          total: 0,
+          succès: [],
+          erreurs: [],
+        },
+      },
+    },
+  };
+
+  return statistics;
+};
+
+const logStatistics = (stats: Statistics) => {
+  console.log('===== Log Final des Statistiques =====');
+
+  // Afficher les statistiques globales
+  console.log(`Total: ${stats.total}`);
+  console.log(`Ligne Sans Référence Dossier: ${stats.ligneSansRéférenceDossier.length}`);
+  console.log(`Projet Sans Raccordement: ${stats.projetSansRaccordement.length}`);
+  console.log(
+    `Nombre de Projets avec Plusieurs Dossiers de Raccordement: ${stats.plusieursDossiersDeRaccordement.length}`,
+  );
+
+  // UnSeulDossierDeRaccordement
+  const unSeulDossier = stats.UnSeulDossierDeRaccordement;
+  console.log(`Un Seul Dossier de Raccordement - Total: ${unSeulDossier.total}`);
+  console.log(
+    `  Modifier Référence Dossier Raccordement - Total: ${unSeulDossier.modifierRéférenceDossierRaccordement.total}`,
+  );
+  console.log(`    Succès: ${unSeulDossier.modifierRéférenceDossierRaccordement.succès.length}`);
+  console.log(`    Erreurs: ${unSeulDossier.modifierRéférenceDossierRaccordement.erreurs.length}`);
+
+  console.log(
+    `  Modifier Demande Complètement Raccordement - Total: ${unSeulDossier.modifierDemandeComplètementRaccordement.total}`,
+  );
+  console.log(
+    `     Sans accusé de réception : ${unSeulDossier.modifierDemandeComplètementRaccordement.sansAccuséRéception.total}`,
+  );
+  console.log(
+    `         Succès : ${unSeulDossier.modifierDemandeComplètementRaccordement.sansAccuséRéception.succès.length}`,
+  );
+  console.log(
+    `         Erreurs : ${unSeulDossier.modifierDemandeComplètementRaccordement.sansAccuséRéception.erreurs.length}`,
+  );
+  console.log(
+    `     Avec accusé de réception : ${unSeulDossier.modifierDemandeComplètementRaccordement.avecAccuséRéception.total}`,
+  );
+  console.log(
+    `         Succès : ${unSeulDossier.modifierDemandeComplètementRaccordement.avecAccuséRéception.succès.length}`,
+  );
+  console.log(
+    `         Erreurs : ${unSeulDossier.modifierDemandeComplètementRaccordement.avecAccuséRéception.erreurs.length}`,
+  );
+
+  // Pas de Dossier de Raccordement
+  const pasDeDossier = stats.pasDeDossierDeRaccordement;
+  console.log(`Pas de Dossier de Raccordement - Total: ${pasDeDossier.total}`);
+
+  console.log(
+    `  Transmettre Demande Complètement Raccordement - Total: ${pasDeDossier.transmettreDemandeComplètementRaccordement.total}`,
+  );
+  console.log(
+    `    Succès: ${pasDeDossier.transmettreDemandeComplètementRaccordement.succès.length}`,
+  );
+  console.log(
+    `    Erreurs: ${pasDeDossier.transmettreDemandeComplètementRaccordement.erreurs.length}`,
+  );
+  console.log(
+    `  Tâche renseigner accusé réception DCR - Total: ${pasDeDossier.transmettreDemandeComplètementRaccordement.tâcheRenseignerAccuséRéception.total}`,
+  );
+  console.log(
+    `    Succès: ${pasDeDossier.transmettreDemandeComplètementRaccordement.tâcheRenseignerAccuséRéception.succès.length}`,
+  );
+  console.log(
+    `    Erreurs: ${pasDeDossier.transmettreDemandeComplètementRaccordement.tâcheRenseignerAccuséRéception.erreurs.length}`,
+  );
+
+  // Résumé final
+  console.log('===== Fin des Statistiques =====');
+};
+
+const writeStatisticsToFiles = async (statistics: Statistics) => {
+  if (statistics.ligneSansRéférenceDossier.length > 0) {
+    await writeFile(
+      path.resolve(__dirname, '../logs', 'ligneSansRéférenceDossier.json'),
+      JSON.stringify(statistics.ligneSansRéférenceDossier, null, 2),
+    );
+  }
+  if (statistics.projetSansRaccordement.length > 0) {
+    await writeFile(
+      path.resolve(__dirname, '../logs', 'projetSansRaccordement.json'),
+      JSON.stringify(statistics.projetSansRaccordement, null, 2),
+    );
+  }
+  if (statistics.plusieursDossiersDeRaccordement.length > 0) {
+    await writeFile(
+      path.resolve(__dirname, '../logs', 'plusieursDossiersDeRaccordement.json'),
+      JSON.stringify(statistics.plusieursDossiersDeRaccordement, null, 2),
+    );
+  }
+  if (statistics.UnSeulDossierDeRaccordement.total > 0) {
+    await mkdir(path.resolve(__dirname, '../logs/unSeulDossierDeRaccordement'), {
+      recursive: true,
+    });
+
+    /**
+     * Un seul dossier de raccordement : modifier la référence du dossier de raccordement
+     */
+    if (
+      statistics.UnSeulDossierDeRaccordement.modifierRéférenceDossierRaccordement.erreurs.length > 0
+    ) {
+      await writeFile(
+        path.resolve(
+          __dirname,
+          '../logs/unSeulDossierDeRaccordement',
+          'modifierRéférenceDossierRaccordement_erreurs.json',
+        ),
+        JSON.stringify(
+          statistics.UnSeulDossierDeRaccordement.modifierRéférenceDossierRaccordement.erreurs,
+          null,
+          2,
+        ),
+      );
+    }
+    if (
+      statistics.UnSeulDossierDeRaccordement.modifierRéférenceDossierRaccordement.succès.length > 0
+    ) {
+      await writeFile(
+        path.resolve(
+          __dirname,
+          '../logs/unSeulDossierDeRaccordement',
+          'modifierRéférenceDossierRaccordement_succès.json',
+        ),
+        JSON.stringify(
+          statistics.UnSeulDossierDeRaccordement.modifierRéférenceDossierRaccordement.succès,
+          null,
+          2,
+        ),
+      );
+    }
+  }
+
+  if (statistics.pasDeDossierDeRaccordement.total > 0) {
+    await mkdir(path.resolve(__dirname, '../logs/pasDeDossierDeRaccordement'), { recursive: true });
+
+    /**
+     * Pas de dossier de raccordement : transmettre la demande complète de raccordement
+     */
+    if (
+      statistics.pasDeDossierDeRaccordement.transmettreDemandeComplètementRaccordement.erreurs
+        .length > 0
+    ) {
+      await writeFile(
+        path.resolve(
+          __dirname,
+          '../logs/pasDeDossierDeRaccordement',
+          'transmettreDemandeComplètementRaccordement_erreurs.json',
+        ),
+        JSON.stringify(
+          statistics.pasDeDossierDeRaccordement.transmettreDemandeComplètementRaccordement.erreurs,
+          null,
+          2,
+        ),
+      );
+    }
+    if (
+      statistics.pasDeDossierDeRaccordement.transmettreDemandeComplètementRaccordement.succès
+        .length > 0
+    ) {
+      await writeFile(
+        path.resolve(
+          __dirname,
+          '../logs/pasDeDossierDeRaccordement',
+          'transmettreDemandeComplètementRaccordement_succès.json',
+        ),
+        JSON.stringify(
+          statistics.pasDeDossierDeRaccordement.transmettreDemandeComplètementRaccordement.succès,
+          null,
+          2,
+        ),
+      );
+    }
+
+    /***
+     *  Pas de dossier de raccordement -> transmettre la demande complète de raccordement -> tâche renseigner accusé réception DCR
+     */
+    if (
+      statistics.pasDeDossierDeRaccordement.transmettreDemandeComplètementRaccordement
+        .tâcheRenseignerAccuséRéception.total > 0
+    ) {
+      if (
+        statistics.pasDeDossierDeRaccordement.transmettreDemandeComplètementRaccordement
+          .tâcheRenseignerAccuséRéception.erreurs.length > 0
+      ) {
+        await writeFile(
+          path.resolve(
+            __dirname,
+            '../logs/pasDeDossierDeRaccordement',
+            'tâcheRenseignerAccuséRéception_erreurs.json',
+          ),
+          JSON.stringify(
+            statistics.pasDeDossierDeRaccordement.transmettreDemandeComplètementRaccordement
+              .tâcheRenseignerAccuséRéception.erreurs,
+            null,
+            2,
+          ),
+        );
+      }
+      if (
+        statistics.pasDeDossierDeRaccordement.transmettreDemandeComplètementRaccordement
+          .tâcheRenseignerAccuséRéception.succès.length > 0
+      ) {
+        await writeFile(
+          path.resolve(
+            __dirname,
+            '../logs/pasDeDossierDeRaccordement',
+            'tâcheRenseignerAccuséRéception_succès.json',
+          ),
+          JSON.stringify(
+            statistics.pasDeDossierDeRaccordement.transmettreDemandeComplètementRaccordement
+              .tâcheRenseignerAccuséRéception.succès,
+            null,
+            2,
+          ),
+        );
+      }
+    }
+  }
 };
