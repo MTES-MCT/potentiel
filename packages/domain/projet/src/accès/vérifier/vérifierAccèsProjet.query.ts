@@ -35,7 +35,15 @@ export const registerVérifierAccèsProjetQuery = ({ find }: VérifierAccèsProj
     identifiantUtilisateurValue,
     identifiantProjetValue,
   }) => {
-    const utilisateur = await find<UtilisateurEntity>(`utilisateur|${identifiantUtilisateurValue}`);
+    const identifiantUtilisateur = identifiantUtilisateurValue.toLocaleLowerCase();
+
+    const accès = await find<AccèsEntity>(`accès|${identifiantProjetValue}`);
+
+    if (Option.isSome(accès) && accès.utilisateursAyantAccès.includes(identifiantUtilisateur)) {
+      return;
+    }
+
+    const utilisateur = await find<UtilisateurEntity>(`utilisateur|${identifiantUtilisateur}`);
 
     return Option.match(utilisateur)
       .some(async (utilisateur) => {
@@ -63,18 +71,7 @@ export const registerVérifierAccèsProjetQuery = ({ find }: VérifierAccèsProj
 
             return false;
           })
-          .with({ rôle: 'porteur-projet' }, async (utilisateur) => {
-            const accès = await find<AccèsEntity>(`accès|${identifiantProjetValue}`);
-
-            if (
-              Option.isSome(accès) &&
-              accès.utilisateursAyantAccès.includes(utilisateur.identifiantUtilisateur)
-            ) {
-              return true;
-            }
-
-            return false;
-          })
+          .with({ rôle: 'porteur-projet' }, () => false)
           .exhaustive();
 
         if (!hasAccess) {

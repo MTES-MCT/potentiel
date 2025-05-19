@@ -146,7 +146,7 @@ Quand(
     const { prixRéférenceValue: prixReferenceValue, numéroCREValue } =
       this.candidatureWorld.importerCandidature.values;
 
-    const porteur = this.utilisateurWorld.porteurFixture.créer({});
+    const porteur = this.utilisateurWorld.porteurFixture.créer();
 
     await réclamerProjet.call(this, {
       identifiantProjet,

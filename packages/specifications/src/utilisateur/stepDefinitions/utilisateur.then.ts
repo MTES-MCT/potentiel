@@ -192,3 +192,26 @@ Alors(
     });
   },
 );
+
+// Accès
+Alors(
+  'le porteur devrait avoir accès au projet {lauréat-éliminé}',
+  async function (this: PotentielWorld, statutProjet: 'lauréat' | 'éliminé') {
+    const identifiantProjetValue =
+      statutProjet === 'éliminé'
+        ? this.eliminéWorld.identifiantProjet.formatter()
+        : this.lauréatWorld.identifiantProjet.formatter();
+
+    const identifiantUtilisateurValue = this.utilisateurWorld.réclamerProjet.email;
+
+    await waitForExpect(() =>
+      mediator.send<Accès.VérifierAccèsProjetQuery>({
+        type: 'System.Projet.Accès.Query.VérifierAccèsProjet',
+        data: {
+          identifiantProjetValue,
+          identifiantUtilisateurValue,
+        },
+      }),
+    );
+  },
+);
