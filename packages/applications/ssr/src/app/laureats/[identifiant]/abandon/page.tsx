@@ -137,7 +137,8 @@ const mapToActions = ({
   transmissionPreuveRecandidaturePossible,
 }: MapToActionsProps): AvailableActions => {
   const actions: AvailableActions = [];
-  const demandeConfirmationPossible = statut.estDemandé() && !recandidature;
+  const demandeConfirmationPossible =
+    (statut.estDemandé() || statut.estEnInstruction()) && !recandidature;
 
   switch (utilisateur.role.nom) {
     case 'admin':

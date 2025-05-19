@@ -10,6 +10,12 @@ Fonctionnalité: Demander une confirmation d'abandon d'un projet lauréat
         Alors la confirmation d'abandon du projet lauréat devrait être demandée
         Et une tâche indiquant de "confirmer un abandon" est consultable dans la liste des tâches du porteur pour le projet
 
+    Scénario: Un DGEC validateur demande une confirmation d'abandon d'un projet lauréat en instruction
+        Etant donné une demande d'abandon en instruction pour le projet lauréat
+        Quand le DGEC validateur demande une confirmation d'abandon pour le projet lauréat
+        Alors la confirmation d'abandon du projet lauréat devrait être demandée
+        Et une tâche indiquant de "confirmer un abandon" est consultable dans la liste des tâches du porteur pour le projet
+
     Scénario: Impossible de demande une confirmation d'abandon d'un projet lauréat si l'abandon a déjà été accordé
         Etant donné un abandon accordé pour le projet lauréat
         Quand le DGEC validateur demande une confirmation d'abandon pour le projet lauréat
