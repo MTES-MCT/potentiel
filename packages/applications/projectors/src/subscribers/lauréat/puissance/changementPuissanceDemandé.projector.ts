@@ -1,4 +1,4 @@
-import { Puissance } from '@potentiel-domain/laureat';
+import { Lauréat } from '@potentiel-domain/projet';
 import { getLogger } from '@potentiel-libraries/monitoring';
 import { Option } from '@potentiel-libraries/monads';
 import { findProjection } from '@potentiel-infrastructure/pg-projection-read';
@@ -14,8 +14,8 @@ export const changementPuissanceDemandéProjector = async ({
     raison,
     pièceJustificative: { format },
   },
-}: Puissance.ChangementPuissanceDemandéEvent) => {
-  const projectionToUpsert = await findProjection<Puissance.PuissanceEntity>(
+}: Lauréat.Puissance.ChangementPuissanceDemandéEvent) => {
+  const projectionToUpsert = await findProjection<Lauréat.Puissance.PuissanceEntity>(
     `puissance|${identifiantProjet}`,
   );
 
@@ -24,17 +24,17 @@ export const changementPuissanceDemandéProjector = async ({
     return;
   }
 
-  await upsertProjection<Puissance.PuissanceEntity>(`puissance|${identifiantProjet}`, {
+  await upsertProjection<Lauréat.Puissance.PuissanceEntity>(`puissance|${identifiantProjet}`, {
     ...projectionToUpsert,
     dateDemandeEnCours: demandéLe,
   });
 
-  await upsertProjection<Puissance.ChangementPuissanceEntity>(
+  await upsertProjection<Lauréat.Puissance.ChangementPuissanceEntity>(
     `changement-puissance|${identifiantProjet}#${demandéLe}`,
     {
       identifiantProjet,
       demande: {
-        statut: Puissance.StatutChangementPuissance.demandé.statut,
+        statut: Lauréat.Puissance.StatutChangementPuissance.demandé.statut,
         autoritéCompétente,
         nouvellePuissance: puissance,
         demandéePar: demandéPar,

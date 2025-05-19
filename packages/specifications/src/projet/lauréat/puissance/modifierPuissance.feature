@@ -1,4 +1,5 @@
 # language: fr
+@select
 Fonctionnalité: Modifier la puissance d'un projet lauréat
 
     Contexte:
@@ -48,7 +49,7 @@ Fonctionnalité: Modifier la puissance d'un projet lauréat
     Scénario: Impossible de modifier la puissance si la puissance est inexistante
         Etant donné le projet éliminé "Du boulodrome de Lyon"
         Quand le DGEC validateur modifie la puissance pour le projet éliminé
-        Alors l'utilisateur devrait être informé que "La puissance n'existe pas"
+        Alors l'utilisateur devrait être informé que "Le projet lauréat n'existe pas"
 
     Scénario: Impossible de modifier la puissance d'un projet lauréat alors qu'un changement de puissance est en cours
         Etant donné une demande de changement de puissance pour le projet lauréat avec :

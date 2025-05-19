@@ -2,7 +2,7 @@ import {
   formatDateForDocument,
   ModèleRéponseSignée,
 } from '@potentiel-applications/document-builder';
-import { Puissance, ReprésentantLégal } from '@potentiel-domain/laureat';
+import { ReprésentantLégal } from '@potentiel-domain/laureat';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { Utilisateur } from '@potentiel-domain/utilisateur';
 import { Option } from '@potentiel-libraries/monads';
@@ -99,7 +99,7 @@ export const mapCandidatureToModèleRéponsePayload = ({
   });
 
 type MapLauréatToModelePayloadProps = MapCandidatureToModèleRéponsePayloadProps & {
-  puissance: Puissance.ConsulterPuissanceReadModel;
+  puissance: Lauréat.Puissance.ConsulterPuissanceReadModel;
   représentantLégal: ReprésentantLégal.ConsulterReprésentantLégalReadModel;
   lauréat: Lauréat.ConsulterLauréatReadModel;
 };

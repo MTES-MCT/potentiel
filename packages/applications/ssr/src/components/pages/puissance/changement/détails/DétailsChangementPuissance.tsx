@@ -3,7 +3,7 @@ import { match } from 'ts-pattern';
 import Tooltip from '@codegouvfr/react-dsfr/Tooltip';
 
 import { DateTime, Email } from '@potentiel-domain/common';
-import { Puissance } from '@potentiel-domain/laureat';
+import { Lauréat } from '@potentiel-domain/projet';
 import { Routes } from '@potentiel-applications/routes';
 import { DocumentProjet } from '@potentiel-domain/document';
 import { PlainType } from '@potentiel-domain/core';
@@ -27,7 +27,7 @@ export const DétailsChangementPuissance: FC<DétailsChangementPuissanceProps> =
   unitéPuissance,
   puissanceInitiale,
 }) => {
-  const statut = Puissance.StatutChangementPuissance.bind(demande.statut.statut);
+  const statut = Lauréat.Puissance.StatutChangementPuissance.bind(demande.statut.statut);
 
   return (
     <div className="flex flex-col gap-4">
@@ -86,7 +86,7 @@ type ChangementProps = {
   nouvellePuissance: DétailsChangementPuissanceProps['demande']['nouvellePuissance'];
   unitéPuissance: DétailsChangementPuissanceProps['unitéPuissance'];
   puissanceInitiale: DétailsChangementPuissanceProps['puissanceInitiale'];
-  autoritéCompétente?: Puissance.AutoritéCompétente.RawType;
+  autoritéCompétente?: Lauréat.Puissance.AutoritéCompétente.RawType;
 };
 
 const Changement: FC<ChangementProps> = ({
@@ -163,14 +163,14 @@ const InformationEnregistrée: FC<ChangementDemandéProps> = ({ demandéeLe, dem
     <div className="flex gap-2">
       <div className="font-semibold">Statut :</div>{' '}
       <StatutChangementPuissanceBadge
-        statut={Puissance.StatutChangementPuissance.informationEnregistrée.statut}
+        statut={Lauréat.Puissance.StatutChangementPuissance.informationEnregistrée.statut}
       />
     </div>
   </>
 );
 
 type ChangementDemandéProps = Pick<
-  PlainType<Puissance.ConsulterChangementPuissanceReadModel['demande']>,
+  PlainType<Lauréat.Puissance.ConsulterChangementPuissanceReadModel['demande']>,
   'demandéeLe' | 'demandéePar'
 >;
 
@@ -183,13 +183,15 @@ const ChangementDemandé: FC<ChangementDemandéProps> = ({ demandéeLe, demandé
     </div>
     <div className="flex gap-2">
       <div className="font-semibold">Statut :</div>{' '}
-      <StatutChangementPuissanceBadge statut={Puissance.StatutChangementPuissance.demandé.statut} />
+      <StatutChangementPuissanceBadge
+        statut={Lauréat.Puissance.StatutChangementPuissance.demandé.statut}
+      />
     </div>
   </>
 );
 
 type ChangementAccordéProps = NonNullable<
-  PlainType<Puissance.ConsulterChangementPuissanceReadModel['demande']['accord']>
+  PlainType<Lauréat.Puissance.ConsulterChangementPuissanceReadModel['demande']['accord']>
 >;
 
 const ChangementAccordé: FC<ChangementAccordéProps> = ({
@@ -205,7 +207,9 @@ const ChangementAccordé: FC<ChangementAccordéProps> = ({
     </div>
     <div className="flex gap-2">
       <div className="font-semibold">Statut :</div>{' '}
-      <StatutChangementPuissanceBadge statut={Puissance.StatutChangementPuissance.accordé.statut} />
+      <StatutChangementPuissanceBadge
+        statut={Lauréat.Puissance.StatutChangementPuissance.accordé.statut}
+      />
     </div>
     {réponseSignée && (
       <div className="flex gap-2">
@@ -222,7 +226,7 @@ const ChangementAccordé: FC<ChangementAccordéProps> = ({
 );
 
 type ChangementRejetéProps = NonNullable<
-  PlainType<Puissance.ConsulterChangementPuissanceReadModel['demande']['rejet']>
+  PlainType<Lauréat.Puissance.ConsulterChangementPuissanceReadModel['demande']['rejet']>
 >;
 
 const ChangementRejeté: FC<ChangementRejetéProps> = ({ rejetéeLe, rejetéePar, réponseSignée }) => (
@@ -234,7 +238,9 @@ const ChangementRejeté: FC<ChangementRejetéProps> = ({ rejetéeLe, rejetéePar
     </div>
     <div className="flex gap-2">
       <div className="font-semibold">Statut :</div>{' '}
-      <StatutChangementPuissanceBadge statut={Puissance.StatutChangementPuissance.rejeté.statut} />
+      <StatutChangementPuissanceBadge
+        statut={Lauréat.Puissance.StatutChangementPuissance.rejeté.statut}
+      />
     </div>
     <div className="flex gap-2">
       <div className="font-semibold whitespace-nowrap">Réponse signée :</div>

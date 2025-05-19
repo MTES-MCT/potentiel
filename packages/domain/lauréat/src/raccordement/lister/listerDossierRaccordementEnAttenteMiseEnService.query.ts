@@ -5,10 +5,10 @@ import { List, RangeOptions, Where } from '@potentiel-domain/entity';
 import { DateTime } from '@potentiel-domain/common';
 import { Candidature, IdentifiantProjet, Raccordement } from '@potentiel-domain/projet';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
+import { Lauréat } from '@potentiel-domain/projet';
 
 import { RéférenceDossierRaccordement } from '..';
 import * as StatutLauréat from '../../statutLauréat.valueType';
-import { PuissanceEntity } from '../../puissance';
 
 type DossierRaccordementEnAttenteMiseEnService = {
   nomProjet: string;
@@ -86,7 +86,7 @@ export const registerListerDossierRaccordementEnAttenteMiseEnServiceQuery = ({
       },
     });
 
-    const puissances = await list<PuissanceEntity>('puissance', {
+    const puissances = await list<Lauréat.Puissance.PuissanceEntity>('puissance', {
       where: {
         identifiantProjet: Where.matchAny(identifiants),
       },
@@ -120,7 +120,7 @@ export const registerListerDossierRaccordementEnAttenteMiseEnServiceQuery = ({
 type MapToReadModelProps = (args: {
   dossier: Raccordement.DossierRaccordementEntity;
   candidatures: ReadonlyArray<Candidature.CandidatureEntity>;
-  puissances: ReadonlyArray<PuissanceEntity>;
+  puissances: ReadonlyArray<Lauréat.Puissance.PuissanceEntity>;
   appelOffres: ReadonlyArray<AppelOffre.AppelOffreEntity>;
 }) => DossierRaccordementEnAttenteMiseEnService;
 

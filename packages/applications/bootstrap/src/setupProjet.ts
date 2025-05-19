@@ -1,19 +1,21 @@
 import { mediator } from 'mediateur';
 
 import { Event } from '@potentiel-infrastructure/pg-event-sourcing';
-import { registerProjetUseCases, registerProjetQueries } from '@potentiel-domain/projet';
+import { registerProjetUseCases, registerProjetQueries, Lauréat } from '@potentiel-domain/projet';
 import { subscribe } from '@potentiel-infrastructure/pg-event-sourcing';
 import { findProjection, listProjection } from '@potentiel-infrastructure/pg-projection-read';
 import {
   AccèsProjector,
   CandidatureProjector,
   LauréatProjector,
+  PuissanceProjector,
   RecoursProjector,
   ÉliminéProjector,
 } from '@potentiel-applications/projectors';
 import {
   AccèsNotification,
   CandidatureNotification,
+  PuissanceNotification,
   RecoursNotification,
   SendEmail,
 } from '@potentiel-applications/notifications';
@@ -189,6 +191,66 @@ export const setupProjet = async ({ sendEmail }: SetupProjetDependencies) => {
     },
   });
 
+  Lauréat.Puissance.PuissanceSaga.register();
+  PuissanceNotification.register({ sendEmail });
+  PuissanceProjector.register();
+
+  const unsubscribePuissanceProjector = await subscribe<PuissanceProjector.SubscriptionEvent>({
+    name: 'projector',
+    streamCategory: 'puissance',
+    eventType: [
+      'RebuildTriggered',
+      'PuissanceImportée-V1',
+      'PuissanceModifiée-V1',
+      'ChangementPuissanceDemandé-V1',
+      'ChangementPuissanceAnnulé-V1',
+      'ChangementPuissanceSupprimé-V1',
+      'ChangementPuissanceEnregistré-V1',
+      'ChangementPuissanceAccordé-V1',
+      'ChangementPuissanceRejeté-V1',
+    ],
+    eventHandler: async (event) => {
+      await mediator.send<PuissanceProjector.Execute>({
+        type: 'System.Projector.Lauréat.Puissance',
+        data: event,
+      });
+    },
+  });
+
+  const unsubscribePuissanceNotification = await subscribe<PuissanceNotification.SubscriptionEvent>(
+    {
+      name: 'notifications',
+      streamCategory: 'puissance',
+      eventType: [
+        'PuissanceModifiée-V1',
+        'ChangementPuissanceDemandé-V1',
+        'ChangementPuissanceAnnulé-V1',
+        'ChangementPuissanceSupprimé-V1',
+        'ChangementPuissanceAccordé-V1',
+        'ChangementPuissanceRejeté-V1',
+        'ChangementPuissanceEnregistré-V1',
+      ],
+      eventHandler: async (event) => {
+        await mediator.publish<PuissanceNotification.Execute>({
+          type: 'System.Notification.Lauréat.Puissance',
+          data: event,
+        });
+      },
+    },
+  );
+  const unsubscribePuissanceSagaAbandon = await subscribe<
+    Lauréat.Puissance.PuissanceSaga.SubscriptionEvent & Event
+  >({
+    name: 'puissance-abandon-saga',
+    streamCategory: 'abandon',
+    eventType: ['AbandonAccordé-V1'],
+    eventHandler: async (event) =>
+      mediator.publish<Lauréat.Puissance.PuissanceSaga.Execute>({
+        type: 'System.Lauréat.Puissance.Saga.Execute',
+        data: event,
+      }),
+  });
+
   return async () => {
     await unsubscribeLauréatProjector();
 
@@ -203,5 +265,9 @@ export const setupProjet = async ({ sendEmail }: SetupProjetDependencies) => {
 
     await unsubscribeAccèsProjector();
     await unsubscribeAccèsNotification();
+
+    await unsubscribePuissanceProjector();
+    await unsubscribePuissanceNotification();
+    await unsubscribePuissanceSagaAbandon();
   };
 };

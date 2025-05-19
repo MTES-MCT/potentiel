@@ -2,7 +2,7 @@ import { match } from 'ts-pattern';
 import { FC } from 'react';
 
 import { HistoryRecord } from '@potentiel-domain/entity';
-import { Puissance } from '@potentiel-domain/laureat';
+import { Lauréat } from '@potentiel-domain/projet';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { PlainType } from '@potentiel-domain/core';
 import { Historique } from '@potentiel-domain/historique';
@@ -35,8 +35,8 @@ export const HistoriquePuissanceTimeline: FC<HistoriquePuissanceTimelineProps> =
 
 export type PuissanceHistoryRecord = HistoryRecord<
   'puissance',
-  Puissance.PuissanceEvent['type'],
-  Puissance.PuissanceEvent['payload']
+  Lauréat.Puissance.PuissanceEvent['type'],
+  Lauréat.Puissance.PuissanceEvent['payload']
 > & {
   unitéPuissance: AppelOffre.ConsulterAppelOffreReadModel['unitePuissance'];
 };

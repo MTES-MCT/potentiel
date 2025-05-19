@@ -3,7 +3,7 @@ import { Event } from '@potentiel-infrastructure/pg-event-sourcing';
 import { IdentifiantProjet } from '@potentiel-domain/common';
 import { getLegacyProjetByIdentifiantProjet } from '../infra/sequelize/queries/project';
 import { logger, ok } from '../core/utils';
-import { Puissance } from '@potentiel-domain/laureat';
+import { Lauréat } from '@potentiel-domain/projet';
 import { eventStore } from '../config/eventStore.config';
 import { ProjectDataCorrected, ProjectPuissanceUpdated } from '../modules/project';
 import { getUserByEmail } from '../infra/sequelize/queries/users/getUserByEmail';
@@ -11,7 +11,7 @@ import { ModificationReceived } from '../modules/modificationRequest';
 import { UniqueEntityID } from '../core/domain';
 import { match } from 'ts-pattern';
 
-export type SubscriptionEvent = Puissance.PuissanceEvent & Event;
+export type SubscriptionEvent = Lauréat.Puissance.PuissanceEvent & Event;
 
 export type Execute = Message<'System.Saga.Puissance', SubscriptionEvent>;
 

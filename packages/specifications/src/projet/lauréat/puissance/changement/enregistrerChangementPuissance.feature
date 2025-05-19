@@ -1,4 +1,5 @@
 # language: fr
+@select
 Fonctionnalité: Enregistrer un changement de puissance d'un projet lauréat
 
     Contexte:
@@ -30,7 +31,7 @@ Fonctionnalité: Enregistrer un changement de puissance d'un projet lauréat
         Etant donné le projet éliminé "Du boulodrome lyonnais"
         Quand le porteur enregistre un changement de puissance pour le projet éliminé avec :
             | ratio puissance | 0.95 |
-        Alors l'utilisateur devrait être informé que "La puissance n'existe pas"
+        Alors l'utilisateur devrait être informé que "Le projet lauréat n'existe pas"
 
     Scénario: Impossible d'enregistrer un changement de puissance alors qu'un changement de puissance est en cours
         Etant donné une demande de changement de puissance pour le projet lauréat avec :

@@ -1,6 +1,6 @@
 import { Routes } from '@potentiel-applications/routes';
 import { DocumentProjet } from '@potentiel-domain/document';
-import { Puissance } from '@potentiel-domain/laureat';
+import { Lauréat } from '@potentiel-domain/projet';
 
 import { DownloadDocument } from '@/components/atoms/form/document/DownloadDocument';
 
@@ -13,11 +13,11 @@ export const mapToChangementPuissanceRejetéTimelineItemProps = (record: Puissan
     identifiantProjet,
     réponseSignée: { format },
     estUneDécisionDEtat,
-  } = record.payload as Puissance.ChangementPuissanceRejetéEvent['payload'];
+  } = record.payload as Lauréat.Puissance.ChangementPuissanceRejetéEvent['payload'];
 
   const réponseSignée = DocumentProjet.convertirEnValueType(
     identifiantProjet,
-    Puissance.TypeDocumentPuissance.changementRejeté.formatter(),
+    Lauréat.Puissance.TypeDocumentPuissance.changementRejeté.formatter(),
     rejetéLe,
     format,
   ).formatter();

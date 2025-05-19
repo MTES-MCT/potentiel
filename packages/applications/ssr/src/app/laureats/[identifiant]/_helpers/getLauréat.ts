@@ -3,7 +3,7 @@ import { cache } from 'react';
 import { notFound } from 'next/navigation';
 
 import { Option } from '@potentiel-libraries/monads';
-import { Actionnaire, Puissance, ReprésentantLégal } from '@potentiel-domain/laureat';
+import { Actionnaire, ReprésentantLégal } from '@potentiel-domain/laureat';
 import { Lauréat } from '@potentiel-domain/projet';
 
 type Props = {
@@ -13,7 +13,7 @@ type Props = {
 export type GetLauréat = {
   actionnaire: Actionnaire.ConsulterActionnaireReadModel;
   représentantLégal: ReprésentantLégal.ConsulterReprésentantLégalReadModel;
-  puissance: Puissance.ConsulterPuissanceReadModel;
+  puissance: Lauréat.Puissance.ConsulterPuissanceReadModel;
   producteur: Lauréat.Producteur.ConsulterProducteurReadModel;
   lauréat: Lauréat.ConsulterLauréatReadModel;
 };
@@ -80,7 +80,7 @@ export const getReprésentantLégalInfos = async ({ identifiantProjet }: Props) 
 };
 
 const getPuissanceInfos = async ({ identifiantProjet }: Props) => {
-  const puissance = await mediator.send<Puissance.ConsulterPuissanceQuery>({
+  const puissance = await mediator.send<Lauréat.Puissance.ConsulterPuissanceQuery>({
     type: 'Lauréat.Puissance.Query.ConsulterPuissance',
     data: {
       identifiantProjet,

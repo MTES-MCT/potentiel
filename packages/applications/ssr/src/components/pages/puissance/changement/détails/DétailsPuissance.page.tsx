@@ -3,7 +3,7 @@ import Button from '@codegouvfr/react-dsfr/Button';
 
 import { IdentifiantProjet } from '@potentiel-domain/common';
 import { PlainType } from '@potentiel-domain/core';
-import { Puissance } from '@potentiel-domain/laureat';
+import { Lauréat } from '@potentiel-domain/projet';
 import { Routes } from '@potentiel-applications/routes';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 
@@ -25,7 +25,7 @@ export type ChangementPuissanceActions = 'annuler' | 'demander' | 'accorder' | '
 
 export type DétailsPuissancePageProps = {
   identifiantProjet: PlainType<IdentifiantProjet.ValueType>;
-  demande: PlainType<Puissance.ConsulterChangementPuissanceReadModel['demande']>;
+  demande: PlainType<Lauréat.Puissance.ConsulterChangementPuissanceReadModel['demande']>;
   puissanceInitiale: number;
   unitéPuissance: AppelOffre.ConsulterAppelOffreReadModel['unitePuissance'];
   actions: Array<ChangementPuissanceActions>;

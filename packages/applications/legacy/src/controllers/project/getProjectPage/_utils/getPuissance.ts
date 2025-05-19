@@ -1,4 +1,4 @@
-import { Puissance } from '@potentiel-domain/laureat';
+import { Lauréat } from '@potentiel-domain/projet';
 
 import { Option } from '@potentiel-libraries/monads';
 import { Candidature } from '@potentiel-domain/projet';
@@ -30,7 +30,7 @@ export const getPuissance = async ({
   try {
     const role = Role.convertirEnValueType(rôle);
 
-    const puissanceProjection = await mediator.send<Puissance.ConsulterPuissanceQuery>({
+    const puissanceProjection = await mediator.send<Lauréat.Puissance.ConsulterPuissanceQuery>({
       type: 'Lauréat.Puissance.Query.ConsulterPuissance',
       data: { identifiantProjet: identifiantProjet.formatter() },
     });

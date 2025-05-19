@@ -4,7 +4,7 @@ import waitForExpect from 'wait-for-expect';
 import { assert, expect } from 'chai';
 
 import { mapToPlainObject } from '@potentiel-domain/core';
-import { Puissance } from '@potentiel-domain/laureat';
+import { Lauréat } from '@potentiel-domain/projet';
 import { Option } from '@potentiel-libraries/monads';
 import { IdentifiantProjet } from '@potentiel-domain/projet';
 import { ConsulterDocumentProjetQuery } from '@potentiel-domain/document';
@@ -18,7 +18,7 @@ Alors(
     await vérifierChangementPuissance.call(
       this,
       this.candidatureWorld.importerCandidature.identifiantProjet,
-      Puissance.StatutChangementPuissance.demandé,
+      Lauréat.Puissance.StatutChangementPuissance.demandé,
     );
   },
 );
@@ -31,7 +31,7 @@ Alors(
         this.candidatureWorld.importerCandidature.identifiantProjet,
       );
 
-      const actual = await mediator.send<Puissance.ConsulterPuissanceQuery>({
+      const actual = await mediator.send<Lauréat.Puissance.ConsulterPuissanceQuery>({
         type: 'Lauréat.Puissance.Query.ConsulterPuissance',
         data: {
           identifiantProjet: identifiantProjet.formatter(),
@@ -49,7 +49,7 @@ Alors(
     await vérifierChangementPuissance.call(
       this,
       this.candidatureWorld.importerCandidature.identifiantProjet,
-      Puissance.StatutChangementPuissance.accordé,
+      Lauréat.Puissance.StatutChangementPuissance.accordé,
     );
   },
 );
@@ -60,7 +60,7 @@ Alors(
     await vérifierChangementPuissance.call(
       this,
       this.candidatureWorld.importerCandidature.identifiantProjet,
-      Puissance.StatutChangementPuissance.rejeté,
+      Lauréat.Puissance.StatutChangementPuissance.rejeté,
     );
   },
 );
@@ -71,7 +71,7 @@ Alors(
     await vérifierChangementPuissance.call(
       this,
       this.candidatureWorld.importerCandidature.identifiantProjet,
-      Puissance.StatutChangementPuissance.informationEnregistrée,
+      Lauréat.Puissance.StatutChangementPuissance.informationEnregistrée,
     );
   },
 );
@@ -79,21 +79,23 @@ Alors(
 async function vérifierChangementPuissance(
   this: PotentielWorld,
   identifiantProjet: string,
-  statut: Puissance.StatutChangementPuissance.ValueType,
+  statut: Lauréat.Puissance.StatutChangementPuissance.ValueType,
 ) {
   return waitForExpect(async () => {
-    const demandeEnCours = await mediator.send<Puissance.ConsulterChangementPuissanceQuery>({
-      type: 'Lauréat.Puissance.Query.ConsulterChangementPuissance',
-      data: {
-        identifiantProjet,
-        demandéLe: this.lauréatWorld.puissanceWorld.changementPuissanceWorld
-          .demanderChangementPuissanceFixture.aÉtéCréé
-          ? this.lauréatWorld.puissanceWorld.changementPuissanceWorld
-              .demanderChangementPuissanceFixture.demandéLe
-          : this.lauréatWorld.puissanceWorld.changementPuissanceWorld
-              .enregistrerChangementPuissanceFixture.demandéLe,
+    const demandeEnCours = await mediator.send<Lauréat.Puissance.ConsulterChangementPuissanceQuery>(
+      {
+        type: 'Lauréat.Puissance.Query.ConsulterChangementPuissance',
+        data: {
+          identifiantProjet,
+          demandéLe: this.lauréatWorld.puissanceWorld.changementPuissanceWorld
+            .demanderChangementPuissanceFixture.aÉtéCréé
+            ? this.lauréatWorld.puissanceWorld.changementPuissanceWorld
+                .demanderChangementPuissanceFixture.demandéLe
+            : this.lauréatWorld.puissanceWorld.changementPuissanceWorld
+                .enregistrerChangementPuissanceFixture.demandéLe,
+        },
       },
-    });
+    );
 
     assert(Option.isSome(demandeEnCours), 'Demande de changement de puissance non trouvée !');
 
@@ -102,14 +104,15 @@ async function vérifierChangementPuissance(
     const expected = mapToPlainObject(
       this.lauréatWorld.puissanceWorld.changementPuissanceWorld.mapToExpected({
         identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
-        puissanceActuelle: this.lauréatWorld.puissanceWorld.importerPuissanceFixture.puissance,
+        puissanceActuelle:
+          this.candidatureWorld.importerCandidature.values.puissanceProductionAnnuelleValue,
         statut,
       }),
     );
 
     actual.should.be.deep.equal(expected);
 
-    const puissance = await mediator.send<Puissance.ConsulterPuissanceQuery>({
+    const puissance = await mediator.send<Lauréat.Puissance.ConsulterPuissanceQuery>({
       type: 'Lauréat.Puissance.Query.ConsulterPuissance',
       data: {
         identifiantProjet,

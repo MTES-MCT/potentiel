@@ -1,8 +1,7 @@
-import { Puissance } from '@potentiel-domain/laureat';
+import { Lauréat } from '@potentiel-domain/projet';
 import { IdentifiantProjet } from '@potentiel-domain/projet';
 import { DateTime } from '@potentiel-domain/common';
 
-import { ImporterPuissanceFixture } from './fixture/importerPuissance.fixture';
 import { ModifierPuissanceFixture } from './fixture/modifierPuissance.fixture';
 import { ChangementPuissanceWorld } from './changement/changementPuissance.world';
 
@@ -12,31 +11,29 @@ export class PuissanceWorld {
     return this.#changementPuissanceWorld;
   }
 
-  #importerPuissanceFixture: ImporterPuissanceFixture;
-  get importerPuissanceFixture() {
-    return this.#importerPuissanceFixture;
-  }
-
   #modifierPuissanceFixture: ModifierPuissanceFixture;
   get modifierPuissanceFixture() {
     return this.#modifierPuissanceFixture;
   }
 
   constructor() {
-    this.#importerPuissanceFixture = new ImporterPuissanceFixture();
     this.#modifierPuissanceFixture = new ModifierPuissanceFixture();
     this.#changementPuissanceWorld = new ChangementPuissanceWorld();
   }
 
-  mapToExpected(identifiantProjet: IdentifiantProjet.ValueType, unitéPuissance: string) {
-    const expected: Puissance.ConsulterPuissanceReadModel = {
+  mapToExpected(
+    identifiantProjet: IdentifiantProjet.ValueType,
+    puissanceInitiale: number,
+    unitéPuissance: string,
+  ) {
+    const expected: Lauréat.Puissance.ConsulterPuissanceReadModel = {
       identifiantProjet,
       puissance: this.#changementPuissanceWorld.enregistrerChangementPuissanceFixture.aÉtéCréé
         ? this.#changementPuissanceWorld.enregistrerChangementPuissanceFixture.ratio *
-          this.#importerPuissanceFixture.puissance
+          puissanceInitiale
         : this.#modifierPuissanceFixture.aÉtéCréé
           ? this.#modifierPuissanceFixture.puissance
-          : this.#importerPuissanceFixture.puissance,
+          : puissanceInitiale,
       unitéPuissance,
     };
 
@@ -52,8 +49,8 @@ export class PuissanceWorld {
       if (this.#changementPuissanceWorld.accorderChangementPuissanceFixture.aÉtéCréé) {
         expected.puissance = this.#changementPuissanceWorld.mapToExpected({
           identifiantProjet,
-          statut: Puissance.StatutChangementPuissance.accordé,
-          puissanceActuelle: this.#importerPuissanceFixture.puissance,
+          statut: Lauréat.Puissance.StatutChangementPuissance.accordé,
+          puissanceActuelle: puissanceInitiale,
         }).demande.nouvellePuissance;
         expected.dateDemandeEnCours = undefined;
       }

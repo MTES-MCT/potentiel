@@ -3,7 +3,7 @@ import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 
 import { Option } from '@potentiel-libraries/monads';
-import { Puissance } from '@potentiel-domain/laureat';
+import { Lauréat } from '@potentiel-domain/projet';
 import { mapToPlainObject } from '@potentiel-domain/core';
 import { IdentifiantProjet } from '@potentiel-domain/common';
 import { Role } from '@potentiel-domain/utilisateur';
@@ -40,7 +40,7 @@ export default async function Page({ params: { identifiant, date } }: PageProps)
 
       const demandéLe = decodeParameter(date);
 
-      const changement = await mediator.send<Puissance.ConsulterChangementPuissanceQuery>({
+      const changement = await mediator.send<Lauréat.Puissance.ConsulterChangementPuissanceQuery>({
         type: 'Lauréat.Puissance.Query.ConsulterChangementPuissance',
         data: {
           identifiantProjet: identifiantProjet.formatter(),
@@ -52,7 +52,7 @@ export default async function Page({ params: { identifiant, date } }: PageProps)
         return notFound();
       }
 
-      const puissance = await mediator.send<Puissance.ConsulterPuissanceQuery>({
+      const puissance = await mediator.send<Lauréat.Puissance.ConsulterPuissanceQuery>({
         type: 'Lauréat.Puissance.Query.ConsulterPuissance',
         data: {
           identifiantProjet: identifiantProjet.formatter(),
@@ -97,9 +97,9 @@ export default async function Page({ params: { identifiant, date } }: PageProps)
 }
 
 const mapToActions = (
-  statut: Puissance.StatutChangementPuissance.ValueType,
+  statut: Lauréat.Puissance.StatutChangementPuissance.ValueType,
   rôle: Role.ValueType,
-  autoritéCompétente?: Puissance.AutoritéCompétente.RawType,
+  autoritéCompétente?: Lauréat.Puissance.AutoritéCompétente.RawType,
 ): Array<ChangementPuissanceActions> => {
   const actions: Array<ChangementPuissanceActions> = [];
 

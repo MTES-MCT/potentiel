@@ -123,11 +123,6 @@ export async function notifierLauréat(this: PotentielWorld, dateDésignation: s
     actionnaire: candidature.values.sociétéMèreValue,
   });
 
-  this.lauréatWorld.puissanceWorld.importerPuissanceFixture.créer({
-    importéeLe: dateDésignation,
-    puissance: candidature.values.puissanceProductionAnnuelleValue,
-  });
-
   const data = {
     identifiantProjetValue: identifiantProjetValue.formatter(),
     notifiéLeValue: dateDésignation,
