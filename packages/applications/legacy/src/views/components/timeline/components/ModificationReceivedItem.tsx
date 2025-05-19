@@ -2,6 +2,7 @@ import { Link } from '../..';
 import React from 'react';
 import { ItemDate, ItemTitle, ContentArea, PastIcon } from '.';
 import { ModificationReceivedItemProps } from '../helpers';
+import { MODIFICATION_REQUEST_MIGRATED } from '../../../../modules/modificationRequest';
 export const ModificationReceivedItem = (props: ModificationReceivedItemProps) => {
   const { date } = props;
   return (
@@ -48,7 +49,7 @@ const Details = (props: ModificationReceivedItemProps) => {
           ))}
         </ul>
       )}
-      {detailsUrl && !['puissance', 'actionnaire'].includes(modificationType) && (
+      {detailsUrl && !MODIFICATION_REQUEST_MIGRATED.includes(modificationType) && (
         <Link
           href={detailsUrl}
           aria-label={`Voir le détail de la modification de type "${libelleTypeDemande[modificationType]}"`}
