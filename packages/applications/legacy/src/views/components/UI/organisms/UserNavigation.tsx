@@ -30,7 +30,6 @@ export const UserNavigation = ({ user: { role, features }, currentPage }: UserNa
     case 'cre':
       return CreMenuLegacy({ currentPage });
     case 'caisse-des-dépôts':
-    case 'caisse-des-dépôts':
       return CaisseDesDépôtsMenuLegacy(currentPage);
     case 'grd':
       return GrdMenuLegacy();

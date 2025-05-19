@@ -4,6 +4,7 @@ import { UserRepo } from '../../../../dataAccess';
 import routes from '../../../../routes';
 import {
   GetProjectInfoForModificationReceivedNotification,
+  MODIFICATION_REQUEST_MIGRATED,
   ModificationReceived,
 } from '../../../modificationRequest';
 import { GetProjectAppelOffre } from '../../../projectAppelOffre';
@@ -27,7 +28,7 @@ export const handleModificationReceived =
       }) => {
         // la saga legacy continue d'émettre des modificationsreceived
         // pour maintenir la frise
-        if (type === 'actionnaire' || type === 'puissance' || type === 'producteur') {
+        if (MODIFICATION_REQUEST_MIGRATED.includes(type)) {
           return;
         }
 
