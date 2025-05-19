@@ -3,9 +3,9 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 import { LoadAggregate } from '@potentiel-domain/core';
 import { loadTâchePlanifiéeAggregateFactory } from '@potentiel-domain/tache-planifiee';
+import { GetProjetAggregateRoot } from '@potentiel-domain/projet';
 
 import { loadGarantiesFinancièresFactory } from '../../garantiesFinancières.aggregate';
-import { loadAchèvementFactory } from '../../../achèvement/achèvement.aggregate';
 import * as TypeTâchePlanifiéeGarantiesFinancières from '../../typeTâchePlanifiéeGarantiesFinancières.valueType';
 
 /**
@@ -21,16 +21,20 @@ export type AjouterTâchesPlanifiéesGarantiesFinancièresCommand = Message<
 >;
 
 /** @deprecated */
-export const registerAjouterTâchesPlanfiéesCommand = (loadAggregate: LoadAggregate) => {
+export const registerAjouterTâchesPlanfiéesCommand = (
+  loadAggregate: LoadAggregate,
+  getProjetAggregateRoot: GetProjetAggregateRoot,
+) => {
   const loadGarantiesFinancières = loadGarantiesFinancièresFactory(loadAggregate);
-  const loadAchèvement = loadAchèvementFactory(loadAggregate);
   const loadTâchePlanifiée = loadTâchePlanifiéeAggregateFactory(loadAggregate);
+
   const handler: MessageHandler<AjouterTâchesPlanifiéesGarantiesFinancièresCommand> = async ({
     identifiantProjet,
     dateÉchéance,
   }) => {
+    const projet = await getProjetAggregateRoot(identifiantProjet);
     const garantiesFinancières = await loadGarantiesFinancières(identifiantProjet);
-    const achèvement = await loadAchèvement(identifiantProjet, false);
+
     const tâchePlanifiéeEchoir = await loadTâchePlanifiée(
       TypeTâchePlanifiéeGarantiesFinancières.échoir.type,
       identifiantProjet,
@@ -51,7 +55,7 @@ export const registerAjouterTâchesPlanfiéesCommand = (loadAggregate: LoadAggre
       tâchePlanifiéeRappel1mois,
       tâchePlanifiéeRappel2mois,
       dateÉchéance,
-      estAchevé: achèvement.estAchevé(),
+      estAchevé: projet.statut.estAchevé(),
     });
   };
 

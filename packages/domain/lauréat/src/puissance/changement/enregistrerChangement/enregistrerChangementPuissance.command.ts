@@ -6,8 +6,6 @@ import { DocumentProjet } from '@potentiel-domain/document';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { GetProjetAggregateRoot, Lauréat } from '@potentiel-domain/projet';
 
-import { loadAbandonFactory } from '../../../abandon';
-import { loadAchèvementFactory } from '../../../achèvement/achèvement.aggregate';
 import { loadPuissanceFactory } from '../../puissance.aggregate';
 
 export type EnregistrerChangementPuissanceCommand = Message<
@@ -27,8 +25,6 @@ export const registerEnregistrerChangementPuissanceCommand = (
   getProjetAggregateRoot: GetProjetAggregateRoot,
 ) => {
   const loadPuissance = loadPuissanceFactory(loadAggregate);
-  const loadAbandon = loadAbandonFactory(loadAggregate);
-  const loadAchèvement = loadAchèvementFactory(loadAggregate);
 
   const handler: MessageHandler<EnregistrerChangementPuissanceCommand> = async ({
     identifiantProjet,
@@ -39,9 +35,11 @@ export const registerEnregistrerChangementPuissanceCommand = (
     raison,
   }) => {
     const puissanceAggrégat = await loadPuissance(identifiantProjet);
-    const abandon = await loadAbandon(identifiantProjet, false);
-    const achèvement = await loadAchèvement(identifiantProjet, false);
-    const { candidature } = await getProjetAggregateRoot(identifiantProjet);
+    const {
+      statut,
+      candidature,
+      lauréat: { abandon },
+    } = await getProjetAggregateRoot(identifiantProjet);
 
     // Après migration aggregate root, à remplacer
     const appelOffre = await mediator.send<AppelOffre.ConsulterAppelOffreQuery>({
@@ -73,7 +71,7 @@ export const registerEnregistrerChangementPuissanceCommand = (
       pièceJustificative,
       raison,
       estAbandonné: abandon.statut.estAccordé(),
-      estAchevé: achèvement.estAchevé(),
+      estAchevé: statut.estAchevé(),
       demandeAbandonEnCours: abandon.statut.estEnCours(),
     });
   };

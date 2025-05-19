@@ -21,6 +21,10 @@ import {
   ProducteurQueryDependencies,
 } from './producteur/producteur.register';
 import { registerGarantiesFinancièresUseCases } from './garanties-financières/garantiesFinancières.register';
+import {
+  registerAchèvementQueries,
+  registerAchèvementUseCases,
+} from './achèvement/achèvement.register';
 
 export type LauréatQueryDependencies = ConsulterLauréatDependencies &
   ConsulterCahierDesChargesChoisiDependencies &
@@ -43,6 +47,7 @@ export const registerLauréatUseCases = (dependencies: LauréatCommandDependenci
 
   registerProducteurUseCases(dependencies);
   registerGarantiesFinancièresUseCases(dependencies);
+  registerAchèvementUseCases(dependencies);
 };
 
 export const registerLauréatQueries = (dependencies: LauréatQueryDependencies) => {
@@ -51,4 +56,5 @@ export const registerLauréatQueries = (dependencies: LauréatQueryDependencies)
 
   registerDélaiQueries(dependencies);
   registerProducteurQueries(dependencies);
+  registerAchèvementQueries(dependencies);
 };

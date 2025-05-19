@@ -1,13 +1,13 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { Option } from '@potentiel-libraries/monads';
-import { IdentifiantProjet, DateTime } from '@potentiel-domain/common';
+import { DateTime, Email } from '@potentiel-domain/common';
 import { DocumentProjet } from '@potentiel-domain/document';
 import { Find } from '@potentiel-domain/entity';
-import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
 
 import { TypeDocumentAchèvement } from '..';
 import { AchèvementEntity } from '../achèvement.entity';
+import { IdentifiantProjet } from '../../..';
 
 export type ConsulterAttestationConformitéReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
@@ -15,7 +15,7 @@ export type ConsulterAttestationConformitéReadModel = {
   dateTransmissionAuCocontractant: DateTime.ValueType;
   preuveTransmissionAuCocontractant: DocumentProjet.ValueType;
   misÀJourLe: DateTime.ValueType;
-  misÀJourPar: IdentifiantUtilisateur.ValueType;
+  misÀJourPar: Email.ValueType;
 };
 
 export type ConsulterAttestationConformitéQuery = Message<
@@ -79,6 +79,6 @@ const mapToReadModel = ({
       preuveTransmissionAuCocontractant.format,
     ),
     misÀJourLe: DateTime.convertirEnValueType(dernièreMiseÀJour.date),
-    misÀJourPar: IdentifiantUtilisateur.convertirEnValueType(dernièreMiseÀJour.utilisateur),
+    misÀJourPar: Email.convertirEnValueType(dernièreMiseÀJour.utilisateur),
   };
 };
