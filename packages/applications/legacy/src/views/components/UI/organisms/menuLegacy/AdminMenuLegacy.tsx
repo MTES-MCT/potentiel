@@ -7,6 +7,7 @@ import { MenuGarantiesFinancières } from './_utils/garantiesFinancières.menuLe
 
 type AdminMenuLegacyProps = {
   currentPage?: string;
+  features: Array<string>;
 };
 
 export const AdminMenuLegacy = ({ currentPage }: AdminMenuLegacyProps) => (
