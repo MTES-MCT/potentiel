@@ -166,6 +166,7 @@ export const ProjectDetails = ({
               puissance={puissance}
               modificationsNonPermisesParLeCDCActuel={modificationsNonPermisesParLeCDCActuel}
               coefficientKChoisi={coefficientKChoisi}
+              estAchevé={estAchevé}
             />
             <Contact
               identifiantProjet={identifiantProjet}
