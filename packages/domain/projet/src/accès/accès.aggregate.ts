@@ -13,6 +13,8 @@ import {
   ProjetNonNotiféError,
   EmailNonCorrespondantError,
   PrixEtNuméroCRENonCorrespondantError,
+  RetraitDeSesAccèsProjetError,
+  UtilisateurAPasAccèsAuProjetError,
 } from './accès.error';
 import { RéclamerAccèsProjetOptions } from './réclamer/réclamerAccèsProjet.options';
 import { RetirerAccèsProjetOptions } from './retirer/retirerAccèsProjet.options';
@@ -93,6 +95,18 @@ export class AccèsAggregate extends AbstractAggregate<AccèsEvent> {
     retiréPar: retirerPar,
     cause,
   }: RetirerAccèsProjetOptions) {
+    if (retirerPar.estÉgaleÀ(identifiantUtilisateur)) {
+      throw new RetraitDeSesAccèsProjetError();
+    }
+
+    if (
+      !this.#utilisateursAyantAccès.find((utilisateurAyantAccès) =>
+        utilisateurAyantAccès.estÉgaleÀ(identifiantUtilisateur),
+      )
+    ) {
+      throw new UtilisateurAPasAccèsAuProjetError();
+    }
+
     const event: AccèsProjetRetiréEvent = {
       type: 'AccèsProjetRetiré-V1',
       payload: {

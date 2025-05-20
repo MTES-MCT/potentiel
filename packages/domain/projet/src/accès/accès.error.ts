@@ -17,3 +17,15 @@ export class ProjetNonNotiféError extends InvalidOperationError {
     super("Le projet n'est pas notifié");
   }
 }
+
+export class RetraitDeSesAccèsProjetError extends InvalidOperationError {
+  constructor() {
+    super('Vous ne pouvez pas retirer vos accès à ce projet');
+  }
+}
+
+export class UtilisateurAPasAccèsAuProjetError extends InvalidOperationError {
+  constructor() {
+    super("L'utilisateur n'a pas accès au projet");
+  }
+}
