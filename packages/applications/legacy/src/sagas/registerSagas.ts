@@ -24,6 +24,7 @@ export const registerSagas = async () => {
   UtilisateurSaga.register();
   PuissanceSaga.register();
   ProducteurSaga.register();
+  AccèsSaga.register();
 
   const unsubscribeRaccordement = await subscribe<RaccordementSaga.SubscriptionEvent>({
     name: 'legacy-saga',
