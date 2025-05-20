@@ -5,7 +5,8 @@ import { mediator } from 'mediateur';
 
 import { Accès } from '@potentiel-domain/projet';
 import { Routes } from '@potentiel-applications/routes';
-import { IdentifiantProjet, DateTime } from '@potentiel-domain/common';
+import { IdentifiantProjet, DateTime, Email } from '@potentiel-domain/common';
+import { InviterPorteurUseCase } from '@potentiel-domain/utilisateur';
 
 import { FormAction, formAction, FormState } from '@/utils/formAction';
 import { withUtilisateur } from '@/utils/withUtilisateur';
@@ -57,6 +58,16 @@ const action: FormAction<FormState, typeof schema> = async (_, body) => {
         ...(body.hasSameEmail === 'true'
           ? { type: 'même-email-candidature' }
           : { type: 'avec-prix-numéro-cre', numéroCRE: body.numeroCRE, prix: body.prixReference }),
+      },
+    });
+
+    await mediator.send<InviterPorteurUseCase>({
+      type: 'Utilisateur.UseCase.InviterPorteur',
+      data: {
+        identifiantUtilisateurValue: utilisateur.identifiantUtilisateur.formatter(),
+        identifiantsProjetValues: [identifiantProjetValue],
+        invitéLeValue: DateTime.now().formatter(),
+        invitéParValue: Email.system().formatter(),
       },
     });
 
