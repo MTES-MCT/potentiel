@@ -22,7 +22,6 @@ import {
   évaluationCarboneSimplifiéeSchema,
   choixCoefficientKSchema,
 } from './candidatureFields.schema';
-import { booleanSchema } from './schemaBase';
 const localitéSchema = z.object({
   adresse1: adresse1Schema,
   adresse2: adresse2Schema,
@@ -88,15 +87,6 @@ export const modifierLauréatEtCandidatureSchéma = z
     },
   );
 
-// this is used only for validations errors
-// the type won't work with the .optional()
-const modifierLauréatEtCandidatureValidationSchéma = z.object({
-  identifiantProjet: identifiantProjetSchema,
-  candidature: partialCandidatureNotifiéeSchema,
-  laureat: partialLauréatSchema,
-  doitRegenererAttestation: booleanSchema,
-});
-
 export type ModifierCandidatureNotifiéeFormEntries = z.infer<typeof candidatureNotifiéeSchema>;
 export type PartialModifierCandidatureNotifiéeFormEntries = z.infer<
   typeof partialCandidatureNotifiéeSchema
@@ -105,16 +95,13 @@ export type ModifierLauréatValueFormEntries = z.infer<typeof lauréatSchema>;
 export type PartialModifierLauréatValueFormEntries = z.infer<typeof partialLauréatSchema>;
 export type ModifierLauréatKeys = keyof ModifierLauréatValueFormEntries;
 export type ModifierLauréatEtCandidatureNotifiéeFormEntries = NestedKeys<
-  z.infer<typeof modifierLauréatEtCandidatureValidationSchéma>
+  z.infer<typeof modifierLauréatEtCandidatureSchéma>
 >;
 
-// utils
 type NestedKeys<T> = T extends object
   ? {
-      [K in keyof T]: K extends string
-        ? T[K] extends object
-          ? `${K}.${NestedKeys<T[K]>}`
-          : `${K}`
-        : never;
-    }[keyof T]
+      [K in keyof T & string]: T[K] extends object | undefined
+        ? `${K}.${NestedKeys<NonNullable<T[K]>>}` | `${K}`
+        : `${K}`;
+    }[keyof T & string]
   : never;
