@@ -4,4 +4,3 @@ export * as GarantiesFinancières from './garantiesFinancières';
 export * as ReprésentantLégal from './représentantLégal';
 export * as Actionnaire from './actionnaire';
 export * as Raccordement from './raccordement';
-export type Puissance = {};
