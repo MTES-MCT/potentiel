@@ -11,6 +11,7 @@
     { "path": "../../libraries/file-storage" },
     { "path": "../../applications/bootstrap" },
     { "path": "../../domain/réseau" },
+    { "path": "../../domain/utilisateur" },
     {
       "path": "../../infrastructure/domain-adapters"
     },

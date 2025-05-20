@@ -59,6 +59,7 @@ export {
   UtilisateurDésactivéEvent,
   UtilisateurRéactivéEvent,
 };
+export * from './utilisateur.event';
 
 // Register
 export * from './register';
