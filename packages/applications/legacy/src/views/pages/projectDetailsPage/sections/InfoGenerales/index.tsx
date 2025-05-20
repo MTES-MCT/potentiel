@@ -26,6 +26,7 @@ export type InfoGeneralesProps = {
   puissance?: GetPuissanceForProjectPage;
   modificationsNonPermisesParLeCDCActuel: boolean;
   coefficientKChoisi: boolean | undefined;
+  estAchevé: boolean;
 };
 
 export const InfoGenerales = ({
@@ -53,6 +54,7 @@ export const InfoGenerales = ({
   modificationsNonPermisesParLeCDCActuel,
   puissance,
   coefficientKChoisi,
+  estAchevé,
 }: InfoGeneralesProps) => {
   const puissanceInférieurePuissanceMaxVolRéservé =
     appelOffre.periode.noteThresholdBy === 'category' &&
@@ -78,6 +80,7 @@ export const InfoGenerales = ({
             role.aLaPermission('garantiesFinancières.dépôt.modifier')
           }
           peutLever={role.aLaPermission('garantiesFinancières.mainlevée.demander')}
+          estAchevé={estAchevé}
         />
       )}
       {demandeRecours && role.aLaPermission('recours.consulter.détail') && (
@@ -174,6 +177,7 @@ export type GarantiesFinancièresProjetProps = {
   identifiantProjet: IdentifiantProjet.ValueType;
   peutModifier: boolean;
   peutLever: boolean;
+  estAchevé: boolean;
 };
 
 const GarantiesFinancièresProjet = ({
@@ -181,6 +185,7 @@ const GarantiesFinancièresProjet = ({
   identifiantProjet,
   peutModifier,
   peutLever,
+  estAchevé,
 }: GarantiesFinancièresProjetProps) => {
   const motifDemandeGarantiesFinancières =
     garantiesFinancières.motifGfEnAttente &&
@@ -189,10 +194,10 @@ const GarantiesFinancièresProjet = ({
   return (
     <div>
       <Heading3 className="m-0">Garanties financières</Heading3>
-      {motifDemandeGarantiesFinancières && (
+      {!estAchevé && motifDemandeGarantiesFinancières && (
         <AlertMessage>
-          Des garanties financières sont en attente pour ce projet
-          {motifDemandeGarantiesFinancières ? <> ({motifDemandeGarantiesFinancières})</> : ''}.
+          Des garanties financières sont en attente pour ce projet (
+          {motifDemandeGarantiesFinancières}).
         </AlertMessage>
       )}
 
