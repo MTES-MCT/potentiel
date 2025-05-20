@@ -133,6 +133,7 @@ const mapBodyToCandidatureUsecaseData = (
   identifiantProjet: string,
   data: PartialModifierCandidatureNotifiéeFormEntries,
   previous: Candidature.ConsulterCandidatureReadModel,
+  doitRegenererAttestation?: boolean,
 ): Omit<Candidature.CorrigerCandidatureUseCase['data'], 'corrigéLe' | 'corrigéPar'> => {
   const { appelOffre, période, famille, numéroCRE } =
     IdentifiantProjet.convertirEnValueType(identifiantProjet);
@@ -166,7 +167,7 @@ const mapBodyToCandidatureUsecaseData = (
     evaluationCarboneSimplifiéeValue:
       data.evaluationCarboneSimplifiee ?? previous.evaluationCarboneSimplifiée,
     actionnariatValue: data.actionnariat ?? previous.actionnariat?.formatter(),
-    doitRégénérerAttestation: data.doitRegenererAttestation ? true : undefined,
+    doitRégénérerAttestation: doitRegenererAttestation ? true : undefined,
     coefficientKChoisiValue: data.coefficientKChoisi ?? previous.coefficientKChoisi,
     // non-editable fields
     motifÉliminationValue: previous.motifÉlimination,
