@@ -7,6 +7,7 @@ import { IdentifiantProjet } from '@potentiel-domain/projet';
 import { AjouterTâcheCommand } from '../ajouter/ajouterTâche.command';
 import { AcheverTâcheCommand } from '../achever/acheverTâche.command';
 import * as Tâche from '../typeTâche.valueType';
+import { TypeTâche } from '../tâche';
 
 export type SubscriptionEvent =
   | Raccordement.RéférenceDossierRacordementModifiéeEvent
@@ -14,7 +15,8 @@ export type SubscriptionEvent =
   | Raccordement.GestionnaireRéseauRaccordementModifiéEvent
   | Raccordement.GestionnaireRéseauInconnuAttribuéEvent
   | Raccordement.RaccordementSuppriméEvent
-  | Raccordement.DemandeComplèteRaccordementModifiéeEvent;
+  | Raccordement.DemandeComplèteRaccordementModifiéeEvent
+  | Raccordement.DemandeComplèteRaccordementTransmiseEvent;
 
 export type Execute = Message<'System.Saga.TâcheRaccordement', SubscriptionEvent>;
 
@@ -92,6 +94,17 @@ export const register = () => {
           });
         },
       )
+      .with({ type: 'DemandeComplèteDeRaccordementTransmise-V3' }, async (event) => {
+        await mediator.send<AjouterTâcheCommand>({
+          type: 'System.Tâche.Command.AjouterTâche',
+          data: {
+            identifiantProjet: IdentifiantProjet.convertirEnValueType(
+              event.payload.identifiantProjet,
+            ),
+            typeTâche: TypeTâche.raccordementRenseignerAccuséRéceptionDemandeComplèteRaccordement,
+          },
+        });
+      })
       .with(
         {
           type: 'DemandeComplèteRaccordementModifiée-V3',
