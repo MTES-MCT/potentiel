@@ -35,11 +35,10 @@ import {
   publish,
 } from '@potentiel-infrastructure/pg-event-sourcing';
 import { IdentifiantProjet, ProjetAggregateRoot } from '@potentiel-domain/projet';
-import { registerTâcheCommand, Tâche } from '@potentiel-domain/tache';
+import { registerTâcheCommand } from '@potentiel-domain/tache';
 
 import { parseCsvFile } from '../../../helpers/parse-file';
 import {
-  sleep,
   deleteFolderIfExists,
   getStatistics,
   logStatistics,
@@ -117,12 +116,12 @@ export class MajDossiersEnedis extends Command {
       periode: zod.string(),
       famille: zod.string().optional(),
       numeroCRE: zod.string(),
-      referenceDossier: zod.string().optional(),
-      dateAccuseReception: zod.string().optional(),
-      dateMiseEnService: zod.string().optional(),
+      referenceDossier: zod.string().trim(),
+      dateAccuseReception: zod.string().trim(),
     });
 
-    const { parsedData } = await parseCsvFile(path.resolve(__dirname, FILE_PATH), csvSchema, {
+    // todo : passer FILE_PATH en args
+    const { parsedData } = await parseCsvFile(path.resolve(__dirname, FILE_PATH), zod.object({}), {
       delimiter: ',',
       encoding: 'utf8',
     });
@@ -136,19 +135,20 @@ export class MajDossiersEnedis extends Command {
 
     let index = 1;
 
-    for (const ligne of parsedData) {
-      const identifiantProjet = `${ligne.appelOffre}#${ligne.periode}#${ligne.famille}#${ligne.numeroCRE}`;
+    for (const row of parsedData) {
+      const result = csvSchema.safeParse(row);
 
-      console.log(`Traitement du projet ${identifiantProjet} (${index} / ${parsedData.length})`);
-
-      /**
-       * Pas de référence de dossier renseignée
-       */
-      if (!ligne.referenceDossier) {
-        statistics.ligneSansRéférenceDossier.push(identifiantProjet);
+      if (result.error) {
+        console.error(result.error);
         index++;
         continue;
       }
+
+      const ligne = result.data;
+
+      const identifiantProjet = `${ligne.appelOffre}#${ligne.periode}#${ligne.famille}#${ligne.numeroCRE}`;
+
+      console.log(`Traitement du projet ${identifiantProjet} (${index} / ${parsedData.length})`);
 
       const raccordement = await mediator.send<Raccordement.ConsulterRaccordementQuery>({
         type: 'Lauréat.Raccordement.Query.ConsulterRaccordement',
@@ -169,10 +169,23 @@ export class MajDossiersEnedis extends Command {
         continue;
       }
 
-      /**
-       * Si plusieurs dossiers rattachés au raccordement du projet, on ne peut pas savoir duquel on parle ??
-       */
+      // todo : vérifier que le gestionnaire est bien ENEDIS ?
+      if (raccordement.identifiantGestionnaireRéseau?.formatter() !== '17X100A100A0001A') {
+        console.error(
+          `Le gestionnaire de réseau associé au raccordement du projet ${identifiantProjet} n'est pas Enedis`,
+        );
+        statistics.projetAvecRaccordementAutreQueEnedis.push({
+          identifiantProjet,
+          identifantGestionnaire: raccordement.identifiantGestionnaireRéseau?.formatter(),
+        });
+        index++;
+        continue;
+      }
+
       if (raccordement.dossiers.length > 1) {
+        /**
+         * Si plusieurs dossiers rattachés au raccordement du projet, on ne peut pas savoir duquel on parle.
+         */
         statistics.plusieursDossiersDeRaccordement.push({
           identifiantProjet,
           référenceFichier: ligne.referenceDossier,
@@ -238,142 +251,166 @@ export class MajDossiersEnedis extends Command {
           }
         }
 
-        /*
-         * Si il y a une date de qualification et qu'elle est différente de l'existant
+        /**
+         * Si la référence est différente entre potentiel et enedis
          */
         if (
-          ligne.dateAccuseReception &&
+          !dossierRaccordement.référence.estÉgaleÀ(
+            Raccordement.RéférenceDossierRaccordement.convertirEnValueType(ligne.referenceDossier),
+          )
+        ) {
+          console.error(
+            `Le dossier de raccordement fourni sur Potentiel (${dossierRaccordement.référence.formatter()}) est différent de celui fourni par Enedis (${ligne.referenceDossier})`,
+          );
+          statistics.dossierRaccordementAvecRéférenceDifférenteEntrePotentielEtEnedis.push({
+            identifiantProjet,
+            potentielRéférence: dossierRaccordement.référence.formatter(),
+            enedisRéférence: ligne.referenceDossier,
+          });
+          index++;
+          continue;
+        }
+
+        /**
+         * Si la date d'accusé de réception du dossier sur Potentiel est la même que sur Enedis, on n'a rien à faire
+         */
+        if (
           dossierRaccordement.demandeComplèteRaccordement.dateQualification &&
-          !dossierRaccordement.demandeComplèteRaccordement.dateQualification.estÉgaleÀ(
+          dossierRaccordement.demandeComplèteRaccordement.dateQualification.estÉgaleÀ(
             DateTime.convertirEnValueType(formatDateQualification(ligne.dateAccuseReception)),
           )
         ) {
-          if (!dossierRaccordement.demandeComplèteRaccordement.accuséRéception) {
-            const idProjet = IdentifiantProjet.convertirEnValueType(identifiantProjet).formatter();
+          console.error(
+            `La date d'accusé de réception est la même entre celle du dossier sur Potentiel et celle fournie par Enedis (projet ${identifiantProjet})`,
+          );
+          index++;
+          continue;
+        }
 
-            statistics.UnSeulDossierDeRaccordement.modifierDemandeComplètementRaccordement
-              .sansAccuséRéception.total++;
+        /*
+         * Si il y a une date de qualification et qu'elle est différente de l'existant
+         */
+        /**
+         * Pas de fichier d'accusé de réception
+         */
+        if (!dossierRaccordement.demandeComplèteRaccordement.accuséRéception) {
+          const idProjet = IdentifiantProjet.convertirEnValueType(identifiantProjet).formatter();
 
-            try {
-              const event: Raccordement.DemandeComplèteRaccordementModifiéeEventV2 = {
-                type: 'DemandeComplèteRaccordementModifiée-V2',
-                payload: {
-                  identifiantProjet: idProjet,
-                  référenceDossierRaccordement: dossierRaccordement.référence.formatter(),
-                  dateQualification: DateTime.convertirEnValueType(
-                    formatDateQualification(ligne.dateAccuseReception),
-                  ).formatter(),
-                },
-              };
-
-              await publish(
-                `raccordement|${idProjet}#${dossierRaccordement.référence.formatter()}`,
-                event,
-              );
-
-              statistics.UnSeulDossierDeRaccordement.modifierDemandeComplètementRaccordement.sansAccuséRéception.succès.push(
-                {
-                  identifiantProjet: idProjet,
-                  dateQualification: ligne.dateAccuseReception,
-                },
-              );
-
-              index++;
-              continue;
-            } catch (error) {
-              statistics.UnSeulDossierDeRaccordement.modifierDemandeComplètementRaccordement.sansAccuséRéception.erreurs.push(
-                {
-                  identifiantProjet: idProjet,
-                  dateQualification: ligne.dateAccuseReception,
-                  erreur: `Erreur lors de la modification du dossier de raccordement existant sans accusé de réception : ${error}`,
-                },
-              );
-              index++;
-              continue;
-            }
-          }
+          statistics.UnSeulDossierDeRaccordement.modifierDemandeComplètementRaccordement
+            .sansAccuséRéception.total++;
 
           try {
-            statistics.UnSeulDossierDeRaccordement.modifierDemandeComplètementRaccordement
-              .avecAccuséRéception.total++;
-
-            /**
-             * On récupère le fichier (accusé de réception) de la DCR
-             */
-            const document = await mediator.send<ConsulterDocumentProjetQuery>({
-              type: 'Document.Query.ConsulterDocumentProjet',
-              data: {
-                documentKey:
-                  dossierRaccordement.demandeComplèteRaccordement.accuséRéception.formatter(),
+            const event: Raccordement.DemandeComplèteRaccordementModifiéeEventV2 = {
+              type: 'DemandeComplèteRaccordementModifiée-V2',
+              payload: {
+                identifiantProjet: idProjet,
+                référenceDossierRaccordement: dossierRaccordement.référence.formatter(),
+                dateQualification: DateTime.convertirEnValueType(
+                  formatDateQualification(ligne.dateAccuseReception),
+                ).formatter(),
               },
-            });
+            };
 
-            if (Option.isNone(document)) {
-              statistics.UnSeulDossierDeRaccordement.modifierDemandeComplètementRaccordement.avecAccuséRéception.erreurs.push(
-                {
-                  identifiantProjet,
-                  dateQualification:
-                    dossierRaccordement.demandeComplèteRaccordement.dateQualification.formatter(),
-                  erreur: `Le dossier de raccordement ne dispose pas d'accusé de réception`,
-                },
-              );
-              index++;
-              continue;
-            }
+            await publish(
+              `raccordement|${idProjet}#${dossierRaccordement.référence.formatter()}`,
+              event,
+            );
 
-            await mediator.send<Raccordement.ModifierDemandeComplèteRaccordementUseCase>({
-              type: 'Lauréat.Raccordement.UseCase.ModifierDemandeComplèteRaccordement',
-              data: {
-                identifiantProjetValue: identifiantProjet,
-                référenceDossierRaccordementValue: ligne.referenceDossier,
-                dateQualificationValue: formatDateQualification(ligne.dateAccuseReception),
-                accuséRéceptionValue: document,
-                // TODO : pas sur de ça
-                rôleValue: 'admin',
-              },
-            });
-
-            statistics.UnSeulDossierDeRaccordement.modifierDemandeComplètementRaccordement
-              .avecAccuséRéception.total++;
-            statistics.UnSeulDossierDeRaccordement.modifierDemandeComplètementRaccordement.avecAccuséRéception.succès.push(
+            statistics.UnSeulDossierDeRaccordement.modifierDemandeComplètementRaccordement.sansAccuséRéception.succès.push(
               {
-                identifiantProjet,
+                identifiantProjet: idProjet,
                 dateQualification: ligne.dateAccuseReception,
               },
             );
+
+            index++;
+            continue;
           } catch (error) {
-            console.error(
-              `Erreur lors de la mise à jour de la demande complète de raccordement pour le projet ${identifiantProjet} : ${error}`,
-            );
-            statistics.UnSeulDossierDeRaccordement.modifierDemandeComplètementRaccordement
-              .avecAccuséRéception.total++;
-            statistics.UnSeulDossierDeRaccordement.modifierDemandeComplètementRaccordement.avecAccuséRéception.erreurs.push(
+            statistics.UnSeulDossierDeRaccordement.modifierDemandeComplètementRaccordement.sansAccuséRéception.erreurs.push(
               {
-                identifiantProjet,
+                identifiantProjet: idProjet,
                 dateQualification: ligne.dateAccuseReception,
-                erreur: error as string,
+                erreur: `Erreur lors de la modification du dossier de raccordement existant sans accusé de réception : ${error}`,
               },
             );
             index++;
             continue;
           }
         }
-      }
 
-      if (raccordement.dossiers.length === 0) {
-        statistics.pasDeDossierDeRaccordement.total++;
+        /**
+         * Il y a un fichier d'accusé de réception
+         */
+        try {
+          statistics.UnSeulDossierDeRaccordement.modifierDemandeComplètementRaccordement
+            .avecAccuséRéception.total++;
 
-        if (!ligne.dateAccuseReception) {
-          statistics.pasDeDossierDeRaccordement.transmettreDemandeComplètementRaccordement.erreurs.push(
+          /**
+           * On récupère le fichier (accusé de réception) de la DCR
+           */
+          const document = await mediator.send<ConsulterDocumentProjetQuery>({
+            type: 'Document.Query.ConsulterDocumentProjet',
+            data: {
+              documentKey:
+                dossierRaccordement.demandeComplèteRaccordement.accuséRéception.formatter(),
+            },
+          });
+
+          if (Option.isNone(document)) {
+            statistics.UnSeulDossierDeRaccordement.modifierDemandeComplètementRaccordement.avecAccuséRéception.erreurs.push(
+              {
+                identifiantProjet,
+                dateQualification:
+                  dossierRaccordement.demandeComplèteRaccordement.dateQualification?.formatter(),
+                erreur: `Le dossier de raccordement ne dispose pas d'accusé de réception`,
+              },
+            );
+            index++;
+            continue;
+          }
+
+          await mediator.send<Raccordement.ModifierDemandeComplèteRaccordementUseCase>({
+            type: 'Lauréat.Raccordement.UseCase.ModifierDemandeComplèteRaccordement',
+            data: {
+              identifiantProjetValue: identifiantProjet,
+              référenceDossierRaccordementValue: ligne.referenceDossier,
+              dateQualificationValue: formatDateQualification(ligne.dateAccuseReception),
+              accuséRéceptionValue: document,
+              rôleValue: 'admin',
+            },
+          });
+
+          statistics.UnSeulDossierDeRaccordement.modifierDemandeComplètementRaccordement
+            .avecAccuséRéception.total++;
+          statistics.UnSeulDossierDeRaccordement.modifierDemandeComplètementRaccordement.avecAccuséRéception.succès.push(
             {
               identifiantProjet,
-              référenceDossier: ligne.referenceDossier,
-              erreur: "Pas de ligne date d'accusé de réception",
+              dateQualification: ligne.dateAccuseReception,
+            },
+          );
+        } catch (error) {
+          console.error(
+            `Erreur lors de la mise à jour de la demande complète de raccordement pour le projet ${identifiantProjet} : ${error}`,
+          );
+          statistics.UnSeulDossierDeRaccordement.modifierDemandeComplètementRaccordement
+            .avecAccuséRéception.total++;
+          statistics.UnSeulDossierDeRaccordement.modifierDemandeComplètementRaccordement.avecAccuséRéception.erreurs.push(
+            {
+              identifiantProjet,
+              dateQualification: ligne.dateAccuseReception,
+              erreur: error as string,
             },
           );
           index++;
           continue;
         }
+      }
+
+      /**
+       * Il n'y a pas de dossier de raccordement
+       */
+      if (raccordement.dossiers.length === 0) {
+        statistics.pasDeDossierDeRaccordement.total++;
 
         try {
           await mediator.send<Raccordement.TransmettreDemandeComplèteRaccordementUseCase>({
@@ -395,14 +432,6 @@ export class MajDossiersEnedis extends Command {
           );
 
           try {
-            await mediator.send<Tâche.AjouterTâcheCommand>({
-              type: 'System.Tâche.Command.AjouterTâche',
-              data: {
-                identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
-                typeTâche:
-                  Tâche.TypeTâche.raccordementRenseignerAccuséRéceptionDemandeComplèteRaccordement,
-              },
-            });
             statistics.pasDeDossierDeRaccordement.transmettreDemandeComplètementRaccordement
               .tâcheRenseignerAccuséRéception.total++;
             statistics.pasDeDossierDeRaccordement.transmettreDemandeComplètementRaccordement.tâcheRenseignerAccuséRéception.succès.push(
@@ -439,8 +468,6 @@ export class MajDossiersEnedis extends Command {
       }
 
       index++;
-
-      await sleep(300);
     }
 
     await writeStatisticsToFiles(statistics);
