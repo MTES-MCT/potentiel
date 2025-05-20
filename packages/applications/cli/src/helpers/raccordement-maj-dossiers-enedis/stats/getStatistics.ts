@@ -2,10 +2,19 @@ export type Statistics = {
   total: number;
   ligneSansRéférenceDossier: Array<string>;
   projetSansRaccordement: Array<string>;
+  projetAvecRaccordementAutreQueEnedis: Array<{
+    identifiantProjet: string;
+    identifantGestionnaire?: string;
+  }>;
   plusieursDossiersDeRaccordement: Array<{
     identifiantProjet: string;
     référenceFichier: string;
     référencesActuelles: string[];
+  }>;
+  dossierRaccordementAvecRéférenceDifférenteEntrePotentielEtEnedis: Array<{
+    identifiantProjet: string;
+    potentielRéférence: string;
+    enedisRéférence: string;
   }>;
   UnSeulDossierDeRaccordement: {
     total: number;
@@ -43,7 +52,7 @@ export type Statistics = {
         }>;
         erreurs: Array<{
           identifiantProjet: string;
-          dateQualification: string;
+          dateQualification?: string;
           erreur: string;
         }>;
       };
@@ -83,7 +92,9 @@ export const getStatistics = (total: number) => {
     total,
     ligneSansRéférenceDossier: [],
     projetSansRaccordement: [],
+    projetAvecRaccordementAutreQueEnedis: [],
     plusieursDossiersDeRaccordement: [],
+    dossierRaccordementAvecRéférenceDifférenteEntrePotentielEtEnedis: [],
     UnSeulDossierDeRaccordement: {
       total: 0,
       modifierRéférenceDossierRaccordement: {

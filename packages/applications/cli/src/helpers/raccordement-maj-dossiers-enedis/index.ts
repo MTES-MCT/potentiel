@@ -1,4 +1,3 @@
-export { sleep } from './sleep';
 export {
   getStatistics,
   logStatistics,
