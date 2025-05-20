@@ -9,12 +9,14 @@ type AttestationFieldProps = {
 export const AttestationField = ({ validationErrors }: AttestationFieldProps) => (
   <div className="flex flex-col">
     <div className="flex-1 flex flex-row gap-1">
-      <span className="font-semibold">Attestation de désignation (optionnel)</span>
+      <span className="font-semibold">
+        Attestation de désignation (optionnel si la candidature n'est pas corrigée)
+      </span>
     </div>
     <RadioButtons
       state={validationErrors['doitRegenererAttestation'] ? 'error' : 'default'}
       stateRelatedMessage={validationErrors['doitRegenererAttestation']}
-      hintText="Vous ne pourrez pas régénérer l'attestation si la candidature n'est pas corrigée."
+      hintText="Attention, vous ne pourrez pas régénérer l'attestation si la candidature n'est pas corrigée"
       legend=""
       orientation="horizontal"
       options={[

@@ -69,6 +69,11 @@ export const modifierLauréatEtCandidatureSchéma = z
     laureat: partialLauréatSchema.optional(),
     doitRegenererAttestation: doitRegenererAttestationSchema,
   })
+  .refine((value) => !value.candidature && value.doitRegenererAttestation === undefined, {
+    path: ['doitRegenererAttestation'],
+    message:
+      "Vous devez choisir de régénérer ou pas l'attestation lorsque la candidature est corrigée",
+  })
   .refine(
     (value) =>
       value.candidature ||
