@@ -27,7 +27,7 @@ const schema = modifierLauréatEtCandidatureSchéma;
 
 const action: FormAction<FormState, typeof schema> = async (_, body) =>
   withUtilisateur(async (utilisateur) => {
-    const { identifiantProjet, candidature, laureat } = body;
+    const { identifiantProjet, candidature, laureat, doitRegenererAttestation } = body;
 
     if (candidature) {
       const candidatureACorriger = await getCandidature(identifiantProjet);
@@ -35,7 +35,12 @@ const action: FormAction<FormState, typeof schema> = async (_, body) =>
       await mediator.send<Candidature.CorrigerCandidatureUseCase>({
         type: 'Candidature.UseCase.CorrigerCandidature',
         data: {
-          ...mapBodyToCandidatureUsecaseData(identifiantProjet, candidature, candidatureACorriger),
+          ...mapBodyToCandidatureUsecaseData(
+            identifiantProjet,
+            candidature,
+            candidatureACorriger,
+            doitRegenererAttestation,
+          ),
           corrigéLe: DateTime.now().formatter(),
           corrigéPar: utilisateur.identifiantUtilisateur.formatter(),
         },

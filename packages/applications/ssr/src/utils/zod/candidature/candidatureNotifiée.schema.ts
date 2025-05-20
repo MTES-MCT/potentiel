@@ -69,26 +69,24 @@ export const modifierLauréatEtCandidatureSchéma = z
     laureat: partialLauréatSchema.optional(),
     doitRegenererAttestation: doitRegenererAttestationSchema,
   })
-  .refine((value) => !value.candidature && value.doitRegenererAttestation === undefined, {
+  .refine((value) => value.laureat || value.candidature, {
+    // little hack to display this error for the entire form
+    path: ['identifiantProjet'],
+    message: 'Le formulaire ne contient pas de modification',
+  })
+  .refine((value) => !(value.candidature && value.doitRegenererAttestation === undefined), {
     path: ['doitRegenererAttestation'],
     message:
       "Vous devez choisir de régénérer ou pas l'attestation lorsque la candidature est corrigée",
   })
   .refine(
     (value) =>
-      value.candidature ||
-      value.doitRegenererAttestation === undefined ||
-      value.doitRegenererAttestation === false,
+      value.candidature || (!value.candidature && value.laureat && !value.doitRegenererAttestation),
     {
       path: ['doitRegenererAttestation'],
       message: "Vous pouvez régénérer l'attestation uniquement lorsque la candidature est corrigée",
     },
-  )
-  .refine((value) => value.laureat || value.candidature, {
-    // little hack to display this error for the entire form
-    path: ['identifiantProjet'],
-    message: 'Le formulaire ne contient pas de modification',
-  });
+  );
 
 // this is used only for validations errors
 // the type won't work with the .optional()
