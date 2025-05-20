@@ -357,6 +357,16 @@ async function réclamerProjet(
   try {
     const avecPrixEtNuméroCRE = numéroCRE !== undefined && prix !== undefined;
 
+    await mediator.send<InviterPorteurUseCase>({
+      type: 'Utilisateur.UseCase.InviterPorteur',
+      data: {
+        identifiantsProjetValues: [identifiantProjet],
+        identifiantUtilisateurValue: email,
+        invitéLeValue: DateTime.now().formatter(),
+        invitéParValue: Email.system().formatter(),
+      },
+    });
+
     await mediator.send<Accès.RéclamerAccèsProjetUseCase>({
       type: 'Projet.Accès.UseCase.RéclamerAccèsProjet',
       data: {

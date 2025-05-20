@@ -5,8 +5,9 @@ Fonctionnalité: Réclamer un projet en tant que porteur
         Etant donné le projet <Statut> "Du boulodrome de Marseille"
         Et l'accès retiré au projet <Statut>
         Quand un porteur réclame le projet <Statut> avec le même email que celui de la candidature
-        Alors le porteur devrait avoir accès au projet <Statut>
-        Et le projet lauréat n'est plus consultable dans la liste des projets à réclamer
+        Alors l'utilisateur devrait être actif
+        Et le porteur devrait avoir accès au projet <Statut>
+        Mais le projet lauréat n'est plus consultable dans la liste des projets à réclamer
 
         Exemples:
             | Statut  |
@@ -17,8 +18,9 @@ Fonctionnalité: Réclamer un projet en tant que porteur
         Etant donné le projet lauréat "Du boulodrome de Marseille"
         Et l'accès retiré au projet lauréat
         Quand un porteur réclame le projet lauréat en connaissant le prix et le numéro CRE
-        Alors le porteur devrait avoir accès au projet lauréat
-        Alors le projet lauréat n'est plus consultable dans la liste des projets à réclamer
+        Alors l'utilisateur devrait être actif
+        Et le porteur devrait avoir accès au projet lauréat
+        Mais le projet lauréat n'est plus consultable dans la liste des projets à réclamer
 
     Scénario: Impossible de réclamer un projet avec un email différent de celui de la candidature
         Etant donné le projet lauréat "Du boulodrome de Marseille"

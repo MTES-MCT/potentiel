@@ -15,6 +15,7 @@ import {
   PrixEtNuméroCRENonCorrespondantError,
   RetraitDeSesAccèsProjetError,
   UtilisateurAPasAccèsAuProjetError,
+  AccèsProjetDéjàAutoriséError,
 } from './accès.error';
 import { RéclamerAccèsProjetOptions } from './réclamer/réclamerAccèsProjet.options';
 import { RetirerAccèsProjetOptions } from './retirer/retirerAccèsProjet.options';
@@ -73,20 +74,22 @@ export class AccèsAggregate extends AbstractAggregate<AccèsEvent> {
     autoriséPar,
     raison,
   }: AutoriserAccèsProjetOptions) {
-    if (!this.#utilisateursAyantAccès.includes(identifiantUtilisateur)) {
-      const event: AccèsProjetAutoriséEvent = {
-        type: 'AccèsProjetAutorisé-V1',
-        payload: {
-          identifiantProjet: this.projet.identifiantProjet.formatter(),
-          identifiantUtilisateur: identifiantUtilisateur.formatter(),
-          autoriséLe: autoriséLe.formatter(),
-          autoriséPar: autoriséPar.formatter(),
-          raison,
-        },
-      };
-
-      await this.publish(event);
+    if (this.aDéjàAccès(identifiantUtilisateur)) {
+      throw new AccèsProjetDéjàAutoriséError();
     }
+
+    const event: AccèsProjetAutoriséEvent = {
+      type: 'AccèsProjetAutorisé-V1',
+      payload: {
+        identifiantProjet: this.projet.identifiantProjet.formatter(),
+        identifiantUtilisateur: identifiantUtilisateur.formatter(),
+        autoriséLe: autoriséLe.formatter(),
+        autoriséPar: autoriséPar.formatter(),
+        raison,
+      },
+    };
+
+    await this.publish(event);
   }
 
   async retirer({
@@ -99,11 +102,7 @@ export class AccèsAggregate extends AbstractAggregate<AccèsEvent> {
       throw new RetraitDeSesAccèsProjetError();
     }
 
-    if (
-      !this.#utilisateursAyantAccès.find((utilisateurAyantAccès) =>
-        utilisateurAyantAccès.estÉgaleÀ(identifiantUtilisateur),
-      )
-    ) {
+    if (!this.aDéjàAccès(identifiantUtilisateur)) {
       throw new UtilisateurAPasAccèsAuProjetError();
     }
 
@@ -175,5 +174,11 @@ export class AccèsAggregate extends AbstractAggregate<AccèsEvent> {
         this.#utilisateursAyantAccès.splice(index, 1);
       }
     });
+  }
+
+  private aDéjàAccès(identifiantUtilisateur: Email.ValueType): boolean {
+    return !!this.#utilisateursAyantAccès.find((utilisateurAyantAccès) =>
+      utilisateurAyantAccès.estÉgaleÀ(identifiantUtilisateur),
+    );
   }
 }
