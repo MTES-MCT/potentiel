@@ -26,12 +26,15 @@ import {
   réactiver,
 } from './réactiver/réactiverUtilisateur.behavior';
 import { UtilisateurInconnuError } from './errors';
+import { AccèsProjetRetiréEvent, ProjetRéclaméEvent } from './utilisateur.event';
 
 export type UtilisateurEvent =
   | PorteurInvitéEvent
   | UtilisateurInvitéEvent
   | UtilisateurDésactivéEvent
-  | UtilisateurRéactivéEvent;
+  | UtilisateurRéactivéEvent
+  | AccèsProjetRetiréEvent
+  | ProjetRéclaméEvent;
 
 export type UtilisateurAggregate = Aggregate<UtilisateurEvent> & {
   readonly inviterPorteur: typeof inviterPorteur;
@@ -75,6 +78,8 @@ function apply(this: UtilisateurAggregate, event: UtilisateurEvent) {
     .with({ type: 'UtilisateurInvité-V1' }, applyUtilisateurInvité.bind(this))
     .with({ type: 'UtilisateurDésactivé-V1' }, applyUtilisateurDésactivé.bind(this))
     .with({ type: 'UtilisateurRéactivé-V1' }, applyUtilisateurRéactivé.bind(this))
+    .with({ type: 'AccèsProjetRetiré-V1' }, () => {})
+    .with({ type: 'ProjetRéclamé-V1' }, () => {})
     .exhaustive();
 }
 

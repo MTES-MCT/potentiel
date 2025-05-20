@@ -25,6 +25,9 @@ export const register = ({ sendEmail }: RegisterUtilisateurNotificationDependenc
       .with({ type: 'UtilisateurInvité-V1' }, utilisateurInvitéNotification)
       .with({ type: 'UtilisateurDésactivé-V1' }, async () => [])
       .with({ type: 'UtilisateurRéactivé-V1' }, async () => [])
+      // Deprecated events
+      .with({ type: 'AccèsProjetRetiré-V1' }, async () => [])
+      .with({ type: 'ProjetRéclamé-V1' }, async () => [])
       .exhaustive();
 
     await Promise.all(emailPayloads.map(sendEmail));

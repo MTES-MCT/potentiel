@@ -22,6 +22,9 @@ export const register = () => {
       .with({ type: 'PorteurInvité-V1' }, PorteurInvitéProjector)
       .with({ type: 'UtilisateurDésactivé-V1' }, utilisateurDésactivéProjector)
       .with({ type: 'UtilisateurRéactivé-V1' }, utilisateurRéactivéProjector)
+      // Deprecated events
+      .with({ type: 'AccèsProjetRetiré-V1' }, async () => {})
+      .with({ type: 'ProjetRéclamé-V1' }, async () => {})
       .exhaustive();
 
   mediator.register('System.Projector.Utilisateur', handler);
