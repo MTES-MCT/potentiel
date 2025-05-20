@@ -458,26 +458,37 @@ const référencielPermissions = {
       },
     },
   },
+  accès: {
+    query: {
+      lister: 'Projet.Accès.Query.ListerAccès',
+      listerProjetsÀRéclamer: 'Projet.Accès.Query.ListerProjetsÀRéclamer',
+    },
+    command: {
+      autoriserAccèsProjet: 'Projet.Accès.Command.AutoriserAccèsProjet',
+      retirerAccèsProjet: 'Projet.Accès.Command.RetirerAccèsProjet',
+      réclamerProjet: 'Projet.Accès.Command.RéclamerProjet',
+    },
+    usecase: {
+      autoriserAccèsProjet: 'Projet.Accès.UseCase.AutoriserAccèsProjet',
+      retirerAccèsProjet: 'Projet.Accès.UseCase.RetirerAccèsProjet',
+      réclamerProjet: 'Projet.Accès.UseCase.RéclamerProjet',
+    },
+  },
   utilisateur: {
     query: {
       consulter: 'Utilisateur.Query.ConsulterUtilisateur',
       lister: 'Utilisateur.Query.ListerUtilisateurs',
       listerPorteurs: 'Utilisateur.Query.ListerPorteurs',
-      listerProjetsÀRéclamer: 'Utilisateur.Query.ListerProjetsÀRéclamer',
     },
     command: {
       inviter: 'Utilisateur.Command.InviterUtilisateur',
       inviterPorteur: 'Utilisateur.Command.InviterPorteur',
-      retirerAccèsProjet: 'Utilisateur.Command.RetirerAccèsProjet',
-      réclamerProjet: 'Utilisateur.Command.RéclamerProjet',
       désactiver: 'Utilisateur.Command.DésactiverUtilisateur',
       réactiver: 'Utilisateur.Command.RéactiverUtilisateur',
     },
     usecase: {
       inviter: 'Utilisateur.UseCase.InviterUtilisateur',
       inviterPorteur: 'Utilisateur.UseCase.InviterPorteur',
-      retirerAccèsProjet: 'Utilisateur.UseCase.RetirerAccèsProjet',
-      réclamerProjet: 'Utilisateur.UseCase.RéclamerProjet',
       désactiver: 'Utilisateur.UseCase.DésactiverUtilisateur',
       réactiver: 'Utilisateur.UseCase.RéactiverUtilisateur',
     },
@@ -1108,7 +1119,6 @@ const policies = {
       référencielPermissions.lauréat.producteur.usecase.enregistrerChangement,
       référencielPermissions.lauréat.producteur.command.enregistrerChangement,
       référencielPermissions.lauréat.garantiesFinancières.usecase.renouveler,
-      référencielPermissions.utilisateur.command.retirerAccèsProjet,
     ],
   },
   lauréat: {
@@ -1117,6 +1127,22 @@ const policies = {
       référencielPermissions.lauréat.query.consulter,
       référencielPermissions.lauréat.usecase.modifier,
       référencielPermissions.lauréat.command.modifier,
+    ],
+  },
+  accès: {
+    lister: [référencielPermissions.accès.query.lister],
+    listerProjetsÀRéclamer: [référencielPermissions.accès.query.listerProjetsÀRéclamer],
+    autoriserAccèsProjet: [
+      référencielPermissions.accès.command.autoriserAccèsProjet,
+      référencielPermissions.accès.usecase.autoriserAccèsProjet,
+    ],
+    retirerAccèsProjet: [
+      référencielPermissions.accès.command.retirerAccèsProjet,
+      référencielPermissions.accès.usecase.retirerAccèsProjet,
+    ],
+    réclamerProjet: [
+      référencielPermissions.accès.command.réclamerProjet,
+      référencielPermissions.accès.usecase.réclamerProjet,
     ],
   },
   utilisateur: {
@@ -1131,15 +1157,6 @@ const policies = {
       référencielPermissions.utilisateur.command.inviterPorteur,
       référencielPermissions.utilisateur.query.consulter,
       référencielPermissions.utilisateur.usecase.inviterPorteur,
-    ],
-    retirerAccèsProjet: [
-      référencielPermissions.utilisateur.command.retirerAccèsProjet,
-      référencielPermissions.utilisateur.usecase.retirerAccèsProjet,
-    ],
-    réclamerProjet: [
-      référencielPermissions.utilisateur.command.réclamerProjet,
-      référencielPermissions.utilisateur.usecase.réclamerProjet,
-      référencielPermissions.utilisateur.query.listerProjetsÀRéclamer,
     ],
     désactiver: [
       référencielPermissions.utilisateur.command.désactiver,
@@ -1300,12 +1317,17 @@ const adminPolicies: ReadonlyArray<Policy> = [
   // Lauréat
   'lauréat.modifier',
 
+  // Accès
+  'accès.autoriserAccèsProjet',
+  'accès.retirerAccèsProjet',
+  'accès.lister',
+  'accès.listerProjetsÀRéclamer',
+
   // Utilisateur
   'utilisateur.lister',
   'utilisateur.inviter',
   'utilisateur.listerPorteurs',
   'utilisateur.inviterPorteur',
-  'utilisateur.retirerAccèsProjet',
   'utilisateur.désactiver',
   'utilisateur.réactiver',
 
@@ -1435,10 +1457,15 @@ const drealPolicies: ReadonlyArray<Policy> = [
   'puissance.rejeterChangement',
   'puissance.listerChangement',
 
+  // Accès
+  'accès.autoriserAccèsProjet',
+  'accès.retirerAccèsProjet',
+  'accès.lister',
+  'accès.listerProjetsÀRéclamer',
+
   // Utilisateur
   'utilisateur.inviterPorteur',
   'utilisateur.listerPorteurs',
-  'utilisateur.retirerAccèsProjet',
 
   // Producteur
   'producteur.listerChangement',
@@ -1520,11 +1547,15 @@ const porteurProjetPolicies: ReadonlyArray<Policy> = [
   'puissance.annulerChangement',
   'puissance.listerChangement',
 
+  // Accès
+  'accès.autoriserAccèsProjet',
+  'accès.retirerAccèsProjet',
+  'accès.lister',
+  'accès.listerProjetsÀRéclamer',
+
   // Utilisateur
   'utilisateur.inviterPorteur',
   'utilisateur.listerPorteurs',
-  'utilisateur.réclamerProjet',
-  'utilisateur.retirerAccèsProjet',
 
   // Cahier des charges
   'cahierDesCharges.choisir',
