@@ -79,6 +79,16 @@ export default async function Page({ searchParams }: PageProps) {
           })),
         },
         {
+          label: 'Statut',
+          searchParamKey: 'statut',
+          options: Lauréat.Abandon.StatutAbandon.statuts
+            .filter((s) => s !== 'inconnu' && s !== 'annulé')
+            .map((statut) => ({
+              label: statut.replace('-', ' ').toLocaleLowerCase(),
+              value: statut,
+            })),
+        },
+        {
           label: 'Recandidature',
           searchParamKey: 'recandidature',
           options: [
@@ -92,7 +102,10 @@ export default async function Page({ searchParams }: PageProps) {
             },
           ],
         },
-        {
+      ];
+
+      if (recandidature) {
+        filters.push({
           label: 'Preuve de recandidature',
           searchParamKey: 'preuveRecandidatureStatut',
           options: Abandon.StatutPreuveRecandidature.statuts
@@ -101,18 +114,8 @@ export default async function Page({ searchParams }: PageProps) {
               label: statut.replace('-', ' ').toLocaleLowerCase(),
               value: statut,
             })),
-        },
-        {
-          label: 'Statut',
-          searchParamKey: 'statut',
-          options: Lauréat.Abandon.StatutAbandon.statuts
-            .filter((s) => s !== 'inconnu' && s !== 'annulé')
-            .map((statut) => ({
-              label: statut.replace('-', ' ').toLocaleLowerCase(),
-              value: statut,
-            })),
-        },
-      ];
+        });
+      }
 
       return <AbandonListPage list={mapToListProps(abandons)} filters={filters} />;
     }),
