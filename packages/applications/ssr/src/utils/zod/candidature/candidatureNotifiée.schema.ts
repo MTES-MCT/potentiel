@@ -80,7 +80,7 @@ export const modifierLauréatEtCandidatureSchéma = z
     },
   )
   .refine((value) => value.laureat || value.candidature, {
-    // little hack as this is an error for the entire form
+    // little hack to display this error for the entire form
     path: ['identifiantProjet'],
     message: 'Le formulaire ne contient pas de modification',
   });
