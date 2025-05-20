@@ -1,6 +1,7 @@
 import { DomainEvent } from '@potentiel-domain/core';
 import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
 import { DocumentProjet } from '@potentiel-domain/document';
+import { Candidature } from '@potentiel-domain/projet';
 
 import { ActionnaireAggregate } from '../../actionnaire.aggregate';
 import {
@@ -9,7 +10,7 @@ import {
   ProjetAvecDemandeAbandonEnCoursError,
   ProjetAchevéError,
 } from '../../errors';
-import { StatutChangementActionnaire } from '../..';
+import { StatutChangementActionnaire, InstructionChangementActionnaire } from '../..';
 
 export type ChangementActionnaireEnregistréEvent = DomainEvent<
   'ChangementActionnaireEnregistré-V1',
@@ -35,7 +36,7 @@ export type EnregistrerChangementOptions = {
   estAbandonné: boolean;
   estAchevé: boolean;
   demandeAbandonEnCours: boolean;
-  estParticipatif: boolean;
+  typeActionnariat?: Candidature.TypeActionnariat.ValueType;
   aDesGarantiesFinancièresConstituées: boolean;
   aUnDépotEnCours: boolean;
 };
@@ -52,19 +53,19 @@ export async function enregistrerChangement(
     estAbandonné,
     estAchevé,
     demandeAbandonEnCours,
-    estParticipatif,
+    typeActionnariat,
     aUnDépotEnCours,
     aDesGarantiesFinancièresConstituées,
   }: EnregistrerChangementOptions,
 ) {
-  // Règle métier, spécifique à l'AO Eolien (pour lequel le type de GF est `après candidature`) pour les porteurs
-  // La demande doit être en "instruction" si il n'y a pas de GF validées sur le projet ou si il y a une demande de renouvellement ou de modifications des garanties financières en cours
-  // La demande doit être en "instruction" si le candidat a joint à son offre la lettre d’engagement (l'investissement participatif ou financement participatif)
-  const devraitPasserParUneDemande =
-    identifiantProjet.appelOffre === 'Eolien' &&
-    (!aDesGarantiesFinancièresConstituées || aUnDépotEnCours || estParticipatif);
+  const instructionChangementActionnaire = InstructionChangementActionnaire.bind({
+    appelOffre: identifiantProjet.appelOffre,
+    typeActionnariat,
+    aUnDépotEnCours,
+    aDesGarantiesFinancièresConstituées,
+  });
 
-  if (devraitPasserParUneDemande) {
+  if (instructionChangementActionnaire.estRequise()) {
     throw new ActionnaireNePeutPasÊtreModifiéDirectement();
   }
 

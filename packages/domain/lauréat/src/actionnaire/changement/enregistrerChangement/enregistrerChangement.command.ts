@@ -47,10 +47,6 @@ export const registerEnregistrerChangementActionnaireCommand = (
       candidature: { typeActionnariat },
     } = await getProjetAggregateRoot(identifiantProjet);
 
-    const estParticipatif =
-      typeActionnariat?.type === 'financement-participatif' ||
-      typeActionnariat?.type === 'investissement-participatif';
-
     await actionnaireAggrégat.enregistrerChangement({
       identifiantProjet,
       identifiantUtilisateur,
@@ -61,7 +57,7 @@ export const registerEnregistrerChangementActionnaireCommand = (
       estAbandonné: statut.estAbandonné(),
       estAchevé: statut.estAchevé(),
       demandeAbandonEnCours: abandon.statut.estEnCours(),
-      estParticipatif,
+      typeActionnariat,
       aDesGarantiesFinancièresConstituées: !!garantiesFinancières?.actuelles,
       aUnDépotEnCours: !!garantiesFinancières?.dépôtsEnCours,
     });

@@ -35,6 +35,9 @@ import { Role } from '@potentiel-domain/utilisateur';
 import { getPuissance } from './_utils/getPuissance';
 import { getProducteur } from './_utils/getProducteur';
 import { getCandidature } from './_utils/getCandidature';
+import { InstructionChangementActionnaire } from '@potentiel-domain/laureat/dist/actionnaire';
+import { Candidature } from '@potentiel-domain/projet';
+import { TypeActionnariat } from '@potentiel-domain/projet/dist/candidature';
 
 const schema = yup.object({
   params: yup.object({ projectId: yup.string().required() }),
@@ -182,16 +185,19 @@ v1Router.get(
         project.appelOffre.isSoumisAuxGF,
       );
 
-      const aDesGarantiesFinancièresConstituées = !!garantiesFinancières?.actuelles;
-      const aUnDépotEnCours = !!garantiesFinancières?.dépôtÀTraiter;
+      const instructionChangementActionnaire = InstructionChangementActionnaire.bind({
+        appelOffre: project.appelOffreId,
+        aDesGarantiesFinancièresConstituées: !!garantiesFinancières?.actuelles,
+        aUnDépotEnCours: !!garantiesFinancières?.dépôtÀTraiter,
+        typeActionnariat: project.isFinancementParticipatif
+          ? Candidature.TypeActionnariat.financementParticipatif
+          : project.isInvestissementParticipatif
+            ? TypeActionnariat.investissementParticipatif
+            : undefined,
+      });
 
       const demandeNécessiteInstructionPourActionnaire =
-        project.appelOffreId === 'Eolien' &&
-        role.estÉgaleÀ(Role.porteur) &&
-        (!aDesGarantiesFinancièresConstituées ||
-          aUnDépotEnCours ||
-          project.isFinancementParticipatif ||
-          project.isInvestissementParticipatif);
+        role.estÉgaleÀ(Role.porteur) && instructionChangementActionnaire.estRequise();
 
       return response.send(
         ProjectDetailsPage({
