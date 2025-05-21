@@ -42,3 +42,14 @@ EtantDonné(
     );
   },
 );
+
+EtantDonné(
+  'une demande complète de raccordement sans accusé de réception pour le projet lauréat',
+  async function (this: PotentielWorld) {
+    await transmettreDemandeComplèteRaccordementSansAccuséRéception.call(
+      this,
+      this.lauréatWorld.identifiantProjet,
+      Email.system(),
+    );
+  },
+);

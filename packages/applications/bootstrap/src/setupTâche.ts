@@ -91,6 +91,7 @@ const registerTâcheRaccordementSaga = async () => {
       'RaccordementSupprimé-V1',
       'DemandeComplèteRaccordementModifiée-V3',
       'DemandeComplèteDeRaccordementTransmise-V3',
+      'GestionnaireRéseauAttribué-V1',
     ],
     eventHandler: async (event) => {
       await mediator.publish<Tâche.TâcheRaccordementSaga.Execute>({

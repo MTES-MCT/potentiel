@@ -17,7 +17,8 @@ export type SubscriptionEvent =
   | Raccordement.RaccordementSuppriméEvent
   | Raccordement.DemandeComplèteRaccordementModifiéeEvent
   | Raccordement.DemandeComplèteRaccordementTransmiseEvent
-  | Raccordement.DossierDuRaccordementSuppriméEvent;
+  | Raccordement.DossierDuRaccordementSuppriméEvent
+  | Raccordement.GestionnaireRéseauAttribuéEvent;
 
 export type Execute = Message<'System.Saga.TâcheRaccordement', SubscriptionEvent>;
 
@@ -137,6 +138,18 @@ export const register = () => {
             data: {
               identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
               typeTâche: Tâche.raccordementRenseignerAccuséRéceptionDemandeComplèteRaccordement,
+            },
+          });
+        },
+      )
+      .with(
+        { type: 'GestionnaireRéseauAttribué-V1' },
+        async ({ payload: { identifiantProjet } }) => {
+          await mediator.send<AjouterTâcheCommand>({
+            type: 'System.Tâche.Command.AjouterTâche',
+            data: {
+              identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
+              typeTâche: Tâche.raccordementRéférenceNonTransmise,
             },
           });
         },
