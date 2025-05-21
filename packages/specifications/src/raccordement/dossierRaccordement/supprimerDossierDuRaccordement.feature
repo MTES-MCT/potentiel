@@ -1,5 +1,4 @@
 # language: fr
-@select
 Fonctionnalité: Supprimer un dossier du raccordement d'un projet
 
     Contexte:
