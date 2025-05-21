@@ -25,7 +25,6 @@ Fonctionnalité: Supprimer un dossier du raccordement d'un projet
         Quand le porteur supprime le dossier de raccordement pour le projet lauréat
         Alors une tâche indiquant de "transmettre une référence de raccordement" n'est plus consultable dans la liste des tâches du porteur pour le projet
 
-    @select
     Scénario: Le système supprime la tâches liée à l'accusé de réception d'un dossier de raccordement si celui-ci est supprimé
         Etant donné une tâche indiquant de "renseigner l'accusé de réception de la demande complète de raccordement" pour le projet lauréat
         Quand le porteur supprime le dossier de raccordement pour le projet lauréat
