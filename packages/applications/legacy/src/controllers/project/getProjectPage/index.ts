@@ -35,9 +35,8 @@ import { Role } from '@potentiel-domain/utilisateur';
 import { getPuissance } from './_utils/getPuissance';
 import { getProducteur } from './_utils/getProducteur';
 import { getCandidature } from './_utils/getCandidature';
-import { InstructionChangementActionnaire } from '@potentiel-domain/laureat/dist/actionnaire';
+import { Actionnaire } from '@potentiel-domain/laureat';
 import { Candidature } from '@potentiel-domain/projet';
-import { TypeActionnariat } from '@potentiel-domain/projet/dist/candidature';
 
 const schema = yup.object({
   params: yup.object({ projectId: yup.string().required() }),
@@ -185,14 +184,14 @@ v1Router.get(
         project.appelOffre.isSoumisAuxGF,
       );
 
-      const instructionChangementActionnaire = InstructionChangementActionnaire.bind({
+      const instructionChangementActionnaire = Actionnaire.InstructionChangementActionnaire.bind({
         appelOffre: project.appelOffreId,
         aDesGarantiesFinancièresConstituées: !!garantiesFinancières?.actuelles,
         aUnDépotEnCours: !!garantiesFinancières?.dépôtÀTraiter,
         typeActionnariat: project.isFinancementParticipatif
           ? Candidature.TypeActionnariat.financementParticipatif
           : project.isInvestissementParticipatif
-            ? TypeActionnariat.investissementParticipatif
+            ? Candidature.TypeActionnariat.investissementParticipatif
             : undefined,
       });
 
