@@ -14,7 +14,7 @@ export async function accèsProjetRetiréNotification({
   return [
     {
       templateId: 4177049,
-      messageSubject: `Révocation de vos accès pour le projet ${nomProjet}`,
+      messageSubject: `Potentiel - Révocation de vos accès pour le projet ${nomProjet}`,
       recipients: identifiantsUtilisateur.map((identifiantUtilisateur) => ({
         email: identifiantUtilisateur,
       })),
