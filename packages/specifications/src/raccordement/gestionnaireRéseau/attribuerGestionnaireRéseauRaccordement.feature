@@ -11,6 +11,7 @@ Fonctionnalité: Attribuer un gestionnaire de réseau au raccordement d'un proje
         Etant donné la candidature lauréate "Du boulodrome de Marseille"
         Quand le DGEC validateur notifie la candidature lauréate
         Alors le projet devrait avoir un raccordement attribué au gestionnaire de réseau
+        Et une tâche indiquant de "transmettre une référence de raccordement" est consultable dans la liste des tâches du porteur pour le projet
 
     Scénario: Un gestionnaire de réseau inconnu est automatiquement attribué au raccordement d'un projet lauréat si son GRD n'est pas trouvé
         Etant donné la candidature lauréate "Boulodrome Sainte Livrade" avec :
