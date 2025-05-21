@@ -95,6 +95,7 @@ export * as ActionnaireSaga from './saga';
 // ValueType
 export * as StatutChangementActionnaire from './statutChangementActionnaire.valueType';
 export * as TypeDocumentActionnaire from './typeDocumentActionnaire.valueType';
+export * as InstructionChangementActionnaire from './instructionChangementActionnaire.valueType';
 
 // Entities
 export * from './actionnaire.entity';
