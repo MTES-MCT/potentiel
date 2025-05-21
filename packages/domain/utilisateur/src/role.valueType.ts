@@ -467,12 +467,12 @@ const référencielPermissions = {
     command: {
       autoriserAccèsProjet: 'Projet.Accès.Command.AutoriserAccèsProjet',
       retirerAccèsProjet: 'Projet.Accès.Command.RetirerAccèsProjet',
-      réclamerProjet: 'Projet.Accès.Command.RéclamerProjet',
+      réclamerProjet: 'Projet.Accès.Command.RéclamerAccèsProjet',
     },
     usecase: {
       autoriserAccèsProjet: 'Projet.Accès.UseCase.AutoriserAccèsProjet',
       retirerAccèsProjet: 'Projet.Accès.UseCase.RetirerAccèsProjet',
-      réclamerProjet: 'Projet.Accès.UseCase.RéclamerProjet',
+      réclamerProjet: 'Projet.Accès.UseCase.RéclamerAccèsProjet',
     },
   },
   utilisateur: {
@@ -1468,6 +1468,7 @@ const drealPolicies: ReadonlyArray<Policy> = [
   'accès.listerProjetsÀRéclamer',
 
   // Utilisateur
+  'utilisateur.lister',
   'utilisateur.inviterPorteur',
 
   // Producteur
@@ -1553,11 +1554,13 @@ const porteurProjetPolicies: ReadonlyArray<Policy> = [
   // Accès
   'accès.autoriserAccèsProjet',
   'accès.retirerAccèsProjet',
+  'accès.réclamerProjet',
   'accès.consulter',
   'accès.lister',
   'accès.listerProjetsÀRéclamer',
 
   // Utilisateur
+  'utilisateur.lister',
   'utilisateur.inviterPorteur',
 
   // Cahier des charges
