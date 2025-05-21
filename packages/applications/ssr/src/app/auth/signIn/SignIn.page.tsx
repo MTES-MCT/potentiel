@@ -75,9 +75,9 @@ export default function SignInPage({ providers }: SignInPageProps) {
                       <ProfilesBadge
                         profiles={{
                           'Porteurs de Projet': true,
-                          DREAL: false,
-                          DGEC: false,
-                          'Autres Partenaires': false,
+                          DREAL: true,
+                          DGEC: true,
+                          'Autres Partenaires*': true,
                         }}
                         title="Profils pouvant se connecter avec ProConnect, la solution d'identité de l'État pour les professionnels"
                       />
@@ -101,7 +101,7 @@ export default function SignInPage({ providers }: SignInPageProps) {
                           'Porteurs de Projet': true,
                           DREAL: false,
                           DGEC: false,
-                          'Autres Partenaires': true,
+                          'Autres Partenaires*': true,
                         }}
                         title="Profils pouvant se connecter avec un lien de connexion envoyé par email"
                       />
@@ -124,7 +124,7 @@ export default function SignInPage({ providers }: SignInPageProps) {
                           'Porteurs de Projet': true,
                           DREAL: false,
                           DGEC: false,
-                          'Autres Partenaires': true,
+                          'Autres Partenaires*': true,
                         }}
                         title="Profils pouvant se connecter avec un mot de passe"
                       />
@@ -140,6 +140,10 @@ export default function SignInPage({ providers }: SignInPageProps) {
                 />
               )}
             </div>
+          </div>
+          <div className="text-right italic mt-2">
+            * Autres Partenaires : CRE, Ademe, Caisse des dépôts, Gestionnaire de Réseau,
+            Co-contractant
           </div>
         </>
       )}

@@ -72,7 +72,7 @@ export default function SignUpPage({ providers }: SignUpPageProps) {
                       'Porteurs de Projet': true,
                       DREAL: false,
                       DGEC: false,
-                      'Autres Partenaires': false,
+                      'Autres Partenaires*': false,
                     }}
                     title="Profils pouvant s'inscrire avec ProConnect, la solution d'identité de l'État pour les professionnels"
                   />
@@ -94,7 +94,7 @@ export default function SignUpPage({ providers }: SignUpPageProps) {
                       'Porteurs de Projet': true,
                       DREAL: false,
                       DGEC: false,
-                      'Autres Partenaires': false,
+                      'Autres Partenaires*': false,
                     }}
                     title="Profils pouvant s'inscrire avec un lien de connexion envoyé par email"
                   />
@@ -107,6 +107,9 @@ export default function SignUpPage({ providers }: SignUpPageProps) {
             />
           )}
         </div>
+      </div>
+      <div className="text-right italic mt-2">
+        * Autres Partenaires : CRE, Ademe, Caisse des dépôts, Gestionnaire de Réseau, Co-contractant
       </div>
     </PageTemplate>
   );
