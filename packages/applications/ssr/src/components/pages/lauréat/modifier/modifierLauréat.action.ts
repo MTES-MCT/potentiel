@@ -27,7 +27,7 @@ const schema = modifierLauréatEtCandidatureSchéma;
 
 const action: FormAction<FormState, typeof schema> = async (_, body) =>
   withUtilisateur(async (utilisateur) => {
-    const { identifiantProjet, candidature, laureat } = body;
+    const { identifiantProjet, candidature, laureat, doitRegenererAttestation } = body;
 
     if (candidature) {
       const candidatureACorriger = await getCandidature(identifiantProjet);
@@ -35,7 +35,12 @@ const action: FormAction<FormState, typeof schema> = async (_, body) =>
       await mediator.send<Candidature.CorrigerCandidatureUseCase>({
         type: 'Candidature.UseCase.CorrigerCandidature',
         data: {
-          ...mapBodyToCandidatureUsecaseData(identifiantProjet, candidature, candidatureACorriger),
+          ...mapBodyToCandidatureUsecaseData(
+            identifiantProjet,
+            candidature,
+            candidatureACorriger,
+            doitRegenererAttestation,
+          ),
           corrigéLe: DateTime.now().formatter(),
           corrigéPar: utilisateur.identifiantUtilisateur.formatter(),
         },
@@ -133,6 +138,7 @@ const mapBodyToCandidatureUsecaseData = (
   identifiantProjet: string,
   data: PartialModifierCandidatureNotifiéeFormEntries,
   previous: Candidature.ConsulterCandidatureReadModel,
+  doitRegenererAttestation?: boolean,
 ): Omit<Candidature.CorrigerCandidatureUseCase['data'], 'corrigéLe' | 'corrigéPar'> => {
   const { appelOffre, période, famille, numéroCRE } =
     IdentifiantProjet.convertirEnValueType(identifiantProjet);
@@ -166,7 +172,7 @@ const mapBodyToCandidatureUsecaseData = (
     evaluationCarboneSimplifiéeValue:
       data.evaluationCarboneSimplifiee ?? previous.evaluationCarboneSimplifiée,
     actionnariatValue: data.actionnariat ?? previous.actionnariat?.formatter(),
-    doitRégénérerAttestation: data.doitRegenererAttestation ? true : undefined,
+    doitRégénérerAttestation: doitRegenererAttestation ? true : undefined,
     coefficientKChoisiValue: data.coefficientKChoisi ?? previous.coefficientKChoisi,
     // non-editable fields
     motifÉliminationValue: previous.motifÉlimination,
