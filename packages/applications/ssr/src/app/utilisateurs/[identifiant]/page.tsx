@@ -54,14 +54,14 @@ export default async function Page({ params: { identifiant } }: PageProps) {
 
       const utilisateurs: ListerUtilisateursReadModel['items'] = await Option.match(accèsProjet)
         .some(async (accèsProjet) => {
-          const identifiantUtilisateurs = accèsProjet.utilisateursAyantAccès.map((utilisateur) =>
+          const identifiantsUtilisateur = accèsProjet.utilisateursAyantAccès.map((utilisateur) =>
             utilisateur.formatter(),
           );
 
           const utilisateurs = await mediator.send<ListerUtilisateursQuery>({
             type: 'Utilisateur.Query.ListerUtilisateurs',
             data: {
-              identifiantUtilisateurs,
+              identifiantsUtilisateur,
             },
           });
 

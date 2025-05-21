@@ -66,7 +66,7 @@ export default async function Page({ searchParams }: PageProps) {
         type: 'Utilisateur.Query.ListerUtilisateurs',
         data: {
           roles: role ? [Role.convertirEnValueType(role).nom] : undefined,
-          identifiantUtilisateurs: identifiantUtilisateur ? [identifiantUtilisateur] : undefined,
+          identifiantsUtilisateur: identifiantUtilisateur ? [identifiantUtilisateur] : undefined,
           range: mapToRangeOptions({ currentPage: page, itemsPerPage: 10 }),
           identifiantGestionnaireRéseau: identifiantGestionnaireReseau,
           région: region,
@@ -161,7 +161,7 @@ export default async function Page({ searchParams }: PageProps) {
           type: 'Utilisateur.Query.ListerUtilisateurs',
           data: {
             roles: [Role.convertirEnValueType(role).nom],
-            identifiantUtilisateurs: identifiantUtilisateur ? [identifiantUtilisateur] : undefined,
+            identifiantsUtilisateur: identifiantUtilisateur ? [identifiantUtilisateur] : undefined,
             identifiantGestionnaireRéseau: identifiantGestionnaireReseau,
             région: region,
             zni,
