@@ -5,7 +5,7 @@ import { récupérerNomProjet } from '../../_utils/récupérerNomProjet';
 import { EmailPayload } from '../../sendEmail';
 
 export async function accèsProjetRetiréNotification({
-  payload: { identifiantProjet, identifiantUtilisateurs, cause },
+  payload: { identifiantProjet, identifiantsUtilisateur, cause },
 }: Accès.AccèsProjetRetiréEvent): Promise<Array<EmailPayload>> {
   const nomProjet = await récupérerNomProjet(identifiantProjet);
   const { BASE_URL } = process.env;
@@ -15,7 +15,7 @@ export async function accèsProjetRetiréNotification({
     {
       templateId: 4177049,
       messageSubject: `Révocation de vos accès pour le projet ${nomProjet}`,
-      recipients: identifiantUtilisateurs.map((identifiantUtilisateur) => ({
+      recipients: identifiantsUtilisateur.map((identifiantUtilisateur) => ({
         email: identifiantUtilisateur,
       })),
       variables: {

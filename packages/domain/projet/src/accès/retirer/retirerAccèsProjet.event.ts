@@ -7,7 +7,7 @@ export type AccèsProjetRetiréEvent = DomainEvent<
   'AccèsProjetRetiré-V1',
   {
     identifiantProjet: IdentifiantProjet.RawType;
-    identifiantUtilisateurs: Array<Email.RawType>;
+    identifiantsUtilisateur: Array<Email.RawType>;
     retiréLe: string;
     retiréPar: string;
     cause?: 'changement-producteur';

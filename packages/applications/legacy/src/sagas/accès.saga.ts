@@ -52,9 +52,9 @@ export const register = () => {
       }
 
       case 'AccèsProjetRetiré-V1': {
-        const { identifiantProjet, identifiantUtilisateurs, retiréPar, cause } = payload;
+        const { identifiantProjet, identifiantsUtilisateur, retiréPar, cause } = payload;
 
-        for (const identifiantUtilisateur of identifiantUtilisateurs) {
+        for (const identifiantUtilisateur of identifiantsUtilisateur) {
           const porteurId = await getOrCreateUser(identifiantUtilisateur, 'porteur-projet');
           const retiréParUserId = await getUserIdByEmail(retiréPar);
 

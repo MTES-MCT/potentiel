@@ -115,7 +115,7 @@ export class AccèsAggregate extends AbstractAggregate<AccèsEvent> {
       type: 'AccèsProjetRetiré-V1',
       payload: {
         identifiantProjet: this.projet.identifiantProjet.formatter(),
-        identifiantUtilisateurs: [identifiantUtilisateur.formatter()],
+        identifiantsUtilisateur: [identifiantUtilisateur.formatter()],
         retiréLe: retirerLe.formatter(),
         retiréPar: retirerPar.formatter(),
         cause,
@@ -134,7 +134,7 @@ export class AccèsAggregate extends AbstractAggregate<AccèsEvent> {
       type: 'AccèsProjetRetiré-V1',
       payload: {
         identifiantProjet: this.projet.identifiantProjet.formatter(),
-        identifiantUtilisateurs: this.#utilisateursAyantAccès.map((u) => u.formatter()),
+        identifiantsUtilisateur: this.#utilisateursAyantAccès.map((u) => u.formatter()),
         retiréLe: retiréLe.formatter(),
         retiréPar: retiréPar.formatter(),
         cause,
@@ -168,9 +168,9 @@ export class AccèsAggregate extends AbstractAggregate<AccèsEvent> {
   }
 
   private applyAccèsProjetRetiréV1({
-    payload: { identifiantUtilisateurs },
+    payload: { identifiantsUtilisateur },
   }: AccèsProjetRetiréEvent) {
-    identifiantUtilisateurs.map((identifiantUtilisateurValue) => {
+    identifiantsUtilisateur.map((identifiantUtilisateurValue) => {
       const index = this.#utilisateursAyantAccès.findIndex((identifiantUtilisateur) =>
         identifiantUtilisateur.estÉgaleÀ(Email.convertirEnValueType(identifiantUtilisateurValue)),
       );

@@ -72,7 +72,7 @@ export class Migrer extends Command {
               type: 'AccèsProjetRetiré-V1',
               payload: {
                 identifiantProjet,
-                identifiantUtilisateurs: [identifiantUtilisateur],
+                identifiantsUtilisateur: [identifiantUtilisateur],
                 retiréLe,
                 retiréPar,
                 cause,
