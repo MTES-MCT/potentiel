@@ -132,6 +132,13 @@ export const register = () => {
               typeTâche: Tâche.raccordementRéférenceNonTransmise,
             },
           });
+          await mediator.send<AcheverTâcheCommand>({
+            type: 'System.Tâche.Command.AcheverTâche',
+            data: {
+              identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
+              typeTâche: Tâche.raccordementRenseignerAccuséRéceptionDemandeComplèteRaccordement,
+            },
+          });
         },
       )
       .exhaustive();
