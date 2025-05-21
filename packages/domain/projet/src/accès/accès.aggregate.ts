@@ -36,7 +36,7 @@ export class AccèsAggregate extends AbstractAggregate<AccèsEvent> {
   async réclamer(options: RéclamerAccèsProjetOptions) {
     const { identifiantUtilisateur, dateRéclamation, type } = options;
 
-    if (!this.projet.statut.estNotifié()) {
+    if (!this.projet.estNotifié) {
       throw new ProjetNonNotiféError();
     }
 

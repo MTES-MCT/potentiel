@@ -13,19 +13,21 @@ import { RecoursAggregate } from './recours/recours.aggregate';
 
 export class ÉliminéAggregate extends AbstractAggregate<ÉliminéEvent> {
   #projet!: ProjetAggregateRoot;
-
   get projet() {
     return this.#projet;
   }
 
   #recours!: AggregateType<RecoursAggregate>;
-
   get recours() {
     return this.#recours;
   }
 
-  #estArchivé: boolean = false;
+  #estNotifié: boolean = false;
+  get estNotifié() {
+    return this.#estNotifié;
+  }
 
+  #estArchivé: boolean = false;
   get estArchivé() {
     return this.#estArchivé;
   }
@@ -92,6 +94,6 @@ export class ÉliminéAggregate extends AbstractAggregate<ÉliminéEvent> {
   }
 
   private applyÉliminéNotifiéV1(_: ÉliminéNotifiéEvent) {
-    // TODO
+    this.#estNotifié = true;
   }
 }

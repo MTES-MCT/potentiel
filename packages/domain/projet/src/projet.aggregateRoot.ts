@@ -60,7 +60,6 @@ export class ProjetAggregateRoot {
   }
 
   #candidature!: AggregateType<CandidatureAggregate>;
-
   get candidature() {
     return this.#candidature;
   }
@@ -75,18 +74,14 @@ export class ProjetAggregateRoot {
         return StatutProjet.abandonné;
       }
 
-      if (this.#lauréat.estNotifié) {
-        return StatutProjet.notifié;
-      }
-
       return StatutProjet.classé;
     }
 
-    if (this.#éliminé.exists) {
-      return StatutProjet.notifié;
-    }
-
     return StatutProjet.éliminé;
+  }
+
+  get estNotifié() {
+    return this.#lauréat.estNotifié || this.#éliminé.estNotifié;
   }
 
   get période() {
