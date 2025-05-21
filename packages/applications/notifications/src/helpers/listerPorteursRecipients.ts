@@ -3,7 +3,6 @@ import { mediator } from 'mediateur';
 import { IdentifiantProjet } from '@potentiel-domain/projet';
 import { Accès } from '@potentiel-domain/projet';
 import { Option } from '@potentiel-libraries/monads';
-import { ListerUtilisateursQuery } from '@potentiel-domain/utilisateur';
 
 import { Recipient } from '../sendEmail';
 
@@ -21,18 +20,8 @@ export const listerPorteursRecipients = async (
         utilisateur.formatter(),
       );
 
-      const utilisateurs = await mediator.send<ListerUtilisateursQuery>({
-        type: 'Utilisateur.Query.ListerUtilisateurs',
-        data: {
-          identifiantsUtilisateur,
-        },
-      });
-
-      return utilisateurs.items.map(({ email, nomComplet }) => ({
+      return identifiantsUtilisateur.map((email) => ({
         email,
-        fullName: Option.match(nomComplet)
-          .some((nomComplet) => nomComplet)
-          .none(() => ''),
       }));
     })
     .none(async () => []);
