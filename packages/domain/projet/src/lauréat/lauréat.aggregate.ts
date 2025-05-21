@@ -222,6 +222,7 @@ export class LauréatAggregate extends AbstractAggregate<LauréatEvent> {
   }
 
   private applyLauréatNotifiéV1({ payload: { notifiéLe } }: LauréatNotifiéV1Event) {
+    this.#estNotifié = true;
     this.#notifiéLe = DateTime.convertirEnValueType(notifiéLe);
   }
 
