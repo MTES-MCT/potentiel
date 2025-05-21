@@ -19,3 +19,8 @@ Fonctionnalité: Supprimer un dossier du raccordement d'un projet
         Etant donné une date de mise en service pour le dossier de raccordement du projet lauréat
         Quand le porteur supprime le dossier de raccordement pour le projet lauréat
         Alors le porteur devrait être informé que "Un dossier avec une date de mise en service ne peut pas être supprimé"
+
+    Scénario: Le système supprime les tâches de raccordement d'un dossier si celui-ci est supprimé
+        Etant donné une tâche indiquant de "transmettre une référence de raccordement" pour le projet lauréat
+        Quand le porteur supprime le dossier de raccordement pour le projet lauréat
+        Alors une tâche indiquant de "transmettre une référence de raccordement" n'est plus consultable dans la liste des tâches du porteur pour le projet

@@ -87,6 +87,7 @@ const registerTâcheRaccordementSaga = async () => {
       'RéférenceDossierRacordementModifiée-V2',
       'GestionnaireRéseauRaccordementModifié-V1',
       'GestionnaireRéseauInconnuAttribué-V1',
+      'DossierDuRaccordementSupprimé-V1',
       'RaccordementSupprimé-V1',
       'DemandeComplèteRaccordementModifiée-V3',
       'DemandeComplèteDeRaccordementTransmise-V3',
