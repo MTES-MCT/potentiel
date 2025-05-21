@@ -17,7 +17,7 @@ Fonctionnalité: Modifier une demande complète de raccordement
         Quand le porteur modifie la demande complète de raccordement
         Alors le dossier est consultable dans la liste des dossiers de raccordement du projet lauréat
         Et la demande complète de raccordement devrait être consultable dans le dossier de raccordement du projet lauréat
-        Et une tâche indiquant de "renseigner l'accusé de récéption de la demande complète de raccordement" n'est plus consultable dans la liste des tâches du porteur pour le projet
+        Et une tâche indiquant de "renseigner l'accusé de réception de la demande complète de raccordement" n'est plus consultable dans la liste des tâches du porteur pour le projet
 
     Scénario: Une dreal modifie une demande complète de raccordement
         Etant donné une demande complète de raccordement pour le projet lauréat
