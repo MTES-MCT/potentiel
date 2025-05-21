@@ -27,7 +27,7 @@ export class AccèsAggregate extends AbstractAggregate<AccèsEvent> {
     return this.#projet;
   }
 
-  #utilisateursAyantAccès: Array<Email.ValueType> = [];
+  identifiantsUtilisateurAyantAccès: Set<Email.RawType> = new Set();
 
   async init(projet: ProjetAggregateRoot) {
     this.#projet = projet;
@@ -40,7 +40,7 @@ export class AccèsAggregate extends AbstractAggregate<AccèsEvent> {
       throw new ProjetNonNotiféError();
     }
 
-    if (this.#utilisateursAyantAccès.length > 0) {
+    if (this.identifiantsUtilisateurAyantAccès.size > 0) {
       throw new ProjetNonRéclamableError();
     }
 
@@ -79,7 +79,7 @@ export class AccèsAggregate extends AbstractAggregate<AccèsEvent> {
     autoriséPar,
     raison,
   }: AutoriserAccèsProjetOptions) {
-    if (this.aDéjàAccès(identifiantUtilisateur)) {
+    if (this.aDéjàAccès(identifiantUtilisateur.formatter())) {
       throw new AccèsProjetDéjàAutoriséError();
     }
 
@@ -107,7 +107,7 @@ export class AccèsAggregate extends AbstractAggregate<AccèsEvent> {
       throw new RetraitDeSesAccèsProjetError();
     }
 
-    if (!this.aDéjàAccès(identifiantUtilisateur)) {
+    if (!this.aDéjàAccès(identifiantUtilisateur.formatter())) {
       throw new UtilisateurAPasAccèsAuProjetError();
     }
 
@@ -134,7 +134,7 @@ export class AccèsAggregate extends AbstractAggregate<AccèsEvent> {
       type: 'AccèsProjetRetiré-V1',
       payload: {
         identifiantProjet: this.projet.identifiantProjet.formatter(),
-        identifiantsUtilisateur: this.#utilisateursAyantAccès.map((u) => u.formatter()),
+        identifiantsUtilisateur: Array.from(this.identifiantsUtilisateurAyantAccès),
         retiréLe: retiréLe.formatter(),
         retiréPar: retiréPar.formatter(),
         cause,
@@ -164,26 +164,18 @@ export class AccèsAggregate extends AbstractAggregate<AccèsEvent> {
   private applyAccèsProjetAutoriséV1({
     payload: { identifiantUtilisateur },
   }: AccèsProjetAutoriséEvent) {
-    this.#utilisateursAyantAccès.push(Email.convertirEnValueType(identifiantUtilisateur));
+    this.identifiantsUtilisateurAyantAccès.add(identifiantUtilisateur);
   }
 
   private applyAccèsProjetRetiréV1({
     payload: { identifiantsUtilisateur },
   }: AccèsProjetRetiréEvent) {
     identifiantsUtilisateur.map((identifiantUtilisateurValue) => {
-      const index = this.#utilisateursAyantAccès.findIndex((identifiantUtilisateur) =>
-        identifiantUtilisateur.estÉgaleÀ(Email.convertirEnValueType(identifiantUtilisateurValue)),
-      );
-
-      if (index > -1) {
-        this.#utilisateursAyantAccès.splice(index, 1);
-      }
+      this.identifiantsUtilisateurAyantAccès.delete(identifiantUtilisateurValue);
     });
   }
 
-  private aDéjàAccès(identifiantUtilisateur: Email.ValueType): boolean {
-    return !!this.#utilisateursAyantAccès.find((utilisateurAyantAccès) =>
-      utilisateurAyantAccès.estÉgaleÀ(identifiantUtilisateur),
-    );
+  private aDéjàAccès(identifiantUtilisateur: Email.RawType): boolean {
+    return this.identifiantsUtilisateurAyantAccès.has(identifiantUtilisateur);
   }
 }
