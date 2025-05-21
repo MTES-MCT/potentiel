@@ -460,6 +460,7 @@ const référencielPermissions = {
   },
   accès: {
     query: {
+      consulter: 'Projet.Accès.Query.ConsulterAccès',
       lister: 'Projet.Accès.Query.ListerAccès',
       listerProjetsÀRéclamer: 'Projet.Accès.Query.ListerProjetsÀRéclamer',
     },
@@ -478,7 +479,6 @@ const référencielPermissions = {
     query: {
       consulter: 'Utilisateur.Query.ConsulterUtilisateur',
       lister: 'Utilisateur.Query.ListerUtilisateurs',
-      listerPorteurs: 'Utilisateur.Query.ListerPorteurs',
     },
     command: {
       inviter: 'Utilisateur.Command.InviterUtilisateur',
@@ -1130,6 +1130,7 @@ const policies = {
     ],
   },
   accès: {
+    consulter: [référencielPermissions.accès.query.consulter],
     lister: [référencielPermissions.accès.query.lister],
     listerProjetsÀRéclamer: [référencielPermissions.accès.query.listerProjetsÀRéclamer],
     autoriserAccèsProjet: [
@@ -1147,7 +1148,6 @@ const policies = {
   },
   utilisateur: {
     lister: [référencielPermissions.utilisateur.query.lister],
-    listerPorteurs: [référencielPermissions.utilisateur.query.listerPorteurs],
     inviter: [
       référencielPermissions.utilisateur.command.inviter,
       référencielPermissions.utilisateur.usecase.inviter,
@@ -1230,6 +1230,9 @@ const pageProjetPolicies: Policy[] = [
 
   // Producteur
   'producteur.consulter',
+
+  // Accès
+  'accès.consulter',
 ];
 
 const adminPolicies: ReadonlyArray<Policy> = [
@@ -1320,13 +1323,13 @@ const adminPolicies: ReadonlyArray<Policy> = [
   // Accès
   'accès.autoriserAccèsProjet',
   'accès.retirerAccèsProjet',
+  'accès.consulter',
   'accès.lister',
   'accès.listerProjetsÀRéclamer',
 
   // Utilisateur
   'utilisateur.lister',
   'utilisateur.inviter',
-  'utilisateur.listerPorteurs',
   'utilisateur.inviterPorteur',
   'utilisateur.désactiver',
   'utilisateur.réactiver',
@@ -1460,12 +1463,12 @@ const drealPolicies: ReadonlyArray<Policy> = [
   // Accès
   'accès.autoriserAccèsProjet',
   'accès.retirerAccèsProjet',
+  'accès.consulter',
   'accès.lister',
   'accès.listerProjetsÀRéclamer',
 
   // Utilisateur
   'utilisateur.inviterPorteur',
-  'utilisateur.listerPorteurs',
 
   // Producteur
   'producteur.listerChangement',
@@ -1550,12 +1553,12 @@ const porteurProjetPolicies: ReadonlyArray<Policy> = [
   // Accès
   'accès.autoriserAccèsProjet',
   'accès.retirerAccèsProjet',
+  'accès.consulter',
   'accès.lister',
   'accès.listerProjetsÀRéclamer',
 
   // Utilisateur
   'utilisateur.inviterPorteur',
-  'utilisateur.listerPorteurs',
 
   // Cahier des charges
   'cahierDesCharges.choisir',

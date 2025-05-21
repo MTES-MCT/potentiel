@@ -20,7 +20,7 @@ export type ListerUtilisateursQuery = Message<
   'Utilisateur.Query.ListerUtilisateurs',
   {
     range?: RangeOptions;
-    identifiantUtilisateur?: string;
+    identifiantUtilisateurs?: Array<string>;
     roles?: Array<string>;
     identifiantGestionnaireRéseau?: string;
     région?: string;
@@ -42,7 +42,7 @@ export const registerListerUtilisateursQuery = ({ list }: ListerUtilisateursDepe
   const handler: MessageHandler<ListerUtilisateursQuery> = async ({
     roles,
     range,
-    identifiantUtilisateur,
+    identifiantUtilisateurs,
     identifiantGestionnaireRéseau,
     région,
     zni,
@@ -71,7 +71,7 @@ export const registerListerUtilisateursQuery = ({ list }: ListerUtilisateursDepe
                 : // Typescript is lost with the union type :/
                   // eslint-disable-next-line @typescript-eslint/no-explicit-any
                   undefined) as any,
-              identifiantUtilisateur: Where.contain(identifiantUtilisateur),
+              identifiantUtilisateur: Where.matchAny(identifiantUtilisateurs),
             };
 
     const utilisateurs = await list<UtilisateurEntity>('utilisateur', {

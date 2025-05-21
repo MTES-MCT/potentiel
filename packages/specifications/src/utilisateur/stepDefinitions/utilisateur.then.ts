@@ -4,11 +4,7 @@ import waitForExpect from 'wait-for-expect';
 import { assert, expect } from 'chai';
 
 import { mapToPlainObject } from '@potentiel-domain/core';
-import {
-  ConsulterUtilisateurQuery,
-  ListerPorteursQuery,
-  TrouverUtilisateurQuery,
-} from '@potentiel-domain/utilisateur';
+import { ConsulterUtilisateurQuery, TrouverUtilisateurQuery } from '@potentiel-domain/utilisateur';
 import { Option } from '@potentiel-libraries/monads';
 import { Email } from '@potentiel-domain/common';
 import { Accès } from '@potentiel-domain/projet';
@@ -80,17 +76,22 @@ Alors(
     }
 
     await waitForExpect(async () => {
-      const porteurs = await mediator.send<ListerPorteursQuery>({
-        type: 'Utilisateur.Query.ListerPorteurs',
+      const accèsProjet = await mediator.send<Accès.ConsulterAccèsQuery>({
+        type: 'Projet.Accès.Query.ConsulterAccès',
         data: {
           identifiantProjet,
         },
       });
 
+      if (Option.isNone(accèsProjet)) {
+        throw new Error(`Il devrait y avoir des accès pour le projet !!`);
+      }
+
       for (const email of expectedPorteurs) {
         const expected = Email.convertirEnValueType(email);
-        expect(porteurs.items.find((item) => item.identifiantUtilisateur.estÉgaleÀ(expected))).not
-          .to.be.undefined;
+        expect(
+          accèsProjet.utilisateursAyantAccès.find((utilisateur) => utilisateur.estÉgaleÀ(expected)),
+        ).not.to.be.undefined;
       }
     });
   },

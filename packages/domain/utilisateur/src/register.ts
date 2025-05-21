@@ -16,7 +16,6 @@ import {
 } from './trouver/trouverUtilisateur.query';
 import { registerInviterUseCase } from './inviter/inviterUtilisateur.usecase';
 import { registerInviterCommand } from './inviter/inviterUtilisateur.command';
-import { registerListerPorteursQuery } from './lister/listerPorteurs.query';
 import { registerDésactiverUseCase } from './désactiver/désactiverUtilisateur.usecase';
 import { registerDésactiverCommand } from './désactiver/désactiverUtilisateur.command';
 import { registerRéactiverUseCase } from './réactiver/réactiverUtilisateur.usecase';
@@ -30,7 +29,6 @@ export const registerUtilisateurQueries = (dependencies: UtilisateurQueryDepende
   registerConsulterUtilisateurQuery(dependencies);
   registerListerUtilisateursQuery(dependencies);
   registerTrouverUtilisateurQuery(dependencies);
-  registerListerPorteursQuery(dependencies);
 };
 
 export type UtilisateurCommandDependencies = {
