@@ -3,10 +3,7 @@ import { Message, Middleware, mediator } from 'mediateur';
 import { IdentifiantProjet } from '@potentiel-domain/common';
 import { getContext } from '@potentiel-applications/request-context';
 import { getLogger } from '@potentiel-libraries/monitoring';
-import { OperationRejectedError } from '@potentiel-domain/core';
-import { findProjection } from '@potentiel-infrastructure/pg-projection-read';
 import { Accès } from '@potentiel-domain/projet';
-import { Option } from '@potentiel-libraries/monads';
 
 import { AuthenticationError } from '../errors';
 
@@ -36,7 +33,6 @@ export const permissionMiddleware: Middleware = async (message, next) => {
       message.type === 'Projet.Accès.UseCase.RéclamerAccèsProjet' ||
       message.type === 'Projet.Accès.Command.RéclamerAccèsProjet'
     ) {
-      await vérifierQueLeProjetEstÀRéclamer(identifiantProjetValue);
       return await next();
     }
 
@@ -75,17 +71,3 @@ const getIdentifiantProjetValue = (message: Message<string, Record<string, unkno
   const valueType = message.data['identifiantProjet'] as IdentifiantProjet.ValueType;
   return valueType.formatter();
 };
-
-const vérifierQueLeProjetEstÀRéclamer = async (identifiantProjet: IdentifiantProjet.RawType) => {
-  const accès = await findProjection<Accès.AccèsEntity>(`accès|${identifiantProjet}`);
-
-  if (Option.isSome(accès)) {
-    throw new ProjetNonRéclamableError();
-  }
-};
-
-class ProjetNonRéclamableError extends OperationRejectedError {
-  constructor() {
-    super(`Le projet ne peut être réclamé`);
-  }
-}

@@ -35,3 +35,9 @@ export class AccèsProjetDéjàAutoriséError extends OperationRejectedError {
     super(`L'utilisateur a déjà accès à ce projet`);
   }
 }
+
+export class ProjetNonRéclamableError extends OperationRejectedError {
+  constructor() {
+    super(`Le projet ne peut être réclamé`);
+  }
+}

@@ -16,6 +16,7 @@ import {
   RetraitDeSesAccèsProjetError,
   UtilisateurAPasAccèsAuProjetError,
   AccèsProjetDéjàAutoriséError,
+  ProjetNonRéclamableError,
 } from './accès.error';
 import { RéclamerAccèsProjetOptions } from './réclamer/réclamerAccèsProjet.options';
 import { RetirerAccèsProjetOptions } from './retirer/retirerAccèsProjet.options';
@@ -37,6 +38,10 @@ export class AccèsAggregate extends AbstractAggregate<AccèsEvent> {
 
     if (!this.projet.statut.estNotifié()) {
       throw new ProjetNonNotiféError();
+    }
+
+    if (this.#utilisateursAyantAccès.length > 0) {
+      throw new ProjetNonRéclamableError();
     }
 
     if (type === 'avec-prix-numéro-cre') {
