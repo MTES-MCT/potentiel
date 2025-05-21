@@ -14,6 +14,8 @@ import { Raccordement } from '@potentiel-domain/laureat';
 export type SubscriptionEvent = (
   | Raccordement.DateMiseEnServiceTransmiseEvent
   | Raccordement.DateMiseEnServiceTransmiseV1Event
+  | Raccordement.DemandeComplèteRaccordementTransmiseEventV1
+  | Raccordement.DemandeComplèteRaccordementTransmiseEventV2
   | Raccordement.DemandeComplèteRaccordementTransmiseEvent
 ) &
   Event;
@@ -43,7 +45,9 @@ export const register = () => {
             resolve();
           });
         });
+      case 'DemandeComplèteDeRaccordementTransmise-V1':
       case 'DemandeComplèteDeRaccordementTransmise-V2':
+      case 'DemandeComplèteDeRaccordementTransmise-V3':
         return new Promise<void>((resolve) => {
           publishToEventBus(
             new DemandeComplèteRaccordementTransmise({
@@ -57,7 +61,6 @@ export const register = () => {
           });
         });
     }
-    return Promise.reject();
   };
 
   mediator.register('System.Saga.Raccordement', handler);

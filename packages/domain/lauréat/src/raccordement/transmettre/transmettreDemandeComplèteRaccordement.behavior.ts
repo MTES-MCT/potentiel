@@ -1,7 +1,8 @@
-import { DateTime, ExpressionRegulière, IdentifiantProjet } from '@potentiel-domain/common';
+import { DateTime, Email, ExpressionRegulière } from '@potentiel-domain/common';
 import { DomainEvent, OperationRejectedError } from '@potentiel-domain/core';
 import { Option } from '@potentiel-libraries/monads';
 import { GestionnaireRéseau } from '@potentiel-domain/reseau';
+import { IdentifiantProjet } from '@potentiel-domain/projet';
 
 import * as RéférenceDossierRaccordement from '../référenceDossierRaccordement.valueType';
 import { RaccordementAggregate } from '../raccordement.aggregate';
@@ -36,7 +37,11 @@ export type AccuséRéceptionDemandeComplèteRaccordementTransmisEventV1 = Domai
   }
 >;
 
-export type DemandeComplèteRaccordementTransmiseEvent = DomainEvent<
+/**
+ * @deprecated Utilisez DemandeComplèteRaccordementTransmiseEventV2 à la place.
+ * Cet event a été conserver pour la compatibilité avec le chargement des aggrégats et la fonctionnalité de rebuild des projections
+ */
+export type DemandeComplèteRaccordementTransmiseEventV2 = DomainEvent<
   'DemandeComplèteDeRaccordementTransmise-V2',
   {
     identifiantProjet: IdentifiantProjet.RawType;
@@ -49,13 +54,30 @@ export type DemandeComplèteRaccordementTransmiseEvent = DomainEvent<
   }
 >;
 
+export type DemandeComplèteRaccordementTransmiseEvent = DomainEvent<
+  'DemandeComplèteDeRaccordementTransmise-V3',
+  {
+    identifiantProjet: IdentifiantProjet.RawType;
+    identifiantGestionnaireRéseau: GestionnaireRéseau.IdentifiantGestionnaireRéseau.RawType;
+    dateQualification?: DateTime.RawType;
+    référenceDossierRaccordement: RéférenceDossierRaccordement.RawType;
+    accuséRéception?: {
+      format: string;
+    };
+    transmisePar: Email.RawType;
+    transmiseLe: DateTime.RawType;
+  }
+>;
+
 type TransmettreDemandeOptions = {
   dateQualification: DateTime.ValueType;
   identifiantProjet: IdentifiantProjet.ValueType;
   identifiantGestionnaireRéseau: GestionnaireRéseau.IdentifiantGestionnaireRéseau.ValueType;
   référenceDossier: RéférenceDossierRaccordement.ValueType;
   référenceDossierExpressionRegulière: ExpressionRegulière.ValueType;
-  formatAccuséRéception: string;
+  transmisePar: Email.ValueType;
+  transmiseLe: DateTime.ValueType;
+  formatAccuséRéception?: string;
   aUnAbandonAccordé: boolean;
 };
 
@@ -69,6 +91,8 @@ export async function transmettreDemande(
     référenceDossierExpressionRegulière,
     formatAccuséRéception,
     aUnAbandonAccordé,
+    transmisePar,
+    transmiseLe,
   }: TransmettreDemandeOptions,
 ) {
   if (aUnAbandonAccordé) {
@@ -97,15 +121,19 @@ export async function transmettreDemande(
   }
 
   const event: DemandeComplèteRaccordementTransmiseEvent = {
-    type: 'DemandeComplèteDeRaccordementTransmise-V2',
+    type: 'DemandeComplèteDeRaccordementTransmise-V3',
     payload: {
       identifiantProjet: identifiantProjet.formatter(),
       dateQualification: dateQualification?.formatter(),
       identifiantGestionnaireRéseau: identifiantGestionnaireRéseau.formatter(),
       référenceDossierRaccordement: référenceDossier.formatter(),
-      accuséRéception: {
-        format: formatAccuséRéception,
-      },
+      accuséRéception: formatAccuséRéception
+        ? {
+            format: formatAccuséRéception,
+          }
+        : undefined,
+      transmisePar: transmisePar.formatter(),
+      transmiseLe: transmiseLe.formatter(),
     },
   };
 
@@ -179,7 +207,7 @@ export function applyDemandeComplèteDeRaccordementTransmiseEventV2(
       référenceDossierRaccordement,
       dateQualification,
     },
-  }: DemandeComplèteRaccordementTransmiseEvent,
+  }: DemandeComplèteRaccordementTransmiseEventV2,
 ) {
   applyDemandeComplèteDeRaccordementTransmiseEventV1.bind(this)({
     type: 'DemandeComplèteDeRaccordementTransmise-V1',
@@ -198,6 +226,40 @@ export function applyDemandeComplèteDeRaccordementTransmiseEventV2(
       référenceDossierRaccordement,
     },
   });
+}
+
+export function applyDemandeComplèteDeRaccordementTransmiseEventV3(
+  this: RaccordementAggregate,
+  {
+    payload: {
+      accuséRéception,
+      identifiantGestionnaireRéseau,
+      identifiantProjet,
+      référenceDossierRaccordement,
+      dateQualification,
+    },
+  }: DemandeComplèteRaccordementTransmiseEvent,
+) {
+  applyDemandeComplèteDeRaccordementTransmiseEventV1.bind(this)({
+    type: 'DemandeComplèteDeRaccordementTransmise-V1',
+    payload: {
+      identifiantGestionnaireRéseau,
+      identifiantProjet,
+      référenceDossierRaccordement,
+      dateQualification,
+    },
+  });
+
+  if (accuséRéception) {
+    applyAccuséRéceptionDemandeComplèteRaccordementTransmisEventV1.bind(this)({
+      type: 'AccuséRéceptionDemandeComplèteRaccordementTransmis-V1',
+      payload: {
+        format: accuséRéception.format,
+        identifiantProjet,
+        référenceDossierRaccordement,
+      },
+    });
+  }
 }
 
 class ImpossibleTransmettreDCRProjetAbandonnéError extends OperationRejectedError {

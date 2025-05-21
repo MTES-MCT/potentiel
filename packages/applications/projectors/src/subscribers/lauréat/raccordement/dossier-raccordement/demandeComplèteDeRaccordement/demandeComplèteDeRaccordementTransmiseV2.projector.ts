@@ -6,8 +6,8 @@ import { updateOneProjection } from '@potentiel-infrastructure/pg-projection-wri
 import { DateTime } from '@potentiel-domain/common';
 import { Event } from '@potentiel-infrastructure/pg-event-sourcing';
 
-import { getRaccordement } from '../_utils/getRaccordement';
-import { upsertDossierRaccordement } from '../_utils/upsertDossierRaccordement';
+import { getRaccordement } from '../../_utils/getRaccordement';
+import { upsertDossierRaccordement } from '../../_utils/upsertDossierRaccordement';
 
 export const demandeComplèteDeRaccordementTransmiseV2Projector = async ({
   payload: {
@@ -18,7 +18,7 @@ export const demandeComplèteDeRaccordementTransmiseV2Projector = async ({
     accuséRéception,
   },
   created_at,
-}: Raccordement.DemandeComplèteRaccordementTransmiseEvent & Event) => {
+}: Raccordement.DemandeComplèteRaccordementTransmiseEventV2 & Event) => {
   const référence = référenceDossierRaccordement;
 
   const candidature = await findProjection<Candidature.CandidatureEntity>(

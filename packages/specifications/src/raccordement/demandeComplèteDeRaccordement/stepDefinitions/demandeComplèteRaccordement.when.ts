@@ -2,22 +2,43 @@ import { DataTable, When as Quand } from '@cucumber/cucumber';
 import { match } from 'ts-pattern';
 import { mediator } from 'mediateur';
 
-import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
+import { DateTime, Email } from '@potentiel-domain/common';
 import { Raccordement } from '@potentiel-domain/laureat';
 import { Role } from '@potentiel-domain/utilisateur';
+import { IdentifiantProjet } from '@potentiel-domain/projet';
 
 import { PotentielWorld } from '../../../potentiel.world';
 
 Quand(
   'le porteur transmet une demande complète de raccordement pour le projet lauréat',
   async function (this: PotentielWorld) {
-    await transmettreDemandeComplèteRaccordement.call(this, this.lauréatWorld.identifiantProjet);
+    await transmettreDemandeComplèteRaccordement.call(
+      this,
+      this.lauréatWorld.identifiantProjet,
+      Email.convertirEnValueType(this.utilisateurWorld.porteurFixture.email),
+    );
   },
 );
+
+Quand(
+  'le système transmet une demande complète de raccordement sans accusé de réception pour le projet lauréat',
+  async function (this: PotentielWorld) {
+    await transmettreDemandeComplèteRaccordementSansAccuséRéception.call(
+      this,
+      this.lauréatWorld.identifiantProjet,
+      Email.system(),
+    );
+  },
+);
+
 Quand(
   'le porteur transmet une demande complète de raccordement pour le projet éliminé',
   async function (this: PotentielWorld) {
-    await transmettreDemandeComplèteRaccordement.call(this, this.eliminéWorld.identifiantProjet);
+    await transmettreDemandeComplèteRaccordement.call(
+      this,
+      this.eliminéWorld.identifiantProjet,
+      Email.convertirEnValueType(this.utilisateurWorld.porteurFixture.email),
+    );
   },
 );
 
@@ -27,6 +48,7 @@ Quand(
     await transmettreDemandeComplèteRaccordement.call(
       this,
       this.lauréatWorld.identifiantProjet,
+      Email.convertirEnValueType(this.utilisateurWorld.porteurFixture.email),
       datatable.rowsHash(),
     );
   },
@@ -94,6 +116,7 @@ Quand(
 export async function transmettreDemandeComplèteRaccordement(
   this: PotentielWorld,
   identifiantProjet: IdentifiantProjet.ValueType,
+  transmisePar: Email.ValueType,
   data: Record<string, string> = {},
 ) {
   const { accuséRéception, dateQualification, référenceDossier } =
@@ -105,18 +128,42 @@ export async function transmettreDemandeComplèteRaccordement(
     });
 
   try {
-    await mediator.send<Raccordement.RaccordementUseCase>({
+    await mediator.send<Raccordement.TransmettreDemandeComplèteRaccordementUseCase>({
       type: 'Lauréat.Raccordement.UseCase.TransmettreDemandeComplèteRaccordement',
       data: {
         accuséRéceptionValue: accuséRéception,
         dateQualificationValue: dateQualification,
         identifiantProjetValue: identifiantProjet.formatter(),
         référenceDossierValue: référenceDossier,
+        transmiseParValue: transmisePar.formatter(),
       },
     });
   } catch (e) {
     this.error = e as Error;
   }
+}
+
+export async function transmettreDemandeComplèteRaccordementSansAccuséRéception(
+  this: PotentielWorld,
+  identifiantProjet: IdentifiantProjet.ValueType,
+  transmisePar: Email.ValueType,
+) {
+  const { dateQualification, référenceDossier, accuséRéception } =
+    this.raccordementWorld.demandeComplèteDeRaccordement.transmettreFixture.créer({
+      identifiantProjet: identifiantProjet.formatter(),
+      accuséRéception: undefined,
+    });
+
+  await mediator.send<Raccordement.TransmettreDemandeComplèteRaccordementUseCase>({
+    type: 'Lauréat.Raccordement.UseCase.TransmettreDemandeComplèteRaccordement',
+    data: {
+      dateQualificationValue: dateQualification,
+      identifiantProjetValue: identifiantProjet.formatter(),
+      référenceDossierValue: référenceDossier,
+      transmiseParValue: transmisePar.formatter(),
+      accuséRéceptionValue: accuséRéception,
+    },
+  });
 }
 
 async function modifierDemandeComplèteRaccordement(

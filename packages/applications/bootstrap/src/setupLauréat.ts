@@ -553,6 +553,7 @@ export const setupLauréat = async ({
         'DateMiseEnServiceTransmise-V2',
         'DemandeComplèteDeRaccordementTransmise-V1',
         'DemandeComplèteDeRaccordementTransmise-V2',
+        'DemandeComplèteDeRaccordementTransmise-V3',
         'DemandeComplèteRaccordementModifiée-V1',
         'DemandeComplèteRaccordementModifiée-V2',
         'DemandeComplèteRaccordementModifiée-V3',

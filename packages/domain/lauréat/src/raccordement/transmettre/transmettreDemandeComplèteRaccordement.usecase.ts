@@ -1,7 +1,8 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { DocumentProjet, EnregistrerDocumentProjetCommand } from '@potentiel-domain/document';
-import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
+import { DateTime, Email } from '@potentiel-domain/common';
+import { IdentifiantProjet } from '@potentiel-domain/projet';
 
 import * as TypeDocumentRaccordement from '../typeDocumentRaccordement.valueType';
 import * as RéférenceDossierRaccordement from '../référenceDossierRaccordement.valueType';
@@ -14,10 +15,11 @@ export type TransmettreDemandeComplèteRaccordementUseCase = Message<
     identifiantProjetValue: string;
     dateQualificationValue: string;
     référenceDossierValue: string;
-    accuséRéceptionValue: {
+    accuséRéceptionValue?: {
       content: ReadableStream;
       format: string;
     };
+    transmiseParValue: string;
   }
 >;
 
@@ -26,19 +28,12 @@ export const registerTransmettreDemandeComplèteRaccordementUseCase = () => {
     dateQualificationValue,
     identifiantProjetValue,
     référenceDossierValue,
-    accuséRéceptionValue: { format, content },
+    accuséRéceptionValue,
+    transmiseParValue,
   }) => {
-    const accuséRéception = DocumentProjet.convertirEnValueType(
-      identifiantProjetValue,
-      TypeDocumentRaccordement.convertirEnAccuséRéceptionValueType(
-        référenceDossierValue,
-      ).formatter(),
-      dateQualificationValue,
-      format,
-    );
-
     const identifiantProjet = IdentifiantProjet.convertirEnValueType(identifiantProjetValue);
     const dateQualification = DateTime.convertirEnValueType(dateQualificationValue);
+    const transmisePar = Email.convertirEnValueType(transmiseParValue);
 
     /**
      * Merci de laisser la commande transmettre en première puisqu'elle fait des vérifications (notamment sur l'abandon du projet)
@@ -49,17 +44,29 @@ export const registerTransmettreDemandeComplèteRaccordementUseCase = () => {
         identifiantProjet,
         dateQualification,
         référenceDossier: RéférenceDossierRaccordement.convertirEnValueType(référenceDossierValue),
-        formatAccuséRéception: format,
+        formatAccuséRéception: accuséRéceptionValue?.format ?? undefined,
+        transmisePar,
       },
     });
 
-    await mediator.send<EnregistrerDocumentProjetCommand>({
-      type: 'Document.Command.EnregistrerDocumentProjet',
-      data: {
-        content,
-        documentProjet: accuséRéception,
-      },
-    });
+    if (accuséRéceptionValue) {
+      const accuséRéception = DocumentProjet.convertirEnValueType(
+        identifiantProjetValue,
+        TypeDocumentRaccordement.convertirEnAccuséRéceptionValueType(
+          référenceDossierValue,
+        ).formatter(),
+        dateQualificationValue,
+        accuséRéceptionValue.format,
+      );
+
+      await mediator.send<EnregistrerDocumentProjetCommand>({
+        type: 'Document.Command.EnregistrerDocumentProjet',
+        data: {
+          content: accuséRéceptionValue.content,
+          documentProjet: accuséRéception,
+        },
+      });
+    }
   };
 
   mediator.register('Lauréat.Raccordement.UseCase.TransmettreDemandeComplèteRaccordement', runner);

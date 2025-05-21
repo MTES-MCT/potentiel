@@ -9,23 +9,30 @@ import { gestionnaireRéseauRaccordementModifiéV1Projector } from './gestionnai
 import { gestionnaireRéseauInconnuAttribuéV1Projector } from './gestionnaireRéseauInconnuAttribuéV1.projector';
 import { gestionnaireRéseauAttribuéV1Projector } from './gestionnaireRéseauAttribuéV1.projector';
 import { raccordementSuppriméV1Projector } from './raccordementSuppriméV1.projector';
-import { accuséRéceptionDemandeComplèteRaccordementTransmisV1Projector } from './dossier-raccordement/accuséRéceptionDemandeComplèteRaccordementTransmisV1.projector';
-import { dateMiseEnServiceTransmiseV1Projector } from './dossier-raccordement/dateMiseEnServiceTransmiseV1.projector';
-import { dateMiseEnServiceTransmiseV2Projector } from './dossier-raccordement/dateMiseEnServiceTransmiseV2.projector';
-import { demandeComplèteDeRaccordementTransmiseV1Projector } from './dossier-raccordement/demandeComplèteDeRaccordementTransmiseV1.projector';
-import { demandeComplèteDeRaccordementTransmiseV2Projector } from './dossier-raccordement/demandeComplèteDeRaccordementTransmiseV2.projector';
-import { demandeComplèteRaccordementModifiéeV1Projector } from './dossier-raccordement/demandeComplèteRaccordementModifiéeV1.projector';
-import { demandeComplèteRaccordementModifiéeV2Projector } from './dossier-raccordement/demandeComplèteRaccordementModifiéeV2.projector';
-import { demandeComplèteRaccordementModifiéeV3Projector } from './dossier-raccordement/demandeComplèteRaccordementModifiéeV3.projector';
-import { propositionTechniqueEtFinancièreModifiéeV1Projector } from './dossier-raccordement/propositionTechniqueEtFinancièreModifiéeV1.projector';
-import { propositionTechniqueEtFinancièreModifiéeV2Projector } from './dossier-raccordement/propositionTechniqueEtFinancièreModifiéeV2.projector';
-import { propositionTechniqueEtFinancièreSignéeTransmiseV1Projector } from './dossier-raccordement/propositionTechniqueEtFinancièreSignéeTransmiseV1.projector';
-import { propositionTechniqueEtFinancièreTransmiseV1Projector } from './dossier-raccordement/propositionTechniqueEtFinancièreTransmiseV1.projector';
-import { propositionTechniqueEtFinancièreTransmiseV2Projector } from './dossier-raccordement/propositionTechniqueEtFinancièreTransmiseV2.projector';
 import { référenceDossierRacordementModifiéeV1Projector } from './dossier-raccordement/référenceDossierRacordementModifiéeV1.projector';
 import { référenceDossierRacordementModifiéeV2Projector } from './dossier-raccordement/référenceDossierRacordementModifiéeV2.projector';
 import { dossierDuRaccordementSuppriméV1Projector } from './dossier-raccordement/dossierDuRaccordementSuppriméV1.projector';
-import { dateMiseEnServiceSuppriméeV1Projector } from './dossier-raccordement/dateMiseEnServiceSuppriméeV1.projector';
+import {
+  accuséRéceptionDemandeComplèteRaccordementTransmisV1Projector,
+  demandeComplèteDeRaccordementTransmiseV1Projector,
+  demandeComplèteDeRaccordementTransmiseV2Projector,
+  demandeComplèteDeRaccordementTransmiseV3Projector,
+  demandeComplèteRaccordementModifiéeV1Projector,
+  demandeComplèteRaccordementModifiéeV2Projector,
+  demandeComplèteRaccordementModifiéeV3Projector,
+} from './dossier-raccordement/demandeComplèteDeRaccordement';
+import {
+  propositionTechniqueEtFinancièreModifiéeV1Projector,
+  propositionTechniqueEtFinancièreModifiéeV2Projector,
+  propositionTechniqueEtFinancièreSignéeTransmiseV1Projector,
+  propositionTechniqueEtFinancièreTransmiseV1Projector,
+  propositionTechniqueEtFinancièreTransmiseV2Projector,
+} from './dossier-raccordement/propositionTechniqueEtFinancière';
+import {
+  dateMiseEnServiceSuppriméeV1Projector,
+  dateMiseEnServiceTransmiseV1Projector,
+  dateMiseEnServiceTransmiseV2Projector,
+} from './dossier-raccordement/dateMiseEnService';
 
 export type SubscriptionEvent = (Raccordement.RaccordementEvent | RebuildTriggered) & Event;
 
@@ -72,6 +79,12 @@ export const register = () => {
           .with(
             { type: 'DemandeComplèteDeRaccordementTransmise-V2' },
             demandeComplèteDeRaccordementTransmiseV2Projector,
+          )
+          .with(
+            {
+              type: 'DemandeComplèteDeRaccordementTransmise-V3',
+            },
+            demandeComplèteDeRaccordementTransmiseV3Projector,
           )
           .with(
             { type: 'DemandeComplèteRaccordementModifiée-V1' },
