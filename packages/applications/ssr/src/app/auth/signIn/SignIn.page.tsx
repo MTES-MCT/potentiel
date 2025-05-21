@@ -3,16 +3,17 @@
 import { redirect, useSearchParams } from 'next/navigation';
 import { signIn, useSession } from 'next-auth/react';
 import { useEffect } from 'react';
-import Button from '@codegouvfr/react-dsfr/Button';
 import ProConnectButton from '@codegouvfr/react-dsfr/ProConnectButton';
 import Alert from '@codegouvfr/react-dsfr/Alert';
 import Tile from '@codegouvfr/react-dsfr/Tile';
+import Button from '@codegouvfr/react-dsfr/Button';
 
 import { Routes } from '@potentiel-applications/routes';
 
 import { PageTemplate } from '@/components/templates/Page.template';
 import { Heading1 } from '@/components/atoms/headings';
 import { MagicLinkForm } from '@/components/organisms/auth/MagicLinkForm';
+import { ProfilesBadge } from '@/components/organisms/auth/ProfilesBadge';
 
 type SignInPageProps = {
   providers: Array<string>;
@@ -65,11 +66,24 @@ export default function SignInPage({ providers }: SignInPageProps) {
                 closable
               />
             )}
-            <div className="flex flex-col md:flex-row gap-5">
+            <div className="flex flex-wrap gap-5 justify-center">
               {providers.includes('proconnect') && (
                 <Tile
                   title="ProConnect"
-                  desc="Connectez-vous facilement à l'aide de votre adresse professionnelle"
+                  desc={
+                    <div className="flex flex-col">
+                      <ProfilesBadge
+                        profiles={{
+                          'Porteurs de Projet': true,
+                          DREAL: false,
+                          DGEC: false,
+                          'Autres Partenaires': false,
+                        }}
+                        title="Profils pouvant se connecter avec ProConnect, la solution d'identité de l'État pour les professionnels"
+                      />
+                      Connectez-vous facilement à l'aide de votre adresse professionnelle
+                    </div>
+                  }
                   detail={
                     <ProConnectButton onClick={() => signIn('proconnect', { callbackUrl })} />
                   }
@@ -80,7 +94,21 @@ export default function SignInPage({ providers }: SignInPageProps) {
               {providers.includes('email') && (
                 <Tile
                   title="Lien magique"
-                  desc="Connectez-vous facilement sans mot de passe à l'aide d'un lien magique qui sera envoyé sur votre adresse de courriel"
+                  desc={
+                    <div className="flex flex-col">
+                      <ProfilesBadge
+                        profiles={{
+                          'Porteurs de Projet': true,
+                          DREAL: false,
+                          DGEC: false,
+                          'Autres Partenaires': true,
+                        }}
+                        title="Profils pouvant se connecter avec un lien de connexion envoyé par email"
+                      />
+                      Connectez-vous facilement sans mot de passe à l'aide d'un lien magique qui
+                      sera envoyé sur votre adresse de courriel
+                    </div>
+                  }
                   detail={<MagicLinkForm callbackUrl={callbackUrl} />}
                   className="flex-1"
                 />
@@ -89,13 +117,26 @@ export default function SignInPage({ providers }: SignInPageProps) {
               {providers.includes('keycloak') && (
                 <Tile
                   title="Mot de passe"
-                  desc="Vous pouvez toujours vous connecter à l'aide de vos identifiants classiques"
+                  desc={
+                    <div className="flex flex-col">
+                      <ProfilesBadge
+                        profiles={{
+                          'Porteurs de Projet': true,
+                          DREAL: false,
+                          DGEC: false,
+                          'Autres Partenaires': true,
+                        }}
+                        title="Profils pouvant se connecter avec un mot de passe"
+                      />
+                      Vous pouvez toujours vous connecter à l'aide de vos identifiants classiques
+                    </div>
+                  }
                   detail={
                     <Button className="mx-auto" onClick={() => signIn('keycloak', { callbackUrl })}>
                       Connexion avec mot de passe
                     </Button>
                   }
-                  className="flex-1"
+                  className="flex-1 lg:flex-none"
                 />
               )}
             </div>
