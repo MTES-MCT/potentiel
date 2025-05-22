@@ -9,6 +9,7 @@
   },
   "devDependencies": {
     "@potentiel-config/tsconfig": "*",
+    "@potentiel-domain/laureat": "*",
     "@potentiel-domain/projet": "*"
   }
 }
