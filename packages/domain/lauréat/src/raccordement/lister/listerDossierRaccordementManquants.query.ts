@@ -2,7 +2,7 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 import { match, P } from 'ts-pattern';
 
 import { Joined, List, RangeOptions, Where } from '@potentiel-domain/entity';
-import { Candidature, IdentifiantProjet } from '@potentiel-domain/projet';
+import { Candidature, IdentifiantProjet, Raccordement } from '@potentiel-domain/projet';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { Option } from '@potentiel-libraries/monads';
 import { DateTime } from '@potentiel-domain/common';
@@ -10,7 +10,6 @@ import { GestionnaireRéseau } from '@potentiel-domain/reseau';
 
 import * as StatutLauréat from '../../statutLauréat.valueType';
 import { PuissanceEntity } from '../../puissance';
-import { Raccordement } from '../..';
 
 type DossierRaccordementManquant = {
   référenceDossier: Option.None;
