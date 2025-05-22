@@ -71,10 +71,23 @@ export const setupProjet = async ({ sendEmail }: SetupProjetDependencies) => {
       });
     },
   });
+
   const unsubscribeLauréatSaga = await subscribe<LauréatSaga.SubscriptionEvent & Event>({
     name: 'laureat-saga',
     streamCategory: 'recours',
     eventType: ['RecoursAccordé-V1'],
+    eventHandler: async (event) => {
+      await mediator.publish<LauréatSaga.Execute>({
+        type: 'System.Lauréat.Saga.Execute',
+        data: event,
+      });
+    },
+  });
+
+  const unsubscribeLauréatProducteurSaga = await subscribe<LauréatSaga.SubscriptionEvent & Event>({
+    name: 'laureat-producteur-saga',
+    streamCategory: 'producteur',
+    eventType: ['ChangementProducteurEnregistré-V1'],
     eventHandler: async (event) => {
       await mediator.publish<LauréatSaga.Execute>({
         type: 'System.Lauréat.Saga.Execute',
@@ -205,6 +218,7 @@ export const setupProjet = async ({ sendEmail }: SetupProjetDependencies) => {
   return async () => {
     await unsubscribeLauréatProjector();
     await unsubscribeLauréatSaga();
+    await unsubscribeLauréatProducteurSaga();
 
     await unsubscribeRecoursProjector();
     await unsubscribeRecoursNotification();

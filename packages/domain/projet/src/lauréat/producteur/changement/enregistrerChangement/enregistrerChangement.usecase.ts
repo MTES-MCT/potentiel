@@ -5,7 +5,6 @@ import { DocumentProjet, EnregistrerDocumentProjetCommand } from '@potentiel-dom
 
 import { IdentifiantProjet } from '../../../..';
 import { TypeDocumentProducteur } from '../..';
-import { RenouvelerGarantiesFinancièresUseCase } from '../../../garanties-financières/renouveler/renouvelerGarantiesFinancières.usecase';
 
 import { EnregistrerChangementProducteurCommand } from './enregistrerChangement.command';
 
@@ -61,15 +60,6 @@ export const registerEnregistrerChangementProducteurUseCase = () => {
       data: {
         content: pièceJustificativeValue.content,
         documentProjet: pièceJustificative,
-      },
-    });
-
-    // Use case appelé provisoirement le temps de déplacer toutes la logique métier GF depuis la package lauréat
-    await mediator.send<RenouvelerGarantiesFinancièresUseCase>({
-      type: 'Lauréat.GarantiesFinancières.UseCase.RenouvelerGarantiesFinancières',
-      data: {
-        identifiantProjetValue,
-        identifiantUtilisateurValue,
       },
     });
   };

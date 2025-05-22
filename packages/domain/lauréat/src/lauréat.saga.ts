@@ -1,4 +1,5 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
+import { match } from 'ts-pattern';
 
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 import { Lauréat, Éliminé } from '@potentiel-domain/projet';
@@ -11,7 +12,9 @@ import { appelOffreSoumisAuxGarantiesFinancières } from './garantiesFinancière
 /**
  * @deprecated
  */
-export type SubscriptionEvent = Éliminé.Recours.RecoursAccordéEvent;
+export type SubscriptionEvent =
+  | Éliminé.Recours.RecoursAccordéEvent
+  | Lauréat.Producteur.ChangementProducteurEnregistréEvent;
 
 /**
  * @deprecated
@@ -22,14 +25,12 @@ export type Execute = Message<'System.Lauréat.Saga.Execute', SubscriptionEvent>
  * @deprecated
  */
 export const register = () => {
-  const handler: MessageHandler<Execute> = async (event) => {
-    const {
-      payload: { identifiantProjet },
-    } = event;
-    switch (event.type) {
-      case 'RecoursAccordé-V1':
-        const { accordéLe } = event.payload;
-
+  const handler: MessageHandler<Execute> = async (event) =>
+    match(event)
+      .with({ type: 'RecoursAccordé-V1' }, async (event) => {
+        const {
+          payload: { identifiantProjet, accordéLe },
+        } = event;
         const identifiantProjetValueType =
           IdentifiantProjet.convertirEnValueType(identifiantProjet);
 
@@ -58,9 +59,43 @@ export const register = () => {
             },
           });
         }
+      })
+      .with({ type: 'ChangementProducteurEnregistré-V1' }, async (event) => {
+        const {
+          payload: { identifiantProjet, enregistréLe },
+        } = event;
+        const identifiantProjetValueType =
+          IdentifiantProjet.convertirEnValueType(identifiantProjet);
 
-        break;
-    }
-  };
+        const appelOffre = await mediator.send<AppelOffre.ConsulterAppelOffreQuery>({
+          type: 'AppelOffre.Query.ConsulterAppelOffre',
+          data: {
+            identifiantAppelOffre: identifiantProjetValueType.appelOffre,
+          },
+        });
+
+        if (
+          Option.isSome(appelOffre) &&
+          appelOffreSoumisAuxGarantiesFinancières({
+            appelOffre,
+            période: identifiantProjetValueType.période,
+            famille: identifiantProjetValueType.famille,
+          })
+        ) {
+          await mediator.send<DemanderGarantiesFinancièresCommand>({
+            type: 'Lauréat.GarantiesFinancières.Command.DemanderGarantiesFinancières',
+            data: {
+              demandéLe: DateTime.convertirEnValueType(enregistréLe),
+              identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
+              dateLimiteSoumission:
+                DateTime.convertirEnValueType(enregistréLe).ajouterNombreDeMois(2),
+              motif:
+                Lauréat.GarantiesFinancières.MotifDemandeGarantiesFinancières.changementProducteur,
+            },
+          });
+        }
+      })
+      .exhaustive();
+
   mediator.register('System.Lauréat.Saga.Execute', handler);
 };
