@@ -2,14 +2,13 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 import { match, P } from 'ts-pattern';
 
 import { Joined, List, RangeOptions, Where } from '@potentiel-domain/entity';
-import { Candidature, IdentifiantProjet, Raccordement } from '@potentiel-domain/projet';
+import { Candidature, IdentifiantProjet, Lauréat, Raccordement } from '@potentiel-domain/projet';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { Option } from '@potentiel-libraries/monads';
 import { DateTime } from '@potentiel-domain/common';
 import { GestionnaireRéseau } from '@potentiel-domain/reseau';
 
 import * as StatutLauréat from '../../statutLauréat.valueType';
-import { PuissanceEntity } from '../../puissance';
 
 type DossierRaccordementManquant = {
   référenceDossier: Option.None;
@@ -86,7 +85,7 @@ export const registerListerDossierRaccordementManquantsQuery = ({
       (dossier) => dossier.identifiantProjet as IdentifiantProjet.RawType,
     );
 
-    const puissances = await list<PuissanceEntity>('puissance', {
+    const puissances = await list<Lauréat.Puissance.PuissanceEntity>('puissance', {
       where: {
         identifiantProjet: Where.matchAny(identifiants),
       },
@@ -130,7 +129,7 @@ export const registerListerDossierRaccordementManquantsQuery = ({
 
 type MapToReadModelProps = (args: {
   raccordement: Raccordement.RaccordementEntity & Joined<Candidature.CandidatureEntity>;
-  puissances: ReadonlyArray<PuissanceEntity>;
+  puissances: ReadonlyArray<Lauréat.Puissance.PuissanceEntity>;
   gestionnairesRéseau: ReadonlyArray<GestionnaireRéseau.GestionnaireRéseauEntity>;
   appelOffres: ReadonlyArray<AppelOffre.AppelOffreEntity>;
 }) => DossierRaccordementManquant;
