@@ -3,9 +3,8 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 import { DateTime, Email } from '@potentiel-domain/common';
 import { DocumentProjet, EnregistrerDocumentProjetCommand } from '@potentiel-domain/document';
 
-import { IdentifiantProjet, RetirerTousAccèsProjet } from '../../../..';
+import { IdentifiantProjet } from '../../../..';
 import { TypeDocumentProducteur } from '../..';
-import { RenouvelerGarantiesFinancièresUseCase } from '../../../garanties-financières/renouveler/renouvelerGarantiesFinancières.usecase';
 
 import { EnregistrerChangementProducteurCommand } from './enregistrerChangement.command';
 
@@ -24,13 +23,7 @@ export type EnregistrerChangementProducteurUseCase = Message<
   }
 >;
 
-export type EnregistrerChangementProducteurUseCaseDependencies = {
-  retirerTousAccèsProjet: RetirerTousAccèsProjet;
-};
-
-export const registerEnregistrerChangementProducteurUseCase = ({
-  retirerTousAccèsProjet,
-}: EnregistrerChangementProducteurUseCaseDependencies) => {
+export const registerEnregistrerChangementProducteurUseCase = () => {
   const handler: MessageHandler<EnregistrerChangementProducteurUseCase> = async ({
     identifiantProjetValue,
     identifiantUtilisateurValue,
@@ -69,17 +62,6 @@ export const registerEnregistrerChangementProducteurUseCase = ({
         documentProjet: pièceJustificative,
       },
     });
-
-    // Use case appelé provisoirement le temps de déplacer toutes la logique métier GF depuis la package lauréat
-    await mediator.send<RenouvelerGarantiesFinancièresUseCase>({
-      type: 'Lauréat.GarantiesFinancières.UseCase.RenouvelerGarantiesFinancières',
-      data: {
-        identifiantProjetValue,
-        identifiantUtilisateurValue,
-      },
-    });
-
-    await retirerTousAccèsProjet(identifiantProjet);
   };
 
   mediator.register('Lauréat.Producteur.UseCase.EnregistrerChangement', handler);

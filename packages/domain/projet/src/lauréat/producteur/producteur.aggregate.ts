@@ -91,6 +91,11 @@ export class ProducteurAggregate extends AbstractAggregate<ProducteurEvent> {
     };
 
     await this.publish(event);
+    await this.lauréat.projet.accès.retirerTous({
+      retiréLe: dateChangement,
+      retiréPar: identifiantUtilisateur,
+      cause: 'changement-producteur',
+    });
   }
 
   async modifier({

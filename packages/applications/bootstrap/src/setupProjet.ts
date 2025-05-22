@@ -5,12 +5,14 @@ import { registerProjetUseCases, registerProjetQueries } from '@potentiel-domain
 import { subscribe } from '@potentiel-infrastructure/pg-event-sourcing';
 import { findProjection, listProjection } from '@potentiel-infrastructure/pg-projection-read';
 import {
+  AccèsProjector,
   CandidatureProjector,
   LauréatProjector,
   RecoursProjector,
   ÉliminéProjector,
 } from '@potentiel-applications/projectors';
 import {
+  AccèsNotification,
   CandidatureNotification,
   RecoursNotification,
   SendEmail,
@@ -20,10 +22,8 @@ import {
   consulterCahierDesChargesChoisiAdapter,
   DélaiAdapter,
   getProjetUtilisateurScopeAdapter,
-  retirerTousAccèsProjet,
 } from '@potentiel-infrastructure/domain-adapters';
 import { AttestationSaga } from '@potentiel-applications/document-builder';
-import { LauréatSaga } from '@potentiel-domain/laureat';
 
 import { getProjetAggregateRootAdapter } from './adapters/getProjetAggregateRoot.adapter';
 
@@ -34,7 +34,6 @@ type SetupProjetDependencies = {
 export const setupProjet = async ({ sendEmail }: SetupProjetDependencies) => {
   registerProjetUseCases({
     getProjetAggregateRoot: getProjetAggregateRootAdapter,
-    retirerTousAccèsProjet,
   });
 
   registerProjetQueries({
@@ -67,17 +66,6 @@ export const setupProjet = async ({ sendEmail }: SetupProjetDependencies) => {
     eventHandler: async (event) => {
       await mediator.send<LauréatProjector.Execute>({
         type: 'System.Projector.Lauréat',
-        data: event,
-      });
-    },
-  });
-  const unsubscribeLauréatSaga = await subscribe<LauréatSaga.SubscriptionEvent & Event>({
-    name: 'laureat-saga',
-    streamCategory: 'recours',
-    eventType: ['RecoursAccordé-V1'],
-    eventHandler: async (event) => {
-      await mediator.publish<LauréatSaga.Execute>({
-        type: 'System.Lauréat.Saga.Execute',
         data: event,
       });
     },
@@ -127,11 +115,36 @@ export const setupProjet = async ({ sendEmail }: SetupProjetDependencies) => {
   });
 
   CandidatureProjector.register();
-
   CandidatureNotification.register({ sendEmail });
 
-  LauréatSaga.register();
+  AccèsProjector.register();
+  AccèsNotification.register({ sendEmail });
+
   AttestationSaga.register();
+
+  const unsubscribeAccèsProjector = await subscribe<AccèsProjector.SubscriptionEvent>({
+    name: 'projector',
+    eventType: ['RebuildTriggered', 'AccèsProjetAutorisé-V1', 'AccèsProjetRetiré-V1'],
+    eventHandler: async (event) => {
+      await mediator.send<AccèsProjector.Execute>({
+        type: 'System.Projector.Accès',
+        data: event,
+      });
+    },
+    streamCategory: 'accès',
+  });
+
+  const unsubscribeAccèsNotification = await subscribe<AccèsNotification.SubscriptionEvent>({
+    name: 'notifications',
+    eventType: ['AccèsProjetRetiré-V1'],
+    eventHandler: async (event) => {
+      await mediator.send<AccèsNotification.Execute>({
+        type: 'System.Notification.Accès',
+        data: event,
+      });
+    },
+    streamCategory: 'accès',
+  });
 
   const unsubscribeCandidatureProjector = await subscribe<CandidatureProjector.SubscriptionEvent>({
     name: 'projector',
@@ -178,7 +191,6 @@ export const setupProjet = async ({ sendEmail }: SetupProjetDependencies) => {
 
   return async () => {
     await unsubscribeLauréatProjector();
-    await unsubscribeLauréatSaga();
 
     await unsubscribeRecoursProjector();
     await unsubscribeRecoursNotification();
@@ -188,5 +200,8 @@ export const setupProjet = async ({ sendEmail }: SetupProjetDependencies) => {
     await unsubscribeCandidatureProjector();
     await unsubscribeAttestationSaga();
     await unsubscribeCandidatureNotification();
+
+    await unsubscribeAccèsProjector();
+    await unsubscribeAccèsNotification();
   };
 };

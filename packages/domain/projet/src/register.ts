@@ -1,4 +1,10 @@
 import {
+  AccèsCommandDependencies,
+  AccèsQueryDependencies,
+  registerAccèsQueries,
+  registerAccèsUseCases,
+} from './accès/accès.register';
+import {
   CandiatureCommandDependencies,
   CandidatureQueryDependencies,
   registerCandidatureQueries,
@@ -19,18 +25,23 @@ import {
 
 export type ProjetQueryDependencies = EliminéQueryDependencies &
   CandidatureQueryDependencies &
-  LauréatQueryDependencies;
+  LauréatQueryDependencies &
+  AccèsQueryDependencies;
+
 export type ProjetCommandDependencies = EliminéCommandDependencies &
   CandiatureCommandDependencies &
-  LauréatCommandDependencies;
+  LauréatCommandDependencies &
+  AccèsCommandDependencies;
 
 export const registerProjetUseCases = (dependencies: ProjetCommandDependencies) => {
+  registerAccèsUseCases(dependencies);
   registerCandidaturesUseCases(dependencies);
   registerEliminéUseCases(dependencies);
   registerLauréatUseCases(dependencies);
 };
 
 export const registerProjetQueries = (dependencies: ProjetQueryDependencies) => {
+  registerAccèsQueries(dependencies);
   registerCandidatureQueries(dependencies);
   registerEliminéQueries(dependencies);
   registerLauréatQueries(dependencies);

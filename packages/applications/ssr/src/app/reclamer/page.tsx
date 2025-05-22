@@ -1,11 +1,8 @@
 import { Metadata } from 'next';
 import { mediator } from 'mediateur';
 
-import {
-  ListerProjetsÀRéclamerQuery,
-  ListerProjetsÀRéclamerReadModel,
-} from '@potentiel-domain/utilisateur';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
+import { Accès } from '@potentiel-domain/projet';
 
 import { ListFilterItem } from '@/components/molecules/ListFilters';
 import {
@@ -38,8 +35,8 @@ export default async function Page({ searchParams }: PageProps) {
       const nomProjet = searchParams?.nomProjet ?? undefined;
       const période = searchParams?.periode ?? undefined;
 
-      const projetsÀRéclamer = await mediator.send<ListerProjetsÀRéclamerQuery>({
-        type: 'Utilisateur.Query.ListerProjetsÀRéclamer',
+      const projetsÀRéclamer = await mediator.send<Accès.ListerProjetsÀRéclamerQuery>({
+        type: 'Projet.Accès.Query.ListerProjetsÀRéclamer',
         data: {
           appelOffre,
           période,
@@ -100,7 +97,7 @@ export default async function Page({ searchParams }: PageProps) {
 }
 
 const mapToProps = (
-  projets: ListerProjetsÀRéclamerReadModel['items'],
+  projets: Accès.ListerProjetsÀRéclamerReadModel['items'],
   emailUtilisateur: string,
   iv: string,
 ): Array<RéclamerProjetsListItemProps> =>

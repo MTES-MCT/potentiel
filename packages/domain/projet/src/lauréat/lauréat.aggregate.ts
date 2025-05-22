@@ -46,8 +46,9 @@ export class LauréatAggregate extends AbstractAggregate<LauréatEvent> {
     return this.#projet;
   }
 
+  #estNotifié: boolean = false;
   get estNotifié() {
-    return !!this.#notifiéLe;
+    return this.#estNotifié;
   }
 
   #abandon!: AggregateType<AbandonAggregate>;
@@ -221,6 +222,7 @@ export class LauréatAggregate extends AbstractAggregate<LauréatEvent> {
   }
 
   private applyLauréatNotifiéV1({ payload: { notifiéLe } }: LauréatNotifiéV1Event) {
+    this.#estNotifié = true;
     this.#notifiéLe = DateTime.convertirEnValueType(notifiéLe);
   }
 
@@ -234,6 +236,7 @@ export class LauréatAggregate extends AbstractAggregate<LauréatEvent> {
   private applyLauréatNotifié({
     payload: { notifiéLe, localité, nomProjet },
   }: LauréatNotifiéEvent) {
+    this.#estNotifié = true;
     this.#notifiéLe = DateTime.convertirEnValueType(notifiéLe);
     this.#nomProjet = nomProjet;
     this.#localité = Candidature.Localité.bind(localité);

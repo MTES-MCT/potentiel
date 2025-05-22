@@ -1,11 +1,12 @@
 import { Routes } from '@potentiel-applications/routes';
-import { AccèsProjetRetiréEvent } from '@potentiel-domain/utilisateur';
+import { Accès } from '@potentiel-domain/projet';
 
-import { récupérerNomProjet } from './_utils/récupérerNomProjet';
+import { récupérerNomProjet } from '../../_utils/récupérerNomProjet';
+import { EmailPayload } from '../../sendEmail';
 
 export async function accèsProjetRetiréNotification({
-  payload: { identifiantProjet, identifiantUtilisateur, cause },
-}: AccèsProjetRetiréEvent) {
+  payload: { identifiantProjet, identifiantsUtilisateur, cause },
+}: Accès.AccèsProjetRetiréEvent): Promise<Array<EmailPayload>> {
   const nomProjet = await récupérerNomProjet(identifiantProjet);
   const { BASE_URL } = process.env;
   const urlPageProjets = `${BASE_URL}${Routes.Projet.lister()}`;
@@ -13,8 +14,10 @@ export async function accèsProjetRetiréNotification({
   return [
     {
       templateId: 4177049,
-      messageSubject: `Révocation de vos accès pour le projet ${nomProjet}`,
-      recipients: [{ email: identifiantUtilisateur }],
+      messageSubject: `Potentiel - Révocation de vos accès pour le projet ${nomProjet}`,
+      recipients: identifiantsUtilisateur.map((identifiantUtilisateur) => ({
+        email: identifiantUtilisateur,
+      })),
       variables: {
         nom_projet: nomProjet,
         mes_projets_url: urlPageProjets,

@@ -8,24 +8,10 @@ import {
   ListerUtilisateursReadModel,
 } from './lister/listerUtilisateurs.query';
 import { TrouverUtilisateurQuery } from './trouver/trouverUtilisateur.query';
-import {
-  VérifierAccèsProjetQuery,
-  VérifierAccèsProjetPort,
-} from './vérifierAccèsProjet/vérifierAccèsProjet.query';
 import { InviterPorteurUseCase } from './inviter/inviterPorteur.usecase';
 import { PorteurInvitéEvent } from './inviter/inviterPorteur.behavior';
 import { UtilisateurInvitéEvent } from './inviter/inviterUtilisateur.behavior';
 import { InviterUtilisateurUseCase } from './inviter/inviterUtilisateur.usecase';
-import { ProjetRéclaméEvent } from './réclamer/réclamerProjet.behavior';
-import { RéclamerProjetUseCase } from './réclamer/réclamerProjet.usecase';
-import { AccèsProjetRetiréEvent } from './retirer/retirerAccèsProjet.behavior';
-import { RetirerAccèsProjetUseCase } from './retirer/retirerAccèsProjet.usecase';
-import {
-  ListerProjetsÀRéclamerQuery,
-  ListerProjetsÀRéclamerReadModel,
-} from './lister/listerProjetsÀRéclamer.query';
-import { ListerPorteursQuery, ListerPorteursReadModel } from './lister/listerPorteurs.query';
-import { RetirerAccèsProjetCommand } from './retirer/retirerAccèsProjet.command';
 import { DésactiverUtilisateurUseCase } from './désactiver/désactiverUtilisateur.usecase';
 import { UtilisateurDésactivéEvent } from './désactiver/désactiverUtilisateur.behavior';
 import { RéactiverUtilisateurUseCase } from './réactiver/réactiverUtilisateur.usecase';
@@ -40,66 +26,43 @@ export { UtilisateurInconnuError, AccèsFonctionnalitéRefuséError } from './er
 export type UtilisateurQuery =
   | ConsulterUtilisateurQuery
   | ListerUtilisateursQuery
-  | TrouverUtilisateurQuery
-  | VérifierAccèsProjetQuery
-  | ListerProjetsÀRéclamerQuery
-  | ListerPorteursQuery;
+  | TrouverUtilisateurQuery;
 
-export {
-  ConsulterUtilisateurQuery,
-  ListerUtilisateursQuery,
-  TrouverUtilisateurQuery,
-  VérifierAccèsProjetQuery,
-  ListerProjetsÀRéclamerQuery,
-  ListerPorteursQuery,
-};
+export { ConsulterUtilisateurQuery, ListerUtilisateursQuery, TrouverUtilisateurQuery };
 
 // UseCases
 export type UtilisateurUseCase =
   | InviterUtilisateurUseCase
   | InviterPorteurUseCase
-  | RéclamerProjetUseCase
-  | RetirerAccèsProjetUseCase
   | DésactiverUtilisateurUseCase
   | RéactiverUtilisateurUseCase;
 
 export {
   InviterUtilisateurUseCase,
   InviterPorteurUseCase,
-  RéclamerProjetUseCase,
-  RetirerAccèsProjetUseCase,
   DésactiverUtilisateurUseCase,
   RéactiverUtilisateurUseCase,
 };
-
-// Command
-export { RetirerAccèsProjetCommand };
 
 // Events
 export { UtilisateurEvent } from './utilisateur.aggregate';
 export {
   PorteurInvitéEvent,
   UtilisateurInvitéEvent,
-  ProjetRéclaméEvent,
-  AccèsProjetRetiréEvent,
   UtilisateurDésactivéEvent,
   UtilisateurRéactivéEvent,
 };
+export * from './utilisateur.event';
 
 // Register
 export * from './register';
 
 // Port
-export { RécupérerUtilisateurPort, VérifierAccèsProjetPort };
+export { RécupérerUtilisateurPort };
 export * from './utilisateur.port';
 
 // Entity
 export * from './utilisateur.entity';
 
 // readmodel
-export {
-  ConsulterUtilisateurReadModel,
-  ListerUtilisateursReadModel,
-  ListerProjetsÀRéclamerReadModel,
-  ListerPorteursReadModel,
-};
+export { ConsulterUtilisateurReadModel, ListerUtilisateursReadModel };

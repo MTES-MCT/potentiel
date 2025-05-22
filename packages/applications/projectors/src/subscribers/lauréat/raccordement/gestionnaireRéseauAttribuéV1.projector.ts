@@ -1,5 +1,6 @@
 import { Where } from '@potentiel-domain/entity';
-import { Raccordement } from '@potentiel-domain/laureat';
+import { Raccordement } from '@potentiel-domain/projet';
+import { Raccordement as RaccordementLauréat } from '@potentiel-domain/laureat';
 import {
   upsertProjection,
   updateManyProjections,
@@ -9,7 +10,7 @@ import { getRaccordement } from './_utils/getRaccordement';
 
 export const gestionnaireRéseauAttribuéV1Projector = async ({
   payload: { identifiantProjet, identifiantGestionnaireRéseau },
-}: Raccordement.GestionnaireRéseauAttribuéEvent) => {
+}: RaccordementLauréat.GestionnaireRéseauAttribuéEvent) => {
   const raccordement = await getRaccordement(identifiantProjet);
 
   await upsertProjection<Raccordement.RaccordementEntity>(`raccordement|${identifiantProjet}`, {

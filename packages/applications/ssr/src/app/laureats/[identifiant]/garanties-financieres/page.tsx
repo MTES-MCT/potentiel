@@ -3,10 +3,10 @@ import { mediator } from 'mediateur';
 
 import { Option } from '@potentiel-libraries/monads';
 import { Abandon, GarantiesFinancières } from '@potentiel-domain/laureat';
-import { ListerPorteursQuery, Role, Utilisateur } from '@potentiel-domain/utilisateur';
+import { Role, Utilisateur } from '@potentiel-domain/utilisateur';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { IdentifiantProjet } from '@potentiel-domain/common';
-import { Lauréat } from '@potentiel-domain/projet';
+import { Accès, Lauréat } from '@potentiel-domain/projet';
 
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { decodeParameter } from '@/utils/decodeParameter';
@@ -92,8 +92,8 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
         },
       });
 
-      const porteurs = await mediator.send<ListerPorteursQuery>({
-        type: 'Utilisateur.Query.ListerPorteurs',
+      const accèsProjet = await mediator.send<Accès.ConsulterAccèsQuery>({
+        type: 'Projet.Accès.Query.ConsulterAccès',
         data: { identifiantProjet: identifiantProjet.formatter() },
       });
 
@@ -119,7 +119,11 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
           item.statut.estÉgaleÀ(GarantiesFinancières.StatutMainlevéeGarantiesFinancières.rejeté),
         ),
         estAbandonné: Option.isSome(abandon) && abandon.statut.estAccordé(),
-        contactPorteurs: porteurs.items.map((porteur) => porteur.email),
+        contactPorteurs: Option.match(accèsProjet)
+          .some(({ utilisateursAyantAccès }) =>
+            utilisateursAyantAccès.map((porteur) => porteur.email),
+          )
+          .none(() => []),
         archivesGarantiesFinancières,
       });
 

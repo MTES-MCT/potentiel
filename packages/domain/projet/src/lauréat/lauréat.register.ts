@@ -20,7 +20,6 @@ import {
   ProducteurCommandDependencies,
   ProducteurQueryDependencies,
 } from './producteur/producteur.register';
-import { registerGarantiesFinancièresUseCases } from './garanties-financières/garantiesFinancières.register';
 import {
   registerAchèvementQueries,
   registerAchèvementUseCases,
@@ -46,7 +45,6 @@ export const registerLauréatUseCases = (dependencies: LauréatCommandDependenci
   registerChoisirCahierDesChargesCommand(dependencies.getProjetAggregateRoot);
 
   registerProducteurUseCases(dependencies);
-  registerGarantiesFinancièresUseCases(dependencies);
   registerAchèvementUseCases(dependencies);
 };
 

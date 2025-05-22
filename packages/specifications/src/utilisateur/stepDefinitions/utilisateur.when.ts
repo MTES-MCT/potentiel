@@ -6,14 +6,11 @@ import { DateTime, Email } from '@potentiel-domain/common';
 import {
   InviterPorteurUseCase,
   InviterUtilisateurUseCase,
-  RetirerAccèsProjetUseCase,
   Role,
-  RéclamerProjetUseCase,
-} from '@potentiel-domain/utilisateur';
-import {
   DésactiverUtilisateurUseCase,
   RéactiverUtilisateurUseCase,
 } from '@potentiel-domain/utilisateur';
+import { Accès } from '@potentiel-domain/projet';
 
 import { PotentielWorld } from '../../potentiel.world';
 import { InviterUtilisateurFixture } from '../fixtures/inviter/inviter.fixture';
@@ -149,7 +146,7 @@ Quand(
     const { prixRéférenceValue: prixReferenceValue, numéroCREValue } =
       this.candidatureWorld.importerCandidature.values;
 
-    const porteur = this.utilisateurWorld.porteurFixture.créer({});
+    const porteur = this.utilisateurWorld.porteurFixture.créer();
 
     await réclamerProjet.call(this, {
       identifiantProjet,
@@ -253,6 +250,19 @@ export async function inviterPorteur(
           : Email.system().formatter(),
       },
     });
+
+    await mediator.send<Accès.AutoriserAccèsProjetUseCase>({
+      type: 'Projet.Accès.UseCase.AutoriserAccèsProjet',
+      data: {
+        identifiantProjetValues: identifiantsProjet,
+        identifiantUtilisateurValue: identifiantUtilisateur,
+        autoriséLeValue: DateTime.now().formatter(),
+        autoriséParValue: this.utilisateurWorld.porteurFixture.aÉtéCréé
+          ? this.utilisateurWorld.porteurFixture.email
+          : Email.system().formatter(),
+        raison: 'invitation',
+      },
+    });
   } catch (error) {
     this.error = error as Error;
   }
@@ -319,13 +329,13 @@ export async function retirerAccèsProjet(
   }: { identifiantProjet: string; identifiantUtilisateur: string; retiréPar?: string },
 ) {
   try {
-    await mediator.send<RetirerAccèsProjetUseCase>({
-      type: 'Utilisateur.UseCase.RetirerAccèsProjet',
+    await mediator.send<Accès.RetirerAccèsProjetUseCase>({
+      type: 'Projet.Accès.UseCase.RetirerAccèsProjet',
       data: {
-        identifiantProjet,
-        identifiantUtilisateur,
-        retiréLe: DateTime.now().formatter(),
-        retiréPar: retiréPar ?? this.utilisateurWorld.adminFixture.email,
+        identifiantProjetValue: identifiantProjet,
+        identifiantUtilisateurValue: identifiantUtilisateur,
+        retiréLeValue: DateTime.now().formatter(),
+        retiréParValue: retiréPar ?? this.utilisateurWorld.adminFixture.email,
       },
     });
   } catch (error) {
@@ -337,18 +347,35 @@ async function réclamerProjet(
   this: PotentielWorld,
   fixtureProps: Parameters<typeof RéclamerProjetFixture.prototype.créer>[0],
 ) {
-  const { identifiantProjet, email, numéroCRE, prixRéférence } =
-    this.utilisateurWorld.réclamerProjet.créer(fixtureProps);
+  const {
+    identifiantProjet,
+    email,
+    numéroCRE,
+    prixRéférence: prix,
+  } = this.utilisateurWorld.réclamerProjet.créer(fixtureProps);
 
   try {
-    await mediator.send<RéclamerProjetUseCase>({
-      type: 'Utilisateur.UseCase.RéclamerProjet',
+    const avecPrixEtNuméroCRE = numéroCRE !== undefined && prix !== undefined;
+
+    await mediator.send<InviterPorteurUseCase>({
+      type: 'Utilisateur.UseCase.InviterPorteur',
       data: {
-        identifiantProjet,
-        identifiantUtilisateur: email,
-        réclaméLe: DateTime.now().formatter(),
-        numéroCRE,
-        prixRéférence,
+        identifiantsProjetValues: [identifiantProjet],
+        identifiantUtilisateurValue: email,
+        invitéLeValue: DateTime.now().formatter(),
+        invitéParValue: Email.system().formatter(),
+      },
+    });
+
+    await mediator.send<Accès.RéclamerAccèsProjetUseCase>({
+      type: 'Projet.Accès.UseCase.RéclamerAccèsProjet',
+      data: {
+        identifiantProjetValue: identifiantProjet,
+        identifiantUtilisateurValue: email,
+        dateRéclamationValue: DateTime.now().formatter(),
+        ...(avecPrixEtNuméroCRE
+          ? { type: 'avec-prix-numéro-cre', numéroCRE, prix }
+          : { type: 'même-email-candidature' }),
       },
     });
   } catch (error) {

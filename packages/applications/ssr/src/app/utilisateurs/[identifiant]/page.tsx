@@ -4,13 +4,14 @@ import { notFound } from 'next/navigation';
 import {
   ConsulterUtilisateurQuery,
   ConsulterUtilisateurReadModel,
-  ListerPorteursQuery,
-  ListerPorteursReadModel,
+  ListerUtilisateursQuery,
+  ListerUtilisateursReadModel,
   Role,
 } from '@potentiel-domain/utilisateur';
 import { IdentifiantProjet } from '@potentiel-domain/common';
 import { Option } from '@potentiel-libraries/monads';
 import { mapToPlainObject } from '@potentiel-domain/core';
+import { Accès } from '@potentiel-domain/projet';
 
 import { PorteurListPage } from '@/components/pages/utilisateur/lister/PorteurList.page';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
@@ -44,18 +45,35 @@ export default async function Page({ params: { identifiant } }: PageProps) {
           ? utilisateurQuiInvite.nombreDeProjets
           : undefined;
 
-      const utilisateurs = await mediator.send<ListerPorteursQuery>({
-        type: 'Utilisateur.Query.ListerPorteurs',
+      const accèsProjet = await mediator.send<Accès.ConsulterAccèsQuery>({
+        type: 'Projet.Accès.Query.ConsulterAccès',
         data: {
           identifiantProjet: identifiantProjet.formatter(),
         },
       });
 
+      const utilisateurs: ListerUtilisateursReadModel['items'] = await Option.match(accèsProjet)
+        .some(async (accèsProjet) => {
+          const identifiantsUtilisateur = accèsProjet.utilisateursAyantAccès.map((utilisateur) =>
+            utilisateur.formatter(),
+          );
+
+          const utilisateurs = await mediator.send<ListerUtilisateursQuery>({
+            type: 'Utilisateur.Query.ListerUtilisateurs',
+            data: {
+              identifiantsUtilisateur,
+            },
+          });
+
+          return utilisateurs.items;
+        })
+        .none(async () => []);
+
       return (
         <PorteurListPage
           identifiantProjet={identifiantProjet.formatter()}
           nombreDeProjets={nombreDeProjets}
-          items={mapToProps(utilisateurs.items, utilisateurQuiInvite)}
+          items={mapToProps(utilisateurs, utilisateurQuiInvite)}
         />
       );
     }),
@@ -63,7 +81,7 @@ export default async function Page({ params: { identifiant } }: PageProps) {
 }
 
 const mapToProps = (
-  utilisateurs: ListerPorteursReadModel['items'],
+  utilisateurs: ListerUtilisateursReadModel['items'],
   utilisateurQuiInvite: ConsulterUtilisateurReadModel,
 ) =>
   mapToPlainObject(

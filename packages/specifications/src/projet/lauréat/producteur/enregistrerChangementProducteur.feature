@@ -14,9 +14,9 @@ Fonctionnalité: Enregistrer un changement de producteur d'un projet lauréat
         Et il ne devrait pas y avoir de dépôt de garanties financières pour le projet "Du boulodrome de Marseille"
         Et il ne devrait pas y avoir de garanties financières actuelles pour le projet "Du boulodrome de Marseille"
         Et un email a été envoyé au porteur avec :
-            | sujet      | Potentiel - Déclaration de changement de producteur pour le projet Du boulodrome de Marseille dans le département(.*) |
-            | nom_projet | Du boulodrome de Marseille                                                                                            |
-            | url        | https://potentiel.beta.gouv.fr/laureats/.*/producteur/changement/.*                                                   |
+            | sujet      | Potentiel - Révocation de vos accès pour le projet Du boulodrome de Marseille |
+            | nom_projet | Du boulodrome de Marseille                                                    |
+            | cause      | Cela fait suite à un changement de producteur déclaré sur Potentiel.          |
         Et un email a été envoyé à la dreal avec :
             | sujet      | Potentiel - Déclaration de changement de producteur pour le projet Du boulodrome de Marseille dans le département(.*) |
             | nom_projet | Du boulodrome de Marseille                                                                                            |

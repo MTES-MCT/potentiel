@@ -1,5 +1,4 @@
 import { LoadAggregate } from '@potentiel-domain/core';
-import { GetProjetAggregateRoot } from '@potentiel-domain/projet';
 
 import {
   ConsulterUtilisateurDependencies,
@@ -15,21 +14,8 @@ import {
   registerTrouverUtilisateurQuery,
   TrouverUtilisateurDependencies,
 } from './trouver/trouverUtilisateur.query';
-import {
-  VérifierAccèsProjetDependencies,
-  registerVérifierAccèsProjetQuery,
-} from './vérifierAccèsProjet/vérifierAccèsProjet.query';
 import { registerInviterUseCase } from './inviter/inviterUtilisateur.usecase';
 import { registerInviterCommand } from './inviter/inviterUtilisateur.command';
-import { registerRéclamerProjetCommand } from './réclamer/réclamerProjet.command';
-import { registerRéclamerProjetUseCase } from './réclamer/réclamerProjet.usecase';
-import { registerRetirerAccèsProjetCommand } from './retirer/retirerAccèsProjet.command';
-import { registerRetirerAccèsProjetUseCase } from './retirer/retirerAccèsProjet.usecase';
-import {
-  ListerProjetsÀRéclamerDependencies,
-  registerListerProjetsÀRéclamerQuery,
-} from './lister/listerProjetsÀRéclamer.query';
-import { registerListerPorteursQuery } from './lister/listerPorteurs.query';
 import { registerDésactiverUseCase } from './désactiver/désactiverUtilisateur.usecase';
 import { registerDésactiverCommand } from './désactiver/désactiverUtilisateur.command';
 import { registerRéactiverUseCase } from './réactiver/réactiverUtilisateur.usecase';
@@ -37,39 +23,26 @@ import { registerRéactiverCommand } from './réactiver/réactiverUtilisateur.co
 
 type UtilisateurQueryDependencies = ConsulterUtilisateurDependencies &
   ListerUtilisateursDependencies &
-  VérifierAccèsProjetDependencies &
-  TrouverUtilisateurDependencies &
-  ListerProjetsÀRéclamerDependencies;
+  TrouverUtilisateurDependencies;
 
 export const registerUtilisateurQueries = (dependencies: UtilisateurQueryDependencies) => {
   registerConsulterUtilisateurQuery(dependencies);
   registerListerUtilisateursQuery(dependencies);
   registerTrouverUtilisateurQuery(dependencies);
-  registerVérifierAccèsProjetQuery(dependencies);
-  registerListerProjetsÀRéclamerQuery(dependencies);
-  registerListerPorteursQuery(dependencies);
 };
 
 export type UtilisateurCommandDependencies = {
   loadAggregate: LoadAggregate;
-  getProjetAggregateRoot: GetProjetAggregateRoot;
 };
 
-export const registerUtilisateurUseCases = ({
-  loadAggregate,
-  getProjetAggregateRoot,
-}: UtilisateurCommandDependencies) => {
+export const registerUtilisateurUseCases = ({ loadAggregate }: UtilisateurCommandDependencies) => {
   registerInviterUseCase();
   registerInviterPorteurUseCase();
-  registerRéclamerProjetUseCase();
-  registerRetirerAccèsProjetUseCase();
   registerDésactiverUseCase();
   registerRéactiverUseCase();
 
   registerInviterCommand(loadAggregate);
   registerInviterPorteurCommand(loadAggregate);
-  registerRéclamerProjetCommand(loadAggregate, getProjetAggregateRoot);
-  registerRetirerAccèsProjetCommand(loadAggregate);
   registerDésactiverCommand(loadAggregate);
   registerRéactiverCommand(loadAggregate);
 };

@@ -2,18 +2,12 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 import { Event } from '@potentiel-infrastructure/pg-event-sourcing';
 import { IdentifiantProjet } from '@potentiel-domain/common';
 import { getLegacyProjetByIdentifiantProjet } from '../infra/sequelize/queries/project';
-import { logger, ok } from '../core/utils';
+import { ok } from '../core/utils';
 import { eventStore } from '../config/eventStore.config';
 import { getUserByEmail } from '../infra/sequelize/queries/users/getUserByEmail';
 import { Role, UtilisateurEvent } from '@potentiel-domain/utilisateur';
-import {
-  DrealUserInvited,
-  ToutAccèsAuProjetRevoqué,
-  UserInvitedToProject,
-  UserRightsToProjectRevoked,
-} from '../modules/authZ';
+import { DrealUserInvited, UserInvitedToProject } from '../modules/authZ';
 import { createUser } from '../config';
-import { ProjectClaimedByOwner } from '../modules/projectClaim';
 import { UtilisateurInvité } from '../modules/utilisateur';
 import { Région } from '../modules/dreal/région';
 
@@ -53,67 +47,6 @@ export const register = () => {
           }),
         );
 
-        break;
-      }
-      case 'ProjetRéclamé-V1': {
-        const { identifiantProjet, identifiantUtilisateur } = payload;
-
-        const userId = await getOrCreateUser(identifiantUtilisateur, 'porteur-projet');
-
-        const project = await getLegacyProjetByIdentifiantProjet(
-          IdentifiantProjet.convertirEnValueType(identifiantProjet),
-        );
-
-        if (!project) {
-          logger.warning('Project not found', { event, context: 'Legacy Utilisateur Saga' });
-          break;
-        }
-
-        await eventStore.publish(
-          new ProjectClaimedByOwner({
-            payload: {
-              claimedBy: userId,
-              claimerEmail: identifiantUtilisateur,
-              projectId: project.id,
-            },
-          }),
-        );
-
-        break;
-      }
-      case 'AccèsProjetRetiré-V1': {
-        const { identifiantProjet, identifiantUtilisateur, retiréPar, cause } = payload;
-        const porteurId = await getOrCreateUser(identifiantUtilisateur, 'porteur-projet');
-        const retiréParUserId = await getUserIdByEmail(retiréPar);
-
-        const project = await getLegacyProjetByIdentifiantProjet(
-          IdentifiantProjet.convertirEnValueType(identifiantProjet),
-        );
-
-        if (!project) {
-          logger.warning('Project not found', { event, context: 'Legacy Utilisateur Saga' });
-          break;
-        }
-        if (cause === 'changement-producteur') {
-          await eventStore.publish(
-            new ToutAccèsAuProjetRevoqué({
-              payload: {
-                projetId: project.id,
-                cause: 'changement producteur',
-              },
-            }),
-          );
-        } else {
-          await eventStore.publish(
-            new UserRightsToProjectRevoked({
-              payload: {
-                projectId: project.id,
-                userId: porteurId,
-                revokedBy: retiréParUserId,
-              },
-            }),
-          );
-        }
         break;
       }
       case 'UtilisateurInvité-V1': {

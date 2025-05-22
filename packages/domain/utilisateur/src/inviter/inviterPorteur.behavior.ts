@@ -2,11 +2,7 @@ import { DomainEvent } from '@potentiel-domain/core';
 import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
 
 import { UtilisateurAggregate } from '../utilisateur.aggregate';
-import {
-  AccèsProjetDéjàAutoriséError,
-  AuMoinsUnProjetRequisError,
-  UtilisateurNonPorteurError,
-} from '../errors';
+import { UtilisateurNonPorteurError } from '../errors';
 import { Role } from '..';
 
 export type PorteurInvitéEvent = DomainEvent<
@@ -30,18 +26,6 @@ export async function inviterPorteur(
   this: UtilisateurAggregate,
   { identifiantsProjet, identifiantUtilisateur, invitéLe, invitéPar }: InviterPorteurOptions,
 ) {
-  if (identifiantsProjet.length === 0) {
-    throw new AuMoinsUnProjetRequisError();
-  }
-
-  const nouveauxIdentifiantsProjet = identifiantsProjet.filter(
-    (identifiantProjet) => !this.aAccèsAuProjet(identifiantProjet),
-  );
-
-  if (this.existe && nouveauxIdentifiantsProjet.length === 0) {
-    throw new AccèsProjetDéjàAutoriséError();
-  }
-
   if (this.existe && !this.rôle.estÉgaleÀ(Role.porteur)) {
     throw new UtilisateurNonPorteurError();
   }
@@ -49,9 +33,9 @@ export async function inviterPorteur(
   const event: PorteurInvitéEvent = {
     type: 'PorteurInvité-V1',
     payload: {
-      identifiantsProjet: nouveauxIdentifiantsProjet.map((identifiantProjet) =>
-        identifiantProjet.formatter(),
-      ),
+      identifiantsProjet: identifiantsProjet
+        .filter((identifiantProjet) => !this.aAccèsAuProjet(identifiantProjet))
+        .map((identifiantProjet) => identifiantProjet.formatter()),
       identifiantUtilisateur: identifiantUtilisateur.formatter(),
       invitéLe: invitéLe.formatter(),
       invitéPar: invitéPar.formatter(),

@@ -4,8 +4,8 @@ import { mediator } from 'mediateur';
 import * as zod from 'zod';
 
 import { DateTime } from '@potentiel-domain/common';
-import { RetirerAccèsProjetUseCase } from '@potentiel-domain/utilisateur';
 import { Routes } from '@potentiel-applications/routes';
+import { Accès } from '@potentiel-domain/projet';
 
 import { formAction, FormAction, FormState } from '@/utils/formAction';
 import { withUtilisateur } from '@/utils/withUtilisateur';
@@ -20,13 +20,13 @@ const action: FormAction<FormState, typeof schema> = async (
   { identifiantProjet, identifiantUtilisateurRetire },
 ) =>
   withUtilisateur(async (utilisateur) => {
-    await mediator.send<RetirerAccèsProjetUseCase>({
-      type: 'Utilisateur.UseCase.RetirerAccèsProjet',
+    await mediator.send<Accès.RetirerAccèsProjetUseCase>({
+      type: 'Projet.Accès.UseCase.RetirerAccèsProjet',
       data: {
-        identifiantProjet,
-        identifiantUtilisateur: identifiantUtilisateurRetire,
-        retiréLe: DateTime.now().formatter(),
-        retiréPar: utilisateur.identifiantUtilisateur.formatter(),
+        identifiantProjetValue: identifiantProjet,
+        identifiantUtilisateurValue: identifiantUtilisateurRetire,
+        retiréLeValue: DateTime.now().formatter(),
+        retiréParValue: utilisateur.identifiantUtilisateur.formatter(),
       },
     });
 

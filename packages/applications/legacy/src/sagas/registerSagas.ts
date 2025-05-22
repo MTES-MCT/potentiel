@@ -8,6 +8,7 @@ import * as ActionnaireSaga from './actionnaire.saga';
 import * as UtilisateurSaga from './utilisateur.saga';
 import * as PuissanceSaga from './puissance.saga';
 import * as ProducteurSaga from './producteur.saga';
+import * as AccèsSaga from './accès.saga';
 import { mediator } from 'mediateur';
 
 /**
@@ -23,6 +24,7 @@ export const registerSagas = async () => {
   UtilisateurSaga.register();
   PuissanceSaga.register();
   ProducteurSaga.register();
+  AccèsSaga.register();
 
   const unsubscribeRaccordement = await subscribe<RaccordementSaga.SubscriptionEvent>({
     name: 'legacy-saga',
@@ -104,14 +106,21 @@ export const registerSagas = async () => {
     streamCategory: 'actionnaire',
   });
 
+  const unsubscribeAccès = await subscribe<AccèsSaga.SubscriptionEvent>({
+    name: 'legacy-saga',
+    eventType: ['AccèsProjetAutorisé-V1', 'AccèsProjetRetiré-V1'],
+    eventHandler: async (event) => {
+      await mediator.send<AccèsSaga.Execute>({
+        type: 'System.Saga.Accès',
+        data: event,
+      });
+    },
+    streamCategory: 'accès',
+  });
+
   const unsubscribeUtilisateur = await subscribe<UtilisateurSaga.SubscriptionEvent>({
     name: 'legacy-saga',
-    eventType: [
-      'PorteurInvité-V1',
-      'ProjetRéclamé-V1',
-      'AccèsProjetRetiré-V1',
-      'UtilisateurInvité-V1',
-    ],
+    eventType: ['PorteurInvité-V1', 'UtilisateurInvité-V1'],
     eventHandler: async (event) => {
       await mediator.send<UtilisateurSaga.Execute>({
         type: 'System.Saga.Utilisateur',
@@ -159,5 +168,6 @@ export const registerSagas = async () => {
     await unsubscribeUtilisateur();
     await unsubscribePuissance();
     await unsubscribeProducteur();
+    await unsubscribeAccès();
   };
 };
