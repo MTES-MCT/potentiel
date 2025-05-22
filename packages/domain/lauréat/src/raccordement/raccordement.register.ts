@@ -47,6 +47,7 @@ import { registerListerDossierRaccordementEnAttenteMiseEnServiceQuery } from './
 import { registerListerDossierRaccordementQuery } from './lister/listerDossierRaccordement.query';
 import { registerSupprimerDateMiseEnServiceUseCase } from './supprimer/supprimerDateMiseEnService.usecase';
 import { registerSupprimerDateMiseEnServiceCommand } from './supprimer/supprimerDateMiseEnService.command';
+import { registerListerDossierRaccordementManquantsQuery } from './lister/listerDossierRaccordementManquants.query';
 
 export type RaccordementQueryDependencies = ConsulterDossierRaccordementDependencies &
   ConsulterGestionnaireRéseauRaccordementDependencies &
@@ -69,6 +70,7 @@ export const registerRaccordementQueries = (dependencies: RaccordementQueryDepen
   registerListerRaccordementQuery(dependencies);
   registerListerDossierRaccordementEnAttenteMiseEnServiceQuery(dependencies);
   registerListerDossierRaccordementQuery(dependencies);
+  registerListerDossierRaccordementManquantsQuery(dependencies);
 };
 
 export const registerRaccordementUseCases = ({

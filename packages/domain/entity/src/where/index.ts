@@ -10,3 +10,4 @@ export * from './lessOrEqual';
 export * from './greaterOrEqual';
 export * from './include';
 export * from './notInclude';
+export * from './isEmptyArray';

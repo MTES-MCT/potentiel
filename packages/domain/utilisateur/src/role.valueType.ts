@@ -140,6 +140,8 @@ const référencielPermissions = {
         listerDossierRaccordementEnAttenteMiseEnService:
           'Lauréat.Raccordement.Query.ListerDossierRaccordementEnAttenteMiseEnServiceQuery',
         listerDossierRaccordement: 'Lauréat.Raccordement.Query.ListerDossierRaccordementQuery',
+        listerDossierRaccordementManquants:
+          'Lauréat.Raccordement.Query.ListerDossierRaccordementManquantsQuery',
       },
       usecase: {
         modifierDemandeComplète: 'Lauréat.Raccordement.UseCase.ModifierDemandeComplèteRaccordement',
@@ -916,6 +918,8 @@ const policies = {
         .listerDossierRaccordementEnAttenteMiseEnService,
       référencielPermissions.lauréat.raccordement.query.listerDossierRaccordement,
       référencielPermissions.appelOffre.query.lister,
+      référencielPermissions.lauréat.raccordement.query.listerDossierRaccordementManquants,
+      référencielPermissions.réseau.gestionnaire.query.lister,
     ],
     consulter: [
       référencielPermissions.candidature.query.consulterProjet,

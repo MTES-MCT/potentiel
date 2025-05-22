@@ -113,5 +113,6 @@ const mapOperatorToSqlCondition = (
     .with('notEqualNull', () => [`${baseCondition} IS NOT NULL`, index])
     .with('include', () => [`${baseConditionObject} ? $${index}`, index])
     .with('notInclude', () => [`NOT ${baseConditionObject} ? $${index} `, index + 1])
+    .with('emptyArray', () => [`${baseCondition} = '[]'`, index])
     .exhaustive();
 };
