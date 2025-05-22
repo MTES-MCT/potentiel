@@ -1,7 +1,7 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 import { match } from 'ts-pattern';
 
-import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
+import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
 import { TâchePlanifiéeExecutéeEvent } from '@potentiel-domain/tache-planifiee';
 import { Lauréat, Éliminé } from '@potentiel-domain/projet';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
@@ -11,6 +11,7 @@ import { ÉchoirGarantiesFinancièresCommand } from './garantiesFinancièresActu
 import * as TypeTâchePlanifiéeGarantiesFinancières from './typeTâchePlanifiéeGarantiesFinancières.valueType';
 import { DemanderGarantiesFinancièresCommand } from './demander/demanderGarantiesFinancières.command';
 import { appelOffreSoumisAuxGarantiesFinancières } from './_utils/appelOffreSoumisAuxGarantiesFinancières';
+import { EffacerHistoriqueGarantiesFinancièresCommand } from './effacerHistorique/effacerHistoriqueGarantiesFinancières.command';
 
 export type SubscriptionEvent =
   | TâchePlanifiéeExecutéeEvent
@@ -53,10 +54,19 @@ export const register = () => {
       })
       .with({ type: 'ChangementProducteurEnregistré-V1' }, async (event) => {
         const {
-          payload: { identifiantProjet, enregistréLe },
+          payload: { identifiantProjet, enregistréLe, enregistréPar },
         } = event;
         const identifiantProjetValueType =
           IdentifiantProjet.convertirEnValueType(identifiantProjet);
+
+        await mediator.send<EffacerHistoriqueGarantiesFinancièresCommand>({
+          type: 'Lauréat.GarantiesFinancières.Command.EffacerHistoriqueGarantiesFinancières',
+          data: {
+            identifiantProjet: identifiantProjetValueType,
+            effacéLe: DateTime.convertirEnValueType(enregistréLe),
+            effacéPar: Email.convertirEnValueType(enregistréPar),
+          },
+        });
 
         await demanderGarantiesFinancières({
           identifiantProjet: identifiantProjetValueType,
