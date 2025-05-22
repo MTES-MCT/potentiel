@@ -24,7 +24,6 @@ import {
   getProjetUtilisateurScopeAdapter,
 } from '@potentiel-infrastructure/domain-adapters';
 import { AttestationSaga } from '@potentiel-applications/document-builder';
-import { LauréatSaga } from '@potentiel-domain/laureat';
 
 import { getProjetAggregateRootAdapter } from './adapters/getProjetAggregateRoot.adapter';
 
@@ -67,30 +66,6 @@ export const setupProjet = async ({ sendEmail }: SetupProjetDependencies) => {
     eventHandler: async (event) => {
       await mediator.send<LauréatProjector.Execute>({
         type: 'System.Projector.Lauréat',
-        data: event,
-      });
-    },
-  });
-
-  const unsubscribeLauréatSaga = await subscribe<LauréatSaga.SubscriptionEvent & Event>({
-    name: 'laureat-saga',
-    streamCategory: 'recours',
-    eventType: ['RecoursAccordé-V1'],
-    eventHandler: async (event) => {
-      await mediator.publish<LauréatSaga.Execute>({
-        type: 'System.Lauréat.Saga.Execute',
-        data: event,
-      });
-    },
-  });
-
-  const unsubscribeLauréatProducteurSaga = await subscribe<LauréatSaga.SubscriptionEvent & Event>({
-    name: 'laureat-producteur-saga',
-    streamCategory: 'producteur',
-    eventType: ['ChangementProducteurEnregistré-V1'],
-    eventHandler: async (event) => {
-      await mediator.publish<LauréatSaga.Execute>({
-        type: 'System.Lauréat.Saga.Execute',
         data: event,
       });
     },
@@ -145,7 +120,6 @@ export const setupProjet = async ({ sendEmail }: SetupProjetDependencies) => {
   AccèsProjector.register();
   AccèsNotification.register({ sendEmail });
 
-  LauréatSaga.register();
   AttestationSaga.register();
 
   const unsubscribeAccèsProjector = await subscribe<AccèsProjector.SubscriptionEvent>({
@@ -217,8 +191,6 @@ export const setupProjet = async ({ sendEmail }: SetupProjetDependencies) => {
 
   return async () => {
     await unsubscribeLauréatProjector();
-    await unsubscribeLauréatSaga();
-    await unsubscribeLauréatProducteurSaga();
 
     await unsubscribeRecoursProjector();
     await unsubscribeRecoursNotification();
