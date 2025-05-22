@@ -1,5 +1,4 @@
 # language: fr
-@select
 Fonctionnalité: Annuler la demande changement de puissance d'un projet lauréat
 
     Contexte:

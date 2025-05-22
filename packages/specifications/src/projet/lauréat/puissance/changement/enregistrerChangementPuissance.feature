@@ -1,5 +1,4 @@
 # language: fr
-@select
 Fonctionnalité: Enregistrer un changement de puissance d'un projet lauréat
 
     Contexte:

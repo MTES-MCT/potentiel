@@ -1,5 +1,4 @@
 # language: fr
-@select
 Fonctionnalité: Accorder le changement de puissance d'un projet lauréat
 
     Contexte:

@@ -1,5 +1,4 @@
 # language: fr
-@select
 Fonctionnalité: Supprimer la demande de changement de puissance
 
     Contexte:

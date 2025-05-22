@@ -79,7 +79,8 @@ export class PuissanceAggregate extends AbstractAggregate<PuissanceEvent> {
   }
 
   async modifier({ puissance, dateModification, identifiantUtilisateur, raison }: ModifierOptions) {
-    this.vérifierChangementPossible('modification', puissance);
+    this.lauréat.vérifierQueLeLauréatExiste();
+
     if (this.#puissance === puissance) {
       throw new PuissanceIdentiqueError();
     }
@@ -301,7 +302,7 @@ export class PuissanceAggregate extends AbstractAggregate<PuissanceEvent> {
   }
 
   private vérifierChangementPossible(
-    type: 'demande' | 'information-enregistrée' | 'modification',
+    type: 'demande' | 'information-enregistrée',
     nouvellePuissance: number,
   ) {
     this.lauréat.vérifierQueLeLauréatExiste();
@@ -324,18 +325,16 @@ export class PuissanceAggregate extends AbstractAggregate<PuissanceEvent> {
       technologie,
     } = this.lauréat.projet.candidature;
 
-    if (type !== 'modification') {
-      RatioChangementPuissance.bind({
-        appelOffre: this.lauréat.projet.appelOffre,
-        période: this.lauréat.projet.période,
-        famille: this.lauréat.projet.famille,
-        cahierDesCharges: this.lauréat.cahierDesCharges,
-        technologie: technologie.type,
-        ratio: nouvellePuissance / puissanceInitiale,
-        nouvellePuissance,
-        note,
-      }).vérifierQueLaDemandeEstPossible(type);
-    }
+    RatioChangementPuissance.bind({
+      appelOffre: this.lauréat.projet.appelOffre,
+      période: this.lauréat.projet.période,
+      famille: this.lauréat.projet.famille,
+      cahierDesCharges: this.lauréat.cahierDesCharges,
+      technologie: technologie.type,
+      ratio: nouvellePuissance / puissanceInitiale,
+      nouvellePuissance,
+      note,
+    }).vérifierQueLaDemandeEstPossible(type);
   }
 
   apply(event: PuissanceEvent) {
