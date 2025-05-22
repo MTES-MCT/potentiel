@@ -71,10 +71,7 @@ export const registerListerDossierRaccordementManquantsQuery = ({
     } = await list<Raccordement.RaccordementEntity, Candidature.CandidatureEntity>('raccordement', {
       where: {
         identifiantGestionnaireRéseau: Where.equal(identifiantGestionnaireRéseau),
-        // Hack: dossiers est un array, mais postgresql permet d'utiliser `value->>'dossiers' = '[]'` pour trouver les array vides
-        // cela évite d'avoir un opérateur dédié, qui n'apporte rien dans ce contexte.
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        dossiers: Where.equal('[]') as any,
+        dossiers: Where.isEmptyArray(),
       },
       range,
       orderBy: {
