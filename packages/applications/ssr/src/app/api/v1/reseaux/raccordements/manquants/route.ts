@@ -48,8 +48,6 @@ export const GET = (request: NextRequest) =>
       const { searchParams } = new URL(request.url);
       const { page } = routeParamsSchema.parse(Object.fromEntries(searchParams.entries()));
 
-      const itemsPerPage = 10;
-
       const identifiantGestionnaireRéseau =
         récupérerIdentifiantGestionnaireUtilisateur(utilisateur);
 
@@ -60,7 +58,7 @@ export const GET = (request: NextRequest) =>
           range: page
             ? mapToRangeOptions({
                 currentPage: page,
-                itemsPerPage,
+                itemsPerPage: 50,
               })
             : undefined,
         },
