@@ -1,7 +1,6 @@
 export * from './asyncHandler';
 export * from './errorResponse';
 export * from './getOptionsFiltresParAOs';
-export * from './mapCsvYupValidationErrorToCsvErrors';
 export * from './miseAJourStatistiquesUtilisation';
 export * from './notFoundResponse';
 export * from './safeAsyncHandler';
@@ -12,5 +11,4 @@ export * from './vérifierPermissionUtilisateur';
 export * from './yupTransformations';
 export * from './getCurrentUrl';
 export * from './getPagination';
-export * from './isSoumisAuxGF';
 export * from './fileSizeLimitError';

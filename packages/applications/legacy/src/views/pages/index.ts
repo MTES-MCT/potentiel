@@ -7,7 +7,6 @@ export * from './modificationRequestPage';
 export * from './newModificationRequestPage';
 export * from './projectDetailsPage';
 export * from './signalerDemandeDelaiPage';
-export * from './AbonnementLettreInformation';
 export * from './AcheteurObligeStatistiquesPage';
 export * from './AdemeStatistiquesPage';
 export * from './AdminStatistiquesPage';
