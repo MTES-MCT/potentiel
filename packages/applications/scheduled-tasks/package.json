@@ -3,25 +3,18 @@
   "description": "Potentiel Scheduled Tasks",
   "private": true,
   "scripts": {
-    "build": "tsc",
-    "start:relancer-abandon-sans-preuve": "node ./dist/abandon/relancer-abandon-sans-preuve",
-    "start:déplacer-fichiers-vers-bucket-secnum": "node ./dist/déplacer-fichiers-vers-bucket-secnum",
-    "start:créer-backup": "node ./dist/backup/créer-backup",
-    "start:récupérer-fichier-gf-candidature-référentiel-dgec": "node ./dist/garanties-financières/récupérer-fichier-gf-candidature-référentiel-dgec"
+    "build": "tsc"
   },
   "dependencies": {
-    "@potentiel-applications/routes": "*",
     "@potentiel-domain/common": "*",
     "@potentiel-domain/laureat": "*",
     "@potentiel-domain/projet": "*",
     "@potentiel-infrastructure/domain-adapters": "*",
-    "@potentiel-infrastructure/email": "*",
     "@potentiel-infrastructure/pg-event-sourcing": "*",
     "@potentiel-infrastructure/pg-projection-read": "*",
     "@potentiel-libraries/file-storage": "*",
     "@potentiel-libraries/monads": "*",
     "@potentiel-libraries/monitoring": "*",
-    "@potentiel-statistiques/statistiques-publiques": "*",
     "chardet": "^2.0.0",
     "iconv-lite": "^0.6.3"
   },
