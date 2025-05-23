@@ -25,7 +25,8 @@
     "@potentiel-infrastructure/domain-adapters": "*",
     "@potentiel-libraries/csv": "*",
     "@potentiel-libraries/file-storage": "*",
-    "@potentiel-statistiques/statistiques-publiques": "*"
+    "@potentiel-statistiques/statistiques-publiques": "*",
+    "zod": "^3.24.2"
   },
   "devDependencies": {
     "@potentiel-config/tsconfig": "*",

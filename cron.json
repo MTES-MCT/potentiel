@@ -5,7 +5,7 @@
       "size": "S"
     },
     {
-      "command": "0 8 * * 0 ./packages/applications/scheduled-tasks/mettre-à-jour-gestionnaire-réseau.sh",
+      "command": "0 8 * * 0 potentiel-cli reseau update-gestionnaires",
       "size": "M"
     },
     {

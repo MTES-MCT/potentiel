@@ -23,7 +23,7 @@ import {
 import { Candidature, Lauréat, ProjetAggregateRoot } from '@potentiel-domain/projet';
 import { Période } from '@potentiel-domain/periode';
 
-import { dgecEmail } from '../_utils/constant';
+export const dgecEmail = 'aopv.dgec@developpement-durable.gouv.fr';
 
 [
   'DIRECTORY_PATH',

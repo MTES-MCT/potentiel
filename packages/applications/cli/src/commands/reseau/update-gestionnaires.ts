@@ -1,4 +1,6 @@
 import { mediator } from 'mediateur';
+import { Command } from '@oclif/core';
+import z from 'zod';
 
 import {
   GestionnaireRéseau,
@@ -9,24 +11,40 @@ import { récupérerTousLesGRD } from '@potentiel-infrastructure/ore-client';
 import { loadAggregate } from '@potentiel-infrastructure/pg-event-sourcing';
 import { findProjection, listProjection } from '@potentiel-infrastructure/pg-projection-read';
 import { getLogger } from '@potentiel-libraries/monitoring';
+import { killPool } from '@potentiel-libraries/pg-helpers';
 
-import { addGRDs } from './addGRDs';
-import { updateGRDs } from './updateGRDs';
-import { mapToRéférencielGRD } from './référencielGRD';
+import { addGRDs } from '../../helpers/réseau/addGRDs';
+import { updateGRDs } from '../../helpers/réseau/updateGRDs';
+import { mapToRéférencielGRD } from '../../helpers/réseau/référencielGRD';
 
-registerRéseauUseCases({
-  loadAggregate,
+const envSchema = z.object({
+  ORE_ENDPOINT: z.string().url(),
+  DATABASE_CONNECTION_STRING: z.string().url(),
 });
 
-registerRéseauQueries({
-  list: listProjection,
-  find: findProjection,
-});
+export class UpdateGestionnaires extends Command {
+  async init() {
+    envSchema.parse(process.env);
+    registerRéseauUseCases({
+      loadAggregate,
+    });
 
-void (async () => {
-  getLogger().info('Lancement du script...');
+    registerRéseauQueries({
+      list: listProjection,
+      find: findProjection,
+    });
+  }
 
-  try {
+  protected async finally(error: Error | undefined) {
+    if (error) {
+      getLogger().error(error as Error);
+    }
+    await killPool();
+  }
+
+  async run() {
+    getLogger().info('Import des GRDs...');
+
     const gestionnairesFromORE = await récupérerTousLesGRD();
 
     const gestionnairesRéseau =
@@ -42,9 +60,5 @@ void (async () => {
     await updateGRDs(àModifier);
 
     getLogger().info('Fin du script ✨');
-
-    process.exit(0);
-  } catch (error) {
-    getLogger().error(error as Error);
   }
-})();
+}

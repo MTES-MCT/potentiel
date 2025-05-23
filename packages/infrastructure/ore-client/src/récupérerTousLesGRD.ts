@@ -14,7 +14,7 @@ type OreGestionnaireSlice = {
 };
 
 const récupérerGRDParTranche = async (offset: string): Promise<OreGestionnaireSlice> => {
-  const url = new URL(référentielDistributeursDEnergieUrl, OreEndpoint);
+  const url = new URL(référentielDistributeursDEnergieUrl, OreEndpoint());
   url.searchParams.append('where', 'energie:"Électricité" and grd is not null');
   url.searchParams.append('select', 'grd, eic, contact');
   url.searchParams.append('limit', OREApiLimitInString);
