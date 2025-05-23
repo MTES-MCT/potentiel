@@ -7,8 +7,7 @@
     "start:relancer-abandon-sans-preuve": "node ./dist/abandon/relancer-abandon-sans-preuve",
     "start:déplacer-fichiers-vers-bucket-secnum": "node ./dist/déplacer-fichiers-vers-bucket-secnum",
     "start:créer-backup": "node ./dist/backup/créer-backup",
-    "start:récupérer-fichier-gf-candidature-référentiel-dgec": "node ./dist/garanties-financières/récupérer-fichier-gf-candidature-référentiel-dgec",
-    "start:extraire-données-statistiques-publiques": "node ./dist/statistiques-publiques/extraire-données-statistiques-publiques"
+    "start:récupérer-fichier-gf-candidature-référentiel-dgec": "node ./dist/garanties-financières/récupérer-fichier-gf-candidature-référentiel-dgec"
   },
   "dependencies": {
     "@potentiel-applications/routes": "*",
