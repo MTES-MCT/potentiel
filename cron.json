@@ -29,7 +29,7 @@
       "size": "M"
     },
     {
-      "command": "0 2 * * * ./packages/applications/scheduler/scheduler.sh",
+      "command": "0 2 * * * potentiel-cli tache-planifiee executer",
       "size": "M"
     }
   ]
