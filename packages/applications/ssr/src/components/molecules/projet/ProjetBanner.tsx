@@ -5,9 +5,9 @@ import { mediator } from 'mediateur';
 import { notFound } from 'next/navigation';
 
 import { Routes } from '@potentiel-applications/routes';
-import { Candidature, Lauréat } from '@potentiel-domain/projet';
+import { Candidature, IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import { Option } from '@potentiel-libraries/monads';
-import { DateTime, IdentifiantProjet, StatutProjet } from '@potentiel-domain/common';
+import { DateTime, StatutProjet } from '@potentiel-domain/common';
 import { Role } from '@potentiel-domain/utilisateur';
 import { Abandon } from '@potentiel-domain/laureat';
 
