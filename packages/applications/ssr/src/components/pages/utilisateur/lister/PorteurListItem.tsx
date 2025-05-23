@@ -26,9 +26,7 @@ export const PorteurListItem: FC<PorteurListItem> = ({
     <div className="flex flex-row items-center justify-between border-b-dsfr-border-default-grey-default border-b-2 pb-2 pt-1">
       <Heading3>{identifiantUtilisateur}</Heading3>
       <div className="flex flex-row gap-3">
-        <CopyButton textToCopy={identifiantUtilisateur}>
-          <></>
-        </CopyButton>
+        <CopyButton textToCopy={identifiantUtilisateur} />
         <RetirerAccèsProjetButton
           identifiantProjet={identifiantProjet}
           identifiantUtilisateur={identifiantUtilisateur}

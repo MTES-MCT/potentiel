@@ -1,15 +1,33 @@
 'use client';
 
-import Button from '@codegouvfr/react-dsfr/Button';
-import { useState } from 'react';
+import Button, { ButtonProps } from '@codegouvfr/react-dsfr/Button';
+import { ReactNode, useState } from 'react';
+import clsx from 'clsx';
 
 export type CopyButtonProps = {
   textToCopy: string;
   timeoutInMs?: number;
-  children?: React.ReactNode;
-};
+  className?: string;
+  prority?: ButtonProps['priority'];
+} & (
+  | {
+      noChildren: true;
+      children?: undefined;
+    }
+  | {
+      noChildren?: undefined;
+      children?: ReactNode;
+    }
+);
 
-export const CopyButton = ({ textToCopy, children, timeoutInMs = 2000 }: CopyButtonProps) => {
+export const CopyButton = ({
+  textToCopy,
+  timeoutInMs = 2000,
+  className,
+  noChildren,
+  children,
+  prority = 'secondary',
+}: CopyButtonProps) => {
   const [hasCopied, setHasCopied] = useState<boolean>(false);
 
   const copyLink = () => {
@@ -21,12 +39,12 @@ export const CopyButton = ({ textToCopy, children, timeoutInMs = 2000 }: CopyBut
   };
 
   return (
-    <div className="flex flex-row gap-3 items-center">
-      {children ? children : <span className="italic">{textToCopy}</span>}
+    <div className={clsx(`flex flex-row gap-3 items-center`, className && `${className}`)}>
+      {noChildren ? null : (children ?? <span className="italic">{textToCopy}</span>)}
       <Button
-        iconId="ri-clipboard-line"
+        iconId={hasCopied ? 'ri-check-fill' : 'ri-clipboard-line'}
         aria-label="copier-coller"
-        priority="secondary"
+        priority={prority}
         onClick={copyLink}
         style={{ marginTop: 0 }}
         size="small"
