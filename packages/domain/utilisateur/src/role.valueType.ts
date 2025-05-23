@@ -1628,6 +1628,7 @@ const grdPolicies: ReadonlyArray<Policy> = [
   'raccordement.date-mise-en-service.transmettre',
   'raccordement.date-mise-en-service.modifier',
   'raccordement.référence-dossier.modifier',
+  'raccordement.demande-complète-raccordement.transmettre',
 ];
 
 const ademePolicies: ReadonlyArray<Policy> = [...pageProjetPolicies];
