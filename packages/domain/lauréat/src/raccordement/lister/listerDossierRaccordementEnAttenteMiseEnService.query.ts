@@ -172,11 +172,11 @@ export const mapToReadModel: MapToReadModelProps = ({
     (puissance) => puissance.identifiantProjet === identifiantProjet,
   );
 
+  const unitéPuissance = appelOffres.find((ao) => ao.id === appelOffre)?.unitePuissance ?? 'MWc';
+
   const puissance = match(puissanceItem)
     .with(P.nullish, () => `0 ${unitéPuissance}`)
     .otherwise((value) => `${value.puissance} ${unitéPuissance}`);
-
-  const unitéPuissance = appelOffres.find((ao) => ao.id === appelOffre)?.unitePuissance ?? 'MWc';
 
   return {
     appelOffre,
