@@ -1,6 +1,5 @@
 import { makeHtml } from './index.html';
 import {
-  AbonnementLettreInformation,
   AdemeStatistiques,
   AdminStatistiques,
   DemanderDelai,
@@ -121,15 +120,6 @@ export const SignalerDemandeDelaiPage = (props: Parameters<typeof SignalerDemand
     Component: SignalerDemandeDelai,
     props,
     title: 'Signaler demande de délai',
-  });
-
-export const AbonnementLettreInformationPage = (
-  props: Parameters<typeof AbonnementLettreInformation>[0],
-) =>
-  makeHtml({
-    Component: AbonnementLettreInformation,
-    props,
-    title: 'Abdonnement lettre information',
   });
 
 export const ListeProjetsPage = (props: Parameters<typeof ListeProjets>[0]) =>

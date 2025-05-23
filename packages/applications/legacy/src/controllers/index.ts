@@ -1,6 +1,5 @@
 export * from './admin';
 export * from './helpers';
-export * from './lettreInformation';
 export * from './modificationRequest';
 export * from './project';
 export * from './tableauxDeBord';

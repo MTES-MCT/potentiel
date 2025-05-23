@@ -19,16 +19,7 @@ const withParams =
     );
   };
 
-const withProjectId = (url: string) => (projectId: Project['id']) => withParams(url)({ projectId });
-
-export { withParams };
-
 class routes {
-  static ABONNEMENT_LETTRE_INFORMATION = '/abonnement-lettre-information.html';
-  static POST_SINSCRIRE_LETTRE_INFORMATION = '/s-inscrire-a-la-lettre-d-information';
-
-  static ADMIN_GARANTIES_FINANCIERES = '/admin/garanties-financieres.html';
-
   static ADMIN_STATISTIQUES = '/admin/statistiques.html';
   static ADEME_STATISTIQUES = '/ademe/statistiques.html';
   static ACHETEUR_OBLIGE_STATISTIQUES = '/acheteur-oblige/statistiques.html';
