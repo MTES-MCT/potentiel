@@ -929,7 +929,6 @@ const policies = {
         .listerDossierRaccordementEnAttenteMiseEnService,
       référencielPermissions.lauréat.raccordement.query.listerDossierRaccordement,
       référencielPermissions.appelOffre.query.lister,
-      référencielPermissions.lauréat.raccordement.query.listerDossierRaccordementManquants,
       référencielPermissions.réseau.gestionnaire.query.lister,
     ],
     consulter: [
@@ -1178,6 +1177,24 @@ const policies = {
       référencielPermissions.lauréat.cahierDesCharges.command.choisir,
       référencielPermissions.lauréat.cahierDesCharges.usecase.choisir,
     ],
+  },
+  api: {
+    raccordement: {
+      lister: [
+        référencielPermissions.lauréat.raccordement.query.listerDossierRaccordement,
+        référencielPermissions.lauréat.raccordement.query.listerDossierRaccordementManquants,
+      ],
+      transmettre: [
+        référencielPermissions.lauréat.raccordement.usecase.transmettreDemandeComplète,
+        référencielPermissions.lauréat.raccordement.command.transmettreDemandeComplète,
+        référencielPermissions.lauréat.raccordement.usecase.transmettreDateMiseEnService,
+        référencielPermissions.lauréat.raccordement.command.transmettreDateMiseEnService,
+      ],
+      modifier: [
+        référencielPermissions.lauréat.raccordement.usecase.modifierRéférenceDossier,
+        référencielPermissions.lauréat.raccordement.command.modifierRéférenceDossier,
+      ],
+    },
   },
 } as const;
 
@@ -1628,7 +1645,9 @@ const grdPolicies: ReadonlyArray<Policy> = [
   'raccordement.date-mise-en-service.transmettre',
   'raccordement.date-mise-en-service.modifier',
   'raccordement.référence-dossier.modifier',
-  'raccordement.demande-complète-raccordement.transmettre',
+  'api.raccordement.lister',
+  'api.raccordement.transmettre',
+  'api.raccordement.modifier',
 ];
 
 const ademePolicies: ReadonlyArray<Policy> = [...pageProjetPolicies];
