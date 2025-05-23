@@ -37,6 +37,9 @@ jobs:
     runs-on: ubuntu-latest
     env:
       APPLICATION_STAGE: test
+    strategy:
+      matrix:
+        worker: [1, 2, 3]
 
     steps:
       - uses: actions/checkout@v4
@@ -46,6 +49,10 @@ jobs:
           cache: 'npm'
       - run: npm ci
       - run: npm run specs
+        env:
+          CUCUMBER_PARALLEL: 'true'
+          CUCUMBER_TOTAL_WORKERS: 3
+          CUCUMBER_WORKER_ID: ${{ matrix.worker }}
 
   test_libraries:
     runs-on: ubuntu-latest
