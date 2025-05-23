@@ -1,4 +1,4 @@
-import { CahierDesChargesChoisiEvent } from './choisir/cahierDesChargesChoisi.event';
+import { CahierDesChargesChoisiEvent } from './cahierDesCharges/choisir/cahierDesChargesChoisi.event';
 import { LauréatModifiéEvent } from './modifier/lauréatModifié.event';
 import {
   LauréatNotifiéEvent,

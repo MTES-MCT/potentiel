@@ -1,8 +1,8 @@
-import { ChoisirCahierDesChargesUseCase } from './choisir/choisirCahierDesCharges.usecase';
+import { ChoisirCahierDesChargesUseCase } from './cahierDesCharges/choisir/choisirCahierDesCharges.usecase';
 import {
   ConsulterCahierDesChargesChoisiQuery,
   ConsulterCahierDesChargesChoisiReadModel,
-} from './consulter/consulterCahierDesChargesChoisi.query';
+} from './cahierDesCharges/consulter/consulterCahierDesChargesChoisi.query';
 import {
   ConsulterLauréatQuery,
   ConsulterLauréatReadModel,
@@ -18,7 +18,7 @@ export { ConsulterLauréatQuery, ConsulterCahierDesChargesChoisiQuery };
 export { ConsulterLauréatReadModel, ConsulterCahierDesChargesChoisiReadModel };
 
 // Port
-export { ConsulterCahierDesChargesChoisiPort } from './consulter/consulterCahierDesChargesChoisi.query';
+export { ConsulterCahierDesChargesChoisiPort } from './cahierDesCharges/consulter/consulterCahierDesChargesChoisi.query';
 
 // UseCases
 export type LauréatUseCase =
@@ -35,7 +35,7 @@ export {
   NomEtLocalitéLauréatImportésEvent,
 } from './notifier/lauréatNotifié.event';
 export { LauréatModifiéEvent } from './modifier/lauréatModifié.event';
-export { CahierDesChargesChoisiEvent } from './choisir/cahierDesChargesChoisi.event';
+export { CahierDesChargesChoisiEvent } from './cahierDesCharges/choisir/cahierDesChargesChoisi.event';
 
 // Register
 export { registerLauréatQueries, registerLauréatUseCases } from './lauréat.register';

@@ -1,11 +1,11 @@
 import { GetProjetAggregateRoot } from '..';
 
-import { registerChoisirCahierDesChargesCommand } from './choisir/choisirCahierDesCharges.command';
-import { registerChoisirCahierDesChargesUseCase } from './choisir/choisirCahierDesCharges.usecase';
+import { registerChoisirCahierDesChargesCommand } from './cahierDesCharges/choisir/choisirCahierDesCharges.command';
+import { registerChoisirCahierDesChargesUseCase } from './cahierDesCharges/choisir/choisirCahierDesCharges.usecase';
 import {
   ConsulterCahierDesChargesChoisiDependencies,
   registerConsulterCahierDesChargesChoisiQuery,
-} from './consulter/consulterCahierDesChargesChoisi.query';
+} from './cahierDesCharges/consulter/consulterCahierDesChargesChoisi.query';
 import {
   ConsulterLauréatDependencies,
   registerConsulterLauréatQuery,

@@ -27,8 +27,8 @@ import {
   LauréatNonTrouvéError,
   RetourAuCahierDesChargesInitialImpossibleError,
 } from './lauréat.error';
-import { CahierDesChargesChoisiEvent } from './choisir/cahierDesChargesChoisi.event';
-import { ChoisirCahierDesChargesOptions } from './choisir/choisirCahierDesCharges.option';
+import { CahierDesChargesChoisiEvent } from './cahierDesCharges/choisir/cahierDesChargesChoisi.event';
+import { ChoisirCahierDesChargesOptions } from './cahierDesCharges/choisir/choisirCahierDesCharges.option';
 import { AbandonAggregate } from './abandon/abandon.aggregate';
 import { AchèvementAggregate } from './achèvement/achèvement.aggregate';
 import { ProducteurAggregate } from './producteur/producteur.aggregate';
