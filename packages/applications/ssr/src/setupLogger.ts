@@ -11,11 +11,12 @@ export const setupLogger = () => {
 
   const elasticsearchUrl = process.env.ELASTICSEARCH_URL || '';
   if (elasticsearchUrl) {
-    transports.push(
-      new ElasticsearchTransport({
-        clientOpts: { node: elasticsearchUrl },
-      }),
-    );
+    const elasticSearchTransport = new ElasticsearchTransport({
+      clientOpts: { node: elasticsearchUrl },
+    });
+    elasticSearchTransport.on('error', console.error);
+
+    transports.push(elasticSearchTransport);
   }
 
   const logger = createLogger({
