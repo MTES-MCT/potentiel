@@ -189,7 +189,7 @@ const getNavigationItemsBasedOnRole = (utilisateur: Utilisateur.ValueType) => {
           {
             text: 'Tableau de bord',
             linkProps: {
-              href: '/admin/statistiques.html',
+              href: 'https://potentiel.e2.rie.gouv.fr/',
             },
           },
           {

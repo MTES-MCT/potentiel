@@ -29,7 +29,6 @@ class routes {
 
   static ADMIN_GARANTIES_FINANCIERES = '/admin/garanties-financieres.html';
 
-  static ADMIN_STATISTIQUES = '/admin/statistiques.html';
   static ADEME_STATISTIQUES = '/ademe/statistiques.html';
   static ACHETEUR_OBLIGE_STATISTIQUES = '/acheteur-oblige/statistiques.html';
   static GET_CRE_STATISTIQUES = '/cre/statistiques.html';

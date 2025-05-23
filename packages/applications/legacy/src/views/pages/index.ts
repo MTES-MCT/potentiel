@@ -10,7 +10,6 @@ export * from './signalerDemandeDelaiPage';
 export * from './AbonnementLettreInformation';
 export * from './AcheteurObligeStatistiquesPage';
 export * from './AdemeStatistiquesPage';
-export * from './AdminStatistiquesPage';
 export * from './CreStatistiquesPage';
 export * from './Error';
 export * from './ListeProjetsPage';
