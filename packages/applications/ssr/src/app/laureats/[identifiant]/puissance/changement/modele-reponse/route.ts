@@ -8,7 +8,6 @@ import {
   ModèleRéponseSignée,
 } from '@potentiel-applications/document-builder';
 import { Option } from '@potentiel-libraries/monads';
-import { Puissance } from '@potentiel-domain/laureat';
 import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 
 import { decodeParameter } from '@/utils/decodeParameter';
@@ -46,7 +45,7 @@ export const GET = async (
       return notFound();
     }
 
-    const puissance = await mediator.send<Puissance.ConsulterPuissanceQuery>({
+    const puissance = await mediator.send<Lauréat.Puissance.ConsulterPuissanceQuery>({
       type: 'Lauréat.Puissance.Query.ConsulterPuissance',
       data: { identifiantProjet },
     });
@@ -55,10 +54,11 @@ export const GET = async (
       return notFound();
     }
 
-    const demandeDeChangement = await mediator.send<Puissance.ConsulterChangementPuissanceQuery>({
-      type: 'Lauréat.Puissance.Query.ConsulterChangementPuissance',
-      data: { identifiantProjet, demandéLe: puissance.dateDemandeEnCours.formatter() },
-    });
+    const demandeDeChangement =
+      await mediator.send<Lauréat.Puissance.ConsulterChangementPuissanceQuery>({
+        type: 'Lauréat.Puissance.Query.ConsulterChangementPuissance',
+        data: { identifiantProjet, demandéLe: puissance.dateDemandeEnCours.formatter() },
+      });
 
     if (Option.isNone(demandeDeChangement)) {
       return notFound();

@@ -28,26 +28,18 @@ import {
   registerRaccordementQueries,
   registerRaccordementUseCases,
 } from './raccordement/raccordement.register';
-import {
-  PuissanceCommandDependencies,
-  PuissanceQueryDependencies,
-  registerPuissanceQueries,
-  registerPuissanceUseCases,
-} from './puissance/puissance.register';
 
 export type LauréatQueryDependencies = AbandonQueryDependencies &
   GarantiesFinancièresQueryDependencies &
   ReprésentantLégalQueryDependencies &
   ActionnaireQueryDependencies &
-  RaccordementQueryDependencies &
-  PuissanceQueryDependencies;
+  RaccordementQueryDependencies;
 
 export type LauréatCommandDependencies = AbandonCommandDependencies &
   GarantiesFinancièresCommandDependencies &
   ReprésentantLégalCommandDependencies &
   ActionnaireCommandDependencies &
-  RaccordementCommandDependencies &
-  PuissanceCommandDependencies;
+  RaccordementCommandDependencies;
 
 export const registerLauréatUseCases = (dependencies: LauréatCommandDependencies) => {
   registerAbandonUseCases(dependencies);
@@ -55,7 +47,6 @@ export const registerLauréatUseCases = (dependencies: LauréatCommandDependenci
   registerReprésentantLégalUseCases(dependencies);
   registerActionnaireUseCases(dependencies);
   registerRaccordementUseCases(dependencies);
-  registerPuissanceUseCases(dependencies);
 };
 
 export const registerLauréatQueries = (dependencies: LauréatQueryDependencies) => {
@@ -64,5 +55,4 @@ export const registerLauréatQueries = (dependencies: LauréatQueryDependencies)
   registerReprésentantLégalQueries(dependencies);
   registerActionnaireQueries(dependencies);
   registerRaccordementQueries(dependencies);
-  registerPuissanceQueries(dependencies);
 };

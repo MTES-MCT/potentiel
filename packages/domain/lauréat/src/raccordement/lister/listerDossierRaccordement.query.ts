@@ -9,7 +9,6 @@ import { AppelOffre } from '@potentiel-domain/appel-offre';
 
 import { RéférenceDossierRaccordement } from '..';
 import * as StatutLauréat from '../../statutLauréat.valueType';
-import { PuissanceEntity } from '../../puissance';
 
 type DossierRaccordement = {
   nomProjet: string;
@@ -123,7 +122,7 @@ export const registerListerDossierRaccordementQuery = ({
       (dossier) => dossier.identifiantProjet as IdentifiantProjet.RawType,
     );
 
-    const puissances = await list<PuissanceEntity>('puissance', {
+    const puissances = await list<Lauréat.Puissance.PuissanceEntity>('puissance', {
       where: {
         identifiantProjet: Where.matchAny(identifiants),
       },
@@ -161,7 +160,7 @@ export const registerListerDossierRaccordementQuery = ({
 type MapToReadModelProps = (args: {
   dossier: Raccordement.DossierRaccordementEntity & Joined<Lauréat.LauréatEntity>;
   gestionnairesRéseau: ReadonlyArray<GestionnaireRéseau.GestionnaireRéseauEntity>;
-  puissances: ReadonlyArray<PuissanceEntity>;
+  puissances: ReadonlyArray<Lauréat.Puissance.PuissanceEntity>;
   appelOffres: ReadonlyArray<AppelOffre.AppelOffreEntity>;
   candidatures: ReadonlyArray<Candidature.CandidatureEntity>;
 }) => DossierRaccordement;

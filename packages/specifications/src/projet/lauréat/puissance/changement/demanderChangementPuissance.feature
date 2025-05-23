@@ -1,4 +1,5 @@
 # language: fr
+@select
 Fonctionnalité: Demander le changement de puissance d'un projet lauréat
 
     Contexte:
@@ -33,7 +34,7 @@ Fonctionnalité: Demander le changement de puissance d'un projet lauréat
         Etant donné le projet éliminé "Du boulodrome de Lyon"
         Quand le porteur demande le changement de puissance pour le projet éliminé avec :
             | ratio puissance | 0.75 |
-        Alors l'utilisateur devrait être informé que "La puissance n'existe pas"
+        Alors l'utilisateur devrait être informé que "Le projet lauréat n'existe pas"
 
     Scénario: Impossible de demander le changement de puissance d'un projet lauréat avec une valeur identique
         Quand le porteur demande le changement de puissance pour le projet lauréat avec :

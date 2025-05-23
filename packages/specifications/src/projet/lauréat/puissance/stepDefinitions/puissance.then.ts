@@ -3,7 +3,7 @@ import { mediator } from 'mediateur';
 import waitForExpect from 'wait-for-expect';
 
 import { mapToPlainObject } from '@potentiel-domain/core';
-import { Puissance } from '@potentiel-domain/laureat';
+import { Lauréat } from '@potentiel-domain/projet';
 import { IdentifiantProjet } from '@potentiel-domain/projet';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { Option } from '@potentiel-libraries/monads';
@@ -18,7 +18,7 @@ Alors(
         this.candidatureWorld.importerCandidature.identifiantProjet,
       );
 
-      const puissance = await mediator.send<Puissance.PuissanceQuery>({
+      const puissance = await mediator.send<Lauréat.Puissance.PuissanceQuery>({
         type: 'Lauréat.Puissance.Query.ConsulterPuissance',
         data: {
           identifiantProjet: identifiantProjet.formatter(),
@@ -40,6 +40,7 @@ Alors(
       const expected = mapToPlainObject(
         this.lauréatWorld.puissanceWorld.mapToExpected(
           identifiantProjet,
+          this.candidatureWorld.importerCandidature.values.puissanceProductionAnnuelleValue,
           appelOffre.unitePuissance,
         ),
       );
@@ -57,7 +58,7 @@ Alors(
         this.candidatureWorld.importerCandidature.identifiantProjet,
       );
 
-      const puissance = await mediator.send<Puissance.PuissanceQuery>({
+      const puissance = await mediator.send<Lauréat.Puissance.PuissanceQuery>({
         type: 'Lauréat.Puissance.Query.ConsulterPuissance',
         data: {
           identifiantProjet: identifiantProjet.formatter(),
@@ -79,6 +80,7 @@ Alors(
       const expected = mapToPlainObject(
         this.lauréatWorld.puissanceWorld.mapToExpected(
           identifiantProjet,
+          this.candidatureWorld.importerCandidature.values.puissanceProductionAnnuelleValue,
           appelOffre.unitePuissance,
         ),
       );

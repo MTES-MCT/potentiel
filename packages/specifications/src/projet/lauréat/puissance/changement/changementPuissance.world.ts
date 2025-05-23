@@ -1,4 +1,4 @@
-import { Puissance } from '@potentiel-domain/laureat';
+import { Lauréat } from '@potentiel-domain/projet';
 import { IdentifiantProjet } from '@potentiel-domain/projet';
 import { DateTime, Email } from '@potentiel-domain/common';
 import { DocumentProjet } from '@potentiel-domain/document';
@@ -11,7 +11,7 @@ import { RejeterChangementPuissanceFixture } from './fixture/rejeterChangementPu
 
 type MapToDemandeExpectedProps = {
   identifiantProjet: IdentifiantProjet.ValueType;
-  statut: Puissance.StatutChangementPuissance.ValueType;
+  statut: Lauréat.Puissance.StatutChangementPuissance.ValueType;
   puissanceActuelle: number;
 };
 
@@ -53,7 +53,7 @@ export class ChangementPuissanceWorld {
     identifiantProjet,
     statut,
     puissanceActuelle,
-  }: MapToDemandeExpectedProps): Puissance.ConsulterChangementPuissanceReadModel {
+  }: MapToDemandeExpectedProps): Lauréat.Puissance.ConsulterChangementPuissanceReadModel {
     if (
       !this.demanderChangementPuissanceFixture.aÉtéCréé &&
       !this.#enregistrerChangementPuissanceFixture.aÉtéCréé
@@ -67,7 +67,7 @@ export class ChangementPuissanceWorld {
       ? this.demanderChangementPuissanceFixture
       : this.#enregistrerChangementPuissanceFixture;
 
-    const expected: Puissance.ConsulterChangementPuissanceReadModel = {
+    const expected: Lauréat.Puissance.ConsulterChangementPuissanceReadModel = {
       identifiantProjet,
       demande: {
         demandéeLe: DateTime.convertirEnValueType(baseFixture.demandéLe),
@@ -75,14 +75,14 @@ export class ChangementPuissanceWorld {
         nouvellePuissance: baseFixture.ratio * puissanceActuelle,
         pièceJustificative: DocumentProjet.convertirEnValueType(
           identifiantProjet.formatter(),
-          Puissance.TypeDocumentPuissance.pièceJustificative.formatter(),
+          Lauréat.Puissance.TypeDocumentPuissance.pièceJustificative.formatter(),
           DateTime.convertirEnValueType(baseFixture.demandéLe).formatter(),
           baseFixture.pièceJustificative.format,
         ),
         raison: baseFixture.raison,
         statut,
         autoritéCompétente: this.demanderChangementPuissanceFixture.aÉtéCréé
-          ? Puissance.AutoritéCompétente.déterminer(baseFixture.ratio)
+          ? Lauréat.Puissance.AutoritéCompétente.déterminer(baseFixture.ratio)
           : undefined,
       },
     };
@@ -98,7 +98,7 @@ export class ChangementPuissanceWorld {
 
         réponseSignée: DocumentProjet.convertirEnValueType(
           identifiantProjet.formatter(),
-          Puissance.TypeDocumentPuissance.changementAccordé.formatter(),
+          Lauréat.Puissance.TypeDocumentPuissance.changementAccordé.formatter(),
           DateTime.convertirEnValueType(
             this.#accorderChangementPuissanceFixture.accordéeLe,
           ).formatter(),
@@ -114,7 +114,7 @@ export class ChangementPuissanceWorld {
 
         réponseSignée: DocumentProjet.convertirEnValueType(
           identifiantProjet.formatter(),
-          Puissance.TypeDocumentPuissance.changementRejeté.formatter(),
+          Lauréat.Puissance.TypeDocumentPuissance.changementRejeté.formatter(),
           DateTime.convertirEnValueType(
             this.#rejeterChangementPuissanceFixture.rejetéeLe,
           ).formatter(),

@@ -33,6 +33,7 @@ import { AbandonAggregate } from './abandon/abandon.aggregate';
 import { AchèvementAggregate } from './achèvement/achèvement.aggregate';
 import { ProducteurAggregate } from './producteur/producteur.aggregate';
 import { GarantiesFinancièresAggregate } from './garanties-financières/garantiesFinancières.aggregate';
+import { PuissanceAggregate } from './puissance/puissance.aggregate';
 
 export class LauréatAggregate extends AbstractAggregate<LauréatEvent> {
   #projet!: ProjetAggregateRoot;
@@ -51,6 +52,10 @@ export class LauréatAggregate extends AbstractAggregate<LauréatEvent> {
     return this.#estNotifié;
   }
 
+  get cahierDesCharges() {
+    return this.#cahierDesCharges;
+  }
+
   #abandon!: AggregateType<AbandonAggregate>;
   get abandon() {
     return this.#abandon;
@@ -64,6 +69,11 @@ export class LauréatAggregate extends AbstractAggregate<LauréatEvent> {
   #producteur!: AggregateType<ProducteurAggregate>;
   get producteur() {
     return this.#producteur;
+  }
+
+  #puissance!: AggregateType<PuissanceAggregate>;
+  get puissance() {
+    return this.#puissance;
   }
 
   #garantiesFinancières!: AggregateType<GarantiesFinancièresAggregate>;
@@ -91,6 +101,12 @@ export class LauréatAggregate extends AbstractAggregate<LauréatEvent> {
       ProducteurAggregate,
     );
     await this.#producteur.init(this);
+
+    this.#puissance = await loadAggregate(
+      `puissance|${this.projet.identifiantProjet.formatter()}`,
+      PuissanceAggregate,
+    );
+    await this.#puissance.init(this);
 
     this.#garantiesFinancières = await loadAggregate(
       `garanties-financieres|${this.projet.identifiantProjet.formatter()}`,
@@ -123,6 +139,11 @@ export class LauréatAggregate extends AbstractAggregate<LauréatEvent> {
       dateImport: notifiéeLe,
       identifiantUtilisateur: notifiéePar,
       producteur: this.projet.candidature.nomCandidat,
+    });
+
+    await this.puissance.importer({
+      importéeLe: notifiéeLe,
+      puissance: this.projet.candidature.puissanceProductionAnnuelle,
     });
   }
 

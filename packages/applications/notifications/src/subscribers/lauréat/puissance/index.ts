@@ -4,7 +4,7 @@ import { match, P } from 'ts-pattern';
 import { Option } from '@potentiel-libraries/monads';
 import { Event } from '@potentiel-infrastructure/pg-event-sourcing';
 import { CandidatureAdapter } from '@potentiel-infrastructure/domain-adapters';
-import { Puissance } from '@potentiel-domain/laureat';
+import { Lauréat } from '@potentiel-domain/projet';
 import { getLogger } from '@potentiel-libraries/monitoring';
 import { IdentifiantProjet } from '@potentiel-domain/projet';
 
@@ -17,7 +17,7 @@ import { changementPuissanceRejetéNotification } from './changement/changementP
 import { changementPuissanceDemandéNotification } from './changement/changementPuissanceDemandé.notification';
 import { changementPuissanceEnregistréNotification } from './changement/changementPuissanceEnregistré.notification';
 
-export type SubscriptionEvent = Puissance.PuissanceEvent & Event;
+export type SubscriptionEvent = Lauréat.Puissance.PuissanceEvent & Event;
 
 export type Execute = Message<'System.Notification.Lauréat.Puissance', SubscriptionEvent>;
 

@@ -1,10 +1,10 @@
-import { Puissance } from '@potentiel-domain/laureat';
+import { Lauréat } from '@potentiel-domain/projet';
 
 import { encodeParameter } from '../encodeParameter';
 
 type ListerFilters = {
-  statut?: Puissance.StatutChangementPuissance.RawType;
-  autoriteInstructrice?: Puissance.AutoritéCompétente.RawType;
+  statut?: Lauréat.Puissance.StatutChangementPuissance.RawType;
+  autoriteInstructrice?: Lauréat.Puissance.AutoritéCompétente.RawType;
 };
 
 export const modifier = (identifiantProjet: string) =>

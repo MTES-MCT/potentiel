@@ -1,18 +1,9 @@
 import { DataTable, When as Quand } from '@cucumber/cucumber';
 import { mediator } from 'mediateur';
 
-import { IdentifiantProjet, DateTime } from '@potentiel-domain/common';
-import { Puissance } from '@potentiel-domain/laureat';
+import { Lauréat } from '@potentiel-domain/projet';
 
 import { PotentielWorld } from '../../../../potentiel.world';
-
-Quand('la puissance est importée pour le projet', async function (this: PotentielWorld) {
-  try {
-    await importerPuissance.call(this);
-  } catch (error) {
-    this.error = error as Error;
-  }
-});
 
 Quand(
   `le DGEC validateur modifie la puissance pour le projet {lauréat-éliminé}`,
@@ -58,21 +49,6 @@ Quand(
   },
 );
 
-async function importerPuissance(this: PotentielWorld) {
-  const identifiantProjet = this.candidatureWorld.importerCandidature.identifiantProjet;
-  const { importéeLe } = this.lauréatWorld.puissanceWorld.importerPuissanceFixture.créer({
-    puissance: this.candidatureWorld.importerCandidature.values.puissanceProductionAnnuelleValue,
-  });
-
-  await mediator.send<Puissance.PuissanceCommand>({
-    type: 'Lauréat.Puissance.Command.ImporterPuissance',
-    data: {
-      identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
-      importéeLe: DateTime.convertirEnValueType(importéeLe),
-    },
-  });
-}
-
 async function modifierPuissance(
   this: PotentielWorld,
   modifiéPar: string,
@@ -88,12 +64,14 @@ async function modifierPuissance(
     this.lauréatWorld.puissanceWorld.modifierPuissanceFixture.créer(
       ratio !== undefined
         ? {
-            puissance: this.lauréatWorld.puissanceWorld.importerPuissanceFixture.puissance * ratio,
+            puissance:
+              this.candidatureWorld.importerCandidature.values.puissanceProductionAnnuelleValue *
+              ratio,
           }
         : undefined,
     );
 
-  await mediator.send<Puissance.PuissanceUseCase>({
+  await mediator.send<Lauréat.Puissance.PuissanceUseCase>({
     type: 'Lauréat.Puissance.UseCase.ModifierPuissance',
     data: {
       identifiantProjetValue: identifiantProjet,

@@ -1,6 +1,6 @@
 import { Routes } from '@potentiel-applications/routes';
 import { DocumentProjet } from '@potentiel-domain/document';
-import { Puissance } from '@potentiel-domain/laureat';
+import { Lauréat } from '@potentiel-domain/projet';
 
 import { DownloadDocument } from '@/components/atoms/form/document/DownloadDocument';
 
@@ -11,7 +11,7 @@ export const mapToChangementPuissanceEnregistréTimelineItemProps = (
   unitéPuissance: HistoriquePuissanceTimelineProps['unitéPuissance'],
 ) => {
   const { enregistréLe, enregistréPar, identifiantProjet, pièceJustificative, puissance, raison } =
-    record.payload as Puissance.ChangementPuissanceEnregistréEvent['payload'];
+    record.payload as Lauréat.Puissance.ChangementPuissanceEnregistréEvent['payload'];
   return {
     date: enregistréLe,
     title: (
@@ -38,7 +38,7 @@ export const mapToChangementPuissanceEnregistréTimelineItemProps = (
             url={Routes.Document.télécharger(
               DocumentProjet.convertirEnValueType(
                 identifiantProjet,
-                Puissance.TypeDocumentPuissance.pièceJustificative.formatter(),
+                Lauréat.Puissance.TypeDocumentPuissance.pièceJustificative.formatter(),
                 enregistréLe,
                 pièceJustificative.format,
               ).formatter(),

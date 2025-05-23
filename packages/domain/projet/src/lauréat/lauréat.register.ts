@@ -24,11 +24,17 @@ import {
   registerAchèvementQueries,
   registerAchèvementUseCases,
 } from './achèvement/achèvement.register';
+import {
+  PuissanceQueryDependencies,
+  registerPuissanceQueries,
+  registerPuissanceUseCases,
+} from './puissance/puissance.register';
 
 export type LauréatQueryDependencies = ConsulterLauréatDependencies &
   ConsulterCahierDesChargesChoisiDependencies &
   DélaiQueryDependencies &
-  ProducteurQueryDependencies;
+  ProducteurQueryDependencies &
+  PuissanceQueryDependencies;
 
 export type LauréatCommandDependencies = {
   getProjetAggregateRoot: GetProjetAggregateRoot;
@@ -46,6 +52,7 @@ export const registerLauréatUseCases = (dependencies: LauréatCommandDependenci
 
   registerProducteurUseCases(dependencies);
   registerAchèvementUseCases(dependencies);
+  registerPuissanceUseCases(dependencies);
 };
 
 export const registerLauréatQueries = (dependencies: LauréatQueryDependencies) => {
@@ -55,4 +62,5 @@ export const registerLauréatQueries = (dependencies: LauréatQueryDependencies)
   registerDélaiQueries(dependencies);
   registerProducteurQueries(dependencies);
   registerAchèvementQueries(dependencies);
+  registerPuissanceQueries(dependencies);
 };

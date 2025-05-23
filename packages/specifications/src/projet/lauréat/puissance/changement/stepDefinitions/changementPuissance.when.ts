@@ -1,7 +1,7 @@
 import { DataTable, When as Quand } from '@cucumber/cucumber';
 import { mediator } from 'mediateur';
 
-import { Puissance } from '@potentiel-domain/laureat';
+import { Lauréat } from '@potentiel-domain/projet';
 
 import { PotentielWorld } from '../../../../../potentiel.world';
 import { UtilisateurWorld } from '../../../../../utilisateur/utilisateur.world';
@@ -13,7 +13,7 @@ Quand(
     const ratio =
       exemple['nouvelle puissance'] !== undefined
         ? Number(exemple['nouvelle puissance']) /
-          this.lauréatWorld.puissanceWorld.importerPuissanceFixture.puissance
+          this.candidatureWorld.importerCandidature.values.puissanceProductionAnnuelleValue
         : Number(exemple['ratio puissance']);
 
     try {
@@ -31,7 +31,7 @@ Quand(
     const ratio =
       exemple['nouvelle puissance'] !== undefined
         ? Number(exemple['nouvelle puissance']) /
-          this.lauréatWorld.puissanceWorld.importerPuissanceFixture.puissance
+          this.candidatureWorld.importerCandidature.values.puissanceProductionAnnuelleValue
         : Number(exemple['ratio puissance']);
 
     try {
@@ -110,9 +110,9 @@ export async function demanderChangementPuissance(
     );
 
   const puissanceValue =
-    ratio * this.lauréatWorld.puissanceWorld.importerPuissanceFixture.puissance;
+    ratio * this.candidatureWorld.importerCandidature.values.puissanceProductionAnnuelleValue;
 
-  await mediator.send<Puissance.DemanderChangementUseCase>({
+  await mediator.send<Lauréat.Puissance.DemanderChangementUseCase>({
     type: 'Lauréat.Puissance.UseCase.DemanderChangement',
     data: {
       raisonValue: raison,
@@ -144,9 +144,9 @@ export async function enregistrerChangementPuissance(
     );
 
   const puissanceValue =
-    ratio * this.lauréatWorld.puissanceWorld.importerPuissanceFixture.puissance;
+    ratio * this.candidatureWorld.importerCandidature.values.puissanceProductionAnnuelleValue;
 
-  await mediator.send<Puissance.EnregistrerChangementPuissanceUseCase>({
+  await mediator.send<Lauréat.Puissance.EnregistrerChangementPuissanceUseCase>({
     type: 'Lauréat.Puissance.UseCase.EnregistrerChangement',
     data: {
       raisonValue: raison,
@@ -169,7 +169,7 @@ export async function annulerChangementPuissance(this: PotentielWorld) {
       },
     );
 
-  await mediator.send<Puissance.PuissanceUseCase>({
+  await mediator.send<Lauréat.Puissance.PuissanceUseCase>({
     type: 'Lauréat.Puissance.UseCase.AnnulerDemandeChangement',
     data: {
       dateAnnulationValue: annuléeLe,
@@ -197,7 +197,7 @@ export async function accorderChangementPuissance(
       },
     );
 
-  await mediator.send<Puissance.PuissanceUseCase>({
+  await mediator.send<Lauréat.Puissance.PuissanceUseCase>({
     type: 'Lauréat.Puissance.UseCase.AccorderDemandeChangement',
     data: {
       identifiantProjetValue: identifiantProjet,
@@ -231,7 +231,7 @@ export async function rejeterChangementPuissance(
       },
     );
 
-  await mediator.send<Puissance.PuissanceUseCase>({
+  await mediator.send<Lauréat.Puissance.PuissanceUseCase>({
     type: 'Lauréat.Puissance.UseCase.RejeterDemandeChangement',
     data: {
       identifiantProjetValue: identifiantProjet,

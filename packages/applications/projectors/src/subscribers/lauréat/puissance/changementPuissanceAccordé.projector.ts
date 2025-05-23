@@ -1,4 +1,4 @@
-import { Puissance } from '@potentiel-domain/laureat';
+import { Lauréat } from '@potentiel-domain/projet';
 import { findProjection } from '@potentiel-infrastructure/pg-projection-read';
 import { upsertProjection } from '@potentiel-infrastructure/pg-projection-write';
 import { getLogger } from '@potentiel-libraries/monitoring';
@@ -6,8 +6,8 @@ import { Option } from '@potentiel-libraries/monads';
 
 export const changementPuissanceAccordéProjector = async ({
   payload: { identifiantProjet, accordéLe, accordéPar, nouvellePuissance, réponseSignée },
-}: Puissance.ChangementPuissanceAccordéEvent) => {
-  const projectionPuissance = await findProjection<Puissance.PuissanceEntity>(
+}: Lauréat.Puissance.ChangementPuissanceAccordéEvent) => {
+  const projectionPuissance = await findProjection<Lauréat.Puissance.PuissanceEntity>(
     `puissance|${identifiantProjet}`,
   );
 
@@ -28,7 +28,7 @@ export const changementPuissanceAccordéProjector = async ({
   }
 
   const projectionDemandeChangementPuissance =
-    await findProjection<Puissance.ChangementPuissanceEntity>(
+    await findProjection<Lauréat.Puissance.ChangementPuissanceEntity>(
       `changement-puissance|${identifiantProjet}#${projectionPuissance.dateDemandeEnCours}`,
     );
 
@@ -51,13 +51,13 @@ export const changementPuissanceAccordéProjector = async ({
     return;
   }
 
-  await upsertProjection<Puissance.ChangementPuissanceEntity>(
+  await upsertProjection<Lauréat.Puissance.ChangementPuissanceEntity>(
     `changement-puissance|${identifiantProjet}#${projectionPuissance.dateDemandeEnCours}`,
     {
       identifiantProjet,
       demande: {
         ...projectionDemandeChangementPuissance.demande,
-        statut: Puissance.StatutChangementPuissance.accordé.statut,
+        statut: Lauréat.Puissance.StatutChangementPuissance.accordé.statut,
         accord: {
           accordéeLe: accordéLe,
           accordéePar: accordéPar,
@@ -67,7 +67,7 @@ export const changementPuissanceAccordéProjector = async ({
     },
   );
 
-  await upsertProjection<Puissance.PuissanceEntity>(`puissance|${identifiantProjet}`, {
+  await upsertProjection<Lauréat.Puissance.PuissanceEntity>(`puissance|${identifiantProjet}`, {
     ...projectionPuissance,
     miseÀJourLe: accordéLe,
     puissance: nouvellePuissance,

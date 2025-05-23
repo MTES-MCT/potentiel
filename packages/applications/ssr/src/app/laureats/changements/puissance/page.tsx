@@ -4,13 +4,12 @@ import { z } from 'zod';
 import { match } from 'ts-pattern';
 
 import { AppelOffre } from '@potentiel-domain/appel-offre';
-import { Puissance } from '@potentiel-domain/laureat';
+import { Lauréat } from '@potentiel-domain/projet';
 import { mapToPlainObject } from '@potentiel-domain/core';
 
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 import { mapToPagination, mapToRangeOptions } from '@/utils/pagination';
-import { getRégionUtilisateur } from '@/utils/getRégionUtilisateur';
 import {
   ChangementPuissanceListPage,
   ChangementPuissanceListPageProps,
@@ -29,8 +28,8 @@ const paramsSchema = z.object({
   page: z.coerce.number().int().optional().default(1),
   nomProjet: z.string().optional(),
   appelOffre: z.string().optional(),
-  autoriteInstructrice: z.enum(Puissance.AutoritéCompétente.autoritéCompétentes).optional(),
-  statut: z.enum(Puissance.StatutChangementPuissance.statuts).optional(),
+  autoriteInstructrice: z.enum(Lauréat.Puissance.AutoritéCompétente.autoritéCompétentes).optional(),
+  statut: z.enum(Lauréat.Puissance.StatutChangementPuissance.statuts).optional(),
 });
 
 export default async function Page({ searchParams }: PageProps) {
@@ -39,16 +38,10 @@ export default async function Page({ searchParams }: PageProps) {
       const { page, nomProjet, appelOffre, statut, autoriteInstructrice } =
         paramsSchema.parse(searchParams);
 
-      const régionDreal = await getRégionUtilisateur(utilisateur);
-
-      const changements = await mediator.send<Puissance.ListerChangementPuissanceQuery>({
+      const changements = await mediator.send<Lauréat.Puissance.ListerChangementPuissanceQuery>({
         type: 'Lauréat.Puissance.Query.ListerChangementPuissance',
         data: {
-          utilisateur: {
-            identifiantUtilisateur: utilisateur.identifiantUtilisateur.email,
-            rôle: utilisateur.role.nom,
-            régionDreal,
-          },
+          utilisateur: utilisateur.identifiantUtilisateur.email,
           range: mapToRangeOptions({
             currentPage: page,
             itemsPerPage: 10,
@@ -77,7 +70,7 @@ export default async function Page({ searchParams }: PageProps) {
         {
           label: 'Statut',
           searchParamKey: 'statut',
-          options: Puissance.StatutChangementPuissance.statuts
+          options: Lauréat.Puissance.StatutChangementPuissance.statuts
             .filter((s) => s !== 'annulé')
             .map((statut) => ({
               label: statut.replace('-', ' ').toLocaleLowerCase(),
@@ -90,7 +83,7 @@ export default async function Page({ searchParams }: PageProps) {
         filters.push({
           label: 'Autorité instructrice',
           searchParamKey: 'autoriteInstructrice',
-          options: Puissance.AutoritéCompétente.autoritéCompétentes.map((autorité) => ({
+          options: Lauréat.Puissance.AutoritéCompétente.autoritéCompétentes.map((autorité) => ({
             label: match(autorité)
               .with('dreal', () => 'DREAL')
               .with('dgec-admin', () => 'DGEC')
@@ -111,7 +104,7 @@ export default async function Page({ searchParams }: PageProps) {
 }
 
 const mapToListProps = (
-  changements: Puissance.ListerChangementPuissanceReadModel,
+  changements: Lauréat.Puissance.ListerChangementPuissanceReadModel,
   appelOffres: AppelOffre.ListerAppelOffreReadModel['items'],
 ): ChangementPuissanceListPageProps['list'] => {
   const pagination = mapToPagination(changements.range);

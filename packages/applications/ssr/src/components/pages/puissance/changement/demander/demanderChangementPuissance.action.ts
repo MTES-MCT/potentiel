@@ -3,7 +3,7 @@
 import { mediator } from 'mediateur';
 import * as zod from 'zod';
 
-import { Puissance } from '@potentiel-domain/laureat';
+import { Lauréat } from '@potentiel-domain/projet';
 import { Routes } from '@potentiel-applications/routes';
 
 import { FormAction, formAction, FormState } from '@/utils/formAction';
@@ -45,7 +45,7 @@ const action: FormAction<FormState, typeof schema> = async (
     const estUneInformationEnregistrée = isInformationEnregistree === 'true';
 
     if (estUneInformationEnregistrée) {
-      await mediator.send<Puissance.EnregistrerChangementPuissanceUseCase>({
+      await mediator.send<Lauréat.Puissance.EnregistrerChangementPuissanceUseCase>({
         type: 'Lauréat.Puissance.UseCase.EnregistrerChangement',
         data: {
           identifiantProjetValue: identifiantProjet,
@@ -57,7 +57,7 @@ const action: FormAction<FormState, typeof schema> = async (
         },
       });
     } else {
-      await mediator.send<Puissance.DemanderChangementUseCase>({
+      await mediator.send<Lauréat.Puissance.DemanderChangementUseCase>({
         type: 'Lauréat.Puissance.UseCase.DemanderChangement',
         data: {
           identifiantProjetValue: identifiantProjet,

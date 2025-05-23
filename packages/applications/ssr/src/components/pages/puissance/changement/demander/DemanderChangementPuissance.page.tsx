@@ -1,6 +1,5 @@
 import { FC } from 'react';
 
-import { Puissance } from '@potentiel-domain/laureat';
 import { PlainType } from '@potentiel-domain/core';
 import { IdentifiantProjet } from '@potentiel-domain/common';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
@@ -13,7 +12,7 @@ import { PageTemplate } from '@/components/templates/Page.template';
 import { DemanderChangementPuissanceForm } from './DemanderChangementPuissance.form';
 
 export type DemanderChangementPuissancePageProps = PlainType<
-  Puissance.ConsulterPuissanceReadModel & {
+  Lauréat.Puissance.ConsulterPuissanceReadModel & {
     appelOffre: AppelOffre.ConsulterAppelOffreReadModel;
     période: AppelOffre.Periode;
     technologie: Candidature.TypeTechnologie.RawType;

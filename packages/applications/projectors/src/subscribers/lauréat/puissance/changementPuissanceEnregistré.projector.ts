@@ -1,4 +1,4 @@
-import { Puissance } from '@potentiel-domain/laureat';
+import { Lauréat } from '@potentiel-domain/projet';
 import {
   updateOneProjection,
   upsertProjection,
@@ -13,19 +13,19 @@ export const changementPuissanceEnregistréProjector = async ({
     raison,
     pièceJustificative,
   },
-}: Puissance.ChangementPuissanceEnregistréEvent) => {
-  await updateOneProjection<Puissance.PuissanceEntity>(`puissance|${identifiantProjet}`, {
+}: Lauréat.Puissance.ChangementPuissanceEnregistréEvent) => {
+  await updateOneProjection<Lauréat.Puissance.PuissanceEntity>(`puissance|${identifiantProjet}`, {
     puissance,
     miseÀJourLe: enregistréLe,
   });
 
-  await upsertProjection<Puissance.ChangementPuissanceEntity>(
+  await upsertProjection<Lauréat.Puissance.ChangementPuissanceEntity>(
     `changement-puissance|${identifiantProjet}#${enregistréLe}`,
     {
       identifiantProjet,
       demande: {
         nouvellePuissance: puissance,
-        statut: Puissance.StatutChangementPuissance.informationEnregistrée.statut,
+        statut: Lauréat.Puissance.StatutChangementPuissance.informationEnregistrée.statut,
         demandéePar: enregistréPar,
         demandéeLe: enregistréLe,
         raison,

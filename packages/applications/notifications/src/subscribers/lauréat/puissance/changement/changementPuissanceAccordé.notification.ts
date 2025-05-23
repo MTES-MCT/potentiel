@@ -1,6 +1,6 @@
 import { getLogger } from '@potentiel-libraries/monitoring';
 import { Routes } from '@potentiel-applications/routes';
-import { Puissance } from '@potentiel-domain/laureat';
+import { Lauréat } from '@potentiel-domain/projet';
 import { IdentifiantProjet } from '@potentiel-domain/projet';
 
 import { RegisterPuissanceNotificationDependencies } from '..';
@@ -9,7 +9,7 @@ import { puissanceNotificationTemplateId } from '../constant';
 
 type ChangementPuissanceAccordéNotificationProps = {
   sendEmail: RegisterPuissanceNotificationDependencies['sendEmail'];
-  event: Puissance.ChangementPuissanceAccordéEvent;
+  event: Lauréat.Puissance.ChangementPuissanceAccordéEvent;
   projet: {
     nom: string;
     département: string;

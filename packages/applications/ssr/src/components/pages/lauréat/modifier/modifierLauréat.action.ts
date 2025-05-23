@@ -5,7 +5,7 @@ import { mediator } from 'mediateur';
 import { Candidature, Lauréat } from '@potentiel-domain/projet';
 import { Routes } from '@potentiel-applications/routes';
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
-import { Actionnaire, Puissance, ReprésentantLégal } from '@potentiel-domain/laureat';
+import { Actionnaire, ReprésentantLégal } from '@potentiel-domain/laureat';
 
 import { FormAction, formAction, FormState } from '@/utils/formAction';
 import { withUtilisateur } from '@/utils/withUtilisateur';
@@ -77,7 +77,7 @@ const action: FormAction<FormState, typeof schema> = async (_, body) =>
       }
 
       if (laureat.puissanceProductionAnnuelle) {
-        await mediator.send<Puissance.ModifierPuissanceUseCase>({
+        await mediator.send<Lauréat.Puissance.ModifierPuissanceUseCase>({
           type: 'Lauréat.Puissance.UseCase.ModifierPuissance',
           data: {
             identifiantProjetValue: identifiantProjet,
