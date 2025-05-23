@@ -25,7 +25,7 @@
       "size": "M"
     },
     {
-      "command": "0 6 * * * ./packages/applications/scheduled-tasks/extraire-données-statistiques-publiques.sh",
+      "command": "0 6 * * * potentiel-cli stats extraire",
       "size": "M"
     },
     {

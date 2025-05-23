@@ -5,12 +5,19 @@ import {
   cleanStatistiquesPubliques,
   computeStatistiquesPubliques,
 } from '@potentiel-statistiques/statistiques-publiques';
+import { killPool } from '@potentiel-libraries/pg-helpers';
+
+import { getHealthcheckClient, HealthcheckClient } from '../../helpers/healthcheck';
 
 const configSchema = z.object({
-  DATABASE_CONNECTION_STRING: z.string(),
+  DATABASE_CONNECTION_STRING: z.string().url(),
+  SENTRY_CRONS: z.string().optional(),
+  APPLICATION_STAGE: z.string(),
 });
 
 export default class ExtraireStats extends Command {
+  private healthcheckClient!: HealthcheckClient;
+
   static override description =
     'Extrait les données des statistiques publiques (permet de tester la tâche planifiée dédiée)';
 
@@ -19,8 +26,23 @@ export default class ExtraireStats extends Command {
   static override flags = {};
 
   public async init() {
-    const { success } = configSchema.safeParse(process.env);
-    console.info(`Env variables defined : ${success}`);
+    const config = configSchema.parse(process.env);
+    this.healthcheckClient = getHealthcheckClient({
+      healthcheckUrl: config.SENTRY_CRONS,
+      slug: 'extraire-donnees-statistiques-publiques',
+      environment: config.APPLICATION_STAGE,
+    });
+
+    await this.healthcheckClient.start();
+  }
+
+  async finally(error: Error | undefined) {
+    await killPool();
+    if (error) {
+      await this.healthcheckClient.error();
+    } else {
+      await this.healthcheckClient.success();
+    }
   }
 
   public async run(): Promise<void> {
@@ -33,7 +55,5 @@ export default class ExtraireStats extends Command {
     await computeStatistiquesPubliques();
 
     console.info('Fin du script ✨');
-
-    process.exit(0);
   }
 }
