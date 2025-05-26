@@ -33,6 +33,7 @@ Fonctionnalité: Demander le changement de puissance d'un projet lauréat
         Etant donné le projet lauréat legacy "Du bouchon lyonnais" avec :
             | appel d'offre | CRE4 - Sol |
             | période       | 1          |
+        Et la dreal "Dreal du sud" associée à la région du projet
         Et un cahier des charges permettant la modification choisi pour le projet lauréat
         Quand le porteur demande le changement de puissance pour le projet lauréat avec :
             | ratio puissance | 0.75 |
