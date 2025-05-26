@@ -22,6 +22,15 @@ Fonctionnalité: Enregistrer un changement de producteur d'un projet lauréat
             | nom_projet | Du boulodrome de Marseille                                                                                            |
             | url        | https://potentiel.beta.gouv.fr/laureats/.*/producteur/changement/.*                                                   |
 
+    Scénario: Enregistrer un changement de producteur d'un projet lauréat dont le cahier des charges initial ne le permet pas, suite à un choix de cahier des charges modificatif
+        Etant donné le projet lauréat legacy "Du bouchon lyonnais" avec :
+            | appel d'offre | CRE4 - Sol |
+            | période       | 1          |
+        Et le cahier des charges "modifié paru le 30/08/2022" choisi pour le projet lauréat
+        Et la dreal "Dreal du sud" associée à la région du projet
+        Quand le porteur enregistre un changement de producteur pour le projet lauréat
+        Alors le producteur du projet lauréat devrait être mis à jour
+
     Scénario: Impossible d'enregistrer un changement de producteur d'un projet lauréat si l'appel d'offre empêche un changement avant l'achèvement du projet
         Etant donné le projet lauréat legacy "Du boulodrome de Bordeaux" avec :
             | appel d'offre | Eolien |
