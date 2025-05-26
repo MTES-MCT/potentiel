@@ -142,6 +142,7 @@ export const ProjectDetails = ({
               cahierDesChargesActuel={project.cahierDesChargesActuel}
               user={user}
               urlChoixCdc={Routes.CahierDesCharges.choisir(identifiantProjet)}
+              isClasse={project.isClasse}
             />
           </Callout>
         </div>
@@ -190,12 +191,12 @@ export const ProjectDetails = ({
   );
 };
 
-type CDCInfoProps = Pick<ProjectDataForProjectPage, 'cahierDesChargesActuel'> & {
+type CDCInfoProps = Pick<ProjectDataForProjectPage, 'isClasse' | 'cahierDesChargesActuel'> & {
   user: Request['user'];
   urlChoixCdc: string;
 };
 
-const CDCInfo = ({ cahierDesChargesActuel, user, urlChoixCdc }: CDCInfoProps) => (
+const CDCInfo = ({ cahierDesChargesActuel, user, urlChoixCdc, isClasse }: CDCInfoProps) => (
   <>
     <Heading2 className="my-0 text-2xl">Cahier des charges</Heading2>{' '}
     <div>
@@ -212,7 +213,7 @@ const CDCInfo = ({ cahierDesChargesActuel, user, urlChoixCdc }: CDCInfoProps) =>
         </>
       )}
       <br />
-      {userIs('porteur-projet')(user) && (
+      {userIs('porteur-projet')(user) && isClasse && (
         <Link className="flex mt-4" href={urlChoixCdc}>
           Accéder au choix du cahier des charges
         </Link>
