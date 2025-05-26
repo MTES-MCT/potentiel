@@ -84,6 +84,7 @@ EtantDonné(
 EtantDonné(
   'le cahier des charges {string} choisi pour le projet lauréat',
   async function (this: PotentielWorld, cdcChoisi: string) {
+    if (!cdcChoisi) return;
     await choisirCahierDesCharges.call(this, cdcChoisi);
   },
 );
