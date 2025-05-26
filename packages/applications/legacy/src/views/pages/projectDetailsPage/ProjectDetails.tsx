@@ -126,8 +126,11 @@ export const ProjectDetails = ({
             <AlertBox>
               Votre cahier des charges actuel ne vous permet pas d'accéder aux fonctionnalités
               dématérialisées d'information au Préfet et de modification de votre projet (abandon,
-              recours...), vous devez d'abord choisir un cahier des charges modificatif (encart
-              "Cahier des charges" ci-dessous).
+              recours...)
+              {project.isClasse &&
+                `, vous devez d'abord choisir un cahier des charges modificatif (encart
+              "Cahier des charges" ci-dessous)`}
+              .
             </AlertBox>
           )}
           {alertesRaccordement.length > 0 && (
