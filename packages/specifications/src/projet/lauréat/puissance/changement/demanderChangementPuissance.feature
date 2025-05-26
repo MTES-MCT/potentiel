@@ -108,4 +108,4 @@ Fonctionnalité: Demander le changement de puissance d'un projet lauréat
             | période       | 1          |
         Quand le porteur demande le changement de puissance pour le projet lauréat avec :
             | ratio puissance | 0.75 |
-        Alors le porteur devrait être informé que "Impossible de faire une demande de changement pour ce cahier des charges"
+        Alors le porteur devrait être informé que "Impossible de faire une modification pour ce cahier des charges"

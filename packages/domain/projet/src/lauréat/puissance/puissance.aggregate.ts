@@ -4,7 +4,7 @@ import { AbstractAggregate } from '@potentiel-domain/core';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 
 import { LauréatAggregate } from '../lauréat.aggregate';
-import { CahierDesChargesEmpêcheDemandeChangementError } from '../lauréat.error';
+import { CahierDesChargesEmpêcheModificationError } from '../lauréat.error';
 
 import { AutoritéCompétente, RatioChangementPuissance, StatutChangementPuissance } from '.';
 
@@ -325,7 +325,7 @@ export class PuissanceAggregate extends AbstractAggregate<PuissanceEvent> {
       this.lauréat.projet.période.choisirNouveauCahierDesCharges &&
       this.lauréat.cahierDesCharges.estÉgaleÀ(AppelOffre.RéférenceCahierDesCharges.initial)
     ) {
-      throw new CahierDesChargesEmpêcheDemandeChangementError();
+      throw new CahierDesChargesEmpêcheModificationError();
     }
 
     const {

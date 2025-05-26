@@ -30,8 +30,8 @@ export class RetourAuCahierDesChargesInitialImpossibleError extends InvalidOpera
   }
 }
 
-export class CahierDesChargesEmpêcheDemandeChangementError extends InvalidOperationError {
+export class CahierDesChargesEmpêcheModificationError extends InvalidOperationError {
   constructor() {
-    super('Impossible de faire une demande de changement pour ce cahier des charges');
+    super('Impossible de faire une modification pour ce cahier des charges');
   }
 }
