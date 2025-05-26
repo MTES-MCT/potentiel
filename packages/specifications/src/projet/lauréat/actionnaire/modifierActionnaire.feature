@@ -4,6 +4,7 @@ Fonctionnalité: Modifier l'actionnaire d'un projet lauréat
     Contexte:
         Etant donné le projet lauréat "Du boulodrome de Marseille"
         Et la dreal "DREAL" associée à la région du projet
+        Et un cahier des charges permettant la modification choisi pour le projet lauréat
 
     Scénario: Modifier l'actionnaire d'un projet lauréat par une dreal ou un admin
         Quand <l'utilisateur autorisé> modifie l'actionnaire pour le projet lauréat

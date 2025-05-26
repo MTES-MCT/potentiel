@@ -3,6 +3,7 @@ Fonctionnalité: Annuler la mainlevée des garanties financières d'un projet
 
     Contexte:
         Etant donné le projet lauréat "Du boulodrome de Marseille"
+        Et un cahier des charges permettant la modification choisi pour le projet lauréat
 
     Scénario: Un porteur annule la demande de mainlevée des garanties financières
         Etant donné une attestation de conformité transmise pour le projet lauréat

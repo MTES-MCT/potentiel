@@ -3,6 +3,7 @@ Fonctionnalité: Modifier une attestation de conformité
 
     Contexte:
         Etant donné le projet lauréat "Centrale PV"
+        Et un cahier des charges permettant la modification choisi pour le projet lauréat
 
     Scénario: Un porteur modifie une attestation de conformité
         Et une attestation de conformité transmise pour le projet lauréat

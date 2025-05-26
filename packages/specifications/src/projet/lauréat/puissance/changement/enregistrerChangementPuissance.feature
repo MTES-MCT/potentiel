@@ -52,19 +52,19 @@ Fonctionnalité: Enregistrer un changement de puissance d'un projet lauréat
         Etant donné un abandon accordé pour le projet lauréat
         Quand le porteur enregistre un changement de puissance pour le projet lauréat avec :
             | ratio puissance | 0.95 |
-        Alors le porteur devrait être informé que "Impossible de faire une modification pour un projet abandonné"
+        Alors le porteur devrait être informé que "Impossible de faire un changement pour un projet abandonné"
 
     Scénario: Impossible pour le porteur d'enregistrer un changement de puissance si une demande d'abandon est en cours
         Etant donné une demande d'abandon en cours pour le projet lauréat
         Quand le porteur enregistre un changement de puissance pour le projet lauréat avec :
             | ratio puissance | 0.95 |
-        Alors le porteur devrait être informé que "Impossible de faire une modification car une demande d'abandon est en cours pour le projet"
+        Alors le porteur devrait être informé que "Impossible de faire un changement car une demande d'abandon est en cours pour le projet"
 
     Scénario: Impossible pour le porteur d'enregistrer un changement de puissance d'un projet achevé
         Etant donné une attestation de conformité transmise pour le projet lauréat
         Quand le porteur enregistre un changement de puissance pour le projet lauréat avec :
             | ratio puissance | 0.95 |
-        Alors le porteur devrait être informé que "Impossible de faire une modification pour un projet achevé"
+        Alors le porteur devrait être informé que "Impossible de faire un changement pour un projet achevé"
 
     Scénario: Impossible pour le porteur d'enregistrer un changement de puissance si elle est inférieure au ratio min autorisé par l'appel d'offres
         Etant donné le projet lauréat "Du bouchon lyonnais" avec :
@@ -118,4 +118,4 @@ Fonctionnalité: Enregistrer un changement de puissance d'un projet lauréat
             | période       | 1          |
         Quand le porteur enregistre un changement de puissance pour le projet lauréat avec :
             | ratio puissance | 0.95 |
-        Alors le porteur devrait être informé que "Impossible de faire une modification pour ce cahier des charges"
+        Alors le porteur devrait être informé que "Impossible de faire un changement pour ce cahier des charges"

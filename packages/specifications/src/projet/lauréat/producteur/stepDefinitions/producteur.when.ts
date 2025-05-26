@@ -1,7 +1,7 @@
 import { When as Quand } from '@cucumber/cucumber';
 import { mediator } from 'mediateur';
 
-import { Lauréat } from '@potentiel-domain/projet';
+import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 
 import { PotentielWorld } from '../../../../potentiel.world';
 
@@ -31,10 +31,15 @@ Quand(
 );
 
 Quand(
-  'le DGEC validateur modifie le producteur du projet lauréat',
-  async function (this: PotentielWorld) {
+  'le DGEC validateur modifie le producteur du projet {lauréat-éliminé}',
+  async function (this: PotentielWorld, statutProjet: 'lauréat' | 'éliminé') {
     try {
-      await modifierProducteur.call(this);
+      const identifiantProjet =
+        statutProjet === 'éliminé'
+          ? this.eliminéWorld.identifiantProjet
+          : this.lauréatWorld.identifiantProjet;
+
+      await modifierProducteur.call(this, identifiantProjet);
     } catch (error) {
       this.error = error as Error;
     }
@@ -47,6 +52,7 @@ Quand(
     try {
       await modifierProducteur.call(
         this,
+        this.lauréatWorld.identifiantProjet,
         this.candidatureWorld.importerCandidature.values['nomCandidatValue'],
       );
     } catch (error) {
@@ -79,9 +85,11 @@ export async function enregistrerChangementProducteur(
   });
 }
 
-export async function modifierProducteur(this: PotentielWorld, producteurValue?: string) {
-  const identifiantProjet = this.lauréatWorld.identifiantProjet;
-
+export async function modifierProducteur(
+  this: PotentielWorld,
+  identifiantProjet: IdentifiantProjet.ValueType,
+  producteurValue?: string,
+) {
   const { modifiéLe, modifiéPar, producteur } =
     this.lauréatWorld.producteurWorld.modifierProducteurFixture.créer({
       modifiéPar: this.utilisateurWorld.adminFixture.email,

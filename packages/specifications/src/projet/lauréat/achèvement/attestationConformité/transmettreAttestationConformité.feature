@@ -60,4 +60,4 @@ Fonctionnalité: Transmettre une attestation de conformité
     Scénario: Impossible de transmettre une attestation de conformité si le projet est abandonné
         Etant donné un abandon accordé pour le projet lauréat
         Quand le porteur transmet une attestation de conformité pour le projet lauréat
-        Alors le porteur devrait être informé que "Impossible de faire une modification pour un projet abandonné"
+        Alors le porteur devrait être informé que "Impossible de faire un changement pour un projet abandonné"
