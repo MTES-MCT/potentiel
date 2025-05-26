@@ -1,8 +1,10 @@
 import { match } from 'ts-pattern';
 
 import { AbstractAggregate } from '@potentiel-domain/core';
+import { AppelOffre } from '@potentiel-domain/appel-offre';
 
 import { LauréatAggregate } from '../lauréat.aggregate';
+import { CahierDesChargesEmpêcheDemandeChangementError } from '../lauréat.error';
 
 import { AutoritéCompétente, RatioChangementPuissance, StatutChangementPuissance } from '.';
 
@@ -148,6 +150,15 @@ export class PuissanceAggregate extends AbstractAggregate<PuissanceEvent> {
     pièceJustificative,
     raison,
   }: DemanderOptions) {
+    this.vérifierChangementPossible('demande', nouvellePuissance);
+
+    if (
+      this.lauréat.projet.période.choisirNouveauCahierDesCharges &&
+      this.lauréat.cahierDesCharges.estÉgaleÀ(AppelOffre.RéférenceCahierDesCharges.initial)
+    ) {
+      throw new CahierDesChargesEmpêcheDemandeChangementError();
+    }
+
     if (this.#puissance === nouvellePuissance) {
       throw new PuissanceIdentiqueError();
     }
@@ -161,8 +172,6 @@ export class PuissanceAggregate extends AbstractAggregate<PuissanceEvent> {
         StatutChangementPuissance.demandé,
       );
     }
-
-    this.vérifierChangementPossible('demande', nouvellePuissance);
 
     const ratio = nouvellePuissance / this.lauréat.projet.candidature.puissanceProductionAnnuelle;
 

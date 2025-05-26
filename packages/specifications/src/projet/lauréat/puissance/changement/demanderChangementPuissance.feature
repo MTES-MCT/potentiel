@@ -29,7 +29,6 @@ Fonctionnalité: Demander le changement de puissance d'un projet lauréat
             | nom_projet | Du boulodrome de Marseille                                                                                       |
             | url        | https://potentiel.beta.gouv.fr/laureats/.*/puissance/changement/.*                                               |
 
-    @select
     Scénario: Demander le changement de puissance d'un projet lauréat dont le cahier des charges initial ne le permet pas, suite à un choix de cahier des charges modificatif
         Etant donné le projet lauréat legacy "Du bouchon lyonnais" avec :
             | appel d'offre | CRE4 - Sol |
@@ -103,7 +102,6 @@ Fonctionnalité: Demander le changement de puissance d'un projet lauréat
             | ratio puissance | 1.25 |
         Alors le porteur devrait être informé que "Impossible de demander le changement de puissance pour un projet achevé"
 
-    @select
     Scénario: Impossible de demander le changement de puissance d'un projet lauréat dont le cahier des charges ne le permet pas
         Etant donné le projet lauréat legacy "Du bouchon lyonnais" avec :
             | appel d'offre | CRE4 - Sol |

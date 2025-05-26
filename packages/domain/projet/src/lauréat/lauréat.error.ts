@@ -29,3 +29,9 @@ export class RetourAuCahierDesChargesInitialImpossibleError extends InvalidOpera
     super('Il est impossible de revenir au cahier de charges en vigueur à la candidature');
   }
 }
+
+export class CahierDesChargesEmpêcheDemandeChangementError extends InvalidOperationError {
+  constructor() {
+    super('Impossible de faire une demande de changement pour ce cahier des charges');
+  }
+}
