@@ -1,5 +1,4 @@
 # language: fr
-@select
 Fonctionnalité: Demander le changement de puissance d'un projet lauréat
 
     Contexte:
@@ -29,6 +28,16 @@ Fonctionnalité: Demander le changement de puissance d'un projet lauréat
             | sujet      | Potentiel - Demande de changement de puissance pour le projet Du boulodrome de Marseille dans le département(.*) |
             | nom_projet | Du boulodrome de Marseille                                                                                       |
             | url        | https://potentiel.beta.gouv.fr/laureats/.*/puissance/changement/.*                                               |
+
+    @select
+    Scénario: Demander le changement de puissance d'un projet lauréat dont le cahier des charges initial ne le permet pas, suite à un choix de cahier des charges modificatif
+        Etant donné le projet lauréat legacy "Du bouchon lyonnais" avec :
+            | appel d'offre | CRE4 - Sol |
+            | période       | 1          |
+        Et le cahier des charges "modifié paru le 30/08/2022" choisi pour le projet lauréat
+        Quand le porteur demande le changement de puissance pour le projet lauréat avec :
+            | ratio puissance | 0.75 |
+        Alors la demande de changement de puissance devrait être consultable
 
     Scénario: Impossible de demander le changement de puissance si la puissance est inexistante
         Etant donné le projet éliminé "Du boulodrome de Lyon"
@@ -93,3 +102,12 @@ Fonctionnalité: Demander le changement de puissance d'un projet lauréat
         Quand le porteur demande le changement de puissance pour le projet lauréat avec :
             | ratio puissance | 1.25 |
         Alors le porteur devrait être informé que "Impossible de demander le changement de puissance pour un projet achevé"
+
+    @select
+    Scénario: Impossible de demander le changement de puissance d'un projet lauréat dont le cahier des charges ne le permet pas
+        Etant donné le projet lauréat legacy "Du bouchon lyonnais" avec :
+            | appel d'offre | CRE4 - Sol |
+            | période       | 1          |
+        Quand le porteur demande le changement de puissance pour le projet lauréat avec :
+            | ratio puissance | 0.75 |
+        Alors le porteur devrait être informé que "Impossible de faire une demande de changement pour ce cahier des charges"
