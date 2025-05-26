@@ -1,4 +1,4 @@
-import { IdentifiantProjet } from '@potentiel-domain/common';
+import { IdentifiantProjet, StatutProjet } from '@potentiel-domain/common';
 import { Raccordement } from '@potentiel-domain/laureat';
 import { Option } from '@potentiel-libraries/monads';
 
@@ -11,16 +11,16 @@ export const getAlertesRaccordement = async ({
   identifiantProjet,
   CDC2022Choisi,
   raccordement,
-  statutAbandon,
+  statutProjet,
 }: {
   role: Role.ValueType;
   identifiantProjet: IdentifiantProjet.ValueType;
   CDC2022Choisi: boolean;
   raccordement: Option.Type<Raccordement.ConsulterRaccordementReadModel>;
-  statutAbandon?: string;
+  statutProjet: StatutProjet.ValueType;
 }) => {
   try {
-    if (!role.estÉgaleÀ(Role.porteur) || statutAbandon === 'accordé') {
+    if (!role.estÉgaleÀ(Role.porteur) || !statutProjet.estClassé()) {
       return [];
     }
 
