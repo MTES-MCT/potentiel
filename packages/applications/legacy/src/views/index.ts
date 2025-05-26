@@ -1,7 +1,6 @@
 import { makeHtml } from './index.html';
 import {
   AdemeStatistiques,
-  AdminStatistiques,
   DemanderDelai,
   Error,
   ModificationRequest,
@@ -21,13 +20,6 @@ import {
 } from './pages';
 
 export { App } from './App';
-
-export const AdminStatistiquesPage = (props: Parameters<typeof AdminStatistiques>[0]) =>
-  makeHtml({
-    Component: AdminStatistiques,
-    props,
-    title: 'Tableau de bord',
-  });
 
 export const AdemeStatistiquesPage = (props: Parameters<typeof AdemeStatistiques>[0]) =>
   makeHtml({
