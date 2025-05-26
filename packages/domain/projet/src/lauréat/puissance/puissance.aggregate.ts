@@ -152,13 +152,6 @@ export class PuissanceAggregate extends AbstractAggregate<PuissanceEvent> {
   }: DemanderOptions) {
     this.vérifierChangementPossible('demande', nouvellePuissance);
 
-    if (
-      this.lauréat.projet.période.choisirNouveauCahierDesCharges &&
-      this.lauréat.cahierDesCharges.estÉgaleÀ(AppelOffre.RéférenceCahierDesCharges.initial)
-    ) {
-      throw new CahierDesChargesEmpêcheDemandeChangementError();
-    }
-
     if (this.#puissance === nouvellePuissance) {
       throw new PuissanceIdentiqueError();
     }
@@ -326,6 +319,13 @@ export class PuissanceAggregate extends AbstractAggregate<PuissanceEvent> {
 
     if (this.lauréat.projet.statut.estAchevé()) {
       throw new ProjetAchevéError();
+    }
+
+    if (
+      this.lauréat.projet.période.choisirNouveauCahierDesCharges &&
+      this.lauréat.cahierDesCharges.estÉgaleÀ(AppelOffre.RéférenceCahierDesCharges.initial)
+    ) {
+      throw new CahierDesChargesEmpêcheDemandeChangementError();
     }
 
     const {

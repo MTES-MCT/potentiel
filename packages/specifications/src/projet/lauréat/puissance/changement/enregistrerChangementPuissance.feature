@@ -21,6 +21,15 @@ Fonctionnalité: Enregistrer un changement de puissance d'un projet lauréat
             | nom_projet | Du boulodrome de Marseille                                                                                                |
             | url        | https://potentiel.beta.gouv.fr/projet/.*/details.html                                                                     |
 
+    Scénario: Enregistrer un changement de puissance d'un projet lauréat dont le cahier des charges initial ne le permet pas, suite à un choix de cahier des charges modificatif
+        Etant donné le projet lauréat legacy "Du bouchon lyonnais" avec :
+            | appel d'offre | CRE4 - Sol |
+            | période       | 1          |
+        Et le cahier des charges "modifié paru le 30/08/2022" choisi pour le projet lauréat
+        Quand le porteur enregistre un changement de puissance pour le projet lauréat avec :
+            | ratio puissance | 0.95 |
+        Alors la puissance du projet lauréat devrait être mise à jour
+
     Scénario: Impossible de demander le changement de puissance d'un projet lauréat avec une valeur identique
         Quand le porteur enregistre un changement de puissance pour le projet lauréat avec :
             | ratio puissance | 1 |
@@ -92,7 +101,7 @@ Fonctionnalité: Enregistrer un changement de puissance d'un projet lauréat
             | nouvelle puissance | 3.1 |
         Alors l'utilisateur devrait être informé que "La nouvelle puissance ne peut pas dépasser la puissance maximale de la famille de l'appel d'offre"
 
-    Scénario: Scénario: Impossible pour le porteur d'enregistrer un changement de puissance si elle dépasse le volume réservé de l'appel d'offre
+    Scénario: Impossible pour le porteur d'enregistrer un changement de puissance si elle dépasse le volume réservé de l'appel d'offre
         Etant donné le projet lauréat "Du bouchon lyonnais" avec :
             | appel d'offre | PPE2 - Sol |
             | période       | 3          |
@@ -100,3 +109,11 @@ Fonctionnalité: Enregistrer un changement de puissance d'un projet lauréat
         Quand le porteur enregistre un changement de puissance pour le projet lauréat avec :
             | nouvelle puissance | 6 |
         Alors l'utilisateur devrait être informé que "La nouvelle puissance ne peut pas dépasser la puissance maximale du volume réservé"
+
+    Scénario: Impossible d'enregistrer un changement de puissance si le cahier des charges ne le permet pas
+        Etant donné le projet lauréat legacy "Du bouchon lyonnais" avec :
+            | appel d'offre | CRE4 - Sol |
+            | période       | 1          |
+        Quand le porteur enregistre un changement de puissance pour le projet lauréat avec :
+            | ratio puissance | 0.95 |
+        Alors le porteur devrait être informé que "Impossible de faire une demande de changement pour ce cahier des charges"
