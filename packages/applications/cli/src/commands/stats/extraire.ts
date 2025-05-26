@@ -39,7 +39,7 @@ export default class ExtraireStats extends Command {
   async finally(error: Error | undefined) {
     await killPool();
     if (error) {
-      await this.healthcheckClient.error();
+      await this.healthcheckClient?.error();
     } else {
       await this.healthcheckClient.success();
     }
