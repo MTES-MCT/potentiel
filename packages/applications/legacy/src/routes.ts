@@ -31,13 +31,6 @@ class routes {
     } else return route;
   };
 
-  static CHOISIR_CAHIER_DES_CHARGES = (projetId?: Project['id']) => {
-    const route = '/projet/:projetId/choisir-cahier-des-charges.html';
-    if (projetId) {
-      return route.replace(':projetId', projetId);
-    } else return route;
-  };
-
   static EXPORTER_LISTE_PROJETS_CSV = '/export-liste-projets.csv';
   static ADMIN_DOWNLOAD_PROJECTS_LAUREATS_CSV = '/export-projets-laureats.csv';
   static ADMIN_LIST_REQUESTS = '/admin/demandes.html';
@@ -92,8 +85,6 @@ class routes {
       return route.replace(':projectId', projectId);
     } else return route;
   };
-
-  static CHANGER_CDC = '/changer-CDC';
 
   static DEMANDE_ACTION = '/soumettre-demande';
 

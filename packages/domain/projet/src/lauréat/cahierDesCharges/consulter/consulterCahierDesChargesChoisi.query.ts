@@ -24,12 +24,10 @@ export type ConsulterCahierDesChargesChoisiPort = (
 ) => Promise<Option.Type<string>>;
 
 export type ConsulterCahierDesChargesChoisiDependencies = {
-  consulterCahierDesChargesAdapter: ConsulterCahierDesChargesChoisiPort;
   find: Find;
 };
 
 export const registerConsulterCahierDesChargesChoisiQuery = ({
-  consulterCahierDesChargesAdapter,
   find,
 }: ConsulterCahierDesChargesChoisiDependencies) => {
   const handler: MessageHandler<ConsulterCahierDesChargesChoisiQuery> = async ({
@@ -38,21 +36,14 @@ export const registerConsulterCahierDesChargesChoisiQuery = ({
     const identifiantProjetValueType = IdentifiantProjet.convertirEnValueType(identifiantProjet);
     const { appelOffre, période } = identifiantProjetValueType;
 
-    const cahierDesChargesChoisiValue =
-      process.env.MIGRATION_CDC === 'true'
-        ? await find<LauréatEntity>(`lauréat|${identifiantProjet}`).then((lauréat) =>
-            Option.match(lauréat)
-              .some((lauréat) => lauréat.cahierDesCharges)
-              .none(),
-          )
-        : await consulterCahierDesChargesAdapter(identifiantProjetValueType);
+    const lauréat = await find<LauréatEntity>(`lauréat|${identifiantProjet}`);
 
-    if (Option.isNone(cahierDesChargesChoisiValue)) {
+    if (Option.isNone(lauréat)) {
       return Option.none;
     }
 
     const cahierDesChargesChoisi = AppelOffre.RéférenceCahierDesCharges.convertirEnValueType(
-      cahierDesChargesChoisiValue,
+      lauréat.cahierDesCharges,
     );
 
     if (cahierDesChargesChoisi.type === 'initial') {

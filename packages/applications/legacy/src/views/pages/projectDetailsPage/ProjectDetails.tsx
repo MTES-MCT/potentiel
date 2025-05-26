@@ -58,7 +58,6 @@ type ProjectDetailsProps = {
   estAchevé: boolean;
   modificationsNonPermisesParLeCDCActuel: boolean;
   coefficientKChoisi: boolean | undefined;
-  cdcV2: boolean;
   candidature: ContactProps['candidature'];
 };
 
@@ -77,7 +76,6 @@ export const ProjectDetails = ({
   puissance,
   modificationsNonPermisesParLeCDCActuel,
   coefficientKChoisi,
-  cdcV2,
   producteur,
   candidature,
 }: ProjectDetailsProps) => {
@@ -128,8 +126,11 @@ export const ProjectDetails = ({
             <AlertBox>
               Votre cahier des charges actuel ne vous permet pas d'accéder aux fonctionnalités
               dématérialisées d'information au Préfet et de modification de votre projet (abandon,
-              recours...), vous devez d'abord choisir un cahier des charges modificatif (encart
-              "Cahier des charges" ci-dessous).
+              recours...)
+              {project.isClasse &&
+                `, vous devez d'abord choisir un cahier des charges modificatif (encart
+              "Cahier des charges" ci-dessous)`}
+              .
             </AlertBox>
           )}
           {alertesRaccordement.length > 0 && (
@@ -143,11 +144,8 @@ export const ProjectDetails = ({
             <CDCInfo
               cahierDesChargesActuel={project.cahierDesChargesActuel}
               user={user}
-              urlChoixCdc={
-                cdcV2
-                  ? Routes.CahierDesCharges.choisir(identifiantProjet)
-                  : `/projet/${project.id}/choisir-cahier-des-charges.html`
-              }
+              urlChoixCdc={Routes.CahierDesCharges.choisir(identifiantProjet)}
+              isClasse={project.isClasse}
             />
           </Callout>
         </div>
@@ -196,12 +194,12 @@ export const ProjectDetails = ({
   );
 };
 
-type CDCInfoProps = Pick<ProjectDataForProjectPage, 'cahierDesChargesActuel'> & {
+type CDCInfoProps = Pick<ProjectDataForProjectPage, 'isClasse' | 'cahierDesChargesActuel'> & {
   user: Request['user'];
   urlChoixCdc: string;
 };
 
-const CDCInfo = ({ cahierDesChargesActuel, user, urlChoixCdc }: CDCInfoProps) => (
+const CDCInfo = ({ cahierDesChargesActuel, user, urlChoixCdc, isClasse }: CDCInfoProps) => (
   <>
     <Heading2 className="my-0 text-2xl">Cahier des charges</Heading2>{' '}
     <div>
@@ -218,7 +216,7 @@ const CDCInfo = ({ cahierDesChargesActuel, user, urlChoixCdc }: CDCInfoProps) =>
         </>
       )}
       <br />
-      {userIs('porteur-projet')(user) && (
+      {userIs('porteur-projet')(user) && isClasse && (
         <Link className="flex mt-4" href={urlChoixCdc}>
           Accéder au choix du cahier des charges
         </Link>

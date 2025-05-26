@@ -21,7 +21,6 @@ import {
 } from '@potentiel-applications/notifications';
 import {
   CandidatureAdapter,
-  consulterCahierDesChargesChoisiAdapter,
   DélaiAdapter,
   getProjetUtilisateurScopeAdapter,
 } from '@potentiel-infrastructure/domain-adapters';
@@ -44,7 +43,6 @@ export const setupProjet = async ({ sendEmail }: SetupProjetDependencies) => {
     getScopeProjetUtilisateur: getProjetUtilisateurScopeAdapter,
     récupérerProjetsEligiblesPreuveRecanditure:
       CandidatureAdapter.récupérerProjetsEligiblesPreuveRecanditureAdapter,
-    consulterCahierDesChargesAdapter: consulterCahierDesChargesChoisiAdapter,
     consulterABénéficiéDuDélaiCDC2022: DélaiAdapter.consulterABénéficiéDuDélaiCDC2022Adapter,
   });
 

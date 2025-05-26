@@ -1,4 +1,3 @@
-export * from './choisirCahierDesCharges';
 export * from './ProjectList';
 export * from './UserNavigation';
 export * from './Header';

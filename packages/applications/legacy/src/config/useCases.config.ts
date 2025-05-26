@@ -18,11 +18,7 @@ import {
   makeRequestConfirmation,
   makeRequestFournisseursModification,
 } from '../modules/modificationRequest';
-import {
-  makeImportProjects,
-  makeSignalerDemandeDelai,
-  makeChoisirCahierDesCharges,
-} from '../modules/project';
+import { makeImportProjects, makeSignalerDemandeDelai } from '../modules/project';
 import { makeClaimProject } from '../modules/projectClaim';
 import { makeCreateUser } from '../modules/users';
 import { eventStore } from './eventStore.config';
@@ -91,13 +87,6 @@ export const createUser = makeCreateUser({
 export const cancelModificationRequest = makeCancelModificationRequest({
   shouldUserAccessProject: shouldUserAccessProject.check.bind(shouldUserAccessProject),
   modificationRequestRepo,
-});
-
-export const choisirCahierDesCharges = makeChoisirCahierDesCharges({
-  publishToEventStore,
-  shouldUserAccessProject: shouldUserAccessProject.check.bind(shouldUserAccessProject),
-  projectRepo,
-  findAppelOffreById: oldAppelOffreRepo.findById,
 });
 
 export const importProjects = makeImportProjects({

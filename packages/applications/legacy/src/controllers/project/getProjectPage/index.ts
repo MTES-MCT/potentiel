@@ -241,7 +241,6 @@ v1Router.get(
             identifiantProjetValueType,
             project.appelOffre.periode,
           ),
-          cdcV2: process.env.MIGRATION_CDC === 'true',
         }),
       );
     },
