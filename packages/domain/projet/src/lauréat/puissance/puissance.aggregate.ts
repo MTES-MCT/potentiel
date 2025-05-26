@@ -1,8 +1,10 @@
 import { match } from 'ts-pattern';
 
 import { AbstractAggregate } from '@potentiel-domain/core';
+import { AppelOffre } from '@potentiel-domain/appel-offre';
 
 import { LauréatAggregate } from '../lauréat.aggregate';
+import { CahierDesChargesEmpêcheModificationError } from '../lauréat.error';
 
 import { AutoritéCompétente, RatioChangementPuissance, StatutChangementPuissance } from '.';
 
@@ -114,6 +116,8 @@ export class PuissanceAggregate extends AbstractAggregate<PuissanceEvent> {
     pièceJustificative,
     raison,
   }: EnregistrerChangementOptions) {
+    this.vérifierChangementPossible('information-enregistrée', nouvellePuissance);
+
     if (this.#puissance === nouvellePuissance) {
       throw new PuissanceIdentiqueError();
     }
@@ -123,8 +127,6 @@ export class PuissanceAggregate extends AbstractAggregate<PuissanceEvent> {
         StatutChangementPuissance.informationEnregistrée,
       );
     }
-
-    this.vérifierChangementPossible('information-enregistrée', nouvellePuissance);
 
     const event: ChangementPuissanceEnregistréEvent = {
       type: 'ChangementPuissanceEnregistré-V1',
@@ -148,6 +150,8 @@ export class PuissanceAggregate extends AbstractAggregate<PuissanceEvent> {
     pièceJustificative,
     raison,
   }: DemanderOptions) {
+    this.vérifierChangementPossible('demande', nouvellePuissance);
+
     if (this.#puissance === nouvellePuissance) {
       throw new PuissanceIdentiqueError();
     }
@@ -161,8 +165,6 @@ export class PuissanceAggregate extends AbstractAggregate<PuissanceEvent> {
         StatutChangementPuissance.demandé,
       );
     }
-
-    this.vérifierChangementPossible('demande', nouvellePuissance);
 
     const ratio = nouvellePuissance / this.lauréat.projet.candidature.puissanceProductionAnnuelle;
 
@@ -317,6 +319,13 @@ export class PuissanceAggregate extends AbstractAggregate<PuissanceEvent> {
 
     if (this.lauréat.projet.statut.estAchevé()) {
       throw new ProjetAchevéError();
+    }
+
+    if (
+      this.lauréat.projet.période.choisirNouveauCahierDesCharges &&
+      this.lauréat.cahierDesCharges.estÉgaleÀ(AppelOffre.RéférenceCahierDesCharges.initial)
+    ) {
+      throw new CahierDesChargesEmpêcheModificationError();
     }
 
     const {
