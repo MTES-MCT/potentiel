@@ -116,6 +116,8 @@ export class PuissanceAggregate extends AbstractAggregate<PuissanceEvent> {
     pièceJustificative,
     raison,
   }: EnregistrerChangementOptions) {
+    this.vérifierChangementPossible('information-enregistrée', nouvellePuissance);
+
     if (this.#puissance === nouvellePuissance) {
       throw new PuissanceIdentiqueError();
     }
@@ -125,8 +127,6 @@ export class PuissanceAggregate extends AbstractAggregate<PuissanceEvent> {
         StatutChangementPuissance.informationEnregistrée,
       );
     }
-
-    this.vérifierChangementPossible('information-enregistrée', nouvellePuissance);
 
     const event: ChangementPuissanceEnregistréEvent = {
       type: 'ChangementPuissanceEnregistré-V1',
