@@ -59,3 +59,10 @@ Fonctionnalité: Enregistrer un changement de producteur d'un projet lauréat
         Et une attestation de conformité transmise pour le projet lauréat
         Quand le porteur enregistre un changement de producteur pour le projet lauréat
         Alors le porteur devrait être informé que "Impossible d'enregistrer un changement de producteur pour un projet achevé"
+
+    Scénario: Impossible d'enregistrer le changement de producteur d'un projet lauréat dont le cahier des charges ne le permet pas
+        Etant donné le projet lauréat legacy "Du bouchon lyonnais" avec :
+            | appel d'offre | CRE4 - Sol |
+            | période       | 1          |
+        Quand le porteur enregistre un changement de producteur pour le projet lauréat
+        Alors le porteur devrait être informé que "Impossible de faire une modification pour ce cahier des charges"
