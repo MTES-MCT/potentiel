@@ -16,7 +16,7 @@ import {
 import safeAsyncHandler from '../../helpers/safeAsyncHandler';
 import { v1Router } from '../../v1Router';
 
-import { IdentifiantProjet } from '@potentiel-domain/common';
+import { IdentifiantProjet, StatutProjet } from '@potentiel-domain/common';
 import { logger } from '../../../core/utils';
 import { addQueryParams } from '../../../helpers/addQueryParams';
 
@@ -151,11 +151,18 @@ v1Router.get(
         identifiantProjet: identifiantProjetValueType,
       });
 
+      const statutProjet = !project.notifiedOn
+        ? StatutProjet.nonNotifié
+        : project.isAbandoned
+          ? StatutProjet.abandonné
+          : project.isClasse
+            ? StatutProjet.classé
+            : StatutProjet.éliminé;
       const alertesRaccordement: AlerteRaccordement[] | undefined = await getAlertesRaccordement({
         raccordement,
         role,
         identifiantProjet: identifiantProjetValueType,
-        statutAbandon: abandon?.statut,
+        statutProjet,
         CDC2022Choisi:
           project.cahierDesChargesActuel.type === 'modifié' &&
           project.cahierDesChargesActuel.paruLe === '30/08/2022',
