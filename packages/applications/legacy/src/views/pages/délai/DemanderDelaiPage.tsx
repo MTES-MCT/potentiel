@@ -4,7 +4,6 @@ import {
   Input,
   PrimaryButton,
   SecondaryLinkButton,
-  ChoisirCahierDesChargesFormulaire,
   LegacyPageTemplate,
   SuccessBox,
   ErrorBox,
@@ -38,10 +37,6 @@ type DemanderDelaiProps = {
 
 export const DemanderDelai = ({ request, project, appelOffre }: DemanderDelaiProps) => {
   const { error, success, justification, dateAchèvementDemandée } = (request.query as any) || {};
-
-  const doitChoisirCahierDesCharges =
-    appelOffre.periode.choisirNouveauCahierDesCharges &&
-    project.cahierDesChargesActuel === 'initial';
 
   const nouvelleDateAchèvementMinimale = new Date(project.completionDueOn).setDate(
     new Date(project.completionDueOn).getDate() + 1,

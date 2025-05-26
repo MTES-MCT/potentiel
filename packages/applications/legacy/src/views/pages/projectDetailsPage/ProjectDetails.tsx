@@ -58,7 +58,6 @@ type ProjectDetailsProps = {
   estAchevé: boolean;
   modificationsNonPermisesParLeCDCActuel: boolean;
   coefficientKChoisi: boolean | undefined;
-  cdcV2: boolean;
   candidature: ContactProps['candidature'];
 };
 
@@ -77,7 +76,6 @@ export const ProjectDetails = ({
   puissance,
   modificationsNonPermisesParLeCDCActuel,
   coefficientKChoisi,
-  cdcV2,
   producteur,
   candidature,
 }: ProjectDetailsProps) => {
@@ -143,11 +141,7 @@ export const ProjectDetails = ({
             <CDCInfo
               cahierDesChargesActuel={project.cahierDesChargesActuel}
               user={user}
-              urlChoixCdc={
-                cdcV2
-                  ? Routes.CahierDesCharges.choisir(identifiantProjet)
-                  : `/projet/${project.id}/choisir-cahier-des-charges.html`
-              }
+              urlChoixCdc={Routes.CahierDesCharges.choisir(identifiantProjet)}
             />
           </Callout>
         </div>

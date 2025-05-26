@@ -7,7 +7,6 @@ import {
   ProjectInfo,
   PrimaryButton,
   SecondaryLinkButton,
-  ChoisirCahierDesChargesFormulaire,
   LegacyPageTemplate,
   SuccessBox,
   ErrorBox,

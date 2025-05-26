@@ -4,7 +4,6 @@ import routes from '../../../routes';
 import { Request } from 'express';
 
 import {
-  ChoisirCahierDesChargesFormulaire,
   ProjectInfo,
   PrimaryButton,
   Label,
@@ -39,10 +38,6 @@ type ChangerFournisseurProps = {
 
 export const ChangerFournisseur = ({ request, project, appelOffre }: ChangerFournisseurProps) => {
   const { error, success, justification } = (request.query as any) || {};
-
-  const doitChoisirCahierDesCharges =
-    appelOffre.periode.choisirNouveauCahierDesCharges &&
-    project.cahierDesChargesActuel === 'initial';
 
   const [evaluationCarbone, setEvaluationCarbone] = useState<number | undefined>();
 

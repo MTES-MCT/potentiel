@@ -8,7 +8,6 @@ import {
   NewModificationRequest,
   ProjectDetails,
   SignalerDemandeDelai,
-  ChoisirCahierDesCharges,
   ChangerFournisseur,
   ListeProjets,
   SuccèsOuErreur,
@@ -49,13 +48,6 @@ export const ProjectDetailsPage = (props: Parameters<typeof ProjectDetails>[0]) 
     Component: ProjectDetails,
     props,
     title: props.project.nomProjet,
-  });
-
-export const ChoisirCahierDesChargesPage = (props: Parameters<typeof ChoisirCahierDesCharges>[0]) =>
-  makeHtml({
-    Component: ChoisirCahierDesCharges,
-    props,
-    title: 'Changer de cahier des charges',
   });
 
 export const NewModificationRequestPage = (props: Parameters<typeof NewModificationRequest>[0]) =>
