@@ -15,7 +15,6 @@ import {
   AttestationDeConformitéDéjàTransmiseError,
   AucuneAttestationDeConformitéÀCorrigerError,
   DateDeTransmissionAuCoContractantFuturError,
-  ImpossibleTransmettreAttestationDeConformitéProjetAbandonnéError,
 } from './achèvement.error';
 import { ModifierAttestationConformitéOptions } from './modifier/modifierAttestationConformité.option';
 import { AttestationConformitéModifiéeEvent } from './modifier/modifierAttestationConformité.event';
@@ -54,10 +53,8 @@ export class AchèvementAggregate extends AbstractAggregate<AchèvementEvent> {
     preuveTransmissionAuCocontractant,
   }: TransmettreAttestationConformitéOptions) {
     this.lauréat.vérifierQueLeLauréatExiste();
-
-    if (this.lauréat.projet.statut.estAbandonné()) {
-      throw new ImpossibleTransmettreAttestationDeConformitéProjetAbandonnéError();
-    }
+    this.lauréat.vérifierQueLeLauréatEstSansAbandon();
+    this.lauréat.vérifierQueLeCahierDesChargesPermetLaModification();
 
     if (dateTransmissionAuCocontractant.estDansLeFutur()) {
       throw new DateDeTransmissionAuCoContractantFuturError();

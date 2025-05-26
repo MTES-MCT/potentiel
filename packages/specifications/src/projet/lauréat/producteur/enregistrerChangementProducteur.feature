@@ -26,7 +26,7 @@ Fonctionnalité: Enregistrer un changement de producteur d'un projet lauréat
         Etant donné le projet lauréat legacy "Du bouchon lyonnais" avec :
             | appel d'offre | CRE4 - Sol |
             | période       | 1          |
-        Et le cahier des charges "modifié paru le 30/08/2022" choisi pour le projet lauréat
+        Et un cahier des charges permettant la modification choisi pour le projet lauréat
         Et la dreal "Dreal du sud" associée à la région du projet
         Quand le porteur enregistre un changement de producteur pour le projet lauréat
         Alors le producteur du projet lauréat devrait être mis à jour
@@ -51,15 +51,15 @@ Fonctionnalité: Enregistrer un changement de producteur d'un projet lauréat
             | période       | 1               |
         Et un abandon accordé pour le projet lauréat
         Quand le porteur enregistre un changement de producteur pour le projet lauréat
-        Alors le porteur devrait être informé que "Impossible d'enregistrer un changement de producteur pour un projet abandonné"
+        Alors le porteur devrait être informé que "Impossible de faire une modification pour un projet abandonné"
 
-    Scénario: Impossible d'enregistrer un changement de producteur d'un projet lauréat si une demande d'abandon est en cours
+    Scénario: Impossible de faire une modification d'un projet lauréat si une demande d'abandon est en cours
         Etant donné le projet lauréat "Du boulodrome de Marseille" avec :
             | appel d'offre | PPE2 - Bâtiment |
             | période       | 1               |
         Et une demande d'abandon en cours pour le projet lauréat
         Quand le porteur enregistre un changement de producteur pour le projet lauréat
-        Alors le porteur devrait être informé que "Impossible d'enregistrer un changement de producteur car une demande d'abandon est en cours pour le projet"
+        Alors le porteur devrait être informé que "Impossible de faire une modification car une demande d'abandon est en cours pour le projet"
 
     Scénario: Impossible d'enregistrer le changement de producteur d'un projet achevé
         Etant donné le projet lauréat "Du boulodrome de Marseille" avec :
@@ -67,7 +67,7 @@ Fonctionnalité: Enregistrer un changement de producteur d'un projet lauréat
             | période       | 1               |
         Et une attestation de conformité transmise pour le projet lauréat
         Quand le porteur enregistre un changement de producteur pour le projet lauréat
-        Alors le porteur devrait être informé que "Impossible d'enregistrer un changement de producteur pour un projet achevé"
+        Alors le porteur devrait être informé que "Impossible de faire une modification pour un projet achevé"
 
     Scénario: Impossible d'enregistrer le changement de producteur d'un projet lauréat dont le cahier des charges ne le permet pas
         Etant donné le projet lauréat legacy "Du bouchon lyonnais" avec :

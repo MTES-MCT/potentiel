@@ -7,6 +7,8 @@ import { executeQuery } from '@potentiel-libraries/pg-helpers';
 import { Email, IdentifiantProjet } from '@potentiel-domain/common';
 import { Accès, Lauréat } from '@potentiel-domain/projet';
 import { InviterPorteurUseCase } from '@potentiel-domain/utilisateur';
+import { appelsOffreData } from '@potentiel-domain/inmemory-referential';
+import { AppelOffre } from '@potentiel-domain/appel-offre';
 
 import { PotentielWorld } from '../../../potentiel.world';
 import { importerCandidature } from '../../../candidature/stepDefinitions/candidature.given';
@@ -82,9 +84,30 @@ EtantDonné(
 );
 
 EtantDonné(
+  'un cahier des charges permettant la modification choisi pour le projet lauréat',
+  async function (this: PotentielWorld) {
+    const { identifiantProjet } = this.lauréatWorld;
+    const période = appelsOffreData
+      .find((ao) => ao.id === identifiantProjet.appelOffre)
+      ?.periodes.find((p) => p.id === identifiantProjet.période);
+    if (!période) {
+      throw new Error('Données invalides - période non trouvée');
+    }
+
+    if (période.choisirNouveauCahierDesCharges) {
+      await choisirCahierDesCharges.call(
+        this,
+        AppelOffre.RéférenceCahierDesCharges.bind(
+          période.cahiersDesChargesModifiésDisponibles[0]!,
+        ).formatter(),
+      );
+    }
+  },
+);
+
+EtantDonné(
   'le cahier des charges {string} choisi pour le projet lauréat',
   async function (this: PotentielWorld, cdcChoisi: string) {
-    if (!cdcChoisi) return;
     await choisirCahierDesCharges.call(this, cdcChoisi);
   },
 );

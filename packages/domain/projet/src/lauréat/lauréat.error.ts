@@ -35,3 +35,23 @@ export class CahierDesChargesEmpêcheModificationError extends InvalidOperationE
     super('Impossible de faire une modification pour ce cahier des charges');
   }
 }
+
+export class ProjetAbandonnéError extends InvalidOperationError {
+  constructor() {
+    super('Impossible de faire une modification pour un projet abandonné');
+  }
+}
+
+export class ProjetAvecDemandeAbandonEnCoursError extends InvalidOperationError {
+  constructor() {
+    super(
+      "Impossible de faire une modification car une demande d'abandon est en cours pour le projet",
+    );
+  }
+}
+
+export class ProjetAchevéError extends InvalidOperationError {
+  constructor() {
+    super('Impossible de faire une modification pour un projet achevé');
+  }
+}

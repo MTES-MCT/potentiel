@@ -40,15 +40,9 @@ export class ChoisirCahierDesChargesFixture
   créer(
     partialFixture: Partial<Readonly<ChoisirCahierDesCharges>> & { modifiéPar: string },
   ): Readonly<ChoisirCahierDesCharges> {
-    let cahierDesCharges = '30/08/2022';
-    if (partialFixture.cahierDesCharges) {
-      cahierDesCharges = nomCdcToRéférence[partialFixture.cahierDesCharges];
-      if (!cahierDesCharges) {
-        throw new Error(
-          `Cahier des charges inconnu dans la fixture: ${partialFixture.cahierDesCharges}`,
-        );
-      }
-    }
+    const cahierDesCharges = partialFixture.cahierDesCharges
+      ? (nomCdcToRéférence[partialFixture.cahierDesCharges] ?? partialFixture.cahierDesCharges)
+      : '30/08/2022';
 
     const fixture = {
       modifiéLe: faker.date.recent().toISOString(),
