@@ -3,7 +3,7 @@ Fonctionnalité: Demander l'abandon d'un projet lauréat
 
     Contexte:
         Etant donné le projet lauréat "Du boulodrome de Marseille"
-        Et un cahier des charges permettant la modification choisi pour le projet lauréat
+        Et un cahier des charges modificatif choisi
 
     Scénario: Un porteur demande l'abandon d'un projet lauréat
         Quand le porteur demande l'abandon pour le projet lauréat

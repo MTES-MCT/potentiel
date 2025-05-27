@@ -3,7 +3,7 @@ Fonctionnalité: Soumettre de nouvelles garanties financières
 
     Contexte:
         Etant donné le projet lauréat sans garanties financières importées "Du boulodrome de Marseille"
-        Et un cahier des charges permettant la modification choisi pour le projet lauréat
+        Et un cahier des charges modificatif choisi
 
     Plan du Scénario: Un porteur soumet un dépôt de garanties financières
         Etant donné des garanties financières en attente pour le projet "Du boulodrome de Marseille" avec :

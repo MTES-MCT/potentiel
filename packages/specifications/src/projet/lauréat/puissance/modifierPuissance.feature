@@ -4,7 +4,6 @@ Fonctionnalité: Modifier la puissance d'un projet lauréat
     Contexte:
         Etant donné le projet lauréat "Du boulodrome de Marseille"
         Et la dreal "Dreal du sud" associée à la région du projet
-        Et un cahier des charges permettant la modification choisi pour le projet lauréat
 
     Scénario: Modifier la puissance d'un projet lauréat par un admin
         Quand le DGEC validateur modifie la puissance pour le projet lauréat
@@ -55,6 +54,7 @@ Fonctionnalité: Modifier la puissance d'un projet lauréat
         Etant donné le projet lauréat "Du bouchon lyonnais" avec :
             | appel d'offre | PPE2 - Eolien |
             | période       | 1             |
+        Et un cahier des charges modificatif choisi
         Et la dreal "Dreal du presque-sud" associée à la région du projet
         Et une demande de changement de puissance pour le projet lauréat avec :
             | ratio puissance | 0.75 |

@@ -3,7 +3,7 @@ Fonctionnalité: Modifier des garanties financières actuelles
 
     Contexte:
         Etant donné le projet lauréat "Du boulodrome de Marseille"
-        Et un cahier des charges permettant la modification choisi pour le projet lauréat
+        Et un cahier des charges modificatif choisi
 
     Plan du Scénario: Un admin modifie des garanties financières actuelles
         Etant donné des garanties financières actuelles pour le projet "Du boulodrome de Marseille" avec :

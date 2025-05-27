@@ -6,7 +6,7 @@ Fonctionnalité: Modifier le producteur d'un projet lauréat
             | appel d'offre | PPE2 - Bâtiment |
             | période       | 1               |
         Et la dreal "Dreal du sud" associée à la région du projet
-        Et un cahier des charges permettant la modification choisi pour le projet lauréat
+        Et un cahier des charges modificatif choisi
 
     Scénario: Modifier le producteur d'un projet lauréat en tant qu'admin
         Quand le DGEC validateur modifie le producteur du projet lauréat
