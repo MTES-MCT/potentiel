@@ -1,15 +1,13 @@
-import { randomUUID } from 'crypto';
-
-import { Given as EtantDonné } from '@cucumber/cucumber';
+import { DataTable, Given as EtantDonné } from '@cucumber/cucumber';
 import { mediator } from 'mediateur';
 
-import { executeQuery } from '@potentiel-libraries/pg-helpers';
 import { Email, IdentifiantProjet } from '@potentiel-domain/common';
 import { InviterPorteurUseCase } from '@potentiel-domain/utilisateur';
 import { Accès, Éliminé } from '@potentiel-domain/projet';
 
 import { PotentielWorld } from '../../../potentiel.world';
 import { importerCandidature } from '../../../candidature/stepDefinitions/candidature.given';
+import { importerCandidaturePériodeLegacy } from '../../../candidature/stepDefinitions/candidatureLegacy.given';
 
 EtantDonné('le projet éliminé {string}', async function (this: PotentielWorld, nomProjet: string) {
   // un projet éliminé a rarement ces informations lors d'un import de candidature
@@ -18,89 +16,45 @@ EtantDonné('le projet éliminé {string}', async function (this: PotentielWorld
     dateÉchéanceGfValue: undefined,
   });
 
-  const { identifiantProjet, values: candidature } = this.candidatureWorld.importerCandidature;
-
-  const identifiantProjetValue = IdentifiantProjet.convertirEnValueType(identifiantProjet);
-
   const dateDésignation = this.eliminéWorld.dateDésignation;
 
   await notifierÉliminé.call(this, dateDésignation);
-
-  await executeQuery(
-    `
-      insert into "projects" (
-        "id",
-        "appelOffreId",
-        "periodeId",
-        "numeroCRE",
-        "familleId",
-        "notifiedOn",
-        "nomCandidat",
-        "nomProjet",
-        "puissance",
-        "prixReference",
-        "evaluationCarbone",
-        "note",
-        "nomRepresentantLegal",
-        "email",
-        "codePostalProjet",
-        "communeProjet",
-        "departementProjet",
-        "regionProjet",
-        "classe",
-        "isFinancementParticipatif",
-        "isInvestissementParticipatif",
-        "engagementFournitureDePuissanceAlaPointe"
-      )
-      values (
-        $1,
-        $2,
-        $3,
-        $4,
-        $5,
-        $6,
-        $7,
-        $8,
-        $9,
-        $10,
-        $11,
-        $12,
-        $13,
-        $14,
-        $15,
-        $16,
-        $17,
-        $18,
-        $19,
-        $20,
-        $21,
-        $22
-      )
-    `,
-    randomUUID(),
-    identifiantProjetValue.appelOffre,
-    identifiantProjetValue.période,
-    identifiantProjetValue.numéroCRE,
-    identifiantProjetValue.famille,
-    new Date(dateDésignation).getTime(),
-    candidature.nomCandidatValue,
-    nomProjet,
-    candidature.puissanceProductionAnnuelleValue,
-    candidature.prixRéférenceValue,
-    candidature.evaluationCarboneSimplifiéeValue,
-    candidature.noteTotaleValue,
-    candidature.nomReprésentantLégalValue,
-    candidature.emailContactValue,
-    candidature.localitéValue.codePostal,
-    candidature.localitéValue.commune,
-    candidature.localitéValue.département,
-    candidature.localitéValue.région,
-    'Eliminé',
-    candidature.actionnariatValue === 'financement-participatif',
-    candidature.actionnariatValue === 'investissement-participatif',
-    candidature.puissanceALaPointeValue,
-  );
 });
+
+EtantDonné(
+  'le projet éliminé {string} avec :',
+  async function (this: PotentielWorld, nomProjet: string, datatable: DataTable) {
+    const exemple = datatable.rowsHash();
+    // un projet éliminé a rarement ces informations lors d'un import de candidature
+    await importerCandidature.call(this, nomProjet, 'éliminé', {
+      ...this.candidatureWorld.mapExempleToFixtureValues(exemple),
+      typeGarantiesFinancièresValue: undefined,
+      dateÉchéanceGfValue: undefined,
+    });
+
+    const dateDésignation = this.eliminéWorld.dateDésignation;
+
+    await notifierÉliminé.call(this, dateDésignation);
+  },
+);
+
+EtantDonné(
+  'le projet éliminé legacy {string} avec :',
+  async function (this: PotentielWorld, nomProjet: string, datatable: DataTable) {
+    const exemple = datatable.rowsHash();
+
+    await importerCandidaturePériodeLegacy.call(
+      this,
+      nomProjet,
+      'éliminé',
+      this.candidatureWorld.mapExempleToFixtureValues(exemple),
+    );
+
+    const dateDésignation = this.eliminéWorld.dateDésignation;
+
+    await notifierÉliminé.call(this, dateDésignation);
+  },
+);
 
 EtantDonné(
   'le projet éliminé {string} ayant été notifié le {string}',
@@ -109,86 +63,7 @@ EtantDonné(
 
     await importerCandidature.call(this, nomProjet, 'éliminé');
 
-    const { identifiantProjet, values: candidature } = this.candidatureWorld.importerCandidature;
-
-    const identifiantProjetValue = IdentifiantProjet.convertirEnValueType(identifiantProjet);
-
     await notifierÉliminé.call(this, dateDésignation);
-
-    await executeQuery(
-      `
-      insert into "projects" (
-        "id",
-        "appelOffreId",
-        "periodeId",
-        "numeroCRE",
-        "familleId",
-        "notifiedOn",
-        "nomCandidat",
-        "nomProjet",
-        "puissance",
-        "prixReference",
-        "evaluationCarbone",
-        "note",
-        "nomRepresentantLegal",
-        "email",
-        "codePostalProjet",
-        "communeProjet",
-        "departementProjet",
-        "regionProjet",
-        "classe",
-        "isFinancementParticipatif",
-        "isInvestissementParticipatif",
-        "engagementFournitureDePuissanceAlaPointe"
-      )
-      values (
-        $1,
-        $2,
-        $3,
-        $4,
-        $5,
-        $6,
-        $7,
-        $8,
-        $9,
-        $10,
-        $11,
-        $12,
-        $13,
-        $14,
-        $15,
-        $16,
-        $17,
-        $18,
-        $19,
-        $20,
-        $21,
-        $22
-      )
-    `,
-      randomUUID(),
-      identifiantProjetValue.appelOffre,
-      identifiantProjetValue.période,
-      identifiantProjetValue.numéroCRE,
-      identifiantProjetValue.famille,
-      new Date(dateDésignation).getTime(),
-      candidature.nomCandidatValue,
-      nomProjet,
-      candidature.puissanceProductionAnnuelleValue,
-      candidature.prixRéférenceValue,
-      candidature.evaluationCarboneSimplifiéeValue,
-      candidature.noteTotaleValue,
-      candidature.nomReprésentantLégalValue,
-      candidature.emailContactValue,
-      candidature.localitéValue.codePostal,
-      candidature.localitéValue.commune,
-      candidature.localitéValue.département,
-      candidature.localitéValue.région,
-      'Eliminé',
-      candidature.actionnariatValue === 'financement-participatif',
-      candidature.actionnariatValue === 'investissement-participatif',
-      candidature.puissanceALaPointeValue,
-    );
   },
 );
 
