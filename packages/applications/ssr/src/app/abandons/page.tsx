@@ -14,6 +14,7 @@ import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 import { mapToPagination, mapToRangeOptions } from '@/utils/pagination';
 import { getRégionUtilisateur } from '@/utils/getRégionUtilisateur';
+import { ListFilterItem } from '@/components/molecules/ListFilters';
 
 type PageProps = {
   searchParams?: Record<string, string>;
@@ -35,6 +36,8 @@ const paramsSchema = z.object({
   statut: z.enum(Lauréat.Abandon.StatutAbandon.statuts).optional(),
   preuveRecandidatureStatut: z.enum(Abandon.StatutPreuveRecandidature.statuts).optional(),
 });
+
+type SearchParams = keyof z.infer<typeof paramsSchema>;
 
 export default async function Page({ searchParams }: PageProps) {
   return PageWithErrorHandling(async () =>
@@ -69,7 +72,7 @@ export default async function Page({ searchParams }: PageProps) {
         data: {},
       });
 
-      const filters = [
+      const filters: ListFilterItem<SearchParams>[] = [
         {
           label: `Appel d'offres`,
           searchParamKey: 'appelOffre',
@@ -101,11 +104,9 @@ export default async function Page({ searchParams }: PageProps) {
               value: 'false',
             },
           ],
+          affects: ['preuveRecandidatureStatut'],
         },
-      ];
-
-      if (recandidature) {
-        filters.push({
+        {
           label: 'Preuve de recandidature',
           searchParamKey: 'preuveRecandidatureStatut',
           options: Abandon.StatutPreuveRecandidature.statuts
@@ -114,8 +115,8 @@ export default async function Page({ searchParams }: PageProps) {
               label: statut.replace('-', ' ').toLocaleLowerCase(),
               value: statut,
             })),
-        });
-      }
+        },
+      ];
 
       return <AbandonListPage list={mapToListProps(abandons)} filters={filters} />;
     }),
