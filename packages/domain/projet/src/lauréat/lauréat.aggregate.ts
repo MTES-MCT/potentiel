@@ -187,13 +187,15 @@ export class LauréatAggregate extends AbstractAggregate<LauréatEvent> {
     cahierDesCharges,
   }: ChoisirCahierDesChargesOptions) {
     this.vérifierQueLeLauréatExiste();
+    this.vérifierNiAbandonnéNiEnCoursAbandon();
+    this.vérifierNonAchevé();
     if (this.#cahierDesCharges.estÉgaleÀ(cahierDesCharges)) {
       throw new CahierDesChargesNonModifiéError();
     }
 
     if (
       cahierDesCharges.type === 'modifié' &&
-      !this.#projet.période.cahiersDesChargesModifiésDisponibles.find((cdc) =>
+      !this.projet.période.cahiersDesChargesModifiésDisponibles.find((cdc) =>
         AppelOffre.RéférenceCahierDesCharges.bind(cdc).estÉgaleÀ(cahierDesCharges),
       )
     ) {
@@ -202,7 +204,7 @@ export class LauréatAggregate extends AbstractAggregate<LauréatEvent> {
 
     if (
       cahierDesCharges.type === 'initial' &&
-      !this.#projet.appelOffre.doitPouvoirChoisirCDCInitial
+      !this.projet.appelOffre.doitPouvoirChoisirCDCInitial
     ) {
       throw new RetourAuCahierDesChargesInitialImpossibleError();
     }
