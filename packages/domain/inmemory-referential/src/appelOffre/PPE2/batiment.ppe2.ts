@@ -454,54 +454,45 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       },
       addendums: addendumPériode8EtSuivantes,
     },
-    // Période ajoutée en anticipation afin de pouvoir tester la fonctionalité Coefficient K
-    // à l'ouverture de cette période:
-    // - activer le test concerné dans "importer candidature"
-    // - activer le test concerné dans "corriger candidature"
-    // - mettre à jour la période en fonction des valeurs désirées
-    // {
-    //   id: '10',
-    //   title: 'dixième',
-    //   certificateTemplate: 'ppe2.v2',
-    //   logo: 'Gouvernement',
-    //   cahierDesCharges: {
-    //     // TODO changer pour l'ouverture de la P10
-    //     référence: 'TODO',
-    //   },
-    //   delaiDcrEnMois: { valeur: 3, texte: 'trois' },
-    //   familles: [],
-    //   noteThresholdBy: 'category',
-    //   noteThreshold: {
-    //     // TODO changer pour l'ouverture de la P10
-    //     volumeReserve: {
-    //       noteThreshold: 0.0,
-    //       puissanceMax: 0.0,
-    //     },
-    //     // TODO changer pour l'ouverture de la P10
-    //     autres: {
-    //       noteThreshold: 0.0,
-    //     },
-    //   },
-    //   donnéesCourriersRéponse: {
-    //     texteEngagementRéalisationEtModalitésAbandon: {
-    //       référenceParagraphe: '6.2',
-    //       dispositions: `Le Candidat dont l’offre a été retenue met en service l’Installation dans les conditions du présent cahier des charges, et réalise l’Installation conformément aux éléments du dossier de candidature (les possibilités et modalités de modification sont indiquées au 5.2).
-    //       Par exception, le Candidat est délié de cette obligation :
-    //       - en cas de retrait de l’autorisation d’urbanisme par l’autorité compétente ou d’annulation de cette autorisation à la suite d’un contentieux. Les retraits gracieux sur demande du Candidat ne sont pas concernés.
-    //       - en cas de non obtention de toute autre autorisation administrative ou dérogation nécessaire à la réalisation du projet.
-    //       Il en informe dans ce cas sans délai le Préfet en joignant les pièces justificatives. La garantie financière est alors levée.
-    //       Le Candidat peut également être délié de cette obligation selon l’appréciation du ministre chargé de l’énergie à la suite d’une demande dûment justifiée. L’État peut toutefois prélever la totalité ou une partie de la garantie financière dans les conditions du paragraphe 5.1. L’accord du Ministre, les conditions imposées et le prélèvement de la garantie financière ne limitent pas la possibilité de recours de l’État aux sanctions du 8.2.`,
-    //     },
-    //   },
-    //   cahiersDesChargesModifiésDisponibles: [],
-    //   changement: {
-    //     représentantLégal: {
-    //       typeTâchePlanifiée: 'accord-automatique',
-    //     },
-    //   },
-    //   addendums: addendumPériode8EtSuivantes,
-    //   // NOUVEAU période 10
-    //   choixCoefficientKDisponible: true,
-    // },
+    {
+      id: '10',
+      title: 'dixième',
+      certificateTemplate: 'ppe2.v2',
+      logo: 'Gouvernement',
+      cahierDesCharges: {
+        référence: '2025/S 28-88409',
+      },
+      delaiDcrEnMois: { valeur: 3, texte: 'trois' },
+      familles: [],
+      noteThresholdBy: 'category',
+      noteThreshold: {
+        volumeReserve: {
+          noteThreshold: 21.6,
+          puissanceMax: 1,
+        },
+        autres: {
+          noteThreshold: 21.6,
+        },
+      },
+      donnéesCourriersRéponse: {
+        texteEngagementRéalisationEtModalitésAbandon: {
+          référenceParagraphe: '6.2',
+          dispositions: `Le Candidat dont l’offre a été retenue met en service l’Installation dans les conditions du présent cahier des charges, et réalise l’Installation conformément aux éléments du dossier de candidature (les possibilités et modalités de modification sont indiquées au 5.2).
+          Par exception, le Candidat est délié de cette obligation :
+          - en cas de retrait de l’autorisation d’urbanisme par l’autorité compétente ou d’annulation de cette autorisation à la suite d’un contentieux. Les retraits gracieux sur demande du Candidat ne sont pas concernés.
+          - en cas de non obtention de toute autre autorisation administrative ou dérogation nécessaire à la réalisation du projet.
+          Il en informe dans ce cas sans délai le Préfet en joignant les pièces justificatives. La garantie financière est alors levée.
+          Le Candidat peut également être délié de cette obligation selon l’appréciation du ministre chargé de l’énergie à la suite d’une demande dûment justifiée. L’État peut toutefois prélever la totalité ou une partie de la garantie financière dans les conditions du paragraphe 5.1. L’accord du Ministre, les conditions imposées et le prélèvement de la garantie financière ne limitent pas la possibilité de recours de l’État aux sanctions du 8.2.`,
+        },
+      },
+      cahiersDesChargesModifiésDisponibles: [],
+      changement: {
+        représentantLégal: {
+          typeTâchePlanifiée: 'accord-automatique',
+        },
+      },
+      addendums: addendumPériode8EtSuivantes,
+      choixCoefficientKDisponible: true,
+    },
   ],
 };
