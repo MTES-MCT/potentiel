@@ -232,7 +232,7 @@ export class LauréatAggregate extends AbstractAggregate<LauréatEvent> {
     }
   }
 
-  vérifierQueLeLauréatEstSansAbandon() {
+  vérifierNiAbandonnéNiEnCoursAbandon() {
     if (this.projet.statut.estAbandonné()) {
       throw new ProjetAbandonnéError();
     }
@@ -242,13 +242,13 @@ export class LauréatAggregate extends AbstractAggregate<LauréatEvent> {
     }
   }
 
-  vérifierQueLeLauréatEstSansAchèvement() {
+  vérifierNonAchevé() {
     if (this.projet.statut.estAchevé()) {
       throw new ProjetAchevéError();
     }
   }
 
-  vérifierQueLeCahierDesChargesPermetLaModification() {
+  vérifierQueLeCahierDesChargesPermetUnChangement() {
     if (
       this.projet.période.choisirNouveauCahierDesCharges &&
       this.cahierDesCharges.estÉgaleÀ(AppelOffre.RéférenceCahierDesCharges.initial)
@@ -259,9 +259,9 @@ export class LauréatAggregate extends AbstractAggregate<LauréatEvent> {
 
   vérifierQueLeChangementEstPossible() {
     this.vérifierQueLeLauréatExiste();
-    this.vérifierQueLeLauréatEstSansAbandon();
-    this.vérifierQueLeLauréatEstSansAchèvement();
-    this.vérifierQueLeCahierDesChargesPermetLaModification();
+    this.vérifierNiAbandonnéNiEnCoursAbandon();
+    this.vérifierNonAchevé();
+    this.vérifierQueLeCahierDesChargesPermetUnChangement();
   }
 
   apply(event: LauréatEvent): void {
