@@ -12,18 +12,12 @@ import { TypeDocumentProducteur } from '.';
 
 import { EnregistrerChangementProducteurOptions } from './changement/enregistrerChangement/enregistrerChangement.option';
 import { ChangementProducteurEnregistréEvent } from './changement/enregistrerChangement/enregistrerChangement.event';
-import {
-  ProducteurIdentiqueError,
-  ProjetAbandonnéError,
-  ProjetAvecDemandeAbandonEnCoursError,
-  ProjetAchevéError,
-  AOEmpêcheChangementProducteurError,
-} from './changement/errors';
 import { ProducteurEvent } from './producteur.event';
 import { ProducteurModifiéEvent } from './modifier/modifierProducteur.event';
 import { ModifierOptions } from './modifier/modifierProducteur.option';
 import { ImporterOptions } from './importer/importerProducteur.option';
 import { ProducteurImportéEvent } from './importer/importerProducteur.event';
+import { ProducteurIdentiqueError, AOEmpêcheChangementProducteurError } from './producteur.error';
 
 export class ProducteurAggregate extends AbstractAggregate<ProducteurEvent> {
   #lauréat!: LauréatAggregate;
@@ -60,7 +54,7 @@ export class ProducteurAggregate extends AbstractAggregate<ProducteurEvent> {
     pièceJustificative,
     raison,
   }: EnregistrerChangementProducteurOptions) {
-    this.lauréat.vérifierQueLeLauréatExiste();
+    this.lauréat.vérifierQueLeChangementEstPossible();
 
     if (
       this.lauréat.projet.période.choisirNouveauCahierDesCharges &&
@@ -72,19 +66,6 @@ export class ProducteurAggregate extends AbstractAggregate<ProducteurEvent> {
     if (this.producteur === producteur) {
       throw new ProducteurIdentiqueError();
     }
-
-    if (this.lauréat.projet.statut.estAbandonné()) {
-      throw new ProjetAbandonnéError();
-    }
-
-    if (this.lauréat.abandon.statut.estEnCours()) {
-      throw new ProjetAvecDemandeAbandonEnCoursError();
-    }
-
-    if (this.lauréat.projet.statut.estAchevé()) {
-      throw new ProjetAchevéError();
-    }
-
     if (!this.lauréat.projet.appelOffre.changementProducteurPossibleAvantAchèvement) {
       throw new AOEmpêcheChangementProducteurError();
     }

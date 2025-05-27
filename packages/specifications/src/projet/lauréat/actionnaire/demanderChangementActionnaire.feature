@@ -6,6 +6,7 @@ Fonctionnalité: Demander le changement de l'actionnaire d'un projet lauréat CR
             | appel d'offre | Eolien |
             | type GF       |        |
         Et la dreal "DREAL" associée à la région du projet
+        Et un cahier des charges modificatif choisi
 
     Scénario: Demander le changement de l'actionnaire d'un projet CRE4 Eolien sans garanties financières constituées
         Quand le porteur demande le changement de l'actionnaire pour le projet lauréat

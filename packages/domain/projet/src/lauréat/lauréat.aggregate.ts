@@ -21,10 +21,14 @@ import {
 import { LauréatModifiéEvent } from './modifier/lauréatModifié.event';
 import { ModifierLauréatOptions } from './modifier/modifierLauréat.option';
 import {
+  CahierDesChargesEmpêcheModificationError,
   CahierDesChargesIndisponibleError,
   CahierDesChargesNonModifiéError,
   LauréatDéjàNotifiéError,
   LauréatNonTrouvéError,
+  ProjetAbandonnéError,
+  ProjetAchevéError,
+  ProjetAvecDemandeAbandonEnCoursError,
   RetourAuCahierDesChargesInitialImpossibleError,
 } from './lauréat.error';
 import { CahierDesChargesChoisiEvent } from './cahierDesCharges/choisir/cahierDesChargesChoisi.event';
@@ -226,6 +230,38 @@ export class LauréatAggregate extends AbstractAggregate<LauréatEvent> {
     if (!this.exists) {
       throw new LauréatNonTrouvéError();
     }
+  }
+
+  vérifierNiAbandonnéNiEnCoursAbandon() {
+    if (this.projet.statut.estAbandonné()) {
+      throw new ProjetAbandonnéError();
+    }
+
+    if (this.abandon.statut.estEnCours()) {
+      throw new ProjetAvecDemandeAbandonEnCoursError();
+    }
+  }
+
+  vérifierNonAchevé() {
+    if (this.projet.statut.estAchevé()) {
+      throw new ProjetAchevéError();
+    }
+  }
+
+  vérifierQueLeCahierDesChargesPermetUnChangement() {
+    if (
+      this.projet.période.choisirNouveauCahierDesCharges &&
+      this.cahierDesCharges.estÉgaleÀ(AppelOffre.RéférenceCahierDesCharges.initial)
+    ) {
+      throw new CahierDesChargesEmpêcheModificationError();
+    }
+  }
+
+  vérifierQueLeChangementEstPossible() {
+    this.vérifierQueLeLauréatExiste();
+    this.vérifierNiAbandonnéNiEnCoursAbandon();
+    this.vérifierNonAchevé();
+    this.vérifierQueLeCahierDesChargesPermetUnChangement();
   }
 
   apply(event: LauréatEvent): void {

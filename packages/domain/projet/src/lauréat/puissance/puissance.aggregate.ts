@@ -1,10 +1,8 @@
 import { match } from 'ts-pattern';
 
 import { AbstractAggregate } from '@potentiel-domain/core';
-import { AppelOffre } from '@potentiel-domain/appel-offre';
 
 import { LauréatAggregate } from '../lauréat.aggregate';
-import { CahierDesChargesEmpêcheModificationError } from '../lauréat.error';
 
 import { AutoritéCompétente, RatioChangementPuissance, StatutChangementPuissance } from '.';
 
@@ -34,9 +32,6 @@ import { PuissanceEvent } from './puissance.event';
 import {
   DemandeDeChangementInexistanteError,
   DemandeDoitÊtreInstruiteParDGECError,
-  ProjetAbandonnéError,
-  ProjetAchevéError,
-  ProjetAvecDemandeAbandonEnCoursError,
   RéponseSignéeObligatoireSiAccordSansDécisionDeLEtatError,
 } from './changement/errors';
 
@@ -307,26 +302,7 @@ export class PuissanceAggregate extends AbstractAggregate<PuissanceEvent> {
     type: 'demande' | 'information-enregistrée',
     nouvellePuissance: number,
   ) {
-    this.lauréat.vérifierQueLeLauréatExiste();
-
-    if (this.lauréat.projet.statut.estAbandonné()) {
-      throw new ProjetAbandonnéError();
-    }
-
-    if (this.lauréat.abandon.statut.estEnCours()) {
-      throw new ProjetAvecDemandeAbandonEnCoursError();
-    }
-
-    if (this.lauréat.projet.statut.estAchevé()) {
-      throw new ProjetAchevéError();
-    }
-
-    if (
-      this.lauréat.projet.période.choisirNouveauCahierDesCharges &&
-      this.lauréat.cahierDesCharges.estÉgaleÀ(AppelOffre.RéférenceCahierDesCharges.initial)
-    ) {
-      throw new CahierDesChargesEmpêcheModificationError();
-    }
+    this.lauréat.vérifierQueLeChangementEstPossible();
 
     const {
       noteTotale: note,

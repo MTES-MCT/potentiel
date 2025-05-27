@@ -4,6 +4,7 @@ Fonctionnalité: Enregistrer un changement d'actionnaire d'un projet lauréat
     Contexte:
         Etant donné le projet lauréat "Du boulodrome de Marseille"
         Et la dreal "DREAL" associée à la région du projet
+        Et un cahier des charges modificatif choisi
 
     Scénario: Enregistrer un changement d'actionnaire d'un projet lauréat
         Quand le porteur enregistre un changement d'actionnaire pour le projet lauréat

@@ -33,7 +33,8 @@ Fonctionnalité: Demander le changement de puissance d'un projet lauréat
         Etant donné le projet lauréat legacy "Du bouchon lyonnais" avec :
             | appel d'offre | CRE4 - Sol |
             | période       | 1          |
-        Et le cahier des charges "modifié paru le 30/08/2022" choisi pour le projet lauréat
+        Et la dreal "Dreal du sud" associée à la région du projet
+        Et un cahier des charges modificatif choisi
         Quand le porteur demande le changement de puissance pour le projet lauréat avec :
             | ratio puissance | 0.75 |
         Alors la demande de changement de puissance devrait être consultable
@@ -88,19 +89,19 @@ Fonctionnalité: Demander le changement de puissance d'un projet lauréat
         Etant donné un abandon accordé pour le projet lauréat
         Quand le porteur demande le changement de puissance pour le projet lauréat avec :
             | ratio puissance | 1.25 |
-        Alors le porteur devrait être informé que "Impossible de demander le changement de puissance pour un projet abandonné"
+        Alors le porteur devrait être informé que "Impossible de faire un changement pour un projet abandonné"
 
     Scénario: Impossible de demander le changement de puissance si une demande d'abandon est en cours
         Etant donné une demande d'abandon en cours pour le projet lauréat
         Quand le porteur demande le changement de puissance pour le projet lauréat avec :
             | ratio puissance | 1.25 |
-        Alors le porteur devrait être informé que "Impossible de demander le changement de puissance car une demande d'abandon est en cours pour le projet"
+        Alors le porteur devrait être informé que "Impossible de faire un changement car une demande d'abandon est en cours pour le projet"
 
     Scénario: Impossible de demander le changement de puissance d'un projet achevé
         Etant donné une attestation de conformité transmise pour le projet lauréat
         Quand le porteur demande le changement de puissance pour le projet lauréat avec :
             | ratio puissance | 1.25 |
-        Alors le porteur devrait être informé que "Impossible de demander le changement de puissance pour un projet achevé"
+        Alors le porteur devrait être informé que "Impossible de faire un changement pour un projet achevé"
 
     Scénario: Impossible de demander le changement de puissance d'un projet lauréat dont le cahier des charges ne le permet pas
         Etant donné le projet lauréat legacy "Du bouchon lyonnais" avec :
@@ -108,4 +109,4 @@ Fonctionnalité: Demander le changement de puissance d'un projet lauréat
             | période       | 1          |
         Quand le porteur demande le changement de puissance pour le projet lauréat avec :
             | ratio puissance | 0.75 |
-        Alors le porteur devrait être informé que "Impossible de faire une modification pour ce cahier des charges"
+        Alors le porteur devrait être informé que "Impossible de faire un changement pour ce cahier des charges"

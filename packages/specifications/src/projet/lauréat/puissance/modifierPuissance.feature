@@ -54,6 +54,7 @@ Fonctionnalité: Modifier la puissance d'un projet lauréat
         Etant donné le projet lauréat "Du bouchon lyonnais" avec :
             | appel d'offre | PPE2 - Eolien |
             | période       | 1             |
+        Et un cahier des charges modificatif choisi
         Et la dreal "Dreal du presque-sud" associée à la région du projet
         Et une demande de changement de puissance pour le projet lauréat avec :
             | ratio puissance | 0.75 |

@@ -3,6 +3,7 @@ Fonctionnalité: Accorder une demande de mainlevée des garanties financières
 
     Contexte:
         Etant donné le projet lauréat "Du boulodrome de Marseille"
+        Et un cahier des charges modificatif choisi
 
     Scénario: Un utilisateur Dreal accorde une demande de mainlevée pour un projet abandonné
         Etant donné un abandon accordé pour le projet lauréat "Du boulodrome de Marseille"
