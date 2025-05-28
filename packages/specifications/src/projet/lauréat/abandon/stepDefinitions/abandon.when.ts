@@ -97,7 +97,7 @@ Quand(
         });
       }
 
-      await mediator.send<AbandonBen.AccorderAbandonUseCase>({
+      await mediator.send<Lauréat.Abandon.AccorderAbandonUseCase>({
         type: 'Lauréat.Abandon.UseCase.AccorderAbandon',
         data: {
           identifiantProjetValue: identifiantProjet,
@@ -240,7 +240,7 @@ Quand(
             : new Date().toISOString(),
         });
 
-      await mediator.send<AbandonBen.AbandonUseCase>({
+      await mediator.send<Lauréat.Abandon.DemanderPreuveRecandidatureAbandonUseCase>({
         type: 'Lauréat.Abandon.UseCase.DemanderPreuveRecandidatureAbandon',
         data: {
           identifiantProjetValue: identifiantProjet,

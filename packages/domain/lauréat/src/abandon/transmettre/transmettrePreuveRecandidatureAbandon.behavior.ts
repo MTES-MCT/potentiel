@@ -1,18 +1,9 @@
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
-import { DomainEvent, InvalidOperationError } from '@potentiel-domain/core';
+import { InvalidOperationError } from '@potentiel-domain/core';
 import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
+import { Lauréat } from '@potentiel-domain/projet';
 
 import { AbandonAggregate } from '../abandon.aggregate';
-
-export type PreuveRecandidatureTransmiseEvent = DomainEvent<
-  'PreuveRecandidatureTransmise-V1',
-  {
-    identifiantProjet: IdentifiantProjet.RawType;
-    preuveRecandidature: IdentifiantProjet.RawType;
-    transmisePar: IdentifiantUtilisateur.RawType;
-    transmiseLe: DateTime.RawType;
-  }
->;
 
 class PreuveRecandidautreDéjàTransmise extends InvalidOperationError {
   constructor() {
@@ -98,7 +89,7 @@ export async function transmettrePreuveRecandidature(
     throw new ProjetNotifiéAprèsLaDateMaximumError();
   }
 
-  const event: PreuveRecandidatureTransmiseEvent = {
+  const event: Lauréat.Abandon.PreuveRecandidatureTransmiseEvent = {
     type: 'PreuveRecandidatureTransmise-V1',
     payload: {
       identifiantProjet: identifiantProjet.formatter(),
@@ -115,7 +106,7 @@ export function applyPreuveRecandidatureTransmise(
   this: AbandonAggregate,
   {
     payload: { preuveRecandidature, transmisePar, transmiseLe },
-  }: PreuveRecandidatureTransmiseEvent,
+  }: Lauréat.Abandon.PreuveRecandidatureTransmiseEvent,
 ) {
   this.demande.preuveRecandidature = IdentifiantProjet.convertirEnValueType(preuveRecandidature);
   this.demande.preuveRecandidatureTransmiseLe = DateTime.convertirEnValueType(transmiseLe);

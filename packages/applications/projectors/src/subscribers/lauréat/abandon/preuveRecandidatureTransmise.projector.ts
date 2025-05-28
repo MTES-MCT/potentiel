@@ -1,12 +1,13 @@
 import { AbandonBen } from '@potentiel-domain/laureat';
 import { getLogger } from '@potentiel-libraries/monitoring';
 import { upsertProjection } from '@potentiel-infrastructure/pg-projection-write';
+import { Lauréat } from '@potentiel-domain/projet';
 
 import { getInfosAbandon } from './utils/getInfosAbandon';
 
 export const preuveCandidatureTransmiseProjector = async ({
   payload: { identifiantProjet, preuveRecandidature, transmiseLe, transmisePar },
-}: AbandonBen.PreuveRecandidatureTransmiseEvent) => {
+}: Lauréat.Abandon.PreuveRecandidatureTransmiseEvent) => {
   const abandonToUpsert = await getInfosAbandon(identifiantProjet);
 
   if (!abandonToUpsert) {

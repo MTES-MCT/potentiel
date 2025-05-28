@@ -4,7 +4,7 @@ import { updateOneProjection } from '@potentiel-infrastructure/pg-projection-wri
 
 export const abandonPasséEnInstructionProjector = async ({
   payload: { identifiantProjet, passéEnInstructionLe, passéEnInstructionPar },
-}: AbandonBen.AbandonPasséEnInstructionEvent) => {
+}: Lauréat.Abandon.AbandonPasséEnInstructionEvent) => {
   await updateOneProjection<AbandonBen.AbandonEntity>(`abandon|${identifiantProjet}`, {
     demande: {
       instruction: {

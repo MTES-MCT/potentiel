@@ -13,8 +13,8 @@ export type SubscriptionEvent =
   | AbandonBen.AbandonConfirméEvent
   | Lauréat.Abandon.AbandonRejetéEvent
   | AbandonBen.ConfirmationAbandonDemandéeEvent
-  | AbandonBen.PreuveRecandidatureDemandéeEvent
-  | AbandonBen.PreuveRecandidatureTransmiseEvent;
+  | Lauréat.Abandon.PreuveRecandidatureDemandéeEvent
+  | Lauréat.Abandon.PreuveRecandidatureTransmiseEvent;
 
 export type Execute = Message<'System.Saga.TâcheAbandon', SubscriptionEvent>;
 

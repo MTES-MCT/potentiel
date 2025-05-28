@@ -168,7 +168,7 @@ async function créerAccordAbandon(this: PotentielWorld) {
         : {}),
     });
 
-  await mediator.send<AbandonBen.AbandonUseCase>({
+  await mediator.send<Lauréat.Abandon.AbandonUseCase>({
     type: 'Lauréat.Abandon.UseCase.AccorderAbandon',
     data: {
       identifiantProjetValue: identifiantProjet,
@@ -257,7 +257,7 @@ async function créerDemandePreuveRecandidature(this: PotentielWorld) {
       demandéeLe: accordéeLe,
     });
 
-  await mediator.send<AbandonBen.AbandonUseCase>({
+  await mediator.send<Lauréat.Abandon.DemanderPreuveRecandidatureAbandonUseCase>({
     type: 'Lauréat.Abandon.UseCase.DemanderPreuveRecandidatureAbandon',
     data: {
       identifiantProjetValue: identifiantProjet,

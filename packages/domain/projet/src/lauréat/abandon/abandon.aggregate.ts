@@ -1,13 +1,16 @@
 import { match } from 'ts-pattern';
 
 import { AbstractAggregate } from '@potentiel-domain/core';
-import { DocumentProjet } from '@potentiel-domain/document';
 import { DateTime, Email } from '@potentiel-domain/common';
 
 import { LauréatAggregate } from '../lauréat.aggregate';
 import { IdentifiantProjet } from '../..';
 
-import { StatutAbandon, TypeDocumentAbandon } from '.';
+import {
+  PreuveRecandidatureDemandéeEvent,
+  PreuveRecandidatureTransmiseEvent,
+  StatutAbandon,
+} from '.';
 
 import { AbandonEvent } from './abandon.event';
 import { AbandonDemandéEvent, AbandonDemandéEventV1 } from './demander/demanderAbandon.event';
@@ -15,44 +18,37 @@ import { AbandonAccordéEvent } from './accorder/accorderAbandon.event';
 import { AbandonRejetéEvent } from './rejeter/rejeterAbandon.event';
 import { AbandonAnnuléEvent } from './annuler/annulerAbandon.event';
 import { DemanderOptions } from './demander/demanderAbandon.option';
-import { PièceJustificativeObligatoireError } from './abandon.error';
+import {
+  AucunAbandonEnCours,
+  DateLégaleTransmissionPreuveRecandidatureDépasséeError,
+  DemandePreuveRecandidautreDéjàTransmise,
+  PièceJustificativeObligatoireError,
+} from './abandon.error';
+import { AccorderOptions } from './accorder/accorderAbandon.option';
+import { AbandonPasséEnInstructionEvent } from './instruire/instruireAbandon.event';
+import { DemanderPreuveRecandidatureOptions } from './demanderPreuveRecandidature/demanderPreuveRecandidature.option';
+import { dateLégaleMaxTransimissionPreuveRecandidature } from './abandon.constant';
 
 export class AbandonAggregate extends AbstractAggregate<AbandonEvent> {
   #lauréat!: LauréatAggregate;
   #statut: StatutAbandon.ValueType = StatutAbandon.inconnu;
   #demande?: {
-    raison: string;
-    pièceJustificative?: DocumentProjet.ValueType;
     recandidature: boolean;
     preuveRecandidature?: IdentifiantProjet.ValueType;
-    preuveRecandidatureDemandéeLe?: DateTime.ValueType;
-    preuveRecandidatureTransmiseLe?: DateTime.ValueType;
-    preuveRecandidatureTransmisePar?: Email.ValueType;
-    demandéLe: DateTime.ValueType;
-    demandéPar: Email.ValueType;
+
     instruction?: {
-      démarréLe: DateTime.ValueType;
       instruitPar: Email.ValueType;
     };
     confirmation?: {
-      réponseSignée: {
-        format: string;
-      };
       demandéLe: DateTime.ValueType;
       confirméLe?: DateTime.ValueType;
     };
   };
   #rejet?: {
     rejetéLe: DateTime.ValueType;
-    réponseSignée: {
-      format: string;
-    };
   };
   #accord?: {
     accordéLe: DateTime.ValueType;
-    réponseSignée: {
-      format: string;
-    };
   };
   #annuléLe?: DateTime.ValueType;
   get statut() {
@@ -99,6 +95,58 @@ export class AbandonAggregate extends AbstractAggregate<AbandonEvent> {
     await this.publish(event);
   }
 
+  async accorder({ dateAccord, identifiantUtilisateur, réponseSignée }: AccorderOptions) {
+    this.statut.vérifierQueLeChangementDeStatutEstPossibleEn(StatutAbandon.accordé);
+
+    const event: AbandonAccordéEvent = {
+      type: 'AbandonAccordé-V1',
+      payload: {
+        identifiantProjet: this.lauréat.projet.identifiantProjet.formatter(),
+        réponseSignée: {
+          format: réponseSignée.format,
+        },
+        accordéLe: dateAccord.formatter(),
+        accordéPar: identifiantUtilisateur.formatter(),
+      },
+    };
+
+    await this.publish(event);
+
+    // TODO: Il faut attendre un peu ici car sinon l'exécution des projecteurs risque se faire en même temps
+    // et générer des projections avec des données erronées
+    // Idéalement il ne faudrait pas avoir des projecteur qui s'exécute en parallèle
+    await new Promise((resolve) => setTimeout(resolve, 100));
+
+    if (this.#demande?.recandidature) {
+      await this.demanderPreuveRecandidature({
+        dateDemande: dateAccord,
+      });
+    }
+  }
+
+  async demanderPreuveRecandidature({ dateDemande }: DemanderPreuveRecandidatureOptions) {
+    if (!this.#demande) {
+      throw new AucunAbandonEnCours();
+    }
+    if (dateDemande.estUltérieureÀ(dateLégaleMaxTransimissionPreuveRecandidature)) {
+      throw new DateLégaleTransmissionPreuveRecandidatureDépasséeError();
+    }
+
+    if (this.#demande?.preuveRecandidature) {
+      throw new DemandePreuveRecandidautreDéjàTransmise();
+    }
+
+    const event: PreuveRecandidatureDemandéeEvent = {
+      type: 'PreuveRecandidatureDemandée-V1',
+      payload: {
+        identifiantProjet: this.lauréat.projet.identifiantProjet.formatter(),
+        demandéeLe: dateDemande.formatter(),
+      },
+    };
+
+    return this.publish(event);
+  }
+
   apply(event: AbandonEvent): void {
     match(event)
       .with({ type: 'AbandonDemandé-V1' }, this.applyAbandonDemandéV1.bind(this))
@@ -106,54 +154,35 @@ export class AbandonAggregate extends AbstractAggregate<AbandonEvent> {
       .with({ type: 'AbandonAccordé-V1' }, this.applyAbandonAccordéV1.bind(this))
       .with({ type: 'AbandonRejeté-V1' }, this.applyAbandonRejetéV1.bind(this))
       .with({ type: 'AbandonAnnulé-V1' }, this.applyAbandonAnnuléV1.bind(this))
+      .with(
+        { type: 'AbandonPasséEnInstruction-V1' },
+        this.applyAbandonPasséEnInstructionV1.bind(this),
+      )
+      .with(
+        { type: 'PreuveRecandidatureDemandée-V1' },
+        this.applyPreuveRecandidatureDemandéeV1.bind(this),
+      )
+      .with(
+        { type: 'PreuveRecandidatureTransmise-V1' },
+        this.applyPreuveRecandidatureTransmiseV1.bind(this),
+      )
       .exhaustive();
   }
 
-  private applyAbandonDemandéV1({
-    payload: {
-      identifiantProjet,
-      demandéLe,
-      demandéPar,
-      raison,
-      pièceJustificative,
-      recandidature,
-    },
-  }: AbandonDemandéEventV1) {
+  private applyAbandonDemandéV1({ payload: { recandidature } }: AbandonDemandéEventV1) {
     this.#statut = StatutAbandon.demandé;
     this.#demande = {
       recandidature,
-      pièceJustificative:
-        pièceJustificative &&
-        DocumentProjet.convertirEnValueType(
-          identifiantProjet,
-          TypeDocumentAbandon.pièceJustificative.formatter(),
-          demandéLe,
-          pièceJustificative?.format,
-        ),
-      raison,
-      demandéLe: DateTime.convertirEnValueType(demandéLe),
-      demandéPar: Email.convertirEnValueType(demandéPar),
     };
     this.#rejet = undefined;
     this.#accord = undefined;
     this.#annuléLe = undefined;
   }
 
-  private applyAbandonDemandéV2({
-    payload: { identifiantProjet, demandéLe, demandéPar, raison, pièceJustificative },
-  }: AbandonDemandéEvent) {
+  private applyAbandonDemandéV2(_: AbandonDemandéEvent) {
     this.#statut = StatutAbandon.demandé;
     this.#demande = {
       recandidature: false,
-      pièceJustificative: DocumentProjet.convertirEnValueType(
-        identifiantProjet,
-        TypeDocumentAbandon.pièceJustificative.formatter(),
-        demandéLe,
-        pièceJustificative?.format,
-      ),
-      raison,
-      demandéLe: DateTime.convertirEnValueType(demandéLe),
-      demandéPar: Email.convertirEnValueType(demandéPar),
     };
     this.#rejet = undefined;
     this.#accord = undefined;
@@ -162,6 +191,12 @@ export class AbandonAggregate extends AbstractAggregate<AbandonEvent> {
 
   private applyAbandonAccordéV1(_event: AbandonAccordéEvent) {
     this.#statut = StatutAbandon.accordé;
+    // this.statut = Lauréat.Abandon.StatutAbandon.accordé;
+    // this.rejet = undefined;
+    // this.accord = {
+    //   accordéLe: DateTime.convertirEnValueType(accordéLe),
+    //   réponseSignée,
+    // };
   }
 
   private applyAbandonRejetéV1(_event: AbandonRejetéEvent) {
@@ -170,5 +205,17 @@ export class AbandonAggregate extends AbstractAggregate<AbandonEvent> {
 
   private applyAbandonAnnuléV1(_event: AbandonAnnuléEvent) {
     this.#statut = StatutAbandon.annulé;
+  }
+  private applyAbandonPasséEnInstructionV1(_event: AbandonPasséEnInstructionEvent) {
+    this.#statut = StatutAbandon.enInstruction;
+  }
+  private applyPreuveRecandidatureDemandéeV1(_event: PreuveRecandidatureDemandéeEvent) {}
+  private applyPreuveRecandidatureTransmiseV1({
+    payload: { preuveRecandidature },
+  }: PreuveRecandidatureTransmiseEvent) {
+    if (this.#demande) {
+      this.#demande.preuveRecandidature =
+        IdentifiantProjet.convertirEnValueType(preuveRecandidature);
+    }
   }
 }

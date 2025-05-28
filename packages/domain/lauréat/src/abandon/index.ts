@@ -1,4 +1,3 @@
-import { AccorderAbandonUseCase } from './accorder/accorderAbandon.usecase';
 import { AnnulerAbandonUseCase } from './annuler/annulerAbandon.usecase';
 import { ConfirmerAbandonUseCase } from './confirmer/confirmerAbandon.usecase';
 import {
@@ -8,7 +7,6 @@ import {
 import { DemanderConfirmationAbandonUseCase } from './demanderConfirmation/demanderConfirmationAbandon.usecase';
 import { ListerAbandonsQuery, ListerAbandonReadModel } from './lister/listerAbandons.query';
 import { RejeterAbandonUseCase } from './rejeter/rejeterAbandon.usecase';
-import { DemanderPreuveRecandidatureAbandonUseCase } from './demanderPreuveRecandidature/demanderPreuveRecandidatureAbandon.usecase';
 import { TransmettrePreuveRecandidatureAbandonUseCase } from './transmettre/transmettrePreuveRecandidatureAbandon.usecase';
 import { ListerAbandonsAvecRecandidatureÀRelancerQuery } from './lister/listerAbandonsAvecRecandidatureÀRelancer.query';
 import { PasserEnInstructionAbandonUseCase } from './instruire/passerAbandonEnInstruction.usecase';
@@ -30,17 +28,14 @@ export type { ConsulterAbandonReadModel, ListerAbandonReadModel };
 
 // UseCases
 export type AbandonUseCase =
-  | AccorderAbandonUseCase
   | AnnulerAbandonUseCase
   | ConfirmerAbandonUseCase
   | DemanderConfirmationAbandonUseCase
   | RejeterAbandonUseCase
   | TransmettrePreuveRecandidatureAbandonUseCase
-  | DemanderPreuveRecandidatureAbandonUseCase
   | PasserEnInstructionAbandonUseCase;
 
 export type {
-  AccorderAbandonUseCase,
   AnnulerAbandonUseCase,
   ConfirmerAbandonUseCase,
   DemanderConfirmationAbandonUseCase,
@@ -52,9 +47,6 @@ export type {
 export type { AbandonEvent } from './abandon.aggregate';
 export type { ConfirmationAbandonDemandéeEvent } from './demanderConfirmation/demanderConfirmationAbandon.behavior';
 export type { AbandonConfirméEvent } from './confirmer/confirmerAbandon.behavior';
-export type { PreuveRecandidatureDemandéeEvent } from './demanderPreuveRecandidature/demanderPreuveRecandidatureAbandon.behavior';
-export type { PreuveRecandidatureTransmiseEvent } from './transmettre/transmettrePreuveRecandidatureAbandon.behavior';
-export type { AbandonPasséEnInstructionEvent } from './instruire/passerAbandonEnInstruction.behavior';
 
 // Register
 export { registerAbandonQueries, registerAbandonUseCases } from './abandon.register';

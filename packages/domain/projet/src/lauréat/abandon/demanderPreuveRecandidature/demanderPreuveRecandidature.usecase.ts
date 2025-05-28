@@ -1,8 +1,10 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
-import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
+import { DateTime } from '@potentiel-domain/common';
 
-import { DemanderPreuveRecandidatureAbandonCommand } from './demanderPreuveRecandidatureAbandon.command';
+import { IdentifiantProjet } from '../../..';
+
+import { DemanderPreuveRecandidatureAbandonCommand } from './demanderPreuveRecandidature.command';
 
 export type DemanderPreuveRecandidatureAbandonUseCase = Message<
   'Lauréat.Abandon.UseCase.DemanderPreuveRecandidatureAbandon',

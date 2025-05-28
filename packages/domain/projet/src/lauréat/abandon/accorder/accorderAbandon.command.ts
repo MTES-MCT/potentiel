@@ -1,39 +1,32 @@
-// Third party
 import { Message, MessageHandler, mediator } from 'mediateur';
 
-// Workspaces
-import { IdentifiantProjet, DateTime } from '@potentiel-domain/common';
-import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
-import { LoadAggregate } from '@potentiel-domain/core';
+import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
 import { DocumentProjet } from '@potentiel-domain/document';
 
-// Package
-import { loadAbandonFactory } from '../abandon.aggregate';
+import { GetProjetAggregateRoot } from '../../..';
 
 export type AccorderAbandonCommand = Message<
   'Lauréat.Abandon.Command.AccorderAbandon',
   {
     dateAccord: DateTime.ValueType;
-    identifiantUtilisateur: IdentifiantUtilisateur.ValueType;
+    identifiantUtilisateur: Email.ValueType;
     identifiantProjet: IdentifiantProjet.ValueType;
     réponseSignée: DocumentProjet.ValueType;
   }
 >;
 
-export const registerAccorderAbandonCommand = (loadAggregate: LoadAggregate) => {
-  const load = loadAbandonFactory(loadAggregate);
+export const registerAccorderAbandonCommand = (getProjetAggregateRoot: GetProjetAggregateRoot) => {
   const handler: MessageHandler<AccorderAbandonCommand> = async ({
     dateAccord,
     identifiantUtilisateur,
     identifiantProjet,
     réponseSignée,
   }) => {
-    const abandon = await load(identifiantProjet);
+    const projet = await getProjetAggregateRoot(identifiantProjet);
 
-    await abandon.accorder({
+    await projet.lauréat.abandon.accorder({
       dateAccord,
       identifiantUtilisateur,
-      identifiantProjet,
       réponseSignée,
     });
   };

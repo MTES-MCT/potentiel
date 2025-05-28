@@ -1,17 +1,8 @@
 import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
-import { DomainEvent, InvalidOperationError } from '@potentiel-domain/core';
+import { InvalidOperationError } from '@potentiel-domain/core';
 import { Lauréat } from '@potentiel-domain/projet';
 
 import { AbandonAggregate } from '../abandon.aggregate';
-
-export type AbandonPasséEnInstructionEvent = DomainEvent<
-  'AbandonPasséEnInstruction-V1',
-  {
-    passéEnInstructionLe: DateTime.RawType;
-    passéEnInstructionPar: Email.RawType;
-    identifiantProjet: IdentifiantProjet.RawType;
-  }
->;
 
 export type InstruireOptions = {
   dateInstruction: DateTime.ValueType;
@@ -31,7 +22,7 @@ export async function passerEnInstruction(
     throw new AbandonDéjàEnInstructionAvecLeMêmeAdministrateurError();
   }
 
-  const event: AbandonPasséEnInstructionEvent = {
+  const event: Lauréat.Abandon.AbandonPasséEnInstructionEvent = {
     type: 'AbandonPasséEnInstruction-V1',
     payload: {
       identifiantProjet: identifiantProjet.formatter(),
@@ -45,7 +36,9 @@ export async function passerEnInstruction(
 
 export function applyAbandonPasséEnInstruction(
   this: AbandonAggregate,
-  { payload: { passéEnInstructionLe, passéEnInstructionPar } }: AbandonPasséEnInstructionEvent,
+  {
+    payload: { passéEnInstructionLe, passéEnInstructionPar },
+  }: Lauréat.Abandon.AbandonPasséEnInstructionEvent,
 ) {
   this.statut = Lauréat.Abandon.StatutAbandon.enInstruction;
   this.demande.instruction = {
