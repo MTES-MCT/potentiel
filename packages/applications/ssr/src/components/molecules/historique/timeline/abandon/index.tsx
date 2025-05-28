@@ -1,7 +1,7 @@
 import { match, P } from 'ts-pattern';
 
 import { HistoryRecord } from '@potentiel-domain/entity';
-import { Abandon } from '@potentiel-domain/laureat';
+import { Lauréat } from '@potentiel-domain/projet';
 
 import { TimelineItemProps } from '@/components/organisms/Timeline';
 
@@ -17,8 +17,8 @@ import { mapToAbandonPasséEnInstructionTimelineItemProps } from './mapToAbandon
 
 export type AbandonHistoryRecord = HistoryRecord<
   'abandon',
-  Abandon.AbandonEvent['type'],
-  Abandon.AbandonEvent['payload']
+  Lauréat.Abandon.AbandonEvent['type'],
+  Lauréat.Abandon.AbandonEvent['payload']
 >;
 
 export const mapToAbandonTimelineItemProps = (record: AbandonHistoryRecord) =>

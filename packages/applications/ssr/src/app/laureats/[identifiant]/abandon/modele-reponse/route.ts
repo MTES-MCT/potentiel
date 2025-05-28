@@ -1,7 +1,6 @@
 import { mediator } from 'mediateur';
 import { notFound } from 'next/navigation';
 
-import { Abandon } from '@potentiel-domain/laureat';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import {
@@ -30,7 +29,7 @@ export const GET = async (_: Request, { params: { identifiant } }: IdentifiantPa
       const { lauréat, puissance, représentantLégal } = await getLauréat({ identifiantProjet });
       const candidature = await getCandidature(identifiantProjet);
 
-      const abandon = await mediator.send<Abandon.ConsulterAbandonQuery>({
+      const abandon = await mediator.send<Lauréat.Abandon.ConsulterAbandonQuery>({
         type: 'Lauréat.Abandon.Query.ConsulterAbandon',
         data: {
           identifiantProjetValue: identifiantProjet,

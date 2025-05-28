@@ -2,13 +2,13 @@ import Link from 'next/link';
 
 import { Routes } from '@potentiel-applications/routes';
 import { Historique } from '@potentiel-domain/historique';
-import { Abandon } from '@potentiel-domain/laureat';
+import { Lauréat } from '@potentiel-domain/projet';
 
 export const mapToPreuveRecandidatureTransmiseTimelineItemProps = (
   preuveRecandidatureTransmise: Historique.ListerHistoriqueProjetReadModel['items'][number],
 ) => {
   const { preuveRecandidature, transmiseLe, transmisePar } =
-    preuveRecandidatureTransmise.payload as Abandon.PreuveRecandidatureTransmiseEvent['payload'];
+    preuveRecandidatureTransmise.payload as Lauréat.Abandon.PreuveRecandidatureTransmiseEvent['payload'];
 
   return {
     date: transmiseLe,

@@ -3,11 +3,7 @@ import { Command } from '@oclif/core';
 import z from 'zod';
 
 import { DateTime } from '@potentiel-domain/common';
-import {
-  AbandonBen,
-  registerLauréatQueries,
-  registerLauréatUseCases,
-} from '@potentiel-domain/laureat';
+import { registerLauréatQueries, registerLauréatUseCases } from '@potentiel-domain/laureat';
 import {
   AppelOffreAdapter,
   DocumentAdapter,
@@ -20,7 +16,7 @@ import {
   listProjection,
 } from '@potentiel-infrastructure/pg-projection-read';
 import { getLogger } from '@potentiel-libraries/monitoring';
-import { ProjetAggregateRoot } from '@potentiel-domain/projet';
+import { Lauréat, ProjetAggregateRoot } from '@potentiel-domain/projet';
 import { killPool } from '@potentiel-libraries/pg-helpers';
 
 const envSchema = z.object({
@@ -59,7 +55,7 @@ export class Relancer extends Command {
 
   async run() {
     const abandonsÀRelancer =
-      await mediator.send<AbandonBen.ListerAbandonsAvecRecandidatureÀRelancerQuery>({
+      await mediator.send<Lauréat.Abandon.ListerAbandonsAvecRecandidatureÀRelancerQuery>({
         type: 'Lauréat.Abandon.Query.ListerAbandonsAvecRecandidatureÀRelancer',
         data: {},
       });
@@ -68,7 +64,7 @@ export class Relancer extends Command {
     let errors = 0;
     for (const { identifiantProjet } of abandonsÀRelancer.résultats) {
       try {
-        await mediator.send<AbandonBen.AbandonUseCase>({
+        await mediator.send<Lauréat.Abandon.AbandonUseCase>({
           type: 'Lauréat.Abandon.UseCase.DemanderPreuveRecandidatureAbandon',
           data: {
             dateDemandeValue: DateTime.now().formatter(),

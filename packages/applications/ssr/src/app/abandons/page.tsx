@@ -3,7 +3,6 @@ import type { Metadata } from 'next';
 import { z } from 'zod';
 
 import { AppelOffre } from '@potentiel-domain/appel-offre';
-import { Abandon } from '@potentiel-domain/laureat';
 import { Lauréat } from '@potentiel-domain/projet';
 
 import {
@@ -13,7 +12,6 @@ import {
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 import { mapToPagination, mapToRangeOptions } from '@/utils/pagination';
-import { getRégionUtilisateur } from '@/utils/getRégionUtilisateur';
 import { ListFilterItem } from '@/components/molecules/ListFilters';
 
 type PageProps = {
@@ -34,7 +32,7 @@ const paramsSchema = z.object({
   nomProjet: z.string().optional(),
   appelOffre: z.string().optional(),
   statut: z.enum(Lauréat.Abandon.StatutAbandon.statuts).optional(),
-  preuveRecandidatureStatut: z.enum(Abandon.StatutPreuveRecandidature.statuts).optional(),
+  preuveRecandidatureStatut: z.enum(Lauréat.Abandon.StatutPreuveRecandidature.statuts).optional(),
 });
 
 type SearchParams = keyof z.infer<typeof paramsSchema>;
@@ -45,16 +43,10 @@ export default async function Page({ searchParams }: PageProps) {
       const { page, recandidature, nomProjet, appelOffre, statut, preuveRecandidatureStatut } =
         paramsSchema.parse(searchParams);
 
-      const régionDreal = await getRégionUtilisateur(utilisateur);
-
-      const abandons = await mediator.send<Abandon.ListerAbandonsQuery>({
+      const abandons = await mediator.send<Lauréat.Abandon.ListerAbandonsQuery>({
         type: 'Lauréat.Abandon.Query.ListerAbandons',
         data: {
-          utilisateur: {
-            identifiantUtilisateur: utilisateur.identifiantUtilisateur.email,
-            rôle: utilisateur.role.nom,
-            régionDreal,
-          },
+          utilisateur: utilisateur.identifiantUtilisateur.email,
           range: mapToRangeOptions({
             currentPage: page,
             itemsPerPage: 10,
@@ -109,7 +101,7 @@ export default async function Page({ searchParams }: PageProps) {
         {
           label: 'Preuve de recandidature',
           searchParamKey: 'preuveRecandidatureStatut',
-          options: Abandon.StatutPreuveRecandidature.statuts
+          options: Lauréat.Abandon.StatutPreuveRecandidature.statuts
             .filter((s) => s !== 'non-applicable')
             .map((statut) => ({
               label: statut.replace('-', ' ').toLocaleLowerCase(),
@@ -124,7 +116,7 @@ export default async function Page({ searchParams }: PageProps) {
 }
 
 const mapToListProps = (
-  readModel: Abandon.ListerAbandonReadModel,
+  readModel: Lauréat.Abandon.ListerAbandonReadModel,
 ): AbandonListPageProps['list'] => {
   const items = readModel.items.map(
     ({

@@ -3,7 +3,6 @@ import { match } from 'ts-pattern';
 import { Routes } from '@potentiel-applications/routes';
 import { DocumentProjet } from '@potentiel-domain/document';
 import { Historique } from '@potentiel-domain/historique';
-import { Abandon } from '@potentiel-domain/laureat';
 import { Lauréat } from '@potentiel-domain/projet';
 import { DateTime } from '@potentiel-domain/common';
 
@@ -51,7 +50,7 @@ export const mapToAbandonDemandéTimelineItemProps = (
             url={Routes.Document.télécharger(
               DocumentProjet.convertirEnValueType(
                 identifiantProjet,
-                Abandon.TypeDocumentAbandon.pièceJustificative.formatter(),
+                Lauréat.Abandon.TypeDocumentAbandon.pièceJustificative.formatter(),
                 demandéLe,
                 pièceJustificative.format,
               ).formatter(),

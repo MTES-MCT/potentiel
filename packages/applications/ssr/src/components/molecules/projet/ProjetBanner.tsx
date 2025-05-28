@@ -9,7 +9,6 @@ import { Candidature, IdentifiantProjet, Lauréat } from '@potentiel-domain/proj
 import { Option } from '@potentiel-libraries/monads';
 import { DateTime, StatutProjet } from '@potentiel-domain/common';
 import { Role } from '@potentiel-domain/utilisateur';
-import { Abandon } from '@potentiel-domain/laureat';
 
 import { StatutProjetBadge } from '@/components/molecules/projet/StatutProjetBadge';
 import { withUtilisateur } from '@/utils/withUtilisateur';
@@ -63,7 +62,7 @@ const getProjet = async (
   });
 
   if (Option.isSome(lauréat)) {
-    const abandon = await mediator.send<Abandon.ConsulterAbandonQuery>({
+    const abandon = await mediator.send<Lauréat.Abandon.ConsulterAbandonQuery>({
       type: 'Lauréat.Abandon.Query.ConsulterAbandon',
       data: {
         identifiantProjetValue: identifiantProjet,
