@@ -1,10 +1,9 @@
-import { DateTime } from '@potentiel-domain/common';
+import { DateTime, Email } from '@potentiel-domain/common';
 import { DocumentProjet } from '@potentiel-domain/document';
-import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
 
 export type DemanderOptions = {
   dateDemande: DateTime.ValueType;
-  identifiantUtilisateur: IdentifiantUtilisateur.ValueType;
+  identifiantUtilisateur: Email.ValueType;
   pièceJustificative: DocumentProjet.ValueType;
   raison: string;
 };

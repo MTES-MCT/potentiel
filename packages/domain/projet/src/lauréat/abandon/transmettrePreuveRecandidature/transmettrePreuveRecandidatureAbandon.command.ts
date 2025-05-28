@@ -1,16 +1,15 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
-import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
-import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
+import { DateTime, Email } from '@potentiel-domain/common';
 
-import { GetProjetAggregateRoot } from '../../..';
+import { GetProjetAggregateRoot, IdentifiantProjet } from '../../..';
 
 export type TransmettrePreuveRecandidatureCommand = Message<
   'Lauréat.Abandon.Command.TransmettrePreuveRecandidatureAbandon',
   {
     identifiantProjet: IdentifiantProjet.ValueType;
     preuveRecandidature: IdentifiantProjet.ValueType;
-    identifiantUtilisateur: IdentifiantUtilisateur.ValueType;
+    identifiantUtilisateur: Email.ValueType;
     dateTransmissionPreuveRecandidature: DateTime.ValueType;
   }
 >;

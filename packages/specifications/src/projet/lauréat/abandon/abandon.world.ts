@@ -1,6 +1,6 @@
-import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
+import { DateTime, Email } from '@potentiel-domain/common';
 import { DocumentProjet } from '@potentiel-domain/document';
-import { Lauréat } from '@potentiel-domain/projet';
+import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 
 import { AccorderAbandonFixture } from './fixtures/accorderAbandon.fixture';
 import { AnnulerAbandonFixture } from './fixtures/annulerAbandon.fixture';

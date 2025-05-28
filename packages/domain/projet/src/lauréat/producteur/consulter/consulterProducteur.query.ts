@@ -2,9 +2,9 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { Option } from '@potentiel-libraries/monads';
 import { Find } from '@potentiel-domain/entity';
-import { IdentifiantProjet } from '@potentiel-domain/common';
 
 import { ProducteurEntity } from '..';
+import { IdentifiantProjet } from '../../..';
 
 export type ConsulterProducteurReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
