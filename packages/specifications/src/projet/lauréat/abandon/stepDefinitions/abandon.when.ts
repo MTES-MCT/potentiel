@@ -43,7 +43,7 @@ Quand(`le porteur annule l'abandon pour le projet lauréat`, async function (thi
       annuléePar: this.utilisateurWorld.porteurFixture.email,
     });
 
-    await mediator.send<AbandonBen.AbandonUseCase>({
+    await mediator.send<Lauréat.Abandon.AnnulerAbandonUseCase>({
       type: 'Lauréat.Abandon.UseCase.AnnulerAbandon',
       data: {
         identifiantProjetValue: identifiantProjet,

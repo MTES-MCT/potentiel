@@ -41,6 +41,7 @@ import { TransmettrePreuveRecandidatureOptions } from './transmettrePreuveRecand
 import { DemanderConfirmationOptions } from './demanderConfirmation/demanderConfirmation.option';
 import { ConfirmerOptions } from './confirmer/confirmerAbandon.option';
 import { InstruireOptions } from './instruire/instruireAbandon.option';
+import { AnnulerOptions } from './annuler/annulerAbandon.option';
 
 export class AbandonAggregate extends AbstractAggregate<AbandonEvent> {
   #lauréat!: LauréatAggregate;
@@ -264,6 +265,21 @@ export class AbandonAggregate extends AbstractAggregate<AbandonEvent> {
         identifiantProjet: this.lauréat.projet.identifiantProjet.formatter(),
         passéEnInstructionLe: dateInstruction.formatter(),
         passéEnInstructionPar: identifiantUtilisateur.formatter(),
+      },
+    };
+
+    await this.publish(event);
+  }
+
+  async annuler({ dateAnnulation, identifiantUtilisateur }: AnnulerOptions) {
+    this.statut.vérifierQueLeChangementDeStatutEstPossibleEn(Lauréat.Abandon.StatutAbandon.annulé);
+
+    const event: Lauréat.Abandon.AbandonAnnuléEvent = {
+      type: 'AbandonAnnulé-V1',
+      payload: {
+        identifiantProjet: this.lauréat.projet.identifiantProjet.formatter(),
+        annuléLe: dateAnnulation.formatter(),
+        annuléPar: identifiantUtilisateur.formatter(),
       },
     };
 

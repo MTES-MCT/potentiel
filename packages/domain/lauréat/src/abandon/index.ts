@@ -1,4 +1,3 @@
-import { AnnulerAbandonUseCase } from './annuler/annulerAbandon.usecase';
 import {
   ConsulterAbandonQuery,
   ConsulterAbandonReadModel,
@@ -23,9 +22,9 @@ export type {
 export type { ConsulterAbandonReadModel, ListerAbandonReadModel };
 
 // UseCases
-export type AbandonUseCase = AnnulerAbandonUseCase | RejeterAbandonUseCase;
+export type AbandonUseCase = RejeterAbandonUseCase;
 
-export type { AnnulerAbandonUseCase, RejeterAbandonUseCase };
+export type { RejeterAbandonUseCase };
 
 // Register
 export { registerAbandonQueries, registerAbandonUseCases } from './abandon.register';

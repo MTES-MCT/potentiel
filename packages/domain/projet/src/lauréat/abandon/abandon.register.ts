@@ -2,6 +2,8 @@ import { GetProjetAggregateRoot } from '../..';
 
 import { registerAccorderAbandonCommand } from './accorder/accorderAbandon.command';
 import { registerAccorderAbandonUseCase } from './accorder/accorderAbandon.usecase';
+import { registerAnnulerAbandonCommand } from './annuler/annulerAbandon.command';
+import { registerAnnulerAbandonUseCase } from './annuler/annulerAbandon.usecase';
 import { registerConfirmerAbandonCommand } from './confirmer/confirmerAbandon.command';
 import { registerConfirmerAbandonUseCase } from './confirmer/confirmerAbandon.usecase';
 import { registerDemanderAbandonCommand } from './demander/demanderAbandon.command';
@@ -45,6 +47,9 @@ export const registerAbandonUseCases = ({ getProjetAggregateRoot }: AbandonComma
 
   registerPasserAbandonEnInstructionCommand(getProjetAggregateRoot);
   registerPasserEnInstructionAbandonUseCase();
+
+  registerAnnulerAbandonCommand(getProjetAggregateRoot);
+  registerAnnulerAbandonUseCase();
 };
 
 export const registerAbandonQueries = (_dependencies: AbandonQueryDependencies) => {};

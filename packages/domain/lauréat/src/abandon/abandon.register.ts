@@ -1,8 +1,6 @@
 import { LoadAggregate } from '@potentiel-domain/core';
 import { GetProjetAggregateRoot } from '@potentiel-domain/projet';
 
-import { registerAnnulerAbandonCommand } from './annuler/annulerAbandon.command';
-import { registerAnnulerAbandonUseCase } from './annuler/annulerAbandon.usecase';
 import {
   ConsulterAbandonDependencies,
   registerConsulterAbandonQuery,
@@ -29,10 +27,7 @@ export type AbandonCommandDependencies = {
 
 export const registerAbandonUseCases = ({ loadAggregate }: AbandonCommandDependencies) => {
   registerRejeterAbandonCommand(loadAggregate);
-  registerAnnulerAbandonCommand(loadAggregate);
-
   registerRejeterAbandonUseCase();
-  registerAnnulerAbandonUseCase();
 };
 
 export const registerAbandonQueries = (dependencies: AbandonQueryDependencies) => {
