@@ -4,6 +4,7 @@ Fonctionnalité: Supprimer la demande de changement de représentant légal
     Contexte:
         Etant donné le projet lauréat "Du boulodrome de Marseille"
         Et la dreal "Dreal du sud-ouest" associée à la région du projet
+        Et un cahier des charges modificatif choisi
 
     Scénario: Le système supprime la demande de changement de représentant légal ainsi que la tâche planifiée d'instruction automatique d'un projet si celui-ci est abandonné
         Etant donné une demande de changement de représentant légal en cours pour le projet lauréat

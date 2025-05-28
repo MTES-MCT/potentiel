@@ -1,10 +1,10 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
-import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
+import { DateTime, Email } from '@potentiel-domain/common';
 import { DocumentProjet } from '@potentiel-domain/document';
 import { Role } from '@potentiel-domain/utilisateur';
 
-import { GetProjetAggregateRoot } from '../../../..';
+import { GetProjetAggregateRoot, IdentifiantProjet } from '../../../..';
 
 export type RejeterChangementPuissanceCommand = Message<
   'Lauréat.Puissance.Command.RejeterDemandeChangement',

@@ -2,9 +2,9 @@ import { FC } from 'react';
 import Alert from '@codegouvfr/react-dsfr/Alert';
 
 import { PlainType } from '@potentiel-domain/core';
-import { Abandon } from '@potentiel-domain/laureat';
 import { DateTime, Email } from '@potentiel-domain/common';
 import { Historique } from '@potentiel-domain/historique';
+import { Lauréat } from '@potentiel-domain/projet';
 
 import { StatutAbandonBadge } from '@/components/pages/abandon/StatutAbandonBadge';
 import { ProjetBanner } from '@/components/molecules/projet/ProjetBanner';
@@ -44,7 +44,7 @@ type AvailableInformation = 'demande-de-mainlevée' | 'demande-abandon-pour-reca
 
 export type DétailsAbandonPageProps = {
   identifiantProjet: string;
-  abandon: PlainType<Abandon.ConsulterAbandonReadModel>;
+  abandon: PlainType<Lauréat.Abandon.ConsulterAbandonReadModel>;
   projetsÀSélectionner: TransmettrePreuveRecandidatureFormProps['projetsÀSélectionner'];
   informations: Array<AvailableInformation>;
   historique: PlainType<Historique.ListerHistoriqueProjetReadModel<AbandonHistoryRecord>>;

@@ -1,8 +1,8 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
-import { IdentifiantProjet, DateTime, Email } from '@potentiel-domain/common';
+import { DateTime, Email } from '@potentiel-domain/common';
 
-import { GetProjetAggregateRoot } from '../../..';
+import { GetProjetAggregateRoot, IdentifiantProjet } from '../../..';
 
 export type ModifierPuissanceCommand = Message<
   'Lauréat.Puissance.Command.ModifierPuissance',

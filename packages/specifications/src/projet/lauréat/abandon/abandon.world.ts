@@ -1,7 +1,6 @@
-import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
+import { DateTime, Email } from '@potentiel-domain/common';
 import { DocumentProjet } from '@potentiel-domain/document';
-import { Abandon } from '@potentiel-domain/laureat';
-import { Lauréat } from '@potentiel-domain/projet';
+import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 
 import { AccorderAbandonFixture } from './fixtures/accorderAbandon.fixture';
 import { AnnulerAbandonFixture } from './fixtures/annulerAbandon.fixture';
@@ -96,12 +95,12 @@ export class AbandonWord {
   mapToExpected(
     identifiantProjet: IdentifiantProjet.ValueType,
     statut: Lauréat.Abandon.StatutAbandon.ValueType,
-  ): Abandon.ConsulterAbandonReadModel {
+  ): Lauréat.Abandon.ConsulterAbandonReadModel {
     if (!this.#demanderAbandonFixture.aÉtéCréé) {
       throw new Error(`Aucune demande d'abandon n'a été créée dans AbandonWorld`);
     }
 
-    const expected: Abandon.ConsulterAbandonReadModel = {
+    const expected: Lauréat.Abandon.ConsulterAbandonReadModel = {
       statut,
       identifiantProjet,
       demande: {
@@ -111,7 +110,7 @@ export class AbandonWord {
         raison: this.#demanderAbandonFixture.raison,
         recandidature: this.#demanderAbandonFixture.recandidature
           ? {
-              statut: Abandon.StatutPreuveRecandidature.enAttente,
+              statut: Lauréat.Abandon.StatutPreuveRecandidature.enAttente,
             }
           : undefined,
       },
@@ -128,7 +127,7 @@ export class AbandonWord {
     if (this.#demanderAbandonFixture.pièceJustificative) {
       expected.demande.pièceJustificative = DocumentProjet.convertirEnValueType(
         identifiantProjet.formatter(),
-        Abandon.TypeDocumentAbandon.pièceJustificative.formatter(),
+        Lauréat.Abandon.TypeDocumentAbandon.pièceJustificative.formatter(),
         this.#demanderAbandonFixture.demandéLe,
         this.#demanderAbandonFixture.pièceJustificative.format,
       );
@@ -144,7 +143,7 @@ export class AbandonWord {
         ),
         réponseSignée: DocumentProjet.convertirEnValueType(
           identifiantProjet.formatter(),
-          Abandon.TypeDocumentAbandon.abandonÀConfirmer.formatter(),
+          Lauréat.Abandon.TypeDocumentAbandon.abandonÀConfirmer.formatter(),
           this.#demanderConfirmationAbandonFixture.confirmationDemandéeLe,
           this.#demanderConfirmationAbandonFixture.réponseSignée.format,
         ),
@@ -179,7 +178,7 @@ export class AbandonWord {
         accordéPar: Email.convertirEnValueType(this.#accorderAbandonFixture.accordéePar),
         réponseSignée: DocumentProjet.convertirEnValueType(
           identifiantProjet.formatter(),
-          Abandon.TypeDocumentAbandon.abandonAccordé.formatter(),
+          Lauréat.Abandon.TypeDocumentAbandon.abandonAccordé.formatter(),
           this.#accorderAbandonFixture.accordéeLe,
           this.#accorderAbandonFixture.réponseSignée.format,
         ),
@@ -190,7 +189,7 @@ export class AbandonWord {
       expected.demande.recandidature?.preuve &&
       this.#transmettrePreuveRecandidatureAbandonFixture.aÉtéCréé
     ) {
-      expected.demande.recandidature.statut = Abandon.StatutPreuveRecandidature.transmis;
+      expected.demande.recandidature.statut = Lauréat.Abandon.StatutPreuveRecandidature.transmis;
       expected.demande.recandidature.preuve.transmiseLe = DateTime.convertirEnValueType(
         this.#transmettrePreuveRecandidatureAbandonFixture.transmiseLe,
       );
@@ -210,7 +209,7 @@ export class AbandonWord {
         rejetéPar: Email.convertirEnValueType(this.#rejeterAbandonFixture.rejetéePar),
         réponseSignée: DocumentProjet.convertirEnValueType(
           identifiantProjet.formatter(),
-          Abandon.TypeDocumentAbandon.abandonRejeté.formatter(),
+          Lauréat.Abandon.TypeDocumentAbandon.abandonRejeté.formatter(),
           this.#rejeterAbandonFixture.rejetéeLe,
           this.#rejeterAbandonFixture.réponseSignée.format,
         ),

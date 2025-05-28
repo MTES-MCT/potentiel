@@ -2,7 +2,6 @@ import { mediator } from 'mediateur';
 import type { Metadata, ResolvingMetadata } from 'next';
 import { notFound } from 'next/navigation';
 
-import { Abandon } from '@potentiel-domain/laureat';
 import { Role, Utilisateur } from '@potentiel-domain/utilisateur';
 import { Option } from '@potentiel-libraries/monads';
 import { mapToPlainObject } from '@potentiel-domain/core';
@@ -50,7 +49,7 @@ export default async function Page({ params: { identifiant } }: PageProps) {
     withUtilisateur(async (utilisateur) => {
       const identifiantProjet = decodeParameter(identifiant);
 
-      const abandon = await mediator.send<Abandon.ConsulterAbandonQuery>({
+      const abandon = await mediator.send<Lauréat.Abandon.ConsulterAbandonQuery>({
         type: 'Lauréat.Abandon.Query.ConsulterAbandon',
         data: {
           identifiantProjetValue: identifiantProjet,
@@ -76,7 +75,9 @@ export default async function Page({ params: { identifiant } }: PageProps) {
         utilisateur.role.estÉgaleÀ(Role.porteur) &&
         abandon.demande.accord &&
         abandon.demande.estUneRecandidature &&
-        abandon.demande.recandidature?.statut.estÉgaleÀ(Abandon.StatutPreuveRecandidature.enAttente)
+        abandon.demande.recandidature?.statut.estÉgaleÀ(
+          Lauréat.Abandon.StatutPreuveRecandidature.enAttente,
+        )
       );
 
       if (transmissionPreuveRecandidaturePossible) {

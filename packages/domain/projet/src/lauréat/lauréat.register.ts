@@ -29,6 +29,7 @@ import {
   registerPuissanceQueries,
   registerPuissanceUseCases,
 } from './puissance/puissance.register';
+import { registerAbandonQueries, registerAbandonUseCases } from './abandon/abandon.register';
 
 export type LauréatQueryDependencies = ConsulterLauréatDependencies &
   ConsulterCahierDesChargesChoisiDependencies &
@@ -53,6 +54,7 @@ export const registerLauréatUseCases = (dependencies: LauréatCommandDependenci
   registerProducteurUseCases(dependencies);
   registerAchèvementUseCases(dependencies);
   registerPuissanceUseCases(dependencies);
+  registerAbandonUseCases(dependencies);
 };
 
 export const registerLauréatQueries = (dependencies: LauréatQueryDependencies) => {
@@ -63,4 +65,5 @@ export const registerLauréatQueries = (dependencies: LauréatQueryDependencies)
   registerProducteurQueries(dependencies);
   registerAchèvementQueries(dependencies);
   registerPuissanceQueries(dependencies);
+  registerAbandonQueries(dependencies);
 };

@@ -1,9 +1,9 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
-import { IdentifiantProjet, DateTime, Email } from '@potentiel-domain/common';
+import { DateTime, Email } from '@potentiel-domain/common';
 import { DocumentProjet } from '@potentiel-domain/document';
 
-import { GetProjetAggregateRoot } from '../../../..';
+import { GetProjetAggregateRoot, IdentifiantProjet } from '../../../..';
 
 export type EnregistrerChangementPuissanceCommand = Message<
   'Lauréat.Puissance.Command.EnregistrerChangement',

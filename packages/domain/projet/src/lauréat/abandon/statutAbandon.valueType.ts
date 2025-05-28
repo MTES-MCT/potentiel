@@ -1,5 +1,7 @@
 import { InvalidOperationError, ReadonlyValueType } from '@potentiel-domain/core';
 
+import { AucunAbandonEnCours } from './abandon.error';
+
 export const statuts = [
   'accordé',
   'annulé',
@@ -71,6 +73,9 @@ export const convertirEnValueType = (value: string): ValueType => {
       return this.statut === valueType.statut;
     },
     vérifierQueLeChangementDeStatutEstPossibleEn(nouveauStatut: ValueType) {
+      if (this.estÉgaleÀ(inconnu) && !nouveauStatut.estDemandé()) {
+        throw new AucunAbandonEnCours();
+      }
       if (nouveauStatut.estAccordé()) {
         if (this.estAccordé()) {
           throw new AbandonDéjàAccordéError();

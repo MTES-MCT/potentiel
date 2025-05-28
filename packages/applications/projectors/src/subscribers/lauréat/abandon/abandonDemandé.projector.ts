@@ -1,7 +1,6 @@
 import { match } from 'ts-pattern';
 
 import { Lauréat } from '@potentiel-domain/projet';
-import { Abandon } from '@potentiel-domain/laureat';
 import { upsertProjection } from '@potentiel-infrastructure/pg-projection-write';
 
 export const abandonDemandéProjector = async (
@@ -15,7 +14,7 @@ export const abandonDemandéProjector = async (
     .with({ type: 'AbandonDemandé-V1' }, (event) => event.payload.recandidature)
     .otherwise(() => false);
 
-  await upsertProjection<Abandon.AbandonEntity>(`abandon|${identifiantProjet}`, {
+  await upsertProjection<Lauréat.Abandon.AbandonEntity>(`abandon|${identifiantProjet}`, {
     identifiantProjet,
     demande: {
       pièceJustificative: event.payload.pièceJustificative,
@@ -25,7 +24,7 @@ export const abandonDemandéProjector = async (
       estUneRecandidature,
       recandidature: estUneRecandidature
         ? {
-            statut: Abandon.StatutPreuveRecandidature.enAttente.statut,
+            statut: Lauréat.Abandon.StatutPreuveRecandidature.enAttente.statut,
           }
         : undefined,
     },

@@ -2,7 +2,6 @@ import { mediator } from 'mediateur';
 import { notFound } from 'next/navigation';
 
 import { Option } from '@potentiel-libraries/monads';
-import { Abandon } from '@potentiel-domain/laureat';
 import { Lauréat } from '@potentiel-domain/projet';
 
 export const récupérerLauréat = async (identifiantProjet: string) => {
@@ -22,7 +21,7 @@ export const récupérerLauréat = async (identifiantProjet: string) => {
 
 export const récupérerLauréatNonAbandonné = async (identifiantProjet: string) => {
   const projet = await récupérerLauréat(identifiantProjet);
-  const abandon = await mediator.send<Abandon.ConsulterAbandonQuery>({
+  const abandon = await mediator.send<Lauréat.Abandon.ConsulterAbandonQuery>({
     type: 'Lauréat.Abandon.Query.ConsulterAbandon',
     data: {
       identifiantProjetValue: identifiantProjet,

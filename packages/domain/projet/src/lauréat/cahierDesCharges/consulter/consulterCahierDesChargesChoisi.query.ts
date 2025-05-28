@@ -1,11 +1,11 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { Option } from '@potentiel-libraries/monads';
-import { IdentifiantProjet } from '@potentiel-domain/common';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { Find } from '@potentiel-domain/entity';
 
 import { LauréatEntity } from '../../lauréat.entity';
+import { IdentifiantProjet } from '../../..';
 
 export type ConsulterCahierDesChargesChoisiReadModel =
   | AppelOffre.CahierDesChargesModifié

@@ -1,11 +1,11 @@
 import { Historique } from '@potentiel-domain/historique';
-import { Abandon } from '@potentiel-domain/laureat';
+import { Lauréat } from '@potentiel-domain/projet';
 
 export const mapToPreuveRecandidatureDemandéeTimelineItemProps = (
   preuveRecandidatureDemandée: Historique.ListerHistoriqueProjetReadModel['items'][number],
 ) => {
   const { demandéeLe } =
-    preuveRecandidatureDemandée.payload as Abandon.PreuveRecandidatureDemandéeEvent['payload'];
+    preuveRecandidatureDemandée.payload as Lauréat.Abandon.PreuveRecandidatureDemandéeEvent['payload'];
 
   return {
     date: demandéeLe,

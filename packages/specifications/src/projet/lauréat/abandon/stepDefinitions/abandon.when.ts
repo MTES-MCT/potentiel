@@ -1,7 +1,7 @@
 import { When as Quand } from '@cucumber/cucumber';
 import { mediator } from 'mediateur';
 
-import { Abandon } from '@potentiel-domain/laureat';
+import { Lauréat } from '@potentiel-domain/projet';
 
 import { PotentielWorld } from '../../../../potentiel.world';
 
@@ -16,7 +16,7 @@ Quand(/le porteur demande l'abandon pour le projet lauréat/, async function (th
       });
 
     if (pièceJustificative) {
-      await mediator.send<Abandon.AbandonUseCase>({
+      await mediator.send<Lauréat.Abandon.DemanderAbandonUseCase>({
         type: 'Lauréat.Abandon.UseCase.DemanderAbandon',
         data: {
           identifiantProjetValue: identifiantProjet,
@@ -42,7 +42,7 @@ Quand(`le porteur annule l'abandon pour le projet lauréat`, async function (thi
       annuléePar: this.utilisateurWorld.porteurFixture.email,
     });
 
-    await mediator.send<Abandon.AbandonUseCase>({
+    await mediator.send<Lauréat.Abandon.AnnulerAbandonUseCase>({
       type: 'Lauréat.Abandon.UseCase.AnnulerAbandon',
       data: {
         identifiantProjetValue: identifiantProjet,
@@ -66,7 +66,7 @@ Quand(
           rejetéePar: this.utilisateurWorld.validateurFixture.email,
         });
 
-      await mediator.send<Abandon.AbandonUseCase>({
+      await mediator.send<Lauréat.Abandon.RejeterAbandonUseCase>({
         type: 'Lauréat.Abandon.UseCase.RejeterAbandon',
         data: {
           identifiantProjetValue: identifiantProjet,
@@ -96,7 +96,7 @@ Quand(
         });
       }
 
-      await mediator.send<Abandon.AccorderAbandonUseCase>({
+      await mediator.send<Lauréat.Abandon.AccorderAbandonUseCase>({
         type: 'Lauréat.Abandon.UseCase.AccorderAbandon',
         data: {
           identifiantProjetValue: identifiantProjet,
@@ -120,7 +120,7 @@ Quand(
       const { confirmationDemandéeLe, confirmationDemandéePar, réponseSignée } =
         this.lauréatWorld.abandonWorld.demanderConfirmationAbandonFixture.créer();
 
-      await mediator.send<Abandon.AbandonUseCase>({
+      await mediator.send<Lauréat.Abandon.DemanderConfirmationAbandonUseCase>({
         type: 'Lauréat.Abandon.UseCase.DemanderConfirmationAbandon',
         data: {
           identifiantProjetValue: identifiantProjet,
@@ -146,7 +146,7 @@ Quand(
           confirméePar: this.utilisateurWorld.porteurFixture.email,
         });
 
-      await mediator.send<Abandon.AbandonUseCase>({
+      await mediator.send<Lauréat.Abandon.ConfirmerAbandonUseCase>({
         type: 'Lauréat.Abandon.UseCase.ConfirmerAbandon',
         data: {
           identifiantProjetValue: identifiantProjet,
@@ -176,7 +176,7 @@ Quand(
           passéEnInstructionPar: this.utilisateurWorld.adminFixture.email,
         });
 
-      await mediator.send<Abandon.AbandonUseCase>({
+      await mediator.send<Lauréat.Abandon.PasserEnInstructionAbandonUseCase>({
         type: 'Lauréat.Abandon.UseCase.PasserAbandonEnInstruction',
         data: {
           identifiantProjetValue: identifiantProjet,
@@ -211,7 +211,7 @@ Quand(
           preuveRecandidature: identifiantProjetPreuveRecandidature.formatter(),
         });
 
-      await mediator.send<Abandon.AbandonUseCase>({
+      await mediator.send<Lauréat.Abandon.TransmettrePreuveRecandidatureAbandonUseCase>({
         type: 'Lauréat.Abandon.UseCase.TransmettrePreuveRecandidatureAbandon',
         data: {
           identifiantProjetValue: identifiantProjet,
@@ -239,7 +239,7 @@ Quand(
             : new Date().toISOString(),
         });
 
-      await mediator.send<Abandon.AbandonUseCase>({
+      await mediator.send<Lauréat.Abandon.DemanderPreuveRecandidatureAbandonUseCase>({
         type: 'Lauréat.Abandon.UseCase.DemanderPreuveRecandidatureAbandon',
         data: {
           identifiantProjetValue: identifiantProjet,

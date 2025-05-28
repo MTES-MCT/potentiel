@@ -1,10 +1,10 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
-import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
+import { DateTime, Email } from '@potentiel-domain/common';
 import { Role } from '@potentiel-domain/utilisateur';
 import { DocumentProjet } from '@potentiel-domain/document';
 
-import { GetProjetAggregateRoot } from '../../../..';
+import { GetProjetAggregateRoot, IdentifiantProjet } from '../../../..';
 
 export type AccorderChangementPuissanceCommand = Message<
   'Lauréat.Puissance.Command.AccorderDemandeChangement',

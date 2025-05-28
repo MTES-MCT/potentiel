@@ -1,16 +1,16 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 import { Event } from '@potentiel-infrastructure/pg-event-sourcing';
-import { Abandon } from '@potentiel-domain/laureat';
 import { publishToEventBus } from '../config/eventBus.config';
 import { ProjectAbandoned } from '../modules/project';
 import { getLegacyProjetByIdentifiantProjet } from '../infra/sequelize/queries/project';
 import { IdentifiantProjet } from '@potentiel-domain/common';
 import { logger } from '../core/utils';
+import { Lauréat } from '@potentiel-domain/projet';
 
 /**
  * @deprecated à bouger dans la nouvelle app
  */
-export type SubscriptionEvent = Abandon.AbandonEvent & Event;
+export type SubscriptionEvent = Lauréat.Abandon.AbandonEvent & Event;
 
 /**
  * @deprecated à bouger dans la nouvelle app

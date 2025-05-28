@@ -2,7 +2,6 @@ import Badge from '@codegouvfr/react-dsfr/Badge';
 import { FC } from 'react';
 import Link from 'next/link';
 
-import { Abandon } from '@potentiel-domain/laureat';
 import { Routes } from '@potentiel-applications/routes';
 import { Iso8601DateTime } from '@potentiel-libraries/iso8601-datetime';
 import { IdentifiantProjet } from '@potentiel-domain/common';
@@ -19,7 +18,7 @@ export type AbandonListItemProps = {
   nomProjet: string;
   statut: Lauréat.Abandon.StatutAbandon.RawType;
   recandidature: boolean;
-  preuveRecandidatureStatut: Abandon.StatutPreuveRecandidature.RawType;
+  preuveRecandidatureStatut: Lauréat.Abandon.StatutPreuveRecandidature.RawType;
   misÀJourLe: Iso8601DateTime;
 };
 

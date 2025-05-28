@@ -2,7 +2,7 @@ import { Metadata } from 'next';
 import { mediator } from 'mediateur';
 
 import { Option } from '@potentiel-libraries/monads';
-import { Abandon, GarantiesFinancières } from '@potentiel-domain/laureat';
+import { GarantiesFinancières } from '@potentiel-domain/laureat';
 import { Role, Utilisateur } from '@potentiel-domain/utilisateur';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { IdentifiantProjet } from '@potentiel-domain/common';
@@ -97,7 +97,7 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
         data: { identifiantProjet: identifiantProjet.formatter() },
       });
 
-      const abandon = await mediator.send<Abandon.ConsulterAbandonQuery>({
+      const abandon = await mediator.send<Lauréat.Abandon.ConsulterAbandonQuery>({
         type: 'Lauréat.Abandon.Query.ConsulterAbandon',
         data: {
           identifiantProjetValue: identifiantProjet.formatter(),
