@@ -5,7 +5,7 @@ import { Joined, List, ListOptions, RangeOptions, Where } from '@potentiel-domai
 import { RécupérerIdentifiantsProjetParEmailPorteurPort } from '@potentiel-domain/utilisateur';
 import { Lauréat } from '@potentiel-domain/projet';
 
-import { StatutPreuveRecandidature } from '..';
+import * as StatutPreuveRecandidature from '../statutPreuveRecandidature.valueType';
 import { AbandonEntity } from '../abandon.entity';
 import { getRoleBasedWhereCondition, Utilisateur } from '../../_utils/getRoleBasedWhereCondition';
 import { LauréatEntity } from '../../lauréat.entity';

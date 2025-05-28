@@ -111,7 +111,7 @@ export class AbandonWord {
         raison: this.#demanderAbandonFixture.raison,
         recandidature: this.#demanderAbandonFixture.recandidature
           ? {
-              statut: AbandonBen.StatutPreuveRecandidature.enAttente,
+              statut: Lauréat.Abandon.StatutPreuveRecandidature.enAttente,
             }
           : undefined,
       },
@@ -128,7 +128,7 @@ export class AbandonWord {
     if (this.#demanderAbandonFixture.pièceJustificative) {
       expected.demande.pièceJustificative = DocumentProjet.convertirEnValueType(
         identifiantProjet.formatter(),
-        AbandonBen.TypeDocumentAbandon.pièceJustificative.formatter(),
+        Lauréat.Abandon.TypeDocumentAbandon.pièceJustificative.formatter(),
         this.#demanderAbandonFixture.demandéLe,
         this.#demanderAbandonFixture.pièceJustificative.format,
       );
@@ -144,7 +144,7 @@ export class AbandonWord {
         ),
         réponseSignée: DocumentProjet.convertirEnValueType(
           identifiantProjet.formatter(),
-          AbandonBen.TypeDocumentAbandon.abandonÀConfirmer.formatter(),
+          Lauréat.Abandon.TypeDocumentAbandon.abandonÀConfirmer.formatter(),
           this.#demanderConfirmationAbandonFixture.confirmationDemandéeLe,
           this.#demanderConfirmationAbandonFixture.réponseSignée.format,
         ),
@@ -179,7 +179,7 @@ export class AbandonWord {
         accordéPar: Email.convertirEnValueType(this.#accorderAbandonFixture.accordéePar),
         réponseSignée: DocumentProjet.convertirEnValueType(
           identifiantProjet.formatter(),
-          AbandonBen.TypeDocumentAbandon.abandonAccordé.formatter(),
+          Lauréat.Abandon.TypeDocumentAbandon.abandonAccordé.formatter(),
           this.#accorderAbandonFixture.accordéeLe,
           this.#accorderAbandonFixture.réponseSignée.format,
         ),
@@ -190,7 +190,7 @@ export class AbandonWord {
       expected.demande.recandidature?.preuve &&
       this.#transmettrePreuveRecandidatureAbandonFixture.aÉtéCréé
     ) {
-      expected.demande.recandidature.statut = AbandonBen.StatutPreuveRecandidature.transmis;
+      expected.demande.recandidature.statut = Lauréat.Abandon.StatutPreuveRecandidature.transmis;
       expected.demande.recandidature.preuve.transmiseLe = DateTime.convertirEnValueType(
         this.#transmettrePreuveRecandidatureAbandonFixture.transmiseLe,
       );
@@ -210,7 +210,7 @@ export class AbandonWord {
         rejetéPar: Email.convertirEnValueType(this.#rejeterAbandonFixture.rejetéePar),
         réponseSignée: DocumentProjet.convertirEnValueType(
           identifiantProjet.formatter(),
-          AbandonBen.TypeDocumentAbandon.abandonRejeté.formatter(),
+          Lauréat.Abandon.TypeDocumentAbandon.abandonRejeté.formatter(),
           this.#rejeterAbandonFixture.rejetéeLe,
           this.#rejeterAbandonFixture.réponseSignée.format,
         ),

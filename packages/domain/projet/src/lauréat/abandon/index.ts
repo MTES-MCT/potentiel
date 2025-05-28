@@ -53,3 +53,4 @@ export { AbandonEntity } from './abandon.entity';
 // ValueTypes
 export * as StatutAbandon from './statutAbandon.valueType';
 export * as TypeDocumentAbandon from './typeDocumentAbandon.valueType';
+export * as StatutPreuveRecandidature from './statutPreuveRecandidature.valueType';

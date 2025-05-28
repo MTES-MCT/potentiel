@@ -23,8 +23,5 @@ export type { ConsulterAbandonReadModel, ListerAbandonReadModel };
 // Register
 export { registerAbandonQueries, registerAbandonUseCases } from './abandon.register';
 
-export * as StatutPreuveRecandidature from './statutPreuveRecandidature.valueType';
-export * as TypeDocumentAbandon from './typeDocumentAbandon.valueType';
-
 // Entities
 export * from './abandon.entity';
