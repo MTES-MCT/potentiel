@@ -117,7 +117,7 @@ export class RecoursAggregate extends AbstractAggregate<RecoursEvent> {
   }: DemanderOptions) {
     this.statut.vérifierQueLeChangementDeStatutEstPossibleEn(StatutRecours.demandé);
     // Un éliminé ne peut pas choisir de nouveau cahier des charges.
-    // Seuls les projets sur des périodes "récentes" peuvent demander un recours
+    // Les périodes nécessitant un choix de cahier des charges sont trop anciennes pour permettre une demande de recours.
     if (this.éliminé.projet.période.choisirNouveauCahierDesCharges) {
       throw new RecoursImpossiblePourPériodeError();
     }

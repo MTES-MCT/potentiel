@@ -33,7 +33,7 @@ Fonctionnalité: Demander le recours d'un projet éliminé
         Quand le porteur demande le recours pour le projet éliminé
         Alors le porteur devrait être informé que "Le recours a déjà été accordé"
 
-    Scénario: Impossible de demander un recours pour un projet d'un appel d'offre nécessitant le choix d'un cahier des charges
+    Scénario: Impossible de demander un recours pour un projet d'une période nécessitant le choix d'un cahier des charges
         Etant donné le projet éliminé legacy "MIOS" avec :
             | appel d'offre | CRE4 - Bâtiment |
         Quand le porteur demande le recours pour le projet éliminé
