@@ -34,8 +34,9 @@ Fonctionnalité: Demander le recours d'un projet éliminé
         Alors le porteur devrait être informé que "Le recours a déjà été accordé"
 
     Scénario: Impossible de demander un recours pour un projet d'une période nécessitant le choix d'un cahier des charges
-        Etant donné le projet éliminé legacy "MIOS" avec :
+        Etant donné le projet éliminé "MIOS" avec :
             | appel d'offre | CRE4 - Bâtiment |
+            | période       | 10              |
         Quand le porteur demande le recours pour le projet éliminé
         Alors le porteur devrait être informé que "La période ne permet pas de faire une demande de recours"
 
