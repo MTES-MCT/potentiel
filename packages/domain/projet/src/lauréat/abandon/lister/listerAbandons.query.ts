@@ -1,19 +1,18 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
-import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
+import { DateTime, Email } from '@potentiel-domain/common';
 import { Joined, List, ListOptions, RangeOptions, Where } from '@potentiel-domain/entity';
-import { RécupérerIdentifiantsProjetParEmailPorteurPort } from '@potentiel-domain/utilisateur';
-import { Lauréat } from '@potentiel-domain/projet';
 
 import * as StatutPreuveRecandidature from '../statutPreuveRecandidature.valueType';
 import { AbandonEntity } from '../abandon.entity';
-import { getRoleBasedWhereCondition, Utilisateur } from '../../_utils/getRoleBasedWhereCondition';
 import { LauréatEntity } from '../../lauréat.entity';
+import { GetProjetUtilisateurScope, IdentifiantProjet } from '../../..';
+import { StatutAbandon } from '..';
 
 type AbandonListItemReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
   nomProjet: string;
-  statut: Lauréat.Abandon.StatutAbandon.ValueType;
+  statut: StatutAbandon.ValueType;
   recandidature: boolean;
   preuveRecandidatureStatut: StatutPreuveRecandidature.ValueType;
   misÀJourLe: DateTime.ValueType;
@@ -28,9 +27,9 @@ export type ListerAbandonReadModel = {
 export type ListerAbandonsQuery = Message<
   'Lauréat.Abandon.Query.ListerAbandons',
   {
-    utilisateur: Utilisateur;
+    utilisateur: Email.RawType;
     recandidature?: boolean;
-    statut?: Lauréat.Abandon.StatutAbandon.RawType;
+    statut?: StatutAbandon.RawType;
     appelOffre?: string;
     preuveRecandidatureStatut?: StatutPreuveRecandidature.RawType;
     nomProjet?: string;
@@ -41,12 +40,12 @@ export type ListerAbandonsQuery = Message<
 
 export type ListerAbandonDependencies = {
   list: List;
-  récupérerIdentifiantsProjetParEmailPorteur: RécupérerIdentifiantsProjetParEmailPorteurPort;
+  getScopeProjetUtilisateur: GetProjetUtilisateurScope;
 };
 
 export const registerListerAbandonQuery = ({
   list,
-  récupérerIdentifiantsProjetParEmailPorteur,
+  getScopeProjetUtilisateur,
 }: ListerAbandonDependencies) => {
   const handler: MessageHandler<ListerAbandonsQuery> = async ({
     recandidature,
@@ -57,10 +56,7 @@ export const registerListerAbandonQuery = ({
     utilisateur,
     range,
   }) => {
-    const { identifiantProjet, régionProjet } = await getRoleBasedWhereCondition(
-      utilisateur,
-      récupérerIdentifiantsProjetParEmailPorteur,
-    );
+    const scope = await getScopeProjetUtilisateur(Email.convertirEnValueType(utilisateur));
 
     const options: ListOptions<AbandonEntity, LauréatEntity> = {
       range,
@@ -68,7 +64,8 @@ export const registerListerAbandonQuery = ({
         misÀJourLe: 'descending',
       },
       where: {
-        identifiantProjet,
+        identifiantProjet:
+          scope.type === 'projet' ? Where.matchAny(scope.identifiantProjets) : undefined,
         statut: Where.equal(statut),
         demande: {
           estUneRecandidature: Where.equal(recandidature),
@@ -83,7 +80,7 @@ export const registerListerAbandonQuery = ({
         where: {
           appelOffre: Where.equal(appelOffre),
           nomProjet: Where.contain(nomProjet),
-          localité: { région: régionProjet },
+          localité: { région: scope.type === 'region' ? Where.equal(scope.region) : undefined },
         },
       },
     };
@@ -103,7 +100,7 @@ const mapToReadModel = (
 ): AbandonListItemReadModel => {
   return {
     nomProjet: entity.lauréat.nomProjet,
-    statut: Lauréat.Abandon.StatutAbandon.convertirEnValueType(entity.statut),
+    statut: StatutAbandon.convertirEnValueType(entity.statut),
     recandidature: !!entity.demande.recandidature,
     misÀJourLe: DateTime.convertirEnValueType(entity.misÀJourLe),
     identifiantProjet: IdentifiantProjet.convertirEnValueType(entity.identifiantProjet),

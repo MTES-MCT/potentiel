@@ -1,12 +1,33 @@
 import { AccorderAbandonUseCase } from './accorder/accorderAbandon.usecase';
 import { AnnulerAbandonUseCase } from './annuler/annulerAbandon.usecase';
 import { ConfirmerAbandonUseCase } from './confirmer/confirmerAbandon.usecase';
+import {
+  ConsulterAbandonQuery,
+  ConsulterAbandonReadModel,
+} from './consulter/consulterAbandon.query';
 import { DemanderAbandonUseCase } from './demander/demanderAbandon.usecase';
 import { DemanderConfirmationAbandonUseCase } from './demanderConfirmation/demanderConfirmationAbandon.usecase';
 import { DemanderPreuveRecandidatureAbandonUseCase } from './demanderPreuveRecandidature/demanderPreuveRecandidature.usecase';
 import { PasserEnInstructionAbandonUseCase } from './instruire/passerAbandonEnInstruction.usecase';
+import { ListerAbandonReadModel, ListerAbandonsQuery } from './lister/listerAbandons.query';
+import { ListerAbandonsAvecRecandidatureÀRelancerQuery } from './lister/listerAbandonsAvecRecandidatureÀRelancer.query';
 import { RejeterAbandonUseCase } from './rejeter/rejeterAbandon.usecase';
 import { TransmettrePreuveRecandidatureAbandonUseCase } from './transmettrePreuveRecandidature/transmettrePreuveRecandidatureAbandon.usecase';
+
+// Query
+export type AbandonQuery =
+  | ConsulterAbandonQuery
+  | ListerAbandonsQuery
+  | ListerAbandonsAvecRecandidatureÀRelancerQuery;
+
+export type {
+  ConsulterAbandonQuery,
+  ListerAbandonsQuery,
+  ListerAbandonsAvecRecandidatureÀRelancerQuery,
+};
+
+// ReadModel
+export type { ConsulterAbandonReadModel, ListerAbandonReadModel };
 
 // UseCases
 

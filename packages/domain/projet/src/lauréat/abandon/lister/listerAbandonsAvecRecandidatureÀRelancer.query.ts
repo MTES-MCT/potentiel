@@ -1,10 +1,11 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { List, Where } from '@potentiel-domain/entity';
-import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
+import { DateTime } from '@potentiel-domain/common';
 
 import { AbandonEntity } from '../abandon.entity';
 import * as StatutPreuveRecandidature from '../statutPreuveRecandidature.valueType';
+import { IdentifiantProjet } from '../../..';
 
 type AbandonsAvecRecandidatureÀRelancerReadModel = {
   résultats: Array<{

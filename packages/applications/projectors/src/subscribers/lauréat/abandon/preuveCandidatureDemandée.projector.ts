@@ -1,4 +1,3 @@
-import { AbandonBen } from '@potentiel-domain/laureat';
 import { getLogger } from '@potentiel-libraries/monitoring';
 import { upsertProjection } from '@potentiel-infrastructure/pg-projection-write';
 import { Lauréat } from '@potentiel-domain/projet';
@@ -19,13 +18,13 @@ export const preuveCandidatureDemandéeProjector = async ({
   }
 
   if (abandonToUpsert.demande.recandidature) {
-    await upsertProjection<AbandonBen.AbandonEntity>(`abandon|${identifiantProjet}`, {
+    await upsertProjection<Lauréat.Abandon.AbandonEntity>(`abandon|${identifiantProjet}`, {
       ...abandonToUpsert,
       demande: {
         ...abandonToUpsert.demande,
         recandidature: {
           ...abandonToUpsert.demande.recandidature,
-          statut: AbandonBen.StatutPreuveRecandidature.enAttente.statut,
+          statut: Lauréat.Abandon.StatutPreuveRecandidature.enAttente.statut,
           preuve: {
             demandéeLe,
           },

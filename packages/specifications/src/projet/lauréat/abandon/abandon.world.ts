@@ -1,6 +1,5 @@
 import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
 import { DocumentProjet } from '@potentiel-domain/document';
-import { AbandonBen } from '@potentiel-domain/laureat';
 import { Lauréat } from '@potentiel-domain/projet';
 
 import { AccorderAbandonFixture } from './fixtures/accorderAbandon.fixture';
@@ -96,12 +95,12 @@ export class AbandonWord {
   mapToExpected(
     identifiantProjet: IdentifiantProjet.ValueType,
     statut: Lauréat.Abandon.StatutAbandon.ValueType,
-  ): AbandonBen.ConsulterAbandonReadModel {
+  ): Lauréat.Abandon.ConsulterAbandonReadModel {
     if (!this.#demanderAbandonFixture.aÉtéCréé) {
       throw new Error(`Aucune demande d'abandon n'a été créée dans AbandonWorld`);
     }
 
-    const expected: AbandonBen.ConsulterAbandonReadModel = {
+    const expected: Lauréat.Abandon.ConsulterAbandonReadModel = {
       statut,
       identifiantProjet,
       demande: {

@@ -6,6 +6,10 @@ import { registerAnnulerAbandonCommand } from './annuler/annulerAbandon.command'
 import { registerAnnulerAbandonUseCase } from './annuler/annulerAbandon.usecase';
 import { registerConfirmerAbandonCommand } from './confirmer/confirmerAbandon.command';
 import { registerConfirmerAbandonUseCase } from './confirmer/confirmerAbandon.usecase';
+import {
+  ConsulterAbandonDependencies,
+  registerConsulterAbandonQuery,
+} from './consulter/consulterAbandon.query';
 import { registerDemanderAbandonCommand } from './demander/demanderAbandon.command';
 import { registerDemanderAbandonUseCase } from './demander/demanderAbandon.usecase';
 import { registerDemanderConfirmationAbandonCommand } from './demanderConfirmation/demanderConfirmationAbandon.command';
@@ -14,15 +18,22 @@ import { registerDemanderPreuveRecandidatureAbandonCommand } from './demanderPre
 import { registerDemanderPreuveRecandidatureAbandonUseCase } from './demanderPreuveRecandidature/demanderPreuveRecandidature.usecase';
 import { registerPasserAbandonEnInstructionCommand } from './instruire/passerAbandonEnInstruction.command';
 import { registerPasserEnInstructionAbandonUseCase } from './instruire/passerAbandonEnInstruction.usecase';
+import {
+  ListerAbandonDependencies,
+  registerListerAbandonQuery,
+} from './lister/listerAbandons.query';
+import {
+  ListerAbandonsAvecRecandidatureÀRelancerQueryDependencies,
+  registerListerAbandonsAvecRecandidatureÀRelancerQuery,
+} from './lister/listerAbandonsAvecRecandidatureÀRelancer.query';
 import { registerRejeterAbandonCommand } from './rejeter/rejeterAbandon.command';
 import { registerRejeterAbandonUseCase } from './rejeter/rejeterAbandon.usecase';
 import { registerTransmettrePreuveRecandidatureAbandonCommand } from './transmettrePreuveRecandidature/transmettrePreuveRecandidatureAbandon.command';
 import { registerTransmettrePreuveRecandidatureAbandonUseCase } from './transmettrePreuveRecandidature/transmettrePreuveRecandidatureAbandon.usecase';
 
-export type AbandonQueryDependencies = {};
-//ConsulterAbandonDependencies &
-//ListerAbandonDependencies &
-//ListerAbandonsAvecRecandidatureÀRelancerQueryDependencies;
+export type AbandonQueryDependencies = ConsulterAbandonDependencies &
+  ListerAbandonDependencies &
+  ListerAbandonsAvecRecandidatureÀRelancerQueryDependencies;
 
 export type AbandonCommandDependencies = {
   getProjetAggregateRoot: GetProjetAggregateRoot;
@@ -57,4 +68,8 @@ export const registerAbandonUseCases = ({ getProjetAggregateRoot }: AbandonComma
   registerRejeterAbandonUseCase();
 };
 
-export const registerAbandonQueries = (_dependencies: AbandonQueryDependencies) => {};
+export const registerAbandonQueries = (dependencies: AbandonQueryDependencies) => {
+  registerConsulterAbandonQuery(dependencies);
+  registerListerAbandonQuery(dependencies);
+  registerListerAbandonsAvecRecandidatureÀRelancerQuery(dependencies);
+};

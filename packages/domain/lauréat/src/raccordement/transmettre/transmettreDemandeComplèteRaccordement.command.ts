@@ -7,7 +7,6 @@ import { GetProjetAggregateRoot, IdentifiantProjet } from '@potentiel-domain/pro
 
 import * as RéférenceDossierRaccordement from '../référenceDossierRaccordement.valueType';
 import { loadRaccordementAggregateFactory } from '../raccordement.aggregate';
-import {} from '../../abandon';
 
 export type TransmettreDemandeComplèteRaccordementCommand = Message<
   'Lauréat.Raccordement.Command.TransmettreDemandeComplèteRaccordement',

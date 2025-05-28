@@ -1,18 +1,17 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { Option } from '@potentiel-libraries/monads';
-import { IdentifiantProjet, DateTime, Email } from '@potentiel-domain/common';
+import { DateTime, Email } from '@potentiel-domain/common';
 import { DocumentProjet } from '@potentiel-domain/document';
 import { Find } from '@potentiel-domain/entity';
-import { Lauréat } from '@potentiel-domain/projet';
 
-import * as TypeDocumentAbandon from '../typeDocumentAbandon.valueType';
-import * as StatutPreuveRecandidature from '../statutPreuveRecandidature.valueType';
 import { AbandonEntity } from '../abandon.entity';
+import { StatutAbandon, StatutPreuveRecandidature, TypeDocumentAbandon } from '..';
+import { IdentifiantProjet } from '../../..';
 
 export type ConsulterAbandonReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
-  statut: Lauréat.Abandon.StatutAbandon.ValueType;
+  statut: StatutAbandon.ValueType;
   demande: {
     demandéPar: Email.ValueType;
     demandéLe: DateTime.ValueType;
@@ -176,6 +175,6 @@ const mapToReadModel = (result: AbandonEntity) => {
         : undefined,
     },
     identifiantProjet: IdentifiantProjet.convertirEnValueType(result.identifiantProjet),
-    statut: Lauréat.Abandon.StatutAbandon.convertirEnValueType(result.statut),
+    statut: StatutAbandon.convertirEnValueType(result.statut),
   } satisfies ConsulterAbandonReadModel;
 };
