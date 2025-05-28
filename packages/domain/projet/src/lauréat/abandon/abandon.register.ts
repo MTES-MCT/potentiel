@@ -14,6 +14,8 @@ import { registerDemanderPreuveRecandidatureAbandonCommand } from './demanderPre
 import { registerDemanderPreuveRecandidatureAbandonUseCase } from './demanderPreuveRecandidature/demanderPreuveRecandidature.usecase';
 import { registerPasserAbandonEnInstructionCommand } from './instruire/passerAbandonEnInstruction.command';
 import { registerPasserEnInstructionAbandonUseCase } from './instruire/passerAbandonEnInstruction.usecase';
+import { registerRejeterAbandonCommand } from './rejeter/rejeterAbandon.command';
+import { registerRejeterAbandonUseCase } from './rejeter/rejeterAbandon.usecase';
 import { registerTransmettrePreuveRecandidatureAbandonCommand } from './transmettrePreuveRecandidature/transmettrePreuveRecandidatureAbandon.command';
 import { registerTransmettrePreuveRecandidatureAbandonUseCase } from './transmettrePreuveRecandidature/transmettrePreuveRecandidatureAbandon.usecase';
 
@@ -50,6 +52,9 @@ export const registerAbandonUseCases = ({ getProjetAggregateRoot }: AbandonComma
 
   registerAnnulerAbandonCommand(getProjetAggregateRoot);
   registerAnnulerAbandonUseCase();
+
+  registerRejeterAbandonCommand(getProjetAggregateRoot);
+  registerRejeterAbandonUseCase();
 };
 
 export const registerAbandonQueries = (_dependencies: AbandonQueryDependencies) => {};

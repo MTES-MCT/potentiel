@@ -1,10 +1,10 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { DocumentProjet, EnregistrerDocumentProjetCommand } from '@potentiel-domain/document';
-import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
-import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
+import { DateTime, Email } from '@potentiel-domain/common';
 
 import * as TypeDocumentAbandon from '../typeDocumentAbandon.valueType';
+import { IdentifiantProjet } from '../../..';
 
 import { RejeterAbandonCommand } from './rejeterAbandon.command';
 
@@ -37,9 +37,7 @@ export const registerRejeterAbandonUseCase = () => {
 
     const identifiantProjet = IdentifiantProjet.convertirEnValueType(identifiantProjetValue);
     const dateRejet = DateTime.convertirEnValueType(dateRejetValue);
-    const identifiantUtilisateur = IdentifiantUtilisateur.convertirEnValueType(
-      identifiantUtilisateurValue,
-    );
+    const identifiantUtilisateur = Email.convertirEnValueType(identifiantUtilisateurValue);
 
     await mediator.send<EnregistrerDocumentProjetCommand>({
       type: 'Document.Command.EnregistrerDocumentProjet',

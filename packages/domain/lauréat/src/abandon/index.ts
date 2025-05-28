@@ -3,7 +3,6 @@ import {
   ConsulterAbandonReadModel,
 } from './consulter/consulterAbandon.query';
 import { ListerAbandonsQuery, ListerAbandonReadModel } from './lister/listerAbandons.query';
-import { RejeterAbandonUseCase } from './rejeter/rejeterAbandon.usecase';
 import { ListerAbandonsAvecRecandidatureÀRelancerQuery } from './lister/listerAbandonsAvecRecandidatureÀRelancer.query';
 
 // Query
@@ -20,11 +19,6 @@ export type {
 
 // ReadModel
 export type { ConsulterAbandonReadModel, ListerAbandonReadModel };
-
-// UseCases
-export type AbandonUseCase = RejeterAbandonUseCase;
-
-export type { RejeterAbandonUseCase };
 
 // Register
 export { registerAbandonQueries, registerAbandonUseCases } from './abandon.register';

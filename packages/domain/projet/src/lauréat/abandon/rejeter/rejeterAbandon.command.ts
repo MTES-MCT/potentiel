@@ -1,11 +1,9 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
-import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
+import { DateTime, Email } from '@potentiel-domain/common';
 import { DocumentProjet } from '@potentiel-domain/document';
-import { LoadAggregate } from '@potentiel-domain/core';
-import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
 
-import { loadAbandonFactory } from '../abandon.aggregate';
+import { GetProjetAggregateRoot, IdentifiantProjet } from '../../..';
 
 export type RejeterAbandonCommand = Message<
   'Lauréat.Abandon.Command.RejeterAbandon',
@@ -13,23 +11,21 @@ export type RejeterAbandonCommand = Message<
     dateRejet: DateTime.ValueType;
     identifiantProjet: IdentifiantProjet.ValueType;
     réponseSignée: DocumentProjet.ValueType;
-    identifiantUtilisateur: IdentifiantUtilisateur.ValueType;
+    identifiantUtilisateur: Email.ValueType;
   }
 >;
 
-export const registerRejeterAbandonCommand = (loadAggregate: LoadAggregate) => {
-  const loadAbandon = loadAbandonFactory(loadAggregate);
+export const registerRejeterAbandonCommand = (getProjetAggregateRoot: GetProjetAggregateRoot) => {
   const handler: MessageHandler<RejeterAbandonCommand> = async ({
     identifiantProjet,
     réponseSignée,
     dateRejet,
     identifiantUtilisateur,
   }) => {
-    const abandon = await loadAbandon(identifiantProjet);
+    const projet = await getProjetAggregateRoot(identifiantProjet);
 
-    await abandon.rejeter({
+    await projet.lauréat.abandon.rejeter({
       dateRejet,
-      identifiantProjet,
       identifiantUtilisateur,
       réponseSignée,
     });

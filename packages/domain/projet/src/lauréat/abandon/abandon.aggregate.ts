@@ -42,6 +42,7 @@ import { DemanderConfirmationOptions } from './demanderConfirmation/demanderConf
 import { ConfirmerOptions } from './confirmer/confirmerAbandon.option';
 import { InstruireOptions } from './instruire/instruireAbandon.option';
 import { AnnulerOptions } from './annuler/annulerAbandon.option';
+import { RejeterOptions } from './rejeter/rejeterAbandon.option';
 
 export class AbandonAggregate extends AbstractAggregate<AbandonEvent> {
   #lauréat!: LauréatAggregate;
@@ -280,6 +281,24 @@ export class AbandonAggregate extends AbstractAggregate<AbandonEvent> {
         identifiantProjet: this.lauréat.projet.identifiantProjet.formatter(),
         annuléLe: dateAnnulation.formatter(),
         annuléPar: identifiantUtilisateur.formatter(),
+      },
+    };
+
+    await this.publish(event);
+  }
+
+  async rejeter({ identifiantUtilisateur, dateRejet, réponseSignée }: RejeterOptions) {
+    this.statut.vérifierQueLeChangementDeStatutEstPossibleEn(Lauréat.Abandon.StatutAbandon.rejeté);
+
+    const event: Lauréat.Abandon.AbandonRejetéEvent = {
+      type: 'AbandonRejeté-V1',
+      payload: {
+        identifiantProjet: this.lauréat.projet.identifiantProjet.formatter(),
+        réponseSignée: {
+          format: réponseSignée.format,
+        },
+        rejetéLe: dateRejet.formatter(),
+        rejetéPar: identifiantUtilisateur.formatter(),
       },
     };
 

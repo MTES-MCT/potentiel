@@ -9,7 +9,7 @@ import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
 import { Lauréat } from '@potentiel-domain/projet';
 
 import { applyConfirmationAbandonDemandée } from './demanderConfirmation/demanderConfirmationAbandon.behavior';
-import { applyAbandonRejeté, rejeter } from './rejeter/rejeterAbandon.behavior';
+import { applyAbandonRejeté } from './rejeter/rejeterAbandon.behavior';
 import { applyAbandonAnnulé } from './annuler/annulerAbandon.behavior';
 import { applyAbandonConfirmé } from './confirmer/confirmerAbandon.behavior';
 import { applyPreuveRecandidatureTransmise } from './transmettre/transmettrePreuveRecandidatureAbandon.behavior';
@@ -42,7 +42,6 @@ export type AbandonAggregate = Aggregate<Lauréat.Abandon.AbandonEvent> & {
     };
   };
   annuléLe?: DateTime.ValueType;
-  readonly rejeter: typeof rejeter;
 };
 
 export const getDefaultAbandonAggregate: GetDefaultAggregateState<
@@ -57,7 +56,6 @@ export const getDefaultAbandonAggregate: GetDefaultAggregateState<
     demandéLe: DateTime.convertirEnValueType(new Date()),
     passéEnInstructionPar: IdentifiantUtilisateur.unknownUser,
   },
-  rejeter,
 });
 
 function apply(this: AbandonAggregate, event: Lauréat.Abandon.AbandonEvent) {

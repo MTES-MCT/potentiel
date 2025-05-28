@@ -5,6 +5,7 @@ import { DemanderAbandonUseCase } from './demander/demanderAbandon.usecase';
 import { DemanderConfirmationAbandonUseCase } from './demanderConfirmation/demanderConfirmationAbandon.usecase';
 import { DemanderPreuveRecandidatureAbandonUseCase } from './demanderPreuveRecandidature/demanderPreuveRecandidature.usecase';
 import { PasserEnInstructionAbandonUseCase } from './instruire/passerAbandonEnInstruction.usecase';
+import { RejeterAbandonUseCase } from './rejeter/rejeterAbandon.usecase';
 import { TransmettrePreuveRecandidatureAbandonUseCase } from './transmettrePreuveRecandidature/transmettrePreuveRecandidatureAbandon.usecase';
 
 // UseCases
@@ -17,7 +18,8 @@ export type AbandonUseCase =
   | DemanderConfirmationAbandonUseCase
   | ConfirmerAbandonUseCase
   | PasserEnInstructionAbandonUseCase
-  | AnnulerAbandonUseCase;
+  | AnnulerAbandonUseCase
+  | RejeterAbandonUseCase;
 
 export {
   DemanderAbandonUseCase,
@@ -28,6 +30,7 @@ export {
   ConfirmerAbandonUseCase,
   PasserEnInstructionAbandonUseCase,
   AnnulerAbandonUseCase,
+  RejeterAbandonUseCase,
 };
 
 // Events

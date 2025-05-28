@@ -4,7 +4,6 @@ import { faker } from '@faker-js/faker';
 
 import { DateTime } from '@potentiel-domain/common';
 import { Lauréat } from '@potentiel-domain/projet';
-import { AbandonBen } from '@potentiel-domain/laureat';
 import { publish } from '@potentiel-infrastructure/pg-event-sourcing';
 
 import { PotentielWorld } from '../../../../potentiel.world';
@@ -186,7 +185,7 @@ async function créerRejetAbandon(this: PotentielWorld) {
       rejetéePar: this.utilisateurWorld.validateurFixture.email,
     });
 
-  await mediator.send<AbandonBen.AbandonUseCase>({
+  await mediator.send<Lauréat.Abandon.RejeterAbandonUseCase>({
     type: 'Lauréat.Abandon.UseCase.RejeterAbandon',
     data: {
       identifiantProjetValue: identifiantProjet,

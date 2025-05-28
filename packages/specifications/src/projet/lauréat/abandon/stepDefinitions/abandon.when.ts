@@ -1,7 +1,6 @@
 import { When as Quand } from '@cucumber/cucumber';
 import { mediator } from 'mediateur';
 
-import { AbandonBen } from '@potentiel-domain/laureat';
 import { Lauréat } from '@potentiel-domain/projet';
 
 import { PotentielWorld } from '../../../../potentiel.world';
@@ -67,7 +66,7 @@ Quand(
           rejetéePar: this.utilisateurWorld.validateurFixture.email,
         });
 
-      await mediator.send<AbandonBen.AbandonUseCase>({
+      await mediator.send<Lauréat.Abandon.RejeterAbandonUseCase>({
         type: 'Lauréat.Abandon.UseCase.RejeterAbandon',
         data: {
           identifiantProjetValue: identifiantProjet,

@@ -9,8 +9,6 @@ import {
   ListerAbandonDependencies,
   registerListerAbandonQuery,
 } from './lister/listerAbandons.query';
-import { registerRejeterAbandonCommand } from './rejeter/rejeterAbandon.command';
-import { registerRejeterAbandonUseCase } from './rejeter/rejeterAbandon.usecase';
 import {
   ListerAbandonsAvecRecandidatureÀRelancerQueryDependencies,
   registerListerAbandonsAvecRecandidatureÀRelancerQuery,
@@ -25,10 +23,7 @@ export type AbandonCommandDependencies = {
   getProjetAggregateRoot: GetProjetAggregateRoot;
 };
 
-export const registerAbandonUseCases = ({ loadAggregate }: AbandonCommandDependencies) => {
-  registerRejeterAbandonCommand(loadAggregate);
-  registerRejeterAbandonUseCase();
-};
+export const registerAbandonUseCases = (_: AbandonCommandDependencies) => {};
 
 export const registerAbandonQueries = (dependencies: AbandonQueryDependencies) => {
   registerConsulterAbandonQuery(dependencies);
