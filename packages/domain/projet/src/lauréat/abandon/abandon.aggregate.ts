@@ -4,9 +4,10 @@ import { AbstractAggregate } from '@potentiel-domain/core';
 import { DateTime, Email } from '@potentiel-domain/common';
 
 import { LauréatAggregate } from '../lauréat.aggregate';
-import { IdentifiantProjet } from '../..';
+import { IdentifiantProjet, Lauréat } from '../..';
 
 import {
+  ConfirmationAbandonDemandéeEvent,
   PreuveRecandidatureDemandéeEvent,
   PreuveRecandidatureTransmiseEvent,
   StatutAbandon,
@@ -19,15 +20,22 @@ import { AbandonRejetéEvent } from './rejeter/rejeterAbandon.event';
 import { AbandonAnnuléEvent } from './annuler/annulerAbandon.event';
 import { DemanderOptions } from './demander/demanderAbandon.option';
 import {
+  AbandonPasDansUnContexteDeRecandidatureError,
   AucunAbandonEnCours,
   DateLégaleTransmissionPreuveRecandidatureDépasséeError,
   DemandePreuveRecandidautreDéjàTransmise,
   PièceJustificativeObligatoireError,
+  PreuveRecandidautreDéjàTransmise,
+  ProjetNonNotifiéError,
+  ProjetNotifiéAprèsLaDateMaximumError,
+  ProjetNotifiéAvantLaDateMinimumError,
+  TranmissionPreuveRecandidatureImpossibleError,
 } from './abandon.error';
 import { AccorderOptions } from './accorder/accorderAbandon.option';
 import { AbandonPasséEnInstructionEvent } from './instruire/instruireAbandon.event';
 import { DemanderPreuveRecandidatureOptions } from './demanderPreuveRecandidature/demanderPreuveRecandidature.option';
 import { dateLégaleMaxTransimissionPreuveRecandidature } from './abandon.constant';
+import { TransmettrePreuveRecandidatureOptions } from './transmettrePreuveRecandidature/transmettrePreuveRecandidature.option';
 
 export class AbandonAggregate extends AbstractAggregate<AbandonEvent> {
   #lauréat!: LauréatAggregate;
@@ -147,6 +155,58 @@ export class AbandonAggregate extends AbstractAggregate<AbandonEvent> {
     return this.publish(event);
   }
 
+  async transmettrePreuveRecandidature({
+    preuveRecandidature,
+    identifiantUtilisateur,
+    dateTransmissionPreuveRecandidature,
+  }: TransmettrePreuveRecandidatureOptions) {
+    preuveRecandidature.candidature.vérifierQueLaCandidatureExiste();
+
+    if (!this.#demande?.recandidature) {
+      throw new AbandonPasDansUnContexteDeRecandidatureError();
+    }
+
+    if (this.#demande?.preuveRecandidature) {
+      throw new PreuveRecandidautreDéjàTransmise();
+    }
+
+    if (!this.statut.estAccordé()) {
+      throw new TranmissionPreuveRecandidatureImpossibleError();
+    }
+
+    if (!preuveRecandidature.candidature.estNotifiée) {
+      throw new ProjetNonNotifiéError();
+    }
+
+    if (
+      preuveRecandidature.candidature.notifiéeLe.estAntérieurÀ(
+        DateTime.convertirEnValueType(new Date('2023-12-15')),
+      )
+    ) {
+      throw new ProjetNotifiéAvantLaDateMinimumError();
+    }
+
+    if (
+      preuveRecandidature.candidature.notifiéeLe.estUltérieureÀ(
+        DateTime.convertirEnValueType(new Date('2025-03-31')),
+      )
+    ) {
+      throw new ProjetNotifiéAprèsLaDateMaximumError();
+    }
+
+    const event: Lauréat.Abandon.PreuveRecandidatureTransmiseEvent = {
+      type: 'PreuveRecandidatureTransmise-V1',
+      payload: {
+        identifiantProjet: this.lauréat.projet.identifiantProjet.formatter(),
+        preuveRecandidature: preuveRecandidature.identifiantProjet.formatter(),
+        transmisePar: identifiantUtilisateur.formatter(),
+        transmiseLe: dateTransmissionPreuveRecandidature.formatter(),
+      },
+    };
+
+    await this.publish(event);
+  }
+
   apply(event: AbandonEvent): void {
     match(event)
       .with({ type: 'AbandonDemandé-V1' }, this.applyAbandonDemandéV1.bind(this))
@@ -165,6 +225,12 @@ export class AbandonAggregate extends AbstractAggregate<AbandonEvent> {
       .with(
         { type: 'PreuveRecandidatureTransmise-V1' },
         this.applyPreuveRecandidatureTransmiseV1.bind(this),
+      )
+      .with(
+        {
+          type: 'ConfirmationAbandonDemandée-V1',
+        },
+        this.applyConfirmationAbandonDemandéeV1.bind(this),
       )
       .exhaustive();
   }
@@ -218,4 +284,5 @@ export class AbandonAggregate extends AbstractAggregate<AbandonEvent> {
         IdentifiantProjet.convertirEnValueType(preuveRecandidature);
     }
   }
+  private applyConfirmationAbandonDemandéeV1(_: ConfirmationAbandonDemandéeEvent) {}
 }

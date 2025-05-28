@@ -1,22 +1,9 @@
 import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
-import { DomainEvent } from '@potentiel-domain/core';
 import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
 import { DocumentProjet } from '@potentiel-domain/document';
 import { Lauréat } from '@potentiel-domain/projet';
 
 import { AbandonAggregate } from '../abandon.aggregate';
-
-export type ConfirmationAbandonDemandéeEvent = DomainEvent<
-  'ConfirmationAbandonDemandée-V1',
-  {
-    confirmationDemandéeLe: DateTime.RawType;
-    confirmationDemandéePar: IdentifiantUtilisateur.RawType;
-    identifiantProjet: IdentifiantProjet.RawType;
-    réponseSignée: {
-      format: string;
-    };
-  }
->;
 
 export type DemanderConfirmationOptions = {
   dateDemande: DateTime.ValueType;
@@ -38,7 +25,7 @@ export async function demanderConfirmation(
     Lauréat.Abandon.StatutAbandon.confirmationDemandée,
   );
 
-  const event: ConfirmationAbandonDemandéeEvent = {
+  const event: Lauréat.Abandon.ConfirmationAbandonDemandéeEvent = {
     type: 'ConfirmationAbandonDemandée-V1',
     payload: {
       identifiantProjet: identifiantProjet.formatter(),
@@ -55,7 +42,9 @@ export async function demanderConfirmation(
 
 export function applyConfirmationAbandonDemandée(
   this: AbandonAggregate,
-  { payload: { confirmationDemandéeLe, réponseSignée } }: ConfirmationAbandonDemandéeEvent,
+  {
+    payload: { confirmationDemandéeLe, réponseSignée },
+  }: Lauréat.Abandon.ConfirmationAbandonDemandéeEvent,
 ) {
   this.statut = Lauréat.Abandon.StatutAbandon.confirmationDemandée;
 

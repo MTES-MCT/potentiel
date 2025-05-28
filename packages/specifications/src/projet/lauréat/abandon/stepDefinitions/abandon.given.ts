@@ -283,7 +283,7 @@ async function créerPreuveRecandidatureTransmise(this: PotentielWorld) {
 
   const { accordéePar } = this.lauréatWorld.abandonWorld.accorderAbandonFixture;
 
-  await mediator.send<AbandonBen.AbandonUseCase>({
+  await mediator.send<Lauréat.Abandon.TransmettrePreuveRecandidatureAbandonUseCase>({
     type: 'Lauréat.Abandon.UseCase.TransmettrePreuveRecandidatureAbandon',
     data: {
       identifiantProjetValue: identifiantProjet,

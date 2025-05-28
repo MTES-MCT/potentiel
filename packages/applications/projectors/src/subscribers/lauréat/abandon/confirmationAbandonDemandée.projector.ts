@@ -4,7 +4,7 @@ import { updateOneProjection } from '@potentiel-infrastructure/pg-projection-wri
 
 export const confirmationAbandonDemandéeProjector = async ({
   payload: { identifiantProjet, confirmationDemandéeLe, confirmationDemandéePar, réponseSignée },
-}: AbandonBen.ConfirmationAbandonDemandéeEvent) => {
+}: Lauréat.Abandon.ConfirmationAbandonDemandéeEvent) => {
   await updateOneProjection<AbandonBen.AbandonEntity>(`abandon|${identifiantProjet}`, {
     demande: {
       confirmation: {

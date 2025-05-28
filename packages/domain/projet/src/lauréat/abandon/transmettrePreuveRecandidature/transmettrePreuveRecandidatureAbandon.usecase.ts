@@ -1,7 +1,8 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
-import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
-import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
+import { DateTime, Email } from '@potentiel-domain/common';
+
+import { IdentifiantProjet } from '../../..';
 
 import { TransmettrePreuveRecandidatureCommand } from './transmettrePreuveRecandidatureAbandon.command';
 
@@ -25,9 +26,7 @@ export const registerTransmettrePreuveRecandidatureAbandonUseCase = () => {
     const identifiantProjet = IdentifiantProjet.convertirEnValueType(identifiantProjetValue);
     const preuveRecandidature = IdentifiantProjet.convertirEnValueType(preuveRecandidatureValue);
 
-    const identifiantUtilisateur = IdentifiantUtilisateur.convertirEnValueType(
-      identifiantUtilisateurValue,
-    );
+    const identifiantUtilisateur = Email.convertirEnValueType(identifiantUtilisateurValue);
 
     const dateTransmissionPreuveRecandidature = DateTime.convertirEnValueType(
       dateTransmissionPreuveRecandidatureValue,

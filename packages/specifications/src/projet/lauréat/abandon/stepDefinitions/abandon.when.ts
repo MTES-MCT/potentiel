@@ -212,7 +212,7 @@ Quand(
           preuveRecandidature: identifiantProjetPreuveRecandidature.formatter(),
         });
 
-      await mediator.send<AbandonBen.AbandonUseCase>({
+      await mediator.send<Lauréat.Abandon.TransmettrePreuveRecandidatureAbandonUseCase>({
         type: 'Lauréat.Abandon.UseCase.TransmettrePreuveRecandidatureAbandon',
         data: {
           identifiantProjetValue: identifiantProjet,

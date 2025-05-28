@@ -17,8 +17,6 @@ import {
 } from './lister/listerAbandons.query';
 import { registerRejeterAbandonCommand } from './rejeter/rejeterAbandon.command';
 import { registerRejeterAbandonUseCase } from './rejeter/rejeterAbandon.usecase';
-import { registerTransmettrePreuveRecandidatureAbandonCommand } from './transmettre/transmettrePreuveRecandidatureAbandon.command';
-import { registerTransmettrePreuveRecandidatureAbandonUseCase } from './transmettre/transmettrePreuveRecandidatureAbandon.usecase';
 import {
   ListerAbandonsAvecRecandidatureÀRelancerQueryDependencies,
   registerListerAbandonsAvecRecandidatureÀRelancerQuery,
@@ -35,22 +33,17 @@ export type AbandonCommandDependencies = {
   getProjetAggregateRoot: GetProjetAggregateRoot;
 };
 
-export const registerAbandonUseCases = ({
-  loadAggregate,
-  getProjetAggregateRoot,
-}: AbandonCommandDependencies) => {
+export const registerAbandonUseCases = ({ loadAggregate }: AbandonCommandDependencies) => {
   registerConfirmerAbandonCommand(loadAggregate);
   registerDemanderConfirmationAbandonCommand(loadAggregate);
   registerRejeterAbandonCommand(loadAggregate);
   registerAnnulerAbandonCommand(loadAggregate);
-  registerTransmettrePreuveRecandidatureAbandonCommand(loadAggregate, getProjetAggregateRoot);
   registerPasserAbandonEnInstructionCommand(loadAggregate);
 
   registerConfirmerAbandonUseCase();
   registerDemanderConfirmationAbandonUseCase();
   registerRejeterAbandonUseCase();
   registerAnnulerAbandonUseCase();
-  registerTransmettrePreuveRecandidatureAbandonUseCase();
   registerPasserEnInstructionAbandonUseCase();
 };
 

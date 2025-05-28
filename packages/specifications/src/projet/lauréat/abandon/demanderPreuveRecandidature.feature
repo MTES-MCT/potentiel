@@ -1,3 +1,4 @@
+# @select
 # language: fr
 Fonctionnalité: demander un porteur pour qu'il transmette une preuve de recandidature
 

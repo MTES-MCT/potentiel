@@ -10,7 +10,6 @@ import { DocumentProjet } from '@potentiel-domain/document';
 import { Lauréat } from '@potentiel-domain/projet';
 
 import {
-  ConfirmationAbandonDemandéeEvent,
   applyConfirmationAbandonDemandée,
   demanderConfirmation,
 } from './demanderConfirmation/demanderConfirmationAbandon.behavior';
@@ -21,10 +20,7 @@ import {
   applyAbandonConfirmé,
   confirmer,
 } from './confirmer/confirmerAbandon.behavior';
-import {
-  transmettrePreuveRecandidature,
-  applyPreuveRecandidatureTransmise,
-} from './transmettre/transmettrePreuveRecandidatureAbandon.behavior';
+import { applyPreuveRecandidatureTransmise } from './transmettre/transmettrePreuveRecandidatureAbandon.behavior';
 import {
   passerEnInstruction,
   applyAbandonPasséEnInstruction,
@@ -36,7 +32,7 @@ export type AbandonEvent =
   | Lauréat.Abandon.AbandonAnnuléEvent
   | Lauréat.Abandon.AbandonRejetéEvent
   | Lauréat.Abandon.AbandonAccordéEvent
-  | ConfirmationAbandonDemandéeEvent
+  | Lauréat.Abandon.ConfirmationAbandonDemandéeEvent
   | AbandonConfirméEvent
   | Lauréat.Abandon.PreuveRecandidatureTransmiseEvent
   | Lauréat.Abandon.PreuveRecandidatureDemandéeEvent
@@ -83,7 +79,6 @@ export type AbandonAggregate = Aggregate<AbandonEvent> & {
   readonly demanderConfirmation: typeof demanderConfirmation;
   readonly rejeter: typeof rejeter;
   readonly passerEnInstruction: typeof passerEnInstruction;
-  readonly transmettrePreuveRecandidature: typeof transmettrePreuveRecandidature;
   readonly estAccordé: () => boolean;
 };
 
@@ -105,7 +100,6 @@ export const getDefaultAbandonAggregate: GetDefaultAggregateState<
   demanderConfirmation,
   rejeter,
   passerEnInstruction,
-  transmettrePreuveRecandidature,
   estAccordé() {
     return this.statut.estAccordé();
   },

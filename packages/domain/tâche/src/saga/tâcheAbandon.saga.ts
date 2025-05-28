@@ -12,7 +12,7 @@ export type SubscriptionEvent =
   | Lauréat.Abandon.AbandonAnnuléEvent
   | AbandonBen.AbandonConfirméEvent
   | Lauréat.Abandon.AbandonRejetéEvent
-  | AbandonBen.ConfirmationAbandonDemandéeEvent
+  | Lauréat.Abandon.ConfirmationAbandonDemandéeEvent
   | Lauréat.Abandon.PreuveRecandidatureDemandéeEvent
   | Lauréat.Abandon.PreuveRecandidatureTransmiseEvent;
 

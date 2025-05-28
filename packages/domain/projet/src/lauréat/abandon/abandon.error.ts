@@ -23,3 +23,45 @@ export class DemandePreuveRecandidautreDéjàTransmise extends InvalidOperationE
     super('La preuve de recandidature a déjà été transmise');
   }
 }
+
+export class PreuveRecandidautreDéjàTransmise extends InvalidOperationError {
+  constructor() {
+    super('La preuve de recandidature a déjà été transmise');
+  }
+}
+
+export class AbandonPasDansUnContexteDeRecandidatureError extends InvalidOperationError {
+  constructor() {
+    super(`Il est impossible de transmettre une preuve pour un abandon sans recandidature`);
+  }
+}
+
+export class TranmissionPreuveRecandidatureImpossibleError extends InvalidOperationError {
+  constructor() {
+    super(
+      `Il est impossible de transmettre une preuve de recandidature pour un abandon non accordé`,
+    );
+  }
+}
+
+export class ProjetNonNotifiéError extends InvalidOperationError {
+  constructor() {
+    super(`Il est impossible de transmettre une preuve de recandidature non notifiée`);
+  }
+}
+
+export class ProjetNotifiéAvantLaDateMinimumError extends InvalidOperationError {
+  constructor() {
+    super(
+      `Il est impossible de transmettre comme preuve de recandidature un projet ayant été notifié avant le 15/12/2023`,
+    );
+  }
+}
+
+export class ProjetNotifiéAprèsLaDateMaximumError extends InvalidOperationError {
+  constructor() {
+    super(
+      `Il est impossible de transmettre comme preuve de recandidature un projet ayant été notifié après le 31/03/2025`,
+    );
+  }
+}

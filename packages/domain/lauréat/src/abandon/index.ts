@@ -7,7 +7,6 @@ import {
 import { DemanderConfirmationAbandonUseCase } from './demanderConfirmation/demanderConfirmationAbandon.usecase';
 import { ListerAbandonsQuery, ListerAbandonReadModel } from './lister/listerAbandons.query';
 import { RejeterAbandonUseCase } from './rejeter/rejeterAbandon.usecase';
-import { TransmettrePreuveRecandidatureAbandonUseCase } from './transmettre/transmettrePreuveRecandidatureAbandon.usecase';
 import { ListerAbandonsAvecRecandidatureÀRelancerQuery } from './lister/listerAbandonsAvecRecandidatureÀRelancer.query';
 import { PasserEnInstructionAbandonUseCase } from './instruire/passerAbandonEnInstruction.usecase';
 
@@ -32,7 +31,6 @@ export type AbandonUseCase =
   | ConfirmerAbandonUseCase
   | DemanderConfirmationAbandonUseCase
   | RejeterAbandonUseCase
-  | TransmettrePreuveRecandidatureAbandonUseCase
   | PasserEnInstructionAbandonUseCase;
 
 export type {
@@ -45,7 +43,6 @@ export type {
 
 // Event
 export type { AbandonEvent } from './abandon.aggregate';
-export type { ConfirmationAbandonDemandéeEvent } from './demanderConfirmation/demanderConfirmationAbandon.behavior';
 export type { AbandonConfirméEvent } from './confirmer/confirmerAbandon.behavior';
 
 // Register
@@ -56,6 +53,3 @@ export * as TypeDocumentAbandon from './typeDocumentAbandon.valueType';
 
 // Entities
 export * from './abandon.entity';
-
-// Aggregate
-export { loadAbandonFactory } from './abandon.aggregate';
