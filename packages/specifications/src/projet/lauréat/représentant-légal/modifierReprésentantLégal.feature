@@ -12,6 +12,7 @@ Fonctionnalité: Modifier le représentant légal d'un projet lauréat
 
     Scénario: Modifier le représentant légal d'un projet lauréat abandonné
         Etant donné le projet lauréat "Du boulodrome de Marseille"
+        Et un cahier des charges modificatif choisi
         Et un abandon accordé pour le projet lauréat
         Quand le DGEC validateur modifie le nom et le type du représentant légal pour le projet lauréat
         Alors le représentant légal du projet lauréat devrait être mis à jour
