@@ -1,4 +1,3 @@
-# @select
 # language: fr
 Fonctionnalité: Transmettre une preuve de recandidature
 

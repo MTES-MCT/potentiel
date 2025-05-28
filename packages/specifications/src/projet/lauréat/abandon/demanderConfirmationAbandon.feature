@@ -1,4 +1,3 @@
-# @select
 # language: fr
 Fonctionnalité: Demander une confirmation d'abandon d'un projet lauréat
 

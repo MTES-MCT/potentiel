@@ -1,4 +1,3 @@
-# @select
 # language: fr
 Fonctionnalité: Rejeter l'abandon d'un projet lauréat
 

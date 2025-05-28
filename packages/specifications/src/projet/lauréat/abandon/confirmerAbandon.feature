@@ -1,4 +1,3 @@
-# @select
 # language: fr
 Fonctionnalité: Conformer l'abandon d'un projet lauréat
 

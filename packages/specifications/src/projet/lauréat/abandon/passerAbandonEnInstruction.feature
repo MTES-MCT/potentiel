@@ -1,4 +1,3 @@
-# @select
 # language: fr
 Fonctionnalité: Passer un abandon d'un projet lauréat en instruction
 

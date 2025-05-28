@@ -1,4 +1,3 @@
-# @select
 # language: fr
 Fonctionnalité: Annuler l'abandon d'un projet lauréat
 
