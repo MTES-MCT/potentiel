@@ -2,7 +2,12 @@
 Fonctionnalité: Demander le recours d'un projet éliminé
 
     Contexte:
-        Etant donné le projet éliminé "Du boulodrome de Marseille"
+        Etant donné le projet éliminé "Du boulodrome de Marseille" avec :
+            | appel d'offre | PPE2 - Bâtiment |
+
+    Scénario: Un porteur demande le recours d'un projet éliminé
+        Quand le porteur demande le recours pour le projet éliminé
+        Alors le recours du projet éliminé devrait être demandé
 
     Scénario: Un porteur demande le recours d'un projet éliminé
         Quand le porteur demande le recours pour le projet éliminé
@@ -27,6 +32,13 @@ Fonctionnalité: Demander le recours d'un projet éliminé
         Etant donné un recours accordé pour le projet éliminé
         Quand le porteur demande le recours pour le projet éliminé
         Alors le porteur devrait être informé que "Le recours a déjà été accordé"
+
+    Scénario: Impossible de demander un recours pour un projet d'une période nécessitant le choix d'un cahier des charges
+        Etant donné le projet éliminé "MIOS" avec :
+            | appel d'offre | CRE4 - Bâtiment |
+            | période       | 10              |
+        Quand le porteur demande le recours pour le projet éliminé
+        Alors le porteur devrait être informé que "La période ne permet pas de faire une demande de recours"
 
     @NotImplemented
     Scénario: Impossible de demander un recours pour un projet éliminé inexistant
