@@ -5,7 +5,7 @@ import { z } from 'zod';
 import { bulkhead } from 'cockatiel';
 import { action } from '@oclif/core/ux';
 
-import { createLogger, getLogger, initLogger, Logger } from '@potentiel-libraries/monitoring';
+import { getLogger, Logger } from '@potentiel-libraries/monitoring';
 const configSchema = z.object({
   // Source
   S3_BUCKET: z.string(),
@@ -36,7 +36,6 @@ export class Backup extends Command {
   };
 
   async init() {
-    initLogger(createLogger({ level: 'info' }));
     this.#logger = getLogger();
 
     const config = configSchema.parse(process.env);
