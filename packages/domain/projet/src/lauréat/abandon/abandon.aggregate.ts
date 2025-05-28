@@ -55,13 +55,7 @@ export class AbandonAggregate extends AbstractAggregate<AbandonEvent> {
       instruitPar: Email.ValueType;
     };
   };
-  #rejet?: {
-    rejetéLe: DateTime.ValueType;
-  };
-  #accord?: {
-    accordéLe: DateTime.ValueType;
-  };
-  #annuléLe?: DateTime.ValueType;
+
   get statut() {
     return this.#statut;
   }
@@ -339,9 +333,6 @@ export class AbandonAggregate extends AbstractAggregate<AbandonEvent> {
     this.#demande = {
       recandidature,
     };
-    this.#rejet = undefined;
-    this.#accord = undefined;
-    this.#annuléLe = undefined;
   }
 
   private applyAbandonDemandéV2(_: AbandonDemandéEvent) {
@@ -349,19 +340,10 @@ export class AbandonAggregate extends AbstractAggregate<AbandonEvent> {
     this.#demande = {
       recandidature: false,
     };
-    this.#rejet = undefined;
-    this.#accord = undefined;
-    this.#annuléLe = undefined;
   }
 
   private applyAbandonAccordéV1(_event: AbandonAccordéEvent) {
     this.#statut = StatutAbandon.accordé;
-    // this.statut = Lauréat.Abandon.StatutAbandon.accordé;
-    // this.rejet = undefined;
-    // this.accord = {
-    //   accordéLe: DateTime.convertirEnValueType(accordéLe),
-    //   réponseSignée,
-    // };
   }
 
   private applyAbandonRejetéV1(_event: AbandonRejetéEvent) {

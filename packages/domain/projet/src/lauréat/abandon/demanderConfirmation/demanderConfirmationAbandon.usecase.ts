@@ -3,8 +3,8 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 import { DateTime, Email } from '@potentiel-domain/common';
 import { DocumentProjet, EnregistrerDocumentProjetCommand } from '@potentiel-domain/document';
 
-import * as TypeDocumentAbandon from '../typeDocumentAbandon.valueType';
 import { IdentifiantProjet } from '../../..';
+import { TypeDocumentAbandon } from '..';
 
 import { DemanderConfirmationAbandonCommand } from './demanderConfirmationAbandon.command';
 

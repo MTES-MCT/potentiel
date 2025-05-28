@@ -3,11 +3,10 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 import { DateTime, Email } from '@potentiel-domain/common';
 import { Joined, List, ListOptions, RangeOptions, Where } from '@potentiel-domain/entity';
 
-import * as StatutPreuveRecandidature from '../statutPreuveRecandidature.valueType';
 import { AbandonEntity } from '../abandon.entity';
 import { LauréatEntity } from '../../lauréat.entity';
 import { GetProjetUtilisateurScope, IdentifiantProjet } from '../../..';
-import { StatutAbandon } from '..';
+import { StatutAbandon, StatutPreuveRecandidature } from '..';
 
 type AbandonListItemReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;

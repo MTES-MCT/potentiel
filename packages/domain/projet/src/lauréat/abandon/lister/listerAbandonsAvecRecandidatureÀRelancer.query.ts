@@ -4,8 +4,8 @@ import { List, Where } from '@potentiel-domain/entity';
 import { DateTime } from '@potentiel-domain/common';
 
 import { AbandonEntity } from '../abandon.entity';
-import * as StatutPreuveRecandidature from '../statutPreuveRecandidature.valueType';
 import { IdentifiantProjet } from '../../..';
+import { StatutPreuveRecandidature } from '..';
 
 type AbandonsAvecRecandidatureÀRelancerReadModel = {
   résultats: Array<{
