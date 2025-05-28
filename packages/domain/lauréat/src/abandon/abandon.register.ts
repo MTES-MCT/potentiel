@@ -11,8 +11,6 @@ import {
   ConsulterAbandonDependencies,
   registerConsulterAbandonQuery,
 } from './consulter/consulterAbandon.query';
-import { registerDemanderAbandonCommand } from './demander/demanderAbandon.command';
-import { registerDemanderAbandonUseCase } from './demander/demanderAbandon.usecase';
 import { registerDemanderConfirmationAbandonCommand } from './demanderConfirmation/demanderConfirmationAbandon.command';
 import { registerDemanderConfirmationAbandonUseCase } from './demanderConfirmation/demanderConfirmationAbandon.usecase';
 import {
@@ -45,7 +43,6 @@ export const registerAbandonUseCases = ({
   loadAggregate,
   getProjetAggregateRoot,
 }: AbandonCommandDependencies) => {
-  registerDemanderAbandonCommand(loadAggregate, getProjetAggregateRoot);
   registerAccorderAbandonCommand(loadAggregate);
   registerConfirmerAbandonCommand(loadAggregate);
   registerDemanderConfirmationAbandonCommand(loadAggregate);
@@ -55,7 +52,6 @@ export const registerAbandonUseCases = ({
   registerDemanderPreuveRecandidatureAbandonCommand(loadAggregate);
   registerPasserAbandonEnInstructionCommand(loadAggregate);
 
-  registerDemanderAbandonUseCase();
   registerAccorderAbandonUseCase();
   registerConfirmerAbandonUseCase();
   registerDemanderConfirmationAbandonUseCase();

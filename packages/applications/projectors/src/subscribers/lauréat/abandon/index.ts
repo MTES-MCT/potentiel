@@ -2,7 +2,7 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 import { match } from 'ts-pattern';
 
 import { RebuildTriggered, Event } from '@potentiel-infrastructure/pg-event-sourcing';
-import { Abandon } from '@potentiel-domain/laureat';
+import { AbandonBen } from '@potentiel-domain/laureat';
 
 import { abandonRebuildTriggered } from './abandonRebuildTriggered.projector';
 import { abandonDemandéProjector } from './abandonDemandé.projector';
@@ -15,7 +15,7 @@ import { preuveCandidatureDemandéeProjector } from './preuveCandidatureDemandé
 import { preuveCandidatureTransmiseProjector } from './preuveRecandidatureTransmise.projector';
 import { abandonPasséEnInstructionProjector } from './abandonPasséEnInstruction.projector';
 
-export type SubscriptionEvent = (Abandon.AbandonEvent & Event) | RebuildTriggered;
+export type SubscriptionEvent = (AbandonBen.AbandonEvent & Event) | RebuildTriggered;
 
 export type Execute = Message<'System.Projector.Lauréat.Abandon', SubscriptionEvent>;
 

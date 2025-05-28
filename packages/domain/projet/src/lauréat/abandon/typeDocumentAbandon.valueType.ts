@@ -1,4 +1,3 @@
-// TODO Ben remove
 import { InvalidOperationError } from '@potentiel-domain/core';
 
 export type TypeDocument =

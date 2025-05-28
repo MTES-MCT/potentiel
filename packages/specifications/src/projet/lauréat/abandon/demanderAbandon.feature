@@ -1,4 +1,5 @@
 # language: fr
+@select
 Fonctionnalité: Demander l'abandon d'un projet lauréat
 
     Contexte:
@@ -32,4 +33,4 @@ Fonctionnalité: Demander l'abandon d'un projet lauréat
     Scénario: Impossible de demander l'abandon d'un projet achevé
         Etant donné une attestation de conformité transmise pour le projet lauréat
         Quand le porteur demande l'abandon pour le projet lauréat
-        Alors le porteur devrait être informé que "Impossible de demander l'abandon d'un projet achevé"
+        Alors le porteur devrait être informé que "Impossible de faire un changement pour un projet achevé"

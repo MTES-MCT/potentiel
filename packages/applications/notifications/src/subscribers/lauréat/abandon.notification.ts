@@ -4,13 +4,13 @@ import { IdentifiantProjet } from '@potentiel-domain/projet';
 import { Option } from '@potentiel-libraries/monads';
 import { Event } from '@potentiel-infrastructure/pg-event-sourcing';
 import { CandidatureAdapter } from '@potentiel-infrastructure/domain-adapters';
-import { Abandon } from '@potentiel-domain/laureat';
+import { AbandonBen } from '@potentiel-domain/laureat';
 import { Routes } from '@potentiel-applications/routes';
 
 import { EmailPayload, SendEmail } from '../../sendEmail';
 import { listerPorteursRecipients } from '../../helpers/listerPorteursRecipients';
 
-export type SubscriptionEvent = Abandon.AbandonEvent & Event;
+export type SubscriptionEvent = AbandonBen.AbandonEvent & Event;
 
 export type Execute = Message<'System.Notification.Lauréat.Abandon', SubscriptionEvent>;
 

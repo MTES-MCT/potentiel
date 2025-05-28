@@ -9,7 +9,6 @@ import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
 import { DocumentProjet } from '@potentiel-domain/document';
 import { Lauréat } from '@potentiel-domain/projet';
 
-import { applyAbandonDemandé, demander } from './demander/demanderAbandon.behavior';
 import {
   ConfirmationAbandonDemandéeEvent,
   applyConfirmationAbandonDemandée,
@@ -91,7 +90,6 @@ export type AbandonAggregate = Aggregate<AbandonEvent> & {
   readonly accorder: typeof accorder;
   readonly annuler: typeof annuler;
   readonly confirmer: typeof confirmer;
-  readonly demander: typeof demander;
   readonly demanderConfirmation: typeof demanderConfirmation;
   readonly rejeter: typeof rejeter;
   readonly passerEnInstruction: typeof passerEnInstruction;
@@ -116,7 +114,6 @@ export const getDefaultAbandonAggregate: GetDefaultAggregateState<
   accorder,
   annuler,
   confirmer,
-  demander,
   demanderConfirmation,
   rejeter,
   passerEnInstruction,
@@ -137,10 +134,6 @@ function apply(this: AbandonAggregate, event: AbandonEvent) {
       break;
     case 'AbandonConfirmé-V1':
       applyAbandonConfirmé.bind(this)(event);
-      break;
-    case 'AbandonDemandé-V1':
-    case 'AbandonDemandé-V2':
-      applyAbandonDemandé.bind(this)(event);
       break;
     case 'AbandonRejeté-V1':
       applyAbandonRejeté.bind(this)(event);

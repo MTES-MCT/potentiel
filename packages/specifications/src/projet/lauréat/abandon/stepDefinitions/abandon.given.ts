@@ -4,7 +4,7 @@ import { faker } from '@faker-js/faker';
 
 import { DateTime } from '@potentiel-domain/common';
 import { Lauréat } from '@potentiel-domain/projet';
-import { Abandon } from '@potentiel-domain/laureat';
+import { AbandonBen } from '@potentiel-domain/laureat';
 import { publish } from '@potentiel-infrastructure/pg-event-sourcing';
 
 import { PotentielWorld } from '../../../../potentiel.world';
@@ -140,7 +140,7 @@ async function créerDemandeAbandon(this: PotentielWorld) {
     });
 
   if (pièceJustificative) {
-    await mediator.send<Abandon.DemanderAbandonUseCase>({
+    await mediator.send<Lauréat.Abandon.DemanderAbandonUseCase>({
       type: 'Lauréat.Abandon.UseCase.DemanderAbandon',
       data: {
         identifiantProjetValue: identifiantProjet,
@@ -168,7 +168,7 @@ async function créerAccordAbandon(this: PotentielWorld) {
         : {}),
     });
 
-  await mediator.send<Abandon.AbandonUseCase>({
+  await mediator.send<AbandonBen.AbandonUseCase>({
     type: 'Lauréat.Abandon.UseCase.AccorderAbandon',
     data: {
       identifiantProjetValue: identifiantProjet,
@@ -186,7 +186,7 @@ async function créerRejetAbandon(this: PotentielWorld) {
       rejetéePar: this.utilisateurWorld.validateurFixture.email,
     });
 
-  await mediator.send<Abandon.AbandonUseCase>({
+  await mediator.send<AbandonBen.AbandonUseCase>({
     type: 'Lauréat.Abandon.UseCase.RejeterAbandon',
     data: {
       identifiantProjetValue: identifiantProjet,
@@ -204,7 +204,7 @@ async function créerDemandeConfirmationAbandon(this: PotentielWorld) {
       confirmationDemandéePar: this.utilisateurWorld.validateurFixture.email,
     });
 
-  await mediator.send<Abandon.AbandonUseCase>({
+  await mediator.send<AbandonBen.AbandonUseCase>({
     type: 'Lauréat.Abandon.UseCase.DemanderConfirmationAbandon',
     data: {
       identifiantProjetValue: identifiantProjet,
@@ -220,7 +220,7 @@ async function créerConfirmationAbandon(this: PotentielWorld) {
   const { confirméeLe, confirméePar } =
     this.lauréatWorld.abandonWorld.confirmerAbandonFixture.créer();
 
-  await mediator.send<Abandon.AbandonUseCase>({
+  await mediator.send<AbandonBen.AbandonUseCase>({
     type: 'Lauréat.Abandon.UseCase.ConfirmerAbandon',
     data: {
       identifiantProjetValue: identifiantProjet,
@@ -237,7 +237,7 @@ async function passerDemandeAbandonEnInstruction(this: PotentielWorld) {
       passéEnInstructionPar: this.utilisateurWorld.adminFixture.email,
     });
 
-  await mediator.send<Abandon.AbandonUseCase>({
+  await mediator.send<AbandonBen.AbandonUseCase>({
     type: 'Lauréat.Abandon.UseCase.PasserAbandonEnInstruction',
     data: {
       identifiantProjetValue: identifiantProjet,
@@ -257,7 +257,7 @@ async function créerDemandePreuveRecandidature(this: PotentielWorld) {
       demandéeLe: accordéeLe,
     });
 
-  await mediator.send<Abandon.AbandonUseCase>({
+  await mediator.send<AbandonBen.AbandonUseCase>({
     type: 'Lauréat.Abandon.UseCase.DemanderPreuveRecandidatureAbandon',
     data: {
       identifiantProjetValue: identifiantProjet,
@@ -283,7 +283,7 @@ async function créerPreuveRecandidatureTransmise(this: PotentielWorld) {
 
   const { accordéePar } = this.lauréatWorld.abandonWorld.accorderAbandonFixture;
 
-  await mediator.send<Abandon.AbandonUseCase>({
+  await mediator.send<AbandonBen.AbandonUseCase>({
     type: 'Lauréat.Abandon.UseCase.TransmettrePreuveRecandidatureAbandon',
     data: {
       identifiantProjetValue: identifiantProjet,

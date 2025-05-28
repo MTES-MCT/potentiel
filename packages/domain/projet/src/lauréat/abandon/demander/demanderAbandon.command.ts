@@ -1,12 +1,9 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
-import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
-import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
+import { DateTime, Email } from '@potentiel-domain/common';
 import { DocumentProjet } from '@potentiel-domain/document';
-import { LoadAggregate } from '@potentiel-domain/core';
-import { GetProjetAggregateRoot } from '@potentiel-domain/projet';
 
-import { loadAbandonFactory } from '../abandon.aggregate';
+import { GetProjetAggregateRoot, IdentifiantProjet } from '../../..';
 
 export type DemanderAbandonCommand = Message<
   'Lauréat.Abandon.Command.DemanderAbandon',
@@ -14,17 +11,12 @@ export type DemanderAbandonCommand = Message<
     identifiantProjet: IdentifiantProjet.ValueType;
     raison: string;
     pièceJustificative: DocumentProjet.ValueType;
-    identifiantUtilisateur: IdentifiantUtilisateur.ValueType;
+    identifiantUtilisateur: Email.ValueType;
     dateDemande: DateTime.ValueType;
   }
 >;
 
-export const registerDemanderAbandonCommand = (
-  loadAggregate: LoadAggregate,
-  getProjetAggregateRoot: GetProjetAggregateRoot,
-) => {
-  const loadAbandon = loadAbandonFactory(loadAggregate);
-
+export const registerDemanderAbandonCommand = (getProjetAggregateRoot: GetProjetAggregateRoot) => {
   const handler: MessageHandler<DemanderAbandonCommand> = async ({
     identifiantProjet,
     pièceJustificative,
@@ -33,15 +25,12 @@ export const registerDemanderAbandonCommand = (
     dateDemande,
   }) => {
     const projet = await getProjetAggregateRoot(identifiantProjet);
-    const abandon = await loadAbandon(identifiantProjet, false);
 
-    await abandon.demander({
-      identifiantProjet,
+    await projet.lauréat.abandon.demander({
       pièceJustificative,
       raison,
       identifiantUtilisateur,
       dateDemande,
-      estAchevé: projet.statut.estAchevé(),
     });
   };
   mediator.register('Lauréat.Abandon.Command.DemanderAbandon', handler);

@@ -6,7 +6,7 @@ import { assert, expect } from 'chai';
 import { mapToPlainObject } from '@potentiel-domain/core';
 import { ConsulterDocumentProjetQuery } from '@potentiel-domain/document';
 import { Option } from '@potentiel-libraries/monads';
-import { Abandon } from '@potentiel-domain/laureat';
+import { AbandonBen } from '@potentiel-domain/laureat';
 import { IdentifiantProjet } from '@potentiel-domain/common';
 import { Lauréat } from '@potentiel-domain/projet';
 
@@ -32,7 +32,7 @@ Alors(
 
 Alors(`l'abandon du projet lauréat ne devrait plus exister`, async function (this: PotentielWorld) {
   await waitForExpect(async () => {
-    const abandon = await mediator.send<Abandon.ConsulterAbandonQuery>({
+    const abandon = await mediator.send<AbandonBen.ConsulterAbandonQuery>({
       type: 'Lauréat.Abandon.Query.ConsulterAbandon',
       data: {
         identifiantProjetValue: this.lauréatWorld.identifiantProjet.formatter(),
@@ -130,7 +130,7 @@ async function vérifierAbandon(
   identifiantProjet: string,
   statut: Lauréat.Abandon.StatutAbandon.ValueType,
 ) {
-  const abandon = await mediator.send<Abandon.ConsulterAbandonQuery>({
+  const abandon = await mediator.send<AbandonBen.ConsulterAbandonQuery>({
     type: 'Lauréat.Abandon.Query.ConsulterAbandon',
     data: {
       identifiantProjetValue: identifiantProjet,

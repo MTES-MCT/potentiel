@@ -1,3 +1,4 @@
+// TODO Ben remove
 import { InvalidOperationError, ReadonlyValueType } from '@potentiel-domain/core';
 
 export const statuts = ['transmis', 'en-attente', 'non-applicable'] as const;

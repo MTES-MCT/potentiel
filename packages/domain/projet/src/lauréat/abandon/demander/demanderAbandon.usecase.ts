@@ -1,16 +1,12 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { DocumentProjet, EnregistrerDocumentProjetCommand } from '@potentiel-domain/document';
-import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
-import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
+import { DateTime, Email } from '@potentiel-domain/common';
 
-import * as TypeDocumentAbandon from '../typeDocumentAbandon.valueType';
+import { TypeDocumentAbandon } from '..';
+import { IdentifiantProjet } from '../../..';
 
 import { DemanderAbandonCommand } from './demanderAbandon.command';
-
-// TODO :
-// Pour tout type de demande, il faut vérifier que le CDC permet une demande via Potentiel
-// nous avons besoin du CDC actuel et de l'AO pour vérifier cela
 
 export type DemanderAbandonUseCase = Message<
   'Lauréat.Abandon.UseCase.DemanderAbandon',
@@ -36,9 +32,7 @@ export const registerDemanderAbandonUseCase = () => {
   }) => {
     const identifiantProjet = IdentifiantProjet.convertirEnValueType(identifiantProjetValue);
     const dateDemande = DateTime.convertirEnValueType(dateDemandeValue);
-    const identifiantUtilisateur = IdentifiantUtilisateur.convertirEnValueType(
-      identifiantUtilisateurValue,
-    );
+    const identifiantUtilisateur = Email.convertirEnValueType(identifiantUtilisateurValue);
 
     const pièceJustificative = DocumentProjet.convertirEnValueType(
       identifiantProjetValue,
