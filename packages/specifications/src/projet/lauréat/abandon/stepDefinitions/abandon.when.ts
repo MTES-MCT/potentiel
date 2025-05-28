@@ -147,7 +147,7 @@ Quand(
           confirméePar: this.utilisateurWorld.porteurFixture.email,
         });
 
-      await mediator.send<AbandonBen.AbandonUseCase>({
+      await mediator.send<Lauréat.Abandon.ConfirmerAbandonUseCase>({
         type: 'Lauréat.Abandon.UseCase.ConfirmerAbandon',
         data: {
           identifiantProjetValue: identifiantProjet,

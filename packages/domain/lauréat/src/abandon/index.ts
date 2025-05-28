@@ -1,5 +1,4 @@
 import { AnnulerAbandonUseCase } from './annuler/annulerAbandon.usecase';
-import { ConfirmerAbandonUseCase } from './confirmer/confirmerAbandon.usecase';
 import {
   ConsulterAbandonQuery,
   ConsulterAbandonReadModel,
@@ -27,16 +26,10 @@ export type { ConsulterAbandonReadModel, ListerAbandonReadModel };
 // UseCases
 export type AbandonUseCase =
   | AnnulerAbandonUseCase
-  | ConfirmerAbandonUseCase
   | RejeterAbandonUseCase
   | PasserEnInstructionAbandonUseCase;
 
-export type {
-  AnnulerAbandonUseCase,
-  ConfirmerAbandonUseCase,
-  RejeterAbandonUseCase,
-  PasserEnInstructionAbandonUseCase,
-};
+export type { AnnulerAbandonUseCase, RejeterAbandonUseCase, PasserEnInstructionAbandonUseCase };
 
 // Register
 export { registerAbandonQueries, registerAbandonUseCases } from './abandon.register';

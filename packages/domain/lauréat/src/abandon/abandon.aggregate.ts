@@ -11,7 +11,7 @@ import { Lauréat } from '@potentiel-domain/projet';
 import { applyConfirmationAbandonDemandée } from './demanderConfirmation/demanderConfirmationAbandon.behavior';
 import { applyAbandonRejeté, rejeter } from './rejeter/rejeterAbandon.behavior';
 import { annuler, applyAbandonAnnulé } from './annuler/annulerAbandon.behavior';
-import { applyAbandonConfirmé, confirmer } from './confirmer/confirmerAbandon.behavior';
+import { applyAbandonConfirmé } from './confirmer/confirmerAbandon.behavior';
 import { applyPreuveRecandidatureTransmise } from './transmettre/transmettrePreuveRecandidatureAbandon.behavior';
 import {
   passerEnInstruction,
@@ -46,7 +46,6 @@ export type AbandonAggregate = Aggregate<Lauréat.Abandon.AbandonEvent> & {
   };
   annuléLe?: DateTime.ValueType;
   readonly annuler: typeof annuler;
-  readonly confirmer: typeof confirmer;
   readonly rejeter: typeof rejeter;
   readonly passerEnInstruction: typeof passerEnInstruction;
 };
@@ -64,7 +63,6 @@ export const getDefaultAbandonAggregate: GetDefaultAggregateState<
     passéEnInstructionPar: IdentifiantUtilisateur.unknownUser,
   },
   annuler,
-  confirmer,
   rejeter,
   passerEnInstruction,
 });

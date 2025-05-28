@@ -38,6 +38,7 @@ import { DemanderPreuveRecandidatureOptions } from './demanderPreuveRecandidatur
 import { dateLégaleMaxTransimissionPreuveRecandidature } from './abandon.constant';
 import { TransmettrePreuveRecandidatureOptions } from './transmettrePreuveRecandidature/transmettrePreuveRecandidature.option';
 import { DemanderConfirmationOptions } from './demanderConfirmation/demanderConfirmation.option';
+import { ConfirmerOptions } from './confirmer/confirmerAbandon.option';
 
 export class AbandonAggregate extends AbstractAggregate<AbandonEvent> {
   #lauréat!: LauréatAggregate;
@@ -223,6 +224,23 @@ export class AbandonAggregate extends AbstractAggregate<AbandonEvent> {
         },
         confirmationDemandéeLe: dateDemande.formatter(),
         confirmationDemandéePar: identifiantUtilisateur.formatter(),
+      },
+    };
+
+    await this.publish(event);
+  }
+
+  async confirmer({ dateConfirmation, identifiantUtilisateur }: ConfirmerOptions) {
+    this.statut.vérifierQueLeChangementDeStatutEstPossibleEn(
+      Lauréat.Abandon.StatutAbandon.confirmé,
+    );
+
+    const event: Lauréat.Abandon.AbandonConfirméEvent = {
+      type: 'AbandonConfirmé-V1',
+      payload: {
+        identifiantProjet: this.lauréat.projet.identifiantProjet.formatter(),
+        confirméLe: dateConfirmation.formatter(),
+        confirméPar: identifiantUtilisateur.formatter(),
       },
     };
 

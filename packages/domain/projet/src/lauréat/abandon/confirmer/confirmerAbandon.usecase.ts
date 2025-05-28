@@ -1,7 +1,8 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
-import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
-import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
+import { DateTime, Email } from '@potentiel-domain/common';
+
+import { IdentifiantProjet } from '../../..';
 
 import { ConfirmerAbandonCommand } from './confirmerAbandon.command';
 
@@ -22,9 +23,7 @@ export const registerConfirmerAbandonUseCase = () => {
   }) => {
     const identifiantProjet = IdentifiantProjet.convertirEnValueType(identifiantProjetValue);
     const dateConfirmation = DateTime.convertirEnValueType(dateConfirmationValue);
-    const identifiantUtilisateur = IdentifiantUtilisateur.convertirEnValueType(
-      identifiantUtilisateurValue,
-    );
+    const identifiantUtilisateur = Email.convertirEnValueType(identifiantUtilisateurValue);
 
     await mediator.send<ConfirmerAbandonCommand>({
       type: 'Lauréat.Abandon.Command.ConfirmerAbandon',

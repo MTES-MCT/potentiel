@@ -220,7 +220,7 @@ async function créerConfirmationAbandon(this: PotentielWorld) {
   const { confirméeLe, confirméePar } =
     this.lauréatWorld.abandonWorld.confirmerAbandonFixture.créer();
 
-  await mediator.send<AbandonBen.AbandonUseCase>({
+  await mediator.send<Lauréat.Abandon.ConfirmerAbandonUseCase>({
     type: 'Lauréat.Abandon.UseCase.ConfirmerAbandon',
     data: {
       identifiantProjetValue: identifiantProjet,
