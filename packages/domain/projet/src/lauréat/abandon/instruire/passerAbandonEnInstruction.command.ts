@@ -1,9 +1,8 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
-import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
-import { LoadAggregate } from '@potentiel-domain/core';
+import { DateTime, Email } from '@potentiel-domain/common';
 
-import { loadAbandonFactory } from '../abandon.aggregate';
+import { GetProjetAggregateRoot, IdentifiantProjet } from '../../..';
 
 export type PasserAbandonEnInstructionCommand = Message<
   'Lauréat.Abandon.Command.PasserAbandonEnInstruction',
@@ -14,19 +13,19 @@ export type PasserAbandonEnInstructionCommand = Message<
   }
 >;
 
-export const registerPasserAbandonEnInstructionCommand = (loadAggregate: LoadAggregate) => {
-  const loadAbandon = loadAbandonFactory(loadAggregate);
+export const registerPasserAbandonEnInstructionCommand = (
+  getProjetAggregateRoot: GetProjetAggregateRoot,
+) => {
   const handler: MessageHandler<PasserAbandonEnInstructionCommand> = async ({
     identifiantProjet,
     dateInstruction,
     identifiantUtilisateur,
   }) => {
-    const abandon = await loadAbandon(identifiantProjet);
+    const projet = await getProjetAggregateRoot(identifiantProjet);
 
-    await abandon.passerEnInstruction({
+    await projet.lauréat.abandon.passerEnInstruction({
       dateInstruction,
       identifiantUtilisateur,
-      identifiantProjet,
     });
   };
   mediator.register('Lauréat.Abandon.Command.PasserAbandonEnInstruction', handler);

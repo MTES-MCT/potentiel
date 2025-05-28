@@ -21,6 +21,7 @@ import { AbandonRejetéEvent } from './rejeter/rejeterAbandon.event';
 import { AbandonAnnuléEvent } from './annuler/annulerAbandon.event';
 import { DemanderOptions } from './demander/demanderAbandon.option';
 import {
+  AbandonDéjàEnInstructionAvecLeMêmeAdministrateurError,
   AbandonPasDansUnContexteDeRecandidatureError,
   AucunAbandonEnCours,
   DateLégaleTransmissionPreuveRecandidatureDépasséeError,
@@ -39,6 +40,7 @@ import { dateLégaleMaxTransimissionPreuveRecandidature } from './abandon.consta
 import { TransmettrePreuveRecandidatureOptions } from './transmettrePreuveRecandidature/transmettrePreuveRecandidature.option';
 import { DemanderConfirmationOptions } from './demanderConfirmation/demanderConfirmation.option';
 import { ConfirmerOptions } from './confirmer/confirmerAbandon.option';
+import { InstruireOptions } from './instruire/instruireAbandon.option';
 
 export class AbandonAggregate extends AbstractAggregate<AbandonEvent> {
   #lauréat!: LauréatAggregate;
@@ -247,6 +249,27 @@ export class AbandonAggregate extends AbstractAggregate<AbandonEvent> {
     await this.publish(event);
   }
 
+  async passerEnInstruction({ dateInstruction, identifiantUtilisateur }: InstruireOptions) {
+    this.statut.vérifierQueLeChangementDeStatutEstPossibleEn(
+      Lauréat.Abandon.StatutAbandon.enInstruction,
+    );
+
+    if (this.#demande?.instruction?.instruitPar.estÉgaleÀ(identifiantUtilisateur)) {
+      throw new AbandonDéjàEnInstructionAvecLeMêmeAdministrateurError();
+    }
+
+    const event: Lauréat.Abandon.AbandonPasséEnInstructionEvent = {
+      type: 'AbandonPasséEnInstruction-V1',
+      payload: {
+        identifiantProjet: this.lauréat.projet.identifiantProjet.formatter(),
+        passéEnInstructionLe: dateInstruction.formatter(),
+        passéEnInstructionPar: identifiantUtilisateur.formatter(),
+      },
+    };
+
+    await this.publish(event);
+  }
+
   apply(event: AbandonEvent): void {
     match(event)
       .with({ type: 'AbandonDemandé-V1' }, this.applyAbandonDemandéV1.bind(this))
@@ -313,8 +336,15 @@ export class AbandonAggregate extends AbstractAggregate<AbandonEvent> {
   private applyAbandonAnnuléV1(_event: AbandonAnnuléEvent) {
     this.#statut = StatutAbandon.annulé;
   }
-  private applyAbandonPasséEnInstructionV1(_event: AbandonPasséEnInstructionEvent) {
+  private applyAbandonPasséEnInstructionV1({
+    payload: { passéEnInstructionPar },
+  }: AbandonPasséEnInstructionEvent) {
     this.#statut = StatutAbandon.enInstruction;
+    if (this.#demande) {
+      this.#demande.instruction = {
+        instruitPar: Email.convertirEnValueType(passéEnInstructionPar),
+      };
+    }
   }
   private applyPreuveRecandidatureDemandéeV1(_event: PreuveRecandidatureDemandéeEvent) {}
   private applyPreuveRecandidatureTransmiseV1({

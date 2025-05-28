@@ -177,7 +177,7 @@ Quand(
           passéEnInstructionPar: this.utilisateurWorld.adminFixture.email,
         });
 
-      await mediator.send<AbandonBen.AbandonUseCase>({
+      await mediator.send<Lauréat.Abandon.PasserEnInstructionAbandonUseCase>({
         type: 'Lauréat.Abandon.UseCase.PasserAbandonEnInstruction',
         data: {
           identifiantProjetValue: identifiantProjet,

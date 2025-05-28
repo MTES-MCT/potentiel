@@ -13,10 +13,7 @@ import { applyAbandonRejeté, rejeter } from './rejeter/rejeterAbandon.behavior'
 import { annuler, applyAbandonAnnulé } from './annuler/annulerAbandon.behavior';
 import { applyAbandonConfirmé } from './confirmer/confirmerAbandon.behavior';
 import { applyPreuveRecandidatureTransmise } from './transmettre/transmettrePreuveRecandidatureAbandon.behavior';
-import {
-  passerEnInstruction,
-  applyAbandonPasséEnInstruction,
-} from './instruire/passerAbandonEnInstruction.behavior';
+import { applyAbandonPasséEnInstruction } from './instruire/passerAbandonEnInstruction.behavior';
 
 export type AbandonAggregate = Aggregate<Lauréat.Abandon.AbandonEvent> & {
   statut: Lauréat.Abandon.StatutAbandon.ValueType;
@@ -47,7 +44,6 @@ export type AbandonAggregate = Aggregate<Lauréat.Abandon.AbandonEvent> & {
   annuléLe?: DateTime.ValueType;
   readonly annuler: typeof annuler;
   readonly rejeter: typeof rejeter;
-  readonly passerEnInstruction: typeof passerEnInstruction;
 };
 
 export const getDefaultAbandonAggregate: GetDefaultAggregateState<
@@ -64,7 +60,6 @@ export const getDefaultAbandonAggregate: GetDefaultAggregateState<
   },
   annuler,
   rejeter,
-  passerEnInstruction,
 });
 
 function apply(this: AbandonAggregate, event: Lauréat.Abandon.AbandonEvent) {

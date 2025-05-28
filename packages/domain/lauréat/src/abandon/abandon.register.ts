@@ -17,8 +17,6 @@ import {
   ListerAbandonsAvecRecandidatureÀRelancerQueryDependencies,
   registerListerAbandonsAvecRecandidatureÀRelancerQuery,
 } from './lister/listerAbandonsAvecRecandidatureÀRelancer.query';
-import { registerPasserAbandonEnInstructionCommand } from './instruire/passerAbandonEnInstruction.command';
-import { registerPasserEnInstructionAbandonUseCase } from './instruire/passerAbandonEnInstruction.usecase';
 
 export type AbandonQueryDependencies = ConsulterAbandonDependencies &
   ListerAbandonDependencies &
@@ -32,11 +30,9 @@ export type AbandonCommandDependencies = {
 export const registerAbandonUseCases = ({ loadAggregate }: AbandonCommandDependencies) => {
   registerRejeterAbandonCommand(loadAggregate);
   registerAnnulerAbandonCommand(loadAggregate);
-  registerPasserAbandonEnInstructionCommand(loadAggregate);
 
   registerRejeterAbandonUseCase();
   registerAnnulerAbandonUseCase();
-  registerPasserEnInstructionAbandonUseCase();
 };
 
 export const registerAbandonQueries = (dependencies: AbandonQueryDependencies) => {

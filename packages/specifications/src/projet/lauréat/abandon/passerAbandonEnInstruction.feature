@@ -1,8 +1,10 @@
+# @select
 # language: fr
 Fonctionnalité: Passer un abandon d'un projet lauréat en instruction
 
     Contexte:
         Etant donné le projet lauréat "Du boulodrome de Marseille"
+        Et un cahier des charges modificatif choisi
 
     Scénario: Un administrateur passe l'abandon d'un projet lauréat en instruction
         Etant donné une demande d'abandon en cours pour le projet lauréat
