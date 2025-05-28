@@ -1,10 +1,10 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
-import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
-import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
+import { DateTime, Email } from '@potentiel-domain/common';
 import { DocumentProjet, EnregistrerDocumentProjetCommand } from '@potentiel-domain/document';
 
 import * as TypeDocumentAbandon from '../typeDocumentAbandon.valueType';
+import { IdentifiantProjet } from '../../..';
 
 import { DemanderConfirmationAbandonCommand } from './demanderConfirmationAbandon.command';
 
@@ -36,9 +36,7 @@ export const registerDemanderConfirmationAbandonUseCase = () => {
       dateDemandeValue,
       format,
     );
-    const identifiantUtilisateur = IdentifiantUtilisateur.convertirEnValueType(
-      identifiantUtilisateurValue,
-    );
+    const identifiantUtilisateur = Email.convertirEnValueType(identifiantUtilisateurValue);
 
     await mediator.send<EnregistrerDocumentProjetCommand>({
       type: 'Document.Command.EnregistrerDocumentProjet',

@@ -4,6 +4,8 @@ import { registerAccorderAbandonCommand } from './accorder/accorderAbandon.comma
 import { registerAccorderAbandonUseCase } from './accorder/accorderAbandon.usecase';
 import { registerDemanderAbandonCommand } from './demander/demanderAbandon.command';
 import { registerDemanderAbandonUseCase } from './demander/demanderAbandon.usecase';
+import { registerDemanderConfirmationAbandonCommand } from './demanderConfirmation/demanderConfirmationAbandon.command';
+import { registerDemanderConfirmationAbandonUseCase } from './demanderConfirmation/demanderConfirmationAbandon.usecase';
 import { registerDemanderPreuveRecandidatureAbandonCommand } from './demanderPreuveRecandidature/demanderPreuveRecandidature.command';
 import { registerDemanderPreuveRecandidatureAbandonUseCase } from './demanderPreuveRecandidature/demanderPreuveRecandidature.usecase';
 import { registerTransmettrePreuveRecandidatureAbandonCommand } from './transmettrePreuveRecandidature/transmettrePreuveRecandidatureAbandon.command';
@@ -30,6 +32,9 @@ export const registerAbandonUseCases = ({ getProjetAggregateRoot }: AbandonComma
 
   registerTransmettrePreuveRecandidatureAbandonCommand(getProjetAggregateRoot);
   registerTransmettrePreuveRecandidatureAbandonUseCase();
+
+  registerDemanderConfirmationAbandonCommand(getProjetAggregateRoot);
+  registerDemanderConfirmationAbandonUseCase();
 };
 
 export const registerAbandonQueries = (_dependencies: AbandonQueryDependencies) => {};

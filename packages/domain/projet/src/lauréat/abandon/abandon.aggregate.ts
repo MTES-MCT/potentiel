@@ -7,6 +7,7 @@ import { LauréatAggregate } from '../lauréat.aggregate';
 import { IdentifiantProjet, Lauréat } from '../..';
 
 import {
+  AbandonConfirméEvent,
   ConfirmationAbandonDemandéeEvent,
   PreuveRecandidatureDemandéeEvent,
   PreuveRecandidatureTransmiseEvent,
@@ -36,6 +37,7 @@ import { AbandonPasséEnInstructionEvent } from './instruire/instruireAbandon.ev
 import { DemanderPreuveRecandidatureOptions } from './demanderPreuveRecandidature/demanderPreuveRecandidature.option';
 import { dateLégaleMaxTransimissionPreuveRecandidature } from './abandon.constant';
 import { TransmettrePreuveRecandidatureOptions } from './transmettrePreuveRecandidature/transmettrePreuveRecandidature.option';
+import { DemanderConfirmationOptions } from './demanderConfirmation/demanderConfirmation.option';
 
 export class AbandonAggregate extends AbstractAggregate<AbandonEvent> {
   #lauréat!: LauréatAggregate;
@@ -46,10 +48,6 @@ export class AbandonAggregate extends AbstractAggregate<AbandonEvent> {
 
     instruction?: {
       instruitPar: Email.ValueType;
-    };
-    confirmation?: {
-      demandéLe: DateTime.ValueType;
-      confirméLe?: DateTime.ValueType;
     };
   };
   #rejet?: {
@@ -207,6 +205,30 @@ export class AbandonAggregate extends AbstractAggregate<AbandonEvent> {
     await this.publish(event);
   }
 
+  async demanderConfirmation({
+    dateDemande,
+    identifiantUtilisateur,
+    réponseSignée,
+  }: DemanderConfirmationOptions) {
+    this.statut.vérifierQueLeChangementDeStatutEstPossibleEn(
+      Lauréat.Abandon.StatutAbandon.confirmationDemandée,
+    );
+
+    const event: Lauréat.Abandon.ConfirmationAbandonDemandéeEvent = {
+      type: 'ConfirmationAbandonDemandée-V1',
+      payload: {
+        identifiantProjet: this.lauréat.projet.identifiantProjet.formatter(),
+        réponseSignée: {
+          format: réponseSignée.format,
+        },
+        confirmationDemandéeLe: dateDemande.formatter(),
+        confirmationDemandéePar: identifiantUtilisateur.formatter(),
+      },
+    };
+
+    await this.publish(event);
+  }
+
   apply(event: AbandonEvent): void {
     match(event)
       .with({ type: 'AbandonDemandé-V1' }, this.applyAbandonDemandéV1.bind(this))
@@ -232,6 +254,7 @@ export class AbandonAggregate extends AbstractAggregate<AbandonEvent> {
         },
         this.applyConfirmationAbandonDemandéeV1.bind(this),
       )
+      .with({ type: 'AbandonConfirmé-V1' }, this.applyAbandonConfirméEventV1.bind(this))
       .exhaustive();
   }
 
@@ -284,5 +307,10 @@ export class AbandonAggregate extends AbstractAggregate<AbandonEvent> {
         IdentifiantProjet.convertirEnValueType(preuveRecandidature);
     }
   }
-  private applyConfirmationAbandonDemandéeV1(_: ConfirmationAbandonDemandéeEvent) {}
+  private applyConfirmationAbandonDemandéeV1(_: ConfirmationAbandonDemandéeEvent) {
+    this.#statut = StatutAbandon.confirmationDemandée;
+  }
+  private applyAbandonConfirméEventV1(_: AbandonConfirméEvent) {
+    this.#statut = StatutAbandon.confirmé;
+  }
 }

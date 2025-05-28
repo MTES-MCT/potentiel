@@ -6,43 +6,21 @@ import {
 } from '@potentiel-domain/core';
 import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
 import { IdentifiantUtilisateur } from '@potentiel-domain/utilisateur';
-import { DocumentProjet } from '@potentiel-domain/document';
 import { Lauréat } from '@potentiel-domain/projet';
 
-import {
-  applyConfirmationAbandonDemandée,
-  demanderConfirmation,
-} from './demanderConfirmation/demanderConfirmationAbandon.behavior';
+import { applyConfirmationAbandonDemandée } from './demanderConfirmation/demanderConfirmationAbandon.behavior';
 import { applyAbandonRejeté, rejeter } from './rejeter/rejeterAbandon.behavior';
 import { annuler, applyAbandonAnnulé } from './annuler/annulerAbandon.behavior';
-import {
-  AbandonConfirméEvent,
-  applyAbandonConfirmé,
-  confirmer,
-} from './confirmer/confirmerAbandon.behavior';
+import { applyAbandonConfirmé, confirmer } from './confirmer/confirmerAbandon.behavior';
 import { applyPreuveRecandidatureTransmise } from './transmettre/transmettrePreuveRecandidatureAbandon.behavior';
 import {
   passerEnInstruction,
   applyAbandonPasséEnInstruction,
 } from './instruire/passerAbandonEnInstruction.behavior';
 
-export type AbandonEvent =
-  | Lauréat.Abandon.AbandonDemandéEventV1
-  | Lauréat.Abandon.AbandonDemandéEvent
-  | Lauréat.Abandon.AbandonAnnuléEvent
-  | Lauréat.Abandon.AbandonRejetéEvent
-  | Lauréat.Abandon.AbandonAccordéEvent
-  | Lauréat.Abandon.ConfirmationAbandonDemandéeEvent
-  | AbandonConfirméEvent
-  | Lauréat.Abandon.PreuveRecandidatureTransmiseEvent
-  | Lauréat.Abandon.PreuveRecandidatureDemandéeEvent
-  | Lauréat.Abandon.AbandonPasséEnInstructionEvent;
-
-export type AbandonAggregate = Aggregate<AbandonEvent> & {
+export type AbandonAggregate = Aggregate<Lauréat.Abandon.AbandonEvent> & {
   statut: Lauréat.Abandon.StatutAbandon.ValueType;
   demande: {
-    raison: string;
-    pièceJustificative?: DocumentProjet.ValueType;
     recandidature: boolean;
     preuveRecandidature?: IdentifiantProjet.ValueType;
     preuveRecandidatureTransmiseLe?: DateTime.ValueType;
@@ -52,13 +30,6 @@ export type AbandonAggregate = Aggregate<AbandonEvent> & {
     instruction?: {
       démarréLe: DateTime.ValueType;
       instruitPar: Email.ValueType;
-    };
-    confirmation?: {
-      réponseSignée: {
-        format: string;
-      };
-      demandéLe: DateTime.ValueType;
-      confirméLe?: DateTime.ValueType;
     };
   };
   rejet?: {
@@ -76,20 +47,17 @@ export type AbandonAggregate = Aggregate<AbandonEvent> & {
   annuléLe?: DateTime.ValueType;
   readonly annuler: typeof annuler;
   readonly confirmer: typeof confirmer;
-  readonly demanderConfirmation: typeof demanderConfirmation;
   readonly rejeter: typeof rejeter;
   readonly passerEnInstruction: typeof passerEnInstruction;
-  readonly estAccordé: () => boolean;
 };
 
 export const getDefaultAbandonAggregate: GetDefaultAggregateState<
   AbandonAggregate,
-  AbandonEvent
+  Lauréat.Abandon.AbandonEvent
 > = () => ({
   apply,
   statut: Lauréat.Abandon.StatutAbandon.inconnu,
   demande: {
-    raison: '',
     demandéPar: IdentifiantUtilisateur.unknownUser,
     recandidature: false,
     demandéLe: DateTime.convertirEnValueType(new Date()),
@@ -97,15 +65,11 @@ export const getDefaultAbandonAggregate: GetDefaultAggregateState<
   },
   annuler,
   confirmer,
-  demanderConfirmation,
   rejeter,
   passerEnInstruction,
-  estAccordé() {
-    return this.statut.estAccordé();
-  },
 });
 
-function apply(this: AbandonAggregate, event: AbandonEvent) {
+function apply(this: AbandonAggregate, event: Lauréat.Abandon.AbandonEvent) {
   switch (event.type) {
     case 'AbandonAccordé-V1':
       this.statut = Lauréat.Abandon.StatutAbandon.accordé;

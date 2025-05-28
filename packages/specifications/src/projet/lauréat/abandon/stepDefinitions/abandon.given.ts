@@ -204,7 +204,7 @@ async function créerDemandeConfirmationAbandon(this: PotentielWorld) {
       confirmationDemandéePar: this.utilisateurWorld.validateurFixture.email,
     });
 
-  await mediator.send<AbandonBen.AbandonUseCase>({
+  await mediator.send<Lauréat.Abandon.DemanderConfirmationAbandonUseCase>({
     type: 'Lauréat.Abandon.UseCase.DemanderConfirmationAbandon',
     data: {
       identifiantProjetValue: identifiantProjet,

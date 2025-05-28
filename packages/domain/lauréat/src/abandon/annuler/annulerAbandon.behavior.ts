@@ -34,7 +34,6 @@ export function applyAbandonAnnulé(
 ) {
   this.statut = Lauréat.Abandon.StatutAbandon.annulé;
   this.annuléLe = DateTime.convertirEnValueType(annuléLe);
-  this.demande.confirmation = undefined;
   this.accord = undefined;
   this.rejet = undefined;
 }

@@ -121,7 +121,7 @@ Quand(
       const { confirmationDemandéeLe, confirmationDemandéePar, réponseSignée } =
         this.lauréatWorld.abandonWorld.demanderConfirmationAbandonFixture.créer();
 
-      await mediator.send<AbandonBen.AbandonUseCase>({
+      await mediator.send<Lauréat.Abandon.DemanderConfirmationAbandonUseCase>({
         type: 'Lauréat.Abandon.UseCase.DemanderConfirmationAbandon',
         data: {
           identifiantProjetValue: identifiantProjet,

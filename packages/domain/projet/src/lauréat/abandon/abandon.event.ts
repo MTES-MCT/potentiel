@@ -1,5 +1,6 @@
 import { AbandonAccordéEvent } from './accorder/accorderAbandon.event';
 import { AbandonAnnuléEvent } from './annuler/annulerAbandon.event';
+import { AbandonConfirméEvent } from './confirmer/confirmerAbandon.event';
 import { AbandonDemandéEvent, AbandonDemandéEventV1 } from './demander/demanderAbandon.event';
 import { ConfirmationAbandonDemandéeEvent } from './demanderConfirmation/demanderConfirmation.event';
 import { PreuveRecandidatureDemandéeEvent } from './demanderPreuveRecandidature/demanderPreuveRecandidature.event';
@@ -16,4 +17,5 @@ export type AbandonEvent =
   | AbandonPasséEnInstructionEvent
   | PreuveRecandidatureDemandéeEvent
   | PreuveRecandidatureTransmiseEvent
-  | ConfirmationAbandonDemandéeEvent;
+  | ConfirmationAbandonDemandéeEvent
+  | AbandonConfirméEvent;
