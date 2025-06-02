@@ -31,6 +31,7 @@ import {
   ActionnaireProjector,
   ProducteurProjector,
   RaccordementProjector,
+  FournisseurProjector,
 } from '@potentiel-applications/projectors';
 import {
   DocumentAdapter,
@@ -198,6 +199,20 @@ export const setupLauréat = async ({
         });
       },
     });
+
+  const unsubscribeFournisseurProjector = await subscribe<
+    FournisseurProjector.SubscriptionEvent & Event
+  >({
+    name: 'fournisseur',
+    streamCategory: 'fournisseur',
+    eventType: ['RebuildTriggered', 'FournisseurImporté-V1'],
+    eventHandler: async (event) => {
+      await mediator.send<FournisseurProjector.Execute>({
+        type: 'System.Projector.Lauréat.Fournisseur',
+        data: event,
+      });
+    },
+  });
 
   const unsubscribeGarantiesFinancièresProjector =
     await subscribe<GarantiesFinancièreProjector.SubscriptionEvent>({
@@ -541,6 +556,7 @@ export const setupLauréat = async ({
     await unsubscribeActionnaireProjector();
     await unsubscribeProducteurProjector();
     await unsubscribeRaccordementProjector();
+    await unsubscribeFournisseurProjector();
     // notifications
     await unsubscribeLauréatNotifications();
     await unsubscribeAbandonNotification();

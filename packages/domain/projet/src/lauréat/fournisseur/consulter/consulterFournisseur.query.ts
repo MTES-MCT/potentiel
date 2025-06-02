@@ -8,7 +8,7 @@ import { FournisseurEntity } from '..';
 
 export type ConsulterFournisseurReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
-  fournisseur: string;
+  évaluationCarboneSimplifiée: number;
 };
 
 export type ConsulterFournisseurQuery = Message<
@@ -36,7 +36,10 @@ export const registerConsulterFournisseurQuery = ({ find }: ConsulterFournisseur
   mediator.register('Lauréat.Fournisseur.Query.ConsulterFournisseur', handler);
 };
 
-export const mapToReadModel = ({ identifiantProjet, nom }: FournisseurEntity) => ({
+export const mapToReadModel = ({
+  identifiantProjet,
+  évaluationCarboneSimplifiée,
+}: FournisseurEntity) => ({
   identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
-  fournisseur: nom,
+  évaluationCarboneSimplifiée,
 });
