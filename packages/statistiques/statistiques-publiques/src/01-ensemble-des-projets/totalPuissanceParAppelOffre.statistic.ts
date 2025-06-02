@@ -17,7 +17,7 @@ export const computeTotalPuissanceParAppelOffre = async () => {
       WHERE
         KEY LIKE 'puissance|%'
       GROUP BY
-         split_part(value->>'identifiantProjet', '#', 1)
+        "category"
     `,
     statisticType,
   );
