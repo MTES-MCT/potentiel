@@ -150,6 +150,10 @@ export class CandidatureAggregate extends AbstractAggregate<CandidatureEvent> {
     return this.#nomCandidat;
   }
 
+  get evaluationCarboneSimplifiée() {
+    return this.#evaluationCarboneSimplifiée;
+  }
+
   async init(projet: ProjetAggregateRoot) {
     this.#projet = projet;
   }

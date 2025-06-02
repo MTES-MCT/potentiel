@@ -1,4 +1,8 @@
+import { ConsulterFournisseurQuery } from './consulter/consulterFournisseur.query';
+
 // Query
+export type FournisseurQuery = ConsulterFournisseurQuery;
+export type { ConsulterFournisseurQuery };
 
 // ReadModel
 

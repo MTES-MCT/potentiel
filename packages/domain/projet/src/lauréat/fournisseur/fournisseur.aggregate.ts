@@ -26,7 +26,7 @@ export class FournisseurAggregate extends AbstractAggregate<FournisseurEvent> {
   async importer({
     identifiantProjet,
     évaluationCarboneSimplifiée,
-    dateImport,
+    importéLe,
     identifiantUtilisateur,
   }: ImporterOptions) {
     const event: FournisseurImportéEvent = {
@@ -35,7 +35,7 @@ export class FournisseurAggregate extends AbstractAggregate<FournisseurEvent> {
         identifiantProjet: identifiantProjet.formatter(),
         évaluationCarboneSimplifiée,
         details: 'coucou',
-        importéLe: dateImport.formatter(),
+        importéLe: importéLe.formatter(),
         importéPar: identifiantUtilisateur.formatter(),
       },
     };

@@ -8,5 +8,5 @@ export type ImporterOptions = {
   identifiantUtilisateur: Email.ValueType;
   évaluationCarboneSimplifiée: number;
   details: ChampsFournisseurDétails;
-  dateImport: DateTime.ValueType;
+  importéLe: DateTime.ValueType;
 };

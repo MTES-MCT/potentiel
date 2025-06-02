@@ -155,6 +155,7 @@ async function vérifierLauréats(
     typeGarantiesFinancières,
     puissanceProductionAnnuelle,
     nomCandidat,
+    evaluationCarboneSimplifiée,
   } of candidats.items) {
     const lauréat = await mediator.send<Lauréat.ConsulterLauréatQuery>({
       type: 'Lauréat.Query.ConsulterLauréat',
@@ -204,6 +205,17 @@ async function vérifierLauréats(
       });
       assert(Option.isSome(producteur), `Aucun producteur pour ${identifiantProjet.formatter()}`);
       assert(producteur.producteur === nomCandidat);
+    }
+
+    if (evaluationCarboneSimplifiée) {
+      console.log('evaluationCarboneSimplifiée', evaluationCarboneSimplifiée);
+      const fournisseur = await mediator.send<Lauréat.Fournisseur.ConsulterFournisseurQuery>({
+        type: 'Lauréat.Fournisseur.Query.ConsulterFournisseur',
+        data: {
+          identifiantProjet: identifiantProjet.formatter(),
+        },
+      });
+      assert(Option.isSome(fournisseur), `Aucun fournisseur pour ${identifiantProjet.formatter()}`);
     }
   }
 }
