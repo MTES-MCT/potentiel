@@ -4,8 +4,8 @@ import { notFound } from 'next/navigation';
 import {
   ConsulterUtilisateurQuery,
   ConsulterUtilisateurReadModel,
-  ListerUtilisateursQuery,
-  ListerUtilisateursReadModel,
+  ListerPorteursQuery,
+  ListerPorteursReadModel,
   Role,
 } from '@potentiel-domain/utilisateur';
 import { IdentifiantProjet } from '@potentiel-domain/common';
@@ -52,14 +52,14 @@ export default async function Page({ params: { identifiant } }: PageProps) {
         },
       });
 
-      const utilisateurs: ListerUtilisateursReadModel['items'] = await Option.match(accèsProjet)
+      const utilisateurs: ListerPorteursReadModel['items'] = await Option.match(accèsProjet)
         .some(async (accèsProjet) => {
           const identifiantsUtilisateur = accèsProjet.utilisateursAyantAccès.map((utilisateur) =>
             utilisateur.formatter(),
           );
 
-          const utilisateurs = await mediator.send<ListerUtilisateursQuery>({
-            type: 'Utilisateur.Query.ListerUtilisateurs',
+          const utilisateurs = await mediator.send<ListerPorteursQuery>({
+            type: 'Utilisateur.Query.ListerPorteurs',
             data: {
               identifiantsUtilisateur,
             },
@@ -81,7 +81,7 @@ export default async function Page({ params: { identifiant } }: PageProps) {
 }
 
 const mapToProps = (
-  utilisateurs: ListerUtilisateursReadModel['items'],
+  utilisateurs: ListerPorteursReadModel['items'],
   utilisateurQuiInvite: ConsulterUtilisateurReadModel,
 ) =>
   mapToPlainObject(

@@ -16,6 +16,7 @@ import { DésactiverUtilisateurUseCase } from './désactiver/désactiverUtilisat
 import { UtilisateurDésactivéEvent } from './désactiver/désactiverUtilisateur.behavior';
 import { RéactiverUtilisateurUseCase } from './réactiver/réactiverUtilisateur.usecase';
 import { UtilisateurRéactivéEvent } from './réactiver/réactiverUtilisateur.behavior';
+import { ListerPorteursQuery, ListerPorteursReadModel } from './lister/listerPorteurs.query';
 export * as IdentifiantUtilisateur from './identifiantUtilisateur.valueType';
 export * as Utilisateur from './utilisateur.valueType';
 export * as Role from './role.valueType';
@@ -26,9 +27,15 @@ export { UtilisateurInconnuError, AccèsFonctionnalitéRefuséError } from './er
 export type UtilisateurQuery =
   | ConsulterUtilisateurQuery
   | ListerUtilisateursQuery
+  | ListerPorteursQuery
   | TrouverUtilisateurQuery;
 
-export { ConsulterUtilisateurQuery, ListerUtilisateursQuery, TrouverUtilisateurQuery };
+export {
+  ConsulterUtilisateurQuery,
+  ListerUtilisateursQuery,
+  TrouverUtilisateurQuery,
+  ListerPorteursQuery,
+};
 
 // UseCases
 export type UtilisateurUseCase =
@@ -65,4 +72,4 @@ export * from './utilisateur.port';
 export * from './utilisateur.entity';
 
 // readmodel
-export { ConsulterUtilisateurReadModel, ListerUtilisateursReadModel };
+export { ConsulterUtilisateurReadModel, ListerUtilisateursReadModel, ListerPorteursReadModel };
