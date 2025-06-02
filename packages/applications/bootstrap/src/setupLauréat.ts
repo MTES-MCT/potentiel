@@ -70,6 +70,7 @@ export const setupLauréat = async ({
   ReprésentantLégalProjector.register();
   ActionnaireProjector.register();
   ProducteurProjector.register();
+  FournisseurProjector.register();
 
   // Notifications
   AbandonNotification.register({ sendEmail });

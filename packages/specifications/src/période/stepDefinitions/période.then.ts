@@ -208,7 +208,6 @@ async function vérifierLauréats(
     }
 
     if (evaluationCarboneSimplifiée) {
-      console.log('evaluationCarboneSimplifiée', evaluationCarboneSimplifiée);
       const fournisseur = await mediator.send<Lauréat.Fournisseur.ConsulterFournisseurQuery>({
         type: 'Lauréat.Fournisseur.Query.ConsulterFournisseur',
         data: {
@@ -216,6 +215,7 @@ async function vérifierLauréats(
         },
       });
       assert(Option.isSome(fournisseur), `Aucun fournisseur pour ${identifiantProjet.formatter()}`);
+      assert(fournisseur.évaluationCarboneSimplifiée === evaluationCarboneSimplifiée);
     }
   }
 }
