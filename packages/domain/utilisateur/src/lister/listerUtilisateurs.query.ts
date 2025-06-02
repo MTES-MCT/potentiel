@@ -67,7 +67,7 @@ export const registerListerUtilisateursQuery = ({ list }: ListerUtilisateursDepe
                 : // Typescript is lost with the union type :/
                   // eslint-disable-next-line @typescript-eslint/no-explicit-any
                   undefined) as any,
-              identifiantUtilisateur: Where.equal(identifiantUtilisateur),
+              identifiantUtilisateur: Where.contain(identifiantUtilisateur),
             };
 
     const utilisateurs = await list<UtilisateurEntity>('utilisateur', {
