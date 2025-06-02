@@ -3,11 +3,11 @@ import { match, P } from 'ts-pattern';
 
 import { Event } from '@potentiel-infrastructure/pg-event-sourcing';
 import { Lauréat } from '@potentiel-domain/projet';
-import { getLogger } from '@potentiel-libraries/monitoring';
 import { IdentifiantProjet } from '@potentiel-domain/projet';
 
 import { SendEmail } from '../../../sendEmail';
-import { récupérerLauréat } from '../../../_utils/récupérerNomProjet';
+import { getLauréat } from '../../../helpers/getLauréat';
+import { getBaseUrl } from '../../../helpers/getBaseUrl';
 
 import { puissanceModifiéeNotification } from './puissanceModifiée.notification';
 import { changementPuissanceAccordéNotification } from './changement/changementPuissanceAccordé.notification';
@@ -29,17 +29,9 @@ export const register = ({ sendEmail }: RegisterPuissanceNotificationDependencie
     const identifiantProjet = IdentifiantProjet.convertirEnValueType(
       event.payload.identifiantProjet,
     );
-    const projet = await récupérerLauréat(identifiantProjet.formatter());
+    const projet = await getLauréat(identifiantProjet.formatter());
 
-    const { BASE_URL: baseUrl } = process.env;
-
-    if (!baseUrl) {
-      getLogger().error(`variable d'environnement BASE_URL non trouvée`, {
-        application: 'notifications',
-        fonction: 'puissance',
-      });
-      return;
-    }
+    const baseUrl = getBaseUrl();
 
     return match(event)
       .with({ type: 'PuissanceModifiée-V1' }, async (event) =>
@@ -47,7 +39,6 @@ export const register = ({ sendEmail }: RegisterPuissanceNotificationDependencie
           sendEmail,
           event,
           projet,
-          baseUrl,
         }),
       )
       .with({ type: 'ChangementPuissanceEnregistré-V1' }, async (event) =>
@@ -55,7 +46,6 @@ export const register = ({ sendEmail }: RegisterPuissanceNotificationDependencie
           sendEmail,
           event,
           projet,
-          baseUrl,
         }),
       )
       .with({ type: 'ChangementPuissanceDemandé-V1' }, async (event) =>
@@ -71,7 +61,6 @@ export const register = ({ sendEmail }: RegisterPuissanceNotificationDependencie
           sendEmail,
           event,
           projet,
-          baseUrl,
         }),
       )
       .with({ type: 'ChangementPuissanceAccordé-V1' }, async (event) =>
@@ -79,7 +68,6 @@ export const register = ({ sendEmail }: RegisterPuissanceNotificationDependencie
           sendEmail,
           event,
           projet,
-          baseUrl,
         }),
       )
       .with({ type: 'ChangementPuissanceRejeté-V1' }, async (event) =>
@@ -87,7 +75,6 @@ export const register = ({ sendEmail }: RegisterPuissanceNotificationDependencie
           sendEmail,
           event,
           projet,
-          baseUrl,
         }),
       )
       .with(

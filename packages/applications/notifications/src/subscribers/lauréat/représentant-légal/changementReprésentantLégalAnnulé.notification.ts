@@ -1,6 +1,5 @@
 import { IdentifiantProjet } from '@potentiel-domain/projet';
 import { getLogger } from '@potentiel-libraries/monitoring';
-import { Routes } from '@potentiel-applications/routes';
 import { ReprésentantLégal } from '@potentiel-domain/laureat';
 
 import { listerDrealsRecipients } from '../../../helpers/listerDrealsRecipients';
@@ -16,15 +15,14 @@ type ChangementReprésentantLégalAnnuléNotificationProps = {
     nom: string;
     département: string;
     région: string;
+    url: string;
   };
-  baseUrl: string;
 };
 
 export const changementReprésentantLégalAnnuléNotification = async ({
   sendEmail,
   event,
   projet,
-  baseUrl,
 }: ChangementReprésentantLégalAnnuléNotificationProps) => {
   const identifiantProjet = IdentifiantProjet.convertirEnValueType(event.payload.identifiantProjet);
   const dreals = await listerDrealsRecipients(projet.région);
@@ -45,7 +43,7 @@ export const changementReprésentantLégalAnnuléNotification = async ({
     variables: {
       nom_projet: projet.nom,
       departement_projet: projet.département,
-      url: `${baseUrl}${Routes.Projet.details(identifiantProjet.formatter())}`,
+      url: projet.url,
     },
   });
 };

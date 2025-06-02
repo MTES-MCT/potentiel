@@ -7,7 +7,8 @@ import { Routes } from '@potentiel-applications/routes';
 
 import { EmailPayload, SendEmail } from '../../sendEmail';
 import { listerPorteursRecipients } from '../../helpers/listerPorteursRecipients';
-import { récupérerLauréat } from '../../_utils/récupérerNomProjet';
+import { getLauréat } from '../../helpers/getLauréat';
+import { getBaseUrl } from '../../helpers/getBaseUrl';
 
 export type SubscriptionEvent = Lauréat.Abandon.AbandonEvent & Event;
 
@@ -55,8 +56,6 @@ const sendEmailAbandonChangementDeStatut = ({
   appelOffre,
   période,
 }: SendEmailAbandonChangementDeStatut) => {
-  const { BASE_URL } = process.env;
-
   return {
     templateId,
     messageSubject: `Potentiel - Demande d'abandon ${statut} pour le projet ${nomProjet} (${appelOffre} période ${période})`,
@@ -67,14 +66,14 @@ const sendEmailAbandonChangementDeStatut = ({
       nom_projet: nomProjet,
       departement_projet: départementProjet,
       nouveau_statut: statut,
-      abandon_url: `${BASE_URL}${Routes.Abandon.détail(identifiantProjet.formatter())}`,
+      abandon_url: `${getBaseUrl()}${Routes.Abandon.détail(identifiantProjet.formatter())}`,
     },
   };
 };
 
 async function getEmailPayload(event: SubscriptionEvent): Promise<EmailPayload | undefined> {
   const identifiantProjet = IdentifiantProjet.convertirEnValueType(event.payload.identifiantProjet);
-  const projet = await récupérerLauréat(identifiantProjet.formatter());
+  const projet = await getLauréat(identifiantProjet.formatter());
   const porteurs = await listerPorteursRecipients(identifiantProjet);
 
   if (Option.isNone(projet) || porteurs.length === 0 || !process.env.DGEC_EMAIL) {
@@ -92,8 +91,6 @@ async function getEmailPayload(event: SubscriptionEvent): Promise<EmailPayload |
       fullName: 'DGEC',
     },
   ];
-
-  const { BASE_URL } = process.env;
 
   switch (event.type) {
     case 'AbandonDemandé-V1':
@@ -173,7 +170,7 @@ async function getEmailPayload(event: SubscriptionEvent): Promise<EmailPayload |
         recipients: porteurs,
         variables: {
           nom_projet: projet.nom,
-          lien_transmettre_preuve_recandidature: `${BASE_URL}${Routes.Abandon.détail(
+          lien_transmettre_preuve_recandidature: `${getBaseUrl()}${Routes.Abandon.détail(
             identifiantProjet.formatter(),
           )}/`,
         },

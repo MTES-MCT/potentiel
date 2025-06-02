@@ -2,11 +2,11 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 import { match, P } from 'ts-pattern';
 
 import { Event } from '@potentiel-infrastructure/pg-event-sourcing';
-import { getLogger } from '@potentiel-libraries/monitoring';
 import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 
 import { SendEmail } from '../../../sendEmail';
-import { récupérerLauréat } from '../../../_utils/récupérerNomProjet';
+import { getLauréat } from '../../../helpers/getLauréat';
+import { getBaseUrl } from '../../../helpers/getBaseUrl';
 
 import { changementProducteurEnregistréNotification } from './changementProducteurEnregistré.notification';
 import { producteurModifiéNotification } from './producteurModifié.notification';
@@ -25,17 +25,9 @@ export const register = ({ sendEmail }: RegisterProducteurNotificationDependenci
       event.payload.identifiantProjet,
     );
 
-    const projet = await récupérerLauréat(identifiantProjet.formatter());
+    const projet = await getLauréat(identifiantProjet.formatter());
 
-    const { BASE_URL: baseUrl } = process.env;
-
-    if (!baseUrl) {
-      getLogger().error(`variable d'environnement BASE_URL non trouvée`, {
-        application: 'notifications',
-        fonction: 'producteur',
-      });
-      return;
-    }
+    const baseUrl = getBaseUrl();
 
     return match(event)
       .with({ type: 'ProducteurModifié-V1' }, async (event) =>
@@ -43,7 +35,6 @@ export const register = ({ sendEmail }: RegisterProducteurNotificationDependenci
           sendEmail,
           event,
           projet,
-          baseUrl,
         }),
       )
       .with({ type: 'ChangementProducteurEnregistré-V1' }, async (event) =>

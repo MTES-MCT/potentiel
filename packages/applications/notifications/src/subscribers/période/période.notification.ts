@@ -9,6 +9,7 @@ import { ListerUtilisateursQuery } from '@potentiel-domain/utilisateur';
 import { Candidature } from '@potentiel-domain/projet';
 
 import { EmailPayload, SendEmail } from '../../sendEmail';
+import { getBaseUrl } from '../../helpers/getBaseUrl';
 
 export type SubscriptionEvent = Période.PériodeEvent & Event;
 
@@ -86,7 +87,7 @@ async function getEmailPayloads(
           fullName: porteur.nomReprésentantLégal,
         }));
 
-      const { BASE_URL } = process.env;
+      const baseUrl = getBaseUrl();
 
       return [
         ...usersOthersThanDGECOrPorteur.items.map(({ email }) => ({
@@ -101,7 +102,7 @@ async function getEmailPayloads(
             appel_offre: appelOffre.id,
             periode: période.id,
             date_notification: new Date(event.payload.notifiéeLe).toLocaleDateString('fr-FR'),
-            redirect_url: `${BASE_URL}/projets.html`,
+            redirect_url: `${baseUrl}/projets.html`,
           },
         })),
         ...porteurs.map(({ email, fullName }) => ({
@@ -114,7 +115,7 @@ async function getEmailPayloads(
           ],
           messageSubject: `Résultats de la ${période.title} période de l'appel d'offres ${appelOffre.id}`,
           variables: {
-            redirect_url: `${BASE_URL}/projets.html`,
+            redirect_url: `${baseUrl}/projets.html`,
           },
         })),
       ];

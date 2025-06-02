@@ -4,11 +4,11 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 import { Event } from '@potentiel-infrastructure/pg-event-sourcing';
 import { TâchePlanifiéeExecutéeEvent } from '@potentiel-domain/tache-planifiee';
 import { IdentifiantProjet } from '@potentiel-domain/common';
-import { getLogger } from '@potentiel-libraries/monitoring';
 import { GarantiesFinancières, ReprésentantLégal } from '@potentiel-domain/laureat';
 
 import { SendEmail } from '../../../sendEmail';
-import { récupérerLauréat } from '../../../_utils/récupérerNomProjet';
+import { getLauréat } from '../../../helpers/getLauréat';
+import { getBaseUrl } from '../../../helpers/getBaseUrl';
 
 import { garantiesFinancièresRappelÉchéanceNotification } from './garantiesFinancièresRappelÉchéance.notification';
 import { représentantLégalRappelInstructionÀDeuxMoisNotification } from './représentantLégalRappelInstructionÀDeuxMois.notification';
@@ -31,17 +31,9 @@ export const register = ({ sendEmail }: RegisterTâchePlanifiéeNotificationDepe
       event.payload.identifiantProjet,
     );
 
-    const { BASE_URL: baseUrl } = process.env;
+    const baseUrl = getBaseUrl();
 
-    if (!baseUrl) {
-      getLogger().error(`variable d'environnement BASE_URL non trouvée`, {
-        application: 'notifications',
-        fonction: 'tâche-planifiée',
-      });
-      return;
-    }
-
-    const projet = await récupérerLauréat(identifiantProjet.formatter());
+    const projet = await getLauréat(identifiantProjet.formatter());
 
     return match(event.payload.typeTâchePlanifiée as TâchePlanifiée)
       .with(

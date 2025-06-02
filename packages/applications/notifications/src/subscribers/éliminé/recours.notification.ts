@@ -10,7 +10,8 @@ import { ListerUtilisateursQuery, Role } from '@potentiel-domain/utilisateur';
 
 import { SendEmail } from '../../sendEmail';
 import { listerPorteursRecipients } from '../../helpers/listerPorteursRecipients';
-import { récupérerCandidature } from '../../_utils/récupérerCandidature';
+import { getCandidature } from '../../helpers/getCandidature';
+import { getBaseUrl } from '../../helpers/getBaseUrl';
 
 export type SubscriptionEvent = Éliminé.Recours.RecoursEvent & Event;
 
@@ -31,12 +32,12 @@ export const register = ({ sendEmail }: RegisterRecoursNotificationDependencies)
       event.payload.identifiantProjet,
     );
 
-    const projet = await récupérerCandidature(identifiantProjet.formatter());
+    const projet = await getCandidature(identifiantProjet.formatter());
     const porteurs = await listerPorteursRecipients(identifiantProjet);
     if (Option.isNone(projet) || porteurs.length === 0 || !process.env.DGEC_EMAIL) {
       return;
     }
-    const { BASE_URL } = process.env;
+    const baseUrl = getBaseUrl();
 
     const admins = [
       {
@@ -66,8 +67,8 @@ export const register = ({ sendEmail }: RegisterRecoursNotificationDependencies)
         statut,
         redirect_url:
           statut === 'annulée'
-            ? `${BASE_URL}${Routes.Projet.details(identifiantProjet.formatter())}`
-            : `${BASE_URL}${Routes.Recours.détail(identifiantProjet.formatter())}`,
+            ? `${baseUrl}${Routes.Projet.details(identifiantProjet.formatter())}`
+            : `${baseUrl}${Routes.Recours.détail(identifiantProjet.formatter())}`,
       },
     });
 
@@ -89,7 +90,7 @@ export const register = ({ sendEmail }: RegisterRecoursNotificationDependencies)
           recipients,
           variables: {
             nom_projet: nomProjet,
-            redirect_url: `${BASE_URL}${Routes.Recours.détail(identifiantProjet.formatter())}`,
+            redirect_url: `${baseUrl}${Routes.Recours.détail(identifiantProjet.formatter())}`,
           },
         });
       }

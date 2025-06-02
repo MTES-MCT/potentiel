@@ -1,15 +1,15 @@
 import { Routes } from '@potentiel-applications/routes';
 import { Accès } from '@potentiel-domain/projet';
 
-import { récupérerCandidature } from '../../_utils/récupérerCandidature';
+import { getCandidature } from '../../helpers/getCandidature';
 import { EmailPayload } from '../../sendEmail';
+import { getBaseUrl } from '../../helpers/getBaseUrl';
 
 export async function accèsProjetRetiréNotification({
   payload: { identifiantProjet, identifiantsUtilisateur, cause },
 }: Accès.AccèsProjetRetiréEvent): Promise<Array<EmailPayload>> {
-  const { nom } = await récupérerCandidature(identifiantProjet);
-  const { BASE_URL } = process.env;
-  const urlPageProjets = `${BASE_URL}${Routes.Projet.lister()}`;
+  const { nom } = await getCandidature(identifiantProjet);
+  const urlPageProjets = `${getBaseUrl()}${Routes.Projet.lister()}`;
 
   return [
     {

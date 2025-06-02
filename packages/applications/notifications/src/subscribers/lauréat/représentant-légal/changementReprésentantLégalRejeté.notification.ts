@@ -1,6 +1,5 @@
 import { IdentifiantProjet } from '@potentiel-domain/projet';
 import { getLogger } from '@potentiel-libraries/monitoring';
-import { Routes } from '@potentiel-applications/routes';
 import { ReprésentantLégal } from '@potentiel-domain/laureat';
 
 import { listerPorteursRecipients } from '../../../helpers/listerPorteursRecipients';
@@ -17,15 +16,14 @@ type ChangementReprésentantLégalRejetéNotificationProps = {
     nom: string;
     département: string;
     région: string;
+    url: string;
   };
-  baseUrl: string;
 };
 
 export const changementReprésentantLégalRejetéNotification = async ({
   sendEmail,
   event,
   projet,
-  baseUrl,
 }: ChangementReprésentantLégalRejetéNotificationProps) => {
   const identifiantProjet = IdentifiantProjet.convertirEnValueType(event.payload.identifiantProjet);
   const porteurs = await listerPorteursRecipients(identifiantProjet);
@@ -46,7 +44,7 @@ export const changementReprésentantLégalRejetéNotification = async ({
       type: 'rejet',
       nom_projet: projet.nom,
       departement_projet: projet.département,
-      url: `${baseUrl}${Routes.Projet.details(identifiantProjet.formatter())}`,
+      url: projet.url,
     },
   });
 
@@ -70,7 +68,7 @@ export const changementReprésentantLégalRejetéNotification = async ({
         type: 'rejet',
         nom_projet: projet.nom,
         departement_projet: projet.département,
-        url: `${baseUrl}${Routes.Projet.details(identifiantProjet.formatter())}`,
+        url: projet.url,
       },
     });
   }

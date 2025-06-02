@@ -8,7 +8,8 @@ import { Routes } from '@potentiel-applications/routes';
 import { EmailPayload, SendEmail } from '../../sendEmail';
 import { listerPorteursRecipients } from '../../helpers/listerPorteursRecipients';
 import { listerDrealsRecipients } from '../../helpers/listerDrealsRecipients';
-import { récupérerLauréat } from '../../_utils/récupérerNomProjet';
+import { getLauréat } from '../../helpers/getLauréat';
+import { getBaseUrl } from '../../helpers/getBaseUrl';
 
 export type SubscriptionEvent = Lauréat.Achèvement.AchèvementEvent & Event;
 
@@ -24,20 +25,19 @@ const templateId = {
 
 async function getEmailPayload(event: SubscriptionEvent): Promise<EmailPayload[]> {
   const identifiantProjet = IdentifiantProjet.convertirEnValueType(event.payload.identifiantProjet);
-  const projet = await récupérerLauréat(identifiantProjet.formatter());
+  const projet = await getLauréat(identifiantProjet.formatter());
 
   const porteurs = await listerPorteursRecipients(identifiantProjet);
   const dreals = await listerDrealsRecipients(projet.région);
   const nomProjet = projet.nom;
   const départementProjet = projet.département;
-  const { BASE_URL } = process.env;
 
   switch (event.type) {
     case 'AttestationConformitéTransmise-V1':
       const variables = {
         nom_projet: nomProjet,
         departement_projet: départementProjet,
-        url: `${BASE_URL}${Routes.Projet.details(identifiantProjet.formatter())}`,
+        url: `${getBaseUrl()}${Routes.Projet.details(identifiantProjet.formatter())}`,
       };
       return [
         {

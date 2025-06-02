@@ -4,10 +4,10 @@ import { match } from 'ts-pattern';
 import { IdentifiantProjet } from '@potentiel-domain/projet';
 import { Event } from '@potentiel-infrastructure/pg-event-sourcing';
 import { ReprésentantLégal } from '@potentiel-domain/laureat';
-import { getLogger } from '@potentiel-libraries/monitoring';
 
 import { SendEmail } from '../../../sendEmail';
-import { récupérerLauréat } from '../../../_utils/récupérerNomProjet';
+import { getLauréat } from '../../../helpers/getLauréat';
+import { getBaseUrl } from '../../../helpers/getBaseUrl';
 
 import { représentantLégalModifiéNotification } from './représentantLégalModifié.notification';
 import { changementReprésentantLégalDemandéNotification } from './changementReprésentantLégalDemandé.notification';
@@ -30,17 +30,9 @@ export const register = ({ sendEmail }: RegisterReprésentantLégalNotificationD
       event.payload.identifiantProjet,
     );
 
-    const projet = await récupérerLauréat(identifiantProjet.formatter());
+    const projet = await getLauréat(identifiantProjet.formatter());
 
-    const { BASE_URL: baseUrl } = process.env;
-
-    if (!baseUrl) {
-      getLogger().error(`variable d'environnement BASE_URL non trouvée`, {
-        application: 'notifications',
-        fonction: 'représentant-légal',
-      });
-      return;
-    }
+    const baseUrl = getBaseUrl();
 
     return match(event)
       .with({ type: 'ReprésentantLégalModifié-V1' }, async (event) =>
@@ -48,7 +40,6 @@ export const register = ({ sendEmail }: RegisterReprésentantLégalNotificationD
           sendEmail,
           event,
           projet,
-          baseUrl,
         }),
       )
       .with({ type: 'ChangementReprésentantLégalDemandé-V1' }, async (event) =>
@@ -64,7 +55,6 @@ export const register = ({ sendEmail }: RegisterReprésentantLégalNotificationD
           sendEmail,
           event,
           projet,
-          baseUrl,
         }),
       )
       .with({ type: 'ChangementReprésentantLégalCorrigé-V1' }, async (event) =>
@@ -76,10 +66,10 @@ export const register = ({ sendEmail }: RegisterReprésentantLégalNotificationD
         }),
       )
       .with({ type: 'ChangementReprésentantLégalAccordé-V1' }, async (event) =>
-        changementReprésentantLégalAccordéNotification({ sendEmail, event, projet, baseUrl }),
+        changementReprésentantLégalAccordéNotification({ sendEmail, event, projet }),
       )
       .with({ type: 'ChangementReprésentantLégalRejeté-V1' }, async (event) =>
-        changementReprésentantLégalRejetéNotification({ sendEmail, event, projet, baseUrl }),
+        changementReprésentantLégalRejetéNotification({ sendEmail, event, projet }),
       )
       .otherwise(() => Promise.resolve());
   };

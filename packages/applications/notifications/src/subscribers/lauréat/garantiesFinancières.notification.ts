@@ -9,7 +9,8 @@ import { formatDateForEmail } from '../../helpers/formatDateForEmail';
 import { EmailPayload, SendEmail } from '../../sendEmail';
 import { listerPorteursRecipients } from '../../helpers/listerPorteursRecipients';
 import { listerDrealsRecipients } from '../../helpers/listerDrealsRecipients';
-import { récupérerLauréat } from '../../_utils/récupérerNomProjet';
+import { getLauréat } from '../../helpers/getLauréat';
+import { getBaseUrl } from '../../helpers/getBaseUrl';
 
 export type SubscriptionEvent = GarantiesFinancières.GarantiesFinancièresEvent & Event;
 
@@ -55,8 +56,6 @@ const formatGarantiesFinancièresEmailPayload = ({
   statut,
   dateÉchéance,
 }: FormatGarantiesFinancièresEmailPayload): EmailPayload | undefined => {
-  const { BASE_URL } = process.env;
-
   if (recipients.length === 0) {
     return;
   }
@@ -71,14 +70,14 @@ const formatGarantiesFinancièresEmailPayload = ({
       region_projet: régionProjet,
       nouveau_statut: statut ?? '',
       date_echeance: dateÉchéance ?? '',
-      url: `${BASE_URL}${Routes.GarantiesFinancières.détail(identifiantProjet.formatter())}`,
+      url: `${getBaseUrl()}${Routes.GarantiesFinancières.détail(identifiantProjet.formatter())}`,
     },
   };
 };
 
 async function getEmailPayloads(event: SubscriptionEvent): Promise<(EmailPayload | undefined)[]> {
   const identifiantProjet = IdentifiantProjet.convertirEnValueType(event.payload.identifiantProjet);
-  const projet = await récupérerLauréat(identifiantProjet.formatter());
+  const projet = await getLauréat(identifiantProjet.formatter());
 
   const porteurs = await listerPorteursRecipients(identifiantProjet);
   const dreals = await listerDrealsRecipients(projet.région);

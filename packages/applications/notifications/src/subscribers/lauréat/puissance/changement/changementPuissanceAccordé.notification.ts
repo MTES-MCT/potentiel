@@ -1,5 +1,4 @@
 import { getLogger } from '@potentiel-libraries/monitoring';
-import { Routes } from '@potentiel-applications/routes';
 import { Lauréat } from '@potentiel-domain/projet';
 import { IdentifiantProjet } from '@potentiel-domain/projet';
 
@@ -13,15 +12,14 @@ type ChangementPuissanceAccordéNotificationProps = {
   projet: {
     nom: string;
     département: string;
+    url: string;
   };
-  baseUrl: string;
 };
 
 export const changementPuissanceAccordéNotification = async ({
   sendEmail,
   event,
   projet,
-  baseUrl,
 }: ChangementPuissanceAccordéNotificationProps) => {
   const identifiantProjet = IdentifiantProjet.convertirEnValueType(event.payload.identifiantProjet);
   const porteurs = await listerPorteursRecipients(identifiantProjet);
@@ -43,7 +41,7 @@ export const changementPuissanceAccordéNotification = async ({
       type: 'accord',
       nom_projet: projet.nom,
       departement_projet: projet.département,
-      url: `${baseUrl}${Routes.Projet.details(identifiantProjet.formatter())}`,
+      url: projet.url,
     },
   });
 };
