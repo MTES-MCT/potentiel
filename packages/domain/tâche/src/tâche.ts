@@ -8,6 +8,9 @@ import { ListerTâchesQuery, ListerTâchesReadModel } from './lister/listerTâch
 export type TâcheQuery = ConsulterNombreTâchesQuery | ListerTâchesQuery;
 export { ConsulterNombreTâchesQuery, ListerTâchesQuery };
 
+// Command
+export { AcheverTâcheCommand } from './achever/acheverTâche.command';
+
 // ReadModel
 export { ConsulterNombreTâchesReadModel, ListerTâchesReadModel };
 
