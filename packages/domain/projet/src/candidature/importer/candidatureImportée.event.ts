@@ -7,6 +7,7 @@ import * as TypeTechnologie from '../typeTechnologie.valueType';
 import * as TypeActionnariat from '../typeActionnariat.valueType';
 import * as HistoriqueAbandon from '../historiqueAbandon.valueType';
 import { IdentifiantProjet } from '../..';
+import { TypeFournisseur } from '../../lauréat/fournisseur';
 
 type CandidatureImportéeEventPayload = {
   identifiantProjet: IdentifiantProjet.RawType;
@@ -37,11 +38,36 @@ type CandidatureImportéeEventPayload = {
   dateÉchéanceGf?: DateTime.RawType;
   territoireProjet: string;
   coefficientKChoisi?: boolean;
+  fournisseurs: Array<{
+    typeFournisseur: TypeFournisseur.RawType;
+    nomDuFabricant: string;
+  }>;
   importéLe: DateTime.RawType;
   importéPar: Email.RawType;
 };
 
-export type CandidatureImportéeEvent = DomainEvent<
+/**
+ * @deprecated Ajoute les informations fournisseurs à une candidature importée avec CandidatureImportée-V1
+ * Tous les évènements CandidatureImportée-V1 doivent avoir un évènement FournisseursCandidatureImportés-V1 associé
+ */
+export type FournisseursCandidatureImportésEvent = DomainEvent<
+  'FournisseursCandidatureImportés-V1',
+  {
+    identifiantProjet: IdentifiantProjet.RawType;
+    fournisseurs: CandidatureImportéeEventPayload['fournisseurs'];
+  }
+>;
+
+/**
+ * @deprecated Remplacé par CandidatureImportée-V2 qui ajoute les fournisseurs
+ * L'évènement FournisseursCandidatureImportés-V1 permet d'ajouter les valeurs manquantes pour les candidatures importées avec la V1
+ */
+export type CandidatureImportéeEventV1 = DomainEvent<
   'CandidatureImportée-V1',
+  Omit<CandidatureImportéeEventPayload, 'fournisseurs'>
+>;
+
+export type CandidatureImportéeEvent = DomainEvent<
+  'CandidatureImportée-V2',
   CandidatureImportéeEventPayload
 >;

@@ -4,9 +4,10 @@ import { DateTime, Email } from '@potentiel-domain/common';
 import { AbstractAggregate } from '@potentiel-domain/core';
 
 import { ProjetAggregateRoot } from '../projet.aggregateRoot';
+import { Fournisseur } from '../lauréat';
 
 import { CandidatureEvent } from './candidature.event';
-import { CandidatureImportéeEvent } from './importer/candidatureImportée.event';
+import { CandidatureImportéeEvent, CandidatureImportéeEventV1 } from './importer/candidatureImportée.event';
 import { ImporterCandidatureOptions } from './importer/importerCandidature.options';
 import * as StatutCandidature from './statutCandidature.valueType';
 import * as TypeGarantiesFinancières from './typeGarantiesFinancières.valueType';
@@ -72,6 +73,10 @@ export class CandidatureAggregate extends AbstractAggregate<CandidatureEvent> {
   #puissanceProductionAnnuelle: number = 0;
   #territoireProjet: string = '';
   #coefficientKChoisi?: boolean;
+  #fournisseurs: Array<{
+    typeFournisseur: Fournisseur.TypeFournisseur.ValueType;
+    nomDuFabricant: string;
+  }> = [];
 
   get estNotifiée() {
     return !!this.notifiéeLe;
@@ -154,6 +159,10 @@ export class CandidatureAggregate extends AbstractAggregate<CandidatureEvent> {
     return this.#evaluationCarboneSimplifiée;
   }
 
+  get fournisseurs() {
+    return this.#fournisseurs;
+  }
+
   async init(projet: ProjetAggregateRoot) {
     this.#projet = projet;
   }
@@ -167,7 +176,7 @@ export class CandidatureAggregate extends AbstractAggregate<CandidatureEvent> {
     this.vérifierCoefficientKChoisi(candidature);
 
     const event: CandidatureImportéeEvent = {
-      type: 'CandidatureImportée-V1',
+      type: 'CandidatureImportée-V2',
       payload: {
         ...this.mapToEventPayload(candidature),
         importéLe: candidature.importéLe.formatter(),
@@ -417,6 +426,12 @@ export class CandidatureAggregate extends AbstractAggregate<CandidatureEvent> {
       )
       .with(
         {
+          type: 'CandidatureImportée-V2',
+        },
+        (event) => this.applyCandidatureImportée(event),
+      )
+      .with(
+        {
           type: 'CandidatureCorrigée-V1',
         },
         (event) => this.applyCandidatureCorrigée(event),
@@ -436,7 +451,12 @@ export class CandidatureAggregate extends AbstractAggregate<CandidatureEvent> {
       .exhaustive();
   }
 
-  private applyCandidatureImportéeV1({ payload }: CandidatureImportéeEvent) {
+  private applyCandidatureImportéeV1({ payload }: CandidatureImportéeEventV1) {
+    this.applyCommonEventPayload(payload);
+  }
+
+
+  private applyCandidatureImportée({ payload }: CandidatureImportéeEvent) {
     this.applyCommonEventPayload(payload);
   }
 
@@ -529,5 +549,6 @@ export class CandidatureAggregate extends AbstractAggregate<CandidatureEvent> {
     actionnariat: candidature.actionnariat?.formatter(),
     territoireProjet: candidature.territoireProjet,
     coefficientKChoisi: candidature.coefficientKChoisi,
+    this.fournisseurs: candidature.
   });
 }
