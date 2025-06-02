@@ -1,7 +1,7 @@
 import { DateTime } from '@potentiel-domain/common';
 import { Entity } from '@potentiel-domain/entity';
 
-import { ChampsFournisseurDétails } from './types';
+import { TypeFournisseur } from '.';
 
 export type FournisseurEntity = Entity<
   'fournisseur',
@@ -9,6 +9,9 @@ export type FournisseurEntity = Entity<
     identifiantProjet: string;
     misÀJourLe: DateTime.RawType;
     évaluationCarboneSimplifiée: number;
-    details: ChampsFournisseurDétails;
+    fournisseurs: Array<{
+      typeFournisseur: TypeFournisseur.RawType;
+      nomDuFabricant: string;
+    }>;
   }
 >;

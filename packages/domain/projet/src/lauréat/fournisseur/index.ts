@@ -16,6 +16,7 @@ export { FournisseurImportéEvent } from './importer/importerFournisseur.event';
 export { registerFournisseurQueries } from './fournisseur.register';
 
 // ValueTypes
+export * as TypeFournisseur from './typeFournisseur.valueType';
 
 // Entities
 export * from './fournisseur.entity';

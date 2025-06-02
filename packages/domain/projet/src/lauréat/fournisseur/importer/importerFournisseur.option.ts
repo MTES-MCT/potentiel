@@ -1,10 +1,13 @@
 import { DateTime, Email } from '@potentiel-domain/common';
 
-import { ChampsFournisseurDétails } from '../types';
+import { TypeFournisseur } from '..';
 
 export type ImporterOptions = {
   identifiantUtilisateur: Email.ValueType;
   évaluationCarboneSimplifiée: number;
-  details: ChampsFournisseurDétails;
+  fournisseurs: Array<{
+    typeFournisseur: TypeFournisseur.ValueType;
+    nomDuFabricant: string;
+  }>;
   importéLe: DateTime.ValueType;
 };

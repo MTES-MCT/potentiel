@@ -164,7 +164,7 @@ export class LauréatAggregate extends AbstractAggregate<LauréatEvent> {
 
     await this.fournisseur.importer({
       évaluationCarboneSimplifiée: this.projet.candidature.evaluationCarboneSimplifiée,
-      details: [],
+      détails: [],
       importéLe: notifiéeLe,
       identifiantUtilisateur: notifiéePar,
     });

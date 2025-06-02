@@ -5,20 +5,7 @@
 //   label: 'Dispositifs de production d’éléctricité',
 // },
 
-// union type ou pas ?
-
-export type ChampsFournisseur =
-  | 'moduleOrFilms'
-  | 'cellules'
-  | 'plaquettesSilicium'
-  | 'polysilicium'
-  | 'postesConversion'
-  | 'structures'
-  | 'dispositifsStockageEnergie'
-  | 'dispositifsSuiviCourseSoleil'
-  | 'autresTechnologies';
-
-export type ChampsFournisseurDétails = Array<Record<ChampsFournisseur, string | undefined>>;
+// à supprimer
 
 export const champsCsvFournisseur: Record<ChampsFournisseur, string> = {
   moduleOrFilms: 'Nom du fabricant \n(Modules ou films)',
@@ -33,14 +20,14 @@ export const champsCsvFournisseur: Record<ChampsFournisseur, string> = {
   autresTechnologies: 'Nom du fabricant \n(Autres technologies)',
 };
 
-export const champsLabelsFournisseur: Record<ChampsFournisseur, string> = {
-  moduleOrFilms: 'Modules ou films',
-  cellules: 'Cellules',
-  plaquettesSilicium: 'Plaquettes de silicium (wafers)',
-  polysilicium: 'Polysilicium',
-  postesConversion: 'Postes de conversion',
-  structures: 'Structures',
-  dispositifsStockageEnergie: 'Dispositifs de stockage de l’énergie',
-  dispositifsSuiviCourseSoleil: 'Dispositifs de suivi de la course du soleil',
-  autresTechnologies: 'Autres technologies',
-};
+// export const champsLabelsFournisseur: Record<ChampsFournisseur, string> = {
+//   moduleOrFilms: 'Modules ou films',
+//   cellules: 'Cellules',
+//   plaquettesSilicium: 'Plaquettes de silicium (wafers)',
+//   polysilicium: 'Polysilicium',
+//   postesConversion: 'Postes de conversion',
+//   structures: 'Structures',
+//   dispositifsStockageEnergie: 'Dispositifs de stockage de l’énergie',
+//   dispositifsSuiviCourseSoleil: 'Dispositifs de suivi de la course du soleil',
+//   autresTechnologies: 'Autres technologies',
+// };

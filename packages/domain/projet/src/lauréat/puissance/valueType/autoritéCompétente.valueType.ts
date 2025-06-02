@@ -1,8 +1,8 @@
 import { InvalidOperationError, PlainType, ReadonlyValueType } from '@potentiel-domain/core';
 
-export const autoritéCompétentes = ['dreal', 'dgec-admin'] as const;
+export const autoritésCompétentes = ['dreal', 'dgec-admin'] as const;
 
-export type RawType = (typeof autoritéCompétentes)[number];
+export type RawType = (typeof autoritésCompétentes)[number];
 
 export type ValueType = ReadonlyValueType<{
   autoritéCompétente: RawType;
@@ -25,7 +25,7 @@ export const convertirEnValueType = (value: string): ValueType => {
 };
 
 function estValide(value: string): asserts value is RawType {
-  const isValid = autoritéCompétentes.includes(value as RawType);
+  const isValid = autoritésCompétentes.includes(value as RawType);
 
   if (!isValid) {
     throw new AutoritéCompétenteInvalideError(value);

@@ -4,6 +4,8 @@ import { AbstractAggregate } from '@potentiel-domain/core';
 
 import { LauréatAggregate } from '../lauréat.aggregate';
 
+import { TypeFournisseur } from '.';
+
 import { FournisseurEvent } from './fournisseur.event';
 import { ImporterOptions } from './importer/importerFournisseur.option';
 import { FournisseurImportéEvent } from './importer/importerFournisseur.event';
@@ -11,7 +13,10 @@ import { FournisseurImportéEvent } from './importer/importerFournisseur.event';
 export class FournisseurAggregate extends AbstractAggregate<FournisseurEvent> {
   #lauréat!: LauréatAggregate;
 
-  fournisseur!: string;
+  fournisseurs!: Array<{
+    typeFournisseur: TypeFournisseur.ValueType;
+    nomDuFabricant: string;
+  }>;
 
   évaluationCarboneSimplifiée!: number;
 
@@ -37,7 +42,7 @@ export class FournisseurAggregate extends AbstractAggregate<FournisseurEvent> {
       payload: {
         identifiantProjet: this.identifiantProjet.formatter(),
         évaluationCarboneSimplifiée,
-        details: 'coucou',
+        fournisseurs: [],
         importéLe: importéLe.formatter(),
         importéPar: identifiantUtilisateur.formatter(),
       },
@@ -58,8 +63,12 @@ export class FournisseurAggregate extends AbstractAggregate<FournisseurEvent> {
   }
 
   private applyFournisseurImportéV1({
-    payload: { évaluationCarboneSimplifiée },
+    payload: { évaluationCarboneSimplifiée, fournisseurs },
   }: FournisseurImportéEvent) {
     this.évaluationCarboneSimplifiée = évaluationCarboneSimplifiée;
+    this.fournisseurs = fournisseurs.map((fournisseur) => ({
+      typeFournisseur: TypeFournisseur.convertirEnValueType(fournisseur.typeFournisseur),
+      nomDuFabricant: fournisseur.nomDuFabricant,
+    }));
   }
 }
