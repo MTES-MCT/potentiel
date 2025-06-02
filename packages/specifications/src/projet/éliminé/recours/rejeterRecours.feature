@@ -2,7 +2,8 @@
 Fonctionnalité: Rejeter le recours d'un projet éliminé
 
     Contexte:
-        Etant donné le projet éliminé "Du boulodrome de Marseille"
+        Etant donné le projet éliminé "Du boulodrome de Marseille" avec :
+            | appel d'offre | PPE2 - Innovation |
 
     Scénario: Un DGEC validateur rejette le recours d'un projet éliminé
         Etant donné une demande de recours en cours pour le projet éliminé
