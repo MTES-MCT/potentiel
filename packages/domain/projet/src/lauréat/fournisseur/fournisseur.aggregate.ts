@@ -13,6 +13,8 @@ export class FournisseurAggregate extends AbstractAggregate<FournisseurEvent> {
 
   fournisseur!: string;
 
+  évaluationCarboneSimplifiée!: number;
+
   get lauréat() {
     return this.#lauréat;
   }
@@ -24,7 +26,6 @@ export class FournisseurAggregate extends AbstractAggregate<FournisseurEvent> {
   async importer({
     identifiantProjet,
     évaluationCarboneSimplifiée,
-    details,
     dateImport,
     identifiantUtilisateur,
   }: ImporterOptions) {
@@ -33,7 +34,7 @@ export class FournisseurAggregate extends AbstractAggregate<FournisseurEvent> {
       payload: {
         identifiantProjet: identifiantProjet.formatter(),
         évaluationCarboneSimplifiée,
-        details,
+        details: 'coucou',
         importéLe: dateImport.formatter(),
         importéPar: identifiantUtilisateur.formatter(),
       },
@@ -53,7 +54,9 @@ export class FournisseurAggregate extends AbstractAggregate<FournisseurEvent> {
       .exhaustive();
   }
 
-  private applyFournisseurImportéV1({ payload: { fournisseur } }: FournisseurImportéEvent) {
-    this.fournisseur = fournisseur;
+  private applyFournisseurImportéV1({
+    payload: { évaluationCarboneSimplifiée },
+  }: FournisseurImportéEvent) {
+    this.évaluationCarboneSimplifiée = évaluationCarboneSimplifiée;
   }
 }

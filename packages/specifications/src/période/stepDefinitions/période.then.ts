@@ -150,7 +150,12 @@ async function vérifierLauréats(
     },
   });
 
-  for (const { identifiantProjet, typeGarantiesFinancières } of candidats.items) {
+  for (const {
+    identifiantProjet,
+    typeGarantiesFinancières,
+    puissanceProductionAnnuelle,
+    nomCandidat,
+  } of candidats.items) {
     const lauréat = await mediator.send<Lauréat.ConsulterLauréatQuery>({
       type: 'Lauréat.Query.ConsulterLauréat',
       data: {
@@ -177,6 +182,28 @@ async function vérifierLauréats(
         `Aucune garanties financières pour ${identifiantProjet.formatter()}`,
       );
       assert(garantiesFinancières.garantiesFinancières.type.estÉgaleÀ(typeGarantiesFinancières));
+    }
+
+    if (puissanceProductionAnnuelle) {
+      const puissance = await mediator.send<Lauréat.Puissance.ConsulterPuissanceQuery>({
+        type: 'Lauréat.Puissance.Query.ConsulterPuissance',
+        data: {
+          identifiantProjet: identifiantProjet.formatter(),
+        },
+      });
+      assert(Option.isSome(puissance), `Aucune puissance pour ${identifiantProjet.formatter()}`);
+      assert(puissance.puissance === puissanceProductionAnnuelle);
+    }
+
+    if (nomCandidat) {
+      const producteur = await mediator.send<Lauréat.Producteur.ConsulterProducteurQuery>({
+        type: 'Lauréat.Producteur.Query.ConsulterProducteur',
+        data: {
+          identifiantProjet: identifiantProjet.formatter(),
+        },
+      });
+      assert(Option.isSome(producteur), `Aucun producteur pour ${identifiantProjet.formatter()}`);
+      assert(producteur.producteur === nomCandidat);
     }
   }
 }
