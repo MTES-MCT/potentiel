@@ -1,15 +1,14 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { IdentifiantProjet } from '@potentiel-domain/projet';
-import { Option } from '@potentiel-libraries/monads';
 import { Event } from '@potentiel-infrastructure/pg-event-sourcing';
-import { CandidatureAdapter } from '@potentiel-infrastructure/domain-adapters';
 import { Lauréat } from '@potentiel-domain/projet';
 import { Routes } from '@potentiel-applications/routes';
 
 import { EmailPayload, SendEmail } from '../../sendEmail';
 import { listerPorteursRecipients } from '../../helpers/listerPorteursRecipients';
 import { listerDrealsRecipients } from '../../helpers/listerDrealsRecipients';
+import { récupérerLauréat } from '../../_utils/récupérerNomProjet';
 
 export type SubscriptionEvent = Lauréat.Achèvement.AchèvementEvent & Event;
 
@@ -25,16 +24,12 @@ const templateId = {
 
 async function getEmailPayload(event: SubscriptionEvent): Promise<EmailPayload[]> {
   const identifiantProjet = IdentifiantProjet.convertirEnValueType(event.payload.identifiantProjet);
-  const projet = await CandidatureAdapter.récupérerProjetAdapter(identifiantProjet.formatter());
-
-  if (Option.isNone(projet)) {
-    return [];
-  }
+  const projet = await récupérerLauréat(identifiantProjet.formatter());
 
   const porteurs = await listerPorteursRecipients(identifiantProjet);
-  const dreals = await listerDrealsRecipients(projet.localité.région);
+  const dreals = await listerDrealsRecipients(projet.région);
   const nomProjet = projet.nom;
-  const départementProjet = projet.localité.département;
+  const départementProjet = projet.département;
   const { BASE_URL } = process.env;
 
   switch (event.type) {

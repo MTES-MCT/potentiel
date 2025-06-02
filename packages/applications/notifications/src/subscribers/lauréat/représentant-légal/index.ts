@@ -2,13 +2,12 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 import { match } from 'ts-pattern';
 
 import { IdentifiantProjet } from '@potentiel-domain/projet';
-import { Option } from '@potentiel-libraries/monads';
 import { Event } from '@potentiel-infrastructure/pg-event-sourcing';
-import { CandidatureAdapter } from '@potentiel-infrastructure/domain-adapters';
 import { ReprésentantLégal } from '@potentiel-domain/laureat';
 import { getLogger } from '@potentiel-libraries/monitoring';
 
 import { SendEmail } from '../../../sendEmail';
+import { récupérerLauréat } from '../../../_utils/récupérerNomProjet';
 
 import { représentantLégalModifiéNotification } from './représentantLégalModifié.notification';
 import { changementReprésentantLégalDemandéNotification } from './changementReprésentantLégalDemandé.notification';
@@ -30,18 +29,9 @@ export const register = ({ sendEmail }: RegisterReprésentantLégalNotificationD
     const identifiantProjet = IdentifiantProjet.convertirEnValueType(
       event.payload.identifiantProjet,
     );
-    const candidature = await CandidatureAdapter.récupérerProjetAdapter(
-      identifiantProjet.formatter(),
-    );
 
-    if (Option.isNone(candidature)) {
-      getLogger().error(new Error('Projet non trouvé'), {
-        identifiantProjet: identifiantProjet.formatter(),
-        application: 'notifications',
-        fonction: 'représentant-légal',
-      });
-      return;
-    }
+    const projet = await récupérerLauréat(identifiantProjet.formatter());
+
     const { BASE_URL: baseUrl } = process.env;
 
     if (!baseUrl) {
@@ -51,12 +41,6 @@ export const register = ({ sendEmail }: RegisterReprésentantLégalNotificationD
       });
       return;
     }
-
-    const projet = {
-      nom: candidature.nom,
-      département: candidature.localité.département,
-      région: candidature.localité.région,
-    };
 
     return match(event)
       .with({ type: 'ReprésentantLégalModifié-V1' }, async (event) =>

@@ -2,13 +2,12 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 import { match } from 'ts-pattern';
 
 import { IdentifiantProjet } from '@potentiel-domain/projet';
-import { Option } from '@potentiel-libraries/monads';
 import { Event } from '@potentiel-infrastructure/pg-event-sourcing';
-import { CandidatureAdapter } from '@potentiel-infrastructure/domain-adapters';
 import { Actionnaire } from '@potentiel-domain/laureat';
 import { getLogger } from '@potentiel-libraries/monitoring';
 
 import { SendEmail } from '../../../sendEmail';
+import { récupérerLauréat } from '../../../_utils/récupérerNomProjet';
 
 import { changementActionnaireAnnuléNotifications } from './changementActionnaireAnnulé.notifications';
 import { changementActionnaireDemandéNotifications } from './changementActionnaireDemandé.notifications';
@@ -30,18 +29,7 @@ export const register = ({ sendEmail }: RegisterActionnaireNotificationDependenc
     const identifiantProjet = IdentifiantProjet.convertirEnValueType(
       event.payload.identifiantProjet,
     );
-    const détailsProjet = await CandidatureAdapter.récupérerProjetAdapter(
-      identifiantProjet.formatter(),
-    );
-
-    if (Option.isNone(détailsProjet)) {
-      getLogger().error(new Error('Projet non trouvé'), {
-        identifiantProjet: identifiantProjet.formatter(),
-        application: 'notifications',
-        fonction: 'actionnaire',
-      });
-      return;
-    }
+    const projet = await récupérerLauréat(identifiantProjet.formatter());
 
     const { BASE_URL: baseUrl } = process.env;
 
@@ -52,12 +40,6 @@ export const register = ({ sendEmail }: RegisterActionnaireNotificationDependenc
       });
       return;
     }
-
-    const projet = {
-      nom: détailsProjet.nom,
-      département: détailsProjet.localité.département,
-      région: détailsProjet.localité.région,
-    };
 
     return match(event)
       .with({ type: 'ActionnaireModifié-V1' }, async (event) =>

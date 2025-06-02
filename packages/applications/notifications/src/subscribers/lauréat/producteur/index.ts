@@ -1,13 +1,12 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 import { match, P } from 'ts-pattern';
 
-import { Option } from '@potentiel-libraries/monads';
 import { Event } from '@potentiel-infrastructure/pg-event-sourcing';
-import { CandidatureAdapter } from '@potentiel-infrastructure/domain-adapters';
 import { getLogger } from '@potentiel-libraries/monitoring';
 import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 
 import { SendEmail } from '../../../sendEmail';
+import { récupérerLauréat } from '../../../_utils/récupérerNomProjet';
 
 import { changementProducteurEnregistréNotification } from './changementProducteurEnregistré.notification';
 import { producteurModifiéNotification } from './producteurModifié.notification';
@@ -26,19 +25,8 @@ export const register = ({ sendEmail }: RegisterProducteurNotificationDependenci
       event.payload.identifiantProjet,
     );
 
-    const candidature = await CandidatureAdapter.récupérerProjetAdapter(
-      identifiantProjet.formatter(),
-    );
+    const projet = await récupérerLauréat(identifiantProjet.formatter());
 
-    if (Option.isNone(candidature)) {
-      getLogger().error(new Error('Projet non trouvé'), {
-        identifiantProjet: identifiantProjet.formatter(),
-        application: 'notifications',
-        fonction: 'producteur',
-        eventType: event.type,
-      });
-      return;
-    }
     const { BASE_URL: baseUrl } = process.env;
 
     if (!baseUrl) {
@@ -48,12 +36,6 @@ export const register = ({ sendEmail }: RegisterProducteurNotificationDependenci
       });
       return;
     }
-
-    const projet = {
-      nom: candidature.nom,
-      département: candidature.localité.département,
-      région: candidature.localité.région,
-    };
 
     return match(event)
       .with({ type: 'ProducteurModifié-V1' }, async (event) =>

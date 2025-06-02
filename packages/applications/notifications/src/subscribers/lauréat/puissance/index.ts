@@ -1,14 +1,13 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 import { match, P } from 'ts-pattern';
 
-import { Option } from '@potentiel-libraries/monads';
 import { Event } from '@potentiel-infrastructure/pg-event-sourcing';
-import { CandidatureAdapter } from '@potentiel-infrastructure/domain-adapters';
 import { Lauréat } from '@potentiel-domain/projet';
 import { getLogger } from '@potentiel-libraries/monitoring';
 import { IdentifiantProjet } from '@potentiel-domain/projet';
 
 import { SendEmail } from '../../../sendEmail';
+import { récupérerLauréat } from '../../../_utils/récupérerNomProjet';
 
 import { puissanceModifiéeNotification } from './puissanceModifiée.notification';
 import { changementPuissanceAccordéNotification } from './changement/changementPuissanceAccordé.notification';
@@ -30,19 +29,8 @@ export const register = ({ sendEmail }: RegisterPuissanceNotificationDependencie
     const identifiantProjet = IdentifiantProjet.convertirEnValueType(
       event.payload.identifiantProjet,
     );
-    const candidature = await CandidatureAdapter.récupérerProjetAdapter(
-      identifiantProjet.formatter(),
-    );
+    const projet = await récupérerLauréat(identifiantProjet.formatter());
 
-    if (Option.isNone(candidature)) {
-      getLogger().error(new Error('Projet non trouvé'), {
-        identifiantProjet: identifiantProjet.formatter(),
-        application: 'notifications',
-        fonction: 'puissance',
-        eventType: event.type,
-      });
-      return;
-    }
     const { BASE_URL: baseUrl } = process.env;
 
     if (!baseUrl) {
@@ -52,12 +40,6 @@ export const register = ({ sendEmail }: RegisterPuissanceNotificationDependencie
       });
       return;
     }
-
-    const projet = {
-      nom: candidature.nom,
-      département: candidature.localité.département,
-      région: candidature.localité.région,
-    };
 
     return match(event)
       .with({ type: 'PuissanceModifiée-V1' }, async (event) =>

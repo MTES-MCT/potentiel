@@ -5,11 +5,10 @@ import { Event } from '@potentiel-infrastructure/pg-event-sourcing';
 import { TâchePlanifiéeExecutéeEvent } from '@potentiel-domain/tache-planifiee';
 import { IdentifiantProjet } from '@potentiel-domain/common';
 import { getLogger } from '@potentiel-libraries/monitoring';
-import { Option } from '@potentiel-libraries/monads';
-import { CandidatureAdapter } from '@potentiel-infrastructure/domain-adapters';
 import { GarantiesFinancières, ReprésentantLégal } from '@potentiel-domain/laureat';
 
 import { SendEmail } from '../../../sendEmail';
+import { récupérerLauréat } from '../../../_utils/récupérerNomProjet';
 
 import { garantiesFinancièresRappelÉchéanceNotification } from './garantiesFinancièresRappelÉchéance.notification';
 import { représentantLégalRappelInstructionÀDeuxMoisNotification } from './représentantLégalRappelInstructionÀDeuxMois.notification';
@@ -31,18 +30,7 @@ export const register = ({ sendEmail }: RegisterTâchePlanifiéeNotificationDepe
     const identifiantProjet = IdentifiantProjet.convertirEnValueType(
       event.payload.identifiantProjet,
     );
-    const candidature = await CandidatureAdapter.récupérerProjetAdapter(
-      identifiantProjet.formatter(),
-    );
 
-    if (Option.isNone(candidature)) {
-      getLogger().error(new Error('Projet non trouvé'), {
-        identifiantProjet: identifiantProjet.formatter(),
-        application: 'notifications',
-        fonction: 'tâche-planifiée',
-      });
-      return;
-    }
     const { BASE_URL: baseUrl } = process.env;
 
     if (!baseUrl) {
@@ -53,11 +41,7 @@ export const register = ({ sendEmail }: RegisterTâchePlanifiéeNotificationDepe
       return;
     }
 
-    const projet = {
-      nom: candidature.nom,
-      département: candidature.localité.département,
-      région: candidature.localité.région,
-    };
+    const projet = await récupérerLauréat(identifiantProjet.formatter());
 
     return match(event.payload.typeTâchePlanifiée as TâchePlanifiée)
       .with(

@@ -3,11 +3,11 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import { Option } from '@potentiel-libraries/monads';
 import { Event } from '@potentiel-infrastructure/pg-event-sourcing';
-import { CandidatureAdapter } from '@potentiel-infrastructure/domain-adapters';
 import { Routes } from '@potentiel-applications/routes';
 
 import { EmailPayload, SendEmail } from '../../sendEmail';
 import { listerPorteursRecipients } from '../../helpers/listerPorteursRecipients';
+import { récupérerLauréat } from '../../_utils/récupérerNomProjet';
 
 export type SubscriptionEvent = Lauréat.Abandon.AbandonEvent & Event;
 
@@ -74,7 +74,7 @@ const sendEmailAbandonChangementDeStatut = ({
 
 async function getEmailPayload(event: SubscriptionEvent): Promise<EmailPayload | undefined> {
   const identifiantProjet = IdentifiantProjet.convertirEnValueType(event.payload.identifiantProjet);
-  const projet = await CandidatureAdapter.récupérerProjetAdapter(identifiantProjet.formatter());
+  const projet = await récupérerLauréat(identifiantProjet.formatter());
   const porteurs = await listerPorteursRecipients(identifiantProjet);
 
   if (Option.isNone(projet) || porteurs.length === 0 || !process.env.DGEC_EMAIL) {
@@ -82,9 +82,9 @@ async function getEmailPayload(event: SubscriptionEvent): Promise<EmailPayload |
   }
 
   const nomProjet = projet.nom;
-  const départementProjet = projet.localité.département;
-  const appelOffre = projet.appelOffre;
-  const période = projet.période;
+  const départementProjet = projet.département;
+  const appelOffre = identifiantProjet.appelOffre;
+  const période = identifiantProjet.période;
 
   const admins = [
     {
@@ -169,7 +169,7 @@ async function getEmailPayload(event: SubscriptionEvent): Promise<EmailPayload |
     case 'PreuveRecandidatureDemandée-V1':
       return {
         templateId: templateId.demanderPreuveRecandidature,
-        messageSubject: `Potentiel - Transmettre une preuve de recandidature suite à l'abandon du projet ${projet.nom} (${projet.appelOffre} période ${projet.période})`,
+        messageSubject: `Potentiel - Transmettre une preuve de recandidature suite à l'abandon du projet ${projet.nom} (${appelOffre} période ${période})`,
         recipients: porteurs,
         variables: {
           nom_projet: projet.nom,

@@ -1,9 +1,7 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { IdentifiantProjet } from '@potentiel-domain/projet';
-import { Option } from '@potentiel-libraries/monads';
 import { Event } from '@potentiel-infrastructure/pg-event-sourcing';
-import { CandidatureAdapter } from '@potentiel-infrastructure/domain-adapters';
 import { GarantiesFinancières } from '@potentiel-domain/laureat';
 import { Routes } from '@potentiel-applications/routes';
 
@@ -11,6 +9,7 @@ import { formatDateForEmail } from '../../helpers/formatDateForEmail';
 import { EmailPayload, SendEmail } from '../../sendEmail';
 import { listerPorteursRecipients } from '../../helpers/listerPorteursRecipients';
 import { listerDrealsRecipients } from '../../helpers/listerDrealsRecipients';
+import { récupérerLauréat } from '../../_utils/récupérerNomProjet';
 
 export type SubscriptionEvent = GarantiesFinancières.GarantiesFinancièresEvent & Event;
 
@@ -79,18 +78,14 @@ const formatGarantiesFinancièresEmailPayload = ({
 
 async function getEmailPayloads(event: SubscriptionEvent): Promise<(EmailPayload | undefined)[]> {
   const identifiantProjet = IdentifiantProjet.convertirEnValueType(event.payload.identifiantProjet);
-  const projet = await CandidatureAdapter.récupérerProjetAdapter(identifiantProjet.formatter());
-
-  if (Option.isNone(projet)) {
-    return [];
-  }
+  const projet = await récupérerLauréat(identifiantProjet.formatter());
 
   const porteurs = await listerPorteursRecipients(identifiantProjet);
-  const dreals = await listerDrealsRecipients(projet.localité.région);
+  const dreals = await listerDrealsRecipients(projet.région);
 
   const nomProjet = projet.nom;
-  const départementProjet = projet.localité.département;
-  const régionProjet = projet.localité.région;
+  const départementProjet = projet.département;
+  const régionProjet = projet.région;
 
   switch (event.type) {
     case 'DépôtGarantiesFinancièresSoumis-V1':

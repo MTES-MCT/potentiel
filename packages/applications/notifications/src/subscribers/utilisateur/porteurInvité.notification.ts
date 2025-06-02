@@ -2,12 +2,12 @@ import { Email } from '@potentiel-domain/common';
 import { PorteurInvitéEvent } from '@potentiel-domain/utilisateur';
 import { Routes } from '@potentiel-applications/routes';
 
-import { récupérerNomProjet } from '../../_utils/récupérerNomProjet';
+import { récupérerCandidature } from '../../_utils/récupérerCandidature';
 
 export const porteurInvitéNotification = async ({
   payload: { identifiantsProjet, identifiantUtilisateur, invitéPar },
 }: PorteurInvitéEvent) => {
-  const nomsProjet = await Promise.all(identifiantsProjet.map(récupérerNomProjet));
+  const projets = await Promise.all(identifiantsProjet.map(récupérerCandidature));
 
   const { BASE_URL } = process.env;
   const urlPageProjets = `${BASE_URL}${Routes.Projet.lister()}`;
@@ -25,7 +25,10 @@ export const porteurInvitéNotification = async ({
       messageSubject: `Invitation à suivre les projets sur Potentiel`,
       recipients: [{ email: identifiantUtilisateur }],
       variables: {
-        nomProjet: nomsProjet.filter(Boolean).join(', '),
+        nomProjet: projets
+          .filter(Boolean)
+          .map(({ nom }) => nom)
+          .join(', '),
         invitation_link: urlPageProjets,
       },
     },

@@ -6,11 +6,11 @@ import { Event } from '@potentiel-infrastructure/pg-event-sourcing';
 import { Éliminé } from '@potentiel-domain/projet';
 import { IdentifiantProjet } from '@potentiel-domain/projet';
 import { Routes } from '@potentiel-applications/routes';
-import { CandidatureAdapter } from '@potentiel-infrastructure/domain-adapters';
 import { ListerUtilisateursQuery, Role } from '@potentiel-domain/utilisateur';
 
 import { SendEmail } from '../../sendEmail';
 import { listerPorteursRecipients } from '../../helpers/listerPorteursRecipients';
+import { récupérerCandidature } from '../../_utils/récupérerCandidature';
 
 export type SubscriptionEvent = Éliminé.Recours.RecoursEvent & Event;
 
@@ -31,7 +31,7 @@ export const register = ({ sendEmail }: RegisterRecoursNotificationDependencies)
       event.payload.identifiantProjet,
     );
 
-    const projet = await CandidatureAdapter.récupérerProjetAdapter(identifiantProjet.formatter());
+    const projet = await récupérerCandidature(identifiantProjet.formatter());
     const porteurs = await listerPorteursRecipients(identifiantProjet);
     if (Option.isNone(projet) || porteurs.length === 0 || !process.env.DGEC_EMAIL) {
       return;
@@ -45,9 +45,9 @@ export const register = ({ sendEmail }: RegisterRecoursNotificationDependencies)
       },
     ];
     const nomProjet = projet.nom;
-    const départementProjet = projet.localité.département;
-    const appelOffre = projet.appelOffre;
-    const période = projet.période;
+    const départementProjet = projet.département;
+    const appelOffre = identifiantProjet.appelOffre;
+    const période = identifiantProjet.période;
     const statut = match(event.type)
       .with('RecoursDemandé-V1', () => 'demandée')
       .with('RecoursAnnulé-V1', () => 'annulée')

@@ -16,7 +16,7 @@ import {
 } from '@potentiel-domain/document';
 import {
   AppelOffreAdapter,
-  CandidatureAdapter,
+  ProjetAdapter,
   DocumentAdapter,
   récupérerIdentifiantsProjetParEmailPorteurAdapter,
 } from '@potentiel-infrastructure/domain-adapters';
@@ -48,7 +48,7 @@ Candidature.registerCandidatureQueries({
   find: findProjection,
   list: listProjection,
   récupérerProjetsEligiblesPreuveRecanditure:
-    CandidatureAdapter.récupérerProjetsEligiblesPreuveRecanditureAdapter,
+    ProjetAdapter.récupérerProjetsEligiblesPreuveRecanditureAdapter,
 });
 
 GarantiesFinancières.registerGarantiesFinancièresUseCases({
