@@ -4,6 +4,7 @@ import { FC, useState } from 'react';
 import Link from 'next/link';
 import ButtonsGroup from '@codegouvfr/react-dsfr/ButtonsGroup';
 import Badge from '@codegouvfr/react-dsfr/Badge';
+import { useSearchParams } from 'next/navigation';
 
 import { ConsulterUtilisateurReadModel } from '@potentiel-domain/utilisateur';
 import { DateTime } from '@potentiel-domain/common';
@@ -48,6 +49,7 @@ export const UtilisateurListItem: FC<UtilisateurListItemProps> = ({
   gestionnaireRéseau,
 }) => {
   const [isOpen, setIsOpen] = useState(false);
+  const searchParams = useSearchParams();
 
   return (
     <>
@@ -149,6 +151,7 @@ export const UtilisateurListItem: FC<UtilisateurListItemProps> = ({
                   value={identifiantUtilisateur.email}
                   name={'identifiantUtilisateurReactive'}
                 />
+                <input type="hidden" value={searchParams.get('actif') ?? ''} name="actif" />
               </>
             ),
           }}
@@ -177,6 +180,7 @@ export const UtilisateurListItem: FC<UtilisateurListItemProps> = ({
                   value={identifiantUtilisateur.email}
                   name={'identifiantUtilisateurDesactive'}
                 />
+                <input type="hidden" value={searchParams.get('actif') ?? ''} name="actif" />
               </>
             ),
           }}

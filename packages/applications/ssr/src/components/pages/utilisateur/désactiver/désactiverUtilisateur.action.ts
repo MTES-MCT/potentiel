@@ -2,7 +2,6 @@
 
 import { mediator } from 'mediateur';
 import * as zod from 'zod';
-import { headers } from 'next/headers';
 
 import { DésactiverUtilisateurUseCase } from '@potentiel-domain/utilisateur';
 import { DateTime } from '@potentiel-domain/common';
@@ -13,13 +12,17 @@ import { withUtilisateur } from '@/utils/withUtilisateur';
 
 const schema = zod.object({
   identifiantUtilisateurDesactive: zod.string().min(1, { message: 'Champ obligatoire' }),
+  actif: zod
+    .enum(['', 'true', 'false'])
+    .optional()
+    .transform((actif) => (actif === 'true' ? true : actif === 'false' ? false : undefined)),
 });
 
 export type DésactiverUtilisateurFormKeys = keyof zod.infer<typeof schema>;
 
 const action: FormAction<FormState, typeof schema> = async (
   _,
-  { identifiantUtilisateurDesactive },
+  { identifiantUtilisateurDesactive, actif },
 ) =>
   withUtilisateur(async (utilisateur) => {
     await mediator.send<DésactiverUtilisateurUseCase>({
@@ -34,7 +37,7 @@ const action: FormAction<FormState, typeof schema> = async (
     return {
       status: 'success',
       redirection: {
-        url: headers().get('referer') ?? Routes.Utilisateur.lister({ actif: false }),
+        url: Routes.Utilisateur.lister({ actif }),
         message: "L'utilisateur a été désactivé",
       },
     };
