@@ -5,16 +5,19 @@ const statisticType = 'totalPuissanceParAppelOffre';
 export const computeTotalPuissanceParAppelOffre = async () => {
   await executeQuery(
     `
-      insert
-      into 
+      INSERT
+      INTO 
         domain_public_statistic.camembert_statistic
-      select
+      SELECT
         $1 as "type",
-        value->>'appelOffre' as "category",
-        sum(cast(value->>'puissance' as decimal)) as "value"
-      from domain_views.projection
-      where key like 'puissance|%'
-      group by value->>'appelOffre'
+        split_part(value->>'identifiantProjet', '#', 1) AS "category",
+        sum(cast(value->>'puissance' AS decimal)) AS "value"
+      FROM
+        domain_views.projection
+      WHERE
+        KEY LIKE 'puissance|%'
+      GROUP BY
+        "category"
     `,
     statisticType,
   );
