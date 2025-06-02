@@ -1,7 +1,5 @@
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 
-import { validateurParDéfaut } from '../validateurParDéfaut';
-
 const CDCModifié30082022: AppelOffre.CahierDesChargesModifié = {
   type: 'modifié',
   paruLe: '30/08/2022',
@@ -33,6 +31,7 @@ Des délais supplémentaires pour l’Achèvement ou, pour ce qui concerne l’�
 export const test: AppelOffre.AppelOffreReadModel = {
   id: 'Test',
   typeAppelOffre: 'eolien',
+  cycleAppelOffre: 'PPE2',
   title:
     'portant sur la réalisation et l’exploitation d’Installations de production d’électricité à partir de l’énergie mécanique du vent implantées à terre',
   shortTitle: 'Test',
@@ -101,15 +100,13 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
     {
       id: '1',
       title: 'première',
-      certificateTemplate: 'ppe2.v1',
-      validateurParDéfaut: validateurParDéfaut.ghislain,
-      noteThreshold: 0.68,
+      certificateTemplate: 'ppe2.v2',
+      logo: 'Gouvernement',
       cahierDesCharges: {
         référence: '2024/test-9999999',
       },
       delaiDcrEnMois: { valeur: 3, texte: 'trois' },
       familles: [],
-      dossierSuiviPar: 'violaine.tarizzo@developpement-durable.gouv.fr',
       cahiersDesChargesModifiésDisponibles: [
         {
           ...CDCModifié30082022,
@@ -130,19 +127,22 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
         },
       ],
       abandonAvecRecandidature: true,
+      changement: {
+        représentantLégal: {
+          typeTâchePlanifiée: 'rejet-automatique',
+        },
+      },
     },
     {
       id: '2',
       title: 'deuxième',
-      certificateTemplate: 'ppe2.v1',
-      validateurParDéfaut: validateurParDéfaut.ghislain,
-      noteThreshold: 0.68,
+      certificateTemplate: 'ppe2.v2',
+      logo: 'Gouvernement',
       cahierDesCharges: {
         référence: '2024/test-9999999.2',
       },
       delaiDcrEnMois: { valeur: 3, texte: 'trois' },
       familles: [],
-      dossierSuiviPar: 'violaine.tarizzo@developpement-durable.gouv.fr',
       cahiersDesChargesModifiésDisponibles: [
         {
           ...CDCModifié30082022,
@@ -163,6 +163,11 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
         },
       ],
       abandonAvecRecandidature: true,
+      changement: {
+        représentantLégal: {
+          typeTâchePlanifiée: 'rejet-automatique',
+        },
+      },
     },
   ],
 };
