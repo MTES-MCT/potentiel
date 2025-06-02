@@ -9,7 +9,6 @@ import { Candidature, IdentifiantProjet } from '@potentiel-domain/projet';
 
 import { ProjetBanner } from '@/components/molecules/projet/ProjetBanner';
 import { Heading2 } from '@/components/atoms/headings';
-import { Icon } from '@/components/atoms/Icon';
 import { FormattedDate } from '@/components/atoms/FormattedDate';
 import { CopyButton } from '@/components/molecules/CopyButton';
 import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
@@ -63,8 +62,13 @@ export const DétailsProjetÉliminéPage: FC<DétailsProjetÉliminéPageProps> =
               />
             )}
             <section>
-              <Heading2>
-                <Icon id="fr-icon-building-line" size="md" /> Informations générales
+              <Heading2
+                icon={{
+                  id: 'fr-icon-building-line',
+                  size: 'md',
+                }}
+              >
+                Informations générales
               </Heading2>
               <ul className="flex-col gap-4 mt-2">
                 <li>
@@ -91,8 +95,13 @@ export const DétailsProjetÉliminéPage: FC<DétailsProjetÉliminéPageProps> =
               </ul>
             </section>
             <section>
-              <Heading2>
-                <Icon id="fr-icon-settings-5-line" size="md" /> Matériel et technologies
+              <Heading2
+                icon={{
+                  id: 'fr-icon-settings-5-line',
+                  size: 'md',
+                }}
+              >
+                Matériel et technologies
               </Heading2>
               <ul className="flex-col gap-4 mt-2">
                 <li>
@@ -105,13 +114,18 @@ export const DétailsProjetÉliminéPage: FC<DétailsProjetÉliminéPageProps> =
               </ul>
             </section>
             <section>
-              <Heading2>
-                <Icon id="fr-icon-user-line" size="md" /> Contact
+              <Heading2
+                icon={{
+                  id: 'fr-icon-user-line',
+                  size: 'md',
+                }}
+              >
+                Contact
               </Heading2>
               <ul className="flex-col gap-4 mt-2">
-                <li>
-                  Addresse email de candidature :{' '}
-                  <CopyButton textToCopy={emailContact.formatter()} />
+                <li className="flex gap-2 items-center">
+                  <span>Addresse email de candidature :</span>
+                  <CopyButton textToCopy={emailContact.formatter()} className="font-bold" />
                 </li>
                 <li>
                   Actionnaire : <span className="font-bold">{sociétéMère}</span>
