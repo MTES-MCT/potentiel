@@ -19,12 +19,15 @@ export class FournisseurAggregate extends AbstractAggregate<FournisseurEvent> {
     return this.#lauréat;
   }
 
+  private get identifiantProjet() {
+    return this.lauréat.projet.identifiantProjet;
+  }
+
   async init(lauréat: LauréatAggregate) {
     this.#lauréat = lauréat;
   }
 
   async importer({
-    identifiantProjet,
     évaluationCarboneSimplifiée,
     importéLe,
     identifiantUtilisateur,
@@ -32,7 +35,7 @@ export class FournisseurAggregate extends AbstractAggregate<FournisseurEvent> {
     const event: FournisseurImportéEvent = {
       type: 'FournisseurImporté-V1',
       payload: {
-        identifiantProjet: identifiantProjet.formatter(),
+        identifiantProjet: this.identifiantProjet.formatter(),
         évaluationCarboneSimplifiée,
         details: 'coucou',
         importéLe: importéLe.formatter(),
