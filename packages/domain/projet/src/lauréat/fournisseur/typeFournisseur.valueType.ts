@@ -1,15 +1,15 @@
 import { InvalidOperationError, PlainType, ReadonlyValueType } from '@potentiel-domain/core';
 
 export const typesFournisseur = [
-  'moduleOuFilms',
+  'module-ou-films',
   'cellules',
-  'plaquettesSilicium',
+  'plaquettes-silicium',
   'polysilicium',
-  'postesConversion',
+  'postes-conversion',
   'structures',
-  'dispositifsStockageEnergie',
-  'dispositifsSuiviCourseSoleil',
-  'autresTechnologies',
+  'dispositifs-stockage-energie',
+  'dispositifs-suivi-course-soleil',
+  'autres-technologies',
 ] as const;
 
 export type RawType = (typeof typesFournisseur)[number];

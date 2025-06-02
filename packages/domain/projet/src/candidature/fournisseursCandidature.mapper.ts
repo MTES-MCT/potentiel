@@ -1,14 +1,14 @@
 import { Fournisseur } from '../lauréat';
 
 const champsCsvFournisseur: Record<Fournisseur.TypeFournisseur.RawType, string> = {
-  moduleOuFilms: 'Nom du fabricant \n(Modules ou films)',
+  module-ou-films: 'Nom du fabricant \n(Modules ou films)',
   cellules: 'Nom du fabricant (Cellules)',
-  plaquettesSilicium: 'Nom du fabricant \n(Plaquettes de silicium (wafers))',
+  plaquettes-silicium: 'Nom du fabricant \n(Plaquettes de silicium (wafers))',
   polysilicium: 'Nom du fabricant \n(Polysilicium)',
-  postesConversion: 'Nom du fabricant \n(Postes de conversion)',
+  postes-conversion: 'Nom du fabricant \n(Postes de conversion)',
   structures: 'Nom du fabricant \n(Structure)',
-  dispositifsStockageEnergie: 'Nom du fabricant \n(Dispositifs de stockage de l’énergie *)',
-  dispositifsSuiviCourseSoleil:
+  dispositifs-stockage-energie: 'Nom du fabricant \n(Dispositifs de stockage de l’énergie *)',
+  dispositifs-suivi-course-soleil:
     'Nom du fabricant \n(Dispositifs de suivi de la course du soleil *)',
-  autresTechnologies: 'Nom du fabricant \n(Autres technologies)',
+  autres-technologies: 'Nom du fabricant \n(Autres technologies)',
 };
