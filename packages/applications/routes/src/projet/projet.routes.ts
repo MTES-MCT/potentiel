@@ -5,4 +5,7 @@ export const details = (identifiantProjet: string) => {
   return url;
 };
 
+export const détailÉliminé = (identifiantProjet: string) =>
+  new URL(`/projets/${encodeParameter(identifiantProjet)}`).toString();
+
 export const lister = () => `/projets.html`;

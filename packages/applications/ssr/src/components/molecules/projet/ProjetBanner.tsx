@@ -17,9 +17,10 @@ import { ProjetBannerTemplate } from './ProjetBanner.template';
 
 export type ProjetBannerProps = {
   identifiantProjet: string;
+  noLink?: true;
 };
 
-export const ProjetBanner: FC<ProjetBannerProps> = async ({ identifiantProjet }) => {
+export const ProjetBanner: FC<ProjetBannerProps> = async ({ identifiantProjet, noLink }) => {
   return withUtilisateur(async ({ role }) => {
     const projet = await getProjet(identifiantProjet);
     if (!projet) {
@@ -35,7 +36,9 @@ export const ProjetBanner: FC<ProjetBannerProps> = async ({ identifiantProjet })
         /***
          * @todo changer le check du rôle quand la page projet sera matérialisée dans le SSR (utiliser role.aLaPermissionDe)
          */
-        href={role.estÉgaleÀ(Role.grd) ? undefined : Routes.Projet.details(identifiantProjet)}
+        href={
+          noLink || role.estÉgaleÀ(Role.grd) ? undefined : Routes.Projet.details(identifiantProjet)
+        }
         identifiantProjet={IdentifiantProjet.convertirEnValueType(identifiantProjet)}
         nom={nomProjet}
       />
