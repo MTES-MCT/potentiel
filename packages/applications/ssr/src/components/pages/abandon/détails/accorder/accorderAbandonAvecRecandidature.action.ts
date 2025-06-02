@@ -5,11 +5,11 @@ import * as zod from 'zod';
 import { notFound } from 'next/navigation';
 
 import { IdentifiantProjet } from '@potentiel-domain/common';
-import { Abandon } from '@potentiel-domain/laureat';
 import { Utilisateur } from '@potentiel-domain/utilisateur';
 import { buildDocument, DonnéesDocument } from '@potentiel-applications/document-builder';
 import { Option } from '@potentiel-libraries/monads';
 import { Routes } from '@potentiel-applications/routes';
+import { Lauréat } from '@potentiel-domain/projet';
 
 import { FormAction, formAction, FormState } from '@/utils/formAction';
 import { withUtilisateur } from '@/utils/withUtilisateur';
@@ -26,7 +26,7 @@ const action: FormAction<FormState, typeof schema> = async (
   { identifiantProjet },
 ) => {
   return withUtilisateur(async (utilisateur) => {
-    const abandon = await mediator.send<Abandon.ConsulterAbandonQuery>({
+    const abandon = await mediator.send<Lauréat.Abandon.ConsulterAbandonQuery>({
       type: 'Lauréat.Abandon.Query.ConsulterAbandon',
       data: {
         identifiantProjetValue: identifiantProjet,
@@ -39,7 +39,7 @@ const action: FormAction<FormState, typeof schema> = async (
 
     const réponseSignéeValue = await buildReponseSignee(abandon, utilisateur);
 
-    await mediator.send<Abandon.AbandonUseCase>({
+    await mediator.send<Lauréat.Abandon.AbandonUseCase>({
       type: 'Lauréat.Abandon.UseCase.AccorderAbandon',
       data: {
         identifiantProjetValue: identifiantProjet,
@@ -61,9 +61,9 @@ const action: FormAction<FormState, typeof schema> = async (
 export const accorderAbandonAvecRecandidatureAction = formAction(action, schema);
 
 const buildReponseSignee = async (
-  abandon: Abandon.ConsulterAbandonReadModel,
+  abandon: Lauréat.Abandon.ConsulterAbandonReadModel,
   utilisateur: Utilisateur.ValueType,
-): Promise<Abandon.AccorderAbandonUseCase['data']['réponseSignéeValue']> => {
+): Promise<Lauréat.Abandon.AccorderAbandonUseCase['data']['réponseSignéeValue']> => {
   const identifiantProjet = abandon.identifiantProjet;
   const candidature = await getCandidature(identifiantProjet.formatter());
   const { lauréat, représentantLégal, puissance } = await getLauréat({

@@ -1,10 +1,10 @@
 import { mediator } from 'mediateur';
-import { Abandon } from '@potentiel-domain/laureat';
 
 import { Option } from '@potentiel-libraries/monads';
 import { getLogger } from '@potentiel-libraries/monitoring';
 import { IdentifiantProjet } from '@potentiel-domain/common';
 import { getAttestationDeConformité } from './getAttestationDeConformité';
+import { Lauréat } from '@potentiel-domain/projet';
 
 type CheckAbandonAndAchèvement = {
   estAbandonné: boolean;
@@ -27,7 +27,7 @@ export const checkAbandonAndAchèvement = async (
   }
 
   try {
-    const abandon = await mediator.send<Abandon.ConsulterAbandonQuery>({
+    const abandon = await mediator.send<Lauréat.Abandon.ConsulterAbandonQuery>({
       type: 'Lauréat.Abandon.Query.ConsulterAbandon',
       data: { identifiantProjetValue: identifiantProjet.formatter() },
     });

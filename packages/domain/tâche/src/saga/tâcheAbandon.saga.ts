@@ -1,6 +1,5 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
-import { Abandon } from '@potentiel-domain/laureat';
 import { Lauréat } from '@potentiel-domain/projet';
 import { IdentifiantProjet } from '@potentiel-domain/common';
 
@@ -10,11 +9,11 @@ import * as Tâche from '../typeTâche.valueType';
 
 export type SubscriptionEvent =
   | Lauréat.Abandon.AbandonAnnuléEvent
-  | Abandon.AbandonConfirméEvent
+  | Lauréat.Abandon.AbandonConfirméEvent
   | Lauréat.Abandon.AbandonRejetéEvent
-  | Abandon.ConfirmationAbandonDemandéeEvent
-  | Abandon.PreuveRecandidatureDemandéeEvent
-  | Abandon.PreuveRecandidatureTransmiseEvent;
+  | Lauréat.Abandon.ConfirmationAbandonDemandéeEvent
+  | Lauréat.Abandon.PreuveRecandidatureDemandéeEvent
+  | Lauréat.Abandon.PreuveRecandidatureTransmiseEvent;
 
 export type Execute = Message<'System.Saga.TâcheAbandon', SubscriptionEvent>;
 

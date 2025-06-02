@@ -1,7 +1,7 @@
 import { mediator } from 'mediateur';
 import { NextRequest, NextResponse } from 'next/server';
 
-import { Abandon, GarantiesFinancières } from '@potentiel-domain/laureat';
+import { GarantiesFinancières } from '@potentiel-domain/laureat';
 import { Option } from '@potentiel-libraries/monads';
 import { DateTime } from '@potentiel-domain/common';
 import {
@@ -63,10 +63,10 @@ export const GET = async (
           },
         });
 
-      let abandon: Option.Type<Abandon.ConsulterAbandonReadModel> = Option.none;
+      let abandon: Option.Type<Lauréat.Abandon.ConsulterAbandonReadModel> = Option.none;
 
       try {
-        abandon = await mediator.send<Abandon.ConsulterAbandonQuery>({
+        abandon = await mediator.send<Lauréat.Abandon.ConsulterAbandonQuery>({
           type: 'Lauréat.Abandon.Query.ConsulterAbandon',
           data: {
             identifiantProjetValue,

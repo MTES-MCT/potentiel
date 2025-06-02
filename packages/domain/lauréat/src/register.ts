@@ -1,10 +1,4 @@
 import {
-  AbandonCommandDependencies,
-  AbandonQueryDependencies,
-  registerAbandonQueries,
-  registerAbandonUseCases,
-} from './abandon/abandon.register';
-import {
   GarantiesFinancièresCommandDependencies,
   GarantiesFinancièresQueryDependencies,
   registerGarantiesFinancièresQueries,
@@ -29,20 +23,17 @@ import {
   registerRaccordementUseCases,
 } from './raccordement/raccordement.register';
 
-export type LauréatQueryDependencies = AbandonQueryDependencies &
-  GarantiesFinancièresQueryDependencies &
+export type LauréatQueryDependencies = GarantiesFinancièresQueryDependencies &
   ReprésentantLégalQueryDependencies &
   ActionnaireQueryDependencies &
   RaccordementQueryDependencies;
 
-export type LauréatCommandDependencies = AbandonCommandDependencies &
-  GarantiesFinancièresCommandDependencies &
+export type LauréatCommandDependencies = GarantiesFinancièresCommandDependencies &
   ReprésentantLégalCommandDependencies &
   ActionnaireCommandDependencies &
   RaccordementCommandDependencies;
 
 export const registerLauréatUseCases = (dependencies: LauréatCommandDependencies) => {
-  registerAbandonUseCases(dependencies);
   registerGarantiesFinancièresUseCases(dependencies);
   registerReprésentantLégalUseCases(dependencies);
   registerActionnaireUseCases(dependencies);
@@ -50,7 +41,6 @@ export const registerLauréatUseCases = (dependencies: LauréatCommandDependenci
 };
 
 export const registerLauréatQueries = (dependencies: LauréatQueryDependencies) => {
-  registerAbandonQueries(dependencies);
   registerGarantiesFinancièresQueries(dependencies);
   registerReprésentantLégalQueries(dependencies);
   registerActionnaireQueries(dependencies);

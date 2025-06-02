@@ -4,8 +4,7 @@ import waitForExpect from 'wait-for-expect';
 import { assert, expect } from 'chai';
 
 import { Option } from '@potentiel-libraries/monads';
-import { Éliminé } from '@potentiel-domain/projet';
-import { IdentifiantProjet } from '@potentiel-domain/common';
+import { IdentifiantProjet, Éliminé } from '@potentiel-domain/projet';
 import { mapToPlainObject } from '@potentiel-domain/core';
 import { ConsulterDocumentProjetQuery } from '@potentiel-domain/document';
 

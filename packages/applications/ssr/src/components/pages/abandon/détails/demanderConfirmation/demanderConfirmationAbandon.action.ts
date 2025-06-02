@@ -3,8 +3,8 @@
 import { mediator } from 'mediateur';
 import * as zod from 'zod';
 
-import { Abandon } from '@potentiel-domain/laureat';
 import { Routes } from '@potentiel-applications/routes';
+import { Lauréat } from '@potentiel-domain/projet';
 
 import { FormAction, formAction, FormState } from '@/utils/formAction';
 import { withUtilisateur } from '@/utils/withUtilisateur';
@@ -22,7 +22,7 @@ const action: FormAction<FormState, typeof schema> = async (
   { identifiantProjet, reponseSignee },
 ) => {
   return withUtilisateur(async (utilisateur) => {
-    await mediator.send<Abandon.AbandonUseCase>({
+    await mediator.send<Lauréat.Abandon.AbandonUseCase>({
       type: 'Lauréat.Abandon.UseCase.DemanderConfirmationAbandon',
       data: {
         identifiantProjetValue: identifiantProjet,

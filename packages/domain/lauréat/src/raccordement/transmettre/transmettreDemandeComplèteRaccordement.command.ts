@@ -7,7 +7,6 @@ import { GetProjetAggregateRoot, IdentifiantProjet } from '@potentiel-domain/pro
 
 import * as RéférenceDossierRaccordement from '../référenceDossierRaccordement.valueType';
 import { loadRaccordementAggregateFactory } from '../raccordement.aggregate';
-import { loadAbandonFactory } from '../../abandon';
 
 export type TransmettreDemandeComplèteRaccordementCommand = Message<
   'Lauréat.Raccordement.Command.TransmettreDemandeComplèteRaccordement',
@@ -24,7 +23,6 @@ export const registerTransmettreDemandeComplèteRaccordementCommand = (
   loadAggregate: LoadAggregate,
   getProjetAggregateRoot: GetProjetAggregateRoot,
 ) => {
-  const loadAbandon = loadAbandonFactory(loadAggregate);
   const loadRaccordement = loadRaccordementAggregateFactory(loadAggregate);
   const loadGestionnaireRéseau = GestionnaireRéseau.loadGestionnaireRéseauFactory(loadAggregate);
 
@@ -38,7 +36,6 @@ export const registerTransmettreDemandeComplèteRaccordementCommand = (
     const projet = await getProjetAggregateRoot(identifiantProjet);
     projet.lauréat.vérifierQueLeLauréatExiste();
 
-    const abandon = await loadAbandon(identifiantProjet, false);
     const raccordement = await loadRaccordement(identifiantProjet);
     const gestionnaireRéseau = await loadGestionnaireRéseau(
       raccordement.identifiantGestionnaireRéseau,
@@ -49,7 +46,7 @@ export const registerTransmettreDemandeComplèteRaccordementCommand = (
       identifiantGestionnaireRéseau: raccordement.identifiantGestionnaireRéseau,
       identifiantProjet,
       référenceDossier,
-      aUnAbandonAccordé: abandon.estAccordé(),
+      aUnAbandonAccordé: projet.lauréat.abandon.statut.estAccordé(),
       référenceDossierExpressionRegulière:
         gestionnaireRéseau.référenceDossierRaccordementExpressionRegulière,
       formatAccuséRéception,
