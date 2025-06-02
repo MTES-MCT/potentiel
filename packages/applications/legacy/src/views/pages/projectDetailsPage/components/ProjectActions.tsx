@@ -202,13 +202,15 @@ const AdminActions = ({
 }: AdminActionsProps) => {
   return (
     <div className="flex flex-col md:flex-row gap-2">
-      <EnregistrerUneModification
-        projectId={id}
-        producteurAffichage={producteurAffichage}
-        puissanceAffichage={puissanceAffichage}
-        actionnaireAffichage={actionnaireAffichage}
-        représentantLégalAffichage={représentantLégalAffichage}
-      />
+      {isClasse && (
+        <EnregistrerUneModification
+          projectId={id}
+          producteurAffichage={producteurAffichage}
+          puissanceAffichage={puissanceAffichage}
+          actionnaireAffichage={actionnaireAffichage}
+          représentantLégalAffichage={représentantLégalAffichage}
+        />
+      )}
       {notifiedOn && isClasse ? (
         <LinkButton href={Routes.Lauréat.modifier(identifiantProjet)}>
           Modifier le projet
@@ -256,7 +258,7 @@ type DrealActionsProps = {
   représentantLégalAffichage?: GetReprésentantLégalForProjectPage['affichage'];
 };
 const DrealActions = ({
-  project,
+  project: { id, isClasse },
   représentantLégalAffichage,
   puissanceAffichage,
   actionnaireAffichage,
@@ -264,13 +266,15 @@ const DrealActions = ({
 }: DrealActionsProps) => {
   return (
     <div className="flex flex-col md:flex-row gap-2">
-      <EnregistrerUneModification
-        projectId={project.id}
-        producteurAffichage={producteurAffichage}
-        puissanceAffichage={puissanceAffichage}
-        actionnaireAffichage={actionnaireAffichage}
-        représentantLégalAffichage={représentantLégalAffichage}
-      />
+      {isClasse && (
+        <EnregistrerUneModification
+          projectId={id}
+          producteurAffichage={producteurAffichage}
+          puissanceAffichage={puissanceAffichage}
+          actionnaireAffichage={actionnaireAffichage}
+          représentantLégalAffichage={représentantLégalAffichage}
+        />
+      )}
       <PrimaryButton onClick={() => window.print()}>
         <PrintIcon className="text-white mr-2" aria-hidden />
         Imprimer la page
