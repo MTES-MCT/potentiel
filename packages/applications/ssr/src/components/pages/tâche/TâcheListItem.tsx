@@ -76,9 +76,9 @@ const getDescriptionTâche = (
     .with('raccordement.gestionnaire-réseau-inconnu-attribué', () => ({
       titre: 'Gestionnaire réseau inconnu',
       description: `Le gestionnaire réseau pour le projet ${nomProjet} n'a pas pu être automatiquement attribué.`,
-      lien: Routes.Raccordement.modifierGestionnaireDeRéseau(identifiant),
-      action: 'Modifier le gestionnaire réseau attribué',
-      ariaLabel: `Modifier le gestionnaire réseau attribué au projet ${nomProjet}`,
+      lien: Routes.Raccordement.détail(identifiant),
+      action: 'Ajouter le gestionnaire de réseau',
+      ariaLabel: `Ajouter le gestionnaire de réseau au projet ${nomProjet}`,
     }))
     .with('garanties-financières.demander', () => ({
       titre: 'Garanties financières demandées',
