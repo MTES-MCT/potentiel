@@ -1,6 +1,6 @@
 import { Command } from '@oclif/core';
 
-import { createLogger, getLogger, initLogger } from '@potentiel-libraries/monitoring';
+import { createLogger, getLogger, initLogger, resetLogger } from '@potentiel-libraries/monitoring';
 import { SentryTransport } from '@potentiel-libraries/monitoring/sentry';
 import { killPool, executeSelect } from '@potentiel-libraries/pg-helpers';
 
@@ -11,6 +11,7 @@ export class PendingAcknowlegement extends Command {
   static description = 'Checks that there are no overdue pending_acknowledgement in the database';
 
   async init() {
+    resetLogger();
     const logger = createLogger({
       transports: [
         new SentryTransport(),
