@@ -1,3 +1,4 @@
+import { IdentifiantProjet } from '@potentiel-domain/projet';
 import { getProjectAppelOffre } from '../../../../../../config/queryProjectAO.config';
 import { ListerProjets } from '../../../../../../modules/project';
 import { Project } from '../../../../projectionsNext';
@@ -41,11 +42,11 @@ export const listerProjetsPourAdeme: ListerProjets = async ({ pagination, filtre
   });
 
   const projetsAvecAppelOffre = résultat.rows.reduce((prev, current) => {
-    const { appelOffreId, periodeId, familleId, ...projet } = current.get();
+    const projet = current.get();
     const appelOffre = getProjectAppelOffre({
-      appelOffreId,
-      periodeId,
-      familleId,
+      appelOffreId: projet.appelOffreId,
+      periodeId: projet.periodeId,
+      familleId: projet.familleId,
     });
 
     return [
@@ -61,6 +62,9 @@ export const listerProjetsPourAdeme: ListerProjets = async ({ pagination, filtre
               appelOffre.changementProducteurPossibleAvantAchèvement,
           },
         }),
+        identifiantProjet: IdentifiantProjet.convertirEnValueType(
+          `${projet.appelOffreId}#${projet.periodeId}#${projet.familleId}#${projet.numeroCRE}`,
+        ).formatter(),
       },
     ];
   }, []);

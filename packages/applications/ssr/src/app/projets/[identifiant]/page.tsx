@@ -46,8 +46,8 @@ export async function generateMetadata(
   }
 
   return {
-    title: `Détail abandon du projet ${candidature.nomProjet} - Potentiel`,
-    description: "Détail de l'abandon d'un projet",
+    title: `Détail de la page du projet ${candidature.nomProjet} - Potentiel`,
+    description: "Détail de la page d'un projet",
   };
 }
 

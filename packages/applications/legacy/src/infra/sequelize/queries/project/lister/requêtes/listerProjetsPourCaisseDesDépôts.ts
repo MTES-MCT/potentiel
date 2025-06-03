@@ -4,6 +4,7 @@ import { makePaginatedList, mapToOffsetAndLimit } from '../../../pagination';
 import { mapToFindOptions } from '../../helpers/mapToFindOptions';
 import { Op } from 'sequelize';
 import { Project } from '../../../../projectionsNext';
+import { IdentifiantProjet } from '@potentiel-domain/projet';
 
 const attributes = [
   'id',
@@ -37,11 +38,11 @@ export const listerProjetsPourCaisseDesDépôts: ListerProjets = async ({ pagina
   });
 
   const projetsAvecAppelOffre = résultat.rows.reduce((prev, current) => {
-    const { appelOffreId, periodeId, familleId, ...projet } = current.get();
+    const projet = current.get();
     const appelOffre = getProjectAppelOffre({
-      appelOffreId,
-      periodeId,
-      familleId,
+      appelOffreId: projet.appelOffreId,
+      periodeId: projet.periodeId,
+      familleId: projet.familleId,
     });
 
     return [
@@ -57,6 +58,9 @@ export const listerProjetsPourCaisseDesDépôts: ListerProjets = async ({ pagina
               appelOffre.changementProducteurPossibleAvantAchèvement,
           },
         }),
+        identifiantProjet: IdentifiantProjet.convertirEnValueType(
+          `${projet.appelOffreId}#${projet.periodeId}#${projet.familleId}#${projet.numeroCRE}`,
+        ).formatter(),
       },
     ];
   }, []);

@@ -10,6 +10,10 @@ export const PermissionListerProjets = {
 
 export type ProjectListItem = {
   id: string;
+  appelOffreId: AppelOffre.AppelOffreReadModel['id'];
+  periodeId: AppelOffre.AppelOffreReadModel['periodes'][0]['id'];
+  familleId: AppelOffre.AppelOffreReadModel['periodes'][0]['familles'][0]['id'];
+  numeroCRE: string;
   nomProjet: string;
   potentielIdentifier: string;
   communeProjet: string;

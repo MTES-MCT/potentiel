@@ -134,11 +134,6 @@ v1Router.get(
         `${project.appelOffreId}#${project.periodeId}#${project.familleId}#${project.numeroCRE}`,
       );
 
-      // Redirection sur la page éliminé de la nouvelle stack
-      if (!project.isClasse) {
-        return response.redirect(Routes.Éliminé.details(identifiantProjetValueType.formatter()));
-      }
-
       const rawProjectEventList = await getProjectEvents({ projectId: project.id, user });
 
       if (rawProjectEventList.isErr()) {

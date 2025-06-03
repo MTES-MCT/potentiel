@@ -19,6 +19,7 @@ import {
   SecondaryLinkButton,
   ExcelFileIcon,
 } from '../..';
+import { Routes } from '@potentiel-applications/routes';
 
 const Unit = ({ children }: { children: ReactNode }) => (
   <span className="italic text-sm">{children}</span>
@@ -158,99 +159,104 @@ export const ProjectList = ({
       )}
 
       <ul className="p-0 m-0">
-        {projects.items.map((project) => (
-          <li className="list-none p-0 m-0" key={project.id}>
-            <Tile className="mb-4 flex md:relative flex-col" key={`project_${project.id}`}>
-              <div className="flex flex-col gap-2 mb-4">
-                <div className="flex flex-col md:flex-row gap-2">
-                  {displaySelection && (
-                    <Checkbox
-                      id={project.id}
-                      onChange={(e) => toggleSelected(project.id, e.target.checked)}
-                      value={project.id}
-                      checked={selectedIds.indexOf(project.id) > -1}
-                    />
-                  )}
-                  <Link href={routes.PROJECT_DETAILS(project.id)}>{project.nomProjet}</Link>
-                  <StatutBadge project={project} role={role} />
-                </div>
-                <div className="italic text-xs text-grey-425-base">
-                  {project.potentielIdentifier}
-                </div>
-              </div>
-
-              <div className="flex flex-col md:flex-row gap-4 md:items-center">
-                <div className="flex md:flex-1 flex-col gap-1 text-sm">
-                  <div className="flex items-center">
-                    <MapPinIcon className="mr-2 shrink-0" title="Localisation du projet" />
-                    <span className="italic">
-                      {project.communeProjet}, {project.departementProjet}, {project.regionProjet}
-                    </span>
-                  </div>
-
-                  <div className="flex  items-center">
-                    <BuildingHouseIcon className="mr-2 shrink-0" title="Nom du producteur" />
-                    {project.nomCandidat}
-                  </div>
-                  <div className="flex items-center">
-                    <UserIcon className="mr-2 shrink-0" title="Représentant légal" />
-                    <div className="flex flex-col overflow-hidden">
-                      <div>{project.nomRepresentantLegal}</div>
-                      <div className="truncate" title={project.email}>
-                        {project.email}
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                <div className="flex md:flex-1 lg:flex flex-col lg:flex-row lg:gap-4">
-                  <div className="flex lg:flex-1 lg:flex-col items-center gap-2">
-                    <PowerIcon className="text-yellow-moutarde-850-base" title="Puissance" />
-                    <div className="lg:flex lg:flex-col items-center">
-                      {project.puissance} <Unit>{project.appelOffre?.unitePuissance}</Unit>
-                    </div>
-                  </div>
-                  {project.prixReference && (
-                    <div className="flex lg:flex-1 lg:flex-col items-center gap-2">
-                      <EuroIcon
-                        className="text-orange-terre-battue-main-645-base"
-                        title="Prix de référence"
+        {projects.items.map((project) => {
+          const url =
+            project.classe === 'Classé'
+              ? routes.PROJECT_DETAILS(project.id)
+              : Routes.Projet.Éliminé.détails(
+                  `${project.appelOffreId}#${project.periodeId}#${project.familleId}#${project.numeroCRE}`,
+                );
+          return (
+            <li className="list-none p-0 m-0" key={project.id}>
+              <Tile className="mb-4 flex md:relative flex-col" key={`project_${project.id}`}>
+                <div className="flex flex-col gap-2 mb-4">
+                  <div className="flex flex-col md:flex-row gap-2">
+                    {displaySelection && (
+                      <Checkbox
+                        id={project.id}
+                        onChange={(e) => toggleSelected(project.id, e.target.checked)}
+                        value={project.id}
+                        checked={selectedIds.indexOf(project.id) > -1}
                       />
+                    )}
+                    <Link href={url}>{project.nomProjet}</Link>
+                    <StatutBadge project={project} role={role} />
+                  </div>
+                  <div className="italic text-xs text-grey-425-base">
+                    {project.potentielIdentifier}
+                  </div>
+                </div>
+
+                <div className="flex flex-col md:flex-row gap-4 md:items-center">
+                  <div className="flex md:flex-1 flex-col gap-1 text-sm">
+                    <div className="flex items-center">
+                      <MapPinIcon className="mr-2 shrink-0" title="Localisation du projet" />
+                      <span className="italic">
+                        {project.communeProjet}, {project.departementProjet}, {project.regionProjet}
+                      </span>
+                    </div>
+
+                    <div className="flex  items-center">
+                      <BuildingHouseIcon className="mr-2 shrink-0" title="Nom du producteur" />
+                      {project.nomCandidat}
+                    </div>
+                    <div className="flex items-center">
+                      <UserIcon className="mr-2 shrink-0" title="Représentant légal" />
+                      <div className="flex flex-col overflow-hidden">
+                        <div>{project.nomRepresentantLegal}</div>
+                        <div className="truncate" title={project.email}>
+                          {project.email}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div className="flex md:flex-1 lg:flex flex-col lg:flex-row lg:gap-4">
+                    <div className="flex lg:flex-1 lg:flex-col items-center gap-2">
+                      <PowerIcon className="text-yellow-moutarde-850-base" title="Puissance" />
                       <div className="lg:flex lg:flex-col items-center">
-                        {project.prixReference} <Unit>€/MWh</Unit>
+                        {project.puissance} <Unit>{project.appelOffre?.unitePuissance}</Unit>
                       </div>
                     </div>
-                  )}
-
-                  {project.evaluationCarbone !== undefined && (
-                    <div className="flex lg:flex-1 lg:flex-col items-center gap-2 lg:grow">
-                      <CloudIcon className="text-grey-425-active" title="Évaluation carbone" />
-                      <div>
-                        {project.evaluationCarbone > 0 ? (
-                          <div className="lg:flex lg:flex-col items-center text-center">
-                            {project.evaluationCarbone}
-                            <Unit> kg eq CO2/kWc</Unit>
-                          </div>
-                        ) : (
-                          '- - -'
-                        )}
+                    {project.prixReference && (
+                      <div className="flex lg:flex-1 lg:flex-col items-center gap-2">
+                        <EuroIcon
+                          className="text-orange-terre-battue-main-645-base"
+                          title="Prix de référence"
+                        />
+                        <div className="lg:flex lg:flex-col items-center">
+                          {project.prixReference} <Unit>€/MWh</Unit>
+                        </div>
                       </div>
-                    </div>
-                  )}
-                </div>
+                    )}
 
-                <div className="flex md:absolute md:top-4 md:right-5 gap-2">
-                  <LinkButton
-                    href={routes.PROJECT_DETAILS(project.id)}
-                    aria-label={`voir le projet ${project.nomProjet}`}
-                  >
-                    Voir
-                  </LinkButton>
+                    {project.evaluationCarbone !== undefined && (
+                      <div className="flex lg:flex-1 lg:flex-col items-center gap-2 lg:grow">
+                        <CloudIcon className="text-grey-425-active" title="Évaluation carbone" />
+                        <div>
+                          {project.evaluationCarbone > 0 ? (
+                            <div className="lg:flex lg:flex-col items-center text-center">
+                              {project.evaluationCarbone}
+                              <Unit> kg eq CO2/kWc</Unit>
+                            </div>
+                          ) : (
+                            '- - -'
+                          )}
+                        </div>
+                      </div>
+                    )}
+                  </div>
+
+                  <div className="flex md:absolute md:top-4 md:right-5 gap-2">
+                    <LinkButton href={url} aria-label={`voir le projet ${project.nomProjet}`}>
+                      Voir
+                    </LinkButton>
+                  </div>
                 </div>
-              </div>
-            </Tile>
-          </li>
-        ))}
+              </Tile>
+            </li>
+          );
+        })}
       </ul>
       {!Array.isArray(projects) && (
         <Pagination

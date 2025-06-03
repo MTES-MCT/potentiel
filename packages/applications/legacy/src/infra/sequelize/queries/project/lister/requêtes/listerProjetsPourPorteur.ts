@@ -10,6 +10,7 @@ const attributes = [
   'appelOffreId',
   'periodeId',
   'familleId',
+  'numeroCRE',
   'nomProjet',
   'potentielIdentifier',
   'communeProjet',
@@ -55,11 +56,11 @@ export const listerProjetsPourPorteur: ListerProjets = async ({
   });
 
   const projetsAvecAppelOffre = résultat.rows.reduce((prev, current) => {
-    const { appelOffreId, periodeId, familleId, ...projet } = current.get();
+    const projet = current.get();
     const appelOffre = getProjectAppelOffre({
-      appelOffreId,
-      periodeId,
-      familleId,
+      appelOffreId: projet.appelOffreId,
+      periodeId: projet.periodeId,
+      familleId: projet.familleId,
     });
 
     return [

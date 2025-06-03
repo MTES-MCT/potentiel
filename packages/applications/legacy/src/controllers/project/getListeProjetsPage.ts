@@ -84,6 +84,8 @@ const getProjectListPage = asyncHandler(async (request, response) => {
 
   const projects = await listerProjets({ user, filtres, pagination });
 
+  console.log('😓😓', projects.items[0]);
+
   const appelsOffre = await appelOffreRepo.findAll();
 
   const optionsFiltresParAOs = await getOptionsFiltresParAOs({

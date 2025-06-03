@@ -58,7 +58,7 @@ export const ProjetBannerTemplate: FC<ProjetBannerProps> = ({
         <p className="text-sm font-medium p-0 m-0 mt-2">
           {Option.isSome(dateDésignation) && (
             <span>
-              Désigné le <FormattedDate date={dateDésignation} /> pour{' '}
+              Désigné le <FormattedDate date={dateDésignation} className="font-bold" /> pour{' '}
             </span>
           )}
           Appel d'offres {identifiantProjet.appelOffre}, période {identifiantProjet.période}

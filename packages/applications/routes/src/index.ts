@@ -14,7 +14,7 @@ import { Document } from './document';
 import { GarantiesFinancières } from './garanties-financières';
 import { Gestionnaire } from './réseau';
 import { Projet } from './projet';
-import { Recours, Éliminé } from './éliminé';
+import { Recours } from './éliminé';
 import { Tache } from './tâche';
 import { Période } from './période';
 import { Auth } from './auth';
@@ -31,7 +31,6 @@ export const Routes = {
   Projet,
   Raccordement,
   Recours,
-  Éliminé,
   Tache,
   Période,
   Auth,

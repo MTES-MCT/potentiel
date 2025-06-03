@@ -5,6 +5,7 @@ import { mapToFindOptions } from '../../helpers/mapToFindOptions';
 import { Op } from 'sequelize';
 import { UserDreal, Project } from '../../../../projectionsNext';
 import { logger } from '../../../../../../core/utils';
+import { IdentifiantProjet } from '@potentiel-domain/projet';
 
 const attributes = [
   'id',
@@ -56,11 +57,11 @@ export const listerProjetsPourDreal: ListerProjets = async ({
   });
 
   const projetsAvecAppelOffre = résultat.rows.reduce((prev, current) => {
-    const { appelOffreId, periodeId, familleId, ...projet } = current.get();
+    const projet = current.get();
     const appelOffre = getProjectAppelOffre({
-      appelOffreId,
-      periodeId,
-      familleId,
+      appelOffreId: projet.appelOffreId,
+      periodeId: projet.periodeId,
+      familleId: projet.familleId,
     });
 
     return [
@@ -76,6 +77,9 @@ export const listerProjetsPourDreal: ListerProjets = async ({
               appelOffre.changementProducteurPossibleAvantAchèvement,
           },
         }),
+        identifiantProjet: IdentifiantProjet.convertirEnValueType(
+          `${projet.appelOffreId}#${projet.periodeId}#${projet.familleId}#${projet.numeroCRE}`,
+        ).formatter(),
       },
     ];
   }, []);
