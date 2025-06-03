@@ -1,13 +1,12 @@
 'use client';
-import { FC, useState } from 'react';
 import Button from '@codegouvfr/react-dsfr/Button';
+import { FC, useState } from 'react';
 
-import { Email } from '@potentiel-domain/common';
-import { IdentifiantProjet } from '@potentiel-domain/common';
+import { Email, IdentifiantProjet } from '@potentiel-domain/common';
 
 import { Heading3 } from '@/components/atoms/headings';
-import { ModalWithForm } from '@/components/molecules/ModalWithForm';
 import { CopyButton } from '@/components/molecules/CopyButton';
+import { ModalWithForm } from '@/components/molecules/ModalWithForm';
 
 import { retirerAccèsProjetAction } from '../retirerAccès/retirerAccèsProjet.action';
 
@@ -26,7 +25,7 @@ export const PorteurListItem: FC<PorteurListItem> = ({
     <div className="flex flex-row items-center justify-between border-b-dsfr-border-default-grey-default border-b-2 pb-2 pt-1">
       <Heading3>{identifiantUtilisateur}</Heading3>
       <div className="flex flex-row gap-3">
-        <CopyButton textToCopy={identifiantUtilisateur} />
+        <CopyButton noChildren textToCopy={identifiantUtilisateur} />
         <RetirerAccèsProjetButton
           identifiantProjet={identifiantProjet}
           identifiantUtilisateur={identifiantUtilisateur}
