@@ -16,6 +16,7 @@ export type RawType = (typeof typesFournisseur)[number];
 
 export type ValueType = ReadonlyValueType<{
   typeFournisseur: RawType;
+  formatter(): RawType;
 }>;
 
 export const bind = ({ typeFournisseur }: PlainType<ValueType>): ValueType => {
@@ -25,6 +26,9 @@ export const bind = ({ typeFournisseur }: PlainType<ValueType>): ValueType => {
     },
     estÉgaleÀ(valueType) {
       return this.typeFournisseur === valueType.typeFournisseur;
+    },
+    formatter() {
+      return this.typeFournisseur;
     },
   };
 };

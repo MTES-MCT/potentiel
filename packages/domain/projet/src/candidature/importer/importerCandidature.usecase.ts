@@ -4,7 +4,10 @@ import { DateTime, Email } from '@potentiel-domain/common';
 import { DocumentProjet, EnregistrerDocumentProjetCommand } from '@potentiel-domain/document';
 
 import { IdentifiantProjet } from '../..';
-import { mapToCommonCandidatureUseCaseData } from '../candidature.mapper';
+import {
+  mapToCommonCandidatureUseCaseData,
+  mapToDétailsCandidatureUseCaseData,
+} from '../candidature.mapper';
 
 import { ImporterCandidatureCommand } from './importerCandidature.command';
 
@@ -55,6 +58,7 @@ export const registerImporterCandidatureUseCase = () => {
     );
     const importéLe = DateTime.convertirEnValueType(message.importéLe);
 
+    // pour le moment, on garde ce fichier de détails car tous les champs n'ont pas vocation à être extraits
     const buf = Buffer.from(JSON.stringify(message.détailsValue));
     const blob = new Blob([buf]);
     await mediator.send<EnregistrerDocumentProjetCommand>({
@@ -75,6 +79,7 @@ export const registerImporterCandidatureUseCase = () => {
       data: {
         identifiantProjet,
         ...mapToCommonCandidatureUseCaseData(message),
+        détailsFournisseurs: mapToDétailsCandidatureUseCaseData(message.détailsValue || {}),
         importéLe,
         importéPar: Email.convertirEnValueType(message.importéPar),
       },
