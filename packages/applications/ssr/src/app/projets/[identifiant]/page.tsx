@@ -78,26 +78,42 @@ export default async function Page({ params: { identifiant } }: PageProps) {
         return notFound();
       }
 
+      const demandeRecoursEnCours = await mediator.send<Éliminé.Recours.ConsulterRecoursQuery>({
+        type: 'Éliminé.Recours.Query.ConsulterRecours',
+        data: {
+          identifiantProjetValue: identifiantProjet,
+        },
+      });
+
       return (
         <DétailsProjetÉliminéPage
           identifiantProjet={IdentifiantProjet.convertirEnValueType(identifiantProjet)}
           notifiéLe={éliminé.notifiéLe}
           candidature={candidature}
-          actions={mapToActions(utilisateur)}
+          actions={mapToActions(utilisateur, demandeRecoursEnCours)}
         />
       );
     }),
   );
 }
 
-const mapToActions = (utilisateur: Utilisateur.ValueType): Array<DétailsProjetÉliminéActions> => {
-  if (utilisateur.role.estPorteur()) {
-    return ['faire-demande-recours'];
+const mapToActions = (
+  utilisateur: Utilisateur.ValueType,
+  demandeRecoursEnCours: Option.Type<Éliminé.Recours.ConsulterRecoursReadModel>,
+) => {
+  const actions: Array<DétailsProjetÉliminéActions> = [];
+
+  if (utilisateur.role.aLaPermission('recours.demander') && Option.isNone(demandeRecoursEnCours)) {
+    actions.push('faire-demande-recours');
   }
 
-  if (utilisateur.role.estDGEC()) {
-    return ['modifier-candidature'];
+  if (utilisateur.role.aLaPermission('candidature.corriger')) {
+    actions.push('modifier-candidature');
   }
 
-  return [];
+  if (utilisateur.role.aLaPermission('candidature.attestation.télécharger')) {
+    actions.push('télécharger-attestation-désignation');
+  }
+
+  return actions;
 };

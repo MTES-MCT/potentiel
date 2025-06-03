@@ -23,7 +23,10 @@ export type DétailsProjetÉliminéPageProps = {
   actions: Array<DétailsProjetÉliminéActions>;
 };
 
-export type DétailsProjetÉliminéActions = 'faire-demande-recours' | 'modifier-candidature';
+export type DétailsProjetÉliminéActions =
+  | 'faire-demande-recours'
+  | 'modifier-candidature'
+  | 'télécharger-attestation-désignation';
 
 export const DétailsProjetÉliminéPage: FC<DétailsProjetÉliminéPageProps> = ({
   identifiantProjet,
@@ -87,13 +90,29 @@ export const DétailsProjetÉliminéPage: FC<DétailsProjetÉliminéPageProps> =
 
 type MapToActionsComponentsProps = {
   actions: ReadonlyArray<DétailsProjetÉliminéActions>;
-  identifiantProjet: string;
+  identifiantProjet: IdentifiantProjet.RawType;
 };
 
 const mapToActionComponents = ({ actions, identifiantProjet }: MapToActionsComponentsProps) =>
   actions.length ? (
     <div className="flex flex-col gap-4">
       <Heading2>Actions</Heading2>
+
+      {actions.includes('télécharger-attestation-désignation') && (
+        <Button
+          linkProps={{
+            href: Routes.Candidature.téléchargerAttestation(identifiantProjet),
+            prefetch: false,
+          }}
+          title={`Télécharger l'attestation de désignation`}
+          aria-label={`Télécharger l'attestation de désignation`}
+          priority="secondary"
+          iconId="fr-icon-file-download-line"
+          iconPosition="right"
+        >
+          Télécharger l'attestation de désignation
+        </Button>
+      )}
 
       {actions.includes('faire-demande-recours') && (
         <Button
