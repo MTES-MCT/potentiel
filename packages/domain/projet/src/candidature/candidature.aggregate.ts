@@ -429,6 +429,12 @@ export class CandidatureAggregate extends AbstractAggregate<CandidatureEvent> {
       )
       .with(
         {
+          type: 'FournisseursCandidatureImportés-V1',
+        },
+        (event) => this.applyFournisseursEventPayload(event),
+      )
+      .with(
+        {
           type: 'CandidatureImportée-V2',
         },
         (event) => this.applyCandidatureImportée(event),
@@ -460,6 +466,7 @@ export class CandidatureAggregate extends AbstractAggregate<CandidatureEvent> {
 
   private applyCandidatureImportée({ payload }: CandidatureImportéeEvent) {
     this.applyCommonEventPayload(payload);
+    this.applyFournisseursEventPayload({ fournisseurs: payload.fournisseurs });
   }
 
   private applyCandidatureCorrigée({ payload }: CandidatureCorrigéeEvent) {
@@ -496,7 +503,9 @@ export class CandidatureAggregate extends AbstractAggregate<CandidatureEvent> {
     typeGarantiesFinancières,
     sociétéMère,
     statut,
-  }: CandidatureCorrigéeEvent['payload'] | CandidatureImportéeEvent['payload']) {
+  }:
+    | CandidatureCorrigéeEvent['payload']
+    | Omit<CandidatureImportéeEvent['payload'], 'fournisseurs'>) {
     this.#statut = StatutCandidature.convertirEnValueType(statut);
     this.#nomProjet = nomProjet;
     this.#localité = Localité.bind(localité);
@@ -525,6 +534,17 @@ export class CandidatureAggregate extends AbstractAggregate<CandidatureEvent> {
     this.#territoireProjet = territoireProjet;
     this.#coefficientKChoisi = coefficientKChoisi;
     this.#motifÉlimination = motifÉlimination;
+  }
+
+  private applyFournisseursEventPayload({
+    fournisseurs,
+  }: Pick<CandidatureImportéeEvent['payload'], 'fournisseurs'>) {
+    this.#fournisseurs = fournisseurs.map((fournisseur) => ({
+      typeFournisseur: Fournisseur.TypeFournisseur.convertirEnValueType(
+        fournisseur.typeFournisseur,
+      ),
+      nomDuFabricant: fournisseur.nomDuFabricant,
+    }));
   }
 
   private mapToEventPayload = (

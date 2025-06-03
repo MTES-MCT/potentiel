@@ -48,17 +48,20 @@ const champsCsvFournisseur: Record<Fournisseur.TypeFournisseur.RawType, string> 
   'plaquettes-silicium': 'Nom du fabricant \n(Plaquettes de silicium (wafers))',
   polysilicium: 'Nom du fabricant \n(Polysilicium)',
   'postes-conversion': 'Nom du fabricant \n(Postes de conversion)',
-  structures: 'Nom du fabricant \n(Structure)',
+  structure: 'Nom du fabricant \n(Structure)',
   'dispositifs-stockage-energie': 'Nom du fabricant \n(Dispositifs de stockage de l’énergie *)',
   'dispositifs-suivi-course-soleil':
     'Nom du fabricant \n(Dispositifs de suivi de la course du soleil *)',
   'autres-technologies': 'Nom du fabricant \n(Autres technologies)',
+  'dispositif-de-production': 'Nom du fabricant \n(dispositif de production)',
+  'dispositif-de-stockage': 'Nom du fabricant \n(Dispositif de stockage)',
+  'poste-conversion': 'Nom du fabricant \n(Poste de conversion)',
 };
 
 export const mapToDétailsCandidatureUseCaseData = (
   payload: Record<string, string>,
 ): Array<{
-  typeFournisseur: TypeFournisseur.RawType;
+  typeFournisseur: TypeFournisseur.ValueType;
   nomDuFabricant: string;
 }> => {
   const result = [];
@@ -67,7 +70,7 @@ export const mapToDétailsCandidatureUseCaseData = (
     for (const [mappedKey, mappedValue] of Object.entries(champsCsvFournisseur)) {
       if (key === mappedValue) {
         result.push({
-          typeFournisseur: mappedKey as Fournisseur.TypeFournisseur.RawType,
+          typeFournisseur: TypeFournisseur.convertirEnValueType(mappedKey),
           nomDuFabricant: value,
         });
       }

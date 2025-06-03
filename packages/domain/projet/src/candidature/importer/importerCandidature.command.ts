@@ -40,8 +40,8 @@ export type ImporterCandidatureCommand = Message<
     actionnariat?: TypeActionnariat.ValueType;
     dateÉchéanceGf?: DateTime.ValueType;
     territoireProjet: string;
-    détailsFournisseurs: Array<{
-      typeFournisseur: TypeFournisseur.RawType;
+    fournisseurs: Array<{
+      typeFournisseur: TypeFournisseur.ValueType;
       nomDuFabricant: string;
     }>;
     importéLe: DateTime.ValueType;

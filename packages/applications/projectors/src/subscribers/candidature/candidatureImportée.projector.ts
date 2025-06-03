@@ -4,7 +4,7 @@ import { upsertProjection } from '@potentiel-infrastructure/pg-projection-write'
 
 export const candidatureImportéeProjector = async ({
   payload,
-}: Candidature.CandidatureImportéeEvent) => {
+}: Candidature.CandidatureImportéeEvent | Candidature.CandidatureImportéeEventV1) => {
   const identifiantProjet = IdentifiantProjet.convertirEnValueType(payload.identifiantProjet);
 
   const candidatureToUpsert: Omit<Candidature.CandidatureEntity, 'type'> = {

@@ -4,7 +4,11 @@ import {
 } from './consulter/consulterCandidature.query';
 import { CandidatureCorrigéeEvent } from './corriger/candidatureCorrigée.event';
 import { CorrigerCandidatureUseCase } from './corriger/corrigerCandidature.usecase';
-import { CandidatureImportéeEvent } from './importer/candidatureImportée.event';
+import {
+  CandidatureImportéeEvent,
+  CandidatureImportéeEventV1,
+  FournisseursCandidatureImportésEvent,
+} from './importer/candidatureImportée.event';
 import { ImporterCandidatureUseCase } from './importer/importerCandidature.usecase';
 import {
   ListerCandidaturesQuery,
@@ -54,10 +58,12 @@ export { ImporterCandidatureUseCase, CorrigerCandidatureUseCase, NotifierCandida
 export { CandidatureEvent } from './candidature.event';
 
 export {
+  CandidatureImportéeEventV1,
   CandidatureImportéeEvent,
   CandidatureCorrigéeEvent,
   CandidatureNotifiéeEvent,
   CandidatureNotifiéeEventV1,
+  FournisseursCandidatureImportésEvent,
 };
 
 // Register

@@ -79,7 +79,7 @@ export const registerImporterCandidatureUseCase = () => {
       data: {
         identifiantProjet,
         ...mapToCommonCandidatureUseCaseData(message),
-        détailsFournisseurs: mapToDétailsCandidatureUseCaseData(message.détailsValue || {}),
+        fournisseurs: mapToDétailsCandidatureUseCaseData(message.détailsValue || {}),
         importéLe,
         importéPar: Email.convertirEnValueType(message.importéPar),
       },
