@@ -2,13 +2,14 @@ import { mediator } from 'mediateur';
 import type { Metadata, ResolvingMetadata } from 'next';
 import { notFound } from 'next/navigation';
 
+import { Email } from '@potentiel-domain/common';
+import { mapToPlainObject } from '@potentiel-domain/core';
+import { Historique } from '@potentiel-domain/historique';
+import { Candidature, IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import { Role, Utilisateur } from '@potentiel-domain/utilisateur';
 import { Option } from '@potentiel-libraries/monads';
-import { mapToPlainObject } from '@potentiel-domain/core';
-import { Candidature } from '@potentiel-domain/projet';
-import { Historique } from '@potentiel-domain/historique';
-import { Lauréat } from '@potentiel-domain/projet';
 
+import { AbandonHistoryRecord } from '@/components/molecules/historique/timeline/abandon';
 import {
   DétailsAbandonPage,
   DétailsAbandonPageProps,
@@ -17,7 +18,6 @@ import { decodeParameter } from '@/utils/decodeParameter';
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { withUtilisateur } from '@/utils/withUtilisateur';
-import { AbandonHistoryRecord } from '@/components/molecules/historique/timeline/abandon';
 
 type PageProps = IdentifiantParameter;
 
@@ -70,44 +70,25 @@ export default async function Page({ params: { identifiant } }: PageProps) {
         },
       });
 
-      let projetsÀSélectionner: DétailsAbandonPageProps['projetsÀSélectionner'] = [];
-      const transmissionPreuveRecandidaturePossible = !!(
-        utilisateur.role.estÉgaleÀ(Role.porteur) &&
-        abandon.demande.accord &&
-        abandon.demande.estUneRecandidature &&
-        abandon.demande.recandidature?.statut.estÉgaleÀ(
-          Lauréat.Abandon.StatutPreuveRecandidature.enAttente,
-        )
-      );
+      const actions = mapToActions({
+        utilisateur,
+        statutRecandidature: abandon.demande.recandidature?.statut,
+        statut: abandon.statut,
+        passéEnInstructionPar: abandon.demande.instruction?.passéEnInstructionPar,
+      });
 
-      if (transmissionPreuveRecandidaturePossible) {
-        const projetsEligiblesPreuveRecandidature =
-          await mediator.send<Candidature.ListerProjetsEligiblesPreuveRecanditureQuery>({
-            type: 'Candidature.Query.ListerProjetsEligiblesPreuveRecandidature',
-            data: {
-              identifiantUtilisateur: utilisateur.identifiantUtilisateur.email,
-            },
-          });
-
-        projetsÀSélectionner = projetsEligiblesPreuveRecandidature
-          .filter((p) => p.identifiantProjet.formatter() !== identifiantProjet)
-          .map((projet) => ({
-            ...projet,
-            statut: projet.statut.statut,
-            identifiantProjet: projet.identifiantProjet.formatter(),
-          }));
-      }
+      const projetsÀSélectionner = actions.includes('transmettre-preuve-recandidature')
+        ? await getProjetsÀSélectionner({
+            identifiantProjet: abandon.identifiantProjet,
+            utilisateur,
+          })
+        : [];
 
       return (
         <DétailsAbandonPage
           abandon={mapToPlainObject(abandon)}
           identifiantProjet={identifiantProjet}
-          actions={mapToActions({
-            utilisateur,
-            recandidature: abandon.demande.estUneRecandidature,
-            statut: abandon.statut,
-            transmissionPreuveRecandidaturePossible,
-          })}
+          actions={actions}
           informations={mapToInformations({
             utilisateur,
             recandidature: abandon.demande.estUneRecandidature,
@@ -126,31 +107,41 @@ type AvailableActions = DétailsAbandonPageProps['actions'];
 
 type MapToActionsProps = {
   utilisateur: Utilisateur.ValueType;
-  recandidature: boolean;
-  transmissionPreuveRecandidaturePossible: boolean;
+  statutRecandidature: Lauréat.Abandon.StatutPreuveRecandidature.ValueType | undefined;
   statut: Lauréat.Abandon.StatutAbandon.ValueType;
+  passéEnInstructionPar?: Email.ValueType;
 };
 
 const mapToActions = ({
   utilisateur,
-  recandidature,
+  statutRecandidature,
   statut,
-  transmissionPreuveRecandidaturePossible,
+  passéEnInstructionPar,
 }: MapToActionsProps): AvailableActions => {
   const actions: AvailableActions = [];
-  const demandeConfirmationPossible =
-    (statut.estDemandé() || statut.estEnInstruction()) && !recandidature;
 
   switch (utilisateur.role.nom) {
     case 'admin':
-      if (demandeConfirmationPossible) {
+      if (statutRecandidature) {
+        break;
+      }
+      if (changementPossible(statut, 'confirmation-demandée')) {
         actions.push('demander-confirmation');
       }
-      if (statut.estEnCours() && !recandidature) {
+      if (changementPossible(statut, 'accordé')) {
         actions.push('accorder-sans-recandidature');
+      }
+      if (changementPossible(statut, 'rejeté')) {
         actions.push('rejeter');
+      }
+      if (changementPossible(statut, 'en-instruction')) {
         if (statut.estEnInstruction()) {
-          actions.push('reprendre-instruction');
+          if (
+            passéEnInstructionPar &&
+            !utilisateur.identifiantUtilisateur.estÉgaleÀ(passéEnInstructionPar)
+          ) {
+            actions.push('reprendre-instruction');
+          }
         } else {
           actions.push('passer-en-instruction');
         }
@@ -158,14 +149,25 @@ const mapToActions = ({
       break;
 
     case 'dgec-validateur':
-      if (demandeConfirmationPossible) {
+      if (changementPossible(statut, 'confirmation-demandée')) {
         actions.push('demander-confirmation');
       }
-      if (statut.estEnCours()) {
-        actions.push(recandidature ? 'accorder-avec-recandidature' : 'accorder-sans-recandidature');
+      if (changementPossible(statut, 'accordé')) {
+        actions.push(
+          statutRecandidature ? 'accorder-avec-recandidature' : 'accorder-sans-recandidature',
+        );
+      }
+      if (changementPossible(statut, 'rejeté')) {
         actions.push('rejeter');
+      }
+      if (changementPossible(statut, 'en-instruction')) {
         if (statut.estEnInstruction()) {
-          actions.push('reprendre-instruction');
+          if (
+            passéEnInstructionPar &&
+            !utilisateur.identifiantUtilisateur.estÉgaleÀ(passéEnInstructionPar)
+          ) {
+            actions.push('reprendre-instruction');
+          }
         } else {
           actions.push('passer-en-instruction');
         }
@@ -173,21 +175,60 @@ const mapToActions = ({
       break;
 
     case 'porteur-projet':
-      if (statut.estConfirmationDemandée()) {
+      if (changementPossible(statut, 'confirmé')) {
         actions.push('confirmer');
       }
-
-      if (statut.estEnCours() && !statut.estConfirmé()) {
+      if (changementPossible(statut, 'annulé')) {
         actions.push('annuler');
       }
 
-      if (transmissionPreuveRecandidaturePossible) {
+      if (statut.estAccordé() && statutRecandidature?.estEnAttente()) {
         actions.push('transmettre-preuve-recandidature');
       }
       break;
   }
 
   return actions;
+};
+
+const changementPossible = (
+  statutActuel: Lauréat.Abandon.StatutAbandon.ValueType,
+  nouveauStatut: Lauréat.Abandon.StatutAbandon.RawType,
+) => {
+  try {
+    statutActuel.vérifierQueLeChangementDeStatutEstPossibleEn(
+      Lauréat.Abandon.StatutAbandon.convertirEnValueType(nouveauStatut),
+    );
+    return true;
+  } catch {
+    return false;
+  }
+};
+
+type GetProjetsÀSelectionnerProps = {
+  utilisateur: Utilisateur.ValueType;
+  identifiantProjet: IdentifiantProjet.ValueType;
+};
+
+const getProjetsÀSélectionner = async ({
+  identifiantProjet,
+  utilisateur,
+}: GetProjetsÀSelectionnerProps): Promise<DétailsAbandonPageProps['projetsÀSélectionner']> => {
+  const projetsEligiblesPreuveRecandidature =
+    await mediator.send<Candidature.ListerProjetsEligiblesPreuveRecanditureQuery>({
+      type: 'Candidature.Query.ListerProjetsEligiblesPreuveRecandidature',
+      data: {
+        identifiantUtilisateur: utilisateur.identifiantUtilisateur.email,
+      },
+    });
+
+  return projetsEligiblesPreuveRecandidature
+    .filter((p) => !p.identifiantProjet.estÉgaleÀ(identifiantProjet))
+    .map((projet) => ({
+      ...projet,
+      statut: projet.statut.statut,
+      identifiantProjet: projet.identifiantProjet.formatter(),
+    }));
 };
 
 type AvailableInformations = DétailsAbandonPageProps['informations'];

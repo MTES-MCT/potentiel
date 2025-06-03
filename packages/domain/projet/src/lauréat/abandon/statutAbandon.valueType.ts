@@ -141,6 +141,12 @@ export const convertirEnValueType = (value: string): ValueType => {
         if (this.estRejeté()) {
           throw new AbandonDéjàRejetéError();
         }
+        if (this.estConfirmationDemandée()) {
+          throw new DemandeConfirmationAbandonEnCoursInstructionError();
+        }
+        if (this.estConfirmé()) {
+          throw new AbandonConfirméInstructionError();
+        }
       } else if (nouveauStatut.estRejeté()) {
         if (this.estAccordé()) {
           throw new AbandonDéjàAccordéError();
@@ -212,5 +218,19 @@ class ConfirmationAbandonDéjàDemandéError extends InvalidOperationError {
 class AucuneDemandeConfirmationAbandonError extends InvalidOperationError {
   constructor() {
     super(`Aucune demande de confirmation d'abandon en attente`);
+  }
+}
+
+class DemandeConfirmationAbandonEnCoursInstructionError extends InvalidOperationError {
+  constructor() {
+    super(
+      `Une demande de confirmation d'abandon est en cours et ne peut être passé en instruction`,
+    );
+  }
+}
+
+class AbandonConfirméInstructionError extends InvalidOperationError {
+  constructor() {
+    super(`L'abandon est confirmé et ne peut être passé en instruction`);
   }
 }
