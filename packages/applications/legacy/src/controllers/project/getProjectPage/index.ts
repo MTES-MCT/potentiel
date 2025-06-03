@@ -134,6 +134,15 @@ v1Router.get(
         `${project.appelOffreId}#${project.periodeId}#${project.familleId}#${project.numeroCRE}`,
       );
 
+      /**
+       * Redirection vers la page éliminé dans la nouvelle application
+       */
+      if (!project.isClasse) {
+        return response.redirect(
+          Routes.Projet.Éliminé.détails(identifiantProjetValueType.formatter()),
+        );
+      }
+
       const rawProjectEventList = await getProjectEvents({ projectId: project.id, user });
 
       if (rawProjectEventList.isErr()) {
