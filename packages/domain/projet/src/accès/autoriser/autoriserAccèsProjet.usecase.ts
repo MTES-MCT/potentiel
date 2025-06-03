@@ -9,7 +9,7 @@ import { AutoriserAccèsProjetCommand } from './autoriserAccèsProjet.command';
 export type AutoriserAccèsProjetUseCase = Message<
   'Projet.Accès.UseCase.AutoriserAccèsProjet',
   {
-    identifiantProjetValues: Array<string>;
+    identifiantProjetValue: string;
     identifiantUtilisateurValue: string;
     autoriséLeValue: string;
     autoriséParValue: string;
@@ -19,7 +19,7 @@ export type AutoriserAccèsProjetUseCase = Message<
 
 export const registerAutoriserAccèsProjetUseCase = () => {
   const runner: MessageHandler<AutoriserAccèsProjetUseCase> = async ({
-    identifiantProjetValues,
+    identifiantProjetValue,
     identifiantUtilisateurValue,
     autoriséLeValue,
     autoriséParValue,
@@ -28,9 +28,7 @@ export const registerAutoriserAccèsProjetUseCase = () => {
     await mediator.send<AutoriserAccèsProjetCommand>({
       type: 'Projet.Accès.Command.AutoriserAccèsProjet',
       data: {
-        identifiantProjets: identifiantProjetValues.map((identifiantProjetValue) =>
-          IdentifiantProjet.convertirEnValueType(identifiantProjetValue),
-        ),
+        identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjetValue),
         identifiantUtilisateur: Email.convertirEnValueType(identifiantUtilisateurValue),
         autoriséLe: DateTime.convertirEnValueType(autoriséLeValue),
         autoriséPar: Email.convertirEnValueType(autoriséParValue),

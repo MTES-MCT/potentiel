@@ -118,7 +118,7 @@ export async function notifierÉliminé(this: PotentielWorld, dateDésignation: 
   await mediator.send<Accès.AutoriserAccèsProjetUseCase>({
     type: 'Projet.Accès.UseCase.AutoriserAccèsProjet',
     data: {
-      identifiantProjetValues: [identifiantProjetValue.formatter()],
+      identifiantProjetValue: identifiantProjetValue.formatter(),
       identifiantUtilisateurValue: candidature.values.emailContactValue,
       autoriséLeValue: dateDésignation,
       autoriséParValue: Email.system().formatter(),

@@ -1,18 +1,18 @@
-import { Message, MessageHandler, mediator } from 'mediateur';
-import { Event } from '@potentiel-infrastructure/pg-event-sourcing';
 import { IdentifiantProjet } from '@potentiel-domain/common';
 import { Accès } from '@potentiel-domain/projet';
-import { getLegacyProjetByIdentifiantProjet } from '../infra/sequelize/queries/project';
-import { logger, ok } from '../core/utils';
-import { eventStore } from '../config/eventStore.config';
-import { getUserByEmail } from '../infra/sequelize/queries/users/getUserByEmail';
 import { Role } from '@potentiel-domain/utilisateur';
+import { Event } from '@potentiel-infrastructure/pg-event-sourcing';
+import { Message, MessageHandler, mediator } from 'mediateur';
+import { createUser } from '../config';
+import { eventStore } from '../config/eventStore.config';
+import { logger, ok } from '../core/utils';
+import { getLegacyProjetByIdentifiantProjet } from '../infra/sequelize/queries/project';
+import { getUserByEmail } from '../infra/sequelize/queries/users/getUserByEmail';
 import {
   ToutAccèsAuProjetRevoqué,
   UserInvitedToProject,
   UserRightsToProjectRevoked,
 } from '../modules/authZ';
-import { createUser } from '../config';
 
 export type SubscriptionEvent = Accès.AccèsEvent & Event;
 
@@ -26,12 +26,12 @@ export const register = () => {
       case 'AccèsProjetAutorisé-V1': {
         const { identifiantUtilisateur, identifiantProjet, autoriséPar } = payload;
 
-        const projectIds: string[] = [];
         const project = await getLegacyProjetByIdentifiantProjet(
           IdentifiantProjet.convertirEnValueType(identifiantProjet),
         );
-        if (project) {
-          projectIds.push(project.id);
+
+        if (!project) {
+          throw new Error('Projet non trouvé');
         }
 
         const userId = await getOrCreateUser(identifiantUtilisateur, 'porteur-projet');
@@ -42,7 +42,7 @@ export const register = () => {
           new UserInvitedToProject({
             payload: {
               userId: userId,
-              projectIds,
+              projectIds: [project.id],
               invitedBy: invitéParUserId,
             },
           }),

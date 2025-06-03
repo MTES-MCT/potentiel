@@ -1,15 +1,13 @@
-import { Message, MessageHandler, mediator } from 'mediateur';
-import { Event } from '@potentiel-infrastructure/pg-event-sourcing';
-import { IdentifiantProjet } from '@potentiel-domain/common';
-import { getLegacyProjetByIdentifiantProjet } from '../infra/sequelize/queries/project';
-import { ok } from '../core/utils';
-import { eventStore } from '../config/eventStore.config';
-import { getUserByEmail } from '../infra/sequelize/queries/users/getUserByEmail';
 import { Role, UtilisateurEvent } from '@potentiel-domain/utilisateur';
-import { DrealUserInvited, UserInvitedToProject } from '../modules/authZ';
+import { Event } from '@potentiel-infrastructure/pg-event-sourcing';
+import { Message, MessageHandler, mediator } from 'mediateur';
 import { createUser } from '../config';
-import { UtilisateurInvité } from '../modules/utilisateur';
+import { eventStore } from '../config/eventStore.config';
+import { ok } from '../core/utils';
+import { getUserByEmail } from '../infra/sequelize/queries/users/getUserByEmail';
+import { DrealUserInvited } from '../modules/authZ';
 import { Région } from '../modules/dreal/région';
+import { UtilisateurInvité } from '../modules/utilisateur';
 
 export type SubscriptionEvent = UtilisateurEvent & Event;
 
@@ -20,35 +18,6 @@ export const register = () => {
     const { payload, type } = event;
 
     switch (type) {
-      case 'PorteurInvité-V1': {
-        const { identifiantUtilisateur, identifiantsProjet, invitéPar } = payload;
-
-        const projectIds: string[] = [];
-        for (const identifiantProjet of identifiantsProjet) {
-          const project = await getLegacyProjetByIdentifiantProjet(
-            IdentifiantProjet.convertirEnValueType(identifiantProjet),
-          );
-          if (project) {
-            projectIds.push(project.id);
-          }
-        }
-
-        const userId = await getOrCreateUser(identifiantUtilisateur, 'porteur-projet');
-
-        const invitéParUserId = await getUserIdByEmail(invitéPar);
-
-        await eventStore.publish(
-          new UserInvitedToProject({
-            payload: {
-              userId: userId,
-              projectIds,
-              invitedBy: invitéParUserId,
-            },
-          }),
-        );
-
-        break;
-      }
       case 'UtilisateurInvité-V1': {
         const { identifiantUtilisateur, rôle, invitéPar } = payload;
 
