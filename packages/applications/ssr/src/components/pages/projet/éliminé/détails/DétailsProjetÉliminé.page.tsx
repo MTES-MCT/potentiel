@@ -1,9 +1,9 @@
 import { FC } from 'react';
 import Button from '@codegouvfr/react-dsfr/Button';
 
-import { DateTime } from '@potentiel-domain/common';
 import { Routes } from '@potentiel-applications/routes';
 import { Candidature, IdentifiantProjet } from '@potentiel-domain/projet';
+import { AppelOffre } from '@potentiel-domain/appel-offre';
 
 import { ProjetBanner } from '@/components/molecules/projet/ProjetBanner';
 import { Heading2 } from '@/components/atoms/headings';
@@ -12,7 +12,7 @@ import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
 
 export type DétailsProjetÉliminéPageProps = {
   identifiantProjet: IdentifiantProjet.ValueType;
-  notifiéLe: DateTime.ValueType;
+  unitéPuissance: AppelOffre.ConsulterAppelOffreReadModel['unitePuissance'];
   candidature: {
     puissanceProductionAnnuelle: Candidature.ConsulterCandidatureReadModel['puissanceProductionAnnuelle'];
     localité: Candidature.ConsulterCandidatureReadModel['localité'];
@@ -30,6 +30,7 @@ export type DétailsProjetÉliminéActions =
 
 export const DétailsProjetÉliminéPage: FC<DétailsProjetÉliminéPageProps> = ({
   identifiantProjet,
+  unitéPuissance,
   candidature: { puissanceProductionAnnuelle, localité, sociétéMère, emailContact, prixReference },
   actions,
 }) => {
@@ -50,7 +51,10 @@ export const DétailsProjetÉliminéPage: FC<DétailsProjetÉliminéPageProps> =
             </Heading2>
             <ul className="flex-col gap-4 mt-2">
               <li>
-                Puissance: <span className="font-bold">{puissanceProductionAnnuelle}</span>
+                Puissance:{' '}
+                <span className="font-bold">
+                  {puissanceProductionAnnuelle} {unitéPuissance}
+                </span>
               </li>
               <li>
                 Site de production :{' '}

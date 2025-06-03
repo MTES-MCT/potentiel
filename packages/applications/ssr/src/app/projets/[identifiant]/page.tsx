@@ -88,34 +88,28 @@ export default async function Page({ params: { identifiant } }: PageProps) {
         },
       });
 
-      let changementDeCahierDesChargeNécessairePourDemanderUnRecours = false;
+      const appelOffre = await mediator.send<AppelOffre.ConsulterAppelOffreQuery>({
+        type: 'AppelOffre.Query.ConsulterAppelOffre',
+        data: {
+          identifiantAppelOffre: identifiantProjet.appelOffre,
+        },
+      });
 
-      if (Option.isNone(demandeRecoursEnCours)) {
-        const appelOffre = await mediator.send<AppelOffre.ConsulterAppelOffreQuery>({
-          type: 'AppelOffre.Query.ConsulterAppelOffre',
-          data: {
-            identifiantAppelOffre: identifiantProjet.appelOffre,
-          },
-        });
-
-        if (Option.isNone(appelOffre)) {
-          return notFound();
-        }
-
-        changementDeCahierDesChargeNécessairePourDemanderUnRecours =
-          appelOffre.periodes.find((p) => p.id === identifiantProjet.période)
-            ?.choisirNouveauCahierDesCharges ?? false;
+      if (Option.isNone(appelOffre)) {
+        return notFound();
       }
 
       return (
         <DétailsProjetÉliminéPage
           identifiantProjet={identifiantProjet}
-          notifiéLe={éliminé.notifiéLe}
           candidature={candidature}
+          unitéPuissance={appelOffre.unitePuissance}
           actions={mapToActions({
             utilisateur,
             demandeRecoursEnCours,
-            changementDeCahierDesChargeNécessairePourDemanderUnRecours,
+            changementDeCahierDesChargeNécessairePourDemanderUnRecours:
+              appelOffre.periodes.find((p) => p.id === identifiantProjet.période)
+                ?.choisirNouveauCahierDesCharges ?? false,
           })}
         />
       );
