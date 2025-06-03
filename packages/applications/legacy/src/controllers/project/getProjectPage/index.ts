@@ -241,12 +241,6 @@ v1Router.get(
         ProjectDetailsPage({
           request,
           project,
-          projectEventList: {
-            ...rawProjectEventList.value,
-            events: attestationConformité
-              ? rawProjectEventList.value.events.concat(attestationConformité)
-              : rawProjectEventList.value.events,
-          },
           raccordement,
           alertesRaccordement,
           abandon,

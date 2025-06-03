@@ -1,4 +1,3 @@
-import { ProjectEventListDTO } from '../../../modules/frise';
 import { ProjectDataForProjectPage } from '../../../modules/project/queries';
 import { Request } from 'express';
 import React, { FC } from 'react';
@@ -46,7 +45,6 @@ type ProjectDetailsProps = {
   request: Request;
   project: ProjectDataForProjectPage;
   raccordement: Option.Type<Raccordement.ConsulterRaccordementReadModel>;
-  projectEventList?: ProjectEventListDTO;
   alertesRaccordement: AlerteRaccordement[];
   abandon?: { statut: string };
   demandeRecours: ProjectDataForProjectPage['demandeRecours'];
@@ -64,7 +62,6 @@ type ProjectDetailsProps = {
 export const ProjectDetails = ({
   request,
   project,
-  projectEventList,
   raccordement,
   alertesRaccordement,
   abandon,
@@ -149,10 +146,14 @@ export const ProjectDetails = ({
             />
           </Callout>
         </div>
+
+        <EtapesProjet
+          identifiantProjet={identifiantProjet}
+          dateDesignation={project.notifiedOn || 0}
+          isLegacy={project.isLegacy}
+        />
+
         <div className="flex flex-col lg:flex-row gap-3">
-          {!!projectEventList?.events.length && (
-            <EtapesProjet {...{ project, user, projectEventList }} />
-          )}
           <div className={`flex flex-col flex-grow gap-3 break-before-page`}>
             <InfoGenerales
               project={project}

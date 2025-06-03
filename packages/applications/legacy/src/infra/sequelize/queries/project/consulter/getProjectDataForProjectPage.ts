@@ -173,7 +173,7 @@ export const getProjectDataForProjectPage: GetProjectDataForProjectPage = ({ pro
           email,
           note,
           details,
-          notifiedOn: notifiedOn ? new Date(notifiedOn) : undefined,
+          notifiedOn,
           completionDueOn: completionDueOn ? new Date(completionDueOn) : undefined,
           isClasse: classe === 'Classé',
           isAbandoned: abandonedOn !== 0,
