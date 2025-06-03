@@ -1,11 +1,9 @@
+import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import { getLogger } from '@potentiel-libraries/monitoring';
-import { Lauréat } from '@potentiel-domain/projet';
-import { IdentifiantProjet } from '@potentiel-domain/projet';
 
 import { RegisterPuissanceNotificationDependencies } from '..';
-import { listerDrealsRecipients } from '../../../../helpers/listerDrealsRecipients';
+import { listerDrealsRecipients, listerPorteursRecipients } from '../../../../helpers';
 import { puissanceNotificationTemplateId } from '../constant';
-import { listerPorteursRecipients } from '../../../../helpers/listerPorteursRecipients';
 
 type ChangementPuissanceEnregistréNotificationProps = {
   sendEmail: RegisterPuissanceNotificationDependencies['sendEmail'];

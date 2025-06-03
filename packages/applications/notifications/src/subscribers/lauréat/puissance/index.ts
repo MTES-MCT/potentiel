@@ -6,8 +6,8 @@ import { Lauréat } from '@potentiel-domain/projet';
 import { IdentifiantProjet } from '@potentiel-domain/projet';
 
 import { SendEmail } from '../../../sendEmail';
-import { getLauréat } from '../../../helpers/getLauréat';
-import { getBaseUrl } from '../../../helpers/getBaseUrl';
+import { getLauréat } from '../../../helpers';
+import { getBaseUrl } from '../../../helpers';
 
 import { puissanceModifiéeNotification } from './puissanceModifiée.notification';
 import { changementPuissanceAccordéNotification } from './changement/changementPuissanceAccordé.notification';

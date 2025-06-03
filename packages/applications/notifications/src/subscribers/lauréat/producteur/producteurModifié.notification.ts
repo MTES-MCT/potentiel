@@ -1,8 +1,7 @@
-import { getLogger } from '@potentiel-libraries/monitoring';
 import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
+import { getLogger } from '@potentiel-libraries/monitoring';
 
-import { listerPorteursRecipients } from '../../../helpers/listerPorteursRecipients';
-import { listerDrealsRecipients } from '../../../helpers/listerDrealsRecipients';
+import { listerDrealsRecipients, listerPorteursRecipients } from '../../../helpers';
 
 import { RegisterProducteurNotificationDependencies } from '.';
 

@@ -1,12 +1,10 @@
-import { getLogger } from '@potentiel-libraries/monitoring';
 import { Routes } from '@potentiel-applications/routes';
-import { Lauréat } from '@potentiel-domain/projet';
-import { IdentifiantProjet } from '@potentiel-domain/projet';
+import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
+import { getLogger } from '@potentiel-libraries/monitoring';
 
 import { RegisterPuissanceNotificationDependencies } from '..';
+import { listerDgecRecipients, listerDrealsRecipients } from '../../../../helpers';
 import { Recipient } from '../../../../sendEmail';
-import { listerDrealsRecipients } from '../../../../helpers/listerDrealsRecipients';
-import { listerDgecRecipients } from '../../../../helpers/listerDgecRecipients';
 import { puissanceNotificationTemplateId } from '../constant';
 
 type ChangementPuissanceDemandéNotificationProps = {

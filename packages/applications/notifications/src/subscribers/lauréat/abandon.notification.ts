@@ -1,14 +1,12 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
-import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
-import { Option } from '@potentiel-libraries/monads';
-import { Event } from '@potentiel-infrastructure/pg-event-sourcing';
 import { Routes } from '@potentiel-applications/routes';
+import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
+import { Event } from '@potentiel-infrastructure/pg-event-sourcing';
+import { Option } from '@potentiel-libraries/monads';
 
+import { getBaseUrl, getLauréat, listerPorteursRecipients } from '../../helpers';
 import { EmailPayload, SendEmail } from '../../sendEmail';
-import { listerPorteursRecipients } from '../../helpers/listerPorteursRecipients';
-import { getLauréat } from '../../helpers/getLauréat';
-import { getBaseUrl } from '../../helpers/getBaseUrl';
 
 export type SubscriptionEvent = Lauréat.Abandon.AbandonEvent & Event;
 

@@ -1,20 +1,19 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 import { match } from 'ts-pattern';
 
+import { ReprésentantLégal } from '@potentiel-domain/laureat';
 import { IdentifiantProjet } from '@potentiel-domain/projet';
 import { Event } from '@potentiel-infrastructure/pg-event-sourcing';
-import { ReprésentantLégal } from '@potentiel-domain/laureat';
 
+import { getBaseUrl, getLauréat } from '../../../helpers';
 import { SendEmail } from '../../../sendEmail';
-import { getLauréat } from '../../../helpers/getLauréat';
-import { getBaseUrl } from '../../../helpers/getBaseUrl';
 
-import { représentantLégalModifiéNotification } from './représentantLégalModifié.notification';
-import { changementReprésentantLégalDemandéNotification } from './changementReprésentantLégalDemandé.notification';
 import { changementReprésentantLégalAccordéNotification } from './changementReprésentantLégalAccordé.notification';
-import { changementReprésentantLégalRejetéNotification } from './changementReprésentantLégalRejeté.notification';
 import { changementReprésentantLégalAnnuléNotification } from './changementReprésentantLégalAnnulé.notification';
 import { changementReprésentantLégalCorrigéNotification } from './changementReprésentantLégalCorrigé.notification';
+import { changementReprésentantLégalDemandéNotification } from './changementReprésentantLégalDemandé.notification';
+import { changementReprésentantLégalRejetéNotification } from './changementReprésentantLégalRejeté.notification';
+import { représentantLégalModifiéNotification } from './représentantLégalModifié.notification';
 
 export type SubscriptionEvent = ReprésentantLégal.ReprésentantLégalEvent & Event;
 

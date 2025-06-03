@@ -1,9 +1,8 @@
+import { Routes } from '@potentiel-applications/routes';
 import { Email } from '@potentiel-domain/common';
 import { PorteurInvitéEvent } from '@potentiel-domain/utilisateur';
-import { Routes } from '@potentiel-applications/routes';
 
-import { getCandidature } from '../../helpers/getCandidature';
-import { getBaseUrl } from '../../helpers/getBaseUrl';
+import { getBaseUrl, getCandidature } from '../../helpers';
 
 export const porteurInvitéNotification = async ({
   payload: { identifiantsProjet, identifiantUtilisateur, invitéPar },

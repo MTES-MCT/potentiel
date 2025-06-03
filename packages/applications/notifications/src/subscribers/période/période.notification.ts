@@ -1,15 +1,15 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
-import { Option } from '@potentiel-libraries/monads';
-import { Event } from '@potentiel-infrastructure/pg-event-sourcing';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { Période } from '@potentiel-domain/periode';
-import { getLogger } from '@potentiel-libraries/monitoring';
-import { ListerUtilisateursQuery } from '@potentiel-domain/utilisateur';
 import { Candidature } from '@potentiel-domain/projet';
+import { ListerUtilisateursQuery } from '@potentiel-domain/utilisateur';
+import { Event } from '@potentiel-infrastructure/pg-event-sourcing';
+import { Option } from '@potentiel-libraries/monads';
+import { getLogger } from '@potentiel-libraries/monitoring';
 
+import { getBaseUrl } from '../../helpers';
 import { EmailPayload, SendEmail } from '../../sendEmail';
-import { getBaseUrl } from '../../helpers/getBaseUrl';
 
 export type SubscriptionEvent = Période.PériodeEvent & Event;
 

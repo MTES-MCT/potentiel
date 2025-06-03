@@ -1,17 +1,14 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 import { match } from 'ts-pattern';
 
-import { Option } from '@potentiel-libraries/monads';
-import { Event } from '@potentiel-infrastructure/pg-event-sourcing';
-import { Éliminé } from '@potentiel-domain/projet';
-import { IdentifiantProjet } from '@potentiel-domain/projet';
 import { Routes } from '@potentiel-applications/routes';
+import { IdentifiantProjet, Éliminé } from '@potentiel-domain/projet';
 import { ListerUtilisateursQuery, Role } from '@potentiel-domain/utilisateur';
+import { Event } from '@potentiel-infrastructure/pg-event-sourcing';
+import { Option } from '@potentiel-libraries/monads';
 
+import { getBaseUrl, getCandidature, listerPorteursRecipients } from '../../helpers';
 import { SendEmail } from '../../sendEmail';
-import { listerPorteursRecipients } from '../../helpers/listerPorteursRecipients';
-import { getCandidature } from '../../helpers/getCandidature';
-import { getBaseUrl } from '../../helpers/getBaseUrl';
 
 export type SubscriptionEvent = Éliminé.Recours.RecoursEvent & Event;
 

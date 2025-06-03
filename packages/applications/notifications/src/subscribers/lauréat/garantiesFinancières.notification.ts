@@ -1,16 +1,18 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
+import { Routes } from '@potentiel-applications/routes';
+import { GarantiesFinancières } from '@potentiel-domain/laureat';
 import { IdentifiantProjet } from '@potentiel-domain/projet';
 import { Event } from '@potentiel-infrastructure/pg-event-sourcing';
-import { GarantiesFinancières } from '@potentiel-domain/laureat';
-import { Routes } from '@potentiel-applications/routes';
 
-import { formatDateForEmail } from '../../helpers/formatDateForEmail';
+import {
+  formatDateForEmail,
+  getBaseUrl,
+  getLauréat,
+  listerDrealsRecipients,
+  listerPorteursRecipients,
+} from '../../helpers';
 import { EmailPayload, SendEmail } from '../../sendEmail';
-import { listerPorteursRecipients } from '../../helpers/listerPorteursRecipients';
-import { listerDrealsRecipients } from '../../helpers/listerDrealsRecipients';
-import { getLauréat } from '../../helpers/getLauréat';
-import { getBaseUrl } from '../../helpers/getBaseUrl';
 
 export type SubscriptionEvent = GarantiesFinancières.GarantiesFinancièresEvent & Event;
 

@@ -1,12 +1,11 @@
-import { Message, MessageHandler, mediator } from 'mediateur';
+import { mediator, Message, MessageHandler } from 'mediateur';
 import { match, P } from 'ts-pattern';
 
-import { Event } from '@potentiel-infrastructure/pg-event-sourcing';
 import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
+import { Event } from '@potentiel-infrastructure/pg-event-sourcing';
 
+import { getBaseUrl, getLauréat } from '../../../helpers';
 import { SendEmail } from '../../../sendEmail';
-import { getLauréat } from '../../../helpers/getLauréat';
-import { getBaseUrl } from '../../../helpers/getBaseUrl';
 
 import { changementProducteurEnregistréNotification } from './changementProducteurEnregistré.notification';
 import { producteurModifiéNotification } from './producteurModifié.notification';

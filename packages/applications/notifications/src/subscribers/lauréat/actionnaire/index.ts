@@ -1,20 +1,19 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 import { match } from 'ts-pattern';
 
+import { Actionnaire } from '@potentiel-domain/laureat';
 import { IdentifiantProjet } from '@potentiel-domain/projet';
 import { Event } from '@potentiel-infrastructure/pg-event-sourcing';
-import { Actionnaire } from '@potentiel-domain/laureat';
 
+import { getBaseUrl, getLauréat } from '../../../helpers';
 import { SendEmail } from '../../../sendEmail';
-import { getLauréat } from '../../../helpers/getLauréat';
-import { getBaseUrl } from '../../../helpers/getBaseUrl';
 
-import { changementActionnaireAnnuléNotifications } from './changementActionnaireAnnulé.notifications';
-import { changementActionnaireDemandéNotifications } from './changementActionnaireDemandé.notifications';
-import { changementActionnaireRejetéNotifications } from './changementActionnaireRejeté.notifications';
 import { actionnaireModifiéNotifications } from './actionnaireModifié.notifications';
 import { changementActionnaireAccordéNotifications } from './changementActionnaireAccordé.notifications';
+import { changementActionnaireAnnuléNotifications } from './changementActionnaireAnnulé.notifications';
+import { changementActionnaireDemandéNotifications } from './changementActionnaireDemandé.notifications';
 import { changementActionnaireEnregistréNotifications } from './changementActionnaireEnregistré.notifications';
+import { changementActionnaireRejetéNotifications } from './changementActionnaireRejeté.notifications';
 
 export type SubscriptionEvent = Actionnaire.ActionnaireEvent & Event;
 

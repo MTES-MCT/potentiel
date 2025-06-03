@@ -1,15 +1,16 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
-import { IdentifiantProjet } from '@potentiel-domain/projet';
-import { Event } from '@potentiel-infrastructure/pg-event-sourcing';
-import { Lauréat } from '@potentiel-domain/projet';
 import { Routes } from '@potentiel-applications/routes';
+import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
+import { Event } from '@potentiel-infrastructure/pg-event-sourcing';
 
+import {
+  getBaseUrl,
+  getLauréat,
+  listerDrealsRecipients,
+  listerPorteursRecipients,
+} from '../../helpers';
 import { EmailPayload, SendEmail } from '../../sendEmail';
-import { listerPorteursRecipients } from '../../helpers/listerPorteursRecipients';
-import { listerDrealsRecipients } from '../../helpers/listerDrealsRecipients';
-import { getLauréat } from '../../helpers/getLauréat';
-import { getBaseUrl } from '../../helpers/getBaseUrl';
 
 export type SubscriptionEvent = Lauréat.Achèvement.AchèvementEvent & Event;
 

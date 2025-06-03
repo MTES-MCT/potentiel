@@ -1,13 +1,13 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
-import { Option } from '@potentiel-libraries/monads';
-import { Event } from '@potentiel-infrastructure/pg-event-sourcing';
-import { getLogger } from '@potentiel-libraries/monitoring';
-import { Candidature } from '@potentiel-domain/projet';
 import { Routes } from '@potentiel-applications/routes';
+import { Candidature } from '@potentiel-domain/projet';
+import { Event } from '@potentiel-infrastructure/pg-event-sourcing';
+import { Option } from '@potentiel-libraries/monads';
+import { getLogger } from '@potentiel-libraries/monitoring';
 
+import { getBaseUrl } from '../../helpers';
 import { SendEmail } from '../../sendEmail';
-import { getBaseUrl } from '../../helpers/getBaseUrl';
 
 export type SubscriptionEvent = Candidature.CandidatureCorrigéeEvent & Event;
 

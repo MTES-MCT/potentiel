@@ -1,8 +1,8 @@
+import { ReprésentantLégal } from '@potentiel-domain/laureat';
 import { IdentifiantProjet } from '@potentiel-domain/projet';
 import { getLogger } from '@potentiel-libraries/monitoring';
-import { ReprésentantLégal } from '@potentiel-domain/laureat';
 
-import { listerPorteursRecipients } from '../../../helpers/listerPorteursRecipients';
+import { listerPorteursRecipients } from '../../../helpers';
 
 import { RegisterReprésentantLégalNotificationDependencies } from '.';
 
