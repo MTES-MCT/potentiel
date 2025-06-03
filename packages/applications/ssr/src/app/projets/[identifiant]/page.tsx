@@ -5,6 +5,7 @@ import { Metadata, ResolvingMetadata } from 'next';
 import { Option } from '@potentiel-libraries/monads';
 import { Candidature, IdentifiantProjet, Éliminé } from '@potentiel-domain/projet';
 import { Utilisateur } from '@potentiel-domain/utilisateur';
+import { AppelOffre } from '@potentiel-domain/appel-offre';
 
 import { decodeParameter } from '@/utils/decodeParameter';
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
@@ -54,12 +55,14 @@ export async function generateMetadata(
 export default async function Page({ params: { identifiant } }: PageProps) {
   return PageWithErrorHandling(async () =>
     withUtilisateur(async (utilisateur) => {
-      const identifiantProjet = decodeParameter(identifiant);
+      const identifiantProjet = IdentifiantProjet.convertirEnValueType(
+        decodeParameter(identifiant),
+      );
 
       const éliminé = await mediator.send<Éliminé.ConsulterÉliminéQuery>({
         type: 'Éliminé.Query.ConsulterÉliminé',
         data: {
-          identifiantProjet,
+          identifiantProjet: identifiantProjet.formatter(),
         },
       });
 
@@ -70,7 +73,7 @@ export default async function Page({ params: { identifiant } }: PageProps) {
       const candidature = await mediator.send<Candidature.ConsulterCandidatureQuery>({
         type: 'Candidature.Query.ConsulterCandidature',
         data: {
-          identifiantProjet,
+          identifiantProjet: identifiantProjet.formatter(),
         },
       });
 
@@ -81,29 +84,63 @@ export default async function Page({ params: { identifiant } }: PageProps) {
       const demandeRecoursEnCours = await mediator.send<Éliminé.Recours.ConsulterRecoursQuery>({
         type: 'Éliminé.Recours.Query.ConsulterRecours',
         data: {
-          identifiantProjetValue: identifiantProjet,
+          identifiantProjetValue: identifiantProjet.formatter(),
         },
       });
 
+      let changementDeCahierDesChargeNécessairePourDemanderUnRecours = false;
+
+      if (Option.isNone(demandeRecoursEnCours)) {
+        const appelOffre = await mediator.send<AppelOffre.ConsulterAppelOffreQuery>({
+          type: 'AppelOffre.Query.ConsulterAppelOffre',
+          data: {
+            identifiantAppelOffre: identifiantProjet.appelOffre,
+          },
+        });
+
+        if (Option.isNone(appelOffre)) {
+          return notFound();
+        }
+
+        changementDeCahierDesChargeNécessairePourDemanderUnRecours =
+          appelOffre.periodes.find((p) => p.id === identifiantProjet.période)
+            ?.choisirNouveauCahierDesCharges ?? false;
+      }
+
       return (
         <DétailsProjetÉliminéPage
-          identifiantProjet={IdentifiantProjet.convertirEnValueType(identifiantProjet)}
+          identifiantProjet={identifiantProjet}
           notifiéLe={éliminé.notifiéLe}
           candidature={candidature}
-          actions={mapToActions(utilisateur, demandeRecoursEnCours)}
+          actions={mapToActions({
+            utilisateur,
+            demandeRecoursEnCours,
+            changementDeCahierDesChargeNécessairePourDemanderUnRecours,
+          })}
         />
       );
     }),
   );
 }
 
-const mapToActions = (
-  utilisateur: Utilisateur.ValueType,
-  demandeRecoursEnCours: Option.Type<Éliminé.Recours.ConsulterRecoursReadModel>,
-) => {
+type MapToActionsProps = {
+  utilisateur: Utilisateur.ValueType;
+  demandeRecoursEnCours: Option.Type<Éliminé.Recours.ConsulterRecoursReadModel>;
+  changementDeCahierDesChargeNécessairePourDemanderUnRecours: boolean;
+};
+
+const mapToActions = ({
+  utilisateur,
+  demandeRecoursEnCours,
+  changementDeCahierDesChargeNécessairePourDemanderUnRecours,
+}: MapToActionsProps) => {
   const actions: Array<DétailsProjetÉliminéActions> = [];
 
-  if (utilisateur.role.aLaPermission('recours.demander') && Option.isNone(demandeRecoursEnCours)) {
+  if (
+    utilisateur.role.aLaPermission('recours.demander') &&
+    Option.isNone(demandeRecoursEnCours) &&
+    !changementDeCahierDesChargeNécessairePourDemanderUnRecours
+  ) {
     actions.push('faire-demande-recours');
   }
 
