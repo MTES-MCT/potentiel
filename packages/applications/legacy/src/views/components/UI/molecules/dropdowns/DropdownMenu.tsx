@@ -108,6 +108,7 @@ const DropdownItem = ({ children, href, isCurrent, download, disabled }: Dropdow
     <a
       className="flex-1 px-4 py-3 block no-underline whitespace-nowrap"
       href={href}
+      target={href.startsWith('http') ? '_blank' : undefined}
       {...(download && { download: true })}
       {...(disabled && { disabled: true })}
       {...(isCurrent
