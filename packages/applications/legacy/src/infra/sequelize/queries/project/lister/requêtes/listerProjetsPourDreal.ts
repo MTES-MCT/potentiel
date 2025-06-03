@@ -8,8 +8,6 @@ import { logger } from '../../../../../../core/utils';
 import { getProjetsAvecAppelOffre } from './_utils/getProjetsAvecAppelOffre';
 import { allAttributes } from './_utils';
 
-const attributes = allAttributes.filter((a) => a !== 'evaluationCarbone');
-
 export const listerProjetsPourDreal: ListerProjets = async ({
   pagination,
   filtres,
@@ -33,7 +31,7 @@ export const listerProjetsPourDreal: ListerProjets = async ({
       },
     },
     ...mapToOffsetAndLimit(pagination),
-    attributes,
+    attributes: allAttributes,
   });
 
   return makePaginatedList(getProjetsAvecAppelOffre(résultat.rows), résultat.count, pagination);
