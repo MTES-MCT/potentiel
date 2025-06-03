@@ -62,9 +62,6 @@ export const listerProjetsPourAdeme: ListerProjets = async ({ pagination, filtre
               appelOffre.changementProducteurPossibleAvantAchèvement,
           },
         }),
-        identifiantProjet: IdentifiantProjet.convertirEnValueType(
-          `${projet.appelOffreId}#${projet.periodeId}#${projet.familleId}#${projet.numeroCRE}`,
-        ).formatter(),
       },
     ];
   }, []);

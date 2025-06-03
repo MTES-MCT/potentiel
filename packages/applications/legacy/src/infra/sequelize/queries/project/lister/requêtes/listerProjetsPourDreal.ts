@@ -77,9 +77,6 @@ export const listerProjetsPourDreal: ListerProjets = async ({
               appelOffre.changementProducteurPossibleAvantAchèvement,
           },
         }),
-        identifiantProjet: IdentifiantProjet.convertirEnValueType(
-          `${projet.appelOffreId}#${projet.periodeId}#${projet.familleId}#${projet.numeroCRE}`,
-        ).formatter(),
       },
     ];
   }, []);

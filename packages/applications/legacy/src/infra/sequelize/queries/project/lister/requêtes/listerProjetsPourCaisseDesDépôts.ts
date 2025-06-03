@@ -58,9 +58,6 @@ export const listerProjetsPourCaisseDesDépôts: ListerProjets = async ({ pagina
               appelOffre.changementProducteurPossibleAvantAchèvement,
           },
         }),
-        identifiantProjet: IdentifiantProjet.convertirEnValueType(
-          `${projet.appelOffreId}#${projet.periodeId}#${projet.familleId}#${projet.numeroCRE}`,
-        ).formatter(),
       },
     ];
   }, []);

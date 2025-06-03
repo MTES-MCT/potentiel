@@ -42,6 +42,7 @@ export const listerProjetsAccèsComplet: ListerProjets = async ({ pagination, fi
 
   const projetsAvecAppelOffre = résultat.rows.reduce((prev, current) => {
     const projet = current.get();
+
     const appelOffre = getProjectAppelOffre({
       appelOffreId: projet.appelOffreId,
       periodeId: projet.periodeId,
@@ -61,9 +62,6 @@ export const listerProjetsAccèsComplet: ListerProjets = async ({ pagination, fi
               appelOffre.changementProducteurPossibleAvantAchèvement,
           },
         }),
-        identifiantProjet: IdentifiantProjet.convertirEnValueType(
-          `${projet.appelOffreId}#${projet.periodeId}#${projet.familleId}#${projet.numeroCRE}`,
-        ).formatter(),
       },
     ];
   }, []);

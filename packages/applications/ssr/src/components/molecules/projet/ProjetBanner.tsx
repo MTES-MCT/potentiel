@@ -20,12 +20,14 @@ export type ProjetBannerProps = {
   noLink?: true;
 };
 
-export const ProjetBanner: FC<ProjetBannerProps> = async ({ identifiantProjet, noLink }) => {
-  return withUtilisateur(async ({ role }) => {
+export const ProjetBanner: FC<ProjetBannerProps> = async ({ identifiantProjet, noLink }) =>
+  withUtilisateur(async ({ role }) => {
     const projet = await getProjet(identifiantProjet);
+
     if (!projet) {
       return notFound();
     }
+
     const { nomProjet, localité, notifiéLe, statut } = projet;
 
     return (
@@ -44,11 +46,8 @@ export const ProjetBanner: FC<ProjetBannerProps> = async ({ identifiantProjet, n
       />
     );
   });
-};
 
-const getProjet = async (
-  identifiantProjet: string,
-): Promise<
+type GetProjet = (identifiantProjet: string) => Promise<
   | {
       nomProjet: string;
       localité: Candidature.ConsulterCandidatureReadModel['localité'];
@@ -56,7 +55,9 @@ const getProjet = async (
       statut: StatutProjet.RawType;
     }
   | undefined
-> => {
+>;
+
+const getProjet: GetProjet = async (identifiantProjet) => {
   const lauréat = await mediator.send<Lauréat.ConsulterLauréatQuery>({
     type: 'Lauréat.Query.ConsulterLauréat',
     data: {
