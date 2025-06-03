@@ -1,9 +1,8 @@
+import { Actionnaire } from '@potentiel-domain/laureat';
 import { IdentifiantProjet } from '@potentiel-domain/projet';
 import { getLogger } from '@potentiel-libraries/monitoring';
-import { Routes } from '@potentiel-applications/routes';
-import { Actionnaire } from '@potentiel-domain/laureat';
 
-import { listerDrealsRecipients } from '../../../helpers/listerDrealsRecipients';
+import { listerDrealsRecipients } from '../../../helpers';
 
 import { RegisterActionnaireNotificationDependencies } from '.';
 
@@ -16,15 +15,14 @@ type ChangementActionnaireAnnuléNotificationsProps = {
     nom: string;
     région: string;
     département: string;
+    url: string;
   };
-  baseUrl: string;
 };
 
 export const changementActionnaireAnnuléNotifications = async ({
   sendEmail,
   event,
   projet,
-  baseUrl,
 }: ChangementActionnaireAnnuléNotificationsProps) => {
   const identifiantProjet = IdentifiantProjet.convertirEnValueType(event.payload.identifiantProjet);
   const dreals = await listerDrealsRecipients(projet.région);
@@ -46,7 +44,7 @@ export const changementActionnaireAnnuléNotifications = async ({
       type: 'annulation',
       nom_projet: projet.nom,
       departement_projet: projet.département,
-      url: `${baseUrl}${Routes.Projet.details(identifiantProjet.formatter())}`,
+      url: projet.url,
     },
   });
 };

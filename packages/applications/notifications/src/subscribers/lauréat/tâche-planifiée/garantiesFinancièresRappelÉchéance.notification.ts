@@ -1,10 +1,9 @@
-import { IdentifiantProjet } from '@potentiel-domain/projet';
 import { Routes } from '@potentiel-applications/routes';
+import { IdentifiantProjet } from '@potentiel-domain/projet';
 import { TâchePlanifiéeExecutéeEvent } from '@potentiel-domain/tache-planifiee';
 import { getLogger } from '@potentiel-libraries/monitoring';
 
-import { listerPorteursRecipients } from '../../../helpers/listerPorteursRecipients';
-import { listerDrealsRecipients } from '../../../helpers/listerDrealsRecipients';
+import { listerDrealsRecipients, listerPorteursRecipients } from '../../../helpers';
 
 import { RegisterTâchePlanifiéeNotificationDependencies } from '.';
 

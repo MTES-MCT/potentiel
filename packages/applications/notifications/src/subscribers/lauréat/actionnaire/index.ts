@@ -1,21 +1,19 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 import { match } from 'ts-pattern';
 
-import { IdentifiantProjet } from '@potentiel-domain/projet';
-import { Option } from '@potentiel-libraries/monads';
-import { Event } from '@potentiel-infrastructure/pg-event-sourcing';
-import { CandidatureAdapter } from '@potentiel-infrastructure/domain-adapters';
 import { Actionnaire } from '@potentiel-domain/laureat';
-import { getLogger } from '@potentiel-libraries/monitoring';
+import { IdentifiantProjet } from '@potentiel-domain/projet';
+import { Event } from '@potentiel-infrastructure/pg-event-sourcing';
 
+import { getBaseUrl, getLauréat } from '../../../helpers';
 import { SendEmail } from '../../../sendEmail';
 
-import { changementActionnaireAnnuléNotifications } from './changementActionnaireAnnulé.notifications';
-import { changementActionnaireDemandéNotifications } from './changementActionnaireDemandé.notifications';
-import { changementActionnaireRejetéNotifications } from './changementActionnaireRejeté.notifications';
 import { actionnaireModifiéNotifications } from './actionnaireModifié.notifications';
 import { changementActionnaireAccordéNotifications } from './changementActionnaireAccordé.notifications';
+import { changementActionnaireAnnuléNotifications } from './changementActionnaireAnnulé.notifications';
+import { changementActionnaireDemandéNotifications } from './changementActionnaireDemandé.notifications';
 import { changementActionnaireEnregistréNotifications } from './changementActionnaireEnregistré.notifications';
+import { changementActionnaireRejetéNotifications } from './changementActionnaireRejeté.notifications';
 
 export type SubscriptionEvent = Actionnaire.ActionnaireEvent & Event;
 
@@ -30,34 +28,9 @@ export const register = ({ sendEmail }: RegisterActionnaireNotificationDependenc
     const identifiantProjet = IdentifiantProjet.convertirEnValueType(
       event.payload.identifiantProjet,
     );
-    const détailsProjet = await CandidatureAdapter.récupérerProjetAdapter(
-      identifiantProjet.formatter(),
-    );
+    const projet = await getLauréat(identifiantProjet.formatter());
 
-    if (Option.isNone(détailsProjet)) {
-      getLogger().error(new Error('Projet non trouvé'), {
-        identifiantProjet: identifiantProjet.formatter(),
-        application: 'notifications',
-        fonction: 'actionnaire',
-      });
-      return;
-    }
-
-    const { BASE_URL: baseUrl } = process.env;
-
-    if (!baseUrl) {
-      getLogger().error(`variable d'environnement BASE_URL non trouvée`, {
-        application: 'notifications',
-        fonction: 'actionnaire',
-      });
-      return;
-    }
-
-    const projet = {
-      nom: détailsProjet.nom,
-      département: détailsProjet.localité.département,
-      région: détailsProjet.localité.région,
-    };
+    const baseUrl = getBaseUrl();
 
     return match(event)
       .with({ type: 'ActionnaireModifié-V1' }, async (event) =>
@@ -65,7 +38,6 @@ export const register = ({ sendEmail }: RegisterActionnaireNotificationDependenc
           sendEmail,
           event,
           projet,
-          baseUrl,
         }),
       )
       .with({ type: 'ChangementActionnaireDemandé-V1' }, async (event) =>
@@ -77,16 +49,16 @@ export const register = ({ sendEmail }: RegisterActionnaireNotificationDependenc
         }),
       )
       .with({ type: 'ChangementActionnaireAccordé-V1' }, async (event) =>
-        changementActionnaireAccordéNotifications({ sendEmail, event, projet, baseUrl }),
+        changementActionnaireAccordéNotifications({ sendEmail, event, projet }),
       )
       .with({ type: 'ChangementActionnaireRejeté-V1' }, async (event) =>
-        changementActionnaireRejetéNotifications({ sendEmail, event, projet, baseUrl }),
+        changementActionnaireRejetéNotifications({ sendEmail, event, projet }),
       )
       .with({ type: 'ChangementActionnaireAnnulé-V1' }, async (event) =>
-        changementActionnaireAnnuléNotifications({ sendEmail, event, projet, baseUrl }),
+        changementActionnaireAnnuléNotifications({ sendEmail, event, projet }),
       )
       .with({ type: 'ChangementActionnaireEnregistré-V1' }, async (event) =>
-        changementActionnaireEnregistréNotifications({ sendEmail, event, projet, baseUrl }),
+        changementActionnaireEnregistréNotifications({ sendEmail, event, projet }),
       )
       .otherwise(() => Promise.resolve());
   };

@@ -1,12 +1,12 @@
 import { mediator } from 'mediateur';
 
-import { IdentifiantProjet } from '@potentiel-domain/projet';
-import { getLogger } from '@potentiel-libraries/monitoring';
 import { Routes } from '@potentiel-applications/routes';
 import { ReprésentantLégal } from '@potentiel-domain/laureat';
+import { IdentifiantProjet } from '@potentiel-domain/projet';
 import { Option } from '@potentiel-libraries/monads';
+import { getLogger } from '@potentiel-libraries/monitoring';
 
-import { listerDrealsRecipients } from '../../../helpers/listerDrealsRecipients';
+import { listerDrealsRecipients } from '../../../helpers';
 
 import { RegisterReprésentantLégalNotificationDependencies } from '.';
 

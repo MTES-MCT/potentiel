@@ -1,14 +1,13 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 import { match, P } from 'ts-pattern';
 
-import { Option } from '@potentiel-libraries/monads';
 import { Event } from '@potentiel-infrastructure/pg-event-sourcing';
-import { CandidatureAdapter } from '@potentiel-infrastructure/domain-adapters';
 import { Lauréat } from '@potentiel-domain/projet';
-import { getLogger } from '@potentiel-libraries/monitoring';
 import { IdentifiantProjet } from '@potentiel-domain/projet';
 
 import { SendEmail } from '../../../sendEmail';
+import { getLauréat } from '../../../helpers';
+import { getBaseUrl } from '../../../helpers';
 
 import { puissanceModifiéeNotification } from './puissanceModifiée.notification';
 import { changementPuissanceAccordéNotification } from './changement/changementPuissanceAccordé.notification';
@@ -30,34 +29,9 @@ export const register = ({ sendEmail }: RegisterPuissanceNotificationDependencie
     const identifiantProjet = IdentifiantProjet.convertirEnValueType(
       event.payload.identifiantProjet,
     );
-    const candidature = await CandidatureAdapter.récupérerProjetAdapter(
-      identifiantProjet.formatter(),
-    );
+    const projet = await getLauréat(identifiantProjet.formatter());
 
-    if (Option.isNone(candidature)) {
-      getLogger().error(new Error('Projet non trouvé'), {
-        identifiantProjet: identifiantProjet.formatter(),
-        application: 'notifications',
-        fonction: 'puissance',
-        eventType: event.type,
-      });
-      return;
-    }
-    const { BASE_URL: baseUrl } = process.env;
-
-    if (!baseUrl) {
-      getLogger().error(`variable d'environnement BASE_URL non trouvée`, {
-        application: 'notifications',
-        fonction: 'puissance',
-      });
-      return;
-    }
-
-    const projet = {
-      nom: candidature.nom,
-      département: candidature.localité.département,
-      région: candidature.localité.région,
-    };
+    const baseUrl = getBaseUrl();
 
     return match(event)
       .with({ type: 'PuissanceModifiée-V1' }, async (event) =>
@@ -65,7 +39,6 @@ export const register = ({ sendEmail }: RegisterPuissanceNotificationDependencie
           sendEmail,
           event,
           projet,
-          baseUrl,
         }),
       )
       .with({ type: 'ChangementPuissanceEnregistré-V1' }, async (event) =>
@@ -73,7 +46,6 @@ export const register = ({ sendEmail }: RegisterPuissanceNotificationDependencie
           sendEmail,
           event,
           projet,
-          baseUrl,
         }),
       )
       .with({ type: 'ChangementPuissanceDemandé-V1' }, async (event) =>
@@ -89,7 +61,6 @@ export const register = ({ sendEmail }: RegisterPuissanceNotificationDependencie
           sendEmail,
           event,
           projet,
-          baseUrl,
         }),
       )
       .with({ type: 'ChangementPuissanceAccordé-V1' }, async (event) =>
@@ -97,7 +68,6 @@ export const register = ({ sendEmail }: RegisterPuissanceNotificationDependencie
           sendEmail,
           event,
           projet,
-          baseUrl,
         }),
       )
       .with({ type: 'ChangementPuissanceRejeté-V1' }, async (event) =>
@@ -105,7 +75,6 @@ export const register = ({ sendEmail }: RegisterPuissanceNotificationDependencie
           sendEmail,
           event,
           projet,
-          baseUrl,
         }),
       )
       .with(

@@ -1,16 +1,15 @@
+import { Routes } from '@potentiel-applications/routes';
 import { Email } from '@potentiel-domain/common';
 import { PorteurInvitéEvent } from '@potentiel-domain/utilisateur';
-import { Routes } from '@potentiel-applications/routes';
 
-import { récupérerNomProjet } from '../../_utils/récupérerNomProjet';
+import { getBaseUrl, getCandidature } from '../../helpers';
 
 export const porteurInvitéNotification = async ({
   payload: { identifiantsProjet, identifiantUtilisateur, invitéPar },
 }: PorteurInvitéEvent) => {
-  const nomsProjet = await Promise.all(identifiantsProjet.map(récupérerNomProjet));
+  const projets = await Promise.all(identifiantsProjet.map(getCandidature));
 
-  const { BASE_URL } = process.env;
-  const urlPageProjets = `${BASE_URL}${Routes.Projet.lister()}`;
+  const urlPageProjets = `${getBaseUrl()}${Routes.Projet.lister()}`;
 
   // On ne notifie pas le porteur invité par le système,
   // car cela correspond à l'invitation liée à la candidature,
@@ -25,7 +24,10 @@ export const porteurInvitéNotification = async ({
       messageSubject: `Invitation à suivre les projets sur Potentiel`,
       recipients: [{ email: identifiantUtilisateur }],
       variables: {
-        nomProjet: nomsProjet.filter(Boolean).join(', '),
+        nomProjet: projets
+          .filter(Boolean)
+          .map(({ nom }) => nom)
+          .join(', '),
         invitation_link: urlPageProjets,
       },
     },

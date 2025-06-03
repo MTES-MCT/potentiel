@@ -3,11 +3,12 @@ import { match, P } from 'ts-pattern';
 import { Routes } from '@potentiel-applications/routes';
 import { UtilisateurInvitéEvent } from '@potentiel-domain/utilisateur';
 
+import { getBaseUrl } from '../../helpers';
+
 export async function utilisateurInvitéNotification({
   payload: { identifiantUtilisateur, rôle },
 }: UtilisateurInvitéEvent) {
-  const { BASE_URL } = process.env;
-  const urlPageProjets = `${BASE_URL}${Routes.Projet.lister()}`;
+  const urlPageProjets = `${getBaseUrl()}${Routes.Projet.lister()}`;
 
   const templateIds = {
     dreal: 1436254,

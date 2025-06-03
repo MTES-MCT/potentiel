@@ -1,16 +1,18 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
-import { IdentifiantProjet } from '@potentiel-domain/projet';
-import { Option } from '@potentiel-libraries/monads';
-import { Event } from '@potentiel-infrastructure/pg-event-sourcing';
-import { CandidatureAdapter } from '@potentiel-infrastructure/domain-adapters';
-import { GarantiesFinancières } from '@potentiel-domain/laureat';
 import { Routes } from '@potentiel-applications/routes';
+import { GarantiesFinancières } from '@potentiel-domain/laureat';
+import { IdentifiantProjet } from '@potentiel-domain/projet';
+import { Event } from '@potentiel-infrastructure/pg-event-sourcing';
 
-import { formatDateForEmail } from '../../helpers/formatDateForEmail';
+import {
+  formatDateForEmail,
+  getBaseUrl,
+  getLauréat,
+  listerDrealsRecipients,
+  listerPorteursRecipients,
+} from '../../helpers';
 import { EmailPayload, SendEmail } from '../../sendEmail';
-import { listerPorteursRecipients } from '../../helpers/listerPorteursRecipients';
-import { listerDrealsRecipients } from '../../helpers/listerDrealsRecipients';
 
 export type SubscriptionEvent = GarantiesFinancières.GarantiesFinancièresEvent & Event;
 
@@ -56,8 +58,6 @@ const formatGarantiesFinancièresEmailPayload = ({
   statut,
   dateÉchéance,
 }: FormatGarantiesFinancièresEmailPayload): EmailPayload | undefined => {
-  const { BASE_URL } = process.env;
-
   if (recipients.length === 0) {
     return;
   }
@@ -72,25 +72,21 @@ const formatGarantiesFinancièresEmailPayload = ({
       region_projet: régionProjet,
       nouveau_statut: statut ?? '',
       date_echeance: dateÉchéance ?? '',
-      url: `${BASE_URL}${Routes.GarantiesFinancières.détail(identifiantProjet.formatter())}`,
+      url: `${getBaseUrl()}${Routes.GarantiesFinancières.détail(identifiantProjet.formatter())}`,
     },
   };
 };
 
 async function getEmailPayloads(event: SubscriptionEvent): Promise<(EmailPayload | undefined)[]> {
   const identifiantProjet = IdentifiantProjet.convertirEnValueType(event.payload.identifiantProjet);
-  const projet = await CandidatureAdapter.récupérerProjetAdapter(identifiantProjet.formatter());
-
-  if (Option.isNone(projet)) {
-    return [];
-  }
+  const projet = await getLauréat(identifiantProjet.formatter());
 
   const porteurs = await listerPorteursRecipients(identifiantProjet);
-  const dreals = await listerDrealsRecipients(projet.localité.région);
+  const dreals = await listerDrealsRecipients(projet.région);
 
   const nomProjet = projet.nom;
-  const départementProjet = projet.localité.département;
-  const régionProjet = projet.localité.région;
+  const départementProjet = projet.département;
+  const régionProjet = projet.région;
 
   switch (event.type) {
     case 'DépôtGarantiesFinancièresSoumis-V1':

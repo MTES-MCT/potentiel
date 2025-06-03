@@ -1,10 +1,8 @@
+import { Actionnaire } from '@potentiel-domain/laureat';
 import { IdentifiantProjet } from '@potentiel-domain/projet';
 import { getLogger } from '@potentiel-libraries/monitoring';
-import { Routes } from '@potentiel-applications/routes';
-import { Actionnaire } from '@potentiel-domain/laureat';
 
-import { listerPorteursRecipients } from '../../../helpers/listerPorteursRecipients';
-import { listerDrealsRecipients } from '../../../helpers/listerDrealsRecipients';
+import { listerDrealsRecipients, listerPorteursRecipients } from '../../../helpers';
 
 import { RegisterActionnaireNotificationDependencies } from '.';
 
@@ -17,15 +15,14 @@ type ActionnaireModifiéNotificationsProps = {
     nom: string;
     région: string;
     département: string;
+    url: string;
   };
-  baseUrl: string;
 };
 
 export const actionnaireModifiéNotifications = async ({
   sendEmail,
   event,
   projet,
-  baseUrl,
 }: ActionnaireModifiéNotificationsProps) => {
   const identifiantProjet = IdentifiantProjet.convertirEnValueType(event.payload.identifiantProjet);
   const porteurs = await listerPorteursRecipients(identifiantProjet);
@@ -47,7 +44,7 @@ export const actionnaireModifiéNotifications = async ({
     variables: {
       nom_projet: projet.nom,
       departement_projet: projet.département,
-      url: `${baseUrl}${Routes.Projet.details(identifiantProjet.formatter())}`,
+      url: projet.url,
     },
   });
 
@@ -58,7 +55,7 @@ export const actionnaireModifiéNotifications = async ({
     variables: {
       nom_projet: projet.nom,
       departement_projet: projet.département,
-      url: `${baseUrl}${Routes.Projet.details(identifiantProjet.formatter())}`,
+      url: projet.url,
     },
   });
 };

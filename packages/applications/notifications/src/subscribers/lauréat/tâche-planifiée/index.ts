@@ -1,14 +1,12 @@
+import { mediator, Message, MessageHandler } from 'mediateur';
 import { match, P } from 'ts-pattern';
-import { Message, MessageHandler, mediator } from 'mediateur';
 
-import { Event } from '@potentiel-infrastructure/pg-event-sourcing';
-import { TâchePlanifiéeExecutéeEvent } from '@potentiel-domain/tache-planifiee';
 import { IdentifiantProjet } from '@potentiel-domain/common';
-import { getLogger } from '@potentiel-libraries/monitoring';
-import { Option } from '@potentiel-libraries/monads';
-import { CandidatureAdapter } from '@potentiel-infrastructure/domain-adapters';
 import { GarantiesFinancières, ReprésentantLégal } from '@potentiel-domain/laureat';
+import { TâchePlanifiéeExecutéeEvent } from '@potentiel-domain/tache-planifiee';
+import { Event } from '@potentiel-infrastructure/pg-event-sourcing';
 
+import { getBaseUrl, getLauréat } from '../../../helpers';
 import { SendEmail } from '../../../sendEmail';
 
 import { garantiesFinancièresRappelÉchéanceNotification } from './garantiesFinancièresRappelÉchéance.notification';
@@ -31,33 +29,10 @@ export const register = ({ sendEmail }: RegisterTâchePlanifiéeNotificationDepe
     const identifiantProjet = IdentifiantProjet.convertirEnValueType(
       event.payload.identifiantProjet,
     );
-    const candidature = await CandidatureAdapter.récupérerProjetAdapter(
-      identifiantProjet.formatter(),
-    );
 
-    if (Option.isNone(candidature)) {
-      getLogger().error(new Error('Projet non trouvé'), {
-        identifiantProjet: identifiantProjet.formatter(),
-        application: 'notifications',
-        fonction: 'tâche-planifiée',
-      });
-      return;
-    }
-    const { BASE_URL: baseUrl } = process.env;
+    const baseUrl = getBaseUrl();
 
-    if (!baseUrl) {
-      getLogger().error(`variable d'environnement BASE_URL non trouvée`, {
-        application: 'notifications',
-        fonction: 'tâche-planifiée',
-      });
-      return;
-    }
-
-    const projet = {
-      nom: candidature.nom,
-      département: candidature.localité.département,
-      région: candidature.localité.région,
-    };
+    const projet = await getLauréat(identifiantProjet.formatter());
 
     return match(event.payload.typeTâchePlanifiée as TâchePlanifiée)
       .with(

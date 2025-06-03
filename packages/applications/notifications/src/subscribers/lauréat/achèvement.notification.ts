@@ -1,15 +1,16 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
-import { IdentifiantProjet } from '@potentiel-domain/projet';
-import { Option } from '@potentiel-libraries/monads';
-import { Event } from '@potentiel-infrastructure/pg-event-sourcing';
-import { CandidatureAdapter } from '@potentiel-infrastructure/domain-adapters';
-import { Lauréat } from '@potentiel-domain/projet';
 import { Routes } from '@potentiel-applications/routes';
+import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
+import { Event } from '@potentiel-infrastructure/pg-event-sourcing';
 
+import {
+  getBaseUrl,
+  getLauréat,
+  listerDrealsRecipients,
+  listerPorteursRecipients,
+} from '../../helpers';
 import { EmailPayload, SendEmail } from '../../sendEmail';
-import { listerPorteursRecipients } from '../../helpers/listerPorteursRecipients';
-import { listerDrealsRecipients } from '../../helpers/listerDrealsRecipients';
 
 export type SubscriptionEvent = Lauréat.Achèvement.AchèvementEvent & Event;
 
@@ -25,24 +26,19 @@ const templateId = {
 
 async function getEmailPayload(event: SubscriptionEvent): Promise<EmailPayload[]> {
   const identifiantProjet = IdentifiantProjet.convertirEnValueType(event.payload.identifiantProjet);
-  const projet = await CandidatureAdapter.récupérerProjetAdapter(identifiantProjet.formatter());
-
-  if (Option.isNone(projet)) {
-    return [];
-  }
+  const projet = await getLauréat(identifiantProjet.formatter());
 
   const porteurs = await listerPorteursRecipients(identifiantProjet);
-  const dreals = await listerDrealsRecipients(projet.localité.région);
+  const dreals = await listerDrealsRecipients(projet.région);
   const nomProjet = projet.nom;
-  const départementProjet = projet.localité.département;
-  const { BASE_URL } = process.env;
+  const départementProjet = projet.département;
 
   switch (event.type) {
     case 'AttestationConformitéTransmise-V1':
       const variables = {
         nom_projet: nomProjet,
         departement_projet: départementProjet,
-        url: `${BASE_URL}${Routes.Projet.details(identifiantProjet.formatter())}`,
+        url: `${getBaseUrl()}${Routes.Projet.details(identifiantProjet.formatter())}`,
       };
       return [
         {

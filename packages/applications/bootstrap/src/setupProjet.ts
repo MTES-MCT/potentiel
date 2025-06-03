@@ -20,7 +20,7 @@ import {
   SendEmail,
 } from '@potentiel-applications/notifications';
 import {
-  CandidatureAdapter,
+  ProjetAdapter,
   DélaiAdapter,
   getProjetUtilisateurScopeAdapter,
 } from '@potentiel-infrastructure/domain-adapters';
@@ -42,7 +42,7 @@ export const setupProjet = async ({ sendEmail }: SetupProjetDependencies) => {
     list: listProjection,
     getScopeProjetUtilisateur: getProjetUtilisateurScopeAdapter,
     récupérerProjetsEligiblesPreuveRecanditure:
-      CandidatureAdapter.récupérerProjetsEligiblesPreuveRecanditureAdapter,
+      ProjetAdapter.récupérerProjetsEligiblesPreuveRecanditureAdapter,
     consulterABénéficiéDuDélaiCDC2022: DélaiAdapter.consulterABénéficiéDuDélaiCDC2022Adapter,
   });
 

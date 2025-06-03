@@ -1,13 +1,12 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
-import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
-import { Option } from '@potentiel-libraries/monads';
-import { Event } from '@potentiel-infrastructure/pg-event-sourcing';
-import { CandidatureAdapter } from '@potentiel-infrastructure/domain-adapters';
 import { Routes } from '@potentiel-applications/routes';
+import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
+import { Event } from '@potentiel-infrastructure/pg-event-sourcing';
+import { Option } from '@potentiel-libraries/monads';
 
+import { getBaseUrl, getLauréat, listerPorteursRecipients } from '../../helpers';
 import { EmailPayload, SendEmail } from '../../sendEmail';
-import { listerPorteursRecipients } from '../../helpers/listerPorteursRecipients';
 
 export type SubscriptionEvent = Lauréat.Abandon.AbandonEvent & Event;
 
@@ -55,8 +54,6 @@ const sendEmailAbandonChangementDeStatut = ({
   appelOffre,
   période,
 }: SendEmailAbandonChangementDeStatut) => {
-  const { BASE_URL } = process.env;
-
   return {
     templateId,
     messageSubject: `Potentiel - Demande d'abandon ${statut} pour le projet ${nomProjet} (${appelOffre} période ${période})`,
@@ -67,14 +64,14 @@ const sendEmailAbandonChangementDeStatut = ({
       nom_projet: nomProjet,
       departement_projet: départementProjet,
       nouveau_statut: statut,
-      abandon_url: `${BASE_URL}${Routes.Abandon.détail(identifiantProjet.formatter())}`,
+      abandon_url: `${getBaseUrl()}${Routes.Abandon.détail(identifiantProjet.formatter())}`,
     },
   };
 };
 
 async function getEmailPayload(event: SubscriptionEvent): Promise<EmailPayload | undefined> {
   const identifiantProjet = IdentifiantProjet.convertirEnValueType(event.payload.identifiantProjet);
-  const projet = await CandidatureAdapter.récupérerProjetAdapter(identifiantProjet.formatter());
+  const projet = await getLauréat(identifiantProjet.formatter());
   const porteurs = await listerPorteursRecipients(identifiantProjet);
 
   if (Option.isNone(projet) || porteurs.length === 0 || !process.env.DGEC_EMAIL) {
@@ -82,9 +79,9 @@ async function getEmailPayload(event: SubscriptionEvent): Promise<EmailPayload |
   }
 
   const nomProjet = projet.nom;
-  const départementProjet = projet.localité.département;
-  const appelOffre = projet.appelOffre;
-  const période = projet.période;
+  const départementProjet = projet.département;
+  const appelOffre = identifiantProjet.appelOffre;
+  const période = identifiantProjet.période;
 
   const admins = [
     {
@@ -92,8 +89,6 @@ async function getEmailPayload(event: SubscriptionEvent): Promise<EmailPayload |
       fullName: 'DGEC',
     },
   ];
-
-  const { BASE_URL } = process.env;
 
   switch (event.type) {
     case 'AbandonDemandé-V1':
@@ -169,11 +164,11 @@ async function getEmailPayload(event: SubscriptionEvent): Promise<EmailPayload |
     case 'PreuveRecandidatureDemandée-V1':
       return {
         templateId: templateId.demanderPreuveRecandidature,
-        messageSubject: `Potentiel - Transmettre une preuve de recandidature suite à l'abandon du projet ${projet.nom} (${projet.appelOffre} période ${projet.période})`,
+        messageSubject: `Potentiel - Transmettre une preuve de recandidature suite à l'abandon du projet ${projet.nom} (${appelOffre} période ${période})`,
         recipients: porteurs,
         variables: {
           nom_projet: projet.nom,
-          lien_transmettre_preuve_recandidature: `${BASE_URL}${Routes.Abandon.détail(
+          lien_transmettre_preuve_recandidature: `${getBaseUrl()}${Routes.Abandon.détail(
             identifiantProjet.formatter(),
           )}/`,
         },

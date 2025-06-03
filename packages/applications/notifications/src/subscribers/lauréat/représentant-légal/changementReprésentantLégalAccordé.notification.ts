@@ -1,10 +1,8 @@
+import { ReprésentantLégal } from '@potentiel-domain/laureat';
 import { IdentifiantProjet } from '@potentiel-domain/projet';
 import { getLogger } from '@potentiel-libraries/monitoring';
-import { Routes } from '@potentiel-applications/routes';
-import { ReprésentantLégal } from '@potentiel-domain/laureat';
 
-import { listerPorteursRecipients } from '../../../helpers/listerPorteursRecipients';
-import { listerDrealsRecipients } from '../../../helpers/listerDrealsRecipients';
+import { listerDrealsRecipients, listerPorteursRecipients } from '../../../helpers';
 
 import { RegisterReprésentantLégalNotificationDependencies } from '.';
 
@@ -17,15 +15,14 @@ type ChangementReprésentantLégalAccordéNotificationProps = {
     nom: string;
     département: string;
     région: string;
+    url: string;
   };
-  baseUrl: string;
 };
 
 export const changementReprésentantLégalAccordéNotification = async ({
   sendEmail,
   event,
   projet,
-  baseUrl,
 }: ChangementReprésentantLégalAccordéNotificationProps) => {
   const identifiantProjet = IdentifiantProjet.convertirEnValueType(event.payload.identifiantProjet);
   const porteurs = await listerPorteursRecipients(identifiantProjet);
@@ -54,7 +51,7 @@ export const changementReprésentantLégalAccordéNotification = async ({
     variables: {
       nom_projet: projet.nom,
       departement_projet: projet.département,
-      url: `${baseUrl}${Routes.Projet.details(identifiantProjet.formatter())}`,
+      url: projet.url,
       ...typeEmailPorteur,
     },
   });
@@ -79,7 +76,7 @@ export const changementReprésentantLégalAccordéNotification = async ({
         type: 'accord',
         nom_projet: projet.nom,
         departement_projet: projet.département,
-        url: `${baseUrl}${Routes.Projet.details(identifiantProjet.formatter())}`,
+        url: projet.url,
       },
     });
   }

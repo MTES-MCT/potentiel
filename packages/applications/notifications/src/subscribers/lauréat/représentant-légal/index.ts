@@ -1,21 +1,19 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 import { match } from 'ts-pattern';
 
-import { IdentifiantProjet } from '@potentiel-domain/projet';
-import { Option } from '@potentiel-libraries/monads';
-import { Event } from '@potentiel-infrastructure/pg-event-sourcing';
-import { CandidatureAdapter } from '@potentiel-infrastructure/domain-adapters';
 import { ReprésentantLégal } from '@potentiel-domain/laureat';
-import { getLogger } from '@potentiel-libraries/monitoring';
+import { IdentifiantProjet } from '@potentiel-domain/projet';
+import { Event } from '@potentiel-infrastructure/pg-event-sourcing';
 
+import { getBaseUrl, getLauréat } from '../../../helpers';
 import { SendEmail } from '../../../sendEmail';
 
-import { représentantLégalModifiéNotification } from './représentantLégalModifié.notification';
-import { changementReprésentantLégalDemandéNotification } from './changementReprésentantLégalDemandé.notification';
 import { changementReprésentantLégalAccordéNotification } from './changementReprésentantLégalAccordé.notification';
-import { changementReprésentantLégalRejetéNotification } from './changementReprésentantLégalRejeté.notification';
 import { changementReprésentantLégalAnnuléNotification } from './changementReprésentantLégalAnnulé.notification';
 import { changementReprésentantLégalCorrigéNotification } from './changementReprésentantLégalCorrigé.notification';
+import { changementReprésentantLégalDemandéNotification } from './changementReprésentantLégalDemandé.notification';
+import { changementReprésentantLégalRejetéNotification } from './changementReprésentantLégalRejeté.notification';
+import { représentantLégalModifiéNotification } from './représentantLégalModifié.notification';
 
 export type SubscriptionEvent = ReprésentantLégal.ReprésentantLégalEvent & Event;
 
@@ -30,33 +28,10 @@ export const register = ({ sendEmail }: RegisterReprésentantLégalNotificationD
     const identifiantProjet = IdentifiantProjet.convertirEnValueType(
       event.payload.identifiantProjet,
     );
-    const candidature = await CandidatureAdapter.récupérerProjetAdapter(
-      identifiantProjet.formatter(),
-    );
 
-    if (Option.isNone(candidature)) {
-      getLogger().error(new Error('Projet non trouvé'), {
-        identifiantProjet: identifiantProjet.formatter(),
-        application: 'notifications',
-        fonction: 'représentant-légal',
-      });
-      return;
-    }
-    const { BASE_URL: baseUrl } = process.env;
+    const projet = await getLauréat(identifiantProjet.formatter());
 
-    if (!baseUrl) {
-      getLogger().error(`variable d'environnement BASE_URL non trouvée`, {
-        application: 'notifications',
-        fonction: 'représentant-légal',
-      });
-      return;
-    }
-
-    const projet = {
-      nom: candidature.nom,
-      département: candidature.localité.département,
-      région: candidature.localité.région,
-    };
+    const baseUrl = getBaseUrl();
 
     return match(event)
       .with({ type: 'ReprésentantLégalModifié-V1' }, async (event) =>
@@ -64,7 +39,6 @@ export const register = ({ sendEmail }: RegisterReprésentantLégalNotificationD
           sendEmail,
           event,
           projet,
-          baseUrl,
         }),
       )
       .with({ type: 'ChangementReprésentantLégalDemandé-V1' }, async (event) =>
@@ -80,7 +54,6 @@ export const register = ({ sendEmail }: RegisterReprésentantLégalNotificationD
           sendEmail,
           event,
           projet,
-          baseUrl,
         }),
       )
       .with({ type: 'ChangementReprésentantLégalCorrigé-V1' }, async (event) =>
@@ -92,10 +65,10 @@ export const register = ({ sendEmail }: RegisterReprésentantLégalNotificationD
         }),
       )
       .with({ type: 'ChangementReprésentantLégalAccordé-V1' }, async (event) =>
-        changementReprésentantLégalAccordéNotification({ sendEmail, event, projet, baseUrl }),
+        changementReprésentantLégalAccordéNotification({ sendEmail, event, projet }),
       )
       .with({ type: 'ChangementReprésentantLégalRejeté-V1' }, async (event) =>
-        changementReprésentantLégalRejetéNotification({ sendEmail, event, projet, baseUrl }),
+        changementReprésentantLégalRejetéNotification({ sendEmail, event, projet }),
       )
       .otherwise(() => Promise.resolve());
   };

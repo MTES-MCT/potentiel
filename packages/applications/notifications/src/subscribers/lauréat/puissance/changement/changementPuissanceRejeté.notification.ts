@@ -1,10 +1,8 @@
+import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import { getLogger } from '@potentiel-libraries/monitoring';
-import { Routes } from '@potentiel-applications/routes';
-import { Lauréat } from '@potentiel-domain/projet';
-import { IdentifiantProjet } from '@potentiel-domain/projet';
 
 import { RegisterPuissanceNotificationDependencies } from '..';
-import { listerPorteursRecipients } from '../../../../helpers/listerPorteursRecipients';
+import { listerPorteursRecipients } from '../../../../helpers';
 import { puissanceNotificationTemplateId } from '../constant';
 
 type ChangementPuissanceRejetéNotificationProps = {
@@ -13,15 +11,14 @@ type ChangementPuissanceRejetéNotificationProps = {
   projet: {
     nom: string;
     département: string;
+    url: string;
   };
-  baseUrl: string;
 };
 
 export const changementPuissanceRejetéNotification = async ({
   sendEmail,
   event,
   projet,
-  baseUrl,
 }: ChangementPuissanceRejetéNotificationProps) => {
   const identifiantProjet = IdentifiantProjet.convertirEnValueType(event.payload.identifiantProjet);
   const porteurs = await listerPorteursRecipients(identifiantProjet);
@@ -43,7 +40,7 @@ export const changementPuissanceRejetéNotification = async ({
       type: 'rejet',
       nom_projet: projet.nom,
       departement_projet: projet.département,
-      url: `${baseUrl}${Routes.Projet.details(identifiantProjet.formatter())}`,
+      url: projet.url,
     },
   });
 };

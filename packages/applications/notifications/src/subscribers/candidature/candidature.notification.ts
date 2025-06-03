@@ -1,11 +1,12 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
-import { Option } from '@potentiel-libraries/monads';
-import { Event } from '@potentiel-infrastructure/pg-event-sourcing';
-import { getLogger } from '@potentiel-libraries/monitoring';
-import { Candidature } from '@potentiel-domain/projet';
 import { Routes } from '@potentiel-applications/routes';
+import { Candidature } from '@potentiel-domain/projet';
+import { Event } from '@potentiel-infrastructure/pg-event-sourcing';
+import { Option } from '@potentiel-libraries/monads';
+import { getLogger } from '@potentiel-libraries/monitoring';
 
+import { getBaseUrl } from '../../helpers';
 import { SendEmail } from '../../sendEmail';
 
 export type SubscriptionEvent = Candidature.CandidatureCorrigéeEvent & Event;
@@ -42,8 +43,6 @@ export const register = ({ sendEmail }: RegisterCandidatureNotificationDependenc
           return;
         }
 
-        const { BASE_URL } = process.env;
-
         if (event.payload.doitRégénérerAttestation) {
           await sendEmail({
             templateId: templateId.attestationRegénéréePorteur,
@@ -57,7 +56,7 @@ export const register = ({ sendEmail }: RegisterCandidatureNotificationDependenc
             variables: {
               nom_projet: candidature.nomProjet,
               raison: 'Votre candidature a été modifiée',
-              redirect_url: `${BASE_URL}${Routes.Projet.details(identifiantProjet)}`,
+              redirect_url: `${getBaseUrl()}${Routes.Projet.details(identifiantProjet)}`,
             },
           });
         }

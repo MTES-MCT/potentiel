@@ -1,9 +1,7 @@
-import { getLogger } from '@potentiel-libraries/monitoring';
-import { Routes } from '@potentiel-applications/routes';
 import { IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
+import { getLogger } from '@potentiel-libraries/monitoring';
 
-import { listerPorteursRecipients } from '../../../helpers/listerPorteursRecipients';
-import { listerDrealsRecipients } from '../../../helpers/listerDrealsRecipients';
+import { listerDrealsRecipients, listerPorteursRecipients } from '../../../helpers';
 
 import { RegisterProducteurNotificationDependencies } from '.';
 
@@ -16,15 +14,14 @@ type ProducteurModifiéNotificationProps = {
     nom: string;
     département: string;
     région: string;
+    url: string;
   };
-  baseUrl: string;
 };
 
 export const producteurModifiéNotification = async ({
   sendEmail,
   event,
   projet,
-  baseUrl,
 }: ProducteurModifiéNotificationProps) => {
   const identifiantProjet = IdentifiantProjet.convertirEnValueType(event.payload.identifiantProjet);
   const porteurs = await listerPorteursRecipients(identifiantProjet);
@@ -46,7 +43,7 @@ export const producteurModifiéNotification = async ({
     variables: {
       nom_projet: projet.nom,
       departement_projet: projet.département,
-      url: `${baseUrl}${Routes.Projet.details(identifiantProjet.formatter())}`,
+      url: projet.url,
     },
   });
 
@@ -57,7 +54,7 @@ export const producteurModifiéNotification = async ({
     variables: {
       nom_projet: projet.nom,
       departement_projet: projet.département,
-      url: `${baseUrl}${Routes.Projet.details(identifiantProjet.formatter())}`,
+      url: projet.url,
     },
   });
 };
