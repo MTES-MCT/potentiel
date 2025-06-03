@@ -5,11 +5,13 @@ import { AbstractAggregate } from '@potentiel-domain/core';
 
 import { ProjetAggregateRoot } from '../projet.aggregateRoot';
 import { Fournisseur } from '../lauréat';
+import { FournisseurImportéEvent } from '../lauréat/fournisseur';
 
 import { CandidatureEvent } from './candidature.event';
 import {
   CandidatureImportéeEvent,
   CandidatureImportéeEventV1,
+  FournisseursCandidatureImportésEvent,
 } from './importer/candidatureImportée.event';
 import { ImporterCandidatureOptions } from './importer/importerCandidature.options';
 import * as StatutCandidature from './statutCandidature.valueType';
@@ -182,6 +184,10 @@ export class CandidatureAggregate extends AbstractAggregate<CandidatureEvent> {
       type: 'CandidatureImportée-V2',
       payload: {
         ...this.mapToEventPayload(candidature),
+        fournisseurs: candidature.fournisseurs.map((fournisseur) => ({
+          typeFournisseur: fournisseur.typeFournisseur.formatter(),
+          nomDuFabricant: fournisseur.nomDuFabricant,
+        })),
         importéLe: candidature.importéLe.formatter(),
         importéPar: candidature.importéPar.formatter(),
       },
@@ -431,7 +437,7 @@ export class CandidatureAggregate extends AbstractAggregate<CandidatureEvent> {
         {
           type: 'FournisseursCandidatureImportés-V1',
         },
-        (event) => this.applyFournisseursEventPayload(event),
+        (event) => this.applyFournisseursImportésEventPayload(event),
       )
       .with(
         {
@@ -466,11 +472,15 @@ export class CandidatureAggregate extends AbstractAggregate<CandidatureEvent> {
 
   private applyCandidatureImportée({ payload }: CandidatureImportéeEvent) {
     this.applyCommonEventPayload(payload);
-    this.applyFournisseursEventPayload({ fournisseurs: payload.fournisseurs });
+    this.applyFournisseurEventPayload(payload.fournisseurs);
   }
 
   private applyCandidatureCorrigée({ payload }: CandidatureCorrigéeEvent) {
     this.applyCommonEventPayload(payload);
+  }
+
+  private applyFournisseursImportésEventPayload({ payload }: FournisseursCandidatureImportésEvent) {
+    this.applyFournisseurEventPayload(payload.fournisseurs);
   }
 
   private applyCandidatureNotifiée(
@@ -536,9 +546,11 @@ export class CandidatureAggregate extends AbstractAggregate<CandidatureEvent> {
     this.#motifÉlimination = motifÉlimination;
   }
 
-  private applyFournisseursEventPayload({
-    fournisseurs,
-  }: Pick<CandidatureImportéeEvent['payload'], 'fournisseurs'>) {
+  private applyFournisseurEventPayload(
+    fournisseurs:
+      | FournisseurImportéEvent['payload']['fournisseurs']
+      | CandidatureImportéeEvent['payload']['fournisseurs'],
+  ) {
     this.#fournisseurs = fournisseurs.map((fournisseur) => ({
       typeFournisseur: Fournisseur.TypeFournisseur.convertirEnValueType(
         fournisseur.typeFournisseur,
@@ -548,7 +560,7 @@ export class CandidatureAggregate extends AbstractAggregate<CandidatureEvent> {
   }
 
   private mapToEventPayload = (
-    candidature: ImporterCandidatureOptions | CorrigerCandidatureOptions,
+    candidature: Omit<ImporterCandidatureOptions, 'fournisseurs'> | CorrigerCandidatureOptions,
   ) => ({
     identifiantProjet: this.projet.identifiantProjet.formatter(),
     statut: candidature.statut.statut,
@@ -571,9 +583,5 @@ export class CandidatureAggregate extends AbstractAggregate<CandidatureEvent> {
     actionnariat: candidature.actionnariat?.formatter(),
     territoireProjet: candidature.territoireProjet,
     coefficientKChoisi: candidature.coefficientKChoisi,
-    fournisseurs: candidature.fournisseurs.map((fournisseur) => ({
-      typeFournisseur: fournisseur.typeFournisseur.formatter(),
-      nomDuFabricant: fournisseur.nomDuFabricant,
-    })),
   });
 }

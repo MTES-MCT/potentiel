@@ -7,7 +7,7 @@ import { ImporterCandidatureCommand } from '../importer/importerCandidature.comm
 
 export type CorrigerCandidatureCommand = Message<
   'Candidature.Command.CorrigerCandidature',
-  Omit<ImporterCandidatureCommand['data'], 'importéLe' | 'importéPar'> & {
+  Omit<ImporterCandidatureCommand['data'], 'importéLe' | 'importéPar' | 'fournisseurs'> & {
     corrigéLe: DateTime.ValueType;
     corrigéPar: Email.ValueType;
     doitRégénérerAttestation?: true;

@@ -4,7 +4,7 @@ import { ImporterCandidatureOptions } from '../importer/importerCandidature.opti
 
 export type CorrigerCandidatureOptions = Omit<
   ImporterCandidatureOptions,
-  'importéLe' | 'importéPar'
+  'importéLe' | 'importéPar' | 'fournisseurs'
 > & {
   corrigéLe: DateTime.ValueType;
   corrigéPar: Email.ValueType;

@@ -42,6 +42,7 @@ export const mapToCommonCandidatureUseCaseData = (
   coefficientKChoisi: payload.coefficientKChoisiValue,
 });
 
+// C'est l'état actuel des colonnes du CSV
 const champsCsvFournisseur: Record<Fournisseur.TypeFournisseur.RawType, string> = {
   'module-ou-films': 'Nom du fabricant \n(Modules ou films)',
   cellules: 'Nom du fabricant (Cellules)',

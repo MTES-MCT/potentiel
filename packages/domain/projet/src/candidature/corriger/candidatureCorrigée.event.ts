@@ -5,7 +5,7 @@ import { CandidatureImportéeEvent } from '../importer/candidatureImportée.even
 
 export type CandidatureCorrigéeEvent = DomainEvent<
   'CandidatureCorrigée-V1',
-  Omit<CandidatureImportéeEvent['payload'], 'importéLe' | 'importéPar'> & {
+  Omit<CandidatureImportéeEvent['payload'], 'importéLe' | 'importéPar' | 'fournisseurs'> & {
     corrigéLe: DateTime.RawType;
     corrigéPar: Email.RawType;
     doitRégénérerAttestation?: true;

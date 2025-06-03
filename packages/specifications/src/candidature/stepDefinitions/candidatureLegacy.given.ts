@@ -53,7 +53,7 @@ export async function importerCandidaturePériodeLegacy(
   ).formatter();
 
   const event: Candidature.CandidatureImportéeEvent = {
-    type: 'CandidatureImportée-V1',
+    type: 'CandidatureImportée-V2',
     payload: {
       identifiantProjet,
       importéLe: DateTime.convertirEnValueType(values.importéLe).formatter(),
@@ -90,6 +90,7 @@ export async function importerCandidaturePériodeLegacy(
             values.typeGarantiesFinancièresValue,
           ).type
         : undefined,
+      fournisseurs: [],
     },
   };
 
