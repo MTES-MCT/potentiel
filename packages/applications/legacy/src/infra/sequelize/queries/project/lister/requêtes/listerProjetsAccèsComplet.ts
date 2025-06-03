@@ -3,31 +3,7 @@ import { Project } from '../../../../projectionsNext';
 import { makePaginatedList, mapToOffsetAndLimit } from '../../../pagination';
 import { mapToFindOptions } from '../../helpers/mapToFindOptions';
 
-import { getProjetsAvecAppelOffre } from './_utils/getProjetsAvecAppelOffre';
-
-const attributes = [
-  'id',
-  'appelOffreId',
-  'periodeId',
-  'familleId',
-  'nomProjet',
-  'potentielIdentifier',
-  'communeProjet',
-  'departementProjet',
-  'regionProjet',
-  'nomCandidat',
-  'nomRepresentantLegal',
-  'email',
-  'puissance',
-  'prixReference',
-  'evaluationCarbone',
-  'classe',
-  'abandonedOn',
-  'notifiedOn',
-  'isFinancementParticipatif',
-  'isInvestissementParticipatif',
-  'actionnariat',
-];
+import { getProjetsAvecAppelOffre, allAttributes } from './_utils';
 
 export const listerProjetsAccèsComplet: ListerProjets = async ({ pagination, filtres }) => {
   const findOptions = filtres && mapToFindOptions(filtres);
@@ -37,7 +13,7 @@ export const listerProjetsAccèsComplet: ListerProjets = async ({ pagination, fi
       ...findOptions?.where,
     },
     ...mapToOffsetAndLimit(pagination),
-    attributes,
+    attributes: allAttributes,
   });
 
   return makePaginatedList(getProjetsAvecAppelOffre(résultat.rows), résultat.count, pagination);

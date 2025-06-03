@@ -5,31 +5,10 @@ import { mapToFindOptions } from '../../helpers/mapToFindOptions';
 import { Op } from 'sequelize';
 import { UserDreal, Project } from '../../../../projectionsNext';
 import { logger } from '../../../../../../core/utils';
-import { IdentifiantProjet } from '@potentiel-domain/projet';
 import { getProjetsAvecAppelOffre } from './_utils/getProjetsAvecAppelOffre';
+import { allAttributes } from './_utils';
 
-const attributes = [
-  'id',
-  'appelOffreId',
-  'periodeId',
-  'familleId',
-  'nomProjet',
-  'potentielIdentifier',
-  'communeProjet',
-  'departementProjet',
-  'regionProjet',
-  'nomCandidat',
-  'nomRepresentantLegal',
-  'email',
-  'puissance',
-  'prixReference',
-  'classe',
-  'abandonedOn',
-  'notifiedOn',
-  'isFinancementParticipatif',
-  'isInvestissementParticipatif',
-  'actionnariat',
-];
+const attributes = allAttributes.filter((a) => a !== 'evaluationCarbone');
 
 export const listerProjetsPourDreal: ListerProjets = async ({
   pagination,
