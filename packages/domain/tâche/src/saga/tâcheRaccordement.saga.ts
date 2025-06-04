@@ -97,15 +97,17 @@ export const register = () => {
         },
       )
       .with({ type: 'DemandeComplèteDeRaccordementTransmise-V3' }, async (event) => {
-        await mediator.send<AjouterTâcheCommand>({
-          type: 'System.Tâche.Command.AjouterTâche',
-          data: {
-            identifiantProjet: IdentifiantProjet.convertirEnValueType(
-              event.payload.identifiantProjet,
-            ),
-            typeTâche: TypeTâche.raccordementRenseignerAccuséRéceptionDemandeComplèteRaccordement,
-          },
-        });
+        if (!event.payload.accuséRéception) {
+          await mediator.send<AjouterTâcheCommand>({
+            type: 'System.Tâche.Command.AjouterTâche',
+            data: {
+              identifiantProjet: IdentifiantProjet.convertirEnValueType(
+                event.payload.identifiantProjet,
+              ),
+              typeTâche: TypeTâche.raccordementRenseignerAccuséRéceptionDemandeComplèteRaccordement,
+            },
+          });
+        }
       })
       .with(
         {
