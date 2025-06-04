@@ -1,14 +1,14 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
-import { getLogger } from '@potentiel-libraries/monitoring';
+import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
 import { LoadAggregate } from '@potentiel-domain/core';
 import { Accès, GetProjetAggregateRoot, Lauréat, Éliminé } from '@potentiel-domain/projet';
-import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { InviterPorteurUseCase } from '@potentiel-domain/utilisateur';
+import { getLogger } from '@potentiel-libraries/monitoring';
 
-import { loadPériodeFactory } from '../période.aggregate';
 import * as IdentifiantPériode from '../identifiantPériode.valueType';
+import { loadPériodeFactory } from '../période.aggregate';
 
 export type NotifierPériodeCommand = Message<
   'Période.Command.NotifierPériode',
@@ -104,16 +104,18 @@ export const registerNotifierPériodeCommand = (
         },
       });
 
-      await mediator.send<Accès.AutoriserAccèsProjetUseCase>({
-        type: 'Projet.Accès.UseCase.AutoriserAccèsProjet',
-        data: {
-          identifiantProjetValues: projets,
-          identifiantUtilisateurValue: email,
-          autoriséLeValue: notifiéeLe.formatter(),
-          autoriséParValue: Email.system().formatter(),
-          raison: 'notification',
-        },
-      });
+      for (const identifiantProjetValue of projets) {
+        await mediator.send<Accès.AutoriserAccèsProjetUseCase>({
+          type: 'Projet.Accès.UseCase.AutoriserAccèsProjet',
+          data: {
+            identifiantProjetValue,
+            identifiantUtilisateurValue: email,
+            autoriséLeValue: notifiéeLe.formatter(),
+            autoriséParValue: Email.system().formatter(),
+            raison: 'notification',
+          },
+        });
+      }
     }
 
     const période = await loadPériode(identifiantPériode, false);

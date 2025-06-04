@@ -251,18 +251,20 @@ export async function inviterPorteur(
       },
     });
 
-    await mediator.send<Accès.AutoriserAccèsProjetUseCase>({
-      type: 'Projet.Accès.UseCase.AutoriserAccèsProjet',
-      data: {
-        identifiantProjetValues: identifiantsProjet,
-        identifiantUtilisateurValue: identifiantUtilisateur,
-        autoriséLeValue: DateTime.now().formatter(),
-        autoriséParValue: this.utilisateurWorld.porteurFixture.aÉtéCréé
-          ? this.utilisateurWorld.porteurFixture.email
-          : Email.system().formatter(),
-        raison: 'invitation',
-      },
-    });
+    for (const identifiantProjetValue of identifiantsProjet) {
+      await mediator.send<Accès.AutoriserAccèsProjetUseCase>({
+        type: 'Projet.Accès.UseCase.AutoriserAccèsProjet',
+        data: {
+          identifiantProjetValue,
+          identifiantUtilisateurValue: identifiantUtilisateur,
+          autoriséLeValue: DateTime.now().formatter(),
+          autoriséParValue: this.utilisateurWorld.porteurFixture.aÉtéCréé
+            ? this.utilisateurWorld.porteurFixture.email
+            : Email.system().formatter(),
+          raison: 'invitation',
+        },
+      });
+    }
   } catch (error) {
     this.error = error as Error;
   }

@@ -11,7 +11,6 @@ export type InviterPorteurUseCase = Message<
     identifiantsProjetValues: string[];
     invitéLeValue: string;
     invitéParValue: string;
-    inviteATousSesProjetsValue?: boolean;
   }
 >;
 
@@ -21,7 +20,6 @@ export const registerInviterPorteurUseCase = () => {
     identifiantsProjetValues,
     invitéLeValue,
     invitéParValue,
-    inviteATousSesProjetsValue,
   }) => {
     const identifiantUtilisateur = Email.convertirEnValueType(identifiantUtilisateurValue);
     const identifiantsProjet = identifiantsProjetValues.map(IdentifiantProjet.convertirEnValueType);
@@ -35,7 +33,6 @@ export const registerInviterPorteurUseCase = () => {
         identifiantsProjet,
         invitéLe,
         invitéPar,
-        inviteATousSesProjets: inviteATousSesProjetsValue === true,
       },
     });
   };

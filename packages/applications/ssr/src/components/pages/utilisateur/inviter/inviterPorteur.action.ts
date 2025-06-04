@@ -3,10 +3,11 @@
 import { mediator } from 'mediateur';
 import * as zod from 'zod';
 
-import { InviterPorteurUseCase } from '@potentiel-domain/utilisateur';
-import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 import { Routes } from '@potentiel-applications/routes';
-import { Accès } from '@potentiel-domain/projet';
+import { DateTime } from '@potentiel-domain/common';
+import { OperationRejectedError } from '@potentiel-domain/core';
+import { Accès, IdentifiantProjet } from '@potentiel-domain/projet';
+import { InviterPorteurUseCase, Utilisateur } from '@potentiel-domain/utilisateur';
 
 import { FormAction, FormState, formAction } from '@/utils/formAction';
 import { withUtilisateur } from '@/utils/withUtilisateur';
@@ -24,6 +25,49 @@ const action: FormAction<FormState, typeof schema> = async (
   { identifiantProjet, identifiantUtilisateurInvite, inviterATousSesProjets },
 ) =>
   withUtilisateur(async (utilisateur) => {
+    if (inviterATousSesProjets === 'true') {
+      const identifiantsProjet = await récupérerTousLesProjets(utilisateur);
+      await mediator.send<InviterPorteurUseCase>({
+        type: 'Utilisateur.UseCase.InviterPorteur',
+        data: {
+          identifiantsProjetValues: identifiantsProjet,
+          identifiantUtilisateurValue: identifiantUtilisateurInvite,
+          invitéLeValue: DateTime.now().formatter(),
+          invitéParValue: utilisateur.identifiantUtilisateur.formatter(),
+        },
+      });
+
+      let success = 0;
+      for (const identifiantProjet of identifiantsProjet) {
+        try {
+          await mediator.send<Accès.AutoriserAccèsProjetUseCase>({
+            type: 'Projet.Accès.UseCase.AutoriserAccèsProjet',
+            data: {
+              identifiantProjetValue: identifiantProjet,
+              identifiantUtilisateurValue: identifiantUtilisateurInvite,
+              autoriséLeValue: DateTime.now().formatter(),
+              autoriséParValue: utilisateur.identifiantUtilisateur.formatter(),
+              raison: 'invitation',
+            },
+          });
+          success++;
+        } catch (e) {
+          if (e instanceof Accès.AccèsProjetDéjàAutoriséError) {
+            continue;
+          }
+          throw e;
+        }
+      }
+
+      return {
+        status: 'success',
+        redirection: {
+          message: `Utilisateur invité avec succès à ${success} projets`,
+          url: Routes.Projet.lister(),
+        },
+      };
+    }
+
     await mediator.send<InviterPorteurUseCase>({
       type: 'Utilisateur.UseCase.InviterPorteur',
       data: {
@@ -31,18 +75,13 @@ const action: FormAction<FormState, typeof schema> = async (
         identifiantUtilisateurValue: identifiantUtilisateurInvite,
         invitéLeValue: DateTime.now().formatter(),
         invitéParValue: utilisateur.identifiantUtilisateur.formatter(),
-        inviteATousSesProjetsValue: inviterATousSesProjets === 'true',
       },
     });
-
-    const identifiantProjetValues = inviterATousSesProjets
-      ? await récupérerTousLesProjets(utilisateur.identifiantUtilisateur.formatter())
-      : [identifiantProjet];
 
     await mediator.send<Accès.AutoriserAccèsProjetUseCase>({
       type: 'Projet.Accès.UseCase.AutoriserAccèsProjet',
       data: {
-        identifiantProjetValues,
+        identifiantProjetValue: identifiantProjet,
         identifiantUtilisateurValue: identifiantUtilisateurInvite,
         autoriséLeValue: DateTime.now().formatter(),
         autoriséParValue: utilisateur.identifiantUtilisateur.formatter(),
@@ -61,11 +100,16 @@ const action: FormAction<FormState, typeof schema> = async (
     };
   });
 
-const récupérerTousLesProjets = async (identifiantUtilisateur: string) => {
+const récupérerTousLesProjets = async (utilisateur: Utilisateur.ValueType) => {
+  if (!utilisateur.role.estPorteur()) {
+    throw new OperationRejectedError(
+      'Seuls les Porteurs de Projet peuvent inviter à tous les projets',
+    );
+  }
   const accès = await mediator.send<Accès.ListerAccèsQuery>({
     type: 'Projet.Accès.Query.ListerAccès',
     data: {
-      identifiantUtilisateur,
+      identifiantUtilisateur: utilisateur.identifiantUtilisateur.email,
     },
   });
 

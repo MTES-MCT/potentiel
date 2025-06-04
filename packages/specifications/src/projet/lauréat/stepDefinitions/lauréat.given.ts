@@ -177,7 +177,7 @@ export async function notifierLauréat(this: PotentielWorld, dateDésignation: s
   await mediator.send<Accès.AutoriserAccèsProjetUseCase>({
     type: 'Projet.Accès.UseCase.AutoriserAccèsProjet',
     data: {
-      identifiantProjetValues: [identifiantProjetValue.formatter()],
+      identifiantProjetValue: identifiantProjetValue.formatter(),
       identifiantUtilisateurValue: candidature.values.emailContactValue,
       autoriséLeValue: dateDésignation,
       autoriséParValue: Email.system().formatter(),

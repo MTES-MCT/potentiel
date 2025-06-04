@@ -1,17 +1,14 @@
 import { mediator } from 'mediateur';
-import { notFound } from 'next/navigation';
 
-import {
-  ConsulterUtilisateurQuery,
-  ConsulterUtilisateurReadModel,
-  ListerPorteursQuery,
-  ListerPorteursReadModel,
-  Role,
-} from '@potentiel-domain/utilisateur';
 import { IdentifiantProjet } from '@potentiel-domain/common';
-import { Option } from '@potentiel-libraries/monads';
 import { mapToPlainObject } from '@potentiel-domain/core';
 import { Accès } from '@potentiel-domain/projet';
+import {
+  ListerPorteursQuery,
+  ListerPorteursReadModel,
+  Utilisateur,
+} from '@potentiel-domain/utilisateur';
+import { Option } from '@potentiel-libraries/monads';
 
 import { PorteurListPage } from '@/components/pages/utilisateur/lister/PorteurList.page';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
@@ -28,22 +25,7 @@ export default async function Page({ params: { identifiant } }: PageProps) {
         decodeParameter(identifiant),
       );
 
-      const utilisateurQuiInvite = await mediator.send<ConsulterUtilisateurQuery>({
-        type: 'Utilisateur.Query.ConsulterUtilisateur',
-        data: {
-          identifiantUtilisateur: utilisateur.identifiantUtilisateur.formatter(),
-        },
-      });
-
-      if (Option.isNone(utilisateurQuiInvite)) {
-        return notFound();
-      }
-
-      const nombreDeProjets =
-        utilisateurQuiInvite.rôle.estÉgaleÀ(Role.porteur) &&
-        Option.isSome(utilisateurQuiInvite.nombreDeProjets)
-          ? utilisateurQuiInvite.nombreDeProjets
-          : undefined;
+      const nombreDeProjets = await getNombreProjets(utilisateur);
 
       const accèsProjet = await mediator.send<Accès.ConsulterAccèsQuery>({
         type: 'Projet.Accès.Query.ConsulterAccès',
@@ -73,7 +55,7 @@ export default async function Page({ params: { identifiant } }: PageProps) {
         <PorteurListPage
           identifiantProjet={identifiantProjet.formatter()}
           nombreDeProjets={nombreDeProjets}
-          items={mapToProps(utilisateurs, utilisateurQuiInvite)}
+          items={mapToProps(utilisateurs, utilisateur)}
         />
       );
     }),
@@ -82,7 +64,7 @@ export default async function Page({ params: { identifiant } }: PageProps) {
 
 const mapToProps = (
   utilisateurs: ListerPorteursReadModel['items'],
-  utilisateurQuiInvite: ConsulterUtilisateurReadModel,
+  utilisateurQuiInvite: Utilisateur.ValueType,
 ) =>
   mapToPlainObject(
     utilisateurs.map((utilisateur) => ({
@@ -92,3 +74,21 @@ const mapToProps = (
       ),
     })),
   );
+
+const getNombreProjets = async (utilisateur: Utilisateur.ValueType) => {
+  if (!utilisateur.role.estPorteur()) {
+    return undefined;
+  }
+  const accès = await mediator.send<Accès.ListerAccèsQuery>({
+    type: 'Projet.Accès.Query.ListerAccès',
+    data: {
+      identifiantUtilisateur: utilisateur.identifiantUtilisateur.formatter(),
+      range: {
+        startPosition: 0,
+        endPosition: 1,
+      },
+    },
+  });
+
+  return accès.total;
+};

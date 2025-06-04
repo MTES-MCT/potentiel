@@ -1,15 +1,15 @@
 import { subscribe } from '@potentiel-infrastructure/pg-event-sourcing';
-import * as RaccordementSaga from './raccordement.saga';
+import { mediator } from 'mediateur';
 import * as AbandonSaga from './abandon.saga';
+import * as AccèsSaga from './accès.saga';
+import * as ActionnaireSaga from './actionnaire.saga';
 import * as CandidatureSaga from './candidature.saga';
 import * as LauréatSaga from './lauréat.saga';
-import * as ÉliminéSaga from './éliminé.saga';
-import * as ActionnaireSaga from './actionnaire.saga';
-import * as UtilisateurSaga from './utilisateur.saga';
-import * as PuissanceSaga from './puissance.saga';
 import * as ProducteurSaga from './producteur.saga';
-import * as AccèsSaga from './accès.saga';
-import { mediator } from 'mediateur';
+import * as PuissanceSaga from './puissance.saga';
+import * as RaccordementSaga from './raccordement.saga';
+import * as UtilisateurSaga from './utilisateur.saga';
+import * as ÉliminéSaga from './éliminé.saga';
 
 /**
  * @deprecated à bouger dans la nouvelle app
@@ -120,7 +120,7 @@ export const registerSagas = async () => {
 
   const unsubscribeUtilisateur = await subscribe<UtilisateurSaga.SubscriptionEvent>({
     name: 'legacy-saga',
-    eventType: ['PorteurInvité-V1', 'UtilisateurInvité-V1'],
+    eventType: ['UtilisateurInvité-V1'],
     eventHandler: async (event) => {
       await mediator.send<UtilisateurSaga.Execute>({
         type: 'System.Saga.Utilisateur',
