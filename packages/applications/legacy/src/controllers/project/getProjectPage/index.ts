@@ -268,6 +268,7 @@ v1Router.get(
           }),
           candidature: await getCandidature({ identifiantProjet: identifiantProjetValueType }),
           estAchevé: !!attestationConformité,
+          dateAchèvementRéelle: attestationConformité?.date,
           modificationsNonPermisesParLeCDCActuel:
             project.cahierDesChargesActuel.type === 'initial' &&
             !!project.appelOffre.periode.choisirNouveauCahierDesCharges,

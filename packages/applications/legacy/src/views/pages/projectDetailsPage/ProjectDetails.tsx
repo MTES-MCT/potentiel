@@ -56,6 +56,7 @@ type ProjectDetailsProps = {
   puissance?: InfoGeneralesProps['puissance'];
   producteur?: ContactProps['producteur'];
   estAchevé: boolean;
+  dateAchèvementRéelle?: number;
   modificationsNonPermisesParLeCDCActuel: boolean;
   coefficientKChoisi: boolean | undefined;
   candidature: ContactProps['candidature'];
@@ -69,6 +70,7 @@ export const ProjectDetails = ({
   abandon,
   demandeRecours,
   estAchevé,
+  dateAchèvementRéelle,
   représentantLégal,
   actionnaire,
   garantiesFinancières,
@@ -163,6 +165,7 @@ export const ProjectDetails = ({
           isLegacy={project.isLegacy}
           dateAchèvementPrévisionnelle={project.completionDueOn}
           dateMiseEnService={dateMiseEnService}
+          dateAchèvementRéelle={dateAchèvementRéelle}
         />
 
         <div className="flex flex-col lg:flex-row gap-3">

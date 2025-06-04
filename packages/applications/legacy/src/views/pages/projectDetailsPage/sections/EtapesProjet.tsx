@@ -6,7 +6,8 @@ import { Routes } from '@potentiel-applications/routes';
 
 type EtapesProjetProps = DesignationItemProps &
   AchèvementPrévisionnelleItemProps &
-  MiseEnServiceItemProps;
+  MiseEnServiceItemProps &
+  AchèvementRéelleItemProps;
 
 export const EtapesProjet: FC<EtapesProjetProps> = ({
   identifiantProjet,
@@ -14,6 +15,7 @@ export const EtapesProjet: FC<EtapesProjetProps> = ({
   isLegacy,
   dateAchèvementPrévisionnelle,
   dateMiseEnService,
+  dateAchèvementRéelle,
 }) => (
   <Section title="Étapes du projet" icon={<CalendarIcon />}>
     <aside aria-label="Progress">
@@ -31,6 +33,10 @@ export const EtapesProjet: FC<EtapesProjetProps> = ({
         <MiseEnServiceItem
           key="project-step-item-mise-en-service"
           dateMiseEnService={dateMiseEnService}
+        />
+        <AchèvementRéelleItem
+          key="project-step-item-mise-en-service"
+          dateAchèvementRéelle={dateAchèvementRéelle}
         />
       </ol>
     </aside>
@@ -84,14 +90,14 @@ const AchèvementPrévisionnelleItem: FC<AchèvementPrévisionnelleItemProps> = 
 };
 
 type AchèvementRéelleItemProps = {
-  dateAchèvementRéelle: number;
+  dateAchèvementRéelle?: number;
 };
 const AchèvementRéelleItem: FC<AchèvementRéelleItemProps> = ({ dateAchèvementRéelle }) => {
   return (
     <TimelineItem isLastItem={false}>
-      <NextUpIcon />
+      {dateAchèvementRéelle ? <PastIcon /> : <NextUpIcon />}
       <ContentArea>
-        <ItemDate date={dateAchèvementRéelle} />
+        {dateAchèvementRéelle ? <ItemDate date={dateAchèvementRéelle} /> : 'À transmettre'}
         <ItemTitle title="Date d'achèvement réelle" />
       </ContentArea>
     </TimelineItem>
