@@ -36,7 +36,6 @@ export const EtapesProjet: FC<EtapesProjetProps> = ({ identifiantProjet, isLegac
                   {!isLegacy && (
                     <DownloadLink
                       fileUrl={Routes.Candidature.téléchargerAttestation(identifiantProjet)}
-                      className="m-auto"
                     >
                       Télécharger attestation
                     </DownloadLink>

@@ -41,6 +41,7 @@ import { Routes } from '@potentiel-applications/routes';
 import { mediator } from 'mediateur';
 import { Option } from '@potentiel-libraries/monads';
 import { mapToPlainObject } from '@potentiel-domain/core';
+import { Option } from '@potentiel-libraries/monads';
 
 const schema = yup.object({
   params: yup.object({ projectId: yup.string().required() }),
@@ -244,7 +245,7 @@ v1Router.get(
           project,
           raccordement: mapToPlainObject(raccordement),
           alertesRaccordement,
-          abandon: mapToPlainObject(abandon),
+          abandon: abandon ? mapToPlainObject(abandon) : undefined,
           garantiesFinancières,
           représentantLégal: await getReprésentantLégal({
             identifiantProjet: identifiantProjetValueType,
