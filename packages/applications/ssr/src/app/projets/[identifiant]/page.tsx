@@ -92,7 +92,7 @@ const mapToCandidatureProps: MapToCandidatureProps = ({
   emailContact,
   nomReprésentantLégal,
   sociétéMère,
-  prixReference: role.estCaisseDesDépôts() ? undefined : prixReference,
+  prixReference: role.aLaPermission('projet.accèsDonnées.prix') ? prixReference : undefined,
   puissanceProductionAnnuelle,
 });
 

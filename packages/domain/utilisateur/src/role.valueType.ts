@@ -33,7 +33,6 @@ export type ValueType = ReadonlyValueType<{
   estDGEC(): boolean;
   estDreal(): boolean;
   estPorteur(): boolean;
-  estCaisseDesDépôts(): boolean;
 }>;
 
 export const convertirEnValueType = (value: string): ValueType => {
@@ -65,9 +64,6 @@ export const convertirEnValueType = (value: string): ValueType => {
     },
     estPorteur() {
       return this.nom === 'porteur-projet';
-    },
-    estCaisseDesDépôts() {
-      return this.nom === 'caisse-des-dépôts';
     },
   };
 };
@@ -1200,6 +1196,11 @@ const policies = {
       ],
     },
   },
+  projet: {
+    accèsDonnées: {
+      prix: [],
+    },
+  },
 } as const;
 
 /**
@@ -1249,7 +1250,7 @@ const pageProjetPolicies: Policy[] = [
   'actionnaire.consulter',
   'actionnaire.consulterChangement',
 
-  // Puisssance
+  // Puissance
   'puissance.consulter',
   'puissance.consulterChangement',
 
@@ -1261,7 +1262,9 @@ const pageProjetPolicies: Policy[] = [
 ];
 
 const adminPolicies: ReadonlyArray<Policy> = [
+  // Projet
   ...pageProjetPolicies,
+  'projet.accèsDonnées.prix',
 
   // Abandon
   'abandon.consulter.liste',
@@ -1383,7 +1386,9 @@ const dgecValidateurPolicies: ReadonlyArray<Policy> = [
 ];
 
 const crePolicies: ReadonlyArray<Policy> = [
+  // Projet
   ...pageProjetPolicies,
+  'projet.accèsDonnées.prix',
 
   // Abandon
   'abandon.consulter.liste',
@@ -1418,7 +1423,10 @@ const crePolicies: ReadonlyArray<Policy> = [
 ];
 
 const drealPolicies: ReadonlyArray<Policy> = [
+  // Projet
   ...pageProjetPolicies,
+  'projet.accèsDonnées.prix',
+
   // Abandon
   'abandon.consulter.liste',
 
@@ -1502,7 +1510,10 @@ const drealPolicies: ReadonlyArray<Policy> = [
 ];
 
 const porteurProjetPolicies: ReadonlyArray<Policy> = [
+  // Projet
   ...pageProjetPolicies,
+  'projet.accèsDonnées.prix',
+
   // Abandon
   'abandon.consulter.liste',
   'abandon.demander',
@@ -1599,7 +1610,10 @@ const porteurProjetPolicies: ReadonlyArray<Policy> = [
 ];
 
 const acheteurObligéPolicies: ReadonlyArray<Policy> = [
+  // Projet
   ...pageProjetPolicies,
+  'projet.accèsDonnées.prix',
+
   // Raccordement
   'raccordement.consulter',
 
@@ -1629,7 +1643,9 @@ const acheteurObligéPolicies: ReadonlyArray<Policy> = [
 ];
 
 const caisseDesDépôtsPolicies: ReadonlyArray<Policy> = [
+  // Projet
   ...pageProjetPolicies,
+
   // Garanties financières
   'garantiesFinancières.actuelles.consulter',
   'garantiesFinancières.dépôt.consulter',
@@ -1638,6 +1654,7 @@ const caisseDesDépôtsPolicies: ReadonlyArray<Policy> = [
 ];
 
 const grdPolicies: ReadonlyArray<Policy> = [
+  // Projet
   ...commonPolicies,
 
   // Gestionnaire réseau
@@ -1654,7 +1671,11 @@ const grdPolicies: ReadonlyArray<Policy> = [
   'api.raccordement.modifier',
 ];
 
-const ademePolicies: ReadonlyArray<Policy> = [...pageProjetPolicies];
+const ademePolicies: ReadonlyArray<Policy> = [
+  // Projet
+  ...pageProjetPolicies,
+  'projet.accèsDonnées.prix',
+];
 
 const policiesParRole: Record<RawType, ReadonlyArray<Policy>> = {
   admin: adminPolicies,
