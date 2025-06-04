@@ -45,3 +45,23 @@ Alors(
     });
   },
 );
+
+Alors(
+  `aucune tâche n'est consultable dans la liste des tâches du porteur pour le projet {lauréat-éliminé}`,
+  async function (this: PotentielWorld, statutProjet: 'lauréat' | 'éliminé') {
+    const { identifiantProjet } =
+      statutProjet === 'éliminé' ? this.eliminéWorld : this.lauréatWorld;
+
+    await waitForExpect(async () => {
+      const tâches = await mediator.send<Tâche.ListerTâchesQuery>({
+        type: 'Tâche.Query.ListerTâches',
+        data: {
+          email: this.utilisateurWorld.porteurFixture.email,
+        },
+      });
+
+      const tâche = tâches.items.find((t) => t.identifiantProjet.estÉgaleÀ(identifiantProjet));
+      expect(tâche).to.be.undefined;
+    });
+  },
+);
