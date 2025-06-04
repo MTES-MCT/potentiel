@@ -6,6 +6,8 @@ export type RawType = (typeof statuts)[number];
 
 export type ValueType = ReadonlyValueType<{
   statut: RawType;
+  estTransmis(): boolean;
+  estEnAttente(): boolean;
 }>;
 
 export const convertirEnValueType = (value: string): ValueType => {
@@ -13,6 +15,12 @@ export const convertirEnValueType = (value: string): ValueType => {
   return {
     get statut() {
       return value;
+    },
+    estTransmis() {
+      return this.estÉgaleÀ(transmis);
+    },
+    estEnAttente() {
+      return this.estÉgaleÀ(enAttente);
     },
     estÉgaleÀ(valueType) {
       return this.statut === valueType.statut;

@@ -18,18 +18,28 @@ Fonctionnalité: Passer un abandon d'un projet lauréat en instruction
     Scénario: Impossible de passer l'abandon d'un projet lauréat en instruction si l'abandon a déjà été accordé
         Etant donné un abandon accordé pour le projet lauréat
         Quand l'administrateur passe en instruction l'abandon pour le projet lauréat
-        Alors le DGEC validateur devrait être informé que "L'abandon a déjà été accordé"
+        Alors l'utilisateur devrait être informé que "L'abandon a déjà été accordé"
 
     Scénario: Impossible de passer l'abandon d'un projet lauréat en instruction si l'abandon a déjà été rejeté
         Etant donné un abandon rejeté pour le projet lauréat
         Quand l'administrateur passe en instruction l'abandon pour le projet lauréat
-        Alors le DGEC validateur devrait être informé que "L'abandon a déjà été rejeté"
+        Alors l'utilisateur devrait être informé que "L'abandon a déjà été rejeté"
+
+    Scénario: Impossible de passer l'abandon d'un projet lauréat en instruction si l'abandon est en attente de confirmation
+        Etant donné une confirmation d'abandon demandée pour le projet lauréat
+        Quand l'administrateur passe en instruction l'abandon pour le projet lauréat
+        Alors l'utilisateur devrait être informé que "Une demande de confirmation d'abandon est en cours et ne peut être passé en instruction"
+
+    Scénario: Impossible de passer l'abandon d'un projet lauréat en instruction si l'abandon est confirmé
+        Etant donné un abandon confirmé pour le projet lauréat
+        Quand l'administrateur passe en instruction l'abandon pour le projet lauréat
+        Alors l'utilisateur devrait être informé que "L'abandon est confirmé et ne peut être passé en instruction"
 
     Scénario: Impossible de passer l'abandon d'un projet lauréat en instruction si aucun abandon n'a été demandé
         Quand l'administrateur passe en instruction l'abandon pour le projet lauréat
-        Alors le DGEC validateur devrait être informé que "Aucun abandon n'est en cours"
+        Alors l'utilisateur devrait être informé que "Aucun abandon n'est en cours"
 
     Scénario: Impossible de reprendre l'abandon d'un projet lauréat en instruction si on instruit déjà l'abandon
         Etant donné une demande d'abandon en instruction pour le projet lauréat
         Quand le même administrateur passe en instruction l'abandon pour le projet lauréat
-        Alors le DGEC validateur devrait être informé que "L'abandon est déjà en instruction avec le même administrateur"
+        Alors l'utilisateur devrait être informé que "L'abandon est déjà en instruction avec le même administrateur"
