@@ -1,49 +1,9 @@
 import { Command, Flags } from '@oclif/core';
 
 import { IdentifiantProjet } from '@potentiel-domain/common';
-import { Candidature, Lauréat } from '@potentiel-domain/projet';
+import { Candidature } from '@potentiel-domain/projet';
 import { publish } from '@potentiel-infrastructure/pg-event-sourcing';
 import { executeSelect } from '@potentiel-libraries/pg-helpers';
-
-const champsCsvFournisseur: Record<Lauréat.Fournisseur.TypeFournisseur.RawType, string> = {
-  'module-ou-films': 'Nom du fabricant \n(Modules ou films)',
-  cellules: 'Nom du fabricant (Cellules)',
-  'plaquettes-silicium': 'Nom du fabricant \n(Plaquettes de silicium (wafers))',
-  polysilicium: 'Nom du fabricant \n(Polysilicium)',
-  'postes-conversion': 'Nom du fabricant \n(Postes de conversion)',
-  structure: 'Nom du fabricant \n(Structure)',
-  'dispositifs-stockage-energie': 'Nom du fabricant \n(Dispositifs de stockage de l’énergie *)',
-  'dispositifs-suivi-course-soleil':
-    'Nom du fabricant \n(Dispositifs de suivi de la course du soleil *)',
-  'autres-technologies': 'Nom du fabricant \n(Autres technologies)',
-  'dispositif-de-production': 'Nom du fabricant \n(dispositif de production)',
-  'dispositif-de-stockage': 'Nom du fabricant \n(Dispositif de stockage)',
-  'poste-conversion': 'Nom du fabricant \n(Poste de conversion)',
-};
-
-export const mapToDétailsCandidature = (
-  payload: Record<string, string>,
-): Array<{
-  typeFournisseur: Lauréat.Fournisseur.TypeFournisseur.RawType;
-  nomDuFabricant: string;
-}> => {
-  const result = [];
-
-  for (const [key, value] of Object.entries(payload)) {
-    for (const [mappedKey, mappedValue] of Object.entries(champsCsvFournisseur)) {
-      // on est obligé d'utiliser startsWith car les champs du CSV peuvent prendre un 1, 2, 3...
-      if (key.startsWith(mappedValue)) {
-        result.push({
-          typeFournisseur:
-            Lauréat.Fournisseur.TypeFournisseur.convertirEnValueType(mappedKey).formatter(),
-          nomDuFabricant: value,
-        });
-      }
-    }
-  }
-
-  return result;
-};
 
 const récupérerCandidatureEventsEtDonnéesFournisseurs = `
 SELECT
@@ -101,7 +61,12 @@ export class Migrer extends Command {
         type: 'FournisseursCandidatureImportés-V1',
         payload: {
           identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet).formatter(),
-          fournisseurs: mapToDétailsCandidature(fournisseurs),
+          fournisseurs: Candidature.CandidatureMapperHelper.mapToDétailsCandidatureUseCaseData(
+            fournisseurs,
+          ).map((fournisseur) => ({
+            typeFournisseur: fournisseur.typeFournisseur.formatter(),
+            nomDuFabricant: fournisseur.nomDuFabricant,
+          })),
         },
       };
 

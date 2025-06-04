@@ -42,8 +42,8 @@ export const mapToCommonCandidatureUseCaseData = (
   coefficientKChoisi: payload.coefficientKChoisiValue,
 });
 
-// C'est l'état actuel des colonnes du CSV
-const champsCsvFournisseur: Record<Fournisseur.TypeFournisseur.RawType, string> = {
+// Etat actuel des colonnes du CSV
+export const champsCsvFournisseur: Record<Fournisseur.TypeFournisseur.RawType, string> = {
   'module-ou-films': 'Nom du fabricant \n(Modules ou films)',
   cellules: 'Nom du fabricant (Cellules)',
   'plaquettes-silicium': 'Nom du fabricant \n(Plaquettes de silicium (wafers))',
@@ -69,7 +69,8 @@ export const mapToDétailsCandidatureUseCaseData = (
 
   for (const [key, value] of Object.entries(payload)) {
     for (const [mappedKey, mappedValue] of Object.entries(champsCsvFournisseur)) {
-      if (key === mappedValue) {
+      // on est obligé d'utiliser startsWith car les champs du CSV peuvent prendre un 1, 2, 3...
+      if (key.startsWith(mappedValue)) {
         result.push({
           typeFournisseur: TypeFournisseur.convertirEnValueType(mappedKey),
           nomDuFabricant: value,
