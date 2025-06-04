@@ -27,20 +27,16 @@ import {
   fileRepo,
   modificationRequestRepo,
   oldAppelOffreRepo,
-  oldProjectRepo,
-  oldUserRepo,
   projectRepo,
   userRepo,
 } from './repos.config';
 import { sendNotification } from './emails.config';
 import { makeNotifierPorteurChangementStatutDemande } from '../modules/notification';
+import makeShouldUserAccessProject from '../useCases/shouldUserAccessProject';
 
 const publishToEventStore = eventStore.publish.bind(eventStore);
 
-export const shouldUserAccessProject = new BaseShouldUserAccessProject(
-  oldUserRepo,
-  oldProjectRepo.findById,
-);
+export const shouldUserAccessProject = makeShouldUserAccessProject();
 
 export const loadFileForUser = makeLoadFileForUser({
   fileRepo,

@@ -1,41 +1,33 @@
 import { User, Project } from '../entities';
 import { UserRepo, ProjectRepo } from '../dataAccess';
-
-interface MakeUseCaseProps {
-  userRepo: UserRepo;
-  findProjectById: ProjectRepo['findById'];
-}
+import { mediator } from 'mediateur';
+import { Accès } from '@potentiel-domain/projet';
+import { getIdentifiantProjetByLegacyId } from '../config';
 
 interface CallUseCaseProps {
   projectId: Project['id'];
   user: User;
 }
 
-export default function makeShouldUserAccessProject({
-  userRepo,
-  findProjectById,
-}: MakeUseCaseProps) {
-  return async function shouldUserAccessProject({
-    projectId,
-    user,
-  }: CallUseCaseProps): Promise<boolean> {
-    if (
-      ['admin', 'dgec-validateur', 'acheteur-obligé', 'ademe', 'cre', 'caisse-des-dépôts'].includes(
-        user.role,
-      )
-    ) {
-      return true;
-    }
-
-    if (user.role === 'dreal') {
-      const userDreals = await userRepo.findDrealsForUser(user.id);
-      const project = await findProjectById(projectId);
-
-      if (!project) return false;
-
-      return userDreals.some((region) => project.regionProjet.includes(region));
-    }
-
-    return userRepo.hasProject(user.id, projectId);
+export default function makeShouldUserAccessProject() {
+  return {
+    async check({ projectId, user }: CallUseCaseProps): Promise<boolean> {
+      const projet = await getIdentifiantProjetByLegacyId(projectId);
+      if (!projet) {
+        return false;
+      }
+      try {
+        await mediator.send<Accès.VérifierAccèsProjetQuery>({
+          type: 'System.Projet.Accès.Query.VérifierAccèsProjet',
+          data: {
+            identifiantProjetValue: projet.identifiantProjetValue,
+            identifiantUtilisateurValue: user.email,
+          },
+        });
+        return true;
+      } catch {
+        return false;
+      }
+    },
   };
 }

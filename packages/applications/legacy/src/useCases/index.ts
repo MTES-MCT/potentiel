@@ -3,10 +3,7 @@ import { projectRepo as OldProjectRepo, userRepo } from '../dataAccess';
 import makeGetUserProject from './getUserProject';
 import makeShouldUserAccessProject from './shouldUserAccessProject';
 
-const shouldUserAccessProject = makeShouldUserAccessProject({
-  userRepo,
-  findProjectById: OldProjectRepo.findById,
-});
+const shouldUserAccessProject = makeShouldUserAccessProject().check;
 
 const getUserProject = makeGetUserProject({
   findProjectById: OldProjectRepo.findById,
