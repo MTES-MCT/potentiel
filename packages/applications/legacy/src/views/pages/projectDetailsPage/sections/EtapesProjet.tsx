@@ -1,4 +1,4 @@
-import React, { FC } from 'react';
+import React, { FC, ReactNode } from 'react';
 import { CalendarIcon, Section, CheckIcon } from '../../../components';
 import { afficherDate } from '../../../helpers';
 import { ClockIcon, DownloadLink } from '../../../components/UI';
@@ -22,118 +22,84 @@ export const EtapesProjet: FC<EtapesProjetProps> = ({ identifiantProjet, isLegac
           .sort((a, b) => a.date - b.date)
           .map((étape) =>
             match(étape)
-              .with({ type: 'designation' }, ({ date }) => (
-                <DesignationItem
-                  key="project-step-item-designation"
-                  dateDesignation={date}
-                  identifiantProjet={identifiantProjet}
-                  isLegacy={isLegacy}
+              .with({ type: 'designation' }, ({ type, date }) => (
+                <ÉtapeTerminée
+                  key={`project-step-${type}`}
+                  titre="Notification des résultats"
+                  date={date}
+                >
+                  {!isLegacy && (
+                    <DownloadLink
+                      fileUrl={Routes.Candidature.téléchargerAttestation(identifiantProjet)}
+                      className="m-auto"
+                    >
+                      Télécharger attestation
+                    </DownloadLink>
+                  )}
+                </ÉtapeTerminée>
+              ))
+              .with({ type: 'achèvement-prévisionel' }, ({ type, date }) => (
+                <ÉtapeTerminée
+                  key={`project-step-${type}`}
+                  titre="Date d'achèvement prévisionnelle"
+                  date={date}
                 />
               ))
-              .with({ type: 'achèvement-prévisionel' }, ({ date }) => (
-                <AchèvementPrévisionnelleItem
-                  key="project-step-item-achèvement-prévisionnel"
-                  dateAchèvementPrévisionnelle={date}
-                />
+              .with({ type: 'mise-en-service' }, ({ type, date }) => (
+                <ÉtapeTerminée key={`project-step-${type}`} titre="Mise en service" date={date} />
               ))
-              .with({ type: 'mise-en-service' }, ({ date }) => (
-                <MiseEnServiceItem
-                  key="project-step-item-mise-en-service"
-                  dateMiseEnService={date}
-                />
-              ))
-              .with({ type: 'achèvement-réel' }, ({ date }) => (
-                <AchèvementRéelleItem
-                  key="project-step-item-mise-en-service"
-                  dateAchèvementRéelle={date}
+              .with({ type: 'achèvement-réel' }, ({ type, date }) => (
+                <ÉtapeTerminée
+                  key={`project-step-${type}`}
+                  titre="Date d'achèvement réelle"
+                  date={date}
                 />
               ))
               .exhaustive(),
           )}
 
         {!étapes.find((étape) => étape.type === 'mise-en-service') && (
-          <MiseEnServiceItem key="project-step-item-mise-en-service" />
+          <ÉtapeÀTransmettre key={`project-step-mise-en-service`} titre="Mise en service" />
         )}
 
         {!étapes.find((étape) => étape.type === 'achèvement-réel') && (
-          <AchèvementRéelleItem key="project-step-item-mise-en-service" />
+          <ÉtapeÀTransmettre
+            key={`project-step-achèvement-réel`}
+            titre="Date d'achèvement réelle"
+          />
         )}
       </ol>
     </aside>
   </Section>
 );
 
-type DesignationItemProps = {
-  identifiantProjet: string;
-  dateDesignation: number;
-  isLegacy: boolean;
+type ÉtapeTerminéeProps = {
+  titre: string;
+  date: number;
+  children?: ReactNode;
 };
-const DesignationItem: FC<DesignationItemProps> = ({
-  dateDesignation,
-  identifiantProjet,
-  isLegacy,
-}) => {
+const ÉtapeTerminée: FC<ÉtapeTerminéeProps> = ({ titre, date }) => {
   return (
     <TimelineItem isLastItem={false}>
       <PastIcon />
       <ContentArea>
-        <ItemDate date={dateDesignation} />
-        <ItemTitle title="Notification des résultats" />
-        {!isLegacy && (
-          <DownloadLink
-            fileUrl={Routes.Candidature.téléchargerAttestation(identifiantProjet)}
-            className="m-auto"
-          >
-            Télécharger attestation
-          </DownloadLink>
-        )}
+        <ItemDate date={date} />
+        <ItemTitle title={titre} />
       </ContentArea>
     </TimelineItem>
   );
 };
 
-type AchèvementPrévisionnelleItemProps = {
-  dateAchèvementPrévisionnelle: number;
+type ÉtapeÀTransmettreProps = {
+  titre: string;
 };
-const AchèvementPrévisionnelleItem: FC<AchèvementPrévisionnelleItemProps> = ({
-  dateAchèvementPrévisionnelle,
-}) => {
+const ÉtapeÀTransmettre: FC<ÉtapeÀTransmettreProps> = ({ titre }) => {
   return (
     <TimelineItem isLastItem={false}>
       <NextUpIcon />
       <ContentArea>
-        <ItemDate date={dateAchèvementPrévisionnelle} />
-        <ItemTitle title="Date d'achèvement prévisionnelle" />
-      </ContentArea>
-    </TimelineItem>
-  );
-};
-
-type AchèvementRéelleItemProps = {
-  dateAchèvementRéelle?: number;
-};
-const AchèvementRéelleItem: FC<AchèvementRéelleItemProps> = ({ dateAchèvementRéelle }) => {
-  return (
-    <TimelineItem isLastItem={false}>
-      {dateAchèvementRéelle ? <PastIcon /> : <NextUpIcon />}
-      <ContentArea>
-        {dateAchèvementRéelle ? <ItemDate date={dateAchèvementRéelle} /> : 'À transmettre'}
-        <ItemTitle title="Date d'achèvement réelle" />
-      </ContentArea>
-    </TimelineItem>
-  );
-};
-
-type MiseEnServiceItemProps = {
-  dateMiseEnService?: number;
-};
-const MiseEnServiceItem: FC<MiseEnServiceItemProps> = ({ dateMiseEnService }) => {
-  return (
-    <TimelineItem isLastItem={false}>
-      {dateMiseEnService ? <PastIcon /> : <NextUpIcon />}
-      <ContentArea>
-        {dateMiseEnService ? <ItemDate date={dateMiseEnService} /> : 'À transmettre'}
-        <ItemTitle title="Mise en service" />
+        À transmettre
+        <ItemTitle title={titre} />
       </ContentArea>
     </TimelineItem>
   );
