@@ -36,13 +36,17 @@ export class FournisseurAggregate extends AbstractAggregate<FournisseurEvent> {
     évaluationCarboneSimplifiée,
     importéLe,
     identifiantUtilisateur,
+    fournisseurs,
   }: ImporterOptions) {
     const event: FournisseurImportéEvent = {
       type: 'FournisseurImporté-V1',
       payload: {
         identifiantProjet: this.identifiantProjet.formatter(),
         évaluationCarboneSimplifiée,
-        fournisseurs: [],
+        fournisseurs: fournisseurs.map((fournisseur) => ({
+          typeFournisseur: fournisseur.typeFournisseur.formatter(),
+          nomDuFabricant: fournisseur.nomDuFabricant,
+        })),
         importéLe: importéLe.formatter(),
         importéPar: identifiantUtilisateur.formatter(),
       },
