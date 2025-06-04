@@ -15,11 +15,12 @@ import { InfoActionnaire } from './InfoActionnaire';
 import { InfoPuissance } from './InfoPuissance';
 import { GetActionnaireForProjectPage } from '../../../../../controllers/project/getProjectPage/_utils';
 import { GetPuissanceForProjectPage } from '../../../../../controllers/project/getProjectPage/_utils/getPuissance';
+import { PlainType } from '@potentiel-domain/core';
 
 export type InfoGeneralesProps = {
   project: ProjectDataForProjectPage;
   role: Role.ValueType;
-  raccordement: Option.Type<Raccordement.ConsulterRaccordementReadModel>;
+  raccordement: PlainType<Option.Type<Raccordement.ConsulterRaccordementReadModel>>;
   demandeRecours: ProjectDataForProjectPage['demandeRecours'];
   garantiesFinancières?: GarantiesFinancièresProjetProps['garantiesFinancières'];
   actionnaire?: GetActionnaireForProjectPage;

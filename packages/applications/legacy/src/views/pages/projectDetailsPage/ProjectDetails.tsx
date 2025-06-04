@@ -36,6 +36,8 @@ import {
   DemandeImpossibleSiAbandonEnCoursInfoBox,
   DemandeImpossibleSiAchèvementInfoBox,
 } from './sections/DemandeImpossibleInfoBox';
+import { DateTime } from '@potentiel-domain/common';
+import { PlainType } from '@potentiel-domain/core';
 
 export type AlerteRaccordement =
   | 'référenceDossierManquantePourDélaiCDC2022'
@@ -44,7 +46,7 @@ export type AlerteRaccordement =
 type ProjectDetailsProps = {
   request: Request;
   project: ProjectDataForProjectPage;
-  raccordement: Option.Type<Raccordement.ConsulterRaccordementReadModel>;
+  raccordement: PlainType<Option.Type<Raccordement.ConsulterRaccordementReadModel>>;
   alertesRaccordement: AlerteRaccordement[];
   abandon?: { statut: string };
   demandeRecours: ProjectDataForProjectPage['demandeRecours'];
@@ -88,6 +90,14 @@ export const ProjectDetails = ({
 
   const abandonEnCoursOuAccordé = !!abandon && abandon.statut !== 'rejeté';
   const abandonEnCours = abandonEnCoursOuAccordé && abandon.statut !== 'accordé';
+
+  const dernierDossierRaccordement = Option.match(raccordement)
+    .some(({ dossiers }) => (dossiers.length > 0 ? dossiers[dossiers.length - 1] : undefined))
+    .none(() => undefined);
+
+  const dateMiseEnService = dernierDossierRaccordement?.miseEnService?.dateMiseEnService
+    ? DateTime.bind(dernierDossierRaccordement.miseEnService.dateMiseEnService).date.getTime()
+    : undefined;
 
   return (
     <LegacyPageTemplate user={request.user} currentPage="list-projects">
@@ -151,7 +161,8 @@ export const ProjectDetails = ({
           identifiantProjet={identifiantProjet}
           dateDesignation={project.notifiedOn || 0}
           isLegacy={project.isLegacy}
-          dateAchèvementPrévisionnel={project.completionDueOn}
+          dateAchèvementPrévisionnelle={project.completionDueOn}
+          dateMiseEnService={dateMiseEnService}
         />
 
         <div className="flex flex-col lg:flex-row gap-3">

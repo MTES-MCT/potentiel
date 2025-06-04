@@ -1,22 +1,21 @@
 import React, { FC } from 'react';
 import { CalendarIcon, Section, CheckIcon } from '../../../components';
 import { afficherDate } from '../../../helpers';
-import { ClockIcon, DownloadLink, Link } from '../../../components/UI';
+import { ClockIcon, DownloadLink } from '../../../components/UI';
 import { Routes } from '@potentiel-applications/routes';
 
-type EtapesProjetProps = DesignationItemProps & AchèvementPrévisionnelItemProps;
+type EtapesProjetProps = DesignationItemProps &
+  AchèvementPrévisionnelleItemProps &
+  MiseEnServiceItemProps;
 
 export const EtapesProjet: FC<EtapesProjetProps> = ({
   identifiantProjet,
   dateDesignation,
   isLegacy,
-  dateAchèvementPrévisionnel,
+  dateAchèvementPrévisionnelle,
+  dateMiseEnService,
 }) => (
-  <Section
-    title="Étapes du projet"
-    icon={<CalendarIcon />}
-    className="flex-auto min-w-0 lg:max-w-[60%]"
-  >
+  <Section title="Étapes du projet" icon={<CalendarIcon />}>
     <aside aria-label="Progress">
       <ol className="pl-0 overflow-hidden list-none">
         <DesignationItem
@@ -25,9 +24,13 @@ export const EtapesProjet: FC<EtapesProjetProps> = ({
           identifiantProjet={identifiantProjet}
           isLegacy={isLegacy}
         />
-        <AchèvementPrévisionnelItem
+        <AchèvementPrévisionnelleItem
           key="project-step-item-achèvement-prévisionnel"
-          dateAchèvementPrévisionnel={dateAchèvementPrévisionnel}
+          dateAchèvementPrévisionnelle={dateAchèvementPrévisionnelle}
+        />
+        <MiseEnServiceItem
+          key="project-step-item-mise-en-service"
+          dateMiseEnService={dateMiseEnService}
         />
       </ol>
     </aside>
@@ -63,18 +66,48 @@ const DesignationItem: FC<DesignationItemProps> = ({
   );
 };
 
-type AchèvementPrévisionnelItemProps = {
-  dateAchèvementPrévisionnel: number;
+type AchèvementPrévisionnelleItemProps = {
+  dateAchèvementPrévisionnelle: number;
 };
-const AchèvementPrévisionnelItem: FC<AchèvementPrévisionnelItemProps> = ({
-  dateAchèvementPrévisionnel,
+const AchèvementPrévisionnelleItem: FC<AchèvementPrévisionnelleItemProps> = ({
+  dateAchèvementPrévisionnelle,
 }) => {
   return (
     <TimelineItem isLastItem={false}>
       <NextUpIcon />
       <ContentArea>
-        {dateAchèvementPrévisionnel && <ItemDate date={dateAchèvementPrévisionnel} />}
+        <ItemDate date={dateAchèvementPrévisionnelle} />
         <ItemTitle title="Date d'achèvement prévisionnelle" />
+      </ContentArea>
+    </TimelineItem>
+  );
+};
+
+type AchèvementRéelleItemProps = {
+  dateAchèvementRéelle: number;
+};
+const AchèvementRéelleItem: FC<AchèvementRéelleItemProps> = ({ dateAchèvementRéelle }) => {
+  return (
+    <TimelineItem isLastItem={false}>
+      <NextUpIcon />
+      <ContentArea>
+        <ItemDate date={dateAchèvementRéelle} />
+        <ItemTitle title="Date d'achèvement réelle" />
+      </ContentArea>
+    </TimelineItem>
+  );
+};
+
+type MiseEnServiceItemProps = {
+  dateMiseEnService?: number;
+};
+const MiseEnServiceItem: FC<MiseEnServiceItemProps> = ({ dateMiseEnService }) => {
+  return (
+    <TimelineItem isLastItem={false}>
+      {dateMiseEnService ? <PastIcon /> : <NextUpIcon />}
+      <ContentArea>
+        {dateMiseEnService ? <ItemDate date={dateMiseEnService} /> : 'À transmettre'}
+        <ItemTitle title="Mise en service" />
       </ContentArea>
     </TimelineItem>
   );

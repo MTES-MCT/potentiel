@@ -40,6 +40,7 @@ import { Candidature, IdentifiantProjet, Éliminé } from '@potentiel-domain/pro
 import { Routes } from '@potentiel-applications/routes';
 import { mediator } from 'mediateur';
 import { Option } from '@potentiel-libraries/monads';
+import { mapToPlainObject } from '@potentiel-domain/core';
 
 const schema = yup.object({
   params: yup.object({ projectId: yup.string().required() }),
@@ -241,7 +242,7 @@ v1Router.get(
         ProjectDetailsPage({
           request,
           project,
-          raccordement,
+          raccordement: mapToPlainObject(raccordement),
           alertesRaccordement,
           abandon,
           garantiesFinancières,
