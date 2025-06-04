@@ -135,11 +135,20 @@ v1Router.get(
       );
 
       /**
+       * Redirection vers la page de candidature si projet non désigné
+       */
+      if (project.notifiedOn === 0) {
+        return response.redirect(
+          Routes.Candidature.détails(identifiantProjetValueType.formatter()),
+        );
+      }
+
+      /**
        * Redirection vers la page éliminé dans la nouvelle application
        */
       if (!project.isClasse) {
         return response.redirect(
-          Routes.Projet.Éliminé.détails(identifiantProjetValueType.formatter()),
+          Routes.Projet.détailsÉliminé(identifiantProjetValueType.formatter()),
         );
       }
 

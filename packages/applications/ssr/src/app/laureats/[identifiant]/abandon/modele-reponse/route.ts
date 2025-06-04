@@ -26,7 +26,9 @@ export const GET = async (_: Request, { params: { identifiant } }: IdentifiantPa
     withUtilisateur(async (utilisateur) => {
       const identifiantProjet = decodeParameter(identifiant);
 
-      const { lauréat, puissance, représentantLégal } = await getLauréat({ identifiantProjet });
+      const { lauréat, puissance, représentantLégal } = await getLauréat({
+        identifiantProjet,
+      });
       const candidature = await getCandidature(identifiantProjet);
 
       const abandon = await mediator.send<Lauréat.Abandon.ConsulterAbandonQuery>({

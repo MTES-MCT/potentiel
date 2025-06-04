@@ -5,11 +5,10 @@ import { notFound } from 'next/navigation';
 import { Option } from '@potentiel-libraries/monads';
 import { Actionnaire, ReprésentantLégal } from '@potentiel-domain/laureat';
 import { Lauréat } from '@potentiel-domain/projet';
-import { getLogger, Logger } from '@potentiel-libraries/monitoring';
+import { getLogger } from '@potentiel-libraries/monitoring';
 
 type Props = {
   identifiantProjet: string;
-  logger: Logger;
 };
 
 export type GetLauréat = {
@@ -21,13 +20,11 @@ export type GetLauréat = {
 };
 
 export const getLauréat = cache(async ({ identifiantProjet }: Props): Promise<GetLauréat> => {
-  const logger = getLogger('getLauréat');
-
-  const lauréat = await getLauréatInfos({ identifiantProjet, logger });
-  const actionnaireInfos = await getActionnaireInfos({ identifiantProjet, logger });
-  const représentantLégalInfos = await getReprésentantLégalInfos({ identifiantProjet, logger });
-  const puissanceInfos = await getPuissanceInfos({ identifiantProjet, logger });
-  const producteurInfos = await getProducteurInfos({ identifiantProjet, logger });
+  const lauréat = await getLauréatInfos({ identifiantProjet });
+  const actionnaireInfos = await getActionnaireInfos({ identifiantProjet });
+  const représentantLégalInfos = await getReprésentantLégalInfos({ identifiantProjet });
+  const puissanceInfos = await getPuissanceInfos({ identifiantProjet });
+  const producteurInfos = await getProducteurInfos({ identifiantProjet });
 
   return {
     actionnaire: actionnaireInfos,
@@ -38,7 +35,9 @@ export const getLauréat = cache(async ({ identifiantProjet }: Props): Promise<G
   };
 });
 
-export const getLauréatInfos = async ({ identifiantProjet, logger }: Props) => {
+export const getLauréatInfos = async ({ identifiantProjet }: Props) => {
+  const logger = getLogger('getLauréatInfos');
+
   const lauréat = await mediator.send<Lauréat.ConsulterLauréatQuery>({
     type: 'Lauréat.Query.ConsulterLauréat',
     data: {
@@ -54,7 +53,9 @@ export const getLauréatInfos = async ({ identifiantProjet, logger }: Props) => 
   return lauréat;
 };
 
-const getActionnaireInfos = async ({ identifiantProjet, logger }: Props) => {
+const getActionnaireInfos = async ({ identifiantProjet }: Props) => {
+  const logger = getLogger('getActionnaireInfos');
+
   const actionnaire = await mediator.send<Actionnaire.ConsulterActionnaireQuery>({
     type: 'Lauréat.Actionnaire.Query.ConsulterActionnaire',
     data: {
@@ -70,7 +71,9 @@ const getActionnaireInfos = async ({ identifiantProjet, logger }: Props) => {
   return actionnaire;
 };
 
-export const getReprésentantLégalInfos = async ({ identifiantProjet, logger }: Props) => {
+export const getReprésentantLégalInfos = async ({ identifiantProjet }: Props) => {
+  const logger = getLogger('getReprésentantLégalInfos');
+
   const représentantLégal = await mediator.send<ReprésentantLégal.ConsulterReprésentantLégalQuery>({
     type: 'Lauréat.ReprésentantLégal.Query.ConsulterReprésentantLégal',
     data: {
@@ -86,7 +89,9 @@ export const getReprésentantLégalInfos = async ({ identifiantProjet, logger }:
   return représentantLégal;
 };
 
-const getPuissanceInfos = async ({ identifiantProjet, logger }: Props) => {
+const getPuissanceInfos = async ({ identifiantProjet }: Props) => {
+  const logger = getLogger('getPuissanceInfos');
+
   const puissance = await mediator.send<Lauréat.Puissance.ConsulterPuissanceQuery>({
     type: 'Lauréat.Puissance.Query.ConsulterPuissance',
     data: {
@@ -102,7 +107,9 @@ const getPuissanceInfos = async ({ identifiantProjet, logger }: Props) => {
   return puissance;
 };
 
-const getProducteurInfos = async ({ identifiantProjet, logger }: Props) => {
+const getProducteurInfos = async ({ identifiantProjet }: Props) => {
+  const logger = getLogger('getProducteurInfos');
+
   const producteur = await mediator.send<Lauréat.Producteur.ConsulterProducteurQuery>({
     type: 'Lauréat.Producteur.Query.ConsulterProducteur',
     data: {

@@ -9,6 +9,7 @@ export const details = (identifiantProjet: string) => {
   return url;
 };
 
-export const lister = () => `/projets.html`;
+export const détailsÉliminé = (identifiantProjet: string) =>
+  `/projets/${encodeParameter(identifiantProjet)}`;
 
-export * as Éliminé from './éliminé.routes';
+export const lister = () => `/projets.html`;

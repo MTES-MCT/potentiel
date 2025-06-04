@@ -160,12 +160,15 @@ export const ProjectList = ({
 
       <ul className="p-0 m-0">
         {projects.items.map((project) => {
+          const identifiantProjet = `${project.appelOffreId}#${project.periodeId}#${project.familleId}#${project.numeroCRE}`;
+
           const url =
-            project.classe === 'Classé'
-              ? routes.PROJECT_DETAILS(project.id)
-              : Routes.Projet.Éliminé.détails(
-                  `${project.appelOffreId}#${project.periodeId}#${project.familleId}#${project.numeroCRE}`,
-                );
+            project.notifiedOn === 0
+              ? Routes.Candidature.détails(identifiantProjet)
+              : project.classe === 'Classé'
+                ? routes.PROJECT_DETAILS(project.id)
+                : Routes.Projet.détailsÉliminé(identifiantProjet);
+
           return (
             <li className="list-none p-0 m-0" key={project.id}>
               <Tile className="mb-4 flex md:relative flex-col" key={`project_${project.id}`}>
