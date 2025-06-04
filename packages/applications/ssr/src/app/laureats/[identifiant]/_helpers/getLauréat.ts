@@ -5,9 +5,11 @@ import { notFound } from 'next/navigation';
 import { Option } from '@potentiel-libraries/monads';
 import { Actionnaire, ReprésentantLégal } from '@potentiel-domain/laureat';
 import { Lauréat } from '@potentiel-domain/projet';
+import { getLogger, Logger } from '@potentiel-libraries/monitoring';
 
 type Props = {
   identifiantProjet: string;
+  logger: Logger;
 };
 
 export type GetLauréat = {
@@ -19,11 +21,13 @@ export type GetLauréat = {
 };
 
 export const getLauréat = cache(async ({ identifiantProjet }: Props): Promise<GetLauréat> => {
-  const lauréat = await getLauréatInfos({ identifiantProjet });
-  const actionnaireInfos = await getActionnaireInfos({ identifiantProjet });
-  const représentantLégalInfos = await getReprésentantLégalInfos({ identifiantProjet });
-  const puissanceInfos = await getPuissanceInfos({ identifiantProjet });
-  const producteurInfos = await getProducteurInfos({ identifiantProjet });
+  const logger = getLogger('getLauréat');
+
+  const lauréat = await getLauréatInfos({ identifiantProjet, logger });
+  const actionnaireInfos = await getActionnaireInfos({ identifiantProjet, logger });
+  const représentantLégalInfos = await getReprésentantLégalInfos({ identifiantProjet, logger });
+  const puissanceInfos = await getPuissanceInfos({ identifiantProjet, logger });
+  const producteurInfos = await getProducteurInfos({ identifiantProjet, logger });
 
   return {
     actionnaire: actionnaireInfos,
@@ -34,7 +38,7 @@ export const getLauréat = cache(async ({ identifiantProjet }: Props): Promise<G
   };
 });
 
-export const getLauréatInfos = async ({ identifiantProjet }: Props) => {
+export const getLauréatInfos = async ({ identifiantProjet, logger }: Props) => {
   const lauréat = await mediator.send<Lauréat.ConsulterLauréatQuery>({
     type: 'Lauréat.Query.ConsulterLauréat',
     data: {
@@ -43,13 +47,14 @@ export const getLauréatInfos = async ({ identifiantProjet }: Props) => {
   });
 
   if (Option.isNone(lauréat)) {
+    logger.warn('Projet lauréat non trouvé', { identifiantProjet });
     return notFound();
   }
 
   return lauréat;
 };
 
-const getActionnaireInfos = async ({ identifiantProjet }: Props) => {
+const getActionnaireInfos = async ({ identifiantProjet, logger }: Props) => {
   const actionnaire = await mediator.send<Actionnaire.ConsulterActionnaireQuery>({
     type: 'Lauréat.Actionnaire.Query.ConsulterActionnaire',
     data: {
@@ -58,13 +63,14 @@ const getActionnaireInfos = async ({ identifiantProjet }: Props) => {
   });
 
   if (Option.isNone(actionnaire)) {
+    logger.warn(`Actionnaire non trouvé pour le projet lauréat`, { identifiantProjet });
     return notFound();
   }
 
   return actionnaire;
 };
 
-export const getReprésentantLégalInfos = async ({ identifiantProjet }: Props) => {
+export const getReprésentantLégalInfos = async ({ identifiantProjet, logger }: Props) => {
   const représentantLégal = await mediator.send<ReprésentantLégal.ConsulterReprésentantLégalQuery>({
     type: 'Lauréat.ReprésentantLégal.Query.ConsulterReprésentantLégal',
     data: {
@@ -73,13 +79,14 @@ export const getReprésentantLégalInfos = async ({ identifiantProjet }: Props) 
   });
 
   if (Option.isNone(représentantLégal)) {
+    logger.warn(`Représentant légal non trouvé pour le projet lauréat`, { identifiantProjet });
     return notFound();
   }
 
   return représentantLégal;
 };
 
-const getPuissanceInfos = async ({ identifiantProjet }: Props) => {
+const getPuissanceInfos = async ({ identifiantProjet, logger }: Props) => {
   const puissance = await mediator.send<Lauréat.Puissance.ConsulterPuissanceQuery>({
     type: 'Lauréat.Puissance.Query.ConsulterPuissance',
     data: {
@@ -88,13 +95,14 @@ const getPuissanceInfos = async ({ identifiantProjet }: Props) => {
   });
 
   if (Option.isNone(puissance)) {
+    logger.warn(`Puissance non trouvée pour le projet lauréat`, { identifiantProjet });
     return notFound();
   }
 
   return puissance;
 };
 
-const getProducteurInfos = async ({ identifiantProjet }: Props) => {
+const getProducteurInfos = async ({ identifiantProjet, logger }: Props) => {
   const producteur = await mediator.send<Lauréat.Producteur.ConsulterProducteurQuery>({
     type: 'Lauréat.Producteur.Query.ConsulterProducteur',
     data: {
@@ -103,6 +111,7 @@ const getProducteurInfos = async ({ identifiantProjet }: Props) => {
   });
 
   if (Option.isNone(producteur)) {
+    logger.warn(`Producteur non trouvé pour le projet lauréat`, { identifiantProjet });
     return notFound();
   }
 
