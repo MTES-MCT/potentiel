@@ -1,19 +1,16 @@
 import React, { FC } from 'react';
 import { CalendarIcon, Section, CheckIcon } from '../../../components';
 import { afficherDate } from '../../../helpers';
-import { DownloadLink } from '../../../components/UI';
+import { ClockIcon, DownloadLink, Link } from '../../../components/UI';
 import { Routes } from '@potentiel-applications/routes';
 
-type EtapesProjetProps = {
-  identifiantProjet: string;
-  dateDesignation: number;
-  isLegacy: boolean;
-};
+type EtapesProjetProps = DesignationItemProps & AchèvementPrévisionnelItemProps;
 
 export const EtapesProjet: FC<EtapesProjetProps> = ({
   identifiantProjet,
   dateDesignation,
   isLegacy,
+  dateAchèvementPrévisionnel,
 }) => (
   <Section
     title="Étapes du projet"
@@ -24,9 +21,13 @@ export const EtapesProjet: FC<EtapesProjetProps> = ({
       <ol className="pl-0 overflow-hidden list-none">
         <DesignationItem
           key="project-step-item-designation"
-          date={dateDesignation}
+          dateDesignation={dateDesignation}
           identifiantProjet={identifiantProjet}
           isLegacy={isLegacy}
+        />
+        <AchèvementPrévisionnelItem
+          key="project-step-item-achèvement-prévisionnel"
+          dateAchèvementPrévisionnel={dateAchèvementPrévisionnel}
         />
       </ol>
     </aside>
@@ -35,15 +36,19 @@ export const EtapesProjet: FC<EtapesProjetProps> = ({
 
 type DesignationItemProps = {
   identifiantProjet: string;
-  date: number;
+  dateDesignation: number;
   isLegacy: boolean;
 };
-const DesignationItem: FC<DesignationItemProps> = ({ date, identifiantProjet, isLegacy }) => {
+const DesignationItem: FC<DesignationItemProps> = ({
+  dateDesignation,
+  identifiantProjet,
+  isLegacy,
+}) => {
   return (
     <TimelineItem isLastItem={false}>
       <PastIcon />
       <ContentArea>
-        <ItemDate date={date} />
+        <ItemDate date={dateDesignation} />
         <ItemTitle title="Notification des résultats" />
         {!isLegacy && (
           <DownloadLink
@@ -53,6 +58,23 @@ const DesignationItem: FC<DesignationItemProps> = ({ date, identifiantProjet, is
             Télécharger attestation
           </DownloadLink>
         )}
+      </ContentArea>
+    </TimelineItem>
+  );
+};
+
+type AchèvementPrévisionnelItemProps = {
+  dateAchèvementPrévisionnel: number;
+};
+const AchèvementPrévisionnelItem: FC<AchèvementPrévisionnelItemProps> = ({
+  dateAchèvementPrévisionnel,
+}) => {
+  return (
+    <TimelineItem isLastItem={false}>
+      <NextUpIcon />
+      <ContentArea>
+        {dateAchèvementPrévisionnel && <ItemDate date={dateAchèvementPrévisionnel} />}
+        <ItemTitle title="Date d'achèvement prévisionnelle" />
       </ContentArea>
     </TimelineItem>
   );
@@ -82,6 +104,19 @@ const PastIcon = () => (
     <div className="hidden print:block text-xs mb-2 whitespace-nowrap">étape validée</div>
     <span className="relative z-2 w-8 h-8 flex items-center justify-center bg-green-700 print:bg-transparent print:border-solid print:border-2 print:border-green-700 rounded-full group-hover:bg-green-900">
       <CheckIcon className="w-5 h-5 text-white print:text-green-700" />
+    </span>
+  </div>
+);
+
+const NextUpIcon = () => (
+  <div className="flex flex-col print:min-w-[90px]" title="étape à venir">
+    <div className="hidden print:block text-xs mb-2 whitespace-nowrap">étape à venir</div>
+    <span
+      className={
+        'relative z-2 w-8 h-8 flex items-center justify-center bg-gray-300 print:bg-none print:border-solid print:border-2 print:border-gray-400 rounded-full'
+      }
+    >
+      <ClockIcon className="h-5 w-5 text-white print:text-gray-400" />
     </span>
   </div>
 );

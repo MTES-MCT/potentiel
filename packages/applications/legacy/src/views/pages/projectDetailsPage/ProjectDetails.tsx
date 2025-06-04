@@ -151,6 +151,7 @@ export const ProjectDetails = ({
           identifiantProjet={identifiantProjet}
           dateDesignation={project.notifiedOn || 0}
           isLegacy={project.isLegacy}
+          dateAchèvementPrévisionnel={project.completionDueOn}
         />
 
         <div className="flex flex-col lg:flex-row gap-3">

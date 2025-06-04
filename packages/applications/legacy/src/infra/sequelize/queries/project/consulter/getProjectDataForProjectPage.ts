@@ -174,7 +174,7 @@ export const getProjectDataForProjectPage: GetProjectDataForProjectPage = ({ pro
           note,
           details,
           notifiedOn,
-          completionDueOn: completionDueOn ? new Date(completionDueOn) : undefined,
+          completionDueOn,
           isClasse: classe === 'Classé',
           isAbandoned: abandonedOn !== 0,
           isLegacy: appelOffre.periode.type === 'legacy',
