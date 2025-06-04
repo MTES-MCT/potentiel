@@ -150,13 +150,7 @@ async function vérifierLauréats(
     },
   });
 
-  for (const {
-    identifiantProjet,
-    typeGarantiesFinancières,
-    puissanceProductionAnnuelle,
-    nomCandidat,
-    evaluationCarboneSimplifiée,
-  } of candidats.items) {
+  for (const { identifiantProjet } of candidats.items) {
     const lauréat = await mediator.send<Lauréat.ConsulterLauréatQuery>({
       type: 'Lauréat.Query.ConsulterLauréat',
       data: {
@@ -168,6 +162,13 @@ async function vérifierLauréats(
       Option.isSome(lauréat),
       `Aucun lauréat consultable pour ${identifiantProjet.formatter()}`,
     );
+
+    const {
+      typeGarantiesFinancières,
+      puissanceProductionAnnuelle,
+      nomCandidat,
+      evaluationCarboneSimplifiée,
+    } = this.candidatureWorld.mapToExpected();
 
     if (typeGarantiesFinancières) {
       const garantiesFinancières =
@@ -216,6 +217,8 @@ async function vérifierLauréats(
       });
       assert(Option.isSome(fournisseur), `Aucun fournisseur pour ${identifiantProjet.formatter()}`);
       assert(fournisseur.évaluationCarboneSimplifiée === evaluationCarboneSimplifiée);
+
+      // TODO tester la valeur de fournisseurs vs candidatureImportée
     }
   }
 }

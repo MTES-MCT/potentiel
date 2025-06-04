@@ -1,4 +1,5 @@
 import { DateTime, Email } from '@potentiel-domain/common';
+import { Option } from '@potentiel-libraries/monads';
 
 import { Fournisseur } from '../lauréat';
 import { TypeFournisseur } from '../lauréat/fournisseur';
@@ -43,41 +44,53 @@ export const mapToCommonCandidatureUseCaseData = (
 });
 
 // Etat actuel des colonnes du CSV
-export const champsCsvFournisseur: Record<Fournisseur.TypeFournisseur.RawType, string> = {
-  'module-ou-films': 'Nom du fabricant \n(Modules ou films)',
-  cellules: 'Nom du fabricant (Cellules)',
-  'plaquettes-silicium': 'Nom du fabricant \n(Plaquettes de silicium (wafers))',
-  polysilicium: 'Nom du fabricant \n(Polysilicium)',
-  'postes-conversion': 'Nom du fabricant \n(Postes de conversion)',
-  structure: 'Nom du fabricant \n(Structure)',
-  'dispositifs-stockage-energie': 'Nom du fabricant \n(Dispositifs de stockage de l’énergie *)',
-  'dispositifs-suivi-course-soleil':
-    'Nom du fabricant \n(Dispositifs de suivi de la course du soleil *)',
-  'autres-technologies': 'Nom du fabricant \n(Autres technologies)',
-  'dispositif-de-production': 'Nom du fabricant \n(dispositif de production)',
-  'dispositif-de-stockage': 'Nom du fabricant \n(Dispositif de stockage)',
-  'poste-conversion': 'Nom du fabricant \n(Poste de conversion)',
+const champsCsvFournisseur: Record<Fournisseur.TypeFournisseur.RawType, string> = {
+  'module-ou-films': 'Modules ou films',
+  cellules: 'Cellules',
+  'plaquettes-silicium': 'Plaquettes de silicium (wafers)',
+  polysilicium: 'Polysilicium',
+  'postes-conversion': 'Postes de conversion',
+  structure: 'Structure',
+  'dispositifs-stockage-energie': 'Dispositifs de stockage de l’énergie *',
+  'dispositifs-suivi-course-soleil': 'Dispositifs de suivi de la course du soleil *',
+  'autres-technologies': 'Autres technologies',
+  'dispositif-de-production': 'dispositif de production',
+  'dispositif-de-stockage': 'Dispositif de stockage',
+  'poste-conversion': 'Poste de conversion',
 };
 
-export const mapToDétailsCandidatureUseCaseData = (
-  payload: Record<string, string>,
-): Array<{
-  typeFournisseur: TypeFournisseur.ValueType;
-  nomDuFabricant: string;
-}> => {
-  const result = [];
+// on garde le sens "type" -> "label CSV" ci-dessus pour bénéficier du typage exhaustif
+// mais on l'inverse pour l'utilisation
+const labelCsvToTypeFournisseur = Object.fromEntries(
+  Object.entries(champsCsvFournisseur).map(([key, value]) => [value, key]),
+) as Record<string, Fournisseur.TypeFournisseur.RawType>;
+
+const regex = /Nom du fabricant\s?\s\((?<type>.*)\)\s?\d?/;
+export const mapCsvLabelToTypeFournisseur = (typeValue: string) => {
+  const type = typeValue.match(regex)?.groups?.type;
+  if (type && labelCsvToTypeFournisseur[type]) {
+    return TypeFournisseur.convertirEnValueType(labelCsvToTypeFournisseur[type]);
+  }
+  return Option.none;
+};
+
+export const mapToDétailsCandidatureUseCaseData = (payload: Record<string, string>) => {
+  const fournisseurs: Array<{
+    typeFournisseur: TypeFournisseur.ValueType;
+    nomDuFabricant: string;
+  }> = [];
 
   for (const [key, value] of Object.entries(payload)) {
-    for (const [mappedKey, mappedValue] of Object.entries(champsCsvFournisseur)) {
-      // on est obligé d'utiliser startsWith car les champs du CSV peuvent prendre un 1, 2, 3...
-      if (key.startsWith(mappedValue)) {
-        result.push({
-          typeFournisseur: TypeFournisseur.convertirEnValueType(mappedKey),
-          nomDuFabricant: value,
-        });
-      }
+    const type = mapCsvLabelToTypeFournisseur(key);
+    if (Option.isNone(type)) {
+      continue;
     }
+
+    fournisseurs.push({
+      typeFournisseur: type,
+      nomDuFabricant: value,
+    });
   }
 
-  return result;
+  return { fournisseurs };
 };

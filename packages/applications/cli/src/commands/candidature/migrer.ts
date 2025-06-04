@@ -3,43 +3,47 @@ import { Command, Flags } from '@oclif/core';
 import { IdentifiantProjet } from '@potentiel-domain/common';
 import { Candidature } from '@potentiel-domain/projet';
 import { publish } from '@potentiel-infrastructure/pg-event-sourcing';
-import { executeSelect } from '@potentiel-libraries/pg-helpers';
+import { Option } from '@potentiel-libraries/monads';
+import { executeSelect, killPool } from '@potentiel-libraries/pg-helpers';
 
 type CandidatureEvents = {
   stream_id: string;
-  fournisseurs: Record<string, string>;
+  fournisseurs: { type: string; nom: string }[];
   identifiantProjet: IdentifiantProjet.RawType;
 };
 
 const eventQuery = `
-SELECT
-    es.stream_id,
+SELECT es.stream_id,
     payload->>'identifiantProjet' AS "identifiantProjet",
-    (
-        SELECT jsonb_object_agg(key, value)
-        FROM jsonb_each_text(p.details::jsonb)
-        WHERE key ILIKE '%Nom du fabricant%'
-    ) AS "fournisseurs"
-FROM
-    event_store.event_stream es
-INNER JOIN
-    projects p
-ON
-    concat(p."appelOffreId", '#', p."periodeId", '#', p."familleId", '#', p."numeroCRE") = payload->>'identifiantProjet'
-WHERE
-    es.type = 'CandidatureImportée-V1'
-AND
-    EXISTS (
-        SELECT 1
-        FROM jsonb_each_text(p.details::jsonb)
-        WHERE key ILIKE '%Nom du fabricant%'
-    );
+    json_agg(
+        jsonb_build_object(
+             'type', d.key,
+             'nom', d.value
+        )
+    ) as fournisseurs
+FROM event_store.event_stream es
+    INNER JOIN projects p ON format(
+        '%s#%s#%s#%s',
+        p."appelOffreId",
+        p."periodeId",
+        p."familleId",
+        p."numeroCRE"
+    ) = payload->>'identifiantProjet'
+    inner join json_each_text(p.details) d on d.key ilike '%nom du fabricant%' 
+    and trim(lower(d.value)) not in ('','0','#n/a','n/a','na','n.a.','nx',  'nc','ne s''applique pas','non applicable', 'non concerné','-','--','/','sans objet','s/o','so', 'non pertinent', 'non applicable à ce projet','non disponible','aucun','non','non concern?','_','à définir ultérieurement','b','non défini','non renseigné','non précisé', 'non connu à ce jour', 'non connu a ce jour')
+WHERE es.type = 'CandidatureImportée-V1'
+group by es.stream_id,
+    payload->>'identifiantProjet' ;
 `;
 
 export class Migrer extends Command {
   static flags = {
     dryRun: Flags.boolean(),
   };
+
+  async finally() {
+    await killPool();
+  }
 
   async run(): Promise<void> {
     const { flags } = await this.parse(Migrer);
@@ -62,11 +66,15 @@ export class Migrer extends Command {
         type: 'FournisseursCandidatureImportés-V1',
         payload: {
           identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet).formatter(),
-          fournisseurs: Candidature.CandidatureMapperHelper.mapToDétailsCandidatureUseCaseData(
-            fournisseurs,
-          ).map((fournisseur) => ({
-            typeFournisseur: fournisseur.typeFournisseur.formatter(),
-            nomDuFabricant: fournisseur.nomDuFabricant,
+          fournisseurs: fournisseurs.map(({ nom, type }) => ({
+            typeFournisseur: Option.match(
+              Candidature.CandidatureMapperHelper.mapCsvLabelToTypeFournisseur(type),
+            )
+              .some((type) => type.formatter())
+              .none(() => {
+                throw new Error(`Type inconnu (${type})`);
+              }),
+            nomDuFabricant: nom,
           })),
         },
       };
@@ -80,8 +88,6 @@ export class Migrer extends Command {
 
       // les données fournisseurs n'ont jamais été corrigées lors d'une correction de candidature
       // cf : select distinct json_object_keys(payload->'correctedData') from "eventStores" es where es.type='ProjectDataCorrected';
-
-      process.exit(0);
     }
   }
 }
