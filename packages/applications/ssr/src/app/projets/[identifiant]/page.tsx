@@ -2,8 +2,8 @@ import { mediator } from 'mediateur';
 import { Metadata, ResolvingMetadata } from 'next';
 
 import { Option } from '@potentiel-libraries/monads';
-import { Candidature, IdentifiantProjet, Éliminé } from '@potentiel-domain/projet';
-import { Role, Utilisateur } from '@potentiel-domain/utilisateur';
+import { Accès, Candidature, IdentifiantProjet, Éliminé } from '@potentiel-domain/projet';
+import { Role } from '@potentiel-domain/utilisateur';
 
 import { decodeParameter } from '@/utils/decodeParameter';
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
@@ -53,13 +53,25 @@ export default async function Page({ params: { identifiant } }: PageProps) {
 
       const { appelOffres, période } = await getPériodeAppelOffres(identifiantProjet);
 
+      const accèsProjet = await mediator.send<Accès.ConsulterAccèsQuery>({
+        type: 'Projet.Accès.Query.ConsulterAccès',
+        data: {
+          identifiantProjet: identifiantProjet.formatter(),
+        },
+      });
+
       return (
         <DétailsProjetÉliminéPage
           identifiantProjet={identifiantProjet}
           candidature={mapToCandidatureProps({ candidature, role: utilisateur.role })}
           unitéPuissance={appelOffres.unitePuissance}
+          utilisateursAyantAccèsAuProjet={Option.match(accèsProjet)
+            .some((accèsProjet) =>
+              accèsProjet.utilisateursAyantAccès.map((utilisateur) => utilisateur.formatter()),
+            )
+            .none(() => [])}
           actions={mapToActions({
-            utilisateur,
+            role: utilisateur.role,
             demandeRecoursEnCours,
             changementDeCahierDesChargeNécessairePourDemanderUnRecours:
               période.choisirNouveauCahierDesCharges ?? false,
@@ -97,32 +109,41 @@ const mapToCandidatureProps: MapToCandidatureProps = ({
 });
 
 type MapToActions = (args: {
-  utilisateur: Utilisateur.ValueType;
+  role: Role.ValueType;
   demandeRecoursEnCours: Option.Type<Éliminé.Recours.ConsulterRecoursReadModel>;
   changementDeCahierDesChargeNécessairePourDemanderUnRecours: boolean;
 }) => Array<DétailsProjetÉliminéActions>;
 
 const mapToActions: MapToActions = ({
-  utilisateur,
+  role,
   demandeRecoursEnCours,
   changementDeCahierDesChargeNécessairePourDemanderUnRecours,
 }) => {
   const actions: Array<DétailsProjetÉliminéActions> = [];
 
   if (
-    utilisateur.role.aLaPermission('recours.demander') &&
+    role.aLaPermission('recours.demander') &&
     Option.isNone(demandeRecoursEnCours) &&
     !changementDeCahierDesChargeNécessairePourDemanderUnRecours
   ) {
     actions.push('faire-demande-recours');
   }
 
-  if (utilisateur.role.aLaPermission('candidature.corriger')) {
+  if (role.aLaPermission('candidature.corriger')) {
     actions.push('modifier-candidature');
   }
 
-  if (utilisateur.role.aLaPermission('candidature.attestation.télécharger')) {
+  if (role.aLaPermission('candidature.attestation.télécharger')) {
     actions.push('télécharger-attestation-désignation');
+  }
+
+  if (
+    role.aLaPermission('accès.autoriserAccèsProjet') ||
+    role.aLaPermission('accès.retirerAccèsProjet')
+  ) {
+    actions.push('gérer-accès-au-projet');
+  } else if (role.aLaPermission('accès.lister')) {
+    actions.push('lister-accès-au-projet');
   }
 
   return actions;

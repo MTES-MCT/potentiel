@@ -4,6 +4,7 @@ import Button from '@codegouvfr/react-dsfr/Button';
 import { Routes } from '@potentiel-applications/routes';
 import { Candidature, IdentifiantProjet } from '@potentiel-domain/projet';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
+import { Email } from '@potentiel-domain/common';
 
 import { ProjetBanner } from '@/components/molecules/projet/ProjetBanner';
 import { Heading2 } from '@/components/atoms/headings';
@@ -22,13 +23,16 @@ export type DétailsProjetÉliminéPageProps = {
     nomCandidat: Candidature.ConsulterCandidatureReadModel['nomCandidat'];
     nomReprésentantLégal: Candidature.ConsulterCandidatureReadModel['nomReprésentantLégal'];
   };
+  utilisateursAyantAccèsAuProjet: ReadonlyArray<Email.RawType>;
   actions: Array<DétailsProjetÉliminéActions>;
 };
 
 export type DétailsProjetÉliminéActions =
   | 'faire-demande-recours'
   | 'modifier-candidature'
-  | 'télécharger-attestation-désignation';
+  | 'télécharger-attestation-désignation'
+  | 'lister-accès-au-projet'
+  | 'gérer-accès-au-projet';
 
 export const DétailsProjetÉliminéPage: FC<DétailsProjetÉliminéPageProps> = ({
   identifiantProjet,
@@ -42,6 +46,7 @@ export const DétailsProjetÉliminéPage: FC<DétailsProjetÉliminéPageProps> =
     nomCandidat,
     nomReprésentantLégal,
   },
+  utilisateursAyantAccèsAuProjet,
   actions,
 }) => {
   const idProjet = IdentifiantProjet.bind(identifiantProjet).formatter();
@@ -61,36 +66,43 @@ export const DétailsProjetÉliminéPage: FC<DétailsProjetÉliminéPageProps> =
             </Heading2>
             <ul className="flex-col gap-4 mt-2">
               <li>
-                Site de production :{' '}
-                <span className="font-bold">
-                  {localité.adresse1}
-                  {localité.adresse2 ? ` ${localité.adresse2}` : ''} {localité.codePostal}{' '}
-                  {localité.commune}, {localité.département}, {localité.région}
-                </span>
+                <span className="font-bold">Site de production :</span> {localité.adresse1}
+                {localité.adresse2 ? ` ${localité.adresse2}` : ''} {localité.codePostal}{' '}
+                {localité.commune}, {localité.département}, {localité.région}
               </li>
               <li>
-                Nom du représentant légal :{' '}
-                <span className="font-bold">{nomReprésentantLégal}</span>
+                <span className="font-bold">Nom du représentant légal : </span>{' '}
+                {nomReprésentantLégal}
               </li>
               <li className="flex gap-2 items-center">
-                <span>Addresse email de candidature :</span>
-                <CopyButton textToCopy={emailContact.formatter()} className="font-bold" />
+                <span className="font-bold">Addresse email de candidature :</span>
+                <CopyButton textToCopy={emailContact.formatter()} />
               </li>
               <li>
-                Producteur : <span className="font-bold">{nomCandidat}</span>
+                <span className="font-bold">Producteur :</span> {nomCandidat}
               </li>
               <li>
-                Actionnaire : <span className="font-bold">{sociétéMère}</span>
+                <span className="font-bold">Actionnaire :</span> {sociétéMère}
               </li>
               <li>
-                Puissance:{' '}
-                <span className="font-bold">
-                  {puissanceProductionAnnuelle} {unitéPuissance}
-                </span>
+                <span className="font-bold">Puissance :</span> {puissanceProductionAnnuelle}{' '}
+                {unitéPuissance}
               </li>
               {prixReference && (
                 <li>
-                  Prix : <span className="font-bold">{prixReference} €/MWh</span>{' '}
+                  <span className="font-bold">Prix :</span> {prixReference} €/MWh
+                </li>
+              )}
+              {utilisateursAyantAccèsAuProjet.length && (
+                <li>
+                  <span className="font-bold">Utilisateurs ayant accès au projet :</span>
+                  <ul className="list-disc pl-4">
+                    {utilisateursAyantAccèsAuProjet.map((email) => (
+                      <li key={email}>
+                        <CopyButton textToCopy={email} />
+                      </li>
+                    ))}
+                  </ul>
                 </li>
               )}
             </ul>
@@ -158,6 +170,21 @@ const mapToActionComponents = ({ actions, identifiantProjet }: MapToActionsCompo
           }}
         >
           Modifier la candidature
+        </Button>
+      )}
+
+      {(actions.includes('gérer-accès-au-projet') ||
+        actions.includes('lister-accès-au-projet')) && (
+        <Button
+          priority="secondary"
+          linkProps={{
+            href: Routes.Utilisateur.listerPorteurs(identifiantProjet),
+            prefetch: false,
+          }}
+        >
+          {actions.includes('gérer-accès-au-projet')
+            ? 'Gérer les accès des utilisateurs au projet'
+            : 'Lister les utilisateurs ayant accès au projet'}
         </Button>
       )}
     </div>
