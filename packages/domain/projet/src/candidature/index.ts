@@ -7,7 +7,7 @@ import { CorrigerCandidatureUseCase } from './corriger/corrigerCandidature.useca
 import {
   CandidatureImportéeEvent,
   CandidatureImportéeEventV1,
-  FournisseursCandidatureImportésEvent,
+  DétailsFournisseursCandidatureImportésEvent,
 } from './importer/candidatureImportée.event';
 import { ImporterCandidatureUseCase } from './importer/importerCandidature.usecase';
 import {
@@ -63,7 +63,7 @@ export {
   CandidatureCorrigéeEvent,
   CandidatureNotifiéeEvent,
   CandidatureNotifiéeEventV1,
-  FournisseursCandidatureImportésEvent,
+  DétailsFournisseursCandidatureImportésEvent,
 };
 
 // Register

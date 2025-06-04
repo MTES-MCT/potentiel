@@ -153,7 +153,7 @@ export const setupProjet = async ({ sendEmail }: SetupProjetDependencies) => {
     name: 'projector',
     eventType: [
       'RebuildTriggered',
-      'FournisseursCandidatureImportés-V1',
+      'DétailsFournisseursCandidatureImportés-V1',
       'CandidatureImportée-V1',
       'CandidatureImportée-V2',
       'CandidatureCorrigée-V1',

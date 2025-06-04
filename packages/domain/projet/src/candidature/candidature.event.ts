@@ -6,13 +6,13 @@ import { CandidatureCorrigéeEvent } from './corriger/candidatureCorrigée.event
 import {
   CandidatureImportéeEvent,
   CandidatureImportéeEventV1,
-  FournisseursCandidatureImportésEvent,
+  DétailsFournisseursCandidatureImportésEvent,
 } from './importer/candidatureImportée.event';
 
 export type CandidatureEvent =
   | CandidatureImportéeEvent
   | CandidatureImportéeEventV1
-  | FournisseursCandidatureImportésEvent
+  | DétailsFournisseursCandidatureImportésEvent
   | CandidatureCorrigéeEvent
   | CandidatureNotifiéeEvent
   | CandidatureNotifiéeEventV1;

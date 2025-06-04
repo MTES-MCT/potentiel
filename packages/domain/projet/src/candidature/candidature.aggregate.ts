@@ -11,7 +11,7 @@ import { CandidatureEvent } from './candidature.event';
 import {
   CandidatureImportéeEvent,
   CandidatureImportéeEventV1,
-  FournisseursCandidatureImportésEvent,
+  DétailsFournisseursCandidatureImportésEvent,
 } from './importer/candidatureImportée.event';
 import { ImporterCandidatureOptions } from './importer/importerCandidature.options';
 import * as StatutCandidature from './statutCandidature.valueType';
@@ -234,6 +234,7 @@ export class CandidatureAggregate extends AbstractAggregate<CandidatureEvent> {
     if (!validateur.fonction) {
       throw new FonctionManquanteError();
     }
+
     if (!validateur.nomComplet) {
       throw new NomManquantError();
     }
@@ -435,7 +436,7 @@ export class CandidatureAggregate extends AbstractAggregate<CandidatureEvent> {
       )
       .with(
         {
-          type: 'FournisseursCandidatureImportés-V1',
+          type: 'DétailsFournisseursCandidatureImportés-V1',
         },
         (event) => this.applyFournisseursImportésEventPayload(event),
       )
@@ -479,7 +480,9 @@ export class CandidatureAggregate extends AbstractAggregate<CandidatureEvent> {
     this.applyCommonEventPayload(payload);
   }
 
-  private applyFournisseursImportésEventPayload({ payload }: FournisseursCandidatureImportésEvent) {
+  private applyFournisseursImportésEventPayload({
+    payload,
+  }: DétailsFournisseursCandidatureImportésEvent) {
     this.applyFournisseurEventPayload(payload.fournisseurs);
   }
 

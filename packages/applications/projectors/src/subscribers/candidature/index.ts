@@ -24,7 +24,7 @@ export const register = () => {
       .with({ type: 'CandidatureCorrigée-V1' }, candidatureCorrigéeProjector)
       .with({ type: 'CandidatureNotifiée-V1' }, candidatureNotifiéeV1Projector)
       .with({ type: 'CandidatureNotifiée-V2' }, candidatureNotifiéeV2Projector)
-      .with({ type: 'FournisseursCandidatureImportés-V1' }, () => Promise.resolve())
+      .with({ type: 'DétailsFournisseursCandidatureImportés-V1' }, () => Promise.resolve())
       .exhaustive();
 
   mediator.register('System.Projector.Candidature', handler);
