@@ -52,6 +52,7 @@ export const GestionnaireRéseauSelect = ({
       nativeSelectProps={{
         name,
         defaultValue,
+        required: true,
         onChange: (e) => {
           const gestionnaireSélectionné = listeGestionnairesRéseau.find(
             (gestionnaire) =>
