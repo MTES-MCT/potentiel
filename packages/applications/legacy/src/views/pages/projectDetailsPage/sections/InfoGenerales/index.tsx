@@ -45,6 +45,7 @@ export const InfoGenerales = ({
     departementProjet,
     adresseProjet,
     isAbandoned,
+    prixReference,
   },
   raccordement,
   role,
@@ -156,6 +157,12 @@ export const InfoGenerales = ({
           <p className="m-0">{coefficientKChoisi ? 'Oui' : 'Non'}</p>
         </div>
       ) : null}
+      {prixReference && (
+        <div>
+          <Heading3 className="m-0">Prix</Heading3>
+          <p className="m-0">{prixReference} €/MWh</p>
+        </div>
+      )}
     </Section>
   );
 };

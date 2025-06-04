@@ -198,6 +198,9 @@ export const getProjectDataForProjectPage: GetProjectDataForProjectPage = ({ pro
             'dgec-validateur',
             'cre',
           ])(user) && { fournisseur, evaluationCarbone }),
+          ...(userIsNot(['caisse-des-dépôts'])(user) && {
+            prixReference,
+          }),
           ...(userIs([
             'admin',
             'porteur-projet',
@@ -206,7 +209,6 @@ export const getProjectDataForProjectPage: GetProjectDataForProjectPage = ({ pro
             'dgec-validateur',
             'cre',
           ])(user) && {
-            prixReference,
             ...(notifiedOn && { certificateFile }),
           }),
         }),

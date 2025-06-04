@@ -18,7 +18,6 @@ import {
   ArrowRightIcon,
   BarreDeRecherche,
   Accordeon,
-  Dropdown,
   SecondaryLinkButton,
   PageListeTemplate,
 } from '../components';
