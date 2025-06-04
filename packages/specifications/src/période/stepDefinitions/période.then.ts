@@ -168,6 +168,7 @@ async function vérifierLauréats(
       puissanceProductionAnnuelle,
       nomCandidat,
       evaluationCarboneSimplifiée,
+      fournisseurs,
     } = this.candidatureWorld.mapToExpected();
 
     if (typeGarantiesFinancières) {
@@ -208,7 +209,7 @@ async function vérifierLauréats(
       assert(producteur.producteur === nomCandidat);
     }
 
-    if (evaluationCarboneSimplifiée) {
+    if (evaluationCarboneSimplifiée || fournisseurs) {
       const fournisseur = await mediator.send<Lauréat.Fournisseur.ConsulterFournisseurQuery>({
         type: 'Lauréat.Fournisseur.Query.ConsulterFournisseur',
         data: {
@@ -217,8 +218,7 @@ async function vérifierLauréats(
       });
       assert(Option.isSome(fournisseur), `Aucun fournisseur pour ${identifiantProjet.formatter()}`);
       assert(fournisseur.évaluationCarboneSimplifiée === evaluationCarboneSimplifiée);
-
-      // TODO tester la valeur de fournisseurs vs candidatureImportée
+      assert(fournisseur.fournisseurs === fournisseurs);
     }
   }
 }

@@ -87,6 +87,7 @@ export class ImporterCandidatureFixture
       ...values,
       détailsValue: {
         'Rendement nominal': '1234',
+        'Nom du fabricant (Cellules)': faker.company.name(),
         ...values?.détailsValue,
       },
       localitéValue,

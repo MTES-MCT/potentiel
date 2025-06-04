@@ -9,6 +9,7 @@ import { candidatureCorrigéeProjector } from './candidatureCorrigée.projector'
 import { candidatureNotifiéeV1Projector } from './candidatureNotifiéeV1.projector';
 import { candidatureRebuildTriggeredProjector } from './candidatureRebuildTriggered.projector';
 import { candidatureImportéeProjector } from './candidatureImportée.projector';
+import { candidatureImportéeV1Projector } from './candidatureImportéeV1.projector';
 
 export type SubscriptionEvent = (Candidature.CandidatureEvent & Event) | RebuildTriggered;
 
@@ -19,7 +20,7 @@ export const register = () => {
   const handler: MessageHandler<Execute> = (event) =>
     match(event)
       .with({ type: 'RebuildTriggered' }, candidatureRebuildTriggeredProjector)
-      .with({ type: 'CandidatureImportée-V1' }, candidatureImportéeProjector)
+      .with({ type: 'CandidatureImportée-V1' }, candidatureImportéeV1Projector)
       .with({ type: 'CandidatureImportée-V2' }, candidatureImportéeProjector)
       .with({ type: 'CandidatureCorrigée-V1' }, candidatureCorrigéeProjector)
       .with({ type: 'CandidatureNotifiée-V1' }, candidatureNotifiéeV1Projector)

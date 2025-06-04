@@ -138,8 +138,11 @@ export class CandidatureWorld {
         détailsMisÀJourLe,
         'application/json',
       ),
-
       misÀJourLe: DateTime.convertirEnValueType(misÀJourLe),
+      ...(expectedValues.détailsValue &&
+        Candidature.CandidatureMapperHelper.mapToDétailsCandidatureUseCaseData(
+          expectedValues.détailsValue,
+        )),
     };
   }
 }

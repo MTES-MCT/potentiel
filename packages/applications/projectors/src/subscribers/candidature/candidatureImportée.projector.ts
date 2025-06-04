@@ -1,10 +1,10 @@
-import { Candidature } from '@potentiel-domain/projet';
+import { Candidature, Lauréat } from '@potentiel-domain/projet';
 import { IdentifiantProjet, DateTime } from '@potentiel-domain/common';
 import { upsertProjection } from '@potentiel-infrastructure/pg-projection-write';
 
 export const candidatureImportéeProjector = async ({
   payload,
-}: Candidature.CandidatureImportéeEvent | Candidature.CandidatureImportéeEventV1) => {
+}: Candidature.CandidatureImportéeEvent) => {
   const identifiantProjet = IdentifiantProjet.convertirEnValueType(payload.identifiantProjet);
 
   const candidatureToUpsert: Omit<Candidature.CandidatureEntity, 'type'> = {
@@ -41,6 +41,12 @@ export const candidatureImportéeProjector = async ({
     notification: undefined,
     misÀJourLe: payload.importéLe,
     détailsMisÀJourLe: payload.importéLe,
+    fournisseurs: payload.fournisseurs.map((fournisseur) => ({
+      typeFournisseur: Lauréat.Fournisseur.TypeFournisseur.convertirEnValueType(
+        fournisseur.typeFournisseur,
+      ).typeFournisseur,
+      nomDuFabricant: fournisseur.nomDuFabricant,
+    })),
   };
 
   await upsertProjection<Candidature.CandidatureEntity>(
