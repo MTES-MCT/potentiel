@@ -50,6 +50,7 @@ export const EtapesProjet: FC<EtapesProjetProps> = ({ identifiantProjet, isLegac
               ))
               .with({ type: 'achèvement-réel' }, ({ type, date }) => (
                 <ÉtapeTerminée
+                  isLastItem={!!étapes.find((étape) => étape.type === 'mise-en-service')}
                   key={`project-step-${type}`}
                   titre="Date d'achèvement réelle"
                   date={date}
@@ -59,11 +60,16 @@ export const EtapesProjet: FC<EtapesProjetProps> = ({ identifiantProjet, isLegac
           )}
 
         {!étapes.find((étape) => étape.type === 'mise-en-service') && (
-          <ÉtapeÀTransmettre key={`project-step-mise-en-service`} titre="Mise en service" />
+          <ÉtapeÀTransmettre
+            isLastItem={!!étapes.find((étape) => étape.type === 'achèvement-réel')}
+            key={`project-step-mise-en-service`}
+            titre="Mise en service"
+          />
         )}
 
         {!étapes.find((étape) => étape.type === 'achèvement-réel') && (
           <ÉtapeÀTransmettre
+            isLastItem
             key={`project-step-achèvement-réel`}
             titre="Date d'achèvement réelle"
           />
@@ -76,11 +82,12 @@ export const EtapesProjet: FC<EtapesProjetProps> = ({ identifiantProjet, isLegac
 type ÉtapeTerminéeProps = {
   titre: string;
   date: number;
+  isLastItem?: boolean;
   children?: ReactNode;
 };
-const ÉtapeTerminée: FC<ÉtapeTerminéeProps> = ({ titre, date }) => {
+const ÉtapeTerminée: FC<ÉtapeTerminéeProps> = ({ titre, date, isLastItem = false }) => {
   return (
-    <TimelineItem isLastItem={false}>
+    <TimelineItem isLastItem={isLastItem}>
       <PastIcon />
       <ContentArea>
         <ItemDate date={date} />
@@ -92,10 +99,11 @@ const ÉtapeTerminée: FC<ÉtapeTerminéeProps> = ({ titre, date }) => {
 
 type ÉtapeÀTransmettreProps = {
   titre: string;
+  isLastItem: boolean;
 };
-const ÉtapeÀTransmettre: FC<ÉtapeÀTransmettreProps> = ({ titre }) => {
+const ÉtapeÀTransmettre: FC<ÉtapeÀTransmettreProps> = ({ titre, isLastItem }) => {
   return (
-    <TimelineItem isLastItem={false}>
+    <TimelineItem isLastItem={isLastItem}>
       <NextUpIcon />
       <ContentArea>
         À transmettre
