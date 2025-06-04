@@ -22,6 +22,7 @@ import {
   ContactProps,
   InfoGeneralesProps,
   GarantiesFinancièresProjetProps,
+  EtapesProjetProps,
 } from './sections';
 import { ProjectHeader } from './components';
 import { Routes } from '@potentiel-applications/routes';
@@ -93,13 +94,36 @@ export const ProjectDetails = ({
   const abandonEnCoursOuAccordé = !!abandon && abandon.statut !== 'rejeté';
   const abandonEnCours = abandonEnCoursOuAccordé && abandon.statut !== 'accordé';
 
+  const étapes: EtapesProjetProps['étapes'] = [
+    {
+      type: 'designation',
+      date: project.notifiedOn,
+    },
+    {
+      type: 'achèvement-prévisionel',
+      date: project.completionDueOn,
+    },
+  ];
+
   const dernierDossierRaccordement = Option.match(raccordement)
     .some(({ dossiers }) => (dossiers.length > 0 ? dossiers[dossiers.length - 1] : undefined))
     .none(() => undefined);
 
-  const dateMiseEnService = dernierDossierRaccordement?.miseEnService?.dateMiseEnService
-    ? DateTime.bind(dernierDossierRaccordement.miseEnService.dateMiseEnService).date.getTime()
-    : undefined;
+  if (dernierDossierRaccordement?.miseEnService?.dateMiseEnService) {
+    étapes.push({
+      type: 'mise-en-service',
+      date: DateTime.bind(
+        dernierDossierRaccordement.miseEnService.dateMiseEnService,
+      ).date.getTime(),
+    });
+  }
+
+  if (dateAchèvementRéelle) {
+    étapes.push({
+      type: 'achèvement-réel',
+      date: dateAchèvementRéelle,
+    });
+  }
 
   return (
     <LegacyPageTemplate user={request.user} currentPage="list-projects">
@@ -161,11 +185,8 @@ export const ProjectDetails = ({
 
         <EtapesProjet
           identifiantProjet={identifiantProjet}
-          dateDesignation={project.notifiedOn || 0}
           isLegacy={project.isLegacy}
-          dateAchèvementPrévisionnelle={project.completionDueOn}
-          dateMiseEnService={dateMiseEnService}
-          dateAchèvementRéelle={dateAchèvementRéelle}
+          étapes={étapes}
         />
 
         <div className="flex flex-col lg:flex-row gap-3">

@@ -3,41 +3,61 @@ import { CalendarIcon, Section, CheckIcon } from '../../../components';
 import { afficherDate } from '../../../helpers';
 import { ClockIcon, DownloadLink } from '../../../components/UI';
 import { Routes } from '@potentiel-applications/routes';
+import { match } from 'ts-pattern';
 
-type EtapesProjetProps = DesignationItemProps &
-  AchèvementPrévisionnelleItemProps &
-  MiseEnServiceItemProps &
-  AchèvementRéelleItemProps;
+export type EtapesProjetProps = {
+  identifiantProjet: string;
+  isLegacy: boolean;
+  étapes: Array<{
+    type: 'designation' | 'achèvement-prévisionel' | 'mise-en-service' | 'achèvement-réel';
+    date: number;
+  }>;
+};
 
-export const EtapesProjet: FC<EtapesProjetProps> = ({
-  identifiantProjet,
-  dateDesignation,
-  isLegacy,
-  dateAchèvementPrévisionnelle,
-  dateMiseEnService,
-  dateAchèvementRéelle,
-}) => (
+export const EtapesProjet: FC<EtapesProjetProps> = ({ identifiantProjet, isLegacy, étapes }) => (
   <Section title="Étapes du projet" icon={<CalendarIcon />}>
     <aside aria-label="Progress">
       <ol className="pl-0 overflow-hidden list-none">
-        <DesignationItem
-          key="project-step-item-designation"
-          dateDesignation={dateDesignation}
-          identifiantProjet={identifiantProjet}
-          isLegacy={isLegacy}
-        />
-        <AchèvementPrévisionnelleItem
-          key="project-step-item-achèvement-prévisionnel"
-          dateAchèvementPrévisionnelle={dateAchèvementPrévisionnelle}
-        />
-        <MiseEnServiceItem
-          key="project-step-item-mise-en-service"
-          dateMiseEnService={dateMiseEnService}
-        />
-        <AchèvementRéelleItem
-          key="project-step-item-mise-en-service"
-          dateAchèvementRéelle={dateAchèvementRéelle}
-        />
+        {étapes
+          .sort((a, b) => a.date - b.date)
+          .map((étape) =>
+            match(étape)
+              .with({ type: 'designation' }, ({ date }) => (
+                <DesignationItem
+                  key="project-step-item-designation"
+                  dateDesignation={date}
+                  identifiantProjet={identifiantProjet}
+                  isLegacy={isLegacy}
+                />
+              ))
+              .with({ type: 'achèvement-prévisionel' }, ({ date }) => (
+                <AchèvementPrévisionnelleItem
+                  key="project-step-item-achèvement-prévisionnel"
+                  dateAchèvementPrévisionnelle={date}
+                />
+              ))
+              .with({ type: 'mise-en-service' }, ({ date }) => (
+                <MiseEnServiceItem
+                  key="project-step-item-mise-en-service"
+                  dateMiseEnService={date}
+                />
+              ))
+              .with({ type: 'achèvement-réel' }, ({ date }) => (
+                <AchèvementRéelleItem
+                  key="project-step-item-mise-en-service"
+                  dateAchèvementRéelle={date}
+                />
+              ))
+              .exhaustive(),
+          )}
+
+        {!étapes.find((étape) => étape.type === 'mise-en-service') && (
+          <MiseEnServiceItem key="project-step-item-mise-en-service" />
+        )}
+
+        {!étapes.find((étape) => étape.type === 'achèvement-réel') && (
+          <AchèvementRéelleItem key="project-step-item-mise-en-service" />
+        )}
       </ol>
     </aside>
   </Section>
