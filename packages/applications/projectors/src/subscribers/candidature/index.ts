@@ -15,7 +15,6 @@ export type SubscriptionEvent = (Candidature.CandidatureEvent & Event) | Rebuild
 export type Execute = Message<'System.Projector.Candidature', SubscriptionEvent>;
 
 // pour le moment fournisseur ne fait pas parti de l'entity candidature
-// à valider
 export const register = () => {
   const handler: MessageHandler<Execute> = (event) =>
     match(event)

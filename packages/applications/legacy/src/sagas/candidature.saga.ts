@@ -48,7 +48,7 @@ export const register = () => {
     }
 
     switch (type) {
-      case 'CandidatureImportée-V1':
+      case 'CandidatureImportée-V2':
         const details = await fetchDétails(
           identifiantProjet,
           DateTime.convertirEnValueType(payload.importéLe),

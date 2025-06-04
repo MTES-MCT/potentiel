@@ -31,7 +31,8 @@ export const mapToDétailsCandidature = (
 
   for (const [key, value] of Object.entries(payload)) {
     for (const [mappedKey, mappedValue] of Object.entries(champsCsvFournisseur)) {
-      if (key === mappedValue) {
+      // on est obligé d'utiliser startsWith car les champs du CSV peuvent prendre un 1, 2, 3...
+      if (key.startsWith(mappedValue)) {
         result.push({
           typeFournisseur:
             Lauréat.Fournisseur.TypeFournisseur.convertirEnValueType(mappedKey).formatter(),
