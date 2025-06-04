@@ -21,7 +21,7 @@ import { logger } from '../../../core/utils';
 import { addQueryParams } from '../../../helpers/addQueryParams';
 
 import {
-  getAbandonStatut,
+  getAbandon,
   getAlertesRaccordement,
   getAttestationDeConformité,
   getGarantiesFinancières,
@@ -177,7 +177,7 @@ v1Router.get(
         return notFoundResponse({ request, response, ressourceTitle: 'Projet' });
       }
 
-      const abandon = await getAbandonStatut(identifiantProjetValueType);
+      const abandon = await getAbandon(identifiantProjetValueType);
 
       const raccordement = await getRaccordement({
         role,
@@ -244,7 +244,7 @@ v1Router.get(
           project,
           raccordement: mapToPlainObject(raccordement),
           alertesRaccordement,
-          abandon,
+          abandon: mapToPlainObject(abandon),
           garantiesFinancières,
           représentantLégal: await getReprésentantLégal({
             identifiantProjet: identifiantProjetValueType,

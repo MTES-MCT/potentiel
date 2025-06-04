@@ -1,7 +1,7 @@
 import React, { FC, ReactNode } from 'react';
 import { CalendarIcon, Section, CheckIcon } from '../../../components';
 import { afficherDate } from '../../../helpers';
-import { ClockIcon, DownloadLink } from '../../../components/UI';
+import { ClockIcon, DownloadLink, Link } from '../../../components/UI';
 import { Routes } from '@potentiel-applications/routes';
 import { match } from 'ts-pattern';
 
@@ -9,7 +9,12 @@ export type EtapesProjetProps = {
   identifiantProjet: string;
   isLegacy: boolean;
   étapes: Array<{
-    type: 'designation' | 'achèvement-prévisionel' | 'mise-en-service' | 'achèvement-réel';
+    type:
+      | 'designation'
+      | 'achèvement-prévisionel'
+      | 'mise-en-service'
+      | 'achèvement-réel'
+      | 'abandon';
     date: number;
   }>;
 };
@@ -38,6 +43,18 @@ export const EtapesProjet: FC<EtapesProjetProps> = ({ identifiantProjet, isLegac
                   )}
                 </ÉtapeTerminée>
               ))
+              .with({ type: 'abandon' }, ({ type, date }) => (
+                <ÉtapeTerminée
+                  isLastItem
+                  key={`project-step-${type}`}
+                  titre="Abandon accordé"
+                  date={date}
+                >
+                  <Link href={Routes.Abandon.détail(identifiantProjet)}>
+                    Voir les détails de l'abandon
+                  </Link>
+                </ÉtapeTerminée>
+              ))
               .with({ type: 'achèvement-prévisionel' }, ({ type, date }) => (
                 <ÉtapeTerminée
                   key={`project-step-${type}`}
@@ -59,20 +76,24 @@ export const EtapesProjet: FC<EtapesProjetProps> = ({ identifiantProjet, isLegac
               .exhaustive(),
           )}
 
-        {!étapes.find((étape) => étape.type === 'mise-en-service') && (
-          <ÉtapeÀTransmettre
-            isLastItem={!!étapes.find((étape) => étape.type === 'achèvement-réel')}
-            key={`project-step-mise-en-service`}
-            titre="Mise en service"
-          />
-        )}
+        {!étapes.find((étape) => étape.type === 'abandon') && (
+          <>
+            {!étapes.find((étape) => étape.type === 'mise-en-service') && (
+              <ÉtapeÀTransmettre
+                isLastItem={!!étapes.find((étape) => étape.type === 'achèvement-réel')}
+                key={`project-step-mise-en-service`}
+                titre="Mise en service"
+              />
+            )}
 
-        {!étapes.find((étape) => étape.type === 'achèvement-réel') && (
-          <ÉtapeÀTransmettre
-            isLastItem
-            key={`project-step-achèvement-réel`}
-            titre="Date d'achèvement réelle"
-          />
+            {!étapes.find((étape) => étape.type === 'achèvement-réel') && (
+              <ÉtapeÀTransmettre
+                isLastItem
+                key={`project-step-achèvement-réel`}
+                titre="Date d'achèvement réelle"
+              />
+            )}
+          </>
         )}
       </ol>
     </aside>
@@ -85,13 +106,14 @@ type ÉtapeTerminéeProps = {
   isLastItem?: boolean;
   children?: ReactNode;
 };
-const ÉtapeTerminée: FC<ÉtapeTerminéeProps> = ({ titre, date, isLastItem = false }) => {
+const ÉtapeTerminée: FC<ÉtapeTerminéeProps> = ({ titre, date, isLastItem = false, children }) => {
   return (
     <TimelineItem isLastItem={isLastItem}>
       <PastIcon />
       <ContentArea>
         <ItemDate date={date} />
         <ItemTitle title={titre} />
+        {children}
       </ContentArea>
     </TimelineItem>
   );

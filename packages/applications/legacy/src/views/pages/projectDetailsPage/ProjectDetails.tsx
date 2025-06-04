@@ -32,13 +32,13 @@ import { formatProjectDataToIdentifiantProjetValueType } from '../../../helpers/
 import * as Role from '@potentiel-domain/utilisateur/dist/role.valueType';
 import { Raccordement } from '@potentiel-domain/laureat';
 import { Option } from '@potentiel-libraries/monads';
-import { AbandonInfoBox } from './sections/AbandonInfoBox';
 import {
   DemandeImpossibleSiAbandonEnCoursInfoBox,
   DemandeImpossibleSiAchèvementInfoBox,
 } from './sections/DemandeImpossibleInfoBox';
 import { DateTime } from '@potentiel-domain/common';
 import { PlainType } from '@potentiel-domain/core';
+import { ConsulterAbandonReadModel } from '@potentiel-domain/projet/dist/lauréat/abandon';
 
 export type AlerteRaccordement =
   | 'référenceDossierManquantePourDélaiCDC2022'
@@ -49,7 +49,7 @@ type ProjectDetailsProps = {
   project: ProjectDataForProjectPage;
   raccordement: PlainType<Option.Type<Raccordement.ConsulterRaccordementReadModel>>;
   alertesRaccordement: AlerteRaccordement[];
-  abandon?: { statut: string };
+  abandon?: PlainType<ConsulterAbandonReadModel>;
   demandeRecours: ProjectDataForProjectPage['demandeRecours'];
   garantiesFinancières?: GarantiesFinancièresProjetProps['garantiesFinancières'];
   représentantLégal?: ContactProps['représentantLégal'];
@@ -91,38 +91,46 @@ export const ProjectDetails = ({
     numeroCRE: project.numeroCRE,
   }).formatter();
 
-  const abandonEnCoursOuAccordé = !!abandon && abandon.statut !== 'rejeté';
-  const abandonEnCours = abandonEnCoursOuAccordé && abandon.statut !== 'accordé';
+  const abandonEnCoursOuAccordé = !!abandon && abandon.statut.statut !== 'rejeté';
+  const abandonEnCours = abandonEnCoursOuAccordé && abandon.statut.statut !== 'accordé';
 
   const étapes: EtapesProjetProps['étapes'] = [
     {
       type: 'designation',
       date: project.notifiedOn,
     },
-    {
-      type: 'achèvement-prévisionel',
-      date: project.completionDueOn,
-    },
   ];
 
-  const dernierDossierRaccordement = Option.match(raccordement)
-    .some(({ dossiers }) => (dossiers.length > 0 ? dossiers[dossiers.length - 1] : undefined))
-    .none(() => undefined);
-
-  if (dernierDossierRaccordement?.miseEnService?.dateMiseEnService) {
+  if (abandon?.demande.accord) {
     étapes.push({
-      type: 'mise-en-service',
-      date: DateTime.bind(
-        dernierDossierRaccordement.miseEnService.dateMiseEnService,
-      ).date.getTime(),
+      type: 'abandon',
+      date: DateTime.bind(abandon.demande.accord?.accordéLe).date.getTime(),
     });
-  }
-
-  if (dateAchèvementRéelle) {
+  } else {
     étapes.push({
-      type: 'achèvement-réel',
-      date: dateAchèvementRéelle,
+      type: 'achèvement-prévisionel',
+      date: project.completionDueOn,
     });
+
+    const dernierDossierRaccordement = Option.match(raccordement)
+      .some(({ dossiers }) => (dossiers.length > 0 ? dossiers[dossiers.length - 1] : undefined))
+      .none(() => undefined);
+
+    if (dernierDossierRaccordement?.miseEnService?.dateMiseEnService) {
+      étapes.push({
+        type: 'mise-en-service',
+        date: DateTime.bind(
+          dernierDossierRaccordement.miseEnService.dateMiseEnService,
+        ).date.getTime(),
+      });
+    }
+
+    if (dateAchèvementRéelle) {
+      étapes.push({
+        type: 'achèvement-réel',
+        date: dateAchèvementRéelle,
+      });
+    }
   }
 
   return (
@@ -150,7 +158,6 @@ export const ProjectDetails = ({
       </div>
       <div className="flex flex-col gap-3 mt-5">
         <div className="print:hidden flex flex-col gap-3">
-          {abandon && <AbandonInfoBox abandon={abandon} identifiantProjet={identifiantProjet} />}
           {abandonEnCours && user.role === 'porteur-projet' && (
             <DemandeImpossibleSiAbandonEnCoursInfoBox identifiantProjet={identifiantProjet} />
           )}
