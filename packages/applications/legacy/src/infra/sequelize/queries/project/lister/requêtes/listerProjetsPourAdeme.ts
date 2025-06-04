@@ -15,7 +15,7 @@ export const listerProjetsPourAdeme: ListerProjets = async ({ pagination, filtre
       notifiedOn: { [Op.gt]: 0 },
     },
     ...mapToOffsetAndLimit(pagination),
-    attributes: allAttributes.filter((a) => a !== 'prixReference'),
+    attributes: allAttributes,
   });
 
   return makePaginatedList(getProjetsAvecAppelOffre(résultat.rows), résultat.count, pagination);

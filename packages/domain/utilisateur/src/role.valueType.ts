@@ -33,6 +33,7 @@ export type ValueType = ReadonlyValueType<{
   estDGEC(): boolean;
   estDreal(): boolean;
   estPorteur(): boolean;
+  estCaisseDesDépôts(): boolean;
 }>;
 
 export const convertirEnValueType = (value: string): ValueType => {
@@ -64,6 +65,9 @@ export const convertirEnValueType = (value: string): ValueType => {
     },
     estPorteur() {
       return this.nom === 'porteur-projet';
+    },
+    estCaisseDesDépôts() {
+      return this.nom === 'caisse-des-dépôts';
     },
   };
 };

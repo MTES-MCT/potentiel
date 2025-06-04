@@ -6,16 +6,7 @@ import { Project } from '../../../../projectionsNext';
 import { getProjetsAvecAppelOffre } from './_utils/getProjetsAvecAppelOffre';
 import { allAttributes } from './_utils';
 
-const attributes = allAttributes.filter(
-  (a) =>
-    ![
-      'prixReference',
-      'evaluationCarbone',
-      'isFinancementParticipatif',
-      'isInvestissementParticipatif',
-      'actionnariat',
-    ].includes(a),
-);
+const attributes = allAttributes.filter((a) => !['prixReference'].includes(a));
 
 export const listerProjetsPourCaisseDesDépôts: ListerProjets = async ({ pagination, filtres }) => {
   const findOptions = filtres && mapToFindOptions(filtres);

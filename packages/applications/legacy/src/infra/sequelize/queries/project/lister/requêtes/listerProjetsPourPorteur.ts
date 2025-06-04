@@ -5,31 +5,7 @@ import { mapToFindOptions } from '../../helpers/mapToFindOptions';
 import { Op } from 'sequelize';
 import { UserProjects, Project } from '../../../../projectionsNext';
 import { getProjetsAvecAppelOffre } from './_utils/getProjetsAvecAppelOffre';
-
-const attributes = [
-  'id',
-  'appelOffreId',
-  'periodeId',
-  'familleId',
-  'numeroCRE',
-  'nomProjet',
-  'potentielIdentifier',
-  'communeProjet',
-  'departementProjet',
-  'regionProjet',
-  'nomCandidat',
-  'nomRepresentantLegal',
-  'email',
-  'puissance',
-  'prixReference',
-  'evaluationCarbone',
-  'classe',
-  'abandonedOn',
-  'notifiedOn',
-  'isFinancementParticipatif',
-  'isInvestissementParticipatif',
-  'actionnariat',
-];
+import { allAttributes } from './_utils';
 
 export const listerProjetsPourPorteur: ListerProjets = async ({
   pagination,
@@ -53,7 +29,7 @@ export const listerProjetsPourPorteur: ListerProjets = async ({
       },
     ],
     ...mapToOffsetAndLimit(pagination),
-    attributes,
+    attributes: allAttributes,
   });
 
   return makePaginatedList(getProjetsAvecAppelOffre(résultat.rows), résultat.count, pagination);

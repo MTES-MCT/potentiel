@@ -18,7 +18,9 @@ export type DétailsProjetÉliminéPageProps = {
     localité: Candidature.ConsulterCandidatureReadModel['localité'];
     sociétéMère: Candidature.ConsulterCandidatureReadModel['sociétéMère'];
     emailContact: Candidature.ConsulterCandidatureReadModel['emailContact'];
-    prixReference: Candidature.ConsulterCandidatureReadModel['prixReference'];
+    prixReference?: Candidature.ConsulterCandidatureReadModel['prixReference'];
+    nomCandidat: Candidature.ConsulterCandidatureReadModel['nomCandidat'];
+    nomReprésentantLégal: Candidature.ConsulterCandidatureReadModel['nomReprésentantLégal'];
   };
   actions: Array<DétailsProjetÉliminéActions>;
 };
@@ -31,7 +33,15 @@ export type DétailsProjetÉliminéActions =
 export const DétailsProjetÉliminéPage: FC<DétailsProjetÉliminéPageProps> = ({
   identifiantProjet,
   unitéPuissance,
-  candidature: { puissanceProductionAnnuelle, localité, sociétéMère, emailContact, prixReference },
+  candidature: {
+    puissanceProductionAnnuelle,
+    localité,
+    sociétéMère,
+    emailContact,
+    prixReference,
+    nomCandidat,
+    nomReprésentantLégal,
+  },
   actions,
 }) => {
   const idProjet = IdentifiantProjet.bind(identifiantProjet).formatter();
@@ -51,12 +61,6 @@ export const DétailsProjetÉliminéPage: FC<DétailsProjetÉliminéPageProps> =
             </Heading2>
             <ul className="flex-col gap-4 mt-2">
               <li>
-                Puissance:{' '}
-                <span className="font-bold">
-                  {puissanceProductionAnnuelle} {unitéPuissance}
-                </span>
-              </li>
-              <li>
                 Site de production :{' '}
                 <span className="font-bold">
                   {localité.adresse1}
@@ -65,15 +69,30 @@ export const DétailsProjetÉliminéPage: FC<DétailsProjetÉliminéPageProps> =
                 </span>
               </li>
               <li>
-                Actionnaire : <span className="font-bold">{sociétéMère}</span>
+                Nom du représentant légal :{' '}
+                <span className="font-bold">{nomReprésentantLégal}</span>
               </li>
               <li className="flex gap-2 items-center">
                 <span>Addresse email de candidature :</span>
                 <CopyButton textToCopy={emailContact.formatter()} className="font-bold" />
               </li>
               <li>
-                Prix : <span className="font-bold">{prixReference} €/MWh</span>{' '}
+                Producteur : <span className="font-bold">{nomCandidat}</span>
               </li>
+              <li>
+                Actionnaire : <span className="font-bold">{sociétéMère}</span>
+              </li>
+              <li>
+                Puissance:{' '}
+                <span className="font-bold">
+                  {puissanceProductionAnnuelle} {unitéPuissance}
+                </span>
+              </li>
+              {prixReference && (
+                <li>
+                  Prix : <span className="font-bold">{prixReference} €/MWh</span>{' '}
+                </li>
+              )}
             </ul>
           </section>
         ),

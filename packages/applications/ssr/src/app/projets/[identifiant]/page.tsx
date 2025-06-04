@@ -4,7 +4,7 @@ import { Metadata, ResolvingMetadata } from 'next';
 
 import { Option } from '@potentiel-libraries/monads';
 import { Candidature, IdentifiantProjet, Éliminé } from '@potentiel-domain/projet';
-import { Utilisateur } from '@potentiel-domain/utilisateur';
+import { Role, Utilisateur } from '@potentiel-domain/utilisateur';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 
 import { decodeParameter } from '@/utils/decodeParameter';
@@ -14,6 +14,7 @@ import { withUtilisateur } from '@/utils/withUtilisateur';
 import {
   DétailsProjetÉliminéActions,
   DétailsProjetÉliminéPage,
+  DétailsProjetÉliminéPageProps,
 } from '@/components/pages/projet/éliminé/détails/DétailsProjetÉliminé.page';
 
 type PageProps = IdentifiantParameter;
@@ -102,7 +103,7 @@ export default async function Page({ params: { identifiant } }: PageProps) {
       return (
         <DétailsProjetÉliminéPage
           identifiantProjet={identifiantProjet}
-          candidature={candidature}
+          candidature={mapToCandidatureProps({ candidature, role: utilisateur.role })}
           unitéPuissance={appelOffre.unitePuissance}
           actions={mapToActions({
             utilisateur,
@@ -117,17 +118,43 @@ export default async function Page({ params: { identifiant } }: PageProps) {
   );
 }
 
-type MapToActionsProps = {
+type MapToCandidatureProps = (args: {
+  candidature: Candidature.ConsulterCandidatureReadModel;
+  role: Role.ValueType;
+}) => DétailsProjetÉliminéPageProps['candidature'];
+
+const mapToCandidatureProps: MapToCandidatureProps = ({
+  candidature: {
+    nomCandidat,
+    emailContact,
+    localité,
+    nomReprésentantLégal,
+    sociétéMère,
+    prixReference,
+    puissanceProductionAnnuelle,
+  },
+  role,
+}) => ({
+  localité,
+  nomCandidat,
+  emailContact,
+  nomReprésentantLégal,
+  sociétéMère,
+  prixReference: role.estCaisseDesDépôts() ? undefined : prixReference,
+  puissanceProductionAnnuelle,
+});
+
+type MapToActions = (args: {
   utilisateur: Utilisateur.ValueType;
   demandeRecoursEnCours: Option.Type<Éliminé.Recours.ConsulterRecoursReadModel>;
   changementDeCahierDesChargeNécessairePourDemanderUnRecours: boolean;
-};
+}) => Array<DétailsProjetÉliminéActions>;
 
-const mapToActions = ({
+const mapToActions: MapToActions = ({
   utilisateur,
   demandeRecoursEnCours,
   changementDeCahierDesChargeNécessairePourDemanderUnRecours,
-}: MapToActionsProps) => {
+}) => {
   const actions: Array<DétailsProjetÉliminéActions> = [];
 
   if (
