@@ -14,7 +14,8 @@ export type EtapesProjetProps = {
       | 'achèvement-prévisionel'
       | 'mise-en-service'
       | 'achèvement-réel'
-      | 'abandon';
+      | 'abandon'
+      | 'recours';
     date: number;
   }>;
 };
@@ -40,6 +41,13 @@ export const EtapesProjet: FC<EtapesProjetProps> = ({ identifiantProjet, isLegac
                       Télécharger attestation
                     </DownloadLink>
                   )}
+                </ÉtapeTerminée>
+              ))
+              .with({ type: 'recours' }, ({ type, date }) => (
+                <ÉtapeTerminée key={`project-step-${type}`} titre="Recours accordé" date={date}>
+                  <Link href={Routes.Recours.détail(identifiantProjet)}>
+                    Voir les détails du recours
+                  </Link>
                 </ÉtapeTerminée>
               ))
               .with({ type: 'abandon' }, ({ type, date }) => (

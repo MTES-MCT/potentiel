@@ -239,19 +239,21 @@ v1Router.get(
       const demandeNécessiteInstructionPourActionnaire =
         role.estÉgaleÀ(Role.porteur) && instructionChangementActionnaire.estRequise();
 
+      const recours = await getRecours(identifiantProjetValueType);
+
       return response.send(
         ProjectDetailsPage({
           request,
           project,
           raccordement: mapToPlainObject(raccordement),
           alertesRaccordement,
-          abandon: abandon ? mapToPlainObject(abandon) : undefined,
+          abandon: abandon && mapToPlainObject(abandon),
           garantiesFinancières,
           représentantLégal: await getReprésentantLégal({
             identifiantProjet: identifiantProjetValueType,
             rôle: user.role,
           }),
-          demandeRecours: await getRecours(identifiantProjetValueType),
+          demandeRecours: recours && mapToPlainObject(recours),
           actionnaire: await getActionnaire({
             identifiantProjet: identifiantProjetValueType,
             rôle: user.role,

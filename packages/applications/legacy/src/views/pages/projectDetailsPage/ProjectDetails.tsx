@@ -39,6 +39,7 @@ import {
 import { DateTime } from '@potentiel-domain/common';
 import { PlainType } from '@potentiel-domain/core';
 import { ConsulterAbandonReadModel } from '@potentiel-domain/projet/dist/lauréat/abandon';
+import { ConsulterRecoursReadModel } from '@potentiel-domain/projet/dist/éliminé/recours';
 
 export type AlerteRaccordement =
   | 'référenceDossierManquantePourDélaiCDC2022'
@@ -50,7 +51,7 @@ type ProjectDetailsProps = {
   raccordement: PlainType<Option.Type<Raccordement.ConsulterRaccordementReadModel>>;
   alertesRaccordement: AlerteRaccordement[];
   abandon?: PlainType<ConsulterAbandonReadModel>;
-  demandeRecours: ProjectDataForProjectPage['demandeRecours'];
+  demandeRecours?: PlainType<ConsulterRecoursReadModel>;
   garantiesFinancières?: GarantiesFinancièresProjetProps['garantiesFinancières'];
   représentantLégal?: ContactProps['représentantLégal'];
   actionnaire?: InfoGeneralesProps['actionnaire'];
@@ -107,6 +108,13 @@ export const ProjectDetails = ({
       date: DateTime.bind(abandon.demande.accord?.accordéLe).date.getTime(),
     });
   } else {
+    if (demandeRecours?.demande.accord) {
+      étapes.push({
+        type: 'recours',
+        date: DateTime.bind(demandeRecours.demande.accord?.accordéLe).date.getTime(),
+      });
+    }
+
     étapes.push({
       type: 'achèvement-prévisionel',
       date: project.completionDueOn,
@@ -146,7 +154,7 @@ export const ProjectDetails = ({
         abandonEnCoursOuAccordé={abandonEnCoursOuAccordé}
         modificationsNonPermisesParLeCDCActuel={modificationsNonPermisesParLeCDCActuel}
         estAchevé={estAchevé}
-        demandeRecours={demandeRecours}
+        demandeRecours={demandeRecours && { statut: demandeRecours.statut.value }}
         représentantLégalAffichage={représentantLégal?.affichage}
         puissanceAffichage={puissance?.affichage}
         actionnaireAffichage={actionnaire?.affichage}
@@ -202,7 +210,7 @@ export const ProjectDetails = ({
               project={project}
               role={Role.convertirEnValueType(user.role)}
               raccordement={raccordement}
-              demandeRecours={demandeRecours}
+              demandeRecours={demandeRecours && { statut: demandeRecours.statut.value }}
               garantiesFinancières={garantiesFinancières}
               actionnaire={actionnaire}
               puissance={puissance}
