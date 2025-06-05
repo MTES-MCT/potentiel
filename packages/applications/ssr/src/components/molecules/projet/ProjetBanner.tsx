@@ -17,14 +17,17 @@ import { ProjetBannerTemplate } from './ProjetBanner.template';
 
 export type ProjetBannerProps = {
   identifiantProjet: string;
+  noLink?: true;
 };
 
-export const ProjetBanner: FC<ProjetBannerProps> = async ({ identifiantProjet }) => {
-  return withUtilisateur(async ({ role }) => {
+export const ProjetBanner: FC<ProjetBannerProps> = async ({ identifiantProjet, noLink }) =>
+  withUtilisateur(async ({ role }) => {
     const projet = await getProjet(identifiantProjet);
+
     if (!projet) {
       return notFound();
     }
+
     const { nomProjet, localité, notifiéLe, statut } = projet;
 
     return (
@@ -35,17 +38,16 @@ export const ProjetBanner: FC<ProjetBannerProps> = async ({ identifiantProjet })
         /***
          * @todo changer le check du rôle quand la page projet sera matérialisée dans le SSR (utiliser role.aLaPermissionDe)
          */
-        href={role.estÉgaleÀ(Role.grd) ? undefined : Routes.Projet.details(identifiantProjet)}
+        href={
+          noLink || role.estÉgaleÀ(Role.grd) ? undefined : Routes.Projet.details(identifiantProjet)
+        }
         identifiantProjet={IdentifiantProjet.convertirEnValueType(identifiantProjet)}
         nom={nomProjet}
       />
     );
   });
-};
 
-const getProjet = async (
-  identifiantProjet: string,
-): Promise<
+type GetProjet = (identifiantProjet: string) => Promise<
   | {
       nomProjet: string;
       localité: Candidature.ConsulterCandidatureReadModel['localité'];
@@ -53,7 +55,9 @@ const getProjet = async (
       statut: StatutProjet.RawType;
     }
   | undefined
-> => {
+>;
+
+const getProjet: GetProjet = async (identifiantProjet) => {
   const lauréat = await mediator.send<Lauréat.ConsulterLauréatQuery>({
     type: 'Lauréat.Query.ConsulterLauréat',
     data: {

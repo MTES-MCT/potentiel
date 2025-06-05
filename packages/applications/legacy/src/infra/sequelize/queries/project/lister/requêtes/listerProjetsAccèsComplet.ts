@@ -1,32 +1,9 @@
-import { getProjectAppelOffre } from '../../../../../../config/queryProjectAO.config';
 import { ListerProjets } from '../../../../../../modules/project/queries';
 import { Project } from '../../../../projectionsNext';
 import { makePaginatedList, mapToOffsetAndLimit } from '../../../pagination';
 import { mapToFindOptions } from '../../helpers/mapToFindOptions';
 
-const attributes = [
-  'id',
-  'appelOffreId',
-  'periodeId',
-  'familleId',
-  'nomProjet',
-  'potentielIdentifier',
-  'communeProjet',
-  'departementProjet',
-  'regionProjet',
-  'nomCandidat',
-  'nomRepresentantLegal',
-  'email',
-  'puissance',
-  'prixReference',
-  'evaluationCarbone',
-  'classe',
-  'abandonedOn',
-  'notifiedOn',
-  'isFinancementParticipatif',
-  'isInvestissementParticipatif',
-  'actionnariat',
-];
+import { getProjetsAvecAppelOffre, allAttributes } from './_utils';
 
 export const listerProjetsAccèsComplet: ListerProjets = async ({ pagination, filtres }) => {
   const findOptions = filtres && mapToFindOptions(filtres);
@@ -36,33 +13,8 @@ export const listerProjetsAccèsComplet: ListerProjets = async ({ pagination, fi
       ...findOptions?.where,
     },
     ...mapToOffsetAndLimit(pagination),
-    attributes,
+    attributes: allAttributes,
   });
 
-  const projetsAvecAppelOffre = résultat.rows.reduce((prev, current) => {
-    const { appelOffreId, periodeId, familleId, ...projet } = current.get();
-    const appelOffre = getProjectAppelOffre({
-      appelOffreId,
-      periodeId,
-      familleId,
-    });
-
-    return [
-      ...prev,
-      {
-        ...projet,
-        ...(appelOffre && {
-          appelOffre: {
-            type: appelOffre.typeAppelOffre,
-            unitePuissance: appelOffre.unitePuissance,
-            periode: appelOffre.periode,
-            changementProducteurPossibleAvantAchèvement:
-              appelOffre.changementProducteurPossibleAvantAchèvement,
-          },
-        }),
-      },
-    ];
-  }, []);
-
-  return makePaginatedList(projetsAvecAppelOffre, résultat.count, pagination);
+  return makePaginatedList(getProjetsAvecAppelOffre(résultat.rows), résultat.count, pagination);
 };

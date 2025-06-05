@@ -6,8 +6,6 @@ import { AppelOffre } from '@potentiel-domain/appel-offre';
 
 import {
   ProjectList,
-  PrimaryButton,
-  Input,
   Label,
   Heading1,
   ListeVide,
@@ -18,7 +16,6 @@ import {
   ArrowRightIcon,
   BarreDeRecherche,
   Accordeon,
-  Dropdown,
   SecondaryLinkButton,
   PageListeTemplate,
 } from '../components';

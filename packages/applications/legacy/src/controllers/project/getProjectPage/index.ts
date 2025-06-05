@@ -16,7 +16,7 @@ import {
 import safeAsyncHandler from '../../helpers/safeAsyncHandler';
 import { v1Router } from '../../v1Router';
 
-import { IdentifiantProjet, StatutProjet } from '@potentiel-domain/common';
+import { StatutProjet } from '@potentiel-domain/common';
 import { logger } from '../../../core/utils';
 import { addQueryParams } from '../../../helpers/addQueryParams';
 
@@ -36,7 +36,8 @@ import { getPuissance } from './_utils/getPuissance';
 import { getProducteur } from './_utils/getProducteur';
 import { getCandidature } from './_utils/getCandidature';
 import { Actionnaire } from '@potentiel-domain/laureat';
-import { Candidature } from '@potentiel-domain/projet';
+import { Candidature, IdentifiantProjet, Éliminé } from '@potentiel-domain/projet';
+import { Routes } from '@potentiel-applications/routes';
 
 const schema = yup.object({
   params: yup.object({ projectId: yup.string().required() }),
@@ -132,6 +133,24 @@ v1Router.get(
       const identifiantProjetValueType = IdentifiantProjet.convertirEnValueType(
         `${project.appelOffreId}#${project.periodeId}#${project.familleId}#${project.numeroCRE}`,
       );
+
+      /**
+       * Redirection vers la page de candidature si projet non désigné
+       */
+      if (project.notifiedOn === 0) {
+        return response.redirect(
+          Routes.Candidature.détails(identifiantProjetValueType.formatter()),
+        );
+      }
+
+      /**
+       * Redirection vers la page éliminé dans la nouvelle application
+       */
+      if (!project.isClasse) {
+        return response.redirect(
+          Routes.Projet.détailsÉliminé(identifiantProjetValueType.formatter()),
+        );
+      }
 
       const rawProjectEventList = await getProjectEvents({ projectId: project.id, user });
 
