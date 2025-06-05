@@ -137,7 +137,7 @@ v1Router.get(
       );
 
       /**
-       * Redirection vers la page de candidature si le projet non désigné et si l'utilisateur a la droit de consulter la candidature, page not found sinon
+       * Redirection vers la page de candidature si le projet non désigné et si l'utilisateur a la droit de consulter la candidature, page unauthorized sinon
        */
       if (!project.notifiedOn) {
         const candidature = await mediator.send<Candidature.ConsulterCandidatureQuery>({
