@@ -5,13 +5,16 @@ import {
   createHistoryProjection,
   removeHistoryProjection,
 } from '@potentiel-infrastructure/pg-projection-write';
-import { Actionnaire } from '@potentiel-domain/laureat';
+import { Actionnaire, ReprésentantLégal } from '@potentiel-domain/laureat';
 import { Lauréat, Éliminé } from '@potentiel-domain/projet';
 
 export type SubscriptionEvent =
   | (Lauréat.Abandon.AbandonEvent & Event)
   | (Éliminé.Recours.RecoursEvent & Event)
   | (Actionnaire.ActionnaireEvent & Event)
+  | (ReprésentantLégal.ReprésentantLégalEvent & Event)
+  | (Lauréat.Puissance.PuissanceEvent & Event)
+  | (Lauréat.Producteur.ProducteurEvent & Event)
   | RebuildTriggered;
 
 export type Execute = Message<'System.Projector.Historique', SubscriptionEvent>;
