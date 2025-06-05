@@ -41,6 +41,7 @@ export const candidatureImportéeV1Projector = async ({
     notification: undefined,
     misÀJourLe: payload.importéLe,
     détailsMisÀJourLe: payload.importéLe,
+    // la valeur est mise à jour avec le projector détailsFournisseursCandidatureImportés
     fournisseurs: [],
   };
 
