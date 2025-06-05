@@ -47,7 +47,7 @@
     "morgan": "^1.10.0",
     "multer": "^2.0.0",
     "neverthrow": "^6.2.2",
-    "next": "^14.2.28",
+    "next": "^15.3.3",
     "node-mailjet": "^6.0.8",
     "pg-connection-string": "^2.7.0",
     "querystring": "^0.2.1",
