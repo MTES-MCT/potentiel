@@ -1199,6 +1199,13 @@ const policies = {
     },
   },
   projet: {
+    header: {
+      consulter: [
+        référencielPermissions.lauréat.query.consulter,
+        référencielPermissions.candidature.query.consulterCandidature,
+        référencielPermissions.lauréat.abandon.query.consulter,
+      ],
+    },
     accèsDonnées: {
       prix: [],
     },

@@ -135,12 +135,18 @@ v1Router.get(
       );
 
       /**
-       * Redirection vers la page de candidature si projet non désigné
+       * Redirection vers la page de candidature si le projet non désigné et si l'utilisateur a la droit de consulter la candidature, page not sinon
        */
       if (project.notifiedOn === 0) {
-        return response.redirect(
-          Routes.Candidature.détails(identifiantProjetValueType.formatter()),
-        );
+        const rôle = Role.convertirEnValueType(user.role);
+
+        if (rôle.aLaPermission('candidature.consulter')) {
+          return response.redirect(
+            Routes.Candidature.détails(identifiantProjetValueType.formatter()),
+          );
+        }
+
+        return notFoundResponse({ request, response, ressourceTitle: 'Projet' });
       }
 
       /**
