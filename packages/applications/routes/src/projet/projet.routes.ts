@@ -2,7 +2,7 @@ import { encodeParameter } from '../encodeParameter';
 
 /**
  *
- * @deprecated Lien vers la page lauréat legacy
+ * @deprecated Lien vers la page projet legacy
  */
 export const details = (identifiantProjet: string) => {
   const url = `/projet/${encodeParameter(identifiantProjet)}/details.html`;
