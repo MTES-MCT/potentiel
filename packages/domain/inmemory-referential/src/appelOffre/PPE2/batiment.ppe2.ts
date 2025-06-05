@@ -46,7 +46,7 @@ export const batimentPPE2: AppelOffre.AppelOffreReadModel = {
   cahiersDesChargesUrl:
     'https://www.cre.fr/documents/Appels-d-offres/appel-d-offres-portant-sur-la-realisation-et-l-exploitation-d-installations-de-production-d-electricite-a-partir-de-l-energie-solaire-centrales-s2',
   technologie: 'pv',
-  unitePuissance: 'MW',
+  unitePuissance: 'MWc',
   delaiRealisationEnMois: 30,
   autoritéCompétenteDemandesDélai: 'dreal',
   decoupageParTechnologie: false,
@@ -113,6 +113,8 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       cahierDesCharges: {
         référence: '2021 S 176-457518',
       },
+      // Les périodes 1 à 10 ont utilisé MW
+      unitéPuissance: 'MW',
       delaiDcrEnMois: { valeur: 3, texte: 'trois' },
       familles: [],
       noteThresholdBy: 'category',
@@ -158,6 +160,8 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       cahierDesCharges: {
         référence: '2022 S 020-047803',
       },
+      // Les périodes 1 à 10 ont utilisé MW
+      unitéPuissance: 'MW',
       delaiDcrEnMois: { valeur: 3, texte: 'trois' },
       familles: [],
       noteThresholdBy: 'category',
@@ -204,6 +208,8 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       cahierDesCharges: {
         référence: '2022 S 093-254888',
       },
+      // Les périodes 1 à 10 ont utilisé MW
+      unitéPuissance: 'MW',
       delaiDcrEnMois: { valeur: 3, texte: 'trois' },
       familles: [],
       noteThresholdBy: 'category',
@@ -243,6 +249,8 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       cahierDesCharges: {
         référence: '2022 S 216-620968',
       },
+      // Les périodes 1 à 10 ont utilisé MW
+      unitéPuissance: 'MW',
       delaiDcrEnMois: { valeur: 3, texte: 'trois' },
       familles: [],
       noteThresholdBy: 'category',
@@ -270,6 +278,8 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       cahierDesCharges: {
         référence: '2023 S 071-217458',
       },
+      // Les périodes 1 à 10 ont utilisé MW
+      unitéPuissance: 'MW',
       delaiDcrEnMois: { valeur: 3, texte: 'trois' },
       familles: [],
       noteThresholdBy: 'category',
@@ -308,6 +318,8 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       cahierDesCharges: {
         référence: '2023/S 217-683937',
       },
+      // Les périodes 1 à 10 ont utilisé MW
+      unitéPuissance: 'MW',
       delaiDcrEnMois: { valeur: 3, texte: 'trois' },
       familles: [],
       noteThresholdBy: 'category',
@@ -346,6 +358,8 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       cahierDesCharges: {
         référence: '2024 S 061-179441',
       },
+      // Les périodes 1 à 10 ont utilisé MW
+      unitéPuissance: 'MW',
       delaiDcrEnMois: { valeur: 3, texte: 'trois' },
       familles: [],
       noteThresholdBy: 'category',
@@ -384,6 +398,8 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       cahierDesCharges: {
         référence: '2024 S 420503-2024',
       },
+      // Les périodes 1 à 10 ont utilisé MW
+      unitéPuissance: 'MW',
       delaiDcrEnMois: { valeur: 3, texte: 'trois' },
       familles: [],
       noteThresholdBy: 'category',
@@ -424,6 +440,8 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       cahierDesCharges: {
         référence: '2024/S 214-669140',
       },
+      // Les périodes 1 à 10 ont utilisé MW
+      unitéPuissance: 'MW',
       delaiDcrEnMois: { valeur: 3, texte: 'trois' },
       familles: [],
       noteThresholdBy: 'category',
@@ -463,6 +481,8 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       cahierDesCharges: {
         référence: '2025/S 28-88409',
       },
+      // Les périodes 1 à 10 ont utilisé MW
+      unitéPuissance: 'MW',
       delaiDcrEnMois: { valeur: 3, texte: 'trois' },
       familles: [],
       noteThresholdBy: 'category',
@@ -495,5 +515,6 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       addendums: addendumPériode8EtSuivantes,
       choixCoefficientKDisponible: true,
     },
+    // ℹ️ penser à retirer l'unité de puissance pour la prochaine période (utiliser celle par défaut de l'AO)
   ],
 };

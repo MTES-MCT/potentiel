@@ -71,9 +71,9 @@ export const autoconsommationMetropolePPE2: AppelOffre.AppelOffreReadModel = {
   launchDate: 'Août 2021',
   cahiersDesChargesUrl:
     'https://www.cre.fr/documents/Appels-d-offres/appel-d-offres-portant-sur-la-realisation-et-l-exploitation-d-installations-de-production-d-electricite-a-partir-d-energies-renouvelables-en-autoco3',
+  // dans les faits, seulement PV pour le moment (P1 à 4), mais théoriquement possible
   multiplesTechnologies: true,
-  unitePuissance: 'MW',
-  // unitePuissance: { eolien: 'MW', hydraulique: 'MW', pv: 'MWc' },
+  unitePuissance: { eolien: 'MW', hydraulique: 'MW', pv: 'MWc' },
   autoritéCompétenteDemandesDélai: 'dreal',
   delaiRealisationEnMoisParTechnologie: { eolien: 36, pv: 30, hydraulique: 0 },
   decoupageParTechnologie: true,
@@ -157,6 +157,8 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
     {
       id: '1',
       title: 'première',
+      // Les périodes 1 à 4 ont utilisé MW pour PV
+      unitéPuissance: 'MW',
       certificateTemplate: 'ppe2.v1',
       cahierDesCharges: {
         référence: '2021 S 176-457526',
@@ -174,6 +176,8 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
     {
       id: '2',
       title: 'deuxième',
+      // Les périodes 1 à 4 ont utilisé MW pour PV
+      unitéPuissance: 'MW',
       certificateTemplate: 'ppe2.v1',
       cahierDesCharges: {
         référence: '2022 S 038 098159',
@@ -191,6 +195,8 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
     {
       id: '3',
       title: 'troisième',
+      // Les périodes 1 à 4 ont utilisé MW pour PV
+      unitéPuissance: 'MW',
       certificateTemplate: 'ppe2.v2',
       logo: 'MEFSIN',
       cahierDesCharges: {
@@ -209,6 +215,8 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
     {
       id: '4',
       title: 'quatrième',
+      // Les périodes 1 à 4 ont utilisé MW pour PV
+      unitéPuissance: 'MW',
       certificateTemplate: 'ppe2.v2',
       logo: 'MEFSIN',
       cahierDesCharges: {
@@ -224,5 +232,6 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       },
     },
     // ℹ️ penser à mettre à jour le logo pour la prochaine période
+    // ℹ️ penser à retirer l'unité de puissance pour la prochaine période (utiliser celle par défaut de l'AO)
   ],
 };
