@@ -60,6 +60,10 @@ curl "https://awscli.amazonaws.com/awscli-exe-linux-x86_64.zip" -o "awscliv2.zip
 unzip awscliv2.zip
 ./aws/install -i ~/aws-cli -b ~/aws-cli/bin
 
+# https://docs.outscale.com/en/userguide/AWS-SDK-and-CLI-Compatibility-Warning.html#_workarounds
+export AWS_REQUEST_CHECKSUM_CALCULATION=WHEN_REQUIRED
+export AWS_RESPONSE_CHECKSUM_VALIDATION=WHEN_REQUIRED
+
 cd ~/aws-cli/bin
 
 ./aws configure set aws_access_key_id $AWS_ACCESS_KEY_ID
