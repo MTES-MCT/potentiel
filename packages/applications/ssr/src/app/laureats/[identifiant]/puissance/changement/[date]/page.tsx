@@ -80,7 +80,7 @@ export default async function Page({ params: { identifiant, date } }: PageProps)
           identifiantProjet={mapToPlainObject(identifiantProjet)}
           demande={mapToPlainObject(changement.demande)}
           puissanceInitiale={candidature.puissanceProductionAnnuelle}
-          unitéPuissance={puissance.unitéPuissance}
+          unitéPuissance={candidature.unitéPuissance}
           historique={mapToPlainObject(historique)}
           actions={mapToActions(
             changement.demande.statut,

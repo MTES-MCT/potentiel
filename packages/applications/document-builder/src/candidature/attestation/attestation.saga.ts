@@ -4,8 +4,8 @@ import { DocumentProjet, EnregistrerDocumentProjetCommand } from '@potentiel-dom
 import { getLogger } from '@potentiel-libraries/monitoring';
 import { Option } from '@potentiel-libraries/monads';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
-import { Email, IdentifiantProjet } from '@potentiel-domain/common';
-import { Candidature } from '@potentiel-domain/projet';
+import { Email } from '@potentiel-domain/common';
+import { Candidature, IdentifiantProjet } from '@potentiel-domain/projet';
 
 import { buildCertificate, BuildCertificateProps } from './buildCertificate';
 
@@ -123,7 +123,7 @@ export const register = () => {
           );
           return;
         }
-        const candidatureCorrigée = mapCorrectionToCandidature(payload);
+        const candidatureCorrigée = mapCorrectionToCandidature(payload, appelOffre);
 
         const {
           notification: {
@@ -169,6 +169,7 @@ export const register = () => {
 
 const mapCorrectionToCandidature = (
   payload: Candidature.CandidatureCorrigéeEvent['payload'],
+  appelOffres: AppelOffre.AppelOffreReadModel,
 ): BuildCertificateProps['candidature'] => ({
   emailContact: Email.convertirEnValueType(payload.emailContact),
   evaluationCarboneSimplifiée: payload.evaluationCarboneSimplifiée,
@@ -188,4 +189,9 @@ const mapCorrectionToCandidature = (
     ? Candidature.TypeActionnariat.convertirEnValueType(payload.actionnariat)
     : undefined,
   coefficientKChoisi: payload.coefficientKChoisi,
+  unitéPuissance: Candidature.UnitéPuissance.bind({
+    appelOffres,
+    période: IdentifiantProjet.convertirEnValueType(payload.identifiantProjet).période,
+    technologie: payload.technologie,
+  }),
 });

@@ -11,6 +11,7 @@ import { decodeParameter } from '@/utils/decodeParameter';
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
 import { ModifierPuissancePage } from '@/components/pages/puissance/modifier/ModifierPuissance.page';
+import { getCandidature } from '@/app/candidatures/_helpers/getCandidature';
 
 export const metadata: Metadata = {
   title: 'Changement de puissance du projet - Potentiel',
@@ -28,6 +29,8 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
       },
     });
 
+    const candidature = await getCandidature(identifiantProjet.formatter());
+
     if (Option.isNone(puissance)) {
       return notFound();
     }
@@ -36,7 +39,7 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
       <ModifierPuissancePage
         identifiantProjet={mapToPlainObject(identifiantProjet)}
         puissance={puissance.puissance}
-        unitéPuissance={puissance.unitéPuissance}
+        unitéPuissance={candidature.unitéPuissance}
       />
     );
   });

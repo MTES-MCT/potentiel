@@ -175,7 +175,7 @@ export type Periode = {
   type?: 'legacy';
   title: string;
   /** Surcharge l'unité de puissance par défaut définie dans l'AO, même si elle est définie par technologie */
-  unitéPuissance?: string;
+  unitéPuissance?: UnitéPuissance;
   donnéesCourriersRéponse?: Partial<DonnéesCourriersRéponse>;
   /**
    * Permet de modifier le paragraphe engagement IPFPGPFC, configuré dans l'AO

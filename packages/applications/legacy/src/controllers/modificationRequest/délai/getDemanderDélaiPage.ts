@@ -8,6 +8,7 @@ import { v1Router } from '../../v1Router';
 
 import { DemanderDelaiPage } from '../../../views';
 import { Project } from '../../../infra/sequelize/projectionsNext';
+import { Candidature } from '@potentiel-domain/projet';
 
 v1Router.get(
   routes.DEMANDER_DELAI(),
@@ -65,7 +66,11 @@ v1Router.get(
         request,
         project: {
           ...project.get(),
-          unitePuissance: appelOffre.unitePuissance,
+          unitePuissance: Candidature.UnitéPuissance.bind({
+            appelOffres: appelOffre,
+            période: periodeId,
+            technologie: project.technologie ?? 'N/A',
+          }).formatter(),
           cahiersDesChargesUrl: appelOffre.cahiersDesChargesUrl,
         },
         appelOffre,

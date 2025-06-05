@@ -106,7 +106,11 @@ export const mapToDélaiModèleRéponseProps = ({
       période?.familles.find((famille) => famille.id === identifiantProjet.famille)?.id || '',
     titrePeriode: période?.title || '',
     puissance: puissanceActuelle.toString(),
-    unitePuissance: appelOffres.unitePuissance,
+    unitePuissance: Candidature.UnitéPuissance.bind({
+      appelOffres,
+      période: identifiantProjet.période,
+      technologie: candidature.technologie.formatter(),
+    }).formatter(),
 
     // Demande
     dateDemande: formatDateForDocument(dateDemande),

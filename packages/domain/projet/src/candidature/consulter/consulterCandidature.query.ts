@@ -14,6 +14,7 @@ import * as TypeActionnariat from '../typeActionnariat.valueType';
 import * as HistoriqueAbandon from '../historiqueAbandon.valueType';
 import { IdentifiantProjet } from '../..';
 import { TypeFournisseur } from '../../lauréat/fournisseur';
+import { UnitéPuissance } from '..';
 
 export type ConsulterCandidatureReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
@@ -58,6 +59,8 @@ export type ConsulterCandidatureReadModel = {
     validateur: AppelOffre.Validateur;
     attestation?: DocumentProjet.ValueType;
   };
+
+  unitéPuissance: UnitéPuissance.ValueType;
 };
 
 export type ConsulterCandidatureQuery = Message<
@@ -74,45 +77,55 @@ export type ConsulterCandidatureDependencies = {
 
 export const registerConsulterCandidatureQuery = ({ find }: ConsulterCandidatureDependencies) => {
   const handler: MessageHandler<ConsulterCandidatureQuery> = async ({ identifiantProjet }) => {
-    const result = await find<CandidatureEntity>(`candidature|${identifiantProjet}`);
+    const candidature = await find<CandidatureEntity>(`candidature|${identifiantProjet}`);
 
-    if (Option.isNone(result)) {
-      return result;
+    if (Option.isNone(candidature)) {
+      return Option.none;
+    }
+    const appelOffres = await find<AppelOffre.AppelOffreEntity>(
+      `appel-offre|${candidature.appelOffre}`,
+    );
+    if (Option.isNone(appelOffres)) {
+      return Option.none;
     }
 
-    return mapToReadModel(result);
+    return mapToReadModel(candidature, appelOffres);
   };
 
   mediator.register('Candidature.Query.ConsulterCandidature', handler);
 };
 
-export const mapToReadModel = ({
-  identifiantProjet,
-  statut,
-  typeGarantiesFinancières,
-  historiqueAbandon,
-  technologie,
-  dateÉchéanceGf,
-  nomProjet,
-  localité,
-  nomCandidat,
-  nomReprésentantLégal,
-  emailContact,
-  puissanceProductionAnnuelle,
-  prixReference,
-  sociétéMère,
-  noteTotale,
-  motifÉlimination,
-  puissanceALaPointe,
-  evaluationCarboneSimplifiée,
-  actionnariat,
-  territoireProjet,
-  coefficientKChoisi,
-  misÀJourLe,
-  détailsMisÀJourLe,
-  notification,
-  fournisseurs,
-}: CandidatureEntity): ConsulterCandidatureReadModel => ({
+export const mapToReadModel = (
+  {
+    identifiantProjet,
+    statut,
+    typeGarantiesFinancières,
+    historiqueAbandon,
+    technologie,
+    dateÉchéanceGf,
+    nomProjet,
+    localité,
+    nomCandidat,
+    nomReprésentantLégal,
+    emailContact,
+    puissanceProductionAnnuelle,
+    prixReference,
+    sociétéMère,
+    noteTotale,
+    motifÉlimination,
+    puissanceALaPointe,
+    evaluationCarboneSimplifiée,
+    actionnariat,
+    territoireProjet,
+    coefficientKChoisi,
+    misÀJourLe,
+    détailsMisÀJourLe,
+    notification,
+    période,
+    fournisseurs,
+  }: CandidatureEntity,
+  appelOffres: AppelOffre.AppelOffreEntity,
+): ConsulterCandidatureReadModel => ({
   identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
   statut: StatutCandidature.convertirEnValueType(statut),
   historiqueAbandon: HistoriqueAbandon.convertirEnValueType(historiqueAbandon),
@@ -160,4 +173,5 @@ export const mapToReadModel = ({
         notification.attestation.format,
       ),
   },
+  unitéPuissance: UnitéPuissance.bind({ appelOffres, période, technologie }),
 });

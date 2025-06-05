@@ -51,6 +51,7 @@ const fakeProject = {
   puissance: 42,
   potentielId: 'potentielId',
   technologie: 'N/A',
+  unitePuissance: 'MW',
   coefficientKChoisi: undefined,
 } satisfies AttestationPPE2V2Options;
 
