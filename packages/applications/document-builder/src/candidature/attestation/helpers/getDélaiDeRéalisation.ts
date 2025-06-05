@@ -1,8 +1,9 @@
 import { AppelOffre } from '@potentiel-domain/appel-offre';
+import { Candidature } from '@potentiel-domain/projet';
 
 export const getDelaiDeRealisation = (
   appelOffre: AppelOffre.AppelOffreReadModel,
-  technologie: AppelOffre.Technologie,
+  technologie: Candidature.TypeTechnologie.RawType,
 ): number | null => {
   if (appelOffre.decoupageParTechnologie) {
     if (technologie === 'N/A') {

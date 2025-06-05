@@ -58,7 +58,7 @@ export const getProjectInfoForModificationReceivedNotification: GetProjectInfoFo
         puissanceInitiale,
         cahierDesChargesActuel,
         evaluationCarboneDeRéférence,
-        technologie: technologie && isTechnologie(technologie) ? technologie : 'N/A',
+        technologie: technologie && isTechnologie(technologie) ? technologie : ('N/A' as const),
         appelOffreId,
         periodeId,
         familleId,

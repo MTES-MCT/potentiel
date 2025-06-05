@@ -69,6 +69,7 @@ export const innovation: AppelOffre.AppelOffreReadModel = {
   launchDate: 'mars 2017',
   cahiersDesChargesUrl:
     'https://www.cre.fr/documents/Appels-d-offres/appel-d-offres-portant-sur-la-realisation-et-l-exploitation-d-installations-de-production-d-electricite-innovantes-a-partir-de-l-energie-solaire',
+  technologie: 'pv',
   unitePuissance: 'MWc',
   delaiRealisationEnMois: 24,
   autoritéCompétenteDemandesDélai: 'dreal',

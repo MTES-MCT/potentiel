@@ -47,6 +47,7 @@ export const zni2017: AppelOffre.AppelOffreReadModel = {
   launchDate: 'mai 2015',
   cahiersDesChargesUrl:
     'https://www.cre.fr/documents/Appels-d-offres/appel-d-offres-portant-sur-la-realisation-et-l-exploitation-d-installations-de-production-d-electricite-a-partir-de-techniques-de-conversion-du-ray2',
+  technologie: 'pv',
   unitePuissance: 'MWc',
   delaiRealisationEnMois: 36,
   autoritéCompétenteDemandesDélai: 'dreal',

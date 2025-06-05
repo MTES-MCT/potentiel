@@ -55,7 +55,9 @@ export const innovationPPE2: AppelOffre.AppelOffreReadModel = {
   launchDate: 'Août 2021',
   cahiersDesChargesUrl:
     'https://www.cre.fr/documents/Appels-d-offres/appel-d-offres-portant-sur-la-realisation-et-l-exploitation-d-installations-de-production-d-electricite-innovantes-a-partir-de-l-energie-solaire-sa',
+  multiplesTechnologies: true,
   unitePuissance: 'MW',
+  // unitePuissance: { eolien: 'MW', hydraulique: 'MW', pv: 'MWc' },
   autoritéCompétenteDemandesDélai: 'dreal',
   delaiRealisationEnMois: 30,
   delaiRealisationTexte: 'trente (30) mois',

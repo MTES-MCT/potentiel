@@ -1,6 +1,7 @@
 import { BaseDomainEvent, DomainEvent } from '../../../core/domain';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { DésignationCatégorie, HistoriqueAbandon } from '../types';
+import { Candidature } from '@potentiel-domain/projet';
 
 export interface ProjectRawDataImportedPayload {
   importId: string;
@@ -31,7 +32,7 @@ export interface ProjectRawDataImportedPayload {
     motifsElimination: string;
     notifiedOn: number;
     details: any;
-    technologie: AppelOffre.Technologie;
+    technologie: Candidature.TypeTechnologie.RawType;
     actionnariat?: string;
     garantiesFinancièresType?: string;
     garantiesFinancièresDateEchéance?: string;

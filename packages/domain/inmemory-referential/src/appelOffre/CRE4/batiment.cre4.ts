@@ -45,6 +45,7 @@ export const batiment: AppelOffre.AppelOffreReadModel = {
   launchDate: 'septembre 2016',
   cahiersDesChargesUrl:
     'https://www.cre.fr/documents/Appels-d-offres/appel-d-offres-portant-sur-la-realisation-et-l-exploitation-d-installations-de-production-d-electricite-a-partir-de-l-energie-solaire-centrales-s',
+  technologie: 'pv',
   unitePuissance: 'MWc',
   delaiRealisationEnMois: 20,
   autoritéCompétenteDemandesDélai: 'dreal',

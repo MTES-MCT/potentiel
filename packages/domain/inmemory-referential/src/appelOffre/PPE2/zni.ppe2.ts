@@ -8,6 +8,7 @@ export const zniPPE2: AppelOffre.AppelOffreReadModel = {
   shortTitle: 'PPE2 - ZNI',
   launchDate: 'Décembre 2023',
   cahiersDesChargesUrl: `https://www.cre.fr/documents/Appels-d-offres/appel-d-offres-portant-sur-la-realisation-et-l-exploitation-d-installations-de-production-d-electricite-a-partir-de-l-energie-solaire-et-situees-da`,
+  technologie: 'pv',
   unitePuissance: 'MWc',
   delaiRealisationEnMois: 30,
   delaiRealisationTexte: 'trente (30) mois',

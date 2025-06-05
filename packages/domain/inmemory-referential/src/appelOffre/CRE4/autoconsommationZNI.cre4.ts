@@ -45,6 +45,7 @@ export const autoconsommationZNI: AppelOffre.AppelOffreReadModel = {
   launchDate: 'juin 2019',
   cahiersDesChargesUrl:
     'https://www.cre.fr/documents/Appels-d-offres/appels-d-offres-portant-sur-la-realisation-et-l-exploitation-d-installations-de-production-d-electricite-a-partir-d-energies-renouvelables-en-autoc',
+  technologie: 'pv',
   unitePuissance: 'MWc',
   delaiRealisationEnMois: 30,
   autoritéCompétenteDemandesDélai: 'dreal',

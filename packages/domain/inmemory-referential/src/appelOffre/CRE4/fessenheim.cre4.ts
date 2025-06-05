@@ -67,6 +67,7 @@ export const fessenheim: AppelOffre.AppelOffreReadModel = {
   launchDate: 'janvier 2019',
   cahiersDesChargesUrl:
     'https://www.cre.fr/documents/Appels-d-offres/appel-d-offres-portant-sur-la-realisation-et-l-exploitation-d-installations-de-production-d-electricite-a-partir-de-l-energie-solaire-transition',
+  technologie: 'pv',
   unitePuissance: 'MWc',
   delaiRealisationEnMois: 24,
   autoritéCompétenteDemandesDélai: 'dreal',
