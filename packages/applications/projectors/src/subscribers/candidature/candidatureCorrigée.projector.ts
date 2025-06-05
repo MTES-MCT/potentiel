@@ -1,4 +1,4 @@
-import { Candidature, Lauréat } from '@potentiel-domain/projet';
+import { Candidature } from '@potentiel-domain/projet';
 import { IdentifiantProjet, DateTime } from '@potentiel-domain/common';
 import { Option } from '@potentiel-libraries/monads';
 import { findProjection } from '@potentiel-infrastructure/pg-projection-read';
@@ -65,12 +65,7 @@ export const candidatureCorrigéeProjector = async ({
         : // ce cas est théoriquement impossible,
           // on ne peut pas avoir de correction sur une candidature non importée
           payload.corrigéLe,
-    fournisseurs: payload.fournisseurs.map((fournisseur) => ({
-      typeFournisseur: Lauréat.Fournisseur.TypeFournisseur.convertirEnValueType(
-        fournisseur.typeFournisseur,
-      ).typeFournisseur,
-      nomDuFabricant: fournisseur.nomDuFabricant,
-    })),
+    fournisseurs: payload.fournisseurs,
   };
 
   await upsertProjection<Candidature.CandidatureEntity>(
