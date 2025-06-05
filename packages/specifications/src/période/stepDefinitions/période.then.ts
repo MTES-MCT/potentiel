@@ -221,8 +221,6 @@ async function vérifierLauréats(
           Option.isSome(fournisseur),
           `Aucun fournisseur pour ${identifiantProjet.formatter()}`,
         );
-        console.log(fournisseurs);
-        console.log(fournisseur.fournisseurs);
 
         expect(fournisseur.évaluationCarboneSimplifiée).to.equal(evaluationCarboneSimplifiée);
 
