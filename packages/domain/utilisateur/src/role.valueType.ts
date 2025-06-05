@@ -1210,6 +1210,9 @@ const policies = {
       prix: [],
     },
   },
+  appelOffre: {
+    consulter: [référencielPermissions.appelOffre.query.consulter],
+  },
 } as const;
 
 /**
@@ -1229,6 +1232,8 @@ type Policy = Leaves<typeof policies>;
 
 const commonPolicies: ReadonlyArray<Policy> = [
   'historique.lister',
+
+  'appelOffre.consulter',
 
   // Header projet
   'lauréat.consulter',

@@ -20,13 +20,17 @@ export async function generateMetadata(
   { params }: IdentifiantParameter,
   _: ResolvingMetadata,
 ): Promise<Metadata> {
-  const identifiantProjet = decodeParameter(params.identifiant);
-  const candidature = await getCandidature(identifiantProjet);
+  try {
+    const identifiantProjet = decodeParameter(params.identifiant);
+    const candidature = await getCandidature(identifiantProjet);
 
-  return {
-    title: `Candidature ${candidature.nomProjet} - Potentiel`,
-    description: 'Détails de la candidature',
-  };
+    return {
+      title: `Candidature ${candidature.nomProjet} - Potentiel`,
+      description: 'Détails de la candidature',
+    };
+  } catch {
+    return {};
+  }
 }
 
 export default async function Page({ params }: PageProps) {
