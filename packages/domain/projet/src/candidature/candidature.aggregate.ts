@@ -38,7 +38,10 @@ import {
   TypeGarantiesFinancièresNonModifiableAprèsNotificationError,
 } from './candidature.error';
 import { CorrigerCandidatureOptions } from './corriger/corrigerCandidature.options';
-import { CandidatureCorrigéeEvent } from './corriger/candidatureCorrigée.event';
+import {
+  CandidatureCorrigéeEvent,
+  CandidatureCorrigéeEventV1,
+} from './corriger/candidatureCorrigée.event';
 import * as Localité from './localité.valueType';
 import { NotifierOptions } from './notifier/notifierCandidature.options';
 import {
@@ -208,9 +211,13 @@ export class CandidatureAggregate extends AbstractAggregate<CandidatureEvent> {
     this.vérifierQueLaCorrectionEstJustifiée(candidature);
 
     const event: CandidatureCorrigéeEvent = {
-      type: 'CandidatureCorrigée-V1',
+      type: 'CandidatureCorrigée-V2',
       payload: {
         ...this.mapToEventPayload(candidature),
+        fournisseurs: candidature.fournisseurs.map((fournisseur) => ({
+          typeFournisseur: fournisseur.typeFournisseur.formatter(),
+          nomDuFabricant: fournisseur.nomDuFabricant,
+        })),
         corrigéLe: candidature.corrigéLe.formatter(),
         corrigéPar: candidature.corrigéPar.formatter(),
         doitRégénérerAttestation: candidature.doitRégénérerAttestation,
@@ -450,6 +457,12 @@ export class CandidatureAggregate extends AbstractAggregate<CandidatureEvent> {
         {
           type: 'CandidatureCorrigée-V1',
         },
+        (event) => this.applyCandidatureCorrigéeV1(event),
+      )
+      .with(
+        {
+          type: 'CandidatureCorrigée-V2',
+        },
         (event) => this.applyCandidatureCorrigée(event),
       )
       .with(
@@ -476,8 +489,13 @@ export class CandidatureAggregate extends AbstractAggregate<CandidatureEvent> {
     this.applyFournisseurEventPayload(payload.fournisseurs);
   }
 
+  private applyCandidatureCorrigéeV1({ payload }: CandidatureCorrigéeEventV1) {
+    this.applyCommonEventPayload(payload);
+  }
+
   private applyCandidatureCorrigée({ payload }: CandidatureCorrigéeEvent) {
     this.applyCommonEventPayload(payload);
+    this.applyFournisseurEventPayload(payload.fournisseurs);
   }
 
   private applyFournisseursImportésEventPayload({
@@ -517,8 +535,10 @@ export class CandidatureAggregate extends AbstractAggregate<CandidatureEvent> {
     sociétéMère,
     statut,
   }:
-    | CandidatureCorrigéeEvent['payload']
-    | Omit<CandidatureImportéeEvent['payload'], 'fournisseurs'>) {
+    | CandidatureImportéeEvent['payload']
+    | CandidatureCorrigéeEventV1['payload']
+    | CandidatureImportéeEventV1['payload']
+    | CandidatureCorrigéeEvent['payload']) {
     this.#statut = StatutCandidature.convertirEnValueType(statut);
     this.#nomProjet = nomProjet;
     this.#localité = Localité.bind(localité);

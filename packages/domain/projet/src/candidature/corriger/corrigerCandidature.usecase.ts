@@ -4,7 +4,10 @@ import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
 import { DocumentProjet, EnregistrerDocumentProjetCommand } from '@potentiel-domain/document';
 
 import { ImporterCandidatureUseCase } from '../importer/importerCandidature.usecase';
-import { mapToCommonCandidatureUseCaseData } from '../candidature.mapper';
+import {
+  mapToCommonCandidatureUseCaseData,
+  mapToDétailsCandidatureUseCaseData,
+} from '../candidature.mapper';
 
 import { CorrigerCandidatureCommand } from './corrigerCandidature.command';
 
@@ -49,6 +52,7 @@ export const registerCorrigerCandidatureUseCase = () => {
       data: {
         identifiantProjet,
         ...mapToCommonCandidatureUseCaseData(payload),
+        ...mapToDétailsCandidatureUseCaseData(payload.détailsValue || {}),
         corrigéLe: DateTime.convertirEnValueType(payload.corrigéLe),
         corrigéPar: Email.convertirEnValueType(payload.corrigéPar),
         doitRégénérerAttestation: payload.doitRégénérerAttestation,

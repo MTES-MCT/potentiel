@@ -30,7 +30,7 @@ export const register = ({ sendEmail }: RegisterCandidatureNotificationDependenc
     } = event;
 
     switch (event.type) {
-      case 'CandidatureCorrigée-V1':
+      case 'CandidatureCorrigée-V2':
         const candidature = await mediator.send<Candidature.ConsulterCandidatureQuery>({
           type: 'Candidature.Query.ConsulterCandidature',
           data: {

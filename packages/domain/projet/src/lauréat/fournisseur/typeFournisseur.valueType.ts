@@ -18,7 +18,7 @@ export const typesFournisseurEolien = [
   'dispositif-de-production',
 ] as const;
 
-const typesFournisseur = [...typesFournisseurPV, ...typesFournisseurPV];
+const typesFournisseur = [...typesFournisseurPV, ...typesFournisseurEolien];
 
 export type RawType = (typeof typesFournisseur)[number];
 

@@ -157,6 +157,7 @@ export const setupProjet = async ({ sendEmail }: SetupProjetDependencies) => {
       'CandidatureImportée-V1',
       'CandidatureImportée-V2',
       'CandidatureCorrigée-V1',
+      'CandidatureCorrigée-V2',
       'CandidatureNotifiée-V1',
       'CandidatureNotifiée-V2',
     ],
@@ -173,7 +174,7 @@ export const setupProjet = async ({ sendEmail }: SetupProjetDependencies) => {
     await subscribe<CandidatureNotification.SubscriptionEvent>({
       name: 'notifications',
       streamCategory: 'candidature',
-      eventType: ['CandidatureCorrigée-V1'],
+      eventType: ['CandidatureCorrigée-V2'],
       eventHandler: async (event) => {
         await mediator.publish<CandidatureNotification.Execute>({
           type: 'System.Notification.Candidature',
@@ -185,7 +186,7 @@ export const setupProjet = async ({ sendEmail }: SetupProjetDependencies) => {
   const unsubscribeAttestationSaga = await subscribe<AttestationSaga.SubscriptionEvent & Event>({
     name: 'attestation-saga',
     streamCategory: 'candidature',
-    eventType: ['CandidatureNotifiée-V2', 'CandidatureCorrigée-V1'],
+    eventType: ['CandidatureNotifiée-V2', 'CandidatureCorrigée-V2'],
     eventHandler: async (event) => {
       await mediator.publish<AttestationSaga.Execute>({
         type: 'System.Candidature.Attestation.Saga.Execute',

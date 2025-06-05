@@ -2,7 +2,10 @@ import {
   ConsulterCandidatureQuery,
   ConsulterCandidatureReadModel,
 } from './consulter/consulterCandidature.query';
-import { CandidatureCorrigéeEvent } from './corriger/candidatureCorrigée.event';
+import {
+  CandidatureCorrigéeEvent,
+  CandidatureCorrigéeEventV1,
+} from './corriger/candidatureCorrigée.event';
 import { CorrigerCandidatureUseCase } from './corriger/corrigerCandidature.usecase';
 import {
   CandidatureImportéeEvent,
@@ -61,6 +64,7 @@ export {
   CandidatureImportéeEventV1,
   CandidatureImportéeEvent,
   CandidatureCorrigéeEvent,
+  CandidatureCorrigéeEventV1,
   CandidatureNotifiéeEvent,
   CandidatureNotifiéeEventV1,
   DétailsFournisseursCandidatureImportésEvent,
