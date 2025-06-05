@@ -38,6 +38,8 @@ import { getCandidature } from './_utils/getCandidature';
 import { Actionnaire } from '@potentiel-domain/laureat';
 import { Candidature, IdentifiantProjet, Éliminé } from '@potentiel-domain/projet';
 import { Routes } from '@potentiel-applications/routes';
+import { mediator } from 'mediateur';
+import { Option } from '@potentiel-libraries/monads';
 
 const schema = yup.object({
   params: yup.object({ projectId: yup.string().required() }),
@@ -135,12 +137,23 @@ v1Router.get(
       );
 
       /**
-       * Redirection vers la page de candidature si projet non désigné
+       * Redirection vers la page de candidature si le projet non désigné et si l'utilisateur a la droit de consulter la candidature, page unauthorized sinon
        */
-      if (project.notifiedOn === 0) {
-        return response.redirect(
-          Routes.Candidature.détails(identifiantProjetValueType.formatter()),
-        );
+      if (!project.notifiedOn) {
+        const candidature = await mediator.send<Candidature.ConsulterCandidatureQuery>({
+          type: 'Candidature.Query.ConsulterCandidature',
+          data: {
+            identifiantProjet: identifiantProjetValueType.formatter(),
+          },
+        });
+
+        if (Option.isSome(candidature)) {
+          return response.redirect(
+            Routes.Candidature.détails(identifiantProjetValueType.formatter()),
+          );
+        }
+
+        return notFoundResponse({ request, response, ressourceTitle: 'Projet' });
       }
 
       /**

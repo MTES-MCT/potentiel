@@ -25,12 +25,16 @@ export async function generateMetadata(
   { params }: IdentifiantParameter,
   _: ResolvingMetadata,
 ): Promise<Metadata> {
-  const candidature = await getCandidature(decodeParameter(params.identifiant));
+  try {
+    const candidature = await getCandidature(decodeParameter(params.identifiant));
 
-  return {
-    title: `${candidature.nomProjet} - Potentiel`,
-    description: "Détail de la page d'un projet",
-  };
+    return {
+      title: `${candidature.nomProjet} - Potentiel`,
+      description: "Détail de la page d'un projet",
+    };
+  } catch {
+    return {};
+  }
 }
 
 export default async function Page({ params: { identifiant } }: PageProps) {

@@ -160,15 +160,6 @@ export const ProjectList = ({
 
       <ul className="p-0 m-0">
         {projects.items.map((project) => {
-          const identifiantProjet = `${project.appelOffreId}#${project.periodeId}#${project.familleId}#${project.numeroCRE}`;
-
-          const url =
-            project.notifiedOn === 0
-              ? Routes.Candidature.détails(identifiantProjet)
-              : project.classe === 'Classé'
-                ? routes.PROJECT_DETAILS(project.id)
-                : Routes.Projet.détailsÉliminé(identifiantProjet);
-
           return (
             <li className="list-none p-0 m-0" key={project.id}>
               <Tile className="mb-4 flex md:relative flex-col" key={`project_${project.id}`}>
@@ -182,7 +173,7 @@ export const ProjectList = ({
                         checked={selectedIds.indexOf(project.id) > -1}
                       />
                     )}
-                    <Link href={url}>{project.nomProjet}</Link>
+                    <Link href={routes.PROJECT_DETAILS(project.id)}>{project.nomProjet}</Link>
                     <StatutBadge project={project} role={role} />
                   </div>
                   <div className="italic text-xs text-grey-425-base">
@@ -251,7 +242,10 @@ export const ProjectList = ({
                   </div>
 
                   <div className="flex md:absolute md:top-4 md:right-5 gap-2">
-                    <LinkButton href={url} aria-label={`voir le projet ${project.nomProjet}`}>
+                    <LinkButton
+                      href={routes.PROJECT_DETAILS(project.id)}
+                      aria-label={`voir le projet ${project.nomProjet}`}
+                    >
                       Voir
                     </LinkButton>
                   </div>

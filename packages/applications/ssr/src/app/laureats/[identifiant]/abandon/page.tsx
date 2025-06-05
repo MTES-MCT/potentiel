@@ -25,23 +25,27 @@ export async function generateMetadata(
   { params }: IdentifiantParameter,
   _: ResolvingMetadata,
 ): Promise<Metadata> {
-  const identifiantProjet = decodeParameter(params.identifiant);
+  try {
+    const identifiantProjet = decodeParameter(params.identifiant);
 
-  const lauréat = await mediator.send<Lauréat.ConsulterLauréatQuery>({
-    type: 'Lauréat.Query.ConsulterLauréat',
-    data: {
-      identifiantProjet,
-    },
-  });
+    const lauréat = await mediator.send<Lauréat.ConsulterLauréatQuery>({
+      type: 'Lauréat.Query.ConsulterLauréat',
+      data: {
+        identifiantProjet,
+      },
+    });
 
-  if (Option.isNone(lauréat)) {
-    return notFound();
+    if (Option.isNone(lauréat)) {
+      return notFound();
+    }
+
+    return {
+      title: `Détail abandon du projet ${lauréat.nomProjet} - Potentiel`,
+      description: "Détail de l'abandon d'un projet",
+    };
+  } catch {
+    return {};
   }
-
-  return {
-    title: `Détail abandon du projet ${lauréat.nomProjet} - Potentiel`,
-    description: "Détail de l'abandon d'un projet",
-  };
 }
 
 export default async function Page({ params: { identifiant } }: PageProps) {
