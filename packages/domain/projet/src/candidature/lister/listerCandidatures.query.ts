@@ -9,7 +9,7 @@ import { ConsulterCandidatureReadModel } from '../consulter/consulterCandidature
 import * as StatutCandidature from '../statutCandidature.valueType';
 import * as TypeGarantiesFinancières from '../typeGarantiesFinancières.valueType';
 import * as TypeActionnariat from '../typeActionnariat.valueType';
-import { IdentifiantProjet } from '../..';
+import { IdentifiantProjet, Lauréat } from '../..';
 
 export type CandidaturesListItemReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
@@ -32,6 +32,7 @@ export type CandidaturesListItemReadModel = {
   estNotifiée: boolean;
   attestation?: DocumentProjet.ValueType;
   sociétéMère: String;
+  fournisseurs: ConsulterCandidatureReadModel['fournisseurs'];
 };
 
 export type ListerCandidaturesReadModel = Readonly<{
@@ -118,6 +119,7 @@ export const mapToReadModel = ({
   typeGarantiesFinancières,
   sociétéMère,
   actionnariat,
+  fournisseurs,
 }: CandidatureEntity): CandidaturesListItemReadModel => ({
   identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
   statut: StatutCandidature.convertirEnValueType(statut),
@@ -154,4 +156,10 @@ export const mapToReadModel = ({
       ),
     }),
   sociétéMère,
+  fournisseurs: fournisseurs.map((fournisseur) => ({
+    typeFournisseur: Lauréat.Fournisseur.TypeFournisseur.convertirEnValueType(
+      fournisseur.typeFournisseur,
+    ),
+    nomDuFabricant: fournisseur.nomDuFabricant,
+  })),
 });

@@ -139,10 +139,9 @@ export class CandidatureWorld {
         'application/json',
       ),
       misÀJourLe: DateTime.convertirEnValueType(misÀJourLe),
-      ...(expectedValues.détailsValue &&
-        Candidature.CandidatureMapperHelper.mapToDétailsCandidatureUseCaseData(
-          expectedValues.détailsValue,
-        )),
+      fournisseurs: Candidature.CandidatureMapperHelper.mapToDétailsCandidatureUseCaseData(
+        expectedValues.détailsValue || {},
+      ).fournisseurs,
     };
   }
 }
