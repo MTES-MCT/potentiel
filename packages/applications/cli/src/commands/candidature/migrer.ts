@@ -25,23 +25,23 @@ SELECT es.stream_id,
     payload->>'evaluationCarboneSimplifiée' AS "évaluationCarboneSimplifiée",
     json_agg(
         jsonb_build_object(
-             'type', d.key,
-             'nom', d.value
+            'type', d.key,
+            'nom', d.value
         )
     ) as fournisseurs
 FROM event_store.event_stream es
-    INNER JOIN projects p ON format(
-        '%s#%s#%s#%s',
-        p."appelOffreId",
-        p."periodeId",
-        p."familleId",
-        p."numeroCRE"
-    ) = payload->>'identifiantProjet'
-    inner join json_each_text(p.details) d on d.key ilike '%nom du fabricant%' 
-    and trim(lower(d.value)) not in ('','0','#n/a','n/a','na','n.a.','nx',  'nc','ne s''applique pas','non applicable', 'non concerné','-','--','/','sans objet','s/o','so', 'non pertinent', 'non applicable à ce projet','non disponible','aucun','non','non concern?','_','à définir ultérieurement','b','non défini','non renseigné','non précisé', 'non connu à ce jour', 'non connu a ce jour')
+INNER JOIN projects p ON format(
+    '%s#%s#%s#%s',
+    p."appelOffreId",
+    p."periodeId",
+    p."familleId",
+    p."numeroCRE"
+) = payload->>'identifiantProjet'
+INNER JOIN json_each_text(p.details) d ON d.key ILIKE '%nom du fabricant%'
+    AND trim(lower(d.value)) NOT IN ('','0','#n/a','n/a','na','n.a.','nx','nc','ne s''applique pas','non applicable', 'non concerné','-','--','/','sans objet','s/o','so', 'non pertinent', 'non applicable à ce projet','non disponible','aucun','non','non concern?','_','à définir ultérieurement','b','non défini','non renseigné','non précisé', 'non connu à ce jour', 'non connu a ce jour')
 WHERE es.type = 'CandidatureImportée-V1'
-group by es.stream_id,
-    payload->>'identifiantProjet' ;
+GROUP BY es.stream_id,
+    payload->>'identifiantProjet', payload->>'evaluationCarboneSimplifiée'
 `;
 
 const lauréatEventQuery = `

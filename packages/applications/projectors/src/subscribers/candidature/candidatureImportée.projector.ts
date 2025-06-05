@@ -44,7 +44,7 @@ export const candidatureImportéeProjector = async ({
     fournisseurs: payload.fournisseurs.map((fournisseur) => ({
       typeFournisseur: Lauréat.Fournisseur.TypeFournisseur.convertirEnValueType(
         fournisseur.typeFournisseur,
-      ).typeFournisseur,
+      ).formatter(),
       nomDuFabricant: fournisseur.nomDuFabricant,
     })),
   };
