@@ -27,6 +27,9 @@
       "path": "../../libraries/monitoring"
     },
     {
+      "path": "../../libraries/monads"
+    },
+    {
       "path": "../../infrastructure/pg-event-sourcing"
     },
     {

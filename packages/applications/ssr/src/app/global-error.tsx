@@ -14,6 +14,8 @@ export default function GlobalError({ error }: GlobalErrorProps) {
     Sentry.captureException(error);
   }, [error]);
 
+  console.log(error);
+
   return (
     <html>
       <body>

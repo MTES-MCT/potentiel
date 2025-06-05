@@ -42,13 +42,23 @@ export const registerVérifierAccèsProjetQuery = ({ find }: VérifierAccèsProj
     return Option.match(utilisateur)
       .some(async (utilisateur) => {
         const hasAccess = await match(utilisateur)
-          .with({ rôle: 'acheteur-obligé' }, async () => true)
-          .with({ rôle: 'ademe' }, async () => true)
+          .with({ rôle: 'acheteur-obligé' }, () =>
+            estUneCandidatureNotifiée(identifiantProjetValue),
+          )
+          .with({ rôle: 'ademe' }, () => estUneCandidatureNotifiée(identifiantProjetValue))
           .with({ rôle: 'admin' }, async () => true)
-          .with({ rôle: 'caisse-des-dépôts' }, async () => true)
+          .with({ rôle: 'caisse-des-dépôts' }, () =>
+            estUneCandidatureNotifiée(identifiantProjetValue),
+          )
           .with({ rôle: 'cre' }, async () => true)
           .with({ rôle: 'dgec-validateur' }, async () => true)
           .with({ rôle: 'dreal' }, async (utilisateur) => {
+            const projetNotifié = await estUneCandidatureNotifiée(identifiantProjetValue);
+
+            if (!projetNotifié) {
+              return false;
+            }
+
             if (utilisateur.région) {
               const régionProjet = await récuperérRégionProjet(identifiantProjetValue);
               return régionProjet === utilisateur.région;
@@ -110,6 +120,14 @@ export const registerVérifierAccèsProjetQuery = ({ find }: VérifierAccèsProj
     }
 
     return '__AUCUN RACCORDEMENT__';
+  };
+
+  const estUneCandidatureNotifiée = async (identifiantProjet: string) => {
+    const candidature = await find<CandidatureEntity>(`candidature|${identifiantProjet}`);
+
+    return Option.match(candidature)
+      .some((candidature) => !!candidature.notification)
+      .none(() => false);
   };
 
   mediator.register('System.Projet.Accès.Query.VérifierAccèsProjet', handler);
