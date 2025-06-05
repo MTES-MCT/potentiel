@@ -1,6 +1,7 @@
 import { Lauréat } from '@potentiel-domain/projet';
 import { IdentifiantProjet } from '@potentiel-domain/projet';
 import { DateTime } from '@potentiel-domain/common';
+import { AppelOffre } from '@potentiel-domain/appel-offre';
 
 import { ModifierPuissanceFixture } from './fixture/modifierPuissance.fixture';
 import { ChangementPuissanceWorld } from './changement/changementPuissance.world';
@@ -24,7 +25,7 @@ export class PuissanceWorld {
   mapToExpected(
     identifiantProjet: IdentifiantProjet.ValueType,
     puissanceInitiale: number,
-    unitéPuissance: string,
+    unitéPuissance: AppelOffre.UnitéPuissance,
   ) {
     const expected: Lauréat.Puissance.ConsulterPuissanceReadModel = {
       identifiantProjet,
