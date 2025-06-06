@@ -189,7 +189,7 @@ const mapCorrectionToCandidature = (
     ? Candidature.TypeActionnariat.convertirEnValueType(payload.actionnariat)
     : undefined,
   coefficientKChoisi: payload.coefficientKChoisi,
-  unitéPuissance: Candidature.UnitéPuissance.bind({
+  unitéPuissance: Candidature.UnitéPuissance.déterminer({
     appelOffres,
     période: IdentifiantProjet.convertirEnValueType(payload.identifiantProjet).période,
     technologie: payload.technologie,

@@ -54,7 +54,7 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
       <DemanderChangementPuissancePage
         identifiantProjet={mapToPlainObject(puissanceActuelle.identifiantProjet)}
         puissance={puissanceActuelle.puissance}
-        unitéPuissance={candidature.unitéPuissance}
+        unitéPuissance={candidature.unitéPuissance.formatter()}
         appelOffre={mapToPlainObject(appelOffres)}
         période={mapToPlainObject(période)}
         technologie={candidature.technologie.type}

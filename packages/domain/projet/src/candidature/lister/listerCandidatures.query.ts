@@ -172,5 +172,5 @@ export const mapToReadModel = ({
     ),
     nomDuFabricant: fournisseur.nomDuFabricant,
   })),
-  unitéPuissance: UnitéPuissance.bind({ appelOffres, période, technologie }),
+  unitéPuissance: UnitéPuissance.déterminer({ appelOffres, période, technologie }),
 });

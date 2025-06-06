@@ -67,7 +67,7 @@ v1Router.get(
         request,
         project: {
           ...project.get(),
-          unitePuissance: Candidature.UnitéPuissance.bind({
+          unitePuissance: Candidature.UnitéPuissance.déterminer({
             appelOffres: appelOffre,
             période: periodeId,
             technologie: project.technologie ?? 'N/A',

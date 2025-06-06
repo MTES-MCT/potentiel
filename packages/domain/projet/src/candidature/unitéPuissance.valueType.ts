@@ -5,40 +5,65 @@ import { TypeTechnologie } from '.';
 
 export type RawType = AppelOffre.UnitéPuissance;
 export type ValueType = ReadonlyValueType<{
-  appelOffres: AppelOffre.AppelOffreReadModel;
-  période: string;
-  technologie: TypeTechnologie.RawType;
-
+  unité: RawType;
   formatter(): RawType;
 }>;
 
-export const bind = ({ appelOffres, période, technologie }: PlainType<ValueType>): ValueType => {
+export const bind = ({ unité }: PlainType<ValueType>): ValueType => {
   return {
-    appelOffres: appelOffres as AppelOffre.AppelOffreReadModel,
-    période,
-    technologie,
-    estÉgaleÀ({ appelOffres, période, technologie }) {
-      return (
-        this.appelOffres.id === appelOffres.id &&
-        this.période === période &&
-        this.technologie === technologie
-      );
+    unité,
+    estÉgaleÀ({ unité }) {
+      return this.unité === unité;
     },
     formatter() {
-      const période = this.appelOffres.periodes.find((p) => p.id === this.période);
-      if (période?.unitéPuissance) {
-        return période.unitéPuissance;
-      }
-      if (appelOffres.multiplesTechnologies) {
-        if (technologie === 'N/A') {
-          throw new TypeTechnologieRequisError();
-        }
-        return appelOffres.unitePuissance[technologie];
-      }
-
-      return appelOffres.unitePuissance;
+      return this.unité;
     },
   };
+};
+
+export const convertirEnValueType = (value: string): ValueType => {
+  estValide(value);
+  return bind({ unité: value });
+};
+
+function estValide(value: string): asserts value is RawType {
+  if (value !== 'MW' && value !== 'MWc') {
+    throw new UnitéNonValide();
+  }
+}
+
+class UnitéNonValide extends Error {
+  constructor() {
+    super('Unité non valide');
+  }
+}
+
+type DéterminerProps = {
+  appelOffres: AppelOffre.AppelOffreReadModel;
+  période: string;
+  technologie: TypeTechnologie.RawType;
+};
+
+export const déterminer = ({
+  appelOffres,
+  période: périodeId,
+  technologie,
+}: DéterminerProps): ValueType => {
+  const getUnité = () => {
+    const période = appelOffres.periodes.find((p) => p.id === périodeId);
+    if (période?.unitéPuissance) {
+      return période.unitéPuissance;
+    }
+    if (appelOffres.multiplesTechnologies) {
+      if (technologie === 'N/A') {
+        throw new TypeTechnologieRequisError();
+      }
+      return appelOffres.unitePuissance[technologie];
+    }
+
+    return appelOffres.unitePuissance;
+  };
+  return bind({ unité: getUnité() });
 };
 
 class TypeTechnologieRequisError extends InvalidOperationError {

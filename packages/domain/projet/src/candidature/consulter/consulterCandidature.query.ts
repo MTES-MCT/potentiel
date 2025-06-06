@@ -173,5 +173,5 @@ export const mapToReadModel = (
         notification.attestation.format,
       ),
   },
-  unitéPuissance: UnitéPuissance.bind({ appelOffres, période, technologie }),
+  unitéPuissance: UnitéPuissance.déterminer({ appelOffres, période, technologie }),
 });

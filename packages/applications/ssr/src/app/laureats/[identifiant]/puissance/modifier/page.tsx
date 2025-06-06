@@ -39,7 +39,7 @@ export default async function Page({ params: { identifiant } }: IdentifiantParam
       <ModifierPuissancePage
         identifiantProjet={mapToPlainObject(identifiantProjet)}
         puissance={puissance.puissance}
-        unitéPuissance={candidature.unitéPuissance}
+        unitéPuissance={candidature.unitéPuissance.formatter()}
       />
     );
   });

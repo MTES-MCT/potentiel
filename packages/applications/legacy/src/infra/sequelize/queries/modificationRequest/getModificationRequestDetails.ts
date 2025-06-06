@@ -8,6 +8,7 @@ import { EntityNotFoundError } from '../../../../modules/shared';
 import { parseCahierDesChargesRéférence, ProjectAppelOffre } from '../../../../entities';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { ModificationRequest, Project, User, File } from '../..';
+import { Candidature } from '@potentiel-domain/projet';
 
 export const getModificationRequestDetails: GetModificationRequestDetails = (
   modificationRequestId,
@@ -106,6 +107,12 @@ export const getModificationRequestDetails: GetModificationRequestDetails = (
     const { appelOffreId, periodeId, notifiedOn, completionDueOn, technologie } = project.get();
     const appelOffre = getProjectAppelOffre({ appelOffreId, periodeId });
 
+    const unitePuissance = Candidature.UnitéPuissance.déterminer({
+      appelOffres: appelOffre!,
+      période: periodeId,
+      technologie: technologie ?? 'N/A',
+    }).formatter();
+
     return ok<ModificationRequestPageDTO>({
       id,
       type,
@@ -132,7 +139,7 @@ export const getModificationRequestDetails: GetModificationRequestDetails = (
         ...project.get(),
         notifiedOn: new Date(notifiedOn).getTime(),
         completionDueOn: new Date(completionDueOn).getTime(),
-        unitePuissance: appelOffre?.unitePuissance || '??',
+        unitePuissance,
         technologie: technologie || 'N/A',
         cahiersDesChargesUrl: appelOffre?.cahiersDesChargesUrl,
         appelOffre,
