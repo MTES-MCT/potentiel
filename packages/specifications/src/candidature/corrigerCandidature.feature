@@ -124,8 +124,28 @@ Fonctionnalité: Corriger une candidature
             | coefficient K choisi | oui |
         Alors l'administrateur devrait être informé que "Le choix du coefficient K ne peut être renseigné pour cette période"
 
-    # TODO activer ce test lors de l'ouverture de PPE2 - Bâtiment 10
-    @NotImplemented
+    Plan du Scénario: Impossible de corriger une candidature avec une technologie non disponible pour l'appel d'offres
+        Etant donné la candidature lauréate "Du boulodrome de Marseille" avec :
+            | appel d'offre | <Appel d'offre> |
+            | technologie   | N/A             |
+        Quand le DGEC validateur corrige la candidature avec :
+            | technologie | <Technologie> |
+        Alors l'administrateur devrait être informé que "Cette technologie n'est pas disponible pour cet appel d'offre"
+
+        Exemples:
+            | Appel d'offre   | Technologie |
+            | PPE2 - Bâtiment | eolien      |
+            | PPE2 - Sol      | eolien      |
+            | PPE2 - Eolien   | pv          |
+
+    Scénario: Impossible de corriger une candidature sans indiquer de technologie si l'AO a plusieurs technologies disponibles
+        Etant donné la candidature lauréate "Du boulodrome de Marseille" avec :
+            | appel d'offre | PPE2 - Neutre |
+            | technologie   | pv            |
+        Quand le DGEC validateur corrige la candidature avec :
+            | technologie | N/A |
+        Alors l'administrateur devrait être informé que "Une technologie est requise pour cet appel d'offre"
+
     Scénario: Impossible de corriger une candidature sans choix du coefficient K si la période le propose
         Etant donné la candidature lauréate "Du boulodrome de Marseille" avec :
             | statut        | classé          |

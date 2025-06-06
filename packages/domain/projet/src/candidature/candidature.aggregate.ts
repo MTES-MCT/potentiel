@@ -29,6 +29,8 @@ import {
   NomManquantError,
   PériodeAppelOffreLegacyError,
   StatutNonModifiableAprèsNotificationError,
+  TechnologieIndisponibleError,
+  TechnologieRequiseError,
   TypeGarantiesFinancièresNonModifiableAprèsNotificationError,
 } from './candidature.error';
 import { CorrigerCandidatureOptions } from './corriger/corrigerCandidature.options';
@@ -161,6 +163,7 @@ export class CandidatureAggregate extends AbstractAggregate<CandidatureEvent> {
     this.vérifierSiLaDateÉchéanceGarantiesFinancièresEstRequise(candidature);
     this.vérifierQueLaDateÉchéanceNEstPasAttendue(candidature);
     this.vérifierCoefficientKChoisi(candidature);
+    this.vérifierTechnologie(candidature);
 
     const event: CandidatureImportéeEvent = {
       type: 'CandidatureImportée-V1',
@@ -183,6 +186,7 @@ export class CandidatureAggregate extends AbstractAggregate<CandidatureEvent> {
     this.vérifierQueLeTypeDesGarantiesFinancièresEstNonModifiableAprésNotification(candidature);
     this.vérifierQueLaRégénérationDeLAttestionEstPossible(candidature);
     this.vérifierCoefficientKChoisi(candidature);
+    this.vérifierTechnologie(candidature);
     this.vérifierQueLaCorrectionEstJustifiée(candidature);
 
     const event: CandidatureCorrigéeEvent = {
@@ -400,6 +404,21 @@ export class CandidatureAggregate extends AbstractAggregate<CandidatureEvent> {
       candidature.coefficientKChoisi !== undefined
     ) {
       throw new ChoixCoefficientKNonAttenduError();
+    }
+  }
+
+  private vérifierTechnologie(candidature: CandidatureBehaviorOptions) {
+    if (this.projet.appelOffre.multiplesTechnologies) {
+      if (candidature.technologie.estNonApplicable()) {
+        throw new TechnologieRequiseError();
+      }
+    } else if (
+      !candidature.technologie.estNonApplicable() &&
+      !candidature.technologie.estÉgaleÀ(
+        TypeTechnologie.convertirEnValueType(this.projet.appelOffre.technologie),
+      )
+    ) {
+      throw new TechnologieIndisponibleError();
     }
   }
 

@@ -82,6 +82,7 @@ export const zni: AppelOffre.AppelOffreReadModel = {
   launchDate: 'juin 2019',
   cahiersDesChargesUrl:
     'https://www.cre.fr/documents/Appels-d-offres/appels-d-offres-portant-sur-la-realisation-et-l-exploitation-d-installations-de-production-d-electricite-a-partir-de-l-energie-solaire-et-situees-d',
+  technologie: 'pv',
   unitePuissance: 'MWc',
   delaiRealisationEnMois: 24,
   autoritéCompétenteDemandesDélai: 'dreal',

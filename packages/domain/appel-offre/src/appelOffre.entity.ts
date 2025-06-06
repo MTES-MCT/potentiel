@@ -1,6 +1,6 @@
 import { Entity } from '@potentiel-domain/entity';
 
-import { DateParutionCahierDesChargesModifié } from './RéférenceCahierDesCharges.valueType';
+import { DateParutionCahierDesChargesModifié } from './référenceCahierDesCharges.valueType';
 
 type AppelOffreTypes =
   | 'autoconso'
@@ -30,7 +30,7 @@ type ChangementPuissance = { paragrapheAlerte?: string } & (
     }
   | {
       changementByTechnologie: true;
-      ratios: { [key in Exclude<Technologie, 'N/A'>]: Ratios };
+      ratios: Record<Technologie, Ratios>;
     }
 );
 
@@ -40,9 +40,7 @@ type DelaiRealisation =
       decoupageParTechnologie: false;
     }
   | {
-      delaiRealisationEnMoisParTechnologie: {
-        [key in Exclude<Technologie, 'N/A'>]: number;
-      };
+      delaiRealisationEnMoisParTechnologie: Record<Technologie, number>;
       decoupageParTechnologie: true;
     };
 
@@ -89,8 +87,31 @@ export type CahierDesChargesModifié = {
 };
 
 // Technologies
-export const technologies = ['pv', 'eolien', 'hydraulique', 'N/A'] as const;
+export const technologies = ['pv', 'eolien', 'hydraulique'] as const;
 export type Technologie = (typeof technologies)[number];
+export type UnitéPuissance = 'MW' | 'MWc';
+
+type TechnologieAppelOffre =
+  | {
+      technologie: Technologie;
+      multiplesTechnologies?: undefined;
+      /**
+       * L'unité de puissance par défaut pour l'appel d'offre.
+       * Cette valeur peut-être surchargée dans la période car dans certains cas, l'unité MW a été utilisée au lieu de MWc
+       **/
+      unitePuissance: UnitéPuissance;
+    }
+  | {
+      technologie?: undefined;
+      multiplesTechnologies: true;
+      /** @deprecated ce champs doit passer en Record<Technologie, UnitéPuissance> afin de représenter l'unité par technologie */
+      unitePuissance: UnitéPuissance;
+      /**
+       * L'unité de puissance par défaut pour l'appel d'offre, en fonction de la technologie
+       * Cette valeur peut-être surchargée dans la période car dans certains cas, l'unité MW a été utilisée au lieu de MWc
+       **/
+      // unitePuissance: Record<Technologie, UnitéPuissance>;
+    };
 
 // Famille
 export type GarantiesFinancièresFamille =
@@ -215,7 +236,6 @@ export type AppelOffreReadModel = {
   shortTitle: string;
   launchDate: string;
   cahiersDesChargesUrl: string;
-  unitePuissance: string;
   delaiRealisationTexte: string;
   paragraphePrixReference: string;
   paragrapheDelaiDerogatoire: string;
@@ -243,6 +263,7 @@ export type AppelOffreReadModel = {
   /** Indique que le champs booléen "puissanceALaPointe" est disponible pour cet AO */
   puissanceALaPointeDisponible?: true;
 } & DelaiRealisation &
-  GarantiesFinancièresAppelOffre;
+  GarantiesFinancièresAppelOffre &
+  TechnologieAppelOffre;
 
 export type AppelOffreEntity = Entity<'appel-offre', AppelOffreReadModel>;

@@ -32,6 +32,7 @@ export const eolien: AppelOffre.AppelOffreReadModel = {
   launchDate: 'mai 2017',
   cahiersDesChargesUrl:
     'https://www.cre.fr/documents/Appels-d-offres/appel-d-offres-portant-sur-la-realisation-et-l-exploitation-d-installations-de-production-d-electricite-a-partir-de-l-energie-mecanique-du-vent-im',
+  technologie: 'eolien',
   unitePuissance: 'MW',
   tarifOuPrimeRetenue: 'le prix de référence T de l’électricité retenu',
   tarifOuPrimeRetenueAlt: 'ce prix de référence',

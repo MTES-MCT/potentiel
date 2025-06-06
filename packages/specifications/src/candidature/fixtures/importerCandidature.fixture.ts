@@ -3,6 +3,7 @@ import { faker } from '@faker-js/faker';
 import { Candidature, IdentifiantProjet } from '@potentiel-domain/projet';
 import { appelsOffreData } from '@potentiel-domain/inmemory-referential';
 import { PlainType } from '@potentiel-domain/core';
+import { AppelOffre } from '@potentiel-domain/appel-offre';
 
 import { AbstractFixture, DeepPartial } from '../../fixture';
 import { getFakeLocation } from '../../helpers/getFakeLocation';
@@ -44,6 +45,8 @@ export class ImporterCandidatureFixture
       this.#identifiantProjet,
     );
 
+    const aoData = appelsOffreData.find((x) => x.id === appelOffre);
+
     const localitéValue = {
       adresse1: faker.location.streetAddress(),
       adresse2: faker.location.secondaryAddress(),
@@ -60,7 +63,9 @@ export class ImporterCandidatureFixture
       typeGarantiesFinancièresValue: values?.typeGarantiesFinancièresValue ?? 'consignation',
       nomProjetValue: faker.company.name(),
       nomCandidatValue: faker.person.fullName(),
-      technologieValue: 'N/A',
+      technologieValue: aoData?.multiplesTechnologies
+        ? faker.helpers.arrayElement(AppelOffre.technologies)
+        : 'N/A',
       emailContactValue: faker.internet.email(),
       puissanceALaPointeValue: true,
       sociétéMèreValue: faker.company.name(),

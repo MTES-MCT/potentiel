@@ -23,6 +23,7 @@ export const autoconsommationMetropole2016: AppelOffre.AppelOffreReadModel = {
   launchDate: 'juillet 2016',
   cahiersDesChargesUrl:
     'https://www.cre.fr/documents/Appels-d-offres/appel-d-offres-portant-sur-la-realisation-et-l-exploitation-d-installations-de-production-d-electricite-a-partir-d-energies-renouvelables-en-autoco',
+  technologie: 'pv',
   unitePuissance: 'MWc',
   autoritéCompétenteDemandesDélai: 'dreal',
   delaiRealisationEnMois: 30,

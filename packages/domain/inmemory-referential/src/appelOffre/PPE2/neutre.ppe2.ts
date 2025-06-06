@@ -11,7 +11,9 @@ export const neutrePPE2: AppelOffre.AppelOffreReadModel = {
   launchDate: 'Août 2021',
   cahiersDesChargesUrl:
     'https://www.cre.fr/documents/Appels-d-offres/appel-d-offres-portant-sur-la-realisation-et-l-exploitation-d-installations-de-production-d-electricite-a-partir-d-energie-solaire-photovoltaique',
+  multiplesTechnologies: true,
   unitePuissance: 'MW',
+  // unitePuissance: { eolien: 'MW', pv: 'MWc', hydraulique: 'MW' },
   autoritéCompétenteDemandesDélai: 'dreal',
   tarifOuPrimeRetenue: 'le prix de référence T de l’électricité retenu',
   tarifOuPrimeRetenueAlt: 'ce prix de référence',

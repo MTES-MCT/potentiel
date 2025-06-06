@@ -39,6 +39,7 @@ export const solPPE2: AppelOffre.AppelOffreReadModel = {
   launchDate: 'Août 2021',
   cahiersDesChargesUrl:
     'https://www.cre.fr/documents/Appels-d-offres/appel-d-offres-portant-sur-la-realisation-et-l-exploitation-d-installations-de-production-d-electricite-a-partir-de-l-energie-solaire-centrales-a2',
+  technologie: 'pv',
   unitePuissance: 'MW',
   autoritéCompétenteDemandesDélai: 'dreal',
   delaiRealisationEnMois: 30,

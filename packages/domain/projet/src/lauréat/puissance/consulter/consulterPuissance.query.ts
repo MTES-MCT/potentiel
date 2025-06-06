@@ -11,7 +11,7 @@ import { IdentifiantProjet } from '../../..';
 export type ConsulterPuissanceReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
   puissance: number;
-  unitéPuissance: string;
+  unitéPuissance: AppelOffre.UnitéPuissance;
   dateDemandeEnCours?: DateTime.ValueType;
 };
 

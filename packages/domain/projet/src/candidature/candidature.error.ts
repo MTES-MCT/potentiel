@@ -102,3 +102,15 @@ export class ChoixCoefficientKNonAttenduError extends InvalidOperationError {
     super(`Le choix du coefficient K ne peut être renseigné pour cette période`);
   }
 }
+
+export class TechnologieRequiseError extends InvalidOperationError {
+  constructor() {
+    super("Une technologie est requise pour cet appel d'offre");
+  }
+}
+
+export class TechnologieIndisponibleError extends InvalidOperationError {
+  constructor() {
+    super("Cette technologie n'est pas disponible pour cet appel d'offre");
+  }
+}

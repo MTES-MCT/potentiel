@@ -71,7 +71,9 @@ export const autoconsommationMetropolePPE2: AppelOffre.AppelOffreReadModel = {
   launchDate: 'Août 2021',
   cahiersDesChargesUrl:
     'https://www.cre.fr/documents/Appels-d-offres/appel-d-offres-portant-sur-la-realisation-et-l-exploitation-d-installations-de-production-d-electricite-a-partir-d-energies-renouvelables-en-autoco3',
+  multiplesTechnologies: true,
   unitePuissance: 'MW',
+  // unitePuissance: { eolien: 'MW', hydraulique: 'MW', pv: 'MWc' },
   autoritéCompétenteDemandesDélai: 'dreal',
   delaiRealisationEnMoisParTechnologie: { eolien: 36, pv: 30, hydraulique: 0 },
   decoupageParTechnologie: true,

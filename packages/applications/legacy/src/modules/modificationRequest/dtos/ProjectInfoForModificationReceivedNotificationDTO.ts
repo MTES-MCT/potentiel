@@ -1,3 +1,5 @@
+import { Candidature } from '@potentiel-domain/projet';
+
 export type ProjectInfoForModificationReceivedNotificationDTO = {
   porteursProjet: { email: string; fullName: string; id: string }[];
   departementProjet: string;
@@ -6,7 +8,7 @@ export type ProjectInfoForModificationReceivedNotificationDTO = {
   evaluationCarboneDeRéférence: number;
   puissanceInitiale: number;
   cahierDesChargesActuel: string;
-  technologie: 'N/A' | 'pv' | 'eolien' | 'hydraulique';
+  technologie: Candidature.TypeTechnologie.RawType;
   appelOffreId: string;
   periodeId: string;
   familleId?: string;

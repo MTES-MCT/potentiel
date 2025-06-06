@@ -15,7 +15,7 @@ export type ChangementPuissanceListPageProps = {
     items: Array<
       PlainType<
         Lauréat.Puissance.ListerChangementPuissanceReadModel['items'][number] & {
-          unitéPuissance: AppelOffre.ConsulterAppelOffreReadModel['unitePuissance'];
+          unitéPuissance: AppelOffre.UnitéPuissance | 'N/A';
         }
       >
     >;

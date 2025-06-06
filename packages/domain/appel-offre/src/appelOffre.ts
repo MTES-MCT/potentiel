@@ -6,7 +6,7 @@ import type {
   ListerAppelOffreQuery,
   ListerAppelOffreReadModel,
 } from './lister/listerAppelOffre.query';
-import * as RéférenceCahierDesCharges from './RéférenceCahierDesCharges.valueType';
+import * as RéférenceCahierDesCharges from './référenceCahierDesCharges.valueType';
 
 // Query
 export type AppelOffreQuery = ListerAppelOffreQuery & ConsulterAppelOffreQuery;
