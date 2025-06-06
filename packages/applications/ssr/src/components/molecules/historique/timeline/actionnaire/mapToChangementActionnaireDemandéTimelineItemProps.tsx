@@ -27,7 +27,8 @@ export const mapToChangementActionnaireDemandéTimelineItemProps = (
     date: demandéLe,
     title: (
       <div>
-        Changement d'actionnaire demandé par {<span className="font-semibold">{demandéPar}</span>}
+        Demande de changement d'actionnaire déposée par{' '}
+        {<span className="font-semibold">{demandéPar}</span>}
       </div>
     ),
     content: (

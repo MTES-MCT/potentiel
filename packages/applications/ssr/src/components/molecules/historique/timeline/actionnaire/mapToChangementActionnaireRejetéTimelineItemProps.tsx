@@ -26,7 +26,8 @@ export const mapToChangementActionnaireRejetéTimelineItemProps = (
     date: rejetéLe,
     title: (
       <div>
-        Changement d'actionnaire rejeté par {<span className="font-semibold">{rejetéPar}</span>}
+        Demande de changement d'actionnaire rejetée par{' '}
+        {<span className="font-semibold">{rejetéPar}</span>}
       </div>
     ),
     content: (

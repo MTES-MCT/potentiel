@@ -27,7 +27,8 @@ export const mapToChangementActionnaireAccordéTimelineItemProps = (
     date: accordéLe,
     title: (
       <div>
-        Changement d'actionnaire accordé par {<span className="font-semibold">{accordéPar}</span>}
+        Demande de changement d'actionnaire accordée par{' '}
+        {<span className="font-semibold">{accordéPar}</span>}
       </div>
     ),
     content: (
