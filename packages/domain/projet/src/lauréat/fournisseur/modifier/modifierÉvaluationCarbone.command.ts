@@ -9,8 +9,8 @@ export type ModifierÉvaluationCarboneCommand = Message<
   {
     identifiantProjet: IdentifiantProjet.ValueType;
     évaluationCarboneSimplifiée: number;
-    modifiéLe: DateTime.ValueType;
-    modifiéPar: Email.ValueType;
+    modifiéeLe: DateTime.ValueType;
+    modifiéePar: Email.ValueType;
   }
 >;
 

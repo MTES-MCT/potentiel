@@ -58,16 +58,16 @@ export class FournisseurAggregate extends AbstractAggregate<FournisseurEvent> {
   }
 
   async modifierÉvaluationCarbone({
-    modifiéLe,
-    modifiéPar,
+    modifiéeLe,
+    modifiéePar,
     évaluationCarboneSimplifiée,
   }: ModifierÉvaluationCarboneOptions) {
     const event: ÉvaluationCarboneModifiéeEvent = {
       type: 'ÉvaluationCarboneModifiée-V1',
       payload: {
         identifiantProjet: this.identifiantProjet.formatter(),
-        modifiéLe: modifiéLe.formatter(),
-        modifiéPar: modifiéPar.formatter(),
+        modifiéeLe: modifiéeLe.formatter(),
+        modifiéePar: modifiéePar.formatter(),
         évaluationCarboneSimplifiée,
       },
     };
