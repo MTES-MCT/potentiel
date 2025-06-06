@@ -33,7 +33,9 @@ export const mapToAbandonDemandéTimelineItemProps = (
 
   return {
     date: demandéLe,
-    title: <div>Demande déposée par {<span className="font-semibold">{demandéPar}</span>}</div>,
+    title: (
+      <div>Demande d'abandon déposée par {<span className="font-semibold">{demandéPar}</span>}</div>
+    ),
     content: (
       <>
         {event.type === 'AbandonDemandé-V1' && event.payload.recandidature && (

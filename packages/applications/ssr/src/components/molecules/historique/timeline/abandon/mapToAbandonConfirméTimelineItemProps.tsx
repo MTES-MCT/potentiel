@@ -9,6 +9,10 @@ export const mapToAbandonConfirméTimelineItemProps = (
 
   return {
     date: confirméLe,
-    title: <div>Abandon confirmé par {<span className="font-semibold">{confirméPar}</span>}</div>,
+    title: (
+      <div>
+        Demande d'abandon confirmée par {<span className="font-semibold">{confirméPar}</span>}
+      </div>
+    ),
   };
 };

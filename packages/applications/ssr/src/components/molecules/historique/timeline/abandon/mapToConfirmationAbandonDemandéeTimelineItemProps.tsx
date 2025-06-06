@@ -26,7 +26,8 @@ export const mapToConfirmationAbandonDemandéeTimelineItemProps = (
     date: confirmationDemandéeLe,
     title: (
       <div>
-        Confirmation demandée par {<span className="font-semibold">{confirmationDemandéePar}</span>}
+        Confirmation demandée pour la demande d'abandon par{' '}
+        {<span className="font-semibold">{confirmationDemandéePar}</span>}
       </div>
     ),
     content: (

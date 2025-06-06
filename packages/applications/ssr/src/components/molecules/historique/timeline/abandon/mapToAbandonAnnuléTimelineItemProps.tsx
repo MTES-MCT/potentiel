@@ -9,6 +9,8 @@ export const mapToAbandonAnnuléTimelineItemProps = (
 
   return {
     date: annuléLe,
-    title: <div>Abandon annulé par {<span className="font-semibold">{annuléPar}</span>}</div>,
+    title: (
+      <div>Demande d'abandon annulée par {<span className="font-semibold">{annuléPar}</span>}</div>
+    ),
   };
 };
