@@ -16,10 +16,7 @@ import { registerNotifierLauréatCommand } from './notifier/notifierLauréat.com
 import { registerNotifierLauréatUseCase } from './notifier/notifierLauréat.usecase';
 import { DélaiQueryDependencies, registerDélaiQueries } from './délai';
 import { registerProducteurUseCases, registerProducteurQueries } from './producteur';
-import {
-  ProducteurCommandDependencies,
-  ProducteurQueryDependencies,
-} from './producteur/producteur.register';
+import { ProducteurQueryDependencies } from './producteur/producteur.register';
 import {
   registerAchèvementQueries,
   registerAchèvementUseCases,
@@ -33,6 +30,7 @@ import { registerAbandonQueries, registerAbandonUseCases } from './abandon/aband
 import {
   FournisseurQueryDependencies,
   registerFournisseurQueries,
+  registerFournisseurUseCases,
 } from './fournisseur/fournisseur.register';
 
 export type LauréatQueryDependencies = ConsulterLauréatDependencies &
@@ -44,7 +42,7 @@ export type LauréatQueryDependencies = ConsulterLauréatDependencies &
 
 export type LauréatCommandDependencies = {
   getProjetAggregateRoot: GetProjetAggregateRoot;
-} & ProducteurCommandDependencies;
+};
 
 export const registerLauréatUseCases = (dependencies: LauréatCommandDependencies) => {
   registerNotifierLauréatCommand(dependencies.getProjetAggregateRoot);
@@ -60,6 +58,7 @@ export const registerLauréatUseCases = (dependencies: LauréatCommandDependenci
   registerAchèvementUseCases(dependencies);
   registerPuissanceUseCases(dependencies);
   registerAbandonUseCases(dependencies);
+  registerFournisseurUseCases(dependencies);
 };
 
 export const registerLauréatQueries = (dependencies: LauréatQueryDependencies) => {
