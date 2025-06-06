@@ -9,7 +9,6 @@ import { Candidature, IdentifiantProjet, Lauréat } from '@potentiel-domain/proj
 import { Role, Utilisateur } from '@potentiel-domain/utilisateur';
 import { Option } from '@potentiel-libraries/monads';
 
-import { AbandonHistoryRecord } from '@/components/molecules/historique/timeline/abandon';
 import {
   DétailsAbandonPage,
   DétailsAbandonPageProps,
@@ -65,7 +64,7 @@ export default async function Page({ params: { identifiant } }: PageProps) {
       }
 
       const historique = await mediator.send<
-        Historique.ListerHistoriqueProjetQuery<AbandonHistoryRecord>
+        Historique.ListerHistoriqueProjetQuery<Historique.AbandonHistoryRecord>
       >({
         type: 'Historique.Query.ListerHistoriqueProjet',
         data: {

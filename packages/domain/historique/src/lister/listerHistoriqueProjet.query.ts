@@ -36,6 +36,18 @@ export type ReprésentantLégalHistoryRecord = HistoryRecord<
   ReprésentantLégal.ReprésentantLégalEvent['payload']
 >;
 
+export type ProducteurHistoryRecord = HistoryRecord<
+  'producteur',
+  Lauréat.Producteur.ProducteurEvent['type'],
+  Lauréat.Producteur.ProducteurEvent['payload']
+>;
+
+export type PuissanceHistoryRecord = HistoryRecord<
+  'puissance',
+  Lauréat.Puissance.PuissanceEvent['type'],
+  Lauréat.Puissance.PuissanceEvent['payload']
+>;
+
 export type HistoryReadModel =
   | AbandonHistoryRecord
   | ActionnaireHistoryRecord

@@ -16,7 +16,6 @@ import { Heading1, Heading2 } from '@/components/atoms/headings';
 import { FormattedDate } from '@/components/atoms/FormattedDate';
 import { DownloadDocument } from '@/components/atoms/form/document/DownloadDocument';
 import { HistoriqueTimeline } from '@/components/molecules/historique/HistoriqueTimeline';
-import { ReprésentantLégalHistoryRecord } from '@/components/molecules/historique/timeline/représentant-légal';
 
 import { StatutChangementReprésentantLégalBadge } from '../../StatutChangementReprésentantLégalBadge';
 
@@ -37,7 +36,7 @@ export type DétailsChangementReprésentantLégalPageProps =
     role: PlainType<Role.ValueType>;
     actions: ReadonlyArray<AvailableChangementReprésentantLégalAction>;
     historique: PlainType<
-      Historique.ListerHistoriqueProjetReadModel<ReprésentantLégalHistoryRecord>
+      Historique.ListerHistoriqueProjetReadModel<Historique.ReprésentantLégalHistoryRecord>
     >;
     dateDemandeEnCoursPourLien?: string;
   };
