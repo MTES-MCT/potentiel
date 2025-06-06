@@ -82,7 +82,7 @@ Fonctionnalité: Importer une candidature
             | coefficient K choisi | oui             |
         Alors l'administrateur devrait être informé que "Le choix du coefficient K ne peut être renseigné pour cette période"
 
-    Plan du Scénario: Impossible d'importer une candidature avec une technologie non proposée par l'appel d'offres
+    Plan du Scénario: Impossible d'importer une candidature avec une technologie non disponible pour l'appel d'offres
         Quand le DGEC validateur importe la candidature "Du boulodrome de Marseille" avec :
             | appel d'offre | <Appel d'offre> |
             | technologie   | <Technologie>   |
@@ -100,6 +100,13 @@ Fonctionnalité: Importer une candidature
             | appel d'offre | PPE2 - Neutre |
             | technologie   | N/A           |
         Alors l'administrateur devrait être informé que "Une technologie est requise pour cet appel d'offre"
+
+    Scénario: Importer une candidature sans technologie si l'AO a une seule technologie
+        Quand le DGEC validateur importe la candidature "Du boulodrome de Marseille" avec :
+            | statut        | classé     |
+            | appel d'offre | PPE2 - Sol |
+            | technologie   | N/A        |
+        Alors la candidature devrait être consultable
 
     Scénario: Impossible d'importer une candidature sans choix du coefficient K si la période le propose
         Quand le DGEC validateur importe la candidature "Du boulodrome de Marseille" avec :

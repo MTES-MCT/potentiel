@@ -10,7 +10,6 @@ Fonctionnalité: Corriger une candidature
         Alors la candidature devrait être consultable
         Et le porteur n'a pas été prévenu que son attestation a été modifiée
 
-    @select
     Scénario: Corriger une candidature et ses détails (typiquement, par CSV)
         Quand le DGEC validateur corrige la candidature avec :
             | nom candidat | abcd                  |
@@ -125,7 +124,7 @@ Fonctionnalité: Corriger une candidature
             | coefficient K choisi | oui |
         Alors l'administrateur devrait être informé que "Le choix du coefficient K ne peut être renseigné pour cette période"
 
-    Plan du Scénario: Impossible de corriger une candidature avec une technologie non proposée par l'appel d'offres
+    Plan du Scénario: Impossible de corriger une candidature avec une technologie non disponible pour l'appel d'offres
         Etant donné la candidature lauréate "Du boulodrome de Marseille" avec :
             | appel d'offre | <Appel d'offre> |
             | technologie   | N/A             |
@@ -139,7 +138,7 @@ Fonctionnalité: Corriger une candidature
             | PPE2 - Sol      | eolien      |
             | PPE2 - Eolien   | pv          |
 
-    Scénario: Impossible de corriger une candidature sans technologie si l'AO a plusieurs technologies
+    Scénario: Impossible de corriger une candidature sans indiquer de technologie si l'AO a plusieurs technologies disponibles
         Etant donné la candidature lauréate "Du boulodrome de Marseille" avec :
             | appel d'offre | PPE2 - Neutre |
             | technologie   | pv            |
