@@ -113,7 +113,7 @@ const mapToReadModel = (
 ): ChangementPuissanceItemReadModel => {
   const identifiantProjet = IdentifiantProjet.convertirEnValueType(entity.identifiantProjet);
   const candidature = candidatures.find(
-    (c) => c.identifiantProjet === identifiantProjet.appelOffre,
+    (c) => c.identifiantProjet === identifiantProjet.formatter(),
   );
   return {
     nomProjet: entity.lauréat.nomProjet,
