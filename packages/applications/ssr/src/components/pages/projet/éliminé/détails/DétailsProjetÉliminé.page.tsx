@@ -4,7 +4,6 @@ import Button from '@codegouvfr/react-dsfr/Button';
 import { Routes } from '@potentiel-applications/routes';
 import { Candidature, IdentifiantProjet } from '@potentiel-domain/projet';
 import { Email } from '@potentiel-domain/common';
-import { PlainType } from '@potentiel-domain/core';
 
 import { ProjetBanner } from '@/components/molecules/projet/ProjetBanner';
 import { Heading2 } from '@/components/atoms/headings';
@@ -12,12 +11,17 @@ import { CopyButton } from '@/components/molecules/CopyButton';
 import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
 
 export type DétailsProjetÉliminéPageProps = {
-  identifiantProjet: PlainType<IdentifiantProjet.ValueType>;
-  candidature: PlainType<
-    Omit<Candidature.ConsulterCandidatureReadModel, 'prixReference'> & {
-      prixReference: number | undefined;
-    }
-  >;
+  identifiantProjet: IdentifiantProjet.RawType;
+  candidature: {
+    puissanceProductionAnnuelle: Candidature.ConsulterCandidatureReadModel['puissanceProductionAnnuelle'];
+    localité: Candidature.ConsulterCandidatureReadModel['localité'];
+    sociétéMère: Candidature.ConsulterCandidatureReadModel['sociétéMère'];
+    emailContact: Candidature.ConsulterCandidatureReadModel['emailContact'];
+    prixReference?: Candidature.ConsulterCandidatureReadModel['prixReference'];
+    nomCandidat: Candidature.ConsulterCandidatureReadModel['nomCandidat'];
+    nomReprésentantLégal: Candidature.ConsulterCandidatureReadModel['nomReprésentantLégal'];
+    unitéPuissance: string;
+  };
   utilisateursAyantAccèsAuProjet: ReadonlyArray<Email.RawType>;
   actions: Array<DétailsProjetÉliminéActions>;
 };
@@ -44,10 +48,9 @@ export const DétailsProjetÉliminéPage: FC<DétailsProjetÉliminéPageProps> =
   utilisateursAyantAccèsAuProjet,
   actions,
 }) => {
-  const idProjet = IdentifiantProjet.bind(identifiantProjet).formatter();
   return (
     <ColumnPageTemplate
-      banner={<ProjetBanner identifiantProjet={idProjet} noLink />}
+      banner={<ProjetBanner identifiantProjet={identifiantProjet} noLink />}
       leftColumn={{
         children: (
           <section className="flex flex-col gap-4">
@@ -71,7 +74,7 @@ export const DétailsProjetÉliminéPage: FC<DétailsProjetÉliminéPageProps> =
               </li>
               <li className="flex gap-2 items-center">
                 <span className="font-bold">Addresse email de candidature :</span>
-                <CopyButton textToCopy={Email.bind(emailContact).formatter()} />
+                <CopyButton textToCopy={emailContact.formatter()} />
               </li>
               <li>
                 <span className="font-bold">Producteur :</span> {nomCandidat}
@@ -81,7 +84,7 @@ export const DétailsProjetÉliminéPage: FC<DétailsProjetÉliminéPageProps> =
               </li>
               <li>
                 <span className="font-bold">Puissance :</span> {puissanceProductionAnnuelle}{' '}
-                {Candidature.UnitéPuissance.bind(unitéPuissance).formatter()}
+                {unitéPuissance}
               </li>
               {prixReference && (
                 <li>
@@ -109,7 +112,7 @@ export const DétailsProjetÉliminéPage: FC<DétailsProjetÉliminéPageProps> =
           <>
             {mapToActionComponents({
               actions,
-              identifiantProjet: idProjet,
+              identifiantProjet,
             })}
           </>
         ),

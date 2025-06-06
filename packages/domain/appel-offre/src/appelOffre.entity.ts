@@ -106,7 +106,7 @@ type TechnologieAppelOffre =
       multiplesTechnologies: true;
       /**
        * L'unité de puissance par défaut pour l'appel d'offre, en fonction de la technologie
-       * Cette valeur peut-être surchargée dans la période car dans certains cas, l'unité MW a été utilisé au lieu de MWc
+       * Cette valeur peut-être surchargée dans la période car dans certains cas, l'unité MW a été utilisée au lieu de MWc
        **/
       unitePuissance: Record<Technologie, UnitéPuissance>;
     };

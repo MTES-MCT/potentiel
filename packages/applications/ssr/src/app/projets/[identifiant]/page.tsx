@@ -4,7 +4,6 @@ import { Metadata, ResolvingMetadata } from 'next';
 import { Option } from '@potentiel-libraries/monads';
 import { Accès, Candidature, IdentifiantProjet, Éliminé } from '@potentiel-domain/projet';
 import { Role } from '@potentiel-domain/utilisateur';
-import { mapToPlainObject } from '@potentiel-domain/core';
 
 import { decodeParameter } from '@/utils/decodeParameter';
 import { IdentifiantParameter } from '@/utils/identifiantParameter';
@@ -67,7 +66,7 @@ export default async function Page({ params: { identifiant } }: PageProps) {
 
       return (
         <DétailsProjetÉliminéPage
-          identifiantProjet={mapToPlainObject(identifiantProjet)}
+          identifiantProjet={identifiantProjet.formatter()}
           candidature={mapToCandidatureProps({ candidature, role: utilisateur.role })}
           utilisateursAyantAccèsAuProjet={Option.match(accèsProjet)
             .some((accèsProjet) =>
@@ -91,11 +90,27 @@ type MapToCandidatureProps = (args: {
   role: Role.ValueType;
 }) => DétailsProjetÉliminéPageProps['candidature'];
 
-const mapToCandidatureProps: MapToCandidatureProps = ({ candidature, role }) => ({
-  ...mapToPlainObject(candidature),
-  prixReference: role.aLaPermission('projet.accèsDonnées.prix')
-    ? candidature.prixReference
-    : undefined,
+const mapToCandidatureProps: MapToCandidatureProps = ({
+  candidature: {
+    nomCandidat,
+    emailContact,
+    localité,
+    nomReprésentantLégal,
+    sociétéMère,
+    prixReference,
+    puissanceProductionAnnuelle,
+    unitéPuissance,
+  },
+  role,
+}) => ({
+  localité,
+  nomCandidat,
+  emailContact,
+  nomReprésentantLégal,
+  sociétéMère,
+  prixReference: role.aLaPermission('projet.accèsDonnées.prix') ? prixReference : undefined,
+  puissanceProductionAnnuelle,
+  unitéPuissance: unitéPuissance.formatter(),
 });
 
 type MapToActions = (args: {
