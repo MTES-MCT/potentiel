@@ -11,7 +11,7 @@ export const mapToChangementReprésentantLégalAccordéTimelineItemProps = (
     date: accordéLe,
     title: (
       <div>
-        Changement de représentant légal accordé par{' '}
+        Demande de changement de représentant légal accordée par{' '}
         {<span className="font-semibold">{accordéPar}</span>}
       </div>
     ),

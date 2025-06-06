@@ -11,7 +11,7 @@ export const mapToChangementReprésentantLégalRejetéTimelineItemProps = (
     date: rejetéLe,
     title: (
       <div>
-        Changement de représentant légal rejeté par{' '}
+        Demande de changement de représentant légal rejetée par{' '}
         {<span className="font-semibold">{rejetéPar}</span>}
       </div>
     ),
