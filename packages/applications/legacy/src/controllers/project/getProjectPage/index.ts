@@ -1,5 +1,4 @@
 import * as yup from 'yup';
-import { getProjectEvents } from '../../../config';
 import { getProjectDataForProjectPage } from '../../../config/queries.config';
 import { shouldUserAccessProject } from '../../../config/useCases.config';
 import { Project } from '../../../infra/sequelize';
@@ -36,7 +35,7 @@ import { getPuissance } from './_utils/getPuissance';
 import { getProducteur } from './_utils/getProducteur';
 import { getCandidature } from './_utils/getCandidature';
 import { Actionnaire } from '@potentiel-domain/laureat';
-import { Candidature, IdentifiantProjet, Éliminé } from '@potentiel-domain/projet';
+import { Candidature, IdentifiantProjet } from '@potentiel-domain/projet';
 import { Routes } from '@potentiel-applications/routes';
 import { mediator } from 'mediateur';
 import { mapToPlainObject } from '@potentiel-domain/core';
@@ -164,17 +163,6 @@ v1Router.get(
         return response.redirect(
           Routes.Projet.détailsÉliminé(identifiantProjetValueType.formatter()),
         );
-      }
-
-      const rawProjectEventList = await getProjectEvents({ projectId: project.id, user });
-
-      if (rawProjectEventList.isErr()) {
-        logger.warning(`Error fetching project events`, {
-          errorName: rawProjectEventList.error?.name,
-          errorMessage: rawProjectEventList.error?.message,
-          errorStackTrace: rawProjectEventList.error?.stack,
-        });
-        return notFoundResponse({ request, response, ressourceTitle: 'Projet' });
       }
 
       const abandon = await getAbandon(identifiantProjetValueType);

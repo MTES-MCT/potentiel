@@ -4,7 +4,6 @@ export * from './helpers';
 export * from './lister';
 export * from './findProjectByIdentifiers';
 export * from './getDélaiCdc2022Applicable';
-export * from './getLegacyModificationByFilename';
 export * from './getNonLegacyProjectsByContactEmail';
 export * from './getProjectDataForSignalerDemandeDelaiPage';
 export * from './getIdentifiantProjetByLegacyId';
