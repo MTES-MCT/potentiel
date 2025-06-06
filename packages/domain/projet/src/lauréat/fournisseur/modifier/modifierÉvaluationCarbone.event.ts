@@ -8,7 +8,7 @@ export type ÉvaluationCarboneModifiéeEvent = DomainEvent<
   {
     identifiantProjet: IdentifiantProjet.RawType;
     évaluationCarboneSimplifiée: number;
-    modifiéLe: DateTime.RawType;
-    modifiéPar: Email.RawType;
+    modifiéeLe: DateTime.RawType;
+    modifiéePar: Email.RawType;
   }
 >;

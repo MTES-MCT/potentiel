@@ -4,8 +4,8 @@ import { AbstractFixture } from '../../../../fixture';
 
 export interface ModifierÉvaluationCarbone {
   readonly évaluationCarbone: number;
-  readonly modifiéLe: string;
-  readonly modifiéPar: string;
+  readonly modifiéeLe: string;
+  readonly modifiéePar: string;
 }
 
 export class ModifierÉvaluationCarboneFixture
@@ -18,30 +18,30 @@ export class ModifierÉvaluationCarboneFixture
     return this.#évaluationCarbone;
   }
 
-  #modifiéLe!: string;
+  #modifiéeLe!: string;
 
-  get modifiéLe(): string {
-    return this.#modifiéLe;
+  get modifiéeLe(): string {
+    return this.#modifiéeLe;
   }
 
-  #modifiéPar!: string;
+  #modifiéePar!: string;
 
-  get modifiéPar(): string {
-    return this.#modifiéPar;
+  get modifiéePar(): string {
+    return this.#modifiéePar;
   }
 
   créer(
-    partialFixture: Partial<Readonly<ModifierÉvaluationCarbone>> & { modifiéPar: string },
+    partialFixture: Partial<Readonly<ModifierÉvaluationCarbone>> & { modifiéePar: string },
   ): Readonly<ModifierÉvaluationCarbone> {
     const fixture = {
-      modifiéLe: faker.date.recent().toISOString(),
+      modifiéeLe: faker.date.recent().toISOString(),
       évaluationCarbone: faker.number.float(),
       ...partialFixture,
     };
 
     this.#évaluationCarbone = fixture.évaluationCarbone;
-    this.#modifiéLe = fixture.modifiéLe;
-    this.#modifiéPar = fixture.modifiéPar;
+    this.#modifiéeLe = fixture.modifiéeLe;
+    this.#modifiéePar = fixture.modifiéePar;
 
     this.aÉtéCréé = true;
 

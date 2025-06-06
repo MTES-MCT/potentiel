@@ -11,24 +11,24 @@ export type ModifierÉvaluationCarboneUseCase = Message<
   {
     identifiantProjetValue: string;
     évaluationCarboneSimplifiéeValue: number;
-    modifiéLeValue: string;
-    modifiéParValue: string;
+    modifiéeLeValue: string;
+    modifiéeParValue: string;
   }
 >;
 
 export const registerModifierÉvaluationCarboneUseCase = () => {
   const handler: MessageHandler<ModifierÉvaluationCarboneUseCase> = async ({
     identifiantProjetValue,
-    modifiéLeValue,
-    modifiéParValue,
+    modifiéeLeValue,
+    modifiéeParValue,
     évaluationCarboneSimplifiéeValue,
   }) => {
     await mediator.send<ModifierÉvaluationCarboneCommand>({
       type: 'Lauréat.Fournisseur.Command.ModifierÉvaluationCarbone',
       data: {
         identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjetValue),
-        modifiéLe: DateTime.convertirEnValueType(modifiéLeValue),
-        modifiéPar: Email.convertirEnValueType(modifiéParValue),
+        modifiéeLe: DateTime.convertirEnValueType(modifiéeLeValue),
+        modifiéePar: Email.convertirEnValueType(modifiéeParValue),
         évaluationCarboneSimplifiée: évaluationCarboneSimplifiéeValue,
       },
     });
