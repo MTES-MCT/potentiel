@@ -9,6 +9,7 @@ import { Project, User as UserModel, UserProjects, File } from '../../../project
 import { parseCahierDesChargesRéférence, ProjectAppelOffre, User } from '../../../../../entities';
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { userIs, userIsNot } from '../../../../../modules/users';
+import { Role } from '@potentiel-domain/utilisateur';
 
 export const getProjectDataForProjectPage: GetProjectDataForProjectPage = ({ projectId, user }) => {
   const chargerProjet = wrapInfra(
@@ -198,7 +199,7 @@ export const getProjectDataForProjectPage: GetProjectDataForProjectPage = ({ pro
             'dgec-validateur',
             'cre',
           ])(user) && { fournisseur, evaluationCarbone }),
-          ...(userIsNot(['caisse-des-dépôts'])(user) && {
+          ...(Role.convertirEnValueType(user.role).aLaPermission('projet.accèsDonnées.prix') && {
             prixReference,
           }),
           ...(userIs([
