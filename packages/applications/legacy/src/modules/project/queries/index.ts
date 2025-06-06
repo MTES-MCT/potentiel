@@ -3,7 +3,6 @@ export * from './listerProjets';
 export * from './BuildProjectIdentifier';
 export * from './FindProjectByIdentifiers';
 export * from './GetDélaiCdc2022Applicable';
-export * from './GetProjectDataForProjectClaim';
 export * from './GetProjectDataForProjectPage';
 export * from './GetProjectDataForSignalerDemandeAbandonPage';
 export * from './GetProjectDataForSignalerDemandeDelaiPage';

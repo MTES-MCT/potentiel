@@ -7,8 +7,6 @@ export * from './onLegacyAbandonSupprimé';
 export * from './onLegacyProjectSourced';
 export * from './onProjectAbandoned';
 export * from './onProjectActionnaireUpdated';
-export * from './onProjectClaimed';
-export * from './onProjectClaimedByOwner';
 export * from './onProjectClasseGranted';
 export * from './onProjectCompletionDueDateCancelled';
 export * from './onProjectCompletionDueDateSet';

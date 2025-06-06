@@ -24,18 +24,15 @@ export * from './project/project.model';
 export * from './projectEvents/projectEvent.model';
 export * from './tâches/tâches.model';
 export * from './userDreal/userDreal.model';
-export * from './userProjectClaims/userProjectClaims.model';
 export * from './userProjects/userProjects.model';
 export * from './users/users.model';
 
 // Export des projectors pour rebuild dans les migrations si besoin
-export * from './projector.factory';
 export * from './modificationRequest/modificationRequest.projector';
 export * from './project/project.projector';
 export * from './projectEvents/projectEvent.projector';
 export * from './tâches/tâches.projector';
 export * from './userDreal/userDreal.projector';
-export * from './userProjectClaims/userProjectClaims.projector';
 export * from './userProjects/userProjects.projector';
 export * from './users/user.projector';
 
@@ -45,7 +42,6 @@ export * from './modificationRequest/updates';
 export * from './project/updates';
 export * from './projectEvents/updates';
 export * from './userDreal/updates';
-export * from './userProjectClaims/updates';
 export * from './userProjects/updates';
 export * from './users/updates';
 

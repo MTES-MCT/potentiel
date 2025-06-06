@@ -15,10 +15,7 @@ import {
   initializeUserDrealModel,
   initializeUserDrealModelAssociations,
 } from './userDreal/userDreal.initializer';
-import {
-  initializeUserProjectClaimsModel,
-  initializeUserProjectClaimsModelAssociations,
-} from './userProjectClaims/userProjectClaims.initializer';
+
 import {
   initializeUserProjectsModel,
   initializeUserProjectsModelAssociations,
@@ -35,7 +32,6 @@ export const initializeModels = (sequelize: Sequelize) => {
   initializeProjectEventModel(sequelize);
   initializeTâchesModel(sequelize);
   initializeUserDrealModel(sequelize);
-  initializeUserProjectClaimsModel(sequelize);
   initializeUserProjectsModel(sequelize);
   initializeUserModel(sequelize);
 
@@ -44,7 +40,6 @@ export const initializeModels = (sequelize: Sequelize) => {
   initializeModificationRequestModelAssociations();
   initializeProjectModelModelAssociations();
   initializeUserDrealModelAssociations();
-  initializeUserProjectClaimsModelAssociations();
   initializeUserProjectsModelAssociations();
   initializeUserModelAssociations();
 };

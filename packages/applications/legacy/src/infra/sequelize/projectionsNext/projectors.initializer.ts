@@ -6,14 +6,10 @@ import { ModificationRequestProjector } from './modificationRequest/modification
 import { ProjectProjector } from './project/project.projector';
 import { UserProjector } from './users/user.projector';
 import { UserProjectsProjector } from './userProjects/userProjects.projector';
-import { UserProjectClaimsProjector } from './userProjectClaims/userProjectClaims.projector';
 import { UserDrealProjector } from './userDreal/userDreal.projector';
-import { createProjectorFactory } from './projector.factory';
 import { Sequelize } from 'sequelize';
 
 export const initializeProjectors = (sequelize: Sequelize, subscribe: Subscribe) => {
-  const projectorFactory = createProjectorFactory(sequelize);
-
   const projectors = [
     ProjectEventProjector,
     TâchesProjector,
@@ -21,7 +17,6 @@ export const initializeProjectors = (sequelize: Sequelize, subscribe: Subscribe)
     ProjectProjector,
     UserProjector,
     UserProjectsProjector,
-    UserProjectClaimsProjector,
     UserDrealProjector,
   ];
 
