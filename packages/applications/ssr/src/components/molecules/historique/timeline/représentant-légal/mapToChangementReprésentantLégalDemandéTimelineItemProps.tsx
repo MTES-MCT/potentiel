@@ -11,7 +11,7 @@ export const mapToChangementReprésentantLégalDemandéTimelineItemProps = (
     date: demandéLe,
     title: (
       <div>
-        Changement de représentant légal demandé par{' '}
+        Demande de changement de représentant légal demandée par{' '}
         {<span className="font-semibold">{demandéPar}</span>}
       </div>
     ),
