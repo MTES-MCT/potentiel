@@ -10,6 +10,8 @@ export type {
   AbandonHistoryRecord,
   ActionnaireHistoryRecord,
   HistoryReadModel,
+  ProducteurHistoryRecord,
+  PuissanceHistoryRecord,
   RecoursHistoryRecord,
   ReprésentantLégalHistoryRecord,
 } from './lister/listerHistoriqueProjet.query';

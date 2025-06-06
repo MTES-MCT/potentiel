@@ -11,7 +11,6 @@ import { Historique } from '@potentiel-domain/historique';
 import { DétailsProducteurPage } from '@/components/pages/producteur/changement/détails/DétailsProducteur.page';
 import { decodeParameter } from '@/utils/decodeParameter';
 import { PageWithErrorHandling } from '@/utils/PageWithErrorHandling';
-import { ProducteurHistoryRecord } from '@/components/pages/producteur/changement/détails/timeline';
 
 export const metadata: Metadata = {
   title: 'Détail du producteur du projet - Potentiel',
@@ -43,7 +42,7 @@ export default async function Page({ params: { identifiant, date } }: PageProps)
     }
 
     const historique = await mediator.send<
-      Historique.ListerHistoriqueProjetQuery<ProducteurHistoryRecord>
+      Historique.ListerHistoriqueProjetQuery<Historique.ProducteurHistoryRecord>
     >({
       type: 'Historique.Query.ListerHistoriqueProjet',
       data: {
