@@ -1,37 +1,200 @@
-import React from 'react';
-import { Request } from 'express';
-import { Timeline, CalendarIcon, Section } from '../../../components';
-import { ProjectEventListDTO } from '../../../../modules/frise';
-import { formatProjectDataToIdentifiantProjetValueType } from '../../../../helpers/dataToValueTypes';
+import React, { FC, ReactNode } from 'react';
+import { CalendarIcon, Section, CheckIcon } from '../../../components';
+import { afficherDate } from '../../../helpers';
+import { ClockIcon, DownloadLink, Link } from '../../../components/UI';
+import { Routes } from '@potentiel-applications/routes';
+import { match } from 'ts-pattern';
 
-type EtapesProjetProps = {
-  project: {
-    id: string;
-    appelOffreId: string;
-    periodeId: string;
-    familleId: string;
-    numeroCRE: string;
-    isClasse: boolean;
-    isAbandoned: boolean;
-  };
-  user: Request['user'];
-  projectEventList: ProjectEventListDTO;
+export type EtapesProjetProps = {
+  identifiantProjet: string;
+  isLegacy: boolean;
+  étapes: Array<{
+    type:
+      | 'designation'
+      | 'achèvement-prévisionel'
+      | 'mise-en-service'
+      | 'achèvement-réel'
+      | 'abandon'
+      | 'recours';
+    date: number;
+  }>;
 };
 
-export const EtapesProjet = ({ projectEventList, project }: EtapesProjetProps) => (
+export const EtapesProjet: FC<EtapesProjetProps> = ({ identifiantProjet, isLegacy, étapes }) => (
   <Section
     title="Étapes du projet"
     icon={<CalendarIcon />}
     className="flex-auto min-w-0 lg:max-w-[60%]"
   >
-    <Timeline
-      projectEventList={projectEventList}
-      identifiantProjet={formatProjectDataToIdentifiantProjetValueType({
-    appelOffreId: project.appelOffreId,
-    periodeId: project.periodeId,
-    familleId: project.familleId,
-    numeroCRE: project.numeroCRE,
-  }).formatter()}
-    />
+    <aside aria-label="Progress">
+      <ol className="pl-0 overflow-hidden list-none">
+        {étapes
+          .sort((a, b) => a.date - b.date)
+          .map((étape) =>
+            match(étape)
+              .with({ type: 'designation' }, ({ type, date }) => (
+                <ÉtapeTerminée
+                  key={`project-step-${type}`}
+                  titre="Notification des résultats"
+                  date={date}
+                >
+                  {!isLegacy && (
+                    <DownloadLink
+                      fileUrl={Routes.Candidature.téléchargerAttestation(identifiantProjet)}
+                    >
+                      Télécharger attestation
+                    </DownloadLink>
+                  )}
+                </ÉtapeTerminée>
+              ))
+              .with({ type: 'recours' }, ({ type, date }) => (
+                <ÉtapeTerminée key={`project-step-${type}`} titre="Recours accordé" date={date}>
+                  <Link href={Routes.Recours.détail(identifiantProjet)}>
+                    Voir les détails du recours
+                  </Link>
+                </ÉtapeTerminée>
+              ))
+              .with({ type: 'abandon' }, ({ type, date }) => (
+                <ÉtapeTerminée
+                  isLastItem
+                  key={`project-step-${type}`}
+                  titre="Abandon accordé"
+                  date={date}
+                >
+                  <Link href={Routes.Abandon.détail(identifiantProjet)}>
+                    Voir les détails de l'abandon
+                  </Link>
+                </ÉtapeTerminée>
+              ))
+              .with({ type: 'achèvement-prévisionel' }, ({ type, date }) => (
+                <ÉtapeTerminée
+                  key={`project-step-${type}`}
+                  titre="Date d'achèvement prévisionnelle"
+                  date={date}
+                />
+              ))
+              .with({ type: 'mise-en-service' }, ({ type, date }) => (
+                <ÉtapeTerminée key={`project-step-${type}`} titre="Mise en service" date={date} />
+              ))
+              .with({ type: 'achèvement-réel' }, ({ type, date }) => (
+                <ÉtapeTerminée
+                  isLastItem={!!étapes.find((étape) => étape.type === 'mise-en-service')}
+                  key={`project-step-${type}`}
+                  titre="Date d'achèvement réelle"
+                  date={date}
+                />
+              ))
+              .exhaustive(),
+          )}
+
+        {!étapes.find((étape) => étape.type === 'abandon') && (
+          <>
+            {!étapes.find((étape) => étape.type === 'mise-en-service') && (
+              <ÉtapeÀTransmettre
+                isLastItem={!!étapes.find((étape) => étape.type === 'achèvement-réel')}
+                key={`project-step-mise-en-service`}
+                titre="Mise en service"
+              />
+            )}
+
+            {!étapes.find((étape) => étape.type === 'achèvement-réel') && (
+              <ÉtapeÀTransmettre
+                isLastItem
+                key={`project-step-achèvement-réel`}
+                titre="Date d'achèvement réelle"
+              />
+            )}
+          </>
+        )}
+      </ol>
+    </aside>
   </Section>
+);
+
+type ÉtapeTerminéeProps = {
+  titre: string;
+  date: number;
+  isLastItem?: boolean;
+  children?: ReactNode;
+};
+const ÉtapeTerminée: FC<ÉtapeTerminéeProps> = ({ titre, date, isLastItem = false, children }) => {
+  return (
+    <TimelineItem isLastItem={isLastItem}>
+      <PastIcon />
+      <ContentArea>
+        <ItemDate date={date} />
+        <ItemTitle title={titre} />
+        {children}
+      </ContentArea>
+    </TimelineItem>
+  );
+};
+
+type ÉtapeÀTransmettreProps = {
+  titre: string;
+  isLastItem: boolean;
+};
+const ÉtapeÀTransmettre: FC<ÉtapeÀTransmettreProps> = ({ titre, isLastItem }) => {
+  return (
+    <TimelineItem isLastItem={isLastItem}>
+      <NextUpIcon />
+      <ContentArea>
+        À transmettre
+        <ItemTitle title={titre} />
+      </ContentArea>
+    </TimelineItem>
+  );
+};
+
+type TimelineItemProps = {
+  children?: React.ReactNode;
+  isLastItem: boolean;
+};
+
+export const TimelineItem = ({ children, isLastItem }: TimelineItemProps) => (
+  <li className={classNames(isLastItem ? '' : 'pb-6 print:pb-3', 'relative')}>
+    {isLastItem ? null : (
+      <div
+        className="print:hidden -ml-px absolute mt-0.5 top-4 left-4 w-0.5 h-full bg-gray-300 "
+        aria-hidden="true"
+      />
+    )}
+    <div className="relative flex items-start group">{children}</div>
+  </li>
+);
+
+const classNames = (...classes) => classes.filter(Boolean).join(' ');
+
+const PastIcon = () => (
+  <div className="flex flex-col print:min-w-[90px]" title="étape validée">
+    <div className="hidden print:block text-xs mb-2 whitespace-nowrap">étape validée</div>
+    <span className="relative z-2 w-8 h-8 flex items-center justify-center bg-green-700 print:bg-transparent print:border-solid print:border-2 print:border-green-700 rounded-full group-hover:bg-green-900">
+      <CheckIcon className="w-5 h-5 text-white print:text-green-700" />
+    </span>
+  </div>
+);
+
+const NextUpIcon = () => (
+  <div className="flex flex-col print:min-w-[90px]" title="étape à venir">
+    <div className="hidden print:block text-xs mb-2 whitespace-nowrap">étape à venir</div>
+    <span
+      className={
+        'relative z-2 w-8 h-8 flex items-center justify-center bg-gray-300 print:bg-none print:border-solid print:border-2 print:border-gray-400 rounded-full'
+      }
+    >
+      <ClockIcon className="h-5 w-5 text-white print:text-gray-400" />
+    </span>
+  </div>
+);
+
+const ContentArea = (props: { children: any }) => (
+  <div className="ml-4 min-w-0 flex flex-col">{props.children}</div>
+);
+
+const ItemDate = (props: { date: number }) => (
+  <span className="text-sm font-semibold tracking-wide uppercase">{afficherDate(props.date)}</span>
+);
+
+const ItemTitle = (props: { title: string }) => (
+  <span className="text-sm font-semibold tracking-wide uppercase">{props.title}</span>
 );

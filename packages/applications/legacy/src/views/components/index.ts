@@ -2,7 +2,6 @@ export * from './UI';
 export * from './dropdowns';
 export * from './forms';
 export * from './inputs';
-export * from './timeline';
 export * from './Container';
 export * from './DownloadIcon';
 export * from './ModificationRequestActionTitles';

@@ -1,4 +1,3 @@
-import { ProjectEventListDTO } from '../../../modules/frise';
 import { ProjectDataForProjectPage } from '../../../modules/project/queries';
 import { Request } from 'express';
 import React, { FC } from 'react';
@@ -23,6 +22,7 @@ import {
   ContactProps,
   InfoGeneralesProps,
   GarantiesFinancièresProjetProps,
+  EtapesProjetProps,
 } from './sections';
 import { ProjectHeader } from './components';
 import { Routes } from '@potentiel-applications/routes';
@@ -32,11 +32,13 @@ import { formatProjectDataToIdentifiantProjetValueType } from '../../../helpers/
 import * as Role from '@potentiel-domain/utilisateur/dist/role.valueType';
 import { Raccordement } from '@potentiel-domain/laureat';
 import { Option } from '@potentiel-libraries/monads';
-import { AbandonInfoBox } from './sections/AbandonInfoBox';
 import {
   DemandeImpossibleSiAbandonEnCoursInfoBox,
   DemandeImpossibleSiAchèvementInfoBox,
 } from './sections/DemandeImpossibleInfoBox';
+import { DateTime } from '@potentiel-domain/common';
+import { PlainType } from '@potentiel-domain/core';
+import { Lauréat, Éliminé } from '@potentiel-domain/projet';
 
 export type AlerteRaccordement =
   | 'référenceDossierManquantePourDélaiCDC2022'
@@ -45,17 +47,17 @@ export type AlerteRaccordement =
 type ProjectDetailsProps = {
   request: Request;
   project: ProjectDataForProjectPage;
-  raccordement: Option.Type<Raccordement.ConsulterRaccordementReadModel>;
-  projectEventList?: ProjectEventListDTO;
+  raccordement: PlainType<Option.Type<Raccordement.ConsulterRaccordementReadModel>>;
   alertesRaccordement: AlerteRaccordement[];
-  abandon?: { statut: string };
-  demandeRecours: ProjectDataForProjectPage['demandeRecours'];
+  abandon?: PlainType<Lauréat.Abandon.ConsulterAbandonReadModel>;
+  demandeRecours?: PlainType<Éliminé.Recours.ConsulterRecoursReadModel>;
   garantiesFinancières?: GarantiesFinancièresProjetProps['garantiesFinancières'];
   représentantLégal?: ContactProps['représentantLégal'];
   actionnaire?: InfoGeneralesProps['actionnaire'];
   puissance?: InfoGeneralesProps['puissance'];
   producteur?: ContactProps['producteur'];
   estAchevé: boolean;
+  dateAchèvementRéelle?: number;
   modificationsNonPermisesParLeCDCActuel: boolean;
   coefficientKChoisi: boolean | undefined;
   candidature: ContactProps['candidature'];
@@ -64,12 +66,12 @@ type ProjectDetailsProps = {
 export const ProjectDetails = ({
   request,
   project,
-  projectEventList,
   raccordement,
   alertesRaccordement,
   abandon,
   demandeRecours,
   estAchevé,
+  dateAchèvementRéelle,
   représentantLégal,
   actionnaire,
   garantiesFinancières,
@@ -89,8 +91,54 @@ export const ProjectDetails = ({
     numeroCRE: project.numeroCRE,
   }).formatter();
 
-  const abandonEnCoursOuAccordé = !!abandon && abandon.statut !== 'rejeté';
-  const abandonEnCours = abandonEnCoursOuAccordé && abandon.statut !== 'accordé';
+  const abandonEnCoursOuAccordé = !!abandon && abandon.statut.statut !== 'rejeté';
+  const abandonEnCours = abandonEnCoursOuAccordé && abandon.statut.statut !== 'accordé';
+
+  const étapes: EtapesProjetProps['étapes'] = [
+    {
+      type: 'designation',
+      date: project.notifiedOn,
+    },
+  ];
+
+  if (abandon?.demande.accord) {
+    étapes.push({
+      type: 'abandon',
+      date: DateTime.bind(abandon.demande.accord?.accordéLe).date.getTime(),
+    });
+  } else {
+    if (demandeRecours?.demande.accord) {
+      étapes.push({
+        type: 'recours',
+        date: DateTime.bind(demandeRecours.demande.accord?.accordéLe).date.getTime(),
+      });
+    }
+
+    étapes.push({
+      type: 'achèvement-prévisionel',
+      date: project.completionDueOn,
+    });
+
+    const dernierDossierRaccordement = Option.match(raccordement)
+      .some(({ dossiers }) => (dossiers.length > 0 ? dossiers[dossiers.length - 1] : undefined))
+      .none(() => undefined);
+
+    if (dernierDossierRaccordement?.miseEnService?.dateMiseEnService) {
+      étapes.push({
+        type: 'mise-en-service',
+        date: DateTime.bind(
+          dernierDossierRaccordement.miseEnService.dateMiseEnService,
+        ).date.getTime(),
+      });
+    }
+
+    if (dateAchèvementRéelle) {
+      étapes.push({
+        type: 'achèvement-réel',
+        date: dateAchèvementRéelle,
+      });
+    }
+  }
 
   return (
     <LegacyPageTemplate user={request.user} currentPage="list-projects">
@@ -105,7 +153,7 @@ export const ProjectDetails = ({
         abandonEnCoursOuAccordé={abandonEnCoursOuAccordé}
         modificationsNonPermisesParLeCDCActuel={modificationsNonPermisesParLeCDCActuel}
         estAchevé={estAchevé}
-        demandeRecours={demandeRecours}
+        demandeRecours={demandeRecours && { statut: demandeRecours.statut.value }}
         représentantLégalAffichage={représentantLégal?.affichage}
         puissanceAffichage={puissance?.affichage}
         actionnaireAffichage={actionnaire?.affichage}
@@ -117,7 +165,6 @@ export const ProjectDetails = ({
       </div>
       <div className="flex flex-col gap-3 mt-5">
         <div className="print:hidden flex flex-col gap-3">
-          {abandon && <AbandonInfoBox abandon={abandon} identifiantProjet={identifiantProjet} />}
           {abandonEnCours && user.role === 'porteur-projet' && (
             <DemandeImpossibleSiAbandonEnCoursInfoBox identifiantProjet={identifiantProjet} />
           )}
@@ -149,16 +196,19 @@ export const ProjectDetails = ({
             />
           </Callout>
         </div>
+
         <div className="flex flex-col lg:flex-row gap-3">
-          {!!projectEventList?.events.length && (
-            <EtapesProjet {...{ project, user, projectEventList }} />
-          )}
+          <EtapesProjet
+            identifiantProjet={identifiantProjet}
+            isLegacy={project.isLegacy}
+            étapes={étapes}
+          />
           <div className={`flex flex-col flex-grow gap-3 break-before-page`}>
             <InfoGenerales
               project={project}
               role={Role.convertirEnValueType(user.role)}
               raccordement={raccordement}
-              demandeRecours={demandeRecours}
+              demandeRecours={demandeRecours && { statut: demandeRecours.statut.value }}
               garantiesFinancières={garantiesFinancières}
               actionnaire={actionnaire}
               puissance={puissance}

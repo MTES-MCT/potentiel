@@ -3,14 +3,13 @@ import { IdentifiantProjet } from '@potentiel-domain/common';
 import { Lauréat } from '@potentiel-domain/projet';
 
 import { Option } from '@potentiel-libraries/monads';
-import { AchèvementRéelDTO } from '../../../../modules/frise';
 import { getLogger } from '@potentiel-libraries/monitoring';
 import { Role } from '@potentiel-domain/utilisateur';
 
 export const getAttestationDeConformité = async (
   identifiantProjet: IdentifiantProjet.ValueType,
   rôle: string,
-): Promise<AchèvementRéelDTO | undefined> => {
+) => {
   try {
     const utilisateur = Role.convertirEnValueType(rôle);
 

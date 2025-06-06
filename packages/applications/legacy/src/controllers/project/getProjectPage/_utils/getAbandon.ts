@@ -4,14 +4,13 @@ import { IdentifiantProjet } from '@potentiel-domain/common';
 import { Option } from '@potentiel-libraries/monads';
 import { getLogger } from '@potentiel-libraries/monitoring';
 import { Lauréat } from '@potentiel-domain/projet';
+import { ConsulterAbandonReadModel } from '@potentiel-domain/projet/dist/lauréat/abandon';
 
-export type GetAbandonStatut = (
+export type GetAbandon = (
   identifiantProjet: IdentifiantProjet.ValueType,
-) => Promise<{ statut: string } | undefined>;
+) => Promise<ConsulterAbandonReadModel | undefined>;
 
-export const getAbandonStatut: GetAbandonStatut = async (
-  identifiantProjet: IdentifiantProjet.ValueType,
-) => {
+export const getAbandon: GetAbandon = async (identifiantProjet: IdentifiantProjet.ValueType) => {
   try {
     const abandon = await mediator.send<Lauréat.Abandon.ConsulterAbandonQuery>({
       type: 'Lauréat.Abandon.Query.ConsulterAbandon',
@@ -25,7 +24,7 @@ export const getAbandonStatut: GetAbandonStatut = async (
     const { statut } = abandon;
 
     if (statut.estEnCours() || statut.estRejeté() || statut.estAccordé()) {
-      return { statut: statut.statut };
+      return abandon;
     }
 
     return undefined;

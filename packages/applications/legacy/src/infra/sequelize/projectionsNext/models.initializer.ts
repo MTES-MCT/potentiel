@@ -9,7 +9,6 @@ import {
   initializeProjectModel,
   initializeProjectModelModelAssociations,
 } from './project/project.initializer';
-import { initializeProjectEventModel } from './projectEvents/projectEvent.initializer';
 import { initializeTâchesModel } from './tâches/tâches.initializer';
 import {
   initializeUserDrealModel,
@@ -29,7 +28,6 @@ export const initializeModels = (sequelize: Sequelize) => {
   initializeModificationRequestModel(sequelize);
   initializeNotificationModel(sequelize);
   initializeProjectModel(sequelize);
-  initializeProjectEventModel(sequelize);
   initializeTâchesModel(sequelize);
   initializeUserDrealModel(sequelize);
   initializeUserProjectsModel(sequelize);

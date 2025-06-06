@@ -1,5 +1,4 @@
 import * as yup from 'yup';
-import { getProjectEvents } from '../../../config';
 import { getProjectDataForProjectPage } from '../../../config/queries.config';
 import { shouldUserAccessProject } from '../../../config/useCases.config';
 import { Project } from '../../../infra/sequelize';
@@ -21,7 +20,7 @@ import { logger } from '../../../core/utils';
 import { addQueryParams } from '../../../helpers/addQueryParams';
 
 import {
-  getAbandonStatut,
+  getAbandon,
   getAlertesRaccordement,
   getAttestationDeConformité,
   getGarantiesFinancières,
@@ -36,9 +35,10 @@ import { getPuissance } from './_utils/getPuissance';
 import { getProducteur } from './_utils/getProducteur';
 import { getCandidature } from './_utils/getCandidature';
 import { Actionnaire } from '@potentiel-domain/laureat';
-import { Candidature, IdentifiantProjet, Éliminé } from '@potentiel-domain/projet';
+import { Candidature, IdentifiantProjet } from '@potentiel-domain/projet';
 import { Routes } from '@potentiel-applications/routes';
 import { mediator } from 'mediateur';
+import { mapToPlainObject } from '@potentiel-domain/core';
 import { Option } from '@potentiel-libraries/monads';
 
 const schema = yup.object({
@@ -165,18 +165,7 @@ v1Router.get(
         );
       }
 
-      const rawProjectEventList = await getProjectEvents({ projectId: project.id, user });
-
-      if (rawProjectEventList.isErr()) {
-        logger.warning(`Error fetching project events`, {
-          errorName: rawProjectEventList.error?.name,
-          errorMessage: rawProjectEventList.error?.message,
-          errorStackTrace: rawProjectEventList.error?.stack,
-        });
-        return notFoundResponse({ request, response, ressourceTitle: 'Projet' });
-      }
-
-      const abandon = await getAbandonStatut(identifiantProjetValueType);
+      const abandon = await getAbandon(identifiantProjetValueType);
 
       const raccordement = await getRaccordement({
         role,
@@ -237,25 +226,21 @@ v1Router.get(
       const demandeNécessiteInstructionPourActionnaire =
         role.estÉgaleÀ(Role.porteur) && instructionChangementActionnaire.estRequise();
 
+      const recours = await getRecours(identifiantProjetValueType);
+
       return response.send(
         ProjectDetailsPage({
           request,
           project,
-          projectEventList: {
-            ...rawProjectEventList.value,
-            events: attestationConformité
-              ? rawProjectEventList.value.events.concat(attestationConformité)
-              : rawProjectEventList.value.events,
-          },
-          raccordement,
+          raccordement: mapToPlainObject(raccordement),
           alertesRaccordement,
-          abandon,
+          abandon: abandon && mapToPlainObject(abandon),
           garantiesFinancières,
           représentantLégal: await getReprésentantLégal({
             identifiantProjet: identifiantProjetValueType,
             rôle: user.role,
           }),
-          demandeRecours: await getRecours(identifiantProjetValueType),
+          demandeRecours: recours && mapToPlainObject(recours),
           actionnaire: await getActionnaire({
             identifiantProjet: identifiantProjetValueType,
             rôle: user.role,
@@ -273,6 +258,7 @@ v1Router.get(
           }),
           candidature: await getCandidature({ identifiantProjet: identifiantProjetValueType }),
           estAchevé: !!attestationConformité,
+          dateAchèvementRéelle: attestationConformité?.date,
           modificationsNonPermisesParLeCDCActuel:
             project.cahierDesChargesActuel.type === 'initial' &&
             !!project.appelOffre.periode.choisirNouveauCahierDesCharges,

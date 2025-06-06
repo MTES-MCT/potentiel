@@ -74,21 +74,15 @@ export type ProjectDataForProjectPage = {
   demandeRecours?: {
     statut: Éliminé.Recours.StatutRecours.RawType;
   };
-} & (IsNotified | IsNotNotified) &
-  (IsClasse | IsElimine | IsAbandoned);
 
-type IsNotNotified = {
-  notifiedOn: undefined;
-};
-
-type IsNotified = {
   notifiedOn: number;
-} & Users;
+  completionDueOn: number;
+} & (IsClasse | IsElimine | IsAbandoned) &
+  Users;
 
 type IsClasse = {
   isClasse: true;
   isAbandoned: false;
-  completionDueOn: Date;
 };
 
 type IsElimine = {
