@@ -5,6 +5,15 @@ import { ModifierÉvaluationCarboneFixture } from './fixtures/modifierÉvaluatio
 export class FournisseurWorld {
   constructor() {}
   readonly modifierÉvaluationCarbone = new ModifierÉvaluationCarboneFixture();
+
+  mapExempleToFixtureValues(exemple: Record<string, string>) {
+    return {
+      évaluationCarbone: exemple['évaluation carbone']
+        ? Number(exemple['évaluation carbone'])
+        : undefined,
+    };
+  }
+
   mapToExpected(
     identifiantProjet: IdentifiantProjet.ValueType,
     candidature: Candidature.ConsulterCandidatureReadModel,
