@@ -293,7 +293,7 @@ export const setupProjet = async ({ sendEmail }: SetupProjetDependencies) => {
   >({
     name: 'projector',
     streamCategory: 'fournisseur',
-    eventType: ['RebuildTriggered', 'FournisseurImporté-V1'],
+    eventType: ['RebuildTriggered', 'FournisseurImporté-V1', 'ÉvaluationCarboneModifiée-V1'],
     eventHandler: async (event) => {
       await mediator.send<FournisseurProjector.Execute>({
         type: 'System.Projector.Lauréat.Fournisseur',

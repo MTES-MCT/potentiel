@@ -9,6 +9,8 @@ import { TypeFournisseur } from '.';
 import { FournisseurEvent } from './fournisseur.event';
 import { ImporterOptions } from './importer/importerFournisseur.option';
 import { FournisseurImportéEvent } from './importer/importerFournisseur.event';
+import { ModifierÉvaluationCarboneOptions } from './modifier/modifierÉvaluationCarbone.options';
+import { ÉvaluationCarboneModifiéeEvent } from './modifier/modifierÉvaluationCarbone.event';
 
 export class FournisseurAggregate extends AbstractAggregate<FournisseurEvent> {
   #lauréat!: LauréatAggregate;
@@ -55,13 +57,36 @@ export class FournisseurAggregate extends AbstractAggregate<FournisseurEvent> {
     await this.publish(event);
   }
 
+  async modifierÉvaluationCarbone({
+    modifiéLe,
+    modifiéPar,
+    évaluationCarboneSimplifiée,
+  }: ModifierÉvaluationCarboneOptions) {
+    const event: ÉvaluationCarboneModifiéeEvent = {
+      type: 'ÉvaluationCarboneModifiée-V1',
+      payload: {
+        identifiantProjet: this.identifiantProjet.formatter(),
+        modifiéLe: modifiéLe.formatter(),
+        modifiéPar: modifiéPar.formatter(),
+        évaluationCarboneSimplifiée,
+      },
+    };
+    await this.publish(event);
+  }
+
   apply(event: FournisseurEvent): void {
     match(event)
       .with(
         {
           type: 'FournisseurImporté-V1',
         },
-        (event) => this.applyFournisseurImportéV1(event),
+        this.applyFournisseurImportéV1.bind(this),
+      )
+      .with(
+        {
+          type: 'ÉvaluationCarboneModifiée-V1',
+        },
+        this.applyÉvaluationCarboneModifiéeV1.bind(this),
       )
       .exhaustive();
   }
@@ -74,5 +99,11 @@ export class FournisseurAggregate extends AbstractAggregate<FournisseurEvent> {
       typeFournisseur: TypeFournisseur.convertirEnValueType(fournisseur.typeFournisseur),
       nomDuFabricant: fournisseur.nomDuFabricant,
     }));
+  }
+
+  private applyÉvaluationCarboneModifiéeV1({
+    payload: { évaluationCarboneSimplifiée },
+  }: ÉvaluationCarboneModifiéeEvent) {
+    this.évaluationCarboneSimplifiée = évaluationCarboneSimplifiée;
   }
 }
