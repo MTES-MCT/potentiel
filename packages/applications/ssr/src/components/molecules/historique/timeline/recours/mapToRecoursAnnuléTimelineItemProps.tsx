@@ -9,6 +9,8 @@ export const mapToRecoursAnnuléTimelineItemProps = (
 
   return {
     date: annuléLe,
-    title: <div>Recours annulé par {<span className="font-semibold">{annuléPar}</span>}</div>,
+    title: (
+      <div>Demande de recours annulée par {<span className="font-semibold">{annuléPar}</span>}</div>
+    ),
   };
 };

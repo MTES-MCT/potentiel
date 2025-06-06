@@ -24,7 +24,11 @@ export const mapToRecoursAccordéTimelineItemProps = (
 
   return {
     date: accordéLe,
-    title: <div>Recours accordé par {<span className="font-semibold">{accordéPar}</span>}</div>,
+    title: (
+      <div>
+        Demande de recours accordée par {<span className="font-semibold">{accordéPar}</span>}
+      </div>
+    ),
     content: (
       <DownloadDocument
         className="mb-0"

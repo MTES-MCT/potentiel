@@ -24,7 +24,9 @@ export const mapToRecoursRejetéTimelineItemProps = (
 
   return {
     date: rejetéLe,
-    title: <div>Recours rejeté par {<span className="font-semibold">{rejetéPar}</span>}</div>,
+    title: (
+      <div>Demande de recours rejetée par {<span className="font-semibold">{rejetéPar}</span>}</div>
+    ),
     content: (
       <DownloadDocument
         className="mb-0"
