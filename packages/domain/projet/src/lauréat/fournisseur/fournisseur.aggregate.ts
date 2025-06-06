@@ -11,16 +11,25 @@ import { ImporterOptions } from './importer/importerFournisseur.option';
 import { FournisseurImportéEvent } from './importer/importerFournisseur.event';
 import { ModifierÉvaluationCarboneOptions } from './modifier/modifierÉvaluationCarbone.options';
 import { ÉvaluationCarboneModifiéeEvent } from './modifier/modifierÉvaluationCarbone.event';
+import {
+  ÉvaluationCarboneIdentiqueError,
+  ÉvaluationCarboneNombreError,
+  ÉvaluationCarboneNégativeError,
+} from './fournisseur.error';
 
 export class FournisseurAggregate extends AbstractAggregate<FournisseurEvent> {
   #lauréat!: LauréatAggregate;
 
-  fournisseurs!: Array<{
+  #fournisseurs!: Array<{
     typeFournisseur: TypeFournisseur.ValueType;
     nomDuFabricant: string;
   }>;
 
-  évaluationCarboneSimplifiée!: number;
+  #évaluationCarboneSimplifiée!: number;
+
+  get évaluationCarboneSimplifiée() {
+    return this.#évaluationCarboneSimplifiée;
+  }
 
   get lauréat() {
     return this.#lauréat;
@@ -62,6 +71,17 @@ export class FournisseurAggregate extends AbstractAggregate<FournisseurEvent> {
     modifiéePar,
     évaluationCarboneSimplifiée,
   }: ModifierÉvaluationCarboneOptions) {
+    if (Number.isNaN(évaluationCarboneSimplifiée)) {
+      throw new ÉvaluationCarboneNombreError();
+    }
+    if (évaluationCarboneSimplifiée < 0) {
+      throw new ÉvaluationCarboneNégativeError();
+    }
+
+    if (évaluationCarboneSimplifiée === this.évaluationCarboneSimplifiée) {
+      throw new ÉvaluationCarboneIdentiqueError();
+    }
+
     const event: ÉvaluationCarboneModifiéeEvent = {
       type: 'ÉvaluationCarboneSimplifiéeModifiée-V1',
       payload: {
@@ -94,8 +114,8 @@ export class FournisseurAggregate extends AbstractAggregate<FournisseurEvent> {
   private applyFournisseurImportéV1({
     payload: { évaluationCarboneSimplifiée, fournisseurs },
   }: FournisseurImportéEvent) {
-    this.évaluationCarboneSimplifiée = évaluationCarboneSimplifiée;
-    this.fournisseurs = fournisseurs.map((fournisseur) => ({
+    this.#évaluationCarboneSimplifiée = évaluationCarboneSimplifiée;
+    this.#fournisseurs = fournisseurs.map((fournisseur) => ({
       typeFournisseur: TypeFournisseur.convertirEnValueType(fournisseur.typeFournisseur),
       nomDuFabricant: fournisseur.nomDuFabricant,
     }));
@@ -104,6 +124,6 @@ export class FournisseurAggregate extends AbstractAggregate<FournisseurEvent> {
   private applyÉvaluationCarboneModifiéeV1({
     payload: { évaluationCarboneSimplifiée },
   }: ÉvaluationCarboneModifiéeEvent) {
-    this.évaluationCarboneSimplifiée = évaluationCarboneSimplifiée;
+    this.#évaluationCarboneSimplifiée = évaluationCarboneSimplifiée;
   }
 }

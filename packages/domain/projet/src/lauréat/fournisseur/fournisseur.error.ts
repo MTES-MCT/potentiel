@@ -1,0 +1,19 @@
+import { InvalidOperationError } from '@potentiel-domain/core';
+
+export class ÉvaluationCarboneIdentiqueError extends InvalidOperationError {
+  constructor() {
+    super("L'évaluation carbone doit avoir une valeur différente");
+  }
+}
+
+export class ÉvaluationCarboneNégativeError extends InvalidOperationError {
+  constructor() {
+    super("L'évaluation carbone ne peut être négative");
+  }
+}
+
+export class ÉvaluationCarboneNombreError extends InvalidOperationError {
+  constructor() {
+    super("L'évaluation carbone doit être un nombre");
+  }
+}
