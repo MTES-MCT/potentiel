@@ -17,5 +17,7 @@ if [ $COUNT -eq $RETRIES ]; then
     exit 1
 fi
 
+sleep 1
+
 echo "✅ PostgreSQL is ready !"
 exit 0
