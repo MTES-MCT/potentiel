@@ -30,12 +30,17 @@ import {
   registerPuissanceUseCases,
 } from './puissance/puissance.register';
 import { registerAbandonQueries, registerAbandonUseCases } from './abandon/abandon.register';
+import {
+  FournisseurQueryDependencies,
+  registerFournisseurQueries,
+} from './fournisseur/fournisseur.register';
 
 export type LauréatQueryDependencies = ConsulterLauréatDependencies &
   ConsulterCahierDesChargesChoisiDependencies &
   DélaiQueryDependencies &
   ProducteurQueryDependencies &
-  PuissanceQueryDependencies;
+  PuissanceQueryDependencies &
+  FournisseurQueryDependencies;
 
 export type LauréatCommandDependencies = {
   getProjetAggregateRoot: GetProjetAggregateRoot;
@@ -66,4 +71,5 @@ export const registerLauréatQueries = (dependencies: LauréatQueryDependencies)
   registerAchèvementQueries(dependencies);
   registerPuissanceQueries(dependencies);
   registerAbandonQueries(dependencies);
+  registerFournisseurQueries(dependencies);
 };

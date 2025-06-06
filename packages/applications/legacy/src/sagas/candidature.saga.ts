@@ -48,7 +48,7 @@ export const register = () => {
     }
 
     switch (type) {
-      case 'CandidatureImportée-V1':
+      case 'CandidatureImportée-V2':
         const details = await fetchDétails(
           identifiantProjet,
           DateTime.convertirEnValueType(payload.importéLe),
@@ -66,7 +66,7 @@ export const register = () => {
         );
         break;
 
-      case 'CandidatureCorrigée-V1':
+      case 'CandidatureCorrigée-V2':
         const projet = await getLegacyProjetByIdentifiantProjet(identifiantProjet);
         // Si le projet n'est pas notifié, on le réimporte
         if (!projet?.notifiedOn) {

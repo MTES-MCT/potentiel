@@ -11,34 +11,6 @@ import { IdentifiantProjet } from '@potentiel-domain/projet';
 import { PotentielWorld } from '../../../../potentiel.world';
 
 Alors(
-  'le producteur du projet lauréat devrait être consultable',
-  async function (this: PotentielWorld) {
-    return waitForExpect(async () => {
-      const identifiantProjet = IdentifiantProjet.convertirEnValueType(
-        this.candidatureWorld.importerCandidature.identifiantProjet,
-      );
-
-      const producteur = await mediator.send<Lauréat.Producteur.ProducteurQuery>({
-        type: 'Lauréat.Producteur.Query.ConsulterProducteur',
-        data: {
-          identifiantProjet: identifiantProjet.formatter(),
-        },
-      });
-
-      const actual = mapToPlainObject(producteur);
-      const expected = mapToPlainObject(
-        this.lauréatWorld.producteurWorld.mapToExpected(
-          identifiantProjet,
-          this.candidatureWorld.importerCandidature.values.nomCandidatValue,
-        ),
-      );
-
-      actual.should.be.deep.equal(expected);
-    });
-  },
-);
-
-Alors(
   'le changement enregistré du producteur du projet lauréat devrait être consultable',
   async function (this: PotentielWorld) {
     await vérifierChangementProducteur.call(

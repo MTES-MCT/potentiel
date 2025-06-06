@@ -13,6 +13,7 @@ import * as TypeTechnologie from '../typeTechnologie.valueType';
 import * as TypeActionnariat from '../typeActionnariat.valueType';
 import * as HistoriqueAbandon from '../historiqueAbandon.valueType';
 import { IdentifiantProjet } from '../..';
+import { TypeFournisseur } from '../../lauréat/fournisseur';
 
 export type ConsulterCandidatureReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
@@ -46,6 +47,10 @@ export type ConsulterCandidatureReadModel = {
   misÀJourLe: DateTime.ValueType;
 
   détailsImport: DocumentProjet.ValueType;
+  fournisseurs: Array<{
+    typeFournisseur: TypeFournisseur.ValueType;
+    nomDuFabricant: string;
+  }>;
 
   notification?: {
     notifiéeLe: DateTime.ValueType;
@@ -106,6 +111,7 @@ export const mapToReadModel = ({
   misÀJourLe,
   détailsMisÀJourLe,
   notification,
+  fournisseurs,
 }: CandidatureEntity): ConsulterCandidatureReadModel => ({
   identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
   statut: StatutCandidature.convertirEnValueType(statut),
@@ -137,6 +143,10 @@ export const mapToReadModel = ({
     détailsMisÀJourLe,
     'application/json',
   ),
+  fournisseurs: fournisseurs.map((fournisseur) => ({
+    typeFournisseur: TypeFournisseur.convertirEnValueType(fournisseur.typeFournisseur),
+    nomDuFabricant: fournisseur.nomDuFabricant,
+  })),
   notification: notification && {
     notifiéeLe: DateTime.convertirEnValueType(notification.notifiéeLe),
     notifiéePar: Email.convertirEnValueType(notification.notifiéePar),

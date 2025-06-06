@@ -10,7 +10,7 @@ import { DateTime, IdentifiantProjet } from '@potentiel-domain/common';
 import { FormAction, formAction, FormState } from '@/utils/formAction';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 import { getCandidature } from '@/app/candidatures/_helpers/getCandidature';
-import { candidatureSchema } from '@/utils/zod/candidature';
+import { candidatureSchema } from '@/utils/candidature';
 
 export type CorrigerCandidaturesState = FormState;
 
@@ -86,6 +86,10 @@ const mapBodyToUseCaseData = (
     // non-editable fields
     territoireProjetValue: previous.territoireProjet,
     historiqueAbandonValue: previous.historiqueAbandon.formatter(),
+    fournisseursValue: previous.fournisseurs.map(({ nomDuFabricant, typeFournisseur }) => ({
+      typeFournisseur: typeFournisseur.formatter(),
+      nomDuFabricant,
+    })),
 
     doitRégénérerAttestation: data.doitRegenererAttestation ? true : undefined,
   };

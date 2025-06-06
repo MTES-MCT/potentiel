@@ -4,9 +4,15 @@ import { DateTime, Email } from '@potentiel-domain/common';
 import { AbstractAggregate } from '@potentiel-domain/core';
 
 import { ProjetAggregateRoot } from '../projet.aggregateRoot';
+import { Fournisseur } from '../lauréat';
+import { FournisseurImportéEvent } from '../lauréat/fournisseur';
 
 import { CandidatureEvent } from './candidature.event';
-import { CandidatureImportéeEvent } from './importer/candidatureImportée.event';
+import {
+  CandidatureImportéeEvent,
+  CandidatureImportéeEventV1,
+  DétailsFournisseursCandidatureImportésEvent,
+} from './importer/candidatureImportée.event';
 import { ImporterCandidatureOptions } from './importer/importerCandidature.options';
 import * as StatutCandidature from './statutCandidature.valueType';
 import * as TypeGarantiesFinancières from './typeGarantiesFinancières.valueType';
@@ -34,7 +40,10 @@ import {
   TypeGarantiesFinancièresNonModifiableAprèsNotificationError,
 } from './candidature.error';
 import { CorrigerCandidatureOptions } from './corriger/corrigerCandidature.options';
-import { CandidatureCorrigéeEvent } from './corriger/candidatureCorrigée.event';
+import {
+  CandidatureCorrigéeEvent,
+  CandidatureCorrigéeEventV1,
+} from './corriger/candidatureCorrigée.event';
 import * as Localité from './localité.valueType';
 import { NotifierOptions } from './notifier/notifierCandidature.options';
 import {
@@ -74,6 +83,10 @@ export class CandidatureAggregate extends AbstractAggregate<CandidatureEvent> {
   #puissanceProductionAnnuelle: number = 0;
   #territoireProjet: string = '';
   #coefficientKChoisi?: boolean;
+  #fournisseurs: Array<{
+    typeFournisseur: Fournisseur.TypeFournisseur.ValueType;
+    nomDuFabricant: string;
+  }> = [];
 
   get estNotifiée() {
     return !!this.notifiéeLe;
@@ -152,6 +165,14 @@ export class CandidatureAggregate extends AbstractAggregate<CandidatureEvent> {
     return this.#nomCandidat;
   }
 
+  get evaluationCarboneSimplifiée() {
+    return this.#evaluationCarboneSimplifiée;
+  }
+
+  get fournisseurs() {
+    return this.#fournisseurs;
+  }
+
   async init(projet: ProjetAggregateRoot) {
     this.#projet = projet;
   }
@@ -166,9 +187,13 @@ export class CandidatureAggregate extends AbstractAggregate<CandidatureEvent> {
     this.vérifierTechnologie(candidature);
 
     const event: CandidatureImportéeEvent = {
-      type: 'CandidatureImportée-V1',
+      type: 'CandidatureImportée-V2',
       payload: {
         ...this.mapToEventPayload(candidature),
+        fournisseurs: candidature.fournisseurs.map((fournisseur) => ({
+          typeFournisseur: fournisseur.typeFournisseur.formatter(),
+          nomDuFabricant: fournisseur.nomDuFabricant,
+        })),
         importéLe: candidature.importéLe.formatter(),
         importéPar: candidature.importéPar.formatter(),
       },
@@ -190,9 +215,13 @@ export class CandidatureAggregate extends AbstractAggregate<CandidatureEvent> {
     this.vérifierQueLaCorrectionEstJustifiée(candidature);
 
     const event: CandidatureCorrigéeEvent = {
-      type: 'CandidatureCorrigée-V1',
+      type: 'CandidatureCorrigée-V2',
       payload: {
         ...this.mapToEventPayload(candidature),
+        fournisseurs: candidature.fournisseurs.map((fournisseur) => ({
+          typeFournisseur: fournisseur.typeFournisseur.formatter(),
+          nomDuFabricant: fournisseur.nomDuFabricant,
+        })),
         corrigéLe: candidature.corrigéLe.formatter(),
         corrigéPar: candidature.corrigéPar.formatter(),
         doitRégénérerAttestation: candidature.doitRégénérerAttestation,
@@ -216,6 +245,7 @@ export class CandidatureAggregate extends AbstractAggregate<CandidatureEvent> {
     if (!validateur.fonction) {
       throw new FonctionManquanteError();
     }
+
     if (!validateur.nomComplet) {
       throw new NomManquantError();
     }
@@ -432,7 +462,25 @@ export class CandidatureAggregate extends AbstractAggregate<CandidatureEvent> {
       )
       .with(
         {
+          type: 'DétailsFournisseursCandidatureImportés-V1',
+        },
+        (event) => this.applyFournisseursImportésEventPayload(event),
+      )
+      .with(
+        {
+          type: 'CandidatureImportée-V2',
+        },
+        (event) => this.applyCandidatureImportée(event),
+      )
+      .with(
+        {
           type: 'CandidatureCorrigée-V1',
+        },
+        (event) => this.applyCandidatureCorrigéeV1(event),
+      )
+      .with(
+        {
+          type: 'CandidatureCorrigée-V2',
         },
         (event) => this.applyCandidatureCorrigée(event),
       )
@@ -451,12 +499,28 @@ export class CandidatureAggregate extends AbstractAggregate<CandidatureEvent> {
       .exhaustive();
   }
 
-  private applyCandidatureImportéeV1({ payload }: CandidatureImportéeEvent) {
+  private applyCandidatureImportéeV1({ payload }: CandidatureImportéeEventV1) {
+    this.applyCommonEventPayload(payload);
+  }
+
+  private applyCandidatureImportée({ payload }: CandidatureImportéeEvent) {
+    this.applyCommonEventPayload(payload);
+    this.applyFournisseurEventPayload(payload.fournisseurs);
+  }
+
+  private applyCandidatureCorrigéeV1({ payload }: CandidatureCorrigéeEventV1) {
     this.applyCommonEventPayload(payload);
   }
 
   private applyCandidatureCorrigée({ payload }: CandidatureCorrigéeEvent) {
     this.applyCommonEventPayload(payload);
+    this.applyFournisseurEventPayload(payload.fournisseurs);
+  }
+
+  private applyFournisseursImportésEventPayload({
+    payload,
+  }: DétailsFournisseursCandidatureImportésEvent) {
+    this.applyFournisseurEventPayload(payload.fournisseurs);
   }
 
   private applyCandidatureNotifiée(
@@ -489,7 +553,11 @@ export class CandidatureAggregate extends AbstractAggregate<CandidatureEvent> {
     typeGarantiesFinancières,
     sociétéMère,
     statut,
-  }: CandidatureCorrigéeEvent['payload'] | CandidatureImportéeEvent['payload']) {
+  }:
+    | CandidatureImportéeEvent['payload']
+    | CandidatureCorrigéeEventV1['payload']
+    | CandidatureImportéeEventV1['payload']
+    | CandidatureCorrigéeEvent['payload']) {
     this.#statut = StatutCandidature.convertirEnValueType(statut);
     this.#nomProjet = nomProjet;
     this.#localité = Localité.bind(localité);
@@ -520,8 +588,21 @@ export class CandidatureAggregate extends AbstractAggregate<CandidatureEvent> {
     this.#motifÉlimination = motifÉlimination;
   }
 
+  private applyFournisseurEventPayload(
+    fournisseurs:
+      | FournisseurImportéEvent['payload']['fournisseurs']
+      | CandidatureImportéeEvent['payload']['fournisseurs'],
+  ) {
+    this.#fournisseurs = fournisseurs.map((fournisseur) => ({
+      typeFournisseur: Fournisseur.TypeFournisseur.convertirEnValueType(
+        fournisseur.typeFournisseur,
+      ),
+      nomDuFabricant: fournisseur.nomDuFabricant,
+    }));
+  }
+
   private mapToEventPayload = (
-    candidature: ImporterCandidatureOptions | CorrigerCandidatureOptions,
+    candidature: Omit<ImporterCandidatureOptions, 'fournisseurs'> | CorrigerCandidatureOptions,
   ) => ({
     identifiantProjet: this.projet.identifiantProjet.formatter(),
     statut: candidature.statut.statut,

@@ -11,10 +11,7 @@ import { InviterPorteurUseCase } from '@potentiel-domain/utilisateur';
 import { FormAction, formAction, FormState } from '@/utils/formAction';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 import { withRateLimit } from '@/utils/withRateLimit';
-import {
-  numéroCRESchema,
-  prixRéférenceSchema,
-} from '@/utils/zod/candidature/candidatureFields.schema';
+import { numéroCRESchema, prixRéférenceSchema } from '@/utils/candidature/candidatureFields.schema';
 
 import { déchiffrerIdentifiantProjet } from '../_utils/chiffrement';
 

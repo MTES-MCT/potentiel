@@ -31,6 +31,7 @@ import {
   ActionnaireProjector,
   ProducteurProjector,
   RaccordementProjector,
+  FournisseurProjector,
 } from '@potentiel-applications/projectors';
 import {
   DocumentAdapter,
@@ -69,6 +70,7 @@ export const setupLauréat = async ({
   ReprésentantLégalProjector.register();
   ActionnaireProjector.register();
   ProducteurProjector.register();
+  FournisseurProjector.register();
 
   // Notifications
   AbandonNotification.register({ sendEmail });
@@ -166,38 +168,6 @@ export const setupLauréat = async ({
     },
     streamCategory: 'abandon',
   });
-
-  const unsubscribeProducteurProjector = await subscribe<
-    ProducteurProjector.SubscriptionEvent & Event
-  >({
-    name: 'projector',
-    streamCategory: 'producteur',
-    eventType: [
-      'RebuildTriggered',
-      'ProducteurImporté-V1',
-      'ProducteurModifié-V1',
-      'ChangementProducteurEnregistré-V1',
-    ],
-    eventHandler: async (event) => {
-      await mediator.send<ProducteurProjector.Execute>({
-        type: 'System.Projector.Lauréat.Producteur',
-        data: event,
-      });
-    },
-  });
-
-  const unsubscribeProducteurNotification =
-    await subscribe<ProducteurNotification.SubscriptionEvent>({
-      name: 'notifications',
-      streamCategory: 'producteur',
-      eventType: ['ProducteurModifié-V1', 'ChangementProducteurEnregistré-V1'],
-      eventHandler: async (event) => {
-        await mediator.publish<ProducteurNotification.Execute>({
-          type: 'System.Notification.Lauréat.Producteur',
-          data: event,
-        });
-      },
-    });
 
   const unsubscribeGarantiesFinancièresProjector =
     await subscribe<GarantiesFinancièreProjector.SubscriptionEvent>({
@@ -539,7 +509,6 @@ export const setupLauréat = async ({
     await unsubscribeAchèvementProjector();
     await unsubscribeReprésentantLégalProjector();
     await unsubscribeActionnaireProjector();
-    await unsubscribeProducteurProjector();
     await unsubscribeRaccordementProjector();
     // notifications
     await unsubscribeLauréatNotifications();
@@ -548,7 +517,6 @@ export const setupLauréat = async ({
     await unsubscribeAchèvementNotification();
     await unsubscribeReprésentantLégalNotification();
     await unsubscribeActionnaireNotification();
-    await unsubscribeProducteurNotification();
     // sagas
     await unsubscribeGarantiesFinancièresSaga();
     await unsubscribeGarantiesFinancièresRecoursSaga();

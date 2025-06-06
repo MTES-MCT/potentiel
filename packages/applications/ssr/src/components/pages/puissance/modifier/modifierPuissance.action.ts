@@ -8,7 +8,7 @@ import { Routes } from '@potentiel-applications/routes';
 
 import { FormAction, formAction, FormState } from '@/utils/formAction';
 import { withUtilisateur } from '@/utils/withUtilisateur';
-import { puissanceProductionAnnuelleSchema } from '@/utils/zod/candidature/candidatureFields.schema';
+import { puissanceProductionAnnuelleSchema } from '@/utils/candidature/candidatureFields.schema';
 
 const schema = zod.object({
   identifiantProjet: zod.string().min(1),

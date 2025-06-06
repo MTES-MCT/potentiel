@@ -42,6 +42,10 @@ export type ImporterCandidatureUseCase = Message<
     dateÉchéanceGfValue?: string;
     territoireProjetValue: string;
     coefficientKChoisiValue?: boolean;
+    fournisseursValue: Array<{
+      typeFournisseur: string;
+      nomDuFabricant: string;
+    }>;
     détailsValue?: Record<string, string>;
     importéLe: string;
     importéPar: string;
@@ -55,6 +59,7 @@ export const registerImporterCandidatureUseCase = () => {
     );
     const importéLe = DateTime.convertirEnValueType(message.importéLe);
 
+    // pour le moment, on garde ce fichier de détails car tous les champs n'ont pas vocation à être extraits
     const buf = Buffer.from(JSON.stringify(message.détailsValue));
     const blob = new Blob([buf]);
     await mediator.send<EnregistrerDocumentProjetCommand>({

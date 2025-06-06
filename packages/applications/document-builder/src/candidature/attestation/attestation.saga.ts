@@ -101,7 +101,7 @@ export const register = () => {
         break;
       }
 
-      case 'CandidatureCorrigée-V1': {
+      case 'CandidatureCorrigée-V2': {
         // la correction d'une candidature ne peut pas modifier le champs notification ou validateur
         // on peut donc sans crainte utiliser ces 2 champs
         if (!candidature.notification?.notifiéeLe) {

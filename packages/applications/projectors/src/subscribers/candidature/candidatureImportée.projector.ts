@@ -5,9 +5,20 @@ import { upsertProjection } from '@potentiel-infrastructure/pg-projection-write'
 export const candidatureImportéeProjector = async ({
   payload,
 }: Candidature.CandidatureImportéeEvent) => {
+  const candidatureToUpsert = mapToCandidatureToUpsert(payload);
+
+  await upsertProjection<Candidature.CandidatureEntity>(
+    `candidature|${payload.identifiantProjet}`,
+    candidatureToUpsert,
+  );
+};
+
+export const mapToCandidatureToUpsert = (
+  payload: Candidature.CandidatureImportéeEvent['payload'],
+): Omit<Candidature.CandidatureEntity, 'type'> => {
   const identifiantProjet = IdentifiantProjet.convertirEnValueType(payload.identifiantProjet);
 
-  const candidatureToUpsert: Omit<Candidature.CandidatureEntity, 'type'> = {
+  return {
     identifiantProjet: payload.identifiantProjet,
     appelOffre: identifiantProjet.appelOffre,
     période: identifiantProjet.période,
@@ -41,10 +52,6 @@ export const candidatureImportéeProjector = async ({
     notification: undefined,
     misÀJourLe: payload.importéLe,
     détailsMisÀJourLe: payload.importéLe,
+    fournisseurs: payload.fournisseurs,
   };
-
-  await upsertProjection<Candidature.CandidatureEntity>(
-    `candidature|${payload.identifiantProjet}`,
-    candidatureToUpsert,
-  );
 };

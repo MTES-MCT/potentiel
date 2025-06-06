@@ -126,58 +126,112 @@ async function vérifierLauréats(
   this: PotentielWorld,
   identifiantPériode: Période.IdentifiantPériode.ValueType,
 ) {
-  const période = await mediator.send<Période.ConsulterPériodeQuery>({
-    type: 'Période.Query.ConsulterPériode',
-    data: {
-      identifiantPériodeValue: identifiantPériode.formatter(),
-    },
-  });
-
-  période.should.not.be.equal(
-    Option.none,
-    `La période ${identifiantPériode.période} notifiée pour l'appel d'offre ${identifiantPériode.appelOffre}`,
-  );
-
-  assert(Option.isSome(période));
-  assert(période.estNotifiée);
-
-  const candidats = await mediator.send<Candidature.ListerCandidaturesQuery>({
-    type: 'Candidature.Query.ListerCandidatures',
-    data: {
-      appelOffre: identifiantPériode.appelOffre,
-      période: identifiantPériode.période,
-      statut: 'classé',
-    },
-  });
-
-  for (const { identifiantProjet, typeGarantiesFinancières } of candidats.items) {
-    const lauréat = await mediator.send<Lauréat.ConsulterLauréatQuery>({
-      type: 'Lauréat.Query.ConsulterLauréat',
+  try {
+    const période = await mediator.send<Période.ConsulterPériodeQuery>({
+      type: 'Période.Query.ConsulterPériode',
       data: {
-        identifiantProjet: identifiantProjet.formatter(),
+        identifiantPériodeValue: identifiantPériode.formatter(),
       },
     });
 
-    assert(
-      Option.isSome(lauréat),
-      `Aucun lauréat consultable pour ${identifiantProjet.formatter()}`,
+    période.should.not.be.equal(
+      Option.none,
+      `La période ${identifiantPériode.période} notifiée pour l'appel d'offre ${identifiantPériode.appelOffre}`,
     );
 
-    if (typeGarantiesFinancières) {
-      const garantiesFinancières =
-        await mediator.send<GarantiesFinancières.ConsulterGarantiesFinancièresQuery>({
-          type: 'Lauréat.GarantiesFinancières.Query.ConsulterGarantiesFinancières',
-          data: {
-            identifiantProjetValue: identifiantProjet.formatter(),
-          },
-        });
+    assert(Option.isSome(période));
+    assert(période.estNotifiée);
+
+    const candidats = await mediator.send<Candidature.ListerCandidaturesQuery>({
+      type: 'Candidature.Query.ListerCandidatures',
+      data: {
+        appelOffre: identifiantPériode.appelOffre,
+        période: identifiantPériode.période,
+        statut: 'classé',
+      },
+    });
+
+    for (const {
+      identifiantProjet,
+      typeGarantiesFinancières,
+      puissanceProductionAnnuelle,
+      evaluationCarboneSimplifiée,
+      nomCandidat,
+      fournisseurs,
+    } of candidats.items) {
+      const lauréat = await mediator.send<Lauréat.ConsulterLauréatQuery>({
+        type: 'Lauréat.Query.ConsulterLauréat',
+        data: {
+          identifiantProjet: identifiantProjet.formatter(),
+        },
+      });
 
       assert(
-        Option.isSome(garantiesFinancières),
-        `Aucune garanties financières pour ${identifiantProjet.formatter()}`,
+        Option.isSome(lauréat),
+        `Aucun lauréat consultable pour ${identifiantProjet.formatter()}`,
       );
-      assert(garantiesFinancières.garantiesFinancières.type.estÉgaleÀ(typeGarantiesFinancières));
+
+      if (typeGarantiesFinancières) {
+        const garantiesFinancières =
+          await mediator.send<GarantiesFinancières.ConsulterGarantiesFinancièresQuery>({
+            type: 'Lauréat.GarantiesFinancières.Query.ConsulterGarantiesFinancières',
+            data: {
+              identifiantProjetValue: identifiantProjet.formatter(),
+            },
+          });
+
+        assert(
+          Option.isSome(garantiesFinancières),
+          `Aucune garanties financières pour ${identifiantProjet.formatter()}`,
+        );
+        expect(garantiesFinancières.garantiesFinancières.type.estÉgaleÀ(typeGarantiesFinancières))
+          .to.be.true;
+      }
+
+      if (puissanceProductionAnnuelle) {
+        const puissance = await mediator.send<Lauréat.Puissance.ConsulterPuissanceQuery>({
+          type: 'Lauréat.Puissance.Query.ConsulterPuissance',
+          data: {
+            identifiantProjet: identifiantProjet.formatter(),
+          },
+        });
+        assert(Option.isSome(puissance), `Aucune puissance pour ${identifiantProjet.formatter()}`);
+        expect(puissance.puissance).to.equal(puissanceProductionAnnuelle);
+      }
+
+      if (nomCandidat) {
+        const producteur = await mediator.send<Lauréat.Producteur.ConsulterProducteurQuery>({
+          type: 'Lauréat.Producteur.Query.ConsulterProducteur',
+          data: {
+            identifiantProjet: identifiantProjet.formatter(),
+          },
+        });
+        assert(Option.isSome(producteur), `Aucun producteur pour ${identifiantProjet.formatter()}`);
+        expect(producteur.producteur).to.equal(nomCandidat);
+      }
+
+      if (evaluationCarboneSimplifiée || fournisseurs) {
+        const fournisseur = await mediator.send<Lauréat.Fournisseur.ConsulterFournisseurQuery>({
+          type: 'Lauréat.Fournisseur.Query.ConsulterFournisseur',
+          data: {
+            identifiantProjet: identifiantProjet.formatter(),
+          },
+        });
+        assert(
+          Option.isSome(fournisseur),
+          `Aucun fournisseur pour ${identifiantProjet.formatter()}`,
+        );
+
+        expect(fournisseur.évaluationCarboneSimplifiée).to.equal(evaluationCarboneSimplifiée);
+
+        for (const [index, value] of fournisseur.fournisseurs.entries()) {
+          expect(value.typeFournisseur.estÉgaleÀ(fournisseurs[index].typeFournisseur)).to.be.true;
+          expect(value.nomDuFabricant).to.equal(fournisseurs[index].nomDuFabricant);
+        }
+      }
     }
+  } catch (error) {
+    this.error = error as Error;
   }
 }
 

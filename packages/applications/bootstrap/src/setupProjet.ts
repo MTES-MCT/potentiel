@@ -7,7 +7,9 @@ import { findProjection, listProjection } from '@potentiel-infrastructure/pg-pro
 import {
   AccèsProjector,
   CandidatureProjector,
+  FournisseurProjector,
   LauréatProjector,
+  ProducteurProjector,
   PuissanceProjector,
   RecoursProjector,
   ÉliminéProjector,
@@ -15,6 +17,7 @@ import {
 import {
   AccèsNotification,
   CandidatureNotification,
+  ProducteurNotification,
   PuissanceNotification,
   RecoursNotification,
   SendEmail,
@@ -150,8 +153,11 @@ export const setupProjet = async ({ sendEmail }: SetupProjetDependencies) => {
     name: 'projector',
     eventType: [
       'RebuildTriggered',
+      'DétailsFournisseursCandidatureImportés-V1',
       'CandidatureImportée-V1',
+      'CandidatureImportée-V2',
       'CandidatureCorrigée-V1',
+      'CandidatureCorrigée-V2',
       'CandidatureNotifiée-V1',
       'CandidatureNotifiée-V2',
     ],
@@ -168,7 +174,7 @@ export const setupProjet = async ({ sendEmail }: SetupProjetDependencies) => {
     await subscribe<CandidatureNotification.SubscriptionEvent>({
       name: 'notifications',
       streamCategory: 'candidature',
-      eventType: ['CandidatureCorrigée-V1'],
+      eventType: ['CandidatureCorrigée-V2'],
       eventHandler: async (event) => {
         await mediator.publish<CandidatureNotification.Execute>({
           type: 'System.Notification.Candidature',
@@ -180,7 +186,7 @@ export const setupProjet = async ({ sendEmail }: SetupProjetDependencies) => {
   const unsubscribeAttestationSaga = await subscribe<AttestationSaga.SubscriptionEvent & Event>({
     name: 'attestation-saga',
     streamCategory: 'candidature',
-    eventType: ['CandidatureNotifiée-V2', 'CandidatureCorrigée-V1'],
+    eventType: ['CandidatureNotifiée-V2', 'CandidatureCorrigée-V2'],
     eventHandler: async (event) => {
       await mediator.publish<AttestationSaga.Execute>({
         type: 'System.Candidature.Attestation.Saga.Execute',
@@ -236,6 +242,7 @@ export const setupProjet = async ({ sendEmail }: SetupProjetDependencies) => {
       },
     },
   );
+
   const unsubscribePuissanceSagaAbandon = await subscribe<
     Lauréat.Puissance.PuissanceSaga.SubscriptionEvent & Event
   >({
@@ -247,6 +254,52 @@ export const setupProjet = async ({ sendEmail }: SetupProjetDependencies) => {
         type: 'System.Lauréat.Puissance.Saga.Execute',
         data: event,
       }),
+  });
+
+  const unsubscribeProducteurProjector = await subscribe<
+    ProducteurProjector.SubscriptionEvent & Event
+  >({
+    name: 'projector',
+    streamCategory: 'producteur',
+    eventType: [
+      'RebuildTriggered',
+      'ProducteurImporté-V1',
+      'ProducteurModifié-V1',
+      'ChangementProducteurEnregistré-V1',
+    ],
+    eventHandler: async (event) => {
+      await mediator.send<ProducteurProjector.Execute>({
+        type: 'System.Projector.Lauréat.Producteur',
+        data: event,
+      });
+    },
+  });
+
+  const unsubscribeProducteurNotification =
+    await subscribe<ProducteurNotification.SubscriptionEvent>({
+      name: 'notifications',
+      streamCategory: 'producteur',
+      eventType: ['ProducteurModifié-V1', 'ChangementProducteurEnregistré-V1'],
+      eventHandler: async (event) => {
+        await mediator.publish<ProducteurNotification.Execute>({
+          type: 'System.Notification.Lauréat.Producteur',
+          data: event,
+        });
+      },
+    });
+
+  const unsubscribeFournisseurProjector = await subscribe<
+    FournisseurProjector.SubscriptionEvent & Event
+  >({
+    name: 'projector',
+    streamCategory: 'fournisseur',
+    eventType: ['RebuildTriggered', 'FournisseurImporté-V1'],
+    eventHandler: async (event) => {
+      await mediator.send<FournisseurProjector.Execute>({
+        type: 'System.Projector.Lauréat.Fournisseur',
+        data: event,
+      });
+    },
   });
 
   return async () => {
@@ -267,5 +320,10 @@ export const setupProjet = async ({ sendEmail }: SetupProjetDependencies) => {
     await unsubscribePuissanceProjector();
     await unsubscribePuissanceNotification();
     await unsubscribePuissanceSagaAbandon();
+
+    await unsubscribeProducteurProjector();
+    await unsubscribeProducteurNotification();
+
+    await unsubscribeFournisseurProjector();
   };
 };

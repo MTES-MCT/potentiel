@@ -1,5 +1,7 @@
 import { DateTime, Email } from '@potentiel-domain/common';
 
+import { TypeFournisseur } from '../lauréat/fournisseur';
+
 import { CorrigerCandidatureUseCase } from './corriger/corrigerCandidature.usecase';
 import { ImporterCandidatureUseCase } from './importer/importerCandidature.usecase';
 import * as TypeGarantiesFinancières from './typeGarantiesFinancières.valueType';
@@ -37,4 +39,8 @@ export const mapToCommonCandidatureUseCaseData = (
   sociétéMère: payload.sociétéMèreValue,
   territoireProjet: payload.territoireProjetValue,
   coefficientKChoisi: payload.coefficientKChoisiValue,
+  fournisseurs: payload.fournisseursValue.map(({ nomDuFabricant, typeFournisseur }) => ({
+    typeFournisseur: TypeFournisseur.convertirEnValueType(typeFournisseur),
+    nomDuFabricant,
+  })),
 });

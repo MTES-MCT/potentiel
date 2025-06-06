@@ -11,7 +11,8 @@ import { DateTime } from '@potentiel-domain/common';
 import { ActionResult, FormAction, formAction, FormState } from '@/utils/formAction';
 import { withUtilisateur } from '@/utils/withUtilisateur';
 import { singleDocument } from '@/utils/zod/document/singleDocument';
-import { candidatureCsvSchema, CandidatureShape } from '@/utils/zod/candidature';
+import { candidatureCsvSchema, CandidatureShape } from '@/utils/candidature';
+import { mapCsvRowToFournisseurs } from '@/utils/candidature/fournisseurCsv';
 
 import { getLocalité } from '../helpers';
 
@@ -109,6 +110,8 @@ const mapLineToUseCaseData = (
   dateÉchéanceGfValue: line.dateÉchéanceGf?.toISOString(),
   territoireProjetValue: line.territoireProjet,
   coefficientKChoisiValue: line.coefficientKChoisi,
+  fournisseursValue: mapCsvRowToFournisseurs(rawLine),
+
   détailsValue: rawLine,
 });
 

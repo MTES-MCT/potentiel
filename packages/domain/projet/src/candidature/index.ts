@@ -2,9 +2,16 @@ import {
   ConsulterCandidatureQuery,
   ConsulterCandidatureReadModel,
 } from './consulter/consulterCandidature.query';
-import { CandidatureCorrigéeEvent } from './corriger/candidatureCorrigée.event';
+import {
+  CandidatureCorrigéeEvent,
+  CandidatureCorrigéeEventV1,
+} from './corriger/candidatureCorrigée.event';
 import { CorrigerCandidatureUseCase } from './corriger/corrigerCandidature.usecase';
-import { CandidatureImportéeEvent } from './importer/candidatureImportée.event';
+import {
+  CandidatureImportéeEvent,
+  CandidatureImportéeEventV1,
+  DétailsFournisseursCandidatureImportésEvent,
+} from './importer/candidatureImportée.event';
 import { ImporterCandidatureUseCase } from './importer/importerCandidature.usecase';
 import {
   ListerCandidaturesQuery,
@@ -54,10 +61,13 @@ export { ImporterCandidatureUseCase, CorrigerCandidatureUseCase, NotifierCandida
 export { CandidatureEvent } from './candidature.event';
 
 export {
+  CandidatureImportéeEventV1,
   CandidatureImportéeEvent,
   CandidatureCorrigéeEvent,
+  CandidatureCorrigéeEventV1,
   CandidatureNotifiéeEvent,
   CandidatureNotifiéeEventV1,
+  DétailsFournisseursCandidatureImportésEvent,
 };
 
 // Register
