@@ -129,7 +129,7 @@ export class Migrer extends Command {
               }),
             nomDuFabricant: nom,
           })),
-          évaluationCarboneSimplifiée: candidature.évaluationCarboneSimplifiée,
+          évaluationCarboneSimplifiée: Number(candidature.évaluationCarboneSimplifiée),
           identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet).formatter(),
           importéLe: notifiéLe,
           importéPar: notifiéPar,

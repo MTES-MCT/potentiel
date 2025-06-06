@@ -17,6 +17,7 @@ export type GetLauréat = {
   puissance: Lauréat.Puissance.ConsulterPuissanceReadModel;
   producteur: Lauréat.Producteur.ConsulterProducteurReadModel;
   lauréat: Lauréat.ConsulterLauréatReadModel;
+  fournisseur: Lauréat.Fournisseur.ConsulterFournisseurReadModel;
 };
 
 export const getLauréat = cache(async ({ identifiantProjet }: Props): Promise<GetLauréat> => {
@@ -25,12 +26,14 @@ export const getLauréat = cache(async ({ identifiantProjet }: Props): Promise<G
   const représentantLégalInfos = await getReprésentantLégalInfos({ identifiantProjet });
   const puissanceInfos = await getPuissanceInfos({ identifiantProjet });
   const producteurInfos = await getProducteurInfos({ identifiantProjet });
+  const fournisseurInfos = await getFournisseurInfos({ identifiantProjet });
 
   return {
     actionnaire: actionnaireInfos,
     représentantLégal: représentantLégalInfos,
     puissance: puissanceInfos,
     producteur: producteurInfos,
+    fournisseur: fournisseurInfos,
     lauréat,
   };
 });
@@ -123,4 +126,22 @@ const getProducteurInfos = async ({ identifiantProjet }: Props) => {
   }
 
   return producteur;
+};
+
+const getFournisseurInfos = async ({ identifiantProjet }: Props) => {
+  const logger = getLogger('getFournisseurInfos');
+
+  const fournisseur = await mediator.send<Lauréat.Fournisseur.ConsulterFournisseurQuery>({
+    type: 'Lauréat.Fournisseur.Query.ConsulterFournisseur',
+    data: {
+      identifiantProjet,
+    },
+  });
+
+  if (Option.isNone(fournisseur)) {
+    logger.warn(`Fournisseur non trouvé pour le projet lauréat`, { identifiantProjet });
+    return notFound();
+  }
+
+  return fournisseur;
 };
