@@ -197,13 +197,12 @@ export const ProjectDetails = ({
           </Callout>
         </div>
 
-        <EtapesProjet
-          identifiantProjet={identifiantProjet}
-          isLegacy={project.isLegacy}
-          étapes={étapes}
-        />
-
         <div className="flex flex-col lg:flex-row gap-3">
+          <EtapesProjet
+            identifiantProjet={identifiantProjet}
+            isLegacy={project.isLegacy}
+            étapes={étapes}
+          />
           <div className={`flex flex-col flex-grow gap-3 break-before-page`}>
             <InfoGenerales
               project={project}

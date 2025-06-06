@@ -39,7 +39,6 @@ import { Actionnaire } from '@potentiel-domain/laureat';
 import { Candidature, IdentifiantProjet, Éliminé } from '@potentiel-domain/projet';
 import { Routes } from '@potentiel-applications/routes';
 import { mediator } from 'mediateur';
-import { Option } from '@potentiel-libraries/monads';
 import { mapToPlainObject } from '@potentiel-domain/core';
 import { Option } from '@potentiel-libraries/monads';
 
