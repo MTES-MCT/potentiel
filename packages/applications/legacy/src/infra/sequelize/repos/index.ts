@@ -6,7 +6,6 @@ import { makeFileRepo } from './fileRepo';
 import { makeModificationRequestRepo } from './modificationRequestRepo';
 import { NotificationRepo } from './notificationRepo';
 import { makeProjectRepo } from './projectRepo';
-import { makeProjectClaimRepo } from './projectClaimRepo';
 import { makeLegacyCandidateNotification } from '../../../modules/legacyCandidateNotification';
 import { makeEventStoreRepo, makeEventStoreTransactionalRepo } from '../../../core/utils';
 import { makeDemandeDélai } from '../../../modules/demandeModification';
@@ -19,7 +18,6 @@ export const legacyCandidateNotificationRepo = makeEventStoreTransactionalRepo({
   makeAggregate: makeLegacyCandidateNotification,
 });
 export const projectRepo = makeProjectRepo(eventStore, buildProjectIdentifier);
-export const projectClaimRepo = makeProjectClaimRepo(eventStore);
 export const modificationRequestRepo = makeModificationRequestRepo(eventStore);
 export const userRepo = makeEventStoreTransactionalRepo({
   eventStore,

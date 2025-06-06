@@ -13,7 +13,6 @@ export * from './onModificationRequestCancelled';
 export * from './onModificationRequestInstructionStarted';
 export * from './onModificationRequestRejected';
 export * from './onModificationRequested';
-export * from './onProjectClaimed';
 export * from './onProjectCompletionDueDateCancelled';
 export * from './onProjectCompletionDueDateSet';
 export * from './onProjectDCRDueDateCancelled';

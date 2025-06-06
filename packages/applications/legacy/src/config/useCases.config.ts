@@ -19,14 +19,9 @@ import {
   makeRequestFournisseursModification,
 } from '../modules/modificationRequest';
 import { makeImportProjects, makeSignalerDemandeDelai } from '../modules/project';
-import { makeClaimProject } from '../modules/projectClaim';
 import { makeCreateUser } from '../modules/users';
 import { eventStore } from './eventStore.config';
-import {
-  getFileProject,
-  getProjectAppelOffreId,
-  getProjectDataForProjectClaim,
-} from './queries.config';
+import { getFileProject, getProjectAppelOffreId } from './queries.config';
 import {
   demandeDélaiRepo,
   fileRepo,
@@ -34,7 +29,6 @@ import {
   oldAppelOffreRepo,
   oldProjectRepo,
   oldUserRepo,
-  projectClaimRepo,
   projectRepo,
   userRepo,
 } from './repos.config';
@@ -92,13 +86,6 @@ export const cancelModificationRequest = makeCancelModificationRequest({
 export const importProjects = makeImportProjects({
   eventBus: eventStore,
   appelOffreRepo: oldAppelOffreRepo,
-});
-
-export const claimProject = makeClaimProject({
-  projectClaimRepo,
-  fileRepo,
-  getProjectDataForProjectClaim,
-  eventBus: eventStore,
 });
 
 export const signalerDemandeDelai = makeSignalerDemandeDelai({

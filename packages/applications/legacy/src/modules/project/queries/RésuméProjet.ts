@@ -17,7 +17,3 @@ export type RésuméProjetReadModel = {
   puissance: number;
   unitePuissance: string;
 };
-
-export type RésuméProjetQueryHandler = (
-  projetId: string,
-) => ResultAsync<RésuméProjetReadModel, EntityNotFoundError | InfraNotAvailableError>;
