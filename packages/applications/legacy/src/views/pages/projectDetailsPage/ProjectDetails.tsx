@@ -38,8 +38,7 @@ import {
 } from './sections/DemandeImpossibleInfoBox';
 import { DateTime } from '@potentiel-domain/common';
 import { PlainType } from '@potentiel-domain/core';
-import { ConsulterAbandonReadModel } from '@potentiel-domain/projet/dist/lauréat/abandon';
-import { ConsulterRecoursReadModel } from '@potentiel-domain/projet/dist/éliminé/recours';
+import { Lauréat, Éliminé } from '@potentiel-domain/projet';
 
 export type AlerteRaccordement =
   | 'référenceDossierManquantePourDélaiCDC2022'
@@ -50,8 +49,8 @@ type ProjectDetailsProps = {
   project: ProjectDataForProjectPage;
   raccordement: PlainType<Option.Type<Raccordement.ConsulterRaccordementReadModel>>;
   alertesRaccordement: AlerteRaccordement[];
-  abandon?: PlainType<ConsulterAbandonReadModel>;
-  demandeRecours?: PlainType<ConsulterRecoursReadModel>;
+  abandon?: PlainType<Lauréat.Abandon.ConsulterAbandonReadModel>;
+  demandeRecours?: PlainType<Éliminé.Recours.ConsulterRecoursReadModel>;
   garantiesFinancières?: GarantiesFinancièresProjetProps['garantiesFinancières'];
   représentantLégal?: ContactProps['représentantLégal'];
   actionnaire?: InfoGeneralesProps['actionnaire'];
