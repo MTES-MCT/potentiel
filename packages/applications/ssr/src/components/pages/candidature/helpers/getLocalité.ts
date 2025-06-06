@@ -1,6 +1,6 @@
 import { Candidature } from '@potentiel-domain/projet';
 
-import { CandidatureShape } from '@/utils/zod/candidature';
+import { CandidatureShape } from '@/utils/candidature';
 
 import {
   DépartementRégion,

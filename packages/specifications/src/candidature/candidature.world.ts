@@ -1,4 +1,4 @@
-import { Candidature } from '@potentiel-domain/projet';
+import { Candidature, Lauréat } from '@potentiel-domain/projet';
 import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
 import { DocumentProjet } from '@potentiel-domain/document';
 
@@ -139,9 +139,12 @@ export class CandidatureWorld {
         'application/json',
       ),
       misÀJourLe: DateTime.convertirEnValueType(misÀJourLe),
-      fournisseurs: Candidature.CandidatureMapperHelper.mapToDétailsCandidatureUseCaseData(
-        expectedValues.détailsValue || {},
-      ).fournisseurs,
+      fournisseurs: expectedValues.fournisseursValue.map((fournisseur) => ({
+        typeFournisseur: Lauréat.Fournisseur.TypeFournisseur.convertirEnValueType(
+          fournisseur.typeFournisseur,
+        ),
+        nomDuFabricant: fournisseur.nomDuFabricant,
+      })),
     };
   }
 }

@@ -3,7 +3,7 @@
 import Input, { InputProps } from '@codegouvfr/react-dsfr/Input';
 import { useState } from 'react';
 
-import { ModifierCandidatureNotifiéeFormEntries } from '@/utils/zod/candidature';
+import { ModifierCandidatureNotifiéeFormEntries } from '@/utils/candidature';
 
 import { FieldValidationErrors } from '../../ModifierLauréat.form';
 import { LinkedValuesButton } from '../LinkedValuesButton';

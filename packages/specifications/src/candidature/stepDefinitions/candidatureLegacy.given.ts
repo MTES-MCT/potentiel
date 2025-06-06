@@ -1,6 +1,6 @@
 import { DataTable, Given as EtantDonné } from '@cucumber/cucumber';
 
-import { Candidature, IdentifiantProjet } from '@potentiel-domain/projet';
+import { Candidature, IdentifiantProjet, Lauréat } from '@potentiel-domain/projet';
 import { DateTime } from '@potentiel-domain/common';
 import { publish } from '@potentiel-infrastructure/pg-event-sourcing';
 
@@ -90,10 +90,10 @@ export async function importerCandidaturePériodeLegacy(
             values.typeGarantiesFinancièresValue,
           ).type
         : undefined,
-      fournisseurs: Candidature.CandidatureMapperHelper.mapToDétailsCandidatureUseCaseData(
-        values.détailsValue || {},
-      ).fournisseurs.map((fournisseur) => ({
-        typeFournisseur: fournisseur.typeFournisseur.formatter(),
+      fournisseurs: values.fournisseursValue.map((fournisseur) => ({
+        typeFournisseur: Lauréat.Fournisseur.TypeFournisseur.convertirEnValueType(
+          fournisseur.typeFournisseur,
+        ).formatter(),
         nomDuFabricant: fournisseur.nomDuFabricant,
       })),
     },

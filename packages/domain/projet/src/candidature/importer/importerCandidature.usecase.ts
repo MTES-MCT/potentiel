@@ -4,10 +4,7 @@ import { DateTime, Email } from '@potentiel-domain/common';
 import { DocumentProjet, EnregistrerDocumentProjetCommand } from '@potentiel-domain/document';
 
 import { IdentifiantProjet } from '../..';
-import {
-  mapToCommonCandidatureUseCaseData,
-  mapToDétailsCandidatureUseCaseData,
-} from '../candidature.mapper';
+import { mapToCommonCandidatureUseCaseData } from '../candidature.mapper';
 
 import { ImporterCandidatureCommand } from './importerCandidature.command';
 
@@ -45,6 +42,10 @@ export type ImporterCandidatureUseCase = Message<
     dateÉchéanceGfValue?: string;
     territoireProjetValue: string;
     coefficientKChoisiValue?: boolean;
+    fournisseursValue: Array<{
+      typeFournisseur: string;
+      nomDuFabricant: string;
+    }>;
     détailsValue?: Record<string, string>;
     importéLe: string;
     importéPar: string;
@@ -79,7 +80,6 @@ export const registerImporterCandidatureUseCase = () => {
       data: {
         identifiantProjet,
         ...mapToCommonCandidatureUseCaseData(message),
-        ...mapToDétailsCandidatureUseCaseData(message.détailsValue || {}),
         importéLe,
         importéPar: Email.convertirEnValueType(message.importéPar),
       },

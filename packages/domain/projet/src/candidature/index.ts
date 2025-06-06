@@ -84,6 +84,3 @@ export * as HistoriqueAbandon from './historiqueAbandon.valueType';
 export * as StatutCandidature from './statutCandidature.valueType';
 export * as TypeGarantiesFinancières from './typeGarantiesFinancières.valueType';
 export * as Localité from './localité.valueType';
-
-// Helper
-export * as CandidatureMapperHelper from './candidature.mapper';

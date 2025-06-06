@@ -14,7 +14,7 @@ import {
   modifierLauréatEtCandidatureSchéma,
   PartialModifierCandidatureNotifiéeFormEntries,
   PartialModifierLauréatValueFormEntries,
-} from '@/utils/zod/candidature';
+} from '@/utils/candidature';
 
 import {
   getLauréatInfos,
@@ -181,6 +181,10 @@ const mapBodyToCandidatureUsecaseData = (
     dateÉchéanceGfValue: previous.dateÉchéanceGf?.formatter(),
     territoireProjetValue: previous.territoireProjet,
     historiqueAbandonValue: previous.historiqueAbandon.formatter(),
+    fournisseursValue: previous.fournisseurs.map(({ nomDuFabricant, typeFournisseur }) => ({
+      nomDuFabricant,
+      typeFournisseur: typeFournisseur.formatter(),
+    })),
   };
 };
 
