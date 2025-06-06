@@ -1,20 +1,23 @@
 import { FC } from 'react';
 
 import { PageTemplate } from '@/components/templates/Page.template';
+import {
+  HistoriqueTimeline,
+  HistoriqueTimelineProps,
+} from '@/components/molecules/historique/HistoriqueTimeline';
 import { ProjetBanner } from '@/components/molecules/projet/ProjetBanner';
-import { Timeline, TimelineProps } from '@/components/organisms/Timeline';
 
 export type HistoriqueLauréatPageProps = {
   identifiantProjet: string;
-} & TimelineProps;
+} & HistoriqueTimelineProps;
 
 export const HistoriqueLauréatPage: FC<HistoriqueLauréatPageProps> = ({
   identifiantProjet,
-  items,
+  historique,
 }) => {
   return (
     <PageTemplate banner={<ProjetBanner identifiantProjet={identifiantProjet} />}>
-      <Timeline items={items} />
+      <HistoriqueTimeline historique={historique} />
     </PageTemplate>
   );
 };

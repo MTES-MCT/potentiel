@@ -6,9 +6,41 @@ import {
   ListHistoryResult,
   RangeOptions,
 } from '@potentiel-domain/entity';
+import { Lauréat, Éliminé } from '@potentiel-domain/projet';
+import { Actionnaire, ReprésentantLégal } from '@potentiel-domain/laureat';
 
 export type ListerHistoriqueProjetReadModel<TRecord extends HistoryRecord = HistoryRecord> =
   ListHistoryResult<TRecord>;
+
+export type AbandonHistoryRecord = HistoryRecord<
+  'abandon',
+  Lauréat.Abandon.AbandonEvent['type'],
+  Lauréat.Abandon.AbandonEvent['payload']
+>;
+
+export type RecoursHistoryRecord = HistoryRecord<
+  'recours',
+  Éliminé.Recours.RecoursEvent['type'],
+  Éliminé.Recours.RecoursEvent['payload']
+>;
+
+export type ActionnaireHistoryRecord = HistoryRecord<
+  'actionnaire',
+  Actionnaire.ActionnaireEvent['type'],
+  Actionnaire.ActionnaireEvent['payload']
+>;
+
+export type ReprésentantLégalHistoryRecord = HistoryRecord<
+  'représentant-légal',
+  ReprésentantLégal.ReprésentantLégalEvent['type'],
+  ReprésentantLégal.ReprésentantLégalEvent['payload']
+>;
+
+export type HistoryReadModel =
+  | AbandonHistoryRecord
+  | ActionnaireHistoryRecord
+  | RecoursHistoryRecord
+  | ReprésentantLégalHistoryRecord;
 
 export type ListerHistoriqueProjetQuery<TRecord extends HistoryRecord = HistoryRecord> = Message<
   'Historique.Query.ListerHistoriqueProjet',
