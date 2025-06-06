@@ -1,5 +1,4 @@
 # language: fr
-@select
 Fonctionnalité: Modifier l'évaluation carbone du projet
 
     Contexte:
