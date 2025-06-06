@@ -1,8 +1,10 @@
 import { match } from 'ts-pattern';
 
 import { AbstractAggregate } from '@potentiel-domain/core';
+import { AppelOffre } from '@potentiel-domain/appel-offre';
 
 import { LauréatAggregate } from '../lauréat.aggregate';
+import { CahierDesChargesEmpêcheModificationError } from '../lauréat.error';
 
 import { TypeFournisseur } from '.';
 
@@ -16,6 +18,8 @@ import {
   ÉvaluationCarboneNombreError,
   ÉvaluationCarboneNégativeError,
 } from './fournisseur.error';
+import { EnregistrerChangementFournisseurOptions } from './changement/enregistrerChangement/enregistrerChangement.option';
+import { ChangementFournisseurEnregistréEvent } from './changement/enregistrerChangement/enregistrerChangement.event';
 
 export class FournisseurAggregate extends AbstractAggregate<FournisseurEvent> {
   #lauréat!: LauréatAggregate;
@@ -94,6 +98,43 @@ export class FournisseurAggregate extends AbstractAggregate<FournisseurEvent> {
     await this.publish(event);
   }
 
+  async enregistrerChangement({
+    identifiantProjet,
+    fournisseurs,
+    évaluationCarboneSimplifiée,
+    dateChangement,
+    identifiantUtilisateur,
+    pièceJustificative,
+    raison,
+  }: EnregistrerChangementFournisseurOptions) {
+    this.lauréat.vérifierQueLeChangementEstPossible();
+
+    if (
+      this.lauréat.projet.période.choisirNouveauCahierDesCharges &&
+      this.lauréat.cahierDesCharges.estÉgaleÀ(AppelOffre.RéférenceCahierDesCharges.initial)
+    ) {
+      throw new CahierDesChargesEmpêcheModificationError();
+    }
+
+    const event: ChangementFournisseurEnregistréEvent = {
+      type: 'ChangementFournisseurEnregistré-V1',
+      payload: {
+        identifiantProjet: identifiantProjet.formatter(),
+        fournisseurs: fournisseurs?.map((fournisseur) => ({
+          typeFournisseur: fournisseur.typeFournisseur.formatter(),
+          nomDuFabricant: fournisseur.nomDuFabricant,
+        })),
+        évaluationCarboneSimplifiée,
+        enregistréLe: dateChangement.formatter(),
+        enregistréPar: identifiantUtilisateur.formatter(),
+        raison,
+        pièceJustificative,
+      },
+    };
+
+    await this.publish(event);
+  }
+
   apply(event: FournisseurEvent): void {
     match(event)
       .with(
@@ -107,6 +148,12 @@ export class FournisseurAggregate extends AbstractAggregate<FournisseurEvent> {
           type: 'ÉvaluationCarboneSimplifiéeModifiée-V1',
         },
         this.applyÉvaluationCarboneModifiéeV1.bind(this),
+      )
+      .with(
+        {
+          type: 'ChangementFournisseurEnregistré-V1',
+        },
+        (event) => this.applyChangementFournisseurEnregistré(event),
       )
       .exhaustive();
   }
@@ -125,5 +172,19 @@ export class FournisseurAggregate extends AbstractAggregate<FournisseurEvent> {
     payload: { évaluationCarboneSimplifiée },
   }: ÉvaluationCarboneModifiéeEvent) {
     this.#évaluationCarboneSimplifiée = évaluationCarboneSimplifiée;
+  }
+
+  private applyChangementFournisseurEnregistré({
+    payload: { évaluationCarboneSimplifiée, fournisseurs },
+  }: ChangementFournisseurEnregistréEvent) {
+    if (évaluationCarboneSimplifiée !== undefined) {
+      this.#évaluationCarboneSimplifiée = évaluationCarboneSimplifiée;
+    }
+    if (fournisseurs) {
+      this.#fournisseurs = fournisseurs.map((fournisseur) => ({
+        typeFournisseur: TypeFournisseur.convertirEnValueType(fournisseur.typeFournisseur),
+        nomDuFabricant: fournisseur.nomDuFabricant,
+      }));
+    }
   }
 }
