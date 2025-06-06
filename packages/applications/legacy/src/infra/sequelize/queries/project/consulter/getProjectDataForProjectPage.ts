@@ -10,6 +10,7 @@ import { parseCahierDesChargesRéférence, ProjectAppelOffre, User } from '../..
 import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { userIs, userIsNot } from '../../../../../modules/users';
 import { Role } from '@potentiel-domain/utilisateur';
+import { Candidature } from '@potentiel-domain/projet';
 
 export const getProjectDataForProjectPage: GetProjectDataForProjectPage = ({ projectId, user }) => {
   const chargerProjet = wrapInfra(
@@ -147,6 +148,7 @@ export const getProjectDataForProjectPage: GetProjectDataForProjectPage = ({ pro
           potentielIdentifier,
           dcrDueOn,
           désignationCatégorie,
+          technologie,
         },
       }): ResultAsync<ProjectDataForProjectPage, never> =>
         okAsync({
@@ -189,6 +191,11 @@ export const getProjectDataForProjectPage: GetProjectDataForProjectPage = ({ pro
               fullName,
             })),
           updatedAt,
+          unitePuissance: Candidature.UnitéPuissance.déterminer({
+            appelOffres: appelOffre,
+            période: periodeId,
+            technologie: technologie ?? 'N/A',
+          }).formatter(),
           cahierDesChargesActuel,
           ...(userIs([
             'admin',
