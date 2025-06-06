@@ -128,13 +128,18 @@ export const registerListerDossierRaccordementQuery = ({
       },
     });
 
-    const candidatures = await list<Candidature.CandidatureEntity>('candidature', {
-      where: {
-        identifiantProjet: Where.matchAny(identifiants),
+    const candidatures = await list<Candidature.CandidatureEntity, AppelOffre.AppelOffreEntity>(
+      'candidature',
+      {
+        where: {
+          identifiantProjet: Where.matchAny(identifiants),
+        },
+        join: {
+          entity: 'appel-offre',
+          on: 'appelOffre',
+        },
       },
-    });
-
-    const appelOffres = await list<AppelOffre.AppelOffreEntity>('appel-offre', {});
+    );
 
     return {
       items: items.map((dossier) =>
@@ -142,7 +147,6 @@ export const registerListerDossierRaccordementQuery = ({
           dossier,
           gestionnairesRéseau: gestionnairesRéseau.items,
           puissances: puissances.items,
-          appelOffres: appelOffres.items,
           candidatures: candidatures.items,
         }),
       ),
@@ -161,15 +165,13 @@ type MapToReadModelProps = (args: {
   dossier: Raccordement.DossierRaccordementEntity & Joined<Lauréat.LauréatEntity>;
   gestionnairesRéseau: ReadonlyArray<GestionnaireRéseau.GestionnaireRéseauEntity>;
   puissances: ReadonlyArray<Lauréat.Puissance.PuissanceEntity>;
-  appelOffres: ReadonlyArray<AppelOffre.AppelOffreEntity>;
-  candidatures: ReadonlyArray<Candidature.CandidatureEntity>;
+  candidatures: ReadonlyArray<Candidature.CandidatureEntity & Joined<AppelOffre.AppelOffreEntity>>;
 }) => DossierRaccordement;
 
 export const mapToReadModel: MapToReadModelProps = ({
   dossier: { identifiantProjet, identifiantGestionnaireRéseau, référence, miseEnService, lauréat },
   gestionnairesRéseau,
   puissances,
-  appelOffres,
   candidatures,
 }) => {
   const { appelOffre, famille, numéroCRE, période } =
@@ -184,19 +186,25 @@ export const mapToReadModel: MapToReadModelProps = ({
     notifiéLe,
   } = lauréat;
 
-  const unitéPuissance = appelOffres.find((ao) => ao.id === appelOffre)?.unitePuissance ?? 'MWc';
+  const candidature = candidatures.find(
+    (candidature) => candidature.identifiantProjet === identifiantProjet,
+  );
 
   const puissanceItem = puissances.find(
     (puissance) => puissance.identifiantProjet === identifiantProjet,
   );
 
+  const unitéPuissance = candidature
+    ? Candidature.UnitéPuissance.déterminer({
+        appelOffres: candidature['appel-offre'],
+        technologie: candidature.technologie,
+        période,
+      }).formatter()
+    : 'N/A';
+
   const puissance = match(puissanceItem)
     .with(P.nullish, () => `0 ${unitéPuissance}`)
     .otherwise((value) => `${value.puissance} ${unitéPuissance}`);
-
-  const candidature = candidatures.find(
-    (candidature) => candidature.identifiantProjet === identifiantProjet,
-  );
 
   const { emailContact, nomCandidat, sociétéMère } = match(candidature)
     .with(P.nullish, () => ({

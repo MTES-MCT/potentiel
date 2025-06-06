@@ -20,12 +20,12 @@ export type RéponseAbandonAvecRecandidatureProps = {
     codePostal: string;
     dateDésignation: string;
     puissance: number;
+    unitéPuissance: string;
   };
   appelOffre: {
     nom: string;
     description: string;
     période: string;
-    unitéPuissance: string;
     texteEngagementRéalisationEtModalitésAbandon: {
       référenceParagraphe: string;
       dispositions: string;
@@ -65,7 +65,7 @@ export const RéponseAbandonAvecRecandidature = ({
         <View style={{ paddingLeft: 15 }}>
           <View style={{ textAlign: 'justify' }}>
             <Objet appelOffre={appelOffre} />
-            <Introduction projet={projet} appelOffre={appelOffre} demandeAbandon={demandeAbandon} />
+            <Introduction projet={projet} demandeAbandon={demandeAbandon} />
 
             <PassageConcernantAbandonDuCahierDesCharges appelOffre={appelOffre} />
 

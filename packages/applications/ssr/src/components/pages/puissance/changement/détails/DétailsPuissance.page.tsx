@@ -5,7 +5,6 @@ import { IdentifiantProjet } from '@potentiel-domain/common';
 import { PlainType } from '@potentiel-domain/core';
 import { Lauréat } from '@potentiel-domain/projet';
 import { Routes } from '@potentiel-applications/routes';
-import { AppelOffre } from '@potentiel-domain/appel-offre';
 
 import { Heading2 } from '@/components/atoms/headings';
 import { ProjetBanner } from '@/components/molecules/projet/ProjetBanner';
@@ -27,7 +26,7 @@ export type DétailsPuissancePageProps = {
   identifiantProjet: PlainType<IdentifiantProjet.ValueType>;
   demande: PlainType<Lauréat.Puissance.ConsulterChangementPuissanceReadModel['demande']>;
   puissanceInitiale: number;
-  unitéPuissance: AppelOffre.ConsulterAppelOffreReadModel['unitePuissance'];
+  unitéPuissance: string;
   actions: Array<ChangementPuissanceActions>;
   demandeEnCoursDate?: string;
   historique: HistoriquePuissanceTimelineProps['historique'];

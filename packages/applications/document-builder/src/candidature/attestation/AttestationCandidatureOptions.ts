@@ -24,6 +24,8 @@ export type Common = {
   technologie: Candidature.TypeTechnologie.RawType;
   désignationCatégorie?: 'volume-réservé' | 'hors-volume-réservé';
   coefficientKChoisi: boolean | undefined;
+
+  unitePuissance: AppelOffre.UnitéPuissance;
 };
 
 export type AttestationCRE4Options = Common & {

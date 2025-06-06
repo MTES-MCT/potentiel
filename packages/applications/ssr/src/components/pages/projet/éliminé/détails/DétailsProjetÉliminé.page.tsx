@@ -3,7 +3,6 @@ import Button from '@codegouvfr/react-dsfr/Button';
 
 import { Routes } from '@potentiel-applications/routes';
 import { Candidature, IdentifiantProjet } from '@potentiel-domain/projet';
-import { AppelOffre } from '@potentiel-domain/appel-offre';
 import { Email } from '@potentiel-domain/common';
 
 import { ProjetBanner } from '@/components/molecules/projet/ProjetBanner';
@@ -12,8 +11,7 @@ import { CopyButton } from '@/components/molecules/CopyButton';
 import { ColumnPageTemplate } from '@/components/templates/ColumnPage.template';
 
 export type DétailsProjetÉliminéPageProps = {
-  identifiantProjet: IdentifiantProjet.ValueType;
-  unitéPuissance: AppelOffre.ConsulterAppelOffreReadModel['unitePuissance'];
+  identifiantProjet: IdentifiantProjet.RawType;
   candidature: {
     puissanceProductionAnnuelle: Candidature.ConsulterCandidatureReadModel['puissanceProductionAnnuelle'];
     localité: Candidature.ConsulterCandidatureReadModel['localité'];
@@ -22,6 +20,7 @@ export type DétailsProjetÉliminéPageProps = {
     prixReference?: Candidature.ConsulterCandidatureReadModel['prixReference'];
     nomCandidat: Candidature.ConsulterCandidatureReadModel['nomCandidat'];
     nomReprésentantLégal: Candidature.ConsulterCandidatureReadModel['nomReprésentantLégal'];
+    unitéPuissance: string;
   };
   utilisateursAyantAccèsAuProjet: ReadonlyArray<Email.RawType>;
   actions: Array<DétailsProjetÉliminéActions>;
@@ -36,8 +35,8 @@ export type DétailsProjetÉliminéActions =
 
 export const DétailsProjetÉliminéPage: FC<DétailsProjetÉliminéPageProps> = ({
   identifiantProjet,
-  unitéPuissance,
   candidature: {
+    unitéPuissance,
     puissanceProductionAnnuelle,
     localité,
     sociétéMère,
@@ -49,10 +48,9 @@ export const DétailsProjetÉliminéPage: FC<DétailsProjetÉliminéPageProps> =
   utilisateursAyantAccèsAuProjet,
   actions,
 }) => {
-  const idProjet = IdentifiantProjet.bind(identifiantProjet).formatter();
   return (
     <ColumnPageTemplate
-      banner={<ProjetBanner identifiantProjet={idProjet} noLink />}
+      banner={<ProjetBanner identifiantProjet={identifiantProjet} noLink />}
       leftColumn={{
         children: (
           <section className="flex flex-col gap-4">
@@ -114,7 +112,7 @@ export const DétailsProjetÉliminéPage: FC<DétailsProjetÉliminéPageProps> =
           <>
             {mapToActionComponents({
               actions,
-              identifiantProjet: idProjet,
+              identifiantProjet,
             })}
           </>
         ),

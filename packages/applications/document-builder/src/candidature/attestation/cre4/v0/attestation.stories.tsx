@@ -48,6 +48,7 @@ const fakeProject: AttestationCRE4Options = {
   puissance: 42,
   potentielId: 'potentielId',
   technologie: 'N/A',
+  unitePuissance: 'MW',
   coefficientKChoisi: undefined,
 };
 

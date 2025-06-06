@@ -209,7 +209,7 @@ export const ProjectList = ({
                     <div className="flex lg:flex-1 lg:flex-col items-center gap-2">
                       <PowerIcon className="text-yellow-moutarde-850-base" title="Puissance" />
                       <div className="lg:flex lg:flex-col items-center">
-                        {project.puissance} <Unit>{project.appelOffre?.unitePuissance}</Unit>
+                        {project.puissance} <Unit>{project.unitéPuissance}</Unit>
                       </div>
                     </div>
                     {project.prixReference && (

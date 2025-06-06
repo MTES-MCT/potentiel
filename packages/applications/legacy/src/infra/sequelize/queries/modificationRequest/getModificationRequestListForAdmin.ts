@@ -19,10 +19,7 @@ import {
   File,
 } from '../../projectionsNext';
 import { PaginatedList } from '../../../../modules/pagination';
-
-function _getPuissanceForAppelOffre(args: { appelOffreId; periodeId }): string {
-  return getProjectAppelOffre(args)?.unitePuissance || 'unité de puissance';
-}
+import { Candidature } from '@potentiel-domain/projet';
 
 function _getDrealRegionsForUser(user: User) {
   if (user.role !== 'dreal') {
@@ -145,9 +142,18 @@ export const getModificationRequestListForAdmin: GetModificationRequestListForAd
               appelOffreId,
               periodeId,
               familleId,
+              technologie,
             },
             attachmentFile,
           }) => {
+            const unitePuissance = Candidature.UnitéPuissance.déterminer({
+              appelOffres: getProjectAppelOffre({
+                appelOffreId,
+                periodeId,
+              })!,
+              période: periodeId,
+              technologie: technologie ?? 'N/A',
+            }).formatter();
             const getDescription = (): string => {
               switch (type) {
                 case 'fournisseur':
@@ -158,12 +164,7 @@ export const getModificationRequestListForAdmin: GetModificationRequestListForAd
                 case 'producteur':
                   return producteur || '';
                 case 'puissance':
-                  return puissance
-                    ? `${puissance} ${_getPuissanceForAppelOffre({
-                        appelOffreId,
-                        periodeId,
-                      })}`
-                    : '';
+                  return puissance ? `${puissance} ${unitePuissance}` : '';
                 case 'autre':
                   return 'autre (legacy)';
               }
@@ -187,7 +188,7 @@ export const getModificationRequestListForAdmin: GetModificationRequestListForAd
                 appelOffreId,
                 periodeId,
                 familleId,
-                unitePuissance: _getPuissanceForAppelOffre({ appelOffreId, periodeId }),
+                unitePuissance,
               },
               type,
               description: getDescription(),

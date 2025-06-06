@@ -1,7 +1,6 @@
 import { Lauréat } from '@potentiel-domain/projet';
 import { IdentifiantProjet } from '@potentiel-domain/projet';
 import { DateTime } from '@potentiel-domain/common';
-import { AppelOffre } from '@potentiel-domain/appel-offre';
 
 import { ModifierPuissanceFixture } from './fixture/modifierPuissance.fixture';
 import { ChangementPuissanceWorld } from './changement/changementPuissance.world';
@@ -22,11 +21,7 @@ export class PuissanceWorld {
     this.#changementPuissanceWorld = new ChangementPuissanceWorld();
   }
 
-  mapToExpected(
-    identifiantProjet: IdentifiantProjet.ValueType,
-    puissanceInitiale: number,
-    unitéPuissance: AppelOffre.UnitéPuissance,
-  ) {
+  mapToExpected(identifiantProjet: IdentifiantProjet.ValueType, puissanceInitiale: number) {
     const expected: Lauréat.Puissance.ConsulterPuissanceReadModel = {
       identifiantProjet,
       puissance: this.#changementPuissanceWorld.enregistrerChangementPuissanceFixture.aÉtéCréé
@@ -35,7 +30,6 @@ export class PuissanceWorld {
         : this.#modifierPuissanceFixture.aÉtéCréé
           ? this.#modifierPuissanceFixture.puissance
           : puissanceInitiale,
-      unitéPuissance,
     };
 
     if (this.#modifierPuissanceFixture.aÉtéCréé) {

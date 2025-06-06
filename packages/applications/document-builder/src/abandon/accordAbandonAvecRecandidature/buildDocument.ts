@@ -40,12 +40,12 @@ export type DonnéesDocument = {
     codePostal: string;
     dateDésignation: string;
     puissance: number;
+    unitéPuissance: string;
   };
   appelOffre: {
     nom: string;
     description: string;
     période: string;
-    unitéPuissance: string;
     texteEngagementRéalisationEtModalitésAbandon: {
       référenceParagraphe: string;
       dispositions: string;

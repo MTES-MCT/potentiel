@@ -56,7 +56,7 @@ export const innovationPPE2: AppelOffre.AppelOffreReadModel = {
   cahiersDesChargesUrl:
     'https://www.cre.fr/documents/Appels-d-offres/appel-d-offres-portant-sur-la-realisation-et-l-exploitation-d-installations-de-production-d-electricite-innovantes-a-partir-de-l-energie-solaire-sa',
   technologie: 'pv',
-  unitePuissance: 'MW',
+  unitePuissance: 'MWc',
   autoritéCompétenteDemandesDélai: 'dreal',
   delaiRealisationEnMois: 30,
   delaiRealisationTexte: 'trente (30) mois',
@@ -118,6 +118,7 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
     {
       id: '1',
       title: 'première',
+      unitéPuissance: 'MW',
       certificateTemplate: 'ppe2.v2',
       logo: 'MEFSIN',
       cahierDesCharges: {
@@ -149,5 +150,6 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
       },
     },
     // ℹ️ penser à mettre à jour le logo pour la prochaine période
+    // ℹ️ penser à retirer l'unité de puissance pour la prochaine période (utiliser celle par défaut de l'AO)
   ],
 };

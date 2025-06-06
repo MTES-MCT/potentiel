@@ -91,7 +91,7 @@ export const registerListerDossierRaccordementManquantsQuery = ({
       },
     });
 
-    const appelOffres = await list<AppelOffre.AppelOffreEntity>('appel-offre', {});
+    const appelsOffres = await list<AppelOffre.AppelOffreEntity>('appel-offre', {});
 
     const identifiantsGestionnaireRéseau = items.map(
       (dossier) =>
@@ -111,7 +111,7 @@ export const registerListerDossierRaccordementManquantsQuery = ({
       items: items.map((raccordement) =>
         mapToReadModel({
           raccordement,
-          appelOffres: appelOffres.items,
+          appelsOffres: appelsOffres.items,
           puissances: puissances.items,
           gestionnairesRéseau: gestionnairesRéseau.items,
         }),
@@ -131,13 +131,13 @@ type MapToReadModelProps = (args: {
   raccordement: Raccordement.RaccordementEntity & Joined<Candidature.CandidatureEntity>;
   puissances: ReadonlyArray<Lauréat.Puissance.PuissanceEntity>;
   gestionnairesRéseau: ReadonlyArray<GestionnaireRéseau.GestionnaireRéseauEntity>;
-  appelOffres: ReadonlyArray<AppelOffre.AppelOffreEntity>;
+  appelsOffres: ReadonlyArray<AppelOffre.AppelOffreEntity>;
 }) => DossierRaccordementManquant;
 
 export const mapToReadModel: MapToReadModelProps = ({
   raccordement: { identifiantProjet, candidature, identifiantGestionnaireRéseau },
   puissances,
-  appelOffres,
+  appelsOffres,
   gestionnairesRéseau,
 }) => {
   const { appelOffre, famille, numéroCRE, période } =
@@ -146,8 +146,15 @@ export const mapToReadModel: MapToReadModelProps = ({
   const puissanceItem = puissances.find(
     (puissance) => puissance.identifiantProjet === identifiantProjet,
   );
+  const appelOffres = appelsOffres.find((ao) => ao.id === candidature.appelOffre);
 
-  const unitéPuissance = appelOffres.find((ao) => ao.id === appelOffre)?.unitePuissance ?? 'MWc';
+  const unitéPuissance = appelOffres
+    ? Candidature.UnitéPuissance.déterminer({
+        appelOffres,
+        période: candidature.période,
+        technologie: candidature.technologie,
+      }).formatter()
+    : 'N/A';
 
   const puissance = match(puissanceItem)
     .with(P.nullish, () => `0 ${unitéPuissance}`)

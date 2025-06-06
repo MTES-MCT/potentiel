@@ -55,7 +55,7 @@ export default async function Page({ params: { identifiant } }: PageProps) {
         },
       });
 
-      const { appelOffres, période } = await getPériodeAppelOffres(identifiantProjet);
+      const { période } = await getPériodeAppelOffres(identifiantProjet);
 
       const accèsProjet = await mediator.send<Accès.ConsulterAccèsQuery>({
         type: 'Projet.Accès.Query.ConsulterAccès',
@@ -66,9 +66,8 @@ export default async function Page({ params: { identifiant } }: PageProps) {
 
       return (
         <DétailsProjetÉliminéPage
-          identifiantProjet={identifiantProjet}
+          identifiantProjet={identifiantProjet.formatter()}
           candidature={mapToCandidatureProps({ candidature, role: utilisateur.role })}
-          unitéPuissance={appelOffres.unitePuissance}
           utilisateursAyantAccèsAuProjet={Option.match(accèsProjet)
             .some((accèsProjet) =>
               accèsProjet.utilisateursAyantAccès.map((utilisateur) => utilisateur.formatter()),
@@ -100,6 +99,7 @@ const mapToCandidatureProps: MapToCandidatureProps = ({
     sociétéMère,
     prixReference,
     puissanceProductionAnnuelle,
+    unitéPuissance,
   },
   role,
 }) => ({
@@ -110,6 +110,7 @@ const mapToCandidatureProps: MapToCandidatureProps = ({
   sociétéMère,
   prixReference: role.aLaPermission('projet.accèsDonnées.prix') ? prixReference : undefined,
   puissanceProductionAnnuelle,
+  unitéPuissance: unitéPuissance.formatter(),
 });
 
 type MapToActions = (args: {

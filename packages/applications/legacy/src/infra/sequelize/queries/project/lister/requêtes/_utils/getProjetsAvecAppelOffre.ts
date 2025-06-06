@@ -1,7 +1,9 @@
+import { Candidature } from '@potentiel-domain/projet';
 import { getProjectAppelOffre } from '../../../../../../../config/queryProjectAO.config';
 import { Project } from '../../../../../projectionsNext/project/project.model';
+import { ProjectListItem } from '../../../../../../../modules/project';
 
-export const getProjetsAvecAppelOffre = (projets: Project[]) => {
+export const getProjetsAvecAppelOffre = (projets: Project[]): ProjectListItem[] => {
   if (!projets.length) {
     return [];
   }
@@ -21,13 +23,19 @@ export const getProjetsAvecAppelOffre = (projets: Project[]) => {
         ? {
             appelOffre: {
               type: appelOffre.typeAppelOffre,
-              unitePuissance: appelOffre.unitePuissance,
               periode: appelOffre.periode,
               changementProducteurPossibleAvantAchèvement:
                 appelOffre.changementProducteurPossibleAvantAchèvement,
             },
+            unitéPuissance: Candidature.UnitéPuissance.déterminer({
+              appelOffres: appelOffre,
+              période: projet.periodeId,
+              technologie: projet.technologie ?? 'N/A',
+            }).formatter(),
           }
-        : {}),
+        : {
+            unitéPuissance: 'N/A' as const,
+          }),
     };
   });
 };

@@ -1,8 +1,9 @@
 import { Message, MessageHandler, mediator } from 'mediateur';
 
-import { List, RangeOptions, Where } from '@potentiel-domain/entity';
+import { Joined, List, RangeOptions, Where } from '@potentiel-domain/entity';
 import { Email } from '@potentiel-domain/common';
 import { DocumentProjet } from '@potentiel-domain/document';
+import { AppelOffre } from '@potentiel-domain/appel-offre';
 
 import { CandidatureEntity } from '../candidature.entity';
 import { ConsulterCandidatureReadModel } from '../consulter/consulterCandidature.query';
@@ -10,6 +11,7 @@ import * as StatutCandidature from '../statutCandidature.valueType';
 import * as TypeGarantiesFinancières from '../typeGarantiesFinancières.valueType';
 import * as TypeActionnariat from '../typeActionnariat.valueType';
 import { IdentifiantProjet, Lauréat } from '../..';
+import { UnitéPuissance } from '..';
 
 export type CandidaturesListItemReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
@@ -33,6 +35,7 @@ export type CandidaturesListItemReadModel = {
   attestation?: DocumentProjet.ValueType;
   sociétéMère: String;
   fournisseurs: ConsulterCandidatureReadModel['fournisseurs'];
+  unitéPuissance: ConsulterCandidatureReadModel['unitéPuissance'];
 };
 
 export type ListerCandidaturesReadModel = Readonly<{
@@ -73,7 +76,7 @@ export const registerListerCandidaturesQuery = ({ list }: ListerCandidaturesQuer
       items,
       range: { endPosition, startPosition },
       total,
-    } = await list<CandidatureEntity>('candidature', {
+    } = await list<CandidatureEntity, AppelOffre.AppelOffreEntity>('candidature', {
       where: {
         appelOffre: Where.equal(appelOffre),
         période: Where.equal(période),
@@ -81,6 +84,10 @@ export const registerListerCandidaturesQuery = ({ list }: ListerCandidaturesQuer
         statut: Where.equal(statut),
         estNotifiée: Where.equal(estNotifiée),
         identifiantProjet: Where.matchAny(identifiantProjets),
+      },
+      join: {
+        entity: 'appel-offre',
+        on: 'appelOffre',
       },
       range,
       orderBy: {
@@ -120,7 +127,10 @@ export const mapToReadModel = ({
   sociétéMère,
   actionnariat,
   fournisseurs,
-}: CandidatureEntity): CandidaturesListItemReadModel => ({
+  période,
+  technologie,
+  'appel-offre': appelOffres,
+}: CandidatureEntity & Joined<AppelOffre.AppelOffreEntity>): CandidaturesListItemReadModel => ({
   identifiantProjet: IdentifiantProjet.convertirEnValueType(identifiantProjet),
   statut: StatutCandidature.convertirEnValueType(statut),
   nomProjet,
@@ -162,4 +172,5 @@ export const mapToReadModel = ({
     ),
     nomDuFabricant: fournisseur.nomDuFabricant,
   })),
+  unitéPuissance: UnitéPuissance.déterminer({ appelOffres, période, technologie }),
 });

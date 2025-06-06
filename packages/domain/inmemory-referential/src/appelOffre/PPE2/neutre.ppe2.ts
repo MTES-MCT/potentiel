@@ -12,8 +12,7 @@ export const neutrePPE2: AppelOffre.AppelOffreReadModel = {
   cahiersDesChargesUrl:
     'https://www.cre.fr/documents/Appels-d-offres/appel-d-offres-portant-sur-la-realisation-et-l-exploitation-d-installations-de-production-d-electricite-a-partir-d-energie-solaire-photovoltaique',
   multiplesTechnologies: true,
-  unitePuissance: 'MW',
-  // unitePuissance: { eolien: 'MW', pv: 'MWc', hydraulique: 'MW' },
+  unitePuissance: { eolien: 'MW', pv: 'MWc', hydraulique: 'MW' },
   autoritéCompétenteDemandesDélai: 'dreal',
   tarifOuPrimeRetenue: 'le prix de référence T de l’électricité retenu',
   tarifOuPrimeRetenueAlt: 'ce prix de référence',
@@ -75,6 +74,8 @@ Des délais supplémentaires peuvent être accordés par le Préfet, à son appr
     {
       id: '1',
       title: 'première',
+      // les périodes 1 à 3 ont utilisé MW, même pour PV
+      unitéPuissance: 'MW',
       certificateTemplate: 'ppe2.v2',
       logo: 'MEFSIN',
       cahierDesCharges: {
@@ -104,6 +105,8 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
     {
       id: '2',
       title: 'deuxième',
+      // les périodes 1 à 3 ont utilisé MW, même pour PV
+      unitéPuissance: 'MW',
       certificateTemplate: 'ppe2.v2',
       logo: 'MEFSIN',
       cahierDesCharges: {
@@ -132,6 +135,8 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
     {
       id: '3',
       title: 'troisième',
+      // les périodes 1 à 3 ont utilisé MW, même pour PV
+      unitéPuissance: 'MW',
       certificateTemplate: 'ppe2.v2',
       logo: 'MCE',
       cahierDesCharges: {
@@ -158,6 +163,7 @@ Le Candidat peut également être délié de cette obligation selon l’appréci
       },
     },
     // ℹ️ penser à mettre à jour le logo pour la prochaine période
-    // à partir de la P4, penser à activer choixCoefficientKDisponible
+    // ℹ️ à partir de la P4, penser à activer choixCoefficientKDisponible
+    // ℹ️ penser à retirer l'unité de puissance pour la prochaine période (utiliser celle par défaut de l'AO)
   ],
 };

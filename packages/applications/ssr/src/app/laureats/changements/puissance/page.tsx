@@ -95,19 +95,13 @@ export default async function Page({ searchParams }: PageProps) {
         });
       }
 
-      return (
-        <ChangementPuissanceListPage
-          list={mapToListProps(changements, appelOffres.items)}
-          filters={filters}
-        />
-      );
+      return <ChangementPuissanceListPage list={mapToListProps(changements)} filters={filters} />;
     }),
   );
 }
 
 const mapToListProps = (
   changements: Lauréat.Puissance.ListerChangementPuissanceReadModel,
-  appelOffres: AppelOffre.ListerAppelOffreReadModel['items'],
 ): ChangementPuissanceListPageProps['list'] => {
   const pagination = mapToPagination(changements.range);
 
@@ -119,9 +113,7 @@ const mapToListProps = (
       misÀJourLe: mapToPlainObject(item.misÀJourLe),
       demandéLe: mapToPlainObject(item.demandéLe),
       nouvellePuissance: item.nouvellePuissance,
-      unitéPuissance:
-        appelOffres.find((ao) => ao.id === item.identifiantProjet.appelOffre)?.unitePuissance ??
-        'N/A',
+      unitéPuissance: item.unitéPuissance,
     })),
     pagination,
     total: changements.total,

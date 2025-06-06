@@ -26,7 +26,6 @@ export type ProjectListItem = {
   appelOffre?: {
     title?: ProjectAppelOffre['title'];
     type: ProjectAppelOffre['typeAppelOffre'];
-    unitePuissance: ProjectAppelOffre['unitePuissance'];
     periode: ProjectAppelOffre['periode'];
     changementProducteurPossibleAvantAchèvement: ProjectAppelOffre['changementProducteurPossibleAvantAchèvement'];
   };
@@ -38,6 +37,7 @@ export type ProjectListItem = {
   isFinancementParticipatif?: boolean;
   isInvestissementParticipatif?: boolean;
   actionnariat?: 'financement-collectif' | 'gouvernance-partagee' | '';
+  unitéPuissance: AppelOffre.UnitéPuissance | 'N/A';
 };
 
 export type FiltreListeProjets = {

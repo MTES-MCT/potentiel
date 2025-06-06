@@ -21,4 +21,5 @@ export const allAttributes = [
   'isFinancementParticipatif',
   'isInvestissementParticipatif',
   'actionnariat',
+  'technologie',
 ];

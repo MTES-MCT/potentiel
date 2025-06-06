@@ -58,6 +58,7 @@ export type BuildCertificateProps = {
     evaluationCarboneSimplifiée: number;
     actionnariat?: Candidature.TypeActionnariat.ValueType;
     coefficientKChoisi?: boolean;
+    unitéPuissance: Candidature.UnitéPuissance.ValueType;
   };
   notifiéLe: DateTime.RawType;
 };
@@ -118,6 +119,7 @@ const mapToCertificateData = ({
       période,
       famille,
 
+      unitePuissance: candidature.unitéPuissance.formatter(),
       notifiedOn: new Date(notifiéLe).getTime(),
       isClasse: candidature.statut.estClassé(),
       potentielId,

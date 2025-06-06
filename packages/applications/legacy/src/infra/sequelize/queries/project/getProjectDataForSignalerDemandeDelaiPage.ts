@@ -9,6 +9,7 @@ import { EntityNotFoundError, InfraNotAvailableError } from '../../../../modules
 import { Op } from 'sequelize';
 import { Project, ModificationRequest } from '../../projectionsNext';
 import { getDélaiCDC2022Applicable } from './getDélaiCdc2022Applicable';
+import { Candidature } from '@potentiel-domain/projet';
 
 export const getProjectDataForSignalerDemandeDelaiPage: GetProjectDataForSignalerDemandeDelaiPage =
   ({ projectId }) => {
@@ -49,6 +50,7 @@ export const getProjectDataForSignalerDemandeDelaiPage: GetProjectDataForSignale
             appelOffreId,
             cahierDesChargesActuel,
             puissance,
+            technologie,
           } = projet;
 
           const project = {
@@ -65,7 +67,11 @@ export const getProjectDataForSignalerDemandeDelaiPage: GetProjectDataForSignale
             appelOffreId,
             cahierDesChargesActuel,
             puissance,
-            unitePuissance: appelOffre.unitePuissance,
+            unitePuissance: Candidature.UnitéPuissance.déterminer({
+              appelOffres: appelOffre,
+              période: periodeId,
+              technologie: technologie ?? 'N/A',
+            }).formatter(),
           };
 
           const cahierDesChargesParsed = parseCahierDesChargesRéférence(cahierDesChargesActuel);

@@ -9,6 +9,7 @@ import { v1Router } from '../../v1Router';
 
 import { ChangerFournisseurPage } from '../../../views';
 import { Project } from '../../../infra/sequelize/projectionsNext';
+import { Candidature } from '@potentiel-domain/projet';
 
 v1Router.get(
   routes.CHANGER_FOURNISSEUR(),
@@ -66,7 +67,11 @@ v1Router.get(
         request,
         project: {
           ...project.get(),
-          unitePuissance: appelOffre.unitePuissance,
+          unitePuissance: Candidature.UnitéPuissance.déterminer({
+            appelOffres: appelOffre,
+            période: periodeId,
+            technologie: project.technologie ?? 'N/A',
+          }).formatter(),
           cahiersDesChargesUrl: appelOffre.cahiersDesChargesUrl,
         },
         appelOffre,

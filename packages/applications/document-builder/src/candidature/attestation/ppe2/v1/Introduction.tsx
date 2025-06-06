@@ -35,7 +35,7 @@ export const Introduction = ({ project }: IntroductionProps) => {
         {période.familles.length > 0 && famille ? `dans la famille ${famille.id} ` : ''} le projet «{' '}
         {project.nomProjet} », situé {project.adresseProjet} {project.codePostalProjet}{' '}
         {project.communeProjet} d’une puissance de {formatNumber(project.puissance, 1e6)}{' '}
-        {appelOffre.unitePuissance}.
+        {project.unitePuissance}.
       </Text>
     </>
   );

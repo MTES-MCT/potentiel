@@ -3,7 +3,6 @@ import { FC } from 'react';
 import { PlainType } from '@potentiel-domain/core';
 import { Email, IdentifiantProjet } from '@potentiel-domain/common';
 import { Candidature } from '@potentiel-domain/projet';
-import { AppelOffre } from '@potentiel-domain/appel-offre';
 
 import { Icon } from '@/components/atoms/Icon';
 import { ProjectListItemHeading } from '@/components/molecules/projet/ProjectListItemHeading';
@@ -31,7 +30,7 @@ export type CandidatureListItemProps = {
     département: Candidature.ConsulterCandidatureReadModel['localité']['département'];
     région: Candidature.ConsulterCandidatureReadModel['localité']['région'];
   };
-  unitePuissance: AppelOffre.ConsulterAppelOffreReadModel['unitePuissance'];
+  unitéPuissance: string;
   actions: CandidatureListItemActionsProps['actions'];
 };
 
@@ -47,7 +46,7 @@ export const CandidatureListItem: FC<CandidatureListItemProps> = ({
   puissanceProductionAnnuelle,
   actionnariat,
   prixReference,
-  unitePuissance,
+  unitéPuissance,
   evaluationCarboneSimplifiée,
   actions,
 }) => (
@@ -107,7 +106,7 @@ export const CandidatureListItem: FC<CandidatureListItemProps> = ({
           />
           <div className="lg:flex lg:flex-col items-center text-center">
             {puissanceProductionAnnuelle}
-            <span className="italic text-sm">{unitePuissance}</span>
+            <span className="italic text-sm">{unitéPuissance}</span>
           </div>
         </div>
         <div className="flex lg:flex-1 lg:flex-col items-center gap-2">

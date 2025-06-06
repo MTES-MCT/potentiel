@@ -17,12 +17,12 @@ const meta = {
         codePostal: '75000',
         dateDésignation: new Date().toISOString(),
         puissance: 1,
+        unitéPuissance: 'kwh',
       },
       appelOffre: {
         nom: 'PPE2 Bâtiment',
         description: 'description',
         période: '1',
-        unitéPuissance: 'kwh',
         texteEngagementRéalisationEtModalitésAbandon: {
           référenceParagraphe: 'xx',
           dispositions: 'xx',

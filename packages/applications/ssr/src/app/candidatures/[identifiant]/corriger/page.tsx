@@ -99,7 +99,7 @@ const mapToProps: MapToProps = (candidature, lauréat, appelOffres, période) =>
   estNotifiée: !!candidature.notification,
   aUneAttestation: !!candidature.notification?.attestation,
   estLauréat: Option.isSome(lauréat),
-  unitéPuissance: appelOffres.unitePuissance,
+  unitéPuissance: candidature.unitéPuissance.formatter(),
   champsSpéciaux: {
     coefficientKChoisi: période.choixCoefficientKDisponible ?? false,
     puissanceALaPointe: appelOffres.puissanceALaPointeDisponible ?? false,

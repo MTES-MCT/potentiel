@@ -2,10 +2,12 @@ import { Message, MessageHandler, mediator } from 'mediateur';
 
 import { DateTime, Email } from '@potentiel-domain/common';
 import { Joined, List, RangeOptions, Where } from '@potentiel-domain/entity';
+import { AppelOffre } from '@potentiel-domain/appel-offre';
 
 import { AutoritéCompétente, ChangementPuissanceEntity, StatutChangementPuissance } from '../..';
-import { GetProjetUtilisateurScope, IdentifiantProjet } from '../../../..';
+import { Candidature, GetProjetUtilisateurScope, IdentifiantProjet } from '../../../..';
 import { LauréatEntity } from '../../../lauréat.entity';
+import { UnitéPuissance } from '../../../../candidature';
 
 type ChangementPuissanceItemReadModel = {
   identifiantProjet: IdentifiantProjet.ValueType;
@@ -14,6 +16,7 @@ type ChangementPuissanceItemReadModel = {
   misÀJourLe: DateTime.ValueType;
   demandéLe: DateTime.ValueType;
   nouvellePuissance: number;
+  unitéPuissance: string;
 };
 
 export type ListerChangementPuissanceReadModel = {
@@ -80,10 +83,24 @@ export const registerListerChangementPuissanceQuery = ({
         },
       },
     });
+    const candidatures = await list<Candidature.CandidatureEntity, AppelOffre.AppelOffreEntity>(
+      `candidature`,
+      {
+        where: {
+          identifiantProjet: Where.matchAny(
+            demandes.items.map((demande) => demande.identifiantProjet as IdentifiantProjet.RawType),
+          ),
+        },
+        join: {
+          entity: 'appel-offre',
+          on: 'appelOffre',
+        },
+      },
+    );
 
     return {
       ...demandes,
-      items: demandes.items.map(mapToReadModel),
+      items: demandes.items.map((item) => mapToReadModel(item, candidatures.items)),
     };
   };
 
@@ -92,11 +109,25 @@ export const registerListerChangementPuissanceQuery = ({
 
 const mapToReadModel = (
   entity: ChangementPuissanceEntity & Joined<LauréatEntity>,
-): ChangementPuissanceItemReadModel => ({
-  nomProjet: entity.lauréat.nomProjet,
-  statut: StatutChangementPuissance.convertirEnValueType(entity.demande.statut),
-  misÀJourLe: DateTime.convertirEnValueType(entity.demande.demandéeLe),
-  identifiantProjet: IdentifiantProjet.convertirEnValueType(entity.identifiantProjet),
-  demandéLe: DateTime.convertirEnValueType(entity.demande.demandéeLe),
-  nouvellePuissance: entity.demande.nouvellePuissance,
-});
+  candidatures: ReadonlyArray<Candidature.CandidatureEntity & Joined<AppelOffre.AppelOffreEntity>>,
+): ChangementPuissanceItemReadModel => {
+  const identifiantProjet = IdentifiantProjet.convertirEnValueType(entity.identifiantProjet);
+  const candidature = candidatures.find(
+    (c) => c.identifiantProjet === identifiantProjet.formatter(),
+  );
+  return {
+    nomProjet: entity.lauréat.nomProjet,
+    statut: StatutChangementPuissance.convertirEnValueType(entity.demande.statut),
+    misÀJourLe: DateTime.convertirEnValueType(entity.demande.demandéeLe),
+    identifiantProjet,
+    demandéLe: DateTime.convertirEnValueType(entity.demande.demandéeLe),
+    nouvellePuissance: entity.demande.nouvellePuissance,
+    unitéPuissance: candidature
+      ? UnitéPuissance.déterminer({
+          appelOffres: candidature['appel-offre'],
+          période: identifiantProjet.période,
+          technologie: candidature.technologie,
+        }).formatter()
+      : 'N/A',
+  };
+};

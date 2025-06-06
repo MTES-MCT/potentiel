@@ -1,6 +1,7 @@
 import { Candidature, Lauréat } from '@potentiel-domain/projet';
 import { DateTime, Email, IdentifiantProjet } from '@potentiel-domain/common';
 import { DocumentProjet } from '@potentiel-domain/document';
+import { appelsOffreData } from '@potentiel-domain/inmemory-referential';
 
 import { CorrigerCandidatureFixture } from './fixtures/corrigerCandidature.fixture';
 import { ImporterCandidatureFixture } from './fixtures/importerCandidature.fixture';
@@ -96,6 +97,10 @@ export class CandidatureWorld {
         ? this.corrigerCandidature.values.corrigéLe
         : this.importerCandidature.values.importéLe;
 
+    const identifiantProjet = IdentifiantProjet.convertirEnValueType(
+      this.importerCandidature.identifiantProjet,
+    );
+
     return {
       localité: expectedValues.localitéValue,
       dateÉchéanceGf: expectedValues.dateÉchéanceGfValue
@@ -106,9 +111,7 @@ export class CandidatureWorld {
       historiqueAbandon: Candidature.HistoriqueAbandon.convertirEnValueType(
         expectedValues.historiqueAbandonValue,
       ),
-      identifiantProjet: IdentifiantProjet.convertirEnValueType(
-        this.importerCandidature.identifiantProjet,
-      ),
+      identifiantProjet,
       motifÉlimination: expectedValues.motifÉliminationValue,
       nomCandidat: expectedValues.nomCandidatValue,
       nomProjet: expectedValues.nomProjetValue,
@@ -145,6 +148,13 @@ export class CandidatureWorld {
         ),
         nomDuFabricant: fournisseur.nomDuFabricant,
       })),
+      unitéPuissance: Candidature.UnitéPuissance.déterminer({
+        appelOffres: appelsOffreData.find((ao) => ao.id === identifiantProjet.appelOffre)!,
+        période: identifiantProjet.période,
+        technologie: Candidature.TypeTechnologie.convertirEnValueType(
+          expectedValues.technologieValue,
+        ).formatter(),
+      }),
     };
   }
 }
