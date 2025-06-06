@@ -1,7 +1,6 @@
 import { match, P } from 'ts-pattern';
 
-import { HistoryRecord } from '@potentiel-domain/entity';
-import { Lauréat } from '@potentiel-domain/projet';
+import { Historique } from '@potentiel-domain/historique';
 
 import { TimelineItemProps } from '@/components/organisms/Timeline';
 
@@ -15,13 +14,7 @@ import { mapToConfirmationAbandonDemandéeTimelineItemProps } from './mapToConfi
 import { mapToPreuveRecandidatureTransmiseTimelineItemProps } from './mapToPreuveRecandidatureTransmiseTimelineItemProps';
 import { mapToAbandonPasséEnInstructionTimelineItemProps } from './mapToAbandonPasséEnInstructionTimelineItemProps';
 
-export type AbandonHistoryRecord = HistoryRecord<
-  'abandon',
-  Lauréat.Abandon.AbandonEvent['type'],
-  Lauréat.Abandon.AbandonEvent['payload']
->;
-
-export const mapToAbandonTimelineItemProps = (record: AbandonHistoryRecord) =>
+export const mapToAbandonTimelineItemProps = (record: Historique.AbandonHistoryRecord) =>
   match(record)
     .returnType<TimelineItemProps>()
     .with(

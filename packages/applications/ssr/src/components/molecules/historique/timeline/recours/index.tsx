@@ -1,7 +1,6 @@
 import { match } from 'ts-pattern';
 
-import { HistoryRecord } from '@potentiel-domain/entity';
-import { Éliminé } from '@potentiel-domain/projet';
+import { Historique } from '@potentiel-domain/historique';
 
 import { TimelineItemProps } from '@/components/organisms/Timeline';
 
@@ -11,13 +10,7 @@ import { mapToRecoursRejetéTimelineItemProps } from './mapToRecoursRejetéTimel
 import { mapToRecoursAccordéTimelineItemProps } from './mapToRecoursAccordéTimelineItemProps';
 import { mapToRecoursPasséEnInstructionTimelineItemProp } from './mapToRecoursPasséEnInstructionTimelineItemProps';
 
-export type RecoursHistoryRecord = HistoryRecord<
-  'recours',
-  Éliminé.Recours.RecoursEvent['type'],
-  Éliminé.Recours.RecoursEvent['payload']
->;
-
-export const mapToRecoursTimelineItemProps = (record: RecoursHistoryRecord) =>
+export const mapToRecoursTimelineItemProps = (record: Historique.RecoursHistoryRecord) =>
   match(record)
     .returnType<TimelineItemProps>()
     .with(
