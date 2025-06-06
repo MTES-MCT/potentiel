@@ -14,7 +14,6 @@ type ProjectFieldProps<T> = {
   lauréat: T;
   name: keyof ModifierLauréatValueFormEntries;
   estEnCoursDeModification?: boolean;
-  isPPE2?: boolean;
   validationErrors: FieldValidationErrors;
   label: InputProps['label'];
   nativeInputProps?: InputProps['nativeInputProps'];
