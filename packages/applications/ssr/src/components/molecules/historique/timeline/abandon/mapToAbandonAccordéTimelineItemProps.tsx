@@ -24,7 +24,11 @@ export const mapToAbandonAccordéTimelineItemProps = (
 
   return {
     date: accordéLe,
-    title: <div>Abandon accordé par {<span className="font-semibold">{accordéPar}</span>}</div>,
+    title: (
+      <div>
+        Demande d'abandon accordée par {<span className="font-semibold">{accordéPar}</span>}
+      </div>
+    ),
     content: (
       <DownloadDocument
         className="mb-0"
