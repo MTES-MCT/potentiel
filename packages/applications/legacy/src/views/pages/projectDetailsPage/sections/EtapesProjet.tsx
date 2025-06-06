@@ -21,7 +21,11 @@ export type EtapesProjetProps = {
 };
 
 export const EtapesProjet: FC<EtapesProjetProps> = ({ identifiantProjet, isLegacy, étapes }) => (
-  <Section title="Étapes du projet" icon={<CalendarIcon />}>
+  <Section
+    title="Étapes du projet"
+    icon={<CalendarIcon />}
+    className="flex-auto min-w-0 lg:max-w-[60%]"
+  >
     <aside aria-label="Progress">
       <ol className="pl-0 overflow-hidden list-none">
         {étapes
