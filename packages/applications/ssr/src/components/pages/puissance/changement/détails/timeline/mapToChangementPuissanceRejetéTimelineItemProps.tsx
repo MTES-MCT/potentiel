@@ -1,12 +1,13 @@
 import { Routes } from '@potentiel-applications/routes';
 import { DocumentProjet } from '@potentiel-domain/document';
 import { Lauréat } from '@potentiel-domain/projet';
+import { Historique } from '@potentiel-domain/historique';
 
 import { DownloadDocument } from '@/components/atoms/form/document/DownloadDocument';
 
-import { PuissanceHistoryRecord } from '.';
-
-export const mapToChangementPuissanceRejetéTimelineItemProps = (record: PuissanceHistoryRecord) => {
+export const mapToChangementPuissanceRejetéTimelineItemProps = (
+  record: Historique.PuissanceHistoryRecord,
+) => {
   const {
     rejetéLe,
     rejetéPar,

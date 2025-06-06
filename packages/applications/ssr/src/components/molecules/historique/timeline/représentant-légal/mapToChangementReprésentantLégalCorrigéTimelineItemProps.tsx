@@ -11,7 +11,7 @@ export const mapToChangementReprésentantLégalCorrigéTimelineItemProps = (
     date: corrigéLe,
     title: (
       <div>
-        Changement de représentant légal corrigé par{' '}
+        Demande de changement de représentant légal corrigée par{' '}
         {<span className="font-semibold">{corrigéPar}</span>}
       </div>
     ),

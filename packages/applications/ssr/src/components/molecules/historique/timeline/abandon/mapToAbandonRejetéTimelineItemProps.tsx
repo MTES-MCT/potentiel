@@ -24,7 +24,9 @@ export const mapToAbandonRejetéTimelineItemProps = (
 
   return {
     date: rejetéLe,
-    title: <div>Abandon rejeté par {<span className="font-semibold">{rejetéPar}</span>}</div>,
+    title: (
+      <div>Demande d'abandon rejetée par {<span className="font-semibold">{rejetéPar}</span>}</div>
+    ),
     content: (
       <DownloadDocument
         className="mb-0"

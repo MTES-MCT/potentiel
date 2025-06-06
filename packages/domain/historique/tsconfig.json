@@ -16,6 +16,12 @@
     },
     {
       "path": "../entity"
+    },
+    {
+      "path": "../projet"
+    },
+    {
+      "path": "../lauréat"
     }
   ]
 }

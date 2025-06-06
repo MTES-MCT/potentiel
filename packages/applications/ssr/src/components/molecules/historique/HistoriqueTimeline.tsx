@@ -6,32 +6,20 @@ import { Historique } from '@potentiel-domain/historique';
 
 import { Timeline, TimelineItemProps } from '@/components/organisms/Timeline';
 
-import { AbandonHistoryRecord, mapToAbandonTimelineItemProps } from './timeline/abandon';
-import { mapToRecoursTimelineItemProps, RecoursHistoryRecord } from './timeline/recours';
-import {
-  ActionnaireHistoryRecord,
-  mapToActionnaireTimelineItemProps,
-} from './timeline/actionnaire';
-import {
-  mapToReprésentantLégalTimelineItemProps,
-  ReprésentantLégalHistoryRecord,
-} from './timeline/représentant-légal';
+import { mapToAbandonTimelineItemProps } from './timeline/abandon';
+import { mapToRecoursTimelineItemProps } from './timeline/recours';
+import { mapToActionnaireTimelineItemProps } from './timeline/actionnaire';
+import { mapToReprésentantLégalTimelineItemProps } from './timeline/représentant-légal';
 
 export type HistoriqueTimelineProps = {
-  historique: PlainType<Historique.ListerHistoriqueProjetReadModel<HistoryReadModel>>;
+  historique: PlainType<Historique.ListerHistoriqueProjetReadModel<Historique.HistoryReadModel>>;
 };
-
-type HistoryReadModel =
-  | AbandonHistoryRecord
-  | ActionnaireHistoryRecord
-  | RecoursHistoryRecord
-  | ReprésentantLégalHistoryRecord;
 
 export const HistoriqueTimeline: FC<HistoriqueTimelineProps> = ({ historique }) => (
   <Timeline items={historique.items.map((item) => mapToTimelineItemProps(item))} />
 );
 
-const mapToTimelineItemProps = (record: HistoryReadModel) =>
+const mapToTimelineItemProps = (record: Historique.HistoryReadModel) =>
   match(record)
     .returnType<TimelineItemProps>()
     .with(

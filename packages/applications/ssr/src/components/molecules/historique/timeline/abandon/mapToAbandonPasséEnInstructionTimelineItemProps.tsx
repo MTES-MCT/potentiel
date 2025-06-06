@@ -11,7 +11,7 @@ export const mapToAbandonPasséEnInstructionTimelineItemProps = (
     date: passéEnInstructionLe,
     title: (
       <div>
-        Demande passée en instruction par{' '}
+        Demande d'abandon passée en instruction par{' '}
         {<span className="font-semibold">{passéEnInstructionPar}</span>}
       </div>
     ),

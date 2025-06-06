@@ -1,7 +1,6 @@
 import { match } from 'ts-pattern';
 
-import { HistoryRecord } from '@potentiel-domain/entity';
-import { Actionnaire } from '@potentiel-domain/laureat';
+import { Historique } from '@potentiel-domain/historique';
 
 import { TimelineItemProps } from '@/components/organisms/Timeline';
 
@@ -15,13 +14,7 @@ import { mapToChangementActionnaireDemandéTimelineItemProps } from './mapToChan
 import { mapToActionnaireImportéTimelineItemProps } from './mapToActionnaireImportéTimelineItemsProps';
 import { mapToChangementActionnaireEnregistréTimelineItemProps } from './mapToChangementActionnaireEnregistréTimelineItemProps';
 
-export type ActionnaireHistoryRecord = HistoryRecord<
-  'actionnaire',
-  Actionnaire.ActionnaireEvent['type'],
-  Actionnaire.ActionnaireEvent['payload']
->;
-
-export const mapToActionnaireTimelineItemProps = (record: ActionnaireHistoryRecord) =>
+export const mapToActionnaireTimelineItemProps = (record: Historique.ActionnaireHistoryRecord) =>
   match(record)
     .returnType<TimelineItemProps>()
     .with(

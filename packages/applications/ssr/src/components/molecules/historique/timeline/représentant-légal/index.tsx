@@ -1,7 +1,6 @@
 import { match } from 'ts-pattern';
 
-import { ReprésentantLégal } from '@potentiel-domain/laureat';
-import { HistoryRecord } from '@potentiel-domain/entity';
+import { Historique } from '@potentiel-domain/historique';
 
 import { TimelineItemProps } from '@/components/organisms/Timeline';
 
@@ -15,13 +14,9 @@ import { mapToChangementReprésentantLégalDemandéTimelineItemProps } from './m
 import { mapToChangementReprésentantLégalCorrigéTimelineItemProps } from './mapToChangementReprésentantLégalCorrigéTimelineItemProps';
 import { mapToReprésentantLégalImportéTimelineItemProps } from './mapToReprésentantLégalImportéTimelineItemsProps';
 
-export type ReprésentantLégalHistoryRecord = HistoryRecord<
-  'représentant-légal',
-  ReprésentantLégal.ReprésentantLégalEvent['type'],
-  ReprésentantLégal.ReprésentantLégalEvent['payload']
->;
-
-export const mapToReprésentantLégalTimelineItemProps = (record: ReprésentantLégalHistoryRecord) =>
+export const mapToReprésentantLégalTimelineItemProps = (
+  record: Historique.ReprésentantLégalHistoryRecord,
+) =>
   match(record)
     .returnType<TimelineItemProps>()
     .with(

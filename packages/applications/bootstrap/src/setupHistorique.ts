@@ -90,6 +90,58 @@ export const setupHistorique = async () => {
       streamCategory: 'producteur',
     });
 
+  const unsubscribeGarantiesFinancièresHistoriqueProjector =
+    await subscribe<HistoriqueProjector.SubscriptionEvent>({
+      name: 'history',
+      eventType: 'all',
+      eventHandler: async (event) => {
+        await mediator.send<HistoriqueProjector.Execute>({
+          type: 'System.Projector.Historique',
+          data: event,
+        });
+      },
+      streamCategory: 'garanties-financieres',
+    });
+
+  const unsubscribeRaccordementHistoriqueProjector =
+    await subscribe<HistoriqueProjector.SubscriptionEvent>({
+      name: 'history',
+      eventType: 'all',
+      eventHandler: async (event) => {
+        await mediator.send<HistoriqueProjector.Execute>({
+          type: 'System.Projector.Historique',
+          data: event,
+        });
+      },
+      streamCategory: 'raccordement',
+    });
+
+  const unsubscribeAchèvementHistoriqueProjector =
+    await subscribe<HistoriqueProjector.SubscriptionEvent>({
+      name: 'history',
+      eventType: 'all',
+      eventHandler: async (event) => {
+        await mediator.send<HistoriqueProjector.Execute>({
+          type: 'System.Projector.Historique',
+          data: event,
+        });
+      },
+      streamCategory: 'achevement',
+    });
+
+  const unsubscribeLauréatHistoriqueProjector =
+    await subscribe<HistoriqueProjector.SubscriptionEvent>({
+      name: 'history',
+      eventType: 'all',
+      eventHandler: async (event) => {
+        await mediator.send<HistoriqueProjector.Execute>({
+          type: 'System.Projector.Historique',
+          data: event,
+        });
+      },
+      streamCategory: 'lauréat',
+    });
+
   return async () => {
     await unsubscribeAbandonHistoriqueProjector();
     await unsubscribeRecoursHistoriqueProjector();
@@ -97,5 +149,9 @@ export const setupHistorique = async () => {
     await unsubscribeReprésentantLégalHistoriqueProjector();
     await unsubscribePuissanceHistoriqueProjector();
     await unsubscribeProducteurHistoriqueProjector();
+    await unsubscribeGarantiesFinancièresHistoriqueProjector();
+    await unsubscribeRaccordementHistoriqueProjector();
+    await unsubscribeAchèvementHistoriqueProjector();
+    await unsubscribeLauréatHistoriqueProjector();
   };
 };
