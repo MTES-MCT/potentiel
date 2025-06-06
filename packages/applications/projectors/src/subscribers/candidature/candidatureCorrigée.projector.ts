@@ -13,6 +13,23 @@ export const candidatureCorrigéeProjector = async ({
     `candidature|${identifiantProjet.formatter()}`,
   );
 
+  const candidatureToUpsert = mapToCandidatureToUpsert({ payload, candidature, identifiantProjet });
+
+  await upsertProjection<Candidature.CandidatureEntity>(
+    `candidature|${payload.identifiantProjet}`,
+    candidatureToUpsert,
+  );
+};
+
+export const mapToCandidatureToUpsert = ({
+  payload,
+  candidature,
+  identifiantProjet,
+}: {
+  payload: Candidature.CandidatureCorrigéeEvent['payload'];
+  candidature: Option.Type<Candidature.CandidatureEntity>;
+  identifiantProjet: IdentifiantProjet.ValueType;
+}) => {
   const notification: Candidature.CandidatureEntity['notification'] = Option.isSome(candidature)
     ? payload.doitRégénérerAttestation && candidature.notification
       ? {
@@ -25,8 +42,8 @@ export const candidatureCorrigéeProjector = async ({
       : candidature.notification
     : undefined;
 
-  const candidatureToUpsert: Omit<Candidature.CandidatureEntity, 'type'> = {
-    identifiantProjet: payload.identifiantProjet,
+  return {
+    identifiantProjet: identifiantProjet.formatter(),
     appelOffre: identifiantProjet.appelOffre,
     période: identifiantProjet.période,
     nomProjet: payload.nomProjet,
@@ -67,9 +84,4 @@ export const candidatureCorrigéeProjector = async ({
           payload.corrigéLe,
     fournisseurs: payload.fournisseurs,
   };
-
-  await upsertProjection<Candidature.CandidatureEntity>(
-    `candidature|${payload.identifiantProjet}`,
-    candidatureToUpsert,
-  );
 };

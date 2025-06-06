@@ -291,7 +291,7 @@ export const setupProjet = async ({ sendEmail }: SetupProjetDependencies) => {
   const unsubscribeFournisseurProjector = await subscribe<
     FournisseurProjector.SubscriptionEvent & Event
   >({
-    name: 'fournisseur',
+    name: 'projector',
     streamCategory: 'fournisseur',
     eventType: ['RebuildTriggered', 'FournisseurImporté-V1'],
     eventHandler: async (event) => {
