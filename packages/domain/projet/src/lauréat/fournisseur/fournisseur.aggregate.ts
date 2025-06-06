@@ -63,7 +63,7 @@ export class FournisseurAggregate extends AbstractAggregate<FournisseurEvent> {
     évaluationCarboneSimplifiée,
   }: ModifierÉvaluationCarboneOptions) {
     const event: ÉvaluationCarboneModifiéeEvent = {
-      type: 'ÉvaluationCarboneModifiée-V1',
+      type: 'ÉvaluationCarboneSimplifiéeModifiée-V1',
       payload: {
         identifiantProjet: this.identifiantProjet.formatter(),
         modifiéeLe: modifiéeLe.formatter(),
@@ -84,7 +84,7 @@ export class FournisseurAggregate extends AbstractAggregate<FournisseurEvent> {
       )
       .with(
         {
-          type: 'ÉvaluationCarboneModifiée-V1',
+          type: 'ÉvaluationCarboneSimplifiéeModifiée-V1',
         },
         this.applyÉvaluationCarboneModifiéeV1.bind(this),
       )

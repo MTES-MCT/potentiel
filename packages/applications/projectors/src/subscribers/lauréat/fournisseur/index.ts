@@ -17,7 +17,7 @@ export const register = () => {
     match(event)
       .with({ type: 'RebuildTriggered' }, fournisseurRebuilTriggeredProjector)
       .with({ type: 'FournisseurImporté-V1' }, fournisseurImportéProjector)
-      .with({ type: 'ÉvaluationCarboneModifiée-V1' }, évaluationCarboneModifiéeProjector)
+      .with({ type: 'ÉvaluationCarboneSimplifiéeModifiée-V1' }, évaluationCarboneModifiéeProjector)
       .exhaustive();
 
   mediator.register('System.Projector.Lauréat.Fournisseur', handler);
