@@ -4,7 +4,7 @@ import { DateTime, Email } from '@potentiel-domain/common';
 import { IdentifiantProjet } from '../../..';
 
 export type ÉvaluationCarboneModifiéeEvent = DomainEvent<
-  'ÉvaluationCarboneModifiée-V1',
+  'ÉvaluationCarboneSimplifiéeModifiée-V1',
   {
     identifiantProjet: IdentifiantProjet.RawType;
     évaluationCarboneSimplifiée: number;
