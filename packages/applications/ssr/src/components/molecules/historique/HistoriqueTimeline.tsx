@@ -7,7 +7,7 @@ import { Historique } from '@potentiel-domain/historique';
 import { Timeline, TimelineItemProps } from '@/components/organisms/Timeline';
 
 import { mapToAbandonTimelineItemProps } from './timeline/abandon/mapToAbandonTimelineItemProps';
-import { mapToRecoursTimelineItemProps } from './timeline/recours';
+import { mapToRecoursTimelineItemProps } from './timeline/recours/mapToRecoursTimelineItemProps';
 import { mapToActionnaireTimelineItemProps } from './timeline/actionnaire/mapToActionnaireTimelineItemProps';
 import { mapToReprésentantLégalTimelineItemProps } from './timeline/représentant-légal';
 import { mapToLauréatTimelineItemProps } from './timeline/lauréat/mapToLauréatTimelineItemProps';
