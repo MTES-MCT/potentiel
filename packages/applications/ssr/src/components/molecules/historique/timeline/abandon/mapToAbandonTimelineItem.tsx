@@ -4,15 +4,17 @@ import { Historique } from '@potentiel-domain/historique';
 
 import { TimelineItemProps } from '@/components/organisms/Timeline';
 
-import { mapToAbandonDemandéTimelineItemProps } from './mapToAbandonDemandéTimelineItemProps';
-import { mapToAbandonAnnuléTimelineItemProps } from './mapToAbandonAnnuléTimelineItemProps';
-import { mapToAbandonRejetéTimelineItemProps } from './mapToAbandonRejetéTimelineItemProps';
-import { mapToPreuveRecandidatureDemandéeTimelineItemProps } from './mapToPreuveRecandidatureDemandéeTimelineItemProps';
-import { mapToAbandonConfirméTimelineItemProps } from './mapToAbandonConfirméTimelineItemProps';
-import { mapToAbandonAccordéTimelineItemProps } from './mapToAbandonAccordéTimelineItemProps';
-import { mapToConfirmationAbandonDemandéeTimelineItemProps } from './mapToConfirmationAbandonDemandéeTimelineItemProps';
-import { mapToPreuveRecandidatureTransmiseTimelineItemProps } from './mapToPreuveRecandidatureTransmiseTimelineItemProps';
-import { mapToAbandonPasséEnInstructionTimelineItemProps } from './mapToAbandonPasséEnInstructionTimelineItemProps';
+import {
+  mapToAbandonAccordéTimelineItemProps,
+  mapToAbandonAnnuléTimelineItemProps,
+  mapToAbandonConfirméTimelineItemProps,
+  mapToAbandonDemandéTimelineItemProps,
+  mapToAbandonRejetéTimelineItemProps,
+  mapToConfirmationAbandonDemandéeTimelineItemProps,
+  mapToPreuveRecandidatureDemandéeTimelineItemProps,
+  mapToPreuveRecandidatureTransmiseTimelineItemProps,
+} from './events';
+import { mapToAbandonPasséEnInstructionTimelineItemProps } from './events/mapToAbandonPasséEnInstructionTimelineItemProps';
 
 export const mapToAbandonTimelineItemProps = (record: Historique.AbandonHistoryRecord) =>
   match(record)

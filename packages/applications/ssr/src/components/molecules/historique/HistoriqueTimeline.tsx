@@ -6,7 +6,7 @@ import { Historique } from '@potentiel-domain/historique';
 
 import { Timeline, TimelineItemProps } from '@/components/organisms/Timeline';
 
-import { mapToAbandonTimelineItemProps } from './timeline/abandon';
+import { mapToAbandonTimelineItemProps } from './timeline/abandon/mapToAbandonTimelineItem';
 import { mapToRecoursTimelineItemProps } from './timeline/recours';
 import { mapToActionnaireTimelineItemProps } from './timeline/actionnaire';
 import { mapToReprésentantLégalTimelineItemProps } from './timeline/représentant-légal';
