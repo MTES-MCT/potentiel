@@ -17,12 +17,16 @@ export type HistoriqueTimelineProps = {
 };
 
 export const HistoriqueTimeline: FC<HistoriqueTimelineProps> = ({ historique }) => (
-  <Timeline items={historique.items.map((item) => mapToTimelineItemProps(item))} />
+  <Timeline
+    items={historique.items
+      .map((item) => mapToTimelineItemProps(item))
+      .filter((item) => item !== undefined)}
+  />
 );
 
 const mapToTimelineItemProps = (record: Historique.HistoryReadModel) =>
   match(record)
-    .returnType<TimelineItemProps>()
+    .returnType<TimelineItemProps | undefined>()
     .with(
       {
         category: 'abandon',
@@ -38,4 +42,4 @@ const mapToTimelineItemProps = (record: Historique.HistoryReadModel) =>
     .with({ category: 'actionnaire' }, mapToActionnaireTimelineItemProps)
     .with({ category: 'représentant-légal' }, mapToReprésentantLégalTimelineItemProps)
     .with({ category: 'lauréat' }, mapToLauréatTimelineItemProps)
-    .exhaustive();
+    .exhaustive(() => undefined);
