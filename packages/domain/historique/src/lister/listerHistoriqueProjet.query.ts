@@ -55,7 +55,7 @@ export type LauréatHistoryRecord = HistoryRecord<
 >;
 
 export type GarantiesFinancièresHistoryRecord = HistoryRecord<
-  'garanties-financières',
+  'garanties-financieres',
   GarantiesFinancières.GarantiesFinancièresEvent['type'],
   GarantiesFinancières.GarantiesFinancièresEvent['payload']
 >;

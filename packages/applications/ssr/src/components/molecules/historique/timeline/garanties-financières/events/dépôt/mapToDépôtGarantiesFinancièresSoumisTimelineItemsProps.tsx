@@ -30,7 +30,7 @@ export const mapToDépôtGarantiesFinancièresSoumisTimelineItemsProps = (
     date: soumisLe,
     title: (
       <div>
-        Nouvelles garanties financières soumise à instruction déposées par{' '}
+        Nouvelles garanties financières (soumise à instruction) déposées par{' '}
         <span className="font-semibold">{soumisPar}</span>
       </div>
     ),

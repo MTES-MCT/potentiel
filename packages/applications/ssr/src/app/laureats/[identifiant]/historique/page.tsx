@@ -28,6 +28,8 @@ export default async function Page({ params: { identifiant } }: PageProps) {
       },
     });
 
+    console.log('🤐', historique);
+
     return <HistoriqueLauréatPage identifiantProjet={identifiantProjet} historique={historique} />;
   });
 }

@@ -30,7 +30,7 @@ export const mapToDépôtGarantiesFinancièresEnCoursModifiéTimelineItemsProps 
     date: modifiéLe,
     title: (
       <div>
-        Nouvelles garanties financières soumise à instruction modifiées par{' '}
+        Nouvelles garanties financières (soumise à instruction modifiées) par{' '}
         <span className="font-semibold">{modifiéPar}</span>
       </div>
     ),

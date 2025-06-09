@@ -43,5 +43,5 @@ const mapToTimelineItemProps = (record: Historique.HistoryReadModel) =>
     .with({ category: 'actionnaire' }, mapToActionnaireTimelineItemProps)
     .with({ category: 'représentant-légal' }, mapToReprésentantLégalTimelineItemProps)
     .with({ category: 'lauréat' }, mapToLauréatTimelineItemProps)
-    .with({ category: 'garanties-financières' }, mapToGarantiesFinancièresTimelineItemProps)
+    .with({ category: 'garanties-financieres' }, mapToGarantiesFinancièresTimelineItemProps)
     .exhaustive(() => undefined);

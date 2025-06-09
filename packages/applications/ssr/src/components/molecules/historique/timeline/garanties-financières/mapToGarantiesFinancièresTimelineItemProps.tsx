@@ -4,8 +4,6 @@ import { Historique } from '@potentiel-domain/historique';
 
 import { TimelineItemProps } from '@/components/organisms/Timeline';
 
-import { mapToÉtapeInconnueOuIgnoréeTimelineItemProps } from '../mapToÉtapeInconnueOuIgnoréeTimelineItemProps';
-
 import {
   garantiesFinancièresActuelles,
   dépôtDeNouvellesGarantiesFinancières,
@@ -24,7 +22,7 @@ export const mapToGarantiesFinancièresTimelineItemProps = (
       {
         type: 'TypeGarantiesFinancièresImporté-V1',
       },
-      mapToÉtapeInconnueOuIgnoréeTimelineItemProps,
+      garantiesFinancièresActuelles.mapToTypeGarantiesFinancièresImportéTimelineItemsProps,
     )
     .with(
       {

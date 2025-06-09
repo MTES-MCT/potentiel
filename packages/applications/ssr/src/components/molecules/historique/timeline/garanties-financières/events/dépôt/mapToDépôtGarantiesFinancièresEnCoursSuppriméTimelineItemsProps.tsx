@@ -1,40 +1,40 @@
 import { match } from 'ts-pattern';
 
 import { Historique } from '@potentiel-domain/historique';
+import { GarantiesFinancières } from '@potentiel-domain/laureat';
 import { DateTime } from '@potentiel-domain/common';
-import { Lauréat } from '@potentiel-domain/projet';
 
 export const mapToDépôtGarantiesFinancièresEnCoursSuppriméTimelineItemsProps = (
-  dépôtValidé: Historique.ListerHistoriqueProjetReadModel['items'][number],
+  dépôtSupprimé: Historique.ListerHistoriqueProjetReadModel['items'][number],
 ) => {
-  const event = match(dépôtValidé)
+  const event = match(dépôtSupprimé)
     .with(
-      { type: 'DépôtGarantiesFinancièresEnCoursValidé-V1' },
+      { type: 'DépôtGarantiesFinancièresEnCoursSupprimé-V1' },
       (event) =>
-        event as unknown as Lauréat.GarantiesFinancières.DépôtGarantiesFinancièresEnCoursValidéEventV1,
+        event as unknown as GarantiesFinancières.DépôtGarantiesFinancièresEnCoursSuppriméEventV1,
     )
     .with(
-      { type: 'DépôtGarantiesFinancièresEnCoursValidé-V2' },
+      { type: 'DépôtGarantiesFinancièresEnCoursSupprimé-V2' },
       (event) =>
-        event as unknown as Lauréat.GarantiesFinancières.DépôtGarantiesFinancièresEnCoursValidéEvent,
+        event as unknown as GarantiesFinancières.DépôtGarantiesFinancièresEnCoursSuppriméEvent,
     )
     .otherwise(() => undefined);
 
   if (!event) {
     return {
-      date: dépôtValidé.createdAt as DateTime.RawType,
+      date: dépôtSupprimé.createdAt as DateTime.RawType,
       title: 'Étape de garanties financière inconnue',
     };
   }
 
-  const { validéLe, validéPar } = event.payload;
+  const { suppriméLe, suppriméPar } = event.payload;
 
   return {
-    date: validéLe,
+    date: suppriméLe,
     title: (
       <div>
-        Les nouvelles garanties financières soumise à instruction ont été validées par{' '}
-        <span className="font-semibold">{validéPar}</span>
+        Les nouvelles garanties financières (soumise à instruction) ont été supprimées par{' '}
+        <span className="font-semibold">{suppriméPar}</span>
       </div>
     ),
   };
