@@ -1,9 +1,8 @@
 import { Message, Middleware, mediator } from 'mediateur';
 
-import { IdentifiantProjet } from '@potentiel-domain/common';
 import { getContext } from '@potentiel-applications/request-context';
 import { getLogger } from '@potentiel-libraries/monitoring';
-import { Accès } from '@potentiel-domain/projet';
+import { Accès, IdentifiantProjet } from '@potentiel-domain/projet';
 import { InvalidOperationError } from '@potentiel-domain/core';
 
 import { AuthenticationError } from '../errors';
@@ -25,8 +24,6 @@ export const permissionMiddleware: Middleware = async (message, next) => {
 
   utilisateur.role.peutExécuterMessage(message.type);
 
-  const identifiantProjetValue = getIdentifiantProjetValues(message);
-
   // Le cas de RéclamerProjet est une exception,
   // car l'utilisateur n'a pas encore accès au projet.
   if (
@@ -36,13 +33,15 @@ export const permissionMiddleware: Middleware = async (message, next) => {
     return await next();
   }
 
-  await mediator.send<Accès.VérifierAccèsProjetQuery>({
-    type: 'System.Projet.Accès.Query.VérifierAccèsProjet',
-    data: {
-      identifiantProjetValue,
-      identifiantUtilisateurValue: utilisateur.identifiantUtilisateur.formatter(),
-    },
-  });
+  for (const identifiantProjetValue of getIdentifiantProjetValues(message)) {
+    await mediator.send<Accès.VérifierAccèsProjetQuery>({
+      type: 'System.Projet.Accès.Query.VérifierAccèsProjet',
+      data: {
+        identifiantProjetValue,
+        identifiantUtilisateurValue: utilisateur.identifiantUtilisateur.formatter(),
+      },
+    });
+  }
 
   return await next();
 };
@@ -52,33 +51,23 @@ const isSystemProcess = (message: Message<string, Record<string, unknown>, void>
 
 const getIdentifiantProjetValues = (message: Message<string, Record<string, unknown>, void>) => {
   if (message.data['identifiantProjetValue']) {
-    return [
-      IdentifiantProjet.convertirEnValueType(
-        message.data['identifiantProjetValue'] as string,
-      ).formatter(),
-    ];
+    return [toIdentifiantProjet(message.data['identifiantProjetValue'])];
   }
 
   if (message.data['identifiantProjet']) {
-    if (typeof message.data['identifiantProjet'] === 'string') {
-      return [
-        IdentifiantProjet.convertirEnValueType(message.data['identifiantProjet']).formatter(),
-      ];
-    }
-    return [
-      IdentifiantProjet.bind(
-        message.data['identifiantProjet'] as IdentifiantProjet.ValueType,
-      ).formatter(),
-    ];
+    return [toIdentifiantProjet(message.data['identifiantProjet'])];
   }
+
   if (message.data['identifiantsProjet']) {
     if (!Array.isArray(message.data['identifiantsProjet'])) {
       throw new InvalidOperationError('Le paramètre identifiantsProjet devrait être un array');
     }
-    return message.data['identifiantsProjet'].map((identifantProjet) =>
-      typeof identifantProjet === 'string'
-        ? IdentifiantProjet.convertirEnValueType(identifantProjet).formatter()
-        : IdentifiantProjet.bind(identifantProjet as IdentifiantProjet.ValueType).formatter(),
-    );
+    return message.data['identifiantsProjet'].map(toIdentifiantProjet);
   }
+  return [];
 };
+
+const toIdentifiantProjet = (identifiantProjet: unknown) =>
+  typeof identifiantProjet === 'string'
+    ? IdentifiantProjet.convertirEnValueType(identifiantProjet).formatter()
+    : IdentifiantProjet.bind(identifiantProjet as IdentifiantProjet.ValueType).formatter();
