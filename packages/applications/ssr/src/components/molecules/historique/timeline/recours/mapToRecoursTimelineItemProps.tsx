@@ -4,11 +4,13 @@ import { Historique } from '@potentiel-domain/historique';
 
 import { TimelineItemProps } from '@/components/organisms/Timeline';
 
-import { mapToRecoursDemandéTimelineItemProps } from './mapToRecoursDemandéTimelineItemProps';
-import { mapToRecoursAnnuléTimelineItemProps } from './mapToRecoursAnnuléTimelineItemProps';
-import { mapToRecoursRejetéTimelineItemProps } from './mapToRecoursRejetéTimelineItemProps';
-import { mapToRecoursAccordéTimelineItemProps } from './mapToRecoursAccordéTimelineItemProps';
-import { mapToRecoursPasséEnInstructionTimelineItemProp } from './mapToRecoursPasséEnInstructionTimelineItemProps';
+import {
+  mapToRecoursDemandéTimelineItemProps,
+  mapToRecoursAnnuléTimelineItemProps,
+  mapToRecoursAccordéTimelineItemProps,
+  mapToRecoursRejetéTimelineItemProps,
+  mapToRecoursPasséEnInstructionTimelineItemProp,
+} from './events';
 
 export const mapToRecoursTimelineItemProps = (record: Historique.RecoursHistoryRecord) =>
   match(record)
