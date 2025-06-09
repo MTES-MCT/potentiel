@@ -79,7 +79,7 @@ export type ListerHistoriqueProjetQuery<TRecord extends HistoryRecord = HistoryR
 >;
 
 export type ListerHistoriqueProjetDependencies = {
-  listHistory: ListHistory;
+  listHistory: ListHistory<HistoryReadModel>;
 };
 
 export const registerListerHistoriqueProjetQuery = ({

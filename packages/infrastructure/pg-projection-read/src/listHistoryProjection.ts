@@ -1,4 +1,4 @@
-import { ListHistory, ListHistoryResult } from '@potentiel-domain/entity';
+import { HistoryRecord, ListHistoryOptions, ListHistoryResult } from '@potentiel-domain/entity';
 import { executeSelect } from '@potentiel-libraries/pg-helpers';
 
 const countQuery =
@@ -6,7 +6,11 @@ const countQuery =
 const selectQuery =
   'SELECT category, id, created_at, type, payload FROM domain_views.history WHERE (category = $1 or $1 is null) and (id = $2 or $2 is null) order by created_at desc';
 
-export const listHistoryProjection: ListHistory = async (options): Promise<ListHistoryResult> => {
+type History = HistoryRecord<string, string, Record<string, unknown>>;
+
+export const listHistoryProjection = async <THistory extends History>(
+  options?: ListHistoryOptions<string>,
+): Promise<ListHistoryResult<THistory>> => {
   const [{ total }] = await executeSelect<{ total: number }>(
     countQuery,
     options?.category,
@@ -27,12 +31,15 @@ export const listHistoryProjection: ListHistory = async (options): Promise<ListH
       startPosition: 0,
     },
     total,
-    items: results.map(({ category, created_at, id, payload, type }) => ({
-      category,
-      id,
-      createdAt: created_at,
-      payload,
-      type,
-    })),
+    items: results.map(
+      ({ category, created_at, id, payload, type }) =>
+        ({
+          category,
+          id,
+          createdAt: created_at,
+          payload,
+          type,
+        }) as THistory,
+    ),
   };
 };
