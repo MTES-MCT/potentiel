@@ -6,13 +6,15 @@ import { TimelineItemProps } from '@/components/organisms/Timeline';
 
 import { mapToÉtapeInconnueOuIgnoréeTimelineItemProps } from '../mapToÉtapeInconnueOuIgnoréeTimelineItemProps';
 
-import { mapToChangementActionnaireAccordéTimelineItemProps } from './mapToChangementActionnaireAccordéTimelineItemProps';
-import { mapToChangementActionnaireRejetéTimelineItemProps } from './mapToChangementActionnaireRejetéTimelineItemProps';
-import { mapToChangementActionnaireAnnuléTimelineItemProps } from './mapToChangementActionnaireAnnuléTimelineItemProps';
-import { mapToActionnaireModifiéTimelineItemProps } from './mapToActionnaireModifiéTimelineItemsProps';
-import { mapToChangementActionnaireDemandéTimelineItemProps } from './mapToChangementActionnaireDemandéTimelineItemProps';
-import { mapToActionnaireImportéTimelineItemProps } from './mapToActionnaireImportéTimelineItemsProps';
-import { mapToChangementActionnaireEnregistréTimelineItemProps } from './mapToChangementActionnaireEnregistréTimelineItemProps';
+import {
+  mapToActionnaireImportéTimelineItemProps,
+  mapToActionnaireModifiéTimelineItemProps,
+  mapToChangementActionnaireEnregistréTimelineItemProps,
+  mapToChangementActionnaireDemandéTimelineItemProps,
+  mapToChangementActionnaireAccordéTimelineItemProps,
+  mapToChangementActionnaireRejetéTimelineItemProps,
+  mapToChangementActionnaireAnnuléTimelineItemProps,
+} from './events';
 
 export const mapToActionnaireTimelineItemProps = (record: Historique.ActionnaireHistoryRecord) =>
   match(record)
