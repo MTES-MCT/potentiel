@@ -10,6 +10,7 @@ import { mapToAbandonTimelineItemProps } from './timeline/abandon/mapToAbandonTi
 import { mapToRecoursTimelineItemProps } from './timeline/recours';
 import { mapToActionnaireTimelineItemProps } from './timeline/actionnaire';
 import { mapToReprésentantLégalTimelineItemProps } from './timeline/représentant-légal';
+import { mapToLauréatTimelineItemProps } from './timeline/lauréat/mapToLauréatTimelineItemProps';
 
 export type HistoriqueTimelineProps = {
   historique: PlainType<Historique.ListerHistoriqueProjetReadModel<Historique.HistoryReadModel>>;
@@ -36,4 +37,5 @@ const mapToTimelineItemProps = (record: Historique.HistoryReadModel) =>
     )
     .with({ category: 'actionnaire' }, mapToActionnaireTimelineItemProps)
     .with({ category: 'représentant-légal' }, mapToReprésentantLégalTimelineItemProps)
+    .with({ category: 'lauréat' }, mapToLauréatTimelineItemProps)
     .exhaustive();

@@ -48,11 +48,18 @@ export type PuissanceHistoryRecord = HistoryRecord<
   Lauréat.Puissance.PuissanceEvent['payload']
 >;
 
+export type LauréatHistoryRecord = HistoryRecord<
+  'lauréat',
+  Lauréat.LauréatEvent['type'],
+  Lauréat.LauréatEvent['payload']
+>;
+
 export type HistoryReadModel =
   | AbandonHistoryRecord
   | ActionnaireHistoryRecord
   | RecoursHistoryRecord
-  | ReprésentantLégalHistoryRecord;
+  | ReprésentantLégalHistoryRecord
+  | LauréatHistoryRecord;
 
 export type ListerHistoriqueProjetQuery<TRecord extends HistoryRecord = HistoryRecord> = Message<
   'Historique.Query.ListerHistoriqueProjet',
