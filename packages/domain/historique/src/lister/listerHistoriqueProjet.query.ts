@@ -7,7 +7,7 @@ import {
   RangeOptions,
 } from '@potentiel-domain/entity';
 import { Lauréat, Éliminé } from '@potentiel-domain/projet';
-import { Actionnaire, ReprésentantLégal } from '@potentiel-domain/laureat';
+import { Actionnaire, GarantiesFinancières, ReprésentantLégal } from '@potentiel-domain/laureat';
 
 export type ListerHistoriqueProjetReadModel<TRecord extends HistoryRecord = HistoryRecord> =
   ListHistoryResult<TRecord>;
@@ -54,12 +54,19 @@ export type LauréatHistoryRecord = HistoryRecord<
   Lauréat.LauréatEvent['payload']
 >;
 
+export type GarantiesFinancièresHistoryRecord = HistoryRecord<
+  'garanties-financières',
+  GarantiesFinancières.GarantiesFinancièresEvent['type'],
+  GarantiesFinancières.GarantiesFinancièresEvent['payload']
+>;
+
 export type HistoryReadModel =
+  | LauréatHistoryRecord
   | AbandonHistoryRecord
   | ActionnaireHistoryRecord
   | RecoursHistoryRecord
   | ReprésentantLégalHistoryRecord
-  | LauréatHistoryRecord;
+  | GarantiesFinancièresHistoryRecord;
 
 export type ListerHistoriqueProjetQuery<TRecord extends HistoryRecord = HistoryRecord> = Message<
   'Historique.Query.ListerHistoriqueProjet',

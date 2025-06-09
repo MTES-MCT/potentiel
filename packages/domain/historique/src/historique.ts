@@ -14,6 +14,7 @@ export type {
   PuissanceHistoryRecord,
   RecoursHistoryRecord,
   ReprésentantLégalHistoryRecord,
+  GarantiesFinancièresHistoryRecord,
 } from './lister/listerHistoriqueProjet.query';
 
 // register
