@@ -1,0 +1,7 @@
+export { mapToReprésentantLégalImportéTimelineItemProps } from './mapToReprésentantLégalImportéTimelineItemsProps';
+export { mapToReprésentantLégalModifiéTimelineItemProps } from './mapToReprésentantLégalModifiéTimelineItemsProps';
+export { mapToChangementReprésentantLégalDemandéTimelineItemProps } from './mapToChangementReprésentantLégalDemandéTimelineItemProps';
+export { mapToChangementReprésentantLégalCorrigéTimelineItemProps } from './mapToChangementReprésentantLégalCorrigéTimelineItemProps';
+export { mapToChangementReprésentantLégalAnnuléTimelineItemProps } from './mapToChangementReprésentantLégalAnnuléTimelineItemProps';
+export { mapToChangementReprésentantLégalAccordéTimelineItemProps } from './mapToChangementReprésentantLégalAccordéTimelineItemProps';
+export { mapToChangementReprésentantLégalRejetéTimelineItemProps } from './mapToChangementReprésentantLégalRejetéTimelineItemProps';

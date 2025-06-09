@@ -6,13 +6,15 @@ import { TimelineItemProps } from '@/components/organisms/Timeline';
 
 import { mapToÉtapeInconnueOuIgnoréeTimelineItemProps } from '../mapToÉtapeInconnueOuIgnoréeTimelineItemProps';
 
-import { mapToChangementReprésentantLégalAccordéTimelineItemProps } from './mapToChangementReprésentantLégalAccordéTimelineItemProps';
-import { mapToChangementReprésentantLégalRejetéTimelineItemProps } from './mapToChangementReprésentantLégalRejetéTimelineItemProps';
-import { mapToChangementReprésentantLégalAnnuléTimelineItemProps } from './mapToChangementReprésentantLégalAnnuléTimelineItemProps';
-import { mapToReprésentantLégalModifiéTimelineItemProps } from './mapToReprésentantLégalModifiéTimelineItemsProps';
-import { mapToChangementReprésentantLégalDemandéTimelineItemProps } from './mapToChangementReprésentantLégalDemandéTimelineItemProps';
-import { mapToChangementReprésentantLégalCorrigéTimelineItemProps } from './mapToChangementReprésentantLégalCorrigéTimelineItemProps';
-import { mapToReprésentantLégalImportéTimelineItemProps } from './mapToReprésentantLégalImportéTimelineItemsProps';
+import {
+  mapToReprésentantLégalImportéTimelineItemProps,
+  mapToReprésentantLégalModifiéTimelineItemProps,
+  mapToChangementReprésentantLégalDemandéTimelineItemProps,
+  mapToChangementReprésentantLégalCorrigéTimelineItemProps,
+  mapToChangementReprésentantLégalAccordéTimelineItemProps,
+  mapToChangementReprésentantLégalRejetéTimelineItemProps,
+  mapToChangementReprésentantLégalAnnuléTimelineItemProps,
+} from './events';
 
 export const mapToReprésentantLégalTimelineItemProps = (
   record: Historique.ReprésentantLégalHistoryRecord,
