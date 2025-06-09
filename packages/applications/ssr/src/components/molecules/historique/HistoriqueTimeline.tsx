@@ -9,7 +9,7 @@ import { Timeline, TimelineItemProps } from '@/components/organisms/Timeline';
 import { mapToAbandonTimelineItemProps } from './timeline/abandon/mapToAbandonTimelineItemProps';
 import { mapToRecoursTimelineItemProps } from './timeline/recours/mapToRecoursTimelineItemProps';
 import { mapToActionnaireTimelineItemProps } from './timeline/actionnaire/mapToActionnaireTimelineItemProps';
-import { mapToReprésentantLégalTimelineItemProps } from './timeline/représentant-légal';
+import { mapToReprésentantLégalTimelineItemProps } from './timeline/représentant-légal/mapToReprésentantLégalTimelineItemProps';
 import { mapToLauréatTimelineItemProps } from './timeline/lauréat/mapToLauréatTimelineItemProps';
 
 export type HistoriqueTimelineProps = {
