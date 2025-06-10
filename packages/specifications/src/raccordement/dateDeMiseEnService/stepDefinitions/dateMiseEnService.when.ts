@@ -32,7 +32,7 @@ Quand(
 );
 
 Quand(
-  `le Gestionnaire de réseau supprime la mise en service du dossier de raccordement`,
+  `le gestionnaire de réseau supprime la mise en service du dossier de raccordement`,
   async function (this: PotentielWorld) {
     const { identifiantProjet } = this.lauréatWorld;
     const { référenceDossier } = this.raccordementWorld;
@@ -75,7 +75,7 @@ async function supprimerDateMiseEnService(
   référence: string,
 ) {
   try {
-    await mediator.send<Raccordement.RaccordementUseCase>({
+    await mediator.send<Raccordement.SupprimerDateMiseEnServiceUseCase>({
       type: 'Lauréat.Raccordement.UseCase.SupprimerDateMiseEnService',
       data: {
         identifiantProjetValue: identifiantProjet.formatter(),
