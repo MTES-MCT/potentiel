@@ -142,6 +142,19 @@ export const setupHistorique = async () => {
       streamCategory: 'lauréat',
     });
 
+  const unsubscribeCandidatureHistoriqueProjector =
+    await subscribe<HistoriqueProjector.SubscriptionEvent>({
+      name: 'history',
+      eventType: 'all',
+      eventHandler: async (event) => {
+        await mediator.send<HistoriqueProjector.Execute>({
+          type: 'System.Projector.Historique',
+          data: event,
+        });
+      },
+      streamCategory: 'candidature',
+    });
+
   return async () => {
     await unsubscribeAbandonHistoriqueProjector();
     await unsubscribeRecoursHistoriqueProjector();
@@ -153,5 +166,6 @@ export const setupHistorique = async () => {
     await unsubscribeRaccordementHistoriqueProjector();
     await unsubscribeAchèvementHistoriqueProjector();
     await unsubscribeLauréatHistoriqueProjector();
+    await unsubscribeCandidatureHistoriqueProjector();
   };
 };
