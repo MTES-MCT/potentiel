@@ -24,8 +24,6 @@ export type ListHistoryResult<TRecord extends HistoryRecord> = {
   range: RangeOptions;
 };
 
-export type ListHistory<TRecord extends HistoryRecord> = <
-  TCategory extends HistoryRecord['category'],
->(
+export type ListHistory<TRecord extends HistoryRecord> = <TCategory extends TRecord['category']>(
   options?: ListHistoryOptions<TCategory>,
 ) => Promise<ListHistoryResult<Extract<TRecord, { category: TCategory }>>>;

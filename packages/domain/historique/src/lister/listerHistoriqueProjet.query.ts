@@ -68,7 +68,7 @@ export type ListerHistoriqueProjetQuery<TRecord extends HistoryRecord = HistoryR
   'Historique.Query.ListerHistoriqueProjet',
   {
     identifiantProjet: string;
-    category?: TRecord['category'];
+    category?: HistoryReadModel['category'];
     range?: RangeOptions;
   },
   ListerHistoriqueProjetReadModel<TRecord>
