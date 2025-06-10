@@ -55,13 +55,10 @@ export default async function Page({ params: { identifiant } }: PageProps) {
         return notFound();
       }
 
-      const historique = await mediator.send<
-        Historique.ListerHistoriqueProjetQuery<Historique.RecoursHistoryRecord>
-      >({
-        type: 'Historique.Query.ListerHistoriqueProjet',
+      const historique = await mediator.send<Historique.ListerHistoriqueRecoursProjetQuery>({
+        type: 'Historique.Query.ListerHistoriqueRecoursProjet',
         data: {
           identifiantProjet,
-          category: 'recours',
         },
       });
 

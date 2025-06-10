@@ -1,8 +1,9 @@
 import { ListerHistoriqueProjetQuery } from './lister/listerHistoriqueProjet.query';
+import { ListerHistoriqueRecoursProjetQuery } from './lister/listerHistoriqueRecoursProjet.query';
 
 // Query
-export type HistoriqueQuery = ListerHistoriqueProjetQuery;
-export type { ListerHistoriqueProjetQuery };
+export type HistoriqueQuery = ListerHistoriqueProjetQuery | ListerHistoriqueRecoursProjetQuery;
+export type { ListerHistoriqueProjetQuery, ListerHistoriqueRecoursProjetQuery };
 
 // Read Models
 export type {
@@ -12,10 +13,13 @@ export type {
   HistoryReadModel,
   ProducteurHistoryRecord,
   PuissanceHistoryRecord,
-  RecoursHistoryRecord,
   ReprésentantLégalHistoryRecord,
   GarantiesFinancièresHistoryRecord,
 } from './lister/listerHistoriqueProjet.query';
+export type {
+  ListerHistoriqueRecoursProjetReadModel,
+  HistoriqueRecoursProjetListItemReadModel,
+} from './lister/listerHistoriqueRecoursProjet.query';
 
 // register
 export * from './register';

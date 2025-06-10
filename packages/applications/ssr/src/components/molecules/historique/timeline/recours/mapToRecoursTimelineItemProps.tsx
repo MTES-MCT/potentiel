@@ -12,7 +12,9 @@ import {
   mapToRecoursPasséEnInstructionTimelineItemProp,
 } from './events';
 
-export const mapToRecoursTimelineItemProps = (record: Historique.RecoursHistoryRecord) =>
+export const mapToRecoursTimelineItemProps = (
+  record: Historique.HistoriqueRecoursProjetListItemReadModel,
+) =>
   match(record)
     .returnType<TimelineItemProps>()
     .with(
