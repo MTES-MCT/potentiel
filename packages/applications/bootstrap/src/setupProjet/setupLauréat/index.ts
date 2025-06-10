@@ -28,6 +28,7 @@ export const setupLauréat: SetupProjet = async (dependencies) => {
     messageType: 'System.Projector.Lauréat',
   });
 
+  LauréatNotification.register(dependencies);
   await lauréat.setupSubscription<
     LauréatNotification.SubscriptionEvent,
     LauréatNotification.Execute

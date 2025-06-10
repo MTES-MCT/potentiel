@@ -15,20 +15,15 @@ import {
   listProjection,
 } from '@potentiel-infrastructure/pg-projection-read';
 import {
-  AbandonNotification,
   ActionnaireNotification,
   GarantiesFinancièresNotification,
-  LauréatNotification,
-  ProducteurNotification,
   ReprésentantLégalNotification,
 } from '@potentiel-applications/notifications';
 import {
   GarantiesFinancièreProjector,
   ReprésentantLégalProjector,
   ActionnaireProjector,
-  ProducteurProjector,
   RaccordementProjector,
-  FournisseurProjector,
 } from '@potentiel-applications/projectors';
 import {
   DocumentAdapter,
@@ -64,16 +59,11 @@ export const setupLauréat = async ({
   GarantiesFinancièreProjector.register();
   ReprésentantLégalProjector.register();
   ActionnaireProjector.register();
-  ProducteurProjector.register();
-  FournisseurProjector.register();
 
   // Notifications
-  AbandonNotification.register({ sendEmail });
   GarantiesFinancièresNotification.register({ sendEmail });
   ReprésentantLégalNotification.register({ sendEmail });
   ActionnaireNotification.register({ sendEmail });
-  LauréatNotification.register({ sendEmail });
-  ProducteurNotification.register({ sendEmail });
 
   // Sagas
   GarantiesFinancières.GarantiesFinancièresSaga.register();
