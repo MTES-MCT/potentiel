@@ -20,6 +20,7 @@ export { ModifierÉvaluationCarboneUseCase };
 export { FournisseurEvent } from './fournisseur.event';
 export { FournisseurImportéEvent } from './importer/importerFournisseur.event';
 export { ÉvaluationCarboneModifiéeEvent } from './modifier/modifierÉvaluationCarbone.event';
+export { ChangementFournisseurEnregistréEvent } from './changement/enregistrerChangement/enregistrerChangement.event';
 
 // Register
 export { registerFournisseurQueries } from './fournisseur.register';
