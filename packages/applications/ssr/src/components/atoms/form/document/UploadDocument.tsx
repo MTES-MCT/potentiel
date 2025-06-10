@@ -123,7 +123,7 @@ export const UploadDocument: FC<UploadDocumentProps> = ({
           type="file"
           multiple={multiple}
           accept={acceptedFormats}
-          className="-z-50 opacity-0 h-full absolute top-0 left-0 disabled:opacity-0"
+          className="w-0 -z-50 opacity-0 h-full absolute top-0 left-0 disabled:opacity-0"
           onChange={handleFileChange}
         />
         <Button className="!mt-0" type="button" priority="secondary" onClick={browseForFile}>
@@ -134,10 +134,14 @@ export const UploadDocument: FC<UploadDocumentProps> = ({
         <div className="text-sm truncate m-0 p-0 text-dsfr-text-actionHigh-grey-default">
           {documentFilenames.length === 0 && 'Aucun document sélectionné'}
           {documentFilenames.length === 1 && (
-            <div className="flex flex-row items-center">
-              {documentFilenames[0]} (
+            <div className="flex flex-row items-center gap-2">
+              <span
+                className="max-w-[300px] flex-1 overflow-hidden truncate text-ellipsis"
+                title={documentFilenames[0]}
+              >
+                {documentFilenames[0]}
+              </span>
               <Button
-                className="ml-auto"
                 type="button"
                 size="small"
                 priority="tertiary no outline"
@@ -146,7 +150,6 @@ export const UploadDocument: FC<UploadDocumentProps> = ({
               >
                 supprimer
               </Button>
-              )
             </div>
           )}
           {documentFilenames.length > 1 && (
