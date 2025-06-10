@@ -31,7 +31,7 @@ export const HistoriquePuissanceTimeline: FC<HistoriquePuissanceTimelineProps> =
 );
 
 const mapToPuissanceTimelineItemProps = (
-  record: Historique.PuissanceHistoryRecord,
+  record: Historique.HistoriquePuissanceProjetListItemReadModel,
   unitéPuissance: HistoriquePuissanceTimelineProps['unitéPuissance'],
 ) =>
   match(record)

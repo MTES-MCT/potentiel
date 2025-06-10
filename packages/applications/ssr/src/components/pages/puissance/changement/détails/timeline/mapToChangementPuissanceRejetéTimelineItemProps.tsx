@@ -6,7 +6,7 @@ import { Historique } from '@potentiel-domain/historique';
 import { DownloadDocument } from '@/components/atoms/form/document/DownloadDocument';
 
 export const mapToChangementPuissanceRejetéTimelineItemProps = (
-  record: Historique.PuissanceHistoryRecord,
+  record: Historique.HistoriquePuissanceProjetListItemReadModel,
 ) => {
   const {
     rejetéLe,

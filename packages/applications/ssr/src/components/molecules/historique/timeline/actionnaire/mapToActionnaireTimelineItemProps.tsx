@@ -16,8 +16,10 @@ import {
   mapToChangementActionnaireAnnuléTimelineItemProps,
 } from './events';
 
-export const mapToActionnaireTimelineItemProps = (record: Historique.ActionnaireHistoryRecord) =>
-  match(record)
+export const mapToActionnaireTimelineItemProps = (
+  readmodel: Historique.HistoriqueActionnaireProjetListItemReadModel,
+) =>
+  match(readmodel)
     .returnType<TimelineItemProps>()
     .with(
       {

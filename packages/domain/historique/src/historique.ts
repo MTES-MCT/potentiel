@@ -1,6 +1,7 @@
 import { ListerHistoriqueProjetQuery } from './lister/listerHistoriqueProjet.query';
 import { ListerHistoriqueRecoursProjetQuery } from './lister/listerHistoriqueRecoursProjet.query';
 import { ListerHistoriqueAbandonProjetQuery } from './lister/listerHistoriqueAbandonProjet.query';
+import { ListerHistoriqueActionnaireProjetQuery } from './lister/listerHistoriqueActionnaireProjet.query';
 import { ListerHistoriqueProducteurProjetQuery } from './lister/listerHistoriqueProducteurProjet.query';
 import { ListerHistoriquePuissanceProjetQuery } from './lister/listerHistoriquePuissanceProjet.query';
 
@@ -10,11 +11,13 @@ export type HistoriqueQuery =
   | ListerHistoriqueRecoursProjetQuery
   | ListerHistoriqueAbandonProjetQuery
   | ListerHistoriqueProducteurProjetQuery
-  | ListerHistoriquePuissanceProjetQuery;
+  | ListerHistoriquePuissanceProjetQuery
+  | ListerHistoriqueActionnaireProjetQuery;
 export type {
   ListerHistoriqueProjetQuery,
   ListerHistoriqueRecoursProjetQuery,
   ListerHistoriqueAbandonProjetQuery,
+  ListerHistoriqueActionnaireProjetQuery,
   ListerHistoriqueProducteurProjetQuery,
   ListerHistoriquePuissanceProjetQuery,
 };
@@ -22,10 +25,7 @@ export type {
 // Read Models
 export type {
   ListerHistoriqueProjetReadModel,
-  ActionnaireHistoryRecord,
   HistoryReadModel,
-  ProducteurHistoryRecord,
-  PuissanceHistoryRecord,
   ReprésentantLégalHistoryRecord,
   GarantiesFinancièresHistoryRecord,
 } from './lister/listerHistoriqueProjet.query';
@@ -37,6 +37,10 @@ export type {
   ListerHistoriqueAbandonProjetReadModel,
   HistoriqueAbandonProjetListItemReadModel,
 } from './lister/listerHistoriqueAbandonProjet.query';
+export type {
+  ListerHistoriqueActionnaireProjetReadModel,
+  HistoriqueActionnaireProjetListItemReadModel,
+} from './lister/listerHistoriqueActionnaireProjet.query';
 export type {
   ListerHistoriqueProducteurProjetReadModel,
   HistoriqueProducteurProjetListItemReadModel,

@@ -8,7 +8,7 @@ import { DownloadDocument } from '@/components/atoms/form/document/DownloadDocum
 import { HistoriquePuissanceTimelineProps } from '.';
 
 export const mapToChangementPuissanceDemandéTimelineItemProps = (
-  record: Historique.PuissanceHistoryRecord,
+  record: Historique.HistoriquePuissanceProjetListItemReadModel,
   unitéPuissance: HistoriquePuissanceTimelineProps['unitéPuissance'],
 ) => {
   const { identifiantProjet, demandéLe, demandéPar, pièceJustificative, puissance } =

@@ -6,7 +6,7 @@ import { Historique } from '@potentiel-domain/historique';
 import { DownloadDocument } from '@/components/atoms/form/document/DownloadDocument';
 
 export const mapToChangementProducteurEnregistréTimelineItemProps = (
-  record: Historique.ProducteurHistoryRecord,
+  record: Historique.HistoriqueProducteurProjetListItemReadModel,
 ) => {
   const { enregistréLe, enregistréPar, identifiantProjet, pièceJustificative, producteur, raison } =
     record.payload as Lauréat.Producteur.ChangementProducteurEnregistréEvent['payload'];

@@ -4,7 +4,7 @@ import { Historique } from '@potentiel-domain/historique';
 import { HistoriquePuissanceTimelineProps } from '.';
 
 export const mapToPuissanceImportéeTimelineItemsProps = (
-  record: Historique.PuissanceHistoryRecord,
+  record: Historique.HistoriquePuissanceProjetListItemReadModel,
   unitéPuissance: HistoriquePuissanceTimelineProps['unitéPuissance'],
 ) => {
   const { importéeLe, puissance } =
