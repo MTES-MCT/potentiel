@@ -14,7 +14,7 @@ import { mapToLauréatTimelineItemProps } from './timeline/lauréat/mapToLauréa
 import { mapToGarantiesFinancièresTimelineItemProps } from './timeline/garanties-financières/mapToGarantiesFinancièresTimelineItemProps';
 
 export type HistoriqueTimelineProps = {
-  historique: PlainType<Historique.ListerHistoriqueProjetReadModel<Historique.HistoryReadModel>>;
+  historique: PlainType<Historique.ListerHistoriqueProjetReadModel>;
 };
 
 export const HistoriqueTimeline: FC<HistoriqueTimelineProps> = ({ historique }) => (
@@ -25,8 +25,8 @@ export const HistoriqueTimeline: FC<HistoriqueTimelineProps> = ({ historique }) 
   />
 );
 
-const mapToTimelineItemProps = (record: Historique.HistoryReadModel) =>
-  match(record)
+const mapToTimelineItemProps = (readmodel: Historique.HistoriqueListItemReadModels) =>
+  match(readmodel)
     .returnType<TimelineItemProps | undefined>()
     .with(
       {

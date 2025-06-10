@@ -14,41 +14,40 @@ import { HistoriqueAbandonProjetListItemReadModel } from './listerHistoriqueAban
 import { HistoriqueActionnaireProjetListItemReadModel } from './listerHistoriqueActionnaireProjet.query';
 import { HistoriqueReprésentantLégalProjetListItemReadModel } from './listerHistoriqueReprésentantLégalProjet.query';
 
-export type ListerHistoriqueProjetReadModel<TRecord extends HistoryRecord = HistoryRecord> =
-  ListHistoryResult<TRecord>;
-
-export type LauréatHistoryRecord = HistoryRecord<
+export type HistoriqueLauréatProjetListItemReadModel = HistoryRecord<
   'lauréat',
   Lauréat.LauréatEvent['type'],
   Lauréat.LauréatEvent['payload']
 >;
 
-export type GarantiesFinancièresHistoryRecord = HistoryRecord<
+export type HistoriqueGarantiesFinancièresProjetListItemReadModel = HistoryRecord<
   'garanties-financieres',
   GarantiesFinancières.GarantiesFinancièresEvent['type'],
   GarantiesFinancières.GarantiesFinancièresEvent['payload']
 >;
 
-export type HistoryReadModel =
-  | LauréatHistoryRecord
+export type HistoriqueListItemReadModels =
+  | HistoriqueLauréatProjetListItemReadModel
   | HistoriqueAbandonProjetListItemReadModel
   | HistoriqueActionnaireProjetListItemReadModel
   | HistoriqueRecoursProjetListItemReadModel
   | HistoriqueReprésentantLégalProjetListItemReadModel
-  | GarantiesFinancièresHistoryRecord;
+  | HistoriqueGarantiesFinancièresProjetListItemReadModel;
 
-export type ListerHistoriqueProjetQuery<TRecord extends HistoryRecord = HistoryRecord> = Message<
+export type ListerHistoriqueProjetReadModel = ListHistoryResult<HistoriqueListItemReadModels>;
+
+export type ListerHistoriqueProjetQuery = Message<
   'Historique.Query.ListerHistoriqueProjet',
   {
     identifiantProjet: string;
-    category?: HistoryReadModel['category'];
+    category?: HistoriqueListItemReadModels['category'];
     range?: RangeOptions;
   },
-  ListerHistoriqueProjetReadModel<TRecord>
+  ListerHistoriqueProjetReadModel
 >;
 
 export type ListerHistoriqueProjetDependencies = {
-  listHistory: ListHistory<HistoryReadModel>;
+  listHistory: ListHistory<HistoriqueListItemReadModels>;
 };
 
 export const registerListerHistoriqueProjetQuery = ({

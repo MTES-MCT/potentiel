@@ -12,7 +12,7 @@ import {
 } from './events';
 
 export const mapToGarantiesFinancièresTimelineItemProps = (
-  record: Historique.GarantiesFinancièresHistoryRecord,
+  record: Historique.HistoriqueGarantiesFinancièresProjetListItemReadModel,
 ) =>
   match(record)
     .returnType<TimelineItemProps>()

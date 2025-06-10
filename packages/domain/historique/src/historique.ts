@@ -28,8 +28,9 @@ export type {
 // Read Models
 export type {
   ListerHistoriqueProjetReadModel,
-  HistoryReadModel,
-  GarantiesFinancièresHistoryRecord,
+  HistoriqueListItemReadModels,
+  HistoriqueLauréatProjetListItemReadModel,
+  HistoriqueGarantiesFinancièresProjetListItemReadModel,
 } from './lister/listerHistoriqueProjet.query';
 export type {
   ListerHistoriqueRecoursProjetReadModel,

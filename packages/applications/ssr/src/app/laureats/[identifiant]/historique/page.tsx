@@ -19,16 +19,12 @@ export default async function Page({ params: { identifiant } }: PageProps) {
   return PageWithErrorHandling(async () => {
     const identifiantProjet = decodeParameter(identifiant);
 
-    const historique = await mediator.send<
-      Historique.ListerHistoriqueProjetQuery<Historique.HistoryReadModel>
-    >({
+    const historique = await mediator.send<Historique.ListerHistoriqueProjetQuery>({
       type: 'Historique.Query.ListerHistoriqueProjet',
       data: {
         identifiantProjet,
       },
     });
-
-    console.log('🤐', historique);
 
     return <HistoriqueLauréatPage identifiantProjet={identifiantProjet} historique={historique} />;
   });
