@@ -4,10 +4,19 @@ Fonctionnalité: Enregistrer un changement de fournisseur
     Contexte:
         Etant donné le projet lauréat "Du boulodrome de Marseille"
         Et un cahier des charges modificatif choisi
+        Et la dreal "Dreal du sud" associée à la région du projet
 
     Scénario: Enregistrer un changement de fournisseur
         Quand le porteur enregistre un changement de fournisseur
         Alors le fournisseur devrait être mis à jour
+        Et un email a été envoyé à la dreal avec :
+            | sujet      | Potentiel - Enregistrement d'un changement de fournisseur pour le projet Du boulodrome de Marseille dans le département(.*) |
+            | nom_projet | Du boulodrome de Marseille                                                                                                  |
+            | url        | https://potentiel.beta.gouv.fr/projet/.*/details.html                                                                       |
+        Et un email a été envoyé au porteur avec :
+            | sujet      | Potentiel - Enregistrement d'un changement de fournisseur pour le projet Du boulodrome de Marseille dans le département(.*) |
+            | nom_projet | Du boulodrome de Marseille                                                                                                  |
+            | url        | https://potentiel.beta.gouv.fr/projet/.*/details.html                                                                       |
 
     Scénario: Impossible d'enregistrer un changement de fournisseur sans modification
         Quand le porteur enregistre un changement de fournisseur sans modification
